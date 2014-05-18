@@ -1,0 +1,12 @@
+console.log "hello, I'm initialize in CoffeeScript"
+
+# Application = require 'application'
+# routes = require 'routes'
+
+# # Initialize the application on DOM ready event.
+# $ ->
+#   new Application {
+#     title: 'Brunch example application',
+#     controllerSuffix: '-controller',
+#     routes
+#   }

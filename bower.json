@@ -1,0 +1,25 @@
+{
+  "name": "inventory-client",
+  "version": "0.0.0",
+  "description": "A client for P2P resources management",
+  "main": "public/javascripts/app.js",
+  "keywords": [
+    "inventory"
+  ],
+  "authors": [
+    "maxlath"
+  ],
+  "license": "AGPL3",
+  "homepage": "respublica.io",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.1"
+  }
+}
