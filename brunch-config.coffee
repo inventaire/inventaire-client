@@ -9,7 +9,7 @@ exports.config =
         'javascripts/vendor.js': /^(?!app)/
 
     stylesheets:
-      defaultExtension: "sass"
+      defaultExtension: "scss"
       joinTo: 'stylesheets/app.css'
 
     templates:
