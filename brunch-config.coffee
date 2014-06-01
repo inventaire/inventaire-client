@@ -14,7 +14,9 @@ exports.config =
 
     stylesheets:
       defaultExtension: "scss"
-      joinTo: 'stylesheets/app.css'
+      joinTo:
+        'stylesheets/app.css': /^(app)/
+        'stylesheets/vendor.css': /^(vendor)/
 
     templates:
       joinTo: 'javascripts/app.js'

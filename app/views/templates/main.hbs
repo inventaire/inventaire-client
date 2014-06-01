@@ -1,3 +1,30 @@
 <main>
-  hello main!
+    <div class="row">
+        <div class="small-12 large-12 columns text-center">
+            <dl class="tabs row" data-tab>
+                <dd class="small-12 large-4 active">
+                    <a href="#personal-inventory"><i class="fa fa-home"></i> Personal Inventory</a>
+                </dd>
+                <dd class="small-12 large-4">
+                    <a href="#network-inventories"><i class="fa fa-users"></i> Network Inventories</a>
+                </dd>
+                <dd class="small-12 large-4">
+                    <a href="#public-inventories"><i class="fa fa-rss"></i> Public Inventories</a>
+                </dd>
+            </dl>
+            <div class="tabs-content">
+                <div class="content active" id="personal-inventory">
+                  {{!-- {{> itemform}}
+                  {{> itemtable}} --}}
+              <!-- {{!> metatagslist }} -->
+                </div>
+                <div class="content" id="network-inventories">
+                    <p>Second panel content goes here...</p>
+                </div>
+                <div class="content" id="public-inventories">
+                    <p>Third panel content goes here...</p>
+                </div>
+            </div>
+    </div>
+  </div>
 </main>

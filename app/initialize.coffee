@@ -3,6 +3,9 @@ app = app || {}
 app.AppView = require "views/app_view"
 app.Router = require "./router"
 
+app.config =
+  title: "Inventaire"
+
 
 # app.ContactBook = require "collections/contacts"
 

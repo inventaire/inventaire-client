@@ -1,0 +1,38 @@
+$side-nav-bg-color: lighten($topbar-bg-color, 10%);
+
+#sidebar{
+    background-color: $side-nav-bg-color;
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+    .side-nav{
+        text-align: center;
+    }
+    body{
+        background-color: $bg-color;
+    }
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+    #sidebar{
+        height: 100%;
+        // z-index: -1;
+        box-shadow: 2px 2px 3px #aaa;
+    }
+    .side-nav{
+        a{
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    }
+}
+
+
+.side-nav{
+    a{
+        // font-weight: bold !important;
+        color: #fff !important;
+    }
+}

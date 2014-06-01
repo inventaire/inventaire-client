@@ -1,0 +1,55 @@
+body {
+  // background: #ccc url(/images/broken_noise.png) repeat;
+  background: $bg-color url(/images/lightpaperfibers.png) repeat;
+  // display: flex;
+  // flex-direction: column;
+// // FlexBox hack source: http://philipwalton.github.io/solved-by-flexbox/dremos/sticky-footer/
+}
+
+.layout {
+  // flex: 1;
+  min-height: 100vh;
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  main{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  main{
+
+    // padding-top: 20px;
+    // padding-bottom: 20px;
+    // box-shadow: -1px -1px 1px #aaa;
+    // border: 1px solid #ccc;
+    // background: $bg;
+  }
+}
+
+html, body, p, div, li, ul, a, input, h1, h2, h3, h4, h5{
+  font-family: 'Alegreya' !important;
+}
+
+.itemtitle{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+main{
+  // margin-left: rrem-calc(30);
+  // margin-right: rrem-calc(30);
+}
+
+.secondary{
+  color: lighten($primary-color, 10%) !important;
+}
+
+.notfound{
+  padding: 2rem;
+}
