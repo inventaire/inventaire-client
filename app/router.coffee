@@ -1,15 +1,18 @@
-app = app || {}
-app.ApplicationRouter = Backbone.Router.extend(
+module.exports = Backbone.Router.extend(
   routes:
-    "contacts/search/:pattern": "filterContact"
-    "contacts/:id": "showContact"
+    "test": "tester"
+  #   "contacts/search/:pattern": "filterContact"
+  #   "contacts/:id": "showContact"
 
-  showContact: (id) ->
-    contact = app.Contacts.get(id)
-    app.MainView.showContact contact
-    return
+  tester: ->
+    console.log("hello test, do you hear me?")
 
-  filterContact: (pattern) ->
-    app.MainView.contactList.filter pattern
-    return
+  # showContact: (id) ->
+  #   contact = app.Contacts.get(id)
+  #   app.MainView.showContact contact
+  #   return
+
+  # filterContact: (pattern) ->
+  #   app.MainView.contactList.filter pattern
+  #   return
 )

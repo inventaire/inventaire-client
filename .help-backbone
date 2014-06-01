@@ -1,0 +1,34 @@
+var Ship = Backbone.Model.extend({
+  defaults: {
+    name: "PHANTOM SHIP"
+  }
+})
+
+var Ships = Backbone.Collection.extend({
+  model: Ship
+})
+
+ships = new Ships
+
+ships.on("add", function(ship) {
+  console.log("Ahoy " + ship.get("name") + "!");
+});
+
+ships.add([
+  {name: "Flying Dutchman"},
+  {name: "Black Pearl"}
+]);
+
+ships.add({id:"z"})
+
+ShipView = Backbone.View.extend({
+  el: "h1"
+  tagName: "li",
+  initialize: function() {
+    this.listenTo(this.model, "change", this.render);
+  },
+  render: function() {
+    this.el.append
+  }
+})
+

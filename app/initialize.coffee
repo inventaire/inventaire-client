@@ -1,13 +1,16 @@
+require('lib/view-helper')()
 app = app || {}
-
-app.ContactBook = require "collections/contacts"
 app.AppView = require "views/app_view"
 app.Router = require "./router"
 
+
+# app.ContactBook = require "collections/contacts"
+
 # # Initialize the application on DOM ready event.
 $ ->
-  app.Contacts = new app.ContactBook()
-  app.MainView = new app.AppView(app.Contacts)
-  app.Router = new app.ApplicationRouter()
+  # app.Contacts = new app.ContactBook()
+  app.MainView = new app.AppView
+  app.MainView.render()
+  app.Router = new app.Router
   Backbone.history.start({pushState: true})
   return
