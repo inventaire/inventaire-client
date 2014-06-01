@@ -1,4 +1,4 @@
-module.exports = Backbone.View.extend(
+module.exports = ItemView = Backbone.View.extend(
   events:
     click: "select"
 

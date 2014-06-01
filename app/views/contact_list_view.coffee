@@ -1,6 +1,6 @@
 ItemView = require "./item_view"
 
-module.exports = Backbone.View.extend(
+module.exports = ContactListView = Backbone.View.extend(
   el: "#contact-list"
   initialize: (collection) ->
     @collection = collection

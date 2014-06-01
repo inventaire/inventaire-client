@@ -1,4 +1,4 @@
-module.exports = Backbone.Model.extend(
+module.exports = Contact = Backbone.Model.extend(
   defaults:
     firstName: ""
     lastName: ""

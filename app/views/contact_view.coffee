@@ -1,7 +1,7 @@
 ContactTemplate = require "views/templates/contact-template"
 console.dir ContactTemplate
 
-module.exports = Backbone.View.extend(
+module.exports = ContactView = Backbone.View.extend(
   tagName: "div"
   className: "contact"
   template: ContactTemplate
@@ -14,7 +14,7 @@ module.exports = Backbone.View.extend(
     return
 
   render: (arg, args) ->
-    @$el.html @template(@model.toJSON())
+    @$el.html @template(@model.attributes)
     this
 
   update: (ev) ->

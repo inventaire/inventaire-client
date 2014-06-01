@@ -1,6 +1,6 @@
 Contact = require "../models/contact"
 
-module.exports = Backbone.Collection.extend(
+module.exports = ContactBook = Backbone.Collection.extend(
   model: Contact
   localStorage: new Backbone.LocalStorage("contact-book")
   comparator: (model) ->
