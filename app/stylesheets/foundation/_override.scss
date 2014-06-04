@@ -2,7 +2,8 @@
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 // *************************
-// Search for "EDITED" comment to jump faster to what matters
+// override in base.scss: this file is here only for browsing all components at once
+// Search for "EDITED" comment to jump faster to what matters // shouldn't be useful anymore, see line above
 // *************************
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1987,13 +1988,10 @@
 // EDITED
 
 // // We use these as default colors throughout
-$primary-color: #3B1927;
 // $primary-color: #FFD402;
 // $secondary-color: #B66741;
-$secondary-color: #FFD402;
 // $alert-color: #f04124 !default;
 // $success-color: #43AC6A !default;
-$warning-color: #E13A00;
 // $info-color: #a0d3e8 !default;
 
 // // We use these to make sure border radius matches unless we want it different.
@@ -5461,7 +5459,7 @@ $column-gutter: rem-calc(0);
 // EDITED
 
 // // Background color for the top bar
-$topbar-bg-color: #16212C;
+// $topbar-bg-color: #16212C;
 // $topbar-bg: $topbar-bg-color !default;
 
 // // Height and margin

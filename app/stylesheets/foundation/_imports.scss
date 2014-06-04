@@ -1,7 +1,7 @@
 // Foundation by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source
-// Customized imports
+// Customized imports => override in base.scss
 
 // Make sure the charset is set appropriately
 @charset "UTF-8";
@@ -9,7 +9,6 @@
 // Behold, here are all the Foundation components.
 
 @import
-  "override",
   "settings",
 
   "../bower_components/foundation/scss/foundation/components/grid",
