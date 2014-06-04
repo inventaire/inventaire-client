@@ -41,6 +41,10 @@ html, body, p, div, li, ul, a, input, h1, h2, h3, h4, h5{
   font-weight: bold;
 }
 
+#item-form{
+  display: none;
+}
+
 main{
   // margin-left: rrem-calc(30);
   // margin-right: rrem-calc(30);

@@ -8,7 +8,7 @@ $bg-color: #fcfcfc;
 ////////////////////////////////////////
 // Override Foundation
 $topbar-bg-color: #16212C;
-$primary-color: #3B1927;
+$primary-color: $topbar-bg-color;
 $secondary-color: #FFD402;
 $warning-color: #E13A00;
 

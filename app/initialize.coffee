@@ -10,7 +10,7 @@ $ ->
   $(document).foundation()
 
   appView = new AppView
-  appView.render()
-  router = new Router
-  Backbone.history.start({pushState: true})
+  # router = new Router
+  # Backbone.history.start({pushState: true})
+  console.log "/!\\ router desactivated"
   return

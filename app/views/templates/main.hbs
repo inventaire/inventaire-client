@@ -12,14 +12,37 @@
                     <a href="#public-inventories"><i class="fa fa-rss"></i> Public Inventories</a>
                 </dd>
             </dl>
+
             <div class="tabs-content">
-                <div class="content active" id="personal-inventory">
-{{!--                 {{> itemform}}
-                {{> itemtable}}
-                {{> metatagslist }} --}}
-                hello Personal Inventory!
-                <ul id="item-list"></ul>
+
+
+              <div class="content active" id="personal-inventory">
+
+                <div class="row">
+                    <div id="item-list"></div>
                 </div>
+
+                <div class="row">
+                  <div class="small-12 large-6 large-offset-3 columns">
+                    <form id="item-form">
+                      <label for="Title" class="text-left">Title</label>
+                      <input id="title" type='text' placeholder='My new item'>
+                      <label for="Tag" class="text-left">Tag</label>
+                      <input id="tag" type='text' placeholder='(optional)'>
+                      <label for="Comment" class="text-left">Comment</label>
+                      <input id="comment" type='text' placeholder='(optional)'>
+                      <label for="Owner" class="text-left">Owner</label>
+                      <p class="text-left">username</p>
+                      <input id="validateNewItemForm" type="submit" class="button success" value="Validate"></input>
+                    </form>
+
+                    <a href="#" class="button success" id="addItem">Add Item</a>
+
+                  </div>
+                </div>
+              </div>
+
+
                 <div class="content" id="network-inventories">
                     <p>Second panel content goes here...</p>
                 </div>

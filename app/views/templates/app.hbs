@@ -1,13 +1,16 @@
 {{partial 'topbar'}}
 <div class="row collapse">
-    <div id="sidebar" class="small-12 large-2 columns">
+{{!--     <div id="sidebar" class="small-12 large-2 columns">
       {{partial 'sidebar'}}
-    </div>
-    <div class="small-12 large-10 columns">
+    </div> --}}
+    <div class="small-12 large-12 columns">
       {{partial 'main'}}
       <!-- <footer> -->
         <!-- {{partial 'footer'}} -->
       <!-- </footer> -->
+    </div>
+    <div class="right">
+      <a class="button alert tiny" id="clear-localStorage">Clear LocalStorage</a>
     </div>
 </div>
 </div>
