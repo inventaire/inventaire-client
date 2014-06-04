@@ -8,9 +8,14 @@ exports.config =
         'javascripts/app.js': /^app/
         'javascripts/vendor.js': /^(?!app)/
       # order:
-      #   before: ["bower_components/backbone/backbone.js"]
-      #   after: ["bower_components/Backbone.localStorage/backbone.localStorage.js"]
-      # order not working
+      #   after: [
+      #     "bower_components/backbone/backbone.js"
+      #     "bower_components/Backbone.localStorage/backbone.localStorage.js"
+      #     "bower_components/backbone-forms/distribution/backbone-forms.js"
+      #   ]
+      # can't make it work so the scripts that have to be after
+      # are copied from bower_components to vendor and then removed
+      # from bower_compenents
 
     stylesheets:
       defaultExtension: "scss"
