@@ -1,55 +1,30 @@
 <main>
-    <div class="row">
-        <div class="small-12 large-12 columns text-center">
-            <dl class="tabs row" data-tab>
-                <dd class="small-12 large-4 active">
-                    <a href="#personal-inventory"><i class="fa fa-home"></i> Personal Inventory</a>
-                </dd>
-                <dd class="small-12 large-4">
-                    <a href="#network-inventories"><i class="fa fa-users"></i> Network Inventories</a>
-                </dd>
-                <dd class="small-12 large-4">
-                    <a href="#public-inventories"><i class="fa fa-rss"></i> Public Inventories</a>
-                </dd>
-            </dl>
+    <dl class="row tabs">
+      <dd class="small-12 large-4 active text-center" style="background-color:blue">
+        <a href="#personal-inventory"><i class="fa fa-home"></i> Personal Inventory</a>
+      </dd>
+      <dd class="small-12 large-4 text-center" style="background-color:red">
+        <a href="#network-inventories"><i class="fa fa-users"></i> Network Inventories</a>
+      </dd>
+      <dd class="small-12 large-4 text-center" style="background-color:green">
+        <a href="#public-inventories"><i class="fa fa-rss"></i> Public Inventories</a>
+      </dd>
+  </dl>
+  <div id="item-list" class="row"></div>
 
-            <div class="tabs-content">
-
-
-              <div class="content active" id="personal-inventory">
-
-                <div class="row">
-                    <div id="item-list"></div>
-                </div>
-
-                <div class="row">
-                  <div class="small-12 large-6 large-offset-3 columns">
-                    <form id="item-form">
-                      <label for="Title" class="text-left">Title</label>
-                      <input id="title" type='text' placeholder='My new item'>
-                      <label for="Tag" class="text-left">Tag</label>
-                      <input id="tag" type='text' placeholder='(optional)'>
-                      <label for="Comment" class="text-left">Comment</label>
-                      <input id="comment" type='text' placeholder='(optional)'>
-                      <label for="Owner" class="text-left">Owner</label>
-                      <p class="text-left">username</p>
-                      <input id="validateNewItemForm" type="submit" class="button success" value="Validate"></input>
-                    </form>
-
-                    <a href="#" class="button success" id="addItem">Add Item</a>
-
-                  </div>
-                </div>
-              </div>
-
-
-                <div class="content" id="network-inventories">
-                    <p>Second panel content goes here...</p>
-                </div>
-                <div class="content" id="public-inventories">
-                    <p>Third panel content goes here...</p>
-                </div>
-            </div>
-    </div>
+  <div class="row">
+    <div class="small-12 large-6 large-offset-3 columns">
+      <form id="item-form">
+        <label for="Title" class="text-left">Title</label>
+        <input id="title" type='text' placeholder='My new item'>
+        <label for="Tag" class="text-left">Tag</label>
+        <input id="tag" type='text' placeholder='(optional)'>
+        <label for="Comment" class="text-left">Comment</label>
+        <input id="comment" type='text' placeholder='(optional)'>
+        <label for="Owner" class="text-left">Owner</label>
+        <p class="text-left">username</p>
+        <input id="validateNewItemForm" type="submit" class="button success" value="Validate"></input>
+      </form>
+      <a href="#" class="button success" id="addItem">Add Item</a>
   </div>
 </main>
