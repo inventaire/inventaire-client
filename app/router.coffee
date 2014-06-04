@@ -1,18 +1,25 @@
-module.exports = Backbone.Router.extend(
+ItemView = require "views/item_view"
+Items = require "collections/items"
+
+module.exports = Backbone.Router.extend
   routes:
-    "test": "tester"
-  #   "contacts/search/:pattern": "filterContact"
-  #   "contacts/:id": "showContact"
+    "": "home"
+    "personal-inventory":"personalInventory"
 
-  tester: ->
-    console.log("hello test, do you hear me?")
+  home: ->
+    console.log "hello home!"
+    this.navigate("/personal-inventory", true)
 
-  # showContact: (id) ->
-  #   contact = app.Contacts.get(id)
-  #   app.MainView.showContact contact
-  #   return
+  personalInventory: ->
+    console.log "hello personal inventory!"
+    items = new Items
 
-  # filterContact: (pattern) ->
-  #   app.MainView.contactList.filter pattern
-  #   return
-)
+    items.on "add", (item)->
+      console.log "Ahoy " + item.get("title") + "!"
+      # console.dir item
+      itemView = new ItemView {model: item}
+      itemView.render()
+
+    window.a = items.add {title: "hello 1!"}
+    window.b = items.add {title: "hello 2!"}
+    window.c = items.add {title: "hello 3!"}

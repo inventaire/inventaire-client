@@ -1,19 +1,16 @@
-require('lib/view-helper')()
-app = app || {}
-app.AppView = require "views/app_view"
-app.Router = require "./router"
+require('lib/hbs_partial_helper')()
 
-app.config =
-  title: "Inventaire"
+AppView = require "views/app_view"
+Router = require "./router"
 
-
-# app.ContactBook = require "collections/contacts"
-
-# # Initialize the application on DOM ready event.
+# Initialize the application on DOM ready event.
 $ ->
-  # app.Contacts = new app.ContactBook()
-  app.MainView = new app.AppView
-  app.MainView.render()
-  app.Router = new app.Router
+
+  # initialize foundation
+  $(document).foundation()
+
+  appView = new AppView
+  appView.render()
+  router = new Router
   Backbone.history.start({pushState: true})
   return
