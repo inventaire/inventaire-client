@@ -31,6 +31,7 @@ module.exports = AppView = Backbone.View.extend
     @items = new Items
     @items.fetch {reset: true}
     @render()
+    @renderlistView()
 
   render: ->
     $(@el).html(@template())
