@@ -1,7 +1,9 @@
-AppTemplate = require "views/templates/app"
-Items = require "collections/items"
 Item = require "models/item"
-columns = require "views/templates/columns"
+Items = require "collections/items"
+ItemList = require "views/item_list"
+ItemForm = require "views/item_form"
+ColumnsTemplate = require "views/templates/columns"
+AppTemplate = require "views/templates/app"
 idGenerator = require "lib/id_generator"
 
 
@@ -10,8 +12,6 @@ module.exports = AppView = Backbone.View.extend
   template: AppTemplate
   events:
     'click #clear-localStorage': 'clearLocalStorage'
-    'click #addItem': 'revealItemForm'
-    'click #validateNewItemForm' : 'validateNewItemForm'
 
     # TABS
     'click #allItems': 'allItemsFilter'
@@ -23,20 +23,21 @@ module.exports = AppView = Backbone.View.extend
     'click #listView': 'renderlistView'
     'click #gridView': 'renderGridView'
 
+    #ITEM FORM
+    'click #addItem': 'revealItemForm'
+    'click #validateNewItemForm' : 'validateNewItemForm'
+
   initialize: ->
     @items = new Items
-    # @items.fetch {reset: true}
+    @items.fetch {reset: true}
     @render()
 
   render: ->
     $(@el).html(@template())
-    @items.fetch()
     window.items = @items
     return @
 
-
-
-  # TABS
+  ############ TABS ############
   allItemsFilter: ->
     $('.tabs').children().removeClass('active')
     $('#allItems').parent().addClass('active')
@@ -58,27 +59,31 @@ module.exports = AppView = Backbone.View.extend
     console.log "hello publicInventories!! [filter to be implemented]"
 
 
+  ############### VIEW MODE ############
   renderlistView: ->
     $('.viewmode').removeClass('active')
     $('#listView').parent().addClass('active')
-    # list = new listView
-    console.log "TO BE IMPLEMENTED"
-
+    list = new ItemList @items
+    console.dir list
+    # $("#item-list").html(list.render().el);
 
   renderGridView: ->
     $('.viewmode').removeClass('active')
     $('#gridView').parent().addClass('active')
     grid = new Backgrid.Grid
-      columns: columns
+      columns: ColumnsTemplate
       collection: @items
     $("#item-list").html(grid.render().el);
     return @
 
+  ############# ITEM FORM ###############
 
   revealItemForm: (e)->
     e.preventDefault()
+    form = new ItemForm
+    form.render()
     $('#addItem').fadeOut()
-    $('#item-form').fadeIn()
+    form.$el.fadeIn()
 
 
   validateNewItemForm: (e)->
@@ -94,10 +99,12 @@ module.exports = AppView = Backbone.View.extend
 
     $('#title').val('')
     $('#comment').val('')
-    $('#item-form').fadeOut()
+    $('#item-form').fadeOut().html('')
     $('#addItem').fadeIn()
 
     console.log "VALIDATE!"
+
+  ####################################
 
   clearLocalStorage: (e)->
     e.preventDefault()
