@@ -2,7 +2,7 @@ itemTemplate = require "views/templates/item"
 
 module.exports = ItemLi = Backbone.View.extend
   tagName: "li"
-  className: "item-row"
+  className: "item row"
   template: itemTemplate
   initialize: ->
     @listenTo @model, "change", @render
