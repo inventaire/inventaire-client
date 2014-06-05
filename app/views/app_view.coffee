@@ -13,6 +13,16 @@ module.exports = AppView = Backbone.View.extend
     'click #addItem': 'revealItemForm'
     'click #validateNewItemForm' : 'validateNewItemForm'
 
+    # TABS
+    'click #allItems': 'allItemsFilter'
+    'click #personalInventory': 'personalInventoryFilter'
+    'click #networkInventories': 'networkInventoriesFilter'
+    'click #publicInventories': 'publicInventoriesFilter'
+
+    # VIEW MODE
+    'click #listView': 'renderlistView'
+    'click #gridView': 'renderGridView'
+
   initialize: ->
     @items = new Items
     # @items.fetch {reset: true}
@@ -20,23 +30,50 @@ module.exports = AppView = Backbone.View.extend
 
   render: ->
     $(@el).html(@template())
+    @items.fetch()
+    window.items = @items
+    return @
+
+
+
+  # TABS
+  allItemsFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#allItems').parent().addClass('active')
+    console.log "hello allItems!! [filter to be implemented]"
+
+  personalInventoryFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#personalInventory').parent().addClass('active')
+    console.log "hello personalInventory!! [filter to be implemented]"
+
+  networkInventoriesFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#networkInventories').parent().addClass('active')
+    console.log "hello networkInventories!! [filter to be implemented]"
+
+  publicInventoriesFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#publicInventories').parent().addClass('active')
+    console.log "hello publicInventories!! [filter to be implemented]"
+
+
+  renderlistView: ->
+    $('.viewmode').removeClass('active')
+    $('#listView').parent().addClass('active')
+    # list = new listView
+    console.log "TO BE IMPLEMENTED"
+
+
+  renderGridView: ->
+    $('.viewmode').removeClass('active')
+    $('#gridView').parent().addClass('active')
     grid = new Backgrid.Grid
       columns: columns
       collection: @items
-
-    $("#item-list").append(grid.render().el);
-
-    @items.fetch()
-    # @items.on 'change', (event)-> console.log "changing!" && console.log event
-    # @items.on 'add', (event)-> console.log event
-
-    # @items.create
-    #   id: idGenerator(6)
-    #   title: "hello Grid!"
-
-    window.items = @items
-
+    $("#item-list").html(grid.render().el);
     return @
+
 
   revealItemForm: (e)->
     e.preventDefault()

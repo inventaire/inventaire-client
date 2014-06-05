@@ -1,15 +1,25 @@
 <main>
     <dl class="row tabs">
-      <dd class="small-12 large-4 active text-center" style="background-color:blue">
-        <a href="#personal-inventory"><i class="fa fa-home"></i> Personal Inventory</a>
+      <dd class="small-12 large-3 active text-center">
+        <a id="allItems"><i class="fa fa-cubes"></i> All items</a>
       </dd>
-      <dd class="small-12 large-4 text-center" style="background-color:red">
-        <a href="#network-inventories"><i class="fa fa-users"></i> Network Inventories</a>
+      <dd class="small-12 large-3 text-center">
+        <a id="personalInventory"><i class="fa fa-home"></i> Personal Inventory</a>
       </dd>
-      <dd class="small-12 large-4 text-center" style="background-color:green">
-        <a href="#public-inventories"><i class="fa fa-rss"></i> Public Inventories</a>
+      <dd class="small-12 large-3 text-center">
+        <a id="networkInventories"><i class="fa fa-users"></i> Network Inventories</a>
+      </dd>
+      <dd class="small-12 large-3 text-center">
+        <a id="publicInventories"><i class="fa fa-rss"></i> Public Inventories</a>
       </dd>
   </dl>
+
+  <dl class="sub-nav row">
+    <dt>View:</dt>
+    <dd class="viewmode active"><a id="listView">List</a></dd>
+    <dd class="viewmode"><a id="gridView">Grid</a></dd>
+  </dl>
+
   <div id="item-list" class="row"></div>
 
   <div class="row">
@@ -23,8 +33,9 @@
         <input id="comment" type='text' placeholder='(optional)'>
         <label for="Owner" class="text-left">Owner</label>
         <p class="text-left">username</p>
-        <input id="validateNewItemForm" type="submit" class="button success" value="Validate"></input>
+        <input id="validateNewItemForm" type="submit" class="button success center" value="Validate">
       </form>
       <a href="#" class="button success" id="addItem">Add Item</a>
+    </div>
   </div>
 </main>
