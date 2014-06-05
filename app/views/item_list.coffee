@@ -3,14 +3,15 @@ ItemLi = require "views/item_li"
 
 
 module.exports = ItemListView = Backbone.View.extend
-  el: '#item-list'
+  el: '#itemsView'
   initialize: (items)->
     @items = items
-    @render()
+    @renderAll()
     @listenTo @items, "add", @renderOne
-  render: ->
-    @$el.html('')
-    @items.each (item)=>
+
+  renderAll: ->
+    @$el.html ''
+    _.each @items.filtered(@items.filterExpr), (item)=>
       @renderOne item
     return @
 
@@ -18,3 +19,4 @@ module.exports = ItemListView = Backbone.View.extend
     itemLi = new ItemLi {model: item}
     itemLi.render()
     @$el.append itemLi.el
+    return @

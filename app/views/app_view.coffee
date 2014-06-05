@@ -20,8 +20,11 @@ module.exports = AppView = Backbone.View.extend
     'click #publicInventories': 'publicInventoriesFilter'
 
     # VIEW MODE
-    'click #listView': 'renderlistView'
+    'click #listView': 'renderListView'
     'click #gridView': 'renderGridView'
+
+    # FILTER
+    'keyup #searchfield': 'searchItems'
 
     #ITEM FORM
     'click #addItem': 'revealItemForm'
@@ -30,12 +33,13 @@ module.exports = AppView = Backbone.View.extend
   initialize: ->
     @items = new Items
     @items.fetch {reset: true}
+    window.items = @items
+    window.app = @
     @render()
-    @renderlistView()
+    @renderListView()
 
   render: ->
     $(@el).html(@template())
-    window.items = @items
     return @
 
   ############ TABS ############
@@ -60,13 +64,11 @@ module.exports = AppView = Backbone.View.extend
     console.log "hello publicInventories!! [filter to be implemented]"
 
 
-  ############### VIEW MODE ############
-  renderlistView: ->
+  ############### VIEW MODE #############
+  renderListView: ->
     $('.viewmode').removeClass('active')
     $('#listView').parent().addClass('active')
     list = new ItemList @items
-    console.dir list
-    # $("#item-list").html(list.render().el);
 
   renderGridView: ->
     $('.viewmode').removeClass('active')
@@ -74,8 +76,27 @@ module.exports = AppView = Backbone.View.extend
     grid = new Backgrid.Grid
       columns: ColumnsTemplate
       collection: @items
-    $("#item-list").html(grid.render().el);
+    $("#itemsView").html(grid.render().el);
     return @
+
+  ############# FILTER MODE #############
+
+  searchItems: (text)->
+    @filter $('#searchfield').val()
+
+  filter: (text)->
+    if text.length != 0
+      @items.filterExpr = new RegExp text, "i"
+    else
+      @items.filterExpr = null
+    console.log "filterExpr"
+    console.log @items.filterExpr
+    @refresh()
+
+  refresh: ->
+    # @items.sort()
+    $('#itemsView').html ""
+    @renderListView()
 
   ############# ITEM FORM ###############
 
@@ -89,12 +110,12 @@ module.exports = AppView = Backbone.View.extend
 
   validateNewItemForm: (e)->
     newItem =
+      id: idGenerator(6)
       title: $('#title').val()
       comment: $('#comment').val()
-      created: new Date()
+      tags: $('#tags').val()
       owner: "username"
-
-    console.log newItem
+      created: new Date()
 
     @items.create newItem
 
@@ -103,7 +124,9 @@ module.exports = AppView = Backbone.View.extend
     $('#item-form').fadeOut().html('')
     $('#addItem').fadeIn()
 
-    console.log "VALIDATE!"
+    console.log "app_view:validateNewItemForm"
+    console.log "newItem"
+    console.dir newItem
 
   ####################################
 
