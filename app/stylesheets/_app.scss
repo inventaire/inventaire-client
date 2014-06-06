@@ -1,6 +1,7 @@
 body {
   // background: #ccc url(/images/broken_noise.png) repeat;
-  background: $bg-color url(/images/lightpaperfibers.png) repeat;
+  background: $main-bg;
+  list-style-type: none;
   // display: flex;
   // flex-direction: column;
 // // FlexBox hack source: http://philipwalton.github.io/solved-by-flexbox/dremos/sticky-footer/
@@ -9,6 +10,12 @@ body {
 .layout {
   // flex: 1;
   min-height: 100vh;
+}
+
+.tabs {
+  .active {
+    background: red;
+  }
 }
 
 /*Small screens*/
@@ -22,14 +29,7 @@ body {
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  main{
 
-    // padding-top: 20px;
-    // padding-bottom: 20px;
-    // box-shadow: -1px -1px 1px #aaa;
-    // border: 1px solid #ccc;
-    // background: $bg;
-  }
 }
 
 html, body, p, div, li, ul, a, input, h1, h2, h3, h4, h5{
