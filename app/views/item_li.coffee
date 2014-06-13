@@ -1,4 +1,5 @@
 itemTemplate = require "views/templates/item"
+EditItemForm = require "views/edit_item_form"
 
 module.exports = ItemLi = Backbone.View.extend
   tagName: "li"
@@ -14,8 +15,14 @@ module.exports = ItemLi = Backbone.View.extend
     return @
 
   events:
+    'click .edit': 'edit'
     'click .remove': 'destroy'
 
   destroy: ->
-    console.log 'remove' + @
     @model.destroy()
+
+  edit: ->
+    form = new EditItemForm {model: @model}
+    form.render()
+    $('#editItemForm').fadeIn()
+    $('#addItem').fadeOut()
