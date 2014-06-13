@@ -2,8 +2,8 @@ Item = require "models/item"
 Items = require "collections/items"
 ItemList = require "views/item_list"
 ItemForm = require "views/item_form"
-ColumnsTemplate = require "views/templates/columns"
 AppTemplate = require "views/templates/app"
+ColumnsTemplate = require "views/templates/columns"
 idGenerator = require "lib/id_generator"
 
 
@@ -11,7 +11,9 @@ module.exports = AppView = Backbone.View.extend
   el: 'body'
   template: AppTemplate
   events:
-    'click #clear-localStorage': 'clearLocalStorage'
+    # LOGIN
+    'click #login': 'login'
+    'click #logout': 'logout'
 
     # TABS
     'click #allItems': 'allItemsFilter'
@@ -29,18 +31,66 @@ module.exports = AppView = Backbone.View.extend
     #ITEM FORM
     'click #addItem': 'revealItemForm'
     'click #validateNewItemForm' : 'validateNewItemForm'
+    'click #cancelAddItem' : 'cancelAddItem'
+
+    # OTHER EVENTS
+    'click #clear-localStorage': 'clearLocalStorage'
 
   initialize: ->
+    @initilizePersonaLogin()
     @items = new Items
     @items.fetch {reset: true}
     window.items = @items
     window.app = @
     @render()
     @renderListView()
+    @initializeUserState()
 
   render: ->
     $(@el).html(@template())
     return @
+
+  ############ LOGIN ###########
+  initilizePersonaLogin: ->
+    @email = $.cookie('email') || null
+    navigator.id.watch
+      onlogin: (assertion) ->
+        console.log "login!!!!!!"
+        $.post "/auth/login",
+          assertion: assertion
+        ,
+        (data) ->
+          console.log data
+          window.location.reload()
+      onlogout: ()->
+        console.log "onlogout event not working usually!! how did you arrived here?!?"
+
+  login: ->
+    console.log('trying to loggin!')
+    # loginModal = new LoginModal
+    # loginModal.render()
+
+    # navigator.id.request()
+    # console.log "login button"
+
+  logout: ->
+    # navigator.id.logout()
+    $.post("/auth/logout",
+      (data)->
+        console.log "You have been logged out"
+        window.location.reload()
+      )
+
+  initializeUserState: ->
+    console.log 'userstate!'
+    if @email
+      console.log 'logged!'
+      $('#login').hide()
+      $('#logout').show()
+    else
+      console.log 'not logged!'
+      $('#login').show()
+      $('#logout').hide()
 
   ############ TABS ############
   allItemsFilter: ->
@@ -89,13 +139,10 @@ module.exports = AppView = Backbone.View.extend
       @items.filterExpr = new RegExp text, "i"
     else
       @items.filterExpr = null
-    console.log "filterExpr"
-    console.log @items.filterExpr
     @refresh()
 
   refresh: ->
     # @items.sort()
-    $('#itemsView').html ""
     @renderListView()
 
   ############# ITEM FORM ###############
@@ -110,14 +157,14 @@ module.exports = AppView = Backbone.View.extend
 
   validateNewItemForm: (e)->
     newItem =
-      id: idGenerator(6)
+      _id: idGenerator(6)
       title: $('#title').val()
+      visibility: $('#visibility').val()
+      transactionMode: $('#transactionMode').val()
       comment: $('#comment').val()
       tags: $('#tags').val()
       owner: "username"
       created: new Date()
-
-    @items.create newItem
 
     $('#title').val('')
     $('#comment').val('')
@@ -127,6 +174,12 @@ module.exports = AppView = Backbone.View.extend
     console.log "app_view:validateNewItemForm"
     console.log "newItem"
     console.dir newItem
+
+    @items.create newItem
+
+  cancelAddItem: ->
+    $('#item-form').html('')
+    $('#addItem').fadeIn()
 
   ####################################
 
