@@ -133,17 +133,21 @@ module.exports = AppView = Backbone.View.extend
   refresh: ->
     # @items.sort()
     @renderListView()
+    $('#itemsView').append('<li class="text-center hidden">No item here</li>').find('li').fadeIn() if filteredItems.length is 0
 
   ############# VISIBILITY FILTER #####
   updateVisibilityTabs: (e)->
     $('#visibility-tabs li').removeClass('active')
     $(e.currentTarget).find('li').addClass('active')
 
-  noVisibilityFilter: (e)->
-    @updateVisibilityTabs e
+  resetVisibilityFilter: ->
     @filteredItems.removeFilter('private')
     @filteredItems.removeFilter('shared')
     @filteredItems.removeFilter('public')
+
+  noVisibilityFilter: (e)->
+    @updateVisibilityTabs e
+    @resetVisibilityFilter()
     @refresh()
 
   filterPrivate: (e)->
@@ -219,22 +223,39 @@ module.exports = AppView = Backbone.View.extend
 
 
   ############ TABS ############
-  allItemsFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#allItems').parent().addClass('active')
-    console.log "hello allItems!! [filter to be implemented]"
+  updateInventoriesTabs: (e)->
+    $('#inventoriesTabs dd').removeClass('active')
+    $(e.currentTarget).parent().addClass('active')
 
-  personalInventoryFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#personalInventory').parent().addClass('active')
-    console.log "hello personalInventory!! [filter to be implemented]"
+  # allItemsFilter: ->
+  #   @updateInventoriesTabs e
 
-  networkInventoriesFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#networkInventories').parent().addClass('active')
-    console.log "hello networkInventories!! [filter to be implemented]"
+  personalInventoryFilter: (e)->
+    @filteredItems.filterBy 'pers-inv', {'owner':'username'}
+    @filteredItems.removeFilter('pub-inv')
+    @filteredItems.removeFilter('net-inv')
+    @updateInventoriesTabs e
+    $('#visibility-tabs').show()
+    @refresh()
 
-  publicInventoriesFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#publicInventories').parent().addClass('active')
-    console.log "hello publicInventories!! [filter to be implemented]"
+  networkInventoriesFilter: (e)->
+    @filteredItems.filterBy 'net-inv', {'owner':'zombo'}
+    @filteredItems.removeFilter('pers-inv')
+    @filteredItems.removeFilter('pub-inv')
+    @updateInventoriesTabs e
+
+    @resetVisibilityFilter()
+    $('#visibility-tabs').hide()
+
+    @refresh()
+
+  publicInventoriesFilter: (e)->
+    @filteredItems.filterBy 'pub-inv', {'owner':'notUsername'}
+    @filteredItems.removeFilter('pers-inv')
+    @filteredItems.removeFilter('net-inv')
+    @updateInventoriesTabs e
+
+    @resetVisibilityFilter()
+    $('#visibility-tabs').hide()
+
+    @refresh()
