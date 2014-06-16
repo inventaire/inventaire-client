@@ -1,21 +1,35 @@
 body {
-  // background: #ccc url(/images/broken_noise.png) repeat;
   background: $main-bg;
   list-style-type: none;
-  // display: flex;
-  // flex-direction: column;
-// // FlexBox hack source: http://philipwalton.github.io/solved-by-flexbox/dremos/sticky-footer/
-}
-
-.layout {
-  // flex: 1;
-  min-height: 100vh;
 }
 
 .tabs {
   .active {
     background: red;
   }
+}
+
+$visibility-tabs-bg: lighten($topbar-bg-color, 80%);
+
+#visibility-tabs{
+  background-color: $visibility-tabs-bg;
+  .active{
+    background-color: darken($visibility-tabs-bg, 20%);
+  }
+  list-style-type: none;
+  li{
+    box-sizing: content-box;
+    // box-shadow : 0.2rem 0.2rem 1rem 1rem $topbar-bg-color;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
+}
+
+.hidden{
+  display: none;
+}
+
+#itemsView{
+  padding: 10px;
 }
 
 /*Small screens*/
@@ -39,15 +53,6 @@ html, body, p, div, li, ul, a, input, h1, h2, h3, h4, h5{
 .itemtitle{
   font-size: 1.2rem;
   font-weight: bold;
-}
-
-#item-form{
-  display: none;
-}
-
-main{
-  // margin-left: rrem-calc(30);
-  // margin-right: rrem-calc(30);
 }
 
 .secondary{

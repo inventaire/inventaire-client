@@ -1,21 +1,27 @@
 ItemLi = require "views/item_li"
-# itemTemplate = require "views/templates/item"
-
 
 module.exports = ItemListView = Backbone.View.extend
   el: '#itemsView'
   initialize: (items)->
-    @items = items
-    @renderAll()
-    @listenTo @items, "add", @renderOne
+    # @items = items
+    @renderAllFiltered items
+    # @listenTo items, "add", @renderOne
 
-  renderAll: ->
+  renderAllFiltered: (items)->
     @$el.html ''
-    _.each @items.filtered(@items.filterExpr), (item)=>
+    items.each (item)=>
       @renderOne item
     return @
 
+  # renderAll: ->
+  #   @$el.html ''
+  #   _.each @items.filtered(@items.filterExpr), (item)=>
+  #     @renderOne item
+  #   return @
+
+
   renderOne: (item)->
+    console.log 'renderOne!!'
     itemLi = new ItemLi {model: item}
     itemLi.render()
     @$el.append itemLi.el

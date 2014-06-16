@@ -1,3 +1,4 @@
+Router = require "router"
 Item = require "models/item"
 Items = require "collections/items"
 ItemList = require "views/item_list"
@@ -27,6 +28,10 @@ module.exports = AppView = Backbone.View.extend
 
     # FILTER
     'keyup #searchfield': 'searchItems'
+    'click #noVisibilityFilter': 'noVisibilityFilter'
+    'click #private': 'filterPrivate'
+    'click #shared': 'filterShared'
+    'click #public': 'filterPublic'
 
     #ITEM FORM
     'click #addItem': 'revealItemForm'
@@ -35,19 +40,24 @@ module.exports = AppView = Backbone.View.extend
 
     # OTHER EVENTS
     'click #clear-localStorage': 'clearLocalStorage'
+    'click #hello': 'helloTest'
 
   initialize: ->
+    # window.router = @router = new Router
+    # Backbone.history.start({pushState: true})
+
     @initilizePersonaLogin()
     @items = new Items
     @items.fetch {reset: true}
     window.items = @items
     window.app = @
-    @render()
-    @renderListView()
+    window.filteredItems = @filteredItems = new FilteredCollection @items
+    @renderAppLayout()
     @initializeUserState()
+    @renderListView()
 
-  render: ->
-    $(@el).html(@template())
+  renderAppLayout: ->
+    $(@el).html @template
     return @
 
   ############ LOGIN ###########
@@ -70,7 +80,7 @@ module.exports = AppView = Backbone.View.extend
     # loginModal = new LoginModal
     # loginModal.render()
 
-    # navigator.id.request()
+    navigator.id.request()
     # console.log "login button"
 
   logout: ->
@@ -92,33 +102,12 @@ module.exports = AppView = Backbone.View.extend
       $('#login').show()
       $('#logout').hide()
 
-  ############ TABS ############
-  allItemsFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#allItems').parent().addClass('active')
-    console.log "hello allItems!! [filter to be implemented]"
-
-  personalInventoryFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#personalInventory').parent().addClass('active')
-    console.log "hello personalInventory!! [filter to be implemented]"
-
-  networkInventoriesFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#networkInventories').parent().addClass('active')
-    console.log "hello networkInventories!! [filter to be implemented]"
-
-  publicInventoriesFilter: ->
-    $('.tabs').children().removeClass('active')
-    $('#publicInventories').parent().addClass('active')
-    console.log "hello publicInventories!! [filter to be implemented]"
-
 
   ############### VIEW MODE #############
   renderListView: ->
     $('.viewmode').removeClass('active')
     $('#listView').parent().addClass('active')
-    list = new ItemList @items
+    list = new ItemList @filteredItems
 
   renderGridView: ->
     $('.viewmode').removeClass('active')
@@ -126,7 +115,7 @@ module.exports = AppView = Backbone.View.extend
     grid = new Backgrid.Grid
       columns: ColumnsTemplate
       collection: @items
-    $("#itemsView").html(grid.render().el);
+    $("#itemsView").html(grid.render().el)
     return @
 
   ############# FILTER MODE #############
@@ -144,6 +133,39 @@ module.exports = AppView = Backbone.View.extend
   refresh: ->
     # @items.sort()
     @renderListView()
+
+  ############# VISIBILITY FILTER #####
+  updateVisibilityTabs: (e)->
+    $('#visibility-tabs li').removeClass('active')
+    $(e.currentTarget).find('li').addClass('active')
+
+  noVisibilityFilter: (e)->
+    @updateVisibilityTabs e
+    @filteredItems.removeFilter('private')
+    @filteredItems.removeFilter('shared')
+    @filteredItems.removeFilter('public')
+    @refresh()
+
+  filterPrivate: (e)->
+    @updateVisibilityTabs e
+    @filteredItems.removeFilter('shared')
+    @filteredItems.removeFilter('public')
+    @filteredItems.filterBy 'private', {'visibility':'private'}
+    @refresh()
+
+  filterShared: (e)->
+    @updateVisibilityTabs e
+    @filteredItems.removeFilter('private')
+    @filteredItems.removeFilter('public')
+    @filteredItems.filterBy 'shared', {'visibility':'shared'}
+    @refresh()
+
+  filterPublic: (e)->
+    @updateVisibilityTabs e
+    @filteredItems.removeFilter('private')
+    @filteredItems.removeFilter('shared')
+    @filteredItems.filterBy 'public', {'visibility':'public'}
+    @refresh()
 
   ############# ITEM FORM ###############
 
@@ -187,3 +209,32 @@ module.exports = AppView = Backbone.View.extend
     e.preventDefault()
     localStorage.clear()
     console.log "LocalStorage Cleared! Reload the page to see the emptied localStorage effect or implement a namespace so that I can reset the collection from here!!!"
+
+
+  helloTest: (e)->
+    e.preventDefault()
+    console.log 'hellloooooooooooooooo'
+    $.get('/hello').then (data)-> console.log data
+    @router.navigate('/hello')
+
+
+  ############ TABS ############
+  allItemsFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#allItems').parent().addClass('active')
+    console.log "hello allItems!! [filter to be implemented]"
+
+  personalInventoryFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#personalInventory').parent().addClass('active')
+    console.log "hello personalInventory!! [filter to be implemented]"
+
+  networkInventoriesFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#networkInventories').parent().addClass('active')
+    console.log "hello networkInventories!! [filter to be implemented]"
+
+  publicInventoriesFilter: ->
+    $('.tabs').children().removeClass('active')
+    $('#publicInventories').parent().addClass('active')
+    console.log "hello publicInventories!! [filter to be implemented]"

@@ -1,26 +1,34 @@
 <main>
     <dl class="row tabs">
-      <dd class="small-12 large-3 active text-center">
+{{!--       <dd class="small-12 large-3 active text-center">
         <a id="allItems"><i class="fa fa-cubes"></i> All items</a>
-      </dd>
-      <dd class="small-12 large-3 text-center">
+      </dd> --}}
+      <dd class="small-12 large-4 text-center active">
         <a id="personalInventory"><i class="fa fa-home"></i> Personal Inventory</a>
       </dd>
-      <dd class="small-12 large-3 text-center">
+      <dd class="small-12 large-4 text-center">
         <a id="networkInventories"><i class="fa fa-users"></i> Network Inventories</a>
       </dd>
-      <dd class="small-12 large-3 text-center">
+      <dd class="small-12 large-4 text-center">
         <a id="publicInventories"><i class="fa fa-rss"></i> Public Inventories</a>
       </dd>
   </dl>
 
-  <dl class="sub-nav row">
-    <dt>View:</dt>
-    <dd class="viewmode active"><a id="listView">List</a></dd>
-    <dd class="viewmode"><a id="gridView">Grid</a></dd>
-  </dl>
 
-  <div id="itemsView" class="row"></div>
+
+  <div class="row">
+    <div class="small-12 large-3 columns right">
+      <ul id="visibility-tabs">
+        <a id="noVisibilityFilter"><li class="active">All</li></a>
+        <a id="private"><li>Private Inventory</li></a>
+        <a id="shared"><li>Shared Inventory</li></a>
+        <a id="public"><li>Public Inventory</li></a>
+      </ul>
+    </div>
+    <div class="small-12 large-9 columns">
+      <div id="itemsView" class="row"></div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="small-12 large-6 large-offset-3 columns text-center">
@@ -30,4 +38,11 @@
       <a href="#" class="button success" id="addItem">Add Item</a>
     </div>
   </div>
+
+  <dl class="sub-nav row">
+    <dt>View:</dt>
+    <dd class="viewmode active"><a id="listView">List</a></dd>
+    <dd class="viewmode"><a id="gridView">Grid</a></dd>
+  </dl>
+
 </main>
