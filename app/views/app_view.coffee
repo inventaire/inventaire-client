@@ -54,6 +54,7 @@ module.exports = AppView = Backbone.View.extend
     window.filteredItems = @filteredItems = new FilteredCollection @items
     @renderAppLayout()
     @initializeUserState()
+    @filterInventoryBy 'pers-inv'
     @renderListView()
 
   renderAppLayout: ->
@@ -133,7 +134,15 @@ module.exports = AppView = Backbone.View.extend
   refresh: ->
     # @items.sort()
     @renderListView()
-    $('#itemsView').append('<li class="text-center hidden">No item here</li>').find('li').fadeIn() if filteredItems.length is 0
+
+    if filteredItems.length is 0
+      $('#itemsView').append('<li class="text-center hidden">No item here</li>').find('li').fadeIn()
+
+    if @filteredItems.hasFilter('pers-inv')
+      $('#visibility-tabs').show()
+    else
+      @resetVisibilityFilter()
+      $('#visibility-tabs').hide()
 
   ############# VISIBILITY FILTER #####
   updateVisibilityTabs: (e)->
@@ -223,39 +232,35 @@ module.exports = AppView = Backbone.View.extend
 
 
   ############ TABS ############
+  personalInventoryFilter: (e)->
+    @filterInventoryBy 'pers-inv'
+    @updateInventoriesTabs e
+    @refresh()
+
+  networkInventoriesFilter: (e)->
+    @filterInventoryBy 'net-inv'
+    @updateInventoriesTabs e
+    @refresh()
+
+  publicInventoriesFilter: (e)->
+    @filterInventoryBy 'pub-inv'
+    @updateInventoriesTabs e
+    @refresh()
+
   updateInventoriesTabs: (e)->
-    $('#inventoriesTabs dd').removeClass('active')
+    $('#inventoriesTabs').find('.active').removeClass('active')
     $(e.currentTarget).parent().addClass('active')
 
   # allItemsFilter: ->
   #   @updateInventoriesTabs e
 
-  personalInventoryFilter: (e)->
-    @filteredItems.filterBy 'pers-inv', {'owner':'username'}
-    @filteredItems.removeFilter('pub-inv')
-    @filteredItems.removeFilter('net-inv')
-    @updateInventoriesTabs e
-    $('#visibility-tabs').show()
-    @refresh()
+  inventoryFilters:
+    'pers-inv': {'owner':'username'}
+    'net-inv': {'owner':'zombo'}
+    'pub-inv': {'owner':'notUsername'}
 
-  networkInventoriesFilter: (e)->
-    @filteredItems.filterBy 'net-inv', {'owner':'zombo'}
-    @filteredItems.removeFilter('pers-inv')
-    @filteredItems.removeFilter('pub-inv')
-    @updateInventoriesTabs e
-
-    @resetVisibilityFilter()
-    $('#visibility-tabs').hide()
-
-    @refresh()
-
-  publicInventoriesFilter: (e)->
-    @filteredItems.filterBy 'pub-inv', {'owner':'notUsername'}
-    @filteredItems.removeFilter('pers-inv')
-    @filteredItems.removeFilter('net-inv')
-    @updateInventoriesTabs e
-
-    @resetVisibilityFilter()
-    $('#visibility-tabs').hide()
-
-    @refresh()
+  filterInventoryBy: (filterName)->
+    @filteredItems.filterBy filterName, @inventoryFilters[filterName]
+    otherFilters = _.without _.keys(@inventoryFilters), filterName
+    otherFilters.forEach (otherFilterName)->
+      @filteredItems.removeFilter otherFilterName
