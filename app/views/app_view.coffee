@@ -28,10 +28,10 @@ module.exports = AppView = Backbone.View.extend
 
     # FILTER
     'keyup #searchfield': 'searchItems'
-    'click #noVisibilityFilter': 'noVisibilityFilter'
-    'click #private': 'filterPrivate'
-    'click #shared': 'filterShared'
-    'click #public': 'filterPublic'
+    'click #noVisibilityFilter': 'updateVisibilityTabs'
+    'click #private': 'updateVisibilityTabs'
+    'click #contacts': 'updateVisibilityTabs'
+    'click #public': 'updateVisibilityTabs'
 
     #ITEM FORM
     'click #addItem': 'revealItemForm'
@@ -132,7 +132,6 @@ module.exports = AppView = Backbone.View.extend
     @refresh()
 
   refresh: ->
-    # @items.sort()
     @renderListView()
 
     if filteredItems.length is 0
@@ -141,44 +140,32 @@ module.exports = AppView = Backbone.View.extend
     if @filteredItems.hasFilter('pers-inv')
       $('#visibility-tabs').show()
     else
-      @resetVisibilityFilter()
+      @setVisibilityFilter null
       $('#visibility-tabs').hide()
 
-  ############# VISIBILITY FILTER #####
+  ######### VISIBILITY FILTER #########
   updateVisibilityTabs: (e)->
+    visibility = $(e.currentTarget).attr('id')
+    if visibility is 'noVisibilityFilter'
+      @setVisibilityFilter null
+    else
+      @setVisibilityFilter visibility
+    @refresh()
+
     $('#visibility-tabs li').removeClass('active')
     $(e.currentTarget).find('li').addClass('active')
 
-  resetVisibilityFilter: ->
-    @filteredItems.removeFilter('private')
-    @filteredItems.removeFilter('shared')
-    @filteredItems.removeFilter('public')
+  visibilityFilters:
+    'private': {'visibility':'private'}
+    'contacts': {'visibility':'contacts'}
+    'public': {'visibility':'public'}
 
-  noVisibilityFilter: (e)->
-    @updateVisibilityTabs e
-    @resetVisibilityFilter()
-    @refresh()
-
-  filterPrivate: (e)->
-    @updateVisibilityTabs e
-    @filteredItems.removeFilter('shared')
-    @filteredItems.removeFilter('public')
-    @filteredItems.filterBy 'private', {'visibility':'private'}
-    @refresh()
-
-  filterShared: (e)->
-    @updateVisibilityTabs e
-    @filteredItems.removeFilter('private')
-    @filteredItems.removeFilter('public')
-    @filteredItems.filterBy 'shared', {'visibility':'shared'}
-    @refresh()
-
-  filterPublic: (e)->
-    @updateVisibilityTabs e
-    @filteredItems.removeFilter('private')
-    @filteredItems.removeFilter('shared')
-    @filteredItems.filterBy 'public', {'visibility':'public'}
-    @refresh()
+  setVisibilityFilter: (audience)->
+    otherFilters = _.without _.keys(@visibilityFilters), audience
+    otherFilters.forEach (otherFilterName)->
+      @filteredItems.removeFilter otherFilterName
+    if audience?
+      @filteredItems.filterBy audience, @visibilityFilters[audience]
 
   ############# ITEM FORM ###############
 
@@ -260,7 +247,7 @@ module.exports = AppView = Backbone.View.extend
     'pub-inv': {'owner':'notUsername'}
 
   filterInventoryBy: (filterName)->
-    @filteredItems.filterBy filterName, @inventoryFilters[filterName]
     otherFilters = _.without _.keys(@inventoryFilters), filterName
     otherFilters.forEach (otherFilterName)->
       @filteredItems.removeFilter otherFilterName
+    @filteredItems.filterBy filterName, @inventoryFilters[filterName]
