@@ -17,10 +17,9 @@ module.exports = AppView = Backbone.View.extend
     'click #logout': 'logout'
 
     # TABS
-    'click #allItems': 'allItemsFilter'
-    'click #personalInventory': 'personalInventoryFilter'
-    'click #networkInventories': 'networkInventoriesFilter'
-    'click #publicInventories': 'publicInventoriesFilter'
+    'click #personalInventory': 'filterByInventoryType'
+    'click #networkInventories': 'filterByInventoryType'
+    'click #publicInventories': 'filterByInventoryType'
 
     # VIEW MODE
     'click #listView': 'renderListView'
@@ -41,21 +40,23 @@ module.exports = AppView = Backbone.View.extend
     # OTHER EVENTS
     'click #clear-localStorage': 'clearLocalStorage'
     'click #hello': 'helloTest'
+    'hello': 'helloTest'
 
   initialize: ->
     # window.router = @router = new Router
     # Backbone.history.start({pushState: true})
 
     @initilizePersonaLogin()
-    @items = new Items
-    @items.fetch {reset: true}
-    window.items = @items
-    window.app = @
-    window.filteredItems = @filteredItems = new FilteredCollection @items
     @renderAppLayout()
     @initializeUserState()
-    @filterInventoryBy 'pers-inv'
-    @renderListView()
+
+    window.items = @items = new Items
+    window.filteredItems = @filteredItems = new FilteredCollection @items
+    @filterInventoryBy 'personalInventory'
+
+    @items.on 'reset', @refresh, @
+    @items.fetch {reset: true}
+
 
   renderAppLayout: ->
     $(@el).html @template
@@ -63,21 +64,23 @@ module.exports = AppView = Backbone.View.extend
 
   ############ LOGIN ###########
   initilizePersonaLogin: ->
-    @email = $.cookie('email') || null
-    navigator.id.watch
-      onlogin: (assertion) ->
-        console.log "login!!!!!!"
-        $.post "/auth/login",
-          assertion: assertion
-        ,
-        (data) ->
-          console.log data
-          window.location.reload()
-      onlogout: ()->
-        console.log "onlogout event not working usually!! how did you arrived here?!?"
+    if navigator.id?
+      @email = $.cookie('email') || null
+      navigator.id.watch
+        onlogin: (assertion) ->
+          console.log "login!!!!!!"
+          $.post "/auth/login",
+            assertion: assertion
+          ,
+          (data) ->
+            console.log data
+            window.location.reload()
+        onlogout: ()->
+          console.log "onlogout event not working usually!! how did you arrived here?!?"
+    else
+      console.log 'Persona Login not available: you might be offline'
 
   login: ->
-    console.log('trying to loggin!')
     # loginModal = new LoginModal
     # loginModal.render()
 
@@ -93,7 +96,6 @@ module.exports = AppView = Backbone.View.extend
       )
 
   initializeUserState: ->
-    console.log 'userstate!'
     if @email
       console.log 'logged!'
       $('#login').hide()
@@ -108,6 +110,8 @@ module.exports = AppView = Backbone.View.extend
   renderListView: ->
     $('.viewmode').removeClass('active')
     $('#listView').parent().addClass('active')
+    console.log @filteredItems
+    window.fi = @filteredItems
     list = new ItemList @filteredItems
 
   renderGridView: ->
@@ -122,22 +126,23 @@ module.exports = AppView = Backbone.View.extend
   ############# FILTER MODE #############
 
   searchItems: (text)->
-    @filter $('#searchfield').val()
+    @textFilter $('#searchfield').val()
 
-  filter: (text)->
+  textFilter: (text)->
     if text.length != 0
-      @items.filterExpr = new RegExp text, "i"
+      filterExpr = new RegExp text, "i"
+      @filteredItems.filterBy 'text', (model)->
+        return model.matches filterExpr
     else
-      @items.filterExpr = null
+      @filteredItems.removeFilter 'text'
     @refresh()
 
   refresh: ->
     @renderListView()
-
     if filteredItems.length is 0
       $('#itemsView').append('<li class="text-center hidden">No item here</li>').find('li').fadeIn()
 
-    if @filteredItems.hasFilter('pers-inv')
+    if @filteredItems.hasFilter 'personalInventory'
       $('#visibility-tabs').show()
     else
       @setVisibilityFilter null
@@ -176,7 +181,6 @@ module.exports = AppView = Backbone.View.extend
     $('#addItem').fadeOut()
     form.$el.fadeIn()
 
-
   validateNewItemForm: (e)->
     newItem =
       _id: idGenerator(6)
@@ -193,11 +197,11 @@ module.exports = AppView = Backbone.View.extend
     $('#item-form').fadeOut().html('')
     $('#addItem').fadeIn()
 
-    console.log "app_view:validateNewItemForm"
-    console.log "newItem"
+    console.log "newItem:"
     console.dir newItem
 
-    @items.create newItem
+    @items.add newItem
+    # @items.create newItem
 
   cancelAddItem: ->
     $('#item-form').html('')
@@ -215,36 +219,23 @@ module.exports = AppView = Backbone.View.extend
     e.preventDefault()
     console.log 'hellloooooooooooooooo'
     $.get('/hello').then (data)-> console.log data
-    @router.navigate('/hello')
-
 
   ############ TABS ############
-  personalInventoryFilter: (e)->
-    @filterInventoryBy 'pers-inv'
-    @updateInventoriesTabs e
+  filterByInventoryType: (e)->
+    inventoryType = $(e.currentTarget).attr('id')
+    console.log inventoryType
+    @filterInventoryBy inventoryType
     @refresh()
-
-  networkInventoriesFilter: (e)->
-    @filterInventoryBy 'net-inv'
     @updateInventoriesTabs e
-    @refresh()
-
-  publicInventoriesFilter: (e)->
-    @filterInventoryBy 'pub-inv'
-    @updateInventoriesTabs e
-    @refresh()
 
   updateInventoriesTabs: (e)->
     $('#inventoriesTabs').find('.active').removeClass('active')
     $(e.currentTarget).parent().addClass('active')
 
-  # allItemsFilter: ->
-  #   @updateInventoriesTabs e
-
   inventoryFilters:
-    'pers-inv': {'owner':'username'}
-    'net-inv': {'owner':'zombo'}
-    'pub-inv': {'owner':'notUsername'}
+    'personalInventory': {'owner':'username'}
+    'networkInventories': {'owner':'zombo'}
+    'publicInventories': {'owner':'notUsername'}
 
   filterInventoryBy: (filterName)->
     otherFilters = _.without _.keys(@inventoryFilters), filterName

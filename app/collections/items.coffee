@@ -1,8 +1,13 @@
-Item = require("../models/item")
+Item = require "../models/item"
 
 module.exports = Items = Backbone.Collection.extend
   model: Item
-  localStorage: new Backbone.LocalStorage('items')
+  url: ->
+    "username/items"
+  # parse: (res)->
+  #   console.log "PARSING"
+  #   console.log res.responseJSON
+  #   return res.responseJSON
 
   comparator: (item)->
     return item.get('title');
