@@ -1,8 +1,7 @@
 
 $smallscreen: 1024px;
 
-// bg-color = useless as there is an background image set
-$bg-color: #fcfcfc;
+$main-bg: #fcfcfc url(/images/lightpaperfibers.png) repeat;
 
 ////////////////////////////////////////
 ////////////////////////////////////////
@@ -14,6 +13,9 @@ $warning-color: #E13A00;
 
 $row-width: 100%;
 $column-gutter: rem-calc(0);
+
+$tabs-navigation-active-bg-color: $main-bg;
+$sub-nav-active-bg: #aaa;
 ////////////////////////////////////////
 ////////////////////////////////////////
 
