@@ -25,7 +25,7 @@ module.exports = [
   }
   {
     name: "comment"
-    label: "Comment"
+    label: "Commentre"
     cell: "string"
   }
   # {

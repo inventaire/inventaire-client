@@ -13,7 +13,7 @@ module.exports = EditItemForm = Backbone.View.extend
     'click #cancelEditItemForm': 'removeForm'
 
   updateItem: ->
-    ['title', 'comment', 'tags'].forEach (attr)=>
+    ['title', 'tags', 'visibility', 'transactionMode', 'comment'].forEach (attr)=>
       updatedAttr = $('#' + attr).val()
       oldAttr = @model.get(attr)
       if updatedAttr != '' && updatedAttr != oldAttr

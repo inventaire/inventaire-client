@@ -3,11 +3,7 @@ Item = require "../models/item"
 module.exports = Items = Backbone.Collection.extend
   model: Item
   url: ->
-    "username/items"
-  # parse: (res)->
-  #   console.log "PARSING"
-  #   console.log res.responseJSON
-  #   return res.responseJSON
+    "api/items"
 
   comparator: (item)->
     return item.get('title');

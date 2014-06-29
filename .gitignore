@@ -21,6 +21,7 @@ Thumbs.db
 
 # NPM packages folder.
 node_modules/
+npm-debug.log
 
 # Brunch folder for temporary files.
 tmp/
@@ -32,4 +33,5 @@ public/
 bower_components/
 
 #Others
-.status.status
+.status
+.help-backbone

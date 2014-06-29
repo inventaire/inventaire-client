@@ -40,7 +40,6 @@ module.exports = AppView = Backbone.View.extend
     # OTHER EVENTS
     'click #clear-localStorage': 'clearLocalStorage'
     'click #hello': 'helloTest'
-    'hello': 'helloTest'
 
   initialize: ->
     # window.router = @router = new Router
@@ -51,6 +50,7 @@ module.exports = AppView = Backbone.View.extend
     @initializeUserState()
 
     window.items = @items = new Items
+
     window.filteredItems = @filteredItems = new FilteredCollection @items
     @filterInventoryBy 'personalInventory'
 
@@ -199,9 +199,8 @@ module.exports = AppView = Backbone.View.extend
 
     console.log "newItem:"
     console.dir newItem
-
-    @items.add newItem
-    # @items.create newItem
+    @items.create newItem
+    @refresh()
 
   cancelAddItem: ->
     $('#item-form').html('')
@@ -223,7 +222,6 @@ module.exports = AppView = Backbone.View.extend
   ############ TABS ############
   filterByInventoryType: (e)->
     inventoryType = $(e.currentTarget).attr('id')
-    console.log inventoryType
     @filterInventoryBy inventoryType
     @refresh()
     @updateInventoriesTabs e
