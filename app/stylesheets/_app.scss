@@ -13,12 +13,29 @@ body {
   // color:
 }
 
+#login{
+  img{
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+
 .input-alert{
   margin-top: -1rem;
 }
 
-label.with-tip{
+.extra-vertical-space{
+  div{
+    padding-top: 0.8rem;
+    padding-bottom: 1.2rem;
+  }
+}
+
+.with-tip{
   display: inline;
+}
+.has-tip{
+  display: inline-block;
 }
 
 .fa-question-circle{
@@ -29,6 +46,16 @@ label.with-tip{
   &:hover{
     opacity: 1;
   }
+}
+
+.fa-check-circle{
+  color: $success-color;
+  margin-left: 0.5rem;
+  margin-right: 0.2rem;
+}
+
+.shy{
+  opacity: 0.7;
 }
 
 $visibility-tabs-bg: lighten($topbar-bg-color, 80%);

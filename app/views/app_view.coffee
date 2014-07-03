@@ -7,6 +7,8 @@ AppTemplate = require "views/templates/app"
 ColumnsTemplate = require "views/templates/columns"
 idGenerator = require "lib/id_generator"
 
+LoginView = require "views/login_view"
+
 
 module.exports = AppView = Backbone.View.extend
   el: 'body'
@@ -14,14 +16,9 @@ module.exports = AppView = Backbone.View.extend
   events:
     # LOGIN
     'click #signup': 'signup'
+    'click #loginButton': 'signupLoginModal'
     'click #login': 'loginPersona'
     'click #logout': 'logout'
-    'click #verifyUsername': 'verifyUsername'
-
-    'loginSignup': 'loginSignup'
-    'signupStep1': 'signupStep1'
-    'signupStep2': 'signupStep2'
-    'signupConfirmation': 'signupConfirmation'
 
     # TABS
     'click #personalInventory': 'filterByInventoryType'
@@ -89,23 +86,15 @@ module.exports = AppView = Backbone.View.extend
   signup: ->
     console.log 'signup!'
 
-  verifyUsername: (e)->
-    e.preventDefault()
-    username = $('#username').val()
-    console.log "verify #{username} (please)"
-    $.post('/auth/username', {username: username})
-    .then(@prepareLogin).fail(@unvalidUsername)
-
-  prepareLogin: (res)->
-    $('#usernamePicker').hide()
-    console.log 'YES!'
-
-  unvalidUsername: (err)->
-    errMessage = err.responseJSON.status_verbose || "invalid"
-    $('#usernamePicker .alert-box').slideDown(200).prepend(errMessage)
+  signupLoginModal: ->
+    loginModal = new LoginView
+    $('#loginModal').foundation('reveal', 'open');
 
   loginPersona: ->
-    navigator.id.request()
+    if @username?
+      navigator.id.request()
+    else
+      console.log 'no username'
 
   logout: ->
     # navigator.id.logout()
@@ -116,11 +105,11 @@ module.exports = AppView = Backbone.View.extend
   refreshUserState: ->
     if @email
       console.log 'logged!'
-      $('[data-reveal-id="loginModal"]').hide()
+      $('#loginButton').hide()
       $('#logout').show()
     else
       console.log 'not logged!'
-      $('[data-reveal-id="loginModal"]').show()
+      $('#loginButton').show()
       $('#logout').hide()
 
 
