@@ -9,6 +9,28 @@ body {
   }
 }
 
+.error{
+  // color:
+}
+
+.input-alert{
+  margin-top: -1rem;
+}
+
+label.with-tip{
+  display: inline;
+}
+
+.fa-question-circle{
+  font-size: 0.8rem;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  opacity: 0.5;
+  &:hover{
+    opacity: 1;
+  }
+}
+
 $visibility-tabs-bg: lighten($topbar-bg-color, 80%);
 
 #visibility-tabs{

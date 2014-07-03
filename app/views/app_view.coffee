@@ -13,8 +13,15 @@ module.exports = AppView = Backbone.View.extend
   template: AppTemplate
   events:
     # LOGIN
-    'click #login': 'login'
+    'click #signup': 'signup'
+    'click #login': 'loginPersona'
     'click #logout': 'logout'
+    'click #verifyUsername': 'verifyUsername'
+
+    'loginSignup': 'loginSignup'
+    'signupStep1': 'signupStep1'
+    'signupStep2': 'signupStep2'
+    'signupConfirmation': 'signupConfirmation'
 
     # TABS
     'click #personalInventory': 'filterByInventoryType'
@@ -37,9 +44,8 @@ module.exports = AppView = Backbone.View.extend
     'click #validateNewItemForm' : 'validateNewItemForm'
     'click #cancelAddItem' : 'cancelAddItem'
 
-    # OTHER EVENTS
-    'click #clear-localStorage': 'clearLocalStorage'
-    'click #hello': 'helloTest'
+    #ERRORS
+    'click .close': 'closeAlertBox'
 
   initialize: ->
     # window.router = @router = new Router
@@ -47,7 +53,7 @@ module.exports = AppView = Backbone.View.extend
 
     @initilizePersonaLogin()
     @renderAppLayout()
-    @initializeUserState()
+    @refreshUserState()
 
     window.items = @items = new Items
 
@@ -57,22 +63,22 @@ module.exports = AppView = Backbone.View.extend
     @items.on 'reset', @refresh, @
     @items.fetch {reset: true}
 
+    # initialize foundation
+    $(document).foundation()
 
   renderAppLayout: ->
     $(@el).html @template
     return @
 
   ############ LOGIN ###########
+
   initilizePersonaLogin: ->
     if navigator.id?
       @email = $.cookie('email') || null
       navigator.id.watch
         onlogin: (assertion) ->
           console.log "login!!!!!!"
-          $.post "/auth/login",
-            assertion: assertion
-          ,
-          (data) ->
+          $.post "/auth/login", assertion: assertion, (data)->
             console.log data
             window.location.reload()
         onlogout: ()->
@@ -80,29 +86,41 @@ module.exports = AppView = Backbone.View.extend
     else
       console.log 'Persona Login not available: you might be offline'
 
-  login: ->
-    # loginModal = new LoginModal
-    # loginModal.render()
+  signup: ->
+    console.log 'signup!'
 
+  verifyUsername: (e)->
+    e.preventDefault()
+    username = $('#username').val()
+    console.log "verify #{username} (please)"
+    $.post('/auth/username', {username: username})
+    .then(@prepareLogin).fail(@unvalidUsername)
+
+  prepareLogin: (res)->
+    $('#usernamePicker').hide()
+    console.log 'YES!'
+
+  unvalidUsername: (err)->
+    errMessage = err.responseJSON.status_verbose || "invalid"
+    $('#usernamePicker .alert-box').slideDown(200).prepend(errMessage)
+
+  loginPersona: ->
     navigator.id.request()
-    # console.log "login button"
 
   logout: ->
     # navigator.id.logout()
-    $.post("/auth/logout",
-      (data)->
-        console.log "You have been logged out"
-        window.location.reload()
-      )
+    $.post "/auth/logout", (data)->
+      window.location.reload()
+      console.log "You have been logged out"
 
-  initializeUserState: ->
+  refreshUserState: ->
     if @email
       console.log 'logged!'
-      $('#login').hide()
+      $('[data-reveal-id="loginModal"]').hide()
       $('#logout').show()
     else
       console.log 'not logged!'
-      $('#login').show()
+      $('[data-reveal-id="loginModal"]').show()
       $('#logout').hide()
 
 
@@ -110,8 +128,7 @@ module.exports = AppView = Backbone.View.extend
   renderListView: ->
     $('.viewmode').removeClass('active')
     $('#listView').parent().addClass('active')
-    console.log @filteredItems
-    window.fi = @filteredItems
+    window.filteredItems = @filteredItems
     list = new ItemList @filteredItems
 
   renderGridView: ->
@@ -206,19 +223,6 @@ module.exports = AppView = Backbone.View.extend
     $('#item-form').html('')
     $('#addItem').fadeIn()
 
-  ####################################
-
-  clearLocalStorage: (e)->
-    e.preventDefault()
-    localStorage.clear()
-    console.log "LocalStorage Cleared! Reload the page to see the emptied localStorage effect or implement a namespace so that I can reset the collection from here!!!"
-
-
-  helloTest: (e)->
-    e.preventDefault()
-    console.log 'hellloooooooooooooooo'
-    $.get('/hello').then (data)-> console.log data
-
   ############ TABS ############
   filterByInventoryType: (e)->
     inventoryType = $(e.currentTarget).attr('id')
@@ -240,3 +244,31 @@ module.exports = AppView = Backbone.View.extend
     otherFilters.forEach (otherFilterName)->
       @filteredItems.removeFilter otherFilterName
     @filteredItems.filterBy filterName, @inventoryFilters[filterName]
+
+
+  ############ ERRORS ############
+  closeAlertBox: (e)->
+    e.preventDefault()
+    console.log $(e.target)
+    $(e.target).parent('div .alert-box').hide()
+
+
+  ############ LOGIN ############
+
+  loginSignup: ->
+    console.log 'loginSignup'
+    # openStep0Modal
+
+
+  signupStep1: ->
+    console.log 'signupStep1'
+    # cleanModal
+    # openSignupStep1 username verif
+
+  signupStep2: ->
+    console.log 'signupStep2'
+    # cleanModal
+    # openSignupStep2 login with Persona
+
+  signupConfirmation: ->
+    console.log 'signupConfirmation'

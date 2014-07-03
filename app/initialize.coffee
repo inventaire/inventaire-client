@@ -10,9 +10,6 @@ Backbone.Model.prototype.idAttribute = '_id'
 
 # Initialize the application on DOM ready event.
 $ ->
-  # initialize foundation
-  $(document).foundation()
-
   appView = new AppView
   # console.log "/!\\ router desactivated"
   return
