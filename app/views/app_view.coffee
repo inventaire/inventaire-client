@@ -7,7 +7,7 @@ AppTemplate = require "views/templates/app"
 ColumnsTemplate = require "views/templates/columns"
 idGenerator = require "lib/id_generator"
 
-LoginView = require "views/login_view"
+SignupOrLoginView = require "views/auth/signup_or_login_view"
 
 
 module.exports = AppView = Backbone.View.extend
@@ -87,7 +87,7 @@ module.exports = AppView = Backbone.View.extend
     console.log 'signup!'
 
   signupLoginModal: ->
-    loginModal = new LoginView
+    loginModal = new SignupOrLoginView
     $('#loginModal').foundation('reveal', 'open');
 
   loginPersona: ->

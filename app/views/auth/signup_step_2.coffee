@@ -1,17 +1,15 @@
-SignupStep2Template = require 'views/templates/signup_step2'
-
-
+SignupStep2Template = require 'views/auth/templates/signup_step2'
 
 module.exports = SignupStep2View = Backbone.View.extend
-  el: '#loginModal'
+  el: '#authViews'
   template: SignupStep2Template
   initialize: ->
-    console.dir @model
     @render()
     @$el.find('.fa-check-circle').slideDown()
 
   render: ->
     @$el.html @template(@model.attributes)
+    @$el.foundation()
     return @
 
   events:
@@ -19,6 +17,6 @@ module.exports = SignupStep2View = Backbone.View.extend
 
   backToStepOne: (e)->
     e.preventDefault()
-    # callback scope issue: can't find a nice way not to require it here :/
-    LoginView = require "views/login_view"
-    loginModal = new LoginView {model: @model}
+    # callback scope issue: for some reason, I can't find a nice way not to require it here oO
+    SignupStep1View = require 'views/auth/signup_step_1'
+    new SignupStep1View {model: @model}
