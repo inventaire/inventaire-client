@@ -1,11 +1,11 @@
 SignupStep2Template = require 'views/auth/templates/signup_step2'
 
 module.exports = SignupStep2View = Backbone.View.extend
-  el: '#authViews'
+  tagName: 'div'
   template: SignupStep2Template
   initialize: ->
     @render()
-    @$el.find('.fa-check-circle').slideDown()
+    $('#authViews').html @$el
 
   render: ->
     @$el.html @template(@model.attributes)

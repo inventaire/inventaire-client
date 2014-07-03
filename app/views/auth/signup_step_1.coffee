@@ -3,12 +3,13 @@ SignupStep2View = require 'views/auth/signup_step_2'
 
 User = require 'models/user'
 
-module.exports = LoginView = Backbone.View.extend
-  el: '#authViews'
+module.exports = SignupStep1View = Backbone.View.extend
+  tagName: 'div'
   template: SignupStep1Template
   initialize: ->
     @model = @model || new User
     @render()
+    $('#authViews').html @$el
 
   render: ->
     @$el.html @template(@model.attributes)
@@ -21,11 +22,14 @@ module.exports = LoginView = Backbone.View.extend
 
   verifyUsername: (e)->
     e.preventDefault()
+    console.log 'verify'
     username = $('#username').val()
     $.post('/auth/username', {username: username})
     .then (res)=>
-      @model.set('username', res.username)
-      new SignupStep2View {model: @model}
+      @model.set('username', window.username = res.username)
+      @$el.find('.fa-check-circle').slideDown(300)
+      cb = ()=>new SignupStep2View {model: @model}
+      setTimeout(cb, 500)
     .fail(@unvalidUsername)
 
   unvalidUsername: (err)->

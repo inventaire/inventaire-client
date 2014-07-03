@@ -1,28 +1,31 @@
 <div class="row">
-  <div class="small-12 large-4 large-offset-4 columns">
+  <div class="small-12 large-5 large-offset-4 columns">
 
-    <h2 class="shy">SignUp</h2>
+    <h2 class="subheader">SignUp</h2>
     <div id="usernamePicker">
       <h3 class="with-tip">Step 1: Choose a username</h3>
       <span data-tooltip class="has-tip tip-right" title="Username can be anything made of 1 to 20 letters, figures or _. Pick anything!"><i class="fa fa-question-circle"></i></span>
 
-      <form class="row collapse">
 
-        <div class="large-8 small-12 columns">
-          <input id="username" type="text" placeholder='username...' value="{{username}}">
+      <form class="row collapse">
+        <div class="large-7 small-12 columns">
+          <input id="username" type="text" autocorrect="off" autocapitalize="off" autocomplete="off" placeholder='username...' value="{{username}}">
           <div class="input-alert hidden alert-box alert">
             <a href="#" class="close">&times;</a>
           </div>
         </div>
 
         <div class="large-4 small-6 centered columns">
-          <input type="submit" class="button secondary postfix" id="verifyUsername" value="Verify availability">
+          <input type="submit" class="button success postfix" id="verifyUsername" value="Verify availability">
+        </div>
+        <div class="large-1 small-12 centered columns">
+          <i class="fa fa-check-circle hidden"></i>
         </div>
       </form>
 
     </div>
 
-    <a class="alert tiny shy" id="backToSignupOrLoginView"><i class="fa fa-arrow-left"></i> Go back</a>
+    <a class="button back-button tiny" id="backToSignupOrLoginView"><i class="fa fa-arrow-left"></i></a>
 
 
   </div>

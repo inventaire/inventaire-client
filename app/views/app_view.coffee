@@ -15,7 +15,6 @@ module.exports = AppView = Backbone.View.extend
   template: AppTemplate
   events:
     # LOGIN
-    'click #signup': 'signup'
     'click #loginButton': 'signupLoginModal'
     'click #login': 'loginPersona'
     'click #logout': 'logout'
@@ -50,7 +49,6 @@ module.exports = AppView = Backbone.View.extend
 
     @initilizePersonaLogin()
     @renderAppLayout()
-    @refreshUserState()
 
     window.items = @items = new Items
 
@@ -62,6 +60,8 @@ module.exports = AppView = Backbone.View.extend
 
     # initialize foundation
     $(document).foundation()
+    @refreshUserState()
+    console.log $.cookie
 
   renderAppLayout: ->
     $(@el).html @template
@@ -75,7 +75,7 @@ module.exports = AppView = Backbone.View.extend
       navigator.id.watch
         onlogin: (assertion) ->
           console.log "login!!!!!!"
-          $.post "/auth/login", assertion: assertion, (data)->
+          $.post "/auth/login", {assertion: assertion, username: window.username}, (data)->
             console.log data
             window.location.reload()
         onlogout: ()->
@@ -83,18 +83,15 @@ module.exports = AppView = Backbone.View.extend
     else
       console.log 'Persona Login not available: you might be offline'
 
-  signup: ->
-    console.log 'signup!'
-
   signupLoginModal: ->
     loginModal = new SignupOrLoginView
     $('#loginModal').foundation('reveal', 'open');
 
   loginPersona: ->
-    if @username?
-      navigator.id.request()
-    else
-      console.log 'no username'
+    console.log 'loginPersona'
+    console.log 'username: ' + window.username
+    console.log 'email: ' + $.cookie('email')
+    navigator.id.request()
 
   logout: ->
     # navigator.id.logout()
@@ -103,6 +100,8 @@ module.exports = AppView = Backbone.View.extend
       console.log "You have been logged out"
 
   refreshUserState: ->
+    console.log 'email'
+    console.log $.cookie('email')
     if @email
       console.log 'logged!'
       $('#loginButton').hide()

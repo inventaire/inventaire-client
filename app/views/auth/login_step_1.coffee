@@ -1,10 +1,11 @@
 LoginStep1Template = require 'views/auth/templates/login_step1'
 
-module.exports = SignupStep2View = Backbone.View.extend
-  el: '#authViews'
+module.exports = LoginStep1View = Backbone.View.extend
+  tagName: 'div'
   template: LoginStep1Template
   initialize: ->
     @render()
+    $('#authViews').html @$el
 
   render: ->
     @$el.html @template

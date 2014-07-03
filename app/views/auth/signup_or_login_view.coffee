@@ -4,10 +4,11 @@ SignupStep1View = require 'views/auth/signup_step_1'
 LoginStep1 = require 'views/auth/login_step_1'
 
 module.exports = SignupOrLoginView = Backbone.View.extend
-  el: '#authViews'
+  tagName: 'div'
   template: SignupLoginTemplate
   initialize: ->
     @render()
+    $('#authViews').html @$el
 
   render: ->
     @$el.html @template
@@ -21,7 +22,9 @@ module.exports = SignupOrLoginView = Backbone.View.extend
   signupWay: (e)->
     e.preventDefault()
     new SignupStep1View
+    @remove()
 
   loginWay: (e)->
     e.preventDefault()
     new LoginStep1
+    @remove()
