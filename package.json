@@ -13,7 +13,8 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "test": "mocha --compilers coffee:coffee-script/register --watch --reporter nyan"
+    "test": "mocha --compilers coffee:coffee-script/register --watch --reporter nyan",
+    "lint": "coffeelint app/* test/* brunch-config.coffee"
   },
   "dependencies": {
     "javascript-brunch": "> 1.0 < 1.5",

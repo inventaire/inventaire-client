@@ -6,7 +6,7 @@ module.exports = Items = Backbone.Collection.extend
     "api/items"
 
   comparator: (item)->
-    return item.get('title');
+    return item.get('title')
 
   filtered: (expr)->
     return  @filter (item)->
