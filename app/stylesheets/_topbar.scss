@@ -1,11 +1,9 @@
-// @import "./variables";
-
-// .top-bar a{
-//     font-size: 100% !important;
-// }
-
-// #topheader{
-//     padding-left: 18px;
-//     padding-right: 18px;
-//     font-size: 300%;
-// }
+.top-bar {
+  img{
+    max-height: rem-calc($topbar-height * 0.85);
+    margin-right: 0.5rem;
+  }
+  .fa{
+    font-size: 1.2rem;
+  }
+}

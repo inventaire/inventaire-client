@@ -1,4 +1,5 @@
 Router = require "router"
+User = require 'models/user'
 Item = require "models/item"
 Items = require "collections/items"
 ItemList = require "views/item_list"
@@ -8,6 +9,7 @@ ColumnsTemplate = require "views/templates/columns"
 idGenerator = require "lib/id_generator"
 
 SignupOrLoginView = require "views/auth/signup_or_login_view"
+AccountMenuView = require "views/account_menu"
 
 
 module.exports = AppView = Backbone.View.extend
@@ -47,6 +49,7 @@ module.exports = AppView = Backbone.View.extend
     # window.router = @router = new Router
     # Backbone.history.start({pushState: true})
 
+    window.app = Backbone.Events
     @initilizePersonaLogin()
     @renderAppLayout()
 
@@ -75,8 +78,9 @@ module.exports = AppView = Backbone.View.extend
       navigator.id.watch
         onlogin: (assertion) ->
           console.log "login!!!!!!"
-          $.post "/auth/login", {assertion: assertion, username: window.username}, (data)->
-            console.log data
+          token = $('#token').val()
+          $.post "/auth/login", {assertion: assertion, username: window.username, _csrf: token}, (data)->
+            localStorage.setItem 'user', JSON.stringify(data)
             window.location.reload()
         onlogout: ()->
           console.log "onlogout event not working usually!! how did you arrived here?!?"
@@ -85,7 +89,7 @@ module.exports = AppView = Backbone.View.extend
 
   signupLoginModal: ->
     loginModal = new SignupOrLoginView
-    $('#loginModal').foundation('reveal', 'open');
+    $('#loginModal').foundation('reveal', 'open')
 
   loginPersona: ->
     console.log 'loginPersona'
@@ -100,16 +104,20 @@ module.exports = AppView = Backbone.View.extend
       console.log "You have been logged out"
 
   refreshUserState: ->
-    console.log 'email'
-    console.log $.cookie('email')
     if @email
-      console.log 'logged!'
+      console.log 'logged in'
+      @user = JSON.parse localStorage.getItem('user')
+      console.log 'localStorage user'
+      console.log @user
+      user = new User @user
+      new AccountMenuView {model: user}
+
+      # console.log 'logged!'
       $('#loginButton').hide()
-      $('#logout').show()
     else
       console.log 'not logged!'
       $('#loginButton').show()
-      $('#logout').hide()
+      $('#loginButton').parent().next().remove()
 
 
   ############### VIEW MODE #############
@@ -181,12 +189,14 @@ module.exports = AppView = Backbone.View.extend
 
   revealItemForm: (e)->
     e.preventDefault()
-    form = new ItemForm
-    form.render()
-    $('#addItem').fadeOut()
-    form.$el.fadeIn()
+    new ItemForm  validateNewItemForm: (e)->
+
+    $('#itemFormModal').foundation('reveal', 'open')
+    # $('#addItem').fadeOut()
+    # form.$el.fadeIn()
 
   validateNewItemForm: (e)->
+    e.preventDefault()
     newItem =
       _id: idGenerator(6)
       title: $('#title').val()
@@ -206,6 +216,7 @@ module.exports = AppView = Backbone.View.extend
     console.dir newItem
     @items.create newItem
     @refresh()
+    $('#itemFormModal').foundation('reveal', 'close')
 
   cancelAddItem: ->
     $('#item-form').html('')
@@ -239,24 +250,3 @@ module.exports = AppView = Backbone.View.extend
     e.preventDefault()
     console.log $(e.target)
     $(e.target).parent('div .alert-box').hide()
-
-
-  ############ LOGIN ############
-
-  loginSignup: ->
-    console.log 'loginSignup'
-    # openStep0Modal
-
-
-  signupStep1: ->
-    console.log 'signupStep1'
-    # cleanModal
-    # openSignupStep1 username verif
-
-  signupStep2: ->
-    console.log 'signupStep2'
-    # cleanModal
-    # openSignupStep2 login with Persona
-
-  signupConfirmation: ->
-    console.log 'signupConfirmation'

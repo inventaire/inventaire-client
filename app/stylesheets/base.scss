@@ -19,6 +19,10 @@ $secondary-color: #FFD402;
 $warning-color: #E13A00;
 $success-color: #43AC6A;
 
+$topbar-link-bg-active: $success-color;
+$topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -14%);
+
+
 // Tabs Colors
 $tabs-navigation-active-bg-color: $main-bg;
 $sub-nav-active-bg: #aaa;
