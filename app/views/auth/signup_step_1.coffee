@@ -30,11 +30,12 @@ module.exports = SignupStep1View = Backbone.View.extend
       @$el.find('.fa-check-circle').slideDown(300)
       cb = ()=>new SignupStep2View {model: @model}
       setTimeout(cb, 500)
-    .fail(@unvalidUsername)
+    .fail(@invalidUsername)
 
-  unvalidUsername: (err)->
+  invalidUsername: (err)->
     errMessage = err.responseJSON.status_verbose || "invalid"
-    $('#usernamePicker .alert-box').slideDown(200).prepend(errMessage)
+    close = "<a href='#' class='close'>&times;</a>"
+    $('#usernamePicker .alert-box').hide().slideDown(200).html(errMessage + close)
 
 
   backToSignupOrLoginView: (e)->
