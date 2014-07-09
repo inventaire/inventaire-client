@@ -1,0 +1,31 @@
+#welcome{
+  padding-top: 2rem;
+  h2{
+    font-size: 5rem;
+    font-weight: 900;
+  }
+  ul{
+    margin-top: 2rem;
+  }
+  li{
+    margin: 1rem;
+  }
+  .one{
+    background-color: $secondary-color;
+    &:hover{
+      background-color: darken($secondary-color, 10%)
+    }
+    a{
+      color: #222;
+    }
+  }
+  .two{
+    background-color: $success-color;
+    &:hover{
+      background-color: darken($success-color, 20%)
+    }
+    a{
+      color: white;
+    }
+  }
+}

@@ -9,6 +9,7 @@ module.exports =
     App: require 'views/app_layout'
 
   View:
+    Welcome: require 'views/welcome'
     Inventory: require 'views/inventory'
     NotLoggedMenu: require 'views/not_logged_menu'
     AccountMenu: require 'views/account_menu'
