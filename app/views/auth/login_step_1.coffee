@@ -1,22 +1,8 @@
-LoginStep1Template = require 'views/auth/templates/login_step1'
-
-module.exports = LoginStep1View = Backbone.View.extend
+module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
-  template: LoginStep1Template
-  initialize: ->
-    @render()
-    $('#authViews').html @$el
-
-  render: ->
-    @$el.html @template
-    @$el.foundation()
-    return @
-
+  template: require 'views/auth/templates/login_step1'
   events:
-    'click #backToSignupOrLoginView': 'backToSignupOrLoginView'
+    'click #loginPersona': 'loginPersona'
 
-  backToSignupOrLoginView: (e)->
-    e.preventDefault()
-    # callback scope issue: for some reason, I can't find a nice way not to require it here oO
-    SignupOrLoginView = require "views/auth/signup_or_login_view"
-    new SignupOrLoginView
+  loginPersona: ()->
+    app.vent.trigger 'persona:request'

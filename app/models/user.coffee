@@ -1,8 +1,8 @@
-module.exports = User = Backbone.Model.extend
+module.exports = class User extends Backbone.Model
   defaults:
     username: null
     email: null
-    # language: 'en'
+    language: 'en'
 
   # initialize: ->
 

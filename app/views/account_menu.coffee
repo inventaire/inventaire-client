@@ -1,16 +1,6 @@
-AccountMenuTemplate = require 'views/templates/account_menu'
-
-module.exports = AccountMenuView = Backbone.View.extend
+module.exports = class AccountMenu extends Backbone.Marionette.ItemView
   tagName: 'li'
   className: 'has-dropdown'
-  template: AccountMenuTemplate
-  initialize: ->
-    @render()
-    $('#menu').append @$el
-
-  render: ->
-    @$el.html @template(@model.attributes)
-    @$el.foundation()
-    return @
-
-  # events:
+  template: require 'views/templates/account_menu'
+  events:
+    'click #logout': -> app.vent.trigger 'persona:logout'

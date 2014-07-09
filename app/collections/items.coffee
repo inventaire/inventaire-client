@@ -1,6 +1,6 @@
 Item = require "../models/item"
 
-module.exports = Items = Backbone.Collection.extend
+module.exports = class Items extends Backbone.Collection
   model: Item
   url: ->
     "api/items"
