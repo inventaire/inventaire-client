@@ -2,9 +2,11 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
   id: 'inventory'
   template: require 'views/items/templates/inventory'
   regions:
+    topMenu: '#topmMenu'
     itemsView: '#itemsView'
-  events:
+    sideMenu: '#sideMenu'
 
+  events:
     'click #addItem': 'showItemCreationForm'
 
     # TABS
@@ -19,8 +21,10 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
     'click #public': 'updateVisibilityTabs'
 
   onShow: ->
+    app.inventory.topMenu.show new app.View.InventoriesTabs
     app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
     app.inventory.itemsView.show itemsList
+    app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   showItemCreationForm: ->
     app.layout.modal.show new app.View.ItemCreationForm

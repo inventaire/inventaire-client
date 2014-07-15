@@ -23,6 +23,8 @@ module.exports =
     NoItem: require 'views/items/no_item'
     ItemCreationForm: require 'views/items/item_creation_form'
     ItemEditionForm: require 'views/items/item_edition_form'
+    InventoriesTabs: require 'views/items/inventories_tabs'
+    VisibilityTabs: require 'views/items/visibility_tabs'
 
   Lib:
     idGenerator: require 'lib/id_generator'
