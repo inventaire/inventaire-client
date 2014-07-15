@@ -1,9 +1,7 @@
-EditItemForm = require "views/edit_item_form"
-
 module.exports = class ItemLi extends Backbone.Marionette.ItemView
   tagName: "li"
   className: "item row"
-  template: require 'views/templates/item'
+  template: require 'views/items/templates/item'
 
   initialize: ->
     console.log 'itemli!'
@@ -11,11 +9,13 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   #   @listenTo @model, "destroy", @remove
 
   events:
-    'click .edit': 'edittest'
-    'click .remove': 'destroytest'
+    'click .edit': 'editItem'
+    'click .remove': 'destroyItem'
 
-  edittest: -> console.log 'what edit'
-  destroytest: ->
+  editItem: ->
+
+    console.log 'what edit'
+  destroyItem: ->
     console.log 'what destroy'
     console.dir @
     @model.destroy()

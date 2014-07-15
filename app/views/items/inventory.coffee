@@ -1,6 +1,6 @@
 module.exports = class Inventory extends Backbone.Marionette.LayoutView
   id: 'inventory'
-  template: require 'views/templates/inventory'
+  template: require 'views/items/templates/inventory'
   regions:
     itemsView: '#itemsView'
   events:

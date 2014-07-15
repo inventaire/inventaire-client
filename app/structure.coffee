@@ -10,17 +10,19 @@ module.exports =
 
   View:
     Welcome: require 'views/welcome'
-    Inventory: require 'views/inventory'
-    NotLoggedMenu: require 'views/not_logged_menu'
-    AccountMenu: require 'views/account_menu'
+    NotLoggedMenu: require 'views/menu/not_logged_menu'
+    AccountMenu: require 'views/menu/account_menu'
     Signup:
       Step1: require 'views/auth/signup_step_1'
       Step2: require 'views/auth/signup_step_2'
     Login:
       Step1: require 'views/auth/login_step_1'
-    ItemsList: require 'views/items_list'
-    ItemLi: require 'views/item_li'
-    ItemCreationForm: require 'views/item_creation_form'
+    Inventory: require 'views/items/inventory'
+    ItemsList: require 'views/items/items_list'
+    ItemLi: require 'views/items/item_li'
+    NoItem: require 'views/items/no_item'
+    ItemCreationForm: require 'views/items/item_creation_form'
+    ItemEditionForm: require 'views/items/item_edition_form'
 
   Lib:
     idGenerator: require 'lib/id_generator'

@@ -1,6 +1,6 @@
 module.exports =  class ItemForm extends Backbone.Marionette.ItemView
   # el: '#item-form'
-  template: require "views/templates/item_creation_form"
+  template: require "views/items/templates/item_creation_form"
   onShow: -> app.commands.execute 'modal:open'
 
   events:
