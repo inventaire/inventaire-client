@@ -27,7 +27,7 @@ initializePersona = (app)->
             console.log 'error onlogin: invalid data'
             window.data = data
       onlogout: ()->
-        console.log 'fake logout: avoid login loop'
+        app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
   else
     console.log 'Persona Login not available: you might be offline'
 
@@ -39,19 +39,18 @@ initializePersona = (app)->
       console.log "You have been logged out"
 
 initializeSignupLoginProcess = (app)->
-  app.vent.on 'signup:request', ->
+  app.commands.setHandler 'signup:request', ->
     app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
 
-  app.vent.on 'signup:validUsername', ->
+  app.commands.setHandler 'signup:validUsername', ->
     app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
 
-  app.vent.on 'login:request', ->
+  app.commands.setHandler 'login:request', ->
     app.layout.modal.show new app.View.Login.Step1 {model: app.user}
 
 
 recoverUserData = (app)->
-  if localStorage.getItem('user')?
-  # if $.cookie('email')? && localStorage.getItem('user')?
+  if $.cookie('email')? && localStorage.getItem('user')?
     data = JSON.parse localStorage.getItem('user')
     app.user.loggedIn = data.loggedIn = true
     app.user.set _.pick(data, 'username', 'email', 'pic', 'created', 'loggedIn')
