@@ -1,39 +1,31 @@
-idGenerator = require 'lib/id_generator'
+module.exports = class Item extends Backbone.Model
+  # defaults:
+    # entity:
+    #   uri: null
+    #   title: null
+    #   P31: null
+    # version:
+    #   uri: null
+    # instance:
+    #   uri: null
+    #   comment: null
+    #   owner: null
+    #   state: null
+    #   history:
+    #     created: null
+    #     transactions:
+    #       [
+    #         # date:
+    #           #from: uri
+    #           #transaction
+    #             # type: uri
+    #             # price: number
+    #           #to: uri
+    #       ]
 
-module.exports = Item = Backbone.Model.extend
-  schema:
-    title: 'Text'
-    owner: 'Text'
-    comment: 'Text'
-    created: 'Date'
+  # initialize: ->
 
-  defaults:
-    entity:
-      uri: null
-      title: null
-      P31: null
-    version:
-      uri: null
-    instance:
-      uri: null
-      comment: null
-      owner: null
-      state: null
-      history:
-        created: null
-        transactions:
-          [
-            # date:
-              #from: uri
-              #transaction
-                # type: uri
-                # price: number
-              #to: uri
-          ]
-
-  initialize: ->
-
-  validate: ->
+  # validate: ->
 
   matches: (expr) ->
     return true  if expr is null

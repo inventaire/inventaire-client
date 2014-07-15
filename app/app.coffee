@@ -3,50 +3,39 @@ structure = require 'structure'
 class Application extends Backbone.Marionette.Application
   initialize: =>
     _.extend @, structure
+
+    @commands = new Backbone.Wreqr.Commands()
+    @vent = new Backbone.Wreqr.EventAggregator()
+
     @user = new @Model.User
 
-    # WAIT FOR A USER
-    # @items = new @Collection.Items
-
     # event logger should start after the user model and items collections to allow to track them too
-    @Lib.EventLogger @
+    @Lib.EventLogger.call @
 
-    # @items.fetch {reset: true}
 
       # @filterInventoryBy 'personalInventory'
 
       # @items.on 'reset', @refresh, @
 
 
-    @layout = new @Layout.App()
-    @layout.accountMenu.on 'show', (data)->
-      console.log 'accountMenu:show'
-      console.log data
+    @layout = new @Layout.App
     @layout.render()
-
-
-    inventory = new @View.Inventory
-    @layout.main.show inventory
-
+    # after layout
     @auth = @module 'auth', @Module.Auth(@auth, @, Backbone, Marionette, $, _)
 
 
-    $(document).foundation()
+    @on "start", (options) =>
+      $(document).foundation()
+      Backbone.history.start({pushState: true})
+      # Freeze the object
+      # Object.freeze? this
 
     # @addInitializer (options) =>
     #   # Instantiate the router
     #   Router = require 'router'
     #   @router = new Router()
 
-    # @addInitializer (options) =>
-    #   Persona = require 'lib/persona'
-    #   Persona.initialize()
 
-    @on "start", (options) =>
-      Backbone.history.start({pushState: true})
-      @vent.trigger 'history:start'
-      # Freeze the object
-      # Object.freeze? this
     @start()
 
 

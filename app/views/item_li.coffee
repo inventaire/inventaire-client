@@ -1,36 +1,40 @@
-itemTemplate = require "views/templates/item"
 EditItemForm = require "views/edit_item_form"
 
-module.exports = ItemLi = Backbone.View.extend
+module.exports = class ItemLi extends Backbone.Marionette.ItemView
   tagName: "li"
   className: "item row"
-  template: itemTemplate
+  template: require 'views/templates/item'
 
   initialize: ->
-    @listenTo @model, "change", @render
-    @listenTo @model, "destroy", @remove
-
-  render: ->
-    @$el.html @template(@model.attributes)
-    return @
+    console.log 'itemli!'
+  #   @listenTo @model, "change", @render
+  #   @listenTo @model, "destroy", @remove
 
   events:
-    'click .edit': 'edit'
-    'click .remove': 'destroy'
+    'click .edit': 'edittest'
+    'click .remove': 'destroytest'
 
-  destroy: ->
+  edittest: -> console.log 'what edit'
+  destroytest: ->
+    console.log 'what destroy'
+    console.dir @
     @model.destroy()
 
-  edit: ->
-    form = new EditItemForm {model: @model}
-    form.render()
-    $form = $('#editItemForm').fadeIn()
+  # destroy:->
+  #   console.log 'DESTROY TRIGGERED'
+  #   @model.destroy()
 
-    if @model.get('visibility') != undefined
-      opt1 = "#visibility option[value=" + @model.get('visibility') + "]"
-      $(opt1).prop('selected', true)
-    if @model.get('transactionMode') != undefined
-      opt2 = "#transactionMode option[value=" + @model.get('transactionMode') + "]"
-      $(opt2).prop('selected', true)
+  # edit: ->
+  #   console.log 'EDIT TRIGGERED'
+  #   form = new EditItemForm {model: @model}
+  #   form.render()
+  #   $form = $('#editItemForm').fadeIn()
 
-    $('#addItem').fadeOut()
+  #   if @model.get('visibility') != undefined
+  #     opt1 = "#visibility option[value=" + @model.get('visibility') + "]"
+  #     $(opt1).prop('selected', true)
+  #   if @model.get('transactionMode') != undefined
+  #     opt2 = "#transactionMode option[value=" + @model.get('transactionMode') + "]"
+  #     $(opt2).prop('selected', true)
+
+  #   $('#addItem').fadeOut()
