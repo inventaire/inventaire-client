@@ -1,11 +1,12 @@
-<a href="#">
-<i class="fa fa-cog"></i></a>
-<ul class="dropdown">
-  <li>
-    <a><img id="pic" class="radius" src="{{pic}}" alt="{{username}}">{{username}}</a>
-  </li>
-  <li class="divider"></li>
-  <li><a href="#">Edit Profile</a></li>
-  <li><a href="#" id="help">Help</a></li>
-  <li><a href="#" id="logout">Sign out</a></li>
-</ul>
+<li><a id="name">{{username}}</a></li>
+<li>
+  <a><img id="pic" class="radius" src="{{pic}}" alt="{{username}} pic"></a>
+</li>
+<li class="has-dropdown">
+  <a><i class="fa fa-cog"></i></a>
+  <ul class="dropdown">
+    <li><a>Edit Profile</a></li>
+    <li><a id="help">Help</a></li>
+    <li><a id="logout">Sign out</a></li>
+  </ul>
+</li>

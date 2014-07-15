@@ -2,11 +2,8 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/auth/templates/signup_step2'
   events:
-    'click #loginPersona': 'loginPersona'
+    'click #loginPersona': -> app.execute 'persona:login'
     'click #backToStepOne': 'backToStepOne'
-
-  loginPersona: ()->
-    app.vent.trigger 'persona:request'
 
   backToStepOne: (e)->
     e.preventDefault()

@@ -3,21 +3,20 @@ body {
   list-style-type: none;
 }
 
-.tabs {
-  .active {
-    background: red;
+#name{
+  font-weight: 900;
+}
+
+.yellow{
+  background-color: #FFD402;
+  &:hover{
+    background-color: darken(#FFD403, 20%)
   }
 }
 
-.error{
-  // color:
-}
-
-#login{
-  img{
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  }
+#personaButton{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .input-alert{

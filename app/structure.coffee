@@ -18,6 +18,9 @@ module.exports =
       Step2: require 'views/auth/signup_step_2'
     Login:
       Step1: require 'views/auth/login_step_1'
+    ItemsList: require 'views/items_list'
+    ItemLi: require 'views/item_li'
+    ItemCreationForm: require 'views/item_creation_form'
 
   Lib:
     idGenerator: require 'lib/id_generator'
@@ -25,3 +28,4 @@ module.exports =
 
   Module:
     Auth: require 'modules/auth'
+    Inventory: require 'modules/inventory'
