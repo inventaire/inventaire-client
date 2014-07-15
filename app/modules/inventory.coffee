@@ -11,6 +11,7 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
 
   fetchItems(app)
   initializeFilters(app)
+  initializeSearch(app)
   showInventory(app)
 
 fetchItems = (app)->
@@ -52,3 +53,14 @@ filterVisibilityBy = (audience)->
 resetVisibilityFilter = ->
   _.keys(app.Filters.visibility).forEach (filterName)->
     app.filteredItems.removeFilter filterName
+
+initializeSearch = (app)->
+  app.commands.setHandler 'search', textFilter
+
+textFilter = (text)->
+  if text.length != 0
+    filterExpr = new RegExp text, "i"
+    app.filteredItems.filterBy 'text', (model)->
+      return model.matches filterExpr
+  else
+    app.filteredItems.removeFilter 'text'

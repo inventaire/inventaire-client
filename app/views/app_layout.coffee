@@ -9,6 +9,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   events:
     'click a.close': 'closeAlertBox'
+    'keyup #searchfield': -> app.commands.execute 'search', $('#searchfield').val()
 
   ############ ERRORS ############
   closeAlertBox: (e)->
