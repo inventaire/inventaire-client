@@ -11,7 +11,8 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
 
   fetchItems(app)
   initializeFilters(app)
-  initializeSearch(app)
+  initializeTextFilter(app)
+  initializeInventoriesHandlers(app)
   showInventory(app)
 
 fetchItems = (app)->
@@ -27,7 +28,6 @@ initializeFilters = (app)->
   app.commands.setHandler 'filter:inventory', filterInventoryBy
   app.commands.setHandler 'filter:visibility', filterVisibilityBy
   app.commands.setHandler 'filter:visibility:reset', resetVisibilityFilter
-
 
 filterInventoryBy = (filterName)->
   filters = app.Filters.inventory
@@ -54,8 +54,8 @@ resetVisibilityFilter = ->
   _.keys(app.Filters.visibility).forEach (filterName)->
     app.filteredItems.removeFilter filterName
 
-initializeSearch = (app)->
-  app.commands.setHandler 'search', textFilter
+initializeTextFilter = (app)->
+  app.commands.setHandler 'textFilter', textFilter
 
 textFilter = (text)->
   if text.length != 0
@@ -64,3 +64,19 @@ textFilter = (text)->
       return model.matches filterExpr
   else
     app.filteredItems.removeFilter 'text'
+
+initializeInventoriesHandlers = (app)->
+  app.commands.setHandler 'personalInventory', ->
+    app.commands.execute 'filter:visibility:reset'
+    app.inventory.viewTools.show new app.View.PersonalInventoryTools
+    app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
+    app.inventory.itemsView.show itemsList
+    app.inventory.sideMenu.show new app.View.VisibilityTabs
+
+  app.commands.setHandler 'networkInventories', ->
+    app.inventory.viewTools.show new app.View.ContactsInventoriesTools
+    app.inventory.sideMenu.empty()
+
+  app.commands.setHandler 'publicInventories', ->
+    app.inventory.viewTools.show new app.View.ContactsInventoriesTools
+    app.inventory.sideMenu.empty()

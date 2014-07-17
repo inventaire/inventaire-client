@@ -1,9 +1,12 @@
 module.exports =
   Collection:
     Items: require "collections/items"
+    Contacts: require "collections/contacts"
 
   Model:
     User: require "models/user"
+    Item: require "models/item"
+    Contact: require "models/contact"
 
   Layout:
     App: require 'views/app_layout'
@@ -17,6 +20,7 @@ module.exports =
       Step2: require 'views/auth/signup_step_2'
     Login:
       Step1: require 'views/auth/login_step_1'
+    EditUser: require 'views/auth/edit_user'
     Inventory: require 'views/items/inventory'
     ItemsList: require 'views/items/items_list'
     ItemLi: require 'views/items/item_li'
@@ -25,6 +29,8 @@ module.exports =
     ItemEditionForm: require 'views/items/item_edition_form'
     InventoriesTabs: require 'views/items/inventories_tabs'
     VisibilityTabs: require 'views/items/visibility_tabs'
+    PersonalInventoryTools: require 'views/items/personal_inventory_tools'
+    ContactsInventoriesTools: require 'views/items/contacts_inventories_tools'
 
   Lib:
     idGenerator: require 'lib/id_generator'

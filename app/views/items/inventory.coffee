@@ -3,6 +3,7 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
   template: require 'views/items/templates/inventory'
   regions:
     topMenu: '#topmMenu'
+    viewTools: '#viewTools'
     itemsView: '#itemsView'
     sideMenu: '#sideMenu'
 
@@ -22,9 +23,7 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
 
   onShow: ->
     app.inventory.topMenu.show new app.View.InventoriesTabs
-    app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
-    app.inventory.itemsView.show itemsList
-    app.inventory.sideMenu.show new app.View.VisibilityTabs
+    app.commands.execute 'personalInventory'
 
   showItemCreationForm: ->
     app.layout.modal.show new app.View.ItemCreationForm
@@ -36,7 +35,6 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
       app.commands.execute 'filter:visibility:reset'
     else
       app.commands.execute 'filter:visibility', visibility
-    # @refresh()
 
     $('#visibility-tabs li').removeClass('active')
     $(e.currentTarget).find('li').addClass('active')
@@ -45,13 +43,10 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
   filterByInventoryType: (e)->
     inventoryType = $(e.currentTarget).attr('id')
     app.commands.execute 'filter:inventory', inventoryType
+    app.commands.execute inventoryType
     @updateInventoriesTabs e, inventoryType
 
   updateInventoriesTabs: (e, inventoryType)->
     $('#inventoriesTabs').find('.active').removeClass('active')
     $(e.currentTarget).parent().addClass('active')
-    if inventoryType is 'personalInventory'
-       $('#visibility-tabs').show()
-    else
-      $('#visibility-tabs').hide()
-      app.commands.execute 'filter:visibility:reset'
+
