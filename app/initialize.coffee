@@ -17,9 +17,7 @@ $ ->
     # app.layout.modal.reset()
 
   if app.user.loggedIn
-    app.contacts = new app.Collection.Contacts
-    app.contacts.fetch()
-    app.contacts.add(app.user)
+    app.Contacts = app.module 'contacts', app.Module.Contacts(app.Contacts, app, Backbone, Marionette, $, _)
     app.Inventory = app.module 'inventory', app.Module.Inventory(app.Inventory, app, Backbone, Marionette, $, _)
   else
     welcome = new app.View.Welcome
