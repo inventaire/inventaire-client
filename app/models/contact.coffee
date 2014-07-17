@@ -1,0 +1,1 @@
+module.exports = class Contact extends Backbone.Model

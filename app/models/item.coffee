@@ -23,7 +23,12 @@ module.exports = class Item extends Backbone.Model
     #           #to: uri
     #       ]
 
-  # initialize: ->
+  initialize: ->
+    ownerId = @get 'owner'
+    if app.contacts._byId[ownerId] != undefined
+      @set 'username', app.contacts._byId[ownerId].get('username')
+    else
+      @set 'username', 'username error'
 
   # validate: ->
 
@@ -40,5 +45,5 @@ module.exports = class Item extends Backbone.Model
       @get("title")
       @get("comment")
       @get("tags")
-      @get("owner")
+      @get("username")
     ]
