@@ -16,11 +16,11 @@ module.exports =
     NotLoggedMenu: require 'views/menu/not_logged_menu'
     AccountMenu: require 'views/menu/account_menu'
     Signup:
-      Step1: require 'views/auth/signup_step_1'
-      Step2: require 'views/auth/signup_step_2'
+      Step1: require 'views/user/signup_step_1'
+      Step2: require 'views/user/signup_step_2'
     Login:
-      Step1: require 'views/auth/login_step_1'
-    EditUser: require 'views/auth/edit_user'
+      Step1: require 'views/user/login_step_1'
+    EditUser: require 'views/user/edit_user'
     Inventory: require 'views/items/inventory'
     ItemsList: require 'views/items/items_list'
     ItemLi: require 'views/items/item_li'
@@ -31,11 +31,17 @@ module.exports =
     VisibilityTabs: require 'views/items/visibility_tabs'
     PersonalInventoryTools: require 'views/items/personal_inventory_tools'
     ContactsInventoriesTools: require 'views/items/contacts_inventories_tools'
+    Contacts:
+      Li: require 'views/contacts/contact_li'
+      No: require 'views/contacts/no_contact'
+      List: require 'views/contacts/contacts_list'
 
   Lib:
     idGenerator: require 'lib/id_generator'
     EventLogger: require 'lib/event_logger'
 
   Module:
-    Auth: require 'modules/auth'
+    Foundation: require 'modules/foundation'
+    User: require 'modules/user'
     Inventory: require 'modules/inventory'
+    Contacts: require 'modules/contacts'
