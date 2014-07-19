@@ -1,16 +1,15 @@
 module.exports = (module, app, Backbone, Marionette, $, _) ->
-  initializeAccountMenu(app)
+  # LOGIC
   initializePersona(app)
-  initializeSignupLoginProcess(app)
+  app.user = new app.Model.User
   recoverUserData(app)
 
-initializeAccountMenu = (app)->
-  app.user.on 'change', (user)->
-    if user.has 'email'
-      console.log user
-      app.layout.accountMenu.show new app.View.AccountMenu {model: user}
-    else
-      app.layout.accountMenu.show new app.View.NotLoggedMenu
+  # VIEWS
+  initializeAccountMenu(app)
+  initializeSignupLoginProcess(app)
+
+
+# LOGIC
 
 initializePersona = (app)->
   if navigator.id?
@@ -35,20 +34,6 @@ initializePersona = (app)->
       window.location.reload()
       console.log "You have been logged out"
 
-initializeSignupLoginProcess = (app)->
-  app.commands.setHandler 'signup:request', ->
-    app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
-
-  app.commands.setHandler 'signup:validUsername', ->
-    app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
-
-  app.commands.setHandler 'login:request', ->
-    app.layout.modal.show new app.View.Login.Step1 {model: app.user}
-
-  app.commands.setHandler 'user:edit', ->
-    app.layout.main.show new app.View.EditUser {model: app.user}
-
-
 recoverUserData = (app)->
   if $.cookie('email')?
     app.user.fetch()
@@ -59,3 +44,27 @@ recoverUserData = (app)->
     app.user.loggedIn = false
     # triggers a change to update the account menu
     app.user.trigger('change', app.user)
+
+
+# VIEWS
+
+initializeAccountMenu = (app)->
+  app.user.on 'change', (user)->
+    if user.has 'email'
+      app.layout.accountMenu.show new app.View.AccountMenu {model: user}
+    else
+      app.layout.accountMenu.show new app.View.NotLoggedMenu
+
+initializeSignupLoginProcess = (app)->
+  app.commands.setHandler 'signup:request', ->
+    app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
+
+  app.commands.setHandler 'signup:validUsername', ->
+    console.log 'signup:validUsername'
+    app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
+
+  app.commands.setHandler 'login:request', ->
+    app.layout.modal.show new app.View.Login.Step1 {model: app.user}
+
+  app.commands.setHandler 'user:edit', ->
+    app.layout.main.show new app.View.EditUser {model: app.user}

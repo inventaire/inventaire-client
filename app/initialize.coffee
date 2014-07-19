@@ -9,10 +9,9 @@ $ ->
   app.initialize()
   window.app = app
 
-  # here, layout render as already been triggered
-  app.module 'user', app.Module.User(app.user, app, Backbone, Marionette, $, _)
   app.module 'foundation', app.Module.Foundation(app.Foundation, app, Backbone, Marionette, $, _)
 
+  app.module 'user', app.Module.User(app.user, app, Backbone, Marionette, $, _)
   if app.user.loggedIn
     app.module 'contacts', app.Module.Contacts(app.Contacts, app, Backbone, Marionette, $, _)
     app.module 'inventory', app.Module.Inventory(app.Inventory, app, Backbone, Marionette, $, _)

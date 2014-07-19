@@ -1,4 +1,5 @@
 module.exports = (module, app, Backbone, Marionette, $, _) ->
+  # LOGIC
   app.Filters =
     inventory:
       'personalInventory': {'owner': app.user.get('username')}
@@ -12,16 +13,17 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
   fetchItems(app)
   initializeFilters(app)
   initializeTextFilter(app)
-  initializeInventoriesHandlers(app)
+
+  # VIEWS
   showInventory(app)
+  initializeInventoriesHandlers(app)
+
+
+# LOGIC
 
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
-
-showInventory = (app)->
-  app.inventory = new app.View.Inventory
-  app.layout.main.show app.inventory
 
 initializeFilters = (app)->
   app.filteredItems = new FilteredCollection app.items
@@ -38,7 +40,6 @@ filterInventoryBy = (filterName)->
     app.filteredItems.filterBy filterName, filters[filterName]
   else
     console.error 'invalid filter name'
-
 
 filterVisibilityBy = (audience)->
   filters = app.Filters.visibility
@@ -65,6 +66,13 @@ textFilter = (text)->
   else
     app.filteredItems.removeFilter 'text'
 
+
+
+# VIEWS
+showInventory = (app)->
+  app.inventory = new app.View.Inventory
+  app.layout.main.show app.inventory
+
 initializeInventoriesHandlers = (app)->
   app.commands.setHandler 'personalInventory', ->
     app.commands.execute 'filter:visibility:reset'
@@ -74,9 +82,11 @@ initializeInventoriesHandlers = (app)->
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   app.commands.setHandler 'networkInventories', ->
+    console.log '/!\\ fake networkInventories filter'
     app.inventory.viewTools.show new app.View.ContactsInventoriesTools
-    app.inventory.sideMenu.empty()
+    app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.contactsFilteredSearchResults})
 
   app.commands.setHandler 'publicInventories', ->
+    console.log '/!\\ fake publicInventories filter'
     app.inventory.viewTools.show new app.View.ContactsInventoriesTools
     app.inventory.sideMenu.empty()
