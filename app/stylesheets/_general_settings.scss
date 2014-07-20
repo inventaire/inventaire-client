@@ -1,0 +1,70 @@
+body {
+  background: $main-bg;
+  ul{
+    list-style-type: none;
+    margin: 0;
+  }
+  li{
+    margin: 0;
+  }
+}
+
+
+
+
+// COLORS MIXINS
+.secondary{
+  color: lighten($primary-color, 10%) !important;
+}
+.yellow{
+  background-color: #FFD402;
+  &:hover{
+    background-color: darken(#FFD403, 20%)
+  }
+}
+.grey{
+  color: #888;
+}
+
+// OPACITY MIXINS
+.hidden{
+  display: none;
+}
+.shy{
+  opacity: 0.6;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+// SIZE MIXINS
+.big{
+  font-size: 5rem;
+  padding: 1rem;
+}
+
+
+// FORMS
+.input-alert{
+  margin-top: -1rem;
+}
+.with-tip{
+  display: inline;
+}
+.has-tip{
+  display: inline-block;
+}
+
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  main{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+}

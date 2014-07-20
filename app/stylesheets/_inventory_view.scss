@@ -32,15 +32,18 @@ $visibility-tabs-bg: #888;
   }
 }
 
+#itemsView{
+  padding: 10px;
+}
 
 $contact-bg: #ddd;
 .contact{
   padding: 0.3rem;
   background-color: $contact-bg;
-  &:hover{
-      background-color: darken($contact-bg, 20%);
-      transition: background-color 0.2s linear;
-  }
+  // &:hover{
+  //     background-color: darken($contact-bg, 20%);
+  //     transition: background-color 0.2s linear;
+  // }
   img{
     height: 2.5rem;
   }

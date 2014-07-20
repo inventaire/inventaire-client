@@ -8,6 +8,8 @@ $main-bg: #fcfcfc url(/images/lightpaperfibers.png) repeat;
 // Override Foundation
 ////////////////////////////////////////
 //
+
+$body-font-family: "Alegreya", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // Top Bar
 $topbar-bg-color: #16212C;
 $topbar-title-font-size: 2rem;
@@ -43,6 +45,7 @@ $xlarge-range: (90.063em, 120em);
 $xxlarge-range: (120.063em, 99999999em);
 ////////////////////////////////////////
 $input-include-glowing-effect: false;
+$button-margin-bottom: 0rem;
 ////////////////////////////////////////
 ////////////////////////////////////////
 
@@ -50,8 +53,9 @@ $input-include-glowing-effect: false;
 @import "topbar";
 @import "sidebar";
 @import "welcome";
+@import "signup_login";
 @import "inventory_view";
-@import "app";
+@import "general_settings";
 @import "fonts";
 @import "small-screen-menu-fix";
 
