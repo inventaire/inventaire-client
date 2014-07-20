@@ -1,7 +1,14 @@
 body {
   background: $main-bg;
-  list-style-type: none;
+  ul{
+    list-style-type: none;
+    margin: 0;
+  }
+  li{
+    margin: 0;
+  }
 }
+
 
 #name{
   font-weight: 900;
@@ -28,6 +35,15 @@ body {
 }
 .has-tip{
   display: inline-block;
+}
+
+.big{
+  font-size: 5rem;
+  padding: 1rem;
+}
+
+.grey{
+  color: #888;
 }
 
 .fa-question-circle{
@@ -61,22 +77,6 @@ body {
   }
 }
 
-
-$visibility-tabs-bg: lighten($topbar-bg-color, 80%);
-
-#visibility-tabs{
-  background-color: $visibility-tabs-bg;
-  .active{
-    background-color: darken($visibility-tabs-bg, 20%);
-  }
-  list-style-type: none;
-  li{
-    box-sizing: content-box;
-    // box-shadow : 0.2rem 0.2rem 1rem 1rem $topbar-bg-color;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-  }
-}
-
 .hidden{
   display: none;
 }
@@ -96,11 +96,6 @@ $visibility-tabs-bg: lighten($topbar-bg-color, 80%);
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-
-}
-
-html, body, p, div, li, ul, a, input, h1, h2, h3, h4, h5{
-  font-family: 'Alegreya' !important;
 }
 
 .itemtitle{
