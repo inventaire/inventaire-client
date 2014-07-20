@@ -1,3 +1,5 @@
+$main-bg: #fcfcfc url(/images/lightpaperfibers.png) repeat;
+
 body {
   background: $main-bg;
   ul{
@@ -11,8 +13,13 @@ body {
 
 
 
-
 // COLORS MIXINS
+$primary-color: #16212C;
+$secondary-color: #FFD402;
+$warning-color: #E13A00;
+$success-color: #43AC6A;
+
+
 .secondary{
   color: lighten($primary-color, 10%) !important;
 }
@@ -45,6 +52,9 @@ body {
 
 
 // FORMS
+$input-include-glowing-effect: false;
+$button-margin-bottom: 0rem;
+
 .input-alert{
   margin-top: -1rem;
 }

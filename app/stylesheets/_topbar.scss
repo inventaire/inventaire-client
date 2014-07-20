@@ -1,6 +1,15 @@
+$topbar-height: 45px;
+$topbar-bg-color: $primary-color;
+$topbar-title-font-size: 2rem;
+$topbar-link-font-size: 1rem;
+
+
+$topbar-link-bg-active: $success-color;
+$topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -14%);
+
 .top-bar {
   img{
-    max-height: rem-calc($topbar-height * 0.85);
+    max-height: $topbar-height * 0.9;
     margin-right: 0.5rem;
   }
   .fa{
