@@ -7,8 +7,12 @@ initializeContacts = (app)->
   app.contacts = new app.Collection.Contacts
 
   app.reqres.setHandler 'getUsernameFromId', (id)->
-    model = app.contacts._byId[id]
-    return model.get 'username'
+    contactModel = app.contacts._byId[id]
+    if contactModel? && contactModel.get?
+      return contactModel.get 'username'
+    else
+      _.log 'couldnt find the contact'
+      return 'username error'
 
   # include main user in contacts to be able to access it from getUsernameFromId
   app.contacts.add app.user
