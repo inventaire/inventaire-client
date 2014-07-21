@@ -1,5 +1,3 @@
-NotLoggedMenu = require 'views/not_logged_menu'
-
 module.exports = class Welcome extends Backbone.Marionette.LayoutView
   id: 'welcome'
   template: require 'views/templates/welcome'
@@ -7,6 +5,6 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     loginButtons: '#loginButtons'
 
   onShow: ->
-    buttons = new NotLoggedMenu
+    buttons = new app.View.NotLoggedMenu
     @loginButtons.show buttons
     @$el.find('li').addClass('button')

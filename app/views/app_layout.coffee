@@ -9,7 +9,9 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   events:
     'click a.close': 'closeAlertBox'
-    'keyup #itemsTextFilterField': -> app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
+
+  initialize: (e)->
+    @render()
 
   ############ ERRORS ############
   closeAlertBox: (e)->

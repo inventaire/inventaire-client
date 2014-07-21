@@ -1,6 +1,6 @@
 module.exports = class EditUser extends Backbone.Marionette.ItemView
   tagName: 'div'
-  template: require 'views/auth/templates/edit_user'
+  template: require 'views/user/templates/edit_user'
   # onShow: ->
   #   app.commands.execute 'modal:open'
   events:

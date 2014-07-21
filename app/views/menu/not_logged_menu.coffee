@@ -3,3 +3,4 @@ module.exports = class NotLoggedMenu extends Backbone.Marionette.ItemView
   events:
     'click #signupRequest': -> app.commands.execute 'signup:request'
     'click #loginRequest': -> app.commands.execute 'login:request'
+  onShow: -> app.commands.execute 'foundation:reload'

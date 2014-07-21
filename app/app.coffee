@@ -8,7 +8,7 @@ class Application extends Backbone.Marionette.Application
 
     @layout = new @Layout.App
 
-    @on "start", (options) =>
+    @on "start", (options) ->
       Backbone.history.start({pushState: true})
 
     @start()

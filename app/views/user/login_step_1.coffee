@@ -1,6 +1,6 @@
 module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
-  template: require 'views/auth/templates/login_step1'
+  template: require 'views/user/templates/login_step1'
   onShow: ->
     app.commands.execute 'modal:open'
   events:

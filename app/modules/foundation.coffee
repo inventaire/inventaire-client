@@ -3,7 +3,7 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
   app.commands.setHandler 'foundation:reload', ->
     # first called on account menu show
     $(document).foundation()
-    console.log 'foundation:reload'
+    app.vent.trigger 'foundation:reload'
 
 
   app.commands.setHandler 'modal:open', ->
