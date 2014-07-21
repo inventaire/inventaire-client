@@ -1,12 +1,12 @@
 module.exports =
   Collection:
-    Items: require "collections/items"
-    Contacts: require "collections/contacts"
+    Items: require 'collections/items'
+    Contacts: require 'collections/contacts'
 
   Model:
-    User: require "models/user"
-    Item: require "models/item"
-    Contact: require "models/contact"
+    User: require 'models/user'
+    Item: require 'models/item'
+    Contact: require 'models/contact'
 
   Layout:
     App: require 'views/app_layout'

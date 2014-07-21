@@ -22,21 +22,20 @@ module.exports = class Item extends Backbone.Model
     #             # price: number
     #           #to: uri
     #       ]
-
-  initialize: ->
-    ownerId = @get 'owner'
-    if app.contacts._byId[ownerId] != undefined
-      @set 'username', app.contacts._byId[ownerId].get('username')
+  url: ->
+    if (rev = @get '_rev')?
+      'api/items/' + @id + '/' + rev
     else
-      @set 'username', 'username error'
+      'api/items/' + @id
 
-  # validate: ->
+  parse: (attrs, options)->
+    attrs.username = app.request 'getUsernameFromId', attrs.owner
+    return attrs
 
   matches: (expr) ->
     return true  if expr is null
-    hasMatch = _.some(@asMatchable(), (field) ->
+    hasMatch = _.some @asMatchable(), (field) ->
       field.match(expr) isnt null
-    )
     return true  if hasMatch
     false
 

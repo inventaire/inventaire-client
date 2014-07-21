@@ -1,14 +1,5 @@
 module.exports = (module, app, Backbone, Marionette, $, _) ->
   # LOGIC
-  app.Filters =
-    inventory:
-      'personalInventory': {'owner': app.user.get('username')}
-      'networkInventories': {'owner':'zombo'}
-      'publicInventories': {'owner':'notUsername'}
-    visibility:
-      'private': {'visibility':'private'}
-      'contacts': {'visibility':'contacts'}
-      'public': {'visibility':'public'}
 
   fetchItems(app)
   initializeFilters(app)
@@ -26,6 +17,20 @@ fetchItems = (app)->
   app.items.fetch({reset: true})
 
 initializeFilters = (app)->
+  app.Filters =
+    inventory:
+      'personalInventory': {'owner': app.user.get('_id')}
+      'networkInventories': (model)-> return model.get('owner') isnt app.user.id
+      'publicInventories': {'owner':'notUsername'}
+    visibility:
+      'private': {'visibility':'private'}
+      'contacts': {'visibility':'contacts'}
+      'public': {'visibility':'public'}
+
+  app.user.on 'change:_id', (model, id)->
+    app.Filters.inventory.personalInventory.owner = id
+    _.log id, 'filter:inventory:updated'
+
   app.filteredItems = new FilteredCollection app.items
   app.commands.setHandler 'filter:inventory', filterInventoryBy
   app.commands.setHandler 'filter:visibility', filterVisibilityBy
@@ -75,16 +80,15 @@ showInventory = (app)->
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandler 'personalInventory', ->
-    app.commands.execute 'filter:visibility:reset'
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
     app.inventory.itemsView.show itemsList
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   app.commands.setHandler 'networkInventories', ->
-    console.log '/!\\ fake networkInventories filter'
+    app.commands.execute 'filter:inventory', 'networkInventories'
     app.inventory.viewTools.show new app.View.ContactsInventoriesTools
-    app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.contactsFilteredSearchResults})
+    app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
 
   app.commands.setHandler 'publicInventories', ->
     console.log '/!\\ fake publicInventories filter'

@@ -12,6 +12,18 @@ body {
 }
 
 
+// We use this mixin to create a default alert base.
+@mixin alert-base {
+  border-style: $alert-border-style;
+  border-width: $alert-border-width;
+  // display: block;
+  font-weight: $alert-font-weight;
+  margin-bottom: $alert-bottom-margin;
+  position: relative;
+  padding: $alert-padding-top $alert-padding-opposite-direction $alert-padding-bottom $alert-padding-default-float;
+  font-size: $alert-font-size;
+  @include single-transition(opacity, $alert-transition-speed, $alert-transition-ease)
+}
 
 // COLORS MIXINS
 $primary-color: #16212C;
@@ -34,7 +46,7 @@ $success-color: #43AC6A;
 }
 
 // OPACITY MIXINS
-.hidden{
+div.hidden {
   display: none;
 }
 .shy{

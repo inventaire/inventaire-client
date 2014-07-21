@@ -1,8 +1,9 @@
-// Tabs Colors
+// TOP MENU
+// Tabs
 $tabs-navigation-active-bg-color: $main-bg;
 $sub-nav-active-bg: #aaa;
 
-
+// VIEW TOOLS
 #viewTools{
   .button, input {
     margin: 0;
@@ -15,7 +16,12 @@ $sub-nav-active-bg: #aaa;
   }
 }
 
+// ITEMS VIEW
+#itemsView{
+  padding: 10px;
+}
 
+// SIDE MENU
 $visibility-tabs-bg: #888;
 
 #visibility-tabs{
@@ -37,18 +43,15 @@ $visibility-tabs-bg: #888;
   }
 }
 
-#itemsView{
-  padding: 10px;
-}
-
 $contact-bg: #ddd;
 .contact{
   padding: 0.3rem;
   background-color: $contact-bg;
-  // &:hover{
-  //     background-color: darken($contact-bg, 20%);
-  //     transition: background-color 0.2s linear;
-  // }
+  cursor: pointer;
+  &:hover{
+      background-color: darken($contact-bg, 20%);
+      transition: background-color 0.2s linear;
+  }
   img{
     height: 2.5rem;
   }

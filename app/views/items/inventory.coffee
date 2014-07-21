@@ -9,6 +9,10 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
 
   events:
     'click #addItem': 'showItemCreationForm'
+    'keyup #itemsTextFilterField': -> app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
+    'click #itemsTextFilterButton': -> app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
+    'keyup #contactSearchField': -> app.commands.execute 'contactSearch', $('#contactSearchField').val()
+    'click #contactSearchButton': -> app.commands.execute 'contactSearch', $('#contactSearchField').val()
 
     # TABS
     'click #personalInventory': 'filterByInventoryType'

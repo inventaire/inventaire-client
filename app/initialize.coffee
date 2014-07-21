@@ -1,7 +1,9 @@
 require('lib/handlebars_partial_helper')()
 app = require 'app'
 
-# #changing the default attribute to fit CouchDB
+_.extend _, require 'lib/utils'
+
+#changing the default attribute to fit CouchDB
 Backbone.Model.prototype.idAttribute = '_id'
 
 # Initialize the application on DOM ready event.

@@ -4,6 +4,13 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
 
 initializeContacts = (app)->
   app.contacts = new app.Collection.Contacts
+
+  app.reqres.setHandler 'getUsernameFromId', (id)->
+    model = app.contacts._byId[id]
+    return model.get 'username'
+
+  app.contacts.add app.user
+  _.log app.contacts._byId[app.user.id], 'user in contacts'
   $.getJSON '/api/contacts'
   .then (res)->
     res.forEach (contact)->
@@ -12,7 +19,17 @@ initializeContacts = (app)->
   .fail (err)-> console.error(err)
   .done()
 
-  app.commands.setHandler 'contact:follow', (contactId)-> followNewContact.call(app.user, contactId)
+  app.commands.setHandler 'contact:follow', (contactModel)->
+    followNewContact.call app.user, contactModel.get('_id')
+    _.log contactModel.get('_id'), '_id'
+    contactModel.set('following', true)
+
+  app.commands.setHandler 'contact:unfollow', (contactModel)->
+    unfollowContact.call app.user, contactModel.get('_id')
+    _.log contactModel.get('_id'), '_id'
+    contactModel.set('following', false)
+
+  app.commands.setHandler 'contact:fetchItems', (contactModel)-> fetchContactItems.call contactModel
 
 initializeContactSearch = (app)->
   app.filteredContacts = new FilteredCollection app.contacts
@@ -40,7 +57,7 @@ filterContacts = (text)->
 
 queryContacts = (text)->
   $.getJSON "/api/users?#{text}"
-  .then (res)->
+  .done (res)->
     res.forEach (contact)->
       app.contacts.add contact if isRelevant.call contact
     app.contacts.queried.push(text)
@@ -54,10 +71,9 @@ isRelevant = ()->
   return true
 
 followNewContact = (contactId)->
-  currentContacts = @get 'contacts'
   if contactId?
     if contactId != @get('_id')
-      _.log currentContacts, 'currentContacts'
+      currentContacts = @get 'contacts'
       if currentContacts.indexOf(contactId) is -1
         @escape 'contacts', currentContacts.push(contactId)
         @update()
@@ -67,3 +83,24 @@ followNewContact = (contactId)->
       _.log "you can't add yourself"
   else
     _.log contactId, "coudn't find contact id "
+
+unfollowContact = (contactId)->
+  if contactId?
+    currentContacts = @get 'contacts'
+    if currentContacts.indexOf(contactId) isnt -1
+      @set 'contacts', _.without(currentContacts, contactId)
+      @update()
+    else
+      _.log contactId, 'not in contacts, how did you got here?'
+  else
+    _.log contactId, "coudn't find contact id "
+
+
+
+fetchContactItems = ->
+  _.log username = @get('username'), 'fetch contacts items'
+  $.getJSON "/api/#{@id}/items"
+  .done (res)->
+    res.forEach (item)->
+      item.username = username
+      app.items.add item

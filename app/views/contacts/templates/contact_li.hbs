@@ -1,9 +1,9 @@
-<img id="pic" class="radius" src="{{picture}}" alt="{{username}} pic">
-<span class="username">{{username}}</span>
-<div class="right">
+<div class="selectContact">
+  <img id="pic" src="{{picture}}">
+  <span class="username">{{username}}</span>
   {{#if following}} 
-    <a id="follow" class="tiny button success"><i class="fa fa-check"></i></a>
+    <a id="unfollow" class="tiny button success right"><i class="fa fa-check"></i></a>
   {{else}}
-    <a id="follow" class="tiny button secondary"><i class="fa fa-plus"></i></a>
+    <a id="follow" class="tiny button secondary right"><i class="fa fa-plus"></i></a>
   {{/if}}
 </div>
