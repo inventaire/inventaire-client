@@ -14,11 +14,6 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
     'keyup #contactSearchField': -> app.commands.execute 'contactSearch', $('#contactSearchField').val()
     'click #contactSearchButton': -> app.commands.execute 'contactSearch', $('#contactSearchField').val()
 
-    # TABS
-    'click #personalInventory': 'filterByInventoryType'
-    'click #networkInventories': 'filterByInventoryType'
-    'click #publicInventories': 'filterByInventoryType'
-
     # FILTER
     'click #noVisibilityFilter': 'updateVisibilityTabs'
     'click #private': 'updateVisibilityTabs'
@@ -43,14 +38,5 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
     $('#visibility-tabs li').removeClass('active')
     $(e.currentTarget).find('li').addClass('active')
 
-  ############ TABS ############
-  filterByInventoryType: (e)->
-    inventoryType = $(e.currentTarget).attr('id')
-    app.commands.execute 'filter:inventory', inventoryType
-    app.commands.execute inventoryType
-    @updateInventoriesTabs e, inventoryType
 
-  updateInventoriesTabs: (e, inventoryType)->
-    $('#inventoriesTabs').find('.active').removeClass('active')
-    $(e.currentTarget).parent().addClass('active')
 

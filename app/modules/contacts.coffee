@@ -1,5 +1,6 @@
 module.exports = (module, app, Backbone, Marionette, $, _) ->
   initializeContacts(app)
+  fetchContactsAndTheirItems(app)
   initializeContactSearch(app)
 
 initializeContacts = (app)->
@@ -9,15 +10,8 @@ initializeContacts = (app)->
     model = app.contacts._byId[id]
     return model.get 'username'
 
+  # include main user in contacts to be able to access it from getUsernameFromId
   app.contacts.add app.user
-  _.log app.contacts._byId[app.user.id], 'user in contacts'
-  $.getJSON '/api/contacts'
-  .then (res)->
-    res.forEach (contact)->
-      contact.following = true
-      app.contacts.add contact
-  .fail (err)-> console.error(err)
-  .done()
 
   app.commands.setHandler 'contact:follow', (contactModel)->
     followNewContact.call app.user, contactModel.get('_id')
@@ -31,8 +25,19 @@ initializeContacts = (app)->
 
   app.commands.setHandler 'contact:fetchItems', (contactModel)-> fetchContactItems.call contactModel
 
+fetchContactsAndTheirItems = ->
+  $.getJSON '/api/contacts'
+  .then (res)->
+    res.forEach (contact)->
+      contact.following = true
+      contactModel = app.contacts.add contact
+      app.commands.execute 'contact:fetchItems', contactModel
+  .fail (err)-> console.error(err)
+  .done()
+
 initializeContactSearch = (app)->
   app.filteredContacts = new FilteredCollection app.contacts
+  app.filteredContacts.filterBy 'not-main-user', (model)-> return model.get('_id') != app.user.id
   app.contacts.queried = []
   app.commands.setHandler 'contactSearch', contactSearch
 

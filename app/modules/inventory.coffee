@@ -1,17 +1,14 @@
 module.exports = (module, app, Backbone, Marionette, $, _) ->
   # LOGIC
-
   fetchItems(app)
   initializeFilters(app)
   initializeTextFilter(app)
 
   # VIEWS
-  showInventory(app)
   initializeInventoriesHandlers(app)
-
+  showInventory(app)
 
 # LOGIC
-
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
@@ -21,20 +18,28 @@ initializeFilters = (app)->
     inventory:
       'personalInventory': {'owner': app.user.get('_id')}
       'networkInventories': (model)-> return model.get('owner') isnt app.user.id
-      'publicInventories': {'owner':'notUsername'}
+      'publicInventories': (model)-> return model.get('owner') isnt app.user.id
     visibility:
       'private': {'visibility':'private'}
       'contacts': {'visibility':'contacts'}
       'public': {'visibility':'public'}
 
+  # user will probably have no id when initializeFilters is fired as the user recover data may not have return yet
+  # so we need to listen for this event
   app.user.on 'change:_id', (model, id)->
     app.Filters.inventory.personalInventory.owner = id
-    _.log id, 'filter:inventory:updated'
+    if app.filteredItems.getFilters().indexOf('personalInventory') isnt -1
+      app.filteredItems.removeFilter 'personalInventory'
+      app.commands.execute 'filter:inventory:personal'
 
   app.filteredItems = new FilteredCollection app.items
-  app.commands.setHandler 'filter:inventory', filterInventoryBy
-  app.commands.setHandler 'filter:visibility', filterVisibilityBy
-  app.commands.setHandler 'filter:visibility:reset', resetVisibilityFilter
+  app.commands.setHandlers
+    'filter:inventory': 'filterInventoryBy'
+    'filter:inventory:personal': -> filterInventoryBy 'personalInventory'
+    'filter:inventory:network': -> filterInventoryBy 'networkInventories'
+    'filter:inventory:public': -> filterInventoryBy 'publicInventories'
+    'filter:visibility': 'filterVisibilityBy'
+    'filter:visibility:reset': 'resetVisibilityFilter'
 
 filterInventoryBy = (filterName)->
   filters = app.Filters.inventory
@@ -74,23 +79,25 @@ textFilter = (text)->
 
 
 # VIEWS
-showInventory = (app)->
-  app.inventory = new app.View.Inventory
-  app.layout.main.show app.inventory
-
 initializeInventoriesHandlers = (app)->
   app.commands.setHandler 'personalInventory', ->
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
+    app.commands.execute 'filter:inventory:personal'
     app.inventory.itemsView.show itemsList
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   app.commands.setHandler 'networkInventories', ->
-    app.commands.execute 'filter:inventory', 'networkInventories'
+    app.commands.execute 'filter:inventory:network'
     app.inventory.viewTools.show new app.View.ContactsInventoriesTools
     app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
 
   app.commands.setHandler 'publicInventories', ->
+    app.commands.execute 'filter:inventory:public'
     console.log '/!\\ fake publicInventories filter'
     app.inventory.viewTools.show new app.View.ContactsInventoriesTools
     app.inventory.sideMenu.empty()
+
+showInventory = (app)->
+  app.inventory = new app.View.Inventory
+  app.layout.main.show app.inventory

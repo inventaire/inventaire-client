@@ -1,17 +1,11 @@
 module.exports = class User extends Backbone.Model
-  # defaults:
-  #   username: null
-  #   email: null
+  defaults:
+    contacts: []
   #   language: window.navigator.language || 'en'
 
   url: -> 'user'
 
   update: =>
-    @sync('update', @)
+    @sync 'update', @
 
-  # sync: ->
-    # Backbone.sync.apply(@, ['update', @])
-
-  # initialize: ->
-
-  # validate: ->
+  isMainUser: -> @has 'email'
