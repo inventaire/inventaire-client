@@ -12,6 +12,10 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
+  app.commands.setHandler 'item:edit', editItem
+
+editItem = (itemModel)->
+  itemModel
 
 initializeFilters = (app)->
   app.Filters =
@@ -34,12 +38,13 @@ initializeFilters = (app)->
 
   app.filteredItems = new FilteredCollection app.items
   app.commands.setHandlers
-    'filter:inventory': 'filterInventoryBy'
+    'filter:inventory': filterInventoryBy
     'filter:inventory:personal': -> filterInventoryBy 'personalInventory'
     'filter:inventory:network': -> filterInventoryBy 'networkInventories'
     'filter:inventory:public': -> filterInventoryBy 'publicInventories'
-    'filter:visibility': 'filterVisibilityBy'
-    'filter:visibility:reset': 'resetVisibilityFilter'
+    'filter:inventory:owner': filterInventoryByOwner
+    'filter:visibility': filterVisibilityBy
+    'filter:visibility:reset': resetVisibilityFilter
 
 filterInventoryBy = (filterName)->
   filters = app.Filters.inventory
@@ -48,8 +53,13 @@ filterInventoryBy = (filterName)->
     otherFilters.forEach (otherFilterName)->
       app.filteredItems.removeFilter otherFilterName
     app.filteredItems.filterBy filterName, filters[filterName]
+    app.vent.trigger "inventory:change", filterName
   else
     console.error 'invalid filter name'
+
+filterInventoryByOwner = (ownerId)->
+  app.filteredItems.filterBy 'owner', (model)->
+    return model.get('owner') is ownerId
 
 filterVisibilityBy = (audience)->
   filters = app.Filters.visibility

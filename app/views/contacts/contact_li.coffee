@@ -8,7 +8,7 @@ module.exports = class Contact extends Backbone.Marionette.ItemView
     'mouseenter #unfollow': 'toggleClass'
     'mouseleave #unfollow': 'toggleClass'
     'click #unfollow': -> app.commands.execute 'contact:unfollow', @model
-    'click .selectContact': -> app.commands.execute 'contact:fetchItems', @model
+    'click .selectContact': 'selectContact'
 
 
   initialize:->
@@ -18,3 +18,7 @@ module.exports = class Contact extends Backbone.Marionette.ItemView
     $(e.currentTarget)
     .toggleClass('alert').toggleClass('success')
     .find('i').toggleClass('fa-check').toggleClass('fa-minus').width(11)
+
+  selectContact: ->
+    app.commands.execute 'contact:fetchItems', @model unless @model.get('following')
+    app.commands.execute 'filter:inventory:owner', @model.id
