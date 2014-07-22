@@ -18,16 +18,17 @@ initializeContacts = (app)->
   app.contacts.add app.user
 
   app.commands.setHandler 'contact:follow', (contactModel)->
-    followNewContact.call app.user, contactModel.get('_id')
+    followNewContact.call app.user, contactModel.id
     _.log contactModel.get('_id'), '_id'
     contactModel.set('following', true)
 
   app.commands.setHandler 'contact:unfollow', (contactModel)->
-    unfollowContact.call app.user, contactModel.get('_id')
+    unfollowContact.call app.user, contactModel.id
     _.log contactModel.get('_id'), '_id'
     contactModel.set('following', false)
 
   app.commands.setHandler 'contact:fetchItems', (contactModel)-> fetchContactItems.call contactModel
+  app.commands.setHandler 'contact:removeItems', (contactModel)-> removeContactItems.call contactModel
 
 fetchContactsAndTheirItems = ->
   $.getJSON '/api/contacts'
@@ -104,8 +105,6 @@ unfollowContact = (contactId)->
   else
     _.log contactId, "coudn't find contact id "
 
-
-
 fetchContactItems = ->
   _.log username = @get('username'), 'fetch contacts items'
   $.getJSON "/api/#{@id}/items"
@@ -113,3 +112,6 @@ fetchContactItems = ->
     res.forEach (item)->
       item.username = username
       app.items.add item
+
+removeContactItems = (contactModel)->
+  return app.items.remove(app.items.where({owner: contactModel.id}))

@@ -35,7 +35,10 @@ module.exports = class Item extends Backbone.Model
   matches: (expr) ->
     return true  if expr is null
     hasMatch = _.some @asMatchable(), (field) ->
-      field.match(expr) isnt null
+      if field?
+        return field.match(expr) isnt null
+      else
+        return false
     return true  if hasMatch
     false
 
@@ -43,6 +46,5 @@ module.exports = class Item extends Backbone.Model
     [
       @get("title")
       @get("comment")
-      @get("tags")
       @get("username")
     ]
