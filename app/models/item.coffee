@@ -28,9 +28,9 @@ module.exports = class Item extends Backbone.Model
     else
       'api/items/' + @id
 
-  parse: (attrs, options)->
-    attrs.username = app.request 'getUsernameFromId', attrs.owner
-    return attrs
+  initialize: ->
+    @set 'username', app.request('getUsernameFromId', @get('owner'))
+    @set('restricted', true) unless @get('owner') is app.user.id
 
   matches: (expr) ->
     return true  if expr is null
