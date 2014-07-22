@@ -5,8 +5,8 @@ module.exports = class InventoriesTabs extends Backbone.Marionette.ItemView
     'click #personalInventory': -> app.commands.execute 'personalInventory'
     'click #networkInventories': -> app.commands.execute 'networkInventories'
     'click #publicInventories': -> app.commands.execute 'publicInventories'
-    'click a': 'updateInventoriesTabs'
 
-  updateInventoriesTabs: (e)->
-    $('#inventoriesTabs').find('.active').removeClass('active')
-    $(e.currentTarget).parent().addClass('active')
+  initialize: ->
+    app.vent.on 'inventory:change', (filterName)->
+      $('#inventoriesTabs').find('.active').removeClass('active')
+      $("##{filterName}").parent().addClass('active')
