@@ -87,6 +87,7 @@ followNewContact = (contactId)->
       if currentContacts.indexOf(contactId) is -1
         @escape 'contacts', currentContacts.push(contactId)
         @update()
+        app.commands.execute 'contact:fetchItems', app.contacts._byId[contactId]
       else
         _.log "this contact is already added"
     else
@@ -100,6 +101,7 @@ unfollowContact = (contactId)->
     if currentContacts.indexOf(contactId) isnt -1
       @set 'contacts', _.without(currentContacts, contactId)
       @update()
+      app.commands.execute 'contact:removeItems', app.contacts._byId[contactId]
     else
       _.log contactId, 'not in contacts, how did you got here?'
   else
@@ -113,5 +115,5 @@ fetchContactItems = ->
       item.username = username
       app.items.add item
 
-removeContactItems = (contactModel)->
-  return app.items.remove(app.items.where({owner: contactModel.id}))
+removeContactItems = ->
+  return app.items.remove(app.items.where({owner: @id}))
