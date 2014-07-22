@@ -38,7 +38,6 @@ initializeFilters = (app)->
 
   app.filteredItems = new FilteredCollection app.items
   app.commands.setHandlers
-    'filter:inventory': filterInventoryBy
     'filter:inventory:personal': -> filterInventoryBy 'personalInventory'
     'filter:inventory:network': -> filterInventoryBy 'networkInventories'
     'filter:inventory:public': -> filterInventoryBy 'publicInventories'
@@ -47,15 +46,13 @@ initializeFilters = (app)->
     'filter:visibility:reset': resetVisibilityFilter
 
 filterInventoryBy = (filterName)->
+  app.filteredItems.removeFilter 'owner'
   filters = app.Filters.inventory
-  if _.has(filters, filterName)
-    otherFilters = _.without _.keys(filters), filterName
-    otherFilters.forEach (otherFilterName)->
-      app.filteredItems.removeFilter otherFilterName
-    app.filteredItems.filterBy filterName, filters[filterName]
-    app.vent.trigger "inventory:change", filterName
-  else
-    console.error 'invalid filter name'
+  otherFilters = _.without _.keys(filters), filterName
+  otherFilters.forEach (otherFilterName)->
+    app.filteredItems.removeFilter otherFilterName
+  app.filteredItems.filterBy filterName, filters[filterName]
+  app.vent.trigger "inventory:change", filterName
 
 filterInventoryByOwner = (ownerId)->
   app.filteredItems.filterBy 'owner', (model)->
