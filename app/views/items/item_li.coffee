@@ -3,6 +3,9 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   className: "item row"
   template: require 'views/items/templates/item_li'
 
+  initialize: ->
+    @listenTo @model, 'change', @render
+
   events:
     'click .edit': 'editItem'
     'click .remove': 'destroyItem'

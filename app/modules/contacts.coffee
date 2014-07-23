@@ -25,13 +25,13 @@ initializeContacts = (app)->
 
   app.commands.setHandler 'contact:follow', (contactModel)->
     followNewContact.call app.user, contactModel.id
-    _.log contactModel.get('_id'), '_id'
-    contactModel.set('following', true)
+    contactModel.following = true
+    contactModel.trigger 'change:following', contactModel
 
   app.commands.setHandler 'contact:unfollow', (contactModel)->
     unfollowContact.call app.user, contactModel.id
-    _.log contactModel.get('_id'), '_id'
-    contactModel.set('following', false)
+    contactModel.following = false
+    contactModel.trigger 'change:following', contactModel
 
   app.commands.setHandler 'contact:fetchItems', (contactModel)-> fetchContactItems.call contactModel
   app.commands.setHandler 'contact:removeItems', (contactModel)-> removeContactItems.call contactModel
@@ -64,7 +64,7 @@ filterContacts = (text)->
   if text is ''
     @removeFilter 'text'
     @filterBy 'following', (model)->
-      return model.get('following')
+      return model.following
   else
     @removeFilter 'following'
     filterExpr = new RegExp text, "i"
@@ -92,7 +92,9 @@ followNewContact = (contactId)->
       currentContacts = @get 'contacts'
       if currentContacts.indexOf(contactId) is -1
         @escape 'contacts', currentContacts.push(contactId)
-        @update()
+        @save()
+        .then (res)-> _.log res, 'user successfully saved to the server!'
+        .fail (err)-> _.log err, 'server error:'
         app.commands.execute 'contact:fetchItems', app.contacts._byId[contactId]
       else
         _.log "this contact is already added"
@@ -105,11 +107,14 @@ unfollowContact = (contactId)->
   if contactId?
     currentContacts = @get 'contacts'
     if currentContacts.indexOf(contactId) isnt -1
+      # for some reason, don't user escape hereafter, it doesn't do the job oO
       @set 'contacts', _.without(currentContacts, contactId)
-      @update()
+      @save()
+      .then (res)-> _.log res, 'user successfully saved to the server!'
+      .fail (err)-> _.log err, 'server error:'
       app.commands.execute 'contact:removeItems', app.contacts._byId[contactId]
     else
-      _.log contactId, 'not in contacts, how did you got here?'
+      _.log contactId, 'not in contacts, how did you get here?'
   else
     _.log contactId, "coudn't find contact id "
 

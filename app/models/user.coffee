@@ -7,5 +7,3 @@ module.exports = class User extends Backbone.Model
 
   update: =>
     @sync 'update', @
-
-  isMainUser: -> @has 'email'
