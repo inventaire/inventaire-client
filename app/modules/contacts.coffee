@@ -11,8 +11,14 @@ initializeContacts = (app)->
     if contactModel? && contactModel.get?
       return contactModel.get 'username'
     else
-      _.log 'couldnt find the contact'
-      return 'username error'
+      _.log 'couldnt find the contact from id'
+
+  app.reqres.setHandler 'getIdFromUsername', (username)->
+    contactModel = app.contacts.findWhere({username: username})
+    if contactModel? && contactModel.get?
+      return contactModel.id
+    else
+      _.log 'couldnt find the contact from username'
 
   # include main user in contacts to be able to access it from getUsernameFromId
   app.contacts.add app.user
@@ -34,8 +40,8 @@ fetchContactsAndTheirItems = ->
   $.getJSON '/api/contacts'
   .then (res)->
     res.forEach (contact)->
-      contact.following = true
       contactModel = app.contacts.add contact
+      contactModel.following = true
       app.commands.execute 'contact:fetchItems', contactModel
   .fail (err)-> console.error(err)
   .done()
@@ -112,8 +118,8 @@ fetchContactItems = ->
   $.getJSON "/api/#{@id}/items"
   .done (res)->
     res.forEach (item)->
-      item.username = username
-      app.items.add item
+      itemModel = app.items.add item
+      itemModel.username = username
 
 removeContactItems = ->
   return app.items.remove(app.items.where({owner: @id}))

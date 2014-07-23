@@ -23,14 +23,16 @@ module.exports = class Item extends Backbone.Model
     #           #to: uri
     #       ]
   url: ->
-    if (rev = @get '_rev')?
-      'api/items/' + @id + '/' + rev
+    owner = @get 'owner'
+    rev = @get '_rev'
+    if rev?
+      "api/#{owner}/items/#{@id}/#{rev}"
     else
-      'api/items/' + @id
+      "api/#{owner}/items/#{@id}"
 
   initialize: ->
-    @set 'username', app.request('getUsernameFromId', @get('owner'))
-    @set('restricted', true) unless @get('owner') is app.user.id
+    @username = app.request('getUsernameFromId', @get('owner'))
+    @restricted= true unless @get('owner') is app.user.id
 
   matches: (expr) ->
     return true  if expr is null

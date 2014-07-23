@@ -13,6 +13,11 @@ module.exports = class Contact extends Backbone.Marionette.ItemView
   initialize:->
     @listenTo @model, 'change:following', @render
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    attrs.following = @model.following
+    return attrs
+
   toggleClass: (e)->
     $(e.currentTarget)
     .toggleClass('alert').toggleClass('success')

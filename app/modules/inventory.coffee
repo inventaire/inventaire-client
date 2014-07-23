@@ -15,7 +15,7 @@ fetchItems = (app)->
   app.commands.setHandler 'item:edit', editItem
 
 editItem = (itemModel)->
-  itemModel
+  app.layout.modal.show new app.View.ItemEditionForm {model: itemModel}
 
 initializeFilters = (app)->
   app.Filters =
