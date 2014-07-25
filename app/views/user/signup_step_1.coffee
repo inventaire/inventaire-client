@@ -2,6 +2,11 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/user/templates/signup_step1'
   onShow: -> app.commands.execute 'modal:open'
+  ui:
+    check: '.check'
+  behaviors:
+    SuccessCheck: {}
+
   events:
     'click #verifyUsername': 'verifyUsername'
     'keydown #username': 'closeAlertBoxIfVisible'
@@ -13,10 +18,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     $.post('/auth/username', {username: username})
     .then (res)=>
       @model.set('username', res.username)
-      @$el.find('.fa-check-circle').slideDown(300)
-      cb = ()=>
-        app.commands.execute 'signup:validUsername'
-      setTimeout(cb, 500)
+      @$el.trigger 'check', -> app.commands.execute 'signup:validUsername'
     .fail(@invalidUsername)
 
   invalidUsername: (err)->

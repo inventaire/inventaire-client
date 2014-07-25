@@ -1,6 +1,10 @@
 module.exports =  class ItemForm extends Backbone.Marionette.ItemView
   template: require "views/items/templates/item_form"
   onShow: -> app.commands.execute 'modal:open'
+  ui:
+    check: '.check'
+  behaviors:
+    SuccessCheck: {}
   events:
     'click #validate': 'validateNewItemForm'
     'click #cancel': -> app.commands.execute 'modal:close'
@@ -16,4 +20,4 @@ module.exports =  class ItemForm extends Backbone.Marionette.ItemView
 
     itemModel = app.items.create newItem
     itemModel.username = app.user.get('username')
-    app.commands.execute 'modal:close'
+    @$el.trigger 'check', -> app.commands.execute 'modal:close'
