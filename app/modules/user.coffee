@@ -16,8 +16,11 @@ initializePersona = (app)->
     navigator.id.logout()
     navigator.id.watch
       onlogin: (assertion) ->
-        token = $('#token').val()
-        $.post "/auth/login", {assertion: assertion, username: app.user.get('username'), _csrf: token}, (data)->
+        input =
+          assertion: assertion
+          username: app.user.get('username')
+          _csrf: $('#token').val()
+        $.post app.API.auth.login, input, (data)->
           if typeof data is 'object'
             # will get user data on reload's fetch
             window.location.reload()
@@ -28,14 +31,17 @@ initializePersona = (app)->
   else
     console.log 'Persona Login not available: you might be offline'
 
-  app.commands.setHandler 'persona:login', -> navigator.id.request()
-  app.commands.setHandler 'persona:logout', ->
-    $.post "/auth/logout", (data)->
-      window.location.reload()
-      console.log "You have been logged out"
+  app.commands.setHandlers
+    'persona:login': -> navigator.id.request()
+    'persona:logout': ->
+      $.post app.API.auth.logout, (data)->
+        window.location.reload()
+        console.log "You have been logged out"
 
 recoverUserData = (app)->
+  _.log $.cookie('email'), 'email cookie'
   if $.cookie('email')?
+    _.log app.user, 'user before fetch'
     app.user.fetch()
     app.user.loggedIn = true
     app.user.trigger('change', app.user)
@@ -56,15 +62,15 @@ initializeAccountMenu = (app)->
       app.layout.accountMenu.show new app.View.NotLoggedMenu
 
 initializeSignupLoginProcess = (app)->
-  app.commands.setHandler 'signup:request', ->
-    app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
+  app.commands.setHandlers
+    'signup:request': ->
+      app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
 
-  app.commands.setHandler 'signup:validUsername', ->
-    console.log 'signup:validUsername'
-    app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
+    'signup:validUsername': ->
+      app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
 
-  app.commands.setHandler 'login:request', ->
-    app.layout.modal.show new app.View.Login.Step1 {model: app.user}
+    'login:request': ->
+      app.layout.modal.show new app.View.Login.Step1 {model: app.user}
 
-  app.commands.setHandler 'user:edit', ->
-    app.layout.main.show new app.View.EditUser {model: app.user}
+    'user:edit': ->
+      app.layout.main.show new app.View.EditUser {model: app.user}

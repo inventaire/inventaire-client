@@ -72,7 +72,7 @@ filterContacts = (text)->
       return model.matches filterExpr
 
 queryContacts = (text)->
-  $.getJSON "/api/users?#{text}"
+  $.getJSON app.API.contacts.search(text)
   .done (res)->
     res.forEach (contact)->
       app.contacts.add contact if isRelevant.call contact
@@ -120,7 +120,7 @@ unfollowContact = (contactId)->
 
 fetchContactItems = ->
   _.log username = @get('username'), 'fetch contacts items'
-  $.getJSON "/api/#{@id}/items"
+  $.getJSON app.API.contacts.items(@id)
   .done (res)->
     res.forEach (item)->
       itemModel = app.items.add item

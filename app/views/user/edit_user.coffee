@@ -13,7 +13,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     if username == app.user.get('username')
       @invalidUsername("that's already your username")
     else
-      $.post('/auth/username', {username: username})
+      $.post app.API.auth.username, {username: username}
       .then (res)=>
         @model.set('username', res.username)
         @$el.find('.fa-check-circle').slideDown(300).fadeOut(800)

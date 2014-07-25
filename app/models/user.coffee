@@ -3,7 +3,8 @@ module.exports = class User extends Backbone.Model
     contacts: []
   #   language: window.navigator.language || 'en'
 
-  url: -> 'user'
+  url: ->
+    app.API.auth.user
 
   update: =>
     @sync 'update', @

@@ -15,7 +15,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     console.log 'verifyUsername'
     e.preventDefault()
     username = $('#username').val()
-    $.post('/auth/username', {username: username})
+    $.post app.API.auth.username, {username: username}
     .then (res)=>
       @model.set('username', res.username)
       @$el.trigger 'check', -> app.commands.execute 'signup:validUsername'

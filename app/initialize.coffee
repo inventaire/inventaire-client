@@ -10,6 +10,10 @@ Backbone.Model.prototype.idAttribute = '_id'
 $ ->
   app.initialize()
   window.app = app
+  _.extend app, require 'structure'
+  app.Lib.EventLogger.call app
+
+  app.layout = new app.Layout.App
 
   app.module 'foundation', app.Module.Foundation(app.Foundation, app, Backbone, Marionette, $, _)
 
@@ -20,3 +24,5 @@ $ ->
   else
     welcome = new app.View.Welcome
     app.layout.main.show welcome
+
+
