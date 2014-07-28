@@ -68,6 +68,13 @@ $contact-bg: #ddd;
   }
 }
 
+#preview{
+  background-color: #eee;
+  .book{
+    padding: 1rem;
+  }
+}
+
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {

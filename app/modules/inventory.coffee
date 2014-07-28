@@ -12,10 +12,18 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
-  app.commands.setHandler 'item:edit', editItem
+  app.layout.item = {}
+  app.commands.setHandlers
+    'item:create': createItem
+    'item:edit': editItem
+
+createItem = ()->
+  form = app.layout.item.creation = new app.View.ItemCreationForm
+  app.layout.modal.show form
 
 editItem = (itemModel)->
-  app.layout.modal.show new app.View.ItemEditionForm {model: itemModel}
+  form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
+  app.layout.modal.show form
 
 initializeFilters = (app)->
   app.Filters =
@@ -87,23 +95,24 @@ textFilter = (text)->
 
 # VIEWS
 initializeInventoriesHandlers = (app)->
-  app.commands.setHandler 'personalInventory', ->
-    app.inventory.viewTools.show new app.View.PersonalInventoryTools
-    app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
-    app.commands.execute 'filter:inventory:personal'
-    app.inventory.itemsView.show itemsList
-    app.inventory.sideMenu.show new app.View.VisibilityTabs
+  app.commands.setHandlers
+    'personalInventory': ->
+      app.inventory.viewTools.show new app.View.PersonalInventoryTools
+      app.inventory.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
+      app.commands.execute 'filter:inventory:personal'
+      app.inventory.itemsView.show itemsList
+      app.inventory.sideMenu.show new app.View.VisibilityTabs
 
-  app.commands.setHandler 'networkInventories', ->
-    app.commands.execute 'filter:inventory:network'
-    app.inventory.viewTools.show new app.View.ContactsInventoriesTools
-    app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
+    'networkInventories': ->
+      app.commands.execute 'filter:inventory:network'
+      app.inventory.viewTools.show new app.View.ContactsInventoriesTools
+      app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
 
-  app.commands.setHandler 'publicInventories', ->
-    app.commands.execute 'filter:inventory:public'
-    console.log '/!\\ fake publicInventories filter'
-    app.inventory.viewTools.show new app.View.ContactsInventoriesTools
-    app.inventory.sideMenu.empty()
+    'publicInventories': ->
+      app.commands.execute 'filter:inventory:public'
+      console.log '/!\\ fake publicInventories filter'
+      app.inventory.viewTools.show new app.View.ContactsInventoriesTools
+      app.inventory.sideMenu.empty()
 
 showInventory = (app)->
   app.inventory = new app.View.Inventory

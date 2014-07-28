@@ -1,13 +1,16 @@
 module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
   template: require 'views/items/templates/item_form'
   onShow: -> app.commands.execute 'modal:open'
-  ui:
-    check: '.check'
   behaviors:
     SuccessCheck: {}
   events:
     'click #validate': 'updateItem'
     'click #cancel': -> app.commands.execute 'modal:close'
+
+  serializeData: ->
+    attrs = @model.toJSON()
+    attrs.status = 'Edit item'
+    return attrs
 
   updateItem: (e)->
     e.preventDefault()
@@ -18,7 +21,7 @@ module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
 
     unless _.isEmpty @model.changed
       @model.save()
-      .then (res)->
+      .then (res)=>
         _.log res, 'item successfully saved to the server!'
         @$el.trigger 'check', -> app.commands.execute 'modal:close'
       .fail (err)-> _.log err, 'server error:'

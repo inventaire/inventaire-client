@@ -30,6 +30,9 @@ $success-color: #43AC6A;
 .grey{
   color: #888;
 }
+.white{
+  color: #fff;
+}
 
 // OPACITY MIXINS
 div.hidden {
@@ -62,7 +65,6 @@ $button-margin-bottom: 0rem;
 .has-tip{
   display: inline-block;
 }
-
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
