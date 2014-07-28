@@ -45,14 +45,3 @@ module.exports =
     User: require 'modules/user'
     Inventory: require 'modules/inventory'
     Contacts: require 'modules/contacts'
-
-  API:
-    auth:
-      login: '/api/auth/login'
-      logout: '/api/auth/logout'
-      user: '/api/auth/user'
-      username: '/api/auth/username'
-    contacts:
-      contacts: 'api/contacts'
-      items: (id)-> "/api/#{id}/items"
-      search: (text)-> "/api/users?#{text}"

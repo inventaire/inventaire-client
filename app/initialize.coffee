@@ -1,4 +1,4 @@
-require('lib/handlebars_partial_helper')()
+require('lib/handlebars_helpers').initialize()
 app = require 'app'
 
 _.extend _, require 'lib/utils'
@@ -10,6 +10,13 @@ Backbone.Model.prototype.idAttribute = '_id'
 $ ->
   app.initialize()
   window.app = app
+
+  # gets all the routes used in the app
+  app.API = require 'api'
+
+  # makes all the require's accessible from app
+  # might be dramatically heavy from start though
+  # -> should be refactored to make them functions called at run-time?
   _.extend app, require 'structure'
   app.Lib.EventLogger.call app
 
@@ -24,5 +31,3 @@ $ ->
   else
     welcome = new app.View.Welcome
     app.layout.main.show welcome
-
-

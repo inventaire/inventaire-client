@@ -2,8 +2,6 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/user/templates/signup_step1'
   onShow: -> app.commands.execute 'modal:open'
-  ui:
-    check: '.check'
   behaviors:
     SuccessCheck: {}
 

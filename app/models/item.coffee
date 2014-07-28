@@ -24,16 +24,10 @@ module.exports = class Item extends Backbone.Model
     #       ]
   url: ->
     # keeps the url built at runtime to follow revs evolution
-    # which are needed to be in the url forD ELETE
+    # which are needed to be in the url for DELETE
     @updatedUrl()
 
-  updatedUrl: ->
-    owner = @get 'owner'
-    rev = @get '_rev'
-    if rev?
-      return "api/#{owner}/items/#{@id}/#{rev}"
-    else
-      return "api/#{owner}/items/#{@id}"
+  updatedUrl: -> app.API.items.item @get('owner'), @id, @get('_rev')
 
   initialize: ->
     @username = app.request('getUsernameFromId', @get('owner'))

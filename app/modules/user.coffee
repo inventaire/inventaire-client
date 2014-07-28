@@ -39,6 +39,7 @@ initializePersona = (app)->
         console.log "You have been logged out"
 
 recoverUserData = (app)->
+  _.log $.cookie('testcookie'), 'testcookie'
   _.log $.cookie('email'), 'email cookie'
   if $.cookie('email')?
     _.log app.user, 'user before fetch'
