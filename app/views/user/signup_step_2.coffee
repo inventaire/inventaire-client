@@ -6,7 +6,6 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
     'click #backToStepOne': 'backToStepOne'
 
   backToStepOne: (e)->
-    e.preventDefault()
     app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
 
 

@@ -8,7 +8,6 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
   #   'click #loginPersona': -> app.execute 'persona:login'
 
   verifyUsername: (e)->
-    e.preventDefault()
     username = $('#username').val()
     if username == app.user.get('username')
       @invalidUsername("that's already your username")
