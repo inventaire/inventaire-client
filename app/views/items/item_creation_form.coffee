@@ -5,8 +5,6 @@ ValidationButtons = require 'views/items/form/validation_buttons'
 
 module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
   template: require "views/items/templates/item_form"
-  ui:
-    check: '.check'
 
   regions:
     step1: '#step1'
@@ -15,26 +13,25 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
     validation: '#validation'
 
   categories:
-    label: {text: '-- What kind of object is it? --', value: 'label'}
-    book: {text: 'book', value: 'book'}
+    book: {text: 'book', value: 'book', icon: 'book'}
     other: {text: 'something else', value: 'other'}
 
   onShow: ->
     app.commands.execute 'modal:open'
     @step1.show new CategoryMenu {model: @categories}
-    # @validation.show new ValidationButtons
 
   behaviors:
     SuccessCheck: {}
 
   events:
-    'change #category': 'showStep2'
+    'click .category': 'showStep2'
     'click #validate': 'validateNewItemForm'
     'click #cancel': -> app.commands.execute 'modal:close'
 
-  showStep2: ->
-    selected = $('#category').val()
-    switch selected
+  showStep2: (e)->
+    @preview.empty()
+    @validation.empty()
+    switch e.currentTarget.id
       when 'label' then @step2.empty()
       when 'book' then @step2.show new Book
       when 'other' then @step2.show new Other
@@ -45,12 +42,9 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
   validateNewItemForm: (e)->
     e.preventDefault()
     newItem =
-      _id: app.Lib.idGenerator(6)
       title: $('#title').val()
       comment: $('#comment').val()
-      owner: app.user.get('_id')
-      created: new Date()
-
-    itemModel = app.items.create newItem
-    itemModel.username = app.user.get('username')
-    @$el.trigger 'check', -> app.commands.execute 'modal:close'
+    if app.request('item:validateCreation', newItem)
+      @$el.trigger 'check', -> app.commands.execute 'modal:close'
+    else
+      console.error 'invalid item data'

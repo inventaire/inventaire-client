@@ -30,7 +30,9 @@ module.exports = class Item extends Backbone.Model
   updatedUrl: -> app.API.items.item @get('owner'), @id, @get('_rev')
 
   initialize: ->
-    @username = app.request('getUsernameFromId', @get('owner'))
+    owner = @get('owner')
+    @username = app.request('getUsernameFromId', owner)
+    @profilePic = app.request('getProfilePicFromId', owner)
     @restricted= true unless @get('owner') is app.user.id
 
   matches: (expr) ->

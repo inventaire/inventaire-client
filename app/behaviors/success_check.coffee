@@ -8,6 +8,6 @@ module.exports = class SuccessCheck extends Marionette.Behavior
   showSuccessCheck: (e, cb)->
     _.log 'CHECK!'
     @ui.check
-    .html "<i class='fa fa-check-circle hidden text-center'></i>"
-    .slideDown(400)
+    .html "<i class='fa fa-check-circle text-center'></i>"
+    .slideDown(300)
     setTimeout cb, 600

@@ -3,6 +3,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   template: require 'views/user/templates/signup_step1'
   onShow: -> app.commands.execute 'modal:open'
   behaviors:
+    AlertBox: {}
     SuccessCheck: {}
 
   events:
@@ -17,16 +18,13 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     .then (res)=>
       @model.set('username', res.username)
       @$el.trigger 'check', -> app.commands.execute 'signup:validUsername'
-    .fail(@invalidUsername)
+    .fail (err)=>
+      @invalidUsername(err)
 
-  invalidUsername: (err)->
+  invalidUsername: (err)=>
     errMessage = err.responseJSON.status_verbose || "invalid"
-    close = "<a href='#' class='close'>&times;</a>"
-    $('#usernamePicker .input-alert').addClass('alert-box')
-    .hide().slideDown(200).html(errMessage + close)
+    @$el.trigger 'alert', {message: errMessage}
 
 
   closeAlertBoxIfVisible: ->
-    alertbox = @$el.find('.input-alert')
-    if alertbox.is(':visible')
-      alertbox.find('.close').trigger('click')
+    @$el.trigger 'hideAlertBox'

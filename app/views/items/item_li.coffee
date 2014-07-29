@@ -1,6 +1,6 @@
 module.exports = class ItemLi extends Backbone.Marionette.ItemView
   tagName: "li"
-  className: "item row"
+  className: "itemLi row"
   template: require 'views/items/templates/item_li'
 
   initialize: ->
@@ -13,6 +13,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   serializeData: ->
     attrs = @model.toJSON()
     attrs.username = @model.username
+    attrs.profilePic = @model.profilePic
     attrs.restricted = @model.restricted
     return attrs
 

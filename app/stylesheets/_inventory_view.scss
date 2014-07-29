@@ -21,6 +21,30 @@ $sub-nav-active-bg: #aaa;
   padding: 10px;
 }
 
+.profilePic{
+  height: 2rem;
+}
+
+
+$item-li-height: 7rem;
+.itemLiWrapper{
+  height: $item-li-height;
+  margin-bottom: 1rem;
+  .cover{
+    background-color: #eee;
+  }
+  .desc{
+    padding: 1rem;
+    background-color: #eee;
+    min-height: $item-li-height
+  }
+  .comment{
+  }
+  img{
+    max-height: $item-li-height;
+  }
+}
+
 // SIDE MENU
 $visibility-tabs-bg: #888;
 

@@ -17,6 +17,9 @@ fetchItems = (app)->
     'item:create': createItem
     'item:edit': editItem
 
+  app.reqres.setHandlers
+    'item:validateCreation': validateCreation
+
 createItem = ()->
   form = app.layout.item.creation = new app.View.ItemCreationForm
   app.layout.modal.show form
@@ -24,6 +27,19 @@ createItem = ()->
 editItem = (itemModel)->
   form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
   app.layout.modal.show form
+
+validateCreation = (itemData)->
+  if itemData.title? && itemData.title isnt ''
+    _.extend itemData, {
+      _id: app.Lib.idGenerator(6)
+      created: new Date()
+      owner: app.user.get('_id')
+    }
+    itemModel = app.items.create itemData
+    itemModel.username = app.user.get('username')
+    return true
+  else
+    return false
 
 initializeFilters = (app)->
   app.Filters =

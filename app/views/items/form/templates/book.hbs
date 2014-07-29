@@ -1,8 +1,33 @@
-<h3 class="with-tip text-left">ISBN</h3>
+<hr>
+<h3>Find by</h3>
+
+<h4 class="with-tip">Title</h4>
+<span data-tooltip class="has-tip tip-right" title="you know, the books' title"><i class="fa fa-question-circle"></i></span>
+<div class="row collapse">
+  <div class="small-9 columns">
+    <input id="titleInput" class="has-alertbox" type='text' placeholder='ex: Tintin et les Picaros'>
+  </div>
+  <div class="small-3 columns">
+    <span id="titleButton" class="success button postfix">Search <span class='loading'></span></span>
+  </div>
+</div>
+
+<h4 class="with-tip">Author</h4>
+<span data-tooltip class="has-tip tip-right" title="you know, the books' title"><i class="fa fa-question-circle"></i></span>
+<div class="row collapse">
+  <div class="small-9 columns">
+    <input id="authorInput" class="has-alertbox" type='text' placeholder='ex: Antoine de Saint-Exupery'>
+  </div>
+  <div class="small-3 columns">
+    <span id="authorButton" class="success button postfix">Search <span class='loading'></span></span>
+  </div>
+</div>
+
+<h4 class="with-tip">ISBN</h4>
 <span data-tooltip class="has-tip tip-right" title='"International Standard Book Number": Every book has a code of either 10 or 13 digits, often written close to the barcode'><i class="fa fa-question-circle"></i></span>
 <div class="row collapse">
   <div class="small-9 columns">
-    <input id="isbn" type='text' placeholder='ex: 978-2070342266' value="{{isbn}}">
+    <input id="isbnInput" class="has-alertbox" type='text' placeholder='ex: 978-2070342266'>
   </div>
   <div class="small-3 columns">
     <span id="isbnButton" class="success button postfix">Search <span class='loading'></span></span>

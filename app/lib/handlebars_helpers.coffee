@@ -9,10 +9,14 @@ module.exports =
       new Handlebars.SafeString template context
 
 
-    register 'firstElement', (array) ->
-      return array[0]
+    register 'firstElement', (obj) ->
+      if _.isArray obj
+        return obj[0]
+      else if typeof obj is 'string'
+        return obj
+      else
+        return
 
     register 'icon', (name) ->
-      if name?
-        return name
-      else return'cube'
+      name = name || 'cube'
+      new Handlebars.SafeString "<i class='fa fa-#{name}'></i>"

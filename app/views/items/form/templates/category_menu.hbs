@@ -1,6 +1,6 @@
-  <h3>Category</h3>
-  <select id="category">
-    {{#each this}}
-      <option value="{{value}}">{{text}}</option>
-    {{/each}}
-  </select>
+<h3>Category</h3>
+<ul class="button-group">
+  {{#each this}}
+    <li><a id="{{value}}" class="category button grey">{{icon icon}} {{text}}</a></li>
+  {{/each}}
+</ul>
