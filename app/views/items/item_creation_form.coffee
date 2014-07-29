@@ -40,7 +40,6 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
     return { status: 'Add a new item to your Inventory' }
 
   validateNewItemForm: (e)->
-    e.preventDefault()
     newItem =
       title: $('#title').val()
       comment: $('#comment').val()

@@ -8,6 +8,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     modal: "#modalContent"
 
   events:
+    'click': 'preventDefault'
     'click a.close': 'closeAlertBox'
 
   initialize: (e)->
@@ -18,3 +19,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     e.preventDefault()
     console.log $(e.target)
     $(e.target).parent('div .alert-box').hide()
+
+  preventDefault: (e)->
+    e.preventDefault()

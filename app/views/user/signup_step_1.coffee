@@ -11,8 +11,6 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     'keydown #username': 'closeAlertBoxIfVisible'
 
   verifyUsername: (e)->
-    console.log 'verifyUsername'
-    e.preventDefault()
     username = $('#username').val()
     $.post app.API.auth.username, {username: username}
     .then (res)=>
@@ -22,7 +20,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       @invalidUsername(err)
 
   invalidUsername: (err)=>
-    errMessage = err.responseJSON.status_verbose || "invalid"
+    errMessage = err.responseJSON.status_verbose || "invalid username"
     @$el.trigger 'alert', {message: errMessage}
 
 
