@@ -31,7 +31,7 @@ editItem = (itemModel)->
 validateCreation = (itemData)->
   if itemData.title? && itemData.title isnt ''
     _.extend itemData, {
-      _id: app.Lib.idGenerator(6)
+      _id: _.idGenerator(6)
       created: new Date()
       owner: app.user.get('_id')
     }

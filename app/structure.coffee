@@ -37,7 +37,6 @@ module.exports =
       List: require 'views/contacts/contacts_list'
 
   Lib:
-    idGenerator: require 'lib/id_generator'
     EventLogger: require 'lib/event_logger'
 
   Module:
