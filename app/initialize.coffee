@@ -7,11 +7,12 @@ _.extend _, require 'lib/utils'
 Backbone.Model.prototype.idAttribute = '_id'
 
 Backbone.Marionette.View.prototype.addMultipleSelectorEvents = ->
+  # expects multipleSelectorEvents to be an array of triples:
+  # [[event, [selector, ..], handler], ..]
   if @multipleSelectorEvents?
     @multipleSelectorEvents.forEach (multipleEventsArray)=>
         multipleEventsArray[1].forEach (selector)=>
           @events["#{multipleEventsArray[0]} #{selector}"] = multipleEventsArray[2]
-  _.log @events, 'events post getMultipleSelectorEvents call'
 
 # Initialize the application on DOM ready event.
 $ ->
