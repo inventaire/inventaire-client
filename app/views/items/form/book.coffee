@@ -1,4 +1,4 @@
-BookLi = require 'views/items/book_li'
+ResultsList = require 'views/entities/results_list'
 
 module.exports = class Book extends Backbone.Marionette.ItemView
   template: require 'views/items/form/templates/book'
@@ -6,14 +6,18 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     AlertBox: {}
     Loading: {}
     SuccessCheck: {}
+  initialize: -> @addMultipleSelectorEvents()
   events:
-    'keyup #titleInput': 'onKeyup'
-    'keyup #authorInput': 'onKeyup'
-    'keyup #isbnInput': 'onKeyup'
+    'click #titleButton': 'titleSearch'
+    'click #authorButton': 'authorSearch'
     'click #isbnButton': 'isbnSearch'
 
+  multipleSelectorEvents:
+    [['keyup', ['#titleInput', '#authorInput', '#isbnInput'],'onKeyup']]
+
+  onShow: -> app.commands.execute 'foundation:reload'
+
   onKeyup: (e)->
-    _.log 'keyup'
     if @$el.find('.alert-box').is(':visible')
       @$el.trigger 'hideAlertBox'
     if e.keyCode is 13 && $(e.currentTarget).val().length isnt ''
@@ -21,28 +25,43 @@ module.exports = class Book extends Backbone.Marionette.ItemView
         when 'titleInput' then @titleSearch(e)
         when 'authorInput' then @authorSearch(e)
         when 'isbnInput' then @isbnSearch(e)
-    else
-      _.log 'not enter'
 
   titleSearch: (e)->
-    _.log 'titleSearch'
+    query = $('#titleInput').val()
+    @queryAPI 'title', query, notEmpty
 
   authorSearch: (e)->
-    _.log 'authorSearch'
+    query = $('#authorInput').val()
+    @queryAPI 'author', query, notEmpty
 
   isbnSearch: (e)->
-    query = $('#isbnInput').val()
-    if query.trim().length > 9
-      @$el.trigger 'loading', {selector: '#isbnButton'}
-      $.getJSON "#{app.API.entities.search}?isbn=#{query}"
-      .then (res)=>
-        _.log res, 'res'
-        @book = new Backbone.Model res
-        bookLi = new BookLi {model: @book}
-        app.layout.item.creation.preview.show bookLi
-        @$el.trigger 'stopLoading', {selector: '#isbnButton'}
+    query = $('#isbnInput').val().trim().replace(/-/g, '').replace(/\s/g, '')
+    @queryAPI 'isbn', query, validISBN
+
+  queryAPI: (domain, query, validityTest)=>
+    input = "##{domain}Input"
+    button = "##{domain}Button"
+    if validityTest(query)
+      _.log query, 'valid query'
+      @$el.trigger 'loading', {selector: button}
+      $.getJSON "#{app.API.entities.search}?#{domain}=#{query}"
+      .then (resultsArray)=>
+        _.log resultsArray, 'resultsArray'
+        @results = new Backbone.Collection resultsArray
+        resultsList = new ResultsList {collection: @results}
+        app.layout.item.creation.preview.show resultsList
+        @$el.trigger 'stopLoading', {selector: button}
       .fail (err)=>
-        @$el.trigger 'stopLoading', {selector: '#isbnButton'}
-        @$el.trigger('alert', {selector: '#isbnInput', message: 'no item found'})
+        _.log err, 'err'
+        _.log [input, button], 'values'
+        @$el.trigger 'stopLoading', {selector: button}
+        @$el.trigger 'alert', {selector: input, message: 'no item found'}
+      .done()
     else
-      @$el.trigger('alert', {selector: '#isbnInput', message: 'invalid isbn'})
+      _.log [input, button], 'rejected'
+      @$el.trigger 'alert', {selector: input, message: "invalid #{domain}"}
+
+  notEmpty = (query)-> query.length > 0
+
+  # why the Regexp doesn't catch the empty case?
+  validISBN = (query)-> notEmpty(query) && /^([0-9]{10}||[0-9]{13})$/.test query

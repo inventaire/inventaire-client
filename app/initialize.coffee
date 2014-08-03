@@ -6,6 +6,13 @@ _.extend _, require 'lib/utils'
 #changing the default attribute to fit CouchDB
 Backbone.Model.prototype.idAttribute = '_id'
 
+Backbone.Marionette.View.prototype.addMultipleSelectorEvents = ->
+  if @multipleSelectorEvents?
+    @multipleSelectorEvents.forEach (multipleEventsArray)=>
+        multipleEventsArray[1].forEach (selector)=>
+          @events["#{multipleEventsArray[0]} #{selector}"] = multipleEventsArray[2]
+  _.log @events, 'events post getMultipleSelectorEvents call'
+
 # Initialize the application on DOM ready event.
 $ ->
   app.initialize()
