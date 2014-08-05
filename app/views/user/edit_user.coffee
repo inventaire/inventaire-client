@@ -6,8 +6,10 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     SuccessCheck: {}
     ConfirmationModal: {}
 
+  serializeData: -> return _.extend {buttonLabel: 'Change Username'}, @model.toJSON
+
   events:
-    'click #changeUsername': 'verifyUsername'
+    'click #verifyUsername': 'verifyUsername'
 
   verifyUsername: (username)=>
     requestedUsername = $('#username').val()

@@ -6,17 +6,8 @@
       <h3 class="with-tip">Step 1: Choose a username</h3>
       <span data-tooltip class="has-tip tip-right" title="Username can be anything made of 1 to 20 letters, figures or _"><i class="fa fa-question-circle"></i></span>
 
-
-      <form class="row collapse">
-        <div class="large-7 small-12 columns">
-          <input id="username" class="has-alertbox" type="text" autocorrect="off" autocapitalize="off" autocomplete="off" placeholder='username...' value="{{username}}">
-        </div>
-
-        <div class="large-4 small-6 centered columns">
-          <input type="submit" class="button success postfix" id="verifyUsername" value="Validate">
-        </div>
-        <div class="check large-1 small-12 centered columns"></div>
-      </form>
+      {{partial '../user/templates/username_picker' this}}
+      <div class="check large-1 small-12 centered columns"></div>
 
     </div>
 
