@@ -9,16 +9,15 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   events:
     'click': 'preventDefault'
-    'click a.close': 'closeAlertBox'
+    'keyup .enterClick': 'enterClick'
 
   initialize: (e)->
     @render()
 
-  ############ ERRORS ############
-  closeAlertBox: (e)->
-    e.preventDefault()
-    console.log $(e.target)
-    $(e.target).parent('div .alert-box').hide()
-
   preventDefault: (e)->
     e.preventDefault()
+
+  enterClick: (e)->
+    _.log 'enterClick!'
+    if e.keyCode is 13 && $(e.currentTarget).val().length > 0
+      $(e.currentTarget).parents('.row').find('.button').trigger 'click'

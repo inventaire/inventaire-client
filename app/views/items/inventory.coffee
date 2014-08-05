@@ -9,15 +9,17 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
 
   events:
     # not delegated to tools view as used in several ones
-    'keyup #itemsTextFilterField': ->
-      app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
-    'click #itemsTextFilterButton': ->
-      app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
-    'keyup #contactSearchField': ->
-      app.commands.execute 'contactSearch', $('#contactSearchField').val()
-    'click #contactSearchButton': ->
-      app.commands.execute 'contactSearch', $('#contactSearchField').val()
+    'keyup #itemsTextFilterField': 'executeTextFilter'
+    'click #itemsTextFilterButton': 'executeTextFilter'
+    'keyup #contactSearchField': 'executeContactSearch'
+    'click #contactSearchButton': 'executeContactSearch'
 
   onShow: ->
     app.inventory.topMenu.show new app.View.InventoriesTabs
     app.commands.execute 'personalInventory'
+
+  executeTextFilter: ->
+    app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
+
+  executeContactSearch: ->
+    app.commands.execute 'contactSearch', $('#contactSearchField').val()
