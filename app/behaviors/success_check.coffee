@@ -4,10 +4,13 @@ module.exports = class SuccessCheck extends Marionette.Behavior
 
   events:
     "check": "showSuccessCheck"
+    "fail": "showFail"
 
-  showSuccessCheck: (e, cb)->
-    _.log 'CHECK!'
+  showSuccessCheck: (e, cb)-> @showSignal cb, 'check-circle'
+  showFail: (e, cb)-> @showSignal cb, 'times-circle'
+
+  showSignal: (cb, signal)->
     @ui.check
-    .html "<i class='fa fa-check-circle text-center'></i>"
+    .html "<i class='fa fa-#{signal} text-center'></i>"
     .slideDown(300)
     setTimeout cb, 600

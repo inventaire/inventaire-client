@@ -35,6 +35,8 @@ module.exports =
       Li: require 'views/contacts/contact_li'
       No: require 'views/contacts/no_contact'
       List: require 'views/contacts/contacts_list'
+    Behaviors:
+      ConfirmationModal: require 'views/behaviors/confirmation_modal'
 
   Lib:
     EventLogger: require 'lib/event_logger'

@@ -5,19 +5,14 @@
     <div id="usernamePicker">
       <h3 class="with-tip">Username</h3>
       <span data-tooltip class="has-tip tip-right" title="Username can be anything made of 1 to 20 letters, figures or _"><i class="fa fa-question-circle"></i></span>
-      <p class="grey"><i class="fa fa-warning"></i> You shouldn't change your username too often, as it's the way others can find you</p>
-
 
       <form class="row collapse">
         <div class="large-7 small-12 columns">
-          <input id="username" type="text" autocorrect="off" autocapitalize="off" autocomplete="off" placeholder='username...' value="{{username}}">
-          <div class="input-alert hidden alert-box alert">
-          </div>
+          <input id="username" class="has-alertbox" type="text" autocorrect="off" autocapitalize="off" autocomplete="off" placeholder='username...' value="{{username}}">
         </div>
 
         <div class="large-4 small-6 centered columns">
-          <input type="submit" class="button secondary postfix" id="verifyUsername" value="Check availability">
-          <input type="submit" class="button success postfix hidden" id="changeUsername" value="Change username">
+          <input type="submit" class="button success postfix" id="changeUsername" value="Change username">
         </div>
         <div class="large-1 small-12 centered columns">
           <i class="fa fa-check-circle hidden"></i>

@@ -3,6 +3,7 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
   initializePersona(app)
   app.user = new app.Model.User
   recoverUserData(app)
+  initializeUserEditionCommands(app)
 
   # VIEWS
   initializeAccountMenu(app)
@@ -25,18 +26,21 @@ initializePersona = (app)->
             # will get user data on reload's fetch
             window.location.reload()
           else
-            console.log 'error onlogin: invalid data'
+            _.log 'error onlogin: invalid data'
       onlogout: ()->
         app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
-  else
-    console.log 'Persona Login not available: you might be offline'
+  else unreachablePersona()
 
   app.commands.setHandlers
-    'persona:login': -> navigator.id.request()
+    'persona:login': ->
+      if navigator.id? then navigator.id.request()
+      else unreachablePersona()
     'persona:logout': ->
       $.post app.API.auth.logout, (data)->
         window.location.reload()
-        console.log "You have been logged out"
+        _.log "You have been successfully logged out"
+
+unreachablePersona = -> console.error 'Persona Login not available: you might be offline'
 
 recoverUserData = (app)->
   _.log $.cookie('testcookie'), 'testcookie'
@@ -52,6 +56,11 @@ recoverUserData = (app)->
     # triggers a change to update the account menu
     app.user.trigger('change', app.user)
 
+initializeUserEditionCommands = (app)->
+  app.reqres.setHandlers
+    'user:update': (options)->
+      app.user.set options.fieldName, options.value
+      return app.user.save()
 
 # VIEWS
 

@@ -20,3 +20,6 @@ module.exports =
     register 'icon', (name) ->
       name = name || 'cube'
       new Handlebars.SafeString "<i class='fa fa-#{name}'></i>"
+
+    register 'safe', (text) ->
+      new Handlebars.SafeString text

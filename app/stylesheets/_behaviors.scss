@@ -1,3 +1,17 @@
 .check{
   display: none;
 }
+
+.fa-check-circle{
+  color: $success-color;
+  font-size: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.2rem;
+}
+
+.fa-times-circle{
+  color: $warning-color;
+  font-size: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.2rem;
+}
