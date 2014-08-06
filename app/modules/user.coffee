@@ -3,6 +3,7 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
   initializePersona(app)
   app.user = new app.Model.User
   recoverUserData(app)
+  initializeUserI18nSettings(app)
   initializeUserEditionCommands(app)
 
   # VIEWS
@@ -11,7 +12,6 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
 
 
 # LOGIC
-
 initializePersona = (app)->
   if navigator.id?
     navigator.id.logout()
@@ -55,6 +55,14 @@ recoverUserData = (app)->
     app.user.loggedIn = false
     # triggers a change to update the account menu
     app.user.trigger('change', app.user)
+
+initializeUserI18nSettings = (app)->
+  app.user.on 'change:language', (data)->
+    if (lang = app.user.get('language')) isnt app.polyglot.currentLocale
+      _.log lang, 'user data change: i18n change requested'
+      app.request 'i18n:set', lang
+      _.setCookie 'lang', lang
+
 
 initializeUserEditionCommands = (app)->
   app.reqres.setHandlers

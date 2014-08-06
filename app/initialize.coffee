@@ -29,14 +29,18 @@ $ ->
   _.extend app, require 'structure'
   app.Lib.EventLogger.call app
 
-  app.layout = new app.Layout.App
-
-  app.module 'foundation', app.Module.Foundation(app.Foundation, app, Backbone, Marionette, $, _)
-
+  app.Lib.i18n.initialize(app)
   app.module 'user', app.Module.User(app.user, app, Backbone, Marionette, $, _)
-  if app.user.loggedIn
-    app.module 'contacts', app.Module.Contacts(app.Contacts, app, Backbone, Marionette, $, _)
-    app.module 'inventory', app.Module.Inventory(app.Inventory, app, Backbone, Marionette, $, _)
-  else
-    welcome = new app.View.Welcome
-    app.layout.main.show welcome
+  app.request('i18n:set')
+  .done ->
+
+    # initialize layout after user to get i18n data
+    app.layout = new app.Layout.App
+    app.module 'foundation', app.Module.Foundation(app.Foundation, app, Backbone, Marionette, $, _)
+
+    if app.user.loggedIn
+      app.module 'contacts', app.Module.Contacts(app.Contacts, app, Backbone, Marionette, $, _)
+      app.module 'inventory', app.Module.Inventory(app.Inventory, app, Backbone, Marionette, $, _)
+    else
+      welcome = new app.View.Welcome
+      app.layout.main.show welcome

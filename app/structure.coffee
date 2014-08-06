@@ -40,6 +40,7 @@ module.exports =
 
   Lib:
     EventLogger: require 'lib/event_logger'
+    i18n: require 'lib/i18n'
 
   Module:
     Foundation: require 'modules/foundation'

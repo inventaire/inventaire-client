@@ -6,7 +6,7 @@ module.exports =
       else
         console.log obj
     else
-      console.log "----- #{label} -----" if label?
+      console.log "===== #{label} =====" if label?
       console.log obj
       console.log "-----" if label?
 
@@ -30,3 +30,8 @@ module.exports =
       text += possible.charAt(Math.floor(Math.random() * possible.length))
       i++
     return text
+
+  setCookie: (key, value)->
+    $.post '/api/cookie', {key: key, value: value}
+    .then (res)-> _.log res, 'server res on setCookie'
+    .fail (err)-> console.error "setCookie failed: #{key} - #{value}"

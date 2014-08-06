@@ -23,3 +23,5 @@ module.exports =
 
     register 'safe', (text) ->
       new Handlebars.SafeString text
+
+    register 'i18n', (key)-> app.polyglot.t key
