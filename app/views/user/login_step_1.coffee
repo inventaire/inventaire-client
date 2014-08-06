@@ -4,4 +4,11 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   onShow: ->
     app.commands.execute 'modal:open'
   events:
-    'click #loginPersona': -> app.execute 'persona:login'
+    'click #loginPersona': 'waitingForPersona'
+  behaviors:
+    Loading: {}
+
+  waitingForPersona:->
+    app.execute 'persona:login'
+    @$el.trigger 'loading',
+      message: app.polyglot.t('a popup should now open to let you verify your credentials')

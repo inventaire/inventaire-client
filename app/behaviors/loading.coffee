@@ -7,11 +7,18 @@ module.exports = class Loading extends Marionette.Behavior
     "stopLoading": "hideSpinningLoader"
 
   showSpinningLoader: (e, params)->
-    if params.selector?
+    _.log params, 'showSpinningLoader params'
+    if params?.selector?
       $target = $(params.selector).find('.loading')
     else
       $target = @ui.loading
-    $target.html "<i class='fa fa-circle-o-notch fa-spin'></i>"
+
+    body = "<i class='fa fa-circle-o-notch fa-spin'></i>"
+    if params?.message?
+      mes = params.message
+      body += "<p class='grey'>#{mes}</p>"
+
+    $target.html body
 
   hideSpinningLoader: ->
     @ui.loading.empty()
