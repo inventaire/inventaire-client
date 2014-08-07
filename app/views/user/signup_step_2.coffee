@@ -17,4 +17,4 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
   waitingForPersona:->
     app.execute 'persona:login'
     @$el.trigger 'loading',
-      message: app.polyglot.t('a popup should now open to let you verify your credentials')
+      message: _.i18n('a popup should now open to let you verify your credentials')

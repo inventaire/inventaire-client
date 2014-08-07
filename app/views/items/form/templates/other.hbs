@@ -1,6 +1,6 @@
 <hr>
-<h4>Title</h4>
-<input id="title" type='text' placeholder='My new item' value="{{title}}">
+<h4>{{i18n 'Title'}}</h4>
+<input id="title" type='text' placeholder="{{i18n 'My new item'}}" value="{{title}}">
 {{!-- <h4 for="Tags" class="text-left">Tags</h4>
 <input id="tags" type='text' placeholder='(optional)'> --}}
 
@@ -20,5 +20,5 @@
   <option value="sell">to sell</option>
 </select> --}}
 
-<h4>Comment</h4>
-<textarea id="comment" placeholder='(optional)'>{{comment}}</textarea>
+<h4>{{i18n 'Comment'}}</h4>
+<textarea id="comment" placeholder="({{i18n 'optional'}})">{{comment}}</textarea>

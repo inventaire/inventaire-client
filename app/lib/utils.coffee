@@ -35,3 +35,5 @@ module.exports =
     $.post '/api/cookie', {key: key, value: value}
     .then (res)-> _.log res, 'server res on setCookie'
     .fail (err)-> console.error "setCookie failed: #{key} - #{value}"
+
+  i18n: (key)-> app.polyglot.t key

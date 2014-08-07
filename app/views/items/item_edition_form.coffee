@@ -13,7 +13,6 @@ module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
     return attrs
 
   updateItem: (e)->
-    e.preventDefault()
     ['title', 'comment'].forEach (attr)=>
       updatedAttr = $('#' + attr).val()
       _.log "[#{attr}:update] #{updatedAttr}"

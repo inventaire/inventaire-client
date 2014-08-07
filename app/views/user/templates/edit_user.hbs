@@ -1,13 +1,15 @@
 <div class="row">
   <div class="small-12 large-6 large-offset-3 columns">
 
-    <h2 class="subheader text-center">Edit User</h2>
-    <div id="usernamePicker">
-      <h3 class="with-tip">Username</h3>
-      <span data-tooltip class="has-tip tip-right" title="Username can be anything made of 1 to 20 letters, figures or _"><i class="fa fa-question-circle"></i></span>
-
+    <h2 class="subheader text-center">{{i18n 'Edit User'}}</h2>
     {{partial '../user/templates/username_picker' this}}
 
-    </div>
+    <h3 class="with-tip">{{i18n 'Language'}}</h3>
+    <select name="language" id="languagePicker">
+      {{#each languages}}
+        <option value="{{code}}">{{label}}</option>
+      {{/each}}
+    </select>
+
   </div>
 </div>

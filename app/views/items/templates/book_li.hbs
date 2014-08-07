@@ -4,10 +4,14 @@
 <div class="small-12 large-8 columns">
   <h3>{{title}}</h3>
   <h4>{{#each authors}}{{this}} {{/each}}</h4>
-  <p>{{publisher}} ({{publishedDate}})</p>
+  <p>{{publisher}}&nbsp;
+  {{#if publishedDate}}
+    ({{publishedDate}})
+  {{/if}}
+  </p>
   <a id="validPreview" class="button success">
     <i class="fa fa-plus"></i>&nbsp;
-    Add to my inventory
+    {{i18n 'Add to my inventory'}}
   </a>
   <div class="check"></div>
 </div>

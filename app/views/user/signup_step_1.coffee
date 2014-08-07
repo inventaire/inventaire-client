@@ -6,7 +6,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     AlertBox: {}
     SuccessCheck: {}
 
-  serializeData: -> return {buttonLabel: 'Validate'}
+  serializeData: -> return {header: _.i18n('Step 1: Choose a username'), buttonLabel: u.i18n('Validate')}
 
   events:
     'click #verifyUsername': 'verifyUsername'
@@ -21,5 +21,5 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       @invalidUsername(err)
 
   invalidUsername: (err)=>
-    errMessage = err.responseJSON.status_verbose || "invalid username"
+    errMessage = _.i18n (err.responseJSON.status_verbose || "invalid username")
     @$el.trigger 'alert', {message: errMessage}
