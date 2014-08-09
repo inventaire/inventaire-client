@@ -8,16 +8,17 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     modal: "#modalContent"
 
   events:
-    'click': 'preventDefault'
+    'click': 'triggerPreventDefault'
     'keyup .enterClick': 'enterClick'
 
   initialize: (e)->
     @render()
+    app.vent.trigger 'layout:ready'
 
-  preventDefault: (e)->
-    e.preventDefault()
+  triggerPreventDefault: (e)->
+    unless _.hasValue(e.target.className.split(' '), 'default')
+      e.preventDefault()
 
   enterClick: (e)->
-    _.log 'enterClick!'
     if e.keyCode is 13 && $(e.currentTarget).val().length > 0
       $(e.currentTarget).parents('.row').find('.button').trigger 'click'
