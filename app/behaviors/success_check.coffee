@@ -6,11 +6,16 @@ module.exports = class SuccessCheck extends Marionette.Behavior
     "check": "showSuccessCheck"
     "fail": "showFail"
 
-  showSuccessCheck: (e, cb)-> @showSignal cb, 'check-circle'
-  showFail: (e, cb)-> @showSignal cb, 'times-circle'
+  showSuccessCheck: (e, cb)-> @showSignal e, cb, 'check-circle'
+  showFail: (e, cb)-> @showSignal e, cb, 'times-circle'
 
-  showSignal: (cb, signal)->
-    @ui.check
-    .html "<i class='fa fa-#{signal} text-center'></i>"
+  showSignal: (e, cb, signal)->
+    $check = $(e.target).find('.check')
+    $check.html "<i class='fa fa-#{signal} text-center'></i>"
     .slideDown(300)
-    setTimeout cb, 600
+
+    afterTimeout = ->
+      $check.slideUp()
+      cb() if cb?
+
+    setTimeout afterTimeout, 600
