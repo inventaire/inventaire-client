@@ -37,10 +37,10 @@ $ ->
     # initialize layout after user to get i18n data
     app.layout = new app.Layout.App
     app.module 'foundation', app.Module.Foundation(app.Foundation, app, Backbone, Marionette, $, _)
+    app.commands.execute 'user:menu:update'
 
     if app.user.loggedIn
       app.module 'contacts', app.Module.Contacts(app.Contacts, app, Backbone, Marionette, $, _)
       app.module 'inventory', app.Module.Inventory(app.Inventory, app, Backbone, Marionette, $, _)
     else
-      welcome = new app.View.Welcome
-      app.layout.main.show welcome
+      app.layout.main.show new app.View.Welcome
