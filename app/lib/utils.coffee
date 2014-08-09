@@ -9,6 +9,7 @@ module.exports =
       console.log "===== #{label} =====" if label?
       console.log obj
       console.log "-----" if label?
+    return obj
 
   logAllEvents: (obj)->
     obj.on 'all', (event)->
@@ -37,3 +38,5 @@ module.exports =
     .fail (err)-> console.error "setCookie failed: #{key} - #{value}"
 
   i18n: (key)-> app.polyglot.t key
+
+  hasValue: (array, value)-> array.indexOf(value) isnt -1
