@@ -5,11 +5,15 @@
     {{partial '../user/templates/username_picker' this}}
 
     <h3 class="with-tip">{{i18n 'Language'}}</h3>
-    <select name="language" id="languagePicker">
-      {{#each languages}}
-        <option value="{{code}}">{{label}}</option>
-      {{/each}}
-    </select>
-
+    <div id="languagePicker">
+      <div class="small-12 large-11 columns">
+        <select name="language">
+          <option value="{{currentLanguages.code}}">{{currentLanguages.label}}</option>
+          {{#each languages}}
+            <option value="{{code}}">{{label}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="check small-12 large-1 columns"></div>
   </div>
 </div>
