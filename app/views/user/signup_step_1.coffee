@@ -6,7 +6,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     AlertBox: {}
     SuccessCheck: {}
 
-  serializeData: -> return {header: _.i18n('Step 1: Choose a username'), buttonLabel: u.i18n('Validate')}
+  serializeData: -> return {header: _.i18n('Step 1: Choose a username'), buttonLabel: _.i18n('Validate')}
 
   events:
     'click #verifyUsername': 'verifyUsername'

@@ -13,7 +13,7 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
     validation: '#validation'
 
   categories:
-    book: {text: 'book', value: 'book', icon: 'book'}
+    book: {text: 'bok', value: 'book', icon: 'book', entity: 'Q571'}
     other: {text: 'something else', value: 'other'}
 
   onShow: ->
@@ -37,7 +37,7 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
       when 'other' then @step2.show new Other
 
   serializeData: ->
-    return { status: 'Add a new item to your Inventory' }
+    return { status: _.i18n 'Add a new item to your Inventory' }
 
   validateNewItemForm: (e)->
     newItem =

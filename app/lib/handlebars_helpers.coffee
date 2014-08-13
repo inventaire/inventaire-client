@@ -24,4 +24,11 @@ module.exports =
     register 'safe', (text) ->
       new Handlebars.SafeString text
 
-    register 'i18n', (key)-> app.polyglot.t key
+    register 'i18n', (key, args)-> new Handlebars.SafeString _.i18n(key, args)
+
+    register 'P', (id)->
+      # propHeader = "<h4 class='qlabel wdP' resource='http://www.wikidata.org/entity/P#{id}'></h4>"
+      new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/P#{id}'"
+
+    register 'Q', (id)->
+      new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/Q#{id}'"

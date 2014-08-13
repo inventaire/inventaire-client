@@ -4,13 +4,13 @@
     <h2 class="subheader text-center">{{i18n 'Edit User'}}</h2>
     {{partial '../user/templates/username_picker' this}}
 
-    <h3 class="with-tip">{{i18n 'Language'}}</h3>
+    <h3 class="with-tip capitalized">{{i18n 'Language' 'Q34770'}}</h3>
     <div id="languagePicker">
       <div class="small-12 large-11 columns">
         <select name="language">
-          <option value="{{currentLanguages.code}}">{{currentLanguages.label}}</option>
+          <option value="{{currentLanguages.code}}">{{currentLanguages.code}} - {{currentLanguages.native}}</option>
           {{#each languages}}
-            <option value="{{code}}">{{label}}</option>
+            <option value="{{code}}">{{code}} - {{native}}</option>
           {{/each}}
         </select>
       </div>

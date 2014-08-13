@@ -1,7 +1,19 @@
 module.exports =
-  # Convention: 'lang' always stands for the short language codes, like 'en', 'fr', etc.
+  # Convention: 'lang' always stands for ISO 639-1 two letters language codes (like 'en', 'fr', etc.)
   initialize: (app)->
-    app.reqres.setHandler 'i18n:set', (lang)-> setLanguage(app, lang)
+    app.reqres.setHandlers
+
+      'i18n:set': (lang)->
+        app.vent.trigger('i18n:set', lang)
+        setLanguage(app, lang)
+
+      'qLabel:update': (lang = app.user.lang)->
+        app.vent.trigger('qLabel:update', lang)
+        switchLang = -> $.qLabel.switchLanguage(lang)
+        setTimeout(switchLang, 0) if lang?
+
+    app.vent.on 'i18n:set', (lang)-> app.request('qLabel:update', lang)
+    app.vent.on 'qLabel:update', (lang)-> lang?.label('qLabel:update')
 
 setLanguage = (app, lang)->
   polyglot = app.polyglot ||= new Polyglot
@@ -13,7 +25,7 @@ setLanguage = (app, lang)->
   if _.isEmpty(polyglot.phrases) || (lang isnt polyglot.currentLocale)
     if lang isnt polyglot.changingTo then requestI18nFile polyglot, lang
     else _.log 'language changing, can not be re-set yet'
-  else _.log "i18n is already set"
+  else _.log 'i18n is already set'
 
 requestI18nFile = (polyglot, lang)->
   polyglot.changingTo = lang
@@ -28,6 +40,6 @@ requestI18nFile = (polyglot, lang)->
   .then -> polyglot.changingTo = null
 
 guessLanguage = ->
-  if lang = $.cookie 'lang' then _.log lang, 'i18n: cookie'
-  else if lang = (navigator.language || navigator.userLanguage) then _.log lang, 'i18n: navigator'
-  else _.log 'en', 'i18n: global default'
+  if lang = $.cookie 'lang' then lang.label('i18n: cookie')
+  else if lang = (navigator.language || navigator.userLanguage) then lang.label('i18n: navigator')
+  else 'en'.label('i18n: global default')
