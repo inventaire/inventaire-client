@@ -10,6 +10,7 @@ module.exports =
       'qLabel:update': (lang = app.user.lang)->
         app.vent.trigger('qLabel:update', lang)
         switchLang = -> $.qLabel.switchLanguage(lang)
+        # setTimeout-0 switchLang to put it at the end of the stack, to let the DOM update before qLabel looks for URIs
         setTimeout(switchLang, 0) if lang?
 
     app.vent.on 'i18n:set', (lang)-> app.request('qLabel:update', lang)
