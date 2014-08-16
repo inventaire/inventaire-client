@@ -3,7 +3,9 @@ module.exports = (module, app, Backbone, Marionette, $, _) ->
   app.user = new app.Model.User
   recoverUserData(app)
   initializeUserI18nSettings(app)
-  initializeCommands(app)
+  initializeUserEditionCommands(app)
+  initializeUserMenuUpdate(app)
+  initializeSignupLoginHandlers(app)
 
 initializePersona = (app)->
   if navigator.id?
@@ -41,6 +43,12 @@ recoverUserData = (app)->
   if $.cookie('email')?
     _.log app.user, 'user before fetch'
     app.user.fetch()
+    .then (userAttrs)->
+      unless app.user.get('language')?
+        if lang = $.cookie 'lang'
+          _.log app.user.set('language', lang), 'language set from cookie'
+    .fail (err)-> _.log err, 'app.user.fetch fail'
+    .done()
     app.user.loggedIn = true
   else
     app.vent.trigger 'debug', arguments, 'chrome deletes cookies on localhost'
@@ -54,22 +62,27 @@ initializeUserI18nSettings = (app)->
       _.setCookie 'lang', lang
 
 
-initializeCommands = (app)->
+initializeUserEditionCommands = (app)->
   app.commands.setHandlers
     'user:edit': ->
       app.layout.main.show new app.View.EditUser {model: app.user}
-    'user:menu:update': ->
-      if app.user.has 'email'
-        app.layout.accountMenu.show new app.View.AccountMenu {model: app.user}
-      else app.layout.accountMenu.show new app.View.NotLoggedMenu
 
   app.reqres.setHandlers
     'user:update': (options)->
       app.user.set options.fieldName, options.value
       return app.user.save()
 
+initializeUserMenuUpdate = (app)->
+  app.commands.setHandlers
+    'user:menu:update': ->
+      if app.user.has 'email'
+        app.layout?.accountMenu.show new app.View.AccountMenu {model: app.user}
+      else app.layout?.accountMenu.show new app.View.NotLoggedMenu
+
   app.user.on 'change', (user)-> app.commands.execute 'user:menu:update'
 
+
+initializeSignupLoginHandlers = (app)->
   app.commands.setHandlers
     'signup:request': ->
       app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
