@@ -1,11 +1,12 @@
-module.exports = (module, app, Backbone, Marionette, $, _) ->
-  initializePersona(app)
-  app.user = new app.Model.User
-  recoverUserData(app)
-  initializeUserI18nSettings(app)
-  initializeUserEditionCommands(app)
-  initializeUserMenuUpdate(app)
-  initializeSignupLoginHandlers(app)
+module.exports =
+  define: (module, app, Backbone, Marionette, $, _) ->
+    initializePersona(app)
+    app.user = new app.Model.User
+    recoverUserData(app)
+    initializeUserI18nSettings(app)
+    initializeUserEditionCommands(app)
+    initializeUserMenuUpdate(app)
+    initializeSignupLoginHandlers(app)
 
 initializePersona = (app)->
   if navigator.id?
@@ -38,10 +39,7 @@ initializePersona = (app)->
 unreachablePersona = -> console.error 'Persona Login not available: you might be offline'
 
 recoverUserData = (app)->
-  _.log $.cookie('testcookie'), 'testcookie'
-  _.log $.cookie('email'), 'email cookie'
   if $.cookie('email')?
-    _.log app.user, 'user before fetch'
     app.user.fetch()
     .then (userAttrs)->
       unless app.user.get('language')?
@@ -51,13 +49,12 @@ recoverUserData = (app)->
     .done()
     app.user.loggedIn = true
   else
-    app.vent.trigger 'debug', arguments, 'chrome deletes cookies on localhost'
     app.user.loggedIn = false
 
 initializeUserI18nSettings = (app)->
   app.user.on 'change:language', (data)->
     if (lang = app.user.get('language')) isnt app.polyglot.currentLocale
-      _.log lang, 'user data change: i18n change requested'
+      _.log lang, 'i18n: user data change: i18n change requested'
       app.request 'i18n:set', lang
       _.setCookie 'lang', lang
 
@@ -79,7 +76,7 @@ initializeUserMenuUpdate = (app)->
         app.layout?.accountMenu.show new app.View.AccountMenu {model: app.user}
       else app.layout?.accountMenu.show new app.View.NotLoggedMenu
 
-  app.user.on 'change', (user)-> app.commands.execute 'user:menu:update'
+  app.user.on 'change', (user)-> app.execute 'user:menu:update'
 
 
 initializeSignupLoginHandlers = (app)->

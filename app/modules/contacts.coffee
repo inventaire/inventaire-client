@@ -1,9 +1,16 @@
-module.exports = (module, app, Backbone, Marionette, $, _) ->
-  initializeContacts(app)
-  fetchContactsAndTheirItems(app)
-  initializeContactSearch(app)
+module.exports =
+  define: (module, app, Backbone, Marionette, $, _) ->
 
-initializeContacts = (app)->
+  initialize: ->
+    API.startContacts()
+
+API =
+  startContacts: ->
+    initializeContacts()
+    fetchContactsAndTheirItems()
+    initializeContactSearch()
+
+initializeContacts = ->
   app.contacts = new app.Collection.Contacts
 
   app.reqres.setHandlers
@@ -51,11 +58,12 @@ fetchContactsAndTheirItems = ->
     res.forEach (contact)->
       contactModel = app.contacts.add contact
       contactModel.following = true
-      app.commands.execute 'contact:fetchItems', contactModel
+      contactModel.trigger 'change:following', contactModel
+      app.execute 'contact:fetchItems', contactModel
   .fail (err)-> console.error(err)
   .done()
 
-initializeContactSearch = (app)->
+initializeContactSearch = ->
   app.filteredContacts = new FilteredCollection app.contacts
   app.filteredContacts.filterBy 'not-main-user', (model)-> return model.get('_id') != app.user.id
   app.contacts.queried = []
@@ -104,7 +112,7 @@ followNewContact = (contactId)->
         @save()
         .then (res)-> _.log res, 'user successfully saved to the server!'
         .fail (err)-> _.log err, 'server error:'
-        app.commands.execute 'contact:fetchItems', app.contacts._byId[contactId]
+        app.execute 'contact:fetchItems', app.contacts._byId[contactId]
       else
         _.log "this contact is already added"
     else
@@ -121,14 +129,14 @@ unfollowContact = (contactId)->
       @save()
       .then (res)-> _.log res, 'user successfully saved to the server!'
       .fail (err)-> _.log err, 'server error:'
-      app.commands.execute 'contact:removeItems', app.contacts._byId[contactId]
+      app.execute 'contact:removeItems', app.contacts._byId[contactId]
     else
       _.log contactId, 'not in contacts, how did you get here?'
   else
     _.log contactId, "coudn't find contact id "
 
 fetchContactItems = ->
-  _.log username = @get('username'), 'fetch contacts items'
+  username = @get('username')
   $.getJSON app.API.contacts.items(@id)
   .done (res)->
     res.forEach (item)->

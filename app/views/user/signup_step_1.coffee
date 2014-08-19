@@ -1,7 +1,7 @@
 module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/user/templates/signup_step1'
-  onShow: -> app.commands.execute 'modal:open'
+  onShow: -> app.execute 'modal:open'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
@@ -16,7 +16,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     $.post app.API.auth.username, {username: username}
     .then (res)=>
       @model.set 'username', res.username
-      @$el.trigger 'check', -> app.commands.execute 'signup:validUsername'
+      @$el.trigger 'check', -> app.execute 'signup:validUsername'
     .fail (err)=>
       @invalidUsername(err)
 

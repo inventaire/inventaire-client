@@ -11,7 +11,7 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
     app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
 
 
-  onShow: -> app.commands.execute 'foundation:reload'
+  onShow: -> app.execute 'foundation:reload'
 
 
   waitingForPersona:->

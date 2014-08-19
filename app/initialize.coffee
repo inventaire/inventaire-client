@@ -27,9 +27,12 @@ $ ->
 
   # initialize all the module routes before app.start()
   # the first routes initialized have the lowest priority
-  app.module 'redirect', require 'modules/redirect'
-  app.module 'entities', require 'modules/entities'
-  app.module 'inventory', require 'modules/inventory'
+  app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
+  if app.user.loggedIn
+    app.module 'Redirect', require 'modules/redirect'
+    app.module 'Entities', require 'modules/entities'
+    app.module 'Inventory', require 'modules/inventory'
+    app.module 'Contacts', require 'modules/contacts'
 
   app.request('i18n:set')
   .done ->
@@ -39,10 +42,4 @@ $ ->
     app.lib.foundation.initialize(app)
     app.execute 'user:menu:update'
 
-    if app.user.loggedIn
-      app.module 'contacts', require 'modules/contacts'
-    else
-      app.layout.main.show new app.View.Welcome
-
-    _.log 'app:before:start'
     app.start()

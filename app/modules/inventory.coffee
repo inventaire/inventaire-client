@@ -31,11 +31,11 @@ switchInventory = (name)->
   app.execute "#{name}Inventory"
 
 showInventory = ->
-  app.inventoryLayout ||= new app.Layout.Inventory
-  unless app.inventoryLayout._isShown
-    app.layout.main.show app.inventoryLayout
-  app.inventoryLayout.itemsList = itemsList = new app.View.ItemsList {collection: app.filteredItems}
-  app.inventoryLayout.itemsView.show itemsList
+  app.inventory ||= new app.Layout.Inventory
+  unless app.inventory._isShown
+    app.layout.main.show app.inventory
+  itemsList = app.inventory.itemsList ||= new app.View.ItemsList {collection: app.filteredItems}
+  app.inventory.itemsView.show itemsList
 
 # LOGIC
 fetchItems = (app)->
@@ -143,20 +143,20 @@ textFilter = (text)->
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
     'personalInventory': ->
-      app.inventoryLayout.viewTools.show new app.View.PersonalInventoryTools
+      app.inventory.viewTools.show new app.View.PersonalInventoryTools
       app.execute 'filter:inventory:personal'
-      app.inventoryLayout.sideMenu.show new app.View.VisibilityTabs
+      app.inventory.sideMenu.show new app.View.VisibilityTabs
       app.navigate 'inventory/personal'
 
     'networkInventory': ->
       app.execute 'filter:inventory:network'
-      app.inventoryLayout.viewTools.show new app.View.ContactsInventoryTools
-      app.inventoryLayout.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
+      app.inventory.viewTools.show new app.View.ContactsInventoryTools
+      app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
       app.navigate 'inventory/network'
 
     'publicInventory': ->
       app.execute 'filter:inventory:public'
       console.log '/!\\ fake publicInventory filter'
-      app.inventoryLayout.viewTools.show new app.View.ContactsInventoryTools
-      app.inventoryLayout.sideMenu.empty()
+      app.inventory.viewTools.show new app.View.ContactsInventoryTools
+      app.inventory.sideMenu.empty()
       app.navigate 'inventory/public'

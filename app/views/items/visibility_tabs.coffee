@@ -7,9 +7,9 @@ module.exports = class VisibilityTabs extends Backbone.Marionette.ItemView
   updateVisibilityTabs: (e)->
     visibility = $(e.currentTarget).attr 'id'
     if visibility is 'noVisibilityFilter'
-      app.commands.execute 'filter:visibility:reset'
+      app.execute 'filter:visibility:reset'
     else
-      app.commands.execute 'filter:visibility', visibility
+      app.execute 'filter:visibility', visibility
 
     $('#visibility-tabs li').removeClass 'active'
     $(e.currentTarget).find('li').addClass 'active'

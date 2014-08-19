@@ -2,8 +2,7 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        "*route": "redirectHome"
-
+        '*route': 'redirectHome'
     API =
       redirectHome: (route)->
         _.log route, 'route:redirectHome'
