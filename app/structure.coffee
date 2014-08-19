@@ -10,6 +10,7 @@ module.exports =
 
   Layout:
     App: require 'views/app_layout'
+    Inventory: require 'views/items/inventory'
 
   View:
     Welcome: require 'views/welcome'
@@ -21,7 +22,6 @@ module.exports =
     Login:
       Step1: require 'views/user/login_step_1'
     EditUser: require 'views/user/edit_user'
-    Inventory: require 'views/items/inventory'
     ItemsList: require 'views/items/items_list'
     ItemLi: require 'views/items/item_li'
     NoItem: require 'views/items/no_item'
@@ -30,7 +30,7 @@ module.exports =
     InventoriesTabs: require 'views/items/inventories_tabs'
     VisibilityTabs: require 'views/items/visibility_tabs'
     PersonalInventoryTools: require 'views/items/personal_inventory_tools'
-    ContactsInventoriesTools: require 'views/items/contacts_inventories_tools'
+    ContactsInventoryTools: require 'views/items/contacts_inventory_tools'
     Contacts:
       Li: require 'views/contacts/contact_li'
       No: require 'views/contacts/no_contact'
@@ -38,12 +38,7 @@ module.exports =
     Behaviors:
       ConfirmationModal: require 'views/behaviors/confirmation_modal'
 
-  Lib:
-    EventLogger: require 'lib/event_logger'
+  lib:
     i18n: require 'lib/i18n'
-
-  Module:
-    Foundation: require 'modules/foundation'
-    User: require 'modules/user'
-    Inventory: require 'modules/inventory'
-    Contacts: require 'modules/contacts'
+    utils: require 'lib/utils'
+    foundation: require 'lib/foundation'

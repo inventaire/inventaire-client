@@ -6,14 +6,7 @@ _.extend _, require 'lib/utils'
 #changing the default attribute to fit CouchDB
 Backbone.Model.prototype.idAttribute = '_id'
 
-Backbone.Marionette.View.prototype.addMultipleSelectorEvents = ->
-  @events ||= new Object
-  if @multipleSelectorEvents?
-    for selectorsString, handler of @multipleSelectorEvents
-      selectors = selectorsString.split ' '
-      event = selectors.shift()
-      selectors.forEach (selector)=>
-        @events["#{event} #{selector}"] = handler
+_.extend Marionette.View.prototype, require('lib/views_utils')
 
 # Initialize the application on DOM ready event.
 $ ->
@@ -27,20 +20,29 @@ $ ->
   # might be dramatically heavy from start though
   # -> should be refactored to make them functions called at run-time?
   _.extend app, require 'structure'
-  app.Lib.EventLogger.call app
 
-  app.Lib.i18n.initialize(app)
-  app.module 'user', app.Module.User(app.user, app, Backbone, Marionette, $, _)
+  app.lib.i18n.initialize(app)
+
+  app.module 'user', require 'modules/user'
+
+  # initialize all the module routes before app.start()
+  # the first routes initialized have the lowest priority
+  app.module 'redirect', require 'modules/redirect'
+  app.module 'entities', require 'modules/entities'
+  app.module 'inventory', require 'modules/inventory'
+
   app.request('i18n:set')
   .done ->
 
     # initialize layout after user to get i18n data
     app.layout = new app.Layout.App
-    app.module 'foundation', app.Module.Foundation(app.Foundation, app, Backbone, Marionette, $, _)
-    app.commands.execute 'user:menu:update'
+    app.lib.foundation.initialize(app)
+    app.execute 'user:menu:update'
 
     if app.user.loggedIn
-      app.module 'contacts', app.Module.Contacts(app.Contacts, app, Backbone, Marionette, $, _)
-      app.module 'inventory', app.Module.Inventory(app.Inventory, app, Backbone, Marionette, $, _)
+      app.module 'contacts', require 'modules/contacts'
     else
       app.layout.main.show new app.View.Welcome
+
+    _.log 'app:before:start'
+    app.start()

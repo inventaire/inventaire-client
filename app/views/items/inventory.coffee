@@ -1,4 +1,4 @@
-module.exports = class Inventory extends Backbone.Marionette.LayoutView
+module.exports = class InventoryLayout extends Backbone.Marionette.LayoutView
   id: 'inventory'
   template: require 'views/items/templates/inventory'
   regions:
@@ -15,11 +15,10 @@ module.exports = class Inventory extends Backbone.Marionette.LayoutView
     'click #contactSearchButton': 'executeContactSearch'
 
   onShow: ->
-    app.inventory.topMenu.show new app.View.InventoriesTabs
-    app.commands.execute 'personalInventory'
+    app.inventoryLayout.topMenu.show new app.View.InventoriesTabs
 
   executeTextFilter: ->
-    app.commands.execute 'textFilter', $('#itemsTextFilterField').val()
+    app.execute 'textFilter', $('#itemsTextFilterField').val()
 
   executeContactSearch: ->
-    app.commands.execute 'contactSearch', $('#contactSearchField').val()
+    app.execute 'contactSearch', $('#contactSearchField').val()

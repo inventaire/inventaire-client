@@ -2,9 +2,9 @@ module.exports = class InventoriesTabs extends Backbone.Marionette.ItemView
   template: require 'views/items/templates/inventories_tabs'
 
   events:
-    'click #personalInventory': -> app.commands.execute 'personalInventory'
-    'click #networkInventories': -> app.commands.execute 'networkInventories'
-    'click #publicInventories': -> app.commands.execute 'publicInventories'
+    'click #personalInventory': -> app.execute 'personalInventory'
+    'click #networkInventory': -> app.execute 'networkInventory'
+    'click #publicInventory': -> app.execute 'publicInventory'
 
   initialize: ->
     app.vent.on 'inventory:change', (filterName)->
