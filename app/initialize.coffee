@@ -43,3 +43,5 @@ $ ->
     app.execute 'user:menu:update'
 
     app.start()
+
+  require('lib/jquery-jk').initialize($)

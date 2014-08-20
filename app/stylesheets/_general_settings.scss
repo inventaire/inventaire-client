@@ -51,6 +51,16 @@ $success-color: #43AC6A;
   }
 }
 
+.focus{
+  .cover, .desc{
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    -ms-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  }
+}
+
 // SIZE MIXINS
 .big{
   font-size: 5rem;
@@ -72,6 +82,11 @@ $button-margin-bottom: 0rem;
   display: inline-block;
 }
 
+.subheader{
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}
 .capitalized{
   text-transform: capitalize;
 }
