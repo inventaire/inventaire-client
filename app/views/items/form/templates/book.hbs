@@ -1,7 +1,18 @@
 <hr>
-<h3>{{i18n 'Find by'}}</h3>
+{{!-- <h3>{{i18n 'Find by'}}</h3> --}}
 
-<h4 class="with-tip">{{i18n 'Title'}}</h4>
+<h4 class="with-tip">{{i18n "Title, Author or ISBN"}}</h4>
+<span data-tooltip class="has-tip tip-right" title="{{i18n "enter either the book's title, author or ISBN"}}"><i class="fa fa-question-circle"></i></span>
+<div class="row collapse">
+  <div class="small-9 columns">
+    <input id="bookInput" class="has-alertbox enterClick" type='text' placeholder='{{i18n 'ex: Tintin et les Picaros or 978-2070342266'}}'>
+  </div>
+  <div class="small-3 columns">
+    <span id="bookButton" class="success button postfix">{{i18n 'Search'}} <span class='loading'></span></span>
+  </div>
+</div>
+
+{{!-- <h4 class="with-tip">{{i18n 'Title'}}</h4>
 <span data-tooltip class="has-tip tip-right" title="{{i18n "you know, the books' title"}}"><i class="fa fa-question-circle"></i></span>
 <div class="row collapse">
   <div class="small-9 columns">
@@ -32,4 +43,4 @@
   <div class="small-3 columns">
     <span id="isbnButton" class="success button postfix">{{i18n 'Search'}} <span class='loading'></span></span>
   </div>
-</div>
+</div> --}}

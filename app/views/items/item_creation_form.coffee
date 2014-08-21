@@ -9,15 +9,17 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
   regions:
     step1: '#step1'
     step2: '#step2'
-    preview: '#preview'
+    results1: '#results1'
+    results2: '#results2'
+    results3: '#results3'
     validation: '#validation'
 
   categories:
-    book: {text: 'bok', value: 'book', icon: 'book', entity: 'Q571'}
+    book: {text: 'book', value: 'book', icon: 'book', entity: 'Q571'}
     other: {text: 'something else', value: 'other'}
 
   onShow: ->
-    app.commands.execute 'modal:open'
+    app.execute 'modal:open'
     @step1.show new CategoryMenu {model: @categories}
 
   behaviors:
@@ -26,10 +28,11 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
   events:
     'click .category': 'showStep2'
     'click #validate': 'validateNewItemForm'
-    'click #cancel': -> app.commands.execute 'modal:close'
+    'click #cancel': -> app.execute 'modal:close'
 
   showStep2: (e)->
-    @preview.empty()
+    @results1.empty()
+    @results2.empty()
     @validation.empty()
     switch e.currentTarget.id
       when 'label' then @step2.empty()
@@ -44,6 +47,6 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
       title: $('#title').val()
       comment: $('#comment').val()
     if app.request('item:validateCreation', newItem)
-      @$el.trigger 'check', -> app.commands.execute 'modal:close'
+      @$el.trigger 'check', -> app.execute 'modal:close'
     else
       console.error 'invalid item data'
