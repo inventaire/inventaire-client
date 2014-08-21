@@ -7,4 +7,4 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
   onShow: ->
     buttons = new app.View.NotLoggedMenu
     @loginButtons.show buttons
-    @$el.find('li').addClass('button')
+    @$el.find('li').addClass 'button'

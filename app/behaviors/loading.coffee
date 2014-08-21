@@ -7,7 +7,6 @@ module.exports = class Loading extends Marionette.Behavior
     "stopLoading": "hideSpinningLoader"
 
   showSpinningLoader: (e, params)->
-    _.log params, 'showSpinningLoader params'
     if params?.selector?
       $target = $(params.selector).find('.loading')
     else

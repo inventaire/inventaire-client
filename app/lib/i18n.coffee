@@ -25,18 +25,18 @@ setLanguage = (app, lang)->
 
   if _.isEmpty(polyglot.phrases) || (lang isnt polyglot.currentLocale)
     if lang isnt polyglot.changingTo then requestI18nFile polyglot, lang
-    else _.log 'language changing, can not be re-set yet'
-  else _.log 'i18n is already set'
+    else _.log 'i18n: language changing, can not be re-set yet'
+  else _.log 'i18n: is already set'
 
 requestI18nFile = (polyglot, lang)->
   polyglot.changingTo = lang
   return $.getJSON "/i18n/#{lang}.json"
   .then (res)->
-    polyglot.replace _.log(res, 'i18n res')
+    polyglot.replace res
     polyglot.locale lang
     app.vent.trigger 'i18n:reset'
   .fail (err)->
-    console.error "failed to get the i18n file for #{lang}"
+    console.error "i18n: failed to get the i18n file for #{lang}"
     _.log err
   .then -> polyglot.changingTo = null
 
