@@ -16,7 +16,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     $.post app.API.auth.username, {username: username}
     .then (res)=>
       @model.set 'username', res.username
-      @$el.trigger 'check', -> app.execute 'signup:validUsername'
+      @$el.trigger 'check', -> app.execute 'show:signup:step2'
     .fail (err)=>
       @invalidUsername(err)
 

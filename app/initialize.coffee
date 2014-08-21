@@ -23,13 +23,14 @@ $ ->
 
   app.lib.i18n.initialize(app)
 
-  app.module 'user', require 'modules/user'
+  app.module 'User', require 'modules/user'
 
   # initialize all the module routes before app.start()
   # the first routes initialized have the lowest priority
   app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
   if app.user.loggedIn
     app.module 'Redirect', require 'modules/redirect'
+    app.module 'Profile', require 'modules/profile'
     app.module 'Entities', require 'modules/entities'
     app.module 'Inventory', require 'modules/inventory'
     app.module 'Contacts', require 'modules/contacts'
@@ -40,7 +41,7 @@ $ ->
     # initialize layout after user to get i18n data
     app.layout = new app.Layout.App
     app.lib.foundation.initialize(app)
-    app.execute 'user:menu:update'
+    app.execute 'show:user:menu:update'
 
     app.start()
 

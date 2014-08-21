@@ -21,8 +21,7 @@ initializePersona = (app)->
           if typeof data is 'object'
             # will get user data on reload's fetch
             window.location.reload()
-          else
-            _.log 'error onlogin: invalid data'
+          else console.error 'onlogin: invalid data'
       onlogout: ()->
         app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
   else unreachablePersona()
@@ -60,10 +59,6 @@ initializeUserI18nSettings = (app)->
 
 
 initializeUserEditionCommands = (app)->
-  app.commands.setHandlers
-    'user:edit': ->
-      app.layout.main.show new app.View.EditUser {model: app.user}
-
   app.reqres.setHandlers
     'user:update': (options)->
       app.user.set options.fieldName, options.value
@@ -71,21 +66,21 @@ initializeUserEditionCommands = (app)->
 
 initializeUserMenuUpdate = (app)->
   app.commands.setHandlers
-    'user:menu:update': ->
+    'show:user:menu:update': ->
       if app.user.has 'email'
         app.layout?.accountMenu.show new app.View.AccountMenu {model: app.user}
       else app.layout?.accountMenu.show new app.View.NotLoggedMenu
 
-  app.user.on 'change', (user)-> app.execute 'user:menu:update'
+  app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
 
 
 initializeSignupLoginHandlers = (app)->
   app.commands.setHandlers
-    'signup:request': ->
+    'show:signup:step1': ->
       app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
 
-    'signup:validUsername': ->
+    'show:signup:step2': ->
       app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
 
-    'login:request': ->
+    'show:login:step1': ->
       app.layout.modal.show new app.View.Login.Step1 {model: app.user}

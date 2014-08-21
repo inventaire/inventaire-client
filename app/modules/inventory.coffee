@@ -22,38 +22,28 @@ module.exports =
 
 API =
   goToPersonalInventory: -> app.goTo 'inventory/personal'
-  showPersonalInventory: -> switchInventory 'personal'
-  showNetworkInventory: -> switchInventory 'network'
-  showPublicInventory: -> switchInventory 'public'
+  showPersonalInventory: -> app.execute 'show:inventory:personal'
+  showNetworkInventory: -> app.execute 'show:inventory:network'
+  showPublicInventory: -> app.execute 'show:inventory:public'
 
-switchInventory = (name)->
-  showInventory()
-  app.execute "#{name}Inventory"
-
-showInventory = ->
-  app.inventory ||= new app.Layout.Inventory
-  unless app.inventory._isShown
-    app.layout.main.show app.inventory
-  itemsList = app.inventory.itemsList ||= new app.View.ItemsList {collection: app.filteredItems}
-  app.inventory.itemsView.show itemsList
 
 # LOGIC
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
   app.commands.setHandlers
-    'item:create': createItem
-    'item:edit': editItem
+    'show:item:form:creation': showItemCreationForm
+    'show:item:form:edition': showItemEditionForm
 
   app.reqres.setHandlers
     'item:validateCreation': validateCreation
 
-createItem = ()->
+showItemCreationForm = ()->
   app.layout.item ||= new Object
   form = app.layout.item.creation = new app.View.ItemCreationForm
   app.layout.modal.show form
 
-editItem = (itemModel)->
+showItemEditionForm = (itemModel)->
   app.layout.item ||= new Object
   form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
   app.layout.modal.show form
@@ -142,21 +132,30 @@ textFilter = (text)->
 # VIEWS
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
-    'personalInventory': ->
+    'show:inventory:personal': ->
+      showInventory()
       app.inventory.viewTools.show new app.View.PersonalInventoryTools
       app.execute 'filter:inventory:personal'
       app.inventory.sideMenu.show new app.View.VisibilityTabs
       app.navigate 'inventory/personal'
 
-    'networkInventory': ->
+    'show:inventory:network': ->
+      showInventory()
       app.execute 'filter:inventory:network'
       app.inventory.viewTools.show new app.View.ContactsInventoryTools
       app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
       app.navigate 'inventory/network'
 
-    'publicInventory': ->
+    'show:inventory:public': ->
+      showInventory()
       app.execute 'filter:inventory:public'
       console.log '/!\\ fake publicInventory filter'
       app.inventory.viewTools.show new app.View.ContactsInventoryTools
       app.inventory.sideMenu.empty()
       app.navigate 'inventory/public'
+
+showInventory = ->
+  app.inventory ||= new app.Layout.Inventory
+  app.layout.main.show app.inventory  unless app.inventory._isShown
+  itemsList = app.inventory.itemsList ||= new app.View.ItemsList {collection: app.filteredItems}
+  app.inventory.itemsView.show itemsList
