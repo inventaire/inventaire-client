@@ -7,6 +7,6 @@ module.exports = class BookLi extends Backbone.Marionette.ItemView
   addItem: ->
     _.log 'got here!'
     if app.request('item:validateCreation', @model.toJSON())
-      @$el.trigger 'check', -> app.commands.execute 'modal:close'
+      @$el.trigger 'check', -> app.execute 'modal:close'
     else
       console.error 'invalid item data'
