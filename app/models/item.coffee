@@ -1,11 +1,7 @@
 module.exports = class Item extends Backbone.Model
   # defaults:
-    # entity:
-    #   uri: null
-    #   title: null
-    #   P31: null
-    # version:
-    #   uri: null
+    # entity: uri
+    # version: uri
     # instance:
     #   uri: null
     #   comment: null

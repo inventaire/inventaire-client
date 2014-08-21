@@ -1,6 +1,6 @@
 exports.config =
   # See http://brunch.io/#documentation for docs.
-  notifications: no
+  notifications: yes
   files:
     javascripts:
       defaultExtension: "coffee"

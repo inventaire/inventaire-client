@@ -12,7 +12,8 @@
     "node": "0.10"
   },
   "scripts": {
-    "start": "brunch watch --server",
+    "start": "brunch watch",
+    "server": "brunch watch --server",
     "test": "mocha --compilers coffee:coffee-script/register --watch --reporter nyan",
     "lint": "coffeelint app/* test/* brunch-config.coffee"
   },
