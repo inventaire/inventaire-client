@@ -1,7 +1,7 @@
 module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/user/templates/signup_step1'
-  onShow: -> app.execute 'modal:open'
+  # onShow: -> app.execute 'modal:open'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
@@ -21,5 +21,6 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       @invalidUsername(err)
 
   invalidUsername: (err)=>
-    errMessage = _.i18n (err.responseJSON.status_verbose || "invalid username")
+    _.log err, 'invalidUsername'
+    errMessage = _.i18n (err.responseJSON?.status_verbose || "invalid username")
     @$el.trigger 'alert', {message: errMessage}

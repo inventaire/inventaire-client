@@ -77,10 +77,10 @@ initializeUserMenuUpdate = (app)->
 initializeSignupLoginHandlers = (app)->
   app.commands.setHandlers
     'show:signup:step1': ->
-      app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
+      app.layout.main.show new app.View.Signup.Step1 {model: app.user}
 
     'show:signup:step2': ->
-      app.layout.modal.show new app.View.Signup.Step2 {model: app.user}
+      app.layout.main.show new app.View.Signup.Step2 {model: app.user}
 
     'show:login:step1': ->
-      app.layout.modal.show new app.View.Login.Step1 {model: app.user}
+      app.layout.main.show new app.View.Login.Step1 {model: app.user}
