@@ -27,8 +27,11 @@ module.exports =
     register 'i18n', (key, args)-> new Handlebars.SafeString _.i18n(key, args)
 
     register 'P', (id)->
-      # propHeader = "<h4 class='qlabel wdP' resource='http://www.wikidata.org/entity/P#{id}'></h4>"
-      new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/P#{id}'"
+      if id[0] is 'P'
+        new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/#{id}'"
+      else new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/P#{id}'"
 
     register 'Q', (id)->
-      new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/Q#{id}'"
+      if id[0] is 'Q'
+        new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/#{id}'"
+      else new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/Q#{id}'"
