@@ -1,9 +1,5 @@
 #welcome{
   padding-top: 2rem;
-  h2{
-    font-size: 5rem;
-    font-weight: 900;
-  }
   ul{
     margin-top: 2rem;
   }
@@ -26,6 +22,26 @@
     }
     a{
       color: white;
+    }
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  #welcome {
+    h2 {
+      font-size: 3rem;
+      font-weight: 900;
+    }
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  #welcome {
+    h2 {
+      font-size: 5rem;
+      font-weight: 900;
     }
   }
 }

@@ -91,11 +91,12 @@ $button-margin-bottom: 0rem;
   text-transform: capitalize;
 }
 
+
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   main{
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
 }
 
