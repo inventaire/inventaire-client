@@ -2,6 +2,7 @@ require('lib/handlebars_helpers').initialize()
 app = require 'app'
 
 _.extend _, require 'lib/utils'
+window.wd = require 'lib/wikidata'
 
 #changing the default attribute to fit CouchDB
 Backbone.Model.prototype.idAttribute = '_id'
@@ -23,11 +24,11 @@ $ ->
 
   app.lib.i18n.initialize(app)
 
-  app.module 'User', require 'modules/user'
-
   # initialize all the module routes before app.start()
   # the first routes initialized have the lowest priority
   app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
+  app.module 'User', require 'modules/user'
+
   if app.user.loggedIn
     app.module 'Redirect', require 'modules/redirect'
     app.module 'Profile', require 'modules/profile'

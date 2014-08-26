@@ -13,15 +13,16 @@ module.exports = class Book extends Backbone.Marionette.ItemView
 
   bookSearch: (e)->
     search = $('#bookInput').val()
-    @queryAPI 'book', search, notEmpty
+    _.updateQuery {search: search}
+    @queryAPI search, notEmpty
 
-  queryAPI: (domain, search, validityTest)=>
-    input = "##{domain}Input"
-    button = "##{domain}Button"
+  queryAPI: (search, validityTest)=>
+    input = "#bookInput"
+    button = "#bookButton"
     if validityTest(search)
       _.log search, 'valid search'
       @$el.trigger 'loading'
-      $.getJSON "#{app.API.entities.search}?claims=[P31:Q571]&search=#{search}&language=#{app.user.lang}"
+      $.getJSON app.API.entities.search(search)
       .then @displayResults
       .fail (err)=>
         _.log err, 'err'
@@ -33,19 +34,33 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       @$el.trigger 'alert', {message: _.i18n "invalid query"}
 
   displayResults: (resultsArray)=>
-    _.log @, 'this'
+    BooksP31 = [
+      571 #book
+      2831984 #comic book album
+      1004 # bande dessinée
+    ]
+
     _.log resultsArray, 'resultsArray'
 
     app.results = {}
-    app.results.authors =  authors = resultsArray.map (el)->
-      if el.flat.claims?.P31[0]? and el.flat.claims.P31[0] is 'Q5'
-        _.log el, 'pushing el to authors'
-        return el
+    app.results.humans = humans = []
+    app.results.authors = authors = []
+    app.results.books = books = []
 
-    app.results.books = books = resultsArray.map (el)->
-      if el.flat.claims?.P31[0]? and el.flat.claims.P31[0] is 'Q571'
+    resultsArray.map (el)->
+      if el.flat.claims?.P31?[0]? and el.flat.claims.P31[0] is 'Q5'
+        _.log el, 'pushing el to humans'
+        humans.push el
+
+    resultsArray.map (el)->
+      if el.flat.claims?.P106?[0]? and _.hasValue(el.flat.claims.P106, 'Q36180')
+        _.log el, 'pushing el to authors'
+        authors.push el
+
+    resultsArray.map (el)->
+      if el.flat.claims?.P31?[0]? and _.hasValue(BooksP31, el.flat.claims.P31[0])
         _.log el, 'pushing el to books'
-        return el
+        books.push el
 
     # second test needed as .map returns [undefined] instead of [] when empty
     if books.length > 0 and books[0]?
@@ -54,6 +69,8 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       booksList = new ResultsList {collection: @books, type: 'books', entity: 'Q571'}
       app.layout.item.creation.results1.show booksList
 
+    if authors.length is 0
+      authors = humans
     if authors.length > 0 and authors[0]?
       @authors = new Backbone.Collection authors
       _.log @authors, 'hello authors'
@@ -61,8 +78,8 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       app.layout.item.creation.results2.show authorsList
       @fetchAuthorsBooks(authors[0])
 
-      @$el.trigger 'stopLoading'
-      app.request('qLabel:update')
+    @$el.trigger 'stopLoading'
+    app.request('qLabel:update')
 
   fetchAuthorsBooks: (author)->
     numericId = author.id.replace(/^Q/,'')
@@ -70,13 +87,13 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     .then (res) ->
       _.log(res, 'entities.claim res')
       if res.items.length > 0
-        return getEntities(res.items[0..15], app.user.lang)
+        return app.lib.wikidata.getEntities(res.items[0..15], app.user.lang)
       else return
     .then (res)->
       books = []
       _.log res, '#{author.labels.en} books'
       for id,entity of res.entities
-        rebaseClaimsValueToClaimsRoot entity
+        wd.rebaseClaimsValueToClaimsRoot entity
         books.push entity
       author.books = new Backbone.Collection books
       authorBooksList = new ResultsList {collection: author.books, type: 'books', entity: 'Q571'}
@@ -90,35 +107,3 @@ module.exports = class Book extends Backbone.Marionette.ItemView
   # why the Regexp doesn't catch the empty case?
   validISBN = (query)-> notEmpty(query) && /^([0-9]{10}||[0-9]{13})$/.test query
 
-
-  defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
-  getEntities = (ids, languages=['en'], props=defaultProps, format='json')->
-    ids = ids.map (id)-> "Q#{id}" unless id[0] is 'Q'
-    pipedIds = ids.join '|'
-    languages = [languages] if typeof languages is 'string'
-    languages.push('en') unless _.hasValue languages, 'en'
-    pipedLanguages = languages.join '|'
-    pipedProps = props.join '|'
-    query = "#{app.API.entities.get}?action=wbgetentities&languages=#{pipedLanguages}&format=#{format}&props=#{pipedProps}&ids=#{pipedIds}".label('getEntities query')
-    return $.getJSON(query)
-
-  rebaseClaimsValueToClaimsRoot = (entity)->
-    flat =
-      claims: new Object
-      pictures: new Array
-    for id, claim of entity.claims
-      # propLabel = wdProps[id]
-      flat.claims[id] = new Array
-      if typeof claim is 'object'
-        claim.forEach (statement)->
-          switch statement.mainsnak.datatype
-            when 'string'
-              flat.claims[id].push(statement._value = statement.mainsnak.datavalue.value)
-            when 'wikibase-item'
-              statement._id = statement.mainsnak.datavalue.value['numeric-id']
-              flat.claims[id].push "Q#{statement._id}"
-            else flat.claims[id].push(statement.mainsnak)
-          if id is 'P18'
-            flat.pictures.push _.wmCommonsThumb(statement.mainsnak.datavalue.value)
-      # flat.claims["#{id} - #{propLabel}"] = flat.claims[id]
-    entity.flat = flat

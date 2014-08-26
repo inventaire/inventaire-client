@@ -26,6 +26,9 @@ module.exports =
           return "/api/#{owner}/items/#{id}"
       else throw new Error "item API needs an owner, an id, and possibly a rev"
   entities:
-    get: proxy('https://www.wikidata.org/w/api.php')
-    search: '/api/entities/search'
+    search: (search)->
+      "/api/entities/search?claims=[P31:Q571]&search=#{search}&language=#{app.user.lang}"
     claim: proxy('http://wdq.wmflabs.org/api')
+  wikidata:
+    get: proxy('https://www.wikidata.org/w/api.php')
+
