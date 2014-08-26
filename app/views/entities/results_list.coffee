@@ -9,4 +9,5 @@ module.exports = class ResultsList extends Backbone.Marionette.CollectionView
   onShow: ->
     @options.type.label 'results list type'
     @options.entity.label 'could use this entity label instead'
-    @$el.parent().siblings('h3').text _.i18n(@options.type)
+    type = _.i18n(@options.type)
+    @$el.prepend "<h3 class='subheader'>#{type}</h3>"
