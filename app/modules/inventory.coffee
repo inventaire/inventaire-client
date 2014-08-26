@@ -31,22 +31,9 @@ API =
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
-  app.commands.setHandlers
-    'show:item:form:creation': showItemCreationForm
-    'show:item:form:edition': showItemEditionForm
 
   app.reqres.setHandlers
     'item:validateCreation': validateCreation
-
-showItemCreationForm = ()->
-  app.layout.item ||= new Object
-  form = app.layout.item.creation = new app.View.ItemCreationForm
-  app.layout.modal.show form
-
-showItemEditionForm = (itemModel)->
-  app.layout.item ||= new Object
-  form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
-  app.layout.modal.show form
 
 validateCreation = (itemData)->
   if itemData.title? && itemData.title isnt ''
@@ -58,15 +45,14 @@ validateCreation = (itemData)->
     itemModel = app.items.create itemData
     itemModel.username = app.user.get('username')
     return true
-  else
-    return false
+  else false
 
 initializeFilters = (app)->
   app.Filters =
     inventory:
       'personalInventory': {'owner': app.user.get('_id')}
-      'networkInventory': (model)-> return model.get('owner') isnt app.user.id
-      'publicInventory': (model)-> return model.get('owner') isnt app.user.id
+      'networkInventory': (model)-> model.get('owner') isnt app.user.id
+      'publicInventory': (model)-> model.get('owner') isnt app.user.id
     visibility:
       'private': {'visibility':'private'}
       'contacts': {'visibility':'contacts'}
@@ -122,8 +108,7 @@ initializeTextFilter = (app)->
 textFilter = (text)->
   if text.length != 0
     filterExpr = new RegExp text, "i"
-    app.filteredItems.filterBy 'text', (model)->
-      return model.matches filterExpr
+    app.filteredItems.filterBy 'text', (model)-> model.matches filterExpr
   else
     app.filteredItems.removeFilter 'text'
 
@@ -143,7 +128,7 @@ initializeInventoriesHandlers = (app)->
       showInventory()
       app.execute 'filter:inventory:network'
       app.inventory.viewTools.show new app.View.ContactsInventoryTools
-      app.inventory.sideMenu.show new app.View.Contacts.List({collection: app.filteredContacts})
+      app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
       app.navigate 'inventory/network'
 
     'show:inventory:public': ->
@@ -155,7 +140,7 @@ initializeInventoriesHandlers = (app)->
       app.navigate 'inventory/public'
 
 showInventory = ->
-  app.inventory ||= new app.Layout.Inventory
+  app.inventory = new app.Layout.Inventory
   app.layout.main.show app.inventory  unless app.inventory._isShown
-  itemsList = app.inventory.itemsList ||= new app.View.ItemsList {collection: app.filteredItems}
+  itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: app.filteredItems}
   app.inventory.itemsView.show itemsList

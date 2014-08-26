@@ -1,6 +1,10 @@
 <div class="row">
   <div class="small-12 large-4 large-offset-4 columns">
     <h2 class="subheader">{{i18n 'Login'}}</h2>
+    <p>{{i18n 'If you already have an account'}}:</p>
     {{partial '../user/templates/persona_button'}}
+    <p>
+      {{i18n 'else'}} <a id="createAccount" class="linkified">{{i18n 'create an account'}}</a>
+    </p>
   </div>
 </div>

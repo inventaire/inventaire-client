@@ -6,21 +6,29 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     AlertBox: {}
     SuccessCheck: {}
 
-  serializeData: -> return {header: _.i18n('Step 1: Choose a username'), buttonLabel: _.i18n('Validate')}
+  serializeData: ->
+    attrs =
+      header: _.i18n('Step 1: Choose a username')
+      buttonLabel: _.i18n('Validate')
+    return _.extend attrs, @model.toJSON()
 
   events:
     'click #verifyUsername': 'verifyUsername'
 
   verifyUsername: (e)->
     username = $('#username').val()
-    $.post app.API.auth.username, {username: username}
-    .then (res)=>
-      @model.set 'username', res.username
-      @$el.trigger 'check', -> app.execute 'show:signup:step2'
-    .fail (err)=>
-      @invalidUsername(err)
+    if username is ''
+      @invalidUsername _.i18n "'username' can't be empty"
+    else
+      $.post(app.API.auth.username, {username: username})
+      .then (res)=>
+        @model.set 'username', res.username
+        @$el.trigger 'check', -> app.execute 'show:signup:step2'
+      .fail (err)=>
+        _.log err.responseJSON, 'invalidUsername'
+        @invalidUsername(err)
+      .done()
 
   invalidUsername: (err)=>
-    _.log err, 'invalidUsername'
     errMessage = _.i18n (err.responseJSON?.status_verbose || "invalid username")
     @$el.trigger 'alert', {message: errMessage}

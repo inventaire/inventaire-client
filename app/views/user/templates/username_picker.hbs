@@ -2,14 +2,14 @@
   <h3 class="with-tip">{{header}}</h3>
   <span data-tooltip class="has-tip tip-right" title="{{i18n 'Username can be anything made of 1 to 20 letters, figures or _'}}"><i class="fa fa-question-circle"></i></span>
 
-  <form class="row collapse">
+  <div class="row collapse">
     <div class="large-7 small-12 columns">
-      <input id="username" class="has-alertbox" type="text" autocorrect="off" autocapitalize="off" autocomplete="off" placeholder="{{i18n 'username'}}..." value="{{username}}">
+      <input id="username" class="has-alertbox enterClick" type="text" autocorrect="off" autocapitalize="off" autocomplete="off" placeholder="{{i18n 'username'}}..." value="{{username}}">
     </div>
 
     <div class="large-4 small-6 centered columns">
-      <input id="verifyUsername" type="submit" class="button success postfix" value="{{buttonLabel}}">
+      <a id="verifyUsername" class="button success postfix">{{buttonLabel}}</a>
     </div>
     <div class="check large-1 small-12 centered columns"></div>
-  </form>
+  </div>
 </div>

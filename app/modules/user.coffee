@@ -1,5 +1,16 @@
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
+    UserRouter = Marionette.AppRouter.extend
+      appRoutes:
+        'signup':'showSignupStep1'
+        # 'signup/1':'showSignupStep1'
+        # 'signup/2':'showSignupStep2'
+        'login':'showLogin'
+
+    app.addInitializer ->
+      new UserRouter
+        controller: API
+
     initializePersona(app)
     app.user = new app.Model.User
     recoverUserData(app)
@@ -7,6 +18,29 @@ module.exports =
     initializeUserEditionCommands(app)
     initializeUserMenuUpdate(app)
     initializeSignupLoginHandlers(app)
+
+# beware that app.layout is undefined when User.define is fired
+# app.layout should thus appear only in callbacks
+API =
+  showSignupStep1: ->
+    app.layout.main.show new app.View.Signup.Step1 {model: app.user}
+    app.navigate 'signup'
+  showSignupStep2: ->
+    app.layout.main.show new app.View.Signup.Step2 {model: app.user}
+    # app.navigate 'signup/2'
+  showLogin: ->
+    app.layout.main.show new app.View.Login.Step1 {model: app.user}
+    app.navigate 'login'
+
+
+initializeSignupLoginHandlers = (app)->
+  app.commands.setHandlers
+    'show:signup': API.showSignupStep1
+    'show:signup:step1': API.showSignupStep1
+    'show:signup:step2': API.showSignupStep2
+    'show:login': API.showLogin
+    'show:login:step1': API.showLogin
+
 
 initializePersona = (app)->
   if navigator.id?
@@ -73,14 +107,3 @@ initializeUserMenuUpdate = (app)->
 
   app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
 
-
-initializeSignupLoginHandlers = (app)->
-  app.commands.setHandlers
-    'show:signup:step1': ->
-      app.layout.main.show new app.View.Signup.Step1 {model: app.user}
-
-    'show:signup:step2': ->
-      app.layout.main.show new app.View.Signup.Step2 {model: app.user}
-
-    'show:login:step1': ->
-      app.layout.main.show new app.View.Login.Step1 {model: app.user}

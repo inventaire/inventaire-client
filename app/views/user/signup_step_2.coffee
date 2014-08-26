@@ -8,11 +8,9 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
     Loading: {}
 
   backToStepOne: (e)->
-    app.layout.modal.show new app.View.Signup.Step1 {model: app.user}
-
+    app.layout.main.show new app.View.Signup.Step1 {model: app.user}
 
   onShow: -> app.execute 'foundation:reload'
-
 
   waitingForPersona:->
     app.execute 'persona:login'

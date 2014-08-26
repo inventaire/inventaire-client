@@ -1,10 +1,8 @@
-CategoryMenu = require 'views/items/form/category_menu'
-Book = require 'views/items/form/book'
-Other = require 'views/items/form/other'
-ValidationButtons = require 'views/items/form/validation_buttons'
-
 module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
   template: require "views/items/templates/item_form"
+
+  behaviors:
+    SuccessCheck: {}
 
   regions:
     step1: '#step1'
@@ -14,30 +12,22 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
     results3: '#results3'
     validation: '#validation'
 
-  categories:
-    book: {text: 'book', value: 'book', icon: 'book', entity: 'Q571'}
-    other: {text: 'something else', value: 'other'}
-
-  onShow: ->
-    app.execute 'modal:open'
-    @step1.show new CategoryMenu {model: @categories}
-
-  behaviors:
-    SuccessCheck: {}
-
   events:
-    'click .category': 'showStep2'
+    'click #step1 .category': 'showCategorySpecificForm'
     'click #validate': 'validateNewItemForm'
-    'click #cancel': -> app.execute 'modal:close'
+    'click #cancel': -> app.execute 'show:home'
 
-  showStep2: (e)->
+
+  onShow: -> @step1.show new app.View.Form.CategoryMenu {model: app.Entities.categories}
+
+  showCategorySpecificForm: (e)->
     @results1.empty()
     @results2.empty()
     @validation.empty()
     switch e.currentTarget.id
       when 'label' then @step2.empty()
-      when 'book' then @step2.show new Book
-      when 'other' then @step2.show new Other
+      when 'book' then @step2.show new app.View.Form.BookForm
+      when 'other' then @step2.show new app.View.Form.OtherForm
 
   serializeData: ->
     return { status: _.i18n 'Add a new item to your Inventory' }
@@ -47,6 +37,6 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
       title: $('#title').val()
       comment: $('#comment').val()
     if app.request('item:validateCreation', newItem)
-      @$el.trigger 'check', -> app.execute 'modal:close'
+      @$el.trigger 'check', -> app.execute 'show:inventory:personal'
     else
       console.error 'invalid item data'

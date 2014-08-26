@@ -26,6 +26,8 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     requestedUsername = $('#username').val()
     if requestedUsername == app.user.get 'username'
       @invalidUsername _.i18n "that's already your username"
+    else if requestedUsername is ''
+      @invalidUsername _.i18n "'username' can't be empty"
     else
       $.post app.API.auth.username, {username: requestedUsername}
       .then (res)=> @confirmUsernameChange(res.username)

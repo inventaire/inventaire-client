@@ -15,13 +15,21 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   initialize: (e)->
     @render()
     app.vent.trigger 'layout:ready'
+    app.commands.setHandlers
+      'show:home': @showHome
+      'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
 
-  showHome: -> app.execute 'show:inventory:personal'
-
-  triggerPreventDefault: (e)->
-    unless _.hasValue(e.currentTarget.className.split(' '), 'default')
-      e.preventDefault()
+  showHome: ->
+    _.log 'show:home'
+    if app.user.loggedIn
+      app.execute 'show:inventory:personal'
+      app.execute 'main:fadeIn'
+    else
+      app.execute 'show:welcome'
+      app.execute 'main:fadeIn'
 
   enterClick: (e)->
     if e.keyCode is 13 && $(e.currentTarget).val().length > 0
-      $(e.currentTarget).parents('.row').find('.button').trigger 'click'
+      row = $(e.currentTarget).parents('.row')[0]
+      $(row).find('.button').trigger 'click'
+      _.log 'ui: enter-click'
