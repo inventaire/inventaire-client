@@ -1,4 +1,3 @@
-
 class App extends Backbone.Marionette.Application
   initialize: =>
 
@@ -24,8 +23,5 @@ class App extends Backbone.Marionette.Application
       unless routeFound
         console.error('route: not found! check if route is defined before app.start()')
         _.log Backbone.history.handlers, 'route: handlers at start'
-
-      if _.encodedURL()
-        @navigate(_.getCurrentRoute().path.label('route:decodeURL'), {replace: true})
 
 module.exports = new App()
