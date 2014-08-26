@@ -37,8 +37,18 @@ module.exports =
       List: require 'views/contacts/contacts_list'
     Behaviors:
       ConfirmationModal: require 'views/behaviors/confirmation_modal'
+      Loader: require 'views/behaviors/loader'
+    Form:
+      CategoryMenu: require 'views/items/form/category_menu'
+      BookForm: require 'views/items/form/book'
+      OtherForm: require 'views/items/form/other'
+      ValidationButtons: require 'views/items/form/validation_buttons'
+    Entities:
+      Wikidata: require 'views/entities/wikidata_entity'
+
 
   lib:
     i18n: require 'lib/i18n'
     utils: require 'lib/utils'
     foundation: require 'lib/foundation'
+    wikidata: require 'lib/wikidata'
