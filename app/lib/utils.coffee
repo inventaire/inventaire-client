@@ -2,7 +2,7 @@ String::label = (label)->
   console.log "[#{label}] #{@toString()}" unless isMuted(label)
   return @toString()
 
-muted = require 'lib/muted_logs'
+muted = require './muted_logs'
 isMuted = (label)->
   if label?
     tag = label.split(':')?[0]
@@ -63,6 +63,8 @@ module.exports =
 
     else app.polyglot.t key
 
+  # weak but handy
+  hasDiff: (obj1, obj2)-> JSON.stringify(obj1) != JSON.stringify(obj2)
   hasValue: (array, value)-> array.indexOf(value) isnt -1
 
   wmCommonsThumb: (file, width=100)->
@@ -75,13 +77,34 @@ module.exports =
       search: decodeURIComponent window.location.search
       hash: decodeURIComponent window.location.hash
     route.path = route.pathname + route.search + route.hash
-    query = route.search[1..-1]
-    for i in query.split('&')
-      pair = i.split '='
-      route.query ||= new Object
-      route.query[pair[0]] = pair[1] if pair[0]?.length > 0
+    route.query = @parseQuery route.search
     return route
 
   encodedURL: ->
     route = @getCurrentRoute
     return route.path isnt route.rawPath
+
+  parseQuery: (queryString)->
+    query = new Object
+    if queryString?
+      queryString = queryString[1..-1] if queryString[0] is '?'
+      for i in queryString.split('&')
+        pair = i.split '='
+        if pair[0]?.length > 0 and pair[1]?
+          query[pair[0]] = pair[1].replace('_',' ')
+    return query
+
+
+  updateQuery: (newParams)->
+    [pathname, queryString] = Backbone.history.fragment.split('?')
+    query = @parseQuery(queryString)
+    _.extend query, newParams
+    app.navigate @buildPath(pathname, query)
+
+  buildPath: (pathname, queryObj)->
+    if queryObj? and not _.isEmpty queryObj
+      queries = ''
+      for k,v of queryObj
+        queries += "&#{k}=#{v}"
+      return pathname + '?' + queries[1..-1]
+    else pathname
