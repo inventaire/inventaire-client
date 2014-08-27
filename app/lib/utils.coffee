@@ -4,10 +4,11 @@ String::label = (label)->
 
 muted = require './muted_logs'
 isMuted = (label)->
-  if label?
+  if label?.split?
     tag = label.split(':')?[0]
     return (muted.indexOf(tag) isnt -1)
-  else false
+  else
+    console.log 'couldnt log', label
 
 module.exports =
   log: (obj, label)->
@@ -66,6 +67,12 @@ module.exports =
   # weak but handy
   hasDiff: (obj1, obj2)-> JSON.stringify(obj1) != JSON.stringify(obj2)
   hasValue: (array, value)-> array.indexOf(value) isnt -1
+  haveAMatch: (array1, array2)->
+    result = false
+    array1.forEach (el)->
+      if array2.indexOf(el) isnt -1
+        result = true
+    return result
 
   wmCommonsThumb: (file, width=100)->
     "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
