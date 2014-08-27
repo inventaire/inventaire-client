@@ -2,6 +2,9 @@ $main-bg: #fcfcfc url(/images/lightpaperfibers.png) repeat;
 
 body {
   background: $main-bg;
+  main {
+    padding-bottom: 2rem;
+  }
   ul{
     list-style-type: none;
     margin: 0;
@@ -67,6 +70,10 @@ $success-color: #43AC6A;
   padding: 1rem;
 }
 
+.fa.monospaced {
+  width: 1.2rem;
+  text-align: center;
+}
 
 // FORMS
 $input-include-glowing-effect: false;
@@ -100,7 +107,6 @@ $button-margin-bottom: 0rem;
   main{
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-    padding-bottom: 2rem !important;
   }
 }
 

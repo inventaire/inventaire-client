@@ -13,3 +13,7 @@ module.exports = class VisibilityTabs extends Backbone.Marionette.ItemView
 
     $('#visibility-tabs li').removeClass 'active'
     $(e.currentTarget).find('li').addClass 'active'
+
+  serializeData: ->
+    return attrs =
+      listings: app.user.listings

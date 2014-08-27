@@ -18,6 +18,7 @@ module.exports =
     initializeUserEditionCommands(app)
     initializeUserMenuUpdate(app)
     initializeSignupLoginHandlers(app)
+    initializeUserListings(app)
 
 # beware that app.layout is undefined when User.define is fired
 # app.layout should thus appear only in callbacks
@@ -107,3 +108,18 @@ initializeUserMenuUpdate = (app)->
 
   app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
 
+
+initializeUserListings = (app)->
+  app.user.listings =
+    private:
+      id: 'private'
+      icon: 'lock'
+      label: 'Private Inventory'
+    contacts:
+      id: 'contacts'
+      icon: 'users'
+      label: 'Shared Inventory'
+    public:
+      id: 'public'
+      icon: 'globe'
+      label: 'Public Inventory'

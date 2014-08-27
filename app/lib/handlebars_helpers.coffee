@@ -17,9 +17,11 @@ module.exports =
       else
         return
 
-    register 'icon', (name) ->
+    register 'icon', (name, classes) ->
       name = name || 'cube'
-      new Handlebars.SafeString "<i class='fa fa-#{name}'></i>"
+      if typeof classes is 'string' and classes.length > 0
+        new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;"
+      else new Handlebars.SafeString "<i class='fa fa-#{name}'></i>&nbsp;"
 
     register 'safe', (text) ->
       new Handlebars.SafeString text
