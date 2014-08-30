@@ -114,12 +114,15 @@ initializeUserListings = (app)->
     private:
       id: 'private'
       icon: 'lock'
+      unicodeIcon: '&#xf023;'
       label: 'Private Inventory'
     contacts:
       id: 'contacts'
       icon: 'users'
+      unicodeIcon: '&#xf0c0;'
       label: 'Shared Inventory'
     public:
       id: 'public'
       icon: 'globe'
+      unicodeIcon: '&#xf0ac;'
       label: 'Public Inventory'

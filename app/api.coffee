@@ -30,5 +30,6 @@ module.exports =
       "/api/entities/search?claims=[P31:Q571]&search=#{search}&language=#{app.user.lang}"
     claim: proxy('http://wdq.wmflabs.org/api')
   wikidata:
+    uri: (id)-> "http://www.wikidata.org/entity/#{id}"
     get: proxy('https://www.wikidata.org/w/api.php')
 

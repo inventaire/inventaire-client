@@ -21,8 +21,10 @@ module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
   onShow: -> @step1.show new app.View.Form.CategoryMenu {model: app.Entities.categories}
 
   showCategorySpecificForm: (e)->
+    @step2.empty()
     @results1.empty()
     @results2.empty()
+    @results3.empty()
     @validation.empty()
     switch e.currentTarget.id
       when 'label' then @step2.empty()

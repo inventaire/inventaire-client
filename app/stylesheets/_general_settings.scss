@@ -102,6 +102,20 @@ $button-margin-bottom: 0rem;
   color: #777;
 }
 
+select {
+  font-family: 'FontAwesome', 'Alegreya';
+  option {
+    // works in Firefox not Chrome
+    font-size: 1rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+}
+
+
+.margin-top{
+  margin-top: 1rem;
+}
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   main{

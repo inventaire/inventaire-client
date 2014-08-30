@@ -2,7 +2,8 @@ proxy = (route)-> '/proxy/' + route
 defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
 
 module.exports =
-  getEntities: (ids, languages=[app.user.lang, 'en'], props=defaultProps, format='json')->
+  getEntities: (ids, languages, props=defaultProps, format='json')->
+    languages = [app.user.lang, 'en']  unless languages?
     ids = [ids] if typeof ids is 'string'
     ids = @normalizeIds(ids)
     pipedIds = ids.join '|'
@@ -12,10 +13,18 @@ module.exports =
     query = "#{app.API.wikidata.get}?action=wbgetentities&languages=#{pipedLanguages}&format=#{format}&props=#{pipedProps}&ids=#{pipedIds}".label('getEntities query')
     return $.getJSON(query)
 
+  parseEntityData: (wikidataAPIAnswer, id)->
+    return wikidataAPIAnswer.entities[id]
+
 
   serializeWikiData: (entityModel)->
     lang = app.user.lang
-    model = entityModel.toJSON()
+
+    # dangerously accepting both Models and raw data object
+    if model = entityModel.toJSON?
+      model = entityModel.toJSON()
+    else model = entityModel
+
     model.attrs = attrs =
       pictures: model.flat?.pictures
       P31: model.flat?.claims.P31
@@ -72,33 +81,42 @@ module.exports =
       return entity[props].en.value
     else return
 
-  getWikipediaTitle: (sitelinks, lang=app.user.lang)->
-    _.log arguments, 'getWikipediaLink args'
+  getWikipediaTitle: (sitelinks, lang)->
+    lang = app.user.lang unless lang?
     if sitelinks?["#{lang}wiki"]?.title?
       return sitelinks["#{lang}wiki"].title
-    else if sitelinks?.enwiki?.title?
-      return sitelinks.enwiki.title
+    # else if sitelinks?.enwiki?.title?
+    #   return sitelinks.enwiki.title
     else return
 
   # getWikipediaLink: (sitelinks, lang=app.user.lang)->
   #   title = wd.getWikipediaTitle((sitelinks, lang)
   #   return "https://#{lang}.wikipedia.org/wiki/#{title}"
 
-  getWikipediaInfo: (entity, lang=app.user.lang)->
+  getWikipediaInfo: (entity, lang)->
+    lang = app.user.lang unless lang?
     info = {}
     info.title = title = wd.getWikipediaTitle(entity.sitelinks, lang)
     info.url = "https://#{lang}.wikipedia.org/wiki/#{title}"
+    info.baseUrl = "https://#{lang}.wikipedia.org"
+    return info
 
-  getWikipediaExtractFromTitle: (title, lang = app.user.lang)->
+  getWikipediaExtractFromTitle: (title, lang)->
+    lang = app.user.lang unless lang?
     request = "https://#{lang}.wikipedia.org/w/api.php?" +
     "action=parse&section=0&prop=text&format=json&page=#{title}"
     _.log request, 'getWikipediaExtractFromTitle request'
     return $.getJSON proxy(request)
     .then (res)->
-      return res.parse.text['*']
+      if res.parse?.text?
+        return res.parse.text['*']
+      else throw new Error 'wikipedia article not found: check if the request #{lang} and #{title} match'
     .fail (err)->
       _.log err, 'getWikipediaExtract err'
 
-  getWikipediaExtractFromEntity: (entity, lang = app.user.lang)->
-    title = wd.getWikipediaTitle(entity.sitelinks)
-    return wd.getWikipediaExtractFromTitle(title)
+  getWikipediaExtractFromEntity: (entity, lang)->
+    lang = app.user.lang unless lang?
+    title = wd.getWikipediaTitle(entity.sitelinks, lang)
+    if title?
+      return wd.getWikipediaExtractFromTitle(title, lang)
+    else console.warn 'no title for a wikipedia article was found'

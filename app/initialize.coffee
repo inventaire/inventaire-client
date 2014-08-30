@@ -33,6 +33,7 @@ $ ->
     app.module 'Redirect', require 'modules/redirect'
     app.module 'Profile', require 'modules/profile'
     app.module 'Entities', require 'modules/entities'
+    app.module 'Listings', require 'modules/listings'
     app.module 'Inventory', require 'modules/inventory'
     app.module 'Contacts', require 'modules/contacts'
 

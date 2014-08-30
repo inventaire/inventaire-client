@@ -14,9 +14,6 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     'keyup #contactSearchField': 'executeContactSearch'
     'click #contactSearchButton': 'executeContactSearch'
 
-  onShow: ->
-    app.inventory.topMenu.show new app.View.InventoriesTabs
-
   executeTextFilter: ->
     app.execute 'textFilter', $('#itemsTextFilterField').val()
 

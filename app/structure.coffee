@@ -43,6 +43,7 @@ module.exports =
       BookForm: require 'views/items/form/book'
       OtherForm: require 'views/items/form/other'
       ValidationButtons: require 'views/items/form/validation_buttons'
+      PersonalData: require 'views/items/form/personal_data'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
 
