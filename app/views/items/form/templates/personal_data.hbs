@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="small-12 large-8 large-offset-2 columns row">
+    <h2 class="subheader">{{safe header}}</h2>
+    <h3>{{i18n 'Add it to a list'}}</h3>
+    <div class="small-12 large-6 columns">
+      <select id="listingPicker" name="listPicker">
+        {{#each listings}}
+          <option value="{{id}}">{{safe unicodeIcon}} {{i18n label}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="small-12 large-12 columns">
+      <h3>{{i18n 'Commentary'}}</h3>
+      <textarea id="commentary" class="error" placeholder="{{i18n 'something to say about this item?'}}... ({{i18n 'optional'}})"></textarea>
+    </div>
+  </div>
+  <div class="small-12 large-8 large-offset-2 columns margin-top">
+    {{partial '../items/form/templates/validation_buttons'}}
+  </div>
+</div>
