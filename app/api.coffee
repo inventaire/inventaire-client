@@ -35,11 +35,3 @@ module.exports =
   wikidata:
     uri: (id)-> "http://www.wikidata.org/entity/#{id}"
     get: proxy 'https://www.wikidata.org/w/api.php'
-  wikipedia:
-    extract: (title, lang)->
-      proxy _.buildPath("https://#{lang}.wikipedia.org/w/api.php",
-        action: 'parse'
-        # section: '0'
-        prop: 'text'
-        format: 'json'
-        page: title)

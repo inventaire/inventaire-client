@@ -64,12 +64,10 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
       wikipedia.root = "https://#{lang}.wikipedia.org"
       wikipedia.url = "https://#{lang}.wikipedia.org/wiki/#{title}"
       wikipedia.mobileUrl = "https://#{lang}.m.wikipedia.org/wiki/#{title}"
-      wikipedia.extract = app.API.wikipedia.extract(title, lang)
     else if title = @getWikipediaTitle(attrs.sitelinks, lang)
       wikipedia.title = title
       wikipedia.url = "https:// en.wikipedia.org/wiki/#{title}"
       wikipedia.mobileUrl = "https://en.m.wikipedia.org/wiki/#{title}"
-      wikipedia.extract = app.API.wikipedia.extract(title, lang)
       wikipedia.root = "https://en.wikipedia.org"
 
     @set 'wikipedia', wikipedia

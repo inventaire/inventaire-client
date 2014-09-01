@@ -23,7 +23,7 @@
         {{#each claims.P50}}
           <span {{Q this}}></span>
         {{/each}}
-        <a id='selectEntity' class=''>
+        <a id='addToInventory' href="{{pathname}}/add">
           {{icon 'plus'}}&nbsp;
           {{i18n 'Add to my inventory'}}
         </a>
@@ -41,7 +41,9 @@
       <a id="toggleWikiediaPreview">
         <h3>wikipedia&nbsp;{{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}}</h3>
       </a>
-      <a href="{{wikipedia.url}}" target='_blank'>({{i18n 'see on'}} wikipedia)</a>
+      <p class="grey">
+        ({{i18n 'see on'}}<a href="{{wikipedia.url}}" target='_blank'>wikipedia</a>)
+      </p>
       <div id='wikipedia-article' class="hidden"></div>
     {{/if}}
   </div>
