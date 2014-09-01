@@ -9,7 +9,7 @@
 </div>
 
 <div class='small-12 large-8 columns'>
-  <h3>{{label}}</h3>
+  <a class='itemTitle' href="{{pathname}}"><h3>{{label}}</h3></a>
   <h4 class="subheader">{{description}}</h4>
   <small class="grey"> {{i18n 'see on'}}
     <a href="{{wikipedia}}" target='_blank'>wikipedia</a>
@@ -22,13 +22,13 @@
     <span {{Q this}}></span>
   {{/each}}
 
-  <a id='selectEntity' class='secondary' href="/entity/{{id}}">
-    <i class='fa fa-chevron-right'></i>&nbsp;
+  <a id='selectEntity' class='secondary' href="{{pathname}}">
+    {{icon 'chevron-right'}}&nbsp;
     {{i18n 'More details'}}
   </a>
   <br>
-  <a id='addToInventory' class='success' {{!-- href="/entity/{{id}}?action=addToInventory" --}}>
-    <i class='fa fa-plus'></i>&nbsp;
+  <a id='addToInventory' class='success' href="{{pathname}}/add">
+    {{icon 'plus'}}&nbsp;
     {{i18n 'Add to my inventory'}}
   </a>
   <div class='check'></div>

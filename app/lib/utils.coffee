@@ -7,8 +7,6 @@ isMuted = (label)->
   if label?.split?
     tag = label.split(':')?[0]
     return (muted.indexOf(tag) isnt -1)
-  else
-    console.log 'couldnt log', label
 
 module.exports =
   log: (obj, label)->
@@ -115,3 +113,6 @@ module.exports =
         queries += "&#{k}=#{v}"
       return pathname + '?' + queries[1..-1]
     else pathname
+
+  softEncodeURI: (str)->
+    str.replace(' ', '_', 'g').replace "'", '_', 'g'

@@ -7,7 +7,7 @@ module.exports =
     user: '/api/auth/user'
     username: '/api/auth/username'
   contacts:
-    contacts: 'api/contacts'
+    contacts: '/api/contacts'
     items: (id)->
       if id?
         return "/api/#{id}/items"
@@ -27,9 +27,19 @@ module.exports =
       else throw new Error "item API needs an owner, an id, and possibly a rev"
   entities:
     search: (search)->
-      "/api/entities/search?claims=[P31:Q571]&search=#{search}&language=#{app.user.lang}"
-    claim: proxy('http://wdq.wmflabs.org/api')
+      _.buildPath "/api/entities/search",
+        search: search
+        language: app.user.lang
+
+    claim: proxy 'http://wdq.wmflabs.org/api'
   wikidata:
     uri: (id)-> "http://www.wikidata.org/entity/#{id}"
-    get: proxy('https://www.wikidata.org/w/api.php')
-
+    get: proxy 'https://www.wikidata.org/w/api.php'
+  wikipedia:
+    extract: (title, lang)->
+      proxy _.buildPath("https://#{lang}.wikipedia.org/w/api.php",
+        action: 'parse'
+        # section: '0'
+        prop: 'text'
+        format: 'json'
+        page: title)

@@ -2,11 +2,13 @@ module.exports =
   Collection:
     Items: require 'collections/items'
     Contacts: require 'collections/contacts'
+    WikidataEntities: require 'collections/wikidata_entities'
 
   Model:
     User: require 'models/user'
     Item: require 'models/item'
     Contact: require 'models/contact'
+    WikidataEntity: require 'models/wikidata_entity'
 
   Layout:
     App: require 'views/app_layout'

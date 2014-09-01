@@ -14,9 +14,14 @@ module.exports = class Book extends Backbone.Marionette.ItemView
   bookSearch: (e)->
     search = $('#bookInput').val()
     _.updateQuery {search: search}
-    @queryAPI search, notEmpty
+    if app.user.lang?
+      @queryAPI search, notEmpty
+    else
+      _.log 'waiting for lang: query delayed'
+      app.user.on 'change:language', => @queryAPI search, notEmpty
 
   queryAPI: (search, validityTest)=>
+    _.log app.user.lang
     input = "#bookInput"
     button = "#bookButton"
     if validityTest(search)
@@ -34,64 +39,50 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       @$el.trigger 'alert', {message: _.i18n "invalid query"}
 
   displayResults: (resultsArray)=>
+    @$el.trigger 'stopLoading'
 
-    _.log resultsArray, 'resultsArray'
-    if resultsArray?.length? and resultsArray.length > 0
-      app.results = {}
-      app.results.humans = humans = []
-      app.results.authors = authors = []
-      app.results.books = books = []
-
-      BooksP31 = [
-        'Q571' #book
-        'Q2831984' #comic book album
-        'Q1004' # bande dessinée
-        'Q8261' #roman
-        'Q25379' #theatre play
-      ]
-
-      resultsArray.map (el)->
-        if el.flat.claims?.P31?[0]? and _.hasValue(el.flat.claims.P31, 'Q5')
-          _.log el, 'pushing el to humans'
-          humans.push el
-
-      resultsArray.map (el)->
-        if el.flat.claims?.P106?[0]? and _.hasValue(el.flat.claims.P106, 'Q36180')
-          _.log el, 'pushing el to authors'
-          authors.push el
+    app.results = new app.Collection.WikidataEntities resultsArray
+    _.log app.results, 'results: WikidataEntities'
 
 
-      resultsArray.map (el)->
-        if el.flat.claims?.P31?[0]? and _.haveAMatch(el.flat.claims.P31, BooksP31)
-          _.log el, 'pushing el to books'
-          books.push el
+    if app.results.length > 0
+      _.extend app.results,
+        humans: humans = new Backbone.Collection
+        authors: authors = new Backbone.Collection
+        books: books = new Backbone.Collection
+
+      app.results.models.map (el)->
+        claims = el.get('claims')
+
+        if claims.P31?[0]?
+          if _.haveAMatch(claims.P31, wd.Q.books)
+            books.add el
+          if _.haveAMatch(claims.P31, wd.Q.humans)
+            humans.add el
+
+        if claims.P106?[0]? and _.haveAMatch(claims.P106, wd.Q.authors)
+          authors.add el
 
 
-      # second test needed as .map returns [undefined] instead of [] when empty
-      if books.length > 0 and books[0]?
-        @books = new Backbone.Collection books
-        _.log @books, 'hello books'
-        booksList = new ResultsList {collection: @books, type: 'books', entity: 'Q571'}
+      if books.length > 0
+        booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
         app.layout.item.creation.results1.show booksList
 
       if authors.length is 0
         authors = humans
-      if authors.length > 0 and authors[0]?
-        @authors = new Backbone.Collection authors
-        _.log @authors, 'hello authors'
-        authorsList = new ResultsList {collection: @authors, type: 'authors', entity: 'Q482980'}
+      if authors.length > 0
+        authorsList = new ResultsList {collection: authors, type: 'authors', entity: 'Q482980'}
         app.layout.item.creation.results2.show authorsList
-        @fetchAuthorsBooks(authors[0])
+        @fetchAuthorsBooks(authors[0]) if authors[0]?
 
-      @$el.trigger 'stopLoading'
       if books.length + authors.length is 0
         @$el.trigger 'alert', {message: _.i18n 'no item found (filtered client-side)'}
 
       app.request('qLabel:update')
 
     else
-      @$el.trigger 'stopLoading'
       @$el.trigger 'alert', {message: _.i18n 'no item found (request returned empty)'}
+
 
 
   fetchAuthorsBooks: (author)->
