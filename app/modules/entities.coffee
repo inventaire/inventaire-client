@@ -4,10 +4,10 @@ module.exports =
       appRoutes:
         'entity/search?*queryString': 'showItemCreationForm'
         'entity/search': 'showItemCreationForm'
+        'entity/:id': 'showEntity'
         'entity/:id/add': 'addEntity'
         'entity/:id/:label': 'showEntity'
         'entity/:id/:label/add': 'addEntity'
-        'entity/:id': 'showEntity'
 
     app.addInitializer ->
       new EntitiesRouter
@@ -20,18 +20,15 @@ module.exports =
 API =
   listEntities: (options)-> _.log options, 'listEntities \o/'
   showEntity: (id)->
-    app.layout.main.show new app.View.Behaviors.Loader
+    app.execute 'show:loader'
     wd.getEntities(id, app.user.lang)
     .then (res)->
       if res.entities?[id]?
-        entity = res.entities[id]
-        _.log [id, res, entity], 'showEntity \o/'
-        wd.rebaseClaimsValueToClaimsRoot(entity)
-        model = new Backbone.Model entity
-        wdEntity = new app.View.Entities.Wikidata {model: model}
+        _.log res, 'res'
+        entity = new app.Model.WikidataEntity res.entities[id]
+        wdEntity = new app.View.Entities.Wikidata {model: entity}
         app.layout.main.show wdEntity
-      else
-        _.log [id, res], 'no entity?!?'
+      else _.log [id, res], 'no entity?!?'
     .fail (err)-> _.log err, 'fail at showEntity'
     .done()
 
