@@ -27,7 +27,6 @@ module.exports =
     ItemsList: require 'views/items/items_list'
     ItemLi: require 'views/items/item_li'
     NoItem: require 'views/items/no_item'
-    ItemCreationForm: require 'views/items/item_creation_form'
     ItemEditionForm: require 'views/items/item_edition_form'
     InventoriesTabs: require 'views/items/inventories_tabs'
     VisibilityTabs: require 'views/items/visibility_tabs'
@@ -45,9 +44,11 @@ module.exports =
       BookForm: require 'views/items/form/book'
       OtherForm: require 'views/items/form/other'
       ValidationButtons: require 'views/items/form/validation_buttons'
-      PersonalData: require 'views/items/form/personal_data'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
+      Search: require 'views/entities/entities_search_form'
+    Items:
+      Creation: require 'views/items/form/item_creation'
 
 
   lib:

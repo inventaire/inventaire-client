@@ -1,5 +1,5 @@
-module.exports =  class ItemCreationForm extends Backbone.Marionette.LayoutView
-  template: require "views/items/templates/item_form"
+module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutView
+  template: require "views/entities/templates/entities_search_form"
 
   behaviors:
     SuccessCheck: {}

@@ -16,4 +16,4 @@ module.exports = class BookLi extends Backbone.Marionette.ItemView
 
   addPersonalData: ->
     e.preventDefault()
-    app.execute 'show:item:personal:settings:fromEntityModel', @model
+    app.execute 'show:item:creation:form:fromEntity', @model

@@ -4,11 +4,12 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
     article: '#article'
 
   events:
-    'click #addToInventory': 'addPersonalData'
+    'click #addToInventory': 'showItemCreationForm'
     'click #toggleWikiediaPreview': 'toggleWikiediaPreview'
 
-  addPersonalData: ->
-    app.execute 'show:item:personal:settings:fromEntityModel', @model
+  showItemCreationForm: ->
+    app.execute 'show:item:creation:form', {entity: @model}
+
 
   toggleWikiediaPreview: ->
     $article = $('#wikipedia-article')

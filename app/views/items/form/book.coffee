@@ -66,13 +66,13 @@ module.exports = class Book extends Backbone.Marionette.ItemView
 
       if books.length > 0
         booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
-        app.layout.item.creation.results1.show booksList
+        app.layout.entities.search.results1.show booksList
 
       if authors.length is 0
         authors = humans
       if authors.length > 0
         authorsList = new ResultsList {collection: authors, type: 'authors', entity: 'Q482980'}
-        app.layout.item.creation.results2.show authorsList
+        app.layout.entities.search.results2.show authorsList
         @fetchAuthorsBooks(authors[0]) if authors[0]?
 
       if books.length + authors.length is 0
@@ -101,7 +101,7 @@ module.exports = class Book extends Backbone.Marionette.ItemView
         books.push entity
       author.books = new Backbone.Collection books
       authorBooksList = new ResultsList {collection: author.books, type: 'books', entity: 'Q571'}
-      app.layout.item.creation.results3.show authorBooksList
+      app.layout.entities.search.results3.show authorBooksList
 
     .fail (err) -> _.log err, 'fetch err'
     .done()

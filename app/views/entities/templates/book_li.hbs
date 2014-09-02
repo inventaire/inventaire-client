@@ -12,7 +12,7 @@
   <a class='itemTitle' href="{{pathname}}"><h3>{{label}}</h3></a>
   <h4 class="subheader">{{description}}</h4>
   <small class="grey"> {{i18n 'see on'}}
-    <a href="{{wikipedia}}" target='_blank'>wikipedia</a>
+    <a href="{{wikipedia.url}}" target='_blank'>wikipedia</a>
     {{i18n 'or'}}
     <a href="http://www.wikidata.org/entity/{{id}}" target='_blank'>wikidata</a>
   </small>
@@ -27,7 +27,7 @@
     {{i18n 'More details'}}
   </a>
   <br>
-  <a id='addToInventory' class='success' href="{{pathname}}/add">
+  <a id='addToInventory' href="{{pathname}}/add">
     {{icon 'plus'}}&nbsp;
     {{i18n 'Add to my inventory'}}
   </a>

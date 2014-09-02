@@ -6,10 +6,13 @@ module.exports =
         'inventory/personal': 'showPersonalInventory'
         'inventory/network': 'showNetworkInventory'
         'inventory/public': 'showPublicInventory'
+        'inventory/:user?*queryString': 'userInventoryQuery'
+        'inventory/:user': 'showUserInventory'
 
     app.addInitializer ->
       new InventoryRouter
         controller: API
+
 
   initialize: ->
     # LOGIC
@@ -24,32 +27,62 @@ API =
   goToPersonalInventory: -> app.goTo 'inventory/personal'
   showPersonalInventory: ->
     showInventory()
+    showInventoryTabs()
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.execute 'filter:inventory:personal'
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   showNetworkInventory: ->
     showInventory()
+    showInventoryTabs()
     app.execute 'filter:inventory:network'
     app.inventory.viewTools.show new app.View.ContactsInventoryTools
     app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
 
   showPublicInventory: ->
     showInventory()
+    showInventoryTabs()
     app.execute 'filter:inventory:public'
     console.log '/!\\ fake publicInventory filter'
     app.inventory.viewTools.show new app.View.ContactsInventoryTools
     app.inventory.sideMenu.empty()
 
-  showItemPersonalSettings: (itemModel)->
-    personalDataForm = new app.View.Form.PersonalData {model: itemModel}
-    app.layout.main.show personalDataForm
+  showItemCreationForm: (params)->
+    form = new app.View.Items.Creation params
+    app.layout.main.show form
+
+  showUserInventory: (user)->
+    filterForUser = ->
+      userId = app.request('getIdFromUsername', user)
+      if userId?
+        app.execute 'filter:inventory:owner', userId
+      else
+        _.log [user, userId], 'user not found: you should do some ajax wizzardry to get him'
+    if app.contacts.fetched
+      filterForUser()
+    else
+      app.vent.on 'contacts:ready', -> filterForUser()
+    showInventory()
+
+  userInventoryQuery: (user, queryString)->
+    query = _.parseQuery(queryString)
+    if query?.action is 'add'
+      app.execute 'show:item:personal:settings:fromEntityURI', query.entity
+
+    _.log [arguments, query], 'userInventoryQuery'
 
 showInventory = ->
-  app.inventory = new app.Layout.Inventory
-  app.layout.main.show app.inventory  unless app.inventory._isShown
+  # regions shouldnt be undefined, which can't be tested by "app.inventory?._isShown"
+  # so here I just test one of Inventory regions
+  unless app.inventory?.itemsView?
+    app.inventory = new app.Layout.Inventory
+    app.layout.main.show app.inventory
   itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: app.filteredItems}
   app.inventory.itemsView.show itemsList
+
+showInventoryTabs = ->
+  unless app.inventory?.topMenu?._isShown
+    app.inventory.topMenu.show new app.View.InventoriesTabs
 
 
 createItemFromEntity = (entityData)-> _.log entityData, 'entityData'
@@ -64,7 +97,10 @@ fetchItems = (app)->
     'item:validateCreation': validateCreation
 
 validateCreation = (itemData)->
-  if itemData.title? && itemData.title isnt ''
+  _.log itemData, 'itemData at validateCreation'
+  if itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
+    if itemData.entity?.label?
+      itemData.title = itemData.entity.label
     _.extend itemData, {
       _id: _.idGenerator(6)
       created: new Date()
@@ -82,9 +118,9 @@ initializeFilters = (app)->
       'networkInventory': (model)-> model.get('owner') isnt app.user.id
       'publicInventory': (model)-> model.get('owner') isnt app.user.id
     visibility:
-      'private': {'visibility':'private'}
-      'contacts': {'visibility':'contacts'}
-      'public': {'visibility':'public'}
+      'private': {'listing':'private'}
+      'contacts': {'listing':'contacts'}
+      'public': {'listing':'public'}
 
   # user will probably have no id when initializeFilters is fired as the user recover data may not have return yet
   # so we need to listen for this event
@@ -157,7 +193,9 @@ initializeInventoriesHandlers = (app)->
       API.showPublicInventory()
       app.navigate 'inventory/public'
 
-    'show:item:personal:settings': (itemModel)->
-      showItemPersonalSettings(itemModel)
-      app.navigate 'where/should/I/go??'
-
+    'show:item:creation:form': (params)->
+      API.showItemCreationForm(params)
+      if params.entity?
+        pathname = params.entity.get 'pathname'
+        app.navigate "#{pathname}/add"
+      else throw new Error 'missing entity'

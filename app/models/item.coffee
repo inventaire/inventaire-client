@@ -1,4 +1,4 @@
-module.exports = class Item extends Backbone.Model
+module.exports = class Item extends Backbone.NestedModel
   # defaults:
     # entity: uri
     # version: uri
@@ -29,7 +29,7 @@ module.exports = class Item extends Backbone.Model
     owner = @get('owner')
     @username = app.request('getUsernameFromId', owner)
     @profilePic = app.request('getProfilePicFromId', owner)
-    @restricted= true unless @get('owner') is app.user.id
+    @restricted = true unless @get('owner') is app.user.id
 
   matches: (expr) ->
     return true  if expr is null
