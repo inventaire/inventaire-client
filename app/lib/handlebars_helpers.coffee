@@ -7,7 +7,9 @@ module.exports =
 
     register 'partial', (name, context) ->
       template = require "views/templates/#{name}"
-      new Handlebars.SafeString template(context)
+      if template?
+        new Handlebars.SafeString template(context)
+      else throw new Error 'handlebars: bad path: template not found'
 
     register 'firstElement', (obj) ->
       if _.isArray obj

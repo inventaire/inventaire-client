@@ -17,6 +17,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.vent.trigger 'layout:ready'
     app.commands.setHandlers
       'show:home': @showHome
+      'show:loader': ->
+        app.layout.main.show new app.View.Behaviors.Loader
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
 
   showHome: ->
@@ -33,3 +35,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       row = $(e.currentTarget).parents('.row')[0]
       $(row).find('.button').trigger 'click'
       _.log 'ui: enter-click'
+
+  triggerPreventDefault: (e)->
+    unless e.target.className is 'default'
+      e.preventDefault()

@@ -116,3 +116,9 @@ module.exports =
 
   softEncodeURI: (str)->
     str.replace(' ', '_', 'g').replace "'", '_', 'g'
+
+  toSet: (array)->
+    obj = {}
+    array.forEach (value)->
+      obj[value] = true
+    return Object.keys(obj)

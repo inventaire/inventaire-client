@@ -10,15 +10,6 @@
 *~
 *.sass-cache
 
-# OS or Editor folders
-.DS_Store
-.cache
-.project
-.settings
-.tmproj
-nbproject
-Thumbs.db
-
 # NPM packages folder.
 node_modules/
 npm-debug.log

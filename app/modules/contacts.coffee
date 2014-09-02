@@ -61,7 +61,9 @@ fetchContactsAndTheirItems = ->
       contactModel.trigger 'change:following', contactModel
       app.execute 'contact:fetchItems', contactModel
   .fail (err)-> console.error(err)
-  .done()
+  .done ->
+    app.contacts.fetched = true
+    app.vent.trigger 'contacts:ready'
 
 initializeContactSearch = ->
   app.filteredContacts = new FilteredCollection app.contacts

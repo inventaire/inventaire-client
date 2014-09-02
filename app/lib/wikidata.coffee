@@ -15,10 +15,6 @@ module.exports =
     ).label('getEntities query')
     return $.getJSON(query)
 
-  parseEntityData: (wikidataAPIAnswer, id)->
-    return wikidataAPIAnswer.entities[id]
-
-
   normalizeIds: (idsArray)->
     return idsArray.map wd.normalizeId
 
@@ -28,6 +24,7 @@ module.exports =
     else throw new Error 'invalid id provided to normalizeIds'
 
   isNumericId: (id)-> /^[0-9]{1,}$/.test id
+  isWikidataId: (id)-> /^Q[0-9]{1,}$/.test id
 
   getExtract: (extractRoute)->
     _.log extractRoute, 'extract extractRoute'
