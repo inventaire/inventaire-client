@@ -1,3 +1,4 @@
+require('lib/uncatched_error_logger').initialize()
 require('lib/handlebars_helpers').initialize()
 app = require 'app'
 
@@ -5,9 +6,10 @@ _.extend _, require 'lib/utils'
 window.wd = require 'lib/wikidata'
 
 #changing the default attribute to fit CouchDB
-Backbone.Model.prototype.idAttribute = '_id'
+Backbone.Model::idAttribute = '_id'
 
 _.extend Marionette.View.prototype, require('lib/views_utils')
+
 
 # Initialize the application on DOM ready event.
 $ ->
@@ -31,10 +33,10 @@ $ ->
 
   if app.user.loggedIn
     app.module 'Redirect', require 'modules/redirect'
+    app.module 'Inventory', require 'modules/inventory'
     app.module 'Profile', require 'modules/profile'
     app.module 'Entities', require 'modules/entities'
     app.module 'Listings', require 'modules/listings'
-    app.module 'Inventory', require 'modules/inventory'
     app.module 'Contacts', require 'modules/contacts'
 
   app.request('i18n:set')

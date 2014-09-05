@@ -18,8 +18,7 @@ initializeContacts = ->
       contactModel = app.contacts._byId[id]
       if contactModel? && contactModel.get?
         return contactModel.get 'username'
-      else
-        _.log 'couldnt find the contact from id'
+      else throw new Error "couldnt find the contact from id: #{id}"
 
     'getIdFromUsername': (username)->
       contactModel = app.contacts.findWhere({username: username})
@@ -32,8 +31,7 @@ initializeContacts = ->
       contactModel = app.contacts._byId[id]
       if contactModel? && contactModel.get?
         return contactModel.get 'picture'
-      else
-        _.log 'couldnt find the contact from id'
+      else throw new Error "couldnt find the contact from id: #{id}"
 
   # include main user in contacts to be able to access it from getUsernameFromId
   app.contacts.add app.user
