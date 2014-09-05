@@ -5,6 +5,7 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     SuccessCheck: {}
 
   regions:
+    scanner: '#scanner'
     step1: '#step1'
     step2: '#step2'
     results1: '#results1'
@@ -17,8 +18,9 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     'click #validate': 'validateNewItemForm'
     'click #cancel': -> app.execute 'show:home'
 
-
-  onShow: -> @step1.show new app.View.Form.CategoryMenu {model: app.Entities.categories}
+  onShow: ->
+    @scanner.show new app.View.Form.Scanner  if _.isMobile()
+    @step1.show new app.View.Form.CategoryMenu {model: app.Entities.categories}
 
   showCategorySpecificForm: (e)->
     @step2.empty()

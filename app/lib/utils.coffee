@@ -129,3 +129,5 @@ module.exports =
   inspect: (obj)->
     window.current ||= []
     window.current.unshift(obj)
+
+  isMobile: require 'lib/mobile_check'

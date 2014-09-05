@@ -44,6 +44,7 @@ module.exports =
       BookForm: require 'views/items/form/book'
       OtherForm: require 'views/items/form/other'
       ValidationButtons: require 'views/items/form/validation_buttons'
+      Scanner: require 'views/items/form/scanner'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
       Search: require 'views/entities/entities_search_form'
@@ -56,3 +57,6 @@ module.exports =
     utils: require 'lib/utils'
     foundation: require 'lib/foundation'
     wikidata: require 'lib/wikidata'
+    bookAPIs: require 'lib/book_APIs'
+    imageHandler: require 'lib/image_handler'
+    uncatchedErrorLogger: require 'lib/uncatched_error_logger'
