@@ -1,6 +1,11 @@
-module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
+module.exports = class Loader extends Backbone.Marionette.ItemView
   template: require 'views/behaviors/templates/loader'
   behaviors:
     Loading: {}
 
-  onShow: -> @$el.trigger 'loading'
+  onShow: ->
+    somethingWentWrong = => @$el.trigger('somethingWentWrong')
+
+    @$el.trigger 'loading'
+    setTimeout(somethingWentWrong, 16 * 1000)
+

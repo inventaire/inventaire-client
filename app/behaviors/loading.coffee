@@ -5,12 +5,10 @@ module.exports = class Loading extends Marionette.Behavior
   events:
     "loading": "showSpinningLoader"
     "stopLoading": "hideSpinningLoader"
+    "somethingWentWrong": "somethingWentWrong"
 
   showSpinningLoader: (e, params)->
-    if params?.selector?
-      $target = $(params.selector).find('.loading')
-    else
-      $target = @ui.loading
+    $target = @getTarget(params)
 
     body = "<i class='fa fa-circle-o-notch fa-spin'></i>"
     if params?.message?
@@ -21,4 +19,18 @@ module.exports = class Loading extends Marionette.Behavior
 
   hideSpinningLoader: ->
     @ui.loading.empty()
+
+  somethingWentWrong: (e, params)->
+    $target = @getTarget(params)
+
+    oups = _.i18n 'Something went wrong'
+    body = "<i class='fa fa-bolt'></i><p> #{oups} :(</p>"
+
+    $target.html body
+
+  getTarget: (params)->
+    if params?.selector?
+      return $target = $(params.selector).find('.loading')
+    else
+      return $target = @ui.loading
 

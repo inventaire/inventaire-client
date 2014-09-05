@@ -1,5 +1,8 @@
 module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   template: require 'views/templates/app_layout'
+  behaviors:
+    PreventDefault: {}
+
   el: 'body'
 
   regions:
@@ -9,7 +12,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   events:
     'click #home': 'showHome'
-    'click a': 'triggerPreventDefault'
     'keyup .enterClick': 'enterClick'
 
   initialize: (e)->
@@ -17,9 +19,13 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.vent.trigger 'layout:ready'
     app.commands.setHandlers
       'show:home': @showHome
-      'show:loader': ->
-        app.layout.main.show new app.View.Behaviors.Loader
+      'show:loader': @showLoader
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
+
+  showLoader: (region)->
+    region ||= app.layout.main
+    _.log region, 'region?'
+    region.show new app.View.Behaviors.Loader
 
   showHome: ->
     _.log 'show:home'
@@ -35,7 +41,3 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       row = $(e.currentTarget).parents('.row')[0]
       $(row).find('.button').trigger 'click'
       _.log 'ui: enter-click'
-
-  triggerPreventDefault: (e)->
-    unless e.target.className is 'default'
-      e.preventDefault()

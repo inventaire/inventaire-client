@@ -1,4 +1,4 @@
-String::label = (label)->
+String::logIt = (label)->
   console.log "[#{label}] #{@toString()}" unless isMuted(label)
   return @toString()
 
@@ -11,7 +11,7 @@ isMuted = (label)->
 module.exports =
   log: (obj, label)->
     if typeof obj is 'string'
-      if label? then obj.label(label)
+      if label? then obj.logIt(label)
       else console.log obj unless (isMuted(obj) or isMuted(label))
     else
       unless isMuted(label)
@@ -115,10 +115,17 @@ module.exports =
     else pathname
 
   softEncodeURI: (str)->
-    str.replace(' ', '_', 'g').replace "'", '_', 'g'
+    @inspect(str)
+    if typeof str is 'string'
+      str.replace(/\s/g, '_').replace(/'/g, '_')
+    else throw new Error "softEncodeURI expected a string and got #{str}"
 
   toSet: (array)->
     obj = {}
     array.forEach (value)->
       obj[value] = true
     return Object.keys(obj)
+
+  inspect: (obj)->
+    window.current ||= []
+    window.current.unshift(obj)

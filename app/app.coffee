@@ -7,13 +7,19 @@ class App extends Backbone.Marionette.Application
     @Behaviors.initialize()
 
     @navigate = (route, options)->
-      route.label('route:navigate')
+      route.logIt('route:navigate')
       Backbone.history.navigate(route, options)
 
     @goTo = (route, options)->
-      route.label('route:goTo')
+      route.logIt('route:goTo')
       options ||= new Object
       options.trigger = true
+      Backbone.history.navigate(route, options)
+
+    @navigateReplace = (route, options)->
+      route.logIt('route:navigateReplace')
+      options ||= new Object
+      options.replace = true
       Backbone.history.navigate(route, options)
 
     @on "start", (options) =>

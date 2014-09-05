@@ -12,7 +12,7 @@ module.exports =
       format: format
       props: props.join '|'
       ids: ids.join '|'
-    ).label('getEntities query')
+    ).logIt('getEntities query')
     return $.getJSON(query)
 
   normalizeIds: (idsArray)->
