@@ -47,18 +47,8 @@ initializePersona = (app)->
   if navigator.id?
     navigator.id.logout()
     navigator.id.watch
-      onlogin: (assertion) ->
-        input =
-          assertion: assertion
-          username: app.user.get('username')
-          _csrf: $('#token').val()
-        $.post app.API.auth.login, input, (data)->
-          if typeof data is 'object'
-            # will get user data on reload's fetch
-            window.location.reload()
-          else console.error 'onlogin: invalid data'
-      onlogout: ()->
-        app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
+      onlogin: onlogin
+      onlogout: onlogout
   else unreachablePersona()
 
   app.commands.setHandlers
@@ -66,11 +56,32 @@ initializePersona = (app)->
       if navigator.id? then navigator.id.request()
       else unreachablePersona()
     'persona:logout': ->
-      $.post app.API.auth.logout, (data)->
+      $.post(app.API.auth.logout)
+      .then (data)->
         window.location.reload()
         _.log "You have been successfully logged out"
 
-unreachablePersona = -> console.error 'Persona Login not available: you might be offline'
+unreachablePersona = ->
+  throw new Error 'Persona Login not available: you might be offline'
+
+onlogin = (assertion) ->
+  input =
+    assertion: assertion
+    username: app.user.get('username')
+    _csrf: $('#token').val()
+  $.post(app.API.auth.login, input)
+  .then (data)->
+    if typeof data is 'object'
+      # will get user data on reload's fetch
+      window.location.reload()
+    else console.error 'onlogin: invalid data'
+  .fail (err)->
+    app.vent.trigger 'persona:error', err
+    throw new Error JSON.stringify(err)
+
+onlogout = ->
+  app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
+
 
 recoverUserData = (app)->
   if $.cookie('email')?
@@ -79,7 +90,9 @@ recoverUserData = (app)->
       unless app.user.get('language')?
         if lang = $.cookie 'lang'
           _.log app.user.set('language', lang), 'language set from cookie'
-    .fail (err)-> _.log err, 'app.user.fetch fail'
+    .fail (err)->
+      _.log err, 'app.user.fetch fail'
+      throw new Error err
     .done()
     app.user.loggedIn = true
   else

@@ -35,3 +35,8 @@ module.exports =
   wikidata:
     uri: (id)-> "http://www.wikidata.org/entity/#{id}"
     get: proxy 'https://www.wikidata.org/w/api.php'
+  google:
+    book: (data)->
+      "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
+  images:
+    lucky: (text)-> proxy "http://pixplorer.co.uk/getimage/#{text}"
