@@ -3,12 +3,14 @@ module.exports =
     Items: require 'collections/items'
     Contacts: require 'collections/contacts'
     WikidataEntities: require 'collections/wikidata_entities'
+    NonWikidataEntities: require 'collections/non_wikidata_entities'
 
   Model:
     User: require 'models/user'
     Item: require 'models/item'
     Contact: require 'models/contact'
     WikidataEntity: require 'models/wikidata_entity'
+    NonWikidataEntity: require 'models/non_wikidata_entity'
 
   Layout:
     App: require 'views/app_layout'
@@ -39,15 +41,15 @@ module.exports =
     Behaviors:
       ConfirmationModal: require 'views/behaviors/confirmation_modal'
       Loader: require 'views/behaviors/loader'
-    Form:
-      CategoryMenu: require 'views/items/form/category_menu'
-      BookForm: require 'views/items/form/book'
-      OtherForm: require 'views/items/form/other'
-      ValidationButtons: require 'views/items/form/validation_buttons'
-      Scanner: require 'views/items/form/scanner'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
       Search: require 'views/entities/entities_search_form'
+      Form:
+        Book: require 'views/entities/book'
+        Other: require 'views/entities/other'
+        CategoryMenu: require 'views/entities/category_menu'
+        ValidationButtons: require 'views/entities/validation_buttons'
+        Scanner: require 'views/entities/scanner'
     Items:
       Creation: require 'views/items/form/item_creation'
 

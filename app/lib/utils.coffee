@@ -2,6 +2,8 @@ String::logIt = (label)->
   console.log "[#{label}] #{@toString()}" unless isMuted(label)
   return @toString()
 
+window.location.root = window.location.protocol + '//' + window.location.host
+
 muted = require './muted_logs'
 isMuted = (label)->
   if label?.split?
@@ -30,6 +32,10 @@ module.exports =
     console.log "[arguments]"
     console.log args
     console.log '---'
+
+  logServer: (obj)-> $.post('/test', obj)
+
+  logTop: (obj)-> $('body').prepend(obj)
 
   idGenerator: (length)->
     text = ""
@@ -75,20 +81,6 @@ module.exports =
   wmCommonsThumb: (file, width=100)->
     "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
-  getCurrentRoute: ->
-    route =
-      rawPath: window.location.pathname + window.location.search + window.location.hash
-      pathname: decodeURIComponent window.location.pathname
-      search: decodeURIComponent window.location.search
-      hash: decodeURIComponent window.location.hash
-    route.path = route.pathname + route.search + route.hash
-    route.query = @parseQuery route.search
-    return route
-
-  encodedURL: ->
-    route = @getCurrentRoute
-    return route.path isnt route.rawPath
-
   parseQuery: (queryString)->
     query = new Object
     if queryString?
@@ -101,8 +93,8 @@ module.exports =
 
 
   updateQuery: (newParams)->
-    [pathname, queryString] = Backbone.history.fragment.split('?')
-    query = @parseQuery(queryString)
+    [pathname, currentQueryString] = Backbone.history.fragment.split('?')
+    query = @parseQuery(currentQueryString)
     _.extend query, newParams
     app.navigate @buildPath(pathname, query)
 
@@ -110,15 +102,18 @@ module.exports =
     if queryObj? and not _.isEmpty queryObj
       queries = ''
       for k,v of queryObj
+        v = @dropSpecialCharacters(v)
         queries += "&#{k}=#{v}"
       return pathname + '?' + queries[1..-1]
     else pathname
 
   softEncodeURI: (str)->
-    @inspect(str)
     if typeof str is 'string'
       str.replace(/\s/g, '_').replace(/'/g, '_')
     else throw new Error "softEncodeURI expected a string and got #{str}"
+
+  dropSpecialCharacters : (str)->
+    str.replace(/\s+/g, ' ').replace(/(\?|\:)/g, '')
 
   toSet: (array)->
     obj = {}

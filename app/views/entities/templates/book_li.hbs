@@ -1,21 +1,19 @@
-{{#each P31}}
-  <h4 class="subheader qLabel" resource='http://www.wikidata.org/entity/{{this}}'></h4>
-{{/each}}
-
 <div class='small-12 large-4 columns text-center'>
   {{#if pictures}}
-    <img src='{{firstElement pictures}}' alt='{{label}} cover'>
+    <img src='{{firstElement pictures}}' alt='{{title}} cover'>
   {{/if}}
 </div>
 
 <div class='small-12 large-8 columns'>
-  <a class='itemTitle' href="{{pathname}}"><h3>{{label}}</h3></a>
-  <h4 class="subheader">{{description}}</h4>
-  <small class="grey"> {{i18n 'see on'}}
-    <a href="{{wikipedia.url}}" target='_blank'>wikipedia</a>
-    {{i18n 'or'}}
-    <a href="http://www.wikidata.org/entity/{{id}}" target='_blank'>wikidata</a>
-  </small>
+  <a class='itemTitle' href="{{pathname}}"><h3>{{title}}</h3></a>
+  <h4 class="subheader">{{limit description 140}}</h4>
+  {{#if wikipedia}}
+    <small class="grey"> {{i18n 'see on'}}
+      <a href="{{wikipedia.url}}" target='_blank'>wikipedia</a>
+      {{i18n 'or'}}
+      <a href="http://www.wikidata.org/entity/{{id}}" target='_blank'>wikidata</a>
+    </small>
+  {{/if}}
   <h4>{{#each authors}}{{this}} {{/each}}</h4>
   <h4 {{P '50'}}></h4>
   {{#each P50}}
@@ -31,5 +29,4 @@
     {{icon 'plus'}}&nbsp;
     {{i18n 'Add to my inventory'}}
   </a>
-  <div class='check'></div>
 </div>

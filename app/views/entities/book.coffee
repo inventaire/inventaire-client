@@ -1,7 +1,7 @@
 ResultsList = require 'views/entities/results_list'
 
 module.exports = class Book extends Backbone.Marionette.ItemView
-  template: require 'views/items/form/templates/book'
+  template: require 'views/entities/templates/book'
   behaviors:
     AlertBox: {}
     Loading: {}
@@ -30,7 +30,7 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       $.getJSON app.API.entities.search(search)
       .then @displayResults
       .fail (err)=>
-        _.log err, 'err'
+        _.log err, 'queryAPI err'
         @$el.trigger 'stopLoading'
         @$el.trigger 'alert', {message: _.i18n 'no item found'}
       .done()
@@ -38,32 +38,25 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       _.log [input, button], 'rejected'
       @$el.trigger 'alert', {message: _.i18n "invalid query"}
 
-  displayResults: (resultsArray)=>
+  displayResults: (res)=>
     @$el.trigger 'stopLoading'
 
-    app.results = new app.Collection.WikidataEntities resultsArray
-    _.log app.results, 'results: WikidataEntities'
+    app.results =
+      humans: humans = new Backbone.Collection
+      authors: authors = new Backbone.Collection
+      books: books = new Backbone.Collection
 
+    _.log res, 'res at displayResults'
+    resultsArray = res.items
+    switch res.source
+      when 'wd'
+        @addWikidataEntities(resultsArray)
+      when 'google'
+        @addNonWikidataEntities(resultsArray)
+      else
+        throw new Error "couldn't find source: #{res.source}"
 
-    if app.results.length > 0
-      _.extend app.results,
-        humans: humans = new Backbone.Collection
-        authors: authors = new Backbone.Collection
-        books: books = new Backbone.Collection
-
-      app.results.models.map (el)->
-        claims = el.get('claims')
-
-        if claims.P31?[0]?
-          if _.haveAMatch(claims.P31, wd.Q.books)
-            books.add el
-          if _.haveAMatch(claims.P31, wd.Q.humans)
-            humans.add el
-
-        if claims.P106?[0]? and _.haveAMatch(claims.P106, wd.Q.authors)
-          authors.add el
-
-
+    if books.length + authors.length + humans.length > 0
       if books.length > 0
         booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
         app.layout.entities.search.results1.show booksList
@@ -83,7 +76,24 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     else
       @$el.trigger 'alert', {message: _.i18n 'no item found (request returned empty)'}
 
+  addWikidataEntities: (resultsArray)=>
+    wdEntities = new app.Collection.WikidataEntities resultsArray
 
+    wdEntities.models.map (el)->
+      claims = el.get('claims')
+
+      if claims.P31?[0]?
+        if _.haveAMatch(claims.P31, wd.Q.books)
+          app.results.books.add el
+        if _.haveAMatch(claims.P31, wd.Q.humans)
+          app.results.humans.add el
+
+      if claims.P106?[0]? and _.haveAMatch(claims.P106, wd.Q.authors)
+        app.results.authors.add el
+
+  addNonWikidataEntities: (resultsArray)->
+    books = new app.Collection.NonWikidataEntities resultsArray
+    books.models.map (el)-> app.results.books.add el
 
   fetchAuthorsBooks: (author)->
     numericId = author.id.replace(/^Q/,'')

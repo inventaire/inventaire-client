@@ -1,5 +1,5 @@
 module.exports = class CategoryMenu extends Backbone.Marionette.ItemView
-  template: require 'views/items/form/templates/category_menu'
+  template: require 'views/entities/templates/category_menu'
   serializeData: -> return @model
   events:
     'click .category': (e)->

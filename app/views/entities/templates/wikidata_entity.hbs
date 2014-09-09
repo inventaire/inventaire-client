@@ -7,9 +7,9 @@
     <div class="row">
 
       <div class='small-12 large-4 columns text-center'>
-        {{#if pictures}}
-          <img src='{{firstElement pictures}}' alt='{{label}} cover'>
-        {{/if}}
+        {{#each pictures}}
+          <img src='{{this}}' alt='{{label}} cover'> <br>
+        {{/each}}
       </div>
 
       <div class='small-12 large-8 columns'>
