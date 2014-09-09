@@ -1,8 +1,16 @@
 module.exports = class ItemCreation extends Backbone.Marionette.ItemView
   template: require 'views/items/form/templates/item_creation'
   initialize: ->
-    @entity = @options.entity  if @options.entity?
-    @model = new app.Model.Item {entity: @entity.toJSON()}
+    @entity = @options.entity
+    attrs =
+      entity: @entity.get('uri')
+      claims:
+        P31: @entity.get('uri')
+      title: @entity.get('label')
+
+    if attrs.entity? and attrs.title?
+      @model = new app.Model.Item attrs
+    else throw new Error 'missing uri or title at item creation from entity'
 
   serializeData: ->
     attrs =
@@ -21,8 +29,6 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
       itemData = @model.toJSON()
       if app.request('item:validateCreation', itemData)
         app.execute 'show:home'
-      else
-        console.error "couldn't validateItem"
-    else
-      console.error 'no value found for the listing'
+      else throw new Error "couldn't validateItem"
+    else throw new Error 'no value found for the listing'
 

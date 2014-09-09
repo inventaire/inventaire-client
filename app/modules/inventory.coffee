@@ -1,3 +1,5 @@
+ItemShow = require 'views/items/item_show'
+
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
     InventoryRouter = Marionette.AppRouter.extend
@@ -6,8 +8,9 @@ module.exports =
         'inventory/personal': 'showPersonalInventory'
         'inventory/network': 'showNetworkInventory'
         'inventory/public': 'showPublicInventory'
-        'inventory/:user?*queryString': 'userInventoryQuery'
-        'inventory/:user': 'showUserInventory'
+        'i/:user': 'showUserInventory'
+        'i/:user/:itemId': 'requestItemShow'
+        'i/:user/:itemId/:title': 'requestItemShow'
 
     app.addInitializer ->
       new InventoryRouter
@@ -24,7 +27,9 @@ module.exports =
     initializeInventoriesHandlers(app)
 
 API =
-  goToPersonalInventory: -> app.goTo 'inventory/personal'
+  goToPersonalInventory: ->
+    @showPersonalInventory()
+    app.navigate 'inventory/personal'
   showPersonalInventory: ->
     showInventory()
     showInventoryTabs()
@@ -64,12 +69,31 @@ API =
       app.vent.on 'contacts:ready', -> filterForUser()
     showInventory()
 
-  userInventoryQuery: (user, queryString)->
-    query = _.parseQuery(queryString)
-    if query?.action is 'add'
-      app.execute 'show:item:personal:settings:fromEntityURI', query.entity
+  requestItemShow: (username, itemId, label)->
+    app.execute('show:loader')
+    if app.items.fetched and app.contacts.fetched
+      @showItemShow(username, itemId, label)
+    else
+      app.vent.on 'items:ready', =>
+        if app.contacts.fetched
+          @showItemShow(username, itemId, label)
+      app.vent.on 'contacts:ready', =>
+        if app.items.fetched
+          @showItemShow(username, itemId, label)
 
-    _.log [arguments, query], 'userInventoryQuery'
+  showItemShow: (username, itemId, label)->
+    userId = app.request('getIdFromUsername', username)
+    if userId?
+      _.log item = app.items.findWhere({_id: itemId}), 'found an item?'
+      if item? and item.get('owner') is userId
+          return @showItemShowFromItemModel(item)
+    noItem = new app.View.NoItem
+    app.layout.main.show noItem
+    throw new Error 'item not found'
+
+  showItemShowFromItemModel: (item)->
+    itemShow = new ItemShow {model: item}
+    app.layout.main.show itemShow
 
 showInventory = ->
   # regions shouldnt be undefined, which can't be tested by "app.inventory?._isShown"
@@ -92,6 +116,9 @@ createItemFromEntity = (entityData)-> _.log entityData, 'entityData'
 fetchItems = (app)->
   app.items = new app.Collection.Items
   app.items.fetch({reset: true})
+  .done ->
+    app.items.fetched = true
+    app.vent.trigger 'items:ready'
 
   app.reqres.setHandlers
     'item:validateCreation': validateCreation
@@ -101,11 +128,12 @@ validateCreation = (itemData)->
   if itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
     if itemData.entity?.label?
       itemData.title = itemData.entity.label
-    _.extend itemData, {
-      _id: _.idGenerator(6)
-      created: new Date()
-      owner: app.user.get('_id')
-    }
+      # now on Item Model defaults
+        # _.extend itemData, {
+        #   _id: _.idGenerator(6)
+        #   created: new Date()
+        #   owner: app.user.get('_id')
+        # }
     itemModel = app.items.create itemData
     itemModel.username = app.user.get('username')
     return true
@@ -195,7 +223,17 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:creation:form': (params)->
       API.showItemCreationForm(params)
-      if params.entity?
-        pathname = params.entity.get 'pathname'
-        app.navigate "#{pathname}/add"
-      else throw new Error 'missing entity'
+      # if params.entity?
+        # pathname = params.entity.get 'pathname'
+        # app.navigate "#{pathname}/add"
+      # else throw new Error 'missing entity'
+
+    'show:item:show': (username, itemId, title)->
+      API.requestItemShow(username, itemId)
+      if title? then app.navigate "#{username}/#{itemId}/#{title}"
+      else app.navigate "#{username}/#{itemId}"
+
+    'show:item:show:from:model': (item)->
+      API.showItemShowFromItemModel(item)
+      pathname = item.get 'pathname'
+      app.navigate pathname

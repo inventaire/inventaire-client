@@ -19,17 +19,17 @@
           {{created}}
         </small>
         {{#unless restricted}}
-          <a class="edit"><i class="fa fa-pencil"></i></a>
-          <a class="remove"><i class="fa fa-times"></i></a>
+          <a class="edit">{{icon 'pencil'}}</a>
+          <a class="remove">{{icon 'times'}}</a>
         {{/unless}}
       </p>
     </div>
 
-    <h4><a href="{{_id}}">{{title}}</a></h4>
+    <h4><a class="itemShow" href="{{pathname}}">{{title}}</a></h4>
 
     {{#if comment}}
       <p class="comment">
-      {{comment}}
+        {{comment}}
       </p>
     {{/if}}
 

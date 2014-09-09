@@ -4,6 +4,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   template: require 'views/items/templates/item_li'
   behaviors:
     ConfirmationModal: {}
+    PreventDefault: {}
 
   initialize: ->
     @listenTo @model, 'change', @render
@@ -11,14 +12,11 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   events:
     'click .edit': 'editItem'
     'click .remove': 'destroyItem'
+    'click a.itemShow': ->
+      _.log @model, 'model encoded something?'
+      app.execute 'show:item:show', @model.username, @model.get('_id'), @model.get('title')
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    attrs.username = @model.username
-    attrs.profilePic = @model.profilePic
-    attrs.restricted = @model.restricted
-    attrs.created = new Date(attrs.created).toLocaleDateString()
-    return attrs
+  serializeData: -> @model.serializeData()
 
   editItem: ->
     app.execute 'show:item:form:edition', @model

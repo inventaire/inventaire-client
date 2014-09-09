@@ -3,11 +3,7 @@
     <h2 class="subheader">{{safe header}}</h2>
     <h3>{{i18n 'Add it to a list'}}</h3>
     <div class="small-12 large-6 columns">
-      <select id="listingPicker" name="listPicker">
-        {{#each listings}}
-          <option value="{{id}}">{{safe unicodeIcon}} {{i18n label}}</option>
-        {{/each}}
-      </select>
+      {{partial '../items/form/templates/listing_picker' this}}
     </div>
     <div class="small-12 large-12 columns">
       <h3>{{i18n 'Commentary'}}</h3>
