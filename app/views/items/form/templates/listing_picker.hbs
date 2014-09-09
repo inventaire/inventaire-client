@@ -1,0 +1,5 @@
+<select id="listingPicker" name="listPicker">
+  {{#each listings}}
+    <option value="{{id}}">{{safe unicodeIcon}} {{i18n label}}</option>
+  {{/each}}
+</select>
