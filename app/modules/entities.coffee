@@ -19,15 +19,16 @@ module.exports =
 
 API =
   listEntities: (options)-> _.log options, 'listEntities \o/'
-  showEntity: (id)->
-    app.execute 'show:loader'
+  showEntity: (id, label, region)->
+    region ||= app.layout.main
+    app.execute 'show:loader', region
     wd.getEntities(id, app.user.lang)
     .then (res)->
       if res.entities?[id]?
         _.log res, 'res'
         entity = new app.Model.WikidataEntity res.entities[id]
         wdEntity = new app.View.Entities.Wikidata {model: entity}
-        app.layout.main.show wdEntity
+        region.show wdEntity
       else _.log [id, res], 'no entity?!?'
     .fail (err)-> _.log err, 'fail at showEntity'
     .done()
@@ -36,8 +37,7 @@ API =
     _.log id, 'addEntity'
     if wd.isWikidataId(id)
       @showItemCreationFormFromWikidataId id
-    else
-      _.log 'entity id not implemented yet or badly formatted'
+    else _.log 'entity id not implemented yet or badly formatted'
 
   # showItemPersonalSettingsFromEntityURI: (uri)->
   #   [prefix, id] = uri.split ':'
@@ -47,13 +47,19 @@ API =
   #         @showItemCreationFormFromWikidataId(id)
 
   showItemCreationFormFromWikidataId: (id)->
-    wd.getEntities(id)
-    .then (res)->
-      entity = new app.Model.WikidataEntity res.entities[id]
+    @getEntityModelFromWikidataId(id)
+    .then (entity)->
       app.execute 'show:item:creation:form', {entity: entity}
     .fail (err)->
-      _.log err, 'wd showItemPersonalSettingsFromEntityURI err'
+      _.log err, 'wd showItemCreationFormFromWikidataId err'
     .done()
+
+  getEntityModelFromWikidataId: (id)->
+    wd.getEntities(id)
+    .then (res)->
+      return new app.Model.WikidataEntity res.entities[id]
+    .fail (err)->
+      _.log err, 'getEntityModelFromWikidataId err'
 
   showEntitiesSearchForm: (queryString)->
     app.layout.entities ||= new Object
@@ -72,23 +78,10 @@ API =
     form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
     app.layout.main.show form
 
-  # showItemCreationFormFromEntity: (entityModel)->
-  #   _.log entityData, 'entityData'
-  #   entity =
-  #     pathname: "/entity/#{entityData.id}"
-  #     source: app.API.wikidata.uri(entityData.id)
-  #   _.log [entity, entity.label], 'label?'
-  #   itemModel = new Backbone.Model
-  #   itemModel.set('entity', entity)
-  #   _.log itemModel, 'itemModel'
-  #   app.execute 'show:item:personal:settings:fromItemModel', {entity: entityModel}
-
-
-
-
 
 initializeEntitiesSearchHandlers = ->
   app.commands.setHandlers
+    'show:entity': API.showEntity
     'show:entity:search': ->
       API.showEntitiesSearchForm()
       app.navigate 'entity/search'
@@ -99,6 +92,9 @@ initializeEntitiesSearchHandlers = ->
 
     'show:item:creation:form:fromEntity': API.showItemCreationFormFromEntity
     'show:item:personal:settings:fromEntityURI': API.showItemPersonalSettingsFromEntityURI
+
+  app.reqres.setHandlers
+    'getEntityModelFromWikidataId': API.getEntityModelFromWikidataId
 
 
 categories =

@@ -12,9 +12,12 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
 
     if label = @getEntityValue attrs, 'labels', lang
       @set 'label', label
+      @set 'title', label
       pathname += "/" + _.softEncodeURI(label)
 
     @set 'pathname', pathname
+
+    @set 'uri', "wd:#{@id}"
 
     if description = @getEntityValue attrs, 'descriptions', lang
       @set 'description', description
@@ -41,12 +44,38 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
 
   findAPicture: (attrs)->
     pictures = []
+
     if attrs.claims.P18?
       attrs.claims.P18.forEach (statement)->
         if statement?.datavalue?.value
           pictures.push _.wmCommonsThumb(statement.datavalue.value)
         else _.log statement, 'P18: missing value'
+
     @set 'pictures', pictures
+
+    label = @get('label')
+    data = attrs.claims.P957 || attrs.claims.P212 || label
+    app.lib.bookAPIs.getImage(data)
+    .then (res)=>
+      if res.image?
+        pictures = @get('pictures')
+        pictures.unshift res.image
+        @set('pictures', pictures)
+    .fail (err)-> _.log err, "err after bookAPI.getImage for #{data}"
+    .done()
+
+    # if attrs.claims.P50?
+      # fetch author and add to query to give it a bit more luck
+    data = label
+    app.lib.bookAPIs.getLuckyImage(data)
+    .then (res)=>
+      if res.image?
+        pictures = @get('pictures')
+        pictures.push res.image
+        @set('pictures', pictures)
+    .fail (err)-> _.log err, "err after bookAPI.getLuckyImage for #{label}"
+    .done()
+
 
   getEntityValue: (attrs, props, lang)->
     if attrs[props]?[lang]?.value?
