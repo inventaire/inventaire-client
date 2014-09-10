@@ -49,13 +49,13 @@ module.exports =
   setCookie: (key, value)->
     $.post '/api/cookie', {key: key, value: value}
     .then (res)-> _.log res, 'setCookie: server res on setCookie'
-    .fail (err)-> console.error "setCookie: failed: #{key} - #{value}"
+    .fail (err)-> console.error "setCookie: failed: #{key} - #{value}: #{err}"
 
   i18n: (key, args)->
     if args?
 
       if typeof args is 'string'
-        if /^(Q||P)[0-9]+$/.test args
+        if wd.isWikidataId args
           app.request('qLabel:update')
           return "<span class='qlabel wdP' resource='https://www.wikidata.org/entity/#{args}'>#{app.polyglot.t key}</span>"
         else throw new Error 'bad wikidata identifier'
@@ -124,5 +124,15 @@ module.exports =
   inspect: (obj)->
     window.current ||= []
     window.current.unshift(obj)
+    return obj
 
   isMobile: require 'lib/mobile_check'
+
+  ping: ->
+    $.get '/test'
+    .fail (err)-> _.log err, 'server: unreachable. You might be offline'
+    .done()
+
+  typeString: (str)->
+    if typeof str is 'string' then return str
+    else throw new Error 'TypeError'
