@@ -1,13 +1,15 @@
+books = app.lib.books
+
 module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
         'entity/search?*queryString': 'showEntitiesSearchForm'
         'entity/search': 'showEntitiesSearchForm'
-        'entity/:id': 'showEntity'
-        'entity/:id/add': 'addEntity'
-        'entity/:id/:label': 'showEntity'
-        'entity/:id/:label/add': 'addEntity'
+        'entity/:uri': 'showEntity'
+        'entity/:uri/add': 'addEntity'
+        'entity/:uri/:label': 'showEntity'
+        'entity/:uri/:label/add': 'addEntity'
 
     app.addInitializer ->
       new EntitiesRouter
@@ -19,32 +21,42 @@ module.exports =
 
 API =
   listEntities: (options)-> _.log options, 'listEntities \o/'
-  showEntity: (id, label, region)->
+  showEntity: (uri, label, region)->
     region ||= app.layout.main
     app.execute 'show:loader', region
-    wd.getEntities(id, app.user.lang)
+
+    [prefix, id] = getPrefixId(uri)
+    if prefix? and id?
+      switch prefix
+        when 'wd' then viewPromise = @getWikidataEntityView(id)
+        when 'isbn' then viewPromise = @getIsbnEntityView(id)
+        else console.warn 'not implemented prefix'
+    else console.warn 'prefix or id missing'
+
+    viewPromise.then (view)-> region.show(view)
+
+  getWikidataEntityView: (id)->
+    return wd.getEntities(id, app.user.lang)
     .then (res)->
       if res.entities?[id]?
         _.log res, 'res'
         entity = new app.Model.WikidataEntity res.entities[id]
-        wdEntity = new app.View.Entities.Wikidata {model: entity}
-        region.show wdEntity
+        _.inspect(entity)
+        return  new app.View.Entities.Wikidata {model: entity}
       else _.log [id, res], 'no entity?!?'
-    .fail (err)-> _.log err, 'fail at showEntity'
-    .done()
+    .fail (err)-> _.log err, 'fail at showEntity: getWikidataEntityView'
+
+  getIsbnEntityView: (id)->
+    return books.getGoogleBooksDataFromIsbn(isbn)
+    .then (res)->
+      _.log res, 'getGoogleBooksDataFromIsbn res!!!'
 
   addEntity: (id)->
     _.log id, 'addEntity'
-    if wd.isWikidataId(id)
+    if wd.isWikidataEntityId(id)
       @showItemCreationFormFromWikidataId id
     else _.log 'entity id not implemented yet or badly formatted'
 
-  # showItemPersonalSettingsFromEntityURI: (uri)->
-  #   [prefix, id] = uri.split ':'
-  #   if prefix? and id?
-  #     switch prefix
-  #       when 'wd'
-  #         @showItemCreationFormFromWikidataId(id)
 
   showItemCreationFormFromWikidataId: (id)->
     @getEntityModelFromWikidataId(id)
@@ -107,3 +119,10 @@ categories =
     text: 'something else'
     value: 'other'
 
+getPrefixId = (uri)->
+  data = uri.split ':'
+  if data.length is 1 and wd.isWikidataId(data)
+    data = ['wd', data[0]]
+  else if data.length is not 2
+    throw new Error "prefix and id not found for: #{uri}"
+  return _.log data, 'entities: prefix, id'
