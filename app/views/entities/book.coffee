@@ -7,12 +7,12 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     Loading: {}
     SuccessCheck: {}
   events:
-    'click #bookButton': 'bookSearch'
+    'click #searchButton': 'bookSearch'
 
   onShow: -> app.execute 'foundation:reload'
 
   bookSearch: (e)->
-    search = $('#bookInput').val()
+    search = $('input#search').val()
     _.updateQuery {search: search}
     if app.user.lang?
       @queryAPI search, notEmpty
@@ -21,11 +21,9 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       app.user.on 'change:language', => @queryAPI search, notEmpty
 
   queryAPI: (search, validityTest)=>
-    _.log app.user.lang
-    input = "#bookInput"
-    button = "#bookButton"
+    input = "input#search"
+    button = "#searchButton"
     if validityTest(search)
-      _.log search, 'valid search'
       @$el.trigger 'loading'
       $.getJSON app.API.entities.search(search)
       .then @displayResults
@@ -49,12 +47,9 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     _.log res, 'res at displayResults'
     resultsArray = res.items
     switch res.source
-      when 'wd'
-        @addWikidataEntities(resultsArray)
-      when 'google'
-        @addNonWikidataEntities(resultsArray)
-      else
-        throw new Error "couldn't find source: #{res.source}"
+      when 'wd' then @addWikidataEntities(resultsArray)
+      when 'google' then @addNonWikidataEntities(resultsArray)
+      else throw new Error "couldn't find source: #{res.source}"
 
     if books.length + authors.length + humans.length > 0
       if books.length > 0
@@ -83,13 +78,11 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       claims = el.get('claims')
 
       if claims.P31?[0]?
-        if _.haveAMatch(claims.P31, wd.Q.books)
-          app.results.books.add el
-        if _.haveAMatch(claims.P31, wd.Q.humans)
-          app.results.humans.add el
+        app.results.books.add(el) if _.haveAMatch(claims.P31, wd.Q.books)
+        app.results.humans.add(el) if _.haveAMatch(claims.P31, wd.Q.humans)
 
-      if claims.P106?[0]? and _.haveAMatch(claims.P106, wd.Q.authors)
-        app.results.authors.add el
+      if claims.P106?[0]?
+        app.results.authors.add(el) if _.haveAMatch(claims.P106, wd.Q.authors)
 
   addNonWikidataEntities: (resultsArray)->
     books = new app.Collection.NonWikidataEntities resultsArray
@@ -117,5 +110,3 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     .done()
 
   notEmpty = (query)-> query.length > 0
-
-  validISBN = (query)-> notEmpty(query) and /^([0-9]{10}|[0-9]{13})$/.test query
