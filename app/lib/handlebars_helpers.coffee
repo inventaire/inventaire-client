@@ -31,11 +31,19 @@ module.exports =
     register 'i18n', (key, args)-> new Handlebars.SafeString _.i18n(key, args)
 
     register 'P', (id)->
-      if id[0] is 'P'
+      if /^P[0-9]+$/.test id
         new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/#{id}'"
       else new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/P#{id}'"
 
     register 'Q', (id)->
-      if id[0] is 'Q'
+      if /^Q[0-9]+$/.test id
         new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/#{id}'"
       else new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/Q#{id}'"
+
+    register 'limit', (text, limit)->
+      if text?
+        t = text[0..limit]
+        if text.length > limit
+          t += '[...]'
+        new Handlebars.SafeString t
+      else ''
