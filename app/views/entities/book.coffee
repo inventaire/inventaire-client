@@ -118,6 +118,4 @@ module.exports = class Book extends Backbone.Marionette.ItemView
 
   notEmpty = (query)-> query.length > 0
 
-  # why the Regexp doesn't catch the empty case?
-  validISBN = (query)-> notEmpty(query) && /^([0-9]{10}||[0-9]{13})$/.test query
-
+  validISBN = (query)-> notEmpty(query) and /^([0-9]{10}|[0-9]{13})$/.test query
