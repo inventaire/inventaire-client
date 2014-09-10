@@ -3,11 +3,12 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         '*route': 'redirectHome'
-    API =
-      redirectHome: (route)->
-        _.log route, 'route:redirectHome'
-        app.goTo 'inventory'
 
     app.addInitializer ->
       new Router
         controller: API
+
+API =
+  redirectHome: (route)->
+    _.log route, 'route:redirectHome'
+    app.goTo 'inventory'

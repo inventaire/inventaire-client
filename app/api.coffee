@@ -9,21 +9,17 @@ module.exports =
   contacts:
     contacts: '/api/contacts'
     items: (id)->
-      if id?
-        return "/api/#{id}/items"
+      if id? then "/api/#{id}/items"
       else throw new Error "contacts' items API needs an id"
     search: (text)->
-      if text?
-        return "/api/users?#{text}"
+      if text? then "/api/users?#{text}"
       else throw new Error "contacts' search API needs a text argument"
   items:
     items: '/api/items'
     item: (owner, id, rev)->
       if owner? and id?
-        if rev?
-          return "/api/#{owner}/items/#{id}/#{rev}"
-        else
-          return "/api/#{owner}/items/#{id}"
+        if rev? then "/api/#{owner}/items/#{id}/#{rev}"
+        else "/api/#{owner}/items/#{id}"
       else throw new Error "item API needs an owner, an id, and possibly a rev"
   entities:
     search: (search)->

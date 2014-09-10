@@ -24,7 +24,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   showLoader: (region)->
     region ||= app.layout.main
-    _.log region, 'region?'
     region.show new app.View.Behaviors.Loader
 
   showHome: ->

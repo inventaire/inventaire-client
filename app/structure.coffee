@@ -59,6 +59,6 @@ module.exports =
     utils: require 'lib/utils'
     foundation: require 'lib/foundation'
     wikidata: require 'lib/wikidata'
-    bookAPIs: require 'lib/book_APIs'
+    books: require 'lib/books'
     imageHandler: require 'lib/image_handler'
     uncatchedErrorLogger: require 'lib/uncatched_error_logger'

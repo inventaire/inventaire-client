@@ -50,3 +50,4 @@ $ ->
     app.start()
 
   require('lib/jquery-jk').initialize($)
+  _.ping()

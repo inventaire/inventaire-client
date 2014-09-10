@@ -3,4 +3,5 @@ module.exports = [
   'qLabel'
   'setCookie'
   'app'
+  'route'
 ]
