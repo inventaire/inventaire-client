@@ -3,8 +3,6 @@ module.exports =
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
         'signup':'showSignupStep1'
-        # 'signup/1':'showSignupStep1'
-        # 'signup/2':'showSignupStep2'
         'login':'showLogin'
 
     app.addInitializer ->
@@ -74,7 +72,7 @@ onlogin = (assertion) ->
     if typeof data is 'object'
       # will get user data on reload's fetch
       window.location.reload()
-    else console.error 'onlogin: invalid data'
+    else throw new Error 'onlogin: invalid data'
   .fail (err)->
     app.vent.trigger 'persona:error', err
     throw new Error JSON.stringify(err)

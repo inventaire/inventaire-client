@@ -1,6 +1,5 @@
 module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
-  template: require 'views/items/templates/item_form'
-  onShow: -> app.execute 'modal:open'
+  template: require 'views/items/form/templates/item_edition'
   behaviors:
     SuccessCheck: {}
   events:
@@ -26,4 +25,3 @@ module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
       .fail (err)-> _.log err, 'server error:'
     else
       _.log 'not check'
-      app.execute 'modal:close'

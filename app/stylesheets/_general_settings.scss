@@ -1,4 +1,4 @@
-$main-bg: #fcfcfc url(/images/lightpaperfibers.png) repeat;
+$main-bg: #fff;
 
 body {
   background: $main-bg;
@@ -56,11 +56,11 @@ $success-color: #43AC6A;
 
 .focus{
   .cover, .desc{
-    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    -ms-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    // -webkit-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
+    // -moz-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
+    // -ms-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
+    // -o-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
+    box-shadow: rgba(0, 0, 255, 0.3) 0 2px 6px 0;
   }
 }
 
