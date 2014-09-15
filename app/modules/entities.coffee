@@ -21,6 +21,9 @@ module.exports =
 
 API =
   listEntities: (options)-> _.log options, 'listEntities \o/'
+
+
+
   showEntity: (uri, label, region)->
     region ||= app.layout.main
     app.execute 'show:loader', region
@@ -30,48 +33,54 @@ API =
       switch prefix
         when 'wd' then viewPromise = @getWikidataEntityView(id)
         when 'isbn' then viewPromise = @getIsbnEntityView(id)
-        else console.warn 'not implemented prefix'
-    else console.warn 'prefix or id missing'
+        else _.log [prefix, id], 'not implemented prefix for showEntity'
+    else console.warn 'prefix or id missing at showEntity'
 
     viewPromise.then (view)-> region.show(view)
 
   getWikidataEntityView: (id)->
-    return wd.getEntities(id, app.user.lang)
-    .then (res)->
-      if res.entities?[id]?
-        _.log res, 'res'
-        entity = new app.Model.WikidataEntity res.entities[id]
-        _.inspect(entity)
-        return  new app.View.Entities.Wikidata {model: entity}
-      else _.log [id, res], 'no entity?!?'
+    return @getEntityModelFromWikidataId(id)
+    .then (entity)-> new app.View.Entities.Wikidata {model: entity}
     .fail (err)-> _.log err, 'fail at showEntity: getWikidataEntityView'
 
-  getIsbnEntityView: (id)->
-    return books.getGoogleBooksDataFromIsbn(isbn)
-    .then (res)->
-      _.log res, 'getGoogleBooksDataFromIsbn res!!!'
-
-  addEntity: (id)->
-    _.log id, 'addEntity'
-    if wd.isWikidataEntityId(id)
-      @showItemCreationFormFromWikidataId id
-    else _.log 'entity id not implemented yet or badly formatted'
+  getIsbnEntityView: (isbn)->
+    return @getEntityModelFromIsbn(isbn)
+    .then (entity)-> new app.View.Entities.Wikidata {model: entity}
+    .fail (err)-> _.log err, 'fail at showEntity: getIsbnEntityView'
 
 
-  showItemCreationFormFromWikidataId: (id)->
-    @getEntityModelFromWikidataId(id)
-    .then (entity)->
-      app.execute 'show:item:creation:form', {entity: entity}
-    .fail (err)->
-      _.log err, 'wd showItemCreationFormFromWikidataId err'
+
+
+
+  addEntity: (uri)->
+    [prefix, id] = getPrefixId(uri)
+    if prefix? and id?
+      switch prefix
+        when 'wd' then entityPromise = @getEntityModelFromWikidataId(id)
+        when 'isbn' then entityPromise = @getEntityModelFromIsbn(id)
+        else _.log [prefix, id], 'not implemented prefix for addEntity'
+
+      if entityPromise? then @showItemCreationForm(entityPromise)
+      # else case already logged above
+
+    else console.warn "prefix or id missing at addEntity: uri = #{uri}"
+
+  showItemCreationForm: (entityPromise)->
+    entityPromise
+    .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
+    .fail (err)-> _.log err, 'showItemCreationForm err'
     .done()
 
   getEntityModelFromWikidataId: (id)->
-    wd.getEntities(id)
-    .then (res)->
-      return new app.Model.WikidataEntity res.entities[id]
-    .fail (err)->
-      _.log err, 'getEntityModelFromWikidataId err'
+    wd.getEntities(id, app.user.lang)
+    .then (res)-> new app.Model.WikidataEntity res.entities[id]
+    .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
+
+  getEntityModelFromIsbn: (isbn)->
+    books.getGoogleBooksDataFromIsbn(isbn)
+    .then (res)-> new app.Model.NonWikidataEntity res
+    .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
+
 
   showEntitiesSearchForm: (queryString)->
     app.layout.entities ||= new Object
@@ -90,6 +99,10 @@ API =
     form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
     app.layout.main.show form
 
+  getEntityPublicItems: (uri)->
+    return $.getJSON app.API.items.public(uri)
+    .fail _.log
+
 
 initializeEntitiesSearchHandlers = ->
   app.commands.setHandlers
@@ -107,6 +120,7 @@ initializeEntitiesSearchHandlers = ->
 
   app.reqres.setHandlers
     'getEntityModelFromWikidataId': API.getEntityModelFromWikidataId
+    'get:entity:public:items': API.getEntityPublicItems
 
 
 categories =

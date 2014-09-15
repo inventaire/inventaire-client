@@ -4,26 +4,33 @@
 
   <div class='small-12 large-8 columns'>
 
-    <div class="row">
+    <div class='row'>
 
       <div class='small-12 large-4 columns text-center'>
-        {{#each pictures}}
-          <img src='{{this}}' alt='{{label}} cover'> <br>
-        {{/each}}
+        {{#if pictures}}
+          <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
+        {{/if}}
       </div>
 
       <div class='small-12 large-8 columns'>
-        <h3>{{label}}</h3>
-        <h4 class="subheader">{{description}}</h4>
-        <p class="grey"> {{i18n 'see on'}}
-          <a href="http://www.wikidata.org/entity/{{id}}" class="default" target='_blank'>wikidata</a>
-        </p>
+        <h3>{{title}}</h3>
+        <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
+        <p id='shortDesc' class='grey'>{{limit description 500}}</p>
+        <p id='fullDesc' class='grey hidden'>{{description}}</p>
+
+
+        {{#if ../wikidata}}
+          <p class='grey'> {{i18n 'see on'}}
+            <a href='http://www.wikidata.org/entity/{{id}}' class='default' target='_blank'>wikidata</a>
+          </p>
+        {{/if}}
+
         <h4>{{#each authors}}{{this}} {{/each}}</h4>
         <h4 {{P '50'}}></h4>
         {{#each claims.P50}}
           <span {{Q this}}></span>
         {{/each}}
-        <a id='addToInventory' href="{{pathname}}/add">
+        <a id='addToInventory' href='{{pathname}}/add' class='button success'>
           {{icon 'plus'}}
           {{i18n 'Add to my inventory'}}
         </a>
@@ -36,16 +43,26 @@
 
 
 
-  <div class="small-12 large-4 columns">
+  <div class='small-12 large-4 columns'>
     {{#if wikipedia.mobileUrl}}
-      <a id="toggleWikiediaPreview">
+      <a id='toggleWikiediaPreview'>
         <h3>wikipedia {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}}</h3>
       </a>
-      <p class="grey">
-        ({{i18n 'see on'}} <a href="{{wikipedia.url}}" class="default" target='_blank'>wikipedia</a>)
+      <p class='grey'>
+        ({{i18n 'see on'}} <a href='{{wikipedia.url}}' class='default' target='_blank'>wikipedia</a>)
       </p>
-      <div id='wikipedia-article' class="hidden"></div>
+      <div id='wikipedia-article' class='hidden'></div>
     {{/if}}
   </div>
 
+</div>
+
+
+<div class="row">
+
+  <div class="small-12 large-12 columns">
+    <h2 class="subheader">{{i18n 'Public items'}}</h2>
+  </div>
+
+  <div id="items" class="small-12 large-12 columns"></div>
 </div>

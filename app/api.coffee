@@ -16,6 +16,7 @@ module.exports =
       else throw new Error "contacts' search API needs a text argument"
   items:
     items: '/api/items'
+    public: (uri)-> "/api/items/public/#{uri}"
     item: (owner, id, rev)->
       if owner? and id?
         if rev? then "/api/#{owner}/items/#{id}/#{rev}"
