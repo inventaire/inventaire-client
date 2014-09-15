@@ -1,10 +1,11 @@
 require('lib/uncatched_error_logger').initialize()
 require('lib/handlebars_helpers').initialize()
-window.sharedLib = sharedLib = require('lib/shared/shared_libs')
+
+window.sharedLib = require('lib/shared/shared_libs')
 
 app = require 'app'
 
-_.extend _, sharedLib 'utils'
+_.extend _, require 'lib/utils'
 window.wd = require 'lib/wikidata'
 
 #changing the default attribute to fit CouchDB
