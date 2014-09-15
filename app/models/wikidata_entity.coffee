@@ -25,6 +25,9 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     if wikilink = @getWikipediaTitle attrs.sitelinks
       @set 'wikipedia', "https://#{lang}.wikipedia.org/wiki/#{wikilink}"
 
+    # for conditional in templates
+    @wikidata = true
+
 
   relocateClaims: (attrs)->
     claims = {}

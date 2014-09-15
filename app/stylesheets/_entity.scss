@@ -7,6 +7,12 @@ iframe.wikipedia {
   width: 100%;
 }
 
+.addEntity{
+  h2{
+    max-width: 36rem;
+  }
+}
+
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
