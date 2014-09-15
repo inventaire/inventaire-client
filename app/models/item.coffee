@@ -1,23 +1,4 @@
 module.exports = class Item extends Backbone.NestedModel
-  # defaults:
-    # entity: uri
-    # version: uri
-    # instance:
-    #   uri: null
-    #   comment: null
-    #   owner: null
-    #   state: null
-    #   history:
-    #     created: null
-    #     transactions:
-    #       [
-    #         # date:
-    #           #from: uri
-    #           #transaction
-    #             # type: uri
-    #             # price: number
-    #           #to: uri
-    #       ]
   url: ->
     # keeps the url built at runtime to follow revs evolution
     # which are needed to be in the url for DELETE

@@ -128,12 +128,6 @@ validateCreation = (itemData)->
   if itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
     if itemData.entity?.label?
       itemData.title = itemData.entity.label
-      # now on Item Model defaults
-        # _.extend itemData, {
-        #   _id: _.idGenerator(6)
-        #   created: new Date()
-        #   owner: app.user.get('_id')
-        # }
     itemModel = app.items.create itemData
     itemModel.username = app.user.get('username')
     return true
