@@ -4,6 +4,7 @@ require('lib/handlebars_helpers').initialize()
 window.sharedLib = require('lib/shared/shared_libs')
 
 app = require 'app'
+window.app = app
 
 _.extend _, require 'lib/utils'
 window.wd = require 'lib/wikidata'
@@ -16,8 +17,6 @@ _.extend Marionette.View.prototype, require('lib/views_utils')
 
 # Initialize the application on DOM ready event.
 $ ->
-  app.initialize()
-  window.app = app
 
   # gets all the routes used in the app
   app.API = require 'api'
@@ -33,7 +32,6 @@ $ ->
   # the first routes initialized have the lowest priority
   app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
   app.module 'User', require 'modules/user'
-
   if app.user.loggedIn
     app.module 'Redirect', require 'modules/redirect'
     app.module 'Inventory', require 'modules/inventory'
