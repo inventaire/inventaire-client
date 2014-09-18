@@ -6,17 +6,16 @@ exports.config =
       defaultExtension: "coffee"
       joinTo:
         'javascripts/app.js': /^app/
-        'javascripts/vendor.js': /^(?!app)/
+        'javascripts/vendor.js': /^(vendor\/scripts|bower_components)/
       order:
+        before: [
+          "bower_components/jquery/dist/jquery.js"
+          "bower_components/underscore/underscore.js"
+          "bower_components/backbone/backbone.js"
+        ],
         after: [
           "vendor/*"
-          # "bower_components/backbone/backbone.js"
-          # "bower_components/Backbone.localStorage/backbone.localStorage.js"
-          # "bower_components/backbone-forms/distribution/backbone-forms.js"
         ]
-      # can't make it work so the scripts that have to be after
-      # are copied from bower_components to vendor and then removed
-      # from bower_compenents
 
     stylesheets:
       defaultExtension: "scss"
