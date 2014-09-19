@@ -13,16 +13,15 @@
 # NPM packages folder.
 node_modules/
 npm-debug.log
+bower_components/
 
 # Brunch folder for temporary files.
 tmp/
 
-# Brunch output folder.
-public/
-
-# Bower stuff.
-bower_components/
+#Map files
+**/*.map
 
 #Others
 .status
-.help-backbone
+.commit
+*.sublime*
