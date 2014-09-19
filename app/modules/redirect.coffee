@@ -2,13 +2,13 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        '*route': 'redirectHome'
+        '*route': 'notFound'
 
     app.addInitializer ->
       new Router
         controller: API
 
 API =
-  redirectHome: (route)->
-    _.log route, 'route:redirectHome'
-    app.goTo 'inventory'
+  notFound: (route)->
+    _.log route, 'route:notFound'
+    app.execute 'show:404'
