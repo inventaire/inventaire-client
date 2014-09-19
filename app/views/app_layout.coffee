@@ -20,6 +20,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.commands.setHandlers
       'show:home': @showHome
       'show:loader': @showLoader
+      'show:403': @show403
+      'show:404': @show404
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
 
   showLoader: (region)->
@@ -40,3 +42,16 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       row = $(e.currentTarget).parents('.row')[0]
       $(row).find('.button').trigger 'click'
       _.log 'ui: enter-click'
+
+  show403: ->
+    showError
+      code: 403
+      message: _.i18n 'Forbidden'
+
+  show404: ->
+    showError
+      code: 404
+      message: _.i18n 'Not Found'
+
+showError = (options)->
+  app.layout.main.show new app.View.Error options
