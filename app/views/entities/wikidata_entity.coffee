@@ -27,7 +27,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
 
   showPublicItems: ->
     items = @items.viewCollection
-    _.log items, 'items????'
+    _.log items, 'inv: public items'
     if items?.length > 0
         itemList = new app.View.ItemsList {collection: items}
     else
@@ -36,8 +36,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
 
   showItemCreationForm: ->
     app.execute 'show:item:creation:form', {entity: @model}
-    url = @model.get('pathname') + '/add'
-    app.navigate url
+
 
   toggleWikiediaPreview: ->
     $article = $('#wikipedia-article')
