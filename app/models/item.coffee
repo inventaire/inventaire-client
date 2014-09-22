@@ -9,29 +9,43 @@ module.exports = class Item extends Backbone.NestedModel
   validate: (attrs, options)->
     unless attrs.title? then return "a title must be provided"
 
-  setDefaults: ->
-    attrs =
-      _id: @get('_id') || _.idGenerator(6)
-      created: @get('created') || new Date()
-      owner: @get('owner') || app.user.get('_id')
-    @set attrs
-
-
   initialize: (attrs, options)->
+    _.log arguments, 'item:initialization args'
+    # defaults to current user as owner
+    # allowing entities to user the Item model without an owner
+    owner = @get('owner')
+    if not owner? then throw new Error 'an owner should be provided'
+
+    @username = app.request('getUsernameFromId', owner)
+
     @setDefaults()
 
-    ownerId = @get 'owner'
-    @username = app.request('getUsernameFromId', ownerId)
     itemId = @get '_id'
-    pathname = "/i/#{@username}/#{itemId}"
+    pathname = "/inventory/#{itemId}"
 
     itemTitle = _.softEncodeURI @get('title')
     pathname += "/#{itemTitle}"  if itemTitle?
 
     @set 'pathname', pathname
 
-    @profilePic = app.request('getProfilePicFromId', ownerId)
+    @profilePic = app.request('getProfilePicFromId', owner)
     @restricted = true unless @get('owner') is app.user.id
+
+  setDefaults: ->
+    attrs =
+      _id: @get('_id') or @buildId()
+      created: @get('created') or new Date()
+      owner: @get('owner') or app.user.get('_id')
+    @set attrs
+
+  buildId: ->
+    suffix = @getUri() or _.idGenerator(6)
+    return @username + '/' + suffix
+
+  getUri: ->
+    entity = @get('entity')
+    if _.isKnownUri(entity) then return entity
+    else return
 
   serializeData: ->
     attrs = @toJSON()
