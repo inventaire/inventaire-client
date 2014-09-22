@@ -4,13 +4,15 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
   initialize: ->
     @entity = @options.entity
     attrs =
+      title: @entity.get 'title'
       entity: @entity.get 'uri'
       claims:
         P31: @entity.get 'uri'
-      title: @entity.get 'title'
 
     if pictures = @entity.get 'pictures'
       attrs.pictures = pictures
+
+    attrs.owner = app.user.id
 
     if attrs.entity? and attrs.title?
       @model = new app.Model.Item attrs
@@ -33,7 +35,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
       @model.set 'listing', listing
       @model.set 'comment', comment  if comment?
       itemData = @model.toJSON()
-      if app.request 'item:validateCreation', itemData
+      if app.request 'item:validate:creation', itemData
         app.execute 'show:home'
       else throw new Error "couldn't validateItem"
     else throw new Error 'no value found for the listing'

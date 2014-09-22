@@ -7,8 +7,5 @@ module.exports = class Contacts extends Backbone.Collection
       filterExpr = new RegExp '^' + text, "i"
       return filterExpr.test contact.get('username')
 
-  byId: (id)->
-    @_byId[id]
-
   byUsername: (username)->
     @findWhere {username: username}

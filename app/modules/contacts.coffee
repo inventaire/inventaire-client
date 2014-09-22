@@ -15,7 +15,7 @@ initializeContacts = ->
 
   app.reqres.setHandlers
     'getUsernameFromId': (id)->
-      contactModel = app.contacts._byId[id]
+      contactModel = app.contacts.byId(id)
       if contactModel? && contactModel.get?
         return contactModel.get 'username'
       else throw new Error "couldnt find the contact from id: #{id}"
@@ -28,7 +28,7 @@ initializeContacts = ->
         _.log 'couldnt find the contact from username'
 
     'getProfilePicFromId': (id)->
-      contactModel = app.contacts._byId[id]
+      contactModel = app.contacts.byId(id)
       if contactModel? && contactModel.get?
         return contactModel.get 'picture'
       else throw new Error "couldnt find the contact from id: #{id}"

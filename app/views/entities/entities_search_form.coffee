@@ -40,7 +40,7 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     newItem =
       title: $('#title').val()
       comment: $('#comment').val()
-    if app.request('item:validateCreation', newItem)
+    if app.request('item:validate:creation', newItem)
       @$el.trigger 'check', -> app.execute 'show:inventory:personal'
     else
       console.error 'invalid item data'

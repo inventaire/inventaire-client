@@ -4,15 +4,13 @@ module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
-        'inventory': 'goToPersonalInventory'
-        'inventory/personal': 'showPersonalInventory'
-        'inventory/network': 'showNetworkInventory'
-        'inventory/public': 'showPublicInventory'
-        'i/:user': 'showUserInventory'
-        'i/:user/:itemId/edit': 'editItem'
-        'i/:user/:itemId/:title/edit': 'editItem'
-        'i/:user/:itemId': 'requestItemShow'
-        'i/:user/:itemId/:title': 'requestItemShow'
+        'inventory(/)': 'goToPersonalInventory'
+        'inventory/personal(/)': 'showPersonalInventory'
+        'inventory/network(/)': 'showNetworkInventory'
+        'inventory/public(/)': 'showPublicInventory'
+        'inventory/:user(/)': 'showUserInventory'
+        'inventory/:user/:itemId(/:title)(/)': 'itemShow'
+        'inventory/:user/:itemId(/:title)/edit(/)': 'itemEdit'
 
     app.addInitializer ->
       new InventoryRouter
@@ -58,8 +56,8 @@ API =
     form = new app.View.Items.Creation options
     app.layout.main.show form
 
-  editItem: (username, id)->
-    itemModel = app.items._byId(id)
+  itemEdit: (username, id)->
+    itemModel = app.items.byId(id)
     if itemModel?.get('owner') is app.user.id
       @showItemEditionForm(itemModel)
     else app.execute 'show:403'
@@ -85,7 +83,7 @@ API =
       app.vent.on 'contacts:ready', -> filterForUser()
     showInventory()
 
-  requestItemShow: (username, itemId, label)->
+  itemShow: (username, itemId, label)->
     app.execute('show:loader')
     if app.items.fetched and app.contacts.fetched
       @showItemShow(username, itemId, label)
@@ -137,7 +135,7 @@ fetchItems = (app)->
     app.vent.trigger 'items:ready'
 
   app.reqres.setHandlers
-    'item:validateCreation': validateCreation
+    'item:validate:creation': validateCreation
 
 validateCreation = (itemData)->
   _.log itemData, 'itemData at validateCreation'
@@ -241,13 +239,16 @@ initializeInventoriesHandlers = (app)->
     'show:item:form:edition': (itemModel)->
       API.showItemEditionForm(itemModel)
       username = app.user.get('username')
-      path = "i/#{username}/#{itemModel.id}/edit"
+      title = itemModel.get('title')
+      path = "inventory/#{username}/#{itemModel.id}"
+      path += "/#{title}"  if title?
+      path += "/edit"
       app.navigate path
 
     'show:item:show': (username, itemId, title)->
-      API.requestItemShow(username, itemId)
-      if title? then app.navigate "#{username}/#{itemId}/#{title}"
-      else app.navigate "#{username}/#{itemId}"
+      API.itemShow(username, itemId)
+      if title? then app.navigate "inventory/#{username}/#{itemId}/#{title}"
+      else app.navigate "inventory/#{username}/#{itemId}"
 
     'show:item:show:from:model': (item)->
       API.showItemShowFromItemModel(item)
