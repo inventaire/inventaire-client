@@ -46,3 +46,5 @@ module.exports =
        data.pictures.push cleanedItem.imageLinks.thumbnail
 
     return data
+
+  uncurlGoogleBooksPictures: (url)-> url.replace('&edge=curl','')
