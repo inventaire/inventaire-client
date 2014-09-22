@@ -64,23 +64,8 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
         pictures = @get('pictures')
         pictures.unshift res.image
         @set('pictures', pictures)
-      else
-        @getLuckyPicture(label)
     .fail (err)-> _.log err, "err after bookAPI.getImage for #{data}"
     .done()
-
-    # if attrs.claims.P50?
-      # fetch author and add to query to give it a bit more luck
-  getLuckyPicture: (data)->
-    app.lib.books.getLuckyImage(data)
-    .then (res)=>
-      if res.image?
-        pictures = @get('pictures')
-        pictures.push res.image
-        @set('pictures', pictures)
-    .fail (err)-> _.log err, "err after bookAPI.getLuckyImage for #{label}"
-    .done()
-
 
   getEntityValue: (attrs, props, lang)->
     if attrs[props]?[lang]?.value?
@@ -88,7 +73,6 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     else if attrs[props]?.en?.value?
       return attrs[props].en.value
     else return
-
 
   getWikipediaInfo: (attrs, lang)->
     wikipedia = {}

@@ -20,18 +20,5 @@ module.exports = class NonWikidataEntity extends Backbone.NestedModel
   findAPicture: ->
     pictures = @get 'pictures'
     unless _.isEmpty pictures
-      @set 'pictures', pictures.map(uncurlGoogleBooksPictures)
-    else
-      data = [@get('title')]
-      @get('authors').forEach (author)-> data.push(author)
-      app.lib.books.getLuckyImage data.join(' ')
-      .then (res)=>
-        if res?.image?
-          pictures = @get('pictures')
-          pictures.push res.image
-          @set('pictures', pictures)
-      .fail (err)-> _.log err, "err after bookAPI.getLuckyImage for #{label}"
-      .done()
-
-
-uncurlGoogleBooksPictures = (url)-> url.replace('&edge=curl','')
+      uncurl = app.lib.books.uncurlGoogleBooksPictures
+      @set 'pictures', pictures.map(uncurl)

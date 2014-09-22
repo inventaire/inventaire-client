@@ -35,5 +35,3 @@ module.exports =
   google:
     book: (data)->
       "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
-  images:
-    lucky: (text)-> proxy "http://pixplorer.co.uk/getimage/#{text}"

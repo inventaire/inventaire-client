@@ -11,17 +11,6 @@ module.exports.getImage = (data)->
     .fail (err)-> _.log err, "google book err for #{data}"
     .done()
 
-module.exports.getLuckyImage = (text)->
-    text = encodeURIComponent(text)
-    return $.getJSON app.API.images.lucky(text)
-    .then (res)->
-      if res['0']?.imglink?
-        image = res['0'].imglink
-        return {image: image}
-      else console.warn "Lucky image not found for #{text}"
-    .fail (err)-> _.log err, "Lucky image err for #{text}"
-    .done()
-
 module.exports.getGoogleBooksDataFromIsbn = (isbn)->
     _.log cleanedIsbn = @cleanIsbnData isbn, 'cleaned ISBN!'
     if cleanedIsbn?
