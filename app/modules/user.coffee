@@ -2,8 +2,8 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
-        'signup':'showSignupStep1'
-        'login':'showLogin'
+        'signup(/)':'showSignupStep1'
+        'login(/)':'showLogin'
 
     app.addInitializer ->
       new UserRouter
@@ -60,7 +60,7 @@ initializePersona = (app)->
         _.log "You have been successfully logged out"
 
 unreachablePersona = ->
-  throw new Error 'Persona Login not available: you might be offline'
+  console.error 'Persona Login not available: you might be offline'
 
 onlogin = (assertion) ->
   input =

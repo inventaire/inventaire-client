@@ -2,7 +2,7 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     ListingsRouter = Marionette.AppRouter.extend
       appRoutes:
-        'listing/edit': 'bla'
+        'listing/edit(/)': 'bla'
 
     app.addInitializer ->
       new ListingsRouter

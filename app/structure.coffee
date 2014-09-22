@@ -52,6 +52,7 @@ module.exports =
         Scanner: require 'views/entities/scanner'
     Items:
       Creation: require 'views/items/form/item_creation'
+    Error: require 'views/error'
 
 
   lib:

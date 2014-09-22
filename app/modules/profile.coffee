@@ -2,7 +2,7 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     ProfileRouter = Marionette.AppRouter.extend
       appRoutes:
-        'profile/edit': 'showEditUser'
+        'profile/edit(/)': 'showEditUser'
 
     app.addInitializer ->
       new ProfileRouter
