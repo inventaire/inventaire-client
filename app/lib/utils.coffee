@@ -36,7 +36,9 @@ utils =
     console.log args
     console.log '---'
 
-  logServer: (obj)-> $.post('/test', obj)
+  logServer: (obj, label)->
+    log = {obj: obj, label: label}
+    $.post('/test', log)
 
   setCookie: (key, value)->
     $.post '/api/cookie', {key: key, value: value}
@@ -99,5 +101,14 @@ utils =
     .fail (err)-> _.log err, 'server: unreachable. You might be offline'
     .done()
 
+  isKnownUri: (str)->
+    [prefix, id] = str.split(':')
+    if prefix? and id?
+      switch prefix
+        when 'wd'
+          if wd.isWikidataId id then return true
+        when 'isbn'
+          if app.lib.books.isIsbn id then return true
+    return false
 
 module.exports = _.extend utils, sharedLib('utils')
