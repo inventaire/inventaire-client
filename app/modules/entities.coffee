@@ -94,11 +94,6 @@ API =
           $("#step2 input").val(query.search)
           $("#step2 .button").trigger('click')
 
-  showItemEditionForm: (itemModel)->
-    app.layout.item ||= new Object
-    form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
-    app.layout.main.show form
-
   getEntityPublicItems: (uri)->
     return $.getJSON app.API.items.public(uri)
     .fail _.log
@@ -110,13 +105,6 @@ initializeEntitiesSearchHandlers = ->
     'show:entity:search': ->
       API.showEntitiesSearchForm()
       app.navigate 'entity/search'
-    'show:item:form:edition': (itemModel)->
-      API.showItemEditionForm()
-      path = "#{app.user.get('username')}/#{itemModel.id}/edit"
-      app.navigate path
-
-    'show:item:creation:form:fromEntity': API.showItemCreationFormFromEntity
-    'show:item:personal:settings:fromEntityURI': API.showItemPersonalSettingsFromEntityURI
 
   app.reqres.setHandlers
     'getEntityModelFromWikidataId': API.getEntityModelFromWikidataId

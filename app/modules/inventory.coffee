@@ -9,6 +9,8 @@ module.exports =
         'inventory/network': 'showNetworkInventory'
         'inventory/public': 'showPublicInventory'
         'i/:user': 'showUserInventory'
+        'i/:user/:itemId/edit': 'editItem'
+        'i/:user/:itemId/:title/edit': 'editItem'
         'i/:user/:itemId': 'requestItemShow'
         'i/:user/:itemId/:title': 'requestItemShow'
 
@@ -52,8 +54,22 @@ API =
     app.inventory.viewTools.show new app.View.ContactsInventoryTools
     app.inventory.sideMenu.empty()
 
-  showItemCreationForm: (params)->
-    form = new app.View.Items.Creation params
+  showItemCreationForm: (options)->
+    form = new app.View.Items.Creation options
+    app.layout.main.show form
+
+  editItem: (username, id)->
+    itemModel = app.items._byId(id)
+    if itemModel?.get('owner') is app.user.id
+      @showItemEditionForm(itemModel)
+    else app.execute 'show:403'
+
+  showItemEditionForm: (itemModel)->
+    _.log arguments, 'arguments'
+    _.log itemModel, 'itemModel'
+    app.layout.item ||= new Object
+    form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
+    _.log form, 'form'
     app.layout.main.show form
 
   showUserInventory: (user)->
@@ -217,10 +233,16 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:creation:form': (params)->
       API.showItemCreationForm(params)
-      # if params.entity?
-        # pathname = params.entity.get 'pathname'
-        # app.navigate "#{pathname}/add"
-      # else throw new Error 'missing entity'
+      if params.entity?
+        pathname = params.entity.get 'pathname'
+        app.navigate "#{pathname}/add"
+      else throw new Error 'missing entity'
+
+    'show:item:form:edition': (itemModel)->
+      API.showItemEditionForm(itemModel)
+      username = app.user.get('username')
+      path = "i/#{username}/#{itemModel.id}/edit"
+      app.navigate path
 
     'show:item:show': (username, itemId, title)->
       API.requestItemShow(username, itemId)

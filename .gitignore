@@ -19,7 +19,7 @@ bower_components/
 tmp/
 
 #Map files
-**/*.map
+#**/*.map
 
 #Others
 .status
