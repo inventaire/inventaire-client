@@ -9,9 +9,7 @@ isMuted = (label)->
     tag = label.split(':')?[0]
     return (muted.indexOf(tag) isnt -1)
 
-window.location.root = window.location.protocol + '//' + window.location.host
-
-utils =
+module.exports =
   log: (obj, label)->
     if _.isString obj
       if label? then obj.logIt(label)
@@ -39,6 +37,9 @@ utils =
   logServer: (obj, label)->
     log = {obj: obj, label: label}
     $.post('/test', log)
+
+  logXhrErr: (err)->
+    console.error err.responseText, err
 
   setCookie: (key, value)->
     $.post '/api/cookie', {key: key, value: value}
@@ -69,16 +70,6 @@ utils =
         result = true
     return result
 
-  parseQuery: (queryString)->
-    query = new Object
-    if queryString?
-      queryString = queryString[1..-1] if queryString[0] is '?'
-      for i in queryString.split('&')
-        pair = i.split '='
-        if pair[0]?.length > 0 and pair[1]?
-          query[pair[0]] = pair[1].replace('_',' ')
-    return query
-
   updateQuery: (newParams)->
     [pathname, currentQueryString] = Backbone.history.fragment.split('?')
     query = @parseQuery(currentQueryString)
@@ -93,8 +84,6 @@ utils =
     window.current ||= []
     window.current.unshift(obj)
     return obj
-
-  isMobile: require 'lib/mobile_check'
 
   ping: ->
     $.get '/test'
@@ -111,4 +100,3 @@ utils =
           if app.lib.books.isIsbn id then return true
     return false
 
-module.exports = _.extend utils, sharedLib('utils')

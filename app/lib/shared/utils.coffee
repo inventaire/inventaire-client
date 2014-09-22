@@ -20,13 +20,31 @@ module.exports =
     "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
   buildPath: (pathname, queryObj, escape)->
+    queryObj = @removeUndefined(queryObj)
     if queryObj? and not _.isEmpty queryObj
-      queries = ''
+      queryString = ''
       for k,v of queryObj
         v = @dropSpecialCharacters(v)  if escape
-        queries += "&#{k}=#{v}"
-      return pathname + '?' + queries[1..-1]
+        queryString += "&#{k}=#{v}"
+      return pathname + '?' + queryString[1..-1]
     else pathname
+
+  parseQuery: (queryString)->
+    query = new Object
+    if queryString?
+      queryString = queryString[1..-1] if queryString[0] is '?'
+      for i in queryString.split('&')
+        pair = i.split '='
+        if pair[0]?.length > 0 and pair[1]?
+          query[pair[0]] = pair[1].replace('_',' ')
+    return query
+
+  removeUndefined: (obj)->
+    newObj = {}
+    for k,v of obj
+      if v? then newObj[k] = v
+      else console.warn "#{k}:#{v} omitted"
+    return newObj
 
   dropSpecialCharacters : (str)->
     str.replace(/\s+/g, ' ').replace(/(\?|\:)/g, '')

@@ -1,13 +1,16 @@
 require('lib/uncatched_error_logger').initialize()
 require('lib/handlebars_helpers').initialize()
 
-window.sharedLib = require('lib/shared/shared_libs')
+window.sharedLib = sharedLib = require('lib/shared/shared_libs')
 
 app = require 'app'
 window.app = app
 
-_.extend _, require 'lib/utils'
+_.extend _, require('lib/utils'), sharedLib('utils')
+_.isMobile = require 'lib/mobile_check'
+
 window.wd = require 'lib/wikidata'
+window.location.root = window.location.protocol + '//' + window.location.host
 
 #changing the default attribute to fit CouchDB
 Backbone.Model::idAttribute = '_id'
