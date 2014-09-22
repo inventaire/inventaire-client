@@ -4,12 +4,9 @@ module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
-        'entity/search?*queryString': 'showEntitiesSearchForm'
-        'entity/search': 'showEntitiesSearchForm'
-        'entity/:uri': 'showEntity'
-        'entity/:uri/add': 'addEntity'
-        'entity/:uri/:label': 'showEntity'
-        'entity/:uri/:label/add': 'addEntity'
+        'entity/search(?*queryString)(/)': 'showEntitiesSearchForm'
+        'entity/:uri(/:label)(/)': 'showEntity'
+        'entity/:uri(/:label)/add(/)': 'addEntity'
 
     app.addInitializer ->
       new EntitiesRouter
@@ -20,11 +17,7 @@ module.exports =
     @categories = categories
 
 API =
-  listEntities: (options)-> _.log options, 'listEntities \o/'
-
-
-
-  showEntity: (uri, label, region)->
+  showEntity: (uri, label, params, region)->
     region ||= app.layout.main
     app.execute 'show:loader', region
 
@@ -36,7 +29,11 @@ API =
         else _.log [prefix, id], 'not implemented prefix for showEntity'
     else console.warn 'prefix or id missing at showEntity'
 
-    viewPromise.then (view)-> region.show(view)
+    if viewPromise?
+      viewPromise.then (view)-> region.show(view)
+    else
+      app.execute 'show:404'
+
 
   getWikidataEntityView: (id)->
     return @getEntityModelFromWikidataId(id)
