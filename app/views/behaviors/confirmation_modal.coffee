@@ -15,5 +15,7 @@ module.exports = class ConfirmationModal extends Backbone.Marionette.ItemView
     'click #yes': ->
       @options.params.actionCallback @options.params.actionArgs
       .then (res)=> @$el.trigger 'check', -> app.execute 'modal:close'
-      .fail (err)=> @$el.trigger 'fail', -> app.execute 'modal:close'
+      .fail (err)=>
+        _.log err, 'confirmation_modal err'
+        @$el.trigger 'fail', -> app.execute 'modal:close'
     'click #no': -> app.execute 'modal:close'
