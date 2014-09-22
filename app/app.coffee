@@ -7,6 +7,7 @@ class App extends Backbone.Marionette.Application
     @Behaviors.initialize()
 
     @navigate = (route, options)->
+      route = route.replace(/(\s|')/g, '_')
       route.logIt('route:navigate')
       Backbone.history.navigate(route, options)
 
