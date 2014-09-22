@@ -1,7 +1,7 @@
 <div class="itemLiWrapper">
   <div class="cover small-12 large-offset-4 large-2 columns text-center">
     {{#if pictures}}
-      <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
+      <img src="{{firstElement pictures}}">
     {{/if}}
   </div>
 
@@ -10,7 +10,7 @@
     <div class="right text-right">
       {{#if profilePic}}
         {{username}}
-        <img class="profilePic" src="{{profilePic}}" alt="{{username}} {{i18n 'profile pic'}}">
+        <img class="profilePic" src="{{profilePic}}">
       {{else}}
         {{username}}
       {{/if}}
