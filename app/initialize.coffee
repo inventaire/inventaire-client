@@ -11,6 +11,7 @@ window.wd = require 'lib/wikidata'
 
 #changing the default attribute to fit CouchDB
 Backbone.Model::idAttribute = '_id'
+Backbone.Collection::byId = (id)-> @_byId[id]
 
 _.extend Marionette.View.prototype, require('lib/views_utils')
 
