@@ -29,23 +29,24 @@ module.exports =
 API =
   goToPersonalInventory: ->
     @showPersonalInventory()
-    app.navigate 'inventory/personal'
+    app.navigateReplace 'inventory/personal'
+
   showPersonalInventory: ->
-    showInventory(app.filteredItems)
-    showInventoryTabs()
+    showInventory()
+    showItemList(app.filteredItems)
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.execute 'filter:inventory:personal'
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   showNetworkInventory: ->
-    showInventory(app.filteredItems)
-    showInventoryTabs()
+    showInventory()
+    showItemList(app.filteredItems)
     app.execute 'filter:inventory:network'
     app.inventory.viewTools.show new app.View.ContactsInventoryTools
     app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
 
   showPublicInventory: ->
-    showInventory(app.publicItems)
+    showInventory()
     app.execute('show:loader', app.inventory.itemsView)
     $.getJSON(app.API.items.public())
     .then (res)->
@@ -53,11 +54,12 @@ API =
       if res.items? and res.users?
         app.contacts.add res.users
         app.publicItems = new app.Collection.Items res.items
-        showInventory(app.publicItems)
-        showInventoryTabs()
+
+        showItemList(app.publicItems)
         app.vent.trigger 'inventory:change', 'publicInventory'
         app.inventory.viewTools.show new app.View.ContactsInventoryTools
         app.inventory.sideMenu.empty()
+      else throw 'no public item or users found for showPublicInventory'
     .fail (err)-> throw new Error err
     .done()
 
@@ -119,18 +121,19 @@ API =
     itemShow = new ItemShow {model: item}
     app.layout.main.show itemShow
 
-showInventory = (collection)->
+showInventory = ->
   # regions shouldnt be undefined, which can't be tested by "app.inventory?._isShown"
   # so here I just test one of Inventory regions
   unless app.inventory?.itemsView?
     app.inventory = new app.Layout.Inventory
     app.layout.main.show app.inventory
-  itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
-  app.inventory.itemsView.show itemsList
 
-showInventoryTabs = ->
   unless app.inventory?.topMenu?._isShown
     app.inventory.topMenu.show new app.View.InventoriesTabs
+
+showItemList = (collection)->
+  itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
+  app.inventory.itemsView.show itemsList
 
 
 createItemFromEntity = (entityData)-> _.log entityData, 'entityData'
