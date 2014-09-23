@@ -2,7 +2,8 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
-        'signup(/)':'showSignupStep1'
+        'signup(/1)(/)':'showSignupStep1'
+        'signup/2(/)':'routeTriggeredSignupStep2'
         'login(/)':'showLogin'
 
     app.addInitializer ->
@@ -26,7 +27,16 @@ API =
     app.navigate 'signup'
   showSignupStep2: ->
     app.layout.main.show new app.View.Signup.Step2 {model: app.user}
-    # app.navigate 'signup/2'
+    app.navigate 'signup/2'
+
+  routeTriggeredSignupStep2: ->
+    username = localStorage.getItem('username')
+    if username?
+      app.user.set('username', username)
+      params = {model: app.user, triggerPersonaLogin: true}
+      app.layout.main.show new app.View.Signup.Step2 params
+    else @showSignupStep1()
+
   showLogin: ->
     app.layout.main.show new app.View.Login.Step1 {model: app.user}
     app.navigate 'login'
@@ -73,15 +83,16 @@ onlogin = (assertion) ->
       # will get user data on reload's fetch
       window.location.reload()
     else throw new Error 'onlogin: invalid data'
-  .fail (err)->
-    app.vent.trigger 'persona:error', err
-    throw new Error JSON.stringify(err)
+  .fail (err)-> _.logXhrErr err
 
 onlogout = ->
   app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
 
 
 recoverUserData = (app)->
+  # not sufficiant in cases when Persona messes with the signup process
+  # -> when persona gives a link from an email, username and email
+  # aren't associated and this test passes
   if $.cookie('email')?
     app.user.fetch()
     .then (userAttrs)->

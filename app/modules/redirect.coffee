@@ -2,6 +2,7 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
+        '(signup)(/*whatever)(/)': 'home'
         '(login)(/)': 'home'
         '*route': 'notFound'
 

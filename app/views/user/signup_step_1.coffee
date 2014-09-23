@@ -23,6 +23,12 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       $.post(app.API.auth.username, {username: username})
       .then (res)=>
         @model.set 'username', res.username
+
+        # stashing the username in localStorage for the
+        # case when Persona comebacks from an email link
+        # with no trace of the previous username
+        localStorage.setItem 'username', res.username
+
         @$el.trigger 'check', -> app.execute 'show:signup:step2'
       .fail (err)=>
         _.log err.responseJSON, 'invalidUsername'
