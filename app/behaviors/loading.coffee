@@ -3,9 +3,9 @@ module.exports = class Loading extends Marionette.Behavior
     loading: ".loading"
 
   events:
-    "loading": "showSpinningLoader"
-    "stopLoading": "hideSpinningLoader"
-    "somethingWentWrong": "somethingWentWrong"
+    'loading': 'showSpinningLoader'
+    'stopLoading': 'hideSpinningLoader'
+    'somethingWentWrong': 'somethingWentWrong'
 
   showSpinningLoader: (e, params)->
     $target = @getTarget(params)
@@ -29,8 +29,6 @@ module.exports = class Loading extends Marionette.Behavior
     $target.html body
 
   getTarget: (params)->
-    if params?.selector?
-      return $target = $(params.selector).find('.loading')
-    else
-      return $target = @ui.loading
+    if params?.selector? then $(params.selector).find('.loading')
+    else @ui.loading
 
