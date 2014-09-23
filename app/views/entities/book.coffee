@@ -21,36 +21,43 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       app.user.on 'change:language', => @queryAPI search, notEmpty
 
   queryAPI: (search, validityTest)=>
-    input = "input#search"
-    button = "#searchButton"
-    if validityTest(search)
-      @$el.trigger 'loading'
-      $.getJSON app.API.entities.search(search)
-      .then @displayResults
-      .fail (err)=>
-        _.log err, 'queryAPI err'
-        @$el.trigger 'stopLoading'
-        @$el.trigger 'alert', {message: _.i18n 'no item found'}
-      .done()
+    app.results ||= {}
+    if app.results.search is search then @displayResult()
     else
-      _.log [input, button], 'rejected'
-      @$el.trigger 'alert', {message: _.i18n "invalid query"}
+      input = "input#search"
+      button = "#searchButton"
+      if validityTest(search)
+        @$el.trigger 'loading'
+        $.getJSON app.API.entities.search(search)
+        .then @spreadResults
+        .then @displayResult
+        .fail (err)=>
+          _.log err, 'queryAPI err'
+          @$el.trigger 'stopLoading'
+          @$el.trigger 'alert', {message: _.i18n 'no item found'}
+        .done()
+      else
+        _.log [input, button], 'rejected'
+        @$el.trigger 'alert', {message: _.i18n "invalid query"}
 
-  displayResults: (res)=>
+  spreadResults: (res)=>
     @$el.trigger 'stopLoading'
 
     app.results =
       humans: humans = new Backbone.Collection
       authors: authors = new Backbone.Collection
       books: books = new Backbone.Collection
+      search: res.search
 
-    _.log res, 'res at displayResults'
+    _.log res, 'res at spreadResults'
     resultsArray = res.items
     switch res.source
       when 'wd' then @addWikidataEntities(resultsArray)
       when 'google' then @addNonWikidataEntities(resultsArray)
       else throw new Error "couldn't find source: #{res.source}"
 
+  displayResult: ->
+    [humans, authors, books] = [app.results.humans, app.results.authors, app.results.books]
     if books.length + authors.length + humans.length > 0
       if books.length > 0
         booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
