@@ -8,49 +8,54 @@ module.exports = class Item extends Backbone.NestedModel
 
   validate: (attrs, options)->
     unless attrs.title? then return "a title must be provided"
+    unless attrs.owner? then return "a owner must be provided"
 
   initialize: (attrs, options)->
-    _.log arguments, 'item:initialization args'
-    # defaults to current user as owner
-    # allowing entities to user the Item model without an owner
-    owner = @get('owner')
-    if not owner? then throw new Error 'an owner should be provided'
+    # RECIPE:
+      # suffix = entityUri or random(6)
+      # _id = owner:suffix
+      # pathname = username:suffix
+    # this allows entityUri to be used in pathname without
+    # letting them be the DB's reference _id with of
+    # collisions everytime two people have an instance
+    # of the same entity object
 
-    @username = app.request('getUsernameFromId', owner)
+    attrs.owner = @get('owner')
+    attrs.suffix = @getSuffix()
+    attrs._id = @getId(attrs)
+    attrs.created = @get('created') or new Date()
 
-    @setDefaults()
-
-    itemId = @get '_id'
-    pathname = "/inventory/#{itemId}"
-
-    itemTitle = _.softEncodeURI @get('title')
-    pathname += "/#{itemTitle}"  if itemTitle?
-
-    @set 'pathname', pathname
-
-    @profilePic = app.request('getProfilePicFromId', owner)
-    @restricted = true unless @get('owner') is app.user.id
-
-  setDefaults: ->
-    attrs =
-      _id: @get('_id') or @buildId()
-      created: @get('created') or new Date()
-      owner: @get('owner') or app.user.get('_id')
     @set attrs
 
-  buildId: ->
-    suffix = @getUri() or _.idGenerator(6)
-    return @username + '/' + suffix
+    @username = app.request('getUsernameFromOwner', attrs.owner)
+    @profilePic = app.request('getProfilePicFromId', attrs.owner)
+    @restricted = true unless attrs.owner is app.user.id
+    @pathname = @buildPathname(attrs)
 
-  getUri: ->
-    entity = @get('entity')
-    if _.isKnownUri(entity) then return entity
-    else return
+    _.log @, 'item: after initialize from Item model'
+
+  getSuffix: ->
+    if @get('suffix') then return @get('suffix')
+    else
+      entity = @get('entity')
+      if _.hasKnownUriDomain(entity) then return entity
+      else _.idGenerator(6)
+
+  getId: (attrs)->
+    if @get('_id') then return @get('_id')
+    else return "#{attrs.owner}:#{attrs.suffix}"
+
+  buildPathname: (attrs)->
+    pathname = "/inventory/#{@username}/#{attrs.suffix}"
+    title = _.softEncodeURI @get('title')
+    pathname += "/#{title}"  if title?
+    return pathname
 
   serializeData: ->
     attrs = @toJSON()
     _.extend attrs,
       username: @username
+      pathname: @pathname
       profilePic: @profilePic
       restricted: @restricted
       created: new Date(attrs.created).toLocaleDateString()
