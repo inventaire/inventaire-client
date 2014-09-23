@@ -36,7 +36,7 @@ module.exports =
       for i in queryString.split('&')
         pair = i.split '='
         if pair[0]?.length > 0 and pair[1]?
-          query[pair[0]] = pair[1].replace('_',' ')
+          query[pair[0]] = pair[1].replace(/_/g, ' ')
     return query
 
   removeUndefined: (obj)->

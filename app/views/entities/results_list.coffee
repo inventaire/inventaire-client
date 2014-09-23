@@ -6,6 +6,7 @@ module.exports = class ResultsList extends Backbone.Marionette.CollectionView
       else _.log @options, 'no result type provided'
   emptyView: require 'views/items/no_item'
   tagName: 'ul'
+  className: 'jk'
   onShow: ->
     type = _.i18n(@options.type)
     @$el.prepend "<h3 class='subheader'>#{type}</h3>"

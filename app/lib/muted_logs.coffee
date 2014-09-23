@@ -4,4 +4,7 @@ module.exports = [
   'setCookie'
   'app'
   'route'
+  # 'entity'
+  # 'item'
+  # 'inv'
 ]

@@ -15,4 +15,6 @@ module.exports = class ScannerButton extends Backbone.Marionette.ItemView
 
     $.post '/test', encodedCallback
 
+    _.logServer url, 'scanner url'
+
     return { url: url }

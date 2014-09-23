@@ -6,7 +6,7 @@
   "homepage": "http://inventaire.io",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "http://github.com/maxlath/inventaire-client"
   },
   "engines": {
     "node": "0.10"
