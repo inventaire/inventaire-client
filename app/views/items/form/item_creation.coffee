@@ -27,6 +27,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
 
   events:
     'click #validate': 'validateItem'
+    'click #cancel': -> app.execute 'show:home'
 
   validateItem: ->
     comment = $('#comment').val()
