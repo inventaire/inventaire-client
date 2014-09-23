@@ -7,8 +7,10 @@ class App extends Backbone.Marionette.Application
     @Behaviors.initialize()
 
     @navigate = (route, options)->
-      route = route.replace(/(\s|')/g, '_')
       route.logIt('route:navigate')
+      route = route.replace(/(\s|')/g, '_')
+      Backbone.history.last ||= []
+      Backbone.history.last.unshift(route)
       Backbone.history.navigate(route, options)
 
     @goTo = (route, options)->
@@ -21,7 +23,7 @@ class App extends Backbone.Marionette.Application
       route.logIt('route:navigateReplace')
       options ||= new Object
       options.replace = true
-      Backbone.history.navigate(route, options)
+      @navigate(route, options)
 
     @on "start", (options) =>
       _.log 'app:start'

@@ -7,6 +7,10 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
   behaviors:
     Loading: {}
 
+  serializeData: ->
+    back:
+      classes: 'tiny button'
+
   backToStepOne: (e)->
     app.layout.main.show new app.View.Signup.Step1 {model: app.user}
 

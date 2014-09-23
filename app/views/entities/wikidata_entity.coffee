@@ -6,6 +6,17 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
   behaviors:
     PreventDefault: {}
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    attrs.descMaxlength = 500
+    attrs.descOverflow = attrs.description > attrs.descMaxlength
+
+    if _.lastRouteMatch(/search\?/)
+      attrs.back =
+        message: _.i18n 'Back to search results'
+
+    return attrs
+
   initialize: ->
     app.entity = @
     @listenTo @model, 'add:pictures', @render

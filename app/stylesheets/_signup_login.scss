@@ -1,22 +1,5 @@
 $tooltip-font-size: 1rem;
 
-.back-button{
-  background-color: grey;
-  .fa{
-    font-size: 1rem;
-  }
-}
-
-.fa-question-circle{
-  // font-size: 0.8rem;
-  margin-left: 0.2rem;
-  margin-right: 0.2rem;
-  opacity: 0.5;
-  &:hover{
-    opacity: 1;
-  }
-}
-
 #personaButton{
   margin-top: 2rem;
   margin-bottom: 2rem;

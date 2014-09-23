@@ -13,6 +13,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   events:
     'click #home': 'showHome'
     'keyup .enterClick': 'enterClick'
+    'click a.back': -> window.history.back()
 
   initialize: (e)->
     @render()

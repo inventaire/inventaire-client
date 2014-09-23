@@ -1,7 +1,14 @@
 <div class='row'>
+  <div class='small-12 large-4 columns text-left'>
+    <p>
+      {{#if back}}
+        {{partial 'back' this}}
+      {{/if}}
+    </p>
+  </div>
+</div>
 
-
-
+<div class='row'>
   <div class='small-12 large-8 columns'>
 
     <div class='row'>
@@ -14,7 +21,9 @@
 
       <div class='small-12 large-8 columns'>
         <h3>{{title}}</h3>
-        <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
+        {{#if descOverflow}}
+          <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
+        {{/if}}
         <p id='shortDesc' class='grey'>{{limit description 500}}</p>
         <p id='fullDesc' class='grey hidden'>{{description}}</p>
 

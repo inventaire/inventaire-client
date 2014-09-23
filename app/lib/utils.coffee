@@ -99,3 +99,9 @@ module.exports =
         when 'isbn'
           if app.lib.books.isIsbn id then return true
     return false
+
+  lastRouteMatch: (regex)->
+    if Backbone.history.last?[0]?
+      last = Backbone.history.last[0]
+      return regex.test(last)
+    else false
