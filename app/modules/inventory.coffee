@@ -31,26 +31,35 @@ API =
     @showPersonalInventory()
     app.navigate 'inventory/personal'
   showPersonalInventory: ->
-    showInventory()
+    showInventory(app.filteredItems)
     showInventoryTabs()
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.execute 'filter:inventory:personal'
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   showNetworkInventory: ->
-    showInventory()
+    showInventory(app.filteredItems)
     showInventoryTabs()
     app.execute 'filter:inventory:network'
     app.inventory.viewTools.show new app.View.ContactsInventoryTools
     app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
 
   showPublicInventory: ->
-    showInventory()
-    showInventoryTabs()
-    app.execute 'filter:inventory:public'
-    console.log '/!\\ fake publicInventory filter'
-    app.inventory.viewTools.show new app.View.ContactsInventoryTools
-    app.inventory.sideMenu.empty()
+    showInventory(app.publicItems)
+    app.execute('show:loader', app.inventory.itemsView)
+    $.getJSON(app.API.items.public())
+    .then (res)->
+      _.log res, 'publicItems res'
+      if res.items? and res.users?
+        app.contacts.add res.users
+        app.publicItems = new app.Collection.Items res.items
+        showInventory(app.publicItems)
+        showInventoryTabs()
+        app.vent.trigger 'inventory:change', 'publicInventory'
+        app.inventory.viewTools.show new app.View.ContactsInventoryTools
+        app.inventory.sideMenu.empty()
+    .fail (err)-> throw new Error err
+    .done()
 
   showItemCreationForm: (options)->
     form = new app.View.Items.Creation options
@@ -81,7 +90,7 @@ API =
       filterForUser()
     else
       app.vent.on 'contacts:ready', -> filterForUser()
-    showInventory()
+    showInventory(app.filteredItems)
 
   itemShow: (username, suffix, label)->
     app.execute('show:loader')
@@ -110,13 +119,13 @@ API =
     itemShow = new ItemShow {model: item}
     app.layout.main.show itemShow
 
-showInventory = ->
+showInventory = (collection)->
   # regions shouldnt be undefined, which can't be tested by "app.inventory?._isShown"
   # so here I just test one of Inventory regions
   unless app.inventory?.itemsView?
     app.inventory = new app.Layout.Inventory
     app.layout.main.show app.inventory
-  itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: app.filteredItems}
+  itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
   app.inventory.itemsView.show itemsList
 
 showInventoryTabs = ->
@@ -190,7 +199,7 @@ filterInventoryBy = (filterName)->
   otherFilters.forEach (otherFilterName)->
     app.filteredItems.removeFilter otherFilterName
   app.filteredItems.filterBy filterName, filters[filterName]
-  app.vent.trigger "inventory:change", filterName
+  app.vent.trigger 'inventory:change', filterName
 
 filterInventoryByOwner = (ownerId)->
   app.filteredItems.filterBy 'owner', (model)->
@@ -248,7 +257,8 @@ initializeInventoriesHandlers = (app)->
       API.showItemEditionForm(itemModel)
       username = app.user.get('username')
       title = itemModel.get('title')
-      path = "inventory/#{username}/#{itemModel.id}"
+      suffix = itemModel.get('suffix')
+      path = "inventory/#{username}/#{suffix}"
       path += "/#{title}"  if title?
       path += "/edit"
       app.navigate path

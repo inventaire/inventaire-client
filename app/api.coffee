@@ -6,17 +6,25 @@ module.exports =
     logout: '/api/auth/logout'
     user: '/api/auth/user'
     username: '/api/auth/username'
+  users:
+    data: (ids)->
+      if ids?
+        ids = ids.join?('|') or ids
+        return "/api/users?action=getusers&ids=#{ids}"
+      else throw new Error "users data API needs an array of ids"
   contacts:
     contacts: '/api/contacts'
     items: (id)->
       if id? then "/api/#{id}/items"
       else throw new Error "contacts' items API needs an id"
     search: (text)->
-      if text? then "/api/users?#{text}"
+      if text? then "/api/users?action=search&search=#{text}"
       else throw new Error "contacts' search API needs a text argument"
   items:
     items: '/api/items'
-    public: (uri)-> "/api/items/public/#{uri}"
+    public: (uri)->
+      if uri? then "/api/items/public/#{uri}"
+      else '/api/items/public'
     item: (owner, id, rev)->
       if owner? and id?
         if rev? then "/api/#{owner}/items/#{id}/#{rev}"
