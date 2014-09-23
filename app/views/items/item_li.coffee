@@ -14,7 +14,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     'click .remove': 'destroyItem'
     'click a.itemShow': ->
       _.log @model, 'model encoded something?'
-      app.execute 'show:item:show', @model.username, @model.get('_id'), @model.get('title')
+      app.execute 'show:item:show:from:model', @model
 
   serializeData: -> @model.serializeData()
 

@@ -9,8 +9,8 @@ module.exports =
         'inventory/network(/)': 'showNetworkInventory'
         'inventory/public(/)': 'showPublicInventory'
         'inventory/:user(/)': 'showUserInventory'
-        'inventory/:user/:itemId(/:title)(/)': 'itemShow'
-        'inventory/:user/:itemId(/:title)/edit(/)': 'itemEdit'
+        'inventory/:user/:suffix(/:title)(/)': 'itemShow'
+        'inventory/:user/:suffix(/:title)/edit(/)': 'itemEdit'
 
     app.addInitializer ->
       new InventoryRouter
@@ -72,34 +72,35 @@ API =
 
   showUserInventory: (user)->
     filterForUser = ->
-      userId = app.request('getIdFromUsername', user)
-      if userId?
-        app.execute 'filter:inventory:owner', userId
+      owner = app.request('getOwnerFromUsername', user)
+      if owner?
+        app.execute 'filter:inventory:owner', owner
       else
-        _.log [user, userId], 'user not found: you should do some ajax wizzardry to get him'
+        _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
     if app.contacts.fetched
       filterForUser()
     else
       app.vent.on 'contacts:ready', -> filterForUser()
     showInventory()
 
-  itemShow: (username, itemId, label)->
+  itemShow: (username, suffix, label)->
     app.execute('show:loader')
     if app.items.fetched and app.contacts.fetched
-      @showItemShow(username, itemId, label)
+      @showItemShow(username, suffix, label)
     else
       app.vent.on 'items:ready', =>
         if app.contacts.fetched
-          @showItemShow(username, itemId, label)
+          @showItemShow(username, suffix, label)
       app.vent.on 'contacts:ready', =>
         if app.items.fetched
-          @showItemShow(username, itemId, label)
+          @showItemShow(username, suffix, label)
 
-  showItemShow: (username, itemId, label)->
-    userId = app.request('getIdFromUsername', username)
-    if userId?
+  showItemShow: (username, suffix, label)->
+    owner = app.request('getOwnerFromUsername', username)
+    itemId = app.request('getItemId', {owner: owner, suffix: suffix})
+    if itemId?
       _.log item = app.items.findWhere({_id: itemId}), 'found an item?'
-      if item? and item.get('owner') is userId
+      if item? and item.get('owner') is owner
           return @showItemShowFromItemModel(item)
     noItem = new app.View.NoItem
     app.layout.main.show noItem
@@ -136,6 +137,8 @@ fetchItems = (app)->
 
   app.reqres.setHandlers
     'item:validate:creation': validateCreation
+    'getItemId': getItemId
+
 
 validateCreation = (itemData)->
   _.log itemData, 'itemData at validateCreation'
@@ -146,6 +149,11 @@ validateCreation = (itemData)->
     itemModel.username = app.user.get('username')
     return true
   else false
+
+getItemId = (params)->
+  if not params.owner? and params.username?
+    params.owner = app.request('getOwnerFromUsername', params.username)
+  return "#{params.owner}:#{params.suffix}"
 
 initializeFilters = (app)->
   app.Filters =
@@ -245,12 +253,12 @@ initializeInventoriesHandlers = (app)->
       path += "/edit"
       app.navigate path
 
-    'show:item:show': (username, itemId, title)->
-      API.itemShow(username, itemId)
-      if title? then app.navigate "inventory/#{username}/#{itemId}/#{title}"
-      else app.navigate "inventory/#{username}/#{itemId}"
+    'show:item:show': (username, suffix, title)->
+      API.itemShow(username, suffix)
+      if title? then app.navigate "inventory/#{username}/#{suffix}/#{title}"
+      else app.navigate "inventory/#{username}/#{suffix}"
 
     'show:item:show:from:model': (item)->
       API.showItemShowFromItemModel(item)
-      pathname = item.get 'pathname'
+      pathname = item.pathname
       app.navigate pathname

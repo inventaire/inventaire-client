@@ -90,7 +90,7 @@ module.exports =
     .fail (err)-> _.log err, 'server: unreachable. You might be offline'
     .done()
 
-  isKnownUri: (str)->
+  hasKnownUriDomain: (str)->
     [prefix, id] = str.split(':')
     if prefix? and id?
       switch prefix
@@ -99,4 +99,3 @@ module.exports =
         when 'isbn'
           if app.lib.books.isIsbn id then return true
     return false
-

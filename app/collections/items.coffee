@@ -7,5 +7,5 @@ module.exports = class Items extends Backbone.Collection
   byOwner: (ownerId)-> @where {owner: ownerId}
 
   byUsername: (username)->
-    id = app.request 'getIdFromUsername', username
-    return @where {owner: id}
+    owner = app.request 'getOwnerFromUsername', username
+    return @where {owner: owner}

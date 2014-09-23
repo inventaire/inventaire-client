@@ -14,13 +14,13 @@ initializeContacts = ->
   app.contacts = new app.Collection.Contacts
 
   app.reqres.setHandlers
-    'getUsernameFromId': (id)->
+    'getUsernameFromOwner': (id)->
       contactModel = app.contacts.byId(id)
       if contactModel? && contactModel.get?
         return contactModel.get 'username'
       else throw new Error "couldnt find the contact from id: #{id}"
 
-    'getIdFromUsername': (username)->
+    'getOwnerFromUsername': (username)->
       contactModel = app.contacts.findWhere({username: username})
       if contactModel? && contactModel.get?
         return contactModel.id
@@ -33,7 +33,7 @@ initializeContacts = ->
         return contactModel.get 'picture'
       else throw new Error "couldnt find the contact from id: #{id}"
 
-  # include main user in contacts to be able to access it from getUsernameFromId
+  # include main user in contacts to be able to access it from getUsernameFromOwner
   app.contacts.add app.user
 
   app.commands.setHandlers
@@ -58,7 +58,7 @@ fetchContactsAndTheirItems = ->
       contactModel.following = true
       contactModel.trigger 'change:following', contactModel
       app.execute 'contact:fetchItems', contactModel
-  .fail (err)-> console.error(err)
+  .fail (err)-> _.logXhrErr err
   .done ->
     app.contacts.fetched = true
     app.vent.trigger 'contacts:ready'
