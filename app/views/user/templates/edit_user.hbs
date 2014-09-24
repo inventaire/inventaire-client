@@ -3,7 +3,8 @@
 
     <h2 class="subheader text-center">{{i18n 'Edit User'}}</h2>
 
-    {{partial '../user/templates/username_picker' this}}
+    <h3>{{i18n 'Username'}}</h3>
+    {{partial '../user/templates/username_picker' this 'check'}}
 
     <h3 class="with-tip capitalized">{{i18n 'Language' 'Q34770'}}</h3>
     {{partial '../user/templates/language_picker' this 'check'}}

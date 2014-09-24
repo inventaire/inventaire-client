@@ -2,7 +2,17 @@
   <div class="small-12 large-5 large-offset-4 columns">
 
     <h2 class="subheader">{{i18n 'SignUp'}}</h2>
-    {{partial '../user/templates/username_picker' this}}
+
+
+    <div id="usernamePicker">
+  {{!-- used in several places, thus the dynamic header --}}
+  <h3 class="with-tip">{{header}}</h3>
+  {{tip 'username_tip' 'right'}}
+
+
+  {{partial '../user/templates/username_picker' this 'check'}}
+
+</div>
 
   </div>
 </div>

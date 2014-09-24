@@ -1,4 +1,5 @@
 check = require 'views/behaviors/templates/success_check'
+tip = require 'views/behaviors/templates/tip'
 
 module.exports =
   initialize: ->
@@ -49,3 +50,9 @@ module.exports =
           t += '[...]'
         new Handlebars.SafeString t
       else ''
+
+    register 'tip', (text, position)->
+      context =
+        text: _.i18n text
+        position: position || 'rigth'
+      new Handlebars.SafeString tip(context)
