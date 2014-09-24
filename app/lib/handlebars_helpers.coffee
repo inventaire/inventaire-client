@@ -1,3 +1,5 @@
+check = require 'views/behaviors/templates/success_check'
+
 module.exports =
   initialize: ->
     # Registering partials using the code here
@@ -5,11 +7,12 @@ module.exports =
     register = (name, fn) ->
       Handlebars.registerHelper name, fn
 
-    register 'partial', (name, context) ->
+    register 'partial', (name, context, option) ->
       template = require "views/templates/#{name}"
-      if template?
-        new Handlebars.SafeString template(context)
-      else throw new Error 'handlebars: bad path: template not found'
+      str = new Handlebars.SafeString template(context)
+      switch option
+        when 'check' then str = new Handlebars.SafeString check(str)
+      return str
 
     register 'firstElement', (obj) ->
       if _.isArray obj
@@ -25,8 +28,7 @@ module.exports =
         new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;"
       else new Handlebars.SafeString "<i class='fa fa-#{name}'></i>&nbsp;"
 
-    register 'safe', (text) ->
-      new Handlebars.SafeString text
+    register 'safe', (text) -> new Handlebars.SafeString text
 
     register 'i18n', (key, args)-> new Handlebars.SafeString _.i18n(key, args)
 

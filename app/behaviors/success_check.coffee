@@ -10,7 +10,16 @@ module.exports = class SuccessCheck extends Marionette.Behavior
   showFail: (e, cb)-> @showSignal e, cb, 'times-circle'
 
   showSignal: (e, cb, signal)->
-    $check = $(e.target).find('.check')
+    $wrapper = $(e.target).parents('.checkWrapper')
+    if $wrapper.length is 1
+      $check = $wrapper.find('.check')
+    else
+      console.warn 'deprecated success check form: please use .checkWrapper format'
+      $check = $(e.target).find('.check')
+
+    _.log $wrapper, 'wrapper'
+    _.log $check, 'check'
+
     $check.html "<i class='fa fa-#{signal} text-center'></i>"
     .slideDown(300)
 
