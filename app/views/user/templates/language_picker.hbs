@@ -1,0 +1,6 @@
+<select id="languagePicker" name="language">
+  <option value="{{currentLanguages.code}}">{{currentLanguages.code}} - {{currentLanguages.native}}</option>
+  {{#each languages}}
+    <option value="{{code}}">{{code}} - {{native}}</option>
+  {{/each}}
+</select>

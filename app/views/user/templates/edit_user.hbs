@@ -3,23 +3,11 @@
 
     <h2 class="subheader text-center">{{i18n 'Edit User'}}</h2>
 
-
-
     {{partial '../user/templates/username_picker' this}}
 
-
     <h3 class="with-tip capitalized">{{i18n 'Language' 'Q34770'}}</h3>
-    <div id="languagePicker" class="row">
-      <div class="small-12 large-11 columns">
-        <select name="language">
-          <option value="{{currentLanguages.code}}">{{currentLanguages.code}} - {{currentLanguages.native}}</option>
-          {{#each languages}}
-            <option value="{{code}}">{{code}} - {{native}}</option>
-          {{/each}}
-        </select>
-      </div>
-      <div class="check small-12 large-1 columns"></div>
-    </div>
+    {{partial '../user/templates/language_picker' this 'check'}}
+
   </div>
 
 </div>

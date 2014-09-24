@@ -20,7 +20,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
 
   events:
     'click #verifyUsername': 'verifyUsername'
-    'change #languagePicker select': 'changeLanguage'
+    'change select#languagePicker': 'changeLanguage'
 
   verifyUsername: (username)=>
     requestedUsername = $('#username').val()
@@ -43,19 +43,20 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         Are you sure you want to change for <strong>#{args.requestedUsername}</strong>?"
       warningText: _.i18n "You shouldn't change your username too often, as it's the way others can find you"
       actionCallback: (args)=>
-        return app.request('user:update', {fieldName: 'username', value: args.requestedUsername})
+        return app.request('user:update', {attribute: 'username', value: args.requestedUsername})
       actionArgs: args
 
   invalidUsername: (err)=>
-    if typeof err is 'string'
+    if _.isString err
       errMessage = err
     else
       errMessage = _.i18n(err.responseJSON.status_verbose || "invalid username")
     @$el.trigger 'alert', {message: errMessage}
 
   changeLanguage: (e)->
-    if lang = e.target.value isnt app.user.get 'language'
-      app.request 'user:update', {fieldName:'language', value: e.target.value}
-      .then (res)=> $('#languagePicker').trigger 'check'
-      .fail (err)=> $('#languagePicker').trigger 'fail'
-      .done()
+    lang = e.target.value
+    if lang isnt app.user.get 'language'
+      app.request 'user:update',
+        attribute:'language'
+        value: e.target.value
+        selector: '#languagePicker'
