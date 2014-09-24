@@ -22,7 +22,9 @@ module.exports = class Book extends Backbone.Marionette.ItemView
 
   queryAPI: (search, validityTest)=>
     app.results ||= {}
-    if app.results.search is search then @displayResult()
+    if app.results.search is search and app.results.books?.length > 0
+      @displayResults()
+      app.layout.entities.search.results1.$el.hide().fadeIn(200)
     else
       input = "input#search"
       button = "#searchButton"
@@ -30,7 +32,7 @@ module.exports = class Book extends Backbone.Marionette.ItemView
         @$el.trigger 'loading'
         $.getJSON app.API.entities.search(search)
         .then @spreadResults
-        .then @displayResult
+        .then @displayResults
         .fail (err)=>
           _.log err, 'queryAPI err'
           @$el.trigger 'stopLoading'
@@ -56,7 +58,7 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       when 'google' then @addNonWikidataEntities(resultsArray)
       else throw new Error "couldn't find source: #{res.source}"
 
-  displayResult: ->
+  displayResults: ->
     [humans, authors, books] = [app.results.humans, app.results.authors, app.results.books]
     if books.length + authors.length + humans.length > 0
       if books.length > 0
