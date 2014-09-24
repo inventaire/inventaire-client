@@ -91,13 +91,14 @@ module.exports =
     .done()
 
   hasKnownUriDomain: (str)->
-    [prefix, id] = str.split(':')
-    if prefix? and id?
-      switch prefix
-        when 'wd'
-          if wd.isWikidataId id then return true
-        when 'isbn'
-          if app.lib.books.isIsbn id then return true
+    if _.isString(str)
+      [prefix, id] = str.split(':')
+      if prefix? and id?
+        switch prefix
+          when 'wd'
+            if wd.isWikidataId id then return true
+          when 'isbn'
+            if app.lib.books.isIsbn id then return true
     return false
 
   lastRouteMatch: (regex)->
