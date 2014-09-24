@@ -10,18 +10,17 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     @listenTo @model, 'change', @render
 
   events:
-    'click .edit': 'editItem'
-    'click .remove': 'destroyItem'
-    'click a.itemShow': ->
-      _.log @model, 'model encoded something?'
-      app.execute 'show:item:show:from:model', @model
+    'click .edit': 'itemEdit'
+    'click a.itemShow': 'itemShow'
+    'click .remove': 'itemDestroy'
 
   serializeData: -> @model.serializeData()
 
-  editItem: ->
-    app.execute 'show:item:form:edition', @model
+  itemEdit: -> app.execute 'show:item:form:edition', @model
 
-  destroyItem: ->
+  itemShow: -> app.execute 'show:item:show:from:model', @model
+
+  itemDestroy: ->
     args =
       title: @model.get 'title'
       model: @model
