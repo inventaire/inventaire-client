@@ -8,6 +8,7 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     Loading: {}
 
   waitingForPersona:->
+    $('#loginPersona').fadeOut()
     app.execute 'persona:login'
     @$el.trigger 'loading',
       message: _.i18n('a popup should now open to let you verify your credentials')
