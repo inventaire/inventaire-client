@@ -32,7 +32,8 @@ module.exports = class Item extends Backbone.NestedModel
     @pathname = @buildPathname(attrs)
     @restricted = attrs.owner isnt app.user.id
 
-    _.log @, 'item: after initialize from Item model'
+    if attrs.entity?
+      @entityPathname = "/entity/#{attrs.entity}/#{attrs.title}"
 
   getSuffix: ->
     if @get('suffix') then return @get('suffix')
@@ -56,6 +57,7 @@ module.exports = class Item extends Backbone.NestedModel
     _.extend attrs,
       username: @username
       pathname: @pathname
+      entityPathname: @entityPathname
       profilePic: @profilePic
       restricted: @restricted
       created: new Date(attrs.created).toLocaleDateString()

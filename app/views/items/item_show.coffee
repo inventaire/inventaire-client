@@ -4,6 +4,8 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
   regions:
     entityRegion: '#entity'
     editPanel: '#editPanel'
+  behaviors:
+    PreventDefault: {}
 
   onShow: ->
     entity = @model.get 'entity'
@@ -17,6 +19,9 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
       @editPanel.show editForm
 
   events:
-    'click a.edit': 'editItem'
+    'click a.edit': 'itemEdit'
+    'click a#entity': 'showEntity'
 
-  editItem: -> app.execute 'show:item:form:edition', @model
+  itemEdit: -> app.execute 'show:item:form:edition', @model
+
+  showEntity: -> app.execute 'show:entity', @model.get('suffix'), @model.get('title')

@@ -98,7 +98,12 @@ API =
 
 initializeEntitiesSearchHandlers = ->
   app.commands.setHandlers
-    'show:entity': API.showEntity
+    'show:entity': (uri, label, params, region)->
+      API.showEntity(uri, label, params, region)
+      path = "entity/#{uri}"
+      path += "/#{label}"  if label?
+      app.navigate path
+
     'show:entity:search': ->
       API.showEntitiesSearchForm()
       app.navigate 'entity/search'

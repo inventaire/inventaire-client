@@ -10,6 +10,9 @@
   <div class="small-12 large-6 columns">
     <div class="panel">
       <h2>{{title}}</h2>
+      {{#if entityPathname}}
+        <a id="entity" href="{{entityPathname}}">{{i18n 'more details'}}</a>
+      {{/if}}
       {{#if comment}}
         <p class="comment grey">
           {{comment}}
