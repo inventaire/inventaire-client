@@ -15,7 +15,6 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs =
-      header: _.i18n 'Username'
       buttonLabel: _.i18n 'Change Username'
       languages: Lang
     attrs.currentLanguages = attrs.languages[app.user.get('language')]
