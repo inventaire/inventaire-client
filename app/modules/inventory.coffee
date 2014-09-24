@@ -113,9 +113,7 @@ API =
       _.log item = app.items.findWhere({_id: itemId}), 'found an item?'
       if item? and item.get('owner') is owner
           return @showItemShowFromItemModel(item)
-    noItem = new app.View.NoItem
-    app.layout.main.show noItem
-    throw new Error 'item not found'
+    app.execute 'show:404'
 
   showItemShowFromItemModel: (item)->
     itemShow = new ItemShow {model: item}
