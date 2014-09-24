@@ -118,11 +118,14 @@ initializeUserI18nSettings = (app)->
 initializeUserEditionCommands = (app)->
   app.reqres.setHandlers
     'user:update': (options)->
-      app.user.set options.attribute, options.value
+      app.user.set(options.attribute, options.value)
       promise = app.user.save()
-      if options.selector?
-        promise.then -> $(options.selector).trigger 'check'
-        .fail -> $(options.selector).trigger 'fail'
+      _.log options.selector, 'selecotr'
+      _.inspect(promise)
+      app.request 'waitForCheck',
+        promise: promise
+        selector: options.selector
+      return promise
 
 initializeUserMenuUpdate = (app)->
   app.commands.setHandlers

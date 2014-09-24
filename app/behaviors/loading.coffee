@@ -1,6 +1,6 @@
 module.exports = class Loading extends Marionette.Behavior
   ui:
-    loading: ".loading"
+    loading: ".loading, .check"
 
   events:
     'loading': 'showSpinningLoader'
@@ -17,8 +17,7 @@ module.exports = class Loading extends Marionette.Behavior
 
     $target.html body
 
-  hideSpinningLoader: ->
-    @ui.loading.empty()
+  hideSpinningLoader: -> @ui.loading.empty()
 
   somethingWentWrong: (e, params)->
     $target = @getTarget(params)

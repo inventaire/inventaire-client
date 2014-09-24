@@ -2,5 +2,6 @@ module.exports = class ConfirmationModal extends Marionette.Behavior
   events:
     'askConfirmation': 'askConfirmation'
 
-  askConfirmation: (e, params)->
-    app.layout.modal.show new app.View.Behaviors.ConfirmationModal {params: params}
+  askConfirmation: (e, options)->
+    view = new app.View.Behaviors.ConfirmationModal options
+    app.layout.modal.show view

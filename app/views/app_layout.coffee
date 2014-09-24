@@ -25,6 +25,9 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       'show:404': @show404
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
 
+    app.reqres.setHandlers
+      'waitForCheck': @waitForCheck
+
   showLoader: (region)->
     region ||= app.layout.main
     region.show new app.View.Behaviors.Loader
@@ -43,6 +46,24 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       row = $(e.currentTarget).parents('.row')[0]
       $(row).find('.button').trigger 'click'
       _.log 'ui: enter-click'
+
+  waitForCheck: (options)->
+    _.log options, 'waitForCheck options'
+    # $selector or selector MUST be provided
+    if options.selector? then $selector = $(options.selector)
+    else $selector = options.$selector
+    $selector.trigger('loading')
+
+    # action or promise MUST be provided
+    if options.action? then promise = options.action()
+    else promise = options.promise
+
+    # success and/or error handlers CAN be provided
+    promise
+    .then (res)-> $selector.trigger('check', options.success)
+    .fail (err)-> $selector.trigger('fail', options.error)
+
+    return promise
 
   show403: ->
     showError

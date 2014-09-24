@@ -7,7 +7,11 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     ConfirmationModal: {}
 
   initialize: ->
-    @listenTo app.vent, 'i18n:reset', @render
+    @listenTo app.vent, 'i18n:reset', ->
+      @render()
+      # can't be triggered the 'normal' way as the page is
+      # re-rendered when the promise is fulfilled
+      $('#languagePicker').trigger('check')
 
   serializeData: ->
     attrs =
@@ -19,7 +23,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     return attrs
 
   events:
-    'click #verifyUsername': 'verifyUsername'
+    'click a#verifyUsername': 'verifyUsername'
     'change select#languagePicker': 'changeLanguage'
 
   verifyUsername: (username)=>
@@ -43,7 +47,8 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         Are you sure you want to change for <strong>#{args.requestedUsername}</strong>?"
       warningText: _.i18n "You shouldn't change your username too often, as it's the way others can find you"
       actionCallback: (args)=>
-        return app.request('user:update', {attribute: 'username', value: args.requestedUsername})
+        params = {attribute: 'username', value: args.requestedUsername}
+        return app.request('user:update', params)
       actionArgs: args
 
   invalidUsername: (err)=>

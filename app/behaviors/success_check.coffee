@@ -17,10 +17,7 @@ module.exports = class SuccessCheck extends Marionette.Behavior
       console.warn 'deprecated success check form: please use .checkWrapper format'
       $check = $(e.target).find('.check')
 
-    _.log $wrapper, 'wrapper'
-    _.log $check, 'check'
-
-    $check.html "<i class='fa fa-#{signal} text-center'></i>"
+    $check.hide().html "<i class='fa fa-#{signal} text-center'></i>"
     .slideDown(300)
 
     afterTimeout = ->

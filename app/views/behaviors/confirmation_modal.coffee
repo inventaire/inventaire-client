@@ -5,17 +5,20 @@ module.exports = class ConfirmationModal extends Backbone.Marionette.ItemView
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
+    Loading: {}
+
   serializeData: ->
-    attrs =
-      confirmationText: @options.params.confirmationText
-      warningText: @options.params.warningText
-    return attrs
+    confirmationText: @options.confirmationText
+    warningText: @options.warningText
 
   events:
-    'click #yes': ->
-      @options.params.actionCallback @options.params.actionArgs
-      .then (res)=> @$el.trigger 'check', -> app.execute 'modal:close'
-      .fail (err)=>
-        _.log err, 'confirmation_modal err'
-        @$el.trigger 'fail', -> app.execute 'modal:close'
+    'click #yes': 'yesClick'
     'click #no': -> app.execute 'modal:close'
+
+  yesClick: ->
+    close = -> app.execute('modal:close')
+    app.execute 'waitForCheck',
+      action: => @options.actionCallback(@options.actionArgs)
+      $selector: @$el
+      success: close
+      error: close
