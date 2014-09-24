@@ -1,40 +1,49 @@
 <div class="row">
 
   <div class="small-12 large-3 columns text-center">
+    <p></p>
     {{#if pictures}}
       <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
     {{/if}}
   </div>
 
   <div class="small-12 large-6 columns">
-    <h2>{{title}}</h2>
-    {{#if comment}}
-      <p class="comment grey">
-        {{comment}}
-      </p>
-    {{/if}}
+    <div class="panel">
+      <h2>{{title}}</h2>
+      {{#if comment}}
+        <p class="comment grey">
+          {{comment}}
+        </p>
+      {{/if}}
+    </div>
   </div>
 
 
   <div class="small-12 large-3 columns">
-    <h3 class="subheader">Owner</h3>
-    <div>
-      {{#if profilePic}}
-        {{username}}
-        <img class="profilePic" src="{{profilePic}}" alt="{{username}} {{i18n 'profile pic'}}">
-      {{else}}
-        {{username}}
-      {{/if}}
-      <p>
-        <small>
-          {{created}}
-        </small>
-        {{#unless restricted}}
-          <a class="edit">{{icon 'pencil'}}</a>
-          <a class="remove">{{icon 'times'}}</a>
-        {{/unless}}
-      </p>
+
+    <div class="panel">
+      <h3 class="subheader">Owner</h3>
+      <div>
+        {{#if profilePic}}
+          {{username}}
+          <img class="profilePic" src="{{profilePic}}" alt="{{username}} {{i18n 'profile pic'}}">
+        {{else}}
+          {{username}}
+        {{/if}}
+        <p>
+          <small>
+            {{created}}
+          </small>
+          {{#unless restricted}}
+            <a class="edit">{{icon 'pencil'}}</a>
+            <a class="remove">{{icon 'times'}}</a>
+          {{/unless}}
+        </p>
+      </div>
+      <div id="editPanel"></div>
     </div>
+
+
   </div>
 </div>
 

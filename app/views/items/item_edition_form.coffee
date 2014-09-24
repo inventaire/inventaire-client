@@ -8,7 +8,7 @@ module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.status = 'Edit item'
+    attrs.listings = app.user.listings
     return attrs
 
   updateItem: (e)->
