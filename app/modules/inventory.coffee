@@ -273,3 +273,13 @@ initializeInventoriesHandlers = (app)->
       API.showItemShowFromItemModel(item)
       pathname = item.pathname
       app.navigate pathname
+
+  app.reqres.setHandlers
+    'item:update': (options)->
+      # expects: item, attribute, value. optional: selector
+      options.item.set(options.attribute, options.value)
+      promise = options.item.save()
+      app.request 'waitForCheck',
+        promise: promise
+        selector: options.selector
+      return promise
