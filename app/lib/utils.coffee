@@ -106,3 +106,7 @@ module.exports =
       last = Backbone.history.last[0]
       return regex.test(last)
     else false
+
+  placeholder: ->
+    text = _.i18n 'missing image'
+    "http://placehold.it/200x250/ddd/fff&text=#{text}"

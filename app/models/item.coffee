@@ -61,6 +61,8 @@ module.exports = class Item extends Backbone.NestedModel
       profilePic: @profilePic
       restricted: @restricted
       created: new Date(attrs.created).toLocaleDateString()
+    if _.isEmpty attrs.pictures
+      attrs.pictures.push _.placeholder()
     return attrs
 
   matches: (expr) ->

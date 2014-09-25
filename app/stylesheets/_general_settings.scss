@@ -121,10 +121,9 @@ select {
   margin-top: 1rem;
 }
 
-div.panel{
-  margin: 0.8rem 0.8rem 0.8rem 0.8rem;
+div.panel, div.block{
+  margin: 0.8rem;
 }
-
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {

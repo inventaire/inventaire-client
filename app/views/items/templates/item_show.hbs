@@ -1,17 +1,18 @@
 <div class="row">
 
   <div class="small-12 large-3 columns text-center">
-    <p></p>
+    <div class="block">
     {{#if pictures}}
       <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
     {{/if}}
+    </div>
   </div>
 
   <div class="small-12 large-6 columns">
     <div class="panel">
       <h2>{{title}}</h2>
       {{#if entityPathname}}
-        <a id="entity" href="{{entityPathname}}">{{i18n 'more details'}}</a>
+        <a id="entity" href="{{entityPathname}}">{{icon 'plus'}}{{i18n 'more details'}}</a>
       {{/if}}
       {{#if comment}}
         <p class="comment grey">
