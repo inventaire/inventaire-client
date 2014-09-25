@@ -118,10 +118,9 @@ initializeUserI18nSettings = (app)->
 initializeUserEditionCommands = (app)->
   app.reqres.setHandlers
     'user:update': (options)->
+      # expects: attribute, value, selector
       app.user.set(options.attribute, options.value)
       promise = app.user.save()
-      _.log options.selector, 'selecotr'
-      _.inspect(promise)
       app.request 'waitForCheck',
         promise: promise
         selector: options.selector
