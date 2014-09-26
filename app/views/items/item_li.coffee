@@ -11,7 +11,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
 
   events:
     'click .edit': 'itemEdit'
-    'click a.itemShow': 'itemShow'
+    'click a.itemShow, img': 'itemShow'
     'click .remove': 'itemDestroy'
 
   serializeData: -> @model.serializeData()
