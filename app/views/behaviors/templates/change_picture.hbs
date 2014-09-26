@@ -1,0 +1,15 @@
+<figure>
+  <img src="{{#if picture}}{{picture}}{{else}}{{placeholder}}{{/if}}"
+  alt="{{title}} {{i18n 'cover'}}">
+
+  {{#unless restricted}}
+    <figcaption class="camera">
+      <h5>{{icon 'camera'}}</h5>
+    </figcaption>
+    <a id="changePicture">
+      <figcaption class="caption">
+        <h5>{{icon 'camera'}} {{i18n 'Change picture'}}</h5>
+      </figcaption>
+    </a>
+  {{/unless}}
+</figure>

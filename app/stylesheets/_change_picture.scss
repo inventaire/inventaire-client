@@ -1,0 +1,52 @@
+figure {
+  position: relative;
+}
+
+figure{
+  .caption{
+    opacity: 0;
+  }
+  .camera{
+    opacity: 1;
+  }
+  &:hover{
+    .caption{
+      opacity: 1;
+    }
+    .camera{
+      opacity: 0;
+    }
+  }
+}
+
+.caption, .camera {
+  transition: all 0.2s ease;
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  height: 40%;
+  width: 100%;
+  h5 {
+    position: absolute;
+    top: 20%;
+    width: 100%;
+  }
+}
+
+.camera {
+  h5 {
+    color: #777;
+    right: 30%;
+    font-size: 1.4rem;
+  }
+
+}
+.caption {
+  background-color: #333;
+  h5 {
+      color: #fff;
+      width: 100%;
+      text-align: center;
+  }
+}
+
