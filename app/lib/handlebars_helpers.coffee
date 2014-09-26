@@ -56,3 +56,6 @@ module.exports =
         text: _.i18n text
         position: position || 'rigth'
       new Handlebars.SafeString tip(context)
+
+    register 'placeholder', (height=250, width=200)->
+      _.placeholder(height, width)

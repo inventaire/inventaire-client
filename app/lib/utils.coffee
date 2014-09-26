@@ -107,6 +107,6 @@ module.exports =
       return regex.test(last)
     else false
 
-  placeholder: ->
+  placeholder: (height=250, width=200)->
     text = _.i18n 'missing image'
-    "http://placehold.it/200x250/ddd/fff&text=#{text}"
+    "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
