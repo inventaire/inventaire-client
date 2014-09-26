@@ -1,5 +1,7 @@
 figure {
   position: relative;
+  margin:0;
+  display: inline-block;
 }
 
 figure{
@@ -7,7 +9,7 @@ figure{
     opacity: 0;
   }
   .camera{
-    opacity: 1;
+    opacity: 0.5;
   }
   &:hover{
     .caption{
@@ -30,23 +32,26 @@ figure{
     position: absolute;
     top: 20%;
     width: 100%;
+    text-align: center;
+    width: 100%;
   }
 }
 
 .camera {
+  color: rgba(0, 0, 0, 0);
+  background-color: #000;
   h5 {
-    color: #777;
-    right: 30%;
-    font-size: 1.4rem;
+    .fa{
+      font-size: 1.6rem;
+      color: #fff;
+      // text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+    }
   }
-
 }
 .caption {
   background-color: #333;
   h5 {
       color: #fff;
-      width: 100%;
-      text-align: center;
   }
 }
 
