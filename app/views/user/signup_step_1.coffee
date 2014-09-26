@@ -12,6 +12,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       buttonLabel: _.i18n('Validate')
     return _.extend attrs, @model.toJSON()
 
+  onShow: -> app.execute 'foundation:reload'
   events:
     'click #verifyUsername': 'verifyUsername'
 
