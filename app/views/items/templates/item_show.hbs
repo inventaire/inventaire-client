@@ -2,9 +2,7 @@
 
   <div class="small-12 large-3 columns text-center">
     <div class="block">
-    {{#if pictures}}
-      <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
-    {{/if}}
+      {{partial '../behaviors/templates/change_picture' this}}
     </div>
   </div>
 

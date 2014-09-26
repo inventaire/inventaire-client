@@ -1,7 +1,8 @@
 <div class="itemLiWrapper">
   <div class="cover small-12 large-offset-4 large-2 columns text-center">
-    {{#if pictures}}
-      <img src="{{firstElement pictures}}">
+    {{#if picture}}
+      <a href="{{pathname}}">
+      <img src="{{picture}}"></a>
     {{/if}}
   </div>
 
