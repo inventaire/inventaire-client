@@ -15,18 +15,27 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs =
-      buttonLabel: _.i18n 'Change Username'
+      usernamePicker:
+        nameBase: 'username'
+        special: true
+        field:
+          placeholder: _.i18n('username') + '...'
+          value: @model.get('username')
+        button:
+          text: _.i18n 'Change Username'
       languages: Lang
     attrs.currentLanguages = attrs.languages[app.user.get('language')]
     _.extend attrs, @model.toJSON()
     return attrs
 
+    # confirmation modal : yes marche pas!!!!!!!!!
+
   events:
-    'click a#verifyUsername': 'verifyUsername'
+    'click a#usernameButton': 'verifyUsername'
     'change select#languagePicker': 'changeLanguage'
 
   verifyUsername: (username)=>
-    requestedUsername = $('#username').val()
+    requestedUsername = $('#usernameField').val()
     if requestedUsername == app.user.get 'username'
       @invalidUsername _.i18n "that's already your username"
     else if requestedUsername is ''

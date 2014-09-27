@@ -1,5 +1,6 @@
 check = require 'views/behaviors/templates/success_check'
 tip = require 'views/behaviors/templates/tip'
+input = require 'views/behaviors/templates/input'
 
 module.exports =
   initialize: ->
@@ -59,3 +60,26 @@ module.exports =
 
     register 'placeholder', (height=250, width=200)->
       _.placeholder(height, width)
+
+    register 'input', (data, options)->
+      field =
+          type: 'text'
+      button =
+        classes: 'success'
+
+      name = data.nameBase
+      if name?
+        field.id = name + 'Field'
+        button.id = name + 'Button'
+
+      data =
+        field: _.extend field, data.field
+        button: _.extend button, data.button
+
+      if data.special
+        data.special = 'autocorrect="off" autocapitalize="off" autocomplete="off"'
+
+      i = new Handlebars.SafeString input(data)
+
+      if options is 'check' then new Handlebars.SafeString check(i)
+      else i

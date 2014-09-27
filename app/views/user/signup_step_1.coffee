@@ -1,23 +1,29 @@
 module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/user/templates/signup_step1'
-  # onShow: -> app.execute 'modal:open'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
 
   serializeData: ->
     attrs =
-      header: _.i18n('Step 1: Choose a username')
-      buttonLabel: _.i18n('Validate')
+      usernamePicker:
+        nameBase: 'username'
+        special: true
+        field:
+          placeholder: _.i18n('username') + '...'
+          value: @model.get('username')
+        button:
+          text: _.i18n 'Validate'
     return _.extend attrs, @model.toJSON()
+
 
   onShow: -> app.execute 'foundation:reload'
   events:
-    'click #verifyUsername': 'verifyUsername'
+    'click #usernameButton': 'verifyUsername'
 
   verifyUsername: (e)->
-    username = $('#username').val()
+    username = $('#usernameField').val()
     if username is ''
       @invalidUsername _.i18n "'username' can't be empty"
     else

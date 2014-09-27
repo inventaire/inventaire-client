@@ -11,6 +11,15 @@ module.exports = class Book extends Backbone.Marionette.ItemView
 
   onShow: -> app.execute 'foundation:reload'
 
+  serializeData: ->
+    search:
+      field:
+        id: 'search'
+        placeholder: _.i18n 'ex: Tintin et les Picaros or 978-2070342266'
+      button:
+        id:'searchButton'
+        text: _.i18n 'Search'
+
   bookSearch: (e)->
     search = $('input#search').val()
     _.updateQuery {search: search}

@@ -5,14 +5,11 @@
 
 
     <div id="usernamePicker">
-  {{!-- used in several places, thus the dynamic header --}}
-  <h3 class="with-tip">{{header}}</h3>
-  {{tip 'username_tip' 'right'}}
+      <h3 class="with-tip">{{i18n 'Step 1: Choose a username'}}</h3>
+      {{tip 'username_tip' 'right'}}
+      {{input usernamePicker 'check'}}
 
-
-  {{partial '../user/templates/username_picker' this 'check'}}
-
-</div>
+    </div>
 
   </div>
 </div>
