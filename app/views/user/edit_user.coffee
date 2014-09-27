@@ -28,8 +28,6 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     _.extend attrs, @model.toJSON()
     return attrs
 
-    # confirmation modal : yes marche pas!!!!!!!!!
-
   events:
     'click a#usernameButton': 'verifyUsername'
     'change select#languagePicker': 'changeLanguage'
@@ -55,7 +53,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         Are you sure you want to change for <strong>#{args.requestedUsername}</strong>?"
       warningText: _.i18n "You shouldn't change your username too often, as it's the way others can find you"
       actionCallback: (args)=>
-        params = {attribute: 'username', value: args.requestedUsername}
+        params = {attribute: 'username', value: args.requestedUsername, selector: '#usernameField'}
         return app.request('user:update', params)
       actionArgs: args
 

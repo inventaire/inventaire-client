@@ -12,13 +12,14 @@ module.exports = class ConfirmationModal extends Backbone.Marionette.ItemView
     warningText: @options.warningText
 
   events:
-    'click #yes': 'yesClick'
-    'click #no': -> app.execute 'modal:close'
+    'click a#yes': 'yesClick'
+    'click a#no': 'close'
 
   yesClick: ->
-    close = -> app.execute('modal:close')
-    app.execute 'waitForCheck',
+    app.request 'waitForCheck',
       action: => @options.actionCallback(@options.actionArgs)
       $selector: @$el
-      success: close
-      error: close
+      success: @close
+      error: @close
+
+  close: -> app.execute('modal:close')
