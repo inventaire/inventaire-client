@@ -4,9 +4,11 @@ module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
     SuccessCheck: {}
 
   serializeData: ->
-    attrs = @model.toJSON()
-    attrs.listings = app.user.listings
-    return attrs
+    listings = _.clone(app.user.listings)
+    listings[@model.get('listing')].selected = true
+
+    return _.extend @model.toJSON(),
+      listings: listings
 
   events:
     'change select#listingPicker': 'updateListing'
