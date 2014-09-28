@@ -19,6 +19,8 @@ $primary-color: #16212C;
 $secondary-color: #FFD402;
 $warning-color: #E13A00;
 $success-color: #43AC6A;
+$grey: #888;
+$dark-grey: #333;
 
 
 .secondary{
@@ -31,10 +33,18 @@ $success-color: #43AC6A;
   }
 }
 .grey{
-  color: #888;
+  color: $grey;
   &.button{
     color: white;
-    background-color: #888;
+    background-color: $grey;
+  }
+}
+
+.dark-grey{
+  color: $dark-grey;
+  &.button{
+    color: white;
+    background-color: $dark-grey;
   }
 }
 
@@ -56,11 +66,7 @@ $success-color: #43AC6A;
 
 .focus{
   .cover, .desc{
-    // -webkit-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
-    // -moz-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
-    // -ms-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
-    // -o-box-shadow: rgba(0, 0, 20, 0.2) 0 2px 6px 0;
-    box-shadow: rgba(0, 0, 255, 0.3) 0 2px 6px 0;
+    box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 255, 0.3);
   }
 }
 
@@ -93,11 +99,17 @@ $button-margin-bottom: 0rem;
   display: inline-block;
 }
 
+h1, h2, h3, h4, h5, h6, .button{
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}
 .subheader{
   &:first-letter{
     text-transform: uppercase;
   }
 }
+
 .capitalized{
   text-transform: capitalize;
 }
@@ -115,7 +127,6 @@ select {
     padding-bottom: 0.2rem;
   }
 }
-
 
 .margin-top{
   margin-top: 1rem;
