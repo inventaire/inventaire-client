@@ -21,7 +21,8 @@ exports.config =
       defaultExtension: "scss"
       joinTo:
         'stylesheets/app.css': /^(app)/
-        'stylesheets/vendor.css': /^(vendor)/
+        # excluding foundation as its scss files are selected from the app
+        'stylesheets/vendor.css': /^(vendor\/stylesheets|bower_components\/(?!foundation))/
 
     templates:
       joinTo: 'javascripts/app.js'

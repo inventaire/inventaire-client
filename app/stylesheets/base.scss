@@ -9,7 +9,7 @@
 @import "entity";
 @import "pictures";
 
-// foundation doesn't overwrite variable
+// foundation doesn't overwrite variables
 // but only !default to them when not defined before
 @import "foundation/imports";
 
