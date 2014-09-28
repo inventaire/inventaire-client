@@ -9,6 +9,4 @@ module.exports = class Other extends Backbone.Marionette.ItemView
     app.lib.imageHandler.initialize()
 
   serializeData: ->
-    attrs =
-      listings: app.user.listings
-    return attrs
+    listings: app.user.listings

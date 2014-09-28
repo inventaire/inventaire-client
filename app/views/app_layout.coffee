@@ -33,7 +33,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     region.show new app.View.Behaviors.Loader
 
   showHome: ->
-    _.log 'show:home'
     if app.user.loggedIn
       app.execute 'show:inventory:personal'
       app.execute 'main:fadeIn'
