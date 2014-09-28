@@ -1,9 +1,7 @@
 <div class="row">
 
   <div class="small-12 large-3 columns text-center">
-    <div class="block">
-      {{partial '../behaviors/templates/change_picture' this}}
-    </div>
+    <div id="picture" class="block"></div>
   </div>
 
   <div class="small-12 large-6 columns">
@@ -12,11 +10,21 @@
       {{#if entityPathname}}
         <a id="entity" href="{{entityPathname}}">{{icon 'plus'}}{{i18n 'more details'}}</a>
       {{/if}}
-      {{#if comment}}
-        <p class="comment grey">
-          {{comment}}
+    </div>
+
+    <div class="panel">
+      <h3>{{i18n 'user_comment' 'username' username}}
+          {{#unless restricted}}
+            <a id="editComment" title="{{i18n 'edit comment'}}">{{icon 'pencil'}}</a>
+          {{/unless}}
+      </h3>
+        <p id="comment">
+          {{pre comment}}
         </p>
-      {{/if}}
+        <div id="commentEditor" class='hidden'>
+          <textarea placeholder='{{i18n 'something to say about this item?'}}...'>{{comment}}</textarea>
+          <a id="validateComment" class="button success">{{i18n 'edit'}}</a>
+        </div>
     </div>
   </div>
 
@@ -24,25 +32,19 @@
   <div class="small-12 large-3 columns">
 
     <div class="panel">
-      <h3 class="subheader">Owner</h3>
+      {{#if profilePic}}
+        <img class="large-profilePic" src="{{profilePic}}" alt="{{username}} {{i18n 'profile pic'}}">
+      {{/if}}
+      <h3 class="subheader">{{username}}</h3>
       <div>
-        {{#if profilePic}}
-          {{username}}
-          <img class="profilePic" src="{{profilePic}}" alt="{{username}} {{i18n 'profile pic'}}">
-        {{else}}
-          {{username}}
-        {{/if}}
         <p>
-          <small>
-            {{created}}
-          </small>
-          {{#unless restricted}}
-            <a class="edit">{{icon 'pencil'}}</a>
-            <a class="remove">{{icon 'times'}}</a>
-          {{/unless}}
+          {{i18n 'Created:'}} {{created}}
         </p>
       </div>
       <div id="editPanel"></div>
+      {{#unless restricted}}
+        <a id="destroy" class="dark-grey button">{{icon 'trash-o'}} {{i18n 'Delete'}}</a>
+      {{/unless}}
     </div>
 
 
