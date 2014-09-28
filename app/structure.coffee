@@ -41,6 +41,8 @@ module.exports =
     Behaviors:
       ConfirmationModal: require 'views/behaviors/confirmation_modal'
       Loader: require 'views/behaviors/loader'
+      PicturePicker: require 'views/behaviors/picture_picker'
+      ChangePicture: require 'views/behaviors/change_picture'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
       Search: require 'views/entities/entities_search_form'

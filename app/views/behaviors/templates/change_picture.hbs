@@ -1,10 +1,10 @@
 <figure>
-  <img class="centered" src="{{#if picture}}{{picture}}{{else}}{{placeholder}}{{/if}}"
+  <img src="{{#if picture}}{{picture}}{{else}}{{placeholder}}{{/if}}"
   alt="{{title}} {{i18n 'cover'}}">
 
   {{#unless restricted}}
     <a id="changePicture">
-      <figcaption class="caption">
+      <figcaption>
         <h5>{{icon 'camera'}} {{i18n 'Change picture'}}</h5>
       </figcaption>
     </a>

@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="small-12 large-6 columns">
+    <div id="imageImporter">
+      <h4>{{i18n 'select a picture'}}</h4>
+      <div id="availablePictures">
+        {{#each pictures}}
+          <figure>
+            <img src="{{this}}">
+            <a><figcaption class="selectPicture"><h5>{{icon 'check'}} <span>{{i18n 'Select'}}</span></h5></figcaption></a>
+            <a><figcaption class="cancelDeletion"><h5>{{icon 'warning'}} {{i18n 'Cancel deletion'}}</h5></figcaption></a>
+            <a><figcaption class="deletePicture"><h5>{{icon 'trash-o'}} {{i18n 'Delete'}}</h5></figcaption></a>
+          </figure>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="small-12 large-6 columns">
+    <h4>{{i18n 'import a picture'}}</h4>
+    <h5>{{i18n 'from a file'}}</h5>
+    <input type="file" accept="image/jpeg, image/png" multiple />
+    <h5>{{i18n 'from a URL'}}</h5>
+    {{input url}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 large-4 large-offset-4 columns">
+   {{partial '../entities/templates/validation_buttons'}}
+  </div>
+</div>

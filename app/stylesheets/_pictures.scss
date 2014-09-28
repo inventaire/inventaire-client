@@ -1,0 +1,61 @@
+figure {
+  margin:0;
+  display: inline-block;
+  figcaption {
+    height: 3rem;
+    h5 {
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0.8rem;
+    }
+  }
+}
+
+#changePicture{
+  figcaption {
+    background-color: $dark-grey;
+  }
+}
+
+#availablePictures{
+  figure {
+    display: inline-block;
+  }
+  img{
+    max-height: 15rem;
+    max-width: 15rem;
+  }
+  figcaption.selectPicture{
+      background-color: $success-color;
+  }
+  figcaption.deletePicture{
+      background-color: #777;
+      margin-bottom: 1rem;
+  }
+  figcaption.cancelDeletion{
+      background-color: $secondary-color;
+      display: none;
+  }
+}
+
+figure.selected{
+  img {
+    box-shadow: 0 -0.1rem 0.6rem rgba(20,20,90,0.7);
+  }
+  figcaption.selectPicture{
+    opacity: 0.6;
+    span{
+      display: none;
+    }
+  }
+}
+
+figure.deleted{
+  img{
+    opacity: 0.5;
+  }
+  figcaption.selectPicture, figcaption.deletePicture{
+    display: none;
+  }
+}
