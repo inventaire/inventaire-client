@@ -19,7 +19,6 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         nameBase: 'username'
         special: true
         field:
-          placeholder: _.i18n('username') + '...'
           value: @model.get('username')
         button:
           text: _.i18n 'Change Username'
@@ -31,6 +30,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
   events:
     'click a#usernameButton': 'verifyUsername'
     'change select#languagePicker': 'changeLanguage'
+    'click a#changePicture': 'changePicture'
 
   verifyUsername: (username)=>
     requestedUsername = $('#usernameField').val()
@@ -71,3 +71,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         attribute:'language'
         value: e.target.value
         selector: '#languagePicker'
+
+  changePicture: ->
+    picturePicker = new app.View.Behaviors.PicturePicker {model: @model}
+    app.layout.modal.show picturePicker
