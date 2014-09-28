@@ -32,7 +32,7 @@ module.exports =
 
     register 'safe', (text) -> new Handlebars.SafeString text
 
-    register 'i18n', (key, args)-> new Handlebars.SafeString _.i18n(key, args)
+    register 'i18n', (key, args, context)-> new Handlebars.SafeString _.i18n(key, args, context)
 
     register 'P', (id)->
       if /^P[0-9]+$/.test id
@@ -62,6 +62,9 @@ module.exports =
       _.placeholder(height, width)
 
     register 'input', (data, options)->
+      unless data?
+        _.log arguments, 'input arguments @err'
+        throw new Error 'no data'
       field =
           type: 'text'
       button =
@@ -70,6 +73,7 @@ module.exports =
       name = data.nameBase
       if name?
         field.id = name + 'Field'
+        field.placeholder = _.i18n(name)
         button.id = name + 'Button'
 
       data =
@@ -83,3 +87,7 @@ module.exports =
 
       if options is 'check' then new Handlebars.SafeString check(i)
       else i
+
+    register 'pre', (text)->
+      text = text.replace /\n/g, '<br>'
+      new Handlebars.SafeString text

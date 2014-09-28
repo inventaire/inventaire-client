@@ -46,14 +46,16 @@ module.exports =
     .then (res)-> _.log res, 'setCookie: server res on setCookie'
     .fail (err)-> console.error "setCookie: failed: #{key} - #{value}: #{err}"
 
-  i18n: (key, args)->
+  i18n: (key, args, context)->
     if args?
-
       if _.isString args
         if wd.isWikidataId args
           app.request('qLabel:update')
           return "<span class='qlabel wdP' resource='https://www.wikidata.org/entity/#{args}'>#{app.polyglot.t key}</span>"
-        else throw new Error 'bad wikidata identifier'
+        else
+          obj = {}
+          obj[args] = context
+          return app.polyglot.t key, obj
 
       else if _.has args, 'entitity'
         app.request('qLabel:update')
