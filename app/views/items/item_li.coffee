@@ -21,11 +21,6 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   itemShow: -> app.execute 'show:item:show:from:model', @model
 
   itemDestroy: ->
-    args =
-      title: @model.get 'title'
+    app.request 'item:destroy',
       model: @model
-    @$el.trigger 'askConfirmation',
-      confirmationText: _.i18n('destroy_item_text', {title: args.title})
-      warningText: _.i18n("this action can't be undone")
-      actionCallback: (args)-> args.model.destroy()
-      actionArgs: args
+      selector: @el
