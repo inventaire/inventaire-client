@@ -16,12 +16,10 @@
         {{username}}
       {{/if}}
       <p>
-        <small>
-          {{created}}
-        </small>
+        {{created}}
         {{#unless restricted}}
-          <a class="edit">{{icon 'pencil'}}</a>
-          <a class="remove">{{icon 'times'}}</a>
+          {{!-- <a class="edit">{{icon 'pencil'}}</a> --}}
+          {{!-- <a class="remove">{{icon 'trash-o'}}</a> --}}
         {{/unless}}
       </p>
     </div>
@@ -30,7 +28,7 @@
 
     {{#if comment}}
       <p class="comment grey">
-        {{comment}}
+        {{pre comment}}
       </p>
     {{/if}}
 
