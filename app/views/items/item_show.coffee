@@ -38,13 +38,22 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     'click a#changePicture': 'changePicture'
     'click a#editComment': 'toggleEditor'
     'click a#validateComment': 'validateComment'
+    'click a#cancelCommentEdition': 'toggleEditor'
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
   showEntity: -> app.execute 'show:entity', @model.get('suffix'), @model.get('title')
 
   changePicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker {model: @model}
+    picturePicker = new app.View.Behaviors.PicturePicker {
+      pictures: @model.get('pictures')
+      limit: 3
+      save: (value)=>
+        app.request 'item:update',
+          item: @model
+          attribute: 'pictures'
+          value: value
+    }
     app.layout.modal.show picturePicker
 
   itemDestroy: ->
