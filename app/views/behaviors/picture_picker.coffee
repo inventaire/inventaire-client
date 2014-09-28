@@ -7,13 +7,15 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
     Loading: {}
 
   initialize: ->
-    @pictures = @model.get('pictures').slice(0)
+    pictures = @options.pictures
+    if _.isString(pictures) then pictures = [pictures]
+
+    @pictures = pictures.slice(0)
     _.extend @pictures, Backbone.Events
+
     @listenTo @pictures, 'add:pictures', @render
 
   serializeData: ->
-    attrs = @model.toJSON()
-    _.extend attrs,
       url:
         nameBase: 'url'
         field:
@@ -21,9 +23,7 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
           placeholder: _.i18n 'Enter an image url'
         button:
           text: _.i18n 'Go get it!'
-    _.extend attrs.pictures, @pictures
-    return attrs
-
+      pictures: @pictures
 
   onShow: ->
     app.execute 'modal:open'
@@ -84,9 +84,6 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
 
     _.log pictures, 'pictures'
     @close()
-    return app.request 'item:update',
-      item: @model
-      attribute: 'pictures'
-      value: pictures
+    return @options.save(pictures)
 
   close: -> app.execute 'modal:close'

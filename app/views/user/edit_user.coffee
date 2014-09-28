@@ -7,6 +7,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     ConfirmationModal: {}
 
   initialize: ->
+    @listenTo @model, 'change:picture', @render
     @listenTo app.vent, 'i18n:reset', ->
       @render()
       # can't be triggered the 'normal' way as the page is
@@ -73,5 +74,15 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         selector: '#languagePicker'
 
   changePicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker {model: @model}
+    picturePicker = new app.View.Behaviors.PicturePicker {
+      pictures: @model.get('picture')
+      limit: 1
+      save: (value)=>
+        picture = value[0]
+        if _.isUrl picture
+          app.request 'user:update',
+            attribute: 'picture'
+            value: picture
+            selector: '#changePicture'
+    }
     app.layout.modal.show picturePicker
