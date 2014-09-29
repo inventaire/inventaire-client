@@ -15,6 +15,7 @@ module.exports =
   initialize: ->
     initializeEntitiesSearchHandlers()
     @categories = categories
+    window.Entities = new Backbone.Collection
 
 API =
   showEntity: (uri, label, params, region)->
@@ -69,15 +70,33 @@ API =
     .done()
 
   getEntityModelFromWikidataId: (id)->
-    wd.getEntities(id, app.user.lang)
-    .then (res)-> new app.Model.WikidataEntity res.entities[id]
-    .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
+    entity = @cachedEntity(id)
+    if entity then return entity
+    else
+      return wd.getEntities(id, app.user.lang)
+      .then (res)=>
+        entity = new app.Model.WikidataEntity res.entities[id]
+        Entities.add entity
+        return entity
+      .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
 
   getEntityModelFromIsbn: (isbn)->
-    books.getGoogleBooksDataFromIsbn(isbn)
-    .then (res)-> new app.Model.NonWikidataEntity res
-    .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
+    entity = @cachedEntity("isbn:#{isbn}")
+    if entity then return entity
+    else
+      books.getGoogleBooksDataFromIsbn(isbn)
+      .then (res)=>
+        entity = new app.Model.NonWikidataEntity res
+        Entities.add entity
+        return entity
+      .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
 
+  cachedEntity: (uri)->
+    entity = Entities.byId(uri)
+    if entity?
+      _.log entity, 'entity: found cached entity'
+      return $.Deferred().resolve(entity)
+    else false
 
   showEntitiesSearchForm: (queryString)->
     app.layout.entities ||= new Object
