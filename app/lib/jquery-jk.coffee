@@ -39,8 +39,10 @@ module.exports.initialize = ($)->
     focusPrev: -> $('.jk').focusOn 'prev'
     select: -> $('.jk').selectOn()
     scrollToFocused: ->
-      targetedHeight = $('.focus').offset().top - 150
-      $('html, body').animate({scrollTop: targetedHeight}, 100)
+      $focus = $('.focus')
+      if $focus.length > 0
+        targetedHeight = $focus.offset().top - 150
+        $('html, body').animate({scrollTop: targetedHeight}, 100)
   $.fn.focused = focused
   $.fn.focusOn = focusOn
   $.fn.selected = selected
