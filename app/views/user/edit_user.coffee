@@ -24,7 +24,8 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         button:
           text: _.i18n 'Change Username'
       languages: Lang
-    attrs.currentLanguages = attrs.languages[app.user.get('language')]
+    currentLanguages = app.user.get('language')
+    attrs.languages[currentLanguages]?.selected = true
     _.extend attrs, @model.toJSON()
     return attrs
 
