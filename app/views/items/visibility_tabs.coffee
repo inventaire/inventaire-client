@@ -1,8 +1,7 @@
 module.exports = class VisibilityTabs extends Backbone.Marionette.ItemView
   template: require 'views/items/templates/visibility_tabs'
-  initialize: -> @addMultipleSelectorEvents()
-  multipleSelectorEvents:
-    'click #noVisibilityFilter #private #contacts #public': 'updateVisibilityTabs'
+  events:
+    'click #noVisibilityFilter, #private, #contacts, #public': 'updateVisibilityTabs'
 
   updateVisibilityTabs: (e)->
     visibility = $(e.currentTarget).attr 'id'
@@ -15,5 +14,4 @@ module.exports = class VisibilityTabs extends Backbone.Marionette.ItemView
     $(e.currentTarget).find('li').addClass 'active'
 
   serializeData: ->
-    return attrs =
-      listings: app.user.listings
+    listings: app.user.listings
