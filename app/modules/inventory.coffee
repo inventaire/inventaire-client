@@ -1,4 +1,5 @@
 ItemShow = require 'views/items/item_show'
+Filters = require 'modules/inventory/lib/filters'
 
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
@@ -8,7 +9,7 @@ module.exports =
         'inventory/personal(/)': 'showPersonalInventory'
         'inventory/network(/)': 'showNetworkInventory'
         'inventory/public(/)': 'showPublicInventory'
-        'inventory/:user(/)': 'showUserInventory'
+        # 'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:suffix(/:title)(/)': 'itemShow'
 
     app.addInitializer ->
@@ -24,8 +25,7 @@ module.exports =
       public: new app.Collection.Items
 
     fetchItems(app)
-    initializeFilters(app)
-    initializeTextFilter(app)
+    Filters.initialize(app)
 
     # VIEWS
     initializeInventoriesHandlers(app)
@@ -36,26 +36,24 @@ API =
     app.navigateReplace 'inventory/personal'
 
   showPersonalInventory: ->
-    showInventory()
-    showItemList(app.filteredItems)
+    showInventory _.i18n('Personal')
+    showItemList(Items.personal.filtered)
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
-    app.execute 'filter:inventory:personal'
     app.execute 'filter:visibility:reset'
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   showNetworkInventory: ->
-    showInventory()
-    showItemList(app.filteredItems)
-    app.execute 'filter:inventory:network'
+    showInventory _.i18n('Network')
+    showItemList(Items.contacts.filtered)
     app.inventory.viewTools.show new app.View.ContactsInventoryTools
     app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
 
   showPublicInventory: ->
-    showInventory()
+    showInventory _.i18n('Public')
     app.execute('show:loader', app.inventory.itemsView)
     $.getJSON(app.API.items.public())
     .then (res)->
-      _.log res, 'publicItems res'
+      _.log res, 'Items.public res'
       # not testing if res has items or users
       # letting the inventory empty view do the job
       app.contacts.add res.users
@@ -75,18 +73,20 @@ API =
     form = new app.View.Items.Creation options
     app.layout.main.show form
 
-  showUserInventory: (user)->
-    filterForUser = ->
-      owner = app.request('getOwnerFromUsername', user)
-      if owner?
-        app.execute 'filter:inventory:owner', owner
-      else
-        _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
-    if app.contacts.fetched
-      filterForUser()
-    else
-      app.vent.on 'contacts:ready', -> filterForUser()
-    showInventory(app.filteredItems)
+  # should be reimplemented taking example on ItemShow switch
+  # showUserInventory: (user)->
+  #   if app.contacts.fetched
+  #     @filterForUser()
+  #   else
+  #     app.vent.on 'contacts:ready', -> @filterForUser()
+  #   showInventory(app.filteredItems)
+
+  # filterForUser: ->
+  #   owner = app.request('getOwnerFromUsername', user)
+  #   if owner?
+  #     app.execute 'filter:inventory:owner', owner
+  #   else
+  #     _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
 
   itemShow: (username, suffix, label)->
     app.execute('show:loader')
@@ -104,13 +104,10 @@ API =
     owner = app.request('getOwnerFromUsername', username)
     if _.isUser(owner)
       items = Items.personal.where({suffix: suffix})
-      _.log items, 'personal items found on itemShow?'
     else if _.isContact(owner)
       items = Items.contacts.where({owner: owner, suffix: suffix})
-      _.log items, 'contact items found on itemShow?'
     else
       itemsPromise = app.request 'requestPublicItem', username, suffix
-      _.log itemsPromise, 'requestPublicItem'
 
     if items? then @displayFoundItems(items)
     else
@@ -132,12 +129,13 @@ API =
     itemShow = new ItemShow {model: item}
     app.layout.main.show itemShow
 
-showInventory = ->
+showInventory = (title)->
   # regions shouldnt be undefined, which can't be tested by "app.inventory?._isShown"
   # so here I just test one of Inventory regions
   unless app.inventory?.itemsView?
     app.inventory = new app.Layout.Inventory
-    app.layout.main.show app.inventory
+    app.layout.main.Show app.inventory, title
+  else app.title(title)
 
   unless app.inventory?.topMenu?._isShown
     app.inventory.topMenu.show new app.View.InventoriesTabs
@@ -145,9 +143,6 @@ showInventory = ->
 showItemList = (collection)->
   itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
   app.inventory.itemsView.show itemsList
-
-
-createItemFromEntity = (entityData)-> _.log entityData, 'entityData'
 
 
 # LOGIC
@@ -179,73 +174,6 @@ validateCreation = (itemData)->
     return true
   else false
 
-initializeFilters = (app)->
-  app.Filters =
-    inventory:
-      'personalInventory': {'owner': app.user.get('_id')}
-      'networkInventory': (model)-> model.get('owner') isnt app.user.id
-      'publicInventory': (model)-> model.get('owner') isnt app.user.id
-    visibility:
-      'private': {'listing':'private'}
-      'contacts': {'listing':'contacts'}
-      'public': {'listing':'public'}
-
-  # user will probably have no id when initializeFilters is fired as the user recover data may not have return yet
-  # so we need to listen for this event
-  app.user.on 'change:_id', (model, id)->
-    app.Filters.inventory.personalInventory.owner = id
-    if app.filteredItems.getFilters().indexOf('personalInventory') isnt -1
-      app.filteredItems.removeFilter 'personalInventory'
-      app.execute 'filter:inventory:personal'
-
-  app.filteredItems = new FilteredCollection Items.personal
-  app.commands.setHandlers
-    'filter:inventory:personal': -> filterInventoryBy 'personalInventory'
-    'filter:inventory:network': -> filterInventoryBy 'networkInventory'
-    'filter:inventory:public': -> filterInventoryBy 'publicInventory'
-    'filter:inventory:owner': filterInventoryByOwner
-    'filter:visibility': filterVisibilityBy
-    'filter:visibility:reset': resetVisibilityFilter
-
-filterInventoryBy = (filterName)->
-  app.filteredItems.removeFilter 'owner'
-  filters = app.Filters.inventory
-  otherFilters = _.without _.keys(filters), filterName
-  otherFilters.forEach (otherFilterName)->
-    app.filteredItems.removeFilter otherFilterName
-  app.filteredItems.filterBy filterName, filters[filterName]
-  app.vent.trigger 'inventory:change', filterName
-
-filterInventoryByOwner = (ownerId)->
-  app.filteredItems.filterBy 'owner', (model)->
-    return model.get('owner') is ownerId
-
-filterVisibilityBy = (audience)->
-  filters = app.Filters.visibility
-  if _.has(filters, audience)
-    otherFilters = _.without _.keys(filters), audience
-    otherFilters.forEach (otherFilterName)->
-      app.filteredItems.removeFilter otherFilterName
-    app.filteredItems.filterBy audience, filters[audience]
-  else
-    console.error 'invalid filter name'
-
-resetVisibilityFilter = ->
-  _.keys(app.Filters.visibility).forEach (filterName)->
-    app.filteredItems.removeFilter filterName
-
-initializeTextFilter = (app)->
-  app.commands.setHandler 'textFilter', textFilter
-
-textFilter = (text)->
-  if text.length != 0
-    filterExpr = new RegExp text, "i"
-    app.filteredItems.filterBy 'text', (model)-> model.matches filterExpr
-  else
-    app.filteredItems.removeFilter 'text'
-
-
-
 # VIEWS
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
@@ -275,8 +203,7 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:show:from:model': (item)->
       API.showItemShowFromItemModel(item)
-      pathname = item.pathname
-      app.navigate pathname
+      app.navigate item.pathname
 
   app.reqres.setHandlers
     'item:update': (options)->

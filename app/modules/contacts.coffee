@@ -3,7 +3,6 @@ module.exports =
 
   initialize: ->
     initializeContacts()
-    Items.contacts = new app.Collection.Items
     fetchContactsAndTheirItems()
     initializeContactSearch()
 
