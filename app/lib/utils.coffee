@@ -38,8 +38,10 @@ module.exports =
     log = {obj: obj, label: label}
     $.post('/test', log)
 
-  logXhrErr: (err)->
-    console.error err.responseText, err
+  logXhrErr: (err, label)->
+    switch err.status
+      when 404 then console.warn err.responseText, label
+      else console.error err.responseText, err, label
 
   setCookie: (key, value)->
     $.post '/api/cookie', {key: key, value: value}
@@ -113,6 +115,7 @@ module.exports =
     text = _.i18n 'missing image'
     "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
 
-  openJsonWindow: (obj)->
+  openJsonWindow: (obj, windowName)->
     json = JSON.stringify obj, null, 4
-    window.open 'data:application/json;charset=utf-8,' + encodeURI(json)
+    data = 'data:application/json;charset=utf-8,' + encodeURI(json)
+    window.open data, windowName
