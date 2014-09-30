@@ -18,9 +18,10 @@ Backbone.Collection::byId = (id)-> @_byId[id]
 
 Marionette.Region.prototype.Show = (view, options)->
   if _.isString options then title = options
-  else title = options.title
+  else if options?.title? then title = options.title
 
-  if title then app.title title
+  if title?
+    app.title title.replace(/_/g,' ')
 
   return @show(view, options)
 
