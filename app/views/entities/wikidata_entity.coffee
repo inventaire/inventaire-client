@@ -9,7 +9,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
   serializeData: ->
     attrs = @model.toJSON()
     attrs.descMaxlength = 500
-    attrs.descOverflow = attrs.description > attrs.descMaxlength
+    attrs.descOverflow = attrs.description.length > attrs.descMaxlength
 
     if _.lastRouteMatch(/search\?/)
       attrs.back =
