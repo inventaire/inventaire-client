@@ -21,6 +21,7 @@ figure {
 #availablePictures{
   figure {
     display: inline-block;
+    margin-bottom: 0.5rem;
   }
   img{
     max-height: 15rem;
@@ -31,7 +32,6 @@ figure {
   }
   figcaption.deletePicture{
       background-color: #777;
-      margin-bottom: 1rem;
   }
   figcaption.cancelDeletion{
       background-color: $secondary-color;
@@ -55,7 +55,10 @@ figure.deleted{
   img{
     opacity: 0.5;
   }
-  figcaption.selectPicture, figcaption.deletePicture{
+  figcaption.selectPicture{
     display: none;
+  }
+  figcaption.deletePicture{
+    opacity: 0;
   }
 }

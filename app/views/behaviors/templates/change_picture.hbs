@@ -1,6 +1,6 @@
 <figure>
   <img src="{{#if picture}}{{picture}}{{else}}{{placeholder}}{{/if}}"
-  alt="{{title}} {{i18n 'cover'}}">
+  alt="{{title}} {{i18n 'cover'}}" class="{{changePicture.classes}}">
 
   {{#unless restricted}}
     <a id="changePicture">
