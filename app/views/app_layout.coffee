@@ -21,7 +21,9 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.commands.setHandlers
       'show:home': @showHome
       'show:loader': @showLoader
+      'show:error': @showError
       'show:403': @show403
+      'show:404': @show404
       'show:404': @show404
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
 
@@ -65,14 +67,14 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     return promise
 
   show403: ->
-    showError
+    @showError
       code: 403
       message: _.i18n 'Forbidden'
 
   show404: ->
-    showError
+    @showError
       code: 404
       message: _.i18n 'Not Found'
 
-showError = (options)->
-  app.layout.main.show new app.View.Error options
+  showError: (options)->
+    app.layout.main.show new app.View.Error options

@@ -41,6 +41,10 @@ API =
     app.layout.main.show new app.View.Login.Step1 {model: app.user}
     app.navigate 'login'
 
+  routeTriggeredLogin: ->
+    params = {model: app.user, triggerPersonaLogin: true}
+    app.layout.main.show new app.View.Login.Step1 params
+
 
 initializeSignupLoginHandlers = (app)->
   app.commands.setHandlers
@@ -83,7 +87,19 @@ onlogin = (assertion) ->
       # will get user data on reload's fetch
       window.location.reload()
     else throw new Error 'onlogin: invalid data'
-  .fail (err)-> _.logXhrErr err
+  .fail (err)->
+    _.logXhrErr err, 'onlogin'
+    showAccountError()
+  .done()
+
+showAccountError = ->
+  app.execute 'show:error',
+    message: _.i18n "Couldn't find an account associated with this email"
+    redirection:
+      href: '/signup'
+      legend: _.i18n 'it seems, you have a Persona account but not a Inventaire.io account, you might need to create one'
+      text: _.i18n 'Create an account'
+      classes: 'success'
 
 onlogout = ->
   app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
@@ -94,22 +110,22 @@ recoverUserData = (app)->
   # -> when persona gives a link from an email, username and email
   # aren't associated and this test passes
   if $.cookie('email')?
+    app.user.loggedIn = true
     app.user.fetch()
     .then (userAttrs)->
       unless app.user.get('language')?
         if lang = $.cookie 'lang'
           _.log app.user.set('language', lang), 'language set from cookie'
     .fail (err)->
-      _.log err, 'app.user.fetch fail'
-      throw new Error err
+      _.logXhrErr(err, 'recoverUserData fail')
     .done()
-    app.user.loggedIn = true
   else
     app.user.loggedIn = false
 
 initializeUserI18nSettings = (app)->
   app.user.on 'change:language', (data)->
-    if (lang = app.user.get('language')) isnt app.polyglot.currentLocale
+    lang = app.user.get('language')
+    if lang isnt app.polyglot.currentLocale
       _.log lang, 'i18n: user data change: i18n change requested'
       app.request 'i18n:set', lang
       _.setCookie 'lang', lang

@@ -1,4 +1,8 @@
 <div id="error" class="text-center">
     <h2 class="subheader">{{code}}</h2>
     <h3>{{message}}</h3>
+    {{#if redirection}}
+      <p>{{redirection.legend}}</p>
+      <a href="{{redirection.href}}" class="button default {{redirection.classes}}">{{redirection.text}}</a>
+    {{/if}}
 </div>

@@ -11,7 +11,9 @@ module.exports =
         controller: API
 
 API =
-  home: -> app.execute 'show:home'
+  home: (route)->
+    _.log route, 'route:redirect'
+    app.execute 'show:home'
   notFound: (route)->
     _.log route, 'route:notFound'
     app.execute 'show:404'

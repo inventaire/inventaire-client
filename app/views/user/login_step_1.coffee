@@ -7,6 +7,10 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   behaviors:
     Loading: {}
 
+  onShow: ->
+    if @options.triggerPersonaLogin
+      @waitingForPersona()
+
   waitingForPersona:->
     $('#loginPersona').fadeOut()
     if _.isMobile()
