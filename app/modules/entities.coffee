@@ -21,7 +21,7 @@ module.exports =
 API =
   showEntity: (uri, label, params, region)->
     region ||= app.layout.main
-    app.execute 'show:loader', region
+    app.execute 'show:loader', {region: region}
 
     [prefix, id] = getPrefixId(uri)
     if prefix? and id?

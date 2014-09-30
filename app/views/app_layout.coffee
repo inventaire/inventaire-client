@@ -29,9 +29,9 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck
 
-  showLoader: (region)->
-    region ||= app.layout.main
-    region.show new app.View.Behaviors.Loader
+  showLoader: (options)->
+    region = options.region || app.layout.main
+    region.Show new app.View.Behaviors.Loader, options.title
 
   showHome: ->
     if app.user.loggedIn

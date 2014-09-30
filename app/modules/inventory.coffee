@@ -38,31 +38,26 @@ API =
   showPersonalInventory: ->
     showInventory _.i18n('Personal')
     showItemList(Items.personal.filtered)
-    app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.execute 'filter:visibility:reset'
-    app.inventory.sideMenu.show new app.View.VisibilityTabs
+    app.vent.trigger 'inventory:change', 'personal'
 
   showNetworkInventory: ->
     showInventory _.i18n('Network')
     showItemList(Items.contacts.filtered)
-    app.inventory.viewTools.show new app.View.ContactsInventoryTools
-    app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
+    app.vent.trigger 'inventory:change', 'network'
 
   showPublicInventory: ->
     showInventory _.i18n('Public')
-    app.execute('show:loader', app.inventory.itemsView)
+    app.execute('show:loader', {region: app.inventory.itemsView})
     $.getJSON(app.API.items.public())
     .then (res)->
       _.log res, 'Items.public res'
       # not testing if res has items or users
       # letting the inventory empty view do the job
       app.contacts.add res.users
-      Items.public = new app.Collection.Items res.items
-
+      Items.public.add res.items
       showItemList(Items.public)
-      app.vent.trigger 'inventory:change', 'publicInventory'
-      app.inventory.viewTools.show new app.View.ContactsInventoryTools
-      app.inventory.sideMenu.empty()
+      app.vent.trigger 'inventory:change', 'public'
     .fail (err)->
       if err.status is 404
         showItemList()
@@ -89,7 +84,7 @@ API =
   #     _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
 
   itemShow: (username, suffix, label)->
-    app.execute('show:loader')
+    app.execute('show:loader', {title: "#{label} - #{username}"})
     if Items.personal.fetched and app.contacts.fetched
       @showItemShow(username, suffix, label)
     else
@@ -130,15 +125,12 @@ API =
     app.layout.main.show itemShow
 
 showInventory = (title)->
-  # regions shouldnt be undefined, which can't be tested by "app.inventory?._isShown"
+  # regions shouldnt be undefined, which can't be tested by "app.invenshowItemShowtory?._isShown"
   # so here I just test one of Inventory regions
   unless app.inventory?.itemsView?
     app.inventory = new app.Layout.Inventory
     app.layout.main.Show app.inventory, title
   else app.title(title)
-
-  unless app.inventory?.topMenu?._isShown
-    app.inventory.topMenu.show new app.View.InventoriesTabs
 
 showItemList = (collection)->
   itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}

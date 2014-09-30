@@ -7,6 +7,24 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     itemsView: '#itemsView'
     sideMenu: '#sideMenu'
 
+  initialize: ->
+    app.vent.on 'inventory:change', (filterName)=>
+      switch filterName
+        when 'personal'
+          @viewTools.show new app.View.PersonalInventoryTools
+          @sideMenu.show new app.View.VisibilityTabs
+        when 'network'
+          @viewTools.show new app.View.ContactsInventoryTools
+          @sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
+        when 'public'
+          @viewTools.show new app.View.ContactsInventoryTools
+          @sideMenu.empty()
+
+  onShow: ->
+    @topMenu.show new app.View.InventoriesTabs
+
+  onDestroy: -> _.log 'inventory view destroyed'
+
   events:
     # not delegated to tools view as used in several ones
     'keyup #itemsTextFilterField': 'executeTextFilter'
