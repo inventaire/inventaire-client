@@ -6,6 +6,12 @@ class App extends Backbone.Marionette.Application
     @Behaviors = require('behaviors/base')
     @Behaviors.initialize()
 
+    @vent.on 'title:change', (title)->
+      _.log title, 'title:change'
+      document.title = "#{title} - Inventaire"
+
+    @title = (title)-> @vent.trigger 'title:change', title
+
     @navigate = (route, options)->
       route.logIt('route:navigate')
       route = route.replace(/(\s|')/g, '_')

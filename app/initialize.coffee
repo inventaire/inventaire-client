@@ -16,8 +16,13 @@ window.location.root = window.location.protocol + '//' + window.location.host
 Backbone.Model::idAttribute = '_id'
 Backbone.Collection::byId = (id)-> @_byId[id]
 
-_.extend Marionette.View.prototype, require('lib/views_utils')
+Marionette.Region.prototype.Show = (view, options)->
+  if _.isString options then title = options
+  else title = options.title
 
+  if title then app.title title
+
+  return @show(view, options)
 
 # Initialize the application on DOM ready event.
 $ ->
