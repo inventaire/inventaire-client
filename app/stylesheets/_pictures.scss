@@ -1,3 +1,16 @@
+.profilePic{
+  height: 2rem;
+}
+
+.large-profilePic{
+  height: 5rem;
+}
+
+.max-large-profilePic{
+  max-width: 25rem;
+  max-height: 25rem;
+}
+
 figure {
   margin:0;
   display: inline-block;
