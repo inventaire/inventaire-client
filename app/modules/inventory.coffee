@@ -36,6 +36,7 @@ API =
     showItemList(app.filteredItems)
     app.inventory.viewTools.show new app.View.PersonalInventoryTools
     app.execute 'filter:inventory:personal'
+    app.execute 'filter:visibility:reset'
     app.inventory.sideMenu.show new app.View.VisibilityTabs
 
   showNetworkInventory: ->
@@ -51,16 +52,19 @@ API =
     $.getJSON(app.API.items.public())
     .then (res)->
       _.log res, 'publicItems res'
-      if res.items? and res.users?
-        app.contacts.add res.users
-        app.publicItems = new app.Collection.Items res.items
+      # not testing if res has items or users
+      # letting the inventory empty view do the job
+      app.contacts.add res.users
+      app.publicItems = new app.Collection.Items res.items
 
-        showItemList(app.publicItems)
-        app.vent.trigger 'inventory:change', 'publicInventory'
-        app.inventory.viewTools.show new app.View.ContactsInventoryTools
-        app.inventory.sideMenu.empty()
-      else throw 'no public item or users found for showPublicInventory'
-    .fail (err)-> throw new Error err
+      showItemList(app.publicItems)
+      app.vent.trigger 'inventory:change', 'publicInventory'
+      app.inventory.viewTools.show new app.View.ContactsInventoryTools
+      app.inventory.sideMenu.empty()
+    .fail (err)->
+      if err.status is 404
+        showItemList()
+      else _.logXhrErr(err)
     .done()
 
   showItemCreationForm: (options)->
