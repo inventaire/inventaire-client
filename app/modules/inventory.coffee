@@ -10,7 +10,6 @@ module.exports =
         'inventory/public(/)': 'showPublicInventory'
         'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:suffix(/:title)(/)': 'itemShow'
-        'inventory/:user/:suffix(/:title)/edit(/)': 'itemEdit'
 
     app.addInitializer ->
       new InventoryRouter
@@ -69,20 +68,6 @@ API =
 
   showItemCreationForm: (options)->
     form = new app.View.Items.Creation options
-    app.layout.main.show form
-
-  itemEdit: (username, id)->
-    itemModel = app.items.byId(id)
-    if itemModel?.get('owner') is app.user.id
-      @showItemEditionForm(itemModel)
-    else app.execute 'show:403'
-
-  showItemEditionForm: (itemModel)->
-    _.log arguments, 'arguments'
-    _.log itemModel, 'itemModel'
-    app.layout.item ||= new Object
-    form = app.layout.item.edition = new app.View.ItemEditionForm {model: itemModel}
-    _.log form, 'form'
     app.layout.main.show form
 
   showUserInventory: (user)->
@@ -257,16 +242,6 @@ initializeInventoriesHandlers = (app)->
         pathname = params.entity.get 'pathname'
         app.navigate "#{pathname}/add"
       else throw new Error 'missing entity'
-
-    'show:item:form:edition': (itemModel)->
-      API.showItemEditionForm(itemModel)
-      username = app.user.get('username')
-      title = itemModel.get('title')
-      suffix = itemModel.get('suffix')
-      path = "inventory/#{username}/#{suffix}"
-      path += "/#{title}"  if title?
-      path += "/edit"
-      app.navigate path
 
     'show:item:show': (username, suffix, title)->
       API.itemShow(username, suffix)
