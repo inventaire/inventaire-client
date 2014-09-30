@@ -1,3 +1,4 @@
+#!/usr/bin/env coffee
 fs = require 'fs'
 
 modernizrBowerJson = './bower_components/modernizr/.bower.json'
