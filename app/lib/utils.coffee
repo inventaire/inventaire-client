@@ -119,3 +119,6 @@ module.exports =
     json = JSON.stringify obj, null, 4
     data = 'data:application/json;charset=utf-8,' + encodeURI(json)
     window.open data, windowName
+
+  isUser: (id)-> id is app.user.id
+  isContact: (id)-> _.has app.user.get('contacts'), id

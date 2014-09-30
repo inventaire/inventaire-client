@@ -92,7 +92,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     app.layout.modal.show picturePicker
 
   dataExport: ->
-    userInventory = app.items.byOwner app.user.id
+    userInventory = Items.personal.toJSON()
     username = app.user.get('username')
     date = new Date().toLocaleDateString()
     name = "inventaire.io-#{username}-#{date}.json"

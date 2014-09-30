@@ -3,6 +3,7 @@ module.exports =
 
   initialize: ->
     initializeContacts()
+    Items.contacts = new app.Collection.Items
     fetchContactsAndTheirItems()
     initializeContactSearch()
 
@@ -21,17 +22,23 @@ initializeContacts = ->
     'getUsernameFromOwner': (id)->
       contactModel = app.contacts.byId(id)
       if contactModel? then contactModel.get('username')
-      else throw new Error "couldnt find the contact from id: #{id}"
+      else
+        console.warn "couldnt find the contact from id: #{id}"
+        return
 
     'getOwnerFromUsername': (username)->
       contactModel = app.contacts.findWhere({username: username})
       if contactModel? then contactModel.id
-      else throw new Error "couldnt find the contact from username: #{username}"
+      else
+        console.warn "couldnt find the contact from username: #{username}"
+        return
 
     'getProfilePicFromId': (id)->
       contactModel = app.contacts.byId(id)
       if contactModel? then contactModel.get 'picture'
-      else throw new Error "couldnt find the contact from id: #{id}"
+      else
+        console.warn "couldnt find the contact from id: #{id}"
+        return
 
   # include main user in contacts to be able to access it from getUsernameFromOwner
   app.contacts.add app.user
@@ -59,7 +66,7 @@ fetchContactsAndTheirItems = ->
       contactModel.trigger 'change:following', contactModel
       app.execute 'contact:fetchItems', contactModel
   .fail (err)-> _.logXhrErr err
-  .done ->
+  .always ->
     app.contacts.fetched = true
     app.vent.trigger 'contacts:ready'
 
@@ -140,8 +147,8 @@ fetchContactItems = ->
   $.getJSON app.API.contacts.items(@id)
   .done (res)->
     res.forEach (item)->
-      itemModel = app.items.add item
+      itemModel = Items.contacts.add item
       itemModel.username = username
 
 removeContactItems = ->
-  return app.items.remove(app.items.where({owner: @id}))
+  return Items.contacts.remove(Items.contacts.where({owner: @id}))
