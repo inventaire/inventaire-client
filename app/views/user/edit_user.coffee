@@ -33,6 +33,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     'click a#usernameButton': 'verifyUsername'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
+    'click a#dataExport': 'dataExport'
 
   verifyUsername: (username)=>
     requestedUsername = $('#usernameField').val()
@@ -87,3 +88,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
             selector: '#changePicture'
     }
     app.layout.modal.show picturePicker
+
+  dataExport: ->
+    userInventory = app.items.byOwner app.user.id
+    _.openJsonWindow(userInventory)

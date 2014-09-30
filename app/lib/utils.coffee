@@ -112,3 +112,7 @@ module.exports =
   placeholder: (height=250, width=200)->
     text = _.i18n 'missing image'
     "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
+
+  openJsonWindow: (obj)->
+    json = JSON.stringify obj, null, 4
+    window.open 'data:application/json;charset=utf-8,' + encodeURI(json)

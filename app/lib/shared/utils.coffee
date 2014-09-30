@@ -65,3 +65,5 @@ module.exports =
       alert("Please enter a valid URL.")
       return false
     else true
+
+  now: -> new Date().getTime()

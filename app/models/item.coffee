@@ -22,8 +22,8 @@ module.exports = class Item extends Backbone.NestedModel
 
     attrs.owner = @get('owner')
     attrs.suffix = @getSuffix()
+    attrs.created = @get('created') or _.now()
     attrs._id = @getId(attrs)
-    attrs.created = @get('created') or new Date()
 
     @set attrs
 
@@ -44,7 +44,7 @@ module.exports = class Item extends Backbone.NestedModel
 
   getId: (attrs)->
     if @get('_id') then return @get('_id')
-    else return "#{attrs.owner}:#{attrs.suffix}"
+    else return "#{attrs.owner}:#{attrs.suffix}:#{attrs.created}"
 
   buildPathname: (attrs)->
     pathname = "/inventory/#{@username}/#{attrs.suffix}"
