@@ -6,7 +6,7 @@ module.exports =
       appRoutes:
         'entity/search(?*queryString)(/)': 'showEntitiesSearchForm'
         'entity/:uri(/:label)(/)': 'showEntity'
-        'entity/:uri(/:label)/add(/)': 'addEntity'
+        'entity/:uri(/:label)/add(/)': 'showAddEntity'
 
     app.addInitializer ->
       new EntitiesRouter
@@ -15,7 +15,8 @@ module.exports =
   initialize: ->
     initializeEntitiesSearchHandlers()
     @categories = categories
-    window.Entities = new Backbone.Collection
+    window.Entities = new app.Collection.Entities
+    _.log Entities.length, "Entities.length"
 
 API =
   showEntity: (uri, label, params, region)->
@@ -24,79 +25,59 @@ API =
 
     [prefix, id] = getPrefixId(uri)
     if prefix? and id?
-      switch prefix
-        when 'wd' then viewPromise = @getWikidataEntityView(id)
-        when 'isbn' then viewPromise = @getIsbnEntityView(id)
-        else _.log [prefix, id], 'not implemented prefix for showEntity'
-    else console.warn 'prefix or id missing at showEntity'
-
-    if viewPromise?
-      viewPromise.then (view)-> region.show(view)
+      @getEntityView(prefix, id)
+      .then (view)-> region.show(view)
+      .fail (err)->
+        _.log err, 'couldnt showEntity'
+        app.execute 'show:404'
     else
-      app.execute 'show:404'
+      console.warn 'prefix or id missing at showEntity'
 
 
-  getWikidataEntityView: (id)->
-    return @getEntityModelFromWikidataId(id)
-    .then (entity)-> new app.View.Entities.Wikidata {model: entity}
-    .fail (err)-> _.log err, 'fail at showEntity: getWikidataEntityView'
-
-  getIsbnEntityView: (isbn)->
-    return @getEntityModelFromIsbn(isbn)
-    .then (entity)-> new app.View.Entities.Wikidata {model: entity}
-    .fail (err)-> _.log err, 'fail at showEntity: getIsbnEntityView'
-
-
-
-
-
-  addEntity: (uri)->
+  showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
     if prefix? and id?
+      @getEntityModel(prefix, id)
+      .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
+      .fail (err)-> _.log err, 'showAddEntity err'
+      .done()
+    else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
+
+  getEntityView: (prefix, id)->
+    return @getEntityModel(prefix, id)
+    .then (entity)->
+      # the view is named after Wikidata, waiting for
+      # the possibility to merge those view
+      new app.View.Entities.Wikidata {model: entity}
+    .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
+
+  getEntityModel: (prefix, id)->
+    entity = @cachedEntity("#{prefix}:#{id}")
+    if entity then return entity
+    else
       switch prefix
-        when 'wd' then entityPromise = @getEntityModelFromWikidataId(id)
-        when 'isbn' then entityPromise = @getEntityModelFromIsbn(id)
-        else _.log [prefix, id], 'not implemented prefix for addEntity'
+        when 'wd' then modelPromise = @getEntityModelFromWikidataId(id)
+        when 'isbn' then modelPromise = @getEntityModelFromIsbn(id)
+        else _.log [prefix, id], 'not implemented prefix, cant getEntityModel'
 
-      if entityPromise? then @showItemCreationForm(entityPromise)
-      # else case already logged above
-
-    else console.warn "prefix or id missing at addEntity: uri = #{uri}"
-
-  showItemCreationForm: (entityPromise)->
-    entityPromise
-    .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
-    .fail (err)-> _.log err, 'showItemCreationForm err'
-    .done()
-
-  getEntityModelFromWikidataId: (id)->
-    entity = @cachedEntity(id)
-    if entity then return entity
-    else
-      return wd.getEntities(id, app.user.lang)
-      .then (res)=>
-        entity = new app.Model.WikidataEntity res.entities[id]
-        Entities.add entity
-        return entity
-      .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
-
-  getEntityModelFromIsbn: (isbn)->
-    entity = @cachedEntity("isbn:#{isbn}")
-    if entity then return entity
-    else
-      books.getGoogleBooksDataFromIsbn(isbn)
-      .then (res)=>
-        entity = new app.Model.NonWikidataEntity res
-        Entities.add entity
-        return entity
-      .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
+      return modelPromise.then (model)-> Entities.add(model)
 
   cachedEntity: (uri)->
-    entity = Entities.byId(uri)
+    entity = Entities.byUri(uri)
     if entity?
       _.log entity, 'entity: found cached entity'
       return $.Deferred().resolve(entity)
     else false
+
+  getEntityModelFromWikidataId: (id)->
+    wd.getEntities(id, app.user.lang)
+    .then (res)-> new app.Model.WikidataEntity res.entities[id]
+    .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
+
+  getEntityModelFromIsbn: (isbn)->
+    books.getGoogleBooksDataFromIsbn(isbn)
+    .then (res)-> new app.Model.NonWikidataEntity res
+    .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
 
   showEntitiesSearchForm: (queryString)->
     app.layout.entities ||= new Object

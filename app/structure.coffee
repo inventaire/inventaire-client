@@ -2,6 +2,7 @@ module.exports =
   Collection:
     Items: require 'collections/items'
     Contacts: require 'collections/contacts'
+    Entities: require 'collections/entities'
     WikidataEntities: require 'collections/wikidata_entities'
     NonWikidataEntities: require 'collections/non_wikidata_entities'
 
