@@ -122,3 +122,7 @@ module.exports =
 
   isUser: (id)-> id is app.user.id
   isContact: (id)-> _.has app.user.get('contacts'), id
+
+  style: (text, style)->
+    switch style
+      when 'strong' then "<strong>#{text}</strong>"

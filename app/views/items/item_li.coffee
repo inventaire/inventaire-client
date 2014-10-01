@@ -1,6 +1,6 @@
 module.exports = class ItemLi extends Backbone.Marionette.ItemView
   tagName: "li"
-  className: "itemLi row"
+  className: "itemContainer row"
   template: require 'views/items/templates/item_li'
   behaviors:
     ConfirmationModal: {}
@@ -14,7 +14,10 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     'click a.itemShow, img': 'itemShow'
     'click .remove': 'itemDestroy'
 
-  serializeData: -> @model.serializeData()
+  serializeData: ->
+    attrs = @model.serializeData()
+    attrs.username = _.style attrs.username, 'strong'
+    return attrs
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
