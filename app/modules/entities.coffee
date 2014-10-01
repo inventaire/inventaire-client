@@ -60,7 +60,7 @@ API =
         when 'isbn' then modelPromise = @getEntityModelFromIsbn(id)
         else _.log [prefix, id], 'not implemented prefix, cant getEntityModel'
 
-      return modelPromise.then (model)-> Entities.add(model)
+      return modelPromise.then (model)-> Entities.create(model)
 
   cachedEntity: (uri)->
     entity = Entities.byUri(uri)
