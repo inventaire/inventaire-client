@@ -8,17 +8,17 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     sideMenu: '#sideMenu'
 
   initialize: ->
-    app.vent.on 'inventory:change', (filterName)=>
+    app.vent.on 'inventory:change', (filterName)->
       switch filterName
         when 'personal'
-          @viewTools.show new app.View.PersonalInventoryTools
-          @sideMenu.show new app.View.VisibilityTabs
+          app.inventory.viewTools.show new app.View.PersonalInventoryTools
+          app.inventory.sideMenu.show new app.View.VisibilityTabs
         when 'network'
-          @viewTools.show new app.View.ContactsInventoryTools
-          @sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
+          app.inventory.viewTools.show new app.View.ContactsInventoryTools
+          app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
         when 'public'
-          @viewTools.show new app.View.ContactsInventoryTools
-          @sideMenu.empty()
+          app.inventory.viewTools.show new app.View.ContactsInventoryTools
+          app.inventory.sideMenu.empty()
 
   onShow: ->
     @topMenu.show new app.View.InventoriesTabs
