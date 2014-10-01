@@ -65,6 +65,7 @@ module.exports =
       unless data?
         _.log arguments, 'input arguments @err'
         throw new Error 'no data'
+
       field =
           type: 'text'
       button =
@@ -91,3 +92,7 @@ module.exports =
     register 'pre', (text)->
       text = text.replace /\n/g, '<br>'
       new Handlebars.SafeString text
+
+    register 'ifvalue', (attr, value)->
+      if value? then "#{attr}='#{value}'"
+      else return

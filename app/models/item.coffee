@@ -47,10 +47,12 @@ module.exports = class Item extends Backbone.NestedModel
     else return "#{attrs.owner}:#{attrs.suffix}:#{attrs.created}"
 
   buildPathname: (attrs)->
-    pathname = "/inventory/#{@username}/#{attrs.suffix}"
-    title = _.softEncodeURI @get('title')
-    pathname += "/#{title}"  if title?
-    return pathname
+    if attrs.username? and attrs.suffix?
+      pathname = "/inventory/#{@username}/#{attrs.suffix}"
+      title = _.softEncodeURI @get('title')
+      pathname += "/#{title}"  if title?
+      return pathname
+    else return
 
   serializeData: ->
     attrs = @toJSON()

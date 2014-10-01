@@ -24,7 +24,7 @@
       </p>
     </div>
 
-    <h4><a class="itemShow" href="{{pathname}}">{{title}}</a></h4>
+    <h4><a class="itemShow" {{ifvalue 'href' pathname}}>{{title}}</a></h4>
 
     {{#if comment}}
       <p class="comment grey">
