@@ -12,7 +12,7 @@
     "node": "0.10"
   },
   "scripts": {
-    "prepare-production": "bower install -p && ./modernizr-bower-fix && brunch build -P",
+    "prepare-production": "bower install -p && ./scripts/modernizr-bower-fix && brunch build -P",
     "start": "brunch watch",
     "server": "brunch watch --server",
     "test": "mocha --compilers coffee:coffee-script/register --watch",
