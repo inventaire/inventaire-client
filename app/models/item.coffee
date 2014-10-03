@@ -47,7 +47,7 @@ module.exports = class Item extends Backbone.NestedModel
     else return "#{attrs.owner}:#{attrs.suffix}:#{attrs.created}"
 
   buildPathname: (attrs)->
-    if attrs.username? and attrs.suffix?
+    if @username? and attrs.suffix?
       pathname = "/inventory/#{@username}/#{attrs.suffix}"
       title = _.softEncodeURI @get('title')
       pathname += "/#{title}"  if title?
