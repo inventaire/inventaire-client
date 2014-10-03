@@ -31,7 +31,7 @@ class App extends Backbone.Marionette.Application
       options.replace = true
       @navigate(route, options)
 
-    @on "start", (options) =>
+    @once 'start', (options) =>
       _.log 'app:start'
       routeFound = Backbone.history.start({pushState: true})
 

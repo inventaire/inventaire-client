@@ -73,7 +73,7 @@ API =
   #   if app.contacts.fetched
   #     @filterForUser()
   #   else
-  #     app.vent.on 'contacts:ready', -> @filterForUser()
+  #     app.vent.once 'contacts:ready', -> @filterForUser()
   #   showInventory(app.filteredItems)
 
   # filterForUser: ->
@@ -88,10 +88,10 @@ API =
     if Items.personal.fetched and app.contacts.fetched
       @showItemShow(username, suffix, label)
     else
-      app.vent.on 'items:ready', =>
+      app.vent.once 'items:ready', =>
         if app.contacts.fetched
           @showItemShow(username, suffix, label)
-      app.vent.on 'contacts:ready', =>
+      app.vent.once 'contacts:ready', =>
         if Items.personal.fetched
           @showItemShow(username, suffix, label)
 
