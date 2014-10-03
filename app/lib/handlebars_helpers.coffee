@@ -90,8 +90,10 @@ module.exports =
       else i
 
     register 'pre', (text)->
-      text = text.replace /\n/g, '<br>'
-      new Handlebars.SafeString text
+      if text
+        text = text.replace /\n/g, '<br>'
+        new Handlebars.SafeString text
+      else return
 
     register 'ifvalue', (attr, value)->
       if value? then "#{attr}='#{value}'"
