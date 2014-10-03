@@ -60,7 +60,10 @@ API =
         when 'isbn' then modelPromise = @getEntityModelFromIsbn(id)
         else _.log [prefix, id], 'not implemented prefix, cant getEntityModel'
 
-      return modelPromise.then (model)-> Entities.create(model)
+      return modelPromise.then (model)->
+        if model?.has('title')
+          Entities.create(model)
+        else console.error 'entity undefined or miss a title: discarded', model
 
   cachedEntity: (uri)->
     entity = Entities.byUri(uri)

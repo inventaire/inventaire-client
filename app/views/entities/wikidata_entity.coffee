@@ -8,8 +8,9 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
 
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.descMaxlength = 500
-    attrs.descOverflow = attrs.description.length > attrs.descMaxlength
+    if attrs.description?
+      attrs.descMaxlength = 500
+      attrs.descOverflow = attrs.description.length > attrs.descMaxlength
 
     if _.lastRouteMatch(/search\?/)
       attrs.back =
@@ -18,7 +19,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
     return attrs
 
   initialize: ->
-    app.entity = @
+    _.inspect(@)
     @listenTo @model, 'add:pictures', @render
     @fetchPublicItems()
 
@@ -40,7 +41,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
     items = @items.viewCollection
     _.log items, 'inv: public items'
     if items?.length > 0
-        itemList = new app.View.ItemsList {collection: items}
+      itemList = new app.View.ItemsList {collection: items}
     else
       itemList = new app.View.ItemsList
     @items.show itemList
