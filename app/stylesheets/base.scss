@@ -5,9 +5,10 @@
 @import "topbar";
 @import "welcome";
 @import "signup_login";
-@import "../modules/inventory/scss/inventory";
 @import "entity";
 @import "pictures";
+@import "../modules/inventory/scss/inventory";
+@import "../modules/contacts/scss/contacts";
 
 // foundation doesn't overwrite variables
 // but only !default to them when not defined before

@@ -13,9 +13,12 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     'click .edit': 'itemEdit'
     'click a.itemShow, img': 'itemShow'
     'click .remove': 'itemDestroy'
+    'click a.toggleWrap': 'toggleCommentWrap'
 
   serializeData: ->
     attrs = @model.serializeData()
+    if attrs.comment?.length > 120
+      attrs.wrap  = true
     attrs.username = _.style attrs.username, 'strong'
     return attrs
 
@@ -27,3 +30,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     app.request 'item:destroy',
       model: @model
       selector: @el
+
+  toggleCommentWrap: ->
+    @$el.find('span.comment').toggleClass('wrapped')
+    @$el.find('.fa').toggle()

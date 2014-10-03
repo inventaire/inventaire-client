@@ -1,0 +1,31 @@
+$contact-bg: #ddd;
+.contactList{
+  li{
+    background-color: $contact-bg;
+    &:hover{
+        background-color: darken($contact-bg, 20%);
+        transition: background-color 0.2s linear;
+    }
+    padding: 0.3rem;
+    img{
+      height: 2.5rem;
+    }
+    .username{
+      padding-left: 0.5rem;
+    }
+  }
+  .selectContact{
+    cursor: pointer;
+  }
+
+  .selected{
+    background-color: darken($contact-bg, 40%);
+  }
+}
+
+#preview{
+  background-color: #eee;
+  .book{
+    padding: 1rem;
+  }
+}

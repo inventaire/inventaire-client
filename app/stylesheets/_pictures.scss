@@ -1,5 +1,7 @@
+$profile-pic-size: 2.8rem;
+
 .profilePic{
-  height: 2.8rem;
+  height: $profile-pic-size;
 }
 
 .large-profilePic{

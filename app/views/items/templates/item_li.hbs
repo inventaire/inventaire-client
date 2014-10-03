@@ -1,21 +1,26 @@
-<div class="cover small-12 large-3 columns {{!-- text-center --}}">
+<div class="cover small-12 large-3 columns text-center">
   {{#if picture}}
     <a href="{{pathname}}">
-    <img src="{{picture}}"></a>
+      <img src="{{picture}}">
+    </a>
   {{/if}}
 </div>
 
-<div class="desc small-12 large-9 columns">
+<div class="details small-12 large-9 columns">
 
-  <h4><a class="itemShow" {{ifvalue 'href' pathname}}>{{title}}</a></h4>
+  <h4 class="title"><a class="itemShow" {{ifvalue 'href' pathname}}>{{title}}</a></h4>
 
-  <div class="row">
+  <div class="user-box">
     <div class="left-box">
       <img class="profilePic" src="{{profilePic}}">
     </div>
     <div class="right-box">
-      <span class="legend">{{i18n 'has_it' this}}</span>
-      <span class="comment grey">{{pre comment}}</span>
+      <span class="legend">
+        {{i18n 'has_it' this}}
+      </span>
+      <span class="comment grey wrapped">
+        {{pre comment}}
+      </span>{{partial 'toggle_wrap' this}}
     </div>
   </div>
 
