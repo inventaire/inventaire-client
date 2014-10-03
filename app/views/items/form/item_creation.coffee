@@ -18,6 +18,8 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
       @model = new app.Model.Item attrs
     else throw new Error 'missing uri or title at item creation from entity'
 
+  onShow: -> app.execute 'foundation:reload'
+
   serializeData: ->
     attrs =
       title: @entity.get 'title'
@@ -31,6 +33,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
 
   validateItem: ->
     comment = $('#comment').val()
+    notes = $('#notes').val()
     listing = $('#listingPicker').val()
     if listing?
       @model.set 'listing', listing

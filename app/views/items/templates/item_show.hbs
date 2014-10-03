@@ -27,6 +27,22 @@
           <a id="validateComment" class="button success">{{i18n 'edit'}}</a>
         </div>
     </div>
+
+    {{#unless restricted}}
+      <div class="panel">
+        <h3>{{i18n 'Personal notes'}}
+              <a id="editNotes" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
+        </h3>
+          <p id="notes">
+            {{pre notes}}
+          </p>
+          <div id="notesEditor" class='hidden'>
+            <textarea placeholder=''>{{notes}}</textarea>
+            <a id="cancelNotesEdition" class="button grey">{{i18n 'cancel'}}</a>
+            <a id="validateNotes" class="button success">{{i18n 'edit'}}</a>
+          </div>
+      </div>
+    {{/unless}}
   </div>
 
 

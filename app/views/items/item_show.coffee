@@ -10,8 +10,10 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     ConfirmationModal: {}
 
   initialize: ->
+    _.inspect(@)
     @model.on 'all', -> _.log arguments, 'item:show item events'
     @listenTo @model, 'change:comment', @render
+    @listenTo @model, 'change:notes', @render
 
   onRender: ->
     # entity = @model.get 'entity'
@@ -36,9 +38,10 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     'click a#destroy': 'itemDestroy'
     'click a#entity': 'showEntity'
     'click a#changePicture': 'changePicture'
-    'click a#editComment': 'toggleEditor'
+    'click a#editComment, a#cancelCommentEdition': 'toggleCommentEditor'
     'click a#validateComment': 'validateComment'
-    'click a#cancelCommentEdition': 'toggleEditor'
+    'click a#editNotes, a#cancelNotesEdition': 'toggleNotesEditor'
+    'click a#validateNotes': 'validateNotes'
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
@@ -62,16 +65,33 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
       selector: @el
       next: -> app.execute 'show:home'
 
-  toggleEditor: ->
-    $('#comment').toggle()
-    $('#commentEditor').toggle()
 
-  validateComment: (e)->
-    @toggleEditor()
-    newComment = $('#commentEditor textarea').val()
-    if newComment isnt comment
+  toggleCommentEditor: ->
+    @toggleEditor('comment')
+
+  validateComment: ->
+    @validateEdit('comment')
+
+  toggleNotesEditor: ->
+    @toggleEditor('notes')
+
+  validateNotes: ->
+    @validateEdit('notes')
+
+  toggleEditor: (nameBase)->
+    $("##{nameBase}").toggle()
+    $("##{nameBase}Editor").toggle()
+
+  validateEdit: (nameBase)->
+    @toggleEditor(nameBase)
+    _.log nameBase, 'nameBase'
+    _.log "##{nameBase} textarea"
+    edited = $("##{nameBase}Editor textarea").val()
+    console.log edited
+    console.log edited isnt @model.get(nameBase)
+    if edited isnt @model.get(nameBase)
       app.request 'item:update',
         item: @model
-        attribute: 'comment'
-        value: newComment
-        selector: '#commentEditor'
+        attribute: nameBase
+        value: edited
+        selector: "##{nameBase}Editor"
