@@ -8,12 +8,8 @@ $item-li-elements-height: 8rem;
 
 @media screen and (min-width: $smallscreen) {
   #itemsView{
-    // padding: 0.6rem;
     display: flex;
-    // flex-flow: row wrap;
-    // flex-direction: column;
     justify-content: center;
-    // align-items: center;
     .itemsList{
 
       li.itemContainer{
@@ -22,51 +18,43 @@ $item-li-elements-height: 8rem;
         margin-top: -1px; // hidding the 2px border at items joined
         padding: 0.5rem;
         display: flex;
-        // display: inline;
-        // max-height: $item-li-height;
         div.cover{
-          // width: 20%;
-          // width: 20vw;
-          // display: flex;
           min-width: $profile-pic-size;
-          // justify-content: center;
           img{
             max-height: $item-li-elements-height;
             min-width: $profile-pic-size;
           }
         }
-
         div.details{
           margin-left: 1rem;
-          // width: 80%;
-          // display: flex;
-          // align-items: left;
-          // width: 80vw;
-          // max-height: $item-li-elements-height;
-          // overflow: hidden;
           h4.title{}
           div.user-box{
             display: flex;
             flex-direction: row;
             div.left-box{
-              // display: inline-block;
             }
             div.right-box{
-              // display: inline-block;
-              background-color: $light-grey;
-              padding: 0.2rem;
               width: 30rem;
               span{
+                background-color: $light-grey;
+                padding: 0.2rem;
                 display: block;
-                // max-height: 3rem;
-                &.legend{}
-                &.comment{
-                  padding: 0.2rem;
-                  overflow: hidden;
-                  &.wrapped{
-                    max-height: 3.2rem;
+                overflow: hidden;
+                &.legend{
+                  strong{
+                    color: $body-font-color;
                   }
                 }
+                &.comment{
+                  padding: 0.2rem;
+                }
+                &.notes{}
+                &.wrapped{
+                  max-height: 3.2rem;
+                }
+              }
+              .notes-box{
+                margin-top: 0.5rem;
               }
             }
           }
@@ -81,9 +69,4 @@ $item-li-elements-height: 8rem;
 }
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
-  #itemsView{
-    // keeps the #visibilityTabs on the right sidebar
-    // min-height: 7rem;
-  }
-}
+@media screen and (min-width: $smallscreen) {}

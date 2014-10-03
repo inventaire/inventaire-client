@@ -15,13 +15,22 @@
       <img class="profilePic" src="{{profilePic}}">
     </div>
     <div class="right-box">
-      <span class="legend">
+      <span class="legend grey">
         {{i18n 'has_it' this}}
       </span>
-      <span class="comment grey wrapped">
-        {{pre comment}}
-      </span>{{partial 'toggle_wrap' this}}
+      <span>
+        <span class="comment wrapped">
+          {{pre comment}}
+        </span>{{partial 'toggle_wrap' wrap.comment}}
+      </span>
+      {{#if notes}}
+        <span class="notes-box">
+          <strong class="grey">{{i18n 'notes'}}:</strong>
+          <span class="notes grey wrapped">
+            {{pre notes}}
+          </span>{{partial 'toggle_wrap' wrap.notes}}
+        </span>
+      {{/if}}
     </div>
   </div>
-
 </div>
