@@ -1,7 +1,16 @@
-$main-bg: #fff;
+
+// COLORS MIXINS
+$primary-color: #16212C; // Foundation variable
+$secondary-color: #FFD402; // Foundation variable
+$warning-color: #E13A00; // Foundation variable
+$success-color: #43AC6A; // Foundation variable
+$grey: #888;
+$dark-grey: #333;
+$light-grey: #eee;
+
+$body-bg: #fff; // Foundation variable
 
 body {
-  background: $main-bg;
   main {
     padding-bottom: 2rem;
   }
@@ -13,15 +22,6 @@ body {
     margin: 0;
   }
 }
-
-// COLORS MIXINS
-$primary-color: #16212C;
-$secondary-color: #FFD402;
-$warning-color: #E13A00;
-$success-color: #43AC6A;
-$grey: #888;
-$dark-grey: #333;
-
 
 .secondary{
   color: lighten($primary-color, 10%) !important;
