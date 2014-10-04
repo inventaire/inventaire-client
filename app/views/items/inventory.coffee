@@ -24,16 +24,3 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     @topMenu.show new app.View.InventoriesTabs
 
   onDestroy: -> _.log 'inventory view destroyed'
-
-  events:
-    # not delegated to tools view as used in several ones
-    'keyup #itemsTextFilterField': 'executeTextFilter'
-    'click #itemsTextFilterButton': 'executeTextFilter'
-    'keyup #contactSearchField': 'executeContactSearch'
-    'click #contactSearchButton': 'executeContactSearch'
-
-  executeTextFilter: ->
-    app.execute 'textFilter', $('#itemsTextFilterField').val()
-
-  executeContactSearch: ->
-    app.execute 'contactSearch', $('#contactSearchField').val()

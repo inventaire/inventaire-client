@@ -23,9 +23,9 @@ visibilityFilters =
 resetFilters = ->
   Items.personal.filtered.resetFilters()
 
-textFilter = (text)->
+textFilter = (collection, text)->
   if text.length isnt 0
     filterExpr = new RegExp text, 'i'
-    app.filteredItems.filterBy 'text', (model)-> model.matches filterExpr
+    collection.filterBy 'text', (model)-> model.matches filterExpr
   else
-    app.filteredItems.removeFilter 'text'
+    collection.removeFilter 'text'

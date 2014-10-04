@@ -2,6 +2,8 @@ module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemVi
   template: require 'views/items/templates/personal_inventory_tools'
   events:
     'click #addItem': -> app.execute 'show:entity:search'
+    'keyup #itemsTextFilterField': 'executeTextFilter'
+    'click #itemsTextFilterButton': 'executeTextFilter'
   serializeData: ->
     attrs =
       itemsTextFilter:
@@ -12,3 +14,6 @@ module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemVi
           classes: 'secondary'
           text: _.i18n 'Search'
     return attrs
+
+  executeTextFilter: ->
+    app.execute 'textFilter', Items.personal.filtered, $('#itemsTextFilterField').val()

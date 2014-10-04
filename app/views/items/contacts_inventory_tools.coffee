@@ -1,5 +1,10 @@
 module.exports = class ContactsInventoryTools extends Backbone.Marionette.ItemView
   template: require 'views/items/templates/contacts_inventory_tools'
+  events:
+    'keyup #itemsTextFilterField': 'executeTextFilter'
+    'click #itemsTextFilterButton': 'executeTextFilter'
+    'keyup #contactSearchField': 'executeContactSearch'
+    'click #contactSearchButton': 'executeContactSearch'
   serializeData: ->
     attrs =
       contactSearch:
@@ -18,3 +23,9 @@ module.exports = class ContactsInventoryTools extends Backbone.Marionette.ItemVi
           classes: 'secondary'
           text: _.i18n 'Search'
     return attrs
+
+  executeTextFilter: ->
+    app.execute 'textFilter', Items.contacts.filtered, $('#itemsTextFilterField').val()
+
+  executeContactSearch: ->
+    app.execute 'contactSearch', $('#contactSearchField').val()
