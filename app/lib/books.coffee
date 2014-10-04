@@ -1,12 +1,13 @@
-module.exports = sharedLib 'books'
+Promises = require 'lib/promises'
+module.exports = sharedLib('books')(Promises)
 
 module.exports.getImage = (data)->
-    data = encodeURIComponent(data)
-    return $.getJSON app.API.google.book(data)
-    .then (res)->
+    # data = encodeURIComponent(data)
+    return @API.google.book(data)
+    .then (res)=>
       if res.items[0].volumeInfo?.imageLinks?.thumbnail?
         image = res.items[0].volumeInfo.imageLinks.thumbnail
-        return {image: image.replace('&edge=curl','')}
+        return {image: @uncurl(image)}
       else console.warn "google book image not found for #{data}"
     .fail (err)-> _.log err, "google book err for #{data}"
     .done()
@@ -14,7 +15,7 @@ module.exports.getImage = (data)->
 module.exports.getGoogleBooksDataFromIsbn = (isbn)->
     _.log cleanedIsbn = @cleanIsbnData isbn, 'cleaned ISBN!'
     if cleanedIsbn?
-      return $.getJSON app.API.google.book(cleanedIsbn)
+      return @API.google.book(cleanedIsbn)
       .then (res)=>
         if res.totalItems > 0
           # _.log res.items[0], 'getGoogleBooksDataFromIsbn rawItem'

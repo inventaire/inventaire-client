@@ -1,50 +1,56 @@
-module.exports =
-  isIsbn: (text)->
-    cleanedText = @normalizeIsbn(text)
-    if @isNormalizedIsbn cleanedText
-      switch cleanedText.length
-        when 10 then return 10
-        when 13 then return 13
-    return false
+module.exports = (Promises)->
+  methods =
+    API:
+      google:
+        book: (data)->
+          Promises.get "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
 
-  normalizeIsbn: (text)-> text.trim().replace(/-/g, '').replace(/\s/g, '')
-  isNormalizedIsbn: (text)-> /^([0-9]{10}|[0-9]{13})$/.test text
+    isIsbn: (text)->
+      cleanedText = @normalizeIsbn(text)
+      if @isNormalizedIsbn cleanedText
+        switch cleanedText.length
+          when 10 then return 10
+          when 13 then return 13
+      return false
 
-  cleanIsbnData: (isbn)->
-    if _.typeString isbn
-      cleanedIsbn = @normalizeIsbn(isbn)
-      if @isNormalizedIsbn(cleanedIsbn)
-        return cleanedIsbn
-      else console.error 'isbn got an invalid value'
+    normalizeIsbn: (text)-> text.trim().replace(/-/g, '').replace(/\s/g, '')
+    isNormalizedIsbn: (text)-> /^([0-9]{10}|[0-9]{13})$/.test text
 
-  normalizeBookData: (cleanedItem, isbn)->
-    data =
-      title: cleanedItem.title
-      authors: cleanedItem.authors
-      description: cleanedItem.description
-      publisher: cleanedItem.publisher
-      publishedDate: cleanedItem.publishedDate
-      language: cleanedItem.language
-      pictures: []
+    cleanIsbnData: (isbn)->
+      if _.typeString isbn
+        cleanedIsbn = @normalizeIsbn(isbn)
+        if @isNormalizedIsbn(cleanedIsbn)
+          return cleanedIsbn
+        else console.error 'isbn got an invalid value'
 
-    if cleanedItem.industryIdentifiers?
-      cleanedItem.industryIdentifiers.forEach (obj)->
-        switch obj.type
-          when 'ISBN_10' then data.P957 = obj.identifier
-          when 'ISBN_13' then data.P212 = obj.identifier
-          when 'OTHER' then otherId = obj.identifier
+    normalizeBookData: (cleanedItem, isbn)->
+      data =
+        title: cleanedItem.title
+        authors: cleanedItem.authors
+        description: cleanedItem.description
+        publisher: cleanedItem.publisher
+        publishedDate: cleanedItem.publishedDate
+        language: cleanedItem.language
+        pictures: []
 
-    isbn ||= data.P212 || data.P957
+      if cleanedItem.industryIdentifiers?
+        cleanedItem.industryIdentifiers.forEach (obj)->
+          switch obj.type
+            when 'ISBN_10' then data.P957 = obj.identifier
+            when 'ISBN_13' then data.P212 = obj.identifier
+            when 'OTHER' then otherId = obj.identifier
 
-    if isbn? then data.id = data.uri = "isbn:#{isbn}"
-    else if otherId? then data.id = data.uri = otherId
-    else
-      _.logRed 'no id found at normalizeBookData. Will be droped'
-      return
+      isbn ||= data.P212 || data.P957
 
-    if cleanedItem.imageLinks?
-       data.pictures.push cleanedItem.imageLinks.thumbnail
+      if isbn? then data.id = data.uri = "isbn:#{isbn}"
+      else if otherId? then data.id = data.uri = otherId
+      else
+        _.logRed 'no id found at normalizeBookData. Will be droped'
+        return
 
-    return data
+      if cleanedItem.imageLinks?
+         data.pictures.push cleanedItem.imageLinks.thumbnail
 
-  uncurlGoogleBooksPictures: (url)-> url.replace('&edge=curl','')
+      return data
+
+    uncurl: (url)-> url.replace('&edge=curl','')

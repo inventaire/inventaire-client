@@ -1,5 +1,3 @@
-proxy = (route)-> '/proxy/' + route
-
 module.exports =
   auth:
     login: '/api/auth/login'
@@ -36,11 +34,3 @@ module.exports =
       _.buildPath "/api/entities/search",
         search: search
         language: app.user.lang
-
-    claim: proxy 'http://wdq.wmflabs.org/api'
-  wikidata:
-    uri: (id)-> "http://www.wikidata.org/entity/#{id}"
-    get: proxy 'https://www.wikidata.org/w/api.php'
-  google:
-    book: (data)->
-      "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
