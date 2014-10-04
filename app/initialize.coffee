@@ -15,6 +15,7 @@ window.location.root = window.location.protocol + '//' + window.location.host
 #changing the default attribute to fit CouchDB
 Backbone.Model::idAttribute = '_id'
 Backbone.Collection::byId = (id)-> @_byId[id]
+Backbone.Collection::findOne = -> @models[0]
 
 Marionette.Region.prototype.Show = (view, options)->
   if _.isString options then title = options
