@@ -126,3 +126,13 @@ module.exports =
   style: (text, style)->
     switch style
       when 'strong' then "<strong>#{text}</strong>"
+
+  stringOnly: (str)->
+    if typeof str is 'string' then str
+    else return
+
+  isntEmpty: (array)-> not @isEmpty(array)
+  proxy: (route)-> '/proxy/' + route
+  pickOne: (obj)->
+    k = Object.keys(obj)[0]
+    return obj[k]
