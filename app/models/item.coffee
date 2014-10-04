@@ -19,6 +19,7 @@ module.exports = class Item extends Backbone.NestedModel
     # letting them be the DB's reference _id with of
     # collisions everytime two people have an instance
     # of the same entity object
+    if attrs.entity? then @getEntityModel(attrs.entity)
 
     attrs.owner = @get('owner')
     attrs.suffix = @getSuffix()
@@ -34,6 +35,9 @@ module.exports = class Item extends Backbone.NestedModel
 
     if attrs.entity?
       @entityPathname = "/entity/#{attrs.entity}/#{attrs.title}"
+
+    if @get('notes')? and @get('owner') isnt app.user.id
+      console.error @username, @get('notes'), 'I can see others notes!!!!'
 
   getSuffix: ->
     if @get('suffix') then return @get('suffix')
@@ -63,9 +67,13 @@ module.exports = class Item extends Backbone.NestedModel
       profilePic: @profilePic
       restricted: @restricted
       created: new Date(attrs.created).toLocaleDateString()
+
+    if @entity? then attrs.entity = @entity.toJSON()
+
     unless _.isEmpty attrs.pictures
       attrs.picture = attrs.pictures[0]
     else attrs.picture = _.placeholder()
+
     return attrs
 
   matches: (expr) ->
@@ -84,3 +92,19 @@ module.exports = class Item extends Backbone.NestedModel
       @get("comment")
       @get("username")
     ]
+
+  getEntityModel: (uri)->
+    app.request 'get:entity:model', uri
+    .then (entityModel)=>
+      @entity = entityModel
+      @fetchAuthorsEntities()
+    .fail (err)-> console.error 'get:entity:model fail', err
+
+  fetchAuthorsEntities: ->
+    id = @entity.get('id')
+    if wd.isWikidataEntityId(id)
+      authors = @entity.get('claims.P50')
+      authors?.forEach (authorId)->
+        app.request('get:entity:model', "wd:#{authorId}")
+        .then (res)-> console.log res
+        .fail (err)-> console.log err

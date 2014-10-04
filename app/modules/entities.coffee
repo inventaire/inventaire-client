@@ -52,6 +52,7 @@ API =
     .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
 
   getEntityModel: (prefix, id)->
+    unless prefix? and id? then throw 'missing prefix or id'
     entity = @cachedEntity("#{prefix}:#{id}")
     if entity then return entity
     else
@@ -67,9 +68,7 @@ API =
 
   cachedEntity: (uri)->
     entity = Entities.byUri(uri)
-    if entity?
-      _.log entity, 'entity: found cached entity'
-      return $.Deferred().resolve(entity)
+    if entity? then $.Deferred().resolve(entity)
     else false
 
   getEntityModelFromWikidataId: (id)->
@@ -112,6 +111,9 @@ initializeEntitiesSearchHandlers = ->
       app.navigate 'entity/search'
 
   app.reqres.setHandlers
+    'get:entity:model': (uri)->
+      [prefix, id] = getPrefixId(uri)
+      return API.getEntityModel(prefix, id)
     'getEntityModelFromWikidataId': API.getEntityModelFromWikidataId
     'get:entity:public:items': API.getEntityPublicItems
 
@@ -132,4 +134,4 @@ getPrefixId = (uri)->
     data = ['wd', data[0]]
   else if data.length is not 2
     throw new Error "prefix and id not found for: #{uri}"
-  return _.log data, 'entities: prefix, id'
+  return data

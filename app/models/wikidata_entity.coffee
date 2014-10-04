@@ -1,3 +1,5 @@
+books = require 'lib/books'
+
 module.exports = class WikidataEntity extends Backbone.NestedModel
   initialize: (entityData)->
     lang = app.user.lang
@@ -25,7 +27,7 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     if wikilink = @getWikipediaTitle attrs.sitelinks
       @set 'wikipedia', "https://#{lang}.wikipedia.org/wiki/#{wikilink}"
 
-    # for conditional in templates
+    # for conditionals in templates
     @wikidata = true
 
 
@@ -33,6 +35,7 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     claims = {}
     for id, claim of attrs.claims
       claims[id] = new Array
+      # adding label as a non-enumerable value
       claims[id].label = _.i18n id
       if typeof claim is 'object'
         claim.forEach (statement)->
@@ -57,15 +60,22 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     @set 'pictures', pictures
 
     label = @get('label')
-    data = attrs.claims.P957 || attrs.claims.P212 || label
-    app.lib.books.getImage(data)
-    .then (res)=>
-      if res?.image?
-        pictures = @get('pictures')
-        pictures.unshift res.image
-        @set('pictures', pictures)
-    .fail (err)-> _.log err, "err after bookAPI.getImage for #{data}"
-    .done()
+
+    isbn13 = _.stringOnly attrs.claims?.P957?[0]
+    isbn10 = _.stringOnly attrs.claims?.P212?[0]
+    isbn = isbn13 or isbn10
+    if isbn? then isbn = books.normalizeIsbn(isbn)
+    data = isbn || label
+
+    if data?
+      books.getImage(data)
+      .then (res)=>
+        if res?.image?
+          pictures = @get('pictures')
+          pictures.unshift res.image
+          @set('pictures', pictures)
+      .fail (err)-> _.log err, "err after bookAPI.getImage for #{data}"
+      .done()
 
   getEntityValue: (attrs, props, lang)->
     if attrs[props]?[lang]?.value?
@@ -93,3 +103,10 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
   getWikipediaTitle: (sitelinks, lang)->
     if sitelinks?["#{lang}wiki"]?.title?
       return sitelinks["#{lang}wiki"].title
+
+  claimsLabels: ->
+    claims = @get('claims')
+    logs = []
+    for k,v of claims
+      logs.push [k, v.label]
+    return logs
