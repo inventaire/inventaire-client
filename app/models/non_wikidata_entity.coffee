@@ -20,5 +20,4 @@ module.exports = class NonWikidataEntity extends Backbone.NestedModel
   findAPicture: ->
     pictures = @get 'pictures'
     unless _.isEmpty pictures
-      uncurl = app.lib.books.uncurlGoogleBooksPictures
-      @set 'pictures', pictures.map(uncurl)
+      @set 'pictures', pictures.map(app.lib.books.uncurl)

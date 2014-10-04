@@ -7,7 +7,7 @@ class App extends Backbone.Marionette.Application
     @Behaviors.initialize()
 
     @vent.on 'title:change', (title)->
-      _.log title, 'title:change'
+      _.log title, 'document:title:change'
       document.title = "#{title} - Inventaire"
 
     @title = (title)-> @vent.trigger 'title:change', title

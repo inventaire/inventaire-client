@@ -96,5 +96,5 @@ module.exports =
       else return
 
     register 'ifvalue', (attr, value)->
-      if value? then "#{attr}='#{value}'"
+      if value? then "#{attr}=#{value}"
       else return
