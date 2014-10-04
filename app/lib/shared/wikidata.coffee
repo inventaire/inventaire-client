@@ -20,10 +20,12 @@ module.exports = (Promises)->
 
   methods =
     getEntities: (ids, languages, props=defaultProps, format='json')->
-      unless languages? then languages = ['en']
       ids = [ids] if _.isString(ids)
       ids = @normalizeIds(ids)
+
       languages = [languages] if _.isString(languages)
+      unless languages.hasOwnProperty('en') then languages.push 'en'
+
       query = _.buildPath(API.wikidata.base,
         action: 'wbgetentities'
         languages: languages.join '|'
