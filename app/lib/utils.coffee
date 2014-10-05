@@ -69,9 +69,10 @@ module.exports =
 
   haveAMatch: (array1, array2)->
     result = false
-    array1.forEach (el)->
-      if array2.indexOf(el) isnt -1
-        result = true
+    if array1? and array2?
+      array1.forEach (el)->
+        if array2.indexOf(el) isnt -1
+          result = true
     return result
 
   updateQuery: (newParams)->
