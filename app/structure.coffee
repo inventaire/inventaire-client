@@ -3,6 +3,8 @@ module.exports =
     Items: require 'collections/items'
     Contacts: require 'collections/contacts'
     Entities: require 'collections/entities'
+    LocalEntities: require 'collections/local_entities'
+    TemporaryEntities: require 'collections/temporary_entities'
     WikidataEntities: require 'collections/wikidata_entities'
     NonWikidataEntities: require 'collections/non_wikidata_entities'
 
@@ -11,6 +13,8 @@ module.exports =
     Item: require 'models/item'
     Contact: require 'models/contact'
     WikidataEntity: require 'models/wikidata_entity'
+    BookWikidataEntity: require 'models/book_wikidata_entity'
+    AuthorWikidataEntity: require 'models/author_wikidata_entity'
     NonWikidataEntity: require 'models/non_wikidata_entity'
 
   Layout:

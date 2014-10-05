@@ -6,10 +6,12 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     @setAttributes(@attributes, lang)
     @relocateClaims(@attributes)
     @getWikipediaInfo(@attributes, lang)
-    @findAPicture(@attributes)
+    @findAPicture()
 
+  # entities won't be saved to CouchDB and can keep their
+  # initial API id
+  idAttribute: 'id'
   setAttributes: (attrs, lang)->
-    @id = @get 'id'
     pathname = "/entity/#{@id}"
 
     if label = @getEntityValue attrs, 'labels', lang
@@ -30,6 +32,9 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     # for conditionals in templates
     @wikidata = true
 
+    # reverseClaims: this entity is a P50 of entities Q...
+    @set 'reverseClaims', {}
+
 
   relocateClaims: (attrs)->
     claims = {}
@@ -47,35 +52,7 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
               claims[id].push "Q#{statement._id}"
             else claims[id].push(statement.mainsnak)
     @set 'claims', claims
-
-  findAPicture: (attrs)->
-    pictures = []
-
-    if attrs.claims.P18?
-      attrs.claims.P18.forEach (statement)->
-        if statement?.datavalue?.value
-          pictures.push _.wmCommonsThumb(statement.datavalue.value)
-        else _.log statement, 'P18: missing value'
-
-    @set 'pictures', pictures
-
-    label = @get('label')
-
-    isbn13 = _.stringOnly attrs.claims?.P957?[0]
-    isbn10 = _.stringOnly attrs.claims?.P212?[0]
-    isbn = isbn13 or isbn10
-    if isbn? then isbn = books.normalizeIsbn(isbn)
-    data = isbn || label
-
-    if data?
-      books.getImage(data)
-      .then (res)=>
-        if res?.image?
-          pictures = @get('pictures')
-          pictures.unshift res.image
-          @set('pictures', pictures)
-      .fail (err)-> _.log err, "err after bookAPI.getImage for #{data}"
-      .done()
+    @claims = claims
 
   getEntityValue: (attrs, props, lang)->
     if attrs[props]?[lang]?.value?
@@ -110,3 +87,24 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     for k,v of claims
       logs.push [k, v.label]
     return logs
+
+  findAPicture: ->
+    pictures = []
+
+    if @claims?.P18?
+      @claims.P18.forEach (statement)->
+        if statement?.datavalue?.value
+          pictures.push _.wmCommonsThumb(statement.datavalue.value)
+        else _.log statement, 'P18: missing value'
+
+    @set 'pictures', pictures
+
+  upgrade: (type)->
+    switch type
+      when 'book' then upgrader = app.Model.BookWikidataEntity
+      when 'author' then upgrader = app.Model.AuthorWikidataEntity
+
+    _.extend @, upgrader.prototype
+    if @specificInitializers? then @specificInitializers()
+
+    return @
