@@ -1,22 +1,23 @@
-module.exports = class AuthorLi extends Backbone.Marionette.ItemView
+module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
   template: require 'views/entities/templates/author_li'
   tagName: "li"
-  className: "wikidataEntity row"
-  serializeData: ->
-    lang = app.user.lang
-    model = @model.toJSON()
-    _.log model, 'model'
+  className: "wikidataEntity row panel"
 
-    attrs =
-     pictures: model.flat?.pictures
-     P31: model.flat?.claims.P31
-     id: model.title
+  childViewContainer: '.authorsBooks'
+  childView: require 'views/entities/book_li'
 
-    if model.labels?[lang]?.value?
-      attrs.label = model.labels[lang].value
-    else if model.labels?.en?.value?
-      attrs.label = model.labels.en.value
-    else attrs.label = 'no label'
+  initialize: ->
+    @collection = new Backbone.Collection
 
-    _.log attrs, 'attrs'
-    return attrs
+  events:
+    'click a#displayBooks': 'displayBooks'
+
+  displayBooks: ->
+    @fetchBooks()
+    @$el.find('#displayBooks').toggle()
+
+  fetchBooks: ->
+    @model.fetchAuthorsBooks()
+    .then (models)=>
+      models.forEach (model)=> @collection.add(model)
+    .fail (err)-> _.log err, 'fetchAuthorsBooks err'

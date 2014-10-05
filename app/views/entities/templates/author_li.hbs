@@ -5,10 +5,7 @@
 <div class='small-12 large-8 columns'>
   <h4>{{label}}</h4>
   <a href="http://www.wikidata.org/entity/{{id}}" target="_blank">{{id}}</a>
-  <h3><a href='https://en.wikipedia.org/wiki/{{sitelinks.enwiki.title}}'>{{label}}</a></h3>
-  <a id='validPreview' class='button success'>
-    <i class='fa fa-plus'></i>&nbsp;
-    {{i18n 'Add to my inventory'}}
-  </a>
-  <div class='check'></div>
+  {{!-- <a href='https://en.wikipedia.org/wiki/{{sitelinks.enwiki.title}}'>{{label}}</a> --}}
+  <div class="authorsBooks"></div>
+  <a id="displayBooks" class="button">{{i18n "Fetch the author's books"}}</a>
 </div>

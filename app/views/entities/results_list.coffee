@@ -3,10 +3,15 @@ module.exports = class ResultsList extends Backbone.Marionette.CollectionView
     switch @options.type
       when 'books' then require 'views/entities/book_li'
       when 'authors' then require 'views/entities/author_li'
-      else _.log @options, 'no result type provided'
+      else _.log @options, 'no result type provided: cant choose getChildView'
   emptyView: require 'views/items/no_item'
   tagName: 'ul'
   className: 'jk'
   onShow: ->
-    type = _.i18n(@options.type)
-    @$el.prepend "<h3 class='subheader'>#{type}</h3>"
+    @addHeader()
+
+  addHeader: (type)->
+    type ||= @options.type
+    if type?
+      type = _.i18n(type)
+      @$el.prepend "<h3 class='subheader'>#{type}</h3>"

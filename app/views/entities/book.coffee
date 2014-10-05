@@ -1,4 +1,5 @@
 ResultsList = require 'views/entities/results_list'
+AuthorsList = require 'views/entities/authors_list'
 
 module.exports = class Book extends Backbone.Marionette.ItemView
   template: require 'views/entities/templates/book'
@@ -56,9 +57,9 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     @$el.trigger 'stopLoading'
 
     app.results =
-      humans: humans = new Backbone.Collection
-      authors: authors = new Backbone.Collection
-      books: books = new Backbone.Collection
+      humans: new app.Collection.Entities
+      authors: new app.Collection.Entities
+      books: new app.Collection.Entities
       search: res.search
 
     _.log res, 'res at spreadResults'
@@ -67,6 +68,27 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       when 'wd' then @addWikidataEntities(resultsArray)
       when 'google' then @addNonWikidataEntities(resultsArray)
       else throw new Error "couldn't find source: #{res.source}"
+
+  addWikidataEntities: (resultsArray)=>
+    # instantiating generic wikidata entities first
+    # and only upgrading later on more specific Models
+    # as methods on WikidataEntities greatly ease the sorting process
+    wdEntities = new app.Collection.WikidataEntities resultsArray
+    wdEntities.models.map (model)->
+      claims = model.get('claims')
+      if _.isntEmpty(claims.P31)
+        if wd.isBook(claims.P31)
+          model.upgrade('book')
+          app.results.books.add model
+
+        if wd.isHuman(claims.P31)
+          model.upgrade('author')
+          app.results.humans.add model
+
+      if _.isntEmpty(claims.P106)
+        if wd.isAuthor(claims.P106)
+          model.upgrade('author')
+          app.results.authors.add model
 
   displayResults: =>
     [humans, authors, books] = [app.results.humans, app.results.authors, app.results.books]
@@ -78,10 +100,8 @@ module.exports = class Book extends Backbone.Marionette.ItemView
       if authors.length is 0
         authors = humans
       if authors.length > 0
-        authorsList = new ResultsList {collection: authors, type: 'authors', entity: 'Q482980'}
+        authorsList = new AuthorsList {collection: authors}
         app.layout.entities.search.results2.show authorsList
-        if authors.length > 0
-          @fetchAuthorsBooks(authors.models[0])
 
       if books.length + authors.length is 0
         @$el.trigger 'alert', {message: _.i18n 'no item found (filtered client-side)'}
@@ -91,40 +111,7 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     else
       @$el.trigger 'alert', {message: _.i18n 'no item found (request returned empty)'}
 
-  addWikidataEntities: (resultsArray)=>
-    wdEntities = new app.Collection.WikidataEntities resultsArray
-
-    wdEntities.models.map (el)->
-      claims = el.get('claims')
-
-      if _.isntEmpty(claims.P31)
-        app.results.books.add(el) if _.haveAMatch(claims.P31, wd.Q.books)
-        app.results.humans.add(el) if _.haveAMatch(claims.P31, wd.Q.humans)
-
-      if _.isntEmpty(claims.P106)
-        app.results.authors.add(el) if _.haveAMatch(claims.P106, wd.Q.authors)
 
   addNonWikidataEntities: (resultsArray)->
     books = new app.Collection.NonWikidataEntities resultsArray
     books.models.map (el)-> app.results.books.add el
-
-  fetchAuthorsBooks: (author)->
-    _.log author, 'author?'
-    numericId = author.id.replace(/^Q/,'')
-    return $.getJSON _.proxy(wd.API.wmflabs.claim(50, numericId))
-    .then (res) ->
-      _.log(res, 'entities.claim res')
-      if res.items.length > 0
-        return wd.getEntities(res.items[0..15], app.user.lang)
-      else return
-    .then (res)->
-      name = _.pickOne(author.get('labels')).value
-      _.log res, "#{name}'s books"
-      if res?.entities?
-        booksEntitiesArray = _.toArray(res.entities)
-        author.books = new app.Collection.WikidataEntities booksEntitiesArray
-        authorBooksList = new ResultsList {collection: author.books, type: 'books', entity: 'Q571'}
-        app.layout.entities.search.results3.show authorBooksList
-
-    .fail (err) -> _.log err, 'fetch err'
-    .done()
