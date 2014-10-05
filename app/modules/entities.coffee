@@ -15,8 +15,10 @@ module.exports =
   initialize: ->
     initializeEntitiesSearchHandlers()
     @categories = categories
-    window.Entities = new app.Collection.Entities
+    window.Entities = Entities = new app.Collection.LocalEntities
+    Entities.tmp = new app.Collection.TemporaryEntities
     _.log Entities.length, "Entities.length"
+    _.log Entities.tmp.length, "Entities.tmp.length"
 
 API =
   showEntity: (uri, label, params, region)->
