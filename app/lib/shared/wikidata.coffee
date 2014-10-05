@@ -16,6 +16,19 @@ API =
     claim: (P, Q)-> API.wmflabs.base + "?q=CLAIM[#{P}:#{Q}]"
     string: (P, string)-> API.wmflabs.base + "?q=STRING[#{P}:#{string}]"
 
+Q =
+  books: [
+    'Q571' #book
+    'Q2831984' #comic book album
+    'Q1004' # bande dessinée
+    'Q8261' #roman
+    'Q25379' #theatre play
+  ]
+  humans: ['Q5']
+  authors: ['Q36180']
+
+Q.softAuthors = Q.authors.concat(Q.humans)
+
 module.exports = (Promises)->
 
   methods =
@@ -32,7 +45,7 @@ module.exports = (Promises)->
         format: format
         props: props.join '|'
         ids: ids.join '|'
-      ).logIt('getEntities query')
+      ).logIt('query:getEntities')
       return Promises.get(query, false)
 
     normalizeIds: (idsArray)->
@@ -42,23 +55,16 @@ module.exports = (Promises)->
       if @isNumericId(id) then "Q#{id}"
       else if @isWikidataId(id) then id
       else throw new Error 'invalid id provided to normalizeIds'
-
+    getUri: (id)-> 'wd:' + @normalizeId(id)
     isNumericId: (id)-> /^[0-9]+$/.test id
     isWikidataId: (id)-> /^(Q|P)[0-9]+$/.test id
     isWikidataEntityId: (id)-> /^Q[0-9]+$/.test id
+    isBook: (P31Array)->_.haveAMatch Q.books, P31Array
+    isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
+    isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
 
-    Q:
-      books: [
-        'Q571' #book
-        'Q2831984' #comic book album
-        'Q1004' # bande dessinée
-        'Q8261' #roman
-        'Q25379' #theatre play
-      ]
-      humans: ['Q5']
-      authors: ['Q36180']
+    Q: Q
 
     API: API
-
 
   return methods
