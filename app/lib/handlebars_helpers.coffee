@@ -67,17 +67,20 @@ module.exports =
         _.log arguments, 'input arguments @err'
         throw new Error 'no data'
 
+      # default data, overridident by arguments
       field =
-          type: 'text'
+        type: 'text'
       button =
-        classes: 'success'
+        classes: 'success postfix'
 
       name = data.nameBase
       if name?
         field.id = name + 'Field'
         field.placeholder = _.i18n(name)
         button.id = name + 'Button'
+        button.text = name
 
+      # data overriding happens here
       data =
         field: _.extend field, data.field
         button: _.extend button, data.button

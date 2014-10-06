@@ -33,6 +33,7 @@ $ ->
   app.module 'User', require 'modules/user'
   if app.user.loggedIn
     app.module 'Redirect', require 'modules/redirect'
+    app.module 'Search', require 'modules/search/search'
     app.module 'Inventory', require 'modules/inventory'
     app.module 'Profile', require 'modules/profile'
     app.module 'Entities', require 'modules/entities'

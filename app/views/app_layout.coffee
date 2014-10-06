@@ -16,6 +16,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'click #home': 'showHome'
     'keyup .enterClick': 'enterClick'
     'click a.back': -> window.history.back()
+    'click a#searchButton': 'search'
 
   initialize: (e)->
     @render()
@@ -79,3 +80,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   showError: (options)->
     app.layout.main.show new app.View.Error options
+
+  search: ->
+    query = $('input#searchField').val()
+    _.log query, 'search query'
+    app.execute 'search', query

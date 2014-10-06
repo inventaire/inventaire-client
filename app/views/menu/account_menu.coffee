@@ -5,3 +5,11 @@ module.exports = class AccountMenu extends Backbone.Marionette.ItemView
     'click #logout': -> app.execute 'persona:logout'
 
   onShow: -> app.execute 'foundation:reload'
+  serializeData: ->
+    attrs =
+      search:
+        nameBase: 'search'
+        field: {}
+        button:
+          classes: 'secondary expand'
+    return _.extend attrs, @model.toJSON()
