@@ -4,7 +4,7 @@ module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
-        'entity/search(?*queryString)(/)': 'showEntitiesSearchForm'
+        'entity/search': 'showEntitiesSearchForm'
         'entity/:uri(/:label)(/)': 'showEntity'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
 
