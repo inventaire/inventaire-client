@@ -1,7 +1,7 @@
 module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
   template: require 'views/entities/templates/author_li'
   tagName: "li"
-  className: "wikidataEntity row panel"
+  className: "author"
 
   childViewContainer: '.authorsBooks'
   childView: require 'views/entities/book_li'

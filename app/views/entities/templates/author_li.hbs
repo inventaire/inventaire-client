@@ -1,11 +1,20 @@
-<div class='small-12 large-4 columns text-center'>
-  <img src='{{firstElement pictures}}' alt='{{label}} cover'>
+<div class="row panel">
+  <div class='small-12 large-4 columns text-center'>
+    <img src='{{firstElement pictures}}' alt='{{label}} cover'>
+  </div>
+
+  <div class='small-12 large-8 columns'>
+    <h4>{{label}}</h4>
+    <small>
+      {{i18n 'links'}}:
+      <a href="http://www.wikidata.org/entity/{{id}}" class="default" target="_blank">wikidata</a>,
+      {{externalLink wikidata.url 'wikidata'}}
+      {{externalLink wikipedia.url 'wikipedia'}}
+    </small>
+    <a id="displayBooks" class="button">{{i18n "Fetch the author's books"}}</a>
+  </div>
 </div>
 
-<div class='small-12 large-8 columns'>
-  <h4>{{label}}</h4>
-  <a href="http://www.wikidata.org/entity/{{id}}" target="_blank">{{id}}</a>
-  {{!-- <a href='https://en.wikipedia.org/wiki/{{sitelinks.enwiki.title}}'>{{label}}</a> --}}
-  <div class="authorsBooks"></div>
-  <a id="displayBooks" class="button">{{i18n "Fetch the author's books"}}</a>
+<div class="row">
+  <div class="small-offset-1 large-offset-1 small-11 large-11 columns authorsBooks"></div>
 </div>

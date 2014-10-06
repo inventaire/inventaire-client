@@ -1,5 +1,3 @@
-books = require 'lib/books'
-
 module.exports = class WikidataEntity extends Backbone.NestedModel
   initialize: (entityData)->
     lang = app.user.lang
@@ -7,6 +5,9 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     @relocateClaims(@attributes)
     @getWikipediaInfo(@attributes, lang)
     @findAPicture()
+    @specificInitializers()
+
+  specificInitializers: ->
 
   # entities won't be saved to CouchDB and can keep their
   # initial API id
@@ -21,16 +22,14 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
 
     @set 'pathname', pathname
 
+    # for conditionals in templates
+    @wikidata = true
+    @set 'wikidata', {url: "http://www.wikidata.org/entity/#{@id}"}
     @set 'uri', "wd:#{@id}"
 
     if description = @getEntityValue attrs, 'descriptions', lang
       @set 'description', description
 
-    if wikilink = @getWikipediaTitle attrs.sitelinks
-      @set 'wikipedia', "https://#{lang}.wikipedia.org/wiki/#{wikilink}"
-
-    # for conditionals in templates
-    @wikidata = true
 
     # reverseClaims: this entity is a P50 of entities Q...
     @set 'reverseClaims', {}
@@ -39,7 +38,7 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
   relocateClaims: (attrs)->
     claims = {}
     for id, claim of attrs.claims
-      claims[id] = new Array
+      claims[id] = []
       # adding label as a non-enumerable value
       claims[id].label = _.i18n id
       if typeof claim is 'object'
@@ -62,24 +61,23 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     else return
 
   getWikipediaInfo: (attrs, lang)->
-    wikipedia = {}
-
     if title = @getWikipediaTitle(attrs.sitelinks, lang)
-      wikipedia.title = title
-      wikipedia.root = "https://#{lang}.wikipedia.org"
-      wikipedia.url = "https://#{lang}.wikipedia.org/wiki/#{title}"
-      wikipedia.mobileUrl = "https://#{lang}.m.wikipedia.org/wiki/#{title}"
-    else if title = @getWikipediaTitle(attrs.sitelinks, lang)
-      wikipedia.title = title
-      wikipedia.url = "https:// en.wikipedia.org/wiki/#{title}"
-      wikipedia.mobileUrl = "https://en.m.wikipedia.org/wiki/#{title}"
-      wikipedia.root = "https://en.wikipedia.org"
+      wikipedia = @getWikipediaLinks(title, lang)
+    else if title = @getWikipediaTitle(attrs.sitelinks, 'en')
+      wikipedia = @getWikipediaLinks(title, 'en')
 
-    @set 'wikipedia', wikipedia
+    if wikipedia? then @set 'wikipedia', wikipedia
 
   getWikipediaTitle: (sitelinks, lang)->
     if sitelinks?["#{lang}wiki"]?.title?
       return sitelinks["#{lang}wiki"].title
+
+  getWikipediaLinks: (title, lang)->
+    wikipedia =
+      title: title
+      root: "https://#{lang}.wikipedia.org"
+      url: "https://#{lang}.wikipedia.org/wiki/#{title}"
+      mobileUrl: "https://#{lang}.m.wikipedia.org/wiki/#{title}"
 
   claimsLabels: ->
     claims = @get('claims')
