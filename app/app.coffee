@@ -6,11 +6,11 @@ class App extends Backbone.Marionette.Application
     @Behaviors = require('behaviors/base')
     @Behaviors.initialize()
 
-    @vent.on 'title:change', (title)->
+    @vent.on 'document:title:change', (title)->
       _.log title, 'document:title:change'
       document.title = "#{title} - Inventaire"
 
-    @title = (title)-> @vent.trigger 'title:change', title
+    @docTitle = (docTitle)-> @vent.trigger 'document:title:change', docTitle
 
     @navigate = (route, options)->
       route.logIt('route:navigate')

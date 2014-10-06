@@ -124,13 +124,13 @@ API =
     itemShow = new ItemShow {model: item}
     app.layout.main.show itemShow
 
-showInventory = (title)->
+showInventory = (docTitle)->
   # regions shouldnt be undefined, which can't be tested by "app.invenshowItemShowtory?._isShown"
   # so here I just test one of Inventory regions
   unless app.inventory?.itemsView?
     app.inventory = new app.Layout.Inventory
-    app.layout.main.Show app.inventory, title
-  else app.title(title)
+    app.layout.main.Show app.inventory, docTitle
+  else app.docTitle(docTitle)
 
 showItemList = (collection)->
   itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}

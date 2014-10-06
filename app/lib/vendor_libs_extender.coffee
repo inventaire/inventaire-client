@@ -13,9 +13,9 @@ module.exports =
 
     Marionette.Region::Show = (view, options)->
       if _.isString options then title = options
-      else if options?.title? then title = options.title
+      else if options?.docTitle? then title = options.docTitle
 
       if title?
-        app.title title.replace(/_/g,' ')
+        app.docTitle title.replace(/_/g,' ')
 
       return @show(view, options)
