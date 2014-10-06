@@ -36,7 +36,6 @@ module.exports =
     NoItem: require 'views/items/no_item'
     ItemEditionForm: require 'views/items/item_edition_form'
     InventoriesTabs: require 'views/items/inventories_tabs'
-    VisibilityTabs: require 'views/items/visibility_tabs'
     PersonalInventoryTools: require 'views/items/personal_inventory_tools'
     ContactsInventoryTools: require 'views/items/contacts_inventory_tools'
     Contacts:
