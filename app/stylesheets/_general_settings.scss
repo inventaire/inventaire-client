@@ -9,8 +9,12 @@ $dark-grey: #333;
 $light-grey: #eee;
 
 $body-bg: #fff; // Foundation variable
+$body-font-color: #222; // Foundation variable
 
 body {
+  // forcing the presence of the scroll bar
+  // to avoid the anoying switch in width
+  min-height: 101vh;
   main {
     padding-bottom: 2rem;
   }
