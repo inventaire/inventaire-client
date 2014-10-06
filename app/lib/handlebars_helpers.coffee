@@ -1,6 +1,7 @@
 check = require 'views/behaviors/templates/success_check'
 tip = require 'views/behaviors/templates/tip'
 input = require 'views/behaviors/templates/input'
+link = require 'views/behaviors/templates/external_link'
 
 module.exports =
   initialize: ->
@@ -98,3 +99,10 @@ module.exports =
     register 'ifvalue', (attr, value)->
       if value? then "#{attr}=#{value}"
       else return
+
+    register 'externalLink', (href, text)->
+      attrs =
+        href: href
+        text: text
+      new Handlebars.SafeString link(attrs)
+
