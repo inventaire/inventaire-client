@@ -2,8 +2,6 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
   id: 'inventory'
   template: require 'views/items/templates/inventory'
   regions:
-    topMenu: '#topmMenu'
-    viewTools: '#viewTools'
     itemsView: '#itemsView'
     sideMenu: '#sideMenu'
 
@@ -11,16 +9,18 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     app.vent.on 'inventory:change', (filterName)->
       switch filterName
         when 'personal'
-          app.inventory.viewTools.show new app.View.PersonalInventoryTools
-          app.inventory.sideMenu.show new app.View.VisibilityTabs
+          app.layout.viewTools.show new app.View.PersonalInventoryTools
+          app.inventory.sideMenu.empty()
         when 'network'
-          app.inventory.viewTools.show new app.View.ContactsInventoryTools
+          app.layout.viewTools.show new app.View.ContactsInventoryTools
           app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
         when 'public'
-          app.inventory.viewTools.show new app.View.ContactsInventoryTools
+          app.layout.viewTools.show new app.View.ContactsInventoryTools
           app.inventory.sideMenu.empty()
 
   onShow: ->
-    @topMenu.show new app.View.InventoriesTabs
+    app.layout.topMenu.show new app.View.InventoriesTabs
 
-  onDestroy: -> _.log 'inventory view destroyed'
+  onDestroy: ->
+    app.layout.topMenu.empty()
+    app.layout.viewTools.empty()

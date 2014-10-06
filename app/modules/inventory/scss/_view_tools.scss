@@ -1,11 +1,60 @@
-#viewTools{
-  .button, input {
-    margin: 0;
+$sub-nav-list-margin: 0;
+$view-tools-height: 2.9rem;
+$view-tools-elements-height: 2.45rem;
+$visibility-tabs-bg: #222;
+
+.toolsWrapper{
+  background-color: $visibility-tabs-bg;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  .tools{
+    display: flex;
+    justify-content: space-around;
+    .one{
+      flex: 5;
+    }
+    .two{
+      flex: 2;
+    }
+    .three{
+      flex: 3;
+    }
+    input{
+      height: $view-tools-elements-height;
+    }
+    a.tiny.button{
+      font-size: 0.9rem;
+      height: $view-tools-elements-height;
+      width: 100%;
+    }
   }
-  #searchField, #searchButton {
-    height: 3rem;
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  .toolsWrapper{
+    height: $view-tools-height;
+    .tool{
+      // padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
-  #searchButton{
-    padding-top: 0.5rem;
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  .tools{
+    flex-direction: column;
+    .tool{
+      margin-top: 0.2rem;
+      margin-bottom: 0.5rem;
+    }
+    select, input[type="text"], a{
+      padding: 0;
+      margin: 0;
+    }
+    a{
+      width: 100%;
+    }
   }
 }

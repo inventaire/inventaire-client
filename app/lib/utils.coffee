@@ -137,3 +137,5 @@ module.exports =
   pickOne: (obj)->
     k = Object.keys(obj)[0]
     return obj[k]
+
+  isFirefox: -> navigator.mozApps?

@@ -1,5 +1,7 @@
-<select id="listingPicker" name="listPicker">
-  {{#each listings}}
-    <option value="{{id}}" {{#if selected}}selected{{/if}}>{{safe unicodeIcon}} {{i18n label}}</option>
-  {{/each}}
-</select>
+<div {{#if isFirefox}}class="custom-select fa-caret-down"{{/if}}>
+  <select id="listingPicker" name="listPicker">
+    {{#each listings}}
+      <option value="{{id}}" {{#if selected}}selected{{/if}}>{{safe unicodeIcon}} {{i18n label}}</option>
+    {{/each}}
+  </select>
+</div>

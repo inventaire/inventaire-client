@@ -1,72 +1,16 @@
 @import "side_menu";
+@import "view_tools";
+@import "item_li";
 
-// $tabs-navigation-active-bg-color: $body-bg;
-$sub-nav-active-bg: #aaa;
 
-// $item-li-height: 10rem;
-$item-li-elements-height: 8rem;
-
-@media screen and (min-width: $smallscreen) {
-  #itemsView{
-    display: flex;
-    justify-content: center;
-    .itemsList{
-
-      li.itemContainer{
-        background-color: #fff;
-        border: 1px solid #ddd;
-        margin-top: -1px; // hidding the 2px border at items joined
-        padding: 0.5rem;
-        display: flex;
-        div.cover{
-          min-width: $profile-pic-size;
-          img{
-            max-height: $item-li-elements-height;
-            min-width: $profile-pic-size;
-          }
-        }
-        div.details{
-          margin-left: 1rem;
-          h4.title{}
-          div.user-box{
-            display: flex;
-            flex-direction: row;
-            div.left-box{
-            }
-            div.right-box{
-              width: 30rem;
-              span{
-                background-color: $light-grey;
-                padding: 0.2rem;
-                display: block;
-                overflow: hidden;
-                &.legend{
-                  strong{
-                    color: $body-font-color;
-                  }
-                }
-                &.comment{
-                  padding: 0.2rem;
-                }
-                &.notes{}
-                &.wrapped{
-                  max-height: 3.2rem;
-                }
-              }
-              .notes-box{
-                margin-top: 0.5rem;
-              }
-            }
-          }
-          margin-bottom: 1rem;
-          .cover{
-            background-color: #eee;
-          }
-        }
-      }
-    }
-  }
-}
+$tabs-navigation-active-bg-color: $visibility-tabs-bg;
+$tabs-navigation-bg-color: lighten($visibility-tabs-bg, 20%);
+$tabs-navigation-font-color: #fff;
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {}
+@media screen and (min-width: $smallscreen) {
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+}

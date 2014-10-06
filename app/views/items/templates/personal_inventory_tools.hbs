@@ -1,5 +1,15 @@
-<div id="itemsTextFilter" class="small-12 large-12 columns">
-    {{input itemsTextFilter}}
+<div class="row toolsWrapper">
+  <div class="small-8 small-offset-2 large-5 large-offset-7 columns">
+    <div class="tools">
+      <div class="tool one">
+        {{partial '../items/form/templates/listing_picker' this}}
+      </div>
+{{!--       <div class="tool two">
+        <input id="itemsTextFilterField" type="text" placeholder="{{i18n 'Filter'}}...">
+      </div> --}}
+      <div class="tool three">
+        <a class="button tiny success" id="addItem">{{icon 'plus'}} {{i18n 'New item'}}</a>
+      </div>
+    </div>
+  </div>
 </div>
-
-<a class="small-12 large-12 button success" id="addItem">{{icon 'plus'}} {{i18n 'New item'}}</a>
