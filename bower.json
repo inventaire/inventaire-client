@@ -28,7 +28,7 @@
     "backbone-nested-afeld": "~2.0.1",
     "lang": "git@github.com:maxlath/lang.git",
     "qlabel": "git@github.com:maxlath/qlabel.git#bower-support",
-    "image-utils": "git@github.com:maxlath/image-utils.git#bower-support",
-    "backbone.localStorage": "git@github.com:malept/Backbone.localStorage.git#fix-backbone-version-dependency"
+    "backbone.localStorage": "git@github.com:malept/Backbone.localStorage.git#fix-backbone-version-dependency",
+    "blueimp-canvas-to-blob": "~2.1.1"
   }
 }

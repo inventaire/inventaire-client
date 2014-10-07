@@ -81,13 +81,15 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     picturePicker = new app.View.Behaviors.PicturePicker {
       pictures: @model.get('picture')
       limit: 1
-      save: (value)=>
-        picture = value[0]
+      save: (pictures)=>
+        picture = pictures[0]
         if _.isUrl picture
           app.request 'user:update',
             attribute: 'picture'
             value: picture
             selector: '#changePicture'
+        else
+          console.error 'couldnt save picture: requires a url'
     }
     app.layout.modal.show picturePicker
 

@@ -1,3 +1,5 @@
+imageHandler = require 'lib/image_handler'
+
 module.exports = class PicturePicker extends Backbone.Marionette.ItemView
   tagName: 'div'
   template: require 'views/behaviors/templates/picture_picker'
@@ -39,6 +41,7 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
     'click .deletePicture': 'deletePicture'
     'click #validate': 'validate'
     'click #cancel': 'close'
+    'change input[type=file]': 'getFilesPictures'
 
   selectFirst: ->
     $('#availablePictures').find('figure').first().addClass('selected')
@@ -52,6 +55,14 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
     if _.isUrl img
       @pictures.unshift img
       @pictures.trigger('add:pictures')
+
+  getFilesPictures: (e)->
+    files = _.toArray e.target.files
+    _.log files, 'files'
+    files.forEach (file)=>
+      if _.isObject file
+        imageHandler.addDataUrlToArray(file, @pictures, 'add:pictures')
+      else _.log file, 'couldnt getFilesPictures'
 
   # could be de-duplicated using toggleClass and toggle
   # but couldn't make it work
@@ -69,8 +80,6 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
     imgs = $('#availablePictures').find('figure').find('img')
     pictures = []
     if imgs?.length > 0
-      _.log imgs, 'imgs'
-      _.inspect(imgs)
       i = 0
       while i < imgs.length
         if imgs[i].src
@@ -83,7 +92,25 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
         pictures.unshift(s)
 
     _.log pictures, 'pictures'
-    @close()
-    return @options.save(pictures)
+
+    picturesToUpload = pictures.filter (pic)-> _.isDataUrl(pic)
+    _.log picturesToUpload, 'picturesToUpload'
+
+    if picturesToUpload?.length > 0
+      app.lib.imageHandler.upload(picturesToUpload)
+      .then (urls)=>
+        updatedPictures = pictures.map (pic)->
+          if _.isDataUrl(pic) then return urls.shift()
+          else return pic
+
+        _.log updatedPictures, 'updatedPictures'
+
+        @close()
+        @options.save(updatedPictures)
+      .fail (err)-> _.log 'picturesToUpload fail'
+
+    else
+      @close()
+      @options.save(pictures)
 
   close: -> app.execute 'modal:close'

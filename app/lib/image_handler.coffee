@@ -1,37 +1,51 @@
-module.exports =
-  initialize: ->
-    # Initialise resize library
-    resize = new window.resize()
-    resize.init()
+Resize = require 'lib/image_resizer'
 
-    # Upload photo
-    upload = (photo, callback) ->
-      console.log "upload!!"
-      formData = new FormData()
-      formData.append("photo", photo)
+resize = new Resize()
+resize.init()
 
-      request = new XMLHttpRequest()
-      request.onreadystatechange = ->
-        callback request.response  if request.readyState is 4
+handlers =
+  uploadResizedFile: (file)->
+    initialSize = file.size
+    resize.photo file, 1200, 'file', (resizedFile) =>
+      resizedSize = resizedFile.size
+      @upload resizedFile, (response) ->
+        console.log response.url
 
-      request.open "POST", "/api/upload"
-      request.responseType = "json"
-      request.send formData
+  displayThumbnail: (file, selector)->
+    resize.photo file, 600, 'dataURL', (thumbnail) ->
+      console.log 'Display the thumbnail to the user: ', thumbnail
+      $(selector).append "<img src='#{thumbnail}'>"
 
-    document.querySelector("input[type=file]").addEventListener "change", (event) ->
-      event.preventDefault()
-      files = event.target.files
-      for i of files
-        return false  if typeof files[i] isnt "object"
-        (->
-          initialSize = files[i].size
-          resize.photo files[i], 1200, "file", (resizedFile) ->
-            resizedSize = resizedFile.size
-            upload resizedFile, (response) ->
-              console.log response.url
+  addDataUrlToArray: (file, array, event)->
+    resize.photo file, 600, 'dataURL', (data)->
+      array.unshift(data)
+      _.inspect(data, 'data')
+      if array.trigger? and event?
+        array.trigger(event)
 
-            # This is not used in the demo, but an example which returns a data URL so yan can show the user a thumbnail before uploading th image.
-            resize.photo resizedFile, 600, "dataURL", (thumbnail) ->
-              console.log "Display the thumbnail to the user: ", thumbnail
-              $('input[type=file]').parent().append("<img src='#{thumbnail}'>")
-        )()
+  upload: (dataURLs) ->
+    formData = new FormData()
+    i = 0
+
+    dataURLs.forEach (dataURL)->
+      unless _.isDataUrl dataURL
+        throw 'image upload requires a dataURL'
+      blob = window.dataURLtoBlob(dataURL)
+      formData.append("file-#{i}", blob)
+      i++
+
+    def = $.Deferred()
+    request = new XMLHttpRequest()
+    request.onreadystatechange = ->
+      if request.readyState is 4
+        def.resolve request.response
+
+    request.onerror = -> def.reject(request)
+    request.open 'POST', '/api/upload'
+    request.responseType = 'json'
+    request.send formData
+
+
+    return def
+
+module.exports = handlers

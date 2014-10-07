@@ -61,9 +61,8 @@ module.exports =
   isUrl: (str)->
     # not perfect, just roughly filtering
     pattern = new RegExp('^(https?:\\/\\/)?(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}')
-    if not pattern.test(str)
-      alert("Please enter a valid URL.")
-      return false
-    else true
+    return pattern.test(str)
+
+  isDataUrl: (str)-> /^data:image/.test str
 
   now: -> new Date().getTime()
