@@ -85,10 +85,12 @@ module.exports =
     if _.typeString(str)
       str.replace(/(\s|')/g, '_').replace(/\?/g, '')
 
-  inspect: (obj)->
-    window.current ||= []
-    window.current.unshift(obj)
-    return obj
+  inspect: (obj, label)->
+    if label then _.log obj, label
+    if window.current?
+      window.previous ||= []
+      window.previous.unshift(window.current)
+    return window.current = obj
 
   ping: ->
     $.get '/test'
