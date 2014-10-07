@@ -19,3 +19,9 @@ module.exports =
         app.docTitle title.replace(/_/g,' ')
 
       return @show(view, options)
+
+    $.postJSON = (url, body, callback)->
+      if callback?
+        return $.post(url, body, callback, 'json')
+      else
+        return $.post(url, body, 'json')
