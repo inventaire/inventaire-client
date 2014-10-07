@@ -31,8 +31,6 @@ module.exports =
         new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;"
       else new Handlebars.SafeString "<i class='fa fa-#{name}'></i>&nbsp;"
 
-    register 'safe', (text) -> new Handlebars.SafeString text
-
     register 'i18n', (key, args, context)-> new Handlebars.SafeString _.i18n(key, args, context)
 
     register 'P', (id)->

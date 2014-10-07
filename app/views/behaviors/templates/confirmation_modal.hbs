@@ -4,9 +4,9 @@
 
   <h2 class="subheader">{{i18n 'Are you sure?'}}</h2>
 
-  <p>{{safe confirmationText}}</p>
+  <p>{{{confirmationText}}}</p>
   {{#if warningText}}
-    <p class="grey">{{icon 'warning'}}&nbsp;{{safe warningText}}</p>
+    <p class="grey">{{icon 'warning'}}&nbsp;{{{warningText}}}</p>
   {{/if}}
 
   <a id="no" class="button grey">{{i18n 'No'}}</a>
