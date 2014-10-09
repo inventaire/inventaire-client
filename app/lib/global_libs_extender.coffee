@@ -1,5 +1,6 @@
 module.exports =
   initialize: ->
+    sharedLib('global_libs_extender').initialize()
     #changing the default attribute to fit CouchDB
     Backbone.Model::idAttribute = '_id'
     Backbone.Collection::findOne = -> @models[0]

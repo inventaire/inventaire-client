@@ -12,7 +12,7 @@ _.isMobile = require 'lib/mobile_check'
 window.wd = require 'lib/wikidata'
 window.location.root = window.location.protocol + '//' + window.location.host
 
-require('lib/vendor_libs_extender').initialize()
+require('lib/global_libs_extender').initialize()
 
 # Initialize the application on DOM ready event.
 $ ->
