@@ -77,3 +77,24 @@ figure.deleted{
     opacity: 0;
   }
 }
+
+.galery{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+}
+
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  figure.changePicture{
+    img{
+      max-width: 20vw;
+    }
+  }
+}

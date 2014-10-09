@@ -1,6 +1,10 @@
 module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
   template: require 'views/items/templates/item_show'
-  serializeData: -> @model.serializeData()
+  serializeData: ->
+    attrs = @model.serializeData()
+    if attrs.pictures?.length > 1
+      attrs.nextPictures = attrs.pictures.slice(1)
+    return attrs
   regions:
     entityRegion: '#entity'
     editPanel: '#editPanel'
@@ -14,6 +18,7 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     @model.on 'all', -> _.log arguments, 'item:show item events'
     @listenTo @model, 'change:comment', @render
     @listenTo @model, 'change:notes', @render
+    @listenTo @model, 'add:pictures', @render
 
   onRender: ->
     # entity = @model.get 'entity'
