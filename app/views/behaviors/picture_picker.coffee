@@ -67,6 +67,7 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
   # could be de-duplicated using toggleClass and toggle
   # but couldn't make it work
   deletePicture: (e)->
+    _.inspect e, 'e delete'
     $(e.target).parents('figure').first().addClass('deleted')
     .removeClass('selected')
     .find('figcaption.cancelDeletion').first().show()
@@ -75,31 +76,50 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
     .find('figcaption.cancelDeletion').first().hide()
 
   validate: ->
-    $('#availablePictures').find('.deleted').remove()
-    selected = $('#availablePictures').find('figure.selected').find('img')
-    imgs = $('#availablePictures').find('figure').find('img')
-    pictures = []
-    if imgs?.length > 0
-      i = 0
-      while i < imgs.length
-        if imgs[i].src
-          pictures.push imgs[i].src
-        i += 1
+    imgs = _.toArray($('#availablePictures').find('img'))
+    urls = imgs.map (img)-> img.src
 
-      if selected?.length is 1
-        s = selected[0].src
-        pictures = _.without pictures, s
-        pictures.unshift(s)
+    figures = _.toArray($('#availablePictures').find('figure'))
+    states = figures.map (fig)-> _.toArray(fig.classList)
 
-    _.log pictures, 'pictures'
+    if urls.length isnt states.length
+      throw 'urls and associated states not matching'
 
-    picturesToUpload = pictures.filter (pic)-> _.isDataUrl(pic)
+
+    i = 0
+    toDelete = []
+    toKeep = []
+
+    console.log 'states', states, 'urls', urls
+    while i < urls.length
+      console.log i, 'i'
+      unless states[i]?
+        console.error 'missing state', states[i], states, i
+      else
+        if _.hasValue states[i], 'deleted'
+          toDelete.push urls[i]
+        else if _.hasValue(states[i], 'selected') and not @selected?
+          @selected = urls[i]
+        else
+          toKeep.push urls[i]
+      i += 1
+
+    console.log 'toDelete', toDelete, 'toKeep', toKeep
+
+    @deletePictures(toDelete)
+
+    toKeep.unshift(@selected)  if @selected?
+
+    _.log toKeep, 'toKeep'
+
+    picturesToUpload = toKeep.filter (pic)-> _.isDataUrl(pic)
     _.log picturesToUpload, 'picturesToUpload'
 
     if picturesToUpload?.length > 0
+      @$el.trigger 'loading'
       app.lib.imageHandler.upload(picturesToUpload)
       .then (urls)=>
-        updatedPictures = pictures.map (pic)->
+        updatedPictures = toKeep.map (pic)->
           if _.isDataUrl(pic) then return urls.shift()
           else return pic
 
@@ -111,6 +131,14 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
 
     else
       @close()
-      @options.save(pictures)
+      @options.save(toKeep)
 
   close: -> app.execute 'modal:close'
+
+
+  deletePictures: (toDelete)->
+    if toDelete.length > 0
+      hostedPictures = toDelete.filter (pic)-> _.isHostedPicture(pic)
+      if hostedPictures.length > 0
+        return app.lib.imageHandler.del hostedPictures
+    _.log toDelete, 'pictures: no hosted picture to delete'

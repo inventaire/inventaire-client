@@ -48,4 +48,11 @@ handlers =
 
     return def
 
+  del: (imageUrlToDelete)->
+    _.inspect imageUrlToDelete, 'imageUrlToDelete'
+    $.postJSON '/api/upload/delete', {urls: imageUrlToDelete}
+    .then (res)-> console.log 'image del res: ' + res
+    .fail (err)-> console.log 'image del err: ' + err
+
+
 module.exports = handlers

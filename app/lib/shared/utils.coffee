@@ -60,9 +60,12 @@ module.exports =
 
   isUrl: (str)->
     # not perfect, just roughly filtering
-    pattern = new RegExp('^(https?:\\/\\/)?(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}')
+    # accepts url delegating protocol choice to the browser with only '//'
+    pattern = new RegExp('^((https?:|)\\/\\/)?(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}')
     return pattern.test(str)
 
   isDataUrl: (str)-> /^data:image/.test str
 
   now: -> new Date().getTime()
+
+  isHostedPicture: (str)-> /(imgloc|img).inventaire.io\/\w{22}.jpg$/.test str
