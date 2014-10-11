@@ -17,7 +17,7 @@ module.exports =
       else if options?.docTitle? then title = options.docTitle
 
       if title?
-        app.docTitle title.replace(/_/g,' ')
+        app.docTitle _.softDecodeURI(title)
 
       return @show(view, options)
 
