@@ -22,8 +22,7 @@ module.exports =
 
   listenForReadyEvents: ->
     @missing.forEach (el)=>
-      eventName = "#{el.name}:ready"
-      app.vent.once eventName, app.data.updateStatus, app.data
+      app.vent.once el.eventName, app.data.updateStatus, app.data
 
   checkIfDataReady: ->
     if @missing.length is 0
@@ -42,11 +41,11 @@ findMissingDataSets = ->
 
 data = [
   {
-    name: 'items'
+    eventName: 'items:ready'
     controlObject: -> Items.personal.fetched
   },
   {
-    name: 'contacts'
+    eventName: 'contacts:ready'
     controlObject: -> app.contacts.fetched
   }
 ]
