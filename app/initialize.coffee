@@ -40,6 +40,9 @@ $ ->
     app.module 'Listings', require 'modules/listings'
     app.module 'Contacts', require 'modules/contacts'
 
+    app.data = require('lib/data_state')
+    app.data.initialize()
+
   app.request('i18n:set')
   .done ->
 

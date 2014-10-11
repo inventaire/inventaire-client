@@ -70,11 +70,7 @@ API =
 
   # should be reimplemented taking example on ItemShow switch
   # showUserInventory: (user)->
-  #   if app.contacts.fetched
-  #     @filterForUser()
-  #   else
-  #     app.vent.once 'contacts:ready', -> @filterForUser()
-  #   showInventory(app.filteredItems)
+  # app.request 'waitForData', @filterForUser, @
 
   # filterForUser: ->
   #   owner = app.request('getOwnerFromUsername', user)
@@ -85,15 +81,7 @@ API =
 
   itemShow: (username, suffix, label)->
     app.execute('show:loader', {title: "#{label} - #{username}"})
-    if Items.personal.fetched and app.contacts.fetched
-      @showItemShow(username, suffix, label)
-    else
-      app.vent.once 'items:ready', =>
-        if app.contacts.fetched
-          @showItemShow(username, suffix, label)
-      app.vent.once 'contacts:ready', =>
-        if Items.personal.fetched
-          @showItemShow(username, suffix, label)
+    app.request 'waitForData', @showItemShow, @, username, suffix, label
 
   showItemShow: (username, suffix, label)->
     owner = app.request('getOwnerFromUsername', username)
