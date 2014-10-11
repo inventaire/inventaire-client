@@ -85,6 +85,10 @@ module.exports =
     if _.typeString(str)
       str.replace(/(\s|')/g, '_').replace(/\?/g, '')
 
+  softDecodeURI: (str)->
+    if _.typeString(str)
+      str.replace(/_/g,' ')
+
   inspect: (obj, label)->
     if label then _.log obj, label
     if window.current?
@@ -141,3 +145,7 @@ module.exports =
     return obj[k]
 
   isFirefox: -> navigator.mozApps?
+
+  currentLocationMatch: (str)->
+    pattern = new RegExp(str)
+    return pattern.test window.location.pathname

@@ -53,6 +53,10 @@ module.exports =
     if typeof str is 'string' then str
     else throw new Error "TypeError: #{str} instead of String"
 
+  typeArray: (array)->
+    if array instanceof Array then array
+    else throw new Error "TypeError: #{array} instead of Array"
+
   toSet: (array)->
     obj = {}
     array.forEach (value)-> obj[value] = true
@@ -69,3 +73,9 @@ module.exports =
   now: -> new Date().getTime()
 
   isHostedPicture: (str)-> /(imgloc|img).inventaire.io\/\w{22}.jpg$/.test str
+
+  pickToArray: (obj, propsArray)->
+    if _.typeArray propsArray
+      pickObj = _.pick(obj, propsArray)
+      # returns an undefined array element when prop is undefined
+      return propsArray.map (prop)-> pickObj[prop]
