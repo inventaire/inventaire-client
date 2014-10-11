@@ -18,4 +18,20 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
   #name{
     font-weight: 900;
   }
+
+
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  .top-bar{
+
+    #searchField{
+      width: 15rem;
+    }
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
 }

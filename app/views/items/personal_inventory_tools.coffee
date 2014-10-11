@@ -1,4 +1,6 @@
 module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemView
+  tagName: 'div'
+  className: 'row toolsWrapper'
   template: require 'views/items/templates/personal_inventory_tools'
   events:
     'click #addItem': -> app.execute 'show:entity:search'
@@ -28,3 +30,6 @@ module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemVi
     switch selected
       when 'none' then app.execute 'filter:visibility:reset'
       else app.execute 'filter:visibility', selected
+
+  onShow: -> app.inventory.showMenuBar()
+  onDestroy: -> app.inventory.hideMenuBar()

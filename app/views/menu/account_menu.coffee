@@ -11,5 +11,6 @@ module.exports = class AccountMenu extends Backbone.Marionette.ItemView
         nameBase: 'search'
         field: {}
         button:
-          classes: 'secondary expand'
+          icon: 'search'
+          classes: 'secondary'
     return _.extend attrs, @model.toJSON()

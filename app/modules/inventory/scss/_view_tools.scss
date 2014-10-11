@@ -4,20 +4,22 @@ $view-tools-elements-height: 2.45rem;
 $visibility-tabs-bg: #222;
 
 .toolsWrapper{
-  background-color: $visibility-tabs-bg;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  margin: 0;
+  padding: 0;
   .tools{
+    background-color: $visibility-tabs-bg;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    .one{
-      flex: 5;
+    padding-left: 1rem;
+    padding-right: 0.3rem;
+    padding-bottom: 0.3rem;
+    select, input, a{
+      margin: 0;
     }
-    .two{
-      flex: 2;
-    }
-    .three{
-      flex: 3;
+    div{
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
     }
     input{
       height: $view-tools-elements-height;
@@ -44,7 +46,6 @@ $visibility-tabs-bg: #222;
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   .tools{
-    flex-direction: column;
     .tool{
       margin-top: 0.2rem;
       margin-bottom: 0.5rem;

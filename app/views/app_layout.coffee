@@ -7,6 +7,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   regions:
     topMenu: '#topMenu'
+    menuBar: '#menuBar'
     viewTools: '#viewTools'
     main: 'main'
     accountMenu: '#accountMenu'
@@ -17,6 +18,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'keyup .enterClick': 'enterClick'
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'
+    'focus #searchField': 'maximizeSearchField'
+    'focusout #searchField': 'unmaximizeIfNotAtSearch'
 
   initialize: (e)->
     @render()
@@ -28,13 +31,22 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       'show:403': @show403
       'show:404': @show404
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
+      'search:field:maximize': @maximizeSearchField
+      'search:field:unmaximize': @unmaximizeSearchField
 
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck
 
   showLoader: (options)->
-    region = options.region || app.layout.main
-    region.Show new app.View.Behaviors.Loader, options.title
+    [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
+    if region?
+      region.Show new app.View.Behaviors.Loader, title
+    else if selector?
+      loader = new app.View.Behaviors.Loader
+      $(selector).html loader.render()
+      app.docTitle title  if title?
+    else
+      app.layout.main.Show new app.View.Behaviors.Loader, title
 
   showHome: ->
     if app.user.loggedIn
@@ -85,3 +97,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     query = $('input#searchField').val()
     _.log query, 'search query'
     app.execute 'search', query
+
+  maximizeSearchField: -> $('#searchGroup').addClass('maximized')
+  unmaximizeSearchField: -> $('#searchGroup').removeClass('maximized')
+  unmaximizeIfNotAtSearch: ->
+    @unmaximizeSearchField()  unless _.currentLocationMatch '/search'

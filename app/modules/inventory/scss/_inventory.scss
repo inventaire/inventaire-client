@@ -9,8 +9,35 @@ $tabs-navigation-font-color: #fff;
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
+  #searchGroup{
+    float: right;
+    input{
+      min-width: 25vw !important;
+    }
+    a.button{
+      float: right;
+    }
+    &.maximized{
+      input{
+        width: 50vw !important;
+      }
+      a.button{
+        max-width: 10vw;
+      }
+      transition: all 0.5s ease;
+    }
+  }
 }
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
+
+#menuBar{
+  display: none;
+  margin: 0;
+  padding: 0;
+  background-color: $visibility-tabs-bg;
+  height: 1rem;
+}
+
