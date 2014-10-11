@@ -19,5 +19,7 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
   fetchBooks: ->
     @model.fetchAuthorsBooks()
     .then (models)=>
-      models.forEach (model)=> @collection.add(model)
+      if models?
+        models.forEach (model)=> @collection.add(model)
+      else 'no book found for #{@model.title}'
     .fail (err)-> _.log err, 'fetchAuthorsBooks err'

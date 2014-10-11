@@ -30,7 +30,7 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     @validation.empty()
     switch e.currentTarget.id
       when 'label' then @step2.empty()
-      when 'book' then @step2.show new app.View.Entities.Form.Book
+      when 'book' then @step2.show new app.View.Entities.Form.Book {regions: @regions}
       when 'other' then @step2.show new app.View.Entities.Form.Other
 
   serializeData: ->
