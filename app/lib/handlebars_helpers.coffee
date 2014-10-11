@@ -78,8 +78,12 @@ module.exports =
         button.id = name + 'Button'
         button.text = name
 
+      if data.button?.icon?
+        data.button.text = "<i class='fa fa-#{data.button.icon}'></i>"
+
       # data overriding happens here
       data =
+        id: "#{name}Group"
         field: _.extend field, data.field
         button: _.extend button, data.button
 
