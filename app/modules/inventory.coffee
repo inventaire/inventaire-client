@@ -42,6 +42,7 @@ API =
     app.vent.trigger 'inventory:change', 'personal'
 
   showNetworkInventory: ->
+    Items.contacts.filtered.resetFilters()
     showInventory _.i18n('Network')
     showItemList(Items.contacts.filtered)
     app.vent.trigger 'inventory:change', 'network'
@@ -121,8 +122,10 @@ showInventory = (docTitle)->
   else app.docTitle(docTitle)
 
 showItemList = (collection)->
-  itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
-  app.inventory.itemsView.show itemsList
+  # waitForData to avoid having items displaying undefined values
+  app.request 'waitForData', ->
+    itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
+    app.inventory.itemsView.show itemsList
 
 
 # LOGIC
