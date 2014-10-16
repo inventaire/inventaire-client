@@ -62,6 +62,14 @@ module.exports = (Promises)->
     isBook: (P31Array)->_.haveAMatch Q.books, P31Array
     isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
     isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
+    type: (entity)->
+      if _.isModel entity then P31 = entity.get('claims')?.P31
+      else P31 = entity.claims?.P31
+      type = null
+      if P31?
+        if wd.isBook(P31) then type = 'book'
+        if wd.isHuman(P31) then type = 'human'
+      return type
 
     Q: Q
 

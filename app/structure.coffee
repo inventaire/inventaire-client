@@ -6,6 +6,11 @@ module.exports =
     LocalEntities: require 'collections/local_entities'
     TemporaryEntities: require 'collections/temporary_entities'
     WikidataEntities: require 'collections/wikidata_entities'
+    Local:
+      WikidataEntities: require 'collections/local_wikidata_entities'
+      TmpWikidataEntities: require 'collections/temporary_local_wikidata_entities'
+      NonWikidataEntities: require 'collections/local_non_wikidata_entities'
+      TmpNonWikidataEntities: require 'collections/temporary_local_non_wikidata_entities'
     NonWikidataEntities: require 'collections/non_wikidata_entities'
 
   Model:
@@ -49,6 +54,8 @@ module.exports =
       ChangePicture: require 'views/behaviors/change_picture'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
+      Author: require 'views/entities/author_entity'
+      AuthorLi: require 'views/entities/author_li'
       Search: require 'views/entities/entities_search_form'
       Form:
         Book: require 'views/entities/book'

@@ -13,12 +13,19 @@ module.exports =
         controller: API
 
   initialize: ->
-    initializeEntitiesSearchHandlers()
+    setHandlers()
     @categories = categories
-    window.Entities = Entities = new app.Collection.LocalEntities
-    Entities.tmp = new app.Collection.TemporaryEntities
-    _.log Entities.length, "Entities.length"
-    _.log Entities.tmp.length, "Entities.tmp.length"
+
+    Locals = app.Collection.Local
+
+    window.Entities = Entities =
+      wd: new Locals.WikidataEntities
+      isbn: new Locals.NonWikidataEntities
+      tmp:
+        wd: new Locals.TmpWikidataEntities
+        isbn: new Locals.TmpNonWikidataEntities
+    Entities.fetched = true
+    app.vent.trigger 'entities:ready'
 
 API =
   showEntity: (uri, label, params, region)->
@@ -35,6 +42,66 @@ API =
     else
       console.warn 'prefix or id missing at showEntity'
 
+  getEntityView: (prefix, id)->
+    return @getEntityModel(prefix, id)
+    .then (entity)->
+      switch wd.type(entity)
+        when 'human'
+          new app.View.Entities.AuthorLi {model: entity, displayBooks: true}
+        else
+          # the view is named after Wikidata, waiting for
+          # the possibility to merge those view
+          new app.View.Entities.Wikidata {model: entity}
+    .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
+
+  getEntityModel: (prefix, id)->
+    unless prefix? and id? then throw 'missing prefix or id'
+    entity = @cachedEntity(prefix, id)
+    if entity then return entity
+    else
+      switch prefix
+        when 'wd'
+          modelPromise = @getEntityModelFromWikidataId(id)
+          collection = Entities.wd
+        when 'isbn'
+          modelPromise = @getEntityModelFromIsbn(id)
+          collection = Entities.isbn
+        else _.log [prefix, id], 'not implemented prefix, cant getEntityModel'
+
+      return modelPromise.then (model)->
+        if model?.has('title')
+          collection.create(model)
+        else console.error 'entity undefined or miss a title: discarded', model
+
+  cachedEntity: (prefix, id)->
+    if Entities?.fetched
+      entity = @getCachedEntity(prefix, id)
+      if entity? then $.Deferred().resolve(entity)
+      else return false
+    else
+      def = $.Deferred()
+      cb = ->
+        entity = @getCachedEntity(prefix, id)
+        if entity? then def.resolve(entity)
+        else def.reject()
+      app.vent.once 'entities:ready', cb, @
+
+      return def
+
+  getCachedEntity: (prefix, id)->
+     Entities[prefix].byUri("#{prefix}:#{id}") or Entities.tmp[prefix].byUri("#{prefix}:#{id}")
+
+  getEntityModelFromWikidataId: (id)->
+    # not looking for a specific WikidataEntity
+    # as the upgrade will happen at Model initialization
+    wd.getEntities(id, app.user.lang)
+    .then (res)-> new app.Model.WikidataEntity res.entities[id]
+    .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
+
+  getEntityModelFromIsbn: (isbn)->
+    books.getGoogleBooksDataFromIsbn(isbn)
+    .then (res)-> new app.Model.NonWikidataEntity res
+    .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
@@ -44,44 +111,6 @@ API =
       .fail (err)-> _.log err, 'showAddEntity err'
       .done()
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
-
-  getEntityView: (prefix, id)->
-    return @getEntityModel(prefix, id)
-    .then (entity)->
-      # the view is named after Wikidata, waiting for
-      # the possibility to merge those view
-      new app.View.Entities.Wikidata {model: entity}
-    .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
-
-  getEntityModel: (prefix, id)->
-    unless prefix? and id? then throw 'missing prefix or id'
-    entity = @cachedEntity("#{prefix}:#{id}")
-    if entity then return entity
-    else
-      switch prefix
-        when 'wd' then modelPromise = @getEntityModelFromWikidataId(id)
-        when 'isbn' then modelPromise = @getEntityModelFromIsbn(id)
-        else _.log [prefix, id], 'not implemented prefix, cant getEntityModel'
-
-      return modelPromise.then (model)->
-        if model?.has('title')
-          Entities.create(model)
-        else console.error 'entity undefined or miss a title: discarded', model
-
-  cachedEntity: (uri)->
-    entity = Entities.byUri(uri)
-    if entity? then $.Deferred().resolve(entity)
-    else false
-
-  getEntityModelFromWikidataId: (id)->
-    wd.getEntities(id, app.user.lang)
-    .then (res)-> new app.Model.WikidataEntity res.entities[id]
-    .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
-
-  getEntityModelFromIsbn: (isbn)->
-    books.getGoogleBooksDataFromIsbn(isbn)
-    .then (res)-> new app.Model.NonWikidataEntity res
-    .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
 
   showEntitiesSearchForm: (queryString)->
     app.layout.entities ||= new Object
@@ -100,7 +129,7 @@ API =
     .fail _.log
 
 
-initializeEntitiesSearchHandlers = ->
+setHandlers = ->
   app.commands.setHandlers
     'show:entity': (uri, label, params, region)->
       API.showEntity(uri, label, params, region)

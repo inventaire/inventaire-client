@@ -2,12 +2,24 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
   initialize: (entityData)->
     lang = app.user.lang
     @setAttributes(@attributes, lang)
-    @relocateClaims(@attributes)
-    @getWikipediaInfo(@attributes, lang)
-    @findAPicture()
+
+    # data that are @set don't need to be re-set when
+    # the model was cached in Entities local/temporary collections
+    unless @get('status') is 'reformatted'
+      @relocateClaims(@attributes)
+      @getWikipediaInfo(@attributes, lang)
+      @findAPicture()
+
     @specificInitializers()
 
+    @set 'status', 'reformatted'
+
+  # method to override for sub-models
   specificInitializers: ->
+    # get type-specific methods
+    # useful for specific models generated through this generalist model
+    @type = wd.type(@)
+    @upgrade(@type)
 
   # entities won't be saved to CouchDB and can keep their
   # initial API id
@@ -34,22 +46,27 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
     # reverseClaims: this entity is a P50 of entities Q...
     @set 'reverseClaims', {}
 
-
   relocateClaims: (attrs)->
     claims = {}
     for id, claim of attrs.claims
       claims[id] = []
       # adding label as a non-enumerable value
-      claims[id].label = _.i18n id
-      if typeof claim is 'object'
+      # needed app.polyglot to be ready
+      if app.polyglot? then claims[id].label = _.i18n(id)
+      if _.isObject claim
         claim.forEach (statement)->
-          switch statement.mainsnak.datatype
-            when 'string'
-              claims[id].push(statement._value = statement.mainsnak.datavalue.value)
-            when 'wikibase-item'
-              statement._id = statement.mainsnak.datavalue.value['numeric-id']
-              claims[id].push "Q#{statement._id}"
-            else claims[id].push(statement.mainsnak)
+          # will be overriden at the end of this method
+          # so won't be accessible on persisted models
+          # testing existance shouldn't be needed thank to the status test
+          # but let's keep it for now
+          if statement?.mainsnak?.datatype?
+            switch statement.mainsnak.datatype
+              when 'string'
+                claims[id].push(statement._value = statement.mainsnak.datavalue.value)
+              when 'wikibase-item'
+                statement._id = statement?.mainsnak?.datavalue.value['numeric-id']
+                claims[id].push "Q#{statement._id}"
+              else claims[id].push(statement.mainsnak)
     @set 'claims', claims
     @claims = claims
 
@@ -102,7 +119,10 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
       when 'book' then upgrader = app.Model.BookWikidataEntity
       when 'author' then upgrader = app.Model.AuthorWikidataEntity
 
-    _.extend @, upgrader.prototype
-    if @specificInitializers? then @specificInitializers()
+    if upgrader?
+      proto = upgrader.prototype
+      _.extend @, proto
+      if proto.specificInitializers?
+        proto.specificInitializers.call @
 
     return @

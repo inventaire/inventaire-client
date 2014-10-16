@@ -21,6 +21,5 @@ module.exports = class AuthorWikidataEntity extends WikidataEntity
     _.log authorsBooks, 'authorsBooks?'
     if authorsBooks?.length > 0
       Model = app.Model.AuthorWikidataEntity
-      # limiting the amount of books fetch to 25 for now
-      return Entities.tmp.fetchModels authorsBooks[0..25], Model
+      return Entities.tmp.wd.fetchModels authorsBooks, Model
     else $.Deferred().resolve()

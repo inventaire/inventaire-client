@@ -1,4 +1,4 @@
-<div class="row panel">
+<div class="row authorData">
   <div class='small-12 large-4 columns text-center'>
     <img src='{{firstElement pictures}}' alt='{{label}} cover'>
   </div>
@@ -7,7 +7,6 @@
     <h4>{{label}}</h4>
     <small>
       {{i18n 'links'}}:
-      <a href="http://www.wikidata.org/entity/{{id}}" class="default" target="_blank">wikidata</a>,
       {{externalLink wikidata.url 'wikidata'}}
       {{externalLink wikipedia.url 'wikipedia'}}
     </small>
@@ -16,5 +15,7 @@
 </div>
 
 <div class="row">
-  <div class="small-offset-1 large-offset-1 small-11 large-11 columns authorsBooks"></div>
+  <div class="small-offset-1 large-offset-1 small-11 large-11 columns authorsBooks">
+    <span class="loading"></span>
+  </div>
 </div>

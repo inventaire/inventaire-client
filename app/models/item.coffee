@@ -95,16 +95,5 @@ module.exports = class Item extends Backbone.NestedModel
 
   getEntityModel: (uri)->
     app.request 'get:entity:model', uri
-    .then (entityModel)=>
-      @entity = entityModel
-      @fetchAuthorsEntities()
+    .then (entityModel)=> @entity = entityModel
     .fail (err)-> console.error 'get:entity:model fail', err
-
-  fetchAuthorsEntities: ->
-    id = @entity.get('id')
-    if wd.isWikidataEntityId(id)
-      authors = @entity.get('claims.P50')
-      authors?.forEach (authorId)->
-        app.request('get:entity:model', "wd:#{authorId}")
-        .then (res)-> console.log res
-        .fail (err)-> console.log err
