@@ -13,17 +13,12 @@
       {{else}}
         <h2>{{title}}</h2>
       {{/if}}
-
-      {{#if entity.authors}}
-        <p>
-          <strong>{{i18n 'author(s)'}}:</strong>
-          {{entity.authors}}
-        </p>
-      {{/if}}
-
+      <h4 class="subheader"> <span class="grey">{{i18n 'P50'}}:</span>
+        {{#if entity.authors}}{{entity.authors}}{{/if}}
+        {{claim entity.claims 'P50'}}
+      </h4>
       {{#if entity.description}}
-        <p>
-          <strong>{{i18n 'description'}}:</strong>
+        <p> <span class="grey">{{i18n 'description'}}:</span>
           {{entity.description}}
         </p>
       {{/if}}

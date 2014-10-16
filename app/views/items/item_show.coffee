@@ -21,12 +21,7 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     @listenTo @model, 'add:pictures', @render
 
   onRender: ->
-    # entity = @model.get 'entity'
-    # if entity?.id?
-    #   # ugly null null, but it's constrained by the scanner callback
-    #   # returning /entity/:uri/add?:params
-    #   app.execute 'show:entity', entity.id, null, null, @entityRegion
-
+    app.request('qLabel:update')
     @showPicture()
     @showItemEditionForm()
 

@@ -20,6 +20,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'click a#searchButton': 'search'
     'focus #searchField': 'maximizeSearchField'
     'focusout #searchField': 'unmaximizeIfNotAtSearch'
+    'click a.wdQ': 'showEntity'
 
   initialize: (e)->
     @render()
@@ -102,3 +103,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   unmaximizeSearchField: -> $('#searchGroup').removeClass('maximized')
   unmaximizeIfNotAtSearch: ->
     @unmaximizeSearchField()  unless _.currentLocationMatch '/search'
+
+  showEntity: (e)->
+    href = e.target.href
+    uri = href.split('/entity/').last()
+    app.execute 'show:entity', uri

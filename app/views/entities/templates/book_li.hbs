@@ -2,11 +2,15 @@
   {{#if pictures}}
     <img src='{{firstElement pictures}}' alt='{{title}} cover'>
   {{/if}}
+  <p></p>
 </div>
 
-<div class='small-12 large-8 columns'>
+<div class='small-12 large-4 columns'>
+  <h4 class="subheader">{{#each authors}}{{this}} {{/each}}</h4>
+  <h4 {{P '50'}} class="subheader"></h4>
+  {{claim claims 'P50'}}
   <a class='itemTitle' href="{{pathname}}"><h3>{{title}}</h3></a>
-  <h4 class="subheader">{{limit description 140}}</h4>
+  <p class="grey">{{limit description 140}}</p>
   {{#if wikipedia}}
     <small class="grey"> {{i18n 'see on'}}
       <a href="{{wikipedia.url}}" target='_blank'>wikipedia</a>
@@ -14,19 +18,18 @@
       <a href="http://www.wikidata.org/entity/{{id}}" target='_blank'>wikidata</a>
     </small>
   {{/if}}
-  <h4>{{#each authors}}{{this}} {{/each}}</h4>
-  <h4 {{P '50'}}></h4>
-  {{#each P50}}
-    <span {{Q this}}></span>
-  {{/each}}
+</div>
 
-  <a id='selectEntity' class='secondary' href="{{pathname}}">
-    {{icon 'chevron-right'}}&nbsp;
-    {{i18n 'More details'}}
-  </a>
-  <br>
-  <a id='addToInventory' href="{{pathname}}/add">
-    {{icon 'plus'}}&nbsp;
-    {{i18n 'Add to my inventory'}}
-  </a>
+<div class='small-12 large-4 columns'>
+  <div>
+    <a id='selectEntity' class='secondary' href="{{pathname}}">
+      {{icon 'chevron-right'}}&nbsp;
+      {{i18n 'More details'}}
+    </a>
+    <br>
+    <a id='addToInventory' href="{{pathname}}/add">
+      {{icon 'plus'}}&nbsp;
+      {{i18n 'Add to my inventory'}}
+    </a>
+  </div>
 </div>

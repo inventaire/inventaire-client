@@ -2,6 +2,7 @@ check = require 'views/behaviors/templates/success_check'
 tip = require 'views/behaviors/templates/tip'
 input = require 'views/behaviors/templates/input'
 link = require 'views/behaviors/templates/external_link'
+wdQ = require 'views/behaviors/templates/wikidata_Q'
 
 module.exports =
   initialize: ->
@@ -42,6 +43,14 @@ module.exports =
       if /^Q[0-9]+$/.test id
         new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/#{id}'"
       else new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/Q#{id}'"
+
+    register 'claim', (claims, P)->
+      if claims?[P]?
+        values = claims[P].map (Q)-> wdQ({id: Q})
+        return new Handlebars.SafeString values.join ', '
+      else
+        _.log arguments, 'claim couldnt be displayed by Handlebars'
+        return
 
     register 'limit', (text, limit)->
       if text?

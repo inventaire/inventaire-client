@@ -1,12 +1,14 @@
 module.exports = class BookLi extends Backbone.Marionette.ItemView
   template: require 'views/entities/templates/book_li'
   tagName: "li"
-  className: "wikidataEntity row"
+  className: "bookLi row"
   behaviors:
     PreventDefault: {}
 
   initialize: ->
     @listenTo @model, 'add:pictures', @render
+    app.request('qLabel:update')
+    _.log 'qLabel:update!!'
 
   events:
     'click a.itemTitle': 'showSelectedEntity'
