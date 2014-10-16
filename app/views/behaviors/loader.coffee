@@ -3,9 +3,4 @@ module.exports = class Loader extends Backbone.Marionette.ItemView
   behaviors:
     Loading: {}
 
-  onShow: ->
-    somethingWentWrong = => @$el.trigger('somethingWentWrong')
-
-    @$el.trigger 'loading'
-    setTimeout(somethingWentWrong, 16 * 1000)
-
+  onShow: -> @$el.trigger 'loading'
