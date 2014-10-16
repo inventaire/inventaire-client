@@ -35,17 +35,21 @@ module.exports =
 findMissingDataSets = ->
   missing = []
   data.forEach (el)->
-    if not el.controlObject()
+    if not el.control()
       missing.push el
   return missing
 
 data = [
   {
     eventName: 'items:ready'
-    controlObject: -> Items.personal.fetched
+    control: -> Items.personal.fetched
   },
   {
     eventName: 'contacts:ready'
-    controlObject: -> app.contacts.fetched
+    control: -> app.contacts.fetched
+  },
+  {
+    eventName: 'entities:ready'
+    control: -> Entities.fetched
   }
 ]
