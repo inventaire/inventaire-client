@@ -14,38 +14,37 @@ window.location.root = window.location.protocol + '//' + window.location.host
 
 require('lib/global_libs_extender').initialize()
 
-# Initialize the application on DOM ready event.
-$ ->
+# gets all the routes used in the app
+app.API = require 'api'
 
-  # gets all the routes used in the app
-  app.API = require 'api'
+# makes all the require's accessible from app
+# might be dramatically heavy from start though
+# -> should be refactored to make them functions called at run-time?
+_.extend app, require 'structure'
 
-  # makes all the require's accessible from app
-  # might be dramatically heavy from start though
-  # -> should be refactored to make them functions called at run-time?
-  _.extend app, require 'structure'
+app.lib.i18n.initialize(app)
 
-  app.lib.i18n.initialize(app)
+# initialize all the module routes before app.start()
+# the first routes initialized have the lowest priority
+app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
+app.module 'User', require 'modules/user'
+if app.user.loggedIn
+  app.module 'Redirect', require 'modules/redirect'
+  app.module 'Search', require 'modules/search/search'
+  app.module 'Inventory', require 'modules/inventory'
+  app.module 'Profile', require 'modules/profile'
+  app.module 'Entities', require 'modules/entities'
+  app.module 'Listings', require 'modules/listings'
+  app.module 'Contacts', require 'modules/contacts'
 
-  # initialize all the module routes before app.start()
-  # the first routes initialized have the lowest priority
-  app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
-  app.module 'User', require 'modules/user'
-  if app.user.loggedIn
-    app.module 'Redirect', require 'modules/redirect'
-    app.module 'Search', require 'modules/search/search'
-    app.module 'Inventory', require 'modules/inventory'
-    app.module 'Profile', require 'modules/profile'
-    app.module 'Entities', require 'modules/entities'
-    app.module 'Listings', require 'modules/listings'
-    app.module 'Contacts', require 'modules/contacts'
+  app.data = require('lib/data_state')
+  app.data.initialize()
 
-    app.data = require('lib/data_state')
-    app.data.initialize()
+app.request('i18n:set')
+.done ->
 
-  app.request('i18n:set')
-  .done ->
-
+  # Initialize the application on DOM ready event.
+  $ ->
     # initialize layout after user to get i18n data
     app.layout = new app.Layout.App
     app.lib.foundation.initialize(app)
@@ -53,5 +52,5 @@ $ ->
 
     app.start()
 
-  require('lib/jquery-jk').initialize($)
-  _.ping()
+require('lib/jquery-jk').initialize($)
+_.ping()
