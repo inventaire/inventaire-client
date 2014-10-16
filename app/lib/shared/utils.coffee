@@ -16,7 +16,7 @@ module.exports =
   # weak but handy
   hasDiff: (obj1, obj2)-> JSON.stringify(obj1) != JSON.stringify(obj2)
 
-  wmCommonsThumb: (file, width=100)->
+  wmCommonsThumb: (file, width=500)->
     "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
   buildPath: (pathname, queryObj, escape)->
