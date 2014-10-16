@@ -149,3 +149,5 @@ module.exports =
   currentLocationMatch: (str)->
     pattern = new RegExp(str)
     return pattern.test window.location.pathname
+
+  isModel: (obj)-> obj instanceof Backbone.Model
