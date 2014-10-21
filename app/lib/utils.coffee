@@ -9,7 +9,7 @@ isMuted = (label)->
     tag = label.split(':')?[0]
     return (muted.indexOf(tag) isnt -1)
 
-module.exports =
+module.exports = (Backbone, _, app, window)->
   log: (obj, label)->
     if _.isString obj
       if label? then obj.logIt(label)
@@ -144,10 +144,32 @@ module.exports =
     k = Object.keys(obj)[0]
     return obj[k]
 
-  isFirefox: -> navigator.mozApps?
+  isFirefox: -> window.navigator?.mozApps?
 
   currentLocationMatch: (str)->
     pattern = new RegExp(str)
     return pattern.test window.location.pathname
 
   isModel: (obj)-> obj instanceof Backbone.Model
+
+  validImageSrc: (url, callback)->
+    image = new Image()
+    image.src = url
+    def = $.Deferred()
+    cb = ->
+      if image.complete then def.resolve(url)
+      else def.reject(url)
+    setTimeout cb, 500
+
+  allValid: (array, test)->
+    result = true
+    array.forEach (el)-> if not test(el) then result = false
+    return result
+
+  isUri: (str)->
+    [prefix, id] = str.split ':'
+    if prefix? and id?
+      switch prefix
+        when 'wd' then return wd.isWikidataId(id)
+        when 'isbn' then return app.lib.books.isNormalizedIsbn(id)
+    return false

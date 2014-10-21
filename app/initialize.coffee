@@ -6,7 +6,10 @@ window.sharedLib = sharedLib = require('lib/shared/shared_libs')
 app = require 'app'
 window.app = app
 
-_.extend _, require('lib/utils'), sharedLib('utils')
+local = require('lib/utils')(Backbone, _, app, window)
+shared = sharedLib('utils')(_)
+_.extend _, local, shared
+
 _.isMobile = require 'lib/mobile_check'
 
 window.wd = require 'lib/wikidata'
@@ -53,4 +56,5 @@ app.request('i18n:set')
     app.start()
 
 require('lib/jquery-jk').initialize($)
+require('lib/svg_inliner').initialize($)
 _.ping()

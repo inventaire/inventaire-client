@@ -1,4 +1,4 @@
-module.exports =
+module.exports = (_)->
   hasValue: (array, value)-> array.indexOf(value) isnt -1
 
   idGenerator: (length, withoutNumbers)->
@@ -15,9 +15,6 @@ module.exports =
 
   # weak but handy
   hasDiff: (obj1, obj2)-> JSON.stringify(obj1) != JSON.stringify(obj2)
-
-  wmCommonsThumb: (file, width=500)->
-    "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
   buildPath: (pathname, queryObj, escape)->
     queryObj = @removeUndefined(queryObj)
@@ -51,7 +48,9 @@ module.exports =
 
   typeString: (str)->
     if typeof str is 'string' then str
-    else throw new Error "TypeError: #{str} instead of String"
+    else
+      obj = JSON.stringify str
+      throw new Error "TypeError: expected a String, got: #{obj}"
 
   typeArray: (array)->
     if array instanceof Array then array
@@ -79,3 +78,10 @@ module.exports =
       pickObj = _.pick(obj, propsArray)
       # returns an undefined array element when prop is undefined
       return propsArray.map (prop)-> pickObj[prop]
+
+  mergeArrays: (arrays...)->
+    result = []
+    arrays.forEach (array)->
+      if _.typeArray(array)
+        result = result.concat(array)
+    return result

@@ -1,8 +1,9 @@
 check = require 'views/behaviors/templates/success_check'
 tip = require 'views/behaviors/templates/tip'
 input = require 'views/behaviors/templates/input'
-link = require 'views/behaviors/templates/external_link'
 wdQ = require 'views/behaviors/templates/wikidata_Q'
+img = require 'views/behaviors/templates/img'
+i = require 'views/behaviors/templates/i'
 
 module.exports =
   initialize: ->
@@ -13,24 +14,25 @@ module.exports =
 
     register 'partial', (name, context, option) ->
       template = require "views/templates/#{name}"
-      str = new Handlebars.SafeString template(context)
+      partial = new Handlebars.SafeString template(context)
       switch option
-        when 'check' then str = new Handlebars.SafeString check(str)
-      return str
+        when 'check' then partial = new Handlebars.SafeString check(partial)
+      return partial
 
     register 'firstElement', (obj) ->
-      if _.isArray obj
-        return obj[0]
-      else if typeof obj is 'string'
-        return obj
-      else
-        return
+      if _.isArray obj then return obj[0]
+      else if _.isString obj then return obj
+      else return
 
     register 'icon', (name, classes) ->
-      name = name || 'cube'
-      if typeof classes is 'string' and classes.length > 0
-        new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;"
-      else new Handlebars.SafeString "<i class='fa fa-#{name}'></i>&nbsp;"
+      if _.typeString(name)
+        if icons[name]?
+          src = icons[name]
+          return new Handlebars.SafeString "<img class='icon svg' src='#{src}' alt='#{name}'>"
+        else
+          # overriding the second argument that could be {hash:,data:}
+          unless _.isString classes then classes = ''
+          return new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;"
 
     register 'i18n', (key, args, context)-> new Handlebars.SafeString _.i18n(key, args, context)
 
@@ -114,9 +116,7 @@ module.exports =
       if value? then "#{attr}=#{value}"
       else return
 
-    register 'externalLink', (href, text)->
-      attrs =
-        href: href
-        text: text
-      new Handlebars.SafeString link(attrs)
-
+icons =
+  wikipedia: 'https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg'
+  wikidata: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Wikidata-logo.svg'
+  wikisource: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg'

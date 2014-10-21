@@ -63,7 +63,7 @@ module.exports = (Promises)->
     isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
     isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
     type: (entity)->
-      if _.isModel entity then P31 = entity.get('claims')?.P31
+      if _.isModel entity then P31 = entity.get?('claims')?.P31
       else P31 = entity.claims?.P31
       type = null
       if P31?
@@ -71,8 +71,51 @@ module.exports = (Promises)->
         if wd.isHuman(P31) then type = 'human'
       return type
 
+    wmCommonsThumb: (file, width=500)->
+      # using a proxy that transfers the Content-type headers
+      proxy = 'http://www.corsproxy.com/'
+      url = proxy + "tools.wmflabs.org/magnus-toolserver/commonsapi.php?image=#{file}&thumbwidth=#{width}"
+      return $.getXML url
+      .then (res)->
+        # parsing the XML with jQuery
+        return $(res).find('thumbnail')?.text?()
+      .fail (err)->
+        console.log "couldnt find the #{file} via tools.wmflabs.org"
+        return "http://commons.wikimedia.org/w/thumb.php?width=200&f=#{file}"
+
+    getRebasedClaims: (claims)->
+      rebased = {}
+      for id, claim of claims
+        rebased[id] = []
+        # adding label as a non-enumerable value
+        # needed app.polyglot to be ready
+        if app.polyglot? then rebased[id].label = _.i18n(id)
+        if _.isObject claim
+          claim.forEach (statement)->
+            # will be overriden at the end of this method
+            # so won't be accessible on persisted models
+            # testing existance shouldn't be needed thank to the status test
+            # but let's keep it for now
+            mainsnak = statement.mainsnak
+            if mainsnak?
+              [datatype, datavalue] = [mainsnak.datatype, mainsnak.datavalue]
+              switch datatype
+                when 'string', 'commonsMedia'
+                  value = datavalue.value
+                  rebased[id].push value
+                when 'wikibase-item'
+                  numericId = datavalue.value['numeric-id']
+                  rebased[id].push "Q#{numericId}"
+                else rebased[id].push(mainsnak)
+            else
+              # should only happen in snaktype: "novalue" cases or alikes
+              console.warn 'no mainsnak found', statement
+      return rebased
+
     Q: Q
 
     API: API
+
+    sitelinks: sharedLib 'wiki_sitelinks'
 
   return methods
