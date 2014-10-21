@@ -15,6 +15,8 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   initialize: (params)->
     @query = params.query
+    @listenTo Items.personal.filtered, 'add', @refreshAllLocalFilteredItems
+    @listenTo Items.contacts.filtered, 'add', @refreshAllLocalFilteredItems
 
   serializeData: ->
     search:
@@ -25,28 +27,20 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
         classes: 'secondary postfix'
 
   onShow: ->
+    $('#searchField').val @query
     app.execute 'search:field:maximize'
-    app.execute 'show:loader', {region: @results1}
+    # app.execute 'show:loader', {region: @results1}
 
     if app.data?.ready? then @showAllLocalFilteredItems(@query)
     else app.vent.once 'data:ready', => @showAllLocalFilteredItems @query
 
     @searchEntities()
 
-  searchEntities: ->
-    # @resetResults([3,4])
-    app.request 'search:entities', @query, @results3, @results4, '#searchField'
-    .then ()=>
-      # hide the loader if nothing is there to take its place
-      if Items.personal.filtered.length is 0
-        @results1.empty()
-
   showAllLocalFilteredItems: (query)->
+    query ||= @query
     _.log query, 'showAllLocalFilteredItems query'
     @showLocalFilteredItems query, Items.personal.filtered, 'in your items', 1
     @showLocalFilteredItems query, Items.contacts.filtered, "in your contacts' items", 2
-
-  onDestroy: -> app.execute 'search:field:unmaximize'
 
   showLocalFilteredItems: (query, collection, label, rank)->
     region = "results#{rank}"
@@ -54,6 +48,12 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     if collection.length > 0
       @[region].show new app.View.ItemsList {collection: collection}
       @addHeader _.i18n(label), rank
+
+  refreshAllLocalFilteredItems: (e, collection)->
+    @showAllLocalFilteredItems(@query)
+
+  searchEntities: ->
+    app.request 'search:entities', @query, @results3, @results4, '#searchField'
 
   addHeader: (label, rank)->
     el = "header#{rank}"
@@ -64,3 +64,5 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     numbers.forEach (num)->
       app.layout.entities.search["results#{num}"].empty()
       app.layout.entities.search["header#{num}"].empty()
+
+  onDestroy: -> app.execute 'search:field:unmaximize'

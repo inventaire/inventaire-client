@@ -1,0 +1,39 @@
+
+.authorLi{
+  background-color: #222;
+  margin-bottom: 1rem;
+  .authorData{
+    background-color: $contrast;
+    margin-top: 0.5rem !important;
+  }
+  .loading{
+    color: $contrast;
+    font-size: 3rem;
+  }
+}
+
+.authorsBooks{
+  // overriding _book_li.scss
+  .bookLi{}
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  .authorLi{
+    min-height: 3rem;
+    padding: 1rem 2rem 1rem 2rem;
+  }
+  .authorData{
+    margin-top: 0.2rem;
+  }
+
+  .authorsBooks{
+    .bookLi{
+      padding: 0rem 1rem 0rem 1rem;
+    }
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+}
