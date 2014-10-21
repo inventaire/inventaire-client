@@ -5,6 +5,8 @@ module.exports = [
   'app'
   'route'
   # 'entity'
-  # 'item'
-  # 'inv'
+  # 'entities'
+  'item'
+  'inv'
+  # 'query'
 ]

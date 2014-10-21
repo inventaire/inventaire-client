@@ -5,11 +5,11 @@ module.exports.getImage = (data)->
     # data = encodeURIComponent(data)
     return @API.google.book(data)
     .then (res)=>
-      if res.items[0].volumeInfo?.imageLinks?.thumbnail?
+      if res.items?[0]?.volumeInfo?.imageLinks?.thumbnail?
         image = res.items[0].volumeInfo.imageLinks.thumbnail
         return {image: @uncurl(image)}
       else console.warn "google book image not found for #{data}"
-    .fail (err)-> _.log err, "google book err for #{data}"
+    .fail (err)-> _.logXhrErr err, "google book err for #{data}"
     .done()
 
 module.exports.getGoogleBooksDataFromIsbn = (isbn)->
@@ -22,5 +22,5 @@ module.exports.getGoogleBooksDataFromIsbn = (isbn)->
           parsedItem = res.items[0].volumeInfo
           # _.log parsedItem, 'getGoogleBooksDataFromIsbn parsedItem'
           return @normalizeBookData parsedItem, isbn
-        else throw "no item found for: #{cleanedIsbn}"
-    else throw new Error "bad isbn"
+        else console.warn "no item found for: #{cleanedIsbn}", res
+    else console.warn "bad isbn"
