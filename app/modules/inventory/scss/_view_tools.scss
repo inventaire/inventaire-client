@@ -1,13 +1,13 @@
 $sub-nav-list-margin: 0;
 $view-tools-height: 2.9rem;
 $view-tools-elements-height: 2.45rem;
-$visibility-tabs-bg: #222;
+
 
 .toolsWrapper{
   margin: 0;
   padding: 0;
   .tools{
-    background-color: $visibility-tabs-bg;
+    background-color: $tools-active-bg;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -28,6 +28,25 @@ $visibility-tabs-bg: #222;
       font-size: 0.9rem;
       height: $view-tools-elements-height;
       width: 100%;
+    }
+    .disposition{
+      text-align: center;
+      a{
+        transition: all 0.5s ease;
+        display: inline;
+        font-size: 1.2rem;
+        padding: 0.5rem 0.6rem 0.5rem 0.9rem;
+        text-align: center;
+        &:hover{
+          background-color: #777;
+        }
+        &.active{
+          background-color: #000;
+        }
+      }
+      .fa{
+        color: #fff;
+      }
     }
   }
 }
@@ -51,8 +70,8 @@ $visibility-tabs-bg: #222;
       margin-bottom: 0.5rem;
     }
     select, input[type="text"], a{
-      padding: 0;
-      margin: 0;
+      // padding: 0.5rem;
+      // margin: 0;
     }
     a{
       width: 100%;

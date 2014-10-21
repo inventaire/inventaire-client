@@ -3,8 +3,8 @@
 @import "item_li";
 
 
-$tabs-navigation-active-bg-color: $visibility-tabs-bg;
-$tabs-navigation-bg-color: lighten($visibility-tabs-bg, 20%);
+$tabs-navigation-active-bg-color: $tools-active-bg;
+$tabs-navigation-bg-color: lighten($tools-active-bg, 20%);
 $tabs-navigation-font-color: #fff;
 
 /*Large screens*/
@@ -37,7 +37,7 @@ $tabs-navigation-font-color: #fff;
   display: none;
   margin: 0;
   padding: 0;
-  background-color: $visibility-tabs-bg;
+  background-color: $tools-active-bg;
   height: 1rem;
 }
 
