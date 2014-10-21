@@ -106,6 +106,10 @@ onlogout = ->
 
 
 recoverUserData = (app)->
+  # set app.user.lang from cookie before confirmation
+  # from user.fetch which will trigger setLang on User model
+  if $.cookie('lang')
+    app.user.lang ||= $.cookie('lang')
   # not sufficiant in cases when Persona messes with the signup process
   # -> when persona gives a link from an email, username and email
   # aren't associated and this test passes
@@ -158,14 +162,14 @@ initializeUserListings = (app)->
       id: 'private'
       icon: 'lock'
       unicodeIcon: '&#xf023;'
-      label: 'Private Inventory'
+      label: 'Private'
     contacts:
       id: 'contacts'
       icon: 'users'
       unicodeIcon: '&#xf0c0;'
-      label: 'Shared Inventory'
+      label: 'Shared with friends'
     public:
       id: 'public'
       icon: 'globe'
       unicodeIcon: '&#xf0ac;'
-      label: 'Public Inventory'
+      label: 'Public'
