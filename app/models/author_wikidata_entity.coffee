@@ -1,20 +1,27 @@
 WikidataEntity = require 'models/wikidata_entity'
 
 module.exports = class AuthorWikidataEntity extends WikidataEntity
-  fetchAuthorsBooks: ->
+  specificInitializers: -> #noop to override on upgrade and avoid loops
+  fetchAuthorsBooks: (limit)->
     @fetchAuthorsBooksIds()
     .then ()=> @fetchAuthorsBooksEntities()
     .fail (err)-> _.log err, 'fetchAuthorsBooks err'
 
   fetchAuthorsBooksIds: ->
-    numericId = @id.replace(/^Q/,'')
-    $.getJSON _.proxy(wd.API.wmflabs.claim(50, numericId))
-    .then (res)=>
-      if res?.items?
-        booksIds = wd.normalizeIds res.items
-        _.log booksIds, 'booksIds'
-        @set 'reverseClaims.P50', booksIds
-    .fail (err)-> _.log err, 'fetchAuthorsBooksIds err'
+    if @get('reverseClaims')?.P50? then $.Deferred().resolve()
+    else
+      numericId = @id.replace(/^Q/,'')
+      $.getJSON _.proxy(wd.API.wmflabs.claim(50, numericId))
+      .then (res)=>
+        if res?.items?
+          booksIds = wd.normalizeIds res.items
+          _.log booksIds, 'booksIds'
+          @set 'reverseClaims.P50', booksIds
+          # almost useless to save yet as Author
+          # is overriden by the unformatted data
+          # packaged in the entity search process
+          @save()
+      .fail (err)-> _.log err, 'fetchAuthorsBooksIds err'
 
   fetchAuthorsBooksEntities: ->
     authorsBooks = @get 'reverseClaims.P50'
@@ -23,3 +30,11 @@ module.exports = class AuthorWikidataEntity extends WikidataEntity
       Model = app.Model.AuthorWikidataEntity
       return Entities.tmp.wd.fetchModels authorsBooks, Model
     else $.Deferred().resolve()
+
+
+  upgradeProperties: [
+    'specificInitializers'
+    'fetchAuthorsBooks'
+    'fetchAuthorsBooksIds'
+    'fetchAuthorsBooksEntities'
+  ]
