@@ -2,8 +2,16 @@ module.exports = (Promises)->
   methods =
     API:
       google:
-        book: (data)->
-          Promises.get "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
+        book: (data)-> Promises.get "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
+      worldcat:
+        # http://xisbn.worldcat.org/xisbnadmin/doc/api.htm
+        isbnBaseRoute: 'http://xisbn.worldcat.org/webservices/xid/isbn/'
+        to10: (isbn13)->
+          Promises.get @isbnBaseRoute + "#{isbn13}?method=to10&format=json"
+        to13: (isbn10)->
+          Promises.get @isbnBaseRoute + "#{isbn10}?method=to13&format=json"
+        hyphen: (isbn)->
+          Promises.get @isbnBaseRoute + "#{isbn10}?method=hyphen&format=json"
 
     isIsbn: (text)->
       cleanedText = @normalizeIsbn(text)
