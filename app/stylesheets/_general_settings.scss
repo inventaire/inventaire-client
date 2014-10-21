@@ -8,15 +8,25 @@ $grey: #888;
 $dark-grey: #333;
 $light-grey: #eee;
 
-$body-bg: #fff; // Foundation variable
+// body has a different color than main
+// to make it the background color when the DOM isnt loaded
+$body-bg: $primary-color; // Foundation variable
+$main-bg: #ddd;
+$contrast: #fff;
+$panel-bg: $contrast; // Foundation variable
 $body-font-color: #222; // Foundation variable
+$tools-active-bg: #222;
 
 body {
   // forcing the presence of the scroll bar
   // to avoid the anoying switch in width
   min-height: 101vh;
   main {
+
     padding-bottom: 2rem;
+    background-color: $main-bg;
+    // pushing the background down
+    min-height: 95vh;
   }
   ul{
     list-style-type: none;
@@ -25,6 +35,18 @@ body {
   li{
     margin: 0;
   }
+}
+
+img.icon{
+  width: 2rem;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  &:hover{
+    opacity: 1;
+  }
+}
+img.svg{
+  fill : grey;
 }
 
 .secondary{
@@ -58,7 +80,7 @@ body {
 
 // OPACITY MIXINS
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .shy{
@@ -142,10 +164,6 @@ div.panel, div.block{
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
-  main{
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
 }
 
 
