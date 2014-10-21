@@ -1,21 +1,22 @@
-<div class="row authorData">
+<div class="row">
   <div class='small-12 large-4 columns text-center'>
-    <img src='{{firstElement pictures}}' alt='{{label}} cover'>
+    {{#if pictures}}
+      <img src='{{firstElement pictures}}' alt='{{label}} cover'>
+    {{/if}}
+    <div class="authorData text-center">
+      <h3>{{label}}</h3>
+      <h4 class="subheader">{{description}}</h4>
+      <p>
+        {{partial 'wiki_sitelinks' this}}
+      </p>
+    </div>
   </div>
 
   <div class='small-12 large-8 columns'>
-    <h4>{{label}}</h4>
-    <small>
-      {{i18n 'links'}}:
-      {{externalLink wikidata.url 'wikidata'}}
-      {{externalLink wikipedia.url 'wikipedia'}}
-    </small>
+    <ul class="authorsBooks">
+    </ul>
     <a id="displayBooks" class="button">{{i18n "Fetch the author's books"}}</a>
-  </div>
-</div>
-
-<div class="row">
-  <div class="small-offset-1 large-offset-1 small-11 large-11 columns authorsBooks">
     <span class="loading"></span>
+    <a class="more hidden button success">{{i18n 'More'}}</a>
   </div>
 </div>
