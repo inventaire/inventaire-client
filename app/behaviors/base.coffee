@@ -6,5 +6,4 @@ module.exports =
   AlertBox: require 'behaviors/alertbox'
   ConfirmationModal: require 'behaviors/confirmation_modal'
   Loading: require 'behaviors/loading'
-  PreventDefault: require 'behaviors/prevent_default'
   SuccessCheck: require 'behaviors/success_check'

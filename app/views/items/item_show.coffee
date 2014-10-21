@@ -10,7 +10,6 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     editPanel: '#editPanel'
     pictureRegion: '#picture'
   behaviors:
-    PreventDefault: {}
     ConfirmationModal: {}
 
   initialize: ->

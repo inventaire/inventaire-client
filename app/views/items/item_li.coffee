@@ -4,7 +4,6 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   template: require 'views/items/templates/item_li'
   behaviors:
     ConfirmationModal: {}
-    PreventDefault: {}
 
   initialize: ->
     @listenTo @model, 'change', @render

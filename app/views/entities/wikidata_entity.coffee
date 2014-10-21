@@ -3,8 +3,6 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
   regions:
     article: '#article'
     items: '#items'
-  behaviors:
-    PreventDefault: {}
 
   serializeData: ->
     attrs = @model.toJSON()

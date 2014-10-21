@@ -1,7 +1,5 @@
 module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   template: require 'views/templates/app_layout'
-  behaviors:
-    PreventDefault: {}
 
   el: 'body'
 
