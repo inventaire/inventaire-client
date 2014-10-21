@@ -24,6 +24,31 @@ module.exports =
       tmp:
         wd: new Locals.TmpWikidataEntities
         isbn: new Locals.TmpNonWikidataEntities
+
+    collections = [
+      [ Entities.wd, 'wd' ]
+      [ Entities.isbn, 'isbn' ]
+      [ Entities.tmp.wd, 'tmp.wd' ]
+      [ Entities.tmp.isbn, 'tmp.isbn' ]
+    ]
+
+    Entities.byUri = (uri)->
+      result = undefined
+      collections.forEach (couple)->
+        [collection, name] = couple
+        model = collection.byUri(uri)
+        if model? then result = model
+      return result
+
+    Entities.hardReset = ->
+      collections.forEach (couple)->
+        [collection, name] = couple
+        collection._reset()
+      localStorage.clear()
+
+    Entities.wd.getCachedEntity = API.getWikidataCachedEntity
+    Entities.isbn.getCachedEntity = API.getIsbnCachedEntity
+
     Entities.fetched = true
     app.vent.trigger 'entities:ready'
 
@@ -56,8 +81,8 @@ API =
 
   getEntityModel: (prefix, id)->
     unless prefix? and id? then throw 'missing prefix or id'
-    entity = @cachedEntity(prefix, id)
-    if entity then return entity
+    entityPromise = @getCachedEntityPromise(prefix, id)
+    if entityPromise then return entityPromise
     else
       switch prefix
         when 'wd'
@@ -70,26 +95,40 @@ API =
 
       return modelPromise.then (model)->
         if model?.has('title')
-          collection.create(model)
-        else console.error 'entity undefined or miss a title: discarded', model
+          return collection.create(model)
+        else
+          console.warn 'entity undefined or miss a title: discarded', 'model:', model, 'prefix:', prefix, 'id:', id
 
-  cachedEntity: (prefix, id)->
-    if Entities?.fetched
-      entity = @getCachedEntity(prefix, id)
-      if entity? then $.Deferred().resolve(entity)
-      else return false
+  getCachedEntityPromise: (prefix, id)->
+    entity = @getCachedEntity(prefix, id)
+    if entity?
+      # console.log 'found cachedEntity', prefix, id, entity
+      return $.Deferred().resolve(entity)
     else
-      def = $.Deferred()
-      cb = ->
-        entity = @getCachedEntity(prefix, id)
-        if entity? then def.resolve(entity)
-        else def.reject()
-      app.vent.once 'entities:ready', cb, @
-
-      return def
+      console.log 'not found cachedEntity', prefix, id
+      return false
 
   getCachedEntity: (prefix, id)->
-     Entities[prefix].byUri("#{prefix}:#{id}") or Entities.tmp[prefix].byUri("#{prefix}:#{id}")
+    # looking first in in-memory models
+    entity = Entities.byUri("#{prefix}:#{id}")
+    if entity? then return entity
+    else
+      # then in localStorage
+      switch prefix
+        when 'wd'
+          data = @getWikidataCachedEntity(id)
+          # only attributes are persisted so it needs to be re-modeled
+          if data? then return Entities.wd.add(data)
+        when 'isbn'
+          data = @getIsbnCachedEntity(id)
+          if data? then return Entities.isbn.add(data)
+        else return
+
+  getWikidataCachedEntity: (id)->
+    Entities.wd.recoverDataById?(id) or Entities.tmp.wd.recoverDataById?(id)
+
+  getIsbnCachedEntity: (id)->
+    Entities.isbn.recoverDataById?(id) or Entities.tmp.isbn.recoverDataById?(id)
 
   getEntityModelFromWikidataId: (id)->
     # not looking for a specific WikidataEntity
@@ -100,7 +139,9 @@ API =
 
   getEntityModelFromIsbn: (isbn)->
     books.getGoogleBooksDataFromIsbn(isbn)
-    .then (res)-> new app.Model.NonWikidataEntity res
+    .then (res)->
+      if res? then return new app.Model.NonWikidataEntity res
+      else console.warn "couldnt getEntityModelFromIsbn for: #{isbn}"
     .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
 
   showAddEntity: (uri)->
@@ -136,6 +177,13 @@ setHandlers = ->
       path = "entity/#{uri}"
       path += "/#{label}"  if label?
       app.navigate path
+
+    'show:entity:from:model': (model, params, region)->
+      uri = model.get('uri')
+      label = model.get('label')
+      if uri? and label?
+        app.execute 'show:entity', uri, label, params, region
+      else throw new Error 'couldnt show:entity:from:model'
 
     'show:entity:search': ->
       API.showEntitiesSearchForm()

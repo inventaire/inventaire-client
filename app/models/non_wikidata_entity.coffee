@@ -1,11 +1,5 @@
 module.exports = class NonWikidataEntity extends Backbone.NestedModel
-  # title
-  # authors
-  # pictures = []
-  # uri
-  # pathname
-  # description
-
+  localStorage: new Backbone.LocalStorage 'isbn:Entities'
   initialize: ->
     @findAPicture()
 

@@ -1,128 +1,125 @@
 module.exports = class WikidataEntity extends Backbone.NestedModel
-  initialize: (entityData)->
-    lang = app.user.lang
-    @setAttributes(@attributes, lang)
+  localStorage: new Backbone.LocalStorage 'wd:Entities'
+  initialize: ->
+    @update = {}
+    @status = @get('status')
 
     # data that are @set don't need to be re-set when
     # the model was cached in Entities local/temporary collections
-    unless @get('status') is 'reformatted'
-      @relocateClaims(@attributes)
-      @getWikipediaInfo(@attributes, lang)
+    unless @status?.formatted
+
+      # todo: make search only return ids and let the client fetch entities data
+      # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
+      if Entities.byUri('wd:#{id}')?
+        console.warn "reformatting #{@id} while it was already cached! Probably because the server returned fresh data (ex: during entity search)"
+
+      lang = app.user.lang
+
+      @setAttributes(@attributes, lang)
+      @rebaseClaims()
+      @setWikiLinks(lang)
       @findAPicture()
 
-    @specificInitializers()
+      @update.status = {formatted: true}
 
-    @set 'status', 'reformatted'
+      @set @update
+      @save()
 
-  # method to override for sub-models
-  specificInitializers: ->
+
+
+    # data on models root aren't persisted so need to be set everytimes
+    @claims = @get 'claims'
+    # for conditionals in templates
+    @wikidata = true
+
+
     # get type-specific methods
     # useful for specific models generated through this generalist model
-    @type = wd.type(@)
-    @upgrade(@type)
+    @upgrade()
+
+  # method to override for upgraders models
+  # Undefined on this basic model
+    @specificInitializers()  if @specificInitializers?
 
   # entities won't be saved to CouchDB and can keep their
   # initial API id
   idAttribute: 'id'
   setAttributes: (attrs, lang)->
-    pathname = "/entity/#{@id}"
+    pathname = "/entity/wd:#{@id}"
 
-    if label = @getEntityValue attrs, 'labels', lang
-      @set 'label', label
-      @set 'title', label
+    label = getEntityValue attrs, 'labels', lang
+    if label?
+      @update.label = label
+      @update.title = label
       pathname += "/" + _.softEncodeURI(label)
 
-    @set 'pathname', pathname
+    @update.pathname = pathname
 
-    # for conditionals in templates
-    @wikidata = true
-    @set 'wikidata', {url: "http://www.wikidata.org/entity/#{@id}"}
-    @set 'uri', "wd:#{@id}"
+    description = getEntityValue attrs, 'descriptions', lang
+    if description?
+      @update.description = description
 
-    if description = @getEntityValue attrs, 'descriptions', lang
-      @set 'description', description
+    # reverseClaims: ex: this entity is a P50 of entities Q...
+    @update.reverseClaims = {}
 
+  rebaseClaims: ->
+    claims = @get 'claims'
+    if claims?
+      @update.claims = wd.getRebasedClaims(claims)
+    else console.warn 'no claims found', @
 
-    # reverseClaims: this entity is a P50 of entities Q...
-    @set 'reverseClaims', {}
+  setWikiLinks: (lang)->
+    @update.wikidata = {url: "http://www.wikidata.org/entity/#{@id}"}
+    @update.uri = "wd:#{@id}"
 
-  relocateClaims: (attrs)->
-    claims = {}
-    for id, claim of attrs.claims
-      claims[id] = []
-      # adding label as a non-enumerable value
-      # needed app.polyglot to be ready
-      if app.polyglot? then claims[id].label = _.i18n(id)
-      if _.isObject claim
-        claim.forEach (statement)->
-          # will be overriden at the end of this method
-          # so won't be accessible on persisted models
-          # testing existance shouldn't be needed thank to the status test
-          # but let's keep it for now
-          if statement?.mainsnak?.datatype?
-            switch statement.mainsnak.datatype
-              when 'string'
-                claims[id].push(statement._value = statement.mainsnak.datavalue.value)
-              when 'wikibase-item'
-                statement._id = statement?.mainsnak?.datavalue.value['numeric-id']
-                claims[id].push "Q#{statement._id}"
-              else claims[id].push(statement.mainsnak)
-    @set 'claims', claims
-    @claims = claims
+    @originalLang = @update.claims.P364?[0]
+    sitelinks = @get('sitelinks')
+    if sitelinks?
+      @update.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
 
-  getEntityValue: (attrs, props, lang)->
-    if attrs[props]?[lang]?.value?
-      return attrs[props][lang].value
-    else if attrs[props]?.en?.value?
-      return attrs[props].en.value
-    else return
+      @update.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
 
-  getWikipediaInfo: (attrs, lang)->
-    if title = @getWikipediaTitle(attrs.sitelinks, lang)
-      wikipedia = @getWikipediaLinks(title, lang)
-    else if title = @getWikipediaTitle(attrs.sitelinks, 'en')
-      wikipedia = @getWikipediaLinks(title, 'en')
-
-    if wikipedia? then @set 'wikipedia', wikipedia
-
-  getWikipediaTitle: (sitelinks, lang)->
-    if sitelinks?["#{lang}wiki"]?.title?
-      return sitelinks["#{lang}wiki"].title
-
-  getWikipediaLinks: (title, lang)->
-    wikipedia =
-      title: title
-      root: "https://#{lang}.wikipedia.org"
-      url: "https://#{lang}.wikipedia.org/wiki/#{title}"
-      mobileUrl: "https://#{lang}.m.wikipedia.org/wiki/#{title}"
-
-  claimsLabels: ->
-    claims = @get('claims')
-    logs = []
-    for k,v of claims
-      logs.push [k, v.label]
-    return logs
+    # overriding sitelinks to make room
+    @update.sitelinks = {}
 
   findAPicture: ->
-    pictures = []
+    @update.pictures = pictures = []
+    @save()
 
-    if @claims?.P18?
-      @claims.P18.forEach (statement)->
-        if statement?.datavalue?.value
-          pictures.push _.wmCommonsThumb(statement.datavalue.value)
-        else _.log statement, 'P18: missing value'
+    images = @update.claims.P18
+    if images?
+      images.forEach (title)=>
+        wd.wmCommonsThumb(title, 1000)
+        .then (url)=>
+          pictures = @get('pictures') or []
+          pictures.push url
+          # async so can't be on the @update bulk set
+          @set 'pictures', pictures
+          @save()
 
-    @set 'pictures', pictures
-
-  upgrade: (type)->
+  upgrade: ->
+    type = wd.type(@)
     switch type
       when 'book' then upgrader = app.Model.BookWikidataEntity
-      when 'author' then upgrader = app.Model.AuthorWikidataEntity
+      when 'human' then upgrader = app.Model.AuthorWikidataEntity
 
     if upgrader?
       proto = upgrader.prototype
-      _.extend @, proto
-      if proto.specificInitializers?
-        proto.specificInitializers.call @
-
+      methodsNames = proto.upgradeProperties
+      if methodsNames?.length > 0
+        # just take explicitly listed methods to
+        # avoid to load the model own methods
+        # with Backbone.Model.prototype ones
+        methods = _.pick(proto, methodsNames)
+        _.extend @, methods
     return @
+
+getEntityValue = (attrs, props, lang)->
+  property = attrs[props]
+  if property?
+    if property[lang]?.value? then return property[lang].value
+    else if property.en?.value? then return property.en.value
+    else
+      any = _.pickOne(property)?
+      if any?.value? then any.value
+  return
