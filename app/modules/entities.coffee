@@ -206,6 +206,7 @@ categories =
   other:
     text: 'something else'
     value: 'other'
+    icon: 'cube'
 
 getPrefixId = (uri)->
   data = uri.split ':'
