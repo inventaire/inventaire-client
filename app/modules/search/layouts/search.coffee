@@ -31,8 +31,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     app.execute 'search:field:maximize'
     # app.execute 'show:loader', {region: @results1}
 
-    if app.data?.ready? then @showAllLocalFilteredItems(@query)
-    else app.vent.once 'data:ready', => @showAllLocalFilteredItems @query
+    app.request 'waitForData', @showAllLocalFilteredItems, @, @query
 
     @searchEntities()
 
