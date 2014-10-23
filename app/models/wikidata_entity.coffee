@@ -65,6 +65,7 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
   rebaseClaims: ->
     claims = @get 'claims'
     if claims?
+      claims = wd.aliasingClaims(claims)
       @update.claims = wd.getRebasedClaims(claims)
     else console.warn 'no claims found', @
 

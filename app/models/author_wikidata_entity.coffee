@@ -11,14 +11,15 @@ module.exports = class AuthorWikidataEntity extends WikidataEntity
     if @get('reverseClaims')?.P50? then $.Deferred().resolve()
     else
       numericId = @id.replace(/^Q/,'')
+      # TODO: also fetch aliased Properties, not only P50
       $.getJSON _.proxy(wd.API.wmflabs.claim(50, numericId))
       .then (res)=>
         if res?.items?
           booksIds = wd.normalizeIds res.items
           _.log booksIds, 'booksIds'
           @set 'reverseClaims.P50', booksIds
-          # almost useless to save yet as Author
-          # is overriden by the unformatted data
+          # almost useless to save yet as cached Author
+          # will be overriden by the unformatted data
           # packaged in the entity search process
           @save()
       .fail (err)-> _.log err, 'fetchAuthorsBooksIds err'

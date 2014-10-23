@@ -27,6 +27,18 @@ Q =
   humans: ['Q5']
   authors: ['Q36180']
 
+P =
+  'P50': [
+    'P58' #screen writer / scénariste
+    'P110' # illustrator
+  ]
+
+aliases = {}
+
+for mainP, aliasedPs of P
+  aliasedPs.forEach (aliasedP)->
+    aliases[aliasedP] = mainP
+
 Q.softAuthors = Q.authors.concat(Q.humans)
 
 module.exports = (Promises)->
@@ -83,6 +95,19 @@ module.exports = (Promises)->
         console.log "couldnt find the #{file} via tools.wmflabs.org"
         return "http://commons.wikimedia.org/w/thumb.php?width=200&f=#{file}"
 
+    aliasingClaims: (claims)->
+      for id, claim of claims
+        # if this Property could be assimilated to another Property
+        # add this Property values to the main one
+        aliasId = aliases[id]
+        if aliasId?
+          before = claims[aliasId] ||= []
+          aliased = claims[id]
+          after = _.toSet before.concat(aliased)
+          _.log [aliasId, before, id, aliased, aliasId, after], 'aliasingClaims'
+          claims[aliasId] = after
+      return claims
+
     getRebasedClaims: (claims)->
       rebased = {}
       for id, claim of claims
@@ -113,6 +138,8 @@ module.exports = (Promises)->
       return rebased
 
     Q: Q
+    P: P
+    aliases: aliases
 
     API: API
 
