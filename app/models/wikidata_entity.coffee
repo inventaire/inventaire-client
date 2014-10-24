@@ -20,7 +20,7 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
       @setWikiLinks(lang)
       @findAPicture()
 
-      @update.status = {formatted: true}
+      @update.status = @status = {formatted: true}
 
       @set @update
       @save()
