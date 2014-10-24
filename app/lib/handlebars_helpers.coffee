@@ -54,6 +54,16 @@ module.exports =
         _.log arguments, 'claim couldnt be displayed by Handlebars'
         return
 
+    register 'timeClaim', (claims, P, format)->
+      if claims?[P]?
+        values = claims[P].map (unixTime)->
+          time = new Date(unixTime)
+          switch format
+            when 'year' then time = time.getUTCFullYear()
+          return time
+
+        return new Handlebars.SafeString values.join ', '
+
     register 'limit', (text, limit)->
       if text?
         t = text[0..limit]

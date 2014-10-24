@@ -5,6 +5,10 @@
     {{/if}}
     <div class="authorData text-center">
       <h3>{{label}}</h3>
+      {{claim claims 'P50'}}
+      {{#if claims.P569}} {{!-- if bearth date --}}
+        ({{timeClaim claims 'P569' 'year'}}-{{timeClaim claims 'P570' 'year'}})
+      {{/if}}
       <h4 class="subheader">{{description}}</h4>
       <p>
         {{partial 'wiki_sitelinks' this}}

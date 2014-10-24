@@ -116,7 +116,7 @@ module.exports = (Promises)->
         # needed app.polyglot to be ready
         if app.polyglot? then rebased[id].label = _.i18n(id)
         if _.isObject claim
-          claim.forEach (statement)->
+          claim.forEach (statement)=>
             # will be overriden at the end of this method
             # so won't be accessible on persisted models
             # testing existance shouldn't be needed thank to the status test
@@ -125,17 +125,22 @@ module.exports = (Promises)->
             if mainsnak?
               [datatype, datavalue] = [mainsnak.datatype, mainsnak.datavalue]
               switch datatype
-                when 'string', 'commonsMedia'
-                  value = datavalue.value
-                  rebased[id].push value
-                when 'wikibase-item'
-                  numericId = datavalue.value['numeric-id']
-                  rebased[id].push "Q#{numericId}"
-                else rebased[id].push(mainsnak)
+                when 'string', 'commonsMedia' then value = datavalue.value
+                when 'wikibase-item' then value = 'Q' + datavalue.value['numeric-id']
+                when 'time' then value = @normalizeTime(datavalue.value.time)
+                else value = mainsnak
+              rebased[id].push value
             else
               # should only happen in snaktype: "novalue" cases or alikes
               console.warn 'no mainsnak found', statement
       return rebased
+
+    normalizeTime: (wikidataTime)->
+      # wikidata time: '+00000001862-01-01T00:00:00Z'
+      [year, month, rest] = wikidataTime.split '-'
+      day = rest[0..1]
+      _.log [year, month, day, wikidataTime, rest], 'time elements'
+      return new Date(year, month, day).getTime()
 
     Q: Q
     P: P
