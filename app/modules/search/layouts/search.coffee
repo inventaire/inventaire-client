@@ -1,6 +1,9 @@
 module.exports = class Search extends Backbone.Marionette.LayoutView
   id: 'searchLayout'
   template: require 'modules/search/layouts/templates/search'
+  behaviors:
+    AlertBox: {}
+
   regions:
     results1: '#results1'
     results2: '#results2'
@@ -52,16 +55,18 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     @showAllLocalFilteredItems(@query)
 
   searchEntities: ->
-    app.request 'search:entities', @query, @results3, @results4, '#searchField'
+    app.request 'search:entities', @query, @results3, @results4, @
+
+  on404: -> app.execute 'show:404'
 
   addHeader: (label, rank)->
     el = "header#{rank}"
     @ui[el].html "<h3 class='subheader'>#{label}</h3>"
 
 
-  resetResults: (numbers)->
-    numbers.forEach (num)->
-      app.layout.entities.search["results#{num}"].empty()
-      app.layout.entities.search["header#{num}"].empty()
+  resetResults: (numbers = [1..4])->
+    numbers.forEach (num)=>
+      @["results#{num}"]?.empty?()
+      @["header#{num}"]?.empty?()
 
   onDestroy: -> app.execute 'search:field:unmaximize'

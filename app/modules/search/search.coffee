@@ -32,15 +32,16 @@ API =
     app.layout.main.Show searchLayout, docTitle
 
 
-  searchEntities: (search, region1, region2, alertSelector)->
+  searchEntities: (search, region1, region2, view)->
     _.log search, 'search'
     app.results ||= {}
     app.execute 'show:loader', {region: region1}
+    _.inspect view
     # verifying that the query is not the same as the last one
     # and using the previous results if so
     if app.results.search is search and app.results.books?.length > 0
-      displayResults(region1, region2, alertSelector)
-      app.layout.main.hide().fadeIn(200)
+      displayResults(region1, region2, view)
+      region1.$el.hide().fadeIn(200)
     else
       $.getJSON app.API.entities.search(search)
       .then (res)->
@@ -48,10 +49,14 @@ API =
         spreadResults(res)
         # hiding the loader
         region1.empty()
-      .then -> displayResults(region1, region2, alertSelector)
+      .then -> displayResults(region1, region2, view)
       .fail (err)=>
+        # couldn't make the alert Behavior work properly
+        # so the triggerMethod '404' thing is a provisory solution
+        view.$el.trigger 'alert', {message: _.i18n 'no item found'}
+        view.triggerMethod '404'
         _.log err, 'searchEntities err'
-        $(alertSelector).trigger 'alert', {message: _.i18n 'no item found'}
+        # if err.status is 404
 
 
 spreadResults = (res)=>
@@ -61,7 +66,6 @@ spreadResults = (res)=>
     books: new app.Collection.Entities
     search: res.search
 
-  _.log res, 'res at spreadResults'
   resultsArray = res.items
   switch res.source
     when 'wd' then addWikidataEntities(resultsArray)
@@ -93,7 +97,7 @@ addNonWikidataEntities = (resultsArray)->
   books = new app.Collection.NonWikidataEntities resultsArray
   books.models.map (el)-> app.results.books.add el
 
-displayResults = (region1, region2, alertSelector)=>
+displayResults = (region1, region2, view)=>
     [humans, authors, books] = [app.results.humans, app.results.authors, app.results.books]
     if books.length + authors.length + humans.length > 0
       if books.length > 0
@@ -107,9 +111,9 @@ displayResults = (region1, region2, alertSelector)=>
         region2.show authorsList
 
       if books.length + authors.length is 0
-        $(alertSelector).trigger 'alert', {message: _.i18n 'no item found (filtered client-side)'}
+        view.$el.trigger 'alert', {message: _.i18n 'no item found (filtered client-side)'}
         region1.empty()
 
     else
-      $(alertSelector).trigger 'alert', {message: _.i18n 'no item found (request returned empty)'}
+      view.$el.trigger 'alert', {message: _.i18n 'no item found (request returned empty)'}
       region1.empty()

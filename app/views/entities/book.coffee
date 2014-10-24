@@ -33,7 +33,7 @@ module.exports = class Book extends Backbone.Marionette.ItemView
     if search.length > 0
       @resetResults()
       [region1, region2] = _.pickToArray(app.layout.entities.search, ['results1', 'results2'])
-      app.request 'search:entities', search, region1, region2, '#bookSearchField'
+      app.request 'search:entities', search, region1, region2, @
     else
       @$el.trigger 'alert', {message: _.i18n 'empty query'}
 
