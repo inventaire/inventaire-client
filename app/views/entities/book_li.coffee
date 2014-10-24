@@ -4,6 +4,7 @@ module.exports = class BookLi extends Backbone.Marionette.ItemView
   className: "bookLi row"
 
   initialize: ->
+    @listenTo @model, 'change', @render
     @listenTo @model, 'add:pictures', @render
     app.request('qLabel:update')
 

@@ -6,29 +6,25 @@
 </div>
 
 <div class='small-12 large-4 columns'>
-  <h4 class="subheader">{{#each authors}}{{this}} {{/each}}</h4>
-  <h4 {{P '50'}} class="subheader"></h4>
-  {{claim claims 'P50'}}
+  {{#if wikidata}}
+    {{claim claims 'P50'}}
+  {{else}}
+    <h4 class="subheader">{{#each authors}}{{this}} {{/each}}</h4>
+  {{/if}}
   <a class='itemTitle' href="{{pathname}}"><h3>{{title}}</h3></a>
   <p class="grey">{{limit description 140}}</p>
-  {{#if wikipedia}}
-    <small class="grey"> {{i18n 'see on'}}
-      <a href="{{wikipedia.url}}" target='_blank'>wikipedia</a>
-      {{i18n 'or'}}
-      <a href="http://www.wikidata.org/entity/{{id}}" target='_blank'>wikidata</a>
-    </small>
-  {{/if}}
+  {{!-- {{partial 'wiki_sitelinks' this}} --}}
 </div>
 
-<div class='small-12 large-4 columns'>
+<div class='actions small-12 large-4 columns'>
   <div>
-    <a id='selectEntity' class='secondary' href="{{pathname}}">
-      {{icon 'chevron-right'}}&nbsp;
+    <a id='selectEntity' class='secondary' href="{{pathname}}" target="_blank">
+      {{icon 'chevron-right'}}
       {{i18n 'More details'}}
     </a>
     <br>
-    <a id='addToInventory' href="{{pathname}}/add">
-      {{icon 'plus'}}&nbsp;
+    <a id='addToInventory' href="{{pathname}}/add" target="_blank">
+      {{icon 'plus'}}
       {{i18n 'Add to my inventory'}}
     </a>
   </div>
