@@ -88,9 +88,11 @@ module.exports = class Item extends Backbone.NestedModel
 
   asMatchable: ->
     [
-      @get("title")
-      @get("comment")
-      @get("username")
+      @get('title')
+      @get('username')
+      @get('comment')
+      @get('notes')
+      @get('entity')
     ]
 
   getEntityModel: (uri)->

@@ -13,6 +13,14 @@ iframe.wikipedia {
   }
 }
 
+#personalGroup, #contactsGroup, #publicGroup{
+  background-color: $dark-grey;
+  padding: 1rem;
+  .subheader{
+    color: white;
+  }
+}
+
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {

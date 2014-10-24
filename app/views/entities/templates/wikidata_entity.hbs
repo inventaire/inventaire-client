@@ -8,11 +8,15 @@
   </div>
 </div>
 
+
 <div class='row'>
-  <div class='small-12 large-8 columns'>
+  <div class='small-12 large-8 columns large-centered'>
 
-    <div class='row'>
 
+    {{!-- ENTITY DATA  --}}
+    <div class='row panel'>
+
+      {{!-- COVER --}}
       <div class='small-12 large-4 columns text-center'>
         {{#if pictures}}
           <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
@@ -20,39 +24,65 @@
       </div>
 
       <div class='small-12 large-8 columns'>
-        <h3>{{title}}</h3>
+        {{!-- TITLE --}}
+        <h2>{{title}}</h2>
+
+        {{!-- AUTHOR --}}
+        <h3>
+          {{#if wikidata}}
+            {{claim claims 'P50'}}
+          {{else}}
+            <span>{{#each authors}}{{this}} {{/each}}</span>
+          {{/if}}
+        </h3>
+
+        {{!-- DESCRIPTION --}}
         {{#if descOverflow}}
           <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
         {{/if}}
         <p id='shortDesc' class='grey'>{{limit description 500}}</p>
         <p id='fullDesc' class='grey hidden'>{{description}}</p>
 
-
-        {{#if ../wikidata}}
-          <p class='grey'> {{i18n 'see on'}}
-            <a href='http://www.wikidata.org/entity/{{id}}' class='default' target='_blank'>wikidata</a>
-          </p>
-        {{/if}}
-
-        <h4>{{#each authors}}{{this}} {{/each}}</h4>
-        <h4 {{P '50'}}></h4>
-        {{#each claims.P50}}
-          <span {{Q this}}></span>
-        {{/each}}
-        <a id='addToInventory' href='{{pathname}}/add' class='button success'>
-          {{icon 'plus'}}
-          {{i18n 'Add to my inventory'}}
-        </a>
+        {{!-- ACTIONS --}}
+        <p>
+          <a id='addToInventory' href='{{pathname}}/add' class='button success'>
+            {{icon 'plus'}}
+            {{i18n 'Add to my inventory'}}
+          </a>
+        </p>
+        {{partial 'wiki_sitelinks' this}}
         <div class='check'></div>
       </div>
-
     </div>
+
+
+    {{!-- PERSONAL ITEMS  --}}
+
+    <div id="personalGroup" class="row">
+      <h3 class="subheader personalHeader">{{i18n "Your items"}}</h3>
+      <div id="personal" class="small-12 large-12 columns"></div>
+    </div>
+
+    {{!-- CONTACTS ITEMS  --}}
+
+    <div id="contactsGroup" class="row">
+      <h3 class="subheader contactsHeader">{{i18n "Contacts's items"}}</h3>
+      <div id="contacts" class="small-12 large-12 columns"></div>
+    </div>
+
+    {{!-- PUBLIC ITEMS  --}}
+
+    <div id="publicGroup" class="row">
+      <h3 class="subheader publicHeader">{{i18n 'Public items'}}</h3>
+      <div id="public" class="small-12 large-12 columns"></div>
+    </div>
+
 
   </div>
 
 
 
-  <div class='small-12 large-4 columns'>
+{{!--   <div class='small-12 large-4 columns'>
     {{#if wikipedia.mobileUrl}}
       <a id='toggleWikiediaPreview'>
         <h3>wikipedia {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}}</h3>
@@ -62,16 +92,6 @@
       </p>
       <div id='wikipedia-article' class='hidden'></div>
     {{/if}}
-  </div>
+  </div> --}}
 
-</div>
-
-
-<div class="row">
-
-  <div class="small-12 large-12 columns">
-    <h2 class="subheader">{{i18n 'Public items'}}</h2>
-  </div>
-
-  <div id="items" class="small-12 large-12 columns"></div>
 </div>
