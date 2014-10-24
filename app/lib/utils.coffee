@@ -11,6 +11,10 @@ isMuted = (label)->
 
 module.exports = (Backbone, _, app, window)->
   log: (obj, label)->
+    # customizing console.log
+    # unfortunatly, it makes the console loose the trace
+    # of the real line and file the _.log function was called from
+    # the trade-off might not be worthing it...
     if _.isString obj
       if label? then obj.logIt(label)
       else console.log obj unless (isMuted(obj) or isMuted(label))
@@ -39,9 +43,11 @@ module.exports = (Backbone, _, app, window)->
     $.post('/test', log)
 
   logXhrErr: (err, label)->
-    switch err.status
-      when 404 then console.warn err.responseText, label
-      else console.error err.responseText, err, label
+    if err?.status?
+      switch err.status
+        when 404 then console.warn err.responseText, label
+        else console.error err.responseText, err, label
+    else console.error err
 
   setCookie: (key, value)->
     $.post '/api/cookie', {key: key, value: value}
