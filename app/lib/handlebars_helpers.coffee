@@ -28,7 +28,7 @@ module.exports =
       if _.typeString(name)
         if icons[name]?
           src = icons[name]
-          return new Handlebars.SafeString "<img class='icon svg' src='#{src}' alt='#{name}'>"
+          return new Handlebars.SafeString "<img class='icon svg' src='#{src}'>"
         else
           # overriding the second argument that could be {hash:,data:}
           unless _.isString classes then classes = ''
