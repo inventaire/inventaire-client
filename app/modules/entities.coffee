@@ -25,26 +25,23 @@ module.exports =
         wd: new Locals.TmpWikidataEntities
         isbn: new Locals.TmpNonWikidataEntities
 
-    collections = [
-      [ Entities.wd, 'wd' ]
-      [ Entities.isbn, 'isbn' ]
-      [ Entities.tmp.wd, 'tmp.wd' ]
-      [ Entities.tmp.isbn, 'tmp.isbn' ]
-    ]
+    collections = [ Entities.wd, Entities.isbn, Entities.tmp.wd, Entities.tmp.isbn ]
 
     Entities.byUri = (uri)->
       result = undefined
-      collections.forEach (couple)->
-        [collection, name] = couple
+      collections.forEach (collection)->
         model = collection.byUri(uri)
         if model? then result = model
       return result
 
     Entities.hardReset = ->
-      collections.forEach (couple)->
-        [collection, name] = couple
-        collection._reset()
+      collections.forEach (collection)-> collection._reset()
       localStorage.clear()
+
+    Entities.length = ->
+      collections
+      .map (el)-> el.length
+      .reduce (a,b)-> a + b
 
     Entities.wd.getCachedEntity = API.getWikidataCachedEntity
     Entities.isbn.getCachedEntity = API.getIsbnCachedEntity
