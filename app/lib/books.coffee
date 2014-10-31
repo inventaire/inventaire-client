@@ -1,5 +1,5 @@
 Promises = require 'lib/promises'
-module.exports = sharedLib('books')(Promises)
+module.exports = sharedLib('books')(Promises, _)
 
 module.exports.getImage = (data)->
     # data = encodeURIComponent(data)

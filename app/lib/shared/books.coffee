@@ -1,4 +1,4 @@
-module.exports = (Promises)->
+module.exports = (Promises, _)->
   methods =
     API:
       google:

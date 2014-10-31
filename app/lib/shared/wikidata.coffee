@@ -1,47 +1,46 @@
-defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
+module.exports = (Promises, _)->
+  defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
 
-API =
-  wikidata:
-    base: 'https://www.wikidata.org/w/api.php'
-    search: (search, language='en', limit='20', format='json')->
-      _.buildPath API.wikidata.base,
-        action: 'wbsearchentities'
-        language: language
-        limit: limit
-        format: format
-        search: search
-  wmflabs:
-    base: 'http://wdq.wmflabs.org/api'
-    query: (query)-> API.wmflabs.base + "?q=#{query}"
-    claim: (P, Q)-> API.wmflabs.base + "?q=CLAIM[#{P}:#{Q}]"
-    string: (P, string)-> API.wmflabs.base + "?q=STRING[#{P}:#{string}]"
+  API =
+    wikidata:
+      base: 'https://www.wikidata.org/w/api.php'
+      search: (search, language='en', limit='20', format='json')->
+        _.buildPath API.wikidata.base,
+          action: 'wbsearchentities'
+          language: language
+          limit: limit
+          format: format
+          search: search
+    wmflabs:
+      base: 'http://wdq.wmflabs.org/api'
+      query: (query)-> API.wmflabs.base + "?q=#{query}"
+      claim: (P, Q)-> API.wmflabs.base + "?q=CLAIM[#{P}:#{Q}]"
+      string: (P, string)-> API.wmflabs.base + "?q=STRING[#{P}:#{string}]"
 
-Q =
-  books: [
-    'Q571' #book
-    'Q2831984' #comic book album
-    'Q1004' # bande dessinée
-    'Q8261' #roman
-    'Q25379' #theatre play
-  ]
-  humans: ['Q5']
-  authors: ['Q36180']
+  Q =
+    books: [
+      'Q571' #book
+      'Q2831984' #comic book album
+      'Q1004' # bande dessinée
+      'Q8261' #roman
+      'Q25379' #theatre play
+    ]
+    humans: ['Q5']
+    authors: ['Q36180']
 
-P =
-  'P50': [
-    'P58' #screen writer / scénariste
-    'P110' # illustrator
-  ]
+  P =
+    'P50': [
+      'P58' #screen writer / scénariste
+      'P110' # illustrator
+    ]
 
-aliases = {}
+  aliases = {}
 
-for mainP, aliasedPs of P
-  aliasedPs.forEach (aliasedP)->
-    aliases[aliasedP] = mainP
+  for mainP, aliasedPs of P
+    aliasedPs.forEach (aliasedP)->
+      aliases[aliasedP] = mainP
 
-Q.softAuthors = Q.authors.concat(Q.humans)
-
-module.exports = (Promises)->
+  Q.softAuthors = Q.authors.concat(Q.humans)
 
   methods =
     getEntities: (ids, languages, props=defaultProps, format='json')->
