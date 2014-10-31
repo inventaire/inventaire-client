@@ -12,6 +12,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     modal: '#modalContent'
 
   events:
+    'click a': 'unpreventDefault'
     'click #home': 'showHome'
     'keyup .enterClick': 'enterClick'
     'click a.back': -> window.history.back()
@@ -106,3 +107,21 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     href = e.target.href
     uri = href.split('/entity/').last()
     app.execute 'show:entity', uri
+
+  unpreventDefault: (e)->
+    # largely inspired by
+    # https://github.com/jmeas/backbone.intercept/blob/master/src/backbone.intercept.js
+
+    # Only intercept left-clicks
+    return  if e.which isnt 1
+
+    $link = $(e.currentTarget)
+    # Get the href; stop processing if there isn't one
+    href = $link.attr("href")
+    return  unless href
+
+    # Return if the URL is absolute, or if the protocol is mailto or javascript
+    return  if /^#|javascript:|mailto:|(?:\w+:)?\/\//.test(href)
+
+    # If we haven't been stopped yet, then we prevent the default action
+    e.preventDefault()

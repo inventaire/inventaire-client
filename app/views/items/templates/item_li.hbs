@@ -1,6 +1,6 @@
 <div class="cover small-12 large-3 columns text-center">
   {{#if picture}}
-    <a href="{{pathname}}">
+    <a data-href="{{pathname}}">
       <img src="{{picture}}">
     </a>
   {{/if}}
@@ -8,8 +8,7 @@
 
 <div class="details small-12 large-9 columns">
 
-  <h4 class="title"><a class="itemShow" {{ifvalue 'href' pathname}}>{{title}}</a></h4>
-
+  <h3 class="title"><a class="itemShow" {{!-- {{ifvalue 'href' pathname}} --}}>{{title}}</a></h3>
   <div class="user-box">
     <div class="left-box">
       <img class="profilePic" src="{{profilePic}}">
