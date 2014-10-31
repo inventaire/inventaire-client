@@ -76,7 +76,7 @@ API =
   # filterForUser: ->
   #   owner = app.request('getOwnerFromUsername', user)
   #   if owner?
-  #     app.execute 'filter:inventory:owner', owner
+  #     app.execute 'filter:inventory:owner', Items.contacts.filtered, owner
   #   else
   #     _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
 
@@ -106,7 +106,9 @@ API =
       switch items.length
         when 0 then app.execute 'show:404'
         when 1 then app.execute 'show:item:show:from:model', items[0]
-        else _.log 'multi items not implemented yet'
+        else
+          console.warn 'multi items not implemented yet'
+          app.execute 'show:item:show:from:model', items[0]
     else throw 'shouldnt be at least an empty array here?'
 
   showItemShowFromItemModel: (item)->

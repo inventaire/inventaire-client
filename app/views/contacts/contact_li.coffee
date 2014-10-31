@@ -30,8 +30,8 @@ module.exports = class Contact extends Backbone.Marionette.ItemView
       @selectContact()
 
   selectContact: ->
-    app.execute 'contact:fetchItems', @model unless @model.get('following')
-    app.execute 'filter:inventory:owner', @model.id
+    app.execute('contact:fetchItems', @model)  unless @model.get('following')
+    app.execute 'filter:inventory:owner', Items.contacts.filtered, @model.id
     $('.selected').removeClass('selected')
     @$el.addClass('selected')
 

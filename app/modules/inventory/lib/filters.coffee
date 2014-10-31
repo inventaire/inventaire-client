@@ -6,7 +6,7 @@ module.exports =
     Items.public.filtered = new FilteredCollection Items.public
 
     app.commands.setHandlers
-      # 'filter:inventory:owner': filterInventoryByOwner
+      'filter:inventory:owner': filterInventoryByOwner
       'filter:visibility': filterVisibilityBy
       'filter:visibility:reset': resetFilters
       'textFilter': textFilter
@@ -29,3 +29,6 @@ textFilter = (collection, text)->
     collection.filterBy 'text', (model)-> model.matches filterExpr
   else
     collection.removeFilter 'text'
+
+filterInventoryByOwner = (collection, owner)->
+  collection.filterBy 'owner', (model)-> model.get('owner') is owner
