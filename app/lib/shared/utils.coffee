@@ -56,11 +56,6 @@ module.exports = (_)->
     if array instanceof Array then array
     else throw new Error "TypeError: #{array} instead of Array"
 
-  toSet: (array)->
-    obj = {}
-    array.forEach (value)-> obj[value] = true
-    return Object.keys(obj)
-
   isUrl: (str)->
     # not perfect, just roughly filtering
     # accepts url delegating protocol choice to the browser with only '//'

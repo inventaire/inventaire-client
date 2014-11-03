@@ -102,7 +102,7 @@ module.exports = (Promises, _)->
         if aliasId?
           before = claims[aliasId] ||= []
           aliased = claims[id]
-          after = _.toSet before.concat(aliased)
+          after = _.uniq before.concat(aliased)
           _.log [aliasId, before, id, aliased, aliasId, after], 'aliasingClaims'
           claims[aliasId] = after
       return claims

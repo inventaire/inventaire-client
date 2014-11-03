@@ -104,7 +104,7 @@ module.exports = (Backbone, _, app, window)->
 
   ping: ->
     $.get '/test'
-    .fail (err)-> _.log err, 'server: unreachable. You might be offline'
+    .fail (err)-> console.warn 'server: unreachable. You might be offline', err
     .done()
 
   hasKnownUriDomain: (str)->
@@ -179,3 +179,8 @@ module.exports = (Backbone, _, app, window)->
         when 'wd' then return wd.isWikidataId(id)
         when 'isbn' then return app.lib.books.isNormalizedIsbn(id)
     return false
+
+  uniq: (array)->
+    obj = {}
+    array.forEach (value)-> obj[value] = true
+    return Object.keys(obj)
