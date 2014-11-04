@@ -29,6 +29,7 @@
     "lang": "git@github.com:maxlath/lang.git",
     "qlabel": "git@github.com:maxlath/qlabel.git#bower-support",
     "backbone.localStorage": "git@github.com:malept/Backbone.localStorage.git#fix-backbone-version-dependency",
-    "blueimp-canvas-to-blob": "~2.1.1"
+    "blueimp-canvas-to-blob": "~2.1.1",
+    "level-browser": "git@github.com:maxlath/level-browser.git#master"
   }
 }
