@@ -54,7 +54,6 @@ module.exports =
       ChangePicture: require 'views/behaviors/change_picture'
     Entities:
       Wikidata: require 'views/entities/wikidata_entity'
-      Author: require 'views/entities/author_entity'
       AuthorLi: require 'views/entities/author_li'
       Search: require 'views/entities/entities_search_form'
       Form:
