@@ -1,6 +1,7 @@
 require('lib/uncatched_error_logger').initialize()
 require('lib/handlebars_helpers').initialize()
 
+
 window.sharedLib = sharedLib = require('lib/shared/shared_libs')
 
 app = require 'app'
@@ -25,6 +26,16 @@ app.API = require 'api'
 # -> should be refactored to make them functions called at run-time?
 _.extend app, require 'structure'
 
+# packaging LevelDb libraries into Level
+require('lib/local_dbs').initialize()
+
+# constructor for interactions between module and LevelDb/IndexedDb
+app.LocalCache = require('lib/local_cache')
+
+# setting reqres to trigger methods on data:ready events
+app.data = require('lib/data_state')
+app.data.initialize()
+
 app.lib.i18n.initialize(app)
 
 # initialize all the module routes before app.start()
@@ -40,8 +51,6 @@ if app.user.loggedIn
   app.module 'Listings', require 'modules/listings'
   app.module 'Contacts', require 'modules/contacts'
 
-  app.data = require('lib/data_state')
-  app.data.initialize()
 
 app.request('i18n:set')
 .done ->

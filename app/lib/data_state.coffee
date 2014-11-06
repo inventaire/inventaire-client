@@ -9,6 +9,11 @@ module.exports =
         if app.data.ready then fn()
         else app.vent.on 'data:ready', fn
 
+      'waitForUserData': (cb, context, args...)->
+        fn = -> cb.apply context, args
+        if app.user?.fetched then fn()
+        else app.vent.on 'user:ready', fn
+
   updateStatus: ->
     # if @missing wasnt initialized
     if not @missing?
@@ -41,15 +46,19 @@ findMissingDataSets = ->
 
 data = [
   {
+    eventName: 'user:ready'
+    control: -> app?.user?.fetched
+  },
+  {
     eventName: 'items:ready'
-    control: -> Items.personal.fetched
+    control: -> Items?.personal?.fetched
   },
   {
     eventName: 'contacts:ready'
-    control: -> app.contacts.fetched
+    control: -> app?.contacts?.fetched
   },
   {
     eventName: 'entities:ready'
-    control: -> Entities.fetched
+    control: -> Entities?.fetched
   }
 ]
