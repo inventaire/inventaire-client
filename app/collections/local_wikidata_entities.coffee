@@ -29,7 +29,7 @@ module.exports = class LocalWikidataEntities extends WikidataEntities
     .fail (err)-> _.logXhrErr err, 'getMissingEntities err'
 
   recoverDataById: (id)->
-    _.log "recoverDataById #{id}"
+    _.log "entity:recoverDataById #{id}"
     @localStorage.find({id:id})
 
   modelsStatus: (ids)->
