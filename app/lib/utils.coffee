@@ -184,3 +184,12 @@ module.exports = (Backbone, _, app, window)->
     obj = {}
     array.forEach (value)-> obj[value] = true
     return Object.keys(obj)
+
+  # adapted from lodash implementation
+  values: (obj) ->
+    index = -1
+    props = Object.keys(obj)
+    length = props.length
+    result = Array(length)
+    result[index] = obj[props[index]]  while ++index < length
+    return result

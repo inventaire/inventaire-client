@@ -3,21 +3,23 @@ module.exports =
 
   initialize: ->
     initializeContacts()
-    fetchContactsAndTheirItems()
+    app.request 'waitForUserData', fetchContactsAndTheirItems
     initializeContactSearch()
 
 initializeContacts = ->
   app.contacts = new app.Collection.Contacts
 
-  app.reqres.setHandlers
-    'fetchUserDataFromIds': (ids)->
-      return $.getJSON(app.API.users.data(ids))
-      .then (contactModels)->
-        _.log contactModels, 'fetchUserDataFromIds'
-        app.contacts.add contactModels
-        return contactModels
-      .fail (err)-> throw new Error err
+  remoteData =
+    get: (ids)-> $.getJSON app.API.users.data(ids)
 
+  app.contacts.data =
+    remote: remoteData
+    local: new app.LocalCache
+      localDb: Level('users')
+      remoteDataGetter: remoteData.get
+      parseData: (data)-> data.users
+
+  app.reqres.setHandlers
     'getUsernameFromOwner': (id)->
       contactModel = app.contacts.byId(id)
       if contactModel? then contactModel.get('username')
@@ -57,17 +59,42 @@ initializeContacts = ->
     'contact:removeItems': (contactModel)-> removeContactItems.call contactModel
 
 fetchContactsAndTheirItems = ->
-  $.getJSON '/api/contacts'
-  .then (res)->
-    res.forEach (contact)->
-      contactModel = app.contacts.add contact
+  fetchRelationsData()
+  .then (relationsData)->
+
+    # FRIENDS
+    relationsData.friends.forEach (friend)->
+      contactModel = app.contacts.add friend
       contactModel.following = true
       contactModel.trigger 'change:following', contactModel
       app.execute 'contact:fetchItems', contactModel
-  .fail (err)-> _.logXhrErr err
-  .always ->
     app.contacts.fetched = true
     app.vent.trigger 'contacts:ready'
+
+    # REQUESTED: todo with the friend request menu
+
+  .catch (err)->
+    _.log err, 'get err'
+    throw new Error('get', err.stack or err)
+
+fetchRelationsData = ->
+  relations = app.user.get('relations')
+  _.log relations, 'relations'
+  ids = _.flatten _.values(relations)
+  _.log ids, 'fetchRelationsData ids'
+  return app.contacts.data.local.get(ids)
+  .then (data)-> spreadRelationsData(data, relations)
+
+spreadRelationsData = (data, relations)->
+  relationsData =
+    friends: []
+    userRequests: []
+    othersRequests: []
+
+  for relationType, list of relations
+    list.forEach (user)->
+      relationsData[relationType].push data[user]
+  return relationsData
 
 initializeContactSearch = ->
   app.filteredContacts = new FilteredCollection app.contacts
@@ -143,6 +170,8 @@ unfollowContact = (contactId)->
 
 fetchContactItems = ->
   username = @get('username')
+  console.log('fetchContactItems arguments', arguments)
+  console.log('fetchContactItems this', this)
   $.getJSON app.API.contacts.items(@id)
   .done (res)->
     res.forEach (item)->
