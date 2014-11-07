@@ -1,2 +1,1 @@
-Promises = require 'lib/promises'
-module.exports = sharedLib('wikidata')(Promises, _)
+module.exports = sharedLib('wikidata')(_.preq, _)

@@ -12,7 +12,7 @@ module.exports = class AuthorWikidataEntity extends WikidataEntity
     else
       numericId = @id.replace(/^Q/,'')
       # TODO: also fetch aliased Properties, not only P50
-      $.getJSON _.proxy(wd.API.wmflabs.claim(50, numericId))
+      _.preq.get wd.API.wmflabs.claim(50, numericId)
       .then (res)=>
         if res?.items?
           booksIds = wd.normalizeIds res.items

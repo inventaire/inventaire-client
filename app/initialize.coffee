@@ -11,6 +11,9 @@ local = require('lib/utils')(Backbone, _, app, window)
 shared = sharedLib('utils')(_)
 _.extend _, local, shared
 
+# http requests handler returning promises
+_.preq = require 'lib/preq'
+
 _.isMobile = require 'lib/mobile_check'
 
 window.wd = require 'lib/wikidata'

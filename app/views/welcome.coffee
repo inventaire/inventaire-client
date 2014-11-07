@@ -17,14 +17,14 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     # app.contacts will be override on Contacts module initialization
     app.contacts = new app.Collection.Contacts
     items = new app.Collection.Items
-    $.getJSON(app.API.items.public())
+    _.preq.get app.API.items.public()
     .then (res)=>
       _.log res, 'Items.public res'
       app.contacts.add res.users
       items.add res.items
       itemsList = new app.View.ItemsList {collection: items}
       @right.show itemsList
-    .fail (err)->
+    .fail (err)=>
       _.log err, 'couldnt loadPublicItems'
       @unsplitScreen()
 

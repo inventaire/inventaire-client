@@ -50,7 +50,7 @@ API =
   showPublicInventory: ->
     showInventory _.i18n('Public')
     app.execute('show:loader', {region: app.inventory.itemsView})
-    $.getJSON(app.API.items.public())
+    _.preq.get(app.API.items.public())
     .then (res)->
       _.log res, 'Items.public res'
       # not testing if res has items or users
@@ -62,8 +62,6 @@ API =
     .fail (err)->
       if err.status is 404
         showItemList()
-      else _.logXhrErr(err)
-    .done()
 
   showItemCreationForm: (options)->
     form = new app.View.Items.Creation options
@@ -142,11 +140,10 @@ fetchItems = (app)->
     'requestPublicItem': requestPublicItem
 
 requestPublicItem = (username, suffix)->
-  $.getJSON(app.API.items.public(suffix, username))
+  _.preq.get(app.API.items.public(suffix, username))
   .then (res)->
     app.contacts.add res.user
     return Items.public.add res.items
-  .fail (err)-> _.logXhrErr(err)
 
 
 validateCreation = (itemData)->

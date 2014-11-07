@@ -43,7 +43,7 @@ API =
       displayResults(region1, region2, view)
       region1.$el.hide().fadeIn(200)
     else
-      $.getJSON app.API.entities.search(search)
+      _.preq.get app.API.entities.search(search)
       .then (res)->
         _.log res, 'res at searchEntities'
         spreadResults(res)

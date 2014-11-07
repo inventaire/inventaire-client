@@ -1,17 +1,15 @@
 module.exports = (Promises, _)->
+  get = (url)-> Promises.get url, {CORS: false}
   methods =
     API:
       google:
-        book: (data)-> Promises.get "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
+        book: (data)-> get "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
       worldcat:
         # http://xisbn.worldcat.org/xisbnadmin/doc/api.htm
         isbnBaseRoute: 'http://xisbn.worldcat.org/webservices/xid/isbn/'
-        to10: (isbn13)->
-          Promises.get @isbnBaseRoute + "#{isbn13}?method=to10&format=json"
-        to13: (isbn10)->
-          Promises.get @isbnBaseRoute + "#{isbn10}?method=to13&format=json"
-        hyphen: (isbn)->
-          Promises.get @isbnBaseRoute + "#{isbn10}?method=hyphen&format=json"
+        to10: (isbn13)-> get @isbnBaseRoute + "#{isbn13}?method=to10&format=json"
+        to13: (isbn10)-> get @isbnBaseRoute + "#{isbn10}?method=to13&format=json"
+        hyphen: (isbn)-> get @isbnBaseRoute + "#{isbn10}?method=hyphen&format=json"
 
     isIsbn: (text)->
       cleanedText = @normalizeIsbn(text)
@@ -53,7 +51,7 @@ module.exports = (Promises, _)->
       if isbn? then data.id = data.uri = "isbn:#{isbn}"
       else if otherId? then data.id = data.uri = otherId
       else
-        _.logRed 'no id found at normalizeBookData. Will be droped'
+        _.error 'no id found at normalizeBookData. Will be droped'
         return
 
       if cleanedItem.imageLinks?

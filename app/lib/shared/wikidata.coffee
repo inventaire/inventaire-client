@@ -57,7 +57,7 @@ module.exports = (Promises, _)->
         props: props.join '|'
         ids: ids.join '|'
       ).logIt('query:getEntities')
-      return Promises.get(query, false)
+      return Promises.get(query, {CORS: false})
 
     normalizeIds: (idsArray)->
       idsArray.map (id)=> @normalizeId(id)
