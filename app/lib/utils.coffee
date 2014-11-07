@@ -10,7 +10,7 @@ isMuted = (label)->
     return (muted.indexOf(tag) isnt -1)
 
 module.exports = (Backbone, _, app, window)->
-  log: (obj, label)->
+  log: (obj, label, stack)->
     # customizing console.log
     # unfortunatly, it makes the console loose the trace
     # of the real line and file the _.log function was called from
@@ -23,9 +23,14 @@ module.exports = (Backbone, _, app, window)->
         console.log "===== #{label} =====" if label? and not isMuted(label)
         console.log obj
         console.log "-----" if label?
+
+    # log a stack trace if stack option is true
+    if stack
+      console.log new Error('fake error').stack.split("\n")
+
     return obj
 
-  logRed: @log
+  error: console.error.bind(console)
 
   logAllEvents: (obj, prefix='logAllEvents')->
     obj.on 'all', (event)->
@@ -193,3 +198,5 @@ module.exports = (Backbone, _, app, window)->
     result = Array(length)
     result[index] = obj[props[index]]  while ++index < length
     return result
+
+  localUrl: (url)-> /^\//.test(url)
