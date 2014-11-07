@@ -43,7 +43,7 @@ initDataHandlers = ->
   app.users.data =
     remote: remoteData
     local: new app.LocalCache
-      name: Level('users')
+      name: 'users'
       remoteDataGetter: remoteData.get
       parseData: (data)-> data.users
 

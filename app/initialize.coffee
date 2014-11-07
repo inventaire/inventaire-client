@@ -21,9 +21,6 @@ app.API = require 'api'
 # -> should be refactored to make them functions called at run-time?
 _.extend app, require 'structure'
 
-# packaging LevelDb libraries into Level
-require('lib/local_dbs').initialize()
-
 # constructor for interactions between module and LevelDb/IndexedDb
 app.LocalCache = require('lib/local_cache')
 
@@ -33,7 +30,7 @@ app.data.initialize()
 
 app.lib.i18n.initialize(app)
 
-# initialize all the module routes before app.start()
+# initialize all the modules and their routes before app.start()
 # the first routes initialized have the lowest priority
 app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
 app.module 'User', require 'modules/user'
