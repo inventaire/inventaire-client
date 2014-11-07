@@ -163,8 +163,7 @@ API =
           $("#step2 .button").trigger('click')
 
   getEntityPublicItems: (uri)->
-    return $.getJSON app.API.items.public(uri)
-    .fail _.log
+    _.preq.get app.API.items.public(uri)
 
 
 setHandlers = ->
