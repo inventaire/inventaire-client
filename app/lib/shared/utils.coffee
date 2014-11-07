@@ -13,9 +13,6 @@ module.exports = (_)->
       i++
     return text
 
-  # weak but handy
-  hasDiff: (obj1, obj2)-> JSON.stringify(obj1) != JSON.stringify(obj2)
-
   buildPath: (pathname, queryObj, escape)->
     queryObj = @removeUndefined(queryObj)
     if queryObj? and not _.isEmpty queryObj
