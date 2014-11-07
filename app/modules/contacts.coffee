@@ -10,7 +10,8 @@ initializeContacts = ->
   app.contacts = new app.Collection.Contacts
 
   remoteData =
-    get: (ids)-> $.getJSON app.API.users.data(ids)
+    get: (ids)-> _.preq.get app.API.users.data(ids)
+    search: (text)-> _.preq.get app.API.contacts.search(text)
 
   app.contacts.data =
     remote: remoteData
@@ -23,23 +24,17 @@ initializeContacts = ->
     'getUsernameFromOwner': (id)->
       contactModel = app.contacts.byId(id)
       if contactModel? then contactModel.get('username')
-      else
-        console.warn "couldnt find the contact from id: #{id}"
-        return
+      else console.warn "couldnt find the contact from id: #{id}"
 
     'getOwnerFromUsername': (username)->
       contactModel = app.contacts.findWhere({username: username})
       if contactModel? then contactModel.id
-      else
-        console.warn "couldnt find the contact from username: #{username}"
-        return
+      else console.warn "couldnt find the contact from username: #{username}"
 
     'getProfilePicFromId': (id)->
       contactModel = app.contacts.byId(id)
       if contactModel? then contactModel.get 'picture'
-      else
-        console.warn "couldnt find the contact from id: #{id}"
-        return
+      else console.warn "couldnt find the contact from id: #{id}"
 
   # include main user in contacts to be able to access it from getUsernameFromOwner
   app.contacts.add app.user
@@ -104,7 +99,7 @@ initializeContactSearch = ->
 
 contactSearch = (text)->
   filterContacts.call(app.filteredContacts, text)
-  if text isnt '' and app.contacts.queried.indexOf(text) is -1
+  unless text is '' or _.hasValue(app.contacts.queried, text)
     console.log "contact search: #{text}"
     queryContacts(text)
   else
@@ -113,16 +108,14 @@ contactSearch = (text)->
 filterContacts = (text)->
   if text is ''
     @removeFilter 'text'
-    @filterBy 'following', (model)->
-      return model.following
+    @filterBy 'following', (model)-> model.following
   else
     @removeFilter 'following'
     filterExpr = new RegExp text, "i"
-    @filterBy 'text', (model)->
-      return model.matches filterExpr
+    @filterBy 'text', (model)-> model.matches filterExpr
 
 queryContacts = (text)->
-  $.getJSON app.API.contacts.search(text)
+  app.contacts.data.remote.search(text)
   .done (res)->
     res.forEach (contact)->
       app.contacts.add contact if isRelevant.call contact
@@ -170,10 +163,8 @@ unfollowContact = (contactId)->
 
 fetchContactItems = ->
   username = @get('username')
-  console.log('fetchContactItems arguments', arguments)
-  console.log('fetchContactItems this', this)
-  $.getJSON app.API.contacts.items(@id)
-  .done (res)->
+  _.preq.get app.API.contacts.items(@id)
+  .then (res)->
     res.forEach (item)->
       itemModel = Items.contacts.add item
       itemModel.username = username
