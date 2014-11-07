@@ -31,15 +31,10 @@ module.exports = LocalCache = (options)->
     .then parseJSON
 
   parseJSON = (data)->
-    _.log data, 'data at parseJSON'
     parsed = {}
     for k,v of data
-      try
-        parsed[k] = JSON.parse(v)
-      catch err
-        console.log "invalid json: #{v}"
-
-    _.log parsed, 'parsed at parseJSON'
+      try parsed[k] = JSON.parse(v)
+      catch err then _.error "invalid json: #{v}"
     return parsed
 
   completeWithRemoteData = (data)->
