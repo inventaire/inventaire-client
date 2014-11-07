@@ -10,9 +10,8 @@ window.app = app
 _ = require('lib/builders/utils')(Backbone, window._, app, window)
 
 window.wd = require 'lib/wikidata'
-window.location.root = window.location.protocol + '//' + window.location.host
 
-require('lib/global_libs_extender').initialize()
+require('lib/global_libs_extender')()
 
 # gets all the routes used in the app
 app.API = require 'api'
