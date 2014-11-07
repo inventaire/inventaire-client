@@ -1,7 +1,7 @@
 module.exports =
   initialize: ->
     @ready = false
-    @updateStatus()
+    @_updateStatus()
 
     app.reqres.setHandlers
       'waitForData': (cb, context, args...)->
@@ -14,22 +14,22 @@ module.exports =
         if app.user?.fetched then fn()
         else app.vent.on 'user:ready', fn
 
-  updateStatus: ->
+  _updateStatus: ->
     # if @missing wasnt initialized
     if not @missing?
       @missing = findMissingDataSets()
-      @listenForReadyEvents()
-      @checkIfDataReady()
+      @_listenForReadyEvents()
+      @_checkIfDataReady()
     else
       @missing = findMissingDataSets()
       # listeners should already be there, no need to re-add them
-      @checkIfDataReady()
+      @_checkIfDataReady()
 
-  listenForReadyEvents: ->
+  _listenForReadyEvents: ->
     @missing.forEach (el)=>
-      app.vent.once el.eventName, app.data.updateStatus, app.data
+      app.vent.once(el.eventName, app.data._updateStatus, app.data)
 
-  checkIfDataReady: ->
+  _checkIfDataReady: ->
     if @missing.length is 0
       @ready = true
       app.vent.trigger 'data:ready'
@@ -40,25 +40,24 @@ module.exports =
 findMissingDataSets = ->
   missing = []
   data.forEach (el)->
-    if not el.control()
-      missing.push el
+    missing.push(el)  unless el.ready()
   return missing
 
 data = [
   {
     eventName: 'user:ready'
-    control: -> app?.user?.fetched
+    ready: -> app?.user?.fetched
   },
   {
     eventName: 'items:ready'
-    control: -> Items?.personal?.fetched
+    ready: -> Items?.personal?.fetched
   },
   {
     eventName: 'users:ready'
-    control: -> app?.users?.fetched
+    ready: -> app?.users?.fetched
   },
   {
     eventName: 'entities:ready'
-    control: -> Entities?.fetched
+    ready: -> Entities?.fetched
   }
 ]
