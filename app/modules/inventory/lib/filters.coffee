@@ -2,7 +2,7 @@ module.exports =
   initialize: (app)->
 
     Items.personal.filtered = new FilteredCollection Items.personal
-    Items.contacts.filtered = new FilteredCollection Items.contacts
+    Items.friends.filtered = new FilteredCollection Items.friends
     Items.public.filtered = new FilteredCollection Items.public
 
     app.commands.setHandlers
@@ -17,7 +17,7 @@ filterVisibilityBy = (audience)->
 
 visibilityFilters =
   'private': {'listing':'private'}
-  'contacts': {'listing':'contacts'}
+  'friends': {'listing':'friends'}
   'public': {'listing':'public'}
 
 resetFilters = ->

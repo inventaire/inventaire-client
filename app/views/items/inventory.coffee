@@ -11,9 +11,10 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
         when 'personal'
           # app.layout.viewTools.empty()
           app.inventory.sideMenu.show new app.View.PersonalInventoryTools
-        when 'network'
-          # app.layout.viewTools.show new app.View.ContactsInventoryTools
-          app.inventory.sideMenu.show new app.View.Contacts.List {collection: app.filteredContacts}
+        when 'friends'
+          _.log app.users, 'app.users'
+          # app.layout.viewTools.show new app.View.FriendsInventoryTools
+          app.inventory.sideMenu.show new app.View.Users.List {collection: app.users.friends.filtered}
         when 'public'
           # app.layout.viewTools.empty()
           app.inventory.sideMenu.empty()

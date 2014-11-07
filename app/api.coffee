@@ -10,14 +10,13 @@ module.exports =
         ids = ids.join?('|') or ids
         return "/api/users?action=getusers&ids=#{ids}"
       else throw new Error "users data API needs an array of ids"
-  contacts:
-    contacts: '/api/contacts'
+    friends: '/api/friends'
     items: (id)->
       if id? then "/api/#{id}/items"
-      else throw new Error "contacts' items API needs an id"
+      else throw new Error "users' items API needs an id"
     search: (text)->
       if text? then "/api/users?action=search&search=#{text}"
-      else throw new Error "contacts' search API needs a text argument"
+      else throw new Error "users' search API needs a text argument"
   items:
     items: '/api/items'
     public: (uri, username)->

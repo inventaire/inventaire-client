@@ -11,7 +11,7 @@ module.exports =
         controller: API
 
     initializePersona(app)
-    app.user = new app.Model.User
+    app.user = new app.Model.MainUser
     recoverUserData(app)
     initializeUserI18nSettings(app)
     initializeUserEditionCommands(app)
@@ -120,9 +120,10 @@ recoverUserData = (app)->
       unless app.user.get('language')?
         if lang = $.cookie 'lang'
           _.log app.user.set('language', lang), 'language set from cookie'
+      app.vent.trigger 'user:ready'
+      app.user.fetched = true
     .fail (err)->
       _.logXhrErr(err, 'recoverUserData fail')
-    .done()
   else
     app.user.loggedIn = false
 
@@ -163,8 +164,8 @@ initializeUserListings = (app)->
       icon: 'lock'
       unicodeIcon: '&#xf023;'
       label: 'Private'
-    contacts:
-      id: 'contacts'
+    friends:
+      id: 'friends'
       icon: 'users'
       unicodeIcon: '&#xf0c0;'
       label: 'Shared with friends'

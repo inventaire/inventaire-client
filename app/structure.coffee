@@ -1,7 +1,7 @@
 module.exports =
   Collection:
     Items: require 'collections/items'
-    Contacts: require 'collections/contacts'
+    Users: require 'collections/users'
     Entities: require 'collections/entities'
     LocalEntities: require 'collections/local_entities'
     TemporaryEntities: require 'collections/temporary_entities'
@@ -14,9 +14,9 @@ module.exports =
     NonWikidataEntities: require 'collections/non_wikidata_entities'
 
   Model:
+    MainUser: require 'models/main_user'
     User: require 'models/user'
     Item: require 'models/item'
-    Contact: require 'models/contact'
     WikidataEntity: require 'models/wikidata_entity'
     BookWikidataEntity: require 'models/book_wikidata_entity'
     AuthorWikidataEntity: require 'models/author_wikidata_entity'
@@ -42,11 +42,11 @@ module.exports =
     ItemEditionForm: require 'views/items/item_edition_form'
     InventoriesTabs: require 'views/items/inventories_tabs'
     PersonalInventoryTools: require 'views/items/personal_inventory_tools'
-    ContactsInventoryTools: require 'views/items/contacts_inventory_tools'
-    Contacts:
-      Li: require 'views/contacts/contact_li'
-      No: require 'views/contacts/no_contact'
-      List: require 'views/contacts/contacts_list'
+    FriendsInventoryTools: require 'views/items/friends_inventory_tools'
+    Users:
+      Li: require 'views/users/user_li'
+      No: require 'views/users/no_user'
+      List: require 'views/users/users_list'
     Behaviors:
       ConfirmationModal: require 'views/behaviors/confirmation_modal'
       Loader: require 'views/behaviors/loader'

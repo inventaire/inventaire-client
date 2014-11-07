@@ -1,27 +1,38 @@
-  #welcome-left{
+#welcome-left{
+  background-color: #fff;
+  // height: 100%;
+  // width: 50vw;
+  // position: fixed;
+  // z-index: -1;
+  // top: 0;
   padding-top: 2rem;
   ul{
     margin-top: 2rem;
-  }
-  li{
-    margin: 1rem;
-  }
-  .one{
-    background-color: $secondary-color;
-    &:hover{
-      background-color: darken($secondary-color, 10%)
-    }
-    a{
-      color: #222;
+    li{
+      margin: 1rem;
     }
   }
-  .two{
-    background-color: $success-color;
-    &:hover{
-      background-color: darken($success-color, 20%)
+  h2{
+    font-weight: 900;
+  }
+  #loginButtons{
+    .one{
+      background-color: $secondary-color;
+      &:hover{
+        background-color: darken($secondary-color, 10%)
+      }
+      a{
+        color: #222;
+      }
     }
-    a{
-      color: white;
+    .two{
+      background-color: $success-color;
+      &:hover{
+        background-color: darken($success-color, 20%)
+      }
+      a{
+        color: white;
+      }
     }
   }
 }
@@ -32,20 +43,31 @@
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
-  #welcome {
+  #welcome-left {
     h2 {
       font-size: 3rem;
-      font-weight: 900;
     }
   }
 }
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  #welcome {
+  #welcome-left {
+    // position: fixed !important;
+    // top: 50%;
+    // left: 25%;
+    // margin-top: -40vh;
+    // margin-left: -22vw;
     h2 {
       font-size: 5rem;
-      font-weight: 900;
+    }
+    .pusher{
+      position: fixed;
+      bottom: 0;
+      background-color: #fff;
+      height: 100%;
+      width: 50%;
+      z-index: -1;
     }
   }
 }

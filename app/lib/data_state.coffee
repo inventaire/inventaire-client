@@ -54,8 +54,8 @@ data = [
     control: -> Items?.personal?.fetched
   },
   {
-    eventName: 'contacts:ready'
-    control: -> app?.contacts?.fetched
+    eventName: 'users:ready'
+    control: -> app?.users?.fetched
   },
   {
     eventName: 'entities:ready'

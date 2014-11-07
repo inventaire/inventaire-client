@@ -1,9 +1,9 @@
-$contact-bg: #ddd;
-.contactList{
+$user-bg: #ddd;
+.usersList{
   li{
-    background-color: $contact-bg;
+    background-color: $user-bg;
     &:hover{
-        background-color: darken($contact-bg, 20%);
+        background-color: darken($user-bg, 20%);
         transition: background-color 0.2s linear;
     }
     padding: 0.3rem;
@@ -14,12 +14,12 @@ $contact-bg: #ddd;
       padding-left: 0.5rem;
     }
   }
-  .selectContact{
+  .selectUser{
     cursor: pointer;
   }
 
   .selected{
-    background-color: darken($contact-bg, 40%);
+    background-color: darken($user-bg, 40%);
   }
 }
 

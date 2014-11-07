@@ -9,5 +9,5 @@ module.exports = class Items extends Backbone.Collection
   byEntityUri: (uri)-> @where {entity: uri}
 
   byUsername: (username)->
-    owner = app.request 'getOwnerFromUsername', username
+    owner = app.request 'getUserIdFromUsername', username
     return @where {owner: owner}

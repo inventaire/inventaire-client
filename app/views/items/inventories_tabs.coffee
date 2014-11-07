@@ -3,7 +3,7 @@ module.exports = class InventoriesTabs extends Backbone.Marionette.ItemView
 
   events:
     'click #personal': -> app.execute 'show:inventory:personal'
-    'click #network': -> app.execute 'show:inventory:network'
+    'click #friends': -> app.execute 'show:inventory:friends'
     'click #public': -> app.execute 'show:inventory:public'
 
   initialize: ->

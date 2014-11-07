@@ -1,14 +1,14 @@
-module.exports = class Contact extends Backbone.Marionette.ItemView
+module.exports = class UserLi extends Backbone.Marionette.ItemView
   tagName: "li"
-  className: "contact row"
-  template: require 'views/contacts/templates/contact_li'
+  className: "user row"
+  template: require 'views/users/templates/user_li'
 
   events:
-    'click #follow': -> app.execute 'contact:follow', @model
+    'click #follow': -> app.execute 'user:follow', @model
     'mouseenter #unfollow': 'toggleSuccessAlertClasses'
     'mouseleave #unfollow': 'toggleSuccessAlertClasses'
-    'click #unfollow': -> app.execute 'contact:unfollow', @model
-    'click .selectContact': 'togglerSelectContact'
+    'click #unfollow': -> app.execute 'user:unfollow', @model
+    'click .selectUser': 'togglerSelectUser'
 
   initialize:->
     @listenTo @model, 'change:following', @render
@@ -23,18 +23,18 @@ module.exports = class Contact extends Backbone.Marionette.ItemView
     .toggleClass('alert').toggleClass('success')
     .find('i').toggleClass('fa-check').toggleClass('fa-minus').width(11)
 
-  togglerSelectContact: (e)->
+  togglerSelectUser: (e)->
     if @$el.hasClass('selected')
-      @unselectContact()
+      @unselectUser()
     else
-      @selectContact()
+      @selectUser()
 
-  selectContact: ->
-    app.execute('contact:fetchItems', @model)  unless @model.get('following')
-    app.execute 'filter:inventory:owner', Items.contacts.filtered, @model.id
+  selectUser: ->
+    app.execute('user:fetchItems', @model)  unless @model.get('following')
+    app.execute 'filter:inventory:owner', Items.friends.filtered, @model.id
     $('.selected').removeClass('selected')
     @$el.addClass('selected')
 
-  unselectContact: ->
+  unselectUser: ->
     app.filteredItems.removeFilter 'owner'
     @$el.removeClass('selected')

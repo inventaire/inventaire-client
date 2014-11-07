@@ -1,15 +1,12 @@
 module.exports = class User extends Backbone.Model
-  defaults:
-    contacts: []
+  matches: (expr) ->
+    return true  if expr is null
+    hasMatch = _.some @asMatchable(), (field) ->
+      field.match(expr) isnt null
+    return true  if hasMatch
+    false
 
-  url: ->
-    app.API.auth.user
-
-  update: =>
-    @sync 'update', @
-
-  initialize: ->
-    @setLang()
-    @on 'change:language', @setLang
-
-  setLang: => @lang = @get('language')
+  asMatchable: ->
+    [
+      @get("username")
+    ]

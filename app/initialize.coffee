@@ -52,7 +52,8 @@ if app.user.loggedIn
   app.module 'Profile', require 'modules/profile'
   app.module 'Entities', require 'modules/entities'
   app.module 'Listings', require 'modules/listings'
-  app.module 'Contacts', require 'modules/contacts'
+  app.module 'Users', require 'modules/users'
+  app.module 'Users.Friends', require 'modules/users/friends'
 
 
 app.request('i18n:set')

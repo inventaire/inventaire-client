@@ -3,7 +3,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
   regions:
     article: '#article'
     personal: '#personal'
-    contacts: '#contacts'
+    friends: '#friends'
     public: '#public'
 
   serializeData: ->
@@ -28,7 +28,7 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
 
   onRender: ->
     @showPersonalItems()
-    @showContactsItems()
+    @showFriendsItems()
     if @public.items? then @showPublicItems()
     else @fetchPublicItems()
 
@@ -44,10 +44,10 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
     app.execute 'textFilter', items, @uri
     @showCollectionItems items, 'personal'
 
-  showContactsItems: ->
-    items = Items.contacts.filtered.resetFilters()
+  showFriendsItems: ->
+    items = Items.friends.filtered.resetFilters()
     app.execute 'textFilter', items, @uri
-    @showCollectionItems items, 'contacts'
+    @showCollectionItems items, 'friends'
 
 
   showCollectionItems: (items, nameBase)->

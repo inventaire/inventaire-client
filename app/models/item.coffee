@@ -28,7 +28,7 @@ module.exports = class Item extends Backbone.NestedModel
 
     @set attrs
 
-    @username = app.request('getUsernameFromOwner', attrs.owner)
+    @username = app.request('getUsernameFromUserId', attrs.owner)
     @profilePic = app.request('getProfilePicFromId', attrs.owner)
     @pathname = @buildPathname(attrs)
     @restricted = attrs.owner isnt app.user.id

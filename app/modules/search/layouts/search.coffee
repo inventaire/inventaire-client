@@ -19,7 +19,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
   initialize: (params)->
     @query = params.query
     @listenTo Items.personal.filtered, 'add', @refreshAllLocalFilteredItems
-    @listenTo Items.contacts.filtered, 'add', @refreshAllLocalFilteredItems
+    @listenTo Items.friends.filtered, 'add', @refreshAllLocalFilteredItems
 
   serializeData: ->
     search:
@@ -42,7 +42,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     query ||= @query
     _.log query, 'showAllLocalFilteredItems query'
     @showLocalFilteredItems query, Items.personal.filtered, 'in your items', 1
-    @showLocalFilteredItems query, Items.contacts.filtered, "in your contacts' items", 2
+    @showLocalFilteredItems query, Items.friends.filtered, "in your friends' items", 2
 
   showLocalFilteredItems: (query, collection, label, rank)->
     region = "results#{rank}"

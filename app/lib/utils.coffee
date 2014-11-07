@@ -52,7 +52,7 @@ module.exports = (Backbone, _, app, window)->
       switch err.status
         when 404 then console.warn err.responseText, label
         else console.error err.responseText, err, label
-    else console.error err
+    else console.error label, err
 
   setCookie: (key, value)->
     $.post '/api/cookie', {key: key, value: value}
@@ -139,7 +139,7 @@ module.exports = (Backbone, _, app, window)->
     window.open data, windowName
 
   isUser: (id)-> id is app.user.id
-  isContact: (id)-> _.has app.user.get('contacts'), id
+  isFriend: (id)-> @hasValue app.user.get('relations').friends, id
 
   style: (text, style)->
     switch style

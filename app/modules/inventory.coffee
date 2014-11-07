@@ -7,7 +7,7 @@ module.exports =
       appRoutes:
         'inventory(/)': 'goToPersonalInventory'
         'inventory/personal(/)': 'showPersonalInventory'
-        'inventory/network(/)': 'showNetworkInventory'
+        'inventory/friends(/)': 'showFriendsInventory'
         'inventory/public(/)': 'showPublicInventory'
         # 'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:suffix(/:title)(/)': 'itemShow'
@@ -21,7 +21,7 @@ module.exports =
     # LOGIC
     window.Items =
       personal: new app.Collection.Items
-      contacts: new app.Collection.Items
+      friends: new app.Collection.Items
       public: new app.Collection.Items
 
     fetchItems(app)
@@ -41,11 +41,11 @@ API =
     app.execute 'filter:visibility:reset'
     app.vent.trigger 'inventory:change', 'personal'
 
-  showNetworkInventory: ->
-    Items.contacts.filtered.resetFilters()
-    showInventory _.i18n('Network')
-    showItemList(Items.contacts.filtered)
-    app.vent.trigger 'inventory:change', 'network'
+  showFriendsInventory: ->
+    Items.friends.filtered.resetFilters()
+    showInventory _.i18n('Friends')
+    showItemList(Items.friends.filtered)
+    app.vent.trigger 'inventory:change', 'friends'
 
   showPublicInventory: ->
     showInventory _.i18n('Public')
@@ -55,7 +55,7 @@ API =
       _.log res, 'Items.public res'
       # not testing if res has items or users
       # letting the inventory empty view do the job
-      app.contacts.add res.users
+      app.users.public.add res.users
       Items.public.add res.items
       showItemList(Items.public)
       app.vent.trigger 'inventory:change', 'public'
@@ -72,9 +72,9 @@ API =
   # app.request 'waitForData', @filterForUser, @
 
   # filterForUser: ->
-  #   owner = app.request('getOwnerFromUsername', user)
+  #   owner = app.request('getUserIdFromUsername', user)
   #   if owner?
-  #     app.execute 'filter:inventory:owner', Items.contacts.filtered, owner
+  #     app.execute 'filter:inventory:owner', Items.friends.filtered, owner
   #   else
   #     _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
 
@@ -83,11 +83,11 @@ API =
     app.request 'waitForData', @showItemShow, @, username, suffix, label
 
   showItemShow: (username, suffix, label)->
-    owner = app.request('getOwnerFromUsername', username)
+    owner = app.request('getUserIdFromUsername', username)
     if _.isUser(owner)
       items = Items.personal.where({suffix: suffix})
-    else if _.isContact(owner)
-      items = Items.contacts.where({owner: owner, suffix: suffix})
+    else if _.isFriend(owner)
+      items = Items.friends.where({owner: owner, suffix: suffix})
     else
       itemsPromise = app.request 'requestPublicItem', username, suffix
 
@@ -142,7 +142,7 @@ fetchItems = (app)->
 requestPublicItem = (username, suffix)->
   _.preq.get(app.API.items.public(suffix, username))
   .then (res)->
-    app.contacts.add res.user
+    app.users.public.add res.user
     return Items.public.add res.items
 
 
@@ -163,9 +163,9 @@ initializeInventoriesHandlers = (app)->
       API.showPersonalInventory()
       app.navigate 'inventory/personal'
 
-    'show:inventory:network': ->
-      API.showNetworkInventory()
-      app.navigate 'inventory/network'
+    'show:inventory:friends': ->
+      API.showFriendsInventory()
+      app.navigate 'inventory/friends'
 
     'show:inventory:public': ->
       API.showPublicInventory()
