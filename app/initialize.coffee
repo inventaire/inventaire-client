@@ -7,14 +7,7 @@ window.sharedLib = sharedLib = require('lib/shared/shared_libs')
 app = require 'app'
 window.app = app
 
-local = require('lib/utils')(Backbone, _, app, window)
-shared = sharedLib('utils')(_)
-_.extend _, local, shared
-
-# http requests handler returning promises
-_.preq = require 'lib/preq'
-
-_.isMobile = require 'lib/mobile_check'
+_ = require('lib/builders/utils')(Backbone, window._, app, window)
 
 window.wd = require 'lib/wikidata'
 window.location.root = window.location.protocol + '//' + window.location.host
