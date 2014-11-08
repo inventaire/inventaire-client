@@ -70,7 +70,7 @@ module.exports = (Promises, _)->
     isNumericId: (id)-> /^[0-9]+$/.test id
     isWikidataId: (id)-> /^(Q|P)[0-9]+$/.test id
     isWikidataEntityId: (id)-> /^Q[0-9]+$/.test id
-    isBook: (P31Array)->_.haveAMatch Q.books, P31Array
+    isBook: (P31Array)-> _.haveAMatch Q.books, P31Array
     isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
     isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
     type: (entity)->

@@ -78,27 +78,11 @@ module.exports = (Backbone, _, app, window)->
 
     else app.polyglot.t key
 
-  haveAMatch: (array1, array2)->
-    result = false
-    if array1? and array2?
-      array1.forEach (el)->
-        if array2.indexOf(el) isnt -1
-          result = true
-    return result
-
   updateQuery: (newParams)->
     [pathname, currentQueryString] = Backbone.history.fragment.split('?')
     query = @parseQuery(currentQueryString)
     _.extend query, newParams
     app.navigate @buildPath(pathname, query)
-
-  softEncodeURI: (str)->
-    if _.typeString(str)
-      str.replace(/(\s|')/g, '_').replace(/\?/g, '')
-
-  softDecodeURI: (str)->
-    if _.typeString(str)
-      str.replace(/_/g,' ')
 
   inspect: (obj, label)->
     if label then _.log obj, label

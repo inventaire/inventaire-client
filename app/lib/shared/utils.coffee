@@ -1,15 +1,13 @@
 module.exports = (_)->
   hasValue: (array, value)-> array.indexOf(value) isnt -1
 
-  idGenerator: (length, withoutNumbers)->
+  idGenerator: (length, lettersOnly)->
     text = ''
-    if withoutNumbers
-      possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    else
-      possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    possible += '0123456789'  unless lettersOnly
     i = 0
     while i < length
-      text += possible.charAt(Math.floor(Math.random() * possible.length))
+      text += possible.charAt _.random(possible.length - 1)
       i++
     return text
 
@@ -27,11 +25,19 @@ module.exports = (_)->
     query = new Object
     if queryString?
       queryString = queryString[1..-1] if queryString[0] is '?'
-      for i in queryString.split('&')
-        pair = i.split '='
-        if pair[0]?.length > 0 and pair[1]?
-          query[pair[0]] = pair[1].replace(/_/g, ' ')
+      queryString.split('&').forEach (param)->
+        pairs = param.split '='
+        if pairs[0]?.length > 0 and pairs[1]?
+          query[pairs[0]] = _.softDecodeURI pairs[1]
     return query
+
+  softEncodeURI: (str)->
+    if _.typeString(str)
+      str.replace(/(\s|')/g, '_').replace(/\?/g, '')
+
+  softDecodeURI: (str)->
+    if _.typeString(str)
+      str.replace(/_/g,' ')
 
   removeUndefined: (obj)->
     newObj = {}
@@ -77,3 +83,5 @@ module.exports = (_)->
       if _.typeArray(array)
         result = result.concat(array)
     return result
+
+  haveAMatch: (arrays...)-> _.intersection.apply(_, arrays).length > 0
