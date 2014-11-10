@@ -20,3 +20,4 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     app.execute 'persona:login'
     @$el.trigger 'loading',
       message: message
+      timeout: 'none'

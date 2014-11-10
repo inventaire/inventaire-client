@@ -16,8 +16,11 @@ module.exports = class Loading extends Marionette.Behavior
       body += "<p class='grey'>#{mes}</p>"
 
     @$target.html body
-    cb = => @somethingWentWrong.apply @, [null, params]
-    setTimeout cb, 16 * 1000
+
+    timeout = params?.timeout or 16
+    unless timeout is 'none'
+      cb = => @somethingWentWrong.apply @, [null, params]
+      setTimeout cb, timeout * 1000
 
   hideSpinningLoader: ->
     @ui.loading.empty()
