@@ -14,6 +14,7 @@ module.exports =
     NonWikidataEntities: require 'collections/non_wikidata_entities'
 
   Model:
+    Filterable: require 'models/filterable'
     MainUser: require 'models/main_user'
     User: require 'models/user'
     Item: require 'models/item'

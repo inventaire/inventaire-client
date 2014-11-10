@@ -1,4 +1,6 @@
-module.exports = class Item extends Backbone.NestedModel
+Filterable = require 'models/filterable'
+
+module.exports = class Item extends Filterable
   url: ->
     # keeps the url built at runtime to follow revs evolution
     # which are needed to be in the url for DELETE
@@ -75,16 +77,6 @@ module.exports = class Item extends Backbone.NestedModel
     else attrs.picture = _.placeholder()
 
     return attrs
-
-  matches: (expr) ->
-    return true  if expr is null
-    hasMatch = _.some @asMatchable(), (field) ->
-      if field?
-        return field.match(expr) isnt null
-      else
-        return false
-    return true  if hasMatch
-    false
 
   asMatchable: ->
     [

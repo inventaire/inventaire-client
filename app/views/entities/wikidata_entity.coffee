@@ -39,14 +39,12 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
 
   showPersonalItems: ->
     # using the filtered collection to refresh on Collection 'add' events
-    items = Items.personal.filtered.resetFilters()
-    # uri can be found by textFilter as entity is in item 'matches'
-    app.execute 'textFilter', items, @uri
+    # uri can be found with filterByText as 'entity' is in item 'matches'
+    items = Items.personal.filtered.filterByText @uri
     @showCollectionItems items, 'personal'
 
   showFriendsItems: ->
-    items = Items.friends.filtered.resetFilters()
-    app.execute 'textFilter', items, @uri
+    items = Items.friends.filtered.filterByText @uri
     @showCollectionItems items, 'friends'
 
 

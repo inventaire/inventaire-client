@@ -25,7 +25,8 @@ module.exports = class FriendsInventoryTools extends Backbone.Marionette.ItemVie
     return attrs
 
   executeTextFilter: ->
-    app.execute 'textFilter', Items.friends.filtered, $('#itemsTextFilterField').val()
+    text = $('#itemsTextFilterField').val()
+    Items.friends.filtered.filterByText text, false
 
   executeFriendSearch: ->
     app.execute 'userSearch', $('#userSearchField').val()

@@ -11,7 +11,4 @@ module.exports =
 API =
   searchFriends: (text)->
     friends = app.users.friends.filtered
-    friends.resetFilters()
-    filterExpr = new RegExp text, "i"
-    friends.filterBy 'text', (model)-> model.matches filterExpr
-    return friends
+    return friends.filterByText text

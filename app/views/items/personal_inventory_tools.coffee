@@ -25,7 +25,8 @@ module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemVi
     return attrs
 
   executeTextFilter: ->
-    app.execute 'textFilter', Items.personal.filtered, $('#itemsTextFilterField').val()
+    text = $('#itemsTextFilterField').val()
+    Items.personal.filtered.filterByText text, false
 
   updateListingFilter: (e)->
     selected = e.currentTarget.value
