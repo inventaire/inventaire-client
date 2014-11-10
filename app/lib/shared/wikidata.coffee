@@ -127,8 +127,8 @@ module.exports = (Promises, _)->
                 when 'string', 'commonsMedia' then value = datavalue.value
                 when 'wikibase-item' then value = 'Q' + datavalue.value['numeric-id']
                 when 'time' then value = @normalizeTime(datavalue.value.time)
-                else value = mainsnak
-              rebased[id].push value
+                else value = null
+              rebased[id].push value  if value?
             else
               # should only happen in snaktype: "novalue" cases or alikes
               console.warn 'no mainsnak found', statement
