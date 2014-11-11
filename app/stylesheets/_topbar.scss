@@ -10,7 +10,7 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
 .top-bar {
   img{
     max-height: $topbar-height * 0.9;
-    // margin-right: 0.5rem;
+    margin-left: 1rem;
   }
   .fa{
     font-size: 1.2rem;
@@ -18,8 +18,14 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
   #name{
     font-weight: 900;
   }
+}
 
-
+.counter {
+  display: inline;
+  color: $primary-color;
+  background-color: $secondary-color;
+  padding: 0rem 0.4rem 0.1rem 0.4rem;
+  border-radius: 2px;
 }
 
 /*Large screens*/
