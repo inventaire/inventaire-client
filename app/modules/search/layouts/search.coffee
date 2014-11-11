@@ -3,28 +3,6 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
   template: require 'modules/search/layouts/templates/search'
   behaviors:
     AlertBox: {}
-
-  regions:
-    results1: '#results1'
-    results2: '#results2'
-    results3: '#results3'
-    results4: '#results4'
-    results5: '#results5'
-    results6: '#results6'
-
-  ui:
-    header1: '#header1'
-    header2: '#header2'
-    header3: '#header3'
-    header4: '#header4'
-    header5: '#header5'
-    header6: '#header6'
-
-  initialize: (params)->
-    @query = params.query
-    @listenTo Items.personal.filtered, 'add', @refreshAllLocalFilteredItems
-    @listenTo Items.friends.filtered, 'add', @refreshAllLocalFilteredItems
-
   serializeData: ->
     search:
       nameBase: 'search'
@@ -33,50 +11,74 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
         icon: 'search'
         classes: 'secondary postfix'
 
-  onShow: ->
-    $('#searchField').val @query
-    app.execute 'search:field:maximize'
-    # app.execute 'show:loader', {region: @results1}
+  regions: _.duplicator 'results', 6
+  ui: _.duplicator 'header', 6
 
-    @searchFriends()
-    app.request 'waitForData', @showAllLocalFilteredItems, @, @query
+  initialize: (params)->
+    @query = params.query
+    @listenTo Items.personal.filtered, 'add', @refreshItems
+    @listenTo Items.friends.filtered, 'add', @refreshItems
+
+  onShow: ->
+    @updateSearchBar()
+    app.request 'waitForData', @searchFriends, @
+    @searchOthers()
+    app.request 'waitForData', @showItems, @
     @searchEntities()
 
-  showAllLocalFilteredItems: (query)->
-    query ||= @query
-    _.log query, 'showAllLocalFilteredItems query'
-    @showLocalFilteredItems query, Items.personal.filtered, 'in your items', 3
-    @showLocalFilteredItems query, Items.friends.filtered, "in your friends' items", 4
+  # USERS
+  searchFriends: ->
+    friends = app.users.friends.filtered
+    @showCollection friends, app.View.Users.List, 'friends', 1
 
-  showLocalFilteredItems: (query, collection, label, rank)->
-    region = "results#{rank}"
-    app.execute 'textFilter', collection, query
-    if collection.length > 0
-      @[region].show new app.View.ItemsList {collection: collection}
-      @addHeader _.i18n(label), rank
+  searchOthers: ->
+    app.request('users:search', @query)
+    .then (users)=>
+      _.log users, 'searchOthers users'
+      @showCollection users, app.View.Users.List, 'users', 2
+    .fail _.error
 
-  refreshAllLocalFilteredItems: (e, collection)->
-    @showAllLocalFilteredItems(@query)
+  # ITEMS
+  showItems: ->
+    View = app.View.ItemsList
+    personalItems = [Items.personal.filtered, View, 'in your items', 3 ]
+    friendsItems = [Items.friends.filtered, View, "in your friends' items", 4]
 
+    @showCollection.apply @, personalItems
+    @showCollection.apply @, friendsItems
+
+  refreshItems: (e, collection)->
+    @showItems @query
+
+
+  # ENTITIES
   searchEntities: ->
     app.request 'search:entities', @query, @results5, @results6, @
 
-  searchFriends: ->
-    friends = app.request('friends:search', @query)
-    friendsList = new app.View.Users.List({collection: friends})
-    @results1.show friendsList
-    @addHeader _.i18n('friends'), 1
 
-  on404: -> app.execute 'show:404'
+  # UTILS
+  showCollection: (collection, View, label, rank)->
+    collection.filterByText @query
+    if collection.length > 0
+      view = new View {collection: collection}
+      @showResult view, rank
+      @addHeader _.i18n(label), rank
 
   addHeader: (label, rank)->
     el = "header#{rank}"
     @ui[el].html "<h3 class='subheader'>#{label}</h3>"
 
+  showResult: (view, rank)->
+    region = "results#{rank}"
+    @[region].show view
 
-  resetResults: (numbers = [1..4])->
-    numbers.forEach (num)=>
-      @["results#{num}"]?.empty?()
-      @["header#{num}"]?.empty?()
-
+  on404: -> app.execute 'show:404'
   onDestroy: -> app.execute 'search:field:unmaximize'
+  # resetResults: (numbers = [1..4])->
+  #   numbers.forEach (num)=>
+  #     @["results#{num}"]?.empty?()
+  #     @["header#{num}"]?.empty?()
+
+  updateSearchBar: ->
+    $('#searchField').val @query
+    app.execute 'search:field:maximize'
