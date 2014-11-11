@@ -184,3 +184,9 @@ module.exports = (Backbone, _, app, window)->
     return result
 
   localUrl: (url)-> /^\//.test(url)
+
+  duplicator: (nameBase, num)->
+    obj = {}
+    [1..num].forEach (n)->
+      obj["#{nameBase}#{n}"] = "##{nameBase}#{n}"
+    return obj
