@@ -1,4 +1,6 @@
-module.exports = class User extends Backbone.Model
+Filterable = require 'models/filterable'
+
+module.exports = class MainUser extends Filterable
   url: ->
     app.API.auth.user
 
