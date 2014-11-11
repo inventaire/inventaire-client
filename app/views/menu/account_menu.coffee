@@ -1,3 +1,5 @@
+OthersRequests = require 'modules/users/views/requests_list'
+
 module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   template: require 'views/menu/templates/account_menu'
   events:
@@ -25,8 +27,8 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     @showNotifications()
 
   showRequests: ->
-  #   view = app.request 'requests:list'
-  #   @requests.show view
+    view = new OthersRequests collection: app.users.othersRequests
+    @requests.show view
 
   showNotifications: ->
     view = app.request 'notifications:list'

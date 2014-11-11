@@ -1,32 +1,8 @@
-module.exports = class NotificationsList extends Backbone.Marionette.CompositeView
-  template: require './templates/notifications_list'
+ListWithCounter = require 'views/menu/list_with_counter'
 
-  # will be overriden by the CommonEl el
-  # but still needed so that the ui selectors can use it
-  # el: '#notifications'
-
-  ui:
-    counter: '.counter'
-
-  onRender: -> @updateCounter()
-
-  initialize: ->
-    @listenTo @collection,  'all', @render
-
-  # COUNTER
-
-  updateCounter: ->
-    if @collection.length < 1 then @hideCounter()
-    else @showCounter()
-
-  hideCounter: -> @ui.counter.hide()
-  showCounter: ->
-    count = @collection.length.toString()
-    @ui.counter.html(count)
-    @ui.counter.slideDown()
-
-  # NOTIFICATIONS
-
+module.exports = class NotificationsList extends ListWithCounter
   childViewContainer: '.dropdown'
   childView: require './notification_li'
   emptyView: require './no_notification'
+  serializeData: ->
+    icon: 'globe'

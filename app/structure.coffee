@@ -34,6 +34,7 @@ module.exports =
     Welcome: require 'views/welcome'
     NotLoggedMenu: require 'views/menu/not_logged_menu'
     AccountMenu: require 'views/menu/account_menu'
+    ListWithCounter: require 'views/menu/list_with_counter'
     Signup:
       Step1: require 'views/user/signup_step_1'
       Step2: require 'views/user/signup_step_2'
