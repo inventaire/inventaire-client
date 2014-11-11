@@ -18,7 +18,9 @@ module.exports = ->
   FilteredCollection::filterByText = (text, reset=true)->
     @resetFilters()  if reset?
     filterExpr = new RegExp text, 'i'
-    @filterBy 'text', (model)-> model.matches filterExpr
+    @filterBy 'text', (model)->
+      if model.matches? then model.matches filterExpr
+      else _.error model, 'model has no matches method'
 
   # MARIONETTE
   Marionette.Region::Show = (view, options)->
