@@ -27,6 +27,9 @@ module.exports =
     App: require 'views/app_layout'
     Inventory: require 'views/items/inventory'
 
+  Region:
+    CommonEl: require 'regions/common_el'
+
   View:
     Welcome: require 'views/welcome'
     NotLoggedMenu: require 'views/menu/not_logged_menu'
