@@ -3,22 +3,10 @@ module.exports =
 
   initialize: ->
     app.users = require('./users_collections')(app)
-    initDataHandlers()
+    app.users.data = require('./users_data')(app, $, _)
     initUsersReqRes()
     app.request 'waitForUserData', fetchFriendsAndTheirItems
     initializeUserSearch()
-
-initDataHandlers = ->
-  remoteData =
-    get: (ids)-> _.preq.get app.API.users.data(ids)
-    search: (text)-> _.preq.get app.API.users.search(text)
-
-  app.users.data =
-    remote: remoteData
-    local: new app.LocalCache
-      name: 'users'
-      remoteDataGetter: remoteData.get
-      parseData: (data)-> data.users
 
 initUsersReqRes = ->
   app.reqres.setHandlers
@@ -52,7 +40,7 @@ initUsersReqRes = ->
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
 fetchFriendsAndTheirItems = ->
-  fetchRelationsData()
+  app.users.data.fetchRelationsData()
   .then (relationsData)->
 
     # FRIENDS
@@ -70,25 +58,6 @@ fetchFriendsAndTheirItems = ->
   .catch (err)->
     _.log err, 'get err'
     throw new Error('get', err.stack or err)
-
-fetchRelationsData = ->
-  relations = app.user.get('relations')
-  _.log relations, 'relations'
-  ids = _.flatten _.values(relations)
-  _.log ids, 'fetchRelationsData ids'
-  return app.users.data.local.get(ids)
-  .then (data)-> spreadRelationsData(data, relations)
-
-spreadRelationsData = (data, relations)->
-  relationsData =
-    friends: []
-    userRequests: []
-    othersRequests: []
-
-  for relationType, list of relations
-    list.forEach (user)->
-      relationsData[relationType].push data[user]
-  return relationsData
 
 initializeUserSearch = ->
   app.users.friends.filtered = new FilteredCollection(app.users.friends)
