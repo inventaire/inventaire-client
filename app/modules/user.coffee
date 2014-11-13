@@ -149,12 +149,15 @@ initializeUserEditionCommands = (app)->
 
 initializeUserMenuUpdate = (app)->
   app.commands.setHandlers
-    'show:user:menu:update': ->
-      if app.user.has 'email'
-        app.layout?.accountMenu.show new app.View.AccountMenu {model: app.user}
-      else app.layout?.accountMenu.show new app.View.NotLoggedMenu
+    'show:user:menu:update': -> app.request 'waitForData', showMenu
 
   app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
+
+showMenu = ->
+  if app.user.has 'email'
+    view = new app.View.AccountMenu {model: app.user}
+    app.layout?.accountMenu.show view
+  else app.layout?.accountMenu.show new app.View.NotLoggedMenu
 
 
 initializeUserListings = (app)->
