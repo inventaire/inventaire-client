@@ -42,7 +42,7 @@ if app.user.loggedIn
   app.module 'Entities', require 'modules/entities'
   app.module 'Listings', require 'modules/listings'
   app.module 'Notifications', require 'modules/notifications/notifications'
-  app.module 'Users', require 'modules/users'
+  app.module 'Users', require 'modules/users/users'
   app.module 'Users.Friends', require 'modules/users/friends'
 
 
