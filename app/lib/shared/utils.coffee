@@ -77,11 +77,6 @@ module.exports = (_)->
       # returns an undefined array element when prop is undefined
       return propsArray.map (prop)-> pickObj[prop]
 
-  mergeArrays: (arrays...)->
-    result = []
-    arrays.forEach (array)->
-      if _.typeArray(array)
-        result = result.concat(array)
-    return result
+  mergeArrays: _.union
 
   haveAMatch: (arrays...)-> _.intersection.apply(_, arrays).length > 0
