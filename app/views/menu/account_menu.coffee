@@ -1,4 +1,5 @@
-OthersRequests = require 'modules/users/views/requests_list'
+RequestsList = require 'modules/users/views/requests_list'
+NotificationsList = require 'modules/notifications/views/notifications_list'
 
 module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   template: require 'views/menu/templates/account_menu'
@@ -27,9 +28,13 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     @showNotifications()
 
   showRequests: ->
-    view = new OthersRequests collection: app.users.othersRequests
+    view = new RequestsList
+      collection: app.users.othersRequests
+      el: '#requests'
     @requests.show view
 
   showNotifications: ->
-    view = app.request 'notifications:list'
+    view = new NotificationsList
+      collection: app.user.notifications
+      el: '#notifications'
     @notifs.show view

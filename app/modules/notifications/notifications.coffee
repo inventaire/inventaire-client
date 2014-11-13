@@ -9,12 +9,8 @@ module.exports =
     @notifications = app.user.notifications = new Notifications
 
     app.reqres.setHandlers
-      'notifications:list': API.notificationsList.bind(@)
       'notifications:add': API.addNotification.bind(@)
 
 API =
-  notificationsList: ->
-    new NotificationsList {collection: @notifications, el: '#notifications'}
-
   addNotification: (notification)->
     @notifications.add notification

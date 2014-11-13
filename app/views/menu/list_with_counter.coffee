@@ -2,6 +2,7 @@ module.exports = class ListWithCounter extends Backbone.Marionette.CompositeView
   template: require './templates/list_with_counter'
   # will be overriden by the CommonEl el
   # but still needed so that the ui selectors can use it
+  # => an el should be provided at view instanciation
   # el: '#notifications'
 
   ui:
@@ -9,11 +10,9 @@ module.exports = class ListWithCounter extends Backbone.Marionette.CompositeView
 
   onRender: -> @updateCounter()
 
-  initialize: ->
-    @listenTo @collection,  'all', @render
+  initialize: -> @listenTo @collection, 'add', @render
 
   # COUNTER
-
   updateCounter: ->
     if @collection.length < 1 then @hideCounter()
     else @showCounter()
