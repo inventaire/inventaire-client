@@ -72,7 +72,7 @@ API =
   # app.request 'waitForData', @filterForUser, @
 
   # filterForUser: ->
-  #   owner = app.request('getUserIdFromUsername', user)
+  #   owner = app.request 'get:userId:from:username', user
   #   if owner?
   #     app.execute 'filter:inventory:owner', Items.friends.filtered, owner
   #   else
@@ -83,7 +83,7 @@ API =
     app.request 'waitForData', @showItemShow, @, username, suffix, label
 
   showItemShow: (username, suffix, label)->
-    owner = app.request('getUserIdFromUsername', username)
+    owner = app.request 'get:userId:from:username', username
     if _.isUser(owner)
       items = Items.personal.where({suffix: suffix})
     else if _.isFriend(owner)

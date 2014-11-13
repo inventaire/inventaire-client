@@ -30,8 +30,8 @@ module.exports = class Item extends Filterable
 
     @set attrs
 
-    @username = app.request('getUsernameFromUserId', attrs.owner)
-    @profilePic = app.request('getProfilePicFromId', attrs.owner)
+    @username = app.request 'get:username:from:userId', attrs.owner
+    @profilePic = app.request 'get:profilePic:from:userId', attrs.owner
     @pathname = @buildPathname(attrs)
     @restricted = attrs.owner isnt app.user.id
 
