@@ -96,7 +96,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   search: ->
     query = $('input#searchField').val()
     _.log query, 'search query'
-    app.execute 'search', query
+    app.execute 'search:global', query
 
   maximizeSearchField: -> $('#searchGroup').addClass('maximized')
   unmaximizeSearchField: -> $('#searchGroup').removeClass('maximized')

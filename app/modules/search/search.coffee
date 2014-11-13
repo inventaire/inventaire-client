@@ -14,7 +14,7 @@ module.exports =
 
   initialize: ->
     app.commands.setHandlers
-      'search': (queryString)->
+      'search:global': (queryString)->
         API.search(queryString)
         app.navigate "search?#{queryString}"
 
