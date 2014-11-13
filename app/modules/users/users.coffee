@@ -6,8 +6,9 @@ module.exports =
     app.users.data = require('./users_data')(app, $, _)
 
     helpers = require('./helpers')(app)
+    requests = require('./requests')(app, _)
 
-    app.reqres.setHandlers helpers
+    app.reqres.setHandlers _.extend(helpers, requests)
 
     initUsersItems()
     app.request 'waitForUserData', fetchFriendsAndTheirItems
