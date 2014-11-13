@@ -65,17 +65,11 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
       next: -> app.execute 'show:home'
 
 
-  toggleCommentEditor: ->
-    @toggleEditor('comment')
+  toggleCommentEditor: -> @toggleEditor('comment')
+  toggleNotesEditor: -> @toggleEditor('notes')
 
-  validateComment: ->
-    @validateEdit('comment')
-
-  toggleNotesEditor: ->
-    @toggleEditor('notes')
-
-  validateNotes: ->
-    @validateEdit('notes')
+  validateComment: -> @validateEdit('comment')
+  validateNotes: -> @validateEdit('notes')
 
   toggleEditor: (nameBase)->
     $("##{nameBase}").toggle()
