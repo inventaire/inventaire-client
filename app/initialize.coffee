@@ -11,7 +11,7 @@ _ = require('lib/builders/utils')(Backbone, window._, app, window)
 
 window.wd = require 'lib/wikidata'
 
-require('lib/global_libs_extender')()
+require('lib/global_libs_extender')(_)
 
 # gets all the routes used in the app
 app.API = require 'api'
