@@ -3,7 +3,8 @@ module.exports = (app, _)->
     request: (userId)-> @base 'request', userId
     cancel: (userId)-> @base 'cancel', userId
     accept: (userId)-> @base 'accept', userId
-    remove: (userId)-> @base 'remove', userId
+    discard: (userId)-> @base 'discard', userId
+    unfriend: (userId)-> @base 'unfriend', userId
     base: (action, userId)->
       path = _.buildPath '/api/relations',
         action: action
@@ -25,7 +26,13 @@ module.exports = (app, _)->
     acceptRequest: (user)->
       userId = normalizeUser user
       addTo 'friends', userId
+      removeFrom 'othersRequests', userId
       server.accept(userId)
+
+    discardRequest: (user)->
+      userId = normalizeUser user
+      removeFrom 'othersRequests', userId
+      server.discard(userId)
 
     unfriend: (user)->
       userId = normalizeUser user
@@ -48,4 +55,5 @@ module.exports = (app, _)->
     'request:send': API.sendRequest
     'request:cancel': API.cancelRequest
     'request:accept': API.acceptRequest
-    'request:unfriend': API.unfriend
+    'request:discard': API.acceptRequest
+    'unfriend': API.unfriend
