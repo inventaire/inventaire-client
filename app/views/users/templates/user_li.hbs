@@ -1,11 +1,30 @@
-<div class="selectUser large-9 small-9 columns">
+<div class="selectUser large-6 small-6 columns">
   <img id="pic" src="{{picture}}">
   <span class="username">{{username}}</span>
 </div>
-<div class="large-3 small-3 columns">
-  {{#if following}} 
-    <a id="unfollow" class="tiny button success right"><i class="fa fa-check"></i></a>
-  {{else}}
-    <a id="follow" class="tiny button secondary right"><i class="fa fa-plus"></i></a>
+<div class="large-6 small-6 columns">
+  {{#if friends}} 
+  <a id="unfriend" class="button grey right">
+      {{icon 'minus'}} {{i18n 'Unfriend'}}
+  </a>
+  {{/if}}
+  {{#if userRequests}} 
+  <a id="cancel" class="button secondary right">
+      {{icon 'ban'}} {{i18n 'Cancel request'}}
+  </a>
+  {{/if}}
+  {{#if othersRequests}} 
+  {{!-- the first with the 'right' class will be the first from the right --}}
+    <a id="discard" class="button grey right">
+        {{icon 'minus'}} {{i18n 'Delete request'}}
+    </a>
+    <a id="accept" class="button success right">
+        {{icon 'check'}} {{i18n 'Confirm'}}
+    </a>
+  {{/if}}
+  {{#if public}} 
+  <a id="request" class="button success right">
+      {{icon 'plus'}} {{i18n 'Add friend'}}
+  </a>
   {{/if}}
 </div>
