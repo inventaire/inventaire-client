@@ -1,31 +1,31 @@
 module.exports = (app)->
-  users =
-    public: new app.Collection.Users
-    friends: new app.Collection.Users
-    userRequests: new app.Collection.Users
-    othersRequests: new app.Collection.Users
+  users = new app.Collection.Users
 
-  users.collections = [
+  users.subCollections = [
     'public'
     'friends'
     'userRequests'
     'othersRequests'
   ]
 
-  users._mutliCollections = (method, args)->
-    Result = null
-    @collections.forEach (name)=>
-      collection = @[name]
-      result = collection[method].apply(collection, args)
-      if result? then Result = result
-    return Result
+  users.subCollections.forEach (status)->
+    users[status] = new FilteredCollection(users)
+    # shoud be subcollections only filter
+    # to keep the subcollection relevant
+    # DO NOT resetFilters() on those
+    users[status].filterBy {status: status}
+    # other filtering can happen on
+    # the subcollection own filteredCollection
+    users[status].filtered = new FilteredCollection(users[status])
+    users[status].add = (userData)->
+      # allows to be dispatched between users subcollections
+      userData.status = status
+      return users.add(userData)
 
-  users.byId = (args...)-> users._mutliCollections 'byId', args
-  users.findWhere = (args...)-> users._mutliCollections 'findWhere', args
+  users.filtered = new FilteredCollection(users)
 
-  # include main user in public users to be able
+  # include main user in users to be able
   # to access it from get:username:from:userId
-  users.public.add app.user
-  users.public.filtered = new FilteredCollection users.public
+  users.add app.user
 
   return users
