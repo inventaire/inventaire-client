@@ -1,31 +1,65 @@
-$user-bg: #ddd;
-.usersList{
-  li{
-    background-color: $user-bg;
-    &:hover{
-        background-color: darken($user-bg, 20%);
-        transition: background-color 0.2s linear;
-    }
-    padding: 0.3rem;
-    img{
-      height: 2.5rem;
-    }
-    .username{
-      padding-left: 0.5rem;
-    }
-  }
-  .selectUser{
-    cursor: pointer;
-  }
+$notif-height: 3rem;
 
-  .selected{
-    background-color: darken($user-bg, 40%);
+$user-bg: #ddd;
+// .usersList{
+//   li{
+//     background-color: $user-bg;
+//     &:hover{
+//         background-color: darken($user-bg, 20%);
+//         transition: background-color 0.2s linear;
+//     }
+//     padding: 0.3rem;
+//     img{
+//       height: 2.5rem;
+//     }
+//     .username{
+//       padding-left: 0.5rem;
+//     }
+//   }
+//   .userLi{
+//     cursor: pointer;
+//   }
+
+//   .selected{
+//     background-color: darken($user-bg, 40%);
+//   }
+// }
+
+.userLi{
+  max-width: 40rem !important;
+  .username{
+    // font-size: 1.2em;
+    margin: 0em 1em 0em 1em;
+    vertical-align: middle;
+  }
+  img{
+    margin-left: 0;
+    max-height: $notif-height;
   }
 }
 
-#preview{
-  background-color: #eee;
-  .book{
-    padding: 1rem;
+.top-bar{
+  .userLi, .request{
+    height: $notif-height !important;
+    a.button{
+      height: $notif-height !important;
+      line-height: 1.8rem !important;
+      vertical-align: middle;
+      &.success{
+        background-color: $success-color;
+        &:hover{
+          background-color: darken($success-color, 10%);
+        }
+      }
+      &.grey{
+        background-color: $grey;
+        &:hover{
+          background-color: darken($grey, 10%);
+        }
+      }
+    }
+    min-width: 30rem;
+    // background-color: darken($main-bg, 10%) !important;
+    color: #fff;
   }
 }
