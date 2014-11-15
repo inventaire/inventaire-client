@@ -2,6 +2,7 @@ module.exports =
   initialize: ->
     @ready = false
     @_updateStatus()
+    setTimeout @warnOnExcessiveTime.bind(@), 8000
 
     app.reqres.setHandlers
       'waitForData': (cb, context, args...)->
@@ -33,9 +34,16 @@ module.exports =
     if @missing.length is 0
       @ready = true
       app.vent.trigger 'data:ready'
+      _.log 'data:ready'
       return true
     else false
 
+  warnOnExcessiveTime: ->
+    unless @ready
+      warn = 'data:ready didnt arrived yet! Missing events:'
+      console.warn warn, JSON.stringify(@missingEvents())
+
+  missingEvents: -> _.pluck(@missing, 'eventName')
 
 findMissingDataSets = ->
   missing = []
