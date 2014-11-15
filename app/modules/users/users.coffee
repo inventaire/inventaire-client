@@ -15,30 +15,30 @@ module.exports =
 
 initUsersItems = ->
   app.commands.setHandlers
-    'contact:fetchItems': (userModel)-> fetchContactItems.call userModel
+    'friend:fetchItems': (userModel)-> fetchContactItems.call userModel
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
 fetchFriendsAndTheirItems = ->
   app.users.data.fetchRelationsData()
   .then (relationsData)->
-
-    # FRIENDS
-    relationsData.friends.forEach (friend)->
-      userModel = app.users.friends.add friend
-      userModel.following = true
-      # trigger 'change:following' to update ui (ex: user_li)
-      userModel.trigger 'change:following', userModel
-      app.execute 'contact:fetchItems', userModel
+    relationsData.friends.forEach addFriend
+    relationsData.othersRequests.forEach addOther
+    relationsData.userRequests.forEach addUserRequests
     app.users.fetched = true
     app.vent.trigger 'users:ready'
 
-    # REQUESTED: todo with the friend request menu
-
   .catch (err)->
-    _.log err, 'get err'
-    throw new Error('get', err.stack or err)
+    _.error new Error(err), 'fetchFriendsAndTheirItems err'
 
+addFriend = (friend)->
+  userModel = app.users.friends.add friend
+  app.execute 'friend:fetchItems', userModel
 
+addOther = (other)->
+  userModel = app.users.othersRequests.add other
+
+addUserRequests = (user)->
+  userModel = app.users.userRequests.add user
 
 fetchContactItems = ->
   username = @get('username')
