@@ -14,46 +14,44 @@ module.exports = (app, _)->
 
   API =
     sendRequest: (user)->
-      userId = normalizeUser user
-      addTo 'userRequests', userId
+      _.log user.get('username'), 'sendRequest'
+      [user, userId] = normalizeUser user
+      user.set 'status', 'userRequests'
       server.request(userId)
 
     cancelRequest: (user)->
-      userId = normalizeUser user
-      removeFrom 'userRequests', userId
+      _.log user.get('username'), 'cancelRequest'
+      [user, userId] = normalizeUser user
+      user.set 'status', 'public'
       server.cancel(userId)
 
     acceptRequest: (user)->
-      userId = normalizeUser user
-      addTo 'friends', userId
-      removeFrom 'othersRequests', userId
+      _.log user.get('username'), 'acceptRequest'
+      [user, userId] = normalizeUser user
+      user.set 'status', 'friends'
       server.accept(userId)
 
     discardRequest: (user)->
-      userId = normalizeUser user
-      removeFrom 'othersRequests', userId
+      _.log user.get('username'), 'discardRequest'
+      [user, userId] = normalizeUser user
+      user.set 'status', 'public'
       server.discard(userId)
 
     unfriend: (user)->
-      userId = normalizeUser user
-      removeFrom 'friends', userId
-      server.remove(userId)
-
-  addTo = (relation, userId)->
-    app.user.push "relations.#{relation}", userId
-
-  removeFrom = (relation, userId)->
-    app.user.without "relations.#{relation}", userId
+      _.log user.get('username'), 'unfriend'
+      [user, userId] = normalizeUser user
+      user.set 'status', 'public'
+      server.unfriend(userId)
 
   normalizeUser = (user)->
-    if _.isString(user) then return user
-    else
-      if user.id? then return user.id
+    if _.isModel(user)
+      if user.id? then return [user, user.id]
       else throw new Error('user missing id', user)
+    else throw new Error('exepected a user Model, got', user)
 
   return reqresHandlers =
     'request:send': API.sendRequest
     'request:cancel': API.cancelRequest
     'request:accept': API.acceptRequest
-    'request:discard': API.acceptRequest
+    'request:discard': API.discardRequest
     'unfriend': API.unfriend
