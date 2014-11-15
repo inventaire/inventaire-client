@@ -11,8 +11,8 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
         icon: 'search'
         classes: 'secondary postfix'
 
-  regions: _.duplicator 'results', 6
-  ui: _.duplicator 'header', 6
+  regions: _.duplicator 'results', 5
+  ui: _.duplicator 'header', 5
 
   initialize: (params)->
     @query = params.query
@@ -21,28 +21,30 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   onShow: ->
     @updateSearchBar()
-    app.request 'waitForData', @searchFriends, @
-    @searchOthers()
+    app.request 'waitForData', @searchLocalUsers, @
+    @searchRemoteUsers()
     app.request 'waitForData', @showItems, @
     @searchEntities()
 
   # USERS
-  searchFriends: ->
-    friends = app.users.friends.filtered
-    @showCollection friends, app.View.Users.List, 'friends', 1
+  searchLocalUsers: ->
+    @showCollection app.users.filtered, app.View.Users.List, 'users', 1
 
-  searchOthers: ->
+  searchRemoteUsers: ->
     app.request('users:search', @query)
-    .then (users)=>
-      _.log users, 'searchOthers users'
-      @showCollection users, app.View.Users.List, 'users', 2
+    .then ()=>
+      _.log 'remote users added to public users'
+      # need to fire this method again
+      # as the collection might have been empty
+      # and thus the view can't be just updated
+      @searchLocalUsers()
     .fail _.error
 
   # ITEMS
   showItems: ->
     View = app.View.ItemsList
-    personalItems = [Items.personal.filtered, View, 'in your items', 3 ]
-    friendsItems = [Items.friends.filtered, View, "in your friends' items", 4]
+    personalItems = [Items.personal.filtered, View, 'in your items', 2 ]
+    friendsItems = [Items.friends.filtered, View, "in your friends' items", 3]
 
     @showCollection.apply @, personalItems
     @showCollection.apply @, friendsItems
@@ -53,7 +55,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   # ENTITIES
   searchEntities: ->
-    app.request 'search:entities', @query, @results5, @results6, @
+    app.request 'search:entities', @query, @results4, @results5, @
 
 
   # UTILS
@@ -74,10 +76,6 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   on404: -> app.execute 'show:404'
   onDestroy: -> app.execute 'search:field:unmaximize'
-  # resetResults: (numbers = [1..4])->
-  #   numbers.forEach (num)=>
-  #     @["results#{num}"]?.empty?()
-  #     @["header#{num}"]?.empty?()
 
   updateSearchBar: ->
     $('#searchField').val @query
