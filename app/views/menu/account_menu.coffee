@@ -19,8 +19,11 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     return _.extend attrs, @model.toJSON()
 
   initialize: ->
-    @addRegion 'requests', app.Region.CommonEl.extend {el: '#requests'}
-    @addRegion 'notifs', app.Region.CommonEl.extend {el: '#notifications'}
+    # /!\ CommonEl custom Regions implies side effects
+    # probably limited to the region management functionalities:
+    # CommonEl regions insert their views AFTER the attached el
+    @addRegion 'requests', app.Region.CommonEl.extend {el: '#before-requests'}
+    @addRegion 'notifs', app.Region.CommonEl.extend {el: '#before-notifications'}
 
   onShow: ->
     app.execute 'foundation:reload'
@@ -28,13 +31,9 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     @showNotifications()
 
   showRequests: ->
-    view = new RequestsList
-      collection: app.users.othersRequests
-      el: '#requests'
+    view = new RequestsList {collection: app.users.othersRequests}
     @requests.show view
 
   showNotifications: ->
-    view = new NotificationsList
-      collection: app.user.notifications
-      el: '#notifications'
+    view = new NotificationsList {collection: app.user.notifications}
     @notifs.show view

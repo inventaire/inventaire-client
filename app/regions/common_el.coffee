@@ -1,6 +1,5 @@
 module.exports = class CommonEl extends Backbone.Marionette.Region
   attachHtml: (view)->
-    this.el.innerHTML = view.el.innerHTML
-    # seems to be needed as this way to attachHtml
-    # messes with the view el at render
-    view.bindUIElements()
+    # uses the fake region el to have it's own el
+    # inserted just after the fake region
+    $(view.el).insertAfter @$el

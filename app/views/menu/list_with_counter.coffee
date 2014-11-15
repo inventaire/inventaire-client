@@ -1,16 +1,15 @@
 module.exports = class ListWithCounter extends Backbone.Marionette.CompositeView
   template: require './templates/list_with_counter'
-  # will be overriden by the CommonEl el
-  # but still needed so that the ui selectors can use it
-  # => an el should be provided at view instanciation
-  # el: '#notifications'
-
   ui:
     counter: '.counter'
 
   onRender: -> @updateCounter()
 
-  initialize: -> @listenTo @collection, 'add', @render
+  initialize: -> @listenTo @collection, 'all', @updateCounter
+
+  tagName: 'li'
+  className: 'has-dropdown not-click'
+  childViewContainer: '.dropdown'
 
   # COUNTER
   updateCounter: ->
@@ -21,4 +20,5 @@ module.exports = class ListWithCounter extends Backbone.Marionette.CompositeView
   showCounter: ->
     count = @collection.length.toString()
     @ui.counter.html(count)
-    @ui.counter.slideDown()
+    # need to override the style="display:block"
+    @ui.counter.slideDown().attr('style', '')
