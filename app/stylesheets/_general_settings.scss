@@ -17,6 +17,8 @@ $panel-bg: $contrast; // Foundation variable
 $body-font-color: #222; // Foundation variable
 $tools-active-bg: #222;
 
+$has-tip-border-bottom: none;// Foundation variable
+
 body {
   // forcing the presence of the scroll bar
   // to avoid the anoying switch in width
@@ -59,10 +61,16 @@ img.svg{
   }
 }
 .grey{
-  color: $grey;
+  // important'ing this as Foundation I haven't found
+  // how to make $panel-font-color less important
+  color: $grey !important;
   &.button{
-    color: white;
+    // requires !important to override the previous !important
+    color: white !important;
     background-color: $grey;
+    &:hover{
+      background-color: darken(grey, 15%);
+    }
   }
 }
 
@@ -80,7 +88,8 @@ img.svg{
 
 // OPACITY MIXINS
 .hidden {
-  display: none !important;
+  // DONT !important it as it seems it can't be shown then
+  display: none;
 }
 
 .shy{
