@@ -94,7 +94,6 @@ module.exports = (Backbone, _, app, window)->
   ping: ->
     $.get '/test'
     .fail (err)-> console.warn 'server: unreachable. You might be offline', err
-    .done()
 
   hasKnownUriDomain: (str)->
     if _.isString(str)
@@ -190,3 +189,5 @@ module.exports = (Backbone, _, app, window)->
     [1..num].forEach (n)->
       obj["#{nameBase}#{n}"] = "##{nameBase}#{n}"
     return obj
+
+  allValues: (obj)-> @flatten @values(obj)
