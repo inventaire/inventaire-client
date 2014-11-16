@@ -4,9 +4,16 @@
 </div>
 <div class="large-6 small-6 columns">
   {{#if friends}} 
-  <a id="unfriend" class="button grey right">
-      {{icon 'minus'}} {{i18n 'Unfriend'}}
-  </a>
+    <div class="userMenu">
+      <a data-dropdown="{{username}}-menu">{{icon 'chevron-down'}}</a>
+      <ul id="{{username}}-menu" class="large f-dropdown" data-dropdown-content>
+       <li>
+          <a id="unfriend">
+            {{icon 'minus'}} {{i18n 'Unfriend'}}
+          </a>
+        </li>
+      </ul>
+    </div>
   {{/if}}
   {{#if userRequests}} 
   <a id="cancel" class="button secondary right">

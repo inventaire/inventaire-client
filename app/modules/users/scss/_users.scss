@@ -36,6 +36,12 @@ $user-bg: #ddd;
     margin-left: 0;
     max-height: $notif-height;
   }
+  .userMenu{
+    margin-top: -1rem;
+    .fa{
+      color: $grey;
+    }
+  }
 }
 
 .top-bar{
