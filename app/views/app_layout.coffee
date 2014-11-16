@@ -36,6 +36,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck
+      'ifOnline': @ifOnline
 
   showLoader: (options)->
     [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
@@ -125,3 +126,10 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
     # If we haven't been stopped yet, then we prevent the default action
     e.preventDefault()
+
+  ifOnline: (cb, context, args...)->
+    _.ping()
+      .then -> cb.apply context, args
+      .fail ->
+        app.execute 'show:error',
+          message: _.i18n "Can't reach the server"
