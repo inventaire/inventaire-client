@@ -1,7 +1,7 @@
 module.exports = class UserLi extends Backbone.Marionette.ItemView
   tagName: "li"
   className: "userLi row"
-  template: require 'views/users/templates/user_li'
+  template: require './templates/user_li'
 
   events:
     'click #unfriend': -> app.request 'unfriend', @model

@@ -1,7 +1,7 @@
 module.exports =
   Collection:
     Items: require 'collections/items'
-    Users: require 'collections/users'
+    Users: require 'modules/users/collections/users'
     Entities: require 'collections/entities'
     LocalEntities: require 'collections/local_entities'
     TemporaryEntities: require 'collections/temporary_entities'
@@ -16,7 +16,7 @@ module.exports =
   Model:
     Filterable: require 'models/filterable'
     MainUser: require 'models/main_user'
-    User: require 'models/user'
+    User: require 'modules/users/models/user'
     Item: require 'models/item'
     WikidataEntity: require 'models/wikidata_entity'
     BookWikidataEntity: require 'models/book_wikidata_entity'
@@ -49,9 +49,9 @@ module.exports =
     PersonalInventoryTools: require 'views/items/personal_inventory_tools'
     FriendsInventoryTools: require 'views/items/friends_inventory_tools'
     Users:
-      Li: require 'views/users/user_li'
-      No: require 'views/users/no_user'
-      List: require 'views/users/users_list'
+      Li: require 'modules/users/views/user_li'
+      No: require 'modules/users/views/no_user'
+      List: require 'modules/users/views/users_list'
     Behaviors:
       ConfirmationModal: require 'views/behaviors/confirmation_modal'
       Loader: require 'views/behaviors/loader'
