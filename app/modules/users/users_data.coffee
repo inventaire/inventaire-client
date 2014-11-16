@@ -16,7 +16,7 @@ module.exports = (app, $, _)->
     relations = app.user.get('relations')
     _.log relations, 'relations'
     ids = _.allValues(relations)
-    _.log ids, 'fetchRelationsData ids'
+    _.log ids, 'relations:fetchRelationsData ids'
     return localData.get(ids)
     .then (data)-> spreadRelationsData(data, relations)
 

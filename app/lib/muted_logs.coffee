@@ -9,4 +9,5 @@ module.exports = [
   'item'
   # 'inv'
   # 'query'
+  'relations'
 ]
