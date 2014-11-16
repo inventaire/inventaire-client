@@ -43,7 +43,6 @@ if app.user.loggedIn
   app.module 'Listings', require 'modules/listings'
   app.module 'Notifications', require 'modules/notifications/notifications'
   app.module 'Users', require 'modules/users/users'
-  app.module 'Users.Friends', require 'modules/users/friends'
 
 
 app.request('i18n:set')
