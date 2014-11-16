@@ -1,9 +1,9 @@
 {{#if wikidata}}
-  <a href="http://www.wikidata.org/entity/{{id}}" {{{partial 'external_link'}}}>{{icon 'wikidata'}}</a>
+  <a data-tooltip class="has-tip" href="http://www.wikidata.org/entity/{{id}}" {{{partial 'external_link'}}} title="{{i18n 'Contribute on improving the data'}}">{{icon 'wikidata'}}</a>
 {{/if}}
 {{#if wikipedia}}
-    <a href="{{wikipedia.url}}" {{{partial 'external_link'}}}>{{icon 'wikipedia'}}</a>
+  <a data-tooltip class="has-tip" href="{{wikipedia.url}}" {{{partial 'external_link'}}} title="{{i18n 'Learn more'}}">{{icon 'wikipedia'}}</a>
 {{/if}}
 {{#if wikisource}}
-    <a href="{{wikisource.url}}" {{{partial 'external_link'}}}>{{icon 'wikisource'}}</a>
+  <a data-tooltip class="has-tip" href="{{wikisource.url}}" {{{partial 'external_link'}}} title="{{i18n 'Read online'}}">{{icon 'wikisource'}}</a>
 {{/if}}
