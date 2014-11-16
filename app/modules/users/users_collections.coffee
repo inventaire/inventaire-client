@@ -10,7 +10,7 @@ module.exports = (app)->
 
   users.subCollections.forEach (status)->
     users[status] = new FilteredCollection(users)
-    # shoud be subcollections only filter
+    # shoud be subcollections' only filter
     # to keep the subcollection relevant
     # DO NOT resetFilters() on those
     users[status].filterBy {status: status}
@@ -23,9 +23,5 @@ module.exports = (app)->
       return users.add(userData)
 
   users.filtered = new FilteredCollection(users)
-
-  # include main user in users to be able
-  # to access it from get:username:from:userId
-  users.add app.user
 
   return users

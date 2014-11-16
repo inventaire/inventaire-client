@@ -1,19 +1,25 @@
 module.exports = (app)->
   API =
     getUsernameFromUserId: (id)->
-        userModel = app.users.byId(id)
-        if userModel? then userModel.get('username')
-        else console.warn "couldnt find the user from id: #{id}"
+      if id is app.user.id then return app.user.get 'username'
+
+      userModel = app.users.byId(id)
+      if userModel? then userModel.get('username')
+      else console.warn "couldnt find the user from id: #{id}"
 
     getUserIdFromUsername: (username)->
-        userModel = app.users.findWhere({username: username})
-        if userModel? then userModel.id
-        else console.warn "couldnt find the user from username: #{username}"
+      if username is app.user.get('username') then return app.user.id
+
+      userModel = app.users.findWhere({username: username})
+      if userModel? then userModel.id
+      else console.warn "couldnt find the user from username: #{username}"
 
     getProfilePicFromUserId: (id)->
-        userModel = app.users.byId(id)
-        if userModel? then userModel.get 'picture'
-        else console.warn "couldnt find the user from id: #{id}"
+      if id is app.user.id then return app.user.get 'picture'
+
+      userModel = app.users.byId(id)
+      if userModel? then userModel.get 'picture'
+      else console.warn "couldnt find the user from id: #{id}"
 
     searchUsers: (text)->
       app.users.data.remote.search(text)
