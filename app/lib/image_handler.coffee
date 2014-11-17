@@ -19,7 +19,6 @@ handlers =
   addDataUrlToArray: (file, array, event)->
     resize.photo file, 600, 'dataURL', (data)->
       array.unshift(data)
-      _.inspect(data, 'data')
       if array.trigger? and event?
         array.trigger(event)
 

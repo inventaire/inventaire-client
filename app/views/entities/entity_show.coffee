@@ -59,7 +59,6 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     app.request 'get:entity:public:items', @uri
     .done (itemsData)=>
       items = new app.Collection.Items(itemsData)
-      _.inspect(@, '@')
       @public.items = items
       @showPublicItems()
     .fail (err)->

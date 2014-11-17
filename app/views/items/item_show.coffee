@@ -13,7 +13,6 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     ConfirmationModal: {}
 
   initialize: ->
-    _.inspect(@)
     @model.on 'all', -> _.log arguments, 'item:show item events'
     @listenTo @model, 'change:comment', @render
     @listenTo @model, 'change:notes', @render

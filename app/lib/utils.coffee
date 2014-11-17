@@ -85,6 +85,8 @@ module.exports = (Backbone, _, app, window)->
     app.navigate @buildPath(pathname, query)
 
   inspect: (obj, label)->
+    # remove after using as it keeps reference of the inspected object
+    # making the garbage collection impossible
     if label then _.log obj, label
     if window.current?
       window.previous ||= []

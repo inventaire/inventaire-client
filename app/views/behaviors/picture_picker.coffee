@@ -67,7 +67,6 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
   # could be de-duplicated using toggleClass and toggle
   # but couldn't make it work
   deletePicture: (e)->
-    _.inspect e, 'e delete'
     $(e.target).parents('figure').first().addClass('deleted')
     .removeClass('selected')
     .find('figcaption.cancelDeletion').first().show()
