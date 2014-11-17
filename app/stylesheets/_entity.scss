@@ -1,11 +1,32 @@
-#wikipedia-article{
-  padding-top: 4rem;
+.entityActions{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  div.entityAction{
+    // take care of both row and column display
+    margin: 0.5rem 0.5rem 0.5rem 0rem;
+    .f-dropdown{
+      .fa{
+        font-size: 1.5rem;
+      }
+      span{
+        // weird, it seems, that vertical-align without padding-bottom
+        // doesnt do the job
+        vertical-align: middle;
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+  li.dropdownLegend{
+    color: $grey;
+    background-color: $light-grey;
+    padding: 1rem;
+    font-size: 1.2rem;
+    cursor: default;
+  }
 }
 
-iframe.wikipedia {
-  height: 100vh;
-  width: 100%;
-}
 
 .addEntity{
   h2{
@@ -24,6 +45,12 @@ iframe.wikipedia {
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
+  .entityActions{
+    .button-group > li {
+      // overriding Foundation "margin 0 0.2px;" value
+      margin: 0;
+    }
+  }
 }
 
 

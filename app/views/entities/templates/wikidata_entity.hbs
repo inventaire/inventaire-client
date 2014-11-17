@@ -44,12 +44,34 @@
         <p id='fullDesc' class='grey hidden'>{{description}}</p>
 
         {{!-- ACTIONS --}}
-        <p>
-          <a id='addToInventory' href='{{pathname}}/add' class='button success'>
-            {{icon 'plus'}}
-            {{i18n 'Add to my inventory'}}
-          </a>
-        </p>
+        <div class="entityActions">
+          <div class="entityAction">
+            <ul class="button-group">
+              <li>
+                <a data-tooltip id='addToInventory' class="has-tip button success" title="{{i18n 'Add it to my inventory'}}">
+                  {{icon 'plus'}}
+                  {{i18n 'I have it'}}
+                </a>
+              </li>
+              <li>
+                <a class="button success" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
+                <ul id="have" class="small f-dropdown" data-dropdown-content>
+                  <li class="dropdownLegend">{{i18n "I have it and it's available for:"}}</li>
+                  <li><a id="giving">{{icon 'heart'}} <span>{{i18n 'Giving'}}</span></a></li>
+                  <li><a id="lending">{{icon 'history'}} <span>{{i18n 'Lending'}}</span></a></li>
+                  <li><a id="selling">{{icon 'money'}} <span>{{i18n 'Selling'}}</span></a></li>
+                  <li><a id="inventories">{{icon 'cube'}} <span>{{i18n 'I just want to say I have it'}}</span></a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="entityAction">
+            <a data-tooltip class="has-tip button" id='addToWishList' title="{{i18n 'Add it to my wishlist'}}">
+              {{icon 'search'}} {{i18n "I'm looking for it"}}
+            </a>
+          </div>
+        </div>
         {{partial 'wiki_sitelinks' this}}
         <div class='check'></div>
       </div>
@@ -77,21 +99,5 @@
       <div id="public" class="small-12 large-12 columns"></div>
     </div>
 
-
   </div>
-
-
-
-{{!--   <div class='small-12 large-4 columns'>
-    {{#if wikipedia.mobileUrl}}
-      <a id='toggleWikiediaPreview'>
-        <h3>wikipedia {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}}</h3>
-      </a>
-      <p class='grey'>
-        ({{i18n 'see on'}} <a href='{{wikipedia.url}}' class='default' target='_blank'>wikipedia</a>)
-      </p>
-      <div id='wikipedia-article' class='hidden'></div>
-    {{/if}}
-  </div> --}}
-
 </div>
