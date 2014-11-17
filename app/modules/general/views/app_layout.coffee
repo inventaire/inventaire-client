@@ -1,5 +1,5 @@
 module.exports = class AppLayout extends Backbone.Marionette.LayoutView
-  template: require 'views/templates/app_layout'
+  template: require './templates/app_layout'
 
   el: 'body'
 

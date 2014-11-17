@@ -1,5 +1,5 @@
 module.exports = class Loader extends Backbone.Marionette.ItemView
-  template: require 'views/behaviors/templates/loader'
+  template: require './templates/loader'
   behaviors:
     Loading: {}
 

@@ -1,4 +1,4 @@
-WikidataEntity = require 'models/wikidata_entity'
+WikidataEntity = require './wikidata_entity'
 
 module.exports = class AuthorWikidataEntity extends WikidataEntity
   specificInitializers: -> #noop to override on upgrade and avoid loops

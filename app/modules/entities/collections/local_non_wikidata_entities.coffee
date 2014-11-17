@@ -1,4 +1,4 @@
-NonWikidataEntities = require 'collections/non_wikidata_entities'
+NonWikidataEntities = require './non_wikidata_entities'
 
 module.exports = class LocalNonWikidataEntities extends NonWikidataEntities
   localStorage: new Backbone.LocalStorage 'isbn:Entities'

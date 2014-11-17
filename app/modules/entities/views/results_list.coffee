@@ -4,7 +4,7 @@ module.exports = class ResultsList extends Backbone.Marionette.CollectionView
       when 'books' then require './book_li'
       when 'authors' then require './author_li'
       else _.log @options, 'no result type provided: cant choose getChildView'
-  emptyView: require './no_item'
+  emptyView: require 'modules/inventory/views/no_item'
   tagName: 'ul'
   className: 'jk'
   onShow: ->

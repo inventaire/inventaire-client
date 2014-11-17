@@ -1,4 +1,4 @@
-Entities = require 'collections/entities'
+Entities = require './entities'
 
 module.exports = class LocalEntities extends Entities
   localStorage: new Backbone.LocalStorage 'Entities'

@@ -65,7 +65,7 @@ module.exports =
         Book: require 'modules/entities/views/book'
         Other: require 'modules/entities/views/other'
         CategoryMenu: require 'modules/entities/views/category_menu'
-        ValidationButtons: require 'modules/entities/views/validation_buttons'
+        ValidationButtons: require 'modules/general/views/validation_buttons'
         Scanner: require 'modules/entities/views/scanner'
     Items:
       Creation: require 'modules/inventory/views/form/item_creation'

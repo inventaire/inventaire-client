@@ -2,7 +2,7 @@ imageHandler = require 'lib/image_handler'
 
 module.exports = class PicturePicker extends Backbone.Marionette.ItemView
   tagName: 'div'
-  template: require 'views/behaviors/templates/picture_picker'
+  template: require './templates/picture_picker'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}

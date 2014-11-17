@@ -1,4 +1,4 @@
-Filterable = require 'models/filterable'
+Filterable = require 'modules/general/models/filterable'
 
 module.exports = class MainUser extends Filterable
   url: ->

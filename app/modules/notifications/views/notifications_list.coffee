@@ -1,4 +1,4 @@
-ListWithCounter = require 'views/menu/list_with_counter'
+ListWithCounter = require 'modules/general/views/menu/list_with_counter'
 
 module.exports = class NotificationsList extends ListWithCounter
   childView: require './notification_li'

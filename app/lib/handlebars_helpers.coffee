@@ -1,9 +1,10 @@
-check = require 'views/behaviors/templates/success_check'
-tip = require 'views/behaviors/templates/tip'
-input = require 'views/behaviors/templates/input'
-wdQ = require 'views/behaviors/templates/wikidata_Q'
-img = require 'views/behaviors/templates/img'
-i = require 'views/behaviors/templates/i'
+behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
+check = behavior 'success_check'
+tip = behavior 'tip'
+input = behavior 'input'
+wdQ = behavior 'wikidata_Q'
+img = behavior 'img'
+i = behavior 'i'
 
 module.exports =
   initialize: ->
@@ -13,7 +14,17 @@ module.exports =
       Handlebars.registerHelper name, fn
 
     register 'partial', (name, context, option) ->
-      template = require "views/templates/#{name}"
+      parts = name.split ':'
+      switch parts.length
+        when 3 then [module, subfolder, file] = parts
+        when 2 then [module, file] = parts
+        # defaulting to general:partialName
+        when 1 then [module, file] = ['general', name]
+
+      if subfolder? then path = "modules/#{module}/views/#{subfolder}/templates/#{file}"
+      else path = "modules/#{module}/views/templates/#{file}"
+
+      template = require path
       partial = new Handlebars.SafeString template(context)
       switch option
         when 'check' then partial = new Handlebars.SafeString check(partial)

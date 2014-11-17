@@ -8,10 +8,10 @@
       {{input usernamePicker 'check'}}
 
     <h3 class="with-tip capitalized">{{i18n 'Language' 'Q34770'}}</h3>
-    {{partial '../user/templates/language_picker' this 'check'}}
+    {{partial 'user:language_picker' this 'check'}}
 
     <h3>{{i18n 'Profile Pic'}}</h3>
-    {{partial '../behaviors/templates/change_picture' this}}
+    {{partial 'general:change_picture' this}}
 
     <div class="margin-top">
       <a id="dataExport" class="button default" >{{i18n 'Export your data'}}</a>

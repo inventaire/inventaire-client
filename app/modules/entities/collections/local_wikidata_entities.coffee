@@ -1,4 +1,4 @@
-WikidataEntities = require 'collections/wikidata_entities'
+WikidataEntities = require './wikidata_entities'
 
 module.exports = class LocalWikidataEntities extends WikidataEntities
   localStorage: new Backbone.LocalStorage 'wd:Entities'

@@ -3,7 +3,7 @@ class App extends Backbone.Marionette.Application
 
     @vent = new Backbone.Wreqr.EventAggregator()
 
-    @Behaviors = require('behaviors/base')
+    @Behaviors = require('modules/general/behaviors/base')
     @Behaviors.initialize()
 
     @vent.on 'document:title:change', (title)->

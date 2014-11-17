@@ -1,6 +1,6 @@
 module.exports = class Welcome extends Backbone.Marionette.LayoutView
   id: 'welcome'
-  template: require 'views/templates/welcome'
+  template: require './templates/welcome'
   regions:
     left: '#welcome-left'
     right: '#welcome-right'

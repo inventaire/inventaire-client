@@ -1,4 +1,4 @@
-ValidationButtons = require './validation_buttons'
+ValidationButtons = require 'modules/general/views/validation_buttons'
 
 module.exports = class Other extends Backbone.Marionette.ItemView
   template: require './templates/other'
