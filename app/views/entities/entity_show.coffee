@@ -1,5 +1,5 @@
-module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
-  template: require 'views/entities/templates/wikidata_entity'
+module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
+  template: require 'views/entities/templates/entity_show'
   regions:
     article: '#article'
     personal: '#personal'
@@ -16,11 +16,11 @@ module.exports =  class WikidataEntity extends Backbone.Marionette.LayoutView
       attrs.back =
         message: _.i18n 'Back to search results'
 
+    attrs.following = true
     return attrs
 
   initialize: ->
     @uri = @model.get('uri')
-    _.inspect(@)
     @listenTo @model, 'add:pictures', @render
     @fetchPublicItems()
 

@@ -71,9 +71,7 @@ API =
         when 'human'
           new app.View.Entities.AuthorLi {model: entity, displayBooks: true}
         else
-          # the view is named after Wikidata, waiting for
-          # the possibility to merge those view
-          new app.View.Entities.Wikidata {model: entity}
+          new app.View.Entities.Show {model: entity}
     .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
 
   getEntityModel: (prefix, id)->

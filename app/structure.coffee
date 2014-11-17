@@ -58,7 +58,7 @@ module.exports =
       PicturePicker: require 'views/behaviors/picture_picker'
       ChangePicture: require 'views/behaviors/change_picture'
     Entities:
-      Wikidata: require 'views/entities/wikidata_entity'
+      Show: require 'views/entities/entity_show'
       AuthorLi: require 'views/entities/author_li'
       Search: require 'views/entities/entities_search_form'
       Form:
