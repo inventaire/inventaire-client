@@ -33,13 +33,13 @@ app.lib.i18n.initialize(app)
 # initialize all the modules and their routes before app.start()
 # the first routes initialized have the lowest priority
 app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
-app.module 'User', require 'modules/user'
+app.module 'User', require 'modules/user/user'
 if app.user.loggedIn
   app.module 'Redirect', require 'modules/redirect'
   app.module 'Search', require 'modules/search/search'
-  app.module 'Inventory', require 'modules/inventory'
+  app.module 'Inventory', require 'modules/inventory/inventory'
   app.module 'Profile', require 'modules/profile'
-  app.module 'Entities', require 'modules/entities'
+  app.module 'Entities', require 'modules/entities/entities'
   app.module 'Listings', require 'modules/listings'
   app.module 'Notifications', require 'modules/notifications/notifications'
   app.module 'Users', require 'modules/users/users'

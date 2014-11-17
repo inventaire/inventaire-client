@@ -1,6 +1,6 @@
 Search = require 'modules/search/layouts/search'
-ResultsList = require 'views/entities/results_list'
-AuthorsList = require 'views/entities/authors_list'
+ResultsList = require 'modules/entities/views/results_list'
+AuthorsList = require 'modules/entities/views/authors_list'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
