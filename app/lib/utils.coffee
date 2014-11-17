@@ -30,7 +30,9 @@ module.exports = (Backbone, _, app, window)->
 
     return obj
 
-  error: console.error.bind(console)
+  error: (err)->
+    unless err.stack? then err = new Error(err)
+    console.error(err.message or err, err.stack?.split('\n'))
 
   logAllEvents: (obj, prefix='logAllEvents')->
     obj.on 'all', (event)->
