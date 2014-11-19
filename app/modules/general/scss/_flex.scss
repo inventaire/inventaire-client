@@ -27,3 +27,16 @@
   @extend .flex-column;
   align-items: center;
 }
+
+.flex-column-centered-justified{
+  @extend .flex-column-centere;
+  justify-content: center;
+}
+
+.flex-row-grid{
+  display: flex;
+  flex-direction:row;
+  .cell, div{
+    flex: 1;
+  }
+}

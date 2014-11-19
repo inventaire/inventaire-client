@@ -17,7 +17,7 @@ figure {
   margin:0;
   display: inline-block;
   figcaption {
-    height: 3rem;
+    min-height: 3rem;
     h5 {
       color: #fff;
       text-align: center;
@@ -76,13 +76,6 @@ figure.deleted{
   figcaption.deletePicture{
     opacity: 0;
   }
-}
-
-.galery{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 /*Small screens*/

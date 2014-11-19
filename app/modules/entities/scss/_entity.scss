@@ -1,7 +1,5 @@
 .entityActions{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  @extend .flex-row-wrap;
   margin-bottom: 1rem;
   div.entityAction{
     // take care of both row and column display

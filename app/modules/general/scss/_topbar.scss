@@ -2,6 +2,7 @@ $topbar-height: 45px;
 $topbar-bg-color: $primary-color;
 $topbar-title-font-size: 2rem;
 $topbar-link-font-size: 1rem;
+$topbar-dropdown-link-bg: none;
 
 
 $topbar-link-bg-active: $success-color;
@@ -23,6 +24,7 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
 .counter {
   display: inline;
   color: $primary-color;
+  font-weight: bold;
   background-color: $secondary-color;
   padding: 0rem 0.4rem 0.1rem 0.4rem;
   border-radius: 2px;

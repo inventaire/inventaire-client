@@ -2,7 +2,7 @@
 .itemsList{
   @include vendor-prefix(column-gap, 15px);
   width: 90%;
-  margin: 50px auto;
+  margin: 1em auto;
   figure {
     width: 100%;
     @include vendor-prefix(column-break-inside, avoid);
@@ -32,7 +32,7 @@
 
 
 .columnsLayout{
-  @include vendor-prefix(column-width, 250px);
+  @include vendor-prefix(column-width, 200px);
 }
 
 @import "item_elements";

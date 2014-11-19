@@ -1,9 +1,5 @@
 #welcome{
-  display: flex;
-  flex-direction:row;
-  div{
-    flex: 1;
-  }
+  @extend .flex-row-grid;
 }
 #welcome-left{
   background-color: #fff;
@@ -39,9 +35,7 @@
   }
   ul.bonuses{
     margin-top: 1rem;
-    display: flex;
-    flex-direction:column;
-    align-items: center;
+    @extend .flex-column-centered;
     li{
       color: $dark-grey;
       background-color: $light-grey;
@@ -59,7 +53,6 @@
 }
 #welcome-right{
   margin: 0;
-  margin-top: -1rem;
   padding: 0;
 }
 
