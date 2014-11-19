@@ -6,8 +6,7 @@ module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemVi
     'click #addItem': -> app.execute 'show:entity:search'
     'keyup #itemsTextFilterField': 'executeTextFilter'
     'change select#listingPicker': 'updateListingFilter'
-    'click a.lines': 'dispositionLines'
-    'click a.boxes': 'dispositionBoxes'
+    'click a.listLayout, a.columnsLayout': 'toggleLayout'
 
   serializeData: ->
     listings = _.toArray(app.user.listings)
@@ -37,7 +36,9 @@ module.exports = class PersonalInventoryTools extends Backbone.Marionette.ItemVi
   onShow: -> app.inventory.showMenuBar()
   onDestroy: -> app.inventory.hideMenuBar()
 
-  dispositionBoxes: -> @toggleActiveButton()
-  dispositionLines: -> @toggleActiveButton()
+  toggleLayout: ->
+    _.log "toggle"
+    @toggleActiveButton()
+    $('.itemsList').toggleClass('columnsLayout')
 
   toggleActiveButton: -> $('.disposition > a').toggleClass('active')

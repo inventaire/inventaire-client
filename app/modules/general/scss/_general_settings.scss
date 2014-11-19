@@ -140,10 +140,8 @@ h1, h2, h3, h4, h5, h6, .button{
     text-transform: uppercase;
   }
 }
-.subheader{
-  &:first-letter{
-    text-transform: uppercase;
-  }
+.subheader:first-letter{
+  text-transform: uppercase;
 }
 
 .capitalized{
@@ -172,13 +170,6 @@ div.panel, div.block{
   margin: 0.8rem;
 }
 
-.flex-centered{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
@@ -192,3 +183,12 @@ div.panel, div.block{
 @import "pictures";
 @import "custom_select";
 @import "shadow_box";
+@import "flex";
+
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}

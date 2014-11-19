@@ -1,0 +1,42 @@
+.itemContainer{
+// //   div.cover{
+// //     img{
+// //     }
+// //   }
+  figcaption{
+    // h3.title{}
+    div.user-box{
+      // div.left-box{}
+      div.right-box{
+        span{
+          background-color: $light-grey;
+          padding: 0.2rem;
+          display: block;
+          overflow: hidden;
+          &.legend{
+            strong{
+              color: $body-font-color;
+            }
+          }
+          &.comment{
+            text-align: left;
+            padding: 0.2rem;
+          }
+          &.notes{
+            text-align: left;
+          }
+          &.wrapped{
+            max-height: 4rem;
+          }
+        }
+        .notes-box{
+          margin-top: 0.5rem;
+        }
+      }
+    }
+    margin-bottom: 1rem;
+    .cover{
+      background-color: #eee;
+    }
+  }
+}

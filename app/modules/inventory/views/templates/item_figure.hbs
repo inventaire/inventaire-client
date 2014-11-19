@@ -1,4 +1,31 @@
-<a data-href="{{pathname}}">
-  <img src="{{picture}}">
-</a>
-<figcaption class="title"><a class="itemShow" {{ifvalue 'data-href' pathname}}>{{title}}</a></figcaption>
+<div class="cover">
+  <a data-href="{{pathname}}">
+    <img src="{{picture}}">
+  </a>
+</div>
+<figcaption class="title">
+  <h3 class="title"><a class="itemShow" {{ifvalue 'data-href' pathname}}>{{title}}</a></h3>
+  <div class="user-box">
+    <div class="left-box">
+      <img class="profilePic" src="{{profilePic}}">
+    </div>
+    <div class="right-box">
+      <span class="legend grey">
+        {{i18n 'has_it' this}}
+      </span>
+      <span>
+        <span class="comment wrapped">
+          {{pre comment}}
+        </span>{{partial 'toggle_wrap' wrap.comment}}
+      </span>
+      {{#if notes}}
+        <span class="notes-box">
+          <strong class="grey">{{i18n 'personal notes'}}:</strong>
+          <span class="notes grey wrapped">
+            {{pre notes}}
+          </span>{{partial 'toggle_wrap' wrap.notes}}
+        </span>
+      {{/if}}
+    </div>
+  </div>
+</figcaption>

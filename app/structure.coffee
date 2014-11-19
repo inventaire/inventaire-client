@@ -43,7 +43,7 @@ module.exports =
     EditUser: require 'modules/user/views/edit_user'
     ItemsList: require 'modules/inventory/views/items_list'
     ItemsColumns: require 'modules/inventory/views/items_columns'
-    ItemLi: require 'modules/inventory/views/item_li'
+    ItemFigure: require 'modules/inventory/views/item_figure'
     NoItem: require 'modules/inventory/views/no_item'
     ItemEditionForm: require 'modules/inventory/views/item_edition_form'
     InventoriesTabs: require 'modules/inventory/views/inventories_tabs'
