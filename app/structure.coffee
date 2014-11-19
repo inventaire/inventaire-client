@@ -42,7 +42,6 @@ module.exports =
       Step1: require 'modules/user/views/login_step_1'
     EditUser: require 'modules/user/views/edit_user'
     ItemsList: require 'modules/inventory/views/items_list'
-    ItemsColumns: require 'modules/inventory/views/items_columns'
     ItemFigure: require 'modules/inventory/views/item_figure'
     NoItem: require 'modules/inventory/views/no_item'
     ItemEditionForm: require 'modules/inventory/views/item_edition_form'

@@ -20,7 +20,9 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
       app.users.public.add res.users
       items = new app.Collection.Items
       items.add res.items
-      itemsColumns = new app.View.ItemsColumns {collection: items}
+      itemsColumns = new app.View.ItemsList
+        collection: items
+        columns: true
       @right.show itemsColumns
     .fail (err)=>
       _.log err, 'couldnt loadPublicItems'
