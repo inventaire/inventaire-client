@@ -43,7 +43,7 @@ module.exports =
         else
           # overriding the second argument that could be {hash:,data:}
           unless _.isString classes then classes = ''
-          return new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;"
+          return new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
 
     register 'i18n', (key, args, context)-> new Handlebars.SafeString _.i18n(key, args, context)
 

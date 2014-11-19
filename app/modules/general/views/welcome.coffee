@@ -14,16 +14,14 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     @loadPublicItems()
 
   loadPublicItems: ->
-    # app.users will be override on Users module initialization
-    app.users = {public: new app.Collection.Users}
-    items = new app.Collection.Items
     _.preq.get app.API.items.public()
     .then (res)=>
       _.log res, 'Items.public res'
       app.users.public.add res.users
+      items = new app.Collection.Items
       items.add res.items
-      itemsList = new app.View.ItemsList {collection: items}
-      @right.show itemsList
+      itemsColumns = new app.View.ItemsColumns {collection: items}
+      @right.show itemsColumns
     .fail (err)=>
       _.log err, 'couldnt loadPublicItems'
       @unsplitScreen()

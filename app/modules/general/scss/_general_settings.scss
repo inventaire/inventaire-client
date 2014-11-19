@@ -7,6 +7,7 @@ $success-color: #43AC6A; // Foundation variable
 $grey: #888;
 $dark-grey: #333;
 $light-grey: #eee;
+$glow: #9ecaed;
 
 // body has a different color than main
 // to make it the background color when the DOM isnt loaded
@@ -24,7 +25,7 @@ body {
   // to avoid the anoying switch in width
   min-height: 101vh;
   main {
-
+    margin:0;
     padding-bottom: 2rem;
     background-color: $main-bg;
     // pushing the background down
@@ -171,6 +172,13 @@ div.panel, div.block{
   margin: 0.8rem;
 }
 
+.flex-centered{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
@@ -179,3 +187,8 @@ div.panel, div.block{
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
 }
+
+@import "select_button_group";
+@import "pictures";
+@import "custom_select";
+@import "shadow_box";

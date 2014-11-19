@@ -1,6 +1,8 @@
 @import "side_menu";
 @import "view_tools";
 @import "item_li";
+@import "item_creation";
+@import "items_columns";
 
 
 $tabs-navigation-active-bg-color: $tools-active-bg;
@@ -19,7 +21,7 @@ $tabs-navigation-font-color: #fff;
     }
     &.maximized{
       input{
-        width: 50vw !important;
+        width: 40vw !important;
       }
       a.button{
         max-width: 10vw;
