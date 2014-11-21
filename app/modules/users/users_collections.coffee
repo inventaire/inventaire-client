@@ -17,10 +17,19 @@ module.exports = (app)->
     # other filtering can happen on
     # the subcollection own filteredCollection
     users[status].filtered = new FilteredCollection(users[status])
-    users[status].add = (userData)->
+    users[status].add = (data)->
       # allows to be dispatched between users subcollections
-      userData.status = status
-      return users.add(userData)
+      if _.isArray(data)
+        data.forEach (userData)-> userData.status = status
+      else data.status = status
+      return users.add(data)
+
+  users.subCollectionsStats = ->
+    result = []
+    result.push 'users', @length
+    @subCollections.forEach (status)=>
+      result.push status, @[status].length
+    return result
 
   users.filtered = new FilteredCollection(users)
 
