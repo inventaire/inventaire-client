@@ -41,7 +41,7 @@ module.exports.initialize = ($)->
     scrollToFocused: ->
       $focus = $('.focus')
       if $focus.length > 0
-        targetedHeight = $focus.offset().top - 150
+        targetedHeight = $focus.offset().top - 50
         $('html, body').animate({scrollTop: targetedHeight}, 100)
   $.fn.focused = focused
   $.fn.focusOn = focusOn

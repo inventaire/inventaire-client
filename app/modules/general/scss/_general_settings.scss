@@ -7,7 +7,7 @@ $success-color: #43AC6A; // Foundation variable
 $grey: #888;
 $dark-grey: #333;
 $light-grey: #eee;
-$glow: #9ecaed;
+$glow: rgba(158, 202, 237, 0.7);
 
 // body has a different color than main
 // to make it the background color when the DOM isnt loaded
@@ -100,10 +100,15 @@ img.svg{
   }
 }
 
+
+.glowing{
+  border: 0.1em solid rgba(86, 180, 239, 0.6);
+  box-shadow: 0 0.2em 0.5em $glow;
+  transition: all 0.5s ease;
+}
+
 .focus{
-  .cover, .desc{
-    box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 255, 0.3);
-  }
+  @extend .glowing;
 }
 
 // SIZE MIXINS
