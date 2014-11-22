@@ -1,13 +1,20 @@
-module.exports = [
+try
+  muted = require('../local_config').muted
+catch err
+  muted = []
+
+all = [
   'i18n'
   'qLabel'
   'setCookie'
   'app'
   'route'
   'entity'
-  # 'entities'
+  'entities'
   'item'
-  # 'inv'
-  # 'query'
+  'inv'
+  'query'
   'relations'
 ]
+
+module.exports = _.difference all, muted
