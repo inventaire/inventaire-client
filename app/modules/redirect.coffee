@@ -15,5 +15,11 @@ API =
     _.log route, 'route:redirect'
     app.execute 'show:home'
   notFound: (route)->
-    _.log route, 'route:notFound'
-    app.execute 'show:404'
+    if app.user.loggedIn
+      _.log route, 'route:notFound'
+      app.execute 'show:404'
+    else @showWelcome()
+
+  showWelcome: ->
+    app.layout.main.show new app.View.Welcome
+    app.navigate 'welcome'

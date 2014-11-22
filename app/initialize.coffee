@@ -32,13 +32,14 @@ app.lib.i18n.initialize(app)
 
 # initialize all the modules and their routes before app.start()
 # the first routes initialized have the lowest priority
-app.module 'notLoggedRoutes', require 'modules/notLoggedRoutes'
+
+# /!\ routes defined before Redirect will be overriden by the glob
+app.module 'Redirect', require 'modules/redirect'
 # Users and Entities need to be initialize for the Welcome item panel to work
 app.module 'Users', require 'modules/users/users'
 app.module 'Entities', require 'modules/entities/entities'
 app.module 'User', require 'modules/user/user'
 if app.user.loggedIn
-  app.module 'Redirect', require 'modules/redirect'
   app.module 'Search', require 'modules/search/search'
   app.module 'Inventory', require 'modules/inventory/inventory'
   app.module 'Profile', require 'modules/profile'
