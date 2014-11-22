@@ -1,0 +1,36 @@
+.select-button-group{
+  @extend .flex-row-wrap;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  .button{
+    .fa{
+      font-size: 1rem
+    }
+    color: white;
+    background-color: $grey;
+    &.active, &:hover{
+      color: white;
+      background-color: $success-color;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    flex-direction: column;
+    .button{
+      outline: 0.1em solid $contrast;
+      &:first-child { outline-top: none; }
+      &:last-child { outline-bottom: none; }
+    }
+  }
+
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    .button{
+      outline: 0.1em solid $contrast;
+      &:first-child { outline-left: none; }
+      &:last-child { outline-right: none; }
+    }
+  }
+}

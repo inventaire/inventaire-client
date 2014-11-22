@@ -1,0 +1,22 @@
+<div class="row entityBox">
+  {{!-- COVER --}}
+  <div class='small-12 large-4 columns text-center'>
+    {{#if pictures}}
+      <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
+    {{/if}}
+  </div>
+
+  <div class='small-12 large-8 columns'>
+    {{!-- TITLE --}}
+    <h2>{{title}}</h2>
+
+    {{!-- AUTHOR --}}
+    <h3>
+      {{#if wikidata}}
+        {{claim claims 'P50'}}
+      {{else}}
+        <span>{{#each authors}}{{this}} {{/each}}</span>
+      {{/if}}
+    </h3>
+  </div>
+</div>

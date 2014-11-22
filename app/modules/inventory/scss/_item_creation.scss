@@ -1,0 +1,26 @@
+.itemCreation{
+  .entityBox{
+    background-color: $dark-grey;
+    h2, a{
+      color: white;
+    }
+  }
+  h3{
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    .entityBox{
+      h2, a {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+  }
+}

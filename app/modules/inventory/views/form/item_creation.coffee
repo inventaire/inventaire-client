@@ -22,19 +22,33 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs =
+      entity: @entity.toJSON()
       title: @entity.get 'title'
       listings: app.user.listings
     attrs.header = _.i18n 'add_item_text', {title: attrs.title}
     return attrs
 
   events:
+    'click .select-button-group > .button': 'updateSelector'
     'click #validate': 'validateItem'
     'click #cancel': -> app.execute 'show:home'
+    # 'selected:selling': -
+
+  updateSelector: (e)->
+    $el = $(e.currentTarget)
+    value = $el.attr('id')
+    category = $el.parent().attr('id')
+    console.log value, category
+    @$el.trigger "change:#{value}"
+    @$el.trigger "selected:#{value}"
+    $el.siblings().removeClass('active')
+    $el.addClass('active')
 
   validateItem: ->
+    transaction = $('#transaction').find('.active').first().attr('id')
     comment = $('#comment').val()
     notes = $('#notes').val()
-    listing = $('#listingPicker').val()
+    listing = $('#listing').find('.active').first().attr('id')
     if listing?
       @model.set 'listing', listing
       @model.set 'comment', comment  if comment?
