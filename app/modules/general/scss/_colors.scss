@@ -1,3 +1,22 @@
+$primary-color: #16212C; // Foundation variable
+$secondary-color: #FFD402; // Foundation variable
+$warning-color: #E13A00; // Foundation variable
+$success-color: #43AC6A; // Foundation variable
+$grey: #888;
+$dark-grey: #333;
+$light-grey: #eee;
+$glow: rgba(158, 202, 237, 0.7);
+
+
+// body has a different color than main
+// to make it the background color when the DOM isnt loaded
+$body-bg: $primary-color; // Foundation variable
+$main-bg: #ddd;
+$contrast: #fff;
+$panel-bg: $contrast; // Foundation variable
+$body-font-color: #222; // Foundation variable
+$tools-active-bg: #222;
+
 .secondary-button{
   background-color: $secondary-color;
   &:hover{
@@ -16,4 +35,39 @@
   a{
     color: white;
   }
+}
+
+.secondary{
+  color: lighten($primary-color, 10%) !important;
+}
+.yellow{
+  background-color: #FFD402;
+  &:hover{
+    background-color: darken(#FFD403, 20%)
+  }
+}
+.grey{
+  // important'ing this as Foundation I haven't found
+  // how to make $panel-font-color less important
+  color: $grey !important;
+  &.button{
+    // requires !important to override the previous !important
+    color: white !important;
+    background-color: $grey;
+    &:hover{
+      background-color: darken(grey, 15%);
+    }
+  }
+}
+
+.dark-grey{
+  color: $dark-grey;
+  &.button{
+    color: white;
+    background-color: $dark-grey;
+  }
+}
+
+.white{
+  color: #fff;
 }
