@@ -28,7 +28,7 @@ fetchFriendsAndTheirItems = ->
     app.vent.trigger 'users:ready'
 
   .catch (err)->
-    _.error new Error(err), 'fetchFriendsAndTheirItems err'
+    _.error err, 'fetchFriendsAndTheirItems err'
 
 addFriend = (friend)->
   userModel = app.users.friends.add friend
