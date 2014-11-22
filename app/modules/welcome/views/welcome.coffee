@@ -2,16 +2,13 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
   id: 'welcome'
   template: require './templates/welcome'
   regions:
-    one: '#welcome-one'
-    two: '#welcome-two'
-    loginButtons: '#loginButtons'
+    previewColumns: '#previewColumns'
 
-  onShow: ->
-    buttons = new app.View.NotLoggedMenu
-    @loginButtons.show buttons
-    @$el.find('li').addClass 'button'
+  initialize: ->
+    # importing loggin buttons events
+    @events = app.View.NotLoggedMenu::events
 
-    @loadPublicItems()
+  onShow: -> @loadPublicItems()
 
   loadPublicItems: ->
     _.preq.get app.API.items.public()
@@ -23,13 +20,7 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
       itemsColumns = new app.View.ItemsList
         collection: items
         columns: true
-      @two.show itemsColumns
+      @previewColumns.show itemsColumns
     .fail (err)=>
+      $('#welcome-two').find('h3').hide()
       _.log err, 'couldnt loadPublicItems'
-      @unsplitScreen()
-
-  unsplitScreen: ->
-    $('#welcome-two').hide()
-    $('#welcome-one').parent()
-    .removeClass('large-6').addClass('large-12')
-    .hide().fadeIn(500)

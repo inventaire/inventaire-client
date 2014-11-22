@@ -1,6 +1,6 @@
 module.exports = class ItemLi extends Backbone.Marionette.ItemView
   tagName: 'figure'
-  className: 'itemContainer shadowBox'
+  className: 'itemContainer white-shadow-box'
   template: require './templates/item_figure'
   behaviors:
     ConfirmationModal: {}

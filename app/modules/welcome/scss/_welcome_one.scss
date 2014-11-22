@@ -1,20 +1,26 @@
 section#welcome-one{
+  padding: 1rem;
   background-color: #fff;
   h2{
     font-weight: 900;
   }
   #loginButtons{
-    @extend .flex-column-grid;
-    .one{ @extend .secondary-button; }
-    .two{ @extend .success-button; }
+    .button{
+      @extend .shadow-box;
+    }
+    margin-top: 2rem;
   }
   ul.bonuses{
-    @extend .flex-row-centered;
+    @extend .flex-row;
     li{
-      color: $dark-grey;
-      background-color: $light-grey;
       width: 33%;
-      font-weight: bold;
+      h4{
+        color: $dark-grey;
+        background-color: $light-grey;
+        font-weight: bold;
+        font-size: 1.2em;
+        padding: 1.5rem;
+      }
     }
   }
 
@@ -36,10 +42,10 @@ section#welcome-one{
     }
     #loginButtons{
       flex-direction:column;
-      li{
-        width: 90%;
-        margin-bottom: 0.2em;
-      }
+      // li{
+      //   width: 90%;
+      //   margin-bottom: 0.2em;
+      // }
     }
   }
 
