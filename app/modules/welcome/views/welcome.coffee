@@ -2,8 +2,8 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
   id: 'welcome'
   template: require './templates/welcome'
   regions:
-    left: '#welcome-left'
-    right: '#welcome-right'
+    one: '#welcome-one'
+    two: '#welcome-two'
     loginButtons: '#loginButtons'
 
   onShow: ->
@@ -23,13 +23,13 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
       itemsColumns = new app.View.ItemsList
         collection: items
         columns: true
-      @right.show itemsColumns
+      @two.show itemsColumns
     .fail (err)=>
       _.log err, 'couldnt loadPublicItems'
       @unsplitScreen()
 
   unsplitScreen: ->
-    $('#welcome-right').hide()
-    $('#welcome-left').parent()
+    $('#welcome-two').hide()
+    $('#welcome-one').parent()
     .removeClass('large-6').addClass('large-12')
     .hide().fadeIn(500)

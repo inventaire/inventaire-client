@@ -1,0 +1,59 @@
+section#welcome-one{
+  background-color: #fff;
+  h2{
+    font-weight: 900;
+  }
+  #loginButtons{
+    @extend .flex-column-grid;
+    .one{ @extend .secondary-button; }
+    .two{ @extend .success-button; }
+  }
+  ul.bonuses{
+    @extend .flex-row-centered;
+    li{
+      color: $dark-grey;
+      background-color: $light-grey;
+      width: 33%;
+      font-weight: bold;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    h2 {
+      font-size: 3rem;
+    }
+    h3{
+      background-color: #f5f5f5;
+    }
+    ul.bonuses{
+      flex-direction:column;
+      li{
+        margin: 0;
+        margin-bottom: 0.2rem;
+        width: 100%;
+      }
+    }
+    #loginButtons{
+      flex-direction:column;
+      li{
+        width: 90%;
+        margin-bottom: 0.2em;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 2rem;
+    h2 {
+      font-size: 5rem;
+    }
+    ul{
+      li{
+        margin: 1rem;
+      }
+    }
+  }
+
+}

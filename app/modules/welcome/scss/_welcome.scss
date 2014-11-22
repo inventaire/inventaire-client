@@ -1,0 +1,20 @@
+#welcome{
+  @extend .flex-column-grid;
+  ul{
+    margin-top: 2rem;
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  #welcome {
+    flex-direction:column;
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+}
+
+@import "welcome_one";
+@import "welcome_two";

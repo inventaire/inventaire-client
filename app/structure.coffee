@@ -31,7 +31,7 @@ module.exports =
     CommonEl: require 'modules/general/regions/common_el'
 
   View:
-    Welcome: require 'modules/general/views/welcome'
+    Welcome: require 'modules/welcome/views/welcome'
     NotLoggedMenu: require 'modules/general/views/menu/not_logged_menu'
     AccountMenu: require 'modules/general/views/menu/account_menu'
     ListWithCounter: require 'modules/general/views/menu/list_with_counter'

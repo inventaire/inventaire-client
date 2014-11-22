@@ -189,6 +189,7 @@ div.panel, div.block{
 @import "custom_select";
 @import "shadow_box";
 @import "flex";
+@import "colors";
 
 @mixin vendor-prefix($name, $argument) {
   -webkit-#{$name}: #{$argument};

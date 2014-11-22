@@ -1,0 +1,19 @@
+.secondary-button{
+  background-color: $secondary-color;
+  &:hover{
+    background-color: darken($secondary-color, 10%)
+  }
+  a{
+    color: #222;
+  }
+}
+
+.success-button{
+  background-color: $success-color;
+  &:hover{
+    background-color: darken($success-color, 20%)
+  }
+  a{
+    color: white;
+  }
+}
