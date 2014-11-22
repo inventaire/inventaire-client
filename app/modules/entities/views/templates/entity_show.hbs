@@ -56,20 +56,26 @@
               <li>
                 <a class="button success" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
                 <ul id="have" class="small f-dropdown" data-dropdown-content>
-                  <li class="dropdownLegend">{{i18n "I have it and it's available for:"}}</li>
+                  <li class="dropdownLegend">{{i18n "I have it and it is available for:"}}</li>
                   <li><a id="giving">{{icon 'heart'}} <span>{{i18n 'Giving'}}</span></a></li>
                   <li><a id="lending">{{icon 'history'}} <span>{{i18n 'Lending'}}</span></a></li>
                   <li><a id="selling">{{icon 'money'}} <span>{{i18n 'Selling'}}</span></a></li>
-                  <li><a id="inventories">{{icon 'cube'}} <span>{{i18n 'I just want to say I have it'}}</span></a></li>
+                  <li><a id="inventorying">{{icon 'cube'}} <span>{{i18n 'I just want to say I have it'}}</span></a></li>
                 </ul>
               </li>
             </ul>
           </div>
 
           <div class="entityAction">
-            <a data-tooltip class="has-tip button" id='addToWishList' title="{{i18n 'Add it to my wishlist'}}">
-              {{icon 'search'}} {{i18n "I'm looking for it"}}
-            </a>
+            {{#if following}}
+              <a data-tooltip class="button grey" id='stopFollowing' title="{{i18n 'Click to stop notifications for this object'}}">
+                {{icon 'rss'}} {{i18n "Following activity"}}
+              </a>
+            {{else}}
+              <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n 'Get notified when an item is added here'}}">
+                {{icon 'rss'}} {{i18n "Follow activity"}}
+              </a>
+            {{/if}}
           </div>
         </div>
         {{partial 'wiki_sitelinks' this}}

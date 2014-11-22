@@ -16,7 +16,6 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
       attrs.back =
         message: _.i18n 'Back to search results'
 
-    attrs.following = true
     return attrs
 
   initialize: ->
