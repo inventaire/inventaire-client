@@ -67,8 +67,6 @@ module.exports = (_)->
 
   isDataUrl: (str)-> /^data:image/.test str
 
-  now: -> new Date().getTime()
-
   isHostedPicture: (str)-> /(imgloc|img).inventaire.io\/\w{22}.jpg$/.test str
 
   pickToArray: (obj, propsArray)->

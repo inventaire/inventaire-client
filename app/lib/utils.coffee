@@ -195,3 +195,4 @@ module.exports = (Backbone, _, app, window)->
     return obj
 
   allValues: (obj)-> @flatten @values(obj)
+  now: -> new Date().getTime()
