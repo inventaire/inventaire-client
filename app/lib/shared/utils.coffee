@@ -1,6 +1,4 @@
 module.exports = (_)->
-  hasValue: (array, value)-> array.indexOf(value) isnt -1
-
   idGenerator: (length, lettersOnly)->
     text = ''
     possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'

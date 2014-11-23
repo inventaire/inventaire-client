@@ -126,7 +126,7 @@ module.exports = (Backbone, _, app, window)->
     window.open data, windowName
 
   isUser: (id)-> id is app.user.id
-  isFriend: (id)-> @hasValue app.user.get('relations').friends, id
+  isFriend: (id)-> @contains app.user.relations.friends, id
 
   style: (text, style)->
     switch style

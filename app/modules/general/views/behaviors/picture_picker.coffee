@@ -95,9 +95,9 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
       unless states[i]?
         console.error 'missing state', states[i], states, i
       else
-        if _.hasValue states[i], 'deleted'
+        if _.contains states[i], 'deleted'
           toDelete.push urls[i]
-        else if _.hasValue(states[i], 'selected') and not @selected?
+        else if _.contains(states[i], 'selected') and not @selected?
           @selected = urls[i]
         else
           toKeep.push urls[i]
