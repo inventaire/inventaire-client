@@ -23,23 +23,30 @@ module.exports =
 # app.layout should thus appear only in callbacks
 API =
   showSignupStep1: ->
-    app.layout.main.show new app.View.Signup.Step1 {model: app.user}
-    app.navigate 'signup'
+    if app.user.loggedIn then app.execute 'show:home'
+    else
+      app.layout.main.show new app.View.Signup.Step1 {model: app.user}
+      app.navigate 'signup'
+
   showSignupStep2: ->
     app.layout.main.show new app.View.Signup.Step2 {model: app.user}
     app.navigate 'signup/2'
 
   routeTriggeredSignupStep2: ->
-    username = localStorage.getItem('username')
-    if username?
-      app.user.set('username', username)
-      params = {model: app.user, triggerPersonaLogin: true}
-      app.layout.main.show new app.View.Signup.Step2 params
-    else @showSignupStep1()
+    if app.user.loggedIn then app.execute 'show:home'
+    else
+      username = localStorage.getItem('username')
+      if username?
+        app.user.set('username', username)
+        params = {model: app.user, triggerPersonaLogin: true}
+        app.layout.main.show new app.View.Signup.Step2 params
+      else @showSignupStep1()
 
   showLogin: ->
-    app.layout.main.show new app.View.Login.Step1 {model: app.user}
-    app.navigate 'login'
+    if app.user.loggedIn then app.execute 'show:home'
+    else
+      app.layout.main.show new app.View.Login.Step1 {model: app.user}
+      app.navigate 'login'
 
   routeTriggeredLogin: ->
     params = {model: app.user, triggerPersonaLogin: true}

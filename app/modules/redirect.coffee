@@ -2,8 +2,6 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        '(signup)(/*whatever)(/)': 'home'
-        '(login)(/)': 'home'
         '*route': 'notFound'
 
     app.addInitializer ->
@@ -11,12 +9,9 @@ module.exports =
         controller: API
 
 API =
-  home: (route)->
-    _.log route, 'route:redirect'
-    app.execute 'show:home'
   notFound: (route)->
     if app.user.loggedIn
-      _.log route, 'route:notFound'
+      _.log route, 'route:notFound', true
       app.execute 'show:404'
     else @showWelcome()
 
