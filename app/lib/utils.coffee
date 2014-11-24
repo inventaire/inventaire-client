@@ -26,7 +26,7 @@ module.exports = (Backbone, _, app, window)->
 
     # log a stack trace if stack option is true
     if stack
-      console.log new Error('fake error').stack.split("\n")
+      console.log 'stack', new Error('fake error').stack.split("\n")
 
     return obj
 
