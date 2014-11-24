@@ -2,9 +2,9 @@ $topbar-height: 45px;
 $topbar-bg-color: $primary-color;
 $topbar-title-font-size: 2rem;
 $topbar-link-font-size: 1rem;
-$topbar-dropdown-link-bg: none;
 
 
+// former topbar loggin buttons
 $topbar-link-bg-active: $success-color;
 $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -14%);
 

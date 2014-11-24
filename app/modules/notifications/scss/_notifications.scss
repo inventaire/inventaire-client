@@ -1,0 +1,75 @@
+#accountMenu{
+  .notification{
+    div{
+      min-width: 10em;
+      min-height: 3em;
+      @include flex(row);
+      img{
+        margin-left: 0;
+        max-height: $notif-height;
+      }
+      a{
+        flex: 1;
+        background-color: $main-bg;
+        color: $dark-grey;
+        line-height: 1em;
+        text-align: right;
+        padding-top: 0.5em;
+        .time{
+          color: $grey;
+        }
+      }
+    }
+    .acceptedFriendRequest{
+      width: 25em;
+    }
+    .empty{
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+  }
+
+  .requestLi{
+    @include flex(row);
+    div{
+      @include flex(row);
+      flex: 1;
+    }
+    // max-width: 40rem !important;
+    .username{
+      // font-size: 1.2em;
+      margin: 0em 1em 0em 1em;
+      vertical-align: middle;
+    }
+    img{
+      margin-left: 0;
+      max-height: $notif-height;
+    }
+    height: $notif-height !important;
+    a.button{
+      height: $notif-height !important;
+      line-height: 1.8rem !important;
+      vertical-align: middle;
+      &.success{ @extend .success-button;}
+      &.grey{ @extend .grey;}
+    }
+    min-width: 30rem;
+    color: #fff;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    ul.dropdown{
+      padding: 0.2em;
+      background-color: $dark-grey;
+    }
+    .notification, .request{
+    }
+  }
+}
