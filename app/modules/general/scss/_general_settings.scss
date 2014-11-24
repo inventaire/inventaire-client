@@ -22,6 +22,13 @@ body {
   }
 }
 
+.tiny.button{
+  font-size: 1em !important;
+  padding: 0.1em !important;
+  color: $grey;
+  background-color: $light-grey;
+}
+
 img.icon{
   width: 2rem;
   opacity: 0.5;
