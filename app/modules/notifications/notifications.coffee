@@ -5,7 +5,6 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
 
   initialize: ->
-    notif = {title : 'hello notifs!'}
     @notifications = app.user.notifications = new Notifications
 
     app.reqres.setHandlers
@@ -13,4 +12,5 @@ module.exports =
 
 API =
   addNotification: (notification)->
+    _.log notification, 'notifications:add'
     @notifications.add notification

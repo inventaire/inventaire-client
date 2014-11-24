@@ -13,7 +13,7 @@ module.exports = (app, $, _)->
 
 
   fetchRelationsData = ->
-    relations = app.user.get('relations')
+    relations = app.user.relations
     _.log relations, 'relations'
     ids = _.allValues(relations)
     _.log ids, 'relations:fetchRelationsData ids'
