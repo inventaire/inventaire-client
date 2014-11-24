@@ -17,4 +17,4 @@ all = [
   'relations'
 ]
 
-module.exports = _.difference all, muted
+module.exports = _.intersection all, muted
