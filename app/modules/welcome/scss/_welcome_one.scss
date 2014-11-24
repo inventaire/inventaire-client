@@ -4,6 +4,11 @@ section#welcome-one{
   h2{
     font-weight: 900;
   }
+  .detail{
+    @extend .grey;
+    margin-top: -0.6em;
+    margin-bottom: 0.5em;
+  }
   #loginButtons{
     .button{
       @extend .shadow-box;

@@ -32,10 +32,48 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  .top-bar{
+  #inventorySections{
+    a{
+      font-size: 1.2em;
 
+      // go together
+      padding-top: 0.1em;
+      margin-bottom: -0.1em;
+
+      padding-left: 0;
+
+    }
+    .dropdown{
+      li{
+        color: white;
+        padding: 1em;
+        width: 12em;
+        vertical-align:
+      }
+    }
+  }
+  .top-bar{
     #searchField{
-      width: 15rem;
+      // width: 15rem;
+    }
+    #searchGroup{
+      float: right;
+      input{
+        min-width: 20vw;
+        transition: min-width 0.4s ease;
+      }
+      a.button{
+        float: right;
+      }
+      &.maximized{
+        input{
+          min-width: 28vw ;
+        }
+        a.button{
+          max-width: 10vw;
+        }
+        transition: all 0.5s ease;
+      }
     }
   }
 }

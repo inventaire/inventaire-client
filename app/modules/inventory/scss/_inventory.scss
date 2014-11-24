@@ -10,24 +10,6 @@ $tabs-navigation-font-color: #fff;
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  #searchGroup{
-    float: right;
-    input{
-      min-width: 25vw !important;
-    }
-    a.button{
-      float: right;
-    }
-    &.maximized{
-      input{
-        width: 40vw !important;
-      }
-      a.button{
-        max-width: 10vw;
-      }
-      transition: all 0.5s ease;
-    }
-  }
 }
 
 /*Small screens*/

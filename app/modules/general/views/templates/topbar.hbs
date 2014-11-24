@@ -2,7 +2,7 @@
 
     <nav class="top-bar" data-topbar>
         <ul class="title-area">
-            <li class="name">
+            <li class="name flex-row-grid">
                 <h1 id="topheader" class="capitalized"><a id="home">{{i18n 'Inventaire' 'Q815410'}}</a></h1>
             </li>
             <li class="toggle-topbar menu-icon">
@@ -13,6 +13,14 @@
 
         <section class="top-bar-section">
             {{!-- Left Nav Section --}}
+            <ul class="left">
+                <li id="inventorySections" class="has-dropdown">
+                  <a>{{icon 'chevron-right'}} {{i18n 'Books'}}</a>
+                  <ul class="dropdown">
+                    <li>{{i18n 'No other category yet'}}</li>
+                  </ul>
+                </li>
+            </ul>
             {{!-- Right Nav Section --}}
             <ul id="accountMenu" class="right"></ul>
         </section>
