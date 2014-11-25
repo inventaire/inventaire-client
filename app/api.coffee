@@ -33,3 +33,4 @@ module.exports =
       _.buildPath "/api/entities/search",
         search: search
         language: app.user.lang
+  notifs: '/api/notifs'
