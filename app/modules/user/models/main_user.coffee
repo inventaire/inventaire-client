@@ -2,7 +2,7 @@ Filterable = require 'modules/general/models/filterable'
 
 module.exports = class MainUser extends Filterable
   url: ->
-    app.API.auth.user
+    app.API.user
 
   parse: (data)->
     app.request 'notifications:add', data.notifications

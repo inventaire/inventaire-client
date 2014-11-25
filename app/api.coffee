@@ -2,8 +2,8 @@ module.exports =
   auth:
     login: '/api/auth/login'
     logout: '/api/auth/logout'
-    user: '/api/auth/user'
     username: '/api/auth/username'
+  user: '/api/user'
   users:
     data: (ids)->
       if ids?
