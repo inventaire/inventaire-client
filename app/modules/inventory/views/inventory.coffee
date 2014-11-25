@@ -21,6 +21,7 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
 
   onShow: ->
     app.layout.topMenu.show new app.View.InventoriesTabs
+    $('#inventorySections').slideDown(1000)
 
   onDestroy: ->
     app.layout.topMenu.empty()
