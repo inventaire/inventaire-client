@@ -16,9 +16,6 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
   .fa{
     font-size: 1.2rem;
   }
-  #name{
-    font-weight: 900;
-  }
 }
 
 .counter {
@@ -32,16 +29,14 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
+  #home{
+    // aligning with #inventorySections
+    margin-top: -0.1em;
+  }
   #inventorySections{
     a{
       font-size: 1.2em;
-
-      // go together
-      padding-top: 0.1em;
-      margin-bottom: -0.1em;
-
       padding-left: 0;
-
     }
     .dropdown{
       li{
