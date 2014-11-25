@@ -23,7 +23,7 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     @listenTo @model, 'add:pictures', @render
     @fetchPublicItems()
 
-  onShow: ->
+  onShow: -> app.request('qLabel:update')
 
   onRender: ->
     @showPersonalItems()
