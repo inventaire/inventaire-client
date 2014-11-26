@@ -16,6 +16,9 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
   .fa{
     font-size: 1.2rem;
   }
+  #name{
+    font-weight: 900;
+  }
 }
 
 .counter {
