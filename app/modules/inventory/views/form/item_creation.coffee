@@ -8,6 +8,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
       entity: @entity.get 'uri'
       claims:
         P31: @entity.get 'uri'
+      transaction: @options.transaction
 
     if pictures = @entity.get 'pictures'
       attrs.pictures = pictures
@@ -18,7 +19,23 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
       @model = new app.Model.Item attrs
     else throw new Error 'missing uri or title at item creation from entity'
 
-  onShow: -> app.execute 'foundation:reload'
+  ui:
+    'transaction': '#transaction'
+
+  onShow: ->
+    app.execute 'foundation:reload'
+    @updateTransaction()
+
+  updateTransaction: ->
+    transaction = @model.get 'transaction'
+    if transaction?
+      _.log transaction, 'transaction'
+      $transaction = @ui.transaction.find "a[id=#{transaction}]"
+      _.log $transaction, '$transaction'
+      if $transaction.length is 1
+        @ui.transaction.find('a').removeClass 'active'
+        $transaction.addClass 'active'
+
 
   serializeData: ->
     attrs =
@@ -52,6 +69,8 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     if listing?
       @model.set 'listing', listing
       @model.set 'comment', comment  if comment?
+      @model.set 'notes', notes  if notes?
+      @model.set 'transaction', transaction  if transaction?
       itemData = @model.toJSON()
       if app.request 'item:validate:creation', itemData
         app.execute 'show:home'

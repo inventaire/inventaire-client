@@ -32,7 +32,10 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     else @fetchPublicItems()
 
   events:
-    'click #addToInventory': 'showItemCreationForm'
+    'click #addToInventory, #inventorying': 'inventorying'
+    'click #giving': 'giving'
+    'click #lending': 'lending'
+    'click #selling': 'selling'
     'click #toggleWikiediaPreview': 'toggleWikiediaPreview'
     'click #toggleDescLength': 'toggleDescLength'
 
@@ -66,9 +69,17 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     items = @public.items
     @showCollectionItems items, 'public'
 
+  giving: -> @showItemCreation 'giving'
+  lending: -> @showItemCreation 'lending'
+  selling: -> @showItemCreation 'selling'
+  inventorying: -> @showItemCreation 'inventorying'
 
-  showItemCreationForm: ->
-    app.execute 'show:item:creation:form', {entity: @model}
+  showItemCreation: (transaction)->
+    params =
+      entity: @model
+      transaction: transaction
+    _.log params, 'item:creation:params'
+    app.execute 'show:item:creation:form', params
 
 
   toggleDescLength: ->
