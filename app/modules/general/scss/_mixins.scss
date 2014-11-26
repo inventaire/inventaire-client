@@ -11,3 +11,14 @@
   flex-direction: $direction;
   align-items: $align;
 }
+
+@mixin color-class($color, $contrast:white, $darken:15%) {
+  color: $color;
+  &.button{
+    color: $contrast;
+    background-color: $color;
+    &:hover{
+      background-color: darken($color, $darken);
+    }
+  }
+}

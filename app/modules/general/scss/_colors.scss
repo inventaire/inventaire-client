@@ -47,25 +47,15 @@ $tools-active-bg: #222;
   }
 }
 .grey{
-  // important'ing this as Foundation I haven't found
-  // how to make $panel-font-color less important
-  color: $grey !important;
-  &.button{
-    // requires !important to override the previous !important
-    color: white !important;
-    background-color: $grey;
-    &:hover{
-      background-color: darken(grey, 15%);
-    }
-  }
+  @include color-class($grey);
+}
+
+.light-grey{
+  @include color-class($light-grey);
 }
 
 .dark-grey{
-  color: $dark-grey;
-  &.button{
-    color: white;
-    background-color: $dark-grey;
-  }
+  @include color-class($dark-grey);
 }
 
 .white{
