@@ -2,6 +2,9 @@
   background-color: $contrast;
   padding: 0.5rem;
   margin: 0.5rem !important;
+  .columns{
+    padding: 0.5rem;
+  }
   .actions{}
 }
 
@@ -15,6 +18,9 @@
   .bookLi{
     .actions{
       margin-top: 1rem;
+    }
+    img{
+      margin: 0.5rem;
     }
   }
 }

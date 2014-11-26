@@ -3,7 +3,8 @@ module.exports = class NotificationLi extends Backbone.Marionette.ItemView
   className: 'notification'
   getTemplate: ->
     switch @model.get('type')
-      when 'friendAcceptedRequest' then require './templates/friend_request_accepted'
+      when 'friendAcceptedRequest'
+        require './templates/friend_request_accepted'
       else _.error 'notification type unknown'
 
   serializeData: ->

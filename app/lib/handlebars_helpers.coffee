@@ -36,7 +36,7 @@ module.exports =
       else return
 
     register 'icon', (name, classes) ->
-      if _.typeString(name)
+      if _.isString(name)
         if icons[name]?
           src = icons[name]
           return new Handlebars.SafeString "<img class='icon svg' src='#{src}'>"
@@ -140,4 +140,5 @@ module.exports =
 icons =
   wikipedia: 'https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg'
   wikidata: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Wikidata-logo.svg'
+  wikidataWhite: 'http://img.inventaire.io/Wikidata-logo-white.svg'
   wikisource: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg'
