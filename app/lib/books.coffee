@@ -6,7 +6,7 @@ module.exports.getImage = (data)->
     .then (res)=>
       if res.items?[0]?.volumeInfo?.imageLinks?.thumbnail?
         image = res.items[0].volumeInfo.imageLinks.thumbnail
-        return {image: @uncurl(image)}
+        return {image: @normalize(image)}
       else console.warn "google book image not found for #{data}"
     .fail (err)-> _.logXhrErr err, "google book err for #{data}"
     .done()

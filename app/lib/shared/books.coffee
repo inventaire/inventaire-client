@@ -55,8 +55,16 @@ module.exports = (Promises, _)->
         return
 
       if cleanedItem.imageLinks?
-         data.pictures.push cleanedItem.imageLinks.thumbnail
+        url = @uncurl cleanedItem.imageLinks.thumbnail
+        data.pictures.push url
+        data.pictures.push @zoom(url)
 
       return data
 
     uncurl: (url)-> url.replace('&edge=curl','')
+    zoom: (url)-> url.replace('&zoom=1','&zoom=2')
+    normalize: (url)->
+      # cant use zoom as some picture return an ugly
+      # image placeholder instead of a bigger picture
+      # url = @zoom(url)
+      return @uncurl url
