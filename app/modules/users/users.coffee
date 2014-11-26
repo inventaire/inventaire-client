@@ -15,7 +15,7 @@ module.exports =
 
 initUsersItems = ->
   app.commands.setHandlers
-    'friend:fetchItems': (userModel)-> fetchContactItems.call userModel
+    'friend:fetchItems': (userModel)-> fetchFriendItems(userModel)
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
 fetchFriendsAndTheirItems = ->
@@ -40,13 +40,8 @@ addOther = (other)->
 addUserRequests = (user)->
   userModel = app.users.userRequests.add user
 
-fetchContactItems = ->
-  username = @get('username')
-  _.preq.get app.API.users.items(@id)
-  .then (res)->
-    res.forEach (item)->
-      itemModel = Items.friends.add item
-      itemModel.username = username
+fetchFriendItems = (userModel)->
+  Items.friends.fetchFriendItems(userModel)
 
 removeContactItems = ->
   return Items.friends.remove(Items.friends.where({owner: @id}))

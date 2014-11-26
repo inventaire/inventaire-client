@@ -1,6 +1,7 @@
 module.exports =
   Collection:
     Items: require 'modules/inventory/collections/items'
+    FriendsItems: require 'modules/inventory/collections/friends_items'
     Users: require 'modules/users/collections/users'
     Entities: require 'modules/entities/collections/entities'
     LocalEntities: require 'modules/entities/collections/local_entities'

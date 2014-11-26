@@ -21,7 +21,7 @@ module.exports =
     # LOGIC
     window.Items =
       personal: new app.Collection.Items
-      friends: new app.Collection.Items
+      friends: new app.Collection.FriendsItems
       public: new app.Collection.Items
 
     fetchItems(app)
