@@ -68,7 +68,7 @@ module.exports = class Item extends Filterable
       entityPathname: @entityPathname
       profilePic: @profilePic
       restricted: @restricted
-      created: new Date(attrs.created).toLocaleDateString()
+      created: moment(attrs.created).fromNow()
 
     if @entity? then attrs.entity = @entity.toJSON()
 
