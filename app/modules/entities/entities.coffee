@@ -174,7 +174,7 @@ setHandlers = ->
 
     'show:entity:from:model': (model, params, region)->
       uri = model.get('uri')
-      label = model.get('label')
+      label = model.get('label') or model.get('title')
       if uri? and label?
         app.execute 'show:entity', uri, label, params, region
       else throw new Error 'couldnt show:entity:from:model'
