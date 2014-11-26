@@ -13,4 +13,7 @@ module.exports = class Notifications extends Backbone.Collection
 
   update: ->
     _.log @toUpdate, 'notifs:update'
-    $.postJSON app.API.notifs, {times: @toUpdate}
+    ids = @toUpdate
+    @toUpdate = []
+    $.postJSON app.API.notifs, {times: ids}
+    .fail console.warn.bind(console)
