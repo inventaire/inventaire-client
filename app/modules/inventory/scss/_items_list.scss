@@ -13,6 +13,9 @@
       text-align: center;
       font-size: 1.2em;
     }
+    .listingMenu{
+      text-align: left;
+    }
   }
   img:not(.profilePic) {
     width: 100%;
@@ -29,7 +32,6 @@
   @media screen and (min-width: $smallscreen) {
   }
 }
-
 
 .columnsLayout{
   @include vendor-prefix(column-width, 200px);

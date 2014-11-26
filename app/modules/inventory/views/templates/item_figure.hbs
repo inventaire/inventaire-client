@@ -13,6 +13,21 @@
       <span class="legend grey">
         {{i18n 'has_it' this}}
       </span>
+      {{#unless restricted}}
+        <span class="listingMenu">
+          <a class="grey" data-dropdown="{{uiId}}-menu">{{icon currentListing.icon}}{{icon 'caret-down'}}</a>
+          <ul id="{{uiId}}-menu" data-options="align:right" class="tiny f-dropdown" data-dropdown-content>
+            <li>{{i18n 'Visibility'}}:</li>
+            {{#each listings}}
+               <li>
+                <a id="{{id}}">
+                  {{icon icon}} {{i18n label}}
+                </a>
+              </li>
+            {{/each}}
+          </ul>
+        </span>
+      {{/unless}}
       <span>
         <span class="comment wrapped">
           {{pre comment}}

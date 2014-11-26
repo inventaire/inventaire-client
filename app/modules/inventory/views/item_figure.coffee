@@ -8,6 +8,8 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   initialize: ->
     @listenTo @model, 'change', @render
 
+  onShow: -> app.execute('foundation:reload')
+
   events:
     'click .edit': 'itemEdit'
     'click a.itemShow, img': 'itemShow'
@@ -25,6 +27,10 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
         wrap: attrs.notes?.length > 120
         nameBase: 'notes'
     attrs.username = _.style attrs.username, 'strong'
+    unless attrs.restricted
+      attrs.currentListing = app.user.listings[attrs.listing]
+      attrs.listings = app.user.listings
+      attrs.uiId = _.idGenerator(4, true).logIt('uiId')
     return attrs
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
