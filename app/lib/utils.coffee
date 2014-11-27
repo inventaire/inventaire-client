@@ -125,8 +125,11 @@ module.exports = (Backbone, _, app, window)->
     data = 'data:application/json;charset=utf-8,' + encodeURI(json)
     window.open data, windowName
 
-  isUser: (id)-> id is app.user.id
-  isFriend: (id)-> @contains app.user.relations.friends, id
+  isUser: (id)->
+    if id? then return id is app.user.id
+  isFriend: (id)->
+    unless id? and app.user.relations? then return false
+    return @contains app.user.relations.friends, id
 
   style: (text, style)->
     switch style

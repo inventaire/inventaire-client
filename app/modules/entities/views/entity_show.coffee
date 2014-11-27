@@ -26,8 +26,9 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
   onShow: -> app.request('qLabel:update')
 
   onRender: ->
-    @showPersonalItems()
-    @showFriendsItems()
+    if app.user.loggedIn
+      @showPersonalItems()
+      @showFriendsItems()
     if @public.items? then @showPublicItems()
     else @fetchPublicItems()
 
@@ -59,8 +60,9 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
 
   fetchPublicItems: ->
     app.request 'get:entity:public:items', @uri
-    .done (itemsData)=>
-      items = new app.Collection.Items(itemsData)
+    .then (data)=>
+      app.users.public.add data.users
+      items = new app.Collection.Items data.items
       @public.items = items
       @showPublicItems()
     .fail (err)->

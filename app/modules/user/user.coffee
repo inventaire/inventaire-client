@@ -127,12 +127,15 @@ recoverUserData = (app)->
       unless app.user.get('language')?
         if lang = $.cookie 'lang'
           _.log app.user.set('language', lang), 'language set from cookie'
-      app.vent.trigger 'user:ready'
-      app.user.fetched = true
     .fail (err)->
       _.logXhrErr(err, 'recoverUserData fail')
+    .always ->
+      app.vent.trigger 'user:ready'
+      app.user.fetched = true
   else
     app.user.loggedIn = false
+    app.vent.trigger 'user:ready'
+    app.user.fetched = true
 
 initializeUserI18nSettings = (app)->
   app.user.on 'change:language', (data)->
@@ -156,7 +159,7 @@ initializeUserEditionCommands = (app)->
 
 initializeUserMenuUpdate = (app)->
   app.commands.setHandlers
-    'show:user:menu:update': -> app.request 'waitForData', showMenu
+    'show:user:menu:update': showMenu
 
   app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
 

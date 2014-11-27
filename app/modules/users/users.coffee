@@ -19,16 +19,20 @@ initUsersItems = ->
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
 fetchFriendsAndTheirItems = ->
-  app.users.data.fetchRelationsData()
-  .then (relationsData)->
-    relationsData.friends.forEach addFriend
-    relationsData.othersRequests.forEach addOther
-    relationsData.userRequests.forEach addUserRequests
+  if app.user.loggedIn
+    app.users.data.fetchRelationsData()
+    .then (relationsData)->
+      relationsData.friends.forEach addFriend
+      relationsData.othersRequests.forEach addOther
+      relationsData.userRequests.forEach addUserRequests
+      app.users.fetched = true
+      app.vent.trigger 'users:ready'
+
+    .catch (err)->
+      _.error err, 'fetchFriendsAndTheirItems err'
+  else
     app.users.fetched = true
     app.vent.trigger 'users:ready'
-
-  .catch (err)->
-    _.error err, 'fetchFriendsAndTheirItems err'
 
 addFriend = (friend)->
   userModel = app.users.friends.add friend
