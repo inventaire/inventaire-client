@@ -2,7 +2,7 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        '': 'root'
+        '': 'showHome'
         '*route': 'notFound'
 
     app.addInitializer ->
@@ -11,14 +11,14 @@ module.exports =
 
   initialize: ->
     app.commands.setHandlers
-      'show:home': API.showRoot
+      'show:home': API.showHome
       'show:welcome': API.showWelcome
       'show:error': API.showError
       'show:403': API.show403
       'show:404': API.show404
 
 API =
-  showRoot: ->
+  showHome: ->
     if app.user.loggedIn
       app.execute 'show:inventory:personal'
     else app.execute 'show:welcome'
