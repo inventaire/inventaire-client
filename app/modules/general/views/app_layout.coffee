@@ -26,9 +26,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.vent.trigger 'layout:ready'
     app.commands.setHandlers
       'show:loader': @showLoader
-      'show:error': @showError
-      'show:403': @show403
-      'show:404': @show404
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
       'search:field:maximize': @maximizeSearchField
       'search:field:unmaximize': @unmaximizeSearchField
@@ -71,19 +68,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     .fail (err)-> $selector.trigger('fail', options.error)
 
     return promise
-
-  show403: ->
-    app.execute 'show:error',
-      code: 403
-      message: _.i18n 'Forbidden'
-
-  show404: ->
-    app.execute 'show:error',
-      code: 404
-      message: _.i18n 'Not Found'
-
-  showError: (options)->
-    app.layout.main.show new app.View.Error options
 
   search: ->
     query = $('input#searchField').val()
