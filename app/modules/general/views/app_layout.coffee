@@ -25,7 +25,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     @render()
     app.vent.trigger 'layout:ready'
     app.commands.setHandlers
-      'show:home': @showHome
       'show:loader': @showLoader
       'show:error': @showError
       'show:403': @show403
@@ -48,14 +47,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       app.docTitle title  if title?
     else
       app.layout.main.Show new app.View.Behaviors.Loader, title
-
-  showHome: ->
-    if app.user.loggedIn
-      app.execute 'show:inventory:personal'
-      app.execute 'main:fadeIn'
-    else
-      app.execute 'show:welcome'
-      app.execute 'main:fadeIn'
 
   enterClick: (e)->
     if e.keyCode is 13 && $(e.currentTarget).val().length > 0

@@ -5,7 +5,7 @@ module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
-        '(inventory)(/)': 'goToPersonalInventory'
+        'inventory(/)': 'goToPersonalInventory'
         'inventory/personal(/)': 'showPersonalInventory'
         'inventory/friends(/)': 'showFriendsInventory'
         'inventory/public(/)': 'showPublicInventory'
