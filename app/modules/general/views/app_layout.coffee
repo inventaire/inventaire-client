@@ -19,7 +19,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'click a#searchButton': 'search'
     'focus #searchField': 'maximizeSearchField'
     'focusout #searchField': 'unmaximizeIfNotAtSearch'
-    'click a.wdQ': 'showEntity'
+    'click a.wd-Q': 'showEntity'
 
   initialize: (e)->
     @render()

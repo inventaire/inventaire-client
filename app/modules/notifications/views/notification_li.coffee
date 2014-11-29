@@ -9,11 +9,15 @@ module.exports = class NotificationLi extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.username = app.request 'get:username:from:userId', attrs.data.user
+    @username = attrs.username = app.request 'get:username:from:userId', attrs.data.user
     attrs.picture = app.request 'get:profilePic:from:userId', attrs.data.user
     attrs.href = '/inventory/' + attrs.username
     attrs.time = moment(attrs.time).fromNow()
     return attrs
 
-  # events:
-    # 'click a': 'showUserInventory'
+  events:
+    'click a': 'showUserProfile'
+
+  showUserProfile: ->
+    app.execute 'show:user', @username
+    app.execute 'notifications:close'

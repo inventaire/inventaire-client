@@ -10,3 +10,7 @@ module.exports = class NotificationsList extends ListWithCounter
 
   markNotificationsAsRead: -> @collection.markAsRead()
   count: -> @collection.unread().length
+
+  initialize: ->
+    app.commands.setHandlers
+      'notifications:close': -> @$el.removeClass('hover')

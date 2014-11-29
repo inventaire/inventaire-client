@@ -1,1 +1,9 @@
-<a href="/entity/wd:{{id}}" class='qlabel wdQ' resource='https://www.wikidata.org/entity/{{id}}'></a>
+<a
+  {{#if link}}
+    href="/entity/wd:{{id}}"
+    class='link qlabel wd-Q'
+  {{else}}
+    class='qlabel wd-Q'
+  {{/if}}
+  resource='https://www.wikidata.org/entity/{{id}}'>
+</a>
