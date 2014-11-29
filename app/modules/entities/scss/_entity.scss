@@ -25,6 +25,11 @@
   }
 }
 
+.uri{
+  color: $grey !important;
+  font-size: 0.8em;
+  // text-align: right;
+}
 
 .addEntity{
   h2{
@@ -40,6 +45,33 @@
   }
 }
 
+.wiki-sitelinks{
+  .icon{
+    margin-right: 0.5em;
+  }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  li{
+    margin-right: 0.4em;
+  }
+}
+.authorLi{
+  .wiki-sitelinks{
+    flex-direction: column;
+    align-items: center;
+    li{
+      background-color: $grey;
+      width: 90%;
+      margin: 0 0.2em 0.2em 0.2em;
+    }
+  }
+}
+
+.wd-P{
+  &:first-letter{text-transform: capitalize;}
+  color: $grey;
+}
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
