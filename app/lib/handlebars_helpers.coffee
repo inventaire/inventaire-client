@@ -66,8 +66,8 @@ API =
         switch format
           when 'year' then time = time.getUTCFullYear()
         return time
-
-      return new Handlebars.SafeString values.join ', '
+      values = _.uniq(values)
+      return new Handlebars.SafeString values.join(_.i18n(' or '))
 
   limit: (text, limit)->
     if text?
