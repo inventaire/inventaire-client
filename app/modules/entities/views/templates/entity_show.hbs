@@ -17,31 +17,39 @@
     <div class='row panel'>
 
       {{!-- COVER --}}
-      <div class='small-12 large-4 columns text-center'>
+      <div class='small-12 large-12 columns text-center'>
         {{#if pictures}}
           <img src="{{firstElement pictures}}" alt="{{title}} {{i18n 'cover'}}">
         {{/if}}
       </div>
 
-      <div class='small-12 large-8 columns'>
+      <div class='small-12 large-12 columns'>
         {{!-- TITLE --}}
         <h2>{{title}}</h2>
-
-        {{!-- AUTHOR --}}
-        <h3>
-          {{#if wikidata}}
-            {{claim claims 'P50'}}
-          {{else}}
-            <span>{{#each authors}}{{this}} {{/each}}</span>
-          {{/if}}
-        </h3>
-
         {{!-- DESCRIPTION --}}
         {{#if descOverflow}}
           <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
         {{/if}}
         <p id='shortDesc' class='grey'>{{limit description 500}}</p>
         <p id='fullDesc' class='grey hidden'>{{description}}</p>
+
+        {{!-- AUTHOR --}}
+        {{#if wikidata}}
+        {{!-- WIKIDATA ATTRIBUTES --}}
+          <p class='wiki-attributes'>
+            {{claim claims 'P50' true}}
+            {{claim claims 'P136'}}
+            {{claim claims 'P123'}}
+            {{claim claims 'P364'}}
+            {{claim claims 'P840'}}
+          </p>
+        {{else}}
+            <p class="isbn-attributes">
+              {{P '50'}}{{#each authors}}{{this}} {{/each}}
+            </p>
+        {{/if}}
+        {{!-- <p class="uri">uri:{{uri}}</p> --}}
+
 
         {{!-- ACTIONS --}}
         <div class="entityActions">
@@ -72,7 +80,7 @@
                 {{icon 'rss'}} {{i18n "Following activity"}}
               </a>
             {{else}}
-              <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n "Tell your network you're looking for it" }}{{i18n 'Get notified when an item is added here'}}">
+              <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n "Tell your network you're looking for it" }}. {{i18n 'Get notified when an item is added here'}}">
                 {{icon 'rss'}} {{i18n "I'm looking for it"}}
               </a>
             {{/if}}
@@ -85,8 +93,8 @@
 
 
     {{!-- PERSONAL ITEMS  --}}
-
     <div id="personalGroup" class="row">
+      {{!-- <h3 class="subheader personalHeader">{{i18n 'Who has it'}}</h3> --}}
       <h3 class="subheader personalHeader">{{i18n "Your items"}}</h3>
       <div id="personal" class="small-12 large-12 columns"></div>
     </div>

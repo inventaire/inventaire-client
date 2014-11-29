@@ -3,6 +3,7 @@ check = behavior 'success_check'
 tip = behavior 'tip'
 input = behavior 'input'
 wdQ = behavior 'wikidata_Q'
+wdP = behavior 'wikidata_P'
 img = behavior 'img'
 i = behavior 'i'
 
@@ -43,21 +44,25 @@ API =
 
   P: (id)->
     if /^P[0-9]+$/.test id
-      new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/#{id}'"
-    else new Handlebars.SafeString "class='qlabel wdP' resource='https://www.wikidata.org/entity/P#{id}'"
+      new Handlebars.SafeString wdP({id: id})
+    else new Handlebars.SafeString wdP({id: "P#{id}"})
 
-  Q: (id)->
-    if /^Q[0-9]+$/.test id
-      new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/#{id}'"
-    else new Handlebars.SafeString "class='qlabel wdQ' resource='https://www.wikidata.org/entity/Q#{id}'"
-
-  claim: (claims, P)->
+  Q: (claims, P, link)->
     if claims?[P]?
-      values = claims[P].map (Q)-> wdQ({id: Q})
+      # when link args is omitted, the {data:,hash: }
+      # makes it truthy, thus the stronger test:
+      link = link is true
+      values = claims[P].map (Q)-> wdQ({id: Q, link: link})
       return new Handlebars.SafeString values.join ', '
     else
       _.log arguments, 'claim couldnt be displayed by Handlebars'
       return
+
+  claim: (claims, P, link)->
+    if claims?[P]?
+      label = @P(P)
+      value = @Q(claims, P, link)
+      return new Handlebars.SafeString "#{label} #{value} <br>"
 
   timeClaim: (claims, P, format)->
     if claims?[P]?

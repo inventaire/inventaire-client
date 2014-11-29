@@ -65,7 +65,7 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
       items = new app.Collection.Items data.items
       @public.items = items
       @showPublicItems()
-    .fail (err)->
+    .fail _.logXhrErr
 
   showPublicItems: ->
     items = @public.items
