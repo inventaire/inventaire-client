@@ -5,11 +5,11 @@ module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
-        'inventory(/)': 'goToPersonalInventory'
+        'inventory(/)': 'showGeneralInventory'
         'inventory/personal(/)': 'showPersonalInventory'
         'inventory/friends(/)': 'showFriendsInventory'
         'inventory/public(/)': 'showPublicInventory'
-        # 'inventory/:user(/)': 'showUserInventory'
+        'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:suffix(/:title)(/)': 'itemShow'
 
     app.addInitializer ->
@@ -18,33 +18,28 @@ module.exports =
 
 
   initialize: ->
-    # LOGIC
-    window.Items =
-      personal: new app.Collection.Items
-      friends: new app.Collection.FriendsItems
-      public: new app.Collection.Items
+
+    window.Items = Items = require('./items_collections')(app, _)
 
     fetchItems(app)
     Filters.initialize(app)
 
-    # VIEWS
     initializeInventoriesHandlers(app)
 
 API =
-  goToPersonalInventory: ->
-    @showPersonalInventory()
-    app.navigateReplace 'inventory/personal'
+  showGeneralInventory: ->
+    showInventory _.i18n 'Home'
+    showItemList Items.filtered.resetFilters()
+    app.vent.trigger 'inventory:change', 'general'
 
   showPersonalInventory: ->
     showInventory _.i18n('Personal')
-    showItemList(Items.personal.filtered)
-    app.execute 'filter:visibility:reset'
+    showItemList Items.personal.filtered.resetFilters()
     app.vent.trigger 'inventory:change', 'personal'
 
   showFriendsInventory: ->
-    Items.friends.filtered.resetFilters()
     showInventory _.i18n('Friends')
-    showItemList(Items.friends.filtered)
+    showItemList Items.friends.filtered.resetFilters()
     app.vent.trigger 'inventory:change', 'friends'
 
   showPublicInventory: ->
@@ -68,29 +63,42 @@ API =
     app.layout.main.show form
 
   # should be reimplemented taking example on ItemShow switch
-  # showUserInventory: (user)->
-  # app.request 'waitForData', @filterForUser, @
+  showUserInventory: (username)->
+    app.request 'waitForData', @filterForUser, @, username
 
-  # filterForUser: ->
-  #   owner = app.request 'get:userId:from:username', user
-  #   if owner?
-  #     app.execute 'filter:inventory:owner', Items.friends.filtered, owner
-  #   else
-  #     _.log [user, owner], 'user not found: you should do some ajax wizzardry to get him'
+  filterForUser: (username)->
+    owner = app.request 'get:userId:from:username', username
+    if owner?
+      app.execute 'filter:inventory:owner', Items.filtered, owner
+      showInventory(username)
+      showItemList(Items.filtered)
+      app.vent.trigger 'inventory:change', username
+    else
+      _.log [username, owner], 'username not found: you should do some ajax wizzardry to get him'
 
   itemShow: (username, suffix, label)->
     app.execute('show:loader', {title: "#{label} - #{username}"})
-    app.request 'waitForData', @showItemShow, @, username, suffix, label
+    app.request 'waitForFriendsItems', @showItemShow, @, username, suffix, label
+
+  # why waitForData doesnt work?
 
   showItemShow: (username, suffix, label)->
+    console.log '1'
+    console.log '2'
+    console.log '3'
     owner = app.request 'get:userId:from:username', username
     if _.isUser(owner)
       items = Items.personal.where({suffix: suffix})
+      console.log '4'
     else if _.isFriend(owner)
       items = Items.friends.where({owner: owner, suffix: suffix})
+      debugger
+      console.log '5'
     else
+      console.log '6'
       itemsPromise = app.request 'requestPublicItem', username, suffix
 
+    _.log items, 'items'
     if items? then @displayFoundItems(items)
     else
       if itemsPromise?
@@ -100,6 +108,8 @@ API =
       else app.execute 'show:404'
 
   displayFoundItems: (items)->
+    console.log '7'
+    _.log items, 'items'
     if items?.length?
       switch items.length
         when 0 then app.execute 'show:404'
@@ -124,13 +134,15 @@ showInventory = (docTitle)->
 showItemList = (collection)->
   # waitForData to avoid having items displaying undefined values
   app.request 'waitForData', ->
-    itemsList = app.inventory.itemsList = new app.View.ItemsList {collection: collection}
+    itemsList = app.inventory.itemsList = new app.View.ItemsList
+      collection: collection
+      columns: true
     app.inventory.itemsView.show itemsList
 
 
 # LOGIC
 fetchItems = (app)->
-  Items.personal.fetch({reset: true})
+  Items.fetch({reset: true})
   .always ->
     Items.personal.fetched = true
     app.vent.trigger 'items:ready'
@@ -159,6 +171,10 @@ validateCreation = (itemData)->
 # VIEWS
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
+    'show:inventory:general': ->
+      API.showGeneralInventory()
+      app.navigate 'inventory'
+
     'show:inventory:personal': ->
       API.showPersonalInventory()
       app.navigate 'inventory/personal'
@@ -166,6 +182,10 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:friends': ->
       API.showFriendsInventory()
       app.navigate 'inventory/friends'
+
+    'show:inventory:user': (username)->
+      API.showUserInventory(username)
+      app.navigate "inventory/#{username}"
 
     'show:inventory:public': ->
       API.showPublicInventory()

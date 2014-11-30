@@ -15,6 +15,7 @@ module.exports =
 
 initUsersItems = ->
   app.commands.setHandlers
+    'show:user': (username)-> app.execute 'show:inventory:user', username
     'friend:fetchItems': (userModel)-> fetchFriendItems(userModel)
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
