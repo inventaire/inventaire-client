@@ -60,5 +60,4 @@ app.request('i18n:set')
     app.start()
 
 require('lib/jquery-jk').initialize($)
-require('lib/svg_inliner').initialize($)
 _.ping()
