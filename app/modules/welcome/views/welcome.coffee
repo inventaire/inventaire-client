@@ -8,7 +8,11 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     # importing loggin buttons events
     @events = app.View.NotLoggedMenu::events
 
-  onShow: -> @loadPublicItems()
+  onShow: ->
+    @loadPublicItems()
+    $('.top-bar').hide()
+  onDestroy: ->
+    $('.top-bar').fadeIn()
 
   loadPublicItems: ->
     _.preq.get app.API.items.public()
