@@ -1,5 +1,6 @@
 ItemShow = require './views/item_show'
 Filters = require './lib/filters'
+Transactions = require './lib/transactions'
 
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
@@ -18,12 +19,10 @@ module.exports =
 
 
   initialize: ->
-
     window.Items = Items = require('./items_collections')(app, _)
-
     fetchItems(app)
     Filters.initialize(app)
-
+    Transactions(Items)
     initializeInventoriesHandlers(app)
 
 API =
