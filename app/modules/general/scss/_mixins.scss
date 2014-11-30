@@ -6,10 +6,11 @@
   #{$name}: #{$argument};
 }
 
-@mixin flex($direction, $align:'left') {
+@mixin flex($direction, $align:'left', $justify:'center') {
   display: flex;
   flex-direction: $direction;
   align-items: $align;
+  justify-content: $justify;
 }
 
 @mixin color-class($color, $contrast:white, $darken:15%) {
