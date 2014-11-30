@@ -32,8 +32,9 @@
   }
 }
 
+$columnWidth: 250px;
 .columnsLayout{
-  @include vendor-prefix(column-width, 250px);
+  @include vendor-prefix(column-width, $columnWidth);
 }
 
 @import "item_elements";

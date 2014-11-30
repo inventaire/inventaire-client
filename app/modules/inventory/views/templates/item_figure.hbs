@@ -7,55 +7,58 @@
   <h3 class="title"><a class="link itemShow" {{ifvalue 'data-href' pathname}}>{{title}}</a></h3>
 </figcaption>
 <div class="user-box">
-    <a class="user">
-      <img class="profilePic" src="{{profilePic}}">
-      {{{username}}}
-    </a>
+  <a class="user">
+    <img class="profilePic" src="{{profilePic}}">
+  </a>
+  <a class="user">
+    <strong>{{username}}</strong> <br>
+    <span class="time">{{i18n 'added_date' date}}</span>
+  </a>
+</div>
 
-  <div class="settings">
-    {{!-- TRANSACTION --}}
-    <span class="transactionMenu">
-      {{#if restricted}}
-        <a class="itemShow">
-          {{icon currentTransaction.icon}}
-          {{i18n currentTransaction.labelShort}}
-        </a>
-      {{else}}
-        <a data-dropdown="{{uiId}}-t-menu">
-          {{icon currentTransaction.icon}}
-          {{icon 'caret-down'}}
-        </a>
-        <ul id="{{uiId}}-t-menu" data-options="align:right"
+<div class="settings">
+  {{!-- TRANSACTION --}}
+  <div class="transactionMenu {{currentTransaction.id}}">
+    {{#if restricted}}
+      <a class="current itemShow">
+        {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
+      </a>
+    {{else}}
+      <a class="current" data-dropdown="{{uiId}}-t-menu">
+        {{icon currentTransaction.icon}}
+        {{icon 'caret-down'}}
+      </a>
+      <ul id="{{uiId}}-t-menu" data-options="align:right"
+      class="tiny f-dropdown" data-dropdown-content>
+        <li>{{i18n 'Available for'}}:</li>
+        {{#each transactions}}
+           <li>
+            <a id="{{id}}" class="transaction">
+              {{icon icon}} {{i18n label}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+    {{!-- VISIBILITY --}}
+    {{#unless restricted}}
+      <div class="listingMenu {{currentListing.id}}">
+        <a class="current" data-dropdown="{{uiId}}-l-menu">
+        {{icon currentListing.icon}}{{icon 'caret-down'}}</a>
+        <ul id="{{uiId}}-l-menu" data-options="align:right"
         class="tiny f-dropdown" data-dropdown-content>
-          <li>{{i18n 'Available for'}}:</li>
-          {{#each transactions}}
+          <li>{{i18n 'Visibility'}}:</li>
+          {{#each listings}}
              <li>
-              <a id="{{id}}" class="transaction">
+              <a id="{{id}}" class="listing">
                 {{icon icon}} {{i18n label}}
               </a>
             </li>
           {{/each}}
         </ul>
-      {{/if}}
-    </span>
-      {{!-- VISIBILITY --}}
-      {{#unless restricted}}
-        <span class="listingMenu">
-          <a data-dropdown="{{uiId}}-l-menu">{{icon currentListing.icon}}{{icon 'caret-down'}}</a>
-          <ul id="{{uiId}}-l-menu" data-options="align:right"
-          class="tiny f-dropdown" data-dropdown-content>
-            <li>{{i18n 'Visibility'}}:</li>
-            {{#each listings}}
-               <li>
-                <a id="{{id}}" class="listing">
-                  {{icon icon}} {{i18n label}}
-                </a>
-              </li>
-            {{/each}}
-          </ul>
-        </span>
-      {{/unless}}
-  </div>
+      </div>
+    {{/unless}}
 </div>
 <div class="comments-box">
   {{#if comment}}

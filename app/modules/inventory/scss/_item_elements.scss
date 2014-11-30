@@ -13,32 +13,75 @@ $user-box-heigth: 3em;
   width: 100%;
   height: $user-box-heigth;
   background-color: $main-bg;
-  // text-align: center;
-  // font-size: 1.2em;
-  @include flex(row, center, center);
-  // @extend .flex-row-grid;
+  @include flex(row, center);
   .user{
-    flex: 1;
     .profilePic{
       height: $user-box-heigth;
     }
-  }
-  .settings{
-    flex:1;
-    // @include flex(row, center, center);
-    span{
-      height: $user-box-heigth;
+    strong{
+      margin-left: 0.4em;
+    }
+    .time{
+      margin-left: 0.4em;
+      color: $grey;
     }
   }
-  .listingMenu, .transactionMenu{
-    margin: 0.2em;
+}
+.settings{
+  min-height: $user-box-heigth;
+  width: 100%;
+  @include flex(row, center, space-between);
+  justify-content: space-around;
+  div{
+    background-color: $main-bg;
+    flex: auto;
+    height: 100%;
+    @include flex(row, center, center);
     color: $dark-grey;
     ul{
       padding: 0.2em;
       text-align: left;
     }
+    a{
+      color: $dark-grey;
+    }
+  }
+  .currentWhite{
+    a.current{
+        color: white;
+    }
+  }
+  .listingMenu{
+    &.private{
+      background-color: $dark-grey;
+      @extend .currentWhite;
+    }
+    &.friends{
+      background-color: $grey;
+      @extend .currentWhite;
+    }
+    &.public{
+      background-color: $light-grey;
+    }
+  }
+  .transactionMenu{
+    &.giving{
+      background-color: rgba(255, 2, 32, 0.5);
+      @extend .currentWhite;
+    }
+    &.lending{
+      background-color: rgba(67, 172, 106, 0.5);
+    }
+    &.selling{
+      background-color: rgba(255, 212, 2, 0.5);
+    }
+    &.inventorying{
+      background-color: rgba(130, 130, 130, 0.5);
+      @extend .currentWhite;
+    }
   }
 }
+
 .comments-box{
   text-align: left;
   width: 100%;

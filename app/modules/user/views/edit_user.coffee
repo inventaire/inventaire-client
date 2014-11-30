@@ -39,10 +39,12 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
 
   verifyUsername: (username)=>
     requestedUsername = $('#usernameField').val()
-    if requestedUsername == app.user.get 'username'
+    if requestedUsername is app.user.get 'username'
       @invalidUsername _.i18n "that's already your username"
     else if requestedUsername is ''
-      @invalidUsername _.i18n "'username' can't be empty"
+      @invalidUsername _.i18n "username can't be empty"
+    else if requestedUsername.length > 20
+      @invalidUsername _.i18n "username should be 20 character maximum"
     else
       $.post app.API.auth.username, {username: requestedUsername}
       .then (res)=> @confirmUsernameChange(res.username)

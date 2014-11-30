@@ -17,7 +17,12 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     return _.extend attrs, @model.toJSON()
 
 
-  onShow: -> app.execute 'foundation:reload'
+  onShow: ->
+    app.execute 'foundation:reload'
+    app.execute 'bg:book:toggle'
+
+  onDestroy: ->  app.execute 'bg:book:toggle'
+
   events:
     'click #usernameButton': 'verifyUsername'
 
@@ -25,6 +30,8 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     username = $('#usernameField').val()
     if username is ''
       @invalidUsername _.i18n "'username' can't be empty"
+    else if requestedUsername.length > 20
+      @invalidUsername _.i18n "username should be 20 character maximum"
     else
       $.post(app.API.auth.username, {username: username})
       .then (res)=>
