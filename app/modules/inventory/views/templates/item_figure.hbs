@@ -4,23 +4,50 @@
   </a>
 </div>
 <figcaption class="title">
-  <h3 class="title"><a class="itemShow" {{ifvalue 'data-href' pathname}}>{{title}}</a></h3>
-  <div class="user-box">
-    <div class="left-box">
+  <h3 class="title"><a class="link itemShow" {{ifvalue 'data-href' pathname}}>{{title}}</a></h3>
+</figcaption>
+<div class="user-box">
+    <a class="user">
       <img class="profilePic" src="{{profilePic}}">
-    </div>
-    <div class="right-box">
-      <span class="legend grey">
-        {{i18n 'has_it' this}}
-      </span>
+      {{{username}}}
+    </a>
+
+  <div class="settings">
+    {{!-- TRANSACTION --}}
+    <span class="transactionMenu">
+      {{#if restricted}}
+        <a class="itemShow">
+          {{icon currentTransaction.icon}}
+          {{i18n currentTransaction.labelShort}}
+        </a>
+      {{else}}
+        <a data-dropdown="{{uiId}}-t-menu">
+          {{icon currentTransaction.icon}}
+          {{icon 'caret-down'}}
+        </a>
+        <ul id="{{uiId}}-t-menu" data-options="align:right"
+        class="tiny f-dropdown" data-dropdown-content>
+          <li>{{i18n 'Available for'}}:</li>
+          {{#each transactions}}
+             <li>
+              <a id="{{id}}" class="transaction">
+                {{icon icon}} {{i18n label}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </span>
+      {{!-- VISIBILITY --}}
       {{#unless restricted}}
         <span class="listingMenu">
-          <a class="grey" data-dropdown="{{uiId}}-menu">{{icon currentListing.icon}}{{icon 'caret-down'}}</a>
-          <ul id="{{uiId}}-menu" data-options="align:right" class="tiny f-dropdown" data-dropdown-content>
+          <a data-dropdown="{{uiId}}-l-menu">{{icon currentListing.icon}}{{icon 'caret-down'}}</a>
+          <ul id="{{uiId}}-l-menu" data-options="align:right"
+          class="tiny f-dropdown" data-dropdown-content>
             <li>{{i18n 'Visibility'}}:</li>
             {{#each listings}}
                <li>
-                <a id="{{id}}">
+                <a id="{{id}}" class="listing">
                   {{icon icon}} {{i18n label}}
                 </a>
               </li>
@@ -28,19 +55,24 @@
           </ul>
         </span>
       {{/unless}}
-      <span>
-        <span class="comment wrapped">
-          {{pre comment}}
-        </span>{{partial 'toggle_wrap' wrap.comment}}
-      </span>
-      {{#if notes}}
-        <span class="notes-box">
-          <strong class="grey">{{i18n 'personal notes'}}:</strong>
-          <span class="notes grey wrapped">
-            {{pre notes}}
-          </span>{{partial 'toggle_wrap' wrap.notes}}
-        </span>
-      {{/if}}
-    </div>
   </div>
-</figcaption>
+</div>
+<div class="comments-box">
+  {{#if comment}}
+    <div>
+      <span class="comment wrapped">
+        {{icon 'quote-left'}}
+        {{partial 'toggle_wrap' wrap.comment}}
+        {{pre comment}}
+      </span>
+    </div>
+  {{/if}}
+  {{#if notes}}
+    <div>
+      <span class="notes grey wrapped" title="{{i18n 'personal notes'}}">
+        {{partial 'toggle_wrap' wrap.notes}}
+        {{pre notes}}
+      </span>
+    </div>
+  {{/if}}
+</div>
