@@ -4,3 +4,16 @@ $tooltip-font-size: 1rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+.login{
+  @include flex(column, center, center);
+  background-color: $pitch-bg-color;
+  margin: 2em 4em 4em 4em;
+  padding: 2em 4em 4em 4em;
+}
+
+.pitch-bg{
+  background-color: $pitch-bg-color;
+  padding: 1em 1em 1em 2em;
+  margin: 1em 1em 1em 1em;
+}

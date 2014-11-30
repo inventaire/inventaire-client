@@ -9,12 +9,15 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
 
   serializeData: ->
     back:
-      classes: 'tiny button'
+      classes: 'button'
 
   onShow: ->
     app.execute 'foundation:reload'
     if @options.triggerPersonaLogin
       @waitingForPersona()
+    app.execute 'bg:book:toggle'
+
+  onDestroy: ->  app.execute 'bg:book:toggle'
 
   waitingForPersona:->
     $('#loginPersona').fadeOut()

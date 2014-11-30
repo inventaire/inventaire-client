@@ -29,6 +29,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
       'search:field:maximize': @maximizeSearchField
       'search:field:unmaximize': @unmaximizeSearchField
+      'bg:book:toggle': -> $('main').toggleClass('book-bg')
 
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck

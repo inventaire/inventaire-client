@@ -10,6 +10,9 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   onShow: ->
     if @options.triggerPersonaLogin
       @waitingForPersona()
+    app.execute 'bg:book:toggle'
+
+  onDestroy: ->  app.execute 'bg:book:toggle'
 
   waitingForPersona:->
     $('#loginPersona').fadeOut()
