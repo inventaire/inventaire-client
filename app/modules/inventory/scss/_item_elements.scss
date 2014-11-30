@@ -1,42 +1,57 @@
 .itemContainer{
-// //   div.cover{
-// //     img{
-// //     }
-// //   }
   figcaption{
-    // h3.title{}
-    div.user-box{
-      // div.left-box{}
-      div.right-box{
-        span{
-          background-color: $light-grey;
-          padding: 0.2rem;
-          display: block;
-          overflow: hidden;
-          &.legend{
-            strong{
-              color: $body-font-color;
-            }
-          }
-          &.comment{
-            text-align: left;
-            padding: 0.2rem;
-          }
-          &.notes{
-            text-align: left;
-          }
-          &.wrapped{
-            max-height: 4rem;
-          }
-        }
-        .notes-box{
-          margin-top: 0.5rem;
-        }
-      }
-    }
     margin-bottom: 1rem;
     .cover{
       background-color: #eee;
     }
   }
+}
+
+$user-box-heigth: 3em;
+.user-box{
+  text-align: left;
+  width: 100%;
+  height: $user-box-heigth;
+  background-color: $main-bg;
+  // text-align: center;
+  // font-size: 1.2em;
+  @include flex(row, center, center);
+  // @extend .flex-row-grid;
+  .user{
+    flex: 1;
+    .profilePic{
+      height: $user-box-heigth;
+    }
+  }
+  .settings{
+    flex:1;
+    // @include flex(row, center, center);
+    span{
+      height: $user-box-heigth;
+    }
+  }
+  .listingMenu, .transactionMenu{
+    margin: 0.2em;
+    color: $dark-grey;
+    ul{
+      padding: 0.2em;
+      text-align: left;
+    }
+  }
+}
+.comments-box{
+  text-align: left;
+  width: 100%;
+  span{
+    background-color: $main-bg;
+    display: block; // needed for the comment wrapping!!
+    overflow: hidden;
+    text-align: left;
+    margin-top: 1em;
+    padding: 0.2em;
+    &.wrapped{
+      max-height: 4.6em;
+    }
+  }
+  .wrapper{}
 }

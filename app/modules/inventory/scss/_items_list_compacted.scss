@@ -1,0 +1,18 @@
+.itemsList{
+  figure{
+    &.compacted{
+      max-height: 12em;
+      overflow: hidden;
+      figcaption{
+        position: flex;
+        height: 12em;
+        margin-top: 0;
+        background-color: rgba(40,40,40, 0.7);
+        * {
+          flex: 1;
+          color: white;
+        }
+      }
+    }
+  }
+}

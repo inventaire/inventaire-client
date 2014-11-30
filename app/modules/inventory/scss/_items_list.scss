@@ -7,22 +7,21 @@
     width: 100%;
     @include vendor-prefix(column-break-inside, avoid);
     @extend .flex-column-centered;
+    // background-color: $dark-grey;
     figcaption{
       text-align: left;
       width: 100%;
       text-align: center;
       font-size: 1.2em;
     }
-    .listingMenu{
-      text-align: left;
+    img:not(.profilePic) {
+      width: 100%;
+      height: auto;
+      max-height: 20em;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 15px;
+      margin-bottom: 5px;
     }
-  }
-  img:not(.profilePic) {
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
-    margin-bottom: 5px;
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
@@ -34,7 +33,8 @@
 }
 
 .columnsLayout{
-  @include vendor-prefix(column-width, 200px);
+  @include vendor-prefix(column-width, 250px);
 }
 
 @import "item_elements";
+@import "items_list_compacted";
