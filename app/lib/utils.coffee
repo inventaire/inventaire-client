@@ -6,8 +6,8 @@ String::logIt = (label)->
 
 isMuted = (label)->
   if label?.split?
-    tag = label.split(':')?[0]
-    return (muted.indexOf(tag) isnt -1)
+    tag = label.split(':')
+    return tag.length > 1 and muted.indexOf(tag[0]) isnt -1
 
 module.exports = (Backbone, _, app, window)->
   log: (obj, label, stack)->
@@ -52,7 +52,7 @@ module.exports = (Backbone, _, app, window)->
   logXhrErr: (err, label)->
     if err?.status?
       switch err.status
-        when 404 then console.warn err.responseText, label
+        when 404 then console.warn '404', label
         else console.error err.responseText, err, label
     else console.error label, err
 
