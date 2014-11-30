@@ -5,7 +5,7 @@ module.exports = class MainUser extends Filterable
     app.API.user
 
   parse: (data)->
-    app.request 'notifications:add', data.notifications
+    app.request 'waitForData', app.request, app, 'notifications:add', data.notifications
     @relations = data.relations
     return _(data).omit ['relations', 'notifications']
 
