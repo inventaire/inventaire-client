@@ -15,16 +15,21 @@ module.exports =
         if app.user?.fetched then fn()
         else app.vent.on 'user:ready', fn
 
+      'waitForFriendsItems': (cb, context, args...)->
+        fn = -> cb.apply context, args
+        if Items?.friends?.fetched then fn()
+        else app.vent.on 'friends:items:ready', fn
+
   _updateStatus: ->
     # if @missing wasnt initialized
     if not @missing?
       @missing = findMissingDataSets()
       @_listenForReadyEvents()
-      @_checkIfDataReady()
     else
       @missing = findMissingDataSets()
+      _.log @missingEvents(), 'data:missing'
       # listeners should already be there, no need to re-add them
-      @_checkIfDataReady()
+    @_checkIfDataReady()
 
   _listenForReadyEvents: ->
     @missing.forEach (el)=>
@@ -33,17 +38,17 @@ module.exports =
   _checkIfDataReady: ->
     if @missing.length is 0
       @ready = true
-      app.vent.trigger 'data:ready'
       _.log 'data:ready'
+      app.vent.trigger 'data:ready'
       return true
     else false
 
   warnOnExcessiveTime: ->
     unless @ready
       warn = 'data:ready didnt arrived yet! Missing events:'
-      console.warn warn, JSON.stringify(@missingEvents())
+      console.warn warn, @missingEvents()
 
-  missingEvents: -> _.pluck(@missing, 'eventName')
+  missingEvents: -> JSON.stringify _.pluck(@missing, 'eventName')
 
 findMissingDataSets = ->
   missing = []
