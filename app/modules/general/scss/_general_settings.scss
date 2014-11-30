@@ -1,7 +1,9 @@
 @import "mixins";
 @import "colors";
+@import "links";
 
-$has-tip-border-bottom: none;// Foundation variable
+$has-tip-border-bottom: solid 0px white; // Foundation variable
+$has-tip-border-bottom-hover: solid 0px white; // Foundation variable
 
 body {
   // forcing the presence of the scroll bar
@@ -13,8 +15,9 @@ body {
     // pushing the background down
     min-height: 95vh;
   }
-  ul{
+  ul, ul li, ul li ul{
     list-style-type: none;
+    // overriding Foundation settings
     margin: 0;
   }
   li{
@@ -30,15 +33,8 @@ body {
 }
 
 img.icon{
-  width: 2rem;
-  opacity: 0.5;
-  transition: all 0.2s ease;
-  &:hover{
-    opacity: 1;
-  }
-}
-img.svg{
-  fill : grey;
+  max-height: 1.5em;
+  opacity: 0.8;
 }
 
 // OPACITY
@@ -104,10 +100,6 @@ h1, h2, h3, h4, h5, h6, .button{
 
 .capitalized{
   text-transform: capitalize;
-}
-
-.linkified{
-  color: #777;
 }
 
 select {
