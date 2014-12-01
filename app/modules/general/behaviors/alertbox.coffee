@@ -20,10 +20,10 @@ module.exports = class AlertBox extends Marionette.Behavior
         <a class='close'>&times;</a>
         </div>"
       $parent = $target.parent()
+      # remove the previously added '.alert-box'
       $parent.find('.alert-box').remove()
       $parent.append(box)
       $parent.find('.alert-box').slideDown(200)
-      $target.on 'keyup', -> @$target
     else
       _.log params, 'couldnt display the alertbox with those params'
 
