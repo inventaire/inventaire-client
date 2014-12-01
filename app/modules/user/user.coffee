@@ -77,13 +77,14 @@ initializePersona = (app)->
     'persona:logout': ->
       $.post(app.API.auth.logout)
       .then (data)->
-        window.location.reload()
+        window.location.href = '/'
         _.log "You have been successfully logged out"
 
 unreachablePersona = ->
   console.error 'Persona Login not available: you might be offline'
 
 onlogin = (assertion) ->
+  _.log 'user:login'
   input =
     assertion: assertion
     username: app.user.get('username')
@@ -97,7 +98,6 @@ onlogin = (assertion) ->
   .fail (err)->
     _.logXhrErr err, 'onlogin'
     app.request 'ifOnline', showAccountError
-  .done()
 
 showAccountError = ->
   app.execute 'show:error',
