@@ -7,13 +7,9 @@ $has-tip-border-bottom-hover: solid 0px white; // Foundation variable
 $has-tip-cursor-type: inherit;
 
 body {
-  // forcing the presence of the scroll bar
-  // to avoid the anoying switch in width
-  min-height: 101vh;
   main {
     margin:0;
     background-color: $main-bg;
-    // pushing the background down
     min-height: 95vh;
   }
   ul, ul li, ul li ul{
@@ -134,4 +130,5 @@ div.panel, div.block{
 @import "pictures";
 @import "custom_select";
 @import "shadow_box";
+@import "circle_pic";
 @import "flex";
