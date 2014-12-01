@@ -1,0 +1,40 @@
+#sideNav{
+  background-color: $dark-grey;
+
+  @include shadow-box($dark-grey, 0, 0, 5px, 2px);
+
+  // needed to make the shadow-box visible
+  // despite the display-flex
+  margin-right: 2px;
+
+  // forcing the presence of the scroll bar
+  // to avoid the anoying switch in width
+  // min-height: 95vh;
+  height: 100%;
+  position: fixed;
+  top: $topbar-height;
+}
+
+#innerNav{
+  width: 100%;
+  height: 100%;
+  @include flex(column, left, flex-end);
+  div:first-child{
+    margin-bottom: auto;
+  }
+  a, h3{
+    color: white;
+  }
+  @include standard-dropdown();
+}
+
+// one
+#one{
+}
+@import 'user_profile';
+
+// two
+#two{
+}
+
+// three

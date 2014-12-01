@@ -1,0 +1,17 @@
+.userProfile{
+  background-color: $darker-grey;
+  margin-top: 1px;
+  // @include shadow-box($dark-grey, 0px, -2px);
+  @include border($dark-grey, 1px, ridge);
+  @include flex(column, center, center);
+  a.close{
+    align-self: flex-end;
+    margin: 0.5em 0.5em -2em;
+    i{
+      font-size: 1.2em;
+      color: $grey;
+    }
+  }
+  div{
+  }
+}
