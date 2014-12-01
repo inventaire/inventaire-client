@@ -7,8 +7,6 @@
 
 #welcome-three{
   background-color: $dark-grey;
-  padding: 0;
-  margin: 0;
   min-height: 5em;
   @include flex(row, center, space-around);
   div{
