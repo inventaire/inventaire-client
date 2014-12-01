@@ -24,13 +24,13 @@
   }
 }
 
-@mixin shadow-box($color, $offsetX:0, $offsetY:1px, $blur:2px, $spread:0,  $opacity: 0.4){
-
-  box-shadow: $offsetX $offsetY $blur $spread rgba($color, $opacity);
-}
-
 @mixin border($color, $width:1px, $style:solid){
   border: $width $style $color;
+}
+
+@mixin shadow-box($color, $offsetX:0, $offsetY:1px, $blur:2px, $spread:0,  $opacity: 0.5){
+  box-shadow: $offsetX $offsetY $blur $spread rgba($color, $opacity);
+  @include border($color);
 }
 
 @mixin transition($elements:all, $speed:0.5, $mode:ease){
