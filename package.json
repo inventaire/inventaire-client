@@ -12,7 +12,7 @@
     "node": "0.10"
   },
   "scripts": {
-    "postinstall":"npm run slim-packages; npm run browserify-modules",
+    "postinstall": "npm run slim-packages; npm run browserify-modules",
     "prepare-production": "bower install -p && npm run bower-fix && brunch build -P",
     "start": "brunch watch",
     "server": "brunch watch --server",
@@ -25,6 +25,7 @@
   "dependencies": {
     "auto-reload-brunch": "1.7",
     "browserify": "^6.2.0",
+    "clean-css-brunch": "^1.7.1",
     "coffee-script-brunch": "1.8",
     "css-brunch": "1.7",
     "handlebars-brunch": "1.7",
