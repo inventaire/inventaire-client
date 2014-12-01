@@ -4,13 +4,14 @@ $warning-color: #E13A00; // Foundation variable
 $success-color: #43AC6A; // Foundation variable
 $grey: #888;
 $dark-grey: #333;
+$darker-grey: #222;
 $light-grey: #eee;
 $glow: rgba(158, 202, 237, 0.7);
 
 
 // body has a different color than main
 // to make it the background color when the DOM isnt loaded
-$body-bg: $primary-color; // Foundation variable
+$body-bg: $darker-grey; // Foundation variable
 $main-bg: #ddd;
 $contrast: #fff;
 $panel-bg: $contrast; // Foundation variable

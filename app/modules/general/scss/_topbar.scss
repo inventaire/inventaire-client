@@ -1,5 +1,5 @@
 $topbar-height: 45px;
-$topbar-bg-color: $primary-color;
+$topbar-bg-color: $darker-grey;
 $topbar-title-font-size: 2rem;
 $topbar-link-font-size: 1rem;
 
@@ -9,6 +9,8 @@ $topbar-link-bg-active: $success-color;
 $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -14%);
 
 .top-bar {
+  // needed to be above the fixed sideNav
+  z-index: 1;
   img{
     max-height: $topbar-height * 0.9;
     margin-left: 1rem;
@@ -18,6 +20,11 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
   }
   #name{
     font-weight: 900;
+  }
+  .dropdown{
+    li{
+      @include shadow-box($darker-grey);
+    }
   }
 }
 
@@ -46,7 +53,6 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
         color: white;
         padding: 1em;
         width: 12em;
-        vertical-align:
       }
     }
   }
