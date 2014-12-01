@@ -62,18 +62,24 @@ API =
     app.layout.main.show form
 
   # should be reimplemented taking example on ItemShow switch
-  showUserInventory: (username)->
-    app.request 'waitForData', @filterForUser, @, username
+  showUserInventory: (user)->
+    app.request 'waitForData', @filterForUser, @, user
 
-  filterForUser: (username)->
-    owner = app.request 'get:userId:from:username', username
-    if owner?
-      app.execute 'filter:inventory:owner', Items.filtered, owner
+  filterForUser: (user)->
+    if _.isModel(user)
+      userModel = user
+      username = user.get('username')
+    else
+      username = user
+      userModel = app.request 'get:userModel:from:username', user
+    if userModel?
+      app.execute 'filter:inventory:owner', Items.filtered, userModel.id
       showInventory(username)
       showItemList(Items.filtered)
+      app.execute 'sidenav:show:user', userModel
       app.vent.trigger 'inventory:change', username
     else
-      _.log [username, owner], 'username not found: you should do some ajax wizzardry to get him'
+      _.log user, 'user not found: you should do some ajax wizzardry to get him'
 
   itemShow: (username, suffix, label)->
     app.execute('show:loader', {title: "#{label} - #{username}"})
@@ -82,19 +88,13 @@ API =
   # why waitForData doesnt work?
 
   showItemShow: (username, suffix, label)->
-    console.log '1'
-    console.log '2'
-    console.log '3'
     owner = app.request 'get:userId:from:username', username
     if _.isUser(owner)
       items = Items.personal.where({suffix: suffix})
-      console.log '4'
     else if _.isFriend(owner)
       items = Items.friends.where({owner: owner, suffix: suffix})
       debugger
-      console.log '5'
     else
-      console.log '6'
       itemsPromise = app.request 'requestPublicItem', username, suffix
 
     _.log items, 'items'
@@ -107,7 +107,6 @@ API =
       else app.execute 'show:404'
 
   displayFoundItems: (items)->
-    console.log '7'
     _.log items, 'items'
     if items?.length?
       switch items.length
@@ -182,8 +181,10 @@ initializeInventoriesHandlers = (app)->
       API.showFriendsInventory()
       app.navigate 'inventory/friends'
 
-    'show:inventory:user': (username)->
-      API.showUserInventory(username)
+    'show:inventory:user': (user)->
+      if _.isModel(user) then username = user.get('username')
+      else username = user
+      API.showUserInventory(user)
       app.navigate "inventory/#{username}"
 
     'show:inventory:public': ->
