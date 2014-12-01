@@ -1,5 +1,5 @@
-@import "side_menu";
-@import "view_tools";
+// @import "side_menu";
+// @import "view_tools";
 @import "item_creation";
 @import "items_list";
 
@@ -8,13 +8,6 @@ $tabs-navigation-active-bg-color: $tools-active-bg;
 $tabs-navigation-bg-color: lighten($tools-active-bg, 20%);
 $tabs-navigation-font-color: #fff;
 
-/*Large screens*/
-@media screen and (min-width: $smallscreen) {
-}
-
-/*Small screens*/
-@media screen and (max-width: $smallscreen) {
-}
 
 #menuBar{
   display: none;
@@ -24,3 +17,44 @@ $tabs-navigation-font-color: #fff;
   height: 1rem;
 }
 
+#innerMain{
+  height: 100%;
+  @include flex(row);
+  // sideNavClones #sideNav and #shadowSideNav
+  // have the same behavior but the later
+  // without the fixed position so that
+  // it pushes other divs under the flex constraints
+  .sideNavClones{}
+  #itemsView{
+    flex: 1;
+  }
+}
+
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  #innerMain{
+    .sideNavClones{
+      width: 250px;
+      @include transition(width);
+      &.wrapped{
+        width: 50px;
+      }
+    }
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  #innerMain{
+    .sideNavClones{
+      width: 90vw;
+      max-width: 250px;
+      &.wrapped{
+        display: hidden
+      }
+    }
+  }
+}
+
+@import "../side_nav/scss/side_nav";
