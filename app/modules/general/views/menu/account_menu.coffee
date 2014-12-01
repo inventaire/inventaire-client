@@ -4,7 +4,8 @@ NotificationsList = require 'modules/notifications/views/notifications_list'
 module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   template: require './templates/account_menu'
   events:
-    'click #edit, #pic': -> app.execute 'show:user:edit'
+    'click #name': -> app.execute 'show:inventory:user', app.user
+    'click #edit': -> app.execute 'show:user:edit'
     'click #logout': -> app.execute 'persona:logout'
 
   serializeData: ->
