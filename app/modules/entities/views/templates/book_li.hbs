@@ -7,15 +7,22 @@
 
 <div class='small-12 large-4 columns'>
 
-  {{!-- AUTHOR --}}
-  {{#if wikidata}}
-    {{claim claims 'P50'}}
-  {{else}}
-    <h4 class="subheader">{{#each authors}}{{this}} {{/each}}</h4>
-  {{/if}}
-
   <a class='itemTitle' data-href="{{pathname}}"><h3>{{title}}</h3></a>
-  {{timeClaim claims 'P577' 'year'}}
+  {{#if wikidata}}
+  {{!-- WIKIDATA ATTRIBUTES --}}
+    <p class='wiki-attributes'>
+      {{claim claims 'P50' true}}
+      {{timeClaim claims 'P577'}}
+      {{claim claims 'P136'}}
+      {{claim claims 'P123'}}
+      {{claim claims 'P364'}}
+      {{claim claims 'P840'}}
+    </p>
+  {{else}}
+      <p class="isbn-attributes">
+        {{P '50'}} {{#each authors}}{{this}} {{/each}}
+      </p>
+  {{/if}}
   <p class="grey">{{limit description 140}}</p>
   {{!-- {{partial 'wiki_sitelinks' this}} --}}
 </div>
