@@ -18,13 +18,14 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
     'keyup #userField': 'lazyUserSearch'
 
   onShow: ->
-    @showUsers()
+    @showFriends()
 
   showUser: (userModel)->
     @one.show new UserProfile {model: userModel}
 
-  showUsers: ->
-    @userList.show new app.View.Users.List {collection: app.users.filtered}
+  showFriends: ->
+    collection = app.users.filtered.friends()
+    @userList.show new app.View.Users.List {collection: collection}
 
   updateUserSearch: (e)->
     query = e.target.value
