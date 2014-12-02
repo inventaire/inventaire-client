@@ -32,7 +32,7 @@ module.exports = class BookWikidataEntity extends WikidataEntity
       @save()
 
     else
-      _.log 'picture already requested'
+      _.log 'entity:picture:already requested'
 
   fetchAuthorsEntities: ->
     authors = @get('claims.P50')
