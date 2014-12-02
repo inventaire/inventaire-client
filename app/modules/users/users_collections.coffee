@@ -32,5 +32,8 @@ module.exports = (app)->
     return result
 
   users.filtered = new FilteredCollection(users)
+  users.filtered.friends = ->
+    @resetFilters()
+    @filterBy {status: 'friends'}
 
   return users

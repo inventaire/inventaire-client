@@ -29,18 +29,21 @@ module.exports = (app)->
       else console.warn "couldnt find the user from id: #{id}"
 
     searchUsers: (text)->
-      app.users.data.remote.search(text)
-      .then (res)->
-        _.log res, 'searchUsers res'
-        callback = (res)->
-          res.forEach (user)->
-            app.users.public.add(user) if isntAlreadyHere(user._id)
-          app.users.queried.push(text)
-          return app.users.filtered.filterByText(text)
-        # Need to waitForData as isntAlreadyHere can't
-        # do it's job if user relations data haven't return yet
-        app.request 'waitForData', callback, null, res
-      .fail _.error
+      if text? and text isnt ''
+        app.users.data.remote.search(text)
+        .then (res)->
+          _.log res, 'searchUsers res'
+          callback = (res)->
+            res.forEach (user)->
+              app.users.public.add(user) if isntAlreadyHere(user._id)
+            app.users.queried.push(text)
+            return app.users.filtered.filterByText(text)
+          # Need to waitForData as isntAlreadyHere can't
+          # do it's job if user relations data haven't return yet
+          app.request 'waitForData', callback, null, res
+        .fail _.error
+      else
+        app.users.filtered.friends()
 
   app.users.queried = []
 
