@@ -6,8 +6,7 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
 
   regions:
     one: '#one'
-    two: '#two'
-    three: '#three'
+    userList: '#userList'
 
   initialize: ->
     app.commands.setHandlers

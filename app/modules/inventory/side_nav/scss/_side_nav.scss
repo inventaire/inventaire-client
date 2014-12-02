@@ -25,11 +25,25 @@
 
 // one
 #one{
+  min-height: 18em;
 }
 @import 'user_profile';
 
 // two
 #two{
+  flex: 1;
+  @include flex(column, left, flex-end);
 }
 
-// three
+#userList{
+  flex: 1;
+  @include flex(column, left, flex-end);
+}
+
+#userSearch{
+}
+
+#userField{
+  margin: 0;
+  @include shadow-box($glow);
+}
