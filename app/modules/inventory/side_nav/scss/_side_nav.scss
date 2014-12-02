@@ -38,6 +38,7 @@
 #userList{
   flex: 1;
   @include flex(column, left, flex-end);
+  overflow: auto;
 }
 
 #userSearch{
