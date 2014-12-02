@@ -19,7 +19,7 @@ module.exports = LocalCache = (options)->
       .then completeWithRemoteData
       .then (data)->
         if format is 'collection' then data = _.values(data)
-        _.log data, "data format: #{format}"
+        _.log data, "data:format:#{format}"
       .catch (err)->
         _.log err, 'get err'
         throw new Error('get', err.stack or err)
