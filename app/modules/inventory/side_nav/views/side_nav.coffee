@@ -12,6 +12,11 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
     app.commands.setHandlers
       'sidenav:show:user': @showUser.bind(@)
 
+    @lazyUserSearch = _.debounce @updateUserSearch, 100
+
+  events:
+    'keyup #userField': 'lazyUserSearch'
+
   onShow: ->
     @showUsers()
 
@@ -19,4 +24,8 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
     @one.show new UserProfile {model: userModel}
 
   showUsers: ->
-    @two.show new app.View.Users.List {collection: app.users.filtered}
+    @userList.show new app.View.Users.List {collection: app.users.filtered}
+
+  updateUserSearch: (e)->
+    query = e.target.value
+    app.request 'users:search', query
