@@ -48,7 +48,7 @@ module.exports = (app)->
   app.users.queried = []
 
   isntAlreadyHere = (id)->
-    if app.users.byId(id)? then false
+    if app.users.byId(id)? or _.isUser(id) then false
     else true
 
 
