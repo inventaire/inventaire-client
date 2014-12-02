@@ -32,7 +32,7 @@
   box-shadow: $offsetX $offsetY $blur $spread rgba($color, $opacity);
 }
 
-@mixin transition($elements:all, $speed:0.5, $mode:ease){
+@mixin transition($elements:all, $speed:0.5s, $mode:ease){
   transition: $elements $speed $mode;
 }
 
