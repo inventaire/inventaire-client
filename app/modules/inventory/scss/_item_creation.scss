@@ -1,5 +1,6 @@
 .itemCreation{
   .entityBox{
+    @extend .shadow-box;
     background-color: $dark-grey;
     h2, h3, a, span{
       color: white;
