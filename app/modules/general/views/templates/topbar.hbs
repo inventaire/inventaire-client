@@ -14,11 +14,14 @@
     <section class="top-bar-section">
       {{!-- Left Nav Section --}}
       <ul class="left">
-        <li id="inventorySections" class="has-dropdown hidden">
+        <li id="inventorySections" class="has-dropdown hidden breadcrumb">
           <a>{{icon 'chevron-right'}} {{i18n 'Books'}}</a>
           <ul class="dropdown">
             <li>{{i18n 'No other category yet'}}</li>
           </ul>
+        </li>
+        <li id="currentUser" class="hidden breadcrumb">
+          <a>{{icon 'chevron-right'}} <span id="currentUsername"></span></a>
         </li>
       </ul>
       {{!-- Right Nav Section --}}

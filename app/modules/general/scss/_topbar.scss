@@ -43,11 +43,14 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
     // aligning with #inventorySections
     margin-top: -0.1em;
   }
-  #inventorySections{
+  .breadcrumb{
     a{
       font-size: 1.2em;
       padding-left: 0;
     }
+  }
+  #inventorySections{
+    @extend .breadcrumb;
     .dropdown{
       li{
         color: white;
@@ -55,6 +58,9 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
         width: 12em;
       }
     }
+  }
+  #currentUser{
+    @extend .breadcrumb;
   }
   .top-bar{
     #searchField{

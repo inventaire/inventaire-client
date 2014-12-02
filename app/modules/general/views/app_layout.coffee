@@ -30,6 +30,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       'search:field:maximize': @maximizeSearchField
       'search:field:unmaximize': @unmaximizeSearchField
       'bg:book:toggle': -> $('main').toggleClass('book-bg')
+      'current:username:set': @setCurrentUsername
+      'current:username:hide': @hideCurrentUsername
 
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck
@@ -109,3 +111,10 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       .fail ->
         app.execute 'show:error',
           message: _.i18n "Can't reach the server"
+
+  setCurrentUsername: (username)->
+    $('#currentUsername').text(username)
+    $('#currentUser').slideDown()
+
+  hideCurrentUsername: ->
+    $('#currentUser').hide()

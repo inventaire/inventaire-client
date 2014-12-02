@@ -4,5 +4,11 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
     'click a.close': 'unselectUser'
 
   unselectUser: ->
-    @$el.hide()
+    @destroy()
     app.execute 'show:inventory:general'
+
+  onShow: ->
+    app.execute 'current:username:set', @model.get('username')
+
+  onDestroy: ->
+    app.execute 'current:username:hide'
