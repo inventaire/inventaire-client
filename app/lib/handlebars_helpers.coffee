@@ -64,7 +64,7 @@ API =
       value = @Q(claims, P, link)
       return new Handlebars.SafeString "#{label} #{value} <br>"
 
-  timeClaim: (claims, P, format)->
+  timeClaim: (claims, P, format='year')->
     if claims?[P]?
       values = claims[P].map (unixTime)->
         time = new Date(unixTime)
