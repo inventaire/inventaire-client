@@ -13,7 +13,7 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
       search:
         nameBase: 'search'
         field:
-          placeholder: _.i18n 'Search for books or people'
+          placeholder: _.i18n 'Search a book'
         button:
           icon: 'search'
           classes: 'secondary'
