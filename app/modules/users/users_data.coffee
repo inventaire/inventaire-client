@@ -14,7 +14,7 @@ module.exports = (app, $, _)->
 
   fetchRelationsData = ->
     relations = app.user.relations
-    _.log relations, 'relations'
+    _.log relations, 'relations:all'
     ids = _.allValues(relations)
     _.log ids, 'relations:fetchRelationsData ids'
     return localData.get(ids)
