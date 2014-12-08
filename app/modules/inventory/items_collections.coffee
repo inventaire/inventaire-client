@@ -5,6 +5,8 @@ module.exports = (app, _)->
   isMainUser = (model)-> model.get('owner') is app.user.id
   personal = new FilteredCollection(Items)
   personal.filterBy 'personal', isMainUser
+  personal.add = Items.add.bind(Items)
+  personal.create = Items.create.bind(Items)
 
   # used to overcome the issue with first use of isMainUser
   # while app.user.id is undefined
@@ -13,6 +15,7 @@ module.exports = (app, _)->
   NotMainUser = (model)-> model.get('owner') isnt app.user.id
   friends = new FilteredCollection(Items).filterBy 'friends', NotMainUser
   friends.fetchFriendItems = Items.fetchFriendItems.bind(Items)
+  friends.add = Items.add.bind(Items)
 
   app.vent.on 'friends:items:ready', -> friends.fetched = true
 

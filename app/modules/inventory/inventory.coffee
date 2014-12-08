@@ -161,7 +161,7 @@ validateCreation = (itemData)->
   if itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
     if itemData.entity?.label?
       itemData.title = itemData.entity.label
-    itemModel = Items.personal.create itemData
+    itemModel = Items.create itemData
     itemModel.username = app.user.get('username')
     return true
   else false
