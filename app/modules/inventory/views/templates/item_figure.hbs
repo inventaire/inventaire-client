@@ -12,10 +12,9 @@
   </a>
   <a class="user">
     <strong>{{username}}</strong> <br>
-    <span class="time">{{i18n 'added_date' date}}</span>
+    <span class="time">{{created}}</span>
   </a>
 </div>
-
 <div class="settings">
   {{!-- TRANSACTION --}}
   <div class="transactionMenu {{currentTransaction.id}}">
@@ -32,7 +31,7 @@
       class="tiny f-dropdown" data-dropdown-content>
         <li>{{i18n 'Available for'}}:</li>
         {{#each transactions}}
-           <li>
+          <li>
             <a id="{{id}}" class="transaction">
               {{icon icon}} {{i18n label}}
             </a>
@@ -41,26 +40,26 @@
       </ul>
     {{/if}}
   </div>
-    {{!-- VISIBILITY --}}
-    {{#unless restricted}}
-      <div class="listingMenu {{currentListing.id}}">
-        <a class="current" data-dropdown="{{uiId}}-l-menu">
-        {{icon currentListing.icon}}{{icon 'caret-down'}}</a>
-        <ul id="{{uiId}}-l-menu" data-options="align:right"
-        class="tiny f-dropdown" data-dropdown-content>
-          <li>{{i18n 'Visibility'}}:</li>
-          {{#each listings}}
-             <li>
-              <a id="{{id}}" class="listing">
-                {{icon icon}} {{i18n label}}
-              </a>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
-    {{/unless}}
+  {{!-- VISIBILITY --}}
+  {{#unless restricted}}
+    <div class="listingMenu {{currentListing.id}}">
+      <a class="current" data-dropdown="{{uiId}}-l-menu">
+      {{icon currentListing.icon}}{{icon 'caret-down'}}</a>
+      <ul id="{{uiId}}-l-menu" data-options="align:right"
+      class="tiny f-dropdown" data-dropdown-content>
+        <li>{{i18n 'Visibility'}}:</li>
+        {{#each listings}}
+          <li>
+            <a id="{{id}}" class="listing">
+              {{icon icon}} {{i18n label}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/unless}}
 </div>
-<div class="comments-box">
+<div class="comments-box hidden">
   {{#if comment}}
     <div>
       <span class="comment wrapped">

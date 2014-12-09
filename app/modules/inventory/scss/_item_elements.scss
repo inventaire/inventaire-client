@@ -1,9 +1,17 @@
 .itemContainer{
-  figcaption{
-    margin-bottom: 1rem;
-    .cover{
-      background-color: #eee;
+  .cover{
+    img{
+      max-height: 7em;
     }
+  }
+  figcaption{
+    h3.title{
+      font-size: 1.2em;
+      line-height: 1em;
+    }
+    max-height: 3.9em;
+    overflow: hidden;
+    margin-bottom: 1rem;
   }
 }
 
@@ -65,8 +73,9 @@ $user-box-heigth: 3em;
     }
   }
   .transactionMenu{
+    @extend .currentWhite;
     &.giving{
-      background-color: rgba(255, 2, 32, 0.5);
+      background-color: rgba(255, 2, 32, 0.3);
       @extend .currentWhite;
     }
     &.lending{
