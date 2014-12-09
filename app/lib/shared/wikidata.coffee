@@ -138,7 +138,6 @@ module.exports = (Promises, _)->
       # wikidata time: '+00000001862-01-01T00:00:00Z'
       [year, month, rest] = wikidataTime.split '-'
       day = rest[0..1]
-      _.log [year, month, day, wikidataTime, rest], 'time elements'
       return new Date(year, month, day).getTime()
 
     Q: Q

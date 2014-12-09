@@ -37,16 +37,18 @@
         {{#if wikidata}}
         {{!-- WIKIDATA ATTRIBUTES --}}
           <p class='wiki-attributes'>
-            {{claim claims 'P50' true}}
-            {{claim claims 'P136'}}
-            {{claim claims 'P123'}}
-            {{claim claims 'P364'}}
-            {{claim claims 'P840'}}
+            {{claim claims 'P50' true}} {{!-- author --}}
+            {{claim claims 'P136'}} {{!-- genre --}}
+            {{claim claims 'P123'}} {{!-- publisher --}}
+            {{claim claims 'P364'}} {{!-- original language --}}
+            {{claim claims 'P840'}} {{!-- narrative set in --}}
+            {{claim claims 'P155' true}} {{!-- preceded by --}}
+            {{claim claims 'P156' true}} {{!-- followed by --}}
           </p>
         {{else}}
-            <p class="isbn-attributes">
-              {{P '50'}}{{#each authors}}{{this}} {{/each}}
-            </p>
+          <p class="isbn-attributes">
+            {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
+          </p>
         {{/if}}
         {{!-- <p class="uri">uri:{{uri}}</p> --}}
 

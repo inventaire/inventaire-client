@@ -8,6 +8,7 @@
 <div class='small-12 large-4 columns'>
 
   <a class='itemTitle' data-href="{{pathname}}"><h3>{{title}}</h3></a>
+  <p class="grey">{{limit description 140}}</p>
   {{#if wikidata}}
   {{!-- WIKIDATA ATTRIBUTES --}}
     <p class='wiki-attributes'>
@@ -20,10 +21,9 @@
     </p>
   {{else}}
       <p class="isbn-attributes">
-        {{P '50'}} {{#each authors}}{{this}} {{/each}}
+        {{{P '50'}}} {{#each authors}}{{this}} {{/each}}
       </p>
   {{/if}}
-  <p class="grey">{{limit description 140}}</p>
   {{!-- {{partial 'wiki_sitelinks' this}} --}}
 </div>
 
