@@ -41,14 +41,21 @@ API =
 
   # filter.to documentation: http://cdn.filter.to/faq/
   src: (path, width, height, extend)->
+    return ''  unless path?
+
     # testing with isNumber due to {data:,hash: }
     # being added as last argument
-    if _.isNumber(width)
-      height = width  unless _.isNumber(height)
+    return path  unless _.isNumber(width)
+
+    if /gravatar.com/.test(path)
+      return path + "&s=#{width}"
+    else
+      unless _.isNumber(height) then height = width
       size = "#{width}x#{height}"
       unless extend then size += 'g'
+      # removing the protocol
+      path = path.replace /^((http|https):)\/\//, ''
       return "http://cdn.filter.to/#{size}/#{path}"
-    else return path
 
   i18n: (key, args, context)-> new Handlebars.SafeString _.i18n(key, args, context)
 
