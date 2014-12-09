@@ -4,7 +4,6 @@ tip = behavior 'tip'
 input = behavior 'input'
 wdQ = behavior 'wikidata_Q'
 wdP = behavior 'wikidata_P'
-img = behavior 'img'
 i = behavior 'i'
 
 API =
@@ -39,6 +38,17 @@ API =
         # overriding the second argument that could be {hash:,data:}
         unless _.isString classes then classes = ''
         return new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
+
+  # filter.to documentation: http://cdn.filter.to/faq/
+  src: (path, width, height, extend)->
+    # testing with isNumber due to {data:,hash: }
+    # being added as last argument
+    if _.isNumber(width)
+      height = width  unless _.isNumber(height)
+      size = "#{width}x#{height}"
+      unless extend then size += 'g'
+      return "http://cdn.filter.to/#{size}/#{path}"
+    else return path
 
   i18n: (key, args, context)-> new Handlebars.SafeString _.i18n(key, args, context)
 
