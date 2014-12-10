@@ -1,5 +1,5 @@
 require('lib/uncatched_error_logger').initialize()
-require('lib/handlebars_helpers').initialize()
+require('lib/handlebars_helpers/base').initialize()
 
 
 window.sharedLib = sharedLib = require('lib/shared/shared_libs')
