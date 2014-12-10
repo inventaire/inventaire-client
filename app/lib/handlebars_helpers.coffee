@@ -48,6 +48,8 @@ API =
     return path  unless _.isNumber(width)
 
     if /gravatar.com/.test(path)
+      # removing any size parameter
+      path = path.replace /&s=\d+/g, ''
       return path + "&s=#{width}"
     else
       unless _.isNumber(height) then height = width
