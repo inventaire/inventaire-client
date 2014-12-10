@@ -1,1 +1,3 @@
-module.exports = sharedLib('wikidata')(_.preq, _)
+wd = sharedLib('wikidata')(_.preq, _)
+wd.sitelinks = sharedLib 'wiki_sitelinks'
+module.exports = wd

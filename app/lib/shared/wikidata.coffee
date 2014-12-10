@@ -146,6 +146,4 @@ module.exports = (Promises, _)->
 
     API: API
 
-    sitelinks: sharedLib 'wiki_sitelinks'
-
   return methods
