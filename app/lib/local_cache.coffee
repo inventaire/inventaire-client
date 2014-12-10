@@ -2,14 +2,16 @@ Level = require('lib/local_dbs')
 
 module.exports = LocalCache = (options)->
 
-  unless options.name? and options.remoteDataGetter?
+  {name, remoteDataGetter, parseData} = options
+
+  unless name? and remoteDataGetter?
     throw 'missing localDb or remoteDataGetter'
 
-  localDb = Level(options.name)
-  remoteDataGetter = options.remoteDataGetter
+  localDb = Level(name)
+  remoteDataGetter = remoteDataGetter
 
   defaultParser = (data)-> data
-  parseData = options.parseData or defaultParser
+  parseData or= defaultParser
 
 
   API =
