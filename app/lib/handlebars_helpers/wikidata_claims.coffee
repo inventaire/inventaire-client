@@ -1,6 +1,7 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 wdQ = behavior 'wikidata_Q'
 wdP = behavior 'wikidata_P'
+SafeString = Handlebars.SafeString
 
 module.exports =
   P: (id)->
@@ -23,7 +24,7 @@ module.exports =
     if claims?[P]?[0]?
       label = @P(P)
       value = @Q(claims, P, link)
-      return new Handlebars.SafeString "#{label} #{value} <br>"
+      return new SafeString "#{label} #{value} <br>"
 
   timeClaim: (claims, P, format='year')->
     if claims?[P]?[0]?
@@ -33,4 +34,4 @@ module.exports =
           when 'year' then return time.getUTCFullYear()
           else return
       values = _.uniq(values)
-      return new Handlebars.SafeString values.join(' ' + _.i18n('or') + ' ')
+      return new SafeString values.join(' ' + _.i18n('or') + ' ')

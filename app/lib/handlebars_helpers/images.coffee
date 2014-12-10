@@ -1,13 +1,15 @@
+SafeString = Handlebars.SafeString
+
 module.exports =
   icon: (name, classes) ->
     if _.isString(name)
       if icons[name]?
         src = icons[name]
-        return new Handlebars.SafeString "<img class='icon svg' src='#{src}'>"
+        return new SafeString "<img class='icon svg' src='#{src}'>"
       else
         # overriding the second argument that could be {hash:,data:}
         unless _.isString classes then classes = ''
-        return new Handlebars.SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
+        return new SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
 
   # filter.to documentation: http://cdn.filter.to/faq/
   src: (path, width, height, extend)->

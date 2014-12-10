@@ -1,6 +1,7 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 check = behavior 'success_check'
 tip = behavior 'tip'
+SafeString = Handlebars.SafeString
 
 base =
   partial: (name, context, option) ->
@@ -15,9 +16,9 @@ base =
     else path = "modules/#{module}/views/templates/#{file}"
 
     template = require path
-    partial = new Handlebars.SafeString template(context)
+    partial = new SafeString template(context)
     switch option
-      when 'check' then partial = new Handlebars.SafeString check(partial)
+      when 'check' then partial = new SafeString check(partial)
     return partial
 
   firstElement: (obj) ->
@@ -26,24 +27,24 @@ base =
     else return
 
   i18n: (key, args, context)->
-    new Handlebars.SafeString _.i18n(key, args, context)
+    new SafeString _.i18n(key, args, context)
 
   limit: (text, limit)->
     return ''  unless text?
     t = text[0..limit]
     if text.length > limit then t += '[...]'
-    new Handlebars.SafeString t
+    new SafeString t
 
   tip: (text, position)->
     context =
       text: _.i18n text
       position: position || 'rigth'
-    new Handlebars.SafeString tip(context)
+    new SafeString tip(context)
 
   pre: (text)->
     if text
       text = text.replace /\n/g, '<br>'
-      new Handlebars.SafeString text
+      new SafeString text
     else return
 
   ifvalue: (attr, value)->

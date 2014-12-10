@@ -1,6 +1,7 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 check = behavior 'success_check'
 input = behavior 'input'
+SafeString = Handlebars.SafeString
 
 module.exports =
   input: (data, options)->
@@ -33,7 +34,7 @@ module.exports =
     if data.special
       data.special = 'autocorrect="off" autocapitalize="off" autocomplete="off"'
 
-    i = new Handlebars.SafeString input(data)
+    i = new SafeString input(data)
 
-    if options is 'check' then new Handlebars.SafeString check(i)
+    if options is 'check' then new SafeString check(i)
     else i
