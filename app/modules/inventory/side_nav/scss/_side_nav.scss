@@ -23,9 +23,10 @@
   @include standard-dropdown();
 }
 
+$user-profile-height: 16em;
 // one
 #one{
-  min-height: 18em;
+  min-height: $user-profile-height;
 }
 @import 'user_profile';
 
