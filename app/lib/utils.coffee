@@ -129,7 +129,7 @@ module.exports = (Backbone, _, app, window)->
     if id? then return id is app.user.id
   isFriend: (id)->
     unless id? and app.user.relations? then return false
-    return @contains app.user.relations.friends, id
+    return id in app.user.relations.friends
 
   style: (text, style)->
     switch style
