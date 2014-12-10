@@ -11,7 +11,7 @@ module.exports = class ResultsList extends Backbone.Marionette.CollectionView
     @addHeader()
 
   addHeader: (type)->
-    type ||= @options.type
+    type or= @options.type
     if type?
       type = _.i18n(type)
       @$el.prepend "<h3 class='subheader'>#{type}</h3>"

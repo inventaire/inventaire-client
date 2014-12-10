@@ -7,7 +7,7 @@ String::logIt = (label)->
 isMuted = (label)->
   if label?.split?
     tag = label.split(':')
-    return tag.length > 1 and muted.indexOf(tag[0]) isnt -1
+    return tag.length > 1 and tag[0] not in muted
 
 module.exports = (Backbone, _, app, window)->
   log: (obj, label, stack)->
@@ -91,7 +91,7 @@ module.exports = (Backbone, _, app, window)->
     # making the garbage collection impossible
     if label then _.log obj, label
     if window.current?
-      window.previous ||= []
+      window.previous or= []
       window.previous.unshift(window.current)
     return window.current = obj
 

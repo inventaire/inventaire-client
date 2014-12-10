@@ -8,7 +8,7 @@ module.exports =
         setLanguage(app, lang)
 
       'qLabel:update': (lang)->
-        lang ||= app.user.lang
+        lang or= app.user.lang
         app.vent.trigger('qLabel:update', lang)
         switchLang = -> $.qLabel.switchLanguage(lang)
         # setTimeout-0 switchLang to put it at the end of the stack, to let the DOM update before qLabel looks for URIs
@@ -18,13 +18,13 @@ module.exports =
     app.vent.on 'qLabel:update', (lang)-> lang?.logIt('qLabel:update')
 
 setLanguage = (app, lang)->
-  polyglot = app.polyglot ||= new Polyglot
+  polyglot = app.polyglot or= new Polyglot
   if not lang?
     if app.user?.get 'language' then _.log(lang = app.user.get('language'), 'i18n: user data')
     else lang = guessLanguage()
   else _.log lang, 'i18n: from request parameters'
 
-  if _.isEmpty(polyglot.phrases) || (lang isnt polyglot.currentLocale)
+  if _.isEmpty(polyglot.phrases) or (lang isnt polyglot.currentLocale)
     if lang isnt polyglot.changingTo then requestI18nFile polyglot, lang
     else _.log 'i18n: language changing, can not be re-set yet'
   else _.log 'i18n: is already set'
@@ -43,5 +43,5 @@ requestI18nFile = (polyglot, lang)->
 
 guessLanguage = ->
   if lang = $.cookie 'lang' then lang.logIt('i18n: cookie')
-  else if lang = (navigator.language || navigator.userLanguage) then lang.logIt('i18n: navigator')
+  else if lang = (navigator.language or navigator.userLanguage) then lang.logIt('i18n: navigator')
   else 'en'.logIt('i18n: global default')

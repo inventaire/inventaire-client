@@ -15,19 +15,19 @@ class App extends Backbone.Marionette.Application
     @navigate = (route, options)->
       route.logIt('route:navigate')
       route = route.replace(/(\s|')/g, '_')
-      Backbone.history.last ||= []
+      Backbone.history.last or= []
       Backbone.history.last.unshift(route)
       Backbone.history.navigate(route, options)
 
     @goTo = (route, options)->
       route.logIt('route:goTo')
-      options ||= new Object
+      options or= {}
       options.trigger = true
       Backbone.history.navigate(route, options)
 
     @navigateReplace = (route, options)->
       route.logIt('route:navigateReplace')
-      options ||= new Object
+      options or= {}
       options.replace = true
       @navigate(route, options)
 

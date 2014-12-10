@@ -100,7 +100,7 @@ module.exports = (Promises, _)->
         # add this Property values to the main one
         aliasId = aliases[id]
         if aliasId?
-          before = claims[aliasId] ||= []
+          before = claims[aliasId] or= []
           aliased = claims[id]
           after = _.uniq before.concat(aliased)
           _.log [aliasId, before, id, aliased, aliasId, after], 'aliasingClaims'

@@ -68,7 +68,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
     if _.isString err
       errMessage = err
     else
-      errMessage = _.i18n(err.responseJSON.status_verbose || "invalid username")
+      errMessage = _.i18n(err.responseJSON.status_verbose or "invalid username")
     @$el.trigger 'alert', {message: errMessage}
 
   changeLanguage: (e)->

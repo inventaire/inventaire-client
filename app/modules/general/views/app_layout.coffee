@@ -49,7 +49,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       app.layout.main.Show new app.View.Behaviors.Loader, title
 
   enterClick: (e)->
-    if e.keyCode is 13 && $(e.currentTarget).val().length > 0
+    if e.keyCode is 13 and $(e.currentTarget).val().length > 0
       row = $(e.currentTarget).parents('.row')[0]
       $(row).find('.button').trigger 'click'
       _.log 'ui: enter-click'

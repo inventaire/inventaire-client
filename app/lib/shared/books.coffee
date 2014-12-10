@@ -46,7 +46,7 @@ module.exports = (Promises, _)->
             when 'ISBN_13' then data.P212 = obj.identifier
             when 'OTHER' then otherId = obj.identifier
 
-      isbn ||= data.P212 || data.P957
+      isbn or= data.P212 or data.P957
 
       if isbn? then data.id = data.uri = "isbn:#{isbn}"
       else if otherId? then data.id = data.uri = otherId

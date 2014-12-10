@@ -49,5 +49,5 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       .done()
 
   invalidUsername: (err)=>
-    errMessage = _.i18n (err.responseJSON?.status_verbose || "invalid username")
+    errMessage = _.i18n (err.responseJSON?.status_verbose or "invalid username")
     @$el.trigger 'alert', {message: errMessage}

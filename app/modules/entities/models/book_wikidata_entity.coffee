@@ -13,7 +13,7 @@ module.exports = class BookWikidataEntity extends WikidataEntity
       isbn10 = _.stringOnly @claims?.P212?[0]
       isbn = isbn13 or isbn10
       if isbn? then isbn = books.normalizeIsbn(isbn)
-      data = isbn || label
+      data = isbn or label
       console.log 'data', data, 'isbn', isbn, 'isbn10', isbn10, 'isbn13', isbn13
 
       if data?

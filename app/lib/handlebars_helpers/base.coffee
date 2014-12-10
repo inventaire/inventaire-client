@@ -38,7 +38,7 @@ base =
   tip: (text, position)->
     context =
       text: _.i18n text
-      position: position || 'rigth'
+      position: position or 'rigth'
     new SafeString tip(context)
 
   pre: (text)->

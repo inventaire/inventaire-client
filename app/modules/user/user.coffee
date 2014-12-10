@@ -116,7 +116,7 @@ recoverUserData = (app)->
   # set app.user.lang from cookie before confirmation
   # from user.fetch which will trigger setLang on User model
   if $.cookie('lang')
-    app.user.lang ||= $.cookie('lang')
+    app.user.lang or= $.cookie('lang')
   # not sufficiant in cases when Persona messes with the signup process
   # -> when persona gives a link from an email, username and email
   # aren't associated and this test passes

@@ -20,7 +20,7 @@ module.exports = (_)->
     else pathname
 
   parseQuery: (queryString)->
-    query = new Object
+    query = {}
     if queryString?
       queryString = queryString[1..-1] if queryString[0] is '?'
       queryString.split('&').forEach (param)->

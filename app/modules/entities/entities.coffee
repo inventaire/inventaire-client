@@ -51,7 +51,7 @@ module.exports =
 
 API =
   showEntity: (uri, label, params, region)->
-    region ||= app.layout.main
+    region or= app.layout.main
     app.execute 'show:loader', {region: region}
 
     [prefix, id] = getPrefixId(uri)
@@ -149,7 +149,7 @@ API =
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   showEntitiesSearchForm: (queryString)->
-    app.layout.entities ||= new Object
+    app.layout.entities or= {}
     form = app.layout.entities.search = new app.View.Entities.Search
     app.layout.main.show form
     if queryString?

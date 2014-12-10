@@ -19,7 +19,7 @@ module.exports = class LocalWikidataEntities extends WikidataEntities
         return inMemory
 
   getMissingEntities: (ids, Model)->
-    Model ||= app.Model.WikidataEntity
+    Model or= app.Model.WikidataEntity
     # over-passing the module method to fetch many entities at once
     # should be re-integrated to the entity module
     wd.getEntities(ids, app.user.lang)
