@@ -40,11 +40,11 @@ getCdnPath = (path, width, height, extend)->
   size = "#{width}x#{height}"
   unless extend then size += 'g'
 
-  # removing the protocol
-  path = path.replace /^((http|https):)\/\//, ''
+  path = dropProtocol path
 
   return "http://cdn.filter.to/#{size}/#{path}"
 
+dropProtocol = (path)-> path.replace /^((http(s|):)|)\/\//, ''
 
 
 
