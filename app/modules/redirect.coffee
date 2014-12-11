@@ -3,6 +3,7 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         '': 'showHome'
+        'welcome': 'showWelcome'
         '*route': 'notFound'
 
     app.addInitializer ->
