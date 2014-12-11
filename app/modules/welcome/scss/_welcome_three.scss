@@ -1,0 +1,41 @@
+section#welcome-three{
+  @extend .book-bg;
+  padding: 1em;
+  background-image: url('/images/bokeh-pinkorchid_too-CC-BY-SA.jpg');
+  ul.bonuses{
+    @include flex(row, baseline, space-between);
+    li{
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+    h4{
+      text-align: center;
+      font-weight: bold;
+      padding: 1em;
+      background-color: $pitch-bg-color;
+    }
+    p{
+      padding: 1em;
+      font-size: 1.2em;
+      background-color: $pitch-bg-color;
+      a{
+        color: $grey;
+      }
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    ul.bonuses{
+      flex-direction:column;
+      li{
+        margin: 0;
+        margin-bottom: 0.2rem;
+        width: 100%;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {}
+}

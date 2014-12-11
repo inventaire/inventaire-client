@@ -5,7 +5,7 @@
   }
 }
 
-#welcome-three{
+#welcome-four{
   background-color: $dark-grey;
   min-height: 5em;
   @include flex(row, center, space-around);
@@ -37,3 +37,4 @@
 
 @import "welcome_one";
 @import "welcome_two";
+@import "welcome_three";

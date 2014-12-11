@@ -30,22 +30,6 @@ section#welcome-one{
     }
     margin-top: 2rem;
   }
-  ul.bonuses{
-    width: 100%;
-    @extend .flex-row;
-    li{
-      flex: 1;
-      width: 33%;
-      background-color: $pitch-bg-color;
-      margin: 1em;
-      h4{
-        color: $dark-grey;
-        font-weight: bold;
-        font-size: 1.2em;
-        padding: 1.5rem;
-      }
-    }
-  }
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
@@ -57,14 +41,6 @@ section#welcome-one{
         // background-color: $pitch-bg-color;
         color: white;
         font-weight: bold;
-      }
-    }
-    ul.bonuses{
-      flex-direction:column;
-      li{
-        margin: 0;
-        margin-bottom: 0.2rem;
-        width: 100%;
       }
     }
     #loginButtons{
@@ -84,11 +60,6 @@ section#welcome-one{
       width: 50%;
       h3{
         // background-color: #f5f5f5;
-      }
-    }
-    ul{
-      li{
-        // margin: 1rem;
       }
     }
   }
