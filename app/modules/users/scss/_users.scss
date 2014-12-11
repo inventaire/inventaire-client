@@ -1,46 +1,66 @@
-$notif-height: 3rem;
+$user-height: 3rem;
 
 $user-bg: #ddd;
 .userLi{
-  max-width: 40rem !important;
-  .username{
-    // font-size: 1.2em;
-    margin: 0em 1em 0em 1em;
-    vertical-align: middle;
-  }
+  height: $user-height;
+  width: 100%;
+  color: $light-grey;
+  @include flex(row);
   img{
     margin-left: 0;
-    max-height: $notif-height;
+    height: $user-height;
+    max-width: $user-height;
+    overflow: hidden;
   }
-  .userMenu{
-    margin-top: -1rem;
-    .fa{
-      color: $grey;
+  .right-box{
+    flex: 1;
+    .userMenu{
+      @include flex(row, center, flex-end);
+      flex: 1;
     }
   }
 }
 
-.top-bar{
-  .userLi, .request{
-    height: $notif-height !important;
-    a.button{
-      height: $notif-height !important;
-      line-height: 1.8rem !important;
+.userLi.friends{
+  .right-box{
+    @include flex(row, center);
+    .username{
+      margin: 0em 1em 0em 1em;
       vertical-align: middle;
-      &.success{
-        background-color: $success-color;
-        &:hover{
-          background-color: darken($success-color, 10%);
-        }
-      }
-      &.grey{
-        background-color: $grey;
-        &:hover{
-          background-color: darken($grey, 10%);
-        }
+    }
+    .userMenu{
+      margin-right: 0.8em;
+      font-size: 1em;
+      flex: 1;
+      a{
+        text-align: right;
       }
     }
-    min-width: 30rem;
-    color: #fff;
+  }
+}
+
+.userLi:not(.friends){
+  .right-box{
+    .username{
+      margin-left: 0.5em;
+    }
+    .userMenu{
+      font-size: 0.9em;
+      a.action{
+        padding: 0 0.3em 0 0.3em;
+      }
+      .cancel{
+        background-color: $grey;
+      }
+      .accept{
+        background-color: $success-color;
+      }
+      .discard{
+        background-color: $grey;
+      }
+      .request{
+        background-color: $success-color;
+      }
+    }
   }
 }

@@ -1,37 +1,41 @@
-<div class="selectUser large-6 small-6 columns">
-  <img id="pic" src="{{picture}}">
-  <span class="username">{{username}}</span>
+<div class="left-box">
+  <a class="select">
+    <img src="{{src picture 64}}">
+  </a>
 </div>
-<div class="large-6 small-6 columns">
-  {{#if friends}} 
-    <div class="userMenu">
-      <a data-dropdown="{{username}}-menu">{{icon 'chevron-down'}}</a>
-      <ul id="{{username}}-menu" class="large f-dropdown" data-dropdown-content>
-       <li>
-          <a id="unfriend">
-            {{icon 'minus'}} {{i18n 'Unfriend'}}
-          </a>
-        </li>
-      </ul>
-    </div>
-  {{/if}}
-  {{#if userRequests}} 
-  <a id="cancel" class="button secondary right">
-      {{icon 'ban'}} {{i18n 'Cancel request'}}
+<div class="right-box">
+  <a class="select">
+    <span class="username">{{username}}</span>
   </a>
-  {{/if}}
-  {{#if othersRequests}} 
-  {{!-- the first with the 'right' class will be the first from the right --}}
-    <a id="discard" class="button grey right">
-        {{icon 'minus'}} {{i18n 'Delete request'}}
-    </a>
-    <a id="accept" class="button success right">
-        {{icon 'check'}} {{i18n 'Confirm'}}
-    </a>
-  {{/if}}
-  {{#if public}} 
-  <a id="request" class="button success right">
-      {{icon 'plus'}} {{i18n 'Add friend'}}
-  </a>
-  {{/if}}
+  <div class="userMenu">
+    {{#if friends}} 
+      <a class="light-grey friend" data-options="align:top" data-dropdown="{{username}}-menu">
+        {{icon 'chevron-down'}}</a>
+        <ul id="{{username}}-menu" class="tiny f-dropdown" data-dropdown-content>
+           <li>
+              <a class="unfriend action">
+                {{icon 'minus'}} {{i18n 'Unfriend'}}
+              </a>
+            </li>
+        </ul>
+    {{/if}}
+    {{#if userRequests}} 
+      <a class="cancel action">
+          {{icon 'ban'}} {{i18n 'Cancel request'}}
+      </a>
+    {{/if}}
+    {{#if othersRequests}} 
+      <a class="accept action">
+          {{icon 'check'}} {{i18n 'Confirm'}}
+      </a>
+      <a class="discard action">
+          {{icon 'minus'}} {{i18n 'Delete request'}}
+      </a>
+    {{/if}}
+    {{#if public}} 
+      <a class="request action">
+          {{icon 'plus'}} {{i18n 'Add friend'}}
+      </a>
+    {{/if}}
+  </div>
 </div>

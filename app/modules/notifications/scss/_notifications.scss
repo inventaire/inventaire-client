@@ -6,7 +6,7 @@
       @include flex(row);
       img{
         margin-left: 0;
-        max-height: $notif-height;
+        max-height: $user-height;
       }
       a{
         flex: 1;
@@ -44,11 +44,11 @@
     }
     img{
       margin-left: 0;
-      max-height: $notif-height;
+      max-height: $user-height;
     }
-    height: $notif-height !important;
+    height: $user-height !important;
     a.button{
-      height: $notif-height !important;
+      height: $user-height !important;
       line-height: 1.8rem !important;
       vertical-align: middle;
       &.success{ @extend .success-button;}
