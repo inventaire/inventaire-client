@@ -78,8 +78,8 @@ module.exports = (Promises, _)->
       else P31 = entity.claims?.P31
       type = null
       if P31?
-        if wd.isBook(P31) then type = 'book'
-        if wd.isHuman(P31) then type = 'human'
+        if @isBook(P31) then type = 'book'
+        if @isHuman(P31) then type = 'human'
       return type
 
     wmCommonsThumb: (file, width=500)->

@@ -54,7 +54,7 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
   showCollectionItems: (items, nameBase)->
     _.log items, "inv: #{nameBase} items"
     if items?
-      itemList = new app.View.ItemsList {collection: items}
+      itemList = new app.View.Items.List {collection: items}
       # region should be named as nameBase
       @[nameBase].show itemList
 

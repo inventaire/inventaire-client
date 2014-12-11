@@ -1,4 +1,5 @@
 WikidataEntity = require './wikidata_entity'
+wd = app.lib.wikidata
 
 module.exports = class AuthorWikidataEntity extends WikidataEntity
   specificInitializers: -> #noop to override on upgrade and avoid loops

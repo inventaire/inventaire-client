@@ -1,6 +1,8 @@
 ItemShow = require './views/item_show'
 Filters = require './lib/filters'
 Transactions = require './lib/transactions'
+InventoryLayout = require './views/inventory'
+ItemCreationForm = require './views/form/item_creation'
 
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
@@ -31,7 +33,7 @@ API =
     else app.execute 'show:welcome'
 
   showItemCreationForm: (options)->
-    form = new app.View.Items.Creation options
+    form = new ItemCreationForm options
     app.layout.main.show form
 
   # should be reimplemented taking example on ItemShow switch
@@ -95,14 +97,14 @@ showInventory = (docTitle)->
   # regions shouldnt be undefined, which can't be tested by "app.invenshowItemShowtory?._isShown"
   # so here I just test one of Inventory regions
   unless app.inventory?.itemsView?
-    app.inventory = new app.Layout.Inventory
+    app.inventory = new InventoryLayout
     app.layout.main.Show app.inventory, docTitle
   else app.docTitle(docTitle)
 
 showItemList = (collection)->
   # waitForData to avoid having items displaying undefined values
   app.request 'waitForData', ->
-    itemsList = app.inventory.itemsList = new app.View.ItemsList
+    itemsList = app.inventory.itemsList = new app.View.Items.List
       collection: collection
       columns: true
     app.inventory.itemsView.show itemsList

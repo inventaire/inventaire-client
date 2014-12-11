@@ -42,7 +42,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   # ITEMS
   showItems: ->
-    View = app.View.ItemsList
+    View = app.View.Items.List
     personalItems = [Items.personal.filtered, View, 'in your items', 2 ]
     friendsItems = [Items.friends.filtered, View, "in your friends' items", 3]
 

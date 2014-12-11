@@ -1,3 +1,7 @@
+BookWikidataEntity = require './book_wikidata_entity'
+AuthorWikidataEntity = require './author_wikidata_entity'
+wd = app.lib.wikidata
+
 module.exports = class WikidataEntity extends Backbone.NestedModel
   localStorage: new Backbone.LocalStorage 'wd:Entities'
   initialize: ->
@@ -101,8 +105,8 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
   upgrade: ->
     type = wd.type(@)
     switch type
-      when 'book' then upgrader = app.Model.BookWikidataEntity
-      when 'human' then upgrader = app.Model.AuthorWikidataEntity
+      when 'book' then upgrader = BookWikidataEntity
+      when 'human' then upgrader = AuthorWikidataEntity
 
     if upgrader?
       proto = upgrader.prototype

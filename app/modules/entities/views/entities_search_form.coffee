@@ -1,3 +1,8 @@
+Book = require './book'
+Other = require './other'
+CategoryMenu = require './category_menu'
+Scanner = require './scanner'
+
 module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutView
   template: require "./templates/entities_search_form"
 
@@ -19,8 +24,8 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     'click #cancel': -> app.execute 'show:home'
 
   onShow: ->
-    @scanner.show new app.View.Entities.Form.Scanner  if _.isMobile()
-    @step1.show new app.View.Entities.Form.CategoryMenu {model: app.Entities.categories}
+    @scanner.show new Scanner  if _.isMobile()
+    @step1.show new CategoryMenu {model: app.Entities.categories}
 
   showCategorySpecificForm: (e)->
     @step2.empty()
@@ -30,8 +35,8 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     @validation.empty()
     switch e.currentTarget.id
       when 'label' then @step2.empty()
-      when 'book' then @step2.show new app.View.Entities.Form.Book {regions: @regions}
-      when 'other' then @step2.show new app.View.Entities.Form.Other
+      when 'book' then @step2.show new Book {regions: @regions}
+      when 'other' then @step2.show new Other
 
   serializeData: ->
     return { status: _.i18n 'Add a new item to your Inventory' }

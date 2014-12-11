@@ -116,7 +116,7 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
 
     if picturesToUpload?.length > 0
       @$el.trigger 'loading'
-      app.lib.imageHandler.upload(picturesToUpload)
+      imageHandler.upload(picturesToUpload)
       .then (urls)=>
         updatedPictures = toKeep.map (pic)->
           if _.isDataUrl(pic) then return urls.shift()
@@ -139,5 +139,5 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
     if toDelete.length > 0
       hostedPictures = toDelete.filter (pic)-> _.isHostedPicture(pic)
       if hostedPictures.length > 0
-        return app.lib.imageHandler.del hostedPictures
+        return imageHandler.del hostedPictures
     _.log toDelete, 'pictures: no hosted picture to delete'

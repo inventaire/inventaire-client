@@ -1,9 +1,11 @@
 RequestsList = require 'modules/users/views/requests_list'
 NotificationsList = require 'modules/notifications/views/notifications_list'
+CommonEl = require 'modules/general/regions/common_el'
 
 module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   template: require './templates/account_menu'
   events:
+    'click #addItem': -> app.execute 'show:entity:search'
     'click #name': -> app.execute 'show:inventory:user', app.user
     'click #edit': -> app.execute 'show:user:edit'
     'click #logout': -> app.execute 'persona:logout'
@@ -23,8 +25,8 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     # /!\ CommonEl custom Regions implies side effects
     # probably limited to the region management functionalities:
     # CommonEl regions insert their views AFTER the attached el
-    @addRegion 'requests', app.Region.CommonEl.extend {el: '#before-requests'}
-    @addRegion 'notifs', app.Region.CommonEl.extend {el: '#before-notifications'}
+    @addRegion 'requests', CommonEl.extend {el: '#before-requests'}
+    @addRegion 'notifs', CommonEl.extend {el: '#before-notifications'}
 
   onShow: ->
     app.execute 'foundation:reload'

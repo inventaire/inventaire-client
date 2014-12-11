@@ -1,3 +1,13 @@
+MainUser = require './models/main_user'
+NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
+AccountMenu = require 'modules/general/views/menu/account_menu'
+Signup:
+  Step1: require './views/signup_step_1'
+  Step2: require './views/signup_step_2'
+Login:
+  Step1: require './views/login_step_1'
+
+
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     UserRouter = Marionette.AppRouter.extend
@@ -11,7 +21,7 @@ module.exports =
         controller: API
 
     initializePersona(app)
-    app.user = new app.Model.MainUser
+    app.user = new MainUser
     recoverUserData(app)
     initializeUserI18nSettings(app)
     initializeUserEditionCommands(app)
@@ -25,11 +35,11 @@ API =
   showSignupStep1: ->
     if app.user.loggedIn then app.execute 'show:home'
     else
-      app.layout.main.show new app.View.Signup.Step1 {model: app.user}
+      app.layout.main.show new Signup.Step1 {model: app.user}
       app.navigate 'signup'
 
   showSignupStep2: ->
-    app.layout.main.show new app.View.Signup.Step2 {model: app.user}
+    app.layout.main.show new Signup.Step2 {model: app.user}
     app.navigate 'signup/2'
 
   routeTriggeredSignupStep2: ->
@@ -39,18 +49,18 @@ API =
       if username?
         app.user.set('username', username)
         params = {model: app.user, triggerPersonaLogin: true}
-        app.layout.main.show new app.View.Signup.Step2 params
+        app.layout.main.show new Signup.Step2 params
       else @showSignupStep1()
 
   showLogin: ->
     if app.user.loggedIn then app.execute 'show:home'
     else
-      app.layout.main.show new app.View.Login.Step1 {model: app.user}
+      app.layout.main.show new Login.Step1 {model: app.user}
       app.navigate 'login'
 
   routeTriggeredLogin: ->
     params = {model: app.user, triggerPersonaLogin: true}
-    app.layout.main.show new app.View.Login.Step1 params
+    app.layout.main.show new Login.Step1 params
 
 
 initializeSignupLoginHandlers = (app)->
@@ -165,9 +175,9 @@ initializeUserMenuUpdate = (app)->
 
 showMenu = ->
   if app.user.has 'email'
-    view = new app.View.AccountMenu {model: app.user}
+    view = new AccountMenu {model: app.user}
     app.layout?.accountMenu.show view
-  else app.layout?.accountMenu.show new app.View.NotLoggedMenu
+  else app.layout?.accountMenu.show new NotLoggedMenu
 
 
 initializeUserListings = (app)->

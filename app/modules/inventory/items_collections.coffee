@@ -1,6 +1,8 @@
+FriendsItems = require './collections/friends_items'
+
 module.exports = (app, _)->
 
-  Items = new app.Collection.FriendsItems
+  Items = new FriendsItems
 
   isMainUser = (model)-> model.get('owner') is app.user.id
   personal = new FilteredCollection(Items)

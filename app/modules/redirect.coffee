@@ -1,3 +1,6 @@
+Welcome = require 'modules/welcome/views/welcome'
+ErrorView = require 'modules/general/views/error'
+
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
@@ -31,7 +34,7 @@ API =
     else @showWelcome()
 
   showWelcome: ->
-    app.layout.main.show new app.View.Welcome
+    app.layout.main.show new Welcome
     app.navigate 'welcome'
 
   show403: ->
@@ -45,4 +48,4 @@ API =
       message: _.i18n 'Not Found'
 
   showError: (options)->
-    app.layout.main.show new app.View.Error options
+    app.layout.main.show new ErrorView options

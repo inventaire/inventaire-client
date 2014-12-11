@@ -1,3 +1,5 @@
+EditUser = require 'modules/user/views/edit_user'
+
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     ProfileRouter = Marionette.AppRouter.extend
@@ -10,7 +12,7 @@ module.exports =
 
     app.commands.setHandlers
       'show:user:edit': ->
-        app.layout.main.show new app.View.EditUser {model: app.user}
+        app.layout.main.show new EditUser {model: app.user}
         app.navigate 'profile/edit'
 
 API =

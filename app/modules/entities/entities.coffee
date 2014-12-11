@@ -1,4 +1,10 @@
 books = app.lib.books
+WikidataEntity = require './models/wikidata_entity'
+NonWikidataEntity = require './models/non_wikidata_entity'
+AuthorLi = require './views/author_li'
+Show = require './views/entity_show'
+Search = require './views/entities_search_form'
+wd = app.lib.wikidata
 
 module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
@@ -16,7 +22,11 @@ module.exports =
     setHandlers()
     @categories = categories
 
-    Locals = app.Collection.Local
+    Locals =
+      WikidataEntities: require './collections/local_wikidata_entities'
+      TmpWikidataEntities: require './collections/temporary_local_wikidata_entities'
+      NonWikidataEntities: require './collections/local_non_wikidata_entities'
+      TmpNonWikidataEntities: require './collections/temporary_local_non_wikidata_entities'
 
     window.Entities = Entities =
       wd: new Locals.WikidataEntities
@@ -69,9 +79,9 @@ API =
     .then (entity)->
       switch wd.type(entity)
         when 'human'
-          new app.View.Entities.AuthorLi {model: entity, displayBooks: true}
+          new AuthorLi {model: entity, displayBooks: true}
         else
-          new app.View.Entities.Show {model: entity}
+          new Show {model: entity}
     .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
 
   getEntityModel: (prefix, id)->
@@ -129,13 +139,13 @@ API =
     # not looking for a specific WikidataEntity
     # as the upgrade will happen at Model initialization
     wd.getEntities(id, app.user.lang)
-    .then (res)-> new app.Model.WikidataEntity res.entities[id]
+    .then (res)-> new WikidataEntity res.entities[id]
     .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
 
   getEntityModelFromIsbn: (isbn)->
     books.getGoogleBooksDataFromIsbn(isbn)
     .then (res)->
-      if res? then return new app.Model.NonWikidataEntity res
+      if res? then return new NonWikidataEntity res
       else console.warn "couldnt getEntityModelFromIsbn for: #{isbn}"
     .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
 
@@ -150,7 +160,7 @@ API =
 
   showEntitiesSearchForm: (queryString)->
     app.layout.entities or= {}
-    form = app.layout.entities.search = new app.View.Entities.Search
+    form = app.layout.entities.search = new Search
     app.layout.main.show form
     if queryString?
       query = _.parseQuery(queryString)

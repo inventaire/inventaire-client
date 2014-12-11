@@ -9,8 +9,6 @@ window.app = app
 
 _ = require('lib/builders/utils')(Backbone, window._, app, window)
 
-window.wd = require 'lib/wikidata'
-
 require('lib/global_libs_extender')(_)
 
 # gets all the routes used in the app
@@ -47,13 +45,15 @@ if app.user.loggedIn
   app.module 'Notifications', require 'modules/notifications/notifications'
 
 
+AppLayout = require 'modules/general/views/app_layout'
+
 app.request('i18n:set')
 .done ->
 
   # Initialize the application on DOM ready event.
   $ ->
     # initialize layout after user to get i18n data
-    app.layout = new app.Layout.App
+    app.layout = new AppLayout
     app.lib.foundation.initialize(app)
     app.execute 'show:user:menu:update'
 

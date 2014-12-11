@@ -1,3 +1,5 @@
+NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
+
 module.exports = class Welcome extends Backbone.Marionette.LayoutView
   id: 'welcome'
   template: require './templates/welcome'
@@ -6,7 +8,7 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
 
   initialize: ->
     # importing loggin buttons events
-    @events = app.View.NotLoggedMenu::events
+    @events = NotLoggedMenu::events
 
   onShow: ->
     @loadPublicItems()
@@ -21,7 +23,7 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
       app.users.public.add res.users
       items = new app.Collection.Items
       items.add res.items
-      itemsColumns = new app.View.ItemsList
+      itemsColumns = new app.View.Items.List
         collection: items
         columns: true
       @previewColumns.show itemsColumns

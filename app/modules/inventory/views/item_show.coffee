@@ -1,3 +1,5 @@
+ItemEditionForm = require './item_edition_form'
+
 module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
   template: require './templates/item_show'
   serializeData: ->
@@ -29,7 +31,7 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
 
   showItemEditionForm: ->
     unless @model.restricted
-      editForm = new app.View.ItemEditionForm {model: @model}
+      editForm = new ItemEditionForm {model: @model}
       @editPanel.show editForm
 
   events:

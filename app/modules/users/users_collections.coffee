@@ -1,5 +1,7 @@
+Users = require './collections/users'
+
 module.exports = (app)->
-  users = new app.Collection.Users
+  users = new Users
 
   users.subCollections = [
     'public'

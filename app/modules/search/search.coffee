@@ -1,6 +1,10 @@
 Search = require 'modules/search/layouts/search'
 ResultsList = require 'modules/entities/views/results_list'
 AuthorsList = require 'modules/entities/views/authors_list'
+Entities = require 'modules/entities/collections/entities'
+WikidataEntities = require 'modules/entities/collections/wikidata_entities'
+NonWikidataEntities = require 'modules/entities/collections/non_wikidata_entities'
+wd = app.lib.wikidata
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
@@ -60,9 +64,9 @@ API =
 
 spreadResults = (res)=>
   app.results =
-    humans: new app.Collection.Entities
-    authors: new app.Collection.Entities
-    books: new app.Collection.Entities
+    humans: new Entities
+    authors: new Entities
+    books: new Entities
     search: res.search
 
   resultsArray = res.items
@@ -75,7 +79,7 @@ addWikidataEntities = (resultsArray)=>
   # instantiating generic wikidata entities first
   # and only upgrading later on more specific Models
   # as methods on WikidataEntities greatly ease the sorting process
-  wdEntities = new app.Collection.WikidataEntities resultsArray
+  wdEntities = new WikidataEntities resultsArray
   wdEntities.models.map (model)->
     claims = model.get('claims')
     if _.isntEmpty(claims.P31)
@@ -93,7 +97,7 @@ addWikidataEntities = (resultsArray)=>
         app.results.authors.add model
 
 addNonWikidataEntities = (resultsArray)->
-  books = new app.Collection.NonWikidataEntities resultsArray
+  books = new NonWikidataEntities resultsArray
   books.models.map (el)-> app.results.books.add el
 
 displayResults = (region1, region2, view)=>

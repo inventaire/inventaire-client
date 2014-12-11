@@ -1,3 +1,5 @@
+Item = require 'modules/inventory/models/item'
+
 module.exports = class ItemCreation extends Backbone.Marionette.ItemView
   template: require './templates/item_creation'
   className: "addEntity"
@@ -16,7 +18,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     attrs.owner = app.user.id
 
     if attrs.entity? and attrs.title?
-      @model = new app.Model.Item attrs
+      @model = new Item attrs
     else throw new Error 'missing uri or title at item creation from entity'
 
   ui:

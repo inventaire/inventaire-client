@@ -1,4 +1,6 @@
 WikidataEntities = require './wikidata_entities'
+WikidataEntity = require '../models/wikidata_entity'
+wd = app.lib.wikidata
 
 module.exports = class LocalWikidataEntities extends WikidataEntities
   localStorage: new Backbone.LocalStorage 'wd:Entities'
@@ -19,7 +21,7 @@ module.exports = class LocalWikidataEntities extends WikidataEntities
         return inMemory
 
   getMissingEntities: (ids, Model)->
-    Model or= app.Model.WikidataEntity
+    Model or= WikidataEntity
     # over-passing the module method to fetch many entities at once
     # should be re-integrated to the entity module
     wd.getEntities(ids, app.user.lang)
