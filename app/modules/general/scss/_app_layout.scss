@@ -1,0 +1,13 @@
+@import "topbar";
+
+body{
+  #topBar{}
+  main {
+    margin:0;
+    background-color: $main-bg;
+    min-height: 95vh;
+  }
+  #modal{}
+}
+
+// see _inventory.scss for #innerMain and .sideNavClones

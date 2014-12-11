@@ -7,12 +7,7 @@ $has-tip-border-bottom-hover: solid 0px white; // Foundation variable
 $has-tip-cursor-type: inherit;
 $tooltip-bg: $darker-grey;
 
-body {
-  main {
-    margin:0;
-    background-color: $main-bg;
-    min-height: 95vh;
-  }
+body{
   ul, ul li, ul li ul{
     list-style-type: none;
     // overriding Foundation settings
