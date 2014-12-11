@@ -23,6 +23,8 @@ $user-box-heigth: 3em;
   background-color: $main-bg;
   @include flex(row, center);
   .user{
+    max-height: $user-box-heigth;
+    @include flex(column, left, space-between);
     .profilePic{
       height: $user-box-heigth;
     }
@@ -32,6 +34,7 @@ $user-box-heigth: 3em;
     .time{
       margin-left: 0.4em;
       color: $grey;
+      overflow: hidden;
     }
   }
 }
@@ -60,6 +63,7 @@ $user-box-heigth: 3em;
     }
   }
   .listingMenu{
+    height: $user-box-heigth;
     &.private{
       background-color: $dark-grey;
       @extend .currentWhite;
@@ -73,6 +77,7 @@ $user-box-heigth: 3em;
     }
   }
   .transactionMenu{
+    height: $user-box-heigth;
     @extend .currentWhite;
     &.giving{
       background-color: rgba(255, 2, 32, 0.3);
