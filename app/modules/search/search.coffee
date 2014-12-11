@@ -34,7 +34,7 @@ API =
 
   searchEntities: (search, region1, region2, view)->
     _.log search, 'search'
-    app.results or= {}
+    app.results ||= {}
     app.execute 'show:loader', {region: region1}
     # verifying that the query is not the same as the last one
     # and using the previous results if so
