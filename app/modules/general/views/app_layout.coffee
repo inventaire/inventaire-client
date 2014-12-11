@@ -4,9 +4,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   el: 'body'
 
   regions:
-    topMenu: '#topMenu'
-    # menuBar: '#menuBar'
-    # viewTools: '#viewTools'
     main: 'main'
     accountMenu: '#accountMenu'
     modal: '#modalContent'

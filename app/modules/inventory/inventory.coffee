@@ -7,9 +7,6 @@ module.exports =
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
-        'inventory/personal(/)': 'showPersonalInventory'
-        'inventory/friends(/)': 'showFriendsInventory'
-        'inventory/public(/)': 'showPublicInventory'
         'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:suffix(/:title)(/)': 'itemShow'
 
@@ -30,32 +27,6 @@ API =
     showInventory _.i18n 'Home'
     showItemList Items.filtered.resetFilters()
     app.vent.trigger 'inventory:change', 'general'
-
-  showPersonalInventory: ->
-    showInventory _.i18n('Personal')
-    showItemList Items.personal.filtered.resetFilters()
-    app.vent.trigger 'inventory:change', 'personal'
-
-  showFriendsInventory: ->
-    showInventory _.i18n('Friends')
-    showItemList Items.friends.filtered.resetFilters()
-    app.vent.trigger 'inventory:change', 'friends'
-
-  showPublicInventory: ->
-    showInventory _.i18n('Public')
-    app.execute('show:loader', {region: app.inventory.itemsView})
-    _.preq.get(app.API.items.public())
-    .then (res)->
-      _.log res, 'Items.public res'
-      # not testing if res has items or users
-      # letting the inventory empty view do the job
-      app.users.public.add res.users
-      Items.public.add res.items
-      showItemList(Items.public)
-      app.vent.trigger 'inventory:change', 'public'
-    .fail (err)->
-      if err.status is 404
-        showItemList()
 
   showItemCreationForm: (options)->
     form = new app.View.Items.Creation options
@@ -85,15 +56,12 @@ API =
     app.execute('show:loader', {title: "#{label} - #{username}"})
     app.request 'waitForFriendsItems', @showItemShow, @, username, suffix, label
 
-  # why waitForData doesnt work?
-
   showItemShow: (username, suffix, label)->
     owner = app.request 'get:userId:from:username', username
     if _.isUser(owner)
       items = Items.personal.where({suffix: suffix})
     else if _.isFriend(owner)
       items = Items.friends.where({owner: owner, suffix: suffix})
-      debugger
     else
       itemsPromise = app.request 'requestPublicItem', username, suffix
 
@@ -173,23 +141,11 @@ initializeInventoriesHandlers = (app)->
       API.showGeneralInventory()
       app.navigate 'inventory'
 
-    'show:inventory:personal': ->
-      API.showPersonalInventory()
-      app.navigate 'inventory/personal'
-
-    'show:inventory:friends': ->
-      API.showFriendsInventory()
-      app.navigate 'inventory/friends'
-
     'show:inventory:user': (user)->
       if _.isModel(user) then username = user.get('username')
       else username = user
       API.showUserInventory(user)
       app.navigate "inventory/#{username}"
-
-    'show:inventory:public': ->
-      API.showPublicInventory()
-      app.navigate 'inventory/public'
 
     'show:item:creation:form': (params)->
       API.showItemCreationForm(params)
