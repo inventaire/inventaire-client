@@ -12,7 +12,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
       @render()
       # can't be triggered the 'normal' way as the page is
       # re-rendered when the promise is fulfilled
-      $('#languagePicker').trigger('check')
+      $('#languagePicker').trigger 'check'
 
   serializeData: ->
     attrs =
@@ -20,7 +20,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
         nameBase: 'username'
         special: true
         field:
-          value: @model.get('username')
+          value: @model.get 'username'
         button:
           text: _.i18n 'Change Username'
       languages: Lang
@@ -40,11 +40,11 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
   verifyUsername: (username)=>
     requestedUsername = $('#usernameField').val()
     if requestedUsername is app.user.get 'username'
-      @invalidUsername _.i18n "that's already your username"
+      @invalidUsername "that's already your username"
     else if requestedUsername is ''
-      @invalidUsername _.i18n "username can't be empty"
+      @invalidUsername "username can't be empty"
     else if requestedUsername.length > 20
-      @invalidUsername _.i18n "username should be 20 character maximum"
+      @invalidUsername "username should be 20 character maximum"
     else
       $.post app.API.auth.username, {username: requestedUsername}
       .then (res)=> @confirmUsernameChange(res.username)
@@ -55,21 +55,29 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
       requestedUsername: requestedUsername
       currentUsername: app.user.get 'username'
       model: @model
+    confirmationText = """
+    Your current username is <strong>#{args.currentUsername}</strong><br>
+    Are you sure you want to change for <strong>#{args.requestedUsername}</strong>?
+    """
+    warningText = """
+    You shouldn't change your username too often, as it's the way others can find you
+    """
     @$el.trigger 'askConfirmation',
-      confirmationText: _.i18n "Your current username is <strong>#{args.currentUsername}</strong><br>
-        Are you sure you want to change for <strong>#{args.requestedUsername}</strong>?"
-      warningText: _.i18n "You shouldn't change your username too often, as it's the way others can find you"
+      confirmationText: _.i18n(confirmationText)
+      warningText: _.i18n(warningText)
       actionCallback: (args)=>
-        params = {attribute: 'username', value: args.requestedUsername, selector: '#usernameField'}
-        return app.request('user:update', params)
+        params =
+          attribute: 'username'
+          value: args.requestedUsername
+          selector: '#usernameField'
+        return app.request 'user:update', params
       actionArgs: args
 
   invalidUsername: (err)=>
-    if _.isString err
-      errMessage = err
+    if _.isString err then errMessage = err
     else
-      errMessage = _.i18n(err.responseJSON.status_verbose or "invalid username")
-    @$el.trigger 'alert', {message: errMessage}
+      errMessage = err.responseJSON.status_verbose or "invalid username"
+    @$el.trigger 'alert', {message: _.i18n(errMessage)}
 
   changeLanguage: (e)->
     lang = e.target.value
@@ -97,7 +105,7 @@ module.exports = class EditUser extends Backbone.Marionette.ItemView
 
   dataExport: ->
     userInventory = Items.personal.toJSON()
-    username = app.user.get('username')
+    username = app.user.get 'username'
     date = new Date().toLocaleDateString()
     name = "inventaire.io-#{username}-#{date}.json"
     _.openJsonWindow(userInventory, name)

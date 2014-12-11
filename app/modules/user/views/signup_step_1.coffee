@@ -5,6 +5,9 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     AlertBox: {}
     SuccessCheck: {}
 
+  ui:
+    username: '#usernameField'
+
   serializeData: ->
     attrs =
       usernamePicker:
@@ -27,11 +30,11 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     'click #usernameButton': 'verifyUsername'
 
   verifyUsername: (e)->
-    username = $('#usernameField').val()
+    username = @ui.username.val()
     if username is ''
-      @invalidUsername _.i18n "'username' can't be empty"
-    else if requestedUsername.length > 20
-      @invalidUsername _.i18n "username should be 20 character maximum"
+      @invalidUsername "'username' can't be empty"
+    else if username.length > 20
+      @invalidUsername "username should be 20 character maximum"
     else
       $.post(app.API.auth.username, {username: username})
       .then (res)=>
@@ -46,8 +49,8 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
       .fail (err)=>
         _.log err.responseJSON, 'invalidUsername'
         @invalidUsername(err)
-      .done()
 
   invalidUsername: (err)=>
-    errMessage = _.i18n (err.responseJSON?.status_verbose or "invalid username")
-    @$el.trigger 'alert', {message: errMessage}
+    if _.isString err then errMessage = err
+    else errMessage = err.responseJSON?.status_verbose or "invalid username"
+    @$el.trigger 'alert', {message: _.i18n(errMessage)}
