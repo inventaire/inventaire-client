@@ -24,9 +24,11 @@ module.exports =
 
 API =
   showGeneralInventory: ->
-    showInventory _.i18n 'Home'
-    showItemList Items.filtered.resetFilters()
-    app.vent.trigger 'inventory:change', 'general'
+    if app.user.loggedIn
+      showInventory _.i18n 'Home'
+      showItemList Items.filtered.resetFilters()
+      app.vent.trigger 'inventory:change', 'general'
+    else app.execute 'show:welcome'
 
   showItemCreationForm: (options)->
     form = new app.View.Items.Creation options
