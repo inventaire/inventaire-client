@@ -44,7 +44,7 @@ getCdnPath = (path, width, height, extend)->
 
   return "http://cdn.filter.to/#{size}/#{path}"
 
-dropProtocol = (path)-> path.replace /^((http(s|):)|)\/\//, ''
+dropProtocol = (path)-> path.replace /^(https?:)?\/\//, ''
 
 
 
