@@ -61,24 +61,7 @@ module.exports = (Backbone, _, app, window)->
     .then (res)-> _.log res, 'setCookie: server res on setCookie'
     .fail (err)-> console.error "setCookie: failed: #{key} - #{value}: #{err}"
 
-  i18n: (key, args, context)->
-    if args?
-      if _.isString args
-        if wd.isWikidataId args
-          app.request('qLabel:update')
-          return "<span class='qlabel wdP' resource='https://www.wikidata.org/entity/#{args}'>#{app.polyglot.t key}</span>"
-        else
-          obj = {}
-          obj[args] = context
-          return app.polyglot.t key, obj
-
-      else if _.has args, 'entitity'
-        app.request('qLabel:update')
-        return "<span class='qlabel wdP' resource='https://www.wikidata.org/entity/#{args}'>#{app.polyglot.t key, args}</span>"
-
-      else app.polyglot.t key, args
-
-    else app.polyglot.t key
+  i18n: (key, args)-> app.polyglot.t key, args
 
   updateQuery: (newParams)->
     [pathname, currentQueryString] = Backbone.history.fragment.split('?')
@@ -105,7 +88,7 @@ module.exports = (Backbone, _, app, window)->
       if prefix? and id?
         switch prefix
           when 'wd'
-            if wd.isWikidataId id then return true
+            if app.lib.wikidata.isWikidataId id then return true
           when 'isbn'
             if app.lib.books.isIsbn id then return true
     return false
@@ -198,4 +181,22 @@ module.exports = (Backbone, _, app, window)->
     return obj
 
   allValues: (obj)-> @flatten @values(obj)
+
   now: -> new Date().getTime()
+
+  objectifyPairs: (array)->
+    pairs = array.length / 2
+    if pairs % 1 isnt 0
+      err = 'expected pairs, got odd number of arguments'
+      throw new Error(err, arguments)
+
+    obj = {}
+    if pairs >= 1
+      i = 0
+      while i < pairs
+        [key, value] = [ array[i], array[i+1] ]
+        console.log key, value
+        obj[key] = value
+        i += 1
+
+    return obj

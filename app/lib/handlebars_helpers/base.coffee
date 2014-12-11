@@ -26,8 +26,11 @@ base =
     else if _.isString obj then return obj
     else return
 
-  i18n: (key, args, context)->
-    new SafeString _.i18n(key, args, context)
+  i18n: (key, argsPairs..., context)->
+    if argsPairs.length % 2 is 0
+      args = _.objectifyPairs argsPairs
+    else args = null
+    new SafeString _.i18n(key, args)
 
   limit: (text, limit)->
     return ''  unless text?
