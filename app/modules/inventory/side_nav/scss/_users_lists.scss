@@ -1,0 +1,27 @@
+#usersListHeader{
+  h4{
+    color: $grey;
+  }
+  @include flex(row, center, space-between);
+  .fa{
+    flex:1;
+    font-size: 1.2em;
+    text-align: right;
+  }
+  color: $grey;
+  margin: 0.5em;
+  min-height: 2.4em;
+}
+#usersList{
+  @include flex(column, left, flex-end);
+  overflow: auto;
+}
+
+#userSearch{
+  min-height: 2.4em;
+}
+
+#userField{
+  margin: 0;
+  @include shadow-box($glow);
+}

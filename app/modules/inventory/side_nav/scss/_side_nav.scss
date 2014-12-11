@@ -24,43 +24,15 @@
 }
 
 $user-profile-height: 16em;
-// one
-#one{
-  min-height: $user-profile-height;
-}
-@import 'user_profile';
 
-// two
+#one{
+  &.notEmpty{
+    min-height: $user-profile-height;
+  }
+  @import 'user_profile';
+}
+
 #two{
   @include flex(column, left, flex-start);
-}
-
-#userListHeader{
-  h4{
-    color: $grey;
-  }
-  @include flex(row, center, space-between);
-  .fa{
-    flex:1;
-    font-size: 1.2em;
-    text-align: right;
-    margin-right: 0.7em;
-
-  }
-  color: $grey;
-  margin-left: 0.1em;
-  min-height: 1.2em;
-}
-#userList{
-  @include flex(column, left, flex-end);
-  overflow: auto;
-}
-
-#userSearch{
-  min-height: 2.4em;
-}
-
-#userField{
-  margin: 0;
-  @include shadow-box($glow);
+  @import 'users_lists';
 }

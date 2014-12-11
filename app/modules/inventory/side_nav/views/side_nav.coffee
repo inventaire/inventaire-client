@@ -6,10 +6,10 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
 
   regions:
     one: '#one'
-    userList: '#userList'
+    usersList: '#usersList'
 
   ui:
-    userListHeader: "#userListHeader"
+    usersListHeader: "#usersListHeader"
     userField: "#userField"
 
   initialize: ->
@@ -30,7 +30,7 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
 
   showFriends: ->
     collection = app.users.filtered.friends()
-    @userList.show new app.View.Users.List {collection: collection}
+    @usersList.show new app.View.Users.List {collection: collection}
     @setFriendsHeader()
 
   updateUserSearch: (e)-> @searchUsers e.target.value
@@ -42,12 +42,20 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
     else @setFriendsHeader()
 
   setFriendsHeader: ->
-    @ui.userListHeader.find('.header').text _.i18n('Friends list')
-    @ui.userListHeader.find('.close').hide()
+    @ui.usersListHeader.find('.header').text _.i18n('Friends list')
+    @ui.usersListHeader.find('.close').hide()
+    @callToActionIfFriendsListIsEmpty()
 
   setUserSearchHeader: ->
-    @ui.userListHeader.find('.header').text _.i18n('User search')
-    @ui.userListHeader.find('.close').show()
+    @ui.usersListHeader.find('.header').text _.i18n('User search')
+    @ui.usersListHeader.find('.close').show()
+
+  callToActionIfFriendsListIsEmpty: ->
+    if app.users.friends.length is 0
+      # 'display' settings modified here will be overriden by no_user view re-rendering
+      # in case of search thus the possibility to just handle changes in this direction
+      $('.noUser').hide()
+      $('.findFriends').show()
 
   resetSearch: ->
     @searchUsers('')

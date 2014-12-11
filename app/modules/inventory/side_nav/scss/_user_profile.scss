@@ -7,11 +7,8 @@
   a.close{
     align-self: flex-end;
     margin: 0.5em 0.5em -2em;
-    i{
+    .fa{
       font-size: 1.2em;
-      color: $grey;
     }
-  }
-  div{
   }
 }

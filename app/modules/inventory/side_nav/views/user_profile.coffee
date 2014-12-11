@@ -4,7 +4,8 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
     'click a.close': 'unselectUser'
 
   onShow: ->
-    app.execute 'current:username:set', @model.get('username')
+    @makeRoom()
+    @updateBreadCrumb()
 
     # take care of destroying this view even on events out of this
     # view scope (ex: clicking the home button)
@@ -18,4 +19,13 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
       @$el.slideUp 500, @destroy.bind(@)
 
   onDestroy: ->
+    @giveRoomBack()
+    @notifyBreadCrumb()
+
+  makeRoom: -> $('#one').addClass 'notEmpty'
+  giveRoomBack: -> $('#one').removeClass 'notEmpty'
+
+  updateBreadCrumb: ->
+    app.execute 'current:username:set', @model.get('username')
+  notifyBreadCrumb: ->
     app.execute 'current:username:hide'
