@@ -1,10 +1,10 @@
 MainUser = require './models/main_user'
 NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
 AccountMenu = require 'modules/general/views/menu/account_menu'
-Signup:
+Signup =
   Step1: require './views/signup_step_1'
   Step2: require './views/signup_step_2'
-Login:
+Login =
   Step1: require './views/login_step_1'
 
 

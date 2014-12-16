@@ -20,9 +20,7 @@
         }
       }
     }
-    .acceptedFriendRequest{
-      width: 25em;
-    }
+    .acceptedFriendRequest{}
     .empty{
       align-items: center;
       justify-content: center;
@@ -60,6 +58,8 @@
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
+    .notification, .request{
+    }
   }
 
 
@@ -69,7 +69,10 @@
       padding: 0.2em;
       background-color: $dark-grey;
     }
-    .notification, .request{
+    .notification{
+      .acceptedFriendRequest{
+        width: 25em;
+      }
     }
   }
 }

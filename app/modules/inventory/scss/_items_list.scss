@@ -1,6 +1,5 @@
 // largely inspired from http://demosthenes.info/blog/825/Pinterest-Style-Column-Layout-In-Pure-CSS
 .itemsList{
-  background-color: $main-bg;
   @include vendor-prefix(column-gap, 15px);
   width: 95%;
   margin: 1em auto;

@@ -27,6 +27,7 @@ $user-box-heigth: 3em;
     @include flex(column, left, space-between);
     .profilePic{
       height: $user-box-heigth;
+      width: $user-box-heigth;
     }
     strong{
       margin-left: 0.4em;

@@ -9,7 +9,7 @@ $user-bg: #ddd;
   img{
     margin-left: 0;
     height: $user-height;
-    max-width: $user-height;
+    width: $user-height;
     overflow: hidden;
   }
   .right-box{
@@ -29,7 +29,7 @@ $user-bg: #ddd;
       vertical-align: middle;
     }
     .userMenu{
-      margin-right: 0.8em;
+      margin-right: 0.7em;
       font-size: 1em;
       flex: 1;
       a{
