@@ -31,11 +31,14 @@ module.exports = (_)->
 
   softEncodeURI: (str)->
     if _.typeString(str)
-      str.replace(/(\s|')/g, '_').replace(/\?/g, '')
+      str
+      .replace /(\s|')/g, '_'
+      .replace /\?/g, ''
 
   softDecodeURI: (str)->
     if _.typeString(str)
-      str.replace(/_/g,' ')
+      str
+      .replace /_/g,' '
 
   removeUndefined: (obj)->
     newObj = {}
@@ -45,7 +48,9 @@ module.exports = (_)->
     return newObj
 
   dropSpecialCharacters : (str)->
-    str.replace(/\s+/g, ' ').replace(/(\?|\:)/g, '')
+    str
+    .replace /\s+/g, ' '
+    .replace /(\?|\:)/g, ''
 
   typeString: (str)->
     if typeof str is 'string' then str

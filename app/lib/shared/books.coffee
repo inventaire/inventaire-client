@@ -25,22 +25,17 @@ module.exports = (Promises, _)->
     cleanIsbnData: (isbn)->
       if _.typeString isbn
         cleanedIsbn = @normalizeIsbn(isbn)
-        if @isNormalizedIsbn(cleanedIsbn)
-          return cleanedIsbn
+        if @isNormalizedIsbn(cleanedIsbn) then return cleanedIsbn
         else console.error 'isbn got an invalid value'
 
     normalizeBookData: (cleanedItem, isbn)->
-      data =
-        title: cleanedItem.title
-        authors: cleanedItem.authors
-        description: cleanedItem.description
-        publisher: cleanedItem.publisher
-        publishedDate: cleanedItem.publishedDate
-        language: cleanedItem.language
-        pictures: []
+      data = _.pick cleanedItem, 'title', 'authors', 'description', 'publisher', 'publishedDate', 'language'
+      data.pictures = []
 
-      if cleanedItem.industryIdentifiers?
-        cleanedItem.industryIdentifiers.forEach (obj)->
+      {industryIdentifiers, imageLinks} = cleanedItem
+
+      if industryIdentifiers?
+        industryIdentifiers.forEach (obj)->
           switch obj.type
             when 'ISBN_10' then data.P957 = obj.identifier
             when 'ISBN_13' then data.P212 = obj.identifier
@@ -54,8 +49,8 @@ module.exports = (Promises, _)->
         _.error 'no id found at normalizeBookData. Will be droped'
         return
 
-      if cleanedItem.imageLinks?
-        url = @uncurl cleanedItem.imageLinks.thumbnail
+      if imageLinks?
+        url = @uncurl imageLinks.thumbnail
         data.pictures.push url
         data.pictures.push @zoom(url)
 
