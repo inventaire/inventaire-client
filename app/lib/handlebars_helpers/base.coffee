@@ -26,11 +26,13 @@ base =
     else if _.isString obj then return obj
     else return
 
-  i18n: (key, argsPairs..., context)->
-    if argsPairs.length % 2 is 0
-      args = _.objectifyPairs argsPairs
-    else args = null
-    new SafeString _.i18n(key, args)
+  i18n: (key, args..., data)->
+    # key, contextObj form
+    if _.isObject(args[0]) then context = args[0]
+    # key, context pairs form
+    else if args.length % 2 is 0 then context = _.objectifyPairs args
+    else context = null
+    return _.i18n(key, context)
 
   limit: (text, limit)->
     return ''  unless text?
