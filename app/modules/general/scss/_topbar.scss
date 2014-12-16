@@ -93,4 +93,7 @@ $topbar-link-color-active: $dark-grey;
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
+  .breadcrumb{
+    display: none;
+  }
 }
