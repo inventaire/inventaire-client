@@ -31,6 +31,7 @@ img.icon{
 }
 
 // OPACITY
+// see Foundation _visibility for media-specific classes
 .hidden {
   // DONT !important it as it seems it can't be shown then
   display: none;

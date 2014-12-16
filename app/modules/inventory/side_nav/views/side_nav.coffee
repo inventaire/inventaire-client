@@ -10,6 +10,8 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
 
   ui:
     usersListHeader: "#usersListHeader"
+    listToggler: ".listToggler"
+    usersList: "#usersList"
     userField: "#userField"
 
   initialize: ->
@@ -21,6 +23,7 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
   events:
     'keyup #userField': 'lazyUserSearch'
     'click a.close': 'resetSearch'
+    'click #usersListHeader': 'toggleUsersList'
 
   onShow: ->
     @showFriends()
@@ -60,3 +63,9 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
   resetSearch: ->
     @searchUsers('')
     @ui.userField.val('')
+
+  toggleUsersList: ->
+    if _.smallScreen()
+      @ui.usersList.slideToggle()
+      @ui.listToggler.toggle()
+      @ui.userField.toggle()

@@ -200,3 +200,5 @@ module.exports = (Backbone, _, app, window)->
         i += 1
 
     return obj
+
+  smallScreen: -> return $('body').width() < 1024
