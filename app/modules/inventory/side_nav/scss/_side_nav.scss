@@ -31,7 +31,9 @@
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
-  #sideNav{}
+  #sideNav{
+    margin-top: 0.2em;
+  }
 }
 
 
