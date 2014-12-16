@@ -8,17 +8,20 @@ module.exports = LocalCache = (options)->
     throw 'missing localDb or remoteDataGetter'
 
   localDb = Level(name)
-  remoteDataGetter = remoteDataGetter
 
   defaultParser = (data)-> data
   parseData or= defaultParser
 
 
   API =
-    get: (ids, format='index')->
+    get: (ids, format='index', refresh)->
       ids = normalizeIds(ids)
-      getLocalData(ids)
-      .then completeWithRemoteData
+      if refresh
+        promise = getMissingData(ids)
+      else
+        promise = getLocalData(ids).then completeWithRemoteData
+
+      promise
       .then (data)->
         if format is 'collection' then data = _.values(data)
         _.log data, "data:format:#{format}"
