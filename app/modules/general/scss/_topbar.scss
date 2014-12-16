@@ -4,9 +4,9 @@ $topbar-title-font-size: 2rem;
 $topbar-link-font-size: 1rem;
 
 
-// former topbar loggin buttons
-$topbar-link-bg-active: $success-color;
-$topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -14%);
+$topbar-link-bg-active: darken($secondary-color, 2%);
+$topbar-link-bg-active-hover: scale-color($secondary-color, $lightness: -14%);
+$topbar-link-color-active: $dark-grey;
 
 .top-bar {
   // needed to be above the fixed sideNav
@@ -17,6 +17,9 @@ $topbar-link-bg-active-hover: scale-color($topbar-link-bg-active, $lightness: -1
   }
   .fa{
     font-size: 1.2rem;
+  }
+  #addItem{
+    font-weight: bold;
   }
   #name{
     font-weight: 900;
