@@ -1,38 +1,48 @@
 #sideNav{
-  position: fixed;
-  top: $topbar-height;
-  bottom: 0;
-  // needed to make the shadow-box visible
-  // despite the display-flex
-  margin-right: 2px;
-
   background-color: $dark-grey;
   @include shadow-box($dark-grey, 0, 0, 5px, 2px);
+
+  #innerNav{
+    width: 100%;
+    height: 100%;
+    @include flex(column, left, flex-end);
+    a, h3{
+      color: white;
+    }
+    // overridding the white font-color for .f-dropdown elements
+    @include standard-dropdown();
+  }
+
+  $user-profile-height: 16em;
+
+  #one{
+    &.notEmpty{
+      min-height: $user-profile-height;
+    }
+    @import 'user_profile';
+  }
+
+  #two{
+    @include flex(column, left, flex-start);
+    @import 'users_lists';
+  }
 }
 
-#innerNav{
-  width: 100%;
-  height: 100%;
-  @include flex(column, left, flex-end);
-  div:first-child{
-    margin-bottom: auto;
-  }
-  a, h3{
-    color: white;
-  }
-  @include standard-dropdown();
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  #sideNav{}
 }
 
-$user-profile-height: 16em;
 
-#one{
-  &.notEmpty{
-    min-height: $user-profile-height;
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  #sideNav{
+    position: fixed;
+    top: $topbar-height;
+    bottom: 0;
+    // needed to make the shadow-box visible
+    // despite the display-flex
+    margin-right: 2px;
   }
-  @import 'user_profile';
-}
-
-#two{
-  @include flex(column, left, flex-start);
-  @import 'users_lists';
 }

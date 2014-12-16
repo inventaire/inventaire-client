@@ -17,6 +17,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'focus #searchField': 'maximizeSearchField'
     'focusout #searchField': 'unmaximizeIfNotAtSearch'
     'click a.wd-Q': 'showEntity'
+    'click .toggle-topbar': 'toggleSideNav'
 
   initialize: (e)->
     @render()
@@ -115,3 +116,5 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   hideCurrentUsername: ->
     $('#currentUser').hide()
+
+  toggleSideNav: -> $('#sideNav').toggleClass('hide-for-small-only')

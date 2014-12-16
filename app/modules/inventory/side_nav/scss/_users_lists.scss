@@ -9,7 +9,7 @@
     text-align: right;
   }
   color: $grey;
-  margin: 0.5em;
+  padding: 0.5em;
   min-height: 2.4em;
 }
 #usersList{
@@ -17,11 +17,32 @@
   overflow: auto;
 }
 
-#userSearch{
-  min-height: 2.4em;
-}
 
 #userField{
   margin: 0;
   @include shadow-box($glow);
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  #usersListHeader{
+    cursor: pointer;
+    .header{
+      color: white;
+    }
+    &:hover{
+      background-color: $darker-grey;
+    }
+  }
+  #userSearch{}
+}
+
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  #usersListHeader{
+  }
+  #userSearch{
+    min-height: 2.4em;
+  }
 }

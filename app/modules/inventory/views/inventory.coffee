@@ -9,4 +9,3 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
 
   onShow: ->
     @sideNav.show new SideNav
-    $('#inventorySections').slideDown(1000)

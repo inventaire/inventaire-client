@@ -8,6 +8,8 @@ $tabs-navigation-font-color: #fff;
 
 
 #innerMain{
+  // needed by Chrome (at least) to expand items on the whole page
+  width: 100%;
   @include flex(row);
   // sideNavClones #sideNav and #shadowSideNav
   // have the same behavior but the later
@@ -26,9 +28,6 @@ $tabs-navigation-font-color: #fff;
     .sideNavClones{
       width: 250px;
       @include transition(width);
-      &.wrapped{
-        width: 50px;
-      }
     }
   }
 }
@@ -36,13 +35,8 @@ $tabs-navigation-font-color: #fff;
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   #innerMain{
-    .sideNavClones{
-      width: 90vw;
-      max-width: 250px;
-      &.wrapped{
-        display: hidden
-      }
-    }
+    flex-direction: column;
+    .sideNavClones{}
   }
 }
 
