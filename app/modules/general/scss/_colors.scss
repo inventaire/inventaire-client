@@ -11,8 +11,8 @@ $glow: rgba(158, 202, 237, 0.7);
 
 // body has a different color than main
 // to make it the background color when the DOM isnt loaded
-$body-bg: $darker-grey; // Foundation variable
 $main-bg: #ddd;
+$body-bg: $main-bg; // Foundation variable
 $contrast: #fff;
 $panel-bg: $contrast; // Foundation variable
 $body-font-color: #222; // Foundation variable
