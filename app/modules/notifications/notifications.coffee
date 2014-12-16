@@ -8,9 +8,17 @@ module.exports =
     @notifications = app.user.notifications = new Notifications
 
     app.reqres.setHandlers
-      'notifications:add': API.addNotification.bind(@)
+      'notifications:add': API.addNotifications.bind(@)
 
 API =
-  addNotification: (notification)->
-    _.log notification, 'notifications:add'
-    @notifications.add notification
+  addNotifications: (notifications)->
+    _.log notifications, 'notifications:add'
+    API.getUsersData(notifications)
+    .then ()=> @notifications.add notifications
+
+  getUsersData: (notifications)->
+    ids = API.getUsersIds(notifications)
+    app.request('get:users:data', ids)
+
+  getUsersIds: (notifications)->
+    ids = notifications.map (notif)-> notif.data.user

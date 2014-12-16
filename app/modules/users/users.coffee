@@ -19,6 +19,13 @@ initUsersItems = ->
     'friend:fetchItems': (userModel)-> fetchFriendItems(userModel)
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
+  app.reqres.setHandlers
+    'get:users:data': (ids)->
+      app.users.data.local.get(ids, 'collection')
+      .then (users)->
+        # usually users not found locally are non-friends users
+        app.users.public.add users
+
 fetchFriendsAndTheirItems = ->
   if app.user.loggedIn
     app.users.data.fetchRelationsData()
