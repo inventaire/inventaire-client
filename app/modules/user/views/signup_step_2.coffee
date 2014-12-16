@@ -21,7 +21,7 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
 
   waitingForPersona:->
     $('#loginPersona').fadeOut()
-    if _.isMobile()
+    if _.isMobile
       message = _.i18n 'it should just take a few seconds now...'
     else
       message = _.i18n('a popup should now open to let you verify your credentials')

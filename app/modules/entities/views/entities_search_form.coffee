@@ -24,7 +24,7 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
     'click #cancel': -> app.execute 'show:home'
 
   onShow: ->
-    @scanner.show new Scanner  if _.isMobile()
+    @scanner.show new Scanner  if _.isMobile
     @step1.show new CategoryMenu {model: app.Entities.categories}
 
   showCategorySpecificForm: (e)->
