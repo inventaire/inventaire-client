@@ -22,23 +22,23 @@ module.exports = (_)->
   parseQuery: (queryString)->
     query = {}
     if queryString?
-      queryString = queryString[1..-1] if queryString[0] is '?'
-      queryString.split('&').forEach (param)->
+      queryString
+      .replace /^\?/, ''
+      .split '&'
+      .forEach (param)->
         pairs = param.split '='
         if pairs[0]?.length > 0 and pairs[1]?
           query[pairs[0]] = _.softDecodeURI pairs[1]
     return query
 
   softEncodeURI: (str)->
-    if _.typeString(str)
-      str
-      .replace /(\s|')/g, '_'
-      .replace /\?/g, ''
+    _.typeString str
+    .replace /(\s|')/g, '_'
+    .replace /\?/g, ''
 
   softDecodeURI: (str)->
-    if _.typeString(str)
-      str
-      .replace /_/g,' '
+    _.typeString str
+    .replace /_/g,' '
 
   removeUndefined: (obj)->
     newObj = {}
@@ -70,13 +70,13 @@ module.exports = (_)->
 
   isDataUrl: (str)-> /^data:image/.test str
 
-  isHostedPicture: (str)-> /(imgloc|img).inventaire.io\/\w{22}.jpg$/.test str
+  isHostedPicture: (str)-> /img(loc)?.inventaire.io\/\w{22}.jpg$/.test str
 
   pickToArray: (obj, propsArray)->
-    if _.typeArray propsArray
-      pickObj = _.pick(obj, propsArray)
-      # returns an undefined array element when prop is undefined
-      return propsArray.map (prop)-> pickObj[prop]
+    _.typeArray propsArray
+    pickObj = _.pick(obj, propsArray)
+    # returns an undefined array element when prop is undefined
+    return propsArray.map (prop)-> pickObj[prop]
 
   mergeArrays: _.union
 
