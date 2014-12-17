@@ -26,4 +26,4 @@ all = [
   'notifications'
 ]
 
-module.exports = _.intersection all, muted
+module.exports = (_)-> _.intersection all, muted
