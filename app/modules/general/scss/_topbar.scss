@@ -86,12 +86,18 @@ $topbar-link-color-active: $dark-grey;
         transition: all 0.5s ease;
       }
     }
+    .labels{
+      display: none;
+    }
   }
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     .breadcrumb{
       display: none;
+    }
+    .labels{
+      margin-right: 0.5em;
     }
   }
 }

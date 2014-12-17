@@ -56,6 +56,10 @@ base =
     if value? then "#{attr}=#{value}"
     else return
 
+  inlineOptions: (options)->
+    str = ''
+    str += "#{k}:#{v}; "  for k, v of options
+    return str
 
 wikidata_claims = require './wikidata_claims'
 images = require './images'

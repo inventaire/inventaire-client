@@ -35,6 +35,14 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       'waitForCheck': @waitForCheck
       'ifOnline': @ifOnline
 
+  serializeData: ->
+    data =
+      topbar:
+        options:
+          sticky_on: 'large'
+          custom_back_text: true
+          back_text: _.i18n 'Back'
+
   showLoader: (options)->
     [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
     if region?

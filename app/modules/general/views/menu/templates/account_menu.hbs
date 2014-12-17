@@ -4,19 +4,22 @@
 <li class="active">
   <a id="addItem" class="active">{{icon 'plus'}}{{i18n 'Add a book'}}</a>
 </li>
-<li id="before-requests"></li>
-{{!-- li#requests will be inserted here --}}
-<li id="before-notifications"></li>
-{{!-- li#notifications will be inserted here --}}
 <li>
   <a id="name">
     {{username}}
     <img id="pic" src="{{src picture 64}}">
   </a>
 </li>
+<li id="before-requests"></li>
+{{!-- li#requests will be inserted here --}}
+<li id="before-notifications"></li>
+{{!-- li#notifications will be inserted here --}}
 
 <li class="has-dropdown">
-  <a><i class="fa fa-cog"></i></a>
+  <a>
+    {{icon 'cog'}}
+    <span class="labels">{{i18n 'Settings'}}</span>
+  </a>
   <ul class="dropdown">
     <li><a id="edit">{{icon 'user'}} {{i18n 'Edit Profile'}}</a></li>
     <li><a id="logout">{{icon 'sign-out'}} {{i18n 'Sign Out'}}</a></li>
