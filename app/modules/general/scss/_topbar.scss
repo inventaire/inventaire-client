@@ -29,43 +29,41 @@ $topbar-link-color-active: $dark-grey;
       @include shadow-box($darker-grey);
     }
   }
-}
 
-.counter {
-  display: inline;
-  color: $primary-color;
-  font-weight: bold;
-  background-color: $secondary-color;
-  padding: 0rem 0.4rem 0.1rem 0.4rem;
-  border-radius: 2px;
-}
-
-/*Large screens*/
-@media screen and (min-width: $smallscreen) {
-  #home{
-    // aligning with #inventorySections
-    margin-top: -0.1em;
+  .counter {
+    display: inline;
+    color: $primary-color;
+    font-weight: bold;
+    background-color: $secondary-color;
+    padding: 0rem 0.4rem 0.1rem 0.4rem;
+    border-radius: 2px;
   }
-  .breadcrumb{
-    a{
-      font-size: 1.2em;
-      padding-left: 0;
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    #home{
+      // aligning with #inventorySections
+      margin-top: -0.1em;
     }
-  }
-  #inventorySections{
-    @extend .breadcrumb;
-    .dropdown{
-      li{
-        color: white;
-        padding: 1em;
-        width: 12em;
+    .breadcrumb{
+      a{
+        font-size: 1.2em;
+        padding-left: 0;
       }
     }
-  }
-  #currentUser{
-    @extend .breadcrumb;
-  }
-  .top-bar{
+    #inventorySections{
+      @extend .breadcrumb;
+      .dropdown{
+        li{
+          color: white;
+          padding: 1em;
+          width: 12em;
+        }
+      }
+    }
+    #currentUser{
+      @extend .breadcrumb;
+    }
     #searchField{
       // width: 15rem;
     }
@@ -89,11 +87,11 @@ $topbar-link-color-active: $dark-grey;
       }
     }
   }
-}
 
-/*Small screens*/
-@media screen and (max-width: $smallscreen) {
-  .breadcrumb{
-    display: none;
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    .breadcrumb{
+      display: none;
+    }
   }
 }
