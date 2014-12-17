@@ -1,7 +1,8 @@
 section#welcome-three{
   @extend .book-bg;
   padding: 1em;
-  background-image: url('/images/bokeh-pinkorchid_too-CC-BY-SA.jpg');
+  // should be moved to a cdn
+  background-image: url('/static/images/bokeh-pinkorchid_too-CC-BY-SA.jpg');
   ul.bonuses{
     @include flex(row, baseline, space-between);
     li{

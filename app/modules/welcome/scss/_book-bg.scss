@@ -2,7 +2,8 @@
   // Photo credits:
   // sunlight cardigan - CC-BY
   // https://www.flickr.com/photos/turnupthesun/5934042172/
-  background-image: url('/images/book-turnupthesun-CC-BY.jpg');
+  // should be moved to a cdn
+  background-image: url('/static/images/book-turnupthesun-CC-BY.jpg');
   background-size: cover;
   background-position: center center;
   transition: background 0.5s ease;
