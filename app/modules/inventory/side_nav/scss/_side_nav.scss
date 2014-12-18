@@ -5,7 +5,7 @@
   #innerNav{
     width: 100%;
     height: 100%;
-    @include flex(column, left, flex-end);
+    @include flex(column, left, space-between);
     a, h3{
       color: white;
     }
