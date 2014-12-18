@@ -1,6 +1,7 @@
 RequestsList = require 'modules/users/views/requests_list'
 NotificationsList = require 'modules/notifications/views/notifications_list'
 CommonEl = require 'modules/general/regions/common_el'
+scanner = require 'lib/scanner'
 
 module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   template: require './templates/account_menu'
@@ -15,10 +16,12 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
       search:
         nameBase: 'search'
         field:
-          placeholder: _.i18n 'Search a book'
+          placeholder: _.i18n 'Add or search a book'
         button:
           icon: 'search'
           classes: 'secondary'
+
+    if _.isMobile then attrs.scanner = scanner.url
     return _.extend attrs, @model.toJSON()
 
   initialize: ->

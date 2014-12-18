@@ -24,6 +24,13 @@
   }
 }
 
+@mixin bg-hover($bg-color, $darken:15%){
+  background-color: $bg-color;
+  &:hover{
+    background-color: darken($bg-color, $darken);
+  }
+}
+
 @mixin border($color, $width:1px, $style:solid){
   border: $width $style $color;
 }
