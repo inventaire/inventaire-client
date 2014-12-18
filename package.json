@@ -12,8 +12,8 @@
     "node": "0.10"
   },
   "scripts": {
-    "postinstall": "npm run slim-packages; npm run browserify-modules",
-    "prepare-production": "bower install -p && npm run bower-fix && brunch build -P",
+    "postinstall": "npm run slim-packages; npm run browserify-modules; bower install; npm run bower-fix",
+    "prepare-production": "brunch build -P",
     "start": "brunch watch",
     "server": "brunch watch --server",
     "test": "mocha --compilers coffee:coffee-script/register --watch",
