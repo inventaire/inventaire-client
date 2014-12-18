@@ -1,1 +1,1 @@
-hello world
+see [server repo](//github.com/maxlath/inventaire) readme
