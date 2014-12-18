@@ -13,14 +13,17 @@
   min-height: 2.4em;
 }
 #usersList{
-  @include flex(column, left, flex-end);
+  // couldnt find a way to just say it 'expand to the place you have'
+  // so max-height: 40vh is a substitue to this non-working 'flex:1' thing
+  max-height: 40vh;
   overflow: auto;
 }
 
-
-#userField{
-  margin: 0;
-  @include shadow-box($glow);
+#userSearch{
+  #userField{
+    margin: 0;
+    @include shadow-box($glow);
+  }
 }
 
 /*Small screens*/
