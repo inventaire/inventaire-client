@@ -31,7 +31,7 @@ setLanguage = (app, lang)->
 
 requestI18nFile = (polyglot, lang)->
   polyglot.changingTo = lang
-  return _.preq.get "/static/i18n/#{lang}.json"
+  return _.preq.get "/static/i18n/#{lang}.json?DIGEST"
   .then (res)->
     polyglot.replace res
     polyglot.locale lang

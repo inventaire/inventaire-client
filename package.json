@@ -28,6 +28,7 @@
     "clean-css-brunch": "^1.7.1",
     "coffee-script-brunch": "1.8",
     "css-brunch": "1.7",
+    "git-digest-brunch": "^1.0.3",
     "handlebars-brunch": "1.7",
     "javascript-brunch": "1.7",
     "level-js": "^2.1.6",
