@@ -1,9 +1,8 @@
-@mixin vendor-prefix($name, $argument) {
-  -webkit-#{$name}: #{$argument};
-  -ms-#{$name}: #{$argument};
-  -moz-#{$name}: #{$argument};
-  -o-#{$name}: #{$argument};
-  #{$name}: #{$argument};
+@mixin vendor-prefix($property, $value, $prefixes: webkit moz ms o) {
+    @each $prefix in $prefixes {
+        #{"-" + $prefix + "-" + $property}: $value;
+    }
+    #{$property}: $value;
 }
 
 @mixin flex($direction, $align:'left', $justify:'center') {
