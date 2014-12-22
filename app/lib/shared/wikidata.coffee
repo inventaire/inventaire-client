@@ -139,7 +139,15 @@ module.exports = (Promises, _)->
 
     normalizeTime: (wikidataTime)->
       # wikidata time: '+00000001862-01-01T00:00:00Z'
-      [year, month, rest] = wikidataTime.split '-'
+      # or "-00000000427-01-01T00:00:00Z" for BC dates
+      parts = wikidataTime.split '-'
+      switch parts.length
+        when 3
+          [year, month, rest] = parts
+        when 4
+          [sign, year, month, rest] = parts
+          year = "-" + year
+        else console.error "unknown wikidata time format"
       day = rest[0..1]
       return new Date(year, month, day).getTime()
 
