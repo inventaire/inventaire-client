@@ -1,17 +1,12 @@
+muted = require('./muted_logs')(_)
+
 module.exports = (Backbone, _, app, window)->
-
-  muted = require('./muted_logs')(_)
-
-  String::logIt = (label)->
-    console.log "[#{label}] #{@toString()}" unless isMuted(label)
-    return @toString()
-
-  isMuted = (label)->
-    if label?.split?
-      tag = label.split(':')
-      return tag.length > 1 and tag[0] not in muted
-
   utils =
+    isMuted: (label)->
+      if _.isString label
+        tags = label.split ':'
+        return tags.length > 1 and tags[0] in muted
+
     log: (obj, label, stack)->
       # customizing console.log
       # unfortunatly, it makes the console loose the trace
@@ -19,10 +14,10 @@ module.exports = (Backbone, _, app, window)->
       # the trade-off might not be worthing it...
       if _.isString obj
         if label? then obj.logIt(label)
-        else console.log obj unless (isMuted(obj) or isMuted(label))
+        else console.log obj unless (@isMuted(obj) or @isMuted(label))
       else
-        unless isMuted(label)
-          console.log "===== #{label} =====" if label? and not isMuted(label)
+        unless @isMuted(label)
+          console.log "===== #{label} =====" if label? and not @isMuted(label)
           console.log obj
           console.log "-----" if label?
 
@@ -204,5 +199,9 @@ module.exports = (Backbone, _, app, window)->
       return obj
 
     smallScreen: -> return $('body').width() < 1024
+
+  String::logIt = (label)->
+    console.log "[#{label}] #{@toString()}" unless utils.isMuted(label)
+    return @toString()
 
   return utils
