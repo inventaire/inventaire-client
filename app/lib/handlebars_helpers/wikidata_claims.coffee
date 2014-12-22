@@ -42,3 +42,10 @@ module.exports =
       return @claimString label, values
 
   claimString: (label, values)-> new SafeString "#{label} #{values} <br>"
+
+  wdRemoteHref: (id)-> "https://www.wikidata.org/entity/#{id}"
+
+  wdLocalHref: (id, label)->
+    href = "/entity/wd:#{id}"
+    href += "/#{label}"  if label?
+    return href

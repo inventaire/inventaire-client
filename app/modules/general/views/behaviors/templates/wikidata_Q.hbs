@@ -1,14 +1,17 @@
-{{#if link}}
+{{!-- links are for entities having a page in Inventaire:
+books, authors... not publisher or genre, yet --}}
+
+{{#if linkify}}
   <a
-    href="/entity/wd:{{id}}"
+    href="{{wdLocalHref id label}}"
     class='link qlabel wd-Q'
-    resource='https://www.wikidata.org/entity/{{id}}'>
+    resource='{{wdRemoteHref id}}'>
   {{alt}}
   </a>
 {{else}}
   <span
     class='qlabel wd-Q'
-    resource='https://www.wikidata.org/entity/{{id}}'>
+    resource='{{wdRemoteHref id}}'>
   {{alt}}
   </span>
 {{/if}}
