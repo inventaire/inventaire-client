@@ -1,26 +1,6 @@
-behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
-check = behavior 'success_check'
-tip = behavior 'tip'
 SafeString = Handlebars.SafeString
 
 base =
-  partial: (name, context, option) ->
-    parts = name.split ':'
-    switch parts.length
-      when 3 then [module, subfolder, file] = parts
-      when 2 then [module, file] = parts
-      # defaulting to general:partialName
-      when 1 then [module, file] = ['general', name]
-
-    if subfolder? then path = "modules/#{module}/views/#{subfolder}/templates/#{file}"
-    else path = "modules/#{module}/views/templates/#{file}"
-
-    template = require path
-    partial = new SafeString template(context)
-    switch option
-      when 'check' then partial = new SafeString check(partial)
-    return partial
-
   firstElement: (obj) ->
     if _.isArray obj then return obj[0]
     else if _.isString obj then return obj
@@ -40,12 +20,6 @@ base =
     if text.length > limit then t += '[...]'
     new SafeString t
 
-  tip: (text, position)->
-    context =
-      text: _.i18n text
-      position: position or 'rigth'
-    new SafeString tip(context)
-
   pre: (text)->
     if text
       text = text.replace /\n/g, '<br>'
@@ -61,10 +35,11 @@ base =
     str += "#{k}:#{v}; "  for k, v of options
     return str
 
+partials = require './partials'
 wikidata_claims = require './wikidata_claims'
 images = require './images'
 input = require './input'
-API = _.extend base, wikidata_claims, images, input
+API = _.extend base, partials, wikidata_claims, images, input
 
 module.exports =
   initialize: ->
