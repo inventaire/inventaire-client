@@ -29,8 +29,8 @@ module.exports = class AuthorWikidataEntity extends WikidataEntity
     authorsBooks = @get 'reverseClaims.P50'
     _.log authorsBooks, 'authorsBooks?'
     if authorsBooks?.length > 0
-      Model = app.Model.AuthorWikidataEntity
-      return Entities.tmp.wd.fetchModels authorsBooks, Model
+      type = 'book'
+      return Entities.tmp.wd.fetchModels authorsBooks, type
     else $.Deferred().resolve()
 
 

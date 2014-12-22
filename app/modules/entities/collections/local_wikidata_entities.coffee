@@ -1,11 +1,12 @@
 WikidataEntities = require './wikidata_entities'
 WikidataEntity = require '../models/wikidata_entity'
+AuthorWikidataEntity = require '../models/author_wikidata_entity'
 wd = app.lib.wikidata
 
 module.exports = class LocalWikidataEntities extends WikidataEntities
   localStorage: new Backbone.LocalStorage 'wd:Entities'
 
-  fetchModels: (ids, Model)->
+  fetchModels: (ids, type)->
     wdIds = ids.filter(wd.isWikidataEntityId)
     [inMemory, missing] = @modelsStatus(wdIds)
     _.log inMemory, 'inMemory'
@@ -13,15 +14,21 @@ module.exports = class LocalWikidataEntities extends WikidataEntities
     if _.isEmpty missing
       return $.Deferred().resolve(inMemory)
     else
-      @getMissingEntities(missing, Model)
+      @getMissingEntities(missing, type)
       .then ()=>
         [inMemory, missing] = @modelsStatus(wdIds)
         if missing.length > 0
           console.error 'missing models', missing
         return inMemory
 
-  getMissingEntities: (ids, Model)->
-    Model or= WikidataEntity
+  getMissingEntities: (ids, type)->
+    switch type
+      when 'author' then Model = AuthorWikidataEntity
+      else
+        console.warn "unknown entity type: #{type}"
+        Model = WikidataEntity
+
+    _.log Model, 'MODEL !!!!!!!!!!!!!!!!!!!!!!!!!!!'
     # over-passing the module method to fetch many entities at once
     # should be re-integrated to the entity module
     wd.getEntities(ids, app.user.lang)
