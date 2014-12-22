@@ -1,10 +1,6 @@
 SafeString = Handlebars.SafeString
 
 base =
-  first: (array) ->
-    _.typeArray array
-    return array[0]
-
   i18n: (key, args..., data)->
     # key, contextObj form
     if _.isObject(args[0]) then context = args[0]
@@ -34,11 +30,12 @@ base =
     str += "#{k}:#{v}; "  for k, v of options
     return str
 
+utils = require './utils'
 partials = require './partials'
 wikidata_claims = require './wikidata_claims'
 images = require './images'
 input = require './input'
-API = _.extend base, partials, wikidata_claims, images, input
+API = _.extend base, utils, partials, wikidata_claims, images, input
 
 module.exports =
   initialize: ->
