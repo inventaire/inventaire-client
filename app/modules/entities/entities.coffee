@@ -2,7 +2,7 @@ books = app.lib.books
 WikidataEntity = require './models/wikidata_entity'
 NonWikidataEntity = require './models/non_wikidata_entity'
 AuthorLi = require './views/author_li'
-Show = require './views/entity_show'
+EntityShow = require './views/entity_show'
 Search = require './views/entities_search_form'
 wd = app.lib.wikidata
 
@@ -79,9 +79,12 @@ API =
     .then (entity)->
       switch wd.type(entity)
         when 'human'
-          new AuthorLi {model: entity, displayBooks: true}
+          new AuthorLi
+            model: entity
+            displayBooks: true
+            wikipediaPreview: true
         else
-          new Show {model: entity}
+          new EntityShow {model: entity}
     .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
 
   getEntityModel: (prefix, id)->
