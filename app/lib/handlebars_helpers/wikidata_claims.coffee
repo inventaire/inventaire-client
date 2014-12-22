@@ -15,7 +15,7 @@ module.exports =
       app.request('qLabel:update')
       return wdQ({id: id, linkify: linkify, alt: alt})
 
-  claim: (claims, P, linkify)->
+  claim: (claims, P, linkify, omitLabel, inline, data)->
     if claims?[P]?[0]?
       label = @P(P)
       # when linkify args is omitted, the {data:,hash: }
@@ -28,7 +28,7 @@ module.exports =
       _.log arguments, 'entity:claims:ignored'
       return
 
-  timeClaim: (claims, P, format, data)->
+  timeClaim: (claims, P, format, omitLabel, inline, data)->
     # default to 'year' and override handlebars data object when args.length is 3
     unless _.isString(format) then format = 'year'
     if claims?[P]?[0]?
@@ -37,11 +37,14 @@ module.exports =
         switch format
           when 'year' then return time.getUTCFullYear()
           else return
-      label = @P(P)
+      label = if omitLabel then '' else @P(P)
       values = _.uniq(values).join(" #{_.i18n('or')} ")
-      return @claimString label, values
+      return @claimString label, values, inline
 
-  claimString: (label, values)-> new SafeString "#{label} #{values} <br>"
+  claimString: (label, values, inline)->
+    text = "#{label} #{values}"
+    if inline then text
+    else new SafeString "#{text} <br>"
 
   wdRemoteHref: (id)-> "https://www.wikidata.org/entity/#{id}"
 
