@@ -9,23 +9,23 @@ module.exports =
       wdP({id: id})
     else wdP({id: "P#{id}"})
 
-  Q: (id, link, alt)->
+  Q: (id, linkify, alt)->
     if id?
       unless typeof alt is 'string' then alt = ''
       app.request('qLabel:update')
-      return wdQ({id: id, link: link, alt: alt})
+      return wdQ({id: id, linkify: linkify, alt: alt})
 
-  claim: (claims, P, link)->
+  claim: (claims, P, linkify)->
     if claims?[P]?[0]?
       label = @P(P)
-      # when link args is omitted, the {data:,hash: }
+      # when linkify args is omitted, the {data:,hash: }
       # makes it truthy, thus the stronger test:
-      link = link is true
-      values = claims[P].map (id)=> @Q(id, link)
+      linkify = linkify is true
+      values = claims[P].map (id)=> @Q(id, linkify)
       values = values.join ', '
       return new SafeString "#{label} #{values} <br>"
     else
-      _.log arguments, 'claim couldnt be displayed by Handlebars'
+      _.log arguments, 'entity:claims:ignored'
       return
 
   timeClaim: (claims, P, format='year')->
