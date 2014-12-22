@@ -1,10 +1,9 @@
 SafeString = Handlebars.SafeString
 
 base =
-  firstElement: (obj) ->
-    if _.isArray obj then return obj[0]
-    else if _.isString obj then return obj
-    else return
+  first: (array) ->
+    _.typeArray array
+    return array[0]
 
   i18n: (key, args..., data)->
     # key, contextObj form
