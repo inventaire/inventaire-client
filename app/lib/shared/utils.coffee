@@ -62,11 +62,12 @@ module.exports = (_)->
 
   isHostedPicture: (str)-> /img(loc)?.inventaire.io\/\w{22}.jpg$/.test str
 
-  pickToArray: (obj, propsArray)->
-    _.typeArray propsArray
-    pickObj = _.pick(obj, propsArray)
+  pickToArray: (obj, props...)->
+    if _.isArray(props[0]) then props = props[0]
+    _.typeArray props
+    pickObj = _.pick(obj, props)
     # returns an undefined array element when prop is undefined
-    return propsArray.map (prop)-> pickObj[prop]
+    return props.map (prop)-> pickObj[prop]
 
   mergeArrays: _.union
 
