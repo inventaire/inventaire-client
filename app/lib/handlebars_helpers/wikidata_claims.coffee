@@ -3,6 +3,15 @@ wdQ = behavior 'wikidata_Q'
 wdP = behavior 'wikidata_P'
 SafeString = Handlebars.SafeString
 
+wd = app.lib.wikidata
+
+# handlebars pass a sometime confusing {data:, hash: object} as last argument
+# this method is used to make helpers less error-prone by removing this object
+neutralizeDataObject = (args)->
+  last = args.last()
+  if last?.hash? and last.data? then args[0...-1]
+  else args
+
 module.exports =
   P: (id)->
     if /^P[0-9]+$/.test id
@@ -15,36 +24,48 @@ module.exports =
       app.request('qLabel:update')
       return wdQ({id: id, linkify: linkify, alt: alt})
 
-  claim: (claims, P, linkify, omitLabel, inline, data)->
+  claim: (args...)->
+    [ claims, P, linkify, omitLabel, inline ] = neutralizeDataObject(args)
     if claims?[P]?[0]?
-      label = @P(P)
-      # when linkify args is omitted, the {data:,hash: }
-      # makes it truthy, thus the stronger test:
-      linkify = linkify is true
-      values = claims[P].map (id)=> @Q(id, linkify)
-      values = values.join ', '
+      label = @labelString P, omitLabel
+      values = @getQsTemplates(claims[P], linkify)
       return @claimString label, values
     else
       _.log arguments, 'entity:claims:ignored'
       return
 
-  timeClaim: (claims, P, format, omitLabel, inline, data)->
+  getQsTemplates: (valueArray, linkify)->
+    valueArray
+    .map (id)=> @Q(id, linkify)
+    .join ', '
+
+  timeClaim: (args...)->
+    [ claims, P, format, omitLabel, inline ] = neutralizeDataObject(args)
     # default to 'year' and override handlebars data object when args.length is 3
-    unless _.isString(format) then format = 'year'
+    format or= 'year'
     if claims?[P]?[0]?
       values = claims[P].map (unixTime)->
         time = new Date(unixTime)
         switch format
           when 'year' then return time.getUTCFullYear()
           else return
-      label = if omitLabel then '' else @P(P)
+      label = @labelString P, omitLabel
       values = _.uniq(values).join(" #{_.i18n('or')} ")
       return @claimString label, values, inline
+
+  imageClaim: (claims, P, omitLabel, inline, data)->
+    if claims?[P]?[0]?
+      file = claims[P][0]
+      src = wd.wmCommonsSmallThumb file, 200
+      return new SafeString "<img src='#{src}'>"
 
   claimString: (label, values, inline)->
     text = "#{label} #{values}"
     if inline then text
     else new SafeString "#{text} <br>"
+
+  labelString: (P, omitLabel)->
+    if omitLabel then '' else @P(P)
 
   wdRemoteHref: (id)-> "https://www.wikidata.org/entity/#{id}"
 

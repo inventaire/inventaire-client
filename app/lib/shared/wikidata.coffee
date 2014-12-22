@@ -90,9 +90,12 @@ module.exports = (Promises, _)->
       .then (res)->
         # parsing the XML with jQuery
         return $(res).find('thumbnail')?.text?()
-      .fail (err)->
+      .fail (err)=>
         console.log "couldnt find the #{file} via tools.wmflabs.org"
-        return "http://commons.wikimedia.org/w/thumb.php?width=200&f=#{file}"
+        return @wmCommonsSmallThumb file, 200
+
+    wmCommonsSmallThumb: (file, width="100")->
+      "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
     aliasingClaims: (claims)->
       for id, claim of claims
