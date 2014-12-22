@@ -52,16 +52,6 @@ module.exports = (_)->
     .replace /\s+/g, ' '
     .replace /(\?|\:)/g, ''
 
-  typeString: (str)->
-    if typeof str is 'string' then str
-    else
-      obj = JSON.stringify str
-      throw new Error "TypeError: expected a String, got: #{obj}"
-
-  typeArray: (array)->
-    if array instanceof Array then array
-    else throw new Error "TypeError: #{array} instead of Array"
-
   isUrl: (str)->
     # not perfect, just roughly filtering
     # accepts url delegating protocol choice to the browser with only '//'

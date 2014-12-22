@@ -5,7 +5,7 @@ module.exports = (Backbone, _, app, window)->
   local = require('lib/utils')(Backbone, _, app, window)
   shared = sharedLib('utils')(_)
   types = sharedLib 'types'
-  _.extend _, local, shared
+  _.extend _, local, shared, types
 
   # http requests handler returning promises
   _.preq = require 'lib/preq'

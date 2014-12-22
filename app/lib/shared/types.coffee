@@ -2,7 +2,7 @@ module.exports =
   type: (obj, type)->
     trueType = @typeOf obj
     if type is trueType then return obj
-    else throw new Error "TypeError: expected #{type}, got #{trueType}"
+    else throw new Error "TypeError: expected #{type}, got #{obj} (#{trueType})"
 
   types: (args, types...)->
     args = @toArray(args)
@@ -23,3 +23,6 @@ module.exports =
 
   # soft testing: doesn't throw
   areStrings: (array)-> @all array, @isString
+
+  typeString: (str)-> @type str, 'string'
+  typeArray: (array)-> @type array, 'array'
