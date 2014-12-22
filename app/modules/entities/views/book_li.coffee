@@ -1,7 +1,7 @@
 module.exports = class BookLi extends Backbone.Marionette.ItemView
   template: require './templates/book_li'
   tagName: "li"
-  className: "bookLi row"
+  className: "bookLi"
 
   initialize: ->
     @listenTo @model, 'change', @render
@@ -9,9 +9,9 @@ module.exports = class BookLi extends Backbone.Marionette.ItemView
     app.request('qLabel:update')
 
   events:
-    'click a.itemTitle': 'showSelectedEntity'
-    'click a#selectEntity': 'showSelectedEntity'
-    'click a#addToInventory': 'showItemCreationForm'
+    'click a.entityTitle': 'showSelectedEntity'
+    'click a.selectEntity': 'showSelectedEntity'
+    'click a.addToInventory': 'showItemCreationForm'
 
   showSelectedEntity: (e)->
     app.execute 'show:entity:from:model', @model

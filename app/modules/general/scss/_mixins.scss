@@ -30,6 +30,13 @@
   }
 }
 
+@mixin custom-button($bg-color, $color: white, $margin: 0.1em, $padding:1em, $darken:15%){
+  @include bg-hover($bg-color, $darken);
+  color: $color;
+  padding: $padding;
+  margin: $margin;
+}
+
 @mixin border($color, $width:1px, $style:solid){
   border: $width $style $color;
 }

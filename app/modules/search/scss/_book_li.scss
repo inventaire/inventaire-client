@@ -1,23 +1,53 @@
 .bookLi{
+  @include flex(row, center, space-between);
   background-color: $contrast;
-  padding: 0.5rem;
-  margin: 0.5rem !important;
-  .columns{
-    padding: 0.5rem;
+  padding: 0.5em;
+  margin: 0.5em;
+  h3{
+    text-align: center;
   }
-  .actions{}
+  .bookLiData{
+    @include flex(column, center, flex-start);
+  }
+  .actions{
+    @include flex(column, left, center);
+    a{
+      @include custom-button($light-grey, $dark-grey);
+    }
+  }
 }
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
+  .bookLi{
+    flex-direction: column;
+    div{
+      height: 100%;
+      img{
+        max-height: 20em;
+        max-width: 100%;
+        padding: 1em;
+      }
+    }
+  }
 }
 
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
   .bookLi{
-    .actions{
-      margin-top: 1rem;
+    width: 100%;
+    div{
+      height: 100%;
+      img{
+        height: 100%;
+        max-width: 15em;
+        padding: 1em;
+      }
+    }
+    .actions{}
+    .bookLiData{
+      max-height: 15em;
     }
     img{
       margin: 0.5rem;

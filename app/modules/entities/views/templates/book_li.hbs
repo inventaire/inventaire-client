@@ -1,42 +1,36 @@
-<div class='small-12 large-4 columns text-center'>
+<div>
   {{#if pictures}}
     <img src='{{first pictures}}' alt='{{title}} cover'>
   {{/if}}
   <p></p>
 </div>
 
-<div class='small-12 large-4 columns'>
-
-  <a class='itemTitle' data-href="{{pathname}}"><h3>{{title}}</h3></a>
-  <p class="grey">{{limit description 140}}</p>
-  {{#if wikidata}}
-  {{!-- WIKIDATA ATTRIBUTES --}}
-    <p class='wiki-attributes'>
-      {{claim claims 'P50' true}}
-      {{timeClaim claims 'P577'}}
-      {{claim claims 'P136'}}
-      {{claim claims 'P123'}}
-      {{claim claims 'P364'}}
-      {{claim claims 'P840'}}
-    </p>
-  {{else}}
-      <p class="isbn-attributes">
-        {{{P '50'}}} {{#each authors}}{{this}} {{/each}}
-      </p>
+<div class="bookLiData">
+  <h3><a class='entityTitle' data-href="{{pathname}}">{{title}}</a></h3>
+  {{#if description}}
+    <p class="grey">{{limit description 140}}</p>
   {{/if}}
-  {{!-- {{partial 'wiki_sitelinks' this}} --}}
+  {{#if wikidata}}
+    {{partial 'entities:book_claims' claims}}
+  {{else}}
+    <p class="isbn-attributes">
+      {{{P '50'}}} {{#each authors}}{{this}} {{/each}}
+    </p>
+  {{/if}}
 </div>
 
-<div class='actions small-12 large-4 columns'>
-  <div>
-    <a id='selectEntity' class='secondary' data-href="{{pathname}}" target="_blank">
-      {{icon 'chevron-right'}}
-      {{i18n 'More details'}}
-    </a>
-    <br>
-    <a id='addToInventory' data-href="{{pathname}}/add" target="_blank">
-      {{icon 'plus'}}
-      {{i18n 'Add to my inventory'}}
-    </a>
-  </div>
+<div class='actions'>
+  <a class='selectEntity' data-href="{{pathname}}">
+    {{icon 'chevron-right'}}
+    {{i18n 'More details'}}
+  </a>
+  <br>
+  <a class='addToInventory' data-href="{{pathname}}/add">
+    {{icon 'plus'}}
+    {{i18n 'Add to my inventory'}}
+  </a>
+  <a class='showEntity' data-href="{{pathname}}">
+    {{icon 'cube'}}
+    {{i18n 'Who has it?'}}
+  </a>
 </div>
