@@ -56,7 +56,11 @@
     margin-right: 0.4em;
   }
 }
+
 .authorLi{
+  .more{
+    width: 100%;
+  }
   .wiki-sitelinks{
     flex-direction: column;
     align-items: center;
@@ -68,10 +72,22 @@
   }
 }
 
+.wiki-attributes{
+  p.claims{
+    text-align: left;
+  }
+  padding: 1em;
+  img{
+    text-align: center;
+  }
+}
+
 .wd-P{
   &:first-letter{text-transform: capitalize;}
   color: $grey;
 }
+
+@import './wikipedia_iframe';
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {

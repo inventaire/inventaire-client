@@ -1,0 +1,51 @@
+.wikipedia-iframe{
+  width: 100%;
+  div{
+    @include flex(row, center, space-between);
+    background-color: $grey;
+    padding: 1em;
+    h3, .fa, a{
+      color: white;
+    }
+    .wiki-sitelinks{
+      @include flex(row, center, space-around);
+      a{
+        font-weight: bold;
+        padding: 1em;
+        // color: $dark-grey;
+      }
+      .wikipedia, .wikisource, .wikidata{
+        margin: 0.3em;
+      }
+      .wikipedia{
+        @include flex(row);
+      }
+      a.wikisource, a.wikidata, .wikipedia a:first-child{
+        @extend .grey-5;
+      }
+      .wikipedia a:last-child{
+        @extend .grey-6;
+      }
+    }
+  }
+  iframe{
+    width: 100%;
+    height: 30em;
+    background-color: $light-grey;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    div{
+      flex-direction: column;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    div{
+      span{
+      }
+    }
+  }
+}

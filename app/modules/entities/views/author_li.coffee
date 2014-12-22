@@ -13,11 +13,17 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
   initialize: (options)->
     @listenTo @model, 'add:pictures', @render
     @collection = new Backbone.Collection
-    @listenTo @collection, 'add', @render
-    # if options.displayBooks then @onShow = @displayBooks
+    _.inspect @
+
+
+  serializeData: ->
+    attrs = @model.toJSON()
+    attrs.wikipediaPreview = @options.wikipediaPreview or true
+    return attrs
 
   events:
     'click a#displayBooks': 'displayBooks'
+    'click a.showWikipediaPreview': 'toggleWikipediaPreview'
 
   displayBooks: ->
     @fetchBooks()
@@ -43,3 +49,21 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
       .fail (err)-> _.log err, 'fetchAuthorsBooks err'
     else
       _.log [@model.get('title'), @model,@], 'couldnt fetchAuthorsBooks'
+
+  toggleWikipediaPreview: ->
+    $wpiframe = $('.wikipedia-iframe')
+    $iframe = $wpiframe.find('iframe')
+    $carets = $('.wikipedia-iframe').find('.fa')
+
+    $iframe.toggle()
+    $carets.toggle()
+
+    hasIframe = $iframe.length > 0
+    unless hasIframe
+      @appendWikipediaFrame $wpiframe
+      $wpiframe.find('iframe').show()
+
+  appendWikipediaFrame: ($el)->
+    url = @model.get('wikipedia.url')
+    src = url + '?useskin=mobil&mobileaction=toggle_view_mobile'
+    $el.append "<iframe src='#{src}' frameborder='0'></iframe>"

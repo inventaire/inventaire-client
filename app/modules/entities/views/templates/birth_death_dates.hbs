@@ -1,0 +1,8 @@
+{{!-- expecting claims object --}}
+{{#if P569}} {{!-- if bearth date --}}
+<p>
+  {{timeClaim this 'P569' 'year' true true}}
+  &nbsp;&nbsp;-&nbsp;&nbsp;
+  {{timeClaim this 'P570' 'year' true}}
+</p>
+{{/if}}
