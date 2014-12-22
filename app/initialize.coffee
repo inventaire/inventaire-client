@@ -1,6 +1,4 @@
 require('lib/uncatched_error_logger').initialize()
-require('lib/handlebars_helpers/base').initialize()
-
 
 window.sharedLib = sharedLib = require('lib/shared/shared_libs')
 
@@ -9,15 +7,15 @@ window.app = app
 
 _ = require('lib/builders/utils')(Backbone, window._, app, window)
 
+_.extend app, require 'structure'
+
+
+require('lib/handlebars_helpers/base').initialize()
 require('lib/global_libs_extender')(_)
 
 # gets all the routes used in the app
 app.API = require 'api'
 
-# makes all the require's accessible from app
-# might be dramatically heavy from start though
-# -> should be refactored to make them functions called at run-time?
-_.extend app, require 'structure'
 
 # constructor for interactions between module and LevelDb/IndexedDb
 app.LocalCache = require('lib/local_cache')
