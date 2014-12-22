@@ -28,7 +28,6 @@ module.exports = class LocalWikidataEntities extends WikidataEntities
         console.warn "unknown entity type: #{type}"
         Model = WikidataEntity
 
-    _.log Model, 'MODEL !!!!!!!!!!!!!!!!!!!!!!!!!!!'
     # over-passing the module method to fetch many entities at once
     # should be re-integrated to the entity module
     wd.getEntities(ids, app.user.lang)
