@@ -23,17 +23,22 @@ module.exports =
       linkify = linkify is true
       values = claims[P].map (id)=> @Q(id, linkify)
       values = values.join ', '
-      return new SafeString "#{label} #{values} <br>"
+      return @claimString label, values
     else
       _.log arguments, 'entity:claims:ignored'
       return
 
-  timeClaim: (claims, P, format='year')->
+  timeClaim: (claims, P, format, data)->
+    # default to 'year' and override handlebars data object when args.length is 3
+    unless _.isString(format) then format = 'year'
     if claims?[P]?[0]?
       values = claims[P].map (unixTime)->
         time = new Date(unixTime)
         switch format
           when 'year' then return time.getUTCFullYear()
           else return
-      values = _.uniq(values)
-      return new SafeString values.join(' ' + _.i18n('or') + ' ')
+      label = @P(P)
+      values = _.uniq(values).join(" #{_.i18n('or')} ")
+      return @claimString label, values
+
+  claimString: (label, values)-> new SafeString "#{label} #{values} <br>"
