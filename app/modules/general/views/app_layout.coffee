@@ -16,7 +16,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'click a#searchButton': 'search'
     'focus #searchField': 'maximizeSearchField'
     'focusout #searchField': 'unmaximizeIfNotAtSearch'
-    'click a.wd-Q': 'showEntity'
+    'click a.wd-Q, a.showEntity': 'showEntity'
     'click .toggle-topbar': 'toggleSideNav'
 
   initialize: (e)->
@@ -90,8 +90,9 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   showEntity: (e)->
     href = e.target.href
-    uri = href.split('/entity/').last()
-    app.execute 'show:entity', uri
+    data = href.split('/entity/').last()
+    [uri, label] = data.split '/'
+    app.execute 'show:entity', uri, label
 
   unpreventDefault: (e)->
     # largely inspired by

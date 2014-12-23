@@ -8,6 +8,6 @@
   }
 }
 
-// a[href], a[data-href]{
-//   @extend .link;
-// }
+.showEntity, .showItem{
+  @extend .link;
+}
