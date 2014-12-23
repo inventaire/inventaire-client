@@ -1,16 +1,23 @@
 .bookLi{
-  @include flex(row, center, space-between);
+  @include flex(row, center, space-around);
   background-color: $contrast;
-  padding: 0.5em;
-  margin: 0.5em;
-  h3{
-    text-align: center;
+  // padding: 0.5em;
+  margin: 0.2em;
+  .bookCover{
+    width: 10em;
+    margin: 1em;
+    @include flex(column, center, center);
   }
   .bookLiData{
-    @include flex(column, center, flex-start);
+    @include flex(column, center, center);
+    h3{
+      text-align: center;
+      display: flex;
+    }
   }
   .actions{
     @include flex(column, left, center);
+    padding: 0.5em;
     a{
       @include custom-button($light-grey, $dark-grey);
     }
@@ -21,13 +28,11 @@
 @media screen and (max-width: $smallscreen) {
   .bookLi{
     flex-direction: column;
-    div{
-      height: 100%;
-      img{
-        max-height: 20em;
-        max-width: 100%;
-        padding: 1em;
-      }
+    flex: 1;
+    .bookCover{
+      max-height: 7em;
+      max-width: 100%;
+      padding: 1em;
     }
   }
 }
@@ -37,20 +42,15 @@
 @media screen and (min-width: $smallscreen) {
   .bookLi{
     width: 100%;
-    div{
-      height: 100%;
-      img{
-        height: 100%;
-        max-width: 15em;
-        padding: 1em;
-      }
+    max-height: 15em;
+    .bookCover{
     }
-    .actions{}
     .bookLiData{
-      max-height: 15em;
+      flex: 1;
     }
-    img{
-      margin: 0.5rem;
+    .actions{
+      flex: 0 0 14em;
+      margin-left: auto;
     }
   }
 }

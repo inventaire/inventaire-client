@@ -1,17 +1,17 @@
-<div>
+<div class="bookCover">
   {{#if pictures}}
     <img src='{{first pictures}}' alt='{{title}} cover'>
   {{/if}}
-  <p></p>
 </div>
-
 <div class="bookLiData">
   <h3><a class='entityTitle' data-href="{{pathname}}">{{title}}</a></h3>
   {{#if description}}
     <p class="grey">{{limit description 140}}</p>
   {{/if}}
   {{#if wikidata}}
-    {{partial 'entities:book_claims' claims}}
+    {{!-- {{partial 'entities:book_claims' claims}} --}}
+    {{claim claims 'P50' true}} {{!-- author --}}
+    {{timeClaim claims 'P577' 'year' true}} {{!-- time of publication --}}
   {{else}}
     <p class="isbn-attributes">
       {{{P '50'}}} {{#each authors}}{{this}} {{/each}}
