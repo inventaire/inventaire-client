@@ -1,13 +1,15 @@
 <div class="wikipedia-iframe">
-  <div>
-    <h3>
-    <a class="showWikipediaPreview">
-      {{i18n 'on_wikipedia' wikipedia}}
-      {{icon 'caret-down'}}
-      {{icon 'caret-up' 'hidden'}}
-    </a>
-    </h3>
-    <span class="wiki-sitelinks">
+  <div class="wiki-menu-bar">
+    <div class="wikipediaPreviewToggler">
+      <h3>
+      <a class="showWikipediaPreview">
+        {{i18n 'on_wikipedia' wikipedia}}
+        {{icon 'caret-down'}}
+        {{icon 'caret-up' 'hidden'}}
+      </a>
+      </h3>
+    </div>
+    <div class="wiki-sitelinks">
       {{#if wikipedia}}
         <span class="wikipedia">
           <a href="{{wikipedia.url}}" target="_blank">
@@ -24,6 +26,7 @@
         <a class="wikidata" href="{{wikidata.url}}" target="_blank">
         {{icon 'wikidata'}} {{i18n "Edit data"}}</a>
       {{/if}}
-    </span>
+    </div>
   </div>
+  {{!-- wikipedia iframe will be appened here --}}
 </div>

@@ -1,18 +1,25 @@
 .wikipedia-iframe{
   width: 100%;
-  div{
-    @include flex(row, center, space-between);
+  .wiki-menu-bar{
+    width: 100%;
+    @include flex(row, center, space-around);
     background-color: $grey;
-    padding: 1em;
+    padding: 0.5em;
     h3, .fa, a{
       color: white;
     }
+    .wikipediaPreviewToggler{
+      @include flex(row, center, space-between);
+    }
     .wiki-sitelinks{
       @include flex(row, center, space-around);
+      flex: 1;
+      flex-wrap: nowrap;
       a{
         font-weight: bold;
         padding: 1em;
-        // color: $dark-grey;
+        @include flex(row, center, center);
+        flex-wrap: wrap;
       }
       .wikipedia, .wikisource, .wikidata{
         margin: 0.3em;
@@ -22,10 +29,10 @@
         @include flex(row);
       }
       a.wikisource, a.wikidata, .wikipedia a:first-child{
-        @extend .grey-5;
+        @include custom-button(#555);
       }
       .wikipedia a:last-child{
-        @extend .grey-6;
+        @include custom-button(#666);
       }
     }
   }
@@ -37,16 +44,23 @@
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    div{
+    .wiki-menu-bar{
       flex-direction: column;
+      .wiki-sitelinks{
+        flex-direction: column;
+        .wikipedia, .wikisource, .wikidata{
+          width: 100%;
+        }
+        .wikipedia{
+          a:first-child{
+            flex: 1;
+          }
+        }
+      }
     }
   }
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    div{
-      span{
-      }
-    }
   }
 }
