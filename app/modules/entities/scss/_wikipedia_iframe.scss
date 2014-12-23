@@ -16,6 +16,7 @@
       }
       .wikipedia, .wikisource, .wikidata{
         margin: 0.3em;
+        display: flex;
       }
       .wikipedia{
         @include flex(row);
