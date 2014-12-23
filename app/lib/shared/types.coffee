@@ -1,7 +1,7 @@
 module.exports =
   type: (obj, type)->
     trueType = @typeOf obj
-    if type is trueType then return obj
+    if trueType in type.split('|') then return obj
     else throw new Error "TypeError: expected #{type}, got #{obj} (#{trueType})"
 
   types: (args, types, minArgsLength)->

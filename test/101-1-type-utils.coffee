@@ -91,6 +91,21 @@ describe 'UTILS', ->
           done()
         , done)
 
+      it "should accept mutlitple possible types separated by | ", (done)->
+        trycatch( ->
+          (-> _.type 1252154, 'number|null').should.not.throw()
+          (-> _.type null, 'number|null').should.not.throw()
+          (-> _.type 'what?', 'number|null').should.throw()
+          done()
+        , done)
+
+      it "should throw when none of the multi-types is true", (done)->
+        trycatch( ->
+          (-> _.type 'what?', 'number|null').should.throw()
+          (-> _.type {andthen: 'what?'}, 'array|string').should.throw()
+          done()
+        , done)
+
 
   describe 'TYPES', ->
       it "should handle multi arguments type", (done)->
