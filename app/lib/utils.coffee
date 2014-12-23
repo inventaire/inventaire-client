@@ -1,6 +1,5 @@
-muted = require('./muted_logs')(_)
-
 module.exports = (Backbone, _, app, window)->
+  muted = require('./muted_logs')(_)
   utils =
     isMuted: (label)->
       if _.isString label
