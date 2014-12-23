@@ -6,7 +6,7 @@ module.exports =
     return array[0]
 
   join: (array, separator) ->
-    _.types [array, separator], 'array', 'string'
+    _.types [array, separator], ['array', 'string']
     return array.join separator
 
   log: (args, data)-> _.log.apply _, args
