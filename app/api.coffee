@@ -32,7 +32,12 @@ module.exports =
       else throw new Error "item API needs an owner, an id, and possibly a rev"
   entities:
     search: (search)->
-      _.buildPath "/api/entities/search",
+      _.buildPath "/api/entities",
+        action: 'search'
         search: search
         language: app.user.lang
+    getImage: (data)->
+      _.buildPath "/api/entities",
+        action: 'getimage'
+        data: data
   notifs: '/api/notifs'

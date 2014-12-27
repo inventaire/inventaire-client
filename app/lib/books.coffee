@@ -1,14 +1,8 @@
 module.exports = sharedLib('books')(_.preq, _)
 
 module.exports.getImage = (data)->
-    # data = encodeURIComponent(data)
-    return @API.google.book(data)
-    .then (res)=>
-      if res.items?[0]?.volumeInfo?.imageLinks?.thumbnail?
-        image = res.items[0].volumeInfo.imageLinks.thumbnail
-        return {image: @normalize(image)}
-      else console.warn "google book image not found for #{data}"
-    .fail (err)-> _.logXhrErr err, "google book err for data: #{data}"
+    _.preq.get app.API.entities.getImage(data)
+    .fail (err)-> _.logXhrErr err, "getImage err for data: #{data}"
 
 module.exports.getGoogleBooksDataFromIsbn = (isbn)->
     _.log cleanedIsbn = @cleanIsbnData isbn, 'cleaned ISBN!'
