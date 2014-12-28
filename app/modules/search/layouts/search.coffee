@@ -11,8 +11,19 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
         icon: 'search'
         classes: 'secondary postfix'
 
-  regions: _.duplicator 'results', 5
-  ui: _.duplicator 'header', 5
+  regions:
+    results1: '#results1'
+    results2: '#results2'
+    results3: '#results3'
+    results4: '#results4'
+    results5: '#results5'
+
+  ui:
+    header1: '#header1'
+    header2: '#header2'
+    header3: '#header3'
+    header4: '#header4'
+    header5: '#header5'
 
   initialize: (params)->
     @query = params.query

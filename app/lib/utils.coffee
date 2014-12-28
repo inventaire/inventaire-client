@@ -170,12 +170,6 @@ module.exports = (Backbone, _, app, window)->
 
     localUrl: (url)-> /^\//.test(url)
 
-    duplicator: (nameBase, num)->
-      obj = {}
-      [1..num].forEach (n)->
-        obj["#{nameBase}#{n}"] = "##{nameBase}#{n}"
-      return obj
-
     allValues: (obj)-> @flatten @values(obj)
 
     now: -> new Date().getTime()
