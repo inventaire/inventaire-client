@@ -42,6 +42,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
           sticky_on: 'large'
           custom_back_text: true
           back_text: _.i18n 'Back'
+          is_hover: false
 
   showLoader: (options)->
     [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
