@@ -12,7 +12,7 @@
       @include flex(row, center, space-between);
     }
     .wiki-sitelinks{
-      @include flex(row, center, space-around);
+      @include flex(row, center, flex-end);
       flex: 1;
       flex-wrap: nowrap;
       a{
