@@ -29,14 +29,8 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
       notes:
         wrap: attrs.notes?.length > 120
         nameBase: 'notes'
-    attrs.currentTransaction = Items.transactions[attrs.transaction]
     attrs.date = {date: attrs.created}
     @username = attrs.username
-    unless attrs.restricted
-      attrs.transactions = Items.transactions
-      attrs.currentListing = app.user.listings[attrs.listing]
-      attrs.listings = app.user.listings
-      attrs.uiId = _.idGenerator(4, true)
     return attrs
 
   updateTransaction: (e)->

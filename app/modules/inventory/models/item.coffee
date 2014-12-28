@@ -70,6 +70,13 @@ module.exports = class Item extends Filterable
       restricted: @restricted
       created: moment(attrs.created).fromNow()
 
+    attrs.currentTransaction = Items.transactions[attrs.transaction]
+    unless attrs.restricted
+      attrs.transactions = Items.transactions
+      attrs.currentListing = app.user.listings[attrs.listing]
+      attrs.listings = app.user.listings
+      attrs.uiId = _.idGenerator(4, true)
+
     if @entity? then attrs.entity = @entity.toJSON()
 
     unless _.isEmpty attrs.pictures
