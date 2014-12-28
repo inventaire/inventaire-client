@@ -51,9 +51,9 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
       _.log [@model.get('title'), @model,@], 'couldnt fetchAuthorsBooks'
 
   toggleWikipediaPreview: ->
-    $wpiframe = $('.wikipedia-iframe')
+    $wpiframe = @$el.find('.wikipedia-iframe')
     $iframe = $wpiframe.find('iframe')
-    $carets = $('.wikipedia-iframe').find('.fa')
+    $carets = @$el.find('.wikipedia-iframe').find('.fa')
 
     $iframe.toggle()
     $carets.toggle()
