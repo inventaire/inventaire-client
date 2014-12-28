@@ -21,30 +21,14 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   onShow: ->
     @updateSearchBar()
-    # app.request 'waitForData', @searchLocalUsers, @
-    # @searchRemoteUsers()
     app.request 'waitForData', @showItems, @
     @searchEntities()
-
-  # # USERS
-  # searchLocalUsers: ->
-  #   @showCollection app.users.filtered, app.View.Users.List, 'users', 1
-
-  # searchRemoteUsers: ->
-  #   app.request('users:search', @query)
-  #   .then ()=>
-  #     _.log 'remote users added to public users'
-  #     # need to fire this method again
-  #     # as the collection might have been empty
-  #     # and thus the view can't be just updated
-  #     @searchLocalUsers()
-  #   .fail _.error
 
   # ITEMS
   showItems: ->
     View = app.View.Items.List
-    personalItems = [Items.personal.filtered, View, 'in your items', 2 ]
-    friendsItems = [Items.friends.filtered, View, "in your friends' items", 3]
+    personalItems = [Items.personal.filtered, View, 'in your items', 1 ]
+    friendsItems = [Items.friends.filtered, View, "in your friends' items", 2]
 
     @showCollection.apply @, personalItems
     @showCollection.apply @, friendsItems
@@ -55,7 +39,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
 
   # ENTITIES
   searchEntities: ->
-    app.request 'search:entities', @query, @results4, @results5, @
+    app.request 'search:entities', @query, @results3, @results4, @
 
 
   # UTILS
