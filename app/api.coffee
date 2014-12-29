@@ -1,8 +1,8 @@
 module.exports =
   auth:
-    login: '/api/auth/login'
+    login: '/api/auth/public/login'
     logout: '/api/auth/logout'
-    username: '/api/auth/username'
+    username: '/api/auth/public/username'
   user: '/api/user'
   users:
     data: (ids)->
@@ -32,12 +32,12 @@ module.exports =
       else throw new Error "item API needs an owner, an id, and possibly a rev"
   entities:
     search: (search)->
-      _.buildPath "/api/entities",
+      _.buildPath "/api/entities/public",
         action: 'search'
         search: search
         language: app.user.lang
     getImages: (data)->
-      _.buildPath "/api/entities",
+      _.buildPath "/api/entities/public",
         action: 'getimages'
         data: data.join '|'
   notifs: '/api/notifs'
