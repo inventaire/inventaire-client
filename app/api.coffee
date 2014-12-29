@@ -36,8 +36,8 @@ module.exports =
         action: 'search'
         search: search
         language: app.user.lang
-    getImage: (data)->
+    getImages: (data)->
       _.buildPath "/api/entities",
-        action: 'getimage'
-        data: data
+        action: 'getimages'
+        data: data.join '|'
   notifs: '/api/notifs'

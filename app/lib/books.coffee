@@ -1,8 +1,5 @@
 module.exports = sharedLib('books')(_.preq, _)
 
-module.exports.getImage = (data)->
-  _.preq.get app.API.entities.getImage(data)
-  .fail (err)-> _.logXhrErr err, "getImage err for data: #{data}"
 
 module.exports.getGoogleBooksDataFromIsbn = (isbn)->
   _.log cleanedIsbn = @cleanIsbnData isbn, 'cleaned ISBN!'
@@ -18,3 +15,23 @@ module.exports.getGoogleBooksDataFromIsbn = (isbn)->
 
     else console.warn "no item found for: #{cleanedIsbn}", res
   .fail (err)-> _.logXhrErr err, "google book err for isbn: #{isbn}"
+
+images = []
+
+module.exports.getImage = (data)->
+  _.log data, 'data at getImage'
+  images.push data
+  lazyGetImages()
+  return
+
+getImages = ->
+  _.preq.get app.API.entities.getImages(images)
+  .then (res)->
+    _.log res, 'res'
+    if res? and _.isObject(res)
+      for k, v of res
+        app.vent.trigger "image:#{k}", v
+    images = []
+  .fail (err)-> _.logXhrErr err, "getImages err for images: #{images}"
+
+lazyGetImages = _.debounce getImages, 100

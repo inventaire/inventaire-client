@@ -18,13 +18,12 @@ module.exports = class BookWikidataEntity extends WikidataEntity
 
       if data?
         books.getImage(data)
-        .then (res)=>
+        app.vent.once "image:#{data}", (res)=>
           if res?.image?
             pictures = @get('pictures')
-            pictures.unshift res.image
+            pictures.push res.image
             @set('pictures', pictures)
           _.log [@get('pictures'), @], 'just requested a picture'
-        .fail (err)-> _.logXhrErr err, "err after bookAPI.getImage for #{data}"
       else
         _.log [@get('pictures'), @], 'no data, no picture can be requested'
 
