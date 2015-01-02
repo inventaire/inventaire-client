@@ -9,8 +9,6 @@ module.exports = class BookLi extends Backbone.Marionette.ItemView
     app.request('qLabel:update')
 
   events:
-    'click a.entityTitle': 'showSelectedEntity'
-    'click a.selectEntity': 'showSelectedEntity'
     'click a.addToInventory': 'showItemCreationForm'
 
   showSelectedEntity: (e)->

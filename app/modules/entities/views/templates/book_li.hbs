@@ -4,7 +4,7 @@
   {{/if}}
 </div>
 <div class="bookLiData">
-  <h3><a class='entityTitle' data-href="{{pathname}}">{{title}}</a></h3>
+  <h3><a class='showEntity' href="{{pathname}}">{{title}}</a></h3>
   {{#if description}}
     <p class="grey">{{limit description 140}}</p>
   {{/if}}
@@ -20,16 +20,16 @@
 </div>
 
 <div class='actions'>
-  <a class='selectEntity' data-href="{{pathname}}">
+  <a class='showEntity' href="{{pathname}}">
     {{icon 'chevron-right'}}
     {{i18n 'More details'}}
   </a>
   <br>
-  <a class='addToInventory' data-href="{{pathname}}/add">
+  <a class='addToInventory' href="{{pathname}}/add">
     {{icon 'plus'}}
     {{i18n 'Add to my inventory'}}
   </a>
-  <a class='showEntity' data-href="{{pathname}}">
+  <a class='showEntity' href="{{pathname}}">
     {{icon 'cube'}}
     {{i18n 'Who has it?'}}
   </a>
