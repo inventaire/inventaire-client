@@ -1,11 +1,11 @@
-module.exports = sharedLib('books')(_.preq, _)
+module.exports = sharedLib('books')(_)
 
 
 module.exports.getGoogleBooksDataFromIsbn = (isbn)->
   _.log cleanedIsbn = @cleanIsbnData isbn, 'cleaned ISBN!'
   unless cleanedIsbn? then return console.warn "bad isbn"
 
-  return @API.google.book(cleanedIsbn)
+  return _.preq.get @API.google.book(cleanedIsbn)
   .then (res)=>
     if res.totalItems > 0
       # _.log res.items[0], 'getGoogleBooksDataFromIsbn rawItem'
