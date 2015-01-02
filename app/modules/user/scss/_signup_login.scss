@@ -1,15 +1,18 @@
-$tooltip-font-size: 1rem;
+$tooltip-font-size: 1em;
 
-#personaButton{
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
 
 .login{
   @include flex(column, center, center);
   background-color: $pitch-bg-color;
   margin: 2em 4em 4em 4em;
   padding: 2em 4em 4em 4em;
+  h2{
+    text-align: center;
+  }
+}
+
+#personaButton{
+  margin-bottom: 2em;
 }
 
 .pitch-bg{
