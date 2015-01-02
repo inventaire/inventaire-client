@@ -202,7 +202,11 @@ setHandlers = ->
       return API.getEntityModel(prefix, id)
     'getEntityModelFromWikidataId': API.getEntityModelFromWikidataId
     'get:entity:public:items': API.getEntityPublicItems
+    'get:entities:labels': getEntitiesLabels
 
+
+getEntitiesLabels = (Qids)->
+  return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
 
 categories =
   book:
