@@ -90,3 +90,15 @@ describe 'Utils', ->
       _.pickToArray(obj, array)[0].should.equal 25
       _.pickToArray(obj, array)[1].should.equal 35
       done()
+
+
+  describe 'duplicatesArray', (done)->
+    it 'should return an array filled with the string', (done)->
+      hops = _.duplicatesArray('hop', 3)
+      hops.length.should.equal 3
+      hops.forEach (el)-> el.should.equal 'hop'
+
+      blops = _.duplicatesArray('blop', 100)
+      blops.length.should.equal 100
+      blops.forEach (el)-> el.should.equal 'blop'
+      done()

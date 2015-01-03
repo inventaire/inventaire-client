@@ -72,3 +72,5 @@ module.exports = (_)->
   mergeArrays: _.union
 
   haveAMatch: (arrays...)-> _.intersection.apply(_, arrays).length > 0
+
+  duplicatesArray: (str, num)-> [1..num].map -> str
