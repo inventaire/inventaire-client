@@ -5,9 +5,26 @@ module.exports =
     else throw new Error "TypeError: expected #{type}, got #{obj} (#{trueType})"
 
   types: (args, types, minArgsLength)->
+
+    # in case it's an 'arguments' object
     args = @toArray(args)
-    if minArgsLength? then test = types.length >= args.length >= minArgsLength
+
+    # accepts a common type for all the args as a string
+    # ex: types = 'numbers...'
+    # => types = ['number', 'number', ... (args.length times)]
+    if typeof types is 'string' and types.split('s...').length is 2
+      uniqueType = types.split('s...')[0]
+      types = @duplicatesArray uniqueType, args.length
+
+    # testing arguments types once polymorphic interfaces are normalized
+    @type args, 'array'
+    @type types, 'array'
+    @type minArgsLength, 'number'  if minArgsLength?
+
+    if minArgsLength?
+      test = types.length >= args.length >= minArgsLength
     else test = args.length is types.length
+
     unless test
       if minArgsLength? then err = "expected between #{minArgsLength} and #{types.length} arguments, got #{args.length}"
       else err = "expected #{types.length} arguments, got #{args.length}"

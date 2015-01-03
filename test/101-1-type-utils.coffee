@@ -151,6 +151,15 @@ describe 'UTILS', ->
           done()
         , done)
 
+      it "accepts a common type for all the args as a string", (done)->
+        (-> _.types([1,2,3,41235115], 'numbers...')).should.not.throw()
+        (-> _.types([1,2,3,41235115, 'bobby'], 'numbers...')).should.throw()
+        done()
+
+      it "only accepts the 's...' interface", (done)->
+        (-> _.types([1,2,3,41235115], 'numbers')).should.throw()
+        done()
+
   describe 'ALL', ->
     describe 'areStrings', ->
       it "should be true when all are strings", (done)->
