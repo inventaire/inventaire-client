@@ -5,7 +5,7 @@ wd = app.lib.wikidata
 module.exports = class WikidataEntity extends Backbone.NestedModel
   localStorage: new Backbone.LocalStorage 'wd:Entities'
   initialize: ->
-    @update = {}
+    @updates = {}
     @status = @get('status')
 
     # data that are @set don't need to be re-set when
@@ -24,9 +24,9 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
       @setWikiLinks(lang)
       @findAPicture()
 
-      @update.status = @status = {formatted: true}
+      @updates.status = @status = {formatted: true}
 
-      @set @update
+      @set @updates
       @save()
 
 
@@ -53,52 +53,52 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
 
     label = getEntityValue attrs, 'labels', lang
     if label?
-      @update.label = label
-      @update.title = label
+      @updates.label = label
+      @updates.title = label
       pathname += "/" + _.softEncodeURI(label)
 
-    @update.pathname = pathname
+    @updates.pathname = pathname
 
     description = getEntityValue attrs, 'descriptions', lang
     if description?
-      @update.description = description
+      @updates.description = description
 
     # reverseClaims: ex: this entity is a P50 of entities Q...
-    @update.reverseClaims = {}
+    @updates.reverseClaims = {}
 
   rebaseClaims: ->
     claims = @get 'claims'
     if claims?
       claims = wd.aliasingClaims(claims)
-      @update.claims = wd.getRebasedClaims(claims)
+      @updates.claims = wd.getRebasedClaims(claims)
     else console.warn 'no claims found', @
 
   setWikiLinks: (lang)->
-    @update.wikidata = {url: "http://www.wikidata.org/entity/#{@id}"}
-    @update.uri = "wd:#{@id}"
+    @updates.wikidata = {url: "http://www.wikidata.org/entity/#{@id}"}
+    @updates.uri = "wd:#{@id}"
 
-    @originalLang = @update.claims.P364?[0]
+    @originalLang = @updates.claims.P364?[0]
     sitelinks = @get('sitelinks')
     if sitelinks?
-      @update.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
+      @updates.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
 
-      @update.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
+      @updates.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
 
     # overriding sitelinks to make room
-    @update.sitelinks = {}
+    @updates.sitelinks = {}
 
   findAPicture: ->
-    @update.pictures = pictures = []
+    @updates.pictures = pictures = []
     @save()
 
-    images = @update.claims.P18
+    images = @updates.claims.P18
     if images?
       images.forEach (title)=>
         wd.wmCommonsThumb(title, 1000)
         .then (url)=>
           pictures = @get('pictures') or []
           pictures.push url
-          # async so can't be on the @update bulk set
+          # async so can't be on the @updates bulk set
           @set 'pictures', pictures
           @save()
 
