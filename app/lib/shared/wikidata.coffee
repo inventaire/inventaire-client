@@ -25,6 +25,10 @@ module.exports = (Promises, _)->
       'Q8261' #roman
       'Q25379' #theatre play
     ]
+    edition: [
+      'Q3972943' #publishing
+      'Q17902573' #edition
+    ]
     humans: ['Q5']
     authors: ['Q36180']
 
