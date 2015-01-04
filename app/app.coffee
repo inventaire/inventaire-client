@@ -18,6 +18,7 @@ class App extends Backbone.Marionette.Application
       Backbone.history.last or= []
       Backbone.history.last.unshift(route)
       Backbone.history.navigate(route, options)
+      scrollToPageTop()
 
     @goTo = (route, options)->
       route.logIt('route:goTo')
@@ -40,3 +41,5 @@ class App extends Backbone.Marionette.Application
         _.log Backbone.history.handlers, 'route: handlers at start'
 
 module.exports = new App()
+
+scrollToPageTop = -> window.scrollTo 0, 0
