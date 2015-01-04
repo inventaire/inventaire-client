@@ -1,0 +1,21 @@
+.inputGroup{
+  width: 100%;
+  @include flex(row, left, flex-start);
+  input{
+    flex: 1;
+    min-width: 60%;
+  }
+  margin-bottom: 0.5em;
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    flex-direction: column;
+    input{
+      margin: 0 !important;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+  }
+}
