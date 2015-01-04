@@ -1,15 +1,15 @@
 ProfileSettings = require './profile_settings'
 LabsSettings = require './labs_settings'
 
-module.exports = class EditUser extends Backbone.Marionette.LayoutView
-  id: "editUser"
-  template: require './templates/edit_user'
+module.exports = class SettingsLayout extends Backbone.Marionette.LayoutView
+  id: 'settings'
+  template: require './templates/settings'
   regions:
-    editProfile: '#editProfile'
+    profile: '#profile'
     labs: '#labs'
 
   onShow: ->
-    @editProfile.show new ProfileSettings {model: @model}
+    @profile.show new ProfileSettings {model: @model}
     @labs.show new LabsSettings {model: @model}
     setTimeout @pickTab.bind(@), 100
 

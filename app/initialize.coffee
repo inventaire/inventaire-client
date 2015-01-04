@@ -38,7 +38,7 @@ app.module 'User', require 'modules/user/user'
 app.module 'Search', require 'modules/search/search'
 app.module 'Inventory', require 'modules/inventory/inventory'
 if app.user.loggedIn
-  app.module 'Profile', require 'modules/profile'
+  app.module 'Settings', require 'modules/settings/settings'
   app.module 'Listings', require 'modules/listings'
   app.module 'Notifications', require 'modules/notifications/notifications'
 
