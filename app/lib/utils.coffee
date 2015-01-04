@@ -193,6 +193,10 @@ module.exports = (Backbone, _, app, window)->
 
     smallScreen: -> return $('body').width() < 1024
 
+    deepClone: (obj)->
+      @type obj, 'object'
+      return JSON.parse JSON.stringify(obj)
+
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless utils.isMuted(label)
     return @toString()
