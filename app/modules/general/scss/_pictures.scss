@@ -8,11 +8,6 @@ $profile-pic-size: 2.8rem;
   height: 5rem;
 }
 
-.max-large-profilePic{
-  max-width: 25rem;
-  max-height: 25rem;
-}
-
 figure {
   margin:0;
   display: inline-block;
@@ -80,6 +75,10 @@ figure.deleted{
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
+  .max-large-profilePic{
+    max-width: 90%;
+    max-height: 10em;
+  }
 }
 
 
@@ -89,5 +88,9 @@ figure.deleted{
     img{
       max-width: 20vw;
     }
+  }
+  .max-large-profilePic{
+    max-width: 25rem;
+    max-height: 25rem;
   }
 }
