@@ -12,3 +12,15 @@ module.exports =
     .fail (err)-> _.logXhrErr err, "GET #{url}"
 
     return promise
+
+  post: (url, body)->
+    $.postJSON(url, body)
+    .fail (err)-> _.logXhrErr err, "POST #{url}"
+
+  put: (url, body)->
+    $.postJSON(url, body)
+    .fail (err)-> _.logXhrErr err, "PUT #{url}"
+
+  delete: (url)->
+    $.delete(url)
+    .fail (err)-> _.logXhrErr err, "DELETE #{url}"

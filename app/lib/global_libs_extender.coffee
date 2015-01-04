@@ -45,14 +45,16 @@ module.exports = (_)->
     return @show(view, options)
 
   # JQUERY
-  $.postJSON = (url, body, callback)->
-    if callback?
-      return $.post(url, body, callback, 'json')
-    else
-      return $.post(url, body, 'json')
+  # only implementing the promise interface
+  # i.e. no success callbacks
+  $.postJSON = (url, data)-> ajax 'POST', url, 'json', data
+  $.putJSON = (url, data)-> ajax 'PUT', url, 'json', data
+  $.delete = (url)-> ajax 'DELETE', url
+  $.getXML = (url)-> ajax 'GET', url, 'xml'
 
-  $.getXML = (url)->
-    return $.ajax
-      type: 'GET',
-      url: url,
-      dataType: 'xml',
+  ajax = (verb, url, dataType, data)->
+    $.ajax
+      url: url
+      type: verb
+      data: data
+      dataType: dataType
