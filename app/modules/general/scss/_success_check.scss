@@ -1,0 +1,20 @@
+.checkWrapper{
+  display: flex;
+  flex-direction: column;
+  div:first-child{
+    flex:1;
+  }
+  .check{
+    width: 3em;
+    align-self: center;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    // flex-direction: row;
+  }
+}
