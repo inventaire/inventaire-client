@@ -1,0 +1,39 @@
+$active-custom-tab-bg: $light-grey;
+
+.custom-tabs{
+  @include flex(column, left);
+
+  .custom-tabs-titles{
+    width: 100%;
+    @include flex(row, flex-start);
+    a{
+      padding: 1em;
+      background-color: $dark-grey;
+      color: white;
+      &.active{
+        color: $dark-grey;
+        background-color: $active-custom-tab-bg;
+      }
+    }
+  }
+
+  .custom-tabs-content{
+    padding: 1em;
+    background-color: $active-custom-tab-bg;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    width: 100%;
+    .custom-tabs-titles{
+      flex-wrap: wrap;
+      width: 100%;
+    }
+  }
+
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    width: 40em;
+  }
+}

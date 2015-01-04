@@ -8,7 +8,8 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   events:
     'click #addItem': -> app.execute 'show:entity:search'
     'click #name': -> app.execute 'show:inventory:user', app.user
-    'click #edit': -> app.execute 'show:user:edit'
+    'click #editProfile': -> app.execute 'show:settings:profile'
+    'click #editLabs': -> app.execute 'show:settings:labs'
     'click #logout': -> app.execute 'persona:logout'
 
   serializeData: ->

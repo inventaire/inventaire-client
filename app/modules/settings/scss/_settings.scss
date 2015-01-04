@@ -1,18 +1,5 @@
 #settings{
-  *{
-    outline: none
-  }
   margin-top: 1em;
-  .tabs{
-    dd.active a{
-      color: $dark-grey;
-      background-color: $light-grey;
-    }
-  }
-  .tabs-content{
-    background-color: $light-grey;
-    padding: 1em;
-  }
   #profile{}
   #labs{}
 

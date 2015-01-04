@@ -22,10 +22,10 @@ showSettings = (tab)->
 
 setHandlers = ->
   app.commands.setHandlers
-    'show:user:edit:settings': (tab)->
+    'show:settings:profile': ->
       API.showProfileSettings()
-      app.navigate 'settings/edit'
+      app.navigate 'settings/profile'
 
-    'show:user:edit:labs': (tab)->
+    'show:settings:labs': ->
       API.showLabsSettings()
-      app.navigate 'settings/edit/labs'
+      app.navigate 'settings/labs'
