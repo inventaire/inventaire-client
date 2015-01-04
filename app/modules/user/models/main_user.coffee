@@ -5,8 +5,10 @@ module.exports = class MainUser extends Filterable
     app.API.user
 
   parse: (data)->
-    app.request 'waitForData', app.request, app, 'notifications:add', data.notifications
-    @relations = data.relations
+    _.log data, 'data:main user parse data'
+    {notifications, relations} = data
+    @addNotifications(notifications)
+    @relations = relations
     return _(data).omit ['relations', 'notifications']
 
   update: =>
@@ -17,3 +19,7 @@ module.exports = class MainUser extends Filterable
     @on 'change:language', @setLang
 
   setLang: => @lang = @get('language')
+
+  addNotifications: (notifications)->
+    if notifications?
+      app.request 'waitForData', app.request, app, 'notifications:add',notifications
