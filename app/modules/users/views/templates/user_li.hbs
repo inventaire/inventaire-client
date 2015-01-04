@@ -14,27 +14,27 @@
         <ul id="{{username}}-menu" class="tiny f-dropdown" data-dropdown-content>
            <li>
               <a class="unfriend action">
-                {{icon 'minus'}} {{i18n 'Unfriend'}}
+                {{icon 'minus'}} {{i18n 'unfriend'}}
               </a>
             </li>
         </ul>
     {{/if}}
     {{#if userRequests}} 
       <a class="cancel action">
-          {{icon 'ban'}} {{i18n 'Cancel request'}}
+          {{icon 'ban'}} {{i18n 'cancel request'}}
       </a>
     {{/if}}
     {{#if othersRequests}} 
       <a class="accept action">
-          {{icon 'check'}} {{i18n 'Confirm'}}
+          {{icon 'check'}} {{i18n 'confirm'}}
       </a>
       <a class="discard action">
-          {{icon 'minus'}} {{i18n 'Delete request'}}
+          {{icon 'minus'}} {{i18n 'delete request'}}
       </a>
     {{/if}}
     {{#if public}} 
       <a class="request action">
-          {{icon 'plus'}} {{i18n 'Add friend'}}
+          {{icon 'plus'}} {{i18n 'add friend'}}
       </a>
     {{/if}}
   </div>

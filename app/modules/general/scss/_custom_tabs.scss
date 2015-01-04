@@ -7,6 +7,7 @@ $active-custom-tab-bg: $light-grey;
     width: 100%;
     @include flex(row, flex-start);
     a{
+      text-transform: capitalize;
       padding: 1em;
       background-color: $dark-grey;
       color: white;

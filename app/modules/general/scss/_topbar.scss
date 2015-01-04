@@ -58,6 +58,9 @@ $topbar-link-bg-disabled: $grey;
     }
     #inventorySections{
       @extend .breadcrumb;
+      a{
+        text-transform: capitalize;
+      }
       .dropdown{
         li{
           color: white;
@@ -103,6 +106,7 @@ $topbar-link-bg-disabled: $grey;
     }
     .labels{
       margin-right: 0.5em;
+      text-transform: capitalize;
     }
   }
 }

@@ -5,7 +5,7 @@ module.exports = class NotificationsList extends ListWithCounter
   emptyView: require './no_notification'
   serializeData: ->
     icon: 'globe'
-    label: _.i18n 'Notifications'
+    label: _.i18n 'notifications'
 
   className: 'notifications has-dropdown not-click'
   events:

@@ -45,12 +45,12 @@ module.exports = class SideNav extends Backbone.Marionette.LayoutView
     else @setFriendsHeader()
 
   setFriendsHeader: ->
-    @ui.usersListHeader.find('.header').text _.i18n('Friends list')
+    @ui.usersListHeader.find('.header').text _.i18n('friends list')
     @ui.usersListHeader.find('.close').hide()
     @callToActionIfFriendsListIsEmpty()
 
   setUserSearchHeader: ->
-    @ui.usersListHeader.find('.header').text _.i18n('User search')
+    @ui.usersListHeader.find('.header').text _.i18n('user search')
     @ui.usersListHeader.find('.close').show()
 
   callToActionIfFriendsListIsEmpty: ->

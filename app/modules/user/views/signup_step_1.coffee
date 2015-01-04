@@ -16,7 +16,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
         field:
           value: @model.get('username')
         button:
-          text: _.i18n 'Validate'
+          text: _.i18n 'validate'
     return _.extend attrs, @model.toJSON()
 
 

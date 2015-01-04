@@ -14,7 +14,7 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
 
     if _.lastRouteMatch(/search\?/)
       attrs.back =
-        message: _.i18n 'Back to search results'
+        message: _.i18n 'back to search results'
 
     return attrs
 

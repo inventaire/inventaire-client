@@ -22,9 +22,9 @@ module.exports = class PicturePicker extends Backbone.Marionette.ItemView
         nameBase: 'url'
         field:
           type: 'url'
-          placeholder: _.i18n 'Enter an image url'
+          placeholder: _.i18n 'enter an image url'
         button:
-          text: _.i18n 'Go get it!'
+          text: _.i18n 'go get it!'
       pictures: @pictures
 
   onShow: ->

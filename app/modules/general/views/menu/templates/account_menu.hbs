@@ -4,11 +4,10 @@
 {{#if scanner}}
   <li class="active"><a id="scanner" href="{{scanner}}">
 {{else}}
-  <li data-tooltip
-  title="{{i18n 'Only available from mobiles yet'}}">
-  <a id="scanner" class="disabled">
+  <li data-tooltip title="{{i18n 'only available from mobiles yet'}}">
+  <a id="scanner" class="disabled capitalized">
 {{/if}}
-    {{icon 'barcode'}}{{i18n 'Scan a book'}}</a>
+    {{icon 'barcode'}}{{i18n 'scan a book'}}</a>
   </li>
 <li>
   <a id="name">
@@ -24,11 +23,11 @@
 <li class="has-dropdown">
   <a>
     {{icon 'cog'}}
-    <span class="labels">{{i18n 'Settings'}}</span>
+    <span class="labels">{{i18n 'settings'}}</span>
   </a>
   <ul class="dropdown">
-    <li><a id="editProfile">{{icon 'user'}} {{i18n 'Edit Profile'}}</a></li>
-    <li><a id="editLabs">{{icon 'flask'}} {{i18n 'Experimentations'}}</a></li>
-    <li><a id="logout">{{icon 'sign-out'}} {{i18n 'Sign Out'}}</a></li>
+    <li><a id="editProfile">{{icon 'user'}} {{i18n 'edit profile'}}</a></li>
+    <li><a id="editLabs">{{icon 'flask'}} {{i18n 'experimentations'}}</a></li>
+    <li><a id="logout">{{icon 'sign-out'}} {{i18n 'sign out'}}</a></li>
   </ul>
 </li>

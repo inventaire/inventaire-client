@@ -6,4 +6,4 @@ module.exports = class RequestsList extends ListWithCounter
   className: 'requests has-dropdown not-click'
   serializeData: ->
     icon: 'user'
-    label: _.i18n 'Friends requests'
+    label: _.i18n 'friends requests'

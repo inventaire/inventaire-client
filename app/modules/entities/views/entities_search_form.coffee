@@ -39,7 +39,7 @@ module.exports =  class EntitiesSearchForm extends Backbone.Marionette.LayoutVie
       when 'other' then @step2.show new Other
 
   serializeData: ->
-    return { status: _.i18n 'Add a new item to your Inventory' }
+    return { status: _.i18n 'add a new item to your Inventory' }
 
   validateNewItemForm: (e)->
     newItem =

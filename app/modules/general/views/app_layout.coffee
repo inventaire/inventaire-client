@@ -41,7 +41,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
         options:
           sticky_on: 'large'
           custom_back_text: true
-          back_text: _.i18n 'Back'
+          back_text: _.i18n 'back'
           is_hover: false
 
   showLoader: (options)->
@@ -118,7 +118,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       .then -> cb.apply context, args
       .fail ->
         app.execute 'show:error',
-          message: _.i18n "Can't reach the server"
+          message: _.i18n "can't reach the server"
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)

@@ -21,7 +21,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
         field:
           value: @model.get 'username'
         button:
-          text: _.i18n 'Change Username'
+          text: _.i18n 'change username'
       languages: _.deepClone Lang
       changePicture:
         classes: 'max-large-profilePic'

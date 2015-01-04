@@ -58,7 +58,7 @@
           <div class="entityAction">
             <ul class="button-group">
               <li>
-                <a data-tooltip id='addToInventory' class="has-tip button success" title="{{i18n 'Add it to my inventory'}}">
+                <a data-tooltip id='addToInventory' class="has-tip button success" title="{{i18n 'add it to my inventory'}}">
                   {{icon 'plus'}}
                   {{i18n 'I have it'}}
                 </a>
@@ -66,10 +66,11 @@
               <li>
                 <a class="button success" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
                 <ul id="have" class="small f-dropdown" data-dropdown-content>
-                  <li class="dropdownLegend">{{i18n "I have it and it is available for:"}}</li>
-                  <li><a id="giving">{{icon 'heart'}} <span>{{i18n 'Giving'}}</span></a></li>
-                  <li><a id="lending">{{icon 'history'}} <span>{{i18n 'Lending'}}</span></a></li>
-                  <li><a id="selling">{{icon 'money'}} <span>{{i18n 'Selling'}}</span></a></li>
+                  <li class="dropdownLegend">
+                  {{i18n "I have it and it is available for:"}}</li>
+                  <li><a id="giving">{{icon 'heart'}} <span>{{i18n 'giving'}}</span></a></li>
+                  <li><a id="lending">{{icon 'history'}} <span>{{i18n 'lending'}}</span></a></li>
+                  <li><a id="selling">{{icon 'money'}} <span>{{i18n 'selling'}}</span></a></li>
                   <li><a id="inventorying">{{icon 'cube'}} <span>{{i18n 'I just want to say I have it'}}</span></a></li>
                 </ul>
               </li>
@@ -78,8 +79,8 @@
 
           <div class="entityAction">
             {{#if following}}
-              <a data-tooltip class="button grey" id='stopFollowing' title="{{i18n 'Click to stop notifications for this object'}}">
-                {{icon 'rss'}} {{i18n "Following activity"}}
+              <a data-tooltip class="button grey" id='stopFollowing' title="{{i18n 'click to stop notifications for this object'}}">
+                {{icon 'rss'}} {{i18n 'following activity'}}
               </a>
             {{else}}
               <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n "Tell your network you're looking for it" }}. {{i18n 'Get notified when an item is added here'}}">
@@ -97,21 +98,21 @@
     {{!-- PERSONAL ITEMS  --}}
     <div id="personalGroup" class="row">
       {{!-- <h3 class="subheader personalHeader">{{i18n 'Who has it'}}</h3> --}}
-      <h3 class="subheader personalHeader">{{i18n "Your items"}}</h3>
+      <h3 class="subheader personalHeader">{{i18n "in my items"}}</h3>
       <div id="personal" class="small-12 large-12 columns"></div>
     </div>
 
     {{!-- FRIENDS ITEMS  --}}
 
     <div id="friendsGroup" class="row">
-      <h3 class="subheader friendsHeader">{{i18n "Friends' items"}}</h3>
+      <h3 class="subheader friendsHeader">{{i18n "in my friends' items"}}</h3>
       <div id="friends" class="small-12 large-12 columns"></div>
     </div>
 
     {{!-- PUBLIC ITEMS  --}}
 
     <div id="publicGroup" class="row">
-      <h3 class="subheader publicHeader">{{i18n 'Public items'}}</h3>
+      <h3 class="subheader publicHeader">{{i18n 'public items'}}</h3>
       <div id="public" class="small-12 large-12 columns"></div>
     </div>
 
