@@ -5,15 +5,27 @@ module.exports =
     ProfileRouter = Marionette.AppRouter.extend
       appRoutes:
         'profile/edit(/)': 'showEditUser'
+        'profile/edit/labs(/)': 'showLabsSettings'
 
     app.addInitializer ->
       new ProfileRouter
         controller: API
 
-    app.commands.setHandlers
-      'show:user:edit': ->
-        app.layout.main.show new EditUser {model: app.user}
-        app.navigate 'profile/edit'
+  initialize: -> setHandlers()
 
 API =
-  showEditUser: -> app.execute 'show:user:edit'
+  showEditUser: -> showEditUser()
+  showLabsSettings: -> showEditUser 'labs'
+
+showEditUser = (tab)->
+  app.layout.main.show new EditUser {model: app.user, tab: tab}
+
+setHandlers = ->
+  app.commands.setHandlers
+    'show:user:edit:profile': (tab)->
+      API.showEditUser()
+      app.navigate 'profile/edit'
+
+    'show:user:edit:labs': (tab)->
+      API.showLabsSettings()
+      app.navigate 'profile/edit/labs'

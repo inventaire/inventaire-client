@@ -1,0 +1,9 @@
+<h3 class="with-tip">{{i18n 'Username'}}</h3>
+  {{tip 'username_tip' 'right'}}
+  {{input usernamePicker 'check'}}
+
+<h3 class="with-tip capitalized">{{i18n 'Language'}}</h3>
+{{partial 'user:language_picker' this 'check'}}
+
+<h3>{{i18n 'Profile Pic'}}</h3>
+{{partial 'general:behaviors:change_picture' this}}

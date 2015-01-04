@@ -1,22 +1,16 @@
 <div class="row">
   <div class="small-12 large-6 large-offset-3 columns">
-
-    <h2 class="subheader text-center">{{i18n 'Edit User'}}</h2>
-
-    <h3 class="with-tip">{{i18n 'Username'}}</h3>
-      {{tip 'username_tip' 'right'}}
-      {{input usernamePicker 'check'}}
-
-    <h3 class="with-tip capitalized">{{i18n 'Language'}}</h3>
-    {{partial 'user:language_picker' this 'check'}}
-
-    <h3>{{i18n 'Profile Pic'}}</h3>
-    {{partial 'general:behaviors:change_picture' this}}
-
-    <div class="margin-top">
-      <a id="dataExport" class="button default" >{{i18n 'Export your data'}}</a>
+    <dl class="tabs" data-tab>
+      <dd class="active">
+        <a href="#editProfile" class="editProfile">{{icon 'sliders'}}{{i18n 'Edit User'}}</a>
+      </dd>
+      <dd>
+        <a href="#labs" class="labs">{{icon 'flask'}}{{i18n 'Labs'}}</a>
+      </dd>
+    </dl>
+    <div class="tabs-content">
+     <div class="content active" id="editProfile"></div>
+     <div class="content" id="labs"></div>
     </div>
-
   </div>
-
 </div>

@@ -1,0 +1,27 @@
+#editUser{
+  *{
+    outline: none
+  }
+  margin-top: 1em;
+  .tabs{
+    dd.active a{
+      color: $dark-grey;
+      background-color: $light-grey;
+    }
+  }
+  .tabs-content{
+    background-color: $light-grey;
+    padding: 1em;
+  }
+  #editProfile{}
+  #labs{}
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+  }
+}
