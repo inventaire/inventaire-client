@@ -1,7 +1,4 @@
 module.exports = class SuccessCheck extends Marionette.Behavior
-  ui:
-    check: ".check"
-
   events:
     "check": "showSuccessCheck"
     "fail": "showFail"
@@ -10,6 +7,8 @@ module.exports = class SuccessCheck extends Marionette.Behavior
   showFail: (e, cb)-> @showSignal e, cb, 'times-circle'
 
   showSignal: (e, cb, signal)->
+    # cant use the View ui object as there might be several nodes with
+    # the .check class
     $wrapper = $(e.target).parents('.checkWrapper')
     if $wrapper.length is 1
       $check = $wrapper.find('.check')
