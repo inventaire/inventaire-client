@@ -53,10 +53,18 @@ module.exports = (_)->
     .replace /(\?|\:)/g, ''
 
   isUrl: (str)->
-    # not perfect, just roughly filtering
-    # accepts url delegating protocol choice to the browser with only '//'
-    pattern = new RegExp('^((https?:|)\\/\\/)?(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}')
-    return pattern.test(str)
+    # adapted from http://stackoverflow.com/a/14582229/3324977
+    pattern = '^(https?:\\/\\/)?'+ # protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ # domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))|'+ # OR ip (v4) address
+      '(localhost)'+ # OR localhost
+      '(\\:\\d+)?' + # port
+      '(\\/[-a-z\\d%_.~+]*)*'+ # path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ # query string
+      '(\\#[-a-z\\d_]*)?$'
+
+    regexp = new RegExp pattern , "i"
+    return regexp.test(str)
 
   isDataUrl: (str)-> /^data:image/.test str
 
