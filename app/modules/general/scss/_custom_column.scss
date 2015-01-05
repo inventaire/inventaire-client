@@ -1,5 +1,4 @@
 .custom-column{
-  width: 100%;
   @include flex(column, center, center);
   > div{
     max-width: 50em;
