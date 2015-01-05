@@ -9,6 +9,12 @@ module.exports =
     else context = null
     return _.i18n(key, context)
 
+  markdownI18n: (args...)->
+    @markdown @i18n.apply(@, args)
+
+  markdown: (text)->
+    convertMarkdownLinks convertMarkdownBold(text)
+
   link: (text, url)->
     text = _.i18n text
     new SafeString linkify(text, url)
@@ -36,3 +42,16 @@ module.exports =
 
 linkify = (text, url)->
   "<a href='#{url}' class='link' target='_blank'>#{text}</a>"
+
+convertMarkdownLinks = (text)->
+  return text
+  .split '['
+  .map (part)->
+    part.replace /^(.+)\]\((https?:\/\/.+)\)/, dynamicLink
+  .join ''
+
+# used by String::replace to pass text -> $1 and url -> $2 values
+dynamicLink = linkify '$1', '$2'
+
+convertMarkdownBold = (text)->
+  text.replace /\*\*([^*]+)\*\*/g, '<strong>$1</strong>'
