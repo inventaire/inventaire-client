@@ -1,3 +1,25 @@
-<div class="margin-top">
-  <a id="dataExport" class="button default" >{{i18n 'export your data'}}</a>
+<p class="intro">
+  {{icon 'quote-left'}}
+  {{i18n 'Inventaire is an experimentation to empower citizens with better information on resources, and the Labs is the place for pionners to try those new paths!'}}
+  <br>
+  {{markdownI18n 'Contribute with [code](http://github.com/maxlath/inventaire-client/) or [ideas](https://github.com/maxlath/inventaire-client/issues)'}}!
+</p>
+
+<h3>{{i18n 'data exports'}}</h3>
+{{i18n "The data schema is neither mature nor standardized yet: it is unlikely to be compatible out of the box with any other of your data sets. Still, if the NSA is allowed to have it, you should be allowed to have it too."}}
+<h4 class="subheader">{{i18n 'personal inventory data'}}</h4>
+<div class="panel">
+  <h5>{{icon 'pouchdb'}} {{i18n 'PouchDB export'}}:</h5>
+  <p class="intro">
+    {{i18n 'Replicate your data to a CouchDB instance you control'}}!
+    {{i18n "It's just a backup for the moment, it won't stay in sync"}}.
+    <br>
+    {{icon 'question-circle'}}{{link 'what is PouchDB?' 'http://pouchdb.com/'}}
+  </p>
+  {{input pouchdb 'check'}}
+</div>
+
+<div class="panel">
+  <h5>{{i18n 'downloads'}}:</h5>
+  <a id="jsonInventoryExport" class="button default grey" >{{i18n 'JSON'}}</a>
 </div>

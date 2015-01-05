@@ -15,6 +15,7 @@ icons =
   wikidata: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Wikidata-logo.svg'
   wikidataWhite: 'http://img.inventaire.io/Wikidata-logo-white.svg'
   wikisource: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg'
+  pouchdb: 'http://pouchdb.com/static/img/mark.svg'
 
 
 

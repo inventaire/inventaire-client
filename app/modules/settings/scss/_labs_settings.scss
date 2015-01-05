@@ -1,0 +1,24 @@
+// inside .custom-tabs-content
+.labsSettings{
+  .intro{
+    background-color: $contrast;
+    .fa{
+      color: #aaa;
+    }
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+  .intro{
+    padding: 0.5em;
+  }
+}
+
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  .intro{
+    padding: 1em;
+  }
+}

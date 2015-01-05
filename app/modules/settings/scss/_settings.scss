@@ -1,7 +1,5 @@
 #settings{
-  margin-top: 1em;
-  #profile{}
-  #labs{}
+  padding-top: 1em;
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
@@ -10,5 +8,8 @@
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
+    background-image: url('/static/images/ginnerobot-CC-BY.jpg');
   }
 }
+
+@import 'labs_settings';

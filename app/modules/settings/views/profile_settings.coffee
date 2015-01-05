@@ -1,5 +1,6 @@
 module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
   template: require './templates/profile_settings'
+  className: 'profileSettings'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
