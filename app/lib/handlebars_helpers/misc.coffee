@@ -13,7 +13,7 @@ module.exports =
     @markdown @i18n.apply(@, args)
 
   markdown: (text)->
-    convertMarkdownLinks convertMarkdownBold(text)
+    new SafeString convertMarkdownLinks(convertMarkdownBold(text))
 
   link: (text, url)->
     text = _.i18n text
