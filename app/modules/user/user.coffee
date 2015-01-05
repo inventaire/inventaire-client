@@ -160,11 +160,12 @@ initializeUserEditionCommands = (app)->
   app.reqres.setHandlers
     'user:update': (options)->
       # expects: attribute, value, selector
-      app.user.set(options.attribute, options.value)
+      {attribute, value, selector} = options
+      app.user.set(attribute, value)
       promise = app.user.save()
       app.request 'waitForCheck',
         promise: promise
-        selector: options.selector
+        selector: selector
       return promise
 
 initializeUserMenuUpdate = (app)->
