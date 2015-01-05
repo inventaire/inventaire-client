@@ -1,6 +1,6 @@
 @import "book-bg";
 
-$pitch-bg-color: rgba(255, 255, 255, 0.75);
+$pitch-bg-color: rgba(255, 255, 255, 0.6);
 
 section#welcome-one{
   @include flex(column, center, center);
@@ -37,9 +37,8 @@ section#welcome-one{
       font-size: 3rem;
     }
     .pitch{
+      background-color: $pitch-bg-color;
       h3{
-        // background-color: $pitch-bg-color;
-        color: white;
         font-weight: bold;
       }
     }
