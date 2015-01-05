@@ -1,4 +1,4 @@
-SafeString = Handlebars.SafeString
+{SafeString} = Handlebars
 
 module.exports =
   i18n: (key, args..., data)->
@@ -8,6 +8,10 @@ module.exports =
     else if args.length % 2 is 0 then context = _.objectifyPairs args
     else context = null
     return _.i18n(key, context)
+
+  link: (text, url)->
+    text = _.i18n text
+    new SafeString linkify(text, url)
 
   limit: (text, limit)->
     return ''  unless text?
@@ -29,3 +33,6 @@ module.exports =
     str = ''
     str += "#{k}:#{v}; "  for k, v of options
     return str
+
+linkify = (text, url)->
+  "<a href='#{url}' class='link' target='_blank'>#{text}</a>"
