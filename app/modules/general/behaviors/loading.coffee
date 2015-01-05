@@ -22,8 +22,8 @@ module.exports = class Loading extends Marionette.Behavior
       cb = => @somethingWentWrong.apply @, [null, params]
       setTimeout cb, timeout * 1000
 
-  hideSpinningLoader: ->
-    @ui.loading.empty()
+  hideSpinningLoader: (e, params)->
+    @$target.empty()
     @hidden = true
 
   somethingWentWrong: (e, params)->
