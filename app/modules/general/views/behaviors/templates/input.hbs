@@ -1,4 +1,15 @@
 <div id="{{id}}" class="inputGroup">
-    <input type="{{field.type}}" id="{{field.id}}" class="{{field.classes}} has-alertbox enterClick" value="{{field.value}}" placeholder="{{field.placeholder}}..." {{special}}>
-    <a id="{{button.id}}" class="button {{button.classes}}">{{{button.text}}} <span class='loading'></span></a>
+  {{!-- a div is required to wrap the input as the alert-box
+  will be appened as a sibbling node --}}
+  <div class="inputBox">
+    <input type="{{field.type}}"
+    id="{{field.id}}"
+    class="{{field.classes}} has-alertbox enterClick"
+    value="{{field.value}}"
+    placeholder="{{field.placeholder}}..."
+    {{special}}>
+  </div>
+  <a id="{{button.id}}" class="button {{button.classes}}">
+    {{{button.text}}} <span class='loading'></span>
+  </a>
 </div>
