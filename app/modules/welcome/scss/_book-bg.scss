@@ -2,10 +2,5 @@
   // Photo credits:
   // Ginny - CC-BY
   // original found at https://www.flickr.com/photos/ginnerobot/3102623100
-  // should be moved to a cdn
-  background-image: url('/static/images/ginnerobot-CC-BY.jpg');
-  background-size: cover;
-  background-position: center center;
-  transition: background 0.5s ease;
-  padding-top: 2em;
+  @include multidef-bg-cover('img.inventaire.io/ginnerobot-CC-BY-.jpg');
 }
