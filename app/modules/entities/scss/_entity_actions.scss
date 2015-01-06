@@ -1,0 +1,27 @@
+.entityActions{
+  // @extend .flex-row-wrap;
+  @include flex(row, center, center);
+  margin-bottom: 1rem;
+  div.entityAction{
+    // take care of both row and column display
+    margin: 0.5rem 0.5rem 0.5rem 0rem;
+    .f-dropdown{
+      .fa{
+        font-size: 1.5rem;
+      }
+      span{
+        // weird, it seems, that vertical-align without padding-bottom
+        // doesnt do the job
+        vertical-align: middle;
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+  li.dropdownLegend{
+    color: $grey;
+    background-color: $light-grey;
+    padding: 1rem;
+    font-size: 1.2rem;
+    cursor: default;
+  }
+}
