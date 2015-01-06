@@ -19,7 +19,6 @@ $active-custom-tab-bg: $light-grey;
   }
 
   .custom-tabs-content{
-    padding: 1em;
     background-color: $active-custom-tab-bg;
   }
 
@@ -30,11 +29,17 @@ $active-custom-tab-bg: $light-grey;
       flex-wrap: wrap;
       width: 100%;
     }
+    .custom-tabs-content{
+      padding: 1em;
+    }
   }
 
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     width: 40em;
+    .custom-tabs-content{
+      padding: 2em;
+    }
   }
 }
