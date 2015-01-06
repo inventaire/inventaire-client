@@ -22,10 +22,11 @@ module.exports = (_)->
     isNormalizedIsbn: (text)-> /^([0-9]{10}|[0-9]{13})$/.test text
 
     cleanIsbnData: (isbn)->
-      if _.typeString isbn
-        cleanedIsbn = @normalizeIsbn(isbn)
-        if @isNormalizedIsbn(cleanedIsbn) then return cleanedIsbn
-        else console.error 'isbn got an invalid value'
+      _.typeString isbn
+
+      cleanedIsbn = @normalizeIsbn(isbn)
+      if @isNormalizedIsbn(cleanedIsbn) then return cleanedIsbn
+      else console.error 'isbn got an invalid value'
 
     normalizeBookData: (cleanedItem, isbn)->
       data = _.pick cleanedItem, 'title', 'authors', 'description', 'publisher', 'publishedDate', 'language'

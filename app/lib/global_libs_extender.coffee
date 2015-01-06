@@ -10,15 +10,15 @@ module.exports = (_)->
   Backbone.Model::idAttribute = '_id'
   Backbone.Model::push = (attr, value)->
     array = @get(attr)
-    if _.typeArray(array)
-      array.push value
-      @set attr, array
+    _.typeArray(array)
+    array.push value
+    @set attr, array
 
   Backbone.Model::without = (attr, value)->
     array = @get(attr)
-    if _.typeArray(array)
-      array = _.without array, value
-      @set attr, array
+    _.typeArray(array)
+    array = _.without array, value
+    @set attr, array
 
   # BACKBONE.COLLECTION
   Backbone.Collection::findOne = -> @models[0]
