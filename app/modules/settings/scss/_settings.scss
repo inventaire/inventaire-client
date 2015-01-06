@@ -8,7 +8,7 @@
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    background-image: url('/static/images/ginnerobot-CC-BY.jpg');
+    @extend .book-bg;
   }
 }
 
