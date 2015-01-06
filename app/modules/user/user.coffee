@@ -87,8 +87,14 @@ initializePersona = (app)->
     'persona:logout': ->
       $.post(app.API.auth.logout)
       .then (data)->
-        window.location.href = '/'
+        deleteLocalDatabases()
         _.log "You have been successfully logged out"
+        window.location.reload()
+      .fail (err)-> console.error err, 'error at logout?'
+
+deleteLocalDatabases = ->
+  localStorage.clear()
+  LevelJs.destroy('users')
 
 unreachablePersona = ->
   console.error 'Persona Login not available: you might be offline'
@@ -187,14 +193,14 @@ initializeUserListings = (app)->
       id: 'private'
       icon: 'lock'
       unicodeIcon: '&#xf023;'
-      label: 'Private'
+      label: 'private'
     friends:
       id: 'friends'
       icon: 'users'
       unicodeIcon: '&#xf0c0;'
-      label: 'Shared with friends'
+      label: 'shared with friends'
     public:
       id: 'public'
       icon: 'globe'
       unicodeIcon: '&#xf0ac;'
-      label: 'Public'
+      label: 'public'
