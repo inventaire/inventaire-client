@@ -56,3 +56,29 @@
     }
   }
 }
+
+.bg-cover-commons{
+  background-size: cover;
+  background-position: center center;
+  transition: background 0.5s ease;
+}
+
+@mixin bg-cover($url){
+  @extend .bg-cover-commons;
+  background-image: url($url);
+}
+
+@mixin multidef-bg-cover($url){
+  @extend .bg-cover-commons;
+  /*Small screens*/
+  @media screen and (max-width: 500px) {
+    background-image: url('http://cdn.filter.to/500x500/' + $url);
+  }
+  /*Large screens*/
+  @media screen and (min-width: 500px) and (max-width: 1300px) {
+    background-image: url('http://cdn.filter.to/1000x1000/' + $url);
+  }
+  @media screen and (min-width: 1300px) {
+    background-image: url('//' + $url);
+  }
+}
