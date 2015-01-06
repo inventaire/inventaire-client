@@ -47,6 +47,12 @@ section#welcome-one{
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     height: 85vh;
+    // addressing the crazy case of a screen
+    // with width > 1000px and height < 640px
+    // happens when dev tools are open
+    @media screen and (max-height: 640px) {
+      height: 30em;
+    }
     h2 {
       font-size: 10em;
       line-height: 1em;
