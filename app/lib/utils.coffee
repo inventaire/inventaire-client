@@ -197,6 +197,8 @@ module.exports = (Backbone, _, app, window)->
       @type obj, 'object'
       return JSON.parse JSON.stringify(obj)
 
+    capitaliseFirstLetter: (str)-> str[0].toUpperCase() + str[1..-1]
+
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless utils.isMuted(label)
     return @toString()

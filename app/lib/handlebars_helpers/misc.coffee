@@ -9,6 +9,9 @@ module.exports =
     else context = null
     return _.i18n(key, context)
 
+  I18n: (args...)->
+    _.capitaliseFirstLetter @i18n.apply(@, args)
+
   markdownI18n: (args...)->
     @markdown @i18n.apply(@, args)
 
