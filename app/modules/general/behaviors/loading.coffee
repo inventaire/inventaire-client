@@ -23,6 +23,7 @@ module.exports = class Loading extends Marionette.Behavior
       setTimeout cb, timeout * 1000
 
   hideSpinningLoader: (e, params)->
+    @$target or= @getTarget(params)
     @$target.empty()
     @hidden = true
 
