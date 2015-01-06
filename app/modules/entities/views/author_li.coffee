@@ -4,6 +4,7 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
   className: "authorLi"
   behaviors:
     Loading: {}
+    WikiBar: {}
 
   childViewContainer: '.authorsBooks'
   childView: require './book_li'
@@ -50,20 +51,4 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
     else
       _.log [@model.get('title'), @model,@], 'couldnt fetchAuthorsBooks'
 
-  toggleWikipediaPreview: ->
-    $wpiframe = @$el.find('.wikipedia-iframe')
-    $iframe = $wpiframe.find('iframe')
-    $carets = @$el.find('.wikipedia-iframe').find('.fa')
-
-    $iframe.toggle()
-    $carets.toggle()
-
-    hasIframe = $iframe.length > 0
-    unless hasIframe
-      @appendWikipediaFrame $wpiframe
-      $wpiframe.find('iframe').show()
-
-  appendWikipediaFrame: ($el)->
-    url = @model.get('wikipedia.url')
-    src = url + '?useskin=mobil&mobileaction=toggle_view_mobile'
-    $el.append "<iframe src='#{src}' frameborder='0'></iframe>"
+  toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @

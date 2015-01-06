@@ -1,10 +1,14 @@
 module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
+  className: 'entityShow'
   template: require './templates/entity_show'
   regions:
     article: '#article'
     personal: '#personal'
     friends: '#friends'
     public: '#public'
+
+  behaviors:
+    WikiBar: {}
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -16,6 +20,7 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
       attrs.back =
         message: _.i18n 'back to search results'
 
+    attrs.wikipediaPreview = @options.wikipediaPreview or true
     return attrs
 
   initialize: ->
@@ -39,6 +44,7 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     'click #selling': 'selling'
     'click #toggleWikiediaPreview': 'toggleWikiediaPreview'
     'click #toggleDescLength': 'toggleDescLength'
+    'click a.showWikipediaPreview': 'toggleWikipediaPreview'
 
   showPersonalItems: ->
     # using the filtered collection to refresh on Collection 'add' events
@@ -88,3 +94,5 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     $('#shortDesc').toggle()
     $('#fullDesc').toggle()
     $('#toggleDescLength').find('i').toggleClass('hidden')
+
+  toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
