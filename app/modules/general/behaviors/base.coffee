@@ -7,3 +7,4 @@ module.exports =
   ConfirmationModal: require './confirmation_modal'
   Loading: require './loading'
   SuccessCheck: require './success_check'
+  WikiBar: require './wiki_bar'
