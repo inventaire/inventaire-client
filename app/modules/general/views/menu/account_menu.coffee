@@ -10,7 +10,7 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     'click #name': -> app.execute 'show:inventory:user', app.user
     'click #editProfile': -> app.execute 'show:settings:profile'
     'click #editLabs': -> app.execute 'show:settings:labs'
-    'click #logout': -> app.execute 'persona:logout'
+    'click #signout': -> app.execute 'persona:logout'
 
   serializeData: ->
     attrs =
