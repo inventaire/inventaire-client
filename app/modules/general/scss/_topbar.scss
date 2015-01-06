@@ -10,7 +10,7 @@ $topbar-link-color-active: $dark-grey;
 
 $topbar-link-bg-disabled: $grey;
 
-.top-bar {
+nav.top-bar {
   // needed to be above the fixed sideNav
   z-index: 1;
   img{
@@ -72,26 +72,30 @@ $topbar-link-bg-disabled: $grey;
     #currentUser{
       @extend .breadcrumb;
     }
-    #searchField{
-      // width: 15rem;
+    // passing flex-grow:1 to the search input
+    section, .right, .right div, li.has-form{
+      flex: 1;
+      display: flex;
     }
+    .right{
+      max-width: 70em;
+      margin-left: auto;
+    }
+    // force the input and the .button to have the same height
+    $seach-input-height: 2.3em;
     #searchGroup{
-      float: right;
+      // already displayed flex thank to input.scss
       input{
-        min-width: 20vw;
-        transition: min-width 0.4s ease;
+        flex: 1;
+        height: $seach-input-height;
+        padding: 0 0 0 1em;
+        border-radius: $global-radius;
+        // hidding the input radius on the right
+        margin-right: -0.2em;
       }
       a.button{
-        float: right;
-      }
-      &.maximized{
-        input{
-          min-width: 28vw ;
-        }
-        a.button{
-          max-width: 10vw;
-        }
-        transition: all 0.5s ease;
+        height: $seach-input-height;
+        border-radius: $global-radius;
       }
     }
     .labels{
