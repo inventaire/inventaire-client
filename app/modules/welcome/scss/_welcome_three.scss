@@ -3,6 +3,7 @@ section#welcome-three{
   padding: 1em;
   @include multidef-bg-cover('img.inventaire.io/bokeh-pinkorchid_too-CC-BY-SA.jpg');
   ul.bonuses{
+    margin-top: 2em;
     @include flex(row, baseline, space-between);
     li{
       margin-left: 1em;

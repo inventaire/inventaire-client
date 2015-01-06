@@ -1,8 +1,4 @@
 #welcome{
-  @extend .flex-column-grid;
-  ul{
-    margin-top: 2rem;
-  }
 }
 
 #welcome-four{
@@ -26,9 +22,6 @@
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
-  #welcome {
-    flex-direction:column;
-  }
 }
 
 /*Large screens*/
