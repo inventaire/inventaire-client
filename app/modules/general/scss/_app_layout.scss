@@ -1,10 +1,11 @@
 @import "topbar";
 
-html, body{
+body{
   #topBar{}
   main {
     background-color: $main-bg;
     min-height: 95vh;
+    @include flex(column);
   }
   #modal{}
 }

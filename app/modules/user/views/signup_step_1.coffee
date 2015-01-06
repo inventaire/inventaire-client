@@ -1,5 +1,5 @@
 module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
-  tagName: 'div'
+  className: 'book-bg'
   template: require './templates/signup_step1'
   behaviors:
     AlertBox: {}
@@ -22,9 +22,6 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
 
   onShow: ->
     app.execute 'foundation:reload'
-    app.execute 'bg:book:toggle'
-
-  onDestroy: ->  app.execute 'bg:book:toggle'
 
   events:
     'click #usernameButton': 'verifyUsername'

@@ -1,5 +1,5 @@
 module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
-  tagName: 'div'
+  className: 'book-bg'
   template: require './templates/signup_step2'
   events:
     'click #loginPersona': 'waitingForPersona'
@@ -15,9 +15,6 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
     app.execute 'foundation:reload'
     if @options.triggerPersonaLogin
       @waitingForPersona()
-    app.execute 'bg:book:toggle'
-
-  onDestroy: ->  app.execute 'bg:book:toggle'
 
   waitingForPersona:->
     $('#loginPersona').fadeOut()

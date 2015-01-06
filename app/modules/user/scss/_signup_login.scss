@@ -1,9 +1,10 @@
 $tooltip-font-size: 1em;
 
+$auth-menu-bg: $light-grey;
 
 .login{
   @include flex(column, center, center);
-  background-color: $pitch-bg-color;
+  background-color: $auth-menu-bg;
   margin: 2em 4em 4em 4em;
   padding: 2em 4em 4em 4em;
   h2{
@@ -16,7 +17,7 @@ $tooltip-font-size: 1em;
 }
 
 .pitch-bg{
-  background-color: $pitch-bg-color;
+  background-color: $auth-menu-bg;
   padding: 1em 1em 1em 2em;
   margin: 1em 1em 1em 1em;
 }
