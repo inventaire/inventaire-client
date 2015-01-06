@@ -1,12 +1,14 @@
 .bookLi{
   @include flex(row, center, space-around);
   background-color: $contrast;
-  // padding: 0.5em;
   margin: 0.2em;
   .bookCover{
-    width: 10em;
     margin: 1em;
-    @include flex(column, center, center);
+    max-width: 10em;
+    img{
+      display: block;
+      max-height: 10em;
+    }
   }
   .bookLiData{
     @include flex(column, center, center);
@@ -30,7 +32,6 @@
     flex-direction: column;
     flex: 1;
     .bookCover{
-      max-height: 7em;
       max-width: 100%;
       padding: 1em;
     }
