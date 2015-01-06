@@ -5,11 +5,18 @@
     #{$property}: $value;
 }
 
-@mixin flex($direction, $align:'left', $justify:'center') {
+@mixin flex($direction, $align:null, $justify:null, $wrap:null) {
   display: flex;
   flex-direction: $direction;
-  align-items: $align;
-  justify-content: $justify;
+  @if $align {
+    align-items: $align;
+  }
+  @if $justify {
+    justify-content: $justify;
+  }
+  @if $wrap {
+    flex-wrap: $wrap;
+  }
 }
 
 @mixin color-class($color, $contrast:white, $darken:15%) {
