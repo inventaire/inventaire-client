@@ -45,6 +45,8 @@ module.exports = (_)->
     return @show(view, options)
 
   # JQUERY
+  # aliasing once to one to match Backbone vocabulary
+  $.fn.once = $.fn.one
   # only implementing the promise interface
   # i.e. no success callbacks
   $.postJSON = (url, data)-> ajax 'POST', url, 'json', data
