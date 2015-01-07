@@ -12,14 +12,14 @@
     "node": "0.10"
   },
   "scripts": {
-    "postinstall": "npm run slim-packages; npm run browserify-modules; bower install; npm run bower-fix",
+    "postinstall": "npm run slim-packages; npm run install-scripts; bower install; npm run bower-fix",
     "prepare-production": "brunch build -P",
     "start": "brunch watch",
     "server": "brunch watch --server",
     "test": "mocha --compilers coffee:coffee-script/register --watch",
     "lint": "coffeelint app/* test/* brunch-config.coffee",
     "slim-packages": "coffee ./scripts/slim_packages.coffee",
-    "browserify-modules": "./scripts/browserify_modules",
+    "install-scripts": "./scripts/install_scripts",
     "bower-fix": "coffee ./scripts/bower_fix.coffee"
   },
   "dependencies": {

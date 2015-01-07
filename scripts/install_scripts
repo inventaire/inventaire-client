@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+logDone(){
+  echo -e '\e[0;32mdone browserifying:\e[0m' $1
+}
+
+browserify node_modules/levelup -s LevelUp > vendor/scripts/level-up.js
+logDone LevelUp
+
+browserify node_modules/level-js -s LevelJs > vendor/scripts/level-js.js
+logDone LevelJs
+
+browserify node_modules/level-multiply -s LevelMultiply > vendor/scripts/level-multiply.js
+logDone LevelMultiply
+
+browserify node_modules/level-promise -s LevelPromise > vendor/scripts/level-promise.js
+logDone LevelPromise
+
+wget -P vendor/scripts https://raw.githubusercontent.com/protonet/jquery.inview/master/jquery.inview.js
+echo -e '\e[0;32mdone installing:\e[0m jquery.inview.js'
