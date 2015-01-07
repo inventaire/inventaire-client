@@ -68,14 +68,19 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     app.request 'get:entity:public:items', @uri
     .then (data)=>
       app.users.public.add data.users
-      items = new app.Collection.Items data.items
-      @public.items = items
+      @public.items = new app.Collection.Items data.items
+    .fail (err)=>
+      if err.status is 404
+        # always to show the NoItem view
+        @public.items = new Backbone.Collection
+      else _.logXhrErr(err)
+    .always =>
       @showPublicItems()
-    .fail _.logXhrErr
 
   showPublicItems: ->
     items = @public.items
     @showCollectionItems items, 'public'
+    _.log items, 'items'
 
   giving: -> @showItemCreation 'giving'
   lending: -> @showItemCreation 'lending'
