@@ -20,7 +20,8 @@
     "lint": "coffeelint app/* test/* brunch-config.coffee",
     "slim-packages": "coffee ./scripts/slim_packages.coffee",
     "install-scripts": "./scripts/install_scripts",
-    "bower-fix": "coffee ./scripts/bower_fix.coffee"
+    "bower-fix": "coffee ./scripts/bower_fix.coffee",
+    "update-i18n": "coffee ./scripts/generate_lang_json.coffee"
   },
   "dependencies": {
     "auto-reload-brunch": "1.7",
