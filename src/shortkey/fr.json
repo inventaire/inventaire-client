@@ -1,0 +1,20 @@
+{
+    "destroy_item_text": "Etes vous sure de vouloir supprimer <strong>%{title}</strong> ?",
+    "add_item_text": "Ajouter <strong>%{title}</strong> à votre inventaire",
+    "comment_placeholder": "des informations à donner sur l'objet ou la transaction ?",
+    "notes_placeholder": "seulement vous le voyez",
+    "username_tip": "le nom d'utilisateur peut être n'importe quelle suite de 1 à 20 lettres, chiffres ou _",
+    "persona_tip": "Nous utilisons le service Persona de Mozilla pour identifier les utilisateurs se connectant à l'application. Pourquoi ? 1/ nous leur faisons plus confiance qu'à nous même pour conserver votre mot-de-passe en sécurité. 2/ comme d'autres services utilisent Persona, cela vous fait moins de mot-de-passe à retenir ! 3/ Mozilla ne donne ni ne demande l'accès à aucune de vos données. Vous n'avez pas encore de compte ? Cliquez le bouton 'Sign in with your Email' et suivez les instructions.",
+    "user_comment": "Commentaire de %{username}",
+    "has_it": "%{username} l'a ajouté(e) à son inventaire",
+    "friend_accepted_request": "<strong>%{username}</strong> a accepté votre demande d'ajout",
+    "added_date": null,
+    "pitch-transition": null,
+    "pitch-just-books": null,
+    "pitch-open-knowledge": null,
+    "pitch-open-source": null,
+    "pitch-your-data": null,
+    "pitch-no-startup": null,
+    "on_wikipedia": "%{label} sur Wikipédia",
+    "contributions_welcome": null
+}
