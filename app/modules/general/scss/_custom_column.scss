@@ -1,11 +1,3 @@
 .custom-column{
-  @include flex(column, center, center);
-  > div{
-    max-width: 50em;
-  }
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-    margin: 1em;
-    padding: 1em;
-  }
+  @include custom-column();
 }
