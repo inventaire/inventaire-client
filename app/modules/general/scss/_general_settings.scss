@@ -116,14 +116,20 @@ select {
   margin-top: 1rem;
 }
 
-div.panel, div.block{
-  margin: 0.8rem;
+.panel{
+  @extend .contrast;
+  padding: 1em;
+  border-radius: $global-radius;
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 2em;
+  }
 }
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
-
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
