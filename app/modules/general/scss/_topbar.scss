@@ -80,6 +80,23 @@ nav.top-bar {
     .right{
       max-width: 70em;
       margin-left: auto;
+      div{
+        justify-content: flex-end;
+        #signupRequest{
+          a{
+            background-color: $secondary-color;
+            color: $dark-grey;
+            font-weight: bold;
+          }
+        }
+        #loginRequest{
+          a{
+            background-color: $success-color;
+            color: white;
+            font-weight: bold;
+          }
+        }
+      }
     }
     // force the input and the .button to have the same height
     $seach-input-height: 2.3em;
