@@ -1,3 +1,5 @@
+usernameTests = require 'modules/user/lib/username_tests'
+
 module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
   template: require './templates/profile_settings'
   className: 'profileSettings'
@@ -38,22 +40,22 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
 
-  verifyUsername: (username)=>
+  verifyUsername: ->
     requestedUsername = $('#usernameField').val()
     if requestedUsername is app.user.get 'username'
       @invalidUsername "that's already your username"
-    else if requestedUsername is ''
-      @invalidUsername "username can't be empty"
-    else if requestedUsername.length > 20
-      @invalidUsername 'username should be 20 character maximum'
-    else if  /\s/.test requestedUsername
-      @invalidUsername "username can't contain space"
-    else if /\W/.test requestedUsername
-      @invalidUsername 'username can only contain letters, figures or _'
     else
-      $.post app.API.auth.username, {username: requestedUsername}
-      .then (res)=> @confirmUsernameChange(res.username)
-      .fail(@invalidUsername)
+      usernameTests.validate
+        username: requestedUsername
+        success: @sendUsernameRequest.bind(@)
+        view: @
+
+  sendUsernameRequest: (requestedUsername)->
+    $.post app.API.auth.username, {username: requestedUsername}
+    .then (res)=> @confirmUsernameChange(res.username)
+    .fail @invalidUsername.bind(@)
+
+  invalidUsername: usernameTests.invalidUsername
 
   confirmUsernameChange: (requestedUsername)=>
     args =
@@ -77,12 +79,6 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
           selector: '#usernameField'
         return app.request 'user:update', params
       actionArgs: args
-
-  invalidUsername: (err)=>
-    if _.isString err then errMessage = err
-    else
-      errMessage = err.responseJSON.status_verbose or "invalid username"
-    @$el.trigger 'alert', {message: _.i18n(errMessage)}
 
   changeLanguage: (e)->
     lang = e.target.value
