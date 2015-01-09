@@ -14,6 +14,8 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       # re-rendered when the promise is fulfilled
       $('#languagePicker').trigger 'check'
 
+  onShow: -> app.execute 'foundation:reload'
+
   serializeData: ->
     attrs =
       usernamePicker:
