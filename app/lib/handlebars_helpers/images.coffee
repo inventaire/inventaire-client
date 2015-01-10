@@ -17,7 +17,9 @@ icons =
   wikisource: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg'
   pouchdb: 'http://pouchdb.com/static/img/mark.svg'
 
-
+exports.iconLink = (name, url, classes)->
+  icon = @icon.call null, name, classes
+  return @link.call null, icon, url
 
 # filter.to documentation: http://cdn.filter.to/faq/
 exports.src = (path, width, height, extend)->

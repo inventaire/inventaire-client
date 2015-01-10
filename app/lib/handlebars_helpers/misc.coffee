@@ -19,8 +19,11 @@ module.exports =
     new SafeString convertMarkdownLinks(convertMarkdownBold(text))
 
   link: (text, url)->
-    text = _.i18n text
     new SafeString linkify(text, url)
+
+  i18nLink: (text, url)->
+    text = _.i18n text
+    @link text, url
 
   limit: (text, limit)->
     return ''  unless text?
