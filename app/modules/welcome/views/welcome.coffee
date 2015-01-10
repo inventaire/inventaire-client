@@ -10,11 +10,16 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     # importing loggin buttons events
     @events = NotLoggedMenu::events
 
+  ui:
+    topBarTrigger: '#middle-three'
+
   onShow: ->
     @loadPublicItems()
-    $('.top-bar').hide()
-  onDestroy: ->
-    $('.top-bar').fadeIn()
+    @hideTopBar()
+    @ui.topBarTrigger.once 'inview', @showTopBar
+
+
+  onDestroy: -> @showTopBar()
 
   loadPublicItems: ->
     _.preq.get app.API.items.public()
@@ -30,3 +35,6 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     .fail (err)=>
       $('#welcome-two').find('h3').hide()
       _.log err, 'couldnt loadPublicItems'
+
+  hideTopBar: -> $('.top-bar').hide()
+  showTopBar: -> $('.top-bar').slideDown()
