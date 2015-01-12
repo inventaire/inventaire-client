@@ -9,6 +9,10 @@
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     @extend .book-bg;
+    // force the div's height so that the background
+    // doesnt move when the div's height change
+    // e.g. when an alert-box is displayed
+    min-height: 70em;
   }
 }
 
