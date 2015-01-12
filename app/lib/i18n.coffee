@@ -14,6 +14,11 @@ module.exports =
         # setTimeout-0 switchLang to put it at the end of the stack, to let the DOM update before qLabel looks for URIs
         setTimeout(switchLang, 0) if lang?
 
+    if _.env is 'dev'
+      app.commands.setHandlers
+        # called from a customized polyglot.js
+        'i18n:missing:key': require './i18n_missing_key'
+
     app.vent.on 'i18n:set', (lang)-> app.request('qLabel:update', lang)
     app.vent.on 'qLabel:update', (lang)-> lang?.logIt('qLabel:update')
 

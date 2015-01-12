@@ -199,6 +199,12 @@ module.exports = (Backbone, _, app, window)->
 
     capitaliseFirstLetter: (str)-> str[0].toUpperCase() + str[1..-1]
 
+    # only addressing the general case
+    env: (->
+        if window.location.hostname is 'localhost' then return 'dev'
+        else return 'prod'
+      )()
+
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless utils.isMuted(label)
     return @toString()
