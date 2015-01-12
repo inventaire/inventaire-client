@@ -16,36 +16,12 @@ if args.length > 0
 else throw new Error "expected at least one 2-letter language code as argument, got 0"
 
 require 'colors'
-fs = require 'graceful-fs'
 Promise = require 'bluebird'
-Promise.promisifyAll(fs)
 pluckSettled = (results)-> _.pluck results, '_settledValue'
 _ = require 'lodash'
 
-__ =
-  src:
-    root: "./public/i18n/src"
-    fullkey: (path)-> "#{@root}/fullkey/#{path}.json"
-    shortkey: (path)-> "#{@root}/shortkey/#{path}.json"
-    wikidata: (path)-> "#{@root}/wikidata/#{path}.json"
-  dist: (path)-> "./public/i18n/dist/#{path}.json"
-
-
-json_  =
-  read: (path)->
-    fs.readFileAsync(path)
-    .then (text)-> JSON.parse text.toString()
-    .catch (err)->
-      if err?.cause?.errno is 34
-        console.log "file not found: #{path}".yellow
-        return {}
-      else
-        console.log "error reading file at #{path}".red, err.stack
-        throw err
-
-  write: (path, data)->
-    json = JSON.stringify data, null, 4
-    fs.writeFileAsync(path, json)
+__ = require './lib/paths'
+json_  = require './lib/json'
 
 extendLangWithDefault = (lang)->
   Promise.settle getSources(lang)
