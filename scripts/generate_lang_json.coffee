@@ -60,7 +60,7 @@ extendLangWithDefault = (lang)->
 
     [full, updateFull] = compareDefaultAndLang(enFull, langFull)
     [short, updateShort] = compareDefaultAndLang(enShort, langShort)
-    [wd, updateWd] = compareDefaultAndLang(enWd, langWd)
+    [wd, updateWd] = compareDefaultAndLang(enWd, langWd, true)
 
     saveMissingValue lang, updateFull, updateShort, updateWd
     writeResult lang, _.extend({}, full, short, wd)
@@ -81,16 +81,25 @@ getSources = (lang)->
     json_.read __.src.wikidata(lang)
   ]
 
-compareDefaultAndLang = (enObj, langObj)->
+compareDefaultAndLang = (enObj, langObj, keepOldKeys)->
+  # result will be the language 'dist' version
+  # update will replace the previous 'src' version
+  # (=> omits keys that were remove from the English version)
+  # unless keepOldKeys is true
   result = {}
+  if keepOldKeys then update = langObj
+  else update = {}
+
   for k,v of enObj
     langVal = langObj[k]
     if langVal?
-      result[k] = langVal
+      result[k] = update[k] = langVal
     else
       result[k] = v
-      langObj[k] = null
-  return [result, langObj]
+      # allows to highlight the missing translations
+      # per-languages in the src files
+      update[k] = null
+  return [result, update]
 
 saveMissingValue = (lang, updateFull, updateShort, updateWd)->
   Promise.all [
