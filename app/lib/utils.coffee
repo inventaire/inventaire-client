@@ -201,7 +201,7 @@ module.exports = (Backbone, _, app, window)->
 
     # only addressing the general case
     env: (->
-        if window.location.hostname is 'localhost' then return 'dev'
+        if location.hostname is 'localhost' then return 'dev'
         else return 'prod'
       )()
 
