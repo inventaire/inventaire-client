@@ -1,12 +1,14 @@
 $tooltip-font-size: 1em;
 
-$auth-menu-bg: $light-grey;
+$auth-menu-bg: rgba($light-grey, 0.8);
 
-.login{
-  @include flex(column, center, center);
-  background-color: $auth-menu-bg;
-  margin: 2em 4em 4em 4em;
-  padding: 2em 4em 4em 4em;
+.authMenu{
+  @include custom-column(30em);
+  .custom-cell{
+    background-color: $auth-menu-bg;
+    padding: 1em 1em 1em 2em;
+    margin: 1em 1em 1em 1em;
+  }
   h2{
     text-align: center;
   }
@@ -14,10 +16,4 @@ $auth-menu-bg: $light-grey;
 
 #personaButton{
   margin-bottom: 2em;
-}
-
-.pitch-bg{
-  background-color: $auth-menu-bg;
-  padding: 1em 1em 1em 2em;
-  margin: 1em 1em 1em 1em;
 }
