@@ -21,7 +21,9 @@
     "slim-packages": "coffee ./scripts/slim_packages.coffee",
     "install-scripts": "./scripts/install_scripts",
     "bower-fix": "coffee ./scripts/bower_fix.coffee",
-    "update-i18n": "coffee ./scripts/generate_lang_json.coffee"
+    "update-i18n": "npm run select-wd-properties; npm run generate-lang-dist-files",
+    "select-wd-properties": "coffee ./scripts/select_wikidata_properties.coffee",
+    "generate-lang-dist-files": "coffee ./scripts/generate_lang_json.coffee"
   },
   "dependencies": {
     "auto-reload-brunch": "1.7",

@@ -120,7 +120,7 @@ module.exports = (Promises, _)->
         rebased[id] = []
         # adding label as a non-enumerable value
         # needed app.polyglot to be ready
-        if app.polyglot? then rebased[id].label = _.i18n(id)
+        # if app.polyglot? then rebased[id].label = _.i18n(id)
         if _.isObject claim
           claim.forEach (statement)=>
             # will be overriden at the end of this method
