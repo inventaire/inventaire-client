@@ -16,28 +16,25 @@ section#status, section#social-networks{
   }
 }
 section#status{
-  background-color: $darker-grey;
+  background-color: $dark-grey;
+  h3.subheader{
+    color: #aaa;
+  }
   h3.status{
     color: white;
     display: inline;
   }
+  p{
+    margin: 0.1em;
+  }
 }
 
-#welcome-four{
-  background-color: $dark-grey;
-  min-height: 5em;
-  @include flex(row, center, space-around);
-  div{
-    margin: 1em;
-    text-align: center;
-    line-height: 1em;
-    h3{
-      color: white;
-      line-height: 1em;
-    }
-    p{
-      line-height: 1em;
-      color: $grey;
+section#social-networks{
+  background-color: $darker-grey;
+  a{
+    color: white;
+    &:hover{
+      color: $secondary-color;
     }
   }
 }
