@@ -39,5 +39,7 @@
     "sass-brunch": "1.8",
     "uglify-js-brunch": "1.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "handlebars": "^2.0.0"
+  }
 }
