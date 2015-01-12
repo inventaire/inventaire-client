@@ -1,54 +1,5 @@
-<section id="welcome-one" class="text-center">
-  <h2>Inventaire</h2>
-  <div class="pitch">
-    <h3>{{i18n 'keep a list of your books'}}</h3>
-    <h3>{{i18n 'share it with others'}}</h3>
-    <h3>{{i18n 'see what books are available in your network!'}}</h3>
-  </div>
-  <div id="loginButtons">
-    <a id="signupRequest" class="button secondary">{{i18n 'sign up'}}</a>
-    <a id="loginRequest" class="button success">{{i18n 'Login'}}</a>
-  </div>
-</section>
-<section id="welcome-two">
-  <h3 class="text-center">{{i18n 'some of the last books published'}}</h3>
-  <div id="previewColumns"></div>
-</section>
-<section id="welcome-three">
-  <ul class="bonuses">
-    <li>
-      <h4>{{icon 'random'}}{{i18n 'empowering the Transition'}}</h4>
-      <p>{{{i18n 'pitch-transition'}}}</p>
-    </li>
-    <li>
-      <h4>{{icon 'book'}}{{i18n 'just Books. Yet.'}}</h4>
-      <p>{{{i18n 'pitch-just-books'}}}</p>
-    </li>
-  </ul>
-  <ul class="bonuses" id="middle-three">
-    <li>
-      <h4>{{icon 'puzzle-piece'}}{{i18n 'built on and for Open Knowledge'}}</h4>
-      <p>{{{markdownI18n 'pitch-open-knowledge'}}}</p>
-    </li>
-    <li>
-      <h4>{{icon 'gears'}} {{i18n 'built on and in Open Source'}}</h4>
-      <p>{{{markdownI18n 'pitch-open-source'}}}</p>
-    </li>
-  </ul>
-  <ul class="bonuses">
-    <li>
-      <h4>{{icon 'cubes'}} {{i18n 'you own your data'}}</h4>
-      <p>{{{i18n 'pitch-your-data'}}}</p>
-    </li>
-  </ul>
-</section>
-<section id="welcome-four">
-  <div class="about">
-    <h3>{{i18n 'about'}}</h3>
-    <p>{{i18n 'coming soon'}}</p>
-  </div>
-  <div class="credits">
-    <h3>{{i18n 'credits'}}</h3>
-    <p>{{i18n 'coming soon'}}</p>
-  </div>
-</section>
+{{partial 'welcome:landing_screen'}}
+{{partial 'welcome:last_public_books'}}
+{{partial 'welcome:bonuses'}}
+{{partial 'welcome:status'}}
+{{partial 'welcome:social_networks'}}

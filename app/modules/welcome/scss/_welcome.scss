@@ -1,6 +1,28 @@
 #welcome{
 }
 
+section#status, section#social-networks{
+  text-align: center;
+  padding: 1em;
+  span, p{
+    color: #999;
+    .link{
+      color: white;
+    }
+  }
+  .fa{
+    font-size: 2.5em;
+    margin: 1em;
+  }
+}
+section#status{
+  background-color: $darker-grey;
+  h3.status{
+    color: white;
+    display: inline;
+  }
+}
+
 #welcome-four{
   background-color: $dark-grey;
   min-height: 5em;
