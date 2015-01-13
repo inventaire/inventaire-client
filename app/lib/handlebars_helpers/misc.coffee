@@ -53,7 +53,11 @@ convertMarkdownLinks = (text)->
   return text
   .split '['
   .map (part)->
-    part.replace /^(.+)\]\((https?:\/\/.+)\)/, dynamicLink
+    part
+    .split ')'
+    .map (subpart)->
+      subpart.replace /^(.+)\]\((https?:\/\/.+)/, dynamicLink
+    .join ''
   .join ''
 
 # used by String::replace to pass text -> $1 and url -> $2 values

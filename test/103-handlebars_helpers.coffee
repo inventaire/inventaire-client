@@ -42,3 +42,13 @@ describe 'Handlebars helpers', ->
       re = new RegExp "a href='#{url}' \.\+>#{anchor}</a>"
       re.test(result).should.equal true
       done()
+
+    it 'should convert links inside parenthesis', (done)->
+      anchor = 'PouchDB'
+      url = 'http://pouchdb.com/'
+      text = "blabla you control (using [#{anchor}](#{url}) replication). In the future, blabla"
+      result = helpers.markdown(text).string
+      _.log result, 'result'
+      re = new RegExp "a href='#{url}' \.\+>#{anchor}</a>"
+      re.test(result).should.equal true
+      done()
