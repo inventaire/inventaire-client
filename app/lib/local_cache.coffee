@@ -1,7 +1,8 @@
 # REQUIRES
 # - name: a domain name
 # - remoteDataGetter: a function to get batches of missing data by ids
-# - parseData
+# => SHOULD output an indexed collection: {id1: {val}, id2: {val}}
+# - parseData: a function to parse the remoteDataGetter
 
 module.exports = (Level)->
   LocalCache = (options)->
@@ -39,6 +40,7 @@ module.exports = (Level)->
 
     getLocalData = (ids)->
       localDb.get(ids)
+      .then (data)-> _.log data, "data:local:#{name} present"
       .then parseJSON
 
     parseJSON = (data)->
@@ -50,6 +52,7 @@ module.exports = (Level)->
 
     completeWithRemoteData = (data)->
       missingIds = findMissingIds(data)
+      _.log missingIds, 'data:local:#{name} missingIds'
       if missingIds.length > 0
         getMissingData(missingIds)
         .then (missingData)-> return _.extend data, missingData
@@ -76,6 +79,7 @@ module.exports = (Level)->
       return promise
 
     putLocalData = (data)->
+      _.type data, 'object'
       for id, v of data
         putInLocalDb(id,v)
 

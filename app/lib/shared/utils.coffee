@@ -82,3 +82,5 @@ module.exports = (_)->
   haveAMatch: (arrays...)-> _.intersection.apply(_, arrays).length > 0
 
   duplicatesArray: (str, num)-> [1..num].map -> str
+
+  objLength: (obj)-> Object.keys(obj)?.length
