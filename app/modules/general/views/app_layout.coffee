@@ -115,10 +115,10 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   ifOnline: (cb, context, args...)->
     _.ping()
-      .then -> cb.apply context, args
-      .fail ->
-        app.execute 'show:error',
-          message: _.i18n "can't reach the server"
+    .then -> cb.apply context, args
+    .fail ->
+      app.execute 'show:error',
+        message: _.i18n "can't reach the server"
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)
