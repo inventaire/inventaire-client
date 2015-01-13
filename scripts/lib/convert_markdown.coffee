@@ -1,5 +1,5 @@
-root = require('app-root-path').path
-linkify = require root + '/client/app/lib/handlebars_helpers/linkify'
+__ = require '../../root'
+linkify = __.require 'lib', 'handlebars_helpers/linkify'
 
 module.exports = (text)->
   convertMarkdownLinks convertMarkdownBold(text)

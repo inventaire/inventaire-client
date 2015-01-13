@@ -1,4 +1,4 @@
-rootedRequire = (path)-> require '../app/' + path
+__ = require '../root'
 
 should = require 'should'
 
@@ -7,6 +7,6 @@ global.location =
 _ = global._ = require './utils_builder'
 global.Handlebars = require 'handlebars'
 
-helpers = rootedRequire 'lib/handlebars_helpers/misc'
+helpers = __.require 'lib', 'handlebars_helpers/misc'
 
 describe 'Handlebars helpers', ->

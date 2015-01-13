@@ -1,4 +1,4 @@
-rootedRequire = (path)-> require '../scripts/' + path
+__ = require '../root'
 
 should = require 'should'
 
@@ -7,7 +7,7 @@ global.location =
 _ = global._ = require './utils_builder'
 global.Handlebars = require 'handlebars'
 
-convertMarkdown = rootedRequire 'lib/convert_markdown'
+convertMarkdown = __.require 'scripts', 'lib/convert_markdown'
 
 describe 'Handlebars helpers', ->
   describe 'markdown', ->

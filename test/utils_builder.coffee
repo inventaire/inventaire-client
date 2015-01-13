@@ -1,13 +1,14 @@
-rootedRequire = (path)-> require '../app/' + path
-sharedLib = (name)-> rootedRequire("lib/shared/#{name}")
+__ = require '../root'
 
 Backbone = {}
 app = {}
 window = {}
+global.location = {}
+
 _ = require 'underscore'
 
-localLib = rootedRequire('lib/utils')(Backbone, _, app, window)
-sharedL = sharedLib('utils')(_)
-types = sharedLib 'types'
+localLib = __.require('lib', 'utils')(Backbone, _, app, window)
+sharedL = __.require('shared','utils')(_)
+types = __.require 'shared', 'types'
 
 module.exports = _.extend _, localLib, sharedL, types
