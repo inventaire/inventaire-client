@@ -12,14 +12,8 @@ module.exports =
   I18n: (args...)->
     _.capitaliseFirstLetter @i18n.apply(@, args)
 
-  markdownI18n: (args...)->
-    @markdown @i18n.apply(@, args)
-
-  markdown: (text)->
-    new SafeString convertMarkdownLinks(convertMarkdownBold(text))
-
   link: (text, url)->
-    new SafeString linkify(text, url)
+    new SafeString @linkify(text, url)
 
   i18nLink: (text, url)->
     text = _.i18n text
@@ -46,22 +40,4 @@ module.exports =
     str += "#{k}:#{v}; "  for k, v of options
     return str
 
-linkify = (text, url)->
-  "<a href='#{url}' class='link' target='_blank'>#{text}</a>"
-
-convertMarkdownLinks = (text)->
-  return text
-  .split '['
-  .map (part)->
-    part
-    .split ')'
-    .map (subpart)->
-      subpart.replace /^(.+)\]\((https?:\/\/.+)/, dynamicLink
-    .join ''
-  .join ''
-
-# used by String::replace to pass text -> $1 and url -> $2 values
-dynamicLink = linkify '$1', '$2'
-
-convertMarkdownBold = (text)->
-  text.replace /\*\*([^*]+)\*\*/g, '<strong>$1</strong>'
+  linkify: require './linkify'

@@ -34,9 +34,9 @@ extendLangWithDefault = (lang)->
       langFull, langShort, langWd
     ] = args
 
-    [full, updateFull] = compareDefaultAndLang(enFull, langFull)
-    [short, updateShort] = compareDefaultAndLang(enShort, langShort)
-    [wd, updateWd] = compareDefaultAndLang(enWd, langWd, true)
+    [full, updateFull] = compareDefaultAndLang(enFull, langFull, false, false)
+    [short, updateShort] = compareDefaultAndLang(enShort, langShort, false, true)
+    [wd, updateWd] = compareDefaultAndLang(enWd, langWd, true, false)
 
     saveMissingValue lang, updateFull, updateShort, updateWd
     writeDistVersion lang, _.extend({}, full, short, wd)
@@ -57,7 +57,9 @@ getSources = (lang)->
     json_.read __.src.wikidata(lang)
   ]
 
-compareDefaultAndLang = (enObj, langObj, keepOldKeys)->
+convertMarkdown = require './lib/convert_markdown'
+
+compareDefaultAndLang = (enObj, langObj, keepOldKeys, markdown)->
   # dist will be the language 'dist' version
   # update will replace the previous 'src' version
   # (=> omits keys that were remove from the English version)
@@ -75,6 +77,8 @@ compareDefaultAndLang = (enObj, langObj, keepOldKeys)->
       # allows to highlight the missing translations
       # per-languages in the src files
       update[k] = null
+    if markdown
+      dist[k] = convertMarkdown dist[k]
   return [dist, update]
 
 saveMissingValue = (lang, updateFull, updateShort, updateWd)->
