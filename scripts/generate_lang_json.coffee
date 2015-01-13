@@ -39,7 +39,7 @@ extendLangWithDefault = (lang)->
     [wd, updateWd] = compareDefaultAndLang(enWd, langWd, true)
 
     saveMissingValue lang, updateFull, updateShort, updateWd
-    writeResult lang, _.extend({}, full, short, wd)
+    writeDistVersion lang, _.extend({}, full, short, wd)
 
   .catch (err)-> console.error "#{lang} err".red, err
 
@@ -58,24 +58,24 @@ getSources = (lang)->
   ]
 
 compareDefaultAndLang = (enObj, langObj, keepOldKeys)->
-  # result will be the language 'dist' version
+  # dist will be the language 'dist' version
   # update will replace the previous 'src' version
   # (=> omits keys that were remove from the English version)
   # unless keepOldKeys is true
-  result = {}
+  dist = {}
   if keepOldKeys then update = langObj
   else update = {}
 
   for k,v of enObj
     langVal = langObj[k]
     if langVal?
-      result[k] = update[k] = langVal
+      dist[k] = update[k] = langVal
     else
-      result[k] = v
+      dist[k] = v
       # allows to highlight the missing translations
       # per-languages in the src files
       update[k] = null
-  return [result, update]
+  return [dist, update]
 
 saveMissingValue = (lang, updateFull, updateShort, updateWd)->
   Promise.all [
@@ -88,8 +88,8 @@ saveMissingValue = (lang, updateFull, updateShort, updateWd)->
 
 count = 0
 total = args.length
-writeResult = (lang, result)->
-  json_.write __.dist(lang), result
+writeDistVersion = (lang, dist)->
+  json_.write __.dist(lang), dist
   .then ->
     console.log "#{lang} done! total: #{++count}".green
     if count is total then console.timeEnd 'generate'.grey
