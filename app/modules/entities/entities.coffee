@@ -3,14 +3,12 @@ WikidataEntity = require './models/wikidata_entity'
 NonWikidataEntity = require './models/non_wikidata_entity'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
-Search = require './views/entities_search_form'
 wd = app.lib.wikidata
 
 module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
-        'entity/search': 'showEntitiesSearchForm'
         'entity/:uri(/:label)(/)': 'showEntity'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
 
@@ -20,7 +18,6 @@ module.exports =
 
   initialize: ->
     setHandlers()
-    @categories = categories
 
     Locals =
       WikidataEntities: require './collections/local_wikidata_entities'
@@ -161,18 +158,6 @@ API =
       .done()
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
-  showEntitiesSearchForm: (queryString)->
-    app.layout.entities or= {}
-    form = app.layout.entities.search = new Search
-    app.layout.main.show form
-    if queryString?
-      query = _.parseQuery(queryString)
-      if query.category?
-        $("#step1 ##{query.category}").trigger('click')
-        if query.search?
-          $("#step2 input").val(query.search)
-          $("#step2 .button").trigger('click')
-
   getEntityPublicItems: (uri)->
     _.preq.get app.API.items.public(uri)
 
@@ -192,10 +177,6 @@ setHandlers = ->
         app.execute 'show:entity', uri, label, params, region
       else throw new Error 'couldnt show:entity:from:model'
 
-    'show:entity:search': ->
-      API.showEntitiesSearchForm()
-      app.navigate 'entity/search'
-
   app.reqres.setHandlers
     'get:entity:model': (uri)->
       [prefix, id] = getPrefixId(uri)
@@ -207,17 +188,6 @@ setHandlers = ->
 
 getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
-
-categories =
-  book:
-    text: 'book'
-    value: 'book'
-    icon: 'book'
-    entity: 'Q571'
-  other:
-    text: 'something else'
-    value: 'other'
-    icon: 'cube'
 
 getPrefixId = (uri)->
   data = uri.split ':'
