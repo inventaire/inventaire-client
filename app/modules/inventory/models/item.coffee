@@ -75,7 +75,7 @@ module.exports = class Item extends Filterable
       attrs.transactions = Items.transactions
       attrs.currentListing = app.user.listings[attrs.listing]
       attrs.listings = app.user.listings
-      attrs.uiId = _.idGenerator(4, true)
+      attrs.uiId = _.uniqueId('item_')
 
     if @entity? then attrs.entity = @entity.toJSON()
 
