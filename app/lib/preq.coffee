@@ -1,26 +1,34 @@
+Promise::fail = Promise::caught
+Promise::always = Promise::finally
+
 module.exports =
   get: (url, options)->
     CORS = options?.CORS
 
-    if _.localUrl(url) or CORS then promise = $.getJSON url
-    else promise = $.getJSON "/proxy/#{url}"
+    if _.localUrl(url) or CORS
+      promise = Promise.resolve $.get(url)
+    else
+      promise = Promise.resolve $.get("/proxy/#{url}")
 
-    # default fail handler
-    # but others canned be chained
+    # default catch handler
+    # but others can be chained
     # problem: it might result in several error messages
     promise
-    .fail (err)-> _.logXhrErr err, "GET #{url}"
+    .catch (err)-> _.logXhrErr err, "GET #{url}"
 
     return promise
 
   post: (url, body)->
-    $.postJSON(url, body)
-    .fail (err)-> _.logXhrErr err, "POST #{url}"
+    Promise.resolve($.post(url, body))
+    .catch (err)-> _.logXhrErr err, "POST #{url}"
 
   put: (url, body)->
-    $.postJSON(url, body)
-    .fail (err)-> _.logXhrErr err, "PUT #{url}"
+    Promise.resolve($.post(url, body))
+    .catch (err)-> _.logXhrErr err, "PUT #{url}"
 
   delete: (url)->
-    $.delete(url)
-    .fail (err)-> _.logXhrErr err, "DELETE #{url}"
+    Promise.resolve($.delete(url))
+    .catch (err)-> _.logXhrErr err, "DELETE #{url}"
+
+  resolve: (res)-> Promise.resolve(res)
+  reject: (err)-> Promise.reject(err)

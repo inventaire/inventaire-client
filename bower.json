@@ -30,6 +30,7 @@
     "qlabel": "git@github.com:maxlath/qlabel.git#bower-support",
     "backbone.localStorage": "git@github.com:malept/Backbone.localStorage.git#fix-backbone-version-dependency",
     "blueimp-canvas-to-blob": "~2.1.1",
-    "moment": "~2.8.4"
+    "moment": "~2.8.4",
+    "bluebird": "~2.6.4"
   }
 }
