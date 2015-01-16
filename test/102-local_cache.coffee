@@ -5,16 +5,17 @@ promises_ = __.require 'test', 'lib/promises'
 should = require 'should'
 sinon = require 'sinon'
 
+global.dbs = {}
 global._ = _ = require './utils_builder'
 
 _.extend global,
   LevelUp: require('level-test')()
   LevelJs: {}
-  LevelPromise: require 'level-promise'
   LevelMultiply: require 'level-multiply'
+  Promise: require 'bluebird'
 
-Level = __.require 'lib', 'local_dbs'
-LocalCache = __.require('lib', 'local_cache')(Level)
+LocalDB = __.require('lib', 'data/local_db')(global, _)
+LocalCache = __.require('lib', 'data/local_cache')(LocalDB, _, promises_)
 
 getOptions = ->
   spy = sinon.spy()
@@ -24,14 +25,14 @@ getOptions = ->
       spy()
       res = {}
       ids.forEach (id)-> res[id] = "hello #{id}!"
-      return promises_.resolvedPromise(res)
+      return promises_.resolve(res)
     parseData: (data)-> data
   return [options, spy]
 
 describe 'Local Cache', ->
   describe 'env', ->
     it 'should get a level-test instance', (done)->
-      Level.should.be.a.Function
+      LocalDB.should.be.a.Function
       done()
 
     it 'should find the lib', (done)->
