@@ -30,9 +30,13 @@ module.exports =
       else err = "expected #{types.length} arguments, got #{args.length}"
       throw new Error err
     i = 0
-    while i < args.length
-      @type args[i], types[i]
-      i += 1
+    try
+      while i < args.length
+        @type args[i], types[i]
+        i += 1
+    catch err
+      @error arguments, 'types err arguments'
+      throw err
 
   typeOf: (obj)->
     # just handling what differes from typeof
