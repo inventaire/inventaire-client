@@ -45,6 +45,13 @@ module.exports = (Level)->
           _.error err, 'local cache err'
           return
 
+      save: (id, value)->
+        _.types arguments, ['string', 'object']
+        _.log "saving #{id}"
+        putInLocalDb id, value
+
+      reset: -> localDb.destroy()
+
     normalizeIds = (ids)->
       # formatting ids arrays for LevelMultiply
       # thus normalizing the answer as an id-based index object
