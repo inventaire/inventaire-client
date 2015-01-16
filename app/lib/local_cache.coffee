@@ -1,8 +1,16 @@
-# REQUIRES
+# LocalCache REQUIRES
 # - name: a domain name
 # - remoteDataGetter: a function to get batches of missing data by ids
 # => SHOULD output an indexed collection: {id1: {val}, id2: {val}}
 # - parseData: a function to parse the remoteDataGetter
+
+
+# RETURNS
+# an object with a .get function checking local before remote
+# .get:
+#     accepts both id:String or ids:Array
+#     always return an index {id1: value, id2: value}
+#
 
 module.exports = (Level)->
   LocalCache = (options)->
@@ -20,30 +28,41 @@ module.exports = (Level)->
 
     API =
       get: (ids, format='index', refresh)->
-        ids = normalizeIds(ids)
+        try ids = normalizeIds(ids)
+        catch err then return Promise.reject(err)
+
         if refresh
           promise = getMissingData(ids)
         else
           promise = getLocalData(ids).then completeWithRemoteData
 
-        promise
+        return promise
         .then (data)->
+          _.type data, 'object'
           if format is 'collection' then data = _.values(data)
           _.log data, "data:format:#{format}"
         .catch (err)->
-          _.log err, 'get err'
-          throw new Error('get', err.stack or err)
+          _.error err, 'local cache err'
+          return
 
     normalizeIds = (ids)->
+      # formatting ids arrays for LevelMultiply
+      # thus normalizing the answer as an id-based index object
+      _.type ids, 'string|array'
       if _.isString(ids) then ids = [ids]
       return ids
 
     getLocalData = (ids)->
+      # _.type ids, 'array' asserted by normalizeIds
       localDb.get(ids)
-      .then (data)-> _.log data, "data:local:#{name} present"
       .then parseJSON
+      .then (data)-> _.log data, "data:local:#{name} present"
 
     parseJSON = (data)->
+      # LevelJs returns a json string per item
+      # while LevelMultiply regroup them in an id-based index object
+      # thus requiring every value to be JSON.parse'd
+      _.type data, 'object'
       parsed = {}
       for k,v of data
         try parsed[k] = JSON.parse(v)
@@ -51,23 +70,23 @@ module.exports = (Level)->
       return parsed
 
     completeWithRemoteData = (data)->
+      _.type data, 'object'
       missingIds = findMissingIds(data)
-      _.log missingIds, 'data:local:#{name} missingIds'
+      _.log missingIds, "data:local:#{name} missingIds"
       if missingIds.length > 0
         getMissingData(missingIds)
         .then (missingData)-> return _.extend data, missingData
       else return data
 
     findMissingIds = (data)->
+      _.type data, 'object'
       missingIds = []
       for k, v of data
         missingIds.push(k)  unless v?
       return missingIds
 
     getMissingData = (ids)->
-      # console.warn "remoteDataGetter MUST return a then'able Promise"
-      # console.warn "CANT BE DONE WITH JQUERY"
-      # console.warn "a solution could be to move to ES6 Promise + polyfill"
+      _.type ids, 'array'
       # which MUST return a {id1: value2, id2: value2, ...} object
       promise = remoteDataGetter(ids).then parseData
 
