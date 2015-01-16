@@ -5,15 +5,7 @@ module.exports = (text)->
   convertMarkdownLinks convertMarkdownBold(text)
 
 convertMarkdownLinks = (text)->
-  return text
-  .split '['
-  .map (part)->
-    part
-    .split ')'
-    .map (subpart)->
-      subpart.replace /^(.+)\]\((https?:\/\/.+)/, dynamicLink
-    .join ''
-  .join ''
+  text.replace /\[([^\]]+)\]\(([^\)]+)\)/g, dynamicLink
 
 # used by String::replace to pass text -> $1 and url -> $2 values
 dynamicLink = linkify '$1', '$2'

@@ -45,9 +45,11 @@ describe 'Handlebars helpers', ->
     it 'should convert links inside parenthesis', (done)->
       anchor = 'PouchDB'
       url = 'http://pouchdb.com/'
-      text = "blabla you control (using [#{anchor}](#{url}) replication). In the future, blabla"
+      text = "blabla (using [#{anchor}](#{url}) replication). In the future, blabla"
       result = convertMarkdown(text)
-      _.log result, 'result'
-      re = new RegExp "a href='#{url}' \.\+>#{anchor}</a>"
-      re.test(result).should.equal true
+      splitter = new RegExp "<a href='#{url}' \.\+>#{anchor}</a>"
+      parts = result.split splitter
+      parts.length.should.equal 2
+      parts[0].should.equal "blabla (using "
+      parts[1].should.equal " replication). In the future, blabla"
       done()
