@@ -12,15 +12,14 @@
 #     always return an index {id1: value, id2: value}
 #
 
-module.exports = (Level)->
+module.exports = (LocalDB, _, promises_)->
+
   LocalCache = (options)->
-
+    _.log options, 'data:LocalCache options'
     {name, remoteDataGetter, parseData} = options
+    _.types [name, remoteDataGetter], ['string', 'function']
 
-    unless name? and remoteDataGetter?
-      throw 'missing localDb or remoteDataGetter'
-
-    localDb = Level(name)
+    localdb = LocalDB(name)
 
     defaultParser = (data)-> data
     parseData or= defaultParser
@@ -50,7 +49,7 @@ module.exports = (Level)->
         _.log "saving #{id}"
         putInLocalDb id, value
 
-      reset: -> localDb.destroy()
+      reset: -> localdb.destroy()
 
     normalizeIds = (ids)->
       # formatting ids arrays for LevelMultiply
@@ -61,7 +60,7 @@ module.exports = (Level)->
 
     getLocalData = (ids)->
       # _.type ids, 'array' asserted by normalizeIds
-      localDb.get(ids)
+      localdb.get(ids)
       .then parseJSON
       .then (data)-> _.log data, "data:local:#{name} present"
 
@@ -110,7 +109,7 @@ module.exports = (Level)->
         putInLocalDb(id,v)
 
     putInLocalDb = (id, value)->
-      localDb.put id, JSON.stringify(value)
+      localdb.put id, JSON.stringify(value)
 
     _.extend @, API
     return

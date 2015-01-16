@@ -17,9 +17,9 @@ require('lib/global_libs_extender')(_)
 app.API = require 'api'
 
 
-Level = require('lib/local_dbs')
+LocalDB = require('lib/local_dbs')(window, _)
 # constructor for interactions between module and LevelDb/IndexedDb
-app.LocalCache = require('lib/local_cache')(Level)
+app.LocalCache = require('lib/local_cache')(LocalDB, _, require 'lib/preq')
 
 # setting reqres to trigger methods on data:ready events
 app.data = require('lib/data_state')
