@@ -87,9 +87,9 @@ module.exports = (promises_, _)->
       return type
 
     wmCommonsThumb: (file, width=500)->
-      # using a proxy that transfers the Content-type headers
-      proxy = 'http://www.corsproxy.com/'
-      url = proxy + "tools.wmflabs.org/magnus-toolserver/commonsapi.php?image=#{file}&thumbwidth=#{width}"
+      # requires a proxy that transfers the Content-type headers
+      proxy = '/proxy/'
+      url = proxy + "http://tools.wmflabs.org/magnus-toolserver/commonsapi.php?image=#{file}&thumbwidth=#{width}"
       return $.getXML url
       .then (res)->
         # parsing the XML with jQuery
