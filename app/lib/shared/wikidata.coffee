@@ -1,4 +1,4 @@
-module.exports = (Promises, _)->
+module.exports = (promises_, _)->
   defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
 
   API =
@@ -61,7 +61,7 @@ module.exports = (Promises, _)->
         props: props.join '|'
         ids: ids.join '|'
       ).logIt('query:getEntities')
-      return Promises.get(query, {CORS: false})
+      return promises_.get(query, {CORS: false})
 
     normalizeIds: (idsArray)->
       idsArray.map (id)=> @normalizeId(id)
@@ -110,7 +110,7 @@ module.exports = (Promises, _)->
           before = claims[aliasId] or= []
           aliased = claims[id]
           after = _.uniq before.concat(aliased)
-          _.log [aliasId, before, id, aliased, aliasId, after], 'aliasingClaims'
+          _.log [aliasId, before, id, aliased, aliasId, after], 'entity:aliasingClaims'
           claims[aliasId] = after
       return claims
 
