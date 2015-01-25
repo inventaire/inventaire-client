@@ -1,0 +1,3 @@
+inventaire/client/bower_components/backbone.wreqr/lib/backbone.wreqr.js
+this.storage.addCommand(name, args);
+console.warn('Command handler not found: ' + name);
