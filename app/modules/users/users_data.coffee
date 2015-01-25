@@ -1,5 +1,5 @@
 module.exports = (app, $, _)->
-  remoteData =
+  remote =
     get: (ids)-> _.preq.get app.API.users.data(ids)
     search: (text)->
       # catches case with ''
@@ -8,7 +8,7 @@ module.exports = (app, $, _)->
 
   localData = new app.LocalCache
     name: 'users'
-    remoteDataGetter: remoteData.get
+    remote: remote
     parseData: (data)-> data.users
 
 
@@ -32,6 +32,6 @@ module.exports = (app, $, _)->
     return relationsData
 
   return data =
-    remote: remoteData
+    remote: remote
     local: localData
     fetchRelationsData: fetchRelationsData

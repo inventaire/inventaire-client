@@ -1,8 +1,8 @@
 # LocalCache REQUIRES
 # - name: a domain name
-# - remoteDataGetter: a function to get batches of missing data by ids
+# - remote.get: a function to get batches of missing data by ids
 # => SHOULD output an indexed collection: {id1: {val}, id2: {val}}
-# - parseData: a function to parse the remoteDataGetter
+# - parseData: a function to parse the remote.get
 
 
 # RETURNS
@@ -16,8 +16,8 @@ module.exports = (LocalDB, _, promises_)->
 
   LocalCache = (options)->
     _.log options, 'cache:options'
-    {name, remoteDataGetter, parseData} = options
-    _.types [name, remoteDataGetter], ['string', 'function']
+    {name, remote, parseData} = options
+    _.types [name, remote], ['string', 'object']
 
     localdb = LocalDB(name)
 
@@ -95,7 +95,7 @@ module.exports = (LocalDB, _, promises_)->
     getMissingData = (ids)->
       _.type ids, 'array'
       # which MUST return a {id1: value2, id2: value2, ...} object
-      promise = remoteDataGetter(ids).then parseData
+      promise = remote.get(ids).then parseData
 
       unless promise?.then? then throw new Error('couldnt get missing data')
 
@@ -108,9 +108,17 @@ module.exports = (LocalDB, _, promises_)->
       _.type data, 'object'
       for id, v of data
         putInLocalDb(id,v)
+      return data
 
     putInLocalDb = (id, value)->
       localdb.put id, JSON.stringify(value)
+
+
+    if remote.post?
+      API.post = (ids)->
+        remote.post(ids)
+        .then putLocalData
+        .catch (err)-> _.error err, "#{name} 'local'.post err"
 
     _.extend @, API
     return

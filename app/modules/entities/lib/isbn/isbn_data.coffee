@@ -4,7 +4,7 @@ module.exports = (app, _, books, promises_)->
 
   local = new app.LocalCache
     name: 'entities_isbn'
-    remoteDataGetter: remote.get
+    remote: remote
     parseData: (data)->
       _.log data, 'isbn parseData'
 
