@@ -1,7 +1,7 @@
 Entity = require './entity'
-BookWikidataEntity = require './book_wikidata_entity'
-AuthorWikidataEntity = require './author_wikidata_entity'
 wd = app.lib.wikidata
+wdBooks_ = require 'modules/entities/lib/wikidata/books'
+wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 
 module.exports = class WikidataEntity extends Entity
   prefix: 'wd'
@@ -39,14 +39,7 @@ module.exports = class WikidataEntity extends Entity
     # for conditionals in templates
     @wikidata = true
 
-
-    # get type-specific methods
-    # useful for specific models generated through this generalist model
-    # @upgrade()
-
-  # method to override for upgraders models
-  # Undefined on this basic model
-    # @specificInitializers()  if @specificInitializers?
+    @typeSpecificInitilize()
 
   # entities won't be saved to CouchDB and can keep their
   # initial API id
@@ -105,22 +98,19 @@ module.exports = class WikidataEntity extends Entity
           @set 'pictures', pictures
           @save()
 
-  upgrade: ->
+  upgrade: -> console.error new Error('upgrade method was removed')
+
+  typeSpecificInitilize: ->
     type = wd.type(@)
     switch type
-      when 'book' then upgrader = BookWikidataEntity
-      when 'human' then upgrader = AuthorWikidataEntity
+      when 'book' then @initializeBook()
+      when 'human' then @initializeAuthor()
 
-    if upgrader?
-      proto = upgrader.prototype
-      methodsNames = proto.upgradeProperties
-      if methodsNames?.length > 0
-        # just take explicitly listed methods to
-        # avoid to load the model own methods
-        # with Backbone.Model.prototype ones
-        methods = _.pick(proto, methodsNames)
-        _.extend @, methods
-    return @
+  initializeBook: ->
+    wdBooks_.findAPictureByBookData(@)
+    wdBooks_.fetchAuthorsEntities(@)
+
+  initializeAuthor: ->
 
 getEntityValue = (attrs, props, lang)->
   property = attrs[props]

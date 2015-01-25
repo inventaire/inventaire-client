@@ -1,3 +1,5 @@
+wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
+
 module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
   template: require './templates/author_li'
   tagName: "li"
@@ -27,17 +29,13 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
 
   fetchBooks: ->
     _.log @model, "author:#{@model.get('label')}:fetching my books!"
-    if @model.fetchAuthorsBooks?
-      @$el.trigger 'loading'
-      @model.fetchAuthorsBooks()
-      .then (models)=>
-        if models?
-          models.forEach (model)=>
-            @collection.add(model)
-        else 'no book found for #{@model.title}'
-      .fail (err)-> _.log err, 'fetchAuthorsBooks err'
-      .always ()=> @$el.trigger 'stopLoading'
-    else
-      _.log [@model.get('title'), @model,@], 'couldnt fetchAuthorsBooks'
+    @$el.trigger 'loading'
+    wdAuthors_.fetchAuthorsBooks(@model)
+    .then (models)=>
+      if models?
+        models.forEach (model)=> @collection.add(model)
+      else 'no book found for #{@model.title}'
+    .catch (err)-> _.log err, 'author_li fetchBooks err'
+    .always ()=> @$el.trigger 'stopLoading'
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
