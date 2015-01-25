@@ -19,7 +19,7 @@ icons =
 
 exports.iconLink = (name, url, classes)->
   icon = @icon.call null, name, classes
-  return @link.call null, icon, url
+  return @link.call @, icon, url
 
 # filter.to documentation: http://cdn.filter.to/faq/
 exports.src = (path, width, height, extend)->
