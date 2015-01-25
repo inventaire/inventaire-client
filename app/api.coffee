@@ -39,5 +39,9 @@ module.exports =
     getImages: (data)->
       _.buildPath "/api/entities/public",
         action: 'getimages'
-        data: data.join '|'
+        data: data.join?('|') or data
+    isbns: (isbns)->
+      _.buildPath '/api/entities/public',
+        action: 'getisbnentities'
+        isbns: isbns.join?('|') or isbns
   notifs: '/api/notifs'
