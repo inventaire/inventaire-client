@@ -1,5 +1,5 @@
 module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
-  className: 'entityShow'
+  className: 'entityShow custom-column'
   template: require './templates/entity_show'
   regions:
     article: '#article'
@@ -20,7 +20,6 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
       attrs.back =
         message: _.i18n 'back to search results'
 
-    attrs.wikipediaPreview = @options.wikipediaPreview or true
     return attrs
 
   initialize: ->

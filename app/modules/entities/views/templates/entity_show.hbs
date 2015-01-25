@@ -1,120 +1,66 @@
-<div class='row'>
-  <div class='small-12 large-4 columns text-left'>
-    <p>
-      {{#if back}}
-        {{partial 'back' this}}
-      {{/if}}
+<p class="back">
+  {{#if back}}
+    {{partial 'back' this}}
+  {{/if}}
+</p>
+<div class='panel'>
+
+  {{!-- COVER --}}
+  {{#if pictures}}
+    <img src="{{first pictures}}" alt="{{title}} {{i18n 'cover'}}">
+  {{/if}}
+
+  {{!-- TITLE --}}
+  <h2>{{title}}</h2>
+  {{!-- DESCRIPTION --}}
+  {{#if descOverflow}}
+    <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
+  {{/if}}
+  <p id='shortDesc' class='grey'>{{limit description 500}}</p>
+  <p id='fullDesc' class='grey hidden'>{{description}}</p>
+
+  {{!-- AUTHOR --}}
+  {{#if wikidata}}
+    {{!-- WIKIDATA ATTRIBUTES --}}
+    {{partial 'entities:book_claims' claims}}
+  {{else}}
+    <p class="isbn-attributes">
+      {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
     </p>
-  </div>
+  {{/if}}
+  {{!-- <p class="uri">uri:{{uri}}</p> --}}
+
+
+  {{!-- ACTIONS --}}
+  {{partial 'entities:entity_actions' this}}
+
+  <div class='check'></div>
 </div>
 
-
-<div class='row'>
-  <div class='small-12 large-8 columns large-centered'>
-
-
-    {{!-- ENTITY DATA  --}}
-    <div class='row panel'>
-
-      {{!-- COVER --}}
-      <div class='small-12 large-12 columns text-center'>
-        {{#if pictures}}
-          <img src="{{first pictures}}" alt="{{title}} {{i18n 'cover'}}">
-        {{/if}}
-      </div>
-
-      <div class='small-12 large-12 columns'>
-        {{!-- TITLE --}}
-        <h2>{{title}}</h2>
-        {{!-- DESCRIPTION --}}
-        {{#if descOverflow}}
-          <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
-        {{/if}}
-        <p id='shortDesc' class='grey'>{{limit description 500}}</p>
-        <p id='fullDesc' class='grey hidden'>{{description}}</p>
-
-        {{!-- AUTHOR --}}
-        {{#if wikidata}}
-        {{!-- WIKIDATA ATTRIBUTES --}}
-          <p class='wiki-attributes'>
-            {{claim claims 'P50' true}} {{!-- author --}}
-            {{claim claims 'P136'}} {{!-- genre --}}
-            {{claim claims 'P123'}} {{!-- publisher --}}
-            {{claim claims 'P364'}} {{!-- original language --}}
-            {{claim claims 'P840'}} {{!-- narrative set in --}}
-            {{claim claims 'P155' true}} {{!-- preceded by --}}
-            {{claim claims 'P156' true}} {{!-- followed by --}}
-          </p>
-        {{else}}
-          <p class="isbn-attributes">
-            {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
-          </p>
-        {{/if}}
-        {{!-- <p class="uri">uri:{{uri}}</p> --}}
-
-
-        {{!-- ACTIONS --}}
-        <div class="entityActions">
-          <div class="entityAction">
-            <ul class="button-group">
-              <li>
-                <a data-tooltip id='addToInventory' class="has-tip button success" title="{{i18n 'add it to my inventory'}}">
-                  {{icon 'plus'}}
-                  {{i18n 'I have it'}}
-                </a>
-              </li>
-              <li>
-                <a class="button success" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
-                <ul id="have" class="small f-dropdown" data-dropdown-content>
-                  <li class="dropdownLegend">
-                  {{i18n "I have it and it is available for:"}}</li>
-                  <li><a id="giving">{{icon 'heart'}} <span>{{i18n 'giving'}}</span></a></li>
-                  <li><a id="lending">{{icon 'history'}} <span>{{i18n 'lending'}}</span></a></li>
-                  <li><a id="selling">{{icon 'money'}} <span>{{i18n 'selling'}}</span></a></li>
-                  <li><a id="inventorying">{{icon 'cube'}} <span>{{i18n 'I just want to say I have it'}}</span></a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-
-          <div class="entityAction">
-            {{#if following}}
-              <a data-tooltip class="button grey" id='stopFollowing' title="{{i18n 'click to stop notifications for this object'}}">
-                {{icon 'rss'}} {{i18n 'following activity'}}
-              </a>
-            {{else}}
-              <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n "Tell your network you're looking for it" }}. {{i18n 'Get notified when an item is added here'}}">
-                {{icon 'rss'}} {{i18n "I'm looking for it"}}
-              </a>
-            {{/if}}
-          </div>
-        </div>
-        {{partial 'wiki_sitelinks' this}}
-        <div class='check'></div>
-      </div>
-    </div>
-
-
+<div class="allItems">
     {{!-- PERSONAL ITEMS  --}}
-    <div id="personalGroup" class="row">
+    <div id="personalGroup">
       {{!-- <h3 class="subheader personalHeader">{{i18n 'Who has it'}}</h3> --}}
       <h3 class="subheader personalHeader">{{i18n "in my items"}}</h3>
-      <div id="personal" class="small-12 large-12 columns"></div>
+      <div id="personal" class="items"></div>
     </div>
 
     {{!-- FRIENDS ITEMS  --}}
 
-    <div id="friendsGroup" class="row">
+    <div id="friendsGroup">
       <h3 class="subheader friendsHeader">{{i18n "in my friends' items"}}</h3>
-      <div id="friends" class="small-12 large-12 columns"></div>
+      <div id="friends" class="items"></div>
     </div>
 
     {{!-- PUBLIC ITEMS  --}}
 
-    <div id="publicGroup" class="row">
+    <div id="publicGroup">
       <h3 class="subheader publicHeader">{{i18n 'public items'}}</h3>
-      <div id="public" class="small-12 large-12 columns"></div>
+      <div id="public" class="items"></div>
     </div>
-
   </div>
 </div>
+
+{{#if wikidata}}
+  {{partial 'entities:wikipedia_iframe' this}}
+{{/if}}

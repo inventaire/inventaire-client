@@ -24,4 +24,12 @@
     font-size: 1.2rem;
     cursor: default;
   }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    flex-direction: column;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+  }
 }
