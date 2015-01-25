@@ -1,13 +1,11 @@
 <div class="wikipedia-iframe">
   <div class="wiki-menu-bar">
     <div class="wikipediaPreviewToggler">
-      <h4>
       <a class="showWikipediaPreview">
         {{i18n 'on_wikipedia' this}}
         {{icon 'caret-down'}}
         {{icon 'caret-up' 'hidden'}}
       </a>
-      </h4>
     </div>
     <div class="wiki-sitelinks">
       {{#if wikipedia}}
@@ -15,7 +13,7 @@
           <a href="{{wikipedia.url}}" target="_blank">
           {{icon 'wikipedia'}} {{i18n 'see on Wikipedia'}}</a>
           <a href="{{wikipedia.url}}?veaction=edit" target="_blank">
-          {{i18n 'Edit'}}</a>
+          {{i18n 'edit'}}</a>
         </span>
       {{/if}}
       {{#if wikisource}}

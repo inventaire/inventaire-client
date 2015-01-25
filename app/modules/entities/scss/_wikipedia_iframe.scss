@@ -2,21 +2,25 @@
   width: 100%;
   .wiki-menu-bar{
     width: 100%;
-    @include flex(row, center, space-around);
+    @include flex(column-reverse, center, space-around);
     background-color: $grey;
     padding: 0.5em;
-    h3, .fa, a{
+    .fa, a{
       color: white;
+      font-weight: bold;
     }
     .wikipediaPreviewToggler{
-      @include flex(row, center, space-between);
+      @include flex(column, center, center);
+      flex: 2 1;
+      a{
+        font-size: 1.4em;
+      }
     }
     .wiki-sitelinks{
       @include flex(row, center, flex-end);
-      flex: 1;
+      flex: 3 0;
       flex-wrap: nowrap;
       a{
-        font-weight: bold;
         padding: 1em;
         @include flex(row, center, center);
         flex-wrap: wrap;
