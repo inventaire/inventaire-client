@@ -68,9 +68,5 @@ data = [
   {
     eventName: 'users:ready'
     ready: -> app?.users?.fetched
-  },
-  {
-    eventName: 'entities:ready'
-    ready: -> Entities?.fetched
   }
 ]

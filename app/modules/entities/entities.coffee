@@ -21,8 +21,6 @@ module.exports =
     setHandlers()
     window.Entities = Entities = new Entities
     Entities.data = require('./entities_data')(app, _, _.preq)
-    Entities.fetched = true
-    app.vent.trigger 'entities:ready'
 
 API =
   showEntity: (uri, label, params, region)->
