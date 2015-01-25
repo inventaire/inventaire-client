@@ -21,8 +21,8 @@ toggleWikiIframe = ->
 
 appendWikipediaFrame = ($el)->
   url = @model.get('wikipedia.url')
-  src = url + '?useskin=mobil&mobileaction=toggle_view_mobile'
-  $el.append "<iframe src='#{src}' frameborder='0'></iframe>"
+  src = "#{url}?useskin=mobil&mobileaction=toggle_view_mobile"
+  $el.append "<iframe src=\"#{src}\" frameborder='0'></iframe>"
 
 scrollToIframeTop = ($el)->
   height = $el.offset().top

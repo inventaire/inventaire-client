@@ -23,7 +23,7 @@ getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, origina
 
   if title? and L
     url = "https://#{L}.#{projectRoot}.org/wiki/#{title}"
-    return {title: title, lang: L, url: url}
+    return {title: title, lang: L, url: encodeURI(url)}
 
   return
 
