@@ -41,23 +41,7 @@
     {{/if}}
   </div>
   {{!-- VISIBILITY --}}
-  {{#unless restricted}}
-    <div class="listingMenu {{currentListing.id}}">
-      <a class="current" data-dropdown="{{uiId}}-l-menu">
-      {{icon currentListing.icon}}{{icon 'caret-down'}}</a>
-      <ul id="{{uiId}}-l-menu" data-options="align:right"
-      class="tiny f-dropdown" data-dropdown-content>
-        <li>{{i18n 'Visibility'}}:</li>
-        {{#each listings}}
-          <li>
-            <a id="{{id}}" class="listing">
-              {{icon icon}} {{i18n label}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
-  {{/unless}}
+  {{partial 'inventory:item_visibility_box' this}}
 </div>
 <div class="comments-box hidden">
   {{#if comment}}
