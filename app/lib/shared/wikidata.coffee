@@ -142,7 +142,7 @@ module.exports = (promises_, _)->
       return rebased
 
     normalizeTime: (wikidataTime)->
-      # wikidata time: '+00000001862-01-01T00:00:00Z'
+      # wikidata time looks like: '+00000001862-01-01T00:00:00Z'
       # or "-00000000427-01-01T00:00:00Z" for BC dates
       parts = wikidataTime.split '-'
       switch parts.length

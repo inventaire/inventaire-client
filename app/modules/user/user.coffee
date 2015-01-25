@@ -94,7 +94,7 @@ initializePersona = (app)->
 
 deleteLocalDatabases = ->
   localStorage.clear()
-  LevelJs.destroy('users')
+  window.dbs.reset()
 
 unreachablePersona = ->
   console.error 'Persona Login not available: you might be offline'
