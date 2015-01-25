@@ -75,7 +75,7 @@ spreadResults = (res)=>
     when 'google' then addNonWikidataEntities(resultsArray)
     else throw new Error "couldn't find source: #{res.source}"
 
-addWikidataEntities = (resultsArray)=>
+addWikidataEntities = (resultsArray)->
   # instantiating generic wikidata entities first
   # and only upgrading later on more specific Models
   # as methods on WikidataEntities greatly ease the sorting process
@@ -84,16 +84,13 @@ addWikidataEntities = (resultsArray)=>
     claims = model.get('claims')
     if _.isntEmpty(claims.P31)
       if wd.isBook(claims.P31)
-        model.upgrade('book')
         app.results.books.add model
 
       if wd.isHuman(claims.P31)
-        model.upgrade('author')
         app.results.humans.add model
 
     if _.isntEmpty(claims.P106)
       if wd.isAuthor(claims.P106)
-        model.upgrade('author')
         app.results.authors.add model
 
 addNonWikidataEntities = (resultsArray)->
