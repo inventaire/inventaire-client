@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+PUBLIC=$(pwd)/public
+html-minifier --collapse-whitespace $PUBLIC/index.html --output $PUBLIC/index.html
+echo 'index.html minified'
