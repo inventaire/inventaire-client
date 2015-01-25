@@ -15,9 +15,12 @@ module.exports =
         setTimeout(switchLang, 0) if lang?
 
     if _.env is 'dev'
-      app.commands.setHandlers
-        # called from a customized polyglot.js
-        'i18n:missing:key': require './i18n_missing_key'
+      missingKey = require './i18n_missing_key'
+    else missingKey = _.noop
+
+    app.commands.setHandlers
+      # called from a customized polyglot.js
+      'i18n:missing:key': missingKey
 
     app.vent.on 'i18n:set', (lang)-> app.request('qLabel:update', lang)
     app.vent.on 'qLabel:update', (lang)-> lang?.logIt('qLabel:update')
