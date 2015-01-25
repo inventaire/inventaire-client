@@ -15,7 +15,7 @@
 module.exports = (LocalDB, _, promises_)->
 
   LocalCache = (options)->
-    _.log options, 'data:LocalCache options'
+    _.log options, 'cache:options'
     {name, remoteDataGetter, parseData} = options
     _.types [name, remoteDataGetter], ['string', 'function']
 
@@ -39,17 +39,18 @@ module.exports = (LocalDB, _, promises_)->
         .then (data)->
           _.type data, 'object'
           if format is 'collection' then data = _.values(data)
-          _.log data, "data:format:#{format}"
+          _.log data, "cache:format:#{format}"
         .catch (err)->
           _.error err, 'local cache err'
           return
 
       save: (id, value)->
         _.types arguments, ['string', 'object']
-        _.log "saving #{id}"
+        _.log "cache:saving #{id}"
         putInLocalDb id, value
 
       reset: -> localdb.destroy()
+      db: localdb
 
     normalizeIds = (ids)->
       # formatting ids arrays for LevelMultiply
@@ -62,7 +63,7 @@ module.exports = (LocalDB, _, promises_)->
       # _.type ids, 'array' asserted by normalizeIds
       localdb.get(ids)
       .then parseJSON
-      .then (data)-> _.log data, "data:local:#{name} present"
+      .then (data)-> _.log data, "cache:#{name} present"
 
     parseJSON = (data)->
       # LevelJs returns a json string per item
@@ -78,7 +79,7 @@ module.exports = (LocalDB, _, promises_)->
     completeWithRemoteData = (data)->
       _.type data, 'object'
       missingIds = findMissingIds(data)
-      _.log missingIds, "data:local:#{name} missingIds"
+      _.log missingIds, "cache:#{name} missingIds"
       if missingIds.length > 0
         getMissingData(missingIds)
         .then (missingData)-> return _.extend data, missingData
@@ -96,7 +97,7 @@ module.exports = (LocalDB, _, promises_)->
       # which MUST return a {id1: value2, id2: value2, ...} object
       promise = remoteDataGetter(ids).then parseData
 
-      unless promise?.then? then throw 'couldnt get missing data'
+      unless promise?.then? then throw new Error('couldnt get missing data')
 
       # cachedData is listening to the remote data
       # but doesn't need to be returned elsewhere

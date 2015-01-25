@@ -24,6 +24,7 @@ all = [
   'relations'
   'data'
   'notifications'
+  'cache'
 ]
 
 module.exports = (_)-> _.intersection all, muted
