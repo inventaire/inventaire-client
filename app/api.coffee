@@ -45,3 +45,4 @@ module.exports =
         action: 'getisbnentities'
         isbns: isbns.join?('|') or isbns
   notifs: '/api/notifs'
+  i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
