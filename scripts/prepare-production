@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+brunch build -P
+./scripts/minify_html
+./scripts/update_i18n_all

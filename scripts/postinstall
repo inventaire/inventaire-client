@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+./scripts/slim_packages.coffee
+./scripts/install_scripts
+bower install
+./scripts/bower_fix.coffee
+./scripts/run_patches

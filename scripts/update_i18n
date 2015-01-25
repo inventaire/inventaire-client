@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+./scripts/select_wikidata_properties.coffee
+./scripts/generate_lang_json.coffee $1
