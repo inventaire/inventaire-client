@@ -1,9 +1,10 @@
 #!/usr/bin/env coffee
-fs = require 'fs'
+fs = require 'graceful-fs'
 ls = require 'ls'
+require 'colors'
 
 # to be fired at project root
-packages = ls( process.cwd() + '/node_modules/**/package.json').map (res)-> res.full
+packages = ls( process.cwd() + '/node_modules/level**/package.json').map (res)-> res.full
 
 fieldsToKeep = [
   'name'
@@ -26,11 +27,11 @@ packages.forEach (file)->
       value = pack[fieldName]
       if value? then slim[fieldName] = value
 
-    console.log "slim #{name} package: \n", slim
+    console.log "slim #{name} package: \n"
     updatedJson = JSON.stringify slim, null, 4
 
     fs.writeFile file, updatedJson, (err, body)->
       if err?
-        console.error('err', err)
+        console.error('err'.red, err)
       else
-        console.log "slimed #{name} package.json\n"
+        console.log "slimed #{name} package.json\n".green
