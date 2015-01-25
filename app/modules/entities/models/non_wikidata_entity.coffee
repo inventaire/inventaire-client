@@ -1,6 +1,9 @@
-module.exports = class NonWikidataEntity extends Backbone.NestedModel
-  localStorage: new Backbone.LocalStorage 'isbn:Entities'
+Entity = require './entity'
+
+module.exports = class NonWikidataEntity extends Entity
+  prefix: 'isbn'
   initialize: ->
+    @initLazySave()
     @findAPicture()
 
     @id = @get 'id'

@@ -1,6 +1,7 @@
 books = app.lib.books
 WikidataEntity = require './models/wikidata_entity'
 NonWikidataEntity = require './models/non_wikidata_entity'
+Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
 wd = app.lib.wikidata
@@ -18,41 +19,8 @@ module.exports =
 
   initialize: ->
     setHandlers()
-
-    Locals =
-      WikidataEntities: require './collections/local_wikidata_entities'
-      TmpWikidataEntities: require './collections/temporary_local_wikidata_entities'
-      NonWikidataEntities: require './collections/local_non_wikidata_entities'
-      TmpNonWikidataEntities: require './collections/temporary_local_non_wikidata_entities'
-
-    window.Entities = Entities =
-      wd: new Locals.WikidataEntities
-      isbn: new Locals.NonWikidataEntities
-      tmp:
-        wd: new Locals.TmpWikidataEntities
-        isbn: new Locals.TmpNonWikidataEntities
-
-    collections = [ Entities.wd, Entities.isbn, Entities.tmp.wd, Entities.tmp.isbn ]
-
-    Entities.byUri = (uri)->
-      result = undefined
-      collections.forEach (collection)->
-        model = collection.byUri(uri)
-        if model? then result = model
-      return result
-
-    Entities.hardReset = ->
-      collections.forEach (collection)-> collection._reset()
-      localStorage.clear()
-
-    Entities.length = ->
-      collections
-      .map (el)-> el.length
-      .reduce (a,b)-> a + b
-
-    Entities.wd.getCachedEntity = API.getWikidataCachedEntity
-    Entities.isbn.getCachedEntity = API.getIsbnCachedEntity
-
+    window.Entities = Entities = new Entities
+    Entities.data = require('./entities_data')(app, _, _.preq)
     Entities.fetched = true
     app.vent.trigger 'entities:ready'
 
@@ -65,7 +33,7 @@ API =
     if prefix? and id?
       @getEntityView(prefix, id)
       .then (view)-> region.show(view)
-      .fail (err)->
+      .catch (err)->
         _.log err, 'couldnt showEntity'
         app.execute 'show:404'
     else
@@ -82,80 +50,32 @@ API =
             wikipediaPreview: true
         else
           new EntityShow {model: entity}
-    .fail (err)-> _.log err, 'fail at showEntity: getEntityView'
+    .catch (err)-> _.log err, 'catch at showEntity: getEntityView'
+
+  getEntitiesModels: (prefix, ids)->
+    try Model = getModelFromPrefix(prefix)
+    catch err then return _.preq.reject(err)
+
+    Entities.data.get(prefix, ids, 'collection')
+    .then (data)->
+      models = data.map (el)->
+        model = new Model(el)
+        Entities.add model
+        return model
+      return models
+    .catch (err)-> _.log err, 'getEntitiesModels err'
 
   getEntityModel: (prefix, id)->
-    unless prefix? and id? then throw 'missing prefix or id'
-    entityPromise = @getCachedEntityPromise(prefix, id)
-    if entityPromise then return entityPromise
-    else
-      switch prefix
-        when 'wd'
-          modelPromise = @getEntityModelFromWikidataId(id)
-          collection = Entities.wd
-        when 'isbn'
-          modelPromise = @getEntityModelFromIsbn(id)
-          collection = Entities.isbn
-        else _.log [prefix, id], 'not implemented prefix, cant getEntityModel'
-
-      return modelPromise.then (model)->
-        if model?.has('title')
-          return collection.create(model)
-        else
-          console.warn 'entity undefined or miss a title: discarded', 'model:', model, 'prefix:', prefix, 'id:', id
-
-  getCachedEntityPromise: (prefix, id)->
-    entity = @getCachedEntity(prefix, id)
-    if entity?
-      # console.log 'found cachedEntity', prefix, id, entity
-      return $.Deferred().resolve(entity)
-    else
-      console.log 'not found cachedEntity', prefix, id
-      return false
-
-  getCachedEntity: (prefix, id)->
-    # looking first in in-memory models
-    entity = Entities.byUri("#{prefix}:#{id}")
-    if entity? then return entity
-    else
-      # then in localStorage
-      switch prefix
-        when 'wd'
-          data = @getWikidataCachedEntity(id)
-          # only attributes are persisted so it needs to be re-modeled
-          if data? then return Entities.wd.add(data)
-        when 'isbn'
-          data = @getIsbnCachedEntity(id)
-          if data? then return Entities.isbn.add(data)
-        else return
-
-  getWikidataCachedEntity: (id)->
-    Entities.wd.recoverDataById?(id) or Entities.tmp.wd.recoverDataById?(id)
-
-  getIsbnCachedEntity: (id)->
-    Entities.isbn.recoverDataById?(id) or Entities.tmp.isbn.recoverDataById?(id)
-
-  getEntityModelFromWikidataId: (id)->
-    # not looking for a specific WikidataEntity
-    # as the upgrade will happen at Model initialization
-    wd.getEntities(id, app.user.lang)
-    .then (res)-> new WikidataEntity res.entities[id]
-    .fail (err)-> _.log err, 'getEntityModelFromWikidataId err'
-
-  getEntityModelFromIsbn: (isbn)->
-    books.getGoogleBooksDataFromIsbn(isbn)
-    .then (res)->
-      if res? then return new NonWikidataEntity res
-      else console.warn "couldnt getEntityModelFromIsbn for: #{isbn}"
-    .fail (err)-> _.log err, 'getEntityModelFromIsbn err'
+    @getEntitiesModels prefix, id
+    .then (models)-> return models[0]
+    .catch (err)-> _.log err, 'getEntityModel err'
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
     if prefix? and id?
       @getEntityModel(prefix, id)
       .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
-      .fail (err)-> _.log err, 'showAddEntity err'
-      .done()
+      .catch (err)-> _.log err, 'showAddEntity err'
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   getEntityPublicItems: (uri)->
@@ -181,7 +101,8 @@ setHandlers = ->
     'get:entity:model': (uri)->
       [prefix, id] = getPrefixId(uri)
       return API.getEntityModel(prefix, id)
-    'getEntityModelFromWikidataId': API.getEntityModelFromWikidataId
+    'get:entities:models': API.getEntitiesModels
+    'save:entity:model': saveEntityModel
     'get:entity:public:items': API.getEntityPublicItems
     'get:entities:labels': getEntitiesLabels
 
@@ -196,3 +117,12 @@ getPrefixId = (uri)->
   else if data.length is not 2
     throw new Error "prefix and id not found for: #{uri}"
   return data
+
+getModelFromPrefix = (prefix)->
+  switch prefix
+    when 'wd' then return WikidataEntity
+    when 'isbn' then return NonWikidataEntity
+    else throw new Error("prefix not implemented: #{prefix}")
+
+saveEntityModel = (prefix, data)->
+  Entities.data[prefix].local.save(data.id, data)

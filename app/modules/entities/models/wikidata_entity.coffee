@@ -1,16 +1,19 @@
+Entity = require './entity'
 BookWikidataEntity = require './book_wikidata_entity'
 AuthorWikidataEntity = require './author_wikidata_entity'
 wd = app.lib.wikidata
 
-module.exports = class WikidataEntity extends Backbone.NestedModel
-  localStorage: new Backbone.LocalStorage 'wd:Entities'
+module.exports = class WikidataEntity extends Entity
+  prefix: 'wd'
   initialize: ->
+    @initLazySave()
     @updates = {}
-    @status = @get('status')
+    # _.log @status = @get('status'), 'status'
 
     # data that are @set don't need to be re-set when
     # the model was cached in Entities local/temporary collections
-    unless @status?.formatted
+    unless @get('status')?.formatted
+      _.log @get('title'), 'entity:formatting'
 
       # todo: make search only return ids and let the client fetch entities data
       # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
@@ -39,11 +42,11 @@ module.exports = class WikidataEntity extends Backbone.NestedModel
 
     # get type-specific methods
     # useful for specific models generated through this generalist model
-    @upgrade()
+    # @upgrade()
 
   # method to override for upgraders models
   # Undefined on this basic model
-    @specificInitializers()  if @specificInitializers?
+    # @specificInitializers()  if @specificInitializers?
 
   # entities won't be saved to CouchDB and can keep their
   # initial API id
