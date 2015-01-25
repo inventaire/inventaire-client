@@ -1,6 +1,7 @@
 exports.config =
   # See http://brunch.io/#documentation for docs.
   notifications: yes
+  sourceMaps: true
   files:
     javascripts:
       defaultExtension: "coffee"
@@ -26,3 +27,14 @@ exports.config =
 
     templates:
       joinTo: 'javascripts/app.js'
+  plugins:
+    autoReload:
+      enabled: true
+  # modules:
+  #   nameCleaner: (path) ->
+  #     path.replace /.*app\//, ''
+  overrides:
+    production:
+      sourceMaps: false
+      optimize: true
+      plugins: autoReload: enabled: false
