@@ -1,0 +1,35 @@
+.entityCreateForm{
+  @include flex(row);
+  flex-wrap: wrap;
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    flex-direction: column;
+    div:last-child{
+      padding: 1em;
+      align-self: center;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    div{
+      &:first-child{
+        flex: 3;
+        min-width: 15em;
+      }
+      &:last-child{
+        flex: 1;
+        @include flex(column, center, center);
+        padding: 2.6em 2em 2em 2em;
+        .pictures{
+          text-align: center;
+          img{
+            max-width: 20em;
+            max-height: 20em;
+            padding: 1em;
+          }
+        }
+      }
+    }
+  }
+}

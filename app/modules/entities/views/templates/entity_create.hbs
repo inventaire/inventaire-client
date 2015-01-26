@@ -1,21 +1,22 @@
+<div class="entityCreateForm">
+  <div>
+    <h4>{{i18n 'title'}} <span class="needed">({{i18n 'needed'}})</span></h4>
+    <input id="title" type="text" placeholder="{{i18n "ex: Hamlet"}}" value="{{title}}">
 
-<h4>{{i18n 'title'}} <span class="needed">({{i18n 'needed'}})</span></h4>
-<input id="title" type="text" placeholder="{{i18n "ex: Hamlet"}}">
+    <h4>{{i18n 'P50'}}</h4>
+    <input id="authors" type="text" placeholder="{{i18n "ex: William Shakespeare"}}" value="{{authors}}">
 
-<h4>{{i18n 'P50'}}</h4>
-<input id="author" type="text" placeholder="{{i18n "ex: William Shakespeare"}}">
-
-<h4>isbn</h4>
-<input id="isbn" type="text" placeholder="ex: 978-2070368228">
-
-{{!-- <a id="createEntity" class="button">
-  {{icon 'plus'}}
-  {{i18n 'add to my inventory'}}
-</a>
-
-<a id="createEntity" class="button">
-  {{icon 'plus'}}
-  {{i18n 'add to my wishlist'}}
-</a> --}}
+    <h4>isbn</h4>
+    <input id="isbn" type="text" placeholder="ex: 978-2070368228" value="{{isbn}}">
+  </div>
+  <div>
+    <div class="pictures">
+      {{#each pictures}}
+        <img src="{{this}}">
+      {{/each}}
+    </div>
+    <a id="addPicture" class="button">{{icon 'camera'}} {{i18n 'add a picture'}}</a>
+  </div>
+</div>
 
 {{partial 'entities:entity_actions' this}}
