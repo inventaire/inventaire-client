@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+rm public/javascripts/*map 2> /dev/null
+rm public/stylesheets/*map 2> /dev/null
 brunch build -P
 ./scripts/minify_html
 ./scripts/update_i18n_all
