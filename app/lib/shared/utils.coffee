@@ -84,3 +84,7 @@ module.exports = (_)->
   duplicatesArray: (str, num)-> [1..num].map -> str
 
   objLength: (obj)-> Object.keys(obj)?.length
+
+  forceArray: (keys)->
+    if _.isString(keys) then [keys]
+    else keys
