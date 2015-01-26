@@ -4,6 +4,11 @@ logDone(){
   echo -e '\e[0;32mdone browserifying:\e[0m' $1
 }
 
+# mv allow to be sure there wont be several copy conserved
+# like include.js.1 include.js.2 etc
+wget -q https://login.persona.org/include.js && mv include.js vendor/scripts
+echo -e '\e[0;32mdone downloading:\e[0m persona include.js'
+
 browserify node_modules/levelup -s LevelUp > vendor/scripts/level-up.js
 logDone LevelUp
 
