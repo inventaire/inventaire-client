@@ -3,7 +3,7 @@ ResultsList = require 'modules/entities/views/results_list'
 AuthorsList = require 'modules/entities/views/authors_list'
 Entities = require 'modules/entities/collections/entities'
 WikidataEntities = require 'modules/entities/collections/wikidata_entities'
-NonWikidataEntities = require 'modules/entities/collections/non_wikidata_entities'
+IsbnEntities = require 'modules/entities/collections/isbn_entities'
 wd = app.lib.wikidata
 
 module.exports =
@@ -72,7 +72,7 @@ spreadResults = (res)=>
   resultsArray = res.items
   switch res.source
     when 'wd' then addWikidataEntities(resultsArray)
-    when 'google' then addNonWikidataEntities(resultsArray)
+    when 'google' then addIsbnEntities(resultsArray)
     else throw new Error "couldn't find source: #{res.source}"
 
 addWikidataEntities = (resultsArray)->
@@ -93,8 +93,8 @@ addWikidataEntities = (resultsArray)->
       if wd.isAuthor(claims.P106)
         app.results.authors.add model
 
-addNonWikidataEntities = (resultsArray)->
-  books = new NonWikidataEntities resultsArray
+addIsbnEntities = (resultsArray)->
+  books = new IsbnEntities resultsArray
   books.models.map (el)-> app.results.books.add el
 
 displayResults = (region1, region2, view)=>

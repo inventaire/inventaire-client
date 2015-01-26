@@ -1,6 +1,6 @@
 Entity = require './entity'
 
-module.exports = class NonWikidataEntity extends Entity
+module.exports = class IsbnEntity extends Entity
   prefix: 'isbn'
   initialize: ->
     @initLazySave()

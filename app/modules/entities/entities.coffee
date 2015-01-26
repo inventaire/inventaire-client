@@ -1,6 +1,6 @@
 books = app.lib.books
 WikidataEntity = require './models/wikidata_entity'
-NonWikidataEntity = require './models/non_wikidata_entity'
+IsbnEntity = require './models/isbn_entity'
 InvEntity = require './models/inv_entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
@@ -121,7 +121,7 @@ getPrefixId = (uri)->
 getModelFromPrefix = (prefix)->
   switch prefix
     when 'wd' then return WikidataEntity
-    when 'isbn' then return NonWikidataEntity
+    when 'isbn' then return IsbnEntity
     when 'inv' then return InvEntity
     else throw new Error("prefix not implemented: #{prefix}")
 
