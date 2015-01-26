@@ -44,5 +44,9 @@ module.exports =
       _.buildPath '/api/entities/public',
         action: 'getisbnentities'
         isbns: isbns.join?('|') or isbns
+    inv:
+      create: '/api/entities'
+      get: (ids)-> _.buildPath '/api/entities',
+        ids: ids.join?('|') or ids
   notifs: '/api/notifs'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
