@@ -111,14 +111,24 @@ module.exports = (LocalDB, _, promises_)->
       return data
 
     putInLocalDb = (id, value)->
+      _.types arguments, ['string', 'object']
       localdb.put id, JSON.stringify(value)
+      return value
 
 
     if remote.post?
       API.post = (data)->
         remote.post(data)
-        .then putLocalData
+        .then (res)->
+          _.log res, "cache:#{name}:post res"
+          id = findId(res)
+          putInLocalDb id, res
         .catch (err)-> _.error err, "#{name} local.post err"
+
+      findId = (res)->
+        id = res._id or res.id
+        if id? then return id
+        else throw new Error "id not found: #{JSON.stringify(res)}"
 
     _.extend @, API
     return
