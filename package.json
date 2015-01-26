@@ -13,10 +13,10 @@
   },
   "scripts": {
     "postinstall": "./scripts/postinstall",
-    "prepare-production": "./scripts/prepare-production",
     "start": "brunch watch",
+    "lint": "coffeelint app/* test/* brunch-config.coffee",
     "test": "mocha --compilers coffee:coffee-script/register --watch",
-    "lint": "coffeelint app/* test/* brunch-config.coffee"
+    "build": "./scripts/build"
   },
   "dependencies": {
     "level-js": "^2.1.6",
