@@ -1,3 +1,5 @@
+EntityCreate = require 'modules/entities/views/entity_create'
+
 module.exports = class Search extends Backbone.Marionette.LayoutView
   id: 'searchLayout'
   template: require 'modules/search/layouts/templates/search'
@@ -17,6 +19,13 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     results3: '#results3'
     results4: '#results4'
     results5: '#results5'
+    # to be replaced by explicit names:
+    # personalItems: '#personalItems'
+    # friendsItems: '#friendsItems'
+    # authors: '#authors'
+    # books: '#books'
+    # editions: '#editions'
+    createRegion: '#create'
 
   ui:
     header1: '#header1'
@@ -34,6 +43,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     @updateSearchBar()
     app.request 'waitForData', @showItems, @
     @searchEntities()
+    @createWithoutEntity()
 
   # ITEMS
   showItems: ->
@@ -47,11 +57,9 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
   refreshItems: (e, collection)->
     @showItems @query
 
-
   # ENTITIES
   searchEntities: ->
     app.request 'search:entities', @query, @results3, @results4, @
-
 
   # UTILS
   showCollection: (collection, View, label, rank)->
@@ -69,9 +77,14 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     region = "results#{rank}"
     @[region].show view
 
-  on404: -> app.execute 'show:404'
-  onDestroy: -> app.execute 'search:field:unmaximize'
+  # on404: -> app.execute 'show:404'
+  # onDestroy: -> app.execute 'search:field:unmaximize'
 
   updateSearchBar: ->
     $('#searchField').val @query
-    app.execute 'search:field:maximize'
+    # app.execute 'search:field:maximize'
+
+  createWithoutEntity: ->
+    view = new EntityCreate {data: @query}
+    @createRegion.show view
+    @$el.find('h3.create').show()

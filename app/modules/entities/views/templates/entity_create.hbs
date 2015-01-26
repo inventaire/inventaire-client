@@ -1,0 +1,21 @@
+
+<h4>{{i18n 'title'}} <span class="needed">({{i18n 'needed'}})</span></h4>
+<input id="title" type="text" placeholder="{{i18n "ex: Hamlet"}}">
+
+<h4>{{i18n 'P50'}}</h4>
+<input id="author" type="text" placeholder="{{i18n "ex: William Shakespeare"}}">
+
+<h4>isbn</h4>
+<input id="isbn" type="text" placeholder="ex: 978-2070368228">
+
+{{!-- <a id="createEntity" class="button">
+  {{icon 'plus'}}
+  {{i18n 'add to my inventory'}}
+</a>
+
+<a id="createEntity" class="button">
+  {{icon 'plus'}}
+  {{i18n 'add to my wishlist'}}
+</a> --}}
+
+{{partial 'entities:entity_actions' this}}

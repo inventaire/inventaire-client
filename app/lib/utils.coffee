@@ -87,6 +87,8 @@ module.exports = (Backbone, _, app, window)->
               if app.lib.wikidata.isWikidataId id then return true
             when 'isbn'
               if app.lib.books.isIsbn id then return true
+            when 'inv'
+              if @isUuid(id) then return true
       return false
 
     lastRouteMatch: (regex)->
@@ -204,6 +206,8 @@ module.exports = (Backbone, _, app, window)->
         if location.hostname is 'localhost' then return 'dev'
         else return 'prod'
       )()
+
+    isUuid: (str)-> /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test str
 
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless utils.isMuted(label)

@@ -14,7 +14,7 @@ module.exports = class Item extends Filterable
 
   initialize: (attrs, options)->
     # RECIPE:
-      # suffix = entityUri or random(6)
+      # suffix = entityUri
       # _id = owner:suffix
       # pathname = username:suffix
     # this allows entityUri to be used in pathname without
@@ -38,15 +38,12 @@ module.exports = class Item extends Filterable
     if attrs.entity?
       @entityPathname = "/entity/#{attrs.entity}/#{attrs.title}"
 
-    if @get('notes')? and @get('owner') isnt app.user.id
-      console.error @username, @get('notes'), 'I can see others notes!!!!'
-
   getSuffix: ->
     if @get('suffix') then return @get('suffix')
     else
       entity = @get('entity')
       if _.hasKnownUriDomain(entity) then return entity
-      else _.idGenerator(6)
+      else throw new Error("unknow entity domain: #{entity}")
 
   getId: (attrs)->
     if @get('_id') then return @get('_id')
@@ -77,7 +74,7 @@ module.exports = class Item extends Filterable
       attrs.listings = app.user.listings
       attrs.uiId = _.uniqueId('item_')
 
-    if @entity? then attrs.entity = @entity.toJSON()
+    if @entity? then attrs.entity = @entity.toJSON?()
 
     unless _.isEmpty attrs.pictures
       attrs.picture = attrs.pictures[0]
@@ -97,4 +94,4 @@ module.exports = class Item extends Filterable
   getEntityModel: (uri)->
     app.request 'get:entity:model', uri
     .then (entityModel)=> @entity = entityModel
-    .fail (err)-> console.error 'get:entity:model fail', err
+    .catch (err)-> console.error 'get:entity:model catch', err

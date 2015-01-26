@@ -1,6 +1,7 @@
 books = app.lib.books
 WikidataEntity = require './models/wikidata_entity'
 NonWikidataEntity = require './models/non_wikidata_entity'
+InvEntity = require './models/inv_entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
@@ -103,6 +104,7 @@ setHandlers = ->
     'save:entity:model': saveEntityModel
     'get:entity:public:items': API.getEntityPublicItems
     'get:entities:labels': getEntitiesLabels
+    'create:entity': createEntity
 
 
 getEntitiesLabels = (Qids)->
@@ -120,7 +122,16 @@ getModelFromPrefix = (prefix)->
   switch prefix
     when 'wd' then return WikidataEntity
     when 'isbn' then return NonWikidataEntity
+    when 'inv' then return InvEntity
     else throw new Error("prefix not implemented: #{prefix}")
 
 saveEntityModel = (prefix, data)->
   Entities.data[prefix].local.save(data.id, data)
+
+createEntity = (data)->
+  Entities.data.inv.local.post(data)
+  .then (entityData)->
+    _.type entityData, 'object'
+    model = new InvEntity(entityData)
+    Entities.add model
+    return model

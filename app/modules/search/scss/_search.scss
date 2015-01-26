@@ -2,3 +2,20 @@
 
 @import "book_li";
 @import "author_li";
+
+
+#searchLayout{
+  section#createGroup{
+    background-color: $light-grey;
+    h3, div{
+      margin: 0;
+    }
+    margin: 1em 0em 1em 0em;
+    padding: 1em;
+  }
+  .entityCreate{
+    .needed{
+      font-size: 1rem;
+    }
+  }
+}
