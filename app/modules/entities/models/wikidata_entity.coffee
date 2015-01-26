@@ -73,7 +73,7 @@ module.exports = class WikidataEntity extends Entity
     @updates.wikidata = {url: "http://www.wikidata.org/entity/#{@id}"}
     @updates.uri = "wd:#{@id}"
 
-    @originalLang = @updates.claims.P364?[0]
+    @originalLang = @updates.claims?.P364?[0]
     sitelinks = @get('sitelinks')
     if sitelinks?
       @updates.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
@@ -87,7 +87,7 @@ module.exports = class WikidataEntity extends Entity
     @updates.pictures = pictures = []
     @save()
 
-    images = @updates.claims.P18
+    images = @updates.claims?.P18
     if images?
       images.forEach (title)=>
         wd.wmCommonsThumb(title, 1000)

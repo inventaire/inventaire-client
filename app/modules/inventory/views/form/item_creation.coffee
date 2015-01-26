@@ -4,6 +4,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
   template: require './templates/item_creation'
   className: "addEntity"
   initialize: ->
+    console.log('item creation arguments', arguments)
     @entity = @options.entity
     attrs =
       title: @entity.get 'title'

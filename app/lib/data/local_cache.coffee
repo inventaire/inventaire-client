@@ -115,10 +115,10 @@ module.exports = (LocalDB, _, promises_)->
 
 
     if remote.post?
-      API.post = (ids)->
-        remote.post(ids)
+      API.post = (data)->
+        remote.post(data)
         .then putLocalData
-        .catch (err)-> _.error err, "#{name} 'local'.post err"
+        .catch (err)-> _.error err, "#{name} local.post err"
 
     _.extend @, API
     return

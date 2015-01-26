@@ -6,7 +6,6 @@ scanner = require 'lib/scanner'
 module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
   template: require './templates/account_menu'
   events:
-    'click #addItem': -> app.execute 'show:entity:search'
     'click #name': -> app.execute 'show:inventory:user', app.user
     'click #editProfile': -> app.execute 'show:settings:profile'
     'click #editLabs': -> app.execute 'show:settings:labs'
