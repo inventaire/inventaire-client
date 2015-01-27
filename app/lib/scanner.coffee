@@ -11,8 +11,5 @@ module.exports =
     # url = _.buildPath "http://zxing.appspot.com/scan",
       ret: encodedCallback
 
-    # useful for mobile testing
-    _.logServer url, 'scanner url'
-
     return url
     )()
