@@ -1,35 +1,33 @@
-<div class="entityActions">
-  <div class="entityAction">
-    <ul class="button-group">
-      <li>
-        <a data-tooltip id='addToInventory' class="has-tip button success" title="{{i18n 'add it to my inventory'}}">
-          {{icon 'plus'}}
-          {{i18n 'I have it'}}
-        </a>
-      </li>
-      <li>
-        <a class="button success" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
-        <ul id="have" class="small f-dropdown" data-dropdown-content>
-          <li class="dropdownLegend">
-          {{i18n "I have it and it is available for:"}}</li>
-          <li><a id="giving">{{icon 'heart'}} <span>{{I18n 'giving'}}</span></a></li>
-          <li><a id="lending">{{icon 'history'}} <span>{{I18n 'lending'}}</span></a></li>
-          <li><a id="selling">{{icon 'money'}} <span>{{I18n 'selling'}}</span></a></li>
-          <li><a id="inventorying">{{icon 'cube'}} <span>{{I18n 'inventorize_it'}}</span></a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+<div class="entityAction">
+  <ul class="button-group">
+    <li>
+      <a data-tooltip id='addToInventory' class="has-tip button success" title="{{i18n 'add it to my inventory'}}">
+        {{icon 'plus'}}
+        {{i18n 'I have it'}}
+      </a>
+    </li>
+    <li>
+      <a class="button success" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
+      <ul id="have" class="small f-dropdown" data-dropdown-content>
+        <li class="dropdownLegend">
+        {{i18n "I have it and it is available for:"}}</li>
+        <li><a id="giving">{{icon 'heart'}} <span>{{I18n 'giving'}}</span></a></li>
+        <li><a id="lending">{{icon 'history'}} <span>{{I18n 'lending'}}</span></a></li>
+        <li><a id="selling">{{icon 'money'}} <span>{{I18n 'selling'}}</span></a></li>
+        <li><a id="inventorying">{{icon 'cube'}} <span>{{I18n 'inventorize_it'}}</span></a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
 
-  <div class="entityAction">
-    {{#if following}}
-      <a data-tooltip class="button grey" id='stopFollowing' title="{{i18n 'click to stop notifications for this object'}}">
-        {{icon 'rss'}} {{i18n 'following activity'}}
-      </a>
-    {{else}}
-      <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n "Tell your network you're looking for it" }}. {{i18n 'Get notified when an item is added here'}}">
-        {{icon 'rss'}} {{i18n "I'm looking for it"}}
-      </a>
-    {{/if}}
-  </div>
+<div class="entityAction">
+  {{#if following}}
+    <a data-tooltip class="button grey" id='stopFollowing' title="{{i18n 'click to stop notifications for this object'}}">
+      {{icon 'rss'}} {{i18n 'following activity'}}
+    </a>
+  {{else}}
+    <a data-tooltip class="has-tip button secondary" id='followActivity' title="{{i18n "Tell your network you're looking for it" }}. {{i18n 'Get notified when an item is added here'}}">
+      {{icon 'rss'}} {{i18n "I'm looking for it"}}
+    </a>
+  {{/if}}
 </div>

@@ -1,7 +1,10 @@
-module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
+EntityActions = require './entity_actions'
+
+module.exports = class EntityShow extends Backbone.Marionette.LayoutView
   className: 'entityShow custom-column'
   template: require './templates/entity_show'
   regions:
+    actions: '#actions'
     article: '#article'
     personal: '#personal'
     friends: '#friends'
@@ -27,7 +30,9 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     @listenTo @model, 'add:pictures', @render
     @fetchPublicItems()
 
-  onShow: -> app.request('qLabel:update')
+  onShow: ->
+    app.request('qLabel:update')
+    @showEntityActions()
 
   onRender: ->
     if app.user.loggedIn
@@ -37,10 +42,6 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     else @fetchPublicItems()
 
   events:
-    'click #addToInventory, #inventorying': 'inventorying'
-    'click #giving': 'giving'
-    'click #lending': 'lending'
-    'click #selling': 'selling'
     'click #toggleWikiediaPreview': 'toggleWikiediaPreview'
     'click #toggleDescLength': 'toggleDescLength'
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
@@ -81,18 +82,8 @@ module.exports =  class EntityShow extends Backbone.Marionette.LayoutView
     @showCollectionItems items, 'public'
     _.log items, 'items'
 
-  giving: -> @showItemCreation 'giving'
-  lending: -> @showItemCreation 'lending'
-  selling: -> @showItemCreation 'selling'
-  inventorying: -> @showItemCreation 'inventorying'
-
-  showItemCreation: (transaction)->
-    params =
-      entity: @model
-      transaction: transaction
-    _.log params, 'item:creation:params'
-    app.execute 'show:item:creation:form', params
-
+  showEntityActions: ->
+    @actions.show new EntityActions {model: @model}
 
   toggleDescLength: ->
     $('#shortDesc').toggle()
