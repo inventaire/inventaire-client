@@ -2,13 +2,11 @@
   <div class="custom-cell">
     <h2 class="subheader">{{i18n 'sign up'}}</h2>
     <div>
-      <h3 class="with-tip">{{i18n 'Step 2: associate your account with an email'}}</h3>
-      {{!-- {{tip 'persona_tip' 'right'}} --}}
+      <h3 class="with-tip">{{i18n 'Step 2: associate your account with an email'}}{{tip 'persona_tip' 'right'}}</h3>
     </div>
     <div>
       {{partial 'user:persona_button'}}
     </div>
-    <p>{{i18n 'persona_tip'}}</p>
     {{partial 'back' this}}
   </div>
 </div>
