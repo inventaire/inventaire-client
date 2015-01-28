@@ -10,7 +10,6 @@ module.exports =
         ids = ids.join?('|') or ids
         return "/api/users?action=getusers&ids=#{ids}"
       else throw new Error "users data API needs an array of ids"
-    friends: '/api/friends'
     items: (ids)->
       if ids?
         ids = ids.join?('|') or ids
