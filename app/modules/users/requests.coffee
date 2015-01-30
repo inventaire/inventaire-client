@@ -16,7 +16,7 @@ module.exports = (app, _)->
     sendRequest: (user)->
       _.log user.get('username'), 'sendRequest'
       [user, userId] = normalizeUser user
-      user.set 'status', 'userRequests'
+      user.set 'status', 'userRequested'
       server.request(userId)
 
     cancelRequest: (user)->

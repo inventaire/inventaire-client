@@ -37,7 +37,7 @@ module.exports = class AccountMenu extends Backbone.Marionette.LayoutView
     @showNotifications()
 
   showRequests: ->
-    view = new RequestsList {collection: app.users.othersRequests}
+    view = new RequestsList {collection: app.users.otherRequested}
     @requests.show view
 
   showNotifications: ->

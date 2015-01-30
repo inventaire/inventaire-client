@@ -6,8 +6,8 @@ module.exports = (app)->
   users.subCollections = [
     'public'
     'friends'
-    'userRequests'
-    'othersRequests'
+    'userRequested'
+    'otherRequested'
   ]
 
   users.subCollections.forEach (status)->

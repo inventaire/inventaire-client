@@ -19,12 +19,12 @@
             </li>
         </ul>
     {{/if}}
-    {{#if userRequests}} 
+    {{#if userRequested}} 
       <a class="cancel action">
           {{icon 'ban'}} {{i18n 'cancel request'}}
       </a>
     {{/if}}
-    {{#if othersRequests}} 
+    {{#if otherRequested}} 
       <a class="accept action">
           {{icon 'check'}} {{i18n 'confirm'}}
       </a>

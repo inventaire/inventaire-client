@@ -31,8 +31,8 @@ fetchFriendsAndTheirItems = ->
     app.users.data.fetchRelationsData()
     .then (relationsData)->
       relationsData.friends.forEach addFriend
-      relationsData.othersRequests.forEach addOther
-      relationsData.userRequests.forEach addUserRequests
+      relationsData.otherRequested.forEach addOther
+      relationsData.userRequested.forEach addUserRequested
       app.users.fetched = true
       app.vent.trigger 'users:ready'
 
@@ -47,10 +47,10 @@ addFriend = (friend)->
   app.execute 'friend:fetchItems', userModel
 
 addOther = (other)->
-  userModel = app.users.othersRequests.add other
+  userModel = app.users.otherRequested.add other
 
-addUserRequests = (user)->
-  userModel = app.users.userRequests.add user
+addUserRequested = (user)->
+  userModel = app.users.userRequested.add user
 
 fetchFriendItems = (userModel)->
   Items.friends.fetchFriendItems(userModel)

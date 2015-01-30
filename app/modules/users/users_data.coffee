@@ -23,8 +23,8 @@ module.exports = (app, $, _)->
   spreadRelationsData = (data, relations)->
     relationsData =
       friends: []
-      userRequests: []
-      othersRequests: []
+      userRequested: []
+      otherRequested: []
 
     for relationType, list of relations
       list.forEach (user)->
