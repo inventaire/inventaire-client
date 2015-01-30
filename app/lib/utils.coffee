@@ -43,7 +43,7 @@ module.exports = (Backbone, _, app, window)->
 
     logServer: (obj, label)->
       log = {obj: obj, label: label}
-      $.post('/test', log)
+      $.post app.API.test, log
 
     logXhrErr: (err, label)->
       if err?.status?
@@ -75,7 +75,7 @@ module.exports = (Backbone, _, app, window)->
       return window.current = obj
 
     ping: ->
-      $.get '/test'
+      $.get app.API.test
       .fail (err)-> console.warn 'server: unreachable. You might be offline', err
 
     hasKnownUriDomain: (str)->
@@ -121,7 +121,6 @@ module.exports = (Backbone, _, app, window)->
       else return
 
     isntEmpty: (array)-> not @isEmpty(array)
-    proxy: (route)-> '/proxy/' + route
     pickOne: (obj)->
       k = Object.keys(obj)[0]
       return obj[k]

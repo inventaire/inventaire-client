@@ -8,7 +8,7 @@ module.exports =
     if _.localUrl(url) or CORS
       promise = Promise.resolve $.get(url)
     else
-      promise = Promise.resolve $.get("/proxy/#{url}")
+      promise = Promise.resolve $.get app.API.proxy(url)
 
     # default catch handler
     # but others can be chained
