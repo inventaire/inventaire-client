@@ -17,8 +17,14 @@ module.exports = class FriendsItems extends Items
         itemModel = @add item
         itemModel.username = app.request 'get:username:from:userId', item.owner
     .fail _.error
-    .always ->
-      app.vent.trigger 'friends:items:ready'
+    .always => @friendsReady()
 
   initialize: ->
     @lazyFetchFriendsItems = _.debounce @fetchFriendsItems, 50
+
+    app.commands.setHandlers
+      'friends:zero': @friendsReady.bind(@)
+
+  friendsReady:->
+    app.vent.trigger 'friends:items:ready'
+    @fetched = true

@@ -30,6 +30,8 @@ fetchFriendsAndTheirItems = ->
   if app.user.loggedIn
     app.users.data.fetchRelationsData()
     .then (relationsData)->
+      if relationsData.friends.length is 0
+        app.execute 'friends:zero'
       relationsData.friends.forEach addFriend
       relationsData.otherRequested.forEach addOther
       relationsData.userRequested.forEach addUserRequested
