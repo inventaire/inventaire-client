@@ -107,6 +107,7 @@ showItemList = (collection)->
     itemsList = app.inventory.itemsList = new app.View.Items.List
       collection: collection
       columns: true
+      welcomingNoItem: true
     app.inventory.itemsView.show itemsList
 
 

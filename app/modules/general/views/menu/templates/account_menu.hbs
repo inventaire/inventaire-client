@@ -20,14 +20,20 @@
 <li id="before-notifications"></li>
 {{!-- li#notifications will be inserted here --}}
 
-<li class="has-dropdown">
+<li id="settingsMenu" class="has-dropdown">
   <a>
     {{icon 'cog'}}
     <span class="labels">{{i18n 'settings'}}</span>
   </a>
   <ul class="dropdown">
+    <li><label>{{i18n 'settings'}}</label></li>
     <li><a id="editProfile">{{icon 'user'}} {{I18n 'edit profile'}}</a></li>
     <li><a id="editLabs">{{icon 'flask'}} {{I18n 'experimentations'}}</a></li>
     <li><a id="signout">{{icon 'sign-out'}} {{I18n 'sign out'}}</a></li>
+    <li><label>{{i18n 'feedbacks & news'}}</label></li>
+    <li>{{iconLinkText 'facebook' 'https://facebook.com/inventaire_io' 'Facebook'}}</li>
+    <li>{{iconLinkText 'twitter' 'https://twitter.com/inventaire_io' 'Twitter'}}</li>
+    <li>{{iconLinkText 'github' 'https://github.com/maxlath/inventaire' 'Github'}}</li>
+    <li>{{iconLinkText 'envelope' 'mailto:hello@inventaire.io?subject=Hi!' 'Say hi!'}}</li>
   </ul>
 </li>

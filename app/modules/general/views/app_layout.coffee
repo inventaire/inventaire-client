@@ -1,3 +1,5 @@
+JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
+
 module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   template: require './templates/app_layout'
 
@@ -7,6 +9,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     main: 'main'
     accountMenu: '#accountMenu'
     modal: '#modalContent'
+    joyride: '#joyride'
 
   events:
     'click a': 'unpreventDefault'
@@ -30,6 +33,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       # 'search:field:unmaximize': @unmaximizeSearchField
       'current:username:set': @setCurrentUsername
       'current:username:hide': @hideCurrentUsername
+      'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
 
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck
@@ -128,3 +132,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     $('#currentUser').hide()
 
   toggleSideNav: -> $('#sideNav').toggleClass('hide-for-small-only')
+
+  showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
+

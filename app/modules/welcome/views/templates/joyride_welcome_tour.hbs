@@ -1,0 +1,28 @@
+<ol class="joyride-list" data-joyride>
+  <li data-id="searchField" data-text="{{icon 'arrow-right'}}" data-options="prev_button: false;tip_location: bottom;tip_animation:fade">
+    <h5>{{i18n 'A book you want to share? Add it to your inventory!'}}</h5>
+    <p>{{i18n 'Search from here by title, author or book id (ISBN)'}}</p>
+  </li>
+  <li data-id="scanner" data-text="{{icon 'arrow-right'}}" data-prev-text="{{icon 'arrow-left'}}" data-options="tip_location:bottom;tip_animation:fade">
+    <h5>{{i18n "or just scan your books' barcode"}}</h5>
+    <p>{{i18n "only possible from your smartphone' browser for now."}}</p>
+  </li>
+  <li data-id="userField" data-button="{{icon 'arrow-right'}}" data-prev-text="{{icon 'arrow-left'}}" data-options="tip_location:top;tip_animation:fade">
+    <h5>{{i18n 'who would you like to share books with?'}}</h5>
+    <p>{{i18n 'find friends by username from here'}}</p>
+  </li>
+  <li data-id="editProfile" data-button="{{icon 'arrow-right'}}" data-prev-text="{{icon 'arrow-left'}}" data-options="tip_location:left;tip_animation:fade">
+    <h5>{{i18n 'edit your settings'}}</h5>
+    <p>{{i18n 'switch to another language or change your profile picture from there'}}</p>
+  </li>
+  <li data-button="{{icon 'times'}}" data-prev-text="{{icon 'arrow-left'}}">
+    <img src="{{src 'img.inventaire.io/inventaire-ginnerobot-3102623100-CC-BY.jpg' 400 400}}">
+    <h5>{{i18n "you're all set to start exploring!"}}</h5>
+    <p>{{i18n "joyride_last"}}</p>
+    <div id="socialNetworks">
+      {{partial 'social_networks'}}
+    </div>
+    <h5>{{i18n 'joyride_last_conlusion_point_1'}}</h5>
+    <h5>{{i18n 'joyride_last_conlusion_point_2'}}</h5>
+  </li>
+</ol>

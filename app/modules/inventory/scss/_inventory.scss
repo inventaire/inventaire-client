@@ -22,6 +22,7 @@ $tabs-navigation-font-color: #fff;
 }
 
 
+
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
   #innerMain{
@@ -41,3 +42,4 @@ $tabs-navigation-font-color: #fff;
 }
 
 @import "../side_nav/scss/side_nav";
+@import "welcoming_no_item";

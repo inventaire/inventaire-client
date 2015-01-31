@@ -1,0 +1,25 @@
+$joyride-tip-font-size: 1em; // Foundation variable
+$joyride-tip-bg: $darker-grey; // Foundation variable
+
+#socialNetworks{
+  @include flex(row, center, space-around);
+  height: 2.6em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  i.fa{
+    max-height: 3em;
+    color: white;
+    font-size: 2em;
+  }
+}
+
+
+$joyride-tip-default-width: 400px;
+.joyride-content-wrapper{
+  img{
+    margin-bottom: 1em;
+  }
+  h5{
+    margin-bottom: 0.4em !important;
+  }
+}
