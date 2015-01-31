@@ -34,13 +34,20 @@ patchFile(){
 
 echo -e '\e[0;30mpatch-tools initialized\e[0m'
 
-PATCHES=$HOME/inventaire/client/scripts/patches
+PATCHES=$1
+if [ "$PATCHES" ]
+then
+  echo -e "\e[0;30mlooking for patches in folder: $PATCHES\e[0m"
 
-for PATCH in $(ls $PATCHES)
-do
-  FILE=$PATCHES/$PATCH
-  patchFile "$(line 1 $FILE)" "$(line 2 $FILE)" "$(line 3 $FILE)"
-done
+  for PATCH in $(ls $PATCHES)
+  do
+    FILE=$PATCHES/$PATCH
+    patchFile "$(line 1 $FILE)" "$(line 2 $FILE)" "$(line 3 $FILE)"
+  done
 
-echo '-------------------------'
-echo -e '\e[0;32mpatches done!\e[0m'
+  echo '-------------------------'
+  echo -e '\e[0;32mpatches done!\e[0m'
+
+else
+  echo -e '\e[0;31mno patches folder provided\e[0m'
+fi
