@@ -1,0 +1,24 @@
+#error{
+  flex: 1;
+  @include flex(column, center, center);
+  background-color: $dark-grey;
+  .errorBox{
+    background-color: #eee;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    .errorBox{
+      padding: 1em;
+
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    .errorBox{
+      padding: 4em;
+    }
+    padding-bottom: 10em;
+  }
+}
