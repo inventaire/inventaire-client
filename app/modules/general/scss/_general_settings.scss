@@ -5,8 +5,9 @@
 $global-radius: 3px; // Foundation variable
 $has-tip-border-bottom: solid 0px white; // Foundation variable
 $has-tip-border-bottom-hover: solid 0px white; // Foundation variable
-$has-tip-cursor-type: inherit;
-$tooltip-bg: $darker-grey;
+$has-tip-cursor-type: inherit; // Foundation variable
+$tooltip-bg: $darker-grey; // Foundation variable
+
 
 body{
   ul, ul li, ul li ul{
@@ -107,6 +108,12 @@ h1, h2, h3, h4, h5, h6, .button, p{
   text-transform: capitalize;
 }
 
+// making the selector stronger to override
+// Foundation .buttons e.g.
+p.bold, span.bold, a.bold{
+  font-weight: 900;
+}
+
 select {
   font-family: 'FontAwesome', 'Alegreya';
   option {
@@ -150,3 +157,5 @@ select {
 @import "success_check";
 @import "custom_tabs";
 @import "custom_column";
+@import "errors";
+@import "joyride";
