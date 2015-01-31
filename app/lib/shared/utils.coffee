@@ -88,3 +88,6 @@ module.exports = (_)->
   forceArray: (keys)->
     if _.isString(keys) then [keys]
     else keys
+
+  qrcode: (url, size=250)->
+    "http://chart.apis.google.com/chart?cht=qr&chs=#{size}x#{size}&chl=#{url}"
