@@ -192,7 +192,7 @@ module.exports = (Backbone, _, app, window)->
 
       return obj
 
-    smallScreen: -> return $('body').width() < 1024
+    smallScreen: -> window.screen.width < 1024
 
     deepClone: (obj)->
       @type obj, 'object'
