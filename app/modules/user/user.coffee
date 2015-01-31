@@ -117,10 +117,10 @@ onlogin = (assertion) ->
 
 showAccountError = ->
   app.execute 'show:error',
-    message: _.i18n "couldn't find an account associated with this email"
+    message: _.i18n "missing_account_title"
     redirection:
       href: '/signup'
-      legend: _.i18n 'it seems, you have a Persona account but not a Inventaire.io account, you might need to create one'
+      legend: _.i18n 'missing_account_legend'
       text: _.i18n 'create an account'
       classes: 'success'
 

@@ -8,9 +8,14 @@ $auth-menu-bg: rgba($light-grey, 0.8);
     background-color: $auth-menu-bg;
     padding: 1em 1em 1em 2em;
     margin: 1em 1em 1em 1em;
-  }
-  h2{
+    width: 100%;
     text-align: center;
+  }
+  a.button{
+    font-weight: bold;
+  }
+  a.back{
+    margin: 1em;
   }
 }
 
