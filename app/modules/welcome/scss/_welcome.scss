@@ -40,6 +40,15 @@ section#social-networks{
   }
 }
 
+#credits{
+  text-align: center;
+  background-color: #010101;
+  padding: 1em;
+  h5{
+    color: #fefefe;
+  }
+}
+
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
