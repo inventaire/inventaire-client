@@ -34,25 +34,12 @@ exports.src = (path, width, height, extend)->
   return path  unless _.isNumber(width)
 
   if /gravatar.com/.test(path) then cleanGravatarPath path, width
-  else getCdnPath path, width, height, extend
+  else _.cdn path, width, height, extend
 
 cleanGravatarPath = (path, width)->
   # removing any size parameter
   path = path.replace /&s=\d+/g, ''
 
   return path + "&s=#{width}"
-
-getCdnPath = (path, width, height, extend)->
-  unless _.isNumber(height) then height = width
-  size = "#{width}x#{height}"
-  unless extend then size += 'g'
-
-  path = dropProtocol path
-
-  return "http://cdn.filter.to/#{size}/#{path}"
-
-dropProtocol = (path)-> path.replace /^(https?:)?\/\//, ''
-
-
 
 exports.placeholder = (height=250, width=200)->  _.placeholder(height, width)

@@ -40,8 +40,7 @@ fetchFriendsAndTheirItems = ->
 
       fetchItemsOnNewFriend()
 
-    .catch (err)->
-      _.error err, 'fetchFriendsAndTheirItems err'
+    .catch (err)-> console.warn 'fetchFriendsAndTheirItems err', err
   else
     app.users.fetched = true
     app.vent.trigger 'users:ready'

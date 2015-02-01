@@ -97,9 +97,19 @@ module.exports = (Backbone, _, app, window)->
         return regex.test(last)
       else false
 
+    dropProtocol: (path)-> path.replace /^(https?:)?\/\//, ''
+
+    cdn: (path, width, height, extend)->
+      unless _.isNumber(height) then height = width
+      size = "#{width}x#{height}"
+      unless extend then size += 'g'
+      path = @dropProtocol path
+      return "http://cdn.filter.to/#{size}/#{path}"
+
     placeholder: (height=250, width=200)->
       text = _.i18n 'missing image'
-      "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
+      url = "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
+      return @cdn url, height
 
     openJsonWindow: (obj, windowName)->
       json = JSON.stringify obj, null, 4
