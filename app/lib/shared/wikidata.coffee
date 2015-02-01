@@ -24,6 +24,7 @@ module.exports = (promises_, _)->
       'Q1004' # bande dessinée
       'Q8261' #roman
       'Q25379' #theatre play
+      'Q7725634' #literary work
     ]
     edition: [
       'Q3972943' #publishing
