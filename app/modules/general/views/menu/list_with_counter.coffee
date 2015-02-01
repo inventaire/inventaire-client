@@ -5,7 +5,10 @@ module.exports = class ListWithCounter extends Backbone.Marionette.CompositeView
 
   onRender: -> @updateCounter()
 
-  initialize: -> @listenTo @collection, 'all', @updateCounter
+  initialize: -> @initUpdaters()
+
+  initUpdaters: ->
+    @listenTo @collection, 'all', @updateCounter
 
   tagName: 'li'
   className: 'has-dropdown not-click'

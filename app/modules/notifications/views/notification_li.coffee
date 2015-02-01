@@ -20,4 +20,4 @@ module.exports = class NotificationLi extends Backbone.Marionette.ItemView
 
   showUserProfile: ->
     app.execute 'show:user', @username
-    app.execute 'notifications:close'
+    app.execute 'notifications:menu:close'
