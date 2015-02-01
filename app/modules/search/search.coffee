@@ -48,21 +48,21 @@ API =
     else
       _.preq.get app.API.entities.search(search)
       .then (res)->
-        _.log res, 'res at searchEntities'
+        _.log res, 'query:searchEntities res'
         spreadResults(res)
         # hiding the loader
         region1.empty()
       .then -> displayResults(region1, region2, view)
-      .fail (err)=>
+      .catch (err)->
         # couldn't make the alert Behavior work properly
         # so the triggerMethod '404' thing is a provisory solution
         view.$el.trigger 'alert', {message: _.i18n 'no item found'}
-        view.triggerMethod '404'
+        displayResults(region1, region2, view)
         _.log err, 'searchEntities err'
-        # if err.status is 404
 
 
-spreadResults = (res)=>
+spreadResults = (res)->
+  _.log res, 'res at spreadResults'
   app.results =
     humans: new Entities
     authors: new Entities
@@ -97,7 +97,7 @@ addIsbnEntities = (resultsArray)->
   books = new IsbnEntities resultsArray
   books.models.map (el)-> app.results.books.add el
 
-displayResults = (region1, region2, view)=>
+displayResults = (region1, region2, view)->
     [humans, authors, books] = [app.results.humans, app.results.authors, app.results.books]
     if books.length + authors.length + humans.length > 0
       if books.length > 0
