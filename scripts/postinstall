@@ -3,4 +3,4 @@
 ./scripts/install_scripts
 bower install
 ./scripts/bower_fix.coffee
-./scripts/run_patches $HOME/inventaire/client/scripts/patches
+../scripts/run_patches $HOME/inventaire/client/scripts/patches
