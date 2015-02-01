@@ -29,16 +29,22 @@
   }
 
   .requestLi{
-    @include flex(row);
-    div{
+    @include flex(row, center, space-between);
+    div.selectUser, div.actions{
       @include flex(row);
       flex: 1;
+    }
+    div.selectUser{
+      @include flex(row, center, flex-start);
+    }
+    div.actions{
     }
     // max-width: 40rem !important;
     .username{
       // font-size: 1.2em;
       margin: 0em 1em 0em 1em;
       vertical-align: middle;
+      font-weight: bold;
     }
     img{
       margin-left: 0;
