@@ -6,8 +6,13 @@
     </div>
     <div>
       {{partial 'user:persona_button'}}
+      <div class="emailNote">
+        {{I18n 'email_note'}}
+      </div>
     </div>
-    {{partial 'back' this}}
+    <div class="back">
+      {{partial 'back' this}}
+    </div>
   </div>
   <div class="custom-cell">
     <p class="bold">{{i18n 'persona_tip_intro'}}</p>

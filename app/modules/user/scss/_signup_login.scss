@@ -10,15 +10,23 @@ $auth-menu-bg: rgba($light-grey, 0.8);
     margin: 1em 1em 1em 1em;
     width: 100%;
     text-align: center;
+    div.back{
+      text-align: left;
+      a.back{
+        margin: 1em 1em 0em 0em;
+      }
+    }
   }
   a.button{
     font-weight: bold;
-  }
-  a.back{
-    margin: 1em;
   }
 }
 
 #personaButton{
   margin-bottom: 2em;
+}
+
+.emailNote{
+  margin-top: 1em;
+  // background-color: red;
 }

@@ -13,7 +13,6 @@ module.exports = class SignupStep2 extends Backbone.Marionette.ItemView
     return attrs =
       back:
         classes: 'button'
-        message: _.i18n 'edit username'
       welcome_username: _.i18n('welcome_username', {username: username})
 
 
