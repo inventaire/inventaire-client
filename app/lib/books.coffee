@@ -8,12 +8,13 @@ books_.getImage = (data)->
 images = []
 eventName = (data)-> "image:#{data}"
 getImages = ->
+  _.log 'querying image'
   _.preq.get app.API.entities.getImages(images)
   .then (res)->
     _.log res, 'data:getImages res'
-    if res? and _.isObject(res)
-      for data, v of res
-        app.vent.trigger eventName(data), v
+    if res? and _.isArray(res)
+      res.forEach (el)->
+        app.vent.trigger eventName(el.data), el.image
     images = []
   .fail (err)-> _.logXhrErr err, "getImages err for images: #{images}"
 

@@ -10,17 +10,16 @@ wdBooks_.findIsbn = (claims)->
     if isbn? then return books_.normalizeIsbn(isbn)
 
 wdBooks_.findAPictureByBookData = (bookModel)->
-  _.log 'trying to findAPictureByBookData'
-  unless bookModel.get('pictures')?[0]? or bookModel.get('status.imageRequested')
-
+  unless bookModel.get('status.imageRequested')
+    _.log bookModel.attributes, 'trying to findAPictureByBookData'
     isbn = wdBooks_.findIsbn(bookModel.claims)
-    _.log isbn, 'isbn'
     if isbn? then data = isbn
     else
       label = bookModel.get('label')
       if label? and bookModel.claims?.P50?
         authors = app.request('get:entities:labels', bookModel.claims.P50)
-        if authors?
+        if authors?[0]?
+          _.log authors, 'authors'
           authors = authors.join ' '
           data = "#{label} #{authors}"
 
@@ -38,17 +37,15 @@ wdBooks_.findAPictureByBookData = (bookModel)->
   else
     _.log 'entity:picture:already requested'
 
-catchImage = (bookModel, res)->
-  _.log res, "got it!!! #{data}"
-  if res?.image?
-    image = res.image
-    pictures = [res.image]
-    @set('pictures', pictures)
-  _.log [bookModel.get('pictures'), bookModel], 'just requested a picture'
-
+catchImage = (bookModel, image)->
+  if image?
+    _.log image, "got it!!"
+    bookModel.unshift('pictures', image)
 
 wdBooks_.fetchAuthorsEntities = (bookModel)->
     authors = bookModel.get('claims.P50')
-    app.request('get:entities:models', 'wd', authors)
+    if authors?.length > 0
+      return app.request('get:entities:models', 'wd', authors)
+    else return _.preq.reject('no author found at fetchAuthorsEntities')
 
 module.exports = wdBooks_

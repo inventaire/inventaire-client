@@ -107,8 +107,9 @@ module.exports = class WikidataEntity extends Entity
       when 'human' then @initializeAuthor()
 
   initializeBook: ->
-    wdBooks_.findAPictureByBookData(@)
     wdBooks_.fetchAuthorsEntities(@)
+    .then => wdBooks_.findAPictureByBookData(@)
+    .catch (err)-> _.log(err, 'fetchAuthorsEntities err')
 
   initializeAuthor: ->
 

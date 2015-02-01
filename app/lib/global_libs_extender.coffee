@@ -14,6 +14,12 @@ module.exports = (_)->
     array.push value
     @set attr, array
 
+  Backbone.Model::unshift = (attr, value)->
+    array = @get(attr)
+    _.typeArray(array)
+    array.unshift value
+    @set attr, array
+
   Backbone.Model::without = (attr, value)->
     array = @get(attr)
     _.typeArray(array)
