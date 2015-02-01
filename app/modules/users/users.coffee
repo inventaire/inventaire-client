@@ -38,11 +38,18 @@ fetchFriendsAndTheirItems = ->
       app.users.fetched = true
       app.vent.trigger 'users:ready'
 
+      fetchItemsOnNewFriend()
+
     .catch (err)->
       _.error err, 'fetchFriendsAndTheirItems err'
   else
     app.users.fetched = true
     app.vent.trigger 'users:ready'
+
+fetchItemsOnNewFriend = ->
+  app.users.friends.on 'add', (friend)->
+    app.execute 'friend:fetchItems', friend
+    app.request 'show:inventory:user', friend
 
 addFriend = (friend)->
   userModel = app.users.friends.add friend
