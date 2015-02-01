@@ -1,4 +1,3 @@
-
 module.exports = class EntityCreate extends Backbone.Marionette.ItemView
   template: require './templates/entity_create'
   className: 'entityCreate'
