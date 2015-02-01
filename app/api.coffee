@@ -47,6 +47,7 @@ module.exports =
       create: '/api/entities'
       get: (ids)-> _.buildPath '/api/entities',
         ids: ids.join?('|') or ids
+    followed: '/api/entities/followed'
   notifs: '/api/notifs'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   proxy: (url)-> "/api/proxy/#{url}"
