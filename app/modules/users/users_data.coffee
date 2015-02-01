@@ -14,11 +14,13 @@ module.exports = (app, $, _)->
 
   fetchRelationsData = ->
     relations = app.user.relations
-    _.log relations, 'relations:all'
-    ids = _.allValues(relations)
-    _.log ids, 'relations:fetchRelationsData ids'
-    return localData.get(ids)
-    .then (data)-> spreadRelationsData(data, relations)
+    if relations?
+      _.log relations, 'relations:all'
+      ids = _.allValues(relations)
+      _.log ids, 'relations:fetchRelationsData ids'
+      return localData.get(ids)
+      .then (data)-> spreadRelationsData(data, relations)
+    else return _.preq.reject 'no relations found at fetchRelationsData'
 
   spreadRelationsData = (data, relations)->
     relationsData =
