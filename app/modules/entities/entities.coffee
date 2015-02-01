@@ -58,11 +58,13 @@ API =
 
     Entities.data.get(prefix, ids, 'collection')
     .then (data)->
-      models = data.map (el)->
-        model = new Model(el)
-        Entities.add model
-        return model
-      return models
+      if data?
+        models = data.map (el)->
+          model = new Model(el)
+          Entities.add model
+          return model
+        return models
+      else throw new Error('couldnt find entity at getEntitiesModels')
     .catch (err)-> _.log err, 'getEntitiesModels err'
 
   getEntityModel: (prefix, id)->

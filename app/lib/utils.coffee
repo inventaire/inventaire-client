@@ -208,6 +208,8 @@ module.exports = (Backbone, _, app, window)->
 
     isUuid: (str)-> /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test str
 
+    noop: ->
+
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless utils.isMuted(label)
     return @toString()
