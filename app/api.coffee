@@ -51,5 +51,5 @@ module.exports =
   notifs: '/api/notifs'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   proxy: (url)-> "/api/proxy/#{url}"
-  test: '/api/test'
-  testJson: '/api/test/json'
+  test: '/api/test/public'
+  testJson: '/api/test/public/json'
