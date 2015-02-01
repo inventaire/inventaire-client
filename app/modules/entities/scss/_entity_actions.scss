@@ -24,6 +24,10 @@
     font-size: 1.2rem;
     cursor: default;
   }
+
+  #stopFollowing.warn{
+    background-color: $warning-color;
+  }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     flex-direction: column;
