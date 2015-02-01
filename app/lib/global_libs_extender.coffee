@@ -50,6 +50,11 @@ module.exports = (_)->
   # only implementing the promise interface
   # i.e. no success callbacks
   $.postJSON = (url, data)-> ajax 'POST', url, 'json', data
+  $.put = (url, data)->
+    $.ajax
+      url: url
+      data: data
+      type: 'PUT'
   $.putJSON = (url, data)-> ajax 'PUT', url, 'json', data
   $.delete = (url)-> ajax 'DELETE', url
   $.getXML = (url)-> ajax 'GET', url, 'xml'
