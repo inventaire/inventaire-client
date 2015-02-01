@@ -23,7 +23,7 @@ module.exports =
     .catch (err)-> _.logXhrErr err, "POST #{url}"
 
   put: (url, body)->
-    Promise.resolve($.post(url, body))
+    Promise.resolve($.put(url, body))
     .catch (err)-> _.logXhrErr err, "PUT #{url}"
 
   delete: (url)->
