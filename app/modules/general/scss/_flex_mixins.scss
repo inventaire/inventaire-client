@@ -1,4 +1,6 @@
 @mixin flex($direction:null, $align:null, $justify:null, $wrap:null) {
+  @include vendor-prefix-value(display, box);
+  @include vendor-prefix-value(display, flexbox);
   @include vendor-prefix-value(display, flex);
   display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
   display: -ms-flexbox;      /* TWEENER - IE 10 */
