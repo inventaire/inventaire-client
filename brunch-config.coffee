@@ -6,8 +6,9 @@ exports.config =
     javascripts:
       defaultExtension: "coffee"
       joinTo:
-        'javascripts/app.js': /^app/
+        # foundation js is included in vendor as a normal bower component
         'javascripts/vendor.js': /^(vendor\/scripts|bower_components)/
+        'javascripts/app.js': /^app/
       order:
         before: [
           "bower_components/jquery/dist/jquery.js"
@@ -21,9 +22,10 @@ exports.config =
     stylesheets:
       defaultExtension: "scss"
       joinTo:
-        'stylesheets/app.css': /^(app)/
-        # excluding foundation as its scss files are selected from the app
+        # /!\ foundation is joined to app.css as its scss '!default'ed properties requires to be after app
+        # but in the same compiled file! (thus the failing attemps to extract foundation in its own file)
         'stylesheets/vendor.css': /^(vendor\/stylesheets|bower_components\/(?!foundation))/
+        'stylesheets/app.css': /^app/
 
     templates:
       joinTo: 'javascripts/app.js'

@@ -8,8 +8,12 @@
 
 // Behold, here are all the Foundation components.
 
+
+// global: already imported by all components, doesn't need to be imported here
+// functions: already imported by global components
+// @import "../bower_components/foundation/scss/normalize";
+
 @import
-  "../bower_components/foundation/scss/foundation/functions",
   "../bower_components/foundation/scss/foundation/components/grid",
   "../bower_components/foundation/scss/foundation/components/alert-boxes",
   "../bower_components/foundation/scss/foundation/components/block-grid",
