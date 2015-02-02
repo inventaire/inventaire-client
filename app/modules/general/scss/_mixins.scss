@@ -70,7 +70,7 @@
   background-image: url($url);
 }
 
-@mixin multidef-bg-cover($url, $hd:null){
+@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
   @extend .bg-cover-commons;
   /*Small screens*/
   @media screen and (max-width: 500px) {
@@ -82,7 +82,7 @@
   }
   @if $hd {
     @media screen and (min-width: 1300px) {
-      background-image: url('//' + $url);
+      background-image: url($protocol + '://' + $url);
     }
   }
 }
