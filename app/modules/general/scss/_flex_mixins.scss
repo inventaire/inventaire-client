@@ -4,7 +4,14 @@
   display: -ms-flexbox;      /* TWEENER - IE 10 */
 
   @if $direction {
+    @include vendor-prefix(box-direction, $direction);
     @include vendor-prefix(flex-direction, $direction);
+  }
+  @if $direction == row {
+    @include vendor-prefix(box-orient, horizontal);
+  }
+  @if $direction == column {
+    @include vendor-prefix(box-orient, vertical);
   }
   @if $align {
     @include vendor-prefix(align-items, $align);
@@ -24,16 +31,9 @@
     #{$property}: #{$value};
 }
 
-@mixin flex-prop($grow:1, $shrink:null, $basis:null) {
-  @if $grow {
-    @include vendor-prefix(flex-grow, $grow)
-  }
-  @if $shrink {
-    @include vendor-prefix(flex-shrink, $shrink)
-  }
-  @if $basis {
-    @include vendor-prefix(flex-basis, $basis)
-  }
+@mixin flex-prop($grow:0, $shrink:1, $basis:auto) {
+  @include vendor-prefix(box-flex, $grow $shrink $basis);
+  @include vendor-prefix(flex, $grow $shrink $basis);
 }
 
 @mixin align-self($value) {
