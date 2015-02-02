@@ -1,3 +1,4 @@
+require('lib/feature_detection')()
 require('lib/uncatched_error_logger').initialize()
 
 window.sharedLib = sharedLib = require('lib/shared/shared_libs')
