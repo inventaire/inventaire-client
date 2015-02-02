@@ -47,7 +47,7 @@ $user-box-heigth: 3em;
   justify-content: space-around;
   div{
     background-color: $main-bg;
-    flex: auto;
+    @include flex-prop(null, null, auto);
     height: 100%;
     @include flex(row, center, center);
     color: $dark-grey;

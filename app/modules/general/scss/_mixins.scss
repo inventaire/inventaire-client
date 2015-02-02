@@ -1,23 +1,18 @@
 @mixin vendor-prefix($property, $value, $prefixes: webkit moz ms o) {
     @each $prefix in $prefixes {
-        #{"-" + $prefix + "-" + $property}: $value;
+        #{"-" + $prefix + "-" + $property}: #{$value};
     }
-    #{$property}: $value;
+    #{$property}: #{$value};
 }
 
-@mixin flex($direction, $align:null, $justify:null, $wrap:null) {
-  display: flex;
-  flex-direction: $direction;
-  @if $align {
-    align-items: $align;
-  }
-  @if $justify {
-    justify-content: $justify;
-  }
-  @if $wrap {
-    flex-wrap: $wrap;
-  }
+@mixin vendor-prefix-value($property, $value, $prefixes: webkit moz ms o) {
+    @each $prefix in $prefixes {
+        #{$property}: #{"-" + $prefix + "-" + $value};
+    }
+    #{$property}: #{$value};
 }
+
+@import 'flex_mixins';
 
 @mixin color-class($color, $contrast:white, $darken:15%) {
   color: $color;

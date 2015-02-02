@@ -1,5 +1,4 @@
 .entityActions{
-  // @extend .flex-row-wrap;
   @include flex(row, center, center);
   margin-bottom: 1rem;
   div.entityAction{

@@ -14,7 +14,7 @@
     @include flex(column, center, center);
     h3{
       text-align: center;
-      display: flex;
+      @include flex()
     }
   }
   .actions{
@@ -29,8 +29,8 @@
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   .bookLi{
-    flex-direction: column;
-    flex: 1;
+    @include flex(column);
+    @include flex-prop(1);
     .bookCover{
       max-width: 100%;
       padding: 1em;
@@ -47,10 +47,10 @@
     .bookCover{
     }
     .bookLiData{
-      flex: 1;
+      @include flex-prop(1);
     }
     .actions{
-      flex: 0 0 14em;
+      @include flex-prop(0, 0, 14em);
       margin-left: auto;
     }
   }

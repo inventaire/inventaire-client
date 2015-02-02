@@ -3,5 +3,5 @@
   // Ginny - CC-BY
   // original found at https://www.flickr.com/photos/ginnerobot/3102623100
   @include multidef-bg-cover('img.inventaire.io/ginnerobot-CC-BY-.jpg', 'hd');
-  flex: 1;
+  @include flex-prop(1);
 }

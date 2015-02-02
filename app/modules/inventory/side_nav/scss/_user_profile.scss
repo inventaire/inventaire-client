@@ -5,7 +5,7 @@
   @include border($dark-grey, 1px, ridge);
   @include flex(column, center, center);
   a.close{
-    align-self: flex-end;
+    @include align-self(flex-end);
     margin: 0.5em 0.5em -2em;
     .fa{
       font-size: 1.2em;

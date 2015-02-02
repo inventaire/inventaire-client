@@ -1,0 +1,41 @@
+@mixin flex($direction:null, $align:null, $justify:null, $wrap:null) {
+  @include vendor-prefix-value(display, flex);
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+
+  @if $direction {
+    @include vendor-prefix(flex-direction, $direction);
+  }
+  @if $align {
+    @include vendor-prefix(align-items, $align);
+  }
+  @if $justify {
+    @include vendor-prefix(justify-content, $justify);
+  }
+  @if $wrap {
+    @include vendor-prefix(flex-wrap, $wrap);
+  }
+}
+
+@mixin flex-prop-prefixes($property, $value, $prefixes: webkit-box webkit moz-box moz ms o) {
+    @each $prefix in $prefixes {
+        #{"-" + $prefix + "-" + $property}: #{$value};
+    }
+    #{$property}: #{$value};
+}
+
+@mixin flex-prop($grow:1, $shrink:null, $basis:null) {
+  @if $grow {
+    @include vendor-prefix(flex-grow, $grow)
+  }
+  @if $shrink {
+    @include vendor-prefix(flex-shrink, $shrink)
+  }
+  @if $basis {
+    @include vendor-prefix(flex-basis, $basis)
+  }
+}
+
+@mixin align-self($value) {
+  @include vendor-prefix(align-self, $value);
+}

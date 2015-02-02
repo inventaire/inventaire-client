@@ -9,7 +9,7 @@
         max-height: $user-height;
       }
       a{
-        flex: 1;
+        @include flex-prop(1);
         background-color: $main-bg;
         color: $dark-grey;
         line-height: 1em;
@@ -32,7 +32,7 @@
     @include flex(row, center, space-between);
     div.selectUser, div.actions{
       @include flex(row);
-      flex: 1;
+      @include flex-prop(1);
     }
     div.selectUser{
       @include flex(row, center, flex-start);

@@ -4,7 +4,7 @@
   }
   @include flex(row, center, space-between);
   .fa{
-    flex:1;
+    @include flex-prop(1);
     font-size: 1.2em;
     text-align: right;
   }

@@ -1,5 +1,5 @@
 #error{
-  flex: 1;
+  @include flex-prop(1);
   @include flex(column, center, center);
   background-color: $dark-grey;
   .errorBox{

@@ -16,11 +16,9 @@ section#welcome-one{
     }
   }
   #loginButtons{
-    display: flex;
-    flex-direction:row;
-    flex-wrap: wrap;
+    @include flex(row, null, null, wrap);
     .button{
-      flex: 1;
+      @include flex-prop(1);
       font-weight: bold;
       min-width: 10em;
     }

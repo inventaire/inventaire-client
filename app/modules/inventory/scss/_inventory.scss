@@ -17,7 +17,7 @@ $tabs-navigation-font-color: #fff;
   // it pushes other divs under the flex constraints
   .sideNavClones{}
   #itemsView{
-    flex: 1;
+    @include flex-prop(1);
   }
 }
 

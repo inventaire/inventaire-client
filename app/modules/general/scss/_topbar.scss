@@ -79,8 +79,8 @@ nav.top-bar {
     }
     // passing flex-grow:1 to the search input
     section, .right, .right div, li.has-form{
-      flex: 1;
-      display: flex;
+      @include flex();
+      @include flex-prop(1);
     }
     .right{
       max-width: 70em;
@@ -108,7 +108,7 @@ nav.top-bar {
     #searchGroup{
       // already displayed flex thank to input.scss
       input{
-        flex: 1;
+        @include flex-prop(1);
         height: $seach-input-height;
         padding: 0 0 0 1em;
         border-radius: $global-radius;

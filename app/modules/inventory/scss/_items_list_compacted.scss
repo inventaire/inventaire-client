@@ -9,7 +9,7 @@
         margin-top: 0;
         background-color: rgba(40,40,40, 0.7);
         * {
-          flex: 1;
+          @include flex-prop(1);
           color: white;
         }
       }

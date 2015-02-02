@@ -1,5 +1,5 @@
 .select-button-group{
-  @extend .flex-row-wrap;
+  @include flex(row, null, null, wrap);
   margin-top: 1rem;
   margin-bottom: 1rem;
   .button{

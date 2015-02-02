@@ -11,23 +11,21 @@
     }
     .wikipediaPreviewToggler{
       @include flex(column, center, center);
-      flex: 2 1;
+      @include flex-prop(2, 1);
       a{
         font-size: 1.4em;
       }
     }
     .wiki-sitelinks{
-      @include flex(row, center, flex-end);
-      flex: 3 0;
-      flex-wrap: nowrap;
+      @include flex(row, center, flex-end, nowrap);
+      @include flex-prop(3, 0);
       a{
         padding: 1em;
-        @include flex(row, center, center);
-        flex-wrap: wrap;
+        @include flex(row, center, center, wrap);
       }
       .wikipedia, .wikisource, .wikidata{
         margin: 0.3em;
-        display: flex;
+        @include flex();
       }
       .wikipedia{
         @include flex(row);
@@ -49,15 +47,15 @@
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     .wiki-menu-bar{
-      flex-direction: column;
+      @include flex(column);
       .wiki-sitelinks{
-        flex-direction: column;
+        @include flex(column);
         .wikipedia, .wikisource, .wikidata{
           width: 100%;
         }
         .wikipedia{
           a:first-child{
-            flex: 1;
+            @include flex-prop(1);
           }
         }
       }

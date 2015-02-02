@@ -1,12 +1,11 @@
 .checkWrapper{
-  display: flex;
-  flex-direction: column;
+  @include flex(column);
   div:first-child{
-    flex:1;
+    @include flex-prop(1);
   }
   .check{
     width: 3em;
-    align-self: center;
+    @include align-self(center);
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {

@@ -2,7 +2,7 @@
   width: 100%;
   @include flex(row, left, flex-start);
   .inputBox{
-    flex: 1;
+    @include flex-prop(1);
     min-width: 60%;
   }
   margin-bottom: 0.5em;
