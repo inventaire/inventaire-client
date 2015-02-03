@@ -30,11 +30,9 @@ module.exports = class EntityShow extends Backbone.Marionette.LayoutView
     @listenTo @model, 'add:pictures', @render
     @fetchPublicItems()
 
-  onShow: ->
+  onRender: ->
     app.request('qLabel:update')
     @showEntityActions()
-
-  onRender: ->
     if app.user.loggedIn
       @showPersonalItems()
       @showFriendsItems()
