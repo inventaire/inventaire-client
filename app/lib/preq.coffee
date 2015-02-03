@@ -1,6 +1,9 @@
 Promise::fail = Promise::caught
 Promise::always = Promise::finally
 
+Promise.onPossiblyUnhandledRejection (err)->
+  throw new Error JSON.stringify(err)
+
 module.exports =
   get: (url, options)->
     CORS = options?.CORS

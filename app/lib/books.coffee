@@ -14,7 +14,8 @@ getImages = ->
     _.log res, 'data:getImages res'
     if res? and _.isArray(res)
       res.forEach (el)->
-        app.vent.trigger eventName(el.data), el.image
+        if el?
+          app.vent.trigger eventName(el.data), el.image
     images = []
   .fail (err)-> _.logXhrErr err, "getImages err for images: #{images}"
 
