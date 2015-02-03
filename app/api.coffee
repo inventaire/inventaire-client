@@ -50,6 +50,6 @@ module.exports =
     followed: '/api/entities/followed'
   notifs: '/api/notifs'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
-  proxy: (url)-> "/api/proxy/#{url}"
+  proxy: (url)-> "/api/proxy/public/#{url}"
   test: '/api/test/public'
   testJson: '/api/test/public/json'
