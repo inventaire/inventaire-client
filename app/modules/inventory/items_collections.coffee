@@ -19,7 +19,7 @@ module.exports = (app, _)->
   friends.fetchFriendItems = Items.fetchFriendItems.bind(Items)
   friends.add = Items.add.bind(Items)
 
-  app.vent.on 'friends:items:ready', -> friends.fetched = true
+  app.vent.once 'friends:items:ready', -> friends.fetched = true
 
   return _.extend Items,
     personal: personal

@@ -8,17 +8,17 @@ module.exports =
       'waitForData': (cb, context, args...)->
         fn = -> cb.apply context, args
         if app.data.ready then fn()
-        else app.vent.on 'data:ready', fn
+        else app.vent.once 'data:ready', fn
 
       'waitForUserData': (cb, context, args...)->
         fn = -> cb.apply context, args
         if app.user?.fetched then fn()
-        else app.vent.on 'user:ready', fn
+        else app.vent.once 'user:ready', fn
 
       'waitForFriendsItems': (cb, context, args...)->
         fn = -> cb.apply context, args
         if Items?.friends?.fetched then fn()
-        else app.vent.on 'friends:items:ready', fn
+        else app.vent.once 'friends:items:ready', fn
 
   _updateStatus: ->
     # if @missing wasnt initialized
