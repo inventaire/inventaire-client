@@ -6,13 +6,15 @@ module.exports =
   user: '/api/user'
   users:
     data: (ids)->
-      if ids?
-        ids = ids.join?('|') or ids
+      ids = _.forceArray(ids)
+      if _.all ids, _.isUserId
+        ids = ids.join '|'
         return "/api/users?action=getusers&ids=#{ids}"
-      else throw new Error "users data API needs an array of ids"
+      else throw new Error "users data API needs an array of valid user ids"
     items: (ids)->
+      ids = _.forceArray(ids)
       if ids?
-        ids = ids.join?('|') or ids
+        ids = ids.join '|'
         return "/api/users?action=getitems&ids=#{ids}"
       else throw new Error "users' items API needs an id"
     search: (text)->
@@ -36,17 +38,20 @@ module.exports =
         search: search
         language: app.user.lang
     getImages: (data)->
+      data = _.forceArray(data).join '|'
       _.buildPath "/api/entities/public",
         action: 'getimages'
-        data: data.join?('|') or data
+        data: data
     isbns: (isbns)->
+      isbns = _.forceArray(isbns).join '|'
       _.buildPath '/api/entities/public',
         action: 'getisbnentities'
-        isbns: isbns.join?('|') or isbns
+        isbns: isbns
     inv:
       create: '/api/entities'
-      get: (ids)-> _.buildPath '/api/entities',
-        ids: ids.join?('|') or ids
+      get: (ids)->
+        ids = _.forceArray(ids).join '|'
+        _.buildPath '/api/entities', { ids: ids }
     followed: '/api/entities/followed'
   notifs: '/api/notifs'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
