@@ -27,8 +27,11 @@ module.exports = (Backbone, _, app, window)->
       return obj
 
     error: (err)->
-      unless err?.stack? then err = new Error(err)
-      console.error(err.message or err, err.stack?.split('\n'))
+      unless err?.stack?
+        newErr = new Error('empty error sent to _.error')
+        console.error(err, newErr.message, newErr.stack?.split('\n'))
+      else
+        console.error(err.message or err, err.stack?.split('\n'))
 
     logAllEvents: (obj, prefix='logAllEvents')->
       obj.on 'all', (event)->
@@ -46,13 +49,13 @@ module.exports = (Backbone, _, app, window)->
       $.post app.API.test, log
 
     logXhrErr: (err, label)->
-      if err?.responseText?
-        label = "#{err.responseText} (#{label})"
+      if err?.responseText? then label = "#{err.responseText} (#{label})"
       if err?.status?
         switch err.status
           when 401 then console.warn '401', label
           when 404 then console.warn '404', label
       else console.error label, err
+      return
 
     setCookie: (key, value)->
       $.post '/api/cookie', {key: key, value: value}
@@ -70,7 +73,7 @@ module.exports = (Backbone, _, app, window)->
     inspect: (obj, label)->
       # remove after using as it keeps reference of the inspected object
       # making the garbage collection impossible
-      if label then _.log obj, label
+      if label? then _.log obj, "#{label} added to window.current for inspection"
       if window.current?
         window.previous or= []
         window.previous.unshift(window.current)

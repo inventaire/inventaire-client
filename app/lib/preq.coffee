@@ -9,31 +9,14 @@ Promise.onPossiblyUnhandledRejection (err)->
 module.exports =
   get: (url, options)->
     CORS = options?.CORS
-
-    if _.localUrl(url) or CORS
-      promise = Promise.resolve $.get(url)
-    else
-      promise = Promise.resolve $.get app.API.proxy(url)
-
-    # default catch handler
-    # but others can be chained
-    # problem: it might result in several error messages
-    promise
-    .catch (err)-> _.logXhrErr err, "GET #{url}"
-
-    return promise
-
-  post: (url, body)->
-    Promise.resolve($.post(url, body))
-    .catch (err)-> _.logXhrErr err, "POST #{url}"
-
-  put: (url, body)->
-    Promise.resolve($.put(url, body))
-    .catch (err)-> _.logXhrErr err, "PUT #{url}"
-
-  delete: (url)->
-    Promise.resolve($.delete(url))
-    .catch (err)-> _.logXhrErr err, "DELETE #{url}"
+    if _.localUrl(url) or CORS then Promise.resolve $.get(url)
+    else Promise.resolve $.get app.API.proxy(url)
+  post: (url, body)-> Promise.resolve($.post(url, body))
+  put: (url, body)-> Promise.resolve($.put(url, body))
+  delete: (url)-> Promise.resolve($.delete(url))
 
   resolve: (res)-> Promise.resolve(res)
   reject: (err)-> Promise.reject(err)
+
+  catch401: (err)-> if err.status is 401 then return
+  catch404: (err)-> if err.status is 404 then return
