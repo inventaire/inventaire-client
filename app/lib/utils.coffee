@@ -46,10 +46,12 @@ module.exports = (Backbone, _, app, window)->
       $.post app.API.test, log
 
     logXhrErr: (err, label)->
+      if err?.responseText?
+        label = "#{err.responseText} (#{label})"
       if err?.status?
         switch err.status
+          when 401 then console.warn '401', label
           when 404 then console.warn '404', label
-          else console.error err.responseText, err, label
       else console.error label, err
 
     setCookie: (key, value)->
