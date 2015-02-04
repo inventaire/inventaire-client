@@ -16,6 +16,7 @@ section#status, section#social-networks{
   }
 }
 section#status{
+  @include flex(column, center, center);
   background-color: $dark-grey;
   h3.subheader{
     color: #aaa;
@@ -27,6 +28,7 @@ section#status{
   }
   p{
     margin: 0.1em;
+    max-width: 600px;
   }
 }
 

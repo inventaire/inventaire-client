@@ -4,8 +4,8 @@ section#welcome-three{
   @include multidef-bg-cover('img.inventaire.io/bokeh-pinkorchid_too-CC-BY-SA.jpg');
   ul.bonuses{
     margin-top: 2em;
-    @include flex(row, baseline, space-between);
     li{
+      max-width: 600px;
       margin-left: 1em;
       margin-right: 1em;
     }
@@ -25,8 +25,9 @@ section#welcome-three{
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     ul.bonuses{
-      flex-direction:column;
+      @include flex(column, center, center);
       li{
+        @include flex-prop(1, 0, 200px);
         margin: 0;
         margin-bottom: 0.2rem;
         width: 100%;
@@ -35,5 +36,12 @@ section#welcome-three{
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {}
+  @media screen and (min-width: $smallscreen) {
+    ul.bonuses{
+      @include flex(row, baseline, space-around, wrap);
+      li{
+        @include flex-prop(1, 0, 450px);
+      }
+    }
+  }
 }
