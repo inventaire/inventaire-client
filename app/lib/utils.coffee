@@ -151,10 +151,9 @@ module.exports = (Backbone, _, app, window)->
     validImageSrc: (url, callback)->
       image = new Image()
       image.src = url
-      def = $.Deferred()
       cb = ->
-        if image.complete then def.resolve(url)
-        else def.reject(url)
+        if image.complete then @preq.resolve(url)
+        else @preq.reject(url)
       setTimeout cb, 500
 
     allValid: (array, test)->

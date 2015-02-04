@@ -3,7 +3,7 @@ module.exports = (app, $, _)->
     get: (ids)-> _.preq.get app.API.users.data(ids)
     search: (text)->
       # catches case with ''
-      if _.isEmpty(text) then return $.Deferred().resolve([])
+      if _.isEmpty(text) then return _.preq.resolve([])
       else return _.preq.get app.API.users.search(text)
 
   localData = new app.LocalCache
