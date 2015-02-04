@@ -48,12 +48,12 @@ module.exports = (promises_, _)->
   Q.softAuthors = Q.authors.concat(Q.humans)
 
   methods =
-    getEntities: (ids, languages, props=defaultProps, format='json')->
+    getEntities: (ids, languages='en', props=defaultProps, format='json')->
       ids = [ids] if _.isString(ids)
       ids = @normalizeIds(ids)
 
-      languages = [languages] if _.isString(languages)
-      unless languages.hasOwnProperty('en') then languages.push 'en'
+      languages = _.forceArray(languages)
+      unless 'en' in languages then languages.push 'en'
 
       query = _.buildPath(API.wikidata.base,
         action: 'wbgetentities'
