@@ -1,12 +1,12 @@
 @mixin flex-direction($direction){
-  @include vendor-prefix(box-direction, $direction);
-  @include vendor-prefix(flex-direction, $direction);
   @if $direction == row {
     @include vendor-prefix(box-orient, horizontal);
   }
   @if $direction == column {
     @include vendor-prefix(box-orient, vertical);
   }
+  @include vendor-prefix(box-direction, $direction);
+  @include vendor-prefix(flex-direction, $direction);
 }
 
 @mixin align-items($align){
@@ -22,11 +22,11 @@
 }
 
 @mixin display-flex($direction:null, $align:null, $justify:null, $wrap:null) {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
   @include vendor-prefix-value(display, box);
   @include vendor-prefix-value(display, flexbox);
   @include vendor-prefix-value(display, flex);
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
 
   @if $direction {
     @include flex-direction($direction)

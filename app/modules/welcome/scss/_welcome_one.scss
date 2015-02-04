@@ -16,7 +16,7 @@ section#welcome-one{
     }
   }
   #loginButtons{
-    @include display-flex(row, null, null, wrap);
+    @include display-flex(row, center, center, wrap);
     .button{
       @include flex(1);
       font-weight: bold;
