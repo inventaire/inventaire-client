@@ -26,35 +26,22 @@ module.exports =
 
 API =
   showGeneralInventory: ->
-    if app.user.loggedIn
-      showInventory _.i18n 'Home'
-      showItemList Items.filtered.resetFilters()
-      app.vent.trigger 'inventory:change', 'general'
-    else app.execute 'show:welcome'
+    unless app.user.loggedIn then return app.execute 'show:welcome'
+    showInventory
+      items: Items.filtered.resetFilters()
+      ownerId: null
+      welcomingNoItem: true
+
+  showUserInventory: (user, navigate)->
+    showInventory
+      items: Items.filtered
+      user: user
+      navigate: navigate
+      welcomingNoItem: false
 
   showItemCreationForm: (options)->
     form = new ItemCreationForm options
     app.layout.main.show form
-
-  # should be reimplemented taking example on ItemShow switch
-  showUserInventory: (user)->
-    app.request 'waitForData', @filterForUser, @, user
-
-  filterForUser: (user)->
-    if _.isModel(user)
-      userModel = user
-      username = user.get('username')
-    else
-      username = user
-      userModel = app.request 'get:userModel:from:username', user
-    if userModel?
-      app.execute 'filter:inventory:owner', Items.filtered, userModel.id
-      showInventory(username)
-      showItemList(Items.filtered)
-      app.execute 'sidenav:show:user', userModel
-      app.vent.trigger 'inventory:change', username
-    else
-      _.log user, 'user not found: you should do some ajax wizzardry to get him'
 
   itemShow: (username, suffix, label)->
     app.execute('show:loader', {title: "#{label} - #{username}"})
@@ -62,7 +49,7 @@ API =
 
   showItemShow: (username, suffix, label)->
     owner = app.request 'get:userId:from:username', username
-    if _.isUser(owner)
+    if _.isMainUser(owner)
       items = Items.personal.where({suffix: suffix})
     else if _.isFriend(owner)
       items = Items.friends.where({owner: owner, suffix: suffix})
@@ -93,22 +80,9 @@ API =
     itemShow = new ItemShow {model: item}
     app.layout.main.show itemShow
 
-showInventory = (docTitle)->
-  # regions shouldnt be undefined, which can't be tested by "app.invenshowItemShowtory?._isShown"
-  # so here I just test one of Inventory regions
-  unless app.inventory?.itemsView?
-    app.inventory = new InventoryLayout
-    app.layout.main.Show app.inventory, docTitle
-  else app.docTitle(docTitle)
-
-showItemList = (collection)->
-  # waitForData to avoid having items displaying undefined values
-  app.request 'waitForData', ->
-    itemsList = app.inventory.itemsList = new app.View.Items.List
-      collection: collection
-      columns: true
-      welcomingNoItem: true
-    app.inventory.itemsView.show itemsList
+showInventory = (options)->
+  inventoryLayout = new InventoryLayout options
+  app.layout.main.show inventoryLayout
 
 
 # LOGIC
@@ -147,10 +121,7 @@ initializeInventoriesHandlers = (app)->
       app.navigate 'inventory'
 
     'show:inventory:user': (user)->
-      if _.isModel(user) then username = user.get('username')
-      else username = user
       API.showUserInventory(user)
-      app.navigate "inventory/#{username}"
 
     'show:item:creation:form': (params)->
       API.showItemCreationForm(params)
