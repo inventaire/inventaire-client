@@ -3,8 +3,8 @@ Promise::always = Promise::finally
 Promise.longStackTraces()  if _.env is 'dev'
 
 Promise.onPossiblyUnhandledRejection (err)->
-  console.error 'PossiblyUnhandledRejection', JSON.stringify(err)
-  throw err
+  label = "[PossiblyUnhandledError] #{err.name}: #{err.message} (#{typeof err.message})"
+  console.error label, err.stack.split('\n')
 
 module.exports =
   get: (url, options)->
