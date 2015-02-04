@@ -70,9 +70,15 @@ module.exports = class Item extends Filterable
     attrs.currentTransaction = Items.transactions[attrs.transaction]
     unless attrs.restricted
       attrs.transactions = Items.transactions
-      attrs.currentListing = app.user.listings[attrs.listing]
       attrs.listings = app.user.listings
       attrs.uiId = _.uniqueId('item_')
+      if attrs.listing?
+        attrs.currentListing = app.user.listings[attrs.listing]
+      else
+        # main user item fetched from a public API
+        # requires to borrow its listing to the private item
+        listing = app.request('get:item:model', attrs._id)?.get('listing')
+        attrs.currentListing = app.user.listings[listing]
 
     if @entity? then attrs.entity = @entity.toJSON?()
 

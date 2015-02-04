@@ -5,7 +5,8 @@ module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
 
   serializeData: ->
     listings = _.clone(app.user.listings)
-    listings[@model.get('listing')].selected = true
+    listing = @model.get('listing')
+    listings[listing].selected = true
 
     return _.extend @model.toJSON(),
       listings: listings

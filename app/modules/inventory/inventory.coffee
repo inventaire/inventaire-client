@@ -162,3 +162,5 @@ initializeInventoriesHandlers = (app)->
           options.next()
           return promise
         actionArgs: options
+
+    'get:item:model': (id)-> Items.personal.byId(id)
