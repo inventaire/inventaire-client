@@ -1,5 +1,18 @@
-module.exports.initialize = ->
+window.reportErr = (obj)->
+  obj or= {}
 
+  context = []
+  if app?.user?.loggedIn
+    context = ["user: #{app.user.id} (#{app.user.get('username')})"]
+  else
+    context = ["user: not logged user"]
+  context.push navigator.userAgent
+  obj.context = context
+
+  $.post '/api/logs/public', obj
+
+
+module.exports.initialize = ->
   # excluding Chrome
   unless window.navigator.webkitGetGamepads?
     window.onerror = (errorMsg, url, lineNumber, columnNumber, errObj)->
@@ -12,4 +25,4 @@ module.exports.initialize = ->
         report = [ errorMsg, url, lineNumber, columnNumber ]
 
       console.error.apply console, report
-      $.post '/api/logs/public', {error: report, context: navigator.userAgent}
+      window.reportErr(report)

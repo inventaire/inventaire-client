@@ -27,12 +27,13 @@ module.exports = (Backbone, _, app, window)->
       return obj
 
     error: (err)->
-      $.post '/api/logs/public', {error: err, context: navigator.userAgent}
       unless err?.stack?
         newErr = new Error('empty error sent to _.error')
-        console.error(err, newErr.message, newErr.stack?.split('\n'))
+        report = [err, newErr.message, newErr.stack?.split('\n')]
       else
-        console.error(err.message or err, err.stack?.split('\n'))
+        report = [console.error(err.message or err, err.stack?.split('\n'))]
+      window.reportErr {error: report}
+      console.error.apply console, report
 
     logAllEvents: (obj, prefix='logAllEvents')->
       obj.on 'all', (event)->

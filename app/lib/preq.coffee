@@ -5,7 +5,7 @@ Promise.longStackTraces()  if _.env is 'dev'
 Promise.onPossiblyUnhandledRejection (err)->
   label = "[PossiblyUnhandledError] #{err.name}: #{err.message} (#{typeof err.message})"
   console.error label, err.stack.split('\n')
-  $.post '/api/logs/public', {label: label, error: err, context: navigator.userAgent}
+  window.reportErr {label: label, error: err}
 
 module.exports =
   get: (url, options)->
