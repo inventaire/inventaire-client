@@ -26,7 +26,7 @@
   .icon{
     margin-right: 0.5em;
   }
-  @include flex(row, null, null, wrap);
+  @include display-flex(row, null, null, wrap);
   li{
     margin-right: 0.4em;
   }
@@ -37,7 +37,7 @@
     width: 100%;
   }
   .wiki-sitelinks{
-    flex-direction: column;
+    @include flex-direction(column);
     align-items: center;
     li{
       background-color: $grey;

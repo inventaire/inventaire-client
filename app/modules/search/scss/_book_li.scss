@@ -1,5 +1,5 @@
 .bookLi{
-  @include flex(row, center, space-around);
+  @include display-flex(row, center, space-around);
   background-color: $contrast;
   margin: 0.2em;
   .bookCover{
@@ -11,14 +11,14 @@
     }
   }
   .bookLiData{
-    @include flex(column, center, center);
+    @include display-flex(column, center, center);
     h3{
       text-align: center;
-      @include flex()
+      @include display-flex()
     }
   }
   .actions{
-    @include flex(column, left, center);
+    @include display-flex(column, left, center);
     padding: 0.5em;
     a{
       @include custom-button($light-grey, $dark-grey);
@@ -29,8 +29,8 @@
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   .bookLi{
-    @include flex(column);
-    @include flex-prop(1);
+    @include display-flex(column);
+    @include flex(1);
     .bookCover{
       max-width: 100%;
       padding: 1em;
@@ -47,10 +47,10 @@
     .bookCover{
     }
     .bookLiData{
-      @include flex-prop(1);
+      @include flex(1);
     }
     .actions{
-      @include flex-prop(0, 0, 14em);
+      @include flex(0, 0, 14em);
       margin-left: auto;
     }
   }

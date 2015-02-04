@@ -88,7 +88,7 @@
 }
 
 @mixin custom-column($max-width: 50em){
-  @include flex(column, center, center);
+  @include display-flex(column, center, center);
   > div{
     max-width: $max-width;
   }

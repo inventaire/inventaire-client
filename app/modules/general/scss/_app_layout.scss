@@ -5,7 +5,7 @@ body{
   main {
     background-color: $main-bg;
     min-height: 95vh;
-    @include flex(column);
+    @include display-flex(column);
   }
   #modal{}
 }

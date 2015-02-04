@@ -3,7 +3,7 @@
 $pitch-bg-color: rgba(255, 255, 255, 0.6);
 
 section#welcome-one{
-  @include flex(column, center, space-between);
+  @include display-flex(column, center, space-between);
   @extend .book-bg;
   h2{
     color: white;
@@ -16,9 +16,9 @@ section#welcome-one{
     }
   }
   #loginButtons{
-    @include flex(row, null, null, wrap);
+    @include display-flex(row, null, null, wrap);
     .button{
-      @include flex-prop(1);
+      @include flex(1);
       font-weight: bold;
       min-width: 10em;
     }

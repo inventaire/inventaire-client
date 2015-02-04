@@ -25,9 +25,9 @@ section#welcome-three{
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     ul.bonuses{
-      @include flex(column, center, center);
+      @include display-flex(column, center, center);
       li{
-        @include flex-prop(1, 0, 200px);
+        @include flex(1, 0, 200px);
         margin: 0;
         margin-bottom: 0.2rem;
         width: 100%;
@@ -38,9 +38,9 @@ section#welcome-three{
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     ul.bonuses{
-      @include flex(row, baseline, space-around, wrap);
+      @include display-flex(row, baseline, space-around, wrap);
       li{
-        @include flex-prop(1, 0, 450px);
+        @include flex(1, 0, 450px);
       }
     }
   }

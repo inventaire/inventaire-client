@@ -2,9 +2,9 @@
   h4{
     color: $grey;
   }
-  @include flex(row, center, space-between);
+  @include display-flex(row, center, space-between);
   .fa{
-    @include flex-prop(1);
+    @include flex(1);
     font-size: 1.2em;
     text-align: right;
   }

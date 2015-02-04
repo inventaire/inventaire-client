@@ -5,7 +5,7 @@
   #innerNav{
     width: 100%;
     height: 100%;
-    @include flex(column, left, space-between);
+    @include display-flex(column, left, space-between);
     a, h3{
       color: white;
     }
@@ -23,7 +23,7 @@
   }
 
   #two{
-    @include flex(column, left, flex-start);
+    @include display-flex(column, left, flex-start);
     @import 'users_lists';
   }
 }

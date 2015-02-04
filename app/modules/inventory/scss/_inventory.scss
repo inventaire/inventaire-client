@@ -10,14 +10,14 @@ $tabs-navigation-font-color: #fff;
 #innerMain{
   // needed by Chrome (at least) to expand items on the whole page
   width: 100%;
-  @include flex(row);
+  @include display-flex(row);
   // sideNavClones #sideNav and #shadowSideNav
   // have the same behavior but the later
   // without the fixed position so that
   // it pushes other divs under the flex constraints
   .sideNavClones{}
   #itemsView{
-    @include flex-prop(1);
+    @include flex(1);
   }
 }
 
@@ -36,7 +36,7 @@ $tabs-navigation-font-color: #fff;
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   #innerMain{
-    flex-direction: column;
+    @include flex-direction(column);
     .sideNavClones{}
   }
 }

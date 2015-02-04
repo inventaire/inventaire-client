@@ -2,7 +2,7 @@
   width: 100%;
   .wiki-menu-bar{
     width: 100%;
-    @include flex(column-reverse, center, space-around);
+    @include display-flex(column-reverse, center, space-around);
     background-color: $grey;
     padding: 0.5em;
     .fa, a{
@@ -10,25 +10,25 @@
       font-weight: bold;
     }
     .wikipediaPreviewToggler{
-      @include flex(column, center, center);
-      @include flex-prop(2, 1);
+      @include display-flex(column, center, center);
+      @include flex(2, 1);
       a{
         font-size: 1.4em;
       }
     }
     .wiki-sitelinks{
-      @include flex(row, center, flex-end, nowrap);
-      @include flex-prop(3, 0);
+      @include display-flex(row, center, flex-end, nowrap);
+      @include flex(3, 0);
       a{
         padding: 1em;
-        @include flex(row, center, center, wrap);
+        @include display-flex(row, center, center, wrap);
       }
       .wikipedia, .wikisource, .wikidata{
         margin: 0.3em;
-        @include flex();
+        @include display-flex();
       }
       .wikipedia{
-        @include flex(row);
+        @include display-flex(row);
       }
       a.wikisource, a.wikidata, .wikipedia a:first-child{
         @include custom-button(#555);
@@ -47,15 +47,15 @@
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     .wiki-menu-bar{
-      @include flex(column);
+      @include display-flex(column);
       .wiki-sitelinks{
-        @include flex(column);
+        @include display-flex(column);
         .wikipedia, .wikisource, .wikidata{
           width: 100%;
         }
         .wikipedia{
           a:first-child{
-            @include flex-prop(1);
+            @include flex(1);
           }
         }
       }

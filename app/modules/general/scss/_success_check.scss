@@ -1,7 +1,7 @@
 .checkWrapper{
-  @include flex(column);
+  @include display-flex(column);
   div:first-child{
-    @include flex-prop(1);
+    @include flex(1);
   }
   .check{
     width: 3em;

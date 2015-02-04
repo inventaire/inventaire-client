@@ -2,7 +2,7 @@ $joyride-tip-font-size: 1em; // Foundation variable
 $joyride-tip-bg: $darker-grey; // Foundation variable
 
 #socialNetworks{
-  @include flex(row, center, space-around);
+  @include display-flex(row, center, space-around);
   height: 2.6em;
   margin-top: 1em;
   margin-bottom: 1em;

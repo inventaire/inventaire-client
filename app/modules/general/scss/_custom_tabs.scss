@@ -1,11 +1,11 @@
 $active-custom-tab-bg: $light-grey;
 
 .custom-tabs{
-  @include flex(column, left);
+  @include display-flex(column, left);
 
   .custom-tabs-titles{
     width: 100%;
-    @include flex(row, flex-start);
+    @include display-flex(row, flex-start);
     a{
       text-transform: capitalize;
       padding: 1em;
@@ -26,7 +26,7 @@ $active-custom-tab-bg: $light-grey;
   @media screen and (max-width: $smallscreen) {
     width: 100%;
     .custom-tabs-titles{
-      flex-wrap: wrap;
+      @include flex-wrap(wrap);
       width: 100%;
     }
     .custom-tabs-content{

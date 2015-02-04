@@ -1,8 +1,8 @@
 .inputGroup{
   width: 100%;
-  @include flex(row, left, flex-start);
+  @include display-flex(row, left, flex-start);
   .inputBox{
-    @include flex-prop(1);
+    @include flex(1);
     min-width: 60%;
   }
   margin-bottom: 0.5em;
@@ -14,7 +14,7 @@
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    flex-direction: column;
+    @include flex-direction(column);
     .inputBox{
       input{
         margin: 0 !important;

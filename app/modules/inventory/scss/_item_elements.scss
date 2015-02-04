@@ -22,10 +22,10 @@ $user-box-heigth: 3em;
   width: 100%;
   height: $user-box-heigth;
   background-color: $main-bg;
-  @include flex(row, center);
+  @include display-flex(row, center);
   .user{
     max-height: $user-box-heigth;
-    @include flex(column, left, space-between);
+    @include display-flex(column, left, space-between);
     .profilePic{
       height: $user-box-heigth;
       width: $user-box-heigth;
@@ -43,13 +43,13 @@ $user-box-heigth: 3em;
 .settings{
   min-height: $user-box-heigth;
   width: 100%;
-  @include flex(row, center, space-between);
+  @include display-flex(row, center, space-between);
   justify-content: space-around;
   div{
     background-color: $main-bg;
-    @include flex-prop(null, null, auto);
+    @include flex(null, null, auto);
     height: 100%;
-    @include flex(row, center, center);
+    @include display-flex(row, center, center);
     color: $dark-grey;
     ul{
       padding: 0.2em;

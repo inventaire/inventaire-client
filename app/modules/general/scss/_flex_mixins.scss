@@ -1,4 +1,27 @@
-@mixin flex($direction:null, $align:null, $justify:null, $wrap:null) {
+@mixin flex-direction($direction){
+  @include vendor-prefix(box-direction, $direction);
+  @include vendor-prefix(flex-direction, $direction);
+  @if $direction == row {
+    @include vendor-prefix(box-orient, horizontal);
+  }
+  @if $direction == column {
+    @include vendor-prefix(box-orient, vertical);
+  }
+}
+
+@mixin align-items($align){
+  @include vendor-prefix(align-items, $align);
+}
+
+@mixin justify-content($justify){
+  @include vendor-prefix(justify-content, $justify);
+}
+
+@mixin flex-wrap($wrap){
+  @include vendor-prefix(flex-wrap, $wrap);
+}
+
+@mixin display-flex($direction:null, $align:null, $justify:null, $wrap:null) {
   @include vendor-prefix-value(display, box);
   @include vendor-prefix-value(display, flexbox);
   @include vendor-prefix-value(display, flex);
@@ -6,34 +29,20 @@
   display: -ms-flexbox;      /* TWEENER - IE 10 */
 
   @if $direction {
-    @include vendor-prefix(box-direction, $direction);
-    @include vendor-prefix(flex-direction, $direction);
-  }
-  @if $direction == row {
-    @include vendor-prefix(box-orient, horizontal);
-  }
-  @if $direction == column {
-    @include vendor-prefix(box-orient, vertical);
+    @include flex-direction($direction)
   }
   @if $align {
-    @include vendor-prefix(align-items, $align);
+    @include align-items($align)
   }
   @if $justify {
-    @include vendor-prefix(justify-content, $justify);
+    @include justify-content($justify)
   }
   @if $wrap {
-    @include vendor-prefix(flex-wrap, $wrap);
+    @include flex-wrap($wrap)
   }
 }
 
-@mixin flex-prop-prefixes($property, $value, $prefixes: webkit-box webkit moz-box moz ms o) {
-    @each $prefix in $prefixes {
-        #{"-" + $prefix + "-" + $property}: #{$value};
-    }
-    #{$property}: #{$value};
-}
-
-@mixin flex-prop($grow:0, $shrink:1, $basis:auto) {
+@mixin flex($grow:0, $shrink:1, $basis:auto) {
   @include vendor-prefix(box-flex, $grow $shrink $basis);
   @include vendor-prefix(flex, $grow $shrink $basis);
 }

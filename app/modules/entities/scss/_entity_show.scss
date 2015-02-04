@@ -7,9 +7,9 @@
     width: 100%;
   }
   .allItems{
-    @include flex-prop(1);
+    @include flex(1);
     .items{
-      @include flex(row);
+      @include display-flex(row);
     }
   }
 }

@@ -3,13 +3,13 @@
     div{
       min-width: 10em;
       min-height: 3em;
-      @include flex(row);
+      @include display-flex(row);
       img{
         margin-left: 0;
         max-height: $user-height;
       }
       a{
-        @include flex-prop(1);
+        @include flex(1);
         background-color: $main-bg;
         color: $dark-grey;
         line-height: 1em;
@@ -29,13 +29,13 @@
   }
 
   .requestLi{
-    @include flex(row, center, space-between);
+    @include display-flex(row, center, space-between);
     div.selectUser, div.actions{
-      @include flex(row);
-      @include flex-prop(1);
+      @include display-flex(row);
+      @include flex(1);
     }
     div.selectUser{
-      @include flex(row, center, flex-start);
+      @include display-flex(row, center, flex-start);
     }
     div.actions{
     }

@@ -1,5 +1,5 @@
 .select-button-group{
-  @include flex(row, null, null, wrap);
+  @include display-flex(row, null, null, wrap);
   margin-top: 1rem;
   margin-bottom: 1rem;
   .button{
@@ -16,7 +16,7 @@
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    flex-direction: column;
+    @include flex-direction(column);
     .button{
       outline: 0.1em solid $contrast;
       &:first-child { outline-top: none; }

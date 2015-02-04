@@ -5,7 +5,7 @@ $user-bg: #ddd;
   height: $user-height;
   width: 100%;
   color: $light-grey;
-  @include flex(row);
+  @include display-flex(row);
   img{
     margin-left: 0;
     height: $user-height;
@@ -13,17 +13,17 @@ $user-bg: #ddd;
     overflow: hidden;
   }
   .right-box{
-    @include flex-prop(1);
+    @include flex(1);
     .userMenu{
-      @include flex(row, center, flex-end);
-      @include flex-prop(1);
+      @include display-flex(row, center, flex-end);
+      @include flex(1);
     }
   }
 }
 
 .userLi.friends{
   .right-box{
-    @include flex(row, center);
+    @include display-flex(row, center);
     .username{
       margin: 0em 1em 0em 1em;
       vertical-align: middle;
@@ -31,7 +31,7 @@ $user-bg: #ddd;
     .userMenu{
       margin-right: 0.7em;
       font-size: 1em;
-      @include flex-prop(1);
+      @include flex(1);
       a{
         text-align: right;
       }

@@ -1,10 +1,9 @@
 .entityCreateForm{
-  @include flex(row);
-  flex-wrap: wrap;
+  @include display-flex(row, null, null, wrap);
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    flex-direction: column;
+    @include flex-direction(column);
     div:last-child{
       padding: 1em;
       @include align-self(center);
@@ -14,12 +13,12 @@
   @media screen and (min-width: $smallscreen) {
     div{
       &:first-child{
-        @include flex-prop(3);
+        @include flex(3);
         min-width: 15em;
       }
       &:last-child{
-        @include flex-prop(1);
-        @include flex(column, center, center);
+        @include flex(1);
+        @include display-flex(column, center, center);
         padding: 2.6em 2em 2em 2em;
         .pictures{
           text-align: center;

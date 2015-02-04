@@ -1,5 +1,5 @@
 .entityActions{
-  @include flex(row, center, center);
+  @include display-flex(row, center, center);
   margin-bottom: 1rem;
   div.entityAction{
     // take care of both row and column display
@@ -29,7 +29,7 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    flex-direction: column;
+    @include flex-direction(column);
   }
 
   /*Large screens*/

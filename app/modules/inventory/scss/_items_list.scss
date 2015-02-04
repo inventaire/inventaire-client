@@ -7,7 +7,7 @@
     width: 100%;
     @include vendor-prefix(column-break-inside, avoid);
     margin-bottom: 1em;
-    @include flex(column, center);
+    @include display-flex(column, center);
     // background-color: $dark-grey;
     figcaption{
       text-align: left;
