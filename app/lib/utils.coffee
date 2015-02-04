@@ -27,6 +27,7 @@ module.exports = (Backbone, _, app, window)->
       return obj
 
     error: (err)->
+      $.post '/api/logs/public', {error: err, context: navigator.userAgent}
       unless err?.stack?
         newErr = new Error('empty error sent to _.error')
         console.error(err, newErr.message, newErr.stack?.split('\n'))
