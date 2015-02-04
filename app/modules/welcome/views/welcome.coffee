@@ -10,6 +10,9 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     # importing loggin buttons events
     @events = NotLoggedMenu::events
 
+  serializeData: ->
+    loggedIn: app.user.loggedIn
+
   ui:
     topBarTrigger: '#middle-three'
 
