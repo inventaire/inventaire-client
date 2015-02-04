@@ -123,7 +123,7 @@
     "cancel deletion": "annuler la suppression",
     "delete": "supprimer",
     "only me": "moi uniquement",
-    "Empowering the Transition": "un outil pour la Transition",
+    "Empowering the Transition": "Un outil pour la Transition",
     "Just Books. Yet.": "Juste des livres. Pour le moment",
     "status": "status",
     "status:": "status :",
@@ -231,5 +231,6 @@
     "scan a barcode": "scanner un code bar",
     "the email you use to identify with Mozilla Persona will be the one Inventaire uses to send you notifications": null,
     "about": null,
-    "back to welcome screen": null
+    "back to welcome screen": null,
+    "back to your inventory": null
 }
