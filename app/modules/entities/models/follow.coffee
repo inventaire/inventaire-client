@@ -2,6 +2,10 @@ module.exports = Backbone.NestedModel.extend
   url: app.API.entities.followed
   initialize: ->
     _.preq.get(@url)
+    # I can't find how to just catch 401 errors at _.logXhrErr
+    # instead of having it poping around here
+    # If I remove the catch, it appears as an unhandled error
+    .catch (err)-> console.log "follow err #{err.status} (muted)"
     .then @initializeFollowedEntities.bind(@)
     .always @initializeUpdater.bind(@)
 
