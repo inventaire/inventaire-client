@@ -5,7 +5,7 @@ wdAuthors_ = {}
 wdAuthors_.fetchAuthorsBooks = (authorModel, limit)->
   wdAuthors_.fetchAuthorsBooksIds(authorModel)
   .then -> wdAuthors_.fetchAuthorsBooksEntities(authorModel)
-  .catch (err)->  _.log err.split('\n'), 'wdAuthors_.fetchAuthorsBooks err?'
+  .catch (err)-> _.error err, 'wdAuthors_.fetchAuthorsBooks err'
 
 wdAuthors_.fetchAuthorsBooksIds = (authorModel)->
   if authorModel.get('reverseClaims')?.P50?
