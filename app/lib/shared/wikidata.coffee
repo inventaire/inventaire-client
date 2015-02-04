@@ -88,14 +88,16 @@ module.exports = (promises_, _)->
       return type
 
     wmCommonsThumb: (file, width=500)->
+      # requires a user agent
       # requires a proxy that transfers the Content-type headers
+      # should eventually be moved on the server-side for cache mutualization
       url = app.API.proxy "http://tools.wmflabs.org/magnus-toolserver/commonsapi.php?image=#{file}&thumbwidth=#{width}"
-      return $.getXML url
+      return _.preq.resolve $.getXML(url)
       .then (res)->
         # parsing the XML with jQuery
         return $(res).find('thumbnail')?.text?()
-      .fail (err)=>
-        console.log "couldnt find the #{file} via tools.wmflabs.org"
+      .catch (err)=>
+        console.warn "couldnt find #{file} via tools.wmflabs.org, will use the small thumb version"
         return @wmCommonsSmallThumb file, 200
 
     wmCommonsSmallThumb: (file, width="100")->
