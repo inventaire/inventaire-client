@@ -52,3 +52,6 @@ module.exports =
 
   typeString: (str)-> @type str, 'string'
   typeArray: (array)-> @type array, 'array'
+  forceArray: (keys)->
+    unless @isArray(keys) then [keys]
+    else keys
