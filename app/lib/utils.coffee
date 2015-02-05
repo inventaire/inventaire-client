@@ -115,8 +115,7 @@ module.exports = (Backbone, _, app, window)->
 
     placeholder: (height=250, width=200)->
       text = _.i18n 'missing image'
-      url = "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
-      return @cdn url, height
+      return "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
 
     openJsonWindow: (obj, windowName)->
       json = JSON.stringify obj, null, 4
