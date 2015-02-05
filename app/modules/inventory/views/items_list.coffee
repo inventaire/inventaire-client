@@ -1,4 +1,4 @@
-module.exports = class ItemsList extends Backbone.Marionette.CollectionView
+module.exports = Backbone.Marionette.CollectionView.extend
   childView: require './item_figure'
   getEmptyView: ->
     if @options.welcomingNoItem then require './welcoming_no_item'
@@ -8,3 +8,5 @@ module.exports = class ItemsList extends Backbone.Marionette.CollectionView
     classes = 'itemsList jk'
     if @options.columns then classes += ' columnsLayout'
     return classes
+
+  initialize: -> app.execute 'items:pagination:head'

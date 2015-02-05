@@ -1,4 +1,6 @@
 @import "item_creation";
+@import "items_label";
+@import "items_control";
 @import "items_list";
 
 
@@ -16,8 +18,15 @@ $tabs-navigation-font-color: #fff;
   // without the fixed position so that
   // it pushes other divs under the flex constraints
   .sideNavClones{}
-  #itemsView{
+  #inventoryView{
+    @include display-flex(column);
     @include flex(1);
+    #beforeItems{
+    }
+    #itemsView{
+      @include display-flex(row);
+      @include flex(1);
+    }
   }
 }
 

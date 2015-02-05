@@ -26,15 +26,12 @@ module.exports =
 
 API =
   showGeneralInventory: ->
-    unless app.user.loggedIn then return app.execute 'show:welcome'
     showInventory
-      items: Items.filtered.resetFilters()
       ownerId: null
       welcomingNoItem: true
 
   showUserInventory: (user, navigate)->
     showInventory
-      items: Items.filtered
       user: user
       navigate: navigate
       welcomingNoItem: false
@@ -81,6 +78,7 @@ API =
     app.layout.main.show itemShow
 
 showInventory = (options)->
+  unless app.user.loggedIn then return app.execute 'show:welcome'
   inventoryLayout = new InventoryLayout options
   app.layout.main.show inventoryLayout
 
@@ -164,3 +162,5 @@ initializeInventoriesHandlers = (app)->
         actionArgs: options
 
     'get:item:model': (id)-> Items.personal.byId(id)
+
+  require('./lib/pagination')()
