@@ -26,18 +26,23 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
 
   loadPublicItems: ->
     _.preq.get app.API.items.public()
+    .catch _.preq.catch404
     .then (res)=>
-      _.log res, 'Items.public res'
-      app.users.public.add res.users
-      items = new app.Collection.Items
-      items.add res.items
-      itemsColumns = new app.View.Items.List
-        collection: items
-        columns: true
-      @previewColumns.show itemsColumns
-    .fail (err)=>
-      $('#welcome-two').find('h3').hide()
+      if res?.items?.length > 0
+        _.log res, 'Items.public res'
+        app.users.public.add res.users
+        items = new app.Collection.Items
+        items.add res.items
+        itemsColumns = new app.View.Items.List
+          collection: items
+          columns: true
+        @previewColumns.show itemsColumns
+      else @hidePublicItems()
+    .catch (err)=>
+      @hidePublicItems()
       _.log err, 'couldnt loadPublicItems'
+
+  hidePublicItems: -> $('#welcome-two').hide()
 
   hideTopBar: -> $('.top-bar').hide()
   showTopBar: -> $('.top-bar').slideDown()
