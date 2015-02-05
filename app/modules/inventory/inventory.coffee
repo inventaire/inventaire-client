@@ -121,7 +121,7 @@ initializeInventoriesHandlers = (app)->
       app.navigate 'inventory'
 
     'show:inventory:user': (user)->
-      API.showUserInventory(user)
+      API.showUserInventory(user, true)
 
     'show:item:creation:form': (params)->
       API.showItemCreationForm(params)
