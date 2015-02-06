@@ -24,14 +24,26 @@ $user-bg: #ddd;
 .userLi.friends{
   .right-box{
     @include display-flex(row, center);
-    .username{
-      margin: 0em 1em 0em 1em;
-      vertical-align: middle;
+    a:first-child{
+      @include flex(1);
+      .username{
+        margin: 0em 1em 0em 1em;
+        vertical-align: middle;
+      }
+    }
+    .inventoryLength{
+      opacity: 0.4;
+      @include display-flex(row, center, center);
+      background-color: $darker-grey;
+      border-radius: $global-radius;
+      padding-bottom: 0.1em;
+      @include flex(0, 0, 1.4em);
     }
     .userMenu{
-      margin-right: 0.7em;
+      @include flex(0, 0, 1.6em);
+      margin-left: 0.5em;
+      margin-right: 0.5em;
       font-size: 1em;
-      @include flex(1);
       a{
         text-align: right;
       }

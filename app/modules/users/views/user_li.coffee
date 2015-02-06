@@ -15,13 +15,17 @@ module.exports = class UserLi extends Backbone.Marionette.ItemView
     'click .select': 'selectUser'
 
   initialize:->
-    @listenTo @model, 'change', @render
+    @lazyRender = _.debounce @render, 200
+    @listenTo @model, 'change', @lazyRender
+    @listenTo app.vent, "inventory:#{@model.id}:change", @lazyRender
 
   serializeData: ->
     attrs = @model.toJSON()
-    status = attrs.status
+    relationStatus = attrs.status
     # converting the status into a boolean for the template
-    attrs[status] = true
+    attrs[relationStatus] = true
+    if relationStatus is 'friends'
+      attrs.inventoryLength = app.request 'inventory:user:length', @model.id
     return attrs
 
   selectUser: ->

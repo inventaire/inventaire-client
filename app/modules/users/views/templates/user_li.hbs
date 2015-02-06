@@ -7,6 +7,9 @@
   <a class="select">
     <span class="username">{{username}}</span>
   </a>
+  {{#if inventoryLength}}
+    <a class="inventoryLength select">{{inventoryLength}}</a>
+  {{/if}}
   <div class="userMenu">
     {{#if friends}} 
       <a class="light-grey friend" data-options="align:top" data-dropdown="{{username}}-menu">
