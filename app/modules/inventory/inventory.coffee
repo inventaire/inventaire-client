@@ -28,13 +28,11 @@ API =
   showGeneralInventory: ->
     showInventory
       ownerId: null
-      welcomingNoItem: true
 
   showUserInventory: (user, navigate)->
     showInventory
       user: user
       navigate: navigate
-      welcomingNoItem: false
 
   showItemCreationForm: (options)->
     form = new ItemCreationForm options

@@ -21,18 +21,19 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     app.request 'waitForFriendsItems', @showItemsList.bind(@)
 
   showItemsList: ->
-    {items, user, welcomingNoItem, navigate} = @options
-    docTitle = _.i18n('Home')
-    eventName = 'general'
+    if Items.length is 0 then return @showInventoryWelcome()
 
+    {user, navigate} = @options
     if user?
       username = prepareUserItemsList(user, navigate)
       docTitle = eventName = username
+    else
+      docTitle = _.i18n('Home')
+      eventName = 'general'
 
     itemsList = new app.View.Items.List
       collection: Items.filtered.paginated
       columns: true
-      welcomingNoItem: welcomingNoItem
     @itemsView.show itemsList
 
     app.vent.trigger 'document:title:change', docTitle
@@ -41,6 +42,10 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     # @beforeItems.show new ItemsLabel
     @afterItems.show new ItemsControl
 
+  showInventoryWelcome: ->
+    inventoryWelcome = require('./inventory_welcome')
+    view = new inventoryWelcome
+    @itemsView.show view
 
 prepareUserItemsList = (user, navigate)->
   userModel = findUser(user)

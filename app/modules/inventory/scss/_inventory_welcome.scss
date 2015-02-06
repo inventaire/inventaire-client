@@ -1,0 +1,10 @@
+.inventoryWelcome{
+  @include flex(1);
+  @include display-flex(column, center, center);
+  text-align: center;
+  a{
+    font-weight: bold;
+    margin: 1em;
+  }
+  min-height: 50vh;
+}
