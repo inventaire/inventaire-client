@@ -1,0 +1,66 @@
+$user-height: 3rem;
+
+$user-bg: #ddd;
+.userLi{
+  height: $user-height;
+  width: 100%;
+  color: $light-grey;
+  @include display-flex(row);
+  img{
+    margin-left: 0;
+    height: $user-height;
+    width: $user-height;
+    overflow: hidden;
+  }
+  .right-box{
+    @include flex(1);
+    .userMenu{
+      @include display-flex(row, center, flex-end);
+      @include flex(1);
+    }
+  }
+}
+
+.userLi.friends{
+  .right-box{
+    @include display-flex(row, center);
+    .username{
+      margin: 0em 1em 0em 1em;
+      vertical-align: middle;
+    }
+    .userMenu{
+      margin-right: 0.7em;
+      font-size: 1em;
+      @include flex(1);
+      a{
+        text-align: right;
+      }
+    }
+  }
+}
+
+.userLi:not(.friends){
+  .right-box{
+    .username{
+      margin-left: 0.5em;
+    }
+    .userMenu{
+      font-size: 0.9em;
+      a.action{
+        padding: 0 0.3em 0 0.3em;
+      }
+      .cancel{
+        background-color: $grey;
+      }
+      .accept{
+        background-color: $success-color;
+      }
+      .discard{
+        background-color: $grey;
+      }
+      .request{
+        background-color: $success-color;
+      }
+    }
+  }
+}
