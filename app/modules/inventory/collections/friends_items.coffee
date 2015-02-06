@@ -25,6 +25,12 @@ module.exports = class FriendsItems extends Items
     app.commands.setHandlers
       'friends:zero': @friendsReady.bind(@)
 
+    @on 'add', @inventoryEvent.bind(@)
+
   friendsReady:->
     app.vent.trigger 'friends:items:ready'
     @fetched = true
+
+  inventoryEvent: (item)->
+    owner = item.get('owner')
+    if owner? then app.vent.trigger "inventory:#{owner}:change"
