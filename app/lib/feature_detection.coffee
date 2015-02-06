@@ -1,5 +1,19 @@
 module.exports = ->
+  sayHi()
   testFlexSupport()
+
+
+sayHi = ->
+  console.log """
+
+  ,___,
+  [-.-]   I've been expecting you, Mr Bond
+  /)__)
+  -"--"-
+  Want to make Inventaire better? Jump in! https://github.com/maxlath/inventaire
+  Guidelines and inspiration: https://inventaire.io/guidelines-and-inspiration
+  ------
+  """
 
 
 testFlexSupport = ->
