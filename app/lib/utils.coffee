@@ -107,11 +107,14 @@ module.exports = (Backbone, _, app, window)->
     dropProtocol: (path)-> path.replace /^(https?:)?\/\//, ''
 
     cdn: (path, width, height, extend)->
-      unless _.isNumber(height) then height = width
-      size = "#{width}x#{height}"
-      unless extend then size += 'g'
-      path = @dropProtocol path
-      return "http://cdn.filter.to/#{size}/#{path}"
+      # cdn.filter.to doesnt support https
+      unless /^https/.test path
+        unless _.isNumber(height) then height = width
+        size = "#{width}x#{height}"
+        unless extend then size += 'g'
+        path = @dropProtocol path
+        return "http://cdn.filter.to/#{size}/#{path}"
+      else return path
 
     placeholder: (height=250, width=200)->
       text = _.i18n 'missing image'
