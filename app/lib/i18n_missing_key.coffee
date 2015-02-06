@@ -5,7 +5,7 @@ module.exports = missingKey = (key)->
   lazyMissingKey()
 
 sendMissingKeys = ->
-  $.post '/log/i18n', {missingKeys: missingKeys}, null, 'json'
+  $.post '/log/i18n', {missingKeys: _.uniq(missingKeys)}, null, 'json'
   .then (res)->
     _.log missingKeys, 'i18n:missing added'
     missingKeys = []
