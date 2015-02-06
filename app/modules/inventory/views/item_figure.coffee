@@ -14,7 +14,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     'click .edit': 'itemEdit'
     'click a.itemShow, img:not(.profilePic)': 'itemShow'
     'click a.user': -> app.execute 'show:user', @username
-    'click .remove': 'itemDestroy'
+    'click a.remove': 'itemDestroy'
     'click a.commentToggleWrap': -> @toggleWrap('comment')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
     'click a.transaction': 'updateTransaction'
@@ -51,6 +51,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
     app.request 'item:destroy',
       model: @model
       selector: @el
+      next: -> console.log 'item deleted'
 
   toggleWrap: (nameBase)->
     @$el.find("span.#{nameBase}").toggleClass('wrapped')

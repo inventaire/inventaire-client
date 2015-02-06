@@ -4,7 +4,7 @@
     {{icon currentListing.icon}}{{icon 'caret-down'}}</a>
     <ul id="{{uiId}}-l-menu" data-options="align:right"
     class="tiny f-dropdown" data-dropdown-content>
-      <li>{{i18n 'Visibility'}}:</li>
+      <li><label>{{i18n 'change visibility:'}}</label></li>
       {{#each listings}}
         <li>
           <a id="{{id}}" class="listing">
@@ -12,6 +12,12 @@
           </a>
         </li>
       {{/each}}
+      <li><label>{{i18n 'other operations:'}}</label></li>
+      <li>
+        <a class="remove dark-grey">
+          {{icon 'trash-o'}} {{i18n 'Delete'}}
+        </a>
+      </li>
     </ul>
   </div>
 {{/unless}}
