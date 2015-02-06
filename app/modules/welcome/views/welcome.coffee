@@ -18,8 +18,9 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
 
   onShow: ->
     @loadPublicItems()
-    @hideTopBar()
-    @ui.topBarTrigger.once 'inview', @showTopBar
+    unless app.user.loggedIn
+      @hideTopBar()
+      @ui.topBarTrigger.once 'inview', @showTopBar
 
 
   onDestroy: -> @showTopBar()
