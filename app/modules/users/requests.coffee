@@ -41,6 +41,7 @@ module.exports = (app, _)->
       _.log user.get('username'), 'unfriend'
       [user, userId] = normalizeUser user
       user.set 'status', 'public'
+      app.execute 'inventory:remove:user:items', userId
       server.unfriend(userId)
 
   normalizeUser = (user)->

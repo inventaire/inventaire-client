@@ -137,6 +137,10 @@ initializeInventoriesHandlers = (app)->
       API.showItemShowFromItemModel(item)
       app.navigate item.pathname
 
+    'inventory:remove:user:items': (userId)->
+      userItems = Items.byOwner(userId)
+      if userItems?.length > 0 then Items.remove userItems
+
   app.reqres.setHandlers
     'item:update': (options)->
       # expects: item, attribute, value. optional: selector
