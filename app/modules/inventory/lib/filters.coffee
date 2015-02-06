@@ -10,6 +10,7 @@ module.exports =
 
     app.commands.setHandlers
       'filter:inventory:owner': filterInventoryByOwner
+      'filter:inventory:reset': resetInventoryFilter
       'filter:visibility': filterVisibilityBy
       'filter:visibility:reset': resetFilters
 
@@ -27,6 +28,9 @@ filterVisibilityBy = (audience)->
 
 resetFilters = ->
   Items.personal.filtered.resetFilters()
+
+resetInventoryFilter = (owner)->
+  Items.filtered.resetFilters()
 
 filterInventoryByOwner = (owner)->
   Items.filtered.resetFilters()

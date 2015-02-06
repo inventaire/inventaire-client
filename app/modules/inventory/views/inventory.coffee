@@ -28,6 +28,7 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
       username = prepareUserItemsList(user, navigate)
       docTitle = eventName = username
     else
+      app.execute 'filter:inventory:reset'
       docTitle = _.i18n('Home')
       eventName = 'general'
 
