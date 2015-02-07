@@ -165,6 +165,6 @@ initializeInventoriesHandlers = (app)->
 
     'get:item:model': (id)-> Items.personal.byId(id)
 
-    'inventory:user:length': (userId)-> Items.byOwner(userId)?.length
+    'inventory:user:length': (userId)-> Items.inventoryLength[userId]
 
   require('./lib/pagination')()
