@@ -6,7 +6,8 @@ module.exports = class IsbnEntity extends Entity
     @initLazySave()
     @findAPicture()
 
-    @id = @get 'id'
+    # already normalized as arriving from google books data
+    @id = @uri = @get 'id'
     pathname = "/entity/#{@id}"
 
     if title = @get 'title'
