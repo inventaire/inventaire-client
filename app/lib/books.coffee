@@ -23,6 +23,7 @@ lazyGetImages = _.debounce getImages, 100
 
 
 books_.getIsbnEntities = (isbns)->
+  isbns = isbns.map books_.normalizeIsbn
   _.preq.get app.API.entities.isbns(isbns)
 
 
