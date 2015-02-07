@@ -16,8 +16,11 @@ module.exports = (LocalDB, _, promises_)->
 
   LocalCache = (options)->
     _.log options, 'cache:options'
-    {name, remote, parseData} = options
-    _.types [name, remote], ['string', 'object']
+    {name, remote, normalizeId, parseData} = options
+
+    args = [name, remote, normalizeId, parseData]
+    types = ['string', 'object', 'function|undefined', 'function|undefined']
+    _.types args, types
 
     localdb = LocalDB(name)
 
@@ -27,7 +30,7 @@ module.exports = (LocalDB, _, promises_)->
 
     API =
       get: (ids, format='index', refresh)->
-        try ids = normalizeIds(ids)
+        try ids = _.forceArray(ids)
         catch err then return Promise.reject(err)
 
         if refresh
@@ -36,13 +39,8 @@ module.exports = (LocalDB, _, promises_)->
           promise = getLocalData(ids).then completeWithRemoteData
 
         return promise
-        .then (data)->
-          _.type data, 'object'
-          if format is 'collection' then data = _.values(data)
-          _.log data, "cache:format:#{format}"
-        .catch (err)->
-          _.error err, 'local cache err'
-          return
+        .then formatData.bind(null, format)
+        .catch logError
 
       save: (id, value)->
         _.types arguments, ['string', 'object']
@@ -52,15 +50,10 @@ module.exports = (LocalDB, _, promises_)->
       reset: -> localdb.destroy()
       db: localdb
 
-    normalizeIds = (ids)->
-      # formatting ids arrays for LevelMultiply
-      # thus normalizing the answer as an id-based index object
-      _.type ids, 'string|array'
-      if _.isString(ids) then ids = [ids]
-      return ids
-
     getLocalData = (ids)->
-      # _.type ids, 'array' asserted by normalizeIds
+      if normalizeId? then ids = ids.map normalizeId
+
+      # _.type ids, 'array' already asserted by _.forceArray
       localdb.get(ids)
       .then parseJSON
       .then (data)-> _.log data, "cache:#{name} present"
@@ -90,6 +83,9 @@ module.exports = (LocalDB, _, promises_)->
       missingIds = []
       for k, v of data
         missingIds.push(k)  unless v?
+
+      if missingIds.length > 0
+        _.log missingIds, "#{name} missingIds"
       return missingIds
 
     getMissingData = (ids)->
@@ -114,6 +110,15 @@ module.exports = (LocalDB, _, promises_)->
       _.types arguments, ['string', 'object']
       localdb.put id, JSON.stringify(value)
       return value
+
+    formatData = (format, data)->
+      _.type data, 'object'
+      if format is 'collection' then data = _.values(data)
+      _.log data, "cache:format:#{format}"
+
+    logError = (err)->
+      _.error err, 'local cache err'
+      return
 
 
     if remote.post?
