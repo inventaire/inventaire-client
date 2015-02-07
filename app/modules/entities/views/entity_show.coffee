@@ -78,7 +78,7 @@ module.exports = class EntityShow extends Backbone.Marionette.LayoutView
   showPublicItems: ->
     items = @public.items
     @showCollectionItems items, 'public'
-    _.log items, 'items'
+    _.log items, 'public items'
 
   showEntityActions: ->
     @actions.show new EntityActions {model: @model}
