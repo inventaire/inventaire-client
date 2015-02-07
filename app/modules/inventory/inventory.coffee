@@ -10,7 +10,7 @@ module.exports =
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
         'inventory/:user(/)': 'showUserInventory'
-        'inventory/:user/:suffix(/:title)(/)': 'itemShow'
+        'inventory/:user/:entity(/:title)(/)': 'itemShow'
 
     app.addInitializer ->
       new InventoryRouter
@@ -38,20 +38,20 @@ API =
     form = new ItemCreationForm options
     app.layout.main.show form
 
-  itemShow: (username, suffix, label)->
+  itemShow: (username, entity, label)->
     app.execute('show:loader', {title: "#{label} - #{username}"})
-    app.request 'waitForFriendsItems', @showItemShow, @, username, suffix, label
+    app.request 'waitForFriendsItems', @showItemShow, @, username, entity, label
 
-  showItemShow: (username, suffix, label)->
+  showItemShow: (username, entity, label)->
     owner = app.request 'get:userId:from:username', username
     if _.isMainUser(owner)
-      items = Items.personal.where({suffix: suffix})
+      items = Items.personal.where({entity: entity})
     else if _.isFriend(owner)
-      items = Items.friends.where({owner: owner, suffix: suffix})
+      items = Items.friends.where({owner: owner, entity: entity})
     else
-      itemsPromise = app.request 'requestPublicItem', username, suffix
+      itemsPromise = app.request 'requestPublicItem', username, entity
 
-    _.log items, 'items'
+    _.log items, 'showItemShow items'
     if items? then @displayFoundItems(items)
     else
       if itemsPromise?
@@ -61,7 +61,7 @@ API =
       else app.execute 'show:404'
 
   displayFoundItems: (items)->
-    _.log items, 'items'
+    _.log items, 'displayFoundItems items'
     if items?.length?
       switch items.length
         when 0 then app.execute 'show:404'
@@ -92,8 +92,8 @@ fetchItems = (app)->
     'item:validate:creation': validateCreation
     'requestPublicItem': requestPublicItem
 
-requestPublicItem = (username, suffix)->
-  _.preq.get(app.API.items.public(suffix, username))
+requestPublicItem = (username, entity)->
+  _.preq.get(app.API.items.public(entity, username))
   .then (res)->
     app.users.public.add res.user
     return Items.public.add res.items
@@ -126,10 +126,10 @@ initializeInventoriesHandlers = (app)->
         app.navigate "#{pathname}/add"
       else throw new Error 'missing entity'
 
-    'show:item:show': (username, suffix, title)->
-      API.itemShow(username, suffix)
-      if title? then app.navigate "inventory/#{username}/#{suffix}/#{title}"
-      else app.navigate "inventory/#{username}/#{suffix}"
+    'show:item:show': (username, entity, title)->
+      API.itemShow(username, entity)
+      if title? then app.navigate "inventory/#{username}/#{entity}/#{title}"
+      else app.navigate "inventory/#{username}/#{entity}"
 
     'show:item:show:from:model': (item)->
       API.showItemShowFromItemModel(item)
