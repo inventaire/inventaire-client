@@ -47,11 +47,13 @@ API =
       region1.$el.hide().fadeIn(200)
     else
       _.preq.get app.API.entities.search(search)
+      .catch _.preq.catch404
       .then (res)->
-        _.log res, 'query:searchEntities res'
-        spreadResults(res)
         # hiding the loader
         region1.empty()
+        if res?
+          _.log res, 'query:searchEntities res'
+          spreadResults(res)
       .then -> displayResults(region1, region2, view)
       .catch (err)->
         # couldn't make the alert Behavior work properly
@@ -98,8 +100,8 @@ addIsbnEntities = (resultsArray)->
   books.models.map (el)-> app.results.books.add el
 
 displayResults = (region1, region2, view)->
-    [humans, authors, books] = [app.results.humans, app.results.authors, app.results.books]
-    if books.length + authors.length + humans.length > 0
+    {humans, authors, books} = app.results
+    if books?.length + authors?.length + humans?.length > 0
       if books.length > 0
         booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
         region1.show booksList
