@@ -31,7 +31,7 @@ module.exports = (Backbone, _, app, window)->
         newErr = new Error('empty error sent to _.error')
         report = [err, newErr.message, newErr.stack?.split('\n')]
       else
-        report = [console.error(err.message or err, err.stack?.split('\n'))]
+        report = [err.message or err, err.stack?.split('\n')]
       window.reportErr {error: report}
       console.error.apply console, report
 
