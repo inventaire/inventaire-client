@@ -36,7 +36,6 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
 
   events:
     'click a#destroy': 'itemDestroy'
-    'click a#entity': 'showEntity'
     'click a#changePicture': 'changePicture'
     'click a#editComment, a#cancelCommentEdition': 'toggleCommentEditor'
     'click a#validateComment': 'validateComment'
@@ -44,8 +43,6 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     'click a#validateNotes': 'validateNotes'
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
-
-  showEntity: -> app.execute 'show:entity', @model.get('suffix'), @model.get('title')
 
   changePicture: ->
     picturePicker = new app.View.Behaviors.PicturePicker {

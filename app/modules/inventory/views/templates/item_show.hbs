@@ -7,9 +7,11 @@
   <div class="small-12 large-6 columns">
     <div class="panel">
       {{#if entityPathname}}
-        <a id="entity" data-href="{{entityPathname}}">
-          <h2 class="link">{{title}}</h2>
-        </a>
+        <h2>
+          <a class="showEntity" href="{{entityPathname}}">
+            {{title}}
+          </a>
+        </h2>
       {{else}}
         <h2>{{title}}</h2>
       {{/if}}
@@ -35,7 +37,7 @@
           {{pre comment}}
         </p>
         <div id="commentEditor" class='hidden'>
-          <textarea placeholder='({{i18n comment_placeholder}})'>{{comment}}</textarea>
+          <textarea placeholder='({{i18n 'comment_placeholder'}})'>{{comment}}</textarea>
           <a id="cancelCommentEdition" class="button grey">{{i18n 'cancel'}}</a>
           <a id="validateComment" class="button success">{{i18n 'edit'}}</a>
         </div>
@@ -50,7 +52,7 @@
             {{pre notes}}
           </p>
           <div id="notesEditor" class='hidden'>
-            <textarea placeholder='({{i18n notes_placeholder}})'>{{notes}}</textarea>
+            <textarea placeholder='({{i18n 'notes_placeholder'}})'>{{notes}}</textarea>
             <a id="cancelNotesEdition" class="button grey">{{i18n 'cancel'}}</a>
             <a id="validateNotes" class="button success">{{i18n 'edit'}}</a>
           </div>
