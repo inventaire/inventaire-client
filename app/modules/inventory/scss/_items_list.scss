@@ -1,11 +1,8 @@
 // largely inspired from http://demosthenes.info/blog/825/Pinterest-Style-Column-Layout-In-Pure-CSS
 .itemsList{
-  @include vendor-prefix(column-gap, 15px);
-  width: 95%;
   margin: 1em auto;
   figure {
     width: 100%;
-    @include vendor-prefix(column-break-inside, avoid);
     margin-bottom: 1em;
     @include display-flex(column, center);
     // background-color: $dark-grey;
@@ -24,18 +21,30 @@
       margin-bottom: 5px;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-    figure { width: 100%; }
-  }
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-  }
 }
 
 $columnWidth: 200px;
-.columnsLayout{
-  @include vendor-prefix(column-width, $columnWidth);
+$one-column-layout: $columnWidth * 2 + 50;
+
+/*One-columns screens*/
+@media screen and (max-width: $one-column-layout) {
+  figure {
+    width: 100%;
+  }
+}
+
+/*Multi-columns screens*/
+@media screen and (min-width: $one-column-layout) {
+  .itemsList{
+    width: 95%;
+    @include vendor-prefix(column-gap, 15px);
+    figure {
+      @include vendor-prefix(column-break-inside, avoid);
+    }
+  }
+  .columnsLayout{
+    @include vendor-prefix(column-width, $columnWidth);
+  }
 }
 
 @import "item_elements";
