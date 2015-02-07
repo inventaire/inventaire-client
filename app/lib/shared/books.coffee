@@ -1,8 +1,10 @@
 module.exports = (_)->
   methods =
     API:
+      # doc: https://developers.google.com/discovery/v1/performance
       google:
-        book: (data)-> "https://www.googleapis.com/books/v1/volumes/?q=#{data}"
+        book: (data)->
+          "https://www.googleapis.com/books/v1/volumes/?q=#{data}&fields=totalItems,items(volumeInfo)"
       worldcat:
         # http://xisbn.worldcat.org/xisbnadmin/doc/api.htm
         isbnBaseRoute: 'http://xisbn.worldcat.org/webservices/xid/isbn/'
