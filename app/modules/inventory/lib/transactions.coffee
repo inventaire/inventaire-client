@@ -21,6 +21,6 @@ module.exports = (Items)->
     inventorying:
       id: 'inventorying'
       icon: 'cube'
-      label: 'Just saying I have it'
-      labelShort: 'I have it'
+      label: 'in my inventory'
+      labelShort: 'in my inventory'
       unicodeIcon:'&#xf1b2;'
