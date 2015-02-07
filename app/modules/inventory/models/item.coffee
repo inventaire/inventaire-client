@@ -14,44 +14,44 @@ module.exports = class Item extends Filterable
 
   initialize: (attrs, options)->
     # RECIPE:
-      # suffix = entityUri
-      # _id = owner:suffix
-      # pathname = username:suffix
-    # this allows entityUri to be used in pathname without
-    # letting them be the DB's reference _id with of
-    # collisions everytime two people have an instance
-    # of the same entity object
-    if attrs.entity? then @getEntityModel(attrs.entity)
+      # entity = entity "#{domain}:#{id} uri
+      # _id = "#{owner}:#{entity}:#{timestamp}"
+      # pathname = "#{username}/#{entity}/#{title}
+    # - allows entity uri to be used in pathname
+    # nice for super users/wikidata wizzards
+    # - using timestamp to avoid possible collissions
+    # between one user's items
+
+    unless attrs.entity?
+      throw new Error "item should have an associated entity"
+
+    attrs.entity = app.request 'normalize:entity:uri', attrs.entity
+    # entity data are requested when needed:
+    # getEntityModel is commented-out as this data isnt
+    # needed at startup currently
+    # (items title and pictures are from the item, not the entity)
+    # @getEntityModel(attrs.entity)
 
     attrs.owner = @get('owner')
-    attrs.suffix = @getSuffix()
     attrs.created = @get('created') or _.now()
     attrs._id = @getId(attrs)
 
     @set attrs
 
-    @username = app.request 'get:username:from:userId', attrs.owner
-    @profilePic = app.request 'get:profilePic:from:userId', attrs.owner
+    {entity, title, owner} = attrs
+    @username = app.request 'get:username:from:userId', owner
+    @profilePic = app.request 'get:profilePic:from:userId', owner
     @pathname = @buildPathname(attrs)
-    @restricted = attrs.owner isnt app.user.id
-
-    if attrs.entity?
-      @entityPathname = "/entity/#{attrs.entity}/#{attrs.title}"
-
-  getSuffix: ->
-    if @get('suffix') then return @get('suffix')
-    else
-      entity = @get('entity')
-      if _.hasKnownUriDomain(entity) then return entity
-      else throw new Error("unknow entity domain: #{entity}")
+    @restricted = owner isnt app.user.id
+    @entityPathname = app.request 'get:entity:local:href', entity, title
 
   getId: (attrs)->
     if @get('_id') then return @get('_id')
-    else return "#{attrs.owner}:#{attrs.suffix}:#{attrs.created}"
+    else return "#{attrs.owner}:#{attrs.entity}:#{attrs.created}"
 
   buildPathname: (attrs)->
-    if @username? and attrs.suffix?
-      pathname = "/inventory/#{@username}/#{attrs.suffix}"
+    if @username? and attrs.entity?
+      pathname = "/inventory/#{@username}/#{attrs.entity}"
       title = _.softEncodeURI @get('title')
       pathname += "/#{title}"  if title?
       return pathname

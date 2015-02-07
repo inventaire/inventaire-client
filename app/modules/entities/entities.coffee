@@ -1,11 +1,11 @@
-books = app.lib.books
+books_ = app.lib.books
+wd_ = app.lib.wikidata
 WikidataEntity = require './models/wikidata_entity'
 IsbnEntity = require './models/isbn_entity'
 InvEntity = require './models/inv_entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
-wd = app.lib.wikidata
 
 module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
@@ -42,7 +42,7 @@ API =
   getEntityView: (prefix, id)->
     return @getEntityModel(prefix, id)
     .then (entity)->
-      switch wd.type(entity)
+      switch wd_.type(entity)
         when 'human'
           new AuthorLi
             model: entity
@@ -109,6 +109,7 @@ setHandlers = ->
     'get:entities:labels': getEntitiesLabels
     'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
+    'normalize:entity:uri': normalizeEntityUri
 
 getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
@@ -150,3 +151,9 @@ getEntityLocalHref = (domain, id, label)->
       label = _.softEncodeURI(label)
       href += "/#{label}"
     return href
+
+normalizeEntityUri = (uri)->
+  [prefix, id] = getPrefixId(uri)
+  if prefix is 'isbn'
+    id = books_.normalizeIsbn(id)
+  return "#{prefix}:#{id}"

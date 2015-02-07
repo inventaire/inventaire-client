@@ -4,9 +4,9 @@ module.exports = (app, _, books, promises_)->
 
   local = new app.LocalCache
     name: 'entities_isbn'
+    normalizeId: books.normalizeIsbn
     remote: remote
-    parseData: (data)->
-      _.log data, 'isbn parseData'
+    parseData: (data)-> _.log data, 'data:isbn:parse'
 
   return isbnData =
     local: local
