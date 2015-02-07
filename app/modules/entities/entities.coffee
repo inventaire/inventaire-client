@@ -34,7 +34,7 @@ API =
       @getEntityView(prefix, id)
       .then (view)-> region.show(view)
       .catch (err)->
-        _.log err, 'couldnt showEntity'
+        _.error err, 'couldnt showEntity'
         app.execute 'show:404'
     else
       console.warn 'prefix or id missing at showEntity'
@@ -69,7 +69,9 @@ API =
 
   getEntityModel: (prefix, id)->
     @getEntitiesModels prefix, id
-    .then (models)-> return models[0]
+    .then (models)->
+      if models.length is 1 then models[0]
+      else throw new Error("expected only one model, got #{models}")
     .catch (err)-> _.log err, 'getEntityModel err'
 
   showAddEntity: (uri)->
@@ -116,17 +118,14 @@ getEntitiesLabels = (Qids)->
 
 getPrefixId = (uri)->
   data = uri.split ':'
-  if data.length is 1 and wd.isWikidataId(data)
-    data = ['wd', data[0]]
-  else if data.length is not 2
-    throw new Error "prefix and id not found for: #{uri}"
-  return data
+  if data.length is 2 then return data
+  else throw new Error "prefix and id not found for: #{uri}"
 
 getModelFromPrefix = (prefix)->
   switch prefix
-    when 'wd' then return WikidataEntity
-    when 'isbn' then return IsbnEntity
-    when 'inv' then return InvEntity
+    when 'wd' then WikidataEntity
+    when 'isbn' then IsbnEntity
+    when 'inv' then InvEntity
     else throw new Error("prefix not implemented: #{prefix}")
 
 saveEntityModel = (prefix, data)->
