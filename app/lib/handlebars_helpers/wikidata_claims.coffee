@@ -70,6 +70,4 @@ module.exports =
   wdRemoteHref: (id)-> "https://www.wikidata.org/entity/#{id}"
 
   wdLocalHref: (id, label)->
-    href = "/entity/wd:#{id}"
-    href += "/#{label}"  if label?
-    return href
+    app.request 'get:entity:local:href', 'wd', id, label

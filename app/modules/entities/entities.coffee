@@ -108,7 +108,7 @@ setHandlers = ->
     'get:entity:public:items': API.getEntityPublicItems
     'get:entities:labels': getEntitiesLabels
     'create:entity': createEntity
-
+    'get:entity:local:href': getEntityLocalHref
 
 getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
@@ -138,3 +138,15 @@ createEntity = (data)->
     model = new InvEntity(entityData)
     Entities.add model
     return model
+
+getEntityLocalHref = (domain, id, label)->
+  # accept both domain, id or uri-style "#{domain}:#{id}"
+  [domain, possibleId] = domain.split(':')
+  if possibleId? then [id, label] = [possibleId, id]
+
+  if domain?.length > 0 and id?.length > 0
+    href = "/entity/#{domain}:#{id}"
+    if label?
+      label = _.softEncodeURI(label)
+      href += "/#{label}"
+    return href
