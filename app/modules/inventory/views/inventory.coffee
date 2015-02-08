@@ -1,6 +1,7 @@
 SideNav = require '../side_nav/views/side_nav'
 # ItemsLabel = require './items_label'
 ItemsControl = require './items_control'
+FollowedEntitiesList = require './followed_entities_list'
 
 module.exports = class inventory extends Backbone.Marionette.LayoutView
   id: 'inventory'
@@ -10,6 +11,7 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     beforeItems: '#beforeItems'
     itemsView: '#itemsView'
     afterItems: '#afterItems'
+    followedView: '#followedView'
 
   onShow: ->
     @sideNav.show new SideNav
@@ -25,8 +27,9 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
 
     {user, navigate} = @options
     if user?
-      username = prepareUserItemsList(user, navigate)
-      docTitle = eventName = username
+      userModel = prepareUserItemsList(user, navigate)
+      if _.isMainUser(userModel.id) then @showFollowedEntitiesList()
+      docTitle = eventName = userModel.get('username')
     else
       app.execute 'filter:inventory:reset'
       docTitle = _.i18n('Home')
@@ -43,6 +46,10 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     # @beforeItems.show new ItemsLabel
     @afterItems.show new ItemsControl
 
+  showFollowedEntitiesList: ->
+    followedEntities = app.request 'entities:followed:collection'
+    @followedView.show new FollowedEntitiesList {collection: followedEntities}
+
   showInventoryWelcome: ->
     inventoryWelcome = require('./inventory_welcome')
     view = new inventoryWelcome
@@ -54,7 +61,7 @@ prepareUserItemsList = (user, navigate)->
   app.execute 'filter:inventory:owner', userModel.id
   app.execute 'sidenav:show:user', userModel
   if navigate? then app.navigate "inventory/#{username}"
-  return username
+  return userModel
 
 
 findUser = (user)->

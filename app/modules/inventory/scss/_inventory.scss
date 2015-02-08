@@ -2,6 +2,7 @@
 @import "items_label";
 @import "items_control";
 @import "items_list";
+@import "followed_entities_list";
 
 
 $tabs-navigation-active-bg-color: $tools-active-bg;
@@ -26,6 +27,8 @@ $tabs-navigation-font-color: #fff;
     #itemsView{
       @include display-flex(row);
       @include flex(1);
+    }
+    #followedView{
     }
   }
 }
