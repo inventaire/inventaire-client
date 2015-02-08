@@ -3,8 +3,6 @@ Session = require 'modules/general/models/session'
 class App extends Backbone.Marionette.Application
   initialize: =>
 
-    @session = session = new Session
-
     @vent = new Backbone.Wreqr.EventAggregator()
 
     @Behaviors = require('modules/general/behaviors/base')
@@ -19,7 +17,7 @@ class App extends Backbone.Marionette.Application
     @navigate = (route, options)->
       route.logIt('route:navigate')
       # record all routes visited for server-side statistics
-      session.record route
+      @session.record route
       route = route.replace(/(\s|')/g, '_')
       Backbone.history.last or= []
       Backbone.history.last.unshift(route)
@@ -41,9 +39,12 @@ class App extends Backbone.Marionette.Application
     @once 'start', (options) =>
       _.log 'app:start'
       routeFound = Backbone.history.start({pushState: true})
+
+      @session = new Session
+
       # records the first url found
       # as it wont go through navigate
-      session.record Backbone.history.fragment
+      @session.record Backbone.history.fragment
 
       unless routeFound
         console.error('route: not found! check if route is defined before app.start()')

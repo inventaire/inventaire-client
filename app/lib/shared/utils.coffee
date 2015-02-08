@@ -21,6 +21,14 @@ module.exports = (_)->
       i++
     Math.abs hash
 
+  niceDate: ->
+    new Date().toISOString().split('T')[0]
+
+  timeSinceMidnight: ->
+    today = @niceDate()
+    midnight = new Date(today).getTime()
+    return _.now() - midnight
+
   buildPath: (pathname, queryObj, escape)->
     queryObj = @removeUndefined(queryObj)
     if queryObj? and not _.isEmpty queryObj

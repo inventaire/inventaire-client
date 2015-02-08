@@ -1,24 +1,37 @@
+startTime = new Date().getTime()
+
 module.exports = Backbone.NestedModel.extend
   initialize: ->
+    @setId()
     @set 'navigation', []
     @set 'error', []
-    @set 'time', {first: _.now()}
+    @set 'time', {first: startTime}
     @logFirstLoadTime()
-
 
     # dont update more than ones every seconds
     @on 'update', _.debounce(@sync, 1000)
     # update every 30 seconds
     setInterval @update.bind(@), 30 * 1000
 
+  setId: ->
+    # dev-friendly date, but shorter
+    day = _.niceDate().replace('-', '', 'g')
+    # just keeping the part representing the day time
+    # => sequential ids, while shorter than full epoch time
+    millisec = _.timeSinceMidnight()
+    # in case two user start a session at the same millisecond - -
+    badLuckToken = _.idGenerator(4)
+    @set '_id', "#{day}-#{millisec}-#{badLuckToken}"
+
   update: ->
     # updates both last page time and time.last
     @updateLastPageTime @timer()
     @trigger 'update'
 
-  record: (page)->
-    @lateInit()
+  sync: ->
+    $.post '/api/logs/public', @toJSON()
 
+  record: (page)->
     timestamp = _.now()
     action =
       # sometimes there is a root /, sometimes not
@@ -39,7 +52,7 @@ module.exports = Backbone.NestedModel.extend
     @trigger 'update'
 
   updateLastPageTime: (timestamp)->
-    last = @get('navigation')?.slice(-1)[0]
+    last = @get('navigation')?.last()
     if last?
       lastIndex = @get('navigation').length - 1
       key = "navigation[#{lastIndex}].time"
@@ -47,19 +60,11 @@ module.exports = Backbone.NestedModel.extend
       @set key, pageTime
 
   lastPageSet: (attr, value)->
-    last = @get('navigation')?.slice(-1)[0]
+    last = @get('navigation')?.last()
     if last?
       lastIndex = @get('navigation').length - 1
       key = "navigation[#{lastIndex}].#{attr}"
       if key? then @set key, value
-
-  lateInit: ->
-    # can't be initialized earlier
-    # due to _ being unavailable then
-    unless @id?
-      date = new Date().toISOString().split('T')[0]
-      token = _.idGenerator(10)
-      @set '_id', "#{date}-#{token}"
 
   logFirstLoadTime: ->
     window.onload = @firstLoadTime.bind(@)
@@ -78,6 +83,3 @@ module.exports = Backbone.NestedModel.extend
 
   updateSessionTime: ->
     @set 'time.sessionTimeSec', @timer()
-
-  sync: ->
-    $.post '/api/logs/public', @toJSON()
