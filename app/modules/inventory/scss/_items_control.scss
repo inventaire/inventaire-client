@@ -1,0 +1,24 @@
+.itemsControl{
+  @include display-flex(row, center, center);
+  margin-bottom: 1em;
+  div.commands{
+    border-radius: $global-radius;
+    background-color: white;
+    font-size: 1.2em;
+    @include display-flex(row, center, space-around);
+    a{
+      @include display-flex(row, center, center);
+      margin: auto;
+      padding: 0.2em 0em 0em 0.4em;
+      color: $dark-grey;
+      &:hover:not(.disabled){
+        background-color: #ddd;
+        @include transition(background-color);
+      }
+      &.disabled{
+        color: $grey;
+
+      }
+    }
+  }
+}
