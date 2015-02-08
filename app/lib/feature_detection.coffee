@@ -1,4 +1,5 @@
 module.exports = ->
+  ISODatePolyFill()
   sayHi()
   testFlexSupport()
 
@@ -23,3 +24,22 @@ testFlexSupport = ->
   detector.style.display = 'flex'
   if detector.style.display is 'flex' then console.log 'Flex is supported'
   else console.log 'Flex is not supported'
+
+
+# from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString
+ISODatePolyFill = ->
+  unless DatetoISOString?
+
+    pad = (number)->
+      if number < 10 then return '0' + number
+      return number
+
+    Date::toISOString = ->
+      return @getUTCFullYear() +
+        '-' + pad( @getUTCMonth() + 1 ) +
+        '-' + pad( @getUTCDate() ) +
+        'T' + pad( @getUTCHours() ) +
+        ':' + pad( @getUTCMinutes() ) +
+        ':' + pad( @getUTCSeconds() ) +
+        '.' + (@getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
+        'Z';
