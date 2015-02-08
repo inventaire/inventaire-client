@@ -17,4 +17,14 @@ module.exports = Backbone.Collection.extend
 
   addEntity: (entity)->
     app.request('get:entity:model', entity)
+    .then setUriAsId
     .then @add.bind(@)
+
+# the followed entities list uses entities uris
+# so the models needs to use it too
+# to stay in sync easily
+# (e.g being removed just by passing id)
+setUriAsId = (entityModel)->
+  uri = entityModel.get('uri')
+  entityModel.set('id', uri)
+  return entityModel
