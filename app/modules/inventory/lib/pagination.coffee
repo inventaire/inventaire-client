@@ -51,4 +51,4 @@ updateRange = (params)->
 
 howManyItemsForTwoLines = ->
   itemPerLine = (window.screen.width - sideNavWidth) / itemWitdth
-  return Math.trunc(itemPerLine) * 2
+  return Math.floor(itemPerLine) * 2
