@@ -7,7 +7,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   updateOnFollowStatusChange: ->
     @uri = @model.get('uri')
     eventName = "change:#{@uri}"
-    @listenTo Entities.followed, eventName, @render
+    followedList = app.request('entities:followed:list')
+    @listenTo followedList, eventName, @render
 
   serializeData: ->
     following = app.request('entity:followed:state', @uri)

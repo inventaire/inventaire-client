@@ -1,17 +1,18 @@
 Follow = require('./models/follow')
-followed = new Follow
-
-follow = (uri)-> followed.set uri, true
-unfollow = (uri)-> followed.set uri, false
-followedState = (uri)-> followed.get uri
-
+followedList = new Follow
+FollowedEntities = require './collections/followed_entities'
 
 module.exports = (app)->
+
+  followedEntities = new FollowedEntities [], {list: followedList}
+
   app.commands.setHandlers
-    'entity:follow': follow
-    'entity:unfollow': unfollow
+    'entity:follow': (uri)-> followedList.set uri, true
+    'entity:unfollow': (uri)-> followedList.set uri, false
 
   app.reqres.setHandlers
-    'entity:followed:state': followedState
+    'entity:followed:state': (uri)-> followedList.get uri
+    'entities:followed:list': -> followedList
+    'entities:followed:collection': -> followedEntities
 
-  return followed
+  return followedEntities
