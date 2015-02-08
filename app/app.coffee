@@ -3,6 +3,8 @@ Session = require 'modules/general/models/session'
 class App extends Backbone.Marionette.Application
   initialize: =>
 
+    @session = new Session
+
     @vent = new Backbone.Wreqr.EventAggregator()
 
     @Behaviors = require('modules/general/behaviors/base')
@@ -39,8 +41,6 @@ class App extends Backbone.Marionette.Application
     @once 'start', (options) =>
       _.log 'app:start'
       routeFound = Backbone.history.start({pushState: true})
-
-      @session = new Session
 
       # records the first url found
       # as it wont go through navigate

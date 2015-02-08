@@ -2,12 +2,13 @@ startTime = new Date().getTime()
 
 module.exports = Backbone.NestedModel.extend
   initialize: ->
-    @setId()
     @set 'navigation', []
     @set 'error', []
     @set 'time', {first: startTime}
     @logFirstLoadTime()
 
+    # need tools thar aren't available yet
+    @once 'update', @setId.bind(@)
     # dont update more than ones every seconds
     @on 'update', _.debounce(@sync, 1000)
     # update every 30 seconds
