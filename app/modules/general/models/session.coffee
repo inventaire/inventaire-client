@@ -12,8 +12,8 @@ module.exports = Backbone.NestedModel.extend
     setInterval @update.bind(@), 30 * 1000
 
   update: ->
-    # update time.last
-    @timer()
+    # updates both last page time and time.last
+    @updateLastPageTime @timer()
     @trigger 'update'
 
   record: (page)->
@@ -26,7 +26,7 @@ module.exports = Backbone.NestedModel.extend
       page: "/#{page}".replace('//', '/')
       timestamp: timestamp
 
-    @updatePreviousPageTime(timestamp)
+    @updateLastPageTime(timestamp)
     @updateSessionTime()
     @push 'navigation', action
     @trigger 'update'
@@ -38,7 +38,7 @@ module.exports = Backbone.NestedModel.extend
     @lastPageSet 'errorHash', hash
     @trigger 'update'
 
-  updatePreviousPageTime: (timestamp)->
+  updateLastPageTime: (timestamp)->
     last = @get('navigation')?.slice(-1)[0]
     if last?
       lastIndex = @get('navigation').length - 1
