@@ -29,7 +29,8 @@ window.reportErr = (report)->
       error: err
 
   report.context = getContext()
-  $.post '/api/logs/public', report
+  if app?.session?.recordError? then app.session.recordError report
+  else $.post '/api/logs/public', report
 
 getContext = ->
   context = []
