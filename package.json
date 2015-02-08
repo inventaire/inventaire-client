@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "level-js": "^2.1.6",
-    "level-multiply": "0.0.1",
+    "level-multiply": "git+https://github.com/maxlath/node-level-multiply.git",
     "levelup": "^0.19.0"
   },
   "devDependencies": {
