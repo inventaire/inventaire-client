@@ -27,7 +27,7 @@ section#welcome-three{
     ul.bonuses{
       @include display-flex(column, center, center);
       li{
-        @include flex(1, 0, 200px);
+        @include flex(1, 0);
         margin: 0;
         margin-bottom: 0.2rem;
         width: 100%;
