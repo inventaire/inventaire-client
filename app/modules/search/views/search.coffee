@@ -66,6 +66,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
         if res?
           _.log res, 'query:searchEntities res'
           spreadResults(res)
+        else return
       .then @displayResults.bind(@)
       .catch (err)=>
         # couldn't make the alert Behavior work properly
@@ -83,18 +84,18 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     @showEditions(editions)
 
   showAuthors: (authors, humans)->
-    if authors.length is 0 then authors = humans
-    if authors.length > 0
+    if authors?.length is 0 then authors = humans
+    if authors?.length > 0
       authorsList = new ResultsList {collection: authors, type: 'authors'}
       @authors.show authorsList
 
   showBooks: (books)->
-    if books.length > 0
+    if books?.length > 0
       booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
       @books.show booksList
 
   showEditions: (editions)->
-    if editions.length > 0
+    if editions?.length > 0
       editionsList = new ResultsList {collection: editions, type: 'editions', entity: 'Q17902573'}
       @editions.show editionsList
 
