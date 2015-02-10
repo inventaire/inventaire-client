@@ -88,7 +88,6 @@ fetchItems = (app)->
     .always ->
       Items.personal.fetched = true
       app.vent.trigger 'items:ready'
-    .catch (err)-> _.error err, 'followed entities err'
   else
     _.log 'user not logged in. not fetching items'
 
