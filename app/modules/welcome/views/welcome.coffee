@@ -42,6 +42,7 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     .catch (err)=>
       @hidePublicItems()
       _.log err, 'couldnt loadPublicItems'
+    .catch (err)-> _.error err, 'hidePublicItems err'
 
   hidePublicItems: -> $('#welcome-two').hide()
 

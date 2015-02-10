@@ -83,10 +83,14 @@ showInventory = (options)->
 
 # LOGIC
 fetchItems = (app)->
-  Items.fetch({reset: true})
-  .always ->
-    Items.personal.fetched = true
-    app.vent.trigger 'items:ready'
+  if app.user?.loggedIn
+    Items.fetch({reset: true})
+    .always ->
+      Items.personal.fetched = true
+      app.vent.trigger 'items:ready'
+    .catch (err)-> _.error err, 'followed entities err'
+  else
+    _.log 'user not logged in. not fetching items'
 
   app.reqres.setHandlers
     'item:validate:creation': validateCreation
@@ -97,6 +101,8 @@ requestPublicItem = (username, entity)->
   .then (res)->
     app.users.public.add res.user
     return Items.public.add res.items
+  .catch (err)-> _.error err, 'requestPublicItem err'
+
 
 
 validateCreation = (itemData)->

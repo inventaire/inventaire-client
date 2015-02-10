@@ -1,10 +1,14 @@
 module.exports = (app, $, _)->
   remote =
-    get: (ids)-> _.preq.get app.API.users.data(ids)
+    get: (ids)->
+      _.preq.get app.API.users.data(ids)
+      .catch (err)-> _.logXhrErr err, 'users_data get err'
     search: (text)->
       # catches case with ''
       if _.isEmpty(text) then return _.preq.resolve([])
-      else return _.preq.get app.API.users.search(text)
+      else
+        _.preq.get app.API.users.search(text)
+        .catch (err)-> _.logXhrErr err, 'users_data search err'
 
   localData = new app.LocalCache
     name: 'users'

@@ -10,7 +10,8 @@ module.exports = (app, _)->
         action: action
         user: userId
       _.log path, "#{action} path:"
-      return _.preq.get path
+      return _.preq.get(path)
+      .catch (err)-> _.logXhrErr err, 'relations action err'
 
   API =
     sendRequest: (user)->

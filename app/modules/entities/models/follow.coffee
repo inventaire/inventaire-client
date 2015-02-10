@@ -1,10 +1,14 @@
 module.exports = Backbone.NestedModel.extend
   url: app.API.entities.followed
   initialize: ->
-    _.preq.get(@url)
-    .catch _.preq.catch401
-    .then @initializeFollowedEntities.bind(@)
-    .always @initializeUpdater.bind(@)
+    if app.user?.loggedIn
+      _.preq.get(@url)
+      .catch _.preq.catch401
+      .then @initializeFollowedEntities.bind(@)
+      .always @initializeUpdater.bind(@)
+      .catch (err)-> _.error err, 'followed entities err'
+    else
+      _.log 'user not logged in. not fetching followed entities'
 
   initializeFollowedEntities: (res)->
     if res?.entities? then @set res.entities

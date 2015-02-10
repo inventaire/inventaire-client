@@ -44,10 +44,11 @@ requestI18nFile = (polyglot, lang)->
     polyglot.replace res
     polyglot.locale lang
     app.vent.trigger 'i18n:reset'
-  .fail (err)->
+  .catch (err)->
     console.error "i18n: failed to get the i18n file for #{lang}"
     _.log err
   .then -> polyglot.changingTo = null
+  .catch (err)-> _.logXhrErr err, 'requestI18nFile err'
 
 guessLanguage = ->
   if lang = $.cookie 'lang' then lang.logIt('i18n: cookie')

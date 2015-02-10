@@ -23,7 +23,7 @@ wdAuthors_.fetchAuthorsBooksIds = (authorModel)->
         # will be overriden by the unformatted data
         # packaged in the entity search process
         authorModel.save()
-    .catch (err)-> _.log err, 'fetchAuthorsBooksIds err'
+    .catch (err)-> _.error err, 'fetchAuthorsBooksIds err'
 
 wdAuthors_.fetchAuthorsBooksEntities = (authorModel)->
   authorsBooks = authorModel.get 'reverseClaims.P50'

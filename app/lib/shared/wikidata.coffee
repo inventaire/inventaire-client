@@ -99,6 +99,7 @@ module.exports = (promises_, _)->
       .catch (err)=>
         console.warn "couldnt find #{file} via tools.wmflabs.org, will use the small thumb version"
         return @wmCommonsSmallThumb file, 200
+      .catch (err)-> _.error err, 'wmCommonsThumb err'
 
     wmCommonsSmallThumb: (file, width="100")->
       "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"

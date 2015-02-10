@@ -17,7 +17,7 @@ getImages = ->
         if el?
           app.vent.trigger eventName(el.data), el.image
     images = []
-  .fail (err)-> _.logXhrErr err, "getImages err for images: #{images}"
+  .catch (err)-> _.logXhrErr err, "getImages err for images: #{images}"
 
 lazyGetImages = _.debounce getImages, 100
 
@@ -25,6 +25,6 @@ lazyGetImages = _.debounce getImages, 100
 books_.getIsbnEntities = (isbns)->
   isbns = isbns.map books_.normalizeIsbn
   _.preq.get app.API.entities.isbns(isbns)
-
+  .catch (err)-> _.logXhrErr err, 'getIsbnEntities err'
 
 module.exports = books_

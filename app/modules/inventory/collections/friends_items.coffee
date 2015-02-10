@@ -16,8 +16,8 @@ module.exports = class FriendsItems extends Items
       items.forEach (item)=>
         itemModel = @add item
         itemModel.username = app.request 'get:username:from:userId', item.owner
-    .fail _.error
     .always => @friendsReady()
+    .catch (err)-> _.error err, 'fetchFriendsItems err'
 
   initialize: ->
     @lazyFetchFriendsItems = _.debounce @fetchFriendsItems, 50
