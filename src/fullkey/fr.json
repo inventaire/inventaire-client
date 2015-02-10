@@ -90,7 +90,7 @@
     "lending": "prêt",
     "selling": "vente",
     "personal notes": "notes personnelles",
-    "no other category yet": "pas d'autre catégorie pour l'instant",
+    "no other category yet": null,
     "personal": "personnel",
     "friends inventory": "inventaire des amis",
     "filter": "filtre",
@@ -124,11 +124,11 @@
     "delete": "supprimer",
     "only me": "moi uniquement",
     "Empowering the Transition": "Un outil pour la Transition",
-    "Just Books. Yet.": "Juste des livres. Pour le moment",
+    "Just Books. For now.": "Juste des livres. Pour le moment",
     "status": "status",
     "status:": "status :",
     "join the discussion": "rejoignez la discussion",
-    "only available from mobiles yet": "seulement depuis un smartphone",
+    "only available from mobiles for now": null,
     "scan a book": "scanner un livre",
     "settings": "préférences",
     "friends requests": "requêtes de connexion",
@@ -253,5 +253,6 @@
     "Your current username is <strong>maxi</strong><br>\nAre you sure you want to change for <strong>max</strong>?": null,
     "editions": null,
     "researched": null,
-    "researched books": null
+    "researched books": null,
+    "no other category for now": "pas d'autre catégorie pour l'instant"
 }

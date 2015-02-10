@@ -124,11 +124,11 @@
     "delete": "delete",
     "only me": "only me",
     "Empowering the Transition": "Empowering the Transition",
-    "Just Books. Yet.": "just Books. Yet.",
+    "Just Books. For now.": "just Books. For now.",
     "status": "status",
     "status:": "status:",
     "join the discussion": "join the discussion",
-    "only available from mobiles yet": "only available from mobiles yet",
+    "only available from mobiles for now": "only available from mobiles for now",
     "scan a book": "scan a book",
     "settings": "settings",
     "friends requests": "friends requests",
@@ -253,5 +253,6 @@
     "Your current username is <strong>maxi</strong><br>\nAre you sure you want to change for <strong>max</strong>?": "Your current username is <strong>maxi</strong><br>\nAre you sure you want to change for <strong>max</strong>?",
     "editions": "editions",
     "researched": "researched",
-    "researched books": "researched books"
+    "researched books": "researched books",
+    "no other category for now": "no other category for now"
 }
