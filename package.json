@@ -19,7 +19,7 @@
     "build": "./scripts/build"
   },
   "dependencies": {
-    "level-js": "^2.1.6",
+    "browserdown": "git+https://github.com/maxlath/browserdown.git#master",
     "level-multiply": "git+https://github.com/maxlath/node-level-multiply.git",
     "levelup": "^0.19.0"
   },

@@ -4,7 +4,7 @@ module.exports = (global, _)->
 
   # DO NOT promisify method on LevelUp
   # As it messes with LevelMultiply
-  Level = (dbName)-> LevelMultiply LevelUp(dbName, {db: LevelJs})
+  Level = (dbName)-> LevelMultiply LevelUp(dbName, {db: BrowserDown})
 
   reset = (db, dbName)->
     ops = []
