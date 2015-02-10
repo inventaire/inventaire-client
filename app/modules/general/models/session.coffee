@@ -66,6 +66,8 @@ module.exports = Backbone.NestedModel.extend
       lastIndex = @get('navigation').length - 1
       key = "navigation[#{lastIndex}].#{attr}"
       if key? then @set key, value
+    else
+      @push 'navigation', {attr: value}
 
   logFirstLoadTime: ->
     window.onload = @firstLoadTime.bind(@)
