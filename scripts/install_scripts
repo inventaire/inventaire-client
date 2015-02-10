@@ -12,8 +12,8 @@ echo -e '\e[0;32mdone downloading:\e[0m persona include.js'
 browserify node_modules/levelup -s LevelUp > vendor/scripts/level-up.js
 logDone LevelUp
 
-browserify node_modules/level-js -s LevelJs > vendor/scripts/level-js.js
-logDone LevelJs
-
 browserify node_modules/level-multiply -s LevelMultiply > vendor/scripts/level-multiply.js
 logDone LevelMultiply
+
+browserify node_modules/browserdown -s BrowserDown > vendor/scripts/browserdown.js
+logDone BrowserDown
