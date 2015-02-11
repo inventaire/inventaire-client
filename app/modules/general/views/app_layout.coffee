@@ -96,9 +96,11 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   showEntity: (e)->
     href = e.target.href
-    data = href.split('/entity/').last()
-    [uri, label] = data.split '/'
-    app.execute 'show:entity', uri, label
+    if href?
+      data = href.split('/entity/').last()
+      [uri, label] = data.split '/'
+      app.execute 'show:entity', uri, label
+    else throw new Error "couldnt showEntity: href not found"
 
   unpreventDefault: (e)->
     # largely inspired by

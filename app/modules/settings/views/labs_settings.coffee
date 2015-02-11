@@ -107,6 +107,7 @@ cleaningDb = (db)->
 getRoot = (url)->
   # getting http://127.0.0.1:5984
   # from http://127.0.0.1:5984/inventory-backup
-  root = url.split('/')[0...-1].join '/'
+  root = url?.split('/')[0...-1].join '/'
   if _.isUrl(root) then return root
+  # will triggers an alert at validCouchDB
   else return

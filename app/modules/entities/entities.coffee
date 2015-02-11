@@ -118,8 +118,8 @@ getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
 
 getPrefixId = (uri)->
-  data = uri.split ':'
-  if data.length is 2 then return data
+  data = uri?.split ':'
+  if data?.length is 2 then return data
   else throw new Error "prefix and id not found for: #{uri}"
 
 getModelFromPrefix = (prefix)->
@@ -142,7 +142,7 @@ createEntity = (data)->
 
 getEntityLocalHref = (domain, id, label)->
   # accept both domain, id or uri-style "#{domain}:#{id}"
-  [domain, possibleId] = domain.split(':')
+  [domain, possibleId] = domain?.split(':')
   if possibleId? then [id, label] = [possibleId, id]
 
   if domain?.length > 0 and id?.length > 0
@@ -151,6 +151,7 @@ getEntityLocalHref = (domain, id, label)->
       label = _.softEncodeURI(label)
       href += "/#{label}"
     return href
+  else throw new Error "couldnt find EntityLocalHref: domain=#{domain}, id=#{id}, label=#{label}"
 
 normalizeEntityUri = (uri)->
   [prefix, id] = getPrefixId(uri)
