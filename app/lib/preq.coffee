@@ -4,8 +4,12 @@ Promise.longStackTraces()  if _.env is 'dev'
 
 Promise.onPossiblyUnhandledRejection (err)->
   label = "[PossiblyUnhandledError] #{err.name}: #{err.message} (#{typeof err.message})"
-  console.error label, err.stack.split('\n')
-  window.reportErr {label: label, error: err}
+  stack = err?.stack?.split('\n')
+  report = {label: label, error: err, stack: stack}
+  if err.message is "[object Object]"
+    report.clue = clue = "this is probably an error from a jQuery promise wrapped into a Bluebird one"
+  window.reportErr report
+  console.error label, stack, clue
 
 module.exports =
   get: (url, options)->
