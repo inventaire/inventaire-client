@@ -85,15 +85,18 @@ showInventory = (options)->
 fetchItems = (app)->
   if app.user?.loggedIn
     Items.fetch({reset: true})
-    .always ->
-      Items.personal.fetched = true
-      app.vent.trigger 'items:ready'
+    .always triggerItemsReady
   else
     _.log 'user isnt logged in. not fetching items'
+    triggerItemsReady()
 
   app.reqres.setHandlers
     'item:validate:creation': validateCreation
     'requestPublicItem': requestPublicItem
+
+triggerItemsReady = ->
+  Items.personal.fetched = true
+  app.vent.trigger 'items:ready'
 
 requestPublicItem = (username, entity)->
   _.preq.get(app.API.items.public(entity, username))
