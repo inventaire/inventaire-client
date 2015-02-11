@@ -8,7 +8,7 @@ module.exports = Backbone.NestedModel.extend
       .always @initializeUpdater.bind(@)
       .catch (err)-> _.error err, 'followed entities err'
     else
-      _.log 'user not logged in. not fetching followed entities'
+      _.log 'user isnt logged in. not fetching followed entities'
 
   initializeFollowedEntities: (res)->
     if res?.entities? then @set res.entities

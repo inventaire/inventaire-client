@@ -89,7 +89,7 @@ fetchItems = (app)->
       Items.personal.fetched = true
       app.vent.trigger 'items:ready'
   else
-    _.log 'user not logged in. not fetching items'
+    _.log 'user isnt logged in. not fetching items'
 
   app.reqres.setHandlers
     'item:validate:creation': validateCreation
