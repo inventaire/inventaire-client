@@ -22,7 +22,8 @@ module.exports =
     setHandlers()
     window.Entities = Entities = new Entities
     Entities.data = require('./entities_data')(app, _, _.preq)
-    Entities.followed = require('./follow')(app)
+    app.request 'waitForData', ->
+      Entities.followed = require('./follow')(app)
 
 API =
   showEntity: (uri, label, params, region)->
