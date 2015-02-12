@@ -1,5 +1,9 @@
 #!/usr/bin/env coffee
 
+# HOW TO
+# From time to time, you can replace src/fullkey/en by {}
+# and browse all the website to regenerate an updated list of the fullkeys
+
 unless /client$/.test process.cwd()
   throw new Error 'this script should be run from the /client/ folder'
 
@@ -47,7 +51,7 @@ extendLangWithDefault = (lang)->
     updateAndArchive lang, updateFull, archiveFull, updateShort, archiveShort, updateWd, archiveWd
     writeDistVersion lang, _.extend({}, full, short, wd)
 
-  .catch (err)-> console.error "#{lang} err".red, err
+  .catch (err)-> console.error "#{lang} err".red, err.stack
 
 rethrowErrors = (args)->
   args.forEach (arg)->
@@ -89,9 +93,10 @@ findKeys = (enObj, langCurrent, langArchive, markdown)->
       dist[k] = convertMarkdown dist[k]
 
     archive = _.omit langObj, Object.keys(update)
-    # console.log 'archive'.blue, archive
+    # pick keys with non-null value
+    cleanArchive = _.pick archive, _.identity
 
-  return [dist, update, archive]
+  return [dist, update, cleanArchive]
 
 updateAndArchive = (lang, updateFull, archiveFull, updateShort, archiveShort, updateWd, archiveWd)->
   Promise.all [
