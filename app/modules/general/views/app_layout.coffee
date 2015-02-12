@@ -18,8 +18,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'keyup .enterClick': 'enterClick'
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'
-    # 'focus #searchField': 'maximizeSearchField'
-    # 'focusout #searchField': 'unmaximizeIfNotAtSearch'
     'click a.wd-Q, a.showEntity': 'showEntity'
     'click .toggle-topbar': 'toggleSideNav'
 
@@ -29,9 +27,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     app.commands.setHandlers
       'show:loader': @showLoader
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
-      # 'search:field:maximize': @maximizeSearchField
       'bg:book:toggle': -> $('main').toggleClass('book-bg')
-      # 'search:field:unmaximize': @unmaximizeSearchField
       'current:username:set': @setCurrentUsername
       'current:username:hide': @hideCurrentUsername
       'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
@@ -88,11 +84,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     query = $('input#searchField').val()
     _.log query, 'search query'
     app.execute 'search:global', query
-
-  # maximizeSearchField: -> $('#searchGroup').addClass('maximized')
-  # unmaximizeSearchField: -> $('#searchGroup').removeClass('maximized')
-  # unmaximizeIfNotAtSearch: ->
-    # @unmaximizeSearchField()  unless _.currentLocationMatch '/search'
 
   showEntity: (e)->
     href = e.target.href
