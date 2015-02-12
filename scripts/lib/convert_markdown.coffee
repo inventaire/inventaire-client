@@ -5,10 +5,10 @@ module.exports = (text)->
   convertMarkdownLinks convertMarkdownBold(text)
 
 convertMarkdownLinks = (text)->
-  text.replace /\[([^\]]+)\]\(([^\)]+)\)/g, dynamicLink
+  text?.replace /\[([^\]]+)\]\(([^\)]+)\)/g, dynamicLink
 
 # used by String::replace to pass text -> $1 and url -> $2 values
 dynamicLink = linkify '$1', '$2'
 
 convertMarkdownBold = (text)->
-  text.replace /\*\*([^*]+)\*\*/g, '<strong>$1</strong>'
+  text?.replace /\*\*([^*]+)\*\*/g, '<strong>$1</strong>'
