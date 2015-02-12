@@ -12,6 +12,7 @@ module.exports =
     # default data, overridden by arguments
     field =
       type: 'text'
+      dotdotdot: '...'
     button =
       classes: 'success postfix'
 
