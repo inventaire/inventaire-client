@@ -40,6 +40,7 @@ module.exports = class LabsSettings extends Backbone.Marionette.ItemView
           type: 'url'
         button:
           text: _.i18n 'replicate'
+          classes: 'dark-grey postfix'
 
   importPouchDbScript: ->
     _.log 'Importing PouchDB'
