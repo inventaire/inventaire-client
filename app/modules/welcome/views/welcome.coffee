@@ -21,9 +21,12 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
     unless app.user.loggedIn
       @hideTopBar()
       @ui.topBarTrigger.once 'inview', @showTopBar
+      @hideFeedbacksButton()
 
 
-  onDestroy: -> @showTopBar()
+  onDestroy: ->
+    @showTopBar()
+    @showFeedbacksButton()
 
   loadPublicItems: ->
     _.preq.get app.API.items.public()
@@ -48,3 +51,6 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
 
   hideTopBar: -> $('.top-bar').hide()
   showTopBar: -> $('.top-bar').slideDown()
+
+  hideFeedbacksButton: -> $('#feedbacks').hide()
+  showFeedbacksButton: -> $('#feedbacks').fadeIn()
