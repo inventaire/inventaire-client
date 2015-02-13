@@ -25,8 +25,13 @@
   }
 }
 
+@mixin transition($elements:all, $speed:0.5s, $mode:ease){
+  transition: $elements $speed $mode;
+}
+
 @mixin bg-hover($bg-color, $darken:15%){
   background-color: $bg-color;
+  @include transition(background-color);
   &:hover{
     background-color: darken($bg-color, $darken);
   }
@@ -47,9 +52,6 @@
   box-shadow: $offsetX $offsetY $blur $spread rgba($color, $opacity);
 }
 
-@mixin transition($elements:all, $speed:0.5s, $mode:ease){
-  transition: $elements $speed $mode;
-}
 
 @mixin standard-dropdown(){
   .f-dropdown{
