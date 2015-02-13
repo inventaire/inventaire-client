@@ -2,8 +2,10 @@ ResultsList = require './results_list'
 Entities = require 'modules/entities/collections/entities'
 WikidataEntities = require 'modules/entities/collections/wikidata_entities'
 IsbnEntities = require 'modules/entities/collections/isbn_entities'
+FindByIsbn = require './find_by_isbn'
 EntityCreate = require 'modules/entities/views/entity_create'
 wd_ = app.lib.wikidata
+books_ = app.lib.books
 
 module.exports = class Search extends Backbone.Marionette.LayoutView
   id: 'searchLayout'
@@ -23,6 +25,7 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     authors: '#authors'
     books: '#books'
     editions: '#editions'
+    findByIsbn: '#findByIsbn'
     createEntity: '#create'
 
   initialize: (params)->
@@ -32,16 +35,19 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     @updateSearchBar()
     app.request 'waitForFriendsItems', @showItems.bind(@)
     @searchEntities()
-    @showEntityCreationForm()
+    unless books_.isIsbn(@query)
+      @showFindByIsbn()
+      @showEntityCreationForm()
+    else
+      @showEntityCreationForm true
 
   updateSearchBar: ->
     $('#searchField').val @query
-    # app.execute 'search:field:maximize'
 
   showItems: ->
     collection = Items.filtered.resetFilters().filterByText @query
     if collection.length > 0
-      view = new app.View.Items.List {collection: collection}
+      view = new app.View.Items.List {collection: collection, columns: true}
       @inventoryItems.show view
 
   sameAsPreviousQuery: ->
@@ -99,9 +105,18 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
       editionsList = new ResultsList {collection: editions, type: 'editions', entity: 'Q17902573'}
       @editions.show editionsList
 
-  showEntityCreationForm: ->
-    view = new EntityCreate {data: @query}
-    _.inspect(@)
+  showFindByIsbn: ->
+    @findByIsbn.show new FindByIsbn
+
+  showEntityCreationForm: (queryIsIsbn)->
+    options = {}
+    unless queryIsIsbn
+      # no need to pass the query to suggest a title
+      # if it's an isbn
+      options.data = @query
+      # adapt the header
+      options.secondChoice = true
+    view = new EntityCreate options
     @createEntity.show view
     @$el.find('h3.create').show()
 

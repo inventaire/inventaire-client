@@ -1,6 +1,9 @@
 .entityCreate{
+  .needed{
+    font-size: 1rem;
+  }
   .entityCreateForm{
-    @include display-flex(row, null, null, wrap);
+    @include display-flex(row);
 
     /*Small screens*/
     @media screen and (max-width: $smallscreen) {
@@ -15,10 +18,10 @@
       div{
         &:first-child{
           @include flex(3);
-          min-width: 15em;
         }
         &:last-child{
           @include flex(1);
+          white-space: nowrap;
           @include display-flex(column, center, center);
           padding: 2.6em 2em 2em 2em;
           .pictures{

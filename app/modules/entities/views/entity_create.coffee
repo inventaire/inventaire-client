@@ -9,16 +9,24 @@ module.exports = class EntityCreate extends Backbone.Marionette.ItemView
     'click #selling': 'selling'
     'keyup #title': 'updateTitle'
     'keyup #authors': 'updateAuthors'
-    'keyup #isbn': 'updateIsbn'
 
   ui:
     title: '#title'
     authors: '#authors'
-    isbn: '#isbn'
 
   initialize: ->
     @initModel()
     @initUpdater()
+
+  serializeData: ->
+    _.extend @model.toJSON(),
+      header: @getHeader()
+
+  getHeader: ->
+    header = "let's just take some basic informations"
+    if @options.secondChoice
+      header = "otherwise, #{header}"
+    return _.i18n header
 
   initModel: ->
     @model = new Backbone.Model
@@ -29,7 +37,6 @@ module.exports = class EntityCreate extends Backbone.Marionette.ItemView
   initUpdater: ->
     @updateTitle = @lazyUpdate('title')
     @updateAuthors = @lazyUpdate('authors')
-    @updateIsbn = @lazyUpdate('isbn')
 
   lazyUpdate: (attr)-> _.debounce @updateModel.bind(@, attr), 250
   updateModel: (attr)->
@@ -40,8 +47,9 @@ module.exports = class EntityCreate extends Backbone.Marionette.ItemView
 
   suggestQueryAsTitle: ->
     {data} = @options
-    @ui.title.val data
-    @model.set('title', data)
+    if data?
+      @ui.title.val data
+      @model.set('title', data)
 
   addPicture: ->
     picturePicker = new app.View.Behaviors.PicturePicker
@@ -75,7 +83,6 @@ module.exports = class EntityCreate extends Backbone.Marionette.ItemView
     entity =
       title: data.title.trim()
       authors: data.authors?.split(',').map (str)-> str.trim()
-      isbn: data.isbn?.trim()
       pictures: data.pictures
 
     return _.log entity, 'entity?'

@@ -6,16 +6,25 @@
 
 #searchLayout{
   section#createGroup{
-    background-color: $light-grey;
-    h3, div{
-      margin: 0;
-    }
-    margin: 1em 0em 1em 0em;
+    margin-top: 1em;
+    background-color: $dark-grey;
     padding: 1em;
-  }
-  .entityCreate{
-    .needed{
-      font-size: 1rem;
+    > h3:first-child{
+      color: white;
     }
+    .findByIsbn, .entityCreate{
+      margin: 0;
+      background-color: $light-grey;
+      margin: 1em 0em 1em 0em;
+      padding: 1em;
+    }
+    #findByIsbn{
+      #isbnGroup{
+        max-width: 25em;
+      }
+    }
+    #create{}
   }
 }
+
+@import "entity_create";
