@@ -5,6 +5,12 @@
 
 
 #searchLayout{
+  .itemsList{
+    background-color: $dark-grey;
+    padding: 1em;
+    margin: 0;
+    width: 100%;
+  }
   section#createGroup{
     margin-top: 1em;
     background-color: $dark-grey;
