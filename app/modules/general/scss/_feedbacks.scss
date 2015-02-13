@@ -1,0 +1,18 @@
+#feedbacks{
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    display: none;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 1em;
+    a{
+      @include custom-button($dark-grey, white, 0.1em, 0.2em 0.5em 0.2em 0.5em);
+      border: 1px solid $grey;
+    }
+  }
+}
