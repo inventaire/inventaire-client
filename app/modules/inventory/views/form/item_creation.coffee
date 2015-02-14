@@ -9,8 +9,6 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     attrs =
       title: @entity.get 'title'
       entity: @entity.get 'uri'
-      claims:
-        P31: @entity.get 'uri'
       transaction: @options.transaction
 
     if pictures = @entity.get 'pictures'
@@ -24,6 +22,9 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
 
   ui:
     'transaction': '#transaction'
+    'listing': '#listing'
+    'comment': '#comment'
+    'notes': '#notes'
 
   onShow: ->
     app.execute 'foundation:reload'
@@ -52,7 +53,6 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     'click .select-button-group > .button': 'updateSelector'
     'click #validate': 'validateItem'
     'click #cancel': -> app.execute 'show:home'
-    # 'selected:selling': -
 
   updateSelector: (e)->
     $el = $(e.currentTarget)
@@ -65,18 +65,21 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     $el.addClass('active')
 
   validateItem: ->
-    transaction = $('#transaction').find('.active').first().attr('id')
-    comment = $('#comment').val()
-    notes = $('#notes').val()
-    listing = $('#listing').find('.active').first().attr('id')
-    if listing?
-      @model.set 'listing', listing
-      @model.set 'comment', comment  if comment?
-      @model.set 'notes', notes  if notes?
-      @model.set 'transaction', transaction  if transaction?
-      itemData = @model.toJSON()
-      if app.request 'item:validate:creation', itemData
-        app.execute 'show:home'
-      else throw new Error "couldn't validateItem"
-    else throw new Error 'no value found for the listing'
+    @setFormData()
+    itemData = @model.toJSON()
+    if app.request 'item:validate:creation', itemData
+      app.execute 'show:home'
+    else throw new Error "couldn't validateItem"
 
+  setFormData: ->
+    transaction = @ui.transaction.find('.active').attr('id')
+    listing = @ui.listing.find('.active').attr('id')
+    comment = @ui.comment.val()
+    notes = @ui.notes.val()
+
+    unless listing? then throw new Error 'listing value missing'
+    unless transaction? then throw new Error 'transaction value missing'
+    @model.set 'transaction', transaction
+    @model.set 'listing', listing
+    @model.set 'comment', comment  if comment?
+    @model.set 'notes', notes  if notes?
