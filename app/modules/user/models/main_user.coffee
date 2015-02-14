@@ -22,4 +22,5 @@ module.exports = class MainUser extends Filterable
 
   addNotifications: (notifications)->
     if notifications?
-      app.request 'waitForData', app.request, app, 'notifications:add',notifications
+      cb = app.request.bind(app, 'notifications:add', notifications)
+      app.request 'waitForData', cb

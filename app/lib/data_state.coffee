@@ -5,20 +5,17 @@ module.exports =
     setTimeout @warnOnExcessiveTime.bind(@), 8000
 
     app.reqres.setHandlers
-      'waitForData': (cb, context, args...)->
-        fn = -> cb.apply context, args
-        if app.data.ready then fn()
-        else app.vent.once 'data:ready', fn
+      'waitForData': (cb)->
+        if app.data.ready then cb()
+        else app.vent.once 'data:ready', cb
 
-      'waitForUserData': (cb, context, args...)->
-        fn = -> cb.apply context, args
-        if app.user?.fetched then fn()
-        else app.vent.once 'user:ready', fn
+      'waitForUserData': (cb)->
+        if app.user?.fetched then cb()
+        else app.vent.once 'user:ready', cb
 
-      'waitForFriendsItems': (cb, context, args...)->
-        fn = -> cb.apply context, args
-        if Items?.friends?.fetched then fn()
-        else app.vent.once 'friends:items:ready', fn
+      'waitForFriendsItems': (cb)->
+        if Items?.friends?.fetched then cb()
+        else app.vent.once 'friends:items:ready', cb
 
   _updateStatus: ->
     # if @missing wasnt initialized

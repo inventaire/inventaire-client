@@ -40,7 +40,7 @@ module.exports = (app)->
             return app.users.filtered.filterByText(text)
           # Need to waitForData as isntAlreadyHere can't
           # do it's job if user relations data haven't return yet
-          app.request 'waitForData', callback, null, res
+          app.request 'waitForData', callback.bind(null, res)
         .fail _.error
       else
         app.users.filtered.friends()

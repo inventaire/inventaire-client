@@ -40,7 +40,8 @@ API =
 
   itemShow: (username, entity, label)->
     app.execute('show:loader', {title: "#{label} - #{username}"})
-    app.request 'waitForFriendsItems', @showItemShow, @, username, entity, label
+    cb = @showItemShow.bind(@, username, entity, label)
+    app.request 'waitForFriendsItems', cb
 
   showItemShow: (username, entity, label)->
     owner = app.request 'get:userId:from:username', username
