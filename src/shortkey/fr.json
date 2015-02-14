@@ -33,5 +33,8 @@
     "joyride_last_conlusion_point_2": "et maintenant, à vos inventaires !!",
     "assembled_by": "prototype assemblé par [Maxime Lathuilière](http://maxlath.eu/)",
     "email_note": "l'email que vous utilisez pour vous identifier avec Mozilla Persona sera celui utilisé pour vous envoyer des notifications",
-    "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !"
+    "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !",
+    "open_source_credits": "grâce à l'immense travail de [nombreux projets libre et open source](https://github.com/maxlath/inventaire#powered-by) !",
+    "pictures_credits": "superbes photos par [ginnerobot](https://www.flickr.com/photos/ginnerobot/3102623100) et [artfullife](https://www.flickr.com/photos/artfullife/3589991695/). Merci !",
+    "find_by_isbn_title": "votre livre a-t-il un ISBN ? (l'identifiant près du code-barre)"
 }
