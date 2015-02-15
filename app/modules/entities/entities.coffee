@@ -80,7 +80,7 @@ API =
     if prefix? and id?
       @getEntityModel(prefix, id)
       .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
-      .catch (err)-> _.log err, 'showAddEntity err'
+      .catch (err)-> _.error err, 'showAddEntity err'
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   getEntityPublicItems: (uri)->
