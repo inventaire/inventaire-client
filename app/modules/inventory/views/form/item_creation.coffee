@@ -7,6 +7,8 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     console.log('item creation arguments', arguments)
     @entity = @options.entity
     attrs =
+      # copying the title for convinience
+      # as it is used to display and find the item from search
       title: @entity.get 'title'
       entity: @entity.get 'uri'
       transaction: @options.transaction
@@ -14,6 +16,7 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
     if pictures = @entity.get 'pictures'
       attrs.pictures = pictures
 
+    # will be confirmed by the server
     attrs.owner = app.user.id
 
     if attrs.entity? and attrs.title?
@@ -56,11 +59,6 @@ module.exports = class ItemCreation extends Backbone.Marionette.ItemView
 
   updateSelector: (e)->
     $el = $(e.currentTarget)
-    value = $el.attr('id')
-    category = $el.parent().attr('id')
-    console.log value, category
-    @$el.trigger "change:#{value}"
-    @$el.trigger "selected:#{value}"
     $el.siblings().removeClass('active')
     $el.addClass('active')
 
