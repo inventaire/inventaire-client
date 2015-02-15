@@ -12,7 +12,7 @@ module.exports = Backbone.Marionette.ItemView.extend
       pagination: before > 0 or after > 0
       prevStatus: unless before > 0 then 'disabled'
       nextStatus: unless after > 0 then 'disabled'
-    return _.log attrs, 'items control attrs'
+    return attrs
 
   events:
     'click .prev': 'prev'
