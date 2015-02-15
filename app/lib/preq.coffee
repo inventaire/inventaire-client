@@ -14,14 +14,40 @@ Promise.onPossiblyUnhandledRejection (err)->
 module.exports =
   get: (url, options)->
     CORS = options?.CORS
-    if _.localUrl(url) or CORS then Promise.resolve $.get(url)
-    else Promise.resolve $.get app.API.proxy(url)
-  post: (url, body)-> Promise.resolve($.post(url, body))
-  put: (url, body)-> Promise.resolve($.put(url, body))
-  delete: (url)-> Promise.resolve($.delete(url))
+    if _.localUrl(url) or CORS then jqPromise = $.get(url)
+    else jqPromise = $.get app.API.proxy(url)
+
+    return wrap(jqPromise)
+
+  post: (url, body)-> wrap($.post(url, body))
+  put: (url, body)-> wrap($.put(url, body))
+  delete: (url)-> wrap($.delete(url))
 
   resolve: (res)-> Promise.resolve(res)
   reject: (err)-> Promise.reject(err)
 
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return
+
+
+# using defer might be an anti-pattern
+# according to http://stackoverflow.com/q/24315180/3324977
+# but it allows to rewrite the Error to keep jQuery error's data
+wrap = (jqPromise)->
+  def = Promise.defer()
+
+  jqPromise
+  .then def.resolve.bind(def)
+  .fail (err)-> def.reject rewriteError(err)
+
+  return def.promise
+
+
+rewriteError = (err)->
+  {status, statusText, responseText} = err
+
+  error = new Error "#{status}: #{statusText} - #{responseText}"
+  return _.extend error,
+    status: status
+    statusText: statusText
+    responseText: responseText
