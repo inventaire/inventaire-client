@@ -15,7 +15,6 @@ module.exports = class Item extends Filterable
   initialize: (attrs, options)->
     # RECIPE:
       # entity = entity "#{domain}:#{id} uri
-      # _id = "#{owner}:#{entity}:#{timestamp}"
       # pathname = "#{username}/#{entity}/#{title}
     # - allows entity uri to be used in pathname
     # nice for super users/wikidata wizzards
@@ -33,6 +32,7 @@ module.exports = class Item extends Filterable
     # @getEntityModel(attrs.entity)
 
     attrs.owner = @get('owner')
+    # created will be overriden by the server at item creation
     attrs.created = @get('created') or _.now()
     attrs._id = @getId(attrs)
 
@@ -47,7 +47,7 @@ module.exports = class Item extends Filterable
 
   getId: (attrs)->
     if @get('_id') then return @get('_id')
-    else return "#{attrs.owner}:#{attrs.entity}:#{attrs.created}"
+    else return 'new'
 
   buildPathname: (attrs)->
     if @username? and attrs.entity?
