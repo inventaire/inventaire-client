@@ -48,7 +48,8 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
 
   showFollowedEntitiesList: ->
     followedEntities = app.request 'entities:followed:collection'
-    @followedView.show new FollowedEntitiesList {collection: followedEntities}
+    if followedEntities.length > 0
+      @followedView.show new FollowedEntitiesList {collection: followedEntities}
 
   showInventoryWelcome: ->
     inventoryWelcome = require('./inventory_welcome')
