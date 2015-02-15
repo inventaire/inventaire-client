@@ -5,7 +5,12 @@ brunch build -P
 ./scripts/minify_html
 # ./scripts/update_i18n_all
 ./scripts/update_i18n_actives
-gzip -9 -rf public/javascripts/*.js
-gzip -9 -rf public/stylesheets/*.css
+gzip -9 -fc public/javascripts/app.js > public/javascripts/app.js.gz
+gzip -9 -fc public/javascripts/vendor.js > public/javascripts/vendor.js.gz
+gzip -9 -fc public/stylesheets/app.css > public/stylesheets/app.css.gz
+gzip -9 -fc public/stylesheets/vendor.css > public/stylesheets/vendor.css.gz
+gzip -9 -fc public/index.html > public/index.html.gz
+
+cp public/i18n/dist/*.json public/i18n
 gzip -9 -rf public/i18n/dist/*.json
-gzip -9 -f public/index.html
+mv public/i18n/*.json public/i18n/dist
