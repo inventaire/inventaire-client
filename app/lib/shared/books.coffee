@@ -4,7 +4,7 @@ module.exports = (_)->
       # doc: https://developers.google.com/discovery/v1/performance
       google:
         book: (data)->
-          "https://www.googleapis.com/books/v1/volumes/?q=#{data}&fields=totalItems,items(volumeInfo)"
+          "https://www.googleapis.com/books/v1/volumes/?q=#{data}&fields=totalItems,items(volumeInfo)&country=FR"
       worldcat:
         # http://xisbn.worldcat.org/xisbnadmin/doc/api.htm
         isbnBaseRoute: 'http://xisbn.worldcat.org/webservices/xid/isbn/'
