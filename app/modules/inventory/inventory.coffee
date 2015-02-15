@@ -19,7 +19,7 @@ module.exports =
 
   initialize: ->
     window.Items = Items = require('./items_collections')(app, _)
-    fetchItems(app)
+    app.request 'waitForUserData', fetchItems.bind(null, app)
     Filters.initialize(app)
     Transactions(Items)
     initializeInventoriesHandlers(app)
@@ -110,13 +110,14 @@ requestPublicItem = (username, entity)->
 
 validateCreation = (itemData)->
   _.log itemData, 'itemData at validateCreation'
-  if itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
-    if itemData.entity?.label?
-      itemData.title = itemData.entity.label
-    itemModel = Items.create itemData
-    itemModel.username = app.user.get('username')
-    return true
-  else false
+  unless itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
+    return false
+
+  if itemData.entity?.label?
+    itemData.title = itemData.entity.label
+  itemModel = Items.create itemData
+  itemModel.username = app.user.get('username')
+  return true
 
 # VIEWS
 initializeInventoriesHandlers = (app)->
@@ -163,8 +164,9 @@ initializeInventoriesHandlers = (app)->
       # requires the ConfirmationModal behavior to be on the view
       # MUST: selector, model with title
       # CAN: next
+      title = options.model.get('title')
       $(options.selector).trigger 'askConfirmation',
-        confirmationText: _.i18n('destroy_item_text', {title: options.model.get('title')})
+        confirmationText: _.i18n('destroy_item_text', {title: title})
         warningText: _.i18n("this action can't be undone")
         actionCallback: (options)->
           promise = options.model.destroy()
