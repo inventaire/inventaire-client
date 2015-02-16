@@ -26,9 +26,10 @@ module.exports = (Backbone, _, app, window)->
 
       return obj
 
-    error: (err)->
+    error: (err, label)->
       unless err?.stack?
-        newErr = new Error('empty error sent to _.error')
+        label or= 'empty error'
+        newErr = new Error(label)
         report = [err, newErr.message, newErr.stack?.split('\n')]
       else
         report = [err.message or err, err.stack?.split('\n')]

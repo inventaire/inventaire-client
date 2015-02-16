@@ -130,7 +130,9 @@ getModelFromPrefix = (prefix)->
     else throw new Error("prefix not implemented: #{prefix}")
 
 saveEntityModel = (prefix, data)->
-  Entities.data[prefix].local.save(data.id, data)
+  if data?.id?
+    Entities.data[prefix].local.save(data.id, data)
+  else _.error arguments, 'couldnt save entity model'
 
 createEntity = (data)->
   Entities.data.inv.local.post(data)
