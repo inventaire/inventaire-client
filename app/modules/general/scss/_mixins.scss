@@ -1,14 +1,14 @@
 @mixin vendor-prefix($property, $value, $prefixes: webkit moz ms o) {
-    @each $prefix in $prefixes {
-        #{"-" + $prefix + "-" + $property}: #{$value};
-    }
+    // @each $prefix in $prefixes {
+    //     #{"-" + $prefix + "-" + $property}: #{$value};
+    // }
     #{$property}: #{$value};
 }
 
 @mixin vendor-prefix-value($property, $value, $prefixes: webkit moz ms o) {
-    @each $prefix in $prefixes {
-        #{$property}: #{"-" + $prefix + "-" + $value};
-    }
+    // @each $prefix in $prefixes {
+    //    #{$property}: #{"-" + $prefix + "-" + $value};
+    // }
     #{$property}: #{$value};
 }
 
