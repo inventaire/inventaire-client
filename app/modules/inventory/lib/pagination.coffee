@@ -1,5 +1,6 @@
 sideNavWidth = 250
 itemWitdth = 200 + 50 #margins
+itemHeight = 350 #more or less
 # initializing private variables
 start = null
 end = null
@@ -8,7 +9,7 @@ before = null
 after = null
 
 module.exports = ->
-  itemsBatchLength = howManyItemsForTwoLines()
+  itemsBatchLength = howManyItemsToFillTheScreen()
   app.commands.setHandlers
     'items:pagination:head': head
     'items:pagination:prev': prev
@@ -49,6 +50,9 @@ updateRange = (params)->
   app.vent.trigger 'items:list:before:after', before, after
 
 
-howManyItemsForTwoLines = ->
-  itemPerLine = (window.screen.width - sideNavWidth) / itemWitdth
-  return Math.floor(itemPerLine) * 2
+howManyItemsToFillTheScreen = ->
+  itemPerLine = Math.floor((window.screen.width - sideNavWidth) / itemWitdth)
+  lines = Math.ceil(window.screen.height / itemHeight)
+  total = itemPerLine * lines
+  if total < 10 then total = 10
+  return total
