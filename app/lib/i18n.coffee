@@ -52,5 +52,5 @@ requestI18nFile = (polyglot, lang)->
 
 guessLanguage = ->
   if lang = $.cookie 'lang' then lang.logIt('i18n: cookie')
-  else if lang = (navigator.language or navigator.userLanguage) then lang.logIt('i18n: navigator')
+  else if lang = (navigator.language?[0..1] or navigator.userLanguage[0..1]) then lang.logIt('i18n: navigator')
   else 'en'.logIt('i18n: global default')
