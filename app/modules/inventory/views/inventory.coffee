@@ -23,13 +23,20 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     app.request 'waitForFriendsItems', @showItemsList.bind(@)
 
   showItemsList: ->
-    if Items.length is 0 then return @showInventoryWelcome()
-
     {user, navigate} = @options
+    if user? then user = app.request 'resolve:to:userModel', user
+
+    if Items.length is 0
+      # dont show welcome inventory screen on other users inventory
+      # it would be confusing to see 'welcome in your inventory' there
+      unless user?.id and not _.isMainUser(user.id)
+        @showInventoryWelcome(user)
+        return
+
     if user?
-      userModel = prepareUserItemsList(user, navigate)
-      if _.isMainUser(userModel.id) then @showFollowedEntitiesList()
-      docTitle = eventName = userModel.get('username')
+      prepareUserItemsList(user, navigate)
+      if _.isMainUser(user.id) then @showFollowedEntitiesList()
+      docTitle = eventName = user.get('username')
     else
       app.execute 'filter:inventory:reset'
       docTitle = _.i18n('Home')
@@ -51,24 +58,14 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     if followedEntities.length > 0
       @followedView.show new FollowedEntitiesList {collection: followedEntities}
 
-  showInventoryWelcome: ->
+  showInventoryWelcome: (user)->
     inventoryWelcome = require('./inventory_welcome')
     view = new inventoryWelcome
     @itemsView.show view
+    if user? then app.execute 'sidenav:show:user', user
 
 prepareUserItemsList = (user, navigate)->
-  userModel = findUser(user)
-  username = userModel.get('username')
-  app.execute 'filter:inventory:owner', userModel.id
-  app.execute 'sidenav:show:user', userModel
+  username = user.get 'username'
+  app.execute 'filter:inventory:owner', user.id
+  app.execute 'sidenav:show:user', user
   if navigate? then app.navigate "inventory/#{username}"
-  return userModel
-
-
-findUser = (user)->
-  if _.isModel(user) then return user
-  else
-    userame = user
-    userModel = app.request('get:userModel:from:username', userame)
-    if userModel? then return userModel
-    else throw new Error("user model not found: got #{user}")

@@ -1,5 +1,14 @@
 module.exports = (app)->
   API =
+    resolveToUserModel: (user)->
+      # 'user' is either the user model or a username
+      if _.isModel(user) then return user
+      else
+        username = user
+        userModel = app.request('get:userModel:from:username', username)
+        if userModel? then return userModel
+        else throw new Error("user model not found: got #{user}")
+
     getUserModelFromUsername: (username)->
       if username is app.user.get('username') then return app.user
 
@@ -53,6 +62,7 @@ module.exports = (app)->
 
 
   return reqresHandlers =
+    'resolve:to:userModel': API.resolveToUserModel
     'get:userModel:from:username': API.getUserModelFromUsername
     'get:username:from:userId': API.getUsernameFromUserId
     'get:userId:from:username': API.getUserIdFromUsername
