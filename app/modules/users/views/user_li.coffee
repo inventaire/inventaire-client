@@ -19,6 +19,9 @@ module.exports = class UserLi extends Backbone.Marionette.ItemView
     @listenTo @model, 'change', @lazyRender
     @listenTo app.vent, "inventory:#{@model.id}:change", @lazyRender
 
+  onShow: ->
+    app.execute 'foundation:reload'
+
   serializeData: ->
     attrs = @model.toJSON()
     relationStatus = attrs.status
