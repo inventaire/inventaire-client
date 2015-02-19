@@ -8,9 +8,15 @@ cssnext public/stylesheets/vendor.css{,}
 # ./scripts/update_i18n_all
 ./scripts/update_i18n_actives
 gzip -9 -fc public/javascripts/app.js > public/javascripts/app.js.gz
+gzip -9 -fc public/javascripts/app.js.map > public/javascripts/app.js.map.gz
 gzip -9 -fc public/javascripts/vendor.js > public/javascripts/vendor.js.gz
+gzip -9 -fc public/javascripts/vendor.js.map > public/javascripts/vendor.js.map.gz
 gzip -9 -fc public/stylesheets/app.css > public/stylesheets/app.css.gz
+# probably wont be accurate, due to the sourcemap being generated before cssnext
+gzip -9 -fc public/stylesheets/app.css.map > public/stylesheets/app.css.map.gz
 gzip -9 -fc public/stylesheets/vendor.css > public/stylesheets/vendor.css.gz
+# probably wont be accurate, due to the sourcemap being generated before cssnext
+gzip -9 -fc public/stylesheets/vendor.css.map > public/stylesheets/vendor.css.map.gz
 gzip -9 -fc public/index.html > public/index.html.gz
 
 cp public/i18n/dist/*.json public/i18n

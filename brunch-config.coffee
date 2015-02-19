@@ -37,6 +37,6 @@ exports.config =
   #     path.replace /.*app\//, ''
   overrides:
     production:
-      sourceMaps: false
+      sourceMaps: true
       optimize: true
       plugins: autoReload: enabled: false
