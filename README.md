@@ -1,3 +1,6 @@
+![inventory-en](http://profile.maxlath.eu/slides/backbone-meetup/img/inventory-en.png)
+
+
 # Inventaire-client
 
 Libre collaborative resources mapper.
