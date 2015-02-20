@@ -2,7 +2,17 @@ module.exports.initialize = ->
 
   # override window.onerror to always log the stacktrace
   window.onerror = ->
-    err = parseErrorObject.apply null, arguments
+
+    # avoid using utils that weren't defined yet
+    args = [].slice.call(arguments, 0)
+
+    if JSON.stringify(args) is '["InvalidStateError","",0,0,null]'
+      # already handled at feature_detection, no need to let it throw
+      # and report to server
+      return console.warn('InvalidStateError: no worries, already handled')
+
+
+    err = parseErrorObject.apply null, args
 
     # excluding Chrome that do log the stacktrace by default
     unless window.navigator.webkitGetGamepads?

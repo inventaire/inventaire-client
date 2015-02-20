@@ -2,9 +2,19 @@ module.exports = (global, _)->
   global.dbs =
     list: {}
 
+  if window.supportsIndexedDB
+    DB = LevelJs
+    _.log DB, 'supportsIndexedDB true: using LevelJs'
+  else
+    DB = MemDown
+    _.log DB, 'supportsIndexedDB false: using MemDown'
+
+
+
   # DO NOT promisify method on LevelUp
   # As it messes with LevelMultiply
-  Level = (dbName)-> LevelMultiply LevelUp(dbName, {db: BrowserDown})
+  Level = (dbName)->
+    LevelMultiply LevelUp(dbName, {db: DB})
 
   reset = (db, dbName)->
     ops = []

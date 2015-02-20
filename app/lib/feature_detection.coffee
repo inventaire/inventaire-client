@@ -2,6 +2,7 @@ module.exports = ->
   ISODatePolyFill()
   sayHi()
   testFlexSupport()
+  return testIndexedDbSupport()
 
 
 sayHi = ->
@@ -43,3 +44,26 @@ ISODatePolyFill = ->
         ':' + pad( @getUTCSeconds() ) +
         '.' + (@getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
         'Z';
+
+testIndexedDbSupport = ->
+  indexedDB = indexedDB or window.indexedDB or window.webkitIndexedDB or window.mozIndexedDB or window.OIndexedDB or window.msIndexedDB
+
+  return solveIdbSupport(indexedDB)
+  .then (bool)->
+    window.supportsIndexedDB = bool
+    console.log 'Indexeddb support:', bool
+  .catch (err)-> console.error 'testIndexedDbSupport err', err
+
+
+solveIdbSupport = (indexedDB)->
+  # resolve once supportsIndexedDB is settled
+  return new Promise (resolve, reject)->
+    test = indexedDB.open '_indexeddb_support_detection', 1
+    test.onsuccess = ->
+      resolve true
+
+    test.onerror = ->
+      window.supportsIndexedDB = false
+      resolve false
+
+    return

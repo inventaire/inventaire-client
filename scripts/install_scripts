@@ -15,5 +15,8 @@ logDone LevelUp
 browserify node_modules/level-multiply -s LevelMultiply > vendor/scripts/level-multiply.js
 logDone LevelMultiply
 
-browserify node_modules/browserdown -s BrowserDown > vendor/scripts/browserdown.js
-logDone BrowserDown
+browserify node_modules/level-js -s LevelJs > vendor/scripts/level-js.js
+logDone LevelJs
+
+browserify node_modules/memdown -s MemDown > vendor/scripts/memdown.js
+logDone MemDown
