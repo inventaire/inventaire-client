@@ -33,7 +33,6 @@
     "clean-css-brunch": "^1.7.1",
     "coffee-script-brunch": "1.8",
     "css-brunch": "1.7",
-    "cssnext": "^1.0.0",
     "git-digest-brunch": "^1.0.3",
     "graceful-fs": "^3.0.5",
     "handlebars": "^2.0.0",
