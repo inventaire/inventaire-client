@@ -101,7 +101,7 @@
     "data exports": "exports de données",
     "personal inventory data": "données de votre inventaire",
     "PouchDB export": "export PouchDB",
-    "Replicate your data to a CouchDB instance you control": "Répliquer vos données sur une instance de CouchDB que vous contrôlez",
+    "Replicate your data to a CouchDB instance you control": "Répliquez vos données sur une instance de CouchDB que vous contrôlez",
     "It's just a backup for the moment, it won't stay in sync": "c'est juste un export pour le moment, ça ne restera pas synchronisé",
     "what is PouchDB?": "qu'est-ce que PouchDB",
     "pouchdb": null,
@@ -155,5 +155,12 @@
     "pitch-open-source": null,
     "pitch-your-data": null,
     "user search": "recherche d'utilisateurs",
-    "add friend": "ajouter un ami"
+    "add friend": "ajouter un ami",
+    "Not Found": null,
+    "cancel request": "annuler",
+    "confirm": "confirmer",
+    "delete request": "supprimer la demande",
+    "let's just take some basic informations": null,
+    "following activity": "abonné",
+    "stop following": "se désabonner"
 }

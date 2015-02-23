@@ -155,5 +155,12 @@
     "pitch-open-source": "pitch-open-source",
     "pitch-your-data": "pitch-your-data",
     "user search": "user search",
-    "add friend": "add friend"
+    "add friend": "add friend",
+    "Not Found": "Not Found",
+    "cancel request": "cancel request",
+    "confirm": "confirm",
+    "delete request": "delete request",
+    "let's just take some basic informations": "let's just take some basic informations",
+    "following activity": "following activity",
+    "stop following": "stop following"
 }
