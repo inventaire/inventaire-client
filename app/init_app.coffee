@@ -22,7 +22,7 @@ module.exports = ->
   app.data = require('lib/data_state')
   app.data.initialize()
 
-  app.lib.i18n.initialize(app)
+  require('lib/i18n').initialize(app)
 
   # initialize all the modules and their routes before app.start()
   # the first routes initialized have the lowest priority

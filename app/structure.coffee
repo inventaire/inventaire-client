@@ -20,7 +20,6 @@ module.exports =
       ChangePicture: behaviors 'change_picture'
 
   lib:
-    i18n: lib 'i18n'
     foundation: lib 'foundation'
     wikidata: lib 'wikidata'
     books: lib 'books'
