@@ -9,6 +9,7 @@ module.exports = ->
 
   require('lib/handlebars_helpers/base').initialize()
   require('lib/global_libs_extender')(_)
+  require('lib/global_helpers')(app, _)
 
   # gets all the routes used in the app
   app.API = require 'api'
