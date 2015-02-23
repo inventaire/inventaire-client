@@ -30,7 +30,11 @@ module.exports = Backbone.NestedModel.extend
     @trigger 'update'
 
   sync: ->
-    $.post '/api/logs/public', @toJSON()
+    report = @toJSON()
+    # avoid to send reports without navigation or error
+    # what the server would see as wrongly formatted reports
+    if report.navigation?
+      $.post '/api/logs/public', report
 
   record: (page)->
     timestamp = _.now()
