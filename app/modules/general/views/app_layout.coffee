@@ -36,6 +36,10 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       'waitForCheck': @waitForCheck
       'ifOnline': @ifOnline
 
+    # needed by search engines
+    # or to make by-language css rules (with :lang)
+    @keepBodyLangUpdated()
+
   serializeData: ->
     data =
       topbar:
@@ -129,3 +133,8 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
 
+  keepBodyLangUpdated: ->
+    @updateBodyLang app.request('i18n:current')
+    @listenTo app.vent, 'i18n:set', @updateBodyLang.bind(@)
+
+  updateBodyLang: (lang)-> @$el.attr 'lang', lang
