@@ -13,11 +13,13 @@ module.exports = Backbone.Marionette.ItemView.extend
     @listenTo followedList, eventName, @render
 
   serializeData: ->
-    following = app.request('entity:followed:state', @uri)
+    @following = app.request 'entity:followed:state', @uri
     return attrs =
-      following: following
+      following: @following
 
-  onRender: -> app.execute 'foundation:reload'
+  onRender: ->
+    app.execute 'foundation:reload'
+    if @following then @initiateButtonToggler()
 
   ui:
     stopFollowing: '#stopFollowing'
