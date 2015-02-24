@@ -16,6 +16,7 @@ describe 'UTILS', ->
         _.typeOf(null).should.equal 'null'
         _.typeOf().should.equal 'undefined'
         _.typeOf(false).should.equal 'boolean'
+        _.typeOf(Number('boudu')).should.equal 'NaN'
         done()
       , done)
 

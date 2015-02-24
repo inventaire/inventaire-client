@@ -45,6 +45,8 @@ module.exports =
     if type is 'object'
       if @isNull(obj) then return 'null'
       if @isArray(obj) then return 'array'
+    if type is 'number'
+      if @isNaN(obj) then return 'NaN'
     return type
 
   # soft testing: doesn't throw
