@@ -2,10 +2,12 @@ module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/entity_actions'
   className: 'entityActions'
   initialize: ->
-    @updateOnFollowStatusChange()
+    @uri = @model.get('uri')
+
+    # has to be initialized after Entities followedList which waitForData
+    app.request 'waitForData:after', @updateOnFollowStatusChange.bind(@)
 
   updateOnFollowStatusChange: ->
-    @uri = @model.get('uri')
     eventName = "change:#{@uri}"
     followedList = app.request('entities:followed:list')
     @listenTo followedList, eventName, @render

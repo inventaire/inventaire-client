@@ -9,6 +9,10 @@ module.exports =
         if app.data.ready then cb()
         else app.vent.once 'data:ready', cb
 
+      'waitForData:after': (cb)->
+        if app.data.ready then cb()
+        else app.vent.once 'data:ready:after', cb
+
       'waitForUserData': (cb)->
         if app.user?.fetched then cb()
         else app.vent.once 'user:ready', cb
@@ -35,8 +39,8 @@ module.exports =
   _checkIfDataReady: ->
     if @missing.length is 0
       @ready = true
-      _.log 'data:ready'
       app.vent.trigger 'data:ready'
+      setTimeout app.vent.trigger.bind(app.vent, 'data:ready:after'), 100
       return true
     else false
 
