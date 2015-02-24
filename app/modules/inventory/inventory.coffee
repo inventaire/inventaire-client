@@ -143,7 +143,8 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:show:from:model': (item)->
       API.showItemShowFromItemModel(item)
-      app.navigate item.pathname
+      if item.pathname? then app.navigate item.pathname
+      else _.error item, 'missing item.pathname'
 
     'inventory:remove:user:items': (userId)->
       userItems = Items.byOwner(userId)

@@ -71,7 +71,9 @@ module.exports = (Backbone, _, app, window)->
       [pathname, currentQueryString] = Backbone.history.fragment.split('?')
       query = @parseQuery(currentQueryString)
       _.extend query, newParams
-      app.navigate @buildPath(pathname, query)
+      route = @buildPath(pathname, query)
+      if route? then app.navigate(route)
+      else _.error [query, newParams], 'couldnt updateQuery'
 
     inspect: (obj, label)->
       # remove after using as it keeps reference of the inspected object

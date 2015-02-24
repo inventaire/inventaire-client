@@ -17,13 +17,16 @@ class App extends Backbone.Marionette.Application
     @docTitle = (docTitle)-> @vent.trigger 'document:title:change', docTitle
 
     @navigate = (route, options)->
+      unless route?
+        return _.error route, "can't navigate to undefined route"
+
       route.logIt('route:navigate')
       # record all routes visited for server-side statistics
       @session.record route
-      route = route.replace(/(\s|')/g, '_')
+      route = route.replace /(\s|')/g, '_'
       Backbone.history.last or= []
-      Backbone.history.last.unshift(route)
-      Backbone.history.navigate(route, options)
+      Backbone.history.last.unshift route
+      Backbone.history.navigate route, options
       scrollToPageTop()
 
     @goTo = (route, options)->
