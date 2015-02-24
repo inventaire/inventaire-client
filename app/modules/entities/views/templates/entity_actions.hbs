@@ -21,16 +21,18 @@
   </ul>
 </div>
 
-<div class="entityAction">
+<div class="entityAction ">
   {{#if following}}
-    <a id='stopFollowing' class="button grey">
+    <a id='stopFollowing' class="button switchingButton">
       {{icon 'rss'}}
-      <span>{{i18n 'following activity'}}</span>
-      <span class="hidden">{{i18n 'stop following'}}</span>
+      <span class="displayed">{{i18n 'following activity'}}</span>
+      <span class="substitute">{{i18n 'stop following'}}</span>
     </a>
   {{else}}
-    <a id='followActivity' class="button secondary">
-      {{icon 'rss'}} {{i18n "I'm looking for it"}}
+    <a id='followActivity' class="button switchingButton">
+      {{icon 'rss'}}
+      <span class="displayed">{{i18n "I'm looking for it"}}</span>
+      <span class="substitute">{{i18n 'subscribe'}}</span>
     </a>
   {{/if}}
 </div>

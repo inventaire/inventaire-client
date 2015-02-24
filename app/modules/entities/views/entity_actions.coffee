@@ -19,7 +19,6 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   onRender: ->
     app.execute 'foundation:reload'
-    if @following then @initiateButtonToggler()
 
   ui:
     stopFollowing: '#stopFollowing'
@@ -46,17 +45,6 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   followActivity: ->
     app.execute 'entity:follow', @uri
-    @$el.once 'mouseleave #stopFollowing', @initiateButtonToggler.bind(@)
 
   stopFollowing: ->
     app.execute 'entity:unfollow', @uri
-
-  initiateButtonToggler: ->
-    @ui.stopFollowing
-    .mouseenter @toggleStopFollowingButtons.bind(@)
-    .mouseleave @toggleStopFollowingButtons.bind(@)
-
-  toggleStopFollowingButtons: ->
-    @ui.stopFollowing
-    .toggleClass('warn')
-    .find('span').toggle()

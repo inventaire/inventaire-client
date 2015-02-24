@@ -24,9 +24,22 @@
     cursor: default;
   }
 
-  #stopFollowing.warn{
-    background-color: $warning-color;
+  #followActivity{
+    background-color: $secondary-color;
+    &:hover{
+      background-color: $success-color;
+      i.fa, span.substitute{
+        color: white;
+      }
+    }
   }
+  #stopFollowing{
+    background-color: $light-blue;
+    &:hover{
+      background-color: $warning-color;
+    }
+  }
+
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     @include flex-direction(column);

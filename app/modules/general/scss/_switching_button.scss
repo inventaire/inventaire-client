@@ -1,0 +1,16 @@
+a.switchingButton{
+  span.displayed{
+    display: inherit;
+  }
+  span.substitute{
+    display: none;
+  }
+  &:hover{
+    span.displayed{
+      display: none;
+    }
+    span.substitute{
+      display: inherit;
+    }
+  }
+}
