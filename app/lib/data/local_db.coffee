@@ -1,3 +1,5 @@
+resetDbsPeriodically = require './reset_dbs_periodically'
+
 module.exports = (global, _)->
   global.dbs =
     list: {}
@@ -5,6 +7,11 @@ module.exports = (global, _)->
   if window.supportsIndexedDB
     DB = LevelJs
     _.log DB, 'supportsIndexedDB true: using LevelJs'
+
+    # delayed to let the app the time to start up.
+    # only needed when using LevelJs/indexeddb
+    setTimeout resetDbsPeriodically, 10*1000
+
   else
     DB = MemDown
     _.log DB, 'supportsIndexedDB false: using MemDown'
