@@ -26,6 +26,7 @@
 
   #followActivity{
     background-color: $secondary-color;
+    color: $primary-color;
     &:hover{
       background-color: $success-color;
       i.fa, span.substitute{
