@@ -8,11 +8,15 @@ module.exports = ->
   unless lastResetTime? then return initPeriodicalReset()
 
   if periodIsOver(lastResetTime)
-    resetDbsNow 'starting periodic dbs.reset'
+    # don't reset if offline, as the user wouldnt
+    # be able to refresh the data
+    app.request 'ifOnline', resetIfOnline
   else
     _.log lastResetTime, 'not reseting dbs: last reset is fresh enough'
 
 
+resetIfOnline = ->
+  resetDbsNow 'starting periodic dbs.reset'
 
 getLastResetTime = ->
   lastReset = localStorage.getItem 'last_db_reset'
