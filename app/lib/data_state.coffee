@@ -3,6 +3,7 @@ module.exports =
     @ready = false
     @_updateStatus()
     setTimeout @warnOnExcessiveTime.bind(@), 8000
+    _.ping()
 
     app.reqres.setHandlers
       'waitForData': (cb)->
@@ -20,6 +21,17 @@ module.exports =
       'waitForFriendsItems': (cb)->
         if Items?.friends?.fetched then cb()
         else app.vent.once 'friends:items:ready', cb
+
+      'ifOnline': (success, showOfflineError)->
+        cb = ->
+          if app.online then success()
+          else
+            if showOfflineError then app.execute 'show:offline:error'
+            else console.warn "can't reach the server"
+
+        # app.online isnt defined before first _.ping returned
+        if app.online? then cb()
+        else app.vent.once 'app:online', cb()
 
   _updateStatus: ->
     # if @missing wasnt initialized

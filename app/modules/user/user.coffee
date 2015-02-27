@@ -113,7 +113,7 @@ onlogin = (assertion) ->
     else throw new Error 'onlogin: invalid data'
   .fail (err)->
     _.logXhrErr err, 'onlogin'
-    app.request 'ifOnline', showAccountError
+    app.request 'ifOnline', showAccountError, true
 
 showAccountError = ->
   app.execute 'show:error',

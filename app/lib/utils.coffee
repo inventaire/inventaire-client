@@ -85,8 +85,13 @@ module.exports = (Backbone, _, app, window)->
       return window.current = obj
 
     ping: ->
-      $.get app.API.test
-      .fail (err)-> console.warn 'server: unreachable. You might be offline', err
+      @preq.get app.API.test
+      .then ->
+        app.online = true
+        app.vent.trigger 'app:online'
+      .catch (err)->
+        app.online = false
+        console.warn 'server: unreachable. You might be offline', err
 
     hasKnownUriDomain: (str)->
       if _.isString(str)

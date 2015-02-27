@@ -34,7 +34,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
     app.reqres.setHandlers
       'waitForCheck': @waitForCheck
-      'ifOnline': @ifOnline
 
     # needed by search engines
     # or to make by-language css rules (with :lang)
@@ -114,13 +113,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
     # If we haven't been stopped yet, then we prevent the default action
     e.preventDefault()
-
-  ifOnline: (cb, context, args...)->
-    _.ping()
-    .then -> cb.apply context, args
-    .fail ->
-      app.execute 'show:error',
-        message: _.i18n "can't reach the server"
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)

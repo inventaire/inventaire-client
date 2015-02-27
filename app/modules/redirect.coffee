@@ -20,6 +20,7 @@ module.exports =
       'show:error': API.showError
       'show:403': API.show403
       'show:404': API.show404
+      'show:offline:error': API.showOfflineError
 
 API =
   showHome: ->
@@ -46,6 +47,10 @@ API =
     app.execute 'show:error',
       code: 404
       message: _.i18n 'Not Found'
+
+  showOfflineError: ->
+    app.execute 'show:error',
+      message: _.i18n("can't reach the server")
 
   showError: (options)->
     app.layout.main.show new ErrorView options
