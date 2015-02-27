@@ -220,12 +220,6 @@ module.exports = (Backbone, _, app, window)->
 
     capitaliseFirstLetter: (str)-> str[0].toUpperCase() + str[1..-1]
 
-    # only addressing the general case
-    env: (->
-        if location.hostname is 'localhost' then return 'dev'
-        else return 'prod'
-      )()
-
     isUuid: (str)-> /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test str
 
     noop: ->

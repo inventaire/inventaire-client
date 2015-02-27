@@ -1,6 +1,5 @@
 Promise::fail = Promise::caught
 Promise::always = Promise::finally
-Promise.longStackTraces()  if _.env is 'dev'
 
 Promise.onPossiblyUnhandledRejection (err)->
   label = "[PossiblyUnhandledError] #{err.name}: #{err.message} (#{typeof err.message})"

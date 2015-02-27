@@ -1,3 +1,4 @@
+envConfig = require('lib/env_config')()
 featureDetection = require 'lib/feature_detection'
 initApp = require './init_app'
 
