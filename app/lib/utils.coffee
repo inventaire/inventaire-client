@@ -84,15 +84,6 @@ module.exports = (Backbone, _, app, window)->
         window.previous.unshift(window.current)
       return window.current = obj
 
-    ping: ->
-      @preq.get app.API.test
-      .then ->
-        app.online = true
-        app.vent.trigger 'app:online'
-      .catch (err)->
-        app.online = false
-        console.warn 'server: unreachable. You might be offline', err
-
     hasKnownUriDomain: (str)->
       if _.isString(str)
         [prefix, id] = str.split(':')

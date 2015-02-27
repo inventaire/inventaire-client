@@ -1,9 +1,11 @@
+app.online = online = null
+
 module.exports =
   initialize: ->
     @ready = false
     @_updateStatus()
     setTimeout @warnOnExcessiveTime.bind(@), 8000
-    _.ping()
+    ping()
 
     app.reqres.setHandlers
       'waitForData': (cb)->
@@ -24,13 +26,13 @@ module.exports =
 
       'ifOnline': (success, showOfflineError)->
         cb = ->
-          if app.online then success()
+          if online then success()
           else
             if showOfflineError then app.execute 'show:offline:error'
             else console.warn "can't reach the server"
 
-        # app.online isnt defined before first _.ping returned
-        if app.online? then cb()
+        # online isnt defined before first ping returned
+        if online? then cb()
         else app.vent.once 'app:online', cb()
 
   _updateStatus: ->
@@ -83,3 +85,12 @@ data = [
     ready: -> app?.users?.fetched
   }
 ]
+
+ping = ->
+  _.preq.get app.API.test
+  .then ->
+    online = true
+    app.vent.trigger 'app:online'
+  .catch (err)->
+    online = false
+    console.warn 'server: unreachable. You might be offline', err
