@@ -36,6 +36,13 @@ module.exports = (Backbone, _, app, window)->
       window.reportErr {error: report}
       console.error.apply console, report
 
+    # providing a custom warn as it might be used
+    # by methods shared with the server
+    warn: (args...)->
+      console.warn('/!\\')
+      @log.apply(@, args)
+      return
+
     logAllEvents: (obj, prefix='logAllEvents')->
       obj.on 'all', (event)->
         console.log "[#{prefix}:#{event}]"
