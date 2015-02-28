@@ -103,7 +103,7 @@ putItems = (db)->
 cleaningDb = (db)->
   db.destroy()
   .then (res)-> _.log res, 'cleaning DB'
-  .catch (err)-> _.log err, 'cleaning DB err'
+  .catch (err)-> _.error err, 'cleaning DB err'
 
 getRoot = (url)->
   # getting http://127.0.0.1:5984

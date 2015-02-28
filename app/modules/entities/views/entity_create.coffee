@@ -72,7 +72,7 @@ module.exports = class EntityCreate extends Backbone.Marionette.ItemView
         transaction: transaction
       _.log params, 'item:creation:params'
       app.execute 'show:item:creation:form', params
-    .catch (err)-> _.log err, 'showItemCreation err'
+    .catch (err)-> _.error err, 'showItemCreation err'
 
   createEntity: ->
     entityData = @normalizeEntityData()

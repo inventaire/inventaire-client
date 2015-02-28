@@ -35,7 +35,7 @@ module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
       if models?
         models.forEach (model)=> @collection.add(model)
       else 'no book found for #{@model.title}'
-    .catch (err)-> _.log err, 'author_li fetchBooks err'
+    .catch (err)-> _.error err, 'author_li fetchBooks err'
     .always ()=> @$el.trigger 'stopLoading'
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @

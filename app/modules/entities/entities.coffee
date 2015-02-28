@@ -51,7 +51,7 @@ API =
             wikipediaPreview: true
         else
           new EntityShow {model: entity}
-    .catch (err)-> _.log err, 'catch at showEntity: getEntityView'
+    .catch (err)-> _.error err, 'catch at showEntity: getEntityView'
 
   getEntitiesModels: (prefix, ids)->
     try Model = getModelFromPrefix(prefix)
@@ -66,14 +66,14 @@ API =
           return model
         return models
       else throw new Error('couldnt find entity at getEntitiesModels')
-    .catch (err)-> _.log err, 'getEntitiesModels err'
+    .catch (err)-> _.error err, 'getEntitiesModels err'
 
   getEntityModel: (prefix, id)->
     @getEntitiesModels prefix, id
     .then (models)->
       if models.length is 1 then models[0]
       else throw new Error("expected only one model, got #{models}")
-    .catch (err)-> _.log err, 'getEntityModel err'
+    .catch (err)-> _.error err, 'getEntityModel err'
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
