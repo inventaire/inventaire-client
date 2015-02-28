@@ -11,8 +11,12 @@ module.exports = (app)->
     'entity:unfollow': (uri)-> followedList.set uri, false
 
   app.reqres.setHandlers
-    'entity:followed:state': (uri)-> followedList.get uri
+    'entity:followed:state': entityFollowedState
     'entities:followed:list': -> followedList
     'entities:followed:collection': -> followedEntities
 
   return followedEntities
+
+
+entityFollowedState = (uri)->
+  if uri? then return followedList.get(uri)
