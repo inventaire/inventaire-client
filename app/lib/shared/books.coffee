@@ -43,6 +43,14 @@ module.exports = (_)->
             when 'ISBN_13' then data.P212 = obj.identifier
             when 'OTHER' then otherId = obj.identifier
 
+      # if an isbn was provided, verify that its matching the data
+      if isbn?
+        unless isbn is data.P212 or isbn is data.P957
+          _.warn industryIdentifiers, "this isnt the isbn we are looking for (#{isbn})"
+          return
+
+      # prefer isbn-13 when available
+      # create isbn variable when not passed
       isbn or= data.P212 or data.P957
 
       if isbn? then data.id = data.uri = "isbn:#{isbn}"
