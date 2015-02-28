@@ -10,7 +10,6 @@ module.exports = Backbone.Collection.extend
     @updateCollection list.changed
 
   updateCollection: (update)->
-    _.log update, 'update'
     for entity, bool of update
       if bool then @addEntity(entity)
       else @remove(entity)

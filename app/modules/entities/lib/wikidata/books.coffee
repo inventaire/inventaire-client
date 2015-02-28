@@ -11,7 +11,6 @@ wdBooks_.findIsbn = (claims)->
 
 wdBooks_.findAPictureByBookData = (bookModel)->
   unless bookModel.get('status.imageRequested')
-    _.log bookModel.attributes, 'trying to findAPictureByBookData'
     isbn = wdBooks_.findIsbn(bookModel.claims)
     if isbn? then data = isbn
     else
@@ -19,12 +18,10 @@ wdBooks_.findAPictureByBookData = (bookModel)->
       if label? and bookModel.claims?.P50?
         authors = app.request('get:entities:labels', bookModel.claims.P50)
         if authors?[0]?
-          _.log authors, 'authors'
           authors = authors.join ' '
           data = "#{label} #{authors}"
 
 
-    _.log data, 'data'
     if data?
       eventName = books_.getImage(data)
       app.vent.once eventName, catchImage.bind(null, bookModel)

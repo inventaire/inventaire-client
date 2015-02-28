@@ -72,7 +72,6 @@ module.exports = (LocalDB, _, promises_)->
     completeWithRemoteData = (data)->
       _.type data, 'object'
       missingIds = findMissingIds(data)
-      _.log missingIds, "cache:#{name} missingIds"
       if missingIds.length > 0
         getMissingData(missingIds)
         .then (missingData)-> return _.extend data, missingData
@@ -85,7 +84,7 @@ module.exports = (LocalDB, _, promises_)->
         missingIds.push(k)  unless v?
 
       if missingIds.length > 0
-        _.log missingIds, "#{name} missingIds"
+        _.log missingIds, "cache:#{name} missingIds"
       return missingIds
 
     getMissingData = (ids)->
