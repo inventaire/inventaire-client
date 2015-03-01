@@ -17,7 +17,7 @@ module.exports =
 
       'i18n:current': -> solveLang app.user.lang
 
-    if _.env is 'dev'
+    if window.env is 'dev'
       missingKey = require './i18n_missing_key'
     else missingKey = _.noop
 
