@@ -105,8 +105,8 @@ module.exports = (Backbone, _, app, window)->
       return false
 
     lastRouteMatch: (regex)->
-      if Backbone.history.last?[0]?
-        last = Backbone.history.last[0]
+      if Backbone.history.last?[1]?
+        last = Backbone.history.last[1]
         return regex.test(last)
       else false
 

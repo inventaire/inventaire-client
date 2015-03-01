@@ -19,9 +19,7 @@ module.exports = class EntityShow extends Backbone.Marionette.LayoutView
       attrs.descMaxlength = 500
       attrs.descOverflow = attrs.description.length > attrs.descMaxlength
 
-    if _.lastRouteMatch(/search\?/)
-      attrs.back =
-        message: _.i18n 'back to search results'
+    attrs.back = @backMessage()
 
     return attrs
 
@@ -89,3 +87,7 @@ module.exports = class EntityShow extends Backbone.Marionette.LayoutView
     $('#toggleDescLength').find('i').toggleClass('hidden')
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
+
+  backMessage: ->
+    if _.lastRouteMatch(/search\?/)
+      return { message: _.i18n 'back to search results' }
