@@ -63,6 +63,7 @@ API =
     .then (data)->
       if data?
         models = data.map (el)->
+          unless el? then return _.warn 'missing entity'
           model = new Model(el)
           Entities.add model
           return model
@@ -73,9 +74,9 @@ API =
   getEntityModel: (prefix, id)->
     @getEntitiesModels prefix, id
     .then (models)->
-      if models.length is 1 then models[0]
-      else throw new Error("expected only one model, got #{models}")
-    .catch (err)-> _.error err, 'getEntityModel err'
+      if models?[0]? then return models[0]
+      else throw new Error "entity model not found: #{prefix}:#{id}"
+    .catch (err)-> _.error err, 'getEntityModel err  (#{prefix}:#{id})'
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
