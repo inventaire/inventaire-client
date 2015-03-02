@@ -1,6 +1,6 @@
 module.exports = (Backbone, _, app, window)->
 
-  logger = require('./logger')(_)
+  loggers = require('./loggers')(_)
 
   utils =
     setCookie: (key, value)->
@@ -167,4 +167,4 @@ module.exports = (Backbone, _, app, window)->
 
     noop: ->
 
-  return _.extend {}, logger, utils
+  return _.extend {}, utils, loggers

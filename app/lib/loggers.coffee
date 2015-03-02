@@ -56,7 +56,7 @@ module.exports = (_)->
     Log: (label)-> bindLabel(log, label)
     LogXhrErr: (label)-> bindLabel(logXhrErr, label)
 
-  logger =
+  loggers =
     isMuted: isMuted
     log: log
     logXhrErr: logXhrErr
@@ -75,7 +75,7 @@ module.exports = (_)->
     # by methods shared with the server
     warn: (args...)->
       console.warn '/!\\'
-      logger.log.apply null, args
+      loggers.log.apply null, args
       return
 
     logAllEvents: (obj, prefix='logAllEvents')->
@@ -100,4 +100,4 @@ module.exports = (_)->
 
 
 
-  return _.extend logger, bindingLoggers
+  return _.extend loggers, bindingLoggers
