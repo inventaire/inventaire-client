@@ -62,7 +62,6 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
     search = @query
     _.log search, 'search'
     app.results ||= {}
-    app.execute 'show:loader', {region: @authors}
     unless @sameAsPreviousQuery()
       _.preq.get app.API.entities.search(search)
       .catch _.preq.catch404
@@ -80,6 +79,8 @@ module.exports = class Search extends Backbone.Marionette.LayoutView
         @.$el.trigger 'alert', {message: _.i18n 'no item found'}
         @displayResults()
         _.log err, 'searchEntities err'
+
+      app.execute 'show:loader', {region: @authors}
 
 
   displayResults: ->
