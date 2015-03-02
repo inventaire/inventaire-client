@@ -106,8 +106,8 @@ setHandlers = ->
       else throw new Error 'couldnt show:entity:from:model'
 
   app.reqres.setHandlers
-    'get:entity:model': (uri)->
-      [prefix, id] = getPrefixId(uri)
+    'get:entity:model': (prefix, id)->
+      [prefix, id] = getPrefixId(prefix, id)
       return API.getEntityModel(prefix, id)
     'get:entities:models': API.getEntitiesModels
     'save:entity:model': saveEntityModel
@@ -120,10 +120,14 @@ setHandlers = ->
 getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
 
-getPrefixId = (uri)->
-  data = uri?.split ':'
-  if data?.length is 2 then return data
-  else throw new Error "prefix and id not found for: #{uri}"
+getPrefixId = (prefix, id)->
+  # resolving the polymorphic interface
+  # accepts 'prefix', 'id' or 'prefix:id'
+  # returns ['prefix', 'id']
+  unless id? then [prefix, id] = prefix?.split ':'
+  if prefix? and id? then return [prefix, id]
+  else
+    throw new Error "prefix and id not found for: #{prefix} / #{id}"
 
 getModelFromPrefix = (prefix)->
   switch prefix
@@ -158,8 +162,9 @@ getEntityLocalHref = (domain, id, label)->
     return href
   else throw new Error "couldnt find EntityLocalHref: domain=#{domain}, id=#{id}, label=#{label}"
 
-normalizeEntityUri = (uri)->
-  [prefix, id] = getPrefixId(uri)
-  if prefix is 'isbn'
-    id = books_.normalizeIsbn(id)
+normalizeEntityUri = (prefix, id)->
+  # accepts either a 'prefix:id' uri or 'prefix', 'id'
+  # the polymorphic interface is resolved by getPrefixId
+  [prefix, id] = getPrefixId(prefix, id)
+  if prefix is 'isbn' then id = books_.normalizeIsbn(id)
   return "#{prefix}:#{id}"
