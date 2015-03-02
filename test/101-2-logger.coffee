@@ -30,6 +30,12 @@ describe 'Logger', ->
       _.log('yo').should.be.equal 'yo'
       done()
 
+  describe 'Log', ->
+    it 'should return _.log with a binded-label', (done)->
+      waitingLog = _.Log('hallo')
+      waitingLog.should.be.a.Function
+      expect(waitingLog({hey: "there"})).to.be.an.Object
+      done()
 
 
   describe 'warn', ->
@@ -39,7 +45,19 @@ describe 'Logger', ->
       expect(_.warn({hello: 'wat'}, 'yo')).to.be.undefined
       done()
 
+  err = new Error('all your base are belong to us')
 
+  describe 'logXhrErr', ->
+    it 'should always return undefined', (done)->
+      expect(_.logXhrErr(err, 'server err')).to.be.undefined
+      done()
+
+  describe 'LogXhrErr', ->
+    it 'should return _.logXhrErr with a binded-label', (done)->
+      waitingFunc = _.LogXhrErr('server err')
+      waitingFunc.should.be.a.Function
+      expect(waitingFunc(err)).to.be.undefined
+      done()
 
   describe 'logIt', (done)->
     it 'should give String.prototype and Object.prototype a label', (done)->

@@ -27,9 +27,39 @@ module.exports = (_)->
 
     return obj
 
+  logXhrErr = (err, label)->
+    [err, label] = reorderObjLabel(err, label)
+    if err?.responseText? then label = "#{err.responseText} (#{label})"
+    if err?.status?
+      switch err.status
+        when 401 then console.warn '401', label
+        when 404 then console.warn '404', label
+    else console.error label, err
+    return
+
+
+  # allow to pass the label first
+  # useful when passing a function to a promise then or catch
+  # -> allow to bind a label as first argument
+  # doSomething.then _.log.bind(_, 'doing something')
+  reorderObjLabel = (obj, label)->
+    if label? and _.isString(obj) and not _.isString(label)
+      return [label, obj]
+    else
+      return [obj, label]
+
+  # allow to bind a label to a logger to be called later
+  bindLabel = (func, label)-> func.bind null, label
+
+
+  bindingLoggers =
+    Log: (label)-> bindLabel(log, label)
+    LogXhrErr: (label)-> bindLabel(logXhrErr, label)
+
   logger =
     isMuted: isMuted
     log: log
+    logXhrErr: logXhrErr
     error: (err, label)->
       [err, label] = reorderObjLabel(err, label)
       unless err?.stack?
@@ -64,29 +94,10 @@ module.exports = (_)->
       log = {obj: obj, label: label}
       $.post app.API.test, log
 
-    logXhrErr: (err, label)->
-      [err, label] = reorderObjLabel(err, label)
-      if err?.responseText? then label = "#{err.responseText} (#{label})"
-      if err?.status?
-        switch err.status
-          when 401 then console.warn '401', label
-          when 404 then console.warn '404', label
-      else console.error label, err
-      return
-
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless isMuted(label)
     return @toString()
 
-  # allow to pass the label first
-  # useful when passing a function to a promise then or catch
-  # -> allow to bind a label as first argument
-  # doSomething.then _.log.bind(_, 'doing something')
-  reorderObjLabel = (obj, label)->
-    if label? and _.isString(obj) and not _.isString(label)
-      return [label, obj]
-    else
-      return [obj, label]
 
 
-  return logger
+  return _.extend logger, bindingLoggers
