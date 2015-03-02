@@ -18,6 +18,18 @@ describe 'Utils', ->
       _.log({ya: 'klar'}, 'doh').should.be.a.Object
       done()
 
+    it 'should invert object and label when label comes first', (done)->
+      _.log('su', {doh: 'ku'}).should.be.an.Object
+      done()
+
+    it 'should not invert if both label and object are strings', (done)->
+      _.log('su', 'yo').should.be.equal 'su'
+      done()
+
+    it 'should not invert if only a string is provided', (done)->
+      _.log('yo').should.be.equal 'yo'
+      done()
+
   describe 'logIt', (done)->
     it 'should give String.prototype and Object.prototype a label', (done)->
       String::logIt.should.be.ok

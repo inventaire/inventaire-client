@@ -7,6 +7,7 @@ module.exports = (_)->
         return tags.length > 1 and tags[0] in muted
 
     log: (obj, label, stack)->
+      [obj, label] = reorderObjLabel(obj, label)
       # customizing console.log
       # unfortunatly, it makes the console loose the trace
       # of the real line and file the _.log function was called from
@@ -27,6 +28,7 @@ module.exports = (_)->
       return obj
 
     error: (err, label)->
+      [err, label] = reorderObjLabel(err, label)
       unless err?.stack?
         label or= 'empty error'
         newErr = new Error(label)
@@ -55,10 +57,12 @@ module.exports = (_)->
       console.log '---'
 
     logServer: (obj, label)->
+      [err, label] = reorderObjLabel(err, label)
       log = {obj: obj, label: label}
       $.post app.API.test, log
 
     logXhrErr: (err, label)->
+      [err, label] = reorderObjLabel(err, label)
       if err?.responseText? then label = "#{err.responseText} (#{label})"
       if err?.status?
         switch err.status
@@ -70,5 +74,16 @@ module.exports = (_)->
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless logger.isMuted(label)
     return @toString()
+
+  # allow to pass the label first
+  # useful when passing a function to a promise then or catch
+  # -> allow to bind a label as first argument
+  # doSomething.then _.log.bind(_, 'doing something')
+  reorderObjLabel = (obj, label)->
+    if label? and _.isString(obj) and not _.isString(label)
+      return [label, obj]
+    else
+      return [obj, label]
+
 
   return logger
