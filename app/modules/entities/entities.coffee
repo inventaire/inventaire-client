@@ -22,6 +22,8 @@ module.exports =
     setHandlers()
     window.Entities = Entities = new Entities
     Entities.data = require('./entities_data')(app, _, _.preq)
+    # need to waitForData, to know if user is loggedIn
+    # otherwise, followedList wont be initialized
     app.request 'waitForData', ->
       Entities.followed = require('./follow')(app)
 
