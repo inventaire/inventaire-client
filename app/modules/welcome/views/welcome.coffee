@@ -47,7 +47,7 @@ module.exports = class Welcome extends Backbone.Marionette.LayoutView
       _.log err, 'couldnt loadPublicItems'
     .catch (err)-> _.error err, 'hidePublicItems err'
 
-  hidePublicItems: -> $('#welcome-two').hide()
+  hidePublicItems: -> $('#lastPublicBooks').hide()
 
   hideTopBar: -> $('.top-bar').hide()
   showTopBar: -> $('.top-bar').slideDown()
