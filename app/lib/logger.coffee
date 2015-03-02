@@ -1,32 +1,35 @@
 module.exports = (_)->
   muted = require('./muted_logs')(_)
+
+  isMuted = (label)->
+    if _.isString label
+      tags = label.split ':'
+      return tags.length > 1 and tags[0] in muted
+
+  log = (obj, label, stack)->
+    [obj, label] = reorderObjLabel(obj, label)
+    # customizing console.log
+    # unfortunatly, it makes the console loose the trace
+    # of the real line and file the _.log function was called from
+    # the trade-off might not be worthing it...
+    if _.isString obj
+      if label? then obj.logIt(label)
+      else console.log obj unless (isMuted(obj) or isMuted(label))
+    else
+      unless isMuted(label)
+        console.log "===== #{label} =====" if label? and not isMuted(label)
+        console.log obj
+        console.log "-----" if label?
+
+    # log a stack trace if stack option is true
+    if stack
+      console.log "#{label} stack", new Error('fake error').stack.split("\n")
+
+    return obj
+
   logger =
-    isMuted: (label)->
-      if _.isString label
-        tags = label.split ':'
-        return tags.length > 1 and tags[0] in muted
-
-    log: (obj, label, stack)->
-      [obj, label] = reorderObjLabel(obj, label)
-      # customizing console.log
-      # unfortunatly, it makes the console loose the trace
-      # of the real line and file the _.log function was called from
-      # the trade-off might not be worthing it...
-      if _.isString obj
-        if label? then obj.logIt(label)
-        else console.log obj unless (@isMuted(obj) or @isMuted(label))
-      else
-        unless @isMuted(label)
-          console.log "===== #{label} =====" if label? and not @isMuted(label)
-          console.log obj
-          console.log "-----" if label?
-
-      # log a stack trace if stack option is true
-      if stack
-        console.log "#{label} stack", new Error('fake error').stack.split("\n")
-
-      return obj
-
+    isMuted: isMuted
+    log: log
     error: (err, label)->
       [err, label] = reorderObjLabel(err, label)
       unless err?.stack?
@@ -41,8 +44,8 @@ module.exports = (_)->
     # providing a custom warn as it might be used
     # by methods shared with the server
     warn: (args...)->
-      console.warn('/!\\')
-      @log.apply(@, args)
+      console.warn '/!\\'
+      logger.log.apply null, args
       return
 
     logAllEvents: (obj, prefix='logAllEvents')->
@@ -72,7 +75,7 @@ module.exports = (_)->
       return
 
   String::logIt = (label)->
-    console.log "[#{label}] #{@toString()}" unless logger.isMuted(label)
+    console.log "[#{label}] #{@toString()}" unless isMuted(label)
     return @toString()
 
   # allow to pass the label first
