@@ -4,61 +4,16 @@
   {{/if}}
 </p>
 <div class='panel'>
-
-  {{!-- COVER --}}
-  {{#if pictures}}
-    <img src="{{first pictures}}" alt="{{title}} {{i18n 'cover'}}">
-  {{/if}}
-
-  {{!-- TITLE --}}
-  <h2>{{title}}</h2>
-  {{!-- DESCRIPTION --}}
-  {{#if descOverflow}}
-    <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
-  {{/if}}
-  <p id='shortDesc' class='grey'>{{limit description 500}}</p>
-  <p id='fullDesc' class='grey hidden'>{{description}}</p>
-
-  {{!-- AUTHOR --}}
-  {{#if wikidata}}
-    {{!-- WIKIDATA ATTRIBUTES --}}
-    {{partial 'entities:book_claims' claims}}
-  {{else}}
-    <p class="isbn-attributes">
-      {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
-    </p>
-  {{/if}}
-  {{!-- <p class="uri">uri:{{uri}}</p> --}}
-
-
-  {{!-- ACTIONS --}}
-  <div id="actions"></div>
-
+  <div id="entityData"></div>
+  <div id="entityActions"></div>
   <div class='check'></div>
 </div>
 
 <div class="allItems">
-    {{!-- PERSONAL ITEMS  --}}
-    <div id="personalGroup">
-      {{!-- <h3 class="subheader personalHeader">{{i18n 'Who has it'}}</h3> --}}
-      <h3 class="subheader personalHeader">{{i18n "in my items"}}</h3>
-      <div id="personal" class="items"></div>
-    </div>
-
-    {{!-- FRIENDS ITEMS  --}}
-
-    <div id="friendsGroup">
-      <h3 class="subheader friendsHeader">{{i18n "in my friends' items"}}</h3>
-      <div id="friends" class="items"></div>
-    </div>
-
-    {{!-- PUBLIC ITEMS  --}}
-
-    <div id="publicGroup">
-      <h3 class="subheader publicHeader">{{i18n 'public items'}}</h3>
-      <div id="public" class="items"></div>
-    </div>
-  </div>
+  <h3 class="subheader publicHeader">{{i18n 'books in your network'}}</h3>
+  <div id="localItems" class="items"></div>
+  <h3 class="subheader publicHeader">{{i18n 'public books'}}</h3>
+  <div id="publicItems" class="items"></div>
 </div>
 
 {{#if wikidata}}
