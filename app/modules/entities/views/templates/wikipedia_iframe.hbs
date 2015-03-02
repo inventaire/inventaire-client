@@ -7,24 +7,7 @@
         {{icon 'caret-up' 'hidden'}}
       </a>
     </div>
-    <div class="wiki-sitelinks">
-      {{#if wikipedia}}
-        <span class="wikipedia">
-          <a href="{{wikipedia.url}}" target="_blank">
-          {{icon 'wikipedia'}} {{i18n 'see on Wikipedia'}}</a>
-          <a href="{{wikipedia.url}}?veaction=edit" target="_blank">
-          {{i18n 'edit'}}</a>
-        </span>
-      {{/if}}
-      {{#if wikisource}}
-        <a class="wikisource" href="{{wikisource.url}}" target="_blank">
-        {{icon 'wikisource'}} {{i18n 'read online'}}</a>
-      {{/if}}
-      {{#if wikidata}}
-        <a class="wikidata" href="{{wikidata.url}}" target="_blank">
-        {{icon 'wikidata'}} {{i18n "edit data"}}</a>
-      {{/if}}
-    </div>
+    {{partial 'wiki_sitelinks' this}}
   </div>
   {{!-- wikipedia iframe will be appened here --}}
 </div>

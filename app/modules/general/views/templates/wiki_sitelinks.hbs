@@ -1,11 +1,18 @@
-<ul class="wiki-sitelinks">
-  {{#if wikidata}}
-    <li><a {{!-- data-tooltip --}} class="button grey {{!-- has-tip --}}" href="http://www.wikidata.org/wiki/{{id}}" {{{partial 'external_link'}}}{{!--  title="{{i18n "Contribute on improving this object's data on wikidata.org"}}" --}}>{{icon 'wikidata'}} {{i18n "edit data"}}</a></li>
-  {{/if}}
+<div class="wiki-sitelinks">
   {{#if wikipedia}}
-    <li><a {{!-- data-tooltip --}} class="button grey {{!-- has-tip --}}" href="{{wikipedia.url}}" {{{partial 'external_link'}}} {{!-- title="{{i18n 'Learn more'}}" --}}>{{icon 'wikipedia'}} {{i18n 'see on Wikipedia'}}</a></li>
+    <span class="wikipedia">
+      <a href="{{wikipedia.url}}" target="_blank">
+      {{icon 'wikipedia'}} {{I18n 'see on Wikipedia'}}</a>
+      <a href="{{wikipedia.url}}?veaction=edit" target="_blank">
+      {{i18n 'edit'}}</a>
+    </span>
   {{/if}}
   {{#if wikisource}}
-    <li><a {{!-- data-tooltip --}} class="button grey {{!-- has-tip --}}" href="{{wikisource.url}}" {{{partial 'external_link'}}} {{!-- title="{{i18n 'Read online'}}" --}}>{{icon 'wikisource'}} {{i18n 'read online'}}</a></li>
+    <a class="wikisource" href="{{wikisource.url}}" target="_blank">
+    {{icon 'wikisource'}} {{I18n 'read online'}}</a>
   {{/if}}
-</ul>
+  {{#if wikidata}}
+    <a class="wikidata" href="{{wikidata.url}}" target="_blank">
+    {{icon 'wikidata'}} {{I18n "edit data"}}</a>
+  {{/if}}
+</div>
