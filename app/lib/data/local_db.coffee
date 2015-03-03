@@ -29,6 +29,14 @@ module.exports = (global, _)->
     .on 'data', pushKey.bind(null, ops)
     .on 'end', deleteBatch.bind(null, db, ops, dbName)
 
+  inspect = (db, dbName)->
+    dbObj = {}
+    db.createReadStream()
+    .on 'data', (res)->
+      {key, value} = res
+      _.log JSON.parse(value), key
+    .on 'end', _.Log("-- #{dbName} inspect end")
+
   pushKey = (ops, key)->
     _.log key, 'pushkey'
     ops.push {type: 'del', key: key}
@@ -39,9 +47,8 @@ module.exports = (global, _)->
       if err then _.log err, "#{dbName} reset failed"
       else _.log "#{dbName} reset successfully!"
 
-  dbs.reset = ->
-    for dbName, db of dbs.list
-      db.reset()
+  dbs.reset = -> db.reset()  for dbName, db of dbs.list
+  dbs.inspect = -> db.inspect()  for dbName, db of dbs.list
 
   return LocalDB = (dbName)->
     db = Level(dbName)
@@ -50,6 +57,7 @@ module.exports = (global, _)->
       put: Promise.promisify db.put
       batch: Promise.promisify db.batch
       reset: reset.bind(null, db, dbName)
+      inspect: inspect.bind(null, db, dbName)
       db: db
 
     return dbs.list[dbName] = API
