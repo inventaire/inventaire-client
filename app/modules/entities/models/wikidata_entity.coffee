@@ -84,6 +84,8 @@ module.exports = class WikidataEntity extends Entity
     @updates.sitelinks = {}
 
   findAPicture: ->
+    # initializing pictures array: should only be used
+    # at first reception of the entity data
     @updates.pictures = pictures = []
     @save()
 

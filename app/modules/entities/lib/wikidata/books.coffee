@@ -45,6 +45,7 @@ catchImage = (bookModel, image)->
   if image?
     _.log image, "got it!!"
     bookModel.unshift('pictures', image)
+    bookModel.save()
 
 wdBooks_.fetchAuthorsEntities = (bookModel)->
     authors = bookModel.get('claims.P50')
