@@ -41,6 +41,8 @@ $one-column-layout: $columnWidth * 2 + 50;
     figure {
       @include vendor-prefix(column-break-inside, avoid);
     }
+    // avoid having the box shadow displayed on the next column
+    padding-bottom: 0.2em;
   }
   .columnsLayout{
     @include vendor-prefix(column-width, $columnWidth);
