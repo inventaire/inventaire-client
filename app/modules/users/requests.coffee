@@ -9,47 +9,30 @@ module.exports = (app, _)->
       path = _.buildPath '/api/relations',
         action: action
         user: userId
-      _.log path, "#{action} path:"
       return _.preq.get(path)
       .catch (err)-> _.logXhrErr err, 'relations action err'
 
+  action = (user, action, newStatus, label)->
+    [user, userId] = normalizeUser user
+    user.set 'status', newStatus
+    server[action](userId)
+
   API =
-    sendRequest: (user)->
-      _.log user.get('username'), 'sendRequest'
-      [user, userId] = normalizeUser user
-      user.set 'status', 'userRequested'
-      server.request(userId)
-
-    cancelRequest: (user)->
-      _.log user.get('username'), 'cancelRequest'
-      [user, userId] = normalizeUser user
-      user.set 'status', 'public'
-      server.cancel(userId)
-
-    acceptRequest: (user)->
-      _.log user.get('username'), 'acceptRequest'
-      [user, userId] = normalizeUser user
-      user.set 'status', 'friends'
-      server.accept(userId)
-
-    discardRequest: (user)->
-      _.log user.get('username'), 'discardRequest'
-      [user, userId] = normalizeUser user
-      user.set 'status', 'public'
-      server.discard(userId)
-
+    sendRequest: (user)-> action user, 'request', 'userRequested'
+    cancelRequest: (user)-> action user, 'cancel', 'public'
+    acceptRequest: (user)-> action user, 'accept', 'friends'
+    discardRequest: (user)-> action user, 'discard', 'public'
     unfriend: (user)->
-      _.log user.get('username'), 'unfriend'
       [user, userId] = normalizeUser user
-      user.set 'status', 'public'
       app.execute 'inventory:remove:user:items', userId
-      server.unfriend(userId)
+      action user, 'unfriend', 'public'
 
   normalizeUser = (user)->
-    if _.isModel(user)
-      if user.id? then return [user, user.id]
-      else throw new Error('user missing id', user)
-    else throw new Error('exepected a user Model, got', user)
+    unless _.isModel(user)
+      throw new Error('exepected a user Model, got', user)
+
+    if user.id? then return [user, user.id]
+    else throw new Error('user missing id', user)
 
   return reqresHandlers =
     'request:send': API.sendRequest
