@@ -6,7 +6,7 @@ module.exports = (global, _)->
 
   if window.supportsIndexedDB
     DB = LevelJs
-    _.log DB, 'supportsIndexedDB true: using LevelJs'
+    _.log 'supportsIndexedDB true: using LevelJs'
 
     # delayed to let the app the time to start up.
     # only needed when using LevelJs/indexeddb
@@ -14,7 +14,7 @@ module.exports = (global, _)->
 
   else
     DB = MemDown
-    _.log DB, 'supportsIndexedDB false: using MemDown'
+    _.log 'supportsIndexedDB false: using MemDown'
 
 
 
