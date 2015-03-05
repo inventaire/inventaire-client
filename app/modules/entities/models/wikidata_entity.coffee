@@ -27,9 +27,11 @@ module.exports = class WikidataEntity extends Entity
       @setWikiLinks(lang)
       @findAPicture()
 
-      @updates.status = @status = {formatted: true}
-
       @set @updates
+
+      # status might have been initialized by findAPicture
+      @set 'status.formatted', true
+
       @save()
 
 
