@@ -8,8 +8,12 @@
   }
   .allItems{
     @include flex(1);
-    .items{
-      @include display-flex(row);
+    background-color: $dark-grey;
+    .items, .subheader{
+      padding: 1rem;
+    }
+    .subheader{
+      color: white;
     }
   }
 }
