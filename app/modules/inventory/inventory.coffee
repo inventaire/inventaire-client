@@ -76,6 +76,10 @@ API =
     itemShow = new ItemShow {model: item}
     app.layout.main.show itemShow
 
+  removeUserItems: (userId)->
+    userItems = Items.byOwner(userId)
+    if userItems?.length > 0 then Items.remove userItems
+
 showInventory = (options)->
   unless app.user.loggedIn then return app.execute 'show:welcome'
   inventoryLayout = new InventoryLayout options
@@ -147,8 +151,10 @@ initializeInventoriesHandlers = (app)->
       else _.error item, 'missing item.pathname'
 
     'inventory:remove:user:items': (userId)->
-      userItems = Items.byOwner(userId)
-      if userItems?.length > 0 then Items.remove userItems
+      # delay the action to avoid to get a ViewDestroyedError on UserLi
+      # caused by the item counter trying to update
+      setTimeout API.removeUserItems.bind(null, userId), 200
+
 
   app.reqres.setHandlers
     'item:update': (options)->
