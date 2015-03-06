@@ -19,9 +19,6 @@ wdAuthors_.fetchAuthorsBooksIds = (authorModel)->
         booksIds = wd_.normalizeIds res.items
         _.log booksIds, 'booksIds'
         authorModel.set 'reverseClaims.P50', booksIds
-        # almost useless to save yet as cached Author
-        # will be overriden by the unformatted data
-        # packaged in the entity search process
         authorModel.save()
     .catch (err)-> _.error err, 'fetchAuthorsBooksIds err'
 
@@ -30,8 +27,6 @@ wdAuthors_.fetchAuthorsBooksEntities = (authorModel)->
   _.log authorsBooks, 'authorsBooks?'
   if authorsBooks?.length > 0
     return app.request('get:entities:models', 'wd', authorsBooks)
-    # type = 'book'
-    # return Entities.tmp.wd_.fetchModels authorsBooks, type
   else _.preq.resolve()
 
 module.exports = wdAuthors_
