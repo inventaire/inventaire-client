@@ -41,12 +41,12 @@ API =
   show403: ->
     app.execute 'show:error',
       code: 403
-      message: _.i18n 'Forbidden'
+      message: _.i18n 'forbidden'
 
   show404: ->
     app.execute 'show:error',
       code: 404
-      message: _.i18n 'Not Found'
+      message: _.i18n 'not found'
 
   showOfflineError: ->
     app.execute 'show:error',
