@@ -31,6 +31,8 @@
     "blueimp-canvas-to-blob": "~2.1.1",
     "moment": "~2.8.4",
     "bluebird": "~2.6.4",
-    "jquery.inview": "~1.0.0"
+    "jquery.inview": "~1.0.0",
+    "imagesloaded": "~3.1.8",
+    "jquery-masonry": "~3.2.2"
   }
 }

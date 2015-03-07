@@ -1,8 +1,24 @@
-.itemContainer{
-  max-width: 15em;
+.itemContainer {
+  margin: 5px;
+  float: left;
+  @include display-flex(column, center);
+  figcaption{
+    text-align: left;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2em;
+  }
+  img:not(.profilePic) {
+    width: 100%;
+    // height: auto;
+    max-height: 20em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 5px;
+  }
   .cover{
     img{
-      max-height: 7em;
+      // max-height: 7em;
     }
   }
   figcaption{

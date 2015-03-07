@@ -1,52 +1,5 @@
-// largely inspired from http://demosthenes.info/blog/825/Pinterest-Style-Column-Layout-In-Pure-CSS
 .itemsList{
-  margin: 1em auto;
-  figure {
-    width: 100%;
-    margin-bottom: 1em;
-    @include display-flex(column, center);
-    // background-color: $dark-grey;
-    figcaption{
-      text-align: left;
-      width: 100%;
-      text-align: center;
-      font-size: 1.2em;
-    }
-    img:not(.profilePic) {
-      width: 100%;
-      height: auto;
-      max-height: 20em;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 15px;
-      margin-bottom: 5px;
-    }
-  }
-}
-
-$columnWidth: 200px;
-$one-column-layout: $columnWidth * 2 + 50;
-
-/*One-columns screens*/
-@media screen and (max-width: $one-column-layout) {
-  figure {
-    width: 100%;
-  }
-}
-
-/*Multi-columns screens*/
-@media screen and (min-width: $one-column-layout) {
-  .itemsList{
-    width: 95%;
-    @include vendor-prefix(column-gap, 15px);
-    figure {
-      @include vendor-prefix(column-break-inside, avoid);
-    }
-    // avoid having the box shadow displayed on the next column
-    padding-bottom: 0.2em;
-  }
-  .columnsLayout{
-    @include vendor-prefix(column-width, $columnWidth);
-  }
+  margin: 0 auto;
 }
 
 @import "item_elements";

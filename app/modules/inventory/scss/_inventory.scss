@@ -1,7 +1,6 @@
 @import "item_creation";
 @import "items_label";
 @import "items_control";
-@import "items_list";
 @import "followed_entities_list";
 
 
@@ -33,14 +32,17 @@ $tabs-navigation-font-color: #fff;
   }
 }
 
-
+$sideNavWidth: 250px;
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
   #innerMain{
     .sideNavClones{
-      width: 250px;
+      width: $sideNavWidth;
       @include transition(width);
+    }
+    #shadowSideNav{
+      @include flex(0, 0, $sideNavWidth);
     }
   }
 }
@@ -53,5 +55,6 @@ $tabs-navigation-font-color: #fff;
   }
 }
 
+@import "items_list";
 @import "../side_nav/scss/side_nav";
 @import "inventory_welcome";
