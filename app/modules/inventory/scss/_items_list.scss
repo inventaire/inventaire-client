@@ -6,7 +6,7 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
 }
 
 // itemContainer positioning settings
-// for itemContainer internal, see item_elements
+// for itemContainer internal, see item_container
 .itemContainer{
   width: 230px;
   margin: 5px;
@@ -23,5 +23,4 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
 }
 
 
-@import "item_elements";
-@import "items_list_compacted";
+@import "item_container";
