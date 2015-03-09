@@ -1,6 +1,6 @@
+// itemContainer internal settings
+// for itemContainer positioning, see items_list
 .itemContainer {
-  margin: 5px;
-  float: left;
   @include display-flex(column, center);
   figcaption{
     text-align: left;

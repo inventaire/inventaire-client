@@ -1,6 +1,27 @@
+$itemContainerBaseWidth: 250px;
+$multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
+
 .itemsList{
   margin: 0 auto;
 }
+
+// itemContainer positioning settings
+// for itemContainer internal, see item_elements
+.itemContainer{
+  width: 230px;
+  margin: 5px;
+  float: left;
+  /*Small screens*/
+  @media screen and (max-width: $multicolumnsThreshold) {
+      width: 94vw;
+      max-width: 300px;
+    }
+
+  /*Large screens*/
+  @media screen and (min-width: $multicolumnsThreshold) {
+  }
+}
+
 
 @import "item_elements";
 @import "items_list_compacted";
