@@ -79,6 +79,7 @@ module.exports = (_)->
       [err, label] = loggers_.reorderObjLabel(err, label)
       log = {obj: obj, label: label}
       $.post app.API.test, log
+      return obj
 
   String::logIt = (label)->
     console.log "[#{label}] #{@toString()}" unless isMuted(label)
