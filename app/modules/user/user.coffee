@@ -1,12 +1,9 @@
 MainUser = require './models/main_user'
-NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
-AccountMenu = require 'modules/general/views/menu/account_menu'
 Signup =
   Step1: require './views/signup_step_1'
   Step2: require './views/signup_step_2'
 Login =
   Step1: require './views/login_step_1'
-
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
@@ -20,14 +17,10 @@ module.exports =
       new UserRouter
         controller: API
 
-    initializePersona(app)
     app.user = new MainUser
-    recoverUserData(app)
-    initializeUserI18nSettings(app)
-    initializeUserEditionCommands(app)
-    initializeUserMenuUpdate(app)
-    initializeSignupLoginHandlers(app)
-    initializeUserListings(app)
+    initCommands(app)
+    initSubModules(app)
+    
 
 # beware that app.layout is undefined when User.define is fired
 # app.layout should thus appear only in callbacks
@@ -63,7 +56,7 @@ API =
     app.layout.main.show new Login.Step1 params
 
 
-initializeSignupLoginHandlers = (app)->
+initCommands = (app)->
   app.commands.setHandlers
     'show:signup': API.showSignupStep1
     'show:signup:step1': API.showSignupStep1
@@ -71,136 +64,13 @@ initializeSignupLoginHandlers = (app)->
     'show:login': API.showLogin
     'show:login:step1': API.showLogin
 
-
-initializePersona = (app)->
-  if navigator.id?
-    navigator.id.logout()
-    navigator.id.watch
-      onlogin: onlogin
-      onlogout: onlogout
-  else unreachablePersona()
-
-  app.commands.setHandlers
-    'persona:login': ->
-      if navigator.id? then navigator.id.request()
-      else unreachablePersona()
-    'persona:logout': ->
-      $.post(app.API.auth.logout)
-      .then (data)->
-        deleteLocalDatabases()
-        _.log "You have been successfully logged out"
-        window.location.reload()
-      .fail (err)-> console.error err, 'error at logout?'
-
-deleteLocalDatabases = ->
-  localStorage.clear()
-  window.dbs.reset()
-
-unreachablePersona = ->
-  console.error 'Persona Login not available: you might be offline'
-
-onlogin = (assertion) ->
-  _.log 'user:login'
-  input =
-    assertion: assertion
-    username: app.user.get('username')
-    _csrf: $('#token').val()
-  $.post(app.API.auth.login, input)
-  .then (data)->
-    if typeof data is 'object'
-      # will get user data on reload's fetch
-      window.location.reload()
-    else throw new Error 'onlogin: invalid data'
-  .fail (err)->
-    _.logXhrErr err, 'onlogin'
-    app.request 'ifOnline', showAccountError, true
-
-showAccountError = ->
-  app.execute 'show:error',
-    message: _.i18n "missing_account_title"
-    redirection:
-      href: '/signup'
-      legend: _.i18n 'missing_account_legend'
-      text: _.i18n 'create an account'
-      classes: 'success'
-
-onlogout = ->
-  app.vent.trigger 'debug', arguments, 'fake logout: avoid login loop'
-
-
-recoverUserData = (app)->
-  # set app.user.lang from cookie before confirmation
-  # from user.fetch which will trigger setLang on User model
-  if $.cookie('lang')
-    app.user.lang or= $.cookie('lang')
-  # not sufficiant in cases when Persona messes with the signup process
-  # -> when persona gives a link from an email, username and email
-  # aren't associated and this test passes
-  if $.cookie('email')?
-    app.user.loggedIn = true
-    app.user.fetch()
-    .then (userAttrs)->
-      unless app.user.get('language')?
-        if lang = $.cookie 'lang'
-          _.log app.user.set('language', lang), 'language set from cookie'
-    .fail (err)->
-      _.logXhrErr(err, 'recoverUserData fail')
-    .always ->
-      app.vent.trigger 'user:ready'
-      app.user.fetched = true
-  else
-    app.user.loggedIn = false
-    app.vent.trigger 'user:ready'
-    app.user.fetched = true
-
-initializeUserI18nSettings = (app)->
-  app.user.on 'change:language', (data)->
-    lang = app.user.get('language')
-    if lang isnt app.polyglot.currentLocale
-      _.log lang, 'i18n: user data change: i18n change requested'
-      app.request 'i18n:set', lang
-      _.setCookie 'lang', lang
-
-
-initializeUserEditionCommands = (app)->
-  app.reqres.setHandlers
-    'user:update': (options)->
-      # expects: attribute, value, selector
-      {attribute, value, selector} = options
-      app.user.set(attribute, value)
-      promise = app.user.save()
-      app.request 'waitForCheck',
-        promise: promise
-        selector: selector
-      return promise
-
-initializeUserMenuUpdate = (app)->
-  app.commands.setHandlers
-    'show:user:menu:update': showMenu
-
-  app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
-
-showMenu = ->
-  if app.user.has 'email'
-    view = new AccountMenu {model: app.user}
-    app.layout?.accountMenu.show view
-  else app.layout?.accountMenu.show new NotLoggedMenu
-
-
-initializeUserListings = (app)->
-  app.user.listings =
-    private:
-      id: 'private'
-      icon: 'lock'
-      unicodeIcon: '&#xf023;'
-      label: 'private'
-    friends:
-      id: 'friends'
-      icon: 'users'
-      unicodeIcon: '&#xf0c0;'
-      label: 'shared with friends'
-    public:
-      id: 'public'
-      icon: 'globe'
-      unicodeIcon: '&#xf0ac;'
-      label: 'public'
+initSubModules = (app)->
+  [
+    'persona'
+    'recover_user_data'
+    'user_listings'
+    'user_update'
+    'user_menu_update'
+    'user_language_update'
+  ]
+  .forEach (name)-> require("./lib/#{name}")(app)
