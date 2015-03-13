@@ -7,19 +7,32 @@ module.exports = (app)->
 
   if $.cookie('loggedIn')?
     app.user.loggedIn = true
-
-    app.user.fetch()
-    .then (userAttrs)->
-      unless app.user.get('language')?
-        if lang = $.cookie 'lang'
-          _.log app.user.set('language', lang), 'language set from cookie'
-    # beware: Backbone uses jQuery promise not wrapped by bluebird/preq
-    .fail (err)->
-      _.logXhrErr(err, 'recoverUserData fail')
-    .always ->
-      app.vent.trigger 'user:ready'
-      app.user.fetched = true
+    fetchUser()
   else
     app.user.loggedIn = false
-    app.vent.trigger 'user:ready'
-    app.user.fetched = true
+    userReady()
+
+
+fetchUser = ->
+  # beware: Backbone uses jQuery promise not wrapped by bluebird/preq
+  app.user.fetch()
+  .then fetchSuccess
+  .fail fetchError
+  .always userReady
+
+fetchSuccess = (userAttrs)->
+  unless app.user.get('language')?
+    if lang = $.cookie 'lang'
+      _.log app.user.set('language', lang), 'language set from cookie'
+
+fetchError =  (err)->
+  _.logXhrErr(err, 'recoverUserData fail')
+  resetSession()
+
+userReady = ->
+  app.vent.trigger 'user:ready'
+  app.user.fetched = true
+
+resetSession = ->
+  app.user.loggedIn = false
+  app.execute 'persona:logout'

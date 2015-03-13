@@ -1,7 +1,7 @@
 module.exports =
   auth:
     login: '/api/auth/public/login'
-    logout: '/api/auth/logout'
+    logout: '/api/auth/public/logout'
     username: '/api/auth/public/username'
   user: '/api/user'
   users:
