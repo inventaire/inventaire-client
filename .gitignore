@@ -25,3 +25,5 @@ tmp/
 .status
 .commit
 *.sublime*
+*.gz
+public/*
