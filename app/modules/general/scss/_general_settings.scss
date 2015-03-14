@@ -109,6 +109,11 @@ select {
   }
 }
 
+input[type="password"]{
+  // forcing standard password dots
+  font-family: sans-serif !important;
+}
+
 .margin-top{
   margin-top: 1rem;
 }
