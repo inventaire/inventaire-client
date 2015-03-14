@@ -1,24 +1,20 @@
+fieldTests = require 'modules/general/lib/field_tests'
+
 module.exports =
   validate: (options)->
-    {username, success, view} = options
-    for err, test of commonTests
-      if test(username)
-        @invalidUsername.call view, err
-        return false
-    return success(username)
+    fieldTests.validate _.extend options,
+      field: 'username'
+      value: options.username
+      tests: usernameTests
 
-  invalidUsername: (err)->
-    if _.isString err then errMessage = err
-    else
-      errMessage = err.responseJSON.status_verbose or "invalid username"
-    @$el.trigger 'alert', {message: _.i18n(errMessage)}
+  invalidUsername: (err, selector)->
+    fieldTests.invalidValue @, err, 'username', selector
 
-
-commonTests =
+usernameTests =
   "username can't be empty" : (username)->
     username is ''
 
-  'username should be 20 character maximum' : (username)->
+  'username should be 20 characters maximum' : (username)->
     username.length > 20
 
   "username can't contain space" : (username)->
@@ -26,4 +22,3 @@ commonTests =
 
   'username can only contain letters, figures or _' : (username)->
     /\W/.test username
-

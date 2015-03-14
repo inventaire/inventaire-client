@@ -2,14 +2,16 @@
   <div class="custom-cell">
 
     <div class="inputGroup">
+
       <label for="username">
         {{i18n 'username'}}<br>
         <span class="complement">({{i18n 'or email address'}})</span>
       </label>
-      <input type="text" id="username" class="enterClick radius">
+      <div>
+        <input type="text" id="username" class="enterClick radius">
+      </div>
 
       <label for="password">{{i18n 'password'}}</label>
-
       <div class="passwordGroup">
         <input type="password" id="password" class="enterClick radius">
         <a id="showPassword">

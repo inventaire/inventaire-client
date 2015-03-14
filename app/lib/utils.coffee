@@ -165,6 +165,8 @@ module.exports = (Backbone, _, app, window)->
 
     isUuid: (str)-> /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test str
 
+    isEmail: (str)-> /^\w+@[\w.]+.\w{1,10}$/.test str
+
     noop: ->
 
   return _.extend {}, utils, loggers
