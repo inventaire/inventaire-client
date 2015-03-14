@@ -60,6 +60,9 @@ $tools-active-bg: #222;
 .dark-grey{
   @include color-class($dark-grey);
 }
+.light-blue{
+  @include color-class($light-blue);
+}
 
 .white{
   color: #fff;
