@@ -11,6 +11,7 @@ module.exports = class AlertBox extends Marionette.Behavior
 
 
   # alert-box will be appended to has-alertbox parent
+  # OR to the selector parent if a selector is provided in params
   showAlertBox: (e, params)->
     {message, selector} = params
     unless message?
