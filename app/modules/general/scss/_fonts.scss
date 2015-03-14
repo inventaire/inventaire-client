@@ -17,6 +17,29 @@
  src: url(../fonts/Gregor-Regular.otf);
 }
 
+@font-face {
+ font-family: 'Alegreya Sans';
+ font-weight: normal;
+ src: url(../fonts/AlegreyaSans-Regular.ttf);
+}
+
+@font-face {
+ font-family: 'Alegreya Sans';
+ font-weight: bold;
+ src: url(../fonts/AlegreyaSans-Bold.ttf);
+}
+
+// @font-face {
+//  font-family: 'Montserrat';
+//  font-weight: normal;
+//  src: url(../fonts/Montserrat-Regular.ttf);
+// }
+
+// @font-face {
+//  font-family: 'Montserrat';
+//  font-weight: bold;
+//  src: url(../fonts/Montserrat-Bold.ttf);
+// }
 
 // $label-font-family: $body-font-family !default;
 // $side-nav-font-family: $body-font-family !default;
