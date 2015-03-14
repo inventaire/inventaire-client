@@ -38,20 +38,17 @@ module.exports =
         search: search
         language: app.user.lang
     getImages: (data)->
-      data = _.forceArray(data).join '|'
       _.buildPath "/api/entities/public",
         action: 'getimages'
-        data: data
+        data: _.piped(data)
     isbns: (isbns)->
-      isbns = _.forceArray(isbns).join '|'
       _.buildPath '/api/entities/public',
         action: 'getisbnentities'
-        isbns: isbns
+        isbns: _.piped(isbns)
     inv:
       create: '/api/entities'
       get: (ids)->
-        ids = _.forceArray(ids).join '|'
-        _.buildPath '/api/entities', { ids: ids }
+        _.buildPath '/api/entities', { ids: _.piped(ids) }
     followed: '/api/entities/followed'
   notifs: '/api/notifs'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"

@@ -107,3 +107,5 @@ module.exports = (_)->
 
   qrcode: (url, size=250)->
     "http://chart.apis.google.com/chart?cht=qr&chs=#{size}x#{size}&chl=#{url}"
+
+  piped: (data)-> _.forceArray(data).join '|'
