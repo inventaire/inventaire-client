@@ -1,6 +1,7 @@
 @import "mixins";
 @import "colors";
 @import "links";
+@import "case";
 
 $global-radius: 3px; // Foundation variable
 $has-tip-border-bottom: solid 0px white; // Foundation variable
@@ -88,24 +89,6 @@ $button-margin-bottom: 0rem;
     margin-right: 0.2em;
     font-size: 1rem;
   }
-}
-
-h1, h2, h3, h4, h5, h6, .button, p, label{
-  &:first-letter{
-    text-transform: uppercase;
-  }
-}
-.subheader:first-letter{
-  text-transform: uppercase;
-}
-
-.capitalized{
-  &:first-letter{
-    text-transform: capitalize;
-  }
-}
-.capitalizedAll{
-  text-transform: capitalize;
 }
 
 // making the selector stronger to override

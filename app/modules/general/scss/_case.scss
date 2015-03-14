@@ -1,0 +1,16 @@
+h1, h2, h3, h4, h5, h6, .button, p, label:not(.noCapital), .capitalized {
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}
+.subheader:first-letter{
+  text-transform: uppercase;
+}
+
+.capitalizedAll{
+  text-transform: capitalize;
+}
+
+.uppercased{
+  text-transform: uppercase;
+}
