@@ -104,19 +104,19 @@ nav.top-bar {
       }
     }
     // force the input and the .button to have the same height
-    $seach-input-height: 2.3em;
+    $search-input-height: 2.3em;
     #searchGroup{
       // already displayed flex thank to input.scss
       input{
         @include flex(1);
-        height: $seach-input-height;
+        height: $search-input-height;
         padding: 0 0 0 1em;
         border-radius: $global-radius;
         // hidding the input radius on the right
         margin-right: -0.2em;
       }
       a.button{
-        height: $seach-input-height;
+        height: $search-input-height;
         border-radius: $global-radius;
       }
     }
