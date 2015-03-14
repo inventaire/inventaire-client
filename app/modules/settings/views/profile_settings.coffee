@@ -20,14 +20,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs =
-      usernamePicker:
-        nameBase: 'username'
-        special: true
-        field:
-          value: @model.get 'username'
-        button:
-          text: _.i18n 'change username'
-          classes: 'dark-grey postfix'
+      usernamePicker: @usernamePickerData()
       languages: _.deepClone Lang
       changePicture:
         classes: 'max-large-profilePic'
@@ -35,6 +28,15 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     attrs.languages[currentLanguages]?.selected = true
     _.extend attrs, @model.toJSON()
     return attrs
+
+  usernamePickerData: ->
+    nameBase: 'username'
+    special: true
+    field:
+      value: @model.get 'username'
+    button:
+      text: _.i18n 'change username'
+      classes: 'dark-grey postfix'
 
   events:
     'click a#usernameButton': 'verifyUsername'
@@ -52,33 +54,24 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
         view: @
 
   sendUsernameRequest: (requestedUsername)->
-    $.post app.API.auth.username, {username: requestedUsername}
-    .then (res)=> @confirmUsernameChange(res.username)
-    .fail @invalidUsername.bind(@)
+    _.preq.post app.API.auth.username, {username: requestedUsername}
+    .then (res)-> res.username
+    .then @confirmUsernameChange.bind(@)
+    .catch @invalidUsername.bind(@)
 
   invalidUsername: usernameTests.invalidUsername
 
   confirmUsernameChange: (requestedUsername)=>
-    args =
+    @askConfirmation
       requestedUsername: requestedUsername
       currentUsername: app.user.get 'username'
       model: @model
-    confirmationText = """
-    Your current username is <strong>#{args.currentUsername}</strong><br>
-    Are you sure you want to change for <strong>#{args.requestedUsername}</strong>?
-    """
-    warningText = """
-    You shouldn't change your username too often, as it's the way others can find you
-    """
+
+  askConfirmation: (args)->
     @$el.trigger 'askConfirmation',
-      confirmationText: _.i18n(confirmationText)
-      warningText: _.i18n(warningText)
-      actionCallback: (args)=>
-        params =
-          attribute: 'username'
-          value: args.requestedUsername
-          selector: '#usernameField'
-        return app.request 'user:update', params
+      confirmationText: _.i18n('username_change_confirmation', args)
+      warningText: _.i18n('username_change_warning')
+      actionCallback: updateUser.bind(null, args.requestedUsername)
       actionArgs: args
 
   changeLanguage: (e)->
@@ -90,17 +83,25 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
         selector: '#languagePicker'
 
   changePicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker {
+    picturePicker = new app.View.Behaviors.PicturePicker
       pictures: @model.get('picture')
       limit: 1
-      save: (pictures)=>
-        picture = pictures[0]
-        if _.isUrl picture
-          app.request 'user:update',
-            attribute: 'picture'
-            value: picture
-            selector: '#changePicture'
-        else
-          console.error 'couldnt save picture: requires a url'
-    }
+      save: savePicture
     app.layout.modal.show picturePicker
+
+savePicture = (pictures)->
+  picture = pictures[0]
+  unless _.isUrl picture
+    throw new Error 'couldnt save picture: requires a url'
+  
+  app.request 'user:update',
+    attribute: 'picture'
+    value: picture
+    selector: '#changePicture'
+
+
+updateUser = (requestedUsername)->
+  app.request 'user:update',
+    attribute: 'username'
+    value: requestedUsername
+    selector: '#usernameField'
