@@ -43,10 +43,11 @@ wrap = (jqPromise)->
 
 
 rewriteError = (err)->
-  {status, statusText, responseText} = err
+  {status, statusText, responseText, responseJSON} = err
 
   error = new Error "#{status}: #{statusText} - #{responseText}"
   return _.extend error,
     status: status
     statusText: statusText
     responseText: responseText
+    responseJSON: responseJSON
