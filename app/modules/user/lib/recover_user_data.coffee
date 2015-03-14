@@ -35,4 +35,4 @@ userReady = ->
 
 resetSession = ->
   app.user.loggedIn = false
-  app.execute 'persona:logout'
+  app.execute 'logout'

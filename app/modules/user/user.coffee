@@ -66,6 +66,7 @@ initCommands = (app)->
 
 initSubModules = (app)->
   [
+    'auth'
     'persona'
     'recover_user_data'
     'user_listings'
