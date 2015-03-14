@@ -1,12 +1,38 @@
 <div class="authMenu">
   <div class="custom-cell">
-    <h2 class="subheader">{{i18n 'already have an account on Inventaire?'}}</h2>
+
+    <div class="inputGroup">
+      <label for="username">
+        {{i18n 'username'}}<br>
+        <span class="complement">({{i18n 'or email address'}})</span>
+      </label>
+      <input type="text" id="username" class="enterClick radius">
+
+      <label for="password">{{i18n 'password'}}</label>
+
+      <div class="passwordGroup">
+        <input type="password" id="password" class="enterClick radius">
+        <a id="showPassword">
+          <span class="displayed">show</span>
+          <span class="substitute">hide</span>
+        </a>
+      </div>
+
+      <div>
+        {{!-- alert-box will be appended to has-alertbox parent --}}
+        <div class="has-alertbox"></div>
+      </div>
+
+      <a id="classicLogin" class="button radius light-blue">{{i18n 'login'}}</a>
+    </div>
+
+    {{partial 'separator' 'or login with'}}
+
     {{partial 'user:persona_button'}}
-  </div>
-  <div class="custom-cell">
-    <h2 class="subheader">{{i18n 'otherwise'}}</h2>
-    <a id="createAccount" class="secondary button">
-      {{i18n 'create an account'}}
-    </a>
+
+    <div class="otherOptions">
+      <a id="createAccount" class="link">{{i18n 'create an account'}}</a>
+      <a id="forgotPassword" class="link">{{i18n 'forgot your password?'}}</a>
+    </div>
   </div>
 </div>
