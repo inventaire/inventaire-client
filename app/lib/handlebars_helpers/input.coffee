@@ -3,6 +3,26 @@ check = behavior 'success_check'
 input = behavior 'input'
 SafeString = Handlebars.SafeString
 
+
+# data =
+#   nameBase: {String}
+#   id: {String} *
+#   special: {Boolean}
+#   field:
+#     id: {String} *
+#     value: {String}
+#     type: {String}
+#     placeholder: {String} *
+#     dotdotdot: {String}
+#   button:
+#     id: {String} *
+#     text: {String} *
+#     icon: {String} (replaces button.text)
+#     classes: {String}
+#
+# (*) guess from nameBase
+
+
 module.exports =
   input: (data, options)->
     unless data?
