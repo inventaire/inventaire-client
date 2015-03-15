@@ -1,3 +1,5 @@
+regex_ = sharedLib 'regex'
+
 module.exports = (Backbone, _, app, window)->
 
   loggers = require('./loggers')(_)
@@ -67,7 +69,6 @@ module.exports = (Backbone, _, app, window)->
       data = 'data:application/json;charset=utf-8,' + encodeURI(json)
       window.open data, windowName
 
-    isUserId: (id)-> /^\w{32}$/.test(id)
 
     isMainUser: (id)->
       if id? then return id is app.user.id
@@ -163,9 +164,9 @@ module.exports = (Backbone, _, app, window)->
 
     capitaliseFirstLetter: (str)-> str[0].toUpperCase() + str[1..-1]
 
-    isUuid: (str)-> /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test str
-
-    isEmail: (str)-> /^\w+@[\w.]+.\w{1,10}$/.test str
+    isUuid: (str)-> regex_.Uuid.test str
+    isEmail: (str)-> regex_.Email.test str
+    isUserId: (id)-> regex_.CouchUuid.test(id)
 
     noop: ->
 
