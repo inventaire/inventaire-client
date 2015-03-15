@@ -7,6 +7,8 @@ module.exports =
       value: options.username
       tests: usernameTests
 
+  # the view is passed as context
+  # invalidUsername.call(@, err, selector)
   invalidUsername: (err, selector)->
     fieldTests.invalidValue @, err, 'username', selector
 
