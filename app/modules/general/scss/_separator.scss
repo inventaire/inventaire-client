@@ -1,18 +1,30 @@
-.separator {
-  @include display-flex(row);
+.horizontal-separator, .vertical-separator {
+  text-transform: uppercase;
+  color: #666;
   text-align: center;
   line-height: 1em;
-  text-transform: uppercase;
-  // font-family: 'Alegreya Sans';
-  color: #666;
-  margin: 3em 0em 2em 0em;
+  .rule{
+    @include flex(1);
+    background-color: $grey;
+  }
 }
 
-.horizontal-rule{
-  // width: 20%;
-  @include flex(1);
-  height: 0px;
-  margin: auto 0.5em auto 0.5em;
-  border: 1px solid $grey;
-  display: inline-block;
+.horizontal-separator {
+  @include display-flex(row, center, center);
+  margin: 3em 0em 2em 0em;
+  .rule{
+    height: 1px;
+    margin: auto 0.5em auto 0.5em;
+    max-width: 5em;
+    
+  }
+}
+
+.vertical-separator {
+  @include display-flex(column, center, center);
+  .rule{
+    width: 1px;
+    margin: 0.5em auto 0.5em auto;
+    max-height: 1em;
+  }
 }
