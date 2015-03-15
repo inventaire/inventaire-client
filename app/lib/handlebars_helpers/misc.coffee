@@ -43,3 +43,7 @@ module.exports =
   linkify: require './linkify'
 
   qrcode: (url, size)-> _.qrcode(url, size)
+
+  debug: ->
+    _.log arguments, 'hb debug arguments'
+    _.log this, 'hb debug this'
