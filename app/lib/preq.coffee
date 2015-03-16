@@ -22,6 +22,7 @@ module.exports =
   put: (url, body)-> wrap($.put(url, body))
   delete: (url)-> wrap($.delete(url))
 
+  start: -> Promise.resolve()
   resolve: (res)-> Promise.resolve(res)
   reject: (err)-> Promise.reject(err)
 
