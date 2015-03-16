@@ -19,7 +19,7 @@
 }
 
 @mixin hover-darken($color, $darken:15%) {
-  background-color: $color; 
+  background-color: $color;
   @include transition(background-color);
   &:hover{
     background-color: darken($color, $darken);
@@ -103,5 +103,17 @@
   @media screen and (min-width: $smallscreen) {
     margin: 1em;
     padding: 1em;
+  }
+}
+
+@mixin button-group-radius($radius: $global-radius){
+  // to be @include'd in a .button{} typically
+  &:first-child{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  &:last-child{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 }
