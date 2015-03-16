@@ -1,0 +1,10 @@
+#suggestionGroup{
+  text-align: right;
+  margin: -0.5em 0em 0.5em 0em;
+  .legend{
+    font-style: italic;
+  }
+  #suggestion{
+    text-decoration: underline;
+  }
+}

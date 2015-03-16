@@ -1,12 +1,16 @@
-<div class="authMenu">
+<div class="authMenu signup">
   <div class="custom-cell">
     <h2 class="subheader">{{i18n 'sign up'}}</h2>
-    <div id="usernamePicker">
-      <h3>
-      {{i18n 'step 1: Choose a username'}}
-      {{tip 'username_tip' 'right'}}</h3>
+    <div id="signupModes">
+      {{partial 'user:classic_signup'}}
 
-      {{input usernamePicker 'check'}}
+      {{#if smallscreen}}
+        {{partial 'horizontal_separator' 'or'}}
+      {{else}}
+        {{partial 'vertical_separator' 'or'}}
+      {{/if}}
+
+      {{partial 'user:persona_signup'}}
     </div>
   </div>
 </div>

@@ -8,3 +8,4 @@ module.exports =
   Loading: require './loading'
   SuccessCheck: require './success_check'
   WikiBar: require './wiki_bar'
+  TogglePassword: require './toggle_password'

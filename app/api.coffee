@@ -1,8 +1,10 @@
 module.exports =
   auth:
+    signup: '/api/auth/public/signup'
     login: '/api/auth/public/login'
     logout: '/api/auth/public/logout'
     username: '/api/auth/public/username'
+    email: '/api/auth/public/email'
   user: '/api/user'
   users:
     data: (ids)->
@@ -56,3 +58,6 @@ module.exports =
   proxy: (url)-> "/api/proxy/public/#{url}"
   test: '/api/test/public'
   testJson: '/api/test/public/json'
+  services:
+    emailValidation: (email)->
+      "/api/services/public?service=email-validation&email=#{email}"

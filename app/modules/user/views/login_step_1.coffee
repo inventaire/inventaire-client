@@ -1,5 +1,7 @@
-usernameTests = require 'modules/user/lib/username_tests'
-passwordTests = require 'modules/user/lib/password_tests'
+username_ = require 'modules/user/lib/username_tests'
+email_ = require 'modules/user/lib/email_tests'
+password_ = require 'modules/user/lib/password_tests'
+fieldTests = require 'modules/general/lib/field_tests'
 
 module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   className: 'book-bg'
@@ -9,38 +11,38 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     'click #classicLogin': 'classicLoginAttempt'
     'click #loginPersona': 'waitingForPersona'
     'click #createAccount': -> app.execute 'show:signup'
-    'click #showPassword': 'togglePassword'
 
   behaviors:
     Loading: {}
     SuccessCheck: {}
     AlertBox: {}
+    TogglePassword: {}
 
   ui:
     username: '#username'
     password: '#password'
-    showPassword: '#showPassword'
-
-  initialize: ->
-    @passwordShown = false
 
   classicLoginAttempt:->
-    username = @ui.username.val()
-    if _.isEmail(username) then @verifyPassword()
-    else @verifyUsername(username)
+    _.preq.start()
+    .then @verifyUsername.bind(@)
+    .then @verifyPassword.bind(@)
+    .then @classicLogin.bind(@)
+    .catch @catchFail.bind(@)
 
   verifyUsername: (username)->
-    usernameTests.validate
-      username: username
-      success: @verifyPassword.bind(@)
-      view: @
-      selector: '#username'
+    username = @ui.username.val()
+    unless _.isEmail(username)
+      username_.pass username, '#username'
+
+  catchFail: (err)->
+    if err.selector? then @alert(err)
+    else _.error err, 'signup catchFail err'
+
+  alert: (err)->
+    fieldTests.invalidValue @, err, err.selector
 
   verifyPassword: ->
-    passwordTests.validate
-      password: @ui.password.val()
-      success: @classicLogin.bind(@)
-      view: @
+    password_.pass @ui.password.val(), '#finalAlertbox'
 
   classicLogin:->
     username = @ui.username.val()
@@ -65,14 +67,5 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     $('#loginPersona').fadeOut()
     app.execute 'login:persona'
     @$el.trigger 'loading',
-      message: _.i18n 'a popup should now open to let you verify your credentials'
+      message: _.i18n 'waiting_for_persona'
       timeout: 'none'
-
-  togglePassword: ->
-    if @passwordShown then @passwordType 'password'
-    else @passwordType 'text'
-
-  passwordType: (type)->
-    @ui.password.attr 'type', type
-    @ui.showPassword.toggleClass 'active'
-    @passwordShown = not @passwordShown

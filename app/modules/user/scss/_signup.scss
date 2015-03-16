@@ -1,0 +1,36 @@
+.authMenu.signup{
+  @include custom-column(60em);
+}
+
+#signupModes{
+  @include display-flex(row);
+  > div {
+    @include flex(1);
+  }
+  #persona{
+    .inputGroup{
+      max-width: 18em;
+      margin: auto;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    @include flex-direction(column);
+    .agnostic-separator{
+      @extend .horizontal-separator;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    > div {
+      padding: 0em 1em 0em 1em;
+    }
+    .agnostic-separator{
+      @extend .vertical-separator;
+    }
+  }
+}
+
+#classicSignup{
+  margin-top: 1em;
+}

@@ -21,7 +21,7 @@ onlogin = (assertion) ->
     assertion: assertion
     strategy: 'browserid'
     # needed on signup requests
-    username: app.user.get('username')
+    username: localStorage.getItem('username')
   .catch loginError
 
 onlogout = ->

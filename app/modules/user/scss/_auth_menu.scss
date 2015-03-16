@@ -1,0 +1,51 @@
+$tooltip-font-size: 1em;
+
+$auth-menu-bg: rgba($light-grey, 0.8);
+
+.authMenu{
+  @include flex(1);
+  margin: auto;
+  font-family: 'Alegreya Sans';
+  font-size: 1em;
+  .custom-cell{
+    background-color: $auth-menu-bg;
+    border-radius: $global-radius;
+    padding: 1em 2em 2em 2em;
+    margin-bottom: 2em;
+    width: 100%;
+    text-align: center;
+  }
+  a.button{
+    font-weight: bold;
+  }
+
+  label{
+    color: $dark-grey;
+    font-size: 1.2em;
+    margin-bottom: 0.3em;
+  }
+
+  input{
+    text-align: left;
+  }
+  .inputGroup{
+    // needed by enterClick. adapted by overriding display:flex
+    display: inherit;
+  }
+
+  // #personaButton{
+  //   margin-bottom: 2em;
+  // }
+
+  // .emailNote{
+  //   margin-top: 1em;
+  //   // background-color: red;
+  // }
+}
+
+
+
+@import "login";
+@import "signup";
+@import "password_input";
+@import "email_suggestion";

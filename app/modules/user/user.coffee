@@ -10,7 +10,7 @@ module.exports =
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
         'signup(/1)(/)':'showSignupStep1'
-        'signup/2(/)':'routeTriggeredSignupStep2'
+        'signup/2(/)':'showSignupStep2'
         'login(/)':'showLogin'
 
     app.addInitializer ->
@@ -20,7 +20,7 @@ module.exports =
     app.user = new MainUser
     initCommands(app)
     initSubModules(app)
-    
+
 
 # beware that app.layout is undefined when User.define is fired
 # app.layout should thus appear only in callbacks
@@ -35,26 +35,11 @@ API =
     app.layout.main.show new Signup.Step2 {model: app.user}
     app.navigate 'signup/2'
 
-  routeTriggeredSignupStep2: ->
-    if app.user.loggedIn then app.execute 'show:home'
-    else
-      username = localStorage.getItem('username')
-      if username?
-        app.user.set('username', username)
-        params = {model: app.user, triggerPersonaLogin: true}
-        app.layout.main.show new Signup.Step2 params
-      else @showSignupStep1()
-
   showLogin: ->
     if app.user.loggedIn then app.execute 'show:home'
     else
       app.layout.main.show new Login.Step1 {model: app.user}
       app.navigate 'login'
-
-  routeTriggeredLogin: ->
-    params = {model: app.user, triggerPersonaLogin: true}
-    app.layout.main.show new Login.Step1 params
-
 
 initCommands = (app)->
   app.commands.setHandlers

@@ -1,5 +1,6 @@
-<div class="authMenu">
+<div class="authMenu login">
   <div class="custom-cell">
+    <h2 class="subheader">{{i18n 'login'}}</h2>
 
     <div class="inputGroup">
 
@@ -11,24 +12,12 @@
         <input type="text" id="username" class="enterClick radius">
       </div>
 
-      <label for="password">{{i18n 'password'}}</label>
-      <div class="passwordGroup">
-        <input type="password" id="password" class="enterClick radius">
-        <a id="showPassword">
-          <span class="displayed">{{i18n 'show'}}</span>
-          <span class="substitute">{{i18n 'hide'}}</span>
-        </a>
-      </div>
-
-      <div>
-        {{!-- alert-box will be appended to has-alertbox parent --}}
-        <div class="has-alertbox"></div>
-      </div>
+      {{partial 'user:password_input'}}
 
       <a id="classicLogin" class="button radius light-blue">{{i18n 'login'}}</a>
     </div>
 
-    {{partial 'separator' 'or login with'}}
+    {{partial 'horizontal_separator' 'or login with'}}
 
     {{partial 'user:persona_button'}}
 
