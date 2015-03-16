@@ -18,7 +18,11 @@ module.exports = class AlertBox extends Marionette.Behavior
       _.error params, 'couldnt display the alertbox with those params'
       return
 
-    if selector? then $target = $(selector)
+    if selector?
+      unless /^\.|#/.test selector
+        _.error selector, 'invalid selector'
+      $target = $(selector)
+
     else $target = @ui.hasAlertbox
 
     box = "<div class='alert hidden alert-box'>#{message}
@@ -28,7 +32,7 @@ module.exports = class AlertBox extends Marionette.Behavior
     # remove the previously added '.alert-box'
     $parent.find('.alert-box').remove()
     $parent.append(box)
-    $parent.find('.alert-box').slideDown(200)
+    $parent.find('.alert-box').slideDown(500)
 
   hideAlertBox: ->
     @$el.find('.alert-box').hide()
