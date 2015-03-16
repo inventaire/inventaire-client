@@ -59,3 +59,5 @@ module.exports =
 
     if options is 'check' then new SafeString check(i)
     else i
+
+  disableAuto: -> 'autocorrect="off" autocapitalize="off" autocomplete="off"'
