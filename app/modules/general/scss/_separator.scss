@@ -11,12 +11,11 @@
 
 .horizontal-separator {
   @include display-flex(row, center, center);
-  margin: 3em 0em 2em 0em;
+  margin: 2em 0em 2em 0em;
   .rule{
     height: 1px;
     margin: auto 0.5em auto 0.5em;
     max-width: 5em;
-    
   }
 }
 
