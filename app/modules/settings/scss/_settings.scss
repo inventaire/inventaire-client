@@ -1,4 +1,5 @@
 #settings{
+  @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
   padding-top: 1em;
 
   /*Small screens*/
@@ -8,11 +9,10 @@
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    @extend .book-bg;
     // force the div's height so that the background
     // doesnt move when the div's height change
     // e.g. when an alert-box is displayed
-    min-height: 70em;
+    min-height: 55em;
   }
 }
 

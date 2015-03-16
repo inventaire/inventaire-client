@@ -1,5 +1,5 @@
 <figure class="changePicture">
-  <img src="{{#if picture}}{{picture}}{{else}}{{placeholder}}{{/if}}"
+  <img src="{{#if picture}}{{src picture 250 250}}{{else}}{{placeholder}}{{/if}}"
   alt="{{title}} {{i18n 'cover'}}" class="{{changePicture.classes}}">
 
   {{#unless restricted}}
