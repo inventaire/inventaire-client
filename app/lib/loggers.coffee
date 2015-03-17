@@ -38,31 +38,37 @@ module.exports = (_)->
     else console.error label, err
     return
 
+  error = (err, label)->
+    [err, label] = loggers_.reorderObjLabel(err, label)
+    unless err?.stack?
+      label or= 'empty error'
+      newErr = new Error(label)
+      report = [err, newErr.message, newErr.stack?.split('\n')]
+    else
+      report = [err.message or err, err.stack?.split('\n')]
+    window.reportErr {error: report}
+    console.error.apply console, report
+
+  # providing a custom warn as it might be used
+  # by methods shared with the server
+  warn = (args...)->
+    console.warn '/!\\'
+    loggers.log.apply null, args
+    return
+
   bindingLoggers =
     Log: (label)-> loggers_.bindLabel log, label
     LogXhrErr: (label)-> loggers_.bindLabel logXhrErr, label
+    Error: (label)-> loggers_.bindLabel error, label
+    Warn: (label)-> loggers_.bindLabel warn, label
 
   loggers =
     isMuted: isMuted
     log: log
     logXhrErr: logXhrErr
-    error: (err, label)->
-      [err, label] = loggers_.reorderObjLabel(err, label)
-      unless err?.stack?
-        label or= 'empty error'
-        newErr = new Error(label)
-        report = [err, newErr.message, newErr.stack?.split('\n')]
-      else
-        report = [err.message or err, err.stack?.split('\n')]
-      window.reportErr {error: report}
-      console.error.apply console, report
+    error: error
+    warn: warn
 
-    # providing a custom warn as it might be used
-    # by methods shared with the server
-    warn: (args...)->
-      console.warn '/!\\'
-      loggers.log.apply null, args
-      return
 
     logAllEvents: (obj, prefix='logAllEvents')->
       obj.on 'all', (event)->
