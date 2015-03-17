@@ -26,8 +26,12 @@ forms_.earlyVerify = (view, e, verificator)->
 # .then doThingsThatThrowsErrorsWithSelector
 # .catch forms_.catchAlert.bind(null, @)
 forms_.catchAlert = (view, err)->
-  if err.selector? then forms_.alert(view, err)
-  else _.error err, 'catchAlert err'
+  if err.selector?
+    view.$el.trigger 'stopLoading'
+    forms_.alert(view, err)
+  else
+    view.$el.trigger 'somethingWentWrong'
+    _.error err, 'catchAlert err'
 
 forms_.alert = (view, err)->
   {selector} = err

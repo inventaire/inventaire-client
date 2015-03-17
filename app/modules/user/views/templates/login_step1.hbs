@@ -14,7 +14,10 @@
 
       {{partial 'user:password_input'}}
 
-      <a id="classicLogin" class="button radius light-blue">{{i18n 'login'}}</a>
+      <a id="classicLogin" class="button radius light-blue">
+        {{i18n 'login'}}
+        <span class="loading"></span>
+      </a>
     </div>
 
     {{partial 'horizontal_separator' 'or login with'}}

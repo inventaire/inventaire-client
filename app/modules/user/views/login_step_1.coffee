@@ -47,7 +47,10 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     app.request 'login:classic', username, password
     .catch @loginError.bind(@)
 
+    @$el.trigger 'loading', { selector: '#classicLogin' }
+
   loginError: (err)->
+    @$el.trigger 'stopLoading'
     if err.status is 401 then @alertUsernameOrPasswordError()
     else _.error err, 'classic login err'
 
@@ -66,3 +69,4 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     @$el.trigger 'loading',
       message: _.i18n 'waiting_for_persona'
       timeout: 'none'
+      selector: '#loginPersona'

@@ -71,11 +71,13 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
 
   verifyPassword: -> password_.pass @ui.password.val(), '#finalAlertbox'
   sendClassicSignupRequest: ->
+    @$el.trigger 'loading', { selector: '#classicSignup' }
     _.preq.post app.API.auth.signup,
       username: @ui.classicUsername.val()
       password: @ui.password.val()
       email: @ui.email.val()
       strategy: 'local'
+
 
   # PERSONA
   validPersonaSignup: ->
@@ -96,6 +98,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     # @ui.personaPopup.fadeIn()
     app.execute 'login:persona'
     @$el.trigger 'loading',
+      selector: '#persona'
       message: _.i18n 'waiting_for_persona'
       timeout: 'none'
 
