@@ -5,6 +5,7 @@ module.exports = ->
 
 logoutSuccess = (data)->
   deleteLocalDatabases()
+  app.execute 'persona:logout:request'
   _.log "You have been successfully logged out"
   window.location.reload()
 

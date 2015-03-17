@@ -61,3 +61,5 @@ module.exports =
   services:
     emailValidation: (email)->
       "/api/services/public?service=email-validation&email=#{email}"
+  scripts:
+    persona: '/public/javascripts/persona-include.js?DIGEST'
