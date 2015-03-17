@@ -1,20 +1,11 @@
-fieldTests = require 'modules/general/lib/field_tests'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports =
   pass: (password, selector)->
-    fieldTests.pass
+    forms_.pass
       value: password
       tests: passwordTests
       selector: selector
-
-  validate: (options)->
-    fieldTests.validate _.extend options,
-      field: 'password'
-      value: options.password
-      tests: passwordTests
-
-  invalidpassword: (err, selector)->
-    fieldTests.invalidValue @, err, 'password', selector
 
 passwordTests =
   'password should be 8 characters minimum' : (password)->

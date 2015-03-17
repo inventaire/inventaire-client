@@ -1,13 +1,14 @@
 username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
-fieldTests = require 'modules/general/lib/field_tests'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
   className: 'book-bg'
   tagName: 'div'
   template: require './templates/login_step1'
   events:
+    'blur #username': 'earlyVerifyUsername'
     'click #classicLogin': 'classicLoginAttempt'
     'click #loginPersona': 'waitingForPersona'
     'click #createAccount': -> app.execute 'show:signup'
@@ -27,19 +28,15 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     .then @verifyUsername.bind(@)
     .then @verifyPassword.bind(@)
     .then @classicLogin.bind(@)
-    .catch @catchFail.bind(@)
+    .catch forms_.catchAlert.bind(null, @)
 
   verifyUsername: (username)->
     username = @ui.username.val()
     unless _.isEmail(username)
       username_.pass username, '#username'
 
-  catchFail: (err)->
-    if err.selector? then @alert(err)
-    else _.error err, 'signup catchFail err'
-
-  alert: (err)->
-    fieldTests.invalidValue @, err, err.selector
+  earlyVerifyUsername: (e)->
+    forms_.earlyVerify @, e, @verifyUsername.bind(@)
 
   verifyPassword: ->
     password_.pass @ui.password.val(), '#finalAlertbox'

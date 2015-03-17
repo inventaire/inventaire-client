@@ -1,4 +1,5 @@
-usernameTests = require 'modules/user/lib/username_tests'
+username_ = require 'modules/user/lib/username_tests'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
   template: require './templates/profile_settings'
@@ -8,13 +9,17 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     SuccessCheck: {}
     ConfirmationModal: {}
 
+  ui:
+    username: '#usernameField'
+    languagePicker: '#languagePicker'
+
   initialize: ->
     @listenTo @model, 'change:picture', @render
     @listenTo app.vent, 'i18n:reset', ->
       @render()
       # can't be triggered the 'normal' way as the page is
       # re-rendered when the promise is fulfilled
-      $('#languagePicker').trigger 'check'
+      @ui.languagePicker.trigger 'check'
 
   onShow: -> app.execute 'foundation:reload'
 
@@ -44,26 +49,30 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     'click a#changePicture': 'changePicture'
 
   verifyUsername: ->
-    requestedUsername = $('#usernameField').val()
-    if requestedUsername is app.user.get 'username'
-      @invalidUsername "that's already your username"
-    else
-      usernameTests.validate
-        username: requestedUsername
-        success: @sendUsernameRequest.bind(@)
-        view: @
+    username = @ui.username.val()
+    _.preq.start()
+    .then @testUsername.bind(@, username)
+    .then username_.verifyUsername.bind(null, username, '#usernameField')
+    .then @sendUsernameRequest.bind(@, username)
+    .catch forms_.catchAlert.bind(null, @)
 
-  sendUsernameRequest: (requestedUsername)->
-    _.preq.post app.API.auth.username, {username: requestedUsername}
+  testUsername: (username)->
+    if username is app.user.get 'username'
+      err = new Error("that's already your username")
+      err.selector = '#usernameField'
+      throw err
+    else
+      username_.pass username, '#usernameField'
+    return username
+
+  sendUsernameRequest: (username)->
+    _.preq.post app.API.auth.username, {username: username}
     .then (res)-> res.username
     .then @confirmUsernameChange.bind(@)
-    .catch @invalidUsername.bind(@)
 
-  invalidUsername: usernameTests.invalidUsername
-
-  confirmUsernameChange: (requestedUsername)=>
+  confirmUsernameChange: (username)->
     @askConfirmation
-      requestedUsername: requestedUsername
+      requestedUsername: username
       currentUsername: app.user.get 'username'
       model: @model
 
@@ -93,15 +102,15 @@ savePicture = (pictures)->
   picture = pictures[0]
   unless _.isUrl picture
     throw new Error 'couldnt save picture: requires a url'
-  
+
   app.request 'user:update',
     attribute: 'picture'
     value: picture
     selector: '#changePicture'
 
 
-updateUser = (requestedUsername)->
+updateUser = (username)->
   app.request 'user:update',
     attribute: 'username'
-    value: requestedUsername
+    value: username
     selector: '#usernameField'

@@ -1,7 +1,7 @@
 username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
-fieldTests = require 'modules/general/lib/field_tests'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   className: 'book-bg'
@@ -29,13 +29,13 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     smallscreen: _.smallScreen()
 
   events:
-    'blur #classicUsername': (e)-> @earlyVerify e, @verifyClassicUsername.bind(@)
-    'blur #personaUsername': (e)-> @earlyVerify e, @verifyPersonaUsername.bind(@)
-    'blur #email':  (e)-> @earlyVerify e, @verifyEmail.bind(@)
-    # do not earlyVerify password as it is triggered
+    'blur #classicUsername': 'earlyVerifyClassicUsername'
+    'blur #personaUsername': 'earlyVerifyPersonaUsername'
+    'blur #email': 'earlyVerifyEmail'
+    # do not forms_.earlyVerify @, password as it is triggered
     # on "show password" clicks, which is boring
     # plus, it will presumably be verified next by click #validClassicSignup
-    # 'blur #password':  (e)-> @earlyVerify e, @verifyPassword.bind(@)
+    # 'blur #password': 'earlyVerifyPassword'
     'click #classicSignup': 'validClassicSignup'
     'click #personaSignup': 'validPersonaSignup'
     'click #suggestion': 'replaceEmail'
@@ -48,7 +48,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     .then @verifyPassword.bind(@)
     .then @sendClassicSignupRequest.bind(@)
     .then -> window.location.reload()
-    .catch @catchFail.bind(@)
+    .catch forms_.catchAlert.bind(null, @)
 
   verifyClassicUsername: -> @verifyUsername 'classicUsername'
   verifyEmail: ->
@@ -82,7 +82,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     @verifyPersonaUsername()
     .then @stashUsername
     .then @waitingForPersona.bind(@)
-    .catch @catchFail.bind(@)
+    .catch forms_.catchAlert.bind(null, @)
 
   verifyPersonaUsername: -> @verifyUsername 'personaUsername'
   stashUsername: (res)->
@@ -104,17 +104,11 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     username = @ui[name].val()
     username_.verifyUsername(username, "##{name}")
 
-  catchFail: (err)->
-    if err.selector? then @alert(err)
-    else _.error err, 'signup catchFail err'
-
-  alert: (err)->
-    fieldTests.invalidValue @, err, err.selector
-
-  # verify field value before the form is submitted
-  earlyVerify: (e, verificator)->
-    # dont show alert empty fields as it feels a bit agressive
-    unless $(e.target)?.val() is ''
-      _.preq.start()
-      .then verificator
-      .catch @catchFail.bind(@)
+  earlyVerifyClassicUsername: (e)->
+    forms_.earlyVerify @, e, @verifyClassicUsername.bind(@)
+  earlyVerifyPersonaUsername: (e)->
+    forms_.earlyVerify @, e, @verifyPersonaUsername.bind(@)
+  earlyVerifyEmail: (e)->
+    forms_.earlyVerify @, e, @verifyEmail.bind(@)
+  earlyVerifyPassword: (e)->
+    forms_.earlyVerify @, e, @verifyPassword.bind(@)

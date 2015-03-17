@@ -1,12 +1,13 @@
-fieldTests = require 'modules/general/lib/field_tests'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports =
   pass: (email, selector)->
-    fieldTests.pass
+    forms_.pass
       value: email
       tests: emailTests
       selector: selector
 
+  # checks that the email domain looks right
   verifyExistance: (email, selector)->
     _.preq.get app.API.services.emailValidation(email)
     .then (res)->
@@ -17,6 +18,7 @@ module.exports =
         throw err
       else return res.did_you_mean
 
+  # verifies that the email isnt already in use
   verifyAvailability: (email, selector)->
     _.preq.post(app.API.auth.email, {email: email})
     .catch (err)->

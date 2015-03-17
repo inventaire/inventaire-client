@@ -1,22 +1,11 @@
-fieldTests = require 'modules/general/lib/field_tests'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = username_ =
   pass: (username, selector)->
-    fieldTests.pass
+    forms_.pass
       value: username
       tests: usernameTests
       selector: selector
-
-  validate: (options)->
-    fieldTests.validate _.extend options,
-      field: 'username'
-      value: options.username
-      tests: usernameTests
-
-  # the view is passed as context
-  # invalidUsername.call(@, err, selector)
-  invalidUsername: (err, selector)->
-    fieldTests.invalidValue @, err, 'username', selector
 
   verifyAvailability: (username, selector)->
     _.preq.post(app.API.auth.username, {username: username})
