@@ -12,7 +12,7 @@ $auth-menu-bg: rgba($light-grey, 0.8);
     border-radius: $global-radius;
     padding: 1em 2em 2em 2em;
     margin-bottom: 2em;
-    width: 100%;
+    width: 90%;
     text-align: center;
   }
   a.button{
@@ -32,7 +32,6 @@ $auth-menu-bg: rgba($light-grey, 0.8);
     // needed by enterClick. adapted by overriding display:flex
     display: inherit;
   }
-
 }
 
 @import "login";

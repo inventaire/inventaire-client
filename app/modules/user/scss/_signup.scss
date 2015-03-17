@@ -2,8 +2,9 @@
   @include custom-column(60em);
 }
 
+$spaceForBothAligned: 850px;
+
 #signupModes{
-  @include display-flex(row);
   > div {
     @include flex(1);
   }
@@ -14,19 +15,22 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-    @include flex-direction(column);
-    .agnostic-separator{
-      @extend .horizontal-separator;
+  @media screen and (max-width: $spaceForBothAligned) {
+    @include display-flex(column, center, center);
+    > div{
+      max-width: 20em;
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $spaceForBothAligned) {
+    @include display-flex(row, baseline, center);
     > div {
+      max-width: 45%;
       padding: 0em 1em 0em 1em;
-    }
-    .agnostic-separator{
-      @extend .vertical-separator;
+      &.separator{
+        align-self: center;
+        height: 10em;
+      }
     }
   }
 }
