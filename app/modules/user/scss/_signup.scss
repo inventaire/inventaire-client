@@ -13,6 +13,9 @@ $spaceForBothAligned: 850px;
       max-width: 18em;
       margin: auto;
     }
+    .button{
+      margin-top: 1em;
+    }
   }
   /*Small screens*/
   @media screen and (max-width: $spaceForBothAligned) {

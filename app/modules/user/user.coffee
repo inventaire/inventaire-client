@@ -1,5 +1,6 @@
 MainUser = require './models/main_user'
 Signup = require './views/signup'
+SignupPersona = require './views/signup_persona'
 Login = require './views/login'
 LoginPersona = require './views/login_persona'
 
@@ -8,6 +9,7 @@ module.exports =
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
         'signup(/)':'showSignup'
+        'signup/persona(/)':'showSignupPersona'
         'login(/)':'showLogin'
         # this is the route that triggers Persona Signup
         # so that Persona confirmation email returns to this route
@@ -28,12 +30,20 @@ API =
 
   showSignup: ->
     unless redirectHomeIfLoggedIn()
-      app.layout.main.show new Signup {model: app.user}
+      app.layout.main.show new Signup
       app.navigate 'signup'
+
+  showSignupPersona: ->
+    unless redirectHomeIfLoggedIn()
+      # in standalone mode when not displayed as a region
+      # of Signup LayoutView. 'standalone' serves then as boolean
+      # for handlebars template to display missing elements
+      app.layout.main.show new SignupPersona {standalone: true}
+      app.navigate 'signup/persona'
 
   showLogin: ->
     unless redirectHomeIfLoggedIn()
-      app.layout.main.show new Login {model: app.user}
+      app.layout.main.show new Login
       app.navigate 'login'
 
   showLoginPersona: ->
@@ -42,7 +52,7 @@ API =
       # as Persona email links redirection depend on the url
       # at the moment the login is triggered
       app.navigate 'login/persona'
-      app.layout.main.show new LoginPersona {model: app.user}
+      app.layout.main.show new LoginPersona
 
 redirectHomeIfLoggedIn = ->
   if app.user.loggedIn
@@ -53,6 +63,7 @@ redirectHomeIfLoggedIn = ->
 initCommands = (app)->
   app.commands.setHandlers
     'show:signup': API.showSignup
+    'show:signup:persona': API.showSignupPersona
     'show:login': API.showLogin
     'show:login:persona': API.showLoginPersona
 

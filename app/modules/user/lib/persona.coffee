@@ -31,6 +31,9 @@ showAccountError = ->
   app.execute 'show:error',
     message: _.i18n "missing_account_title"
     redirection:
+      href: '/signup/persona'
       legend: _.i18n 'missing_account_legend'
       text: _.i18n 'create an account'
-      classes: 'dark-grey showSignup'
+      classes: 'success'
+      buttonAction: ->
+        app.execute 'show:signup:persona'

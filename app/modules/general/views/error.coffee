@@ -3,3 +3,10 @@ module.exports = class Error extends Backbone.Marionette.LayoutView
   className: 'text-center'
   template: require './templates/error'
   serializeData: -> return @options
+
+  events:
+    'click .button': 'buttonAction'
+
+  buttonAction: ->
+    {buttonAction} = @options.redirection
+    if _.isFunction(buttonAction) then buttonAction()
