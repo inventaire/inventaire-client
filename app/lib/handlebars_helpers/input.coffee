@@ -53,11 +53,11 @@ module.exports =
       button: _.extend button, data.button
 
     if data.special
-      data.special = 'autocorrect="off" autocapitalize="off" autocomplete="off"'
+      data.special = 'autocorrect="off" autocapitalize="off"'
 
     i = new SafeString input(data)
 
     if options is 'check' then new SafeString check(i)
     else i
 
-  disableAuto: -> 'autocorrect="off" autocapitalize="off" autocomplete="off"'
+  disableAuto: -> 'autocorrect="off" autocapitalize="off"'
