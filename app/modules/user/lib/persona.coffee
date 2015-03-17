@@ -17,11 +17,7 @@ unreachablePersona = ->
   console.error 'Persona Login not available: you might be offline'
 
 onlogin = (assertion) ->
-  app.execute 'login',
-    assertion: assertion
-    strategy: 'browserid'
-    # needed on signup requests
-    username: localStorage.getItem('username')
+  app.request 'login:persona', assertion
   .catch loginError
 
 onlogout = ->
@@ -35,7 +31,6 @@ showAccountError = ->
   app.execute 'show:error',
     message: _.i18n "missing_account_title"
     redirection:
-      href: '/signup'
       legend: _.i18n 'missing_account_legend'
       text: _.i18n 'create an account'
-      classes: 'success showSignup'
+      classes: 'dark-grey showSignup'

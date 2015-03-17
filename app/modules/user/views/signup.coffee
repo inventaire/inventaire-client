@@ -3,9 +3,9 @@ email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
+module.exports = Backbone.Marionette.ItemView.extend
   className: 'book-bg'
-  template: require './templates/signup_step1'
+  template: require './templates/signup'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
@@ -83,7 +83,7 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
   validPersonaSignup: ->
     @verifyPersonaUsername()
     .then @stashUsername
-    .then @waitingForPersona.bind(@)
+    .then @showPersonaLogin.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
   verifyPersonaUsername: -> @verifyUsername 'personaUsername'
@@ -93,14 +93,8 @@ module.exports = class SignupStep1 extends Backbone.Marionette.ItemView
     # with no trace of the previous username
     localStorage.setItem 'username', res.username
 
-  waitingForPersona:->
-    @ui.personaSignup.fadeOut()
-    # @ui.personaPopup.fadeIn()
-    app.execute 'login:persona'
-    @$el.trigger 'loading',
-      selector: '#persona'
-      message: _.i18n 'waiting_for_persona'
-      timeout: 'none'
+  showPersonaLogin:->
+    app.execute 'show:login:persona'
 
   # COMMON
   verifyUsername: (name)->

@@ -4,6 +4,10 @@
   @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
   .errorBox{
     background-color: rgba(#eee, 0.8);
+    max-width: 30em;
+    .button{
+      font-weight: bold;
+    }
   }
 
   /*Small screens*/

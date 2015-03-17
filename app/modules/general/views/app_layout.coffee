@@ -15,6 +15,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'click a': 'unpreventDefault'
     'click #home, #inventorySections': -> app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'
+    'click .showSignup': -> app.execute 'show:signup'
     'keyup .enterClick': 'enterClick'
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'

@@ -3,14 +3,14 @@ email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
+module.exports = Backbone.Marionette.ItemView.extend
   className: 'book-bg'
   tagName: 'div'
-  template: require './templates/login_step1'
+  template: require './templates/login'
   events:
     'blur #username': 'earlyVerifyUsername'
     'click #classicLogin': 'classicLoginAttempt'
-    'click #loginPersona': 'waitingForPersona'
+    'click #personaLogin': 'showPersonaLogin'
     'click #createAccount': -> app.execute 'show:signup'
 
   behaviors:
@@ -63,10 +63,5 @@ module.exports = class LoginStep1 extends Backbone.Marionette.ItemView
     if _.isEmail(username) then 'email or password is incorrect'
     else 'username or password is incorrect'
 
-  waitingForPersona:->
-    $('#loginPersona').fadeOut()
-    app.execute 'login:persona'
-    @$el.trigger 'loading',
-      message: _.i18n 'waiting_for_persona'
-      timeout: 'none'
-      selector: '#loginPersona'
+  showPersonaLogin:->
+    app.execute 'show:login:persona'
