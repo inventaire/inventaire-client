@@ -21,6 +21,7 @@ module.exports =
   post: (url, body)-> wrap($.post(url, body))
   put: (url, body)-> wrap($.put(url, body))
   delete: (url)-> wrap($.delete(url))
+  getScript: (url)-> wrap($.getScript(url))
 
   start: -> Promise.resolve()
   resolve: (res)-> Promise.resolve(res)
