@@ -1,0 +1,24 @@
+<div class="inputGroup">
+
+  <label for="classicUsername">{{i18n 'username'}}</label>
+  <div>
+    <input type="text" id="classicUsername" class="enterClick radius" {{disableAuto}}>
+  </div>
+
+  <label for="email">{{i18n 'email'}}</label>
+  <div>
+    <input type="text" id="email" class="enterClick radius" {{disableAuto}}>
+  </div>
+  <div id="suggestionGroup" class="hidden">
+    <span class="legend">{{i18n 'did you mean:'}}</span>
+    <a id="suggestion"></a>
+  </div>
+
+
+  {{partial 'user:password_input'}}
+
+  <a id="classicSignup" class="button radius light-blue">
+    {{i18n 'sign up'}}
+    <span class="loading"></span>
+  </a>
+</div>
