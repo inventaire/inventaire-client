@@ -138,7 +138,6 @@ module.exports = (Backbone, _, app, window)->
     allValues: (obj)-> @flatten @values(obj)
 
     now: -> new Date().getTime()
-    expired: (timestamp, ttl)-> @now() - timestamp > ttl
 
     objectifyPairs: (array)->
       pairs = array.length / 2

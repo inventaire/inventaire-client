@@ -109,3 +109,5 @@ module.exports = (_)->
     "http://chart.apis.google.com/chart?cht=qr&chs=#{size}x#{size}&chl=#{url}"
 
   piped: (data)-> _.forceArray(data).join '|'
+
+  expired: (timestamp, ttl)-> @now() - timestamp > ttl
