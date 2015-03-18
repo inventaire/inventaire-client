@@ -1,0 +1,26 @@
+.validEmailConfirmation{
+  text-align: center;
+  font-family: 'Alegreya Sans';
+  color: white;
+  .fa{
+    font-size: 2em;
+    display: block;
+  }
+  p{
+    padding: 1em;
+  }
+  .button{
+    font-weight: bold !important;
+  }
+  .valid{
+    p{
+      background-color: $success-color;
+    }
+    color: white;
+  }
+  .invalid{
+    p{
+      background-color: $warning-color;
+    }
+  }
+}
