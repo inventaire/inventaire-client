@@ -1,5 +1,6 @@
 Welcome = require 'modules/welcome/views/welcome'
 ErrorView = require 'modules/general/views/error'
+initQuerystringActions = require 'modules/general/lib/querystring_actions'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
@@ -21,6 +22,8 @@ module.exports =
       'show:403': API.show403
       'show:404': API.show404
       'show:offline:error': API.showOfflineError
+
+    initQuerystringActions()
 
 API =
   showHome: ->

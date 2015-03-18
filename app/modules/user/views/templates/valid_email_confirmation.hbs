@@ -1,0 +1,6 @@
+{{#if validEmail}}
+  <p>{{i18n 'email_confirmation_success'}}</p>
+{{else}}
+  <p>{{i18n 'email_confirmation_error'}}</p>
+  <a id="emailValidationRequest">{{i18n 'email_confirmation_error_button'}}</a>
+{{/if}}
