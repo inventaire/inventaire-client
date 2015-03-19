@@ -24,34 +24,5 @@
     min-height: 55em;
   }
 }
-
-#notValidEmail, #confirmationEmailSent{
-  color: white;
-  // font-weight: bold;
-  text-align: center;
-  margin-bottom: 1em;
-}
-
-#notValidEmail{
-  span, .a{
-    @include radius();
-    display: block;
-  }
-  .alert{
-    width: 100%;
-    background-color: $warning-color;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-  }
-}
-#confirmationEmailSent{
-  @include radius();
-  .fa{
-    font-size: 2em;
-    display: block;
-  }
-  background-color: $success-color;
-  padding: 0.5em;
-}
-
+@import 'profile_settings';
 @import 'labs_settings';
