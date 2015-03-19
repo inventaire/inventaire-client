@@ -1,0 +1,22 @@
+$global-radius: 3px; // Foundation variable
+
+@mixin radius(){
+  border-radius: $global-radius;
+}
+@mixin radius-top(){
+  border-radius: $global-radius $global-radius 0  0;
+}
+@mixin radius-bottom(){
+  border-radius: 0  0 $global-radius $global-radius;
+}
+@mixin radius-left(){
+  border-radius: $global-radius 0  0 $global-radius;
+}
+@mixin radius-right(){
+  border-radius: 0 $global-radius $global-radius 0;
+}
+
+.radius-top{ @include radius-top() }
+.radius-bottom{ @include radius-bottom() }
+.radius-left{ @include radius-left() }
+.radius-right{ @include radius-right() }
