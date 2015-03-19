@@ -24,15 +24,12 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
   onShow: -> app.execute 'foundation:reload'
 
   serializeData: ->
-    attrs =
+    attrs = @model.toJSON()
+    return _.extend attrs,
       usernamePicker: @usernamePickerData()
-      languages: _.deepClone Lang
+      languages: @languagesData()
       changePicture:
         classes: 'max-large-profilePic'
-    currentLanguages = app.user.get('language')
-    attrs.languages[currentLanguages]?.selected = true
-    _.extend attrs, @model.toJSON()
-    return attrs
 
   usernamePickerData: ->
     nameBase: 'username'
@@ -42,6 +39,12 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     button:
       text: _.i18n 'change username'
       classes: 'dark-grey postfix'
+
+  languagesData: ->
+    languages = _.deepClone Lang
+    currentLanguages = @model.get('language')
+    languages[currentLanguages]?.selected = true
+    return languages
 
   events:
     'click a#usernameButton': 'verifyUsername'
@@ -66,7 +69,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     return username
 
   sendUsernameRequest: (username)->
-    _.preq.post app.API.auth.username, {username: username}
+    _.preq.post app.API.auth.usernameAvailability, {username: username}
     .then (res)-> res.username
     .then @confirmUsernameChange.bind(@)
 

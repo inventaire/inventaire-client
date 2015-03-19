@@ -1,6 +1,15 @@
-#settings{
+  #settings{
   @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
   padding-top: 1em;
+
+  label{
+    font-family: 'Alegreya Sans';
+    text-transform: uppercase;
+    font-size: 1.2em;
+  }
+  .button{
+    font-weight: bold;
+  }
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {

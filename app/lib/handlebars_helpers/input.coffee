@@ -14,6 +14,7 @@ SafeString = Handlebars.SafeString
 #     type: {String}
 #     placeholder: {String} *
 #     dotdotdot: {String}
+#     classes: {String}
 #   button:
 #     id: {String} *
 #     text: {String} *

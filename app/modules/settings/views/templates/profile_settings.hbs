@@ -1,9 +1,10 @@
-<h3 class="with-tip capitalized">{{i18n 'username'}}</h3>
+<label class="with-tip capitalized">{{i18n 'username'}}</label>
 {{tip 'username_tip' 'right'}}
 {{input usernamePicker}}
 
-<h3>{{i18n 'language'}}</h3>
+<label>{{i18n 'language'}}</label>
 {{partial 'user:language_picker' this 'check'}}
 
-<h3>{{i18n 'profile pic'}}</h3>
+
+<label>{{i18n 'profile pic'}}</label>
 {{partial 'general:behaviors:change_picture' this}}
