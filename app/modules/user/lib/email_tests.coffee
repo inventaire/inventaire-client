@@ -20,7 +20,7 @@ module.exports =
 
   # verifies that the email isnt already in use
   verifyAvailability: (email, selector)->
-    _.preq.post(app.API.auth.email, {email: email})
+    _.preq.post(app.API.auth.emailAvailability, {email: email})
     .catch (err)->
       err.selector = selector
       throw err

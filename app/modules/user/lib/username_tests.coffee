@@ -8,7 +8,7 @@ module.exports = username_ =
       selector: selector
 
   verifyAvailability: (username, selector)->
-    _.preq.post(app.API.auth.username, {username: username})
+    _.preq.post(app.API.auth.usernameAvailability, {username: username})
     .catch (err)->
       err.selector = selector
       throw err
