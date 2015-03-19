@@ -2,6 +2,28 @@
 {{tip 'username_tip' 'right'}}
 {{input usernamePicker}}
 
+{{#if localCreationStrategy}}
+  <label>{{i18n 'email'}}</label>
+
+  {{#unless validEmail}}
+    <div id="notValidEmail">
+      <span class="alert">
+          {{icon 'warning'}}
+          {{{i18n 'email_wasnt_verified'}}}
+      </span>
+      <a id="emailConfirmationRequest" class="button dark-grey radius">
+        {{i18n 'email_confirmation_error_button'}}
+      </a>
+    </div>
+    <div id="confirmationEmailSent" class="hidden">
+      {{icon 'check'}}
+      {{{i18n 'new_confirmation_email'}}}
+    </div>
+  {{/unless}}
+
+{{/if}}
+
+
 <label>{{i18n 'language'}}</label>
 {{partial 'user:language_picker' this 'check'}}
 

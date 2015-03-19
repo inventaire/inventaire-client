@@ -30,6 +30,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       languages: @languagesData()
       changePicture:
         classes: 'max-large-profilePic'
+      localCreationStrategy: attrs.creationStrategy is 'local'
 
   usernamePickerData: ->
     nameBase: 'username'
@@ -50,6 +51,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     'click a#usernameButton': 'verifyUsername'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
+    'click a#emailConfirmationRequest': 'emailConfirmationRequest'
 
   verifyUsername: ->
     username = @ui.username.val()
@@ -85,6 +87,11 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       warningText: _.i18n('username_change_warning')
       actionCallback: updateUser.bind(null, args.requestedUsername)
       actionArgs: args
+
+  emailConfirmationRequest: ->
+    $('#notValidEmail').fadeOut()
+    app.request 'email:confirmation:request'
+    .then -> $('#confirmationEmailSent').fadeIn()
 
   changeLanguage: (e)->
     lang = e.target.value
