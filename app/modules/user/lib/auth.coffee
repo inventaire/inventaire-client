@@ -4,6 +4,7 @@ module.exports = ->
   app.reqres.setHandlers
     'login:classic': requestClassicLogin
     'login:persona': requestPersonaLogin
+    'email:confirmation:request': emailConfirmationRequest
 
   app.commands.setHandlers
     'logout': requestLogout
@@ -33,3 +34,6 @@ loginSuccess = ->
   # will get user data on reload's fetch
   window.location.reload()
 
+emailConfirmationRequest = ->
+  _.log 'sending emailConfirmationRequest'
+  _.preq.post app.API.auth.emailConfirmation

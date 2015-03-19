@@ -5,6 +5,7 @@ module.exports =
     logout: '/api/auth/public/logout'
     usernameAvailability: '/api/auth/public/username-availability'
     emailAvailability: '/api/auth/public/email-availability'
+    emailConfirmation: '/api/auth/email-confirmation'
   user: '/api/user'
   users:
     data: (ids)->
