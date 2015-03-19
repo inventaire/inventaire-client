@@ -4,16 +4,20 @@ $global-radius: 3px; // Foundation variable
   border-radius: $global-radius;
 }
 @mixin radius-top(){
-  border-radius: $global-radius $global-radius 0  0;
+  border-top-left-radius: $global-radius;
+  border-top-right-radius: $global-radius;
 }
 @mixin radius-bottom(){
-  border-radius: 0  0 $global-radius $global-radius;
+  border-bottom-left-radius: $global-radius;
+  border-bottom-right-radius: $global-radius;
 }
 @mixin radius-left(){
-  border-radius: $global-radius 0  0 $global-radius;
+  border-top-left-radius: $global-radius;
+  border-bottom-left-radius: $global-radius;
 }
 @mixin radius-right(){
-  border-radius: 0 $global-radius $global-radius 0;
+  border-top-right-radius: $global-radius;
+  border-bottom-right-radius: $global-radius;
 }
 
 .radius-top{ @include radius-top() }

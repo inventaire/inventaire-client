@@ -1,4 +1,4 @@
-$active-custom-tab-bg: $light-grey;
+$active-custom-tab-bg: rgba($light-grey, 0.9);
 
 .custom-tabs{
   @include display-flex(column, left);
@@ -15,11 +15,19 @@ $active-custom-tab-bg: $light-grey;
         color: $dark-grey;
         background-color: $active-custom-tab-bg;
       }
+      &:first-child{
+        border-top-left-radius: $global-radius;
+      }
+      &:last-child{
+        border-top-right-radius: $global-radius;
+      }
     }
   }
 
   .custom-tabs-content{
     background-color: $active-custom-tab-bg;
+    @include radius-bottom();
+    border-top-right-radius: $global-radius;
   }
 
   /*Small screens*/
