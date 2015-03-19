@@ -13,11 +13,15 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $verysmallscreen) {
     @include flex-direction(column);
     .inputBox{
       input{
         margin: 0 !important;
+        @include radius-top();
+      }
+      a.button.postfix{
+        @include radius-bottom();
       }
       .alert-box{
         // Foundation sets .alert-box with negative margin-top
@@ -27,6 +31,12 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $verysmallscreen) {
+    input{
+      @include radius-left();
+    }
+    a.button.postfix{
+      @include radius-right();
+    }
   }
 }
