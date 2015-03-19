@@ -1,4 +1,5 @@
 username_ = require 'modules/user/lib/username_tests'
+email_ = require 'modules/user/lib/email_tests'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
@@ -7,10 +8,12 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
+    Loading: {}
     ConfirmationModal: {}
 
   ui:
     username: '#usernameField'
+    email: '#emailField'
     languagePicker: '#languagePicker'
 
   initialize: ->
@@ -27,19 +30,14 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     attrs = @model.toJSON()
     return _.extend attrs,
       usernamePicker: @usernamePickerData()
+      emailPicker: @emailPickerData()
       languages: @languagesData()
       changePicture:
         classes: 'max-large-profilePic'
       localCreationStrategy: attrs.creationStrategy is 'local'
 
-  usernamePickerData: ->
-    nameBase: 'username'
-    special: true
-    field:
-      value: @model.get 'username'
-    button:
-      text: _.i18n 'change username'
-      classes: 'dark-grey postfix'
+  usernamePickerData: -> pickerData @model, 'username'
+  emailPickerData: -> pickerData @model, 'email'
 
   languagesData: ->
     languages = _.deepClone Lang
@@ -48,12 +46,14 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     return languages
 
   events:
-    'click a#usernameButton': 'verifyUsername'
+    'click a#usernameButton': 'updatesername'
+    'click a#emailButton': 'updateEmail'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
     'click a#emailConfirmationRequest': 'emailConfirmationRequest'
 
-  verifyUsername: ->
+  # USERNAME
+  updatesername: ->
     username = @ui.username.val()
     _.preq.start()
     .then @testUsername.bind(@, username)
@@ -62,17 +62,11 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     .catch forms_.catchAlert.bind(null, @)
 
   testUsername: (username)->
-    if username is app.user.get 'username'
-      err = new Error("that's already your username")
-      err.selector = '#usernameField'
-      throw err
-    else
-      username_.pass username, '#usernameField'
-    return username
+    testAttribute 'username', username, username_
 
   sendUsernameRequest: (username)->
     _.preq.post app.API.auth.usernameAvailability, {username: username}
-    .then (res)-> res.username
+    .then _.property('username')
     .then @confirmUsernameChange.bind(@)
 
   confirmUsernameChange: (username)->
@@ -88,11 +82,51 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       actionCallback: updateUser.bind(null, args.requestedUsername)
       actionArgs: args
 
+  # EMAIL
+
+  updateEmail: ->
+    email = @ui.email.val()
+    _.preq.start()
+    .then @testEmail.bind(@, email)
+    .then @startEmailLoading.bind(@)
+    .then email_.verifyAvailability.bind(null, email, "#emailField")
+    .then email_.verifyExistance.bind(email_, email, '#emailField')
+    .then @sendEmailRequest.bind(@, email)
+    .then @showConfirmationEmailSuccessMessage.bind(@)
+    .catch forms_.catchAlert.bind(null, @)
+    .then @stopLoading.bind(@)
+
+  testEmail: (email)->
+    testAttribute 'email', email, email_
+
+  sendEmailRequest: (email)->
+    _.preq.post app.API.auth.emailAvailability, {email: email}
+    .then _.property('email')
+    .then @sendEmailChangeRequest
+
+  sendEmailChangeRequest: (email)->
+    app.request 'user:update',
+      attribute: 'email'
+      value: email
+      selector: '#emailField'
+
+  startEmailLoading: -> @$el.trigger 'loading', {selector: '#emailButton'}
+  stopLoading: -> @$el.trigger 'stopLoading'
+
+  # EMAIL CONFIRMATION
   emailConfirmationRequest: ->
     $('#notValidEmail').fadeOut()
     app.request 'email:confirmation:request'
-    .then -> $('#confirmationEmailSent').fadeIn()
+    .then @showConfirmationEmailSuccessMessage
 
+  showConfirmationEmailSuccessMessage: ->
+    $('#confirmationEmailSent').fadeIn()
+    $('#emailField').once 'keydown', @hideConfirmationEmailSent
+
+  hideConfirmationEmailSent: ->
+    $('#confirmationEmailSent').fadeOut()
+
+  # LANGUAGE
   changeLanguage: (e)->
     lang = e.target.value
     if lang isnt app.user.get 'language'
@@ -101,6 +135,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
         value: e.target.value
         selector: '#languagePicker'
 
+  # PICTURE
   changePicture: ->
     picturePicker = new app.View.Behaviors.PicturePicker
       pictures: @model.get('picture')
@@ -124,3 +159,23 @@ updateUser = (username)->
     attribute: 'username'
     value: username
     selector: '#usernameField'
+
+
+testAttribute = (attribute, value, validator_)->
+  selector = "##{attribute}Field"
+  if value is app.user.get attribute
+    err = new Error("that's already your #{attribute}")
+    err.selector = selector
+    throw err
+  else
+    validator_.pass value, selector
+    return value
+
+pickerData = (model, attribute)->
+  nameBase: attribute
+  special: true
+  field:
+    value: model.get attribute
+  button:
+    text: _.i18n "change #{attribute}"
+    classes: 'grey postfix'

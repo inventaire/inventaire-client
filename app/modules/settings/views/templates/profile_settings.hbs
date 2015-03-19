@@ -5,6 +5,11 @@
 {{#if localCreationStrategy}}
   <label>{{i18n 'email'}}</label>
 
+  <p class="note">
+    {{i18n 'email will not be publicly displayed.'}}
+  </p>
+  {{input emailPicker}}
+
   {{#unless validEmail}}
     <div id="notValidEmail">
       <span class="alert">
@@ -15,12 +20,12 @@
         {{i18n 'email_confirmation_error_button'}}
       </a>
     </div>
-    <div id="confirmationEmailSent" class="hidden">
-      {{icon 'check'}}
-      {{{i18n 'new_confirmation_email'}}}
-    </div>
   {{/unless}}
 
+  <div id="confirmationEmailSent" class="hidden">
+    {{icon 'check'}}
+    {{{i18n 'new_confirmation_email'}}}
+  </div>
 {{/if}}
 
 
