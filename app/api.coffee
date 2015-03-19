@@ -3,8 +3,8 @@ module.exports =
     signup: '/api/auth/public/signup'
     login: '/api/auth/public/login'
     logout: '/api/auth/public/logout'
-    username: '/api/auth/public/username'
-    email: '/api/auth/public/email'
+    usernameAvailability: '/api/auth/public/username-availability'
+    emailAvailability: '/api/auth/public/email-availability'
   user: '/api/user'
   users:
     data: (ids)->
