@@ -6,21 +6,26 @@
     font-size: 2em;
     display: block;
   }
-  p{
-    padding: 1em;
-  }
   .button{
     font-weight: bold !important;
   }
   .valid{
     p{
       background-color: $success-color;
+      padding: 1em;
     }
     color: white;
   }
   .invalid{
-    p{
+    p:not(.offline){
       background-color: $warning-color;
+      padding: 1em;
     }
+  }
+  p.offline, .loading{
+    color: $dark-grey;
+  }
+  .loading{
+    margin: 1em;
   }
 }

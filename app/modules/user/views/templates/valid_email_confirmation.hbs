@@ -20,6 +20,18 @@
       {{icon 'bolt'}}
       {{i18n 'email_confirmation_error'}}
     </p>
-    <a id="emailConfirmationRequest" class="button dark-grey radius">{{i18n 'email_confirmation_error_button'}}</a>
+    {{#if loggedIn}}
+      <a id="emailConfirmationRequest" class="button dark-grey radius">
+        {{i18n 'email_confirmation_error_button'}}
+      </a>
+    {{else}}
+      <p class="offline">
+        {{i18n 'email_confirmation_offline_error'}}
+      </p>
+      <a class="button dark-grey radius showLogin">
+        {{i18n 'login'}}
+      </a>
+    {{/if}}
   </div>
+  <div class="loading"></div>
 {{/if}}
