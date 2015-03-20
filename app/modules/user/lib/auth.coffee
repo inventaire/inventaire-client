@@ -2,12 +2,20 @@ requestLogout = require './request_logout'
 
 module.exports = ->
   app.reqres.setHandlers
+    'signup:classic': requestClassicSignup
     'login:classic': requestClassicLogin
     'login:persona': requestPersonaLogin
     'email:confirmation:request': emailConfirmationRequest
 
   app.commands.setHandlers
     'logout': requestLogout
+
+requestClassicSignup = (options)->
+  { username, password } = options
+  _.preq.post app.API.auth.signup, options
+  # not submitting email as there is no need for it
+  # to be remembered by browsers
+  .then fakeFormSubmit.bind(null, username, password)
 
 requestClassicLogin = (username, password)->
   _.preq.post app.API.auth.login,

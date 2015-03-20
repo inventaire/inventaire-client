@@ -35,7 +35,6 @@ module.exports = Backbone.Marionette.LayoutView.extend
     .then @verifyEmail.bind(@)
     .then @verifyPassword.bind(@)
     .then @sendClassicSignupRequest.bind(@)
-    .then -> window.location.reload()
     .catch forms_.catchAlert.bind(null, @)
 
   verifyClassicUsername: -> @verifyUsername 'classicUsername'
@@ -60,7 +59,7 @@ module.exports = Backbone.Marionette.LayoutView.extend
   verifyPassword: -> password_.pass @ui.password.val(), '#finalAlertbox'
   sendClassicSignupRequest: ->
     @$el.trigger 'loading', { selector: '#classicSignup' }
-    _.preq.post app.API.auth.signup,
+    app.request 'signup:classic',
       username: @ui.classicUsername.val()
       password: @ui.password.val()
       email: @ui.email.val()
