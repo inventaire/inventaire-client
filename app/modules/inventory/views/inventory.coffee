@@ -20,7 +20,7 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
 
 
   showItemsListOnceData: ->
-    app.request 'waitForFriendsItems', @showItemsList.bind(@)
+    app.request 'waitForItems', @showItemsList.bind(@)
 
   showItemsList: ->
     {user, navigate} = @options

@@ -24,6 +24,14 @@ module.exports =
         if Items?.friends?.fetched then cb()
         else app.vent.once 'friends:items:ready', cb
 
+      'waitForItems': (cb)->
+        if Items?.friends?.fetched and Items.personal?.fetched then cb()
+        else
+          app.vent.once 'friends:items:ready', ->
+            if Items.personal?.fetched then cb()
+          app.vent.once 'items:ready', ->
+            if Items.friends?.fetched then cb()
+
       'ifOnline': (success, showOfflineError)->
         cb = ->
           if online then success()
