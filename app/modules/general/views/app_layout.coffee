@@ -42,13 +42,14 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     @keepBodyLangUpdated()
 
   serializeData: ->
-    data =
-      topbar:
-        options:
-          sticky_on: 'large'
-          custom_back_text: true
-          back_text: _.i18n 'back'
-          is_hover: false
+    topbar: @topBarData()
+
+  topBarData: ->
+    options:
+      sticky_on: 'large'
+      custom_back_text: true
+      back_text: _.i18n 'back'
+      is_hover: false
 
   showLoader: (options)->
     [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
