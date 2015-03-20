@@ -4,6 +4,8 @@ module.exports = ->
   app.reqres.setHandlers
     'signup:classic': requestClassicSignup
     'login:classic': requestClassicLogin
+    'password:confirmation': passwordConfirmation
+    'password:update': passwordUpdate
     'login:persona': requestPersonaLogin
     'email:confirmation:request': emailConfirmationRequest
 
@@ -17,12 +19,28 @@ requestClassicSignup = (options)->
   # to be remembered by browsers
   .then fakeFormSubmit.bind(null, username, password)
 
+passwordConfirmation = (currentPassword)->
+  # using the login route to verify the password validity
+  username = app.user.get('username')
+  classicLogin(username, currentPassword)
+
 requestClassicLogin = (username, password)->
+  classicLogin(username, password)
+  .then fakeFormSubmit.bind(null, username, password)
+
+classicLogin = (username, password)->
   _.preq.post app.API.auth.login,
     strategy: 'local'
     username: username
     password: password
-  .then fakeFormSubmit.bind(null, username, password)
+
+passwordUpdate = (currentPassword, newPassword)->
+  username = app.user.get('username')
+  _.preq.post app.API.auth.updatePassword,
+    currentPassword: currentPassword
+    newPassword: newPassword
+  # updating the browser password
+  .then fakeFormSubmit.bind(null, username, newPassword)
 
 fakeFormSubmit = (username, password)->
   # Make the request as a good old html form not JS-generated

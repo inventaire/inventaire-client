@@ -6,6 +6,7 @@ module.exports =
     usernameAvailability: '/api/auth/public/username-availability'
     emailAvailability: '/api/auth/public/email-availability'
     emailConfirmation: '/api/auth/email-confirmation'
+    updatePassword: '/api/auth/update-password'
   user: '/api/user'
   users:
     data: (ids)->
