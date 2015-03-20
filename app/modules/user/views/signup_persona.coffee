@@ -21,6 +21,9 @@ module.exports = Backbone.Marionette.ItemView.extend
     'blur #personaUsername': 'earlyVerifyPersonaUsername'
     'click #personaSignup': 'validPersonaSignup'
 
+  onShow:->
+    if @options.standalone then @ui.personaUsername.focus()
+
   # PERSONA
   validPersonaSignup: ->
     @verifyPersonaUsername()

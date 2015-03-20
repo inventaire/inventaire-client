@@ -23,6 +23,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     username: '#username'
     password: '#password'
 
+  onShow:-> @ui.username.focus()
+
   classicLoginAttempt:->
     _.preq.start()
     .then @verifyUsername.bind(@)

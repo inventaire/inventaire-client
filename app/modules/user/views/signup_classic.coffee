@@ -27,6 +27,7 @@ module.exports = Backbone.Marionette.LayoutView.extend
     'click #classicSignup': 'validClassicSignup'
     'click #suggestion': 'replaceEmail'
 
+  onShow:-> @ui.classicUsername.focus()
 
   # CLASSIC
   validClassicSignup: ->
