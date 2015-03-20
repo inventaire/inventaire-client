@@ -1,15 +1,13 @@
 <div class="authMenu login">
   <div class="custom-cell">
     <h2 class="subheader">{{i18n 'login'}}</h2>
-
-    <div class="inputGroup">
-
+    <form>
       <label for="username">
         {{i18n 'username'}}<br>
         <span class="complement">({{i18n 'or email address'}})</span>
       </label>
       <div>
-        <input type="text" id="username" class="enterClick radius">
+        <input type="text" id="username" name="username" class="enterClick radius">
       </div>
 
       {{partial 'user:password_input'}}
@@ -18,7 +16,7 @@
         {{i18n 'login'}}
         <span class="loading"></span>
       </a>
-    </div>
+    </form>
 
     {{partial 'horizontal_separator' 'or login with'}}
 

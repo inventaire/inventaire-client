@@ -28,10 +28,6 @@ $auth-menu-bg: rgba($light-grey, 0.8);
   input{
     text-align: left;
   }
-  .inputGroup{
-    // needed by enterClick. adapted by overriding display:flex
-    display: inherit;
-  }
 }
 
 @import "login";

@@ -3,7 +3,7 @@ JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   template: require './templates/app_layout'
 
-  el: 'body'
+  el: '#app'
 
   regions:
     main: 'main'
@@ -13,6 +13,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   events:
     'click a': 'unpreventDefault'
+    'submit form': (e)-> e.preventDefault()
     'click #home, #inventorySections, .showHome': -> app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
@@ -64,7 +65,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
 
   enterClick: (e)->
     if e.keyCode is 13 and $(e.currentTarget).val().length > 0
-      row = $(e.currentTarget).parents('.inputGroup')[0]
+      row = $(e.currentTarget).parents('form')[0]
       $(row).find('.button').trigger 'click'
       _.log 'ui: enter-click'
 

@@ -1,13 +1,13 @@
-<div class="inputGroup">
+<form>
 
   <label for="classicUsername">{{i18n 'username'}}</label>
   <div>
-    <input type="text" id="classicUsername" class="enterClick radius">
+    <input type="text" name="username" id="classicUsername" class="enterClick radius">
   </div>
 
   <label for="email">{{i18n 'email'}}</label>
   <div>
-    <input type="text" id="email" class="enterClick radius" {{disableAuto}}>
+    <input type="text" name="email" id="email" class="enterClick radius" {{disableAuto}}>
   </div>
   <div id="suggestionGroup" class="hidden">
     <span class="legend">{{i18n 'did you mean:'}}</span>
@@ -21,4 +21,4 @@
     {{i18n 'sign up'}}
     <span class="loading"></span>
   </a>
-</div>
+</form>

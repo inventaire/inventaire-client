@@ -10,29 +10,30 @@ module.exports = ->
     'logout': requestLogout
 
 requestClassicLogin = (username, password)->
-  requestLogin
+  _.preq.post app.API.auth.login,
     strategy: 'local'
     username: username
     password: password
+  .then fakeFormSubmit.bind(null, username, password)
 
-# can only be called by persona onlogin method
+fakeFormSubmit = (username, password)->
+  # Make the request as a good old html form not JS-generated
+  # so that password managers can catch it and store its values.
+  # Relies on form#browserLogin being in index.html from the start.
+  # The server will make it redirect to '/', thus providing
+  # to the need to reload the page
+  $('#browserLogin').find('input[name=username]').val(username)
+  $('#browserLogin').find('input[name=password]').val(password)
+  $('#browserLogin').trigger('submit')
+
+# will only be called by persona onlogin method
 requestPersonaLogin = (assertion)->
-  requestLogin
+  _.preq.post app.API.auth.login,
     strategy: 'browserid'
     assertion: assertion
     # needed on signup requests
     username: localStorage.getItem('username')
-
-requestLogin = (input)->
-  _.log input, 'user:login'
-
-  # error catching is handled per-strategy
-  _.preq.post(app.API.auth.login, input)
-  .then loginSuccess
-
-loginSuccess = ->
-  # will get user data on reload's fetch
-  window.location.reload()
+  .then -> window.location.reload()
 
 emailConfirmationRequest = ->
   _.log 'sending emailConfirmationRequest'

@@ -9,7 +9,7 @@ $spaceForBothAligned: 850px;
     @include flex(1);
   }
   #persona{
-    .inputGroup{
+    form{
       max-width: 18em;
       margin: auto;
     }
