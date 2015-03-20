@@ -1,6 +1,8 @@
 module.exports = class ItemLi extends Backbone.Marionette.ItemView
   tagName: 'figure'
-  className: 'itemContainer white-shadow-box'
+  className: ->
+    @uniqueSelector = ".#{@cid}"
+    "itemContainer white-shadow-box #{@cid}"
   template: require './templates/item_figure'
   behaviors:
     ConfirmationModal: {}
@@ -52,7 +54,7 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
   itemDestroy: ->
     app.request 'item:destroy',
       model: @model
-      selector: @el
+      selector: @uniqueSelector
       next: -> console.log 'item deleted'
 
   toggleWrap: (nameBase)->

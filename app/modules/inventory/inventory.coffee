@@ -159,27 +159,35 @@ initializeInventoriesHandlers = (app)->
   app.reqres.setHandlers
     'item:update': (options)->
       # expects: item, attribute, value. optional: selector
-      options.item.set(options.attribute, options.value)
-      promise = options.item.save()
-      if options.selector?
+      {item, attribute, value, selector} = options
+      types = ['object', 'string', 'string|array', 'string|undefined']
+      _.types [item, attribute, value, selector], types
+
+      item.set(attribute, value)
+      promise = item.save()
+      if selector?
         app.request 'waitForCheck',
           promise: promise
-          selector: options.selector
+          selector: selector
       return promise
 
     'item:destroy': (options)->
       # requires the ConfirmationModal behavior to be on the view
       # MUST: selector, model with title
       # CAN: next
-      title = options.model.get('title')
-      $(options.selector).trigger 'askConfirmation',
+      {model, selector, next} = options
+      _.types [model, selector, next], ['object', 'string', 'function']
+      title = model.get('title')
+
+      action = (options)->
+        promise = model.destroy()
+        next()
+        return promise
+
+      $(selector).trigger 'askConfirmation',
         confirmationText: _.i18n('destroy_item_text', {title: title})
         warningText: _.i18n("this action can't be undone")
-        actionCallback: (options)->
-          promise = options.model.destroy()
-          options.next()
-          return promise
-        actionArgs: options
+        action: action
 
     'get:item:model': (id)-> Items.personal.byId(id)
 

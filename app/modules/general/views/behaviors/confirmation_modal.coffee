@@ -3,9 +3,7 @@ module.exports = class ConfirmationModal extends Backbone.Marionette.ItemView
   template: require './templates/confirmation_modal'
   onShow: -> app.execute 'modal:open'
   behaviors:
-    AlertBox: {}
     SuccessCheck: {}
-    Loading: {}
 
   serializeData: ->
     confirmationText: @options.confirmationText
@@ -16,10 +14,26 @@ module.exports = class ConfirmationModal extends Backbone.Marionette.ItemView
     'click a#no': 'close'
 
   yesClick: ->
-    app.request 'waitForCheck',
-      action: => @options.actionCallback(@options.actionArgs)
-      $selector: @$el
-      success: @close
-      error: @close
+    {action, selector} = @options
+    _.preq.start()
+    .then action
+    .then @success.bind(@)
+    .catch @error.bind(@)
+    .finally @stopLoading.bind(null, selector)
 
-  close: -> app.execute('modal:close')
+  success: (res)->
+    _.log res, 'confirmation action res'
+    @$el.trigger 'check', @close.bind(@)
+    return res
+
+  error: (check, err)->
+    _.error err, 'confirmation action err'
+    @$el.trigger 'fail', @close.bind(@)
+    return err
+
+  close: ->
+    app.execute('modal:close')
+
+  stopLoading: (selector)->
+    if selector? then $(selector).trigger('stopLoading')
+    else _.warn 'no selector was provided'

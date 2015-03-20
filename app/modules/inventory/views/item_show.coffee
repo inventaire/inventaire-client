@@ -1,6 +1,7 @@
 ItemEditionForm = require './item_edition_form'
 
 module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
+  id: 'itemShowLayout'
   template: require './templates/item_show'
   serializeData: ->
     attrs = @model.serializeData()
@@ -15,6 +16,7 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
     ConfirmationModal: {}
 
   initialize: ->
+    @uniqueSelector = '#'+@id
     @model.on 'all', -> _.log arguments, 'item:show item events'
     @listenTo @model, 'change:comment', @render
     @listenTo @model, 'change:notes', @render
@@ -59,7 +61,7 @@ module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
   itemDestroy: ->
     app.request 'item:destroy',
       model: @model
-      selector: @el
+      selector: @uniqueSelector
       next: -> app.execute 'show:home'
 
 

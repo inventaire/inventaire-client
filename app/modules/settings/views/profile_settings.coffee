@@ -46,14 +46,14 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     return languages
 
   events:
-    'click a#usernameButton': 'updatesername'
+    'click a#usernameButton': 'updateUsername'
     'click a#emailButton': 'updateEmail'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
     'click a#emailConfirmationRequest': 'emailConfirmationRequest'
 
   # USERNAME
-  updatesername: ->
+  updateUsername: ->
     username = @ui.username.val()
     _.preq.start()
     .then @testUsername.bind(@, username)
@@ -70,17 +70,24 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     .then @confirmUsernameChange.bind(@)
 
   confirmUsernameChange: (username)->
-    @askConfirmation
+    action = @updateUser.bind @, username
+    @askConfirmation action,
       requestedUsername: username
       currentUsername: app.user.get 'username'
       model: @model
 
-  askConfirmation: (args)->
+  askConfirmation: (action, args)->
     @$el.trigger 'askConfirmation',
       confirmationText: _.i18n('username_change_confirmation', args)
       warningText: _.i18n('username_change_warning')
-      actionCallback: updateUser.bind(null, args.requestedUsername)
-      actionArgs: args
+      action: action
+      selector: '#usernameGroup'
+
+  updateUser: (username)->
+    app.request 'user:update',
+      attribute: 'username'
+      value: username
+      selector: '#usernameButton'
 
   # EMAIL
 
@@ -152,13 +159,6 @@ savePicture = (pictures)->
     attribute: 'picture'
     value: picture
     selector: '#changePicture'
-
-
-updateUser = (username)->
-  app.request 'user:update',
-    attribute: 'username'
-    value: username
-    selector: '#usernameField'
 
 
 testAttribute = (attribute, value, validator_)->
