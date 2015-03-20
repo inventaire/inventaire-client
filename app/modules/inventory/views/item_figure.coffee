@@ -22,16 +22,18 @@ module.exports = class ItemLi extends Backbone.Marionette.ItemView
 
   serializeData: ->
     attrs = @model.serializeData()
-    attrs.wrap =
-      comment:
-        wrap: attrs.comment?.length > 120
-        nameBase: 'comment'
-      notes:
-        wrap: attrs.notes?.length > 120
-        nameBase: 'notes'
+    attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
     @username = attrs.username
     return attrs
+
+  wrapData: (attrs)->
+    comment:
+      wrap: attrs.comment?.length > 120
+      nameBase: 'comment'
+    notes:
+      wrap: attrs.notes?.length > 120
+      nameBase: 'notes'
 
   updateTransaction: (e)->
     @updateItem 'transaction', e.target.id
