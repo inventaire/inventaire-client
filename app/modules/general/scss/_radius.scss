@@ -1,23 +1,23 @@
 $global-radius: 3px; // Foundation variable
 
-@mixin radius(){
-  border-radius: $global-radius;
+@mixin radius($radius:$global-radius){
+  border-radius: $radius;
 }
-@mixin radius-top(){
-  border-top-left-radius: $global-radius;
-  border-top-right-radius: $global-radius;
+@mixin radius-top($radius:$global-radius){
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
 }
-@mixin radius-bottom(){
-  border-bottom-left-radius: $global-radius;
-  border-bottom-right-radius: $global-radius;
+@mixin radius-bottom($radius:$global-radius){
+  border-bottom-left-radius: $radius;
+  border-bottom-right-radius: $radius;
 }
-@mixin radius-left(){
-  border-top-left-radius: $global-radius;
-  border-bottom-left-radius: $global-radius;
+@mixin radius-left($radius:$global-radius){
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
 }
-@mixin radius-right(){
-  border-top-right-radius: $global-radius;
-  border-bottom-right-radius: $global-radius;
+@mixin radius-right($radius:$global-radius){
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
 }
 
 .radius-top{ @include radius-top() }
