@@ -9,6 +9,7 @@ $has-tip-border-bottom-hover: solid 0px white; // Foundation variable
 $has-tip-cursor-type: inherit; // Foundation variable
 $tooltip-bg: $darker-grey; // Foundation variable
 $input-border-color: rgba(#888, 0.8);
+$input-font-color: black;
 
 body{
   ul, ul li, ul li ul{
@@ -92,8 +93,13 @@ p.bold, span.bold, a.bold{
   font-weight: 900;
 }
 
+.button{
+  font-weight: bold;
+}
+
 select {
-  font-family: 'FontAwesome', 'Alegreya';
+  // FontAwesome is needed to correctly display icons
+  font-family: 'FontAwesome', 'Alegreya Sans';
   option {
     // works in Firefox not Chrome
     font-size: 1rem;

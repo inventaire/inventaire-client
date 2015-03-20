@@ -41,7 +41,6 @@
 //  src: url(../fonts/Montserrat-Bold.ttf);
 // }
 
-// $label-font-family: $body-font-family !default;
 // $side-nav-font-family: $body-font-family !default;
 // $sub-nav-font-family: $body-font-family !default;
 // $topbar-link-font-family: $body-font-family !default;
@@ -53,3 +52,9 @@
 
 $body-font-family: "Alegreya", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $body-font-color: #222;
+
+$input-font-family: 'Alegreya Sans';
+$label-font-family: 'Alegreya Sans';
+label{
+  text-transform: uppercase;
+}
