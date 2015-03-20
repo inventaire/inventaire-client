@@ -2,19 +2,20 @@
 
 module.exports = Marionette.Behavior.extend
   ui:
-    showPassword: '#showPassword'
+    showPassword: '.showPassword'
 
   initialize: ->
     @passwordShown = false
 
   events:
-    'click #showPassword': 'togglePassword'
+    'click .showPassword': 'togglePassword'
 
   togglePassword: ->
     if @passwordShown then @passwordType 'password'
     else @passwordType 'text'
 
   passwordType: (type)->
-    @view.ui.password.attr 'type', type
-    @ui.showPassword.toggleClass 'active'
+    el = @view.ui.passwords or @view.ui.password
+    el.attr 'type', type
+    @ui.showPassword.toggleClass 'toggled'
     @passwordShown = not @passwordShown

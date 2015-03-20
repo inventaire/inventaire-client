@@ -1,5 +1,6 @@
 username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
+password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
@@ -10,10 +11,15 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     SuccessCheck: {}
     Loading: {}
     ConfirmationModal: {}
+    TogglePassword: {}
 
   ui:
     username: '#usernameField'
     email: '#emailField'
+    currentPassword: '#currentPassword'
+    newPassword: '#newPassword'
+    passwords: '.password'
+    passwordUpdater: '#passwordUpdater'
     languagePicker: '#languagePicker'
 
   initialize: ->
@@ -48,6 +54,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
   events:
     'click a#usernameButton': 'updateUserUsernamename'
     'click a#emailButton': 'updateEmail'
+    'click a#updatePassword': 'updatePassword'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
     'click a#emailConfirmationRequest': 'emailConfirmationRequest'
@@ -134,6 +141,43 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
 
   hideConfirmationEmailSent: ->
     $('#confirmationEmailSent').fadeOut()
+
+  # PASSWORD
+
+  updatePassword: ->
+    currentPassword = @ui.currentPassword.val()
+    newPassword = @ui.newPassword.val()
+
+    _.preq.start()
+    .then -> password_.pass currentPassword, '#currentPasswordAlert'
+    .then -> password_.pass newPassword, '#newPasswordAlert'
+    .then @startPasswordLoading.bind(@)
+    .then @confirmCurrentPassword.bind(@, currentPassword)
+    .then @updateUserPassword.bind(@, currentPassword, newPassword)
+    .then @passwordSuccessCheck.bind(@)
+    .catch forms_.catchAlert.bind(null, @)
+    .finally @stopLoading.bind(@)
+
+  startPasswordLoading: -> @$el.trigger 'loading', {selector: '#updatePassword'}
+
+  confirmCurrentPassword: (currentPassword)->
+    app.request 'password:confirmation', currentPassword
+    .catch (err)->
+      if err.status is 401
+        err = new Error('wrong password')
+        err.selector = '#currentPasswordAlert'
+        throw err
+      else throw err
+
+  updateUserPassword: (currentPassword, newPassword)->
+    app.request 'password:update', currentPassword, newPassword
+
+  passwordSuccessCheck: (password)->
+    @ui.passwords.val('')
+    @ui.passwordUpdater.trigger('check')
+
+  passwordFail: (password)->
+    @ui.passwordUpdater.trigger('fail')
 
   # LANGUAGE
   changeLanguage: (e)->
