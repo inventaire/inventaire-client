@@ -70,20 +70,24 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
       _.log 'ui: enter-click'
 
   waitForCheck: (options)->
+    {selector, $selector, action, promise, success, error} = options
     _.log options, 'waitForCheck options'
     # $selector or selector MUST be provided
-    if options.selector? then $selector = $(options.selector)
-    else $selector = options.$selector
-    $selector.trigger('loading')
+    # if selector? then $selector = $(selector)
+    $selector or= $(selector)
+    $selector.trigger 'loading', {selector: selector}
 
     # action or promise MUST be provided
-    if options.action? then promise = options.action()
-    else promise = options.promise
+    if action? then promise = action()
+    else promise = promise
 
     # success and/or error handlers CAN be provided
     promise
-    .then (res)-> $selector.trigger('check', options.success)
-    .fail (err)-> $selector.trigger('fail', options.error)
+    .then (res)->
+      $selector.trigger('check', success)
+    .catch (err)->
+      _.error err, 'waitForCheck err'
+      $selector.trigger('fail', error)
 
     return promise
 
