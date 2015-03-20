@@ -46,7 +46,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     return languages
 
   events:
-    'click a#usernameButton': 'updateUsername'
+    'click a#usernameButton': 'updateUserUsernamename'
     'click a#emailButton': 'updateEmail'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
@@ -70,7 +70,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     .then @confirmUsernameChange.bind(@)
 
   confirmUsernameChange: (username)->
-    action = @updateUser.bind @, username
+    action = @updateUserUsername.bind @, username
     @askConfirmation action,
       requestedUsername: username
       currentUsername: app.user.get 'username'
@@ -83,7 +83,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       action: action
       selector: '#usernameGroup'
 
-  updateUser: (username)->
+  updateUserUsername: (username)->
     app.request 'user:update',
       attribute: 'username'
       value: username
@@ -101,7 +101,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     .then @sendEmailRequest.bind(@, email)
     .then @showConfirmationEmailSuccessMessage.bind(@)
     .catch forms_.catchAlert.bind(null, @)
-    .then @stopLoading.bind(@)
+    .finally @stopLoading.bind(@)
 
   testEmail: (email)->
     testAttribute 'email', email, email_
@@ -118,7 +118,9 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       selector: '#emailField'
 
   startEmailLoading: -> @$el.trigger 'loading', {selector: '#emailButton'}
-  stopLoading: -> @$el.trigger 'stopLoading'
+  stopLoading: ->
+    # triggering stopLoading wasnt working
+    @$el.find('.loading').empty()
 
   # EMAIL CONFIRMATION
   emailConfirmationRequest: ->
