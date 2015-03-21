@@ -13,6 +13,18 @@ module.exports = class LabsSettings extends Backbone.Marionette.ItemView
   ui:
     url: '#pouchdbField'
 
+  serializeData: ->
+    pouchdb: @pouchDbData()
+
+  pouchDbData: ->
+    nameBase: 'pouchdb'
+    field:
+      placeholder: _.i18n 'enter the url of your CouchDB database'
+      type: 'url'
+    button:
+      text: _.i18n 'replicate'
+      classes: 'dark-grey postfix'
+
   jsonInventoryExport: ->
     userInventory = Items.personal.toJSON()
     username = app.user.get 'username'
@@ -24,23 +36,14 @@ module.exports = class LabsSettings extends Backbone.Marionette.ItemView
     url = @validUrl()
     if url?
       @validCouchDB(url)
-      .then ()=>
-        _.log 'couchdb ok'
-        @$el.trigger 'loading',
-          selector: '#pouchdbButton'
-        @importPouchDbScript()
-        .then @replicateInventory.bind(@)
+      .then @triggerReplication.bind(@)
 
-  serializeData: ->
-    attrs =
-      pouchdb:
-        nameBase: 'pouchdb'
-        field:
-          placeholder: _.i18n 'enter the url of your CouchDB database'
-          type: 'url'
-        button:
-          text: _.i18n 'replicate'
-          classes: 'dark-grey postfix'
+  triggerReplication: ->
+    _.log 'couchdb ok'
+    @$el.trigger 'loading', { selector: '#pouchdbButton' }
+
+    @importPouchDbScript()
+    .then @replicateInventory.bind(@)
 
   importPouchDbScript: ->
     _.log 'Importing PouchDB'
@@ -53,10 +56,10 @@ module.exports = class LabsSettings extends Backbone.Marionette.ItemView
       _.log 'Found PouchDB'
       url = @validUrl()
       if url?
-        inv = new PouchDB 'inv'
-        putItems(inv)
-        .then @replicateDb.bind @, inv, url
-        .then -> cleaningDb(db)
+        invDb = new PouchDB 'inv'
+        putItems(invDb)
+        .then @replicateDb.bind @, invDb, url
+        .then -> cleaningDb(invDb)
 
   validUrl: ->
     url = @ui.url.val()
@@ -71,7 +74,7 @@ module.exports = class LabsSettings extends Backbone.Marionette.ItemView
         if res.couchdb? then return 'ok'
         else @invalidUrl "the server doesn't answer as a CouchDB. You might need to enable CORS on your CouchDB"
       .fail (err)=>
-        console.warn err
+        _.error err, err.statusText
         @invalidUrl "the server doesn't answer as expected."
     else
       @invalidUrl "it doesn't seem to be valid CouchDB url"
