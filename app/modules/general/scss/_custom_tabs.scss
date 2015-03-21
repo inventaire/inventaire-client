@@ -4,6 +4,7 @@ $active-custom-tab-bg: rgba($light-grey, 0.9);
   @include display-flex(column, left);
 
   .custom-tabs-titles{
+    font-family: $header-font-family;
     width: 100%;
     @include display-flex(row, flex-start);
     a{
