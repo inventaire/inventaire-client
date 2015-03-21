@@ -52,7 +52,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     return languages
 
   events:
-    'click a#usernameButton': 'updateUserUsernamename'
+    'click a#usernameButton': 'updateUsername'
     'click a#emailButton': 'updateEmail'
     'click a#updatePassword': 'updatePassword'
     'change select#languagePicker': 'changeLanguage'
