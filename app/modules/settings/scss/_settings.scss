@@ -6,6 +6,9 @@
     font-family: 'Alegreya Sans';
     text-transform: uppercase;
     font-size: 1.2em;
+    &:not(:first-child){
+      margin-top: 1.5em;
+    }
   }
   .button{
     font-weight: bold;
@@ -21,7 +24,7 @@
     // force the div's height so that the background
     // doesnt move when the div's height change
     // e.g. when an alert-box is displayed
-    min-height: 55em;
+    min-height: 90em;
   }
 }
 @import 'profile_settings';
