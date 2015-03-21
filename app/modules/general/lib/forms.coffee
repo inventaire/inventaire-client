@@ -38,6 +38,9 @@ forms_.alert = (view, err)->
   errMessage = err.responseJSON?.status_verbose or err.message
   _.types [view, err, selector, errMessage], ['object', 'object', 'string', 'string']
 
+  # avoid showing raw http error messages
+  if /^\d/.test errMessage then errMessage = 'something went wrong :('
+
   _.log errMessage, "alert message on #{selector}"
   view.$el.trigger 'alert',
     message: _.i18n(errMessage)

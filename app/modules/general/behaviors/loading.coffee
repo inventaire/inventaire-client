@@ -31,8 +31,8 @@ module.exports = class Loading extends Marionette.Behavior
     unless @hidden
       @$target or= this.getTarget(params)
 
-      oups = _.i18n 'Something went wrong'
-      body = "<i class='fa fa-bolt'></i><p> #{oups} :(</p>"
+      oups = _.i18n 'Something went wrong :('
+      body = "<i class='fa fa-bolt'></i><p> #{oups}</p>"
 
       @$target.html body
 
