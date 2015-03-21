@@ -137,7 +137,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
 
   showConfirmationEmailSuccessMessage: ->
     $('#confirmationEmailSent').fadeIn()
-    $('#emailField').once 'keydown', @hideConfirmationEmailSent
+    $('#emailButton').once 'click', @hideConfirmationEmailSent
 
   hideConfirmationEmailSent: ->
     $('#confirmationEmailSent').fadeOut()
