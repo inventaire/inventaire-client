@@ -11,3 +11,6 @@ Both are licenced [AGPL3](http://www.gnu.org/licenses/agpl-3.0.html)
 
 ## Stack approximative overview
 ![stack-en](http://profile.maxlath.eu/slides/backbone-meetup/img/stack-en.jpg)
+
+## License
+[AGPL](LICENSE.md)
