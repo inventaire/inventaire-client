@@ -11,7 +11,7 @@
   {{input emailPicker}}
 
   {{#unless validEmail}}
-    <div id="notValidEmail">
+    <div id="notValidEmail" class="alertMessageBox">
       <span class="alert">
           {{icon 'warning'}}
           {{{i18n 'email_wasnt_verified'}}}
@@ -22,7 +22,7 @@
     </div>
   {{/unless}}
 
-  <div id="confirmationEmailSent" class="hidden">
+  <div id="confirmationEmailSent" class="hidden successMessageBox">
     {{icon 'check'}}
     {{{i18n 'new_confirmation_email'}}}
   </div>

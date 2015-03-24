@@ -18,14 +18,14 @@
   }
 }
 
-#notValidEmail, #confirmationEmailSent{
+.alertMessageBox, .successMessageBox{
   color: white;
   // font-weight: bold;
   text-align: center;
   margin-bottom: 1em;
 }
 
-#notValidEmail{
+.alertMessageBox{
   span, .a{
     @include radius();
     display: block;
@@ -37,7 +37,7 @@
     margin-bottom: 0.5em;
   }
 }
-#confirmationEmailSent{
+.successMessageBox{
   @include radius();
   .fa{
     font-size: 2em;
