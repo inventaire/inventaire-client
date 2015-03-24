@@ -35,12 +35,13 @@ classicLogin = (username, password)->
     username: username
     password: password
 
-passwordUpdate = (currentPassword, newPassword)->
+passwordUpdate = (currentPassword, newPassword, selector)->
   username = app.user.get('username')
   _.preq.post app.API.auth.updatePassword,
     currentPassword: currentPassword
     newPassword: newPassword
   # updating the browser password
+  .then -> if selector? then $(selector).trigger('check')
   .then fakeFormSubmit.bind(null, username, newPassword)
 
 fakeFormSubmit = (username, password)->

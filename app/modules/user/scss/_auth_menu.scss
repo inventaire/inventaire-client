@@ -30,6 +30,18 @@ $auth-menu-bg: rgba($light-grey, 0.8);
   }
 }
 
+.resetPassword{
+  .button{
+    margin: 1em;
+  }
+  input[name=username]{
+    display: none;
+  }
+  #forgotPassword{
+    text-align: center;
+  }
+}
+
 @import "login";
 @import "signup";
 @import "password_input";

@@ -4,6 +4,7 @@ SignupPersona = require './views/signup_persona'
 Login = require './views/login'
 LoginPersona = require './views/login_persona'
 ForgotPassword = require './views/forgot_password'
+ResetPassword = require './views/reset_password'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
@@ -16,6 +17,7 @@ module.exports =
         # so that Persona confirmation email returns to this route
         'login/persona(/)':'showLoginPersona'
         'login/forgot-password(/)':'showForgotPassword'
+        'login/reset-password(/)':'showResetPassword'
 
     app.addInitializer ->
       new UserRouter
@@ -59,6 +61,10 @@ API =
   showForgotPassword: ->
     app.layout.main.show new ForgotPassword
     app.navigate 'login/forgot-password'
+
+  showResetPassword: ->
+    app.layout.main.show new ResetPassword
+    # app.navigate 'login/reset-password'
 
 redirectHomeIfLoggedIn = ->
   if app.user.loggedIn
