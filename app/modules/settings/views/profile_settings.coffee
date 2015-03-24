@@ -41,6 +41,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
       changePicture:
         classes: 'max-large-profilePic'
       localCreationStrategy: attrs.creationStrategy is 'local'
+      hasPassword: attrs.creationStrategy is 'local' or attrs.hasPassword
 
   usernamePickerData: -> pickerData @model, 'username'
   emailPickerData: -> pickerData @model, 'email'

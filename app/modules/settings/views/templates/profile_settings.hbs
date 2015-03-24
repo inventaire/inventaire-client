@@ -26,9 +26,10 @@
     {{icon 'check'}}
     {{{i18n 'new_confirmation_email'}}}
   </div>
+{{/if}}
 
+{{#if hasPassword}}
   {{partial 'settings:password_update_input' this 'check'}}
-
 {{/if}}
 
 
