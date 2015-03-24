@@ -1,13 +1,13 @@
 module.exports =
   auth:
-    signup: '/api/auth/public/signup'
-    login: '/api/auth/public/login'
-    logout: '/api/auth/public/logout'
-    usernameAvailability: '/api/auth/public/username-availability'
-    emailAvailability: '/api/auth/public/email-availability'
-    emailConfirmation: '/api/auth/email-confirmation'
-    updatePassword: '/api/auth/update-password'
-    resetPassword: '/api/auth/public/reset-password'
+    signup: '/api/auth/public?action=signup'
+    login: '/api/auth/public?action=login'
+    logout: '/api/auth/public?action=logout'
+    usernameAvailability: '/api/auth/public?action=username-availability'
+    emailAvailability: '/api/auth/public?action=email-availability'
+    emailConfirmation: '/api/auth?action=email-confirmation'
+    updatePassword: '/api/auth?action=update-password'
+    resetPassword: '/api/auth/public?action=reset-password'
   user: '/api/user'
   users:
     data: (ids)->
