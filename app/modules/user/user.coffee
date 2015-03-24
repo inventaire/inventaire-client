@@ -63,8 +63,11 @@ API =
     app.navigate 'login/forgot-password'
 
   showResetPassword: ->
-    app.layout.main.show new ResetPassword
-    # app.navigate 'login/reset-password'
+    if app.user.loggedIn
+      app.layout.main.show new ResetPassword
+    else
+      app.execute 'show:forgot:password'
+
 
 redirectHomeIfLoggedIn = ->
   if app.user.loggedIn
