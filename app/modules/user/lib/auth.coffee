@@ -6,6 +6,7 @@ module.exports = ->
     'login:classic': requestClassicLogin
     'password:confirmation': passwordConfirmation
     'password:update': passwordUpdate
+    'password:reset:request': passwordResetRequest
     'login:persona': requestPersonaLogin
     'email:confirmation:request': emailConfirmationRequest
 
@@ -51,6 +52,9 @@ fakeFormSubmit = (username, password)->
   $('#browserLogin').find('input[name=username]').val(username)
   $('#browserLogin').find('input[name=password]').val(password)
   $('#browserLogin').trigger('submit')
+
+passwordResetRequest = (email)->
+  _.preq.post app.API.auth.resetPassword, { email: email }
 
 # will only be called by persona onlogin method
 requestPersonaLogin = (assertion)->

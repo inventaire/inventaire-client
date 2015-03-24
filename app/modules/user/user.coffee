@@ -3,6 +3,7 @@ Signup = require './views/signup'
 SignupPersona = require './views/signup_persona'
 Login = require './views/login'
 LoginPersona = require './views/login_persona'
+ForgotPassword = require './views/forgot_password'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
@@ -14,6 +15,7 @@ module.exports =
         # this is the route that triggers Persona Signup
         # so that Persona confirmation email returns to this route
         'login/persona(/)':'showLoginPersona'
+        'login/forgot-password(/)':'showForgotPassword'
 
     app.addInitializer ->
       new UserRouter
@@ -54,6 +56,10 @@ API =
       app.navigate 'login/persona'
       app.layout.main.show new LoginPersona
 
+  showForgotPassword: ->
+    app.layout.main.show new ForgotPassword
+    app.navigate 'login/forgot-password'
+
 redirectHomeIfLoggedIn = ->
   if app.user.loggedIn
     app.execute 'show:home'
@@ -66,6 +72,7 @@ initCommands = (app)->
     'show:signup:persona': API.showSignupPersona
     'show:login': API.showLogin
     'show:login:persona': API.showLoginPersona
+    'show:forgot:password': API.showForgotPassword
 
 initSubModules = (app)->
   [

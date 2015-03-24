@@ -7,6 +7,7 @@ module.exports =
     emailAvailability: '/api/auth/public/email-availability'
     emailConfirmation: '/api/auth/email-confirmation'
     updatePassword: '/api/auth/update-password'
+    resetPassword: '/api/auth/public/reset-password'
   user: '/api/user'
   users:
     data: (ids)->
