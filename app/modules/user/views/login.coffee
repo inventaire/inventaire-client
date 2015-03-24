@@ -12,6 +12,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click #classicLogin': 'classicLoginAttempt'
     'click #personaLogin': 'showPersonaLogin'
     'click #createAccount': -> app.execute 'show:signup'
+    'click #forgotPassword': -> app.execute 'show:forgot:password'
 
   behaviors:
     Loading: {}
@@ -24,6 +25,9 @@ module.exports = Backbone.Marionette.ItemView.extend
     password: '#password'
 
   onShow:-> @ui.username.focus()
+
+  serializeData: ->
+    passwordLabel: 'password'
 
   classicLoginAttempt:->
     _.preq.start()

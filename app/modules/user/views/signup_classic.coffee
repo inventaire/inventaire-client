@@ -29,6 +29,9 @@ module.exports = Backbone.Marionette.LayoutView.extend
 
   onShow:-> @ui.classicUsername.focus()
 
+  serializeData: ->
+    passwordLabel: 'password'
+
   # CLASSIC
   validClassicSignup: ->
     @verifyClassicUsername()
