@@ -10,6 +10,7 @@ SafeString = Handlebars.SafeString
 #   special: {Boolean}
 #   field:
 #     id: {String} *
+#     name: {String} *
 #     value: {String}
 #     type: {String}
 #     placeholder: {String} *
@@ -40,6 +41,7 @@ module.exports =
     name = data.nameBase
     if name?
       field.id = name + 'Field'
+      field.name = name
       field.placeholder = _.i18n(name)
       button.id = name + 'Button'
       button.text = name
