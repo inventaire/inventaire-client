@@ -56,6 +56,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
     'click a#usernameButton': 'updateUsername'
     'click a#emailButton': 'updateEmail'
     'click a#updatePassword': 'updatePassword'
+    'click #forgotPassword': -> app.execute 'show:forgot:password'
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
     'click a#emailConfirmationRequest': 'emailConfirmationRequest'

@@ -16,6 +16,14 @@
   #updatePassword{
     @include radius();
   }
+  div.forgotPassword{
+    text-align: right;
+    a{
+      // color: $grey;
+      font-size: 0.9em;
+      margin-top: -1em;
+    }
+  }
 }
 
 .alertMessageBox, .successMessageBox{
