@@ -44,6 +44,9 @@ setLanguage = (app, lang)->
 
 requestI18nFile = (polyglot, lang)->
   polyglot.changingTo = lang
+  # keep only the two letters lang code as second level
+  # language like pt-BR aren't available at the moment
+  lang = lang[0..1]
   return _.preq.get app.API.i18n(lang)
   .then (res)->
     polyglot.replace res
@@ -57,7 +60,7 @@ requestI18nFile = (polyglot, lang)->
 
 guessLanguage = ->
   if lang = $.cookie 'lang' then lang.logIt('i18n: cookie')
-  else if lang = (navigator.language?[0..1] or navigator.userLanguage[0..1]) then lang.logIt('i18n: navigator')
+  else if lang = (navigator.language or navigator.userLanguage) then lang.logIt('i18n: navigator')
   else 'en'.logIt('i18n: global default')
 
 # querystring parameters > other settings sources
