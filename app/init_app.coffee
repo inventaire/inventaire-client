@@ -12,7 +12,7 @@ module.exports = ->
   require('lib/global_helpers')(app, _)
 
   # gets all the routes used in the app
-  app.API = require 'api'
+  app.API = require 'api/api'
 
 
   LocalDB = require('lib/data/local_db')(window, _)
