@@ -22,7 +22,7 @@
   "dependencies": {
     "marionette": "~2.2.1",
     "foundation": "https://github.com/maxlath/bower-foundation.git#brunch-custom",
-    "font-awesome": "~4.2.0",
+    "font-awesome": "~4.3.0",
     "polyglot": "~0.4.1",
     "backbone-filtered-collection": "~0.4.0",
     "backbone-nested-afeld": "~2.0.1",
