@@ -54,6 +54,9 @@ module.exports = (app)->
       else
         app.users.filtered.friends()
 
+    isFriend: (userId)-> userId in app.users.friends.list
+    isPublicUser: (userId)-> userId in app.users.public.list
+
   app.users.queried = []
 
   isntAlreadyHere = (id)->
@@ -68,4 +71,5 @@ module.exports = (app)->
     'get:userId:from:username': API.getUserIdFromUsername
     'get:profilePic:from:userId': API.getProfilePicFromUserId
     'users:search': API.searchUsers
-
+    'user:isFriend': API.isFriend
+    'user:isPublicUser': API.isPublicUser

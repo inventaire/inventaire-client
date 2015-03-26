@@ -14,14 +14,20 @@ module.exports = (app, _)->
   # while app.user.id is undefined
   app.user.once 'change', -> personal.refilter()
 
-  NotMainUser = (model)-> model.get('owner') isnt app.user.id
-  friends = new FilteredCollection(Items).filterBy 'friends', NotMainUser
+  isFriend = (model)-> app.request 'user:isFriend', model.get('owner')
+  friends = new FilteredCollection(Items).filterBy 'friends', isFriend
   friends.fetchFriendItems = Items.fetchFriendItems.bind(Items)
   friends.add = Items.add.bind(Items)
 
+
   app.vent.once 'friends:items:ready', -> friends.fetched = true
+
+  isPublicUser = (model)-> app.request 'user:isPublicUser', model.get('owner')
+  # public is a reserved word
+  publik = new FilteredCollection(Items).filterBy 'public', isPublicUser
+  publik.add = Items.add.bind(Items)
 
   return _.extend Items,
     personal: personal
     friends: friends
-    public: new app.Collection.Items
+    public: publik

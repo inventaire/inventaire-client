@@ -38,4 +38,19 @@ module.exports = (app)->
     @resetFilters()
     @filterBy {status: 'friends'}
 
+  keepMembersListUpdated(users.friends)
+  keepMembersListUpdated(users.public)
+
   return users
+
+keepMembersListUpdated = (collection)->
+  updater = lazyMembersListUpdater(collection)
+  collection.on 'add', updater
+  collection.on 'remove', updater
+  updater()
+
+updateMembersList = (collection)->
+  collection.list = collection.map (member)-> member.id
+
+lazyMembersListUpdater = (collection)->
+  _.debounce(updateMembersList.bind(null, collection), 200)
