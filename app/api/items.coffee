@@ -1,6 +1,9 @@
 base = '/api/items'
 publicBase = '/api/items/public'
 
+itemsPublic = (action, query={})->
+  _.buildPath publicBase, _.extend(query, { action: action })
+
 module.exports =
   items: '/api/items'
   item: (owner, id, rev)->
@@ -23,6 +26,3 @@ module.exports =
   userPublicItems: (userId)->
     itemsPublic 'user-public-items',
       user: userId
-
-itemsPublic = (action, query={})->
-  _.buildPath publicBase, _.extend(query, { action: action })
