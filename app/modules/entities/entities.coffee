@@ -87,7 +87,7 @@ API =
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   getEntityPublicItems: (uri)->
-    _.preq.get app.API.items.public(uri)
+    _.preq.get app.API.items.publicByEntity(uri)
 
 
 setHandlers = ->

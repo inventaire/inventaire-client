@@ -104,7 +104,7 @@ triggerItemsReady = ->
   app.vent.trigger 'items:ready'
 
 requestPublicItem = (username, entity)->
-  _.preq.get(app.API.items.public(entity, username))
+  _.preq.get(app.API.items.publicByUsernameAndEntity(entity, username))
   .then (res)->
     app.users.public.add res.user
     return Items.public.add res.items
