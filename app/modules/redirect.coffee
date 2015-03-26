@@ -56,4 +56,5 @@ API =
       message: _.i18n("can't reach the server")
 
   showError: (options)->
+    _.log options, 'showError', true
     app.layout.main.show new ErrorView options
