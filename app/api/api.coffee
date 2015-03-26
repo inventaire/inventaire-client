@@ -7,6 +7,7 @@ module.exports =
   data: require './data'
   user: '/api/user'
   notifs: '/api/notifs'
+  feedbacks: '/api/feedbacks/public'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
   test: '/api/test/public'

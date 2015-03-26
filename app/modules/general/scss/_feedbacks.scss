@@ -16,3 +16,41 @@
     }
   }
 }
+
+.feedbacksMenu{
+  text-align: center;
+  background-color: $light-grey;
+  .username, .email{
+    font-weight: bold;
+    color: $dark-grey;
+    @include serif();
+  }
+  /*Not VerySmall screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 1em;
+    .from, .to{
+      label, input{
+        display: inline;
+      }
+      text-align: left;
+    }
+    .from{
+      input{
+        max-width: 25em;
+      }
+    }
+    .to{
+      margin-bottom: 1em;
+    }
+    .username, .email{
+      margin-left: 1em;
+    }
+    .email{
+      padding-left: 1em;
+    }
+  }
+  #getInvolved{
+    margin-top: 2em;
+  }
+}
+

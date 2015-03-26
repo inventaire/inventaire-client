@@ -1,4 +1,5 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
+FeedbacksMenu = require './feedbacks_menu'
 
 module.exports = class AppLayout extends Backbone.Marionette.LayoutView
   template: require './templates/app_layout'
@@ -18,6 +19,7 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'
+    'click .showFeedbacksMenu': 'showFeedbacksMenu'
     'keyup .enterClick': 'enterClick'
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'
@@ -138,3 +140,6 @@ module.exports = class AppLayout extends Backbone.Marionette.LayoutView
     @listenTo app.vent, 'i18n:set', @updateBodyLang.bind(@)
 
   updateBodyLang: (lang)-> @$el.attr 'lang', lang
+
+  showFeedbacksMenu: ->
+    app.layout.modal.show new FeedbacksMenu
