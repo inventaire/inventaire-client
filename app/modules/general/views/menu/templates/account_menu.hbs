@@ -28,10 +28,20 @@
   <ul class="dropdown">
     <li><label>{{i18n 'settings'}}</label></li>
     <li><a id="editProfile">{{icon 'user'}} {{I18n 'edit profile'}}</a></li>
-    <li><a id="editLabs">{{icon 'flask'}} {{I18n 'experimentations'}}</a></li>
+    <li><a id="editLabs">{{icon 'flask'}} {{I18n 'labs'}}</a></li>
+    <li><label>{{i18n 'development'}}</label></li>
+    <li>
+      {{iconLinkText 'trello' 'https://trello.com/b/0lKcsZDj/inventaire-community' 'Roadmap'}}
+    </li>
+    <li>
+      {{iconLinkText 'code' 'https://github.com/maxlath/inventaire' 'Code'}}
+    </li>
+    <li>
+      {{iconLinkText 'language' 'https://www.transifex.com/projects/p/inventaire/' 'Translation'}}
+    </li>
+    <li class="has-dropdown">{{partial 'general:menu:discussions'}}</li>
     <li><label>{{i18n 'others'}}</label></li>
     <li><a class="showWelcome">{{icon 'home'}} {{I18n 'back to welcome screen'}}</a></li>
-    <li class="has-dropdown">{{partial 'general:menu:feedbacks_news'}}</li>
     <li><a id="signout">{{icon 'sign-out'}} {{I18n 'sign out'}}</a></li>
   </ul>
 </li>
