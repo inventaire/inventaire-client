@@ -39,7 +39,6 @@ module.exports = (app)->
     @filterBy {status: 'friends'}
 
   keepMembersListUpdated(users.friends)
-  keepMembersListUpdated(users.public)
 
   return users
 

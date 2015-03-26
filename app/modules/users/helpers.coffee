@@ -62,7 +62,8 @@ module.exports = (app)->
         app.users.filtered.friends()
 
     isFriend: (userId)-> userId in app.users.friends.list
-    isPublicUser: (userId)-> userId in app.users.public.list
+    isPublicUser: (userId)->
+      (userId isnt app.user.id) and (userId not in app.users.friends.list)
 
   app.users.queried = []
 
