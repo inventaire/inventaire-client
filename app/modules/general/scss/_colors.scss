@@ -14,7 +14,7 @@ $off-white: #eef;
 
 // body has a different color than main
 // to make it the background color when the DOM isnt loaded
-$main-bg: #ddd;
+$main-bg: $off-white;
 $body-bg: $main-bg; // Foundation variable
 $contrast: #fff;
 $panel-bg: $contrast; // Foundation variable
