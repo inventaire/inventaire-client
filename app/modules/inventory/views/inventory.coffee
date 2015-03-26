@@ -72,10 +72,21 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
 
 prepareUserItemsList = (user, navigate)->
   if app.request 'user:isPublicUser', user.id
-    app.request 'inventory:fetch:user:public:items', user.id
-    .then (items)-> Items.public.add items
+    fetchPublicUserItems(user)
 
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
   app.execute 'sidenav:show:user', user
   if navigate? then app.navigate "inventory/#{username}"
+
+fetchPublicUserItems = (user)->
+  # fetch items
+  app.request 'inventory:fetch:user:public:items', user.id
+  .then _.Log('items')
+  .then (items)-> Items.public.add items
+  .catch _.Error('fetchPublicUserItems')
+
+  # remove items on inventory change
+  removeUserItems = -> app.execute('inventory:remove:user:items', user.id)
+  cb = -> app.vent.once('inventory:change', removeUserItems)
+  setTimeout cb, 500
