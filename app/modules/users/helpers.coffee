@@ -2,19 +2,26 @@ module.exports = (app)->
   API =
     resolveToUserModel: (user)->
       # 'user' is either the user model or a username
-      if _.isModel(user) then return user
+      if _.isModel(user) then return _.preq.resolve(user)
       else
         username = user
-        userModel = app.request('get:userModel:from:username', username)
-        if userModel? then return userModel
-        else throw new Error("user model not found: got #{user}")
+        app.request('get:userModel:from:username', username)
+        .then (userModel)->
+          if userModel? then return userModel
+          else throw new Error("user model not found: #{user}")
 
     getUserModelFromUsername: (username)->
-      if username is app.user.get('username') then return app.user
+      if username is app.user.get('username')
+        return _.preq.resolve(app.user)
 
       userModel = app.users.findWhere({username: username})
-      if userModel? then return userModel
-      else console.warn "couldnt find the user from username: #{username}"
+      if userModel? then return _.preq.resolve(userModel)
+      else
+        app.users.data.remote.findOneByUsername(username)
+        .then (user)->
+          if user?
+            userModel = app.users.public.add(user)
+            return userModel
 
     getUsernameFromUserId: (id)->
       if id is app.user.id then return app.user.get 'username'

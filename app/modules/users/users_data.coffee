@@ -3,12 +3,20 @@ module.exports = (app, $, _)->
     get: (ids)->
       _.preq.get app.API.users.data(ids)
       .catch (err)-> _.logXhrErr err, 'users_data get err'
+
     search: (text)->
       # catches case with ''
       if _.isEmpty(text) then return _.preq.resolve([])
-      else
-        _.preq.get app.API.users.search(text)
-        .catch (err)-> _.logXhrErr err, 'users_data search err'
+
+      _.preq.get app.API.users.search(text)
+      .catch (err)-> _.logXhrErr err, 'users_data search err'
+
+    findOneByUsername: (username)->
+      @search(username)
+      .then (res)->
+        user = res?[0]
+        if user?.username is username then return user
+
 
   localData = new app.LocalCache
     name: 'users'

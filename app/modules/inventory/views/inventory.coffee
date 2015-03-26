@@ -23,9 +23,15 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     app.request 'waitForItems', @showItemsList.bind(@)
 
   showItemsList: ->
-    {user, navigate} = @options
-    if user? then user = app.request 'resolve:to:userModel', user
+    {user} = @options
+    unless user? then return @showItemsListStep2()
 
+    app.request 'resolve:to:userModel', user
+    .catch -> app.execute 'show:404'
+    .then @showItemsListStep2.bind(@)
+
+  showItemsListStep2: (user)->
+    {navigate} = @options
     if Items.length is 0
       # dont show welcome inventory screen on other users inventory
       # it would be confusing to see 'welcome in your inventory' there
@@ -65,6 +71,10 @@ module.exports = class inventory extends Backbone.Marionette.LayoutView
     if user? then app.execute 'sidenav:show:user', user
 
 prepareUserItemsList = (user, navigate)->
+  if app.request 'user:isPublicUser', user.id
+    app.request 'inventory:fetch:user:public:items', user.id
+    .then (items)-> Items.public.add items
+
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
   app.execute 'sidenav:show:user', user

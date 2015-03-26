@@ -193,4 +193,9 @@ initializeInventoriesHandlers = (app)->
 
     'inventory:user:length': (userId)-> Items.inventoryLength[userId]
 
+    'inventory:fetch:user:public:items': (userId)->
+      unless _.isUserId(userId)
+        throw new Error "expected a userId, got #{userId}"
+      _.preq.get app.API.items.userPublicItems(userId)
+
   require('./lib/pagination')()
