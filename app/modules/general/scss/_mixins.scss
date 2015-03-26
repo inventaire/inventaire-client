@@ -49,6 +49,13 @@
   margin: $margin;
 }
 
+@mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
+  @include bg-hover($bg-color, $darken);
+  color: $color;
+  padding: 0.2em 0.6em 0.2em 0.6em;
+  border-radius: $radius;
+}
+
 @mixin border($color, $width:1px, $style:solid){
   border: $width $style $color;
 }
