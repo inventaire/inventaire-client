@@ -7,10 +7,6 @@ section#status, section#social-networks{
       color: white;
     }
   }
-  a{
-    font-size: 2.5em;
-    margin: 1em;
-  }
 }
 section#status{
   @include display-flex(column, center, center);
@@ -29,18 +25,6 @@ section#status{
   }
 }
 
-section#social-networks{
-  background-color: $darker-grey;
-  a{
-    color: white;
-    &:hover{
-      color: $secondary-color;
-    }
-  }
-}
-
-
-
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
@@ -52,4 +36,5 @@ section#social-networks{
 @import "landing_screen";
 @import "last_public_books";
 @import "bonuses";
+@import "social_networks";
 @import "credits";

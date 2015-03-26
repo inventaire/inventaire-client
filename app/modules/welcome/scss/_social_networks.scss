@@ -1,0 +1,29 @@
+section#social-networks{
+  background-color: $darker-grey;
+  @include display-flex(row, flex-start, center, wrap);
+  a{
+    @include display-flex(column, center, center);
+    width: 10em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    .fa, span{
+      color: white;
+    }
+    &:hover{
+      .fa, span{
+        color: $secondary-color;
+      }
+    }
+    .fa{
+      font-size: 2.5em;
+      margin: 0;
+      padding: 0;
+    }
+    span{
+      margin-top: -1em;
+      padding: 0;
+      @include serif();
+      font-weight: bold;
+    }
+  }
+}
