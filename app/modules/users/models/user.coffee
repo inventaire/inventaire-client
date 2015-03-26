@@ -5,3 +5,12 @@ module.exports = class User extends Filterable
     [
       @get('username')
     ]
+
+  serializeData: ->
+    attrs = @toJSON()
+    relationStatus = attrs.status
+    # converting the status into a boolean for templates
+    attrs[relationStatus] = true
+    if relationStatus is 'friends'
+      attrs.inventoryLength = app.request 'inventory:user:length', @id
+    return attrs

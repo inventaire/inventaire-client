@@ -23,13 +23,7 @@ module.exports = class UserLi extends Backbone.Marionette.ItemView
     app.execute 'foundation:reload'
 
   serializeData: ->
-    attrs = @model.toJSON()
-    relationStatus = attrs.status
-    # converting the status into a boolean for the template
-    attrs[relationStatus] = true
-    if relationStatus is 'friends'
-      attrs.inventoryLength = app.request 'inventory:user:length', @model.id
-    return attrs
+    @model.serializeData()
 
   selectUser: ->
     app.execute 'show:inventory:user', @model

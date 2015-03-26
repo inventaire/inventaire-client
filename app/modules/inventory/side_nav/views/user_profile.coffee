@@ -2,6 +2,18 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
   template: require './templates/user_profile'
   events:
     'click a.close': 'unselectUser'
+    'click .unfriend': -> app.request 'unfriend', @model
+    'click .cancel': -> app.request 'request:cancel', @model
+    'click .discard': -> app.request 'request:discard', @model
+    'click .accept': -> app.request 'request:accept', @model
+    'click .request': -> app.request 'request:send', @model
+
+  serializeData: ->
+    @model.serializeData()
+
+  initialize: ->
+    @listenTo @model, 'change', @render.bind(@)
+
 
   onShow: ->
     @makeRoom()
