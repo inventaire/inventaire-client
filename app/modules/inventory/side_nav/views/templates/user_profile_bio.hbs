@@ -1,0 +1,15 @@
+<span class="bio radius">{{bio}}
+  {{#if mainUser}}
+    {{#unless bio}}
+      {{i18n 'a few words on you?'}}
+    {{/unless}}
+  {{/if}}
+</span>
+{{#if mainUser}}
+  <a id="editBio" class="bio">{{icon 'pencil'}}{{i18n 'edit'}}</a>
+  <textarea name="bio" id="bio" class="bio hidden">{{bio}}</textarea>
+  <div>
+    <a id="cancelBio" class="bio hidden">{{icon 'times'}}{{i18n 'cancel'}}</a>
+    <a id="saveBio" class="bio hidden">{{icon 'check'}}{{i18n 'save'}}</a>
+  </div>
+{{/if}}

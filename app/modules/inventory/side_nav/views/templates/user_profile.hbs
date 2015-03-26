@@ -1,10 +1,10 @@
 <div class="userProfile">
-  <a class="close">{{icon 'times'}}</a>
+  <a class="unselectUser">{{icon 'times'}}</a>
   {{#if picture}}
     <div class="circle-pic" style="background-image: url({{src picture 150 150 true}})"></div>
   {{/if}}
   <h3>{{username}}</h3>
-  <p class="bio">{{bio}}</p>
+  {{partial 'inventory/side_nav:user_profile_bio' this}}
   {{#if inventoryLength}}
     <span class="inventoryLength select serif">
       {{i18n 'Books:'}}  {{inventoryLength}}
@@ -13,7 +13,7 @@
   <div class="userMenu">
     {{#if friends}} 
       <a class="light-grey friend" data-options="align:bottom" data-dropdown="{{username}}-menu">
-        {{icon 'check'}}{{i18n 'friends'}}  {{icon 'chevron-down'}}</a>
+        {{icon 'check'}}{{I18n 'friends'}}{{icon 'chevron-down'}}</a>
         <ul id="{{username}}-menu" class="tiny f-dropdown" data-dropdown-content>
            <li>
               <a class="unfriend action">

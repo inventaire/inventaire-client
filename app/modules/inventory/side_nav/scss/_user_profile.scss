@@ -4,11 +4,45 @@
   // @include shadow-box($dark-grey, 0px, -2px);
   @include border($dark-grey, 1px, ridge);
   @include display-flex(column, center, center);
-  a.close{
+  a.unselectUser{
     @include align-self(flex-end);
     margin: 0.5em 0.5em -2em;
     .fa{
       font-size: 1.2em;
+    }
+  }
+
+  // see .circle-pic style for the profile picture
+  h3{
+    margin-top: -0.2em;
+    padding: 0;
+  }
+  span.bio{
+    color: white;
+    padding: 0.2em;
+    border-radius: $global-radius;
+    max-height: 7em;
+    padding: 0.5em;
+    overflow: auto;
+  }
+  textarea#bio{
+    border-radius: $global-radius;
+    min-width: 90%;
+    max-width: 90%;
+    max-height: 7em;
+  }
+  #cancelBio{
+    @include tiny-button($warning-color);
+  }
+  #saveBio{
+    @include tiny-button($success-color);
+  }
+  .userMenu{
+    margin: 0.5em;
+    .friend{
+      .fa-chevron-down{
+        margin-left: 0.5em;
+      }
     }
   }
 }
