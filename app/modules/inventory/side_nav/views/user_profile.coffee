@@ -66,7 +66,7 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
     _.preq.start()
     .then @testBio.bind(null, bio)
     .then @updateUserBio.bind(null, bio)
-    .then @ui.bio.toggle.bind(@)
+    .then @ui.bio.toggle.bind(@ui.bio)
     .catch forms_.catchAlert.bind(null, @)
 
   testBio: (bio)->
