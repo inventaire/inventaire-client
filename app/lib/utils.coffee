@@ -60,10 +60,6 @@ module.exports = (Backbone, _, app, window)->
         return "http://cdn.filter.to/#{size}/#{path}"
       else return path
 
-    placeholder: (height=250, width=200)->
-      text = _.i18n 'missing image'
-      return "http://placehold.it/#{width}x#{height}/ddd/fff&text=#{text}"
-
     openJsonWindow: (obj, windowName)->
       json = JSON.stringify obj, null, 4
       data = 'data:application/json;charset=utf-8,' + encodeURI(json)

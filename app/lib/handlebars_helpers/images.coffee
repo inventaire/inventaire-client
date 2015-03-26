@@ -41,5 +41,3 @@ cleanGravatarPath = (path, width)->
   path = path.replace /&s=\d+/g, ''
 
   return path + "&s=#{width}"
-
-exports.placeholder = (height=250, width=200)->  _.placeholder(height, width)

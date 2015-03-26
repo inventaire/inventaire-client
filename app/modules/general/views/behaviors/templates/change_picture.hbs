@@ -1,11 +1,19 @@
 <figure class="changePicture">
-  <img src="{{#if picture}}{{src picture 250 250}}{{else}}{{placeholder}}{{/if}}"
-  alt="{{title}} {{i18n 'cover'}}" class="{{changePicture.classes}}">
+  {{#if picture}}
+  <img src="{{src picture 250 250}}"
+    alt="{{title}} {{i18n 'cover'}}" class="{{changePicture.classes}}">
+  {{/if}}
 
   {{#unless restricted}}
     <a id="changePicture">
       <figcaption>
-        <h5>{{icon 'camera'}} {{i18n 'change picture'}}</h5>
+        <h5>{{icon 'camera'}}
+          {{#if picture}}
+            {{i18n 'change picture'}}
+          {{else}}
+            {{i18n 'add a picture'}}
+          {{/if}}
+        </h5>
       </figcaption>
     </a>
   {{/unless}}

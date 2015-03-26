@@ -82,9 +82,8 @@ module.exports = class Item extends Filterable
 
     if @entity? then attrs.entity = @entity.toJSON?()
 
-    unless _.isEmpty attrs.pictures
-      attrs.picture = attrs.pictures[0]
-    else attrs.picture = _.placeholder()
+    # picture may be undefined
+    attrs.picture = attrs.pictures?[0]
 
     return attrs
 

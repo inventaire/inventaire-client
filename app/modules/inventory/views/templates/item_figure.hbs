@@ -1,6 +1,8 @@
 <div class="cover">
   <a data-href="{{pathname}}">
-    <img src="{{src picture 300}}">
+    {{#if picture}}
+      <img src="{{src picture 300}}">
+    {{/if}}
   </a>
 </div>
 <figcaption class="title">
