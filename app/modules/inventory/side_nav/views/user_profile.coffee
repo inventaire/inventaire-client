@@ -23,10 +23,7 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
     bioText: 'textarea.bio'
 
   serializeData: ->
-    attrs = @model.serializeData()
-    # if attrs.mainUser and not bio?
-    #   attrs.bio = _.i18n 'a few words on you?'
-    # return _.log attrs
+    @model.serializeData()
 
   initialize: ->
     @listenTo @model, 'change', @render.bind(@)

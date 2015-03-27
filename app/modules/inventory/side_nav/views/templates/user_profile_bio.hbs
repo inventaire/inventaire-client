@@ -1,8 +1,10 @@
-<span class="bio radius">{{bio}}
-  {{#if mainUser}}
-    {{#unless bio}}
-      {{i18n 'a few words on you?'}}
-    {{/unless}}
+<span class="bio radius">
+  {{#if bio}}
+    {{bio}}
+  {{else}}
+    {{#if mainUser}}
+      <span class="bioPlaceholder">{{i18n 'a few words on you?'}}</span>
+    {{/if}}
   {{/if}}
 </span>
 {{#if mainUser}}

@@ -16,6 +16,14 @@
   h3{
     margin-top: -0.2em;
     padding: 0;
+    text-align: center;
+  }
+  .bioPlaceholder, #editBio{
+    color: rgba(white, 0.5);
+  }
+  #editBio:hover{
+    color: rgba(white, 1);
+    @include transition(color);
   }
   span.bio{
     color: white;
