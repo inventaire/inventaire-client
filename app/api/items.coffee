@@ -18,10 +18,10 @@ module.exports =
     itemsPublic 'public-by-entity',
       uri: uri
 
-  publicByUsernameAndEntity: (uri)->
+  publicByUsernameAndEntity: (username, EntityUri)->
     itemsPublic 'public-by-username-and-entity',
       username: username
-      uri: uri
+      uri: EntityUri
 
   userPublicItems: (userId)->
     itemsPublic 'user-public-items',

@@ -104,13 +104,11 @@ triggerItemsReady = ->
   app.vent.trigger 'items:ready'
 
 requestPublicItem = (username, entity)->
-  _.preq.get(app.API.items.publicByUsernameAndEntity(entity, username))
+  _.preq.get(app.API.items.publicByUsernameAndEntity(username, entity))
   .then (res)->
     app.users.public.add res.user
     return Items.public.add res.items
   .catch (err)-> _.error err, 'requestPublicItem err'
-
-
 
 validateCreation = (itemData)->
   _.log itemData, 'itemData at validateCreation'
