@@ -44,33 +44,31 @@ API =
     app.request 'waitForItems', cb
 
   showItemShow: (username, entity, label)->
-    owner = app.request 'get:userId:from:username', username
-    if app.request 'user:isMainUser', owner
-      items = Items.personal.where({entity: entity})
-    else if app.request 'user:isFriend', owner
-      items = Items.friends.where({owner: owner, entity: entity})
-    else
-      itemsPromise = app.request 'requestPublicItem', username, entity
+    _.preq.start()
+    .then @findItemByUsernameAndEntity.bind(@, username, entity)
+    .then @displayFoundItems.bind(@)
+    .catch _.Error('showItemShow')
 
-    _.log items, 'showItemShow items'
-    if items? then @displayFoundItems(items)
+  # returns both sync value and promises
+  # => to be called from within a promise chain only
+  findItemByUsernameAndEntity: (username, entity)->
+    owner = app.request 'get:userId:from:username', username
+    if app.request 'user:isPublicUser', owner
+      return app.request 'requestPublicItem', username, entity
     else
-      if itemsPromise?
-        itemsPromise
-        .then @displayFoundItems
-        .fail (err)-> _.logXhrErr(err)
-      else app.execute 'show:404'
+      return Items.friends.where({owner: owner, entity: entity})
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
-    if items?.length?
-      switch items.length
-        when 0 then app.execute 'show:404'
-        when 1 then app.execute 'show:item:show:from:model', items[0]
-        else
-          console.warn 'multi items not implemented yet'
-          app.execute 'show:item:show:from:model', items[0]
-    else throw 'shouldnt be at least an empty array here?'
+    unless items?.length?
+      throw 'shouldnt be at least an empty array here?'
+
+    switch items.length
+      when 0 then app.execute 'show:404'
+      when 1 then app.execute 'show:item:show:from:model', items[0]
+      else
+        console.warn 'multi items not implemented yet'
+        app.execute 'show:item:show:from:model', items[0]
 
   showItemShowFromItemModel: (item)->
     itemShow = new ItemShow {model: item}
@@ -109,6 +107,7 @@ requestPublicItem = (username, entity)->
     app.users.public.add res.user
     return Items.public.add res.items
   .catch (err)-> _.error err, 'requestPublicItem err'
+
 
 validateCreation = (itemData)->
   _.log itemData, 'itemData at validateCreation'
