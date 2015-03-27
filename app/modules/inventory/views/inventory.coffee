@@ -3,7 +3,7 @@ SideNav = require '../side_nav/views/side_nav'
 ItemsControl = require './items_control'
 FollowedEntitiesList = require './followed_entities_list'
 
-module.exports = class inventory extends Backbone.Marionette.LayoutView
+module.exports = Backbone.Marionette.LayoutView.extend
   id: 'inventory'
   template: require './templates/inventory'
   regions:

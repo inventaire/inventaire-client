@@ -1,4 +1,4 @@
-module.exports = class ConfirmationModal extends Marionette.Behavior
+module.exports = ConfirmationModal = Marionette.Behavior.extend
   events:
     'askConfirmation': 'askConfirmation'
 

@@ -1,4 +1,4 @@
-module.exports = class Items extends Backbone.Collection
+module.exports = Items = Backbone.Collection.extend
   model: require "../models/item"
   url: -> app.API.items.items
 

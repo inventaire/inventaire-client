@@ -1,6 +1,6 @@
 NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
 
-module.exports = class Welcome extends Backbone.Marionette.LayoutView
+module.exports = Welcome = Backbone.Marionette.LayoutView.extend
   id: 'welcome'
   template: require './templates/welcome'
   regions:

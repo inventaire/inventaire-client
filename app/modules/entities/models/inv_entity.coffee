@@ -1,6 +1,6 @@
 Entity = require './entity'
 
-module.exports = class InvEntity extends Entity
+module.exports = InvEntity = Entity.extend
   prefix: 'inv'
   initialize: ->
     _.log @, 'init inv entity'

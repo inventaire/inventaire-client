@@ -1,5 +1,5 @@
 Entities = require './entities'
 
-module.exports = class WikidataEntities extends Entities
+module.exports = WikidataEntities = Entities.extend
   model: require '../models/wikidata_entity'
   byType: (type)-> _(@models).where {type: type}

@@ -1,4 +1,4 @@
-module.exports = class ItemLi extends Backbone.Marionette.ItemView
+module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
     @uniqueSelector = ".#{@cid}"

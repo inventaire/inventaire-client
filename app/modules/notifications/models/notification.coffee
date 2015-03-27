@@ -1,4 +1,4 @@
-module.exports = class Notification extends Backbone.NestedModel
+module.exports = Notification = Backbone.NestedModel.extend
   initialize: ->  @on 'change:status', @update
   update: ->
     @collection.updateStatus @get('time')

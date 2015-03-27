@@ -7,7 +7,7 @@ EntityCreate = require 'modules/entities/views/entity_create'
 wd_ = app.lib.wikidata
 books_ = app.lib.books
 
-module.exports = class Search extends Backbone.Marionette.LayoutView
+module.exports = Search = Backbone.Marionette.LayoutView.extend
   id: 'searchLayout'
   template: require './templates/search'
   behaviors:

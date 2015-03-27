@@ -1,4 +1,4 @@
-module.exports = class RequestLi extends Backbone.Marionette.ItemView
+module.exports = RequestLi = Backbone.Marionette.ItemView.extend
   tagName: "li"
   className: "requestLi"
   template: require './templates/request_li'

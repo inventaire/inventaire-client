@@ -1,4 +1,4 @@
-module.exports = class BookLi extends Backbone.Marionette.ItemView
+module.exports = BookLi = Backbone.Marionette.ItemView.extend
   template: require './templates/book_li'
   tagName: "li"
   className: "bookLi"

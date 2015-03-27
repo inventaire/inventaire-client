@@ -1,4 +1,4 @@
-module.exports = class LabsSettings extends Backbone.Marionette.ItemView
+module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
   template: require './templates/labs_settings'
   className: 'labsSettings'
   behaviors:

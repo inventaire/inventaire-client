@@ -1,7 +1,7 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 FeedbacksMenu = require './feedbacks_menu'
 
-module.exports = class AppLayout extends Backbone.Marionette.LayoutView
+module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
 
   el: '#app'

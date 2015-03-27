@@ -1,4 +1,4 @@
-module.exports = class Filterable extends Backbone.NestedModel
+module.exports = Filterable = Backbone.NestedModel.extend
   asMatchable: (expr) -> [] #to override
   matches: (expr) ->
     if expr?

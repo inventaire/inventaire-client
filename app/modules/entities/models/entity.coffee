@@ -1,4 +1,4 @@
-module.exports = class Entity extends Backbone.NestedModel
+module.exports = Entity = Backbone.NestedModel.extend
   initLazySave: -> @save = _.debounce lazySave.bind(@), 100
 
   lazySave = ->

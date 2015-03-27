@@ -1,3 +1,3 @@
-module.exports = class ChangePicture extends Backbone.Marionette.ItemView
+module.exports = ChangePicture = Backbone.Marionette.ItemView.extend
   template: require './templates/change_picture'
   serializeData: -> @model.serializeData()

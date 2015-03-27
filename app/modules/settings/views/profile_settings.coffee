@@ -3,7 +3,7 @@ email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
+module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
   template: require './templates/profile_settings'
   className: 'profileSettings'
   behaviors:

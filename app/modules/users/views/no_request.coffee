@@ -1,4 +1,4 @@
-module.exports = class NoRequest extends Backbone.Marionette.ItemView
+module.exports = NoRequest = Backbone.Marionette.ItemView.extend
   tagName: 'li'
   className: 'notification'
   template: require './templates/no_request'

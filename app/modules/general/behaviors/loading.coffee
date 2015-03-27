@@ -1,4 +1,4 @@
-module.exports = class Loading extends Marionette.Behavior
+module.exports = Loading = Marionette.Behavior.extend
   ui:
     loading: ".loading, .check"
 

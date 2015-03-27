@@ -1,4 +1,4 @@
 Entities = require './entities'
 
-module.exports = class IsbnEntities extends Entities
+module.exports = IsbnEntities = Entities.extend
   model: require '../models/isbn_entity'

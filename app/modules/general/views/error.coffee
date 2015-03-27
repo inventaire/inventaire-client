@@ -1,4 +1,4 @@
-module.exports = class Error extends Backbone.Marionette.LayoutView
+module.exports = Error = Backbone.Marionette.LayoutView.extend
   id: 'error'
   className: 'text-center'
   template: require './templates/error'

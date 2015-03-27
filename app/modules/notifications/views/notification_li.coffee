@@ -1,4 +1,4 @@
-module.exports = class NotificationLi extends Backbone.Marionette.ItemView
+module.exports = NotificationLi = Backbone.Marionette.ItemView.extend
   tagName: 'li'
   className: 'notification'
   getTemplate: ->

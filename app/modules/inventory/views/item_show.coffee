@@ -1,6 +1,6 @@
 ItemEditionForm = require './item_edition_form'
 
-module.exports =  class ItemShow extends Backbone.Marionette.LayoutView
+module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   id: 'itemShowLayout'
   template: require './templates/item_show'
   serializeData: ->

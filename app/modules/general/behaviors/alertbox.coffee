@@ -1,4 +1,4 @@
-module.exports = class AlertBox extends Marionette.Behavior
+module.exports = AlertBox = Marionette.Behavior.extend
   ui:
     hasAlertbox: ".has-alertbox"
 

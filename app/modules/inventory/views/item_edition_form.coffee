@@ -1,4 +1,4 @@
-module.exports = class ItemEditionForm extends Backbone.Marionette.ItemView
+module.exports = ItemEditionForm = Backbone.Marionette.ItemView.extend
   template: require './form/templates/item_edition'
   behaviors:
     SuccessCheck: {}

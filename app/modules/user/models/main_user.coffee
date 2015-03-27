@@ -1,6 +1,6 @@
 Filterable = require 'modules/general/models/filterable'
 
-module.exports = class MainUser extends Filterable
+module.exports = MainUser = Filterable.extend
   url: ->
     app.API.user
 

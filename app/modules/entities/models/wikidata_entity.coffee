@@ -3,7 +3,7 @@ wd = app.lib.wikidata
 wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 
-module.exports = class WikidataEntity extends Entity
+module.exports = WikidataEntity = Entity.extend
   prefix: 'wd'
   initialize: ->
     @initLazySave()

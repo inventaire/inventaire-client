@@ -1,7 +1,7 @@
 BookLi = require 'modules/entities/views/book_li'
 AuthorLi = require 'modules/entities/views/author_li'
 
-module.exports = class ResultsList extends Backbone.Marionette.CompositeView
+module.exports = ResultsList = Backbone.Marionette.CompositeView.extend
   template: require './templates/results_list'
   childViewContainer: '.resultsList'
   getChildView: ->

@@ -1,4 +1,4 @@
-module.exports = class UserLi extends Backbone.Marionette.ItemView
+module.exports = UserLi = Backbone.Marionette.ItemView.extend
   tagName: "li"
   template: require './templates/user_li'
   className: ->

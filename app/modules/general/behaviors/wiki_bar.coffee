@@ -1,4 +1,4 @@
-module.exports = class WikiBar extends Marionette.Behavior
+module.exports = WikiBar = Marionette.Behavior.extend
   ui:
     wpiframe: ".wikipedia-iframe"
 

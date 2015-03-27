@@ -1,4 +1,4 @@
-module.exports = class ConfirmationModal extends Backbone.Marionette.ItemView
+module.exports = ConfirmationModal = Backbone.Marionette.ItemView.extend
   tagName: 'div'
   template: require './templates/confirmation_modal'
   onShow: -> app.execute 'modal:open'

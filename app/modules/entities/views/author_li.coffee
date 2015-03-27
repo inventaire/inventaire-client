@@ -1,6 +1,6 @@
 wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
 
-module.exports = class AuthorLi extends Backbone.Marionette.CompositeView
+module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
   template: require './templates/author_li'
   tagName: "li"
   className: "authorLi"

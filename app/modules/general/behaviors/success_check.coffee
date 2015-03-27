@@ -1,4 +1,4 @@
-module.exports = class SuccessCheck extends Marionette.Behavior
+module.exports = SuccessCheck = Marionette.Behavior.extend
   events:
     "check": "showSuccessCheck"
     "fail": "showFail"

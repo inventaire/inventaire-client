@@ -1,7 +1,7 @@
 Session = require 'modules/general/models/session'
 
-class App extends Backbone.Marionette.Application
-  initialize: =>
+App = Backbone.Marionette.Application.extend
+  initialize: ->
 
     @session = new Session
 

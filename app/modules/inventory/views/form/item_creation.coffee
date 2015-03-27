@@ -1,6 +1,6 @@
 Item = require 'modules/inventory/models/item'
 
-module.exports = class ItemCreation extends Backbone.Marionette.ItemView
+module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   template: require './templates/item_creation'
   className: "addEntity"
   initialize: ->

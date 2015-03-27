@@ -1,6 +1,6 @@
 Filterable = require 'modules/general/models/filterable'
 
-module.exports = class Item extends Filterable
+module.exports = Item = Filterable.extend
   url: ->
     # keeps the url built at runtime to follow revs evolution
     # which are needed to be in the url for DELETE

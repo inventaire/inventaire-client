@@ -1,6 +1,6 @@
 UserProfile = require './user_profile'
 
-module.exports = class SideNav extends Backbone.Marionette.LayoutView
+module.exports = Backbone.Marionette.LayoutView.extend
   id: 'innerNav'
   template: require './templates/side_nav'
 

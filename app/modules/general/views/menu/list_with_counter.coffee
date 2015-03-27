@@ -1,4 +1,4 @@
-module.exports = class ListWithCounter extends Backbone.Marionette.CompositeView
+module.exports = ListWithCounter = Backbone.Marionette.CompositeView.extend
   template: require './templates/list_with_counter'
   ui:
     counter: '.counter'

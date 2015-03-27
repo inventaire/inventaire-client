@@ -1,4 +1,4 @@
-module.exports = class Notifications extends Backbone.Collection
+module.exports = Notifications = Backbone.Collection.extend
   model: require '../models/notification'
   unread: -> @filter (model)-> model.get('status') is 'unread'
   markAsRead: -> @each (model)-> model.set 'status', 'read'

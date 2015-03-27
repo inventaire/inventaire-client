@@ -1,2 +1,2 @@
-module.exports = class Entities extends Backbone.Collection
+module.exports = Backbone.Collection.extend
   byUri: (uri)-> @findWhere {uri: uri}

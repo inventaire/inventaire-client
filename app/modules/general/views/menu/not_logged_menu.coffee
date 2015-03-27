@@ -1,4 +1,4 @@
-module.exports = class NotLoggedMenu extends Backbone.Marionette.ItemView
+module.exports = NotLoggedMenu = Backbone.Marionette.ItemView.extend
   template: require './templates/not_logged_menu'
   events:
     'click #signupRequest': -> app.execute 'show:signup'

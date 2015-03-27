@@ -1,6 +1,6 @@
 Items = require './items'
 
-module.exports = class FriendsItems extends Items
+module.exports = FriendsItems = Items.extend
   friendsItemsToFetch: []
 
   fetchFriendItems: (friendModel)->
