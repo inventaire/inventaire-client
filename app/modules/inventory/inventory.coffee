@@ -45,9 +45,9 @@ API =
 
   showItemShow: (username, entity, label)->
     owner = app.request 'get:userId:from:username', username
-    if _.isMainUser(owner)
+    if app.request 'user:isMainUser', owner
       items = Items.personal.where({entity: entity})
-    else if _.isFriend(owner)
+    else if app.request 'user:isFriend', owner
       items = Items.friends.where({owner: owner, entity: entity})
     else
       itemsPromise = app.request 'requestPublicItem', username, entity

@@ -61,14 +61,20 @@ module.exports = (app)->
       else
         app.users.filtered.friends()
 
-    isFriend: (userId)-> userId in app.users.friends.list
+    isMainUser: (id)->
+      if id? then return id is app.user.id
+
+    isFriend: (userId)->
+      unless id? and app.users?.friends?.list? then return false
+      return id in app.users.friends.list
+
     isPublicUser: (userId)->
       (userId isnt app.user.id) and (userId not in app.users.friends.list)
 
   app.users.queried = []
 
   isntAlreadyHere = (id)->
-    if app.users.byId(id)? or _.isMainUser(id) then false
+    if app.users.byId(id)? or app.request('user:isMainUser', id) then false
     else true
 
 
@@ -79,5 +85,6 @@ module.exports = (app)->
     'get:userId:from:username': API.getUserIdFromUsername
     'get:profilePic:from:userId': API.getProfilePicFromUserId
     'users:search': API.searchUsers
+    'user:isMainUser': API.isMainUser
     'user:isFriend': API.isFriend
     'user:isPublicUser': API.isPublicUser

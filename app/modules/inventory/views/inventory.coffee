@@ -35,13 +35,13 @@ module.exports = Backbone.Marionette.LayoutView.extend
     if Items.length is 0
       # dont show welcome inventory screen on other users inventory
       # it would be confusing to see 'welcome in your inventory' there
-      unless user?.id and not _.isMainUser(user.id)
+      unless user?.id and not app.request 'user:isMainUser', user.id
         @showInventoryWelcome(user)
         return
 
     if user?
       prepareUserItemsList(user, navigate)
-      if _.isMainUser(user.id) then @showFollowedEntitiesList()
+      if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
       docTitle = eventName = user.get('username')
     else
       app.execute 'filter:inventory:reset'

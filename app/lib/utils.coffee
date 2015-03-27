@@ -65,14 +65,6 @@ module.exports = (Backbone, _, app, window)->
       data = 'data:application/json;charset=utf-8,' + encodeURI(json)
       window.open data, windowName
 
-
-    isMainUser: (id)->
-      if id? then return id is app.user.id
-
-    isFriend: (id)->
-      unless id? and app.user.relations? then return false
-      return id in app.user.relations.friends
-
     style: (text, style)->
       switch style
         when 'strong' then "<strong>#{text}</strong>"
