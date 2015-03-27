@@ -191,22 +191,7 @@ module.exports = class ProfileSettings extends Backbone.Marionette.ItemView
         selector: '#languagePicker'
 
   # PICTURE
-  changePicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker
-      pictures: @model.get('picture')
-      limit: 1
-      save: savePicture
-    app.layout.modal.show picturePicker
-
-savePicture = (pictures)->
-  picture = pictures[0]
-  unless _.isUrl picture
-    throw new Error 'couldnt save picture: requires a url'
-
-  app.request 'user:update',
-    attribute: 'picture'
-    value: picture
-    selector: '#changePicture'
+  changePicture: require 'modules/user/lib/change_picture'
 
 
 testAttribute = (attribute, value, validator_)->

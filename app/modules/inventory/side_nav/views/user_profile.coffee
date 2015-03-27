@@ -12,6 +12,8 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
     'click #editBio': 'editBio'
     'click #saveBio': 'saveBio'
     'click #cancelBio': 'cancelBio'
+    'click #editPicture': 'editPicture'
+    'click a#changePicture': 'changePicture'
 
   behaviors:
     AlertBox: {}
@@ -80,6 +82,8 @@ module.exports = class UserProfile extends Backbone.Marionette.ItemView
     .catch (err)->
       app.user.set 'bio', prev
       formatErr(err)
+
+  changePicture: require 'modules/user/lib/change_picture'
 
 formatErr = (err)->
   err.selector = 'textarea.bio'
