@@ -41,16 +41,30 @@
 //  src: url(../fonts/Montserrat-Bold.ttf);
 // }
 
-$header-font-family: "Alegreya", serif;
-$body-font-family: "Alegreya Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$serif: 'Alegreya';
+$sans-serif: 'Alegreya Sans';
+
+$header-font-family: $serif, serif;
+$body-font-family: $sans-serif, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
 $topbar-link-font-family: $header-font-family;
 $tabs-navigation-font-family: $header-font-family;
 $body-font-color: #222;
 
 $button-font-family: $header-font-family;
-$input-font-family: 'Alegreya Sans';
-$label-font-family: 'Alegreya Sans';
+$input-font-family: $sans-serif;
+$label-font-family: $sans-serif;
 
-label{
-  text-transform: uppercase;
+
+@mixin serif() {
+  font-family: $serif;
+}
+@mixin sans-serif() {
+  font-family: $sans-serif;
+}
+.serif{
+  @include serif();
+}
+.sans-serif{
+  @include sans-serif();
 }
