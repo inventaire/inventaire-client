@@ -20,6 +20,15 @@ $global-radius: 3px; // Foundation variable
   border-bottom-right-radius: $radius;
 }
 
+@mixin radius-horizontal-group($radius:$global-radius){
+  :first-child{
+    @include radius-left();
+  }
+  :last-child{
+    @include radius-right();
+  }
+}
+
 .radius-top{ @include radius-top() }
 .radius-bottom{ @include radius-bottom() }
 .radius-left{ @include radius-left() }

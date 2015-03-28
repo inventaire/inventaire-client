@@ -2,6 +2,7 @@
   @include display-flex(row, null, null, wrap);
   margin-top: 1rem;
   margin-bottom: 1rem;
+  @include radius-horizontal-group();
   .button{
     .fa{
       font-size: 1rem

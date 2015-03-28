@@ -1,45 +1,9 @@
-@mixin vendor-prefix($property, $value, $prefixes: webkit moz ms o) {
-    @each $prefix in $prefixes {
-        #{"-" + $prefix + "-" + $property}: #{$value};
-    }
-    #{$property}: #{$value};
-}
-
-@mixin vendor-prefix-value($property, $value, $prefixes: webkit moz ms o) {
-    @each $prefix in $prefixes {
-       #{$property}: #{"-" + $prefix + "-" + $value};
-    }
-    #{$property}: #{$value};
-}
-
+@import 'vendor_prefix_mixins';
 @import 'flex_mixins';
+@import 'colors_mixins';
 
 @mixin transition($elements:all, $speed:0.5s, $mode:ease){
   transition: $elements $speed $mode;
-}
-
-@mixin hover-darken($color, $darken:15%) {
-  background-color: $color;
-  @include transition(background-color);
-  &:hover{
-    background-color: darken($color, $darken);
-  }
-}
-
-@mixin color-class($color, $contrast:white, $darken:15%) {
-  color: $color;
-  &.button{
-    color: $contrast;
-    @include hover-darken($color, $darken);
-  }
-}
-
-@mixin bg-hover($bg-color, $darken:15%){
-  background-color: $bg-color;
-  @include transition(background-color);
-  &:hover{
-    background-color: darken($bg-color, $darken);
-  }
 }
 
 @mixin custom-button($bg-color, $color: white, $margin: 0.1em, $padding:1em, $darken:15%){
@@ -70,57 +34,5 @@
     a, li, i.fa{
       color: $dark-grey;
     }
-  }
-}
-
-.bg-cover-commons{
-  background-size: cover;
-  background-position: center center;
-  transition: background 0.5s ease;
-}
-
-@mixin bg-cover($url){
-  @extend .bg-cover-commons;
-  background-image: url($url);
-}
-
-@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
-  @extend .bg-cover-commons;
-  /*Small screens*/
-  @media screen and (max-width: 500px) {
-    background-image: url('http://cdn.filter.to/500x500/' + $url);
-  }
-  /*Large screens*/
-  @media screen and (min-width: 500px) {
-    background-image: url('http://cdn.filter.to/1000x1000/' + $url);
-  }
-  @if $hd {
-    @media screen and (min-width: 1300px) {
-      background-image: url($protocol + '://' + $url);
-    }
-  }
-}
-
-@mixin custom-column($max-width: 50em){
-  @include display-flex(column, center, center);
-  > div{
-    max-width: $max-width;
-  }
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-    margin: 1em;
-    padding: 1em;
-  }
-}
-
-@mixin button-group-radius($radius: $global-radius){
-  // to be @include'd in a .button{} typically
-  &:first-child{
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-  &:last-child{
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
   }
 }

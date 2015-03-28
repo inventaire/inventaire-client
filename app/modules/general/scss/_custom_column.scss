@@ -1,3 +1,15 @@
+@mixin custom-column($max-width: 50em){
+  @include display-flex(column, center, center);
+  > div{
+    max-width: $max-width;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    margin: 1em;
+    padding: 1em;
+  }
+}
+
 .custom-column{
   @include custom-column();
 }

@@ -1,5 +1,3 @@
-@import "book-bg";
-
 $pitch-bg-color: rgba(255, 255, 255, 0.6);
 
 section#landingScreen{
@@ -33,11 +31,11 @@ section#landingScreen{
   #loginButtons{
     margin-bottom: auto;
     @include display-flex(row, center, center, wrap);
+    @include radius-horizontal-group();
     .button{
       @include flex(1);
       font-weight: bold;
       min-width: 10em;
-      @include button-group-radius();
     }
   }
 

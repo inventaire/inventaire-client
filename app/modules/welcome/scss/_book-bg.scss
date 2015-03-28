@@ -1,5 +1,0 @@
-.book-bg{
-  @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
-  @include flex(1);
-  @include display-flex();
-}
