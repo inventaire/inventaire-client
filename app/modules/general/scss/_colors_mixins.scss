@@ -21,3 +21,10 @@
     background-color: darken($bg-color, $darken);
   }
 }
+
+@mixin shy($opacity:0.6, $hover-opacity:1){
+  opacity: $opacity;
+  &:hover{
+    opacity: $hover-opacity;
+  }
+}
