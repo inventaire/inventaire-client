@@ -14,3 +14,4 @@ module.exports =
   testJson: '/api/test/public/json'
   scripts:
     persona: '/public/javascripts/persona-include.js?DIGEST'
+    pouchdb: '/public/javascripts/pouchdb-3.3.1.min.js'

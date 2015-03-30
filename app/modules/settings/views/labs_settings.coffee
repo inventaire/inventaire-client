@@ -47,7 +47,7 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
 
   importPouchDbScript: ->
     _.log 'Importing PouchDB'
-    $.getScript 'https://github.com/pouchdb/pouchdb/releases/download/3.2.1/pouchdb-3.2.1.min.js'
+    $.getScript app.API.scripts.pouchdb
     .fail (err)-> _.error err, 'failed to import PouchDB'
 
   replicateInventory: ->
