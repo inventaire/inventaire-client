@@ -42,7 +42,11 @@
   <meta name="msapplication-TileImage" content="/mstile-144x144.png">
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+  <div class="booting">
+    <i class="fa fa-spinner fa-pulse fa-3x"></i>
+  </div>
+</div>
 <div id="legacy">
   <form id="browserLogin" method="post" action="/api/auth/public?action=submit" onclick="false" autocomplete="on">
       <input type="text" name="username" id="browserUsername" />
