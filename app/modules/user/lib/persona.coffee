@@ -8,15 +8,15 @@ module.exports = ->
 # As the window reloads at login, navigator.id / Persona script
 # won't be there anymore, hypothetically suppressing the need to logout
 requestPersonaLogin = ->
-  preparePersona()
+  fetchPersona()
+  .then initPersona
   .then makeRequest
   .catch _.Error('Persona Login err')
 
-preparePersona = ->
+fetchPersona = ->
   if navigator.id? then _.preq.resolve()
   else
     _.preq.getScript app.API.scripts.persona
-    .then initPersona
 
 initPersona = ->
   navigator.id.watch
