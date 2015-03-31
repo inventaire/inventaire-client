@@ -1,0 +1,23 @@
+<div class="transactionMenu {{currentTransaction.id}}">
+  {{#if restricted}}
+    <a class="current itemShow">
+      {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
+    </a>
+  {{else}}
+    <a class="current" data-dropdown="{{uiId}}-t-menu">
+      {{icon currentTransaction.icon}}
+      {{icon 'caret-down'}}
+    </a>
+    <ul id="{{uiId}}-t-menu" data-options="align:right"
+    class="tiny f-dropdown" data-dropdown-content>
+      <li class="capitalized">{{i18n 'available for'}}:</li>
+      {{#each transactions}}
+        <li>
+          <a id="{{id}}" class="transaction">
+            {{icon icon}} {{i18n label}}
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</div>

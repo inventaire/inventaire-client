@@ -15,7 +15,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   events:
     'click .edit': 'itemEdit'
     'click a.itemShow, img:not(.profilePic)': 'itemShow'
-    'click a.user': -> app.execute 'show:user', @username
+    'click a.user': -> app.execute 'show:user', @model.get('username')
     'click a.remove': 'itemDestroy'
     'click a.commentToggleWrap': -> @toggleWrap('comment')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
@@ -24,9 +24,9 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
+    attrs[attrs.transaction] = true
     attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
-    @username = attrs.username
     return attrs
 
   wrapData: (attrs)->

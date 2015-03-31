@@ -56,11 +56,12 @@ $user-box-heigth: 3em;
     }
   }
 }
-.settings{
+.itemBox{
   min-height: $user-box-heigth;
   width: 100%;
-  @include display-flex(row, center, space-between);
-  justify-content: space-around;
+  @include display-flex(row, center, center);
+}
+.settings{
   div{
     background-color: $main-bg;
     @include flex(null, null, auto);
