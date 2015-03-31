@@ -2,13 +2,36 @@
   .entityBox{
     @extend .shadow-box;
     background-color: $dark-grey;
-    h2, h3, a, span{
+    h2, a, span, label{
       color: white;
     }
   }
-  h3{
-    margin-top: 1em;
+  label{
+    margin-top: 0.5em;
     margin-bottom: 0;
+    font-size: 1.5em;
+  }
+  .button{
+    font-weight: bold;
+  }
+  #notesGroup{
+    background-color: $dark-grey;
+    @include radius();
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 0.2em 1em 1em 1em;
+    label, span{
+      color: white;
+    }
+    label{
+      margin-top: 0;
+      display: inline-block;
+    }
+    span{
+      margin-left: auto;
+      float: right;
+      margin-top: 0.3em;
+    }
   }
 
   /*Small screens*/
