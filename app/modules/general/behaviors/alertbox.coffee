@@ -19,7 +19,7 @@ module.exports = AlertBox = Marionette.Behavior.extend
       return
 
     if selector?
-      unless /^\.|#/.test selector
+      unless /\.|#/.test selector
         _.error selector, 'invalid selector'
       $target = $(selector)
 
