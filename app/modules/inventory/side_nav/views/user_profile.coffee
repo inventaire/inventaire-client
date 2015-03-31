@@ -60,7 +60,9 @@ module.exports = UserProfile = Backbone.Marionette.ItemView.extend
   editBio: -> @ui.bio.toggle()
   cancelBio: -> @ui.bio.toggle()
   saveBio: ->
+    currentBio = @model.get('bio')
     bio = @ui.bioText.val()
+    if bio is currentBio then return @cancelBio()
 
     _.preq.start()
     .then @testBio.bind(null, bio)
