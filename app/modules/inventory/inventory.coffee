@@ -155,13 +155,14 @@ initializeInventoriesHandlers = (app)->
 
   app.reqres.setHandlers
     'item:update': (options)->
-      # expects: item, attribute, value. optional: selector
+      # expects: item, attribute, value
+      # optional: selector
       {item, attribute, value, selector} = options
       types = ['object', 'string', 'string|array', 'string|undefined']
       _.types [item, attribute, value, selector], types
 
       item.set(attribute, value)
-      promise = item.save()
+      promise = _.preq.resolve item.save()
       if selector?
         app.request 'waitForCheck',
           promise: promise

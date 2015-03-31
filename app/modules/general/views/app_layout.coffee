@@ -81,7 +81,6 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
 
     # action or promise MUST be provided
     if action? then promise = action()
-    else promise = promise
 
     # success and/or error handlers CAN be provided
     promise

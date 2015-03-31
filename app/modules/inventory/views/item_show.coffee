@@ -47,16 +47,17 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
   changePicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker {
+    picturePicker = new app.View.Behaviors.PicturePicker
       pictures: @model.get('pictures')
       limit: 3
-      save: (value)=>
-        app.request 'item:update',
-          item: @model
-          attribute: 'pictures'
-          value: value
-    }
+      save: @savePicture.bind(@)
     app.layout.modal.show picturePicker
+
+  savePicture: (value)->
+    app.request 'item:update',
+      item: @model
+      attribute: 'pictures'
+      value: value
 
   itemDestroy: ->
     app.request 'item:destroy',
@@ -77,11 +78,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
 
   validateEdit: (nameBase)->
     @toggleEditor(nameBase)
-    _.log nameBase, 'nameBase'
-    _.log "##{nameBase} textarea"
     edited = $("##{nameBase}Editor textarea").val()
-    console.log edited
-    console.log edited isnt @model.get(nameBase)
     if edited isnt @model.get(nameBase)
       app.request 'item:update',
         item: @model

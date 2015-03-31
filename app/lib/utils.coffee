@@ -138,7 +138,6 @@ module.exports = (Backbone, _, app, window)->
         i = 0
         while i < pairs
           [key, value] = [ array[i], array[i+1] ]
-          console.log key, value
           obj[key] = value
           i += 1
 
