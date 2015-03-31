@@ -56,7 +56,7 @@ API =
     if app.request 'user:isPublicUser', owner
       return app.request 'requestPublicItem', username, entity
     else
-      return Items.friends.where({owner: owner, entity: entity})
+      return Items.where({owner: owner, entity: entity})
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
