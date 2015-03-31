@@ -29,7 +29,7 @@ module.exports = Welcome = Backbone.Marionette.LayoutView.extend
     @showFeedbacksButton()
 
   loadPublicItems: ->
-    _.preq.get app.API.items.fetchUserPublicItems
+    _.preq.get app.API.items.lastPublicItems
     .catch _.preq.catch404
     .then (res)=>
       if res?.items?.length > 0
