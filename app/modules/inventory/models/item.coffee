@@ -1,12 +1,7 @@
 Filterable = require 'modules/general/models/filterable'
 
 module.exports = Item = Filterable.extend
-  url: ->
-    # keeps the url built at runtime to follow revs evolution
-    # which are needed to be in the url for DELETE
-    @updatedUrl()
-
-  updatedUrl: -> app.API.items.item @get('owner'), @id, @get('_rev')
+  url: -> app.API.items.base
 
   validate: (attrs, options)->
     unless attrs.title? then return "a title must be provided"
@@ -100,3 +95,12 @@ module.exports = Item = Filterable.extend
     app.request 'get:entity:model', uri
     .then (entityModel)=> @entity = entityModel
     .catch (err)-> console.error 'get:entity:model catch', err
+
+  # passing id and rev as query paramaters
+  destroy: ->
+    # reproduce the behavior from the default Bacbkone::destroy
+    @trigger 'destroy', @, @collection
+    url = _.buildPath @url(),
+      id: @id
+      rev: @get('_rev')
+    return _.preq.delete url
