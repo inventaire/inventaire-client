@@ -177,10 +177,7 @@ initializeInventoriesHandlers = (app)->
       _.types [model, selector, next], ['object', 'string', 'function']
       title = model.get('title')
 
-      action = (options)->
-        promise = model.destroy()
-        next()
-        return promise
+      action = -> model.destroy().then next
 
       $(selector).trigger 'askConfirmation',
         confirmationText: _.i18n('destroy_item_text', {title: title})

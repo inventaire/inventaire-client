@@ -26,7 +26,7 @@ module.exports = ConfirmationModal = Backbone.Marionette.ItemView.extend
     @$el.trigger 'check', @close.bind(@)
     return res
 
-  error: (check, err)->
+  error: (err)->
     _.error err, 'confirmation action err'
     @$el.trigger 'fail', @close.bind(@)
     return err
