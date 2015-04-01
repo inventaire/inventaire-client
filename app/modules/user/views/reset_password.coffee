@@ -36,6 +36,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   startPasswordLoading: -> @$el.trigger 'loading', {selector: '#updatePassword'}
 
   updateUserPassword: (password)->
+    app.execute 'prepare:login:redirect', 'home'
     # setting currentPassword to null make it be an empty string on server
     # thus the preference for undefined
     app.request 'password:update', undefined, password, '#password'
