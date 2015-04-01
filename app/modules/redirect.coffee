@@ -6,7 +6,7 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        '': 'showHome'
+        '(home)': 'showHome'
         'welcome': 'showWelcome'
         '*route': 'notFound'
 
@@ -15,6 +15,9 @@ module.exports =
         controller: API
 
   initialize: ->
+    app.reqres.setHandlers
+      'require:loggedIn': API.requireLoggedIn
+
     app.commands.setHandlers
       'show:home': API.showHome
       'show:welcome': API.showWelcome
@@ -26,6 +29,14 @@ module.exports =
     initQuerystringActions()
 
 API =
+  requireLoggedIn: (route)->
+    _.log app.user.loggedIn, 'app.user.loggedIn'
+    if app.user.loggedIn then return true
+    else
+      app.execute 'show:login'
+      app.execute 'prepare:login:redirect', route
+      return false
+
   showHome: ->
     if app.user.loggedIn
       app.execute 'show:inventory:general'

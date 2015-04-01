@@ -11,6 +11,7 @@ module.exports = ->
     'email:confirmation:request': emailConfirmationRequest
 
   app.commands.setHandlers
+    'prepare:login:redirect': prepareLoginRedirect
     'logout': requestLogout
 
 requestClassicSignup = (options)->
@@ -64,7 +65,17 @@ requestPersonaLogin = (assertion)->
     assertion: assertion
     # needed on signup requests
     username: localStorage.getItem('username')
-  .then -> window.location.reload()
+  .then redirect
+
+redirect = ->
+  window.location.href = app.request 'route:querystring:get', 'redirect'
+
+# browserid login finds the redirect parameter in the querystring
+# classic login finds the redirect parameter in form#browserLogin action
+prepareLoginRedirect = (redirect)->
+  _.type redirect, 'string'
+  app.execute 'route:querystring:set', 'redirect', redirect
+  $('#browserLogin')[0].action += "&redirect=#{redirect}"
 
 emailConfirmationRequest = ->
   _.log 'sending emailConfirmationRequest'
