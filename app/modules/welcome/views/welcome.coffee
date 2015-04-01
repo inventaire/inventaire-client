@@ -31,23 +31,26 @@ module.exports = Welcome = Backbone.Marionette.LayoutView.extend
   loadPublicItems: ->
     _.preq.get app.API.items.lastPublicItems
     .catch _.preq.catch404
-    .then (res)=>
-      if res?.items?.length > 0
-        _.log res, 'Items.public res'
-        app.users.public.add res.users
-        items = new app.Collection.Items
-        items.add res.items
-        itemsColumns = new app.View.Items.List
-          collection: items
-          columns: true
-        @previewColumns.show itemsColumns
-      else @hidePublicItems()
-    .catch (err)=>
-      @hidePublicItems()
-      _.log err, 'couldnt loadPublicItems'
+    .then @displayPublicItems.bind(@)
+    .catch @hidePublicItems.bind(@)
     .catch (err)-> _.error err, 'hidePublicItems err'
 
-  hidePublicItems: -> $('#lastPublicBooks').hide()
+  displayPublicItems: (res)->
+    unless res?.items?.length > 0 then return @hidePublicItems()
+
+    app.users.public.add res.users
+
+    items = new app.Collection.Items
+    items.add res.items
+
+    itemsColumns = new app.View.Items.List
+      collection: items
+      columns: true
+    @previewColumns.show itemsColumns
+
+  hidePublicItems: (err)->
+    $('#lastPublicBooks').hide()
+    if err? then throw err
 
   hideTopBar: -> $('.top-bar').hide()
   showTopBar: -> $('.top-bar').slideDown()
