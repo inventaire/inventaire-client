@@ -12,7 +12,6 @@ module.exports = Backbone.Marionette.CollectionView.extend
     @$el.imagesLoaded @lazyMasonry.bind(@)
 
   setMasonry: ->
-    _.log 'setMasonry'
     @$el.masonry
       itemSelector: '.itemContainer'
       isFitWidth: true
