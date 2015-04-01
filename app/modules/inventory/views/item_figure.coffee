@@ -15,7 +15,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   events:
     'click .edit': 'itemEdit'
     'click a.itemShow, img:not(.profilePic)': 'itemShow'
-    'click a.user': -> app.execute 'show:user', @model.get('username')
+    'click a.user': -> app.execute 'show:user', @model.username
     'click a.remove': 'itemDestroy'
     'click a.commentToggleWrap': -> @toggleWrap('comment')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
