@@ -46,18 +46,19 @@ module.exports = Backbone.NestedModel.extend
 
     @updateLastPageTime(timestamp)
     @updateSessionTime()
-    @push 'navigation', action
+    push @, 'navigation', action
     @trigger 'update'
 
   recordError: (error)->
     hash = _.hashCode JSON.stringify(error)
     error.hash = hash
-    @push 'error', error
+    push @, 'error', error
     @lastPageSet 'errorHash', hash
     @trigger 'update'
 
   updateLastPageTime: (timestamp)->
-    last = @get('navigation')?.last()
+    # not using Array::last as it might not be defined yet
+    last = @get('navigation')?.slice(-1)[0]
     if last?
       lastIndex = @get('navigation').length - 1
       key = "navigation[#{lastIndex}].time"
@@ -65,13 +66,14 @@ module.exports = Backbone.NestedModel.extend
       @set key, pageTime
 
   lastPageSet: (attr, value)->
-    last = @get('navigation')?.last()
+    # not using Array::last as it might not be defined yet
+    last = @get('navigation')?.slice(-1)[0]
     if last?
       lastIndex = @get('navigation').length - 1
       key = "navigation[#{lastIndex}].#{attr}"
       if key? then @set key, value
     else
-      @push 'navigation', {attr: value}
+      push @, 'navigation', {attr: value}
 
   logFirstLoadTime: ->
     window.onload = @firstLoadTime.bind(@)
@@ -90,3 +92,12 @@ module.exports = Backbone.NestedModel.extend
 
   updateSessionTime: ->
     @set 'time.sessionTimeSec', @timer()
+
+
+# not using Backbone::push as Session::recordError
+# might be called before Backbone::push is defined
+
+push = (model, attribute, value)->
+  arr = model.get attribute
+  arr.push value
+  model.set attribute, arr
