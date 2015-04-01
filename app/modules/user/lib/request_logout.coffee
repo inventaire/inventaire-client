@@ -7,7 +7,9 @@ logoutSuccess = (data)->
   deleteLocalDatabases()
   app.execute 'persona:logout:request'
   _.log "You have been successfully logged out"
-  window.location.reload()
+  # redirecting home so that it doesn't trigger a route requiring login
+  # thus triggering a show:login
+  window.location.href = '/'
 
 logoutError = (err)->
   _.error err, 'logout error'
