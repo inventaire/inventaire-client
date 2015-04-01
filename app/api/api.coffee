@@ -10,7 +10,7 @@ module.exports =
   feedbacks: '/api/feedbacks/public'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
-  test: '/api/test/public'
+  test: '/api/tests/public'
   scripts:
     persona: '/public/javascripts/persona-include.js?DIGEST'
     pouchdb: '/public/javascripts/pouchdb-3.3.1.min.js'
