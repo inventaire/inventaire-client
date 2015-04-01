@@ -65,5 +65,5 @@ guessLanguage = ->
 
 # querystring parameters > other settings sources
 solveLang = (lang)->
-  qsLang = app.request 'route:querystring', 'lang'
+  qsLang = app.request 'route:querystring:get', 'lang'
   return qsLang or lang
