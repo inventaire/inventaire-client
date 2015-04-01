@@ -26,22 +26,26 @@ module.exports =
 
 API =
   showGeneralInventory: ->
-    showInventory
-      ownerId: null
+    if app.request 'require:loggedIn', 'inventory'
+      showInventory
+        ownerId: null
 
   showUserInventory: (user, navigate)->
-    showInventory
-      user: user
-      navigate: navigate
+    if app.request 'require:loggedIn', "inventory/#{user}"
+      showInventory
+        user: user
+        navigate: navigate
 
   showItemCreationForm: (options)->
     form = new ItemCreationForm options
     app.layout.main.show form
 
   itemShow: (username, entity, label)->
-    app.execute('show:loader', {title: "#{label} - #{username}"})
-    cb = @showItemShow.bind(@, username, entity, label)
-    app.request 'waitForItems', cb
+    route = "inventory/#{username}/#{entity}"
+    if app.request 'require:loggedIn', route
+      app.execute('show:loader', {title: "#{label} - #{username}"})
+      cb = @showItemShow.bind(@, username, entity, label)
+      app.request 'waitForItems', cb
 
   showItemShow: (username, entity, label)->
     _.preq.start()
@@ -79,7 +83,6 @@ API =
     if userItems?.length > 0 then Items.remove userItems
 
 showInventory = (options)->
-  unless app.user.loggedIn then return app.execute 'show:welcome'
   inventoryLayout = new InventoryLayout options
   app.layout.main.show inventoryLayout
 
@@ -143,9 +146,14 @@ initializeInventoriesHandlers = (app)->
       else app.navigate "inventory/#{username}/#{entity}"
 
     'show:item:show:from:model': (item)->
-      API.showItemShowFromItemModel(item)
-      if item.pathname? then app.navigate item.pathname
-      else _.error item, 'missing item.pathname'
+      { username } = item
+      { entity } = item.attributes
+
+      route = "inventory/#{username}/#{entity}"
+      if app.request 'require:loggedIn', route
+        API.showItemShowFromItemModel(item)
+        if item.pathname? then app.navigate item.pathname
+        else _.error item, 'missing item.pathname'
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi
