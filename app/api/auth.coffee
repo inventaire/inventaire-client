@@ -10,3 +10,4 @@ module.exports =
   emailConfirmation: auth 'email-confirmation'
   updatePassword: auth 'update-password'
   resetPassword: authPublic 'reset-password'
+  # submit: defined directly in index.html form
