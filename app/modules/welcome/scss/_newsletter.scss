@@ -13,4 +13,9 @@ section#newsletter{
       margin-left: 1em;
     }
   }
+  #thanks{
+    font-size: 1.2em;
+    font-weight: bold;
+    @include serif();
+  }
 }
