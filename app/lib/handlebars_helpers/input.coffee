@@ -47,7 +47,9 @@ module.exports =
       button.text = name
 
     if data.button?.icon?
-      data.button.text = "<i class='fa fa-#{data.button.icon}'></i>"
+      if data.button.text?
+        data.button.text = "<i class='fa fa-#{data.button.icon}'></i><span>#{data.button.text }</span>"
+      else data.button.text = "<i class='fa fa-#{data.button.icon}'></i>"
 
     # data overriding happens here
     data =
