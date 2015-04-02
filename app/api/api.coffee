@@ -10,6 +10,7 @@ module.exports =
   feedbacks: '/api/feedbacks/public'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
+  newsletter: '/api/newsletter/public'
   test: '/api/tests/public'
   scripts:
     persona: '/public/javascripts/persona-include.js?DIGEST'

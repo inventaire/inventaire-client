@@ -1,0 +1,16 @@
+section#newsletter{
+  background-color: $darker-grey;
+  p, span{
+    color: white;
+  }
+  #subscribeGroup{
+    max-width: 30em;
+    margin: auto;
+  }
+  .button{
+    span{
+      font-weight: bold;
+      margin-left: 1em;
+    }
+  }
+}

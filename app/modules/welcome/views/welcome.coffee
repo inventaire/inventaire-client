@@ -1,4 +1,5 @@
 NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
+newsletterSusbscribe = require './newsletter_susbscribe'
 
 module.exports = Welcome = Backbone.Marionette.LayoutView.extend
   id: 'welcome'
@@ -8,13 +9,25 @@ module.exports = Welcome = Backbone.Marionette.LayoutView.extend
 
   initialize: ->
     # importing loggin buttons events
-    @events = NotLoggedMenu::events
+    @events = _.extend @events, NotLoggedMenu::events
+    _.extend @, newsletterSusbscribe
+
+  events:
+    'click #subscribeButton': 'subscribeToNewsletter'
+
+  behaviors:
+    AlertBox: {}
+    Loading: {}
+    SuccessCheck: {}
 
   serializeData: ->
     loggedIn: app.user.loggedIn
+    subscribe: @subscribeData()
 
   ui:
     topBarTrigger: '#middle-three'
+    email: '#subscribeField'
+    thanks: '#thanks'
 
   onShow: ->
     @loadPublicItems()
