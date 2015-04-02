@@ -1,9 +1,8 @@
-section#social-networks{
+section#social-networks, .joyride-content-wrapper #socialNetworks{
   background-color: $darker-grey;
   @include display-flex(row, flex-start, center, wrap);
   a{
     @include display-flex(column, center, center);
-    width: 10em;
     margin-top: 1em;
     margin-bottom: 1em;
     .fa, span{
@@ -15,7 +14,6 @@ section#social-networks{
       }
     }
     .fa{
-      font-size: 2.5em;
       margin: 0;
       padding: 0;
     }
@@ -25,5 +23,16 @@ section#social-networks{
       @include serif();
       font-weight: bold;
     }
+  }
+}
+
+section#social-networks{
+  a{
+    width: 10em;
+  }
+  .fa{
+    font-size: 2.5em;
+  }
+  span{
   }
 }

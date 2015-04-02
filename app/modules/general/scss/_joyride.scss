@@ -1,20 +1,6 @@
 $joyride-tip-font-size: 1em; // Foundation variable
 $joyride-tip-bg: $darker-grey; // Foundation variable
 
-#socialNetworks{
-  @include display-flex(row, center, space-around);
-  height: 2.6em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  a.link:first-child, i.fa{
-    @extend .link;
-    color: white;
-    max-height: 3em;
-    font-size: 2em;
-  }
-}
-
-
 $joyride-tip-default-width: 400px;
 .joyride-content-wrapper{
   img{
@@ -23,10 +9,19 @@ $joyride-tip-default-width: 400px;
   h5{
     margin-bottom: 0.4em !important;
   }
-}
-
-#conclusion{
-  h5{
-    text-align: center;
+  #conclusion{
+    h5{
+      text-align: center;
+    }
+  }
+  #socialNetworks{
+    a{
+      min-width: 6em;
+    }
+    .fa{
+      font-size: 1.4em;
+    }
+    span{
+    }
   }
 }
