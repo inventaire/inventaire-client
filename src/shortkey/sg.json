@@ -49,5 +49,11 @@
     "email_confirmation_error_button": null,
     "email_confirmation_offline_error": null,
     "new_confirmation_email": null,
-    "email_wasnt_verified": null
+    "email_wasnt_verified": null,
+    "confirmation_password_reset_email_sent": null,
+    "request_new_token": null,
+    "feedback_title": null,
+    "feedback_intro": null,
+    "get_involved": null,
+    "contribution_ideas": null
 }
