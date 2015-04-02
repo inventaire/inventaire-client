@@ -6,7 +6,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     Loading: {}
 
   events:
-    'click .showHome, .showLogin ': -> app.execute 'modal:close'
+    'click .showHome, .showLoginRedirectSettings': -> app.execute 'modal:close'
+    'click .showLoginRedirectSettings': 'showLoginRedirectSettings'
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
 
   onShow: ->  app.execute('modal:open')
@@ -20,6 +21,9 @@ module.exports = Backbone.Marionette.ItemView.extend
     app.request 'email:confirmation:request'
     .then emailSent
     .catch emailFail.bind(@)
+
+  showLoginRedirectSettings: ->
+    app.request 'show:login:redirect', 'settings/profile'
 
 emailSent = -> app.execute 'modal:close'
 emailFail = -> @$el.trigger 'somethingWentWrong'
