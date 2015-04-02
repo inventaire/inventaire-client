@@ -17,6 +17,7 @@ module.exports =
   initialize: ->
     app.reqres.setHandlers
       'require:loggedIn': API.requireLoggedIn
+      'show:login:redirect': API.requireLoggedIn
 
     app.commands.setHandlers
       'show:home': API.showHome
@@ -34,6 +35,7 @@ API =
     if app.user.loggedIn then return true
     else
       app.execute 'show:login'
+      # the route shouldn't have the first '/'. ex: inventory/georges
       app.execute 'prepare:login:redirect', route
       return false
 
