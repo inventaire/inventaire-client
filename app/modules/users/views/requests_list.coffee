@@ -5,5 +5,5 @@ module.exports = RequestsList = ListWithCounter.extend
   emptyView: require './no_request'
   className: 'requests has-dropdown not-click'
   serializeData: ->
-    icon: 'user'
+    icon: 'user-plus'
     label: _.i18n 'friends requests'
