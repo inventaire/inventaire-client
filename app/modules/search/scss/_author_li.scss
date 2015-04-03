@@ -10,6 +10,18 @@
     color: $contrast;
     font-size: 3rem;
   }
+  div.more{
+    @include display-flex(row, center, center);
+    width: 100%;
+    text-align: center;
+    height: 3em;
+    a.displayMore{
+      height: 100%;
+      @include display-flex(row, center, center);
+      @include flex(1);
+      @include bg-hover($light-grey);
+    }
+  }
 }
 
 .authorsBooks{

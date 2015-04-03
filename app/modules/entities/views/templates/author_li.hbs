@@ -14,7 +14,11 @@
     <ul class="authorsBooks">
     </ul>
     <span class="loading"></span>
-    <a class="more hidden grey">{{i18n 'more'}}</a>
+    {{#if more}}
+      <div class="more">
+        <a class="displayMore">{{icon 'chevron-down'}}{{i18n 'more'}}</a>
+      </div>
+    {{/if}}
   </div>
 </div>
 {{#if wikipediaPreview}}
