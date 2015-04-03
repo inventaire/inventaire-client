@@ -4,7 +4,7 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     SearchRouter = Marionette.AppRouter.extend
       appRoutes:
-        'search': 'search'
+        'search': 'searchFromQueryString'
 
     app.addInitializer ->
       new SearchRouter
@@ -12,19 +12,23 @@ module.exports =
 
   initialize: ->
     app.commands.setHandlers
-      'search:global': (queryString)->
-        API.search(queryString)
-        app.navigate "search?#{queryString}"
+      'search:global': (query)->
+        API.search(query)
+        app.navigate "search?q=#{query}"
 
     app.reqres.setHandlers
       'search:entities': API.searchEntities
 
-API =
-  search: (queryString)->
-    params =
-      query: _.softDecodeURI(queryString)
+API = {}
+API.search = (query)->
+  params =
+    query: _.softDecodeURI(query)
 
-    app.search = searchLayout = new Search(params)
+  app.search = searchLayout = new Search(params)
 
-    docTitle = "#{queryString} - " +  _.i18n('Search')
-    app.layout.main.Show searchLayout, docTitle
+  docTitle = "#{query} - " +  _.i18n('Search')
+  app.layout.main.Show searchLayout, docTitle
+
+API.searchFromQueryString = (querystring)->
+  query = _.parseQuery(querystring).q
+  API.search query

@@ -9,7 +9,7 @@ module.exports =
       placeholder: 'email'
     button:
       icon: 'envelope'
-      text: 'subscribe'
+      text: _.i18n 'subscribe'
 
   subscribeToNewsletter: ->
     email = @ui.email.val()
