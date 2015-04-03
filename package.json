@@ -1,9 +1,9 @@
 {
   "author": "maxlath",
   "name": "inventaire-client",
-  "description": "resources mapper",
-  "version": "0.0.1",
-  "homepage": "http://inventaire.io",
+  "description": "a libre collaborative resources mapper powered by open-knowledge (client-side)",
+  "version": "0.1.0",
+  "homepage": "https://inventaire.io",
   "repository": {
     "type": "git",
     "url": "http://github.com/maxlath/inventaire-client"
