@@ -68,7 +68,10 @@ requestPersonaLogin = (assertion)->
   .then redirect
 
 redirect = ->
-  window.location.href = app.request 'route:querystring:get', 'redirect'
+  redirect = app.request('route:querystring:get', 'redirect')
+  if redirect? then redirect = "/#{redirect}"
+  else redirect = '/'
+  window.location.href = redirect
 
 # browserid login finds the redirect parameter in the querystring
 # classic login finds the redirect parameter in form#browserLogin action
