@@ -2,7 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.LayoutView.extend
   template: require './templates/signup_classic'
@@ -18,7 +18,7 @@ module.exports = Backbone.Marionette.LayoutView.extend
     suggestion: '#suggestion'
     password: '#password'
 
-  initialize: -> _.extend @, loadingPlugin
+  initialize: -> _.extend @, behaviorsPlugin
 
   events:
     'blur #classicUsername': 'earlyVerifyClassicUsername'

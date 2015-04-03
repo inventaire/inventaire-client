@@ -1,4 +1,4 @@
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
   className: 'book-bg'
@@ -10,7 +10,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   behaviors:
     Loading: {}
 
-  initialize: -> _.extend @, loadingPlugin
+  initialize: -> _.extend @, behaviorsPlugin
 
   onShow: ->
     # automatically triggers login

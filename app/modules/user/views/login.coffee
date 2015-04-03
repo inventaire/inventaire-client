@@ -2,7 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
   className: 'book-bg'
@@ -25,7 +25,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     username: '#username'
     password: '#password'
 
-  initialize: -> _.extend @, loadingPlugin
+  initialize: -> _.extend @, behaviorsPlugin
 
   onShow:-> @ui.username.focus()
 

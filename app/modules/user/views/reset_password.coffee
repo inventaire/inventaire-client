@@ -1,6 +1,6 @@
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
   behaviors:
@@ -19,7 +19,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   ui:
     password: '#password'
 
-  initialize: -> _.extend @, loadingPlugin
+  initialize: -> _.extend @, behaviorsPlugin
 
   events:
     'click #updatePassword': 'updatePassword'

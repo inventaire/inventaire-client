@@ -1,6 +1,6 @@
 email_ = require 'modules/user/lib/email_tests'
 forms_ = require 'modules/general/lib/forms'
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/forgot_password'
@@ -15,7 +15,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     confirmationEmailSent: '#confirmationEmailSent'
 
   initialize: ->
-    _.extend @, loadingPlugin
+    _.extend @, behaviorsPlugin
     @lazySendEmail = _.debounce @sendEmail.bind(@), 1500, true
 
   serializeData: ->

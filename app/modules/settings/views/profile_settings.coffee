@@ -2,7 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
   template: require './templates/profile_settings'
@@ -24,7 +24,7 @@ module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
     languagePicker: '#languagePicker'
 
   initialize: ->
-    _.extend @, loadingPlugin
+    _.extend @, behaviorsPlugin
     @listenTo @model, 'change:picture', @render
     @listenTo app.vent, 'i18n:reset', ->
       @render()

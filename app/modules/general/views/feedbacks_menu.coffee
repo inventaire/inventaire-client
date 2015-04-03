@@ -1,4 +1,4 @@
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/feedbacks_menu'
@@ -8,7 +8,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     Loading: {}
     SuccessCheck: {}
 
-  initialize: -> _.extend @, loadingPlugin
+  initialize: -> _.extend @, behaviorsPlugin
 
   serializeData: ->
     loggedIn: app.user.loggedIn
@@ -26,19 +26,11 @@ module.exports = Backbone.Marionette.ItemView.extend
   sendFeedback: ->
     @startLoading('#sendFeedback')
     @postFeedback()
-    .then @success.bind(@)
-    .catch @error.bind(@)
+    .then @Check('feedback res', -> app.execute('modal:close'))
+    .catch @Fail('feedback err')
 
   postFeedback: ->
     _.preq.post app.API.feedbacks,
       subject: _.log @ui.subject.val(), 'subject'
       message: _.log @ui.message.val(), 'message'
       unknownUser: _.log @ui.unknownUser.val(), 'unknownUser'
-
-  success: (res)->
-    @$el.trigger 'check', -> app.execute('modal:close')
-    _.log res, 'res'
-
-  error: (err)->
-    @$el.trigger 'fail'
-    _.error err, 'err'

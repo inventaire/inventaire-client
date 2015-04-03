@@ -1,5 +1,5 @@
 wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 paginationPlugin = require 'modules/general/plugins/pagination'
 
 module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
@@ -20,7 +20,7 @@ module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
     @$el.once 'inview', @fetchBooks.bind(@)
 
   initPlugins: ->
-    _.extend @, loadingPlugin
+    _.extend @, behaviorsPlugin
     paginationPlugin.call(@, 5)
 
   events:

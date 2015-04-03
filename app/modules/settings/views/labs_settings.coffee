@@ -1,4 +1,4 @@
-loadingPlugin = require 'modules/general/plugins/loading'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
   template: require './templates/labs_settings'
@@ -16,7 +16,7 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
     url: '#pouchdbField'
 
   initialize: ->
-    _.extend @, loadingPlugin
+    _.extend @, behaviorsPlugin
 
   serializeData: ->
     pouchdb: @pouchDbData()
@@ -93,12 +93,8 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
   replicateDb: (db, url)->
     _.log 'Replicate to PouchDB!'
     db.replicate.to url
-    .then (data)=>
-      console.log 'replicateDb sucess', data
-      @$el.trigger 'check'
-    .catch (data)=>
-      console.warn 'replicateDb failure', data
-      @$el.trigger 'fail'
+    .then @Check('replicateDb success')
+    .catch @Fail('replicateDb success')
     .finally @stopLoading.bind(@)
 
 putItems = (db)->
