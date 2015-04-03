@@ -21,14 +21,16 @@ module.exports = (app, _)->
     query[key] = value
     setRouteQuery route, query
 
-  # report querystrings from the current route to the next one
+  # report persistant querystrings from the current route to the next one
   keep = (newRoute)->
     # get info on current route
     [currentRoute, currentQuery] = getRouteQuery()
+    # keep only whitelisted persistant parameters
+    currentQuery = _.pick currentQuery, persistantQuery
     # get info on new route
     [newRoute, newQuery] = newRoute.split('?')
     newQuery = _.parseQuery(newQuery)
-    # extend current query with new query
+    # extend persisting current parameters with new parameters
     newQuery = _.extend currentQuery, newQuery
     return _.buildPath(newRoute, newQuery)
 
@@ -47,3 +49,7 @@ module.exports = (app, _)->
 
   app.commands.setHandlers
     'route:querystring:set': set
+
+persistantQuery = [
+  'redirect'
+]
