@@ -21,17 +21,29 @@ module.exports = (app, _)->
     query[key] = value
     setRouteQuery route, query
 
+  # report querystrings from the current route to the next one
+  keep = (newRoute)->
+    # get info on current route
+    [currentRoute, currentQuery] = getRouteQuery()
+    # get info on new route
+    [newRoute, newQuery] = newRoute.split('?')
+    newQuery = _.parseQuery(newQuery)
+    # extend current query with new query
+    newQuery = _.extend currentQuery, newQuery
+    return _.buildPath(newRoute, newQuery)
+
+
+  getPath = ->
+    location.href
+    # take the part after location.origin
+    .split(location.origin)[1]
+    # remove the first character: '/'
+    .slice(1)
 
   app.reqres.setHandlers
     'route:querystring:get': get
+    'route:path:get': getPath
+    'route:querystring:keep': keep
 
   app.commands.setHandlers
     'route:querystring:set': set
-
-
-getPath = ->
-  location.href
-  # take the part after location.origin
-  .split(location.origin)[1]
-  # remove the first character: '/'
-  .slice(1)

@@ -24,6 +24,7 @@ App = Backbone.Marionette.Application.extend
       # record all routes visited for server-side statistics
       @session.record route
       route = route.replace /(\s|')/g, '_'
+      route = @request('route:querystring:keep', route)
       Backbone.history.last or= []
       Backbone.history.last.unshift route
       Backbone.history.navigate route, options
