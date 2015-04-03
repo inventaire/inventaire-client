@@ -16,4 +16,10 @@ successCheck_ =
 successCheck_.Check = (label, cb)-> successCheck_.check.bind(@, label, cb)
 successCheck_.Fail = (label, cb)-> successCheck_.fail.bind(@, label, cb)
 
-module.exports = _.extend {}, loading_, successCheck_
+alert_ =
+  alert: (message)->
+    console.warn(message)
+    @$el.trigger 'alert', { message: _.i18n(message) }
+    return
+
+module.exports = _.extend {}, loading_, successCheck_, alert_

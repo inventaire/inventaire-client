@@ -6,6 +6,7 @@ FindByIsbn = require './find_by_isbn'
 EntityCreate = require 'modules/entities/views/entity_create'
 wd_ = app.lib.wikidata
 books_ = app.lib.books
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Search = Backbone.Marionette.LayoutView.extend
   id: 'searchLayout'
@@ -29,6 +30,7 @@ module.exports = Search = Backbone.Marionette.LayoutView.extend
     createEntity: '#create'
 
   initialize: (params)->
+    _.extend @, behaviorsPlugin
     @query = params.query
 
   onShow: ->
@@ -76,7 +78,7 @@ module.exports = Search = Backbone.Marionette.LayoutView.extend
       .catch (err)=>
         # couldn't make the alert Behavior work properly
         # so the triggerMethod '404' thing is a provisory solution
-        @.$el.trigger 'alert', {message: _.i18n 'no item found'}
+        @alert 'no item found'
         @displayResults()
         _.log err, 'searchEntities err'
 

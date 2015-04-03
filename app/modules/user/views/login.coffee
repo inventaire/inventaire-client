@@ -60,12 +60,8 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   loginError: (err)->
     @stopLoading()
-    if err.status is 401 then @alertUsernameOrPasswordError()
+    if err.status is 401 then @alert @getErrMessage()
     else _.error err, 'classic login err'
-
-  alertUsernameOrPasswordError: ->
-    @$el.trigger 'alert',
-      message: _.i18n @getErrMessage()
 
   getErrMessage: ->
     username = @ui.username.val()

@@ -15,8 +15,7 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
   ui:
     url: '#pouchdbField'
 
-  initialize: ->
-    _.extend @, behaviorsPlugin
+  initialize: -> _.extend @, behaviorsPlugin
 
   serializeData: ->
     pouchdb: @pouchDbData()
@@ -52,8 +51,8 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
 
   importPouchDbScript: ->
     _.log 'Importing PouchDB'
-    $.getScript app.API.scripts.pouchdb
-    .fail (err)-> _.error err, 'failed to import PouchDB'
+    _.preq.getScript app.API.scripts.pouchdb
+    .catch _.Error('failed to import PouchDB')
 
   replicateInventory: ->
     _.log 'Start replication process'
@@ -63,12 +62,12 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
       if url?
         invDb = new PouchDB 'inv'
         putItems(invDb)
-        .then @replicateDb.bind @, invDb, url
+        .then @replicateDb.bind(@, invDb, url)
         .then -> cleaningDb(invDb)
 
   validUrl: ->
     url = @ui.url.val()
-    unless _.isUrl url then @invalidUrl 'invalid url'
+    unless _.isUrl url then @alert 'invalid url'
     else return url
 
   validCouchDB: (url)->
@@ -77,18 +76,12 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
       $.getJSON(root)
       .then (res)=>
         if res.couchdb? then return 'ok'
-        else @invalidUrl "the server doesn't answer as a CouchDB. You might need to enable CORS on your CouchDB"
+        else @alert "the server doesn't answer as a CouchDB. You might need to enable CORS on your CouchDB"
       .fail (err)=>
         _.error err, err.statusText
-        @invalidUrl "the server doesn't answer as expected."
+        @alert "the server doesn't answer as expected."
     else
-      @invalidUrl "it doesn't seem to be valid CouchDB url"
-      return
-
-  invalidUrl: (errMessage)->
-    console.warn errMessage, 'invalidUrl'
-    @$el.trigger 'alert', {message: _.i18n(errMessage)}
-    return
+      @alert "it doesn't seem to be valid CouchDB url"
 
   replicateDb: (db, url)->
     _.log 'Replicate to PouchDB!'
