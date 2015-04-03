@@ -85,6 +85,7 @@ module.exports = (Backbone, _, app, window)->
       return pattern.test window.location.pathname
 
     isModel: (obj)-> obj instanceof Backbone.Model
+    isView: (obj)-> obj instanceof Backbone.View
 
     validImageSrc: (url, callback)->
       image = new Image()
