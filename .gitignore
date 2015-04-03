@@ -27,3 +27,4 @@ tmp/
 *.sublime*
 *.gz
 public/*
+app/assets/fonts

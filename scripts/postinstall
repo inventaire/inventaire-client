@@ -4,3 +4,4 @@
 bower install
 ./scripts/bower_fix.coffee
 ../scripts/run_patches $HOME/inventaire/client/scripts/patches
+./scripts/mv_font_awesome_fonts

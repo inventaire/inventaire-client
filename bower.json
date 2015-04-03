@@ -20,7 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "marionette": "~2.2.1",
+    "marionette": "~2.4.1",
     "foundation": "https://github.com/maxlath/bower-foundation.git#brunch-custom",
     "font-awesome": "~4.3.0",
     "polyglot": "~0.4.1",
