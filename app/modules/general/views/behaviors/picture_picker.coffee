@@ -74,6 +74,7 @@ module.exports = PicturePicker = Backbone.Marionette.ItemView.extend
     $(e.target).parents('figure').first().removeClass('deleted')
     .find('figcaption.cancelDeletion').first().hide()
 
+  # stinky code: need to be refactored
   validate: ->
     imgs = _.toArray($('#availablePictures').find('img'))
     urls = imgs.map (img)-> img.src
