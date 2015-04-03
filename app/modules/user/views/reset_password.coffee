@@ -1,5 +1,6 @@
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
+loadingPlugin = require 'modules/general/plugins/loading'
 
 module.exports = Backbone.Marionette.ItemView.extend
   behaviors:
@@ -18,22 +19,23 @@ module.exports = Backbone.Marionette.ItemView.extend
   ui:
     password: '#password'
 
+  initialize: -> _.extend @, loadingPlugin
+
   events:
     'click #updatePassword': 'updatePassword'
     'click #forgotPassword': -> app.execute 'show:forgot:password'
+
 
   updatePassword: ->
     password = @ui.password.val()
 
     _.preq.start()
     .then -> password_.pass password, '#finalAlertbox'
-    .then @startPasswordLoading.bind(@)
+    .then @startLoading.bind(@, '#updatePassword')
     .then @updateUserPassword.bind(@, password)
     .then @passwordSuccessCheck.bind(@)
     .catch forms_.catchAlert.bind(null, @)
     .finally @stopLoading.bind(@)
-
-  startPasswordLoading: -> @$el.trigger 'loading', {selector: '#updatePassword'}
 
   updateUserPassword: (password)->
     app.execute 'prepare:login:redirect', 'home'
@@ -45,8 +47,6 @@ module.exports = Backbone.Marionette.ItemView.extend
   passwordSuccessCheck: ->
     @ui.passwords.val('')
     @ui.password.trigger('check')
-
-  stopLoading: -> @$el.trigger 'stopLoading'
 
 formatErr = (err)->
   _.error err, 'formatErr'

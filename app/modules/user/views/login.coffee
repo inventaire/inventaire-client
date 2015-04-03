@@ -2,6 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
+loadingPlugin = require 'modules/general/plugins/loading'
 
 module.exports = Backbone.Marionette.ItemView.extend
   className: 'book-bg'
@@ -23,6 +24,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   ui:
     username: '#username'
     password: '#password'
+
+  initialize: -> _.extend @, loadingPlugin
 
   onShow:-> @ui.username.focus()
 
@@ -53,10 +56,10 @@ module.exports = Backbone.Marionette.ItemView.extend
     app.request 'login:classic', username, password
     .catch @loginError.bind(@)
 
-    @$el.trigger 'loading', { selector: '#classicLogin' }
+    @startLoading '#classicLogin'
 
   loginError: (err)->
-    @$el.trigger 'stopLoading'
+    @stopLoading()
     if err.status is 401 then @alertUsernameOrPasswordError()
     else _.error err, 'classic login err'
 

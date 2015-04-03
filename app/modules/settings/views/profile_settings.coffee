@@ -2,6 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
+loadingPlugin = require 'modules/general/plugins/loading'
 
 module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
   template: require './templates/profile_settings'
@@ -23,6 +24,7 @@ module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
     languagePicker: '#languagePicker'
 
   initialize: ->
+    _.extend @, loadingPlugin
     @listenTo @model, 'change:picture', @render
     @listenTo app.vent, 'i18n:reset', ->
       @render()
@@ -104,13 +106,13 @@ module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
     email = @ui.email.val()
     _.preq.start()
     .then @testEmail.bind(@, email)
-    .then @startEmailLoading.bind(@)
+    .then @startLoading.bind(@, '#emailButton')
     .then email_.verifyAvailability.bind(null, email, "#emailField")
     .then email_.verifyExistance.bind(email_, email, '#emailField')
     .then @sendEmailRequest.bind(@, email)
     .then @showConfirmationEmailSuccessMessage.bind(@)
     .catch forms_.catchAlert.bind(null, @)
-    .finally @stopLoading.bind(@)
+    .finally @hardStopLoading.bind(@)
 
   testEmail: (email)->
     testAttribute 'email', email, email_
@@ -126,9 +128,9 @@ module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
       value: email
       selector: '#emailField'
 
-  startEmailLoading: -> @$el.trigger 'loading', {selector: '#emailButton'}
-  stopLoading: ->
+  hardStopLoading: ->
     # triggering stopLoading wasnt working
+    # temporary solution
     @$el.find('.loading').empty()
 
   # EMAIL CONFIRMATION
@@ -153,14 +155,12 @@ module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
     _.preq.start()
     .then -> password_.pass currentPassword, '#currentPasswordAlert'
     .then -> password_.pass newPassword, '#newPasswordAlert'
-    .then @startPasswordLoading.bind(@)
+    .then @startLoading.bind(@, '#updatePassword')
     .then @confirmCurrentPassword.bind(@, currentPassword)
     .then @updateUserPassword.bind(@, currentPassword, newPassword)
     .then @passwordSuccessCheck.bind(@)
     .catch forms_.catchAlert.bind(null, @)
     .finally @stopLoading.bind(@)
-
-  startPasswordLoading: -> @$el.trigger 'loading', {selector: '#updatePassword'}
 
   confirmCurrentPassword: (currentPassword)->
     app.request 'password:confirmation', currentPassword

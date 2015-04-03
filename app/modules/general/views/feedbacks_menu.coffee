@@ -1,3 +1,5 @@
+loadingPlugin = require 'modules/general/plugins/loading'
+
 module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/feedbacks_menu'
   className: 'feedbacksMenu'
@@ -5,6 +7,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   behaviors:
     Loading: {}
     SuccessCheck: {}
+
+  initialize: -> _.extend @, loadingPlugin
 
   serializeData: ->
     loggedIn: app.user.loggedIn
@@ -20,13 +24,10 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click a#sendFeedback': 'sendFeedback'
 
   sendFeedback: ->
-    @startLoading()
+    @startLoading('#sendFeedback')
     @postFeedback()
     .then @success.bind(@)
     .catch @error.bind(@)
-
-  startLoading: ->
-    @$el.trigger 'click', {selector: '#sendFeedback'}
 
   postFeedback: ->
     _.preq.post app.API.feedbacks,

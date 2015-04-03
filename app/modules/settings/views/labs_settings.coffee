@@ -1,3 +1,5 @@
+loadingPlugin = require 'modules/general/plugins/loading'
+
 module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
   template: require './templates/labs_settings'
   className: 'labsSettings'
@@ -12,6 +14,9 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
 
   ui:
     url: '#pouchdbField'
+
+  initialize: ->
+    _.extend @, loadingPlugin
 
   serializeData: ->
     pouchdb: @pouchDbData()
@@ -40,7 +45,7 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
 
   triggerReplication: ->
     _.log 'couchdb ok'
-    @$el.trigger 'loading', { selector: '#pouchdbButton' }
+    @startLoading('#pouchdbButton')
 
     @importPouchDbScript()
     .then @replicateInventory.bind(@)
@@ -90,12 +95,11 @@ module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
     db.replicate.to url
     .then (data)=>
       console.log 'replicateDb sucess', data
-      @$el.trigger 'stopLoading'
       @$el.trigger 'check'
     .catch (data)=>
       console.warn 'replicateDb failure', data
-      @$el.trigger 'stopLoading'
       @$el.trigger 'fail'
+    .finally @stopLoading.bind(@)
 
 putItems = (db)->
   docs = Items.personal.toJSON()
@@ -105,8 +109,8 @@ putItems = (db)->
 
 cleaningDb = (db)->
   db.destroy()
-  .then (res)-> _.log res, 'cleaning DB'
-  .catch (err)-> _.error err, 'cleaning DB err'
+  .then _.Log('cleaning DB')
+  .catch _.Error('cleaning DB err')
 
 getRoot = (url)->
   # getting http://127.0.0.1:5984

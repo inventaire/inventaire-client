@@ -2,6 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
+loadingPlugin = require 'modules/general/plugins/loading'
 
 module.exports = Backbone.Marionette.LayoutView.extend
   template: require './templates/signup_classic'
@@ -16,6 +17,8 @@ module.exports = Backbone.Marionette.LayoutView.extend
     suggestionGroup: '#suggestionGroup'
     suggestion: '#suggestion'
     password: '#password'
+
+  initialize: -> _.extend @, loadingPlugin
 
   events:
     'blur #classicUsername': 'earlyVerifyClassicUsername'
@@ -37,6 +40,7 @@ module.exports = Backbone.Marionette.LayoutView.extend
     @verifyClassicUsername()
     .then @verifyEmail.bind(@)
     .then @verifyPassword.bind(@)
+    .then @startLoading.bind(@, '#classicSignup')
     .then @sendClassicSignupRequest.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
@@ -61,7 +65,6 @@ module.exports = Backbone.Marionette.LayoutView.extend
 
   verifyPassword: -> password_.pass @ui.password.val(), '#finalAlertbox'
   sendClassicSignupRequest: ->
-    @$el.trigger 'loading', { selector: '#classicSignup' }
     app.request 'signup:classic',
       username: @ui.classicUsername.val()
       password: @ui.password.val()

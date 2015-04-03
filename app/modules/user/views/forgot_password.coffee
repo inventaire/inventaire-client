@@ -1,5 +1,6 @@
 email_ = require 'modules/user/lib/email_tests'
 forms_ = require 'modules/general/lib/forms'
+loadingPlugin = require 'modules/general/plugins/loading'
 
 module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/forgot_password'
@@ -12,6 +13,10 @@ module.exports = Backbone.Marionette.ItemView.extend
   ui:
     email: '#emailField'
     confirmationEmailSent: '#confirmationEmailSent'
+
+  initialize: ->
+    _.extend @, loadingPlugin
+    @lazySendEmail = _.debounce @sendEmail.bind(@), 1500, true
 
   serializeData: ->
     emailPicker: @emailPickerData()
@@ -28,22 +33,16 @@ module.exports = Backbone.Marionette.ItemView.extend
   events: ->
     'click a#emailButton': 'lazySendEmail'
 
-  initialize: ->
-    @lazySendEmail = _.debounce @sendEmail.bind(@), 1500, true
-
   sendEmail: ->
     email = @ui.email.val()
     _.preq.start()
     .then -> email_.pass email, '#emailField'
-    .then @startEmailLoading.bind(@)
+    .then @startLoading.bind(@, '#emailButton')
     .then verifyKnownEmail.bind(null, email)
     .then @sendResetPasswordLink.bind(@, email)
     .then @showSuccessMessage.bind(@)
     .catch forms_.catchAlert.bind(null, @)
     .finally @stopLoading.bind(@)
-
-  startEmailLoading: -> @$el.trigger 'loading', {selector: '#emailButton'}
-  stopLoading: -> @$el.trigger 'stopLoading', {selector: '#emailButton'}
 
   sendResetPasswordLink: (email)->
     app.request 'password:reset:request', email
