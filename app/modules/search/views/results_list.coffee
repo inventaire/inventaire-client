@@ -13,5 +13,4 @@ module.exports = ResultsList = Backbone.Marionette.CompositeView.extend
   emptyView: require 'modules/inventory/views/no_item'
 
   serializeData: ->
-    return _.log attrs =
-      type: _.i18n @options.type
+    type: _.i18n @options.type

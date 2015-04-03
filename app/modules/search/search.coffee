@@ -21,10 +21,8 @@ module.exports =
 
 API = {}
 API.search = (query)->
-  params =
+  app.search = searchLayout = new Search
     query: _.softDecodeURI(query)
-
-  app.search = searchLayout = new Search(params)
 
   docTitle = "#{query} - " +  _.i18n('Search')
   app.layout.main.Show searchLayout, docTitle
