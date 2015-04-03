@@ -25,6 +25,11 @@
     color: $dark-grey;
     @include serif();
   }
+  p{
+    max-width: 30em;
+    margin: auto;
+    text-align: center;
+  }
   /*Not VerySmall screens*/
   @media screen and (min-width: $smallscreen) {
     padding: 1em;
@@ -37,6 +42,7 @@
     .from{
       input{
         max-width: 25em;
+        margin-top: 1em;
       }
     }
     .to{
