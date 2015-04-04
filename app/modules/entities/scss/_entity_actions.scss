@@ -49,4 +49,28 @@
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
   }
+
+  .custom-button-group{
+    /*Small screens*/
+    @media screen and (max-width: $verysmallscreen) {
+      @include display-flex(column);
+      a:first-child{
+        @include radius-top();
+      }
+      a:not(:first-child){
+        @include radius-bottom();
+      }
+    }
+
+    /*Large screens*/
+    @media screen and (min-width: $verysmallscreen) {
+      @include display-flex(row);
+      a:first-child{
+        @include radius-left();
+      }
+      a:not(:first-child){
+        @include radius-right();
+      }
+    }
+  }
 }

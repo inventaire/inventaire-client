@@ -16,6 +16,13 @@ module.exports = Backbone.Marionette.ItemView.extend
     @following = app.request 'entity:followed:state', @uri
     return attrs =
       following: @following
+      transactions: @transactionsData()
+
+  transactionsData: ->
+    transactions = _.clone Items.transactions
+    transactions.inventorying.icon = 'plus'
+    transactions.inventorying.label = 'inventorize_it'
+    return transactions
 
   onRender: ->
     app.execute 'foundation:reload'
