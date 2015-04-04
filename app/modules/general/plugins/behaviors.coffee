@@ -1,9 +1,11 @@
+# behaviors: Loading MUST be added to the view
 loading_ =
   startLoading: (options)->
     if _.isString(options) then options = {selector: options}
     @$el.trigger 'loading', options
   stopLoading: -> @$el.trigger 'stopLoading'
 
+# behaviors: SuccessCheck MUST be added to the view
 successCheck_ =
   check: (label, cb, res)->
     @$el.trigger 'check', cb
@@ -16,6 +18,7 @@ successCheck_ =
 successCheck_.Check = (label, cb)-> successCheck_.check.bind(@, label, cb)
 successCheck_.Fail = (label, cb)-> successCheck_.fail.bind(@, label, cb)
 
+# behaviors: AlertBox MUST be added to the view
 alert_ =
   alert: (message)->
     console.warn(message)
