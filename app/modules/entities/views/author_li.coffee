@@ -4,8 +4,8 @@ paginationPlugin = require 'modules/general/plugins/pagination'
 
 module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
   template: require './templates/author_li'
-  tagName: "li"
-  className: "authorLi"
+  tagName: 'li'
+  className: 'authorLi'
   behaviors:
     Loading: {}
     WikiBar: {}
@@ -17,6 +17,7 @@ module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
   initialize: ->
     @initPlugins()
     @collection = new Backbone.Collection
+    # trigger fetchbooks once the author is in view
     @$el.once 'inview', @fetchBooks.bind(@)
 
   initPlugins: ->
@@ -45,7 +46,7 @@ module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
     wdAuthors_.fetchAuthorsBooks(@model)
     .then @addToCollection.bind(@)
     .catch _.Error('author_li fetchBooks err')
-    .always @stopLoading.bind(@)
+    .finally @stopLoading.bind(@)
 
   addToCollection: (models)->
     if models? then models.forEach @collection.add.bind(@collection)

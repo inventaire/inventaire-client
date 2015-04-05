@@ -31,7 +31,6 @@ module.exports =
 
 API =
   requireLoggedIn: (route)->
-    _.log app.user.loggedIn, 'app.user.loggedIn'
     if app.user.loggedIn then return true
     else
       app.execute 'show:login'
