@@ -1,6 +1,4 @@
 SideNav = require '../side_nav/views/side_nav'
-# ItemsLabel = require './items_label'
-ItemsControl = require './items_control'
 FollowedEntitiesList = require './followed_entities_list'
 
 module.exports = Backbone.Marionette.LayoutView.extend
@@ -49,15 +47,12 @@ module.exports = Backbone.Marionette.LayoutView.extend
       eventName = 'general'
 
     itemsList = new app.View.Items.List
-      collection: Items.filtered.paginated
+      collection: Items.filtered
       columns: true
     @itemsView.show itemsList
 
     app.vent.trigger 'document:title:change', docTitle
     app.vent.trigger 'inventory:change', eventName
-
-    # @beforeItems.show new ItemsLabel
-    @afterItems.show new ItemsControl
 
   showFollowedEntitiesList: ->
     followedEntities = app.request 'entities:followed:collection'

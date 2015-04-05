@@ -1,20 +1,35 @@
-module.exports = Backbone.Marionette.CollectionView.extend
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
+paginationPlugin = require 'modules/general/plugins/pagination'
+masonryPlugin = require 'modules/general/plugins/masonry'
+itemsPerPage = require 'modules/inventory/lib/items_per_pages'
+
+module.exports = Backbone.Marionette.CompositeView.extend
+  className: 'itemsListWrapper'
+  template: require './templates/items_list'
+  childViewContainer: '.itemsList'
   childView: require './item_figure'
   emptyView: require './no_item'
-  tagName: 'div'
-  className: 'itemsList jk'
+  behaviors:
+    Loading: {}
+
+  ui:
+    itemsList: '.itemsList'
 
   initialize: ->
-    app.execute 'items:pagination:head'
-    @lazyMasonry = _.debounce @setMasonry.bind(@), 150
+    @initPlugins()
 
-  onShow: ->
-    @$el.imagesLoaded @lazyMasonry.bind(@)
+  initPlugins: ->
+    _.extend @, behaviorsPlugin
+    paginationPlugin.call @, itemsPerPage()
+    masonryPlugin.call @, 'itemsList', '.itemContainer'
 
-  setMasonry: ->
-    @$el.masonry
-      itemSelector: '.itemContainer'
-      isFitWidth: true
-      isResizable: true
-      isAnimated: true
-      gutter: 5
+  events:
+    'inview .more': 'infiniteScroll'
+
+  collectionEvents:
+    'render': 'stopLoading'
+
+  infiniteScroll: ->
+    if @more()
+      @startLoading('.more')
+      @displayMore()

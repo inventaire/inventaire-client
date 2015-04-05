@@ -2,7 +2,6 @@ module.exports =
   initialize: (app)->
 
     Items.filtered = new FilteredCollection Items
-    Items.filtered.paginated = new FilteredCollection Items.filtered
 
     Items.personal.filtered = new FilteredCollection Items.personal
     Items.friends.filtered = new FilteredCollection Items.friends
@@ -13,9 +12,6 @@ module.exports =
       'filter:inventory:reset': resetInventoryFilter
       'filter:visibility': filterVisibilityBy
       'filter:visibility:reset': resetFilters
-
-    app.reqres.setHandlers
-      'filter:range': filterRange
 
 visibilityFilters =
   'private': {'listing':'private'}
@@ -35,14 +31,3 @@ resetInventoryFilter = (owner)->
 filterInventoryByOwner = (owner)->
   Items.filtered.resetFilters()
   Items.filtered.filterBy 'owner', (model)-> model.get('owner') is owner
-
-filterRange = (start, end)->
-  Items.filtered.paginated.removeFilter('range')
-  Items.filtered.paginated.filterBy 'range', (model)->
-    rank = Items.filtered.indexOf(model)
-    return start <= rank < end
-
-  before = start
-  after = Items.filtered.length - end
-
-  return [before, after]

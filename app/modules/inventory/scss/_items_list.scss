@@ -1,9 +1,23 @@
 $itemContainerBaseWidth: 250px;
 $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
 
+
+.itemsListWrapper{
+  @include display-flex(column, center, center);
+  @include flex(1);
+}
 .itemsList{
-  margin: 0 auto;
-  min-height: 9em;
+  /*Small screens*/
+  @media screen and (max-width: $multicolumnsThreshold) {
+    @include display-flex(column, center, center);
+  }
+
+  /*Large screens MASONRY */
+  @media screen and (min-width: $multicolumnsThreshold) {
+    // required by Masonry to center elements in conjunction with isFitWidth: true
+    // see http://desandro.github.io/masonry/demos/centered.html
+    margin: 0 auto;
+  }
 }
 
 // itemContainer positioning settings

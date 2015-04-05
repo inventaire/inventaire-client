@@ -200,5 +200,3 @@ initializeInventoriesHandlers = (app)->
       unless _.isUserId(userId)
         throw new Error "expected a userId, got #{userId}"
       _.preq.get app.API.items.userPublicItems(userId)
-
-  require('./lib/pagination')()
