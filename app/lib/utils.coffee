@@ -80,10 +80,6 @@ module.exports = (Backbone, _, app, window)->
 
     isFirefox: -> window.navigator?.mozApps?
 
-    currentLocationMatch: (str)->
-      pattern = new RegExp(str)
-      return pattern.test window.location.pathname
-
     isModel: (obj)-> obj instanceof Backbone.Model
     isView: (obj)-> obj instanceof Backbone.View
 

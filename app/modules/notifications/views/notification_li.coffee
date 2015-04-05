@@ -14,7 +14,7 @@ module.exports = NotificationLi = Backbone.Marionette.ItemView.extend
     attrs = @model.toJSON()
     @username = attrs.username = app.request 'get:username:from:userId', attrs.data.user
     attrs.picture = app.request 'get:profilePic:from:userId', attrs.data.user
-    attrs.href = '/inventory/' + attrs.username
+    attrs.pathname = '/inventory/' + attrs.username
     attrs.time = moment(attrs.time).fromNow()
     return attrs
 

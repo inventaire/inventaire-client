@@ -1,7 +1,7 @@
 module.exports = (app, _)->
 
   getRouteQuery = ->
-    [route, query] = getPath().split('?')
+    [route, query] = getPathname().split('?')
     query = _.parseQuery(query)
     return [route, query]
 
@@ -35,16 +35,12 @@ module.exports = (app, _)->
     return _.buildPath(newRoute, newQuery)
 
 
-  getPath = ->
-    location.href
-    # take the part after location.origin
-    .split(location.origin)[1]
+  getPathname = ->
     # remove the first character: '/'
-    .slice(1)
+    window.location.pathname.slice(1)
 
   app.reqres.setHandlers
     'route:querystring:get': get
-    'route:path:get': getPath
     'route:querystring:keep': keep
 
   app.commands.setHandlers
