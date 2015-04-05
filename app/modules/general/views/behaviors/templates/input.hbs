@@ -10,7 +10,8 @@
     placeholder="{{field.placeholder}}{{field.dotdotdot}}"
     {{special}}>
   </div>
-  <a id="{{button.id}}" class="button {{button.classes}}">
+  {{!-- href="#" allows to make the button focusable--}}
+  <a id="{{button.id}}" class="button {{button.classes}}" href="#">
     {{{button.text}}} <span class='loading'></span>
   </a>
 </form>
