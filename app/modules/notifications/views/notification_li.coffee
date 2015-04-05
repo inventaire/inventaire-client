@@ -7,6 +7,9 @@ module.exports = NotificationLi = Backbone.Marionette.ItemView.extend
         require './templates/friend_request_accepted'
       else _.error 'notification type unknown'
 
+  behaviors:
+    PreventDefault: {}
+
   serializeData: ->
     attrs = @model.toJSON()
     @username = attrs.username = app.request 'get:username:from:userId', attrs.data.user
@@ -18,6 +21,7 @@ module.exports = NotificationLi = Backbone.Marionette.ItemView.extend
   events:
     'click a': 'showUserProfile'
 
-  showUserProfile: ->
-    app.execute 'show:user', @username
-    app.execute 'notifications:menu:close'
+  showUserProfile: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:user', @username
+      app.execute 'notifications:menu:close'

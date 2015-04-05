@@ -9,3 +9,4 @@ module.exports =
   SuccessCheck: require './success_check'
   WikiBar: require './wiki_bar'
   TogglePassword: require './toggle_password'
+  PreventDefault: require './prevent_default'

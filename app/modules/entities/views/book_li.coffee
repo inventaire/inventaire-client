@@ -8,11 +8,12 @@ module.exports = BookLi = Backbone.Marionette.ItemView.extend
     @listenTo @model, 'add:pictures', @render
     app.request('qLabel:update')
 
+  behaviors:
+    PreventDefault: {}
+
   events:
     'click a.addToInventory': 'showItemCreationForm'
 
-  showSelectedEntity: (e)->
-    app.execute 'show:entity:from:model', @model
-
-  showItemCreationForm: ->
-    app.execute 'show:item:creation:form', {entity: @model}
+  showItemCreationForm: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:item:creation:form', {entity: @model}

@@ -156,6 +156,10 @@ module.exports = (Backbone, _, app, window)->
     isEmail: (str)-> regex_.Email.test str
     isUserId: (id)-> regex_.CouchUuid.test(id)
 
+    # anchor with a href are opened out of the current window
+    # when the ctrlKey is pressed: the normal action should thus be prevented
+    isOpenedOutside: (e)-> e.ctrlKey
+
     noop: ->
 
   return _.extend {}, utils, loggers

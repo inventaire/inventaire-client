@@ -5,6 +5,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     "itemContainer white-shadow-box #{@cid}"
   template: require './templates/item_figure'
   behaviors:
+    PreventDefault: {}
     ConfirmationModal: {}
 
   initialize: ->
@@ -15,7 +16,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   events:
     'click .edit': 'itemEdit'
     'click a.itemShow, img:not(.profilePic)': 'itemShow'
-    'click a.user': -> app.execute 'show:user', @model.username
+    'click a.user': 'showUser'
     'click a.remove': 'itemDestroy'
     'click a.commentToggleWrap': -> @toggleWrap('comment')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
@@ -27,6 +28,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     attrs[attrs.transaction] = true
     attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
+    attrs.userHref = "/inventory/#{attrs.username}"
     return attrs
 
   wrapData: (attrs)->
@@ -49,13 +51,19 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
-  itemShow: -> app.execute 'show:item:show:from:model', @model
+  itemShow: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:item:show:from:model', @model
 
   itemDestroy: ->
     app.request 'item:destroy',
       model: @model
       selector: @uniqueSelector
       next: -> console.log 'item deleted'
+
+  showUser: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:user', @model.username
 
   toggleWrap: (nameBase)->
     @$el.find("span.#{nameBase}").toggleClass('wrapped')

@@ -6,6 +6,9 @@ module.exports = UserLi = Backbone.Marionette.ItemView.extend
     username = @model.get('username')
     "userLi #{status} #{username}"
 
+  behaviors:
+    PreventDefault: {}
+
   events:
     'click .unfriend': -> app.request 'unfriend', @model
     'click .cancel': -> app.request 'request:cancel', @model
@@ -25,5 +28,6 @@ module.exports = UserLi = Backbone.Marionette.ItemView.extend
   serializeData: ->
     @model.serializeData()
 
-  selectUser: ->
-    app.execute 'show:inventory:user', @model
+  selectUser: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:inventory:user', @model

@@ -13,7 +13,6 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     joyride: '#joyride'
 
   events:
-    'click a': 'unpreventDefault'
     'submit form': (e)-> e.preventDefault()
     'click #home, #inventorySections, .showHome': -> app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'
@@ -25,6 +24,9 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
     'click .toggle-topbar': 'toggleSideNav'
+
+  behaviors:
+    PreventDefault: {}
 
   initialize: (e)->
     @render()
@@ -99,29 +101,13 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
 
   showEntity: (e)->
     href = e.target.href
-    if href?
+    unless href?
+      throw new Error "couldnt showEntity: href not found"
+
+    unless _.isOpenedOutside(e)
       data = href.split('/entity/').last()
       [uri, label] = data.split '/'
       app.execute 'show:entity', uri, label
-    else throw new Error "couldnt showEntity: href not found"
-
-  unpreventDefault: (e)->
-    # largely inspired by
-    # https://github.com/jmeas/backbone.intercept/blob/master/src/backbone.intercept.js
-
-    # Only intercept left-clicks
-    return  if e.which isnt 1
-
-    $link = $(e.currentTarget)
-    # Get the href; stop processing if there isn't one
-    href = $link.attr("href")
-    return  unless href
-
-    # Return if the URL is absolute, or if the protocol is mailto or javascript
-    return  if /^#|javascript:|mailto:|(?:\w+:)?\/\//.test(href)
-
-    # If we haven't been stopped yet, then we prevent the default action
-    e.preventDefault()
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)

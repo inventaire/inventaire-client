@@ -8,6 +8,7 @@ module.exports = User = Filterable.extend
 
   serializeData: ->
     attrs = @toJSON()
+    attrs.href = "/inventory/#{attrs.username}"
     relationStatus = attrs.status
     # converting the status into a boolean for templates
     attrs[relationStatus] = true

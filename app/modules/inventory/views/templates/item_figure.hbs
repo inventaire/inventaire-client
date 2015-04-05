@@ -1,18 +1,20 @@
 <div class="cover">
-  <a data-href="{{pathname}}">
+  <a href="{{pathname}}" rel="nofollow">
     {{#if picture}}
       <img src="{{src picture 300}}">
     {{/if}}
   </a>
 </div>
 <figcaption class="title">
-  <h3 class="title"><a class="link itemShow" {{ifvalue 'data-href' pathname}}>{{title}}</a></h3>
+  <h3 class="title">
+    <a class="link itemShow" href="{{pathname}}" rel="nofollow">{{title}}</a>
+  </h3>
 </figcaption>
 <div class="user-box">
-  <a class="user">
+  <a class="user" href="{{userHref}}">
     <img class="profilePic" src="{{src profilePic 64}}">
   </a>
-  <a class="user">
+  <a class="user" href="{{userHref}}">
     <strong class="serif">{{username}}</strong>
     <span class="serif time">{{created}}</span>
   </a>
