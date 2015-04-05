@@ -11,4 +11,18 @@ body{
   #modal{}
 }
 
+/*Small screens*/
+@media screen and (max-width: $smallscreen) {
+}
+
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  main:not(.no-topbar){
+    margin-top: $topbar-height;
+    // trying to make the transition as close as possible
+    // to jQuery slideDown default values: 400ms and 'swing' ease
+    @include transition(margin, 0.4s, ease-in);
+  }
+}
+
 // see _inventory.scss for #innerMain and .sideNavClones

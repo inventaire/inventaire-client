@@ -67,8 +67,12 @@ module.exports = Welcome = Backbone.Marionette.LayoutView.extend
     $('#lastPublicBooks').hide()
     if err? then throw err
 
-  hideTopBar: -> $('.top-bar').hide()
-  showTopBar: -> $('.top-bar').slideDown()
+  hideTopBar: ->
+    $('.top-bar').hide()
+    $('main').addClass('no-topbar')
+  showTopBar: ->
+    $('.top-bar').slideDown()
+    $('main').removeClass('no-topbar')
 
   hideFeedbacksButton: -> $('#feedbacks').hide()
   showFeedbacksButton: -> $('#feedbacks').fadeIn()

@@ -11,6 +11,13 @@ $topbar-link-color-active: $dark-grey;
 $topbar-link-bg-disabled: $grey;
 
 nav.top-bar {
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
   // needed to be above the fixed sideNav
   z-index: 1;
   img{

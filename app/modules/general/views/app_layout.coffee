@@ -51,7 +51,6 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
 
   topBarData: ->
     options:
-      sticky_on: 'large'
       custom_back_text: true
       back_text: _.i18n 'back'
       is_hover: false
