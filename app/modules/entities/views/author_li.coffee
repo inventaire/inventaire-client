@@ -21,7 +21,7 @@ module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    paginationPlugin.call(@, 5)
+    paginationPlugin.call(@, 15, 5)
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
