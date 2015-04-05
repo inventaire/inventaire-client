@@ -1,9 +1,9 @@
-module.exports = (displayedLimit=5)->
+module.exports = (batchLength=5)->
   # MUST be called with the CollectionView or CompositeView it extends as context
   unless _.isView(@)
     throw new Error('should be called with a view as context')
 
-  @displayedLimit = displayedLimit
+  @displayedLimit = batchLength
   @lazyRender = _.debounce @render.bind(@), 200
 
   _.extend @,
@@ -13,5 +13,5 @@ module.exports = (displayedLimit=5)->
     more: -> @collection.length > @displayedLimit
 
     displayMore: ->
-      @displayedLimit += _.max [@displayedLimit, 15]
+      @displayedLimit += batchLength
       @lazyRender()
