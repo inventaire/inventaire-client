@@ -8,18 +8,22 @@
   }
   .loading{
     color: $contrast;
-    font-size: 3rem;
   }
   div.more{
-    @include display-flex(row, center, center);
+    @include display-flex(column, center, center);
     width: 100%;
     text-align: center;
     height: 3em;
+    div.more{
+    }
     a.displayMore{
-      height: 100%;
-      @include display-flex(row, center, center);
+      width: 100%;
       @include flex(1);
+      @include display-flex(row, center, center);
       @include bg-hover($light-grey);
+      // hugly margin hack to make it match the book list
+      // which isnt lined up for some reason
+      margin: 0 -0.2em 1em 0.2em;
     }
   }
 }

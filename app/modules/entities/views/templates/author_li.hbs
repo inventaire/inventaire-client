@@ -13,12 +13,14 @@
   <div class='small-12 large-8 columns'>
     <ul class="authorsBooks">
     </ul>
-    <span class="loading"></span>
-    {{#if more}}
-      <div class="more">
-        <a class="displayMore">{{icon 'chevron-down'}}{{i18n 'more'}}</a>
-      </div>
-    {{/if}}
+    <div class="more">
+      {{#if more}}
+        <a class="displayMore">
+          {{icon 'chevron-down'}}{{i18n 'more'}}
+        </a>
+      {{/if}}
+      <span class="loading"></span>
+    </div>
   </div>
 </div>
 {{#if wikipediaPreview}}
