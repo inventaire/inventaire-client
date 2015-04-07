@@ -40,6 +40,7 @@ module.exports = (_)->
     else pathname
 
   parseQuery: (queryString)->
+    _.type queryString, 'string|undefined'
     query = {}
     if queryString?
       queryString

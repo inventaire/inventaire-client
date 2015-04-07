@@ -1,30 +1,19 @@
 module.exports = (app, _)->
 
-  getRouteQuery = ->
-    [route, query] = getPathname().split('?')
-    query = _.parseQuery(query)
-    return [route, query]
-
-  setRouteQuery = (route, query)->
-    path = _.buildPath(route, query)
-    app.navigateReplace path
-
-
-  get = (key)->
-    [route, query] = getRouteQuery()
-    return query?[key]
+  get = (key)-> getQuery()?[key]
 
   set = (key, value)->
-    _.types arguments, 'strings...'
-
-    [route, query] = getRouteQuery()
+    pathname = getPathname()
+    query = getQuery()
     query[key] = value
-    setRouteQuery route, query
+
+    fullPath = _.buildPath(pathname, query)
+    app.navigateReplace fullPath
 
   # report persistant querystrings from the current route to the next one
   keep = (newRoute)->
-    # get info on current route
-    [currentRoute, currentQuery] = getRouteQuery()
+    # get info on current query
+    currentQuery = getQuery()
     # keep only whitelisted persistant parameters
     currentQuery = _.pick currentQuery, persistantQuery
     # get info on new route
@@ -38,6 +27,10 @@ module.exports = (app, _)->
   getPathname = ->
     # remove the first character: '/'
     window.location.pathname.slice(1)
+
+  getQuery = ->
+    # remove the first character '/', and return as an object
+    _.parseQuery window.location.search.slice(1)
 
   app.reqres.setHandlers
     'route:querystring:get': get
