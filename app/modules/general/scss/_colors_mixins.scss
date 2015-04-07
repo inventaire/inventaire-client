@@ -24,6 +24,7 @@
 
 @mixin shy($opacity:0.6, $hover-opacity:1){
   opacity: $opacity;
+  @include transition(opacity);
   &:hover{
     opacity: $hover-opacity;
   }
