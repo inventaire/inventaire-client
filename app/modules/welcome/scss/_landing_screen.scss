@@ -38,6 +38,11 @@ section#landingScreen{
       min-width: 10em;
     }
   }
+  // for Safari bad flex support
+  .polyglotTitle, #loginButtons{
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
