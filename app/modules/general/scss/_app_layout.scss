@@ -8,7 +8,9 @@ body{
     min-height: 95vh;
     @include display-flex(column);
   }
-  #modal{}
+  #modal{
+    max-width: 38em;
+  }
 }
 
 /*Small screens*/
