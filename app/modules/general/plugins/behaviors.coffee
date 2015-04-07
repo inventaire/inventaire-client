@@ -1,4 +1,5 @@
 # behaviors: Loading MUST be added to the view
+# elements required in the view: .loading
 loading_ =
   startLoading: (options)->
     if _.isString(options) then options = {selector: options}
@@ -6,6 +7,7 @@ loading_ =
   stopLoading: -> @$el.trigger 'stopLoading'
 
 # behaviors: SuccessCheck MUST be added to the view
+# elements required in the view: .checkWrapper > .check
 successCheck_ =
   check: (label, cb, res)->
     @$el.trigger 'check', cb
