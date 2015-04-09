@@ -74,6 +74,12 @@ $user-box-heigth: 3em;
   width: 100%;
   @include display-flex(row, center, center);
 }
+.currentWhite{
+  color: white;
+  a.current{
+    color: white;
+  }
+}
 .settings{
   div{
     background-color: $main-bg;
@@ -87,11 +93,6 @@ $user-box-heigth: 3em;
     }
     a{
       color: $dark-grey;
-    }
-  }
-  .currentWhite{
-    a.current{
-        color: white;
     }
   }
   .listingMenu{
@@ -108,24 +109,42 @@ $user-box-heigth: 3em;
       background-color: $light-grey;
     }
   }
-  .transactionMenu{
-    height: $user-box-heigth;
-    @extend .currentWhite;
-    &.giving{
-      background-color: rgba(255, 2, 32, 0.3);
-      @extend .currentWhite;
-    }
-    &.lending{
-      background-color: rgba(67, 172, 106, 0.5);
-    }
-    &.selling{
-      background-color: rgba(255, 212, 2, 0.5);
-    }
-    &.inventorying{
-      background-color: rgba(130, 130, 130, 0.5);
-      @extend .currentWhite;
+}
+.itemContainer{
+  .transactionMenu, .listingMenu{
+    .label{
+      display: none;
     }
   }
+}
+.transaction, .transactionMenu{
+  // just 'height' wasnt working on chrome
+  min-height: $user-box-heigth;
+  max-height: $user-box-heigth;
+  &.giving{
+    background-color: $giving-color;
+    @extend .currentWhite;
+  }
+  &.lending{
+    background-color: $lending-color;
+    @extend .currentWhite;
+  }
+  &.selling{
+    background-color: $selling-color;
+  }
+  &.inventorying{
+    background-color: $inventorying-color;
+    @extend .currentWhite;
+  }
+}
+
+a.requestItem{
+  // just 'height' wasnt working on chrome
+  min-height: $user-box-heigth;
+  max-height: $user-box-heigth;
+  @include bg-hover($off-white, 3%);
+  width: 100%;
+  @include display-flex(row, center, center);
 }
 
 .comments-box{

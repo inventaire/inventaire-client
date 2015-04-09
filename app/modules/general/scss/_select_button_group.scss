@@ -1,3 +1,10 @@
+@mixin selected-button-color($color){
+  &.active, &:hover{
+    color: white;
+    background-color: $color;
+  }
+}
+
 .select-button-group{
   @include display-flex(row, null, null, wrap);
   margin-top: 1rem;
@@ -8,10 +15,7 @@
     }
     color: white;
     background-color: $grey;
-    &.active, &:hover{
-      color: white;
-      background-color: $light-blue;
-    }
+    @include selected-button-color($light-blue);
   }
 
   /*Small screens*/
@@ -36,3 +40,9 @@
     }
   }
 }
+
+
+// #giving{ @include selected-button-color($giving-color); }
+// #lending{ @include selected-button-color($lending-color); }
+// #selling{ @include selected-button-color($selling-color); }
+// #inventorying{ @include selected-button-color($inventorying-color); }

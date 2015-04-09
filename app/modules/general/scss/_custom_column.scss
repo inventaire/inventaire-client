@@ -1,12 +1,13 @@
 @mixin custom-column($max-width: 50em){
   @include display-flex(column, center, center);
   > div{
+    width: 100%;
     max-width: $max-width;
   }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    margin: 1em;
-    padding: 1em;
+    margin: 0em 1em 1em 1em;
+    padding: 0em 1em 1em 1em;
   }
 }
 

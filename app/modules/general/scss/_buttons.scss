@@ -1,0 +1,66 @@
+.button{
+  font-weight: bold;
+}
+
+@mixin custom-button($bg-color, $color: white, $margin: 0.1em, $padding:1em, $darken:15%){
+  @include bg-hover($bg-color, $darken);
+  color: $color;
+  padding: $padding;
+  margin: $margin;
+}
+
+@mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
+  @include bg-hover($bg-color, $darken);
+  @include text-hover($color);
+  padding: 0.2em 0.6em 0.2em 0.6em;
+  border-radius: $radius;
+}
+
+@mixin icon-button(){
+  float: right;
+}
+
+
+// text-with-padding buttons
+.validateButton{
+  @include tiny-button($success-color);
+}
+.cancelButton{
+  @include tiny-button($grey);
+}
+
+// icon buttons
+.editButton{
+  @include shy();
+  @include icon-button();
+}
+.indicator{
+  opacity: 0.6;
+  @include icon-button();
+}
+
+
+@mixin button-group{
+  :first-child{
+    @include radius-left();
+  }
+  :not(:first-child){
+    @include radius-left(0);
+  }
+  :not(:last-child){
+    @include radius-right(0);
+  }
+  :last-child{
+    @include radius-right();
+  }
+}
+
+.button-group{
+  @include button-group();
+  @include display-flex(row, center, center);
+}
+
+.button-group-right{
+  @include button-group();
+  @include display-flex(row, center, flex-end);
+}

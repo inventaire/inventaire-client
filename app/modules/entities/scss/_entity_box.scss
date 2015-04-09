@@ -1,0 +1,31 @@
+.entityBox{
+  // width: 100%;
+  max-width: 50em;
+  @include display-flex(row, center, space-around);
+  @include shadow-box();
+  @include radius-bottom();
+  background-color: $dark-grey;
+  h2, span, label, p{
+    color: white;
+  }
+  .wd-P{
+    color: #999;
+    margin-right: 0.5em;
+  }
+  a{
+    color: #aaa;
+  }
+  div{
+    padding: 1em;
+  }
+  .cover{
+  }
+  .data{
+    @include flex(1);
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $verysmallscreen) {
+    @include flex-direction(column);
+  }
+}

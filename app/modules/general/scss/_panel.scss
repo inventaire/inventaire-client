@@ -1,0 +1,20 @@
+@mixin panel($bg-color:$contrast){
+  background-color: $bg-color;
+  @extend .shadow-box;
+  padding: 0.8em 1em 0.8em 1em;
+  @include radius();
+}
+
+.panel{
+  @include panel();
+}
+.dark-panel{
+  @include panel($dark-grey);
+  color: white;
+  .indicator{
+    color: white;
+    &:hover{
+      color: white;
+    }
+  }
+}

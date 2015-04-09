@@ -1,4 +1,4 @@
-$global-radius: 3px; // Foundation variable
+$global-radius: 2px; // Foundation variable
 
 @mixin radius($radius:$global-radius){
   border-radius: $radius;

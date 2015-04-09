@@ -1,11 +1,4 @@
 .itemCreation{
-  .entityBox{
-    @extend .shadow-box;
-    background-color: $dark-grey;
-    h2, a, span, label{
-      color: white;
-    }
-  }
   label{
     margin-top: 0.5em;
     margin-bottom: 0;
@@ -26,11 +19,6 @@
     label{
       margin-top: 0;
       display: inline-block;
-    }
-    span{
-      margin-left: auto;
-      float: right;
-      margin-top: 0.3em;
     }
   }
 

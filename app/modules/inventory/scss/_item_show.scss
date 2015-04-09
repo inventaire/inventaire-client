@@ -1,0 +1,70 @@
+#itemShowLayout{
+  @include display-flex(column, center, center);
+  > div{
+    width: 100%;
+    max-width: 50em;
+    textarea{
+      max-width: 100%;
+      min-width: 100%;
+      @include radius();
+    }
+  }
+  .button-group{
+    margin-bottom: 1em;
+  }
+  .itemData{
+    padding-top: 0.5em;
+    width: 100%;
+    label{
+      opacity: 0.6;
+    }
+    .leftBox{
+      @include flex(0, 0);
+      .settings{
+        @include display-flex(column);
+        label{
+          margin-top: 1em;
+          text-align: left;
+          width: 100%;
+        }
+        > div{
+          width: 100%;
+          a{
+            padding: 1em;
+          }
+        }
+      }
+    }
+    .rightBox{
+      @include flex(1);
+      @include display-flex(column);
+    }
+
+    /*Small screens*/
+    @media screen and (max-width: 700px) {
+      @include display-flex(column, center, center);
+      .leftBox{
+        width: 100%;
+        .settings{
+          // width: 100%;
+        }
+      }
+    }
+    /*Large screens*/
+    @media screen and (min-width: 700px) {
+      @include display-flex(row, flex-start, center);
+      .leftBox{
+        margin-right: 0.8em;
+        .settings{
+          min-width: 14em;
+        }
+      }
+    }
+  }
+}
+
+.noteBox{
+  a, span, label, p{
+    color: white;
+  }
+}

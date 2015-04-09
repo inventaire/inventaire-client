@@ -87,10 +87,6 @@ p.bold, span.bold, a.bold{
   font-weight: 900;
 }
 
-.button{
-  font-weight: bold;
-}
-
 select {
   // FontAwesome is needed to correctly display icons
   font-family: 'FontAwesome', 'Alegreya Sans';
@@ -111,17 +107,6 @@ input[type="password"]{
   margin-top: 1rem;
 }
 
-.panel{
-  @extend .contrast;
-  padding: 1em;
-  border-radius: $global-radius;
-
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-    padding: 2em;
-  }
-}
-
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
@@ -130,6 +115,8 @@ input[type="password"]{
 @media screen and (min-width: $smallscreen) {
 }
 
+@import "buttons";
+@import "panel";
 @import "background-cover";
 @import "select_button_group";
 @import "pictures";

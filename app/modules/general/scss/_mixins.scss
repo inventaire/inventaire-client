@@ -6,28 +6,9 @@
   transition: $elements $speed $mode;
 }
 
-@mixin custom-button($bg-color, $color: white, $margin: 0.1em, $padding:1em, $darken:15%){
-  @include bg-hover($bg-color, $darken);
-  color: $color;
-  padding: $padding;
-  margin: $margin;
-}
-
-@mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
-  @include bg-hover($bg-color, $darken);
-  color: $color;
-  padding: 0.2em 0.6em 0.2em 0.6em;
-  border-radius: $radius;
-}
-
 @mixin border($color, $width:1px, $style:solid){
   border: $width $style $color;
 }
-
-@mixin shadow-box($color, $offsetX:0, $offsetY:1px, $blur:2px, $spread:0,  $opacity: 0.5){
-  box-shadow: $offsetX $offsetY $blur $spread rgba($color, $opacity);
-}
-
 
 @mixin standard-dropdown(){
   .f-dropdown{
