@@ -9,9 +9,13 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     ConfirmationModal: {}
 
   initialize: ->
-    @listenTo @model, 'change', @render
+    @lazyRender = _.debounce @render.bind(@), 400
+    @listenTo @model, 'change', @lazyRender
+    @listenTo @model, 'entity:ready', @lazyRender
 
-  onShow: -> app.execute('foundation:reload')
+  onRender: ->
+    app.execute('foundation:reload')
+    app.request('qLabel:update')
 
   events:
     'click .edit': 'itemEdit'
@@ -25,10 +29,10 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
-    attrs[attrs.transaction] = true
+    _.log attrs.entityData = @model.entityModel?.toJSON(), 'entityData?'
     attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
-    attrs.userHref = "/inventory/#{attrs.username}"
+    attrs.userPathname = "/inventory/#{attrs.username}"
     return attrs
 
   wrapData: (attrs)->

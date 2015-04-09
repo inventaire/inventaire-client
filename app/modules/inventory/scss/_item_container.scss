@@ -1,6 +1,6 @@
 // itemContainer internal settings
 // for itemContainer positioning, see items_list
-.itemContainer {
+.itemContainer{
   @include display-flex(column, center);
   figcaption{
     text-align: left;
@@ -25,15 +25,28 @@
     h3.title{
       font-size: 1.2em;
       line-height: 1em;
+      margin: 0;
+      padding: 0;
+    }
+    .authors{
+      font-size: 0.9em;
+      color: $dark-grey;
+      // forcing the height so that masonry height calucations
+      // won't be disturbed by qlabel data arriving
+      height: 1.3em;
+      width: 100%;
+      .wd-P{
+        display: none;
+      }
     }
     max-height: 3.9em;
     overflow: hidden;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5em;
   }
 }
 
 $user-box-heigth: 3em;
-.user-box{
+.userBox{
   text-align: left;
   width: 100%;
   height: $user-box-heigth;

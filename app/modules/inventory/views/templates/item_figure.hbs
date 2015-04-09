@@ -9,12 +9,20 @@
   <h3 class="title">
     <a class="link itemShow" href="{{pathname}}" rel="nofollow">{{title}}</a>
   </h3>
+  <div class="authors">
+    {{#if entityData.wikidata}}
+      {{claim entityData.claims 'P50'}}
+    {{else}}
+      {{#each entityData.authors}}{{this}} {{/each}}
+    {{/if}}
+  </div>
+  <div></div>
 </figcaption>
-<div class="user-box">
-  <a class="user" href="{{userHref}}">
+<div class="userBox">
+  <a class="user" href="{{userPathname}}">
     <img class="profilePic" src="{{src profilePic 64}}">
   </a>
-  <a class="user" href="{{userHref}}">
+  <a class="user" href="{{userPathname}}">
     <strong class="serif">{{username}}</strong>
     <span class="serif time">{{created}}</span>
   </a>
