@@ -1,102 +1,29 @@
-<div class="row">
-
-  <div class="small-12 large-3 columns text-center">
-    <div id="picture" class="block"></div>
+<div id="entityData">
+  <div id="entity"></div>
+  {{#unless entityData}}
+    <h2>{{title}}</h2>
+  {{/unless}}
+</div>
+<div class="itemData">
+  <div class="leftBox panel">
+    {{partial 'inventory:item_user_box' this}}
+    <div class="settings itemBox">
+      <label>
+        {{#if restricted}}
+          {{i18n 'this books settings'}}
+        {{else}}
+          {{i18n 'your settings for this book'}}
+        {{/if}}
+      </label>
+      {{partial 'inventory:item_transaction_box' this}}
+      {{partial 'inventory:item_visibility_box' this}}
+      {{partial 'inventory:item_request_box' this}}
+    </div>
   </div>
-
-  <div class="small-12 large-6 columns">
-    <div class="panel">
-      {{#if entityPathname}}
-        <h2>
-          <a class="showEntity" href="{{entityPathname}}">
-            {{title}}
-          </a>
-        </h2>
-      {{else}}
-        <h2>{{title}}</h2>
-      {{/if}}
-      <h4 class="subheader">
-        {{#if entity.authors}}{{entity.authors}}{{/if}}
-        {{claim entity.claims 'P50' true}}
-      </h4>
-      {{#if entity.description}}
-        <p> <span class="grey">{{i18n 'description'}}:</span>
-          {{entity.description}}
-        </p>
-      {{/if}}
-    </div>
-
-
-    <div class="panel">
-      <h3>{{i18n 'user_comment' 'username' username}}
-          {{#unless restricted}}
-            <a id="editComment" title="{{i18n 'edit comment'}}">{{icon 'pencil'}}</a>
-          {{/unless}}
-      </h3>
-        <p id="comment">
-          {{pre comment}}
-        </p>
-        <div id="commentEditor" class='hidden'>
-          <textarea placeholder='({{i18n 'comment_placeholder'}})'>{{comment}}</textarea>
-          <a id="cancelCommentEdition" class="button grey">{{i18n 'cancel'}}</a>
-          <a id="validateComment" class="button success">{{i18n 'edit'}}</a>
-        </div>
-    </div>
-
-    {{#unless restricted}}
-      <div class="panel">
-        <h3>{{i18n 'personal notes'}}
-              <a id="editNotes" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
-        </h3>
-          <p id="notes">
-            {{pre notes}}
-          </p>
-          <div id="notesEditor" class='hidden'>
-            <textarea placeholder='({{i18n 'notes_placeholder'}})'>{{notes}}</textarea>
-            <a id="cancelNotesEdition" class="button grey">{{i18n 'cancel'}}</a>
-            <a id="validateNotes" class="button success">{{i18n 'edit'}}</a>
-          </div>
-      </div>
-    {{/unless}}
-  </div>
-
-
-  <div class="small-12 large-3 columns">
-
-    <div class="panel">
-      {{#if profilePic}}
-        <img class="large-profilePic" src="{{profilePic}}" alt="{{username}} {{i18n 'profile pic'}}">
-      {{/if}}
-      <h3 class="subheader">{{username}}</h3>
-      <div>
-        <p>
-          {{I18n 'created:'}} {{created}}
-        </p>
-      </div>
-      <div id="editPanel"></div>
-      {{#unless restricted}}
-        <a id="destroy" class="dark-grey button">{{icon 'trash-o'}} {{I18n 'delete'}}</a>
-      {{/unless}}
-    </div>
-
-
+  <div class="rightBox">
+    {{partial 'inventory:item_comment' this}}
+    {{partial 'inventory:item_note' this}}
   </div>
 </div>
 
-<div class="row">
-  <div class="small-12 large-12 columns">
-    <div id="entity" class="grey"></div>
-  </div>
-</div>
-
-{{#if nextPictures}}
-<div class="row">
-  <div class="small-12 large-12 columns flex-column-centered-justified">
-    {{#each nextPictures}}
-      <div>
-        <img src="{{this}}">
-      </div>
-    {{/each}}
-  </div>
-</div>
-{{/if}}
+<div id="picture" class="hidden"></div>

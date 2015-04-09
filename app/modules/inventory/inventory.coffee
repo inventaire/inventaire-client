@@ -49,9 +49,14 @@ API =
 
   showItemShow: (username, entity, label)->
     _.preq.start()
+    .then @fetchEntityData.bind(@, entity)
     .then @findItemByUsernameAndEntity.bind(@, username, entity)
     .then @displayFoundItems.bind(@)
     .catch _.Error('showItemShow')
+
+  fetchEntityData: (entity)->
+    # make sure entity model is accessible from Entities.byUri
+    app.request('get:entity:model', entity)
 
   # returns both sync value and promises
   # => to be called from within a promise chain only

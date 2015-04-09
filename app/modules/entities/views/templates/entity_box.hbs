@@ -1,21 +1,19 @@
-<div class="row entityBox">
-  {{!-- COVER --}}
-  <div class='small-12 large-4 columns text-center'>
+<div class="entityBox">
+  <div class='cover'>
     {{#if pictures}}
       <img src="{{first pictures}}" alt="{{label}} {{i18n 'cover'}}">
     {{/if}}
   </div>
-
-  <div class='small-12 large-8 columns'>
-    {{!-- TITLE --}}
+  <div class="data">
     <h2>{{title}}</h2>
-
-    {{!-- AUTHOR --}}
     <h3>
       {{#if wikidata}}
-        {{claim claims 'P50'}}
+        {{!-- WIKIDATA ATTRIBUTES --}}
+        {{partial 'entities:book_claims' claims}}
       {{else}}
-        <span>{{#each authors}}{{this}} {{/each}}</span>
+        <p class="isbn-attributes">
+          {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
+        </p>
       {{/if}}
     </h3>
   </div>

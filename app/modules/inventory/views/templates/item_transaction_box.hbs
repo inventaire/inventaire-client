@@ -6,6 +6,7 @@
   {{else}}
     <a class="current" data-dropdown="{{uiId}}-t-menu">
       {{icon currentTransaction.icon}}
+      <span class="label">{{i18n currentTransaction.labelShort}}</span>
       {{icon 'caret-down'}}
     </a>
     <ul id="{{uiId}}-t-menu" data-options="align:right"

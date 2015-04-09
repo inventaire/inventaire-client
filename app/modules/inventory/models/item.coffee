@@ -62,6 +62,7 @@ module.exports = Item = Filterable.extend
       created: moment(attrs.created).fromNow()
 
     attrs.currentTransaction = Items.transactions[attrs.transaction]
+    attrs[attrs.transaction] = true
     unless attrs.restricted
       attrs.transactions = Items.transactions
       attrs.listings = app.user.listings

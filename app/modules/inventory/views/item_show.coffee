@@ -1,40 +1,60 @@
 ItemEditionForm = require './item_edition_form'
+EntityData = require 'modules/entities/views/entity_data'
+itemUpdaters = require '../plugins/item_updaters'
 
 module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   id: 'itemShowLayout'
   template: require './templates/item_show'
   serializeData: ->
     attrs = @model.serializeData()
+    _.extend attrs,
+      user: app.users.byUsername(attrs.username)
+      nextPictures: @nextPicturesData(attrs)
+
+  nextPicturesData: (attrs)->
     if attrs.pictures?.length > 1
-      attrs.nextPictures = attrs.pictures.slice(1)
-    return attrs
+      return attrs.pictures.slice(1)
+
   regions:
     entityRegion: '#entity'
-    editPanel: '#editPanel'
+    # editPanel: '#editPanel'
     pictureRegion: '#picture'
+
   behaviors:
     ConfirmationModal: {}
 
   initialize: ->
+    @initPlugins()
     @uniqueSelector = '#'+@id
     @model.on 'all', -> _.log arguments, 'item:show item events'
     @listenTo @model, 'change:comment', @render
     @listenTo @model, 'change:notes', @render
     @listenTo @model, 'add:pictures', @render
 
+  initPlugins: -> itemUpdaters.call(@)
+
   onRender: ->
-    app.request('qLabel:update')
+    @showEntityData()
     @showPicture()
-    @showItemEditionForm()
+    # @showItemEditionForm()
+    app.execute('foundation:reload')
+
+  showEntityData: ->
+    { entityModel } = @model
+    if entityModel? then @showEntityModel(entityModel)
+    else @listenTo @model, 'entity:ready', @showEntityModel.bind(@)
+
+  showEntityModel: (entityModel)->
+    @entityRegion.show new EntityData {model: entityModel}
 
   showPicture: ->
     picture = new app.View.Behaviors.ChangePicture {model: @model}
     @pictureRegion.show picture
 
-  showItemEditionForm: ->
-    unless @model.restricted
-      editForm = new ItemEditionForm {model: @model}
-      @editPanel.show editForm
+  # showItemEditionForm: ->
+  #   unless @model.restricted
+  #     editForm = new ItemEditionForm {model: @model}
+  #     @editPanel.show editForm
 
   events:
     'click a#destroy': 'itemDestroy'

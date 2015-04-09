@@ -1,3 +1,5 @@
+itemUpdaters = require '../plugins/item_updaters'
+
 module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
@@ -9,9 +11,12 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     ConfirmationModal: {}
 
   initialize: ->
+    @initPlugins()
     @lazyRender = _.debounce @render.bind(@), 400
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'entity:ready', @lazyRender
+
+  initPlugins: -> itemUpdaters.call(@)
 
   onRender: ->
     app.execute('foundation:reload')
@@ -20,12 +25,8 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   events:
     'click .edit': 'itemEdit'
     'click a.itemShow, img:not(.profilePic)': 'itemShow'
-    'click a.user': 'showUser'
-    'click a.remove': 'itemDestroy'
     'click a.commentToggleWrap': -> @toggleWrap('comment')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
-    'click a.transaction': 'updateTransaction'
-    'click a.listing': 'updateListing'
 
   serializeData: ->
     attrs = @model.serializeData()
@@ -42,16 +43,6 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     notes:
       wrap: attrs.notes?.length > 120
       nameBase: 'notes'
-
-  updateTransaction: (e)->
-    @updateItem 'transaction', e.target.id
-  updateListing: (e)->
-    @updateItem 'listing', e.target.id
-  updateItem: (attribute, value)->
-    app.request 'item:update',
-      item: @model
-      attribute: attribute
-      value: value
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 

@@ -9,7 +9,7 @@ module.exports = (app)->
       id: 'friends'
       icon: 'users'
       unicodeIcon: '&#xf0c0;'
-      label: 'shared with friends'
+      label: 'friends and groups'
     public:
       id: 'public'
       icon: 'globe'
