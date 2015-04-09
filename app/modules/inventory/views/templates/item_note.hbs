@@ -1,0 +1,17 @@
+{{#unless restricted}}
+  <div class="noteBox dark-panel">
+    {{partial 'inventory:item_notes_lock'}}
+    <a id="editNotes" class="editButton" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
+    <label for="notes">{{i18n 'private notes'}}</label>
+    <p id="notes">
+      {{pre notes}}
+    </p>
+    <div id="notesEditor" class='hidden'>
+      <textarea placeholder='({{i18n 'notes_placeholder'}})'>{{notes}}</textarea>
+      <div class="button-group-right">
+        <a id="cancelNotesEdition" class="cancelButton">{{i18n 'cancel'}}</a>
+        <a id="validateNotes" class="validateButton">{{i18n 'edit'}}</a>
+      </div>
+    </div>
+  </div>
+{{/unless}}

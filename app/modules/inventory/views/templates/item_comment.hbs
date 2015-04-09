@@ -1,0 +1,17 @@
+<div class="commentBox panel">
+  {{#unless restricted}}
+    {{partial 'inventory:visibility_indicator' currentListing}}
+    <a id="editComment" class="editButton" title="{{i18n 'edit comment'}}">{{icon 'pencil'}}</a>
+  {{/unless}}
+  <label>{{i18n 'description'}}</label>
+  <p id="comment">
+    {{pre comment}}
+  </p>
+  <div id="commentEditor" class='hidden'>
+    <textarea placeholder='({{i18n 'comment_placeholder'}})'>{{comment}}</textarea>
+    <div class="button-group-right">
+      <a id="cancelCommentEdition" class="cancelButton">{{i18n 'cancel'}}</a>
+      <a id="validateComment" class="validateButton">{{i18n 'edit'}}</a>
+    </div>
+  </div>
+</div>
