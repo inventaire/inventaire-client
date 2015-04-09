@@ -20,11 +20,9 @@ module.exports = Item = Filterable.extend
       throw new Error "item should have an associated entity"
 
     attrs.entity = app.request 'normalize:entity:uri', attrs.entity
-    # entity data are requested when needed:
-    # getEntityModel is commented-out as this data isnt
-    # needed at startup currently
-    # (items title and pictures are from the item, not the entity)
-    # @getEntityModel(attrs.entity)
+    # make sure the entity model is loaded in the global Entities collection
+    # and thus accessible from a Entities.byUri
+    @getEntityModel(attrs.entity)
 
     attrs.owner = @get('owner')
     # created will be overriden by the server at item creation
@@ -57,6 +55,7 @@ module.exports = Item = Filterable.extend
     _.extend attrs,
       username: @username
       pathname: @pathname
+      entityData: @entityModel?.toJSON()
       entityPathname: @entityPathname
       profilePic: @profilePic
       restricted: @restricted
@@ -93,8 +92,12 @@ module.exports = Item = Filterable.extend
 
   getEntityModel: (uri)->
     app.request 'get:entity:model', uri
-    .then (entityModel)=> @entity = entityModel
-    .catch (err)-> console.error 'get:entity:model catch', err
+    .then @entityReady.bind(@)
+    .catch _.Error('get:entity:model err')
+
+  entityReady: (entityModel)->
+    @entityModel = entityModel
+    @trigger 'entity:ready', entityModel
 
   # passing id and rev as query paramaters
   destroy: ->
