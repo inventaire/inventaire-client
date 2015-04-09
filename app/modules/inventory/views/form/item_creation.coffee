@@ -4,7 +4,6 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   template: require './templates/item_creation'
   className: "addEntity"
   initialize: ->
-    console.log('item creation arguments', arguments)
     @entity = @options.entity
     attrs =
       # copying the title for convinience
@@ -36,21 +35,32 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   updateTransaction: ->
     transaction = @model.get 'transaction'
     if transaction?
-      _.log transaction, 'transaction'
       $transaction = @ui.transaction.find "a[id=#{transaction}]"
-      _.log $transaction, '$transaction'
       if $transaction.length is 1
         @ui.transaction.find('a').removeClass 'active'
         $transaction.addClass 'active'
 
-
   serializeData: ->
-    attrs =
-      entity: @entity.toJSON()
-      title: @entity.get 'title'
-      listings: app.user.listings
-    attrs.header = _.i18n 'add_item_text', {title: attrs.title}
-    return attrs
+    entityData = @entity.toJSON()
+    {title} = entityData
+    return attrs =
+      entity: entityData
+      title: title
+      listings: @listingsData()
+      transactions: @transactionsData()
+      header: _.i18n 'add_item_text', {title: title}
+
+  listingsData: ->
+    listings = _.clone(app.user.listings)
+    listings.friends.classes = 'active'
+    return listings
+
+  transactionsData: ->
+    transactions =_.clone(Items.transactions)
+    _.extend transactions.inventorying,
+      label: 'inventorize_it'
+      classes: 'active'
+    return transactions
 
   events:
     'click .select-button-group > .button': 'updateSelector'

@@ -1,53 +1,29 @@
-<div class='row itemCreation'>
-  <div class='small-12 large-8 large-offset-2 columns'>
-    {{partial 'entities:entity_box' this.entity}}
-    <div class="panel">
-      <label>{{i18n "I have it and it's available for:"}}</label>
-      <div id="transaction" class="select-button-group">
-        <a id="giving" class="button">{{icon 'heart'}} <span>
-          {{I18n 'giving'}}</span>
-        </a>
-        <a id="lending" class="button">{{icon 'refresh'}} <span>
-          {{I18n 'lending'}}</span>
-        </a>
-        <a id="selling" class="button">{{icon 'money'}} <span>
-          {{I18n 'selling'}}</span>
-        </a>
-        <a id="inventorying" class="button active">
-          {{icon 'cube'}} <span>{{I18n 'inventorize_it'}}</span>
-        </a>
-      </div>
+<div class='itemCreation custom-column'>
+  {{partial 'entities:entity_box' entity}}
+  <div class="panel">
+    <label>{{i18n "I have it and it's available for:"}}</label>
+    <div id="transaction" class="select-button-group">
+      {{partial 'inventory:form:button_group' transactions}}
+    </div>
+    <label for="listing">{{i18n 'Who can see it?'}}</label>
+    <div id="listing" class="select-button-group">
+      {{partial 'inventory:form:button_group' listings}}
+    </div>
 
-      <label for="listing">{{i18n 'Who can see it?'}}</label>
-      <div id="listing" class="select-button-group">
-        <a id="public" class="button">
-          {{icon 'rss'}} <span>{{i18n 'public'}}</span>
-        </a>
-        <a id="friends" class="button active">
-          {{icon 'users'}} <span>{{i18n 'friends'}}</span>
-        </a>
-        <a id="private" class="button">
-          {{icon 'lock'}} <span>{{i18n 'only me'}}</span>
-        </a>
-      </div>
+    <label for="comment">{{i18n 'comment'}}</label>
+    <textarea id='comment' class='error radius' placeholder="{{i18n "comment_placeholder"}}"></textarea>
 
-      <label for="comment">{{i18n 'comment'}}</label>
-      <textarea id='comment' class='error radius' placeholder="{{i18n "comment_placeholder"}}"></textarea>
+    <div id="notesGroup">
+      <label for="notes">
+        {{i18n 'private notes'}}
+      </label>
+      {{partial 'inventory:item_notes_lock'}}
 
-      <div id="notesGroup">
-        <label for="notes">
-          {{i18n 'personal notes'}}
-        </label>
-        <span data-tooltip class="has-tip" title="{{i18n 'notes_placeholder'}}">
-          {{icon 'lock'}}
-        </span>
+      <textarea id='notes' class='error radius' placeholder='{{i18n 'notes_placeholder'}}'></textarea>
+    </div>
 
-        <textarea id='notes' class='error radius' placeholder='{{i18n 'notes_placeholder'}}'></textarea>
-      </div>
-
-      <div class='flex-row-centered margin-top text-center'>
-        {{partial 'validation_buttons'}}
-      </div>
+    <div class='flex-row-centered margin-top text-center'>
+      {{partial 'validation_buttons'}}
     </div>
   </div>
 </div>
