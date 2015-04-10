@@ -1,0 +1,33 @@
+.requestItemModal{
+  @include display-flex(column, center, center);
+  .header{
+    width: 100%;
+    @include display-flex(row, center, space-around);
+  }
+  .userTransaction{
+    @include display-flex(column, center, left);
+    .user{
+      @include display-flex(row, center, center);
+      margin-right: auto;
+      a{
+        margin-right: 1em;
+      }
+    }
+    .transaction{
+      @include display-flex(row, center, center);
+      // margin: auto;
+      padding: 1em;
+    }
+  }
+  .item{
+    @include display-flex(column, center, center);
+    .entity{
+      opacity: 0.5;
+    }
+  }
+  textarea{
+    min-width: 100%;
+    max-width: 100%;
+    @include radius();
+  }
+}

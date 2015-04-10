@@ -1,3 +1,4 @@
+RequestItemModal = require './request_item_modal'
 itemUpdaters = require '../plugins/item_updaters'
 
 module.exports = ItemLi = Backbone.Marionette.ItemView.extend
@@ -62,3 +63,6 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   toggleWrap: (nameBase)->
     @$el.find("span.#{nameBase}").toggleClass('wrapped')
     @$el.find("a.#{nameBase}ToggleWrap").find('.fa').toggle()
+
+  requestItem: ->
+    app.layout.modal.show new RequestItemModal {model: @model}

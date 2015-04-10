@@ -5,6 +5,7 @@ module.exports =
   entities: require './entities'
   services: require './services'
   data: require './data'
+  requests: '/api/requests'
   user: '/api/user'
   notifs: '/api/notifs'
   feedbacks: '/api/feedbacks/public'
