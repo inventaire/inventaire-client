@@ -8,6 +8,7 @@
 <div class="data">
   {{!-- TITLE --}}
   <h2>{{title}}</h2>
+  <p class="uri">{{uri}}</p>
   {{!-- DESCRIPTION --}}
   {{#if descOverflow}}
     <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
@@ -21,8 +22,7 @@
     {{partial 'entities:book_claims' claims}}
   {{else}}
     <p class="isbn-attributes">
-      {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
+      {{{P '50'}}} {{join authors}}
     </p>
   {{/if}}
-  {{!-- <p class="uri">uri:{{uri}}</p> --}}
 </div>

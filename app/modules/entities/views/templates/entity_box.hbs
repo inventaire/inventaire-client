@@ -6,13 +6,14 @@
   </div>
   <div class="data">
     <h2>{{title}}</h2>
+    <p class="uri">{{uri}}</p>
     <h3>
       {{#if wikidata}}
         {{!-- WIKIDATA ATTRIBUTES --}}
         {{partial 'entities:book_claims' claims}}
       {{else}}
         <p class="isbn-attributes">
-          {{{P '50'}}}{{#each authors}}{{this}} {{/each}}
+          {{{P '50'}}} {{join authors}}
         </p>
       {{/if}}
     </h3>
