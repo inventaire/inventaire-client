@@ -1,3 +1,8 @@
+@mixin link(){
+  color: $link-blue;
+  text-decoration: underline;
+}
+
 .link{
   text-decoration: none;
   color: #555566;
