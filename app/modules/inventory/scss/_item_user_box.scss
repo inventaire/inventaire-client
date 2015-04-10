@@ -1,0 +1,32 @@
+$user-box-heigth: 3em;
+a.user{
+  width: 100%;
+  &:hover{
+    .username{
+      @include link();
+    }
+  }
+}
+.userBox{
+  text-align: left;
+  width: 100%;
+  height: $user-box-heigth;
+  background-color: $main-bg;
+  @include display-flex(row, center);
+  .user{
+    max-height: $user-box-heigth;
+    @include display-flex(column, left, space-between);
+    .profilePic{
+      height: $user-box-heigth;
+      width: $user-box-heigth;
+    }
+    strong{
+      margin-left: 0.4em;
+    }
+    .time{
+      margin-left: 0.4em;
+      color: $grey;
+      overflow: hidden;
+    }
+  }
+}

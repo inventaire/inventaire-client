@@ -57,38 +57,8 @@
   }
 }
 
-$user-box-heigth: 3em;
-a.user{
-  width: 100%;
-  &:hover{
-    .username{
-      @include link();
-    }
-  }
-}
-.userBox{
-  text-align: left;
-  width: 100%;
-  height: $user-box-heigth;
-  background-color: $main-bg;
-  @include display-flex(row, center);
-  .user{
-    max-height: $user-box-heigth;
-    @include display-flex(column, left, space-between);
-    .profilePic{
-      height: $user-box-heigth;
-      width: $user-box-heigth;
-    }
-    strong{
-      margin-left: 0.4em;
-    }
-    .time{
-      margin-left: 0.4em;
-      color: $grey;
-      overflow: hidden;
-    }
-  }
-}
+@import 'item_user_box';
+
 .itemBox{
   min-height: $user-box-heigth;
   width: 100%;
@@ -137,49 +107,7 @@ a.user{
     }
   }
 }
-.transaction, .transactionMenu{
-  // just 'height' wasnt working on chrome
-  min-height: $user-box-heigth;
-  max-height: $user-box-heigth;
-  &.giving{
-    background-color: $giving-color;
-    @extend .currentWhite;
-  }
-  &.lending{
-    background-color: $lending-color;
-    @extend .currentWhite;
-  }
-  &.selling{
-    background-color: $selling-color;
-  }
-  &.inventorying{
-    background-color: $inventorying-color;
-    @extend .currentWhite;
-  }
-}
 
-a.requestItem{
-  // just 'height' wasnt working on chrome
-  min-height: $user-box-heigth;
-  max-height: $user-box-heigth;
-  @include bg-hover($off-white, 3%);
-  width: 100%;
-  @include display-flex(row, center, center);
-}
-
-.comments-box{
-  text-align: left;
-  width: 100%;
-  span{
-    background-color: $main-bg;
-    display: block; // needed for the comment wrapping!!
-    overflow: hidden;
-    text-align: left;
-    margin-top: 1em;
-    padding: 0.2em;
-    &.wrapped{
-      max-height: 4.6em;
-    }
-  }
-  .wrapper{}
-}
+@import 'item_request_box';
+@import 'item_comment_box';
+@import 'item_transaction_box';

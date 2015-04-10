@@ -1,0 +1,16 @@
+.comments-box{
+  text-align: left;
+  width: 100%;
+  span{
+    background-color: $main-bg;
+    display: block; // needed for the comment wrapping!!
+    overflow: hidden;
+    text-align: left;
+    margin-top: 1em;
+    padding: 0.2em;
+    &.wrapped{
+      max-height: 4.6em;
+    }
+  }
+  .wrapper{}
+}

@@ -1,0 +1,20 @@
+.transaction, .transactionMenu{
+  // just 'height' wasnt working on chrome
+  min-height: $user-box-heigth;
+  max-height: $user-box-heigth;
+  &.giving{
+    background-color: $giving-color;
+    @extend .currentWhite;
+  }
+  &.lending{
+    background-color: $lending-color;
+    @extend .currentWhite;
+  }
+  &.selling{
+    background-color: $selling-color;
+  }
+  &.inventorying{
+    background-color: $inventorying-color;
+    @extend .currentWhite;
+  }
+}
