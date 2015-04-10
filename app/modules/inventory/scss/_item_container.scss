@@ -1,51 +1,71 @@
 // itemContainer internal settings
 // for itemContainer positioning, see items_list
 .itemContainer{
-  @include display-flex(column, center);
-  figcaption{
-    text-align: left;
+  @include shadow-box();
+  @include radius();
+  @include glow-on-focus();
+  padding: 1em;
+  background: #fefefe;
+  text-align: center;
+  > a.itemShow{
     width: 100%;
-    text-align: center;
-    font-size: 1.2em;
+    &:hover{
+      @include transition(background-color);
+      background-color: $light-grey;
+      h3.title{
+        @include link();
+      }
+    }
   }
+  hr{
+    margin: 0.3em auto 0.1em auto;
+    max-width: 1em;
+  }
+  @include display-flex(column, center);
   img:not(.profilePic) {
-    width: 100%;
-    // height: auto;
-    max-height: 20em;
+    max-height: 15em;
     border-bottom: 1px solid #ccc;
     padding-bottom: 15px;
     margin-bottom: 5px;
   }
-  .cover{
-    img{
-      // max-height: 7em;
-    }
-  }
-  figcaption{
-    h3.title{
+  div.data{
+    width: 100%;
+    text-align: center;
+    font-size: 1.2em;
+    max-height: 10em;
+    overflow: hidden;
+    margin-bottom: 0.5em;
+    .title{
+      @include serif();
+      // color: $light-blue;
       font-size: 1.2em;
       line-height: 1em;
       margin: 0;
       padding: 0;
     }
     .authors{
-      font-size: 0.9em;
+      font-size: 0.8em;
       color: $dark-grey;
       // forcing the height so that masonry height calucations
       // won't be disturbed by qlabel data arriving
-      height: 1.3em;
+      min-height: 1.3em;
       width: 100%;
       .wd-P{
         display: none;
       }
     }
-    max-height: 3.9em;
-    overflow: hidden;
-    margin-bottom: 0.5em;
   }
 }
 
 $user-box-heigth: 3em;
+a.user{
+  width: 100%;
+  &:hover{
+    .username{
+      @include link();
+    }
+  }
+}
 .userBox{
   text-align: left;
   width: 100%;

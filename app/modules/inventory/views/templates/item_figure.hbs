@@ -1,37 +1,26 @@
-<div class="cover">
-  <a href="{{pathname}}" rel="nofollow">
+<a class="itemShow" href="{{pathname}}" rel="nofollow">
+  <div class="cover">
     {{#if picture}}
       <img src="{{src picture 300}}">
     {{/if}}
-  </a>
-</div>
-<figcaption class="title">
-  <h3 class="title">
-    <a class="link itemShow" href="{{pathname}}" rel="nofollow">{{title}}</a>
-  </h3>
-  <div class="authors">
-    {{#if entityData.wikidata}}
-      {{claim entityData.claims 'P50'}}
-    {{else}}
-      {{#each entityData.authors}}{{this}} {{/each}}
-    {{/if}}
   </div>
-  <div></div>
-</figcaption>
-<div class="userBox">
-  <a class="user" href="{{userPathname}}">
-    <img class="profilePic" src="{{src profilePic 64}}">
-  </a>
-  <a class="user" href="{{userPathname}}">
-    <strong class="serif">{{username}}</strong>
-    <span class="serif time">{{created}}</span>
-  </a>
-</div>
+  <div class="data">
+    <h3 class="title">
+      {{title}}
+    </h3>
+    <hr>
+    <div class="authors">
+      {{#if entityData.wikidata}}
+        {{claim entityData.claims 'P50'}}
+      {{else}}
+        {{join entityData.authors}}
+      {{/if}}
+    </div>
+  </div>
+</a>
+{{partial 'inventory:item_user_box' this}}
 <div class="settings itemBox">
-  {{!-- TRANSACTION --}}
   {{partial 'inventory:item_transaction_box' this}}
-
-  {{!-- VISIBILITY --}}
   {{partial 'inventory:item_visibility_box' this}}
 </div>
 <div class="comments-box hidden">

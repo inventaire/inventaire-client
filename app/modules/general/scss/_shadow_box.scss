@@ -4,18 +4,8 @@ $shadow-color: rgba(34, 25, 25, 0.4);
   box-shadow: $offsetX $offsetY $blur $spread rgba($color, $opacity);
 }
 
-.shadow-box{
-  box-shadow: 0 1px 2px $shadow-color;
-  padding: 15px;
-  padding-bottom: 10px;
-  margin: 0 2px 15px;
+@mixin glow-on-focus(){
   &.focus{
     @extend .glowing;
   }
-}
-
-.white-shadow-box{
-  @extend .shadow-box;
-  background: #fefefe;
-  border: 2px solid #fcfcfc;
 }

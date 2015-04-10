@@ -53,13 +53,15 @@ module.exports = Item = Filterable.extend
   serializeData: ->
     attrs = @toJSON()
     _.extend attrs,
-      username: @username
       pathname: @pathname
       entityData: @entityModel?.toJSON()
       entityPathname: @entityPathname
-      profilePic: @profilePic
       restricted: @restricted
       created: moment(attrs.created).fromNow()
+      user:
+        username: @username
+        profilePic: @profilePic
+        pathname: "/inventory/#{@username}"
 
     attrs.currentTransaction = Items.transactions[attrs.transaction]
     attrs[attrs.transaction] = true

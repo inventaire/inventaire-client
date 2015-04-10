@@ -4,7 +4,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
     @uniqueSelector = ".#{@cid}"
-    "itemContainer white-shadow-box #{@cid}"
+    "itemContainer #{@cid}"
   template: require './templates/item_figure'
   behaviors:
     PreventDefault: {}
@@ -24,16 +24,15 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
 
   events:
     'click .edit': 'itemEdit'
-    'click a.itemShow, img:not(.profilePic)': 'itemShow'
+    'click a.itemShow': 'itemShow'
     'click a.commentToggleWrap': -> @toggleWrap('comment')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
 
   serializeData: ->
     attrs = @model.serializeData()
-    _.log attrs.entityData = @model.entityModel?.toJSON(), 'entityData?'
+    attrs.entityData = @model.entityModel?.toJSON()
     attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
-    attrs.userPathname = "/inventory/#{attrs.username}"
     return attrs
 
   wrapData: (attrs)->

@@ -8,7 +8,6 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   serializeData: ->
     attrs = @model.serializeData()
     _.extend attrs,
-      user: app.users.byUsername(attrs.username)
       nextPictures: @nextPicturesData(attrs)
 
   nextPicturesData: (attrs)->
