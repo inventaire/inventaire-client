@@ -1,0 +1,14 @@
+.listingMenu{
+  height: $user-box-heigth;
+  &.private{
+    background-color: $dark-grey;
+    @extend .currentWhite;
+  }
+  &.friends{
+    background-color: $grey;
+    @extend .currentWhite;
+  }
+  &.public{
+    background-color: $light-grey;
+  }
+}

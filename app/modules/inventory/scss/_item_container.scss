@@ -85,20 +85,6 @@
       color: $dark-grey;
     }
   }
-  .listingMenu{
-    height: $user-box-heigth;
-    &.private{
-      background-color: $dark-grey;
-      @extend .currentWhite;
-    }
-    &.friends{
-      background-color: $grey;
-      @extend .currentWhite;
-    }
-    &.public{
-      background-color: $light-grey;
-    }
-  }
 }
 .itemContainer{
   .transactionMenu, .listingMenu{
@@ -109,5 +95,6 @@
 }
 
 @import 'item_request_box';
-@import 'item_comment_box';
 @import 'item_transaction_box';
+@import 'item_listing_box';
+@import 'item_comment_box';
