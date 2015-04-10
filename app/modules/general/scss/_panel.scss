@@ -1,7 +1,8 @@
 @mixin panel($bg-color:$contrast){
+  @include shadow-box();
   background-color: $bg-color;
-  @extend .shadow-box;
   padding: 0.8em 1em 0.8em 1em;
+  margin: 0.4em 0 0.6em 0;
   @include radius();
 }
 

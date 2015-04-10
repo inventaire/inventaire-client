@@ -16,10 +16,6 @@
   border-radius: $radius;
 }
 
-@mixin icon-button(){
-  float: right;
-}
-
 
 // text-with-padding buttons
 .validateButton{
@@ -32,11 +28,27 @@
 // icon buttons
 .editButton{
   @include shy();
-  @include icon-button();
 }
 .indicator{
   opacity: 0.6;
-  @include icon-button();
+  cursor: default;
+}
+
+// a div with a label and icon buttons floating at right
+// this is a hack to avoid using float:right
+// as it messes with click event listeners
+// closest clue found on this: http://stackoverflow.com/questions/6146568/floatleft-stops-click-event-on-android
+div.icon-buttons-header{
+  width: 100%;
+  height: 1.2em;
+  margin-bottom: 0.2em;
+  label{
+    height: 0;
+    cursor: default;
+  }
+  div{
+    text-align: right;
+  }
 }
 
 

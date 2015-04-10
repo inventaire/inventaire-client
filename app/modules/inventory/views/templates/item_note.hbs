@@ -1,8 +1,12 @@
 {{#unless restricted}}
   <div class="noteBox dark-panel">
-    {{partial 'inventory:item_notes_lock'}}
-    <a id="editNotes" class="editButton" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
-    <label for="notes">{{i18n 'private notes'}}</label>
+    <div class="icon-buttons-header">
+      <label>{{i18n 'private notes'}}</label>
+      <div>
+        <a id="editNotes" class="editButton" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
+        {{partial 'inventory:item_notes_lock'}}
+      </div>
+    </div>
     <p id="notes">
       {{pre notes}}
     </p>

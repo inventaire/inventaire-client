@@ -1,9 +1,13 @@
 <div class="commentBox panel">
-  {{#unless restricted}}
-    {{partial 'inventory:visibility_indicator' currentListing}}
-    <a id="editComment" class="editButton" title="{{i18n 'edit comment'}}">{{icon 'pencil'}}</a>
-  {{/unless}}
-  <label>{{i18n 'description'}}</label>
+  <div class="icon-buttons-header">
+    <label>{{i18n 'description'}}</label>
+    <div>
+      {{#unless restricted}}
+        <a id="editComment" class="editButton" title="{{i18n 'edit comment'}}">{{icon 'pencil'}}</a>
+        {{partial 'inventory:visibility_indicator' currentListing}}
+      {{/unless}}
+    </div>
+  </div>
   <p id="comment">
     {{pre comment}}
   </p>
