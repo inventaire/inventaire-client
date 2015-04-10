@@ -6,8 +6,10 @@ module.exports =
     return array[0]
 
   join: (array, separator) ->
-    _.types [array, separator], ['array', 'string']
-    return array.join separator
+    if array?
+      separator = ', '  unless _.isString(separator)
+      array.join separator
+    else ''
 
   log: (args, data)-> _.log.apply _, args
 
