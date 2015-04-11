@@ -29,6 +29,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
   collectionEvents:
     'render': 'stopLoading'
 
+  childEvents:
+    'render': 'lazyMasonryRefresh'
+
   infiniteScroll: ->
     if @more()
       @startLoading('.more')

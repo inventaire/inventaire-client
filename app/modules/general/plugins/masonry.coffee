@@ -21,8 +21,8 @@ module.exports = (containerUiName, itemSelector, minWidth=500)->
     # trigger a stopLoading event: only useful after infiniteScroll startLoading
     # @stopLoading()
 
-  lazyRefresh = _.debounce refresh.bind(@), 200
+  @lazyMasonryRefresh = _.debounce refresh.bind(@), 200
 
-  @on 'render:collection', lazyRefresh.bind(@)
+  @on 'render:collection', @lazyMasonryRefresh.bind(@)
 
   return
