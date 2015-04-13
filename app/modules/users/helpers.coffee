@@ -23,11 +23,11 @@ module.exports = (app)->
             userModel = app.users.public.add(user)
             return userModel
 
-    getUsernameFromUserId: (id)->
-      if id is app.user.id then return app.user.get 'username'
+    getUserModelFromUserId: (id)->
+      if id is app.user.id then return app.user
 
       userModel = app.users.byId(id)
-      if userModel? then userModel.get('username')
+      if userModel? then userModel
       else console.warn "couldnt find the user from id: #{id}"
 
     getUserIdFromUsername: (username)->
@@ -71,6 +71,9 @@ module.exports = (app)->
     isPublicUser: (userId)->
       (userId isnt app.user.id) and (userId not in app.users.friends.list)
 
+  API.getUsernameFromUserId = (id)->
+    return API.getUserModelFromUserId(id)?.get('username')
+
   app.users.queried = []
 
   isntAlreadyHere = (id)->
@@ -80,6 +83,7 @@ module.exports = (app)->
 
   return reqresHandlers =
     'resolve:to:userModel': API.resolveToUserModel
+    'get:userModel:from:userId': API.getUserModelFromUserId
     'get:userModel:from:username': API.getUserModelFromUsername
     'get:username:from:userId': API.getUsernameFromUserId
     'get:userId:from:username': API.getUserIdFromUsername
