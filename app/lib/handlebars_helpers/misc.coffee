@@ -47,3 +47,5 @@ module.exports =
   debug: ->
     _.log arguments, 'hb debug arguments'
     _.log this, 'hb debug this'
+
+  timeFromNow: (time)-> moment(time).fromNow()

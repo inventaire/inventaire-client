@@ -57,7 +57,6 @@ module.exports = Item = Filterable.extend
       entityData: @entityModel?.toJSON()
       entityPathname: @entityPathname
       restricted: @restricted
-      created: moment(attrs.created).fromNow()
       user:
         username: @username
         profilePic: @profilePic
