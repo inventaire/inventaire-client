@@ -23,7 +23,7 @@ fetchComments = (itemId, commentsCollection)->
 
 postComment = (itemId, message, commentsCollection)->
   comment =
-    itemId: itemId
+    item: itemId
     message: message
 
   commentModel = addComment comment, commentsCollection
@@ -35,7 +35,7 @@ postComment = (itemId, message, commentsCollection)->
 addComment = (comment, commentsCollection)->
   # adding elements set by the server firgures out alone
   _.extend comment,
-    userId: app.user.id
+    user: app.user.id
     time: _.now()
 
   return commentsCollection.add comment
