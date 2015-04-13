@@ -36,6 +36,7 @@ module.exports = ->
   app.module 'User', require 'modules/user/user'
   app.module 'Search', require 'modules/search/search'
   app.module 'Inventory', require 'modules/inventory/inventory'
+  require('modules/comments/comments')()
   if app.user.loggedIn
     app.module 'Settings', require 'modules/settings/settings'
     app.module 'Notifications', require 'modules/notifications/notifications'

@@ -1,4 +1,5 @@
 ItemEditionForm = require './item_edition_form'
+ItemComments = require './item_comments'
 EntityData = require 'modules/entities/views/entity_data'
 itemUpdaters = require '../plugins/item_updaters'
 
@@ -18,6 +19,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     entityRegion: '#entity'
     # editPanel: '#editPanel'
     pictureRegion: '#picture'
+    commentsRegion: '#comments'
 
   behaviors:
     ConfirmationModal: {}
@@ -37,6 +39,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     @showPicture()
     # @showItemEditionForm()
     app.execute('foundation:reload')
+    @showComments()
 
   showEntityData: ->
     { entityModel } = @model
@@ -104,3 +107,6 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
         attribute: nameBase
         value: edited
         selector: "##{nameBase}Editor"
+
+  showComments:->
+    @commentsRegion.show new ItemComments { model: @model }

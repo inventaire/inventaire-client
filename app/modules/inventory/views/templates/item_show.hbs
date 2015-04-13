@@ -8,22 +8,15 @@
   <div class="leftBox panel">
     {{partial 'inventory:item_user_box' this}}
     <div class="settings itemBox">
-      <label>
-        {{#if restricted}}
-          {{i18n 'this books settings'}}
-        {{else}}
-          {{i18n 'your settings for this book'}}
-        {{/if}}
-      </label>
       {{partial 'inventory:item_transaction_box' this}}
       {{partial 'inventory:item_visibility_box' this}}
       {{partial 'inventory:item_request_box' this}}
     </div>
   </div>
   <div class="rightBox">
-    {{partial 'inventory:item_comment' this}}
     {{partial 'inventory:item_note' this}}
+    {{partial 'inventory:item_comment' this}}
+    <div id="comments"></div>
   </div>
 </div>
-
 <div id="picture" class="hidden"></div>
