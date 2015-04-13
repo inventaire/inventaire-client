@@ -69,8 +69,12 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   enterClick: (e)->
     if e.keyCode is 13 and $(e.currentTarget).val().length > 0
       row = $(e.currentTarget).parents('form')[0]
-      $(row).find('.button').trigger 'click'
-      _.log 'ui: enter-click'
+      $target =  $(row).find('.button, .tiny-button')
+      if $target.length > 0
+        $target.trigger 'click'
+        _.log 'ui: enter-click'
+      else
+        _.error('enterClick target not found')
 
   waitForCheck: (options)->
     {selector, $selector, action, promise, success, error} = options
