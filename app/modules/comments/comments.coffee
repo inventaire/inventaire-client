@@ -3,17 +3,15 @@ Comments = require './collections/comments'
 module.exports = ->
   app.reqres.setHandlers
     'comments:init': initComments
-    'comments:fetch': fetchComments
     'comments:post': postComment
-
 
 initComments = (model)->
   # init collection unless it was already done
   unless model.comments?
     model.comments = comments = new Comments
-    fetchComments model.id, comments
+    fetching = fetchComments model.id, comments
 
-  return model.comments
+  return [model.comments, fetching]
 
 fetchComments = (itemId, commentsCollection)->
   _.preq.get _.buildPath(app.API.comments, { item: itemId })

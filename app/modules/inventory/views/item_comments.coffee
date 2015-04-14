@@ -1,3 +1,4 @@
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.CompositeView.extend
@@ -7,19 +8,28 @@ module.exports = Marionette.CompositeView.extend
   childView: require './comment'
 
   initialize: ->
-    @collection = app.request 'comments:init', @model
+    [@collection, @fetching] = app.request 'comments:init', @model
+    @initPlugins()
+
+  initPlugins: ->
+    _.extend @, behaviorsPlugin
 
   events:
     'click .postComment': 'postComment'
 
   behaviors:
     AlertBox: {}
+    Loading: {}
 
   ui:
     message: 'textarea.message'
 
   serializeData: ->
     user: app.user.toJSON()
+
+  onShow: ->
+    @startLoading()
+    @fetching.finally @stopLoading.bind(@)
 
   postComment: ->
     id = @model.id
