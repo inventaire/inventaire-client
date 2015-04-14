@@ -21,7 +21,7 @@ module.exports = (_)->
       return false
 
     normalizeIsbn: (text)-> text.trim().replace(/-/g, '').replace(/\s/g, '')
-    isNormalizedIsbn: (text)-> /^([0-9]{10}|[0-9]{13})$/.test text
+    isNormalizedIsbn: (text)->  /^(97(8|9))?\d{9}(\d|X)$/.test text
 
     cleanIsbnData: (isbn)->
       _.typeString isbn
