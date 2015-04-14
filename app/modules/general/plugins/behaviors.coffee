@@ -1,5 +1,7 @@
 # behaviors: Loading MUST be added to the view
 # elements required in the view: .loading
+# startLoading / stopLoading MUST NOT be called at view initialization
+# but rathen onShow/onRender so that the expected DOM elements are rendered
 loading_ =
   startLoading: (options)->
     if _.isString(options) then options = {selector: options}
