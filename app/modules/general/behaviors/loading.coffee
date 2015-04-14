@@ -19,7 +19,7 @@ module.exports = Loading = Marionette.Behavior.extend
 
     timeout = params?.timeout or 16
     unless timeout is 'none'
-      cb = => @somethingWentWrong.apply @, [null, params]
+      cb = @somethingWentWrong.bind(@, null, params)
       setTimeout cb, timeout * 1000
 
   hideSpinningLoader: (e, params)->
