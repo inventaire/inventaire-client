@@ -1,0 +1,28 @@
+.requestLi{
+  @include display-flex(row, center, space-between);
+  div.selectUser, div.actions{
+    @include display-flex(row);
+    @include flex(1);
+  }
+  div.selectUser{
+    @include display-flex(row, center, flex-start);
+  }
+  div.actions{
+    #accept{
+      @include bg-hover($success-color);
+    }
+    #discard{
+      @include bg-hover($grey);
+    }
+  }
+  .username{
+    margin: 0em 1em 0em 1em;
+    vertical-align: middle;
+  }
+  img{
+    margin-left: 0;
+    max-height: $user-height;
+  }
+  min-width: 30rem;
+  color: white;
+}

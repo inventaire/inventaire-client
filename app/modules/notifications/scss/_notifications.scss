@@ -28,39 +28,7 @@
     }
   }
 
-  .requestLi{
-    @include display-flex(row, center, space-between);
-    div.selectUser, div.actions{
-      @include display-flex(row);
-      @include flex(1);
-    }
-    div.selectUser{
-      @include display-flex(row, center, flex-start);
-    }
-    div.actions{
-    }
-    // max-width: 40rem !important;
-    .username{
-      // font-size: 1.2em;
-      margin: 0em 1em 0em 1em;
-      vertical-align: middle;
-      font-weight: bold;
-    }
-    img{
-      margin-left: 0;
-      max-height: $user-height;
-    }
-    height: $user-height !important;
-    a.button{
-      height: $user-height !important;
-      line-height: 1.8rem !important;
-      vertical-align: middle;
-      &.success{ @extend .success-button;}
-      &.grey{ @extend .grey;}
-    }
-    min-width: 30rem;
-    color: #fff;
-  }
+  @import "request_li";
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
