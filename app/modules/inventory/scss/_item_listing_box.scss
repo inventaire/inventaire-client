@@ -1,5 +1,7 @@
 .listingMenu{
-  height: $user-box-heigth;
+  // just 'height' wasnt working on chrome
+  min-height: $user-box-heigth;
+  max-height: $user-box-heigth;
   &.private{
     background-color: $dark-grey;
     @extend .currentWhite;

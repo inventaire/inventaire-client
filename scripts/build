@@ -3,8 +3,10 @@ rm public/javascripts/*map 2> /dev/null
 rm public/stylesheets/*map 2> /dev/null
 brunch build -P
 ./scripts/minify_html
-cssnext public/stylesheets/app.css{,}
-cssnext public/stylesheets/vendor.css{,}
+# commenting-out cssnext as flexbox-wise, it was messing with crappy browsers
+# (especially Safari) more than fixing anything
+# cssnext public/stylesheets/app.css{,}
+# cssnext public/stylesheets/vendor.css{,}
 # ./scripts/update_i18n_all
 ./scripts/update_i18n_actives
 gzip -9 -fc public/javascripts/app.js > public/javascripts/app.js.gz

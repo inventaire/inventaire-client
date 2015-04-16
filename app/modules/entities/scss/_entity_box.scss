@@ -19,6 +19,7 @@
     padding: 1em;
   }
   .cover{
+    @include flex(0,0);
   }
   .data{
     @include flex(1);

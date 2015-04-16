@@ -24,8 +24,8 @@
 @mixin display-flex($direction:null, $align:null, $justify:null, $wrap:null) {
   // display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
   // display: -ms-flexbox;      /* TWEENER - IE 10 */
-  // @include vendor-prefix-value(display, box);
-  // @include vendor-prefix-value(display, flexbox);
+  @include vendor-prefix-value(display, box);
+  @include vendor-prefix-value(display, flexbox);
   @include vendor-prefix-value(display, flex);
 
   @if $direction {
@@ -43,7 +43,7 @@
 }
 
 @mixin flex($grow:0, $shrink:1, $basis:auto) {
-  // @include vendor-prefix(box-flex, $grow $shrink $basis);
+  @include vendor-prefix(box-flex, $grow $shrink $basis);
   @include vendor-prefix(flex, $grow $shrink $basis);
 }
 

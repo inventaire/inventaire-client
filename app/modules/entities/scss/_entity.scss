@@ -30,7 +30,7 @@
   }
   .wiki-sitelinks{
     @include flex-direction(column);
-    align-items: center;
+    @include align-items(center);
     li{
       background-color: $grey;
       width: 90%;

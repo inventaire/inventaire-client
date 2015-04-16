@@ -22,8 +22,8 @@
     }
     .acceptedFriendRequest{}
     .empty{
-      align-items: center;
-      justify-content: center;
+      @include align-items(center);
+      @include justify-content(center);
       color: white;
     }
   }

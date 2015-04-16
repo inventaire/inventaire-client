@@ -93,7 +93,7 @@ nav.top-bar {
       max-width: 70em;
       margin-left: auto;
       div{
-        justify-content: flex-end;
+        @include justify-content(flex-end);
         #signupRequest{
           a{
             background-color: $secondary-color;
