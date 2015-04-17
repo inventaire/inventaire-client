@@ -8,6 +8,7 @@ module.exports = ->
     'comments:delete': deleteComment
 
 initComments = (model)->
+  fetching = null
   # init collection unless it was already done
   unless model.comments?
     model.comments = comments = new Comments [], {item: model}

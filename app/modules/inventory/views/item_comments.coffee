@@ -29,8 +29,9 @@ module.exports = Marionette.CompositeView.extend
     user: app.user.toJSON()
 
   onShow: ->
-    @startLoading()
-    @fetching.finally @stopLoading.bind(@)
+    if @fetching?
+      @startLoading()
+      @fetching.finally @stopLoading.bind(@)
 
   onRender: ->
     @ui.message.elastic()
