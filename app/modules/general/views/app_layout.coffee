@@ -1,9 +1,8 @@
-JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
-FeedbacksMenu = require './feedbacks_menu'
-{ Loader } = app.View.Behaviors
 moveCaretToEnd = require '../lib/move_caret_to_end'
 waitForCheck = require '../lib/wait_for_check'
 enterClick = require '../lib/enter_click'
+documentLang = require '../lib/document_lang'
+showViews = require '../lib/show_views'
 
 module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -34,6 +33,8 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     PreventDefault: {}
 
   initialize: (e)->
+    _.extend @, showViews
+
     @render()
     app.vent.trigger 'layout:ready'
     app.commands.setHandlers
@@ -49,7 +50,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
 
     # needed by search engines
     # or to make by-language css rules (with :lang)
-    @keepBodyLangUpdated()
+    documentLang.keepBodyLangUpdated.call(@)
 
   serializeData: ->
     topbar: @topBarData()
@@ -60,31 +61,10 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
       back_text: _.i18n 'back'
       is_hover: false
 
-  showLoader: (options)->
-    [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
-    if region?
-      region.Show new Loader, title
-    else if selector?
-      loader = new Loader
-      $(selector).html loader.render()
-      app.docTitle title  if title?
-    else
-      app.layout.main.Show new Loader, title
-
   search: ->
     query = $('input#searchField').val()
     _.log query, 'search query'
     app.execute 'search:global', query
-
-  showEntity: (e)->
-    href = e.target.href
-    unless href?
-      throw new Error "couldnt showEntity: href not found"
-
-    unless _.isOpenedOutside(e)
-      data = href.split('/entity/').last()
-      [uri, label] = data.split '/'
-      app.execute 'show:entity', uri, label
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)
@@ -94,14 +74,3 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     $('#currentUser').hide()
 
   toggleSideNav: -> $('#sideNav').toggleClass('hide-for-small-only')
-
-  showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
-
-  keepBodyLangUpdated: ->
-    @updateBodyLang app.request('i18n:current')
-    @listenTo app.vent, 'i18n:set', @updateBodyLang.bind(@)
-
-  updateBodyLang: (lang)-> @$el.attr 'lang', lang
-
-  showFeedbacksMenu: ->
-    app.layout.modal.show new FeedbacksMenu

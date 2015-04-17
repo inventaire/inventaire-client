@@ -17,7 +17,6 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
 
   regions:
     entityRegion: '#entity'
-    # editPanel: '#editPanel'
     pictureRegion: '#picture'
     commentsRegion: '#comments'
 
