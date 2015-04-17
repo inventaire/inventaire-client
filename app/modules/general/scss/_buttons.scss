@@ -16,6 +16,10 @@
   border-radius: $radius;
 }
 
+.tiny-success-button{
+  @include tiny-button($success-color);
+}
+
 
 // text-with-padding buttons
 .validateButton{
@@ -28,6 +32,12 @@
 // icon buttons
 .editButton{
   @include shy();
+  &:hover{
+    span{
+      @include transition(display);
+      display: inherit;
+    }
+  }
 }
 .indicator{
   opacity: 0.6;
@@ -46,7 +56,7 @@ div.icon-buttons-header{
     height: 0;
     cursor: default;
   }
-  div{
+  .right{
     text-align: right;
   }
 }
@@ -75,4 +85,12 @@ div.icon-buttons-header{
 .button-group-right{
   @include button-group();
   @include display-flex(row, center, flex-end);
+}
+
+
+.cancelButton{
+  @include tiny-button($warning-color);
+}
+.saveButton{
+  @include tiny-button($success-color);
 }

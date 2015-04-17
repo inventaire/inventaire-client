@@ -1,0 +1,9 @@
+.itemComments{
+  padding-bottom: 2em;
+  .postComment{}
+  textarea{
+    max-width: 100%;
+  }
+}
+
+@import "comment";

@@ -1,0 +1,45 @@
+.comment{
+  margin: 0.5em 0em 0.5em 0em;
+  min-height: $user-height;
+  width: 100%;
+  @include display-flex(row, flex-start, space-between);
+  .avatar{
+    min-height: $user-height;
+    @include flex(0, 0, $user-height);
+  }
+  .rest{
+    padding: 0 0.4em 0 0.4em;
+    @include flex(1);
+    @include display-flex(column);
+    .header{
+      // width: 100%;
+      @include display-flex(row, flex-start, space-between);
+      .username{
+        font-weight: bold;
+        @include serif();
+      }
+      .icon-buttons{
+        @include flex(0, 0);
+        span{
+          margin-right: 0.5em;
+          font-size: 0.8em;
+        }
+      }
+    }
+    .menu{
+      @include shy(0.3);
+    }
+    .time{
+      opacity: $shy-opacity;
+    }
+    .core{
+      width: 100%;
+    }
+    .message{}
+  }
+  &:not(:hover){
+    .menu{
+      opacity: 0;
+    }
+  }
+}

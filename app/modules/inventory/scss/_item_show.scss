@@ -37,6 +37,7 @@
       }
     }
     .rightBox{
+      width: 100%;
       @include flex(1);
       @include display-flex(column);
       p{
@@ -50,9 +51,9 @@
       @include display-flex(column, center, center);
       .leftBox{
         width: 100%;
-        .settings{
-          // width: 100%;
-        }
+      }
+      .rightBox{
+        padding: 0.5em;
       }
     }
     /*Large screens*/
@@ -76,3 +77,5 @@
     }
   }
 }
+
+@import 'item_comments';

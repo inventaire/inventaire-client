@@ -1,0 +1,24 @@
+<div class="avatar">
+  <img src="{{src user.picture 50}}">
+</div>
+
+<div class="rest">
+
+  <div class="header">
+    <div class="core">
+      <span class="username">{{user.username}}</span>
+      <span class="message">{{message}}</span>
+    </div>
+    <div class="core hidden">
+      <form>
+        <textarea class="message" name="message" placeholder="post a comment...">{{message}}</textarea>
+        <div class="right">
+          <a class="cancelButton">{{icon 'times'}}{{i18n 'cancel'}}</a>
+          <a class="saveButton">{{icon 'check'}}{{i18n 'save'}}</a>
+        </div>
+      </form>
+    </div>
+    {{partial 'inventory:comment_edit_menu' this}}
+  </div>
+  <span class="time">{{timeFromNow time}}</span>
+</div>

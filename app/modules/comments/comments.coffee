@@ -4,11 +4,13 @@ module.exports = ->
   app.reqres.setHandlers
     'comments:init': initComments
     'comments:post': postComment
+    'comments:update': updateComment
+    'comments:delete': deleteComment
 
 initComments = (model)->
   # init collection unless it was already done
   unless model.comments?
-    model.comments = comments = new Comments
+    model.comments = comments = new Comments [], {item: model}
     fetching = fetchComments model.id, comments
 
   return [model.comments, fetching]
@@ -41,3 +43,22 @@ addComment = (comment, commentsCollection)->
 postCommentFail = (commentModel, commentsCollection, err)->
   commentsCollection.remove(commentModel)
   throw err
+
+
+updateComment = (commentModel, newMessage)->
+  currentMessage = commentModel.get 'message'
+  if newMessage is currentMessage then return _.preq.resolve()
+
+  commentModel.set 'message', newMessage
+
+  _.preq.put app.API.comments,
+    id: commentModel.id
+    message: newMessage
+
+# requires the view to register to the ConfirmationModal behavior
+deleteComment = (commentModel, view)->
+  view.$el.trigger 'askConfirmation',
+    confirmationText: _.i18n 'comment_delete_confirmation'
+    warningText: _.i18n 'cant_undo_warning'
+    action: -> _.preq.resolve commentModel.destroy()
+    selector: view.uniqueSelector
