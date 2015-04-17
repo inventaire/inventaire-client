@@ -29,8 +29,14 @@ postComment = (itemId, message, commentsCollection)->
   commentModel = addComment comment, commentsCollection
 
   _.preq.post app.API.comments, comment
+  .then updateCommentId.bind(null, commentModel)
   .catch postCommentFail.bind(null, commentModel, commentsCollection)
 
+updateCommentId = (commentModel, res)->
+  { id, rev} = res
+  commentModel.set
+    _id: id
+    _rev: rev
 
 addComment = (comment, commentsCollection)->
   # adding elements set by the server firgures out alone
