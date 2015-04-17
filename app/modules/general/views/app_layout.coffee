@@ -1,6 +1,9 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 FeedbacksMenu = require './feedbacks_menu'
+{ Loader } = app.View.Behaviors
 moveCaretToEnd = require '../lib/move_caret_to_end'
+waitForCheck = require '../lib/wait_for_check'
+enterClick = require '../lib/enter_click'
 
 module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -20,7 +23,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'
     'click .showFeedbacksMenu': 'showFeedbacksMenu'
-    'keyup .enterClick': 'enterClick'
+    'keyup .enterClick': enterClick
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
@@ -42,7 +45,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
       'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
 
     app.reqres.setHandlers
-      'waitForCheck': @waitForCheck
+      'waitForCheck': waitForCheck
 
     # needed by search engines
     # or to make by-language css rules (with :lang)
@@ -60,44 +63,13 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   showLoader: (options)->
     [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
     if region?
-      region.Show new app.View.Behaviors.Loader, title
+      region.Show new Loader, title
     else if selector?
-      loader = new app.View.Behaviors.Loader
+      loader = new Loader
       $(selector).html loader.render()
       app.docTitle title  if title?
     else
-      app.layout.main.Show new app.View.Behaviors.Loader, title
-
-  enterClick: (e)->
-    if e.keyCode is 13 and $(e.currentTarget).val().length > 0
-      row = $(e.currentTarget).parents('form')[0]
-      $target =  $(row).find('.button, .tiny-button')
-      if $target.length > 0
-        $target.trigger 'click'
-        _.log 'ui: enter-click'
-      else
-        _.error('enterClick target not found')
-
-  waitForCheck: (options)->
-    {selector, $selector, action, promise, success, error} = options
-    _.log options, 'waitForCheck options'
-    # $selector or selector MUST be provided
-    # if selector? then $selector = $(selector)
-    $selector or= $(selector)
-    $selector.trigger 'loading', {selector: selector}
-
-    # action or promise MUST be provided
-    if action? then promise = action()
-
-    # success and/or error handlers CAN be provided
-    promise
-    .then (res)->
-      $selector.trigger('check', success)
-    .catch (err)->
-      _.error err, 'waitForCheck err'
-      $selector.trigger('fail', error)
-
-    return promise
+      app.layout.main.Show new Loader, title
 
   search: ->
     query = $('input#searchField').val()
