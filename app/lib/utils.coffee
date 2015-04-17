@@ -158,4 +158,6 @@ module.exports = (Backbone, _, app, window)->
 
     noop: ->
 
+    escapeKeyPressed: (e)-> e.keyCode is 27
+
   return _.extend {}, utils, loggers
