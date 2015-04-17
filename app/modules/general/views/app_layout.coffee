@@ -1,5 +1,6 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 FeedbacksMenu = require './feedbacks_menu'
+moveCaretToEnd = require '../lib/move_caret_to_end'
 
 module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -24,6 +25,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
     'click .toggle-topbar': 'toggleSideNav'
+    'focus textarea': moveCaretToEnd
 
   behaviors:
     PreventDefault: {}
