@@ -2,9 +2,14 @@
   <div class="loading"></div>
 </div>
 
-<section class="newComment">
+<div class="newComment">
   <form>
-    <textarea class="message" name="message" placeholder="post a comment...">{{message}}</textarea>
+    <div class="main">
+      <div class="avatar">
+        <img src="{{src user.picture 50}}">
+      </div>
+      <textarea class="message" name="message" placeholder="post a comment...">{{message}}</textarea>
+    </div>
     <a class="tiny-success-button postComment right">{{i18n 'post comment'}}</a>
   </form>
-</section>
+</div>

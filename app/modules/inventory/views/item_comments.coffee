@@ -2,7 +2,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.CompositeView.extend
-  className: 'itemComments'
+  className: 'itemComments panel'
   template: require './templates/item_comments'
   childViewContainer: '.comments'
   childView: require './comment'

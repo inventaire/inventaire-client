@@ -1,9 +1,18 @@
 .itemComments{
-  padding-bottom: 2em;
-  .postComment{}
-  textarea{
-    max-width: 100%;
+  padding-bottom: 3em;
+  .newComment{
+    .main{
+      @include display-flex(row, flex-start, space-between);
+      .avatar{
+        @include flex(0,0);
+      }
+      textarea{
+        @include flex(1);
+      }
+    }
   }
+  // background-color: $grey;
+  .postComment{}
 }
 
 @import "comment";
