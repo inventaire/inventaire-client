@@ -41,11 +41,11 @@ module.exports = Marionette.CompositeView.extend
     @ui.message.elastic()
 
   postComment: ->
-    id = @model.id
+    itemId = @model.id
     message = @ui.message.val()
     collection = @model.comments
 
-    app.request 'comments:post', id, message, collection
+    app.request 'comments:post', itemId, message, collection
     .catch @postCommentFail.bind(@, message)
 
     @emptyTextarea()
