@@ -17,6 +17,9 @@ module.exports = Marionette.CompositeView.extend
   events:
     'click .postComment': 'postComment'
 
+  childEvents:
+    'edit:toggle': 'toggleNewComment'
+
   behaviors:
     AlertBox: {}
     Loading: {}
@@ -24,6 +27,7 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     message: 'textarea.message'
+    newCommentDiv: '.newComment'
 
   serializeData: ->
     user: app.user.toJSON()
@@ -53,3 +57,6 @@ module.exports = Marionette.CompositeView.extend
 
   emptyTextarea: -> @ui.message.val('')
   recoverMessage: (message)-> @ui.message.val message
+
+  toggleNewComment: ->
+    @ui.newCommentDiv.toggle()

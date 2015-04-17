@@ -49,6 +49,7 @@ module.exports = Marionette.ItemView.extend
     if _.escapeKeyPressed(e) then @toggleEditMode()
 
   toggleEditMode: ->
+    @trigger 'edit:toggle'
     @ui.core.toggle()
     @ui.menu.toggle()
 
@@ -57,6 +58,7 @@ module.exports = Marionette.ItemView.extend
     app.request 'comments:update', @model, newMessage
     # .then @toggleEditMode.bind(@)
     .catch @saveFail.bind(@, newMessage)
+    @trigger 'edit:toggle'
 
   saveFail: (newMessage, err)->
     # @toggleEditMode()
