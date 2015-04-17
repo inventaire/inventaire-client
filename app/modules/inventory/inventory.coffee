@@ -128,7 +128,6 @@ validateCreation = (itemData)->
   itemModel.username = app.user.get('username')
   return true
 
-# VIEWS
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
     'show:inventory:general': ->
@@ -198,7 +197,6 @@ initializeInventoriesHandlers = (app)->
         action: action
 
     'get:item:model': (id)-> Items.personal.byId(id)
-
     'inventory:user:length': (userId)-> Items.inventoryLength[userId]
 
     'inventory:fetch:user:public:items': (userId)->

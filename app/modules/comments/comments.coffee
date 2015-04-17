@@ -18,7 +18,6 @@ initComments = (model)->
 
 fetchComments = (itemId, commentsCollection)->
   _.preq.get _.buildPath(app.API.comments, { item: itemId })
-  .then _.Log('comments?')
   .then commentsCollection.add.bind(commentsCollection)
 
 

@@ -1,7 +1,7 @@
 <div class="commentBox panel">
   <div class="icon-buttons-header">
     <label>{{i18n 'description'}}</label>
-    <div>
+    <div class="right">
       {{#unless restricted}}
         <a id="editComment" class="editButton" title="{{i18n 'edit comment'}}">{{icon 'pencil'}}</a>
         {{partial 'inventory:visibility_indicator' currentListing}}
