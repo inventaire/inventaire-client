@@ -15,6 +15,7 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     AlertBox: {}
     ConfirmationModal: {}
+    ElasticTextarea: {}
 
   initialize: ->
     @uniqueSelector = "#{@cid}"

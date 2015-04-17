@@ -7,6 +7,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   behaviors:
     Loading: {}
     SuccessCheck: {}
+    ElasticTextarea: {}
 
   initialize: -> _.extend @, behaviorsPlugin
 

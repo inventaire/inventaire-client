@@ -23,6 +23,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
 
   behaviors:
     ConfirmationModal: {}
+    ElasticTextarea: {}
 
   initialize: ->
     @initPlugins()

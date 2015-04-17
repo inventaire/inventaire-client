@@ -19,6 +19,7 @@ module.exports = UserProfile = Backbone.Marionette.ItemView.extend
     AlertBox: {}
     SuccessCheck: {}
     Loading: {}
+    ElasticTextarea: {}
 
   ui:
     bio: '.bio'

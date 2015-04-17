@@ -22,6 +22,9 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
       @model = new Item attrs
     else throw new Error 'missing uri or title at item creation from entity'
 
+  behaviors:
+    ElasticTextarea: {}
+
   ui:
     'transaction': '#transaction'
     'listing': '#listing'
@@ -58,7 +61,7 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   transactionsData: ->
     transactions =_.clone(Items.transactions)
     _.extend transactions.inventorying,
-      label: 'inventorize_it'
+      label: 'just_inventorize_it'
       classes: 'active'
     return transactions
 

@@ -33,6 +33,7 @@
     "bluebird": "~2.6.4",
     "jquery.inview": "~1.0.0",
     "imagesloaded": "~3.1.8",
-    "jquery-masonry": "~3.2.2"
+    "jquery-masonry": "~3.2.2",
+    "jquery-elastic": "git+https://github.com/SebastianEdwards/jquery.elastic.js.git"
   }
 }

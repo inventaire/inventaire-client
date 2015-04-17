@@ -10,3 +10,4 @@ module.exports =
   WikiBar: require './wiki_bar'
   TogglePassword: require './toggle_password'
   PreventDefault: require './prevent_default'
+  ElasticTextarea: require './elastic_textarea'

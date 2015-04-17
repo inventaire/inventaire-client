@@ -20,6 +20,7 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     AlertBox: {}
     Loading: {}
+    ElasticTextarea: {}
 
   ui:
     message: 'textarea.message'
@@ -30,6 +31,9 @@ module.exports = Marionette.CompositeView.extend
   onShow: ->
     @startLoading()
     @fetching.finally @stopLoading.bind(@)
+
+  onRender: ->
+    @ui.message.elastic()
 
   postComment: ->
     id = @model.id

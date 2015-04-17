@@ -16,6 +16,9 @@ module.exports = Backbone.Marionette.ItemView.extend
   ui:
     message: '#message'
 
+  behaviors:
+    ElasticTextarea: {}
+
   onShow: ->
     app.execute 'modal:open'
 
