@@ -1,0 +1,21 @@
+<div class="detailsBox panel">
+  <div class="icon-buttons-header">
+    <label>{{i18n 'details'}}</label>
+    <div class="right">
+      {{#unless restricted}}
+        <a id="editDetails" class="editButton" title="{{i18n 'edit details'}}">{{icon 'pencil'}}</a>
+        {{partial 'inventory:visibility_indicator' currentListing}}
+      {{/unless}}
+    </div>
+  </div>
+  <p id="details">
+    {{pre details}}
+  </p>
+  <div id="detailsEditor" class='hidden'>
+    <textarea placeholder='({{i18n 'details_placeholder'}})'>{{details}}</textarea>
+    <div class="button-group-right">
+      <a id="cancelDetailsEdition" class="cancelButton">{{i18n 'cancel'}}</a>
+      <a id="validateDetails" class="validateButton">{{i18n 'edit'}}</a>
+    </div>
+  </div>
+</div>

@@ -26,7 +26,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   events:
     'click .edit': 'itemEdit'
     'click a.itemShow': 'itemShow'
-    'click a.commentToggleWrap': -> @toggleWrap('comment')
+    'click a.detailsToggleWrap': -> @toggleWrap('details')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
 
   serializeData: ->
@@ -37,9 +37,9 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     return attrs
 
   wrapData: (attrs)->
-    comment:
-      wrap: attrs.comment?.length > 120
-      nameBase: 'comment'
+    details:
+      wrap: attrs.details?.length > 120
+      nameBase: 'details'
     notes:
       wrap: attrs.notes?.length > 120
       nameBase: 'notes'

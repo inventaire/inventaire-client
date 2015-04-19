@@ -28,7 +28,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     @initPlugins()
     @uniqueSelector = '#'+@id
     @model.on 'all', -> _.log arguments, 'item:show item events'
-    @listenTo @model, 'change:comment', @render
+    @listenTo @model, 'change:details', @render
     @listenTo @model, 'change:notes', @render
     @listenTo @model, 'add:pictures', @render
 
@@ -61,8 +61,8 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   events:
     'click a#destroy': 'itemDestroy'
     'click a#changePicture': 'changePicture'
-    'click a#editComment, a#cancelCommentEdition': 'toggleCommentEditor'
-    'click a#validateComment': 'validateComment'
+    'click a#editDetails, a#cancelCommentEdition': 'toggleDetailsEditor'
+    'click a#validateDetails': 'validateDetails'
     'click a#editNotes, a#cancelNotesEdition': 'toggleNotesEditor'
     'click a#validateNotes': 'validateNotes'
 
@@ -88,10 +88,10 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
       next: -> app.execute 'show:home'
 
 
-  toggleCommentEditor: -> @toggleEditor('comment')
+  toggleDetailsEditor: -> @toggleEditor('details')
   toggleNotesEditor: -> @toggleEditor('notes')
 
-  validateComment: -> @validateEdit('comment')
+  validateDetails: -> @validateEdit('details')
   validateNotes: -> @validateEdit('notes')
 
   toggleEditor: (nameBase)->

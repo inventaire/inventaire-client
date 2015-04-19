@@ -24,13 +24,13 @@
   {{partial 'inventory:item_visibility_box' this}}
 </div>
 {{partial 'inventory:item_request_box' this}}
-<div class="comments-box hidden">
-  {{#if comment}}
+<div class="detailsBox hidden">
+  {{#if details}}
     <div>
-      <span class="comment wrapped">
+      <span class="details wrapped">
         {{icon 'quote-left'}}
-        {{partial 'toggle_wrap' wrap.comment}}
-        {{pre comment}}
+        {{partial 'toggle_wrap' wrap.details}}
+        {{pre details}}
       </span>
     </div>
   {{/if}}

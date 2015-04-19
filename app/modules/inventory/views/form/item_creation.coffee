@@ -28,7 +28,7 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   ui:
     'transaction': '#transaction'
     'listing': '#listing'
-    'comment': '#comment'
+    'details': '#details'
     'notes': '#notes'
 
   onShow: ->
@@ -85,12 +85,12 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   setFormData: ->
     transaction = @ui.transaction.find('.active').attr('id')
     listing = @ui.listing.find('.active').attr('id')
-    comment = @ui.comment.val()
+    details = @ui.details.val()
     notes = @ui.notes.val()
 
     unless listing? then throw new Error 'listing value missing'
     unless transaction? then throw new Error 'transaction value missing'
     @model.set 'transaction', transaction
     @model.set 'listing', listing
-    @model.set 'comment', comment  if comment?
+    @model.set 'details', details  if details?
     @model.set 'notes', notes  if notes?

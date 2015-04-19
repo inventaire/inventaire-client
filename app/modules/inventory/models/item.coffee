@@ -87,7 +87,7 @@ module.exports = Item = Filterable.extend
     [
       @get('title')
       @get('username')
-      @get('comment')
+      @get('details')
       @get('notes')
       @get('entity')
     ]
