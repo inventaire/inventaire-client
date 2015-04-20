@@ -1,5 +1,6 @@
 module.exports = Notifications = Backbone.Collection.extend
   model: require '../models/notification'
+  comparator: (notif)-> - notif.get 'time'
   unread: -> @filter (model)-> model.get('status') is 'unread'
   markAsRead: -> @each (model)-> model.set 'status', 'read'
 
