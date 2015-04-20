@@ -21,7 +21,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   transactionsData: ->
     transactions = _.clone Items.transactions
     transactions.inventorying.icon = 'plus'
-    transactions.inventorying.label = 'inventorize_it'
+    transactions.inventorying.label = 'just_inventorize_it'
     return transactions
 
   onRender: ->
