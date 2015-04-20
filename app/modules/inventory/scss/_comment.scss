@@ -29,8 +29,12 @@
     .menu{
       @include shy(0.3);
     }
-    .time{
+    .time, .edited{
       opacity: $shy-opacity;
+      font-size: 0.9em;
+    }
+    .edited{
+      font-size: 0.8em;
     }
     .core{
       width: 100%;

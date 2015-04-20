@@ -20,5 +20,10 @@
     </div>
     {{partial 'inventory:comment_edit_menu' this}}
   </div>
-  <span class="time core">{{timeFromNow time}}</span>
+  <div>
+    <span class="time core">{{timeFromNow created}}</span>
+    {{#if edited}}
+      <span class="edited core">({{i18n 'edited'}} {{timeFromNow edited}})</span>
+    {{/if}}
+  </div>
 </div>
