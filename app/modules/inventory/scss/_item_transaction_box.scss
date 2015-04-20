@@ -12,6 +12,7 @@
   }
   &.selling{
     background-color: $selling-color;
+    @extend .currentWhite;
   }
   &.inventorying{
     background-color: $inventorying-color;
