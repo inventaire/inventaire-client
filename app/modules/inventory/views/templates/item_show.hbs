@@ -15,7 +15,13 @@
   </div>
   <div class="rightBox">
     {{partial 'inventory:item_note' this}}
-    {{partial 'inventory:item_details' this}}
+    {{#if restricted}}
+      {{#if details}}
+        {{partial 'inventory:item_details' this}}
+      {{/if}}
+    {{else}}
+      {{partial 'inventory:item_details' this}}
+    {{/if}}
     <div id="comments"></div>
   </div>
 </div>
