@@ -44,7 +44,7 @@
       background-color: $dark-grey;
     }
     .notification{
-      .acceptedFriendRequest{
+      > div{
         width: 25em;
       }
     }
