@@ -67,6 +67,15 @@ API =
     else
       return Items.where({owner: owner, entity: entity})
 
+  findItemById: (itemId)->
+    item = Items.byId(itemId)
+    if item? then _.preq.resolve(item)
+    else
+      # if it isnt in friends id, it should be a public item
+      _.preq.get app.API.items.publicById(itemId)
+      .then Items.public.add
+      .catch _.Error('findItemById err')
+
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
     unless items?.length?
@@ -196,7 +205,7 @@ initializeInventoriesHandlers = (app)->
         warningText: _.i18n("this action can't be undone")
         action: action
 
-    'get:item:model': (id)-> Items.personal.byId(id)
+    'get:item:model': API.findItemById
     'inventory:user:length': (userId)-> Items.inventoryLength[userId]
 
     'inventory:fetch:user:public:items': (userId)->

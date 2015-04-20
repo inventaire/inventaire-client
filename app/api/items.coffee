@@ -8,6 +8,10 @@ module.exports =
   base: '/api/items'
   lastPublicItems: itemsPublic 'last-public-items'
 
+  publicById: (id)->
+    itemsPublic 'public-by-id',
+      id: id
+
   publicByEntity: (uri)->
     itemsPublic 'public-by-entity',
       uri: uri
