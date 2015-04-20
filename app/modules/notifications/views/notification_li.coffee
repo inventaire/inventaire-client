@@ -1,6 +1,8 @@
 module.exports = NotificationLi = Backbone.Marionette.ItemView.extend
   tagName: 'li'
-  className: 'notification'
+  className: ->
+    status = @model.get('status')
+    "notification #{status}"
   getTemplate: ->
     switch @model.get('type')
       when 'friendAcceptedRequest'

@@ -20,7 +20,11 @@
         }
       }
     }
-    .acceptedFriendRequest{}
+    &.read{
+      a{
+        background-color: white;
+      }
+    }
     .empty{
       @include align-items(center);
       @include justify-content(center);
