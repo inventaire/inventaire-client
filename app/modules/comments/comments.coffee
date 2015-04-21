@@ -55,7 +55,9 @@ updateComment = (commentModel, newMessage)->
   currentMessage = commentModel.get 'message'
   if newMessage is currentMessage then return _.preq.resolve()
 
-  commentModel.set 'message', newMessage
+  commentModel.set
+    message: newMessage
+    edited: _.now()
 
   _.preq.put app.API.comments,
     id: commentModel.id
