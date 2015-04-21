@@ -42,7 +42,7 @@ addComment = (comment, commentsCollection)->
   # adding elements set by the server firgures out alone
   _.extend comment,
     user: app.user.id
-    time: _.now()
+    created: _.now()
 
   return commentsCollection.add comment
 
