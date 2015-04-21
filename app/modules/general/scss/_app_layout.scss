@@ -10,6 +10,9 @@ body{
   }
   #modal{
     max-width: 38em;
+    &.large{
+      max-width: 80em;
+    }
   }
 }
 

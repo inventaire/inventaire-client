@@ -3,6 +3,7 @@ waitForCheck = require '../lib/wait_for_check'
 enterClick = require '../lib/enter_click'
 documentLang = require '../lib/document_lang'
 showViews = require '../lib/show_views'
+modalHandlers = require '../lib/modal'
 
 module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -51,6 +52,8 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     # needed by search engines
     # or to make by-language css rules (with :lang)
     documentLang.keepBodyLangUpdated.call(@)
+
+    modalHandlers()
 
   serializeData: ->
     topbar: @topBarData()
