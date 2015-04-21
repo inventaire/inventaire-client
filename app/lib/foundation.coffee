@@ -14,9 +14,15 @@ foundationReload = (options)->
   $(document).foundation(options)
   app.vent.trigger 'foundation:reload'
 
-modalOpen = ->
+modalOpen = (size)->
+  if size is 'large' then largeModal()
+  else normalModal()
+
   $('#modal').foundation('reveal', 'open')
-  app.execute('foundation:reload')
+  app.execute 'foundation:reload'
+
+largeModal = -> $('#modal').addClass 'large'
+normalModal = -> $('#modal').removeClass 'large'
 
 modalClose = -> $('#modal').foundation('reveal', 'close')
 

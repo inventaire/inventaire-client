@@ -28,12 +28,8 @@ module.exports = PicturePicker = Backbone.Marionette.ItemView.extend
       pictures: @pictures
 
   onShow: ->
-    app.execute 'modal:open'
-    app.execute 'modal:size:large'
+    app.execute 'modal:open', 'large'
     @selectFirst()
-
-  onDestroy: ->
-    app.execute 'modal:size:normal'
 
   onRender: -> @selectFirst()
 
