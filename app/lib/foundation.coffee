@@ -11,20 +11,21 @@ module.exports.initialize = (app)->
 
 foundationReload = (options)->
   # first called on account menu show
-  $(document).foundation(options)
+  $(document).foundation options
   app.vent.trigger 'foundation:reload'
 
 modalOpen = (size)->
   if size is 'large' then largeModal()
   else normalModal()
 
-  $('#modal').foundation('reveal', 'open')
+  $('#modal').foundation 'reveal', 'open'
   app.execute 'foundation:reload'
+
+modalClose = -> $('#modal').foundation 'reveal', 'close'
 
 largeModal = -> $('#modal').addClass 'large'
 normalModal = -> $('#modal').removeClass 'large'
 
-modalClose = -> $('#modal').foundation('reveal', 'close')
 
 startJoyride = (options)->
-  $(document).foundation(options).foundation('joyride', 'start')
+  $(document).foundation(options).foundation 'joyride', 'start'
