@@ -6,9 +6,21 @@
         {{#each pictures}}
           <figure>
             <img src="{{this}}">
-            <a><figcaption class="selectPicture"><h5>{{icon 'check'}} <span>{{i18n 'select'}}</span></h5></figcaption></a>
-            <a><figcaption class="cancelDeletion"><h5>{{icon 'warning'}} {{i18n 'cancel deletion'}}</h5></figcaption></a>
-            <a><figcaption class="deletePicture"><h5>{{icon 'trash-o'}} {{i18n 'delete'}}</h5></figcaption></a>
+            <a>
+              <figcaption class="selectPicture">
+                <h5>{{icon 'check'}} <span>{{i18n 'select'}}</span></h5>
+              </figcaption>
+            </a>
+            <a>
+              <figcaption class="cancelDeletion">
+                <h5>{{icon 'warning'}} {{i18n 'cancel deletion'}}</h5>
+              </figcaption>
+            </a>
+            <a>
+              <figcaption class="deletePicture">
+                <h5>{{icon 'trash-o'}} {{i18n 'delete'}}</h5>
+              </figcaption>
+            </a>
             <a href="{{this}}" class="link" target="_blank" title="{{this}}">{{i18n 'source'}}</a>
           </figgure>
         {{/each}}
