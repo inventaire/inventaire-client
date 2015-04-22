@@ -1,8 +1,18 @@
 <div id="entityData">
-  <div id="entity"></div>
-  {{#unless entityData}}
-    <h2>{{title}}</h2>
-  {{/unless}}
+  <div id="picture"></div>
+  <div id="entity">
+    {{#unless entityData}}
+      <div class="entityPanel">
+        <h2>{{title}}</h2>
+      </div>
+    {{/unless}}
+  </div>
+  <div class="icon-bar">
+    <a href="{{entityPathname}}" class="showEntity">
+      {{icon 'cube'}}
+      <span>{{i18n 'who else has it?'}}</span>
+    </a>
+  </div>
 </div>
 <div class="itemData">
   <div class="leftBox panel">
@@ -14,15 +24,14 @@
     </div>
   </div>
   <div class="rightBox">
-    {{partial 'inventory:item_note' this}}
     {{#if restricted}}
       {{#if details}}
         {{partial 'inventory:item_details' this}}
       {{/if}}
     {{else}}
+      {{partial 'inventory:item_note' this}}
       {{partial 'inventory:item_details' this}}
     {{/if}}
     <div id="comments"></div>
   </div>
 </div>
-<div id="picture" class="hidden"></div>

@@ -47,7 +47,9 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     else @listenTo @model, 'entity:ready', @showEntityModel.bind(@)
 
   showEntityModel: (entityModel)->
-    @entityRegion.show new EntityData {model: entityModel}
+    @entityRegion.show new EntityData
+      model: entityModel
+      hidePicture: true
 
   showPicture: ->
     picture = new app.View.Behaviors.ChangePicture {model: @model}

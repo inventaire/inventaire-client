@@ -1,21 +1,19 @@
-{{#unless restricted}}
-  <div class="noteBox dark-panel">
-    <div class="icon-buttons-header">
-      <label>{{i18n 'private notes'}}</label>
-      <div class="right">
-        <a id="editNotes" class="editButton" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
-        {{partial 'inventory:item_notes_lock'}}
-      </div>
-    </div>
-    <p id="notes">
-      {{pre notes}}
-    </p>
-    <div id="notesEditor" class='hidden'>
-      <textarea placeholder='({{i18n 'notes_placeholder'}})'>{{notes}}</textarea>
-      <div class="button-group-right">
-        <a id="cancelNotesEdition" class="cancelButton">{{i18n 'cancel'}}</a>
-        <a id="validateNotes" class="validateButton">{{i18n 'edit'}}</a>
-      </div>
+<div class="noteBox dark-panel">
+  <div class="icon-buttons-header">
+    <label>{{i18n 'private notes'}}</label>
+    <div class="right">
+      <a id="editNotes" class="editButton" title="{{i18n 'edit notes'}}">{{icon 'pencil'}}</a>
+      {{partial 'inventory:item_notes_lock'}}
     </div>
   </div>
-{{/unless}}
+  <p id="notes">
+    {{pre notes}}
+  </p>
+  <div id="notesEditor" class='hidden'>
+    <textarea placeholder='({{i18n 'notes_placeholder'}})'>{{notes}}</textarea>
+    <div class="button-group-right">
+      <a id="cancelNotesEdition" class="cancelButton">{{i18n 'cancel'}}</a>
+      <a id="validateNotes" class="validateButton">{{i18n 'edit'}}</a>
+    </div>
+  </div>
+</div>
