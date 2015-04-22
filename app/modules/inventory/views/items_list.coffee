@@ -31,6 +31,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   childEvents:
     'render': 'lazyMasonryRefresh'
+    'resize': 'lazyMasonryRefresh'
 
   infiniteScroll: ->
     if @more()

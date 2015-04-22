@@ -63,6 +63,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
   toggleWrap: (nameBase)->
     @$el.find("span.#{nameBase}").toggleClass('wrapped')
     @$el.find("a.#{nameBase}ToggleWrap").find('.fa').toggle()
+    @trigger 'resize'
 
   requestItem: ->
     app.layout.modal.show new RequestItemModal {model: @model}
