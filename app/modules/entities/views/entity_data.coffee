@@ -1,6 +1,6 @@
 module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/entity_data'
-  className: 'entityBox'
+  className: 'entityPanel'
   serializeData: ->
     attrs = @model.toJSON()
     attrs = setDescriptionAttributes(attrs)
