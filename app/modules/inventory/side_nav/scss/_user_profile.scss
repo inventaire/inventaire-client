@@ -68,6 +68,7 @@
   }
   .userMenu{
     margin: 0.5em;
+    @include shy();
     .friend{
       .fa-chevron-down{
         margin-left: 0.5em;
