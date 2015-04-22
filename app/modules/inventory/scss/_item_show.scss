@@ -1,4 +1,24 @@
 #itemShowLayout{
+  #entityData{
+    @extend .dark-panel;
+    @include display-flex(row, center, space-around);
+    #picture{
+      @include flex(0,0);
+    }
+    #entity{
+      @include flex(1);
+    }
+    .icon-bar{
+      a{
+        @include shy();
+      }
+      a, span{
+        color: white;
+        display: block;
+        text-align: center;
+      }
+    }
+  }
   @include display-flex(column, center, center);
   > div{
     width: 100%;

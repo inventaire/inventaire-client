@@ -4,12 +4,15 @@ module.exports = Backbone.Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs = setDescriptionAttributes(attrs)
+    attrs.hidePicture = @hidePicture
     return attrs
 
-  initialize: ->
-    @listenTo @model, 'add:pictures', @render
+  initialize: (options)->
+    @hidePicture = options.hidePicture
+    if @hidePicture
+      @listenTo @model, 'add:pictures', @render
 
-  onShow: ->
+  onRender: ->
     app.request('qLabel:update')
 
   events:

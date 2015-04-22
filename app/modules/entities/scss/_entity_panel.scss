@@ -2,9 +2,6 @@
   // width: 100%;
   max-width: 50em;
   @include display-flex(row, center, space-around);
-  @include shadow-box();
-  @include radius-bottom();
-  background-color: $dark-grey;
   h2, span, label, p{
     color: white;
   }

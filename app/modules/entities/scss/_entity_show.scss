@@ -8,12 +8,9 @@
   }
   .allItems{
     @include flex(1);
-    background-color: $dark-grey;
+    background-color: #fafafa;
     .items, .subheader{
       padding: 1rem;
-    }
-    .subheader{
-      color: white;
     }
   }
 }

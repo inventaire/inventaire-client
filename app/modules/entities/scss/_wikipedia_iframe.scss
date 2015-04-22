@@ -8,6 +8,7 @@
     .fa, a{
       color: white;
       font-weight: bold;
+      @include serif();
     }
     .wikipediaPreviewToggler{
       @include display-flex(column, center, center);

@@ -1,9 +1,11 @@
 {{!-- COVER --}}
-<div class="cover">
-{{#if pictures}}
-  <img src="{{first pictures}}" alt="{{title}} {{i18n 'cover'}}">
-{{/if}}
-</div>
+{{#unless hidePicture}}
+  <div class="cover">
+    {{#if pictures}}
+      <img src="{{src pictures 300}}" alt="{{title}} {{i18n 'cover'}}">
+    {{/if}}
+  </div>
+{{/unless}}
 
 <div class="data">
   {{!-- TITLE --}}
