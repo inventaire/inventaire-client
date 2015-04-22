@@ -1,4 +1,3 @@
-ItemEditionForm = require './item_edition_form'
 ItemComments = require './item_comments'
 EntityData = require 'modules/entities/views/entity_data'
 itemUpdaters = require '../plugins/item_updaters'
@@ -37,7 +36,6 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   onRender: ->
     @showEntityData()
     @showPicture()
-    # @showItemEditionForm()
     app.execute('foundation:reload')
     @showComments()
 
@@ -54,11 +52,6 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   showPicture: ->
     picture = new app.View.Behaviors.ChangePicture {model: @model}
     @pictureRegion.show picture
-
-  # showItemEditionForm: ->
-  #   unless @model.restricted
-  #     editForm = new ItemEditionForm {model: @model}
-  #     @editPanel.show editForm
 
   events:
     'click a#destroy': 'itemDestroy'
