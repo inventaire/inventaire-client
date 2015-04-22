@@ -26,6 +26,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
+    'click .copyLink': 'copyLink'
     'click .toggle-topbar': 'toggleSideNav'
     'focus textarea': moveCaretToEnd
 

@@ -9,8 +9,10 @@
       @include flex(1);
     }
     .icon-bar{
+      font-size: 1.1em;
       a{
         @include shy();
+        margin: 1em auto;
       }
       a, span{
         color: white;

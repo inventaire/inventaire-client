@@ -29,3 +29,10 @@ module.exports =
 
   showFeedbacksMenu: ->
     app.layout.modal.show new FeedbacksMenu
+
+  copyLink: (e)->
+    href = e.currentTarget.href
+    unless href?
+      throw new Error "couldnt showEntity: href not found"
+
+    prompt 'link to copy & share', href
