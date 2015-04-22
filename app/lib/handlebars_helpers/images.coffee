@@ -27,6 +27,8 @@ exports.iconLinkText = (name, url, text, classes)->
 
 # filter.to documentation: http://cdn.filter.to/faq/
 exports.src = (path, width, height, extend)->
+  if _.isArray(path) then path = path[0]
+
   return ''  unless path?
 
   # testing with isNumber due to {data:,hash: }
