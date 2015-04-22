@@ -7,6 +7,9 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
   @include flex(1);
 }
 .itemsList{
+  // required to avoid itemsLists to overlapse when empty
+  // ex: entity_show
+  min-height: 10em;
   /*Small screens*/
   @media screen and (max-width: $multicolumnsThreshold) {
     @include display-flex(column, center, center);
@@ -36,6 +39,5 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
   @media screen and (min-width: $multicolumnsThreshold) {
   }
 }
-
 
 @import "item_container";
