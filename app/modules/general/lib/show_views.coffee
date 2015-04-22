@@ -15,7 +15,7 @@ module.exports =
       app.layout.main.Show new Loader, title
 
   showEntity: (e)->
-    href = e.target.href
+    href = e.currentTarget.href
     unless href?
       throw new Error "couldnt showEntity: href not found"
 
