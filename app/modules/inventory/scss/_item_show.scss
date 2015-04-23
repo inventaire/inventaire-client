@@ -9,6 +9,7 @@
       @include flex(1);
     }
     .icon-bar{
+      @include flex(0, 0);
       font-size: 1.1em;
       a{
         @include shy();

@@ -4,6 +4,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs = setDescriptionAttributes(attrs)
+    attrs.entityPage = @options.entityPage
     attrs.hidePicture = @hidePicture
     return attrs
 

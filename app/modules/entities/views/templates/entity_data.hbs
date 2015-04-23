@@ -7,11 +7,15 @@
 {{/unless}}
 
 <div class="data">
-  <h2>{{title}}</h2>
+  {{#if entityPage}}
+    <h2>{{title}}</h2>
+  {{else}}
+    <h2><a href="{{pathname}}" class="showEntity">{{title}}</a></h2>
+  {{/if}}
   <p class="uri">{{uri}}</p>
 
   {{#if descOverflow}}
-    <a id='toggleDescLength' class='medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
+    <a id='toggleDescLength' class='toggler medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
   {{/if}}
   <p id='shortDesc' class='grey'>{{limit description 500}}</p>
   <p id='fullDesc' class='grey hidden'>{{description}}</p>

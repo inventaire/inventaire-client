@@ -10,7 +10,11 @@
     margin-right: 0.5em;
   }
   a{
-    color: #aaa;
+    color: white;
+  }
+  a:not(.toggler){
+    text-decoration: underline;
+    text-decoration-color: rgba($secondary-color, 0.3);
   }
   div{
     padding: 1em;

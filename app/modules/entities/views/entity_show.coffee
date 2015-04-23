@@ -32,7 +32,11 @@ module.exports = EntityShow = Backbone.Marionette.LayoutView.extend
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
     'click #toggleWikiediaPreview': 'toggleWikiediaPreview'
 
-  showEntityData: -> @entityData.show new EntityData {model: @model}
+  showEntityData: ->
+    @entityData.show new EntityData
+      model: @model
+      entityPage: true
+
   showEntityActions: -> @entityActions.show new EntityActions {model: @model}
 
   showLocalItems: -> showItems Items, @localItems, @uri
