@@ -1,10 +1,8 @@
 module.exports = ->
   _.extend @events,
-    'click a.user': 'showUser'
-    'click a.remove': 'itemDestroy'
     'click a.transaction': 'updateTransaction'
     'click a.listing': 'updateListing'
-    'click a.requestItem': 'requestItem'
+    'click a.remove': 'itemDestroy'
 
   _.extend @,
     updateTransaction: (e)->
@@ -18,5 +16,11 @@ module.exports = ->
         item: @model
         attribute: attribute
         value: value
+
+    itemDestroy: ->
+      app.request 'item:destroy',
+        model: @model
+        selector: @uniqueSelector
+        next: -> console.log 'item deleted'
 
   return
