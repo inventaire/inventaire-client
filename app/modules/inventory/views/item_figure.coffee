@@ -1,4 +1,3 @@
-RequestItemModal = require './request_item_modal'
 itemUpdaters = require '../plugins/item_updaters'
 
 module.exports = ItemLi = Backbone.Marionette.ItemView.extend
@@ -29,7 +28,7 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     'click a.user': 'showUser'
     'click a.detailsToggleWrap': -> @toggleWrap('details')
     'click a.notesToggleWrap': -> @toggleWrap('notes')
-    'clicl a.requestItem': 'requestItem'
+    'click a.requestItem': -> app.execute 'show:item:request', @model
 
   serializeData: ->
     attrs = @model.serializeData()
@@ -60,6 +59,3 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     @$el.find("span.#{nameBase}").toggleClass('wrapped')
     @$el.find("a.#{nameBase}ToggleWrap").find('.fa').toggle()
     @trigger 'resize'
-
-  requestItem: ->
-    app.layout.modal.show new RequestItemModal {model: @model}

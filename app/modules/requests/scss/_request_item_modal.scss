@@ -15,7 +15,6 @@
     }
     .transaction{
       @include display-flex(row, center, center);
-      // margin: auto;
       padding: 1em;
     }
   }
