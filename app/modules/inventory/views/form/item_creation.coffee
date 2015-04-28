@@ -1,8 +1,12 @@
 Item = require 'modules/inventory/models/item'
+EntityData = require 'modules/entities/views/entity_data'
 
-module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
   className: "addEntity"
+  regions:
+    entityRegion: '#entity'
+
   initialize: ->
     @entity = @options.entity
     attrs =
@@ -34,6 +38,7 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
   onShow: ->
     app.execute 'foundation:reload'
     @updateTransaction()
+    @showEntityData()
 
   updateTransaction: ->
     transaction = @model.get 'transaction'
@@ -44,10 +49,8 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
         $transaction.addClass 'active'
 
   serializeData: ->
-    entityData = @entity.toJSON()
-    {title} = entityData
+    title = @entity.get('title')
     return attrs =
-      entity: entityData
       title: title
       listings: @listingsData()
       transactions: @transactionsData()
@@ -94,3 +97,6 @@ module.exports = ItemCreation = Backbone.Marionette.ItemView.extend
     @model.set 'listing', listing
     @model.set 'details', details  if details?
     @model.set 'notes', notes  if notes?
+
+  showEntityData: ->
+    @entityRegion.show new EntityData { model: @entity }
