@@ -7,6 +7,7 @@
       img{
         margin-left: 0;
         max-height: $user-height;
+        @include flex(0, 0);
       }
       a{
         @include flex(1);
@@ -15,6 +16,7 @@
         line-height: 1em;
         text-align: right;
         padding-top: 0.5em;
+        white-space: normal;
         .time{
           color: $grey;
         }
