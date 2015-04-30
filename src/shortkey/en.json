@@ -1,7 +1,7 @@
 {
     "destroy_item_text": "Are you sure you want to remove **%{title}?**",
     "add_item_text": "Adding <strong>%{label}** to your inventory",
-    "comment_placeholder": "you might want to give more details on the item or the transaction",
+    "details_placeholder": "you might want to give more details on the item or the transaction",
     "notes_placeholder": "you only will see it",
     "username_tip": "Username can be anything made of 1 to 20 letters, figures or _",
     "persona_tip_intro": "We use Mozilla's Persona service to identify users. Why?",
@@ -25,6 +25,7 @@
     "status_title": "experimental version",
     "status_text": "Everything has to start somewhere: expect missing features and bugs. Do not publish sensible data. At this point, the best use possible is in groups of friends wishing to share books and who can easily communicate with other tools: there is no internal messaging service yet, but there will be soon!",
     "inventorize_it": "just add it to my inventory",
+    "just_inventorize_it": "none (just add it to my inventory)",
     "missing_account_title": "couldn't find an account associated with this email",
     "missing_account_legend": "it seems, you have a Persona account but not an Inventaire.io account, you might need to create one:",
     "welcome_username": "welcome %{username}!",
@@ -57,5 +58,12 @@
     "get_involved": "Think you can contribute to make Inventaire better? Get involved!!",
     "contribution_ideas": "Ask to be added to the [project development board](https://trello.com/b/0lKcsZDj/inventaire-roadmap), join the [translation team](https://www.transifex.com/projects/p/inventaire/), post an [issue on github](https://github.com/maxlath/inventaire/issues), or simply start a discussion from here or on social networks!",
     "newletter_pitch": "Want to be updated of the project developments?<br>Subscribe to the newsletter! (low frequency)",
-    "newletter_thanks": "Thank you for subscribing!"
+    "newletter_thanks": "Thank you for subscribing!",
+    "item_request_title": null,
+    "item_request_intro": null,
+    "item_request_text_suggestion": "Hello %{username}! May I borrow this book?",
+    "visible_by": "visible by %{label}",
+    "comment_delete_confirmation": "Are you sure you want to delete this comment?",
+    "cant_undo_warning": "this action can't be undone",
+    "new_comment_on_followed_item": "**%{username}** commented on **%{title}**"
 }

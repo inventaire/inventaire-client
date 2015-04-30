@@ -55,5 +55,11 @@
     "feedback_title": null,
     "feedback_intro": null,
     "get_involved": null,
-    "contribution_ideas": null
+    "contribution_ideas": null,
+    "newletter_pitch": null,
+    "newletter_thanks": null,
+    "item_request_title": null,
+    "item_request_intro": null,
+    "item_request_text_suggestion": null,
+    "visible_by": null
 }
