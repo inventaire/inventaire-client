@@ -21,6 +21,17 @@
         text-align: center;
       }
     }
+    /*Small screens*/
+    @media screen and (max-width: 700px) {
+      @include flex-direction(column);
+      .icon-bar{
+        @include display-flex(row);
+        a{
+          margin-left: 1em;
+          margin-right: 1em;
+        }
+      }
+    }
   }
   @include display-flex(column, center, center);
   > div{
