@@ -52,7 +52,7 @@ module.exports = Marionette.CompositeView.extend
 
   postCommentFail: (message, err)->
     @recoverMessage message
-    err.selector = 'textarea.message'
+    err.selector = '.alertBox'
     forms_.alert(@, err)
 
   emptyTextarea: -> @ui.message.val('')
