@@ -14,25 +14,12 @@
 
   // see .circle-pic style for the profile picture
   .circle-pic{
-    @include display-flex(row, center, center);
-    #changePicture{
-      @include display-flex(column, center, center);
-      opacity: 0.4;
-      @include transition(opacity);
-      &:hover{
-        opacity: 1;
-      }
-      text-align: center;
-      .fa, span{
-        text-align: center;
-      }
-      .fa{
-        font-size: 3em;
-      }
-      span{
-        display: block;
-      }
-    }
+    @include display-flex(column, center, flex-end);
+  }
+  #changePicture{
+    margin-top: -0.6em;
+    margin-bottom: 0.5em;
+    @include shy(0.4);
   }
   h3{
     margin-top: -0.2em;
