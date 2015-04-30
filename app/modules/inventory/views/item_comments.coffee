@@ -41,14 +41,24 @@ module.exports = Marionette.CompositeView.extend
     @ui.message.elastic()
 
   postComment: ->
-    itemId = @model.id
     message = @ui.message.val()
+    return  unless @validCommentLength(message)
+
+    itemId = @model.id
     collection = @model.comments
 
     app.request 'comments:post', itemId, message, collection
     .catch @postCommentFail.bind(@, message)
 
     @emptyTextarea()
+
+  validCommentLength: (message)->
+    if message.length is 0 then return false
+    if message.length > 5000
+      err = new Error("comment can't be longer than 5000 characters")
+      @postCommentFail message, err
+      return false
+    return true
 
   postCommentFail: (message, err)->
     @recoverMessage message
