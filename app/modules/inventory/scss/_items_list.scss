@@ -8,8 +8,9 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
 }
 .itemsList{
   // required to avoid itemsLists to overlapse when empty
+  // !important to override Masonry's style="height:0px"
   // ex: entity_show
-  min-height: 10em;
+  min-height: 10em !important;
   /*Small screens*/
   @media screen and (max-width: $multicolumnsThreshold) {
     @include display-flex(column, center, center);
