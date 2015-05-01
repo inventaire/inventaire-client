@@ -4,17 +4,17 @@ resize = new Resize()
 resize.init()
 
 handlers =
-  uploadResizedFile: (file)->
-    initialSize = file.size
-    resize.photo file, 1200, 'file', (resizedFile) =>
-      resizedSize = resizedFile.size
-      @upload resizedFile, (response) ->
-        console.log response.url
+  # uploadResizedFile: (file)->
+  #   initialSize = file.size
+  #   resize.photo file, 1200, 'file', (resizedFile) =>
+  #     resizedSize = resizedFile.size
+  #     @upload resizedFile, (response) ->
+  #       console.log response.url
 
-  displayThumbnail: (file, selector)->
-    resize.photo file, 600, 'dataURL', (thumbnail) ->
-      console.log 'Display the thumbnail to the user: ', thumbnail
-      $(selector).append "<img src='#{thumbnail}'>"
+  # displayThumbnail: (file, selector)->
+  #   resize.photo file, 600, 'dataURL', (thumbnail) ->
+  #     console.log 'Display the thumbnail to the user: ', thumbnail
+  #     $(selector).append "<img src='#{thumbnail}'>"
 
   addDataUrlToArray: (file, array, event)->
     resize.photo file, 600, 'dataURL', (data)->
@@ -33,7 +33,7 @@ handlers =
       formData.append("file-#{i}", blob)
       i++
 
-    def = $.Deferred()
+    def = Promise.defer()
     request = new XMLHttpRequest()
     request.onreadystatechange = ->
       if request.readyState is 4
@@ -45,13 +45,13 @@ handlers =
     request.send formData
 
 
-    return def
+    return def.promise
 
   del: (imageUrlToDelete)->
     _.inspect imageUrlToDelete, 'imageUrlToDelete'
     $.postJSON '/api/upload/delete', {urls: imageUrlToDelete}
-    .then (res)-> console.log 'image del res: ' + res
-    .fail (err)-> console.log 'image del err: ' + err
+    .then _.Log('image del res')
+    .fail _.Error('image del err')
 
 
 module.exports = handlers
