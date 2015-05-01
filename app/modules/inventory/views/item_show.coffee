@@ -24,6 +24,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     ElasticTextarea: {}
 
   initialize: ->
+    _.log @model, 'item_show model'
     @initPlugins()
     @uniqueSelector = '#'+@id
     @model.on 'all', -> _.log arguments, 'item:show item events'
