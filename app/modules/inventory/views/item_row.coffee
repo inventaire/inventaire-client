@@ -7,7 +7,6 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
 
   initialize: ->
-    console.log 'lol'
     @initPlugins()
 
   initPlugins: ->
@@ -17,7 +16,7 @@ module.exports = Marionette.ItemView.extend
     attrs = @model.serializeData()
     _.extend attrs,
       entityData: @model.entityModel?.toJSON()
-    return _.log attrs
+    return attrs
 
   onRender: ->
     app.request 'qLabel:update'
