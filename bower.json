@@ -33,11 +33,21 @@
     "bluebird": "~2.6.4",
     "jquery.inview": "~1.0.0",
     "imagesloaded": "~3.1.8",
-    "masonry": "~3.3.0",
-    "outlayer": "git+https://github.com/maxlath/outlayer#master",
-    "jquery-elastic": "git+https://github.com/SebastianEdwards/jquery.elastic.js.git"
+    "jquery-elastic": "git+https://github.com/SebastianEdwards/jquery.elastic.js.git",
+    "masonry": "~3.3.0"
   },
   "resolutions": {
     "outlayer": "master"
+  },
+  "overrides": {
+    "modernizr": {
+      "main": "modernizr.js"
+    },
+    "outlayer": {
+      "main": [
+        "item.js",
+        "outlayer.js"
+      ]
+    }
   }
 }
