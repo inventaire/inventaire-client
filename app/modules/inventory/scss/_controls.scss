@@ -11,8 +11,11 @@
     @include radius-horizontal-group();
     a{
       @include display-flex(row, center, center);
+      .fa{
+        padding-left: 0.2em;
+      }
       color: white;
-      padding: 8px;
+      padding: 0.5em;
       @include bg-hover($dark-grey);
       &.active{
         color: $dark-grey;
