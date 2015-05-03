@@ -30,4 +30,8 @@
     height: 2.3em;
     border-radius: 2em;
   }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    display: none;
+  }
 }

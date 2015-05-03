@@ -19,7 +19,8 @@ module.exports = Backbone.Marionette.LayoutView.extend
     @sideNav.show new SideNav
     # waitForData to avoid having items displaying undefined values
     @showItemsListOnceData()
-    @controls.show new Controls
+    unless _.smallScreen()
+      @controls.show new Controls
 
   showItemsListOnceData: ->
     app.request 'waitForItems', @showItemsList.bind(@)
