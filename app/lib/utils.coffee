@@ -140,7 +140,7 @@ module.exports = (Backbone, _, app, window)->
 
       return obj
 
-    smallScreen: -> window.screen.width < 1024
+    smallScreen: (ceil=1024)-> window.screen.width < ceil
 
     deepClone: (obj)->
       @type obj, 'object'

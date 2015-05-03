@@ -9,10 +9,10 @@ module.exports = (containerSelector, itemSelector, minWidth=500)->
     throw new Error('should be called with a view as context')
 
   initMasonry = ->
-    screenIsTooSmall = window.screen.width < minWidth
-    tooFewItems = @collection.length < $('.itemsList').width() / itemWidth
+    itemsPerLine = $('.itemsList').width() / itemWidth
+    tooFewItems = @collection.length < itemsPerLine
 
-    unless screenIsTooSmall or tooFewItems
+    unless _.smallScreen(minWidth) or tooFewItems
       _.log 'masonry:reinit'
       container = document.querySelector containerSelector
       new Masonry container,
