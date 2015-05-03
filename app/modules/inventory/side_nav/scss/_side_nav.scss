@@ -1,4 +1,5 @@
 #sideNav{
+  z-index: 20;
   background-color: $dark-grey;
   @include shadow-box($dark-grey, 0, 0, 5px, 2px);
 

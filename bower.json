@@ -34,12 +34,16 @@
     "jquery.inview": "~1.0.0",
     "imagesloaded": "~3.1.8",
     "jquery-elastic": "git+https://github.com/SebastianEdwards/jquery.elastic.js.git",
+    "jquery-visible": "~1.1.0",
     "masonry": "~3.3.0"
   },
   "resolutions": {
     "outlayer": "master"
   },
   "overrides": {
+    "jquery-visible": {
+      "main": "jquery.visible.js"
+    },
     "modernizr": {
       "main": "modernizr.js"
     },

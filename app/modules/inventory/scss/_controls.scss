@@ -1,4 +1,7 @@
+$gridMinWidth: 750px;
+
 .controls{
+  z-index: 10;
   float: right;
   border-top-left-radius: $global-radius;
   background-color: $darker-grey;
@@ -31,7 +34,7 @@
     border-radius: 2em;
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $gridMinWidth) {
     display: none;
   }
 }

@@ -2,6 +2,8 @@ SideNav = require '../side_nav/views/side_nav'
 FollowedEntitiesList = require './followed_entities_list'
 ItemsGrid = require './items_grid'
 Controls = require './controls'
+# keep in sync with _controls.scss
+gridMinWidth = 750
 
 module.exports = Backbone.Marionette.LayoutView.extend
   id: 'inventory'
@@ -15,11 +17,18 @@ module.exports = Backbone.Marionette.LayoutView.extend
   initialize: ->
     @listenTo app.vent, 'inventory:layout:change', @showItemsListStep3.bind(@)
 
+  events:
+    'inview #itemsView': 'toggleControls'
+
+  toggleControls: ->
+    if $('#itemsView').visible(true) then $('#controls').show()
+    else $('#controls').hide()
+
   onShow: ->
     @sideNav.show new SideNav
     # waitForData to avoid having items displaying undefined values
     @showItemsListOnceData()
-    unless _.smallScreen()
+    unless _.smallScreen(gridMinWidth)
       @controls.show new Controls
 
   showItemsListOnceData: ->
