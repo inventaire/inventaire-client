@@ -1,13 +1,14 @@
 # dependencies: behaviorsPlugin, paginationPlugin
 
-module.exports = (containerUiName, itemSelector, minWidth=500)->
+module.exports = (containerSelector, itemSelector, minWidth=500)->
   # MUST be called with the View it extends as context
   unless _.isView(@)
     throw new Error('should be called with a view as context')
 
   initMasonry = ->
     unless window.screen.width < minWidth
-      @ui[containerUiName].masonry
+      container = document.querySelector containerSelector
+      new Masonry container,
         itemSelector: itemSelector
         isFitWidth: true
         isResizable: true
@@ -17,12 +18,9 @@ module.exports = (containerUiName, itemSelector, minWidth=500)->
   refresh = ->
     _.log 'masonry:refresh'
     # wait for images to be loaded
-    @ui[containerUiName].imagesLoaded initMasonry.bind(@)
-    # trigger a stopLoading event: only useful after infiniteScroll startLoading
-    # @stopLoading()
-
-  @lazyMasonryRefresh = _.debounce refresh.bind(@), 200
+    $(containerSelector).imagesLoaded initMasonry
 
   @on 'render:collection', @lazyMasonryRefresh.bind(@)
+  @lazyMasonryRefresh = _.debounce refresh, 200
 
   return

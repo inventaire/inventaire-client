@@ -21,7 +21,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   initPlugins: ->
     _.extend @, behaviorsPlugin
     paginationPlugin.call @, itemsPerPage()
-    masonryPlugin.call @, 'itemsList', '.itemContainer'
+    masonryPlugin.call @, '.itemsList', '.itemContainer'
 
   events:
     'inview .more': 'infiniteScroll'
