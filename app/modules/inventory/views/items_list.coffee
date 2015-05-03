@@ -28,6 +28,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   collectionEvents:
     'render': 'stopLoading'
+    'filtered:add': 'lazyMasonryRefresh'
 
   childEvents:
     'render': 'lazyMasonryRefresh'

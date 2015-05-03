@@ -1,21 +1,25 @@
 SideNav = require '../side_nav/views/side_nav'
 FollowedEntitiesList = require './followed_entities_list'
+ItemsGrid = require './items_grid'
+Controls = require './controls'
 
 module.exports = Backbone.Marionette.LayoutView.extend
   id: 'inventory'
   template: require './templates/inventory'
   regions:
     sideNav: '#sideNav'
-    beforeItems: '#beforeItems'
     itemsView: '#itemsView'
-    afterItems: '#afterItems'
     followedView: '#followedView'
+    controls: '#controls'
+
+  initialize: ->
+    @listenTo app.vent, 'inventory:layout:change', @showItemsListStep3.bind(@)
 
   onShow: ->
     @sideNav.show new SideNav
     # waitForData to avoid having items displaying undefined values
     @showItemsListOnceData()
-
+    @controls.show new Controls
 
   showItemsListOnceData: ->
     app.request 'waitForItems', @showItemsList.bind(@)
@@ -46,13 +50,22 @@ module.exports = Backbone.Marionette.LayoutView.extend
       docTitle = _.i18n('Home')
       eventName = 'general'
 
-    itemsList = new app.View.Items.List
-      collection: Items.filtered
-      columns: true
-    @itemsView.show itemsList
-
+    @showItemsListStep3()
     app.vent.trigger 'document:title:change', docTitle
     app.vent.trigger 'inventory:change', eventName
+
+  showItemsListStep3: ->
+    ItemsListView = @getItemsListView()
+
+    itemsList = new ItemsListView
+      collection: Items.filtered
+    @itemsView.show itemsList
+
+  getItemsListView: ->
+    switch app.request 'inventory:layout'
+      when 'cascade' then app.View.Items.List
+      when 'grid' then ItemsGrid
+      else throw new Error('unknow items list layout')
 
   showFollowedEntitiesList: ->
     followedEntities = app.request 'entities:followed:collection'

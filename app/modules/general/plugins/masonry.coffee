@@ -20,7 +20,6 @@ module.exports = (containerSelector, itemSelector, minWidth=500)->
     # wait for images to be loaded
     $(containerSelector).imagesLoaded initMasonry
 
-  @on 'render:collection', @lazyMasonryRefresh.bind(@)
   @lazyMasonryRefresh = _.debounce refresh, 200
 
   return

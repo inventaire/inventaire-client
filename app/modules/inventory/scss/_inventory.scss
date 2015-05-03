@@ -6,6 +6,7 @@ $tabs-navigation-active-bg-color: $tools-active-bg;
 $tabs-navigation-bg-color: lighten($tools-active-bg, 20%);
 $tabs-navigation-font-color: #fff;
 
+$sideNavWidth: 250px;
 
 #innerMain{
   // needed by Chrome (at least) to expand items on the whole page
@@ -19,18 +20,23 @@ $tabs-navigation-font-color: #fff;
   #inventoryView{
     @include display-flex(column);
     @include flex(1);
-    #beforeItems{
-    }
     #itemsView{
       @include display-flex(row);
       @include flex(1);
     }
     #followedView{
     }
+    #controls{
+      @include shy(0.9);
+      position: fixed;
+      bottom: 0;
+      right:0;
+      width: 50%;
+      // background-color: red;
+    }
   }
 }
 
-$sideNavWidth: 250px;
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
@@ -57,3 +63,5 @@ $sideNavWidth: 250px;
 @import "item_show";
 @import "../side_nav/scss/side_nav";
 @import "inventory_welcome";
+@import "items_grid";
+@import "controls";

@@ -12,6 +12,7 @@ module.exports =
       'filter:inventory:reset': resetInventoryFilter
       'filter:visibility': filterVisibilityBy
       'filter:visibility:reset': resetFilters
+      'filter:items:byText': filterItemsByText
 
 visibilityFilters =
   'private': {'listing':'private'}
@@ -31,3 +32,6 @@ resetInventoryFilter = (owner)->
 filterInventoryByOwner = (owner)->
   Items.filtered.resetFilters()
   Items.filtered.filterBy 'owner', (model)-> model.get('owner') is owner
+
+filterItemsByText = (text)->
+  Items.filtered.filterByText text

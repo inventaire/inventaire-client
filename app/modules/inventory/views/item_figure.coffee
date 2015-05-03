@@ -1,3 +1,4 @@
+itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
 
 module.exports = ItemLi = Backbone.Marionette.ItemView.extend
@@ -16,7 +17,9 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'entity:ready', @lazyRender
 
-  initPlugins: -> itemUpdaters.call(@)
+  initPlugins: ->
+    itemActions.call(@)
+    itemUpdaters.call(@)
 
   onRender: ->
     app.execute('foundation:reload')
@@ -46,14 +49,6 @@ module.exports = ItemLi = Backbone.Marionette.ItemView.extend
       nameBase: 'notes'
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
-
-  itemShow: (e)->
-    unless _.isOpenedOutside(e)
-      app.execute 'show:item:show:from:model', @model
-
-  showUser: (e)->
-    unless _.isOpenedOutside(e)
-      app.execute 'show:user', @model.username
 
   toggleWrap: (nameBase)->
     @$el.find("span.#{nameBase}").toggleClass('wrapped')

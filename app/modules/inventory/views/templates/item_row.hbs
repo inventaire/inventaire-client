@@ -1,0 +1,18 @@
+<td class="title itemShow">
+  <a class="link itemShow">{{title}}</a>
+</td>
+<td class="authors">
+  {{#if entityData.wikidata}}
+    {{claim entityData.claims 'P50' true true}}
+  {{else}}
+    {{join entityData.authors}}
+  {{/if}}
+</td>
+<td class="user">
+  <a class="user link serif" href="{{user.pathname}}">
+    <img src="{{src user.profilePic 16}}">
+    {{user.username}}
+  </a>
+</td>
+<td>{{transaction}}</td>
+<td>{{timeFromNow created}}</td>

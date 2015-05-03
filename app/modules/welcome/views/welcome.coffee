@@ -60,7 +60,6 @@ module.exports = Welcome = Backbone.Marionette.LayoutView.extend
 
     itemsColumns = new app.View.Items.List
       collection: items
-      columns: true
     @previewColumns.show itemsColumns
 
   hidePublicItems: (err)->
