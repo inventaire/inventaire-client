@@ -18,8 +18,9 @@
       padding: 0.5em;
       @include bg-hover($dark-grey);
       &.active{
-        color: $dark-grey;
-        background-color: #ccc;
+        color: $darker-grey;
+        background-color: $off-white;
+        @include inner-shadow();
       }
     }
   }
