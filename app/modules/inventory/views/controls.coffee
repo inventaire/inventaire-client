@@ -12,6 +12,7 @@ module.exports = Marionette.ItemView.extend
     'click .cascade': 'displayCascade'
     'click .grid': 'displayGrid'
 
+  initialize: -> @lastFilter = null
   onRender: ->
     @setActiveLayout()
 
@@ -30,4 +31,6 @@ module.exports = Marionette.ItemView.extend
 
   filterItems: ->
     text = @ui.filter.val()
-    app.execute 'filter:items:byText', text
+    if text isnt @lastFilter
+      @lastFilter = text
+      app.execute 'filter:items:byText', text
