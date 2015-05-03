@@ -15,6 +15,7 @@ module.exports = Backbone.Marionette.LayoutView.extend
     userField: "#userField"
 
   initialize: ->
+    @lastQuery = null
     app.commands.setHandlers
       'sidenav:show:user': @showUser.bind(@)
 
@@ -39,10 +40,12 @@ module.exports = Backbone.Marionette.LayoutView.extend
   updateUserSearch: (e)-> @searchUsers e.target.value
 
   searchUsers: (query)->
-    app.request 'users:search', query
-    if query? and query isnt ''
-      @setUserSearchHeader()
-    else @setFriendsHeader()
+    if query isnt @lastQuery
+      @lastQuery = query
+      app.request 'users:search', query
+      if query? and query isnt ''
+        @setUserSearchHeader()
+      else @setFriendsHeader()
 
   setFriendsHeader: ->
     @ui.usersListHeader.find('.header').text _.i18n('friends list')
