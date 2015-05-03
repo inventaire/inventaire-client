@@ -1,5 +1,5 @@
-$itemContainerBaseWidth: 250px;
-$multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
+$itemContainerBaseWidth: 230px;
+$multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
 
 
 .itemsListWrapper{
@@ -27,7 +27,7 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 10px;
 // itemContainer positioning settings
 // for itemContainer internal, see item_container
 .itemContainer{
-  width: 230px;
+  width: $itemContainerBaseWidth;
   margin: 5px;
   float: left;
   /*Small screens*/
