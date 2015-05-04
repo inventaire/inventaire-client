@@ -6,7 +6,7 @@ module.exports =
   services: require './services'
   data: require './data'
   comments: '/api/comments'
-  requests: '/api/requests'
+  transactions: '/api/transactions'
   user: '/api/user'
   notifs: '/api/notifs'
   feedbacks: '/api/feedbacks/public'
