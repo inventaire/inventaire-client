@@ -7,6 +7,13 @@ module.exports =
     setTimeout @warnOnExcessiveTime.bind(@), 8000
     ping()
 
+    waitForFriendsItems = ->
+      if Items?.friends?.fetched then _.preq.resolve()
+      else
+        def = Promise.defer()
+        app.vent.once 'friends:items:ready', def.resolve.bind(def)
+        return def.promise
+
     app.reqres.setHandlers
       'waitForData': (cb)->
         if app.data.ready then cb()
@@ -20,9 +27,8 @@ module.exports =
         if app.user?.fetched then cb()
         else app.vent.once 'user:ready', cb
 
-      'waitForFriendsItems': (cb)->
-        if Items?.friends?.fetched then cb()
-        else app.vent.once 'friends:items:ready', cb
+      # always return the same promise
+      'waitForFriendsItems': _.once(waitForFriendsItems)
 
       'waitForItems': (cb)->
         if Items?.friends?.fetched and Items.personal?.fetched then cb()

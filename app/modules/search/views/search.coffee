@@ -35,7 +35,7 @@ module.exports = Search = Backbone.Marionette.LayoutView.extend
 
   onShow: ->
     @updateSearchBar()
-    app.request 'waitForFriendsItems', @showItems.bind(@)
+    app.request('waitForFriendsItems').then @showItems.bind(@)
     @searchEntities()
     unless books_.isIsbn(@query)
       @showFindByIsbn()

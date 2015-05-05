@@ -70,13 +70,16 @@ API =
       return Items.where({owner: owner, entity: entity})
 
   findItemById: (itemId)->
-    item = Items.byId(itemId)
-    if item? then _.preq.resolve(item)
-    else
-      # if it isnt in friends id, it should be a public item
-      _.preq.get app.API.items.publicById(itemId)
-      .then Items.public.add
-      .catch _.Error('findItemById err')
+    app.request('waitForFriendsItems')
+    .then Items.byId.bind(Items, itemId)
+    .then (item)->
+      if item? then item
+      else
+        # if it isnt in friends id, it should be a public item
+        _.preq.get app.API.items.publicById(itemId)
+        .then _.Log('found item?')
+        .then Items.public.add
+        .catch _.Error('findItemById err')
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
