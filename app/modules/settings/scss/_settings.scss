@@ -1,5 +1,8 @@
 #settings{
   @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
+  .custom-column{
+    @include custom-column(38em);
+  }
   padding-top: 1em;
 
   label{

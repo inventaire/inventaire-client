@@ -1,3 +1,9 @@
+<label>{{i18n 'profile pic'}}</label>
+{{partial 'general:behaviors:change_picture' this}}
+
+<label>{{i18n 'language'}}</label>
+{{partial 'user:language_picker' this 'check'}}
+
 <label class="with-tip capitalized">{{i18n 'username'}}</label>
 {{tip 'username_tip' 'right'}}
 {{input usernamePicker}}
@@ -31,11 +37,3 @@
 {{#if hasPassword}}
   {{partial 'settings:password_update_input' this 'check'}}
 {{/if}}
-
-
-<label>{{i18n 'language'}}</label>
-{{partial 'user:language_picker' this 'check'}}
-
-
-<label>{{i18n 'profile pic'}}</label>
-{{partial 'general:behaviors:change_picture' this}}
