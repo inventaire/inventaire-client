@@ -1,0 +1,67 @@
+$iconNavWidth: 80px;
+
+#iconNav{
+  background-color: $darker-grey;
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    position: fixed;
+    top: $topbar-height;
+    bottom: 0;
+    width: $iconNavWidth;
+  }
+}
+
+.innerIconNav{
+  .iconButton{
+    max-width: 10em;
+    padding: 0.4em 0.1em 0.4em 0.1em;
+    @include display-flex(column);
+    .fa, span{
+      color: white;
+    }
+    .fa{
+      font-size: 1.5em;
+      text-align: center;
+    }
+    span{
+      text-align: center;
+      margin-top: -1.4em;
+      line-height: 1em;
+    }
+    &:not(.selected){
+      @include shy();
+    }
+    &.selected{
+      background-color: $off-white;
+      @include inner-shadow();
+      @include radius();
+      .fa, span{
+        color: $grey
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    @include display-flex(row, center, space-around);
+    a.iconButton{
+      height: 100%;
+      // force items to take the same space
+      @include flex(1, 1, 0);
+      margin-bottom: 0.2em;
+      .fa{
+        font-size: 1em;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    max-width: 100%;
+    padding: 0.3em;
+    .iconButton{
+      margin-bottom: 1em;
+    }
+  }
+}

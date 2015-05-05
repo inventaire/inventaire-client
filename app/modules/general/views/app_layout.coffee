@@ -3,6 +3,8 @@ waitForCheck = require '../lib/wait_for_check'
 enterClick = require '../lib/enter_click'
 documentLang = require '../lib/document_lang'
 showViews = require '../lib/show_views'
+IconNav = require './icon_nav'
+initIconNavHandlers = require '../lib/icon_nav'
 
 module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -10,6 +12,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   el: '#app'
 
   regions:
+    iconNav: '#iconNav'
     main: 'main'
     accountMenu: '#accountMenu'
     modal: '#modalContent'
@@ -53,8 +56,16 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     # or to make by-language css rules (with :lang)
     documentLang.keepBodyLangUpdated.call(@)
 
+    initIconNavHandlers.call(@)
+
   serializeData: ->
     topbar: @topBarData()
+
+  # /!\ app_layout is never 'show'n so onShow never gets fired
+  # but it gets rendered
+  onRender: ->
+    # render icon and let icon handlers show or hide it
+    @iconNav.show new IconNav
 
   topBarData: ->
     options:

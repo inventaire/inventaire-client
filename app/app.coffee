@@ -21,6 +21,7 @@ App = Backbone.Marionette.Application.extend
         return _.error route, "can't navigate to undefined route"
 
       route.logIt('route:navigate')
+      @vent.trigger 'route:navigate', route
       # record all routes visited for server-side statistics
       @session.record route
       route = route.replace /(\s|')/g, '_'
