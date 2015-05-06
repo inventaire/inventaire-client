@@ -2,8 +2,13 @@ module.exports = ->
 
   { $el } = @iconNav
 
-  show = $el.show.bind($el)
-  hide = $el.hide.bind($el)
+  show = ->
+    $el.show()
+    $('main').removeClass 'no-icon-nav'
+
+  hide = ->
+    $el.hide()
+    $('main').addClass 'no-icon-nav'
 
   app.commands.setHandlers
     'icon:nav:show': show

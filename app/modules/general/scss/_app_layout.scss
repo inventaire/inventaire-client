@@ -1,3 +1,5 @@
+$iconNavWidth: 80px;
+
 @import "topbar";
 @import "icon_nav";
 @import "feedbacks";
@@ -27,7 +29,10 @@ body{
     margin-top: $topbar-height;
     // trying to make the transition as close as possible
     // to jQuery slideDown default values: 400ms and 'swing' ease
-    @include transition(margin, 0.4s, ease-in);
+    @include transition(margin-top, 0.4s, ease-in);
+  }
+  main:not(.no-icon-nav){
+    margin-left: $iconNavWidth;
   }
 }
 

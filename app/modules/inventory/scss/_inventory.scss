@@ -44,7 +44,6 @@ $sideNavWidth: 250px;
     .sideNavClones{
       width: $sideNavWidth;
       @include transition(width);
-      margin-left: $iconNavWidth;
     }
     #shadowSideNav{
       @include flex(0, 0, $sideNavWidth);
