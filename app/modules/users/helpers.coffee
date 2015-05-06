@@ -1,5 +1,5 @@
 module.exports = (app)->
-  API =
+  sync =
     resolveToUserModel: (user)->
       # 'user' is either the user model or a username
       if _.isModel(user) then return _.preq.resolve(user)
@@ -71,8 +71,8 @@ module.exports = (app)->
     isPublicUser: (userId)->
       (userId isnt app.user.id) and (userId not in app.users.friends.list)
 
-  API.getUsernameFromUserId = (id)->
-    return API.getUserModelFromUserId(id)?.get('username')
+  sync.getUsernameFromUserId = (id)->
+    return sync.getUserModelFromUserId(id)?.get('username')
 
   app.users.queried = []
 
@@ -80,15 +80,37 @@ module.exports = (app)->
     if app.users.byId(id)? or app.request('user:isMainUser', id) then false
     else true
 
+  async =
+    getUsersData: (ids)->
+      app.users.data.local.get(ids, 'collection')
+      .then addPublicUsers
+
+    getUserModel: (id)->
+      app.request('waitForData')
+      .then ->
+        userModel = app.request 'get:userModel:from:userId', id
+        if userModel? then return userModel
+        else
+          app.users.data.local.get(id, 'collection')
+          .then addPublicUsers
+          .then _.property('0')
+      .catch _.Error('getUserModel err')
+
+
+  addPublicUsers = (users)->
+    # usually users not found locally are non-friends users
+    app.users.public.add users
 
   return reqresHandlers =
-    'resolve:to:userModel': API.resolveToUserModel
-    'get:userModel:from:userId': API.getUserModelFromUserId
-    'get:userModel:from:username': API.getUserModelFromUsername
-    'get:username:from:userId': API.getUsernameFromUserId
-    'get:userId:from:username': API.getUserIdFromUsername
-    'get:profilePic:from:userId': API.getProfilePicFromUserId
-    'users:search': API.searchUsers
-    'user:isMainUser': API.isMainUser
-    'user:isFriend': API.isFriend
-    'user:isPublicUser': API.isPublicUser
+    'resolve:to:userModel': sync.resolveToUserModel
+    'get:user:model': async.getUserModel
+    'get:users:data': async.getUsersData
+    'get:userModel:from:userId': sync.getUserModelFromUserId
+    'get:userModel:from:username': sync.getUserModelFromUsername
+    'get:username:from:userId': sync.getUsernameFromUserId
+    'get:userId:from:username': sync.getUserIdFromUsername
+    'get:profilePic:from:userId': sync.getProfilePicFromUserId
+    'users:search': sync.searchUsers
+    'user:isMainUser': sync.isMainUser
+    'user:isFriend': sync.isFriend
+    'user:isPublicUser': sync.isPublicUser
