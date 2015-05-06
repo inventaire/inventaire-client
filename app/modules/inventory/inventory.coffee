@@ -20,7 +20,7 @@ module.exports =
 
   initialize: ->
     window.Items = Items = require('./items_collections')(app, _)
-    app.request 'waitForUserData', fetchItems.bind(null, app)
+    app.request('waitForUserData').then fetchItems.bind(null, app)
     Filters.initialize(app)
     Transactions(Items)
     initializeInventoriesHandlers(app)
@@ -46,8 +46,8 @@ API =
     route = "inventory/#{username}/#{entity}"
     if app.request 'require:loggedIn', route
       app.execute('show:loader', {title: "#{label} - #{username}"})
-      cb = @showItemShow.bind(@, username, entity, label)
-      app.request 'waitForItems', cb
+      app.request('waitForItems')
+      .then @showItemShow.bind(@, username, entity, label)
 
   showItemShow: (username, entity, label)->
     _.preq.start()

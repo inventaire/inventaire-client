@@ -1,4 +1,5 @@
 app.online = online = null
+initDataWaiters = require './data_waiters'
 
 module.exports =
   initialize: ->
@@ -7,37 +8,9 @@ module.exports =
     setTimeout @warnOnExcessiveTime.bind(@), 8000
     ping()
 
-    waitForFriendsItems = ->
-      if Items?.friends?.fetched then _.preq.resolve()
-      else
-        def = Promise.defer()
-        app.vent.once 'friends:items:ready', def.resolve.bind(def)
-        return def.promise
+    initDataWaiters()
 
     app.reqres.setHandlers
-      'waitForData': (cb)->
-        if app.data.ready then cb()
-        else app.vent.once 'data:ready', cb
-
-      'waitForData:after': (cb)->
-        if app.data.ready then cb()
-        else app.vent.once 'data:ready:after', cb
-
-      'waitForUserData': (cb)->
-        if app.user?.fetched then cb()
-        else app.vent.once 'user:ready', cb
-
-      # always return the same promise
-      'waitForFriendsItems': _.once(waitForFriendsItems)
-
-      'waitForItems': (cb)->
-        if Items?.friends?.fetched and Items.personal?.fetched then cb()
-        else
-          app.vent.once 'friends:items:ready', ->
-            if Items.personal?.fetched then cb()
-          app.vent.once 'items:ready', ->
-            if Items.friends?.fetched then cb()
-
       'ifOnline': (success, showOfflineError)->
         cb = ->
           if online then success()

@@ -2,7 +2,7 @@ module.exports = Notification = Backbone.NestedModel.extend
   initialize: ->
     @on 'change:status', @update
     if @get('data.item')?
-      app.request 'waitForItems', @getItemData.bind(@)
+      app.request('waitForItems').then @getItemData.bind(@)
 
   update: ->
     @collection.updateStatus @get('time')

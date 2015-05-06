@@ -22,8 +22,8 @@ module.exports = MainUser = Filterable.extend
 
   addNotifications: (notifications)->
     if notifications?
-      cb = app.request.bind(app, 'notifications:add', notifications)
-      app.request 'waitForData', cb
+      app.request('waitForData')
+      .then app.request.bind(app, 'notifications:add', notifications)
 
   serializeData: ->
     attrs = @toJSON()

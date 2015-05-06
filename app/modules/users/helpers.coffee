@@ -28,7 +28,7 @@ module.exports = (app)->
 
       userModel = app.users.byId(id)
       if userModel? then userModel
-      else console.warn "couldnt find the user from id: #{id}"
+      else return
 
     getUserIdFromUsername: (username)->
       if username is app.user.get('username') then return app.user.id
@@ -56,7 +56,7 @@ module.exports = (app)->
             return app.users.filtered.filterByText(text)
           # Need to waitForData as isntAlreadyHere can't
           # do it's job if user relations data haven't return yet
-          app.request 'waitForData', callback.bind(null, res)
+          app.request('waitForData').then callback.bind(null, res)
         .fail _.error
       else
         app.users.filtered.friends()

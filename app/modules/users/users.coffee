@@ -11,7 +11,7 @@ module.exports =
     app.reqres.setHandlers _.extend(helpers, requests)
 
     initUsersItems()
-    app.request 'waitForUserData', fetchFriendsAndTheirItems
+    app.request('waitForUserData').then fetchFriendsAndTheirItems
 
 initUsersItems = ->
   app.commands.setHandlers

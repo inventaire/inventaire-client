@@ -26,13 +26,13 @@ module.exports = Backbone.Marionette.LayoutView.extend
 
   onShow: ->
     @sideNav.show new SideNav
-    # waitForData to avoid having items displaying undefined values
     @showItemsListOnceData()
     unless _.smallScreen(gridMinWidth)
       @controls.show new Controls
 
   showItemsListOnceData: ->
-    app.request 'waitForItems', @showItemsList.bind(@)
+    # waitForItems to avoid having items displaying undefined values
+    app.request('waitForItems').then @showItemsList.bind(@)
 
   showItemsList: ->
     {user} = @options
