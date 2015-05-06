@@ -16,7 +16,7 @@
     margin-top: 1em;
     @include display-flex(row, center, space-between);
   }
-  
+
   /*Very Small screens*/
   @media screen and (max-width: $verysmallscreen) {
     .otherOptions{
@@ -26,4 +26,9 @@
       }
     }
   }
+}
+
+#createAccount{
+  @include tiny-button($success-color);
+  @include shy(0.8);
 }
