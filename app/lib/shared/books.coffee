@@ -5,6 +5,7 @@ module.exports = (_)->
       google:
         book: (data)->
           "https://www.googleapis.com/books/v1/volumes/?q=#{data}&fields=totalItems,items(volumeInfo)&country=FR"
+        isbn: (isbn)-> @book("isbn:#{isbn}")
       worldcat:
         # http://xisbn.worldcat.org/xisbnadmin/doc/api.htm
         isbnBaseRoute: 'http://xisbn.worldcat.org/webservices/xid/isbn/'
