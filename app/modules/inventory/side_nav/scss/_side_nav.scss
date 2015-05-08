@@ -18,12 +18,14 @@
   #one{
     &.notEmpty{
       min-height: $user-profile-height;
+      @include flex(0, 0);
     }
     @import 'user_profile';
   }
 
   #two{
-    @include display-flex(column, left, flex-start);
+    @include flex(1);
+    @include display-flex(column, left, flex-end);
     @import 'users_lists';
   }
 }
@@ -43,8 +45,13 @@
     position: fixed;
     top: $topbar-height;
     bottom: 0;
-    // needed to make the shadow-box visible
-    // despite the display-flex
     margin-right: 2px;
+  }
+  #two{
+    section{
+      @include display-flex(column, left, flex-end);
+      @include flex(1, 1, 0);
+      overflow: auto;
+    }
   }
 }

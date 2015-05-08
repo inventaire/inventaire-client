@@ -1,21 +1,19 @@
 #usersListHeader{
+  height: 2em;
   h4{
     color: $grey;
+    font-size: 1.2em;
   }
-  @include display-flex(row, center, space-between);
+  @include display-flex(row, baseline, space-between);
   .fa{
-    @include flex(1);
     font-size: 1.2em;
     text-align: right;
   }
   color: $grey;
-  padding: 0.5em;
-  min-height: 2.4em;
+  padding-left: 0.5em;
 }
 #usersList{
-  // couldnt find a way to just say it 'expand to the place you have'
-  // so max-height: 40vh is a substitue to this non-working 'flex:1' thing
-  max-height: 40vh;
+  @include flex(0, 1, auto);
   overflow: auto;
 }
 
@@ -46,6 +44,6 @@
   #usersListHeader{
   }
   #userSearch{
-    min-height: 2.4em;
+    @include flex(0, 0, 2.4em);
   }
 }
