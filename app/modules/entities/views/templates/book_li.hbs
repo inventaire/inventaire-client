@@ -14,7 +14,10 @@
     {{timeClaim claims 'P577' 'year' true}} {{!-- time of publication --}}
   {{else}}
     <p class="isbn-attributes">
-      {{{P '50'}}} {{#each authors}}{{this}} {{/each}}
+      {{{P '50'}}} {{join authors}} <br>
+      {{{P 'P577'}}} {{publishedDate}} <br>
+      {{{P 'P123'}}} {{publisher}} <br>
+      <span class="attribute">{{i18n 'language'}}</span>{{language}}
     </p>
   {{/if}}
 </div>

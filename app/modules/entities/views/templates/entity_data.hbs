@@ -24,7 +24,10 @@
     {{partial 'entities:book_claims' claims}}
   {{else}}
     <p class="isbn-attributes">
-      {{{P '50'}}} {{join authors}}
+      {{{P '50'}}} {{join authors}} <br>
+      {{{P 'P577'}}} {{publishedDate}} <br>
+      {{i18n 'publisher'}} {{publisher}} <br>
+      {{i18n 'language'}} {{language}}
     </p>
   {{/if}}
 </div>
