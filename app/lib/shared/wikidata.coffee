@@ -32,7 +32,11 @@ module.exports = (promises_, _)->
       'Q3972943' #publishing
       'Q17902573' #edition
     ]
-    humans: ['Q5']
+    humans: [
+      'Q5'
+      'Q10648343' #duo
+      'Q14073567' #sibling duo
+    ]
     authors: ['Q36180']
 
   P =
