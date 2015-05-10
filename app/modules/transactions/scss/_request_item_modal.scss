@@ -5,7 +5,9 @@
     @include display-flex(row, center, space-around);
   }
   .userTransaction{
+    @include flex(0, 0);
     @include display-flex(column, center, left);
+    margin-right: 0.5em;
     .user{
       @include display-flex(row, center, center);
       margin-right: auto;
@@ -16,6 +18,8 @@
     .transactionBox{
       @include display-flex(row, center, center);
       padding: 1em;
+      white-space: avoid;
+      @include flex(0, 0)
     }
   }
   .item{
