@@ -13,7 +13,7 @@
         margin-right: 1em;
       }
     }
-    .transaction{
+    .transactionBox{
       @include display-flex(row, center, center);
       padding: 1em;
     }
