@@ -19,6 +19,11 @@ $gridMinWidth: 750px;
       }
       color: white;
       padding: 0.5em;
+      // webkit-browsers only
+      @media screen and (-webkit-min-device-pixel-ratio:0) {
+        // requiered to avoid layouts buttons to appear too small
+        width: 4em;
+      }
       @include bg-hover($dark-grey);
       &.active{
         color: $darker-grey;
