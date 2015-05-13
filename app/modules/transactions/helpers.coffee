@@ -1,8 +1,6 @@
 module.exports = ->
-  app.commands.setHandlers
-    'transactions:add': API.addTransaction
-
   app.reqres.setHandlers
+    'transactions:add': API.addTransaction
     'get:transaction:byId': API.getTransaction
     'transaction:post:message': API.postMessage
 

@@ -19,12 +19,8 @@ module.exports =
 
     app.commands.setHandlers
       'show:item:request': API.showItemRequestModal
-      'show:transactions': ->
-        API.showTransactions()
-        app.navigate 'transactions'
-      'show:transactions': (id)->
-        API.showTransaction(id)
-        app.navigate "transactions/#{id}"
+      'show:transactions': navigate.showTransactions
+      'show:transaction': navigate.showTransaction
 
     require('./helpers')()
 
@@ -41,6 +37,14 @@ API =
 
   showItemRequestModal: (model)->
     app.layout.modal.show new RequestItemModal {model: model}
+
+navigate =
+  showTransactions: ->
+    API.showTransactions()
+    app.navigate 'transactions'
+  showTransaction: (id)->
+    API.showTransaction(id)
+    app.navigate "transactions/#{id}"
 
 
 triggerTransactionSelect = (id)->

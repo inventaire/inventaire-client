@@ -35,7 +35,6 @@ module.exports = Backbone.Marionette.ItemView.extend
     @startLoading '#sendItemRequest'
     @postRequest()
     .then addTransaction
-    .then @Check('item request res')
     .then showRequest
     .catch @Fail('item request err')
 
@@ -46,8 +45,8 @@ module.exports = Backbone.Marionette.ItemView.extend
       message: @ui.message.val()
 
 addTransaction = (transaction)->
-  app.execute 'transactions:add', transaction
+  app.request 'transactions:add', transaction
 
-showRequest = ->
+showRequest = (transaction)->
   app.execute 'modal:close'
-  app.execute 'show:activity'
+  app.execute 'show:transaction', transaction.id
