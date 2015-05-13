@@ -1,0 +1,26 @@
+.actions{
+  padding: 2em;
+  .accept, .confirm, .returned{
+    @include tiny-button($success-color);
+  }
+  .decline, .archive{
+    @include tiny-button($grey);
+  }
+  .waiting{
+    color: $grey;
+  }
+}
+
+
+// horizontal bar
+.actions{
+  .fa:after{
+    display: block;
+    content: "";
+    background-color: $timeline-bar-color;
+    height: 1px;
+    width: 8em;
+    margin-top: -0.5em;
+    margin-left: 1.5em;
+  }
+}

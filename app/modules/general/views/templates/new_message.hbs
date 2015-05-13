@@ -1,0 +1,11 @@
+{{!-- dupplicated with item_comments div.newComment --}}
+<form class="newMessage">
+  <div class="main">
+    <div class="avatar">
+      <img src="{{src user.picture 50}}">
+    </div>
+    <textarea class="message" name="message" placeholder="post a message...">{{message}}</textarea>
+  </div>
+  <div class="alertBox"></div>
+  <a class="tiny-success-button sendMessage">{{i18n 'send'}}</a>
+</form>

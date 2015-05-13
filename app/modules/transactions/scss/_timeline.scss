@@ -1,0 +1,67 @@
+.timeline{
+  padding-left: 1.2em;
+  padding-right: 1em;
+  .action{
+    .fa{
+      color: $dark-grey;
+      @extend .event-icon;
+    }
+    padding: 1em 0em 1em 0.2em;
+    @include display-flex(row, center, space-between);
+    .time{
+      opacity: 0.5;
+    }
+  }
+}
+
+.message{
+  @include display-flex(row);
+  .avatar{
+    @include flex(0, 0, 36px);
+    &:not(.sameUser){
+      margin-top: 0.8em;
+      @extend .event-icon;
+    }
+  }
+  .rest{
+    @include radius();
+    background-color: #f7f7f7;
+    margin-left: 0.2em;
+    padding: 0.5em;
+    padding-left: 1em;
+    @include flex(1);
+    span{
+      display: block;
+    }
+    &:not(.sameUser){
+      margin-top: 1em;
+    }
+  }
+  .time{
+    float: right;
+    opacity: 0.5;
+  }
+}
+
+$timeline-bar-color: #bbb;
+
+// timeline vertical bar
+.timeline{
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    position: absolute;
+    margin-left: 1.2em;
+    width: 1px;
+    height: 100%;
+    background-color: $timeline-bar-color;
+    z-index: 1;
+  }
+}
+.event-icon{
+  background-color: white;
+  z-index: 2;
+  padding-top: 0.3em;
+  padding-bottom: 0.4em;
+}

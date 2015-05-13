@@ -18,8 +18,8 @@ nav.top-bar {
     left: 0;
     right: 0;
   }
-  // needed to be above the fixed sideNav
-  z-index: 1;
+  // needed to be above everything that has a z-index or is fixed
+  z-index: 100;
   img{
     max-height: $topbar-height * 0.9;
     margin-left: 1em;

@@ -1,1 +1,46 @@
+$transaction-list-width: 25em;
+
+.transactionsLayout{
+  #list{
+    background-color: #fefefe;
+    padding: 0.2em 0.4em 0.2em 0.4em;
+    label{
+      color: $grey;
+      font-size: 1em;
+      @include sans-serif();
+      text-transform: uppercase;
+      &.toggled{
+        .fa-caret-down{
+          @include vendor-prefix(transform, rotate(-90deg));
+        }
+      }
+    }
+    h4{
+      color: $grey;
+      font-size: 1.1em;
+      @include sans-serif();
+      text-transform: uppercase;
+    }
+  }
+  @import "transactions_list";
+  @import "transaction";
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    #list{
+      position: fixed;
+      top: $topbar-height;
+      bottom: 0;
+      width: $transaction-list-width;
+      overflow-y: scroll;
+    }
+    #fullview{
+      margin-left: $transaction-list-width;
+    }
+  }
+}
+
 @import "request_item_modal";

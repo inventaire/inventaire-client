@@ -1,0 +1,10 @@
+.transactionList{
+  margin-left: 2em;
+  .noTransaction{
+    background-color: $light-grey;
+    text-align: center;
+    opacity: 0.5;
+  }
+}
+
+@import "transactions_preview";

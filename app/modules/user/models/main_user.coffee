@@ -1,4 +1,5 @@
 Filterable = require 'modules/general/models/filterable'
+Transactions = require 'modules/transactions/collections/transactions'
 
 module.exports = MainUser = Filterable.extend
   url: ->
@@ -6,10 +7,11 @@ module.exports = MainUser = Filterable.extend
 
   parse: (data)->
     _.log data, 'data:main user parse data'
-    {notifications, relations} = data
+    { notifications, relations, transactions } = data
     @addNotifications(notifications)
     @relations = relations
-    return _(data).omit ['relations', 'notifications']
+    @transactions = new Transactions transactions
+    return _(data).omit ['relations', 'notifications', 'transactions']
 
   update: =>
     @sync 'update', @

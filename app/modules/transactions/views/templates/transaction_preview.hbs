@@ -1,0 +1,14 @@
+<div>
+  {{#if item.pictures}}
+    <img src="{{src item.pictures 48}}" alt="{{item.title}}">
+  {{/if}}
+</div>
+<div>
+  {{#if owner.picture}}
+    <img src="{{src owner.picture 48}}">
+  {{/if}}
+</div>
+<div class="text">
+  <span class="title">{{item.title}}</span>
+  <span class="context">{{other.username}}</span>
+</div>

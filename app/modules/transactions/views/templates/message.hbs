@@ -1,0 +1,13 @@
+<div class="avatar {{#if sameUser}}sameUser{{/if}}">
+  {{#unless sameUser}}
+    {{#if user.picture}}
+      <div class="innerAvatar">
+        <img src="{{src user.picture 36}}">
+      </div>
+    {{/if}}
+  {{/unless}}
+</div>
+<div class="rest {{#if sameUser}}sameUser{{/if}}">
+  <span class="time">{{timeFromNow created}}</span>
+  <span class="message">{{message}}</span>
+</div>

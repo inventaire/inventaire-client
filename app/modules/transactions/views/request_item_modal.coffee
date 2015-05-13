@@ -23,8 +23,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     app.execute 'modal:open'
 
   serializeData: ->
-    item: _.log @model.serializeData(), 'item'
-    user: _.log @userData(), 'user'
+    item: @model.serializeData()
+    user: @userData()
 
   userData: ->
     # user should already have been fetched
@@ -32,13 +32,22 @@ module.exports = Backbone.Marionette.ItemView.extend
     return user.serializeData()
 
   sendRequest: ->
-    @startLoading('#sendItemRequest')
+    @startLoading '#sendItemRequest'
     @postRequest()
-    .then @Check('item request res', -> app.execute('modal:close'))
+    .then addTransaction
+    .then @Check('item request res')
+    .then showRequest
     .catch @Fail('item request err')
 
   postRequest: ->
-    _.preq.post app.API.requests,
-      message: _.log @ui.message.val(), 'message'
-      item: _.log @model.id, 'log'
-      owner: @model.get('owner')
+    _.preq.post app.API.transactions,
+      action: 'request'
+      item: @model.id
+      message: @ui.message.val()
+
+addTransaction = (transaction)->
+  app.execute 'transactions:add', transaction
+
+showRequest = ->
+  app.execute 'modal:close'
+  app.execute 'show:activity'

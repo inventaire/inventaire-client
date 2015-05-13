@@ -1,0 +1,22 @@
+{{!-- <h2>{{i18n 'notifications'}}</h2>
+<section id="notifications"></section> --}}
+
+{{!-- <h2>{{i18n 'transactions'}}</h2> --}}
+<div id="list">
+  <label for="requests">{{icon 'caret-down'}} {{icon 'envelope'}} {{I18n 'requests'}}</label>
+  <section id="requests">
+    <div id="received"></div>
+    <div id="sent"></div>
+  </section>
+
+  <label for="ongoing">{{icon 'caret-down'}} {{icon 'refresh'}} {{I18n 'ongoing'}}</label>
+  <section id="ongoing">
+    <div id="lending"></div>
+    <div id="borrowing"></div>
+  </section>
+
+  <label for="archived">{{icon 'caret-down'}} {{icon 'archive'}} {{I18n 'archived'}}</label>
+  <section id="archived"></section>
+</div>
+
+<div id="fullview"></div>

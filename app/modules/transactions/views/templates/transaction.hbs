@@ -1,0 +1,26 @@
+<div class="header">
+  <div class="facts">
+    <div>
+      {{#if item.pictures}}
+        <img src="{{src item.pictures 48}}" alt="{{item.title}}">
+      {{/if}}
+      <h4>{{item.title}}</h4>
+    </div>
+    <div class="context {{item.transaction}}">
+      {{icon icon}}
+      {{{context}}}
+      {{#if owner.picture}}
+        <img src="{{src owner.picture 48}}">
+      {{/if}}
+    </div>
+  </div>
+</div>
+<div class="timeline"></div>
+<div class="actions">
+  {{icon 'asterisk'}}
+  <span class="next">{{i18n 'next action'}}:</span>
+  {{#each next}}
+    <a class="{{classes}}">{{i18n text}}</a>
+  {{/each}}
+</div>
+{{partial 'new_message' this}}

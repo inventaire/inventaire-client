@@ -1,4 +1,5 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+messagesPlugin = require 'modules/general/plugins/messages'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.CompositeView.extend
@@ -12,7 +13,7 @@ module.exports = Marionette.CompositeView.extend
     @initPlugins()
 
   initPlugins: ->
-    _.extend @, behaviorsPlugin
+    _.extend @, behaviorsPlugin, messagesPlugin
 
   events:
     'click .postComment': 'postComment'
@@ -41,32 +42,7 @@ module.exports = Marionette.CompositeView.extend
     @ui.message.elastic()
 
   postComment: ->
-    message = @ui.message.val()
-    return  unless @validCommentLength(message)
-
-    itemId = @model.id
-    collection = @model.comments
-
-    app.request 'comments:post', itemId, message, collection
-    .catch @postCommentFail.bind(@, message)
-
-    @emptyTextarea()
-
-  validCommentLength: (message)->
-    if message.length is 0 then return false
-    if message.length > 5000
-      err = new Error("comment can't be longer than 5000 characters")
-      @postCommentFail message, err
-      return false
-    return true
-
-  postCommentFail: (message, err)->
-    @recoverMessage message
-    err.selector = '.alertBox'
-    forms_.alert(@, err)
-
-  emptyTextarea: -> @ui.message.val('')
-  recoverMessage: (message)-> @ui.message.val message
+    @postMessage 'comments:post', @model.comments
 
   toggleNewComment: ->
     @ui.newCommentDiv.toggle()

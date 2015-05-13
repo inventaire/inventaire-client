@@ -1,0 +1,24 @@
+.header{
+  @include radius();
+  padding: 1em;
+  @include radius-top();
+  background-color: white;
+  // background-color: #ccc;
+}
+.facts{
+  padding: 1em;
+  @include display-flex(row, center, space-between);
+  height: 3em;
+  h4{
+    display: inline;
+  }
+}
+.context{
+  .fa{
+    color: white;
+    padding: 0.5em;
+  }
+  &.giving{ .fa{ background-color: $giving-color; } }
+  &.lending{ .fa{ background-color: $lending-color; } }
+  &.selling{ .fa{ background-color: $selling-color; } }
+}
