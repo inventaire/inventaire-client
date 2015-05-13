@@ -26,6 +26,14 @@ module.exports = (_)->
     array = _.without array, value
     @set attr, array
 
+  Backbone.Model::grab = (name, model)->
+    @[name] = model
+    @triggerGrab name
+
+  Backbone.Model::triggerGrab = (name)->
+    @trigger 'grab', name
+    @trigger "grab:#{name}"
+
   # BACKBONE.COLLECTION
   Backbone.Collection::findOne = -> @models[0]
   Backbone.Collection::byId = (id)-> @_byId[id]
