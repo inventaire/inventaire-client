@@ -1,4 +1,5 @@
 Comments = require './collections/comments'
+poster_ = require 'lib/poster'
 
 module.exports = ->
   app.reqres.setHandlers
@@ -29,14 +30,9 @@ postComment = (itemId, message, commentsCollection)->
   commentModel = addComment comment, commentsCollection
 
   _.preq.post app.API.comments, comment
-  .then updateCommentId.bind(null, commentModel)
-  .catch postCommentFail.bind(null, commentModel, commentsCollection)
-
-updateCommentId = (commentModel, res)->
-  { id, rev} = res
-  commentModel.set
-    _id: id
-    _rev: rev
+  .then poster_.UpdateModelIdRev(commentModel)
+  .catch poster_.Rewind(commentModel, commentsCollection)
+  .catch _.Error('postComment')
 
 addComment = (comment, commentsCollection)->
   # adding elements set by the server firgures out alone
@@ -45,10 +41,6 @@ addComment = (comment, commentsCollection)->
     created: _.now()
 
   return commentsCollection.add comment
-
-postCommentFail = (commentModel, commentsCollection, err)->
-  commentsCollection.remove(commentModel)
-  throw err
 
 
 updateComment = (commentModel, newMessage)->
