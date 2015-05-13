@@ -1,7 +1,5 @@
 TransactionsLayout = require './views/transactions_layout'
 RequestItemModal = require './views/request_item_modal'
-Message = require './models/message'
-poster_ = require 'lib/poster'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->

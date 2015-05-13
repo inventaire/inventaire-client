@@ -1,3 +1,6 @@
+Message = require './models/message'
+poster_ = require 'lib/poster'
+
 module.exports = ->
   app.reqres.setHandlers
     'transactions:add': API.addTransaction
