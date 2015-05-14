@@ -1,5 +1,4 @@
 module.exports = (_)->
-  loggers_ = sharedLib('loggers')(_)
   muted = require('./muted_logs')(_)
 
   isMuted = (label)->
@@ -8,7 +7,6 @@ module.exports = (_)->
       return tags.length > 1 and tags[0] in muted
 
   log = (obj, label, stack)->
-    [obj, label] = loggers_.reorderObjLabel(obj, label)
     # customizing console.log
     # unfortunatly, it makes the console loose the trace
     # of the real line and file the _.log function was called from
@@ -29,7 +27,6 @@ module.exports = (_)->
     return obj
 
   logXhrErr = (err, label)->
-    [err, label] = loggers_.reorderObjLabel(err, label)
     if err?.responseText? then label = "#{err.responseText} (#{label})"
     if err?.status?
       switch err.status
@@ -39,7 +36,6 @@ module.exports = (_)->
     return
 
   error = (err, label)->
-    [err, label] = loggers_.reorderObjLabel(err, label)
     unless err?.stack?
       label or= 'empty error'
       newErr = new Error(label)
@@ -56,11 +52,11 @@ module.exports = (_)->
     loggers.log.apply null, args
     return
 
-  bindingLoggers =
-    Log: (label)-> loggers_.bindLabel log, label
-    LogXhrErr: (label)-> loggers_.bindLabel logXhrErr, label
-    Error: (label)-> loggers_.bindLabel error, label
-    Warn: (label)-> loggers_.bindLabel warn, label
+  partialLoggers =
+    Log: (label)-> _.partial log, _, label
+    LogXhrErr: (label)-> _.partial logXhrErr, _, label
+    Error: (label)-> _.partial error, _, label
+    Warn: (label)-> _.partial warn, _, label
 
   loggers =
     isMuted: isMuted
@@ -82,7 +78,6 @@ module.exports = (_)->
       console.log '---'
 
     logServer: (obj, label)->
-      [err, label] = loggers_.reorderObjLabel(err, label)
       log = {obj: obj, label: label}
       $.post app.API.test, log
       return obj
@@ -93,4 +88,4 @@ module.exports = (_)->
 
 
 
-  return _.extend loggers, bindingLoggers
+  return _.extend loggers, partialLoggers
