@@ -24,7 +24,7 @@ module.exports = Backbone.Model.extend
   mainUserAction: -> _.i18n "main_user_#{@action}"
   otherUserAction: ->
     _.i18n "other_user_#{@action}",
-      username: @transaction.owner.get('username')
+      username: @transaction.otherUser()?.get('username')
 
 ownerActions = [
   'accept'
