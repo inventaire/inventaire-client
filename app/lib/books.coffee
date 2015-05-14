@@ -1,9 +1,11 @@
 books_ = sharedLib('books')(_)
 
 books_.getImage = (data)->
-  images.push data
-  lazyGetImages()
-  return eventName(data)
+  if data?
+    images.push data
+    lazyGetImages()
+    return eventName(data)
+  else _.error 'no data provided'
 
 images = []
 eventName = (data)->
