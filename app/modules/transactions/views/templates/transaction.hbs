@@ -19,8 +19,8 @@
 <div class="actions">
   {{icon 'asterisk'}}
   <span class="next">{{i18n 'next action'}}:</span>
-  {{#each next}}
-    <a class="{{classes}}">{{i18n text}}</a>
+  {{#each nextActions}}
+    <a class="{{classes}}">{{i18n text this}}</a>
   {{/each}}
 </div>
 {{partial 'new_message' this}}

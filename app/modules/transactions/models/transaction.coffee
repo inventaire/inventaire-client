@@ -4,7 +4,7 @@
 # - performed (requester)
 # - returned (owner) (for lending only)
 
-nextAction = require '../lib/next_action'
+getNextActionsData = require '../lib/next_actions'
 Filterable = require 'modules/general/models/filterable'
 Action = require '../models/action'
 Message = require '../models/message'
@@ -21,6 +21,8 @@ module.exports = Filterable.extend
 
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
+    @once 'grab:owner', @setNextActions.bind(@)
+    @once 'grab:requester', @setNextActions.bind(@)
 
   grabItemModel: ->
     app.request 'get:item:model', @get('item')
@@ -32,7 +34,6 @@ module.exports = Filterable.extend
 
   setMainUserIsOwner: ->
     @mainUserIsOwner = @get('owner') is app.user.id
-    @setNextAction @mainUserIsOwner
 
   grabRequesterModel: ->
     app.request 'get:user:model', @get('requester')
@@ -58,8 +59,9 @@ module.exports = Filterable.extend
       message = new Message message
       @timeline.add message
 
-  setNextAction: (mainUserIsOwner)->
-    @next = nextAction(@, mainUserIsOwner)
+  setNextActions: ->
+    if @owner? and @requester?
+      @nextActions = getNextActionsData @
 
   serializeData: ->
     attrs = @toJSON()
@@ -70,7 +72,7 @@ module.exports = Filterable.extend
       requester: @requester?.serializeData()
       messages: @messages
       mainUserIsOwner: @mainUserIsOwner
-      next: @next
+      nextActions: @nextActions
       icon: @icon()
       context: @context()
 
@@ -80,6 +82,8 @@ module.exports = Filterable.extend
   aliasUsers: (attrs)->
     if @mainUserIsOwner then [attrs.owner, attrs.requester]
     else [attrs.requester, attrs.owner]
+
+  otherUser: -> if @mainUserIsOwner then @requester else @owner
 
   icon: ->
     if @item?

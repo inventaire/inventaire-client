@@ -1,14 +1,21 @@
-module.exports = (transaction, mainUserIsOwner)->
+module.exports = (transaction)->
+  nextActions = findNextActions(transaction)
+  data = actionsData[nextActions]
+  return grabOtherUsername transaction, data
+
+findNextActions = (transaction)->
   nextActions = getNextActionsList transaction.get('transaction')
   state = transaction.get('state')
-  role = if mainUserIsOwner then 'owner' else 'requester'
-  nextAction = nextActions[state][role]
-  return _.log actionsData[nextAction], 'next action'
-
+  role = if transaction.mainUserIsOwner then 'owner' else 'requester'
+  return nextActions[state][role]
 
 getNextActionsList = (transaction)->
   if transaction is 'lending' then nextActionsWithReturn
   else basicNextActions
+
+grabOtherUsername = (transaction, actions)->
+  username = transaction.otherUser()?.get('username')
+  actions.map (action)-> _.extend action, {username: username}
 
 # key-1: current state
 # key-2: main user role in this transaction
@@ -40,8 +47,8 @@ nextActionsWithReturn = _.extend basicNextActions,
 actionsData =
   'accept/decline':
     [
-      {classes: 'accept', text: 'accept'},
-      {classes: 'decline', text: 'decline'}
+      {classes: 'accept', text: 'accept_request'},
+      {classes: 'decline', text: 'decline_request'}
     ]
   'confirm': [{classes: 'confirm', text: 'confirm'}]
   'returned': [{classes: 'returned', text: 'returned'}]
