@@ -26,6 +26,16 @@ module.exports = (_)->
     array = _.without array, value
     @set attr, array
 
+  # attaching related models to a model in a standard way
+  # - requesting it to whatever modules handles it
+  # - adding a reference to the model
+  # - triggering events
+
+  Backbone.Model::reqGrab = (request, id, name)->
+    app.request(request, id)
+    .then @grab.bind(@, name)
+    .catch _.Error("reqGrab #{request} #{id} #{name}")
+
   Backbone.Model::grab = (name, model)->
     @[name] = model
     @triggerGrab name

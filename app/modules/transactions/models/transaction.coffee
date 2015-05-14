@@ -13,9 +13,7 @@ Timeline = require '../collections/timeline'
 module.exports = Filterable.extend
   url: -> app.API.transactions
   initialize: ->
-    @grabItemModel()
-    @grabOwnerModel()
-    @grabRequesterModel()
+    @grabLinkedModels()
     @buildTimeline()
     @fetchMessages()
 
@@ -24,20 +22,13 @@ module.exports = Filterable.extend
     @once 'grab:owner', @setNextActions.bind(@)
     @once 'grab:requester', @setNextActions.bind(@)
 
-  grabItemModel: ->
-    app.request 'get:item:model', @get('item')
-    .then @grab.bind(@, 'item')
-
-  grabOwnerModel: ->
-    app.request 'get:user:model', @get('owner')
-    .then @grab.bind(@, 'owner')
+  grabLinkedModels: ->
+    @reqGrab 'get:item:model', @get('item'), 'item'
+    @reqGrab 'get:user:model', @get('owner'), 'owner'
+    @reqGrab 'get:user:model', @get('requester'), 'requester'
 
   setMainUserIsOwner: ->
     @mainUserIsOwner = @get('owner') is app.user.id
-
-  grabRequesterModel: ->
-    app.request 'get:user:model', @get('requester')
-    .then @grab.bind(@, 'requester')
 
   buildTimeline: ->
     @timeline = new Timeline
