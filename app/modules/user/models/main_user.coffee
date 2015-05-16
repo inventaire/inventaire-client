@@ -20,7 +20,7 @@ module.exports = MainUser = Filterable.extend
     @setLang()
     @on 'change:language', @setLang
 
-  setLang: -> @lang = @get('language')
+  setLang: -> @lang = @get('language')?[0..1]
 
   addNotifications: (notifications)->
     if notifications?
