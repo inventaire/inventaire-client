@@ -3,8 +3,9 @@ module.exports =
     return getBestWikiProjectInfo sitelinks, 'wiki', 'wikipedia', lang, @originalLang
 
   wikisource: (sitelinks, lang)->
-    return getBestWikiProjectInfo sitelinks, 'wikisource', 'wikisource', lang, @originalLang
-
+    wsData = getBestWikiProjectInfo sitelinks, 'wikisource', 'wikisource', lang, @originalLang
+    wsData.epub = getEpubLink wsData
+    return wsData
 
 
 getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, originalLang)->
@@ -40,3 +41,7 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
       L = match[0]
       return [v.title, L]
   return []
+
+getEpubLink = (wikisourceData)->
+  { title, lang } = wikisourceData
+  return "http://wsexport.wmflabs.org/tool/book.php?lang=#{lang}&format=epub&page=#{title}"

@@ -33,10 +33,10 @@
       .wikipedia{
         @include display-flex(row);
       }
-      a.wikisource, a.wikidata, .wikipedia a:first-child{
+      .two-buttons a:first-child, a.wikidata{
         @include custom-button(#555);
       }
-      .wikipedia a:last-child{
+      .two-buttons a:last-child{
         @include custom-button(#666);
       }
     }

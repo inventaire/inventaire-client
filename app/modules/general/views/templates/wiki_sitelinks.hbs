@@ -1,6 +1,6 @@
 <div class="wiki-sitelinks">
   {{#if wikipedia}}
-    <span class="wikipedia">
+    <span class="wikipedia two-buttons">
       <a href="{{wikipedia.url}}" target="_blank">
       {{icon 'wikipedia'}} {{I18n 'see on Wikipedia'}}</a>
       <a href="{{wikipedia.url}}?veaction=edit" target="_blank">
@@ -8,8 +8,12 @@
     </span>
   {{/if}}
   {{#if wikisource}}
-    <a class="wikisource" href="{{wikisource.url}}" target="_blank">
-    {{icon 'wikisource'}} {{I18n 'read online'}}</a>
+    <span class="wikisource two-buttons">
+      <a href="{{wikisource.url}}" target="_blank">
+      {{icon 'wikisource'}} {{I18n 'read online'}}</a>
+      <a class="epub" href="{{wikisource.epub}}" target="_blank">
+      {{icon 'download'}} {{i18n 'epub'}}</a>
+    </span>
   {{/if}}
   {{#if wikidata}}
     <a class="wikidata" href="{{wikidata.url}}" target="_blank">
