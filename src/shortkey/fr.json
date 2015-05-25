@@ -65,5 +65,18 @@
     "visible_by": "visible par %{label}",
     "comment_delete_confirmation": "Etes-vous sûr de vouloir supprimer ce commentaire ?",
     "cant_undo_warning": "cette action ne peut pas être annulée",
-    "new_comment_on_followed_item": "**%{username}** a commenté(e) **%{title}**"
+    "new_comment_on_followed_item": "**%{username}** a commenté(e) **%{title}**",
+    "other_user_lending": null,
+    "other_user_giving": null,
+    "main_user_lending": null,
+    "main_user_selling": null,
+    "no_transaction": null,
+    "other_user_requested": null,
+    "main_user_requested": null,
+    "waiting_accepted": null,
+    "main_user_giving": null,
+    "accept_request": null,
+    "decline_request": null,
+    "other_user_accepted": null,
+    "main_user_accepted": null
 }
