@@ -1,0 +1,16 @@
+.newMessage{
+  padding: 1em;
+  @include display-flex(column);
+  .main{
+    @include display-flex(row, flex-start, space-between);
+    .avatar{
+      @include flex(0,0);
+    }
+    textarea{
+      @include flex(1);
+    }
+  }
+  .sendMessage{
+    @include align-self(flex-end);
+  }
+}
