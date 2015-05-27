@@ -9,9 +9,12 @@ module.exports = Backbone.Marionette.ItemView.extend
     return attrs
 
   initialize: (options)->
+    @lazyRender = _.debounce @render.bind(@), 200
+    @listenTo @model, 'change', @lazyRender
+
     @hidePicture = options.hidePicture
-    if @hidePicture
-      @listenTo @model, 'add:pictures', @render
+    unless @hidePicture
+      @listenTo @model, 'add:pictures', @lazyRender
 
   onRender: ->
     app.request('qLabel:update')
