@@ -17,8 +17,8 @@
   {{#if descOverflow}}
     <a id='toggleDescLength' class='toggler medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
   {{/if}}
-  <p id='shortDesc' class='grey'>{{limit description 500}}</p>
-  <p id='fullDesc' class='grey hidden'>{{description}}</p>
+  <p id='shortDesc' class='grey'>{{{limit description 500}}}</p>
+  <p id='fullDesc' class='grey hidden'>{{{description}}}</p>
 
   {{#if wikidata}}
     {{partial 'entities:book_claims' claims}}

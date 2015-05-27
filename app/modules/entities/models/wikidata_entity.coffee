@@ -24,8 +24,12 @@ module.exports = WikidataEntity = Entity.extend
 
       @setAttributes(@attributes, lang)
       @rebaseClaims()
-      @setWikiLinks(lang)
       @findAPicture()
+
+      @setWikiLinks(lang)
+      @getWikipediaExtract(lang)
+      # overriding sitelinks to make room when persisted to indexeddb
+      @updates.sitelinks = {}
 
       @set @updates
 
@@ -82,8 +86,17 @@ module.exports = WikidataEntity = Entity.extend
 
       @updates.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
 
-    # overriding sitelinks to make room
-    @updates.sitelinks = {}
+  getWikipediaExtract: (lang)->
+    title = @get('sitelinks')?["#{lang}wiki"]?.title
+    if title?
+      wd.wikipediaExtract(lang, title)
+      .then (extract)=>
+        _.log extract, "#{@get('label')} extract"
+        if extract?
+          @set 'description', extract
+          @save()
+      .catch _.Error('getWikipediaExtract err')
+
 
   findAPicture: ->
     # initializing pictures array: should only be used

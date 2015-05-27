@@ -12,5 +12,19 @@ wd.wmCommonsThumb = (file, width=500)->
   .catch _.Error('wmCommonsThumb err')
 
 
+wd.wikipediaExtract = (lang, title)->
+  _.preq.get app.API.data.wikipediaExtract(lang, title)
+  .then (data)->
+    { extract, url } = data
+    return sourcedExtract extract, url
+  .catch _.Error('wikipediaExtract err')
+
+# add a link to the full wikipedia article at the end of the extract
+sourcedExtract = (extract, url)->
+  if url?
+    text = _.i18n('Read more on Wikipedia')
+    return extract += "\n<a href='#{url}' class='source'>#{text}</a>"
+  else extract
+
 wd.sitelinks = sharedLib 'wiki_sitelinks'
 module.exports = wd
