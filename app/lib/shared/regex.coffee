@@ -4,3 +4,4 @@ module.exports =
   Email: /.+@.+\..+/i
   Uuid: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
   CouchUuid: /^[0-9a-f]{32}$/
+  Lang: /^\w{2}$/
