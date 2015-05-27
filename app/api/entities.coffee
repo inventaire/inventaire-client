@@ -6,14 +6,16 @@ module.exports =
       language: app.user.lang
   getImages: (data)->
     _.buildPath "/api/entities/public",
-      action: 'getimages'
+      action: 'get-images'
       data: _.piped(data)
   isbns: (isbns)->
     _.buildPath '/api/entities/public',
-      action: 'getisbnentities'
+      action: 'get-isbn-entities'
       isbns: _.piped(isbns)
   inv:
     create: '/api/entities'
     get: (ids)->
-      _.buildPath '/api/entities', { ids: _.piped(ids) }
+      _.buildPath '/api/entities/public',
+        action: 'get-inv-entities'
+        ids: _.piped(ids)
   followed: '/api/entities/followed'
