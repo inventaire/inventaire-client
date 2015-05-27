@@ -1,12 +1,10 @@
-
 .authorLi{
   background-color: #292929;
-  margin-bottom: 1rem;
   .authorData{
     background-color: $contrast;
-    margin-top: 0.5rem !important;
     .extract{
       text-align: left;
+      padding: 1em;
     }
     .source{
       @extend .link;
@@ -34,32 +32,22 @@
   }
 }
 
-
-.authorsBooks{
-  // overriding _book_li.scss
-  .bookLi{}
-}
-
-/*Large screens*/
-@media screen and (min-width: $smallscreen) {
-  .authorLi{
-    min-height: 3rem;
-    padding: 1rem 2rem 1rem 2rem;
-  }
-  .authorData{
-    margin-top: 0.2rem;
-  }
-
-  .authorsBooks{
-    .bookLi{
-      padding: 0rem 1rem 0rem 1rem;
+.innerAuthorLi{
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    @include display-flex(row, flex-start, flex-start);
+    .infobox{
+      @include flex(0, 0);
+      max-width: 25em;
+    }
+    .books{
+      @include flex(1);
     }
   }
-  .extract{
-    padding: 1em;
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    .innerAuthorLi{
+      @include display-flex(column);
+    }
   }
-}
-
-/*Small screens*/
-@media screen and (max-width: $smallscreen) {
 }
