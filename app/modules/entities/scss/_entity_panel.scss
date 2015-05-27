@@ -24,7 +24,19 @@
   }
   .data{
     @include flex(1);
+    @include display-flex(column);
   }
+  .description{
+    margin: 0;
+    margin-bottom: 1em;
+    padding: 0;
+  }
+  .toggler{
+    font-size: 1.6em;
+    width: 2em;
+    margin: -0.9em -0.8em 0 auto;
+  }
+  .attributes{}
 
   /*Small screens*/
   @media screen and (max-width: 700px) {

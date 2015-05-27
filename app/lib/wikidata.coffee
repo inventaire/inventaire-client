@@ -23,7 +23,7 @@ wd.wikipediaExtract = (lang, title)->
 sourcedExtract = (extract, url)->
   if url?
     text = _.i18n('Read more on Wikipedia')
-    return extract += "<br><a href='#{url}' class='source' target='_blank'>#{text}</a>"
+    return extract += "<br><a href='#{url}' class='source link' target='_blank'>#{text}</a>"
   else extract
 
 wd.sitelinks = sharedLib 'wiki_sitelinks'

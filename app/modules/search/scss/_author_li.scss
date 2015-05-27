@@ -1,10 +1,16 @@
 
 .authorLi{
-  background-color: #222;
+  background-color: #292929;
   margin-bottom: 1rem;
   .authorData{
     background-color: $contrast;
     margin-top: 0.5rem !important;
+    .extract{
+      text-align: left;
+    }
+    .source{
+      @extend .link;
+    }
   }
   .loading{
     color: $contrast;
@@ -28,6 +34,7 @@
   }
 }
 
+
 .authorsBooks{
   // overriding _book_li.scss
   .bookLi{}
@@ -47,6 +54,9 @@
     .bookLi{
       padding: 0rem 1rem 0rem 1rem;
     }
+  }
+  .extract{
+    padding: 1em;
   }
 }
 

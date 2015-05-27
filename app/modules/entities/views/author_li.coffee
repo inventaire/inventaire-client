@@ -19,6 +19,7 @@ module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
     @collection = new Backbone.Collection
     # trigger fetchbooks once the author is in view
     @$el.once 'inview', @fetchBooks.bind(@)
+    @listenTo @model, 'change', @lazyRender.bind(@)
 
   initPlugins: ->
     _.extend @, behaviorsPlugin

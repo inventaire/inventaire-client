@@ -93,7 +93,7 @@ module.exports = WikidataEntity = Entity.extend
       .then (extract)=>
         _.log extract, "#{@get('label')} extract"
         if extract?
-          @set 'description', extract
+          @set 'extract', extract
           @save()
       .catch _.Error('getWikipediaExtract err')
 
@@ -124,9 +124,12 @@ module.exports = WikidataEntity = Entity.extend
       when 'human' then @initializeAuthor()
 
   initializeBook: ->
+    @fetchBookAuthorsEntities()
+
+  fetchBookAuthorsEntities: ->
     wdBooks_.fetchAuthorsEntities(@)
-    .then => wdBooks_.findAPictureByBookData(@)
-    .catch (err)-> _.log(err, 'fetchAuthorsEntities err')
+    .then wdBooks_.findAPictureByBookData.bind(null, @)
+    .catch _.Error('fetchAuthorsEntities err')
 
   initializeAuthor: ->
 

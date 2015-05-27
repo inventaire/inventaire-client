@@ -17,3 +17,8 @@ module.exports = BookLi = Backbone.Marionette.ItemView.extend
   showItemCreationForm: (e)->
     unless _.isOpenedOutside(e)
       app.execute 'show:item:creation:form', {entity: @model}
+
+  serializeData: ->
+    attrs = @model.toJSON()
+    if attrs.extract? then attrs.description = attrs.extract
+    return attrs

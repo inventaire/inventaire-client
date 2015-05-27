@@ -6,7 +6,7 @@
 <div class="bookLiData">
   <h3><a class='showEntity' href="{{pathname}}">{{title}}</a></h3>
   {{#if description}}
-    <p class="grey">{{limit description 140}}</p>
+    <p class="clamped grey">{{{description}}}</p>
   {{/if}}
   {{#if wikidata}}
     {{!-- {{partial 'entities:book_claims' claims}} --}}

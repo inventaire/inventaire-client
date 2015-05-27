@@ -1,0 +1,25 @@
+//  http://html5hub.com/ellipse-my-text/#comment-1792338074
+.clamped{
+  // margin: 30px 0;
+  line-height: 1.6;
+  overflow: hidden;
+  position: relative;
+  max-height: 4.8em; /*display ellipsis after 3 lines*/
+}
+
+.clamped:before  {
+  background: inherit;
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  content: '\2026';
+}
+
+// .clamped:after{
+//   content: '';
+//   background: inherit;
+//   position: absolute;
+//   height: 50px;
+//   width: 100%;
+//   z-index: 1;
+// }

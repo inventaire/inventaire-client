@@ -14,20 +14,25 @@
   {{/if}}
   <p class="uri">{{uri}}</p>
 
+  <p class="description clamped">
+    {{{description}}}
+  </p>
   {{#if descOverflow}}
-    <a id='toggleDescLength' class='toggler medium right'> {{icon 'chevron-down'}}{{icon 'chevron-up' 'hidden'}} </a>
+    <a class='toggler'>
+      {{icon 'chevron-down'}}
+      {{icon 'chevron-up' 'hidden'}}
+    </a>
   {{/if}}
-  <p id='shortDesc' class='grey'>{{{limit description 500}}}</p>
-  <p id='fullDesc' class='grey hidden'>{{{description}}}</p>
-
-  {{#if wikidata}}
-    {{partial 'entities:book_claims' claims}}
-  {{else}}
-    <p class="isbn-attributes">
-      {{#if authors}} {{{P '50'}}} {{join authors}} <br> {{/if}}
-      {{#if publishedDate}}{{{P 'P577'}}} {{publishedDate}} <br> {{/if}}
-      {{#if publisher}}{{i18n 'publisher'}} {{publisher}} <br> {{/if}}
-      {{#if language}}{{i18n 'language'}} {{language}} {{/if}}
-    </p>
-  {{/if}}
+  <div class="attributes">
+    {{#if wikidata}}
+      {{partial 'entities:book_claims' claims}}
+    {{else}}
+      <p class="isbn-attributes">
+        {{#if authors}} {{{P '50'}}} {{join authors}} <br> {{/if}}
+        {{#if publishedDate}}{{{P 'P577'}}} {{publishedDate}} <br> {{/if}}
+        {{#if publisher}}{{i18n 'publisher'}} {{publisher}} <br> {{/if}}
+        {{#if language}}{{i18n 'language'}} {{language}} {{/if}}
+      </p>
+    {{/if}}
+  </div>
 </div>
