@@ -4,8 +4,9 @@ module.exports =
 
   wikisource: (sitelinks, lang)->
     wsData = getBestWikiProjectInfo sitelinks, 'wikisource', 'wikisource', lang, @originalLang
-    wsData.epub = getEpubLink wsData
-    return wsData
+    if wsData?
+      wsData.epub = getEpubLink wsData
+      return wsData
 
 
 getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, originalLang)->
