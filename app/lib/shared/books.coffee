@@ -1,18 +1,5 @@
 module.exports = (_)->
   methods =
-    API:
-      # doc: https://developers.google.com/discovery/v1/performance
-      google:
-        book: (data)->
-          "https://www.googleapis.com/books/v1/volumes/?q=#{data}&fields=totalItems,items(volumeInfo)&country=FR"
-        isbn: (isbn)-> @book("isbn:#{isbn}")
-      worldcat:
-        # http://xisbn.worldcat.org/xisbnadmin/doc/api.htm
-        isbnBaseRoute: 'http://xisbn.worldcat.org/webservices/xid/isbn/'
-        to10: (isbn13)-> @isbnBaseRoute + "#{isbn13}?method=to10&format=json"
-        to13: (isbn10)-> @isbnBaseRoute + "#{isbn10}?method=to13&format=json"
-        hyphen: (isbn)-> @isbnBaseRoute + "#{isbn10}?method=hyphen&format=json"
-
     isIsbn: (text)->
       cleanedText = @normalizeIsbn(text)
       if @isNormalizedIsbn cleanedText
@@ -24,53 +11,5 @@ module.exports = (_)->
     normalizeIsbn: (text)-> text.trim().replace(/-/g, '').replace(/\s/g, '')
     isNormalizedIsbn: (text)->  /^(97(8|9))?\d{9}(\d|X)$/.test text
 
-    cleanIsbnData: (isbn)->
-      _.typeString isbn
-
-      cleanedIsbn = @normalizeIsbn(isbn)
-      if @isNormalizedIsbn(cleanedIsbn) then return cleanedIsbn
-      else console.error 'isbn got an invalid value'
-
-    normalizeBookData: (cleanedItem, isbn)->
-      data = _.pick cleanedItem, 'title', 'authors', 'description', 'publisher', 'publishedDate', 'language'
-      data.pictures = []
-
-      {industryIdentifiers, imageLinks} = cleanedItem
-
-      if industryIdentifiers?
-        industryIdentifiers.forEach (obj)->
-          switch obj.type
-            when 'ISBN_10' then data.P957 = obj.identifier
-            when 'ISBN_13' then data.P212 = obj.identifier
-            when 'OTHER' then otherId = obj.identifier
-
-      # if an isbn was provided, verify that its matching the data
-      if isbn?
-        unless isbn is data.P212 or isbn is data.P957
-          _.warn industryIdentifiers, "this isnt the isbn we are looking for (#{isbn})"
-          return
-
-      # prefer isbn-13 when available
-      # create isbn variable when not passed
-      isbn or= data.P212 or data.P957
-
-      if isbn? then data.id = data.uri = "isbn:#{isbn}"
-      else if otherId? then data.id = data.uri = otherId
-      else
-        _.warn data.title, 'no id found at normalizeBookData. Will be droped'
-        return
-
-      if imageLinks?
-        url = @uncurl imageLinks.thumbnail
-        data.pictures.push url
-        data.pictures.push @zoom(url)
-
-      return data
-
     uncurl: (url)-> url.replace('&edge=curl','')
     zoom: (url)-> url.replace('&zoom=1','&zoom=2')
-    normalize: (url)->
-      # cant use zoom as some picture return an ugly
-      # image placeholder instead of a bigger picture
-      # url = @zoom(url)
-      return @uncurl url
