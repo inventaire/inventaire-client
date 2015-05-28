@@ -48,9 +48,12 @@ catchImage = (bookModel, image)->
     bookModel.save()
 
 wdBooks_.fetchAuthorsEntities = (bookModel)->
-    authors = bookModel.get('claims.P50')
-    if authors?.length > 0
-      return app.request('get:entities:models', 'wd', authors)
-    else return _.preq.reject('no author found at fetchAuthorsEntities')
+  authors = bookModel.get('claims.P50')
+  if authors?.length > 0
+    return app.request('get:entities:models', 'wd', authors)
+  else
+    label = bookModel.get('label')
+    _.warn "no author found for #{label}"
+    return _.preq.resolve()
 
 module.exports = wdBooks_

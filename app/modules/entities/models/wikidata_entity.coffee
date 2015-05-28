@@ -124,10 +124,8 @@ module.exports = WikidataEntity = Entity.extend
       when 'human' then @initializeAuthor()
 
   initializeBook: ->
-    @fetchBookAuthorsEntities()
-
-  fetchBookAuthorsEntities: ->
     wdBooks_.fetchAuthorsEntities(@)
+    # need to be after authors entities were fetched to have authors names
     .then wdBooks_.findAPictureByBookData.bind(null, @)
     .catch _.Error('fetchAuthorsEntities err')
 
