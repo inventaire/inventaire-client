@@ -1,10 +1,10 @@
-$transaction-list-width: 25em;
+$transaction-list-width: 20em;
 
 .transactionsLayout{
   #list{
     background-color: #fefefe;
-    padding: 0em 0.2em 0em 0.2em;
     label{
+      margin-top: 1em;
       color: $grey;
       font-size: 1em;
       @include sans-serif();
@@ -21,10 +21,6 @@ $transaction-list-width: 25em;
       @include sans-serif();
       text-transform: uppercase;
     }
-  }
-  .folder{
-    background-color: #eee;
-    margin-left: 1em;
   }
   @import "transactions_list";
   @import "transaction";

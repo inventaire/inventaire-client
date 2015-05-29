@@ -1,9 +1,4 @@
 <div>
-  {{#if item.pictures}}
-    <img src="{{src item.pictures 48}}" alt="{{item.title}}">
-  {{/if}}
-</div>
-<div>
   {{#if other.picture}}
     <img src="{{src other.picture 48}}">
   {{/if}}
@@ -11,4 +6,9 @@
 <div class="text">
   <span class="title">{{item.title}}</span>
   <span class="context">{{other.username}}</span>
+</div>
+<div>
+  {{#if item.pictures}}
+    <img src="{{src item.pictures 48}}" alt="{{item.title}}">
+  {{/if}}
 </div>
