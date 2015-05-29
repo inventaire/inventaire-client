@@ -5,26 +5,24 @@ module.exports = Marionette.LayoutView.extend
   className: 'transactionsLayout'
   template: require './templates/transactions_layout'
   regions:
-    notificationsRegion: '#notifications'
-    receivedRegion: '#received'
-    sentRegion: '#sent'
-    lendingRegion: '#lending'
-    borrowingRegion: '#borrowing'
+    activeRegion: '#active'
+    archivedRegion: '#archived'
     fullviewRegion: '#fullview'
 
   initialize: ->
     @listenTo app.vent, 'transaction:select', @showTransactionFull.bind(@)
 
   onShow: ->
-    app.request('waitForFriendsItems').then @showTransactions.bind(@)
+    app.request('waitForFriendsItems').then @showTransactionsFolders.bind(@)
 
-  showTransactions: ->
-    @receivedRegion.show new TransactionsList
-      state: 'received'
-      collection: app.user.transactions
+  showTransactionsFolders: ->
+    folders.forEach @showTransactionList.bind(@)
 
-    @sentRegion.show new TransactionsList
-      state: 'sent'
+  showTransactionList: (folder)->
+    # every folder share the app.user.transactions collection
+    # but with filtered applied by TransactionsList, based on the folder name
+    @["#{folder}Region"].show new TransactionsList
+      folder: folder
       collection: app.user.transactions
 
   showTransactionFull: (transaction)->
@@ -37,3 +35,6 @@ module.exports = Marionette.LayoutView.extend
     region = e.currentTarget.htmlFor
     $(e.currentTarget).toggleClass 'toggled'
     $("##{region}").slideToggle(200)
+
+# coupled to TransactionList filters
+folders = ['active', 'archived']

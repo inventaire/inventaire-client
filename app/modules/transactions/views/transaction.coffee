@@ -21,6 +21,7 @@ module.exports = Marionette.CompositeView.extend
 
   modelEvents:
     'grab': 'lazyRender'
+    'change': 'lazyRender'
 
   childViewContainer: '.timeline'
   childView: require './event'
@@ -31,6 +32,24 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .sendMessage': 'sendMessage'
+    'click .accept': 'accept'
+    'click .decline': 'decline'
+    'click .confirm': 'confirm'
+    'click .returned': 'returned'
+    'click .archive': 'archive'
 
   sendMessage: ->
     @postMessage 'transaction:post:message', @model.timeline
+
+  accept: -> @updateState 'accepted'
+  decline: -> @updateState 'declined'
+  confirm: -> @updateState 'confirmed'
+  returned: -> @updateState 'returned'
+  archive: -> @updateState 'archive'
+
+  updateState: (state)->
+    @model.updateState(state)
+    .catch (err)->
+      err.selector = '.actions'
+      throw err
+    .catch forms_.catchAlert.bind(null, @)

@@ -10,6 +10,7 @@
     @include display-flex(row, center, space-between);
     .time{
       opacity: 0.5;
+      padding-right: 0.5em;
     }
   }
 }

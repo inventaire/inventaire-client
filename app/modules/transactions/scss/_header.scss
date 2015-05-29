@@ -3,17 +3,32 @@
   padding: 1em;
   @include radius-top();
   background-color: white;
-  // background-color: #ccc;
+  .title{
+    font-size: 1.2em;
+    // in case the title is very long
+    max-height: 3em;
+    overflow: hidden;
+  }
 }
 .facts{
   padding: 1em;
   @include display-flex(row, center, space-between);
   height: 3em;
+  .item{
+    @include display-flex(row, center, center);
+    .cover{
+      @include flex(0, 0);
+      img{
+        padding-right: 0.2em;
+      }
+    }
+  }
   h4{
     display: inline;
   }
 }
 .context{
+  @include flex(0, 0);
   .fa{
     color: white;
     padding: 0.5em;

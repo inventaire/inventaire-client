@@ -1,5 +1,9 @@
 .transactionPreview{
   @include bg-hover($light-grey);
+  &.selected{
+    background-color: darken($grey, 10%);
+    color: white;
+  }
   margin: 0em 0.2em 0.2em 0em;
   padding: 0em 0.2em 0em 0.2em;
   cursor: pointer;

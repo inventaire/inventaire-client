@@ -16,11 +16,13 @@ module.exports = Filterable.extend
     @grabLinkedModels()
     @buildTimeline()
     @fetchMessages()
+    @findStatus()
 
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
     @once 'grab:owner', @setNextActions.bind(@)
     @once 'grab:requester', @setNextActions.bind(@)
+    @on 'change:state', @setNextActions.bind(@)
 
   grabLinkedModels: ->
     @reqGrab 'get:item:model', @get('item'), 'item'
@@ -32,10 +34,12 @@ module.exports = Filterable.extend
 
   buildTimeline: ->
     @timeline = new Timeline
-    @get('actions').forEach (action)=>
-      action = new Action action
-      action.transaction = @
-      @timeline.add action
+    @get('actions').forEach @addActionToTimeline.bind(@)
+
+  addActionToTimeline: (action)->
+    action = new Action action
+    action.transaction = @
+    return @timeline.add action
 
   fetchMessages: ->
     url = _.buildPath app.API.transactions,
@@ -88,3 +92,38 @@ module.exports = Filterable.extend
       else
         _.i18n "other_user_#{transaction}",
           username: @owner?.get('username')
+
+  accepted: -> @updateState 'accepted'
+  declined: -> @updateState 'declined'
+  confirmed: -> @updateState 'confirmed'
+  returned: -> @updateState 'returned'
+
+  updateState: (state)->
+    @backup()
+    # redondant info:
+    # might need to be refactored to deduce state from last action
+    @set {state: state}
+    action = { action: state, timestamp: _.now() }
+    @push 'actions', action
+    actionModel = @addActionToTimeline action
+
+    _.preq.put app.API.transactions,
+      id: @id
+      state: state
+    .catch @updateFail.bind(@, actionModel)
+
+  updateFail: (actionModel, err)->
+    @restore()
+    @timeline.remove actionModel
+    # let the view handle the error
+    throw err
+
+  # quick and dirty backup/restore mechanism
+  # fails to delete new attributes
+  backup: -> @_backup = @toJSON()
+  restore: -> @set @_backup
+
+  findStatus: ->
+    if @get('transaction') is 'lending' then lastState = 'returned'
+    else lastState = 'confirmed'
+    @archived = @get('state') is lastState

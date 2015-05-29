@@ -1,5 +1,3 @@
-Filter = require '../lib/transactions_filter'
-
 module.exports = Marionette.CompositeView.extend
   template: require './templates/transactions_list'
   className: 'transactionList'
@@ -7,16 +5,19 @@ module.exports = Marionette.CompositeView.extend
   childView: require './transaction_preview'
   emptyView: require './no_transaction'
   initialize: ->
-    @state = @options.state
-    @pickFilter()
+    @folder = @options.folder
+    @filter = @pickFilter()
 
   serializeData: ->
     attrs = {}
-    attrs[@state] = true
+    attrs[@folder] = true
     return attrs
 
   pickFilter: ->
-    switch @state
-      when 'received' then @filter = Filter 'requested', 'owner'
-      when 'sent' then @filter = Filter 'requested', 'requester'
-      else _.error "unknown state: #{@state}"
+    switch @folder
+      when 'active' then active
+      when 'archived' then archived
+      else _.error "unknown folder: #{@folder}"
+
+active = (transac, index, collection)-> not transac.archived
+archived = (transac, index, collection)-> transac.archived

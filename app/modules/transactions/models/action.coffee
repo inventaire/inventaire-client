@@ -10,6 +10,10 @@ module.exports = Backbone.Model.extend
   icon: ->
     switch @action
       when 'requested' then 'envelope'
+      when 'accepted' then 'check'
+      when 'confirmed' then 'sign-in'
+      when 'declined' then 'times'
+      when 'returned' then 'check'
       else _.warn @, 'unknown action', true
 
   context: ->
@@ -21,13 +25,15 @@ module.exports = Backbone.Model.extend
         if @action in ownerActions then @otherUserAction()
         else @mainUserAction()
 
-  mainUserAction: -> _.i18n "main_user_#{@action}"
-  otherUserAction: ->
-    _.i18n "other_user_#{@action}",
-      username: @transaction.otherUser()?.get('username')
+  mainUserAction: -> @userAction 'main'
+  otherUserAction: -> @userAction 'other'
+  userAction: (user)->
+    _.i18n "#{user}_user_#{@action}", { username: @otherUsername() }
+
+  otherUsername: -> @transaction.otherUser()?.get('username')
 
 ownerActions = [
-  'accept'
-  'decline'
+  'accepted'
+  'declined'
   'returned'
 ]

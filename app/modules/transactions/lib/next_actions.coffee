@@ -1,7 +1,8 @@
 module.exports = (transaction)->
   nextActions = findNextActions(transaction)
   data = actionsData[nextActions]
-  return grabOtherUsername transaction, data
+  if data? then grabOtherUsername transaction, data
+  else return
 
 findNextActions = (transaction)->
   nextActions = getNextActionsList transaction.get('transaction')
@@ -36,7 +37,7 @@ basicNextActions =
 
 # customizing actions for transactions where the item should be returned
 # currently only 'lending'
-nextActionsWithReturn = _.extend basicNextActions,
+nextActionsWithReturn = _.extend {}, basicNextActions,
   confirmed:
     owner: 'returned'
     requester: 'waiting:returned'
@@ -50,8 +51,8 @@ actionsData =
       {classes: 'accept', text: 'accept_request'},
       {classes: 'decline', text: 'decline_request'}
     ]
-  'confirm': [{classes: 'confirm', text: 'confirm'}]
-  'returned': [{classes: 'returned', text: 'returned'}]
+  'confirm': [{classes: 'confirm', text: 'confirm_reception'}]
+  'returned': [{classes: 'returned', text: 'confirm_returned'}]
   'archive': [{classes: 'archive', text: 'archive'}]
   'waiting:accepted': [{classes: 'waiting', text: 'waiting_accepted'}]
   'waiting:confirmed': [{classes: 'waiting', text: 'waiting_confirmation'}]

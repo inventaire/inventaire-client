@@ -1,10 +1,12 @@
 <div class="header">
   <div class="facts">
-    <div>
-      {{#if item.pictures}}
-        <img src="{{src item.pictures 48}}" alt="{{item.title}}">
-      {{/if}}
-      <h4>{{item.title}}</h4>
+    <div class="item">
+      <div class="cover">
+        {{#if item.pictures}}
+          <img src="{{src item.pictures 48}}" alt="{{item.title}}">
+        {{/if}}
+      </div>
+      <h4 class="title">{{item.title}}</h4>
     </div>
     <div class="context {{item.transaction}}">
       {{icon icon}}
@@ -17,10 +19,13 @@
 </div>
 <div class="timeline"></div>
 <div class="actions">
-  {{icon 'asterisk'}}
-  <span class="next">{{i18n 'next action'}}:</span>
-  {{#each nextActions}}
-    <a class="{{classes}}">{{i18n text this}}</a>
-  {{/each}}
+  <span class="next">{{i18n 'next action'}}:</span> <br>
+  {{#if nextActions}}
+    {{#each nextActions}}
+      <a class="{{classes}}">{{i18n text this}}</a>
+    {{/each}}
+  {{else}}
+    <span class="finished">{{i18n 'transaction_finished'}}</span>
+  {{/if}}
 </div>
 {{partial 'new_message' this}}
