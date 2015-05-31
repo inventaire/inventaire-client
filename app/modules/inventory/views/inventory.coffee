@@ -100,8 +100,8 @@ prepareUserItemsList = (user, navigate)->
 fetchPublicUserItems = (user)->
   # fetch items
   app.request 'inventory:fetch:user:public:items', user.id
-  .then _.Log('items')
-  .then (items)-> Items.public.add items
+  .then _.Log('public user public items')
+  .then Items.public.add
   .catch _.Error('fetchPublicUserItems')
 
   # remove items on inventory change

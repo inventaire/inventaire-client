@@ -98,6 +98,7 @@ API =
     app.layout.main.show itemShow
 
   removeUserItems: (userId)->
+    _.log userId, 'removeUserItems'
     userItems = Items.byOwner(userId)
     if userItems?.length > 0 then Items.remove userItems
 
@@ -176,7 +177,7 @@ initializeInventoriesHandlers = (app)->
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi
       # caused by the item counter trying to update
-      setTimeout API.removeUserItems.bind(null, userId), 200
+      setTimeout API.removeUserItems.bind(null, userId), 0
 
 
   app.reqres.setHandlers
