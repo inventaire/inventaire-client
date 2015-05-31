@@ -49,3 +49,8 @@ module.exports =
     _.log this, 'hb debug this'
 
   timeFromNow: (time)-> moment(time).fromNow()
+
+  # tailored for Google Books dates:
+  # just the year: 1951
+  # or the day in the form: 1951-04-12
+  dateYear: (date)-> date.split('-')[0]
