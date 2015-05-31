@@ -5,10 +5,6 @@
   h2, span, label, p{
     color: white;
   }
-  .wd-P{
-    color: #999;
-    margin-right: 0.5em;
-  }
   a{
     color: white;
   }
@@ -36,7 +32,12 @@
     width: 2em;
     margin: -0.9em -0.8em 0 auto;
   }
-  .attributes{}
+  .attributes{
+    span, .wd-P{
+      color: #999;
+      margin-right: 0.5em;
+    }
+  }
 
   /*Small screens*/
   @media screen and (max-width: 700px) {

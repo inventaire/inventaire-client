@@ -91,7 +91,6 @@ module.exports = WikidataEntity = Entity.extend
     if title?
       wd.wikipediaExtract(lang, title)
       .then (extract)=>
-        _.log extract, "#{@get('label')} extract"
         if extract?
           @set 'extract', extract
           @save()

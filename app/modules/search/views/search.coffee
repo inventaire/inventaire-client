@@ -80,7 +80,7 @@ module.exports = Search = Backbone.Marionette.LayoutView.extend
         # so the triggerMethod '404' thing is a provisory solution
         @alert 'no item found'
         @displayResults()
-        _.log err, 'searchEntities err'
+        _.error err, 'searchEntities err'
 
       app.execute 'show:loader', {region: @authors}
 

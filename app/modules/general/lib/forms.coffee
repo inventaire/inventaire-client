@@ -25,6 +25,7 @@ forms_.earlyVerify = (view, e, verificator)->
 # _.preq.start()
 # .then doThingsThatThrowsErrorsWithSelector
 # .catch forms_.catchAlert.bind(null, @)
+# The selector can be any div selector, the alert-box will be appended into it
 forms_.catchAlert = (view, err)->
   if err.selector?
     view.$el.trigger 'stopLoading'

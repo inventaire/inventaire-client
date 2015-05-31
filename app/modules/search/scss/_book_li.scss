@@ -24,6 +24,9 @@
       @include custom-button($light-grey, $dark-grey);
     }
   }
+  .source{
+    display: none;
+  }
 }
 
 /*Small screens*/

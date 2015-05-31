@@ -30,8 +30,9 @@
       <p class="isbn-attributes">
         {{#if authors}} {{{P '50'}}} {{join authors}} <br> {{/if}}
         {{#if publishedDate}}{{{P 'P577'}}} {{publishedDate}} <br> {{/if}}
-        {{#if publisher}}{{i18n 'publisher'}} {{publisher}} <br> {{/if}}
-        {{#if language}}{{i18n 'language'}} {{language}} {{/if}}
+        {{#if publisher}}<span>{{i18n 'publisher'}}:</span>{{publisher}} <br> {{/if}}
+        {{!-- displays an ugly 2 letters code --}}
+        {{!-- {{#if language}}<span>{{i18n 'language'}}:<span> {{language}} {{/if}} --}}
       </p>
     {{/if}}
   </div>
