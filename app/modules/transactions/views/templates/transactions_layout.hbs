@@ -1,10 +1,10 @@
 <div id="list">
-  <section id="active"></section>
-
-  <label for="archived">
-    {{icon 'caret-down'}} {{icon 'archive'}} {{I18n 'archived'}}
-  </label>
-  <section id="archived"></section>
+  {{#each folders}}
+    <label for="{{id}}">
+      {{icon 'caret-down'}} {{icon icon}} {{I18n text}}
+    </label>
+    <section id="{{id}}"></section>
+  {{/each}}
 </div>
 
 <div id="fullview"></div>

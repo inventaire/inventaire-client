@@ -4,7 +4,6 @@ $transaction-list-width: 20em;
   #list{
     background-color: #fefefe;
     label{
-      margin-top: 1em;
       color: $grey;
       font-size: 1em;
       @include sans-serif();
@@ -20,6 +19,10 @@ $transaction-list-width: 20em;
       font-size: 1.1em;
       @include sans-serif();
       text-transform: uppercase;
+    }
+    section{
+      margin-bottom: 1em;
+
     }
   }
   @import "transactions_list";
