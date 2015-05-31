@@ -1,0 +1,19 @@
+.transactionsWelcome{
+  height: 30em;
+  max-height: 50vh;
+  @include display-flex(column, center, center);
+  .fa{
+    font-size: 2em;
+  }
+  div{
+    max-width: 38em;
+    background-color: $contrast;
+    padding: 1em;
+    @include radius();
+    @include shy-border();
+  }
+  text-align: center;
+  p{
+    color: $grey;
+  }
+}

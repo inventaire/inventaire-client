@@ -1,4 +1,5 @@
 .transactionList{
+  @include shy-border();
   .noTransaction{
     background-color: $light-grey;
     text-align: center;

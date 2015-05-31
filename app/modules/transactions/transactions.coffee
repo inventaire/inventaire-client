@@ -40,6 +40,8 @@ API =
         if transac?
           lastTransactionId = transac.id
           app.vent.trigger 'transaction:select', transac
+        else
+          app.vent.trigger 'transactions:welcome'
       .catch _.Error('showFirstTransaction')
 
   showTransaction: (id)->

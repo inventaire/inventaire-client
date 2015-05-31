@@ -1,5 +1,6 @@
 Transaction = require 'modules/transactions/views/transaction'
 TransactionsList = require 'modules/transactions/views/transactions_list'
+TransactionsWelcome = require './transactions_welcome'
 folders = require '../lib/folders'
 foldersNames = Object.keys folders
 
@@ -13,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @listenTo app.vent, 'transaction:select', @showTransactionFull.bind(@)
+    @listenTo app.vent, 'transactions:welcome', @showTransactionWelcome.bind(@)
 
   serializeData: ->
     folders: folders
@@ -41,3 +43,6 @@ module.exports = Marionette.LayoutView.extend
     region = e.currentTarget.htmlFor
     $(e.currentTarget).toggleClass 'toggled'
     $("##{region}").slideToggle(200)
+
+  showTransactionWelcome: ->
+    @fullviewRegion.show new TransactionsWelcome
