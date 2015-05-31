@@ -1,5 +1,6 @@
 ItemComments = require './item_comments'
 EntityData = require 'modules/entities/views/entity_data'
+itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
 
 module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
@@ -20,6 +21,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     commentsRegion: '#comments'
 
   behaviors:
+    PreventDefault: {}
     ConfirmationModal: {}
     ElasticTextarea: {}
 
@@ -32,7 +34,9 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     @listenTo @model, 'change:notes', @render
     @listenTo @model, 'add:pictures', @render
 
-  initPlugins: -> itemUpdaters.call(@)
+  initPlugins: ->
+    itemActions.call(@)
+    itemUpdaters.call(@)
 
   onRender: ->
     @showEntityData()

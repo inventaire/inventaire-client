@@ -7,6 +7,7 @@ module.exports = Marionette.CompositeView.extend
   initialize: ->
     @folder = @options.folder
     @filter = @pickFilter()
+    @listenTo app.vent, 'transactions:folder:change', @render.bind()
 
   serializeData: ->
     attrs = {}

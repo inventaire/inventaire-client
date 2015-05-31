@@ -9,6 +9,7 @@ Filterable = require 'modules/general/models/filterable'
 Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
+lastState = require '../lib/last_state'
 
 module.exports = Filterable.extend
   url: -> app.API.transactions
@@ -16,13 +17,14 @@ module.exports = Filterable.extend
     @grabLinkedModels()
     @buildTimeline()
     @fetchMessages()
-    @findStatus()
+    @setArchivedStatus()
 
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
     @once 'grab:owner', @setNextActions.bind(@)
     @once 'grab:requester', @setNextActions.bind(@)
     @on 'change:state', @setNextActions.bind(@)
+    @on 'change:state', @setArchivedStatus.bind(@)
 
   grabLinkedModels: ->
     @reqGrab 'get:item:model', @get('item'), 'item'
@@ -123,7 +125,10 @@ module.exports = Filterable.extend
   backup: -> @_backup = @toJSON()
   restore: -> @set @_backup
 
-  findStatus: ->
-    if @get('transaction') is 'lending' then lastState = 'returned'
-    else lastState = 'confirmed'
-    @archived = @get('state') is lastState
+  setArchivedStatus: ->
+    previousStatus = @archived
+    @archived = @isArchived()
+    if @archived isnt previousStatus
+      app.vent.trigger 'transactions:folder:change'
+
+  isArchived: -> @get('state') in lastState[@get('transaction')]
