@@ -1,5 +1,6 @@
 TransactionsLayout = require './views/transactions_layout'
 RequestItemModal = require './views/request_item_modal'
+initHelpers = require('./helpers')
 lastTransactionId = null
 
 module.exports =
@@ -24,7 +25,7 @@ module.exports =
     app.reqres.setHandlers
       'last:transaction:id': -> lastTransactionId
 
-    require('./helpers')()
+    initHelpers()
 
 API =
   showTransactions: ->
@@ -39,7 +40,11 @@ API =
       .then (transac)->
         if transac?
           lastTransactionId = transac.id
-          app.vent.trigger 'transaction:select', transac
+          # replacing the url to avoid being unable to hit 'previous'
+          # as previous would be '/transactions' which would redirect again
+          # to the first transaction
+          replace = true
+          app.vent.trigger 'transaction:select', transac, replace
         else
           app.vent.trigger 'transactions:welcome'
       .catch _.Error('showFirstTransaction')
@@ -70,9 +75,10 @@ triggerTransactionSelect = (id)->
   else app.execute 'show:404'
 
 
-updateTransactionRoute = (transaction)->
+updateTransactionRoute = (transaction, replace)->
   { id } = transaction
-  app.navigate "transactions/#{id}"
+  if replace then app.navigateReplace "transactions/#{id}"
+  else app.navigate "transactions/#{id}"
 
 findFirstTransaction = ->
   firstTransac = null
