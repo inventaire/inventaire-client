@@ -1,6 +1,10 @@
 Filterable = require 'modules/general/models/filterable'
 
 module.exports = User = Filterable.extend
+  initialize: ->
+    username = @get 'username'
+    @set 'pathname', "/inventory/#{username}"
+
   asMatchable: ->
     [
       @get('username')
@@ -8,7 +12,6 @@ module.exports = User = Filterable.extend
 
   serializeData: ->
     attrs = @toJSON()
-    attrs.pathname = "/inventory/#{attrs.username}"
     relationStatus = attrs.status
     # converting the status into a boolean for templates
     attrs[relationStatus] = true

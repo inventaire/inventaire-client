@@ -30,4 +30,5 @@ module.exports = MainUser = Filterable.extend
   serializeData: ->
     attrs = @toJSON()
     attrs.mainUser = true
+    attrs.pathname = "/inventory/#{attrs.username}"
     return attrs

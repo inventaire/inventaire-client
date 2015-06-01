@@ -8,6 +8,7 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     AlertBox: {}
     ElasticTextarea: {}
+    PreventDefault: {}
 
   initialize: ->
     @lazyRender = _.debounce @render.bind(@), 200
@@ -37,6 +38,8 @@ module.exports = Marionette.CompositeView.extend
     'click .confirm': 'confirm'
     'click .returned': 'returned'
     'click .archive': 'archive'
+    'click .item': 'showItem'
+    'click .owner': 'showOwner'
 
   sendMessage: ->
     @postMessage 'transaction:post:message', @model.timeline
@@ -53,3 +56,11 @@ module.exports = Marionette.CompositeView.extend
       err.selector = '.actions'
       throw err
     .catch forms_.catchAlert.bind(null, @)
+
+  showItem: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:item:show:from:model', @model.item
+
+  showOwner: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:inventory:user', @model.owner

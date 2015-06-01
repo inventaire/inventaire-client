@@ -2,6 +2,9 @@
 # the interest mixing those is to allow those views to be displayed
 # on chronological order within the transaction timeline
 module.exports = Marionette.ItemView.extend
+  behaviors:
+    PreventDefault: {}
+
   initialize: ->
     @isMessage = @model.get('message')?
     @setClassNames()
@@ -23,6 +26,9 @@ module.exports = Marionette.ItemView.extend
   modelEvents:
     'grab': 'render'
 
+  events:
+    'click .username': 'showOtherUser'
+
   # hide avatar on successsive messages from the same user
   sameUser: ->
     return  unless @isMessage
@@ -33,3 +39,7 @@ module.exports = Marionette.ItemView.extend
 
     if prev.get('user') is @model.get('user')
       return true
+
+  showOtherUser: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:inventory:user', @model.transaction?.otherUser()

@@ -30,7 +30,12 @@ module.exports = Backbone.Model.extend
   userAction: (user)->
     _.i18n "#{user}_user_#{@action}", { username: @otherUsername() }
 
-  otherUsername: -> @transaction.otherUser()?.get('username')
+  otherUsername: ->
+    # injecting an html anchor instead of just a username string
+    if @transaction?.otherUser()?
+      username = @transaction.otherUser()?.get 'username'
+      href = @transaction.otherUser()?.get 'pathname'
+      return "<a href='#{href}' class='username'>#{username}</a>"
 
 ownerActions = [
   'accepted'

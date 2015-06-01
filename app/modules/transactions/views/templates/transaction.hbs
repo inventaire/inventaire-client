@@ -1,18 +1,20 @@
 <div class="header">
   <div class="facts">
-    <div class="item">
+    <a class="item" href="{{item.pathname}}">
       <div class="cover">
         {{#if item.pictures}}
           <img src="{{src item.pictures 48}}" alt="{{item.title}}">
         {{/if}}
       </div>
       <h4 class="title">{{item.title}}</h4>
-    </div>
+    </a>
     <div class="context {{item.transaction}}">
       {{icon icon}}
       {{{context}}}
       {{#if owner.picture}}
-        <img src="{{src owner.picture 48}}">
+        <a href="{{owner.pathname}}" class="owner">
+          <img src="{{src owner.picture 48}}">
+        </a>
       {{/if}}
     </div>
   </div>
