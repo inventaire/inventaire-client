@@ -16,19 +16,17 @@ module.exports = Backbone.Model.extend
       when 'returned' then 'check'
       else _.warn @, 'unknown action', true
 
-  context: (withLink)->
+  context: (withLink)-> @userAction @findUser(), withLink
+  findUser: ->
     if @transaction?.owner?
       if @transaction.mainUserIsOwner
-        if @action in ownerActions then @mainUserAction(withLink)
-        else @otherUserAction(withLink)
+        if @action in ownerActions then 'user' else 'other'
       else
-        if @action in ownerActions then @otherUserAction(withLink)
-        else @mainUserAction(withLink)
+        if @action in ownerActions then 'other' else 'user'
 
-  mainUserAction: (withLink)-> @userAction 'main', withLink
-  otherUserAction: (withLink)-> @userAction 'other', withLink
   userAction: (user, withLink)->
-    _.i18n "#{user}_user_#{@action}", { username: @otherUsername(withLink) }
+    if user?
+      _.i18n "#{user}_user_#{@action}", { username: @otherUsername(withLink) }
 
   otherUsername: (withLink)->
     # injecting an html anchor instead of just a username string
