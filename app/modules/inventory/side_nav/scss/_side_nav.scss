@@ -42,9 +42,7 @@
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
   #sideNav{
-    position: fixed;
-    top: $topbar-height;
-    bottom: 0;
+    @include position(fixed, $topbar-height, null, 0);
     margin-right: 2px;
   }
   #two{

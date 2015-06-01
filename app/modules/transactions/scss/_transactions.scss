@@ -34,9 +34,7 @@ $transaction-list-width: 20em;
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     #list{
-      position: fixed;
-      top: $topbar-height;
-      bottom: 0;
+      @include position(fixed, $topbar-height, null, 0);
       width: $transaction-list-width;
       overflow-y: auto;
     }

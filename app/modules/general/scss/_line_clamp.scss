@@ -9,9 +9,7 @@
 
 .clamped:before  {
   background: inherit;
-  bottom: 0;
-  position: absolute;
-  right: 0;
+  @include position(absolute, null, 0, 0);
   content: '\2026';
 }
 

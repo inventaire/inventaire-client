@@ -17,3 +17,12 @@
     }
   }
 }
+
+@mixin position($position, $top:null, $right:null, $bottom:null, $left:null, $z:null){
+  position: $position;
+  @if $top { top: $top; }
+  @if $right { right: $right; }
+  @if $bottom { bottom: $bottom; }
+  @if $left { left: $left; }
+  @if $z { z-index: $z; }
+}

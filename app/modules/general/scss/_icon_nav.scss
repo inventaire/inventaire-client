@@ -5,9 +5,7 @@
   }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    position: fixed;
-    top: $topbar-height;
-    bottom: 0;
+    @include position(fixed, $topbar-height, null, 0);
     width: $iconNavWidth;
   }
   // when the window is resized, an horizontal scroll may appear

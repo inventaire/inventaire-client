@@ -28,9 +28,7 @@ $sideNavWidth: 250px;
     }
     #controls{
       @include shy(0.9);
-      position: fixed;
-      bottom: 0;
-      right:0;
+      @include position(fixed, null, 0, 0);
     }
   }
 }
