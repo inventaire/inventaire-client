@@ -14,6 +14,7 @@ lastState = require '../lib/last_state'
 module.exports = Filterable.extend
   url: -> app.API.transactions
   initialize: ->
+    @set 'pathname', "/transactions/#{@id}"
     @grabLinkedModels()
     @buildTimeline()
     @fetchMessages()

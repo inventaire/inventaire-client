@@ -18,14 +18,18 @@
     </a>
   </div>
 </div>
+
 <div class="itemData">
-  <div class="leftBox panel">
-    {{partial 'inventory:item_user_box' this}}
-    <div class="settings itemBox">
-      {{partial 'inventory:item_transaction_box' this}}
-      {{partial 'inventory:item_visibility_box' this}}
-      {{partial 'inventory:item_request_box' this}}
+  <div class="leftBox">
+    <div class="panel">
+      {{partial 'inventory:item_user_box' this}}
+      <div class="settings itemBox">
+        {{partial 'inventory:item_transaction_box' this}}
+        {{partial 'inventory:item_visibility_box' this}}
+        {{partial 'inventory:item_request_box' this}}
+      </div>
     </div>
+    <div id="transactions"></div>
   </div>
   <div class="rightBox">
     {{#if restricted}}

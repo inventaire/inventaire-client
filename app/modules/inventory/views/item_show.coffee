@@ -1,4 +1,5 @@
 ItemComments = require './item_comments'
+ItemTransactions = require './item_transactions'
 EntityData = require 'modules/entities/views/entity_data'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
@@ -18,6 +19,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
   regions:
     entityRegion: '#entity'
     pictureRegion: '#picture'
+    transactionsRegion: '#transactions'
     commentsRegion: '#comments'
 
   behaviors:
@@ -43,6 +45,9 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
     @showPicture()
     app.execute('foundation:reload')
     @showComments()
+
+  onShow: ->
+    @showTransactions()
 
   showEntityData: ->
     { entityModel } = @model
@@ -110,3 +115,7 @@ module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
 
   showComments:->
     @commentsRegion.show new ItemComments { model: @model }
+
+  showTransactions: ->
+    transactions = app.request 'get:transactions:byItemId', @model.id
+    @transactionsRegion.show new ItemTransactions { collection: transactions }

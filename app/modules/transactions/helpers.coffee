@@ -7,13 +7,14 @@ module.exports = ->
     'get:transaction:byId': API.getTransaction
     'transaction:post:message': API.postMessage
 
+  app.request('waitForUserData').then initLateHelpers
 
 API =
   addTransaction: (transaction)->
     app.user.transactions.add transaction
 
   getTransaction: (id)->
-    app.user.transactions.byId(id)
+    app.user.transactions.byId id
 
   postMessage: (transactionId, message, timeline)->
     messegeData =
@@ -37,3 +38,14 @@ addMessageToTimeline = (messegeData, timeline)->
   timeline.add mesModel
   return mesModel
 
+initLateHelpers = ->
+  if app.user.transactions?
+    filtered = new FilteredCollection app.user.transactions
+
+    getTransactionsByItemId = (itemId)->
+      filtered.resetFilters()
+      filtered.filterBy 'item', (transac)-> transac.get('item') is itemId
+      return filtered
+
+    app.reqres.setHandlers
+      'get:transactions:byItemId': getTransactionsByItemId

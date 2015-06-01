@@ -68,6 +68,14 @@
           }
         }
       }
+      .transactionPreview{
+        .showTransaction{
+          @include display-flex(row, center, space-between);
+          @include bg-hover($light-grey);
+          padding-right: 0.2em;
+          max-width: 15em;
+        }
+      }
     }
     .rightBox{
       width: 100%;

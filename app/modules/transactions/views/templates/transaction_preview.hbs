@@ -1,14 +1,27 @@
-<div>
-  {{#if other.picture}}
-    <img src="{{src other.picture 48}}">
+<a href="{{pathname}}" class="showTransaction">
+  {{#if onItem}}
+    <div>
+      {{#if requester.picture}}
+        <img src="{{src requester.picture 48}}">
+      {{/if}}
+    </div>
+    <div class="text">
+      <span class="context">{{{requestContext}}}</span>
+    </div>
+  {{else}}
+    <div>
+      {{#if other.picture}}
+        <img src="{{src other.picture 48}}">
+      {{/if}}
+    </div>
+    <div class="text">
+      <span class="title">{{item.title}}</span>
+      <span class="context">{{other.username}}</span>
+    </div>
+    <div>
+      {{#if item.pictures}}
+        <img src="{{src item.pictures 48}}" alt="{{item.title}}">
+      {{/if}}
+    </div>
   {{/if}}
-</div>
-<div class="text">
-  <span class="title">{{item.title}}</span>
-  <span class="context">{{other.username}}</span>
-</div>
-<div>
-  {{#if item.pictures}}
-    <img src="{{src item.pictures 48}}" alt="{{item.title}}">
-  {{/if}}
-</div>
+</a>
