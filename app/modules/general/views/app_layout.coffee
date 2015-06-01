@@ -5,6 +5,7 @@ documentLang = require '../lib/document_lang'
 showViews = require '../lib/show_views'
 IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
+initDynamicBackground = require '../lib/dynamic_background'
 
 module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -17,6 +18,9 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     accountMenu: '#accountMenu'
     modal: '#modalContent'
     joyride: '#joyride'
+
+  ui:
+    bg: '#bg'
 
   events:
     'submit form': (e)-> e.preventDefault()
@@ -44,7 +48,6 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     app.commands.setHandlers
       'show:loader': @showLoader
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
-      'bg:book:toggle': -> $('main').toggleClass('book-bg')
       'current:username:set': @setCurrentUsername
       'current:username:hide': @hideCurrentUsername
       'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
@@ -57,6 +60,7 @@ module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
     documentLang.keepBodyLangUpdated.call(@)
 
     initIconNavHandlers.call(@)
+    initDynamicBackground.call(@)
 
   serializeData: ->
     topbar: @topBarData()

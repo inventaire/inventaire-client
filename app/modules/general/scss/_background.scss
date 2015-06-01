@@ -1,15 +1,7 @@
-.bg-cover-commons{
+@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
   background-size: cover;
   background-position: center center;
   transition: background 0.5s ease;
-}
-
-@mixin bg-cover($url){
-  @extend .bg-cover-commons;
-  background-image: url($url);
-}
-
-@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
   @extend .bg-cover-commons;
   /*Small screens*/
   @media screen and (max-width: 500px) {
@@ -26,8 +18,18 @@
   }
 }
 
-.book-bg{
-  @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
-  @include flex(1);
-  @include display-flex();
+#bg{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  // default background
+  background-color: $main-bg;
+  transition: background 0.5s ease;
+  &.cover{
+    // cover background added for whitelisted routes
+    @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
+  }
 }

@@ -1,6 +1,5 @@
 module.exports = Error = Backbone.Marionette.LayoutView.extend
   id: 'error'
-  className: 'text-center'
   template: require './templates/error'
   behaviors:
     PreventDefault: {}
@@ -14,3 +13,5 @@ module.exports = Error = Backbone.Marionette.LayoutView.extend
     unless _.isOpenedOutside(e)
       {buttonAction} = @options.redirection
       if _.isFunction(buttonAction) then buttonAction()
+
+  onShow: -> app.execute 'background:cover'

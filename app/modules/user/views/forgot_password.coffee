@@ -3,8 +3,8 @@ forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
+  className: 'authMenu login'
   template: require './templates/forgot_password'
-  className: 'book-bg'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}

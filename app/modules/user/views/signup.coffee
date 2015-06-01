@@ -2,7 +2,7 @@ SignupClassic = require './signup_classic'
 SignupPersona = require './signup_persona'
 
 module.exports = Backbone.Marionette.LayoutView.extend
-  className: 'book-bg'
+  className: 'authMenu signup'
   template: require './templates/signup'
   regions:
     classic: '#classic'

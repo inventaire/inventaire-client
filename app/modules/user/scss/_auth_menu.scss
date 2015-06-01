@@ -3,16 +3,11 @@ $tooltip-font-size: 1em;
 $auth-menu-bg: rgba($light-grey, 0.8);
 
 .authMenu{
-  @include flex(1);
-  margin: auto;
-  font-family: 'Alegreya Sans';
-  font-size: 1em;
+  min-height: 80vh;
   .custom-cell{
     background-color: $auth-menu-bg;
-    border-radius: $global-radius;
+    @include radius();
     padding: 1em 2em 2em 2em;
-    margin-bottom: 2em;
-    width: 90%;
     text-align: center;
   }
   a.button{

@@ -5,8 +5,7 @@ forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
-  className: 'book-bg'
-  tagName: 'div'
+  className: 'authMenu login'
   template: require './templates/login'
   events:
     'blur #username': 'earlyVerifyUsername'

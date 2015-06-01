@@ -3,18 +3,13 @@ forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Backbone.Marionette.ItemView.extend
+  className: 'authMenu login'
+  template: require './templates/reset_password'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
     Loading: {}
     TogglePassword: {}
-
-  template: require './templates/reset_password'
-  className: 'book-bg'
-
-  serializeData: ->
-    passwordLabel: 'new password'
-    username: app.user.get('username')
 
   ui:
     password: '#password'
@@ -25,6 +20,9 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click #updatePassword': 'updatePassword'
     'click #forgotPassword': -> app.execute 'show:forgot:password'
 
+  serializeData: ->
+    passwordLabel: 'new password'
+    username: app.user.get('username')
 
   updatePassword: ->
     password = @ui.password.val()

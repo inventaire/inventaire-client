@@ -19,3 +19,12 @@
 
 // scss debugging helper: keep commented-out when not used
 // @import "debug"
+
+
+// Foundation overrides
+body{
+  // when $include-html-global-classes is true
+  // Foundation sets html, body { height: 100%; } (among other things)
+  // which make a vertical scroll-bar appear
+  height: auto;
+}

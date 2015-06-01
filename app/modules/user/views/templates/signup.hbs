@@ -1,25 +1,22 @@
-<div class="authMenu signup">
-  <div class="custom-cell">
-    <h2 class="subheader">{{i18n 'sign up'}}</h2>
+<div class="custom-cell">
+  <h2 class="subheader">{{i18n 'sign up'}}</h2>
 
-    <div id="signupModes">
+  <div id="signupModes">
 
-      <div>
-        <h3 class="subheader">{{i18n 'classic'}}</h3>
-        <div id="classic"></div>
-      </div>
+    <div>
+      <h3 class="subheader">{{i18n 'classic'}}</h3>
+      <div id="classic"></div>
+    </div>
 
-      {{#if smallscreen}}
-        {{partial 'horizontal_separator' 'or'}}
-      {{else}}
-        {{partial 'vertical_separator' 'or'}}
-      {{/if}}
+    {{#if smallscreen}}
+      {{partial 'horizontal_separator' 'or'}}
+    {{else}}
+      {{partial 'vertical_separator' 'or'}}
+    {{/if}}
 
-      <div>
-        <h3 class="subheader">{{i18n 'alternative'}}</h3>
-        <div id="persona"></div>
-      </div>
-
+    <div>
+      <h3 class="subheader">{{i18n 'alternative'}}</h3>
+      <div id="persona"></div>
     </div>
 
   </div>

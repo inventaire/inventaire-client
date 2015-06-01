@@ -3,8 +3,6 @@ forms_ = require 'modules/general/lib/forms'
 
 module.exports = Backbone.Marionette.ItemView.extend
   template: require './templates/signup_persona'
-  className: ->
-    if @options.standalone then 'book-bg'
   behaviors:
     AlertBox: {}
 

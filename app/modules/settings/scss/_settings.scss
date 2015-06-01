@@ -1,5 +1,4 @@
 #settings{
-  @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
   .custom-column{
     @include custom-column(38em);
   }
@@ -15,19 +14,7 @@
   .button{
     font-weight: bold;
   }
-
-  /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-  }
-
-
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-    // force the div's height so that the background
-    // doesnt move when the div's height change
-    // e.g. when an alert-box is displayed
-    min-height: 90em;
-  }
 }
+
 @import 'profile_settings';
 @import 'labs_settings';
