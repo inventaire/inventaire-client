@@ -20,9 +20,9 @@ module.exports = Backbone.Model.extend
   findUser: ->
     if @transaction?.owner?
       if @transaction.mainUserIsOwner
-        if @action in ownerActions then 'user' else 'other'
+        if @action in ownerActions then 'main' else 'other'
       else
-        if @action in ownerActions then 'other' else 'user'
+        if @action in ownerActions then 'other' else 'main'
 
   userAction: (user, withLink)->
     if user?
