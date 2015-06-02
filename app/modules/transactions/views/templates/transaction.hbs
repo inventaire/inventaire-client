@@ -3,7 +3,7 @@
     <a class="item" href="{{item.pathname}}">
       <div class="cover">
         {{#if item.pictures}}
-          <img src="{{src item.pictures 48}}" alt="{{item.title}}">
+          <img src="{{src item.pictures 100}}" alt="{{item.title}}">
         {{/if}}
       </div>
       <h4 class="title">{{item.title}}</h4>
@@ -13,7 +13,7 @@
       {{{context}}}
       {{#if owner.picture}}
         <a href="{{owner.pathname}}" class="owner">
-          <img src="{{src owner.picture 48}}">
+          <img src="{{src owner.picture 100}}">
         </a>
       {{/if}}
     </div>

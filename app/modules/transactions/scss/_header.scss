@@ -3,17 +3,10 @@
   padding: 1em;
   @include radius-top();
   background-color: white;
-  .title{
-    font-size: 1.2em;
-    // in case the title is very long
-    max-height: 3em;
-    overflow: hidden;
-  }
 }
 .facts{
   padding: 1em;
   @include display-flex(row, center, space-between);
-  height: 3em;
   .item{
     @include display-flex(row, center, center);
     .cover{
@@ -22,9 +15,13 @@
         padding-right: 0.2em;
       }
     }
-  }
-  h4{
-    display: inline;
+    .title{
+      font-size: 1.2em;
+      // in case the title is very long
+      max-height: 5em;
+      overflow: hidden;
+      margin-left: 0.2em;
+    }
   }
 }
 .context{
@@ -36,4 +33,7 @@
   &.giving{ .fa{ background-color: $giving-color; } }
   &.lending{ .fa{ background-color: $lending-color; } }
   &.selling{ .fa{ background-color: $selling-color; } }
+  .owner{
+    margin-left: 0.2em;
+  }
 }

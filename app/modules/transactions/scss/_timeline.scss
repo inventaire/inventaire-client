@@ -12,7 +12,7 @@
       opacity: 0.5;
       padding-right: 0.5em;
     }
-    .username{
+    .username:hover{
       @include link();
     }
   }
