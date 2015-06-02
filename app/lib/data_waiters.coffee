@@ -1,8 +1,12 @@
 module.exports = ->
 
-  Waiter = (ready, eventName)->
+  # 'ready' should be function so that its value isn't blocked
+  # to its value when Waiters reqres are defined
+  # (i.e. necessarly false or undefined) while the first call might
+  # be well after the event occured
+  Waiter = (eventName, ready)->
     fn = ->
-      if ready then _.preq.resolve()
+      if ready() then return _.preq.resolve()
       else
         def = Promise.defer()
         app.vent.once eventName, def.resolve.bind(def)
@@ -23,8 +27,8 @@ module.exports = ->
       return def.promise
 
   app.reqres.setHandlers
-    'waitForData': Waiter app.data.ready, 'data:ready'
-    'waitForData:after': Waiter app.data.ready, 'data:ready:after'
-    'waitForUserData': Waiter app.user?.fetched, 'user:ready'
-    'waitForFriendsItems': Waiter Items?.friends?.fetched, 'friends:items:ready'
+    'waitForData': Waiter 'data:ready', -> app.data.ready
+    'waitForData:after': Waiter 'data:ready:after', -> app.data.ready
+    'waitForUserData': Waiter 'user:ready', -> app.user?.fetched
+    'waitForFriendsItems': Waiter 'friends:items:ready', -> Items?.friends?.fetched
     'waitForItems': _.once waitForItems
