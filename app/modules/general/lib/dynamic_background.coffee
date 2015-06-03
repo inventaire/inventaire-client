@@ -5,7 +5,6 @@ module.exports = ->
 
   setBackgroundFromRoute = (route)->
     root = route.split('/')[0]
-    console.log 'route', route, root
     if root in coverBgRoots then setCoverBg()
     else setNormalBg()
 

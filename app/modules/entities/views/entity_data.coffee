@@ -1,4 +1,4 @@
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/entity_data'
   className: 'entityPanel'
   initialize: (options)->

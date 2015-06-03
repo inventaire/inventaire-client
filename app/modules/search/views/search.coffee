@@ -8,7 +8,7 @@ wd_ = app.lib.wikidata
 books_ = app.lib.books
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = Search = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   id: 'searchLayout'
   template: require './templates/search'
   behaviors:

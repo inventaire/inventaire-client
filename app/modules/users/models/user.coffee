@@ -1,6 +1,6 @@
 Filterable = require 'modules/general/models/filterable'
 
-module.exports = User = Filterable.extend
+module.exports = Filterable.extend
   initialize: ->
     username = @get 'username'
     @set 'pathname', "/inventory/#{username}"

@@ -1,4 +1,4 @@
-module.exports = Backbone.Marionette.CompositeView.extend
+module.exports = Marionette.CompositeView.extend
   template: require './templates/followed_entities_list'
   childView: require './followed_entity_li'
   className: 'followedEntitiesList'

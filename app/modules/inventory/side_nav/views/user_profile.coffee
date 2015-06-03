@@ -1,6 +1,6 @@
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = UserProfile = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/user_profile'
   events:
     'click a.unselectUser': 'unselectUser'

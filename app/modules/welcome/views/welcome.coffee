@@ -3,7 +3,7 @@ newsletterSusbscribe = require './newsletter_susbscribe'
 # required by newsletterSusbscribe
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = Welcome = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   id: 'welcome'
   template: require './templates/welcome'
   regions:

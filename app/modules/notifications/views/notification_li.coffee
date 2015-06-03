@@ -1,4 +1,4 @@
-module.exports = NotificationLi = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: ->
     status = @model.get('status')

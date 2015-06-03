@@ -1,4 +1,4 @@
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/find_by_isbn'
   className: 'findByIsbn'
   serializeData: ->

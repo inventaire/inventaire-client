@@ -1,5 +1,5 @@
-module.exports = UserLi = Backbone.Marionette.ItemView.extend
-  tagName: "li"
+module.exports = Marionette.ItemView.extend
+  tagName: 'li'
   template: require './templates/user_li'
   className: ->
     status = @model.get('status')

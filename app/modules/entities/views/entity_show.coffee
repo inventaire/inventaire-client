@@ -1,7 +1,7 @@
 EntityData = require './entity_data'
 EntityActions = require './entity_actions'
 
-module.exports = EntityShow = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   className: 'entityShow custom-column'
   template: require './templates/entity_show'
   regions:

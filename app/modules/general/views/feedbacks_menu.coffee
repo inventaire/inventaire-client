@@ -1,6 +1,6 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/feedbacks_menu'
   className: 'feedbacksMenu'
   onShow: -> app.execute 'modal:open'

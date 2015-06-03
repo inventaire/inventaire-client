@@ -1,4 +1,4 @@
-module.exports = NoUser = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: 'text-center hidden'
   template: require './templates/no_user'

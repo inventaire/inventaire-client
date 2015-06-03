@@ -7,7 +7,7 @@ IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
 initDynamicBackground = require '../lib/dynamic_background'
 
-module.exports = AppLayout = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/app_layout'
 
   el: '#app'

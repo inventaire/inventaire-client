@@ -4,7 +4,7 @@ password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = ProfileSettings = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/profile_settings'
   className: 'profileSettings'
   behaviors:

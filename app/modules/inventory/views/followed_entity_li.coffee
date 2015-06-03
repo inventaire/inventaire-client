@@ -1,4 +1,4 @@
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: 'followedEntityLi'
   template: require './templates/followed_entity_li'

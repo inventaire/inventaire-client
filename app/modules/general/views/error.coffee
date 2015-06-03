@@ -1,4 +1,4 @@
-module.exports = Error = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   id: 'error'
   template: require './templates/error'
   behaviors:

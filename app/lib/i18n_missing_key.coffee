@@ -1,6 +1,6 @@
 missingKeys = []
 
-module.exports = missingKey = (key)->
+module.exports = (key)->
   missingKeys.push key
   lazyMissingKey()
 

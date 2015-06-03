@@ -1,6 +1,6 @@
-module.exports = Loading = Marionette.Behavior.extend
+module.exports = Marionette.Behavior.extend
   ui:
-    loading: ".loading, .check"
+    loading: '.loading, .check'
 
   events:
     'loading': 'showSpinningLoader'

@@ -1,6 +1,6 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/request_item_modal'
   className: 'requestItemModal'
   behaviors:

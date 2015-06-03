@@ -1,7 +1,7 @@
-module.exports = SuccessCheck = Marionette.Behavior.extend
+module.exports = Marionette.Behavior.extend
   events:
-    "check": "showSuccessCheck"
-    "fail": "showFail"
+    'check': 'showSuccessCheck'
+    'fail': 'showFail'
 
   showSuccessCheck: (e, cb)-> @showSignal e, cb, 'check-circle'
   showFail: (e, cb)-> @showSignal e, cb, 'times-circle'

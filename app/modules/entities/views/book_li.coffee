@@ -1,7 +1,7 @@
-module.exports = BookLi = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/book_li'
-  tagName: "li"
-  className: "bookLi"
+  tagName: 'li'
+  className: 'bookLi'
 
   initialize: ->
     @listenTo @model, 'change', @render

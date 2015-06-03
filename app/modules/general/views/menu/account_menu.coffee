@@ -3,7 +3,7 @@ NotificationsList = require 'modules/notifications/views/notifications_list'
 CommonEl = require 'modules/general/regions/common_el'
 scanner = require 'lib/scanner'
 
-module.exports = AccountMenu = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/account_menu'
   events:
     'click #name': -> app.execute 'show:inventory:user', app.user

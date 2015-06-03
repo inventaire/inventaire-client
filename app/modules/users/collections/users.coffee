@@ -1,4 +1,4 @@
-module.exports = Users = Backbone.Collection.extend
+module.exports = Backbone.Collection.extend
   model: require "../models/user"
   url: -> app.API.users.friends
 

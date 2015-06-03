@@ -4,7 +4,7 @@ EntityData = require 'modules/entities/views/entity_data'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
 
-module.exports =  ItemShow = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
   template: require './templates/item_show'
   serializeData: ->

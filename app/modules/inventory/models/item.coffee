@@ -1,6 +1,6 @@
 Filterable = require 'modules/general/models/filterable'
 
-module.exports = Item = Filterable.extend
+module.exports = Filterable.extend
   url: -> app.API.items.base
 
   validate: (attrs, options)->

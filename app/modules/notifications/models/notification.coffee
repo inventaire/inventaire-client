@@ -1,4 +1,4 @@
-module.exports = Notification = Backbone.NestedModel.extend
+module.exports = Backbone.NestedModel.extend
   initialize: ->
     @on 'change:status', @update
     if @get('data.item')?

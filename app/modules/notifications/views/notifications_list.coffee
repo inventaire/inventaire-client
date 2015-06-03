@@ -1,6 +1,6 @@
 ListWithCounter = require 'modules/general/views/menu/list_with_counter'
 
-module.exports = NotificationsList = ListWithCounter.extend
+module.exports = ListWithCounter.extend
   childView: require './notification_li'
   emptyView: require './no_notification'
   serializeData: ->

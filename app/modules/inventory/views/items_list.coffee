@@ -3,7 +3,7 @@ paginationPlugin = require 'modules/general/plugins/pagination'
 masonryPlugin = require 'modules/general/plugins/masonry'
 itemsPerPage = require 'modules/inventory/lib/items_per_pages'
 
-module.exports = Backbone.Marionette.CompositeView.extend
+module.exports = Marionette.CompositeView.extend
   className: 'itemsListWrapper'
   template: require './templates/items_list'
   childViewContainer: '.itemsList'

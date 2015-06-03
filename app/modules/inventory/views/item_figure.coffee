@@ -1,7 +1,7 @@
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
 
-module.exports = ItemLi = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
     @uniqueSelector = ".#{@cid}"

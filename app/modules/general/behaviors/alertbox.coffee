@@ -1,4 +1,4 @@
-module.exports = AlertBox = Marionette.Behavior.extend
+module.exports = Marionette.Behavior.extend
   ui:
     hasAlertbox: ".has-alertbox"
 

@@ -1,7 +1,7 @@
 Filterable = require 'modules/general/models/filterable'
 Transactions = require 'modules/transactions/collections/transactions'
 
-module.exports = MainUser = Filterable.extend
+module.exports = Filterable.extend
   url: ->
     app.API.user
 

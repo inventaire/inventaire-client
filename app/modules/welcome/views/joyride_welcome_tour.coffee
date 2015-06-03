@@ -1,4 +1,4 @@
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/joyride_welcome_tour'
   onShow: ->
     options =

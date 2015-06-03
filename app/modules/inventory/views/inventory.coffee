@@ -5,7 +5,7 @@ Controls = require './controls'
 # keep in sync with _controls.scss
 gridMinWidth = 750
 
-module.exports = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   id: 'inventory'
   template: require './templates/inventory'
   regions:

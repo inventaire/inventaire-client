@@ -4,7 +4,7 @@ password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/signup_classic'
   behaviors:
     AlertBox: {}

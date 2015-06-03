@@ -1,7 +1,7 @@
 username_ = require 'modules/user/lib/username_tests'
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/signup_persona'
   behaviors:
     AlertBox: {}

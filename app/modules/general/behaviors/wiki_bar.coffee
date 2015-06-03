@@ -1,6 +1,6 @@
-module.exports = WikiBar = Marionette.Behavior.extend
+module.exports = Marionette.Behavior.extend
   ui:
-    wpiframe: ".wikipedia-iframe"
+    wpiframe: '.wikipedia-iframe'
 
   events:
     'toggleWikiIframe': (e, ctx)-> toggleWikiIframe.call ctx

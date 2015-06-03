@@ -1,4 +1,4 @@
-module.exports = UsersList = Backbone.Marionette.CollectionView.extend
+module.exports = Marionette.CollectionView.extend
   tagName: 'ul'
   className: 'usersList'
   childView: require './user_li'

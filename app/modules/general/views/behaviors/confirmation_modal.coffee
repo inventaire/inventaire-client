@@ -1,5 +1,4 @@
-module.exports = ConfirmationModal = Backbone.Marionette.ItemView.extend
-  tagName: 'div'
+module.exports = Marionette.ItemView.extend
   template: require './templates/confirmation_modal'
   onShow: -> app.execute 'modal:open'
   behaviors:

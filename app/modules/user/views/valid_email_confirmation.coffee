@@ -1,5 +1,4 @@
-module.exports = Backbone.Marionette.ItemView.extend
-  tagName: 'div'
+module.exports = Marionette.ItemView.extend
   className: 'validEmailConfirmation'
   template: require './templates/valid_email_confirmation'
   behaviors:

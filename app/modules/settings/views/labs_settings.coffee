@@ -1,6 +1,6 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = LabsSettings = Backbone.Marionette.ItemView.extend
+module.exports = Marionette.ItemView.extend
   template: require './templates/labs_settings'
   className: 'labsSettings'
   behaviors:

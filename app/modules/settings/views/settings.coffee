@@ -1,7 +1,7 @@
 ProfileSettings = require './profile_settings'
 LabsSettings = require './labs_settings'
 
-module.exports = SettingsLayout = Backbone.Marionette.LayoutView.extend
+module.exports = Marionette.LayoutView.extend
   id: 'settings'
   template: require './templates/settings'
   regions:

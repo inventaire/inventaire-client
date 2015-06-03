@@ -2,7 +2,7 @@ wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 paginationPlugin = require 'modules/general/plugins/pagination'
 
-module.exports = AuthorLi = Backbone.Marionette.CompositeView.extend
+module.exports = Marionette.CompositeView.extend
   template: require './templates/author_li'
   tagName: 'li'
   className: 'authorLi'
