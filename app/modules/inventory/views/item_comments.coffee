@@ -38,9 +38,6 @@ module.exports = Marionette.CompositeView.extend
       @startLoading()
       @fetching.finally @stopLoading.bind(@)
 
-  onRender: ->
-    @ui.message.elastic()
-
   postComment: ->
     @postMessage 'comments:post', @model.comments
 
