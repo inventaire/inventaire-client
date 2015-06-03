@@ -79,7 +79,7 @@ API =
         _.preq.get app.API.items.publicById(itemId)
         .then _.Log('found item?')
         .then Items.public.add
-        .catch _.Error('findItemById err')
+    .catch _.Error('findItemById err')
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
