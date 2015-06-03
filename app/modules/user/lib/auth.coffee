@@ -77,6 +77,7 @@ redirect = ->
 # classic login finds the redirect parameter in form#browserLogin action
 prepareLoginRedirect = (redir)->
   _.type redir, 'string'
+  if redir[0] is '/' then redir = redir.slice(1)
   # for browserid login
   app.execute 'route:querystring:set', 'redirect', redir
   # for classic login

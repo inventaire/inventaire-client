@@ -57,7 +57,8 @@ API =
       .then triggerTransactionSelect.bind(null, id)
 
   showItemRequestModal: (model)->
-    app.layout.modal.show new RequestItemModal {model: model}
+    if app.request 'require:loggedIn', model.pathname
+      app.layout.modal.show new RequestItemModal {model: model}
 
 navigate =
   showTransactions: ->
