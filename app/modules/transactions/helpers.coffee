@@ -42,10 +42,11 @@ initLateHelpers = ->
   if app.user.transactions?
     filtered = new FilteredCollection app.user.transactions
 
-    getTransactionsByItemId = (itemId)->
+    getOngoingTransactionsByItemId = (itemId)->
       filtered.resetFilters()
-      filtered.filterBy 'item', (transac)-> transac.get('item') is itemId
+      filtered.filterBy 'item', (transac)->
+        transac.get('item') is itemId and not transac.archived
       return filtered
 
     app.reqres.setHandlers
-      'get:transactions:byItemId': getTransactionsByItemId
+      'get:transactions:ongoing:byItemId': getOngoingTransactionsByItemId

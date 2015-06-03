@@ -70,6 +70,7 @@ module.exports = Marionette.LayoutView.extend
     'click a#validateDetails': 'validateDetails'
     'click a#editNotes, a#cancelNotesEdition': 'toggleNotesEditor'
     'click a#validateNotes': 'validateNotes'
+    'click a.requestItem': -> app.execute 'show:item:request', @model
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
@@ -117,5 +118,5 @@ module.exports = Marionette.LayoutView.extend
     @commentsRegion.show new ItemComments { model: @model }
 
   showTransactions: ->
-    transactions = app.request 'get:transactions:byItemId', @model.id
+    transactions = app.request 'get:transactions:ongoing:byItemId', @model.id
     @transactionsRegion.show new ItemTransactions { collection: transactions }
