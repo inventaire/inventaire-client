@@ -1,0 +1,30 @@
+.action{
+  .context{
+    // above the timeline vertical bar
+    z-index: 2;
+    background-color: white;
+  }
+  .fa{
+    color: $dark-grey;
+    @extend .event-icon;
+  }
+  padding: 1em 0em 1em 0.2em;
+  .time{
+    opacity: 0.5;
+    padding-right: 0.5em;
+  }
+  .username:hover{
+    @include link();
+  }
+  /*Small screens*/
+  @media screen and (max-width: 600px) {
+    @include display-flex(column);
+    .time{
+      margin-left: auto;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: 600px) {
+    @include display-flex(row, center, space-between);
+  }
+}

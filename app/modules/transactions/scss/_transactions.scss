@@ -5,6 +5,7 @@ $transaction-list-width: 20em;
     background-color: #fefefe;
     label{
       color: $grey;
+      margin-left: 0.2em;
       font-size: 1em;
       @include sans-serif();
       text-transform: uppercase;
@@ -14,21 +15,12 @@ $transaction-list-width: 20em;
         }
       }
     }
-    h4{
-      color: $grey;
-      font-size: 1.1em;
-      @include sans-serif();
-      text-transform: uppercase;
-    }
-    section{
-      margin-bottom: 1em;
-
-    }
   }
-  @import "transactions_list";
-  @import "transaction";
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
+    #list{
+        margin-bottom: 1em;
+    }
   }
 
   /*Large screens*/
@@ -37,6 +29,9 @@ $transaction-list-width: 20em;
       @include position(fixed, $topbar-height, null, 0);
       width: $transaction-list-width;
       overflow-y: auto;
+      section{
+        margin-bottom: 1em;
+      }
     }
     #fullview{
       margin-left: $transaction-list-width;
@@ -44,5 +39,7 @@ $transaction-list-width: 20em;
   }
 }
 
+@import "transactions_list";
+@import "transaction";
 @import "request_item_modal";
 @import "transactions_welcome";

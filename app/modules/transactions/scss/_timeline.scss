@@ -1,50 +1,8 @@
 .timeline{
   padding-left: 1.2em;
   padding-right: 1em;
-  .action{
-    .fa{
-      color: $dark-grey;
-      @extend .event-icon;
-    }
-    padding: 1em 0em 1em 0.2em;
-    @include display-flex(row, center, space-between);
-    .time{
-      opacity: 0.5;
-      padding-right: 0.5em;
-    }
-    .username:hover{
-      @include link();
-    }
-  }
-}
-
-.message{
-  @include display-flex(row);
-  .avatar{
-    @include flex(0, 0, 36px);
-    &:not(.sameUser){
-      margin-top: 0.8em;
-      @extend .event-icon;
-    }
-  }
-  .rest{
-    @include radius();
-    background-color: #f7f7f7;
-    margin-left: 0.2em;
-    padding: 0.5em;
-    padding-left: 1em;
-    @include flex(1);
-    span{
-      display: block;
-    }
-    &:not(.sameUser){
-      margin-top: 1em;
-    }
-  }
-  .time{
-    float: right;
-    opacity: 0.5;
-  }
+  @import './action';
+  @import './message';
 }
 
 $timeline-bar-color: #bbb;

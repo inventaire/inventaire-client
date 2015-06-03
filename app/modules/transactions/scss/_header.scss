@@ -1,12 +1,16 @@
 .header{
   @include radius();
-  padding: 1em;
   @include radius-top();
   background-color: white;
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 1em;
+  }
 }
 .facts{
-  padding: 1em;
-  @include display-flex(row, center, space-between);
   .item{
     @include display-flex(row, center, center);
     .cover{
@@ -22,6 +26,22 @@
       overflow: hidden;
       margin-left: 0.2em;
     }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    padding: 0.2em;
+    @include display-flex(row, center, space-around, wrap);
+    .context{
+      // @include display-flex(row, center, space-between);
+      img{
+        max-width: 15vw;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    @include display-flex(row, center, space-between);
+    padding: 1em;
   }
 }
 .context{
