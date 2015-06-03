@@ -160,4 +160,13 @@ module.exports = (Backbone, _, app, window)->
 
     escapeKeyPressed: (e)-> e.keyCode is 27
 
+    # calling a section the first part of the route matching to a module
+    # ex: for '/inventory/bla/bla', the section is 'inventory'
+    routeSection: (route)->
+      # split on the first non-alphabetical character
+      route.split(/[^\w]/)[0]
+
+    currentSection: ->
+      _.routeSection location.pathname.slice(1)
+
   return _.extend {}, utils, loggers

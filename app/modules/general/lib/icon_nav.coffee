@@ -14,9 +14,8 @@ module.exports = ->
     'icon:nav:show': show
     'icon:nav:hide': hide
 
-  @listenTo app.vent, 'route:navigate', (route)->
-    root = route.split('/')[0]
-    if root in noIconNavRoutes then hide()
+  @listenTo app.vent, 'route:navigate', (section)->
+    if section in noIconNavRoutes then hide()
 
 
 noIconNavRoutes = [

@@ -15,13 +15,12 @@ module.exports = Marionette.ItemView.extend
     settings: '.settings'
 
   onShow: ->
-    # app.commands.setHandler 'icon:nav:selected', @selectButton.bind(@)
-    @selectButtonFromRoute location.pathname.slice(1)
+    @selectButtonFromRoute _.currentSection()
     @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
 
-  selectButtonFromRoute: (route)->
-    root = route.split('/')[0]
-    switch root
+  selectButtonFromRoute: (section)->
+    @unselectAll()
+    switch section
       when 'dashboard' then @selectButton 'user'
       when 'inventory' then @selectButton 'friends'
       when 'settings' then @selectButton 'settings'

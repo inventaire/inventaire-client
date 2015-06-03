@@ -3,13 +3,12 @@ module.exports = ->
   setCoverBg = @ui.bg.addClass.bind(@ui.bg, 'cover')
   setNormalBg = @ui.bg.removeClass.bind(@ui.bg, 'cover')
 
-  setBackgroundFromRoute = (route)->
-    root = route.split('/')[0]
-    if root in coverBgRoots then setCoverBg()
+  setBackgroundFromRoute = (section)->
+    if section in coverBgRoots then setCoverBg()
     else setNormalBg()
 
   # set background with the first route
-  setBackgroundFromRoute location.pathname.slice(1)
+  setBackgroundFromRoute _.currentSection()
   # then update it on route changes
   app.vent.on 'route:navigate', setBackgroundFromRoute
 
