@@ -68,17 +68,23 @@ requestPersonaLogin = (assertion)->
   .then redirect
 
 redirect = ->
-  redirect = app.request('route:querystring:get', 'redirect')
-  if redirect? then redirect = "/#{redirect}"
-  else redirect = '/'
-  window.location.href = redirect
+  redir = app.request('route:querystring:get', 'redirect')
+  if redir? then redir = "/#{redir}"
+  else redir = '/'
+  window.location.href = redir
 
 # browserid login finds the redirect parameter in the querystring
 # classic login finds the redirect parameter in form#browserLogin action
-prepareLoginRedirect = (redirect)->
-  _.type redirect, 'string'
-  app.execute 'route:querystring:set', 'redirect', redirect
-  $('#browserLogin')[0].action += "&redirect=#{redirect}"
+prepareLoginRedirect = (redir)->
+  _.type redir, 'string'
+  # for browserid login
+  app.execute 'route:querystring:set', 'redirect', redir
+  # for classic login
+  [path, querystring] = $('#browserLogin')[0].action.split('?')
+  query = _.parseQuery querystring
+  # override redirect if one was already set
+  query.redirect = redir
+  $('#browserLogin')[0].action = _.buildPath path, query
 
 emailConfirmationRequest = ->
   _.log 'sending emailConfirmationRequest'
