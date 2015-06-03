@@ -3,4 +3,4 @@ module.exports = Marionette.Behavior.extend
     textarea: "textarea"
 
   onRender: ->
-    @ui.textarea.elastic()
+    autosize(@ui.textarea)
