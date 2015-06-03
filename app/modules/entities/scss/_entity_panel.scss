@@ -1,7 +1,7 @@
 .entityPanel{
   // width: 100%;
   max-width: 50em;
-  @include display-flex(row, center, space-around);
+  @include display-flex(row);
   h2, span, label, p{
     color: white;
   }
@@ -17,6 +17,13 @@
   }
   .cover{
     @include flex(0,0);
+    /*Large screens*/
+    @media screen and (min-width: $smallscreen) {
+      padding-top: 2em;
+      img{
+        @include sticky($topbar-height + 10px);
+      }
+    }
   }
   .data{
     @include flex(1);

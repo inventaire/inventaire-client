@@ -1,10 +1,25 @@
 #itemShowLayout{
+  margin-bottom: 2em;
+  #picture{
+    /*Large screens*/
+    @media screen and (min-width: $smallscreen) {
+      padding-top: 2em;
+      padding-bottom: 2em;
+      // height needed in parents element to give room for the position sticky
+      height: 100%;
+      @include display-flex(column);
+      > div{
+        @include display-flex(column);
+        @include flex(1);
+      }
+      figure{
+        @include sticky($topbar-height + 10px);
+      }
+    }
+  }
   #entityData{
     @extend .dark-panel;
     @include display-flex(row, center, space-around);
-    #picture{
-      @include flex(0,0);
-    }
     #entity{
       @include flex(1);
     }
