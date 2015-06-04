@@ -1,18 +1,17 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/icon_nav'
   className: 'innerIconNav'
+  initialize: ->
   events:
-    'click .search': 'showSearch'
-    'click .user': 'showDashboard'
-    'click .friends': 'showFriends'
-    'click .settings': 'showSettings'
+    'click .add': 'showAddLayout'
+    'click .exchanges': 'showTransactions'
+    'click .browse': 'showInventory'
 
   ui:
     all: 'a.iconButton'
-    search: '.search'
-    user: '.user'
-    friends: '.friends'
-    settings: '.settings'
+    add: '.add'
+    exchanges: '.exchanges'
+    browse: '.browse'
 
   onShow: ->
     @selectButtonFromRoute _.currentSection()
@@ -21,26 +20,24 @@ module.exports = Marionette.ItemView.extend
   selectButtonFromRoute: (section)->
     @unselectAll()
     switch section
-      when 'dashboard' then @selectButton 'user'
-      when 'inventory' then @selectButton 'friends'
-      when 'settings' then @selectButton 'settings'
+      when 'add' then @selectButton 'add'
+      when 'transactions' then @selectButton 'exchanges'
+      when 'inventory' then @selectButton 'browse'
+
+  unselectAll: ->
+    @ui.all.removeClass 'selected'
 
   selectButton: (uiName)->
-    @ui.all.removeClass 'selected'
     @ui[uiName].addClass 'selected'
 
-  showSearch: ->
-    @selectButton 'search'
-    app.execute 'show:search'
+  showAddLayout: ->
+    @selectButton 'add'
+    app.execute 'show:add:layout'
 
-  showDashboard: ->
-    @selectButton 'user'
-    app.execute 'show:dashboard'
+  showTransactions: ->
+    @selectButton 'exchanges'
+    app.execute 'show:transactions'
 
-  showFriends: ->
-    @selectButton 'friends'
+  showInventory: ->
+    @selectButton 'browse'
     app.execute 'show:inventory:general'
-
-  showSettings: ->
-    @selectButton 'settings'
-    app.execute 'show:settings:profile'
