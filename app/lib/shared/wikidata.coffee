@@ -4,13 +4,13 @@ module.exports = (promises_, _)->
   API =
     wikidata:
       base: 'https://www.wikidata.org/w/api.php'
-      search: (search, language='en', limit='20', format='json')->
+      search: (search, language='en', limit='25', format='json')->
         _.buildPath API.wikidata.base,
-          action: 'wbsearchentities'
-          language: language
-          limit: limit
+          action: 'query'
+          list: 'search'
+          srlimit: limit
           format: format
-          search: search
+          srsearch: search
     wmflabs:
       base: 'http://wdq.wmflabs.org/api'
       query: (query)-> API.wmflabs.base + "?q=#{query}"
