@@ -1,0 +1,24 @@
+<h2>{{i18n 'add_menu_title'}}</h2>
+
+<section>
+  <h3>{{i18n 'add_by_search'}}</h3>
+  {{input search}}
+</section>
+
+{{partial 'horizontal_separator' 'or'}}
+
+<section class="scan">
+  <h3>{{i18n 'add_by_barcode_scan'}}</h3>
+  <div class="scan">
+    {{#if scanner}}
+      <a id="scanner" href="{{scanner}}">
+        {{icon 'barcode'}}{{I18n 'scan a barcode'}}
+      </a>
+    {{else}}
+      <p class="disabled">
+        {{i18n 'scanner_disabled_tip'}}
+        {{icon 'barcode'}}
+      </p>
+    {{/if}}
+  </div>
+</section>

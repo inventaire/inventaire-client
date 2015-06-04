@@ -24,14 +24,8 @@ nav.top-bar {
   .fa{
     font-size: 1em;
   }
-  #scanner, #name{
+  #name{
     font-weight: bold;
-  }
-  #scanner{
-    &.disabled{
-      color: darken(white, 10%);
-      @include bg-hover($topbar-link-bg-disabled);
-    }
   }
   .dropdown{
     li{
@@ -110,6 +104,7 @@ nav.top-bar {
     // force the input and the .button to have the same height
     $search-input-height: 2.3em;
     #searchGroup{
+      max-width: 30em;
       // already displayed flex thank to input.scss
       input{
         @include flex(1);

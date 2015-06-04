@@ -1,7 +1,7 @@
 RequestsList = require 'modules/users/views/requests_list'
 NotificationsList = require 'modules/notifications/views/notifications_list'
 CommonEl = require 'modules/general/regions/common_el'
-scanner = require 'lib/scanner'
+searchInputData = require './search_input_data'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/account_menu'
@@ -12,20 +12,8 @@ module.exports = Marionette.LayoutView.extend
     'click #signout': -> app.execute 'logout'
 
   serializeData: ->
-    attrs =
-      search: @searchInputData()
-
-    if _.isMobile then attrs.scanner = scanner.url
-    return _.extend attrs, @model.toJSON()
-
-  searchInputData: ->
-    nameBase: 'search'
-    field:
-      type: 'search'
-      placeholder: _.i18n 'add or search a book'
-    button:
-      icon: 'search'
-      classes: 'secondary'
+    _.extend @model.toJSON(),
+      search: searchInputData()
 
   initialize: ->
     # /!\ CommonEl custom Regions implies side effects

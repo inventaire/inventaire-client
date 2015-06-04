@@ -77,8 +77,9 @@ module.exports = Marionette.LayoutView.extend
       back_text: _.i18n 'back'
       is_hover: false
 
-  search: ->
-    query = $('input#searchField').val()
+  search: (e)->
+    # support both account_menu and add_layout search
+    query = $(e.target).parent('#searchGroup').find('input').val()
     _.log query, 'search query'
     app.execute 'search:global', query
 

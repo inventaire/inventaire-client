@@ -4,6 +4,7 @@ Transactions = require './lib/transactions'
 InventoryLayout = require './views/inventory'
 ItemCreationForm = require './views/form/item_creation'
 initLayout = require './lib/layout'
+AddLayout = require './views/add/add_layout'
 
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
@@ -12,6 +13,7 @@ module.exports =
         'inventory(/)': 'showGeneralInventory'
         'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:entity(/:title)(/)': 'itemShow'
+        'add(/)': 'showAddLayout'
 
     app.addInitializer ->
       new InventoryRouter
@@ -102,6 +104,9 @@ API =
     userItems = Items.byOwner(userId)
     if userItems?.length > 0 then Items.remove userItems
 
+  showAddLayout: ->
+    app.layout.main.show new AddLayout
+
 showInventory = (options)->
   inventoryLayout = new InventoryLayout options
   app.layout.main.show inventoryLayout
@@ -173,6 +178,10 @@ initializeInventoriesHandlers = (app)->
         API.showItemShowFromItemModel(item)
         if item.pathname? then app.navigate item.pathname
         else _.error item, 'missing item.pathname'
+
+    'show:add:layout': ->
+      API.showAddLayout()
+      app.navigate 'add'
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi

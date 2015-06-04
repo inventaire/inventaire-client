@@ -1,0 +1,51 @@
+$addLayoutWidth: 38em;
+
+#addLayout{
+  @include flex(1);
+  padding: 1em;
+  background-color: #fefefe;
+  @include radius();
+  @include shy-border();
+  text-align: center;
+  h2{
+    font-size: 1.6em;
+  }
+  h3{
+    @include sans-serif();
+    color: $dark-grey;
+    font-size: 1.2em;
+  }
+  section{
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $addLayoutWidth) {
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $addLayoutWidth) {
+    margin: 1em auto;
+    width: $addLayoutWidth;
+  }
+}
+
+section.scan{
+  h3{
+    margin-bottom: 2em;
+  }
+  div.scan{
+    .disabled{
+      color: $grey;
+      .fa{
+        font-size: 2em;
+        display: block;
+      }
+    }
+  }
+  #scanner{
+    @include custom-button($secondary-color, $dark-grey);
+    font-weight: bold;
+    margin-top: 1.5em;
+  }
+}

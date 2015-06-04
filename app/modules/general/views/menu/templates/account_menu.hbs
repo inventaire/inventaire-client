@@ -1,14 +1,6 @@
 <li class="has-form">
  {{input search}}
 </li>
-{{#if scanner}}
-  <li class="active"><a id="scanner" href="{{scanner}}">
-{{else}}
-  <li data-tooltip title="{{i18n 'only available from mobiles for now'}}">
-  <a id="scanner" class="disabled">
-{{/if}}
-    {{icon 'barcode'}}{{I18n 'scan a barcode'}}</a>
-</li>
 <li>
   <a id="name">
     {{username}}
