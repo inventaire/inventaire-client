@@ -49,27 +49,10 @@ nav.top-bar {
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    #home{
-      // aligning with #inventorySections
-      margin-top: -0.1em;
-    }
     .breadcrumb{
       a{
         font-size: 1.2em;
         padding-left: 0;
-      }
-    }
-    #inventorySections{
-      @extend .breadcrumb;
-      a{
-        text-transform: capitalize;
-      }
-      .dropdown{
-        li{
-          color: white;
-          padding: 1em;
-          width: 12em;
-        }
       }
     }
     #currentUser{
@@ -105,18 +88,19 @@ nav.top-bar {
     $search-input-height: 2.3em;
     #searchGroup{
       max-width: 30em;
+      margin-left: auto;
       // already displayed flex thank to input.scss
       input{
         @include flex(1);
         height: $search-input-height;
-        padding: 0 0 0 1em;
-        border-radius: $global-radius;
+        padding-left: 1em;
+        @include radius-left(3px);
         // hidding the input radius on the right
         margin-right: -0.2em;
       }
       a.button{
         height: $search-input-height;
-        border-radius: $global-radius;
+        @include radius();
       }
     }
     .labels{

@@ -24,7 +24,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'submit form': (e)-> e.preventDefault()
-    'click #home, #inventorySections, .showHome': -> app.execute 'show:home'
+    'click #home, .showHome': -> app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'
