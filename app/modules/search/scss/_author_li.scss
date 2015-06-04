@@ -1,5 +1,6 @@
 .authorLi{
   background-color: #292929;
+  margin-bottom: 1em;
   .authorData{
     background-color: $contrast;
     .extract{
@@ -15,19 +16,15 @@
   }
   div.more{
     @include display-flex(column, center, center);
-    width: 100%;
     text-align: center;
     height: 3em;
-    div.more{
-    }
     a.displayMore{
-      width: 100%;
+      width: 10em;
+      margin: 0.2em;
       @include flex(1);
+      @include radius();
       @include display-flex(row, center, center);
       @include bg-hover($light-grey);
-      // hugly margin hack to make it match the book list
-      // which isnt lined up for some reason
-      margin: 0 -0.2em 1em 0.2em;
     }
   }
 }
@@ -41,6 +38,8 @@
       max-width: 25em;
     }
     .books{
+      margin-left: 0.2em;
+      margin-right: 0.2em;
       @include flex(1);
     }
   }

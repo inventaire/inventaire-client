@@ -9,9 +9,11 @@
     <p class="clamped grey">{{{description}}}</p>
   {{/if}}
   {{#if wikidata}}
-    {{!-- {{partial 'entities:book_claims' claims}} --}}
-    {{claim claims 'P50' true}} {{!-- author --}}
-    {{timeClaim claims 'P577' 'year' true}} {{!-- time of publication --}}
+    <p>
+      {{!-- {{partial 'entities:book_claims' claims}} --}}
+      {{claim claims 'P50' true}}  {{!-- author --}}
+      {{timeClaim claims 'P577' 'year' true}} {{!-- time of publication --}}
+    </p>
   {{else}}
     <p class="isbn-attributes">
       {{{P '50'}}} {{join authors}} <br>

@@ -1,7 +1,7 @@
 .bookLi{
   @include display-flex(row, center, space-around);
   background-color: $contrast;
-  margin: 0.2em;
+  margin-bottom: 0.2em;
   .bookCover{
     margin: 1em;
     max-width: 10em;
@@ -22,6 +22,7 @@
     padding: 0.5em;
     a{
       @include custom-button($light-grey, $dark-grey);
+      white-space: nowrap;
     }
   }
   .source{
@@ -45,10 +46,6 @@
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
   .bookLi{
-    width: 100%;
-    max-height: 15em;
-    .bookCover{
-    }
     .bookLiData{
       @include flex(1);
     }
