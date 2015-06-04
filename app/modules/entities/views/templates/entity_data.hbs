@@ -14,7 +14,7 @@
   {{/if}}
   <p class="uri">{{uri}}</p>
 
-  <p class="description clamped">
+  <p class="description {{#if descOverflow}}clamped{{/if}}">
     {{{description}}}
   </p>
   {{#if descOverflow}}

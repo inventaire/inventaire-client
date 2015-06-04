@@ -33,6 +33,6 @@ module.exports = Marionette.ItemView.extend
   setDescriptionAttributes: (attrs)->
     if attrs.extract? then attrs.description = attrs.extract
     if attrs.description?
-      attrs.descOverflow = attrs.description.length > 200
+      attrs.descOverflow = attrs.description.length > 400
 
     return attrs
