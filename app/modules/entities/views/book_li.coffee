@@ -20,5 +20,12 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.toJSON()
+    attrs.counter = @counter()
     if attrs.extract? then attrs.description = attrs.extract
     return attrs
+
+  counter: ->
+    count = app.request 'items:count:byEntity', @model.get('uri')
+    return counter =
+      count: count
+      highlight: count > 0

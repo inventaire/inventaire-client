@@ -1,10 +1,10 @@
 .bookLi{
   margin: 1em auto;
-  max-width: 50em;
+  max-width: 45em;
   text-align: left;
   @include display-flex(row, center, space-around);
   background-color: $contrast;
-  margin-bottom: 0.2em;
+  margin-bottom: 1em;
   .bookCover{
     margin: 1em;
     max-width: 10em;
@@ -17,15 +17,33 @@
     @include display-flex(column, center, center);
     h3{
       text-align: center;
-      @include display-flex()
+      @include display-flex();
+      font-size: 1.4em;
     }
   }
   .actions{
     @include display-flex(column, left, center);
     padding: 0.5em;
-    a{
+    > a{
       @include custom-button($light-grey, $dark-grey);
       white-space: nowrap;
+    }
+    .counter{
+      text-align: center;
+      padding: 0.4em 0.4em 0.4em 0.5em;
+      @include bg-hover($light-grey);
+      @include radius();
+      color: $dark-grey;
+      margin-left: 0.1em;
+      margin-right: 0.5em;
+      span{
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+      &.highlight{
+        @include bg-hover($secondary-color);
+        color: $dark-grey;
+      }
     }
   }
   .source{

@@ -34,8 +34,10 @@
     {{icon 'plus'}}
     {{i18n 'add to my inventory'}}
   </a>
-  <a class='showEntity' href="{{pathname}}">
-    {{icon 'cube'}}
-    {{i18n 'who has it?'}}
-  </a>
+  <div class="counters">
+    <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}">
+      <span class="count">{{counter.count}}</span>
+    </a>
+    {{i18n 'network_counter_label'}}
+  </div>
 </div>

@@ -124,6 +124,7 @@ fetchItems = (app)->
   app.reqres.setHandlers
     'item:validate:creation': validateCreation
     'requestPublicItem': requestPublicItem
+    'items:count:byEntity': itemsCountByEntity
 
 triggerItemsReady = ->
   Items.personal.fetched = true
@@ -147,6 +148,9 @@ validateCreation = (itemData)->
   itemModel = Items.create itemData
   itemModel.username = app.user.get('username')
   return true
+
+itemsCountByEntity = (uri)->
+  Items.where({entity: uri}).length
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
