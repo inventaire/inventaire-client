@@ -30,6 +30,10 @@
 }
 
 .innerAuthorLi{
+  .bookLi{
+    margin: auto;
+    margin-bottom: 0.4em;
+  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     @include display-flex(row, flex-start, flex-start);

@@ -1,4 +1,7 @@
 .bookLi{
+  margin: 1em auto;
+  max-width: 50em;
+  text-align: left;
   @include display-flex(row, center, space-around);
   background-color: $contrast;
   margin-bottom: 0.2em;

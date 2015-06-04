@@ -22,14 +22,14 @@ module.exports = Entity.extend
 
       lang = app.user.lang
 
-      @setAttributes(@attributes, lang)
-      @rebaseClaims()
-      @findAPicture()
-
       @setWikiLinks(lang)
       @getWikipediaExtract(lang)
       # overriding sitelinks to make room when persisted to indexeddb
       @updates.sitelinks = {}
+
+      @setAttributes(@attributes, lang)
+      @rebaseClaims()
+      @findAPicture()
 
       @set @updates
 
@@ -54,6 +54,10 @@ module.exports = Entity.extend
     pathname = "/entity/wd:#{@id}"
 
     label = getEntityValue attrs, 'labels', lang
+    unless label?
+      # if no label was found, try to use the wikipedia page title
+      # remove the part between parenthesis
+      label = @updates.wikipedia?.title?.replace /\s\(\w+\)/, ''
     if label?
       @updates.label = label
       @updates.title = label

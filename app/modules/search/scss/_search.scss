@@ -5,9 +5,9 @@
 
 
 #searchLayout{
+  text-align: center;
   margin: 1em auto;
   max-width: 70em;
-  section#results{}
   .itemsList{
     background-color: $dark-grey;
     padding: 1em;
@@ -17,8 +17,15 @@
   .authorLi{
     padding: 1em;
   }
+  section#results{
+    > div{
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+  }
   section#createGroup{
-    margin-top: 1em;
+    text-align: left;
+    margin-top: 2em;
     background-color: $dark-grey;
     padding: 1em;
     > h3:first-child{
