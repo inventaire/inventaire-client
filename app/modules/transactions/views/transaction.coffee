@@ -4,7 +4,7 @@ forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/transaction'
-  className: 'transaction'
+  id: 'transactionView'
   behaviors:
     AlertBox: {}
     ElasticTextarea: {}
