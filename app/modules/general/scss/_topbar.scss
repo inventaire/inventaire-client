@@ -111,7 +111,8 @@ nav.top-bar {
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     .breadcrumb{
-      display: none;
+      // override Foundation inline css style="display: list-item;"
+      display: none !important;
     }
     .labels{
       margin-right: 0.5em;
