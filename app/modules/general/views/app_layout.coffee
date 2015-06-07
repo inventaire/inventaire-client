@@ -34,7 +34,6 @@ module.exports = Marionette.LayoutView.extend
     'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
     'click .copyLink': 'copyLink'
-    'click .toggle-topbar': 'toggleSideNav'
     'focus textarea': moveCaretToEnd
 
   behaviors:
@@ -89,5 +88,3 @@ module.exports = Marionette.LayoutView.extend
 
   hideCurrentUsername: ->
     $('#currentUser').hide()
-
-  toggleSideNav: -> $('#sideNav').toggleClass('hide-for-small-only')
