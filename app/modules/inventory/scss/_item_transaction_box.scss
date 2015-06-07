@@ -2,6 +2,9 @@
   // just 'height' wasnt working on chrome
   min-height: $user-box-heigth;
   max-height: $user-box-heigth;
+  li.capitalized{
+    color: $dark-grey;
+  }
   &.giving{
     background-color: $giving-color;
     @extend .currentWhite;
