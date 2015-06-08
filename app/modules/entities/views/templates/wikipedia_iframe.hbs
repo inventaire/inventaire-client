@@ -1,12 +1,14 @@
 <div class="wikipedia-iframe">
   <div class="wiki-menu-bar">
-    <div class="wikipediaPreviewToggler">
-      <a class="showWikipediaPreview">
-        {{i18n 'on_wikipedia' this}}
-        {{icon 'chevron-down'}}
-        {{icon 'chevron-up' 'hidden'}}
-      </a>
-    </div>
+    {{#if wikipedia}}
+      <div class="wikipediaPreviewToggler">
+        <a class="showWikipediaPreview">
+          {{i18n 'on_wikipedia' this}}
+          {{icon 'chevron-down'}}
+          {{icon 'chevron-up' 'hidden'}}
+        </a>
+      </div>
+    {{/if}}
     {{partial 'wiki_sitelinks' this}}
   </div>
   {{!-- wikipedia iframe will be appened here --}}
