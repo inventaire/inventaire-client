@@ -23,6 +23,8 @@ $sideNavWidth: 250px;
     #itemsView{
       @include display-flex(row);
       @include flex(1);
+      // make sure #controls won't hide anything
+      margin-bottom: 4em;
     }
     #followedView{
     }
