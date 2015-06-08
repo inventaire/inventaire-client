@@ -13,25 +13,25 @@ module.exports = Filterable.extend
       # pathname = "#{username}/#{entity}/#{title}
     # - allows entity uri to be used in pathname
     # nice for super users/wikidata wizzards
-    # - using timestamp to avoid possible collissions
-    # between one user's items
+    # - opened issue: the couple username/entity-uri to build the pathname
+    # close the possibility to have several instances of a single entity
 
-    unless attrs.entity?
+    {entity, title, owner} = attrs
+
+    unless entity?
       throw new Error "item should have an associated entity"
 
-    attrs.entity = app.request 'normalize:entity:uri', attrs.entity
+    entity = app.request 'normalize:entity:uri', entity
     # make sure the entity model is loaded in the global Entities collection
     # and thus accessible from a Entities.byUri
-    @getEntityModel(attrs.entity)
+    @reqGrab 'get:entity:model', entity, 'entity'
 
-    attrs.owner = @get('owner')
     # created will be overriden by the server at item creation
     attrs.created = @get('created') or _.now()
     attrs._id = @getId(attrs)
 
     @set attrs
 
-    {entity, title, owner} = attrs
     @username = app.request 'get:username:from:userId', owner
     @profilePic = app.request 'get:profilePic:from:userId', owner
     @pathname = @buildPathname(attrs)
@@ -54,7 +54,7 @@ module.exports = Filterable.extend
     attrs = @toJSON()
     _.extend attrs,
       pathname: @pathname
-      entityData: @entityModel?.toJSON()
+      entityData: @entity?.toJSON()
       entityPathname: @entityPathname
       restricted: @restricted
       user:
@@ -91,15 +91,6 @@ module.exports = Filterable.extend
       @get('notes')
       @get('entity')
     ]
-
-  getEntityModel: (uri)->
-    app.request 'get:entity:model', uri
-    .then @entityReady.bind(@)
-    .catch _.Error('get:entity:model err')
-
-  entityReady: (entityModel)->
-    @entityModel = entityModel
-    @trigger 'entity:ready', entityModel
 
   # passing id and rev as query paramaters
   destroy: ->

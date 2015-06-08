@@ -38,11 +38,11 @@ module.exports = (_)->
 
   Backbone.Model::grab = (name, model)->
     @[name] = model
-    @triggerGrab name
+    @triggerGrab name, model
 
-  Backbone.Model::triggerGrab = (name)->
-    @trigger 'grab', name
-    @trigger "grab:#{name}"
+  Backbone.Model::triggerGrab = (name, model)->
+    @trigger 'grab', name, model
+    @trigger "grab:#{name}", model
 
   # BACKBONE.COLLECTION
   Backbone.Collection::findOne = -> @models[0]

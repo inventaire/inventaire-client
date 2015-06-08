@@ -15,15 +15,15 @@ module.exports = Marionette.ItemView.extend
     @initPlugins()
     @lazyRender = _.debounce @render.bind(@), 400
     @listenTo @model, 'change', @lazyRender
-    @listenTo @model, 'entity:ready', @lazyRender
+    @listenTo @model, 'grab:entity', @lazyRender
 
   initPlugins: ->
-    itemActions.call(@)
-    itemUpdaters.call(@)
+    itemActions.call @
+    itemUpdaters.call @
 
   onRender: ->
-    app.execute('foundation:reload')
-    app.request('qLabel:update')
+    app.execute 'foundation:reload'
+    app.request 'qLabel:update'
 
   events:
     'click .edit': 'itemEdit'
@@ -33,7 +33,6 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
-    attrs.entityData = @model.entityModel?.toJSON()
     attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
     return attrs

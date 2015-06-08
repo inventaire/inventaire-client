@@ -12,11 +12,7 @@ module.exports = Marionette.ItemView.extend
   initPlugins: ->
     itemActions.call(@)
 
-  serializeData: ->
-    attrs = @model.serializeData()
-    _.extend attrs,
-      entityData: @model.entityModel?.toJSON()
-    return attrs
+  serializeData: -> @model.serializeData()
 
   onRender: ->
     app.request 'qLabel:update'

@@ -28,10 +28,8 @@ module.exports = Marionette.LayoutView.extend
     ElasticTextarea: {}
 
   initialize: ->
-    _.log @model, 'item_show model'
     @initPlugins()
     @uniqueSelector = '#'+@id
-    @model.on 'all', -> _.log arguments, 'item:show item events'
     @listenTo @model, 'change:details', @render
     @listenTo @model, 'change:notes', @render
     @listenTo @model, 'add:pictures', @render
@@ -50,13 +48,13 @@ module.exports = Marionette.LayoutView.extend
     @showTransactions()
 
   showEntityData: ->
-    { entityModel } = @model
-    if entityModel? then @showEntityModel(entityModel)
-    else @listenTo @model, 'entity:ready', @showEntityModel.bind(@)
+    { entity } = @model
+    if entity? then @showEntity entity
+    else @listenTo @model, 'grab:entity', @showEntity.bind(@)
 
-  showEntityModel: (entityModel)->
+  showEntity: (entity)->
     @entityRegion.show new EntityData
-      model: entityModel
+      model: entity
       hidePicture: true
 
   showPicture: ->
