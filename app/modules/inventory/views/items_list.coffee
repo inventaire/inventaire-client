@@ -23,6 +23,9 @@ module.exports = Marionette.CompositeView.extend
     paginationPlugin.call @, itemsPerPage()
     masonryPlugin.call @, '.itemsList', '.itemContainer'
 
+  serializeData: ->
+    header: @options.header
+
   events:
     'inview .more': 'infiniteScroll'
 

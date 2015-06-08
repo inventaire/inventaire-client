@@ -49,8 +49,11 @@ module.exports = Marionette.LayoutView.extend
   showItems: ->
     collection = Items.filtered.resetFilters().filterByText @query
     if collection.length > 0
-      view = new app.View.Items.List {collection: collection, columns: true}
-      @inventoryItems.show view
+      @inventoryItems.show new app.View.Items.List
+        collection: collection
+        header:
+          text: 'matching books in your network'
+          classes: 'subheader'
 
   sameAsPreviousQuery: ->
     # verifying that the query is not the same as the last one
