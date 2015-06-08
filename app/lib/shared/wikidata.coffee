@@ -4,7 +4,7 @@ module.exports = (promises_, _)->
   API =
     wikidata:
       base: 'https://www.wikidata.org/w/api.php'
-      search: (search, language='en', limit='25', format='json')->
+      search: (search, limit='25', format='json')->
         _.buildPath API.wikidata.base,
           action: 'query'
           list: 'search'
@@ -122,11 +122,11 @@ module.exports = (promises_, _)->
             # so won't be accessible on persisted models
             # testing existance shouldn't be needed thank to the status test
             # but let's keep it for now
-            mainsnak = statement.mainsnak
+            { mainsnak } = statement
             if mainsnak?
-              [datatype, datavalue] = [mainsnak.datatype, mainsnak.datavalue]
+              { datatype, datavalue } = mainsnak
               switch datatype
-                when 'string', 'commonsMedia' then value = datavalue.value
+                when 'string', 'commonsMedia' then { value } = datavalue
                 when 'wikibase-item' then value = 'Q' + datavalue.value['numeric-id']
                 when 'time' then value = @normalizeTime(datavalue.value.time)
                 else value = null

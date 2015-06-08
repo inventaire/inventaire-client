@@ -9,10 +9,10 @@ module.exports = Marionette.LayoutView.extend
     usersList: '#usersList'
 
   ui:
-    usersListHeader: "#usersListHeader"
-    listToggler: ".listToggler"
-    usersList: "#usersList"
-    userField: "#userField"
+    usersListHeader: '#usersListHeader'
+    listToggler: '.listToggler'
+    usersList: '#usersList'
+    userField: '#userField'
 
   initialize: ->
     @lastQuery = null
