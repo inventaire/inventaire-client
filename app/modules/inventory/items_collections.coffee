@@ -9,6 +9,7 @@ module.exports = (app, _)->
   personal.filterBy 'personal', isMainUser
   personal.add = Items.add.bind(Items)
   personal.create = Items.create.bind(Items)
+  personal.byEntityUri = Items.byEntityUri.bind(personal)
 
   # used to overcome the issue with first use of isMainUser
   # while app.user.id is undefined

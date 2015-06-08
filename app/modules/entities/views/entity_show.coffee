@@ -14,9 +14,8 @@ module.exports = Marionette.LayoutView.extend
     WikiBar: {}
 
   serializeData: ->
-    attrs = @model.toJSON()
-    attrs.back = backMessage()
-    return attrs
+    _.extend @model.toJSON(),
+      back: backMessage()
 
   initialize: ->
     @uri = @model.get('uri')
@@ -24,7 +23,8 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @showEntityData()
-    @showEntityActions()
+    # need to wait to know if the user has an instance of this entity
+    app.request('waitForUserData').then @showEntityActions.bind(@)
     @showLocalItems()  if app.user.loggedIn
     @showPublicItems()
 

@@ -165,11 +165,21 @@ initializeInventoriesHandlers = (app)->
       API.showUserInventory(user, true)
 
     'show:item:creation:form': (params)->
-      API.showItemCreationForm(params)
-      if params.entity?
-        pathname = params.entity.get 'pathname'
-        app.navigate "#{pathname}/add"
-      else throw new Error 'missing entity'
+      {entity} = params
+      unless entity? then throw new Error 'missing entity'
+      uri = entity.get 'uri'
+
+      app.request 'waitForUserData'
+      .then ->
+        existingInstance = app.request 'item:main:user:instance', uri
+        if existingInstance?
+          # Inventaire doesn't support having several instances of an item
+          # so trying to show the creation form redirects to the existing item
+          app.execute 'show:item:show:from:model', existingInstance
+        else
+          API.showItemCreationForm params
+          pathname = params.entity.get 'pathname'
+          app.navigate "#{pathname}/add"
 
     'show:item:show': (username, entity, title)->
       API.itemShow(username, entity)
@@ -240,3 +250,6 @@ initializeInventoriesHandlers = (app)->
       unless _.isUserId(userId)
         throw new Error "expected a userId, got #{userId}"
       _.preq.get app.API.items.userPublicItems(userId)
+
+    'item:main:user:instance': (entityUri)->
+      return Items.personal.byEntityUri(entityUri)[0]

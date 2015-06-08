@@ -1,22 +1,29 @@
+mainUserInstance = require '../plugins/main_user_has_one'
+
 module.exports = Marionette.ItemView.extend
   template: require './templates/entity_actions'
   className: 'entityActions'
   initialize: ->
-    @uri = @model.get('uri')
+    @uri = @model.get 'uri'
 
     # has to be initialized after Entities followedList which waitForData
     app.request 'waitForData:after', @updateOnFollowStatusChange.bind(@)
+    @initPlugins()
+
+  initPlugins: ->
+    mainUserInstance.call @
 
   updateOnFollowStatusChange: ->
     eventName = "change:#{@uri}"
-    followedList = app.request('entities:followed:list')
+    followedList = app.request 'entities:followed:list'
     @listenTo followedList, eventName, @render
 
   serializeData: ->
     @following = app.request 'entity:followed:state', @uri
-    return attrs =
+    return _.log attrs =
       following: @following
       transactions: @transactionsData()
+      mainUserHasOne: @mainUserHasOne()
 
   transactionsData: ->
     transactions = _.clone Items.transactions

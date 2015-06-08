@@ -28,6 +28,13 @@
       @include custom-button($light-grey, $dark-grey);
       white-space: nowrap;
     }
+    .hasAnInstance{
+      white-space: normal;
+      font-size: 0.9em;
+      @include bg-hover(white, 0);
+      color: $grey;
+      text-align: center;
+    }
     .counter{
       text-align: center;
       padding: 0.4em 0.4em 0.4em 0.5em;
