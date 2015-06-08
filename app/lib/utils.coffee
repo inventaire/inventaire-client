@@ -169,4 +169,10 @@ module.exports = (Backbone, _, app, window)->
     currentSection: ->
       _.routeSection location.pathname.slice(1)
 
+    scrollTop: ($el, duration=500)->
+      # Polymorphism: accept jquery objects or selector strings as $el
+      if _.isString then $el = $($el)
+      top = $el.position().top
+      $('html, body').animate {scrollTop: top}, duration
+
   return _.extend {}, utils, loggers

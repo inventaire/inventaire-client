@@ -30,6 +30,10 @@ module.exports = Marionette.LayoutView.extend
     unless _.smallScreen(gridMinWidth)
       @controls.show new Controls
 
+    if _.smallScreen()
+      if @options.user? then _.scrollTop '#sideNav'
+      else _.scrollTop '#itemsView'
+
   showItemsListOnceData: ->
     # waitForItems to avoid having items displaying undefined values
     app.request('waitForItems').then @showItemsList.bind(@)

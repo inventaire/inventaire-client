@@ -33,8 +33,10 @@ module.exports = Marionette.LayoutView.extend
       folder: folder
       collection: app.user.transactions
 
-  showTransactionFull: (transaction)->
-    @fullviewRegion.show new Transaction {model: transaction}
+  showTransactionFull: (transaction, nonExplicitSelection)->
+    @fullviewRegion.show new Transaction
+      model: transaction
+      nonExplicitSelection: nonExplicitSelection
 
   events:
     'click label': 'toggleSection'

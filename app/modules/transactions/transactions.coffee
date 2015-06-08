@@ -43,8 +43,8 @@ API =
           # replacing the url to avoid being unable to hit 'previous'
           # as previous would be '/transactions' which would redirect again
           # to the first transaction
-          replace = true
-          app.vent.trigger 'transaction:select', transac, replace
+          nonExplicitSelection = true
+          app.vent.trigger 'transaction:select', transac, nonExplicitSelection
         else
           app.vent.trigger 'transactions:welcome'
       .catch _.Error('showFirstTransaction')
@@ -76,9 +76,12 @@ triggerTransactionSelect = (id)->
   else app.execute 'show:404'
 
 
-updateTransactionRoute = (transaction, replace)->
+updateTransactionRoute = (transaction, nonExplicitSelection)->
   { id } = transaction
-  if replace then app.navigateReplace "transactions/#{id}"
+  # if it was a nonExplicitSelection, it was just /transactions
+  # which led to the first transaction being selected
+  # thus the need to replace to route to avoid a loop
+  if nonExplicitSelection then app.navigateReplace "transactions/#{id}"
   else app.navigate "transactions/#{id}"
 
 findFirstTransaction = ->

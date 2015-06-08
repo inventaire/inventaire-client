@@ -20,6 +20,10 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: -> @model.serializeData()
 
+  onShow: ->
+    if _.smallScreen() and not @options.nonExplicitSelection
+      _.scrollTop @$el
+
   modelEvents:
     'grab': 'lazyRender'
     'change': 'lazyRender'
