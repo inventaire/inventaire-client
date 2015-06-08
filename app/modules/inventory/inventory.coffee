@@ -79,7 +79,6 @@ API =
       else
         # if it isnt in friends id, it should be a public item
         _.preq.get app.API.items.publicById(itemId)
-        .then _.Log('found item?')
         .then Items.public.add
     .catch _.Error('findItemById err')
 
@@ -122,7 +121,7 @@ fetchItems = (app)->
     triggerItemsReady()
 
   app.reqres.setHandlers
-    'item:validate:creation': validateCreation
+    'item:create': itemCreate
     'requestPublicItem': requestPublicItem
     'items:count:byEntity': itemsCountByEntity
 
@@ -138,16 +137,20 @@ requestPublicItem = (username, entity)->
   .catch (err)-> _.error err, 'requestPublicItem err'
 
 
-validateCreation = (itemData)->
-  _.log itemData, 'itemData at validateCreation'
+itemCreate = (itemData)->
   unless itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
-    return false
+    return _.preq.reject()
 
   if itemData.entity?.label?
     itemData.title = itemData.entity.label
-  itemModel = Items.create itemData
+
+  itemModel = Items.add itemData
   itemModel.username = app.user.get('username')
-  return true
+  _.preq.resolve itemModel.save()
+  .then itemModel.set.bind(itemModel)
+  .catch _.Error('item creation err')
+
+  return itemModel
 
 itemsCountByEntity = (uri)->
   Items.where({entity: uri}).length
@@ -196,12 +199,18 @@ initializeInventoriesHandlers = (app)->
   app.reqres.setHandlers
     'item:update': (options)->
       # expects: item, attribute, value
+      # OR expects: item, data
       # optional: selector
-      {item, attribute, value, selector} = options
-      types = ['object', 'string', 'string|array', 'string|undefined']
-      _.types [item, attribute, value, selector], types
+      {item, attribute, value, data, selector} = options
+      _.types [item, selector], ['object', 'string|undefined']
 
-      item.set(attribute, value)
+      if data?
+        _.type data, 'object'
+        item.set data
+      else
+        _.types [attribute, value], 'strings...'
+        item.set attribute, value
+
       promise = _.preq.resolve item.save()
       if selector?
         app.request 'waitForCheck',

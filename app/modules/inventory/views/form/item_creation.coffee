@@ -1,14 +1,23 @@
-Item = require 'modules/inventory/models/item'
 EntityData = require 'modules/entities/views/entity_data'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
-  className: "addEntity"
+  className: 'addEntity'
   regions:
     entityRegion: '#entity'
+  behaviors:
+    ElasticTextarea: {}
+  ui:
+    'transaction': '#transaction'
+    'listing': '#listing'
+    'details': '#details'
+    'notes': '#notes'
 
   initialize: ->
     @entity = @options.entity
+    @createItem()
+
+  createItem: ->
     attrs =
       # copying the title for convinience
       # as it is used to display and find the item from search
@@ -21,26 +30,17 @@ module.exports = Marionette.LayoutView.extend
 
     # will be confirmed by the server
     attrs.owner = app.user.id
+    unless attrs.entity? and attrs.title?
+      throw new Error 'missing uri or title at item creation from entity'
 
-    if attrs.entity? and attrs.title?
-      @model = new Item attrs
-    else throw new Error 'missing uri or title at item creation from entity'
-
-  behaviors:
-    ElasticTextarea: {}
-
-  ui:
-    'transaction': '#transaction'
-    'listing': '#listing'
-    'details': '#details'
-    'notes': '#notes'
+    @model = app.request 'item:create', attrs
 
   onShow: ->
     app.execute 'foundation:reload'
-    @updateTransaction()
+    @selectTransaction()
     @showEntityData()
 
-  updateTransaction: ->
+  selectTransaction: ->
     transaction = @model.get 'transaction'
     if transaction?
       $transaction = @ui.transaction.find "a[id=#{transaction}]"
@@ -70,33 +70,36 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click .select-button-group > .button': 'updateSelector'
-    'click #validate': 'validateItem'
     'click #cancel': -> app.execute 'show:home'
+    'click #transaction': 'updateTransaction'
+    'click #listing': 'updateListing'
+    'click #validate': 'validateItem'
+
+  showEntityData: ->
+    _.log 'showEntityData?'
+    @entityRegion.show new EntityData { model: @entity }
 
   updateSelector: (e)->
     $el = $(e.currentTarget)
-    $el.siblings().removeClass('active')
-    $el.addClass('active')
+    $el.siblings().removeClass 'active'
+    $el.addClass 'active'
+
+  updateTransaction: ->
+    transaction = @ui.transaction.find('.active').attr 'id'
+    @updateItem { transaction: transaction }
+
+  updateListing: ->
+    listing = @ui.listing.find('.active').attr 'id'
+    @updateItem { listing: listing }
 
   validateItem: ->
-    @setFormData()
-    itemData = @model.toJSON()
-    if app.request 'item:validate:creation', itemData
-      app.execute 'show:home'
-    else throw new Error "couldn't validateItem"
+    @updateItem
+      details: @ui.details.val()
+      notes: @ui.notes.val()
+    .then -> app.execute 'show:home'
 
-  setFormData: ->
-    transaction = @ui.transaction.find('.active').attr('id')
-    listing = @ui.listing.find('.active').attr('id')
-    details = @ui.details.val()
-    notes = @ui.notes.val()
-
-    unless listing? then throw new Error 'listing value missing'
-    unless transaction? then throw new Error 'transaction value missing'
-    @model.set 'transaction', transaction
-    @model.set 'listing', listing
-    @model.set 'details', details  if details?
-    @model.set 'notes', notes  if notes?
-
-  showEntityData: ->
-    @entityRegion.show new EntityData { model: @entity }
+  updateItem: (data)->
+    app.request 'item:update',
+      item: @model
+      data: data
+    .catch _.Error('updateItem')
