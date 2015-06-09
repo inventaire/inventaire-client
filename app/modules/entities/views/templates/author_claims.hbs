@@ -1,15 +1,17 @@
 <div class='wiki-attributes'>
-  {{partial 'entities:birth_death_dates' this}}
+  {{partial 'entities:birth_death_dates' claims}}
+  {{partial 'entities:edit_wikidata' this}}
   <p class="claims">
-    {{claim this 'P136'}} {{!-- genre --}}
-    {{claim this 'P27'}} {{!-- country of citizenship --}}
-    {{claim this 'P103'}} {{!-- native language --}}
-    {{claim this 'P1066' true}} {{!-- student of --}}
-    {{claim this 'P39'}} {{!-- position held --}}
-    {{claim this 'P69'}} {{!-- educated at --}}
-    {{claim this 'P135'}} {{!-- movement --}}
-    {{claim this 'P106'}} {{!-- occupation --}}
-    {{claim this 'P123'}} {{!-- publisher --}}
+    {{claim claims 'P136'}} {{!-- genre --}}
+    {{claim claims 'P27'}} {{!-- country of citizenship --}}
+    {{claim claims 'P103'}} {{!-- native language --}}
+    {{claim claims 'P69'}} {{!-- educated at --}}
+    {{claim claims 'P106'}} {{!-- occupation --}}
+    {{claim claims 'P39'}} {{!-- position held --}}
+    {{claim claims 'P135'}} {{!-- movement --}}
+    {{claim claims 'P1066' true}} {{!-- student of --}}
+    {{claim claims 'P737' true}} {{!-- influence by --}}
+    {{claim claims 'P738' true}} {{!-- influence of --}}
   </p>
-  {{imageClaim this 'P109'}}
+  {{imageClaim claims 'P109'}}
 </div>

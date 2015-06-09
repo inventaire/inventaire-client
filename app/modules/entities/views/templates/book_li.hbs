@@ -10,7 +10,7 @@
   {{/if}}
   {{#if wikidata}}
     <p>
-      {{!-- {{partial 'entities:book_claims' claims}} --}}
+      {{!-- {{partial 'entities:book_claims' this}} --}}
       {{claim claims 'P50' true}}  {{!-- author --}}
       {{timeClaim claims 'P577' 'year' true}} {{!-- time of publication --}}
     </p>

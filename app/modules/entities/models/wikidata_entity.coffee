@@ -80,7 +80,9 @@ module.exports = Entity.extend
     else console.warn 'no claims found', @
 
   setWikiLinks: (lang)->
-    @updates.wikidata = {url: "http://www.wikidata.org/entity/#{@id}"}
+    @updates.wikidata =
+      url: "https://www.wikidata.org/entity/#{@id}"
+      wiki: "https://www.wikidata.org/wiki/#{@id}"
     @updates.uri = "wd:#{@id}"
 
     @originalLang = @updates.claims?.P364?[0]

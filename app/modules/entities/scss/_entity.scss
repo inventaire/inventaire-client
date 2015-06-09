@@ -54,6 +54,14 @@
   color: $grey;
 }
 
+.editWikidata{
+  float: right;
+  font-size: 1.4em;
+  @include shy();
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+}
+
 @import './wikipedia_iframe';
 
 /*Small screens*/

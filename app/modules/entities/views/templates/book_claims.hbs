@@ -1,15 +1,17 @@
+{{partial 'entities:edit_wikidata' this}}
 <p class='wiki-attributes'>
-  {{claim this 'P1680'}} {{!-- subtitle --}}
-  {{claim this 'P50' true}} {{!-- author --}}
-  {{timeClaim this 'P577'}} {{!-- time of publication --}}
-  {{claim this 'P155' true}} {{!-- preceded by --}}
-  {{claim this 'P156' true}} {{!-- followed by --}}
-  {{claim this 'P136'}} {{!-- genre --}}
-  {{claim this 'P135'}} {{!-- movement --}}
+  {{claim claims 'P1680'}} {{!-- subtitle --}}
+  {{stringClaim claims 'P1476'}} {{!-- original title --}}
+  {{claim claims 'P364'}} {{!-- original language --}}
+  {{claim claims 'P50' true}} {{!-- author --}}
+  {{timeClaim claims 'P577'}} {{!-- time of publication --}}
+  {{claim claims 'P155' true}} {{!-- preceded by --}}
+  {{claim claims 'P156' true}} {{!-- followed by --}}
+  {{claim claims 'P136'}} {{!-- genre --}}
+  {{claim claims 'P135'}} {{!-- movement --}}
   {{!-- publisher is confusing: might differ from the book instance editor --}}
-  {{!-- {{claim this 'P123'}} --}}
-  {{claim this 'P364'}} {{!-- original language --}}
-  {{claim this 'P921'}} {{!-- main subject --}}
-  {{claim this 'P840'}} {{!-- narrative set in --}}
-  {{claim this 'P674'}} {{!-- characters --}}
+  {{!-- {{claim claims 'P123'}} --}}
+  {{claim claims 'P921'}} {{!-- main subject --}}
+  {{claim claims 'P840'}} {{!-- narrative set in --}}
+  {{claim claims 'P674'}} {{!-- characters --}}
 </p>

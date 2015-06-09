@@ -36,7 +36,7 @@ module.exports =
 
   getQsTemplates: (valueArray, linkify)->
     valueArray
-    .map (id)=> @Q(id, linkify)
+    .map (id)=> @Q(id, linkify).trim()
     .join ', '
 
   timeClaim: (args...)->
@@ -58,6 +58,16 @@ module.exports =
       file = claims[P][0]
       src = wd.wmCommonsSmallThumb file, 200
       return new SafeString "<img src='#{src}'>"
+
+  stringClaim: (args...)->
+    [ claims, P, linkify, omitLabel, inline ] = neutralizeDataObject(args)
+    if claims?[P]?[0]?
+      label = @labelString P, omitLabel
+      values = claims[P]?.join ', '
+      return @claimString label, values
+    else
+      _.log arguments, 'entity:claims:ignored'
+      return
 
   claimString: (label, values, inline)->
     text = "#{label} #{values}"

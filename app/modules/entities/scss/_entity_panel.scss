@@ -40,10 +40,13 @@
     margin: -0.9em -0.8em 0 auto;
   }
   .attributes{
-    span, .wd-P{
+    span:not(.wd-Q), .wd-P{
       color: #999;
       margin-right: 0.5em;
     }
+  }
+  .editWikidata{
+    color: white;
   }
 
   /*Small screens*/

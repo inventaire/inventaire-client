@@ -127,6 +127,7 @@ module.exports = (promises_, _)->
               { datatype, datavalue } = mainsnak
               switch datatype
                 when 'string', 'commonsMedia' then { value } = datavalue
+                when 'monolingualtext' then value = datavalue.value.text
                 when 'wikibase-item' then value = 'Q' + datavalue.value['numeric-id']
                 when 'time' then value = @normalizeTime(datavalue.value.time)
                 else value = null
