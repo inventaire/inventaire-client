@@ -1,9 +1,12 @@
 __ = require '../root'
 
-Backbone = {}
-app = {}
-window = {}
+global.Backbone = {}
+global.app = {}
+global.window =
+  reportErr: ->
 global.location = {}
+
+global.sharedLib = (lib)-> __.require 'shared', lib
 
 _ = require 'underscore'
 

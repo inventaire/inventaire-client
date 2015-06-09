@@ -11,9 +11,10 @@ module.exports =
 
     # accepts a common type for all the args as a string
     # ex: types = 'numbers...'
+    # or even 'numbers...|strings...' to be translated as several 'number|string'
     # => types = ['number', 'number', ... (args.length times)]
-    if typeof types is 'string' and types.split('s...').length is 2
-      uniqueType = types.split('s...')[0]
+    if typeof types is 'string' and types.split('s...').length > 1
+      uniqueType = types.split('s...').join ''
       types = @duplicatesArray uniqueType, args.length
 
     # testing arguments types once polymorphic interfaces are normalized

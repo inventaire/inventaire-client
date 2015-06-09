@@ -161,6 +161,11 @@ describe 'UTILS', ->
         (-> _.types([1,2,3,41235115], 'numbers')).should.throw()
         done()
 
+      it "should accept piped 's...' types", (done)->
+        (-> _.types([1,2,'yo',41235115], 'strings...|numbers...')).should.not.throw()
+        (-> _.types([1,2,'yo', [],41235115], 'strings...|numbers...')).should.throw()
+        done()
+
   describe 'ALL', ->
     describe 'areStrings', ->
       it "should be true when all are strings", (done)->
