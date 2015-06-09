@@ -42,7 +42,6 @@ module.exports = (promises_, _)->
   P =
     'P50': [
       'P58' #screen writer / scénariste
-      'P110' # illustrator
     ]
 
   aliases = {}
@@ -104,8 +103,11 @@ module.exports = (promises_, _)->
         if aliasId?
           before = claims[aliasId] or= []
           aliased = claims[id]
+          # uniq can not test uniqueness on objects
+          _.types before, 'strings...|numbers...'
+          _.types aliased, 'strings...|numbers...'
           after = _.uniq before.concat(aliased)
-          _.log [aliasId, before, id, aliased, aliasId, after], 'entity:aliasingClaims'
+          # _.log [aliasId, before, id, aliased, aliasId, after], 'entity aliasingClaims'
           claims[aliasId] = after
       return claims
 
@@ -113,15 +115,11 @@ module.exports = (promises_, _)->
       rebased = {}
       for id, claim of claims
         rebased[id] = []
-        # adding label as a non-enumerable value
-        # needed app.polyglot to be ready
-        # if app.polyglot? then rebased[id].label = _.i18n(id)
-        if _.isObject claim
+        unless _.isArray claim then _.warn claim, 'non-array claim?!?'
+        else
           claim.forEach (statement)=>
-            # will be overriden at the end of this method
+            # statement will be overriden at the end of this method
             # so won't be accessible on persisted models
-            # testing existance shouldn't be needed thank to the status test
-            # but let's keep it for now
             { mainsnak } = statement
             if mainsnak?
               { datatype, datavalue } = mainsnak
@@ -134,7 +132,7 @@ module.exports = (promises_, _)->
               rebased[id].push value  if value?
             else
               # should only happen in snaktype: "novalue" cases or alikes
-              console.warn 'no mainsnak found', statement
+              _.warn [claims, id, claim, statement], 'no mainsnak found'
       return rebased
 
     normalizeTime: (wikidataTime)->

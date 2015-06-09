@@ -75,8 +75,10 @@ module.exports = Entity.extend
   rebaseClaims: ->
     claims = @get 'claims'
     if claims?
-      claims = wd.aliasingClaims(claims)
-      @updates.claims = wd.getRebasedClaims(claims)
+      # aliasing should happen after rebasing
+      # as aliasing needs strings or numbers to test value uniqueness
+      claims = wd.getRebasedClaims(claims)
+      @updates.claims = wd.aliasingClaims(claims)
     else console.warn 'no claims found', @
 
   setWikiLinks: (lang)->
