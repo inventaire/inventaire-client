@@ -41,6 +41,9 @@
         color: $grey
       }
     }
+    &:hover{
+      color: white;
+    }
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
