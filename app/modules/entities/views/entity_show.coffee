@@ -1,5 +1,6 @@
 EntityData = require './entity_data'
 EntityActions = require './entity_actions'
+wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 
 module.exports = Marionette.LayoutView.extend
   className: 'entityShow custom-column'
@@ -10,16 +11,17 @@ module.exports = Marionette.LayoutView.extend
     localItems: '#localItems'
     publicItems: '#publicItems'
 
-  behaviors:
-    WikiBar: {}
-
   serializeData: ->
     _.extend @model.toJSON(),
       back: backMessage()
 
   initialize: ->
+    @initPlugins()
     @uri = @model.get('uri')
     fetchPublicItems @uri
+
+  initPlugins: ->
+    wikiBarPlugin.call @
 
   onShow: ->
     @showEntityData()
