@@ -84,22 +84,25 @@ module.exports = Marionette.LayoutView.extend
     $el.siblings().removeClass 'active'
     $el.addClass 'active'
 
+  # TODO: update the UI for update errors
   updateTransaction: ->
     transaction = @ui.transaction.find('.active').attr 'id'
     @updateItem { transaction: transaction }
+    .catch _.Error('updateTransaction err')
 
   updateListing: ->
     listing = @ui.listing.find('.active').attr 'id'
     @updateItem { listing: listing }
+    .catch _.Error('updateListing err')
 
   validateItem: ->
     @updateItem
       details: @ui.details.val()
       notes: @ui.notes.val()
     .then -> app.execute 'show:home'
+    .catch _.Error('validateItem err')
 
   updateItem: (data)->
     app.request 'item:update',
       item: @model
       data: data
-    .catch _.Error('updateItem')
