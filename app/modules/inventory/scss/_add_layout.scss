@@ -3,9 +3,12 @@ $addLayoutWidth: 38em;
 #addLayout{
   @include flex(1);
   padding: 1em;
-  background-color: #fefefe;
-  @include radius();
-  @include shy-border();
+  section{
+    background-color: #fefefe;
+    @include radius(4px);
+    @include shy-border();
+    padding: 1em;
+  }
   text-align: center;
   h2{
     font-size: 1.6em;
