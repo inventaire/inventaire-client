@@ -1,7 +1,9 @@
 module.exports = (transaction)->
   nextActions = findNextActions(transaction)
   data = actionsData[nextActions]
-  if data? then grabOtherUsername transaction, data
+  if data?
+    data = addTransactionInfo data, transaction.get('transaction')
+    grabOtherUsername transaction, data
   else return
 
 findNextActions = (transaction)->
@@ -13,6 +15,11 @@ findNextActions = (transaction)->
 getNextActionsList = (transaction)->
   if transaction is 'lending' then nextActionsWithReturn
   else basicNextActions
+
+addTransactionInfo = (data, transaction)->
+  data.map (action)->
+    action.info = "#{action.text}_info_#{transaction}"
+    return action
 
 grabOtherUsername = (transaction, actions)->
   username = transaction.otherUser()?.get('username')

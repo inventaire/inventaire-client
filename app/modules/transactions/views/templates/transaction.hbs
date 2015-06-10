@@ -25,6 +25,9 @@
   {{#if nextActions}}
     {{#each nextActions}}
       <a class="{{classes}}">{{i18n text this}}</a>
+      {{#if info}}
+        <p class="info">{{i18n info}}</p>
+      {{/if}}
     {{/each}}
   {{else}}
     <span class="finished">{{i18n 'transaction_finished'}}</span>
