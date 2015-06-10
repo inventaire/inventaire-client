@@ -76,8 +76,6 @@ module.exports = Filterable.extend
         listing = app.request('get:item:model', attrs._id)?.get('listing')
         attrs.currentListing = app.user.listings[listing]
 
-    if @entity? then attrs.entity = @entity.toJSON?()
-
     # picture may be undefined
     attrs.picture = attrs.pictures?[0]
 
