@@ -58,7 +58,7 @@ module.exports = Marionette.LayoutView.extend
 
   listingsData: ->
     listings = _.clone(app.user.listings)
-    listings.friends.classes = 'active'
+    listings.private.classes = 'active'
     return listings
 
   transactionsData: ->
