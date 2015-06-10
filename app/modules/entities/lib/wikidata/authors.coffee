@@ -1,32 +1,26 @@
 wd_ = require 'lib/wikidata'
 
-wdAuthors_ = {}
+module.exports = wdAuthors_ = {}
 
-wdAuthors_.fetchAuthorsBooks = (authorModel, limit)->
+wdAuthors_.fetchAuthorsBooks = (authorModel)->
   wdAuthors_.fetchAuthorsBooksIds(authorModel)
-  .then -> wdAuthors_.fetchAuthorsBooksEntities(authorModel)
-  .catch (err)-> _.error err, 'wdAuthors_.fetchAuthorsBooks err'
+  .then wdAuthors_.fetchAuthorsBooksEntities.bind(null, authorModel)
+  .catch _.Error('wdAuthors_.fetchAuthorsBooks')
 
 wdAuthors_.fetchAuthorsBooksIds = (authorModel)->
-  if authorModel.get('reverseClaims')?.P50?
-    _.preq.resolve()
-  else
-    numericId = authorModel.id.replace(/^Q/,'')
-    # TODO: also fetch aliased Properties, not only P50
-    _.preq.get wd_.API.wmflabs.claim(50, numericId)
-    .then (res)->
-      if res?.items?
-        booksIds = wd_.normalizeIds res.items
-        _.log booksIds, 'booksIds'
-        authorModel.set 'reverseClaims.P50', booksIds
-        authorModel.save()
-    .catch (err)-> _.error err, 'fetchAuthorsBooksIds err'
+  if authorModel.get('reverseClaims')?.P50? then return _.preq.resolve()
+
+  numericId = wd_.getNumericId authorModel.id
+  # TODO: also fetch aliased Properties, not only P50
+  _.preq.get wd_.API.wmflabs.claim(50, numericId)
+  .then wd_.parsers.wmflabs.ids
+  .then _.Log('booksIds')
+  .then authorModel.save.bind(authorModel, 'reverseClaims.P50')
+  .catch _.Error('fetchAuthorsBooksIds err')
 
 wdAuthors_.fetchAuthorsBooksEntities = (authorModel)->
   authorsBooks = authorModel.get 'reverseClaims.P50'
   _.log authorsBooks, 'authorsBooks?'
-  if authorsBooks?.length > 0
-    return app.request('get:entities:models', 'wd', authorsBooks)
-  else _.preq.resolve()
+  unless authorsBooks.length > 0 then return _.preq.resolve()
 
-module.exports = wdAuthors_
+  return app.request 'get:entities:models', 'wd', authorsBooks

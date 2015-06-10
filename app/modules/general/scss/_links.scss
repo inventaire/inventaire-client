@@ -3,6 +3,17 @@
   text-decoration: underline;
 }
 
+// to be used on dark background
+@mixin link-light(){
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: rgba(white, 0.2);
+  @include transition(text-decoration-color, 0.2s);
+  &:hover{
+    text-decoration-color: rgba(white, 0.6);
+  }
+}
+
 .link{
   text-decoration: none;
   color: #555566;

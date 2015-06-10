@@ -1,8 +1,11 @@
-@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
+@mixin bg-cover(){
   background-size: cover;
   background-position: center center;
   transition: background 0.5s ease;
-  @extend .bg-cover-commons;
+}
+
+@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
+  @include bg-cover();
   /*Small screens*/
   @media screen and (max-width: 500px) {
     background-image: url('http://cdn.filter.to/500x500/' + $url);
@@ -19,7 +22,7 @@
 }
 
 #bg{
-  @include position(fixed, 0, 0, 0, 0, -1);
+  @include position(fixed, 0, 0, 0, 0, -10);
   background-color: $main-bg;
   transition: background 0.5s ease;
   &.cover{

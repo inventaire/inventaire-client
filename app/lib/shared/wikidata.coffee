@@ -27,6 +27,8 @@ module.exports = (promises_, _)->
       'Q7725634' #literary work
       'Q5185279' #poem
       'Q37484' #epic poem
+      'Q386724' #work
+      'Q49084' #short story / conte
     ]
     edition: [
       'Q3972943' #publishing
@@ -37,7 +39,13 @@ module.exports = (promises_, _)->
       'Q10648343' #duo
       'Q14073567' #sibling duo
     ]
-    authors: ['Q36180']
+    authors: [
+      'Q36180' #writer
+    ]
+    genres: [
+      'Q483394' #genre
+      'Q223393' #literary genre
+    ]
 
   P =
     'P50': [
@@ -70,27 +78,30 @@ module.exports = (promises_, _)->
       return promises_.get(query, {CORS: false})
 
     normalizeIds: (idsArray)->
-      idsArray.map (id)=> @normalizeId(id)
+      idsArray.map @normalizeId.bind(@)
 
     normalizeId: (id)->
       if @isNumericId(id) then "Q#{id}"
       else if @isWikidataId(id) then id
       else throw new Error 'invalid id provided to normalizeIds'
     getUri: (id)-> 'wd:' + @normalizeId(id)
+    getNumericId: (id)->
+      unless @isWikidataId id then throw new Error 'invalid wikidata id'
+      id.replace /Q|P/,''
     isNumericId: (id)-> /^[0-9]+$/.test id
     isWikidataId: (id)-> /^(Q|P)[0-9]+$/.test id
     isWikidataEntityId: (id)-> /^Q[0-9]+$/.test id
     isBook: (P31Array)-> _.haveAMatch Q.books, P31Array
     isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
     isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
+    isGenre: (P31Array)-> _.haveAMatch Q.genres, P31Array
     type: (entity)->
       if _.isModel entity then P31 = entity.get?('claims')?.P31
       else P31 = entity.claims?.P31
-      type = null
       if P31?
-        if @isBook(P31) then type = 'book'
-        if @isHuman(P31) then type = 'human'
-      return type
+        if @isBook P31 then return 'book'
+        if @isHuman P31 then return 'human'
+        if @isGenre P31 then return 'genre'
 
     wmCommonsSmallThumb: (file, width="100")->
       "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
@@ -154,5 +165,7 @@ module.exports = (promises_, _)->
     aliases: aliases
 
     API: API
+
+  methods.parsers = require('./wikidata_parsers')(methods)
 
   return methods

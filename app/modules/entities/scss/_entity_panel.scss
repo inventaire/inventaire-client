@@ -8,9 +8,8 @@
   a{
     color: white;
   }
-  a:not(.toggler){
-    text-decoration: underline;
-    text-decoration-color: rgba($secondary-color, 0.3);
+  a.showEntity, a.wd-Q, a.link{
+    @include link-light();
   }
   div{
     padding: 1em;

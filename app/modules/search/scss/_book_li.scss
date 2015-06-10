@@ -1,10 +1,14 @@
+$bookLiMaxWidth: 45em;
+
 .bookLi{
   margin: 1em auto;
-  max-width: 45em;
+  max-width: $bookLiMaxWidth;
   text-align: left;
   @include display-flex(row, center, space-around);
   background-color: $contrast;
   margin-bottom: 1em;
+  @include radius();
+  @include shy-border();
   .bookCover{
     margin: 1em;
     max-width: 10em;
@@ -19,6 +23,9 @@
       text-align: center;
       @include display-flex();
       font-size: 1.4em;
+    }
+    .date{
+      text-align: center;
     }
   }
   .actions{
@@ -59,7 +66,7 @@
 }
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $bookLiMaxWidth) {
   .bookLi{
     @include display-flex(column);
     @include flex(1);
@@ -72,7 +79,7 @@
 
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $bookLiMaxWidth) {
   .bookLi{
     .bookLiData{
       @include flex(1);

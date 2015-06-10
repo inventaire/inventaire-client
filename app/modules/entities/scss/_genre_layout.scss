@@ -1,0 +1,34 @@
+#genreLayout{
+  text-align: center;
+  section{
+    // needed to push .title and .subheader widths
+    &#genre, &:not(#genre) > div:not(.hidden){
+      @include display-flex(column);
+    }
+  }
+  .title, .subheader{
+    color: white;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    background-color: rgba($dark-grey, 0.5);
+    margin: 1em auto;
+  }
+  .subheader{
+    margin-top: 2em;
+    margin-bottom: 0em;
+  }
+  .extract{
+    margin: 0 auto;
+    max-width: $bookLiMaxWidth;
+    padding: 1em;
+    text-align: left;
+    background-color: $contrast;
+    @include radius();
+    @include shy-border();
+    &:empty{
+      display:none;
+    }
+  }
+  .wikipedia-iframe{}
+}
+
+@import "genre_layout_background";

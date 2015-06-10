@@ -12,6 +12,8 @@
     <p>
       {{!-- {{partial 'entities:book_claims' this}} --}}
       {{claim claims 'P50' true}}  {{!-- author --}}
+    </p>
+    <p class="date">
       {{timeClaim claims 'P577' 'year' true}} {{!-- time of publication --}}
     </p>
   {{else}}

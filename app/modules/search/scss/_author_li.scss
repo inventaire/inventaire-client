@@ -52,5 +52,12 @@
     .innerAuthorLi{
       @include display-flex(column);
     }
+    .infobox{
+      // center the image
+      @include display-flex(column);
+      img{
+        margin: auto;
+      }
+    }
   }
 }

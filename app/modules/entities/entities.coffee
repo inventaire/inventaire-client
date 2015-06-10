@@ -6,6 +6,7 @@ InvEntity = require './models/inv_entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
+GenreLayout= require './views/genre_layout'
 
 module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
@@ -44,16 +45,21 @@ API =
 
   getEntityView: (prefix, id)->
     return @getEntityModel(prefix, id)
-    .then (entity)->
+    .then (entity)=>
       switch wd_.type(entity)
-        when 'human'
-          new AuthorLi
-            model: entity
-            displayBooks: true
-            wikipediaPreview: true
-        else
-          new EntityShow {model: entity}
+        when 'human' then @getAuthorView entity
+        when 'book' then new EntityShow {model: entity}
+        # display anything else as a genre
+        # so that in the worst case it's just a page with a few data
+        # and not a page you can 'add to your inventory'
+        else new GenreLayout {model: entity}
     .catch (err)-> _.error err, 'catch at showEntity: getEntityView'
+
+  getAuthorView: (entity)->
+    new AuthorLi
+      model: entity
+      displayBooks: true
+      wikipediaPreview: true
 
   getEntitiesModels: (prefix, ids)->
     try Model = getModelFromPrefix(prefix)

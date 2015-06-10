@@ -1,5 +1,10 @@
 module.exports = Backbone.NestedModel.extend
-  initLazySave: -> @save = _.debounce lazySave.bind(@), 100
+  initLazySave: ->
+    lazySave = _.debounce customSave.bind(@), 100
+    @save = (args...)->
+      @set.apply @, args
+      lazySave()
+      return @
 
-  lazySave = ->
-    app.request 'save:entity:model', @prefix, @toJSON()
+customSave = ->
+  app.request 'save:entity:model', @prefix, @toJSON()

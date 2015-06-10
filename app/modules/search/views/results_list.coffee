@@ -14,3 +14,17 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     type: _.i18n @options.type
+
+  collectionEvents:
+    'add': 'hideIfEmpty'
+
+  onShow: -> @hideIfEmpty()
+
+  hideIfEmpty: ->
+    if @options.hideIfEmpty
+      if @collection.length is 0
+        @$el.addClass 'hidden'
+        @_hidden = true
+      else if @_hidden
+        @$el.removeClass 'hidden'
+        @_hidden = false

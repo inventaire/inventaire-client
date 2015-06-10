@@ -1,6 +1,7 @@
 wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 paginationPlugin = require 'modules/general/plugins/pagination'
+wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/author_li'
@@ -8,7 +9,6 @@ module.exports = Marionette.CompositeView.extend
   className: 'authorLi'
   behaviors:
     Loading: {}
-    WikiBar: {}
 
   childViewContainer: '.authorsBooks'
   childView: require './book_li'
@@ -23,10 +23,10 @@ module.exports = Marionette.CompositeView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    paginationPlugin.call(@, 15, 5)
+    paginationPlugin.call @, 15, 5
+    wikiBarPlugin.call @
 
   events:
-    'click a.showWikipediaPreview': 'toggleWikipediaPreview'
     'click a.displayMore': 'displayMore'
 
   modelEvents:
@@ -52,5 +52,3 @@ module.exports = Marionette.CompositeView.extend
   addToCollection: (models)->
     if models? then models.forEach @collection.add.bind(@collection)
     else 'no book found for #{@model.title}'
-
-  toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @

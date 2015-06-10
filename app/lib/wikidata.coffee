@@ -1,9 +1,10 @@
-wd = sharedLib('wikidata')(_.preq, _)
+module.exports = wd = sharedLib('wikidata')(_.preq, _)
 
 _.extend wd.API.wmflabs,
   claim: (P, Q)-> app.API.data.wdq 'claim', P, Q
 
 wd.wmCommonsThumb = (file, width=500)->
+  width = bestWidth width
   _.preq.get app.API.data.commonsThumb(file, width)
   .then _.property('thumbnail')
   .catch (err)=>
@@ -22,9 +23,13 @@ wd.wikipediaExtract = (lang, title)->
 # add a link to the full wikipedia article at the end of the extract
 sourcedExtract = (extract, url)->
   if url?
-    text = _.i18n('Read more on Wikipedia')
+    text = _.i18n('Read more or edit on Wikipedia')
     return extract += "<br><a href='#{url}' class='source link' target='_blank'>#{text}</a>"
   else extract
 
+
+# group image width by levels of 100px to limit cdn versions
+bestWidth = (width)-> Math.ceil(width / 100) * 100
+
+
 wd.sitelinks = sharedLib 'wiki_sitelinks'
-module.exports = wd
