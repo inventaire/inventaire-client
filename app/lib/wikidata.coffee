@@ -23,7 +23,7 @@ wd.wikipediaExtract = (lang, title)->
 # add a link to the full wikipedia article at the end of the extract
 sourcedExtract = (extract, url)->
   if url?
-    text = _.i18n('Read more or edit on Wikipedia')
+    text = _.i18n 'read_more_on_wikipedia'
     return extract += "<br><a href='#{url}' class='source link' target='_blank'>#{text}</a>"
   else extract
 

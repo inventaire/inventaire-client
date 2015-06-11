@@ -86,7 +86,7 @@ module.exports = (promises_, _)->
       else throw new Error 'invalid id provided to normalizeIds'
     getUri: (id)-> 'wd:' + @normalizeId(id)
     getNumericId: (id)->
-      unless @isWikidataId id then throw new Error 'invalid wikidata id'
+      unless @isWikidataId id then throw new Error "invalid wikidata id: #{id}"
       id.replace /Q|P/,''
     isNumericId: (id)-> /^[0-9]+$/.test id
     isWikidataId: (id)-> /^(Q|P)[0-9]+$/.test id
