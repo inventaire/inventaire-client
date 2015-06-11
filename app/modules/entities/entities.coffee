@@ -44,16 +44,27 @@ API =
       console.warn 'prefix or id missing at showEntity'
 
   getEntityView: (prefix, id)->
-    return @getEntityModel(prefix, id)
-    .then (entity)=>
-      switch wd_.type(entity)
-        when 'human' then @getAuthorView entity
-        when 'book' then new EntityShow {model: entity}
-        # display anything else as a genre
-        # so that in the worst case it's just a page with a few data
-        # and not a page you can 'add to your inventory'
-        else new GenreLayout {model: entity}
-    .catch (err)-> _.error err, 'catch at showEntity: getEntityView'
+    @getEntityModel(prefix, id)
+    .then @getDomainEntityView.bind(@, prefix)
+    .catch _.Error('catch at showEntity: getEntityView')
+
+  getDomainEntityView: (prefix, entity)->
+    switch prefix
+      when 'isbn' then @getCommonBookEntityView entity
+      when 'wd' then @getWikidataEntityView entity
+      else _.error "getDomainEntityView err: unknown domain #{prefix}"
+
+  getWikidataEntityView: (entity)->
+    switch wd_.type(entity)
+      when 'human' then @getAuthorView entity
+      when 'book' then @getCommonBookEntityView entity
+      # display anything else as a genre
+      # so that in the worst case it's just a page with a few data
+      # and not a page you can 'add to your inventory'
+      else new GenreLayout {model: entity}
+
+  getCommonBookEntityView: (entity)->
+    new EntityShow {model: entity}
 
   getAuthorView: (entity)->
     new AuthorLi
