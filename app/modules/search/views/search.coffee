@@ -58,7 +58,7 @@ module.exports = Marionette.LayoutView.extend
   sameAsPreviousQuery: ->
     # verifying that the query is not the same as the last one
     # and using the previous results if so
-    if app.results.search is @query and app.results.books?.length > 0
+    if app.results?.search is @query and app.results?.books?.length > 0
       @displayResults()
       @authors.$el.hide().fadeIn(200)
       return true
@@ -66,8 +66,8 @@ module.exports = Marionette.LayoutView.extend
   searchEntities: ->
     search = @query
     _.log search, 'search'
-    app.results ||= {}
     unless @sameAsPreviousQuery()
+      app.results = {}
       _.preq.get app.API.entities.search(search)
       .catch _.preq.catch404
       .then (res)=>
