@@ -50,7 +50,7 @@ API =
 
   getDomainEntityView: (prefix, entity)->
     switch prefix
-      when 'isbn' then @getCommonBookEntityView entity
+      when 'isbn', 'inv' then @getCommonBookEntityView entity
       when 'wd' then @getWikidataEntityView entity
       else _.error "getDomainEntityView err: unknown domain #{prefix}"
 
