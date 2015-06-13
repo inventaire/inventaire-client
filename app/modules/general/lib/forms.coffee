@@ -46,3 +46,10 @@ forms_.alert = (view, err)->
   view.$el.trigger 'alert',
     message: _.i18n(errMessage)
     selector: selector
+
+# format the error to be catched by forms_.catchAlert
+# ex: forms_.throwError 'a title is required', '#titleField'
+forms_.throwError = (message, selector)->
+  err = new Error message
+  err.selector = selector
+  throw err

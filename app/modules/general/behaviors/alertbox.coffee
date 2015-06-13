@@ -33,6 +33,9 @@ module.exports = Marionette.Behavior.extend
     $parent.find('.alert-box').remove()
     $parent.append(box)
     $parent.find('.alert-box').slideDown(500)
+    @_showAlertTimestamp = _.now()
 
   hideAlertBox: ->
-    @$el.find('.alert-box').hide()
+    # don't hide alert box if it has been visible for less than 1s
+    unless @_showAlertTimestamp? and not _.expired @_showAlertTimestamp, 1000
+      @$el.find('.alert-box').hide()

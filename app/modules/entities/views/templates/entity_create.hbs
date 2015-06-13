@@ -1,13 +1,16 @@
-<div class="entityCreateForm">
-  <div>
+<form class="entityCreateForm">
+  <div class="fields">
     <h3>{{header}}</h3>
-    <h4>{{i18n 'title'}} <span class="needed">({{i18n 'needed'}})</span></h4>
-    <input id="title" type="text" placeholder="{{i18n "ex: Hamlet"}}" value="{{title}}">
+    <h4>{{i18n 'title'}} {{partial 'entities:needed'}}</h4>
+    {{partial 'text_field' titleField}}
 
-    <h4>{{i18n 'P50'}}</h4>
-    <input id="authors" type="text" placeholder="{{i18n "ex: William Shakespeare"}}" value="{{authors}}">
+    <h4>{{i18n 'P50'}} {{partial 'entities:needed'}}</h4>
+    {{partial 'text_field' authorsField}}
+
+    <h4>ISBN</h4>
+    {{partial 'text_field' isbnField}}
   </div>
-  <div>
+  <div class="pics">
     <div class="pictures">
       {{#each pictures}}
         <img src="{{this}}">
@@ -15,8 +18,6 @@
     </div>
     <a id="addPicture" class="button">{{icon 'camera'}} {{i18n 'add a picture'}}</a>
   </div>
-</div>
+</form>
 
-<div class="entityActions">
-  {{partial 'entities:entity_actions' this}}
-</div>
+<div id="entityActions"></div>

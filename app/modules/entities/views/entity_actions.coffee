@@ -51,11 +51,13 @@ module.exports = Marionette.ItemView.extend
   inventorying: -> @showItemCreation 'inventorying'
 
   showItemCreation: (transaction)->
-    params =
-      entity: @model
-      transaction: transaction
-    _.log params, 'item:creation:params'
-    app.execute 'show:item:creation:form', params
+    if @model.delegateItemCreation
+      @model.trigger 'delegate:item:creation', transaction
+      _.log 'delegating item creation'
+    else
+      app.execute 'show:item:creation:form',
+        entity: @model
+        transaction: transaction
 
   followActivity: ->
     app.execute 'entity:follow', @uri

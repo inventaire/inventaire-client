@@ -113,3 +113,5 @@ module.exports = (_)->
   piped: (data)-> _.forceArray(data).join '|'
 
   expired: (timestamp, ttl)-> @now() - timestamp > ttl
+
+  isNonEmptyString: (str)-> _.isString(str) and str.length > 0

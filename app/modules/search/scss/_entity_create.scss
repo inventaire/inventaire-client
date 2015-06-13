@@ -8,29 +8,27 @@
     /*Small screens*/
     @media screen and (max-width: $smallscreen) {
       @include flex-direction(column);
-      div:last-child{
+      .pics{
         padding: 1em;
         @include align-self(center);
       }
     }
     /*Large screens*/
     @media screen and (min-width: $smallscreen) {
-      div{
-        &:first-child{
-          @include flex(3);
-        }
-        &:last-child{
-          @include flex(1);
-          white-space: nowrap;
-          @include display-flex(column, center, center);
-          padding: 2.6em 2em 2em 2em;
-          .pictures{
-            text-align: center;
-            img{
-              max-width: 20em;
-              max-height: 20em;
-              padding: 1em;
-            }
+      .fields{
+        @include flex(3);
+      }
+      .pics{
+        @include flex(1);
+        white-space: nowrap;
+        @include display-flex(column, center, center);
+        padding: 2.6em 2em 2em 2em;
+        .pictures{
+          text-align: center;
+          img{
+            max-width: 20em;
+            max-height: 20em;
+            padding: 1em;
           }
         }
       }
