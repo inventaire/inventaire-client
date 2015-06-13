@@ -67,14 +67,18 @@ module.exports = Marionette.LayoutView.extend
     @model.set attr, val
 
   onShow: ->
-    @suggestQueryAsTitle()
+    @prefillForm()
     @showEntityActions()
 
-  suggestQueryAsTitle: ->
+  prefillForm: ->
     {data} = @options
     if data?
-      @ui.title.val data
-      @model.set 'title', data
+      if books_.isIsbn data
+        @ui.isbn.val data
+        @model.set 'isbn', data
+      else
+        @ui.title.val data
+        @model.set 'title', data
 
   addPicture: ->
     picturePicker = new app.View.Behaviors.PicturePicker

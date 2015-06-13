@@ -115,13 +115,9 @@ module.exports = Marionette.LayoutView.extend
     @findByIsbn.show new FindByIsbn
 
   showEntityCreationForm: (queryIsIsbn)->
-    options = {}
-    unless queryIsIsbn
-      # no need to pass the query to suggest a title
-      # if it's an isbn
-      options.data = @query
-      # adapt the header
-      options.secondChoice = true
+    options = { data: @query }
+    # adapt the header
+    unless queryIsIsbn then options.secondChoice = true
     view = new EntityCreate options
     @createEntity.show view
     @$el.find('h3.create').show()
