@@ -1,7 +1,17 @@
 // actions buttons, not to be mistaken for action events in _timeline.scss
 .actions{
-  padding: 2em;
+  padding: 1em;
   text-align: center;
+  @include display-flex(row, baseline, flex-end);
+  .next{
+    margin-right: auto;
+    color: $grey;
+    @include flex(0, 0);
+  }
+  .action{
+    @include display-flex(column);
+    margin-left: 0.5em;
+  }
   .accept, .confirm, .returned{
     @include tiny-button($success-color);
   }

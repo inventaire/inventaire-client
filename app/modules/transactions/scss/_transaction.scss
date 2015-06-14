@@ -2,12 +2,19 @@
   @include radius();
   @include shy-border();
   background-color: white;
-  max-width: 38em;
+  max-width: 40em;
   margin: 1em auto;
   @import "header";
   @import "timeline";
   @import "actions";
   .item{
     @include bg-hover(white);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 1em;
   }
 }
