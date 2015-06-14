@@ -25,11 +25,16 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     item: @model.serializeData()
     user: @userData()
+    suggestedText: @suggestedText()
 
   userData: ->
     # user should already have been fetched
     user = app.users.findWhere {username: @model.username}
     return user.serializeData()
+
+  suggestedText: ->
+    transaction = @model.get 'transaction'
+    return "item_request_text_suggestion_#{transaction}"
 
   sendRequest: ->
     @startLoading '#sendItemRequest'
