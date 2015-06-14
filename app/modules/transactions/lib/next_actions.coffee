@@ -36,11 +36,11 @@ basicNextActions =
     owner: 'waiting:confirmed'
     requester: 'confirm'
   declined:
-    owner: null #auto-archived
-    requester: 'archive'
+    owner: null
+    requester: null
   confirmed:
-    owner: 'archive'
-    requester: null #auto-archived
+    owner: null
+    requester: null
 
 # customizing actions for transactions where the item should be returned
 # currently only 'lending'
@@ -49,8 +49,8 @@ nextActionsWithReturn = _.extend {}, basicNextActions,
     owner: 'returned'
     requester: 'waiting:returned'
   returned:
-    owner: null #auto-archived
-    requester: 'archive'
+    owner: null
+    requester: null
 
 actionsData =
   'accept/decline':
@@ -60,7 +60,6 @@ actionsData =
     ]
   'confirm': [{classes: 'confirm', text: 'confirm_reception'}]
   'returned': [{classes: 'returned', text: 'confirm_returned'}]
-  'archive': [{classes: 'archive', text: 'archive'}]
   'waiting:accepted': [{classes: 'waiting', text: 'waiting_accepted'}]
   'waiting:confirmed': [{classes: 'waiting', text: 'waiting_confirmation'}]
   'waiting:returned': [{classes: 'waiting', text: 'waiting_return_confirmation'}]
