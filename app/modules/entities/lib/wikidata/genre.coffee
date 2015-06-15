@@ -4,7 +4,8 @@ module.exports = wdGenre_ = {}
 
 wdGenre_.fetchBooksAndAuthors = (genreModel)->
   wdGenre_.fetchBooksAndAuthorsIds(genreModel)
-  .then wdGenre_.fetchBooksAndAuthorsEntities.bind(null, genreModel)
+  # using an anonymous function to avoid passing unwanted extra arguments
+  .then -> wdGenre_.fetchBooksAndAuthorsEntities(genreModel)
   .catch _.Error('wdGenre_.fetchBooksAndAuthors')
 
 
@@ -20,11 +21,14 @@ wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
 
 
 wdGenre_.fetchBooksAndAuthorsEntities = (genreModel, limit=30, offset=0)->
+  _.types [genreModel, limit, offset], ['object', 'number', 'number']
   first = offset
   last = offset + limit
   range = genreModel.get('reverseClaims.P136')[first...last]
 
-  unless range.length > 0 then return _.preq.resolve()
+  unless range.length > 0
+    _.warn 'no more ids: range is empty'
+    return _.preq.resolve()
 
   return app.request 'get:entities:models', 'wd', range
 
