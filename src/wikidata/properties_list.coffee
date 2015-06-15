@@ -12,10 +12,16 @@ module.exports = [
     'P136'
     'P155'
     'P156'
-    'P364'
     'P577'
     'P674'
+    'P737'
+    'P738'
     'P840'
     'P921'
     'P1066'
+    'P1680'
 ]
+
+# properties with customized labels are treated as fullkey:
+# P364
+# P1476

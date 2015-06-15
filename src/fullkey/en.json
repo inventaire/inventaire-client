@@ -122,7 +122,6 @@
     "ex: 978-2-07-036822-8": "ex: 978-2-07-036822-8",
     "read online": "read online",
     "missing image": "missing image",
-    "otherwise, let's just take some basic informations": "otherwise, let's just take some basic informations",
     "enter an image url": "enter an image url",
     "go get it!": "go get it!",
     "select a picture": "select a picture",
@@ -152,7 +151,6 @@
     "cancel request": "cancel request",
     "confirm": "confirm",
     "delete request": "delete request",
-    "let's just take some basic informations": "let's just take some basic informations",
     "following activity": "following activity",
     "stop following": "stop following",
     "no item found": "no item found",
@@ -272,7 +270,15 @@
     "next action": "next action",
     "wrong user": "wrong user",
     "archive": "archive",
-    "Read more on Wikipedia": "Read more on Wikipedia",
     "epub": "epub",
-    "download epub": "download epub"
+    "download epub": "download epub",
+    "pages": "pages",
+    "matching books in your network": "matching books in your network",
+    "edit data on Wikidata": "edit data on Wikidata",
+    "P364": "original language",
+    "P1476": "original title",
+    "let's just create the book card": "let's just create the book card",
+    "otherwise, let's just create the book card": "otherwise, let's just create the book card",
+    "an author is required": "an author is required",
+    "invalid ISBN": "invalid ISBN"
 }

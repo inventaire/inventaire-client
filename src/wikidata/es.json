@@ -12,10 +12,12 @@
     "P136": "género artístico",
     "P155": "precedida por",
     "P156": "sucedida por",
-    "P364": "idioma original",
     "P577": "fecha de publicación",
     "P674": "personajes",
+    "P737": "influido por",
+    "P738": "influye en",
     "P840": "narración ambientada en",
     "P921": "tema principal de la obra",
-    "P1066": "alumno de"
+    "P1066": "alumno de",
+    "P1680": "subtítulo"
 }

@@ -12,10 +12,12 @@
     "P136": "genre",
     "P155": "follows",
     "P156": "followed by",
-    "P364": "original language of this work",
     "P577": "time of publication",
     "P674": "characters",
+    "P737": "influenced by",
+    "P738": "influence of",
     "P840": "narrative set in",
     "P921": "main subject",
-    "P1066": "student of"
+    "P1066": "student of",
+    "P1680": "subtitle"
 }

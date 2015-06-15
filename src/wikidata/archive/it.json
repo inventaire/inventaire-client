@@ -1,4 +1,5 @@
 {
+    "P364": "lingua originale",
     "P6": "capo del governo",
     "P7": "fratello",
     "P9": "sorella",
@@ -516,8 +517,6 @@
     "P734": "cognome",
     "P735": "nome",
     "P736": "creatore della copertina",
-    "P737": "influenzato da",
-    "P738": "influenza",
     "P739": "munizioni",
     "P740": "luogo di fondazione",
     "P741": "playing hand",
@@ -1336,7 +1335,6 @@
     "P1677": "index case of",
     "P1678": "has vertex figure",
     "P1679": "BBC Your Paintings artwork identifier",
-    "P1680": "sottotitolo",
     "P1683": "citazione",
     "P1684": "iscrizione",
     "P1685": "Pokémon browser number",

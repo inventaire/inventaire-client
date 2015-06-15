@@ -1,3 +1,4 @@
 {
+    "item_request_text_suggestion": "Bonjour %{username} ! Puis-je emprunter ce livre ?",
     "email_confirmation_succthess": "email confirmé, merci !"
 }

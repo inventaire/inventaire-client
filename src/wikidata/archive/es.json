@@ -1,4 +1,5 @@
 {
+    "P364": "idioma original",
     "P6": "jefe de gobierno",
     "P7": "hermano",
     "P9": "hermana",
@@ -516,8 +517,6 @@
     "P734": "apellido",
     "P735": "nombre",
     "P736": "artista de la portada",
-    "P737": "influido por",
-    "P738": "influye en",
     "P739": "munición",
     "P740": "lugar de formación",
     "P741": "mano utilizada",
@@ -1336,7 +1335,6 @@
     "P1677": "index case of",
     "P1678": "has vertex figure",
     "P1679": "BBC Your Paintings artwork identifier",
-    "P1680": "subtítulo",
     "P1683": "cita",
     "P1684": "inscription",
     "P1685": "número en el Directorio Ranger",

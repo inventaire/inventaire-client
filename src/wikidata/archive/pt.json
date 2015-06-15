@@ -1,4 +1,5 @@
 {
+    "P364": "idioma original",
     "P6": "chefe do executivo",
     "P7": "irmão",
     "P9": "irmã",
@@ -516,8 +517,6 @@
     "P734": "sobrenome",
     "P735": "prenome",
     "P736": "artista de capa",
-    "P737": "influenciado por",
-    "P738": "influenciou",
     "P739": "munição",
     "P740": "local de formação",
     "P741": "mão de jogo",
@@ -1336,7 +1335,6 @@
     "P1677": "index case of",
     "P1678": "has vertex figure",
     "P1679": "identificador de obras BBC Your Paintings",
-    "P1680": "legenda",
     "P1683": "quote",
     "P1684": "inscrições",
     "P1685": "número no navegador Pokémon",
