@@ -6,7 +6,7 @@ module.exports.initialize = ->
     # avoid using utils that weren't defined yet
     args = [].slice.call(arguments, 0)
 
-    if JSON.stringify(args) is '["InvalidStateError","",0,0,null]'
+    if args[0] is 'InvalidStateError'
       # already handled at feature_detection, no need to let it throw
       # and report to server
       return console.warn('InvalidStateError: no worries, already handled')
