@@ -14,13 +14,18 @@ module.exports = (containerSelector, itemSelector, minWidth=500)->
 
     unless _.smallScreen(minWidth) or tooFewItems
       _.log 'masonry:reinit'
+      positionBefore = window.scrollY
       container = document.querySelector containerSelector
+      $(containerSelector).css 'opacity', 0
       new Masonry container,
         itemSelector: itemSelector
         isFitWidth: true
         isResizable: true
         isAnimated: true
         gutter: 5
+
+      _.scrollHeight positionBefore, 0
+      $(containerSelector).css 'opacity', 1
 
   refresh = ->
     # wait for images to be loaded
