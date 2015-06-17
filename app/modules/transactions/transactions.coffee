@@ -24,6 +24,7 @@ module.exports =
 
     app.reqres.setHandlers
       'last:transaction:id': -> lastTransactionId
+      'transactions:unread:count': unreadCount
 
     initHelpers()
 
@@ -93,3 +94,7 @@ findFirstTransaction = ->
 
   return firstTransac
 
+unreadCount = ->
+  app.user.transactions?.models
+  .map _.property('unreadUpdate')
+  .reduce (a, b)-> if _.isNumber(b) then a+b else a

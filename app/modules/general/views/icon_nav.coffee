@@ -2,6 +2,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/icon_nav'
   className: 'innerIconNav'
   initialize: ->
+    @lazyRender = _.debounce @render.bind(@), 200
   events:
     'click .add': 'showAddLayout'
     'click .exchanges': 'showTransactions'
@@ -13,9 +14,13 @@ module.exports = Marionette.ItemView.extend
     exchanges: '.exchanges'
     browse: '.browse'
 
+  serializeData: ->
+    exchangesUpdates: @exchangesUpdates()
+
   onShow: ->
     @selectButtonFromRoute _.currentSection()
     @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
+    @listenTo app.vent, 'transactions:unread:change', @lazyRender
 
   selectButtonFromRoute: (section)->
     @unselectAll()
@@ -41,3 +46,6 @@ module.exports = Marionette.ItemView.extend
   showInventory: ->
     @selectButton 'browse'
     app.execute 'show:inventory:general'
+
+  exchangesUpdates: ->
+    app.request 'transactions:unread:count'

@@ -7,6 +7,11 @@
   <span>{{i18n 'browse books'}}</span>
 </a>
 <a class="iconButton exchanges">
-  {{icon 'exchange'}}
-  <span>{{i18n 'exchanges'}}</span>
+  <div class="iconWithCounter">
+    {{icon 'exchange'}}
+    <span class="counter count-{{exchangesUpdates}}">{{exchangesUpdates}}</span>
+  </div>
+  <div class="label">
+    <span>{{i18n 'exchanges'}}</span>
+  </div>
 </a>

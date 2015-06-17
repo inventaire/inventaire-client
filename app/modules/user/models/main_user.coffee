@@ -11,6 +11,7 @@ module.exports = Filterable.extend
     @addNotifications(notifications)
     @relations = relations
     @transactions = new Transactions transactions
+    app.vent.trigger 'transactions:unread:changes'
     return _(data).omit ['relations', 'notifications', 'transactions']
 
   update: =>

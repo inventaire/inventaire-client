@@ -24,7 +24,7 @@ module.exports = Marionette.ItemView.extend
     showTransaction: 'a.showTransaction'
 
   onRender: ->
-    if app.request 'last:transaction:id' is @model.id
+    if app.request('last:transaction:id') is @model.id
       @$el.addClass 'selected'
 
   showTransaction: (e)->

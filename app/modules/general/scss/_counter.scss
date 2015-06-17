@@ -1,0 +1,6 @@
+@mixin counter-commons(){
+  background-color: $secondary-color;
+  color: $primary-color;
+  font-weight: bold;
+  border-radius: 2px;
+}
