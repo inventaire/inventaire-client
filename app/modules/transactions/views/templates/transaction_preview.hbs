@@ -1,4 +1,4 @@
-<a href="{{pathname}}" class="showTransaction">
+<a href="{{pathname}}" class="showTransaction {{#unless mainUserRead}}unread{{/unless}}">
   {{#if onItem}}
     <div>
       {{#if requester.picture}}
@@ -24,4 +24,9 @@
       {{/if}}
     </div>
   {{/if}}
+  <div class="flags">
+    <div class="unread-flag">
+      {{icon 'circle'}}
+    </div>
+  </div>
 </a>

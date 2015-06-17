@@ -26,6 +26,7 @@ module.exports = Filterable.extend
     @once 'grab:requester', @setNextActions.bind(@)
     @on 'change:state', @setNextActions.bind(@)
     @on 'change:state', @setArchivedStatus.bind(@)
+    @on 'change:read', @deduceReadStatus.bind(@)
 
   grabLinkedModels: ->
     @reqGrab 'get:item:model', @get('item'), 'item'
@@ -34,6 +35,23 @@ module.exports = Filterable.extend
 
   setMainUserIsOwner: ->
     @mainUserIsOwner = @get('owner') is app.user.id
+    @role = if @mainUserIsOwner then 'owner' else 'requester'
+    @deduceReadStatus()
+
+  deduceReadStatus: ->
+    @mainUserRead = @get('read')[@role]
+
+    prev = @unreadUpdate
+    @unreadUpdate = if @mainUserRead then 0 else 1
+    if @unreadUpdate isnt prev then app.vent.trigger 'transactions:unread:change'
+
+  markAsRead: ->
+    unless @mainUserRead
+      @set "read.#{@role}", true
+      _.preq.put app.API.transactions,
+        id: @id
+        action: 'mark-as-read'
+      .catch _.Error('markAsRead')
 
   buildTimeline: ->
     @timeline = new Timeline
@@ -73,6 +91,7 @@ module.exports = Filterable.extend
       nextActions: @nextActions
       icon: @icon()
       context: @context()
+      mainUserRead: @mainUserRead
 
     [attrs.user, attrs.other] = @aliasUsers(attrs)
     return attrs
@@ -113,9 +132,10 @@ module.exports = Filterable.extend
     _.preq.put app.API.transactions,
       id: @id
       state: state
-    .catch @updateFail.bind(@, actionModel)
+      action: 'update-state'
+    .catch @_updateFail.bind(@, actionModel)
 
-  updateFail: (actionModel, err)->
+  _updateFail: (actionModel, err)->
     @restore()
     @timeline.remove actionModel
     # let the view handle the error

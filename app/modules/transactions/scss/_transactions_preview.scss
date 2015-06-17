@@ -1,6 +1,10 @@
 .transactionPreview{
   &.selected{
+    box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.1) inset;
     background-color: $light-grey;
+    .unread-flag{
+      display: none;
+    }
   }
   @include bg-hover(white);
   border-bottom: 1px solid rgba($grey, 0.2);
@@ -19,5 +23,23 @@
       padding-left: 0.2em;
       text-overflow: ellipsis;
     }
+    &.unread{
+      background-color: lighten($light-blue, 48%);
+    }
+    &:not(.unread){
+      .unread-flag{
+        display: none;
+      }
+    }
+  }
+  .flags{
+    @include flex(0, 0, 1em);
+  }
+  .unread-flag{
+    @include display-flex(row, center, center);
+    margin-left: 0.3em;
+    color: $light-blue;
+    font-size: 0.8em;
+    opacity: 0.8;
   }
 }

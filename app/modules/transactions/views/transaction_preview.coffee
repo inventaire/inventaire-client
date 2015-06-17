@@ -15,12 +15,16 @@ module.exports = Marionette.ItemView.extend
 
   modelEvents:
     'grab': 'lazyRender'
+    'change:read': 'lazyRender'
 
   events:
     'click .showTransaction': 'showTransaction'
 
+  ui:
+    showTransaction: 'a.showTransaction'
+
   onRender: ->
-    if app.request('last:transaction:id') is @model.id
+    if app.request 'last:transaction:id' is @model.id
       @$el.addClass 'selected'
 
   showTransaction: (e)->

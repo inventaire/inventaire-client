@@ -21,6 +21,7 @@ module.exports = Marionette.CompositeView.extend
   serializeData: -> @model.serializeData()
 
   onShow: ->
+    @model.markAsRead()
     if _.smallScreen() and not @options.nonExplicitSelection
       _.scrollTop @$el
 
