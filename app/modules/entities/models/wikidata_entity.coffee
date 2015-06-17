@@ -7,7 +7,7 @@ module.exports = Entity.extend
   prefix: 'wd'
   initialize: ->
     @initLazySave()
-    @updates = {}
+    @_updates = {}
     # _.log @status = @get('status'), 'status'
 
     # data that are @set don't need to be re-set when
@@ -25,13 +25,15 @@ module.exports = Entity.extend
       @setWikiLinks(lang)
       @getWikipediaExtract(lang)
       # overriding sitelinks to make room when persisted to indexeddb
-      @updates.sitelinks = {}
+      @_updates.sitelinks = {}
 
       @setAttributes(@attributes, lang)
       @rebaseClaims()
       @findAPicture()
 
-      @set @updates
+      @set @_updates
+      # @_updates isnt needed anymore
+      @_updates = null
 
       # status might have been initialized by findAPicture
       @set 'status.formatted', true
@@ -57,20 +59,20 @@ module.exports = Entity.extend
     unless label?
       # if no label was found, try to use the wikipedia page title
       # remove the part between parenthesis
-      label = @updates.wikipedia?.title?.replace /\s\(\w+\)/, ''
+      label = @_updates.wikipedia?.title?.replace /\s\(\w+\)/, ''
     if label?
-      @updates.label = label
-      @updates.title = label
+      @_updates.label = label
+      @_updates.title = label
       pathname += "/" + _.softEncodeURI(label)
 
-    @updates.pathname = pathname
+    @_updates.pathname = pathname
 
     description = getEntityValue attrs, 'descriptions', lang
     if description?
-      @updates.description = description
+      @_updates.description = description
 
     # reverseClaims: ex: this entity is a P50 of entities Q...
-    @updates.reverseClaims = {}
+    @_updates.reverseClaims = {}
 
   rebaseClaims: ->
     claims = @get 'claims'
@@ -78,21 +80,21 @@ module.exports = Entity.extend
       # aliasing should happen after rebasing
       # as aliasing needs strings or numbers to test value uniqueness
       claims = wd.getRebasedClaims(claims)
-      @updates.claims = wd.aliasingClaims(claims)
+      @_updates.claims = wd.aliasingClaims(claims)
     else console.warn 'no claims found', @
 
   setWikiLinks: (lang)->
-    @updates.wikidata =
+    @_updates.wikidata =
       url: "https://www.wikidata.org/entity/#{@id}"
       wiki: "https://www.wikidata.org/wiki/#{@id}"
-    @updates.uri = "wd:#{@id}"
+    @_updates.uri = "wd:#{@id}"
 
-    @originalLang = @updates.claims?.P364?[0]
+    @originalLang = @_updates.claims?.P364?[0]
     sitelinks = @get('sitelinks')
     if sitelinks?
-      @updates.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
+      @_updates.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
 
-      @updates.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
+      @_updates.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
 
   getWikipediaExtract: (lang)->
     title = @get('sitelinks')?["#{lang}wiki"]?.title
@@ -108,17 +110,17 @@ module.exports = Entity.extend
   findAPicture: ->
     # initializing pictures array: should only be used
     # at first reception of the entity data
-    @updates.pictures = pictures = []
+    @_updates.pictures = pictures = []
     @save()
 
-    images = @updates.claims?.P18
+    images = @_updates.claims?.P18
     if images?
       images.forEach (title)=>
         wd.wmCommonsThumb(title, 1000)
         .then (url)=>
           pictures = @get('pictures') or []
           pictures.push url
-          # async so can't be on the @updates bulk set
+          # async so can't be on the @_updates bulk set
           @set 'pictures', pictures
           @save()
 
