@@ -6,6 +6,7 @@ API = _.extend.apply null, [
   require './wikidata_claims'
   require './images'
   require './input'
+  require('../shared/handlebars_helpers')(_)
 ]
 
 module.exports =

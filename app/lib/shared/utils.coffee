@@ -115,3 +115,15 @@ module.exports = (_)->
   expired: (timestamp, ttl)-> @now() - timestamp > ttl
 
   isNonEmptyString: (str)-> _.isString(str) and str.length > 0
+
+  dropProtocol: (path)-> path.replace /^(https?:)?\/\//, ''
+
+  cdn: (path, width, height, extend)->
+    # cdn.filter.to doesnt support https
+    unless /^https/.test path
+      unless _.isNumber(height) then height = width
+      size = "#{width}x#{height}"
+      unless extend then size += 'g'
+      path = @dropProtocol path
+      return "http://cdn.filter.to/#{size}/#{path}"
+    else return path

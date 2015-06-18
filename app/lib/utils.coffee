@@ -48,18 +48,6 @@ module.exports = (Backbone, _, app, window)->
         return regex.test(last)
       else false
 
-    dropProtocol: (path)-> path.replace /^(https?:)?\/\//, ''
-
-    cdn: (path, width, height, extend)->
-      # cdn.filter.to doesnt support https
-      unless /^https/.test path
-        unless _.isNumber(height) then height = width
-        size = "#{width}x#{height}"
-        unless extend then size += 'g'
-        path = @dropProtocol path
-        return "http://cdn.filter.to/#{size}/#{path}"
-      else return path
-
     openJsonWindow: (obj, windowName)->
       json = JSON.stringify obj, null, 4
       data = 'data:application/json;charset=utf-8,' + encodeURI(json)
