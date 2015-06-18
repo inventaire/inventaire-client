@@ -277,8 +277,8 @@
     "edit data on Wikidata": "éditer les données sur Wikidata",
     "P364": "langue originale",
     "P1476": "titre original",
-    "let's just create the book card": null,
-    "otherwise, let's just create the book card": null,
-    "an author is required": null,
-    "invalid ISBN": null
+    "let's just create the book card": "créons la fiche du livre",
+    "otherwise, let's just create the book card": "sinon, créons la fiche du livre",
+    "an author is required": "un auteur est requis",
+    "invalid ISBN": "ISBN non valide"
 }
