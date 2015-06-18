@@ -18,7 +18,7 @@ module.exports =
   validMessageLength: (message, maxLength=5000)->
     if message.length is 0 then return false
     if message.length > maxLength
-      err = new Error("can't be longer than #{maxLength} characters")
+      err = new Error "can't be longer than #{maxLength} characters"
       @postMessageFail message, err
       return false
     return true
