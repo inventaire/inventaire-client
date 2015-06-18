@@ -57,7 +57,7 @@ module.exports = Marionette.LayoutView.extend
 
     if user?
       prepareUserItemsList(user, navigate)
-      if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
+      # if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
       docTitle = eventName = user.get('username')
     else
       app.execute 'filter:inventory:reset'
