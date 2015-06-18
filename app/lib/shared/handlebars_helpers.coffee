@@ -9,12 +9,16 @@ module.exports = (_)->
     # being added as last argument
     return path  unless _.isNumber(width)
 
-    if /gravatar.com/.test(path) then cleanGravatarPath path, width
-    else _.cdn path, width, height, extend
+    if /gravatar.com/.test(path) then path = cleanGravatarPath path
+
+    return _.cdn path, width, height, extend
 
 
-cleanGravatarPath = (path, width)->
+# not using gravatar directly even if it offers https
+# as its performence are too variable => using cdn
+cleanGravatarPath = (path)->
+  path
   # removing any size parameter
-  path = path.replace /&s=\d+/g, ''
-
-  return path + "&s=#{width}"
+  .replace /&s=\d+/g, ''
+  # replacing https by http to conform to filter.to limits
+  .replace 'https', 'http'
