@@ -35,4 +35,5 @@ userReady = ->
 
 resetSession = ->
   app.user.loggedIn = false
-  app.execute 'logout'
+  # commented-out as it seem to be responsible for random logout, in development at least
+  # app.execute 'logout'
