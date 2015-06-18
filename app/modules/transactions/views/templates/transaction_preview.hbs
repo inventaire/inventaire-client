@@ -1,4 +1,7 @@
 <a href="{{pathname}}" class="showTransaction {{#unless mainUserRead}}unread{{/unless}}">
+  <div class="current transactionBox {{item.transaction}}">
+    {{icon item.currentTransaction.icon}}
+  </div>
   {{#if onItem}}
     <div>
       {{#if requester.picture}}
