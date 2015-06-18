@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+CWD=$PWD
+bowerMoment=./bower_components/moment/locale
+publicMoment=./public/javascripts/moment
+mkdir -p $publicMoment
+
+cp $bowerMoment/* $publicMoment
+cd $publicMoment
+
+gzip -9 *.js
+cd $CWD
+
+# add a non gziped copy for development
+cp $bowerMoment/* $publicMoment

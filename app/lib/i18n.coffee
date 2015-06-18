@@ -47,16 +47,15 @@ requestI18nFile = (polyglot, lang)->
   # keep only the two letters lang code as second level
   # language like pt-BR aren't available at the moment
   lang = lang[0..1]
+  fetchMomentLocale lang
   return _.preq.get app.API.i18n(lang)
   .then (res)->
     polyglot.replace res
     polyglot.locale lang
     app.vent.trigger 'i18n:reset'
-  .catch (err)->
-    console.error "i18n: failed to get the i18n file for #{lang}"
-    _.log err
+  .catch _.Error("i18n: failed to get the i18n file for #{lang}")
   .then -> polyglot.changingTo = null
-  .catch (err)-> _.logXhrErr err, 'requestI18nFile err'
+  .catch _.LogXhrErr('requestI18nFile')
 
 guessLanguage = ->
   if lang = $.cookie 'lang' then lang.logIt('i18n: cookie')
@@ -67,3 +66,9 @@ guessLanguage = ->
 solveLang = (lang)->
   qsLang = app.request 'route:querystring:get', 'lang'
   return qsLang or lang
+
+fetchMomentLocale = (lang)->
+  _.preq.getScript app.API.moment(lang)
+  .then -> moment.locale lang
+  .then _.Log('moment locale set')
+  .catch _.Error('fetchMomentLocale err')
