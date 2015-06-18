@@ -4,8 +4,8 @@ module.exports = wdGenre_ = {}
 
 wdGenre_.fetchBooksAndAuthors = (genreModel)->
   wdGenre_.fetchBooksAndAuthorsIds(genreModel)
-  # using an anonymous function to avoid passing unwanted extra arguments
-  .then -> wdGenre_.fetchBooksAndAuthorsEntities(genreModel)
+  # forcing default argument to neutralize fetchBooksAndAuthorsIds returned value
+  .then wdGenre_.fetchBooksAndAuthorsEntities.bind(null, genreModel, null, null)
   .catch _.Error('wdGenre_.fetchBooksAndAuthors')
 
 
