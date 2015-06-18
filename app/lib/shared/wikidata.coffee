@@ -114,12 +114,15 @@ module.exports = (promises_, _)->
         if aliasId?
           before = claims[aliasId] or= []
           aliased = claims[id]
-          # uniq can not test uniqueness on objects
-          _.types before, 'strings...|numbers...'
-          _.types aliased, 'strings...|numbers...'
-          after = _.uniq before.concat(aliased)
-          # _.log [aliasId, before, id, aliased, aliasId, after], 'entity aliasingClaims'
-          claims[aliasId] = after
+          try
+            # uniq can not test uniqueness on objects
+            _.types before, 'strings...|numbers...'
+            _.types aliased, 'strings...|numbers...'
+            after = _.uniq before.concat(aliased)
+            # _.log [aliasId, before, id, aliased, aliasId, after], 'entity aliasingClaims'
+            claims[aliasId] = after
+          catch err
+            _.warn [err, id, claim], 'aliasingClaims err'
       return claims
 
     getRebasedClaims: (claims)->
