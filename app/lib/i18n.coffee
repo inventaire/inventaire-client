@@ -1,3 +1,5 @@
+fetchMomentLocale = require './fetch_moment_local'
+
 module.exports =
   # Convention: 'lang' always stands for ISO 639-1 two letters language codes (like 'en', 'fr', etc.)
   initialize: (app)->
@@ -44,10 +46,11 @@ setLanguage = (app, lang)->
 
 requestI18nFile = (polyglot, lang)->
   polyglot.changingTo = lang
+  # let the whole lang as fetchMomentLocale as its own lang resolver
+  fetchMomentLocale lang
   # keep only the two letters lang code as second level
   # language like pt-BR aren't available at the moment
   lang = lang[0..1]
-  fetchMomentLocale lang
   return _.preq.get app.API.i18n(lang)
   .then (res)->
     polyglot.replace res
@@ -66,9 +69,3 @@ guessLanguage = ->
 solveLang = (lang)->
   qsLang = app.request 'route:querystring:get', 'lang'
   return qsLang or lang
-
-fetchMomentLocale = (lang)->
-  _.preq.getScript app.API.moment(lang)
-  .then -> moment.locale lang
-  .then _.Log('moment locale set')
-  .catch _.Error('fetchMomentLocale err')
