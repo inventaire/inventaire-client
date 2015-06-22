@@ -80,7 +80,10 @@ API =
     .then (data)->
       if data?
         models = data.map (el)->
-          unless el? then return _.warn 'missing entity'
+          # main reason for missing entities:
+          # no pagination makes request overflow the source API limit
+          # ex: wikidata limits to 50 entities per calls
+          unless el? then return _.warn 'missing entity (probable reason: reached API limit, pagination is needed)'
           model = new Model(el)
           Entities.add model
           return model

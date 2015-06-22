@@ -26,15 +26,6 @@ module.exports = (_)->
 
     return obj
 
-  logXhrErr = (err, label)->
-    if err?.responseText? then label = "#{err.responseText} (#{label})"
-    if err?.status?
-      switch err.status
-        when 401 then console.warn '401', label
-        when 404 then console.warn '404', label
-    else console.error label, err
-    return
-
   error = (err, label)->
     unless err?.stack?
       label or= 'empty error'
@@ -44,6 +35,15 @@ module.exports = (_)->
       report = [err.message or err, err.stack?.split('\n')]
     window.reportErr {error: report}
     console.error.apply console, report
+
+  logXhrErr = (err, label)->
+    if err?.responseText? then label = "#{err.responseText} (#{label})"
+    if err?.status?
+      switch err.status
+        when 401 then console.warn '401', label
+        when 404 then console.warn '404', label
+    else error err, label
+    return
 
   # providing a custom warn as it might be used
   # by methods shared with the server

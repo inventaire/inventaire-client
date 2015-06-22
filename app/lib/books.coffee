@@ -11,7 +11,7 @@ images = []
 eventName = (data)->
   # using a hash of the data to avoid firing the event several times
   # because the eventName contains spaces
-  data = _.hashCode(data)
+  data = _.hashCode data
   return "image:#{data}"
 
 getImages = ->
@@ -26,9 +26,10 @@ spreadImages = (res)->
   _.log res, 'data:getImages res'
   if res? and _.isArray(res)
     res.forEach (el)->
-      if el?
-        ev = eventName(el.data)
+      if el?.data?
+        ev = eventName el.data
         app.vent.trigger ev, el.image
+  # reset images
   images = []
 
 
