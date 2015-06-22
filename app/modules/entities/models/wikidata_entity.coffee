@@ -66,6 +66,7 @@ module.exports = Entity.extend
       pathname += "/" + _.softEncodeURI(label)
 
     @_updates.pathname = pathname
+    @_updates.domain = 'wd'
 
     description = getEntityValue attrs, 'descriptions', lang
     if description?

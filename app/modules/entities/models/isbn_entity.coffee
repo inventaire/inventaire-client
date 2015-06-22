@@ -13,7 +13,9 @@ module.exports = Entity.extend
     if title = @get 'title'
       pathname += "/" + _.softEncodeURI(title)
 
-    @set 'pathname', pathname
+    @set
+      pathname: pathname
+      domain: 'isbn'
 
   findAPicture: ->
     pictures = @get 'pictures'
