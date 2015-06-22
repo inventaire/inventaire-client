@@ -127,3 +127,9 @@ module.exports = (_)->
       path = @dropProtocol path
       return "http://cdn.filter.to/#{size}/#{path}"
     else return path
+
+  bestImageWidth: (width)->
+    # if in a browser, use the screen width as a max value
+    if screen?.width then width = Math.min width, screen.width
+    # group image width by levels of 100px to limit cdn versions
+    return Math.ceil(width / 100) * 100

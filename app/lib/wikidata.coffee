@@ -4,7 +4,7 @@ _.extend wd.API.wmflabs,
   claim: (P, Q)-> app.API.data.wdq 'claim', P, Q
 
 wd.wmCommonsThumb = (file, width=500)->
-  width = bestWidth width
+  width = _.bestImageWidth width
   _.preq.get app.API.data.commonsThumb(file, width)
   .then _.property('thumbnail')
   .catch (err)=>
@@ -26,10 +26,5 @@ sourcedExtract = (extract, url)->
     text = _.i18n 'read_more_on_wikipedia'
     return extract += "<br><a href='#{url}' class='source link' target='_blank'>#{text}</a>"
   else extract
-
-
-# group image width by levels of 100px to limit cdn versions
-bestWidth = (width)-> Math.ceil(width / 100) * 100
-
 
 wd.sitelinks = sharedLib 'wiki_sitelinks'
