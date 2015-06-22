@@ -95,6 +95,9 @@ findFirstTransaction = ->
   return firstTransac
 
 unreadCount = ->
-  app.user.transactions?.models
+  transac = app.user.transactions?.models
+  unless transac?.length > 0 then return 0
+
+  transac
   .map _.property('unreadUpdate')
   .reduce (a, b)-> if _.isNumber(b) then a+b else a
