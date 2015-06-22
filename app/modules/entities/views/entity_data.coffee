@@ -1,13 +1,19 @@
+plainTextAuthorLink = require '../plugins/plain_text_author_link'
+
 module.exports = Marionette.ItemView.extend
   template: require './templates/entity_data'
   className: 'entityPanel'
   initialize: (options)->
+    @initPlugin()
     @lazyRender = _.debounce @render.bind(@), 200
     @listenTo @model, 'change', @lazyRender
 
     @hidePicture = options.hidePicture
     unless @hidePicture
       @listenTo @model, 'add:pictures', @lazyRender
+
+  initPlugin: ->
+    plainTextAuthorLink.call @
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -20,8 +26,11 @@ module.exports = Marionette.ItemView.extend
     description: '.description'
     togglers: '.toggler i'
 
+  behaviors:
+    PreventDefault: {}
+
   onRender: ->
-    app.request('qLabel:update')
+    app.request 'qLabel:update'
 
   events:
     'click .toggler': 'toggleDescLength'

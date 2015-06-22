@@ -2,11 +2,17 @@
 
 module.exports =
   join: (array, separator) ->
-    if array?
-      separator = ', '  unless _.isString(separator)
-      array.join separator
-    else ''
+    unless array? then return ''
+
+    separator = ', '  unless _.isString(separator)
+    array.join separator
 
   log: (args, data)-> _.log.apply _, args
 
   default: (text, def)-> text or def
+
+  joinAuthors: (array)->
+    @join array.map(linkifyAuthors)
+
+linkifyAuthors = (text)->
+  "<a href='/search?q=#{text}' class='link searchAuthor'>#{text}</a>"
