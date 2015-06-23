@@ -2,14 +2,14 @@ module.exports = (app, $, _)->
   remote =
     get: (ids)->
       _.preq.get app.API.users.data(ids)
-      .catch (err)-> _.logXhrErr err, 'users_data get err'
+      .catch _.LogXhrErr('users_data get err')
 
     search: (text)->
       # catches case with ''
-      if _.isEmpty(text) then return _.preq.resolve([])
+      if _.isEmpty(text) then return _.preq.resolve []
 
       _.preq.get app.API.users.search(text)
-      .catch (err)-> _.logXhrErr err, 'users_data search err'
+      .catch _.LogXhrErr('users_data search err')
 
     findOneByUsername: (username)->
       @search(username)
@@ -25,16 +25,17 @@ module.exports = (app, $, _)->
 
 
   fetchRelationsData = ->
-    relations = app.user.relations
-    if relations?
-      _.log relations, 'relations:all'
-      ids = _.allValues(relations)
-      _.log ids, 'relations:fetchRelationsData ids'
-      return localData.get(ids)
-      .then (data)-> spreadRelationsData(data, relations)
-    else return _.preq.reject 'no relations found at fetchRelationsData'
+    { relations } = app.user
+    unless relations?
+      return _.preq.reject 'no relations found at fetchRelationsData'
 
-  spreadRelationsData = (data, relations)->
+    # _.log relations, 'relations:all'
+    ids = _.allValues(relations)
+    # _.log ids, 'relations:fetchRelationsData ids'
+    localData.get(ids)
+    .then spreadRelationsData.bind(null, relations)
+
+  spreadRelationsData = (relations, data)->
     relationsData =
       friends: []
       userRequested: []

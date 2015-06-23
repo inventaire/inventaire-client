@@ -12,12 +12,12 @@ module.exports = Items.extend
     @friendsItemsToFetch = new Array
     _.preq.get app.API.users.items(ids)
     .then (items)=>
-      _.log items, 'items:friends'
+      # _.log items, 'items:friends'
       items.forEach (item)=>
         itemModel = @add item
         itemModel.username = app.request 'get:username:from:userId', item.owner
-    .always => @friendsReady()
-    .catch (err)-> _.error err, 'fetchFriendsItems err'
+    .always @friendsReady.bind(@)
+    .catch _.Error('fetchFriendsItems err')
 
   initialize: ->
     @lazyFetchFriendsItems = _.debounce @fetchFriendsItems, 50
