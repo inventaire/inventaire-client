@@ -5,6 +5,12 @@
       {{icon 'chevron-down'}}
     </a>
     <ul id="{{username}}-menu" class="tiny f-dropdown" data-dropdown-content>
+      {{!-- redundant but allow to avoid having unfriend button alone, the risk to click it on mobile is too big  --}}
+      <li>
+        <a class="select">
+          {{icon 'user'}} {{i18n 'see profile'}}
+        </a>
+      </li>
        <li>
           <a class="unfriend action">
             {{icon 'minus'}} {{i18n 'unfriend'}}
