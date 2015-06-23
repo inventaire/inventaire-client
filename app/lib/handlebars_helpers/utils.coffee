@@ -12,6 +12,7 @@ module.exports =
   default: (text, def)-> text or def
 
   joinAuthors: (array)->
+    unless array? then return ''
     @join array.map(linkifyAuthors)
 
 linkifyAuthors = (text)->

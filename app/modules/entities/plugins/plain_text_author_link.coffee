@@ -16,8 +16,13 @@ handlers =
 
 domainsWithPlainTextAuthors = ['isbn' , 'inv']
 
-module.exports = ->
-  if @model.get('domain') in domainsWithPlainTextAuthors
+# apply to allDomains when the entity model is not accessible
+# at the view initialization:
+# better having this extrat event on irrelevant entities that not having it
+# on relevant ones
+module.exports = (allDomains)->
+  if @model.get('domain') in domainsWithPlainTextAuthors or allDomains
+    @events or= {}
     _.extend @events, events
     _.extend @, handlers
     return

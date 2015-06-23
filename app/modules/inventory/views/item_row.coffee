@@ -1,4 +1,5 @@
 itemActions = require '../plugins/item_actions'
+plainTextAuthorLink = require 'modules/entities/plugins/plain_text_author_link'
 
 module.exports = Marionette.ItemView.extend
   tagName: 'tr'
@@ -10,7 +11,11 @@ module.exports = Marionette.ItemView.extend
     @initPlugins()
 
   initPlugins: ->
-    itemActions.call(@)
+    itemActions.call @
+    plainTextAuthorLink.call @, true
+
+  behaviors:
+    PreventDefault: {}
 
   serializeData: -> @model.serializeData()
 

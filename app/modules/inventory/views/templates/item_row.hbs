@@ -5,7 +5,7 @@
   {{#if entityData.wikidata}}
     {{claim entityData.claims 'P50' true true}}
   {{else}}
-    {{join entityData.authors}}
+    {{{joinAuthors entityData.authors}}}
   {{/if}}
 </td>
 <td class="user">
