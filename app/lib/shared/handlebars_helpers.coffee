@@ -10,7 +10,7 @@ module.exports = (_)->
     # being added as last argument
     return path  unless _.isNumber(width)
 
-    if /upload.wikimedia.org/.test(path)
+    if /wikimedia.org/.test(path)
       return optimizedCommonsImg path, width
 
     if /gravatar.com/.test(path) then path = cleanGravatarPath path
@@ -30,7 +30,7 @@ cleanGravatarPath = (path)->
 # cdn.filter.to can't handle wikimedia images now that they are behind https
 # so here is a hack to limit to download height resolution picture when thumbnails
 # are needed
-optimizedCommonsImg = (path, witdh)->
+optimizedCommonsImg = (path, width)->
   if width < 300
     file = path.split('/').slice(-1)
     return "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
