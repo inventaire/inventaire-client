@@ -46,6 +46,10 @@ nav.top-bar {
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
+    #home{
+      // aligning with #currentUser
+      margin-top: -0.1em;
+    }
     .breadcrumb{
       a{
         font-size: 1.2em;
