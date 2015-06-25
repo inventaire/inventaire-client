@@ -61,15 +61,15 @@ module.exports = (app)->
       else
         app.users.filtered.friends()
 
-    isMainUser: (id)->
-      if id? then return id is app.user.id
+    isMainUser: (userId)->
+      if userId? then return userId is app.user.id
 
     isFriend: (userId)->
-      unless id? and app.users?.friends?.list? then return false
-      return id in app.users.friends.list
+      unless userId? and app.users?.friends?.list? then return false
+      return userId in app.users.friends.list
 
     isPublicUser: (userId)->
-      (userId isnt app.user.id) and (userId not in app.users.friends.list)
+      if userId? then return userId in app.users.public.list
 
   sync.getUsernameFromUserId = (id)->
     return sync.getUserModelFromUserId(id)?.get('username')

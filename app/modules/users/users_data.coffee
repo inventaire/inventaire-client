@@ -25,28 +25,59 @@ module.exports = (app, $, _)->
 
 
   fetchRelationsData = ->
-    { relations } = app.user
-    unless relations?
+    { relations, groups } = app.user
+    unless relations? or groups?
       return _.preq.reject 'no relations found at fetchRelationsData'
 
-    # _.log relations, 'relations:all'
-    ids = _.allValues(relations)
-    # _.log ids, 'relations:fetchRelationsData ids'
-    localData.get(ids)
-    .then spreadRelationsData.bind(null, relations)
+    relationsIds = _.allValues relations
+    groupsIds = extractGroupsIds groups
 
-  spreadRelationsData = (relations, data)->
-    relationsData =
+    relations.nonRelationGroupUser = _.difference groupsIds, relationsIds
+    inGroups = inGroupsNonFriendsRelations relations, groupsIds
+    networkIds = _.union relationsIds, groupsIds
+
+    localData.get networkIds
+    .then spreadRelationsData.bind(null, relations, inGroups)
+    .then _.Log('spreaded')
+
+  inGroupsNonFriendsRelations = (relations, groupsIds)->
+    # including possible userRequested and otherRequested users
+    # will be used to fetch all their items
+    userRequested: _.intersection groupsIds, relations.userRequested
+    otherRequested: _.intersection groupsIds, relations.otherRequested
+
+  spreadRelationsData = (relations, inGroups, data)->
+    lists =
       friends: []
       userRequested: []
       otherRequested: []
+      nonRelationGroupUser: []
+
+    _.log relations, 'relations'
 
     for relationType, list of relations
-      list.forEach (user)->
-        relationsData[relationType].push data[user]
-    return relationsData
+      list.forEach (userId)->
+        userData = data[userId]
+        lists[relationType].push userData
+    # return relationsData
+    return relationsData =
+      lists: lists
+      inGroups: inGroups
 
   return data =
     remote: remote
     local: localData
     fetchRelationsData: fetchRelationsData
+
+extractGroupsIds = (groups)->
+  _.chain(groups.models)
+  .map concatGroupIds
+  .flatten()
+  .uniq()
+  .without app.user.id
+  .value()
+
+concatGroupIds = (group)->
+  admin = group.get('admin') or []
+  members = group.get('members') or []
+  return members.concat admin

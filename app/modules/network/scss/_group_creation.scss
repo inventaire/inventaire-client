@@ -1,0 +1,13 @@
+#groupCreation{
+  label{
+    text-align: left;
+  }
+  @include flex(1);
+  padding: 1em;
+  @include radius();
+  @include shy-border();
+  padding: 1em;
+  background-color: white;
+  #step1{
+  }
+}

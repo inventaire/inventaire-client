@@ -20,12 +20,41 @@
       min-height: $user-profile-height;
       @include flex(0, 0);
     }
+    a.unselect{
+      @include position(absolute, 3px, 3px);
+      .fa{
+        font-size: 1.2em;
+      }
+    }
     @import 'user_profile';
+    .group{
+      @include display-flex(column, center, center);
+      padding: 1em;
+      color: white;
+      .name{
+        font-weight: bold;
+        font-size: 1.4em;
+        @include serif();
+      }
+    }
   }
 
   #two{
     @include flex(1);
     @include display-flex(column, left, flex-end);
+    section{
+      @include flex(0);
+    }
+    .listHeader{
+      height: 2em;
+      @include display-flex(row, baseline, space-between);
+      h4{
+        color: $grey;
+        font-size: 1.2em;
+      }
+      color: $grey;
+      padding-left: 0.5em;
+    }
     @import 'users_lists';
   }
 }

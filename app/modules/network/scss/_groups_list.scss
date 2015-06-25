@@ -1,0 +1,32 @@
+#groupsList{
+  text-align: left;
+  font-weight: bold;
+  @include serif();
+  padding-left: 0.6em;
+  .noGroup{
+    font-weight: normal;
+  }
+}
+
+#networkLayout{
+  #groupsList{
+    background-color: white;
+    padding: 1em;
+    @include radius();
+    @include shy-border();
+  }
+  .noGroup{
+    background-color: $light-grey;
+  }
+}
+
+#sideNav{
+  #groupsList{
+  }
+  .noGroup{
+    color: white;
+    opacity: 0.2;
+    font-weight: 0.6;
+    text-align: center;
+  }
+}

@@ -14,6 +14,7 @@ module.exports =
         'inventory/:user(/)': 'showUserInventory'
         'inventory/:user/:entity(/:title)(/)': 'itemShow'
         'add(/)': 'showAddLayout'
+        'groups/:id(/:name)(/)': 'showGroupInventory'
 
     app.addInitializer ->
       new InventoryRouter
@@ -32,12 +33,18 @@ API =
   showGeneralInventory: ->
     if app.request 'require:loggedIn', 'inventory'
       showInventory
-        ownerId: null
+        generalInventory: true
 
   showUserInventory: (user, navigate)->
     if app.request 'require:loggedIn', "inventory/#{user}"
       showInventory
         user: user
+        navigate: navigate
+
+  showGroupInventory: (id, name, navigate)->
+    if app.request 'require:loggedIn', "groups/#{id}/#{name}"
+      showInventory
+        group: id
         navigate: navigate
 
   showItemCreationForm: (options)->
@@ -163,6 +170,9 @@ initializeInventoriesHandlers = (app)->
 
     'show:inventory:user': (user)->
       API.showUserInventory(user, true)
+
+    'show:inventory:group': (group)->
+      API.showGroupInventory group.id, group.get('name'), true
 
     'show:item:creation:form': (params)->
       {entity} = params

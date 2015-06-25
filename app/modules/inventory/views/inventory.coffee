@@ -25,7 +25,7 @@ module.exports = Marionette.LayoutView.extend
     else $('#controls').hide()
 
   onShow: ->
-    @sideNav.show new SideNav
+    @showSideNav()
     @showItemsListOnceData()
     unless _.smallScreen(gridMinWidth)
       @controls.show new Controls
@@ -34,33 +34,48 @@ module.exports = Marionette.LayoutView.extend
       if @options.user? then _.scrollTop '#sideNav'
       else _.scrollTop '#itemsView'
 
+  showSideNav: ->
+    @sideNav.show new SideNav
+
   showItemsListOnceData: ->
     # waitForItems to avoid having items displaying undefined values
     app.request('waitForItems').then @showItemsList.bind(@)
 
   showItemsList: ->
-    {user} = @options
-    unless user? then return @showItemsListStep2()
+    {user, group} = @options
+    if user?
+      app.request 'resolve:to:userModel', user
+      .catch -> app.execute 'show:404'
+      .then @showItemsListStep2.bind(@)
 
-    app.request 'resolve:to:userModel', user
-    .catch -> app.execute 'show:404'
-    .then @showItemsListStep2.bind(@)
+    else if group?
+      app.request 'get:group:model', group
+      .catch -> app.execute 'show:404'
+      .then @showItemsListStep2.bind(@, null)
 
-  showItemsListStep2: (user)->
-    {navigate} = @options
+    else @showItemsListStep2()
+
+
+  showItemsListStep2: (user, group)->
+    { navigate, generalInventory } = @options
     if Items.length is 0
       # dont show welcome inventory screen on other users inventory
       # it would be confusing to see 'welcome in your inventory' there
-      unless user?.id and not app.request 'user:isMainUser', user.id
+      if generalInventory or app.request 'user:isMainUser', user.id
         @showInventoryWelcome(user)
         return
 
     if user?
-      prepareUserItemsList(user, navigate)
+      prepareUserItemsList user, navigate
       # if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
       docTitle = eventName = user.get('username')
+    else if group?
+      prepareGroupItemsList group, navigate
+      docTitle = group.get 'name'
+      eventName = "group:#{group.id}"
     else
-      app.execute 'filter:inventory:reset'
+      app.execute 'sidenav:show:base'
+      app.execute 'filter:inventory:friends'
       docTitle = _.i18n('Home')
       eventName = 'general'
 
@@ -94,12 +109,17 @@ module.exports = Marionette.LayoutView.extend
 
 prepareUserItemsList = (user, navigate)->
   if app.request 'user:isPublicUser', user.id
-    fetchPublicUserItems(user)
+    fetchPublicUserItems user
 
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
   app.execute 'sidenav:show:user', user
-  if navigate? then app.navigate "inventory/#{username}"
+  if navigate then app.navigate user.get('pathname')
+
+prepareGroupItemsList = (group, navigate)->
+  app.execute 'filter:inventory:group', group
+  app.execute 'sidenav:show:group', group
+  if navigate then app.navigate group.get('pathname')
 
 fetchPublicUserItems = (user)->
   # fetch items

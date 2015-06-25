@@ -4,13 +4,6 @@
   // @include shadow-box($dark-grey, 0px, -2px);
   @include border($dark-grey, 1px, ridge);
   @include display-flex(column, center, center);
-  a.unselectUser{
-    @include align-self(flex-end);
-    margin: 0.5em 0.5em -2em;
-    .fa{
-      font-size: 1.2em;
-    }
-  }
 
   // see .circle-pic style for the profile picture
   .circle-pic{

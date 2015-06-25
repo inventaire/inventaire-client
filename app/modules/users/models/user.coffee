@@ -15,6 +15,9 @@ module.exports = Filterable.extend
     relationStatus = attrs.status
     # converting the status into a boolean for templates
     attrs[relationStatus] = true
+    # nonRelationGroupUser status have the same behavior as public users for views
+    if relationStatus is 'nonRelationGroupUser'
+      attrs.public = true
     if relationStatus is 'friends'
       attrs.inventoryLength = app.request 'inventory:user:length', @id
     return attrs

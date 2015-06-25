@@ -7,6 +7,7 @@ module.exports =
   data: require './data'
   comments: '/api/comments'
   transactions: '/api/transactions'
+  groups: '/api/groups'
   user: '/api/user'
   notifs: '/api/notifs'
   feedbacks: '/api/feedbacks/public'

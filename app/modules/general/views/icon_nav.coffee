@@ -5,16 +5,19 @@ module.exports = Marionette.ItemView.extend
     @lazyRender = _.debounce @render.bind(@), 200
   events:
     'click .add': 'showAddLayout'
-    'click .exchanges': 'showTransactions'
+    'click .network': 'showNetwork'
     'click .browse': 'showInventory'
+    'click .exchanges': 'showTransactions'
 
   ui:
     all: 'a.iconButton'
     add: '.add'
-    exchanges: '.exchanges'
+    network: '.network'
     browse: '.browse'
+    exchanges: '.exchanges'
 
   serializeData: ->
+    networkUpdates: @networkUpdates()
     exchangesUpdates: @exchangesUpdates()
 
   onShow: ->
@@ -26,8 +29,9 @@ module.exports = Marionette.ItemView.extend
     @unselectAll()
     switch section
       when 'add' then @selectButton 'add'
-      when 'transactions' then @selectButton 'exchanges'
+      when 'network' then @selectButton 'network'
       when 'inventory' then @selectButton 'browse'
+      when 'transactions' then @selectButton 'exchanges'
 
   unselectAll: ->
     @ui.all.removeClass 'selected'
@@ -39,13 +43,20 @@ module.exports = Marionette.ItemView.extend
     @selectButton 'add'
     app.execute 'show:add:layout'
 
-  showTransactions: ->
-    @selectButton 'exchanges'
-    app.execute 'show:transactions'
+  showNetwork: ->
+    @selectButton 'network'
+    app.execute 'show:network'
 
   showInventory: ->
     @selectButton 'browse'
     app.execute 'show:inventory:general'
+
+  showTransactions: ->
+    @selectButton 'exchanges'
+    app.execute 'show:transactions'
+
+  networkUpdates: ->
+    # _.warn 'networkUpdates counter not implemented yet'
 
   exchangesUpdates: ->
     app.request 'transactions:unread:count'

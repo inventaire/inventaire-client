@@ -61,8 +61,13 @@ $user-bg: #ddd;
     }
     .userMenu{
       font-size: 0.9em;
-      a.action{
+      a.action, span.mainUser{
         padding: 0 0.3em 0 0.3em;
+      }
+      .mainUser{
+        @include sans-serif();
+        font-weight: normal;
+        opacity: 0.6;
       }
       .cancel{
         background-color: $grey;

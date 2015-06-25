@@ -9,6 +9,8 @@ module.exports =
 
     app.commands.setHandlers
       'filter:inventory:owner': filterInventoryByOwner
+      'filter:inventory:friends': filterInventoryByFriends
+      'filter:inventory:group': filterInventoryByGroup
       'filter:inventory:reset': resetInventoryFilter
       'filter:visibility': filterVisibilityBy
       'filter:visibility:reset': resetFilters
@@ -32,6 +34,25 @@ resetInventoryFilter = (owner)->
 filterInventoryByOwner = (owner)->
   Items.filtered.resetFilters()
   Items.filtered.filterBy 'owner', (model)-> model.get('owner') is owner
+
+filterInventoryByFriends = (owner)->
+  Items.filtered.resetFilters()
+  Items.filtered.filterBy 'friends', (model)->
+    app.request 'user:isFriend', model.get('owner')
+
+filterInventoryByGroup = (groupModel)->
+  Items.filtered.resetFilters()
+  allMembers = groupModel.allMembers()
+  mainUserId = app.user.id
+  Items.filtered.filterBy 'group', (model)->
+    owner = model.get 'owner'
+    if owner in allMembers
+      if owner is mainUserId then isntPrivateItem model
+      else true
+    else false
+
+isntPrivateItem = (model)->
+  model.get('listing') isnt 'private'
 
 filterItemsByText = (text, reset)->
   Items.filtered.filterByText text, reset

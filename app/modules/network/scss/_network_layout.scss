@@ -1,0 +1,28 @@
+#networkLayout{
+  @include custom-column(40em);
+  > .fa{
+    margin-top: 1em;
+    font-size: 1.5em;
+    margin-bottom: 0;
+    line-height: 0;
+  }
+  h2{
+    line-height: 1em;
+    margin-top: 0;
+    font-size: 1.5em;
+  }
+  h3{
+    font-size: 1.1em;
+    margin-top: 0.4em;
+  }
+  text-align: center;
+  #friendsList{
+    @include radius();
+    @include shy-border();
+    padding: 1em;
+    background-color: white;
+  }
+}
+
+@import 'groups_list';
+@import 'group_creation';

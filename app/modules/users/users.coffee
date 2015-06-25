@@ -16,42 +16,59 @@ module.exports =
 initUsersItems = ->
   app.commands.setHandlers
     'show:user': (username)-> app.execute 'show:inventory:user', username
-    'friend:fetchItems': (userModel)-> fetchFriendItems(userModel)
+    'friend:fetchItems': fetchFriendItems
     # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
 
 fetchFriendsAndTheirItems = ->
-  if app.user.loggedIn
-    app.users.data.fetchRelationsData()
-    .then (relationsData)->
-      if relationsData.friends.length is 0
-        app.execute 'friends:zero'
-      relationsData.friends.forEach addFriend
-      relationsData.otherRequested.forEach addOther
-      relationsData.userRequested.forEach addUserRequested
-      app.users.fetched = true
-      app.vent.trigger 'users:ready'
+  unless app.user.loggedIn then return usersReady()
 
-      fetchItemsOnNewFriend()
+  app.users.data.fetchRelationsData()
+  .then fetchRelationsDataSuccess
+  .catch _.Error('fetchFriendsAndTheirItems err')
 
-    .catch _.Error('fetchFriendsAndTheirItems err')
-  else
-    app.users.fetched = true
-    app.vent.trigger 'users:ready'
+fetchRelationsDataSuccess = (relationsData)->
+  if relationsData.lists.friends.length is 0
+    app.execute 'friends:zero'
+  spreadRelationsData relationsData
+  usersReady()
+  fetchItemsOnNewFriend()
+
+usersReady = ->
+  app.users.fetched = true
+  app.vent.trigger 'users:ready'
+  return
+
+# tightly coupled to users_data spreadRelationsData
+spreadRelationsData = (relationsData)->
+  { lists, inGroups } = relationsData
+  _.log lists, 'lists'
+  _.log inGroups, 'inGroups'
+  for status, usersData of lists
+    usersData.forEach AddUser(inGroups, status)
+
+
+AddUser = (inGroups, status)->
+  addUser = (user)->
+    userModel = app.users[status].add user
+
+    # there are possibly intersections between non-friends relations
+    # (userRequested and otherRequested) and group users
+    # we need to fetch items for non-friends relations in groups
+    if status in possiblyInGroups
+      unless userModel.id in inGroups[status]
+        return
+
+    app.execute 'friend:fetchItems', userModel
+
+possiblyInGroups = [
+  'userRequested'
+  'otherRequested'
+]
 
 fetchItemsOnNewFriend = ->
   app.users.friends.on 'add', (friend)->
     app.execute 'friend:fetchItems', friend
     app.request 'show:inventory:user', friend
-
-addFriend = (friend)->
-  userModel = app.users.friends.add friend
-  app.execute 'friend:fetchItems', userModel
-
-addOther = (other)->
-  userModel = app.users.otherRequested.add other
-
-addUserRequested = (user)->
-  userModel = app.users.userRequested.add user
 
 fetchFriendItems = (userModel)->
   Items.friends.fetchFriendItems(userModel)

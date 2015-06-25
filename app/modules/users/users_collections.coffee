@@ -8,6 +8,7 @@ module.exports = (app)->
     'friends'
     'userRequested'
     'otherRequested'
+    'nonRelationGroupUser'
   ]
 
   users.subCollections.forEach (status)->
@@ -38,7 +39,8 @@ module.exports = (app)->
     @resetFilters()
     @filterBy {status: 'friends'}
 
-  keepMembersListUpdated(users.friends)
+  keepMembersListUpdated users.friends
+  keepMembersListUpdated users.public
 
   return users
 

@@ -1,6 +1,11 @@
 <div class="userMenu">
+  {{#if mainUser}}
+    <span class="mainUser">
+      {{i18n "that's you"}}
+    </span>
+  {{/if}}
   {{#if friends}} 
-    <a class="light-grey friend" data-options="align:bottom" data-dropdown="{{username}}-menu">
+    <a class="light-grey friend" data-options="align:top" data-dropdown="{{username}}-menu">
       <span class="label">{{I18n 'friends'}}</span>
       {{icon 'chevron-down'}}
     </a>

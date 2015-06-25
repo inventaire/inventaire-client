@@ -1,7 +1,13 @@
 <div id="one"></div>
 <div id="two">
-  <section>
-    <div id='usersListHeader'>
+  <section id="groups">
+    <div class="listHeader">
+      <h4 class="header">{{i18n 'groups'}}</h4>
+    </div>
+    <div id="groupsList"></div>
+  </section>
+  <section id="friends">
+    <div id='usersListHeader' class="listHeader">
       <h4 class="header"></h4>
       <a class="close hidden">{{icon 'times'}}</a>
       <div class="show-for-small-only">

@@ -1,4 +1,6 @@
 UserProfile = require './user_profile'
+GroupsList = require 'modules/network/views/groups_list'
+Group = require 'modules/network/views/group'
 
 module.exports = Marionette.LayoutView.extend
   id: 'innerNav'
@@ -6,6 +8,7 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     one: '#one'
+    groupsList: '#groupsList'
     usersList: '#usersList'
 
   ui:
@@ -13,11 +16,14 @@ module.exports = Marionette.LayoutView.extend
     listToggler: '.listToggler'
     usersList: '#usersList'
     userField: '#userField'
+    groupsSection: 'section#groups'
 
   initialize: ->
     @lastQuery = null
     app.commands.setHandlers
+      'sidenav:show:base': @showBase.bind(@)
       'sidenav:show:user': @showUser.bind(@)
+      'sidenav:show:group': @showGroup.bind(@)
 
     @lazyUserSearch = _.debounce @updateUserSearch, 100
 
@@ -26,16 +32,31 @@ module.exports = Marionette.LayoutView.extend
     'click a.close': 'resetSearch'
     'click #usersListHeader': 'toggleUsersList'
 
-  onShow: ->
+  showBase: ->
     @showFriends()
+    app.request('waitForUserData').then @showGroups.bind(@)
 
   showUser: (userModel)->
+    @showBase()
     @one.show new UserProfile {model: userModel}
+
+  showGroups: ->
+    @ui.groupsSection.show()
+    @groupsList.show new GroupsList
+      collection: app.user.groups
 
   showFriends: ->
     collection = app.users.filtered.friends()
     @usersList.show new app.View.Users.List {collection: collection}
     @setFriendsHeader()
+
+  showGroup: (groupModel)->
+    @ui.groupsSection.hide()
+    @usersList.show new app.View.Users.List {collection: groupModel.users}
+    @setGroupHeader groupModel
+    @one.show new Group
+      model: groupModel
+      highlighted: true
 
   updateUserSearch: (e)-> @searchUsers e.target.value
 
@@ -56,6 +77,9 @@ module.exports = Marionette.LayoutView.extend
     @ui.usersListHeader.find('.header').text _.i18n('user search')
     @ui.usersListHeader.find('.close').show()
 
+  setGroupHeader: (group)->
+    @ui.usersListHeader.find('.header').text _.i18n('group members')
+
   callToActionIfFriendsListIsEmpty: ->
     if app.users.friends.length is 0
       # 'display' settings modified here will be overriden by no_user view re-rendering
@@ -64,8 +88,8 @@ module.exports = Marionette.LayoutView.extend
       $('.findFriends').show()
 
   resetSearch: ->
-    @searchUsers('')
-    @ui.userField.val('')
+    @searchUsers ''
+    @ui.userField.val ''
 
   toggleUsersList: ->
     if _.smallScreen()

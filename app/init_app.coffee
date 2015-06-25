@@ -39,6 +39,7 @@ module.exports = ->
   app.module 'Transactions', require 'modules/transactions/transactions'
   require('modules/comments/comments')()
   if app.user.loggedIn
+    app.module 'Network', require 'modules/network/network'
     app.module 'Settings', require 'modules/settings/settings'
     app.module 'Notifications', require 'modules/notifications/notifications'
 
