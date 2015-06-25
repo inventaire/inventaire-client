@@ -52,7 +52,7 @@ module.exports = (_)->
 
   # FILTERED COLLECTION
   FilteredCollection::filterByText = (text, reset=true)->
-    @resetFilters()  if reset?
+    @resetFilters()  if reset
     filterExpr = new RegExp text, 'i'
     @filterBy 'text', (model)->
       if model.matches? then model.matches filterExpr

@@ -33,5 +33,5 @@ filterInventoryByOwner = (owner)->
   Items.filtered.resetFilters()
   Items.filtered.filterBy 'owner', (model)-> model.get('owner') is owner
 
-filterItemsByText = (text)->
-  Items.filtered.filterByText text
+filterItemsByText = (text, reset)->
+  Items.filtered.filterByText text, reset

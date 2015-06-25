@@ -34,7 +34,7 @@ module.exports = Marionette.ItemView.extend
     text = @ui.filter.val()
     if text isnt @lastFilter
       @lastFilter = text
-      app.execute 'filter:items:byText', text
+      app.execute 'filter:items:byText', text, false
 
   toggleControls: ->
     @$el.toggleClass 'displayed'
