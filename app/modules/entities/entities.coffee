@@ -71,6 +71,7 @@ API =
       model: entity
       displayBooks: true
       wikipediaPreview: true
+      initialLength: 20
 
   getEntitiesModels: (prefix, ids)->
     try Model = getModelFromPrefix(prefix)

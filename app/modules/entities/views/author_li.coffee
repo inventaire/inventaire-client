@@ -23,7 +23,7 @@ module.exports = Marionette.CompositeView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    paginationPlugin.call @, 15, 5
+    paginationPlugin.call @, 15, (@options.initialLength or 5)
     wikiBarPlugin.call @
 
   events:
