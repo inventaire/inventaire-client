@@ -56,6 +56,9 @@
       margin-right: 0.2em;
       @include flex(1);
     }
+    .bookLi{
+      min-width: 36em;
+    }
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {

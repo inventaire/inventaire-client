@@ -11,6 +11,8 @@ body{
   }
   #modal{
     max-width: 38em;
+    // min-height is weirdly defined at 100vh by Foundation for small screens
+    min-height: auto;
     &.large{
       max-width: 80em;
     }

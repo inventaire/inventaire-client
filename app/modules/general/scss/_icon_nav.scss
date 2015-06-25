@@ -56,6 +56,9 @@
       margin-top: -1.4em;
       line-height: 1em;
     }
+    .label{
+      line-height: 1em;
+    }
     &:not(.selected){
       span:not(.counter), .fa{
         @include transition(opacity);
