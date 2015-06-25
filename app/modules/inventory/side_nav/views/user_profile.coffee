@@ -1,14 +1,10 @@
 forms_ = require 'modules/general/lib/forms'
+unselectPlugin = require 'modules/inventory/plugins/unselect'
+relationsActions = require 'modules/users/plugins/relations_actions'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/user_profile'
   events:
-    'click a.unselectUser': 'unselectUser'
-    'click .unfriend': -> app.request 'unfriend', @model
-    'click .cancel': -> app.request 'request:cancel', @model
-    'click .discard': -> app.request 'request:discard', @model
-    'click .accept': -> app.request 'request:accept', @model
-    'click .request': -> app.request 'request:send', @model
     'click #editBio': 'editBio'
     'click #saveBio': 'saveBio'
     'click #cancelBio': 'cancelBio'
@@ -20,6 +16,7 @@ module.exports = Marionette.ItemView.extend
     SuccessCheck: {}
     Loading: {}
     ElasticTextarea: {}
+    ConfirmationModal: {}
 
   ui:
     bio: '.bio'
@@ -30,6 +27,11 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     @listenTo @model, 'change', @render.bind(@)
+    @initPlugin()
+
+  initPlugin: ->
+    unselectPlugin.call @
+    relationsActions.call @
 
   onShow: ->
     @makeRoom()
@@ -38,9 +40,6 @@ module.exports = Marionette.ItemView.extend
     # take care of destroying this view even on events out of this
     # view scope (ex: clicking the home button)
     @listenTo app.vent, 'inventory:change', @destroyOnInventoryChange
-
-  unselectUser: ->
-    app.execute 'show:inventory:general'
 
   destroyOnInventoryChange: (username)->
     unless username is @model.get('username')
