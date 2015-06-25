@@ -1,12 +1,41 @@
 $gridMinWidth: 750px;
 
+$controlsElementMaxHeight: 2.3em;
+
+#controls{
+  @include shy(0.9);
+  @include position(fixed, null, 0, 5px);
+}
+
 .controls{
+  height: 100%;
+  @include transition(transform, 0.2s);
   z-index: 10;
-  float: right;
-  border-top-left-radius: $global-radius;
+  @include radius-left();
   background-color: $darker-grey;
-  padding: 0.4em;
   @include display-flex(row, center, flex-end);
+  &:not(.displayed){
+    transform: translateX(calc(100% - 2.6em));
+    .fa-chevron-right{
+      display: none;
+    }
+  }
+  &.displayed{
+    .fa-wrench{
+      display: none;
+    }
+  }
+  .showControls{
+    padding: 0.8em 0 0.8em 0.6em;
+  }
+  .fa{
+    @include text-hover(#ccc);
+    font-size: 1.2em;
+  }
+  .innerControls{
+    @include display-flex(row, center, flex-end);
+    padding: 0.4em 0.4em 0.4em 0.2em;
+  }
   .layouts{
     padding-left: 0.3em;
     padding-right: 0.3em;
@@ -35,7 +64,7 @@ $gridMinWidth: 750px;
   input.filter{
     margin: 0.2em;
     max-width: 15em;
-    height: 2.3em;
+    height: $controlsElementMaxHeight;
     border-radius: 2em;
   }
   /*Small screens*/

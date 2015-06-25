@@ -28,10 +28,6 @@ $sideNavWidth: 250px;
     }
     #followedView{
     }
-    #controls{
-      @include shy(0.9);
-      @include position(fixed, null, 0, 0);
-    }
   }
 }
 

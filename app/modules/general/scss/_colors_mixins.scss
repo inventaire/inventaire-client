@@ -14,12 +14,12 @@
   }
 }
 
-@mixin text-hover($color, $hover:null){
+@mixin text-hover($color, $hover:null, $lighten:15%){
   color: $color;
   @include transition(color);
   &:hover{
     @if $hover { color: $hover; }
-    @else { color: $color; }
+    @else { color: lighten($color, $lighten); }
   }
 }
 

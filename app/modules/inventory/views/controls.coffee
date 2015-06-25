@@ -11,6 +11,7 @@ module.exports = Marionette.ItemView.extend
     'keyup input.filter': 'filterItems'
     'click .cascade': 'displayCascade'
     'click .grid': 'displayGrid'
+    'click .showControls': 'toggleControls'
 
   initialize: -> @lastFilter = null
   onRender: ->
@@ -34,3 +35,6 @@ module.exports = Marionette.ItemView.extend
     if text isnt @lastFilter
       @lastFilter = text
       app.execute 'filter:items:byText', text
+
+  toggleControls: ->
+    @$el.toggleClass 'displayed'
