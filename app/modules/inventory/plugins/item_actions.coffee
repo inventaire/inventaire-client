@@ -11,8 +11,4 @@ events =
   'click a.itemShow': 'itemShow'
   'click a.user': 'showUser'
 
-module.exports = ->
-  @events or= {}
-  _.extend @events, events
-  _.extend @, handlers
-  return
+module.exports = _.BasicPlugin events, handlers

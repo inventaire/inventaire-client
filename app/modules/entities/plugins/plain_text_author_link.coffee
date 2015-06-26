@@ -22,7 +22,4 @@ domainsWithPlainTextAuthors = ['isbn' , 'inv']
 # on relevant ones
 module.exports = (allDomains)->
   if @model.get('domain') in domainsWithPlainTextAuthors or allDomains
-    @events or= {}
-    _.extend @events, events
-    _.extend @, handlers
-    return
+    _.basicPlugin.call @, events, handlers

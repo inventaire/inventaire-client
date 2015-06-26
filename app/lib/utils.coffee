@@ -168,4 +168,18 @@ module.exports = (Backbone, _, app, window)->
     scrollHeight: (height, ms=500)->
       $('html, body').animate {scrollTop: height}, ms
 
+    # let the view call the plugin with the view as context
+    # ex: module.exports = _.BasicPlugin events, handlers
+    BasicPlugin: (events, handlers)->
+      _.partial _.basicPlugin, events, handlers
+
+    # expected to be passed a view as context, an events object
+    # and the associated handlers
+    # ex: _.basicPlugin.call @, events, handlers
+    basicPlugin: (events, handlers)->
+      @events or= {}
+      _.extend @events, events
+      _.extend @, handlers
+      return
+
   return _.extend {}, utils, loggers

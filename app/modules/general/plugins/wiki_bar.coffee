@@ -1,25 +1,20 @@
-module.exports = ->
-  @events or={}
-  _.extend @events,
-    'click a.showWikipediaPreview': 'toggleWikiIframe'
+events =
+  'click a.showWikipediaPreview': 'toggleWikiIframe'
 
-  _.extend @,
-    toggleWikiIframe: ->
-      $wpiframe = @$el.find('.wikipedia-iframe')
-      $iframe = $wpiframe.find('iframe')
-      $carets = @$el.find('.wikipedia-iframe').find('.fa')
+handlers =
+  toggleWikiIframe: ->
+    $wpiframe = @$el.find('.wikipedia-iframe')
+    $iframe = $wpiframe.find('iframe')
+    $carets = @$el.find('.wikipedia-iframe').find('.fa')
 
-      $iframe.toggle()
-      $carets.toggle()
+    $iframe.toggle()
+    $carets.toggle()
 
-      hasIframe = $iframe.length > 0
-      unless hasIframe
-        appendWikipediaFrame.call @, $wpiframe
-        $wpiframe.find('iframe').show()
-        _.scrollTop $wpiframe
-
-  return
-
+    hasIframe = $iframe.length > 0
+    unless hasIframe
+      appendWikipediaFrame.call @, $wpiframe
+      $wpiframe.find('iframe').show()
+      _.scrollTop $wpiframe
 
 appendWikipediaFrame = ($el)->
   url = @model.get('wikipedia.url')
@@ -29,3 +24,5 @@ appendWikipediaFrame = ($el)->
 scrollToIframeTop = ($el)->
   height = $el.offset().top
   $('body').animate({scrollTop: height}, 500)
+
+module.exports = _.BasicPlugin events, handlers
