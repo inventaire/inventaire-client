@@ -99,7 +99,7 @@ module.exports = Marionette.LayoutView.extend
     @updateItem
       details: @ui.details.val()
       notes: @ui.notes.val()
-    .then -> app.execute 'show:home'
+    .then -> app.execute 'show:inventory:main:user'
     .catch _.Error('validateItem err')
 
   updateItem: (data)->

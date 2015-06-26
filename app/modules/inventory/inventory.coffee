@@ -169,7 +169,10 @@ initializeInventoriesHandlers = (app)->
       app.navigate 'inventory'
 
     'show:inventory:user': (user)->
-      API.showUserInventory(user, true)
+      API.showUserInventory user, true
+
+    'show:inventory:main:user': ->
+      API.showUserInventory app.user, true
 
     'show:inventory:group': (group)->
       API.showGroupInventory group.id, group.get('name'), true
