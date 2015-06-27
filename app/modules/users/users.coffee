@@ -41,8 +41,8 @@ usersReady = ->
 # tightly coupled to users_data spreadRelationsData
 spreadRelationsData = (relationsData)->
   { lists, inGroups } = relationsData
-  _.log lists, 'lists'
-  _.log inGroups, 'inGroups'
+  # _.log lists, 'lists'
+  # _.log inGroups, 'inGroups'
   for status, usersData of lists
     usersData.forEach AddUser(inGroups, status)
 

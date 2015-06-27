@@ -9,8 +9,8 @@ module.exports = (app, _)->
       path = _.buildPath '/api/relations',
         action: action
         user: userId
-      return _.preq.get(path)
-      .catch (err)-> _.logXhrErr err, 'relations action err'
+      _.preq.get path
+      .catch _.LogXhrErr('relations action err')
 
   action = (user, action, newStatus, label)->
     [user, userId] = normalizeUser user

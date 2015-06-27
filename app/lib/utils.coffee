@@ -7,8 +7,8 @@ module.exports = (Backbone, _, app, window)->
   utils =
     setCookie: (key, value)->
       @preq.post '/api/cookie', {key: key, value: value}
-      .then (res)-> _.log res, 'setCookie: server res on setCookie'
-      .catch (err)-> console.error "setCookie: failed: #{key} - #{value}: #{err}"
+      .then _.Log('setCookie: server res on setCookie')
+      .catch _.Error("setCookie: failed: #{key} - #{value}")
 
     i18n: (key, args)-> app.polyglot.t key, args
 

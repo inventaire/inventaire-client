@@ -56,7 +56,7 @@ module.exports = (LocalDB, _, promises_)->
       # _.type ids, 'array' already asserted by _.forceArray
       localdb.get(ids)
       .then parseJSON
-      .then (data)-> _.log data, "cache:#{name} present"
+      .then _.Log("cache:#{name} present")
 
     parseJSON = (data)->
       # LevelJs returns a json string per item
