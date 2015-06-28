@@ -87,7 +87,7 @@ API =
         # if it isnt in friends id, it should be a public item
         _.preq.get app.API.items.publicById(itemId)
         .then Items.public.add
-    .catch _.Error('findItemById err')
+    .catch _.LogXhrErr('findItemById err')
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
@@ -231,7 +231,7 @@ initializeInventoriesHandlers = (app)->
         _.type data, 'object'
         item.set data
       else
-        _.types [attribute, value], 'strings...'
+        _.type attribute, 'string'
         item.set attribute, value
 
       promise = _.preq.resolve item.save()
