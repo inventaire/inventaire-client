@@ -1,4 +1,5 @@
 unselectPlugin = require 'modules/inventory/plugins/unselect'
+groupPlugin = require '../plugins/group'
 
 module.exports = Marionette.ItemView.extend
   getTemplate: ->
@@ -11,12 +12,10 @@ module.exports = Marionette.ItemView.extend
 
   initPlugin: ->
     unselectPlugin.call @
+    groupPlugin.call @
 
   behaviors:
     PreventDefault: {}
-
-  events:
-    'click .showGroup': 'showGroup'
 
   onShow: ->
     if @options.highlighted
@@ -25,10 +24,6 @@ module.exports = Marionette.ItemView.extend
   onDestroy: ->
     if @options.highlighted
       app.execute 'current:username:hide'
-
-  showGroup: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:inventory:group', @model
 
   serializeData:->
     _.extend @model.serializeData(),
