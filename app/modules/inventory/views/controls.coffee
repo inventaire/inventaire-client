@@ -16,6 +16,7 @@ module.exports = Marionette.ItemView.extend
   initialize: -> @lastFilter = null
   onRender: ->
     @setActiveLayout()
+    @recoverControls()
 
   setActiveLayout: (layout)->
     @ui.layoutTogglers.removeClass 'active'
@@ -37,4 +38,18 @@ module.exports = Marionette.ItemView.extend
       app.execute 'filter:items:byText', text, false
 
   toggleControls: ->
-    @$el.toggleClass 'displayed'
+    if @$el.hasClass 'displayed' then @wrapControls()
+    else @displayControls()
+
+  recoverControls: ->
+    # boolean arrives as a string, thus the need to use JSON.parse
+    bool = JSON.parse localStorage.getItem('controls:display')
+    if bool then @displayControls() else @wrapControls()
+
+  displayControls: ->
+    @$el.addClass 'displayed'
+    localStorage.setItem 'controls:display', true
+
+  wrapControls: ->
+    @$el.removeClass 'displayed'
+    localStorage.setItem 'controls:display', false
