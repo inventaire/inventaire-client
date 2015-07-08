@@ -26,8 +26,11 @@ parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
   # other arguments aren't necessary as already provided by Firefox
   # console.log {stack: errObj.stack}
   if errObj
-    stack = errObj.stack.split('\n')
-    return ["#{errorMsg} #{url} #{lineNumber}:#{columnNumber}", stack]
+    { stack, context } = errObj
+    stack = stack.split('\n')
+    report = ["#{errorMsg} #{url} #{lineNumber}:#{columnNumber}", stack]
+    if context? then report.push context
+    return report
   else
     return [ errorMsg, url, lineNumber, columnNumber ]
 

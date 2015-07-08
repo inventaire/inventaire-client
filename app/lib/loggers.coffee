@@ -33,6 +33,9 @@ module.exports = (_)->
       report = [err, newErr.message, newErr.stack?.split('\n')]
     else
       report = [err.message or err, err.stack?.split('\n')]
+
+    if err?.context? then report.push err.context
+
     window.reportErr {error: report}
     console.error.apply console, report
 
