@@ -46,6 +46,16 @@ section.scan{
       }
     }
   }
+  .dependency{
+    margin-top: 1em;
+  }
+  .apps{
+    @include display-flex(row, center, space-around);
+    .fa{
+      display: block;
+      font-size: 3em;
+    }
+  }
   #scanner{
     @include custom-button($secondary-color, $dark-grey);
     font-weight: bold;
