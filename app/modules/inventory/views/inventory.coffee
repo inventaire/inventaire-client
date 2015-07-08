@@ -63,6 +63,7 @@ module.exports = Marionette.LayoutView.extend
       # it would be confusing to see 'welcome in your inventory' there
       if generalInventory or app.request 'user:isMainUser', user.id
         @showInventoryWelcome(user)
+        app.execute 'sidenav:show:base'
         return
 
     if user?
