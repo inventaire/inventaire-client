@@ -1,28 +1,5 @@
 module.exports = (app)->
   sync =
-    resolveToUserModel: (user)->
-      # 'user' is either the user model or a username
-      if _.isModel(user) then return _.preq.resolve(user)
-      else
-        username = user
-        app.request('get:userModel:from:username', username)
-        .then (userModel)->
-          if userModel? then return userModel
-          else throw new Error("user model not found: #{user}")
-
-    getUserModelFromUsername: (username)->
-      if username is app.user.get('username')
-        return _.preq.resolve(app.user)
-
-      userModel = app.users.findWhere({username: username})
-      if userModel? then return _.preq.resolve(userModel)
-      else
-        app.users.data.remote.findOneByUsername(username)
-        .then (user)->
-          if user?
-            userModel = app.users.public.add(user)
-            return userModel
-
     getUserModelFromUserId: (id)->
       if id is app.user.id then return app.user
 
@@ -69,7 +46,15 @@ module.exports = (app)->
       return userId in app.users.friends.list
 
     isPublicUser: (userId)->
+      unless userId and app.users?.public?.list? then return false
       if userId? then return userId in app.users.public.list
+
+    getNonFriendsIds: (usersIds)->
+      _.type usersIds, 'array'
+      _(usersIds).chain()
+      .without app.user.id
+      .reject sync.isFriend
+      .value()
 
   sync.getUsernameFromUserId = (id)->
     return sync.getUserModelFromUserId(id)?.get('username')
@@ -96,20 +81,45 @@ module.exports = (app)->
           .then _.property('0')
       .catch _.Error('getUserModel err')
 
+    resolveToUserModel: (user)->
+      # 'user' is either the user model or a username
+      if _.isModel(user) then return _.preq.resolve(user)
+      else
+        username = user
+        app.request('get:userModel:from:username', username)
+        .then (userModel)->
+          if userModel? then return userModel
+          else throw new Error("user model not found: #{user}")
+
+    getUserModelFromUsername: (username)->
+      if username is app.user.get('username')
+        return _.preq.resolve(app.user)
+
+      userModel = app.users.findWhere {username: username}
+      if userModel? then return _.preq.resolve userModel
+      else
+        app.users.data.remote.findOneByUsername username
+        .then (user)->
+          if user?
+            userModel = app.users.public.add(user)
+            return userModel
+
+
 
   addPublicUsers = (users)->
     # usually users not found locally are non-friends users
     app.users.public.add users
 
   return reqresHandlers =
-    'resolve:to:userModel': sync.resolveToUserModel
     'get:user:model': async.getUserModel
     'get:users:data': async.getUsersData
+    'resolve:to:userModel': async.resolveToUserModel
+    'get:userModel:from:username': async.getUserModelFromUsername
     'get:userModel:from:userId': sync.getUserModelFromUserId
-    'get:userModel:from:username': sync.getUserModelFromUsername
     'get:username:from:userId': sync.getUsernameFromUserId
     'get:userId:from:username': sync.getUserIdFromUsername
     'get:profilePic:from:userId': sync.getProfilePicFromUserId
+    'get:non:friends:ids': sync.getNonFriendsIds
     'users:search': sync.searchUsers
     'user:isMainUser': sync.isMainUser
     'user:isFriend': sync.isFriend
