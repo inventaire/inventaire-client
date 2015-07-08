@@ -8,23 +8,25 @@ module.exports = (_)->
   # BACKBONE.MODEL
   #changing the default attribute to fit CouchDB
   Backbone.Model::idAttribute = '_id'
-  Backbone.Model::push = (attr, value)->
-    array = @get(attr)
-    _.typeArray(array)
-    array.push value
-    @set attr, array
 
-  Backbone.Model::unshift = (attr, value)->
-    array = @get(attr)
-    _.typeArray(array)
-    array.unshift value
-    @set attr, array
+  ArrayHandler = (handler)->
+    return fn = (attr, value)->
+      array = @get attr
+      _.typeArray array
+      array = handler array, value
+      @set attr, array
+      triggerChange @, attr, value
 
-  Backbone.Model::without = (attr, value)->
-    array = @get(attr)
-    _.typeArray(array)
-    array = _.without array, value
-    @set attr, array
+  Backbone.Model::push = ArrayHandler (array, value)->
+      array.push value
+      return array
+
+  Backbone.Model::unshift = ArrayHandler (array, value)->
+      array.unshift value
+      return array
+
+  Backbone.Model::without = ArrayHandler (array, value)->
+      return _.without array, value
 
   # attaching related models to a model in a standard way
   # - requesting it to whatever modules handles it
@@ -89,3 +91,8 @@ module.exports = (_)->
       type: verb
       data: data
       dataType: dataType
+
+
+triggerChange = (model, attr, value)->
+  model.trigger 'change', model, attr, value
+  model.trigger "change:#{attr}", model, value
