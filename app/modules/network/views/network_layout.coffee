@@ -19,8 +19,10 @@ module.exports = Marionette.LayoutView.extend
     contents: '.custom-tabs-content section'
     friendsTab: '#friendsTab'
     friendsContent: '#friendsContent'
+    friendsRequestsHeader: '#friendsRequestsHeader'
     groupsTab: '#groupsTab'
     groupsContent: '#groupsContent'
+    groupsInvitationsHeader: '#groupsInvitationsHeader'
 
   behaviors:
     Loading: {}
@@ -71,6 +73,9 @@ module.exports = Marionette.LayoutView.extend
       @friendsRequests.show new UsersList
         collection: otherRequested
         emptyViewMessage: 'no pending requests'
+    else
+      @ui.friendsRequestsHeader.hide()
+
 
   showFriendsList: ->
     @friendsList.show new UsersList
@@ -84,6 +89,8 @@ module.exports = Marionette.LayoutView.extend
         collection: mainUserInvited
         showBoards: true
         emptyViewMessage: "you have no pending invitation to join a group"
+    else
+      @ui.groupsInvitationsHeader.hide()
 
   showGroupsList: ->
     @groupList.show new GroupsList
