@@ -122,5 +122,9 @@
     "waiting_confirmation_info_giving": "",
     "waiting_return_confirmation_info_selling": "",
     "waiting_return_confirmation_info_lending": "",
-    "waiting_return_confirmation_info_giving": ""
+    "waiting_return_confirmation_info_giving": "",
+    "unfriend_confirmation": "do you really want to remove **%{username}** from your friends?",
+    "group_invite_friends": "invite friends to join the group",
+    "group_invitor": "%{username} invited you to join",
+    "requires_barcode_scanner_app": "To be able to scan your books barcode, you need to have a Barcode Scanner app already installed on your smartphone:"
 }

@@ -122,5 +122,9 @@
     "waiting_confirmation_info_giving": null,
     "waiting_return_confirmation_info_selling": null,
     "waiting_return_confirmation_info_lending": null,
-    "waiting_return_confirmation_info_giving": null
+    "waiting_return_confirmation_info_giving": null,
+    "unfriend_confirmation": "souhaitez-vous vraiment retirer **%{username}** de la liste de vos amis ?",
+    "group_invite_friends": "invitez vos amis à rejoindre le groupe",
+    "group_invitor": "%{username} vous invite à rejoindre le groupe",
+    "requires_barcode_scanner_app": "Pour pouvoir scanner le code-barre de votre livre, une application Barcode Scanner doit être installé sur votre smartphone"
 }

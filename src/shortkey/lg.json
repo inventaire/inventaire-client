@@ -122,5 +122,9 @@
     "waiting_confirmation_info_giving": null,
     "waiting_return_confirmation_info_selling": null,
     "waiting_return_confirmation_info_lending": null,
-    "waiting_return_confirmation_info_giving": null
+    "waiting_return_confirmation_info_giving": null,
+    "unfriend_confirmation": null,
+    "group_invite_friends": null,
+    "group_invitor": null,
+    "requires_barcode_scanner_app": null
 }
