@@ -41,7 +41,7 @@ module.exports = Backbone.Model.extend
 
   itemsCount: ->
     @users
-    .map (user)-> user.inventoryLength()
+    .map (user)-> user.inventoryLength() or 0
     .reduce (a, b)-> a + b
 
   serializeData: ->
