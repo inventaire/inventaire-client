@@ -3,7 +3,6 @@ $user-height: 3em;
 $user-bg: #ddd;
 .userLi{
   height: $user-height;
-  width: 100%;
   color: $light-grey;
   @include display-flex(row);
   img{
@@ -14,6 +13,9 @@ $user-bg: #ddd;
   }
   .right-box{
     @include flex(1);
+    .username{
+      margin-left: 0.3em;
+    }
     .userMenu{
       @include display-flex(row, center, flex-end);
       @include flex(1);
@@ -27,7 +29,6 @@ $user-bg: #ddd;
     a:first-child{
       @include flex(1);
       .username{
-        margin: 0em 1em 0em 1em;
         vertical-align: middle;
       }
     }
@@ -41,8 +42,8 @@ $user-bg: #ddd;
     }
     .userMenu{
       @include flex(0, 0, 1.6em);
-      margin-left: 0.5em;
-      margin-right: 0.5em;
+      margin-left: 0.2em;
+      margin-right: 0.2em;
       font-size: 1em;
       a{
         text-align: right;
@@ -56,9 +57,6 @@ $user-bg: #ddd;
 
 .userLi:not(.friends){
   .right-box{
-    .username{
-      margin-left: 0.5em;
-    }
     .userMenu{
       font-size: 0.9em;
       a.action, span.mainUser{

@@ -1,4 +1,4 @@
-sideNavWidth = 250
+sideNavWidth = 280
 itemWidth = 200 + 50 #margins
 itemHeight = 350 #more or less
 

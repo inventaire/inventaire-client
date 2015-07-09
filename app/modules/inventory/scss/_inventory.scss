@@ -6,8 +6,6 @@ $tabs-navigation-active-bg-color: $tools-active-bg;
 $tabs-navigation-bg-color: lighten($tools-active-bg, 20%);
 $tabs-navigation-font-color: #fff;
 
-$sideNavWidth: 250px;
-
 #innerMain{
   // needed by Chrome (at least) to expand items on the whole page
   width: 100%;
