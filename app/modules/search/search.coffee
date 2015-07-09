@@ -1,4 +1,5 @@
 Search = require './views/search'
+error_ = require 'lib/error'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
@@ -13,6 +14,9 @@ module.exports =
   initialize: ->
     app.commands.setHandlers
       'search:global': (query)->
+        if not query? or query is ''
+          _.warn query, 'empty query', true
+          return
         API.search(query)
         app.navigate "search?q=#{query}"
 
