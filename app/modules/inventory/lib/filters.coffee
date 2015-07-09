@@ -16,6 +16,12 @@ module.exports =
       'filter:visibility:reset': resetFilters
       'filter:items:byText': filterItemsByText
 
+    app.request('waitForFriendsItems')
+    # wait for debounced recalculations
+    # ex: user:isFriend depends on app.users.friends.list
+    .then Promise.delay(400)
+    .then Items.filtered.refilter.bind(Items.filtered)
+
 visibilityFilters =
   'private': {'listing':'private'}
   'friends': {'listing':'friends'}
