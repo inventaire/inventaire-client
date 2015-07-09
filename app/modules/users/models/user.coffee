@@ -1,9 +1,8 @@
-Filterable = require 'modules/general/models/filterable'
+UserCommons = require './user_commons'
 
-module.exports = Filterable.extend
+module.exports = UserCommons.extend
   initialize: ->
-    username = @get 'username'
-    @set 'pathname', "/inventory/#{username}"
+    @setPathname()
 
   asMatchable: ->
     [
@@ -18,6 +17,5 @@ module.exports = Filterable.extend
     # nonRelationGroupUser status have the same behavior as public users for views
     if relationStatus is 'nonRelationGroupUser'
       attrs.public = true
-    if relationStatus is 'friends'
-      attrs.inventoryLength = app.request 'inventory:user:length', @id
+    attrs.inventoryLength = @inventoryLength()
     return attrs

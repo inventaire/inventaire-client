@@ -87,7 +87,7 @@ API =
         # if it isnt in friends id, it should be a public item
         _.preq.get app.API.items.publicById(itemId)
         .then Items.public.add
-    .catch _.LogXhrErr('findItemById err')
+    .catch _.LogXhrErr('findItemById err (maybe the item was deleted?)')
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
@@ -134,6 +134,7 @@ fetchItems = (app)->
 
 triggerItemsReady = ->
   Items.personal.fetched = true
+  app.user.itemsFetched = true
   app.vent.trigger 'items:ready'
 
 requestPublicItem = (username, entity)->
@@ -257,7 +258,9 @@ initializeInventoriesHandlers = (app)->
         action: action
 
     'get:item:model': API.findItemById
-    'inventory:user:length': (userId)-> Items.inventoryLength[userId]
+    'inventory:user:length': (userId)->
+      if userId is app.user.id then Items.personal.length
+      else Items.inventoryLength[userId]
 
     'inventory:fetch:user:public:items': (userId)->
       unless _.isUserId(userId)

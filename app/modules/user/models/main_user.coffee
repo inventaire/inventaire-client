@@ -1,8 +1,8 @@
-Filterable = require 'modules/general/models/filterable'
+UserCommons = require 'modules/users/models/user_commons'
 Transactions = require 'modules/transactions/collections/transactions'
 Groups = require 'modules/network/collections/groups'
 
-module.exports = Filterable.extend
+module.exports = UserCommons.extend
   url: ->
     app.API.user
 
@@ -22,9 +22,6 @@ module.exports = Filterable.extend
     @on 'change:username', @setPathname
 
   setLang: -> @lang = @get('language')?[0..1]
-  setPathname: ->
-    username = @get('username')
-    @set 'pathname', "/inventory/#{username}"
 
   addNotifications: (notifications)->
     if notifications?
@@ -34,4 +31,5 @@ module.exports = Filterable.extend
   serializeData: ->
     attrs = @toJSON()
     attrs.mainUser = true
+    attrs.inventoryLength = @inventoryLength()
     return attrs
