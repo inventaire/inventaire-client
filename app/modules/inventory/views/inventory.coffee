@@ -39,7 +39,9 @@ module.exports = Marionette.LayoutView.extend
 
   showItemsListOnceData: ->
     # waitForItems to avoid having items displaying undefined values
-    app.request('waitForItems').then @showItemsList.bind(@)
+    app.request('waitForItems')
+    .then @showItemsList.bind(@)
+    .catch _.Error('showItemsListOnceData err')
 
   showItemsList: ->
     {user, group} = @options
@@ -109,8 +111,8 @@ module.exports = Marionette.LayoutView.extend
     if user? then app.execute 'sidenav:show:user', user
 
 prepareUserItemsList = (user, navigate)->
-  if app.request 'user:isPublicUser', user.id
-    fetchPublicUserItems user
+  unless app.request 'user:itemsFetched', user
+    fetchUserPublicItems user
 
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
@@ -122,12 +124,11 @@ prepareGroupItemsList = (group, navigate)->
   app.execute 'sidenav:show:group', group
   if navigate then app.navigate group.get('pathname')
 
-fetchPublicUserItems = (user)->
-  # fetch items
+fetchUserPublicItems = (user)->
   app.request 'inventory:fetch:user:public:items', user.id
   .then _.Log('public user public items')
   .then Items.public.add
-  .catch _.Error('fetchPublicUserItems')
+  .catch _.Error('fetchUserPublicItems')
 
   # remove items on inventory change
   removeUserItems = -> app.execute('inventory:remove:user:items', user.id)

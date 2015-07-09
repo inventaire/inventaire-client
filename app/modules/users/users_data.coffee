@@ -38,7 +38,7 @@ module.exports = (app, $, _)->
 
     localData.get networkIds
     .then spreadRelationsData.bind(null, relations, inGroups)
-    .then _.Log('spreaded')
+    # .then _.Log('spreaded')
 
   inGroupsNonFriendsRelations = (relations, groupsIds)->
     # including possible userRequested and otherRequested users
@@ -53,7 +53,7 @@ module.exports = (app, $, _)->
       otherRequested: []
       nonRelationGroupUser: []
 
-    _.log relations, 'relations'
+    # _.log relations, 'relations'
 
     for relationType, list of relations
       list.forEach (userId)->
@@ -77,7 +77,4 @@ extractGroupsIds = (groups)->
   .without app.user.id
   .value()
 
-concatGroupIds = (group)->
-  admin = group.get('admin') or []
-  members = group.get('members') or []
-  return members.concat admin
+concatGroupIds = (group)-> group.allMembers()

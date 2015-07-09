@@ -1,0 +1,35 @@
+<div class="header">
+  <a class="toggler">
+    {{icon 'caret-right'}}
+    {{#if picture}}
+      <img class="groupPic" src="{{src picture 64}}">
+    {{/if}}
+    <span class="name">{{name}}</span>
+  </a>
+  <a href="{{pathname}}" class="showGroup">{{i18n "go to group's inventory"}}</a>
+  <div class="right">
+    {{#if invitor.username}}
+      <p class="invitor">{{i18n 'group_invitor' invitor}}</p>
+    {{/if}}
+    <ul class="actions">
+    {{#if mainUser_invited}}
+      <li><a class="accept">{{i18n 'accept invitation'}}</a></li>
+      <li><a class="decline">{{i18n 'decline'}}</a></li>
+    {{/if}}
+    {{#if mainUser_none}}
+      {{!-- <li><a class="request">{{i18n 'ask to join group'}}</a></li> --}}
+    {{/if}}
+    </ul>
+  </div>
+</div>
+<div class="body hidden">
+  <section>
+    <h3>{{i18n 'members'}}</h3>
+    <span class="membersCount">{{membersCount}}</span>
+    <div class="members users"></div>
+  </section>
+  <section class="{{#unless mainUser_member}}hidden{{/unless}}">
+    <h3>{{i18n 'invite friends to join'}}</h3>
+    <div class="invite users"></div>
+  </section>
+</div>

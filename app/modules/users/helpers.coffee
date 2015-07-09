@@ -1,9 +1,11 @@
+error_ = require 'lib/error'
+
 module.exports = (app)->
   sync =
     getUserModelFromUserId: (id)->
       if id is app.user.id then return app.user
 
-      userModel = app.users.byId(id)
+      userModel = app.users.byId id
       if userModel? then userModel
       else return
 
@@ -42,12 +44,20 @@ module.exports = (app)->
       if userId? then return userId is app.user.id
 
     isFriend: (userId)->
-      unless userId? and app.users?.friends?.list? then return false
+      unless userId? and app.users?.friends?.list?
+        error_.new 'isFriend isnt ready (use data waiters)', userId
+      # unless userId? and app.users?.friends?.list? then return false
       return userId in app.users.friends.list
 
     isPublicUser: (userId)->
-      unless userId and app.users?.public?.list? then return false
-      if userId? then return userId in app.users.public.list
+      unless userId? and app.users?.public?.list?
+        error_.new 'isPublicUser isnt ready (use data waiters)', userId
+      return userId in app.users.public.list
+
+    itemsFetched: (userModel)->
+      unless _.isModel(userModel)
+        error_.new 'itemsFetched expected a model', userModel
+      return userModel.itemsFetched is true
 
     getNonFriendsIds: (usersIds)->
       _.type usersIds, 'array'
@@ -68,18 +78,22 @@ module.exports = (app)->
   async =
     getUsersData: (ids)->
       app.users.data.local.get(ids, 'collection')
-      .then addPublicUsers
+      .then adders.public
 
-    getUserModel: (id)->
+    getUserModel: (id, category='public')->
       app.request('waitForData')
       .then ->
         userModel = app.request 'get:userModel:from:userId', id
         if userModel? then return userModel
         else
           app.users.data.local.get(id, 'collection')
-          .then addPublicUsers
+          .then adders[category]
           .then _.property('0')
       .catch _.Error('getUserModel err')
+
+    getGroupUserModel: (id)->
+      # just adding to users.nonRelationGroupUser instead of users.public
+      async.getUserModel id, 'nonRelationGroupUser'
 
     resolveToUserModel: (user)->
       # 'user' is either the user model or a username
@@ -101,17 +115,20 @@ module.exports = (app)->
         app.users.data.remote.findOneByUsername username
         .then (user)->
           if user?
-            userModel = app.users.public.add(user)
+            userModel = app.users.public.add user
             return userModel
 
 
 
-  addPublicUsers = (users)->
+
+  adders =
     # usually users not found locally are non-friends users
-    app.users.public.add users
+    public: app.users.public.add.bind(app.users.public)
+    nonRelationGroupUser: app.users.nonRelationGroupUser.add.bind(app.users.nonRelationGroupUser)
 
   return reqresHandlers =
     'get:user:model': async.getUserModel
+    'get:group:user:model': async.getGroupUserModel
     'get:users:data': async.getUsersData
     'resolve:to:userModel': async.resolveToUserModel
     'get:userModel:from:username': async.getUserModelFromUsername
@@ -124,3 +141,4 @@ module.exports = (app)->
     'user:isMainUser': sync.isMainUser
     'user:isFriend': sync.isFriend
     'user:isPublicUser': sync.isPublicUser
+    'user:itemsFetched': sync.itemsFetched

@@ -56,8 +56,10 @@ AddUser = (inGroups, status)->
     # we need to fetch items for non-friends relations in groups
     if status in possiblyInGroups
       unless userModel.id in inGroups[status]
+        userModel.itemsFetched = false
         return
 
+    userModel.itemsFetched = true
     app.execute 'friend:fetchItems', userModel
 
 possiblyInGroups = [

@@ -1,0 +1,70 @@
+.groupBoard{
+  background-color: white;
+  padding: 1em;
+  @include radius();
+  @include shy-border();
+  margin-bottom: 1em;
+  .header{
+    @include display-flex(row, center, center);
+    .name{
+      font-size: 1.2em;
+      font-weight: bold;
+      @include serif();
+    }
+    .fa-caret-right{
+      padding-top: 0.2em;
+      font-size: 1.2em;
+      color: $grey;
+      &.toggled{
+        @include vendor-prefix(transform, rotate(90deg));
+      }
+    }
+    .showGroup{
+      margin-left: 1em;
+      @include link();
+    }
+    .right{
+      margin-left: auto;
+    }
+    .actions{
+      @include display-flex(row);
+      font-weight: normal;
+      a{
+        margin-right: 0.5em;
+      }
+      .accept, .request{
+        @include tiny-button($success-color);
+      }
+      .decline{
+        @include tiny-button($grey);
+      }
+    }
+  }
+  .body{
+    text-align: left;
+    h3{
+      display: inline;
+    }
+    section{
+      padding-top: 1em;
+      .members{
+        max-height: 20em;
+      }
+      .invite{
+        max-height: 10em;
+      }
+      .users{
+        overflow: auto;
+      }
+    }
+    .membersCount{
+      padding-left: 0.5em;
+      opacity: 0.6;
+    }
+  }
+  .action{
+    span, .fa{
+      color: white;
+    }
+  }
+}

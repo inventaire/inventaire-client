@@ -1,11 +1,28 @@
-{{icon 'user'}}
-<h2>{{i18n 'connect your inventory with friends'}}</h2>
-<div id="friendsList"></div>
+<div class="custom-tabs-titles">
+  <a id="friendsTab">{{icon 'user'}}{{I18n 'friends'}}</a>
+  <a id="groupsTab">{{icon 'group'}}{{I18n 'groups'}}</a>
+</div>
+<div class="custom-tabs-content">
+  <section id="friendsContent">
+    <h2>{{i18n 'friends'}}</h2>
+    <h3>{{i18n 'pending friends requests'}}</h3>
+    <div id="friendsRequests"></div>
+    <h3>{{i18n 'your friends'}}</h3>
+    <div id="friendsList">
+      <span class="loading"></span>
+    </div>
+  </section>
 
-{{icon 'group'}}
-<h2>{{i18n 'groups'}}</h2>
-<h3>{{i18n 'your groups'}}</h3>
-<div id="groupsList"></div>
+  <section id="groupsContent">
+    <h2>{{i18n 'groups'}}</h2>
+    <h3>{{i18n "invitations"}}</h3>
+    <div id="groupsInvitations"></div>
+    <h3>{{i18n 'your groups'}}</h3>
+    <div id="groupsList">
+      <span class="loading"></span>
+    </div>
 
-<h3>{{i18n 'create a group'}}</h3>
-<div id="groupCreation"></div>
+    <h3>{{i18n 'create a group'}}</h3>
+    <div id="groupCreation"></div>
+  </section>
+</div>

@@ -1,0 +1,37 @@
+{{#if friends}} 
+  <a class="light-grey friend" data-options="align:top" data-dropdown="{{username}}-menu">
+    <span class="label">{{I18n 'friends'}}</span>
+    {{icon 'chevron-down'}}
+  </a>
+  <ul id="{{username}}-menu" class="tiny f-dropdown" data-dropdown-content>
+    {{!-- redundant but allow to avoid having unfriend button alone, the risk to click it on mobile is too big  --}}
+    <li>
+      <a class="select">
+        {{icon 'user'}} {{i18n 'see profile'}}
+      </a>
+    </li>
+     <li>
+        <a class="unfriend action">
+          {{icon 'minus'}} {{i18n 'unfriend'}}
+        </a>
+      </li>
+  </ul>
+{{/if}}
+{{#if userRequested}} 
+  <a class="cancel action">
+    {{icon 'ban'}} {{i18n 'cancel request'}}
+  </a>
+{{/if}}
+{{#if otherRequested}} 
+  <a class="accept action">
+    {{icon 'check'}} {{i18n 'confirm'}}
+  </a>
+  <a class="discard action">
+    {{icon 'minus'}} {{i18n 'decline'}}
+  </a>
+{{/if}}
+{{#if public}} 
+  <a class="request action">
+    {{icon 'plus'}} {{i18n 'add friend'}}
+  </a>
+{{/if}}

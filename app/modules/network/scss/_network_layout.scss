@@ -16,13 +16,35 @@
     margin-top: 0.4em;
   }
   text-align: center;
-  #friendsList{
+  #friendsRequests:not(:empty), #friendsList{
     @include radius();
     @include shy-border();
     padding: 1em;
     background-color: white;
   }
+  .custom-tabs-titles{
+    @include display-flex(row, center, center);
+    padding-top: 1em;
+    @include radius-horizontal-group();
+    a{
+      @include custom-button(#bbb, white, 0);
+      @include flex(0, 0, 10em);
+      @include shy-border();
+      font-weight: bold;
+      .fa{
+        display: block;
+        font-size: 1.5em;
+      }
+      &.active{
+        @include custom-button(rgba($light-blue, 0.7), white, 0);
+        box-shadow: 0 0.2em 0.5em $glow;
+        // background-color: darken(white, 2%);
+        // color: $dark-grey;
+      }
+    }
+  }
 }
 
 @import 'groups_list';
+@import 'group_board';
 @import 'group_creation';

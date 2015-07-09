@@ -10,4 +10,11 @@
   background-color: white;
   #step1{
   }
+  .showGroup{
+    @include tiny-button($success-color);
+    font-weight: normal;
+    @include sans-serif();
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
 }

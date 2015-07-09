@@ -11,14 +11,20 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
     ConfirmationModal: {}
+    SuccessCheck: {}
 
   events:
     'click .select': 'selectUser'
 
   initialize:->
+    # mutualizing the view with user in group context
+    @group = @options.group
+    @groupContext = @options.groupContext
+
     @initPlugins()
     @lazyRender = _.debounce @render, 200
     @listenTo @model, 'change', @lazyRender
+    @listenTo @model, 'group:invite', @lazyRender
     @listenTo app.vent, "inventory:#{@model.id}:change", @lazyRender
 
   initPlugins: ->
@@ -28,7 +34,18 @@ module.exports = Marionette.ItemView.extend
     app.execute 'foundation:reload'
 
   serializeData: ->
-    @model.serializeData()
+    attrs = @model.serializeData()
+
+    if @groupContext then @attachGroupsAttributes attrs
+    else attrs
+
+  attachGroupsAttributes: (attrs)->
+    attrs.groupContext = true
+
+    groupStatus = @group.userStatus @model
+    attrs[groupStatus] = true
+
+    return attrs
 
   selectUser: (e)->
     unless _.isOpenedOutside(e)

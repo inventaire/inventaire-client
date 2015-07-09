@@ -43,7 +43,7 @@ module.exports = Marionette.LayoutView.extend
   showGroups: ->
     @ui.groupsSection.show()
     @groupsList.show new GroupsList
-      collection: app.user.groups
+      collection: app.user.groups.mainUserMember
 
   showFriends: ->
     collection = app.users.filtered.friends()

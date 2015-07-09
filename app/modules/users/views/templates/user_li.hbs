@@ -7,8 +7,10 @@
   <a class="select" href="{{pathname}}">
     <span class="username serif">{{username}}</span>
   </a>
-  {{#if inventoryLength}}
-    <a class="inventoryLength select serif">{{inventoryLength}}</a>
-  {{/if}}
+  {{#unless groupContext}}
+    {{#if inventoryLength}}
+      <a class="inventoryLength select serif">{{inventoryLength}}</a>
+    {{/if}}
+  {{/unless}}
   {{partial 'inventory/side_nav:user_menu' this}}
 </div>

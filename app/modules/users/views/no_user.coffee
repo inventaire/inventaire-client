@@ -3,3 +3,5 @@ module.exports = Marionette.ItemView.extend
   className: 'text-center hidden'
   template: require './templates/no_user'
   onShow: -> @$el.fadeIn()
+  serializeData: ->
+    message: @options.message

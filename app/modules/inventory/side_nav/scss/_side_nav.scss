@@ -57,6 +57,18 @@
     }
     @import 'users_lists';
   }
+  #groupsList{
+    text-align: left;
+    font-weight: bold;
+    @include serif();
+    padding-left: 0.6em;
+  }
+  .noGroup{
+    color: white;
+    opacity: 0.2;
+    font-weight: 0.6;
+    text-align: center;
+  }
 }
 
 
@@ -78,7 +90,13 @@
     section{
       @include display-flex(column, left, flex-end);
       @include flex(1, 1, 0);
+    }
+    #groupsList, #usersList{
       overflow: auto;
+      max-height: 50vh;
+    }
+    .userLi{
+      max-width: $sideNavWidth;
     }
   }
 }

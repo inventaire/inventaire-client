@@ -19,7 +19,16 @@ $user-bg: #ddd;
     .userMenu{
       @include display-flex(row, center, flex-end);
       @include flex(1);
+      .f-dropdown{
+        a, .fa, span{
+          color: $dark-grey !important;
+        }
+      }
     }
+  }
+  .invite{
+    @include tiny-button($light-blue);
+    white-space: nowrap;
   }
 }
 
@@ -58,6 +67,10 @@ $user-bg: #ddd;
 .userLi:not(.friends){
   .right-box{
     .userMenu{
+      max-width: calc($sideNavWidth - $user-height - 2em);
+      @include display-flex(row, center);
+      white-space: nowrap;
+      max-width: 100%;
       font-size: 0.9em;
       a.action, span.mainUser{
         padding: 0 0.3em 0 0.3em;
@@ -79,6 +92,35 @@ $user-bg: #ddd;
       .request{
         background-color: $success-color;
       }
+    }
+  }
+}
+
+#networkLayout{
+  .userLi{
+    span, .fa:not(.times-circle){
+      color: $dark-grey;
+    }
+    .invite{
+      span, .fa{
+        color: white;
+      }
+    }
+    .member, .invited{
+      opacity: 0.6;
+    }
+    .inventoryLength{
+      color: white;
+    }
+    .action, .action .fa{
+      color: white;
+    }
+    .right-box{
+      @include display-flex(row, center, center);
+    }
+    .action{
+      margin-left: 1em;
+      @include radius();
     }
   }
 }
