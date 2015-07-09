@@ -3,52 +3,53 @@ $active-custom-tab-bg: rgba($light-grey, 0.9);
 .custom-tabs{
   @include display-flex(column, left);
 
-  .custom-tabs-titles{
-    font-family: $header-font-family;
-    width: 100%;
-    @include display-flex(row, flex-start);
-    a{
-      text-transform: capitalize;
-      padding: 1em;
-      background-color: $dark-grey;
-      color: white;
-      &.active{
-        color: $dark-grey;
-        background-color: $active-custom-tab-bg;
-      }
-      &:first-child{
-        border-top-left-radius: $global-radius;
-      }
-      &:last-child{
-        border-top-right-radius: $global-radius;
-      }
-    }
-  }
-
-  .custom-tabs-content{
-    background-color: $active-custom-tab-bg;
-    @include radius-bottom();
-    border-top-right-radius: $global-radius;
-  }
-
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     width: 100%;
-    .custom-tabs-titles{
-      @include flex-wrap(wrap);
-      width: 100%;
-    }
-    .custom-tabs-content{
-      padding: 1em;
-    }
   }
-
-
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     width: 40em;
-    .custom-tabs-content{
-      padding: 2em;
+  }
+}
+
+.custom-tabs-titles{
+  font-family: $header-font-family;
+  width: 100%;
+  @include display-flex(row, flex-start);
+  a{
+    text-transform: capitalize;
+    padding: 1em;
+    background-color: $dark-grey;
+    color: white;
+    &.active{
+      color: $dark-grey;
+      background-color: $active-custom-tab-bg;
     }
+    &:first-child{
+      border-top-left-radius: $global-radius;
+    }
+    &:last-child{
+      border-top-right-radius: $global-radius;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    @include flex-wrap(wrap);
+    width: 100%;
+  }
+}
+
+.custom-tabs-content{
+  background-color: $active-custom-tab-bg;
+  @include radius-bottom();
+  border-top-right-radius: $global-radius;
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    padding: 1em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 2em;
   }
 }
