@@ -29,4 +29,7 @@ alert_ =
     @$el.trigger 'alert', { message: _.i18n(message) }
     return
 
+# typical invocation: _.extend @, behaviorsPlugin
+# ( and not behaviorsPlugin.call @ )
+# allows to call functions only when needed: behaviorsPlugin.startLoading.call(@)
 module.exports = _.extend {}, loading_, successCheck_, alert_

@@ -6,6 +6,8 @@
   .errorBox{
     background-color: rgba(#eee, 0.8);
     max-width: 30em;
+    margin: 1em;
+    @include radius();
     .button{
       font-weight: bold;
     }
@@ -21,7 +23,7 @@
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     .errorBox{
-      padding: 4em;
+      padding: 2em 4em 2em 4em;
     }
     padding-bottom: 10em;
   }

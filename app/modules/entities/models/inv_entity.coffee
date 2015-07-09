@@ -3,7 +3,7 @@ Entity = require './entity'
 module.exports = Entity.extend
   prefix: 'inv'
   initialize: ->
-    _.log @, 'init inv entity'
+    # _.log @, 'init inv entity'
     @initLazySave()
 
     @id = @get('_id')

@@ -40,6 +40,7 @@ section#bonuses{
       @include display-flex(row, baseline, space-around, wrap);
       li{
         @include flex(1, 0, 450px);
+        margin-bottom: 1em;
       }
     }
   }

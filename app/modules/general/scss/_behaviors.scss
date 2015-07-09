@@ -1,12 +1,14 @@
 .fa-check-circle{
-  color: $success-color;
+  // avoid being styled by view specific .fa color
+  color: $success-color !important;
   font-size: 2rem;
   margin-left: 0.5rem;
   margin-right: 0.2rem;
 }
 
 .fa-times-circle{
-  color: $warning-color;
+  // avoid being styled by view specific .fa color
+  color: $warning-color !important;
   font-size: 2rem;
   margin-left: 0.5rem;
   margin-right: 0.2rem;
