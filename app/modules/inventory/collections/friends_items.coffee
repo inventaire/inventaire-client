@@ -11,11 +11,7 @@ module.exports = Items.extend
     ids = @friendsItemsToFetch
     @friendsItemsToFetch = new Array
     _.preq.get app.API.users.items(ids)
-    .then (items)=>
-      # _.log items, 'items:friends'
-      items.forEach (item)=>
-        itemModel = @add item
-        itemModel.username = app.request 'get:username:from:userId', item.owner
+    .then @add.bind(@)
     .always @friendsReady.bind(@)
     .catch _.Error('fetchFriendsItems err')
 
