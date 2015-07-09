@@ -57,9 +57,10 @@
         overflow: auto;
       }
     }
-    .membersCount{
-      padding-left: 0.5em;
+    .stats{
+      @include display-flex(row, center, space-between);
       opacity: 0.6;
+      padding-bottom: 1em;
     }
   }
   .action{

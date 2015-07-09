@@ -24,8 +24,7 @@
 </div>
 <div class="body hidden">
   <section>
-    <h3>{{i18n 'members'}}</h3>
-    <span class="membersCount">{{membersCount}}</span>
+    {{partial 'network:group_stats' this}}
     <div class="members users"></div>
   </section>
   <section class="{{#unless mainUser_member}}hidden{{/unless}}">

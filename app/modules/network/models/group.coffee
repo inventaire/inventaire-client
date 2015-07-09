@@ -39,9 +39,15 @@ module.exports = Backbone.Model.extend
   membersCount: ->
     @allMembers().length
 
+  itemsCount: ->
+    @users
+    .map (user)-> user.inventoryLength()
+    .reduce (a, b)-> a + b
+
   serializeData: ->
     _.extend @toJSON(),
       membersCount: @membersCount()
+      itemsCount: @itemsCount()
 
   inviteUser: (user)->
     _.type user, 'object'
