@@ -17,6 +17,7 @@ handlers =
       collection: app.users.friends
       groupContext: true
       group: @model
+      emptyViewMessage: 'no friends to invite'
       filter: (child, index, collection)->
         # in the context of the usersList view
         @options.group.userStatus(child) isnt 'member'
