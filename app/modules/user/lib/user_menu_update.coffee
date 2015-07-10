@@ -5,7 +5,7 @@ module.exports = ->
   app.commands.setHandlers
     'show:user:menu:update': showMenu
 
-  app.user.on 'change', (user)-> app.execute 'show:user:menu:update'
+  app.user.on 'change', showMenu
 
 showMenu = ->
   if app.user.has 'email'

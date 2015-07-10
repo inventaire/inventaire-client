@@ -4,7 +4,8 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   template: require './templates/user_li'
   className: ->
-    status = @model.get 'status'
+    classes = "userLi"
+    status = @model.get('status') or 'noStatus'
     username = @model.get 'username'
     "userLi #{status} #{username}"
 
