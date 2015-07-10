@@ -10,6 +10,7 @@ a.user{
 .userBox{
   text-align: left;
   width: 100%;
+  overflow: hidden;
   height: $user-box-heigth;
   background-color: $main-bg;
   @include display-flex(row, center);
