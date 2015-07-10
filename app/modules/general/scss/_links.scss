@@ -1,13 +1,17 @@
+@mixin underline($color){
+  text-decoration: underline;
+  text-decoration-color: $color;
+}
+
 @mixin link(){
   color: $link-blue;
-  text-decoration: underline;
+  @include underline(rgba(white, 0.2));
 }
 
 // to be used on dark background
 @mixin link-light(){
   color: white;
-  text-decoration: underline;
-  text-decoration-color: rgba(white, 0.2);
+  @include underline(rgba(white, 0.2));
   @include transition(text-decoration-color, 0.2s);
   &:hover{
     text-decoration-color: rgba(white, 0.6);
@@ -15,7 +19,7 @@
 }
 
 .link{
-  text-decoration: none;
+  @include underline(rgba($grey, 0.4));
   color: #555566;
   // border-bottom: 3px solid rgba(255,255,0,0.2);
   &:hover {
