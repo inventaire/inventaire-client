@@ -13,18 +13,40 @@ $user-bg: #ddd;
   }
   .right-box{
     @include flex(1);
+    @include display-flex(row, center);
+    max-width: 14.4em;
+    a{
+      @include flex(1, 0, 0);
+      overflow: hidden;
+    }
     .username{
       margin-left: 0.3em;
     }
+    .inventoryLength{
+      opacity: 0.4;
+      @include display-flex(row, center, center);
+      background-color: $darker-grey;
+      border-radius: $global-radius;
+      padding-bottom: 0.1em;
+      @include flex(0, 0, 1.4em);
+      margin-left: auto;
+    }
     .userMenu{
+      margin-left: 0.2em;
       @include display-flex(row, center, flex-end);
-      @include flex(1);
       .f-dropdown{
         a, .fa, span{
           color: $dark-grey !important;
         }
       }
     }
+  }
+  .action{
+    @include radius();
+  }
+  .accept{
+    // spacing from .decline button
+    margin-right: 0.1em;
   }
   .invite{
     @include tiny-button($light-blue);
@@ -34,25 +56,15 @@ $user-bg: #ddd;
 
 .userLi.friends{
   .right-box{
-    @include display-flex(row, center);
     a:first-child{
       @include flex(1);
       .username{
         vertical-align: middle;
       }
     }
-    .inventoryLength{
-      opacity: 0.4;
-      @include display-flex(row, center, center);
-      background-color: $darker-grey;
-      border-radius: $global-radius;
-      padding-bottom: 0.1em;
-      @include flex(0, 0, 1.4em);
-    }
     .userMenu{
-      @include flex(0, 0, 1.6em);
-      margin-left: 0.2em;
       margin-right: 0.2em;
+      @include flex(0, 0, 1.6em);
       font-size: 1em;
       a{
         text-align: right;
@@ -67,10 +79,8 @@ $user-bg: #ddd;
 .userLi:not(.friends){
   .right-box{
     .userMenu{
-      max-width: calc($sideNavWidth - $user-height - 2em);
       @include display-flex(row, center);
       white-space: nowrap;
-      max-width: 100%;
       font-size: 0.9em;
       a.action, span.mainUser{
         padding: 0 0.3em 0 0.3em;
