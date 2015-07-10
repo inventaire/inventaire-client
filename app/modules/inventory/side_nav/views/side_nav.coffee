@@ -12,11 +12,14 @@ module.exports = Marionette.LayoutView.extend
     usersList: '#usersList'
 
   ui:
+    two: '#two'
     usersListHeader: '#usersListHeader'
     listToggler: '.listToggler'
     usersList: '#usersList'
     userField: '#userField'
+    userSearch: '#userSearch'
     groupsSection: 'section#groups'
+    memberSearch: '#memberSearch'
 
   initialize: ->
     @lastQuery = null
@@ -26,18 +29,23 @@ module.exports = Marionette.LayoutView.extend
       'sidenav:show:group': @showGroup.bind(@)
 
     @lazyUserSearch = _.debounce @updateUserSearch, 100
+    @lazyMemberFilter = _.debounce @updateMemberFilter, 100
 
   events:
     'keyup #userField': 'lazyUserSearch'
+    'keyup #memberField': 'lazyMemberFilter'
     'click a.close': 'resetSearch'
     'click #usersListHeader': 'toggleUsersList'
 
   showBase: ->
+    @ui.two.show()
+    @ui.userSearch.show()
+    @ui.memberSearch.hide()
     @showFriends()
     app.request('waitForUserData').then @showGroups.bind(@)
 
   showUser: (userModel)->
-    @showBase()
+    @ui.two.hide()
     @one.show new UserProfile {model: userModel}
 
   showGroups: ->
@@ -51,12 +59,21 @@ module.exports = Marionette.LayoutView.extend
     @setFriendsHeader()
 
   showGroup: (groupModel)->
-    @ui.groupsSection.hide()
-    @usersList.show new app.View.Users.List {collection: groupModel.users}
-    @setGroupHeader groupModel
     @one.show new Group
       model: groupModel
       highlighted: true
+    @ui.groupsSection.hide()
+    @setGroupHeader groupModel
+    @ui.userSearch.hide()
+    @ui.memberSearch.show()
+    @usersList.show new app.View.Users.List
+      collection: groupModel.users
+      textFilter: true
+      emptyViewMessage: "can't find any group member with that name"
+
+  updateMemberFilter: (e)->
+    text = e.currentTarget.value
+    @usersList.currentView.trigger 'filter:text', text
 
   updateUserSearch: (e)-> @searchUsers e.target.value
 

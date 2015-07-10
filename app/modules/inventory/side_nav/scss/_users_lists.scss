@@ -17,8 +17,8 @@
   overflow: auto;
 }
 
-#userSearch{
-  #userField{
+.bottomSearch{
+  input{
     margin: 0;
     @include shadow-box($glow);
   }
@@ -35,15 +35,12 @@
       background-color: $darker-grey;
     }
   }
-  #userSearch{}
 }
 
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  #usersListHeader{
-  }
-  #userSearch{
+  .bottomSearch{
     @include flex(0, 0, 2.4em);
   }
 }

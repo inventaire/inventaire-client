@@ -4,11 +4,6 @@ module.exports = UserCommons.extend
   initialize: ->
     @setPathname()
 
-  asMatchable: ->
-    [
-      @get('username')
-    ]
-
   serializeData: ->
     attrs = @toJSON()
     relationStatus = attrs.status

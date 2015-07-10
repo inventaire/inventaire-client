@@ -10,5 +10,14 @@ module.exports = Marionette.CollectionView.extend
     message: @options.emptyViewMessage or "can't find anyone with that name"
 
   initialize: ->
-    if @options.filter? then @filter = @options.filter
+    { filter, textFilter } = @options
+    if filter? then @filter = filter
+
+    if textFilter
+      @on 'filter:text', @setTextFilter.bind(@)
+
   onShow: -> app.execute 'foundation:reload'
+
+  setTextFilter: (text)->
+    @filter = (model)-> model.matches text
+    @render()
