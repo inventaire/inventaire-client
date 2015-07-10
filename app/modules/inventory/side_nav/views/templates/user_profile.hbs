@@ -9,12 +9,16 @@
       </a>
     {{/if}}
   {{/if}}
-  <h3>{{username}}</h3>
+  <h3 class="username">{{username}}</h3>
   {{partial 'inventory/side_nav:user_profile_bio' this}}
   {{#if inventoryLength}}
-    <span class="inventoryLength select serif">
-      {{i18n 'Books:'}}  {{inventoryLength}}
-    </span>
+    <div class="stats">
+      <span class="inventoryLength select serif">
+        {{i18n 'books:'}}  {{inventoryLength}}
+      </span>
+    </div>
   {{/if}}
-  {{partial 'inventory/side_nav:user_menu' this}}
+  {{#unless mainUser}}
+    {{partial 'inventory/side_nav:user_menu' this}}
+  {{/unless}}
 </div>

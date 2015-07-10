@@ -23,7 +23,8 @@ module.exports = Marionette.ItemView.extend
     bioText: 'textarea.bio'
 
   serializeData: ->
-    @model.serializeData()
+    _.extend @model.serializeData(),
+      onUserProfile: true
 
   initialize: ->
     @listenTo @model, 'change', @render.bind(@)

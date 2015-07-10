@@ -1,5 +1,6 @@
 .userProfile{
   background-color: $darker-grey;
+  color: white;
   margin-top: 1px;
   // @include shadow-box($dark-grey, 0px, -2px);
   @include border($dark-grey, 1px, ridge);
@@ -14,10 +15,17 @@
     margin-bottom: 0.5em;
     @include shy(0.4);
   }
-  h3{
+  .username{
     margin-top: -0.2em;
-    padding: 0;
+    padding: 0.2em;
     text-align: center;
+    font-size: 1.6em;
+    max-width: $sideNavWidth;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  .stats{
+    padding: 1em;
   }
   .bioPlaceholder, #editBio{
     color: rgba(white, 0.5);
