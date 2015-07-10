@@ -4,7 +4,7 @@ module.exports = ->
   getGroupModel = (id)->
     group = groups.byId id
     if group then _.preq.resolve group
-    else _.preq.reject()
+    else getGroupPublicData id
 
   app.reqres.setHandlers
     'get:group:model': getGroupModel
@@ -22,3 +22,13 @@ initGroupFilteredCollection = (groups, name)->
 filters =
   mainUserMember: (group)-> group.mainUserIsMember()
   mainUserInvited: (group)-> group.mainUserIsInvited()
+
+
+getGroupPublicData = (id)->
+  _.preq.get _.buildPath(app.API.groups, {id: id})
+  .then _.Log('getGroupPublicData')
+  .then (res)->
+    {group, users, items} = res
+    app.users.public.add users
+    Items.public.add items
+    return app.user.groups.add group
