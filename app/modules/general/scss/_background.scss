@@ -4,7 +4,7 @@
   transition: background 0.5s ease;
 }
 
-@mixin multidef-bg-cover($url, $hd:null, $protocol:http){
+@mixin multidef-bg-cover($url, $hd:null){
   @include bg-cover();
   /*Small screens*/
   @media screen and (max-width: 500px) {
@@ -16,7 +16,7 @@
   }
   @if $hd {
     @media screen and (min-width: 1300px) {
-      background-image: url($protocol + '://' + $url);
+      background-image: url('https://s3-eu-west-1.amazonaws.com/' + $url);
     }
   }
 }
