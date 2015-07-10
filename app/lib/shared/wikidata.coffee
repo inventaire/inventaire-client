@@ -65,7 +65,7 @@ module.exports = (promises_, _)->
       ids = [ids] if _.isString(ids)
       ids = @normalizeIds(ids)
 
-      languages = _.forceArray(languages)
+      languages = _.forceArray(languages).map _.shortLang
       unless 'en' in languages then languages.push 'en'
 
       query = _.buildPath(API.wikidata.base,

@@ -50,7 +50,7 @@ requestI18nFile = (polyglot, lang)->
   fetchMomentLocale lang
   # keep only the two letters lang code as second level
   # language like pt-BR aren't available at the moment
-  lang = lang[0..1]
+  lang = _.shortLang lang
   return _.preq.get app.API.i18n(lang)
   .then (res)->
     polyglot.replace res

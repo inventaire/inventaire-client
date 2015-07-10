@@ -137,3 +137,5 @@ module.exports = (_)->
     if screen?.width then width = Math.min width, screen.width
     # group image width above 500 by levels of 100px to limit cdn versions
     return Math.ceil(width / 100) * 100
+
+  shortLang: (lang)-> lang[0..1]
