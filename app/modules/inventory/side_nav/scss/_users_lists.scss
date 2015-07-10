@@ -17,11 +17,9 @@
   overflow: auto;
 }
 
-.bottomSearch{
-  input{
-    margin: 0;
-    @include shadow-box($glow);
-  }
+#userField, #memberField{
+  margin: 0;
+  @include shadow-box($glow);
 }
 
 /*Small screens*/
