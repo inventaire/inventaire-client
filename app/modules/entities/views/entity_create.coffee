@@ -66,9 +66,11 @@ module.exports = Marionette.LayoutView.extend
     val = @ui[attr].val()
     @model.set attr, val
 
+  onRender: ->
+    @showEntityActions()
+
   onShow: ->
     @prefillForm()
-    @showEntityActions()
 
   prefillForm: ->
     {data} = @options
