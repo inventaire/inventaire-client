@@ -19,27 +19,18 @@
   </div>
 </a>
 {{partial 'inventory:item_user_box' this}}
+{{#if details}}
+  <div class="detailsBox">
+    <span class="details wrapped">
+      {{!-- {{icon 'quote-left'}} --}}
+      {{!-- {{partial 'toggle_wrap' wrap.details}} --}}
+      {{pre details}}
+    </span>
+
+  </div>
+{{/if}}
 <div class="settings itemBox">
   {{partial 'inventory:item_transaction_box' this}}
   {{partial 'inventory:item_visibility_box' this}}
 </div>
 {{partial 'inventory:item_request_box' this}}
-<div class="detailsBox hidden">
-  {{#if details}}
-    <div>
-      <span class="details wrapped">
-        {{icon 'quote-left'}}
-        {{partial 'toggle_wrap' wrap.details}}
-        {{pre details}}
-      </span>
-    </div>
-  {{/if}}
-  {{#if notes}}
-    <div>
-      <span class="notes grey wrapped" title="{{i18n 'personal notes'}}">
-        {{partial 'toggle_wrap' wrap.notes}}
-        {{pre notes}}
-      </span>
-    </div>
-  {{/if}}
-</div>

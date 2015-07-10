@@ -1,16 +1,12 @@
 .detailsBox{
+  background-color: rgba($main-bg, 0.7);
+  padding: 0.4em;
   text-align: left;
   width: 100%;
-  span{
-    background-color: $main-bg;
-    display: block; // needed for the comment wrapping!!
-    overflow: hidden;
-    text-align: left;
-    margin-top: 1em;
-    padding: 0.2em;
-    &.wrapped{
-      max-height: 4.6em;
-    }
+  .more{
+    padding-right: 0.2em;
+    float: right;
+    @include text-hover($grey);
+    @include underline(rgba($grey, 0.4));
   }
-  .wrapper{}
 }

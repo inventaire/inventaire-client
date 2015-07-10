@@ -1,5 +1,6 @@
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
+detailsLimit = 150
 
 module.exports = Marionette.ItemView.extend
   tagName: 'figure'
@@ -27,27 +28,19 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .edit': 'itemEdit'
-    'click a.detailsToggleWrap': -> @toggleWrap('details')
-    'click a.notesToggleWrap': -> @toggleWrap('notes')
     'click a.requestItem': -> app.execute 'show:item:request', @model
 
   serializeData: ->
     attrs = @model.serializeData()
-    attrs.wrap = @wrapData(attrs)
+    # attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
+    attrs.details = @detailsData attrs.details
     return attrs
-
-  wrapData: (attrs)->
-    details:
-      wrap: attrs.details?.length > 120
-      nameBase: 'details'
-    notes:
-      wrap: attrs.notes?.length > 120
-      nameBase: 'notes'
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
-  toggleWrap: (nameBase)->
-    @$el.find("span.#{nameBase}").toggleClass('wrapped')
-    @$el.find("a.#{nameBase}ToggleWrap").find('.fa').toggle()
-    @trigger 'resize'
+  detailsData: (details)->
+    if details?.length > detailsLimit
+      more = _.i18n 'see more'
+      return details[0..detailsLimit] + "...  <a class='itemShow more'>#{more}</a>"
+    else details
