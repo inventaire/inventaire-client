@@ -106,9 +106,12 @@ $user-bg: #ddd;
 }
 
 #sideNav{
-  .userLi{
-    .right-box{
-      max-width: 14.4em;
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    .userLi{
+      .right-box{
+        max-width: 14.4em;
+      }
     }
   }
 }
