@@ -2,14 +2,14 @@
 <span class="name">{{name}}</span>
 {{partial 'network:group_stats' this}}
 
-{{#if requested}}
+{{#if status_requested}}
   <p class="requested">
     {{i18n 'you requested to join is waiting for approval'}}
   </p>
   <a class="cancelRequest">{{i18n 'cancel request'}}</a>
   <span class="check"></span>
 {{/if}}
-{{#if none}}
+{{#if status_none}}
   <a class="joinRequest">{{i18n 'request to join group'}}</a>
   <span class="check"></span>
 {{/if}}

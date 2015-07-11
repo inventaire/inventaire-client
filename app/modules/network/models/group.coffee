@@ -49,7 +49,9 @@ module.exports = Backbone.Model.extend
   serializeData: ->
     attrs = @toJSON()
     status = @mainUserStatus()
-    attrs[status] = true
+    # not using status alone as that would override users lists:
+    # requested, invited etc
+    attrs["status_#{status}"] = true
     _.extend attrs,
       publicDataOnly: @publicDataOnly
       membersCount: @membersCount()
