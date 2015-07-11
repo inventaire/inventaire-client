@@ -140,7 +140,7 @@ module.exports = Backbone.Model.extend
     .catch _.Error('fetchGroupUsersMissingItems err')
 
   requestToJoin: ->
-    @push 'requested', @createRequest()
+    @createRequest()
 
     _.preq.put app.API.groups,
       action: 'request'
@@ -148,5 +148,19 @@ module.exports = Backbone.Model.extend
     .catch @revertMove.bind(@, app.user, null, 'requested')
 
   createRequest: ->
-    user: app.user.id
-    timestamp: _.now()
+    @push 'requested',
+      user: app.user.id
+      timestamp: _.now()
+
+  cancelRequest: ->
+    @moveMembership app.user, 'requested', null
+
+    _.preq.put app.API.groups,
+      action: 'cancel-request'
+      group: @id
+    .catch @revertCancel.bind(@)
+
+  revertCancel: (err)->
+    # just re-creating the request, don't mind the timestamp
+    @createRequest()
+    throw err

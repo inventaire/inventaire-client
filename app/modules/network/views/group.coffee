@@ -35,7 +35,12 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .joinRequest': 'joinRequest'
+    'click .cancelRequest': 'cancelRequest'
 
   joinRequest: ->
     @model.requestToJoin()
     .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
+
+  cancelRequest: ->
+    @model.cancelRequest()
+    .catch behaviorsPlugin.Fail.call(@, 'cancelRequest')
