@@ -1,0 +1,6 @@
+.joinRequest{
+  @include tiny-button($light-blue);
+}
+.requested{
+  @include tiny-button($grey);
+}

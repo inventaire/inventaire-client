@@ -4,6 +4,9 @@
 {{#if invited}}
   <span class="invited">{{i18n 'invited'}}</span>
 {{/if}}
+{{#if requested}}
+  <span class="requested">{{i18n 'requested'}}</span>
+{{/if}}
 {{#if none}}
   <a class="invite action">
     {{icon 'plus'}} {{i18n 'invite'}}

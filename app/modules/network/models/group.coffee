@@ -32,6 +32,8 @@ module.exports = Backbone.Model.extend
     @_allMembers = @getUserIds('members').concat @getUserIds('admins')
   allInvited: -> @_allInvited or @_listAllInvited()
   _listAllInvited: -> @_allInvited = @getUserIds 'invited'
+  allRequested: -> @_allRequested = @_listAllRequested()
+  _listAllRequested: -> @_allRequested = @getUserIds 'requested'
 
   getUserIds: (category)->
     @get(category).map _.property('user')
@@ -45,9 +47,12 @@ module.exports = Backbone.Model.extend
     .reduce (a, b)-> a + b
 
   serializeData: ->
-    _.extend @toJSON(),
+    attrs = @toJSON()
+    status = @mainUserStatus()
+    attrs[status] = true
+    _.extend attrs,
       membersCount: @membersCount()
-      itemsCount: @itemsCount()
+      # itemsCount: @itemsCount()
 
   inviteUser: (user)->
     _.type user, 'object'
@@ -69,6 +74,7 @@ module.exports = Backbone.Model.extend
     { id } = user
     if id in @allMembers() then return 'member'
     else if id in @allInvited() then return 'invited'
+    else if id in @allRequested() then return 'requested'
     else 'none'
 
   mainUserStatus: -> @userStatus app.user
@@ -107,10 +113,14 @@ module.exports = Backbone.Model.extend
 
   # moving membership object from previousCategory to newCategory
   moveMembership: (user, previousCategory, newCategory)->
-    invitation = @findMembership previousCategory, user
-    unless invitation? then error_.new 'membership not found', arguments
-    @without previousCategory, invitation
-    @push newCategory, invitation
+    membership = @findMembership previousCategory, user
+    unless membership? then error_.new 'membership not found', arguments
+
+    @without previousCategory, membership
+    # let the possibility to just destroy the doc
+    # by letting newCategory undefined
+    if newCategory? then @push newCategory, membership
+
     if app.request 'user:isMainUser', user.id
       app.vent.trigger 'group:main:user:move'
 
@@ -125,3 +135,15 @@ module.exports = Backbone.Model.extend
     .then _.Log('groupNonFriendsUsers items')
     .then Items.add.bind(Items)
     .catch _.Error('fetchGroupUsersMissingItems err')
+
+  requestToJoin: ->
+    @push 'requested', @createRequest()
+
+    _.preq.put app.API.groups,
+      action: 'request'
+      group: @id
+    .catch @revertMove.bind(@, app.user, null, 'requested')
+
+  createRequest: ->
+    user: app.user.id
+    timestamp: _.now()

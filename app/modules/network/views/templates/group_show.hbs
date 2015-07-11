@@ -2,3 +2,10 @@
 <span class="name">{{name}}</span>
 {{partial 'network:group_stats' this}}
 
+{{#if requested}}
+  <span class="requested">{{i18n 'you requested to join'}}</span>
+{{/if}}
+{{#if none}}
+  <a class="joinRequest">{{i18n 'request to join group'}}</a>
+  <span class="check"></span>
+{{/if}}

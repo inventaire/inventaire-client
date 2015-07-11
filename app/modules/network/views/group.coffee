@@ -1,5 +1,6 @@
 unselectPlugin = require 'modules/inventory/plugins/unselect'
 groupPlugin = require '../plugins/group'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   getTemplate: ->
@@ -10,12 +11,15 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     @initPlugin()
 
+    @listenTo @model, 'change', @render.bind(@)
+
   initPlugin: ->
     unselectPlugin.call @
     groupPlugin.call @
 
   behaviors:
     PreventDefault: {}
+    SuccessCheck: {}
 
   onShow: ->
     if @options.highlighted
@@ -28,3 +32,10 @@ module.exports = Marionette.ItemView.extend
   serializeData:->
     _.extend @model.serializeData(),
       highlighted: @options.highlighted
+
+  events:
+    'click .joinRequest': 'joinRequest'
+
+  joinRequest: ->
+    @model.requestToJoin()
+    .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
