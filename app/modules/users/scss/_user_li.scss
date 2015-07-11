@@ -14,7 +14,6 @@ $user-bg: #ddd;
   .right-box{
     @include flex(1);
     @include display-flex(row, center);
-    max-width: 14.4em;
     a{
       @include flex(1, 0, 0);
       overflow: hidden;
@@ -102,6 +101,14 @@ $user-bg: #ddd;
       .request{
         background-color: $success-color;
       }
+    }
+  }
+}
+
+#sideNav{
+  .userLi{
+    .right-box{
+      max-width: 14.4em;
     }
   }
 }
