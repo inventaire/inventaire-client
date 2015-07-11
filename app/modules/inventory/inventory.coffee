@@ -259,6 +259,8 @@ initializeInventoriesHandlers = (app)->
 
     'get:item:model': API.findItemById
     'inventory:user:length': (userId)->
+      # Items.where({owner: userId}).length would be simpler
+      # but probably less efficient?
       if userId is app.user.id then Items.personal.length
       else Items.inventoryLength[userId]
 

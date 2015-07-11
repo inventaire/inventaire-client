@@ -44,15 +44,18 @@ module.exports = Backbone.Model.extend
   itemsCount: ->
     @users
     .map (user)-> user.inventoryLength() or 0
-    .reduce (a, b)-> a + b
+    .sum()
 
   serializeData: ->
     attrs = @toJSON()
     status = @mainUserStatus()
     attrs[status] = true
     _.extend attrs,
+      publicDataOnly: @publicDataOnly
       membersCount: @membersCount()
-      # itemsCount: @itemsCount()
+      # itemsCount isnt available for public groups
+      # due to an unsolved issue with user:inventoryLength in this case
+      itemsCount: @itemsCount()  unless @publicDataOnly
 
   inviteUser: (user)->
     _.type user, 'object'

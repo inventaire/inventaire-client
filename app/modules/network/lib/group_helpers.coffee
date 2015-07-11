@@ -31,4 +31,6 @@ getGroupPublicData = (id)->
     {group, users, items} = res
     app.users.public.add users
     Items.public.add items
-    return app.user.groups.add group
+    groupModel =  app.user.groups.add group
+    groupModel.publicDataOnly = true
+    return groupModel
