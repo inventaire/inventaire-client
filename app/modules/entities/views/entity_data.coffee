@@ -2,7 +2,7 @@ plainTextAuthorLink = require '../plugins/plain_text_author_link'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/entity_data'
-  className: 'entityPanel'
+  className: 'entityData'
   initialize: (options)->
     @initPlugin()
     @lazyRender = _.debounce @render.bind(@), 200

@@ -1,5 +1,5 @@
 .itemCreation{
-  .entityPanel{
+  .entityData{
     @extend .dark-panel;
   }
   label{
@@ -27,7 +27,7 @@
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    .entityPanel{
+    .entityData{
       h2, a {
         margin-left: 1rem;
       }
