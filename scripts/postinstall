@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 ./scripts/slim_packages.coffee
+mkdir -p ./vendor/scripts ./vendor/stylesheets
 ./scripts/install_scripts
 bower install
-./scripts/bower_fix.coffee
 ../scripts/run_patches $HOME/inventaire/client/scripts/patches
 ./scripts/mv_font_awesome_fonts
 ./scripts/mv_moment_locales
