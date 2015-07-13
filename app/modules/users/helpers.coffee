@@ -45,13 +45,14 @@ module.exports = (app)->
 
     isFriend: (userId)->
       unless userId? and app.users?.friends?.list?
-        error_.new 'isFriend isnt ready (use data waiters)', userId
-      # unless userId? and app.users?.friends?.list? then return false
+        _.warn user, 'isFriend isnt ready (use or recalculate after data waiters)'
+        return false
       return userId in app.users.friends.list
 
     isPublicUser: (userId)->
       unless userId? and app.users?.public?.list?
-        error_.new 'isPublicUser isnt ready (use data waiters)', userId
+        _.warn user, 'isPublicUser isnt ready (use or recalculate after data waiters)'
+        return true
       return userId in app.users.public.list
 
     itemsFetched: (userModel)->
