@@ -12,8 +12,8 @@ module.exports =
   I18n: (args...)->
     _.capitaliseFirstLetter @i18n.apply(@, args)
 
-  link: (text, url)->
-    new SafeString @linkify(text, url)
+  link: (text, url, classes)->
+    new SafeString @linkify(text, url, classes)
 
   i18nLink: (text, url)->
     text = _.i18n text

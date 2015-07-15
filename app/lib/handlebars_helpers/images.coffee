@@ -18,8 +18,8 @@ icons =
 
 exports.iconLink = (name, url, classes)->
   icon = @icon.call null, name, classes
-  return @link.call @, icon, url
+  return @link.call @, icon, url, ''
 
 exports.iconLinkText = (name, url, text, classes)->
   icon = @icon.call null, name, classes
-  return @link.call @, "#{icon}<span>#{text}</span>", url
+  return @link.call @, "#{icon}<span>#{text}</span>", url, ''
