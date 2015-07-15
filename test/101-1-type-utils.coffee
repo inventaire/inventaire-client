@@ -109,75 +109,75 @@ describe 'UTILS', ->
 
 
   describe 'TYPES', ->
-      it "should handle multi arguments type", (done)->
-        trycatch( ->
-          (-> _.types([{whoami: 'im an object'}], ['object'])).should.not.throw()
-          (-> _.types([{whoami: 'im an object'}, 1, 2, 125], ['object', 'number', 'number', 'number'])).should.not.throw()
-          done()
-        , done)
-
-      it "should handle throw when on argument is of the wrong type", (done)->
-        trycatch( ->
-          args = [{whoami: 'im an object'}, 1, 2, 125]
-          (-> _.types(args, ['object', 'number', 'string', 'number'])).should.throw()
-          (-> _.types([{whoami: 'im an object'}, 1, 'hello', 125], ['object', 'array', 'string', 'number'])).should.throw()
-          done()
-        , done)
-
-      it "should throw when not enought arguments", (done)->
-        trycatch( ->
-          (-> _.types([{whoami: 'im an object'}, 1], ['object', 'number', 'array'])).should.throw()
-          done()
-        , done)
-
-      it "should throw when too many arguments", (done)->
-        trycatch( ->
-          (-> _.types([{whoami: 'im an object'}, [1, [123], 2, 3], 'object', 'number', 'array'])).should.throw()
-          done()
-        , done)
-
-      it "should not throw when less arguments than types but more or as many as minArgsLength", (done)->
-        trycatch( ->
-          (-> _.types ['im am a string'], ['string', 'string']).should.throw()
-          (-> _.types ['im am a string'], ['string', 'string'], 0).should.not.throw()
-          (-> _.types ['im am a string'], ['string', 'string'], 1).should.not.throw()
-          (-> _.types ['im am a string'], ['string'], 0).should.not.throw()
-          (-> _.types ['im am a string'], ['string'], 1).should.not.throw()
-          done()
-        , done)
-
-      it "should throw when less arguments than types and not more or as many as minArgsLength", (done)->
-        trycatch( ->
-          (-> _.types ['im am a string'], ['string', 'string'], 2).should.throw()
-          done()
-        , done)
-
-      it "accepts a common type for all the args as a string", (done)->
-        (-> _.types([1,2,3,41235115], 'numbers...')).should.not.throw()
-        (-> _.types([1,2,3,41235115, 'bobby'], 'numbers...')).should.throw()
+    it "should handle multi arguments type", (done)->
+      trycatch( ->
+        (-> _.types([{whoami: 'im an object'}], ['object'])).should.not.throw()
+        (-> _.types([{whoami: 'im an object'}, 1, 2, 125], ['object', 'number', 'number', 'number'])).should.not.throw()
         done()
+      , done)
 
-      it "only accepts the 's...' interface", (done)->
-        (-> _.types([1,2,3,41235115], 'numbers')).should.throw()
+    it "should handle throw when on argument is of the wrong type", (done)->
+      trycatch( ->
+        args = [{whoami: 'im an object'}, 1, 2, 125]
+        (-> _.types(args, ['object', 'number', 'string', 'number'])).should.throw()
+        (-> _.types([{whoami: 'im an object'}, 1, 'hello', 125], ['object', 'array', 'string', 'number'])).should.throw()
         done()
+      , done)
 
-      it "should accept piped 's...' types", (done)->
-        (-> _.types([1,2,'yo',41235115], 'strings...|numbers...')).should.not.throw()
-        (-> _.types([1,2,'yo', [],41235115], 'strings...|numbers...')).should.throw()
+    it "should throw when not enought arguments", (done)->
+      trycatch( ->
+        (-> _.types([{whoami: 'im an object'}, 1], ['object', 'number', 'array'])).should.throw()
         done()
+      , done)
+
+    it "should throw when too many arguments", (done)->
+      trycatch( ->
+        (-> _.types([{whoami: 'im an object'}, [1, [123], 2, 3], 'object', 'number', 'array'])).should.throw()
+        done()
+      , done)
+
+    it "should not throw when less arguments than types but more or as many as minArgsLength", (done)->
+      trycatch( ->
+        (-> _.types ['im am a string'], ['string', 'string']).should.throw()
+        (-> _.types ['im am a string'], ['string', 'string'], 0).should.not.throw()
+        (-> _.types ['im am a string'], ['string', 'string'], 1).should.not.throw()
+        (-> _.types ['im am a string'], ['string'], 0).should.not.throw()
+        (-> _.types ['im am a string'], ['string'], 1).should.not.throw()
+        done()
+      , done)
+
+    it "should throw when less arguments than types and not more or as many as minArgsLength", (done)->
+      trycatch( ->
+        (-> _.types ['im am a string'], ['string', 'string'], 2).should.throw()
+        done()
+      , done)
+
+    it "accepts a common type for all the args as a string", (done)->
+      (-> _.types([1,2,3,41235115], 'numbers...')).should.not.throw()
+      (-> _.types([1,2,3,41235115, 'bobby'], 'numbers...')).should.throw()
+      done()
+
+    it "only accepts the 's...' interface", (done)->
+      (-> _.types([1,2,3,41235115], 'numbers')).should.throw()
+      done()
+
+    it "should accept piped 's...' types", (done)->
+      (-> _.types([1,2,'yo',41235115], 'strings...|numbers...')).should.not.throw()
+      (-> _.types([1,2,'yo', [],41235115], 'strings...|numbers...')).should.throw()
+      done()
 
   describe 'ALL', ->
     describe 'areStrings', ->
       it "should be true when all are strings", (done)->
-          trycatch( ->
-            _.areStrings(['a', 'b', 'c']).should.equal true
-            done()
-          , done)
+        trycatch( ->
+          _.areStrings(['a', 'b', 'c']).should.equal true
+          done()
+        , done)
 
       it "should be false when not all are strings", (done)->
-          trycatch( ->
-            _.areStrings(['a', 'b', 4]).should.equal false
-            _.areStrings(['a', {a:12}, 4]).should.equal false
-            _.areStrings([[], 'e', 'f']).should.equal false
-            done()
-          , done)
+        trycatch( ->
+          _.areStrings(['a', 'b', 4]).should.equal false
+          _.areStrings(['a', {a:12}, 4]).should.equal false
+          _.areStrings([[], 'e', 'f']).should.equal false
+          done()
+        , done)
