@@ -17,5 +17,7 @@ module.exports = Backbone.NestedModel.extend
     @on 'change', _.debounce(@updateFollowedList, 500)
 
   updateFollowedList: (model)->
-    [entity, following] = [k, v] for k,v of model.changed
+    for k,v of model.changed
+      [entity, following] = [k, v]
+
     _.preq.post model.url, {entity: entity, following: following}

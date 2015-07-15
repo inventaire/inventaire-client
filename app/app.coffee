@@ -52,7 +52,8 @@ App = Marionette.Application.extend
       @session.record Backbone.history.fragment
 
       unless routeFound
-        console.error('route: not found! check if route is defined before app.start()')
+        console.error('route: not found! check
+        if route is defined before app.start()')
         _.log Backbone.history.handlers, 'route: handlers at start'
 
 module.exports = new App()

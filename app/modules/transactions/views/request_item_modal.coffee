@@ -7,6 +7,7 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
     Loading: {}
     SuccessCheck: {}
+    ElasticTextarea: {}
 
   initialize: -> _.extend @, behaviorsPlugin
 
@@ -15,9 +16,6 @@ module.exports = Marionette.ItemView.extend
 
   ui:
     message: '#message'
-
-  behaviors:
-    ElasticTextarea: {}
 
   onShow: ->
     app.execute 'modal:open'

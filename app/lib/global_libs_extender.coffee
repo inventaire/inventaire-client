@@ -18,15 +18,15 @@ module.exports = (_)->
       triggerChange @, attr, value
 
   Backbone.Model::push = ArrayHandler (array, value)->
-      array.push value
-      return array
+    array.push value
+    return array
 
   Backbone.Model::unshift = ArrayHandler (array, value)->
-      array.unshift value
-      return array
+    array.unshift value
+    return array
 
   Backbone.Model::without = ArrayHandler (array, value)->
-      return _.without array, value
+    return _.without array, value
 
   # attaching related models to a model in a standard way
   # - requesting it to whatever modules handles it

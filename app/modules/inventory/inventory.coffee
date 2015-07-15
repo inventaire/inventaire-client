@@ -92,7 +92,7 @@ API =
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'
     unless items?.length?
-      throw 'shouldnt be at least an empty array here?'
+      throw new Error 'shouldnt be at least an empty array here?'
 
     switch items.length
       when 0 then app.execute 'show:404'

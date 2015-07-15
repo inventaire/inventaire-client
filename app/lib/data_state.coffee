@@ -34,7 +34,7 @@ module.exports =
     @_checkIfDataReady()
 
   _listenForReadyEvents: ->
-    @missing.forEach (el)=>
+    @missing.forEach (el)->
       app.vent.once(el.eventName, app.data._updateStatus, app.data)
 
   _checkIfDataReady: ->

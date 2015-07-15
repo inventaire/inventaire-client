@@ -17,14 +17,14 @@ module.exports = Marionette.ItemView.extend
     @listenTo @pictures, 'add:pictures', @render
 
   serializeData: ->
-      url:
-        nameBase: 'url'
-        field:
-          type: 'url'
-          placeholder: _.i18n 'enter an image url'
-        button:
-          text: _.i18n 'go get it!'
-      pictures: @pictures
+    url:
+      nameBase: 'url'
+      field:
+        type: 'url'
+        placeholder: _.i18n 'enter an image url'
+      button:
+        text: _.i18n 'go get it!'
+    pictures: @pictures
 
   onShow: ->
     app.execute 'modal:open', 'large'
@@ -82,7 +82,7 @@ module.exports = Marionette.ItemView.extend
     states = figures.map (fig)-> _.toArray(fig.classList)
 
     if urls.length isnt states.length
-      throw 'urls and associated states not matching'
+      throw new Error 'urls and associated states not matching'
 
 
     i = 0

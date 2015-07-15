@@ -28,7 +28,7 @@ handlers =
 
     dataURLs.forEach (dataURL)->
       unless _.isDataUrl dataURL
-        throw 'image upload requires a dataURL'
+        throw new Error 'image upload requires a dataURL'
       blob = window.dataURLtoBlob(dataURL)
       formData.append("file-#{i}", blob)
       i++

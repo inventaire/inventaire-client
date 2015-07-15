@@ -14,9 +14,6 @@ module.exports = Marionette.ItemView.extend
     itemActions.call @
     plainTextAuthorLink.call @, true
 
-  behaviors:
-    PreventDefault: {}
-
   serializeData: -> @model.serializeData()
 
   onRender: ->
