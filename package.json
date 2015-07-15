@@ -14,8 +14,9 @@
   "scripts": {
     "postinstall": "./scripts/postinstall",
     "start": "brunch watch",
-    "lint": "coffeelint app/* test/* brunch-config.coffee",
-    "test": "mocha --compilers coffee:coffee-script/register --watch",
+    "lint": "coffeelint app/*",
+    "test": "mocha --compilers coffee:coffee-script/register",
+    "test-watch": "mocha --compilers coffee:coffee-script/register --watch",
     "build": "./scripts/build"
   },
   "dependencies": {
