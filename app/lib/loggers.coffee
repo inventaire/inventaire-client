@@ -1,4 +1,5 @@
-module.exports = (_)->
+module.exports = (_, csle)->
+  csle or= console
   muted = require('./muted_logs')(_)
 
   isMuted = (label)->
@@ -13,16 +14,16 @@ module.exports = (_)->
     # the trade-off might not be worthing it...
     if _.isString obj
       if label? then obj.logIt(label)
-      else console.log obj unless (isMuted(obj) or isMuted(label))
+      else csle.log obj unless (isMuted(obj) or isMuted(label))
     else
       unless isMuted(label)
-        console.log "===== #{label} =====" if label? and not isMuted(label)
-        console.log obj
-        console.log "-----" if label?
+        csle.log "===== #{label} =====" if label? and not isMuted(label)
+        csle.log obj
+        csle.log "-----" if label?
 
     # log a stack trace if stack option is true
     if stack
-      console.log "#{label} stack", new Error('fake error').stack.split("\n")
+      csle.log "#{label} stack", new Error('fake error').stack.split("\n")
 
     return obj
 
@@ -37,21 +38,21 @@ module.exports = (_)->
     if err?.context? then report.push err.context
 
     window.reportErr {error: report}
-    console.error.apply console, report
+    csle.error.apply csle, report
 
   logXhrErr = (err, label)->
     if err?.responseText? then label = "#{err.responseText} (#{label})"
     if err?.status?
       switch err.status
-        when 401 then console.warn '401', label
-        when 404 then console.warn '404', label
+        when 401 then csle.warn '401', label
+        when 404 then csle.warn '404', label
     else error err, label
     return
 
   # providing a custom warn as it might be used
   # by methods shared with the server
   warn = (args...)->
-    console.warn '/!\\'
+    csle.warn '/!\\'
     loggers.log.apply null, args
     return
 
@@ -71,14 +72,14 @@ module.exports = (_)->
 
     logAllEvents: (obj, prefix='logAllEvents')->
       obj.on 'all', (event)->
-        console.log "[#{prefix}:#{event}]"
-        console.log arguments
-        console.log '---'
+        csle.log "[#{prefix}:#{event}]"
+        csle.log arguments
+        csle.log '---'
 
     logArgs: (args)->
-      console.log "[arguments]"
-      console.log args
-      console.log '---'
+      csle.log "[arguments]"
+      csle.log args
+      csle.log '---'
 
     logServer: (obj, label)->
       log = {obj: obj, label: label}
@@ -86,7 +87,7 @@ module.exports = (_)->
       return obj
 
   String::logIt = (label)->
-    console.log "[#{label}] #{@toString()}" unless isMuted(label)
+    csle.log "[#{label}] #{@toString()}" unless isMuted(label)
     return @toString()
 
 
