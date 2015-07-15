@@ -17,7 +17,8 @@
     "lint": "coffeelint app/*",
     "test": "mocha --compilers coffee:coffee-script/register",
     "test-watch": "mocha --compilers coffee:coffee-script/register --watch",
-    "build": "./scripts/build"
+    "build": "./scripts/build",
+    "update-git-hooks": "../scripts/update_git_hooks"
   },
   "dependencies": {
     "level-js": "^2.1.6",
