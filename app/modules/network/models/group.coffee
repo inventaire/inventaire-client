@@ -1,18 +1,24 @@
 error_ = require 'lib/error'
+# defining all and _recalculateAll methods
+aggregateUsersIds = require '../plugins/aggregate_users_ids'
 
 module.exports = Backbone.Model.extend
   url: app.API.groups
   initialize: ->
+    @initPlugins()
     { _id, name } = @toJSON()
     @set 'pathname', "/groups/#{_id}/#{name}"
 
     @initUsersCollection()
 
     # keep internal lists updated
-    @on 'change:members change:admins', @_listAllMembers.bind(@)
+    @on 'change:members change:admins', @_recalculateAllMembers.bind(@)
     # keep @users udpated
     @on 'change:members change:admins', @initUsersCollection.bind(@)
-    @on 'change:invited', @_listAllInvited.bind(@)
+    @on 'change:invited', @_recalculateAllInvited.bind(@)
+
+  initPlugins: ->
+    aggregateUsersIds.call @
 
   initUsersCollection: ->
     # remove all users
@@ -27,15 +33,8 @@ module.exports = Backbone.Model.extend
     .then @users.add.bind(@users)
     .catch _.Error('fetchMembers')
 
-  allMembers: -> @_allMembers or @_listAllMembers()
-  _listAllMembers: ->
-    @_allMembers = @getUserIds('members').concat @getUserIds('admins')
-  allInvited: -> @_allInvited or @_listAllInvited()
-  _listAllInvited: -> @_allInvited = @getUserIds 'invited'
-  allRequested: -> @_allRequested = @_listAllRequested()
-  _listAllRequested: -> @_allRequested = @getUserIds 'requested'
-
   getUserIds: (category)->
+    _.inspect @, 'cant touch this'
     @get(category).map _.property('user')
 
   membersCount: ->
