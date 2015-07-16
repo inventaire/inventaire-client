@@ -60,11 +60,7 @@ module.exports = Backbone.Model.extend
       itemsCount: @itemsCount()  unless @publicDataOnly
 
   inviteUser: (user)->
-    _.type user, 'object'
-    _.preq.put app.API.groups,
-      action: 'invite'
-      group: @id
-      user: user.id
+    @action 'invite', user.id
     .then @updateInvited.bind(@, user)
     # let views catch the error
 
@@ -83,6 +79,7 @@ module.exports = Backbone.Model.extend
     else 'none'
 
   mainUserStatus: -> @userStatus app.user
+  mainUserIsAdmin: -> app.user.id in @allAdmins()
   mainUserIsMember: -> app.user.id in @allMembers()
   mainUserIsInvited: -> app.user.id in @allInvited()
 
@@ -102,18 +99,14 @@ module.exports = Backbone.Model.extend
   acceptInvitation: ->
     @moveMembership app.user, 'invited', 'members'
 
-    _.preq.put app.API.groups,
-      action: 'accept'
-      group: @id
+    @action 'accept'
     .then @fetchGroupUsersMissingItems.bind(@)
     .catch @revertMove.bind(@, app.user, 'invited', 'members')
 
   declineInvitation: ->
     @moveMembership app.user, 'invited', 'declined'
 
-    _.preq.put app.API.groups,
-      action: 'decline'
-      group: @id
+    @action 'decline'
     .catch @revertMove.bind(@, app.user, 'invited', 'declined')
 
   # moving membership object from previousCategory to newCategory
@@ -144,9 +137,7 @@ module.exports = Backbone.Model.extend
   requestToJoin: ->
     @createRequest()
 
-    _.preq.put app.API.groups,
-      action: 'request'
-      group: @id
+    @action 'request'
     .catch @revertMove.bind(@, app.user, null, 'requested')
 
   createRequest: ->
@@ -157,12 +148,17 @@ module.exports = Backbone.Model.extend
   cancelRequest: ->
     @moveMembership app.user, 'requested', null
 
-    _.preq.put app.API.groups,
-      action: 'cancel-request'
-      group: @id
+    @action 'cancel-request'
     .catch @revertCancel.bind(@)
 
   revertCancel: (err)->
     # just re-creating the request, don't mind the timestamp
     @createRequest()
     throw err
+
+  action: (action, userId)->
+    _.preq.put app.API.groups, body
+      action: action
+      group: @id
+      # optionel
+      user: userId
