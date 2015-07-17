@@ -1,12 +1,14 @@
 error_ = require 'lib/error'
 # defining all and _recalculateAll methods
-aggregateUsersIds = require '../plugins/aggregate_users_ids'
-groupActions = require '../plugins/group_actions'
+aggregateUsersIds = require '../lib/aggregate_users_ids'
+groupActions = require '../lib/group_actions'
 
 module.exports = Backbone.Model.extend
   url: app.API.groups
   initialize: ->
-    @initPlugins()
+    aggregateUsersIds.call @
+    _.extend @, groupActions
+
     { _id, name } = @toJSON()
     @set 'pathname', "/groups/#{_id}/#{name}"
 
@@ -20,10 +22,6 @@ module.exports = Backbone.Model.extend
     # keep @users udpated
     @on 'change:members change:admins', @initUsersCollection.bind(@)
     @on 'change:invited', @_recalculateAllInvited.bind(@)
-
-  initPlugins: ->
-    aggregateUsersIds.call @
-    groupActions.call @
 
   initUsersCollection: ->
     # remove all users

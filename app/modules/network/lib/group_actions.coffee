@@ -1,4 +1,4 @@
-actions =
+module.exports =
   inviteUser: (user)->
     @action 'invite', user.id
     .then @updateInvited.bind(@, user)
@@ -74,7 +74,3 @@ actions =
 
     if app.request 'user:isMainUser', user.id
       app.vent.trigger 'group:main:user:move'
-
-
-module.exports = ->
-  _.extend @, actions
