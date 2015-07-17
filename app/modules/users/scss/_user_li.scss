@@ -14,9 +14,9 @@ $user-bg: #ddd;
   .right-box{
     @include flex(1);
     @include display-flex(row, center);
-    a{
-      @include flex(1, 0, 0);
+    .select{
       overflow: hidden;
+      margin-right: 0.5em;
     }
     .username{
       margin-left: 0.3em;
@@ -29,14 +29,19 @@ $user-bg: #ddd;
       padding-bottom: 0.1em;
       @include flex(0, 0, 1.4em);
       margin-left: auto;
+      margin-right: 0.5em;
     }
     .userMenu{
-      margin-left: 0.2em;
+      @include flex(0, 0, auto);
       @include display-flex(row, center, flex-end);
       .f-dropdown{
         a, .fa, span{
           color: $dark-grey !important;
         }
+      }
+      // only push on left if inventoryLength isnt already pushing
+      &:nth-child(2){
+        margin-left: auto;
       }
     }
   }
@@ -56,14 +61,12 @@ $user-bg: #ddd;
 .userLi.friends{
   .right-box{
     a:first-child{
-      @include flex(1);
       .username{
         vertical-align: middle;
       }
     }
     .userMenu{
       margin-right: 0.2em;
-      @include flex(0, 0, 1.6em);
       font-size: 1em;
       a{
         text-align: right;
@@ -136,7 +139,7 @@ $user-bg: #ddd;
       color: white;
     }
     .right-box{
-      @include display-flex(row, center, center);
+      // @include display-flex(row, center, center);
     }
     .action{
       margin-left: 1em;
