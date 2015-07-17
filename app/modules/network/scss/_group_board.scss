@@ -26,19 +26,6 @@
     .right{
       margin-left: auto;
     }
-    .actions{
-      @include display-flex(row);
-      font-weight: normal;
-      a{
-        margin-right: 0.5em;
-      }
-      .accept, .request{
-        @include tiny-button($success-color);
-      }
-      .decline{
-        @include tiny-button($grey);
-      }
-    }
   }
   .body{
     text-align: left;

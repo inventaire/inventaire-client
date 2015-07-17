@@ -19,9 +19,9 @@ module.exports = Backbone.Model.extend
 
     # keep internal lists updated
     @on 'change:members change:admins', @_recalculateAllMembers.bind(@)
+    @on 'change:invited', @_recalculateAllInvited.bind(@)
     # keep @users udpated
     @on 'change:members change:admins', @initUsersCollection.bind(@)
-    @on 'change:invited', @_recalculateAllInvited.bind(@)
 
   initUsersCollection: ->
     # remove all users

@@ -17,7 +17,10 @@
       <li><a class="decline">{{i18n 'decline'}}</a></li>
     {{/if}}
     {{#if mainUser_none}}
-      {{!-- <li><a class="request">{{i18n 'ask to join group'}}</a></li> --}}
+      <li>
+        <a class="joinRequest">{{i18n 'request to join group'}}</a>
+        <span class="check"></span>
+      </li>
     {{/if}}
     </ul>
   </div>

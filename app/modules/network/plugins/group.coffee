@@ -1,7 +1,12 @@
 UsersList = require 'modules/users/views/users_list'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 events =
   'click .showGroup': 'showGroup'
+  'click .accept': 'acceptInvitation'
+  'click .decline': 'declineInvitation'
+  'click .joinRequest': 'joinRequest'
+  'click .cancelRequest': 'cancelRequest'
 
 handlers =
   showGroup: (e)->
@@ -22,5 +27,14 @@ handlers =
       filter: (child, index, collection)->
         # in the context of the usersList view
         group.userStatus(child) isnt 'member'
+
+  acceptInvitation: -> @model.acceptInvitation()
+  declineInvitation: -> @model.declineInvitation()
+  joinRequest: ->
+    @model.requestToJoin()
+    .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
+  cancelRequest: ->
+    @model.cancelRequest()
+    .catch behaviorsPlugin.Fail.call(@, 'cancelRequest')
 
 module.exports = _.BasicPlugin events, handlers

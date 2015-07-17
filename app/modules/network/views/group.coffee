@@ -1,6 +1,5 @@
 unselectPlugin = require 'modules/inventory/plugins/unselect'
 groupPlugin = require '../plugins/group'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   getTemplate: ->
@@ -10,8 +9,10 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   initialize: ->
     @initPlugin()
-
-    @listenTo @model, 'change', @render.bind(@)
+    @lazyRender = _.debounce @render.bind(@), 200
+    # using lazyRender instead of render allow to whait for group.mainUserStatus
+    # to be ready (i.e. not to return 'none')
+    @listenTo @model, 'change', @lazyRender
 
   initPlugin: ->
     unselectPlugin.call @
@@ -32,15 +33,3 @@ module.exports = Marionette.ItemView.extend
   serializeData:->
     _.extend @model.serializeData(),
       highlighted: @options.highlighted
-
-  events:
-    'click .joinRequest': 'joinRequest'
-    'click .cancelRequest': 'cancelRequest'
-
-  joinRequest: ->
-    @model.requestToJoin()
-    .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
-
-  cancelRequest: ->
-    @model.cancelRequest()
-    .catch behaviorsPlugin.Fail.call(@, 'cancelRequest')

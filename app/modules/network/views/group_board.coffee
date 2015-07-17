@@ -35,9 +35,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click .toggler': 'toggleGroup'
-    'click .accept': 'acceptInvitation'
-    'click .decline': 'declineInvitation'
-    # 'click .request': 'requestToJoin'
+    'click .joinRequest': 'requestToJoin'
 
   toggleGroup: ->
     @ui.body.slideToggle()
@@ -53,6 +51,3 @@ module.exports = Marionette.LayoutView.extend
 
   showFriendsInvitor: ->
     @invite.show @getFriendsInvitorView()
-
-  acceptInvitation: -> @model.acceptInvitation()
-  declineInvitation: -> @model.declineInvitation()
