@@ -1,6 +1,7 @@
 error_ = require 'lib/error'
 # defining all and _recalculateAll methods
 aggregateUsersIds = require '../plugins/aggregate_users_ids'
+groupActions = require '../plugins/group_actions'
 
 module.exports = Backbone.Model.extend
   url: app.API.groups
@@ -8,6 +9,9 @@ module.exports = Backbone.Model.extend
     @initPlugins()
     { _id, name } = @toJSON()
     @set 'pathname', "/groups/#{_id}/#{name}"
+
+    # non persisted category used for convinience on client-side
+    @set 'tmp', []
 
     @initUsersCollection()
 
@@ -19,6 +23,7 @@ module.exports = Backbone.Model.extend
 
   initPlugins: ->
     aggregateUsersIds.call @
+    groupActions.call @
 
   initUsersCollection: ->
     # remove all users
@@ -34,7 +39,6 @@ module.exports = Backbone.Model.extend
     .catch _.Error('fetchMembers')
 
   getUserIds: (category)->
-    _.inspect @, 'cant touch this'
     @get(category).map _.property('user')
 
   membersCount: ->
@@ -57,18 +61,6 @@ module.exports = Backbone.Model.extend
       # itemsCount isnt available for public groups
       # due to an unsolved issue with user:inventoryLength in this case
       itemsCount: @itemsCount()  unless @publicDataOnly
-
-  inviteUser: (user)->
-    @action 'invite', user.id
-    .then @updateInvited.bind(@, user)
-    # let views catch the error
-
-  updateInvited: (user)->
-    @push 'invited',
-      user: user.id
-      invitor: app.user.id
-      timestamp: _.now()
-    user.trigger 'group:invite'
 
   userStatus: (user)->
     { id } = user
@@ -95,36 +87,6 @@ module.exports = Backbone.Model.extend
 
   findMainUserInvitor: -> @findUserInvitor app.user
 
-  acceptInvitation: ->
-    @moveMembership app.user, 'invited', 'members'
-
-    @action 'accept'
-    .then @fetchGroupUsersMissingItems.bind(@)
-    .catch @revertMove.bind(@, app.user, 'invited', 'members')
-
-  declineInvitation: ->
-    @moveMembership app.user, 'invited', 'declined'
-
-    @action 'decline'
-    .catch @revertMove.bind(@, app.user, 'invited', 'declined')
-
-  # moving membership object from previousCategory to newCategory
-  moveMembership: (user, previousCategory, newCategory)->
-    membership = @findMembership previousCategory, user
-    unless membership? then error_.new 'membership not found', arguments
-
-    @without previousCategory, membership
-    # let the possibility to just destroy the doc
-    # by letting newCategory undefined
-    if newCategory? then @push newCategory, membership
-
-    if app.request 'user:isMainUser', user.id
-      app.vent.trigger 'group:main:user:move'
-
-  revertMove: (user, previousCategory, newCategory, err)->
-    @moveMembership user, newCategory, previousCategory
-    throw err
-
   fetchGroupUsersMissingItems: ->
     groupNonFriendsUsersIds = app.request 'get:non:friends:ids', @allMembers()
     _.log groupNonFriendsUsersIds, 'groupNonFriendsUsersIds'
@@ -132,32 +94,3 @@ module.exports = Backbone.Model.extend
     .then _.Log('groupNonFriendsUsers items')
     .then Items.add.bind(Items)
     .catch _.Error('fetchGroupUsersMissingItems err')
-
-  requestToJoin: ->
-    @createRequest()
-
-    @action 'request'
-    .catch @revertMove.bind(@, app.user, null, 'requested')
-
-  createRequest: ->
-    @push 'requested',
-      user: app.user.id
-      timestamp: _.now()
-
-  cancelRequest: ->
-    @moveMembership app.user, 'requested', null
-
-    @action 'cancel-request'
-    .catch @revertCancel.bind(@)
-
-  revertCancel: (err)->
-    # just re-creating the request, don't mind the timestamp
-    @createRequest()
-    throw err
-
-  action: (action, userId)->
-    _.preq.put app.API.groups, body
-      action: action
-      group: @id
-      # optionel
-      user: userId
