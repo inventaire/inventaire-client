@@ -16,7 +16,7 @@ module.exports.initialize = ->
 
     # excluding Chrome that do log the stacktrace by default
     unless window.navigator.webkitGetGamepads?
-      console.error.apply console, err
+      console.error.apply console, err, '(handled by window.onerror)'
 
     window.reportErr(err)
 

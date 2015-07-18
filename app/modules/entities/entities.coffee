@@ -81,17 +81,19 @@ API =
 
     Entities.data.get(prefix, ids, 'collection')
     .then (data)->
-      if data?
-        models = data.map (el)->
-          # main reason for missing entities:
-          # no pagination makes request overflow the source API limit
-          # ex: wikidata limits to 50 entities per calls
-          unless el? then return _.warn 'missing entity (possible reason: reached API limit, pagination is needed)'
-          model = new Model(el)
-          Entities.add model
-          return model
-        return models
-      else throw new Error('couldnt find entity at getEntitiesModels')
+      unless data?
+        error_.new 'no data at getEntitiesModels', arguments
+
+      models = data.map (el)->
+        # main reason for missing entities:
+        # no pagination makes request overflow the source API limit
+        # ex: wikidata limits to 50 entities per calls
+        unless el?
+          return _.warn 'missing entity(possible reason: reached API limit, pagination is needed)'
+        model = new Model(el)
+        Entities.add model
+        return model
+      return models
     .catch _.Error('getEntitiesModels err')
 
   getEntityModel: (prefix, id)->
@@ -110,9 +112,7 @@ API =
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   solveMissingEntity: (prefix, id, err)->
-    _.log 'solveMissingEntity!!!!!!!!!!!!!!!!!!!!!!'
-    if err.message is 'entity_not_found'
-      @showCreateEntity id
+    if err.message is 'entity_not_found' then @showCreateEntity id
     else throw err
 
   showCreateEntity: (isbn)->
