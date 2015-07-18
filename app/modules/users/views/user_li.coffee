@@ -46,6 +46,8 @@ module.exports = Marionette.ItemView.extend
     groupStatus = @group.userStatus @model
     attrs[groupStatus] = true
 
+    attrs.mainUserIsAdmin = @group.mainUserIsAdmin()
+
     return attrs
 
   selectUser: (e)->

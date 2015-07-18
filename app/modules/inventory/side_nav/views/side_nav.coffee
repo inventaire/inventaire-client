@@ -67,7 +67,7 @@ module.exports = Marionette.LayoutView.extend
     @ui.userSearch.hide()
     @ui.memberSearch.show()
     @usersList.show new app.View.Users.List
-      collection: groupModel.users
+      collection: groupModel.members
       textFilter: true
       emptyViewMessage: "can't find any group member with that name"
 

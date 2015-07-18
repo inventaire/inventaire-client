@@ -8,11 +8,13 @@
     <a class="decline">{{i18n 'decline'}}</a>
   {{/if}}
   {{#if status_requested}}
-    <p class="requested">
-      {{i18n 'you requested to join is waiting for approval'}}
-    </p>
-    <a class="cancelRequest">{{i18n 'cancel request'}}</a>
-    <span class="check"></span>
+    <div>
+      <p class="requested">
+        {{i18n 'you requested to join is waiting for approval'}}
+      </p>
+      <a class="cancelRequest">{{i18n 'cancel request'}}</a>
+      <span class="check"></span>
+    </div>
   {{/if}}
   {{#if status_none}}
     <a class="joinRequest">{{i18n 'request to join group'}}</a>

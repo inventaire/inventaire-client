@@ -15,25 +15,31 @@ module.exports = Backbone.Model.extend
     # non persisted category used for convinience on client-side
     @set 'tmp', []
 
-    @initUsersCollection()
+    @initMembersCollection()
+    @initRequestersCollection()
 
     # keep internal lists updated
     @on 'change:members change:admins', @_recalculateAllMembers.bind(@)
     @on 'change:invited', @_recalculateAllInvited.bind(@)
-    # keep @users udpated
-    @on 'change:members change:admins', @initUsersCollection.bind(@)
+    @on 'change:requested', @_recalculateAllRequested.bind(@)
+    # keep @members udpated
+    @on 'change:members change:admins', @initMembersCollection.bind(@)
+    @on 'change:requested', @initRequestersCollection.bind(@)
 
-  initUsersCollection: ->
+  initMembersCollection: -> @initUsersCollection 'members'
+  initRequestersCollection: -> @initUsersCollection 'requested'
+  initUsersCollection: (name)->
     # remove all users
     # to re-add all of them
     # while keeping the same object to avoid breaking references
-    @users or= new Backbone.Collection
-    @users.remove @users.models
-    @allMembers().forEach @fetchUser.bind(@)
+    @[name] or= new Backbone.Collection
+    @[name].remove @[name].models
+    Name = _.capitaliseFirstLetter name
+    @["all#{Name}"]().forEach @fetchUser.bind(null, @[name])
 
-  fetchUser: (userId)->
+  fetchUser: (collection, userId)->
     app.request 'get:group:user:model', userId
-    .then @users.add.bind(@users)
+    .then collection.add.bind(collection)
     .catch _.Error('fetchMembers')
 
   getUserIds: (category)->
@@ -43,7 +49,7 @@ module.exports = Backbone.Model.extend
     @allMembers().length
 
   itemsCount: ->
-    @users
+    @members
     .map (user)-> user.inventoryLength() or 0
     .sum()
 
@@ -59,6 +65,7 @@ module.exports = Backbone.Model.extend
       # itemsCount isnt available for public groups
       # due to an unsolved issue with user:inventoryLength in this case
       itemsCount: @itemsCount()  unless @publicDataOnly
+      mainUserIsAdmin: @mainUserIsAdmin()
 
   userStatus: (user)->
     { id } = user

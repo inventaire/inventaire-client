@@ -1,9 +1,4 @@
 <div class="userMenu">
-  {{#if mainUser}}
-    <span class="mainUser">
-      {{i18n "that's you"}}
-    </span>
-  {{/if}}
   {{#if groupContext}}
     {{partial 'inventory/side_nav:user_menu_group' this}}
   {{else}}

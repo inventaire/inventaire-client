@@ -15,7 +15,9 @@ handlers =
 
   getGroupMembersListView: ->
     new UsersList
-      collection: @model.users
+      collection: @model.members
+      groupContext: true
+      group: @model
 
   getFriendsInvitorView: ->
     group = @model
@@ -27,6 +29,13 @@ handlers =
       filter: (child, index, collection)->
         # in the context of the usersList view
         group.userStatus(child) isnt 'member'
+
+  getJoinRequestsView: ->
+    new UsersList
+      collection: @model.requested
+      groupContext: true
+      group: @model
+      emptyViewMessage: 'no more pending requests'
 
   acceptInvitation: -> @model.acceptInvitation()
   declineInvitation: -> @model.declineInvitation()

@@ -26,12 +26,17 @@
   </div>
 </div>
 <div class="body hidden">
-  <section>
-    {{partial 'network:group_stats' this}}
-    <div class="members users"></div>
+  <section class="requests {{#unless mainUserIsAdmin}}hidden{{/unless}}">
+    <h3 class="subheader">{{i18n 'requests waiting your approval'}}</h3>
+    <div class="users"></div>
   </section>
-  <section class="{{#unless mainUser_member}}hidden{{/unless}}">
-    <h3>{{i18n 'invite friends to join'}}</h3>
-    <div class="invite users"></div>
+  <section class="members">
+    <h3 class="subheader">{{i18n 'members'}}</h3>
+    {{partial 'network:group_stats' this}}
+    <div class="users"></div>
+  </section>
+  <section class="invite {{#unless mainUser_member}}hidden{{/unless}}">
+    <h3 class="subheader">{{i18n 'invite friends to join'}}</h3>
+    <div class="users"></div>
   </section>
 </div>

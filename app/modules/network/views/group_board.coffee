@@ -6,7 +6,7 @@ module.exports = Marionette.LayoutView.extend
   className: 'groupBoard'
   initialize: ->
     @initPlugin()
-    @collection = @model.users
+    @collection = @model.members
     @mainUserStatus = @model.mainUserStatus()
 
   initPlugin: ->
@@ -16,12 +16,14 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   regions:
-    members: '.members'
-    invite: '.invite'
+    members: '.members > .users'
+    invite: '.invite > .users'
+    requests: '.requests > .users'
 
   ui:
     body: '.body'
     caret: '.fa-caret-right'
+    requests: '.requests'
 
   serializeData:->
     attrs = @model.serializeData()
@@ -43,11 +45,20 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @showMembers()
-    if @mainUserStatus is 'member'
-      @showFriendsInvitor()
+    if @mainUserStatus is 'member' then @showFriendsInvitor()
+    if @model.requested.length > 0
+      if @model.mainUserIsAdmin() then @showJoinRequests()
+    else
+      @ui.requests.hide()
+
+
+    @toggleGroup()
 
   showMembers: ->
     @members.show @getGroupMembersListView()
 
   showFriendsInvitor: ->
     @invite.show @getFriendsInvitorView()
+
+  showJoinRequests: ->
+    @requests.show @getJoinRequestsView()

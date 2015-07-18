@@ -5,11 +5,17 @@
   <span class="invited">{{i18n 'invited'}}</span>
 {{/if}}
 {{#if requested}}
-  <span class="requested">{{i18n 'requested'}}</span>
+  <div>
+    <span class="requested">{{i18n 'requested'}}</span>
+    {{#if mainUserIsAdmin}}
+      <div>
+        <a class="acceptRequest action"> {{icon 'plus'}} {{i18n 'accept'}} </a>
+        <a class="refuseRequest action"> {{icon 'ban'}} {{i18n 'refuse'}} </a>
+      </div>
+    {{/if}}
+  </div>
 {{/if}}
 {{#if none}}
-  <a class="invite action">
-    {{icon 'plus'}} {{i18n 'invite'}}
-  </a>
+  <a class="invite action"> {{icon 'plus'}} {{i18n 'invite'}} </a>
   <span class="check"></span>
 {{/if}}

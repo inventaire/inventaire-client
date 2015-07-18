@@ -10,6 +10,8 @@ events =
   'click .request': 'send'
   'click .unfriend': 'unfriend'
   'click .invite': 'invite'
+  'click .acceptRequest': 'acceptRequest'
+  'click .refuseRequest': 'refuseRequest'
 
 confirmUnfriend = ->
   confirmationText = _.i18n 'unfriend_confirmation',
@@ -27,10 +29,21 @@ handlers =
   send: -> app.request 'request:send', @model
   unfriend: confirmUnfriend
   invite: ->
-    unless @group? then _.Error 'inviteUser err: group is missing'
+    unless @group? then return _.error 'inviteUser err: group is missing'
 
     @group.inviteUser @model
     .catch behaviorsPlugin.Fail.call(@, 'invite user')
 
+  acceptRequest: ->
+    unless @group? then return _.error 'acceptRequest err: group is missing'
+
+    @group.acceptRequest @model
+    .catch behaviorsPlugin.Fail.call(@, 'accept user request')
+
+  refuseRequest: ->
+    unless @group? then return _.error 'refuseRequest err: group is missing'
+
+    @group.refuseRequest @model
+    .catch behaviorsPlugin.Fail.call(@, 'refuse user request')
 
 module.exports = _.BasicPlugin events, handlers

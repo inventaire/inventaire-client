@@ -2,13 +2,17 @@
   .actions{
     @include display-flex(row);
     font-weight: normal;
+    text-align: center;
     a{
       margin-right: 0.5em;
     }
-    .accept, .joinRequest{
+    .accept{
       @include tiny-button($success-color);
     }
-    .decline{
+    .joinRequest{
+      @include tiny-button($light-blue);
+    }
+    .cancelRequest, .decline{
       @include tiny-button($grey);
     }
   }

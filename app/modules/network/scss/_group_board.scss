@@ -28,17 +28,25 @@
     }
   }
   .body{
-    text-align: left;
     h3{
+      text-align: center;
       display: inline;
     }
     section{
+      @include radius();
+      background-color: rgba(#eaeaea, 0.6);
+      padding: 0.5em;
+      margin-top: 1em;
       padding-top: 1em;
-      .members{
-        max-height: 20em;
+      &.members{
+        .users{
+          max-height: 20em;
+        }
       }
-      .invite{
-        max-height: 10em;
+      &.invite, .requests{
+        .users{
+          max-height: 10em;
+        }
       }
       .users{
         overflow: auto;

@@ -1,13 +1,10 @@
-.joinRequest{
+.joinRequest, .requested, .cancelRequest{
   margin-top: 1em;
-  @include tiny-button($light-blue);
 }
 .requested{
-  margin-top: 1em;
   text-align: center;
   opacity: 0.8;
 }
-.cancelRequest{
-  @include tiny-button($grey);
-  margin-top: 1em;
+.actions{
+  @include display-flex(column);
 }

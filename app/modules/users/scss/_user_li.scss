@@ -66,8 +66,6 @@ $user-bg: #ddd;
       }
     }
     .userMenu{
-      margin-right: 0.2em;
-      font-size: 1em;
       a{
         text-align: right;
       }
@@ -78,12 +76,20 @@ $user-bg: #ddd;
   }
 }
 
+#sideNav{
+  .userLi.friends{
+    .userMenu{
+      font-size: 1em;
+      margin-right: 0.2em;
+    }
+  }
+}
+
 .userLi:not(.friends){
   .right-box{
     .userMenu{
       @include display-flex(row, center);
       white-space: nowrap;
-      font-size: 0.9em;
       a.action, span.mainUser{
         padding: 0 0.3em 0 0.3em;
       }
@@ -142,8 +148,14 @@ $user-bg: #ddd;
       // @include display-flex(row, center, center);
     }
     .action{
-      margin-left: 1em;
+      margin-left: 0.5em;
       @include radius();
+    }
+    .acceptRequest{
+      @include tiny-button($success-color);
+    }
+    .refuseRequest{
+      @include tiny-button($grey);
     }
   }
 }
