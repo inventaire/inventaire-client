@@ -19,6 +19,7 @@
   }
   .cover{
     @include flex(0,0);
+    max-width: 20em;
     /*Large screens*/
     @media screen and (min-width: $smallscreen) {
       padding-top: 2em;
