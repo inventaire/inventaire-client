@@ -36,19 +36,19 @@ API =
     app.execute 'show:loader', {region: region}
 
     [prefix, id] = getPrefixId(uri)
-    if prefix? and id?
-      @getEntityView(prefix, id)
-      .then (view)-> region.show(view)
-      .catch (err)->
-        _.error err, 'couldnt showEntity'
-        app.execute 'show:404'
-    else
+    unless prefix? and id?
       console.warn 'prefix or id missing at showEntity'
+
+    @getEntityView(prefix, id)
+    .then region.show.bind(region)
+    .catch @solveMissingEntity.bind(@, prefix, id)
+    .catch (err)->
+      _.error err, 'couldnt showEntity'
+      app.execute 'show:404'
 
   getEntityView: (prefix, id)->
     @getEntityModel(prefix, id)
     .then @getDomainEntityView.bind(@, prefix)
-    .catch _.Error('catch at showEntity: getEntityView')
 
   getDomainEntityView: (prefix, entity)->
     switch prefix
@@ -110,6 +110,7 @@ API =
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   solveMissingEntity: (prefix, id, err)->
+    _.log 'solveMissingEntity!!!!!!!!!!!!!!!!!!!!!!'
     if err.message is 'entity_not_found'
       @showCreateEntity id
     else throw err
