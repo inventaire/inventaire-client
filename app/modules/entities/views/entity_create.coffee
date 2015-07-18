@@ -13,9 +13,6 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #addPicture': 'addPicture'
-    'keyup #titleField': 'updateTitle'
-    'keyup #authorsField': 'updateAuthors'
-    'keyup #isbnField': 'updateIsbn'
 
   ui:
     title: '#titleField'
@@ -27,7 +24,6 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @initModel()
-    @initUpdater()
 
   serializeData: ->
     _.extend @model.toJSON(),
@@ -59,12 +55,6 @@ module.exports = Marionette.LayoutView.extend
     @model.delegateItemCreation = true
     @listenTo @model, 'delegate:item:creation', @showItemCreation.bind(@)
 
-  initUpdater: ->
-    @updateTitle = @lazyUpdate 'title'
-    @updateAuthors = @lazyUpdate 'authors'
-    @updateIsbn = @lazyUpdate 'isbn'
-
-  lazyUpdate: (attr)-> _.debounce @updateModel.bind(@, attr), 250
   updateModel: (attr)->
     val = @ui[attr].val()
     @model.set attr, val
@@ -100,6 +90,9 @@ module.exports = Marionette.LayoutView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   createEntity: ->
+    @updateModel 'title'
+    @updateModel 'authors'
+    @updateModel 'isbn'
     entityData = @normalizeEntityData()
     return app.request 'create:entity', entityData
 
