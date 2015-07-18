@@ -1,6 +1,6 @@
 @mixin custom-column($max-width: 50em){
   @include display-flex(column, center, center);
-  > div{
+  > div, > form{
     width: 100%;
     max-width: $max-width;
   }

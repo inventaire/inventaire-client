@@ -6,9 +6,12 @@ module.exports = Entity.extend
     @initLazySave()
     @findAPicture()
 
-    # already normalized as arriving from google books data
-    @id = @uri = @get 'id'
-    pathname = "/entity/#{@id}"
+    # should expect data coming from both google books
+    # and the local entities database (inv-isbn entities)
+    @id = @get 'id'
+    isbn = @get 'isbn'
+    @uri = @get('uri') or "isbn:#{isbn}"
+    pathname = "/entity/#{@uri}"
 
     if title = @get 'title'
       pathname += "/" + _.softEncodeURI(title)
@@ -16,6 +19,8 @@ module.exports = Entity.extend
     @set
       pathname: pathname
       domain: 'isbn'
+      # need to be set for inv-isbn entities
+      uri: @uri
 
   findAPicture: ->
     pictures = @get 'pictures'

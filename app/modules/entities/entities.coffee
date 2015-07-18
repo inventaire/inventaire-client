@@ -6,14 +6,16 @@ InvEntity = require './models/inv_entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
+EntityCreate = require './views/entity_create'
 GenreLayout= require './views/genre_layout'
+error_ = require 'lib/error'
 
 module.exports =
   define: (Entities, app, Backbone, Marionette, $, _) ->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
-        'entity/:uri(/:label)(/)': 'showEntity'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
+        'entity/:uri(/:label)(/)': 'showEntity'
 
     app.addInitializer ->
       new EntitiesRouter
@@ -84,28 +86,38 @@ API =
           # main reason for missing entities:
           # no pagination makes request overflow the source API limit
           # ex: wikidata limits to 50 entities per calls
-          unless el? then return _.warn 'missing entity (probable reason: reached API limit, pagination is needed)'
+          unless el? then return _.warn 'missing entity (possible reason: reached API limit, pagination is needed)'
           model = new Model(el)
           Entities.add model
           return model
         return models
       else throw new Error('couldnt find entity at getEntitiesModels')
-    .catch (err)-> _.error err, 'getEntitiesModels err'
+    .catch _.Error('getEntitiesModels err')
 
   getEntityModel: (prefix, id)->
     @getEntitiesModels prefix, id
     .then (models)->
       if models?[0]? then return models[0]
-      else throw new Error "entity model not found: #{prefix}:#{id}"
-    .catch (err)-> _.error err, 'getEntityModel err  (#{prefix}:#{id})'
+      else error_.new 'entity_not_found', arguments
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
     if prefix? and id?
       @getEntityModel(prefix, id)
       .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
+      .catch @solveMissingEntity.bind(@, prefix, id)
       .catch _.Error('showAddEntity err')
     else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
+
+  solveMissingEntity: (prefix, id, err)->
+    if err.message is 'entity_not_found'
+      @showCreateEntity id
+    else throw err
+
+  showCreateEntity: (isbn)->
+    app.layout.main.show new EntityCreate
+      data: isbn
+      standalone: true
 
   getEntityPublicItems: (uri)->
     _.preq.get app.API.items.publicByEntity(uri)
@@ -166,7 +178,8 @@ createEntity = (data)->
   Entities.data.inv.local.post(data)
   .then (entityData)->
     _.type entityData, 'object'
-    model = new InvEntity(entityData)
+    if entityData.isbn? then model = new IsbnEntity entityData
+    else model = new InvEntity entityData
     Entities.add model
     return model
 

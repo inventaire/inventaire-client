@@ -37,4 +37,17 @@
   .entityCreationActions{
     @include display-flex(row, center, flex-start, wrap);
   }
+  &.standalone{
+    @include custom-column(50em);
+    margin: 1em;
+    form{
+      margin: 1em;
+      background-color: white;
+      @include radius();
+      padding: 1em;
+    }
+    h3{
+      text-align: center;
+    }
+  }
 }

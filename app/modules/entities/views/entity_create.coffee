@@ -5,7 +5,9 @@ EntityActions = require './entity_actions'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/entity_create'
-  className: 'entityCreate'
+  className: ->
+    if @options.standalone then 'entityCreate standalone'
+    else 'entityCreate'
   regions:
     entityActions: '#entityActions'
 
@@ -33,11 +35,12 @@ module.exports = Marionette.LayoutView.extend
       titleField: @fieldData 'title', 'ex: Hamlet'
       authorsField: @fieldData 'authors', 'ex: William Shakespeare'
       isbnField: @fieldData 'isbn', 'ex: 978-2070368228'
+      standalone: @options.standalone
 
   getHeader: ->
     header = "let's just create the book card"
-    if @options.secondChoice
-      header = "otherwise, #{header}"
+    if @options.secondChoice then header = "otherwise, #{header}"
+    if @options.standalone then header = "your book isnt in the database: #{header}"
     return _.i18n header
 
   fieldData: (attr, placeholder)->
