@@ -18,9 +18,10 @@ module.exports = ->
         value: value
 
     itemDestroy: ->
+      afterDestroy = @afterDestroy or cb = -> console.log 'item deleted'
       app.request 'item:destroy',
         model: @model
         selector: @uniqueSelector
-        next: -> console.log 'item deleted'
+        next: afterDestroy
 
   return

@@ -118,3 +118,6 @@ module.exports = Marionette.LayoutView.extend
   showTransactions: ->
     transactions = app.request 'get:transactions:ongoing:byItemId', @model.id
     @transactionsRegion.show new ItemTransactions { collection: transactions }
+
+  afterDestroy: ->
+    app.execute 'show:inventory:main:user'
