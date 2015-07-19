@@ -2,7 +2,7 @@
   text-align: center;
   section{
     // needed to push .title and .subheader widths
-    &#genre, &:not(#genre) > div:not(.hidden){
+    > div:not(.hidden){
       @include display-flex(column);
     }
   }
@@ -29,6 +29,12 @@
     }
   }
   .wikipedia-iframe{}
+  .loading{
+    color: white;
+    &:not(:empty){
+      padding: 1em;
+    }
+  }
 }
 
 @import "genre_layout_background";

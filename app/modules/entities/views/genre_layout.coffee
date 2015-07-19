@@ -3,11 +3,14 @@ wdGenre_ = require 'modules/entities/lib/wikidata/genre'
 Entities = require 'modules/entities/collections/entities'
 ResultsList = require 'modules/search/views/results_list'
 wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
+GenreData = require './genre_data'
 
 module.exports = Marionette.LayoutView.extend
   id: 'genreLayout'
   template: require './templates/genre_layout'
   regions:
+    genreRegion: '#genre'
     authorsRegion: '#authors'
     booksRegion: '#books'
 
@@ -18,7 +21,6 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   initialize: ->
-    _.inspect @, 'genre'
     @initPlugins()
     @initCollections()
     @fetchBooksAndAuthors()
@@ -26,6 +28,7 @@ module.exports = Marionette.LayoutView.extend
 
   initPlugins: ->
     wikiBarPlugin.call @
+    _.extend @, behaviorsPlugin
 
   initCollections: ->
     @books = new Entities
@@ -34,15 +37,39 @@ module.exports = Marionette.LayoutView.extend
   fetchBooksAndAuthors: ->
     wdGenre_.fetchBooksAndAuthors @model
     .then wdGenre_.spreadBooksAndAuthors.bind(null, @books, @authors)
-    # .then @showResults.bind(@)
     .catch _.Error('fetchBooksAndAuthors')
+    .then @stopLoading.bind(@)
+    # retrying to fetchAndSetHeaderBackground with books data
+    # in case the model has no image
+    .then @fetchAndSetHeaderBackground.bind(@)
+    .then @blockLoader.bind(@)
+
+  blockLoader: ->
+    @_dataFetched = true
 
   fetchAndSetHeaderBackground: ->
-    wmCommonsFile = @model.get('claims.P18')?[0]
-    if wmCommonsFile?
-      wd_.wmCommonsThumb(wmCommonsFile, window.screen.width)
-      .then @setHeaderBackground.bind(@)
-      .catch _.Error('fetchAndSetHeaderBackground')
+    unless @_headerBackgroundSet
+      wmCommonsFile = @findPicture()
+      if wmCommonsFile?
+        @_headerBackgroundSet = true
+        wd_.wmCommonsThumb(wmCommonsFile, window.screen.width)
+        .then @setHeaderBackground.bind(@)
+        .catch _.Error('fetchAndSetHeaderBackground')
+
+  findPicture: ->
+    @findModelFirstPicture() or @findEntitiesFirstPicture()
+
+  findModelFirstPicture: ->
+    @model.get('claims.P18')?[0]
+
+  findEntitiesFirstPicture: ->
+    if @books?
+      images = @books.map (entity)->
+        pics = entity.get('claims.P18')
+        return pics?[0]
+
+      _.log images, 'images ?'
+      return _.compact(images)[0]
 
   setHeaderBackground: (url)->
     @headerBgUrl = url
@@ -51,9 +78,9 @@ module.exports = Marionette.LayoutView.extend
     if @isRendered then @showHeaderBackground()
 
   onRender: ->
+    unless @_dataFetched then @startLoading()
     @showHeaderBackground()
-
-  onShow: ->
+    @showGenreData()
     @showResults()
 
   showHeaderBackground: ->
@@ -61,6 +88,8 @@ module.exports = Marionette.LayoutView.extend
       @ui.headerBg.css 'background-image', "url(#{@headerBgUrl})"
       @$el.addClass 'with-bg-image'
 
+  showGenreData: ->
+    @genreRegion.show new GenreData { model: @model }
 
   showResults: ->
     ['authors', 'books'].forEach (type)=>
