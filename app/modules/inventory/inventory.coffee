@@ -5,6 +5,7 @@ InventoryLayout = require './views/inventory'
 ItemCreationForm = require './views/form/item_creation'
 initLayout = require './lib/layout'
 AddLayout = require './views/add/add_layout'
+initAddHelpers = require './lib/add_helpers'
 
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
@@ -27,6 +28,7 @@ module.exports =
     Filters.initialize(app)
     Transactions(Items)
     initializeInventoriesHandlers(app)
+    initAddHelpers()
     initLayout(app)
 
 API =

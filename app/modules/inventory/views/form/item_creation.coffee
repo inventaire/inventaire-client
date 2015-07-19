@@ -1,4 +1,5 @@
 EntityData = require 'modules/entities/views/entity_data'
+scanner = require 'lib/scanner'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
@@ -7,6 +8,7 @@ module.exports = Marionette.LayoutView.extend
     entityRegion: '#entity'
   behaviors:
     ElasticTextarea: {}
+
   ui:
     'transaction': '#transaction'
     'listing': '#listing'
@@ -50,11 +52,14 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     title = @entity.get('title')
-    return attrs =
+    attrs =
       title: title
       listings: @listingsData()
       transactions: @transactionsData()
       header: _.i18n 'add_item_text', {title: title}
+
+    attrs = @setAddModeSpecificAttr attrs
+    return attrs
 
   listingsData: ->
     listings = _.clone(app.user.listings)
@@ -68,15 +73,23 @@ module.exports = Marionette.LayoutView.extend
       classes: 'active'
     return transactions
 
+  setAddModeSpecificAttr: (attrs)->
+    # if mobile and last add mode is scan
+    # set #validateAndAddNext href to the scanner.url
+    if _.isMobile
+      @_addMode = app.request 'last:add:mode:get'
+      if @_addMode is 'scan' then attrs.scanner = scanner
+    return attrs
+
   events:
     'click .select-button-group > .button': 'updateSelector'
-    'click #cancel': -> app.execute 'show:home'
     'click #transaction': 'updateTransaction'
     'click #listing': 'updateListing'
-    'click #validate': 'validateItem'
+    'click #cancel': 'destroyItem'
+    'click #validate': 'validateSimple'
+    'click #validateAndAddNext': 'validateAndAddNext'
 
   showEntityData: ->
-    _.log 'showEntityData?'
     @entityRegion.show new EntityData { model: @entity }
 
   updateSelector: (e)->
@@ -95,14 +108,41 @@ module.exports = Marionette.LayoutView.extend
     @updateItem { listing: listing }
     .catch _.Error('updateListing err')
 
+  updateDetails: -> @updateTextAttribute 'details'
+  updateNotes: -> @updateTextAttribute 'notes'
+  updateTextAttribute: (attr)->
+    _.log arguments, 'updateTextAttribute'
+    val = @ui[attr].val()
+    update = {}
+    update[attr] = val
+    @updateItem update
+    .catch _.Error('updateTextAttribute err')
+
+  validateSimple: ->
+    @validateItem()
+    .then -> app.execute 'show:inventory:main:user'
+    .catch _.Error('validateSimple err')
+
+  validateAndAddNext: ->
+    @validateItem()
+    .then @addNext.bind(@)
+    .catch _.Error('validateAndAddNext err')
+
+  addNext: ->
+    # if addMode is scan, the scanner should have opened a new window
+    app.execute 'show:add:layout'
+
   validateItem: ->
     @updateItem
       details: @ui.details.val()
       notes: @ui.notes.val()
-    .then -> app.execute 'show:inventory:main:user'
-    .catch _.Error('validateItem err')
 
   updateItem: (data)->
     app.request 'item:update',
       item: @model
       data: data
+
+  destroyItem: ->
+    @model.destroy()
+    .then -> window.history.back()
+    .catch _.Error('destroyItem err')

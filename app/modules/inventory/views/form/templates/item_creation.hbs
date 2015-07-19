@@ -22,8 +22,14 @@
       <textarea id='notes' class='error radius' placeholder='{{i18n 'notes_placeholder'}}'></textarea>
     </div>
 
-    <div class='flex-row-centered margin-top text-center'>
-      {{partial 'validation_buttons'}}
+    <div class='validationButtons custom-button-group'>
+      <a id="cancel" class="button grey">{{icon 'ban'}}{{i18n 'cancel'}}</a>
+      <a id="validate" class="button success">{{icon 'check'}}{{i18n "validate"}}</a>
+      <a id="validateAndAddNext" class="button secondary"
+        {{#if scanner}}href="{{scanner.url}}"{{/if}}
+      >
+        {{icon 'plus'}}{{i18n 'validate and add another book'}}
+      </a>
     </div>
   </div>
 </div>

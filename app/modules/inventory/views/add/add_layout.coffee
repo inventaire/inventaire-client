@@ -16,3 +16,10 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     PreventDefault: {}
     ElasticTextarea: {}
+
+  events:
+    'click #searchButton': 'setAddModeSearch'
+    'click #scanner': 'setAddModeScan'
+
+  setAddModeSearch: -> app.execute 'last:add:mode:set', 'search'
+  setAddModeScan: -> app.execute 'last:add:mode:set', 'scan'

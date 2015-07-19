@@ -24,6 +24,13 @@
       display: inline-block;
     }
   }
+  .validationButtons{
+    text-align: center;
+    a{
+      @include radius();
+    }
+
+  }
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
