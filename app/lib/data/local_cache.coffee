@@ -51,6 +51,7 @@ module.exports = (LocalDB, _, promises_)->
       db: localdb
 
     getLocalData = (ids)->
+      _.types ids, 'strings...'
       if normalizeId? then ids = ids.map normalizeId
 
       # _.type ids, 'array' already asserted by _.forceArray

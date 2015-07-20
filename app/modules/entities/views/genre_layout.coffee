@@ -68,7 +68,6 @@ module.exports = Marionette.LayoutView.extend
         pics = entity.get('claims.P18')
         return pics?[0]
 
-      _.log images, 'images ?'
       return _.compact(images)[0]
 
   setHeaderBackground: (url)->

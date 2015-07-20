@@ -94,6 +94,9 @@ API =
         Entities.add model
         return model
       return models
+
+  getEntitiesModelsWithCatcher: ->
+    @getEntitiesModels.apply @, arguments
     .catch _.Error('getEntitiesModels err')
 
   getEntityModel: (prefix, id)->
@@ -109,7 +112,6 @@ API =
       .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
       .catch @solveMissingEntity.bind(@, prefix, id)
       .catch _.Error('showAddEntity err')
-    else console.warn "prefix or id missing at showAddEntity: uri = #{uri}"
 
   solveMissingEntity: (prefix, id, err)->
     if err.message is 'entity_not_found' then @showCreateEntity id
@@ -143,7 +145,7 @@ setHandlers = ->
     'get:entity:model': (prefix, id)->
       [prefix, id] = getPrefixId(prefix, id)
       return API.getEntityModel(prefix, id)
-    'get:entities:models': API.getEntitiesModels
+    'get:entities:models': API.getEntitiesModelsWithCatcher.bind(API)
     'save:entity:model': saveEntityModel
     'get:entity:public:items': API.getEntityPublicItems
     'get:entities:labels': getEntitiesLabels

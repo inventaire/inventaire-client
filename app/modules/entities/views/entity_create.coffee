@@ -57,13 +57,15 @@ module.exports = Marionette.LayoutView.extend
 
   updateModel: (attr)->
     val = @ui[attr].val()
-    @model.set attr, val
+    if _.isNonEmptyString val
+      @model.set attr, val
 
   onRender: ->
     @showEntityActions()
 
   onShow: ->
     @prefillForm()
+    if @options.standalone then @ui.title.focus()
 
   prefillForm: ->
     {data} = @options

@@ -21,7 +21,6 @@ module.exports = Marionette.ItemView.extend
     .finally @stopLoading.bind(null, selector)
 
   success: (res)->
-    _.log res, 'confirmation action res'
     @$el.trigger 'check', @close.bind(@)
     return res
 

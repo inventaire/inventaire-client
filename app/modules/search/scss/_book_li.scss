@@ -34,6 +34,7 @@ $bookLiMaxWidth: 45em;
     > a{
       @include custom-button($light-grey, $dark-grey);
       white-space: nowrap;
+      text-decoration: none;
     }
     .hasAnInstance{
       white-space: normal;

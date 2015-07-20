@@ -73,16 +73,12 @@
       .settings{
         @include display-flex(column);
         label{
-          margin-top: 1em;
           text-align: left;
           width: 100%;
         }
         > div{
           @include flex(0, 0, $user-box-heigth);
           width: 100%;
-          a{
-            padding: 1em;
-          }
         }
       }
       .transactionPreview{
