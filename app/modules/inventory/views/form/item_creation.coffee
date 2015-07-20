@@ -25,7 +25,8 @@ module.exports = Marionette.LayoutView.extend
       # as it is used to display and find the item from search
       title: @entity.get 'title'
       entity: @entity.get 'uri'
-      transaction: @options.transaction
+      transaction: @guessTransaction()
+      listing: @guessListing()
 
     if pictures = @entity.get 'pictures'
       attrs.pictures = pictures
@@ -37,18 +38,28 @@ module.exports = Marionette.LayoutView.extend
 
     @model = app.request 'item:create', attrs
 
+  guessTransaction: ->
+    transaction = @options.transaction or app.request('last:transaction:get')
+    app.execute 'last:transaction:set', transaction
+    return transaction
+
+  guessListing: -> app.request 'last:listing:get'
+
   onShow: ->
     app.execute 'foundation:reload'
     @selectTransaction()
+    @selectListing()
     @showEntityData()
 
-  selectTransaction: ->
-    transaction = @model.get 'transaction'
-    if transaction?
-      $transaction = @ui.transaction.find "a[id=#{transaction}]"
-      if $transaction.length is 1
-        @ui.transaction.find('a').removeClass 'active'
-        $transaction.addClass 'active'
+  selectTransaction: -> @selectButton 'transaction'
+  selectListing: -> @selectButton 'listing'
+  selectButton: (attr)->
+    value = @model.get attr
+    if value?
+      $el = @ui[attr].find "a[id=#{value}]"
+      if $el.length is 1
+        @ui[attr].find('a').removeClass 'active'
+        $el.addClass 'active'
 
   serializeData: ->
     title = @entity.get('title')
@@ -100,11 +111,13 @@ module.exports = Marionette.LayoutView.extend
   # TODO: update the UI for update errors
   updateTransaction: ->
     transaction = @ui.transaction.find('.active').attr 'id'
+    app.execute 'last:transaction:set', transaction
     @updateItem { transaction: transaction }
     .catch _.Error('updateTransaction err')
 
   updateListing: ->
     listing = @ui.listing.find('.active').attr 'id'
+    app.execute 'last:listing:set', listing
     @updateItem { listing: listing }
     .catch _.Error('updateListing err')
 
