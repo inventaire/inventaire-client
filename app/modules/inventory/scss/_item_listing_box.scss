@@ -3,14 +3,14 @@
   min-height: $user-box-heigth;
   max-height: $user-box-heigth;
   &.private{
-    background-color: $dark-grey;
+    background-color: $private-color;
     @extend .currentWhite;
   }
   &.friends{
-    background-color: $grey;
+    background-color: $friends-color;
     @extend .currentWhite;
   }
   &.public{
-    background-color: $light-grey;
+    background-color: $public-color;
   }
 }
