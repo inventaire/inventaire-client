@@ -85,12 +85,11 @@ module.exports = Marionette.LayoutView.extend
   showGroupsInvitations: ->
     { mainUserInvited } = app.user.groups
     if mainUserInvited.length > 0
+      @ui.groupsInvitationsHeader.show()
       @groupsInvitations.show new GroupsList
         collection: mainUserInvited
         showBoards: true
         emptyViewMessage: "you have no pending invitation to join a group"
-    else
-      @ui.groupsInvitationsHeader.hide()
 
   showGroupsList: ->
     @groupList.show new GroupsList
