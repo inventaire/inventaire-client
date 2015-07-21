@@ -31,24 +31,12 @@
 </div>
 <div class="body">
   <section id="requests" {{#unless mainUserIsAdmin}}class="hidden"{{/unless}}>
-    <a class="toggler">
-      {{icon 'caret-down'}}
-      <h4>{{i18n 'requests waiting your approval'}}</h4>
-    </a>
-    <div class="users"></div>
+    {{partial 'network:group_board_section' 'requests waiting your approval'}}
   </section>
   <section id="members">
-    <a class="toggler">
-      {{icon 'caret-down'}}
-      <h4>{{i18n 'members'}}</h4>
-    </a>
-    <div class="users"></div>
+    {{partial 'network:group_board_section' 'members'}}
   </section>
   <section id="invite" {{#unless mainUser_member}}class="hidden"{{/unless}}>
-    <a class="toggler">
-      {{icon 'caret-down'}}
-      <h4>{{i18n 'invite friends'}}</h4>
-    </a>
-    <div class="users"></div>
+    {{partial 'network:group_board_section' 'invite friends'}}
   </section>
 </div>
