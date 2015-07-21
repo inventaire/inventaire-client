@@ -7,11 +7,22 @@ module.exports = Marionette.ItemView.extend
     cascade: '.cascade'
     grid: '.grid'
 
+  serializeData: ->
+    transactions: @transactionsData()
+
+  transactionsData: ->
+    _.values Items.transactions
+    .map (transaction)->
+      { label } = transaction
+      transaction.title = "show/hide \"#{label}\" books"
+      return transaction
+
   events:
     'keyup input.filter': 'filterItems'
     'click .cascade': 'displayCascade'
     'click .grid': 'displayGrid'
     'click .showControls': 'toggleControls'
+    'click a.transaction': 'toggleTransaction'
 
   initialize: -> @lastFilter = null
   onRender: ->
@@ -53,3 +64,14 @@ module.exports = Marionette.ItemView.extend
   wrapControls: ->
     @$el.removeClass 'displayed'
     localStorage.setItem 'controls:display', false
+
+  toggleTransaction: (e)->
+    classes = e.currentTarget.attributes.class.value.split(' ')
+    # the transaction name will be the first class
+    transac = classes[0]
+    if 'active' in classes
+      $(e.currentTarget).removeClass 'active'
+      app.execute 'filter:inventory:transaction:exclude', transac
+    else
+      $(e.currentTarget).addClass 'active'
+      app.execute 'filter:inventory:transaction:include', transac

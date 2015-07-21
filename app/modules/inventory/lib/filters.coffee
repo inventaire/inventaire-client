@@ -15,6 +15,8 @@ module.exports =
       'filter:visibility': filterVisibilityBy
       'filter:visibility:reset': resetFilters
       'filter:items:byText': filterItemsByText
+      'filter:inventory:transaction:include': includeTransaction
+      'filter:inventory:transaction:exclude': excludeTransaction
 
     app.request('waitForFriendsItems')
     # wait for debounced recalculations
@@ -62,3 +64,10 @@ isntPrivateItem = (model)->
 
 filterItemsByText = (text, reset)->
   Items.filtered.filterByText text, reset
+
+includeTransaction = (transaction)->
+  Items.filtered.removeFilter "exclude:#{transaction}"
+
+excludeTransaction = (transaction)->
+  Items.filtered.filterBy "exclude:#{transaction}", (item)->
+    item.get('transaction') isnt transaction

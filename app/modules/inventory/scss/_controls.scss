@@ -28,18 +28,19 @@ $controlsElementMaxHeight: 2.3em;
   .showControls{
     padding: 0.8em 0 0.8em 0.6em;
   }
-  .fa{
-    @include text-hover(#ccc);
+  .showControls .fa, .layouts .fa{
     font-size: 1.2em;
+    @include text-hover(#ccc);
   }
   .innerControls{
     @include display-flex(row, center, flex-end);
     padding: 0.4em 0.4em 0.4em 0.2em;
   }
-  .layouts{
-    padding-left: 0.3em;
-    padding-right: 0.3em;
+  .layouts, .transactions{
+    margin-left: 0.3em;
+    margin-right: 0.3em;
     @include display-flex(row, center, center);
+    @include radius();
     @include radius-horizontal-group();
     a{
       @include display-flex(row, center, center);
@@ -53,10 +54,38 @@ $controlsElementMaxHeight: 2.3em;
         // requiered to avoid layouts buttons to appear too small
         width: 4em;
       }
+    }
+  }
+  .layouts{
+    a{
       @include bg-hover($dark-grey);
       &.active{
         color: $darker-grey;
         background-color: $off-white;
+        @include inner-shadow();
+      }
+    }
+  }
+  .transactions{
+    a{
+      width: 48px;
+      background-color: $dark-grey;
+      @include transition(background-color);
+      &.active{
+        &.giving{
+          background-color: $giving-color;
+        }
+        &.lending{
+          background-color: $lending-color;
+        }
+        &.selling{
+          background-color: $selling-color;
+        }
+        &.inventorying{
+          background-color: $inventorying-color;
+        }
+      }
+      &:hover{
         @include inner-shadow();
       }
     }
