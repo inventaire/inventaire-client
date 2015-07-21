@@ -16,14 +16,12 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   regions:
-    members: '.members > .users'
-    invite: '.invite > .users'
-    requests: '.requests > .users'
+    requests: '#requests > .users'
+    members: '#members > .users'
+    invite: '#invite > .users'
 
   ui:
-    body: '.body'
-    caret: '.fa-caret-right'
-    requests: '.requests'
+    requests: '#requests'
 
   serializeData:->
     attrs = @model.serializeData()
@@ -36,29 +34,28 @@ module.exports = Marionette.LayoutView.extend
     return {username: username}
 
   events:
-    'click .toggler': 'toggleGroup'
+    'click .toggler': 'toggleSection'
     'click .joinRequest': 'requestToJoin'
 
-  toggleGroup: ->
-    @ui.body.slideToggle()
-    @ui.caret.toggleClass 'toggled'
+  toggleSection: (e)->
+    section = e.currentTarget.parentElement.attributes.id.value
+    { $el } = @[section]
+    $el.slideToggle()
+    $el.parent().find('.fa-caret-down').toggleClass 'toggled'
 
   onShow: ->
     @showMembers()
     if @mainUserStatus is 'member' then @showFriendsInvitor()
-    if @model.requested.length > 0
-      if @model.mainUserIsAdmin() then @showJoinRequests()
+    if @model.requested.length > 0 and @model.mainUserIsAdmin()
+      @showJoinRequests()
     else
       @ui.requests.hide()
 
-
-    @toggleGroup()
+  showJoinRequests: ->
+    @requests.show @getJoinRequestsView()
 
   showMembers: ->
     @members.show @getGroupMembersListView()
 
   showFriendsInvitor: ->
     @invite.show @getFriendsInvitorView()
-
-  showJoinRequests: ->
-    @requests.show @getJoinRequestsView()

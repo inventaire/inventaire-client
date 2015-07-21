@@ -10,10 +10,16 @@ $shadow-color: rgba(34, 25, 25, 0.4);
   }
 }
 
-@mixin inner-shadow(){
-  box-shadow: -1px 2px 8px 3px rgba(0, 0, 0, 0.3) inset;
+@mixin inner-shadow($x:1px, $y:1px, $blur:8px, $spread:3px, $color:rgba(black, 0.3)){
+  // offset-x | offset-y | blur-radius | spread-radius | color
+  box-shadow: (-$x) $y $blur $spread $color inset,
+              $x (-$y) $blur $spread $color inset;
 }
 
 @mixin shy-border(){
   border: 1px solid rgba($grey, 0.2);
+}
+@mixin shy-text-border($color:rgba($grey, 0.2)){
+  // see http://stackoverflow.com/a/13427256/3324977
+  text-shadow: 2px 0 0 $color, -2px 0 0 $color, 0 2px 0 $color, 0 -2px 0 $color, 1px 1px $color, -1px -1px 0 $color, 1px -1px 0 $color, -1px 1px 0 $color;
 }

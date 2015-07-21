@@ -1,61 +1,94 @@
 .groupBoard{
   background-color: white;
-  padding: 1em;
   @include radius();
   @include shy-border();
   margin-bottom: 1em;
   .header{
-    @include display-flex(row, center, center);
+    @include display-flex(column, center, center);
+    .showGroup{
+      width: 100%;
+      font-size: 1.6em;
+    }
+    .cover{
+      @include display-flex(column, center, center);
+      height: 8em;
+      @include radius-top();
+      @include inner-shadow();
+      .link{
+        font-size: 0.7em;
+        color: white;
+        @include shy-text-border();
+        @include align-self(flex-end);
+        margin-right: 0.2em;
+        opacity: 0.5;
+        @include transition(opacity);
+      }
+      &:hover{
+        .link{
+          opacity: 1;
+        }
+        @include inner-shadow(20px, 20px, 10px, 10px, rgba(black, 0.2));
+      }
+      @include bg-cover();
+      // bg image is added dynamically from group_board template
+    }
     .name{
-      font-size: 1.2em;
+      color: white;
+      margin: auto;
+      font-size: 1.6em;
       font-weight: bold;
       @include serif();
+      @include shy-text-border();
     }
-    .fa-caret-right{
-      padding-top: 0.2em;
-      font-size: 1.2em;
-      color: $grey;
-      &.toggled{
-        @include vendor-prefix(transform, rotate(90deg));
+    .stats{
+      padding: 0.5em;
+      width: 100%;
+      @include display-flex(row, center, space-between);
+      color: white;
+      background-color: rgba($dark-grey, 0.5);
+    }
+    .bottom{
+      padding: 1em 0 1em 0;
+      @include display-flex(column, center, center);
+      .invitor{
+        font-weight: bold;
       }
-    }
-    .showGroup{
-      margin-left: 1em;
-      @include link();
-    }
-    .right{
-      margin-left: auto;
     }
   }
   .body{
-    h3{
-      text-align: center;
-      display: inline;
+    padding: 0 1em 1em 1em;
+    .toggler{
+      @include display-flex(row);
+    }
+    .fa-caret-down{
+      padding: 0.4em;
+      font-size: 1.2em;
+      opacity: 0.5;
+      &.toggled{
+        @include vendor-prefix(transform, rotate(-90deg));
+      }
     }
     section{
+      h4{
+        text-align: left;
+        font-size: 1.2em;
+      }
       @include radius();
       background-color: rgba(#eaeaea, 0.6);
-      padding: 0.5em;
-      margin-top: 1em;
-      padding-top: 1em;
-      &.members{
+      &#members{
         .users{
           max-height: 20em;
         }
       }
-      &.invite, .requests{
+      &#invite, #requests{
         .users{
           max-height: 10em;
         }
       }
       .users{
         overflow: auto;
+        padding-right: 0.4em;
       }
-    }
-    .stats{
-      @include display-flex(row, center, space-between);
-      opacity: 0.6;
-      padding-bottom: 1em;
     }
   }
   .action{

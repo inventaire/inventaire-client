@@ -2,6 +2,7 @@ error_ = require 'lib/error'
 # defining all and _recalculateAll methods
 aggregateUsersIds = require '../lib/aggregate_users_ids'
 groupActions = require '../lib/group_actions'
+defaultCover = "http://img.inventaire.io/bokeh-pinkorchid_too-CC-BY-SA.jpg"
 
 module.exports = Backbone.Model.extend
   url: app.API.groups
@@ -58,6 +59,7 @@ module.exports = Backbone.Model.extend
     status = @mainUserStatus()
     # not using status alone as that would override users lists:
     # requested, invited etc
+    attrs.picture or= defaultCover
     attrs["status_#{status}"] = true
     _.extend attrs,
       publicDataOnly: @publicDataOnly
