@@ -39,9 +39,7 @@ module.exports = Marionette.ItemView.extend
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
   detailsData: (details)->
-    if details?.length > detailsLimit
-      more = _.i18n 'see more'
-      return details[0..detailsLimit] + moreLink
-    else details
+    unless details?.length > detailsLimit then return details
 
-moreLink = "...  <a class='itemShow more'>#{more}</a>"
+    more = _.i18n 'see more'
+    return details[0..detailsLimit] + "...  <a class='itemShow more'>#{more}</a>"
