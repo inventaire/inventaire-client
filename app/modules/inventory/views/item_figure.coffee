@@ -32,7 +32,6 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
-    # attrs.wrap = @wrapData(attrs)
     attrs.date = {date: attrs.created}
     attrs.details = @detailsData attrs.details
     return attrs
@@ -42,5 +41,7 @@ module.exports = Marionette.ItemView.extend
   detailsData: (details)->
     if details?.length > detailsLimit
       more = _.i18n 'see more'
-      return details[0..detailsLimit] + "...  <a class='itemShow more'>#{more}</a>"
+      return details[0..detailsLimit] + moreLink
     else details
+
+moreLink = "...  <a class='itemShow more'>#{more}</a>"
