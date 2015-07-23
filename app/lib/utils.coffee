@@ -148,6 +148,18 @@ module.exports = (Backbone, _, app, window, console)->
 
     escapeKeyPressed: (e)-> e.keyCode is 27
 
+    currentRoute: -> location.pathname.slice(1)
+    currentQuerystring: -> location.search
+    setQuerystring: (url, key, value)->
+      [ href, qs ] = url.split('?')
+      if qs?
+        qsObj = _.parseQuery qs
+        # override the previous key/value
+        qsObj[key] = value
+        return _.buildPath href, qsObj
+      else
+        return "#{href}?#{key}=#{value}"
+
     # calling a section the first part of the route matching to a module
     # ex: for '/inventory/bla/bla', the section is 'inventory'
     routeSection: (route)->
@@ -155,7 +167,7 @@ module.exports = (Backbone, _, app, window, console)->
       route.split(/[^\w]/)[0]
 
     currentSection: ->
-      _.routeSection location.pathname.slice(1)
+      _.routeSection _.currentRoute()
 
     # scroll to the top of an $el
     scrollTop: ($el, duration=500)->

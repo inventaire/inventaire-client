@@ -57,6 +57,7 @@ module.exports = Marionette.LayoutView.extend
     # needed by search engines
     # or to make by-language css rules (with :lang)
     documentLang.keepBodyLangUpdated.call(@)
+    documentLang.keepHeadAlternateLangsUpdated.call(@)
 
     initIconNavHandlers.call(@)
     initDynamicBackground.call(@)
