@@ -13,7 +13,9 @@ reportError = (label, err)->
 featureDetection()
 .catch reportError.bind(null, 'featureDetection err')
 .then initApp
-.catch reportError.bind(null, 'initApp err')
+# letting Bluebird 'PossiblyUnhandledError' handle it
+# as it seems it gives a more useful stack trace of the error
+# .catch reportError.bind(null, 'initApp err')
 
 require('lib/unhandled_error_logger').initialize()
 window.sharedLib = sharedLib = require('lib/shared/shared_libs')
