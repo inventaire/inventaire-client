@@ -2,25 +2,25 @@
   @include display-flex(column, center, center);
   .header{
     width: 100%;
-    @include display-flex(row, center, space-around);
+    @include display-flex(row, center, space-between);
+    margin-bottom: 1em;
   }
-  .userTransaction{
-    @include flex(0, 0);
-    @include display-flex(column, center, left);
-    margin-right: 0.5em;
-    .user{
-      @include display-flex(row, center, center);
-      margin-right: auto;
-      a{
-        margin-right: 1em;
-      }
+  .user{
+    @include display-flex(row, center, flex-start);
+    .profilePic{
+      height: $user-box-heigth;
+      max-height: $user-box-heigth;
     }
-    .transactionBox{
-      @include display-flex(row, center, center);
-      padding: 1em;
-      white-space: avoid;
-      @include flex(0, 0)
-    }
+  }
+  .transactionBox{
+    max-height: $user-box-heigth;
+    @include display-flex(row, center, center);
+    padding-left: 0.6em;
+    padding-right: 0.4em;
+    @include flex(0, 0)
+  }
+  .label{
+    padding: 0.5em;
   }
   .item{
     @include display-flex(column, center, center);

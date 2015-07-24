@@ -1,19 +1,10 @@
 <div class="header">
-  <div class="userTransaction">
-    <div class="user">
-      <a class="select" href="{{user.pathname}}">
-        <img class="profilePic" src="{{src user.picture 64}}">
-      </a>
-      <a class="select" href="{{user.pathname}}">
-        <span class="username serif">{{user.username}}</span>
-      </a>
-    </div>
-    <div class="current transactionBox {{item.transaction}}">
-      {{icon item.currentTransaction.icon}}
-      {{item.currentTransaction.labelShort}}
-    </div>
+  <div class="user">
+    <a class="select" href="{{user.pathname}}">
+      <img class="profilePic" src="{{src user.picture 64}}">
+    </a>
+    {{partial 'inventory:item_mixed_box_label' item}}
   </div>
-
   <div class="item">
     <div class="cover">
       <a href="{{item.pathname}}" rel="nofollow">

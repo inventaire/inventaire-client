@@ -1,0 +1,7 @@
+{{!-- could be better looking with the transactionBox after the label but problem arise when the label overflows, pushing the transactionBox out of view => this is temporary solution --}}
+<div class="transactionBox {{currentTransaction.id}}">
+  {{icon currentTransaction.icon}}
+</div>
+<p class="label">
+  {{{i18n currentTransaction.labelPersonalized user}}}
+</p>

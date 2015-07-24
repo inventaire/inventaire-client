@@ -5,4 +5,5 @@ a.requestItem{
   @include bg-hover($off-white, 3%);
   width: 100%;
   @include display-flex(row, center, center);
+  background-color: #F3F3F3;
 }
