@@ -27,20 +27,6 @@
       }
     }
     @import 'user_profile';
-    .group{
-      @include display-flex(column, center, center);
-      padding: 1em;
-      color: white;
-      .name{
-        font-weight: bold;
-        font-size: 1.4em;
-        @include serif();
-      }
-      .stats{
-        opacity: 0.8;
-        text-align: center;
-      }
-    }
   }
 
   #two{
@@ -65,7 +51,6 @@
     text-align: left;
     font-weight: bold;
     @include serif();
-    padding-left: 0.6em;
   }
   .noGroup{
     color: white;

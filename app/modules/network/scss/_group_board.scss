@@ -11,7 +11,6 @@
     }
     .cover{
       @include display-flex(column, center, center);
-      height: 8em;
       @include radius-top();
       @include inner-shadow();
       .link{
@@ -31,21 +30,6 @@
       }
       @include bg-cover();
       // bg image is added dynamically from group_board template
-    }
-    .name{
-      color: white;
-      margin: auto;
-      font-size: 1.6em;
-      font-weight: bold;
-      @include serif();
-      @include shy-text-border();
-    }
-    .stats{
-      padding: 0.5em;
-      width: 100%;
-      @include display-flex(row, center, space-between);
-      color: white;
-      background-color: rgba($dark-grey, 0.5);
     }
     .bottom{
       padding: 1em 0 1em 0;

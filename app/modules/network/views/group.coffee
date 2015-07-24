@@ -5,8 +5,10 @@ module.exports = Marionette.ItemView.extend
   getTemplate: ->
     if @options.highlighted then require './templates/group_show'
     else require './templates/group'
-  className: 'group'
-  tagName: 'li'
+  className: ->
+    if @options.highlighted then 'groupShow'
+    else 'group'
+  tagName: -> if @options.highlighted then 'div' else 'li'
   initialize: ->
     @initPlugin()
     @lazyRender = _.debounce @render.bind(@), 200

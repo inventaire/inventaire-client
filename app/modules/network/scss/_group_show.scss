@@ -1,3 +1,13 @@
+.group, div.groupShow{
+  @include display-flex(column, center, center);
+  color: white;
+}
+.groupPic{
+  height: $user-height;
+  width: $user-height;
+  overflow: hidden;
+}
+
 .joinRequest, .requested, .cancelRequest{
   margin-top: 1em;
 }
@@ -7,4 +17,42 @@
 }
 .actions{
   @include display-flex(column);
+}
+
+.cover{
+  width: 100%;
+  @include radius();
+  @include display-flex(column, center, center);
+  .name{
+    font-size: 2.5em;
+    padding: 1em;
+  }
+}
+
+.groupBoard, div.groupShow{
+  .name{
+    color: white;
+    margin: auto;
+    font-size: 1.6em;
+    font-weight: bold;
+    @include serif();
+    @include shy-text-border();
+  }
+  .stats{
+    padding: 0.5em;
+    width: 100%;
+    @include display-flex(row, center, space-between);
+    color: white;
+    background-color: rgba($dark-grey, 0.5);
+  }
+}
+
+.group{
+  .showGroup{
+    width: 100%;
+    @include display-flex(row, center, flex-start);
+    .name{
+      margin-left: 0.4em;
+    }
+  }
 }

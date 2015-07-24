@@ -1,6 +1,13 @@
 {{partial 'unselect'}}
-<span class="name">{{name}}</span>
-{{partial 'network:group_stats' this}}
+<div
+{{#if picture}}
+  class="cover"
+  style="background-image: url('{{src picture 280}}')"
+{{/if}}
+>
+  <span class="name">{{name}}</span>
+  {{partial 'network:group_stats' this}}
+</div>
 
 <div class="actions">
   {{#if status_invited}}
