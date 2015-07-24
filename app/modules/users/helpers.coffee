@@ -78,6 +78,7 @@ module.exports = (app)->
 
   async =
     getUsersData: (ids)->
+      unless ids.length > 0 then return _.preq.resolve []
       app.users.data.local.get(ids, 'collection')
       .then adders.public
 
