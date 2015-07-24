@@ -6,19 +6,19 @@
     color: $dark-grey;
   }
   &.giving{
-    background-color: $giving-color;
+    background-color: lighten($giving-color, 2%);
     @extend .currentWhite;
   }
   &.lending{
-    background-color: $lending-color;
+    background-color: lighten($lending-color, 2%);
     @extend .currentWhite;
   }
   &.selling{
-    background-color: $selling-color;
+    background-color: lighten($selling-color, 2%);
     @extend .currentWhite;
   }
   &.inventorying{
-    background-color: $inventorying-color;
+    background-color: lighten($inventorying-color, 2%);
     @extend .currentWhite;
   }
 }

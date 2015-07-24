@@ -13,10 +13,13 @@ a.user{
   overflow: hidden;
   height: $user-box-heigth;
   background-color: $main-bg;
-  @include display-flex(row, center);
-  .profilePic{
-    height: $user-box-heigth;
-    width: $user-box-heigth;
+  @include display-flex(row, center, flex-start);
+  .userShow{
+    @include flex(0, 0, $user-box-heigth);
+    .profilePic{
+      height: $user-box-heigth;
+      width: $user-box-heigth;
+    }
   }
 }
 .userBox{
@@ -34,12 +37,22 @@ a.user{
   }
 }
 .mixedBox{
-  .transactionBox{
+  .itemShow{
     @include flex(1);
-    @include display-flex(row, center, center);
-    .fa{
-      margin-left: 0.4em;
-      margin-right: 0.2em;
+    @include display-flex(row, center, space-between);
+    .label{
+      overflow: hidden;
+      @include flex(1, 1, 0);
+      padding: 0.2em;
+    }
+    .transactionBox{
+      @include flex(0, 0, 2em);
+      height: 100%;
+      @include display-flex(row, center, center);
+      .fa{
+        // centering
+        padding-left: 0.2em;
+      }
     }
   }
 }

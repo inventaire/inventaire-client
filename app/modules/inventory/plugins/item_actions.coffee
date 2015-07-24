@@ -10,5 +10,6 @@ handlers =
 events =
   'click a.itemShow': 'itemShow'
   'click a.user': 'showUser'
+  'click a.userShow': 'showUser'
 
 module.exports = _.BasicPlugin events, handlers
