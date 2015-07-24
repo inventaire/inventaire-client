@@ -7,20 +7,22 @@ a.user{
     }
   }
 }
-.userBox{
+.userBox, .mixedBox{
   text-align: left;
   width: 100%;
   overflow: hidden;
   height: $user-box-heigth;
   background-color: $main-bg;
   @include display-flex(row, center);
+  .profilePic{
+    height: $user-box-heigth;
+    width: $user-box-heigth;
+  }
+}
+.userBox{
   .user{
     max-height: $user-box-heigth;
     @include display-flex(column, left, space-between);
-    .profilePic{
-      height: $user-box-heigth;
-      width: $user-box-heigth;
-    }
     strong{
       margin-left: 0.4em;
     }
@@ -28,6 +30,16 @@ a.user{
       margin-left: 0.4em;
       color: $grey;
       overflow: hidden;
+    }
+  }
+}
+.mixedBox{
+  .transactionBox{
+    @include flex(1);
+    @include display-flex(row, center, center);
+    .fa{
+      margin-left: 0.4em;
+      margin-right: 0.2em;
     }
   }
 }

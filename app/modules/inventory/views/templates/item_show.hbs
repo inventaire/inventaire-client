@@ -22,12 +22,18 @@
 <div class="itemData">
   <div class="leftBox">
     <div class="panel">
-      {{partial 'inventory:item_user_box' this}}
-      <div class="settings itemBox">
-        {{partial 'inventory:item_transaction_box' this}}
-        {{partial 'inventory:item_visibility_box' this}}
-        {{partial 'inventory:item_request_box' this}}
-      </div>
+      {{#if restricted}}
+        {{partial 'inventory:item_mixed_box' this}}
+        <div class="settings itemBox">
+          {{partial 'inventory:item_request_box' this}}
+        </div>
+      {{else}}
+        {{partial 'inventory:item_user_box' this}}
+        <div class="settings itemBox">
+          {{partial 'inventory:item_transaction_box' this}}
+          {{partial 'inventory:item_visibility_box' this}}
+        </div>
+      {{/if}}
     </div>
     <div id="transactions"></div>
   </div>
