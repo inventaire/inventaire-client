@@ -15,7 +15,9 @@ module.exports = (app, $, _)->
       @search(username)
       .then (res)->
         user = res?[0]
-        if user?.username is username then return user
+        # ignoring case as the user database does
+        if user?.username.toLowerCase() is username.toLowerCase()
+          return user
 
 
   localData = new app.LocalCache
