@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 module.exports =
   inviteUser: (user)->
     @action 'invite', user.id
