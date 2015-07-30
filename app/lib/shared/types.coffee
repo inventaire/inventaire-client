@@ -55,6 +55,14 @@ module.exports =
 
   typeString: (str)-> @type str, 'string'
   typeArray: (array)-> @type array, 'array'
+
+  # helpers to simplify polymorphisms
   forceArray: (keys)->
     unless @isArray(keys) then [keys]
     else keys
+  forceObject: (key, value)->
+    unless @isObject key
+      obj = {}
+      obj[key] = value
+      return obj
+    else key
