@@ -56,11 +56,18 @@ module.exports = (_, csle)->
     loggers.log.apply null, args
     return
 
+  # inspection utils to log a label once a function is called
+  spy = (res, label)->
+    console.log label
+    return res
+
+
   partialLoggers =
     Log: (label)-> _.partial log, _, label
     LogXhrErr: (label)-> _.partial logXhrErr, _, label
     Error: (label)-> _.partial error, _, label
     Warn: (label)-> _.partial warn, _, label
+    Spy: (label)-> _.partial spy, _, label
 
   loggers =
     isMuted: isMuted
@@ -68,6 +75,7 @@ module.exports = (_, csle)->
     logXhrErr: logXhrErr
     error: error
     warn: warn
+    spy: spy
 
 
     logAllEvents: (obj, prefix='logAllEvents')->
