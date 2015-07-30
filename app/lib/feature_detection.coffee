@@ -12,7 +12,7 @@ sayHi = ->
   [-.-]   I've been expecting you, Mr Bond
   /)__)
   -"--"-
-  Want to make Inventaire better? Jump in! https://github.com/maxlath/inventaire
+  Want to make Inventaire better? Jump in! https://github.com/inventaire/inventaire
   Guidelines and inspiration: https://inventaire.io/guidelines-and-inspiration
   ------
   """
