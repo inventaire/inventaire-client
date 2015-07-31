@@ -98,7 +98,8 @@
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     max-width: 100%;
-    padding: 0.3em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
     .iconButton{
       margin-bottom: 1em;
     }
