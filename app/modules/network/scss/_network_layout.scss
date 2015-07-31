@@ -18,12 +18,6 @@ $networkLayoutWidth: 40em;
     margin-top: 0.4em;
   }
   text-align: center;
-  #friendsRequests:not(:empty), #friendsList{
-    @include radius();
-    @include shy-border();
-    padding: 1em;
-    background-color: white;
-  }
   .custom-tabs-titles{
     @include display-flex(row, center, center, nowrap);
     padding-top: 1em;
@@ -48,6 +42,8 @@ $networkLayoutWidth: 40em;
   }
 }
 
+@import 'friends_layout';
+@import 'groups_layout';
 @import 'groups_list';
 @import 'group_board';
 @import 'group_creation';

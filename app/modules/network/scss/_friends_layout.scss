@@ -1,0 +1,26 @@
+#friendsLayout{
+  #friendsRequests:not(:empty), #friendsList{
+    @include radius();
+    @include shy-border();
+    padding: 1em;
+    background-color: white;
+  }
+  #usersListHeader{
+    @include display-flex(row, center, center);
+  }
+  input{
+    @include radius(2em);
+  }
+  .friendsAndSearch{
+    @include radius(4px);
+    @include shy-border();
+    background-color: white;
+    padding: 1em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    .userMenu{
+      width: 6em;
+    }
+  }
+}
