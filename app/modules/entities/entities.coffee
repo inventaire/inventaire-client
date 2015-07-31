@@ -71,6 +71,7 @@ API =
   getAuthorView: (entity)->
     new AuthorLi
       model: entity
+      standalone: true
       displayBooks: true
       wikipediaPreview: true
       initialLength: 20

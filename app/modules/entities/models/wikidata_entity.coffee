@@ -41,7 +41,8 @@ module.exports = Entity.extend
 
       @save()
 
-
+    # if @waitForExtract wasnt defined yet, it wont be fetched
+    unless @waitForExtract? then @waitForExtract = _.preq.resolve()
 
     # data on models root aren't persisted so need to be set everytimes
     @claims = @get 'claims'
@@ -101,12 +102,13 @@ module.exports = Entity.extend
   getWikipediaExtract: (lang)->
     title = @get('sitelinks')?["#{lang}wiki"]?.title
     if title?
-      wd.wikipediaExtract(lang, title)
+      @waitForExtract = wd.wikipediaExtract(lang, title)
       .then (extract)=>
         if extract?
           @set 'extract', extract
           @save()
       .catch _.Error('getWikipediaExtract err')
+
 
 
   findAPicture: ->
@@ -141,6 +143,19 @@ module.exports = Entity.extend
     .catch _.Error('fetchAuthorsEntities err')
 
   initializeAuthor: ->
+
+  # to be called by a view onShow:
+  # updates the document with the entities data
+  updateTwitterCard: ->
+    @waitForExtract
+    .then @executeTwitterCardUpdate.bind(@)
+    .catch _.Error('updateTwitterCard err')
+
+  executeTwitterCardUpdate: ->
+    app.execute 'update:twitter:card',
+      title: @get('label')
+      description: @get('extract')?[0..300]
+      image: @get('pictures')?[0]
 
 getEntityValue = (attrs, props, lang)->
   property = attrs[props]

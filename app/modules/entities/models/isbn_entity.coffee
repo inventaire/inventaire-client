@@ -26,3 +26,9 @@ module.exports = Entity.extend
     pictures = @get 'pictures'
     unless _.isEmpty pictures
       @set 'pictures', pictures.map(app.lib.books.uncurl)
+
+  updateTwitterCard: ->
+    app.execute 'update:twitter:card',
+      title: @get('title')
+      description: @get('description')?[0..300]
+      image: @get('pictures')?[0]

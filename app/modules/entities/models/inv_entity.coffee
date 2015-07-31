@@ -17,3 +17,9 @@ module.exports = Entity.extend
       pathname: pathname
       uri: "#{@prefix}:#{@id}"
       domain: 'inv'
+
+  updateTwitterCard: ->
+    app.execute 'update:twitter:card',
+      title: @get('title')
+      # description: @get('description')?[0..300]
+      image: @get('pictures')?[0]

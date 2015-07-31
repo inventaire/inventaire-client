@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
     app.request('waitForUserData').then @showEntityActions.bind(@)
     @showLocalItems()  if app.user.loggedIn
     @showPublicItems()
+    @model.updateTwitterCard()
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
@@ -45,7 +46,6 @@ module.exports = Marionette.LayoutView.extend
   showPublicItems: -> showItems Items.public, @publicItems, @uri
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
-
 
 showItems = (baseCollection, region, uri)->
   # using the filtered collection to refresh on Collection 'add' events

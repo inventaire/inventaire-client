@@ -52,3 +52,6 @@ module.exports = Marionette.CompositeView.extend
   addToCollection: (models)->
     if models? then models.forEach @collection.add.bind(@collection)
     else 'no book found for #{@model.title}'
+
+  onShow: ->
+    if @options.standalone then @model.updateTwitterCard()
