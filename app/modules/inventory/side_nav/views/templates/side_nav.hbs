@@ -7,19 +7,10 @@
     <div id="groupsList"></div>
   </section>
   <section id="friends">
-    <div id='usersListHeader' class="listHeader">
-      <h4 class="header"></h4>
-      <a class="close hidden">{{icon 'times'}}</a>
-      <div class="show-for-small-only">
-        <a class="listToggler">{{icon 'caret-up'}}</a>
-        <a class="listToggler hidden">{{icon 'caret-down'}}</a>
-      </div>
-    </div>
-    <div id="usersList"></div>
+    {{partial 'network:users_search_header'}}
+    {{partial 'network:users_search'}}
   </section>
-  <div id="userSearch" class="bottomSearch">
-    <input id="userField" type="text" placeholder="{{i18n 'find friends'}}...">
-  </div>
+  {{partial 'network:users_search_input'}}
   <div id="memberSearch" class="bottomSearch hidden">
     <input id="memberField" type="text" placeholder="{{i18n 'filter group members'}}...">
   </div>

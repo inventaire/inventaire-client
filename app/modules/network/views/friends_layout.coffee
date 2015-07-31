@@ -1,5 +1,6 @@
 UsersList = require 'modules/users/views/users_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+UsersSearch = require 'modules/network/plugins/users_search'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/friends_layout'
@@ -8,7 +9,6 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     friendsRequests: '#friendsRequests'
-    friendsList: '#friendsList'
 
   ui:
     friendsRequestsHeader: '#friendsRequestsHeader'
@@ -16,15 +16,21 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     Loading: {}
 
+  initialize: ->
+    @initPlugins()
+
+  initPlugins: ->
+    UsersSearch.call @
+
   onShow: ->
-    behaviorsPlugin.startLoading.call @, '#friendsList'
+    behaviorsPlugin.startLoading.call @, '#usersList'
     app.request('waitForFriendsItems')
     .then @showFriendsLists.bind(@)
     .catch _.Error('showTabFriends')
 
   showFriendsLists: ->
     @showFriendsRequests()
-    @showFriendsList()
+    @showUsersSearchBase()
 
   showFriendsRequests: ->
     { otherRequested } = app.users
@@ -34,8 +40,3 @@ module.exports = Marionette.LayoutView.extend
         emptyViewMessage: 'no pending requests'
     else
       @ui.friendsRequestsHeader.hide()
-
-  showFriendsList: ->
-    @friendsList.show new UsersList
-      collection: app.users.friends
-      emptyViewMessage: "you aren't connected to anyone yet"
