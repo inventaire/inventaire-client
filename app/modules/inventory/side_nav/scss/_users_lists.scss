@@ -4,7 +4,7 @@
     color: $grey;
     font-size: 1.2em;
   }
-  @include display-flex(row, baseline, space-between);
+  @include display-flex(row, baseline, flex-start);
   .fa{
     font-size: 1.2em;
     text-align: right;
@@ -14,7 +14,8 @@
 }
 #usersList{
   @include flex(0, 1, auto);
-  overflow: auto;
+  // avoid horizontal scroll
+  // overflow: auto;
 }
 
 #userField, #memberField{
@@ -25,6 +26,12 @@
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
   #usersListHeader{
+    .close{
+      margin-left: 0.5em;
+    }
+    .toggler{
+      margin-left: auto;
+    }
     cursor: pointer;
     .header{
       color: white;
@@ -38,6 +45,12 @@
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
+  #usersListHeader{
+    .close{
+      margin-left: auto;
+      margin-right: 1em;
+    }
+  }
   .bottomSearch{
     @include flex(0, 0, 2.4em);
   }

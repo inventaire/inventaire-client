@@ -69,9 +69,6 @@ $user-bg: #ddd;
       a{
         text-align: right;
       }
-      .label{
-        display: none;
-      }
     }
   }
 }
@@ -81,6 +78,24 @@ $user-bg: #ddd;
     .userMenu{
       font-size: 1em;
       margin-right: 0.2em;
+    }
+    .label{
+      display: none;
+    }
+  }
+  .action{
+    // centering the action icon
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    &:not(:hover){
+      padding-right: 0;
+      .label{
+        display: none;
+      }
+    }
+    /*Small screens*/
+    @media screen and (max-width: $smallscreen) {
+      margin-right: 0.5em;
     }
   }
 }
@@ -127,6 +142,9 @@ $user-bg: #ddd;
 
 #networkLayout{
   .userLi{
+    .friendMenu{
+      @include shy();
+    }
     span, .fa:not(.times-circle){
       color: $dark-grey;
     }

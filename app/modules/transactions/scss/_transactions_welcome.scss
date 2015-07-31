@@ -1,6 +1,4 @@
 .transactionsWelcome{
-  height: 30em;
-  max-height: 50vh;
   @include display-flex(column, center, center);
   .fa{
     font-size: 2em;
@@ -15,5 +13,10 @@
   text-align: center;
   p{
     color: $grey;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    height: 30em;
+    max-height: 50vh;
   }
 }
