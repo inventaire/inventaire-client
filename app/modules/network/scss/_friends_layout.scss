@@ -17,6 +17,13 @@
     background-color: white;
     padding: 1em;
   }
+  .toggler{
+    a{
+      // not placed directly on .toggler to avoid conflict
+      // with the show-for-small-only class
+      display: none;
+    }
+  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     .userMenu{
