@@ -148,7 +148,7 @@ $user-bg: #ddd;
     span, .fa:not(.times-circle){
       color: $dark-grey;
     }
-    .invite{
+    .action{
       span, .fa{
         color: white;
       }
@@ -157,9 +157,6 @@ $user-bg: #ddd;
       opacity: 0.6;
     }
     .inventoryLength{
-      color: white;
-    }
-    .action, .action .fa{
       color: white;
     }
     .right-box{
