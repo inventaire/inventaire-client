@@ -95,7 +95,7 @@
     "exchanges_manager_welcome_text": "This is where the books requests you send or receive will be displayed.<br>To send a book request, go to the book's page and click on \"send a request\"",
     "add_menu_title": "add a book to your inventory",
     "add_by_search": "search your book by its title, author or ISBN",
-    "add_by_isbn": "add a book by its isbn",
+    "add_by_isbn": "add a book by its ISBN",
     "add_by_barcode_scan": "scan your book's barcode",
     "scanner_disabled_tip": "only available from mobiles for now",
     "add_by_isbn_tip": "enter one ISBN or several separeted by a comma",
@@ -126,5 +126,9 @@
     "unfriend_confirmation": "do you really want to remove **%{username}** from your friends?",
     "group_invite_friends": "invite friends to join the group",
     "group_invitor": "%{username} invited you to join",
-    "requires_barcode_scanner_app": "To be able to scan your books barcode, you need to have a Barcode Scanner app already installed on your smartphone:"
+    "requires_barcode_scanner_app": "To be able to scan your books barcode, you need to have a Barcode Scanner app already installed on your smartphone:",
+    "giving_personalized": "**%{username}** is giving it",
+    "lending_personalized": "**%{username}** is lending it",
+    "selling_personalized": "**%{username}** is selling it",
+    "inventorying_personalized": "**%{username}** has it"
 }

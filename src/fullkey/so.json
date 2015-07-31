@@ -114,7 +114,6 @@
     "step 1: Choose a username": null,
     "Step 2: associate your account with an email": null,
     "this username isn't available": null,
-    "username should be 20 character maximum": null,
     "a popup should now open to let you verify your credentials": null,
     "I'm selling it": null,
     "authors": null,
@@ -297,5 +296,19 @@
     "see profile": null,
     "that's you": null,
     "no friends to invite": null,
-    "group members": null
+    "group members": null,
+    "group name:": null,
+    "invited": null,
+    "invite": null,
+    "username should be 20 characters maximum": null,
+    "you aren't connected to anyone yet": null,
+    "request to join group": null,
+    "filter group members": null,
+    "can't find any group member with that name": null,
+    "friend": null,
+    "you aren't in any group yet": null,
+    "you requested to join is waiting for approval": null,
+    "undefined": null,
+    "requested": null,
+    "accept invitation": null
 }

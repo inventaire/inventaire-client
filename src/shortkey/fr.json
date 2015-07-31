@@ -126,5 +126,9 @@
     "unfriend_confirmation": "souhaitez-vous vraiment retirer **%{username}** de la liste de vos amis ?",
     "group_invite_friends": "invitez vos amis à rejoindre le groupe",
     "group_invitor": "%{username} vous invite à rejoindre le groupe",
-    "requires_barcode_scanner_app": "Pour pouvoir scanner le code-barre de votre livre, une application Barcode Scanner doit être installé sur votre smartphone"
+    "requires_barcode_scanner_app": "Pour pouvoir scanner le code-barre de votre livre, une application Barcode Scanner doit être installé sur votre smartphone",
+    "giving_personalized": null,
+    "lending_personalized": null,
+    "selling_personalized": null,
+    "inventorying_personalized": null
 }

@@ -126,5 +126,9 @@
     "unfriend_confirmation": null,
     "group_invite_friends": null,
     "group_invitor": null,
-    "requires_barcode_scanner_app": null
+    "requires_barcode_scanner_app": null,
+    "giving_personalized": null,
+    "lending_personalized": null,
+    "selling_personalized": null,
+    "inventorying_personalized": null
 }
