@@ -95,6 +95,11 @@
       }
     }
   }
+  /*Very Small screens*/
+  @media screen and (max-width: $verysmallscreen) {
+    @include flex-wrap(wrap);
+    @include flex(1, 0, auto);
+  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     max-width: 100%;
