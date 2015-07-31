@@ -24,21 +24,17 @@ module.exports = (app)->
       else console.warn "couldnt find the user from id: #{id}"
 
     searchUsers: (text)->
-      if text? and text isnt ''
-        app.users.data.remote.search(text)
-        .then (res)->
-          _.log res, 'searchUsers res'
-          callback = (res)->
-            res.forEach (user)->
-              app.users.public.add(user) if isntAlreadyHere(user._id)
-            app.users.queried.push(text)
-            return app.users.filtered.filterByText(text)
-          # Need to waitForData as isntAlreadyHere can't
-          # do it's job if user relations data haven't return yet
-          app.request('waitForData').then callback.bind(null, res)
-        .fail _.error
-      else
-        app.users.filtered.friends()
+      unless text? and text isnt ''
+        return app.users.filtered.friends()
+
+      app.users.data.remote.search(text)
+      .then (res)->
+        # Need to waitForData as isntAlreadyHere can't
+        # do it's job if user relations data haven't return yet
+        app.request('waitForData')
+        .then addSearchedUsers.bind(null, text, res)
+
+      .catch _.Error('searchUsers err')
 
     isMainUser: (userId)->
       if userId? then return userId is app.user.id
@@ -71,6 +67,14 @@ module.exports = (app)->
     return sync.getUserModelFromUserId(id)?.get('username')
 
   app.users.queried = []
+
+  addSearchedUsers = (text, res)->
+    res.forEach addUserUnlessHere
+    app.users.queried.push text
+    return app.users.filtered.filterByText text
+
+  addUserUnlessHere = (user)->
+    if isntAlreadyHere user._id then app.users.public.add user
 
   isntAlreadyHere = (id)->
     if app.users.byId(id)? or app.request('user:isMainUser', id) then false
