@@ -18,7 +18,7 @@ nav.top-bar {
   // needed to be above everything that has a z-index or is fixed
   z-index: 100;
   img{
-    max-height: $topbar-height * 0.9;
+    max-height: $topbar-height * 0.85;
     margin-left: 1em;
   }
   .fa{
