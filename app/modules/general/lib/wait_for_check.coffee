@@ -1,6 +1,5 @@
 module.exports = (options)->
   {selector, $selector, action, promise, success, error} = options
-  _.log options, 'waitForCheck options'
   # $selector or selector MUST be provided
   # if selector? then $selector = $(selector)
   $selector or= $(selector)
