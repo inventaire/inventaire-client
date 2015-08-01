@@ -59,7 +59,7 @@
 
 @import 'item_user_box';
 
-.itemBox{
+.itemBox:not(:empty){
   min-height: $user-box-heigth;
   width: 100%;
   @include display-flex(row, center, center);
