@@ -1,6 +1,7 @@
 UserCommons = require 'modules/users/models/user_commons'
 Transactions = require 'modules/transactions/collections/transactions'
 Groups = require 'modules/network/collections/groups'
+solveLang = require '../lib/solve_lang'
 
 module.exports = UserCommons.extend
   url: ->
@@ -21,7 +22,7 @@ module.exports = UserCommons.extend
     @on 'change:language', @setLang
     @on 'change:username', @setPathname
 
-  setLang: -> @lang = @get('language')?[0..1]
+  setLang: -> @lang = _.shortLang(@get('language')) or solveLang()
 
   addNotifications: (notifications)->
     if notifications?
