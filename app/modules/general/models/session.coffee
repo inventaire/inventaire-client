@@ -50,11 +50,17 @@ module.exports = Backbone.NestedModel.extend
     @trigger 'update'
 
   recordError: (error)->
-    hash = _.hashCode JSON.stringify(error)
-    error.hash = hash
-    push @, 'error', error
-    @lastPageSet 'errorHash', hash
-    @trigger 'update'
+    unless @dupplicatedError error
+      hash = _.hashCode JSON.stringify(error)
+      error.hash = hash
+      push @, 'error', error
+      @lastPageSet 'errorHash', hash
+      @trigger 'update'
+
+  dupplicatedError: (error)->
+    msg = error.error?[0] or error.message
+    sameMessage = (err)-> err.error[0] is msg
+    return @get('error').filter(sameMessage).length > 0
 
   updateLastPageTime: (timestamp)->
     # not using Array::last as it might not be defined yet
