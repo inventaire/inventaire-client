@@ -24,6 +24,7 @@ module.exports = Marionette.ItemView.extend
     @selectButtonFromRoute _.currentSection()
     @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
     @listenTo app.vent, 'transactions:unread:change', @lazyRender
+    @listenTo app.vent, 'i18n:reset', @lazyRender
 
   selectButtonFromRoute: (section)->
     @unselectAll()
