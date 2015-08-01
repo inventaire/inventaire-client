@@ -20,6 +20,8 @@ module.exports = Marionette.CompositeView.extend
     # trigger fetchbooks once the author is in view
     @$el.once 'inview', @fetchBooks.bind(@)
     @listenTo @model, 'change', @lazyRender.bind(@)
+    if @options.standalone
+      app.execute 'metadata:update:needed'
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
@@ -54,4 +56,6 @@ module.exports = Marionette.CompositeView.extend
     else 'no book found for #{@model.title}'
 
   onShow: ->
-    if @options.standalone then @model.updateTwitterCard()
+    if @options.standalone
+      @model.updateTwitterCard()
+      .finally app.execute.bind(app, 'metadata:update:done')

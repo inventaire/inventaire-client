@@ -17,6 +17,13 @@ updateOneTwitterCardData = (key, value)->
     _.warn value, "missing twitter card value: #{key}"
 
 
+# make prerender wait before assuming everything is ready
+# see https://prerender.io/documentation/best-practices
+metadataUpdateNeeded = -> window.prerenderReady = false
+metadataUpdateDone = -> window.prerenderReady = true
+
 module.exports = ->
   app.commands.setHandlers
     'update:twitter:card': updateTwitterCardData
+    'metadata:update:needed': metadataUpdateNeeded
+    'metadata:update:done': metadataUpdateDone

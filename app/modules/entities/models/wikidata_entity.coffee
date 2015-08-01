@@ -21,14 +21,14 @@ module.exports = Entity.extend
         console.warn "reformatting #{@id} while it was already cached!
         Probably because the server returned fresh data (ex: during entity search)"
 
-      lang = app.user.lang
+      { lang } = app.user
 
-      @setWikiLinks(lang)
-      @getWikipediaExtract(lang)
+      @setWikiLinks lang
+      @getWikipediaExtract lang
       # overriding sitelinks to make room when persisted to indexeddb
       @_updates.sitelinks = {}
 
-      @setAttributes(@attributes, lang)
+      @setAttributes @attributes, lang
       @rebaseClaims()
       @findAPicture()
 
@@ -109,8 +109,6 @@ module.exports = Entity.extend
           @save()
       .catch _.Error('getWikipediaExtract err')
 
-
-
   findAPicture: ->
     # initializing pictures array: should only be used
     # at first reception of the entity data
@@ -153,9 +151,17 @@ module.exports = Entity.extend
 
   executeTwitterCardUpdate: ->
     app.execute 'update:twitter:card',
-      title: @get('label')
-      description: @get('extract')?[0..300]
+      title: @get('title')
+      description: @findBestDescription()?[0..500]
       image: @get('pictures')?[0]
+
+  findBestDescription: ->
+    extract = @get('extract')
+    description = @get('description')
+    # dont use an extract too short as it will be
+    # more of it's wikipedia source url than a description
+    if extract? and extract.length > 300 then return extract
+    else description or extract
 
 getEntityValue = (attrs, props, lang)->
   property = attrs[props]

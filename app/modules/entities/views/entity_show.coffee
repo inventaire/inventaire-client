@@ -19,6 +19,7 @@ module.exports = Marionette.LayoutView.extend
     @initPlugins()
     @uri = @model.get('uri')
     fetchPublicItems @uri
+    app.execute 'metadata:update:needed'
 
   initPlugins: ->
     wikiBarPlugin.call @
@@ -29,7 +30,9 @@ module.exports = Marionette.LayoutView.extend
     app.request('waitForUserData').then @showEntityActions.bind(@)
     @showLocalItems()  if app.user.loggedIn
     @showPublicItems()
+
     @model.updateTwitterCard()
+    .finally app.execute.bind(app, 'metadata:update:done')
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
