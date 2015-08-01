@@ -21,6 +21,6 @@ wdAuthors_.fetchAuthorsBooksIds = (authorModel)->
 wdAuthors_.fetchAuthorsBooksEntities = (authorModel)->
   authorsBooks = authorModel.get 'reverseClaims.P50'
   _.log authorsBooks, 'authorsBooks?'
-  unless authorsBooks.length > 0 then return _.preq.resolve()
+  unless authorsBooks?.length > 0 then return _.preq.resolve()
 
   return app.request 'get:entities:models', 'wd', authorsBooks
