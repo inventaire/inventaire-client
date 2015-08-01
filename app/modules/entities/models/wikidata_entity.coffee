@@ -150,7 +150,7 @@ module.exports = Entity.extend
     .catch _.Error('updateTwitterCard err')
 
   executeTwitterCardUpdate: ->
-    app.execute 'update:twitter:card',
+    app.execute 'metadata:update',
       title: @get('title')
       description: @findBestDescription()?[0..500]
       image: @get('pictures')?[0]

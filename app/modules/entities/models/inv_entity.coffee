@@ -19,7 +19,7 @@ module.exports = Entity.extend
       domain: 'inv'
 
   updateTwitterCard: ->
-    app.execute 'update:twitter:card',
+    app.execute 'metadata:update',
       title: @get('title')
       # description: @get('description')?[0..300]
       image: @get('pictures')?[0]

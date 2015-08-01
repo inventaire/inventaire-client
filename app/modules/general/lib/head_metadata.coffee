@@ -1,21 +1,38 @@
-# doc: https://dev.twitter.com/cards/types/summary-large-image
-twitterData = ['card', 'site', 'creator', 'title', 'description', 'image']
-
-updateTwitterCardData = (key, value)->
+metadataUpdate = (key, value)->
   updates = _.forceObject key, value
-  _.log updates, 'updateTwitterCardData updates'
+  _.log updates, 'metadataUpdate updates'
   for k, v of updates
-    updateOneTwitterCardData k, v
+    updateMetadata k, v
 
-updateOneTwitterCardData = (key, value)->
-  unless key in twitterData
+updateMetadata = (key, value)->
+  unless key in possibleFields
     return _.error [key, value], 'invalid twitter card data'
 
   if value?
-    document.querySelector("[name='twitter:#{key}']").content = value
+    metaNodes[key].forEach updateNodeContent.bind(null, value)
   else
     _.warn value, "missing twitter card value: #{key}"
 
+updateNodeContent = (value, selector)->
+  document.querySelector(selector).content = value
+
+updateTitle = (title)-> metadataUpdate 'title', title
+
+metaNodes =
+  title: [
+    "[property='og:title']"
+    "[name='twitter:title']"
+  ],
+  description: [
+    "[property='og:description']"
+    "[name='twitter:description']"
+  ],
+  image: [
+    "[property='og:image']"
+    "[name='twitter:image']"
+  ]
+
+possibleFields = Object.keys metaNodes
 
 # make prerender wait before assuming everything is ready
 # see https://prerender.io/documentation/best-practices
@@ -24,6 +41,7 @@ metadataUpdateDone = -> window.prerenderReady = true
 
 module.exports = ->
   app.commands.setHandlers
-    'update:twitter:card': updateTwitterCardData
     'metadata:update:needed': metadataUpdateNeeded
+    'metadata:update': metadataUpdate
     'metadata:update:done': metadataUpdateDone
+    'metadata:update:title': updateTitle
