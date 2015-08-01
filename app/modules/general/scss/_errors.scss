@@ -14,14 +14,14 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $verysmallscreen) {
     .errorBox{
       padding: 1em;
     }
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $verysmallscreen) {
     .errorBox{
       padding: 2em 4em 2em 4em;
     }
