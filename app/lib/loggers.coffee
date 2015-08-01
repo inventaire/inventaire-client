@@ -90,8 +90,8 @@ module.exports = (_, csle)->
       csle.log '---'
 
     logServer: (obj, label)->
-      log = {obj: obj, label: label}
-      $.post app.API.test, log
+      report = {obj: obj, label: label}
+      $.post app.API.test, report
       return obj
 
   String::logIt = (label)->
