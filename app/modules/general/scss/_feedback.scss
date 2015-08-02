@@ -1,4 +1,4 @@
-#feedbacks{
+#feedback{
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     display: none;
@@ -16,7 +16,7 @@
   }
 }
 
-.feedbacksMenu{
+.feedbackMenu{
   text-align: center;
   background-color: $light-grey;
   .username, .email{

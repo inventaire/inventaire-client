@@ -10,7 +10,7 @@ module.exports =
   groups: '/api/groups'
   user: '/api/user'
   notifs: '/api/notifs'
-  feedbacks: '/api/feedbacks/public'
+  feedback: '/api/feedback/public'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   moment: (lang)-> "/public/javascripts/moment/#{lang}.js?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"

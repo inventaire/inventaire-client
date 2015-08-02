@@ -9,7 +9,7 @@ module.exports =
     # parse the name to build the partial path
     parts = name.split ':'
     switch parts.length
-      # ex: partial 'general:menu:feedbacks_news'
+      # ex: partial 'general:menu:feedback_news'
       when 3 then [module, subfolder, file] = parts
       # ex: partial 'user:persona_button'
       when 2 then [module, file] = parts

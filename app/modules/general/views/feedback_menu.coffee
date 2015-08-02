@@ -1,8 +1,8 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
-  template: require './templates/feedbacks_menu'
-  className: 'feedbacksMenu'
+  template: require './templates/feedback_menu'
+  className: 'feedbackMenu'
   onShow: -> app.execute 'modal:open'
   behaviors:
     Loading: {}
@@ -31,7 +31,7 @@ module.exports = Marionette.ItemView.extend
     .catch @Fail('feedback err')
 
   postFeedback: ->
-    _.preq.post app.API.feedbacks,
+    _.preq.post app.API.feedback,
       subject: _.log @ui.subject.val(), 'subject'
       message: _.log @ui.message.val(), 'message'
       unknownUser: _.log @ui.unknownUser.val(), 'unknownUser'

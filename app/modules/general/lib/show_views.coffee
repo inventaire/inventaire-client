@@ -1,5 +1,5 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
-FeedbacksMenu = require '../views/feedbacks_menu'
+FeedbackMenu = require '../views/feedback_menu'
 { Loader } = app.View.Behaviors
 
 module.exports =
@@ -27,8 +27,8 @@ module.exports =
 
   showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
 
-  showFeedbacksMenu: ->
-    app.layout.modal.show new FeedbacksMenu
+  showFeedbackMenu: ->
+    app.layout.modal.show new FeedbackMenu
 
   copyLink: (e)->
     href = e.currentTarget.href

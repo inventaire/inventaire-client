@@ -36,12 +36,12 @@ module.exports = Marionette.LayoutView.extend
     unless app.user.loggedIn
       @hideTopBar()
       @ui.topBarTrigger.once 'inview', @showTopBar
-      @hideFeedbacksButton()
+      @hideFeedbackButton()
 
 
   onDestroy: ->
     @showTopBar()
-    @showFeedbacksButton()
+    @showFeedbackButton()
 
   loadPublicItems: ->
     _.preq.get app.API.items.lastPublicItems
@@ -73,5 +73,5 @@ module.exports = Marionette.LayoutView.extend
     $('.top-bar').slideDown()
     $('main').removeClass('no-topbar')
 
-  hideFeedbacksButton: -> $('#feedbacks').hide()
-  showFeedbacksButton: -> $('#feedbacks').fadeIn()
+  hideFeedbackButton: -> $('#feedback').hide()
+  showFeedbackButton: -> $('#feedback').fadeIn()
