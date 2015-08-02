@@ -41,13 +41,13 @@ module.exports = (app)->
 
     isFriend: (userId)->
       unless userId? and app.users?.friends?.list?
-        _.warn user, 'isFriend isnt ready (use or recalculate after data waiters)'
+        _.warn userId, 'isFriend isnt ready (use or recalculate after data waiters)'
         return false
       return userId in app.users.friends.list
 
     isPublicUser: (userId)->
       unless userId? and app.users?.public?.list?
-        _.warn user, 'isPublicUser isnt ready (use or recalculate after data waiters)'
+        _.warn userId, 'isPublicUser isnt ready (use or recalculate after data waiters)'
         return true
       return userId in app.users.public.list
 
