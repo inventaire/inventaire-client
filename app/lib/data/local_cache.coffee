@@ -29,11 +29,13 @@ module.exports = (LocalDB, _, promises_)->
 
 
     API =
-      get: (ids, format='index', refresh)->
+      get: (ids, format, refresh)->
         try ids = _.forceArray(ids)
         catch err then return Promise.reject(err)
 
-        if refresh
+        if ids.length is 0
+          promise = _.preq.resolve {}
+        else if refresh
           promise = getMissingData(ids)
         else
           promise = getLocalData(ids).then completeWithRemoteData
@@ -111,10 +113,10 @@ module.exports = (LocalDB, _, promises_)->
       localdb.put id, JSON.stringify(value)
       return value
 
-    formatData = (format, data)->
+    formatData = (format='index', data)->
       _.type data, 'object'
       if format is 'collection' then data = _.values(data)
-      _.log data, "cache:format:#{format}"
+      return _.log data, "cache:format:#{format}"
 
     logError = (err)->
       _.error err, 'local cache err'
