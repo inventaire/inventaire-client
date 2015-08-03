@@ -101,6 +101,7 @@ API =
     .catch _.Error('getEntitiesModels err')
 
   getEntityModel: (prefix, id)->
+    unless prefix? and id? then error_.new 'missing prefix or id', arguments
     @getEntitiesModels prefix, id
     .then (models)->
       if models?[0]? then return models[0]
@@ -143,9 +144,7 @@ setHandlers = ->
       else throw new Error 'couldnt show:entity:from:model'
 
   app.reqres.setHandlers
-    'get:entity:model': (prefix, id)->
-      [prefix, id] = getPrefixId(prefix, id)
-      return API.getEntityModel(prefix, id)
+    'get:entity:model': getEntityModel
     'get:entities:models': API.getEntitiesModelsWithCatcher.bind(API)
     'save:entity:model': saveEntityModel
     'get:entity:public:items': API.getEntityPublicItems
@@ -153,6 +152,11 @@ setHandlers = ->
     'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
     'normalize:entity:uri': normalizeEntityUri
+
+getEntityModel = (prefix, id)->
+  [prefix, id] = getPrefixId(prefix, id)
+  if prefix? and id? then API.getEntityModel prefix, id
+  else error_.new 'missing prefix or id', arguments
 
 getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
