@@ -3,6 +3,7 @@
     {{#if pictures}}
       <img src="{{src pictures 300}}" alt="{{title}} {{i18n 'cover'}}">
     {{/if}}
+    {{partial 'entities:photo_credits' this}}
   </div>
 {{/unless}}
 

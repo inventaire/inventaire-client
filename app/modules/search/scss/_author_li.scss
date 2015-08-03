@@ -30,6 +30,10 @@
       @include bg-hover($light-grey);
     }
   }
+  .photo-credits{
+    text-align: left;
+    padding-left: 1em;
+  }
 }
 
 .innerAuthorLi{

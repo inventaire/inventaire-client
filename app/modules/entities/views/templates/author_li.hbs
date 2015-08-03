@@ -8,6 +8,9 @@
       <h4 class="subheader">{{description}}</h4>
       {{partial 'entities:author_claims' this}}
       <p class="extract">{{{extract}}}</p>
+      {{#if standalone}}
+        {{partial 'entities:photo_credits' this}}
+      {{/if}}
     </div>
   </div>
 

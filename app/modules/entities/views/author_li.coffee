@@ -42,6 +42,7 @@ module.exports = Marionette.CompositeView.extend
     _.extend @model.toJSON(),
       wikipediaPreview: @options.wikipediaPreview or true
       more: @more()
+      standalone: @options.standalone
 
   fetchBooks: ->
     @startLoading()

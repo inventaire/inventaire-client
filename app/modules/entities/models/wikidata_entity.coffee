@@ -118,6 +118,7 @@ module.exports = Entity.extend
     images = @_updates.claims?.P18
     if images?
       images.forEach (title)=>
+        @setPictureCredits title
         wd.wmCommonsThumb(title, 1000)
         .then (url)=>
           pictures = @get('pictures') or []
@@ -125,6 +126,10 @@ module.exports = Entity.extend
           # async so can't be on the @_updates bulk set
           @set 'pictures', pictures
           @save()
+
+  setPictureCredits: (title)->
+    url = "https://commons.wikimedia.org/wiki/File:#{title}"
+    @set 'pictureCredits', url
 
   upgrade: -> console.error new Error('upgrade method was removed')
 
