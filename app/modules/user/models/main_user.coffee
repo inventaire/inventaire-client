@@ -22,7 +22,7 @@ module.exports = UserCommons.extend
     @on 'change:language', @setLang
     @on 'change:username', @setPathname
 
-  setLang: -> @lang = _.shortLang(@get('language')) or solveLang()
+  setLang: -> @lang = solveLang @get('language')
 
   addNotifications: (notifications)->
     if notifications?

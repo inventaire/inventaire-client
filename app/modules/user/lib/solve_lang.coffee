@@ -9,8 +9,8 @@ guessLanguage = ->
 
 guessShortLang = -> _.shortLang guessLanguage()
 
-# querystring parameters > other settings sources
-module.exports = (lang)->
+module.exports = (userLanguage)->
+  # querystring parameters > other settings sources
   qsLang = app.request 'route:querystring:get', 'lang'
-  lang = qsLang or lang or guessLanguage()
-  return _.shortLang lang
+  lang = qsLang or userLanguage or guessLanguage()
+  return _.log _.shortLang(lang), 'lang'
