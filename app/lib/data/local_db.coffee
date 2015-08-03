@@ -38,7 +38,7 @@ module.exports = (global, _)->
     .on 'end', _.Log("-- #{dbName} inspect end")
 
   pushKey = (ops, key)->
-    _.log key, 'pushkey'
+    # _.log key, 'pushkey'
     ops.push {type: 'del', key: key}
 
   deleteBatch = (db, ops, dbName)->
