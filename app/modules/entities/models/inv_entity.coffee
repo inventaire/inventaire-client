@@ -19,6 +19,10 @@ module.exports = Entity.extend
       domain: 'inv'
 
   updateTwitterCard: ->
+    # has to return a promise
+    _.preq.start().then @executeTwitterCardUpdate.bind(@)
+
+  executeTwitterCardUpdate: ->
     app.execute 'metadata:update',
       title: @get('title')
       # description: @get('description')?[0..300]
