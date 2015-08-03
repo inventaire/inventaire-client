@@ -1,5 +1,5 @@
 SideNav = require '../side_nav/views/side_nav'
-FollowedEntitiesList = require './followed_entities_list'
+# FollowedEntitiesList = require './followed_entities_list'
 ItemsGrid = require './items_grid'
 Controls = require './controls'
 # keep in sync with _controls.scss

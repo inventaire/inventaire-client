@@ -7,21 +7,21 @@ module.exports = Marionette.ItemView.extend
     @uri = @model.get 'uri'
 
     # has to be initialized after Entities followedList which waitForData
-    app.request 'waitForData:after', @updateOnFollowStatusChange.bind(@)
+    # app.request 'waitForData:after', @updateOnFollowStatusChange.bind(@)
     @initPlugins()
 
   initPlugins: ->
     mainUserInstance.call @
 
-  updateOnFollowStatusChange: ->
-    eventName = "change:#{@uri}"
-    followedList = app.request 'entities:followed:list'
-    @listenTo followedList, eventName, @render
+  # updateOnFollowStatusChange: ->
+  #   eventName = "change:#{@uri}"
+  #   followedList = app.request 'entities:followed:list'
+  #   @listenTo followedList, eventName, @render
 
   serializeData: ->
-    @following = app.request 'entity:followed:state', @uri
+    # @following = app.request 'entity:followed:state', @uri
     return _.log attrs =
-      following: @following
+      # following: @following
       transactions: @transactionsData()
       mainUserHasOne: @mainUserHasOne()
 
@@ -34,16 +34,16 @@ module.exports = Marionette.ItemView.extend
   onRender: ->
     app.execute 'foundation:reload'
 
-  ui:
-    stopFollowing: '#stopFollowing'
+  # ui:
+  #   stopFollowing: '#stopFollowing'
 
   events:
     'click #addToInventory, #inventorying': 'inventorying'
     'click #giving': 'giving'
     'click #lending': 'lending'
     'click #selling': 'selling'
-    'click #followActivity': 'followActivity'
-    'click #stopFollowing': 'stopFollowing'
+    # 'click #followActivity': 'followActivity'
+    # 'click #stopFollowing': 'stopFollowing'
 
   giving: -> @showItemCreation 'giving'
   lending: -> @showItemCreation 'lending'
@@ -59,8 +59,8 @@ module.exports = Marionette.ItemView.extend
         entity: @model
         transaction: transaction
 
-  followActivity: ->
-    app.execute 'entity:follow', @uri
+  # followActivity: ->
+  #   app.execute 'entity:follow', @uri
 
-  stopFollowing: ->
-    app.execute 'entity:unfollow', @uri
+  # stopFollowing: ->
+  #   app.execute 'entity:unfollow', @uri
