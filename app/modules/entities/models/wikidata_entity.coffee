@@ -41,8 +41,10 @@ module.exports = Entity.extend
 
       @save()
 
-    # if @waitForExtract wasnt defined yet, it wont be fetched
+    # if waiters werent defined yet, they wont be fetched
     unless @waitForExtract? then @waitForExtract = _.preq.resolve()
+    unless @waitForPicture? then @waitForPicture = _.preq.resolve()
+    @waitForData = Promise.all [ @waitForExtract, @waitForPicture ]
 
     # data on models root aren't persisted so need to be set everytimes
     @claims = @get 'claims'
@@ -115,21 +117,29 @@ module.exports = Entity.extend
     @_updates.pictures = pictures = []
     @save()
 
-    images = @_updates.claims?.P18
-    if images?
-      images.forEach (title)=>
-        @setPictureCredits title
-        wd.wmCommonsThumb(title, 1000)
-        .then (url)=>
-          pictures = @get('pictures') or []
-          pictures.push url
-          # async so can't be on the @_updates bulk set
-          @set 'pictures', pictures
-          @save()
+    # P18 is expected to have only one value
+    # but in cases it has several, we just pick one
+    # as there is just one pictureCredits attribute.
+    image = @_updates.claims?.P18?[0]
+    if image? then @setCommonsPicture image
 
-  setPictureCredits: (title)->
-    url = "https://commons.wikimedia.org/wiki/File:#{title}"
-    @set 'pictureCredits', url
+  setCommonsPicture: (title)->
+    @waitForPicture = wd.wmCommonsThumbData title, 1000
+    .then (data)=>
+      { thumbnail, author, license } = data
+      # async so can't be on the @_updates bulk set
+      @push 'pictures', thumbnail
+      @setPictureCredits title, author, license
+      @save()
+    .catch _.Error('setCommonsPicture')
+
+  setPictureCredits: (title, author, license)->
+    if author? and license? then text = "#{author} - #{license}"
+    else text = author or license
+
+    @set 'pictureCredits',
+      url: "https://commons.wikimedia.org/wiki/File:#{title}"
+      text: text
 
   upgrade: -> console.error new Error('upgrade method was removed')
 
@@ -150,7 +160,7 @@ module.exports = Entity.extend
   # to be called by a view onShow:
   # updates the document with the entities data
   updateMetadata: ->
-    @waitForExtract
+    @waitForData
     .then @executeMetadataUpdate.bind(@)
     .catch _.Error('updateMetadata err')
 

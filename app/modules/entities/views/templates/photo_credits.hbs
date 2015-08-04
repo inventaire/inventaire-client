@@ -1,5 +1,5 @@
 <p class="photo-credits">
-  {{#if pictureCredits}}
-    {{i18nLink 'photo credits' pictureCredits}}
+  {{#if text}}
+    {{i18n 'photo credits:'}} {{link text url 'link'}}
   {{/if}}
 </p>

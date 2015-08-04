@@ -11,7 +11,7 @@ module.exports = (_)->
 
   ArrayHandler = (handler)->
     return fn = (attr, value)->
-      array = @get attr
+      array = @get(attr) or []
       _.typeArray array
       array = handler array, value
       @set attr, array
