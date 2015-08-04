@@ -174,7 +174,7 @@ module.exports = Entity.extend
     title = @get 'title'
     switch @type
       when 'human' then _.i18n 'books_by_author', {author: title}
-      when 'book' then @buidlBookTitle()
+      when 'book' then @buildBookTitle()
       else title
 
   findBestDescription: ->

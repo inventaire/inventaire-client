@@ -12,11 +12,11 @@ module.exports = Backbone.NestedModel.extend
 
   executeMetadataUpdate: ->
     app.execute 'metadata:update',
-      title: @buidlBookTitle()
+      title: @buildBookTitle()
       description: @get('description')?[0..500]
       image: @get('pictures')?[0]
 
-  buidlBookTitle: ->
+  buildBookTitle: ->
     title = @get 'title'
     "#{title} - " + _.I18n 'book'
 
