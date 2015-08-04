@@ -26,13 +26,3 @@ module.exports = Entity.extend
     pictures = @get 'pictures'
     unless _.isEmpty pictures
       @set 'pictures', pictures.map(app.lib.books.uncurl)
-
-  updateTwitterCard: ->
-    # has to return a promise
-    _.preq.start().then @executeTwitterCardUpdate.bind(@)
-
-  executeTwitterCardUpdate: ->
-    app.execute 'metadata:update',
-      title: @get('title')
-      description: @get('description')?[0..300]
-      image: @get('pictures')?[0]

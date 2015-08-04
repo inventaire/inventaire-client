@@ -31,7 +31,7 @@ module.exports = Marionette.LayoutView.extend
     @showLocalItems()  if app.user.loggedIn
     @showPublicItems()
 
-    @model.updateTwitterCard()
+    @model.updateMetadata()
     .finally app.execute.bind(app, 'metadata:update:done')
 
   events:

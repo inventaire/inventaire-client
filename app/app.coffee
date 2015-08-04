@@ -11,8 +11,6 @@ App = Marionette.Application.extend
     @Behaviors.initialize()
 
     @vent.on 'document:title:change', (title)->
-      _.log title, 'document:title:change'
-      document.title = "#{title} - Inventaire"
       app.execute 'metadata:update:title', title
 
     @docTitle = (docTitle)-> @vent.trigger 'document:title:change', docTitle

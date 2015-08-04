@@ -58,5 +58,5 @@ module.exports = Marionette.CompositeView.extend
 
   onShow: ->
     if @options.standalone
-      @model.updateTwitterCard()
+      @model.updateMetadata()
       .finally app.execute.bind(app, 'metadata:update:done')

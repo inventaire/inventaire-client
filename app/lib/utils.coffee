@@ -11,6 +11,7 @@ module.exports = (Backbone, _, app, window, console)->
       .catch _.Error("setCookie: failed: #{key} - #{value}")
 
     i18n: (key, args)-> app.polyglot.t key, args
+    I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
 
     updateQuery: (newParams)->
       [pathname, currentQueryString] = Backbone.history.fragment.split('?')

@@ -6,12 +6,15 @@ metadataUpdate = (key, value)->
 
 updateMetadata = (key, value)->
   unless key in possibleFields
-    return _.error [key, value], 'invalid twitter card data'
+    return _.error [key, value], 'invalid metadata data'
 
   if value?
     metaNodes[key].forEach updateNodeContent.bind(null, value)
   else
-    _.warn value, "missing twitter card value: #{key}"
+    _.warn value, "missing metadata value: #{key}"
+
+  if key is 'title'
+    document.title = "#{value} - Inventaire"
 
 updateNodeContent = (value, selector)->
   document.querySelector(selector).content = value

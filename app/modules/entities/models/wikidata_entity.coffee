@@ -134,8 +134,8 @@ module.exports = Entity.extend
   upgrade: -> console.error new Error('upgrade method was removed')
 
   typeSpecificInitilize: ->
-    type = wd.type(@)
-    switch type
+    @type = wd.type(@)
+    switch @type
       when 'book' then @initializeBook()
       when 'human' then @initializeAuthor()
 
@@ -149,16 +149,23 @@ module.exports = Entity.extend
 
   # to be called by a view onShow:
   # updates the document with the entities data
-  updateTwitterCard: ->
+  updateMetadata: ->
     @waitForExtract
-    .then @executeTwitterCardUpdate.bind(@)
-    .catch _.Error('updateTwitterCard err')
+    .then @executeMetadataUpdate.bind(@)
+    .catch _.Error('updateMetadata err')
 
-  executeTwitterCardUpdate: ->
+  executeMetadataUpdate: ->
     app.execute 'metadata:update',
-      title: @get('title')
+      title: @findBestTitle()
       description: @findBestDescription()?[0..500]
       image: @get('pictures')?[0]
+
+  findBestTitle: ->
+    title = @get 'title'
+    switch @type
+      when 'human' then _.i18n 'books_by_author', {author: title}
+      when 'book' then @buidlBookTitle()
+      else title
 
   findBestDescription: ->
     extract = @get('extract')
