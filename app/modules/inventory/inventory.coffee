@@ -56,8 +56,8 @@ API =
   itemShow: (username, entity, label)->
     route = "inventory/#{username}/#{entity}"
     if app.request 'require:loggedIn', route
-      app.execute('show:loader', {title: "#{label} - #{username}"})
-      app.request('waitForItems')
+      app.execute 'show:loader', {title: "#{label} - #{username}"}
+      app.request 'waitForItems'
       .then @showItemShow.bind(@, username, entity, label)
 
   showItemShow: (username, entity, label)->
@@ -78,7 +78,7 @@ API =
     if app.request 'user:isPublicUser', owner
       return app.request 'requestPublicItem', username, entity
     else
-      return Items.where({owner: owner, entity: entity})
+      return Items.where {owner: owner, entity: entity}
 
   findItemById: (itemId)->
     app.request('waitForFriendsItems')
@@ -113,7 +113,8 @@ API =
     if userItems?.length > 0 then Items.remove userItems
 
   showAddLayout: ->
-    app.layout.main.show new AddLayout
+    if app.request 'require:loggedIn', 'add'
+      app.layout.main.show new AddLayout
 
 showInventory = (options)->
   inventoryLayout = new InventoryLayout options

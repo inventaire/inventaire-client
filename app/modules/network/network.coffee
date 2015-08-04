@@ -27,6 +27,7 @@ API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
   showNetworkLayoutGroups: -> @showNetworkLayout 'groups'
   showNetworkLayout: (tab="friends")->
-    app.layout.main.Show new NetworkLayout
-      title: _.i18n tab
-      tab: tab
+    if app.request 'require:loggedIn', "network/#{tab}"
+      app.layout.main.Show new NetworkLayout
+        title: _.i18n tab
+        tab: tab
