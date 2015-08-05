@@ -20,8 +20,9 @@ module.exports =
       'show:network:friends': API.showNetworkLayoutFriends
       'show:network:groups': API.showNetworkLayoutGroups
 
-    app.request('waitForUserData')
-    .then initGroupHelpers
+    # app.user.group will be undefined if the user isnt loggedin
+    if app.user.loggedIn
+      app.request('waitForUserData').then initGroupHelpers
 
 API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
