@@ -28,9 +28,9 @@ module.exports = Marionette.LayoutView.extend
     @showNotifications()
 
   showRequests: ->
-    view = new RequestsList {collection: app.users.otherRequested}
-    @requests.show view
+    @requests.show new RequestsList
+      collection: app.users.otherRequested
 
   showNotifications: ->
-    view = new NotificationsList {collection: app.user.notifications}
-    @notifs.show view
+    @notifs.show new NotificationsList
+      collection: app.user.notifications

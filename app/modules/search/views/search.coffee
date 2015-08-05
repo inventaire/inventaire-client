@@ -118,8 +118,7 @@ module.exports = Marionette.LayoutView.extend
     options = { data: @query }
     # adapt the header
     unless queryIsIsbn then options.secondChoice = true
-    view = new EntityCreate options
-    @createEntity.show view
+    @createEntity.show new EntityCreate(options)
     @$el.find('h3.create').show()
 
 spreadResults = (res)->

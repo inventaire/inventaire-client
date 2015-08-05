@@ -106,8 +106,7 @@ module.exports = Marionette.LayoutView.extend
 
   showInventoryWelcome: (user)->
     inventoryWelcome = require('./inventory_welcome')
-    view = new inventoryWelcome
-    @itemsView.show view
+    @itemsView.show new inventoryWelcome
     if user? then app.execute 'sidenav:show:user', user
 
 prepareUserItemsList = (user, navigate)->

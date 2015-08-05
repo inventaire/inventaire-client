@@ -9,7 +9,6 @@ module.exports = ->
 
 showMenu = ->
   if app.user.has 'email'
-    view = new AccountMenu {model: app.user}
-    app.layout?.accountMenu.show view
-  else app.layout?.accountMenu.show new NotLoggedMenu
-
+    app.layout?.accountMenu.show new AccountMenu {model: app.user}
+  else
+    app.layout?.accountMenu.show new NotLoggedMenu
