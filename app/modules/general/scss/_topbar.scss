@@ -11,6 +11,24 @@ $topbar-link-color-active: $dark-grey;
 $topbar-link-bg-disabled: $grey;
 
 nav.top-bar {
+  .notLoggedMenu{
+    a{
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+  #signupRequest{
+    a{
+      @include bg-hover($secondary-color, 5%);
+      color: $dark-grey;
+    }
+  }
+  #loginRequest{
+    a{
+      @include bg-hover($success-color, 5%);
+      color: white;
+    }
+  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     @include position(fixed, 0, 0, null, 0);
@@ -67,23 +85,9 @@ nav.top-bar {
     .right{
       max-width: 70em;
       margin-left: auto;
-      div{
-        @include justify-content(flex-end);
-        #signupRequest{
-          a{
-            background-color: $secondary-color;
-            color: $dark-grey;
-            font-weight: bold;
-          }
-        }
-        #loginRequest{
-          a{
-            background-color: $success-color;
-            color: white;
-            font-weight: bold;
-          }
-        }
-      }
+    }
+    .notLoggedMenu{
+      @include justify-content(flex-end);
     }
     // force the input and the .button to have the same height
     $search-input-height: 2.3em;
