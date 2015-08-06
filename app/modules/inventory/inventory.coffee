@@ -149,14 +149,13 @@ requestPublicItem = (username, entity)->
 
 
 itemCreate = (itemData)->
-  unless itemData.entity?.label? or (itemData.title? and itemData.title isnt '')
-    return _.preq.reject()
-
   if itemData.entity?.label?
     itemData.title = itemData.entity.label
 
+  unless itemData.title? and itemData.title isnt ''
+    throw new Error('cant create item: missing title')
+
   itemModel = Items.add itemData
-  itemModel.username = app.user.get('username')
   _.preq.resolve itemModel.save()
   .then itemModel.set.bind(itemModel)
   .catch _.Error('item creation err')
@@ -185,18 +184,20 @@ initializeInventoriesHandlers = (app)->
       {entity} = params
       unless entity? then throw new Error 'missing entity'
       uri = entity.get 'uri'
+      entityPathname = params.entity.get 'pathname'
+      pathname = "#{entityPathname}/add"
 
-      app.request 'waitForUserData'
-      .then ->
-        existingInstance = app.request 'item:main:user:instance', uri
-        if existingInstance?
-          # Inventaire doesn't support having several instances of an item
-          # so trying to show the creation form redirects to the existing item
-          app.execute 'show:item:show:from:model', existingInstance
-        else
-          API.showItemCreationForm params
-          pathname = params.entity.get 'pathname'
-          app.navigate "#{pathname}/add"
+      if app.request 'require:loggedIn', pathname
+        app.request 'waitForUserData'
+        .then ->
+          existingInstance = app.request 'item:main:user:instance', uri
+          if existingInstance?
+            # Inventaire doesn't support having several instances of an item
+            # so trying to show the creation form redirects to the existing item
+            app.execute 'show:item:show:from:model', existingInstance
+          else
+            API.showItemCreationForm params
+            app.navigate pathname
 
     'show:item:show': (username, entity, title)->
       API.itemShow(username, entity)
