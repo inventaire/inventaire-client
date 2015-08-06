@@ -129,9 +129,6 @@ module.exports = Entity.extend
     .then (data)=>
       { thumbnail, author, license } = data
 
-      unless _.stringContains thumbnail, title
-        error_.new 'wrong commons picture', {title: title, data: data}
-
       # async so can't be on the @_updates bulk set
       @push 'pictures', thumbnail
       @setPictureCredits title, author, license
