@@ -1,0 +1,3 @@
+User-agent: Googlebot
+# block pages to add an entity
+Disallow: /*/add$
