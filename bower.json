@@ -29,12 +29,12 @@
     "lang": "https://github.com/maxlath/lang.git",
     "qlabel": "https://github.com/maxlath/qlabel.git#bower-support",
     "blueimp-canvas-to-blob": "~2.1.1",
-    "moment": "~2.8.4",
-    "bluebird": "~2.6.4",
+    "moment": "~2.10.6",
+    "bluebird": "~2.9.34",
     "jquery.inview": "~1.0.0",
     "imagesloaded": "~3.1.8",
     "jquery-visible": "~1.1.0",
-    "masonry": "~3.3.0",
+    "masonry": "~3.3.1",
     "autosize": "~3.0.6"
   },
   "overrides": {
