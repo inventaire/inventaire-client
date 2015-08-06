@@ -1,10 +1,10 @@
 {{#unless hidePicture}}
-  <div class="cover">
-    {{#if pictures}}
-      <img src="{{src pictures 300}}" alt="{{title}} {{i18n 'cover'}}">
-    {{/if}}
-    {{partial 'entities:photo_credits' pictureCredits}}
-  </div>
+  {{#if pictures}}
+    <div class="cover">
+        <img src="{{src pictures 300}}" alt="{{title}} {{i18n 'cover'}}">
+        {{partial 'entities:photo_credits' pictureCredits}}
+    </div>
+  {{/if}}
 {{/unless}}
 
 <div class="data">
