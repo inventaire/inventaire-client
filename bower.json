@@ -37,9 +37,6 @@
     "masonry": "~3.3.0",
     "autosize": "~3.0.6"
   },
-  "resolutions": {
-    "outlayer": "master"
-  },
   "overrides": {
     "jquery-visible": {
       "main": "jquery.visible.js"
