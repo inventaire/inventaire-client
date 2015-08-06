@@ -2,6 +2,7 @@ Entity = require './entity'
 wd = app.lib.wikidata
 wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
+error_ = require 'lib/error'
 
 module.exports = Entity.extend
   prefix: 'wd'
@@ -127,6 +128,10 @@ module.exports = Entity.extend
     @waitForPicture = wd.wmCommonsThumbData title, 1000
     .then (data)=>
       { thumbnail, author, license } = data
+
+      unless _.stringContains thumbnail, title
+        error_.new 'wrong commons picture', {title: title, data: data}
+
       # async so can't be on the @_updates bulk set
       @push 'pictures', thumbnail
       @setPictureCredits title, author, license

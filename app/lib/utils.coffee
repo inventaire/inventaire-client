@@ -195,4 +195,7 @@ module.exports = (Backbone, _, app, window, console)->
       _.extend @, handlers
       return
 
+    stringContains: (str, target)->
+      str.split(target).length > 1
+
   return _.extend {}, utils, loggers
