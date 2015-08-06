@@ -21,7 +21,7 @@ module.exports =
     app.request('waitForFriendsItems')
     # wait for debounced recalculations
     # ex: user:isFriend depends on app.users.friends.list
-    .then Promise.delay(400)
+    .delay(400)
     .then Items.filtered.refilter.bind(Items.filtered)
 
 visibilityFilters =
