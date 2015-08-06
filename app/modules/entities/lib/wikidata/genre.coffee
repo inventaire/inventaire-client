@@ -12,9 +12,8 @@ wdGenre_.fetchBooksAndAuthors = (genreModel)->
 wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
   if genreModel.get('reverseClaims')?.P136? then return _.preq.resolve()
 
-  numericId = wd_.getNumericId genreModel.id
-  _.preq.get wd_.API.wmflabs.claim(136, numericId)
-  .then wd_.parsers.wmflabs.ids
+  _.preq.get wdk.getReverseClaims('P136', genreModel.id)
+  .then wdk.parse.wdq.entities
   .then _.Log('books and authors ids')
   .then genreModel.save.bind(genreModel, 'reverseClaims.P136')
   .catch _.Error('wdGenre_.fetchBooksAndAuthorsIds')

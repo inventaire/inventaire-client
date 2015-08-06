@@ -1,7 +1,6 @@
-module.exports = wd = sharedLib('wikidata')(_.preq, _)
+aliases = sharedLib 'wikidata_aliases'
 
-_.extend wd.API.wmflabs,
-  claim: (P, Q)-> app.API.data.wdq 'claim', P, Q
+module.exports = wd = sharedLib('wikidata')(_.preq, _, wdk)
 
 # more complete data access: can include author and license
 wd.wmCommonsThumbData = (file, width=500)->
@@ -30,4 +29,24 @@ sourcedExtract = (extract, url)->
     return extract += "<br><a href='#{url}' class='source link' target='_blank'>#{text}</a>"
   else extract
 
+# wd.normalizeTime = wdk.normalizeWikidataTime
 wd.sitelinks = sharedLib 'wiki_sitelinks'
+
+wd.aliasingClaims = (claims)->
+  for id, claim of claims
+    # if this Property could be assimilated to another Property
+    # add this Property values to the main one
+    aliasId = aliases[id]
+    if aliasId?
+      before = claims[aliasId] or= []
+      aliased = claims[id]
+      try
+        # uniq can not test uniqueness on objects
+        _.types before, 'strings...|numbers...'
+        _.types aliased, 'strings...|numbers...'
+        after = _.uniq before.concat(aliased)
+        # _.log [aliasId, before, id, aliased, aliasId, after], 'entity aliasingClaims'
+        claims[aliasId] = after
+      catch err
+        _.warn [err, id, claim], 'aliasingClaims err'
+  return claims

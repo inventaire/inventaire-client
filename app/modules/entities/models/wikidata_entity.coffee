@@ -85,7 +85,7 @@ module.exports = Entity.extend
     if claims?
       # aliasing should happen after rebasing
       # as aliasing needs strings or numbers to test value uniqueness
-      claims = wd.getRebasedClaims(claims)
+      claims = wdk.simplifyClaims(claims)
       @_updates.claims = wd.aliasingClaims(claims)
     else console.warn 'no claims found', @
 

@@ -1,96 +1,16 @@
-module.exports = (promises_, _)->
-  defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
+{ Q } = require './wikidata_aliases'
+defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
 
-  API =
-    wikidata:
-      base: 'https://www.wikidata.org/w/api.php'
-      search: (search, limit='25', format='json')->
-        _.buildPath API.wikidata.base,
-          action: 'query'
-          list: 'search'
-          srlimit: limit
-          format: format
-          srsearch: search
-    wmflabs:
-      base: 'http://wdq.wmflabs.org/api'
-      query: (query)-> API.wmflabs.base + "?q=#{query}"
-      claim: (P, Q)-> API.wmflabs.base + "?q=CLAIM[#{P}:#{Q}]"
-      string: (P, string)-> API.wmflabs.base + "?q=STRING[#{P}:#{string}]"
+module.exports = (promises_, _, wdk)->
+  API = require('./wikidata_api')(_)
 
-  Q =
-    books: [
-      'Q571' #book
-      'Q2831984' #comic book album
-      'Q1004' # bande dessinée
-      'Q8261' #roman
-      'Q25379' #theatre play
-      'Q7725634' #literary work
-      'Q5185279' #poem
-      'Q37484' #epic poem
-      'Q386724' #work
-      'Q49084' #short story / conte
-    ]
-    edition: [
-      'Q3972943' #publishing
-      'Q17902573' #edition
-    ]
-    humans: [
-      'Q5'
-      'Q10648343' #duo
-      'Q14073567' #sibling duo
-    ]
-    authors: [
-      'Q36180' #writer
-    ]
-    genres: [
-      'Q483394' #genre
-      'Q223393' #literary genre
-    ]
-
-  P =
-    'P50': [
-      'P58' #screen writer / scénariste
-    ]
-
-  aliases = {}
-
-  for mainP, aliasedPs of P
-    aliasedPs.forEach (aliasedP)->
-      aliases[aliasedP] = mainP
-
-  Q.softAuthors = Q.authors.concat(Q.humans)
-
-  methods =
+  return helpers =
+    API: API
     getEntities: (ids, languages='en', props=defaultProps, format='json')->
-      ids = [ids] if _.isString(ids)
-      ids = @normalizeIds(ids)
+      url = wdk.getEntities(ids, languages, props, format).logIt('query:getEntities')
+      return promises_.get url, {CORS: false}
 
-      languages = _.forceArray(languages).map _.shortLang
-      unless 'en' in languages then languages.push 'en'
-
-      query = _.buildPath(API.wikidata.base,
-        action: 'wbgetentities'
-        languages: languages.join '|'
-        format: format
-        props: props.join '|'
-        ids: ids.join '|'
-      ).logIt('query:getEntities')
-      return promises_.get(query, {CORS: false})
-
-    normalizeIds: (idsArray)->
-      idsArray.map @normalizeId.bind(@)
-
-    normalizeId: (id)->
-      if @isNumericId(id) then "Q#{id}"
-      else if @isWikidataId(id) then id
-      else throw new Error 'invalid id provided to normalizeIds'
-    getUri: (id)-> 'wd:' + @normalizeId(id)
-    getNumericId: (id)->
-      unless @isWikidataId id then throw new Error "invalid wikidata id: #{id}"
-      id.replace /Q|P/,''
-    isNumericId: (id)-> /^[0-9]+$/.test id
-    isWikidataId: (id)-> /^(Q|P)[0-9]+$/.test id
-    isWikidataEntityId: (id)-> /^Q[0-9]+$/.test id
+    getUri: (id)-> 'wd:' + wdk.normalizeId(id)
     isBook: (P31Array)-> _.haveAMatch Q.books, P31Array
     isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
     isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
@@ -106,69 +26,3 @@ module.exports = (promises_, _)->
     wmCommonsSmallThumb: (file, width="100")->
       "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
-    aliasingClaims: (claims)->
-      for id, claim of claims
-        # if this Property could be assimilated to another Property
-        # add this Property values to the main one
-        aliasId = aliases[id]
-        if aliasId?
-          before = claims[aliasId] or= []
-          aliased = claims[id]
-          try
-            # uniq can not test uniqueness on objects
-            _.types before, 'strings...|numbers...'
-            _.types aliased, 'strings...|numbers...'
-            after = _.uniq before.concat(aliased)
-            # _.log [aliasId, before, id, aliased, aliasId, after], 'entity aliasingClaims'
-            claims[aliasId] = after
-          catch err
-            _.warn [err, id, claim], 'aliasingClaims err'
-      return claims
-
-    getRebasedClaims: (claims)->
-      rebased = {}
-      for id, claim of claims
-        rebased[id] = []
-        unless _.isArray claim then _.warn claim, 'non-array claim?!?'
-        else
-          claim.forEach (statement)=>
-            # statement will be overriden at the end of this method
-            # so won't be accessible on persisted models
-            { mainsnak } = statement
-            if mainsnak?
-              { datatype, datavalue } = mainsnak
-              switch datatype
-                when 'string', 'commonsMedia' then { value } = datavalue
-                when 'monolingualtext' then value = datavalue.value.text
-                when 'wikibase-item' then value = 'Q' + datavalue.value['numeric-id']
-                when 'time' then value = @normalizeTime(datavalue.value.time)
-                else value = null
-              rebased[id].push value  if value?
-            else
-              # should only happen in snaktype: "novalue" cases or alikes
-              _.warn [claims, id, claim, statement], 'no mainsnak found'
-      return rebased
-
-    normalizeTime: (wikidataTime)->
-      # wikidata time looks like: '+00000001862-01-01T00:00:00Z'
-      # or "-00000000427-01-01T00:00:00Z" for BC dates
-      parts = wikidataTime.split '-'
-      switch parts.length
-        when 3
-          [year, month, rest] = parts
-        when 4
-          [sign, year, month, rest] = parts
-          year = "-" + year
-        else console.error "unknown wikidata time format"
-      day = rest[0..1]
-      return new Date(year, month, day).getTime()
-
-    Q: Q
-    P: P
-    aliases: aliases
-
-    API: API
-
-  methods.parsers = require('./wikidata_parsers')(methods)
-
-  return methods
