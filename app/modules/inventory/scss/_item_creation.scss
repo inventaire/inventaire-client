@@ -9,6 +9,9 @@
   }
   .button{
     font-weight: bold;
+    // padding adapted to avoid wrapping in German
+    padding: 0.8em 1.45em 1em 1.45em;
+    white-space: nowrap;
   }
   #notesGroup{
     background-color: $dark-grey;

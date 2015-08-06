@@ -6,7 +6,7 @@
 }
 
 .select-button-group{
-  @include display-flex(row, null, null, wrap);
+  @include display-flex(row);
   margin-top: 1rem;
   margin-bottom: 1rem;
   .button{
