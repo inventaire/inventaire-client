@@ -3,6 +3,11 @@ module.exports = Marionette.ItemView.extend
   className: 'innerIconNav'
   initialize: ->
     @lazyRender = _.debounce @render.bind(@), 200
+    @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
+    @listenTo app.vent, 'transactions:unread:change', @lazyRender
+    @listenTo app.vent, 'i18n:reset', @lazyRender
+    @listenTo app.vent, 'network:requests:udpate', @lazyRender
+
   events:
     'click .add': 'showAddLayout'
     'click .network': 'showNetwork'
@@ -20,11 +25,8 @@ module.exports = Marionette.ItemView.extend
     networkUpdates: @networkUpdates()
     exchangesUpdates: @exchangesUpdates()
 
-  onShow: ->
+  onRender: ->
     @selectButtonFromRoute _.currentSection()
-    @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
-    @listenTo app.vent, 'transactions:unread:change', @lazyRender
-    @listenTo app.vent, 'i18n:reset', @lazyRender
 
   selectButtonFromRoute: (section)->
     @unselectAll()
@@ -57,7 +59,7 @@ module.exports = Marionette.ItemView.extend
     app.execute 'show:transactions'
 
   networkUpdates: ->
-    # _.warn 'networkUpdates counter not implemented yet'
+    app.request('get:network:counters').total
 
   exchangesUpdates: ->
     app.request 'transactions:unread:count'

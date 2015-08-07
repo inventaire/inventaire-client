@@ -24,5 +24,4 @@ module.exports = Marionette.ItemView.extend
   getNetworkCounters: -> app.request 'get:network:counters'
 
   listenToRequestsCollections: ->
-    @listenTo app.users.otherRequested, 'add remove', @lazyRender
-    @listenTo app.user.groups.mainUserInvited, 'add remove', @lazyRender
+    @listenTo app.vent, 'network:requests:udpate', @lazyRender

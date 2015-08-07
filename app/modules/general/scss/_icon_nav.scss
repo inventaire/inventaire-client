@@ -76,6 +76,7 @@
       .fa, span{
         color: $grey
       }
+      @include hide-counter();
     }
     &:hover{
       color: white;

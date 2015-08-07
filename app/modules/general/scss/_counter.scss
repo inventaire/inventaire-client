@@ -5,4 +5,16 @@
   border-radius: 2px;
   // default padding overriden in some cases, i.e. .top-bar
   padding: 0em 0.4em 0.1em 0.4em;
+  &:empty{
+    display: none;
+  }
+}
+
+@mixin hide-counter(){
+  // hidding counter when selected
+  // so that the attention can go to counters
+  // in the selected layout
+  .counter{
+    display: none;
+  }
 }

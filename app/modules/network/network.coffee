@@ -25,7 +25,13 @@ module.exports =
 
     # app.user.group will be undefined if the user isnt loggedin
     if app.user.loggedIn
-      app.request('waitForUserData').then initGroupHelpers
+      app.request('waitForUserData')
+      .then initGroupHelpers
+      .then initRequestsCollectionsEvent.bind(@)
+
+initRequestsCollectionsEvent = ->
+  @listenTo app.users.otherRequested, 'add remove', requestsUpdates
+  @listenTo app.user.groups.mainUserInvited, 'add remove', requestsUpdates
 
 API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
@@ -47,3 +53,5 @@ networkCounters = ->
 counterUnlessZero = (count)->
   if count is 0 then return
   else return count
+
+requestsUpdates = -> app.vent.trigger 'network:requests:udpate'
