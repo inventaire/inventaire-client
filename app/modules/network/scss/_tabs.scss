@@ -17,4 +17,7 @@
       box-shadow: 0 0.2em 0.5em $glow;
     }
   }
+  .counter{
+    @include counter-commons();
+  }
 }

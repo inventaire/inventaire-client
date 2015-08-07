@@ -7,7 +7,22 @@ module.exports = Marionette.ItemView.extend
     friendsTab: '#friendsTab'
     groupsTab: '#groupsTab'
 
-  onShow: ->
+  initialize: ->
+    @lazyRender = _.debounce @render.bind(@), 200
+
+    app.request('waitForData')
+    .then @lazyRender
+    .then @listenToRequestsCollections.bind(@)
+
+  onRender: ->
     { tab } = @options
     @ui.tabs.removeClass 'active'
     @ui["#{tab}Tab"].addClass 'active'
+
+  serializeData: -> @getNetworkCounters()
+
+  getNetworkCounters: -> app.request 'get:network:counters'
+
+  listenToRequestsCollections: ->
+    @listenTo app.users.otherRequested, 'add remove', @lazyRender
+    @listenTo app.user.groups.mainUserInvited, 'add remove', @lazyRender

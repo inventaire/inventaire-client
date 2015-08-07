@@ -22,7 +22,6 @@
     .iconWithCounter{
       .counter{
         @include counter-commons();
-        padding: 0em 0.4em 0.1em 0.4em;
       }
       &.count-0 > .counter, .counter:empty{
         display: none;

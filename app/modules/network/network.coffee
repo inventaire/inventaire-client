@@ -20,6 +20,9 @@ module.exports =
       'show:network:friends': API.showNetworkLayoutFriends
       'show:network:groups': API.showNetworkLayoutGroups
 
+    app.reqres.setHandlers
+      'get:network:counters': networkCounters
+
     # app.user.group will be undefined if the user isnt loggedin
     if app.user.loggedIn
       app.request('waitForUserData').then initGroupHelpers
@@ -32,3 +35,15 @@ API =
       app.layout.main.Show new NetworkLayout
         title: _.i18n tab
         tab: tab
+
+networkCounters = ->
+  friendsRequestsCount = app.users.otherRequested?.length or 0
+  groupsRequestsCount = app.user.groups?.mainUserInvited.length or 0
+  return counters =
+    friendsRequestsCount: counterUnlessZero friendsRequestsCount
+    groupsRequestsCount: counterUnlessZero groupsRequestsCount
+    total: counterUnlessZero(friendsRequestsCount + groupsRequestsCount)
+
+counterUnlessZero = (count)->
+  if count is 0 then return
+  else return count
