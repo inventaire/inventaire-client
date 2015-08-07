@@ -12,15 +12,18 @@ module.exports = (app, _)->
 
   # report persistant querystrings from the current route to the next one
   keep = (newRoute)->
-    # get info on current query
-    currentQuery = getQuery()
-    # keep only whitelisted persistant parameters
-    currentQuery = _.pick currentQuery, persistantQuery
     # get info on new route
-    [newRoute, newQuery] = newRoute.split('?')
-    newQuery = _.parseQuery(newQuery)
-    # extend persisting current parameters with new parameters
-    newQuery = _.extend currentQuery, newQuery
+    [newRoute, newQuery] = newRoute.split '?'
+    newQuery = _.parseQuery newQuery
+    # keep query elements for certain route sections
+    # typically: keep redirect parameter for signup/login routes
+    if _.routeSection(newRoute) in sectionAllowPersistantQuery
+      # get info on current query
+      currentQuery = getQuery()
+      # keep only whitelisted persistant parameters
+      currentQuery = _.pick currentQuery, persistantQuery
+      # extend persisting current parameters with new parameters
+      newQuery = _.extend currentQuery, newQuery
     return _.buildPath(newRoute, newQuery)
 
 
@@ -41,4 +44,9 @@ module.exports = (app, _)->
 
 persistantQuery = [
   'redirect'
+]
+
+sectionAllowPersistantQuery = [
+  'signup'
+  'login'
 ]
