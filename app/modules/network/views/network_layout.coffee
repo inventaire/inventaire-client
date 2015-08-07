@@ -1,3 +1,4 @@
+Tabs = require './tabs'
 FriendsLayout = require './friends_layout'
 GroupsLayout = require './groups_layout'
 
@@ -6,12 +7,8 @@ module.exports = Marionette.LayoutView.extend
   id: 'networkLayout'
 
   regions:
+    tabs: '.custom-tabs-titles'
     content: '.custom-tabs-content'
-
-  ui:
-    tabs: '.custom-tabs-titles a'
-    friendsTab: '#friendsTab'
-    groupsTab: '#groupsTab'
 
   events:
     'click #friendsTab': 'showTabFriends'
@@ -32,5 +29,4 @@ module.exports = Marionette.LayoutView.extend
     app.navigate "network/groups"
 
   updateTabs: (tab)->
-    @ui.tabs.removeClass 'active'
-    @ui["#{tab}Tab"].addClass 'active'
+    @tabs.show new Tabs {tab: tab}

@@ -19,29 +19,13 @@ $networkLayoutWidth: 40em;
   }
   text-align: center;
   .custom-tabs-titles{
-    @include display-flex(row, center, center, nowrap);
-    padding-top: 1em;
-    @include radius-horizontal-group();
-    a{
-      @include custom-button(#bbb, white, 0);
-      @include flex(0, 1, 10em);
-      @include shy-border();
-      font-weight: bold;
-      .fa{
-        display: block;
-        font-size: 1.5em;
-      }
-      &.active{
-        @include custom-button(rgba($light-blue, 0.7), white, 0);
-        box-shadow: 0 0.2em 0.5em $glow;
-      }
-    }
   }
   .custom-tabs-content{
     background-color: $main-bg;
   }
 }
 
+@import 'tabs';
 @import 'friends_layout';
 @import 'groups_layout';
 @import 'groups_list';
