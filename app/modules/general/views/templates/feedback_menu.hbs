@@ -1,0 +1,32 @@
+<h3>{{i18n 'feedback_title'}}</h3>
+<p>{{i18n 'feedback_intro'}}</p>
+<form>
+  <div class="from">
+    {{#if loggedIn}}
+      <label>{{i18n 'from:'}}</label>
+      <span class="username">{{user.username}}</span>
+    {{else}}
+      <input type="email" name="email" class="radius unknownUser" placeholder="{{i18n 'from'}}...">
+    {{/if}}
+    </div>
+  <div class="to">
+    <label>{{i18n 'to:'}}</label>
+    <span class="email">hello@inventaire.io</span>
+  </div>
+
+  <input type="text" id="subject" name="subject" placeholder="{{i18n 'subject'}}..." class="radius">
+  <textarea id="message" name="feedback" placeholder="{{i18n 'your message'}}..."></textarea>
+  <div>
+    <a id="sendFeedback" class="button success radius bold">
+      {{icon 'send'}}{{i18n 'send feedback'}}
+      <span class="loading"></span>
+    </a>
+  </div>
+</form>
+<div class="checkWrapper">
+  <span class="check"></span>
+</div>
+<div id="getInvolved">
+  <h5>{{{i18n 'get_involved'}}}</h5>
+  <p>{{{i18n 'contribution_ideas'}}}</p>
+</div>
