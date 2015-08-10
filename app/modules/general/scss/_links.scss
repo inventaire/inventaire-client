@@ -28,6 +28,6 @@
   }
 }
 
-.showEntity, .showItem{
+.showEntity:not(.counter), .showItem{
   @extend .link;
 }
