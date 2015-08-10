@@ -3,6 +3,9 @@ module.exports = Marionette.ItemView.extend
   className: 'innerIconNav'
   initialize: ->
     @lazyRender = _.debounce @render.bind(@), 200
+    @once 'render', @initListeners.bind(@)
+
+  initListeners: ->
     @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
     @listenTo app.vent, 'transactions:unread:change', @lazyRender
     @listenTo app.vent, 'i18n:reset', @lazyRender
