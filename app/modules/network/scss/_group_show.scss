@@ -1,31 +1,31 @@
 .group, div.groupShow{
   @include display-flex(column, center, center);
   color: white;
-}
-.groupPic{
-  height: $user-height;
-  width: $user-height;
-  overflow: hidden;
-}
+  .groupPic{
+    height: $user-height;
+    width: $user-height;
+    overflow: hidden;
+  }
 
-.joinRequest, .requested, .cancelRequest{
-  margin-top: 1em;
-}
-.requested{
-  text-align: center;
-  opacity: 0.8;
-}
-.actions{
-  @include display-flex(column);
-}
+  .joinRequest, .requested, .cancelRequest{
+    margin-top: 1em;
+  }
+  .requested{
+    text-align: center;
+    opacity: 0.8;
+  }
+  .actions{
+    @include display-flex(column);
+  }
 
-.cover{
-  width: 100%;
-  @include radius();
-  @include display-flex(column, center, center);
-  .name{
-    font-size: 2.5em;
-    padding: 1em;
+  .cover{
+    width: 100%;
+    @include radius();
+    @include display-flex(column, center, center);
+    .name{
+      font-size: 2.5em;
+      padding: 1em;
+    }
   }
 }
 
