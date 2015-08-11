@@ -198,4 +198,8 @@ module.exports = (Backbone, _, app, window, console)->
     stringContains: (str, target)->
       str.split(target).length > 1
 
+    cutBeforeWord: (text, limit)->
+      shortenedText = text[0..limit]
+      return shortenedText.replace /\s\w+$/, ''
+
   return _.extend {}, utils, loggers
