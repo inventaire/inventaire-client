@@ -33,13 +33,22 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.serializeData()
     attrs.date = {date: attrs.created}
+    attrs.detailsMore = @detailsMoreData attrs.details
     attrs.details = @detailsData attrs.details
     return attrs
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
-  detailsData: (details)->
-    unless details?.length > detailsLimit then return details
+  detailsMoreData: (details)->
+    if details?.length > detailsLimit then true
+    else false
 
-    more = _.i18n 'see more'
-    return details[0..detailsLimit] + "...  <a class='itemShow more'>#{more}</a>"
+  detailsData: (details)->
+    if details?.length > detailsLimit
+      # Avoid to cut at the middle of a word as it might be a link
+      # and thus the rendered link would be clickable but incomplete
+      # Let a space before the ... so that it wont be taken as the end
+      # of a link
+      return _.cutBeforeWord(details, detailsLimit) + " ..."
+    else
+      return details

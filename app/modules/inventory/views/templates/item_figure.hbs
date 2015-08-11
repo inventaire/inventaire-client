@@ -31,6 +31,9 @@
   <div class="detailsBox">
     <span class="details wrapped">
       {{userContent details}}
+      {{#if detailsMore}}
+        <a class='itemShow more'>{{i18n 'see more'}}</a>
+      {{/if}}
     </span>
   </div>
 {{/if}}
