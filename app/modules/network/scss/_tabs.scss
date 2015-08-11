@@ -21,4 +21,14 @@
   .counter{
     @include counter-commons();
   }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    a, a.active{
+      max-height: 5em;
+      white-space: nowrap;
+      max-width: 50%;
+      padding: 0.5em 0 0.5em 0;
+    }
+  }
 }
+
