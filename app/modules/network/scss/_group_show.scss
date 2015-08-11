@@ -6,7 +6,6 @@
     width: $user-height;
     overflow: hidden;
   }
-
   .joinRequest, .requested, .cancelRequest{
     margin-top: 1em;
   }
@@ -14,11 +13,8 @@
     text-align: center;
     opacity: 0.8;
   }
-  .actions{
-    @include display-flex(column);
-  }
-
   .cover{
+    @include bg-cover();
     width: 100%;
     @include radius();
     @include display-flex(column, center, center);
@@ -54,5 +50,14 @@
     .name{
       margin-left: 0.4em;
     }
+  }
+  .actions{
+    @include display-flex(column);
+  }
+}
+
+div.groupShow{
+  .actions{
+    padding-top: 1em;
   }
 }

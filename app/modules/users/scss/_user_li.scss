@@ -105,13 +105,9 @@ $user-bg: #ddd;
     .userMenu{
       @include display-flex(row, center);
       white-space: nowrap;
-      a.action, span.mainUser{
+      margin-right: 0.2em;
+      a.action{
         padding: 0 0.3em 0 0.3em;
-      }
-      .mainUser{
-        @include sans-serif();
-        font-weight: normal;
-        opacity: 0.6;
       }
       .cancel{
         background-color: $grey;
@@ -134,7 +130,7 @@ $user-bg: #ddd;
   @media screen and (min-width: $smallscreen) {
     .userLi{
       .right-box{
-        max-width: 215px;
+        max-width: 230px;
       }
     }
   }
