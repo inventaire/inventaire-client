@@ -65,7 +65,6 @@ module.exports = (_)->
     newObj = {}
     for k,v of obj
       if v? then newObj[k] = v
-      else console.warn "#{k}:#{v} omitted"
     return newObj
 
   dropSpecialCharacters : (str)->
