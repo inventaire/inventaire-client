@@ -84,8 +84,10 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    @include display-flex(row, center, space-around);
+    @include display-flex(row, baseline, space-around);
     a.iconButton{
+      max-width: 50%;
+      min-width: 4em;
       height: 100%;
       // force items to take the same space
       @include flex(1, 1, 0);
