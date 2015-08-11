@@ -25,12 +25,6 @@ module.exports =
     if text.length > limit then t += '[...]'
     new SafeString t
 
-  pre: (text)->
-    if text
-      text = text.replace /\n/g, '<br>'
-      new SafeString text
-    else return
-
   ifvalue: (attr, value)->
     if value? then "#{attr}=#{value}"
     else return

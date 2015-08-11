@@ -4,6 +4,7 @@ API = _.extend.apply null, [
   require './utils'
   require './partials'
   require './wikidata_claims'
+  require './user_content'
   require './images'
   require './input'
   require('../shared/handlebars_helpers')(_)

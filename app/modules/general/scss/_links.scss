@@ -31,3 +31,8 @@
 .showEntity:not(.counter), .showItem{
   @extend .link;
 }
+
+.content-link{
+  @include text-hover(blue);
+  @include underline(rgba(blue, 0.4));
+}
