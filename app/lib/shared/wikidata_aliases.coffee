@@ -10,6 +10,8 @@ Q =
     'Q37484' #epic poem
     'Q386724' #work
     'Q49084' #short story / conte
+    'Q34620' #Greek tragedy
+    'Q8274' #manga
   ]
   edition: [
     'Q3972943' #publishing
