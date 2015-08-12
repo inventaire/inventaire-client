@@ -58,8 +58,10 @@ module.exports =
 
   # helpers to simplify polymorphisms
   forceArray: (keys)->
+    unless keys? then return []
     unless @isArray(keys) then [keys]
     else keys
+
   forceObject: (key, value)->
     unless @isObject key
       obj = {}
