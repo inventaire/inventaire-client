@@ -2,13 +2,13 @@
   {{partial 'entities:birth_death_dates' claims}}
   {{partial 'entities:edit_wikidata' this}}
   <p class="claims">
-    {{claim claims 'P136'}} {{!-- genre --}}
+    {{claim claims 'P135' true}} {{!-- movement --}}
+    {{claim claims 'P136' true}} {{!-- genre --}}
     {{claim claims 'P27'}} {{!-- country of citizenship --}}
     {{claim claims 'P103'}} {{!-- native language --}}
     {{claim claims 'P69'}} {{!-- educated at --}}
     {{claim claims 'P106'}} {{!-- occupation --}}
     {{claim claims 'P39'}} {{!-- position held --}}
-    {{claim claims 'P135'}} {{!-- movement --}}
     {{claim claims 'P1066' true}} {{!-- student of --}}
     {{claim claims 'P737' true}} {{!-- influence by --}}
     {{claim claims 'P738' true}} {{!-- influence of --}}

@@ -10,10 +10,17 @@ wdGenre_.fetchBooksAndAuthors = (genreModel)->
 
 
 wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
-  if genreModel.get('reverseClaims')?.P136? then return _.preq.resolve()
+  reverseClaims = genreModel.get 'reverseClaims'
+  if reverseClaims?
+    { P135, P136 } = reverseClaims
+    if P135? or P136? then return _.preq.resolve()
 
-  _.preq.get wdk.getReverseClaims('P136', genreModel.id)
-  .then wdk.parse.wdq.entities
+  Promise.all [
+    wd_.getReverseClaims('P135', genreModel.id) #mouvement
+    wd_.getReverseClaims('P136', genreModel.id) #genre
+  ]
+  .then _.flatten
+  .then _.uniq
   .then _.Log('books and authors ids')
   .then genreModel.save.bind(genreModel, 'reverseClaims.P136')
   .catch _.Error('wdGenre_.fetchBooksAndAuthorsIds')
@@ -39,5 +46,5 @@ wdGenre_.spreadBooksAndAuthors = (books, authors, entities)->
   entities.forEach (entity)->
     switch wd_.type entity
       when 'book' then books.add entity
-      when 'author' then authors.add entity
-      else _.warn [entity, entity.get('label'), entity.get('claims.P31')], 'neither a book or an author'
+      when 'human' then authors.add entity
+      else _.warn [entity, entity.get('label'), entity.get('claims.P31')], 'neither a book or a human'

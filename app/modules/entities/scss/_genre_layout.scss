@@ -1,8 +1,8 @@
 #genreLayout{
   text-align: center;
   section{
-    // needed to push .title and .subheader widths
     > div:not(.hidden){
+      // (1)
       @include display-flex(column);
     }
   }
@@ -10,11 +10,14 @@
     color: white;
     padding: 0.2em 0.5em 0.2em 0.5em;
     background-color: rgba($dark-grey, 0.5);
-    margin: 1em auto;
+  }
+  .title{
+    // (1)
+    margin: 3em auto 1em auto;
   }
   .subheader{
-    margin-top: 2em;
-    margin-bottom: 0em;
+    // (1)
+    margin: 2em auto 1em auto;
   }
   .extract{
     margin: 0 auto;
@@ -35,6 +38,18 @@
       padding: 1em;
     }
   }
+  .authorLi{
+    /*Large screens*/
+    @media screen and (min-width: $smallscreen) {
+      margin: 1em;
+      padding: 1em;
+      @include radius();
+    }
+  }
 }
 
 @import "genre_layout_background";
+
+
+// (1): flex column and auto' margins are needed
+//      to push .title and .subheader widths

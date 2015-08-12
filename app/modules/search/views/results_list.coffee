@@ -28,3 +28,6 @@ module.exports = Marionette.CompositeView.extend
       else if @_hidden
         @$el.removeClass 'hidden'
         @_hidden = false
+
+  childViewOptions:
+    standalone: false

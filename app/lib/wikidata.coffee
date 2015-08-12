@@ -50,3 +50,7 @@ wd.aliasingClaims = (claims)->
       catch err
         _.warn [err, id, claim], 'aliasingClaims err'
   return claims
+
+wd.getReverseClaims = (property, value)->
+  _.preq.get wdk.getReverseClaims property, value
+  .then wdk.parse.wdq.entities

@@ -1,5 +1,3 @@
-$headerBgHeight: 22em;
-
 #genreLayout{
   .restBg{
     background-color: $dark-grey;
@@ -8,13 +6,9 @@ $headerBgHeight: 22em;
   &.with-bg-image{
     .headerBg{
       @include position(absolute, 0, 0, null, 0, -1);
-      background-color: $dark-grey;
-      @include bg-cover();
-      background-position: center center;
-      height: $headerBgHeight;
+      height: 200vh;
     }
     .restBg{
-      top: $headerBgHeight;
       box-shadow: 0px -2px 2px 0px rgba($dark-grey, 0.8);
     }
   }
