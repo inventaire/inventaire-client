@@ -1,21 +1,21 @@
 aliases = sharedLib 'wikidata_aliases'
 
-module.exports = wd = sharedLib('wikidata')(_.preq, _, wdk)
+module.exports = wd_ = sharedLib('wikidata')(_.preq, _, wdk)
 
 # more complete data access: can include author and license
-wd.wmCommonsThumbData = (file, width=500)->
+wd_.wmCommonsThumbData = (file, width=500)->
   width = _.bestImageWidth width
   _.preq.get app.API.data.commonsThumb(file, width)
 
-wd.wmCommonsThumb = (file, width=500)->
-  wd.wmCommonsThumbData file, width
+wd_.wmCommonsThumb = (file, width=500)->
+  wd_.wmCommonsThumbData file, width
   .then _.property('thumbnail')
   .catch (err)=>
     console.warn "couldnt find #{file} via tools.wmflabs.org, will use the small thumb version"
     return @wmCommonsSmallThumb file, 200
 
 
-wd.wikipediaExtract = (lang, title)->
+wd_.wikipediaExtract = (lang, title)->
   _.preq.get app.API.data.wikipediaExtract(lang, title)
   .then (data)->
     { extract, url } = data
@@ -29,10 +29,10 @@ sourcedExtract = (extract, url)->
     return extract += "<br><a href='#{url}' class='source link' target='_blank'>#{text}</a>"
   else extract
 
-# wd.normalizeTime = wdk.normalizeWikidataTime
-wd.sitelinks = sharedLib 'wiki_sitelinks'
+# wd_.normalizeTime = wdk.normalizeWikidataTime
+wd_.sitelinks = sharedLib 'wiki_sitelinks'
 
-wd.aliasingClaims = (claims)->
+wd_.aliasingClaims = (claims)->
   for id, claim of claims
     # if this Property could be assimilated to another Property
     # add this Property values to the main one
@@ -51,6 +51,6 @@ wd.aliasingClaims = (claims)->
         _.warn [err, id, claim], 'aliasingClaims err'
   return claims
 
-wd.getReverseClaims = (property, value)->
+wd_.getReverseClaims = (property, value)->
   _.preq.get wdk.getReverseClaims property, value
   .then wdk.parse.wdq.entities
