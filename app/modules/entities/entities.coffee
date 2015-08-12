@@ -73,7 +73,6 @@ API =
       model: entity
       standalone: true
       displayBooks: true
-      wikipediaPreview: true
       initialLength: 20
 
   getEntitiesModels: (prefix, ids)->

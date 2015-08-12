@@ -26,7 +26,8 @@ module.exports = Marionette.CompositeView.extend
   initPlugins: ->
     _.extend @, behaviorsPlugin
     paginationPlugin.call @, 15, (@options.initialLength or 5)
-    wikiBarPlugin.call @
+    if @options.standalone
+      wikiBarPlugin.call @
 
   events:
     'click a.displayMore': 'displayMore'
@@ -40,7 +41,6 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     _.extend @model.toJSON(),
-      wikipediaPreview: @options.wikipediaPreview or true
       more: @more()
       standalone: @options.standalone
 
