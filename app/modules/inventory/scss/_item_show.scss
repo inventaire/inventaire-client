@@ -52,7 +52,6 @@
   }
   @include display-flex(column, center, center);
   > div{
-    width: 100%;
     max-width: 50em;
     textarea{
       max-width: 100%;
@@ -63,8 +62,9 @@
     margin-bottom: 1em;
   }
   .itemData{
-    padding-top: 0.5em;
+    @include display-flex(row);
     width: 100%;
+    padding-top: 0.5em;
     label{
       opacity: 0.6;
     }
@@ -91,9 +91,9 @@
       }
     }
     .rightBox{
-      width: 100%;
-      @include flex(1);
-      @include display-flex(column);
+      @include flex(1, 1, auto);
+      // (1)
+      max-width: 33.1em;
       p{
         margin: 0;
         padding: 0;
@@ -108,6 +108,8 @@
       }
       .rightBox{
         padding: 0.5em;
+        // (1)
+        max-width: 100vw;
       }
     }
     /*Large screens*/
@@ -134,3 +136,7 @@
 
 @import 'item_comments';
 @import 'item_transactions';
+
+// (1): hacky setting to force the paragraph to not expand beyond
+// what its parent should *normally* allow!
+// to be tested with irrealistically long words

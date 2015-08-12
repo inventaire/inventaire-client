@@ -114,6 +114,11 @@ input[type="password"]{
   margin-top: 1rem;
 }
 
+.user-content{
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
