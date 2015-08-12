@@ -3,7 +3,7 @@ Q =
     'Q571' #book
     'Q2831984' #comic book album
     'Q1004' # bande dessinée
-    'Q8261' #roman
+    'Q8261' #novel / roman
     'Q25379' #theatre play
     'Q7725634' #literary work
     'Q5185279' #poem

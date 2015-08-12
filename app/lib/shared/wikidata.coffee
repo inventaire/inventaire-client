@@ -12,6 +12,7 @@ module.exports = (promises_, _, wdk)->
 
     getUri: (id)-> 'wd:' + wdk.normalizeId(id)
     isBook: (P31Array)-> _.haveAMatch Q.books, P31Array
+    entityIsBook: (entity)-> helpers.isBook entity.claims.P31
     isAuthor: (P106Array)-> _.haveAMatch Q.authors, P106Array
     isHuman: (P31Array)-> _.haveAMatch Q.humans, P31Array
     isGenre: (P31Array)-> _.haveAMatch Q.genres, P31Array
@@ -25,4 +26,3 @@ module.exports = (promises_, _, wdk)->
 
     wmCommonsSmallThumb: (file, width="100")->
       "http://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
-
