@@ -20,3 +20,6 @@ logDone LevelJs
 
 browserify node_modules/memdown -s MemDown > vendor/scripts/memdown.js
 logDone MemDown
+
+browserify node_modules/wikidata-sdk -s wdk > vendor/scripts/wikidata-sdk.js
+logDone wdk
