@@ -25,4 +25,5 @@ fetchAuthorsBooksEntities = (authorModel)->
 
   return app.request 'get:entities:models', 'wd', authorsBooks
 
-keepOnlyBooks = (entities)-> entities.filter wd_.entityIsBook
+keepOnlyBooks = (entities)->
+  entities?.filter(wd_.entityIsBook) or []
