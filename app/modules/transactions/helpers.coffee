@@ -33,7 +33,7 @@ API =
 addMessageToTimeline = (messegeData, timeline)->
   _.extend messegeData,
     user: app.user.id
-    created: app.user.id
+    created: _.now()
   mesModel = new Message messegeData
   timeline.add mesModel
   return mesModel

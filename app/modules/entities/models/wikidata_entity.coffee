@@ -14,7 +14,6 @@ module.exports = Entity.extend
     # data that are @set don't need to be re-set when
     # the model was cached in Entities local/temporary collections
     unless @get('status')?.formatted
-      _.log @get('title'), 'entity:formatting'
 
       # todo: make search only return ids and let the client fetch entities data
       # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)

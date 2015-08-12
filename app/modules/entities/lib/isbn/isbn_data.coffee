@@ -6,7 +6,7 @@ module.exports = (app, _, books, promises_)->
     name: 'entities_isbn'
     normalizeId: books.normalizeIsbn
     remote: remote
-    parseData: _.Log('data:isbn:parse')
+    # parseData: _.Log('data:isbn:parse')
 
   return isbnData =
     local: local

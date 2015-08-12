@@ -11,11 +11,13 @@ wdBooks_.findIsbn = (claims)->
 
 wdBooks_.findAPictureByBookData = (bookModel)->
   if bookModel.get 'status.imageRequested'
-    return _.log 'entity:picture:already requested'
+    # _.log 'entity:picture:already requested'
+    return
 
   data = getMostAccurateData bookModel
   unless data?
-    return _.log "entity:no data, no picture can be requested: #{@id}"
+    # _.log "entity:no data, no picture can be requested: #{@id}"
+    return
 
   requestImage bookModel, data
 

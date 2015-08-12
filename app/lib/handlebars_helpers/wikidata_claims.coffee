@@ -31,7 +31,7 @@ module.exports =
       values = @getQsTemplates(claims[P], linkify)
       return @claimString label, values
     else
-      _.log arguments, 'entity:claims:ignored'
+      # _.log arguments, 'entity:claims:ignored'
       return
 
   getQsTemplates: (valueArray, linkify)->
@@ -66,7 +66,7 @@ module.exports =
       values = claims[P]?.join ', '
       return @claimString label, values
     else
-      _.log arguments, 'entity:claims:ignored'
+      # _.log arguments, 'entity:claims:ignored'
       return
 
   claimString: (label, values, inline)->

@@ -12,7 +12,7 @@ module.exports = (app, _)->
   local = new app.LocalCache
     name: 'entities_inv'
     remote: remote
-    parseData: _.Log('inv parseData')
+    # parseData: _.Log('inv parseData')
 
 
   return invData =

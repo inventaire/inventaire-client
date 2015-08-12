@@ -23,7 +23,7 @@ module.exports = (app, $, _)->
   localData = new app.LocalCache
     name: 'users'
     remote: remote
-    parseData: (data)-> data.users
+    parseData: _.property 'users'
 
 
   fetchRelationsData = ->

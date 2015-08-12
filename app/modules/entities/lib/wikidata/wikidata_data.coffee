@@ -5,7 +5,7 @@ module.exports = (app, _, wd, promises_)->
   local = new app.LocalCache
     name: 'entities_wd'
     remote: remote
-    parseData: (data)-> _.log data.entities, 'entities:wd parseData'
+    parseData: _.property 'entities'
 
   return wdData =
     local: local

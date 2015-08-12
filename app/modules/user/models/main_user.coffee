@@ -8,7 +8,7 @@ module.exports = UserCommons.extend
     app.API.user
 
   parse: (data)->
-    _.log data, 'data:main user parse data'
+    # _.log data, 'data:main user parse data'
     { notifications, relations, transactions, groups } = data
     @addNotifications(notifications)
     @relations = relations

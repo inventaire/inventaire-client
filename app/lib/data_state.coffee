@@ -29,7 +29,7 @@ module.exports =
       @_listenForReadyEvents()
     else
       @missing = findMissingDataSets()
-      _.log @missingEvents(), 'data:missing'
+      # _.log @missingEvents(), 'data:missing'
       # listeners should already be there, no need to re-add them
     @_checkIfDataReady()
 

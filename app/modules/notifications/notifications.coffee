@@ -12,7 +12,7 @@ module.exports =
 
 API =
   addNotifications: (notifications)->
-    _.log notifications, 'notifications:add'
+    # _.log notifications, 'notifications:add'
     API.getUsersData(notifications)
     .then ()=> @notifications.add notifications
 

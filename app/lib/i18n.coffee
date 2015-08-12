@@ -26,10 +26,11 @@ setLanguage = ->
 
   changeNeeded = _.isEmpty(polyglot.phrases) or (lang isnt polyglot.currentLocale)
   unless changeNeeded
-    return _.log 'i18n: is already set'
+    # _.log 'i18n: is already set'
+    return
 
   if lang isnt polyglot.changingTo then requestI18nFile polyglot, lang
-  else _.log 'i18n: language changing, can not be re-set yet'
+  else _.warn 'i18n: language changing, can not be re-set yet'
 
 requestI18nFile = (polyglot, lang)->
   polyglot.changingTo = lang

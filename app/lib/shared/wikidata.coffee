@@ -7,7 +7,7 @@ module.exports = (promises_, _, wdk)->
   return helpers =
     API: API
     getEntities: (ids, languages='en', props=defaultProps, format='json')->
-      url = wdk.getEntities(ids, languages, props, format).logIt('query:getEntities')
+      url = wdk.getEntities(ids, languages, props, format) # .logIt('query:getEntities')
       return promises_.get url, {CORS: false}
 
     getUri: (id)-> 'wd:' + wdk.normalizeId(id)

@@ -19,7 +19,7 @@ App = Marionette.Application.extend
       unless route?
         return _.error route, "can't navigate to undefined route"
 
-      route.logIt('route:navigate')
+      # route.logIt('route:navigate')
       @vent.trigger 'route:navigate', _.routeSection(route), route
       # record all routes visited for server-side statistics
       @session.record route
@@ -31,19 +31,19 @@ App = Marionette.Application.extend
       scrollToPageTop()
 
     @goTo = (route, options)->
-      route.logIt('route:goTo')
+      # route.logIt('route:goTo')
       options or= {}
       options.trigger = true
       Backbone.history.navigate(route, options)
 
     @navigateReplace = (route, options)->
-      route.logIt('route:navigateReplace')
+      # route.logIt('route:navigateReplace')
       options or= {}
       options.replace = true
       @navigate(route, options)
 
     @once 'start', (options) =>
-      _.log 'app:start'
+      # _.log 'app:start'
       routeFound = Backbone.history.start({pushState: true})
 
       # records the first url found

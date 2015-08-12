@@ -1,6 +1,6 @@
 metadataUpdate = (key, value)->
   updates = _.forceObject key, value
-  _.log updates, 'metadataUpdate updates'
+  # _.log updates, 'metadataUpdate updates'
   for k, v of updates
     updateMetadata k, v
 

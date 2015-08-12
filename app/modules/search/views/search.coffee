@@ -74,8 +74,8 @@ module.exports = Marionette.LayoutView.extend
         # hiding the loader
         @authors.empty()
         if res?
-          _.log res, 'query:searchEntities res'
-          spreadResults(res)
+          # _.log res, 'query:searchEntities res'
+          spreadResults res
         else return
       .then @displayResults.bind(@)
       .catch (err)=>

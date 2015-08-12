@@ -15,7 +15,7 @@
 module.exports = (LocalDB, _, promises_)->
 
   LocalCache = (options)->
-    _.log options, 'cache:options'
+    # _.log options, 'cache:options'
     {name, remote, normalizeId, parseData} = options
 
     args = [name, remote, normalizeId, parseData]
@@ -24,7 +24,7 @@ module.exports = (LocalDB, _, promises_)->
 
     localdb = LocalDB(name)
 
-    defaultParser = (data)-> data
+    defaultParser = _.identity
     parseData or= defaultParser
 
 
@@ -46,7 +46,7 @@ module.exports = (LocalDB, _, promises_)->
 
       save: (id, value)->
         _.types arguments, ['string', 'object']
-        _.log "cache:saving #{id}"
+        # _.log "cache:saving #{id}"
         putInLocalDb id, value
 
       reset: -> localdb.destroy()
@@ -59,7 +59,7 @@ module.exports = (LocalDB, _, promises_)->
       # _.type ids, 'array' already asserted by _.forceArray
       localdb.get(ids)
       .then parseJSON
-      .then _.Log("cache:#{name} present")
+      # .then _.Log("cache:#{name} present")
 
     parseJSON = (data)->
       # LevelJs returns a json string per item
@@ -86,8 +86,8 @@ module.exports = (LocalDB, _, promises_)->
       for k, v of data
         missingIds.push(k)  unless v?
 
-      if missingIds.length > 0
-        _.log missingIds, "cache:#{name} missingIds"
+      # if missingIds.length > 0
+      #   _.log missingIds, "cache:#{name} missingIds"
       return missingIds
 
     getMissingData = (ids)->
@@ -115,8 +115,9 @@ module.exports = (LocalDB, _, promises_)->
 
     formatData = (format='index', data)->
       _.type data, 'object'
-      if format is 'collection' then data = _.values(data)
-      return _.log data, "cache:format:#{format}"
+      if format is 'collection' then data = _.values data
+      # _.log data, "cache:format:#{format}"
+      return data
 
     logError = (err)->
       _.error err, 'local cache err'
@@ -125,12 +126,12 @@ module.exports = (LocalDB, _, promises_)->
 
     if remote.post?
       API.post = (data)->
-        remote.post(data)
+        remote.post data
         .then (res)->
-          _.log res, "cache:#{name}:post res"
+          # _.log res, "cache:#{name}:post res"
           id = findId(res)
           putInLocalDb id, res
-        .catch (err)-> _.error err, "#{name} local.post err"
+        .catch _.Error("#{name} local.post err")
 
       findId = (res)->
         id = res._id or res.id

@@ -1,11 +1,6 @@
+# allow to pass a csle object so that we can pass whatever we want in tests
 module.exports = (_, csle)->
   csle or= console
-  muted = require('./muted_logs')(_)
-
-  isMuted = (label)->
-    if _.isString label
-      tags = label.split ':'
-      return tags.length > 1 and tags[0] in muted
 
   log = (obj, label, stack)->
     # customizing console.log
@@ -14,12 +9,11 @@ module.exports = (_, csle)->
     # the trade-off might not be worthing it...
     if _.isString obj
       if label? then obj.logIt(label)
-      else csle.log obj unless (isMuted(obj) or isMuted(label))
+      else csle.log obj
     else
-      unless isMuted(label)
-        csle.log "===== #{label} =====" if label? and not isMuted(label)
-        csle.log obj
-        csle.log "-----" if label?
+      csle.log "===== #{label} =====" if label?
+      csle.log obj
+      csle.log "-----" if label?
 
     # log a stack trace if stack option is true
     if stack
@@ -70,7 +64,6 @@ module.exports = (_, csle)->
     Spy: (label)-> _.partial spy, _, label
 
   loggers =
-    isMuted: isMuted
     log: log
     logXhrErr: logXhrErr
     error: error
@@ -95,7 +88,7 @@ module.exports = (_, csle)->
       return obj
 
   String::logIt = (label)->
-    csle.log "[#{label}] #{@toString()}" unless isMuted(label)
+    csle.log "[#{label}] #{@toString()}"
     return @toString()
 
 

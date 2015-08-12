@@ -23,8 +23,8 @@ getImages = ->
 lazyGetImages = _.debounce getImages, 100
 
 spreadImages = (res)->
-  _.log res, 'data:getImages res'
-  if res? and _.isArray(res)
+  # _.log res, 'data:getImages res'
+  if _.isArray res
     res.forEach (el)->
       if el?.data?
         ev = eventName el.data
