@@ -17,8 +17,7 @@ csle =
 
 _ = require 'underscore'
 
+invUtils = require('inv-utils')(_)
 localLib = __.require('lib', 'utils')(Backbone, _, app, window, csle)
-sharedL = __.require('shared','utils')(_)
-types = __.require 'shared', 'types'
 
-module.exports = _.extend _, localLib, sharedL, types
+module.exports = _.extend _, localLib, invUtils

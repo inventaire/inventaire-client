@@ -22,6 +22,7 @@
     "update-git-hooks": "../scripts/update_git_hooks"
   },
   "dependencies": {
+    "inv-utils": "^1.0.0",
     "level-js": "^2.1.6",
     "level-multiply": "git+https://github.com/maxlath/node-level-multiply.git",
     "levelup": "^0.19.0",
@@ -36,6 +37,7 @@
     "chai": "^2.2.0",
     "clean-css-brunch": "^1.7.2",
     "coffee-script-brunch": "^1.8.1",
+    "coffeeify": "^1.1.0",
     "css-brunch": "^1.7.0",
     "git-digest-brunch": "^1.0.3",
     "graceful-fs": "^3.0.6",

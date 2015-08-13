@@ -23,3 +23,6 @@ logDone MemDown
 
 browserify node_modules/wikidata-sdk -s wdk > vendor/scripts/wikidata-sdk.js
 logDone wdk
+
+browserify -t coffeeify node_modules/inv-utils -s invUtils > vendor/scripts/inv-utils.js
+logDone invUtils
