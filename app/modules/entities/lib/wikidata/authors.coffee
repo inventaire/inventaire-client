@@ -12,8 +12,7 @@ fetchAuthorsBooksIds = (authorModel)->
   if authorModel.get('reverseClaims')?.P50? then return _.preq.resolve()
 
   # TODO: also fetch aliased Properties, not only P50
-  _.preq.get wdk.getReverseClaims('P50', authorModel.id)
-  .then wdk.parse.wdq.entities
+  wd_.getReverseClaims 'P50', authorModel.id
   .then _.Log('booksIds')
   .then authorModel.save.bind(authorModel, 'reverseClaims.P50')
   .catch _.Error('fetchAuthorsBooksIds err')

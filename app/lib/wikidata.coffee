@@ -52,5 +52,5 @@ wd_.aliasingClaims = (claims)->
   return claims
 
 wd_.getReverseClaims = (property, value)->
-  _.preq.get wdk.getReverseClaims property, value
+  _.preq.get app.API.data.wdq 'claim', property, value
   .then wdk.parse.wdq.entities
