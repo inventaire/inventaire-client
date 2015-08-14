@@ -22,7 +22,13 @@ fetchAuthorsBooksEntities = (authorModel)->
   _.log authorsBooks, 'authorsBooks?'
   unless authorsBooks?.length > 0 then return _.preq.resolve()
 
+  # only fetching the 50 first entities to avoid querying entities
+  # wikidata api won't return anyway due to API limits
+  # TODO: implement pagination/continue
+  authorsBooks = authorsBooks[0..49]
   return app.request 'get:entities:models', 'wd', authorsBooks
 
 keepOnlyBooks = (entities)->
-  entities?.filter(wd_.entityIsBook) or []
+  # compaction needed in case entities are missing
+  # (typically because of API limits)
+  _.compact(entities).filter wd_.entityIsBook
