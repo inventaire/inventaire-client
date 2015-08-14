@@ -21,8 +21,8 @@ logDone LevelJs
 browserify node_modules/memdown -s MemDown > vendor/scripts/memdown.js
 logDone MemDown
 
-browserify node_modules/wikidata-sdk -s wdk > vendor/scripts/wikidata-sdk.js
-logDone wdk
+cp node_modules/wikidata-sdk/dist/wikidata-sdk.js vendor/scripts/wikidata-sdk.js
+echo -e '\e[0;32mdone copying:\e[0m' wdk
 
-browserify -t coffeeify node_modules/inv-utils -s invUtils > vendor/scripts/inv-utils.js
-logDone invUtils
+cp node_modules/inv-utils/dist/inv-utils.js vendor/scripts/inv-utils.js
+echo -e '\e[0;32mdone copying:\e[0m' invUtils
