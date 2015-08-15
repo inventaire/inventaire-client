@@ -23,8 +23,9 @@ updateHeadAlternateLangs = (section, route)->
 
 setHreflang = (route, withLangQueryString, lang)->
   # can't use location.href directly as it seems
-  # to be updatedafter route:navigate
-  qs = _.currentQuerystring()
-  href = "#{origin}/#{route}#{qs}"
+  # to be updated after route:navigate
+
+  # discarding querystring to only keep lang
+  href = "#{origin}/#{route}"
   if withLangQueryString then href = _.setQuerystring href, 'lang', lang
   $("head link[hreflang='#{lang}']").attr 'href', href
