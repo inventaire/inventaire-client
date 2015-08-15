@@ -29,3 +29,25 @@ setHreflang = (route, withLangQueryString, lang)->
   href = "#{origin}/#{route}"
   if withLangQueryString then href = _.setQuerystring href, 'lang', lang
   $("head link[hreflang='#{lang}']").attr 'href', href
+
+
+
+exports.updateOgLocalAlternates = ->
+  lang = app.request 'i18n:current'
+
+  # set the current lang as 'og:locale'
+  local = territorialize[lang]
+  $('head').append "<meta property='og:locale' content='#{local}' />"
+
+  # set the others as 'og:locale:alternate'
+  otherTerritories = _.values _.omit(territorialize, lang)
+  otherTerritories.forEach (territory)->
+    $('head').append "<meta property='og:locale:alternate' content='#{territory}' />"
+
+
+# 'og:locale' and 'og:locale:alternate' seem to snob 2 letters languages
+# so here is a mapping to most relevant territories
+territorialize =
+  en: 'en_US'
+  fr: 'fr_FR'
+  de: 'de_DE'

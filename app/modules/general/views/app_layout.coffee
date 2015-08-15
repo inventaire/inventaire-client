@@ -59,6 +59,7 @@ module.exports = Marionette.LayoutView.extend
     # or to make by-language css rules (with :lang)
     documentLang.keepBodyLangUpdated.call(@)
     documentLang.keepHeadAlternateLangsUpdated.call(@)
+    documentLang.updateOgLocalAlternates()
     initHeadMetadataCommands()
 
     initIconNavHandlers.call(@)
