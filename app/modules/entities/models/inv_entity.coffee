@@ -8,12 +8,13 @@ module.exports = Entity.extend
 
     @id = @get('_id')
 
-    pathname = "/entity/#{@prefix}:#{@id}"
+    canonical = pathname = "/entity/#{@prefix}:#{@id}"
 
     if title = @get('title')
       pathname += "/" + _.softEncodeURI(title)
 
     @set
+      canonical: canonical
       pathname: pathname
       uri: "#{@prefix}:#{@id}"
       domain: 'inv'

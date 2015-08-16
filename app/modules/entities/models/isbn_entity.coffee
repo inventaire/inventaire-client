@@ -11,12 +11,13 @@ module.exports = Entity.extend
     @id = @get 'id'
     isbn = @get 'isbn'
     @uri = @get('uri') or "isbn:#{isbn}"
-    pathname = "/entity/#{@uri}"
+    canonical = pathname = "/entity/#{@uri}"
 
     if title = @get 'title'
       pathname += "/" + _.softEncodeURI(title)
 
     @set
+      canonical: canonical
       pathname: pathname
       domain: 'isbn'
       # need to be set for inv-isbn entities

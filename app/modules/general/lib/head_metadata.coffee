@@ -9,33 +9,56 @@ updateMetadata = (key, value)->
     return _.error [key, value], 'invalid metadata data'
 
   if value?
+    value = applyTransformers key, value
+    console.log 'metaNodes', metaNodes
     metaNodes[key].forEach updateNodeContent.bind(null, value)
+
   else
-    _.warn value, "missing metadata value: #{key}"
+    _.warn "missing metadata value: #{key}"
 
   if key is 'title'
     document.title = "#{value} - Inventaire"
 
-updateNodeContent = (value, selector)->
-  document.querySelector(selector).content = value
+updateNodeContent = (value, el)->
+  { selector, attribute } = el
+  attribute or= 'content'
+
+  document.querySelector(selector)[attribute] = value
 
 updateTitle = (title)-> metadataUpdate 'title', title
 
+
+# attribute default to 'content'
 metaNodes =
   title: [
-    "[property='og:title']"
-    "[name='twitter:title']"
-  ],
+    { selector: "[property='og:title']" },
+    { selector: "[name='twitter:title']" }
+  ]
   description: [
-    "[property='og:description']"
-    "[name='twitter:description']"
-  ],
+    { selector: "[property='og:description']" },
+    { selector: "[name='twitter:description']" }
+  ]
   image: [
-    "[property='og:image']"
-    "[name='twitter:image']"
+    { selector: "[property='og:image']" },
+    { selector: "[name='twitter:image']" }
+  ]
+  url: [
+    { selector: "[property='og:url']" },
+    { selector: "[rel='canonical']", attribute: 'href' }
   ]
 
+
+applyTransformers = (key, value)->
+  if key in withTransformers then transformers[key](value)
+  else value
+
 possibleFields = Object.keys metaNodes
+
+transformers =
+  url: (canonical)-> location.origin + canonical
+
+withTransformers = Object.keys transformers
+
 
 # make prerender wait before assuming everything is ready
 # see https://prerender.io/documentation/best-practices

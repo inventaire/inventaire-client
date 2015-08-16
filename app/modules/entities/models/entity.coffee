@@ -15,6 +15,7 @@ module.exports = Backbone.NestedModel.extend
       title: @buildBookTitle()
       description: @get('description')?[0..500]
       image: @get('pictures')?[0]
+      url: @get 'canonical'
 
   buildBookTitle: ->
     title = @get 'title'

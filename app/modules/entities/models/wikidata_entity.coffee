@@ -58,6 +58,7 @@ module.exports = Entity.extend
   idAttribute: 'id'
   setAttributes: (attrs, lang)->
     pathname = "/entity/wd:#{@id}"
+    @_updates.canonical = pathname
 
     label = getEntityValue attrs, 'labels', lang
     unless label?
@@ -170,6 +171,7 @@ module.exports = Entity.extend
       title: @findBestTitle()
       description: @findBestDescription()?[0..500]
       image: @get('pictures')?[0]
+      url: @get 'canonical'
 
   findBestTitle: ->
     title = @get 'title'
