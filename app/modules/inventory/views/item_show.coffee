@@ -33,6 +33,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'change:details', @render
     @listenTo @model, 'change:notes', @render
     @listenTo @model, 'add:pictures', @render
+    app.execute 'metadata:update:needed'
 
   initPlugins: ->
     itemActions.call(@)
@@ -46,6 +47,9 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @showTransactions()
+
+    @model.updateMetadata()
+    .finally app.execute.bind(app, 'metadata:update:done')
 
   showEntityData: ->
     { entity } = @model

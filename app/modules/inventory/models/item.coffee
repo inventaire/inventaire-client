@@ -34,7 +34,7 @@ module.exports = Filterable.extend
 
     @username = app.request 'get:username:from:userId', owner
     @profilePic = app.request 'get:profilePic:from:userId', owner
-    @pathname = @buildPathname(attrs)
+    [ @canonical, @pathname ] = @buildPathname attrs
     @restricted = owner isnt app.user.id
     @entityPathname = app.request 'get:entity:local:href', entity, title
 
@@ -44,11 +44,12 @@ module.exports = Filterable.extend
 
   buildPathname: (attrs)->
     if @username? and attrs.entity?
-      pathname = "/inventory/#{@username}/#{attrs.entity}"
+      canonical = pathname = "/inventory/#{@username}/#{attrs.entity}"
       title = _.softEncodeURI @get('title')
       pathname += "/#{title}"  if title?
-      return pathname
-    else return
+      return [canonical, pathname]
+    else
+      return []
 
   serializeData: ->
     attrs = @toJSON()
@@ -98,3 +99,25 @@ module.exports = Filterable.extend
       id: @id
       rev: @get('_rev')
     return _.preq.delete url
+
+  # to be called by a view onShow:
+  # updates the document with the item data
+  updateMetadata: ->
+    # has to return a promise
+    _.preq.start().then @executeMetadataUpdate.bind(@)
+
+  executeMetadataUpdate: ->
+    app.execute 'metadata:update',
+      title: @findBestTitle()
+      description: @findBestDescription()?[0..500]
+      image: @get('pictures')?[0]
+      url: @canonical
+
+  findBestTitle: ->
+    title = @get('title')
+    transaction = @get 'transaction'
+    context = _.i18n "#{transaction}_personalized", {username: @username }
+    return "#{title} - #{context}"
+
+  findBestDescription: ->
+    @get('details') or @entity?.findBestDescription()

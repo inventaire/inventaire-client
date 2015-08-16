@@ -10,7 +10,6 @@ updateMetadata = (key, value)->
 
   if value?
     value = applyTransformers key, value
-    console.log 'metaNodes', metaNodes
     metaNodes[key].forEach updateNodeContent.bind(null, value)
 
   else

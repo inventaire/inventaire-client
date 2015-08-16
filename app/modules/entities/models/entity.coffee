@@ -13,9 +13,13 @@ module.exports = Backbone.NestedModel.extend
   executeMetadataUpdate: ->
     app.execute 'metadata:update',
       title: @buildBookTitle()
-      description: @get('description')?[0..500]
+      description: @findBestDescription()?[0..500]
       image: @get('pictures')?[0]
       url: @get 'canonical'
+
+  # required, as used on entities in general
+  # ex: on Item model
+  findBestDescription: -> @get 'description'
 
   buildBookTitle: ->
     title = @get 'title'
