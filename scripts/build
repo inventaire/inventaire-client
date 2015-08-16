@@ -1,26 +1,45 @@
 #!/usr/bin/env zsh
 rm public/javascripts/*map 2> /dev/null
 rm public/stylesheets/*map 2> /dev/null
+
+echo -e '\e[0;30mbrunch build -P\e[0m'
 brunch build -P
 ./scripts/minify_html
+
+echo -e '\e[0;30mminify_html\e[0m'
 # commenting-out cssnext as flexbox-wise, it was messing with crappy browsers
 # (especially Safari) more than fixing anything
 # cssnext public/stylesheets/app.css{,}
 # cssnext public/stylesheets/vendor.css{,}
 # ./scripts/update_i18n_all
+
+echo -e '\e[0;30mupdate_i18n_actives\e[0m'
 ./scripts/update_i18n_actives
+
+echo -e '\e[0;30mgzip js and css files\e[0m'
 gzip -9 -fc public/javascripts/app.js > public/javascripts/app.js.gz
 gzip -9 -fc public/javascripts/app.js.map > public/javascripts/app.js.map.gz
 gzip -9 -fc public/javascripts/vendor.js > public/javascripts/vendor.js.gz
 gzip -9 -fc public/javascripts/vendor.js.map > public/javascripts/vendor.js.map.gz
 gzip -9 -fc public/stylesheets/app.css > public/stylesheets/app.css.gz
+gzip -9 -fc public/stylesheets/vendor.css > public/stylesheets/vendor.css.gz
+
+echo -e '\e[0;30mgzip js and css map files\e[0m'
 # probably wont be accurate, due to the sourcemap being generated before cssnext
 gzip -9 -fc public/stylesheets/app.css.map > public/stylesheets/app.css.map.gz
-gzip -9 -fc public/stylesheets/vendor.css > public/stylesheets/vendor.css.gz
-# probably wont be accurate, due to the sourcemap being generated before cssnext
 gzip -9 -fc public/stylesheets/vendor.css.map > public/stylesheets/vendor.css.map.gz
-gzip -9 -fc public/index.html > public/index.html.gz
 
+echo -e '\e[0;30mgzip index.html\e[0m'
+gzip -9 -fc public/index.html > public/index.html.gz
+echo -e '\e[0;30mgzip robots.txt\e[0m'
+gzip -9 -fc public/robots.txt > public/robots.txt.gz
+echo -e '\e[0;30mgzip sitemap.xml\e[0m'
+gzip -9 -fc public/sitemap.xml > public/sitemap.xml.gz
+
+echo -e '\e[0;30mgzip all i18n files\e[0m'
+# backup i18n json files in public/i18n
 cp public/i18n/dist/*.json public/i18n
+# gzip all i18n json, thus removing files
 gzip -9 -rf public/i18n/dist/*.json
+# recovering files from backup to have both compressed and non compressed files
 mv public/i18n/*.json public/i18n/dist
