@@ -51,6 +51,18 @@
   <meta name="msapplication-TileColor" content="#172c41">
   <meta name="msapplication-TileImage" content="/mstile-144x144.png">
   <link rel="search" type="application/opensearchdescription+xml" href="/public/opensearch.xml" title="Inventaire Search" />
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "url": "https://inventaire.io/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://inventaire.io/search?q={search_term}",
+        "query-input": "required name=search_term"
+      }
+    }
+  </script>
 
   <!-- updated by general/lib/document_lang -->
   <link rel="alternate" href="https://inventaire.io/" hreflang="en" />
