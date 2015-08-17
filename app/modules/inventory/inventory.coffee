@@ -113,11 +113,11 @@ API =
     if userItems?.length > 0 then Items.remove userItems
 
   showAddLayout: ->
-    app.layout.main.show new AddLayout
+    app.layout.main.Show new AddLayout, _.i18n('title_add_layout')
 
 showInventory = (options)->
   inventoryLayout = new InventoryLayout options
-  app.layout.main.show inventoryLayout
+  app.layout.main.Show inventoryLayout, _.i18n('title_browse_layout')
 
 
 # LOGIC
