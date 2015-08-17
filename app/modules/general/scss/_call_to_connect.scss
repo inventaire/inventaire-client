@@ -1,0 +1,12 @@
+.connect{
+  text-align: center;
+}
+.callToConnection{
+  color: orange;
+  font-size: 1.4em;
+  padding: 0.5em;
+}
+.fog{
+  background-color: rgba($dark-grey, 0.4);
+  @include position(absolute, 0, 0, 0, 0, 50);
+}

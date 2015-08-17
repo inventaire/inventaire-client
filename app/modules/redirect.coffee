@@ -1,5 +1,6 @@
 Welcome = require 'modules/welcome/views/welcome'
 ErrorView = require 'modules/general/views/error'
+CallToConnection = require 'modules/general/views/call_to_connection'
 initQuerystringActions = require 'modules/general/lib/querystring_actions'
 
 module.exports =
@@ -26,6 +27,7 @@ module.exports =
       'show:403': API.show403
       'show:404': API.show404
       'show:offline:error': API.showOfflineError
+      'show:call:to:connection': API.showCallToConnection
 
     initQuerystringActions()
 
@@ -71,3 +73,7 @@ API =
   showError: (options)->
     _.log options, 'showError', true
     app.layout.main.show new ErrorView options
+
+  showCallToConnection: (message)->
+    app.layout.modal.show new CallToConnection
+      connectionMessage: message

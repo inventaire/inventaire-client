@@ -113,8 +113,7 @@ API =
     if userItems?.length > 0 then Items.remove userItems
 
   showAddLayout: ->
-    if app.request 'require:loggedIn', 'add'
-      app.layout.main.show new AddLayout
+    app.layout.main.show new AddLayout
 
 showInventory = (options)->
   inventoryLayout = new InventoryLayout options

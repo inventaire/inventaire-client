@@ -12,8 +12,7 @@
   {{#if loggedIn}}
     <a id="loginRequest" class="button dark-grey">{{i18n 'back to your inventory'}}</a>
   {{else}}
-    <a id="signupRequest" class="button secondary">{{i18n 'sign up'}}</a>
-    <a id="loginRequest" class="button success">{{i18n 'login'}}</a>
+    {{partial 'welcome:login_buttons'}}
   {{/if}}
   </div>
 </section>

@@ -2,6 +2,7 @@ NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
 newsletterSusbscribe = require './newsletter_susbscribe'
 # required by newsletterSusbscribe
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+loginPlugin = require 'modules/general/plugins/login'
 
 module.exports = Marionette.LayoutView.extend
   id: 'welcome'
@@ -10,8 +11,7 @@ module.exports = Marionette.LayoutView.extend
     previewColumns: '#previewColumns'
 
   initialize: ->
-    # importing loggin buttons events
-    @events = _.extend @events, NotLoggedMenu::events
+    loginPlugin.call @
     _.extend @, newsletterSusbscribe, behaviorsPlugin
 
   events:
