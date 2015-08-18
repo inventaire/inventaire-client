@@ -12,5 +12,5 @@ module.exports =
       return "/api/users?action=getitems&ids=#{ids}"
     else throw new Error "users' items API needs an id"
   search: (text)->
-    if text? then "/api/users?action=search&search=#{text}"
+    if text? then "/api/users/public?action=search&search=#{text}"
     else throw new Error "users' search API needs a text argument"

@@ -38,10 +38,9 @@ API =
         generalInventory: true
 
   showUserInventory: (user, navigate)->
-    if app.request 'require:loggedIn', "inventory/#{user}"
-      showInventory
-        user: user
-        navigate: navigate
+    showInventory
+      user: user
+      navigate: navigate
 
   showGroupInventory: (id, name, navigate)->
     if app.request 'require:loggedIn', "groups/#{id}/#{name}"
