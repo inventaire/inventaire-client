@@ -53,7 +53,7 @@ API =
     else @showWelcome()
 
   showWelcome: ->
-    app.layout.main.show new Welcome
+    app.layout.main.Show new Welcome, _.i18n('Welcome')
     app.navigate 'welcome'
 
   show403: ->

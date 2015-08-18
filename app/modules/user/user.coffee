@@ -34,7 +34,7 @@ API =
 
   showSignup: ->
     unless redirectHomeIfLoggedIn()
-      app.layout.main.show new Signup
+      app.layout.main.Show new Signup, _.I18n('sign up')
       app.navigate 'signup'
 
   showSignupPersona: ->
@@ -42,12 +42,13 @@ API =
       # in standalone mode when not displayed as a region
       # of Signup LayoutView. 'standalone' serves then as boolean
       # for handlebars template to display missing elements
-      app.layout.main.show new SignupPersona {standalone: true}
+      title = _.I18n('persona sign up')
+      app.layout.main.Show new SignupPersona({standalone: true}), title
       app.navigate 'signup/persona'
 
   showLogin: ->
     unless redirectHomeIfLoggedIn()
-      app.layout.main.show new Login
+      app.layout.main.Show new Login, _.I18n('login')
       app.navigate 'login'
 
   showLoginPersona: ->
@@ -56,15 +57,15 @@ API =
       # as Persona email links redirection depend on the url
       # at the moment the login is triggered
       app.navigate 'login/persona'
-      app.layout.main.show new LoginPersona
+      app.layout.main.Show new LoginPersona, _.I18n('persona login')
 
   showForgotPassword: ->
-    app.layout.main.show new ForgotPassword
+    app.layout.main.Show new ForgotPassword, _.I18n('forgot password')
     app.navigate 'login/forgot-password'
 
   showResetPassword: ->
     if app.user.loggedIn
-      app.layout.main.show new ResetPassword
+      app.layout.main.Show new ResetPassword, _.I18n('reset password')
     else
       app.execute 'show:forgot:password'
 

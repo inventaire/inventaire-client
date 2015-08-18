@@ -4,7 +4,7 @@ metadataUpdate = (key, value)->
   for k, v of updates
     updateMetadata k, v
 
-updateMetadata = (key, value)->
+updateMetadata = (key, value, noCompletion)->
   unless key in possibleFields
     return _.error [key, value], 'invalid metadata data'
 
@@ -16,7 +16,9 @@ updateMetadata = (key, value)->
     _.warn "missing metadata value: #{key}"
 
   if key is 'title'
-    document.title = "#{value} - Inventaire"
+    _.log value, 'title'
+    if noCompletion then document.title = value
+    else document.title = "#{value} - Inventaire"
 
 updateNodeContent = (value, el)->
   { selector, attribute } = el
@@ -24,7 +26,7 @@ updateNodeContent = (value, el)->
 
   document.querySelector(selector)[attribute] = value
 
-updateTitle = (title)-> metadataUpdate 'title', title
+updateTitle = (title, noCompletion)-> updateMetadata 'title', title, noCompletion
 
 
 # attribute default to 'content'
@@ -64,7 +66,13 @@ withTransformers = Object.keys transformers
 metadataUpdateNeeded = -> window.prerenderReady = false
 metadataUpdateDone = -> window.prerenderReady = true
 
+initTitle = ->
+  punchline = _.i18n 'your friends and communities are your best library'
+  updateTitle "Inventaire - #{punchline}", true
+
 module.exports = ->
+  initTitle()
+
   app.commands.setHandlers
     'metadata:update:needed': metadataUpdateNeeded
     'metadata:update': metadataUpdate
