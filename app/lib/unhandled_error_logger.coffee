@@ -27,7 +27,8 @@ parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
   # console.log {stack: errObj.stack}
   if errObj
     { stack, context } = errObj
-    stack = stack.split('\n')
+    # prerender error object doesnt seem to have a stack, thus the stack?
+    stack = stack?.split('\n')
     report = ["#{errorMsg} #{url} #{lineNumber}:#{columnNumber}", stack]
     if context? then report.push context
     return report

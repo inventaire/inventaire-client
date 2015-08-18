@@ -17,7 +17,8 @@ module.exports = (_, csle)->
 
     # log a stack trace if stack option is true
     if stack
-      csle.log "#{label} stack", new Error('fake error').stack.split("\n")
+      # prerender error object doesnt seem to have a stack, thus the stack?
+      csle.log "#{label} stack", new Error('fake error').stack?.split("\n")
 
     return obj
 
