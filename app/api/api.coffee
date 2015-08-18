@@ -5,7 +5,9 @@ module.exports =
   entities: require './entities'
   services: require './services'
   data: require './data'
-  comments: '/api/comments'
+  comments:
+    public: '/api/comments/public'
+    private: '/api/comments'
   transactions: '/api/transactions'
   groups: '/api/groups'
   user: '/api/user'
