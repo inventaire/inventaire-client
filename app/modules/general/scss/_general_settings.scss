@@ -29,13 +29,6 @@ body{
     outline: 0;
   }
 }
-main{
-  // a position element is required to be used as reference
-  // by (great) children elements with position:absolute
-  // cf https://developer.mozilla.org/en-US/docs/Web/CSS/position
-  // used by .fog
-  position: relative;
-}
 
 img.icon{
   max-height: 1.5em;

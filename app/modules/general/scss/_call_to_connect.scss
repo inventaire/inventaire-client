@@ -8,5 +8,6 @@
 }
 .fog{
   background-color: rgba($dark-grey, 0.4);
-  @include position(absolute, 0, 0, 0, 0, 50);
+  // placed under the top bar and the icon nav
+  @include position(fixed, 0, 0, 0, 0, 10);
 }
