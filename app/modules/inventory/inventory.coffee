@@ -54,11 +54,9 @@ API =
     app.layout.main.show form
 
   itemShow: (username, entity, label)->
-    route = "inventory/#{username}/#{entity}"
-    if app.request 'require:loggedIn', route
-      app.execute 'show:loader', {title: "#{label} - #{username}"}
-      app.request 'waitForItems'
-      .then @showItemShow.bind(@, username, entity, label)
+    app.execute 'show:loader', {title: "#{label} - #{username}"}
+    app.request 'waitForItems'
+    .then @showItemShow.bind(@, username, entity, label)
 
   showItemShow: (username, entity, label)->
     _.preq.start()
@@ -207,11 +205,9 @@ initializeInventoriesHandlers = (app)->
       { username } = item
       { entity } = item.attributes
 
-      route = "inventory/#{username}/#{entity}"
-      if app.request 'require:loggedIn', route
-        API.showItemShowFromItemModel(item)
-        if item.pathname? then app.navigate item.pathname
-        else _.error item, 'missing item.pathname'
+      API.showItemShowFromItemModel item
+      if item.pathname? then app.navigate item.pathname
+      else _.error item, 'missing item.pathname'
 
     'show:add:layout': ->
       API.showAddLayout()

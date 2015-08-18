@@ -46,6 +46,7 @@ module.exports = (app)->
       return userId in app.users.friends.list
 
     isPublicUser: (userId)->
+      unless app.user.loggedIn then return true
       unless userId? and app.users?.public?.list?
         _.warn userId, 'isPublicUser isnt ready (use or recalculate after data waiters)'
         return true

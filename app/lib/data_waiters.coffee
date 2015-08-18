@@ -16,6 +16,8 @@ module.exports = ->
     return _.once fn
 
   waitForItems = ->
+    unless app.user.loggedIn then return _.preq.resolve()
+
     if Items?.friends?.fetched and Items.personal?.fetched
       return _.preq.resolve()
     else

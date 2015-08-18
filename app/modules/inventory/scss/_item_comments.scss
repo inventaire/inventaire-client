@@ -1,6 +1,15 @@
 .itemComments{
-  padding-bottom: 3em;
+  // padding-bottom: 3em;
   .newComment{
+    // required by the fog absolute positioning
+    position: relative;
+    // padding required to keep the floating button in the frame
+    padding-bottom: 2.5em;
+    .fog{
+      background-color: rgba($dark-grey, 0.8);
+      @include display-flex(column, center, center);
+      color: white;
+    }
     .main{
       @include display-flex(row, flex-start, space-between);
       .avatar{

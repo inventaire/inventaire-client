@@ -3,10 +3,20 @@
 </div>
 
 <div class="newComment">
+  {{#unless loggedIn}}
+    <div class="fog">
+      <p>{{i18n 'you need to be connected to comment'}}</p>
+      <div>
+        {{partial 'welcome:login_buttons'}}
+      </div>
+    </div>
+  {{/unless}}
   <form>
     <div class="main">
       <div class="avatar">
-        <img src="{{src user.picture 50}}">
+        {{#if loggedIn}}
+          <img src="{{src user.picture 50}}">
+        {{/if}}
       </div>
       <textarea class="message" name="message" placeholder="post a comment...">{{message}}</textarea>
     </div>
