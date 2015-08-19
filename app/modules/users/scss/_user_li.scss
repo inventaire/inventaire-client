@@ -82,15 +82,15 @@ $user-bg: #ddd;
     .label{
       display: none;
     }
-  }
-  .action{
-    // centering the action icon
-    padding-left: 0.4em;
-    padding-right: 0.4em;
-    &:not(:hover){
-      padding-right: 0;
-      .label{
-        display: none;
+    .action{
+      // centering the action icon
+      padding-left: 0.4em;
+      padding-right: 0.4em;
+      &:not(:hover){
+        padding-right: 0;
+        .label{
+          display: none;
+        }
       }
     }
     /*Small screens*/
@@ -100,27 +100,25 @@ $user-bg: #ddd;
   }
 }
 
-.userLi:not(.friends){
-  .right-box{
-    .userMenu{
-      @include display-flex(row, center);
-      white-space: nowrap;
-      margin-right: 0.2em;
-      a.action{
-        padding: 0 0.3em 0 0.3em;
-      }
-      .cancel{
-        background-color: $grey;
-      }
-      .accept{
-        background-color: $success-color;
-      }
-      .discard{
-        background-color: $grey;
-      }
-      .request{
-        background-color: $success-color;
-      }
+.userLi:not(.friends) .right-box, .userProfile{
+  .userMenu{
+    @include display-flex(row, center);
+    white-space: nowrap;
+    margin-right: 0.2em;
+    a.action{
+      padding: 0 0.3em 0 0.3em;
+    }
+    .cancel{
+      background-color: $grey;
+    }
+    .accept{
+      background-color: $success-color;
+    }
+    .discard{
+      background-color: $grey;
+    }
+    .request{
+      background-color: $success-color;
     }
   }
 }

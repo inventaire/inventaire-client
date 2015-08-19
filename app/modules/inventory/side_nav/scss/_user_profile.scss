@@ -56,7 +56,10 @@
   }
   .userMenu{
     margin: 0.5em;
-    @include shy();
+    @include shy(0.8);
+    .action:not(.friend){
+      @include radius();
+    }
     .friend{
       .fa-chevron-down{
         margin-left: 0.5em;
