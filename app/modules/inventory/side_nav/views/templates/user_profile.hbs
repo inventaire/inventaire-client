@@ -1,5 +1,8 @@
 <div class="userProfile">
-  {{partial 'unselect'}}
+  {{#if loggedIn}}
+    {{!-- unselecting would lead to /inventory and thus to a connexion page when not logged in --}}
+    {{partial 'unselect'}}
+  {{/if}}
   {{#if picture}}
     <div class="circle-pic" style="background-image: url({{src picture 150 150 true}})">
     </div>
@@ -18,7 +21,14 @@
       </span>
     </div>
   {{/if}}
-  {{#unless mainUser}}
-    {{partial 'inventory/side_nav:user_menu' this}}
-  {{/unless}}
+  <div class="userMenuWrapper">
+    {{#unless mainUser}}
+      {{#unless loggedIn}}
+        <div class="local-fog">
+          {{i18n 'you need to be connected to send a friend request'}}
+        </div>
+      {{/unless}}
+      {{partial 'inventory/side_nav:user_menu' this}}
+    {{/unless}}
+  </div>
 </div>

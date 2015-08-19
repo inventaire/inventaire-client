@@ -25,6 +25,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     _.extend @model.serializeData(),
       onUserProfile: true
+      loggedIn: app.user.loggedIn
 
   initialize: ->
     @listenTo @model, 'change', @render.bind(@)
