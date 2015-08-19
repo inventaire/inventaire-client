@@ -16,7 +16,6 @@ updateMetadata = (key, value, noCompletion)->
     _.warn "missing metadata value: #{key}"
 
   if key is 'title'
-    _.log value, 'title'
     if noCompletion then document.title = value
     else document.title = "#{value} - Inventaire"
 
