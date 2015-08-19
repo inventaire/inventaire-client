@@ -34,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
     'click a.back': -> window.history.back()
     'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
-    'click .copyLink': 'copyLink'
+    'click .shareLink': 'shareLink'
     'focus textarea': moveCaretToEnd
 
   behaviors:

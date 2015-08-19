@@ -1,5 +1,6 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 FeedbackMenu = require '../views/feedback_menu'
+ShareMenu = require '../views/share_menu'
 { Loader } = app.View.Behaviors
 
 module.exports =
@@ -30,9 +31,5 @@ module.exports =
   showFeedbackMenu: ->
     app.layout.modal.show new FeedbackMenu
 
-  copyLink: (e)->
-    href = e.currentTarget.href
-    unless href?
-      throw new Error "couldnt showEntity: href not found"
-
-    prompt 'link to copy & share', href
+  shareLink: ->
+    app.layout.modal.show new ShareMenu
