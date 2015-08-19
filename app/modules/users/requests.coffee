@@ -10,12 +10,18 @@ module.exports = (app, _)->
         action: action
         user: userId
       _.preq.get path
-      .catch _.LogXhrErr('relations action err')
 
   action = (user, action, newStatus, label)->
     [user, userId] = normalizeUser user
+    currentStatus = user.get 'status'
     user.set 'status', newStatus
     server[action](userId)
+    .catch Rewind(user, currentStatus, 'action err')
+
+  Rewind = (user, currentStatus, label)->
+    handler = (err)->
+      user.set 'status', currentStatus
+      _.error err, 'action'
 
   API =
     sendRequest: (user)-> action user, 'request', 'userRequested'
