@@ -317,5 +317,16 @@
     "this book isnt in the database: let's just create the book card": "this book isnt in the database: let's just create the book card",
     "validate and add another book": "validate and add another book",
     "invite friends": "invite friends",
-    "undefined": "undefined"
+    "book": "book",
+    "photo credits:": "photo credits:",
+    "no pending requests": "no pending requests",
+    "requested": "requested",
+    "you need to be connected to add a book to your inventory": "you need to be connected to add a book to your inventory",
+    "your friends and communities are your best library": "vos amis et communautés sont votre meilleur bibliothèque",
+    "Welcome on Inventaire": "Welcome on Inventaire",
+    "Welcome": "Welcome",
+    "you need to be connected to be able to comment": "you need to be connected to be able to comment",
+    "you need to be connected to comment": "you need to be connected to comment",
+    "you need to be connected to connect as friends": "you need to be connected to connect as friends",
+    "you need to be connected to send a friend request": "you need to be connected to send a friend request"
 }

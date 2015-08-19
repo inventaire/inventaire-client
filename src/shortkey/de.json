@@ -128,7 +128,18 @@
     "group_invitor": null,
     "requires_barcode_scanner_app": null,
     "giving_personalized": null,
+    "giving_personalized_strong": null,
     "lending_personalized": null,
+    "lending_personalized_strong": null,
     "selling_personalized": null,
-    "inventorying_personalized": null
+    "selling_personalized_strong": null,
+    "inventorying_personalized": null,
+    "inventorying_personalized_strong": null,
+    "books_by_author": null,
+    "title_add_layout": null,
+    "title_networt_layout": null,
+    "title_browse_layout": null,
+    "title_exchanges_layout": null,
+    "call_to_connect_welcome_message": null,
+    "call_to_connect_welcome_title": null
 }

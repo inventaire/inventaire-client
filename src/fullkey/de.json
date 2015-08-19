@@ -317,5 +317,11 @@
     "this book isnt in the database: let's just create the book card": null,
     "validate and add another book": null,
     "invite friends": null,
-    "undefined": null
+    "book": null,
+    "photo credits:": null,
+    "no pending requests": null,
+    "requested": null,
+    "you need to be connected to use this page": null,
+    "you need to be connected to add a book to your inventory": null,
+    "your friends and communities are your best library": null
 }

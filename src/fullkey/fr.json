@@ -317,5 +317,10 @@
     "this book isnt in the database: let's just create the book card": "ce livre n'est pas dans la base de donnée : créons la fiche du livre",
     "validate and add another book": "valider et ajouter un autre livre",
     "invite friends": "inviter des amis",
-    "undefined": null
+    "book": "livre",
+    "photo credits:": "crédits photo :",
+    "no pending requests": "aucune demande en attente",
+    "requested": "demande envoyée",
+    "you need to be connected to add a book to your inventory": "vous devez être connecté pour pouvoir ajouter un livre à votre inventaire",
+    "your friends and communities are your best library": "null"
 }
