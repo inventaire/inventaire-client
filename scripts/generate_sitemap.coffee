@@ -16,9 +16,23 @@ begin = """
   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
   http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-<url><loc>https://inventaire.io/</loc></url>
-<url><loc>https://inventaire.io/signup</loc></url>
-<url><loc>https://inventaire.io/login</loc></url>
+<url>
+  <loc>https://inventaire.io/</loc>
+  <priority>1</priority>
+</url>
+<url>
+  <loc>https://inventaire.io/signup</loc>
+  <priority>0.9</priority>
+</url>
+<url>
+  <loc>https://inventaire.io/login</loc>
+  <priority>0.9</priority>
+</url>
+<url>
+  <loc>https://inventaire.io/add</loc>
+  <priority>0.9</priority>
+</url>
+
 """
 text = ''
 end = "</urlset>\n"
