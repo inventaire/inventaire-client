@@ -30,19 +30,19 @@ json_  = require './lib/json'
 extendLangWithDefault = (lang)->
   Promise.settle getSources(lang)
   .then pluckSettled
-  .spread (args...)->
+  .then (args)->
     rethrowErrors(args)
 
     [
       enFull, enShort, enWd
-      langFull, langFullArchive
-      langShort, langShortArchive
+      langFull, langFullArchive, langFullTransifex
+      langShort, langShortArchive, langShortTransifex
       langWd, langWdArchive
     ] = args
 
-    fullArgs = [enFull, langFull, langFullArchive, false]
-    shortArgs = [enShort, langShort, langShortArchive, true]
-    wdArgs = [enWd, langWd, langWdArchive, false]
+    fullArgs = [enFull, langFull, langFullArchive, langFullTransifex, false]
+    shortArgs = [enShort, langShort, langShortArchive, langShortTransifex, true]
+    wdArgs = [enWd, langWd, langWdArchive, null, false]
 
     [full, updateFull, archiveFull] = findKeys.apply null, fullArgs
     [short, updateShort, archiveShort] = findKeys.apply null, shortArgs
@@ -64,19 +64,37 @@ getSources = (lang)->
     json_.read __.src.wikidata('en')
     json_.read __.src.fullkey(lang)
     json_.read __.src.fullkeyArchive(lang)
+    json_.read __.src.fullkeyTransifex(lang)
     json_.read __.src.shortkey(lang)
     json_.read __.src.shortkeyArchive(lang)
+    json_.read __.src.shortkeyTransifex(lang)
     json_.read __.src.wikidata(lang)
     json_.read __.src.wikidataArchive(lang)
   ]
 
 convertMarkdown = require './lib/convert_markdown'
 
-findKeys = (enObj, langCurrent, langArchive, markdown)->
+findKeys = (enObj, langCurrent, langArchive, langTransifex, markdown)->
   # dist will be the language 'dist' version
   # update will replace the previous 'src' version
   # archive will keep keys that werent in the English version)
-  langObj = _.extend {}, langCurrent, langArchive
+  langObj = _.extend {}, langArchive
+
+  if langTransifex?
+    langTransifex = keepNonNullValues langTransifex
+    invertedEnObj = _.invert enObj
+    formattedLangTransifex = {}
+    for k,v of langTransifex
+      realKey = invertedEnObj[k]
+      # transifex uses the English version as value
+      # while we want it to stay 'null' to highligh that the value is missing
+      if realKey? and v isnt enObj[realKey]
+        formattedLangTransifex[realKey] = v
+
+    _.extend langObj, formattedLangTransifex
+
+  _.extend langObj, keepNonNullValues(langCurrent)
+
   dist = {}
   update = {}
 
@@ -97,6 +115,8 @@ findKeys = (enObj, langCurrent, langArchive, markdown)->
     cleanArchive = _.pick archive, _.identity
 
   return [dist, update, cleanArchive]
+
+keepNonNullValues = (obj)-> _.pick obj, (str)-> str?
 
 updateAndArchive = (lang, updateFull, archiveFull, updateShort, archiveShort, updateWd, archiveWd)->
   Promise.all [

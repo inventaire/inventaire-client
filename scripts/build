@@ -11,10 +11,9 @@ echo -e '\e[0;30mminify_html\e[0m'
 # (especially Safari) more than fixing anything
 # cssnext public/stylesheets/app.css{,}
 # cssnext public/stylesheets/vendor.css{,}
-# ./scripts/update_i18n_all
 
-echo -e '\e[0;30mupdate_i18n_actives\e[0m'
-./scripts/update_i18n_actives
+echo -e '\e[0;30mupdate_i18n_all\e[0m'
+./scripts/update_i18n_all
 
 echo -e '\e[0;30mgzip js and css files\e[0m'
 gzip -9 -fc public/javascripts/app.js > public/javascripts/app.js.gz
