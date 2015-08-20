@@ -51,5 +51,9 @@ console.log "fetching #{url}".grey
 breq.get url
 .then (res)->
   console.log "parsing response".grey
-  res.body.items.forEach addEntity
+  { items } = res.body
+  # google limits sitemaps to 50000 urls
+  # several can be sent but its requires some rewritting here
+  first49995 = items[0...49995]
+  first49995.forEach addEntity
 .then writeSiteMap
