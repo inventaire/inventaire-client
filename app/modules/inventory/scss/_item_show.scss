@@ -52,6 +52,7 @@
   }
   @include display-flex(column, center, center);
   > div{
+    width: 100%;
     max-width: 50em;
     textarea{
       max-width: 100%;
@@ -70,6 +71,7 @@
     }
     .leftBox{
       @include flex(0, 0);
+      max-width: 16em;
       .settings{
         @include display-flex(column);
         label{
