@@ -63,10 +63,10 @@ module.exports = (_)->
   # MARIONETTE
   Marionette.Region::Show = (view, options)->
     if _.isString options then title = options
-    else if options?.docTitle? then title = options.docTitle
+    else { docTitle, noCompletion } = options
 
-    if title?
-      app.docTitle _.softDecodeURI(title)
+    if docTitle?
+      app.docTitle _.softDecodeURI(docTitle), noCompletion
 
     return @show(view, options)
 

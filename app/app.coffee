@@ -10,10 +10,11 @@ App = Marionette.Application.extend
     @Behaviors = require('modules/general/behaviors/base')
     @Behaviors.initialize()
 
-    @vent.on 'document:title:change', (title)->
-      app.execute 'metadata:update:title', title
+    @vent.on 'document:title:change', (title, noCompletion)->
+      app.execute 'metadata:update:title', title, noCompletion
 
-    @docTitle = (docTitle)-> @vent.trigger 'document:title:change', docTitle
+    @docTitle = (docTitle, noCompletion)->
+      @vent.trigger 'document:title:change', docTitle, noCompletion
 
     @navigate = (route, options)->
       unless route?
