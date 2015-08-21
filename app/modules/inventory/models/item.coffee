@@ -24,7 +24,7 @@ module.exports = Filterable.extend
     entity = app.request 'normalize:entity:uri', entity
     # make sure the entity model is loaded in the global Entities collection
     # and thus accessible from a Entities.byUri
-    @reqGrab 'get:entity:model', entity, 'entity'
+    @waitForEntity = @reqGrab 'get:entity:model', entity, 'entity'
 
     # created will be overriden by the server at item creation
     attrs.created = @get('created') or _.now()
@@ -103,8 +103,13 @@ module.exports = Filterable.extend
   # to be called by a view onShow:
   # updates the document with the item data
   updateMetadata: ->
-    # has to return a promise
-    _.preq.start().then @executeMetadataUpdate.bind(@)
+    # start by adding the entity's metadata
+    # and then override by the data available on the item
+    @waitForEntity
+    # cant be @entity.updateMetadata.bind(@entity)
+    # as @entity is probably undefined yet
+    .then => @entity.updateMetadata()
+    .then @executeMetadataUpdate.bind(@)
 
   executeMetadataUpdate: ->
     app.execute 'metadata:update',
@@ -120,4 +125,5 @@ module.exports = Filterable.extend
     return "#{title} - #{context}"
 
   findBestDescription: ->
-    @get('details') or @entity?.findBestDescription()
+    details = @get('details')
+    if _.isNonEmptyString(details) then details
