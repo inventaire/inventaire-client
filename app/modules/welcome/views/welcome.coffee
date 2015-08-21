@@ -3,6 +3,7 @@ newsletterSusbscribe = require './newsletter_susbscribe'
 # required by newsletterSusbscribe
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 loginPlugin = require 'modules/general/plugins/login'
+showLastPublicItems = require '../lib/show_last_public_items'
 
 module.exports = Marionette.LayoutView.extend
   id: 'welcome'
@@ -32,35 +33,20 @@ module.exports = Marionette.LayoutView.extend
     thanks: '#thanks'
 
   onShow: ->
-    @loadPublicItems()
+    @showPublicItems()
     unless app.user.loggedIn
       @hideTopBar()
       @ui.topBarTrigger.once 'inview', @showTopBar
       @hideFeedbackButton()
 
+  showPublicItems: ->
+    showLastPublicItems @previewColumns
+    .catch @hidePublicItems.bind(@)
+    .catch _.Error('hidePublicItems err')
 
   onDestroy: ->
     @showTopBar()
     @showFeedbackButton()
-
-  loadPublicItems: ->
-    _.preq.get app.API.items.lastPublicItems
-    .catch _.preq.catch404
-    .then @displayPublicItems.bind(@)
-    .catch @hidePublicItems.bind(@)
-    .catch (err)-> _.error err, 'hidePublicItems err'
-
-  displayPublicItems: (res)->
-    unless res?.items?.length > 0 then return @hidePublicItems()
-
-    app.users.public.add res.users
-
-    items = new app.Collection.Items
-    items.add res.items
-
-    itemsColumns = new app.View.Items.List
-      collection: items
-    @previewColumns.show itemsColumns
 
   hidePublicItems: (err)->
     $('#lastPublicBooks').hide()

@@ -10,6 +10,7 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/inventory'
   regions:
     sideNav: '#sideNav'
+    welcomeView: '#welcomeView'
     itemsView: '#itemsView'
     followedView: '#followedView'
     controls: '#controls'
@@ -105,8 +106,13 @@ module.exports = Marionette.LayoutView.extend
       @followedView.show new FollowedEntitiesList {collection: followedEntities}
 
   showInventoryWelcome: (user)->
-    inventoryWelcome = require('./inventory_welcome')
-    @itemsView.show new inventoryWelcome
+    inventoryWelcome = require './inventory_welcome'
+    showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
+
+    @welcomeView.show new inventoryWelcome
+    showLastPublicItems @itemsView
+    .catch _.Error('showLastPublicItems err')
+
     if user? then app.execute 'sidenav:show:user', user
 
 prepareUserItemsList = (user, navigate)->
