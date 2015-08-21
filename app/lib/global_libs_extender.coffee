@@ -61,7 +61,7 @@ module.exports = (_)->
       else _.error model, 'model has no matches method'
 
   # MARIONETTE
-  Marionette.Region::Show = (view, options)->
+  Marionette.Region::Show = (view, options={})->
     if _.isString options then title = options
     else { docTitle, noCompletion } = options
 
