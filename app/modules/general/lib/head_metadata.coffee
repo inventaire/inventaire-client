@@ -8,16 +8,12 @@ updateMetadata = (key, value, noCompletion)->
   unless key in possibleFields
     return _.error [key, value], 'invalid metadata data'
 
-  if value?
-    value = applyTransformers key, value
-    metaNodes[key].forEach updateNodeContent.bind(null, value)
-
-  else
+  unless value?
     _.warn "missing metadata value: #{key}"
+    return
 
-  if key is 'title'
-    if noCompletion then document.title = value
-    else document.title = "#{value} - Inventaire"
+  value = applyTransformers key, value, noCompletion
+  metaNodes[key].forEach updateNodeContent.bind(null, value)
 
 updateNodeContent = (value, el)->
   { selector, attribute } = el
@@ -31,6 +27,7 @@ updateTitle = (title, noCompletion)-> updateMetadata 'title', title, noCompletio
 # attribute default to 'content'
 metaNodes =
   title: [
+    { selector: 'title', attribute: 'text'},
     { selector: "[property='og:title']" },
     { selector: "[name='twitter:title']" }
   ]
@@ -48,13 +45,15 @@ metaNodes =
   ]
 
 
-applyTransformers = (key, value)->
-  if key in withTransformers then transformers[key](value)
+applyTransformers = (key, value, noCompletion)->
+  if key in withTransformers then transformers[key](value, noCompletion)
   else value
 
 possibleFields = Object.keys metaNodes
 
 transformers =
+  title: (value, noCompletion)->
+    if noCompletion then value else "#{value} - Inventaire"
   url: (canonical)-> location.origin + canonical
 
 withTransformers = Object.keys transformers
