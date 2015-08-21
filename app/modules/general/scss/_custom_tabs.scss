@@ -18,10 +18,7 @@ $active-custom-tab-bg: rgba($light-grey, 0.9);
   width: 100%;
   @include display-flex(row, flex-start);
   a{
-    text-transform: capitalize;
     padding: 1em;
-    background-color: $dark-grey;
-    color: white;
     &.active{
       color: $dark-grey;
       background-color: $active-custom-tab-bg;

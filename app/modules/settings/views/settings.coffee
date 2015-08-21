@@ -1,4 +1,5 @@
 ProfileSettings = require './profile_settings'
+NotificationsSettings = require './notifications_settings'
 LabsSettings = require './labs_settings'
 
 module.exports = Marionette.LayoutView.extend
@@ -10,23 +11,31 @@ module.exports = Marionette.LayoutView.extend
   ui:
     tabsTitles: '.custom-tabs-titles'
     profileTitle: '#profile'
+    notificationsTitle: '#notifications'
     labsTitle: '#labs'
 
   onShow: ->
     {tab} = @options
     switch tab
       when 'profile' then @showProfileSettings()
+      when 'notifications' then @showNotificationsSettings()
       when 'labs' then @showLabsSettings()
       else _.error 'unknown tab requested'
 
   events:
     'click #profile': 'showProfileSettings'
+    'click #notifications': 'showNotificationsSettings'
     'click #labs': 'showLabsSettings'
 
   showProfileSettings: ->
     @tabsContent.show new ProfileSettings {model: @model}
     @setActiveTab 'profile'
     app.navigate 'settings/profile'
+
+  showNotificationsSettings: ->
+    @tabsContent.show new NotificationsSettings {model: @model}
+    @setActiveTab 'notifications'
+    app.navigate 'settings/notifications'
 
   showLabsSettings: ->
     @tabsContent.show new LabsSettings {model: @model}

@@ -14,6 +14,22 @@
   .button{
     font-weight: bold;
   }
+  .custom-tabs-titles a:not(.active){
+    color: white;
+    @include bg-hover($dark-grey);
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: 500px) {
+    padding-top: 0;
+    .custom-tabs-titles{
+      @include display-flex(column);
+      a{
+        width: 100%;
+      }
+    }
+  }
+
 }
 
 @import 'profile_settings';
