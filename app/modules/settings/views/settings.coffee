@@ -17,10 +17,12 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     {tab} = @options
     switch tab
-      when 'profile' then @showProfileSettings()
-      when 'notifications' then @showNotificationsSettings()
-      when 'labs' then @showLabsSettings()
+      when 'profile' then fn = @showProfileSettings
+      when 'notifications' then fn = @showNotificationsSettings
+      when 'labs' then fn = @showLabsSettings
       else _.error 'unknown tab requested'
+
+    app.request('waitForUserData').then fn.bind(@)
 
   events:
     'click #profile': 'showProfileSettings'
