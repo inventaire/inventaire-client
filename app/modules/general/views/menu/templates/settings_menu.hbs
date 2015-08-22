@@ -6,18 +6,19 @@
   <ul class="dropdown">
     <li><label>{{i18n 'settings'}}</label></li>
     <li><a id="editProfile">{{icon 'user'}} {{I18n 'edit profile'}}</a></li>
+    <li><a id="editNotifications">{{icon 'envelope'}} {{I18n 'edit notifications'}}</a></li>
     <li><a id="editLabs">{{icon 'flask'}} {{I18n 'labs'}}</a></li>
     <li><label>{{i18n 'development'}}</label></li>
     <li>
-      {{iconLinkText 'trello' 'https://trello.com/b/0lKcsZDj/inventaire-roadmap' 'Roadmap'}}
+      {{iconLinkText 'trello' trello 'Roadmap'}}
     </li>
     <li>
-      {{iconLinkText 'code' 'https://github.com/inventaire/inventaire' 'Code'}}
+      {{iconLinkText 'code' github 'Code'}}
     </li>
     <li>
-      {{iconLinkText 'language' 'https://www.transifex.com/organization/inventaire/' 'Translation'}}
+      {{iconLinkText 'language' transifex 'Translation'}}
     </li>
-    <li class="has-dropdown">{{partial 'general:menu:discussions'}}</li>
+    <li class="has-dropdown">{{partial 'general:menu:discussions' this}}</li>
     <li><label>{{i18n 'others'}}</label></li>
     <li><a class="showWelcome">{{icon 'home'}} {{I18n 'back to welcome screen'}}</a></li>
     <li><a id="signout">{{icon 'sign-out'}} {{I18n 'sign out'}}</a></li>

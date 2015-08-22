@@ -4,6 +4,7 @@ newsletterSusbscribe = require './newsletter_susbscribe'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 loginPlugin = require 'modules/general/plugins/login'
 showLastPublicItems = require '../lib/show_last_public_items'
+urls = require 'lib/urls'
 
 module.exports = Marionette.LayoutView.extend
   id: 'welcome'
@@ -26,6 +27,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     loggedIn: app.user.loggedIn
     subscribe: @subscribeData()
+    urls: urls
 
   ui:
     topBarTrigger: '#middle-three'

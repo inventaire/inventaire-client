@@ -1,18 +1,21 @@
 NotificationsList = require 'modules/notifications/views/notifications_list'
 CommonEl = require 'modules/general/regions/common_el'
 searchInputData = require './search_input_data'
+urls = require 'lib/urls'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/account_menu'
   events:
     'click #name': -> app.execute 'show:inventory:user', app.user
     'click #editProfile': -> app.execute 'show:settings:profile'
+    'click #editNotifications': -> app.execute 'show:settings:notifications'
     'click #editLabs': -> app.execute 'show:settings:labs'
     'click #signout': -> app.execute 'logout'
 
   serializeData: ->
     _.extend @model.toJSON(),
       search: searchInputData()
+      urls: urls
 
   initialize: ->
     # /!\ CommonEl custom Regions implies side effects
