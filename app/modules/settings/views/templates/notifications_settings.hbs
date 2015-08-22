@@ -1,1 +1,7 @@
-<h2>yo notifications</h2>
+<div class="global-emails">
+  <span class="capitalized">{{i18n 'receive email notifications'}}</span>
+  {{partial 'toggler' globalEmailsToggler}}
+</div>
+<p class="warning {{#if showWarning}}shown{{/if}}">
+  {{icon 'warning'}} {{i18n warning}}
+</p>

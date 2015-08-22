@@ -1,14 +1,15 @@
 module.exports = (app)->
   app.reqres.setHandlers
     'user:update': (options)->
-      # expects: attribute, value, selector
-      {attribute, value, selector} = options
+      # required: attribute, value
+      # optional: selector, defaultPreviousValue
+      { attribute, value, selector, defaultPreviousValue } = options
 
-      _.types [attribute, selector], 'strings...'
-      # value may have differnt types so can't be verified by _.types
-      unless value? then throw new Error("invalid value: #{value}")
+      # _.types [attribute, selector], 'strings...'
+      # # value may have differnt types so can't be verified by _.types
+      # unless value? then throw new Error("invalid value: #{value}")
 
-      previousValue = app.user.get(attribute)
+      previousValue = app.user.get(attribute) or defaultPreviousValue
       app.user.set(attribute, value)
 
       promise = _.preq.put app.API.user,
@@ -18,9 +19,11 @@ module.exports = (app)->
       promise
       .catch reverseUpdate.bind(null, attribute, previousValue)
 
-      app.request 'waitForCheck',
-        promise: promise
-        selector: selector
+      if selector?
+        app.request 'waitForCheck',
+          promise: promise
+          selector: selector
+
       return promise
 
 

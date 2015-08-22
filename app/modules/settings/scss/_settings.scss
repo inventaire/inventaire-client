@@ -7,7 +7,7 @@
   label{
     text-transform: uppercase;
     font-size: 1.2em;
-    &:not(:first-child){
+    &:not(:first-child):not(.toggler-label){
       margin-top: 1.5em;
     }
   }
@@ -26,6 +26,10 @@
       @include display-flex(column);
       a{
         width: 100%;
+        @include radius(0);
+        &.active{
+          @include order(3);
+        }
       }
     }
   }
@@ -33,4 +37,5 @@
 }
 
 @import 'profile_settings';
+@import 'notifications_settings';
 @import 'labs_settings';
