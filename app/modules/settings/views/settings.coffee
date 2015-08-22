@@ -31,20 +31,27 @@ module.exports = Marionette.LayoutView.extend
 
   showProfileSettings: ->
     @tabsContent.show new ProfileSettings {model: @model}
-    @setActiveTab 'profile'
-    app.navigate 'settings/profile'
+    @tabUpdate 'profile'
 
   showNotificationsSettings: ->
     @tabsContent.show new NotificationsSettings {model: @model}
-    @setActiveTab 'notifications'
-    app.navigate 'settings/notifications'
+    @tabUpdate 'notifications'
 
   showLabsSettings: ->
     @tabsContent.show new LabsSettings {model: @model}
-    @setActiveTab 'labs'
-    app.navigate 'settings/labs'
+    @tabUpdate 'labs'
+
+  tabUpdate: (tab)->
+    @setActiveTab tab
+    updateDocTitle tab
+    app.navigate "settings/#{tab}"
 
   setActiveTab: (name)->
     tab = "#{name}Title"
     @ui.tabsTitles.find('a').removeClass 'active'
     @ui[tab].addClass 'active'
+
+updateDocTitle = (tab)->
+  tab = _.I18n tab
+  settings = _.I18n 'settings'
+  app.vent.trigger 'document:title:change', "#{tab} - #{settings}"

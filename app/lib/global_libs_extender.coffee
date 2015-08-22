@@ -62,7 +62,7 @@ module.exports = (_)->
 
   # MARIONETTE
   Marionette.Region::Show = (view, options={})->
-    if _.isString options then title = options
+    if _.isString options then docTitle = options
     else { docTitle, noCompletion } = options
 
     if docTitle?

@@ -21,12 +21,14 @@ module.exports = Marionette.LayoutView.extend
   showTabFriends: ->
     @content.show new FriendsLayout @options
     @updateTabs 'friends'
-    app.navigate "network/friends"
 
   showTabGroups: ->
     @content.show new GroupsLayout @options
     @updateTabs 'groups'
-    app.navigate "network/groups"
 
   updateTabs: (tab)->
     @tabs.show new Tabs {tab: tab}
+    app.navigate "network/#{tab}"
+    tab = _.I18n tab
+    network = _.I18n 'network'
+    app.vent.trigger 'document:title:change', "#{tab} - #{network}"
