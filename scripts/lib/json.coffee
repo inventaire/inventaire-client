@@ -21,7 +21,15 @@ read = (path)->
   .catch (err)-> console.log "parsing error at #{path}".red, err
 
 write = (path, data)->
+  # skip a write operation by return null
   unless path? then return Promise.resolve()
+
+  console.log 'write path', path
+  unless typeof path is 'string'
+    return Promise.reject new Error('path isnt a string')
+  unless typeof data is 'object'
+    return Promise.reject new Error('data isnt a object')
+
 
   json = JSON.stringify data, null, 4
   fs.writeFileAsync(path, json)

@@ -1,10 +1,3 @@
-fs = require 'graceful-fs'
-
-activeFiles = (path)->
-  list = fs.readdirSync path
-  return list.map (file)-> file.split('.')[0]
-
-activeFilesLists =
 activeShortkeyLang = activeFiles './public/i18n/src/shortkey'
 activeFullkeyLang = activeFiles './public/i18n/src/fullkey'
 # assuming that if a transifex source is available for fullkeys
