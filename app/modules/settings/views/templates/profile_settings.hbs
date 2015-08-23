@@ -1,15 +1,15 @@
-<label>{{i18n 'profile pic'}}</label>
+<h3 class="first">{{i18n 'profile pic'}}</h3>
 {{partial 'general:behaviors:change_picture' this}}
 
-<label>{{i18n 'language'}}</label>
+<h3>{{i18n 'language'}}</h3>
 {{partial 'user:language_picker' this 'check'}}
 
-<label class="with-tip capitalized">{{i18n 'username'}}</label>
+<h3 class="with-tip capitalized">{{i18n 'username'}}</h3>
 {{tip 'username_tip' 'right'}}
 {{input usernamePicker}}
 
 {{#if localCreationStrategy}}
-  <label>{{i18n 'email'}}</label>
+  <h3>{{i18n 'email'}}</h3>
 
   <p class="note">
     {{i18n 'email will not be publicly displayed.'}}
