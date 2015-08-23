@@ -1,4 +1,4 @@
-$active-custom-tab-bg: rgba($light-grey, 0.9);
+$active-custom-tab-bg: $off-white;
 
 .custom-tabs{
   @include display-flex(column, left);

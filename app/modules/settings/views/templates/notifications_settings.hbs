@@ -4,6 +4,7 @@
   <p class="warning {{#if showWarning}}shown{{/if}}">
     {{icon 'warning'}} {{i18n warning}}
   </p>
+  <hr>
 </div>
 
 <div class="rest">
@@ -12,27 +13,35 @@
     <h3>{{i18n 'friends'}}</h3>
     {{partial 'settings:email_me_when'}}
     {{partial 'settings:notification_setting' friendship_request}}
+    <hr>
     {{partial 'settings:notification_setting' friend_accepted_request}}
+    <hr>
   </div>
 
   <div class="groups">
     <h3>{{i18n 'groups'}}</h3>
     {{partial 'settings:email_me_when'}}
     {{partial 'settings:notification_setting' group_invite}}
+    <hr>
     {{partial 'settings:notification_setting' group_acceptRequest}}
+    <hr>
   </div>
 
   <div class="exchanges">
     <h3>{{i18n 'exchanges'}}</h3>
     {{partial 'settings:email_me_when'}}
     {{partial 'settings:notification_setting' your_item_was_requested}}
+    <hr>
     {{partial 'settings:notification_setting' update_on_your_item}}
+    <hr>
     {{partial 'settings:notification_setting' update_on_item_you_requested}}
+    <hr>
   </div>
 
   <div class="news">
     <h3>{{i18n 'news'}}</h3>
     {{partial 'settings:notification_setting' newsletters}}
+    <hr>
     {{partial 'settings:notification_setting' inventories_activity_summary}}
   </div>
 </div>
