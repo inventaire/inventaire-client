@@ -1,0 +1,30 @@
+.notificationsSettings{
+  .rest{
+    // required by local-fog
+    position: relative;
+  }
+  .setting{
+    position: relative;
+    @include display-flex(row, center, space-between);
+  }
+  .warning{
+    margin-top: 1em;
+    color: white;
+    background-color: $warning-color;
+    width: 100%;
+    text-align: center;
+    @include radius();
+  }
+  .local-fog{
+    background-color: rgba(white, 0.5);
+    margin: -0.5em;
+  }
+  .warning, .local-fog{
+    &:not(.shown){
+      display: none;
+    }
+  }
+  .email-me{
+    color: grey;
+  }
+}

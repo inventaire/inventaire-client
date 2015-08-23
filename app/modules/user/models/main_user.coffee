@@ -2,6 +2,7 @@ UserCommons = require 'modules/users/models/user_commons'
 Transactions = require 'modules/transactions/collections/transactions'
 Groups = require 'modules/network/collections/groups'
 solveLang = require '../lib/solve_lang'
+notificationsList = sharedLib 'notifications_settings_list'
 
 module.exports = UserCommons.extend
   url: ->
@@ -31,11 +32,13 @@ module.exports = UserCommons.extend
       .then app.request.bind(app, 'notifications:add', notifications)
 
   setDefaultSettings: (settings)->
-    { global } = settings.notifications
-    # can't use global or= true as a false value would be overridden
-    unless _.isBoolean global
-      settings.notifications.global = true
+    settings.notifications = @setDefaultNotificationsSettings(settings.notifications)
     return settings
+
+  setDefaultNotificationsSettings: (notifications)->
+    notificationsList.forEach (notif)->
+      notifications[notif] = notifications[notif] isnt false
+    return _.log notifications, 'notifications'
 
   serializeData: ->
     attrs = @toJSON()

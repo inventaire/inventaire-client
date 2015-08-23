@@ -1,3 +1,5 @@
+notificationsList = sharedLib 'notifications_settings_list'
+
 module.exports = Marionette.ItemView.extend
   template: require './templates/notifications_settings'
   className: 'notificationsSettings'
@@ -7,27 +9,40 @@ module.exports = Marionette.ItemView.extend
     @listenTo app.user, 'change:settings', @lazyRender
 
   serializeData: ->
-    { global } = app.user.get('settings.notifications')
-    return data =
-      globalEmailsToggler:
-        id: 'globalEmails'
-        checked: global
+    notifications = app.user.get 'settings.notifications'
+    _.extend @getNotificationsData(notifications),
       warning: 'global_email_toggle_warning'
-      showWarning: not global
+      showWarning: not notifications.global
+
+  getNotificationsData: (notifications)->
+    data = {}
+    notificationsList.forEach (notif)->
+      data[notif] =
+        id: notif
+        checked: notifications[notif] isnt false
+        label: "#{notif}_notification"
+    return data
 
   ui:
-    globalEmails: '#globalEmails'
+    global: '#global'
     warning: '.warning'
+    fog: '.local-fog'
 
   events:
-    'change #globalEmails': 'toggleGlobalEmails'
+    'change .toggler-input': 'toggleSetting'
 
-  toggleGlobalEmails: ->
+  toggleSetting: (e)->
+    { id, checked } = e.currentTarget
+    @updateSetting id, checked
+
+  updateSetting: (id, value)->
     app.request 'user:update',
-      attribute: 'settings.notifications.global',
-      value: @ui.globalEmails[0].checked
+      attribute: "settings.notifications.#{id}",
+      value: value
       defaultPreviousValue: true
 
-    @toggleWarning()
+    if id is 'global' then @toggleWarning()
 
-  toggleWarning: -> @ui.warning.slideToggle(200)
+  toggleWarning: ->
+    @ui.warning.slideToggle(200)
+    @ui.fog.fadeToggle(200)
