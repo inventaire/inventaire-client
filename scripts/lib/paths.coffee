@@ -1,3 +1,4 @@
+activeFiles = require './active_files'
 activeShortkeyLang = activeFiles './public/i18n/src/shortkey'
 activeFullkeyLang = activeFiles './public/i18n/src/fullkey'
 # assuming that if a transifex source is available for fullkeys
