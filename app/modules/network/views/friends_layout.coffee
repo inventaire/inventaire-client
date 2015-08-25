@@ -30,7 +30,7 @@ module.exports = Marionette.LayoutView.extend
 
   showFriendsLists: ->
     @showFriendsRequests()
-    @showUsersSearchBase()
+    @showUsersSearchBase(true)
 
   showFriendsRequests: ->
     { otherRequested } = app.users
@@ -38,5 +38,6 @@ module.exports = Marionette.LayoutView.extend
       @friendsRequests.show new UsersList
         collection: otherRequested
         emptyViewMessage: 'no pending requests'
+        stretch: true
     else
       @ui.friendsRequestsHeader.hide()

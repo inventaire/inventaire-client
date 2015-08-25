@@ -41,10 +41,6 @@ $active-custom-tab-bg: $off-white;
   background-color: $active-custom-tab-bg;
   @include radius-bottom();
   border-top-right-radius: $global-radius;
-  /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-    padding: 1em;
-  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     padding: 2em;

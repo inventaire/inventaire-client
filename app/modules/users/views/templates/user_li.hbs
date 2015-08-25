@@ -5,12 +5,22 @@
 </div>
 <div class="right-box">
   <a class="select" href="{{pathname}}">
-    <span class="username serif">{{username}}</span>
-  </a>
-  {{#unless groupContext}}
-    {{#if inventoryLength}}
-      <a class="inventoryLength select serif">{{inventoryLength}}</a>
+    <div class="top">
+      <span class="username serif">{{username}}</span>
+      {{#unless groupContext}}
+        {{#if inventoryLength}}
+          {{!-- one of the two is hidden from css depending on the situation --}}
+          <span class="inventoryLength short serif">{{inventoryLength}}</span>
+          <span class="inventoryLength long serif">{{i18n 'num_books' inventoryLength}}</span>
+        {{/if}}
+      {{/unless}}
+    </div>
+    {{#if stretch}}
+      <div class="details">
+        {{!-- not user {{userContent}} helper as it might create anchors within an anchor --}}
+        <p class="bio user-content">{{bio}}</p>
+      </div>
     {{/if}}
-  {{/unless}}
+  </a>
   {{partial 'inventory/side_nav:user_menu' this}}
 </div>

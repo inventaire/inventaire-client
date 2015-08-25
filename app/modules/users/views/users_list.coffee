@@ -5,6 +5,7 @@ module.exports = Marionette.CollectionView.extend
   childViewOptions: ->
     groupContext: @options.groupContext
     group: @options.group
+    stretch: @options.stretch
   emptyView: require './no_user'
   emptyViewOptions: ->
     message: @options.emptyViewMessage or "can't find anyone with that name"

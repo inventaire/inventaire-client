@@ -2,9 +2,7 @@ $user-height: 3em;
 
 $user-bg: #ddd;
 .userLi{
-  height: $user-height;
   color: $light-grey;
-  @include display-flex(row);
   img{
     margin-left: 0;
     height: $user-height;
@@ -12,24 +10,20 @@ $user-bg: #ddd;
     overflow: hidden;
   }
   .right-box{
-    @include flex(1);
-    @include display-flex(row, center);
     .select{
+      min-height: $user-height;
+      @include flex(1);
       overflow: hidden;
       margin-right: 0.5em;
+      text-align: left;
+      .bio{
+        max-height: 5em;
+        padding-left: 0.2em;
+        opacity: 0.8;
+      }
     }
     .username{
       margin-left: 0.3em;
-    }
-    .inventoryLength{
-      opacity: 0.4;
-      @include display-flex(row, center, center);
-      background-color: $darker-grey;
-      border-radius: $global-radius;
-      padding-bottom: 0.1em;
-      @include flex(0, 0, 1.4em);
-      margin-left: auto;
-      margin-right: 0.5em;
     }
     .userMenu{
       @include flex(0, 0, auto);
@@ -39,11 +33,15 @@ $user-bg: #ddd;
           color: $dark-grey !important;
         }
       }
-      // only push on left if inventoryLength isnt already pushing
-      &:nth-child(2){
-        margin-left: auto;
-      }
     }
+  }
+  .inventoryLength{
+    opacity: 0.4;
+    background-color: $darker-grey;
+    border-radius: $global-radius;
+    padding: 0 0.4em 0.1em 0.4em;
+    margin-left: auto;
+    margin-right: 0.5em;
   }
   .action{
     @include radius();
@@ -55,6 +53,79 @@ $user-bg: #ddd;
   .invite{
     @include tiny-button($light-blue);
     white-space: nowrap;
+  }
+  &:not(.stretch){
+    .inventoryLength.long{
+      display: none;
+    }
+  }
+  &.stretch{
+    margin: 0.5em 0 0.5em 0;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    width: 100%;
+    .right-box{
+      width: 100%;
+      @include display-flex(column);
+      .select{
+        width: 100%;
+        text-align: center;
+      }
+      .top{
+        width: 100%;
+      }
+      .userMenu{
+        margin: auto;
+      }
+    }
+    .username{
+      // forcing .inventoryLength to go to the next line
+      display: block;
+    }
+    .inventoryLength{
+    }
+    &.stretch{
+      .inventoryLength.short{
+        display: none;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    @include display-flex(row);
+    .right-box{
+      @include flex(1);
+      @include display-flex(row);
+    }
+    .top{
+      @include display-flex(row, center, space-between);
+      min-height: $user-height;
+    }
+    .userMenu{
+      // only push on left if inventoryLength isnt already pushing
+      &:nth-child(2){
+        margin-left: auto;
+      }
+    }
+    &:not(.stretch){
+      .top{
+        height: $user-height;
+      }
+    }
+    &.stretch{
+      .inventoryLength.short{
+        display: none;
+      }
+    }
+    .details{
+      // limiting .bio.user-content expansion
+      max-width: 27em;
+    }
+    .inventoryLength{
+      @include display-flex(row, center, center);
+      @include flex(0, 0);
+    }
   }
 }
 
@@ -170,12 +241,12 @@ $user-bg: #ddd;
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     .userLi{
-      max-width: 100%;
+      // max-width: 100%;
       .right-box{
-        max-width: calc(100% - 48px);
-        @include display-flex(row);
+        // max-width: calc(100% - 48px);
+        // @include display-flex(row);
         .userMenu{
-          @include flex(0, 0, auto);
+          // @include flex(0, 0, auto);
         }
       }
     }

@@ -7,7 +7,8 @@ module.exports = Marionette.ItemView.extend
     classes = "userLi"
     status = @model.get('status') or 'noStatus'
     username = @model.get 'username'
-    "userLi #{status} #{username}"
+    stretch = if @options.stretch then 'stretch' else ''
+    "userLi #{status} #{username} #{stretch}"
 
   behaviors:
     PreventDefault: {}
@@ -36,7 +37,7 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
-
+    attrs.stretch = @options.stretch
     if @groupContext then @attachGroupsAttributes attrs
     else attrs
 

@@ -18,13 +18,14 @@ events =
   'click a.close': 'resetSearch'
 
 handlers =
-  showUsersSearchBase: ->
+  showUsersSearchBase: (stretch)->
     @ui.userSearch.show()
-    @showFriends()
+    @showFriends(stretch)
 
-  showFriends: ->
+  showFriends: (stretch=false)->
     @usersList.show new UsersList
       collection: app.users.filtered.friends()
+      stretch: stretch
 
     @setFriendsHeader()
 
