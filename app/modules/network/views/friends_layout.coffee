@@ -69,7 +69,6 @@ module.exports = Marionette.LayoutView.extend
     getCleanAddresses @rawEmails
     .then @_getUsersData.bind(@)
     .then @_showResults.bind(@)
-    .catch invitationsError
     .catch forms_.catchAlert.bind(null, @)
 
   _getUsersData: (emails)->
@@ -80,7 +79,7 @@ module.exports = Marionette.LayoutView.extend
     foundEmails = users.map _.property('email')
     newEmailsToInvite = _.difference(emails, foundEmails)
     @emailsInvited = @emailsInvited.concat newEmailsToInvite
-    sendEmailInvitations newEmailsToInvite
+    @sendEmailInvitations newEmailsToInvite
     users.forEach @_addUser.bind(@)
 
   _addUser: (user)->
@@ -113,7 +112,7 @@ findUserByEmail = (emails)->
 getCleanAddresses = (rawEmails)->
   _.preq.post app.API.services.parseEmails,
     emails: rawEmails
-  .then _.Log('getCleanAddresses')
+  .catch invitationsError
 
 invitationsError = (err)->
   err.selector = '#invitations'
