@@ -9,13 +9,13 @@
     <span class="requested">{{i18n 'requested'}}</span>
     {{#if mainUserIsAdmin}}
       <div>
-        <a class="acceptRequest action"> {{icon 'plus'}} {{i18n 'accept'}} </a>
-        <a class="refuseRequest action"> {{icon 'ban'}} {{i18n 'refuse'}} </a>
+        <a class="acceptRequest action" title="{{i18n "validate user's request to join the group"}}"> {{icon 'plus'}} {{i18n 'accept'}} </a>
+        <a class="refuseRequest action" title="{{i18n "discard user's request to join the group"}}"> {{icon 'ban'}} {{i18n 'refuse'}} </a>
       </div>
     {{/if}}
   </div>
 {{/if}}
 {{#if none}}
-  <a class="invite action"> {{icon 'plus'}} {{i18n 'invite'}} </a>
+  <a class="invite action" title="invite user to join the group"> {{icon 'plus'}} {{i18n 'invite'}} </a>
   <span class="check"></span>
 {{/if}}

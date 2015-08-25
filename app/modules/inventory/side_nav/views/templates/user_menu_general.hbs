@@ -22,20 +22,20 @@
   </span>
 {{/if}}
 {{#if userRequested}} 
-  <a class="cancel action">
+  <a class="cancel action" title="{{i18n 'cancel friend request'}}">
     {{icon 'ban'}}<span class="label"> {{i18n 'cancel request'}}</span>
   </a>
 {{/if}}
 {{#if otherRequested}} 
-  <a class="accept action">
+  <a class="accept action" title="{{i18n 'accept friend request'}}">
     {{icon 'check'}}<span class="label"> {{i18n 'confirm'}}</span>
   </a>
-  <a class="discard action">
+  <a class="discard action" title="{{i18n 'discard friend request'}}">
     {{icon 'minus'}}<span class="label"> {{i18n 'decline'}}</span>
   </a>
 {{/if}}
 {{#if public}} 
-  <a class="request action">
+  <a class="request action" title="{{i18n 'send friend request'}}">
     {{icon 'plus'}}<span class="label"> {{i18n 'add friend'}}</span>
   </a>
 {{/if}}
