@@ -5,6 +5,7 @@ module.exports = Marionette.CollectionView.extend
   childViewOptions: ->
     groupContext: @options.groupContext
     group: @options.group
+    showEmail: @options.showEmail
     stretch: @options.stretch
   emptyView: require './no_user'
   emptyViewOptions: ->

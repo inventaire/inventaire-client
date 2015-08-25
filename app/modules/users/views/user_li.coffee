@@ -37,6 +37,8 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
+    # required by the invitations by email users list
+    attrs.showEmail = @options.showEmail
     attrs.stretch = @options.stretch
     if @groupContext then @attachGroupsAttributes attrs
     else attrs

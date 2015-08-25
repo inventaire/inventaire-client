@@ -23,4 +23,18 @@
       @include bg-hover(white, 8%);
     }
   }
+  .email-sent{
+    @include display-flex(row, center, center, wrap);
+    .email{
+      font-weight: bold;
+      padding-left: 0.2em;
+    }
+  }
+  .usersAlreadyThere{
+    padding-top: 1.2em;
+    padding-bottom: 1.2em;
+    h3{
+      padding-bottom: 0.6em;
+    }
+  }
 }
