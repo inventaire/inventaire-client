@@ -24,7 +24,6 @@ write = (path, data)->
   # skip a write operation by return null
   unless path? then return Promise.resolve()
 
-  console.log 'write path', path
   unless typeof path is 'string'
     return Promise.reject new Error('path isnt a string')
   unless typeof data is 'object'
