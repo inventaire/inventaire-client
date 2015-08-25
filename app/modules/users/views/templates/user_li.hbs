@@ -1,6 +1,7 @@
 <div class="left-box">
   <a class="select" href="{{pathname}}">
-    <img class="profilePic" src="{{src picture 64}}">
+
+    <img class="profilePic" src="{{#if stretch}}{{src picture 80}}{{else}}{{src picture 64}}{{/if}}">
   </a>
 </div>
 <div class="right-box">
@@ -19,10 +20,12 @@
       {{/unless}}
     </div>
     {{#if stretch}}
-      <div class="details">
-        {{!-- not user {{userContent}} helper as it might create anchors within an anchor --}}
-        <p class="bio user-content">{{bio}}</p>
-      </div>
+      {{#if bio}}
+        <div class="details">
+          {{!-- not user {{userContent}} helper as it might create anchors within an anchor --}}
+          <p class="bio user-content">{{bio}}</p>
+        </div>
+      {{/if}}
     {{/if}}
   </a>
   {{partial 'inventory/side_nav:user_menu' this}}
