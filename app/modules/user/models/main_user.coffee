@@ -38,7 +38,7 @@ module.exports = UserCommons.extend
   setDefaultNotificationsSettings: (notifications)->
     notificationsList.forEach (notif)->
       notifications[notif] = notifications[notif] isnt false
-    return _.log notifications, 'notifications'
+    return notifications
 
   serializeData: ->
     attrs = @toJSON()

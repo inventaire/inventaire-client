@@ -1,10 +1,10 @@
 metadataUpdate = (key, value)->
   updates = _.forceObject key, value
-  # _.log updates, 'metadataUpdate updates'
   for k, v of updates
     updateMetadata k, v
 
 updateMetadata = (key, value, noCompletion)->
+  # _.log arguments, 'updateMetadata'
   unless key in possibleFields
     return _.error [key, value], 'invalid metadata data'
 
