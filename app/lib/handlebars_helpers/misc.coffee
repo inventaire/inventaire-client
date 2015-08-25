@@ -2,8 +2,9 @@
 
 module.exports =
   i18n: (key, args..., data)->
-    # key, contextObj form
-    if _.isObject(args[0]) then context = args[0]
+    # key, contextObj OR key, smart_count form
+    firstArg = args[0]
+    if _.isObject(firstArg) or _.isNumber(firstArg) then context = firstArg
     # key, context pairs form
     else if args.length % 2 is 0 then context = _.objectifyPairs args
     else context = null
