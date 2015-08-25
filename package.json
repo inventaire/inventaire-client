@@ -38,6 +38,7 @@
     "clean-css-brunch": "^1.7.2",
     "coffee-script-brunch": "^1.8.1",
     "coffeeify": "^1.1.0",
+    "config": "^1.15.0",
     "css-brunch": "^1.7.0",
     "git-digest-brunch": "^1.0.3",
     "graceful-fs": "^3.0.6",
