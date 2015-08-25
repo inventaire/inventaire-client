@@ -9,6 +9,7 @@ module.exports =
     public: '/api/comments/public'
     private: '/api/comments'
   transactions: '/api/transactions'
+  relations: '/api/relations'
   groups: '/api/groups'
   user: '/api/user'
   notifs: '/api/notifs'

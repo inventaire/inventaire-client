@@ -6,10 +6,9 @@ module.exports = (app, _)->
     discard: (userId)-> @base 'discard', userId
     unfriend: (userId)-> @base 'unfriend', userId
     base: (action, userId)->
-      path = _.buildPath '/api/relations',
+      _.preq.post app.API.relations,
         action: action
         user: userId
-      _.preq.get path
 
   action = (user, action, newStatus, label)->
     [user, userId] = normalizeUser user
