@@ -14,6 +14,3 @@ module.exports =
   search: (text)->
     if text? then "/api/users/public?action=search&search=#{text}"
     else throw new Error "users' search API needs a text argument"
-  byEmails: (emails)->
-    emails = _.forceArray(emails).join('|')
-    return "/api/users?action=get-users-by-emails&emails=#{emails}"

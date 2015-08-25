@@ -66,21 +66,19 @@ module.exports = Marionette.LayoutView.extend
   sendInvitations: ->
     # keeping rawEmails at hand to avoid emptying the textarea on re-render
     @rawEmails = @ui.invitations.val()
-    getCleanAddresses @rawEmails
-    .then @_getUsersData.bind(@)
+    sendInvitationsByEmails @rawEmails
+    .catch invitationsError
+    .then @_spreadUsers.bind(@)
     .then @_showResults.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
-  _getUsersData: (emails)->
-    findUserByEmail emails
-    .then @_spreadUsers.bind(@, emails)
-
-  _spreadUsers: (emails, users)->
-    foundEmails = users.map _.property('email')
-    newEmailsToInvite = _.difference(emails, foundEmails)
-    @emailsInvited = @emailsInvited.concat newEmailsToInvite
-    @sendEmailInvitations newEmailsToInvite
+  _spreadUsers: (data)->
+    { users, emails } = data
+    @addEmailsInvited emails
     users.forEach @_addUser.bind(@)
+
+  addEmailsInvited: (emails)->
+    @emailsInvited = _.uniq @emailsInvited.concat(emails)
 
   _addUser: (user)->
     userModel = app.users.public.add user
@@ -101,18 +99,8 @@ module.exports = Marionette.LayoutView.extend
 
     _.scrollTop @ui.invitations
 
-  sendEmailInvitations: (emailsToInvite)->
-    app.request 'invitations:by:emails', emailsToInvite
-
-findUserByEmail = (emails)->
-  _.preq.get app.API.users.byEmails(emails)
-  .then _.property('users')
-  .then _.Log('users')
-
-getCleanAddresses = (rawEmails)->
-  _.preq.post app.API.services.parseEmails,
-    emails: rawEmails
-  .catch invitationsError
+sendInvitationsByEmails = (rawEmails)->
+  app.request 'invitations:by:emails', rawEmails
 
 invitationsError = (err)->
   err.selector = '#invitations'

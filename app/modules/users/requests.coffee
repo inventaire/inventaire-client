@@ -34,11 +34,6 @@ module.exports = (app, _)->
       app.execute 'inventory:remove:user:items', userId
       action user, 'unfriend', 'public'
 
-    sendRequestsByEmail: (emails)->
-      _.preq.post app.API.invitations,
-        action: 'by-email'
-        emails: emails
-
   normalizeUser = (user)->
     unless _.isModel(user)
       throw new Error('exepected a user Model, got', user)
@@ -52,4 +47,3 @@ module.exports = (app, _)->
     'request:accept': API.acceptRequest
     'request:discard': API.discardRequest
     'unfriend': API.unfriend
-    'invitations:by:emails': API.sendRequestsByEmail
