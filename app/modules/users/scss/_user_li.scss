@@ -81,7 +81,8 @@ $user-bg: #ddd;
         width: 100%;
       }
       .userMenu{
-        margin: auto;
+        @include align-self(center);
+        background-color: red;
       }
     }
     .username{
@@ -260,14 +261,9 @@ $user-bg: #ddd;
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    .userLi{
-      // max-width: 100%;
-      .right-box{
-        // max-width: calc(100% - 48px);
-        // @include display-flex(row);
-        .userMenu{
-          // @include flex(0, 0, auto);
-        }
+    .userLi.stretch{
+      .action{
+        margin: 0;
       }
     }
   }
