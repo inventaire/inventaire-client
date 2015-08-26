@@ -80,22 +80,40 @@ $user-bg: #ddd;
       .top{
         width: 100%;
       }
-      .userMenu{
-        @include align-self(center);
-        background-color: red;
+    }
+    &:not(.stretch){
+      @include display-flex(row, center, flex-start);
+      .right-box{
+        position: relative;
+        @include display-flex(row, center, center);
+      }
+      .select{
+        @include display-flex(row, center, center);
+      }
+      .top{
+        position: relative;
+        @include display-flex(row, center, flex-start);
+        .inventoryLength{
+          /*Small screens*/
+          @media screen and (max-width: 350px) {
+            display: none;
+          }
+        }
+      }
+      .user-menu{
+        @include position(absolute, 0, 0, 0, null, 1);
       }
     }
-    .username{
-      // forcing .inventoryLength to go to the next line
-      display: block;
-    }
-    .inventoryLength{
-    }
     &.stretch{
+      .username{
+        // forcing .inventoryLength to go to the next line
+        display: block;
+      }
       .inventoryLength.short{
         display: none;
       }
       .userMenu{
+        @include align-self(center);
         height: 3.2em;
         a{
           padding: 1em;
@@ -194,7 +212,7 @@ $user-bg: #ddd;
 
 .userLi:not(.friends) .right-box, .userProfile{
   .userMenu{
-    @include display-flex(row, center);
+    @include display-flex(row, center, center);
     white-space: nowrap;
     margin-right: 0.2em;
     a.action{
