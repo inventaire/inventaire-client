@@ -98,7 +98,8 @@ module.exports = Marionette.LayoutView.extend
     if @usersAlreadyThere.length > 0
       @ui.usersAlreadyThere.slideDown()
 
-    _.scrollTop @ui.invitations
+    # waiting for everything to be well rendered
+    setTimeout _.scrollTop.bind(null, @ui.invitations), 250
 
 sendInvitationsByEmails = (rawEmails)->
   app.request 'invitations:by:emails', rawEmails
