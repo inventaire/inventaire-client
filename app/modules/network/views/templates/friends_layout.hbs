@@ -17,16 +17,16 @@
     <div class="wrapper">
       <textarea id="invitations" name="invitations" placeholder="{{i18n 'emails separated by a coma'}}">{{rawEmails}}</textarea>
     </div>
-    <div class="output">
-      {{#each emailsInvited}}
-        {{!-- emails are escaped during validation --}}
-        <p class="email-sent">{{{i18n 'email_invitation_sent' 'email' this}}} {{icon 'check-circle'}}</p>
-      {{/each}}
-    </div>
+    <a id="sendInvitations" class="button success bold radius">{{i18n 'send invitations'}}</a>
+  </form>
+  <div class="output">
+    {{#each emailsInvited}}
+      {{!-- emails are escaped during validation --}}
+      <p class="email-sent">{{{i18n 'email_invitation_sent' 'email' this}}} {{icon 'check-circle'}}</p>
+    {{/each}}
+  </div>
   <div class="usersAlreadyThere hidden">
     <h3>{{i18n 'Look who was already there! Friend request sent'}}</h3>
     <div id="usersAlreadyThere"></div>
   </div>
-    <a id="sendInvitations" class="button success bold radius">{{i18n 'send invitations'}}</a>
-  </form>
 </section>
