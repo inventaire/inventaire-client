@@ -14,19 +14,9 @@
   a.source{
     @include text-hover(#999);
   }
-  div{
-    padding: 1em;
-  }
   .cover{
     @include flex(0,0);
     max-width: 20em;
-    /*Large screens*/
-    @media screen and (min-width: $smallscreen) {
-      padding-top: 2em;
-      img{
-        @include sticky($topbar-height + 10px);
-      }
-    }
   }
   .data{
     @include flex(1);
@@ -51,9 +41,24 @@
   .editWikidata{
     color: white;
   }
-
   /*Small screens*/
   @media screen and (max-width: 700px) {
     @include flex-direction(column);
+    .cover{
+      margin: 0 auto;
+    }
+    text-align: center;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    > div{
+      padding: 1em;
+    }
+    .cover{
+      padding-top: 2em;
+      img{
+        @include sticky($topbar-height + 10px);
+      }
+    }
   }
 }

@@ -44,32 +44,30 @@
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     @include flex-direction(column);
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-  }
-
-  .custom-button-group{
-    /*Small screens*/
-    @media screen and (max-width: $verysmallscreen) {
-      @include display-flex(column);
-      a:first-child{
-        @include radius-top();
-      }
-      a:not(:first-child){
-        @include radius-bottom();
+    .custom-button-group{
+      /*Small screens*/
+      @media screen and (max-width: $verysmallscreen) {
+        #addToInventory{
+          @include radius;
+          margin-top: 0.5em;
+        }
+        // adding the dropdown menu as it was making
+        // a big ugly button on smallscreens
+        #addToInventory + a{
+          display: none;
+        }
       }
     }
-
-    /*Large screens*/
-    @media screen and (min-width: $verysmallscreen) {
+  }
+  /*Large screens*/
+  @media screen and (min-width: $verysmallscreen) {
+    .custom-button-group{
       @include display-flex(row);
       a:first-child{
-        @include radius-left();
+        @include radius-left;
       }
-      a:not(:first-child){
-        @include radius-right();
+      a:last-child{
+        @include radius-right;
       }
     }
   }
