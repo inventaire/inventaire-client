@@ -41,8 +41,17 @@
 }
 
 .wiki-attributes{
+  @include shy-border;
+  @include radius;
+  padding: 0.5em;
   p.claims{
     text-align: left;
+  }
+  p.links{
+    text-align: center;
+    .fa-twitter{
+      color: $twitter-color;
+    }
   }
   padding: 0.5em 1em 0.2em 1em;
   img{

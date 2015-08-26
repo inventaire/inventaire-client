@@ -1,9 +1,12 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 wdQ = behavior 'wikidata_Q'
 wdP = behavior 'wikidata_P'
-SafeString = Handlebars.SafeString
+{ SafeString } = Handlebars
 
 wd = app.lib.wikidata
+
+linkify_ = require './linkify'
+socialNetworks = require './social_networks'
 
 # handlebars pass a sometime confusing {data:, hash: object} as last argument
 # this method is used to make helpers less error-prone by removing this object
@@ -68,6 +71,24 @@ module.exports =
     else
       # _.log arguments, 'entity:claims:ignored'
       return
+
+  urlClaim: (args...)->
+    [ claims, P ] = neutralizeDataObject(args)
+    firstUrl = claims?[P]?[0]
+    if firstUrl?
+      label = @labelString P, true
+      cleanedUrl = _.dropProtocol firstUrl
+      values = linkify_ cleanedUrl, firstUrl, 'link website'
+      return @claimString label, values
+
+  socialNetworkClaim: (args...)->
+    [ claims, P ] = neutralizeDataObject(args)
+    firstUsername = claims?[P]?[0]
+    if firstUsername?
+      sn = socialNetworks[P]
+      label = sn.label()
+      values = linkify_ sn.text(firstUsername), sn.url(firstUsername), 'link social-network'
+      return @claimString label, values
 
   claimString: (label, values, inline)->
     text = "#{label} #{values}"
