@@ -5,12 +5,17 @@ module.exports.initialize = ->
 
     # avoid using utils that weren't defined yet
     args = [].slice.call(arguments, 0)
+    { name } = args[4]
 
-    if args[0] is 'InvalidStateError'
+    if name is 'InvalidStateError'
       # already handled at feature_detection, no need to let it throw
       # and report to server
       return console.warn('InvalidStateError: no worries, already handled')
 
+    if name is 'ViewDestroyedError'
+      # ViewDestroyedError are anoying but not critical: debugged from development
+      # but not worth the noise in production logs
+      return console.warn 'ViewDestroyedError: not reported'
 
     err = parseErrorObject.apply null, args
 
