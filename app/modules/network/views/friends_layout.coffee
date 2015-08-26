@@ -88,8 +88,9 @@ module.exports = Marionette.LayoutView.extend
     userModel.set 'email', user.email
     @usersAlreadyThere.add userModel
     # send a friend request only if no relation pre-existed
-    if userModel.get('status') is 'public'
-      app.request 'request:send', userModel
+    switch userModel.get 'status'
+      when 'public' then app.request 'request:send', userModel
+      when 'otherRequested' then app.request 'request:accept', userModel, false
 
   _showResults: ->
     # rendering to display @emailsInvited in the each loop

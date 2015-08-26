@@ -25,9 +25,9 @@ module.exports = (app, _)->
   API =
     sendRequest: (user)-> action user, 'request', 'userRequested'
     cancelRequest: (user)-> action user, 'cancel', 'public'
-    acceptRequest: (user)->
+    acceptRequest: (user, showUserInvetory=true)->
       action user, 'accept', 'friends'
-      app.execute 'show:inventory:user', user
+      if showUserInvetory then app.execute 'show:inventory:user', user
     discardRequest: (user)-> action user, 'discard', 'public'
     unfriend: (user)->
       [user, userId] = normalizeUser user
