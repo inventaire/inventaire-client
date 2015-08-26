@@ -6,7 +6,8 @@ wdP = behavior 'wikidata_P'
 wd = app.lib.wikidata
 
 linkify_ = require './linkify'
-socialNetworks = require './social_networks'
+images_ = require './images'
+platforms_ = require './platforms'
 
 # handlebars pass a sometime confusing {data:, hash: object} as last argument
 # this method is used to make helpers less error-prone by removing this object
@@ -68,32 +69,29 @@ module.exports =
       label = @labelString P, omitLabel
       values = claims[P]?.join ', '
       return @claimString label, values
-    else
-      # _.log arguments, 'entity:claims:ignored'
-      return
 
   urlClaim: (args...)->
     [ claims, P ] = neutralizeDataObject(args)
     firstUrl = claims?[P]?[0]
     if firstUrl?
-      label = @labelString P, true
+      label = images_.icon 'link'
       cleanedUrl = _.dropProtocol firstUrl
       values = linkify_ cleanedUrl, firstUrl, 'link website'
       return @claimString label, values
 
-  socialNetworkClaim: (args...)->
+  platformClaim: (args...)->
     [ claims, P ] = neutralizeDataObject(args)
     firstUsername = claims?[P]?[0]
     if firstUsername?
-      sn = socialNetworks[P]
-      label = sn.label()
-      values = linkify_ sn.text(firstUsername), sn.url(firstUsername), 'link social-network'
+      platform = platforms_[P]
+      label = platform.label()
+      values = linkify_ platform.text(firstUsername), platform.url(firstUsername), 'link social-network'
       return @claimString label, values
 
   claimString: (label, values, inline)->
     text = "#{label} #{values}"
-    if inline then text
-    else new SafeString "#{text} <br>"
+    unless inline then text += ' <br>'
+    return new SafeString text
 
   labelString: (P, omitLabel)->
     if omitLabel then '' else @P(P)

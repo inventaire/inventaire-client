@@ -34,6 +34,10 @@
     padding-left: 1em;
     font-size: 0.8em;
   }
+  .books h3{
+    color: white;
+    text-align: center;
+  }
 }
 
 .innerAuthorLi{
@@ -66,6 +70,12 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
+    .books h3{
+      margin-top: 1em;
+    }
+    .bookLi:first-child{
+      margin-top: 1em;
+    }
     .innerAuthorLi{
       @include display-flex(column);
     }
