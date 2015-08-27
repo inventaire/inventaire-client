@@ -2,11 +2,11 @@ module.exports = (app, _)->
   remote =
     get: (ids)->
       _.preq.get app.API.entities.inv.get(ids)
-      .catch _.LogXhrErr('inv_data get err')
+      .catch _.Error('inv_data get err')
     post: (body)->
       url = app.API.entities.inv.create
       _.preq.post(url, body)
-      .catch _.LogXhrErr('inv_data post err')
+      .catch _.Error('inv_data post err')
 
 
   local = new app.LocalCache

@@ -38,7 +38,7 @@ onlogin = (assertion) ->
 onlogout = -> console.warn 'persona logout?! not supposed to happen'
 
 loginError = (err)->
-  _.logXhrErr err, 'login err'
+  _.error err, 'login err'
   app.request 'ifOnline', showAccountError, true
 
 showAccountError = ->

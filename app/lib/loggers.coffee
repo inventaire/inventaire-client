@@ -23,6 +23,14 @@ module.exports = (_, csle)->
     return obj
 
   error = (err, label)->
+    if err?.status?
+      # log http errors
+      if err?.responseText? then label = "#{err.responseText} (#{label})"
+      switch err.status
+        when 401 then return csle.warn '401', label
+        when 404 then return csle.warn '404', label
+        # else it will be treated as other errors
+
     unless err?.stack?
       label or= 'empty error'
       newErr = new Error(label)
@@ -34,15 +42,6 @@ module.exports = (_, csle)->
 
     window.reportErr {error: report}
     csle.error.apply csle, report
-
-  logXhrErr = (err, label)->
-    if err?.responseText? then label = "#{err.responseText} (#{label})"
-    if err?.status?
-      switch err.status
-        when 401 then csle.warn '401', label
-        when 404 then csle.warn '404', label
-    else error err, label
-    return
 
   # providing a custom warn as it might be used
   # by methods shared with the server
@@ -59,14 +58,12 @@ module.exports = (_, csle)->
 
   partialLoggers =
     Log: (label)-> _.partial log, _, label
-    LogXhrErr: (label)-> _.partial logXhrErr, _, label
     Error: (label)-> _.partial error, _, label
     Warn: (label)-> _.partial warn, _, label
     Spy: (label)-> _.partial spy, _, label
 
   loggers =
     log: log
-    logXhrErr: logXhrErr
     error: error
     warn: warn
     spy: spy

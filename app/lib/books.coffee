@@ -18,7 +18,7 @@ getImages = ->
   _.log images, 'querying images'
   _.preq.get app.API.entities.getImages(images)
   .then spreadImages
-  .catch _.LogXhrErr("getImages err for images: #{images}")
+  .catch _.Error("getImages err for images: #{images}")
 
 lazyGetImages = _.debounce getImages, 100
 
@@ -36,6 +36,6 @@ spreadImages = (res)->
 books_.getIsbnEntities = (isbns)->
   isbns = isbns.map books_.normalizeIsbn
   _.preq.get app.API.entities.isbns(isbns)
-  .catch _.LogXhrErr('getIsbnEntities err')
+  .catch _.Error('getIsbnEntities err')
 
 module.exports = books_

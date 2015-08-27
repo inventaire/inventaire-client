@@ -65,7 +65,7 @@ backMessage = ->
 fetchPublicItems = (uri)->
   app.request 'get:entity:public:items', uri
   .then spreadPublicData
-  .catch _.logXhrErr
+  .catch _.Error('fetchPublicItems')
 
 spreadPublicData = (data)->
   app.users.public.add data.users

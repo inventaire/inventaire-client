@@ -86,7 +86,7 @@ API =
         # if it isnt in friends id, it should be a public item
         _.preq.get app.API.items.publicById(itemId)
         .then Items.public.add
-    .catch _.LogXhrErr('findItemById err (maybe the item was deleted?)')
+    .catch _.Error('findItemById err (maybe the item was deleted?)')
 
   displayFoundItems: (items)->
     _.log items, 'displayFoundItems items'

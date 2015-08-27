@@ -47,18 +47,6 @@ describe 'Logger', ->
 
   err = new Error('all your base are belong to us')
 
-  describe 'logXhrErr', ->
-    it 'should always return undefined', (done)->
-      expect(_.logXhrErr(err, 'server err')).to.be.undefined
-      done()
-
-  describe 'LogXhrErr', ->
-    it 'should return _.logXhrErr with a binded-label', (done)->
-      waitingFunc = _.LogXhrErr('server err')
-      waitingFunc.should.be.a.Function
-      expect(waitingFunc(err)).to.be.undefined
-      done()
-
   describe 'logIt', (done)->
     it 'should give String.prototype and Object.prototype a label', (done)->
       String::logIt.should.be.ok

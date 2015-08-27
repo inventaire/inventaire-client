@@ -2,14 +2,14 @@ module.exports = (app, $, _)->
   remote =
     get: (ids)->
       _.preq.get app.API.users.data(ids)
-      .catch _.LogXhrErr('users_data get err')
+      .catch _.Error('users_data get err')
 
     search: (text)->
       # catches case with ''
       if _.isEmpty(text) then return _.preq.resolve []
 
       _.preq.get app.API.users.search(text)
-      .catch _.LogXhrErr('users_data search err')
+      .catch _.Error('users_data search err')
 
     findOneByUsername: (username)->
       @search(username)

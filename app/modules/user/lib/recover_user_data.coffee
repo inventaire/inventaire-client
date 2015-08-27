@@ -26,7 +26,7 @@ fetchSuccess = (userAttrs)->
       _.log app.user.set('language', lang), 'language set from cookie'
 
 fetchError =  (err)->
-  _.logXhrErr(err, 'recoverUserData fail')
+  _.error err, 'recoverUserData fail'
   resetSession()
 
 userReady = ->
