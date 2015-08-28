@@ -9,6 +9,7 @@ module.exports = (app, $, _)->
       if _.isEmpty(text) then return _.preq.resolve []
 
       _.preq.get app.API.users.search(text)
+      .then _.property('users')
       .catch _.Error('users_data search err')
 
     findOneByUsername: (username)->
