@@ -141,5 +141,18 @@
     "title_browse_layout": null,
     "title_exchanges_layout": null,
     "call_to_connect_welcome_message": null,
-    "call_to_connect_welcome_title": null
+    "call_to_connect_welcome_title": null,
+    "global_email_toggle_warning": null,
+    "global_notification": null,
+    "friend_accepted_request_notification": null,
+    "friendship_request_notification": null,
+    "group_invite_notification": null,
+    "group_acceptRequest_notification": null,
+    "your_item_was_requested_notification": null,
+    "update_on_your_item_notification": null,
+    "update_on_item_you_requested_notification": null,
+    "newsletters_notification": null,
+    "inventories_activity_summary_notification": null,
+    "email_invitation_sent": null,
+    "num_books": null
 }

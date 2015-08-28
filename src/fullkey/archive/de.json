@@ -1,5 +1,6 @@
 {
     "username should be 20 character maximum": "Benutzername sollte maximal 20 Zeichen lang sein",
     "delete request": "Anfrage löschen",
-    "Read more on Wikipedia": "Mehr auf Wikipedia lesen"
+    "Read more on Wikipedia": "Mehr auf Wikipedia lesen",
+    "feedbacks": "Rückmeldungen"
 }

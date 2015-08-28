@@ -141,5 +141,18 @@
     "title_browse_layout": "browse the books in your friends and communities inventories",
     "title_exchanges_layout": "messages you sent or received about giving, lending or selling books",
     "call_to_connect_welcome_message": "the infinite inventory of your friends' and communities' books!",
-    "call_to_connect_welcome_title": "Welcome on Inventaire"
+    "call_to_connect_welcome_title": "Welcome on Inventaire",
+    "global_email_toggle_warning": "Disabling all emails notification is discouraged as you might miss important notifications: if possible, use the sections here after to fine-tune your settings",
+    "global_notification": "receive email notifications",
+    "friend_accepted_request_notification": "a friend accepted your request",
+    "friendship_request_notification": "someone send your a friendship request",
+    "group_invite_notification": "you have been invited to join a group",
+    "group_acceptRequest_notification": "your request to join a group as been accepted",
+    "your_item_was_requested_notification": "one of your books as been requested",
+    "update_on_your_item_notification": "updates in an exchange about one of your books",
+    "update_on_item_you_requested_notification": "updates in a exchange about a book you requested",
+    "newsletters_notification": "receive Inventaire's newsletters",
+    "inventories_activity_summary_notification": "receive the summary of what happened in your network lately",
+    "email_invitation_sent": "email invitation sent to <span class='email'>%{email}</span>",
+    "num_books": "%{smart_count} book |||| %{smart_count} books"
 }
