@@ -16,6 +16,8 @@ module.exports = Marionette.LayoutView.extend
   ui:
     friendsRequestsHeader: '#friendsRequestsHeader'
     invitations: '#invitations'
+    addMessage: '#addMessage'
+    message: '#message'
     output: '#output'
     usersAlreadyThere: '.usersAlreadyThere'
 
@@ -23,9 +25,11 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
     ElasticTextarea: {}
     AlertBox: {}
+    SuccessCheck: {}
 
   events:
     'click #sendInvitations': 'sendInvitations'
+    'click #addMessage': 'toggleMessage'
 
   initialize: ->
     @initPlugins()
@@ -47,6 +51,7 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     rawEmails: @rawEmails
+    message: @message
     emailsInvited: @emailsInvited
 
   showFriendsLists: ->
@@ -66,11 +71,14 @@ module.exports = Marionette.LayoutView.extend
   sendInvitations: ->
     # keeping rawEmails at hand to avoid emptying the textarea on re-render
     @rawEmails = @ui.invitations.val()
-    sendInvitationsByEmails @rawEmails
+    @message = @ui.message.val()
+    sendInvitationsByEmails @rawEmails, @message
     .catch invitationsError
+    .then _.Log('invitation data')
     .then @_spreadUsers.bind(@)
     .then @_showResults.bind(@)
     .catch forms_.catchAlert.bind(null, @)
+    .catch behaviorsPlugin.Fail.call @, 'invitations err'
 
   _spreadUsers: (data)->
     { users, emails } = data
@@ -101,8 +109,12 @@ module.exports = Marionette.LayoutView.extend
     # waiting for everything to be well rendered
     setTimeout _.scrollTop.bind(null, @ui.invitations), 250
 
-sendInvitationsByEmails = (rawEmails)->
-  app.request 'invitations:by:emails', rawEmails
+  toggleMessage: ->
+    @ui.addMessage.slideUp()
+    @ui.message.slideDown()
+
+sendInvitationsByEmails = (rawEmails, message)->
+  app.request 'invitations:by:emails', rawEmails, message
 
 invitationsError = (err)->
   err.selector = '#invitations'

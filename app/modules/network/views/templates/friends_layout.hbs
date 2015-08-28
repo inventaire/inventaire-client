@@ -14,10 +14,16 @@
   <form>
     <label for="invitations">{{i18n 'by email address'}}</label>
     {{!-- wrapper required for to append an alert box --}}
-    <div class="wrapper">
+    <div class="invitations">
       <textarea id="invitations" name="invitations" placeholder="{{i18n 'emails separated by a coma'}}">{{rawEmails}}</textarea>
     </div>
-    <a id="sendInvitations" class="button success bold radius">{{i18n 'send invitations'}}</a>
+    <div class="message {{#if message}}has-message{{/if}}">
+      <a id="addMessage">{{i18n 'add a personalized message'}}</a>
+      <textarea id="message" name="message" placeholder="{{i18n 'personalized message'}}...">{{message}}</textarea>
+    </div>
+    <a id="sendInvitations" class="button success bold radius">{{i18n 'send invitations'}}
+      {{partial 'general:behaviors:success_check' ''}}
+    </a>
   </form>
   <div class="output">
     {{#each emailsInvited}}

@@ -1,4 +1,8 @@
 #friendsLayout{
+  textarea{
+    min-width: 100%;
+    max-width: 100%;
+  }
   #friendsRequests:not(:empty), #friendsList{
   }
   #usersListHeader{
@@ -21,6 +25,25 @@
     @include radius(3px);
     .select{
       @include bg-hover(white, 8%);
+    }
+  }
+  .invitations{
+    textarea{
+      margin: 0;
+    }
+  }
+  .message{
+    text-align: right;
+    padding-bottom: 1em;
+    a{
+      @include text-hover($dark-grey);
+      @include underline(rgba($dark-grey, 0.5));
+    }
+    textarea{
+      margin-top: 1em;
+    }
+    &.has-message a, &:not(.has-message) textarea{
+      display: none;
     }
   }
   .email-sent{
