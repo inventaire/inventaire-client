@@ -1,4 +1,3 @@
-# extracted to be used in both handlebars helpers and scripts/lib/convert_markdown
-
+# customized for client-side needs
 module.exports = (text, url, classes='link')->
   "<a href=\"#{url}\" class='#{classes}' target='_blank'>#{text}</a>"

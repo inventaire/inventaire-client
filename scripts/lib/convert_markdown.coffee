@@ -1,14 +1,12 @@
-__ = require '../../root'
-linkify = __.require 'lib', 'handlebars_helpers/linkify'
+# using a different linkify for server or client
+module.exports = (linkify)->
+  # used by String::replace to pass text -> $1 and url -> $2 values
+  dynamicLink = linkify '$1', '$2'
 
-module.exports = (text)->
-  convertMarkdownLinks convertMarkdownBold(text)
+  convertMarkdownLinks = (text)->
+    text?.replace /\[([^\]]+)\]\(([^\)]+)\)/g, dynamicLink
 
-convertMarkdownLinks = (text)->
-  text?.replace /\[([^\]]+)\]\(([^\)]+)\)/g, dynamicLink
+  convertMarkdownBold = (text)->
+    text?.replace /\*\*([^*]+)\*\*/g, '<strong>$1</strong>'
 
-# used by String::replace to pass text -> $1 and url -> $2 values
-dynamicLink = linkify '$1', '$2'
-
-convertMarkdownBold = (text)->
-  text?.replace /\*\*([^*]+)\*\*/g, '<strong>$1</strong>'
+  return converter = (text)-> convertMarkdownLinks convertMarkdownBold(text)

@@ -72,7 +72,8 @@ getSources = (lang)->
     json_.read __.src.wikidataArchive(lang)
   ]
 
-convertMarkdown = require './lib/convert_markdown'
+linkify = require '../app/lib/handlebars_helpers/linkify'
+convertMarkdown = require('./lib/convert_markdown')(linkify)
 
 findKeys = (enObj, langCurrent, langArchive, langTransifex, markdown)->
   # dist will be the language 'dist' version

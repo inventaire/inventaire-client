@@ -8,6 +8,8 @@ _ = global._ = require './utils_builder'
 global.Handlebars = require 'handlebars'
 
 convertMarkdown = __.require 'scripts', 'lib/convert_markdown'
+linkify = __.require 'lib', 'handlebars_helpers/linkify'
+convertMarkdown = __.require('scripts', 'lib/convert_markdown')(linkify)
 
 describe 'Handlebars helpers', ->
   describe 'markdown', ->
