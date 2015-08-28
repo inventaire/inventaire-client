@@ -5,8 +5,9 @@
   }
   &.with-bg-image{
     .headerBg{
+      @include bg-cover;
       @include position(absolute, 0, 0, null, 0, -1);
-      height: 200vh;
+      height: 150vh;
     }
     .restBg{
       box-shadow: 0px -2px 2px 0px rgba($dark-grey, 0.8);
