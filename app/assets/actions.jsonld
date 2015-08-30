@@ -1,0 +1,10 @@
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://inventaire.io/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://inventaire.io/search?q={search_term}",
+    "query-input": "required name=search_term"
+  }
+}

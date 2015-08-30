@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 PUBLIC=$(pwd)/public
-html-minifier --collapse-whitespace $PUBLIC/index.html --output $PUBLIC/index.html
+html-minifier --collapse-whitespace --remove-comments --minify-js $PUBLIC/index.html --output $PUBLIC/index.html
 echo 'index.html minified'
+./scripts/add_jsonld_actions.coffee
+echo 'jsonld actions added'
