@@ -23,3 +23,6 @@ module.exports =
   scripts:
     persona: '/public/javascripts/persona-include.js?DIGEST'
     pouchdb: '/public/javascripts/pouchdb-3.3.1.min.js'
+  upload:
+    post: '/api/upload'
+    del: '/api/upload/delete'

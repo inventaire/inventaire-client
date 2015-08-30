@@ -5,7 +5,7 @@
       <div id="availablePictures">
         {{#each pictures}}
           <figure>
-            <img src="{{this}}">
+            <img src="{{src this 800}}">
             <a>
               <figcaption class="selectPicture">
                 <h5>{{icon 'check'}} <span>{{i18n 'select'}}</span></h5>
@@ -33,7 +33,7 @@
     <h5>{{i18n 'from a file'}}</h5>
     <input type="file" accept="image/jpeg, image/png" multiple />
     <h5>{{i18n 'from a URL'}}</h5>
-    {{input url}}
+    {{input urlInput}}
   </div>
 </div>
 

@@ -40,7 +40,7 @@ handlers =
         def.resolve request.response
 
     request.onerror = -> def.reject(request)
-    request.open 'POST', '/api/upload'
+    request.open 'POST', app.API.upload.post
     request.responseType = 'json'
     request.send formData
 
@@ -49,9 +49,9 @@ handlers =
 
   del: (imageUrlToDelete)->
     _.inspect imageUrlToDelete, 'imageUrlToDelete'
-    $.postJSON '/api/upload/delete', {urls: imageUrlToDelete}
+    _.preq.post app.API.upload.del, {urls: imageUrlToDelete}
     .then _.Log('image del res')
-    .fail _.Error('image del err')
+    .catch _.Error('image del err')
 
 
 module.exports = handlers

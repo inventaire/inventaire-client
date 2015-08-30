@@ -1,4 +1,5 @@
 imageHandler = require 'lib/image_handler'
+validateModule = require './lib/validate'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/picture_picker'
@@ -8,29 +9,36 @@ module.exports = Marionette.ItemView.extend
     Loading: {}
 
   initialize: ->
-    pictures = @options.pictures
-    if _.isString(pictures) then pictures = [pictures]
+    _.extend @, validateModule
 
-    @pictures = pictures.slice(0)
+    pictures = _.forceArray @options.pictures
+
+    @pictures = pictures.clone()
     _.extend @pictures, Backbone.Events
 
     @listenTo @pictures, 'add:pictures', @render
 
   serializeData: ->
-    url:
-      nameBase: 'url'
-      field:
-        type: 'url'
-        placeholder: _.i18n 'enter an image url'
-      button:
-        text: _.i18n 'go get it!'
+    urlInput: @urlInputData()
     pictures: @pictures
+
+  urlInputData: ->
+    nameBase: 'url'
+    field:
+      type: 'url'
+      placeholder: _.i18n 'enter an image url'
+    button:
+      text: _.i18n 'go get it!'
 
   onShow: ->
     app.execute 'modal:open', 'large'
     @selectFirst()
 
   onRender: -> @selectFirst()
+
+  ui:
+    availablePictures: '#availablePictures > figure'
+    availablePicturesImgs: '#availablePictures img'
 
   events:
     'click img': 'selectPicture'
@@ -43,10 +51,10 @@ module.exports = Marionette.ItemView.extend
     'change input[type=file]': 'getFilesPictures'
 
   selectFirst: ->
-    $('#availablePictures').find('figure').first().addClass('selected')
+    @ui.availablePictures.first().addClass('selected')
 
   selectPicture: (e)->
-    $('#availablePictures').find('figure').removeClass('selected')
+    @ui.availablePictures.removeClass('selected')
     $(e.target).parents('figure').first().addClass('selected')
 
   fetchUrlPicture: (e)->
@@ -72,65 +80,6 @@ module.exports = Marionette.ItemView.extend
   cancelDeletion: (e)->
     $(e.target).parents('figure').first().removeClass('deleted')
     .find('figcaption.cancelDeletion').first().hide()
-
-  # stinky code: need to be refactored
-  validate: ->
-    imgs = _.toArray($('#availablePictures').find('img'))
-    urls = imgs.map (img)-> img.src
-
-    figures = _.toArray($('#availablePictures').find('figure'))
-    states = figures.map (fig)-> _.toArray(fig.classList)
-
-    if urls.length isnt states.length
-      throw new Error 'urls and associated states not matching'
-
-
-    i = 0
-    toDelete = []
-    toKeep = []
-
-    console.log 'states', states, 'urls', urls
-    while i < urls.length
-      console.log i, 'i'
-      unless states[i]?
-        console.error 'missing state', states[i], states, i
-      else
-        if 'deleted' in states[i]
-          toDelete.push urls[i]
-        else if ('selected' in states[i]) and not @selected?
-          @selected = urls[i]
-        else
-          toKeep.push urls[i]
-      i += 1
-
-    console.log 'toDelete', toDelete, 'toKeep', toKeep
-
-    @deletePictures(toDelete)
-
-    toKeep.unshift(@selected)  if @selected?
-
-    _.log toKeep, 'toKeep'
-
-    picturesToUpload = toKeep.filter (pic)-> _.isDataUrl(pic)
-    _.log picturesToUpload, 'picturesToUpload'
-
-    if picturesToUpload?.length > 0
-      @$el.trigger 'loading'
-      imageHandler.upload(picturesToUpload)
-      .then (urls)=>
-        updatedPictures = toKeep.map (pic)->
-          if _.isDataUrl(pic) then return urls.shift()
-          else return pic
-
-        _.log updatedPictures, 'updatedPictures'
-
-        @close()
-        @options.save(updatedPictures)
-      .fail (err)-> _.log 'picturesToUpload fail'
-
-    else
-      @close()
-      @options.save(toKeep)
 
   close: -> app.execute 'modal:close'
 
