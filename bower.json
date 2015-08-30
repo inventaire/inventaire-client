@@ -20,22 +20,22 @@
     "tests"
   ],
   "dependencies": {
-    "marionette": "~2.4.1",
-    "foundation": "https://github.com/maxlath/bower-foundation.git#brunch-custom",
-    "font-awesome": "~4.3.0",
-    "polyglot": "~0.4.1",
+    "autosize": "~3.0.8",
     "backbone-filtered-collection": "~0.4.0",
-    "backbone-nested-afeld": "~2.0.1",
-    "lang": "https://github.com/maxlath/lang.git",
-    "qlabel": "https://github.com/maxlath/qlabel.git#bower-support",
-    "blueimp-canvas-to-blob": "~2.1.1",
-    "moment": "~2.10.6",
+    "backbone-nested-model": "backbone-nested-afeld#~2.0.4",
+    "backbone.marionette": "marionette#~2.4.2",
     "bluebird": "~2.9.34",
-    "jquery.inview": "~1.0.0",
+    "blueimp-canvas-to-blob": "~2.2.0",
+    "df-visible": "jquery-visible#~1.2.0",
+    "font-awesome": "~4.3.0",
+    "foundation": "https://github.com/maxlath/bower-foundation.git#brunch-custom",
     "imagesloaded": "~3.1.8",
-    "jquery-visible": "~1.1.0",
-    "masonry": "~3.3.1",
-    "autosize": "~3.0.6"
+    "lang": "https://github.com/maxlath/lang.git",
+    "masonry": "~3.3.2",
+    "moment": "~2.10.6",
+    "polyglot": "~0.4.3",
+    "jquery.inview": "jquery.inview#~1.0.0",
+    "qlabel": "https://github.com/maxlath/qlabel.git#bower-support"
   },
   "overrides": {
     "jquery-visible": {
