@@ -4,7 +4,7 @@ module.exports = (batchLength=5, initialLength)->
     throw new Error('should be called with a view as context')
 
   @displayedLimit = initialLength or batchLength
-  @lazyRender = _.debounce @render.bind(@), 200
+  @lazyRender = _.LazyRender @
 
   _.extend @,
     filter: (child, index, collection)->

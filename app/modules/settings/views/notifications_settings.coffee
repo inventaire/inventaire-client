@@ -5,7 +5,7 @@ module.exports = Marionette.ItemView.extend
   className: 'notificationsSettings'
   initialize: ->
     # used here to delay the rendering once 'user:ready' is triggered
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
     @listenTo app.user, 'change:settings', @lazyRender
 
   serializeData: ->

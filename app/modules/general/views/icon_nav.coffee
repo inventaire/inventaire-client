@@ -2,7 +2,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/icon_nav'
   className: 'innerIconNav'
   initialize: ->
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
     @once 'render', @initListeners.bind(@)
 
   initListeners: ->

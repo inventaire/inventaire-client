@@ -5,7 +5,7 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
 
   initialize: ->
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
     @listenTo app.vent, 'transaction:select', @autoSelect.bind(@)
 
   serializeData: ->

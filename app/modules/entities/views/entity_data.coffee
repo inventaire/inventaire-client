@@ -5,7 +5,7 @@ module.exports = Marionette.ItemView.extend
   className: 'entityData'
   initialize: (options)->
     @initPlugin()
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
 
     @hidePicture = options.hidePicture

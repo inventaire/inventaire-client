@@ -11,7 +11,7 @@ module.exports = Marionette.CompositeView.extend
     PreventDefault: {}
 
   initialize: ->
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
     @collection = @model.timeline
     @initPlugins()
 

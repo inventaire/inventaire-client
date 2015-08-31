@@ -11,7 +11,7 @@ module.exports = Marionette.ItemView.extend
   tagName: -> if @options.highlighted then 'div' else 'li'
   initialize: ->
     @initPlugin()
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
     # using lazyRender instead of render allow to whait for group.mainUserStatus
     # to be ready (i.e. not to return 'none')
     @listenTo @model, 'change', @lazyRender

@@ -14,7 +14,7 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     @initPlugins()
-    @lazyRender = _.debounce @render.bind(@), 400
+    @lazyRender = _.LazyRender @, 400
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'grab:entity', @lazyRender
 

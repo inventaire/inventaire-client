@@ -8,7 +8,7 @@ module.exports = Marionette.ItemView.extend
     groupsTab: '#groupsTab'
 
   initialize: ->
-    @lazyRender = _.debounce @render.bind(@), 200
+    @lazyRender = _.LazyRender @
 
     app.request('waitForData')
     .then @lazyRender
