@@ -23,7 +23,7 @@
     "autosize": "~3.0.8",
     "backbone-filtered-collection": "~0.4.0",
     "backbone-nested-model": "backbone-nested-afeld#~2.0.4",
-    "backbone.marionette": "marionette#~2.4.2",
+    "backbone.marionette": "marionette#2.4.1",
     "bluebird": "~2.9.34",
     "blueimp-canvas-to-blob": "~2.2.0",
     "df-visible": "jquery-visible#~1.2.0",
