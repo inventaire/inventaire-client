@@ -201,6 +201,8 @@ module.exports = (Backbone, _, app, window, console)->
       shortenedText = text[0..limit]
       return shortenedText.replace /\s\w+$/, ''
 
+    isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
+
     LazyRender: (view, timespan=200)-> _.debounce view.render.bind(view), timespan
 
   return _.extend {}, utils, loggers
