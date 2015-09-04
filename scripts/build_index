@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 PUBLIC=$(pwd)/public
-# it is useful to keep piwik's code separated so that it doesn't do requests while in development
-./scripts/add_piwik.coffee
+# partials used to keep pieces of code not useful for development out of the index
+./scripts/add_index_partials.coffee
 echo 'piwik added'
 html-minifier --collapse-whitespace --remove-comments --minify-js $PUBLIC/index.html --output $PUBLIC/index.html
 echo 'index.html minified'
