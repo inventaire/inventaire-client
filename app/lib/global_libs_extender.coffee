@@ -2,10 +2,8 @@ module.exports = (_)->
 
   sharedLib('global_libs_extender')()
 
-  # WINDOW
   window.location.root = window.location.protocol + '//' + window.location.host
 
-  # BACKBONE.MODEL
   #changing the default attribute to fit CouchDB
   Backbone.Model::idAttribute = '_id'
 
@@ -46,13 +44,11 @@ module.exports = (_)->
     @trigger 'grab', name, model
     @trigger "grab:#{name}", model
 
-  # BACKBONE.COLLECTION
   Backbone.Collection::findOne = -> @models[0]
   Backbone.Collection::byId = (id)-> @_byId[id]
   Backbone.Collection::byIds = (ids)-> ids.map (id)=> @byId(id)
   Backbone.Collection::attributes = -> @toJSON()
 
-  # FILTERED COLLECTION
   FilteredCollection::filterByText = (text, reset=true)->
     @resetFilters()  if reset
     filterExpr = new RegExp text, 'i'
@@ -60,7 +56,6 @@ module.exports = (_)->
       if model.matches? then model.matches filterExpr
       else _.error model, 'model has no matches method'
 
-  # MARIONETTE
   Marionette.Region::Show = (view, options={})->
     if _.isString options then docTitle = options
     else { docTitle, noCompletion } = options

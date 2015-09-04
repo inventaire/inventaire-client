@@ -2,7 +2,8 @@ Q =
   books: [
     'Q571' #book
     'Q2831984' #comic book album
-    'Q1004' # bande dessinée
+    'Q1004' # bande dessinée / comic book
+    'Q14406742' # bande dessinée / comic book series
     'Q8261' #novel / roman
     'Q25379' #theatre play
     'Q7725634' #literary work

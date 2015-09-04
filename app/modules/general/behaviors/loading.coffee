@@ -8,7 +8,8 @@ module.exports = Marionette.Behavior.extend
     'somethingWentWrong': 'somethingWentWrong'
 
   showSpinningLoader: (e, params)->
-    @$target = @getTarget(params)
+    @$target = @getTarget params
+    # _.log @$target, '@$target'
 
     body = "<i class='fa fa-circle-o-notch fa-spin'></i>"
     if params?.message?
@@ -19,17 +20,17 @@ module.exports = Marionette.Behavior.extend
 
     timeout = params?.timeout or 16
     unless timeout is 'none'
-      cb = @somethingWentWrong.bind(@, null, params)
+      cb = @somethingWentWrong.bind @, null, params
       setTimeout cb, timeout * 1000
 
   hideSpinningLoader: (e, params)->
-    @$target or= @getTarget(params)
+    @$target or= @getTarget params
     @$target.empty()
     @hidden = true
 
   somethingWentWrong: (e, params)->
     unless @hidden
-      @$target or= this.getTarget(params)
+      @$target or= this.getTarget params
 
       oups = _.i18n 'Something went wrong :('
       body = "<i class='fa fa-bolt'></i><p> #{oups}</p>"
@@ -37,6 +38,6 @@ module.exports = Marionette.Behavior.extend
       @$target.html body
 
   getTarget: (params)->
-    if params?.selector? then $(params.selector).find('.loading')
+    # _.log params, 'params'
+    if params?.selector? then $(params.selector).find '.loading'
     else @ui.loading
-
