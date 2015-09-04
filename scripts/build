@@ -4,9 +4,9 @@ rm public/stylesheets/*map 2> /dev/null
 
 echo -e '\e[0;30mbrunch build -P\e[0m'
 brunch build -P
-./scripts/minify_html
+./scripts/build_index
 
-echo -e '\e[0;30mminify_html\e[0m'
+echo -e '\e[0;30mbuild_index\e[0m'
 # commenting-out cssnext as flexbox-wise, it was messing with crappy browsers
 # (especially Safari) more than fixing anything
 # cssnext public/stylesheets/app.css{,}
