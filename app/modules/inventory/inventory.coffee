@@ -43,10 +43,9 @@ API =
       navigate: navigate
 
   showGroupInventory: (id, name, navigate)->
-    if app.request 'require:loggedIn', "groups/#{id}/#{name}"
-      showInventory
-        group: id
-        navigate: navigate
+    showInventory
+      group: id
+      navigate: navigate
 
   showItemCreationForm: (options)->
     form = new ItemCreationForm options

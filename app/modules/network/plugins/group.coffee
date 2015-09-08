@@ -40,8 +40,12 @@ handlers =
   acceptInvitation: -> @model.acceptInvitation()
   declineInvitation: -> @model.declineInvitation()
   joinRequest: ->
-    @model.requestToJoin()
-    .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
+    id = @model.id
+    name = @model.get 'name'
+    if app.request 'require:loggedIn', "groups/#{id}/#{name}"
+      @model.requestToJoin()
+      .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
+
   cancelRequest: ->
     @model.cancelRequest()
     .catch behaviorsPlugin.Fail.call(@, 'cancelRequest')

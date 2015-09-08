@@ -5,7 +5,7 @@ groupActions = require '../lib/group_actions'
 defaultCover = "http://img.inventaire.io/bokeh-pinkorchid_too-CC-BY-SA.jpg"
 
 module.exports = Backbone.Model.extend
-  url: app.API.groups
+  url: app.API.groups.private
   initialize: ->
     aggregateUsersIds.call @
     _.extend @, groupActions

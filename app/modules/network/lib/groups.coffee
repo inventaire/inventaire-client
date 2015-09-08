@@ -12,7 +12,7 @@ module.exports =
   createGroup: (name)->
     { groups } = app.user
 
-    _.preq.post app.API.groups,
+    _.preq.post app.API.groups.private,
       action: 'create'
       name: name
     .then groups.add.bind(groups)

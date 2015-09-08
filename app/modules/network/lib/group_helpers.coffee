@@ -1,10 +1,23 @@
+Groups = require 'modules/network/collections/groups'
+
 module.exports = ->
-  { groups } = app.user
+  groups = app.user?.groups or new Groups
 
   getGroupModel = (id)->
     group = groups.byId id
     if group then _.preq.resolve group
     else getGroupPublicData id
+
+  getGroupPublicData = (id)->
+    _.preq.get _.buildPath(app.API.groups.public, {id: id})
+    .then _.Log('getGroupPublicData')
+    .then (res)->
+      {group, users, items} = res
+      app.users.public.add users
+      Items.public.add items
+      groupModel =  groups.add group
+      groupModel.publicDataOnly = true
+      return groupModel
 
   app.reqres.setHandlers
     'get:group:model': getGroupModel
@@ -22,15 +35,3 @@ initGroupFilteredCollection = (groups, name)->
 filters =
   mainUserMember: (group)-> group.mainUserIsMember()
   mainUserInvited: (group)-> group.mainUserIsInvited()
-
-
-getGroupPublicData = (id)->
-  _.preq.get _.buildPath(app.API.groups, {id: id})
-  .then _.Log('getGroupPublicData')
-  .then (res)->
-    {group, users, items} = res
-    app.users.public.add users
-    Items.public.add items
-    groupModel =  app.user.groups.add group
-    groupModel.publicDataOnly = true
-    return groupModel

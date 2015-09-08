@@ -12,7 +12,9 @@ module.exports =
   transactions: '/api/transactions'
   relations: '/api/relations'
   invitations: '/api/invitations'
-  groups: '/api/groups'
+  groups:
+    private: '/api/groups'
+    public: '/api/groups/public'
   user: '/api/user'
   notifs: '/api/notifs'
   feedback: '/api/feedback/public'

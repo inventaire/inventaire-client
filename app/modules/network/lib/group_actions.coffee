@@ -54,7 +54,7 @@ module.exports =
     .catch @revertMove.bind(@, user, 'requested', 'tmp')
 
   action: (action, userId)->
-    _.preq.put app.API.groups,
+    _.preq.put app.API.groups.private,
       action: action
       group: @id
       # optionel

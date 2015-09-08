@@ -23,15 +23,14 @@ module.exports =
     app.reqres.setHandlers
       'get:network:counters': networkCounters
 
-    # app.user.group will be undefined if the user isnt loggedin
-    if app.user.loggedIn
-      app.request('waitForUserData')
-      .then initGroupHelpers
-      .then initRequestsCollectionsEvent.bind(@)
+    app.request 'waitForUserData'
+    .then initGroupHelpers
+    .then initRequestsCollectionsEvent.bind(@)
 
 initRequestsCollectionsEvent = ->
-  @listenTo app.users.otherRequested, 'add remove', requestsUpdates
-  @listenTo app.user.groups.mainUserInvited, 'add remove', requestsUpdates
+  if app.user.loggedIn
+    @listenTo app.users.otherRequested, 'add remove', requestsUpdates
+    @listenTo app.user.groups.mainUserInvited, 'add remove', requestsUpdates
 
 API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'

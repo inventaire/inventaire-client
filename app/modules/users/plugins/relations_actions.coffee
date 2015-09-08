@@ -26,7 +26,10 @@ handlers =
   cancel: -> app.request 'request:cancel', @model
   discard: -> app.request 'request:discard', @model
   accept: -> app.request 'request:accept', @model
-  send: -> app.request 'request:send', @model
+  send: ->
+    username = @model.get 'username'
+    if app.request 'require:loggedIn', "inventory/#{username}"
+      app.request 'request:send', @model
   unfriend: confirmUnfriend
   invite: ->
     unless @group? then return _.error 'inviteUser err: group is missing'
