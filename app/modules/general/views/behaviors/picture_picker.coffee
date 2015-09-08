@@ -1,26 +1,30 @@
-imageHandler = require 'lib/image_handler'
-validateModule = require './lib/validate'
+Imgs = require 'modules/general/collections/imgs'
+images_ = require 'lib/images'
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
-module.exports = Marionette.ItemView.extend
+module.exports = Marionette.CompositeView.extend
+  className: ->
+    { limit } = @options
+    "picture-picker limit-#{limit}"
+
   template: require './templates/picture_picker'
+  childViewContainer: '#availablePictures'
+  childView: require './picture'
+
   behaviors:
     AlertBox: {}
     SuccessCheck: {}
     Loading: {}
 
   initialize: ->
-    _.extend @, validateModule
-
-    pictures = _.forceArray @options.pictures
-
-    @pictures = pictures.clone()
-    _.extend @pictures, Backbone.Events
-
-    @listenTo @pictures, 'add:pictures', @render
+    @limit = @options.limit or 1
+    collectionData = _.forceArray(@options.pictures).map (url)-> {url: url}
+    @collection = new Imgs collectionData
 
   serializeData: ->
     urlInput: @urlInputData()
-    pictures: @pictures
 
   urlInputData: ->
     nameBase: 'url'
@@ -29,64 +33,77 @@ module.exports = Marionette.ItemView.extend
       placeholder: _.i18n 'enter an image url'
     button:
       text: _.i18n 'go get it!'
+    allowMultiple: @limit > 1
 
   onShow: ->
     app.execute 'modal:open', 'large'
     @selectFirst()
-
-  onRender: -> @selectFirst()
+    @ui.urlInput.focus()
 
   ui:
-    availablePictures: '#availablePictures > figure'
-    availablePicturesImgs: '#availablePictures img'
+    urlInput: '#urlField'
 
   events:
-    'click img': 'selectPicture'
-    'change input#urlField': 'fetchUrlPicture'
-    'click .selectPicture': 'selectPicture'
-    'click .cancelDeletion': 'cancelDeletion'
-    'click .deletePicture': 'deletePicture'
     'click #validate': 'validate'
     'click #cancel': 'close'
     'change input[type=file]': 'getFilesPictures'
+    'click #urlButton': 'fetchUrlPicture'
 
   selectFirst: ->
-    @ui.availablePictures.first().addClass('selected')
+    @collection.models[0]?.select()
 
-  selectPicture: (e)->
-    @ui.availablePictures.removeClass('selected')
-    $(e.target).parents('figure').first().addClass('selected')
+  validate: ->
+    behaviorsPlugin.startLoading.call @, '#validate'
+    @getFinalUrls()
+    .then _.Log('final urls')
+    .then @_saveAndClose.bind(@)
+
+  getFinalUrls: ->
+    selectedModels = @collection.models.filter isSelectedModel
+    _.log selectedModels, 'selected models'
+    selectedModels = selectedModels.slice 0, @limit
+    _.log selectedModels, 'sliced models'
+    Promise.all _.invoke(selectedModels, 'getFinalUrl')
+
+  _saveAndClose: (urls)->
+    @options.save urls
+    @close()
 
   fetchUrlPicture: (e)->
-    img = $('input#urlField').val()
-    if _.isUrl img
-      @pictures.unshift img
-      @pictures.trigger('add:pictures')
+    url = @ui.urlInput.val()
+
+    _.preq.start()
+    .then validateUrlInput.bind(null, url)
+    .then images_.getUrlDataUrl.bind(null, url)
+    .catch forms_.catchAlert.bind(null, @)
+    .then @_addToPictures.bind(@)
+    .catch _.Error('_addUrlToPictures')
 
   getFilesPictures: (e)->
     files = _.toArray e.target.files
     _.log files, 'files'
-    files.forEach (file)=>
-      if _.isObject file
-        imageHandler.addDataUrlToArray(file, @pictures, 'add:pictures')
-      else _.log file, 'couldnt getFilesPictures'
+    files.forEach @_addFileToPictures.bind(@)
 
-  # could be de-duplicated using toggleClass and toggle
-  # but couldn't make it work
-  deletePicture: (e)->
-    $(e.target).parents('figure').first().addClass('deleted')
-    .removeClass('selected')
-    .find('figcaption.cancelDeletion').first().show()
-  cancelDeletion: (e)->
-    $(e.target).parents('figure').first().removeClass('deleted')
-    .find('figcaption.cancelDeletion').first().hide()
+  _addFileToPictures: (file)->
+    unless _.isObject file then return _.warn file, 'couldnt _addFileToPictures'
+    images_.getFileDataUrl file
+    .then @_addToPictures.bind(@)
+    .catch _.Error('_addFileToPictures')
+
+  _addToPictures: (dataUrl)->
+    if @limit is 1 then @_unselectAll()
+    @_addDataUrlToCollection dataUrl
+
+  _unselectAll: (dataUrl)->
+    @collection.invoke 'set', 'selected', false
+
+  _addDataUrlToCollection: (dataUrl)->
+    @collection.add { dataUrl: dataUrl, selected: true }
 
   close: -> app.execute 'modal:close'
 
+isSelectedModel = (model)-> model.get('selected')
 
-  deletePictures: (toDelete)->
-    if toDelete.length > 0
-      hostedPictures = toDelete.filter (pic)-> _.isHostedPicture(pic)
-      if hostedPictures.length > 0
-        return imageHandler.del hostedPictures
-    _.log toDelete, 'pictures: no hosted picture to delete'
+validateUrlInput = (url)->
+  unless _.isUrl url
+    error_.newWithSelector 'invalid url', '#urlField', arguments

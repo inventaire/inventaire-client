@@ -11,11 +11,11 @@ body{
     @include display-flex(column);
   }
   #modal{
-    max-width: 38em;
+    max-width: $modalWidth;
     // min-height is weirdly defined at 100vh by Foundation for small screens
     min-height: auto;
     &.large{
-      max-width: 80em;
+      max-width: $largeModalWidth;
     }
   }
 }

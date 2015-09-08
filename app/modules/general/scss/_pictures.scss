@@ -1,4 +1,4 @@
-$profile-pic-size: 2.8rem;
+$profile-pic-size: 2.8em;
 
 .profilePic{
   height: $profile-pic-size;
@@ -6,71 +6,20 @@ $profile-pic-size: 2.8rem;
 }
 
 .large-profilePic{
-  height: 5rem;
+  height: 5em;
 }
 
 figure {
   margin:0;
   display: inline-block;
   figcaption {
-    min-height: 3rem;
+    min-height: 3em;
     h5 {
       color: #fff;
       text-align: center;
       margin: 0;
       padding: 0.8rem;
     }
-  }
-}
-
-#changePicture{
-  figcaption {
-    @include bg-hover($dark-grey, 5%);
-  }
-}
-
-#availablePictures{
-  figure {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-  }
-  img{
-    max-height: 15rem;
-    max-width: 15rem;
-  }
-  figcaption.selectPicture{
-      background-color: $success-color;
-  }
-  figcaption.deletePicture{
-      background-color: #777;
-  }
-  figcaption.cancelDeletion{
-      background-color: $secondary-color;
-      display: none;
-  }
-}
-
-figure.selected{
-  img {
-    box-shadow: 0 -0.1rem 0.6rem rgba(20,20,90,0.7);
-  }
-  figcaption.selectPicture{
-    opacity: 0.6;
-    span{
-      display: none;
-    }
-  }
-}
-
-figure.deleted{
-  img{
-    opacity: 0.5;
-  }
-  figcaption.selectPicture{
-    display: none;
-  }
-  figcaption.deletePicture{
-    opacity: 0;
   }
 }
 
@@ -85,13 +34,8 @@ figure.deleted{
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  figure.changePicture{
-    img{
-      max-width: 20vw;
-    }
-  }
   .max-large-profilePic{
-    max-width: 25rem;
-    max-height: 25rem;
+    max-width: 25em;
+    max-height: 25em;
   }
 }

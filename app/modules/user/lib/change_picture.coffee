@@ -1,14 +1,17 @@
+regex_ = sharedLib 'regex'
+
 module.exports = ->
-  picturePicker = new app.View.Behaviors.PicturePicker
-    pictures: app.user.get('picture')
+  app.layout.modal.show new app.View.Behaviors.PicturePicker
+    pictures: app.user.get 'picture'
     limit: 1
     save: savePicture
-  app.layout.modal.show picturePicker
+    crop: true
 
 savePicture = (pictures)->
   picture = pictures[0]
-  unless _.isUrl picture
-    throw new Error 'couldnt save picture: requires a url'
+  _.log picture, 'picture'
+  unless _.isLocalImg picture
+    throw new Error 'couldnt save picture: requires a local image url'
 
   app.request 'user:update',
     attribute: 'picture'

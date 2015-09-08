@@ -1,0 +1,93 @@
+.picture-picker{
+  h4{
+    text-align: center;
+  }
+  a{
+    font-weight: bold;
+  }
+  section#validation{
+    margin-top: 1em;
+  }
+  &.limit-1{
+    figure:not(.selected){
+      display: none;
+      background-color: red !important;
+      padding: 1em;
+    }
+    h4.select{
+      display: none;
+    }
+  }
+}
+
+#image-inputs .box{
+  margin: 0 auto;
+  max-width: 40em;
+  background-color: $light-grey;
+  padding: 1em;
+  @include radius;
+}
+#image-importer{
+}
+
+#availablePictures{
+  padding-top: 1em;
+  @include display-flex(column, center, center);
+  img.original{
+    max-width: 50em;
+    /*Small screens*/
+    @media screen and (max-width: $smallscreen) {
+      max-width: 95vw;
+    }
+    @include radius-top;
+  }
+  figure {
+    // determines the croppers width
+    width: 100%;
+    &.selected{
+      .original {
+        box-shadow: 0 -0.1em 0.6em rgba(20,20,90,0.7);
+      }
+      figcaption{
+        display: none;
+      }
+      figcaption.selectPicture{
+        opacity: 0.6;
+        cursor: default;
+        span{
+          display: none;
+        }
+      }
+    }
+    &:not(.selected){
+      img{
+        opacity: 0.5;
+      }
+    }
+    &.deleted{
+      img{
+        display: none;
+      }
+      figcaption.selectPicture{
+        display: none;
+      }
+      figcaption.deletePicture{
+        opacity: 0;
+      }
+    }
+  }
+  figcaption{
+    &.selectPicture{
+      background-color: $success-color;
+    }
+    &.deletePicture{
+      background-color: #777;
+      @include radius-bottom;
+    }
+    &.cancelDeletion{
+      background-color: rgba($dark-grey, 0.8);
+      @include radius;
+      display: none;
+    }
+  }
+}

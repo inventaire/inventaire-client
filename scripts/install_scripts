@@ -21,6 +21,9 @@ logDone LevelJs
 browserify node_modules/memdown -s MemDown > vendor/scripts/memdown.js
 logDone MemDown
 
+browserify node_modules/to-data-url -s toDataURL > vendor/scripts/to-data-url.js
+logDone toDataURL
+
 cp node_modules/wikidata-sdk/dist/wikidata-sdk.js vendor/scripts/wikidata-sdk.js
 echo -e '\e[0;32mdone copying:\e[0m' wdk
 

@@ -1,47 +1,17 @@
-<div class="row">
-  <div class="small-12 large-6 columns">
-    <div id="imageImporter">
-      <h4>{{i18n 'select a picture'}}</h4>
-      <div id="availablePictures">
-        {{#each pictures}}
-          <figure>
-            <img src="{{src this 800}}">
-            <a>
-              <figcaption class="selectPicture">
-                <h5>{{icon 'check'}} <span>{{i18n 'select'}}</span></h5>
-              </figcaption>
-            </a>
-            <a>
-              <figcaption class="cancelDeletion">
-                <h5>{{icon 'warning'}} {{i18n 'cancel deletion'}}</h5>
-              </figcaption>
-            </a>
-            <a>
-              <figcaption class="deletePicture">
-                <h5>{{icon 'trash-o'}} {{i18n 'delete'}}</h5>
-              </figcaption>
-            </a>
-            <a href="{{this}}" class="link" target="_blank" title="{{this}}">{{i18n 'source'}}</a>
-          </figure>
-        {{/each}}
-      </div>
-    </div>
-  </div>
-
-  <div class="small-12 large-6 columns">
-    <h4>{{i18n 'import a picture'}}</h4>
-    <h5>{{i18n 'from a file'}}</h5>
-    <input type="file" accept="image/jpeg, image/png" multiple />
-    <h5>{{i18n 'from a URL'}}</h5>
+<section id="image-inputs">
+  <h4>{{i18n 'import a picture'}}</h4>
+  <div class="box">
+    <h5>{{icon 'upload'}}{{i18n 'from a file'}}</h5>
+    <input type="file" accept="image/*" {{#if allowMultiple}}multiple{{/if}} />
+    <h5>{{icon 'link'}}{{i18n 'from a URL'}}</h5>
     {{input urlInput}}
   </div>
-</div>
-
-<div class="row">
-  <div class="small-12 large-4 large-offset-4 columns">
-   {{partial 'validation_buttons'}}
-  </div>
-  <div class="small-12 small-text-center large-2 columns">
-    <span class='loading'></span>
-  </div>
-</div>
+</section>
+<section id="image-importer">
+  <h4 class="select">{{i18n 'select a picture'}}</h4>
+  <div id="availablePictures"></div>
+</section>
+<section id="validation">
+ {{partial 'validation_buttons'}}
+  <span class='loading'></span>
+</section>

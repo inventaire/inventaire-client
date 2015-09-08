@@ -27,6 +27,7 @@
     "level-multiply": "git+https://github.com/maxlath/node-level-multiply.git",
     "levelup": "^0.19.0",
     "memdown": "^1.0.0",
+    "to-data-url": "^1.0.1",
     "wikidata-sdk": "^1.4.2"
   },
   "devDependencies": {

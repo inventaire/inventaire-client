@@ -138,7 +138,8 @@ module.exports = (Backbone, _, app, window, console)->
 
     isUuid: (str)-> regex_.Uuid.test str
     isEmail: (str)-> regex_.Email.test str
-    isUserId: (id)-> regex_.CouchUuid.test(id)
+    isUserId: (id)-> regex_.CouchUuid.test id
+    isLocalImg: (url)-> regex_.LocalImg.test url
 
     # anchor with a href are opened out of the current window
     # when the ctrlKey is pressed: the normal action should thus be prevented

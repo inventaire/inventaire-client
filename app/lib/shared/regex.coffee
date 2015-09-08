@@ -5,3 +5,4 @@ module.exports =
   Uuid: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
   CouchUuid: /^[0-9a-f]{32}$/
   Lang: /^\w{2}$/
+  LocalImg: /^\/img\/[0-9a-f]{40}.jpg$/

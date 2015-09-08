@@ -26,15 +26,16 @@
     "backbone.marionette": "marionette#2.4.1",
     "bluebird": "~2.9.34",
     "blueimp-canvas-to-blob": "~2.2.0",
+    "cropper": "~0.11.1",
     "df-visible": "jquery-visible#~1.2.0",
     "font-awesome": "~4.3.0",
     "foundation": "https://github.com/maxlath/bower-foundation.git#brunch-custom",
     "imagesloaded": "~3.1.8",
+    "jquery.inview": "jquery.inview#~1.0.0",
     "lang": "https://github.com/maxlath/lang.git",
     "masonry": "~3.3.2",
     "moment": "~2.10.6",
     "polyglot": "~0.4.3",
-    "jquery.inview": "jquery.inview#~1.0.0",
     "qlabel": "https://github.com/maxlath/qlabel.git#bower-support"
   },
   "overrides": {
