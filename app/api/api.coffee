@@ -5,6 +5,7 @@ module.exports =
   entities: require './entities'
   services: require './services'
   data: require './data'
+  img: require './img'
   comments:
     public: '/api/comments/public'
     private: '/api/comments'
@@ -26,10 +27,3 @@ module.exports =
   upload:
     post: '/api/upload'
     del: '/api/upload/delete'
-  img: (path, width, height)->
-    if /^http/.test path
-      key = _.hashCode path
-      href = encodeURIComponent path
-      "/img/#{width}x#{height}/#{key}?href=#{href}"
-    else
-      "/img/#{width}x#{height}/#{path}"
