@@ -4,6 +4,6 @@ module.exports = (e)->
     $target =  $(row).find('.button, .tiny-button, .saveButton')
     if $target.length > 0
       $target.trigger 'click'
-      # _.log 'ui: enter-click'
+      # _.log $target, 'ui: enter-click'
     else
       _.error 'enterClick target not found'

@@ -1,7 +1,7 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 check = behavior 'success_check'
 input = behavior 'input'
-SafeString = Handlebars.SafeString
+{ SafeString } = Handlebars
 
 
 # data =

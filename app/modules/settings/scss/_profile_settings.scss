@@ -24,36 +24,56 @@
       margin-top: -1em;
     }
   }
-}
+  .changePicture{
+    img{
+      @include radius-top();
+    }
+  }
 
-.alertMessageBox, .successMessageBox{
-  color: white;
-  // font-weight: bold;
-  text-align: center;
-  margin-bottom: 1em;
-}
+  #changePicture{
+    figcaption {
+      @include bg-hover($dark-grey, 5%);
+      @include radius-bottom;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    figure.changePicture{
+      img{
+        max-width: 20vw;
+      }
+    }
+  }
+  .alertMessageBox, .successMessageBox{
+    color: white;
+    // font-weight: bold;
+    text-align: center;
+    margin-bottom: 1em;
+  }
 
-.alertMessageBox{
-  span, .a{
+  .alertMessageBox{
+    span, .a{
+      @include radius();
+      display: block;
+    }
+    .alert{
+      width: 100%;
+      background-color: $warning-color;
+      padding: 0.5em;
+      margin-bottom: 0.5em;
+    }
+  }
+  .successMessageBox{
     @include radius();
-    display: block;
-  }
-  .alert{
-    width: 100%;
-    background-color: $warning-color;
+    .fa{
+      font-size: 2em;
+      display: block;
+    }
+    background-color: $success-color;
     padding: 0.5em;
-    margin-bottom: 0.5em;
   }
 }
-.successMessageBox{
-  @include radius();
-  .fa{
-    font-size: 2em;
-    display: block;
-  }
-  background-color: $success-color;
-  padding: 0.5em;
-}
+
 
 #languagePicker{
   max-width: 20em;

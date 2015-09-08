@@ -12,7 +12,7 @@
 <section>
   <h2>{{i18n 'invite friends'}}</h2>
   <form>
-    <label for="invitations">{{i18n 'by email address'}}</label>
+    <label for="invitations">{{icon 'envelope'}}{{I18n 'by email address'}}</label>
     {{!-- wrapper required for to append an alert box --}}
     <div class="invitations">
       <textarea id="invitations" name="invitations" placeholder="{{i18n 'emails separated by a coma'}}">{{rawEmails}}</textarea>

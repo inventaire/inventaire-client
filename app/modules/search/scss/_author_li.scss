@@ -79,5 +79,10 @@
     .innerAuthorLi{
       @include display-flex(column);
     }
+    .infobox{
+      img{
+        max-width: 95vw;
+      }
+    }
   }
 }
