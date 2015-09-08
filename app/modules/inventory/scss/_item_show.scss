@@ -15,6 +15,12 @@
       }
       figure{
         @include sticky($topbar-height + 10px);
+        // just required to center the img
+        @include display-flex(column, center, center);
+      }
+      figcaption{
+        @include bg-hover($darker-grey);
+        @include radius;
       }
     }
   }

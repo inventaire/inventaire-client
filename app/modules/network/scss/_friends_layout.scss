@@ -1,4 +1,10 @@
 #friendsLayout{
+  > section{
+    background-color: white;
+    @include radius();
+    @include shy-border();
+    padding: 1em;
+  }
   textarea{
     min-width: 100%;
     max-width: 100%;

@@ -23,12 +23,6 @@ $networkLayoutWidth: 40em;
   .custom-tabs-content{
     background-color: $main-bg;
     > section{
-      section{
-        background-color: white;
-        @include radius();
-        @include shy-border();
-        padding: 1em;
-      }
       section:not(:first-child){
         margin-top: 1em;
       }
