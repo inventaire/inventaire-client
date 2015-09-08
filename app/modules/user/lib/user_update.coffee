@@ -10,14 +10,17 @@ module.exports = (app)->
       # unless value? then throw new Error("invalid value: #{value}")
 
       previousValue = app.user.get(attribute) or defaultPreviousValue
-      app.user.set(attribute, value)
 
-      promise = _.preq.put app.API.user,
-        attribute: attribute
-        value: value
+      if value is previousValue
+        _.log 'user is already up-to-date'
+        promise = _.preq.resolve()
+      else
+        app.user.set attribute, value
 
-      promise
-      .catch reverseUpdate.bind(null, attribute, previousValue)
+        promise = _.preq.put app.API.user,
+          attribute: attribute
+          value: value
+        .catch reverseUpdate.bind(null, attribute, previousValue)
 
       if selector?
         app.request 'waitForCheck',
@@ -33,3 +36,5 @@ reverseUpdate = (attribute, previousValue, err)->
     app.user.set(attribute, previousValue)
   else
     _.warn previousValue, "couldn't reverse update: previousValue not found"
+
+  throw err
