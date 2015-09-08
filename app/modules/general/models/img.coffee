@@ -1,4 +1,5 @@
 images_ = require 'lib/images'
+{ maxSize } = CONFIG.images
 
 # named Img and not Image to avoid overwritting window.Image
 module.exports = Backbone.NestedModel.extend
@@ -26,7 +27,6 @@ module.exports = Backbone.NestedModel.extend
 
   resize: ->
     dataUrl = @get 'originalDataUrl'
-    maxSize = 1024
     images_.resizeDataUrl dataUrl, maxSize
     .then @set.bind(@)
     .catch _.Error('resize')
