@@ -77,9 +77,8 @@ module.exports = Marionette.CompositeView.extend
     _.preq.start()
     .then validateUrlInput.bind(null, url)
     .then images_.getUrlDataUrl.bind(null, url)
-    .catch forms_.catchAlert.bind(null, @)
     .then @_addToPictures.bind(@)
-    .catch _.Error('_addUrlToPictures')
+    .catch forms_.catchAlert.bind(null, @)
 
   getFilesPictures: (e)->
     files = _.toArray e.target.files
