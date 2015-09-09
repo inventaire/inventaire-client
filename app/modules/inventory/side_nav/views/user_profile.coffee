@@ -87,7 +87,7 @@ module.exports = Marionette.ItemView.extend
       app.user.set 'bio', prev
       formatErr(err)
 
-  changePicture: require 'modules/user/lib/change_picture'
+  changePicture: require 'modules/user/lib/change_user_picture'
 
 formatErr = (err)->
   err.selector = 'textarea.bio'

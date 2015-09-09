@@ -191,7 +191,7 @@ module.exports = Marionette.ItemView.extend
         selector: '#languagePicker'
 
   # PICTURE
-  changePicture: require 'modules/user/lib/change_picture'
+  changePicture: require 'modules/user/lib/change_user_picture'
 
 
 testAttribute = (attribute, value, validator_)->

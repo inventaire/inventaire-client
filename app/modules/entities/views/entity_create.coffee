@@ -21,6 +21,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     AlertBox: {}
+    BackupForm: {}
 
   initialize: ->
     @initModel()
@@ -68,7 +69,7 @@ module.exports = Marionette.LayoutView.extend
     if @options.standalone then @ui.title.focus()
 
   prefillForm: ->
-    {data} = @options
+    { data } = @options
     if data?
       if books_.isIsbn data
         @ui.isbn.val data
@@ -80,7 +81,8 @@ module.exports = Marionette.LayoutView.extend
   addPicture: ->
     picturePicker = new app.View.Behaviors.PicturePicker
       pictures: @model.get 'pictures'
-      limit: 3
+      # limit: 3
+      limit: 1
       save: @model.set.bind @model, 'pictures'
 
     app.layout.modal.show picturePicker

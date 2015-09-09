@@ -10,3 +10,4 @@ module.exports =
   TogglePassword: require './toggle_password'
   PreventDefault: require './prevent_default'
   ElasticTextarea: require './elastic_textarea'
+  BackupForm: require './backup_form'

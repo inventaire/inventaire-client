@@ -3,9 +3,9 @@ regex_ = sharedLib 'regex'
 module.exports = ->
   app.layout.modal.show new app.View.Behaviors.PicturePicker
     pictures: app.user.get 'picture'
-    limit: 1
     save: savePicture
     crop: true
+    limit: 1
 
 savePicture = (pictures)->
   picture = pictures[0]

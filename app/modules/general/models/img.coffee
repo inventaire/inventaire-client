@@ -12,6 +12,8 @@ module.exports = Backbone.NestedModel.extend
     if url? then @initFromUrl url
     if dataUrl? then @initDataUrl dataUrl
 
+    @crop = @get 'crop'
+
   initFromUrl: (url)->
     @waitForReady = @setDataUrlFromUrl url
       .then @resize.bind(@)
@@ -47,12 +49,17 @@ module.exports = Backbone.NestedModel.extend
     @get('croppedDataUrl') or @get('dataUrl')
 
   imageHasChanged: ->
-    widthChange = @get('cropped.width') isnt @get('original.width')
-    heightChange = @get('cropped.height') isnt @get('original.height')
+    finalAttribute = if @crop then 'cropped' else 'resized'
+
+    widthChange = @_areDifferent finalAttribute, 'original', 'width'
+    heightChange = @_areDifferent finalAttribute, 'original', 'height'
     return _.log(widthChange or heightChange, 'image changed?')
 
+  _areDifferent: (a, b, value)->
+    @get(a)[value] isnt @get(b)[value]
+
   getFinalUrl: ->
-    @setCroppedDataUrl()
+    if @crop then @setCroppedDataUrl()
     unless @imageHasChanged() then return _.preq.resolve @get('url')
 
     images_.upload

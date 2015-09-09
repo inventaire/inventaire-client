@@ -4,6 +4,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
+
 module.exports = Marionette.CompositeView.extend
   className: ->
     { limit } = @options
@@ -20,7 +21,8 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @limit = @options.limit or 1
-    collectionData = _.forceArray(@options.pictures).map (url)-> {url: url}
+    pictures = _.forceArray @options.pictures
+    collectionData = pictures.map getImgData.bind(null, @options.crop)
     @collection = new Imgs collectionData
 
   serializeData: ->
@@ -98,7 +100,10 @@ module.exports = Marionette.CompositeView.extend
     @collection.invoke 'set', 'selected', false
 
   _addDataUrlToCollection: (dataUrl)->
-    @collection.add { dataUrl: dataUrl, selected: true }
+    @collection.add
+      dataUrl: dataUrl
+      selected: true
+      crop: @options.crop
 
   close: -> app.execute 'modal:close'
 
@@ -107,3 +112,7 @@ isSelectedModel = (model)-> model.get('selected')
 validateUrlInput = (url)->
   unless _.isUrl url
     error_.newWithSelector 'invalid url', '#urlField', arguments
+
+getImgData = (crop, url)->
+  url: url
+  crop: crop

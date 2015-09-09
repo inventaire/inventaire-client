@@ -79,7 +79,8 @@ module.exports = Marionette.LayoutView.extend
   changePicture: ->
     picturePicker = new app.View.Behaviors.PicturePicker
       pictures: @model.get('pictures')
-      limit: 3
+      # limit: 3
+      limit: 1
       save: @savePicture.bind(@)
     app.layout.modal.show picturePicker
 
