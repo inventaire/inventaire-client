@@ -15,7 +15,6 @@ $user-bg: #ddd;
       min-height: $user-height;
       @include flex(1);
       overflow: hidden;
-      margin-right: 0.5em;
       text-align: left;
       .bio{
         max-height: 5em;
@@ -42,7 +41,9 @@ $user-bg: #ddd;
     border-radius: $global-radius;
     padding: 0 0.4em 0.1em 0.4em;
     margin-left: auto;
-    margin-right: 0.5em;
+    margin-right: 0.2em;
+    min-width: 1.6em;
+    text-align: center;
   }
   .action{
     @include radius();
@@ -184,6 +185,29 @@ $user-bg: #ddd;
 }
 
 #sideNav{
+  .userLi{
+    .username{
+      max-width: 80%;
+      overflow: hidden;
+    }
+    .userMenu{
+      min-width: 1.6em;
+    }
+    &:not(.friend){
+      // avoid affecting 'a.action's in dropdown
+      .userMenu > .action{
+        // centering the action icon
+        padding-left: 0.4em;
+        padding-right: 0.4em;
+        &:not(:hover){
+          padding-right: 0;
+          .label{
+            display: none;
+          }
+        }
+      }
+    }
+  }
   .userLi.friends{
     .userMenu{
       font-size: 1em;
@@ -191,17 +215,6 @@ $user-bg: #ddd;
     }
     .label{
       display: none;
-    }
-    .action{
-      // centering the action icon
-      padding-left: 0.4em;
-      padding-right: 0.4em;
-      &:not(:hover){
-        padding-right: 0;
-        .label{
-          display: none;
-        }
-      }
     }
     /*Small screens*/
     @media screen and (max-width: $smallscreen) {
