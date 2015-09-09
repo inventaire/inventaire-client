@@ -60,10 +60,13 @@ module.exports = Backbone.NestedModel.extend
 
   getFinalUrl: ->
     if @crop then @setCroppedDataUrl()
-    unless @imageHasChanged() then return _.preq.resolve @get('url')
+    # testing the original url existance as it imageHasChanged alone
+    # wouldn't detect that a new image from file
+    originalUrl = @get('url')
+    if originalUrl? and not @imageHasChanged() then return _.preq.resolve originalUrl
 
     images_.upload
-      blob: images_.dataUrlToBlob @get('croppedDataUrl')
+      blob: images_.dataUrlToBlob @getFinalDataUrl()
       id: @cid
     .then _.property(@cid)
     .then _.Log('url?')
