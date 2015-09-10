@@ -112,8 +112,7 @@ API =
     app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
 
 showInventory = (options)->
-  inventoryLayout = new InventoryLayout options
-  app.layout.main.Show inventoryLayout, _.I18n('title_browse_layout')
+  app.layout.main.show new InventoryLayout(options)
 
 
 # LOGIC

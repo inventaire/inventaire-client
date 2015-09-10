@@ -84,7 +84,7 @@ module.exports = Marionette.LayoutView.extend
     else
       app.execute 'sidenav:show:base'
       app.execute 'filter:inventory:friends'
-      docTitle = _.i18n('title_browse_layout')
+      docTitle = _.I18n 'title_browse_layout'
       eventName = 'general'
 
     @showItemsListStep3()

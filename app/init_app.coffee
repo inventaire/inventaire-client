@@ -58,4 +58,5 @@ module.exports = ->
 
       app.start()
 
+  require('lib/piwik')()
   require('lib/jquery-jk').initialize($)

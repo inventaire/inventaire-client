@@ -12,6 +12,7 @@ App = Marionette.Application.extend
 
     @vent.on 'document:title:change', (title, noCompletion)->
       app.execute 'metadata:update:title', title, noCompletion
+      app.execute 'track:page:view', title
 
     @docTitle = (docTitle, noCompletion)->
       @vent.trigger 'document:title:change', docTitle, noCompletion
