@@ -30,6 +30,7 @@
         @include radius(0);
         &.active{
           @include order(3);
+          background-color: #fafafa;
         }
       }
     }
