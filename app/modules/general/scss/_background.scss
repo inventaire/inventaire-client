@@ -8,15 +8,20 @@
   @include bg-cover();
   /*Small screens*/
   @media screen and (max-width: 500px) {
-    background-image: url('http://cdn.filter.to/500x500/' + $url);
+    // using the full host url as the images src references in css
+    // are expected to be in the production object storage container
+    background-image: url('https://inventaire.io/img/500x500/' + $url);
   }
   /*Large screens*/
   @media screen and (min-width: 500px) {
-    background-image: url('http://cdn.filter.to/1000x1000/' + $url);
+    background-image: url('https://inventaire.io/img/1000x1000/' + $url);
   }
   @if $hd {
     @media screen and (min-width: 1300px) {
-      background-image: url('https://s3-eu-west-1.amazonaws.com/' + $url);
+      // 1600 is the current max size
+      // using /img/1600x1600/ would be equivalent to using just /img/
+      // but the first is cached by Nginx while the later reaches Express every time
+      background-image: url('https://inventaire.io/img/1600x1600/' + $url);
     }
   }
 }
@@ -27,6 +32,6 @@
   transition: background 0.5s ease;
   &.cover{
     // cover background added for whitelisted routes
-    @include multidef-bg-cover('img.inventaire.io/sarah-buckley-6117998074-CC-BY.jpg', 'hd');
+    @include multidef-bg-cover('e412a0e3cc8e7842f0933e9661770fc3bd907baf.jpg', 'hd');
   }
 }

@@ -1,5 +1,4 @@
 module.exports = (_)->
-  # filter.to documentation: http://cdn.filter.to/faq/
   src: (path, width, height, extend)->
     if _.isDataUrl path then return path
 
