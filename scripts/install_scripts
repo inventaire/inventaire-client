@@ -4,10 +4,18 @@ logDone(){
   echo -e '\e[0;32mdone browserifying:\e[0m' $1
 }
 
+# removing comments
+rmComments(){
+  uglify -s $1 -o $1
+}
+
 # mv allow to be sure there wont be several copy conserved
 # like include.js.1 include.js.2 etc
-wget -q https://login.persona.org/include.js && mv include.js vendor/scripts
+wget https://login.persona.org/include.js && rmComments include.js && mv include.js public/javascripts/persona-include.js
 echo -e '\e[0;32mdone downloading:\e[0m persona include.js'
+
+wget --no-check-certificate https://piwik.allmende.io/piwik.js && rmComments piwik.js && mv piwik.js public/javascripts
+echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
 
 browserify node_modules/levelup -s LevelUp > vendor/scripts/level-up.js
 logDone LevelUp

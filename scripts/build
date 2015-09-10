@@ -22,6 +22,8 @@ gzip -9 -fc public/javascripts/vendor.js > public/javascripts/vendor.js.gz
 gzip -9 -fc public/javascripts/vendor.js.map > public/javascripts/vendor.js.map.gz
 gzip -9 -fc public/stylesheets/app.css > public/stylesheets/app.css.gz
 gzip -9 -fc public/stylesheets/vendor.css > public/stylesheets/vendor.css.gz
+gzip -9 -fc public/javascripts/persona-include.js > public/javascripts/persona-include.js.gz
+gzip -9 -fc public/javascripts/piwik.js > public/javascripts/piwik.js.gz
 
 echo -e '\e[0;30mgzip js and css map files\e[0m'
 # probably wont be accurate, due to the sourcemap being generated before cssnext
