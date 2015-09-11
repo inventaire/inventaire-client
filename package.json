@@ -2,7 +2,7 @@
   "author": "maxlath",
   "name": "inventaire-client",
   "description": "a libre collaborative resources mapper powered by open-knowledge (client-side)",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "homepage": "https://inventaire.io",
   "repository": {
     "type": "git",
