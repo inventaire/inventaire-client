@@ -2,6 +2,7 @@ module.exports = ->
   ISODatePolyFill()
   sayHi()
   testFlexSupport()
+  testLocalStorage()
   return testIndexedDbSupport()
 
 
@@ -44,6 +45,26 @@ ISODatePolyFill = ->
         ':' + pad( @getUTCSeconds() ) +
         '.' + (@getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
         'Z';
+
+
+testLocalStorage = ->
+  # if localStorage isnt supported (or more probably, blocked), replace it by a global object:
+  # data won't be persisted from one session to the other, but who's fault is that
+  try
+    window.localStorage.setItem 'localStorage-support', true
+    localStorageProxy = localStorage
+    console.log 'localStorage is supported'
+  catch err
+    console.warn 'localStorage isnt supported'
+    storage = {}
+    localStorageProxy =
+      getItem: (key)-> storage[key] or null
+      setItem: (key, value)->
+        storage[key] = value
+        return
+      clear: -> storage = {}
+
+  window.localStorageProxy = localStorageProxy
 
 testIndexedDbSupport = ->
   indexedDB = indexedDB or window.indexedDB or window.webkitIndexedDB or window.mozIndexedDB or window.OIndexedDB or window.msIndexedDB

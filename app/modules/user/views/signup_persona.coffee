@@ -34,7 +34,7 @@ module.exports = Marionette.ItemView.extend
     # stashing the username in localStorage for the
     # case when Persona comebacks from an email link
     # with no trace of the previous username
-    localStorage.setItem 'username', res.username
+    localStorageProxy.setItem 'username', res.username
 
   showPersonaLogin:->
     app.execute 'show:login:persona'

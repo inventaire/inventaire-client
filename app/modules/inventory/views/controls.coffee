@@ -54,16 +54,16 @@ module.exports = Marionette.ItemView.extend
 
   recoverControls: ->
     # boolean arrives as a string, thus the need to use JSON.parse
-    bool = JSON.parse localStorage.getItem('controls:display')
+    bool = JSON.parse localStorageProxy.getItem('controls:display')
     if bool then @displayControls() else @wrapControls()
 
   displayControls: ->
     @$el.addClass 'displayed'
-    localStorage.setItem 'controls:display', true
+    localStorageProxy.setItem 'controls:display', true
 
   wrapControls: ->
     @$el.removeClass 'displayed'
-    localStorage.setItem 'controls:display', false
+    localStorageProxy.setItem 'controls:display', false
 
   toggleTransaction: (e)->
     classes = e.currentTarget.attributes.class.value.split(' ')

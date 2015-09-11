@@ -1,7 +1,7 @@
 # just wrapping localStorage persisting of last add mode
 
-set = localStorage.setItem.bind localStorage
-get = localStorage.getItem.bind localStorage
+set = localStorageProxy.setItem.bind localStorageProxy
+get = localStorageProxy.getItem.bind localStorageProxy
 
 module.exports = ->
   app.commands.setHandlers

@@ -15,5 +15,5 @@ logoutError = (err)->
   _.error err, 'logout error'
 
 deleteLocalDatabases = ->
-  localStorage.clear()
+  localStorageProxy.clear()
   window.dbs.reset()

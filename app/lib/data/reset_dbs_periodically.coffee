@@ -19,7 +19,7 @@ resetIfOnline = ->
   resetDbsNow 'starting periodic dbs.reset'
 
 getLastResetTime = ->
-  lastReset = localStorage.getItem 'last_db_reset'
+  lastReset = localStorageProxy.getItem 'last_db_reset'
   lastReset = Number(lastReset)
   if _.typeOf(lastReset) is 'number' then return lastReset
   else return
@@ -35,4 +35,4 @@ periodIsOver = (lastResetTime)->
 resetDbsNow = (label)->
   if label? then _.log label
   dbs.reset()
-  localStorage.setItem 'last_db_reset', _.now()
+  localStorageProxy.setItem 'last_db_reset', _.now()

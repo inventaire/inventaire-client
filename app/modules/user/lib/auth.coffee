@@ -64,7 +64,7 @@ requestPersonaLogin = (assertion)->
     strategy: 'browserid'
     assertion: assertion
     # needed on signup requests
-    username: localStorage.getItem('username')
+    username: localStorageProxy.getItem 'username'
   .then redirect
 
 redirect = ->

@@ -4,11 +4,11 @@
 defaultLayout = 'cascade'
 
 module.exports = (app)->
-  layout = localStorage.getItem('layout') or defaultLayout
+  layout = localStorageProxy.getItem('layout') or defaultLayout
 
   setLayout = (newLayout)->
     layout = newLayout
-    localStorage.setItem 'layout', layout
+    localStorageProxy.setItem 'layout', layout
 
   app.reqres.setHandlers
     'inventory:layout': -> layout
