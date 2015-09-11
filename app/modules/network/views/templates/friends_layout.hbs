@@ -15,7 +15,7 @@
     <label for="invitations">{{icon 'envelope'}}{{I18n 'by email address'}}</label>
     {{!-- wrapper required for to append an alert box --}}
     <div class="invitations">
-      <textarea id="invitations" name="invitations" placeholder="{{i18n 'emails separated by a coma'}}">{{rawEmails}}</textarea>
+      <textarea id="invitations" name="invitations" placeholder="{{i18n 'emails separated by a comma'}}">{{rawEmails}}</textarea>
     </div>
     <div class="message {{#if message}}has-message{{/if}}">
       <a id="addMessage">{{i18n 'add a personalized message'}}</a>
