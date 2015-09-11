@@ -9,14 +9,17 @@ module.exports = ->
 
   tracker = Piwik.getAsyncTracker()
 
+  setUserId = (id)->
+    if _.isUserId id then _paq.push ['setUserId', id]
+
   trackPageView = (title)->
     tracker.setCustomUrl location.href
     _paq.push ['trackPageView', title]
 
   app.commands.setHandlers
+    'track:user:id': setUserId
     # debouncing to get only one page view reported
     # when successive document:title:change occure
     # and let the time to the route to be updated
     # (app.navigate being often trigger after all the actions are done)
     'track:page:view': _.debounce trackPageView, 300
-
