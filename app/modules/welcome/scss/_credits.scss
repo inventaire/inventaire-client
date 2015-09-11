@@ -2,13 +2,26 @@
   text-align: center;
   background-color: #010101;
   padding: 2em;
+  a{
+    @include link-light();
+  }
   h5{
-    color: #fefefe;
+    color: #888;
     margin: 1em;
   }
   p{
     line-height: 1.2em;
     margin: 0.4em;
     color: #888;
+    .domain{
+      color: #888;
+    }
+  }
+  .contributors{
+    strong{
+      @include serif();
+      color: white;
+    }
+    padding-bottom: 1em;
   }
 }
