@@ -9,9 +9,14 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .button': 'buttonAction'
 
+  ui:
+    errorBox: '.errorBox'
+
   buttonAction: (e)->
     unless _.isOpenedOutside(e)
       {buttonAction} = @options.redirection
       if _.isFunction(buttonAction) then buttonAction()
 
-  onShow: -> app.execute 'background:cover'
+  onShow: ->
+    app.execute 'background:cover'
+    @ui.errorBox.fadeIn()

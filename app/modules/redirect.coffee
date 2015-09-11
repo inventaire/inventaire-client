@@ -28,6 +28,7 @@ module.exports =
       'show:404': API.show404
       'show:offline:error': API.showOfflineError
       'show:call:to:connection': API.showCallToConnection
+      'show:error:cookieRequired': API.showErrorCookieRequired
 
     initQuerystringActions()
 
@@ -60,12 +61,12 @@ API =
 
   show403: ->
     app.execute 'show:error',
-      code: 403
+      header: 403
       message: _.i18n 'forbidden'
 
   show404: ->
     app.execute 'show:error',
-      code: 404
+      header: 404
       message: _.i18n 'not found'
 
   showOfflineError: ->
@@ -79,3 +80,15 @@ API =
   showCallToConnection: (message)->
     app.layout.modal.show new CallToConnection
       connectionMessage: message
+
+  showErrorCookieRequired: (command)->
+    app.execute 'show:error',
+      icon: 'cog'
+      header: _.I18n 'cookies are disabled'
+      message: _.i18n 'cookies_are_required'
+      redirection:
+        text: _.I18n 'retry'
+        classes: 'dark-grey'
+        buttonAction: ->
+          if command? then app.execute command
+          else location.href = location.href

@@ -23,7 +23,16 @@
   /*Large screens*/
   @media screen and (min-width: $verysmallscreen) {
     .errorBox{
+      display: none;
       padding: 2em 4em 2em 4em;
+      h2{
+        width: 100%;
+        font-size: 1.6em;
+        @include text-wrap(nowrap);
+      }
+    }
+    .redirection{
+      padding-top: 1em;
     }
     padding-bottom: 10em;
   }

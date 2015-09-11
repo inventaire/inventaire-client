@@ -33,12 +33,12 @@ module.exports =
 API =
 
   showSignup: ->
-    unless redirectHomeIfLoggedIn()
+    unless redirected 'show:signup'
       app.layout.main.Show new Signup, _.I18n('sign up')
       app.navigate 'signup'
 
   showSignupPersona: ->
-    unless redirectHomeIfLoggedIn()
+    unless redirected 'show:signup:persona'
       # in standalone mode when not displayed as a region
       # of Signup LayoutView. 'standalone' serves then as boolean
       # for handlebars template to display missing elements
@@ -47,12 +47,12 @@ API =
       app.navigate 'signup/persona'
 
   showLogin: ->
-    unless redirectHomeIfLoggedIn()
+    unless redirected 'show:login'
       app.layout.main.Show new Login, _.I18n('login')
       app.navigate 'login'
 
   showLoginPersona: ->
-    unless redirectHomeIfLoggedIn()
+    unless redirected 'show:login:persona'
       # required to navigate before showing
       # as Persona email links redirection depend on the url
       # at the moment the login is triggered
@@ -70,11 +70,15 @@ API =
       app.execute 'show:forgot:password'
 
 
-redirectHomeIfLoggedIn = ->
-  if app.user.loggedIn
-    app.execute 'show:home'
+redirected = (command)->
+  unless navigator.cookieEnabled
+    app.execute 'show:error:cookieRequired', command
     return true
-  else return false
+
+  unless app.user.loggedIn then return false
+
+  app.execute 'show:home'
+  return true
 
 initCommands = (app)->
   app.commands.setHandlers

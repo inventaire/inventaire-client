@@ -1,8 +1,16 @@
 <div class="errorBox">
-    <h2 class="subheader">{{code}}</h2>
-    <h3>{{message}}</h3>
+    {{#if header}}
+      <h2 class="subheader">
+        {{#if icon}}{{icon icon}}{{/if}}
+        {{header}}
+      </h2>
+    {{/if}}
+    <p>{{message}}</p>
     {{#if redirection}}
-      <p>{{redirection.legend}}</p>
-      <a href="{{redirection.href}}" class="button {{redirection.classes}}">{{redirection.text}}</a>
+      <div class="redirection">
+        <p>{{redirection.legend}}</p>
+        <a {{#if href}} href="{{redirection.href}}" {{/if}}
+        class="button radius {{redirection.classes}}">{{redirection.text}}</a>
+      </div>
     {{/if}}
 </div>

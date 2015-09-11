@@ -39,7 +39,7 @@
 
 // just bundling both existing syntax
 // cf https://developer.mozilla.org/en-US/docs/Web/CSS/word-wrap
-@mixin text-wrap(){
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+@mixin text-wrap($setting:break-word){
+  word-wrap: $setting;
+  overflow-wrap: $setting;
 }
