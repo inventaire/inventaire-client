@@ -1,3 +1,5 @@
+{ ginnerobot } = require('lib/urls').images
+
 module.exports = Marionette.ItemView.extend
   template: require './templates/joyride_welcome_tour'
   onShow: ->
@@ -9,6 +11,9 @@ module.exports = Marionette.ItemView.extend
         post_step_callback : closeHiddenParts
 
     app.execute 'foundation:joyride:start', options
+
+  serializeData: ->
+    ginnerobot: ginnerobot
 
 openHiddenParts = ->
   id = @$target[0].id

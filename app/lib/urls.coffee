@@ -11,3 +11,4 @@ module.exports =
     # /!\ implies that the current server has it in its object storage container
     banner: '/img/0232a16a7d8c887f2154f0932fa030abca2d7fa1.jpg'
     bokeh: '/img/6fca0921e336dd4dab1f1900e8f1143a9a9e9623.jpg'
+    ginnerobot: '/img/28945a3c26a986b371767cfdb9d0e11156a6d641.jpg'
