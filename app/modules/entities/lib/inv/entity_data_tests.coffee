@@ -1,4 +1,5 @@
 books_ = app.lib.books
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = (data)->
   { title, authors, isbn } = data
