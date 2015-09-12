@@ -62,9 +62,7 @@ module.exports = Marionette.ItemView.extend
   editBio: -> @ui.bio.toggle()
   cancelBio: -> @ui.bio.toggle()
   saveBio: ->
-    currentBio = @model.get('bio')
     bio = @ui.bioText.val()
-    if bio is currentBio then return @cancelBio()
 
     _.preq.start()
     .then @testBio.bind(null, bio)
@@ -77,15 +75,11 @@ module.exports = Marionette.ItemView.extend
       formatErr new Error("the bio can't be longer than 1000 characters")
 
   updateUserBio: (bio)->
-    prev = app.user.get 'bio'
-    app.user.set 'bio', bio
     app.request 'user:update',
       attribute: 'bio'
       value: bio
       selector: '#usernameButton'
-    .catch (err)->
-      app.user.set 'bio', prev
-      formatErr(err)
+    .catch formatErr
 
   changePicture: require 'modules/user/lib/change_user_picture'
 
