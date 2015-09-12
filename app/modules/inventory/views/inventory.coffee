@@ -68,9 +68,11 @@ module.exports = Marionette.LayoutView.extend
     if Items.length is 0
       # dont show welcome inventory screen on other users inventory
       # it would be confusing to see 'welcome in your inventory' there
-      if generalInventory or app.request 'user:isMainUser', user.id
+      isMainUser = if user? then app.request('user:isMainUser', user.id) else false
+      if generalInventory or isMainUser
         @showInventoryWelcome(user)
         app.execute 'sidenav:show:base'
+        if isMainUser then navigateToUserInventory user
         return
 
     if user?
@@ -126,7 +128,9 @@ prepareUserItemsList = (user, navigate)->
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
   app.execute 'sidenav:show:user', user
-  if navigate then app.navigate user.get('pathname')
+  if navigate then navigateToUserInventory user
+
+navigateToUserInventory = (user)-> app.navigate user.get('pathname')
 
 prepareGroupItemsList = (group, navigate)->
   app.execute 'filter:inventory:group', group
