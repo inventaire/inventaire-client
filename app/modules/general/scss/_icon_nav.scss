@@ -112,3 +112,20 @@
     }
   }
 }
+
+// positioners are a hack to give an offset position
+// to joyride tips
+.positioner{
+  height: 1px;
+  z-index: 300;
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    display: none;
+  }
+}
+#addIconButtonTop{
+  @include position(absolute, -30px, 0, null, 0);
+}
+#networkIconButtonTop{
+  @include position(absolute, 50px, 0, null, 0);
+}

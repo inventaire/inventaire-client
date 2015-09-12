@@ -1,13 +1,9 @@
 section#social-networks, .joyride-content-wrapper #socialNetworks{
-  background-color: $darker-grey;
   @include display-flex(row, flex-start, center, wrap);
   a{
     @include display-flex(column, center, center);
     margin-top: 1em;
     margin-bottom: 1em;
-    .fa, span{
-      color: white;
-    }
     &:hover{
       .fa, span{
         color: $secondary-color;
@@ -27,6 +23,10 @@ section#social-networks, .joyride-content-wrapper #socialNetworks{
 }
 
 section#social-networks{
+  background-color: $darker-grey;
+  .fa, span{
+    color: white;
+  }
   a{
     width: 10em;
   }

@@ -1,19 +1,52 @@
-{ ginnerobot } = require('lib/urls').images
+urls = require('lib/urls')
+{ banner } = urls.images
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/joyride_welcome_tour'
   onShow: ->
-    options =
+    app.execute 'foundation:joyride:start',
       joyride:
         expose: true
         modal: false
         pre_step_callback : openHiddenParts
         post_step_callback : closeHiddenParts
 
-    app.execute 'foundation:joyride:start', options
+    setTimeout @hackNubPositions.bind(@), 500
 
   serializeData: ->
-    ginnerobot: ginnerobot
+    urls: urls
+    banner: banner
+    add:
+      pointer: if _.smallScreen() then 'addIconButton' else 'addIconButtonTop'
+      options: tipOptions
+        prev_button: false
+    network:
+      pointer: if _.smallScreen() then 'networkIconButton' else 'networkIconButtonTop'
+      options: tipOptions()
+
+  hackNubPositions: ->
+    # the tip nub doesn't follow the element position
+    # so it needs to be pushed by hand
+    if _.smallScreen()
+      middle = elMiddle '#networkIconButton'
+      $('.joyride-tip-guide[data-index="1"] .joyride-nub').css 'margin-left', middle
+
+nubOffset = 22
+
+elMiddle = (selector)->
+  $button = $(selector)
+  start = $button.offset().left
+  end = $button.next().offset().left
+  return (start + end) / 2 - nubOffset
+
+tipOptions = (options={})->
+  base =
+    tip_location: if _.smallScreen() then 'bottom' else 'right'
+    tip_animation: 'fade'
+
+  _.log base, 'base'
+  return _.extend base, options
+
 
 openHiddenParts = ->
   id = @$target[0].id
