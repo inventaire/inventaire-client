@@ -58,8 +58,9 @@ module.exports = Marionette.LayoutView.extend
 
   updateModel: (attr)->
     val = @ui[attr].val()
-    if _.isNonEmptyString val
-      @model.set attr, val
+    # not testing if val is an empty string
+    # as it might mean that the value was overriden
+    @model.set attr, val
 
   onRender: ->
     @showEntityActions()
@@ -104,6 +105,9 @@ module.exports = Marionette.LayoutView.extend
     entityData = @model.toJSON()
     entityDataTests entityData
     { title, authors, isbn, pictures } = entityData
+
+    if authors.trim() is '' then authors = null
+    if isbn.trim() is '' then isbn = null
 
     entity =
       title: title.trim()
