@@ -6,6 +6,7 @@
     "sign up": "sign up",
     "login": "login",
     "share it with others": "share it with others",
+    "share it with your friends and communities": "share it with your friends and communities",
     "discover the books available in your network!": "discover the books available in your network!",
     "back to your inventory": "back to your inventory",
     "some of the last books published": "some of the last books published",
@@ -345,5 +346,12 @@
     "add a personalized message": "add a personalized message",
     "personalized message": "personalized message",
     "emails separated by a coma": "emails separated by a coma",
-    "edit notifications": "edit notifications"
+    "edit notifications": "edit notifications",
+    "contributors": "contributors",
+    "translation": "translation",
+    "analytics": "analytics",
+    "code": "code",
+    "data": "data",
+    "cookies are disabled": "Cookies are disabled",
+    "retry": "retry"
 }

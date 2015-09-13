@@ -6,6 +6,7 @@
     "sign up": "inscription",
     "login": "connexion",
     "share it with others": "partagez votre inventaire",
+    "share it with your friends and communities": "partagez vos inventaires entres amis et groupes",
     "discover the books available in your network!": "découvrez les livres disponibles dans votre réseau !",
     "back to your inventory": "retourner à votre inventaire",
     "some of the last books published": "quelques uns des derniers livres publiés",
@@ -14,7 +15,7 @@
     "Built on and for Open Knowledge": "Construit sur et pour le Savoir Libre",
     "Built on and in Open Source": "Construit sur et en Open Source",
     "You own your data": "Vos données sont à vous",
-    "status:": "status :",
+    "status:": "statut :",
     "add or search a book": "ajouter ou chercher un livre",
     "search": "recherche",
     "only available from mobiles for now": "possible seulement depuis un smartphone pour le moment",
@@ -344,6 +345,13 @@
     "ebooks on gutenberg.org": "ebooks sur gutenberg.org",
     "add a personalized message": "ajouter un message personnalisé",
     "personalized message": "message personnalisé",
-    "emails separated by a coma": null,
-    "edit notifications": null
+    "emails separated by a coma": "emails séparés par une virgule",
+    "edit notifications": null,
+    "contributors": null,
+    "translation": null,
+    "analytics": null,
+    "code": null,
+    "data": null,
+    "cookies are disabled": "les cookies sont désactivés",
+    "retry": null
 }

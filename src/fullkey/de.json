@@ -6,6 +6,7 @@
     "sign up": "registrieren",
     "login": "anmelden",
     "share it with others": "mit anderen teilen",
+    "share it with your friends and communities": "mit Deinen Freund/innen und Deinem Netzwerk teilengl",
     "discover the books available in your network!": "entdecke die verfügbaren Bücher in deinem Netzwerk!",
     "back to your inventory": "zurück zu deinem Inventar",
     "some of the last books published": "einige der zuletzt veröffentlichten Bücher",
@@ -345,5 +346,12 @@
     "add a personalized message": null,
     "personalized message": null,
     "emails separated by a coma": null,
-    "edit notifications": null
+    "edit notifications": null,
+    "contributors": null,
+    "translation": null,
+    "analytics": null,
+    "code": null,
+    "data": null,
+    "cookies are disabled": null,
+    "retry": null
 }
