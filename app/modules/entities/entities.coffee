@@ -82,7 +82,7 @@ API =
     Entities.data.get(prefix, ids, 'collection')
     .then (data)->
       unless data?
-        error_.new 'no data at getEntitiesModels', arguments
+        throw error_.new 'no data at getEntitiesModels', arguments
 
       models = data.map (el)->
         # main reason for missing entities:
@@ -100,11 +100,12 @@ API =
     .catch _.Error('getEntitiesModels err')
 
   getEntityModel: (prefix, id)->
-    unless prefix? and id? then error_.new 'missing prefix or id', arguments
+    unless prefix? and id?
+      throw error_.new 'missing prefix or id', arguments
     @getEntitiesModels prefix, id
     .then (models)->
       if models?[0]? then return models[0]
-      else error_.new 'entity_not_found', arguments
+      else throw error_.new 'entity_not_found', arguments
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
@@ -155,7 +156,7 @@ setHandlers = ->
 getEntityModel = (prefix, id)->
   [prefix, id] = getPrefixId(prefix, id)
   if prefix? and id? then API.getEntityModel prefix, id
-  else error_.new 'missing prefix or id', arguments
+  else throw error_.new 'missing prefix or id', arguments
 
 getEntitiesLabels = (Qids)->
   return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'

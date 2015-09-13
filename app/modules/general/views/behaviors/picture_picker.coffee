@@ -110,7 +110,7 @@ isSelectedModel = (model)-> model.get('selected')
 
 validateUrlInput = (url)->
   unless _.isUrl url
-    error_.newWithSelector 'invalid url', '#urlField', arguments
+    throw error_.newWithSelector 'invalid url', '#urlField', arguments
 
 getImgData = (crop, url)->
   url: url

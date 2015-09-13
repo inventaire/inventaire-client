@@ -11,7 +11,7 @@ module.exports = Marionette.ItemView.extend
         pre_step_callback : openHiddenParts
         post_step_callback : closeHiddenParts
 
-    setTimeout @hackNubPositions.bind(@), 500
+    setTimeout @hackNubPositions.bind(@), 400
 
   serializeData: ->
     urls: urls
@@ -28,15 +28,19 @@ module.exports = Marionette.ItemView.extend
     # the tip nub doesn't follow the element position
     # so it needs to be pushed by hand
     if _.smallScreen()
-      middle = elMiddle '#networkIconButton'
+      middle = elMiddle '#addIconButton', '#networkIconButton'
+      $('.joyride-tip-guide[data-index="0"] .joyride-nub').css 'margin-left', middle
+      middle = elMiddle '#networkIconButton', '#browseIconButton'
       $('.joyride-tip-guide[data-index="1"] .joyride-nub').css 'margin-left', middle
+
 
 nubOffset = 22
 
-elMiddle = (selector)->
-  $button = $(selector)
-  start = $button.offset().left
-  end = $button.next().offset().left
+elMiddle = (selector, next)->
+  start = $(selector).offset().left
+  # not using $(selector).next() as hidden elements
+  # make the operation confusion: better just take the expected selector
+  end = $(next).offset().left
   return (start + end) / 2 - nubOffset
 
 tipOptions = (options={})->

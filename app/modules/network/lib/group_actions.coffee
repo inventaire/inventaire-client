@@ -67,7 +67,7 @@ module.exports =
   # moving membership object from previousCategory to newCategory
   moveMembership: (user, previousCategory, newCategory)->
     membership = @findMembership previousCategory, user
-    unless membership? then error_.new 'membership not found', arguments
+    unless membership? then throw error_.new 'membership not found', arguments
 
     @without previousCategory, membership
     # let the possibility to just destroy the doc

@@ -128,7 +128,8 @@ module.exports = (Backbone, _, app, window, console)->
 
       return obj
 
-    smallScreen: (ceil=1024)-> window.screen.width < ceil
+    # /!\ window.screen.width is the screen's width not the current window width
+    smallScreen: (ceil=1024)-> $(window).width() < ceil
 
     deepClone: (obj)->
       @type obj, 'object'

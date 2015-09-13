@@ -54,7 +54,7 @@ module.exports = (app)->
 
     itemsFetched: (userModel)->
       unless _.isModel(userModel)
-        error_.new 'itemsFetched expected a model', userModel
+        throw error_.new 'itemsFetched expected a model', userModel
       return userModel.itemsFetched is true
 
     getNonFriendsIds: (usersIds)->
