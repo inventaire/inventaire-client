@@ -68,7 +68,7 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click a#destroy': 'itemDestroy'
     'click a#changePicture': 'changePicture'
-    'click a#editDetails, a#cancelCommentEdition': 'toggleDetailsEditor'
+    'click a#editDetails, a#cancelDetailsEdition': 'toggleDetailsEditor'
     'click a#validateDetails': 'validateDetails'
     'click a#editNotes, a#cancelNotesEdition': 'toggleNotesEditor'
     'click a#validateNotes': 'validateNotes'
