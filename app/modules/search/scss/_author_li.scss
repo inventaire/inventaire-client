@@ -70,9 +70,6 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    .books h3{
-      margin-top: 1em;
-    }
     .bookLi:first-child{
       margin-top: 1em;
     }

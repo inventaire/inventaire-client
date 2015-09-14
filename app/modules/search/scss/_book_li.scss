@@ -10,14 +10,14 @@ $bookLiMaxWidth: 45em;
   @include radius();
   @include shy-border();
   .bookCover{
-    margin: 1em;
     max-width: 10em;
     img{
       display: block;
-      max-height: 10em;
     }
   }
   .bookLiData{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     @include display-flex(column, center, center);
     h3{
       text-align: center;
@@ -73,7 +73,13 @@ $bookLiMaxWidth: 45em;
     @include flex(1);
     .bookCover{
       max-width: 100%;
-      padding: 1em;
+      margin: 0.2em;
+    }
+    img{
+      max-height: 16em;
+    }
+    .actions{
+      @include align-self(stretch);
     }
   }
 }
@@ -82,12 +88,18 @@ $bookLiMaxWidth: 45em;
 /*Large screens*/
 @media screen and (min-width: $bookLiMaxWidth) {
   .bookLi{
+    .bookCover{
+      margin: 1em;
+    }
     .bookLiData{
       @include flex(1);
     }
     .actions{
-      @include flex(0, 0, 14em);
+      @include flex(1, 0, 14em);
       margin-left: auto;
+    }
+    img{
+      max-height: 10em;
     }
   }
 }

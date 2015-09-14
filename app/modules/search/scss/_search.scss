@@ -14,9 +14,6 @@
     margin: 0;
     width: 100%;
   }
-  .authorLi{
-    padding: 1em;
-  }
   section#results{
     > div{
       margin-top: 2em;
@@ -43,5 +40,11 @@
       }
     }
     #create{}
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    .authorLi{
+      padding: 1em;
+    }
   }
 }
