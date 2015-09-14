@@ -105,7 +105,11 @@ API =
     @getEntitiesModels prefix, id
     .then (models)->
       if models?[0]? then return models[0]
-      else throw error_.new 'entity_not_found', arguments
+      else
+        # some instance of this problem seem to be due to the server
+        # caching empty results returned, possibly when API quota where passed?!?
+        _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
+        throw error_.new 'entity_not_found', arguments
 
   showAddEntity: (uri)->
     [prefix, id] = getPrefixId(uri)
