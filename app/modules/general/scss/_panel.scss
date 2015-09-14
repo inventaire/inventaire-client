@@ -1,8 +1,12 @@
 @mixin panel($bg-color:$contrast){
-  @include shadow-box();
+  @include shy-border();
   background-color: $bg-color;
   @include radius();
   padding: 0.8em 1em 0.8em 1em;
+  /*Small screens*/
+  @media screen and (max-width: $verysmallscreen) {
+    margin: 0.2em 0 0.3em 0;
+  }
   /*Medium to Large screens*/
   @media screen and (min-width: $verysmallscreen) {
     margin: 0.4em 0 0.6em 0;

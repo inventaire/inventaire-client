@@ -96,7 +96,7 @@ $user-bg: #ddd;
         @include display-flex(row, center, flex-start);
         .inventoryLength{
           /*Small screens*/
-          @media screen and (max-width: 350px) {
+          @media screen and (max-width: $verysmallscreen) {
             display: none;
           }
         }
