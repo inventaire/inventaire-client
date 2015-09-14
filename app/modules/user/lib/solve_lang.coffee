@@ -2,7 +2,7 @@ guessLanguage = ->
   lang = $.cookie 'lang'
   if lang? then return lang
 
-  lang = navigator.language or navigator.userLanguage
+  lang = window.browserLocale()
   if lang? then return lang
 
   return 'en'

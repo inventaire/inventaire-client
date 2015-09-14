@@ -32,6 +32,9 @@ logDone MemDown
 browserify node_modules/to-data-url -s toDataURL > vendor/scripts/to-data-url.js
 logDone toDataURL
 
+browserify node_modules/browser-locale -s browserLocale > vendor/scripts/browser-locale.js
+logDone browserLocale
+
 cp node_modules/wikidata-sdk/dist/wikidata-sdk.js vendor/scripts/wikidata-sdk.js
 echo -e '\e[0;32mdone copying:\e[0m' wdk
 
