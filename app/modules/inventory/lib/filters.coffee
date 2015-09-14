@@ -9,58 +9,47 @@ module.exports =
 
     app.commands.setHandlers
       'filter:inventory:owner': filterInventoryByOwner
-      'filter:inventory:friends': filterInventoryByFriends
+      'filter:inventory:friends:and:main:user': filterInventoryByFriendsAndMainUser
       'filter:inventory:group': filterInventoryByGroup
-      'filter:inventory:reset': resetInventoryFilter
-      'filter:visibility': filterVisibilityBy
-      'filter:visibility:reset': resetFilters
       'filter:items:byText': filterItemsByText
       'filter:inventory:transaction:include': includeTransaction
       'filter:inventory:transaction:exclude': excludeTransaction
 
-    app.request('waitForFriendsItems')
+    app.request 'waitForFriendsItems'
     # wait for debounced recalculations
     # ex: user:isFriend depends on app.users.friends.list
     .delay(400)
     .then Items.filtered.refilter.bind(Items.filtered)
 
-visibilityFilters =
-  'private': {'listing':'private'}
-  'friends': {'listing':'friends'}
-  'public': {'listing':'public'}
-
-filterVisibilityBy = (audience)->
-  Items.personal.filtered.resetFilters()
-  .filterBy audience, visibilityFilters[audience]
-
-resetFilters = ->
-  Items.personal.filtered.resetFilters()
-
-resetInventoryFilter = (owner)->
-  Items.filtered.resetFilters()
+filterInventory = (filterName, filterFn)->
+  unless singleFilterReady filterName
+    Items.filtered.resetFilters()
+    Items.filtered.filterBy filterName, filterFn
 
 filterInventoryByOwner = (owner)->
-  Items.filtered.resetFilters()
-  Items.filtered.filterBy 'owner', (model)-> model.get('owner') is owner
+  filterInventory "owner:#{owner}", (itemModel)-> itemModel.get('owner') is owner
 
-filterInventoryByFriends = (owner)->
-  Items.filtered.resetFilters()
-  Items.filtered.filterBy 'friends', (model)->
-    app.request 'user:isFriend', model.get('owner')
+ownedByFriendOrMainUser = (itemModel)->
+  ownerId = itemModel.get 'owner'
+  if app.request 'user:isMainUser', ownerId then return true
+  else if app.request 'user:isFriend', ownerId then return true
+  else false
+
+filterInventoryByFriendsAndMainUser = filterInventory.bind null, 'friendsAndMainUser', ownedByFriendOrMainUser
 
 filterInventoryByGroup = (groupModel)->
   Items.filtered.resetFilters()
   allMembers = groupModel.allMembers()
   mainUserId = app.user.id
-  Items.filtered.filterBy 'group', (model)->
-    owner = model.get 'owner'
-    if owner in allMembers
-      if owner is mainUserId then isntPrivateItem model
-      else true
-    else false
+  Items.filtered.filterBy 'group', (itemModel)->
+    owner = itemModel.get 'owner'
+    unless owner in allMembers then return false
 
-isntPrivateItem = (model)->
-  model.get('listing') isnt 'private'
+    if owner is mainUserId then isntPrivateItem itemModel
+    else true
+
+isntPrivateItem = (itemModel)->
+  itemModel.get('listing') isnt 'private'
 
 filterItemsByText = (text, reset)->
   Items.filtered.filterByText text, reset
@@ -71,3 +60,7 @@ includeTransaction = (transaction)->
 excludeTransaction = (transaction)->
   Items.filtered.filterBy "exclude:#{transaction}", (item)->
     item.get('transaction') isnt transaction
+
+singleFilterReady = (filter)->
+  filters = Items.filtered.getFilters()
+  return filters.length is 1 and filters[0] is filter

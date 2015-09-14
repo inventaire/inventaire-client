@@ -85,7 +85,7 @@ module.exports = Marionette.LayoutView.extend
       eventName = "group:#{group.id}"
     else
       app.execute 'sidenav:show:base'
-      app.execute 'filter:inventory:friends'
+      app.execute 'filter:inventory:friends:and:main:user'
       docTitle = _.I18n 'title_browse_layout'
       eventName = 'general'
 
