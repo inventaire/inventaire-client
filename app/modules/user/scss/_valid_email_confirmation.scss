@@ -2,6 +2,10 @@
   text-align: center;
   font-family: 'Alegreya Sans';
   color: white;
+  p{
+    margin-bottom: 1em;
+    @include radius;
+  }
   .fa{
     font-size: 2em;
     display: block;
@@ -12,14 +16,14 @@
   .valid{
     p{
       background-color: $success-color;
-      padding: 1em;
+      padding: 0.5em;
     }
     color: white;
   }
   .invalid{
     p:not(.offline){
       background-color: $warning-color;
-      padding: 1em;
+      padding: 0.5em;
     }
   }
   p.offline, .loading{
