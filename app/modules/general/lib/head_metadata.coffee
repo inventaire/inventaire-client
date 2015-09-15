@@ -55,6 +55,9 @@ transformers =
   title: (value, noCompletion)->
     if noCompletion then value else "#{value} - Inventaire"
   url: (canonical)-> location.origin + canonical
+  image: (url)->
+    if _.localUrl url then return "#{location.origin}#{url}"
+    else url
 
 withTransformers = Object.keys transformers
 
