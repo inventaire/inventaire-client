@@ -42,10 +42,12 @@ module.exports = Marionette.ItemView.extend
     .catch @Fail('item request err')
 
   postRequest: ->
+    tracker = app.execute.bind app, 'track:transaction', 'request', @userData()?.status
     _.preq.post app.API.transactions,
       action: 'request'
       item: @model.id
       message: @ui.message.val()
+    .then _.Tap(tracker)
 
 addTransaction = (transaction)->
   app.request 'transactions:add', transaction

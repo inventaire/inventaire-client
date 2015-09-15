@@ -5,6 +5,7 @@ module.exports =
   github: 'https://github.com/inventaire/inventaire'
   transifex: 'https://www.transifex.com/organization/inventaire'
   trello: 'https://trello.com/b/0lKcsZDj/inventaire-roadmap'
+  tracker: 'https://piwik.allmende.io/piwik.php'
   images:
     # not passing an absolute url so that it can be easily digested
     # by the {{src}} helper as a local image url

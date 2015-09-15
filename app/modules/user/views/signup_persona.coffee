@@ -27,6 +27,7 @@ module.exports = Marionette.ItemView.extend
     @verifyPersonaUsername()
     .then @stashUsername
     .then @showPersonaLogin.bind(@)
+    .then _.Tap(app.execute.bind(app, 'track:auth:signup', 'persona'))
     .catch forms_.catchAlert.bind(null, @)
 
   verifyPersonaUsername: -> @verifyUsername 'personaUsername'

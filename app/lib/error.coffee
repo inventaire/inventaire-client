@@ -9,3 +9,8 @@ module.exports = error_ =
     err.selector = selector
     err.context = context
     return err
+
+  Complete: (selector)->
+    return fn = (err)->
+      err.selector = selector
+      throw err

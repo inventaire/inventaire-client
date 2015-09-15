@@ -17,6 +17,7 @@ module.exports = Marionette.ItemView.extend
 
   triggerPersonaLoggin:->
     app.execute 'persona:login:request'
+    app.execute 'track:auth:login', 'persona'
     @startLoading
       message: _.i18n 'waiting_for_persona'
       timeout: 'none'

@@ -59,6 +59,7 @@ module.exports =
       group: @id
       # optionel
       user: userId
+    .then _.Tap(app.execute.bind(app, 'track:group', action))
 
   revertMove: (user, previousCategory, newCategory, err)->
     @moveMembership user, newCategory, previousCategory

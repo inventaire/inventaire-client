@@ -128,11 +128,14 @@ module.exports = Filterable.extend
     action = { action: state, timestamp: _.now() }
     @push 'actions', action
     actionModel = @addActionToTimeline action
+    userStatus = @otherUser().get 'status'
+    tracker = app.execute.bind app, 'track:transaction', state, userStatus
 
     _.preq.put app.API.transactions,
       id: @id
       state: state
       action: 'update-state'
+    .then _.Tap(tracker)
     .catch @_updateFail.bind(@, actionModel)
 
   _updateFail: (actionModel, err)->

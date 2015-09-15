@@ -1,6 +1,7 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 messagesPlugin = require 'modules/general/plugins/messages'
 forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/transaction'
@@ -57,9 +58,7 @@ module.exports = Marionette.CompositeView.extend
 
   updateState: (state)->
     @model.updateState(state)
-    .catch (err)->
-      err.selector = '.actions'
-      throw err
+    .catch error_.Complete('.actions')
     .catch forms_.catchAlert.bind(null, @)
 
   showItem: (e)->
