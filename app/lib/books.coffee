@@ -15,10 +15,11 @@ eventName = (data)->
   return "image:#{data}"
 
 getImages = ->
-  _.log images, 'querying images'
-  _.preq.get app.API.entities.getImages(images)
-  .then spreadImages
-  .catch _.Error("getImages err for images: #{images}")
+  if images.length > 0
+    _.log images, 'querying images'
+    _.preq.get app.API.entities.getImages(images)
+    .then spreadImages
+    .catch _.Error("getImages err for images: #{images}")
 
 lazyGetImages = _.debounce getImages, 100
 
