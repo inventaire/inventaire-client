@@ -25,6 +25,7 @@ module.exports = ->
 
   # args: category, action, name, value
   trackEvent = (args...)->
+    args = _.compact args
     ev = ['trackEvent'].concat args
     _paq.push ev
 
@@ -34,7 +35,9 @@ module.exports = ->
   # and action names them self collide between categories
   transaction = (action, userStatus)-> trackEvent 'transaction', "transaction:#{action}", userStatus
   friend = (action)-> trackEvent 'friend', "friend:#{action}"
+  invitation = (action, count)-> trackEvent 'invitation', "invitation:#{action}", 'count', count
   group = (action)-> trackEvent 'group', "group:#{action}"
+  item = (action, listing, transaction)-> trackEvent 'item', "item:#{action}", listing, transaction
 
   app.commands.setHandlers
     'track:user:id': setUserId
@@ -47,4 +50,6 @@ module.exports = ->
     'track:auth:login': login
     'track:transaction': transaction
     'track:friend': friend
+    'track:invitation': invitation
     'track:group': group
+    'track:item': item

@@ -51,6 +51,13 @@ module.exports = Marionette.LayoutView.extend
     @selectListing()
     @showEntityData()
 
+  onDestroy: ->
+    # waiting for the page to be closed to have the best guess
+    # on the chosen listing and transaction mode
+    listing = @model.get 'listing'
+    transaction = @model.get 'transaction'
+    app.execute 'track:item', 'create', listing, transaction
+
   selectTransaction: -> @selectButton 'transaction'
   selectListing: -> @selectButton 'listing'
   selectButton: (attr)->
