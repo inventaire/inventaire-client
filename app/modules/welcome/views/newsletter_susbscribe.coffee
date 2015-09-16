@@ -29,3 +29,4 @@ module.exports =
     # empty email field
     @ui.email.val('')
     @ui.thanks.hide().slideDown()
+    app.execute 'track:newsletter:subscribe'
