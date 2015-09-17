@@ -6,11 +6,14 @@ urls = require 'lib/urls'
 module.exports = Marionette.LayoutView.extend
   template: require './templates/account_menu'
   events:
-    'click #name': -> app.execute 'show:inventory:user', app.user
+    'click #name': 'selectMainUser'
     'click #editProfile': -> app.execute 'show:settings:profile'
     'click #editNotifications': -> app.execute 'show:settings:notifications'
     'click #editLabs': -> app.execute 'show:settings:labs'
     'click #signout': -> app.execute 'logout'
+
+  behaviors:
+    PreventDefault: {}
 
   serializeData: ->
     _.extend @model.toJSON(),
@@ -30,3 +33,7 @@ module.exports = Marionette.LayoutView.extend
   showNotifications: ->
     @notifs.show new NotificationsList
       collection: app.user.notifications
+
+  selectMainUser: (e)->
+    unless _.isOpenedOutside(e)
+      app.execute 'show:inventory:user', app.user
