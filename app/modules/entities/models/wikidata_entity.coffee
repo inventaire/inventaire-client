@@ -42,8 +42,8 @@ module.exports = Entity.extend
       @save()
 
     # if waiters werent defined yet, they wont be fetched
-    unless @waitForExtract? then @waitForExtract = _.preq.resolve()
-    unless @waitForPicture? then @waitForPicture = _.preq.resolve()
+    @waitForExtract ?= _.preq.resolve()
+    @waitForPicture ?= _.preq.resolve()
     @waitForData = Promise.all [ @waitForExtract, @waitForPicture ]
 
     # data on models root aren't persisted so need to be set everytimes
@@ -143,8 +143,6 @@ module.exports = Entity.extend
       url: "https://commons.wikimedia.org/wiki/File:#{title}"
       text: text
 
-  upgrade: -> console.error new Error('upgrade method was removed')
-
   typeSpecificInitilize: ->
     @type = wd.type(@)
     switch @type
@@ -154,8 +152,14 @@ module.exports = Entity.extend
   initializeBook: ->
     wdBooks_.fetchAuthorsEntities(@)
     # need to be after authors entities were fetched to have authors names
-    .then wdBooks_.findAPictureByBookData.bind(null, @)
+    .then @findAPictureIfMissing.bind(@)
     .catch _.Error('fetchAuthorsEntities err')
+
+  findAPictureIfMissing: ->
+    @waitForPicture
+    .then =>
+      if @get('pictures').length is 0
+        wdBooks_.findAPictureByBookData @
 
   initializeAuthor: ->
 

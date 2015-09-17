@@ -41,6 +41,10 @@
   .editWikidata{
     color: white;
   }
+  .photo-credits{
+    font-size: 0.8em;
+    text-align: center;
+  }
   /*Small screens*/
   @media screen and (max-width: 700px) {
     @include flex-direction(column);
