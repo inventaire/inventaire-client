@@ -69,8 +69,11 @@ $bookLiMaxWidth: 45em;
 /*Small screens*/
 @media screen and (max-width: $bookLiMaxWidth) {
   .bookLi{
+    max-width: 100vw;
     @include display-flex(column);
     @include flex(1);
+    margin-left: 0;
+    margin-right: 0;
     .bookCover{
       max-width: 100%;
       margin: 0.2em;
@@ -95,7 +98,7 @@ $bookLiMaxWidth: 45em;
       @include flex(1);
     }
     .actions{
-      @include flex(1, 0, 14em);
+      @include flex(0, 0, 14em);
       margin-left: auto;
     }
     img{

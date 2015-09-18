@@ -9,10 +9,13 @@
   margin: 1em auto;
   max-width: 70em;
   .itemsList{
+    @include radius;
     background-color: $dark-grey;
-    padding: 1em;
     margin: 0;
     width: 100%;
+  }
+  .authorLi{
+    @include radius;
   }
   section#results{
     > div{
@@ -45,6 +48,9 @@
   @media screen and (min-width: $smallscreen) {
     .authorLi{
       padding: 1em;
+    }
+    .itemsList{
+      padding: 1;
     }
   }
 }

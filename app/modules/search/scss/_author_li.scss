@@ -5,6 +5,7 @@
     margin-top: 1em;
   }
   .authorData{
+    @include radius;
     background-color: $contrast;
     .extract{
       text-align: left;
