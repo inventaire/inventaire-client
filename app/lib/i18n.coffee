@@ -52,8 +52,5 @@ doneChanging = (polyglot)->
 
 updateQlabel = ->
   { lang } = app.user
-  app.vent.trigger 'qLabel:update', lang
-
   # setTimeout-0 switchLang to put it at the end of the stack, to let the DOM update before qLabel looks for URIs
-  switchLang = -> $.qLabel.switchLanguage(lang)
-  setTimeout switchLang, 0
+  setTimeout $.qLabel.switchLanguage.bind($.qLabel, lang), 0
