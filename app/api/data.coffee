@@ -19,3 +19,9 @@ module.exports =
       api: 'wp-extract'
       lang: lang
       title: title
+
+  openLibraryCover: (openLibraryId, type='book')->
+    dataQuery
+      api: 'openlibrary-cover'
+      id: openLibraryId
+      type: type

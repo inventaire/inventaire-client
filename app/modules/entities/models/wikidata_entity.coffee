@@ -118,14 +118,34 @@ module.exports = Entity.extend
     @_updates.pictures = pictures = []
     @save()
 
+    openLibraryId = @_updates.claims?.P648?[0]
     # P18 is expected to have only one value
     # but in cases it has several, we just pick one
     # as there is just one pictureCredits attribute.
-    image = @_updates.claims?.P18?[0]
-    if image? then @setCommonsPicture image
+    commonsImage = @_updates.claims?.P18?[0]
+    olPicGetter = @setPictureFromOpenLibraryId.bind(@, openLibraryId)
+    commonsPicGetter = @setCommonsPicture.bind(@, commonsImage)
+
+    # giving priority to openlibrary's covers
+    # as it has only covers while commons sometimes has just an illustration
+    if openLibraryId?
+      if commonsImage?
+        @waitForPicture = olPicGetter().catch commonsPicGetter
+      else
+        @waitForPicture = olPicGetter().catch _.Error('open library image err')
+    else if commonsImage?
+      @waitForPicture = commonsPicGetter()
+
+  setPictureFromOpenLibraryId: (openLibraryId)->
+    type = if @type is 'book' then 'book' else 'author'
+    _.preq.get app.API.data.openLibraryCover(openLibraryId, type)
+    .then (data)=>
+      { url } = data
+      @push 'pictures', url
+      @save()
 
   setCommonsPicture: (title)->
-    @waitForPicture = wd.wmCommonsThumbData title, 1000
+    wd.wmCommonsThumbData title, 1000
     .then (data)=>
       { thumbnail, author, license } = data
 
