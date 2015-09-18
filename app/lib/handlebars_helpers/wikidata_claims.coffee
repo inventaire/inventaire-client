@@ -26,7 +26,7 @@ module.exports =
     if id?
       unless typeof alt is 'string' then alt = ''
       app.request('qLabel:update')
-      return wdQ({id: id, linkify: linkify, alt: alt})
+      return wdQ({id: id, linkify: linkify, alt: alt, label: alt})
 
   claim: (args...)->
     [ claims, P, linkify, omitLabel, inline ] = neutralizeDataObject(args)

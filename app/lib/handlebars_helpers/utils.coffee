@@ -1,5 +1,8 @@
 # inspired by some things there http://assemble.io/helpers/
 
+{ Q } = require './wikidata_claims'
+linkifyAuthor = require './linkify_author'
+
 module.exports =
   join: (array, separator) ->
     unless array? then return ''
@@ -13,7 +16,4 @@ module.exports =
 
   joinAuthors: (array)->
     unless array? then return ''
-    @join array.map(linkifyAuthors)
-
-linkifyAuthors = (text)->
-  "<a href='/search?q=#{text}' class='link searchAuthor'>#{text}</a>"
+    @join array.map(linkifyAuthor)
