@@ -1,6 +1,5 @@
 # inspired by some things there http://assemble.io/helpers/
 
-{ Q } = require './wikidata_claims'
 linkifyAuthor = require './linkify_author'
 
 module.exports =

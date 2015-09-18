@@ -1,3 +1,5 @@
+{ Q } = require './wikidata_claims'
+
 module.exports = (arg)->
   # ex: author = 'Ian Fleming'
   if _.isString arg then return linkifyAuthorString arg
