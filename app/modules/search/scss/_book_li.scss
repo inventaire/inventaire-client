@@ -1,7 +1,10 @@
 $bookLiMaxWidth: 45em;
 
 .bookLi{
-  margin: 1em auto;
+  margin: 0 auto;
+  &:not(:first-child){
+    margin-top: 1em;
+  }
   max-width: $bookLiMaxWidth;
   text-align: left;
   @include display-flex(row, center, space-around);

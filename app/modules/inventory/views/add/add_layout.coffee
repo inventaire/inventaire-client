@@ -8,10 +8,8 @@ module.exports = Marionette.LayoutView.extend
     @loggedIn = app.user.loggedIn
   serializeData: ->
     attrs =
-      search: searchInputData()
+      search: searchInputData 'localSearch', true
       loggedIn: @loggedIn
-
-    attrs.search.button.classes += ' postfix'
 
     if _.isMobile then attrs.scanner = scanner.url
     return attrs
@@ -19,12 +17,11 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     PreventDefault: {}
     ElasticTextarea: {}
+    LocalSeachBar: {}
 
   events:
-    'click #searchButton': 'setAddModeSearch'
     'click #scanner': 'setAddModeScan'
 
-  setAddModeSearch: -> app.execute 'last:add:mode:set', 'search'
   setAddModeScan: -> app.execute 'last:add:mode:set', 'scan'
 
   onShow: ->

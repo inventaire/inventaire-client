@@ -2,6 +2,7 @@ NotificationsList = require 'modules/notifications/views/notifications_list'
 CommonEl = require 'modules/general/regions/common_el'
 searchInputData = require './search_input_data'
 urls = require 'lib/urls'
+sectionWithLocalSearch = [ 'search', 'add' ]
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/account_menu'
@@ -11,6 +12,7 @@ module.exports = Marionette.LayoutView.extend
     'click #editNotifications': -> app.execute 'show:settings:notifications'
     'click #editLabs': -> app.execute 'show:settings:labs'
     'click #signout': -> app.execute 'logout'
+    'click a#searchButton': 'search'
 
   behaviors:
     PreventDefault: {}
@@ -26,9 +28,13 @@ module.exports = Marionette.LayoutView.extend
     # CommonEl regions insert their views AFTER the attached el
     @addRegion 'notifs', CommonEl.extend {el: '#before-notifications'}
 
+    @listenTo app.vent, 'search:local:show', @hideGlobalSearch.bind(@)
+    @listenTo app.vent, 'search:local:hide', @showGlobalSearch.bind(@)
+
   onShow: ->
     app.execute 'foundation:reload'
     @showNotifications()
+    if _.currentSection() in sectionWithLocalSearch then @hideGlobalSearch()
 
   showNotifications: ->
     @notifs.show new NotificationsList
@@ -37,3 +43,13 @@ module.exports = Marionette.LayoutView.extend
   selectMainUser: (e)->
     unless _.isOpenedOutside(e)
       app.execute 'show:inventory:user', app.user
+  ui:
+    searchGroup: '#searchGroup'
+    searchField: '#searchField'
+
+  search: ->
+    query = @ui.searchField.val()
+    app.execute 'search:global', query
+
+  showGlobalSearch: -> @ui.searchGroup.show()
+  hideGlobalSearch: -> @ui.searchGroup.hide()

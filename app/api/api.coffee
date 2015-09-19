@@ -18,7 +18,7 @@ module.exports =
   user: '/api/user'
   notifs: '/api/notifs'
   feedback: '/api/feedback/public'
-  i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
+  i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGESTh"
   moment: (lang)-> "/public/javascripts/moment/#{lang}.js?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
   newsletter: '/api/newsletter/public'

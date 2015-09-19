@@ -26,6 +26,7 @@ module.exports =
       'show:error': API.showError
       'show:403': API.show403
       'show:404': API.show404
+      # 'show:item:404': API.showItem404
       'show:offline:error': API.showOfflineError
       'show:call:to:connection': API.showCallToConnection
       'show:error:cookieRequired': API.showErrorCookieRequired

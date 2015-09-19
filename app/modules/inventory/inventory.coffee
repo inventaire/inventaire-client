@@ -93,7 +93,7 @@ API =
       throw new Error 'shouldnt be at least an empty array here?'
 
     switch items.length
-      when 0 then app.execute 'show:404'
+      when 0 then app.execute 'show:item:404'
       when 1 then app.execute 'show:item:show:from:model', items[0]
       else
         console.warn 'multi items not implemented yet'

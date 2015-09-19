@@ -7,19 +7,17 @@ EntityCreate = require 'modules/entities/views/entity_create'
 wd_ = app.lib.wikidata
 books_ = app.lib.books
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+searchInputData = require 'modules/general/views/menu/search_input_data'
 
 module.exports = Marionette.LayoutView.extend
   id: 'searchLayout'
   template: require './templates/search'
   behaviors:
     AlertBox: {}
+    LocalSeachBar: {}
+
   serializeData: ->
-    search:
-      nameBase: 'search'
-      field: {}
-      button:
-        icon: 'search'
-        classes: 'secondary postfix'
+    search: searchInputData 'localSearch', true
 
   regions:
     inventoryItems: '#inventoryItems'
@@ -29,12 +27,14 @@ module.exports = Marionette.LayoutView.extend
     findByIsbn: '#findByIsbn'
     createEntity: '#create'
 
+  ui:
+    localSearchField: '#localSearchField'
+
   initialize: (params)->
     _.extend @, behaviorsPlugin
     @query = params.query
 
   onShow: ->
-    @updateSearchBar()
     app.request('waitForFriendsItems').then @showItems.bind(@)
     @searchEntities()
     unless books_.isIsbn(@query)
@@ -44,7 +44,7 @@ module.exports = Marionette.LayoutView.extend
       @showEntityCreationForm true
 
   updateSearchBar: ->
-    $('#searchField').val @query
+    @ui.localSearchField.val @query
 
   showItems: ->
     collection = Items.filtered.resetFilters().filterByText @query
@@ -130,9 +130,10 @@ spreadResults = (res)->
     editions: new Entities
     search: res.search
 
-  {wd, google} = res
+  {wd, ol, google} = res
 
   if wd? then addWikidataEntities wd.items
+  if ol? then addIsbnEntities ol.items
   if google? then addIsbnEntities google.items
 
 addWikidataEntities = (resultsArray)->

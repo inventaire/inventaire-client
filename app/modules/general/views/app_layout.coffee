@@ -32,7 +32,6 @@ module.exports = Marionette.LayoutView.extend
     'click .showFeedbackMenu': 'showFeedbackMenu'
     'keyup .enterClick': enterClick
     'click a.back': -> window.history.back()
-    'click a#searchButton': 'search'
     'click a.wd-Q, a.showEntity': 'showEntity'
     'click .shareLink': 'shareLink'
     'focus textarea': moveCaretToEnd
@@ -79,12 +78,6 @@ module.exports = Marionette.LayoutView.extend
       custom_back_text: true
       back_text: _.i18n 'back'
       is_hover: false
-
-  search: (e)->
-    # support both account_menu and add_layout search
-    query = $(e.target).parent('#searchGroup').find('input').val()
-    _.log query, 'search query'
-    app.execute 'search:global', query
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)

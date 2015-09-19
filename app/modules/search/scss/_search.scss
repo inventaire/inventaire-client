@@ -4,15 +4,30 @@
 @import "author_li";
 
 
+#localSearchGroup{
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  max-width: 30em;
+  margin: 0 auto;
+  input{
+    @include shy-border(0.4);
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    .button{
+      max-width: 6em;
+    }
+  }
+}
+
 #searchLayout{
   text-align: center;
   margin: 1em auto;
   max-width: 70em;
   .itemsList{
     @include radius;
-    background-color: $dark-grey;
-    margin: 0;
     width: 100%;
+    margin: 0;
   }
   .authorLi{
     @include radius;
@@ -44,13 +59,26 @@
     }
     #create{}
   }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    section#results{
+      .subheader{
+        margin-top: 1em;
+      }
+    }
+  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
+    section#results{
+      > div{
+        margin-bottom: 2em;
+      }
+    }
     .authorLi{
       padding: 1em;
     }
     .itemsList{
-      padding: 1;
+      padding: 1em;
     }
   }
 }

@@ -16,8 +16,8 @@ $shadow-color: rgba(34, 25, 25, 0.4);
               $x (-$y) $blur $spread $color inset;
 }
 
-@mixin shy-border(){
-  border: 1px solid rgba($grey, 0.2);
+@mixin shy-border($opacity:0.2){
+  border: 1px solid rgba($grey, $opacity);
 }
 @mixin shy-text-border($color:rgba($grey, 0.2)){
   // see http://stackoverflow.com/a/13427256/3324977

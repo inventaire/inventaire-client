@@ -45,7 +45,10 @@ module.exports = Marionette.LayoutView.extend
 
   showEntityActions: -> @entityActions.show new EntityActions {model: @model}
 
+  # /!\ dispays public items!!
+  # => should use an Items.network.filteredByEntity collection
   showLocalItems: -> showItems Items, @localItems, @uri
+  # => should use an Items.nonNetwork.filteredByEntity collection
   showPublicItems: -> showItems Items.public, @publicItems, @uri
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
