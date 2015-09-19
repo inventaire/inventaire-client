@@ -14,6 +14,9 @@ $bookLiMaxWidth: 45em;
   @include shy-border();
   .bookCover{
     max-width: 10em;
+    // a minimum width is required so that the covers
+    // don't appear shrinked on webkit browsers
+    min-width: 7em;
     img{
       display: block;
     }
