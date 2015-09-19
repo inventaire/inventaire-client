@@ -4,13 +4,12 @@ module.exports = Marionette.Behavior.extend
 
   events:
     'click a#localSearchButton': 'search'
+    'inview #localSearchGroup': 'toggleGlobalSearchBar'
 
   onShow: ->
-    app.vent.trigger 'search:local:show'
+    # hidding the global bar will be triggered
+    # by the 'inview #localSearchGroup' event
     @updateSearchBar()
-
-  onDestroy: ->
-    app.vent.trigger 'search:local:hide'
 
   search: ->
     app.execute 'search:global', @ui.localSearchField.val()
@@ -18,3 +17,17 @@ module.exports = Marionette.Behavior.extend
 
   updateSearchBar: ->
     @ui.localSearchField.val @view.query
+
+  toggleGlobalSearchBar: (e, isInView)->
+    console.log 'isInView', isInView
+    if isInView
+
+      # get possible edits in the global search field
+      globalSearchVal = $('#searchField').val()
+      if _.isNonEmptyString(globalSearchVal)
+        @ui.localSearchField.val globalSearchVal
+      app.vent.trigger 'search:global:hide'
+
+    else
+      # pass local search field val to the global search field
+      app.vent.trigger 'search:global:show', @ui.localSearchField.val()
