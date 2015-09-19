@@ -3,7 +3,6 @@ EntityActions = require './entity_actions'
 wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 
 module.exports = Marionette.LayoutView.extend
-  className: 'entityShow custom-column'
   template: require './templates/entity_show'
   regions:
     entityData: '#entityData'

@@ -1,5 +1,6 @@
 API = _.extend.apply null, [
   {}
+  require './blocks'
   require './misc'
   require './utils'
   require './partials'

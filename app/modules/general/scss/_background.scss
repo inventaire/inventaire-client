@@ -30,8 +30,9 @@
   @include position(fixed, 0, 0, 0, 0, -10);
   background-color: $main-bg;
   transition: background 0.5s ease;
-  &.cover{
-    // cover background added for whitelisted routes
-    @include multidef-bg-cover('e412a0e3cc8e7842f0933e9661770fc3bd907baf.jpg', 'hd');
-  }
+}
+
+#bg.cover, #embedded-welcome{
+  // cover background added for whitelisted routes
+  @include multidef-bg-cover('e412a0e3cc8e7842f0933e9661770fc3bd907baf.jpg', 'hd');
 }

@@ -1,21 +1,24 @@
-<p class="back">
-  {{#if back}}
-    {{partial 'back' this}}
+<section class="entityShow custom-column">
+  <p class="back">
+    {{#if back}}
+      {{partial 'back' this}}
+    {{/if}}
+  </p>
+  <div class='dark-panel'>
+    <div id="entityData"></div>
+    <div id="entityActions"></div>
+    <div class='check'></div>
+  </div>
+
+  <div class="allItems">
+    <h3 class="subheader publicHeader">{{i18n "your friends' and groups' books"}}</h3>
+    <div id="localItems" class="items"></div>
+    <h3 class="subheader publicHeader">{{i18n 'public books'}}</h3>
+    <div id="publicItems" class="items"></div>
+  </div>
+
+  {{#if wikidata}}
+    {{partial 'entities:wikipedia_iframe' this}}
   {{/if}}
-</p>
-<div class='dark-panel'>
-  <div id="entityData"></div>
-  <div id="entityActions"></div>
-  <div class='check'></div>
-</div>
-
-<div class="allItems">
-  <h3 class="subheader publicHeader">{{i18n "your friends' and groups' books"}}</h3>
-  <div id="localItems" class="items"></div>
-  <h3 class="subheader publicHeader">{{i18n 'public books'}}</h3>
-  <div id="publicItems" class="items"></div>
-</div>
-
-{{#if wikidata}}
-  {{partial 'entities:wikipedia_iframe' this}}
-{{/if}}
+</section>
+{{partial 'welcome:embedded_welcome'}}

@@ -1,0 +1,27 @@
+#embedded-welcome{
+  padding-top: 2em;
+  padding-bottom: 2em;
+  width: 100%;
+  @include display-flex(column, center, center);
+  div{
+    @include radius;
+    text-align: center;
+    background-color: $green-tree;
+    margin: 1em;
+    padding: 0.5em 1em 0.5em 1em;
+  }
+  h2{
+    font-size: 1.6em;
+    color: white;
+    font-weight: bold;
+    line-height: 1em;
+  }
+  .tagline{
+    color: white;
+    padding: 0.4em;
+    margin-bottom: 0.5em;
+  }
+  .button{
+    margin-bottom: 1em;
+  }
+}
