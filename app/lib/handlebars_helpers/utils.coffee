@@ -1,6 +1,6 @@
 # inspired by some things there http://assemble.io/helpers/
 
-linkifyAuthor = require './linkify_author'
+formatAuthor = require './format_author'
 
 module.exports =
   join: (array, separator) ->
@@ -13,6 +13,9 @@ module.exports =
 
   default: (text, def)-> text or def
 
-  joinAuthors: (array)->
+  joinAuthors: (array, linkify)->
     unless array? then return ''
-    @join array.map(linkifyAuthor)
+    # defaulting to true while taking care of neutralizing
+    # handlebars data object
+    unless _.isBoolean linkify then linkify = true
+    @join array.map(formatAuthor.bind(null, linkify))
