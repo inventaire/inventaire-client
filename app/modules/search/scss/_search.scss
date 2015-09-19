@@ -42,6 +42,7 @@
     text-align: left;
     margin-top: 2em;
     background-color: $dark-grey;
+    @include radius;
     padding: 1em;
     > h3:first-child{
       color: white;
@@ -49,6 +50,7 @@
     .findByIsbn, .entityCreate{
       margin: 0;
       background-color: $light-grey;
+      @include radius;
       margin: 1em 0em 1em 0em;
       padding: 1em;
     }
