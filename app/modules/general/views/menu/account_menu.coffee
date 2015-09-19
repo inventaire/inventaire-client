@@ -61,7 +61,7 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'search:global', query
 
   showGlobalSearch: (query)->
-    @ui.searchGroup.show()
+    @ui.searchGroup.fadeIn(200)
     if _.isNonEmptyString(query) then @ui.searchField.val query
 
-  hideGlobalSearch: -> @ui.searchGroup.hide()
+  hideGlobalSearch: -> @ui.searchGroup.fadeOut(200)
