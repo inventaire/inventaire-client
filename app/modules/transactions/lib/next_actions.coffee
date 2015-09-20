@@ -23,7 +23,7 @@ addTransactionInfo = (data, transaction)->
 
 grabOtherUsername = (transaction, actions)->
   username = transaction.otherUser()?.get('username')
-  actions.map (action)-> _.extend action, {username: username}
+  actions.map (action)-> _.extend {}, action, {username: username}
 
 # key-1: current state
 # key-2: main user role in this transaction
