@@ -10,6 +10,9 @@
   .item{
     @include bg-hover(white);
   }
+  .fa, .owner img{
+    @include radius;
+  }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
   }
