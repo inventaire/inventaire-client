@@ -30,6 +30,8 @@ module.exports = Entity.extend
 
       @setAttributes @attributes, lang
       @rebaseClaims()
+      # depends on the freshly defined @_updates.claims
+      @type = wd.type @_updates
       @findAPicture()
 
       @set @_updates
@@ -126,11 +128,16 @@ module.exports = Entity.extend
     olPicGetter = @setPictureFromOpenLibraryId.bind(@, openLibraryId)
     commonsPicGetter = @setCommonsPicture.bind(@, commonsImage)
 
-    # giving priority to openlibrary's covers
+    # giving priority to openlibrary's pictures for books
     # as it has only covers while commons sometimes has just an illustration
     if openLibraryId?
       if commonsImage?
-        @waitForPicture = olPicGetter().catch commonsPicGetter
+        # unless it's an author, in which case commons pictures are prefered
+        # => gives access to photo credits
+        if @type is 'human'
+          @waitForPicture = commonsPicGetter().catch olPicGetter
+        else
+          @waitForPicture = olPicGetter().catch commonsPicGetter
       else
         @waitForPicture = olPicGetter().catch _.Error('open library image err')
     else if commonsImage?
@@ -153,7 +160,7 @@ module.exports = Entity.extend
       @push 'pictures', thumbnail
       @setPictureCredits title, author, license
       @save()
-    .catch _.Error('setCommonsPicture')
+    .catch _.ErrorRethrow('setCommonsPicture')
 
   setPictureCredits: (title, author, license)->
     if author? and license? then text = "#{author} - #{license}"
@@ -164,7 +171,6 @@ module.exports = Entity.extend
       text: text
 
   typeSpecificInitilize: ->
-    @type = wd.type(@)
     switch @type
       when 'book' then @initializeBook()
       when 'human' then @initializeAuthor()
