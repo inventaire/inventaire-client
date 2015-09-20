@@ -45,6 +45,9 @@ nav.top-bar {
   #name{
     font-weight: bold;
   }
+  #pic{
+    @include radius;
+  }
   .dropdown{
     li{
       @include shadow-box($darker-grey);
