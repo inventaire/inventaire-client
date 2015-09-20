@@ -31,18 +31,11 @@ module.exports =
   catch404: (err)-> if err.status is 404 then return
 
 
-# using defer might be an anti-pattern
-# according to http://stackoverflow.com/q/24315180/3324977
-# but it allows to rewrite the Error to keep jQuery error's data
 wrap = (jqPromise)->
-  def = Promise.defer()
-
-  jqPromise
-  .then def.resolve.bind(def)
-  .fail (err)-> def.reject rewriteError(err)
-
-  return def.promise
-
+  return new Promise (resolve, reject)->
+    jqPromise
+    .then resolve
+    .fail (err)-> reject rewriteError(err)
 
 rewriteError = (err)->
   {status, statusText, responseText, responseJSON} = err
