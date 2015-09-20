@@ -61,6 +61,10 @@ module.exports = (_, csle)->
     Error: (label)-> _.partial error, _, label
     Warn: (label)-> _.partial warn, _, label
     Spy: (label)-> _.partial spy, _, label
+    ErrorRethrow: (label)->
+      return fn = (err)->
+        error err, label
+        throw err
 
   loggers =
     log: log
