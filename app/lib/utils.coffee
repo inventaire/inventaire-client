@@ -1,8 +1,7 @@
 regex_ = sharedLib 'regex'
 
-module.exports = (Backbone, _, app, window, console)->
-
-  loggers = require('./loggers')(_, console)
+module.exports = (Backbone, _, app, window, csle)->
+  loggers = require('./loggers')(_, csle)
 
   utils =
     setCookie: (key, value)->

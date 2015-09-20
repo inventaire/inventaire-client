@@ -1,6 +1,6 @@
 # allow to pass a csle object so that we can pass whatever we want in tests
 module.exports = (_, csle)->
-  csle or= console
+  csle or= window.console
 
   log = (obj, label, stack)->
     # customizing console.log

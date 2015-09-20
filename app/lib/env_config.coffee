@@ -9,3 +9,6 @@ module.exports = ->
   window.CONFIG =
     images:
       maxSize: 1600
+    # overriden at feature_detection setDebugSetting
+    # as it depends on localStorageProxy
+    debug: false

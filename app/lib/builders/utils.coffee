@@ -4,8 +4,10 @@ module.exports = (Backbone, _, app, window)->
   # extending _ with invUtils functions
   _ = invUtils _
 
+  csle = if CONFIG.debug then window.console else require 'lib/noop_console'
+
   # add client-specific utils
-  local = require('lib/utils')(Backbone, _, app, window)
+  local = require('lib/utils')(Backbone, _, app, window, csle)
   _.extend _, local
 
   # http requests handler returning promises

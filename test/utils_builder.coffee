@@ -9,11 +9,7 @@ global.location = {}
 global.sharedLib = (lib)-> __.require 'shared', lib
 
 # desactivating logs
-csle =
-  log: ->
-  warn: ->
-  error: ->
-  info: ->
+csle = __.require 'lib', 'noop_console'
 
 _ = require 'underscore'
 

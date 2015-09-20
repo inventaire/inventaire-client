@@ -3,6 +3,7 @@ module.exports = ->
   sayHi()
   testFlexSupport()
   testLocalStorage()
+  setDebugSetting()
   return testIndexedDbSupport()
 
 
@@ -24,8 +25,8 @@ testFlexSupport = ->
   # taken from http://stackoverflow.com/questions/14386133/are-there-any-javascript-code-polyfill-available-that-enable-flexbox-2012-cs/14389903#14389903
   detector = document.createElement 'detect'
   detector.style.display = 'flex'
-  if detector.style.display is 'flex' then console.log 'Flex is supported'
-  else console.log 'Flex is not supported'
+  unless detector.style.display is 'flex'
+    console.warn 'Flex is not supported'
 
 
 # from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString
@@ -53,7 +54,6 @@ testLocalStorage = ->
   try
     window.localStorage.setItem 'localStorage-support', true
     localStorageProxy = localStorage
-    console.log 'localStorage is supported'
   catch err
     console.warn 'localStorage isnt supported'
     storage = {}
@@ -66,14 +66,23 @@ testLocalStorage = ->
 
   window.localStorageProxy = localStorageProxy
 
+setDebugSetting = ->
+  # localStorage doesn't handle booleans
+  # anything else than the string "true" will be considered false
+  CONFIG.debug = debug = localStorageProxy.getItem('debug') is 'true'
+  unless debug
+    console.warn "logs are disabled.\n
+    Activate logs by entering this command and reloading the page:\n
+    localStorage.setItem('debug', true)"
+
 testIndexedDbSupport = ->
   indexedDB = indexedDB or window.indexedDB or window.webkitIndexedDB or window.mozIndexedDB or window.OIndexedDB or window.msIndexedDB
 
   return solveIdbSupport(indexedDB)
   .then (bool)->
     window.supportsIndexedDB = bool
-    console.log 'Indexeddb support:', bool
-  .catch (err)-> console.error 'testIndexedDbSupport err', err
+    unless bool then console.warn 'Indexeddb isnt supported'
+  .catch console.error.bind(console, 'testIndexedDbSupport err')
 
 
 solveIdbSupport = (indexedDB)->
