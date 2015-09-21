@@ -30,7 +30,8 @@
   .validationButtons{
     text-align: center;
     a{
-      @include radius();
+      margin-bottom: 0.5em;
+      @include radius;
     }
 
   }

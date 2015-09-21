@@ -32,13 +32,9 @@
   .authorLi{
     @include radius;
   }
-  section#results{
-    > div{
-      margin-top: 2em;
-      margin-bottom: 2em;
-    }
-  }
   section#createGroup{
+    max-width: 50em;
+    margin: 0 auto;
     text-align: left;
     margin-top: 2em;
     background-color: $dark-grey;
@@ -61,19 +57,12 @@
     }
     #create{}
   }
-  /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-    section#results{
-      .subheader{
-        margin-top: 1em;
-      }
-    }
-  }
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     section#results{
-      > div{
-        margin-bottom: 2em;
+      > div:not(:empty){
+        margin-top: 1em;
+        margin-bottom: 1em;
       }
     }
     .authorLi{

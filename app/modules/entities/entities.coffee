@@ -106,8 +106,10 @@ API =
     .then (models)->
       if models?[0]? then return models[0]
       else
-        # some instance of this problem seem to be due to the server
+        # Some instance of this problem seem to be due to the server
         # caching empty results returned, possibly when API quota where passed?!?
+        # Another case seem to be that an item was created using an isbn can't be found later
+        # ex: https://inventaire.io/inventory/bnnz/isbn:2070360555/Fondation_Et_Empire
         _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
         throw error_.new 'entity_not_found', arguments
 

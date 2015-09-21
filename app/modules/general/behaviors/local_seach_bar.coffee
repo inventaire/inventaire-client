@@ -19,7 +19,6 @@ module.exports = Marionette.Behavior.extend
     @ui.localSearchField.val @view.query
 
   toggleGlobalSearchBar: (e, isInView)->
-    console.log 'isInView', isInView
     if isInView
 
       # get possible edits in the global search field
