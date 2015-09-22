@@ -33,6 +33,6 @@
 }
 
 .content-link{
-  @include text-hover(blue);
-  @include underline(rgba(blue, 0.4));
+  @include text-hover($grey, null, 10%);
+  @include underline(rgba($grey, 0.4));
 }
