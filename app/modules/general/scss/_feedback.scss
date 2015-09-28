@@ -6,7 +6,7 @@
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
-    @include position(fixed, null, 0, 14em);
+    @include position(fixed, null, 0, 14em, null, 1000);
     @include vendor-prefix(transform, rotate(-90deg));
     @include vendor-prefix(transform-origin, right bottom 0);
     a{

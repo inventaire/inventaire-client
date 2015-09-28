@@ -15,6 +15,7 @@ module.exports = Marionette.ItemView.extend
     'click .add': 'showAddLayout'
     'click .network': 'showNetwork'
     'click .browse': 'showInventory'
+    'click .map': 'showMap'
     'click .exchanges': 'showTransactions'
 
   ui:
@@ -22,6 +23,7 @@ module.exports = Marionette.ItemView.extend
     add: '.add'
     network: '.network'
     browse: '.browse'
+    map: '.map'
     exchanges: '.exchanges'
 
   serializeData: ->
@@ -37,6 +39,7 @@ module.exports = Marionette.ItemView.extend
       when 'add', 'search' then @selectButton 'add'
       when 'network' then @selectButton 'network'
       when 'inventory', 'groups' then @selectButton 'browse'
+      when 'map' then @selectButton 'map'
       when 'transactions' then @selectButton 'exchanges'
 
     # sections without an associated icon nav button:
@@ -59,6 +62,10 @@ module.exports = Marionette.ItemView.extend
   showInventory: ->
     @selectButton 'browse'
     app.execute 'show:inventory:general'
+
+  showMap: ->
+    @selectButton 'map'
+    app.execute 'show:map'
 
   showTransactions: ->
     @selectButton 'exchanges'
