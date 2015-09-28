@@ -1,4 +1,5 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ contact } = require 'lib/urls'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/feedback_menu'
@@ -14,6 +15,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     loggedIn: app.user.loggedIn
     user: app.user.toJSON()
+    contact: contact
 
   ui:
     unknownUser: '.unknownUser'
