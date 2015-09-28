@@ -9,7 +9,7 @@ module.exports = Marionette.CollectionView.extend
     stretch: @options.stretch
   emptyView: require './no_user'
   emptyViewOptions: ->
-    message: @options.emptyViewMessage or "can't find anyone with that name"
+    message: @options.emptyViewMessage
 
   initialize: ->
     { filter, textFilter } = @options
