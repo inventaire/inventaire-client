@@ -1,6 +1,7 @@
 # mimicking window.console API to mute logs
+noop = ->
 module.exports =
-  log: ->
-  warn: ->
-  error: ->
-  info: ->
+  log: noop
+  warn: noop
+  error: noop
+  info: noop
