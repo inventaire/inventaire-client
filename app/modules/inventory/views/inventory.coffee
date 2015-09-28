@@ -28,8 +28,6 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     @showSideNav()
     @showItemsListOnceData()
-    unless _.smallScreen(gridMinWidth)
-      @controls.show new Controls
 
     if _.smallScreen()
       if @options.user? then _.scrollTop '#sideNav'
@@ -100,6 +98,10 @@ module.exports = Marionette.LayoutView.extend
       collection: Items.filtered
     @itemsView.show itemsList
 
+    # only triggering controls now, as it prevents controls
+    # to be shown with the InventoryWelcome view
+    @showControls()
+
   getItemsListView: ->
     switch app.request 'inventory:layout'
       when 'cascade' then app.View.Items.List
@@ -120,6 +122,10 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('showLastPublicItems err')
 
     if user? then app.execute 'sidenav:show:user', user
+
+  showControls: ->
+    unless _.smallScreen gridMinWidth
+      @controls.show new Controls
 
 prepareUserItemsList = (user, navigate)->
   unless app.request 'user:itemsFetched', user
