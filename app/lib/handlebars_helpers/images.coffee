@@ -1,4 +1,4 @@
-SafeString = Handlebars.SafeString
+{ SafeString } = Handlebars
 
 exports.icon = (name, classes) ->
   if _.isString(name)

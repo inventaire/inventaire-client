@@ -1,7 +1,7 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 check = behavior 'success_check'
 tip = behavior 'tip'
-SafeString = Handlebars.SafeString
+{ SafeString } = Handlebars
 
 
 module.exports =
