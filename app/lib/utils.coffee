@@ -1,4 +1,5 @@
 regex_ = sharedLib 'regex'
+tests_ = sharedLib('tests')(regex_)
 
 module.exports = (Backbone, _, app, window, csle)->
   loggers = require('./loggers')(_, csle)
@@ -139,7 +140,6 @@ module.exports = (Backbone, _, app, window, csle)->
     isUuid: (str)-> regex_.Uuid.test str
     isEmail: (str)-> regex_.Email.test str
     isUserId: (id)-> regex_.CouchUuid.test id
-    isLocalImg: (url)-> regex_.LocalImg.test url
 
     # anchor with a href are opened out of the current window
     # when the ctrlKey is pressed: the normal action should thus be prevented
@@ -206,4 +206,4 @@ module.exports = (Backbone, _, app, window, csle)->
 
     LazyRender: (view, timespan=200)-> _.debounce view.render.bind(view), timespan
 
-  return _.extend {}, utils, loggers
+  return _.extend {}, utils, loggers, tests_
