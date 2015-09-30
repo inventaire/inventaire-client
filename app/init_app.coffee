@@ -6,14 +6,12 @@ module.exports = ->
 
   _.extend app, require 'structure'
 
+  # gets all the routes used in the app
+  app.API = require('api/api')(_)
 
-  require('lib/handlebars_helpers/base').initialize()
+  require('lib/handlebars_helpers/base').initialize(app.API)
   require('lib/global_libs_extender')(_)
   require('lib/global_helpers')(app, _)
-
-  # gets all the routes used in the app
-  app.API = require 'api/api'
-
 
   LocalDB = require('lib/data/local_db')(window, _)
   # constructor for interactions between module and LevelDb/IndexedDb

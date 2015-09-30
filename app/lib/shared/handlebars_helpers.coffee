@@ -1,20 +1,21 @@
-module.exports = (_)->
-  src: (path, width, height, extend)->
-    if _.isDataUrl path then return path
+module.exports = (_, appApi)->
+  onePictureOnly = (arg)->
+    if _.isArray(arg) then return arg[0] else arg
 
-    width = getImgDimension width, 1600
-    width = _.bestImageWidth width
-    height = getImgDimension height, width
-    path = onePictureOnly path
+  getImgDimension = (dimension, defaultValue)->
+    if _.isNumber dimension then return dimension
+    else defaultValue
 
-    return ''  unless path?
+  return helpers_ =
+    src: (path, width, height, extend)->
+      if _.isDataUrl path then return path
 
-    if _.isLocalImg path then path = path.replace '/img/', ''
-    return app.API.img path, width, height
+      width = getImgDimension width, 1600
+      width = _.bestImageWidth width
+      height = getImgDimension height, width
+      path = onePictureOnly path
 
-onePictureOnly = (arg)->
-  if _.isArray(arg) then return arg[0] else arg
+      return ''  unless path?
 
-getImgDimension = (dimension, defaultValue)->
-  if _.isNumber dimension then return dimension
-  else defaultValue
+      if _.isLocalImg path then path = path.replace '/img/', ''
+      return appApi.img path, width, height

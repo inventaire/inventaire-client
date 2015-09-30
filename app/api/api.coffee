@@ -1,11 +1,11 @@
-module.exports =
+module.exports = (_)->
   auth: require './auth'
   users: require './users'
   items: require './items'
   entities: require './entities'
   services: require './services'
   data: require './data'
-  img: require './img'
+  img: sharedLib('api/img')(_)
   comments:
     public: '/api/comments/public'
     private: '/api/comments'
