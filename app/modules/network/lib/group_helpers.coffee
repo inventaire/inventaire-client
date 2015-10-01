@@ -1,4 +1,5 @@
 Groups = require 'modules/network/collections/groups'
+{ Updater } = require 'lib/model_update'
 
 module.exports = ->
   groups = app.user?.groups or new Groups
@@ -19,9 +20,15 @@ module.exports = ->
       groupModel.publicDataOnly = true
       return groupModel
 
+  groupSettingsUpdater = Updater
+    endpoint: app.API.groups.private
+    action: 'update-settings'
+    modelIdLabel: 'group'
+
   app.reqres.setHandlers
     'get:group:model': getGroupModel
     'get:group:model:sync': groups.byId.bind(groups)
+    'group:update:settings': groupSettingsUpdater
 
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'

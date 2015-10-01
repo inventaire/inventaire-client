@@ -30,6 +30,11 @@
   </div>
 </div>
 <div class="body">
+  {{#if mainUserIsAdmin}}
+    <section id="settings">
+      {{partial 'network:group_board_section' 'settings'}}
+    </section>
+  {{/if}}
   <section id="requests" {{#unless mainUserIsAdmin}}class="hidden"{{/unless}}>
     {{partial 'network:group_board_section' 'requests waiting your approval'}}
   </section>

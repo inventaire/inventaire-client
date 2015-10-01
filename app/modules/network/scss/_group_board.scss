@@ -60,16 +60,16 @@
       @include radius();
       background-color: rgba(#eaeaea, 0.6);
       &#members{
-        .users{
+        .inner{
           max-height: 20em;
         }
       }
       &#invite, #requests{
-        .users{
+        .inner{
           max-height: 10em;
         }
       }
-      .users{
+      .inner{
         overflow: auto;
         padding-right: 0.4em;
       }
@@ -78,6 +78,12 @@
   .action{
     span, .fa{
       color: white;
+    }
+  }
+  #settings{
+    padding: 0.5em;
+    .inputGroup .button{
+      max-width: 10em;
     }
   }
 }

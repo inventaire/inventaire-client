@@ -1,4 +1,4 @@
-module.exports = error_ =
+error_ =
   new: (message, context)->
     err = new Error message
     err.context = context
@@ -10,7 +10,13 @@ module.exports = error_ =
     err.context = context
     return err
 
-  Complete: (selector)->
-    return fn = (err)->
-      err.selector = selector
-      throw err
+  complete: (selector, err)->
+    err.selector = selector
+    return err
+
+# /!\ throws the error while error_.complete only returns it.
+# this difference is justified by the different use of both functions:
+error_.Complete = (selector)->
+  throw error_.complete.bind null, selector
+
+module.exports = error_

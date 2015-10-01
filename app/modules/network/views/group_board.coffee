@@ -1,5 +1,5 @@
 groupPlugin = require '../plugins/group'
-UsersList = require 'modules/users/views/users_list'
+GroupSettings = require './group_settings'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_board'
@@ -8,6 +8,13 @@ module.exports = Marionette.LayoutView.extend
     @initPlugin()
     @collection = @model.members
     @mainUserStatus = @model.mainUserStatus()
+    @mainUserIsAdmin = @model.mainUserIsAdmin()
+
+    @delayedRender = _.debounce @render.bind(@), 1000
+
+    # let the time to success or fail signals to be shown
+    @listenTo @model, 'change:name', @delayedRender
+    @listenTo @model, 'change:picture', @delayedRender
 
   initPlugin: ->
     groupPlugin.call @
@@ -16,9 +23,10 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   regions:
-    requests: '#requests > .users'
-    members: '#members > .users'
-    invite: '#invite > .users'
+    settings: '#settings > .inner'
+    requests: '#requests > .inner'
+    members: '#members > .inner'
+    invite: '#invite > .inner'
 
   ui:
     requests: '#requests'
@@ -43,13 +51,16 @@ module.exports = Marionette.LayoutView.extend
     $el.slideToggle()
     $el.parent().find('.fa-caret-down').toggleClass 'toggled'
 
-  onShow: ->
+  onRender: ->
     @showMembers()
+    if @mainUserIsAdmin then @showSettings()
     if @mainUserStatus is 'member' then @showFriendsInvitor()
-    if @model.requested.length > 0 and @model.mainUserIsAdmin()
-      @showJoinRequests()
-    else
-      @ui.requests.hide()
+    if @model.requested.length > 0 and @mainUserIsAdmin then @showJoinRequests()
+    else @ui.requests.hide()
+
+  showSettings: ->
+    @settings.show new GroupSettings
+      model: @model
 
   showJoinRequests: ->
     @requests.show @getJoinRequestsView()
