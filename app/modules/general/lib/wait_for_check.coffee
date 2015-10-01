@@ -8,12 +8,9 @@ module.exports = (options)->
   # action or promise MUST be provided
   if action? then promise = action()
 
-  # success and/or error handlers CAN be provided
+  # success and/or error handlers MAY be provided
   promise
-  .then (res)->
-    $selector.trigger('check', success)
-  .catch (err)->
-    _.error err, 'waitForCheck err'
-    $selector.trigger('fail', error)
+  .then (res)-> $selector.trigger 'check', success
+  .catch (err)-> $selector.trigger 'fail', error
 
   return promise

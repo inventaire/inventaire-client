@@ -1,3 +1,5 @@
+# elements required in the view: .checkWrapper > .check
+
 module.exports = Marionette.Behavior.extend
   events:
     'check': 'showSuccessCheck'

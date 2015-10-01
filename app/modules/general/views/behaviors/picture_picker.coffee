@@ -18,6 +18,7 @@ module.exports = Marionette.CompositeView.extend
     AlertBox: {}
     SuccessCheck: {}
     Loading: {}
+    PreventDefault: {}
 
   initialize: ->
     @limit = @options.limit or 1
