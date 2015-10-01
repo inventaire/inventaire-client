@@ -1,4 +1,5 @@
 envConfig = require('lib/env_config')()
+window.sharedLib = require 'lib/shared/shared_libs'
 featureDetection = require 'lib/feature_detection'
 initApp = require './init_app'
 
@@ -18,4 +19,3 @@ featureDetection()
 # .catch reportError.bind(null, 'initApp err')
 
 require('lib/unhandled_error_logger').initialize()
-window.sharedLib = sharedLib = require('lib/shared/shared_libs')
