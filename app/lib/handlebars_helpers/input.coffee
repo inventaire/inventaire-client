@@ -42,7 +42,6 @@ module.exports =
     if name?
       field.id = name + 'Field'
       field.name = name
-      field.placeholder = _.i18n(name)
       button.id = name + 'Button'
       button.text = name
 
@@ -57,12 +56,17 @@ module.exports =
       field: _.extend field, data.field
       button: _.extend button, data.button
 
+    # default value defined after all the rest
+    # to avoid requesting unnecessary strings to i18n
+    # (which would result in a report for a missing i18n key)
+    data.field.placeholder ?= _.i18n name
+
     if data.special
       data.special = 'autocorrect="off" autocapitalize="off"'
 
-    i = new SafeString input(data)
+    i = input data
 
-    if options is 'check' then new SafeString check(i)
-    else i
+    html = if options is 'check' then check i else i
+    return new SafeString html
 
   disableAuto: -> 'autocorrect="off" autocapitalize="off"'
