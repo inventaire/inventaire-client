@@ -1,3 +1,4 @@
+{{!-- to add success check capabilities, pass 'check' as a 2nd argument (see input.coffee) --}}
 <form id="{{id}}" class="inputGroup">
   {{!-- a div is required to wrap the input as the alert-box
   will be appened as a sibbling node --}}
@@ -10,8 +11,8 @@
     placeholder="{{field.placeholder}}{{field.dotdotdot}}"
     {{special}}>
   </div>
-  {{!-- href="#" allows to make the button focusable--}}
-  <a id="{{button.id}}" class="button {{button.classes}}" href="#">
+  {{!-- tabindex="0" allows to make the button focusable--}}
+  <a id="{{button.id}}" class="button {{button.classes}}" tabindex="0">
     {{{button.text}}} <span class='loading'></span>
   </a>
 </form>
