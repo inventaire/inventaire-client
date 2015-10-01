@@ -1,4 +1,3 @@
-{ icon } = require 'lib/handlebars_helpers/images'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
@@ -20,9 +19,8 @@ module.exports = Marionette.ItemView.extend
     nameBase: 'editName'
     field:
       value: groupName
-      placeholder: _.logServer(groupName, 'groupName')
+      placeholder: groupName
     button:
-      # text: icon('check') + _.I18n 'save'
       text: _.I18n 'save'
     check: true
 
@@ -31,6 +29,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click #editNameButton': 'editName'
+    'click a#changePicture': 'changePicture'
 
   editName:->
     name = @ui.editNameField.val()
@@ -46,3 +45,21 @@ module.exports = Marionette.ItemView.extend
       attribute: attribute
       value: value
       selector: selector
+
+  changePicture: ->
+    app.layout.modal.show new app.View.Behaviors.PicturePicker
+      pictures: @model.get 'picture'
+      save: @_savePicture.bind(@)
+      limit: 1
+
+  _savePicture: (pictures)->
+    picture = pictures[0]
+    _.log picture, 'picture'
+    unless _.isLocalImg picture
+      throw new Error 'couldnt save picture: requires a local image url'
+
+    app.request 'group:update:settings',
+      model: @model
+      attribute: 'picture'
+      value: picture
+      selector: '#changePicture'

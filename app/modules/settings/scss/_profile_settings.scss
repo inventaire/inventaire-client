@@ -24,26 +24,6 @@
       margin-top: -1em;
     }
   }
-  .changePicture{
-    img{
-      @include radius-top();
-    }
-  }
-
-  #changePicture{
-    figcaption {
-      @include bg-hover($dark-grey, 5%);
-      @include radius-bottom;
-    }
-  }
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-    figure.changePicture{
-      img{
-        max-width: 20vw;
-      }
-    }
-  }
   .alertMessageBox, .successMessageBox{
     color: white;
     // font-weight: bold;
@@ -77,4 +57,25 @@
 
 #languagePicker{
   max-width: 20em;
+}
+
+.changePicture{
+  img{
+    @include radius-top();
+  }
+}
+
+#changePicture{
+  figcaption {
+    @include bg-hover($dark-grey, 5%);
+    @include radius-bottom;
+  }
+}
+/*Large screens*/
+@media screen and (min-width: $smallscreen) {
+  figure.changePicture{
+    img{
+      max-width: 20vw;
+    }
+  }
 }
