@@ -16,12 +16,12 @@ module.exports =
     if _.localUrl(url) or CORS then jqPromise = $.get(url)
     else jqPromise = $.get app.API.proxy(url)
 
-    return wrap(jqPromise)
+    return wrap jqPromise, url
 
-  post: (url, body)-> wrap($.post(url, body))
-  put: (url, body)-> wrap($.put(url, body))
-  delete: (url)-> wrap($.delete(url))
-  getScript: (url)-> wrap($.getScript(url))
+  post: (url, body)-> wrap $.post(url, body), url
+  put: (url, body)-> wrap $.put(url, body), url
+  delete: (url)-> wrap $.delete(url), url
+  getScript: (url)-> wrap $.getScript(url), url
 
   start: -> Promise.resolve()
   resolve: (res)-> Promise.resolve(res)
@@ -31,16 +31,16 @@ module.exports =
   catch404: (err)-> if err.status is 404 then return
 
 
-wrap = (jqPromise)->
+wrap = (jqPromise, url)->
   return new Promise (resolve, reject)->
     jqPromise
     .then resolve
-    .fail (err)-> reject rewriteError(err)
+    .fail (err)-> reject rewriteError(err, url)
 
-rewriteError = (err)->
-  {status, statusText, responseText, responseJSON} = err
+rewriteError = (err, url)->
+  { status, statusText, responseText, responseJSON } = err
 
-  error = new Error "#{status}: #{statusText} - #{responseText}"
+  error = new Error "#{status}: #{statusText} - #{responseText} - #{url}"
   return _.extend error,
     status: status
     statusText: statusText
