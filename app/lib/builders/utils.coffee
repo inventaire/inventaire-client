@@ -8,7 +8,10 @@ module.exports = (Backbone, _, app, window)->
 
   # add client-specific utils
   local = require('lib/utils')(Backbone, _, app, window, csle)
-  _.extend _, local
+  # add utils shared between the server and the client
+  # but not yet extracted to inv-utils
+  shared_ = sharedLib 'utils'
+  _.extend _, local, shared_
 
   # http requests handler returning promises
   _.preq = require 'lib/preq'

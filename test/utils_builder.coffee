@@ -6,7 +6,7 @@ global.window =
   reportErr: ->
 global.location = {}
 
-global.sharedLib = (lib)-> __.require 'shared', lib
+sharedLib = require './shared_lib'
 
 # desactivating logs
 csle = __.require 'lib', 'noop_console'
