@@ -46,17 +46,18 @@ module.exports = Marionette.LayoutView.extend
     {user, group} = @options
     if user?
       app.request 'resolve:to:userModel', user
+      .then @showItemsListStep2.bind(@)
       .catch (err)->
         _.error err, 'resolve:to:userModel err'
         app.execute 'show:404'
-      .then @showItemsListStep2.bind(@)
 
     else if group?
       app.request 'get:group:model', group
+      # make sure the group is passed as second argument
+      .then @showItemsListStep2.bind(@, null)
       .catch (err)->
         _.error err, 'get:group:model err'
         app.execute 'show:404'
-      .then @showItemsListStep2.bind(@, null)
 
     else @showItemsListStep2()
 
