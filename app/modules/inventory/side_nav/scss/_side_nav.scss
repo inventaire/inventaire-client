@@ -20,13 +20,24 @@
       min-height: $user-profile-height;
       @include flex(0, 0);
     }
-    a.unselect{
+    @import 'user_profile';
+    .fa{
+      font-size: 1.2em;
+    }
+    .userProfile a.unselect, .groupShow .iconButtons{
       @include position(absolute, 3px, 3px);
-      .fa{
-        font-size: 1.2em;
+    }
+    .groupShow{
+      .iconButtons{
+        @include display-flex(column, center, space-between);
+        height: 3.2em;
+        background-color: rgba(grey, 0.3);
+        @include radius;
+        a{
+          padding-left: 0.3em;
+        }
       }
     }
-    @import 'user_profile';
   }
 
   #two{

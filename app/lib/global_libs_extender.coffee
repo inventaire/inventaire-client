@@ -31,6 +31,10 @@ module.exports = (_)->
   # - adding a reference to the model
   # - triggering events
 
+  # get several attributes at once
+  Backbone.Model::gets = (attributes...)->
+    attributes.map (attribute)=> @get attribute
+
   Backbone.Model::reqGrab = (request, id, name)->
     app.request(request, id)
     .then @grab.bind(@, name)

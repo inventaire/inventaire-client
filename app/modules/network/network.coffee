@@ -21,6 +21,7 @@ module.exports =
       'show:network': API.showNetworkLayout
       'show:network:friends': API.showNetworkLayoutFriends
       'show:network:groups': API.showNetworkLayoutGroups
+      'show:group:board': API.showGroupBoardFromModel
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
@@ -52,6 +53,12 @@ API =
     .catch (err)->
       _.error err, 'get:group:model err'
       app.execute 'show:404'
+
+  showGroupBoardFromModel: (model)->
+    [ id, name ] = model.gets '_id', 'name'
+    route = "network/groups/#{id}/#{name}"
+    showGroupBoardFromModel model
+    app.navigate route
 
 showGroupBoardFromModel = (model)->
   app.layout.main.show new GroupBoard

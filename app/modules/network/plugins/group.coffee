@@ -3,6 +3,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 events =
   'click .showGroup': 'showGroup'
+  'click .showGroupBoard': 'showGroupBoard'
   'click .accept': 'acceptInvitation'
   'click .decline': 'declineInvitation'
   'click .joinRequest': 'joinRequest'
@@ -12,6 +13,10 @@ handlers =
   showGroup: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:inventory:group', @model
+
+  showGroupBoard: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:group:board', @model
 
   getGroupMembersListView: ->
     new UsersList
