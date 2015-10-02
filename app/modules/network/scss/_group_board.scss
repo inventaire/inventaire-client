@@ -1,22 +1,35 @@
 .groupBoard{
-  background-color: white;
-  @include radius();
-  @include shy-border();
+  @include shy-border-vertical-group;
+  &.standalone{
+    @include custom-column(40em);
+    /*Large screens*/
+    @media screen and (min-width: $smallscreen) {
+      padding-top: 1em;
+    }
+  }
+  > div{
+    background-color: white;
+    @include radius-vertical-group;
+  }
   margin-bottom: 1em;
   .header{
     @include display-flex(column, center, center);
-    .showGroup{
+    .cover-link{
       width: 100%;
       font-size: 1.6em;
     }
+    .name{
+      padding-top: 1.5em;
+      padding-bottom: 1.3em;
+    }
     .cover{
       @include display-flex(column, center, center);
-      @include radius-top();
-      @include inner-shadow();
+      @include radius-top;
+      @include inner-shadow;
       .link{
         font-size: 0.7em;
         color: white;
-        @include shy-text-border();
+        @include shy-text-border;
         @include align-self(flex-end);
         margin-right: 0.2em;
         opacity: 0.5;
@@ -28,7 +41,7 @@
         }
         @include inner-shadow(20px, 20px, 10px, 10px, rgba(black, 0.2));
       }
-      @include bg-cover();
+      @include bg-cover;
       // bg image is added dynamically from group_board template
     }
     .bottom{
@@ -41,30 +54,23 @@
   }
   .body{
     padding: 0 1em 1em 1em;
-    .toggler{
-      @include display-flex(row);
-    }
-    .fa-caret-down{
-      padding: 0.4em;
-      font-size: 1.2em;
-      opacity: 0.5;
-      &.toggled{
-        @include vendor-prefix(transform, rotate(-90deg));
-      }
-    }
     section{
+      .fa{
+        font-size: 0.9em;
+        color: grey;
+      }
       h4{
         text-align: left;
         font-size: 1.2em;
       }
-      @include radius();
+      @include radius;
       background-color: rgba(#eaeaea, 0.6);
-      &#members{
+      &#groupMembers{
         .inner{
           max-height: 20em;
         }
       }
-      &#invite, #requests{
+      &#groupInvite, #groupRequests{
         .inner{
           max-height: 10em;
         }
@@ -73,6 +79,19 @@
         overflow: auto;
         padding-right: 0.4em;
       }
+      .toggler{
+        @include display-flex(row);
+      }
+      .fa-caret-down{
+        @include display-flex(row, center, center);
+        margin-top: -0.2em;
+        padding: 0.4em;
+        font-size: 1.5em;
+        opacity: 0.5;
+        &.toggled{
+          @include vendor-prefix(transform, rotate(-90deg));
+        }
+      }
     }
   }
   .action{
@@ -80,8 +99,7 @@
       color: white;
     }
   }
-  #settings{
-    padding: 0.5em;
+  #groupSettings{
     .inputGroup .button{
       max-width: 10em;
     }

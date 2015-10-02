@@ -28,6 +28,10 @@
     font-size: 1.5em;
     @include text-wrap;
     max-width: 100%;
+  }
+}
+.group, div.groupShow{
+  .cover .name{
     max-height: 3em;
   }
 }

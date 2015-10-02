@@ -3,7 +3,10 @@ GroupSettings = require './group_settings'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_board'
-  className: 'groupBoard'
+  className: ->
+    standalone = if @options.standalone then 'standalone' else ''
+    return "groupBoard #{standalone}"
+
   initialize: ->
     @initPlugin()
     @collection = @model.members
@@ -23,18 +26,19 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   regions:
-    settings: '#settings > .inner'
-    requests: '#requests > .inner'
-    members: '#members > .inner'
-    invite: '#invite > .inner'
+    groupSettings: '#groupSettings > .inner'
+    groupRequests: '#groupRequests > .inner'
+    groupMembers: '#groupMembers > .inner'
+    groupInvite: '#groupInvite > .inner'
 
   ui:
-    requests: '#requests'
+    groupRequests: '#groupRequests'
 
   serializeData:->
     attrs = @model.serializeData()
     attrs.invitor = @invitorData()
     attrs["mainUser_#{@mainUserStatus}"] = true
+    attrs.sections = sectionsData
     return attrs
 
   invitorData: ->
@@ -48,6 +52,9 @@ module.exports = Marionette.LayoutView.extend
   toggleSection: (e)->
     section = e.currentTarget.parentElement.attributes.id.value
     { $el } = @[section]
+    @toggleEl $el
+
+  toggleEl: ($el)->
     $el.slideToggle()
     $el.parent().find('.fa-caret-down').toggleClass 'toggled'
 
@@ -56,17 +63,36 @@ module.exports = Marionette.LayoutView.extend
     if @mainUserIsAdmin then @showSettings()
     if @mainUserStatus is 'member' then @showFriendsInvitor()
     if @model.requested.length > 0 and @mainUserIsAdmin then @showJoinRequests()
-    else @ui.requests.hide()
+    else @ui.groupRequests.hide()
+
+  onShow: ->
+    # toggled only once to start with settings hidden
+    @toggleEl @groupSettings.$el
 
   showSettings: ->
-    @settings.show new GroupSettings
+    @groupSettings.show new GroupSettings
       model: @model
 
   showJoinRequests: ->
-    @requests.show @getJoinRequestsView()
+    @groupRequests.show @getJoinRequestsView()
 
   showMembers: ->
-    @members.show @getGroupMembersListView()
+    @groupMembers.show @getGroupMembersListView()
 
   showFriendsInvitor: ->
-    @invite.show @getFriendsInvitorView()
+    @groupInvite.show @getFriendsInvitorView()
+
+sectionsData =
+  settings:
+    label: 'settings'
+    icon: 'cog'
+    # iconClasses: 'toggled'
+  requests:
+    label: 'requests waiting your approval'
+    icon: 'inbox'
+  members:
+    label: 'members'
+    icon: 'users'
+  invite:
+    label: 'invite friends'
+    icon: 'envelope'

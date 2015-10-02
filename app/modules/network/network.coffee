@@ -1,4 +1,5 @@
 NetworkLayout = require './views/network_layout'
+GroupBoard =  require './views/group_board'
 initGroupHelpers = require './lib/group_helpers'
 
 module.exports =
@@ -8,6 +9,7 @@ module.exports =
         'network(/)': 'showNetworkLayout'
         'network/friends(/)': 'showNetworkLayoutFriends'
         'network/groups(/)': 'showNetworkLayoutGroups'
+        'network/groups/:id(/:name)(/)': 'showGroupBoard'
         # group routes are in the inventory router
 
     app.addInitializer ->
@@ -40,6 +42,21 @@ API =
       app.layout.main.show new NetworkLayout
         title: _.i18n tab
         tab: tab
+
+  # can be used to link to the group board from the group inventory
+  showGroupBoard: (id, name)->
+    # depend on group_helpers which waitForUserData
+    app.request 'waitForUserData'
+    .then -> app.request 'get:group:model', id
+    .then showGroupBoardFromModel
+    .catch (err)->
+      _.error err, 'get:group:model err'
+      app.execute 'show:404'
+
+showGroupBoardFromModel = (model)->
+  app.layout.main.show new GroupBoard
+    model: model
+    standalone: true
 
 networkCounters = ->
   friendsRequestsCount = app.users.otherRequested?.length or 0

@@ -19,6 +19,31 @@ $shadow-color: rgba(34, 25, 25, 0.4);
 @mixin shy-border($opacity:0.2){
   border: 1px solid rgba($grey, $opacity);
 }
+
+@mixin shy-border-top-less($opacity:0.2){
+  border: 1px solid rgba($grey, $opacity);
+  border-top: 0;
+}
+
+@mixin shy-border-bottom-less($opacity:0.2){
+  border: 1px solid rgba($grey, $opacity);
+  border-bottom: 0;
+}
+
+@mixin shy-border-sides($opacity:0.2){
+  border: 1px solid rgba($grey, $opacity);
+  border-top: 0;
+  border-bottom: 0;
+}
+
+@mixin shy-border-vertical-group($opacity:0.2){
+  > div {
+    @include shy-border-sides($opacity);
+    &:first-child{ @include shy-border-bottom-less($opacity) }
+    &:last-child{ @include shy-border-top-less($opacity) }
+  }
+}
+
 @mixin shy-text-border($color:rgba($grey, 0.2)){
   // see http://stackoverflow.com/a/13427256/3324977
   text-shadow: 2px 0 0 $color, -2px 0 0 $color, 0 2px 0 $color, 0 -2px 0 $color, 1px 1px $color, -1px -1px 0 $color, 1px -1px 0 $color, -1px 1px 0 $color;
