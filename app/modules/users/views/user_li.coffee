@@ -16,7 +16,8 @@ module.exports = Marionette.ItemView.extend
     SuccessCheck: {}
 
   events:
-    'click .select': 'selectUser'
+    # share js behavior, but avoid css collisions
+    'click .select, .select-2': 'selectUser'
 
   initialize:->
     # mutualizing the view with user in group context
