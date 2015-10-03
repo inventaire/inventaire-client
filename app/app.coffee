@@ -18,8 +18,14 @@ App = Marionette.Application.extend
       @vent.trigger 'document:title:change', docTitle, noCompletion
 
     @navigate = (route, options)->
-      unless route?
-        return _.error route, "can't navigate to undefined route"
+      unless _.isString route
+        return _.error route, "invalid route: can't navigate"
+
+      # a starting slash would be corrected by the Backbone.Router
+      # but _.routeSection relies on the route not starting by a slash.
+      # it can't just thrown an error as pathnames commonly require to start
+      # by a slash to avoid being interpreted as relative pathnames
+      route = route.replace /^\//, ''
 
       # route.logIt('route:navigate')
       @vent.trigger 'route:navigate', _.routeSection(route), route
