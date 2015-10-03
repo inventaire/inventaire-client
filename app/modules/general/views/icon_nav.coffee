@@ -34,10 +34,13 @@ module.exports = Marionette.ItemView.extend
   selectButtonFromRoute: (section)->
     @unselectAll()
     switch section
-      when 'add', 'search', 'entity' then @selectButton 'add'
+      when 'add', 'search' then @selectButton 'add'
       when 'network' then @selectButton 'network'
       when 'inventory', 'groups' then @selectButton 'browse'
       when 'transactions' then @selectButton 'exchanges'
+
+    # sections without an associated icon nav button:
+    # entity, settings
 
   unselectAll: ->
     @ui.all.removeClass 'selected'
