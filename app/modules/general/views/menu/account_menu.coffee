@@ -34,14 +34,14 @@ module.exports = Marionette.LayoutView.extend
     # heavier but cleaner than asking the concerned views to call
     # 'search:global:show' and 'search:global:hide' onShow and onDestroy
     # as re-showing the view creates an ugly hide/show/hide sequence
-    @listenTo app.vent, 'route:navigate', (section)=>
+    @listenTo app.vent, 'route:change', (section)=>
       if section in sectionWithLocalSearch then @hideGlobalSearch()
       else @showGlobalSearch()
 
   onShow: ->
     app.execute 'foundation:reload'
     @showNotifications()
-    # needed as 'route:navigate' might have been triggered before
+    # needed as 'route:change' might have been triggered before
     # this view was initialized
     if _.currentSection() in sectionWithLocalSearch then @hideGlobalSearch()
 

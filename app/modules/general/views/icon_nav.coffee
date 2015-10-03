@@ -6,7 +6,7 @@ module.exports = Marionette.ItemView.extend
     @once 'render', @initListeners.bind(@)
 
   initListeners: ->
-    @listenTo app.vent, 'route:navigate', @selectButtonFromRoute.bind(@)
+    @listenTo app.vent, 'route:change', @selectButtonFromRoute.bind(@)
     @listenTo app.vent, 'transactions:unread:change', @lazyRender
     @listenTo app.vent, 'i18n:reset', @lazyRender
     @listenTo app.vent, 'network:requests:udpate', @lazyRender

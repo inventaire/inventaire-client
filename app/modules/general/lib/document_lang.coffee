@@ -11,7 +11,7 @@ exports.keepHeadAlternateLangsUpdated = ->
   updateHeadAlternateLangs null, _.currentRoute()
   # we dont need to keep it udpated,
   # its just to help search engines find the appropriate url for static content
-  # @listenTo app.vent, 'route:navigate', updateHeadAlternateLangs
+  # @listenTo app.vent, 'route:change', updateHeadAlternateLangs
 
 updateHeadAlternateLangs = (section, route)->
   # the default lang - en - doesnt need a lang querystring to be set.

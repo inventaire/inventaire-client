@@ -10,7 +10,7 @@ module.exports = ->
   # set background with the first route
   setBackgroundFromRoute _.currentSection()
   # then update it on route changes
-  app.vent.on 'route:navigate', setBackgroundFromRoute
+  app.vent.on 'route:change', setBackgroundFromRoute
 
   app.commands.setHandlers
     'background:cover': setCoverBg

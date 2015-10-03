@@ -10,7 +10,7 @@ module.exports = ->
     $el.hide()
     $('main').addClass 'no-icon-nav'
 
-  @listenTo app.vent, 'route:navigate', (section)->
+  @listenTo app.vent, 'route:change', (section)->
     if section in noIconNavRoutes then hide()
     else show()
 

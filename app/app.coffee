@@ -27,8 +27,8 @@ App = Marionette.Application.extend
       # by a slash to avoid being interpreted as relative pathnames
       route = route.replace /^\//, ''
 
-      # route.logIt('route:navigate')
-      @vent.trigger 'route:navigate', _.routeSection(route), route
+      # route.logIt('route:change')
+      @vent.trigger 'route:change', _.routeSection(route), route
       # record all routes visited for server-side statistics
       @session.record route
       route = route.replace /(\s|')/g, '_'
@@ -63,7 +63,7 @@ App = Marionette.Application.extend
       # but it allows to notify functionalities depending on the route
       Backbone.history.on 'route', ->
         route = _.currentRoute()
-        app.vent.trigger 'route:navigate', _.routeSection(route), route
+        app.vent.trigger 'route:change', _.routeSection(route), route
 
       unless routeFound
         console.error('route: not found! check
