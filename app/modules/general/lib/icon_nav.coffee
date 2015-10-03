@@ -10,13 +10,9 @@ module.exports = ->
     $el.hide()
     $('main').addClass 'no-icon-nav'
 
-  app.commands.setHandlers
-    'icon:nav:show': show
-    'icon:nav:hide': hide
-
   @listenTo app.vent, 'route:navigate', (section)->
     if section in noIconNavRoutes then hide()
-
+    else show()
 
 noIconNavRoutes = [
   'welcome'

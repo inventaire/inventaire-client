@@ -58,6 +58,13 @@ App = Marionette.Application.extend
       # as it wont go through navigate
       @session.record Backbone.history.fragment
 
+      # Backbone.history 'route' event seem to be only triggerd
+      # when 'previous' is hit. it isn't very clear why,
+      # but it allows to notify functionalities depending on the route
+      Backbone.history.on 'route', ->
+        route = _.currentRoute()
+        app.vent.trigger 'route:navigate', _.routeSection(route), route
+
       unless routeFound
         console.error('route: not found! check
         if route is defined before app.start()')

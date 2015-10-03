@@ -43,9 +43,7 @@ API =
       return false
 
   showHome: ->
-    if app.user.loggedIn
-      app.execute 'show:inventory:general'
-      app.execute 'icon:nav:show'
+    if app.user.loggedIn then app.execute 'show:inventory:general'
     else app.execute 'show:welcome'
 
   notFound: (route)->
