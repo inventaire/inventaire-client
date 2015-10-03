@@ -36,7 +36,12 @@ module.exports = Marionette.ItemView.extend
     app.execute 'foundation:reload'
 
   serializeData: ->
-    attrs = @model.serializeData()
+    # nonPrivateInventoryLength is only a concern for the main user
+    # which is only shown as a UserLi in the context of a group
+    # thus the use of nonPrivateInventoryLength, as only non-private
+    # items are integrating the group items counter
+    nonPrivateInventoryLength = true
+    attrs = @model.serializeData nonPrivateInventoryLength
     # required by the invitations by email users list
     attrs.showEmail = @options.showEmail
     attrs.stretch = @options.stretch

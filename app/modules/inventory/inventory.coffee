@@ -254,11 +254,17 @@ initializeInventoriesHandlers = (app)->
         action: action
 
     'get:item:model': API.findItemById
+
+    'inventory:main:user:length': (nonPrivate)->
+      fullInventoryLength = Items.personal.length
+      privateInventoryLength = mainUserPrivateInventoryLength()
+      if nonPrivate then fullInventoryLength - privateInventoryLength
+      else fullInventoryLength
+
     'inventory:user:length': (userId)->
       # Items.where({owner: userId}).length would be simpler
       # but probably less efficient?
-      if userId is app.user.id then Items.personal.length
-      else Items.inventoryLength[userId]
+      Items.inventoryLength[userId]
 
     'inventory:fetch:user:public:items': (userId)->
       unless _.isUserId(userId)
@@ -267,3 +273,6 @@ initializeInventoriesHandlers = (app)->
 
     'item:main:user:instance': (entityUri)->
       return Items.personal.byEntityUri(entityUri)[0]
+
+mainUserPrivateInventoryLength = ->
+  Items.personal.where({listing: 'private'}).length

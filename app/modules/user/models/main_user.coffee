@@ -42,9 +42,11 @@ module.exports = UserCommons.extend
       notifications[notif] = notifications[notif] isnt false
     return notifications
 
-  serializeData: ->
+  serializeData: (nonPrivate)->
     attrs = @toJSON()
     attrs.mainUser = true
-    attrs.inventoryLength = @inventoryLength()
+    attrs.inventoryLength = @inventoryLength nonPrivate
     return attrs
 
+  inventoryLength: (nonPrivate)->
+    if @itemsFetched then app.request 'inventory:main:user:length', nonPrivate

@@ -51,7 +51,7 @@ module.exports = Backbone.Model.extend
 
   itemsCount: ->
     @members
-    .map (user)-> user.inventoryLength() or 0
+    .map userItemsCount
     .sum()
 
   serializeData: ->
@@ -102,3 +102,8 @@ module.exports = Backbone.Model.extend
       .then _.Log('groupNonFriendsUsers items')
       .then Items.add.bind(Items)
       .catch _.Error('fetchGroupUsersMissingItems err')
+
+
+userItemsCount = (user)->
+  nonPrivate = true
+  user.inventoryLength(nonPrivate) or 0

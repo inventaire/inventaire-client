@@ -14,3 +14,6 @@ module.exports = UserCommons.extend
       attrs.public = true
     attrs.inventoryLength = @inventoryLength()
     return attrs
+
+  inventoryLength: ->
+    if @itemsFetched then app.request 'inventory:user:length', @id
