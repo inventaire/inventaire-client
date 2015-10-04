@@ -22,19 +22,19 @@ $global-radius: 2px; // Foundation variable
 
 @mixin radius-horizontal-group($radius:$global-radius){
   :first-child{
-    @include radius-left();
+    @include radius-left($radius);
   }
   :last-child{
-    @include radius-right();
+    @include radius-right($radius);
   }
 }
 
 @mixin radius-vertical-group($radius:$global-radius){
   :first-child{
-    @include radius-top();
+    @include radius-top($radius);
   }
   :last-child{
-    @include radius-bottom();
+    @include radius-bottom($radius);
   }
 }
 
