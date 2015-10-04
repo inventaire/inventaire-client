@@ -10,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
     AlertBox: {}
     ElasticTextarea: {}
     PreventDefault: {}
+    BackupForm: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @
