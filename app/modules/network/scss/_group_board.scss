@@ -1,5 +1,6 @@
 .groupBoard{
   @include shy-border-vertical-group;
+  margin-bottom: 1em;
   &.standalone{
     @include custom-column(40em);
     /*Large screens*/
@@ -7,12 +8,11 @@
       padding-top: 1em;
     }
   }
-  > div{
+  .header, .body{
     background-color: white;
-    @include radius-vertical-group;
   }
-  margin-bottom: 1em;
   .header{
+    @include radius-top;
     @include display-flex(column, center, center);
     .cover-link{
       width: 100%;
@@ -53,6 +53,7 @@
     }
   }
   .body{
+    @include radius-bottom;
     padding: 0 1em 1em 1em;
     section{
       h4{
@@ -102,6 +103,7 @@
   #groupSettings{
     .inputGroup .button{
       max-width: 10em;
+      font-weight: bold;
     }
   }
 }
