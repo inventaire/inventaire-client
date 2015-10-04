@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 module.exports = ->
   _.extend @events,
     'click a.transaction': 'updateTransaction'
@@ -12,6 +14,9 @@ module.exports = ->
       @updateItem 'listing', e.target.id
 
     updateItem: (attribute, value)->
+      unless attribute? and value?
+        return _.preq.reject error_.new('invalid item udpate', arguments)
+
       app.request 'item:update',
         item: @model
         attribute: attribute
