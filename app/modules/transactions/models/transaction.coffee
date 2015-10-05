@@ -29,9 +29,12 @@ module.exports = Filterable.extend
     @on 'change:read', @deduceReadStatus.bind(@)
 
   grabLinkedModels: ->
-    @reqGrab 'get:item:model', @get('item'), 'item'
-    @reqGrab 'get:user:model', @get('owner'), 'owner'
     @reqGrab 'get:user:model', @get('requester'), 'requester'
+    # wait for the owner to be ready to fetch the item
+    # to avoid errors at item initialization
+    # during sync functions depending on the owner data
+    @reqGrab 'get:user:model', @get('owner'), 'owner'
+    .then => @reqGrab 'get:item:model', @get('item'), 'item'
 
   setMainUserIsOwner: ->
     @mainUserIsOwner = @get('owner') is app.user.id
