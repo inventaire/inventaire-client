@@ -1,4 +1,5 @@
 module.exports = Marionette.ItemView.extend
+  className: 'confirmationModal'
   template: require './templates/confirmation_modal'
   onShow: -> app.execute 'modal:open'
   behaviors:

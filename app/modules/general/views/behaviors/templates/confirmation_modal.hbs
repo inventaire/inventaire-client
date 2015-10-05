@@ -1,17 +1,9 @@
-<div id="confirmation" class="row">
+<p>{{{confirmationText}}}</p>
+{{#if warningText}}
+  <p class="grey">{{icon 'warning'}}&nbsp;{{{warningText}}}</p>
+{{/if}}
 
-<div class="small-12 large-6 large-offset-3 columns text-center">
+<a id="no" class="button grey radius bold">{{i18n 'no'}}</a>
+<a id="yes" class="button alert radius bold">{{i18n 'yes'}}</a>
 
-  <p>{{{confirmationText}}}</p>
-  {{#if warningText}}
-    <p class="grey">{{icon 'warning'}}&nbsp;{{{warningText}}}</p>
-  {{/if}}
-
-  <a id="no" class="button grey radius">{{i18n 'no'}}</a>
-  <a id="yes" class="button alert radius">{{i18n 'yes'}}</a>
-
-</div>
-
-<div class="row">
-  <div class="check large-1 small-12 centered right columns"></div>
-</div>
+<div class="check"></div>
