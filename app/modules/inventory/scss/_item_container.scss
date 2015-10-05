@@ -1,9 +1,9 @@
 // itemContainer internal settings
 // for itemContainer positioning, see items_list
 .itemContainer{
-  @include shadow-box();
-  @include radius();
-  @include glow-on-focus();
+  @include shadow-box;
+  @include radius;
+  @include glow-on-focus;
   padding: 1em;
   background: #fefefe;
   text-align: center;
@@ -13,7 +13,7 @@
       @include transition(background-color);
       background-color: $light-grey;
       h3.title{
-        @include link();
+        @include link;
       }
     }
   }
@@ -36,7 +36,7 @@
     overflow: hidden;
     margin-bottom: 0.5em;
     .title{
-      @include serif();
+      @include serif;
       // color: $light-blue;
       font-size: 1.2em;
       line-height: 1em;

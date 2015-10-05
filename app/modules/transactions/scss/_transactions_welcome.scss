@@ -7,8 +7,8 @@
     max-width: 38em;
     background-color: $contrast;
     padding: 1em;
-    @include radius();
-    @include shy-border();
+    @include radius;
+    @include shy-border;
   }
   text-align: center;
   p{

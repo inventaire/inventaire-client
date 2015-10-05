@@ -10,7 +10,7 @@
       font-weight: bold;
     }
     a{
-      @include serif();
+      @include serif;
     }
     .wikipediaPreviewToggler{
       @include display-flex(column, center, center);
@@ -28,7 +28,7 @@
       }
       .wikipedia, .wikisource, .wikidata{
         margin: 0.3em;
-        @include display-flex();
+        @include display-flex;
       }
       .wikipedia{
         @include display-flex(row);

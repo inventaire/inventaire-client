@@ -46,7 +46,7 @@ $user-bg: #ddd;
     text-align: center;
   }
   .action{
-    @include radius();
+    @include radius;
   }
   .accept{
     // spacing from .decline button
@@ -267,7 +267,7 @@ $user-bg: #ddd;
 #networkLayout{
   .userLi{
     .friendMenu{
-      @include shy();
+      @include shy;
     }
     span, .fa:not(.times-circle){
       color: $dark-grey;
@@ -288,7 +288,7 @@ $user-bg: #ddd;
     }
     .action{
       margin-left: 0.5em;
-      @include radius();
+      @include radius;
     }
     .acceptRequest{
       @include tiny-button($success-color);

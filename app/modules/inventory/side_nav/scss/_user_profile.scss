@@ -57,7 +57,7 @@
     margin: 0.5em;
     @include shy(0.8);
     .action:not(.friend){
-      @include radius();
+      @include radius;
     }
     .friend{
       .fa-chevron-down{

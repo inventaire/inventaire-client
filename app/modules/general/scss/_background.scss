@@ -5,7 +5,7 @@
 }
 
 @mixin multidef-bg-cover($url, $hd:null){
-  @include bg-cover();
+  @include bg-cover;
   /*Small screens*/
   @media screen and (max-width: 500px) {
     // using the full host url as the images src references in css

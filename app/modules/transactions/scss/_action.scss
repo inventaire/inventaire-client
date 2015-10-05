@@ -14,7 +14,7 @@
     padding-right: 0.5em;
   }
   .username:hover{
-    @include link();
+    @include link;
   }
   /*Small screens*/
   @media screen and (max-width: 600px) {

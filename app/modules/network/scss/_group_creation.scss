@@ -5,7 +5,7 @@
   .showGroup{
     @include tiny-button($success-color);
     font-weight: normal;
-    @include sans-serif();
+    @include sans-serif;
     margin-top: 2em;
     margin-bottom: 1em;
   }

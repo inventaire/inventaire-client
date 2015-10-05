@@ -1,6 +1,6 @@
 #transactionView{
-  @include radius();
-  @include shy-border();
+  @include radius;
+  @include shy-border;
   background-color: white;
   max-width: 40em;
   margin: 1em auto;

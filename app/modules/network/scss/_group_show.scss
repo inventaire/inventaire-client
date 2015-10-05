@@ -14,9 +14,9 @@
     opacity: 0.8;
   }
   .cover{
-    @include bg-cover();
+    @include bg-cover;
     width: 100%;
-    @include radius();
+    @include radius;
     @include display-flex(column, center, center);
     height: 9em;
     overflow: hidden;
@@ -42,8 +42,8 @@
     margin: auto;
     font-size: 1.6em;
     font-weight: bold;
-    @include serif();
-    @include shy-text-border();
+    @include serif;
+    @include shy-text-border;
   }
   .stats{
     padding: 0.5em;

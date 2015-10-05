@@ -4,7 +4,7 @@
     display: inline-block;
     @include flex(0, 0, auto);
     @include bg-hover(white);
-    @include radius();
+    @include radius;
     padding: 0.5em;
     text-align: center;
     margin: 0 auto;
@@ -14,7 +14,7 @@
       @include display-flex(column, center, center);
       width: 2em;
       height: 2em;
-      @include radius();
+      @include radius;
       font-size: 2em;
       color: white;
     }

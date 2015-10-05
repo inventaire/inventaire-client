@@ -43,7 +43,7 @@
     form{
       margin: 1em;
       background-color: white;
-      @include radius();
+      @include radius;
       padding: 1em;
     }
     h3{

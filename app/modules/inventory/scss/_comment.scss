@@ -16,7 +16,7 @@
       @include display-flex(row, flex-start, space-between);
       .username{
         font-weight: bold;
-        @include serif();
+        @include serif;
       }
       .icon-buttons{
         @include flex(0, 0);

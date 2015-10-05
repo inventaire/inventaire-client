@@ -21,7 +21,7 @@
     text-align: center;
     .iconWithCounter{
       .counter{
-        @include counter-commons();
+        @include counter-commons;
       }
       &.count-0 > .counter, .counter:empty{
         display: none;
@@ -71,12 +71,12 @@
     }
     &.selected{
       background-color: $off-white;
-      @include inner-shadow();
-      @include radius();
+      @include inner-shadow;
+      @include radius;
       .fa, span{
         color: $grey
       }
-      @include hide-counter();
+      @include hide-counter;
     }
     &:hover{
       color: white;

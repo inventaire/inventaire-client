@@ -1,6 +1,6 @@
 .header{
-  @include radius();
-  @include radius-top();
+  @include radius;
+  @include radius-top;
   background-color: white;
   padding-bottom: 1em;
 }

@@ -40,7 +40,7 @@ $customTabMaxWidth: 40em;
 
 .custom-tabs-content{
   background-color: $active-custom-tab-bg;
-  @include radius-bottom();
+  @include radius-bottom;
   border-top-right-radius: $global-radius;
   /*Small screens*/
   @media screen and (max-width: $customTabMaxWidth) {

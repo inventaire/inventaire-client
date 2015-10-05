@@ -10,7 +10,7 @@
     @include vendor-prefix(transform, rotate(-90deg));
     @include vendor-prefix(transform-origin, right bottom 0);
     a{
-      @include radius-top();
+      @include radius-top;
       @include custom-button($dark-grey, white, 0.1em, 0.2em 0.5em 0.2em 0.5em);
     }
   }
@@ -22,7 +22,7 @@
   .username, .email{
     font-weight: bold;
     color: $dark-grey;
-    @include serif();
+    @include serif;
   }
   p{
     max-width: 30em;

@@ -11,7 +11,7 @@ $controlsElementMaxHeight: 2.3em;
   height: 100%;
   @include transition(transform, 0.2s);
   z-index: 10;
-  @include radius-left();
+  @include radius-left;
   background-color: $darker-grey;
   @include display-flex(row, center, flex-end);
   &:not(.displayed){
@@ -40,8 +40,8 @@ $controlsElementMaxHeight: 2.3em;
     margin-left: 0.3em;
     margin-right: 0.3em;
     @include display-flex(row, center, center);
-    @include radius();
-    @include radius-horizontal-group();
+    @include radius;
+    @include radius-horizontal-group;
     a{
       @include display-flex(row, center, center);
       .fa{
@@ -62,7 +62,7 @@ $controlsElementMaxHeight: 2.3em;
       &.active{
         color: $darker-grey;
         background-color: $off-white;
-        @include inner-shadow();
+        @include inner-shadow;
       }
     }
   }
@@ -86,7 +86,7 @@ $controlsElementMaxHeight: 2.3em;
         }
       }
       &:hover{
-        @include inner-shadow();
+        @include inner-shadow;
       }
     }
   }

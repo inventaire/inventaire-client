@@ -37,7 +37,7 @@
       @include flex(0, 0);
       font-size: 1.1em;
       a{
-        @include shy();
+        @include shy;
         margin: 1em auto;
       }
       a, span{
@@ -65,7 +65,7 @@
     max-width: 50em;
     textarea{
       max-width: 100%;
-      @include radius();
+      @include radius;
     }
   }
   .button-group{

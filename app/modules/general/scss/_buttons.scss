@@ -31,7 +31,7 @@
 
 // icon buttons
 .editButton{
-  @include shy();
+  @include shy;
   &:hover{
     span{
       @include transition(display);
@@ -64,7 +64,7 @@ div.icon-buttons-header{
 
 @mixin button-group{
   :first-child{
-    @include radius-left();
+    @include radius-left;
   }
   :not(:first-child){
     @include radius-left(0);
@@ -73,17 +73,17 @@ div.icon-buttons-header{
     @include radius-right(0);
   }
   :last-child{
-    @include radius-right();
+    @include radius-right;
   }
 }
 
 .button-group{
-  @include button-group();
+  @include button-group;
   @include display-flex(row, center, center);
 }
 
 .button-group-right{
-  @include button-group();
+  @include button-group;
   @include display-flex(row, center, flex-end);
 }
 

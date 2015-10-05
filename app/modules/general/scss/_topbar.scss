@@ -59,7 +59,7 @@ nav.top-bar {
   }
 
   .counter {
-    @include counter-commons();
+    @include counter-commons;
     @include display-flex(row, center, center);
     padding: 0rem 0.4rem 0.1rem 0.4rem;
     height: 30px;
@@ -82,7 +82,7 @@ nav.top-bar {
     }
     // passing flex-grow:1 to the search input
     section, .right, .right div, li.has-form{
-      @include display-flex();
+      @include display-flex;
       @include flex(1);
     }
     .right{
@@ -108,7 +108,7 @@ nav.top-bar {
       }
       a.button{
         height: $search-input-height;
-        @include radius();
+        @include radius;
       }
     }
     .labels{

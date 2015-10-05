@@ -18,10 +18,10 @@
     .inputBox{
       input{
         margin: 0 !important;
-        @include radius-top();
+        @include radius-top;
       }
       a.button.postfix{
-        @include radius-bottom();
+        @include radius-bottom;
       }
       .alert-box{
         // Foundation sets .alert-box with negative margin-top
@@ -33,10 +33,10 @@
   /*Large screens*/
   @media screen and (min-width: $verysmallscreen) {
     input{
-      @include radius-left();
+      @include radius-left;
     }
     a.button.postfix{
-      @include radius-right();
+      @include radius-right;
     }
   }
 }

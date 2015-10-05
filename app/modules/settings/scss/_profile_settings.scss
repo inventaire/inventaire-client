@@ -14,7 +14,7 @@
   .showPassword{
   }
   #updatePassword{
-    @include radius();
+    @include radius;
   }
   div.forgotPassword{
     text-align: right;
@@ -33,7 +33,7 @@
 
   .alertMessageBox{
     span, .a{
-      @include radius();
+      @include radius;
       display: block;
     }
     .alert{
@@ -44,7 +44,7 @@
     }
   }
   .successMessageBox{
-    @include radius();
+    @include radius;
     .fa{
       font-size: 2em;
       display: block;
@@ -61,7 +61,7 @@
 
 .changePicture{
   img{
-    @include radius-top();
+    @include radius-top;
   }
 }
 

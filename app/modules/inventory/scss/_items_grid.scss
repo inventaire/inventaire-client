@@ -11,7 +11,7 @@
     color: $grey;
     font-weight: normal;
     text-transform: uppercase;
-    @include sans-serif();
+    @include sans-serif;
   }
   th{
     vertical-align: bottom;

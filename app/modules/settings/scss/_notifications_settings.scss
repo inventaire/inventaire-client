@@ -13,7 +13,7 @@
     background-color: $warning-color;
     width: 100%;
     text-align: center;
-    @include radius();
+    @include radius;
   }
   .local-fog{
     background-color: rgba(white, 0.5);

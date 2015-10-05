@@ -7,7 +7,7 @@
     background-color: rgba(#eee, 0.8);
     max-width: 30em;
     margin: 1em;
-    @include radius();
+    @include radius;
     .button{
       font-weight: bold;
     }

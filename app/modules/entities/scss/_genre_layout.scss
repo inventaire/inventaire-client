@@ -25,8 +25,8 @@
     padding: 1em;
     text-align: left;
     background-color: $contrast;
-    @include radius();
-    @include shy-border();
+    @include radius;
+    @include shy-border;
     &:empty{
       display:none;
     }
@@ -43,7 +43,7 @@
     @media screen and (min-width: $smallscreen) {
       margin: 1em;
       padding: 1em;
-      @include radius();
+      @include radius;
     }
   }
 }

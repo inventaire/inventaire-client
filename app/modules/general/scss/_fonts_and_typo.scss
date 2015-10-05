@@ -63,15 +63,15 @@ $label-font-family: $sans-serif;
   font-family: $sans-serif;
 }
 .serif{
-  @include serif();
+  @include serif;
 }
 .sans-serif{
-  @include sans-serif();
+  @include sans-serif;
 }
 
 
 
 .username{
-  @include serif();
+  @include serif;
   font-weight: bold;
 }

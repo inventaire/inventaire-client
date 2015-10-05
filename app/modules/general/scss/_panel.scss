@@ -1,7 +1,7 @@
 @mixin panel($bg-color:$contrast){
-  @include shy-border();
+  @include shy-border;
   background-color: $bg-color;
-  @include radius();
+  @include radius;
   padding: 0.8em 1em 0.8em 1em;
   /*Small screens*/
   @media screen and (max-width: $verysmallscreen) {
@@ -14,7 +14,7 @@
 }
 
 .panel{
-  @include panel();
+  @include panel;
 }
 .dark-panel{
   @include panel($dark-grey);

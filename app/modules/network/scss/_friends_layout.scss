@@ -1,8 +1,8 @@
 #friendsLayout{
   > section{
     background-color: white;
-    @include radius();
-    @include shy-border();
+    @include radius;
+    @include shy-border;
     padding: 1em;
   }
   textarea{

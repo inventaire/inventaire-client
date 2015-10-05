@@ -6,7 +6,7 @@ $auth-menu-bg: rgba($light-grey, 0.8);
   min-height: 80vh;
   .custom-cell{
     background-color: $auth-menu-bg;
-    @include radius();
+    @include radius;
     padding: 1em 2em 2em 2em;
     text-align: center;
   }

@@ -16,7 +16,7 @@ section#social-networks, .joyride-content-wrapper #socialNetworks{
     span{
       margin-top: -1em;
       padding: 0;
-      @include serif();
+      @include serif;
       font-weight: bold;
     }
   }

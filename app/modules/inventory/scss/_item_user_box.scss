@@ -3,7 +3,7 @@ a.user{
   width: 100%;
   &:hover{
     .username{
-      @include link();
+      @include link;
     }
   }
 }

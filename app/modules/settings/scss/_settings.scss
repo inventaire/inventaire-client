@@ -7,7 +7,7 @@
   h3{
     text-transform: uppercase;
     font-size: 1.2em;
-    @include sans-serif();
+    @include sans-serif;
     &:not(.first){
       margin-top: 1em;
     }

@@ -8,7 +8,7 @@
     }
   }
   .rest{
-    @include radius();
+    @include radius;
     background-color: #f7f7f7;
     margin-left: 0.2em;
     padding: 0.5em;

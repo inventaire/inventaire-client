@@ -10,8 +10,8 @@ $bookLiMaxWidth: 45em;
   @include display-flex(row, center, space-around);
   background-color: $contrast;
   margin-bottom: 1em;
-  @include radius();
-  @include shy-border();
+  @include radius;
+  @include shy-border;
   .bookCover{
     max-width: 10em;
     // a minimum width is required so that the covers
@@ -27,7 +27,7 @@ $bookLiMaxWidth: 45em;
     @include display-flex(column, center, center);
     h3{
       text-align: center;
-      @include display-flex();
+      @include display-flex;
       font-size: 1.4em;
     }
     .date{
@@ -53,7 +53,7 @@ $bookLiMaxWidth: 45em;
       text-align: center;
       padding: 0.4em 0.4em 0.4em 0.5em;
       @include bg-hover($light-grey);
-      @include radius();
+      @include radius;
       color: $dark-grey;
       margin-left: 0.1em;
       margin-right: 0.5em;

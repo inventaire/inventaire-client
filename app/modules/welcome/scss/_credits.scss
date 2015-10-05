@@ -21,7 +21,7 @@
   }
   .contributors{
     strong{
-      @include serif();
+      @include serif;
       color: white;
     }
     padding-bottom: 1em;

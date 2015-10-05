@@ -16,6 +16,6 @@ section#newsletter{
   #thanks{
     font-size: 1.2em;
     font-weight: bold;
-    @include serif();
+    @include serif;
   }
 }

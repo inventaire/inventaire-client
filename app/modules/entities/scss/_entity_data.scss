@@ -9,7 +9,7 @@
     color: white;
   }
   a.showEntity, a.wd-Q, a.link{
-    @include link-light();
+    @include link-light;
   }
   a.source{
     @include text-hover(#999);

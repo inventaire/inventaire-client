@@ -10,7 +10,7 @@
       color: white;
     }
     // overridding the white font-color for .f-dropdown elements
-    @include standard-dropdown();
+    @include standard-dropdown;
   }
 
   $user-profile-height: 16em;
@@ -61,7 +61,7 @@
   #groupsList{
     text-align: left;
     font-weight: bold;
-    @include serif();
+    @include serif;
   }
   .noGroup{
     color: white;

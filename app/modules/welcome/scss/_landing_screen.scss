@@ -30,7 +30,7 @@ section#landingScreen{
   #loginButtons{
     margin-bottom: auto;
     @include display-flex(row, center, center, wrap);
-    @include radius-horizontal-group();
+    @include radius-horizontal-group;
     .button{
       @include flex(1);
       font-weight: bold;

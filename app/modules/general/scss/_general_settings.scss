@@ -118,7 +118,7 @@ input[type="password"]{
 }
 
 .user-content{
-  @include text-wrap();
+  @include text-wrap;
   max-width: 100%;
 }
 
