@@ -39,9 +39,8 @@ module.exports =
 
   cancelRequest: ->
     @moveMembership app.user, 'requested', 'tmp'
-
     @action 'cancel-request'
-    .catch @revertMove.bind(@, user, 'requested', 'tmp')
+    .catch @revertMove.bind(@, app.user, 'requested', 'tmp')
 
   acceptRequest: (user)->
     @moveMembership user, 'requested', 'members'
