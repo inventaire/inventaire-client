@@ -169,7 +169,7 @@ $user-bg: #ddd;
   }
 }
 
-.userLi.friends{
+.userLi.friends:not(.group-context){
   .right-box{
     a:first-child{
       .username{
@@ -227,7 +227,6 @@ $user-bg: #ddd;
   .userMenu{
     @include display-flex(row, center, center);
     white-space: nowrap;
-    margin-right: 0.2em;
     a.action{
       padding: 0 0.3em 0 0.3em;
     }
@@ -243,6 +242,14 @@ $user-bg: #ddd;
     .request{
       background-color: $success-color;
     }
+  }
+}
+
+// removing exceptions carefully before testing other cases
+// => needs a cleanup
+.userLi:not(.friends):not(.group-context) .right-box{
+  .userMenu{
+    margin-right: 0.2em;
   }
 }
 

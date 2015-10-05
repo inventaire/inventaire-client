@@ -8,7 +8,8 @@ module.exports = Marionette.ItemView.extend
     status = @model.get('status') or 'noStatus'
     username = @model.get 'username'
     stretch = if @options.stretch then 'stretch' else ''
-    "userLi #{status} #{username} #{stretch}"
+    groupContext = if @options.groupContext then 'group-context' else ''
+    "userLi #{status} #{username} #{stretch} #{groupContext}"
 
   behaviors:
     PreventDefault: {}
