@@ -52,6 +52,16 @@ module.exports =
     @action 'refuse-request', user.id
     .catch @revertMove.bind(@, user, 'requested', 'tmp')
 
+  makeAdmin: (user)->
+    @moveMembership user, 'members', 'admins'
+    @action 'make-admin', user.id
+    .catch @revertMove.bind(@, user, 'members', 'admins')
+
+  kick: (user)->
+    @moveMembership user, 'members', 'tmp'
+    @action 'kick', user.id
+    .catch @revertMove.bind(@, user, 'members', 'tmp')
+
   action: (action, userId)->
     _.preq.put app.API.groups.private,
       action: action

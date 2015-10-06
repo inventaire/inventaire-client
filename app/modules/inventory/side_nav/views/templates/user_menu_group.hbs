@@ -1,12 +1,40 @@
+{{#if admin}}
+  <span class="admin">{{i18n 'admin'}}</span>
+{{/if}}
 {{#if member}}
-  <span class="member">{{i18n 'member'}}</span>
+  <span class="memberMenu">
+    <a class="member" data-options="align:top" data-dropdown="{{username}}-menu">
+      {{!-- <span class="label">{{i18n 'member'}}</span> --}}
+      {{icon 'chevron-down'}}
+    </a>
+    <ul id="{{username}}-menu" class="tiny f-dropdown" data-dropdown-content>
+      <li>
+        <a class="select-2">
+          {{icon 'user'}} {{i18n 'see profile'}}</span>
+        </a>
+      </li>
+      {{#if mainUserIsAdmin}}
+        {{#unless admin}}
+          <li>
+            <a class="makeAdmin">
+              {{icon 'key'}} {{i18n 'make admin'}}</span>
+            </a>
+          </li>
+          <li>
+            <a class="kick">
+              {{icon 'ban'}} {{i18n 'remove from group'}}</span>
+            </a>
+          </li>
+        {{/unless}}
+      {{/if}}
+    </ul>
+  </span>
 {{/if}}
 {{#if invited}}
   <span class="invited">{{i18n 'invited'}}</span>
 {{/if}}
 {{#if requested}}
   <div>
-    <span class="requested">{{i18n 'requested'}}</span>
     {{#if mainUserIsAdmin}}
       <div>
         <a class="acceptRequest action" title="{{i18n "validate user's request to join the group"}}"> {{icon 'plus'}} {{i18n 'accept'}} </a>

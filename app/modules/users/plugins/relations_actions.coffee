@@ -4,23 +4,30 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 events =
+  # general actions
   'click .cancel': 'cancel'
   'click .discard': 'discard'
   'click .accept': 'accept'
   'click .request': 'send'
   'click .unfriend': 'unfriend'
+  # group actions
   'click .invite': 'invite'
   'click .acceptRequest': 'acceptRequest'
   'click .refuseRequest': 'refuseRequest'
+  'click .makeAdmin': 'makeAdmin'
+  'click .kick': 'kick'
 
-confirmUnfriend = ->
-  confirmationText = _.i18n 'unfriend_confirmation',
+confirmAction = (actionLabel, actionFn)->
+  confirmationText = _.i18n "#{actionLabel}_confirmation",
     username: @model.get 'username'
 
   @$el.trigger 'askConfirmation',
     confirmationText: confirmationText
     warningText: null
-    action: app.request.bind(app, 'unfriend', @model)
+    action: actionFn
+
+confirmUnfriend = ->
+  confirmAction.call @, 'unfriend', app.request.bind(app, 'unfriend', @model)
 
 handlers =
   cancel: -> app.request 'request:cancel', @model
@@ -48,5 +55,15 @@ handlers =
 
     @group.refuseRequest @model
     .catch behaviorsPlugin.Fail.call(@, 'refuse user request')
+
+  makeAdmin: ->
+    unless @group? then return _.error 'makeAdmin err: group is missing'
+    actionFn = @group.makeAdmin.bind @group, @model
+    confirmAction.call @, 'group_make_admin', actionFn
+
+  kick: ->
+    unless @group? then return _.error 'kick err: group is missing'
+    actionFn = @group.kick.bind @group, @model
+    confirmAction.call @, 'group_ban', actionFn
 
 module.exports = _.BasicPlugin events, handlers

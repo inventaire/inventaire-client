@@ -76,6 +76,9 @@ module.exports = Backbone.Model.extend
     else if id in @allRequested() then return 'requested'
     else 'none'
 
+  userIsAdmin: (userId)->
+    return userId in @allAdmins()
+
   mainUserStatus: -> @userStatus app.user
   mainUserIsAdmin: -> app.user.id in @allAdmins()
   mainUserIsMember: -> app.user.id in @allMembers()
