@@ -1,43 +1,4 @@
-<div class="header">
-  <a href="{{pathname}}" class="cover-link showGroup">
-    <div
-    {{#if picture}}
-      class="cover"
-      style="background-image: url('{{src picture 540}}')"
-    {{/if}}
-    >
-      <span class="name">{{name}}</span>
-      {{partial 'network:group_stats' this}}
-    </div>
-  </a>
-  <a class="link showGroup">{{i18n "go to group's inventory"}}</a>
-  <div class="bottom">
-    {{#if invitor.username}}
-      <span class="invitor">{{i18n 'group_invitor' invitor}}</span>
-    {{/if}}
-    <ul class="actions">
-    {{#if mainUser_invited}}
-      <li><a class="accept">{{i18n 'accept invitation'}}</a></li>
-      <li><a class="decline">{{i18n 'decline'}}</a></li>
-    {{/if}}
-    {{#if mainUser_requested}}
-      <li>
-        <p class="requested">
-          {{i18n 'you requested to join is waiting for approval'}}
-        </p>
-        <a class="cancelRequest">{{i18n 'cancel request'}}</a>
-        <span class="check"></span>
-      </li>
-    {{/if}}
-    {{#if mainUser_none}}
-      <li>
-        <a class="joinRequest">{{i18n 'request to join group'}}</a>
-        <span class="check"></span>
-      </li>
-    {{/if}}
-    </ul>
-  </div>
-</div>
+<div class="header"></div>
 <div class="body">
   {{#if mainUserIsAdmin}}
     <section id="groupSettings">
@@ -50,7 +11,7 @@
   <section id="groupMembers">
     {{partial 'network:group_board_section' sections.members}}
   </section>
-  <section id="groupInvite" {{#unless mainUser_member}}class="hidden"{{/unless}}>
+  <section id="groupInvite" {{#unless status_member}}class="hidden"{{/unless}}>
     {{partial 'network:group_board_section' sections.invite}}
   </section>
 </div>

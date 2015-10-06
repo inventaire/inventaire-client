@@ -11,7 +11,9 @@ module.exports = Backbone.Model.extend
     _.extend @, groupActions
 
     { _id, name } = @toJSON()
-    @set 'pathname', "/groups/#{_id}/#{name}"
+    pathname = "/groups/#{_id}/#{name}"
+    @set 'pathname', pathname
+    @set 'settingsPathname', "/network#{pathname}"
 
     # non persisted category used for convinience on client-side
     @set 'tmp', []

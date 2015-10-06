@@ -1,4 +1,5 @@
 groupPlugin = require '../plugins/group'
+GroupBoardHeader = require './group_board_header'
 GroupSettings = require './group_settings'
 
 module.exports = Marionette.LayoutView.extend
@@ -13,12 +14,6 @@ module.exports = Marionette.LayoutView.extend
     @mainUserStatus = @model.mainUserStatus()
     @mainUserIsAdmin = @model.mainUserIsAdmin()
 
-    @delayedRender = _.debounce @render.bind(@), 1000
-
-    # let the time to success or fail signals to be shown
-    @listenTo @model, 'change:name', @delayedRender
-    @listenTo @model, 'change:picture', @delayedRender
-
     @_showSettings = false
     @_settingsReady = false
 
@@ -29,6 +24,7 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   regions:
+    header: '.header'
     groupSettings: '#groupSettings > .inner'
     groupRequests: '#groupRequests > .inner'
     groupMembers: '#groupMembers > .inner'
@@ -43,18 +39,16 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData:->
     attrs = @model.serializeData()
-    attrs.invitor = @invitorData()
-    attrs["mainUser_#{@mainUserStatus}"] = true
     attrs.sections = sectionsData
     return attrs
-
-  invitorData: ->
-    username = @model.findMainUserInvitor()?.get('username')
-    return {username: username}
 
   events:
     'click .toggler': 'toggleSection'
     'click .joinRequest': 'requestToJoin'
+
+  showHeader: ->
+    @header.show new GroupBoardHeader
+      model: @model
 
   toggleSection: (e)->
     section = e.currentTarget.parentElement.attributes.id.value
@@ -73,6 +67,7 @@ module.exports = Marionette.LayoutView.extend
     @ui[uiLabel].parent().find('.fa-caret-down')[actionFn]('toggled')
 
   onRender: ->
+    @showHeader()
     @showMembers()
     if @mainUserIsAdmin then @syncSettings()
     if @mainUserStatus is 'member' then @showFriendsInvitor()
@@ -98,7 +93,7 @@ module.exports = Marionette.LayoutView.extend
     # make sure a group_settings view was rendered
     if @_showSettings and not @_settingsReady then @showSettings()
     if @_showSettings
-      @ui.groupSettings.slideDown().addClass('activated')
+      @ui.groupSettings.slideDown()
       @toggleCaret 'groupSettings', 'remove'
     else
       @ui.groupSettings.slideUp()

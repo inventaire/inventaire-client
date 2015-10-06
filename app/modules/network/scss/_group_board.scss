@@ -13,6 +13,8 @@
   }
   .header{
     @include radius-top;
+  }
+  .group-board-header{
     @include display-flex(column, center, center);
     .cover-link{
       width: 100%;
@@ -109,8 +111,9 @@
     opacity: 0.5;
   }
   #groupSettings{
-    .inner.activated{
-      padding: 0.5em;
+    .inner{
+      padding-left: 0.5em;
+      padding-right: 0.5em;
     }
     .inputGroup .button{
       max-width: 10em;
