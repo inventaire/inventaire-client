@@ -14,9 +14,6 @@ module.exports = Marionette.LayoutView.extend
     @mainUserStatus = @model.mainUserStatus()
     @mainUserIsAdmin = @model.mainUserIsAdmin()
 
-    @_showSettings = false
-    @_settingsReady = false
-
   initPlugin: ->
     groupPlugin.call @
 
@@ -58,46 +55,40 @@ module.exports = Marionette.LayoutView.extend
 
   # acting on ui objects and not a region.$el as a region
   # doesn't have a $el before being shown
-  toggleUi: (uiLabel)->
-    @ui[uiLabel].slideToggle()
-    @toggleCaret uiLabel
-
-  toggleCaret: (uiLabel, action)->
-    actionFn = if action? then "#{action}Class" else 'toggleClass'
-    @ui[uiLabel].parent().find('.fa-caret-down')[actionFn]('toggled')
+  toggleUi: (uiLabel, skipToggle=false)->
+    $el = @ui[uiLabel]
+    $parent = $el.parent()
+    unless skipToggle then $el.slideToggle()
+    $parent.find('.fa-caret-down').toggleClass 'toggled'
+    if $el.visible() then _.scrollTop $parent
 
   onRender: ->
     @showHeader()
     @showMembers()
-    if @mainUserIsAdmin then @syncSettings()
+    if @mainUserIsAdmin then @initSettings()
     if @mainUserStatus is 'member' then @showFriendsInvitor()
     @showJoinRequests()
 
   onShow: ->
     @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
 
-  # should recover the last settings mode
-  syncSettings: ->
-    if @_showSettings then @showSettings()
-    else @toggleUi 'groupSettings'
+  initSettings: ->
+    # begin with group_settings closed
+    @toggleUi 'groupSettings'
+    @_settingsReady = false
+
+  toggleSettings: ->
+    if @_settingsReady then @toggleUi 'groupSettings'
+    else
+      @showSettings()
+      # no need to slideDown as showing the view
+      # triggers a show action
+      @toggleUi 'groupSettings', true
 
   showSettings: ->
     @_settingsReady = true
     @groupSettings.show new GroupSettings
       model: @model
-
-  toggleSettings: ->
-    # a rather hacky way to start with settings hidden
-    # invert @_showSettings
-    @_showSettings = not @_showSettings
-    # make sure a group_settings view was rendered
-    if @_showSettings and not @_settingsReady then @showSettings()
-    if @_showSettings
-      @ui.groupSettings.slideDown()
-      @toggleCaret 'groupSettings', 'remove'
-    else
-      @ui.groupSettings.slideUp()
-      @toggleCaret 'groupSettings', 'add'
 
   showJoinRequests: ->
     if @model.requested.length > 0 and @mainUserIsAdmin
