@@ -19,6 +19,9 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'change:name', @delayedRender
     @listenTo @model, 'change:picture', @delayedRender
 
+    @_showSettings = false
+    @_settingsReady = false
+
   initPlugin: ->
     groupPlugin.call @
 
@@ -32,7 +35,11 @@ module.exports = Marionette.LayoutView.extend
     groupInvite: '#groupInvite > .inner'
 
   ui:
-    groupRequests: '#groupRequests'
+    groupSettings: '#groupSettings > .inner'
+    groupRequests: '#groupRequests > .inner'
+    groupMembers: '#groupMembers > .inner'
+    groupInvite: '#groupInvite > .inner'
+    groupRequestsSection: '#groupRequests'
 
   serializeData:->
     attrs = @model.serializeData()
@@ -51,30 +58,58 @@ module.exports = Marionette.LayoutView.extend
 
   toggleSection: (e)->
     section = e.currentTarget.parentElement.attributes.id.value
-    { $el } = @[section]
-    @toggleEl $el
 
-  toggleEl: ($el)->
-    $el.slideToggle()
-    $el.parent().find('.fa-caret-down').toggleClass 'toggled'
+    if section is 'groupSettings' then @toggleSettings()
+    else @toggleUi section
+
+  # acting on ui objects and not a region.$el as a region
+  # doesn't have a $el before being shown
+  toggleUi: (uiLabel)->
+    @ui[uiLabel].slideToggle()
+    @toggleCaret uiLabel
+
+  toggleCaret: (uiLabel, action)->
+    actionFn = if action? then "#{action}Class" else 'toggleClass'
+    @ui[uiLabel].parent().find('.fa-caret-down')[actionFn]('toggled')
 
   onRender: ->
     @showMembers()
-    if @mainUserIsAdmin then @showSettings()
+    if @mainUserIsAdmin then @syncSettings()
     if @mainUserStatus is 'member' then @showFriendsInvitor()
-    if @model.requested.length > 0 and @mainUserIsAdmin then @showJoinRequests()
-    else @ui.groupRequests.hide()
+    @showJoinRequests()
 
   onShow: ->
-    # toggled only once to start with settings hidden
-    @toggleEl @groupSettings.$el
+    @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
+
+  # should recover the last settings mode
+  syncSettings: ->
+    if @_showSettings then @showSettings()
+    else @toggleUi 'groupSettings'
 
   showSettings: ->
+    @_settingsReady = true
     @groupSettings.show new GroupSettings
       model: @model
 
+  toggleSettings: ->
+    # a rather hacky way to start with settings hidden
+    # invert @_showSettings
+    @_showSettings = not @_showSettings
+    # make sure a group_settings view was rendered
+    if @_showSettings and not @_settingsReady then @showSettings()
+    if @_showSettings
+      @ui.groupSettings.slideDown().addClass('activated')
+      @toggleCaret 'groupSettings', 'remove'
+    else
+      @ui.groupSettings.slideUp()
+      @toggleCaret 'groupSettings', 'add'
+
   showJoinRequests: ->
-    @groupRequests.show @getJoinRequestsView()
+    if @model.requested.length > 0 and @mainUserIsAdmin
+      @groupRequests.show @getJoinRequestsView()
+      @ui.groupRequestsSection.show()
+    else
+      @ui.groupRequestsSection.hide()
 
   showMembers: ->
     @groupMembers.show @getGroupMembersListView()

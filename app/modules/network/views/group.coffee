@@ -12,7 +12,7 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     @initPlugin()
     @lazyRender = _.LazyRender @
-    # using lazyRender instead of render allow to whait for group.mainUserStatus
+    # using lazyRender instead of render allow to wait for group.mainUserStatus
     # to be ready (i.e. not to return 'none')
     @listenTo @model, 'change', @lazyRender
 

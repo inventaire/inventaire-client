@@ -56,6 +56,9 @@
     @include radius-bottom;
     padding: 0 1em 1em 1em;
     section{
+      &:not(:last-child){
+        margin-bottom: 1em;
+      }
       h4{
         .fa{
           font-size: 0.9em;
@@ -65,7 +68,7 @@
         font-size: 1.2em;
       }
       @include radius;
-      background-color: rgba(#eaeaea, 0.6);
+      background-color: #f2f2f2;
       &#groupMembers{
         .inner{
           max-height: 20em;
@@ -81,12 +84,13 @@
         padding-right: 0.4em;
       }
       .toggler{
+        padding: 0.4em;
         @include display-flex(row);
       }
       .fa-caret-down{
+        margin-left: auto;
         @include display-flex(row, center, center);
         margin-top: -0.2em;
-        padding: 0.4em;
         font-size: 1.5em;
         opacity: 0.5;
         &.toggled{
@@ -100,7 +104,14 @@
       color: white;
     }
   }
+  .admin{
+    margin-right: 0.5em;
+    opacity: 0.5;
+  }
   #groupSettings{
+    .inner.activated{
+      padding: 0.5em;
+    }
     .inputGroup .button{
       max-width: 10em;
       font-weight: bold;

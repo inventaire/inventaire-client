@@ -28,5 +28,7 @@
       {{/if}}
     {{/if}}
   </a>
-  {{partial 'inventory/side_nav:user_menu' this}}
+  {{#unless mainUser}}
+    {{partial 'inventory/side_nav:user_menu' this}}
+  {{/unless}}
 </div>

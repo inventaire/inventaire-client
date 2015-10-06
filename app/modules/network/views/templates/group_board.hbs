@@ -20,6 +20,15 @@
       <li><a class="accept">{{i18n 'accept invitation'}}</a></li>
       <li><a class="decline">{{i18n 'decline'}}</a></li>
     {{/if}}
+    {{#if mainUser_requested}}
+      <li>
+        <p class="requested">
+          {{i18n 'you requested to join is waiting for approval'}}
+        </p>
+        <a class="cancelRequest">{{i18n 'cancel request'}}</a>
+        <span class="check"></span>
+      </li>
+    {{/if}}
     {{#if mainUser_none}}
       <li>
         <a class="joinRequest">{{i18n 'request to join group'}}</a>

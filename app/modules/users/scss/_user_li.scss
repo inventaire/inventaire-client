@@ -264,7 +264,7 @@ $user-bg: #ddd;
   }
 }
 
-#networkLayout{
+#networkLayout, .groupBoard{
   .userLi{
     .friendMenu{
       @include shy;
