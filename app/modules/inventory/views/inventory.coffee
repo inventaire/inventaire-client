@@ -2,6 +2,7 @@ SideNav = require '../side_nav/views/side_nav'
 # FollowedEntitiesList = require './followed_entities_list'
 ItemsGrid = require './items_grid'
 Controls = require './controls'
+Group = require 'modules/network/views/group'
 # keep in sync with _controls.scss
 gridMinWidth = 750
 
@@ -10,7 +11,7 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/inventory'
   regions:
     sideNav: '#sideNav'
-    welcomeView: '#welcomeView'
+    header: '#header'
     itemsView: '#itemsView'
     followedView: '#followedView'
     controls: '#controls'
@@ -79,7 +80,7 @@ module.exports = Marionette.LayoutView.extend
       # if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
       docTitle = eventName = user.get('username')
     else if group?
-      prepareGroupItemsList group, navigate
+      @prepareGroupItemsList group, navigate
       docTitle = group.get 'name'
       eventName = "group:#{group.id}"
     else
@@ -118,7 +119,7 @@ module.exports = Marionette.LayoutView.extend
     inventoryWelcome = require './inventory_welcome'
     showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
 
-    @welcomeView.show new inventoryWelcome
+    @header.show new inventoryWelcome
     showLastPublicItems @itemsView
     .catch _.Error('showLastPublicItems err')
 
@@ -127,6 +128,17 @@ module.exports = Marionette.LayoutView.extend
   showControls: ->
     unless _.smallScreen gridMinWidth
       @controls.show new Controls
+
+  prepareGroupItemsList: (group, navigate)->
+    app.execute 'filter:inventory:group', group
+    app.execute 'sidenav:show:group', group
+    unless _.smallScreen()
+      @header.show new Group
+        model: group
+        highlighted: true
+    # else shown by side_nav::showGroup
+
+    if navigate then app.navigate group.get('pathname')
 
 prepareUserItemsList = (user, navigate)->
   unless app.request 'user:itemsFetched', user
@@ -139,10 +151,6 @@ prepareUserItemsList = (user, navigate)->
 
 navigateToUserInventory = (user)-> app.navigate user.get('pathname')
 
-prepareGroupItemsList = (group, navigate)->
-  app.execute 'filter:inventory:group', group
-  app.execute 'sidenav:show:group', group
-  if navigate then app.navigate group.get('pathname')
 
 fetchUserPublicItems = (user)->
   app.request 'inventory:fetch:user:public:items', user.id

@@ -25,10 +25,14 @@ module.exports = ->
     action: 'update-settings'
     modelIdLabel: 'group'
 
+  getGroupsInCommon = (user)->
+    return groups.filter (group)-> group.userStatus(user) isnt 'none'
+
   app.reqres.setHandlers
     'get:group:model': getGroupModel
     'get:group:model:sync': groups.byId.bind(groups)
     'group:update:settings': groupSettingsUpdater
+    'get:groups:common': getGroupsInCommon
 
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'

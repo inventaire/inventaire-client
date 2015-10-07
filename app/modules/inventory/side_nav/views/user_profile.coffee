@@ -10,6 +10,7 @@ module.exports = Marionette.ItemView.extend
     'click #cancelBio': 'cancelBio'
     'click #editPicture': 'editPicture'
     'click a#changePicture': 'changePicture'
+    'click a.showGroup': 'showGroup'
 
   behaviors:
     AlertBox: {}
@@ -17,23 +18,26 @@ module.exports = Marionette.ItemView.extend
     Loading: {}
     ElasticTextarea: {}
     ConfirmationModal: {}
+    PreventDefault: {}
 
   ui:
     bio: '.bio'
     bioText: 'textarea.bio'
 
-  serializeData: ->
-    _.extend @model.serializeData(),
-      onUserProfile: true
-      loggedIn: app.user.loggedIn
-
   initialize: ->
+    @isMainUser = @model.isMainUser
     @listenTo @model, 'change', @render.bind(@)
     @initPlugin()
 
   initPlugin: ->
     unselectPlugin.call @
     relationsActions.call @
+
+  serializeData: ->
+    _.extend @model.serializeData(),
+      onUserProfile: true
+      loggedIn: app.user.loggedIn
+      commonGroups: @commonGroupsData()
 
   onShow: ->
     @makeRoom()
@@ -82,6 +86,19 @@ module.exports = Marionette.ItemView.extend
     .catch formatErr
 
   changePicture: require 'modules/user/lib/change_user_picture'
+
+  commonGroupsData: ->
+    if @isMainUser then return
+    app.request 'get:groups:common', @model
+    .map (group)->
+      id: group.id
+      name: group.get('name')
+      pathname: group.get('pathname')
+
+  showGroup: (e)->
+    unless _.isOpenedOutside e
+      groupId = e.currentTarget.attributes['data-id'].value
+      app.execute 'show:inventory:group:byId', groupId
 
 formatErr = (err)->
   err.selector = 'textarea.bio'

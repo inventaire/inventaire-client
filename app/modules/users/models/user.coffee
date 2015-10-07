@@ -1,6 +1,7 @@
 UserCommons = require './user_commons'
 
 module.exports = UserCommons.extend
+  isMainUser: false
   initialize: ->
     @setPathname()
 

@@ -5,6 +5,7 @@ solveLang = require '../lib/solve_lang'
 notificationsList = sharedLib 'notifications_settings_list'
 
 module.exports = UserCommons.extend
+  isMainUser: true
   url: ->
     app.API.user
 

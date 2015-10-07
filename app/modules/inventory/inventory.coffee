@@ -159,6 +159,9 @@ itemCreate = (itemData)->
 itemsCountByEntity = (uri)->
   Items.where({entity: uri}).length
 
+showGroupInventory = (group)->
+  API.showGroupInventory group.id, group.get('name'), true
+
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
     'show:inventory:general': ->
@@ -171,8 +174,11 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:main:user': ->
       API.showUserInventory app.user, true
 
-    'show:inventory:group': (group)->
-      API.showGroupInventory group.id, group.get('name'), true
+    'show:inventory:group': showGroupInventory
+
+    'show:inventory:group:byId': (groupId)->
+      group = app.request 'get:group:model:sync', groupId
+      showGroupInventory group
 
     'show:item:creation:form': (params)->
       {entity} = params

@@ -51,9 +51,12 @@ module.exports = Marionette.LayoutView.extend
       collection: app.user.groups.mainUserMember
 
   showGroup: (groupModel)->
-    @one.show new Group
-      model: groupModel
-      highlighted: true
+    if _.smallScreen()
+      @one.show new Group
+        model: groupModel
+        highlighted: true
+    # else shown by inventory::prepareGroupItemsList
+
     @ui.groupsSection.hide()
     @setGroupHeader groupModel
     @ui.userSearch.hide()

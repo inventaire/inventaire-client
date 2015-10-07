@@ -1,3 +1,5 @@
+$coverTextBg: rgba($dark-grey, 0.5);
+
 .group, div.groupShow{
   @include display-flex(column, center, center);
   color: white;
@@ -16,7 +18,6 @@
   .cover{
     @include bg-cover;
     width: 100%;
-    @include radius;
     @include display-flex(column, center, center);
     height: 9em;
     overflow: hidden;
@@ -26,6 +27,7 @@
     padding-right: 0.5em;
     max-height: 5em;
     overflow: auto;
+    background-color: $coverTextBg;
   }
 }
 .group, div.groupShow, .groupBoard{
@@ -56,7 +58,7 @@
     width: 100%;
     @include display-flex(row, center, space-between);
     color: white;
-    background-color: rgba($dark-grey, 0.5);
+    background-color: $coverTextBg;
   }
 }
 
@@ -76,7 +78,39 @@
 }
 
 div.groupShow{
+  @include position(relative);
+  .iconButtons{
+    a{
+      color: white;
+    }
+    @include side-buttons;
+    @include display-flex(column, center, space-between);
+    height: 3.2em;
+    background-color: rgba(grey, 0.3);
+    @include radius;
+    a{
+      padding-left: 0.3em;
+    }
+  }
   .actions{
     padding-top: 1em;
+  }
+}
+
+#inventoryView{
+  .groupShow{
+    .iconButtons{
+      font-size: 1.4em;
+    }
+    .name{
+      padding: 1em;
+    }
+    .cover{
+      height: 18em;
+      min-height: 33vh;
+    }
+    .description{
+      max-height: 8em;
+    }
   }
 }

@@ -29,6 +29,14 @@
         </div>
       {{/unless}}
       {{partial 'inventory/side_nav:user_menu' this}}
+      {{#if commonGroups}}
+        <div class="common-groups">
+          <h4>{{i18n 'groups in common:'}}</h4>
+          {{#each commonGroups}}
+            <a class="showGroup" data-id="{{id}}" href="{{pathname}}">{{name}}</a>
+          {{/each}}
+        </div>
+      {{/if}}
     {{/unless}}
   </div>
 </div>

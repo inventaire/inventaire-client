@@ -43,6 +43,9 @@ module.exports = Marionette.ItemView.extend
     'click .cancelButton': 'cancelDescription'
     'click .saveButton': 'saveDescription'
 
+  onShow: ->
+    @listenTo @model, 'change:picture', @render.bind(@)
+
   editName:->
     name = @ui.editNameField.val()
     if name?

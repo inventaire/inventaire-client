@@ -17,13 +17,13 @@ events =
   'click .makeAdmin': 'makeAdmin'
   'click .kick': 'kick'
 
-confirmAction = (actionLabel, actionFn)->
+confirmAction = (actionLabel, actionFn, warningText)->
   confirmationText = _.i18n "#{actionLabel}_confirmation",
     username: @model.get 'username'
 
   @$el.trigger 'askConfirmation',
     confirmationText: confirmationText
-    warningText: null
+    warningText: warningText
     action: actionFn
 
 confirmUnfriend = ->
@@ -59,7 +59,8 @@ handlers =
   makeAdmin: ->
     unless @group? then return _.error 'makeAdmin err: group is missing'
     actionFn = @group.makeAdmin.bind @group, @model
-    confirmAction.call @, 'group_make_admin', actionFn
+    warningText = _.i18n 'group_make_admin_warning'
+    confirmAction.call @, 'group_make_admin', actionFn, warningText
 
   kick: ->
     unless @group? then return _.error 'kick err: group is missing'

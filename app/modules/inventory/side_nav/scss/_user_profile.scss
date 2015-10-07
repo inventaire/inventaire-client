@@ -84,4 +84,23 @@
       }
     }
   }
+  .common-groups{
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    h4{
+      color: rgba(white, 0.7);
+      font-size: 0.9em;
+      @include sans-serif;
+    }
+  }
+  .showGroup{
+    &:not(:hover){
+      color: rgba(white, 0.8);
+    }
+    @include bg-hover(grey, 20%);
+    @include radius;
+    padding: 0.2em;
+    margin: 0.2em;
+  }
 }

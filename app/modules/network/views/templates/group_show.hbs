@@ -5,15 +5,14 @@
 <div
 {{#if picture}}
   class="cover"
-  style="background-image: url('{{src picture 280}}')"
+  style="background-image: url('{{src picture 1600}}')"
 {{/if}}
 >
   <span class="name">{{name}}</span>
+  {{#if description}}
+    <p class="description">{{userContent description}}</p>
+  {{/if}}
   {{partial 'network:group_stats' this}}
 </div>
 
 {{partial 'network:group_actions' this}}
-
-{{#if description}}
-  <p class="description">{{userContent description}}</p>
-{{/if}}
