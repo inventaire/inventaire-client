@@ -13,8 +13,7 @@
       <form>
         <textarea class="message" name="message" placeholder="edit comment...">{{message}}</textarea>
         <div class="right">
-          <a class="cancelButton">{{icon 'times'}}{{i18n 'cancel'}}</a>
-          <a class="saveButton">{{icon 'check'}}{{i18n 'save'}}</a>
+          {{partial 'save_cancel'}}
         </div>
       </form>
     </div>

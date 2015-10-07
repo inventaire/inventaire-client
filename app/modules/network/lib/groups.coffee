@@ -1,13 +1,6 @@
 forms_ = require 'modules/general/lib/forms'
 
 module.exports =
-  validateName: (name, selector)->
-    forms_.pass
-      value: name
-      tests: groupNameTests
-      selector: selector
-
-    return
 
   createGroup: (name)->
     { groups } = app.user
@@ -20,6 +13,24 @@ module.exports =
     .then _.Log('group')
     .catch _.Error('group create')
 
+  validateName: (name, selector)->
+    forms_.pass
+      value: name
+      tests: groupNameTests
+      selector: selector
+    return
+
+  validateDescription: (description, selector)->
+    forms_.pass
+      value: description
+      tests: groupDescriptionTests
+      selector: selector
+    return
+
 groupNameTests =
-  "groups name can't be longer than 60 characters": (name)->
+  "group name can't be longer than 60 characters": (name)->
     name.length > 60
+
+groupDescriptionTests =
+  "group description can't be longer than 5000 characters": (description)->
+    description.length > 5000

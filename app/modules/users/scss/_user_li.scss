@@ -266,6 +266,9 @@ $user-bg: #ddd;
 
 #networkLayout, .groupBoard{
   .userLi{
+    .userMenu{
+      text-align: left;
+    }
     .friendMenu{
       @include shy;
     }

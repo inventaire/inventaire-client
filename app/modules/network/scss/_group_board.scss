@@ -1,4 +1,5 @@
 .groupBoard{
+  text-align: center;
   @include shy-border-vertical-group;
   margin-bottom: 1em;
   &.standalone{

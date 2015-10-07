@@ -1,6 +1,7 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 check = behavior 'success_check'
 input = behavior 'input'
+textarea = behavior 'textarea'
 { SafeString } = Handlebars
 
 
@@ -67,9 +68,16 @@ module.exports =
     if data.special
       data.special = 'autocorrect="off" autocapitalize="off"'
 
-    i = input data
-
-    html = if options is 'check' then check i else i
-    return new SafeString html
+    applyOptions input(data), options
 
   disableAuto: -> 'autocorrect="off" autocapitalize="off"'
+
+  textarea: (data, options)->
+    unless data?
+      _.log arguments, 'textarea arguments err'
+      throw new Error 'no data'
+    applyOptions textarea(data), options
+
+applyOptions = (html, options)->
+  html = if options is 'check' then check html else html
+  return new SafeString html

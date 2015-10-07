@@ -7,6 +7,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
   behaviors:
     AlertBox: {}
+    ElasticTextarea: {}
     PreventDefault: {}
     SuccessCheck: {}
 
@@ -14,6 +15,7 @@ module.exports = Marionette.ItemView.extend
     attrs = @model.serializeData()
     _.extend attrs,
       editName: @editNameData(attrs.name)
+      editDescription: @editDescriptionData(attrs.description)
 
   editNameData: (groupName)->
     nameBase: 'editName'
@@ -24,12 +26,22 @@ module.exports = Marionette.ItemView.extend
       text: _.I18n 'save'
     check: true
 
+  editDescriptionData: (description)->
+    id: 'description'
+    placeholder: 'enter a group description'
+    value: description
+
   ui:
     editNameField: '#editNameField'
+    description: '#description'
+    saveCancel: '.saveCancel'
 
   events:
     'click #editNameButton': 'editName'
     'click a#changePicture': 'changePicture'
+    'keyup #description': 'showSaveCancel'
+    'click .cancelButton': 'cancelDescription'
+    'click .saveButton': 'saveDescription'
 
   editName:->
     name = @ui.editNameField.val()
@@ -63,3 +75,23 @@ module.exports = Marionette.ItemView.extend
       attribute: 'picture'
       value: picture
       selector: '#changePicture'
+
+  showSaveCancel: ->
+    @_saveCancelShown = false
+    unless @_saveCancelShown
+      @ui.saveCancel.slideDown()
+      @_saveCancelShown = true
+
+  cancelDescription: ->
+    @render()
+    @_saveCancelShown = false
+
+  saveDescription: ->
+    @ui.saveCancel.slideUp()
+    @_saveCancelShown = false
+    description = @ui.description.val()
+    if description?
+      _.preq.start()
+      .then groups_.validateDescription.bind(@, description, '#description')
+      .then _.Full(@_updateGroup, @, 'description', description, '#description')
+      .catch forms_.catchAlert.bind(null, @)

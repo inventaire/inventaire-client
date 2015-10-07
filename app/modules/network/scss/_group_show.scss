@@ -21,6 +21,12 @@
     height: 9em;
     overflow: hidden;
   }
+  .description{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    max-height: 5em;
+    overflow: auto;
+  }
 }
 .group, div.groupShow, .groupBoard{
   .cover .name{
