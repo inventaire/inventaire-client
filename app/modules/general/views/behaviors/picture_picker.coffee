@@ -1,7 +1,6 @@
 Imgs = require 'modules/general/collections/imgs'
 images_ = require 'lib/images'
 forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 
@@ -111,7 +110,7 @@ isSelectedModel = (model)-> model.get('selected')
 
 validateUrlInput = (url)->
   unless _.isUrl url
-    throw error_.newWithSelector 'invalid url', '#urlField', arguments
+    forms_.throwError 'invalid url', '#urlField', arguments
 
 getImgData = (crop, url)->
   url: url

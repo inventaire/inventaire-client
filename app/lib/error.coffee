@@ -4,11 +4,7 @@ error_ =
     err.context = context
     return err
 
-  newWithSelector: (message, selector, context)->
-    err = new Error message
-    err.selector = selector
-    err.context = context
-    return err
+  # newWithSelector: use forms_.throwError instead
 
   complete: (selector, err)->
     err.selector = selector

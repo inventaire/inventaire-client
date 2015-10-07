@@ -1,13 +1,11 @@
 module.exports = forms_ = {}
 
 forms_.pass = (options)->
-  {value, tests, selector} = options
+  { value, tests, selector } = options
   _.types [value, tests, selector], ['string', 'object', 'string']
   for err, test of tests
-    if test(value)
-      err = new Error(err)
-      err.selector = selector
-      throw err
+    if test value
+      forms_.throwError err, selector, value
 
 # verifies field value before the form is submitted
 forms_.earlyVerify = (view, e, verificator)->
@@ -52,7 +50,8 @@ forms_.alert = (view, err)->
 
 # format the error to be catched by forms_.catchAlert
 # ex: forms_.throwError 'a title is required', '#titleField'
-forms_.throwError = (message, selector)->
+forms_.throwError = (message, selector, context...)->
   err = new Error message
   err.selector = selector
+  err.context = context
   throw err
