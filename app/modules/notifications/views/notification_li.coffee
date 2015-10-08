@@ -1,48 +1,44 @@
+templates =
+  friendAcceptedRequest: require './templates/friend_accepted_request'
+  newCommentOnFollowedItem: require './templates/new_comment_on_followed_item'
+  userMadeAdmin: require './templates/user_made_admin'
+
 module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: ->
-    status = @model.get('status')
+    status = @model.get 'status'
     "notification #{status}"
+
   getTemplate: ->
-    switch @model.get('type')
-      when 'friendAcceptedRequest'
-        require './templates/friend_request_accepted'
-      when 'newCommentOnFollowedItem'
-        require './templates/new_comment_on_followed_item'
-      else _.error 'notification type unknown'
+    notifType = @model.get 'type'
+    template = templates[notifType]
+    unless template? then return _.error 'notification type unknown'
+    return template
 
   behaviors:
     PreventDefault: {}
 
   initialize: ->
-    @listenTo @model, 'change', @render
+    @lazyRender = _.LazyRender @
+    @listenTo @model, 'change', @lazyRender
+    @listenTo @model, 'grab', @lazyRender
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    @username = attrs.username = app.request 'get:username:from:userId', attrs.data.user
-    attrs.picture = app.request 'get:profilePic:from:userId', attrs.data.user
-    attrs.pathname = @pathnameData(attrs)
-    if attrs.item?
-      attrs.title = attrs.item.title
-    return attrs
+  serializeData: -> @model.serializeData()
 
   events:
-    'click .acceptedFriendRequest': 'showUserProfile'
+    'click .friendAcceptedRequest': 'showUserProfile'
     'click .newCommentOnFollowedItem': 'showItem'
+    'click .userMadeAdmin': 'showGroupBoard'
 
   showUserProfile: (e)->
-    unless _.isOpenedOutside(e)
-      app.execute 'show:user', @username
+    unless _.isOpenedOutside e
+      app.execute 'show:user', @model.username
       app.execute 'notifications:menu:close'
 
   showItem: (e)->
-    unless _.isOpenedOutside(e)
+    unless _.isOpenedOutside e
       app.execute 'show:item:show:from:model', @model.item
 
-  pathnameData: (attrs)->
-    { username, item } = attrs
-    switch @model.get('type')
-      when 'friendAcceptedRequest' then "/inventory/#{username}"
-      when 'newCommentOnFollowedItem'
-        if item?
-          return "/inventory/#{username}/#{item.entity}"
+  showGroupBoard: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:group:board', @model.group

@@ -1,17 +1,21 @@
 module.exports = Backbone.NestedModel.extend
   initialize: ->
     @on 'change:status', @update
-    if @get('data.item')?
-      app.request('waitForItems').then @getItemData.bind(@)
+    @initSpecific()
+
+  # to override in inherinting models
+  initSpecific: ->
 
   update: ->
     @collection.updateStatus @get('time')
 
-  getItemData: ->
-    app.request 'get:item:model', @get('data.item')
-    .then @setItemModel.bind(@)
-    .catch _.Error('getItemData')
+  commonData: ->
+    attrs = @toJSON()
+    attrs.username = @getUsername()
+    return attrs
 
-  setItemModel: (itemModel)->
-    @item = itemModel
-    @set 'item', itemModel.toJSON()
+  getUsername: ->
+    app.request 'get:username:from:userId', @get('data.user')
+
+  getUserPicture: ->
+    app.request 'get:profilePic:from:userId', @get('data.user')

@@ -5,20 +5,22 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
 
   initialize: ->
-    @notifications = app.user.notifications = new Notifications
+    notifications = app.user.notifications = new Notifications
+
+    addNotifications = (notifs)->
+      _.log notifs, 'notifications:add'
+      getUsersData notifs
+      .then _.Full(notifications.addPerType, notifications, notifs)
+      .catch _.Error('addNotifications')
 
     app.reqres.setHandlers
-      'notifications:add': API.addNotifications.bind(@)
+      'notifications:add': addNotifications.bind(@)
+      'show:notifications'
 
-API =
-  addNotifications: (notifications)->
-    # _.log notifications, 'notifications:add'
-    API.getUsersData(notifications)
-    .then ()=> @notifications.add notifications
 
-  getUsersData: (notifications)->
-    ids = API.getUsersIds(notifications)
-    app.request('get:users:data', ids)
+getUsersData = (notifications)->
+  ids = getUsersIds notifications
+  app.request 'get:users:data', ids
 
-  getUsersIds: (notifications)->
-    ids = notifications.map (notif)-> notif.data.user
+getUsersIds = (notifications)->
+  ids = notifications.map (notif)-> notif.data.user
