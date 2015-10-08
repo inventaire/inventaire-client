@@ -28,7 +28,9 @@ fetchFriendsAndTheirItems = ->
   .catch _.Error('fetchFriendsAndTheirItems err')
 
 fetchRelationsDataSuccess = (relationsData)->
-  if relationsData.lists.friends.length is 0
+  { friends, nonRelationGroupUser } = relationsData.lists
+  if friends.length is 0 and nonRelationGroupUser.length is 0
+    # triggers events related to fetching relations user and item data
     app.execute 'friends:zero'
   spreadRelationsData relationsData
   usersReady()

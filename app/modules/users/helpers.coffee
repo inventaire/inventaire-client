@@ -50,6 +50,8 @@ module.exports = (app)->
       unless userId? and app.users?.public?.list?
         _.warn userId, 'isPublicUser isnt ready (use or recalculate after data waiters)'
         return true
+      # NB: nonRelationGroupUser aren't considerer public users
+      # as their user and items data are fetched as friends
       return userId in app.users.public.list
 
     itemsFetched: (userModel)->
