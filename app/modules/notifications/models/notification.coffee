@@ -9,6 +9,8 @@ module.exports = Backbone.NestedModel.extend
   update: ->
     @collection.updateStatus @get('time')
 
+  isUnread: -> @get('status') is 'unread'
+
   commonData: ->
     attrs = @toJSON()
     attrs.username = @getUsername()

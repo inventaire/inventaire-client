@@ -27,6 +27,10 @@ module.exports = ListWithCounter.extend
   markNotificationsAsRead: -> @collection.markAsRead()
   count: -> @collection.unread().length
 
+  filter: (child, index, collection)->
+    if child.isUnread() then true
+    else -1 < index < 5
+
   # to be shown and hidden by Foundation with the notification list
   # the see_all element has to be integrated to the ul.dropdown
   updateSeeAllLink: ->
