@@ -2,6 +2,7 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/list_with_counter'
   ui:
     counter: '.counter'
+    list: 'ul'
 
   onRender: -> @updateCounter()
 

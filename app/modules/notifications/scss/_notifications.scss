@@ -33,6 +33,10 @@
       color: white;
     }
   }
+  .seeAll{
+    text-align: center;
+    font-weight: bold;
+  }
 
   @import "request_li";
 
@@ -56,3 +60,5 @@
     }
   }
 }
+
+@import 'notifications_layout';

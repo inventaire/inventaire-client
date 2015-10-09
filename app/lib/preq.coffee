@@ -30,6 +30,12 @@ module.exports =
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return
 
+  Sleep: (ms)->
+    fn = (res)->
+      return new Promise (resolve, reject)->
+        cb = -> resolve res
+        setTimeout cb, ms
+
 
 wrap = (jqPromise, url)->
   return new Promise (resolve, reject)->
@@ -46,3 +52,4 @@ rewriteError = (err, url)->
     statusText: statusText
     responseText: responseText
     responseJSON: responseJSON
+

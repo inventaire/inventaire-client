@@ -1,8 +1,16 @@
 Notifications = require './collections/notifications'
 NotificationsList = require './views/notifications_list'
+NotificationsLayout = require './views/notifications_layout'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
+    Router = Marionette.AppRouter.extend
+      appRoutes:
+        'notifications': 'showNotifications'
+
+    app.addInitializer ->
+      new Router
+        controller: API
 
   initialize: ->
     notifications = app.user.notifications = new Notifications
@@ -15,7 +23,11 @@ module.exports =
 
     app.reqres.setHandlers
       'notifications:add': addNotifications.bind(@)
-      'show:notifications'
+
+    app.commands.setHandlers
+      'show:notifications': ->
+        API.showNotifications()
+        app.navigate 'notifications'
 
 
 getUsersData = (notifications)->
@@ -24,3 +36,8 @@ getUsersData = (notifications)->
 
 getUsersIds = (notifications)->
   ids = notifications.map (notif)-> notif.data.user
+
+API =
+  showNotifications: ->
+    app.layout.main.Show new NotificationsLayout,
+      docTitle: _.i18n 'notifications'
