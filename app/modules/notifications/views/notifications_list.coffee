@@ -9,8 +9,6 @@ module.exports = ListWithCounter.extend
   emptyView: require './no_notification'
   initialize: ->
     @initUpdaters()
-    app.commands.setHandlers
-      'notifications:menu:close': -> @$el.removeClass 'hover'
 
     # wait for the notifications to be added and rendered
     app.request('waitForData')

@@ -3,9 +3,9 @@ Notification = require './notification'
 module.exports = Notification.extend
   initSpecific:->
     @groupId = @get 'data.group'
-    app.request('waitForData').then @getGroupData.bind(@)
+    app.request('waitForData').then @grabGroup.bind(@)
 
-  getGroupData:->
+  grabGroup:->
     @reqGrab 'get:group:model', @groupId, 'group'
 
   serializeData: ->

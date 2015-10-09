@@ -2,9 +2,9 @@ Notification = require './notification'
 
 module.exports = Notification.extend
   initSpecific:->
-    app.request('waitForItems').then @getItemData.bind(@)
+    app.request('waitForItems').then @grabItem.bind(@)
 
-  getItemData: ->
+  grabItem: ->
     item = @get 'data.item'
     @reqGrab 'get:item:model', item, 'item'
 

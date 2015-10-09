@@ -1,19 +1,9 @@
-NotificationsList = require './notifications_list'
-
-module.exports = Marionette.LayoutView.extend
+module.exports = Marionette.CompositeView.extend
   id: 'notificationsLayout'
+  childView: require './notification_li'
+  emptyView: require './no_notification'
   template: require './templates/notifications_layout'
-  regions:
-    list: '#list'
+  childViewContainer: 'ul'
 
   initialize:->
-    @notifications = app.user.notifications
-
-
-  onShow:->
-    app.request 'waitForData'
-    .then @showNotifications.bind(@)
-
-  showNotifications: ->
-    @list.show new NotificationsList
-      collection: @notifications
+    @collection = app.user.notifications

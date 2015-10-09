@@ -32,8 +32,7 @@ module.exports = Marionette.ItemView.extend
 
   showUserProfile: (e)->
     unless _.isOpenedOutside e
-      app.execute 'show:user', @model.username
-      app.execute 'notifications:menu:close'
+      app.execute 'show:user', @model.user
 
   showItem: (e)->
     unless _.isOpenedOutside e

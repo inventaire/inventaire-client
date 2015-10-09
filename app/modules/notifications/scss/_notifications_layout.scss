@@ -1,3 +1,27 @@
 #notificationsLayout{
-  @include custom-column(50em);
+  h2{
+    text-align: center;
+  }
+  width: 100%;
+  ul{
+    width: 100%;
+    @include display-flex(column, center, center);
+  }
+  li{
+    width: 100%;
+    max-width: 40em;
+    margin: 0.1em;
+    padding: 0.5em;
+    @include bg-hover(white);
+    @include shy-border;
+    @include radius;
+    div{
+      @include display-flex(row, flex-start, flex-start);
+      width: 100%;
+    }
+  }
+  a{
+    @include flex(1);
+    padding: 0.2em;
+  }
 }
