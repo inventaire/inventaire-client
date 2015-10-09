@@ -32,8 +32,8 @@ module.exports =
 
 initRequestsCollectionsEvent = ->
   if app.user.loggedIn
-    @listenTo app.users.otherRequested, 'add remove', requestsUpdates
-    @listenTo app.user.groups.mainUserInvited, 'add remove', requestsUpdates
+    app.request('waitForData')
+    .then -> app.vent.trigger 'network:requests:udpate'
 
 API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
@@ -67,7 +67,10 @@ showGroupBoardFromModel = (model)->
 
 networkCounters = ->
   friendsRequestsCount = app.users.otherRequested?.length or 0
-  groupsRequestsCount = app.user.groups?.mainUserInvited.length or 0
+  { groups } = app.user
+  mainUserInvitationsCount = groups?.mainUserInvited.length or 0
+  otherUsersRequestsCount = groups?.otherUsersRequestsCount() or 0
+  groupsRequestsCount = mainUserInvitationsCount + otherUsersRequestsCount
   return counters =
     friendsRequestsCount: counterUnlessZero friendsRequestsCount
     groupsRequestsCount: counterUnlessZero groupsRequestsCount
@@ -76,5 +79,3 @@ networkCounters = ->
 counterUnlessZero = (count)->
   if count is 0 then return
   else return count
-
-requestsUpdates = -> app.vent.trigger 'network:requests:udpate'

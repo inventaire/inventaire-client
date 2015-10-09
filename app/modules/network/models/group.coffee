@@ -48,8 +48,12 @@ module.exports = Backbone.Model.extend
   getUserIds: (category)->
     @get(category).map _.property('user')
 
-  membersCount: ->
-    @allMembers().length
+  membersCount: -> @allMembers().length
+  requestsCount: ->
+    # only used to count groups notifications
+    # which only concern group admins
+    if @mainUserIsAdmin() then @requested.length
+    else 0
 
   itemsCount: ->
     @members
