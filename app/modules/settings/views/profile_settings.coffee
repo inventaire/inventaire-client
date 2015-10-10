@@ -47,7 +47,7 @@ module.exports = Marionette.ItemView.extend
 
   languagesData: ->
     languages = _.deepClone Lang
-    currentLanguages = @model.get('language')
+    currentLanguages = _.shortLang @model.get('language')
     languages[currentLanguages]?.selected = true
     return languages
 
