@@ -18,7 +18,7 @@ events =
   'click .kick': 'kick'
 
 confirmAction = (actionLabel, actionFn, warningText)->
-  confirmationText = _.i18n "#{actionLabel}_confirmation",
+  confirmationText = _.I18n "#{actionLabel}_confirmation",
     username: @model.get 'username'
 
   @$el.trigger 'askConfirmation',
@@ -34,8 +34,7 @@ handlers =
   discard: -> app.request 'request:discard', @model
   accept: -> app.request 'request:accept', @model
   send: ->
-    username = @model.get 'username'
-    if app.request 'require:loggedIn', "inventory/#{username}"
+    if app.request 'require:loggedIn', @model.get('pathname')
       app.request 'request:send', @model
   unfriend: confirmUnfriend
   invite: ->
@@ -59,12 +58,12 @@ handlers =
   makeAdmin: ->
     unless @group? then return _.error 'makeAdmin err: group is missing'
     actionFn = @group.makeAdmin.bind @group, @model
-    warningText = _.i18n 'group_make_admin_warning'
+    warningText = _.I18n 'group_make_admin_warning'
     confirmAction.call @, 'group_make_admin', actionFn, warningText
 
   kick: ->
     unless @group? then return _.error 'kick err: group is missing'
     actionFn = @group.kick.bind @group, @model
-    confirmAction.call @, 'group_ban', actionFn
+    confirmAction.call @, 'group_kick', actionFn
 
 module.exports = _.BasicPlugin events, handlers

@@ -55,10 +55,8 @@ API =
       app.execute 'show:404'
 
   showGroupBoardFromModel: (model)->
-    [ id, name ] = model.gets '_id', 'name'
-    route = "network/groups/#{id}/#{name}"
     showGroupBoardFromModel model
-    app.navigate route
+    app.navigate model.get('boardPathname')
 
 showGroupBoardFromModel = (model)->
   app.layout.main.show new GroupBoard

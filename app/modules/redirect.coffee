@@ -39,6 +39,7 @@ API =
     else
       app.execute 'show:login'
       # the route shouldn't have the first '/'. ex: inventory/georges
+      route = route.replace /^\//, ''
       app.execute 'prepare:login:redirect', route
       return false
 

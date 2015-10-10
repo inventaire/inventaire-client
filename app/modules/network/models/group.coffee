@@ -3,6 +3,7 @@ error_ = require 'lib/error'
 aggregateUsersIds = require '../lib/aggregate_users_ids'
 groupActions = require '../lib/group_actions'
 defaultCover = require('lib/urls').images.bokeh
+{ escapeExpression } = Handlebars
 
 module.exports = Backbone.Model.extend
   url: app.API.groups.private
@@ -11,12 +12,13 @@ module.exports = Backbone.Model.extend
     _.extend @, groupActions
 
     { _id, name } = @toJSON()
-    pathname = "/groups/#{_id}/#{name}"
-    @set 'pathname', pathname
-    @set 'settingsPathname', "/network#{pathname}"
-
-    # non persisted category used for convinience on client-side
-    @set 'tmp', []
+    escapedGroupName = @getEscapedName()
+    pathname = "/groups/#{_id}/#{escapedGroupName}"
+    @set
+      pathname: pathname
+      boardPathname: "/network#{pathname}"
+      # non-persisted category used for convinience on client-side
+      tmp: []
 
     @initMembersCollection()
     @initRequestersCollection()
@@ -112,6 +114,7 @@ module.exports = Backbone.Model.extend
       .then Items.add.bind(Items)
       .catch _.Error('fetchGroupUsersMissingItems err')
 
+  getEscapedName: -> escapeExpression @get('name')
 
 userItemsCount = (user)->
   nonPrivate = true

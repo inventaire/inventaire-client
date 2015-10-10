@@ -45,9 +45,7 @@ handlers =
   acceptInvitation: -> @model.acceptInvitation()
   declineInvitation: -> @model.declineInvitation()
   joinRequest: ->
-    id = @model.id
-    name = @model.get 'name'
-    if app.request 'require:loggedIn', "groups/#{id}/#{name}"
+    if app.request 'require:loggedIn', @model.get('pathname')
       @model.requestToJoin()
       .catch behaviorsPlugin.Fail.call(@, 'joinRequest')
 
