@@ -20,9 +20,10 @@ API =
   showLabsSettings: -> showSettings 'labs'
 
 showSettings = (tab)->
-  title = _.I18n 'settings'
-  options = {model: app.user, tab: tab}
-  app.layout.main.Show new SettingsLayout(options), title
+  if app.request 'require:loggedIn', "settings/#{tab}"
+    title = _.I18n 'settings'
+    options = {model: app.user, tab: tab}
+    app.layout.main.Show new SettingsLayout(options), title
 
 setHandlers = ->
   app.commands.setHandlers

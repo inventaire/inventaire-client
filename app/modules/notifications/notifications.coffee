@@ -39,5 +39,6 @@ getUsersIds = (notifications)->
 
 API =
   showNotifications: ->
-    app.layout.main.Show new NotificationsLayout,
-      docTitle: _.i18n 'notifications'
+    if app.request 'require:loggedIn', 'notifications'
+      app.layout.main.Show new NotificationsLayout,
+        docTitle: _.i18n 'notifications'
