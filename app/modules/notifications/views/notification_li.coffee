@@ -1,7 +1,4 @@
-templates =
-  friendAcceptedRequest: require './templates/friend_accepted_request'
-  newCommentOnFollowedItem: require './templates/new_comment_on_followed_item'
-  userMadeAdmin: require './templates/user_made_admin'
+{ templates } = require '../lib/notifications_types'
 
 module.exports = Marionette.ItemView.extend
   tagName: 'li'
@@ -28,7 +25,8 @@ module.exports = Marionette.ItemView.extend
   events:
     'click .friendAcceptedRequest': 'showUserProfile'
     'click .newCommentOnFollowedItem': 'showItem'
-    'click .userMadeAdmin': 'showGroupBoard'
+    # includes: .userMadeAdmin .groupUpdate
+    'click .groupNotification': 'showGroupBoard'
 
   showUserProfile: (e)->
     unless _.isOpenedOutside e

@@ -1,7 +1,5 @@
-models =
-  friendAcceptedRequest: require '../models/friend_accepted_request'
-  newCommentOnFollowedItem: require '../models/new_comment_on_followed_item'
-  userMadeAdmin: require '../models/user_made_admin'
+error_ = require 'lib/error'
+{ models } = require '../lib/notifications_types'
 
 module.exports = Backbone.Collection.extend
   comparator: (notif)-> - notif.get 'time'
@@ -29,8 +27,7 @@ module.exports = Backbone.Collection.extend
 createTypedModel = (doc)->
   { type } = doc
   Model = models[type]
-  unless Model
-    _.error doc, 'unknown notification type'
-    return
+  unless Model?
+    throw error_.new 'unknown notification type', doc
 
   return new Model(doc)
