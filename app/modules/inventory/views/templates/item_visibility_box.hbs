@@ -17,9 +17,7 @@
       {{/each}}
       <li><label>{{i18n 'other operations:'}}</label></li>
       <li>
-        <a class="remove dark-grey">
-          {{icon 'trash-o'}} {{I18n 'delete'}}
-        </a>
+        {{partial 'inventory:remove_item'}}
       </li>
     </ul>
   </div>

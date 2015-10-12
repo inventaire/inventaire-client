@@ -59,6 +59,18 @@
 
 @import 'item_user_box';
 
+.itemBox > .remove{
+  margin-top: 1em;
+  @include bg-hover(#faeaea, 30%);
+  &:hover{
+    color: white;
+    @include transition(color, 0.2);
+  }
+  @include flex(1);
+  width: 100%;
+  height: $user-box-heigth;
+  @include display-flex(row, center, center);
+}
 .itemBox:not(:empty){
   min-height: $user-box-heigth;
   width: 100%;
