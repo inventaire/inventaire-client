@@ -11,7 +11,7 @@ module.exports = ->
 
   getGroupPublicData = (id)->
     _.preq.get _.buildPath(app.API.groups.public, {id: id})
-    .then _.Log('getGroupPublicData')
+    # .then _.Log('group public data')
     .then (res)->
       {group, users, items} = res
       app.users.public.add users

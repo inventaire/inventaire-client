@@ -23,9 +23,6 @@ $networkLayoutWidth: 40em;
   .custom-tabs-content{
     background-color: $main-bg;
     > section{
-      section:not(:first-child){
-        margin-top: 1em;
-      }
       label{
         text-align: left;
         font-size: 1.1em;
