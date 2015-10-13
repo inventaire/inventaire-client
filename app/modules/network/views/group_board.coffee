@@ -10,9 +10,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @initPlugin()
-    @collection = @model.members
-    @mainUserStatus = @model.mainUserStatus()
-    @mainUserIsAdmin = @model.mainUserIsAdmin()
+    @listenTo @model, 'action:leave', @render.bind(@)
 
   initPlugin: ->
     groupPlugin.call @
@@ -65,9 +63,10 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showHeader()
     @showMembers()
-    if @mainUserIsAdmin then @initSettings()
-    if @mainUserStatus is 'member' then @showFriendsInvitor()
     @showJoinRequests()
+    if @model.mainUserIsMember()
+      @initSettings()
+      @showFriendsInvitor()
 
   onShow: ->
     @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
@@ -91,7 +90,7 @@ module.exports = Marionette.LayoutView.extend
       model: @model
 
   showJoinRequests: ->
-    if @model.requested.length > 0 and @mainUserIsAdmin
+    if @model.requested.length > 0 and @model.mainUserIsAdmin()
       @groupRequests.show @getJoinRequestsView()
       @ui.groupRequestsSection.show()
     else

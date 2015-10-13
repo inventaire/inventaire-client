@@ -1,16 +1,21 @@
-<section>
-  <label for="editName">{{i18n 'edit group name'}}</label>
-  {{input editName 'check'}}
-</section>
+{{#if mainUserIsAdmin}}
+  <section>
+    <label for="editName">{{i18n 'edit group name'}}</label>
+    {{input editName 'check'}}
+  </section>
 
-<section>
-  <label for="editDescription">{{i18n 'edit group description'}}</label>
-  {{textarea editDescription 'check'}}
-  <div class="saveCancel hidden">{{partial 'save_cancel'}}</div>
-  <div class="check"></div>
-</section>
+  <section>
+    <label for="editDescription">{{i18n 'edit group description'}}</label>
+    {{textarea editDescription 'check'}}
+    <div class="saveCancel hidden">{{partial 'save_cancel'}}</div>
+    <div class="check"></div>
+  </section>
 
-<section>
-  <label for="editCover">{{i18n 'edit group cover'}}</label>
-  {{partial 'general:behaviors:change_picture' this}}
+  <section>
+    {{partial 'general:behaviors:change_picture' this}}
+  </section>
+{{/if}}
+
+<section id="groupControls">
+  <a class="leave">{{icon 'sign-out'}} {{i18n 'leave group'}}</a>
 </section>

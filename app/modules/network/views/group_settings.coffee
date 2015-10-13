@@ -7,6 +7,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
   behaviors:
     AlertBox: {}
+    ConfirmationModal: {}
     ElasticTextarea: {}
     PreventDefault: {}
     SuccessCheck: {}
@@ -42,6 +43,7 @@ module.exports = Marionette.ItemView.extend
     'keyup #description': 'showSaveCancel'
     'click .cancelButton': 'cancelDescription'
     'click .saveButton': 'saveDescription'
+    'click .leave': 'leaveGroup'
 
   onShow: ->
     @listenTo @model, 'change:picture', @render.bind(@)
@@ -98,3 +100,13 @@ module.exports = Marionette.ItemView.extend
       .then groups_.validateDescription.bind(@, description, '#description')
       .then _.Full(@_updateGroup, @, 'description', description, '#description')
       .catch forms_.catchAlert.bind(null, @)
+
+  leaveGroup: ->
+    group = @model
+    args = { groupName: group.get('name') }
+
+    @$el.trigger 'askConfirmation',
+      confirmationText: _.i18n('leave_group_confirmation', args)
+      warningText: _.i18n('leave_group_warning')
+      action: group.leave.bind(group)
+      selector: '#usernameGroup'

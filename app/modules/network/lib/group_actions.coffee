@@ -62,13 +62,23 @@ module.exports =
     @action 'kick', user.id
     .catch @revertMove.bind(@, user, 'members', 'tmp')
 
+  leave: ->
+    initialCategory = if @mainUserIsAdmin() then 'admins' else 'members'
+    @moveMembership app.user, initialCategory, 'tmp'
+    @action 'leave'
+    .catch @revertMove.bind(@, app.user, initialCategory, 'tmp')
+
   action: (action, userId)->
     _.preq.put app.API.groups.private,
       action: action
       group: @id
-      # optionel
+      # requiered only for actions implying an other user
       user: userId
-    .then _.Tap(app.execute.bind(app, 'track:group', action))
+    .then _.Tap(@_postActionHooks.bind(@, action))
+
+  _postActionHooks: (action)->
+    app.execute 'track:group', action
+    @trigger "action:#{action}"
 
   revertMove: (user, previousCategory, newCategory, err)->
     @moveMembership user, newCategory, previousCategory

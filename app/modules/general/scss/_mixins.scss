@@ -43,3 +43,11 @@
   word-wrap: $setting;
   overflow-wrap: $setting;
 }
+
+@mixin rigid-textarea(){
+  textarea{
+    max-width: 100%;
+    min-width: 100%;
+    resize: none;
+  }
+}

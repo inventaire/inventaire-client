@@ -31,6 +31,16 @@
   }
 }
 
+@mixin dangerous-action(){
+  // @include bg-hover(#faeaea, 30%);
+  @include transition(background-color, 0.2);
+  background-color: $grey;
+  color: white;
+  &:hover{
+    background-color: #ff4e4e;
+  }
+}
+
 $shy-opacity: 0.6;
 @mixin shy($opacity:$shy-opacity, $hover-opacity:1){
   opacity: $opacity;

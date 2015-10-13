@@ -61,11 +61,7 @@
 
 .itemBox > .remove{
   margin-top: 1em;
-  @include bg-hover(#faeaea, 30%);
-  &:hover{
-    color: white;
-    @include transition(color, 0.2);
-  }
+  @include dangerous-action;
   @include flex(1);
   width: 100%;
   height: $user-box-heigth;

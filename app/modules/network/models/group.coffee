@@ -76,6 +76,7 @@ module.exports = Backbone.Model.extend
       # due to an unsolved issue with user:inventoryLength in this case
       itemsCount: @itemsCount()  unless @publicDataOnly
       mainUserIsAdmin: @mainUserIsAdmin()
+      mainUserIsMember: @mainUserIsMember()
 
   userStatus: (user)->
     { id } = user

@@ -1,17 +1,17 @@
 <div class="header"></div>
 <div class="body">
-  {{#if mainUserIsAdmin}}
-    <section id="groupSettings">
-      {{partial 'network:group_board_section' sections.settings}}
-    </section>
-    <section id="groupRequests">
-      {{partial 'network:group_board_section' sections.requests}}
-    </section>
-  {{/if}}
+  <section id="groupRequests">
+    {{partial 'network:group_board_section' sections.requests}}
+  </section>
   <section id="groupMembers">
     {{partial 'network:group_board_section' sections.members}}
   </section>
   <section id="groupInvite" {{#unless status_member}}class="hidden"{{/unless}}>
     {{partial 'network:group_board_section' sections.invite}}
   </section>
+  {{#if mainUserIsMember}}
+    <section id="groupSettings">
+      {{partial 'network:group_board_section' sections.settings}}
+    </section>
+  {{/if}}
 </div>
