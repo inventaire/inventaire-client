@@ -111,24 +111,5 @@
     margin-right: 0.5em;
     opacity: 0.5;
   }
-  #groupSettings{
-    .inner{
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-    }
-    .inputGroup .button{
-      max-width: 10em;
-      font-weight: bold;
-    }
-    @include rigid-textarea;
-  }
-  #groupControls{
-    padding-top: 2em;
-    padding-bottom: 2em;
-  }
-  .leave{
-    @include dangerous-button;
-    @include radius;
-    font-weight: bold;
-  }
+  @import "group_settings";
 }

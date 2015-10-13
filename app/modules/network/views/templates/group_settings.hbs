@@ -14,8 +14,23 @@
   <section>
     {{partial 'general:behaviors:change_picture' this}}
   </section>
+  <hr>
 {{/if}}
 
 <section id="groupControls">
-  <a class="leave">{{icon 'sign-out'}} {{i18n 'leave group'}}</a>
+  {{#if userCanLeave}}
+    {{#if userIsLastUser}}
+      <a class="destroy">
+        {{icon 'trash'}} {{I18n 'destroy group'}}
+    {{else}}
+      <a class="leave">
+        {{icon 'sign-out'}} {{I18n 'leave group'}}
+    {{/if}}
+    </a>
+  {{else}}
+    <span class="leave disabled" title="{{i18n "leave_button_disabled"}}">
+      {{icon 'ban'}} {{i18n 'leave group'}}
+    </span>
+    <p class="reason">{{i18n "leave_button_disabled"}}</p>
+  {{/if}}
 </section>

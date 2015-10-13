@@ -117,6 +117,15 @@ module.exports = Backbone.Model.extend
 
   getEscapedName: -> escapeExpression @get('name')
 
+  userCanLeave: ->
+    unless @mainUserIsAdmin() then return true
+    mainUserIsTheOnlyAdmin = @allAdmins().length is 1
+    thereAreOtherMembers = @allMembersStrict().length > 0
+    if mainUserIsTheOnlyAdmin and thereAreOtherMembers then false
+    else true
+
+  userIsLastUser: -> @allMembers().length is 1
+
 userItemsCount = (user)->
   nonPrivate = true
   user.inventoryLength(nonPrivate) or 0

@@ -15,8 +15,10 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.serializeData()
     _.extend attrs,
-      editName: @editNameData(attrs.name)
-      editDescription: @editDescriptionData(attrs.description)
+      editName: @editNameData attrs.name
+      editDescription: @editDescriptionData attrs.description
+      userCanLeave: @model.userCanLeave()
+      userIsLastUser: @model.userIsLastUser()
 
   editNameData: (groupName)->
     nameBase: 'editName'
@@ -43,7 +45,8 @@ module.exports = Marionette.ItemView.extend
     'keyup #description': 'showSaveCancel'
     'click .cancelButton': 'cancelDescription'
     'click .saveButton': 'saveDescription'
-    'click .leave': 'leaveGroup'
+    'click a.leave': 'leaveGroup'
+    'click a.destroy': 'destroyGroup'
 
   onShow: ->
     @listenTo @model, 'change:picture', @render.bind(@)
@@ -101,12 +104,14 @@ module.exports = Marionette.ItemView.extend
       .then _.Full(@_updateGroup, @, 'description', description, '#description')
       .catch forms_.catchAlert.bind(null, @)
 
-  leaveGroup: ->
+  leaveGroup: -> @_leaveGroup 'leave_group_confirmation', 'leave_group_warning',
+  destroyGroup: -> @_leaveGroup 'destroy_group_confirmation', 'cant_undo_warning'
+  _leaveGroup: (confirmationText, warningText)->
     group = @model
     args = { groupName: group.get('name') }
 
     @$el.trigger 'askConfirmation',
-      confirmationText: _.i18n('leave_group_confirmation', args)
-      warningText: _.i18n('leave_group_warning')
+      confirmationText: _.i18n confirmationText, args
+      warningText: _.i18n warningText
       action: group.leave.bind(group)
       selector: '#usernameGroup'

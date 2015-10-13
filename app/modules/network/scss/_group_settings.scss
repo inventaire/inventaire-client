@@ -1,0 +1,34 @@
+#groupSettings{
+  .inner{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+  .inputGroup .button{
+    max-width: 10em;
+    font-weight: bold;
+  }
+  @include rigid-textarea;
+}
+#groupControls{
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+.leave, .destroy{
+  @include dangerous-button;
+  @include radius;
+  font-weight: bold;
+}
+.leave{
+  &.disabled{
+    cursor: not-allowed;
+    &:hover{
+      // disabling dangerous-button hover behaviour
+      background-color: $grey;
+    }
+  }
+}
+.reason{
+  // hacky compensation of the weird positioning
+  // that would overlap the button if there wasn't that padding
+  padding-top: 1em;
+}
