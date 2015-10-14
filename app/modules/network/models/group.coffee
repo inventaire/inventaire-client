@@ -2,7 +2,7 @@ error_ = require 'lib/error'
 # defining all and _recalculateAll methods
 aggregateUsersIds = require '../lib/aggregate_users_ids'
 groupActions = require '../lib/group_actions'
-defaultCover = require('lib/urls').images.bokeh
+defaultCover = require('lib/urls').images.brittanystevens
 { escapeExpression } = Handlebars
 
 module.exports = Backbone.Model.extend
