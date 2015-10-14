@@ -10,9 +10,13 @@ error_ =
     err.selector = selector
     return err
 
+throwComplete = (selector, err)->
+  err.selector = selector
+  throw err
+
 # /!\ throws the error while error_.complete only returns it.
 # this difference is justified by the different use of both functions:
 error_.Complete = (selector)->
-  throw error_.complete.bind null, selector
+  return throwComplete.bind null, selector
 
 module.exports = error_
