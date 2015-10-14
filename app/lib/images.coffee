@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 handlers =
   addDataUrlToArray: (file, array, event)->
     resize.photo file, 600, 'dataURL', (data)->
@@ -74,8 +76,13 @@ handlers =
       request = new XMLHttpRequest()
       request.onreadystatechange = ->
         if request.readyState is 4
-          resolve request.response
+          { status, statusText } = request
+          if /^2/.test request.status.toString()
+            resolve request.response
+          else
+            reject error_.new(statusText, status)
       request.onerror = reject
+      request.ontimeout = reject
 
       request.open 'POST', app.API.upload.post
       request.responseType = 'json'
