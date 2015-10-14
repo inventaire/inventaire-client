@@ -15,5 +15,9 @@ logoutError = (err)->
   _.error err, 'logout error'
 
 deleteLocalDatabases = ->
+  # clearing localstorage
+  debug = localStorageProxy.getItem 'debug'
   localStorageProxy.clear()
+  # but keeping debug config
+  localStorageProxy.setItem 'debug', debug
   window.dbs.reset()
