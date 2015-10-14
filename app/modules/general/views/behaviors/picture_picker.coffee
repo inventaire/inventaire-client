@@ -1,8 +1,8 @@
 Imgs = require 'modules/general/collections/imgs'
 images_ = require 'lib/images'
 forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-
 
 module.exports = Marionette.CompositeView.extend
   className: ->
@@ -57,8 +57,10 @@ module.exports = Marionette.CompositeView.extend
   validate: ->
     behaviorsPlugin.startLoading.call @, '#validate'
     @getFinalUrls()
+    .catch error_.Complete('.alertBox')
     .then _.Log('final urls')
     .then @_saveAndClose.bind(@)
+    .catch forms_.catchAlert.bind(null, @)
 
   getFinalUrls: ->
     selectedModels = @collection.models.filter isSelectedModel

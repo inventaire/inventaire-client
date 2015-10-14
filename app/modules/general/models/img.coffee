@@ -70,4 +70,3 @@ module.exports = Backbone.NestedModel.extend
       id: @cid
     .then _.property(@cid)
     .then _.Log('url?')
-    .catch _.Error('getFinalUrl')
