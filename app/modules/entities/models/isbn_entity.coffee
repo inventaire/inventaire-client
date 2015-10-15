@@ -4,12 +4,15 @@ module.exports = Entity.extend
   prefix: 'isbn'
   initialize: ->
     @initLazySave()
-    @findAPicture()
 
     # should expect data coming from both google books
     # and the local entities database (inv-isbn entities)
     @id = @get 'id'
     isbn = @get 'isbn'
+    unless isbn?
+      throw new Error "isbn entity doesn't have an isbn"
+
+    @findAPicture()
     @uri = @get('uri') or "isbn:#{isbn}"
     canonical = pathname = "/entity/#{@uri}"
 
