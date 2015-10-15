@@ -2,7 +2,7 @@
 
 [ resource, lang ] = process.argv.slice(2)
 
-translatedLangs = ['fr', 'de']
+translatedLangs = ['fr', 'de', 'pl']
 
 projects =
   fullkey:
