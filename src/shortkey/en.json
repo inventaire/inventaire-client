@@ -155,5 +155,16 @@
     "inventories_activity_summary_notification": "receive the summary of what happened in your network lately",
     "email_invitation_sent": "email invitation sent to <span class='email'>%{email}</span>",
     "num_books": "%{smart_count} book |||| %{smart_count} books",
-    "cookies_are_required": "cookies are required for the authentification to work: please change your browsers' settings and retry"
+    "cookies_are_required": "cookies are required for the authentification to work: please change your browsers' settings and retry",
+    "title_map_layout": "books nearby",
+    "group_make_admin_confirmation": "Are you sure you want to make **%{username}** admin of the group?",
+    "group_kick_confirmation": "Are you sure you want to remove **%{username}** of the group?",
+    "group_make_admin_warning": "This can't be undone and an admin can't be removed from a group, even by another admin",
+    "user_made_admin": "**%{username}** named you admin of the group **%{groupName}**",
+    "group_update_name": "**%{username}** renamed the group **%{previousValue}** to **%{newValue}**",
+    "group_update_description": "**%{username}** changed the description of the group **%{groupName}**",
+    "leave_group_confirmation": "Are you sure you want to **leave the group %{groupName}**?",
+    "leave_group_warning": "this can be undone later by requesting to join the group again, but you will need an admin's approval",
+    "leave_button_disabled": "being the unique group admin, you can't leave the group without naming another admin",
+    "destroy_group_confirmation": "Are you sure you want to destroy the group **%{groupName}**?"
 }

@@ -155,5 +155,16 @@
     "inventories_activity_summary_notification": null,
     "email_invitation_sent": null,
     "num_books": null,
-    "cookies_are_required": null
+    "cookies_are_required": null,
+    "title_map_layout": null,
+    "group_make_admin_confirmation": null,
+    "group_kick_confirmation": null,
+    "group_make_admin_warning": null,
+    "user_made_admin": null,
+    "group_update_name": null,
+    "group_update_description": null,
+    "leave_group_confirmation": null,
+    "leave_group_warning": null,
+    "leave_button_disabled": null,
+    "destroy_group_confirmation": null
 }
