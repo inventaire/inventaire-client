@@ -6,7 +6,6 @@ module.exports = wd_ = sharedLib('wikidata')(_.preq, _, wdk)
 wd_.wmCommonsThumbData = (file, width=500)->
   width = _.bestImageWidth width
   _.preq.get app.API.data.commonsThumb(file, width)
-  .then _.Log('commons thumb result')
 
 wd_.wmCommonsThumb = (file, width=500)->
   wd_.wmCommonsThumbData file, width
