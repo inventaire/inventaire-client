@@ -77,9 +77,6 @@ nav.top-bar {
         padding-left: 0;
       }
     }
-    #currentUser{
-      @extend .breadcrumb;
-    }
     // passing flex-grow:1 to the search input
     section, .right, .right div, li.has-form{
       @include display-flex;
