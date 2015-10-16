@@ -12,8 +12,8 @@ module.exports = Backbone.Model.extend
     _.extend @, groupActions
 
     { _id, name } = @toJSON()
-    escapedGroupName = @getEscapedName()
-    pathname = "/groups/#{_id}/#{escapedGroupName}"
+    uriEscapedGroupName = @getUriEscapedName()
+    pathname = "/groups/#{_id}/#{uriEscapedGroupName}"
     @set
       pathname: pathname
       boardPathname: "/network#{pathname}"
@@ -116,6 +116,7 @@ module.exports = Backbone.Model.extend
       .catch _.Error('fetchGroupUsersMissingItems err')
 
   getEscapedName: -> escapeExpression @get('name')
+  getUriEscapedName: -> encodeURIComponent @get('name')
 
   userCanLeave: ->
     unless @mainUserIsAdmin() then return true
