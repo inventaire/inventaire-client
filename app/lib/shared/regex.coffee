@@ -6,3 +6,5 @@ module.exports =
   CouchUuid: /^[0-9a-f]{32}$/
   Lang: /^\w{2}$/
   LocalImg: /^\/img\/[0-9a-f]{40}.jpg$/
+  Username: /^\w{1,20}$/
+  EntityUri: /^(wd:Q[0-9]+|(isbn|inv):[\w\-]+)$/

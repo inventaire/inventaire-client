@@ -142,6 +142,8 @@ module.exports = (Backbone, _, app, window, csle)->
     isUuid: (str)-> regex_.Uuid.test str
     isEmail: (str)-> regex_.Email.test str
     isUserId: (id)-> regex_.CouchUuid.test id
+    isUsername: (username)-> regex_.Username.test username
+    isEntityUri: (uri)-> regex_.EntityUri.test uri
 
     # anchor with a href are opened out of the current window
     # when the ctrlKey is pressed: the normal action should thus be prevented

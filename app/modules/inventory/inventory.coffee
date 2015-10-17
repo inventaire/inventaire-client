@@ -12,8 +12,8 @@ module.exports =
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
-        'inventory/:user(/)': 'showUserInventory'
-        'inventory/:user/:entity(/:title)(/)': 'itemShow'
+        'inventory/:username(/)': 'showUserInventory'
+        'inventory/:username/:entity(/:title)(/)': 'itemShow'
         'add(/)': 'showAddLayout'
         'groups/:id(/:name)(/)': 'showGroupInventory'
 
@@ -52,6 +52,9 @@ API =
     app.layout.main.show form
 
   itemShow: (username, entity, label)->
+    unless _.isUsername(username) and _.isEntityUri(entity)
+      return app.execute 'show:404'
+
     app.execute 'show:loader', {title: "#{label} - #{username}"}
     app.request 'waitForItems'
     .then @showItemShow.bind(@, username, entity, label)
