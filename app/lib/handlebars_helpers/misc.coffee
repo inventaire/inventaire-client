@@ -2,6 +2,9 @@
 
 module.exports =
   i18n: (key, args..., data)->
+    # this function might be called before the tempates data arrived
+    # returning '' early prevents to display undefined and make polyglot worry
+    unless key? then return ''
     # key, contextObj OR key, smart_count form
     firstArg = args[0]
     if _.isObject(firstArg) or _.isNumber(firstArg) then context = firstArg

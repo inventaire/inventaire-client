@@ -135,7 +135,9 @@ module.exports = (Backbone, _, app, window, csle)->
       @type obj, 'object'
       return JSON.parse JSON.stringify(obj)
 
-    capitaliseFirstLetter: (str)-> str[0].toUpperCase() + str[1..-1]
+    capitaliseFirstLetter: (str)->
+      if str is '' then return ''
+      str[0].toUpperCase() + str[1..-1]
 
     isUuid: (str)-> regex_.Uuid.test str
     isEmail: (str)-> regex_.Email.test str
