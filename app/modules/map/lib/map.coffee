@@ -9,41 +9,44 @@ settings =
   id: 'maxlatha.gd5jof9d'
   accessToken: accessToken
 
-
 L.Icon.Default.imagePath = '/public/images/map'
 
+defaultZoom = 13
 
 module.exports =
-  draw: (containerId, lat, lng, zoom=13)->
-    latLngTupple = [lat, lng]
-    map = L.map(containerId).setView latLngTupple, zoom
+  draw: (containerId, lat, lng, zoom=defaultZoom)->
+    map = L.map(containerId).setView [lat, lng], zoom
     L.tileLayer(tileUrl, settings).addTo map
-    marker = L.marker(latLngTupple).addTo map
-    marker.bindPopup("<b>Hello world!</b><br>I am a popup.")
-
-    map.on 'moveend', updateRoute
-
-
-    popup = L.popup()
-        .setLatLng(latLngTupple)
-        .setContent("I am a standalone popup.")
-        .openOn(map)
-
-    topleft = [Math.floor(lat*10)/10, Math.floor(lng*10)/10]
-    topright = [Math.floor(lat*10)/10, Math.ceil(lng*10)/10]
-    bottomright = [Math.ceil(lat*10)/10, Math.ceil(lng*10)/10]
-    bottomleft = [Math.ceil(lat*10)/10, Math.floor(lng*10)/10]
-
-    polygon = L.polygon([topleft, topright, bottomright, bottomleft]).addTo(map)
 
     return map
 
   getCurrentPosition: ->
-    navigator.geolocation.getCurrentPosition (position)->
-      _.log position, 'position'
-      # position.coords.latitude, position.coords.longitude
+    navigatorCurrentPosition()
+    .then _.Log('current position')
+    .then normalizeNavigatorCoords
 
-updateRoute = (e)->
-  { lat, lng } = e.target.getCenter()
-  { _zoom } = e.target
-  app.execute 'navigate:map', lat, lng, _zoom
+  addMarker: (map, lat, lng, content, openPopup=false)->
+    marker = L.marker([lat, lng]).addTo map
+    marker.bindPopup content
+    if openPopup then marker.openPopup()
+    return marker
+
+  updateRoute: (map, lat, lng, zoom=defaultZoom)->
+    app.execute 'navigate:map', lat, lng, zoom
+
+  updateMarker: (marker, lat, lng)->
+    marker.setLatLng [lat, lng]
+
+# doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
+navigatorCurrentPosition = ->
+  new Promise (resolve, reject)->
+    unless navigator.geolocation?.getCurrentPosition?
+      err = new Error 'getCurrentPosition isnt accessible'
+      return reject err
+
+    navigator.geolocation.getCurrentPosition resolve, reject,
+      timeout: 20*1000
+
+normalizeNavigatorCoords = (position)->
+  { latitude, longitude } = position.coords
+  return { lat: latitude, lng: longitude }

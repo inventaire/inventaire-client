@@ -18,26 +18,17 @@ module.exports =
 
       'navigate:map': API.navigateMap
 
-
 API =
   showMap: (coordinates)->
-    _.log coordinates, 'coordinates'
     app.layout.main.show new MapLayout
       coordinates: coordinates
 
   navigateMap: (lat, lng, zoom)->
-    app.navigate "map?lat=#{lat}&lng=#{lng}&zoom=#{zoom}"
+    # keep only defined parameters in the route
+    route = _.buildPath 'map', {lat: lat, lng: lng, zoom: zoom}
+    app.navigate route
 
 routerAPI =
   showMap: (querystring)->
-    _.log 'WTF'
     coordinates = _.parseQuery querystring
     API.showMap coordinates
-
-
-
-
-# WrappedAPI = (handler, route)->
-#   fn = ->
-#     API[handler]()
-#     app.navigate route
