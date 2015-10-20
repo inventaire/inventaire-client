@@ -31,6 +31,10 @@ module.exports =
     if openPopup then marker.openPopup()
     return marker
 
+  addCircleMarker: (map, lat, lng, metersRadius=200)->
+    marker = L.circle([lat, lng], metersRadius).addTo map
+    return marker
+
   updateRoute: (map, lat, lng, zoom=defaultZoom)->
     app.execute 'navigate:map', lat, lng, zoom
 

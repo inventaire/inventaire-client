@@ -1,8 +1,12 @@
 #mapLayout{
   width: 100%;
+  section#position-picker{
+    text-align: center;
+    padding: 1em;
+  }
 }
 
-#map{
+.map-container{
   min-height: 60vh;
   width: 100%;
   z-index: 100;
