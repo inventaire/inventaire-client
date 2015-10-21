@@ -46,7 +46,7 @@ module.exports = Marionette.ItemView.extend
   emailPickerData: -> pickerData @model, 'email'
 
   languagesData: ->
-    languages = _.deepClone Lang
+    languages = _.deepClone window.Lang
     currentLanguages = _.shortLang @model.get('language')
     languages[currentLanguages]?.selected = true
     return languages
