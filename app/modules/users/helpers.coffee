@@ -23,19 +23,6 @@ module.exports = (app)->
       if userModel? then userModel.get 'picture'
       else console.warn "couldnt find the user from id: #{id}"
 
-    searchUsers: (text)->
-      unless text? and text isnt ''
-        return app.users.filtered.friends()
-
-      app.users.data.remote.search(text)
-      .then (res)->
-        # Need to waitForData as isntAlreadyHere can't
-        # do it's job if user relations data haven't return yet
-        app.request('waitForData')
-        .then addSearchedUsers.bind(null, text, res)
-
-      .catch _.Error('searchUsers err')
-
     isMainUser: (userId)->
       if userId? then return userId is app.user.id
 
@@ -68,20 +55,6 @@ module.exports = (app)->
 
   sync.getUsernameFromUserId = (id)->
     return sync.getUserModelFromUserId(id)?.get('username')
-
-  app.users.queried = []
-
-  addSearchedUsers = (text, res)->
-    res.forEach addUserUnlessHere
-    app.users.queried.push text
-    return app.users.filtered.filterByText text
-
-  addUserUnlessHere = (user)->
-    if isntAlreadyHere user._id then app.users.public.add user
-
-  isntAlreadyHere = (id)->
-    if app.users.byId(id)? or app.request('user:isMainUser', id) then false
-    else true
 
   async =
     getUsersData: (ids)->
@@ -127,9 +100,6 @@ module.exports = (app)->
             userModel = app.users.public.add user
             return userModel
 
-
-
-
   adders =
     # usually users not found locally are non-friends users
     public: app.users.public.add.bind(app.users.public)
@@ -146,8 +116,8 @@ module.exports = (app)->
     'get:userId:from:username': sync.getUserIdFromUsername
     'get:profilePic:from:userId': sync.getProfilePicFromUserId
     'get:non:friends:ids': sync.getNonFriendsIds
-    'users:search': sync.searchUsers
     'user:isMainUser': sync.isMainUser
     'user:isFriend': sync.isFriend
     'user:isPublicUser': sync.isPublicUser
     'user:itemsFetched': sync.itemsFetched
+    'users:search': require('./lib/search')(app)
