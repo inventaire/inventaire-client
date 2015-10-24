@@ -20,13 +20,7 @@ module.exports = Marionette.Behavior.extend
 
   toggleGlobalSearchBar: (e, isInView)->
     if isInView
-
-      # get possible edits in the global search field
-      globalSearchVal = $('#searchField').val()
-      if _.isNonEmptyString(globalSearchVal)
-        @ui.localSearchField.val globalSearchVal
       app.vent.trigger 'search:global:hide'
-
     else
       # pass local search field val to the global search field
       app.vent.trigger 'search:global:show', @ui.localSearchField.val()
