@@ -34,7 +34,7 @@ nav.top-bar {
     @include position(fixed, 0, 0, null, 0);
   }
   // needed to be above everything that has a z-index or is fixed
-  z-index: 100;
+  z-index: 9000;
   img{
     max-height: $topbar-height * 0.85;
     margin-left: 1em;
