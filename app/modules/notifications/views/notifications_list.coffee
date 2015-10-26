@@ -34,7 +34,13 @@ module.exports = ListWithCounter.extend
   # to be shown and hidden by Foundation with the notification list
   # the see_all element has to be integrated to the ul.dropdown
   updateSeeAllLink: ->
-    # make sure it is added last
-    @ui.list.append seeAll(seeAllData)
+    # it isnt clear why, but sometimes @ui.list.append throws a TypeError
+    # TypeError: this.ui.list.append is not a function'
+    # so if those conditions aren't satisfied yet, retry later
+    if @ui.list.append? and _.isFunction @ui.list.append
+      # make sure it is added last
+      @ui.list.append seeAll(seeAllData)
+    else
+      setTimeout @updateSeeAllLink, 3000
 
   showAllNotification: -> app.execute 'show:notifications'
