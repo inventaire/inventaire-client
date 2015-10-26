@@ -105,6 +105,8 @@ module.exports = (app)->
     public: app.users.public.add.bind(app.users.public)
     nonRelationGroupUser: app.users.nonRelationGroupUser.add.bind(app.users.nonRelationGroupUser)
 
+  { searchByText, searchByPosition } = require('./lib/search')(app)
+
   return reqresHandlers =
     'get:user:model': async.getUserModel
     'get:group:user:model': async.getGroupUserModel
@@ -120,4 +122,5 @@ module.exports = (app)->
     'user:isFriend': sync.isFriend
     'user:isPublicUser': sync.isPublicUser
     'user:itemsFetched': sync.itemsFetched
-    'users:search': require('./lib/search')(app)
+    'users:search': searchByText
+    'users:search:byPosition': searchByPosition

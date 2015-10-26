@@ -35,6 +35,11 @@ module.exports =
     marker = L.circle([lat, lng], metersRadius).addTo map
     return marker
 
+  addCustomIconMarker: (map, lat, lng, html)->
+    icon = customIcon html
+    marker = L.marker([lat, lng], {icon: icon}).addTo map
+    return marker
+
   updateRoute: (map, lat, lng, zoom=defaultZoom)->
     app.execute 'navigate:map', lat, lng, zoom
 
@@ -54,3 +59,9 @@ navigatorCurrentPosition = ->
 normalizeNavigatorCoords = (position)->
   { latitude, longitude } = position.coords
   return { lat: latitude, lng: longitude }
+
+
+customIcon = (html, className='')->
+  L.divIcon
+    className: "map-icon #{className}"
+    html: html

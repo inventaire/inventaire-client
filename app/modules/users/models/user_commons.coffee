@@ -8,3 +8,10 @@ module.exports = Filterable.extend
     [
       @get('username')
     ]
+
+  getPosition: ->
+    latLng = @get 'position'
+    if latLng?
+      [lat, lng ] = latLng
+      return { lat: lat, lng: lng }
+    else return {}

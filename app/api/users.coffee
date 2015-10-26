@@ -1,3 +1,5 @@
+publicEndpoint = '/api/users/public'
+
 module.exports =
   data: (ids)->
     ids = _.forceArray(ids)
@@ -14,3 +16,11 @@ module.exports =
   search: (text)->
     if text? then "/api/users/public?action=search&search=#{text}"
     else throw new Error "users' search API needs a text argument"
+
+  searchByPosition: (latLng)->
+    _.types latLng, 'numbers...'
+    [lat, lng] = latLng
+    return _.buildPath publicEndpoint,
+      action: 'search-by-position'
+      lat: lat
+      lng: lng

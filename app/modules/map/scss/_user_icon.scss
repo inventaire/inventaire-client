@@ -1,0 +1,50 @@
+$userIconHeight: 60px;
+$userIconWidth: 64px;
+
+.user-icon{
+  min-height: $userIconHeight;
+  min-width:  $userIconWidth;
+  // by default, the icon has it's coordinates for top-left point
+  // margins hereafter compensate to make the icon point at it
+  margin-top: -$userIconHeight;
+  margin-left: -$userIconWidth/2;
+  text-align: center;
+  background-color: white;
+  @include radius;
+  @include shy-border;
+  img{
+    @include radius;
+  }
+  .username{
+    text-align: center;
+    margin-top: -0.5em;
+    margin-bottom: -0.2em;
+    // prevent username overflow
+    max-width: $userIconWidth;
+    overflow: hidden;
+    @include shy-text-border(rgba(white, 0.5));
+  }
+}
+
+
+// adapted from http://cssarrowplease.com
+.user-icon {
+  position: relative;
+  background: $lighter-grey;
+  box-shadow: 10px 10px 10px rgba(black, 0.5);
+}
+.user-icon:after{
+  top: 100%;
+  left: 50%;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border: solid transparent;
+  border-top-color: $lighter-grey;
+  // 11px makes it 1px too wide on the right
+  // but it prevent the little bug occuring with 10px
+  border-width: 11px;
+  margin-left: -10px;
+}
