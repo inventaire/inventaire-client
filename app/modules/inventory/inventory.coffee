@@ -275,10 +275,9 @@ initializeInventoriesHandlers = (app)->
       # but probably less efficient?
       Items.inventoryLength[userId]
 
-    'inventory:fetch:user:public:items': (userId)->
-      unless _.isUserId(userId)
-        throw new Error "expected a userId, got #{userId}"
-      _.preq.get app.API.items.userPublicItems(userId)
+    'inventory:fetch:users:public:items': (usersIds)->
+      _.preq.get app.API.items.usersPublicItems(usersIds)
+      .then _.property('items')
 
     'item:main:user:instance': (entityUri)->
       return Items.personal.byEntityUri(entityUri)[0]

@@ -21,6 +21,7 @@ module.exports =
       username: username
       uri: EntityUri
 
-  userPublicItems: (userId)->
-    itemsPublic 'user-public-items',
-      user: userId
+  usersPublicItems: (usersIds)->
+    usersIds = _.forceArray usersIds
+    itemsPublic 'users-public-items',
+      users: usersIds.join('|')

@@ -153,7 +153,7 @@ navigateToUserInventory = (user)-> app.navigate user.get('pathname')
 
 
 fetchUserPublicItems = (user)->
-  app.request 'inventory:fetch:user:public:items', user.id
+  app.request 'inventory:fetch:users:public:items', user.id
   .then _.Log('public user public items')
   .then Items.public.add
   .catch _.Error('fetchUserPublicItems')
