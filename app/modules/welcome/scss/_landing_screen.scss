@@ -1,7 +1,7 @@
 $pitch-bg-color: rgba(255, 255, 255, 0.6);
 
 section#landingScreen{
-  @include display-flex(column, center, space-around);
+  @include display-flex(column, center, center);
   .polyglotTitle{
     margin-top: auto;
     h2{
@@ -21,6 +21,7 @@ section#landingScreen{
     }
   }
   .pitch{
+    margin: 1em;
     padding: 0.5em;
     h3{
       font-weight: bold;
@@ -41,6 +42,11 @@ section#landingScreen{
   .polyglotTitle, #loginButtons{
     padding-top: 2em;
     padding-bottom: 2em;
+  }
+  // force other elements to be grouped in the middle
+  // to avoid an ugly repartition on big screens
+  .pusher{
+    @include flex(1);
   }
 
   /*Small screens*/
