@@ -18,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #subscribeButton': 'subscribeToNewsletter'
+    'click .toggleMission': 'toggleMission'
 
   behaviors:
     AlertBox: {}
@@ -33,6 +34,8 @@ module.exports = Marionette.LayoutView.extend
     topBarTrigger: '#middle-three'
     email: '#subscribeField'
     thanks: '#thanks'
+    missions: 'ul.mission li'
+    missionsTogglers: '.toggleMission .fa'
 
   onShow: ->
     @showPublicItems()
@@ -63,3 +66,6 @@ module.exports = Marionette.LayoutView.extend
 
   hideFeedbackButton: -> $('#feedback').hide()
   showFeedbackButton: -> $('#feedback').fadeIn()
+  toggleMission: ->
+    @ui.missions.slideToggle()
+    @ui.missionsTogglers.toggle()

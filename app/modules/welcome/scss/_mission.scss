@@ -1,0 +1,67 @@
+$mission-text-color: $dark-grey;
+$mission-text-bg-color: rgba(white, 0.9);
+
+section#mission{
+  padding-top: 1em;
+  @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
+
+  .toggleMission{
+    background-color: $mission-text-bg-color;
+    @include display-flex(row, center, center);
+    margin: 0 1em 1em 1em;
+    h2, .fa{
+      color: $mission-text-color;
+    }
+    .fa{
+      padding-left: 0.5em;
+      margin-top: -0.2em;
+      font-size: 1.6em;
+    }
+  }
+  ul.mission{
+    li{
+      // starting hidden to be toggled in JS
+      display: none;
+      max-width: 600px;
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+    h4{
+      text-align: center;
+      font-weight: bold;
+      padding: 1em;
+      color: $mission-text-color;
+      background-color: $mission-text-bg-color;
+    }
+    p{
+      padding: 1em;
+      font-size: 1.2em;
+      color: $mission-text-color;
+      background-color: $mission-text-bg-color;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    ul.mission{
+      @include display-flex(column, center, center);
+      li{
+        @include flex(1, 0);
+        margin: 0;
+        margin-bottom: 0.2rem;
+        width: 100%;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    ul.mission{
+      @include display-flex(row, baseline, space-around, wrap);
+      li{
+        @include flex(1, 0, 450px);
+        margin-bottom: 1em;
+      }
+    }
+  }
+}
