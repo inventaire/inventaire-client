@@ -34,5 +34,6 @@
 
 #bg.cover, #embedded-welcome{
   // cover background added for whitelisted routes
-  @include multidef-bg-cover('e412a0e3cc8e7842f0933e9661770fc3bd907baf.jpg', 'hd');
+  // photo attribution in credits.hbs: Brittany Stevens
+  @include multidef-bg-cover('470be785b0e53e76f7c35ebba040aad70d5ce426.jpg', 'hd');
 }

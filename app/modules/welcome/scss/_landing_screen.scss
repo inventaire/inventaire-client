@@ -1,3 +1,4 @@
+$title-color: white;
 $pitch-bg-color: rgba(255, 255, 255, 0.6);
 
 section#landingScreen{
@@ -5,7 +6,8 @@ section#landingScreen{
   .polyglotTitle{
     margin-top: auto;
     h2{
-      color: white;
+      color: $title-color;
+      @include shy-text-border;
       font-weight: bold;
     }
     .toggler{
