@@ -139,7 +139,10 @@ module.exports = Marionette.LayoutView.extend
         highlighted: true
     # else shown by side_nav::showGroup
 
-    if navigate then app.navigate group.get('pathname')
+    pathname = group.get 'pathname'
+    if navigate then app.navigate pathname
+    # correcting possibly custom or outdated group name
+    else app.navigateReplace pathname
 
 prepareUserItemsList = (user, navigate)->
   unless app.request 'user:itemsFetched', user
