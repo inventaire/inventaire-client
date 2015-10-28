@@ -37,7 +37,7 @@ module.exports = ListWithCounter.extend
     # it isnt clear why, but sometimes @ui.list.append throws a TypeError
     # TypeError: this.ui.list.append is not a function'
     # so if those conditions aren't satisfied yet, retry later
-    if @ui.list.append? and _.isFunction @ui.list.append
+    if @ui?.list.append? and _.isFunction @ui.list.append
       # make sure it is added last
       @ui.list.append seeAll(seeAllData)
     else
