@@ -74,7 +74,8 @@ nav.top-bar {
     .breadcrumb{
       a{
         font-size: 1.2em;
-        padding-left: 0;
+        // overriding Foundation padding
+        padding-left: 0 !important;
       }
     }
     // passing flex-grow:1 to the search input
