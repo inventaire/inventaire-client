@@ -1,5 +1,5 @@
-books_ = app.lib.books
-wd_ = app.lib.wikidata
+books_ = require 'lib/books'
+wd_ = require 'lib/wikidata'
 WikidataEntity = require './models/wikidata_entity'
 IsbnEntity = require './models/isbn_entity'
 InvEntity = require './models/inv_entity'
@@ -57,7 +57,7 @@ API =
       else _.error "getDomainEntityView err: unknown domain #{prefix}"
 
   getWikidataEntityView: (entity)->
-    switch wd_.type(entity)
+    switch wd_.type entity
       when 'human' then @getAuthorView entity
       when 'book' then @getCommonBookEntityView entity
       # display anything else as a genre

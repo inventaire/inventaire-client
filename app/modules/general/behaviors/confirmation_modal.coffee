@@ -1,7 +1,8 @@
+ConfirmationModal = require '../views/behaviors/confirmation_modal'
+
 module.exports = Marionette.Behavior.extend
   events:
     'askConfirmation': 'askConfirmation'
 
   askConfirmation: (e, options)->
-    view = new app.View.Behaviors.ConfirmationModal options
-    app.layout.modal.show view
+    app.layout.modal.show new ConfirmationModal(options)

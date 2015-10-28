@@ -5,13 +5,14 @@ global.app = {}
 global.window =
   reportErr: ->
 global.location = {}
+global.wdk = require 'wikidata-sdk'
 
 sharedLib = require './shared_lib'
 
 # desactivating logs
 csle = __.require 'lib', 'noop_console'
 
-_ = require 'underscore'
+global._ = _ = require 'underscore'
 
 invUtils = require('inv-utils')(_)
 localLib = __.require('lib', 'utils')(Backbone, _, app, window, csle)

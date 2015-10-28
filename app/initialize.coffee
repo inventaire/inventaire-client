@@ -1,5 +1,7 @@
 envConfig = require('lib/env_config')()
 window.sharedLib = require 'lib/shared/shared_libs'
+# used to allow monkey patching in tests
+window.requireProxy = (path)-> require path
 featureDetection = require 'lib/feature_detection'
 initApp = require './init_app'
 

@@ -4,8 +4,6 @@ module.exports = ->
 
   _ = require('lib/builders/utils')(Backbone, window._, app, window)
 
-  _.extend app, require 'structure'
-
   # gets all the routes used in the app
   app.API = require('api/api')(_)
 
@@ -50,7 +48,7 @@ module.exports = ->
     $ ->
       # initialize layout after user to get i18n data
       app.layout = new AppLayout
-      app.lib.foundation.initialize(app)
+      require('lib/foundation').initialize(app)
       app.execute 'show:user:menu:update'
 
       app.start()

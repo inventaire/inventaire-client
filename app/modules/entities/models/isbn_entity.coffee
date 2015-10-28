@@ -1,4 +1,5 @@
 Entity = require './entity'
+books_ = require 'lib/books'
 
 module.exports = Entity.extend
   prefix: 'isbn'
@@ -29,4 +30,4 @@ module.exports = Entity.extend
   findAPicture: ->
     pictures = @get 'pictures'
     unless _.isEmpty pictures
-      @set 'pictures', pictures.map(app.lib.books.uncurl)
+      @set 'pictures', pictures.map(books_.uncurl)

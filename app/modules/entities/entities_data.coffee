@@ -1,10 +1,12 @@
 WdData = require './lib/wikidata/wikidata_data'
 IsbnData = require './lib/isbn/isbn_data'
 InvData = require './lib/inv/inv_data'
+wd_ = require 'lib/wikidata'
+books_ = require 'lib/books'
 
 module.exports = (app, _, promises_)->
-  wdData = WdData(app, _, app.lib.wikidata, promises_)
-  isbnData = IsbnData(app, _, app.lib.books, promises_)
+  wdData = WdData(app, _, wd_, promises_)
+  isbnData = IsbnData(app, _, books_, promises_)
   invData = InvData(app, _)
 
   get = (prefix, ids, format, refresh)->

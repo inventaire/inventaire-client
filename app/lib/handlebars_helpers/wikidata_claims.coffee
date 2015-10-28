@@ -3,8 +3,7 @@ wdQ = behavior 'wikidata_Q'
 wdP = behavior 'wikidata_P'
 { SafeString } = Handlebars
 
-wd = app.lib.wikidata
-
+wd_ = require 'lib/wikidata'
 linkify_ = require './linkify'
 images_ = require './images'
 platforms_ = require './platforms'
@@ -60,7 +59,7 @@ module.exports =
   imageClaim: (claims, P, omitLabel, inline, data)->
     if claims?[P]?[0]?
       file = claims[P][0]
-      src = wd.wmCommonsSmallThumb file, 200
+      src = wd_.wmCommonsSmallThumb file, 200
       return new SafeString "<img src='#{src}'>"
 
   stringClaim: (args...)->

@@ -1,3 +1,5 @@
+wd_ = requireProxy 'lib/wikidata'
+books_ = requireProxy 'lib/books'
 regex_ = sharedLib 'regex'
 tests_ = sharedLib('tests')(regex_)
 
@@ -35,9 +37,9 @@ module.exports = (Backbone, _, app, window, csle)->
         if prefix? and id?
           switch prefix
             when 'wd'
-              if app.lib.wikidata.isWikidataId id then return true
-            when 'isbn'
-              if app.lib.books.isIsbn id then return true
+              if wd_.isWikidataId id then return true
+            when  isbn
+              if books_.isIsbn id then return true
             when 'inv'
               if @isUuid(id) then return true
       return false
@@ -88,8 +90,8 @@ module.exports = (Backbone, _, app, window, csle)->
       [prefix, id] = str.split ':'
       if prefix? and id?
         switch prefix
-          when 'wd' then return wd.isWikidataId(id)
-          when 'isbn' then return app.lib.books.isNormalizedIsbn(id)
+          when 'wd' then return wd.isWikidataId id
+          when 'isbn' then return books_.isNormalizedIsbn id
       return false
 
     uniq: (array)->

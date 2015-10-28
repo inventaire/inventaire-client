@@ -1,6 +1,8 @@
 ItemComments = require './item_comments'
 ItemTransactions = require './item_transactions'
 EntityData = require 'modules/entities/views/entity_data'
+PicturePicker = require 'modules/general/views/behaviors/picture_picker'
+ChangePicture = require 'modules/general/views/behaviors/change_picture'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
 
@@ -62,7 +64,7 @@ module.exports = Marionette.LayoutView.extend
       hidePicture: true
 
   showPicture: ->
-    picture = new app.View.Behaviors.ChangePicture {model: @model}
+    picture = new ChangePicture {model: @model}
     @pictureRegion.show picture
 
   events:
@@ -77,7 +79,7 @@ module.exports = Marionette.LayoutView.extend
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
   changePicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker
+    picturePicker = new PicturePicker
       pictures: @model.get('pictures')
       # limit: 3
       limit: 1

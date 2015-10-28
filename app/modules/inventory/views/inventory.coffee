@@ -1,5 +1,6 @@
 SideNav = require '../side_nav/views/side_nav'
 # FollowedEntitiesList = require './followed_entities_list'
+ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
 Controls = require './controls'
 Group = require 'modules/network/views/group'
@@ -106,7 +107,7 @@ module.exports = Marionette.LayoutView.extend
 
   getItemsListView: ->
     switch app.request 'inventory:layout'
-      when 'cascade' then app.View.Items.List
+      when 'cascade' then ItemsList
       when 'grid' then ItemsGrid
       else throw new Error('unknow items list layout')
 

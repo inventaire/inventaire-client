@@ -1,6 +1,7 @@
 EntityData = require './entity_data'
 EntityActions = require './entity_actions'
 wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
+ItemsList = require 'modules/inventory/views/items_list'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/entity_show'
@@ -57,8 +58,8 @@ showItems = (baseCollection, region, uri)->
   # uri can be found with filterByText as 'entity' is in item 'matches'.
   # baseCollection is thus expected to have a .filtered collection attached
   items = baseCollection.filtered.resetFilters().filterByText uri
-  itemsList = new app.View.Items.List {collection: items}
-  region.show itemsList
+  region.show new ItemsList
+    collection: items
 
 backMessage = ->
   if _.lastRouteMatch(/search\?/)

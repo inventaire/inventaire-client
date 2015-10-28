@@ -2,6 +2,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
 error_ = require 'lib/error'
+PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
@@ -67,7 +68,7 @@ module.exports = Marionette.ItemView.extend
       selector: selector
 
   changePicture: ->
-    app.layout.modal.show new app.View.Behaviors.PicturePicker
+    app.layout.modal.show new PicturePicker
       pictures: @model.get 'picture'
       save: @_savePicture.bind(@)
       limit: 1

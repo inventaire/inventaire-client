@@ -1,4 +1,4 @@
-books_ = app.lib.books
+books_ = require 'lib/books'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = (data)->

@@ -1,5 +1,5 @@
 Entity = require './entity'
-wd = app.lib.wikidata
+wd_ = require 'lib/wikidata'
 wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 error_ = require 'lib/error'
@@ -31,7 +31,7 @@ module.exports = Entity.extend
       @setAttributes @attributes, lang
       @rebaseClaims()
       # depends on the freshly defined @_updates.claims
-      @type = wd.type @_updates
+      @type = wd_.type @_updates
       @findAPicture()
 
       @set @_updates
@@ -88,7 +88,7 @@ module.exports = Entity.extend
       # aliasing should happen after rebasing
       # as aliasing needs strings or numbers to test value uniqueness
       claims = wdk.simplifyClaims(claims)
-      @_updates.claims = wd.aliasingClaims(claims)
+      @_updates.claims = wd_.aliasingClaims(claims)
     else console.warn 'no claims found', @
 
   setWikiLinks: (lang)->
@@ -100,14 +100,14 @@ module.exports = Entity.extend
     @originalLang = @_updates.claims?.P364?[0]
     sitelinks = @get('sitelinks')
     if sitelinks?
-      @_updates.wikipedia = wd.sitelinks.wikipedia(sitelinks, lang)
+      @_updates.wikipedia = wd_.sitelinks.wikipedia(sitelinks, lang)
 
-      @_updates.wikisource = wd.sitelinks.wikisource(sitelinks, lang)
+      @_updates.wikisource = wd_.sitelinks.wikisource(sitelinks, lang)
 
   getWikipediaExtract: (lang)->
     title = @get('sitelinks')?["#{lang}wiki"]?.title
     if title?
-      @waitForExtract = wd.wikipediaExtract(lang, title)
+      @waitForExtract = wd_.wikipediaExtract(lang, title)
       .then (extract)=>
         if extract?
           @set 'extract', extract
@@ -152,7 +152,7 @@ module.exports = Entity.extend
       @save()
 
   setCommonsPicture: (title)->
-    wd.wmCommonsThumbData title, 1000
+    wd_.wmCommonsThumbData title, 1000
     .then (data)=>
       { thumbnail, author, license } = data
 

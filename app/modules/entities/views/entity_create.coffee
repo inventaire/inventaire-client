@@ -1,7 +1,8 @@
-books_ = app.lib.books
+books_ = require 'lib/books'
 forms_ = require 'modules/general/lib/forms'
 entityDataTests = require '../lib/inv/entity_data_tests'
 EntityActions = require './entity_actions'
+PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/entity_create'
@@ -80,7 +81,7 @@ module.exports = Marionette.LayoutView.extend
         @model.set 'title', data
 
   addPicture: ->
-    picturePicker = new app.View.Behaviors.PicturePicker
+    picturePicker = new PicturePicker
       pictures: @model.get 'pictures'
       # limit: 3
       limit: 1

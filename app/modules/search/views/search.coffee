@@ -3,9 +3,10 @@ Entities = require 'modules/entities/collections/entities'
 WikidataEntities = require 'modules/entities/collections/wikidata_entities'
 IsbnEntities = require 'modules/entities/collections/isbn_entities'
 FindByIsbn = require './find_by_isbn'
+ItemsList = require 'modules/inventory/views/items_list'
 EntityCreate = require 'modules/entities/views/entity_create'
-wd_ = app.lib.wikidata
-books_ = app.lib.books
+wd_ = require 'lib/wikidata'
+books_ = require 'lib/books'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 searchInputData = require 'modules/general/views/menu/search_input_data'
 
@@ -49,7 +50,7 @@ module.exports = Marionette.LayoutView.extend
   showItems: ->
     collection = Items.filtered.resetFilters().filterByText @query
     if collection.length > 0
-      @inventoryItems.show new app.View.Items.List
+      @inventoryItems.show new ItemsList
         collection: collection
         header:
           text: 'matching books in your network'

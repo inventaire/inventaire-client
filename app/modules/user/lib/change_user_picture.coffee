@@ -1,7 +1,8 @@
 regex_ = sharedLib 'regex'
+PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 
 module.exports = ->
-  app.layout.modal.show new app.View.Behaviors.PicturePicker
+  app.layout.modal.show new PicturePicker
     pictures: app.user.get 'picture'
     save: savePicture
     crop: true

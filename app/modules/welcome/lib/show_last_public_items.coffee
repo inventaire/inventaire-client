@@ -1,3 +1,6 @@
+Items = require 'modules/inventory/collections/items'
+ItemsList = require 'modules/inventory/views/items_list'
+
 module.exports = (region)->
   _.preq.get app.API.items.lastPublicItems
   .catch _.preq.catch404
@@ -9,8 +12,5 @@ displayPublicItems = (region, res)->
 
   app.users.public.add res.users
 
-  items = new app.Collection.Items
-  items.add res.items
-
-  region.show new app.View.Items.List
-    collection: items
+  region.show new ItemsList
+    collection: new Items res.items

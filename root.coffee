@@ -1,5 +1,12 @@
 appRoot = require('app-root-path').path
 
+global.requireProxy = requireProxy = (path)->
+  # ex: converts 'lib/wikidata' into #{appRoute}/client/app/lib/wikidata
+  if /^[a-z]+\/[a-z_]+/.test path
+    require "#{appRoot}/client/app/#{path}"
+  else
+    require path
+
 module.exports =
   paths:
     server: '/server'

@@ -1,7 +1,7 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 FeedbackMenu = require '../views/feedback_menu'
 ShareMenu = require '../views/share_menu'
-{ Loader } = app.View.Behaviors
+Loader = require '../views/behaviors/loader'
 
 module.exports =
   showLoader: (options)->
