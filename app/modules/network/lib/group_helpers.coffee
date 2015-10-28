@@ -6,7 +6,7 @@ module.exports = ->
 
   getGroupModel = (id)->
     group = groups.byId id
-    if group then _.preq.resolve group
+    if group? then _.preq.resolve group
     else getGroupPublicData id
 
   getGroupPublicData = (id)->
@@ -26,13 +26,22 @@ module.exports = ->
     modelIdLabel: 'group'
 
   getGroupsInCommon = (user)->
-    return groups.filter (group)-> group.userStatus(user) isnt 'none'
+    return groups.filter (group)->
+      return group.mainUserIsMember() and group.userStatus(user) is 'member'
+
+  # returns the groups the main user visited in this session
+  # but isnt a member of
+  otherVisitedGroups = (user)->
+    return groups.filter (group)->
+      mainUserIsntMember = not group.mainUserIsMember()
+      return mainUserIsntMember and group.userStatus(user) is 'member'
 
   app.reqres.setHandlers
     'get:group:model': getGroupModel
     'get:group:model:sync': groups.byId.bind(groups)
     'group:update:settings': groupSettingsUpdater
     'get:groups:common': getGroupsInCommon
+    'get:groups:others:visited': otherVisitedGroups
 
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'

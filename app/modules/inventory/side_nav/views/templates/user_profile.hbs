@@ -32,9 +32,13 @@
       {{#if commonGroups}}
         <div class="common-groups">
           <h4>{{i18n 'groups in common:'}}</h4>
-          {{#each commonGroups}}
-            <a class="showGroup" data-id="{{id}}" href="{{pathname}}">{{name}}</a>
-          {{/each}}
+          {{partial 'inventory/side_nav:user_group_link' commonGroups}}
+        </div>
+      {{/if}}
+      {{#if visitedGroups}}
+        <div class="visited-groups">
+          <h4>{{i18n 'groups you just visited that the user is part of:'}}</h4>
+          {{partial 'inventory/side_nav:user_group_link' visitedGroups}}
         </div>
       {{/if}}
     {{/unless}}
