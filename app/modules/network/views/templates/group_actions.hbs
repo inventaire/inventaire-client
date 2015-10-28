@@ -17,3 +17,8 @@
     <span class="check"></span>
   {{/if}}
 </div>
+{{#unless mainUserIsMember}}
+  <p class="restrictions">
+    {{icon 'globe'}} {{i18n "as you are not a member of the group, you can only see members' public books"}}
+  </p>
+{{/unless}}

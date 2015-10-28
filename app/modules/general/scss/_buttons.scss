@@ -12,10 +12,14 @@ $default-button-padding: 1em;
   margin: $margin;
 }
 
+@mixin tiny-button-padding(){
+  padding: 0.2em 0.6em 0.2em 0.6em;
+}
+
 @mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
   @include bg-hover($bg-color, $darken);
   @include text-hover($color);
-  padding: 0.2em 0.6em 0.2em 0.6em;
+  @include tiny-button-padding;
   border-radius: $radius;
 }
 
