@@ -1,5 +1,5 @@
 section#newsletter{
-  background-color: $darker-grey;
+  background-color: darken($darker-grey, 5%);
   p, span{
     color: white;
   }

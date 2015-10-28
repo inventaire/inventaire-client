@@ -1,11 +1,11 @@
 #credits, #legals{
   text-align: center;
-  background-color: #010101;
   a{
     @include link-light;
   }
 }
 #credits{
+  background-color: darken($darker-grey, 10%);
   padding: 2em;
   h5{
     color: #888;
@@ -29,5 +29,6 @@
 }
 
 #legals{
+  background-color: black;
   padding: 0.5em;
 }
