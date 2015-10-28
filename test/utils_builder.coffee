@@ -6,6 +6,7 @@ global.window =
   reportErr: ->
 global.location = {}
 global.wdk = require 'wikidata-sdk'
+global.Promise = require 'bluebird'
 
 sharedLib = require './shared_lib'
 

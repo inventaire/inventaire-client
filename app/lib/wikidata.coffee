@@ -1,11 +1,12 @@
 aliases = sharedLib 'wikidata_aliases'
+preq = requireProxy 'lib/preq'
 
-module.exports = wd_ = sharedLib('wikidata')(_.preq, _, wdk)
+module.exports = wd_ = sharedLib('wikidata')(preq, _, wdk)
 
 # more complete data access: can include author and license
 wd_.wmCommonsThumbData = (file, width=500)->
   width = _.bestImageWidth width
-  _.preq.get app.API.data.commonsThumb(file, width)
+  preq.get app.API.data.commonsThumb(file, width)
 
 wd_.wmCommonsThumb = (file, width=500)->
   wd_.wmCommonsThumbData file, width
@@ -16,7 +17,7 @@ wd_.wmCommonsThumb = (file, width=500)->
 
 
 wd_.wikipediaExtract = (lang, title)->
-  _.preq.get app.API.data.wikipediaExtract(lang, title)
+  preq.get app.API.data.wikipediaExtract(lang, title)
   .then (data)->
     { extract, url } = data
     return sourcedExtract extract, url
@@ -52,5 +53,5 @@ wd_.aliasingClaims = (claims)->
   return claims
 
 wd_.getReverseClaims = (property, value)->
-  _.preq.get app.API.data.wdq 'claim', property, value
+  preq.get app.API.data.wdq 'claim', property, value
   .then wdk.parse.wdq.entities
