@@ -13,6 +13,6 @@ module.exports = ->
       return @instance?
 
     showInstance: ->
-      app.request 'show:item:show:from:model', @instance
+      app.execute 'show:item:show:from:model', @instance
 
   return
