@@ -20,13 +20,6 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @listenTo app.vent, 'inventory:layout:change', @showItemsListStep3.bind(@)
 
-  events:
-    'inview #itemsView': 'toggleControls'
-
-  toggleControls: ->
-    if $('#itemsView').visible(true) then $('#controls').show()
-    else $('#controls').hide()
-
   onShow: ->
     @showSideNav()
     @showItemsListOnceData()
