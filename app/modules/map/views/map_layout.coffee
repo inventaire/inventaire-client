@@ -75,5 +75,7 @@ updateRoute = (map, e)->
 
 showUserOnMap = (map, user)->
   { lat, lng } = user.getPosition()
-  iconContent = userMarker(user.toJSON())
-  map_.addCustomIconMarker map, lat, lng, iconContent
+  # assumes that lat? is true => lng? is true
+  if lat?
+    iconContent = userMarker(user.toJSON())
+    map_.addCustomIconMarker map, lat, lng, iconContent
