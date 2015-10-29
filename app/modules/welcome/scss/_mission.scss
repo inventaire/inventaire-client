@@ -4,8 +4,8 @@ $mission-text-bg-color: rgba(white, 0.9);
 section#mission{
   padding-top: 1em;
   @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
-
   .toggleMission{
+    text-align: center;
     background-color: $mission-text-bg-color;
     @include display-flex(row, center, center);
     margin: 0 1em 1em 1em;
@@ -16,6 +16,10 @@ section#mission{
       padding-left: 0.5em;
       margin-top: -0.2em;
       font-size: 1.6em;
+    }
+    // a hack to force the h2 and .fa to be stuck to one another
+    .pusher{
+      @include flex(1);
     }
   }
   ul.mission{

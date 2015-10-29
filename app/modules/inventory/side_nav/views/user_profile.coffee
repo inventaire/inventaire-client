@@ -37,8 +37,8 @@ module.exports = Marionette.ItemView.extend
     _.extend @model.serializeData(),
       onUserProfile: true
       loggedIn: app.user.loggedIn
-      commonGroups: _.log @commonGroupsData(), 'commonGroupsData'
-      visitedGroups: _.log @visitedGroupsData(), 'visitedGroupsData'
+      commonGroups: @commonGroupsData()
+      visitedGroups: @visitedGroupsData()
 
   onShow: ->
     @makeRoom()
@@ -94,7 +94,6 @@ module.exports = Marionette.ItemView.extend
   _requestGroupData: (request)->
     if @isMainUser then return
     groups = app.request(request, @model).map parseGroupData
-    _.log groups, 'groups?'
     if groups.length > 0 then return groups else return null
 
   showGroup: (e)->
