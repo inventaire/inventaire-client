@@ -21,7 +21,6 @@ module.exports = (_)->
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGESTh"
   moment: (lang)-> "/public/javascripts/moment/#{lang}.js?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
-  newsletter: '/api/newsletter/public'
   test: '/api/tests/public'
   scripts:
     persona: '/public/javascripts/persona-include.js?DIGEST'

@@ -1,4 +1,4 @@
-section#status, section#social-networks, section#newsletter{
+section#status, section#social-networks{
   text-align: center;
   padding: 1em;
   span, p{
@@ -38,6 +38,5 @@ section#status{
 @import "last_public_books";
 @import "mission";
 @import "social_networks";
-@import "newsletter";
 @import "credits";
 @import "embedded_welcome";

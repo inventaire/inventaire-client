@@ -38,7 +38,6 @@ module.exports = ->
   invitation = (action, count)-> trackEvent 'invitation', "invitation:#{action}", 'count', count
   group = (action)-> trackEvent 'group', "group:#{action}"
   item = (action, listing, transaction)-> trackEvent 'item', "item:#{action}", listing, transaction
-  newsletter = -> trackEvent 'newsletter', "newsletter:subscribe"
 
   app.commands.setHandlers
     'track:user:id': setUserId
@@ -54,4 +53,3 @@ module.exports = ->
     'track:invitation': invitation
     'track:group': group
     'track:item': item
-    'track:newsletter:subscribe': newsletter
