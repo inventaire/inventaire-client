@@ -13,4 +13,6 @@
   <Image height="16" width="16" type="image/vnd.microsoft.icon">https://inventaire.io/public/images/icon/favicon-16x16.png</Image>
   <Image height="64" width="64" type="image/png">https://inventaire.io/public/images/icon/favicon-64x64.png</Image>
   <Url type="text/html" template="https://inventaire.io/search?q={searchTerms}"/>
+  <!-- allows automatic update -->
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://inventaire.io/public/opensearch.xml"/>
 </OpenSearchDescription>
