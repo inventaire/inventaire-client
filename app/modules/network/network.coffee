@@ -44,7 +44,6 @@ API =
         title: _.i18n tab
         tab: tab
 
-  # can be used to link to the group board from the group inventory
   showGroupBoard: (id, name)->
     # depend on group_helpers which waitForUserData
     app.request 'waitForUserData'
@@ -58,10 +57,14 @@ API =
     showGroupBoardFromModel model
     app.navigate model.get('boardPathname')
 
-showGroupBoardFromModel = (model)->
-  app.layout.main.show new GroupBoard
-    model: model
-    standalone: true
+showGroupBoardFromModel = (group)->
+  if group.mainUserIsMember()
+    app.layout.main.show new GroupBoard
+      model: group
+      standalone: true
+  else
+    # if the user isnt a member, redirect to the group inventory
+    app.execute 'show:inventory:group', group
 
 networkCounters = ->
   friendsRequestsCount = app.users.otherRequested?.length or 0
