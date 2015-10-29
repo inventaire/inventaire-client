@@ -7,6 +7,11 @@ section#mission{
   .toggleMission{
     text-align: center;
     background-color: $mission-text-bg-color;
+    @include transition(background-color);
+    &:hover{
+      background-color: white;
+      background-color: rgba(white, 0.6);
+    }
     @include display-flex(row, center, center);
     margin: 0 1em 1em 1em;
     h2, .fa{
