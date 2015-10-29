@@ -51,3 +51,11 @@
     resize: none;
   }
 }
+
+@mixin break-line-before(){
+  display:inline;
+  &:before{
+    content:"\a";
+    white-space: pre;
+  }
+}

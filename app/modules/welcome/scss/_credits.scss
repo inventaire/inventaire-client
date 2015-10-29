@@ -6,7 +6,6 @@
 }
 #credits{
   background-color: darken($darker-grey, 10%);
-  padding: 2em;
   h5{
     color: #888;
     margin: 1em;
@@ -25,6 +24,19 @@
       color: white;
     }
     padding-bottom: 1em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    padding: 0.5em 0.5em 2em 0.5em;
+    .contributors{
+      a{
+        @include break-line-before;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    padding: 2em;
   }
 }
 
