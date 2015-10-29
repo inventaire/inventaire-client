@@ -17,9 +17,21 @@
     }
   }
   .restrictions{
+    text-align: center;
     @include radius;
     @include tiny-button-padding;
     background-color: grey;
     margin: 0 0 0.5em 0;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    .actions{
+      a{
+        margin: 0;
+      }
+    }
+    .restrictions{
+      margin: 0.5em;
+    }
   }
 }

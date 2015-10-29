@@ -1,6 +1,9 @@
 <div class="iconButtons">
   {{partial 'unselect'}}
-  <a class="showGroupBoard" href="{{boardPathname}}">{{icon 'cog'}}</a>
+  {{#if mainUserIsMember}}
+    <a class="showGroupBoard" href="{{boardPathname}}"
+    title="{{i18n 'settings'}}">{{icon 'cog'}}</a>
+  {{/if}}
 </div>
 <div
 {{#if picture}}
