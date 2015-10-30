@@ -5,3 +5,6 @@ module.exports =
   warn: noop
   error: noop
   info: noop
+  trace: noop
+  time: noop
+  timeEnd: noop

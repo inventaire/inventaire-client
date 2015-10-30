@@ -93,6 +93,9 @@ module.exports = (_, csle)->
     csle.log "[#{label}] #{@toString()}"
     return @toString()
 
+  proxied =
+    trace: csle.trace.bind(csle)
+    time: csle.time.bind(csle)
+    timeEnd: csle.timeEnd.bind(csle)
 
-
-  return _.extend loggers, partialLoggers
+  return _.extend loggers, partialLoggers, proxied

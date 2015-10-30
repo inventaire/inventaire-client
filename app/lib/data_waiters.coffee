@@ -5,12 +5,14 @@ module.exports = ->
   # (i.e. necessarly false or undefined) while the first call might
   # be well after the event occured
   Waiter = (eventName, ready)->
+    _.time eventName
     fn = ->
       if ready() then return _.preq.resolve()
       else
-        def = Promise.defer()
-        app.vent.once eventName, def.resolve.bind(def)
-        return def.promise
+        return new Promise (resolve, reject)->
+          app.vent.once eventName, ->
+            _.timeEnd eventName
+            resolve()
 
     # always return the same promise
     return _.once fn
