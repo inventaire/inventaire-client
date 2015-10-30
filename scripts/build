@@ -44,3 +44,5 @@ cp public/i18n/dist/*.json public/i18n
 gzip -9 -rf public/i18n/dist/*.json
 # recovering files from backup to have both compressed and non compressed files
 mv public/i18n/*.json public/i18n/dist
+# preparing updated i18n source files for transifex
+transifexify public/i18n/src/{short,full}key/en.json

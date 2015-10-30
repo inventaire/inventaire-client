@@ -53,6 +53,7 @@
     "mocha": "^2.3.3",
     "sass-brunch": "^1.9.1",
     "sinon": "^1.17.1",
+    "transifexify": "^1.0.4",
     "uglify-js-brunch": "^1.7.8"
   }
 }
