@@ -26,13 +26,6 @@
       &.count-0 > .counter, .counter:empty{
         display: none;
       }
-      /*Small screens*/
-      @media screen and (max-width: $smallscreen) {
-        &:not(.count-0){
-          margin-left: 1em;
-        }
-      }
-
       /*Large screens*/
       @media screen and (min-width: $smallscreen) {
         @include display-flex(row, center, center);
