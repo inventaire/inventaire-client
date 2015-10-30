@@ -122,6 +122,13 @@ input[type="password"]{
   max-width: 100%;
 }
 
+.generic-loader{
+  width: 100%;
+  height: 100%;
+  @include display-flex(row, center, center);
+  padding: 2em;
+}
+
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
 }
