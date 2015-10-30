@@ -1,4 +1,7 @@
+{ host } = require 'lib/urls'
+
 metadataUpdate = (key, value)->
+  _.log arguments, 'metadataUpdate'
   updates = _.forceObject key, value
   for k, v of updates
     updateMetadata k, v
@@ -12,7 +15,13 @@ updateMetadata = (key, value, noCompletion)->
     _.warn "missing metadata value: #{key}"
     return
 
+  if key is 'title'
+    # as 'metadata:update' replaced 'document:title:change'
+    # it should now also take the charge of page change side-effects
+    app.execute 'track:page:view', value
+
   value = applyTransformers key, value, noCompletion
+  # _.log value, "#{key} after transformers"
   metaNodes[key].forEach updateNodeContent.bind(null, value)
 
 updateNodeContent = (value, el)->
@@ -54,10 +63,8 @@ possibleFields = Object.keys metaNodes
 transformers =
   title: (value, noCompletion)->
     if noCompletion then value else "#{value} - Inventaire"
-  url: (canonical)-> location.origin + canonical
-  image: (url)->
-    if _.localUrl url then return "#{location.origin}#{url}"
-    else url
+  url: (canonical)-> host + canonical
+  image: (url)-> host + app.API.img(url)
 
 withTransformers = Object.keys transformers
 

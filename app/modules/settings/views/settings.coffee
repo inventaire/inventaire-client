@@ -54,4 +54,4 @@ module.exports = Marionette.LayoutView.extend
 updateDocTitle = (tab)->
   tab = _.I18n tab
   settings = _.I18n 'settings'
-  app.vent.trigger 'document:title:change', "#{tab} - #{settings}"
+  app.execute 'metadata:update:title', "#{tab} - #{settings}"

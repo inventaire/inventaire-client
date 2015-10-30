@@ -1,10 +1,11 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ host } = require 'lib/urls'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/share_menu'
   className: 'shareMenu'
   initialize: ->
-    @href =  encodeURIComponent 'https://inventaire.io' + document.location.pathname
+    @href =  encodeURIComponent host + document.location.pathname
     @title =  encodeURIComponent document.title
   onShow: -> app.execute 'modal:open'
 

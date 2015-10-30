@@ -1,4 +1,5 @@
 module.exports =
+  host: 'https://inventaire.io'
   contact:
     email: 'hello@inventaire.io'
     mailto: 'mailto:hello@inventaire.io'

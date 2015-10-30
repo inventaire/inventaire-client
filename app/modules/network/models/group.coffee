@@ -13,8 +13,10 @@ module.exports = Backbone.Model.extend
 
     { _id, name } = @toJSON()
     uriEscapedGroupName = @getUriEscapedName()
-    pathname = "/groups/#{_id}/#{uriEscapedGroupName}"
+    canonical = "/groups/#{_id}"
+    pathname = "#{canonical}/#{uriEscapedGroupName}"
     @set
+      canonical: canonical
       pathname: pathname
       boardPathname: "/network#{pathname}"
       # non-persisted category used for convinience on client-side
@@ -61,6 +63,7 @@ module.exports = Backbone.Model.extend
     @members
     .map userItemsCount
     .sum()
+
 
   serializeData: ->
     attrs = @toJSON()
@@ -126,6 +129,20 @@ module.exports = Backbone.Model.extend
     else true
 
   userIsLastUser: -> @allMembers().length is 1
+
+  updateMetadata: ->
+    app.execute 'metadata:update',
+      title: @get 'name'
+      description: @getDescription()
+      image: @getCover()
+      url: @get 'canonical'
+
+  getDescription: ->
+    desc = @get 'description'
+    if _.isNonEmptyString desc then desc
+    else _.i18n 'group_default_description', {groupName: @get('name')}
+
+  getCover: -> @get('picture') or defaultCover
 
 userItemsCount = (user)->
   nonPrivate = true

@@ -17,5 +17,4 @@ module.exports = (_, appApi)->
 
       return ''  unless path?
 
-      if _.isLocalImg path then path = path.replace '/img/', ''
       return appApi.img path, width, height

@@ -31,4 +31,4 @@ module.exports = Marionette.LayoutView.extend
     app.navigate "network/#{tab}"
     tab = _.I18n tab
     network = _.I18n 'network'
-    app.vent.trigger 'document:title:change', "#{tab} - #{network}"
+    app.execute 'metadata:update:title', "#{tab} - #{network}"

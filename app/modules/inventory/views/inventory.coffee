@@ -32,9 +32,11 @@ module.exports = Marionette.LayoutView.extend
     @sideNav.show new SideNav
 
   showItemsListOnceData: ->
+    app.execute 'metadata:update:needed'
     # waitForItems to avoid having items displaying undefined values
     app.request('waitForItems')
     .then @showItemsList.bind(@)
+    .then app.execute.bind(app, 'metadata:update:done')
     .catch _.Error('showItemsListOnceData err')
 
   showItemsList: ->
@@ -72,19 +74,20 @@ module.exports = Marionette.LayoutView.extend
     if user?
       prepareUserItemsList user, navigate
       # if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
-      docTitle = eventName = user.get('username')
+      eventName = user.get 'username'
+      user.updateMetadata()
+
     else if group?
       @prepareGroupItemsList group, navigate
-      docTitle = group.get 'name'
       eventName = "group:#{group.id}"
+      group.updateMetadata()
     else
       app.execute 'sidenav:show:base'
       app.execute 'filter:inventory:friends:and:main:user'
-      docTitle = _.I18n 'title_browse_layout'
       eventName = 'general'
+      updateInventoryMetadata()
 
     @showItemsListStep3()
-    app.vent.trigger 'document:title:change', docTitle
     app.vent.trigger 'inventory:change', eventName
 
   showItemsListStep3: ->
@@ -159,3 +162,9 @@ fetchUserPublicItems = (user)->
   removeUserItems = -> app.execute('inventory:remove:user:items', user.id)
   cb = -> app.vent.once('inventory:change', removeUserItems)
   setTimeout cb, 500
+
+updateInventoryMetadata = ->
+  app.execute 'metadata:update',
+    title: _.I18n 'title_browse_layout'
+    url: '/inventory'
+    # keep the general description and image

@@ -11,7 +11,7 @@ module.exports =
     else if selector?
       loader = new Loader
       $(selector).html loader.render()
-      app.docTitle title  if title?
+      app.docTitle(title)  if title?
     else
       app.layout.main.Show new Loader, title
 
