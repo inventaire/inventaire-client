@@ -5,10 +5,11 @@ $transaction-list-width: 20em;
     background-color: #fefefe;
     label{
       color: $grey;
-      margin-left: 0.2em;
       font-size: 1em;
       @include sans-serif;
       text-transform: uppercase;
+      padding: 0.5em 0 0.5em 0.2em;
+      @include shy-border;
       &.toggled{
         .fa-caret-down{
           @include vendor-prefix(transform, rotate(-90deg));
@@ -19,7 +20,7 @@ $transaction-list-width: 20em;
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
     #list{
-        margin-bottom: 1em;
+      margin-bottom: 1em;
     }
   }
 
@@ -29,9 +30,6 @@ $transaction-list-width: 20em;
       @include position(fixed, $topbar-height, null, 0);
       width: $transaction-list-width;
       overflow-y: auto;
-      section{
-        margin-bottom: 1em;
-      }
     }
     #fullview{
       margin-left: $transaction-list-width;
