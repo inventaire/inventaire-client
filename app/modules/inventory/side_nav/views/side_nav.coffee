@@ -1,3 +1,4 @@
+UserLi = require 'modules/users/views/user_li'
 UsersList = require 'modules/users/views/users_list'
 UserProfile = require './user_profile'
 GroupsList = require 'modules/network/views/groups_list'
@@ -11,6 +12,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     one: '#one'
     groupsList: '#groupsList'
+    mainUser: '#mainUser'
 
   ui:
     two: '#two'
@@ -37,6 +39,7 @@ module.exports = Marionette.LayoutView.extend
 
   showBase: ->
     @ui.two.show()
+    @showMainUser()
     @ui.memberSearch.hide()
     @showUsersSearchBase()
     app.request('waitForUserData').then @showGroups.bind(@)
@@ -44,6 +47,9 @@ module.exports = Marionette.LayoutView.extend
   showUser: (userModel)->
     @ui.two.hide()
     @one.show new UserProfile {model: userModel}
+
+  showMainUser: ->
+    @mainUser.show new UserLi {model: app.user}
 
   showGroups: ->
     @ui.groupsSection.show()
