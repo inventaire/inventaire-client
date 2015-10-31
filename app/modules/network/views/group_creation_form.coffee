@@ -31,7 +31,7 @@ module.exports = Marionette.LayoutView.extend
 
   createGroup: ->
     name = @ui.nameField.val()
-    if name?
+    if _.isNonEmptyString name
       _.preq.start()
       .then groups_.validateName.bind(@, name, '#nameField')
       .then groups_.createGroup.bind(null, name)

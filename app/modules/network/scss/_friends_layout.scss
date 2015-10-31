@@ -4,12 +4,11 @@
     @include radius;
     @include shy-border;
     padding: 1em;
+    margin-bottom: 1em;
   }
   textarea{
     min-width: 100%;
     max-width: 100%;
-  }
-  #friendsRequests:not(:empty), #friendsList{
   }
   #usersListHeader{
     @include display-flex(row, center, center);
@@ -65,5 +64,8 @@
     h3{
       padding-bottom: 0.6em;
     }
+  }
+  .loader{
+    display: none;
   }
 }
