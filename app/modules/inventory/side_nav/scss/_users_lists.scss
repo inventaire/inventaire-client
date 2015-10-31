@@ -1,16 +1,16 @@
-#usersListHeader{
-  height: 2em;
+.listHeader{
+  background-color: lighten($darker-grey, 2%);
+  color: $grey;
+  padding-left: 0.5em;
+  @include display-flex(row, center, flex-start);
   h4{
     color: $grey;
     font-size: 1.2em;
   }
-  @include display-flex(row, baseline, flex-start);
   .fa{
     font-size: 1.2em;
     text-align: right;
   }
-  color: $grey;
-  padding-left: 0.5em;
 }
 #usersList{
   @include flex(0, 1, auto);
@@ -25,12 +25,19 @@
 
 /*Small screens*/
 @media screen and (max-width: $smallscreen) {
-  #usersListHeader{
+  .listHeader{
+    @include shy-border;
+    height: 3em;
     .close{
       margin-left: 0.5em;
     }
-    .toggler{
+    .toggler, .loader{
       margin-left: auto;
+    }
+    .toggler{
+      .fa{
+        font-size: 1.6em;
+      }
     }
     cursor: pointer;
     .header{
@@ -45,7 +52,8 @@
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {
-  #usersListHeader{
+  .listHeader{
+    height: 2em;
     .close{
       margin-left: auto;
       margin-right: 1em;

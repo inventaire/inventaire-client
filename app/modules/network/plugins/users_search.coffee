@@ -40,7 +40,7 @@ handlers =
       else @setFriendsHeader()
 
   setFriendsHeader: ->
-    @ui.usersListHeader.find('.header').text _.i18n('friends list')
+    @ui.usersListHeader.find('.header').text _.i18n('friends')
     @ui.usersListHeader.find('.close').hide()
     @callToActionIfFriendsListIsEmpty()
 

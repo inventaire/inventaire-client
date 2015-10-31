@@ -1,8 +1,8 @@
 <div id='usersListHeader' class="listHeader">
-  <h4 class="header"></h4>
+  <h4 class="header">
+    {{!-- default header that will be overriden in JS --}}
+    {{i18n 'friends'}}
+  </h4>
   <a class="close hidden">{{icon 'times'}}</a>
-  <div class="toggler">
-    <a class="listToggler">{{icon 'caret-up'}}</a>
-    <a class="listToggler hidden">{{icon 'caret-down'}}</a>
-  </div>
+  {{partial 'network:list_toggler'}}
 </div>

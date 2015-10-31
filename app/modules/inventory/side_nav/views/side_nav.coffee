@@ -16,10 +16,15 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     two: '#two'
-    listToggler: '.listToggler'
-    usersList: '#usersList'
     groupsSection: 'section#groups'
     memberSearch: '#memberSearch'
+    usersList: '#usersList'
+    groupsList: '#groupsList'
+    listHeaders: '.listHeader'
+    usersToggler: '#usersListHeader .listToggler'
+    groupsToggler: '#groups .listToggler'
+    loader: '.loader'
+    togglers: '.toggler'
 
   initialize: ->
     @initPlugins()
@@ -35,14 +40,35 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'keyup #memberField': 'lazyMemberFilter'
-    'click #usersListHeader': 'toggleUsersList'
+    'click .listHeader': 'toggleListHeader'
+
+  serializeData: ->
+    smallScreen: _.smallScreen()
 
   showBase: ->
+    @_listReady = false
+    @_usersListShown = false
+    @_groupsListShown = false
+
     @ui.two.show()
     @showMainUser()
     @ui.memberSearch.hide()
-    @showUsersSearchBase()
-    app.request('waitForUserData').then @showGroups.bind(@)
+
+    if _.smallScreen()
+      app.request 'waitForUserData'
+      .then @initBaseSmallScreen.bind(@)
+
+    else
+      @showUsersList()
+      app.request 'waitForUserData'
+      .then @showGroupsList.bind(@)
+      # useful in case the screen is resized
+      .then @initBaseSmallScreen.bind(@)
+
+  initBaseSmallScreen: ->
+    @_listReady = true
+    @ui.loader.hide()
+    @ui.togglers.show()
 
   showUser: (userModel)->
     @ui.two.hide()
@@ -51,7 +77,12 @@ module.exports = Marionette.LayoutView.extend
   showMainUser: ->
     @mainUser.show new UserLi {model: app.user}
 
-  showGroups: ->
+  showUsersList: ->
+    @_usersListShown = true
+    @showUsersSearchBase()
+
+  showGroupsList: ->
+    @_groupsListShown = true
     @ui.groupsSection.show()
     @groupsList.show new GroupsList
       collection: app.user.groups.mainUserMember
@@ -79,8 +110,36 @@ module.exports = Marionette.LayoutView.extend
   setGroupHeader: (group)->
     @ui.usersListHeader.find('.header').text _.i18n('group members')
 
-  toggleUsersList: ->
-    if _.smallScreen()
-      @ui.usersList.slideToggle()
-      @ui.listToggler.toggle()
-      @ui.userField.toggle()
+  # used for smallScreens only
+  toggleListHeader: (e)->
+    # checking @_listReady as we don't want the toggler to be toggled
+    # before lists are ready as it would be out of sync
+    if @_listReady and _.smallScreen()
+      { id } = e.currentTarget
+
+      if id is 'usersListHeader'
+        # toggleUserSearch need to be before toggleList as will alter @_usersListShown
+        @toggleUserSearch()
+        @toggleList 'users', @_usersListShown
+
+      else
+        @toggleList 'groups', @_groupsListShown
+
+  toggleList: (name, shown)->
+    if shown
+      @ui["#{name}List"].slideToggle 200
+      @ui["#{name}Toggler"].toggle()
+    else
+      # showing the view will override display:none rules
+      # we just miss the slide effect then
+      @showList name
+      @ui["#{name}Toggler"].toggle()
+
+  showList: (name)->
+    switch name
+      when 'users' then @showUsersList()
+      when 'groups' then @showGroupsList()
+
+  toggleUserSearch: ->
+    if @_usersListShown then @ui.userSearch.toggle()
+    else @ui.userSearch.show()
