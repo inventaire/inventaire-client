@@ -1,3 +1,7 @@
+$iconButtonMinWidth: 4em;
+$lowerIconButtonMinWidth: 4*$iconButtonMinWidth;
+$upperIconButtonMinWidth: 5*$iconButtonMinWidth;
+
 #iconNav{
   background-color: $darker-grey;
   /*Small screens*/
@@ -80,7 +84,7 @@
     @include display-flex(row, baseline, space-around);
     a.iconButton{
       max-width: 50%;
-      min-width: 4em;
+      min-width: $iconButtonMinWidth;
       height: 100%;
       // force items to take the same space
       @include flex(1, 1, 0);
@@ -102,6 +106,15 @@
     padding-bottom: 0.3em;
     .iconButton{
       margin-bottom: 1em;
+    }
+  }
+  // between 4 and 5 times $iconButtonMinWidth
+  // $iconButtonMinWidth grows to force 2 iconButtons
+  // to move to the next row instead of just 1.
+  // will need to be adapted if the number of iconButtons changes
+  @media screen and (min-width: $lowerIconButtonMinWidth) and (max-width: $upperIconButtonMinWidth){
+    a.iconButton{
+      min-width: $iconButtonMinWidth+1.2em;
     }
   }
 }
