@@ -2,7 +2,7 @@
 <div id="two">
   <section id="mainUser"></section>
   <section id="groups">
-    <div class="listHeader">
+    <div id="groupsListHeader" class="listHeader">
       <h4 class="header">{{i18n 'groups'}}</h4>
       {{partial 'network:list_toggler'}}
     </div>
@@ -13,6 +13,13 @@
     {{partial 'network:users_search'}}
   </section>
   {{partial 'network:users_search_input'}}
+  <section id="members" class="hidden">
+    <div  id="membersListHeader" class="listHeader">
+      <h4 class="header">{{i18n 'group members'}}</h4>
+      {{partial 'network:list_toggler'}}
+    </div>
+    <div id="membersList"></div>
+  </section>
   <div id="memberSearch" class="bottomSearch hidden">
     <input id="memberField" type="text" placeholder="{{i18n 'filter group members'}}...">
   </div>

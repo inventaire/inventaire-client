@@ -55,6 +55,12 @@
     font-weight: 0.6;
     text-align: center;
   }
+  // #groups, #friends, #members: the strong selectors are required
+  // to be stronger than 'section' display:flex rules
+  #groups, #friends, #members, #userSearch, .listHeader{
+    // start hidden
+    display: none;
+  }
 }
 
 
@@ -62,10 +68,6 @@
 @media screen and (max-width: $smallscreen) {
   #sideNav{
     margin-top: 0.2em;
-    #userSearch{
-      // start hidden
-      display: none;
-    }
   }
 }
 

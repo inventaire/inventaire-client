@@ -12,17 +12,27 @@ module.exports = Marionette.LayoutView.extend
   regions:
     one: '#one'
     groupsList: '#groupsList'
+    membersList: '#membersList'
     mainUser: '#mainUser'
 
   ui:
     two: '#two'
-    groupsSection: 'section#groups'
-    memberSearch: '#memberSearch'
-    usersList: '#usersList'
-    groupsList: '#groupsList'
+
     listHeaders: '.listHeader'
+
+    friendsSection: 'section#friends'
+    usersList: '#usersList'
     usersToggler: '#usersListHeader .listToggler'
+
+    groupsSection: 'section#groups'
+    groupsList: '#groupsList'
     groupsToggler: '#groups .listToggler'
+
+    membersSection: 'section#members'
+    membersList: '#membersList'
+    membersToggler: '#members .listToggler'
+    memberSearch: '#memberSearch'
+
     loader: '.loader'
     togglers: '.toggler'
 
@@ -50,9 +60,13 @@ module.exports = Marionette.LayoutView.extend
     @_usersListShown = false
     @_groupsListShown = false
 
-    @ui.two.show()
     @showMainUser()
+
+    @ui.two.show()
+    @ui.membersSection.hide()
     @ui.memberSearch.hide()
+    @ui.groupsSection.show()
+    @ui.friendsSection.show()
 
     if _.smallScreen()
       app.request 'waitForUserData'
@@ -79,6 +93,7 @@ module.exports = Marionette.LayoutView.extend
 
   showUsersList: ->
     @_usersListShown = true
+    @ui.friendsSection.show()
     @showUsersSearchBase()
 
   showGroupsList: ->
@@ -88,24 +103,37 @@ module.exports = Marionette.LayoutView.extend
       collection: app.user.groups.mainUserMember
 
   showGroup: (groupModel)->
+    @_membersListShown = false
+    @_currentGroup = groupModel
     if _.smallScreen()
       @one.show new Group
         model: groupModel
         highlighted: true
-    # else shown by inventory::prepareGroupItemsList
+    else
+      # shown by inventory::prepareGroupItemsList
+      @showMembersList()
+      @ui.userSearch.hide()
+      @ui.memberSearch.show()
+
 
     @ui.groupsSection.hide()
+    @ui.friendsSection.hide()
+    @ui.membersSection.show()
+
     @setGroupHeader groupModel
-    @ui.userSearch.hide()
-    @ui.memberSearch.show()
-    @usersList.show new UsersList
-      collection: groupModel.members
+    @initBaseSmallScreen()
+
+
+  showMembersList: ->
+    @_membersListShown = true
+    @membersList.show new UsersList
+      collection: @_currentGroup.members
       textFilter: true
       emptyViewMessage: "can't find any group member with that name"
 
   updateMemberFilter: (e)->
     text = e.currentTarget.value
-    @usersList.currentView.trigger 'filter:text', text
+    @membersList.currentView.trigger 'filter:text', text
 
   setGroupHeader: (group)->
     @ui.usersListHeader.find('.header').text _.i18n('group members')
@@ -117,13 +145,18 @@ module.exports = Marionette.LayoutView.extend
     if @_listReady and _.smallScreen()
       { id } = e.currentTarget
 
-      if id is 'usersListHeader'
-        # toggleUserSearch need to be before toggleList as will alter @_usersListShown
-        @toggleUserSearch()
-        @toggleList 'users', @_usersListShown
+      switch id
+        when 'usersListHeader'
+          # toggleUserSearch need to be before toggleList as will alter @_usersListShown
+          @toggleUserSearch()
+          @toggleList 'users', @_usersListShown
 
-      else
-        @toggleList 'groups', @_groupsListShown
+        when 'groupsListHeader'
+          @toggleList 'groups', @_groupsListShown
+
+        when 'membersListHeader'
+          @toggleList 'members', @_membersListShown
+          @ui.memberSearch.toggle()
 
   toggleList: (name, shown)->
     if shown
@@ -139,6 +172,7 @@ module.exports = Marionette.LayoutView.extend
     switch name
       when 'users' then @showUsersList()
       when 'groups' then @showGroupsList()
+      when 'members' then @showMembersList()
 
   toggleUserSearch: ->
     if @_usersListShown then @ui.userSearch.toggle()
