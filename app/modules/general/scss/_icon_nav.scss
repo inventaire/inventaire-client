@@ -78,6 +78,23 @@ $upperIconButtonMinWidth: 5*$iconButtonMinWidth;
     &:hover{
       color: white;
     }
+    .double-icon{
+      @include display-flex(row, center, center);
+      color: white;
+      span{
+        // overriding icon_nav span rules
+        margin: 0;
+        // centering
+        margin-left: -0.3em;
+        margin-right: 0.1em;
+      }
+      /*Large screens*/
+      @media screen and (min-width: $smallscreen) {
+        .fa{
+          font-size: 1.2em;
+        }
+      }
+    }
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
