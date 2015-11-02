@@ -33,7 +33,6 @@ module.exports = Marionette.LayoutView.extend
     membersToggler: '#members .listToggler'
     memberSearch: '#memberSearch'
 
-    loader: '.loader'
     togglers: '.toggler'
 
   initialize: ->
@@ -81,7 +80,6 @@ module.exports = Marionette.LayoutView.extend
 
   initBaseSmallScreen: ->
     @_listReady = true
-    @ui.loader.hide()
     @ui.togglers.show()
 
   showUser: (userModel)->

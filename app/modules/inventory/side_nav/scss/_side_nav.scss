@@ -77,9 +77,9 @@
   #sideNav{
     @include position(fixed, $topbar-height, null, 0);
     margin-right: 2px;
-    .toggler, .loader{
-      // $('.toggler .loader').toggle|hide|show should only have effects
-      // on small screens for which .toggler and loader are intended
+    .toggler{
+      // $('.toggler').toggle|hide|show should only have effects
+      // on small screens for which .togglers are intended
       // this !important is meant to make sure they wont appear on large screens
       display: none !important;
     }
