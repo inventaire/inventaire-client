@@ -54,10 +54,6 @@
 @media screen and (min-width: $smallscreen) {
   .listHeader{
     height: 2em;
-    .close{
-      margin-left: auto;
-      margin-right: 1em;
-    }
     .toggler{
       display: none;
     }

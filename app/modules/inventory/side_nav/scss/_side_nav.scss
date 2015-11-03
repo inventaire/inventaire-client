@@ -96,5 +96,9 @@
     .userLi{
       max-width: $sideNavWidth;
     }
+    .close{
+      // hacky. forcing the 'close' cross to stay inside the .listHeader
+      max-height: 1.2em;
+    }
   }
 }
