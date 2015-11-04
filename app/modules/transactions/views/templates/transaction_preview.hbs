@@ -5,7 +5,7 @@
   {{#if onItem}}
     <div>
       {{#if requester.picture}}
-        <img src="{{src requester.picture 48}}">
+        <img src="{{src requester.picture 48}}" alt="{{requester.username}}">
       {{/if}}
     </div>
     <div class="text">
@@ -14,7 +14,7 @@
   {{else}}
     <div>
       {{#if other.picture}}
-        <img src="{{src other.picture 48}}">
+        <img src="{{src other.picture 48}}" alt="{{other.username}}">
       {{/if}}
     </div>
     <div class="text">
