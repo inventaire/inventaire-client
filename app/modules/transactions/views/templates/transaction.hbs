@@ -12,7 +12,7 @@
           {{#if item.entityData.wikidata}}
             {{claim item.entityData.claims 'P50'}}
           {{else}}
-            {{join item.entityData.authors}}
+            {{joinAuthors item.entityData.authors false}}
           {{/if}}
         </div>
       </div>
