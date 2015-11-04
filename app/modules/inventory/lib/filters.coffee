@@ -1,11 +1,14 @@
+itemsFiltered = require './items_filtered'
+
 module.exports =
   initialize: (app)->
 
-    Items.filtered = new FilteredCollection Items
+    Items.filtered = itemsFiltered Items
 
-    Items.personal.filtered = new FilteredCollection Items.personal
-    Items.friends.filtered = new FilteredCollection Items.friends
-    Items.public.filtered = new FilteredCollection Items.public
+    Items.personal.filtered = itemsFiltered Items.personal
+    Items.friends.filtered = itemsFiltered Items.friends
+    Items.public.filtered = itemsFiltered Items.public
+    Items.network.filtered = itemsFiltered Items.network
 
     app.commands.setHandlers
       'filter:inventory:owner': filterInventoryByOwner

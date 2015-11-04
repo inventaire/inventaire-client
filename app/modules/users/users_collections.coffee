@@ -51,12 +51,11 @@ module.exports = (app)->
   return users
 
 keepMembersListUpdated = (collection)->
-  updater = lazyMembersListUpdater collection
-  collection.on 'add remove', updater
-  updater()
-
-updateMembersList = (collection)->
+  # init list
   collection.list = collection.map (member)-> member.id
 
-lazyMembersListUpdater = (collection)->
-  _.debounce updateMembersList.bind(null, collection), 100
+  # keep list updated
+  addMember = (model)-> collection.list.push model.id
+  removeMember = (model)-> collection.list = _.without(collection.list, model.id)
+  collection.on 'add', addMember
+  collection.on 'remove', removeMember

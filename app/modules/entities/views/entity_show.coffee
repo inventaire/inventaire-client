@@ -45,10 +45,7 @@ module.exports = Marionette.LayoutView.extend
 
   showEntityActions: -> @entityActions.show new EntityActions {model: @model}
 
-  # /!\ dispays public items!!
-  # => should use an Items.network.filteredByEntity collection
-  showLocalItems: -> showItems Items, @localItems, @uri
-  # => should use an Items.nonNetwork.filteredByEntity collection
+  showLocalItems: -> showItems Items.network, @localItems, @uri
   showPublicItems: -> showItems Items.public, @publicItems, @uri
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
@@ -57,7 +54,7 @@ showItems = (baseCollection, region, uri)->
   # using the filtered collection to refresh on Collection 'add' events
   # uri can be found with filterByText as 'entity' is in item 'matches'.
   # baseCollection is thus expected to have a .filtered collection attached
-  items = baseCollection.filtered.resetFilters().filterByText uri
+  items = baseCollection.filtered.resetFilters().filteredByEntityUri uri
   region.show new ItemsList
     collection: items
 
@@ -67,6 +64,7 @@ backMessage = ->
 
 fetchPublicItems = (uri)->
   app.request 'get:entity:public:items', uri
+  .then _.Log('public items')
   .then spreadPublicData
   .catch _.Error('fetchPublicItems')
 
