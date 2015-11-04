@@ -1,3 +1,5 @@
+allowPersistantQuery = require './allow_persistant_query'
+
 module.exports = (app, _)->
 
   get = (key)-> getQuery()?[key]
@@ -15,17 +17,21 @@ module.exports = (app, _)->
     # get info on new route
     [newRoute, newQuery] = newRoute.split '?'
     newQuery = _.parseQuery newQuery
-    # keep query elements for certain route sections
-    # typically: keep redirect parameter for signup/login routes
-    if _.routeSection(newRoute) in sectionAllowPersistantQuery
-      # get info on current query
-      currentQuery = getQuery()
-      # keep only whitelisted persistant parameters
-      currentQuery = _.pick currentQuery, persistantQuery
-      # extend persisting current parameters with new parameters
-      newQuery = _.extend currentQuery, newQuery
-    return _.buildPath(newRoute, newQuery)
 
+    currentQuery = getQuery()
+    keptQuery = {}
+
+    newRouteSection = _.routeSection newRoute
+
+    for k, v of currentQuery
+      test = allowPersistantQuery[k]
+      # discard queries that have no tests in allowPersistantQuery
+      if test?(newRouteSection)
+        keptQuery[k] = v
+
+    # extend persisting current parameters with new parameters
+    newQuery = _.extend keptQuery, newQuery
+    return _.buildPath newRoute, newQuery
 
   getPathname = ->
     # remove the first character: '/'
@@ -41,12 +47,3 @@ module.exports = (app, _)->
 
   app.commands.setHandlers
     'route:querystring:set': set
-
-persistantQuery = [
-  'redirect'
-]
-
-sectionAllowPersistantQuery = [
-  'signup'
-  'login'
-]
