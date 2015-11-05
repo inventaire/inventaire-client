@@ -33,4 +33,6 @@ API.search = (query)->
 
 API.searchFromQueryString = (querystring)->
   { q } = _.parseQuery querystring
+  # replacing "+" added that the browser search might have added
+  q = q.replace /\+/g, ' '
   API.search q
