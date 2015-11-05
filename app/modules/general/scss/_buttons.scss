@@ -29,6 +29,13 @@ $default-button-padding: 1em;
   margin: $default-button-margin;
 }
 
+.dangerous-button{
+  @include dangerous-button;
+  @include radius;
+  @include serif;
+  font-weight: bold;
+}
+
 .tiny-success-button{
   @include tiny-button($success-color);
 }

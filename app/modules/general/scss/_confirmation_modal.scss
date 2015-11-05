@@ -3,4 +3,10 @@
   .check{
     margin-top: 1em;
   }
+  label{
+    text-align: left;
+    margin-top: 1em;
+    font-size: 1.1em;
+  }
+  @include rigid-textarea;
 }

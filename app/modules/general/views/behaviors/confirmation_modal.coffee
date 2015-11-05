@@ -4,18 +4,22 @@ module.exports = Marionette.ItemView.extend
   onShow: -> app.execute 'modal:open'
   behaviors:
     SuccessCheck: {}
+    ElasticTextarea: {}
 
   serializeData: ->
-    confirmationText: @options.confirmationText
-    warningText: @options.warningText
+    data = @options
+    data.yes or= 'yes'
+    data.no or= 'no'
+    return data
 
   events:
     'click a#yes': 'yesClick'
     'click a#no': 'close'
 
   yesClick: ->
-    {action, selector} = @options
+    { action, selector } = @options
     _.preq.start()
+    .then @executeFormAction.bind(@)
     .then action
     .then @success.bind(@)
     .catch @error.bind(@)
@@ -36,3 +40,10 @@ module.exports = Marionette.ItemView.extend
   stopLoading: (selector)->
     if selector? then $(selector).trigger('stopLoading')
     else _.warn 'no selector was provided'
+
+  executeFormAction: ->
+    { formAction } = @options
+    if formAction?
+      formContent = @$el.find('#confirmationForm').val()
+      if _.isNonEmptyString formContent
+        return formAction formContent

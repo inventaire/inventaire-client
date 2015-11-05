@@ -10,7 +10,7 @@ Promise.onPossiblyUnhandledRejection (err)->
   window.reportErr report
   console.error label, stack, clue
 
-module.exports =
+module.exports = preq =
   get: (url, options)->
     CORS = options?.CORS
     if _.localUrl(url) or CORS then jqPromise = $.get(url)
@@ -36,8 +36,7 @@ module.exports =
         cb = -> resolve res
         setTimeout cb, ms
 
-
-wrap = (jqPromise, url)->
+preq.wrap = wrap = (jqPromise, url)->
   return new Promise (resolve, reject)->
     jqPromise
     .then resolve
@@ -52,4 +51,3 @@ rewriteError = (err, url)->
     statusText: statusText
     responseText: responseText
     responseJSON: responseJSON
-

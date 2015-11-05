@@ -59,6 +59,7 @@ module.exports = Marionette.ItemView.extend
     'change select#languagePicker': 'changeLanguage'
     'click a#changePicture': 'changePicture'
     'click a#emailConfirmationRequest': 'emailConfirmationRequest'
+    'click #deleteAccount': 'askDeleteAccountConfirmation'
 
   # USERNAME
   updateUsername: ->
@@ -190,6 +191,23 @@ module.exports = Marionette.ItemView.extend
   # PICTURE
   changePicture: require 'modules/user/lib/change_user_picture'
 
+  askDeleteAccountConfirmation: ->
+    args = { username: @model.get('username') }
+    @$el.trigger 'askConfirmation',
+      confirmationText: _.i18n('delete_account_confirmation', args)
+      warningText: _.i18n 'delete_account_warning'
+      action: @model.deleteAccount.bind(@model)
+      selector: '#usernameGroup'
+      formAction: sendDeletionFeedback
+      formLabel: "that would really help us if you could say a few words about why you're leaving:"
+      formPlaceholder: "our love wasn't possible because"
+      yes: 'delete my account'
+      no: 'cancel'
+
+sendDeletionFeedback = (message)->
+  _.preq.post app.API.feedback,
+    subject: '[account deletion]'
+    message: message
 
 testAttribute = (attribute, value, validator_)->
   selector = "##{attribute}Field"

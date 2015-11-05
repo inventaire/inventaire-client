@@ -2,8 +2,12 @@
 {{#if warningText}}
   <p class="grey">{{icon 'warning'}}&nbsp;{{{warningText}}}</p>
 {{/if}}
+{{#if formLabel}}
+  <label for="confirmationForm">{{i18n formLabel}}</label>
+  <textarea id="confirmationForm" placeholder="{{i18n formPlaceholder}}..."></textarea>
+{{/if}}
 
-<a id="no" class="button grey radius bold">{{i18n 'no'}}</a>
-<a id="yes" class="button alert radius bold">{{i18n 'yes'}}</a>
+<a id="no" class="button grey radius bold">{{i18n no}}</a>
+<a id="yes" class="button alert radius bold">{{i18n yes}}</a>
 
 <div class="check"></div>

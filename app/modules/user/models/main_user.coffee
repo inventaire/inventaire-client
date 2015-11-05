@@ -51,3 +51,9 @@ module.exports = UserCommons.extend
 
   inventoryLength: (nonPrivate)->
     if @itemsFetched then app.request 'inventory:main:user:length', nonPrivate
+
+  deleteAccount: ->
+    console.log 'starting to play "Somebody that I use to know" and cry a little bit'
+
+    _.preq.wrap @destroy()
+    .then -> app.execute 'logout'

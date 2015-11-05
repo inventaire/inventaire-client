@@ -1,14 +1,17 @@
 <h3 class="first">{{i18n 'profile pic'}}</h3>
 {{partial 'general:behaviors:change_picture' this}}
 
+<hr>
 <h3>{{i18n 'language'}}</h3>
 {{partial 'user:language_picker' this 'check'}}
 
+<hr>
 <h3 class="with-tip capitalized">{{i18n 'username'}}</h3>
 {{tip 'username_tip' 'right'}}
 {{input usernamePicker}}
 
 {{#if localCreationStrategy}}
+  <hr>
   <h3>{{i18n 'email'}}</h3>
 
   <p class="note">
@@ -35,5 +38,12 @@
 {{/if}}
 
 {{#if hasPassword}}
+  <hr>
   {{partial 'settings:password_update_input' this 'check'}}
 {{/if}}
+
+<hr>
+
+<div class="deleteAccount">
+  <a id="deleteAccount" class="dangerous-button">{{i18n 'delete your account'}}</a>
+</div>
