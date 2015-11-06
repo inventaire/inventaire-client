@@ -201,7 +201,7 @@ module.exports = Marionette.ItemView.extend
       formAction: sendDeletionFeedback
       formLabel: "that would really help us if you could say a few words about why you're leaving:"
       formPlaceholder: "our love wasn't possible because"
-      yes: 'delete my account'
+      yes: 'delete your account'
       no: 'cancel'
 
 sendDeletionFeedback = (message)->
