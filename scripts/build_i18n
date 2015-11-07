@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+echo -e '\e[0;30mupdate_i18n_all\e[0m'
+./scripts/update_i18n_all
+
+echo -e '\e[0;30mgzip all i18n files\e[0m'
+# backup i18n json files in public/i18n
+cp public/i18n/dist/*.json public/i18n
+# gzip all i18n json, thus removing files
+gzip -9 -rf public/i18n/dist/*.json
+# recovering files from backup to have both compressed and non compressed files
+mv public/i18n/*.json public/i18n/dist
+# preparing updated i18n source files for transifex
+transifexify public/i18n/src/{short,full}key/en.json
