@@ -4,10 +4,11 @@ module.exports =
       action: 'search'
       search: search
       language: app.user.lang
-  getImages: (data)->
+  getImages: (entityUri, data)->
     _.buildPath "/api/entities/public",
       action: 'get-images'
-      data: _.piped(data)
+      entity: entityUri
+      data: data
   isbns: (isbns)->
     _.buildPath '/api/entities/public',
       action: 'get-isbn-entities'
