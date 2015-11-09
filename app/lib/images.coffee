@@ -94,6 +94,9 @@ handlers =
     .then _.Log('image del res')
     .catch _.Error('image del err')
 
+  getNonResizedUrl: (url)->
+    url.replace /\/img\/\d+x\d+\//, '/img/'
+
 getResizedDimensions = (width, height, maxSize)->
   if width > height
     if width > maxSize

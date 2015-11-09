@@ -76,6 +76,11 @@ module.exports = Marionette.CompositeView.extend
   fetchUrlPicture: (e)->
     url = @ui.urlInput.val()
 
+    # use the full definition image:
+    # - allow better resolution if the url size was small
+    # - allow to host the image only once has the image hash will be the same
+    url = images_.getNonResizedUrl url
+
     _.preq.start()
     .then validateUrlInput.bind(null, url)
     .then images_.getUrlDataUrl.bind(null, url)
