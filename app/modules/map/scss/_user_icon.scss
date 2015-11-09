@@ -1,12 +1,13 @@
 $userIconHeight: 60px;
 $userIconWidth: 64px;
+$arrowHeight: 10px;
 
 .user-icon{
   min-height: $userIconHeight;
   min-width:  $userIconWidth;
   // by default, the icon has it's coordinates for top-left point
   // margins hereafter compensate to make the icon point at it
-  margin-top: -$userIconHeight;
+  margin-top: -$userIconHeight - $arrowHeight ;
   margin-left: -$userIconWidth/2;
   text-align: center;
   background-color: white;
