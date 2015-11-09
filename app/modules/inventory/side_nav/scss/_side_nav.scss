@@ -89,7 +89,7 @@
       @include display-flex(column, left, flex-end);
       @include flex(1, 1, 0);
     }
-    #groupsList, #usersList{
+    #groupsList, #usersList, #membersList{
       overflow: auto;
       max-height: 40vh;
     }
