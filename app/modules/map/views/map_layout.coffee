@@ -9,8 +9,12 @@ module.exports = Marionette.LayoutView.extend
   regions:
     list: '#list'
 
+  behaviors:
+    PreventDefault: {}
+
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker'
+    'click .userIcon a': 'showUserInventory'
 
   initialize: ->
     @listenTo app.user, 'change:position', @render.bind(@)
@@ -68,6 +72,11 @@ module.exports = Marionette.LayoutView.extend
   showItemsList: (items)->
     @list.show new ItemsList
       collection: new Items items
+
+  showUserInventory: (e)->
+    unless _.isOpenedOutside e
+      username = e.currentTarget.href.split('/').last()
+      app.execute 'show:inventory:user', username
 
 updateRoute = (map, e)->
   { lat, lng } = e.target.getCenter()

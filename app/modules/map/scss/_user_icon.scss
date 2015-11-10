@@ -2,7 +2,7 @@ $userIconHeight: 60px;
 $userIconWidth: 64px;
 $arrowHeight: 10px;
 
-.user-icon{
+.userIcon{
   min-height: $userIconHeight;
   min-width:  $userIconWidth;
   // by default, the icon has it's coordinates for top-left point
@@ -10,7 +10,7 @@ $arrowHeight: 10px;
   margin-top: -$userIconHeight - $arrowHeight ;
   margin-left: -$userIconWidth/2;
   text-align: center;
-  background-color: white;
+  @include bg-hover(white, 10%);
   @include radius;
   @include shy-border;
   img{
@@ -29,12 +29,12 @@ $arrowHeight: 10px;
 
 
 // adapted from http://cssarrowplease.com
-.user-icon {
+.userIcon {
   position: relative;
   background: $lighter-grey;
   box-shadow: 10px 10px 10px rgba(black, 0.5);
 }
-.user-icon:after{
+.userIcon:after{
   top: 100%;
   left: 50%;
   content: " ";
