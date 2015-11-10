@@ -1,5 +1,9 @@
-<section id="map" class="map-container"></section>
-<section id="list"></section>
+{{#if hasPosition}}
+  <section id="map" class="map-container"></section>
+  <section id="list"></section>
+{{else}}
+  {{partial 'map:map_welcome'}}
+{{/if}}
 <section id="position-picker">
   {{partial 'map:position_picker_button'}}
 </section>

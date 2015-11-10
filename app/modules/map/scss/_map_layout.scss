@@ -5,6 +5,24 @@
     padding: 1em;
   }
 }
+.map-welcome{
+  text-align: center;
+  @include display-flex(column, center, center);
+  padding-top: 2em;
+  p{
+    padding-top: 0.5em;
+  }
+  .fa{
+    color: grey;
+  }
+  .fa-map-marker{
+    font-size: 5em;
+  }
+  .fa-arrow-down{
+    padding-top: 0.2em;
+    font-size: 2em;
+  }
+}
 
 .map-container{
   min-height: 60vh;

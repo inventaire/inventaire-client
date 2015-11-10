@@ -12,6 +12,15 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker'
 
+  initialize: ->
+    @listenTo app.user, 'change:position', @render.bind(@)
+
+  onRender: ->
+    if app.user.hasPosition() then @initMap()
+
+  serializeData: ->
+    hasPosition: app.user.hasPosition()
+
   initMap: ->
     @findPosition()
     .then @_initMap.bind(@)
