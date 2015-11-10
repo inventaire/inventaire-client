@@ -1,5 +1,4 @@
 username_ = require 'modules/user/lib/username_tests'
-email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
