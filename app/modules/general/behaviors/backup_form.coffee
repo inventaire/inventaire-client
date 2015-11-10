@@ -8,7 +8,7 @@ module.exports = Marionette.Behavior.extend
       byName: {}
 
   backup: (e)->
-    _.log @_backup, 'backup form data'
+    # _.log @_backup, 'backup form data'
     { id, value, type, name } = e.currentTarget
 
     unless _.isNonEmptyString value then return

@@ -171,6 +171,7 @@ initializeInventoriesHandlers = (app)->
       API.showGeneralInventory()
       app.navigate 'inventory'
 
+    # user can be either a username or a user model
     'show:inventory:user': (user)->
       API.showUserInventory user, true
 
