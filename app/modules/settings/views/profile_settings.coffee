@@ -41,6 +41,8 @@ module.exports = Marionette.ItemView.extend
         classes: 'max-large-profilePic'
       localCreationStrategy: attrs.creationStrategy is 'local'
       hasPassword: attrs.creationStrategy is 'local' or attrs.hasPassword
+      hasPosition: @model.hasPosition()
+      position: @model.getPosition()
 
   usernamePickerData: -> pickerData @model, 'username'
   emailPickerData: -> pickerData @model, 'email'
