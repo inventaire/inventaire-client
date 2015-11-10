@@ -8,7 +8,9 @@ Q =
     'Q8261' #novel / roman
     'Q25379' #theatre play
     'Q7725634' #literary work
+    'Q17518870' #group of literary works
     'Q5185279' #poem
+    'Q2150386' #poetry anthology
     'Q37484' #epic poem
     'Q386724' #work
     'Q49084' #short story / conte
