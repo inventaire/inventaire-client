@@ -3,9 +3,15 @@
 <div id="positionPickerMap" class="map-container"></div>
 <p class="tip">{{icon 'info-circle'}}{{i18n 'position_privacy_tip'}}</p>
 <div>
-  <a id="validatePosition" class="button bold radius">
+  {{#if position}}
+    <a id="removePosition" class="button bold radius warning">
+      {{i18n 'delete position'}}
+      <span class="loading"></span>
+    </a>
+  {{/if}}
+  <a id="validatePosition" class="button bold radius success">
     {{i18n 'save position'}}
     <span class="loading"></span>
   </a>
-  <span class='alertBox'></span>
 </div>
+<span class='check alertBox'></span>

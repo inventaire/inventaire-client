@@ -1,7 +1,7 @@
 map_ = require '../lib/map'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ startLoading, stopLoading, Check } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/position_picker'
@@ -9,17 +9,30 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     AlertBox: {}
     Loading: {}
+    SuccessCheck: {}
 
   events:
     'click #validatePosition': 'validatePosition'
+    'click #removePosition': 'removePosition'
+
+  initialize: ->
+    { user } = app
+    @hasPosition = user.hasPosition()
+    @position = user.getPosition()
+
+  serializeData: ->
+    hasPosition: @hasPosition
+    position: @position
 
   onShow: ->
     app.execute 'modal:open', 'large'
     @initMap()
 
   initMap: ->
-    map_.getCurrentPosition()
-    .then @_initMap.bind(@)
+    if @hasPosition then @_initMap @position
+    else
+      map_.getCurrentPosition()
+      .then @_initMap.bind(@)
 
   _initMap: (coords)->
     { lat, lng, zoom } = coords
@@ -32,13 +45,17 @@ module.exports = Marionette.ItemView.extend
     { lat, lng } = @marker._latlng
     return [ lat, lng ]
 
-  validatePosition: ->
-    behaviorsPlugin.startLoading.call @, '#validatePosition'
+  validatePosition: -> @_updatePosition @getPosition(), '#validatePosition'
+  removePosition: -> @_updatePosition null, '#removePosition'
+  _updatePosition: (newValue, selector)->
+    startLoading.call @, selector
+
     app.request 'user:update',
       attribute: 'position'
-      value: @getPosition()
+      value: @position = newValue
       selector: '#validatePosition'
-    .then @close.bind(@)
+    .then stopLoading.bind(@)
+    .then Check.call(@, '_updatePosition', @close.bind(@))
     .catch error_.Complete('.alertBox')
     .catch forms_.catchAlert.bind(null, @)
 

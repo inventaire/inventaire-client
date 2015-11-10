@@ -1,4 +1,5 @@
 .profileSettings{
+  text-align: center;
   .note{
     font-family: 'Alegreya Sans';
     color: $grey;
@@ -11,7 +12,8 @@
       display: none;
     }
   }
-  .showPassword{
+  #passwordUpdater{
+    margin: auto;
   }
   #updatePassword{
     @include radius;

@@ -52,14 +52,15 @@ module.exports = Marionette.ItemView.extend
     return languages
 
   events:
+    'click a#changePicture': 'changePicture'
     'click a#usernameButton': 'updateUsername'
     'click a#emailButton': 'updateEmail'
+    'click a#emailConfirmationRequest': 'emailConfirmationRequest'
+    'change select#languagePicker': 'changeLanguage'
     'click a#updatePassword': 'updatePassword'
     'click #forgotPassword': -> app.execute 'show:forgot:password'
-    'change select#languagePicker': 'changeLanguage'
-    'click a#changePicture': 'changePicture'
-    'click a#emailConfirmationRequest': 'emailConfirmationRequest'
     'click #deleteAccount': 'askDeleteAccountConfirmation'
+    'click #showPositionPicker': -> app.execute 'show:position:picker'
 
   # USERNAME
   updateUsername: ->

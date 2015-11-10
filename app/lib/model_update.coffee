@@ -14,8 +14,10 @@ Updater = (fixedOptions)->
     { model, attribute, value, defaultPreviousValue, selector } = options
     previousValue = app.user.get(attribute) or defaultPreviousValue
 
+    # smooths different ways to set a value to null or undefined
+    bothInexistant = (not value?) and (not previousValue?)
 
-    if value is previousValue
+    if bothInexistant or _.isEqual value, previousValue
       _.log options, 'the model is already up-to-date'
       promise = _.preq.resolve()
     else
