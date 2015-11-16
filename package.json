@@ -3,13 +3,14 @@
   "name": "inventaire-client",
   "description": "a libre collaborative resources mapper powered by open-knowledge (client-side)",
   "version": "2.1.0",
+  "license": "AGPL-3.0",
   "homepage": "https://inventaire.io",
   "repository": {
     "type": "git",
     "url": "http://github.com/maxlath/inventaire-client"
   },
   "engines": {
-    "node": "0.10"
+    "node": "~4.2.1"
   },
   "scripts": {
     "postinstall": "./scripts/postinstall",
