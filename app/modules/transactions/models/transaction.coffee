@@ -4,12 +4,11 @@
 # - performed (requester)
 # - returned (owner) (for lending only)
 
-getNextActionsData = require '../lib/next_actions'
+{ getNextActionsData, isArchived } = require '../lib/next_actions'
 Filterable = require 'modules/general/models/filterable'
 Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
-lastState = require '../lib/last_state'
 
 module.exports = Filterable.extend
   url: -> app.API.transactions
@@ -158,4 +157,4 @@ module.exports = Filterable.extend
     if @archived isnt previousStatus
       app.vent.trigger 'transactions:folder:change'
 
-  isArchived: -> @get('state') in lastState[@get('transaction')]
+  isArchived: -> isArchived @
