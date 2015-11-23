@@ -1,3 +1,4 @@
 {
-    "item_request_text_suggestion": "Hallo %{username}! Can ich mit dieses Buch ausleihen?"
+    "item_request_text_suggestion": "Hallo %{username}! Can ich mit dieses Buch ausleihen?",
+    "pitch_no_startup": "Dies ist eine interessensorientierte Untersuchung."
 }

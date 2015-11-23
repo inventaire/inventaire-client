@@ -16,7 +16,6 @@
     "find an object": "trouver un objet",
     "new item": "nouvel objet",
     "help": "aide",
-    "loading": "chargement en cours",
     "sign in with your email": "identifiez-vous avec votre email",
     "create new account": "créer un nouvel compte",
     "already have an account": "j'ai déjà un compte",
@@ -55,5 +54,8 @@
     "already have an account on Inventaire": "Déjà un compte sur Inventaire",
     "edit username": "changer de nom d'utilisateur",
     "or just scan your books' barcode if it's easier!": "ou scannez tout simplement le code-barre de vos livres si c'est plus simple !",
-    "only available from mobiles yet": "seulement depuis un smartphone"
+    "only available from mobiles yet": "seulement depuis un smartphone",
+    "already have an account on Inventaire?": "Déjà un compte sur Inventaire ?",
+    "identify with Mozilla Persona": "s'identifier avec Mozilla Persona",
+    "Mozilla Persona": "Mozilla Persona"
 }

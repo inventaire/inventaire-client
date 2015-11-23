@@ -18,7 +18,6 @@
     "pitch_open_knowledge": "**Information on resources should be free and open for citizens to be empowered in their daily choices**. What if our daily interactions with resources, our transactions, were contributing to make everyone's knowledge on those resources grow? **Inventaire is an experiment to make a step in this direction**, starting by using **[Wikidata](http://wikidata.org/)** - the awesome public database gathering facts for Wikipedia - as a starting point to gather data on resources. All public data gathered in Inventaire will be published under an open licence.",
     "pitch_open_source": "Closed centralized systems grow dependancy and lock-in the user in this system, while contributive, free and open knowledge needs trust to thrive. Trust comes from the possibilty always opened to take what was built together and continue somewhere else, to explore new avenues or if the choices made here start to diverge from what the community expects. That's why **[Inventaire's code](http://github.com/inventaire/inventaire/) is a Free/Open software published under the [AGPL3 licence](http://www.gnu.org/licenses/agpl-3.0.html)**. Today, the Inventaire experiment has a centralized technical architecture as decentralized architectures are hard to achieve: efforts are focused on bringing users value from open knowledge with as little pain as possible, but finding ways to overcome this centralization is part of the trip.",
     "pitch_your_data": "For advanced users, you can already download your inventory data at any time: download it as a raw JSON file or make a backup to a database you control (using [PouchDB](http://pouchdb.com/) replication). In the future, data should be interoperable and synchronizable with Personal Data Stores. In the current architecture, the user has to entrust Inventaire with all her data: those private data won't be shared with any third party",
-    "pitch_no_startup": "This is general interest research.",
     "on_wikipedia": "%{label} on Wikipedia",
     "contribute_with_code_or_ideas": "Contribute with [code](http://github.com/inventaire/inventaire-client/) or [ideas](https://github.com/inventaire/inventaire-client/issues)",
     "data_export_intro": "The data schema is neither mature nor standardized yet: it is unlikely to be compatible out of the box with any other of your data sets. Still, if the NSA allows itself to have it, you should be allowed to have it too.",
@@ -166,5 +165,11 @@
     "leave_group_confirmation": "Are you sure you want to **leave the group %{groupName}**?",
     "leave_group_warning": "this can be undone later by requesting to join the group again, but you will need an admin's approval",
     "leave_button_disabled": "being the unique group admin, you can't leave the group without naming another admin",
-    "destroy_group_confirmation": "Are you sure you want to destroy the group **%{groupName}**?"
+    "destroy_group_confirmation": "Are you sure you want to destroy the group **%{groupName}**?",
+    "position_privacy_context": "Giving your position allows people nearby to see and request your public books.",
+    "position_privacy_tip": "No need to give your exact address, just pick a position near where you live or work or just where you feel confortable doing book exchanges.",
+    "user_default_description": "see the books %{username} want to give, lend or sell",
+    "group_default_description": "see the books members of the group %{groupName} want to give, lend or sell",
+    "delete_account_confirmation": "Are you sure you want to delete your account \"**%{username}**\"?",
+    "delete_account_warning": "**There is no way back!!!**<br>In case you are at the moment under the effects of alcohol or something, don't touch anything anymore: unplug your computer, turn off your phone, turn it back on to call someone (nop, not your ex) that could put those under lock and give you back the key once you will have sober.<br>In other cases, go ahead. Just be aware that we might cry a little"
 }

@@ -2,5 +2,8 @@
     "username should be 20 character maximum": "Benutzername sollte maximal 20 Zeichen lang sein",
     "delete request": "Anfrage löschen",
     "Read more on Wikipedia": "Mehr auf Wikipedia lesen",
-    "feedbacks": "Rückmeldungen"
+    "feedbacks": "Rückmeldungen",
+    "already have an account on Inventaire?": "hast Du schon einen Benutzerkonto auf Inventaire?",
+    "identify with Mozilla Persona": "mit Mozilla Persona anmelden",
+    "Mozilla Persona": "Mozilla Persona"
 }
