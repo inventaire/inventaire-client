@@ -21,10 +21,10 @@ module.exports = Filterable.extend
     unless entity?
       throw new Error "item should have an associated entity"
 
-    entity = app.request 'normalize:entity:uri', entity
+    entityUri = app.request 'normalize:entity:uri', entity
     # make sure the entity model is loaded in the global Entities collection
     # and thus accessible from a Entities.byUri
-    @waitForEntity = @reqGrab 'get:entity:model', entity, 'entity'
+    @waitForEntity = @reqGrab 'get:entity:model', entityUri, 'entity'
 
     # created will be overriden by the server at item creation
     attrs.created = @get('created') or _.now()
@@ -36,7 +36,7 @@ module.exports = Filterable.extend
     @profilePic = app.request 'get:profilePic:from:userId', owner
     [ @canonical, @pathname ] = @buildPathname attrs
     @restricted = owner isnt app.user.id
-    @entityPathname = app.request 'get:entity:local:href', entity, title
+    @entityPathname = app.request 'get:entity:local:href', entityUri, title
 
   getId: (attrs)->
     if @get('_id') then return @get('_id')
