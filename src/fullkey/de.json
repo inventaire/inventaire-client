@@ -54,7 +54,7 @@
     "title": "Titel",
     "needed": "benötigt",
     "ex: Hamlet": null,
-    "ex: William Shakespeare": null,
+    "ex: William Shakespeare": "Bsp.: William Shakespeare",
     "add a picture": "Bild hinzufügen",
     "add it to my inventory": "füge es zu meinem Inventar hinzu",
     "I have it and it is available for:": "Ich habe es und es ist verfügbar:",
