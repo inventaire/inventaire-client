@@ -2,6 +2,9 @@ exports.config =
   # See http://brunch.io/#documentation for docs.
   notifications: yes
   sourceMaps: true
+  paths:
+    # doc: https://github.com/brunch/brunch/blob/master/docs/config.md#paths
+    watched: ['app', 'vendor']
   files:
     javascripts:
       defaultExtension: "coffee"
