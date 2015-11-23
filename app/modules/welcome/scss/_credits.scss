@@ -12,7 +12,10 @@
   }
   p{
     line-height: 1.2em;
-    margin: 0.4em;
+    // not to large
+    max-width: 40em;
+    // and centered
+    margin: 0.4em auto 0.4em auto;
     color: #888;
     .domain{
       color: #888;
