@@ -1,4 +1,5 @@
 { origin } = location
+{ alternateLangs, territorialize } = require './active_langs'
 
 exports.keepBodyLangUpdated = ->
   updateBodyLang.call @, app.request('i18n:current')
@@ -19,7 +20,7 @@ updateHeadAlternateLangs = (section, route)->
   # they got matches this languages hreflang
   setHreflang route, false, 'en'
   # non-default langs needing a lang querystring
-  [ 'fr', 'de' ].forEach setHreflang.bind(null, route, true)
+  alternateLangs.forEach setHreflang.bind(null, route, true)
 
 setHreflang = (route, withLangQueryString, lang)->
   # can't use location.href directly as it seems
@@ -29,8 +30,6 @@ setHreflang = (route, withLangQueryString, lang)->
   href = "#{origin}/#{route}"
   if withLangQueryString then href = _.setQuerystring href, 'lang', lang
   $("head link[hreflang='#{lang}']").attr 'href', href
-
-
 
 exports.updateOgLocalAlternates = ->
   lang = app.request 'i18n:current'
@@ -42,12 +41,5 @@ exports.updateOgLocalAlternates = ->
   # set the others as 'og:locale:alternate'
   otherTerritories = _.values _.omit(territorialize, lang)
   otherTerritories.forEach (territory)->
-    $('head').append "<meta property='og:locale:alternate' content='#{territory}' />"
-
-
-# 'og:locale' and 'og:locale:alternate' seem to snob 2 letters languages
-# so here is a mapping to most relevant territories
-territorialize =
-  en: 'en_US'
-  fr: 'fr_FR'
-  de: 'de_DE'
+    $('head')
+    .append "<meta property='og:locale:alternate' content='#{territory}' />"
