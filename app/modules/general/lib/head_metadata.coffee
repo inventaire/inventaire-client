@@ -74,12 +74,14 @@ withTransformers = Object.keys transformers
 metadataUpdateNeeded = -> window.prerenderReady = false
 metadataUpdateDone = -> window.prerenderReady = true
 
-initTitle = ->
-  punchline = _.i18n 'your friends and communities are your best library'
-  updateTitle "Inventaire - #{punchline}", true
+translateMetadata = ->
+  tagline = _.i18n 'your friends and communities are your best library'
+  metadataUpdate
+    title: "Inventaire - #{tagline}"
+    description: _.I18n 'make the inventory of your books and mutualize with your friends and communities into an infinite library!'
 
 module.exports = ->
-  initTitle()
+  unless app.user.lang is 'en' then translateMetadata()
 
   app.commands.setHandlers
     'metadata:update:needed': metadataUpdateNeeded
