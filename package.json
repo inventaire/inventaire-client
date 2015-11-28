@@ -21,7 +21,8 @@
     "test-watch": "mocha --compilers coffee:coffee-script/register --watch",
     "build": "./scripts/build",
     "update-git-hooks": "../scripts/update_git_hooks",
-    "flo": "supervisor -w flo-server.coffee -- server.coffee"
+    "flo": "supervisor -w flo-server.coffee -- server.coffee",
+    "patches": "../scripts/run_patches ./scripts/patches"
   },
   "dependencies": {
     "browser-locale": "^1.0.0",

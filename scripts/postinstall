@@ -3,7 +3,7 @@
 mkdir -p ./vendor/scripts ./vendor/stylesheets
 ./scripts/install_scripts
 bower install
-../scripts/run_patches $HOME/inventaire/client/scripts/patches
+npm run patches
 ./scripts/mv_font_awesome_fonts
 ./scripts/mv_moment_locales
 
