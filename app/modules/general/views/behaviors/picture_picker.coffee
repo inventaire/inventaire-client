@@ -90,7 +90,8 @@ module.exports = Marionette.CompositeView.extend
   getFilesPictures: (e)->
     files = _.toArray e.target.files
     _.log files, 'files'
-    files.forEach @_addFileToPictures.bind(@)
+    for file in files
+      @_addFileToPictures file
 
   _addFileToPictures: (file)->
     unless _.isObject file then return _.warn file, 'couldnt _addFileToPictures'

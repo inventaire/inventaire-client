@@ -42,7 +42,7 @@ P =
 aliases = {}
 
 for mainP, aliasedPs of P
-  aliasedPs.forEach (aliasedP)->
+  for aliasedP in aliasedPs
     aliases[aliasedP] = mainP
 
 Q.softAuthors = Q.authors.concat(Q.humans)

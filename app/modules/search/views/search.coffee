@@ -142,8 +142,8 @@ addWikidataEntities = (resultsArray)->
   # and only upgrading later on more specific Models
   # as methods on WikidataEntities greatly ease the sorting process
   wdEntities = new WikidataEntities resultsArray
-  wdEntities.models.forEach (model)->
-    claims = model.get('claims')
+  for model in wdEntities.models
+    claims = model.get 'claims'
     if _.isntEmpty(claims.P31)
       if wd_.isBook(claims.P31)
         app.results.books.add model
@@ -157,4 +157,5 @@ addWikidataEntities = (resultsArray)->
 
 addIsbnEntities = (resultsArray)->
   editions = new IsbnEntities resultsArray
-  editions.models.forEach (el)-> app.results.editions.add el
+  for el in editions.models
+    app.results.editions.add el

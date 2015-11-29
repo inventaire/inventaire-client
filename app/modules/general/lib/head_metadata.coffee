@@ -22,7 +22,8 @@ updateMetadata = (key, value, noCompletion)->
 
   value = applyTransformers key, value, noCompletion
   # _.log value, "#{key} after transformers"
-  metaNodes[key].forEach updateNodeContent.bind(null, value)
+  for el in metaNodes[key]
+    updateNodeContent value, el
 
 updateNodeContent = (value, el)->
   { selector, attribute } = el

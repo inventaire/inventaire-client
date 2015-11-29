@@ -23,8 +23,10 @@ module.exports = (app)->
   addUsersUnlessHere = (users)->
     # Need to waitForData as isntAlreadyHere can't
     # do it's job if user relations data haven't return yet
-    app.request('waitForData')
-    .then -> users.forEach addUserUnlessHere
+    app.request 'waitForData'
+    .then ->
+      for user in users
+        addUserUnlessHere user
 
   addUserUnlessHere = (user)->
     if isntAlreadyHere user._id then app.users.public.add user

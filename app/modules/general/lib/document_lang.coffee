@@ -20,7 +20,8 @@ updateHeadAlternateLangs = (section, route)->
   # they got matches this languages hreflang
   setHreflang route, false, 'en'
   # non-default langs needing a lang querystring
-  alternateLangs.forEach setHreflang.bind(null, route, true)
+  for lang in alternateLangs
+    setHreflang route, true, lang
 
 setHreflang = (route, withLangQueryString, lang)->
   # can't use location.href directly as it seems
@@ -40,6 +41,6 @@ exports.updateOgLocalAlternates = ->
 
   # set the others as 'og:locale:alternate'
   otherTerritories = _.values _.omit(territorialize, lang)
-  otherTerritories.forEach (territory)->
+  for territory in otherTerritories
     $('head')
     .append "<meta property='og:locale:alternate' content='#{territory}' />"

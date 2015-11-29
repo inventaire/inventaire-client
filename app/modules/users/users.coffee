@@ -47,23 +47,23 @@ spreadRelationsData = (relationsData)->
   # _.log lists, 'lists'
   # _.log inGroups, 'inGroups'
   for status, usersData of lists
-    usersData.forEach AddUser(inGroups, status)
+    for userData in usersData
+      addUser inGroups, status, userData
 
 
-AddUser = (inGroups, status)->
-  addUser = (user)->
-    userModel = app.users[status].add user
+addUser = (inGroups, status, user)->
+  userModel = app.users[status].add user
 
-    # there are possibly intersections between non-friends relations
-    # (userRequested and otherRequested) and group users
-    # we need to fetch items for non-friends relations in groups
-    if status in possiblyInGroups
-      unless userModel.id in inGroups[status]
-        userModel.itemsFetched = false
-        return
+  # there are possibly intersections between non-friends relations
+  # (userRequested and otherRequested) and group users
+  # we need to fetch items for non-friends relations in groups
+  if status in possiblyInGroups
+    unless userModel.id in inGroups[status]
+      userModel.itemsFetched = false
+      return
 
-    userModel.itemsFetched = true
-    app.execute 'friend:fetchItems', userModel
+  userModel.itemsFetched = true
+  app.execute 'friend:fetchItems', userModel
 
 possiblyInGroups = [
   'userRequested'

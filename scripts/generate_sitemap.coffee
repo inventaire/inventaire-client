@@ -55,5 +55,6 @@ breq.get url
   # google limits sitemaps to 50000 urls
   # several can be sent but its requires some rewritting here
   first49995 = items[0...49995]
-  first49995.forEach addEntity
+  for item in first49995
+    addEntity item
 .then writeSiteMap

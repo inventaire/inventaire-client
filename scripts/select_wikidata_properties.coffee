@@ -11,8 +11,8 @@ propertiesList = require(path)
 json_.read __.src.wikidata 'en-all'
 .then (allEnProps)->
   enProps = {}
-  propertiesList.forEach (P)->
-    console.log P, enProps[P] = allEnProps[P]
+  for property in propertiesList
+    console.log property, enProps[property] = allEnProps[property]
 
   json_.write __.src.wikidata('en'), enProps
 

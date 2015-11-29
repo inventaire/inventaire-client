@@ -38,7 +38,7 @@ module.exports = (app, $, _)->
     # _.log relations, 'relations'
 
     for relationType, list of relations
-      list.forEach (userId)->
+      for userId in list
         userData = data[userId]
         lists[relationType].push userData
     # return relationsData

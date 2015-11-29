@@ -53,5 +53,6 @@ fetchTranslation = (resource, lang)->
 getUrl = (project, resource, lang)->
   "https://#{username}:#{password}@www.transifex.com/api/2/project/#{project}/resource/#{resource}/translation/#{lang}"
 
-resources.forEach (resource)->
-  translatedLangs.forEach fetchTranslation.bind(null, resource)
+for resource in resources
+  for lang in translatedLangs
+    fetchTranslation resource, lang

@@ -67,7 +67,7 @@ handlers =
     formData = new FormData()
 
     i = 0
-    blobsData.forEach (blobData)->
+    for blobData in blobsData
       { blob, id } = blobData
       id or= "file-#{++i}"
       formData.append id, blob

@@ -16,7 +16,7 @@ module.exports = Marionette.ItemView.extend
 
   getNotificationsData: (notifications)->
     data = {}
-    notificationsList.forEach (notif)->
+    for notif in notificationsList
       data[notif] =
         id: notif
         checked: notifications[notif] isnt false

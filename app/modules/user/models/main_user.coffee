@@ -39,7 +39,7 @@ module.exports = UserCommons.extend
     return settings
 
   setDefaultNotificationsSettings: (notifications)->
-    notificationsList.forEach (notif)->
+    for notif in notificationsList
       notifications[notif] = notifications[notif] isnt false
     return notifications
 

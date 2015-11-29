@@ -53,8 +53,10 @@ module.exports = Marionette.CompositeView.extend
     .finally @stopLoading.bind(@)
 
   addToCollection: (models)->
-    if models? then models.forEach @collection.add.bind(@collection)
-    else 'no book found for #{@model.title}'
+    unless models? then return _.warn 'no book found for #{@model.title}'
+
+    for model in models
+      @collection.add model
 
   onShow: ->
     if @options.standalone

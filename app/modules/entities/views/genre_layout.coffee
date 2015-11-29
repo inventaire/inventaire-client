@@ -91,7 +91,7 @@ module.exports = Marionette.LayoutView.extend
     @genreRegion.show new GenreData { model: @model }
 
   showResults: ->
-    ['authors', 'books'].forEach (type)=>
+    for type in ['authors', 'books']
       collection = @[type]
       region = @["#{type}Region"]
       region.show new ResultsList

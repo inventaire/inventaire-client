@@ -43,7 +43,7 @@ wdGenre_.spreadBooksAndAuthors = (books, authors, entities)->
 
   unless entities? then return _.warn 'no entities to spread'
 
-  entities.forEach (entity)->
+  for entity in entities
     switch wd_.type entity
       when 'book' then books.add entity
       when 'human' then authors.add entity

@@ -11,7 +11,7 @@ module.exports = (app)->
     'nonRelationGroupUser'
   ]
 
-  users.subCollections.forEach (status)->
+  for status in users.subCollections
     users[status] = new FilteredCollection(users)
     # shoud be subcollections' only filter
     # to keep the subcollection relevant
@@ -22,15 +22,16 @@ module.exports = (app)->
     users[status].filtered = new FilteredCollection(users[status])
     users[status].add = (data)->
       # allows to be dispatched between users subcollections
-      if _.isArray(data)
-        data.forEach (userData)-> userData.status = status
+      if _.isArray data
+        for userData in data
+          userData.status = status
       else data.status = status
       return users.add(data)
 
   users.subCollectionsStats = ->
     result = []
     result.push 'users', @length
-    @subCollections.forEach (status)=>
+    for status in @subCollections
       result.push status, @[status].length
     return result
 

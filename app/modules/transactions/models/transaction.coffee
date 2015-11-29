@@ -57,7 +57,8 @@ module.exports = Filterable.extend
 
   buildTimeline: ->
     @timeline = new Timeline
-    @get('actions').forEach @addActionToTimeline.bind(@)
+    for action in @get('actions')
+      @addActionToTimeline action
 
   addActionToTimeline: (action)->
     action = new Action action
@@ -73,7 +74,7 @@ module.exports = Filterable.extend
     .then @addMessagesToTimeline.bind(@)
 
   addMessagesToTimeline: (messages)->
-    messages.forEach (message)=>
+    for message in messages
       message = new Message message
       @timeline.add message
 

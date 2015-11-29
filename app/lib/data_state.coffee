@@ -34,7 +34,7 @@ module.exports =
     @_checkIfDataReady()
 
   _listenForReadyEvents: ->
-    @missing.forEach (el)->
+    for el in @missing
       app.vent.once(el.eventName, app.data._updateStatus, app.data)
 
   _checkIfDataReady: ->
@@ -54,8 +54,8 @@ module.exports =
 
 findMissingDataSets = ->
   missing = []
-  data.forEach (el)->
-    missing.push(el)  unless el.ready()
+  for el in data
+    unless el.ready() then missing.push(el)
   return missing
 
 data = [

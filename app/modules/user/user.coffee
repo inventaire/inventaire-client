@@ -88,8 +88,7 @@ initCommands = (app)->
     'show:login:persona': API.showLoginPersona
     'show:forgot:password': API.showForgotPassword
 
-initSubModules = (app)->
-  [
+subModules = [
     'auth'
     'persona'
     'recover_user_data'
@@ -98,4 +97,7 @@ initSubModules = (app)->
     'user_menu_update'
     'user_language_update'
   ]
-  .forEach (name)-> require("./lib/#{name}")(app)
+
+initSubModules = (app)->
+  for subModule in subModules
+    require("./lib/#{subModule}")(app)

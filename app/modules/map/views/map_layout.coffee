@@ -60,7 +60,9 @@ module.exports = Marionette.LayoutView.extend
       @showUsersItems usersCollection
 
   showUsersOnMap: (map, collection)->
-    collection.forEach showUserOnMap.bind(null, map)
+    for user in collection.models
+      showUserOnMap map, user
+
     showUserOnMap map, app.user
 
   showUsersItems: (usersCollection)->

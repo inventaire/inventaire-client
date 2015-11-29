@@ -83,7 +83,8 @@ module.exports = Marionette.LayoutView.extend
   _spreadUsers: (data)->
     { users, emails } = data
     @addEmailsInvited emails
-    users.forEach @_addUser.bind(@)
+    for user in users
+      @_addUser user
 
   addEmailsInvited: (emails)->
     @emailsInvited = _.uniq @emailsInvited.concat(emails)

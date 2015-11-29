@@ -16,14 +16,14 @@ fieldsToKeep = [
   'scripts'
 ]
 
-packages.forEach (file)->
+for file in packages
 
   fs.readFile file, (err, body)->
     pack = JSON.parse body.toString()
     name = pack.name
 
     slim = {}
-    fieldsToKeep.forEach (fieldName)->
+    for fieldName in fieldsToKeep
       value = pack[fieldName]
       if value? then slim[fieldName] = value
 

@@ -26,7 +26,8 @@ module.exports = Marionette.LayoutView.extend
     # every folder share the app.user.transactions collection
     # but with the filter applied by TransactionsList
     # => there should be a region matching every filter's name
-    foldersNames.forEach @showTransactionList.bind(@)
+    for folder in foldersNames
+      @showTransactionList folder
 
   showTransactionList: (folder)->
     @["#{folder}Region"].show new TransactionsList

@@ -83,7 +83,8 @@ module.exports = (Backbone, _, app, window, csle)->
 
     allValid: (array, test)->
       result = true
-      array.forEach (el)-> if not test(el) then result = false
+      for el in array
+        if not test(el) then result = false
       return result
 
     isUri: (str)->
@@ -96,7 +97,8 @@ module.exports = (Backbone, _, app, window, csle)->
 
     uniq: (array)->
       obj = {}
-      array.forEach (value)-> obj[value] = true
+      for value in array
+        obj[value] = true
       return Object.keys(obj)
 
     # adapted from lodash implementation

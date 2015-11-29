@@ -42,7 +42,8 @@ module.exports = Backbone.Model.extend
     @[name] or= new Backbone.Collection
     @[name].remove @[name].models
     Name = _.capitaliseFirstLetter name
-    @["all#{Name}"]().forEach @fetchUser.bind(null, @[name])
+    for userId in @["all#{Name}"]()
+      @fetchUser @[name], userId
 
   fetchUser: (collection, userId)->
     app.request 'get:group:user:model', userId
