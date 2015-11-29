@@ -2,7 +2,7 @@ module.exports = (Backbone, _, app, window)->
   # _ starts as a global object with just the underscore lib
 
   # extending _ with invUtils functions
-  _ = invUtils _
+  _ = window.invUtils _
 
   csle = if CONFIG.debug then window.console else require 'lib/noop_console'
 

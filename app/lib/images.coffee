@@ -21,7 +21,7 @@ handlers =
   getUrlDataUrl: (url)->
     if /^http/.test url then url = app.API.proxy url
     new Promise (resolve, reject)->
-      toDataURL url,
+      window.toDataURL url,
         callback: (err, res)->
           if err? then reject err
           else resolve res
