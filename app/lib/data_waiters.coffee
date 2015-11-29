@@ -23,12 +23,9 @@ module.exports = ->
     if Items?.friends?.fetched and Items.personal?.fetched
       return _.preq.resolve()
     else
-      def = Promise.defer()
-      app.vent.once 'friends:items:ready', ->
-        if Items.personal?.fetched then def.resolve()
-      app.vent.once 'items:ready', ->
-        if Items.friends?.fetched then def.resolve()
-      return def.promise
+      return new Promise (resolve, reject)->
+        app.vent.once 'friends:items:ready', -> if Items.personal?.fetched then resolve()
+        app.vent.once 'items:ready', -> if Items.friends?.fetched then resolve()
 
   app.reqres.setHandlers
     'waitForData': Waiter 'data:ready', -> app.data.ready
