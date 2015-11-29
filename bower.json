@@ -24,7 +24,6 @@
     "backbone-filtered-collection": "~0.4.0",
     "backbone-nested-model": "backbone-nested-afeld#~2.0.4",
     "backbone.marionette": "marionette#2.4.1",
-    "bluebird": "~2.9.34",
     "blueimp-canvas-to-blob": "~2.2.0",
     "cropper": "~0.11.1",
     "df-visible": "jquery-visible#~1.2.0",
@@ -37,7 +36,8 @@
     "masonry": "~3.3.2",
     "moment": "~2.10.6",
     "polyglot": "~0.4.3",
-    "qlabel": "https://github.com/maxlath/qlabel.git#bower-support"
+    "qlabel": "https://github.com/maxlath/qlabel.git#bower-support",
+    "bluebird": "~3.0.5"
   },
   "overrides": {
     "jquery-visible": {

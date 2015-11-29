@@ -25,6 +25,7 @@
     "patches": "../scripts/run_patches ./scripts/patches"
   },
   "dependencies": {
+    "bluebird": "^3.0.5",
     "browser-locale": "^1.0.0",
     "inv-utils": "^1.4.1",
     "level-js": "^2.2.2",
