@@ -11,12 +11,12 @@ Promise.onPossiblyUnhandledRejection (err)->
   console.error label, stack, clue
 
 module.exports = preq =
+  # keep the options object interface to keep the same signature
+  # as the server side promises_.get, to ease shared libs
   get: (url, options)->
-    CORS = options?.CORS
-    if _.localUrl(url) or CORS then jqPromise = $.get(url)
-    else jqPromise = $.get app.API.proxy(url)
-
-    return wrap jqPromise, url
+    proxy = options?.proxy
+    if proxy then url = app.API.proxy url
+    return wrap $.get(url), url
 
   post: (url, body)-> wrap $.post(url, body), url
   put: (url, body)-> wrap $.put(url, body), url
