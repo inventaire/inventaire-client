@@ -4,7 +4,9 @@ else window.env = 'prod'
 
 module.exports = ->
   if env is 'dev'
-    Promise.longStackTraces()
+    Promise.config
+      warning: true
+      longStackTraces: true
 
   window.CONFIG =
     images:
