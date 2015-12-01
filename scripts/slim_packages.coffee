@@ -16,7 +16,7 @@ fieldsToKeep = [
   'scripts'
 ]
 
-for file in packages
+packages.forEach (file)->
 
   fs.readFile file, (err, body)->
     pack = JSON.parse body.toString()
