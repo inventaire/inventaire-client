@@ -156,6 +156,7 @@ addWikidataEntities = (resultsArray)->
         app.results.authors.add model
 
 addIsbnEntities = (resultsArray)->
+  # initializing models as IsbnEntities
   editions = new IsbnEntities resultsArray
-  for el in editions.models
-    app.results.editions.add el
+  # adding them to the less specific editions collection
+  app.results.editions.add editions.models

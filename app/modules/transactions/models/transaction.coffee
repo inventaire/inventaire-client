@@ -75,8 +75,7 @@ module.exports = Filterable.extend
 
   addMessagesToTimeline: (messages)->
     for message in messages
-      message = new Message message
-      @timeline.add message
+      @timeline.add new Message(message)
 
   setNextActions: ->
     if @owner? and @requester?

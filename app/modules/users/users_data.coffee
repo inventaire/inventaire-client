@@ -41,7 +41,7 @@ module.exports = (app, $, _)->
       for userId in list
         userData = data[userId]
         lists[relationType].push userData
-    # return relationsData
+
     return relationsData =
       lists: lists
       inGroups: inGroups
