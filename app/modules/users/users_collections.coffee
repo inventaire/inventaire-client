@@ -3,7 +3,7 @@ Users = require './collections/users'
 module.exports = (app)->
   users = new Users
 
-  users.subCollections = [
+  subCollections = [
     'public'
     'friends'
     'userRequested'
@@ -11,7 +11,10 @@ module.exports = (app)->
     'nonRelationGroupUser'
   ]
 
-  for status in users.subCollections
+  # /!\ do not replace by a for loop as the add functions would closure
+  # on the same status variable,which will keep only the last value
+  # the function scope here allow to have one status variable by collection
+  subCollections.forEach (status)->
     users[status] = new FilteredCollection(users)
     # shoud be subcollections' only filter
     # to keep the subcollection relevant
@@ -20,20 +23,15 @@ module.exports = (app)->
     # other filtering can happen on
     # the subcollection own filteredCollection
     users[status].filtered = new FilteredCollection(users[status])
-    users[status].add = (data)->
-      # allows to be dispatched between users subcollections
-      if _.isArray data
-        for userData in data
-          userData.status = status
-      else data.status = status
-      return users.add(data)
 
-  users.subCollectionsStats = ->
-    result = []
-    result.push 'users', @length
-    for status in @subCollections
-      result.push status, @[status].length
-    return result
+    # allows to be dispatched between users subcollections
+    setStatus = (userData)-> userData.status = status
+
+    users[status].add = (data)->
+      if _.isArray data then data.forEach setStatus
+      else setStatus data
+
+      return users.add data
 
   users.filtered = new FilteredCollection(users)
   users.filtered.friends = ->
