@@ -20,7 +20,7 @@ module.exports = (_)->
   feedback: '/api/feedback/public'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   moment: (lang)-> "/public/javascripts/moment/#{lang}.js?DIGEST"
-  proxy: (url)-> "/api/proxy/#{url}"
+  proxy: (url)-> "/api/proxy/public/#{url}"
   test: '/api/tests/public'
   scripts:
     persona: '/public/javascripts/persona-include.js?DIGEST'

@@ -8,7 +8,7 @@ module.exports = (promises_, _, wdk)->
     API: API
     getEntities: (ids, languages='en', props=defaultProps, format='json')->
       url = wdk.getEntities(ids, languages, props, format)
-      return promises_.get url
+      return promises_.get url, {proxy: true}
 
     getUri: (id)-> 'wd:' + wdk.normalizeId(id)
     isBook: (P31Array)-> _.haveAMatch Q.books, P31Array
