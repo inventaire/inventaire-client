@@ -24,15 +24,13 @@ else
 
 require 'colors'
 Promise = require 'bluebird'
-pluckSettled = (results)-> _.pluck results, '_settledValue'
 _ = require 'lodash'
 
 __ = require './lib/paths'
 json_  = require './lib/json'
 
 extendLangWithDefault = (lang)->
-  Promise.settle getSources(lang)
-  .then pluckSettled
+  Promise.all getSources(lang)
   .then (args)->
     rethrowErrors(args)
 

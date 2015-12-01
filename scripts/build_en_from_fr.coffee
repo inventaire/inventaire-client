@@ -7,7 +7,6 @@ require 'colors'
 fs = require 'graceful-fs'
 Promise = require 'bluebird'
 Promise.promisifyAll(fs)
-pluckSettled = (results)-> _.pluck results, '_settledValue'
 _ = require 'lodash'
 
 __ =
