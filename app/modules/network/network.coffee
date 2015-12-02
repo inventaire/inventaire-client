@@ -1,16 +1,21 @@
 NetworkLayout = require './views/network_layout'
 GroupBoard =  require './views/group_board'
 initGroupHelpers = require './lib/group_helpers'
+{ tabsData } = require './lib/network_tabs'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'network(/)': 'showNetworkLayout'
-        'network/friends(/)': 'showNetworkLayoutFriends'
-        'network/groups(/)': 'showNetworkLayoutGroups'
+        'network(/users)(/friends)(/)':'showNetworkLayoutFriends'
+        'network/users/search(/)':'showNetworkLayoutSearchUsers'
+        'network/users/nearby(/)':'showNetworkLayoutNearbyUsers'
+
+        'network/groups(/user)(/)':'showNetworkLayoutUserGroups'
+        'network/groups/search(/)':'showNetworkLayoutSearchGroups'
+        'network/groups/nearby(/)':'showNetworkLayoutNearbyGroups'
+
         'network/groups/:id(/:name)(/)': 'showGroupBoard'
-        # group routes are in the inventory router
 
     app.addInitializer ->
       new Router
@@ -32,16 +37,22 @@ module.exports =
 
 initRequestsCollectionsEvent = ->
   if app.user.loggedIn
-    app.request('waitForData')
+    app.request 'waitForData'
     .then -> app.vent.trigger 'network:requests:udpate'
 
 API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
-  showNetworkLayoutGroups: -> @showNetworkLayout 'groups'
-  showNetworkLayout: (tab="friends")->
-    if app.request 'require:loggedIn', "network/#{tab}"
+  showNetworkLayoutSearchUsers: -> @showNetworkLayout 'searchUsers'
+  showNetworkLayoutNearbyUsers: -> @showNetworkLayout 'nearbyUsers'
+
+  showNetworkLayoutUserGroups: -> @showNetworkLayout 'userGroups'
+  showNetworkLayoutSearchGroups: -> @showNetworkLayout 'searchGroups'
+  showNetworkLayoutNearbyGroups: -> @showNetworkLayout 'nearbyGroups'
+
+  showNetworkLayout: (tab='friends')->
+    { path } = tabsData[tab]
+    if app.request 'require:loggedIn', path
       app.layout.main.show new NetworkLayout
-        title: _.i18n tab
         tab: tab
 
   showGroupBoard: (id, name)->

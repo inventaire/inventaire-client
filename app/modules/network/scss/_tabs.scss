@@ -1,25 +1,16 @@
 .tabs{
   width: 100%;
-  @include display-flex(row, center, center, nowrap);
   padding-top: 1em;
-  @include radius-horizontal-group;
-  a{
-    @include custom-button(#bbb, white, 0);
-    @include flex(0, 1, 10em);
-    @include shy-border;
-    font-weight: bold;
-    .fa{
-      display: block;
-      font-size: 1.5em;
-    }
-    &.active{
-      @include custom-button(rgba($light-blue, 0.7), white, 0);
-      box-shadow: 0 0.2em 0.5em $glow;
-      @include hide-counter;
-    }
+  // @include radius-horizontal-group;
+  section{
+    @include display-flex(row, center, center, nowrap);
   }
   .counter{
+    margin: 0.5em;
     @include counter-commons;
+  }
+  .tab{
+
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
@@ -30,5 +21,50 @@
       padding: 0.5em 0 0.5em 0;
     }
   }
+  .level-1{
+    .tab{
+      font-size: 1.2em;
+      height: 4em;
+      @include custom-button($darker-grey, white, 0);
+      @include flex(1, 1, 0);
+      padding: 0 0.5em 0 0.5em;
+      @include display-flex(row, center, center);
+      @include sans-serif;
+      .fa{
+        display: block;
+        font-size: 1.5em;
+      }
+      &.active{
+        @include hide-counter;
+        background-color: white;
+        color: $grey
+      }
+    }
+  }
+  .level-2{
+    background-color: white;
+    padding: 0.5em;
+    height: 3em;
+    @include justify-content(flex-start);
+    .tab{
+      // make it grow
+      @include flex(1, 1, 0);
+      // up to max 10em
+      max-width: 10em;
+      font-size: 1.2em;
+      padding: 0.2em;
+      margin-left: 0.2em;
+      margin-right: 0.2em;
+      @include radius(5em);
+      @include sans-serif;
+      background-color: $dark-grey;
+      color: white;
+      @include shy;
+      &.active{
+        opacity: 1;
+        color: $dark-grey;
+        background-color: $active-custom-tab-bg;
+      }
+    }
+  }
 }
-

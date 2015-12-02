@@ -1,8 +1,43 @@
-<a id="friendsTab" class="tab">
-  {{icon 'user'}}{{I18n 'friends'}}
-  <span class="counter">{{friendsRequestsCount}}</span>
-</a>
-<a id="groupsTab" class="tab">
-  {{icon 'group'}}{{I18n 'groups'}}
-  <span class="counter">{{groupsRequestsCount}}</span>
-</a>
+<section class="level-1">
+  <a id="usersTab" class="tab {{#if users}}active{{/if}}">
+    {{icon 'user'}}{{I18n 'users'}}
+    <span class="counter">{{friendsRequestsCount}}</span>
+  </a>
+  <a id="groupsTab" class="tab {{#if groups}}active{{/if}}">
+    {{icon 'group'}}{{I18n 'groups'}}
+    <span class="counter">{{groupsRequestsCount}}</span>
+  </a>
+</section>
+{{#if users}}
+  <section class="users-level-2 level-2">
+    <a id="friendsTab" class="tab {{#if friends}}active{{/if}}">
+      {{icon 'list'}}
+      {{I18n 'your friends'}}
+    </a>
+    <a id="searchUsersTab" class="tab {{#if search}}active{{/if}}">
+      {{icon 'search'}}
+      {{I18n 'search'}}
+    </a>
+    <a id="nearbyUsersTab" class="tab {{#if nearby}}active{{/if}}">
+      {{icon 'map-marker'}}
+      {{I18n 'nearby'}}
+    </a>
+  </section>
+{{/if}}
+{{#if groups}}
+  <section class="groups-level-2 level-2">
+    <a id="userGroupsTab" class="tab {{#if user}}active{{/if}}">
+      {{icon 'list'}}
+      {{I18n 'your groups'}}
+      <span class="counter">{{groupsRequestsCount}}</span>
+    </a>
+    <a id="searchGroupsTab" class="tab {{#if search}}active{{/if}}">
+      {{icon 'search'}}
+      {{I18n 'search'}}
+    </a>
+    <a id="nearbyGroupsTab" class="tab {{#if nearby}}active{{/if}}">
+      {{icon 'map-marker'}}
+      {{I18n 'nearby'}}
+    </a>
+  </section>
+{{/if}}

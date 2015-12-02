@@ -1,6 +1,5 @@
 Tabs = require './tabs'
-FriendsLayout = require './friends_layout'
-GroupsLayout = require './groups_layout'
+{ tabsData, resolveCurrentTab } = require '../lib/network_tabs'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/network_layout'
@@ -10,25 +9,18 @@ module.exports = Marionette.LayoutView.extend
     tabs: '.custom-tabs-titles'
     content: '.custom-tabs-content'
 
-  events:
-    'click #friendsTab': 'showTabFriends'
-    'click #groupsTab': 'showTabGroups'
+  childEvents:
+    'tabs:change': 'updateLayout'
 
   onShow: ->
-    if @options.tab is 'groups' then @showTabGroups()
-    else @showTabFriends()
-
-  showTabFriends: ->
-    @content.show new FriendsLayout @options
-    @updateTabs 'friends'
-
-  showTabGroups: ->
-    @content.show new GroupsLayout @options
-    @updateTabs 'groups'
-
-  updateTabs: (tab)->
+    { tab } = @options
     @tabs.show new Tabs {tab: tab}
-    app.navigate "network/#{tab}"
-    tab = _.I18n tab
-    network = _.I18n 'network'
-    app.execute 'metadata:update:title', "#{tab} - #{network}"
+    @showLayout tab
+
+  updateLayout: (view, tab)->
+    @showLayout tab
+
+  showLayout: (tab)->
+    tab = resolveCurrentTab tab
+    { Layout } = tabsData[tab]
+    @content.show new Layout @options
