@@ -40,19 +40,26 @@ a.user{
   .itemShow{
     @include flex(1);
     @include display-flex(row, center, space-between);
-    .label{
-      overflow: hidden;
-      @include flex(1, 1, 0);
-      padding: 0.2em;
-    }
     .transactionBox{
-      @include flex(0, 0, 2em);
+      @include flex(1);
       height: 100%;
       @include display-flex(row, center, center);
       .fa{
         // centering
         padding-left: 0.2em;
+        font-size: 1.5em;
       }
     }
+  }
+}
+.labelBox{
+  @include display-flex(row, center, center);
+  text-align: center;
+  height: $user-box-heigth;
+  background-color: #eee;
+  width: 100%;
+  overflow: hidden;
+  .label{
+    color: #444;
   }
 }

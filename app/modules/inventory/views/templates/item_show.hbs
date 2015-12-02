@@ -24,9 +24,7 @@
     <div class="panel">
       {{#if restricted}}
         {{partial 'inventory:item_mixed_box' this}}
-        <div class="settings itemBox">
-          {{partial 'inventory:item_request_box' this}}
-        </div>
+        {{partial 'inventory:item_request_box' this}}
       {{else}}
         {{partial 'inventory:item_user_box' this}}
         <div class="settings itemBox">

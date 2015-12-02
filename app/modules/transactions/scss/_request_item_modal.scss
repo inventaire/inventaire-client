@@ -5,8 +5,11 @@
     @include display-flex(row, center, space-between);
     margin-bottom: 1em;
   }
+  .user, .item{
+    @include flex(1);
+  }
   .user{
-    @include display-flex(row, center, flex-start);
+    @include display-flex(column, center, flex-start);
     .profilePic{
       height: $user-box-heigth;
       max-height: $user-box-heigth;

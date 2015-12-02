@@ -3,6 +3,13 @@
     <img class="profilePic" src="{{src user.profilePic 64}}">
   </a>
   <a class="itemShow">
-    {{partial 'inventory:item_mixed_box_label' this}}
+    <div class="transactionBox {{currentTransaction.id}}">
+      {{icon currentTransaction.icon}}
+    </div>
+  </a>
+</div>
+<div class="labelBox {{currentTransaction.id}}">
+  <a class="itemShow label">
+    {{{i18n currentTransaction.labelPersonalized user}}}
   </a>
 </div>

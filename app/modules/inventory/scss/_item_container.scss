@@ -78,7 +78,8 @@
     color: white;
   }
 }
-.settings{
+.item-settings{
+  text-align: center;
   div{
     background-color: $main-bg;
     @include flex(null, null, auto);

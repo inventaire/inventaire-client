@@ -81,7 +81,7 @@
     }
     .leftBox{
       @include flex(0, 0);
-      .settings{
+      .item-settings{
         @include display-flex(column);
         label{
           text-align: left;
@@ -129,7 +129,7 @@
       .leftBox{
         max-width: 16em;
         margin-right: 0.8em;
-        .settings{
+        .item-settings{
           min-width: 14em;
         }
       }
