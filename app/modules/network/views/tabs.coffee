@@ -7,6 +7,9 @@ module.exports = Marionette.ItemView.extend
   events:
     'click .tab': 'updateTabs'
 
+  behaviors:
+    PreventDefault: {}
+
   initialize: ->
     { tab } = @options
     @currentTab = tab
@@ -20,15 +23,16 @@ module.exports = Marionette.ItemView.extend
     .then @listenToRequestsCollections.bind(@)
 
   updateTabs: (e)->
-    tab = getNameFromId e.currentTarget.id
-    tab = resolveCurrentTab tab
+    unless _.isOpenedOutside e
+      tab = getNameFromId e.currentTarget.id
+      tab = resolveCurrentTab tab
 
-    unless tab is @currentTab
-      # triggering events on the parent view
-      @triggerMethod 'tabs:change', tab
-      @currentTab = tab
-      @currentTabData = tabsData.all[tab]
-      @render()
+      unless tab is @currentTab
+        # triggering events on the parent view
+        @triggerMethod 'tabs:change', tab
+        @currentTab = tab
+        @currentTabData = tabsData.all[tab]
+        @render()
 
   serializeData: ->
     data = app.request 'get:network:counters'

@@ -1,9 +1,9 @@
 <section class="level-1">
-  <a id="usersTab" class="tab {{#if users}}active{{/if}}">
+  <a id="usersTab" href="/network/users" class="tab {{#if users}}active{{/if}}">
     {{icon 'user'}}{{I18n 'users'}}
     <span class="counter">{{friendsRequestsCount}}</span>
   </a>
-  <a id="groupsTab" class="tab {{#if groups}}active{{/if}}">
+  <a id="groupsTab" href="/network/groups" class="tab {{#if groups}}active{{/if}}">
     {{icon 'group'}}{{I18n 'groups'}}
     <span class="counter">{{groupsRequestsCount}}</span>
   </a>
