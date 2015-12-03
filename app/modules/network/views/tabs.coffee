@@ -4,19 +4,6 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/tabs'
   className: 'tabs'
 
-  ui:
-    tabs: '.tab'
-
-    usersTab: '#usersTab'
-    friendsTab: '#friendsTab'
-    allUsersTab: '#allUsersTab'
-    usersLevel2: '.users-level-2'
-    groupsTab: '#groupsTab'
-    userGroupsTab: '#userGroupsTab'
-    allGroupsTab: '#allGroupsTab'
-    groupsLevel2: '.groups-level-2'
-    level2: '.level-2'
-
   events:
     'click .tab': 'updateTabs'
 
