@@ -10,7 +10,7 @@
     @include counter-commons;
   }
   .tab{
-
+    white-space: nowrap;
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
@@ -43,7 +43,7 @@
   }
   .level-2{
     background-color: white;
-    padding: 0.5em;
+    padding: 0.2em;
     height: 3em;
     @include justify-content(flex-start);
     .tab{
@@ -53,8 +53,8 @@
       max-width: 10em;
       font-size: 1.2em;
       padding: 0.2em;
-      margin-left: 0.2em;
-      margin-right: 0.2em;
+      margin-left: 0.1em;
+      margin-right: 0.1em;
       @include radius(5em);
       @include sans-serif;
       background-color: $dark-grey;

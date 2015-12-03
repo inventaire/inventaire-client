@@ -131,7 +131,7 @@ $user-bg: #ddd;
     }
     .top{
       @include display-flex(row, center, space-between);
-      min-height: $user-height;
+      // min-height: $user-height;
     }
     .userMenu{
       // only push on left if inventoryLength isnt already pushing
@@ -153,8 +153,11 @@ $user-bg: #ddd;
         @include display-flex(column);
         // when there is no details, .top expand to take all the height
         // and thus gets its children correctly vertically centered
-        .top, .details{
-          @include flex(1);
+        .top{
+          @include flex(1, 0);
+        }
+        .details{
+          @include flex(4);
         }
       }
     }

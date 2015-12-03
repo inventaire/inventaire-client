@@ -8,6 +8,7 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         'network(/users)(/friends)(/)':'showNetworkLayoutFriends'
+        'network/users/invite(/)':'showNetworkLayoutInvite'
         'network/users/search(/)':'showNetworkLayoutSearchUsers'
         'network/users/nearby(/)':'showNetworkLayoutNearbyUsers'
 
@@ -42,6 +43,7 @@ initRequestsCollectionsEvent = ->
 
 API =
   showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
+  showNetworkLayoutInvite: -> @showNetworkLayout 'invite'
   showNetworkLayoutSearchUsers: -> @showNetworkLayout 'searchUsers'
   showNetworkLayoutNearbyUsers: -> @showNetworkLayout 'nearbyUsers'
 
@@ -50,7 +52,7 @@ API =
   showNetworkLayoutNearbyGroups: -> @showNetworkLayout 'nearbyGroups'
 
   showNetworkLayout: (tab='friends')->
-    { path } = tabsData[tab]
+    { path } = tabsData.all[tab]
     if app.request 'require:loggedIn', path
       app.layout.main.show new NetworkLayout
         tab: tab

@@ -1,0 +1,23 @@
+$filterPaddingTop: 0.5em;
+$filterIconMargin: 0.6em;
+.filter-wrapper{
+  height: 2.5em;
+  padding-top: $filterPaddingTop;
+  position: relative;
+  max-width: 20em;
+  margin: 1em auto;
+  .fa-search{
+    position: absolute;
+    top: $filterPaddingTop + $filterIconMargin;
+    right: $filterIconMargin;
+    color: $grey;
+    z-index: 2;
+  }
+  input{
+    position: absolute;
+    top: $filterPaddingTop;
+    margin: 0;
+    padding: 0;
+    @include radius;
+  }
+}

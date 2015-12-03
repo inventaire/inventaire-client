@@ -22,5 +22,8 @@ module.exports = Marionette.LayoutView.extend
 
   showLayout: (tab)->
     tab = resolveCurrentTab tab
-    { Layout } = tabsData[tab]
+    { layout } = tabsData.all[tab]
+    # Requiring views only when needed.
+    # All network layout are assume to be in network/views folder.
+    Layout = require "./#{layout}"
     @content.show new Layout @options

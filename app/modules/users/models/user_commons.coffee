@@ -7,6 +7,7 @@ module.exports = Filterable.extend
   asMatchable: ->
     [
       @get('username')
+      @get('bio')
     ]
 
   hasPosition: -> @has 'position'

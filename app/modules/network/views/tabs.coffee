@@ -1,4 +1,4 @@
-{ tabsData, resolveCurrentTab } = require '../lib/network_tabs'
+{ tabsData, resolveCurrentTab, getNameFromId } = require '../lib/network_tabs'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/tabs'
@@ -23,7 +23,7 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     { tab } = @options
     @currentTab = tab
-    @currentTabData = tabsData[tab]
+    @currentTabData = tabsData.all[tab]
 
     @lazyRender = _.LazyRender @
 
@@ -33,26 +33,34 @@ module.exports = Marionette.ItemView.extend
     .then @listenToRequestsCollections.bind(@)
 
   updateTabs: (e)->
-    tab = e.currentTarget.id.replace 'Tab', ''
+    tab = getNameFromId e.currentTarget.id
     tab = resolveCurrentTab tab
 
     unless tab is @currentTab
       # triggering events on the parent view
       @triggerMethod 'tabs:change', tab
       @currentTab = tab
-      @currentTabData = tabsData[tab]
+      @currentTabData = tabsData.all[tab]
       @render()
 
   serializeData: ->
-    networkCoutner = app.request 'get:network:counters'
-    _.extend @getTabData(), networkCoutner
+    data = app.request 'get:network:counters'
 
-  getTabData: ->
-    { parent, section } = @currentTabData
-    tabData = {}
-    tabData[parent] = true
-    tabData[section] = true
-    return tabData
+    { parent, name } = @currentTabData
+
+    subTabsData = tabsData[parent]
+    # The original object is edited
+    # thus the need to reset active to false
+    # Alternative: creating a new object clones every time
+    # but it would be more expensive
+    for k, v of subTabsData
+      v.active = false
+    subTabsData[name].active = true
+
+    data.subTabsData = subTabsData
+    data[parent] = true
+
+    return data
 
   onRender: ->
     @updateMetadata()

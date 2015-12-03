@@ -1,0 +1,47 @@
+#inviteFriends{
+  width: 100%;
+  background-color: $contrast;
+  margin: 1em 0;
+  padding: 2em 1em 1em 1em;
+  label{
+    text-align: left;
+    font-size: 1em;
+  }
+  textarea{
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .invitations{
+    textarea{
+      margin: 0;
+    }
+  }
+  .message{
+    text-align: right;
+    padding-bottom: 1em;
+    a{
+      @include text-hover($dark-grey);
+      @include underline(rgba($dark-grey, 0.5));
+    }
+    textarea{
+      margin-top: 1em;
+    }
+    &.has-message a, &:not(.has-message) textarea{
+      display: none;
+    }
+  }
+  .email-sent{
+    @include display-flex(row, center, center, wrap);
+    .email{
+      font-weight: bold;
+      padding-left: 0.2em;
+    }
+  }
+  .usersAlreadyThere{
+    padding-top: 1.2em;
+    padding-bottom: 1.2em;
+    h3{
+      padding-bottom: 0.6em;
+    }
+  }
+}

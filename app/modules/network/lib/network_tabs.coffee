@@ -1,50 +1,46 @@
-# tabsData =
-#   users:
-#     title: 'users'
-
-users =
+usersTabs =
   friends:
-    # parent: 'users'
+    name: 'friends'
     section: 'friends'
-    title: 'your friends'
-    Layout: require '../views/friends_layout'
+    title: 'friends'
+    icon: 'list'
+    layout: 'friends_layout'
+  invite:
+    name: 'invite'
+    section: 'invite'
+    title: 'invite'
+    icon: 'envelope'
+    layout: 'invite_friends'
   searchUsers:
-    # parent: 'users'
+    name: 'searchUsers'
     section: 'search'
     title: 'search'
-    Layout: require '../views/users_search_layout'
+    icon: 'search'
+    layout: 'users_search_layout'
   nearbyUsers:
-    # parent: 'users'
+    name: 'nearbyUsers'
     section: 'nearby'
     title: 'nearby'
-    Layout: require '../views/nearby_users_layout'
+    icon: 'map-marker'
+    layout: 'nearby_users_layout'
 
-  # groups:
-  #   title: 'groups'
-
-groups =
+groupsTabs =
   userGroups:
-    # parent: 'groups'
-    title: 'your groups'
+    name: 'userGroups'
     section: 'user'
-    Layout: require '../views/groups_layout'
+    title: 'your groups'
+    icon: 'list'
+    layout: 'groups_layout'
   searchGroups:
-    # parent: 'groups'
+    name: 'searchGroups'
     section: 'search'
     title: 'search'
+    icon: 'search'
   nearbyGroups:
-    # parent: 'groups'
+    name: 'nearbyGroups'
     section: 'nearby'
     title: 'nearby'
-
-# # keep the parent/children graph in sync
-# for key, obj of tabsData
-#   { parent, section } = obj
-#   if parent?
-#     # every child adds itself to its parent children list
-#     # tabsData[parent].children or= []
-#     # tabsData[parent].children.push key
-#     obj.path = "network/#{parent}/#{section}"
+    icon: 'map-marker'
 
 addPath = (category, categoryData)->
   for key, obj of categoryData
@@ -52,8 +48,8 @@ addPath = (category, categoryData)->
     obj.parent = category
     obj.path = "network/#{category}/#{section}"
 
-addPath 'users', users
-addPath 'groups', groups
+addPath 'users', usersTabs
+addPath 'groups', groupsTabs
 
 resolveCurrentTab = (tab)->
   switch tab
@@ -63,5 +59,11 @@ resolveCurrentTab = (tab)->
     else tab
 
 module.exports =
-  tabsData: _.extend {}, users, groups
+  tabsData:
+    all: _.extend {}, usersTabs, groupsTabs
+    users: usersTabs
+    groups: groupsTabs
+  usersTabs: usersTabs
+  groupsTabs: groupsTabs
   resolveCurrentTab: resolveCurrentTab
+  getNameFromId: (id)-> id.replace 'Tab', ''

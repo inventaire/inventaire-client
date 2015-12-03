@@ -21,6 +21,8 @@ $networkLayoutWidth: 40em;
   .custom-tabs-titles{
   }
   .custom-tabs-content{
+    margin: 0;
+    padding: 0;
     background-color: $main-bg;
     > section{
       label{
@@ -29,11 +31,35 @@ $networkLayoutWidth: 40em;
       }
     }
   }
+  .userLi{
+    &:not(:first-child){
+      border-top: 1px solid rgba($grey, 0.2);
+    }
+    padding: 0;
+    margin: 0;
+    .details{
+      max-height: $stretch-user-height;
+      overflow: hidden;
+    }
+    .inventoryLength{
+      display: none;
+    }
+    .friendMenu{
+      .label{
+        display: none;
+      }
+      padding: 1em;
+    }
+  }
 }
 
 @import 'tabs';
+
 @import 'friends_layout';
+@import 'invite_friends';
+@import 'users_search';
 @import 'groups_layout';
+
 @import 'groups_list';
 @import 'group_board';
 @import 'group_creation';

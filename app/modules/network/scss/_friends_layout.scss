@@ -2,67 +2,24 @@
   > section{
     background-color: white;
     @include radius;
-    @include shy-border;
-    padding: 1em;
-    margin-bottom: 1em;
-  }
-  textarea{
-    min-width: 100%;
-    max-width: 100%;
-  }
-  #usersListHeader{
-    @include display-flex(row, center, center);
-  }
-  .friendsAndSearch{
-    input{
-      @include radius(2em);
-    }
-  }
-  .toggler{
-    a{
-      // not placed directly on .toggler to avoid conflict
-      // with the show-for-small-only class
-      display: none;
-    }
+    margin: 1em 0 1em 0;
   }
   .userLi{
-    @include shy-border;
-    @include radius(3px);
     .select{
       @include bg-hover(white, 8%);
     }
   }
-  .invitations{
-    textarea{
-      margin: 0;
-    }
+}
+
+section.friends-requests-wrapper{
+  padding-top: 0.5em;
+  h3{
+    margin: 0;
+    padding: 0;
+    opacity: 0.8;
+    @include sans-serif;
   }
-  .message{
-    text-align: right;
-    padding-bottom: 1em;
-    a{
-      @include text-hover($dark-grey);
-      @include underline(rgba($dark-grey, 0.5));
-    }
-    textarea{
-      margin-top: 1em;
-    }
-    &.has-message a, &:not(.has-message) textarea{
-      display: none;
-    }
-  }
-  .email-sent{
-    @include display-flex(row, center, center, wrap);
-    .email{
-      font-weight: bold;
-      padding-left: 0.2em;
-    }
-  }
-  .usersAlreadyThere{
-    padding-top: 1.2em;
-    padding-bottom: 1.2em;
-    h3{
-      padding-bottom: 0.6em;
-    }
-  }
+}
+section.friends-list{
+  padding-top: 0;
 }
