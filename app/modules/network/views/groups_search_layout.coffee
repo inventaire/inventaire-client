@@ -35,11 +35,15 @@ module.exports = Marionette.LayoutView.extend
     # will eventually be re-shown by empty results later
     $('.noGroup').hide()
 
-  groupSearch: ->
+  updateGroupSearch: ->
     text = @ui.groupSearch.val()
+    if text is ''
+      @collection.resetFilters()
+      return
+
     unless text is @lastSearch
       @lastSearch = text
       @collection.searchByText text
 
   events:
-    'keyup #groupSearch': 'groupSearch'
+    'keyup #groupSearch': 'updateGroupSearch'
