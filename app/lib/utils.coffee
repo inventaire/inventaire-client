@@ -212,6 +212,8 @@ module.exports = (Backbone, _, app, window, csle)->
 
     isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
 
-    LazyRender: (view, timespan=200)-> _.debounce view.render.bind(view), timespan
+    LazyRender: (view, timespan=200)->
+      cautiousRender = -> unless view.isDestroyed then view.render()
+      return _.debounce cautiousRender, timespan
 
   return _.extend {}, utils, loggers, tests_
