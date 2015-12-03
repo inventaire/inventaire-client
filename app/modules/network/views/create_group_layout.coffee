@@ -7,7 +7,8 @@ groups_ = require '../lib/groups'
 groupPlugin = require '../plugins/group'
 
 module.exports = Marionette.LayoutView.extend
-  template: require './templates/group_creation_form'
+  id: 'createGroupLayout'
+  template: require './templates/create_group_layout'
   behaviors:
     AlertBox: {}
 

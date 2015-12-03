@@ -44,7 +44,7 @@
   .level-2{
     background-color: white;
     padding: 0.2em;
-    height: 3em;
+    height: 4em;
     @include justify-content(flex-start);
     .tab{
       // make it grow

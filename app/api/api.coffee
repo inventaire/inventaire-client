@@ -1,6 +1,7 @@
 module.exports = (_)->
   auth: require './auth'
   users: require './users'
+  groups: require './groups'
   items: require './items'
   entities: require './entities'
   services: require './services'
@@ -12,9 +13,6 @@ module.exports = (_)->
   transactions: '/api/transactions'
   relations: '/api/relations'
   invitations: '/api/invitations'
-  groups:
-    private: '/api/groups'
-    public: '/api/groups/public'
   user: '/api/user'
   notifs: '/api/notifs'
   feedback: '/api/feedback/public'

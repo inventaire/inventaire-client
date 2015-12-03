@@ -1,0 +1,53 @@
+.group-board-header{
+  background-color: white;
+  @include display-flex(column, center, center);
+  .cover-link{
+    width: 100%;
+    font-size: 1.6em;
+  }
+  .name{
+    padding-top: 1em;
+    padding-bottom: 0.8em;
+  }
+  .description:not(:empty){
+    background-color: rgba(grey, 0.6);
+    color: white;
+    font-size: 0.8em;
+    line-height: 1em;
+    max-height: 3.3em;
+    padding: 0.2em;
+    overflow: hidden;
+  }
+  .cover{
+    @include display-flex(column, center, center);
+    @include radius-top;
+    @include inner-shadow;
+    .link{
+      font-size: 0.7em;
+      color: white;
+      @include shy-text-border;
+      @include align-self(flex-end);
+      margin-right: 0.2em;
+      opacity: 0.5;
+      @include transition(opacity);
+    }
+    &:hover{
+      .link{
+        opacity: 1;
+      }
+      @include inner-shadow(20px, 20px, 10px, 10px, rgba(black, 0.2));
+    }
+    @include bg-cover;
+    // bg image is added dynamically from group_board template
+  }
+  .bottom{
+    padding: 1em 0 1em 0;
+    @include display-flex(column, center, center);
+    .invitor{
+      font-weight: bold;
+    }
+  }
+  .restrictions{
+    display: none;
+  }
+}

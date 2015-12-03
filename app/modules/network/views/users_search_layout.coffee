@@ -3,7 +3,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 # UsersSearch = require 'modules/network/plugins/users_search'
 
 module.exports = Marionette.LayoutView.extend
-  id: 'usersSearch'
+  id: 'usersSearchLayout'
   template: require './templates/users_search_layout'
   regions:
     usersList: '#usersList'
@@ -17,11 +17,11 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   events:
-    'keyup #userSearch': 'searchUser'
+    'keyup #usersSearch': 'searchUser'
 
   serializeData: ->
-    userSearch:
-      id: 'userSearch'
+    usersSearch:
+      id: 'usersSearch'
       placeholder: 'search for users'
 
   onRender: ->

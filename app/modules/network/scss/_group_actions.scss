@@ -1,4 +1,4 @@
-.group, .groupBoard, .groupShow{
+.group, .groupShow, .group-board-header{
   .actions{
     @include display-flex(row);
     font-weight: normal;
@@ -33,5 +33,11 @@
     .restrictions{
       margin: 0.5em;
     }
+  }
+}
+
+.groupBoard{
+  .restrictions{
+    color: white;
   }
 }

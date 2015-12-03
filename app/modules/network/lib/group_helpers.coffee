@@ -43,9 +43,25 @@ module.exports = ->
     'get:groups:common': getGroupsInCommon
     'get:groups:others:visited': otherVisitedGroups
 
+
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'
 
+  require('./groups_search')(groups)
+
+  lastGroupFetched = false
+  fetchLastGroupsCreated = ->
+    # prevent it to be queried several times per sessions
+    unless lastGroupFetched
+      lastGroupFetched = true
+      _.preq.get app.API.groups.last
+      .then _.Log('last groups')
+      .then groups.add.bind(groups)
+      .then _.Log('last groups models?')
+      .catch _.ErrorRethrow('fetchLastGroupsCreated')
+
+  app.commands.setHandlers
+    'fetch:last:group:created': fetchLastGroupsCreated
 
 initGroupFilteredCollection = (groups, name)->
   filtered = groups[name] = new FilteredCollection groups

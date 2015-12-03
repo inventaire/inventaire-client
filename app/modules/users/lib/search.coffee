@@ -3,7 +3,7 @@ module.exports = (app)->
   app.users.queried = []
 
   searchByText = (text)->
-    unless text? and text isnt ''
+    unless _.isNonEmptyString text
       return app.users.filtered.friends()
 
     app.users.data.remote.search text

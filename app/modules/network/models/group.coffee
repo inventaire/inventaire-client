@@ -4,8 +4,9 @@ aggregateUsersIds = require '../lib/aggregate_users_ids'
 groupActions = require '../lib/group_actions'
 defaultCover = require('lib/urls').images.brittanystevens
 { escapeExpression } = Handlebars
+Filterable = require 'modules/general/models/filterable'
 
-module.exports = Backbone.Model.extend
+module.exports = Filterable.extend
   url: app.API.groups.private
   initialize: ->
     aggregateUsersIds.call @
@@ -144,6 +145,12 @@ module.exports = Backbone.Model.extend
     else _.i18n 'group_default_description', {groupName: @get('name')}
 
   getCover: -> @get('picture') or defaultCover
+
+  asMatchable: ->
+    [
+      @get('name')
+      @get('description')
+    ]
 
 userItemsCount = (user)->
   nonPrivate = true

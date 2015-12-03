@@ -1,4 +1,11 @@
-#groupCreation{
+#createGroupLayout{
+  margin-top: 1em;
+  padding: 1em;
+  background-color: white;
+  label{
+    text-align: left;
+    font-size: 1em;
+  }
   @include flex(1);
   #step1{
   }

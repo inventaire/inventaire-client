@@ -4,3 +4,5 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   serializeData: ->
     message: @options.message
+  onShow: ->
+    @$el.hide().fadeIn()

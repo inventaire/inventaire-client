@@ -13,6 +13,7 @@ module.exports =
         'network/users/nearby(/)':'showNetworkLayoutNearbyUsers'
 
         'network/groups(/user)(/)':'showNetworkLayoutUserGroups'
+        'network/groups/create(/)':'showNetworkLayoutCreateGroup'
         'network/groups/search(/)':'showNetworkLayoutSearchGroups'
         'network/groups/nearby(/)':'showNetworkLayoutNearbyGroups'
 
@@ -48,6 +49,7 @@ API =
   showNetworkLayoutNearbyUsers: -> @showNetworkLayout 'nearbyUsers'
 
   showNetworkLayoutUserGroups: -> @showNetworkLayout 'userGroups'
+  showNetworkLayoutCreateGroup: -> @showNetworkLayout 'createGroup'
   showNetworkLayoutSearchGroups: -> @showNetworkLayout 'searchGroups'
   showNetworkLayoutNearbyGroups: -> @showNetworkLayout 'nearbyGroups'
 

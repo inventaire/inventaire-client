@@ -31,11 +31,18 @@ groupsTabs =
     title: 'your groups'
     icon: 'list'
     layout: 'groups_layout'
+  createGroup:
+    name: 'createGroup'
+    section: 'create'
+    title: 'create'
+    icon: 'plus'
+    layout: 'create_group_layout'
   searchGroups:
     name: 'searchGroups'
     section: 'search'
     title: 'search'
     icon: 'search'
+    layout: 'groups_search_layout'
   nearbyGroups:
     name: 'nearbyGroups'
     section: 'nearby'
