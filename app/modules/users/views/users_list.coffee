@@ -10,6 +10,7 @@ module.exports = Marionette.CollectionView.extend
   emptyView: require './no_user'
   emptyViewOptions: ->
     message: @options.emptyViewMessage
+    link: @options.emptyViewLink
 
   initialize: ->
     { filter, textFilter } = @options

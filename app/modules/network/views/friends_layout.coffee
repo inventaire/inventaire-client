@@ -18,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     Loading: {}
+    PreventDefault: {}
 
   initialize: ->
     @friends = app.users.friends.filtered
@@ -62,4 +63,6 @@ module.exports = Marionette.LayoutView.extend
     @friends.resetFilters()
     @friendsList.show new UsersList
       collection: @friends
+      emptyViewMessage: "you haven't added any friend yet"
+      emptyViewLink: 'inviteFriends'
       stretch: true

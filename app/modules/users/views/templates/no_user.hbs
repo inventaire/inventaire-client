@@ -1,4 +1,10 @@
-<p class="grey noUser">{{i18n message}}</p>
+<p class="grey noUser">
+  {{i18n message}}
+  {{#if link}}
+    &nbsp;-&nbsp;
+    <a href="{{link.href}}" class="linkAction">{{i18n link.text}}</a>
+  {{/if}}
+</p>
 
 <p class="white findFriends hidden">
   {{i18n "find friends to share your inventory with!"}} {{icon 'arrow-down'}}
