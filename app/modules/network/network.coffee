@@ -7,14 +7,14 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'network(/users)(/friends)(/)':'showNetworkLayoutFriends'
+        'network(/users)(/search)(/)':'showNetworkLayoutSearchUsers'
+        'network/users/friends(/)':'showNetworkLayoutFriends'
         'network/users/invite(/)':'showNetworkLayoutInvite'
-        'network/users/search(/)':'showNetworkLayoutSearchUsers'
         'network/users/nearby(/)':'showNetworkLayoutNearbyUsers'
 
-        'network/groups(/user)(/)':'showNetworkLayoutUserGroups'
+        'network(/groups)(/search)(/)':'showNetworkLayoutSearchGroups'
+        'network/groups/user(/)':'showNetworkLayoutUserGroups'
         'network/groups/create(/)':'showNetworkLayoutCreateGroup'
-        'network/groups/search(/)':'showNetworkLayoutSearchGroups'
         'network/groups/nearby(/)':'showNetworkLayoutNearbyGroups'
 
         'network/groups/:id(/:name)(/)': 'showGroupBoard'

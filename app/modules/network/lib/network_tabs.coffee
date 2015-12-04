@@ -1,3 +1,4 @@
+# defaults needs to be change in the network router too
 usersTabsDefault = 'searchUsers'
 groupsTabsDefault = 'searchGroups'
 
