@@ -2,6 +2,7 @@ NetworkLayout = require './views/network_layout'
 GroupBoard =  require './views/group_board'
 initGroupHelpers = require './lib/group_helpers'
 { tabsData } = require './lib/network_tabs'
+{ defaultTab } = require './lib/network_tabs'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
@@ -53,7 +54,7 @@ API =
   showNetworkLayoutSearchGroups: -> @showNetworkLayout 'searchGroups'
   showNetworkLayoutNearbyGroups: -> @showNetworkLayout 'nearbyGroups'
 
-  showNetworkLayout: (tab='friends')->
+  showNetworkLayout: (tab=defaultTab)->
     { path } = tabsData.all[tab]
     if app.request 'require:loggedIn', path
       app.layout.main.show new NetworkLayout

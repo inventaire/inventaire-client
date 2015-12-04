@@ -79,3 +79,4 @@ module.exports =
   groupsTabs: groupsTabs
   resolveCurrentTab: resolveCurrentTab
   getNameFromId: (id)-> id.replace 'Tab', ''
+  defaultTab: usersTabsDefault
