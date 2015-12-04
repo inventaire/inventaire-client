@@ -55,9 +55,7 @@ module.exports = ->
     unless lastGroupFetched
       lastGroupFetched = true
       _.preq.get app.API.groups.last
-      .then _.Log('last groups')
       .then groups.add.bind(groups)
-      .then _.Log('last groups models?')
       .catch _.ErrorRethrow('fetchLastGroupsCreated')
 
   app.commands.setHandlers
