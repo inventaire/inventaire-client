@@ -1,4 +1,13 @@
+usersTabsDefault = 'searchUsers'
+groupsTabsDefault = 'searchGroups'
+
 usersTabs =
+  searchUsers:
+    name: 'searchUsers'
+    section: 'search'
+    title: 'search'
+    icon: 'search'
+    layout: 'users_search_layout'
   friends:
     name: 'friends'
     section: 'friends'
@@ -11,12 +20,6 @@ usersTabs =
     title: 'invite'
     icon: 'envelope'
     layout: 'invite_friends'
-  searchUsers:
-    name: 'searchUsers'
-    section: 'search'
-    title: 'search'
-    icon: 'search'
-    layout: 'users_search_layout'
   nearbyUsers:
     name: 'nearbyUsers'
     section: 'nearby'
@@ -25,6 +28,12 @@ usersTabs =
     layout: 'nearby_users_layout'
 
 groupsTabs =
+  searchGroups:
+    name: 'searchGroups'
+    section: 'search'
+    title: 'search'
+    icon: 'search'
+    layout: 'groups_search_layout'
   userGroups:
     name: 'userGroups'
     section: 'user'
@@ -37,12 +46,6 @@ groupsTabs =
     title: 'create'
     icon: 'plus'
     layout: 'create_group_layout'
-  searchGroups:
-    name: 'searchGroups'
-    section: 'search'
-    title: 'search'
-    icon: 'search'
-    layout: 'groups_search_layout'
   nearbyGroups:
     name: 'nearbyGroups'
     section: 'nearby'
@@ -60,9 +63,8 @@ addPath 'groups', groupsTabs
 
 resolveCurrentTab = (tab)->
   switch tab
-    # for every general tabs, display the first children tab by default
-    when 'users' then 'friends'
-    when 'groups' then 'userGroups'
+    when 'users' then usersTabsDefault
+    when 'groups' then groupsTabsDefault
     else tab
 
 module.exports =
