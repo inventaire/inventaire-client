@@ -35,7 +35,7 @@ module.exports = Marionette.ItemView.extend
         @render()
 
   serializeData: ->
-    data = app.request 'get:network:counters'
+    counters = app.request 'get:network:counters'
 
     { parent, name } = @currentTabData
 
@@ -46,9 +46,14 @@ module.exports = Marionette.ItemView.extend
     # but it would be more expensive
     for k, v of subTabsData
       v.active = false
+      { counter } = v
+      if counter? then v.count = counters[counter]
+
     subTabsData[name].active = true
 
-    data.subTabsData = subTabsData
+    data = _.extend counters,
+      subTabsData: subTabsData
+
     data[parent] = true
 
     return data

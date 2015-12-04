@@ -15,6 +15,7 @@ usersTabs =
     title: 'friends'
     icon: 'list'
     layout: 'friends_layout'
+    counter: 'friendsRequestsCount'
   invite:
     name: 'invite'
     section: 'invite'
@@ -41,6 +42,7 @@ groupsTabs =
     title: 'your groups'
     icon: 'list'
     layout: 'groups_layout'
+    counter: 'groupsRequestsCount'
   createGroup:
     name: 'createGroup'
     section: 'create'

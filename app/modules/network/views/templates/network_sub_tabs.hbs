@@ -2,5 +2,6 @@
   <a id="{{name}}Tab" href="/{{path}}" class="tab {{#if active}}active{{/if}}">
     {{icon icon}}
     {{I18n title}}
+    {{#if count}}<span class="counter">{{count}}</span>{{/if}}
   </a>
 {{/each}}

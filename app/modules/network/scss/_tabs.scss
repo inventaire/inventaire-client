@@ -52,14 +52,14 @@
       // up to max 10em
       max-width: 10em;
       font-size: 1.2em;
-      padding: 0.2em;
+      padding: 0.2em 0.4em 0.2em 0.4em;
       margin-left: 0.1em;
       margin-right: 0.1em;
       @include radius(5em);
       @include sans-serif;
       background-color: $dark-grey;
       color: white;
-      @include shy;
+      @include shy(0.8);
       &.active{
         opacity: 1;
         color: $dark-grey;
