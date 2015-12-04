@@ -16,6 +16,8 @@ $networkLayoutWidth: 40em;
   h3{
     font-size: 1.1em;
     margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    @include sans-serif;
   }
   text-align: center;
   .custom-tabs-titles{
