@@ -42,11 +42,11 @@ filterInventoryByFriendsAndMainUser = filterInventory.bind null, 'friendsAndMain
 
 filterInventoryByGroup = (groupModel)->
   Items.filtered.resetFilters()
-  allMembers = groupModel.allMembers()
+  allMembersIds = groupModel.allMembersIds()
   mainUserId = app.user.id
   Items.filtered.filterBy 'group', (itemModel)->
     owner = itemModel.get 'owner'
-    unless owner in allMembers then return false
+    unless owner in allMembersIds then return false
 
     if owner is mainUserId then isntPrivateItem itemModel
     else true

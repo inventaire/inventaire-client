@@ -27,9 +27,7 @@ module.exports = Filterable.extend
     @initRequestersCollection()
 
     # keep internal lists updated
-    @on 'change:members change:admins', @_recalculateAllMembers.bind(@)
-    @on 'change:invited', @_recalculateAllInvited.bind(@)
-    @on 'change:requested', @_recalculateAllRequested.bind(@)
+    @on 'change', @recalculateAllLists.bind(@)
     # keep @members udpated
     @on 'change:members change:admins', @initMembersCollection.bind(@)
     @on 'change:requested', @initRequestersCollection.bind(@)
@@ -43,7 +41,7 @@ module.exports = Filterable.extend
     @[name] or= new Backbone.Collection
     @[name].remove @[name].models
     Name = _.capitaliseFirstLetter name
-    for userId in @["all#{Name}"]()
+    for userId in @["all#{Name}Ids"]()
       @fetchUser @[name], userId
 
   fetchUser: (collection, userId)->
@@ -54,7 +52,7 @@ module.exports = Filterable.extend
   getUserIds: (category)->
     @get(category).map _.property('user')
 
-  membersCount: -> @allMembers().length
+  membersCount: -> @allMembersIds().length
   requestsCount: ->
     # only used to count groups notifications
     # which only concern group admins
@@ -85,18 +83,18 @@ module.exports = Filterable.extend
 
   userStatus: (user)->
     { id } = user
-    if id in @allMembers() then return 'member'
-    else if id in @allInvited() then return 'invited'
-    else if id in @allRequested() then return 'requested'
+    if id in @allMembersIds() then return 'member'
+    else if id in @allInvitedIds() then return 'invited'
+    else if id in @allRequestedIds() then return 'requested'
     else 'none'
 
   userIsAdmin: (userId)->
-    return userId in @allAdmins()
+    return userId in @allAdminsIds()
 
   mainUserStatus: -> @userStatus app.user
-  mainUserIsAdmin: -> app.user.id in @allAdmins()
-  mainUserIsMember: -> app.user.id in @allMembers()
-  mainUserIsInvited: -> app.user.id in @allInvited()
+  mainUserIsAdmin: -> app.user.id in @allAdminsIds()
+  mainUserIsMember: -> app.user.id in @allMembersIds()
+  mainUserIsInvited: -> app.user.id in @allInvitedIds()
 
   findMembership: (category, user)->
     _.findWhere @get(category), {user: user.id}
@@ -112,7 +110,7 @@ module.exports = Filterable.extend
   findMainUserInvitor: -> @findUserInvitor app.user
 
   fetchGroupUsersMissingItems: ->
-    groupNonFriendsUsersIds = app.request 'get:non:friends:ids', @allMembers()
+    groupNonFriendsUsersIds = app.request 'get:non:friends:ids', @allMembersIds()
     _.log groupNonFriendsUsersIds, 'groupNonFriendsUsersIds'
     if groupNonFriendsUsersIds.length > 0
       _.preq.get app.API.users.items(groupNonFriendsUsersIds)
@@ -125,12 +123,12 @@ module.exports = Filterable.extend
 
   userCanLeave: ->
     unless @mainUserIsAdmin() then return true
-    mainUserIsTheOnlyAdmin = @allAdmins().length is 1
-    thereAreOtherMembers = @allMembersStrict().length > 0
+    mainUserIsTheOnlyAdmin = @allAdminsIds().length is 1
+    thereAreOtherMembers = @allMembersStrictIds().length > 0
     if mainUserIsTheOnlyAdmin and thereAreOtherMembers then false
     else true
 
-  userIsLastUser: -> @allMembers().length is 1
+  userIsLastUser: -> @allMembersIds().length is 1
 
   updateMetadata: ->
     app.execute 'metadata:update',

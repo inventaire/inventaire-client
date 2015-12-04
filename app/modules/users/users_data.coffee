@@ -59,4 +59,4 @@ extractGroupsIds = (groups)->
   .without app.user.id
   .value()
 
-concatGroupIds = (group)-> group.allMembers()
+concatGroupIds = (group)-> group.allMembersIds()

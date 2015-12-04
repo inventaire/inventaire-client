@@ -2,74 +2,75 @@ error_ = require 'lib/error'
 
 module.exports =
   inviteUser: (user)->
-    @action 'invite', user.id
+    return @action 'invite', user.id
     .then @updateInvited.bind(@, user)
     # let views catch the error
 
   updateInvited: (user)->
-    @push 'invited',
+    triggerUserChange user
+    return @push 'invited',
       user: user.id
       invitor: app.user.id
       timestamp: _.now()
-    user.trigger 'group:invite'
 
   acceptInvitation: ->
     @moveMembership app.user, 'invited', 'members'
 
-    @action 'accept'
+    return @action 'accept'
     .then @fetchGroupUsersMissingItems.bind(@)
     .catch @revertMove.bind(@, app.user, 'invited', 'members')
 
   declineInvitation: ->
     @moveMembership app.user, 'invited', 'declined'
 
-    @action 'decline'
+    return @action 'decline'
     .catch @revertMove.bind(@, app.user, 'invited', 'declined')
 
   requestToJoin: ->
     @createRequest()
 
-    @action 'request'
+    return @action 'request'
     .catch @revertMove.bind(@, app.user, null, 'requested')
 
   createRequest: ->
-    @push 'requested',
+    return @push 'requested',
       user: app.user.id
       timestamp: _.now()
 
   cancelRequest: ->
     @moveMembership app.user, 'requested', 'tmp'
-    @action 'cancel-request'
+    return @action 'cancel-request'
     .catch @revertMove.bind(@, app.user, 'requested', 'tmp')
 
   acceptRequest: (user)->
     @moveMembership user, 'requested', 'members'
-    @action 'accept-request', user.id
+    return @action 'accept-request', user.id
     .catch @revertMove.bind(@, user, 'requested', 'members')
 
   refuseRequest: (user)->
     @moveMembership user, 'requested', 'tmp'
-    @action 'refuse-request', user.id
+    return @action 'refuse-request', user.id
     .catch @revertMove.bind(@, user, 'requested', 'tmp')
 
   makeAdmin: (user)->
     @moveMembership user, 'members', 'admins'
-    @action 'make-admin', user.id
+    triggerUserChange user
+    return @action 'make-admin', user.id
     .catch @revertMove.bind(@, user, 'members', 'admins')
 
   kick: (user)->
     @moveMembership user, 'members', 'tmp'
-    @action 'kick', user.id
+    return @action 'kick', user.id
     .catch @revertMove.bind(@, user, 'members', 'tmp')
 
   leave: ->
     initialCategory = if @mainUserIsAdmin() then 'admins' else 'members'
     @moveMembership app.user, initialCategory, 'tmp'
-    @action 'leave'
+    return @action 'leave'
     .catch @revertMove.bind(@, app.user, initialCategory, 'tmp')
 
   action: (action, userId)->
-    _.preq.put app.API.groups.private,
+    return _.preq.put app.API.groups.private,
       action: action
       group: @id
       # requiered only for actions implying an other user
@@ -82,6 +83,7 @@ module.exports =
 
   revertMove: (user, previousCategory, newCategory, err)->
     @moveMembership user, newCategory, previousCategory
+    triggerUserChange user
     throw err
 
   # moving membership object from previousCategory to newCategory
@@ -96,3 +98,9 @@ module.exports =
 
     if app.request 'user:isMainUser', user.id
       app.vent.trigger 'group:main:user:move'
+
+
+triggerUserChange = (user)->
+  trigger = -> user.trigger 'group:user:change'
+  # delay the event to let the time to the debounced recalculateAllLists to run
+  setTimeout trigger, 100

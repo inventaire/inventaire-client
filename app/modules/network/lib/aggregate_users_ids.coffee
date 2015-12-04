@@ -16,10 +16,14 @@ module.exports = ->
 
   for name, categories of aggregates
     Name = _.capitaliseFirstLetter name
-    # ex: @allMembers
-    @["all#{Name}"] = all.bind @, name, categories
-    # ex: @_recalculateAllMembers
-    @["_recalculateAll#{Name}"] = recalculateAll.bind @, name, categories
+    # ex: @allMembersIds
+    @["all#{Name}Ids"] = all.bind @, name, categories
+
+  recalculateAllLists = ->
+    for name, categories of aggregates
+      recalculateAll name, categories
+
+  @recalculateAllLists = _.debounce recalculateAllLists, 10
 
 aggregates =
   admins: 'admins'
