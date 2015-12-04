@@ -28,6 +28,10 @@ $coverTextBg: rgba($dark-grey, 0.5);
     max-height: 5em;
     overflow: auto;
     background-color: $coverTextBg;
+    .content-link{
+      @include text-hover(#ddd);
+      text-decoration: underline;
+    }
   }
 }
 .group, div.groupShow, .group-board-header{
