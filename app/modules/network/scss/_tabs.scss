@@ -47,10 +47,7 @@
     height: 4em;
     @include justify-content(flex-start);
     .tab{
-      // make it grow
       @include flex(1, 1, 0);
-      // up to max 10em
-      max-width: 10em;
       font-size: 1.2em;
       padding: 0.2em 0.4em 0.2em 0.4em;
       margin-left: 0.1em;
