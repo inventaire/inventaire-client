@@ -14,8 +14,7 @@ module.exports = preq =
   # keep the options object interface to keep the same signature
   # as the server side promises_.get, to ease shared libs
   get: (url, options)->
-    proxy = options?.proxy
-    if proxy then url = app.API.proxy url
+    if proxiedUrl url then url = app.API.proxy url
     return wrap $.get(url), url
 
   post: (url, body)-> wrap $.post(url, body), url
@@ -35,6 +34,8 @@ module.exports = preq =
       return new Promise (resolve, reject)->
         cb = -> resolve res
         setTimeout cb, ms
+
+proxiedUrl = (url)-> /wikidata\.org/.test url
 
 preq.wrap = wrap = (jqPromise, url)->
   return new Promise (resolve, reject)->
