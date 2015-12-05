@@ -12,15 +12,6 @@
   .tab{
     white-space: nowrap;
   }
-  /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-    a, a.active{
-      max-height: 5em;
-      white-space: nowrap;
-      max-width: 50%;
-      padding: 0.5em 0 0.5em 0;
-    }
-  }
   .level-1{
     .tab{
       font-size: 1.2em;
@@ -61,6 +52,45 @@
         opacity: 1;
         color: $dark-grey;
         background-color: $active-custom-tab-bg;
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    a, a.active{
+      max-height: 5em;
+      white-space: nowrap;
+      max-width: 50%;
+      padding: 0.5em 0 0.5em 0;
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: 400px) {
+    .level-1{
+      .tab{
+        padding: 0.5em;
+        max-width: 50%;
+        @include flex-wrap(wrap);
+        .label{
+          order: 2;
+          // force the label to take its own line
+          width: 100%;
+        }
+        .counter{
+          margin: 0;
+        }
+      }
+    }
+    .level-2{
+      height: auto;
+      @include display-flex(column, center, center, nowrap);
+      .tab{
+        min-width: 90%;
+        @include flex(1);
+        margin: 0.2em;
+        &.active{
+          order: 10;
+        }
       }
     }
   }
