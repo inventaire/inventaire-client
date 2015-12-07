@@ -12,12 +12,16 @@ Updater = (fixedOptions)->
   { endpoint, action, uniqueModel, modelIdLabel } = fixedOptions
   return updater = (options)->
     { model, attribute, value, defaultPreviousValue, selector } = options
-    previousValue = app.user.get(attribute) or defaultPreviousValue
+    previousValue = app.user.get attribute
+    # previousValue can't be defined with a "or":
+    # previousValue = app.user.get(attribute) or defaultPreviousValue
+    # as the value might be false and thus use the default value despite being defined
+    previousValue ?= defaultPreviousValue
 
     # smooths different ways to set a value to null or undefined
     bothInexistant = (not value?) and (not previousValue?)
 
-    if bothInexistant or _.isEqual value, previousValue
+    if bothInexistant or _.isEqual(value, previousValue)
       _.log options, 'the model is already up-to-date'
       promise = _.preq.resolve()
     else
