@@ -1,5 +1,5 @@
 <div id="addIconButtonTop" class="positioner"></div>
-<a id="addIconButton" class="iconButton add" title="{{i18n 'title_add_layout'}}">
+<a href="/add" id="addIconButton" class="iconButton add" title="{{i18n 'title_add_layout'}}">
   <div class="double-icon">
     {{icon 'search'}}
     <span>/</span>
@@ -10,7 +10,7 @@
   </div>
 </a>
 <div id="networkIconButtonTop" class="positioner"></div>
-<a id="networkIconButton" class="iconButton network" title="{{i18n 'title_networt_layout'}}">
+<a href="/network" id="networkIconButton" class="iconButton network" title="{{i18n 'title_networt_layout'}}">
   <div class="iconWithCounter count-{{networkUpdates}}">
     {{icon 'users'}}
     <span class="counter">{{networkUpdates}}</span>
@@ -19,15 +19,15 @@
     <span>{{i18n 'friends & groups'}}</span>
   </div>
 </a>
-<a id="browseIconButton" class="iconButton browse" title="{{i18n 'title_browse_layout'}}">
+<a href="/inventory" id="browseIconButton" class="iconButton browse" title="{{i18n 'title_browse_layout'}}">
   {{icon 'list'}}
   <span>{{i18n 'browse books'}}</span>
 </a>
-<a id="browseIconButton" class="iconButton map" title="{{i18n 'title_map_layout'}}">
+<a href="/map" id="browseIconButton" class="iconButton map" title="{{i18n 'title_map_layout'}}">
   {{icon 'map-marker'}}
   <span>{{i18n 'books nearby'}}</span>
 </a>
-<a id="exchangesIconButton" class="iconButton exchanges" title="{{i18n 'title_exchanges_layout'}}">
+<a href="/transactions" id="exchangesIconButton" class="iconButton exchanges" title="{{i18n 'title_exchanges_layout'}}">
   <div class="iconWithCounter count-{{exchangesUpdates}}">
     {{icon 'exchange'}}
     <span class="counter">{{exchangesUpdates}}</span>

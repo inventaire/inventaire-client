@@ -26,6 +26,9 @@ module.exports = Marionette.ItemView.extend
     map: '.map'
     exchanges: '.exchanges'
 
+  behaviors:
+    PreventDefault: {}
+
   serializeData: ->
     networkUpdates: @networkUpdates()
     exchangesUpdates: @exchangesUpdates()
@@ -51,25 +54,30 @@ module.exports = Marionette.ItemView.extend
   selectButton: (uiName)->
     @ui[uiName].addClass 'selected'
 
-  showAddLayout: ->
-    @selectButton 'add'
-    app.execute 'show:add:layout'
+  showAddLayout: (e)->
+    unless _.isOpenedOutside e
+      @selectButton 'add'
+      app.execute 'show:add:layout'
 
-  showNetwork: ->
-    @selectButton 'network'
-    app.execute 'show:network'
+  showNetwork: (e)->
+    unless _.isOpenedOutside e
+      @selectButton 'network'
+      app.execute 'show:network'
 
-  showInventory: ->
-    @selectButton 'browse'
-    app.execute 'show:inventory:general'
+  showInventory: (e)->
+    unless _.isOpenedOutside e
+      @selectButton 'browse'
+      app.execute 'show:inventory:general'
 
-  showMap: ->
-    @selectButton 'map'
-    app.execute 'show:map'
+  showMap: (e)->
+    unless _.isOpenedOutside e
+      @selectButton 'map'
+      app.execute 'show:map'
 
-  showTransactions: ->
-    @selectButton 'exchanges'
-    app.execute 'show:transactions'
+  showTransactions: (e)->
+    unless _.isOpenedOutside e
+      @selectButton 'exchanges'
+      app.execute 'show:transactions'
 
   networkUpdates: ->
     app.request('get:network:counters').total
