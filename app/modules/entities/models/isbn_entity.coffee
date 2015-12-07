@@ -11,7 +11,7 @@ module.exports = Entity.extend
     @id = @get 'id'
     isbn = @get 'isbn'
     unless isbn?
-      throw new Error "isbn entity doesn't have an isbn"
+      throw new Error "isbn entity doesn't have an isbn: #{@get('uri')}"
 
     @findAPicture()
     @uri = @get('uri') or "isbn:#{isbn}"
