@@ -12,9 +12,10 @@ Updater = (fixedOptions)->
   { endpoint, action, uniqueModel, modelIdLabel } = fixedOptions
   return updater = (options)->
     { model, attribute, value, defaultPreviousValue, selector } = options
-    previousValue = app.user.get attribute
+    model or= uniqueModel
+    previousValue = model.get attribute
     # previousValue can't be defined with a "or":
-    # previousValue = app.user.get(attribute) or defaultPreviousValue
+    # previousValue = model.get(attribute) or defaultPreviousValue
     # as the value might be false and thus use the default value despite being defined
     previousValue ?= defaultPreviousValue
 
@@ -25,7 +26,6 @@ Updater = (fixedOptions)->
       _.log options, 'the model is already up-to-date'
       promise = _.preq.resolve()
     else
-      model or= uniqueModel
       model.set attribute, value
 
       # preparing options for possible rollback
