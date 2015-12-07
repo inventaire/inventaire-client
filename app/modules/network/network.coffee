@@ -20,6 +20,9 @@ module.exports =
 
         'network/groups/:id(/:name)(/)': 'showGroupBoard'
 
+        # legacy redirections
+        'network/friends(/)':'showNetworkLayoutFriends'
+
     app.addInitializer ->
       new Router
         controller: API
