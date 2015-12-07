@@ -14,7 +14,7 @@ module.exports =
     # not passing an absolute url so that it can be easily digested
     # by the {{src}} helper as a local image url
     # /!\ implies that the current server has it in its object storage container
-    banner: '/img/0232a16a7d8c887f2154f0932fa030abca2d7fa1.jpg'
+    banner: '/img/a703e4c65a44dab0e9086722ac2967c3cdf03024.jpg'
     # images in CC-BY or CC-BY-SA
     # see app/modules/welcome/views/templates/credits.hbs for originals
     bokeh: '/img/6fca0921e336dd4dab1f1900e8f1143a9a9e9623.jpg'
