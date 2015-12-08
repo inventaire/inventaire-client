@@ -184,12 +184,10 @@ module.exports = Marionette.ItemView.extend
 
   # LANGUAGE
   changeLanguage: (e)->
-    lang = e.target.value
-    if lang isnt app.user.get 'language'
-      app.request 'user:update',
-        attribute:'language'
-        value: e.target.value
-        selector: '#languagePicker'
+    app.request 'user:update',
+      attribute:'language'
+      value: e.target.value
+      selector: '#languagePicker'
 
   # PICTURE
   changePicture: require 'modules/user/lib/change_user_picture'
