@@ -15,8 +15,11 @@ module.exports = Marionette.Behavior.extend
     if $wrapper.length is 1
       $check = $wrapper.find('.check')
     else
-      console.warn 'deprecated success check form: please use .checkWrapper format'
+      # console.warn 'deprecated success check form: please use .checkWrapper format'
       $check = $(e.target).find('.check')
+
+    unless $check.length is 1
+      return _.warn '.check target not found'
 
     $check.hide().html "<i class='fa fa-#{signal} text-center'></i>"
     .slideDown(300)
