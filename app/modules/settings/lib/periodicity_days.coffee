@@ -4,7 +4,7 @@ for num in [1..180]
     days.push { num: num }
 
 module.exports = (selectedDay)->
-  daysClone = days.clone()
-  # days[0].num === 1, thus the need to remove 1
-  daysClone[selectedDay-1].selected = true
-  return daysClone
+  # creates a clone of days
+  return days.map (el)->
+    if el.num is selectedDay then el.selected = true
+    return el
