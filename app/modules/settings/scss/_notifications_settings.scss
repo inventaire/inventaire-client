@@ -1,6 +1,6 @@
 .notificationsSettings{
-  .rest{
-    // required by local-fog
+  .rest, .summary-periodicity{
+    // required by rest-fog
     position: relative;
   }
   .setting{
@@ -15,11 +15,13 @@
     text-align: center;
     @include radius;
   }
-  .local-fog{
+  .rest-fog, .periodicity-fog{
     background-color: rgba(white, 0.5);
+  }
+  .rest-fog{
     margin: -0.5em;
   }
-  .warning, .local-fog{
+  .warning, .rest-fog, .periodicity-fog{
     &:not(.shown){
       display: none;
     }
@@ -32,5 +34,25 @@
     padding: 0;
     color: $dark-grey;
     opacity: 1;
+  }
+}
+
+.summary-periodicity{
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
+    margin-top: 0.5em;
+    padding: 0.5em 1em 0.5em 1em;
+    text-align: center;
+    .row{
+      @include display-flex(row, center, center);
+    }
+    span{
+      @include flex(1);
+    }
+    #periodicityPicker{
+      max-width: 3.5em;
+      margin: 0;
+      padding: 0;
+    }
   }
 }

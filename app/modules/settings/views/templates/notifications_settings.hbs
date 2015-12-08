@@ -8,7 +8,25 @@
 </div>
 
 <div class="rest">
-  <div class="local-fog {{#if showWarning}}shown{{/if}}"></div>
+  <div class="rest-fog local-fog {{#if showWarning}}shown{{/if}}"></div>
+  <div class="news">
+    <h3>{{i18n 'news'}}</h3>
+    {{!-- {{partial 'settings:notification_setting' newsletters}} --}}
+    {{!-- <hr> --}}
+    {{partial 'settings:notification_setting' inventories_activity_summary}}
+    <div class="summary-periodicity checkWrapper">
+      <div class="periodicity-fog local-fog {{#if showPeriodicity}}shown{{/if}}"></div>
+      <div class="row">
+        <span>{{{I18n 'activity_summary_periodicity_tip'}}}</span>
+        <select id="periodicityPicker" name="periodicity">
+          {{#each days}}
+            <option value="{{num}}" {{#if selected}}selected{{/if}}>{{num}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <span class="check"></span>
+    </div>
+  </div>
   <div class="friends">
     <h3>{{i18n 'friends'}}</h3>
     {{partial 'settings:email_me_when'}}
@@ -38,10 +56,4 @@
     <hr>
   </div>
 
-  <div class="news">
-    <h3>{{i18n 'news'}}</h3>
-    {{partial 'settings:notification_setting' newsletters}}
-    <hr>
-    {{partial 'settings:notification_setting' inventories_activity_summary}}
-  </div>
 </div>

@@ -1,4 +1,6 @@
 notificationsList = sharedLib 'notifications_settings_list'
+getPeriodicityDays = require '../lib/periodicity_days'
+defaultPeriodicity = 20
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/notifications_settings'
@@ -8,11 +10,17 @@ module.exports = Marionette.ItemView.extend
     @lazyRender = _.LazyRender @
     @listenTo app.user, 'change:settings', @lazyRender
 
+  behaviors:
+    SuccessCheck: {}
+
   serializeData: ->
     notifications = app.user.get 'settings.notifications'
+    summaryPeriodicity = app.user.get('summaryPeriodicity') or defaultPeriodicity
     _.extend @getNotificationsData(notifications),
       warning: 'global_email_toggle_warning'
       showWarning: not notifications.global
+      showPeriodicity: not notifications.inventories_activity_summary
+      days: getPeriodicityDays summaryPeriodicity
 
   getNotificationsData: (notifications)->
     data = {}
@@ -26,13 +34,16 @@ module.exports = Marionette.ItemView.extend
   ui:
     global: '#global'
     warning: '.warning'
-    fog: '.local-fog'
+    globalFog: '.rest-fog'
+    periodicityFog: '.periodicity-fog'
 
   events:
     'change .toggler-input': 'toggleSetting'
+    'change #periodicityPicker': 'updatePeriodicity'
 
   toggleSetting: (e)->
     { id, checked } = e.currentTarget
+    console.log 'ID', id
     @updateSetting id, checked
 
   updateSetting: (id, value)->
@@ -42,7 +53,17 @@ module.exports = Marionette.ItemView.extend
       defaultPreviousValue: true
 
     if id is 'global' then @toggleWarning()
+    if id is 'inventories_activity_summary' then @togglePeriodicity()
 
   toggleWarning: ->
-    @ui.warning.slideToggle(200)
-    @ui.fog.fadeToggle(200)
+    @ui.warning.slideToggle 200
+    @ui.globalFog.fadeToggle 200
+
+  togglePeriodicity: ->
+    @ui.periodicityFog.fadeToggle 200
+
+  updatePeriodicity: (e)->
+    app.request 'user:update',
+      attribute: 'summaryPeriodicity'
+      value: e.target.value
+      selector: '#periodicityPicker'
