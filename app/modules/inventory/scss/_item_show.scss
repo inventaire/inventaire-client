@@ -80,6 +80,7 @@
       opacity: 0.6;
     }
     .leftBox{
+      min-width: 16em;
       @include flex(0, 0);
       .item-settings{
         @include display-flex(column);
