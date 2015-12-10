@@ -23,12 +23,13 @@
   {{/if}}
   <div class="userMenuWrapper">
     {{#unless mainUser}}
-      {{#unless loggedIn}}
-        <div class="local-fog">
+      {{#if loggedIn}}
+        {{partial 'inventory/side_nav:user_menu' this}}
+      {{else}}
+        <p class="restricted">
           {{i18n 'you need to be connected to send a friend request'}}
-        </div>
-      {{/unless}}
-      {{partial 'inventory/side_nav:user_menu' this}}
+        </p>
+      {{/if}}
       {{#if commonGroups}}
         <div class="common-groups">
           <h4>{{i18n 'groups in common:'}}</h4>

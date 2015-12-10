@@ -66,22 +66,18 @@
     }
   }
   .userMenuWrapper{
-    position: relative;
     width: 100%;
-    .local-fog{
-      position: absolute;
-      // make the text appear above the action button
-      top: -1.6em;
-      @include display-flex(column, center, flex-start);
-      line-height: 1em;
-      text-align: center;
-      padding: 0.5em;
-    }
     .userMenu{
       @include flex(row, center, center);
       .action{
         margin: 0 auto;
       }
+    }
+    .restricted{
+      color: white;
+      padding: 1em;
+      text-align: center;
+      background-color: #4E4E4E;
     }
   }
   .common-groups, .visited-groups{
