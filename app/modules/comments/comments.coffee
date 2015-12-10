@@ -32,7 +32,7 @@ postComment = (itemId, message, commentsCollection)->
   _.preq.post app.API.comments.private, comment
   .then poster_.UpdateModelIdRev(commentModel)
   .catch poster_.Rewind(commentModel, commentsCollection)
-  .catch _.Error('postComment')
+  .catch _.ErrorRethrow('postComment')
 
 addComment = (comment, commentsCollection)->
   # adding elements set by the server firgures out alone
