@@ -53,7 +53,7 @@ API =
   showInvite: -> API.showNetworkLayout 'invite'
   showNearbyUsers: (qs)-> API.showNetworkLayout 'nearbyUsers', qs
 
-  showSearchGroups: -> API.showNetworkLayout 'searchGroups'
+  showSearchGroups: (qs)-> API.showNetworkLayout 'searchGroups', qs
   showUserGroups: -> API.showNetworkLayout 'userGroups'
   showCreateGroup: -> API.showNetworkLayout 'createGroup'
   showNearbyGroups: -> API.showNetworkLayout 'nearbyGroups'

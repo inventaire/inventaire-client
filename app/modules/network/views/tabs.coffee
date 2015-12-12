@@ -70,7 +70,9 @@ module.exports = Marionette.ItemView.extend
     updateTitle title
 
 navigate = (path)->
-  app.navigate path
+  # update only if needed
+  # allow to preserve custom query strings handled by sub tabs layouts
+  if path isnt _.currentRoute() then app.navigate path
 
 updateTitle = (title)->
   title = _.I18n title

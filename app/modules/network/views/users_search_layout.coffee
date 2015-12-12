@@ -1,6 +1,6 @@
 UsersList = require 'modules/users/views/users_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ path } = require('../lib/network_tabs').tabsData.users.searchUsers
+updateRoute = require('../lib/update_query_route')('searchUsers')
 
 module.exports = Marionette.LayoutView.extend
   id: 'usersSearchLayout'
@@ -29,6 +29,10 @@ module.exports = Marionette.LayoutView.extend
       collection: @collection
       stretch: true
 
+    # start with .noUser hidden
+    # will eventually be re-shown by empty results later
+    $('.noUser').hide()
+
   onRender: ->
     behaviorsPlugin.startLoading.call @, '#usersList'
 
@@ -38,14 +42,9 @@ module.exports = Marionette.LayoutView.extend
 
   searchUserFromEvent: (e)->
     query = e.target.value
-    lazyUpdateRoute query
+    updateRoute query
     @searchUser query
 
   searchUser: (query)->
     @lastQuery = query
     app.request 'users:search', query
-
-updateRoute = (query)->
-  app.navigate _.buildPath(path, {q: query})
-
-lazyUpdateRoute = _.debounce updateRoute, 300

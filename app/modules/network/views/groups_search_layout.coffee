@@ -1,11 +1,12 @@
 GroupsList = require './groups_list'
+updateRoute = require('../lib/update_query_route')('searchGroups')
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/groups_search_layout'
   id: 'groupsSearchLayout'
 
   initialize: ->
-    @lastSearch = ''
+    @initSearch()
 
   regions:
     'groupsList': '#groupsList'
@@ -13,10 +14,14 @@ module.exports = Marionette.LayoutView.extend
   ui:
     groupSearch: '#groupSearch'
 
+  events:
+    'keyup #groupSearch': 'searchGroupFromEvent'
+
   serializeData: ->
     groupsSearch:
       id: 'groupSearch'
       placeholder: 'search a group'
+      value: @lastSearch
 
   onShow: ->
     app.request 'waitForData'
@@ -31,12 +36,20 @@ module.exports = Marionette.LayoutView.extend
       mode: 'preview'
       emptyViewMessage: 'no group found with this name'
 
-    # start with no group hidden
+    # start with .noGroup hidden
     # will eventually be re-shown by empty results later
     $('.noGroup').hide()
 
-  updateGroupSearch: ->
-    text = @ui.groupSearch.val()
+  initSearch: ->
+    { q } = @options.query
+    @lastSearch = q or ''
+    if _.isNonEmptyString q then @searchGroup q
+
+  searchGroupFromEvent: ->
+    @searchGroup @ui.groupSearch.val()
+
+  searchGroup: (text)->
+    updateRoute text
     if text is ''
       @collection.resetFilters()
       return
@@ -44,6 +57,3 @@ module.exports = Marionette.LayoutView.extend
     unless text is @lastSearch
       @lastSearch = text
       @collection.searchByText text
-
-  events:
-    'keyup #groupSearch': 'updateGroupSearch'
