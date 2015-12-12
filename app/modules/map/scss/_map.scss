@@ -1,2 +1,6 @@
 @import "./map_layout";
 @import "./position_picker";
+
+.leaflet-control-attribution{
+  @include shy(0.5);
+}
