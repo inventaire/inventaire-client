@@ -10,10 +10,11 @@ settings =
   accessToken: accessToken
 
 L.Icon.Default.imagePath = '/public/images/map'
+userMarker = require '../views/templates/user_marker'
 
 defaultZoom = 13
 
-module.exports =
+module.exports = map_ =
   draw: (containerId, lat, lng, zoom=defaultZoom)->
     map = L.map(containerId).setView [lat, lng], zoom
     L.tileLayer(tileUrl, settings).addTo map
@@ -40,11 +41,36 @@ module.exports =
     marker = L.marker([lat, lng], {icon: icon}).addTo map
     return marker
 
-  updateRoute: (map, lat, lng, zoom=defaultZoom)->
-    app.execute 'navigate:map', lat, lng, zoom
+  updateRoute: (root, lat, lng, zoom=defaultZoom)->
+    # Keep only defined parameters in the route
+    # Allow to pass a custom root to let it be used in multiple modules
+    route = _.buildPath root, {lat: lat, lng: lng, zoom: zoom}
+    app.navigate route
+
+  updateRouteFromEvent: (root, e)->
+    { lat, lng } = e.target.getCenter()
+    { _zoom } = e.target
+    map_.updateRoute root, lat, lng, _zoom
 
   updateMarker: (marker, lat, lng)->
     marker.setLatLng [lat, lng]
+
+  showUsersOnMap: (map, users)->
+    for user in _.forceArray users
+      showUserOnMap map, user
+
+  BoundFilter: (map)->
+    bounds = map.getBounds()
+    return filter = (model)->
+      unless model.hasPosition() then return false
+      point = model.getLatLng()
+      return bounds.contains point
+
+showUserOnMap = (map, user)->
+  if user.hasPosition()
+    { lat, lng } = user.getPosition()
+    iconContent = userMarker user.toJSON()
+    map_.addCustomIconMarker map, lat, lng, iconContent
 
 # doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 navigatorCurrentPosition = ->

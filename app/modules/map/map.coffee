@@ -1,5 +1,6 @@
 MapLayout = require './views/map_layout'
 PositionPicker = require './views/position_picker'
+map_ = require './lib/map'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
@@ -17,8 +18,6 @@ module.exports =
         API.showMap { lat: lat, lng: lng, zoom: zoom }
         API.navigateMap lat, lng, zoom
 
-      'navigate:map': API.navigateMap
-
       'show:position:picker': API.showPositionPicker
 
 API =
@@ -27,9 +26,7 @@ API =
       coordinates: coordinates
 
   navigateMap: (lat, lng, zoom)->
-    # keep only defined parameters in the route
-    route = _.buildPath 'map', {lat: lat, lng: lng, zoom: zoom}
-    app.navigate route
+    map_.updateRoute 'map', lat, lng, zoom
 
   showPositionPicker: ->
     app.layout.modal.show new PositionPicker

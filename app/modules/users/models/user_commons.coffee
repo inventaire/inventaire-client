@@ -18,6 +18,16 @@ module.exports = Filterable.extend
       return { lat: lat, lng: lng }
     else return {}
 
+  getLatLng: ->
+    # Create a L.LatLng only once
+    # Update it when position update (only required for the main user)
+    if @_latLng? then return @_latLng
+    else @setLatLng()
+
+  setLatLng: ->
+    [ lat, lng ] = @get 'position'
+    return @_latLng = new L.LatLng lat, lng
+
   updateMetadata: ->
     app.execute 'metadata:update',
       title: @get 'username'

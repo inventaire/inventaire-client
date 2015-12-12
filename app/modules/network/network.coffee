@@ -8,20 +8,20 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'network(/users)(/search)(/)':'showNetworkLayoutSearchUsers'
-        'network/users/friends(/)':'showNetworkLayoutFriends'
-        'network/users/invite(/)':'showNetworkLayoutInvite'
-        'network/users/nearby(/)':'showNetworkLayoutNearbyUsers'
+        'network(/users)(/search)(/)':'showSearchUsers'
+        'network/users/friends(/)':'showFriends'
+        'network/users/invite(/)':'showInvite'
+        'network/users/nearby(/)':'showNearbyUsers'
 
-        'network(/groups)(/search)(/)':'showNetworkLayoutSearchGroups'
-        'network/groups/user(/)':'showNetworkLayoutUserGroups'
-        'network/groups/create(/)':'showNetworkLayoutCreateGroup'
-        'network/groups/nearby(/)':'showNetworkLayoutNearbyGroups'
+        'network(/groups)(/search)(/)':'showSearchGroups'
+        'network/groups/user(/)':'showUserGroups'
+        'network/groups/create(/)':'showCreateGroup'
+        'network/groups/nearby(/)':'showNearbyGroups'
 
         'network/groups/:id(/:name)(/)': 'showGroupBoard'
 
         # legacy redirections
-        'network/friends(/)':'showNetworkLayoutFriends'
+        'network/friends(/)':'showFriends'
 
     app.addInitializer ->
       new Router
@@ -30,8 +30,8 @@ module.exports =
   initialize: ->
     app.commands.setHandlers
       'show:network': API.showNetworkLayout
-      'show:network:friends': API.showNetworkLayoutFriends
-      'show:network:groups': API.showNetworkLayoutGroups
+      'show:network:friends': API.showFriends
+      'show:network:groups': API.showGroups
       'show:group:board': API.showGroupBoardFromModel
 
     app.reqres.setHandlers
@@ -47,21 +47,23 @@ initRequestsCollectionsEvent = ->
     .then -> app.vent.trigger 'network:requests:udpate'
 
 API =
-  showNetworkLayoutFriends: -> @showNetworkLayout 'friends'
-  showNetworkLayoutInvite: -> @showNetworkLayout 'invite'
-  showNetworkLayoutSearchUsers: -> @showNetworkLayout 'searchUsers'
-  showNetworkLayoutNearbyUsers: -> @showNetworkLayout 'nearbyUsers'
+  showSearchUsers: -> API.showNetworkLayout 'searchUsers'
+  showFriends: -> API.showNetworkLayout 'friends'
+  showInvite: -> API.showNetworkLayout 'invite'
+  showNearbyUsers: (qs)-> API.showNetworkLayout 'nearbyUsers', qs
 
-  showNetworkLayoutUserGroups: -> @showNetworkLayout 'userGroups'
-  showNetworkLayoutCreateGroup: -> @showNetworkLayout 'createGroup'
-  showNetworkLayoutSearchGroups: -> @showNetworkLayout 'searchGroups'
-  showNetworkLayoutNearbyGroups: -> @showNetworkLayout 'nearbyGroups'
+  showSearchGroups: -> API.showNetworkLayout 'searchGroups'
+  showUserGroups: -> API.showNetworkLayout 'userGroups'
+  showCreateGroup: -> API.showNetworkLayout 'createGroup'
+  showNearbyGroups: -> API.showNetworkLayout 'nearbyGroups'
 
-  showNetworkLayout: (tab=defaultTab)->
+  showNetworkLayout: (tab=defaultTab, qs)->
     { path } = tabsData.all[tab]
-    if app.request 'require:loggedIn', path
+    query = if _.isNonEmptyString qs then _.parseQuery qs else {}
+    if app.request 'require:loggedIn', _.buildPath(path, query)
       app.layout.main.show new NetworkLayout
         tab: tab
+        query: query
 
   showGroupBoard: (id, name)->
     # depend on group_helpers which waitForUserData

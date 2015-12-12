@@ -1,4 +1,5 @@
 map_ = require '../lib/map'
+{ updateRoute, updateRouteFromEvent } = map_
 userMarker = require './templates/user_marker'
 Items = require 'modules/inventory/collections/items'
 ItemsList = require 'modules/inventory/views/items_list'
@@ -34,12 +35,12 @@ module.exports = Marionette.LayoutView.extend
     { lat, lng, zoom } = coords
     map = map_.draw 'map', lat, lng, zoom
 
-    map_.updateRoute map, lat, lng, zoom
+    updateRoute 'map', lat, lng, zoom
     # marker = map_.addCircleMarker map, lat, lng
 
     @showUsersNearby map, [lat, lng]
 
-    map.on 'moveend', updateRoute.bind(null, map)
+    map.on 'moveend', updateRouteFromEvent.bind(null, 'map')
 
   findPosition: ->
     # priority is given to passed parameters
@@ -79,11 +80,6 @@ module.exports = Marionette.LayoutView.extend
     unless _.isOpenedOutside e
       username = e.currentTarget.href.split('/').last()
       app.execute 'show:inventory:user', username
-
-updateRoute = (map, e)->
-  { lat, lng } = e.target.getCenter()
-  { _zoom } = e.target
-  map_.updateRoute map, lat, lng, _zoom
 
 showUserOnMap = (map, user)->
   if user.hasPosition()

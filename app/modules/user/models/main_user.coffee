@@ -24,6 +24,7 @@ module.exports = UserCommons.extend
     @setLang()
     @on 'change:language', @setLang
     @on 'change:username', @setPathname
+    @on 'change:position', @setLatLng
     # user._id should only change once from undefined to defined
     @once 'change:_id', (model, id)-> app.execute 'track:user:id', id
 
