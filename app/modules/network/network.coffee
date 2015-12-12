@@ -47,7 +47,8 @@ initRequestsCollectionsEvent = ->
     .then -> app.vent.trigger 'network:requests:udpate'
 
 API =
-  showSearchUsers: -> API.showNetworkLayout 'searchUsers'
+  # qs stands for query string
+  showSearchUsers: (qs)-> API.showNetworkLayout 'searchUsers', qs
   showFriends: -> API.showNetworkLayout 'friends'
   showInvite: -> API.showNetworkLayout 'invite'
   showNearbyUsers: (qs)-> API.showNetworkLayout 'nearbyUsers', qs

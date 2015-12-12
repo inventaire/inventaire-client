@@ -1,6 +1,6 @@
 UsersList = require 'modules/users/views/users_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-# UsersSearch = require 'modules/network/plugins/users_search'
+{ path } = require('../lib/network_tabs').tabsData.users.searchUsers
 
 module.exports = Marionette.LayoutView.extend
   id: 'usersSearchLayout'
@@ -8,25 +8,44 @@ module.exports = Marionette.LayoutView.extend
   regions:
     usersList: '#usersList'
 
-  onShow: ->
-    @usersList.show new UsersList
-      collection: app.users.filtered.resetFilters()
-      stretch: true
-
   behaviors:
     Loading: {}
 
   events:
-    'keyup #usersSearch': 'searchUser'
+    'keyup #usersSearch': 'searchUserFromEvent'
+
+  initialize: ->
+    @collection = app.users.filtered.resetFilters()
+    @initSearch()
 
   serializeData: ->
     usersSearch:
       id: 'usersSearch'
       placeholder: 'search for users'
+      value: @lastQuery
+
+  onShow: ->
+    @usersList.show new UsersList
+      collection: @collection
+      stretch: true
 
   onRender: ->
     behaviorsPlugin.startLoading.call @, '#usersList'
 
-  searchUser: (e)->
+  initSearch: ->
+    { q } = @options.query
+    if _.isNonEmptyString q then @searchUser q
+
+  searchUserFromEvent: (e)->
     query = e.target.value
+    lazyUpdateRoute query
+    @searchUser query
+
+  searchUser: (query)->
+    @lastQuery = query
     app.request 'users:search', query
+
+updateRoute = (query)->
+  app.navigate _.buildPath(path, {q: query})
+
+lazyUpdateRoute = _.debounce updateRoute, 300
