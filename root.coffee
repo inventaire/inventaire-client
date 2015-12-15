@@ -1,4 +1,4 @@
-appRoot = require('app-root-path').path
+appRoot = __dirname.replace '/client', ''
 
 global.requireProxy = requireProxy = (path)->
   # ex: converts 'lib/wikidata' into #{appRoute}/client/app/lib/wikidata
