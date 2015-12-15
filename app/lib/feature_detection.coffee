@@ -69,11 +69,16 @@ testLocalStorage = ->
 setDebugSetting = ->
   # localStorage doesn't handle booleans
   # anything else than the string "true" will be considered false
-  CONFIG.debug = debug = localStorageProxy.getItem('debug') is 'true'
-  unless debug
+  persistantDebug = localStorageProxy.getItem('debug') is 'true'
+  queryStringDebug = window.location.search.split('debug=true').length > 1
+  if persistantDebug or queryStringDebug
+    console.log 'debug enabled'
+    CONFIG.debug = true
+  else
     console.warn "logs are disabled.\n
     Activate logs by entering this command and reloading the page:\n
-    localStorage.setItem('debug', true)"
+    localStorage.setItem('debug', true)\n
+    Or activate logs once by adding debug=true as a query parameter"
 
 testIndexedDbSupport = ->
   indexedDB = indexedDB or window.indexedDB or window.webkitIndexedDB or window.mozIndexedDB or window.OIndexedDB or window.msIndexedDB
