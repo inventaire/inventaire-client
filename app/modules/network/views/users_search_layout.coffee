@@ -25,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
       value: @lastQuery
 
   onShow: ->
+    @lastQuery = ''
     @usersList.show new UsersList
       collection: @collection
       stretch: true
