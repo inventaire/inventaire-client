@@ -35,8 +35,10 @@ getTitleAndAuthor = (bookModel)->
       return "#{title} #{authors}"
 
 attachPictures = (bookModel, pictures)->
+  _.types pictures, 'objects...'
   if pictures.length > 0
     pics = bookModel.get('pictures') or []
     # putting new pictures first in the list
+    pictures = pictures.map _.property('image')
     bookModel.set 'pictures', pictures.concat(pics)
     bookModel.save()
