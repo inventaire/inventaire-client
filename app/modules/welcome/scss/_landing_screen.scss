@@ -78,14 +78,14 @@ section#landingScreen{
     @media screen and (max-height: 640px) {
       height: 30em;
     }
-    h2 {
+    h2{
       font-size: 10em;
       line-height: 1em;
       margin: auto;
     }
     .pitch{
       background-color: $pitch-bg-color;
-      width: 50%;
+      padding: 1em 2em 1em 2em;
       margin: auto;
     }
     #loginButtons{
