@@ -57,5 +57,8 @@
     "only available from mobiles yet": "seulement depuis un smartphone",
     "already have an account on Inventaire?": "Déjà un compte sur Inventaire ?",
     "identify with Mozilla Persona": "s'identifier avec Mozilla Persona",
-    "Mozilla Persona": "Mozilla Persona"
+    "Mozilla Persona": "Mozilla Persona",
+    "all users": "tous les utilisateurs",
+    "all groups": "tous les groupes",
+    "you have no pending invitation to join a group": "aucune invitation en attente pour rejoindre un groupe"
 }

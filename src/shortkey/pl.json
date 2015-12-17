@@ -152,6 +152,7 @@
     "update_on_item_you_requested_notification": null,
     "newsletters_notification": null,
     "inventories_activity_summary_notification": null,
+    "activity_summary_periodicity_tip": null,
     "email_invitation_sent": null,
     "num_books": null,
     "cookies_are_required": null,

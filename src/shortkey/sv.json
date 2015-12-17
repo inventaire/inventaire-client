@@ -152,6 +152,7 @@
     "update_on_item_you_requested_notification": null,
     "newsletters_notification": "erhåll Inventaires nyhetsbrev",
     "inventories_activity_summary_notification": "erhåll en sammanfattning av vad som nyligen hänt i ditt nätverk",
+    "activity_summary_periodicity_tip": null,
     "email_invitation_sent": "e-postinbjudan sänd till <span class='email'>%{email}</span>",
     "num_books": null,
     "cookies_are_required": "cookies behöver accepteras så att autentisering fungerar: prova att ändra inställningen i din browser och försök sedan igen.",
