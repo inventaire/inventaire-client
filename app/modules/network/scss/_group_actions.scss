@@ -15,6 +15,9 @@
     .cancelRequest, .decline{
       @include tiny-button($grey);
     }
+    .requested{
+      color: $dark-grey;
+    }
   }
   .restrictions{
     text-align: center;
