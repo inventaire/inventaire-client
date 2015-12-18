@@ -31,7 +31,7 @@ write = (path, data)->
 
 
   json = JSON.stringify data, null, 4
-  fs.writeFileAsync(path, json)
+  return fs.writeFileAsync path, json
 
 module.exports =
   # caching results as 'en' files will be requested multiple times
