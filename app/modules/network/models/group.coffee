@@ -27,10 +27,10 @@ module.exports = Filterable.extend
     @initRequestersCollection()
 
     # keep internal lists updated
-    @on 'change', @recalculateAllLists.bind(@)
-    # keep @members udpated
-    @on 'change:members change:admins', @initMembersCollection.bind(@)
-    @on 'change:requested', @initRequestersCollection.bind(@)
+    @on 'list:change', @recalculateAllLists.bind(@)
+    # udpated collections once the debounced recalculateAllLists is done
+    @on 'list:change:after', @initMembersCollection.bind(@)
+    @on 'list:change:after', @initRequestersCollection.bind(@)
 
   initMembersCollection: -> @initUsersCollection 'members'
   initRequestersCollection: -> @initUsersCollection 'requested'
@@ -41,7 +41,8 @@ module.exports = Filterable.extend
     @[name] or= new Backbone.Collection
     @[name].remove @[name].models
     Name = _.capitaliseFirstLetter name
-    for userId in @["all#{Name}Ids"]()
+    ids = @["all#{Name}Ids"]()
+    for userId in ids
       @fetchUser @[name], userId
 
   fetchUser: (collection, userId)->

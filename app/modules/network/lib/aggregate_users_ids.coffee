@@ -19,11 +19,9 @@ module.exports = ->
     # ex: @allMembersIds
     @["all#{Name}Ids"] = all.bind @, name, categories
 
-  recalculateAllLists = ->
+  @recalculateAllLists = ->
     for name, categories of aggregates
       recalculateAll name, categories
-
-  @recalculateAllLists = _.debounce recalculateAllLists, 10
 
 aggregates =
   admins: 'admins'

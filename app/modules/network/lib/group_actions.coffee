@@ -7,11 +7,12 @@ module.exports =
     # let views catch the error
 
   updateInvited: (user)->
-    triggerUserChange user
-    return @push 'invited',
+    @push 'invited',
       user: user.id
       invitor: app.user.id
       timestamp: _.now()
+    @triggeredListChange()
+    triggerUserChange user
 
   acceptInvitation: ->
     @moveMembership app.user, 'invited', 'members'
@@ -99,8 +100,16 @@ module.exports =
     if app.request 'user:isMainUser', user.id
       app.vent.trigger 'group:main:user:move'
 
+    @triggeredListChange()
+
+  triggeredListChange: ->
+    # avoid using an event name starting by "change:"
+    # as Backbone FilteredCollection react on those
+    @trigger 'list:change'
+    @trigger 'list:change:after'
 
 triggerUserChange = (user)->
-  trigger = -> user.trigger 'group:user:change'
+  trigger = ->
+    user.trigger 'group:user:change'
   # delay the event to let the time to the debounced recalculateAllLists to run
   setTimeout trigger, 100
