@@ -1,6 +1,4 @@
 #!/usr/bin/env zsh
-rm public/javascripts/*map 2> /dev/null
-rm public/stylesheets/*map 2> /dev/null
 
 echo -e '\e[0;30mbrunch build -P\e[0m'
 brunch build -P
@@ -13,25 +11,15 @@ echo -e '\e[0;30mbuild_index\e[0m'
 # cssnext public/stylesheets/vendor.css{,}
 
 echo -e '\e[0;30mgzip js and css files\e[0m'
-gzip -9 -fc public/javascripts/app.js > public/javascripts/app.js.gz
-gzip -9 -fc public/javascripts/app.js.map > public/javascripts/app.js.map.gz
-gzip -9 -fc public/javascripts/vendor.js > public/javascripts/vendor.js.gz
-gzip -9 -fc public/javascripts/vendor.js.map > public/javascripts/vendor.js.map.gz
-gzip -9 -fc public/stylesheets/app.css > public/stylesheets/app.css.gz
-gzip -9 -fc public/stylesheets/vendor.css > public/stylesheets/vendor.css.gz
-gzip -9 -fc public/javascripts/persona-include.js > public/javascripts/persona-include.js.gz
-gzip -9 -fc public/javascripts/piwik.js > public/javascripts/piwik.js.gz
-
-echo -e '\e[0;30mgzip js and css map files\e[0m'
-# probably wont be accurate, due to the sourcemap being generated before cssnext
-gzip -9 -fc public/stylesheets/app.css.map > public/stylesheets/app.css.map.gz
-gzip -9 -fc public/stylesheets/vendor.css.map > public/stylesheets/vendor.css.map.gz
+source ./scripts/init_gzip_utils
+gzipkeepall public/javascripts
+# no need to run it everytimes as it doesn't change
+# gzipkeepall public/javascripts/moment
+gzipkeepall public/stylesheets
 
 echo -e '\e[0;30mgzip index.html\e[0m'
-gzip -9 -fc public/index.html > public/index.html.gz
+gzipkeep public/index.html
 echo -e '\e[0;30mgzip robots.txt\e[0m'
-gzip -9 -fc public/robots.txt > public/robots.txt.gz
-echo -e '\e[0;30mgzip sitemap.xml\e[0m'
-gzip -9 -fc public/sitemap.xml > public/sitemap.xml.gz
+gzipkeep public/robots.txt
 
 ./scripts/build_i18n
