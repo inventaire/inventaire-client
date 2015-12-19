@@ -8,7 +8,8 @@ module.exports =
   autolists:
     authors: [ 'P106', 'Q36180' ]
     books: [ 'P31', 'Q571' ]
-    genre: [ 'P31', 'Q223393' ]
+    genres: [ 'P31', 'Q223393' ]
+    movements: [ 'P31', 'Q3326717' ]
 
   wdq: (P, Q)->
     # use the local server to cache requests to wdq
