@@ -50,8 +50,8 @@ module.exports = Marionette.LayoutView.extend
     @updateUsersMarkers()
 
   showUsersNearby: (map, latLng)->
-    _.log arguments, 'showUsersNearby'
-    _.types latLng, 'strings...'
+    showUsersOnMap map, app.user
+
     app.request 'users:search:byPosition', latLng
     .then @updateUsersMarkers.bind(@)
 

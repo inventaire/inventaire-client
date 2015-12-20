@@ -19,6 +19,7 @@ exports.config =
           "bower_components/backbone/backbone.js"
         ],
         after: [
+          "bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"
           "vendor/*"
         ]
 

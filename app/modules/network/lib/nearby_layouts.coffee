@@ -23,7 +23,12 @@ drawMap = (params, coords)->
   { lat, lng, zoom } = coords
   { showObjects, path } = params
 
-  map = map_.draw 'map', lat, lng, zoom
+  map = map_.draw
+    containerId: 'map'
+    latLng: [lat, lng]
+    zoom: zoom
+    cluster: true
+
   showObjects map, [lat, lng]
 
   # update the path after the tabs lazyrendered and updated the path

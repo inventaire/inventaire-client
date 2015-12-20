@@ -33,10 +33,13 @@ module.exports = Marionette.LayoutView.extend
 
   _initMap: (coords)->
     { lat, lng, zoom } = coords
-    map = map_.draw 'map', lat, lng, zoom
+    map = map_.draw
+      containerId: 'map'
+      latLng: [lat, lng]
+      zoom: zoom
+      cluster: true
 
     updateRoute 'map', lat, lng, zoom
-    # marker = map_.addCircleMarker map, lat, lng
 
     @showUsersNearby map, [lat, lng]
 
@@ -83,6 +86,6 @@ module.exports = Marionette.LayoutView.extend
 
 showUserOnMap = (map, user)->
   if user.hasPosition()
-    { lat, lng } = user.getPosition()
-    iconContent = userMarker(user.toJSON())
-    map_.addCustomIconMarker map, lat, lng, iconContent
+    map.addMarker
+      markerType: 'user'
+      model: user

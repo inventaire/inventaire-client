@@ -37,7 +37,8 @@
     "moment": "~2.10.6",
     "polyglot": "~0.4.3",
     "qlabel": "https://github.com/maxlath/qlabel.git#bower-support",
-    "bluebird": "~3.0.5"
+    "bluebird": "~3.0.5",
+    "leaflet.markercluster": "~0.4.0"
   },
   "overrides": {
     "jquery-visible": {
@@ -64,6 +65,13 @@
         "js/foundation/foundation.orbit.js",
         "js/foundation/foundation.slider.js",
         "js/foundation/foundation.tab.js"
+      ]
+    },
+    "leaflet.markercluster": {
+      "main": [
+        "dist/leaflet.markercluster-src.js",
+        "dist/MarkerCluster.css",
+        "dist/MarkerCluster.Default.css"
       ]
     },
     "modernizr": {

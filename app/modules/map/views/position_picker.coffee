@@ -36,10 +36,17 @@ module.exports = Marionette.ItemView.extend
 
   _initMap: (coords)->
     { lat, lng, zoom } = coords
-    map = map_.draw 'positionPickerMap', lat, lng, zoom
+    map = map_.draw
+      containerId: 'positionPickerMap'
+      latLng: [lat, lng]
+      zoom: zoom
+      cluster: false
 
-    @marker = marker = map_.addCircleMarker map, lat, lng
-    map.on 'move', updateMarker.bind(null, marker)
+    @marker = map.addMarker
+      markerType: 'circle'
+      latLng: [lat, lng]
+
+    map.on 'move', updateMarker.bind(null, @marker)
 
   getPosition: ->
     { lat, lng } = @marker._latlng
