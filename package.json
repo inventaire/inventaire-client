@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "browser-locale": "^1.0.0",
-    "inv-utils": "^2.0.0",
+    "inv-utils": "^2.0.1",
     "level-js": "^2.2.3",
     "level-multiply": "git+https://github.com/maxlath/node-level-multiply.git",
     "levelup": "^1.2.1",

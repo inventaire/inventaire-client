@@ -35,6 +35,7 @@ getTitleAndAuthor = (bookModel)->
       return "#{title} #{authors}"
 
 attachPictures = (bookModel, pictures)->
+  _.log pictures, 'pictures'
   _.types pictures, 'objects...'
   if pictures.length > 0
     pics = bookModel.get('pictures') or []
