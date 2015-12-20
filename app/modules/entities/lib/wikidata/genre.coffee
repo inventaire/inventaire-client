@@ -6,7 +6,7 @@ wdGenre_.fetchBooksAndAuthors = (genreModel)->
   wdGenre_.fetchBooksAndAuthorsIds(genreModel)
   # forcing default argument to neutralize fetchBooksAndAuthorsIds returned value
   .then wdGenre_.fetchBooksAndAuthorsEntities.bind(null, genreModel, null, null)
-  .catch _.Error('wdGenre_.fetchBooksAndAuthors')
+  .catch _.ErrorRethrow('wdGenre_.fetchBooksAndAuthors')
 
 
 wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
@@ -16,21 +16,27 @@ wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
     if P135? or P136? then return _.preq.resolve()
 
   Promise.all [
-    wd_.getReverseClaims('P135', genreModel.id) #mouvement
-    wd_.getReverseClaims('P136', genreModel.id) #genre
+    getReverseClaims('P135', genreModel) #mouvement
+    getReverseClaims('P136', genreModel) #genre
   ]
   .then _.flatten
+  .catch _.ErrorRethrow('wdGenre_.fetchBooksAndAuthorsIds')
+
+getReverseClaims = (P, genreModel)->
+  Q = genreModel.id
+  wd_.getReverseClaims P, Q
   .then _.uniq
-  .then _.Log('books and authors ids')
-  .then genreModel.save.bind(genreModel, 'reverseClaims.P136')
-  .catch _.Error('wdGenre_.fetchBooksAndAuthorsIds')
+  .then _.Log("books and authors ids (#{P})")
+  .then genreModel.save.bind(genreModel, "reverseClaims.#{P}")
 
-
-wdGenre_.fetchBooksAndAuthorsEntities = (genreModel, limit=30, offset=0)->
+# setting default limit to 10 to avoid loading too many authors
+# which will load all their books in return
+wdGenre_.fetchBooksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
   _.types [genreModel, limit, offset], ['object', 'number', 'number']
+  ids = _.flatten genreModel.gets('reverseClaims.P135', 'reverseClaims.P136')
   first = offset
   last = offset + limit
-  range = genreModel.get('reverseClaims.P136')[first...last]
+  range = ids[first...last]
 
   unless range.length > 0
     _.warn 'no more ids: range is empty'
