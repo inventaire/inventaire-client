@@ -1,7 +1,4 @@
-# quite a small period, but it should allow to keep up
-# with the app changes while in beta
-period = 48 * 3600 * 1000
-
+period = 15 * 24 * 3600 * 1000
 
 module.exports = ->
   lastResetTime = getLastResetTime()
