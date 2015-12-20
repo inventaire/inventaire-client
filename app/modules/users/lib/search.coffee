@@ -13,12 +13,12 @@ module.exports = (app)->
       return app.users.filtered.filterByText text
 
   searchByPosition = (latLng)->
-    latLng = latLng.map (arg)-> Number(arg)
-    _.types latLng, 'numbers...'
+    latLng = latLng.map Number
 
     app.users.data.remote.searchByPosition latLng
     .then addUsersUnlessHere
-    .then -> app.users.filtered.filterByPosition latLng
+    # .then -> app.users.filtered.filterByPosition latLng
+    .then -> app.users.filtered
 
   addUsersUnlessHere = (users)->
     # Need to waitForData as isntAlreadyHere can't
