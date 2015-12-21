@@ -68,8 +68,6 @@ module.exports = (Backbone, _, app, window, csle)->
       k = Object.keys(obj)[0]
       return obj[k]
 
-    isFirefox: -> window.navigator?.mozApps?
-
     isModel: (obj)-> obj instanceof Backbone.Model
     isView: (obj)-> obj instanceof Backbone.View
 
