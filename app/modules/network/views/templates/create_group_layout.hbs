@@ -1,11 +1,17 @@
 <form id="step1" class="step">
+
   <label for="nameField">{{I18n 'group name:'}}</label>
   <div class="inputContainer">
     <input id="nameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}" class="enterClick">
   </div>
+
+  <label for="visibilityPicker">{{I18n 'visibility:'}}</label>
+  {{partial 'toggler' visiblity}}
+
   <a id="createGroup" class="button light-blue bold radius">
     {{icon 'plus'}} {{I18n 'create group'}}
   </a>
+
 </form>
 <div id="step2" class="step hidden">
   <h3>

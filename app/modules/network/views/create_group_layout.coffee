@@ -18,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
   ui:
     nameField: '#nameField'
     step1: '#step1'
+    searchabilityToggler: '#searchabilityToggler'
     step2: '#step2'
     allSteps: '.step'
 
@@ -32,10 +33,11 @@ module.exports = Marionette.LayoutView.extend
 
   createGroup: ->
     name = @ui.nameField.val()
+    searchable = @ui.searchabilityToggler[0].checked
     if _.isNonEmptyString name
       _.preq.start()
       .then groups_.validateName.bind(@, name, '#nameField')
-      .then groups_.createGroup.bind(null, name)
+      .then groups_.createGroup.bind(null, name, searchable)
       .then @setModel.bind(@)
       .then @showStepTwo.bind(@)
       .catch forms_.catchAlert.bind(null, @)
@@ -50,3 +52,10 @@ module.exports = Marionette.LayoutView.extend
 
   showFriendsInvitor: ->
     @invite.show @getFriendsInvitorView()
+
+  serializeData: ->
+    visiblity:
+      id: 'searchabilityToggler'
+      inverted: true
+      checked: true
+      label: 'appear in search'

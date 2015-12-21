@@ -7,6 +7,14 @@
 .toggler-wrapper{
   position: relative;
   @include display-flex(row, center, space-between);
+  &.inverted{
+    @include justify-content(flex-start);
+    :first-child{
+      @include order(2);
+      margin-left: 0.5em;
+    }
+    margin-bottom: 1em;
+  }
 }
 
 input.toggler-input{

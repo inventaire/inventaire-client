@@ -1,5 +1,5 @@
 {{!-- source & credits: http://callmenick.com/post/css-toggle-switch-examples --}}
-<div class="toggler-wrapper">
+<div class="toggler-wrapper {{#if inverted}}inverted{{/if}}">
   <span class="capitalized">{{i18n label}}</span>
   <div class="toggler">
     <input id="{{id}}" class="toggler-input" type="checkbox" {{#if checked}}checked="true"{{/if}}>
