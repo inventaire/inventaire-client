@@ -4,6 +4,11 @@
 // but allow to give more strength to those settings
 // or to :not(.them)ify by their class
 
+.toggler-wrapper{
+  position: relative;
+  @include display-flex(row, center, space-between);
+}
+
 input.toggler-input{
   position: absolute;
   margin-left: -9999px;

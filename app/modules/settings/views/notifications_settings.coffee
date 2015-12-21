@@ -43,7 +43,6 @@ module.exports = Marionette.ItemView.extend
 
   toggleSetting: (e)->
     { id, checked } = e.currentTarget
-    console.log 'ID', id
     @updateSetting id, checked
 
   updateSetting: (id, value)->

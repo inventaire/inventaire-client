@@ -3,10 +3,6 @@
     // required by rest-fog
     position: relative;
   }
-  .setting{
-    position: relative;
-    @include display-flex(row, center, space-between);
-  }
   .warning{
     margin-top: 1em;
     color: white;
