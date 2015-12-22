@@ -5,6 +5,10 @@
   </section>
 
   <section>
+    {{partial 'network:searchability' searchability}}
+  </section>
+
+  <section>
     <label for="editDescription">{{i18n 'edit group description'}}</label>
     {{textarea editDescription 'check'}}
     <div class="saveCancel hidden">{{partial 'save_cancel'}}</div>

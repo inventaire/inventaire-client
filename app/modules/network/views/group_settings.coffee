@@ -3,6 +3,7 @@ forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
 error_ = require 'lib/error'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
+searchabilityData = require '../lib/searchability_data'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
@@ -12,6 +13,10 @@ module.exports = Marionette.ItemView.extend
     ElasticTextarea: {}
     PreventDefault: {}
     SuccessCheck: {}
+    BackupForm: {}
+
+  initialize: ->
+    @lazyRender = _.LazyRender @, 500
 
   serializeData: ->
     attrs = @model.serializeData()
@@ -20,6 +25,7 @@ module.exports = Marionette.ItemView.extend
       editDescription: @editDescriptionData attrs.description
       userCanLeave: @model.userCanLeave()
       userIsLastUser: @model.userIsLastUser()
+      searchability: searchabilityData attrs.searchable
 
   editNameData: (groupName)->
     nameBase: 'editName'
@@ -43,6 +49,7 @@ module.exports = Marionette.ItemView.extend
   events:
     'click #editNameButton': 'editName'
     'click a#changePicture': 'changePicture'
+    'change #searchabilityToggler': 'toggleSearchability'
     'keyup #description': 'showSaveCancel'
     'click .cancelButton': 'cancelDescription'
     'click .saveButton': 'saveDescription'
@@ -50,7 +57,9 @@ module.exports = Marionette.ItemView.extend
     'click a.destroy': 'destroyGroup'
 
   onShow: ->
-    @listenTo @model, 'change:picture', @render.bind(@)
+    @listenTo @model, 'change:picture', @lazyRender
+    # using lazyRender to let the toggler animation the time to play
+    @listenTo @model, 'change:searchable', @lazyRender
 
   editName:->
     name = @ui.editNameField.val()
@@ -79,11 +88,20 @@ module.exports = Marionette.ItemView.extend
     unless _.isLocalImg picture
       throw new Error 'couldnt save picture: requires a local image url'
 
-    app.request 'group:update:settings',
-      model: @model
+    @updateSettings
       attribute: 'picture'
       value: picture
       selector: '#changePicture'
+
+  toggleSearchability: (e)->
+    { checked } = e.currentTarget
+    @updateSettings
+      attribute: 'searchable'
+      value: checked
+
+  updateSettings: (update)->
+    update.model = @model
+    app.request 'group:update:settings', update
 
   showSaveCancel: ->
     @_saveCancelShown = false

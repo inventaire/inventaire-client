@@ -5,6 +5,7 @@
 forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
 groupPlugin = require '../plugins/group'
+searchabilityData = require '../lib/searchability_data'
 
 module.exports = Marionette.LayoutView.extend
   id: 'createGroupLayout'
@@ -54,8 +55,4 @@ module.exports = Marionette.LayoutView.extend
     @invite.show @getFriendsInvitorView()
 
   serializeData: ->
-    visiblity:
-      id: 'searchabilityToggler'
-      inverted: true
-      checked: true
-      label: 'appear in search'
+    searchability: searchabilityData()
