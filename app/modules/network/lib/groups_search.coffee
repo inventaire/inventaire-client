@@ -5,13 +5,7 @@ module.exports = (groups)->
   queried = []
 
   searchByText = (text)->
-
-    unless _.isNonEmptyString text then return
-    if text in queried then return
-
-    queried.push text
-
-    _.preq.get app.API.groups.search(text)
+    queryIfNeeded text
     .then addGroupsAndFilterByText.bind(null, text)
     .catch (err)->
       # removing text from the list of past queries
@@ -19,8 +13,15 @@ module.exports = (groups)->
       queried = _.without queried, text
       throw err
 
-  filtered.searchByText = _.debounce searchByText, 200
+  queryIfNeeded = (text)->
+    noQueryNeeded = text in queried or text is ''
+    if noQueryNeeded then Promise.resolve false
+    else
+      queried.push text
+      _.preq.get app.API.groups.search(text)
 
   addGroupsAndFilterByText = (text, groupsData)->
-    groups.add groupsData
+    if groupsData then groups.add groupsData
     filtered.filterByText text
+
+  filtered.searchByText = _.debounce searchByText, 200

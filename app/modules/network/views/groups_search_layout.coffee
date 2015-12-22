@@ -5,9 +5,6 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/groups_search_layout'
   id: 'groupsSearchLayout'
 
-  initialize: ->
-    @initSearch()
-
   regions:
     'groupsList': '#groupsList'
 
@@ -16,6 +13,20 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'keyup #groupSearch': 'searchGroupFromEvent'
+
+  initialize: ->
+    { q } = @options.query
+    @lastSearch = q or ''
+
+    # groups waitForUserData to be initialized
+    # so app.user.groups will be undefined before
+    app.request 'waitForUserData'
+    .then @initSearch.bind(@, q)
+
+  initSearch: (q)->
+    @collection = app.user.groups.filtered.resetFilters()
+    app.execute 'fetch:last:group:created'
+    if _.isNonEmptyString q then @searchGroup q
 
   serializeData: ->
     groupsSearch:
@@ -28,9 +39,6 @@ module.exports = Marionette.LayoutView.extend
     .then @showGroupList.bind(@)
 
   showGroupList: ->
-    app.execute 'fetch:last:group:created'
-    @collection = app.user.groups.filtered.resetFilters()
-
     @groupsList.show new GroupsList
       collection: @collection
       mode: 'preview'
@@ -40,20 +48,10 @@ module.exports = Marionette.LayoutView.extend
     # will eventually be re-shown by empty results later
     $('.noGroup').hide()
 
-  initSearch: ->
-    { q } = @options.query
-    @lastSearch = q or ''
-    if _.isNonEmptyString q then @searchGroup q
-
   searchGroupFromEvent: ->
     @searchGroup @ui.groupSearch.val()
 
   searchGroup: (text)->
     updateRoute text
-    if text is ''
-      @collection.resetFilters()
-      return
-
-    unless text is @lastSearch
-      @lastSearch = text
-      @collection.searchByText text
+    @lastSearch = text
+    @collection.searchByText text
