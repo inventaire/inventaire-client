@@ -38,7 +38,7 @@ module.exports = Marionette.LayoutView.extend
     return attrs
 
   events:
-    'click .toggler': 'toggleSection'
+    'click .section-toggler': 'toggleSection'
     'click .joinRequest': 'requestToJoin'
 
   showHeader: ->
