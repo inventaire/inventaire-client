@@ -24,8 +24,10 @@ module.exports = ->
       return _.preq.resolve()
     else
       return new Promise (resolve, reject)->
-        app.vent.once 'friends:items:ready', -> if Items.personal?.fetched then resolve()
-        app.vent.once 'items:ready', -> if Items.friends?.fetched then resolve()
+        app.vent.once 'friends:items:ready', ->
+          if Items.personal?.fetched then resolve()
+        app.vent.once 'items:ready', ->
+          if Items.friends?.fetched then resolve()
 
   app.reqres.setHandlers
     'waitForData': Waiter 'data:ready', -> app.data.ready
@@ -33,3 +35,4 @@ module.exports = ->
     'waitForUserData': Waiter 'user:ready', -> app.user?.fetched
     'waitForFriendsItems': Waiter 'friends:items:ready', -> Items?.friends?.fetched
     'waitForItems': _.once waitForItems
+    'waitForLayout': Waiter 'layout:ready', -> app.layout?.ready

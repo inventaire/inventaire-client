@@ -30,6 +30,7 @@ module.exports =
       'show:call:to:connection': API.showCallToConnection
       'show:error:cookieRequired': API.showErrorCookieRequired
 
+    # should be run before app start to access the unmodifed url
     initQuerystringActions()
 
 API =

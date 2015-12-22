@@ -44,7 +44,6 @@ module.exports = Marionette.LayoutView.extend
     _.extend @, showViews
 
     @render()
-    app.vent.trigger 'layout:ready'
     app.commands.setHandlers
       'show:loader': @showLoader
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
