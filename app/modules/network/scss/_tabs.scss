@@ -39,6 +39,12 @@
     @include justify-content(flex-start);
     .tab{
       @include flex(1, 1, 0);
+      // webkit-browsers only
+      @media screen and (-webkit-min-device-pixel-ratio:0) {
+        // with flex-grow set to 0, chromium was giving an equal width to all
+        // the tabs, despite one needing more than the others due to the counter
+        @include flex-basis(auto);
+      }
       font-size: 1.2em;
       padding: 0.2em 0.4em 0.2em 0.4em;
       margin-left: 0.1em;

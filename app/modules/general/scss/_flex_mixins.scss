@@ -50,6 +50,10 @@
   @include vendor-prefix(flex, $grow $shrink $basis);
 }
 
+@mixin flex-basis($basis:auto){
+  @include vendor-prefix(flex-basis, $basis);
+}
+
 @mixin align-self($value) {
   @include vendor-prefix(align-self, $value);
 }
