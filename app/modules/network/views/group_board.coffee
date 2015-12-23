@@ -72,12 +72,15 @@ module.exports = Marionette.LayoutView.extend
     @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
 
   initSettings: ->
-    # begin with group_settings closed
-    @toggleUi 'groupSettings'
-    @_settingsReady = false
+    if @options.standalone and @model.mainUserIsAdmin()
+      @showSettings()
+    else
+      # begin with group_settings closed
+      @toggleUi 'groupSettings'
+      @_settingsShownOnce = false
 
   toggleSettings: ->
-    if @_settingsReady then @toggleUi 'groupSettings'
+    if @_settingsShownOnce then @toggleUi 'groupSettings'
     else
       @showSettings()
       # no need to slideDown as showing the view
@@ -85,7 +88,7 @@ module.exports = Marionette.LayoutView.extend
       @toggleUi 'groupSettings', true
 
   showSettings: ->
-    @_settingsReady = true
+    @_settingsShownOnce = true
     @groupSettings.show new GroupSettings
       model: @model
 
