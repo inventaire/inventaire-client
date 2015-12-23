@@ -55,9 +55,8 @@
   .searchable, .not-searchable{
     position: absolute;
     @include position(absolute, 0, 0);
-    // margin: 0.2em;
-    // margin-left: auto;
     border-bottom-left-radius: $global-radius;
+    border-top-right-radius: $global-radius;
     .fa{
       padding: 0.4em 0.2em 0 0.5em;
       color: white;
