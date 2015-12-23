@@ -10,6 +10,7 @@ groupFormData = require '../lib/group_form_data'
 module.exports = Marionette.LayoutView.extend
   id: 'createGroupLayout'
   template: require './templates/create_group_layout'
+  tagName: 'form'
   behaviors:
     AlertBox: {}
     ElasticTextarea: {}
@@ -20,11 +21,8 @@ module.exports = Marionette.LayoutView.extend
   ui:
     nameField: '#nameField'
     description: '#description'
-    step1: '#step1'
     searchabilityToggler: '#searchabilityToggler'
     searchabilityWarning: '.searchability .warning'
-    step2: '#step2'
-    allSteps: '.step'
 
   initialize: ->
     @initPlugin()
@@ -45,20 +43,8 @@ module.exports = Marionette.LayoutView.extend
     .then groups_.validateName.bind(@, name, '#nameField')
     .then groups_.validateDescription.bind(@, description, '#description')
     .then groups_.createGroup.bind(null, name, description, searchable)
-    .then @setModel.bind(@)
-    .then @showStepTwo.bind(@)
+    .then app.execute.bind(app, 'show:group:board')
     .catch forms_.catchAlert.bind(null, @)
-
-  setModel: (group)->
-    @model = group
-
-  showStepTwo: ->
-    @showFriendsInvitor()
-    @ui.allSteps.fadeOut()
-    @ui.step2.fadeIn()
-
-  showFriendsInvitor: ->
-    @invite.show @getFriendsInvitorView()
 
   serializeData: ->
     description: groupFormData.description()

@@ -8,10 +8,8 @@
     font-size: 1em;
   }
   @include flex(1);
-  #step1{
-    .button{
-      margin-top: 1em;
-    }
+  a#createGroup{
+    margin-top: 1em;
   }
   .showGroup{
     @include tiny-button($success-color);
