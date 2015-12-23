@@ -10,6 +10,15 @@
     {{partial 'network:group_stats' this}}
   </div>
 </a>
+{{#if searchable}}
+  <span class="searchable" title="{{i18n 'this group appears in search resuts'}}">
+    {{icon 'globe'}}
+  </span>
+{{else}}
+  <span class="not-searchable" title="{{i18n 'only those who get the link or are invited can find this group'}}">
+    {{icon 'lock'}}
+  </span>
+{{/if}}
 <a href="{{pathname}}" class="link showGroup">{{i18n 'go to the group inventory'}}</a>
 <div class="bottom">
   {{#if invitor.username}}
