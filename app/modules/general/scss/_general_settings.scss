@@ -33,6 +33,14 @@ body{
   }
 }
 
+textarea{
+  // don't set a min-width as textarea are sometimes in a flex row
+  // with other elements (ex: transactions new_message)
+  // min-width: 100%;
+  max-width: 100%;
+  resize: none;
+}
+
 img.icon{
   max-height: 1.5em;
   opacity: 0.8;
