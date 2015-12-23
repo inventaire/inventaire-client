@@ -3,11 +3,15 @@
   padding: 1em;
   background-color: white;
   label{
+    color: black;
     text-align: left;
     font-size: 1em;
   }
   @include flex(1);
   #step1{
+    .button{
+      margin-top: 1em;
+    }
   }
   .showGroup{
     @include tiny-button($success-color);

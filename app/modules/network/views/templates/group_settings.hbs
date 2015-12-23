@@ -1,19 +1,22 @@
 {{#if mainUserIsAdmin}}
   <section>
-    <label for="editName">{{i18n 'edit group name'}}</label>
+    <label for="editName">{{i18n 'name'}}</label>
     {{input editName 'check'}}
   </section>
+  <hr>
 
   <section>
-    {{partial 'network:searchability' searchability}}
-  </section>
-
-  <section>
-    <label for="editDescription">{{i18n 'edit group description'}}</label>
+    <label for="editDescription">{{i18n 'description'}}</label>
     {{textarea editDescription 'check'}}
     <div class="saveCancel hidden">{{partial 'save_cancel'}}</div>
     <div class="check"></div>
   </section>
+  <hr>
+
+  <section>
+    {{partial 'network:searchability' searchability}}
+  </section>
+  <hr>
 
   <section>
     {{partial 'general:behaviors:change_picture' this}}

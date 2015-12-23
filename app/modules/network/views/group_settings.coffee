@@ -3,7 +3,7 @@ forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
 error_ = require 'lib/error'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
-searchabilityData = require '../lib/searchability_data'
+groupFormData = require '../lib/group_form_data'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
@@ -22,10 +22,10 @@ module.exports = Marionette.ItemView.extend
     attrs = @model.serializeData()
     _.extend attrs,
       editName: @editNameData attrs.name
-      editDescription: @editDescriptionData attrs.description
+      editDescription: groupFormData.description attrs.description
       userCanLeave: @model.userCanLeave()
       userIsLastUser: @model.userIsLastUser()
-      searchability: searchabilityData attrs.searchable
+      searchability: groupFormData.searchability attrs.searchable
 
   editNameData: (groupName)->
     nameBase: 'editName'
@@ -36,15 +36,11 @@ module.exports = Marionette.ItemView.extend
       text: _.I18n 'save'
     check: true
 
-  editDescriptionData: (description)->
-    id: 'description'
-    placeholder: 'enter a group description'
-    value: description
-
   ui:
     editNameField: '#editNameField'
     description: '#description'
     saveCancel: '.saveCancel'
+    searchabilityWarning: '.searchability .warning'
 
   events:
     'click #editNameButton': 'editName'
@@ -95,6 +91,7 @@ module.exports = Marionette.ItemView.extend
 
   toggleSearchability: (e)->
     { checked } = e.currentTarget
+    @ui.searchabilityWarning.slideToggle()
     @updateSettings
       attribute: 'searchable'
       value: checked

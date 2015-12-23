@@ -1,2 +1,6 @@
-  <label for="searchabilityToggler">{{I18n 'visibility:'}}</label>
+<div class="searchability">
   {{partial 'toggler' this}}
+  <p class="warning {{#if checked}}hidden{{/if}}">
+    {{icon 'lock'}}{{i18n 'only those who get the link or are invited can find the group'}}
+  </p>
+</div>

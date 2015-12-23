@@ -2,12 +2,13 @@ forms_ = require 'modules/general/lib/forms'
 
 module.exports =
 
-  createGroup: (name, searchable)->
+  createGroup: (name, description, searchable)->
     { groups } = app.user
 
     _.preq.post app.API.groups.private,
       action: 'create'
       name: name
+      description: description
       searchable: searchable
     .then groups.add.bind(groups)
     .then _.Tap(app.execute.bind(app, 'track:group', 'create'))

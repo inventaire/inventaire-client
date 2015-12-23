@@ -1,4 +1,13 @@
 #groupSettings{
+  input, textarea{
+    // sections already have padding/margin
+    margin-bottom: 0.2em;
+  }
+  label{
+    text-align: left;
+    font-size: 1em;
+    color: black;
+  }
   .inner{
     padding-left: 0.5em;
     padding-right: 0.5em;
@@ -31,4 +40,16 @@
   // hacky compensation of the weird positioning
   // that would overlap the button if there wasn't that padding
   padding-top: 1em;
+}
+
+.searchability{
+  .warning{
+    background-color: grey;
+    color: white;
+    @include radius;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
 }

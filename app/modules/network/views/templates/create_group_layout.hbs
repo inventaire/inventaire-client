@@ -1,13 +1,17 @@
 <form id="step1" class="step">
 
-  <label for="nameField">{{I18n 'group name:'}}</label>
+  <label for="nameField">{{I18n 'group name'}}</label>
   <div class="inputContainer">
     <input id="nameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}" class="enterClick">
   </div>
 
+  <label for="description">{{i18n 'description'}}</label>
+  {{textarea description}}
+
   {{partial 'network:searchability' searchability}}
 
-  <a id="createGroup" class="button light-blue bold radius">
+
+  <a id="createGroup" class="button light-blue bold radius" tabindex="0">
     {{icon 'plus'}} {{I18n 'create group'}}
   </a>
 
