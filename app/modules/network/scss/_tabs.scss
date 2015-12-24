@@ -94,10 +94,6 @@
         min-width: 90%;
         @include flex(1);
         margin: 0.2em;
-        &.active{
-          // place last
-          @include order(10);
-        }
       }
     }
   }
