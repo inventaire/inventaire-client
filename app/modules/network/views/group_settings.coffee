@@ -56,6 +56,9 @@ module.exports = Marionette.ItemView.extend
     @listenTo @model, 'change:picture', @lazyRender
     # using lazyRender to let the toggler animation the time to play
     @listenTo @model, 'change:searchable', @lazyRender
+    # re-render to unlock the possibility to leave the group
+    # if a new admin was selected
+    @listenTo @model, 'list:change:after', @lazyRender
 
   editName:->
     name = @ui.editNameField.val()
