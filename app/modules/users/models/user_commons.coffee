@@ -25,8 +25,11 @@ module.exports = Filterable.extend
     else @setLatLng()
 
   setLatLng: ->
-    [ lat, lng ] = @get 'position'
-    return @_latLng = new L.LatLng lat, lng
+    if @hasPosition()
+      [ lat, lng ] = @get 'position'
+      return @_latLng = new L.LatLng lat, lng
+    else
+      return @_latLng = null
 
   updateMetadata: ->
     app.execute 'metadata:update',

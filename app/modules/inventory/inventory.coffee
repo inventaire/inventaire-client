@@ -277,6 +277,10 @@ initializeInventoriesHandlers = (app)->
       Items.inventoryLength[userId]
 
     'inventory:fetch:users:public:items': (usersIds)->
+      if usersIds.length is 0
+        _.warn usersIds, 'no user ids, no items fetched'
+        return _.preq.resolve []
+
       _.preq.get app.API.items.usersPublicItems(usersIds)
       .then _.property('items')
 
