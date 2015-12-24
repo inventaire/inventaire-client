@@ -26,7 +26,9 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     app.execute 'modal:open', 'large'
-    @initMap()
+    # let the time to the modal to be fully open
+    # so that the map can be drawned correctly
+    setTimeout @initMap.bind(@), 500
 
   initMap: ->
     if @hasPosition then @_initMap @position
