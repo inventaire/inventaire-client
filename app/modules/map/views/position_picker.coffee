@@ -2,6 +2,7 @@ map_ = require '../lib/map'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 { startLoading, stopLoading, Check } = require 'modules/general/plugins/behaviors'
+containerId = 'positionPickerMap'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/position_picker'
@@ -33,13 +34,13 @@ module.exports = Marionette.ItemView.extend
   initMap: ->
     if @hasPosition then @_initMap @position
     else
-      map_.getCurrentPosition()
+      map_.getCurrentPosition containerId
       .then @_initMap.bind(@)
 
   _initMap: (coords)->
     { lat, lng, zoom } = coords
     map = map_.draw
-      containerId: 'positionPickerMap'
+      containerId: containerId
       latLng: [lat, lng]
       zoom: zoom
       cluster: false

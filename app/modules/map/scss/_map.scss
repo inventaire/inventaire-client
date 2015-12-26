@@ -4,3 +4,15 @@
 .leaflet-control-attribution{
   @include shy(0.5);
 }
+
+.position-error{
+  @include display-flex(column, center, center);
+  // map containers may have a background-color defined
+  // which would have priority otherwise
+  background-color: grey !important;
+  color: white;
+  .fa{
+    font-size: 2em;
+    padding: 0.5em;
+  }
+}

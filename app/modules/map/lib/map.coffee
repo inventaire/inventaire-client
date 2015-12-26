@@ -1,11 +1,9 @@
 { defaultZoom } = require './config'
+getCurrentPosition = require './navigator_position'
 
 module.exports = map_ =
   draw: require './draw'
-  getCurrentPosition: ->
-    navigatorCurrentPosition()
-    .then _.Log('current position')
-    .then normalizeNavigatorCoords
+  getCurrentPosition: getCurrentPosition
 
   updateRoute: (root, lat, lng, zoom=defaultZoom)->
     # Keep only defined parameters in the route
@@ -38,17 +36,3 @@ showUserOnMap = (map, user)->
       objectId: user.cid
       model: user
       markerType: 'user'
-
-# doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
-navigatorCurrentPosition = ->
-  new Promise (resolve, reject)->
-    unless navigator.geolocation?.getCurrentPosition?
-      err = new Error 'getCurrentPosition isnt accessible'
-      return reject err
-
-    navigator.geolocation.getCurrentPosition resolve, reject,
-      timeout: 20*1000
-
-normalizeNavigatorCoords = (position)->
-  { latitude, longitude } = position.coords
-  return { lat: latitude, lng: longitude }

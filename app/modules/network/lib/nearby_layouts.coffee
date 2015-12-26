@@ -1,5 +1,6 @@
 map_ = require 'modules/map/lib/map'
 { updateRoute, updateRouteFromEvent } = map_
+containerId = 'map'
 
 initMap = (params)->
   { query } = params
@@ -17,14 +18,14 @@ solvePosition = (coords)->
   if user.hasPosition() then return _.preq.resolve user.getPosition()
 
   # finally a request for the user position is issued
-  return map_.getCurrentPosition()
+  map_.getCurrentPosition containerId
 
 drawMap = (params, coords)->
   { lat, lng, zoom } = coords
   { showObjects, path } = params
 
   map = map_.draw
-    containerId: 'map'
+    containerId: containerId
     latLng: [lat, lng]
     zoom: zoom
     cluster: true
