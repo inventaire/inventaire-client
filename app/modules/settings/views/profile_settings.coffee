@@ -63,7 +63,7 @@ module.exports = Marionette.ItemView.extend
     'click a#updatePassword': 'updatePassword'
     'click #forgotPassword': -> app.execute 'show:forgot:password'
     'click #deleteAccount': 'askDeleteAccountConfirmation'
-    'click #showPositionPicker': -> app.execute 'show:position:picker'
+    'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
 
   # USERNAME
   updateUsername: ->

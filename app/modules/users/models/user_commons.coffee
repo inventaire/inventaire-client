@@ -1,6 +1,6 @@
-Filterable = require 'modules/general/models/filterable'
+Positionable = require 'modules/general/models/positionable'
 
-module.exports = Filterable.extend
+module.exports = Positionable.extend
   setPathname: ->
     username = @get('username')
     @set 'pathname', "/inventory/#{username}"
@@ -9,27 +9,6 @@ module.exports = Filterable.extend
       @get('username')
       @get('bio')
     ]
-
-  hasPosition: -> @has 'position'
-  getPosition: ->
-    latLng = @get 'position'
-    if latLng?
-      [ lat, lng ] = latLng
-      return { lat: lat, lng: lng }
-    else return {}
-
-  getLatLng: ->
-    # Create a L.LatLng only once
-    # Update it when position update (only required for the main user)
-    if @_latLng? then return @_latLng
-    else @setLatLng()
-
-  setLatLng: ->
-    if @hasPosition()
-      [ lat, lng ] = @get 'position'
-      return @_latLng = new L.LatLng lat, lng
-    else
-      return @_latLng = null
 
   updateMetadata: ->
     app.execute 'metadata:update',

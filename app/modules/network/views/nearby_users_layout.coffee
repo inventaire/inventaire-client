@@ -1,22 +1,29 @@
 map_ = require 'modules/map/lib/map'
-{ showUsersOnMap, updateRouteFromEvent, pointInMap, BoundFilter } = map_
+{ showUsersOnMap, updateRouteFromEvent, pointInMap } = map_
 { path } = require('../lib/network_tabs').tabsData.users.nearbyUsers
 UsersList = require 'modules/users/views/users_list'
-{ initMap } = require '../lib/nearby_layouts'
+{ initMap, regions, grabMap, refreshListFilter } = require '../lib/nearby_layouts'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/nearby_users_layout'
   id: 'nearbyUsersLayout'
-
-  regions:
-    list: '#list'
-
+  regions: regions
   behaviors:
     PreventDefault: {}
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker'
     'click .userIcon a': 'showUserInventory'
+
+  initMap: ->
+    initMap
+      query: @options.query
+      path: path
+      showObjects: @showUsersNearby.bind(@)
+      onMoveend: @onMovend.bind(@)
+    .then grabMap.bind(@)
+    .then @initList.bind(@)
+    .catch _.Error('initMap')
 
   initialize: ->
     @collection = app.users.filtered.resetFilters()
@@ -31,22 +38,8 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     hasPosition: app.user.hasPosition()
 
-  initMap: ->
-    initMap
-      query: @options.query
-      path: path
-      showObjects: @showUsersNearby.bind(@)
-      onMoveend: @onMovend.bind(@)
-    .then @grabMap.bind(@)
-    .then @initList.bind(@)
-    .catch _.Error('initMap')
-
-  grabMap: (map)->
-    _.type map, 'object'
-    @map = map
-
   onMovend: ->
-    @refreshListFilter()
+    refreshListFilter.call @
     @updateUsersMarkers()
 
   showUsersNearby: (map, latLng)->
@@ -69,7 +62,4 @@ module.exports = Marionette.LayoutView.extend
       stretch: true
       emptyViewMessage: "can't find any user at this location"
 
-    @refreshListFilter()
-
-  refreshListFilter: ->
-    @collection.filterBy 'geobox', BoundFilter(@map)
+    refreshListFilter.call @

@@ -15,23 +15,44 @@ module.exports =
   initialize: ->
     app.commands.setHandlers
       'show:map': (lat, lng, zoom)->
-        API.showMap { lat: lat, lng: lng, zoom: zoom }
-        API.navigateMap lat, lng, zoom
+        showMap { lat: lat, lng: lng, zoom: zoom }
+        navigateMap lat, lng, zoom
 
-      'show:position:picker': API.showPositionPicker
+      'show:position:picker:main:user': showMainUserPositionPicker
+      'show:position:picker:group': showGroupPositionPicker
 
-API =
-  showMap: (coordinates)->
-    app.layout.main.show new MapLayout
-      coordinates: coordinates
+    app.reqres.setHandlers
+      'prompt:position:picker': promptPositionPicker
 
-  navigateMap: (lat, lng, zoom)->
-    map_.updateRoute 'map', lat, lng, zoom
+showMap = (coordinates)->
+  app.layout.main.show new MapLayout
+    coordinates: coordinates
 
-  showPositionPicker: ->
-    app.layout.modal.show new PositionPicker
+navigateMap = (lat, lng, zoom)->
+  map_.updateRoute 'map', lat, lng, zoom
+
+showPositionPicker = (options)->
+  app.layout.modal.show new PositionPicker(options)
+
+updatePosition = (model, updateReqres)->
+  showPositionPicker
+    model: model
+    resolve: (newCoords, selector)->
+      app.request updateReqres,
+        attribute: 'position'
+        value: newCoords
+        selector: selector
+
+showMainUserPositionPicker = -> updatePosition app.user, 'user:update'
+showGroupPositionPicker = (group)-> updatePosition group, 'group:update:settings'
+
+# returns a promise that should resolve with the selected coordinates
+promptPositionPicker = ->
+  new Promise (resolve, reject)->
+    try showPositionPicker { resolve: resolve }
+    catch err then reject err
 
 routerAPI =
   showMap: (querystring)->
     coordinates = _.parseQuery querystring
-    API.showMap coordinates
+    showMap coordinates

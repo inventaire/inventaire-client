@@ -13,8 +13,6 @@ module.exports = (app)->
       return app.users.filtered.filterByText text
 
   searchByPosition = (latLng)->
-    latLng = latLng.map Number
-
     app.users.data.remote.searchByPosition latLng
     .then addUsersUnlessHere
     # .then -> app.users.filtered.filterByPosition latLng

@@ -47,7 +47,7 @@ module.exports = ->
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'
 
-  require('./groups_search')(groups)
+  groups.filtered = require('./groups_search')(groups)
 
   lastGroupFetched = false
   fetchLastGroupsCreated = ->

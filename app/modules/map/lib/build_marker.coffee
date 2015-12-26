@@ -1,15 +1,19 @@
 userMarker = require '../views/templates/user_marker'
+groupMarker = require '../views/templates/group_marker'
 customIcon = require './custom_icon'
 
-markers =
-  user: (params)->
+ObjectMarker = (markerBuilder)->
+  objectMarker = (params)->
     { model } = params
     { lat, lng } = model.getPosition()
-    html = userMarker model.toJSON()
+    html = markerBuilder model.toJSON()
     icon = customIcon html
     marker = L.marker [lat, lng], {icon: icon}
     return marker
 
+markers =
+  user: ObjectMarker userMarker
+  group: ObjectMarker groupMarker
   circle: (params)->
     { latLng, metersRadius } = params
     metersRadius ?= 200

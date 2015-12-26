@@ -54,6 +54,7 @@ groupsTabs =
     section: 'nearby'
     title: 'nearby'
     icon: 'map-marker'
+    layout: 'nearby_groups_layout'
 
 addPath = (category, categoryData)->
   for key, obj of categoryData

@@ -1,5 +1,5 @@
 map_ = require 'modules/map/lib/map'
-{ updateRoute, updateRouteFromEvent } = map_
+{ updateRoute, updateRouteFromEvent, BoundFilter } = map_
 containerId = 'map'
 
 initMap = (params)->
@@ -48,3 +48,10 @@ initEventListners = (params, map)->
 
 module.exports =
   initMap: initMap
+  regions:
+    list: '#list'
+  grabMap: (map)->
+    _.type map, 'object'
+    @map = map
+  refreshListFilter: ->
+    @collection.filterBy 'geobox', BoundFilter(@map)

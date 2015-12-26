@@ -4,9 +4,9 @@ aggregateUsersIds = require '../lib/aggregate_users_ids'
 groupActions = require '../lib/group_actions'
 defaultCover = require('lib/urls').images.brittanystevens
 { escapeExpression } = Handlebars
-Filterable = require 'modules/general/models/filterable'
+Positionable = require 'modules/general/models/positionable'
 
-module.exports = Filterable.extend
+module.exports = Positionable.extend
   url: app.API.groups.private
   initialize: ->
     aggregateUsersIds.call @

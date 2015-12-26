@@ -23,6 +23,10 @@ module.exports = map_ =
     for user in _.forceArray users
       showUserOnMap map, user
 
+  showGroupsOnMap: (map, groups)->
+    for group in _.forceArray groups
+      showGroupOnMap map, group
+
   BoundFilter: (map)->
     bounds = map.getBounds()
     return filter = (model)->
@@ -36,3 +40,10 @@ showUserOnMap = (map, user)->
       objectId: user.cid
       model: user
       markerType: 'user'
+
+showGroupOnMap = (map, group)->
+  if group.hasPosition()
+    map.addMarker
+      objectId: group.cid
+      model: group
+      markerType: 'group'

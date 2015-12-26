@@ -1,6 +1,6 @@
 module.exports = (groups)->
 
-  groups.filtered = filtered = new FilteredCollection groups
+  filtered = new FilteredCollection groups
 
   queried = []
 
@@ -24,4 +24,25 @@ module.exports = (groups)->
     if groupsData then groups.add groupsData
     filtered.filterByText text
 
+  searchByPosition = (latLng)->
+    _.preq.get app.API.groups.searchByPosition(latLng)
+    .then _.Log('groups by position')
+    .then addGroupUnlessHere
+
+  addGroupsUnlessHere = (groups)->
+    app.request 'waitForData'
+    .then ->
+      for group in groups
+        addGroupUnlessHere group
+      return
+
+  addGroupUnlessHere = (group)->
+    _.log group, 'group'
+    { _id } = group
+    unless app.user.groups.byId(_id)?
+      app.user.groups.add group
+
   filtered.searchByText = _.debounce searchByText, 200
+  filtered.searchByPosition = searchByPosition
+
+  return filtered

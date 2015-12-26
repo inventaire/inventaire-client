@@ -17,9 +17,13 @@ module.exports = Marionette.ItemView.extend
     'click #removePosition': 'removePosition'
 
   initialize: ->
-    { user } = app
-    @hasPosition = user.hasPosition()
-    @position = user.getPosition()
+    { model } = @options
+    if model?
+      @hasPosition = model.hasPosition()
+      @position = model.getPosition()
+    else
+      @hasPosition = false
+      @position = null
 
   serializeData: ->
     hasPosition: @hasPosition
@@ -57,13 +61,14 @@ module.exports = Marionette.ItemView.extend
 
   validatePosition: -> @_updatePosition @getPosition(), '#validatePosition'
   removePosition: -> @_updatePosition null, '#removePosition'
-  _updatePosition: (newValue, selector)->
+  _updatePosition: (newCoords, selector)->
     startLoading.call @, selector
 
-    app.request 'user:update',
-      attribute: 'position'
-      value: @position = newValue
-      selector: '#validatePosition'
+    @position = newCoords
+
+    # allow @options.resolve not to return a promise
+    _.preq.start()
+    .then @options.resolve.bind(null, newCoords, selector)
     .then stopLoading.bind(@)
     .then Check.call(@, '_updatePosition', @close.bind(@))
     .catch error_.Complete('.alertBox')
