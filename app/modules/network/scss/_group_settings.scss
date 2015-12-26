@@ -52,3 +52,27 @@
     padding-bottom: 0.5em;
   }
 }
+
+.group-position-setting{
+  @include display-flex(row, center, space-between);
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  .tip{
+    margin-right: auto;
+    font-size: 0.8em;
+    padding-top: 0.4em;
+  }
+  .button{
+    height: 2em;
+    width: 3em;
+    @include display-flex(row, center, center);
+  }
+  .fa{
+    padding-left: 0.3em;
+    font-size: 1.2em;
+  }
+  .tip{
+    color: grey;
+  }
+}

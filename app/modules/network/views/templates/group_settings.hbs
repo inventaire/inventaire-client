@@ -22,6 +22,18 @@
     {{partial 'general:behaviors:change_picture' this}}
   </section>
   <hr>
+
+  <label>{{i18n 'geolocation'}}</label>
+  <p class="position-status">
+    {{#if hasPosition}}
+      {{i18n "the group has a position set"}}<br>
+      <span class="coordinates">{{position.lat}}, {{position.lng}}</span>
+    {{else}}
+      {{i18n "the group's positon isn't set yet"}}
+    {{/if}}
+  </p>
+  {{partial 'network:group_position_setting'}}
+  <hr>
 {{/if}}
 
 <section id="groupControls">

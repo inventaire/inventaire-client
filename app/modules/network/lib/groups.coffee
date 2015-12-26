@@ -2,7 +2,8 @@ forms_ = require 'modules/general/lib/forms'
 
 module.exports =
 
-  createGroup: (name, description, searchable)->
+  createGroup: (data)->
+    { name, description, searchable, coords } = data
     { groups } = app.user
 
     _.preq.post app.API.groups.private,

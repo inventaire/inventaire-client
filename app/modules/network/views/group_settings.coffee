@@ -51,11 +51,14 @@ module.exports = Marionette.ItemView.extend
     'click .saveButton': 'saveDescription'
     'click a.leave': 'leaveGroup'
     'click a.destroy': 'destroyGroup'
+    'click #showPositionPicker': -> app.execute 'show:position:picker:group'
 
   onShow: ->
     @listenTo @model, 'change:picture', @lazyRender
     # using lazyRender to let the toggler animation the time to play
     @listenTo @model, 'change:searchable', @lazyRender
+    # re-render after a position was selected to display the new geolocation status
+    @listenTo @model, 'change:position', @lazyRender
     # re-render to unlock the possibility to leave the group
     # if a new admin was selected
     @listenTo @model, 'list:change:after', @lazyRender

@@ -33,18 +33,7 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click #createGroup': 'createGroup'
     'change #searchabilityToggler': 'toggleSearchabilityWarning'
-
-  createGroup: ->
-    name = @ui.nameField.val()
-    description = @ui.description.val()
-    searchable = @ui.searchabilityToggler[0].checked
-
-    _.preq.start()
-    .then groups_.validateName.bind(@, name, '#nameField')
-    .then groups_.validateDescription.bind(@, description, '#description')
-    .then groups_.createGroup.bind(null, name, description, searchable)
-    .then app.execute.bind(app, 'show:group:board')
-    .catch forms_.catchAlert.bind(null, @)
+    'click #showPositionPicker': 'showPositionPicker'
 
   serializeData: ->
     description: groupFormData.description()
@@ -52,3 +41,26 @@ module.exports = Marionette.LayoutView.extend
 
   toggleSearchabilityWarning: ->
     @ui.searchabilityWarning.slideToggle()
+
+  showPositionPicker: ->
+    app.request 'prompt:position:picker'
+    .then _.Log('showPositionPicker!!!')
+    .then (coords)=> @coords = coords
+    .catch _.Error('showPositionPicker')
+
+  createGroup: ->
+    name = @ui.nameField.val()
+    description = @ui.description.val()
+
+    data =
+      name: name
+      description: description
+      searchable: @ui.searchabilityToggler[0].checked
+      coords: @coords
+
+    _.preq.start()
+    .then groups_.validateName.bind(@, name, '#nameField')
+    .then groups_.validateDescription.bind(@, description, '#description')
+    .then groups_.createGroup.bind(null, data)
+    .then app.execute.bind(app, 'show:group:board')
+    .catch forms_.catchAlert.bind(null, @)
