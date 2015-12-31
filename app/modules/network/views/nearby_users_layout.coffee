@@ -12,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   events:
-    'click #showPositionPicker': -> app.execute 'show:position:picker'
+    'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
     'click .userIcon a': 'showUserInventory'
 
   initMap: ->
