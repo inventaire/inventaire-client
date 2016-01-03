@@ -23,22 +23,41 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
-  .stats{
-    padding: 1em;
+  .data{
+    width: 100%;
+    li{
+      &:not(.custom){
+        @include display-flex(row, center, space-between, wrap);
+      }
+      .fa{
+        width: 1em;
+      }
+      padding: 0.3em;
+      max-width: 20em;
+      width: 100%;
+      a{
+        text-decoration: underline;
+        text-decoration-color: rgba(white, 0.5);
+      }
+    }
   }
-  .bioPlaceholder, #editBio{
+  .bio-wrapper{
+    max-height: 7em;
+    overflow: auto;
+  }
+  .bio-editor{
+    text-align: center;
+  }
+  .bioPlaceholder{
     color: rgba(white, 0.5);
   }
-  #editBio:hover{
-    color: rgba(white, 1);
-    @include transition(color);
+  #editBio{
+    float: right;
   }
   span.bio{
     color: white;
-    padding: 0.2em;
     border-radius: $global-radius;
     max-height: 7em;
-    padding: 0.5em;
     overflow: auto;
   }
   textarea#bio{
@@ -46,6 +65,8 @@
     min-width: 90%;
     max-width: 90%;
     max-height: 7em;
+    margin: 0;
+    padding: 0;
   }
   #cancelBio{
     @include tiny-button($warning-color);
@@ -55,9 +76,16 @@
   }
   .userMenu{
     margin: 0.5em;
-    @include shy(0.8);
-    .action:not(.friend){
-      @include radius;
+    .action{
+      @include display-flex(row);
+      .fa{
+        font-size: 1em;
+        // centering
+        padding-top: 0.35em;
+      }
+      &:not(.friend){
+        @include radius;
+      }
     }
     .friend{
       .fa-chevron-down{
@@ -80,23 +108,7 @@
       background-color: #4E4E4E;
     }
   }
-  .common-groups, .visited-groups{
+  .distance{
     text-align: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    h4{
-      color: rgba(white, 0.7);
-      font-size: 0.9em;
-      @include sans-serif;
-    }
-  }
-  .showGroup{
-    &:not(:hover){
-      color: rgba(white, 0.8);
-    }
-    @include bg-hover(grey, 20%);
-    @include radius;
-    padding: 0.2em;
-    margin: 0.2em;
   }
 }

@@ -13,35 +13,49 @@
     {{/if}}
   {{/if}}
   <h3 class="username respect-case">{{username}}</h3>
-  {{partial 'inventory/side_nav:user_profile_bio' this}}
-  {{#if inventoryLength}}
-    <div class="stats">
-      <span class="inventoryLength select serif">
-        {{i18n 'books:'}}  {{inventoryLength}}
-      </span>
-    </div>
-  {{/if}}
   <div class="userMenuWrapper">
-    {{#unless mainUser}}
-      {{#if loggedIn}}
-        {{partial 'inventory/side_nav:user_menu' this}}
+    {{#if loggedIn}}
+      {{partial 'inventory/side_nav:user_menu' this}}
+    {{else}}
+      <p class="restricted">
+        {{i18n 'you need to be connected to send a friend request'}}
+      </p>
+    {{/if}}
+  </div>
+  <ul class="data">
+    <li class="custom bio-wrapper">
+      {{partial 'inventory/side_nav:user_profile_bio' this}}
+    </li>
+    {{#if inventoryLength}}
+      <li class="inventoryLength">
+        <span>{{icon 'book'}}{{i18n 'books'}}</span>
+        <span>{{inventoryLength}}</span>
+      </li>
+    {{/if}}
+    <li class="distance">
+      {{#if mainUser}}
+        <span>{{icon 'map-marker'}}{{i18n 'position'}}</span>
+        <a id="showPositionPicker">{{i18n 'edit'}}</a>
       {{else}}
-        <p class="restricted">
-          {{i18n 'you need to be connected to send a friend request'}}
-        </p>
+        {{#if distance}}
+        <span>{{icon 'map-marker'}}{{i18n 'distance from you'}}</span>
+        <span>{{distance}} km</span>
+        {{/if}}
       {{/if}}
+    </li>
+    {{#unless mainUser}}
       {{#if commonGroups}}
-        <div class="common-groups">
-          <h4>{{i18n 'groups in common:'}}</h4>
+        <li class="common-groups">
+          <span>{{icon 'group'}}{{i18n 'groups in common'}}</span>
           {{partial 'inventory/side_nav:user_group_link' commonGroups}}
-        </div>
+        </li>
       {{/if}}
       {{#if visitedGroups}}
-        <div class="visited-groups">
-          <h4>{{i18n 'groups you just visited that the user is part of:'}}</h4>
+        <li class="visited-groups">
+          <span>{{icon 'group'}}{{i18n 'groups you just visited that the user is part of'}}</span>
           {{partial 'inventory/side_nav:user_group_link' visitedGroups}}
-        </div>
+        </li>
       {{/if}}
     {{/unless}}
-  </div>
+  </ul>
 </div>

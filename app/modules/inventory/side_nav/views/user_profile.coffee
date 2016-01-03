@@ -11,6 +11,7 @@ module.exports = Marionette.ItemView.extend
     'click #editPicture': 'editPicture'
     'click a#changePicture': 'changePicture'
     'click a.showGroup': 'showGroup'
+    'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
 
   behaviors:
     AlertBox: {}
@@ -39,6 +40,7 @@ module.exports = Marionette.ItemView.extend
       loggedIn: app.user.loggedIn
       commonGroups: @commonGroupsData()
       visitedGroups: @visitedGroupsData()
+      distance: @model.distanceFromMainUser()
 
   onShow: ->
     @makeRoom()

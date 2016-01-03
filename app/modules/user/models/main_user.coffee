@@ -58,3 +58,6 @@ module.exports = UserCommons.extend
 
     _.preq.wrap @destroy()
     .then -> app.execute 'logout'
+
+  # maintain the API parity with other user models
+  distanceFromMainUser: -> null

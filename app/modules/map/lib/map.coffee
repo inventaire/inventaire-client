@@ -34,6 +34,14 @@ module.exports = map_ =
       point = model.getLatLng()
       return bounds.contains point
 
+  # a, b MUST be LatLng arrays
+  distanceBetween: (a, b)->
+    _.types arguments, 'arrays...'
+    a = new L.LatLng a[0], a[1]
+    b = new L.LatLng b[0], b[1]
+    # return the distance in kilometers
+    return a.distanceTo(b) / 1000
+
 showUserOnMap = (map, user)->
   if user.hasPosition()
     map.addMarker

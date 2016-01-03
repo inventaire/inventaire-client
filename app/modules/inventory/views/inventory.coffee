@@ -34,7 +34,9 @@ module.exports = Marionette.LayoutView.extend
   showItemsListOnceData: ->
     app.execute 'metadata:update:needed'
     # waitForItems to avoid having items displaying undefined values
-    app.request('waitForItems')
+    # waitForUserData to avoid having displaying a user profile without
+    # knowing the main user
+    app.request 'waitForData'
     .then @showItemsList.bind(@)
     .then app.execute.bind(app, 'metadata:update:done')
     .catch _.Error('showItemsListOnceData err')
