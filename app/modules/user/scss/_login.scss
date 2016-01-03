@@ -12,9 +12,7 @@
       text-transform: none;
       color: $grey;
     }
-    &:not(.noCapital){
-      text-transform: uppercase;
-    }
+    text-transform: uppercase;
   }
   .otherOptions{
     margin-top: 1em;
