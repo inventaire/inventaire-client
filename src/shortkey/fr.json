@@ -123,7 +123,6 @@
     "waiting_return_confirmation_info_lending": null,
     "waiting_return_confirmation_info_giving": null,
     "unfriend_confirmation": "souhaitez-vous vraiment retirer **%{username}** de la liste de vos amis ?",
-    "group_invite_friends": "invitez vos amis à rejoindre le groupe",
     "group_invitor": "%{username} vous invite à rejoindre le groupe",
     "requires_barcode_scanner_app": "Pour pouvoir scanner le code-barre de votre livre, une application Barcode Scanner doit être installé sur votre smartphone",
     "giving_personalized": "%{username} le donne",
@@ -167,10 +166,13 @@
     "leave_group_warning": "il sera toujours possible de redemander à rejoindre le groupe mais cela requerra la validation d'un admin",
     "leave_button_disabled": "étant le seul admin du groupe, vous ne pouvez quitter le groupe sans nommer un autre admin",
     "destroy_group_confirmation": "Êtes vous sûr de vouloir détruire le groupe **%{groupName}**?",
-    "position_privacy_context": null,
-    "position_privacy_tip": null,
+    "position_privacy_context": "Indiquer votre position permet aux utilisateurs à proximité de voir vos livres publics et d'envoyer une demande",
+    "position_privacy_tip": "Pas besoin de donner votre adresse exacte, sélectionnez juste une localisation proche de là où vous habitez ou travaillez, ou simplement là où vous vous sentez le plus à l'aise pour procéder à des échanges de livres.",
     "user_default_description": "parcourez les livres qu'%{username} donne, prête ou vend",
     "group_default_description": "parcourez les livres que les membres du groupe %{groupName} donnent, prêtent ou vendent",
     "delete_account_confirmation": "Êtes-vous sûr de vouloir supprimer le compte \"**%{username}**\" ?",
-    "delete_account_warning": "**Cette opération ne peut pas être annulée !!!**<br>Plusieurs cas possibles : soit vous êtes arrivé ici par erreur et il vous suffit de fermer cette popup pour tout annuler. Soit vous êtes sous l'emprise de l'alcool ou autre stupéfiant, auquel cas ne touchez plus à rien ! Débranchez votre ordinateur, éteignez votre portable, rallumez votre portable pour appeler quelqu'un (si possible pas votre ex) qui puisse les mettre sous verrou et ne vous rendre la clé qu'une fois que vous aurez désaoulé.<br> Soit vous êtes là car vous souhaitez véritablement supprimer ce compte et toutes ses données : dans ce cas, vous pouvez continuer. Nous pleurerons un peu ce compagnon perdu dans cette aventure naissante, les souvenirs grisants d'un court idylle numérique... mais nous resterons fort, promis !"
+    "delete_account_warning": "**Cette opération ne peut pas être annulée !!!**<br>Plusieurs cas possibles : soit vous êtes arrivé ici par erreur et il vous suffit de fermer cette popup pour tout annuler. Soit vous êtes sous l'emprise de l'alcool ou autre stupéfiant, auquel cas ne touchez plus à rien ! Débranchez votre ordinateur, éteignez votre portable, rallumez votre portable pour appeler quelqu'un (si possible pas votre ex) qui puisse les mettre sous verrou et ne vous rendre la clé qu'une fois que vous aurez désaoulé.<br> Soit vous êtes là car vous souhaitez véritablement supprimer ce compte et toutes ses données : dans ce cas, vous pouvez continuer. Nous pleurerons un peu ce compagnon perdu dans cette aventure naissante, les souvenirs grisants d'un court idylle numérique... mais nous resterons fort, promis !",
+    "group_position_tip": null,
+    "donate_intro": "inventaire.io est un projet visant à produire des outils pour mieux gérer nos ressources tout en faisant grandir le savoir libre. À moyen terme, la mission que ce donne le projet devra être [supportée par une activité économique comme décrit dans la Roadmap](https://trello.com/c/Z7alRtpZ)(en).<br>En attendant, vous pouvez **soutenir le développement du projet en faisant un don** via un des moyens de paiement suivant:",
+    "non_monetary_donations": "Le moyen le plus important et le plus simple pour faire grandir inventaire.io est de nous **aider à faire connaître le projet :  [invitez vos amis à partager leur inventaire](/network/users/invite), partagez le projet dans tous les recoins de l'Internet, écrivez un article de blog ou un tutoriel sur le sujet... soyez créatif !<br> Mais il y a aussi d'[autres moyens de contribuer](https://trello.com/c/VIkw1d8q)(en)"
 }

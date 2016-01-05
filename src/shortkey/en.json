@@ -123,7 +123,6 @@
     "waiting_return_confirmation_info_lending": "",
     "waiting_return_confirmation_info_giving": "",
     "unfriend_confirmation": "do you really want to remove **%{username}** from your friends?",
-    "group_invite_friends": "invite friends to join the group",
     "group_invitor": "%{username} invited you to join",
     "requires_barcode_scanner_app": "To be able to scan your books barcode, you need to have a Barcode Scanner app already installed on your smartphone:",
     "giving_personalized": "%{username} is giving it",
@@ -168,9 +167,12 @@
     "leave_button_disabled": "being the unique group admin, you can't leave the group without naming another admin",
     "destroy_group_confirmation": "Are you sure you want to destroy the group **%{groupName}**?",
     "position_privacy_context": "Giving your position allows people nearby to see and request your public books.",
-    "position_privacy_tip": "No need to give your exact address, just pick a position near where you live or work or just where you feel confortable doing book exchanges.",
+    "position_privacy_tip": "No need to give your exact address, just pick a position near where you live or work, or just where you feel confortable doing book exchanges.",
     "user_default_description": "see the books %{username} want to give, lend or sell",
     "group_default_description": "see the books members of the group %{groupName} want to give, lend or sell",
     "delete_account_confirmation": "Are you sure you want to delete your account \"**%{username}**\"?",
-    "delete_account_warning": "**There is no way back!!!**<br>In case you are at the moment under the effects of alcohol or something, don't touch anything anymore: unplug your computer, turn off your phone, turn it back on to call someone (nop, not your ex) that could put those under lock and give you back the key once you will have sober.<br>In other cases, go ahead. Just be aware that we might cry a little"
+    "delete_account_warning": "**There is no way back!!!**<br>In case you are at the moment under the effects of alcohol or something, don't touch anything anymore: unplug your computer, turn off your phone, turn it back on to call someone (nop, not your ex) that could put those under lock and give you back the key once you will have sober.<br>In other cases, go ahead. Just be aware that we might cry a little",
+    "group_position_tip": "Some groups are associated to a precise public place (universities, coworkings, etc.), it can then be useful to indicate its position to help new users to find it",
+    "donate_intro": "inventaire.io is a project aiming to produce useful tools to handle our resources while pushing open knowledge further. In the medium-term, the project's mission should be [supported by an economic activity as described in the Roadmap](https://trello.com/c/Z7alRtpZ).<br>Until then, you can **support the project development by donating** through one of the following channels:",
+    "non_monetary_donations": "The biggest and simplest contribution you can do is to **help us spread the news** about this project: [invite your friends to share their inventory](/network/users/invite), share the project throughout all the Internet, write a blog post or a tutorial about it... be creative!<br>But there are also [other ways to contribute](https://trello.com/c/VIkw1d8q)"
 }
