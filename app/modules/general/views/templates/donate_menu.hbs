@@ -1,0 +1,18 @@
+<h3>{{i18n 'donate'}}</h3>
+<p>{{{i18n 'donate_intro'}}}</p>
+<ul>
+  <li>
+    <h4>{{icon 'credit-card'}} {{I18n 'credit/debit card'}}</h4>
+    {{i18n 'not available yet'}}
+  </li>
+  <li>
+    <h4>{{icon 'bitcoin'}} Bitcoin</h4>
+    {{link bitcoin.hash bitcoin.url}}
+    <span>
+      {{i18n 'or'}} {{link 'via coinbase' bitcoin.coinbase}}
+    </span>
+  </li>
+</ul>
+
+<h3>{{i18n 'non-monetary donations'}}</h3>
+<p>{{{i18n 'non_monetary_donations'}}}</p>

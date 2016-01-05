@@ -1,5 +1,6 @@
 host = 'https://inventaire.io'
 root = if window.env is 'dev' then host else ''
+bcHash = '1QGMFXJevme8eNCusNmLddiecAiXspSguw'
 
 module.exports =
   host: host
@@ -23,3 +24,9 @@ module.exports =
     bokeh: "#{root}/img/6fca0921e336dd4dab1f1900e8f1143a9a9e9623.jpg"
     ginnerobot: "#{root}/img/28945a3c26a986b371767cfdb9d0e11156a6d641.jpg"
     brittanystevens: "#{root}/img/f3c063914d81996e3d262201d1e71c5e38212948.jpg"
+
+  bitcoin:
+    hash: bcHash
+    url: "bitcoin:#{bcHash}"
+    coinbase: 'https://www.coinbase.com/inventaire'
+    qrcode: "#{root}/img/f086157157209ee0b3a09ff7bd8eb88c79fb658d.jpg"

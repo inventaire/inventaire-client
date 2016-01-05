@@ -1,22 +1,4 @@
-#feedback{
-  /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
-    display: none;
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
-    @include position(fixed, null, 0, 14em, null, 1000);
-    @include vendor-prefix(transform, rotate(-90deg));
-    @include vendor-prefix(transform-origin, right bottom 0);
-    a{
-      @include radius-top;
-      @include custom-button($dark-grey, white, 0.1em, 0.2em 0.5em 0.2em 0.5em);
-    }
-  }
-}
-
-.feedbackMenu{
+.feedback-menu{
   text-align: center;
   background-color: $light-grey;
   .username, .email{

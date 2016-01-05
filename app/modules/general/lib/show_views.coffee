@@ -1,4 +1,5 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
+DonateMenu = require '../views/donate_menu'
 FeedbackMenu = require '../views/feedback_menu'
 ShareMenu = require '../views/share_menu'
 Loader = require '../views/behaviors/loader'
@@ -28,8 +29,6 @@ module.exports =
 
   showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
 
-  showFeedbackMenu: ->
-    app.layout.modal.show new FeedbackMenu
-
-  shareLink: ->
-    app.layout.modal.show new ShareMenu
+  showDonateMenu: -> app.layout.modal.show new DonateMenu
+  showFeedbackMenu: -> app.layout.modal.show new FeedbackMenu
+  shareLink: -> app.layout.modal.show new ShareMenu

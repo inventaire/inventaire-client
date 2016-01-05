@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'
+    'click .showDonateMenu': 'showDonateMenu'
     'click .showFeedbackMenu': 'showFeedbackMenu'
     'keyup input.enterClick': enterClick.input
     'keyup a.button': enterClick.button

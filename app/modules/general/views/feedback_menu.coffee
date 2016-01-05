@@ -3,7 +3,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/feedback_menu'
-  className: 'feedbackMenu'
+  className: 'feedback-menu'
   onShow: -> app.execute 'modal:open'
   behaviors:
     Loading: {}

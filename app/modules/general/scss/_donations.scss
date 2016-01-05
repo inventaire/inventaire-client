@@ -1,0 +1,19 @@
+.donate-menu{
+  text-align: center;
+  ul{
+    li{
+      @include display-flex(column, center, center);
+      margin: 0.5em;
+      padding: 2em;
+      background-color: #eee;
+      @include radius;
+    }
+  }
+  a{
+    @include underline($dark-grey);
+    @include transition(text-decoration-color);
+    &:not(:hover){
+      text-decoration-color: #bbb;
+    }
+  }
+}
