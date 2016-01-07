@@ -19,6 +19,8 @@
     "lint-staged": "../scripts/lint-staged",
     "test": "mocha --compilers coffee:coffee-script/register",
     "test-watch": "mocha --compilers coffee:coffee-script/register --watch",
+    "test-build": "./scripts/test_build/run local",
+    "test-build-prod": "./scripts/test_build/run prod",
     "build": "./scripts/build",
     "update-git-hooks": "../scripts/update_git_hooks",
     "flo": "supervisor -w flo-server.coffee -- server.coffee",

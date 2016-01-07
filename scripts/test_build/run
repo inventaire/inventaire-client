@@ -1,0 +1,52 @@
+#!/usr/bin/env coffee
+{ get } = require 'bluereq'
+_ = require 'lodash'
+require 'colors'
+Promise = require 'bluebird'
+
+root = require('./get_root')()
+# you should have an instance of prerender listening on port 3000
+# http://github.com/inventaire/prerender
+prerender = 'http://localhost:3000'
+customQuery = "agent=build-test&__refresh=true"
+
+tests = require './tests'
+
+promises = []
+
+buildUrl = (path)->
+  url = "#{prerender}/#{root}/#{v.path}"
+  # requires forceCacheRefresh and multiFreshness
+  # prerender plugins to be activated
+  url += if /\?/.test path then '&' else '?'
+  url += customQuery
+
+  console.log 'get'.grey, url.grey
+  return url
+
+
+passSectionTests = (sectionTests, html)->
+  for label, test of sectionTests
+    test html
+    console.log 'ok'.green, k, label
+
+rejectEmptyHtml = (html)->
+  unless html? then throw new Error "couldn't reach #{root}"
+  return html
+
+passSectionsTests = (k, v)->
+  get buildUrl(v.path)
+  .then _.property('body')
+  .then rejectEmptyHtml
+  .then passSectionTests.bind(null, v.tests)
+  .then -> console.log 'OK'.green, k
+  .catch (err)->
+    console.log "#{k} err".red, err.stack
+    throw err
+
+for k, v of tests
+  promises.push passSectionsTests(k, v)
+
+Promise.all promises
+.then -> console.log 'the build was successfully tested: ready for deploy!'.green
+.catch (err)-> console.log 'global err'.red, err.stack
