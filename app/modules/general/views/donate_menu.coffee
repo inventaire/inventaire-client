@@ -1,4 +1,4 @@
-{ bitcoin } = require 'lib/urls'
+{ bitcoin, gratipay } = require 'lib/urls'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/donate_menu'
