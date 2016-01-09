@@ -42,6 +42,8 @@ updatePosition = (model, updateReqres)->
         attribute: 'position'
         value: newCoords
         selector: selector
+        # required by reqres updaters such as group:update:settings
+        model: model
 
 showMainUserPositionPicker = -> updatePosition app.user, 'user:update'
 showGroupPositionPicker = (group)-> updatePosition group, 'group:update:settings'
