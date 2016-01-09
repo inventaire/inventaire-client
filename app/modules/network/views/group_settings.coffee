@@ -51,7 +51,7 @@ module.exports = Marionette.ItemView.extend
     'click .saveButton': 'saveDescription'
     'click a.leave': 'leaveGroup'
     'click a.destroy': 'destroyGroup'
-    'click #showPositionPicker': -> app.execute 'show:position:picker:group'
+    'click #showPositionPicker': 'showPositionPicker'
 
   onShow: ->
     @listenTo @model, 'change:picture', @lazyRender
@@ -137,3 +137,6 @@ module.exports = Marionette.ItemView.extend
       warningText: _.i18n warningText
       action: group.leave.bind(group)
       selector: '#usernameGroup'
+
+  showPositionPicker: ->
+    app.execute 'show:position:picker:group', @model

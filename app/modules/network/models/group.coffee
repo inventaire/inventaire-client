@@ -73,6 +73,13 @@ module.exports = Positionable.extend
     # requested, invited etc
     attrs.picture or= defaultCover
     attrs["status_#{status}"] = true
+
+    if attrs.position?
+      # overriding the position latLng array
+      attrs.position =
+        lat: attrs.position[0]
+        lng: attrs.position[1]
+
     _.extend attrs,
       publicDataOnly: @publicDataOnly
       membersCount: @membersCount()
@@ -81,6 +88,7 @@ module.exports = Positionable.extend
       itemsCount: @itemsCount()  unless @publicDataOnly
       mainUserIsAdmin: @mainUserIsAdmin()
       mainUserIsMember: @mainUserIsMember()
+      hasPosition: @hasPosition()
 
   userStatus: (user)->
     { id } = user

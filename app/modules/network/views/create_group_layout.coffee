@@ -44,7 +44,6 @@ module.exports = Marionette.LayoutView.extend
 
   showPositionPicker: ->
     app.request 'prompt:position:picker'
-    .then _.Log('showPositionPicker!!!')
     .then (coords)=> @coords = coords
     .catch _.Error('showPositionPicker')
 
