@@ -27,7 +27,7 @@ module.exports = (groups)->
   searchByPosition = (latLng)->
     _.preq.get app.API.groups.searchByPosition(latLng)
     .then _.Log('groups by position')
-    .then addGroupUnlessHere
+    .then addGroupsUnlessHere
 
   addGroupsUnlessHere = (groups)->
     app.request 'waitForData'
@@ -37,7 +37,6 @@ module.exports = (groups)->
       return
 
   addGroupUnlessHere = (group)->
-    _.log group, 'group'
     { _id } = group
     unless app.user.groups.byId(_id)?
       app.user.groups.add group

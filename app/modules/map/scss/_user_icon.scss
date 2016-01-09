@@ -1,14 +1,12 @@
 $userIconHeight: 60px;
 $userIconWidth: 64px;
+$groupIconWidth: 100px;
+$groupIconHeight: 88px;
 $arrowHeight: 10px;
 
-.userIcon{
+.objectIcon{
   min-height: $userIconHeight;
   min-width:  $userIconWidth;
-  // by default, the icon has it's coordinates for top-left point
-  // margins hereafter compensate to make the icon point at it
-  margin-top: -$userIconHeight - $arrowHeight ;
-  margin-left: -$userIconWidth/2;
   text-align: center;
   @include bg-hover(white, 10%);
   @include radius;
@@ -16,25 +14,23 @@ $arrowHeight: 10px;
   img{
     @include radius;
   }
-  .username{
+  .label{
+    @include serif;
     text-align: center;
-    margin-top: -0.5em;
-    margin-bottom: -0.2em;
-    // prevent username overflow
-    max-width: $userIconWidth;
+    font-size: 1em;
     overflow: hidden;
     @include shy-text-border(rgba(white, 0.5));
+    line-height: 1em;
   }
 }
 
-
 // adapted from http://cssarrowplease.com
-.userIcon {
+.objectIcon {
   position: relative;
-  background: $lighter-grey;
+  background-color: $lighter-grey;
   box-shadow: 10px 10px 10px rgba(black, 0.5);
 }
-.userIcon:after{
+.objectIcon:after{
   top: 100%;
   left: 50%;
   content: " ";
@@ -48,4 +44,40 @@ $arrowHeight: 10px;
   // but it prevent the little bug occuring with 10px
   border-width: 11px;
   margin-left: -10px;
+}
+
+// By default, the icon has it's coordinates for top-left point
+// margins hereafter compensate to make the icon point at its true position
+// Additional pixels are the result of empirical tests
+.userIcon{
+  margin-top: -$userIconHeight - $arrowHeight ;
+  margin-left: -$userIconWidth/2 +4px;
+}
+.groupIcon{
+  margin-top: -$groupIconHeight - $arrowHeight +4px;
+  margin-left: -$groupIconWidth/2 +4px;
+}
+
+.userIcon{
+  .username{
+    margin-top: -0.5em;
+  }
+}
+.groupIcon{
+  // forcing the height to prevent .fa-group to increase the height
+  // which, given its absolute position, might be a conflict with leaflet rules
+  height: $groupIconHeight;
+  .fa-group{
+    @include position(absolute, 0, 0);
+    background-color: $lighter-grey;
+    padding: 0.2em;
+    font-size: 1.2em;
+    color: $dark-grey;
+    border-bottom-left-radius: $global-radius;
+  }
+  min-width: $groupIconWidth;
+  .name{
+    // @include position(absolute, null, 0.2em, 0, 0.2em);
+    white-space: nowrap;
+  }
 }
