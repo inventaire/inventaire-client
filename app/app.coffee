@@ -33,7 +33,7 @@ App = Marionette.Application.extend
       Backbone.history.last or= []
       Backbone.history.last.unshift route
       Backbone.history.navigate route, options
-      scrollToPageTop()
+      unless options?.preventScrollTop then scrollToPageTop()
 
     @goTo = (route, options)->
       # route.logIt('route:goTo')
