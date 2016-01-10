@@ -5,7 +5,7 @@ else window.env = 'prod'
 module.exports = ->
   if env is 'dev'
     Promise.config
-      warning: true
+      # warning: true
       longStackTraces: true
 
   window.CONFIG =
