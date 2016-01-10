@@ -23,7 +23,8 @@ module.exports =
     else args
 
   getQsTemplates: (valueArray, linkify)->
-    valueArray
+    # prevent any null value to sneak in
+    _.compact valueArray
     .map (id)-> Q(id, linkify).trim()
     .join ', '
 
