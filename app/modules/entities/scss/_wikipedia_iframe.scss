@@ -26,14 +26,14 @@
         padding: 1em;
         @include display-flex(row, center, center, wrap);
       }
-      .wikipedia, .wikisource, .wikidata{
+      .wikipedia, .wikisource, .wikidata, .refreshData{
         margin: 0.3em;
         @include display-flex;
       }
       .wikipedia{
         @include display-flex(row);
       }
-      .two-buttons a:first-child, a.wikidata{
+      .two-buttons a:first-child, a.wikidata, a.refreshData{
         @include custom-button(#555);
       }
       .two-buttons a:last-child{

@@ -2,17 +2,18 @@ wd_ = require 'lib/wikidata'
 aliases = sharedLib 'wikidata_aliases'
 
 module.exports =
-  fetchAuthorsBooks: (authorModel)->
-    fetchAuthorsBooksIds(authorModel)
+  fetchAuthorsBooks: (authorModel, refresh)->
+    fetchAuthorsBooksIds authorModel, refresh
     .then fetchAuthorsBooksEntities.bind(null, authorModel)
     .then keepOnlyBooks
     .catch _.Error('wdAuthors_.fetchAuthorsBooks')
 
-fetchAuthorsBooksIds = (authorModel)->
-  if authorModel.get('reverseClaims')?.P50? then return _.preq.resolve()
+fetchAuthorsBooksIds = (authorModel, refresh)->
+  if (not refresh) and authorModel.get('reverseClaims')?.P50?
+    return _.preq.resolve()
 
   # TODO: also fetch aliased Properties, not only P50
-  wd_.getReverseClaims 'P50', authorModel.id
+  wd_.getReverseClaims 'P50', authorModel.id, refresh
   .then _.Log('booksIds')
   .then authorModel.save.bind(authorModel, 'reverseClaims.P50')
   .catch _.Error('fetchAuthorsBooksIds err')

@@ -1,12 +1,13 @@
 dataQuery = _.buildPath.bind(_, '/api/data/public')
 
 module.exports =
-  wdq: (query, pid, qid)->
+  wdq: (query, pid, qid, refresh)->
     dataQuery
       api: 'wdq'
       query:query
       pid:pid
       qid:qid
+      refresh: refresh
 
   commonsThumb: (file, width)->
     dataQuery

@@ -16,7 +16,19 @@
     </span>
   {{/if}}
   {{#if wikidata}}
+
+    {{#if canRefreshData}}
+      {{!-- opening a span that will be closed in the next if block --}}
+      <span class="wikidata two-buttons">
+    {{/if}}
+
     <a class="wikidata" href="{{wikidata.wiki}}" target="_blank">
     {{icon 'wikidata'}} {{I18n "edit data"}}</a>
+
+    {{#if canRefreshData}}
+        <a class="refreshData" title="{{i18n 'refresh_wikidata_data'}}">
+        {{icon 'refresh'}} {{I18n "refresh data"}}</a>
+      </span>
+    {{/if}}
   {{/if}}
 </div>

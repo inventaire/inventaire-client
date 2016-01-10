@@ -31,6 +31,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click a.displayMore': 'displayMore'
+    'click .refreshData': 'refreshData'
 
   modelEvents:
     'add:pictures': 'lazyRender'
@@ -43,11 +44,16 @@ module.exports = Marionette.CompositeView.extend
     _.extend @model.toJSON(),
       more: @more()
       standalone: @options.standalone
+      canRefreshData: true
 
-  fetchBooks: ->
+  fetchBooks: (refresh)->
+    # make sure refresh is a Boolean and not an object incidently passed
+    refresh = refresh is true
+    if refresh then @collection.reset()
+
     @startLoading()
 
-    wdAuthors_.fetchAuthorsBooks(@model)
+    wdAuthors_.fetchAuthorsBooks @model, refresh
     .then @addToCollection.bind(@)
     .catch _.Error('author_li fetchBooks err')
     .finally @stopLoading.bind(@)
@@ -60,3 +66,5 @@ module.exports = Marionette.CompositeView.extend
     if @options.standalone
       @model.updateMetadata()
       .finally app.execute.bind(app, 'metadata:update:done')
+
+  refreshData: -> @fetchBooks true
