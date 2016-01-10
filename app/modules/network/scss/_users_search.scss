@@ -1,3 +1,6 @@
 #usersSearchLayout{
   background-color: white;
+  // empiric min-height to work-around .filter-wrapper incapacity
+  // to set it's padding normally due to its elements position: absolute
+  min-height: 3.25em;
 }
