@@ -17,7 +17,7 @@ module.exports = Entity.extend
 
       # todo: make search only return ids and let the client fetch entities data
       # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
-      if Entities.byUri('wd:#{id}')?
+      if Entities.byUri('wd:#{@id}')?
         console.warn "reformatting #{@id} while it was already cached!
         Probably because the server returned fresh data (ex: during entity search)"
 
@@ -85,10 +85,10 @@ module.exports = Entity.extend
   rebaseClaims: ->
     claims = @get 'claims'
     if claims?
+      claims = wdk.simplifyClaims claims
       # aliasing should happen after rebasing
       # as aliasing needs strings or numbers to test value uniqueness
-      claims = wdk.simplifyClaims(claims)
-      @_updates.claims = wd_.aliasingClaims(claims)
+      @_updates.claims = wd_.aliasingClaims claims
     else console.warn 'no claims found', @
 
   setWikiLinks: (lang)->
@@ -98,16 +98,16 @@ module.exports = Entity.extend
     @_updates.uri = "wd:#{@id}"
 
     @originalLang = @_updates.claims?.P364?[0]
-    sitelinks = @get('sitelinks')
+    sitelinks = @get 'sitelinks'
     if sitelinks?
-      @_updates.wikipedia = wd_.sitelinks.wikipedia(sitelinks, lang)
+      @_updates.wikipedia = wd_.sitelinks.wikipedia sitelinks, lang
 
-      @_updates.wikisource = wd_.sitelinks.wikisource(sitelinks, lang)
+      @_updates.wikisource = wd_.sitelinks.wikisource sitelinks, lang
 
   getWikipediaExtract: (lang)->
     title = @get('sitelinks')?["#{lang}wiki"]?.title
     if title?
-      @waitForExtract = wd_.wikipediaExtract(lang, title)
+      @waitForExtract = wd_.wikipediaExtract lang, title
       .then (extract)=>
         if extract?
           @set 'extract', extract
@@ -125,8 +125,8 @@ module.exports = Entity.extend
     # but in cases it has several, we just pick one
     # as there is just one pictureCredits attribute.
     commonsImage = @_updates.claims?.P18?[0]
-    olPicGetter = @setPictureFromOpenLibraryId.bind(@, openLibraryId)
-    commonsPicGetter = @setCommonsPicture.bind(@, commonsImage)
+    olPicGetter = @setPictureFromOpenLibraryId.bind @, openLibraryId
+    commonsPicGetter = @setCommonsPicture.bind @, commonsImage
 
     # giving priority to openlibrary's pictures for books
     # as it has only covers while commons sometimes has just an illustration
