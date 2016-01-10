@@ -35,7 +35,7 @@
     "levelup": "^1.2.1",
     "memdown": "^1.1.0",
     "to-data-url": "^1.0.1",
-    "wikidata-sdk": "^1.4.4"
+    "wikidata-sdk": "^2.2.0"
   },
   "devDependencies": {
     "auto-reload-brunch": "^1.8.1",
