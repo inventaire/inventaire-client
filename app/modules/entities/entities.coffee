@@ -35,35 +35,35 @@ API =
     region or= app.layout.main
     app.execute 'show:loader', {region: region}
 
-    [prefix, id] = getPrefixId(uri)
+    [prefix, id] = getPrefixId uri
     unless prefix? and id?
-      console.warn 'prefix or id missing at showEntity'
+      _.warn 'prefix or id missing at showEntity'
 
-    @_getEntityView prefix, id
+    @_getEntityView prefix, id, params?.refresh
     .then region.show.bind(region)
     .catch @solveMissingEntity.bind(@, prefix, id)
     .catch (err)->
       _.error err, 'couldnt showEntity'
       app.execute 'show:404'
 
-  _getEntityView: (prefix, id)->
-    @getEntityModel prefix, id
+  _getEntityView: (prefix, id, refresh)->
+    @getEntityModel prefix, id, refresh
     .then _.Tap(@_replaceEntityPathname.bind(@))
-    .then @getDomainEntityView.bind(@, prefix)
+    .then @_getDomainEntityView.bind(@, prefix, refresh)
 
   _replaceEntityPathname: (entity)->
     # correcting possibly custom entity label
     app.navigateReplace entity.get('pathname')
 
-  getDomainEntityView: (prefix, entity)->
+  _getDomainEntityView: (prefix, refresh, entity)->
     switch prefix
       when 'isbn', 'inv' then @getCommonBookEntityView entity
-      when 'wd' then @getWikidataEntityView entity
+      when 'wd' then @getWikidataEntityView entity, refresh
       else _.error "getDomainEntityView err: unknown domain #{prefix}"
 
-  getWikidataEntityView: (entity)->
+  getWikidataEntityView: (entity, refresh)->
     switch wd_.type entity
-      when 'human' then @getAuthorView entity
+      when 'human' then @getAuthorView entity, refresh
       when 'book' then @getCommonBookEntityView entity
       # display anything else as a genre
       # so that in the worst case it's just a page with a few data
@@ -73,18 +73,21 @@ API =
   getCommonBookEntityView: (entity)->
     new EntityShow {model: entity}
 
-  getAuthorView: (entity)->
+  getAuthorView: (entity, refresh)->
     new AuthorLi
       model: entity
       standalone: true
       displayBooks: true
       initialLength: 20
+      refresh: refresh
 
-  getEntitiesModels: (prefix, ids)->
+  getEntitiesModels: (prefix, ids, refresh)->
+    # make sure its a 'true' flag and not an object incidently passed
+    refresh = refresh is true
     try Model = getModelFromPrefix(prefix)
     catch err then return _.preq.reject(err)
 
-    Entities.data.get(prefix, ids, 'collection')
+    Entities.data.get prefix, ids, 'collection', refresh
     .then (data)->
       unless data?
         throw error_.new 'no data at getEntitiesModels', arguments
@@ -104,10 +107,11 @@ API =
     @getEntitiesModels.apply @, arguments
     .catch _.Error('getEntitiesModels err')
 
-  getEntityModel: (prefix, id)->
+  getEntityModel: (prefix, id, refresh)->
     unless prefix? and id?
       throw error_.new 'missing prefix or id', arguments
-    @getEntitiesModels prefix, id
+
+    @getEntitiesModels prefix, id, refresh
     .then (models)->
       if models?[0]? then return models[0]
       else
@@ -142,7 +146,7 @@ API =
 setHandlers = ->
   app.commands.setHandlers
     'show:entity': (uri, label, params, region)->
-      API.showEntity(uri, label, params, region)
+      API.showEntity uri, label, params, region
       path = "entity/#{uri}"
       path += "/#{label}"  if label?
       app.navigate path

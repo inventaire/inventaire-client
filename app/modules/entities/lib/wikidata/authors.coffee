@@ -4,7 +4,7 @@ aliases = sharedLib 'wikidata_aliases'
 module.exports =
   fetchAuthorsBooks: (authorModel, refresh)->
     fetchAuthorsBooksIds authorModel, refresh
-    .then fetchAuthorsBooksEntities.bind(null, authorModel)
+    .then fetchAuthorsBooksEntities.bind(null, authorModel, refresh)
     .then keepOnlyBooks
     .catch _.Error('wdAuthors_.fetchAuthorsBooks')
 
@@ -18,16 +18,16 @@ fetchAuthorsBooksIds = (authorModel, refresh)->
   .then authorModel.save.bind(authorModel, 'reverseClaims.P50')
   .catch _.Error('fetchAuthorsBooksIds err')
 
-fetchAuthorsBooksEntities = (authorModel)->
+fetchAuthorsBooksEntities = (authorModel, refresh)->
   authorsBooks = authorModel.get 'reverseClaims.P50'
-  _.log authorsBooks, 'authorsBooks?'
+  _.log authorsBooks, 'authorsBooks'
   unless authorsBooks?.length > 0 then return _.preq.resolve()
 
   # only fetching the 50 first entities to avoid querying entities
   # wikidata api won't return anyway due to API limits
   # TODO: implement pagination/continue
   authorsBooks = authorsBooks[0..49]
-  return app.request 'get:entities:models', 'wd', authorsBooks
+  return app.request 'get:entities:models', 'wd', authorsBooks, refresh
 
 keepOnlyBooks = (entities)->
   # compaction needed in case entities are missing

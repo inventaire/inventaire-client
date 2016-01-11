@@ -55,10 +55,9 @@ module.exports = Marionette.CompositeView.extend
       standalone: @options.standalone
       canRefreshData: true
 
-  fetchBooks: (refresh)->
+  fetchBooks: ->
     # make sure refresh is a Boolean and not an object incidently passed
-    refresh = refresh is true
-    if refresh then @collection.reset()
+    refresh = @options.refresh is true
 
     @startLoading()
 
@@ -79,7 +78,10 @@ module.exports = Marionette.CompositeView.extend
   onRender: ->
     @lazyUpdateBookCounter()
 
-  refreshData: -> @fetchBooks true
+  refreshData: ->
+    [ uri, label ] = @model.gets 'uri', 'label'
+    app.execute 'show:entity', uri, label, { refresh: true }
+
   updateBookCounter: ->
     count = @collection.length
     @ui.bookCounter.text(count).hide().slideDown()
