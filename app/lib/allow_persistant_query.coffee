@@ -9,5 +9,6 @@ allowRedirectPersistantQuery = [
 ]
 
 module.exports =
+  debug: alwaysKeep
   lang: alwaysKeep
   redirect: redirectTest
