@@ -72,7 +72,6 @@ module.exports = Entity.extend
     # P364: original language of work
     # P103: native language
     originalLangWdId = (claims.P364 or claims.P103)?[0]
-    obj = window.wdLang.byWdId[originalLangWdId]
     @originalLang = window.wdLang.byWdId[originalLangWdId]?.code
     return
 
