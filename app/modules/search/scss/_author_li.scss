@@ -35,9 +35,20 @@
     padding-left: 1em;
     font-size: 0.8em;
   }
-  .books h3{
-    color: white;
-    text-align: center;
+  .books{
+    .header{
+      @include display-flex(row, center, center);
+    }
+    h3{
+      color: white;
+      text-align: center;
+    }
+  }
+  .counter{
+    @include counter-commons;
+    background-color: white;
+    font-size: 1rem;
+    margin-left: 0.5em;
   }
 }
 

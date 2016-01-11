@@ -14,20 +14,29 @@ module.exports = Marionette.CompositeView.extend
   childView: require './book_li'
   emptyView: require 'modules/inventory/views/no_item'
 
+  ui:
+    bookCounter: '.books .counter'
+
   initialize: ->
     @initPlugins()
     @collection = new Backbone.Collection
+    @initBookCounter()
     # trigger fetchbooks once the author is in view
     @$el.once 'inview', @fetchBooks.bind(@)
     @listenTo @model, 'change', @lazyRender.bind(@)
     if @options.standalone
       app.execute 'metadata:update:needed'
 
+
   initPlugins: ->
     _.extend @, behaviorsPlugin
     paginationPlugin.call @, 15, (@options.initialLength or 5)
     if @options.standalone
       wikiBarPlugin.call @
+
+  initBookCounter: ->
+    @lazyUpdateBookCounter = _.debounce @updateBookCounter.bind(@), 1000
+    @listenTo @collection, 'add remove', @lazyUpdateBookCounter
 
   events:
     'click a.displayMore': 'displayMore'
@@ -67,4 +76,10 @@ module.exports = Marionette.CompositeView.extend
       @model.updateMetadata()
       .finally app.execute.bind(app, 'metadata:update:done')
 
+  onRender: ->
+    @lazyUpdateBookCounter()
+
   refreshData: -> @fetchBooks true
+  updateBookCounter: ->
+    count = @collection.length
+    @ui.bookCounter.text(count).hide().slideDown()
