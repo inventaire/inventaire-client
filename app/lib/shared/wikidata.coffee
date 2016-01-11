@@ -1,13 +1,12 @@
 { Q } = require './wikidata_aliases'
-defaultProps = ['info', 'sitelinks', 'labels', 'descriptions', 'claims']
 
 module.exports = (promises_, _, wdk)->
   API = require('./wikidata_api')(_)
 
   return helpers =
     API: API
-    getEntities: (ids, languages='en', props=defaultProps, format='json')->
-      url = wdk.getEntities(ids, languages, props, format)
+    getEntities: (ids, languages, props)->
+      url = wdk.getEntities ids, languages, props
       return promises_.get url
 
     getUri: (id)-> 'wd:' + wdk.normalizeId(id)

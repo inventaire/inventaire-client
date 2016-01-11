@@ -5,6 +5,9 @@ wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 error_ = require 'lib/error'
 
 module.exports = Entity.extend
+  # entities won't be saved to CouchDB and can keep their
+  # initial API id
+  idAttribute: 'id'
   prefix: 'wd'
   initialize: ->
     @initLazySave()
@@ -24,12 +27,12 @@ module.exports = Entity.extend
       { lang } = app.user
 
       @setWikiLinks lang
-      @getWikipediaExtract lang
+      @setWikipediaExtract lang
       # overriding sitelinks to make room when persisted to indexeddb
       @_updates.sitelinks = {}
 
-      @setAttributes @attributes, lang
       @rebaseClaims()
+      @setAttributes @attributes, lang
       # depends on the freshly defined @_updates.claims
       @type = wd_.type @_updates
       @findAPicture()
@@ -55,14 +58,29 @@ module.exports = Entity.extend
 
     @typeSpecificInitilize()
 
-  # entities won't be saved to CouchDB and can keep their
-  # initial API id
-  idAttribute: 'id'
+  rebaseClaims: ->
+    claims = @get 'claims'
+    if claims?
+      claims = wdk.simplifyClaims claims
+      # aliasing should happen after rebasing
+      # as aliasing needs strings or numbers to test value uniqueness
+      @_updates.claims = claims = wd_.aliasingClaims claims
+      @setOriginalLang claims
+    return
+
+  setOriginalLang: (claims)->
+    # P364: original language of work
+    # P103: native language
+    originalLangWdId = (claims.P364 or claims.P103)?[0]
+    obj = window.wdLang.byWdId[originalLangWdId]
+    @originalLang = window.wdLang.byWdId[originalLangWdId]?.code
+    return
+
   setAttributes: (attrs, lang)->
     pathname = "/entity/wd:#{@id}"
     @_updates.canonical = pathname
 
-    label = getEntityValue attrs, 'labels', lang
+    label = getEntityValue attrs, 'labels', lang, @originalLang
     unless label?
       # if no label was found, try to use the wikipedia page title
       # remove the part between parenthesis
@@ -75,21 +93,13 @@ module.exports = Entity.extend
     @_updates.pathname = pathname
     @_updates.domain = 'wd'
 
-    description = getEntityValue attrs, 'descriptions', lang
+    description = getEntityValue attrs, 'descriptions', lang, @originalLang
     if description?
       @_updates.description = description
 
     # reverseClaims: ex: this entity is a P50 of entities Q...
     @_updates.reverseClaims = {}
-
-  rebaseClaims: ->
-    claims = @get 'claims'
-    if claims?
-      claims = wdk.simplifyClaims claims
-      # aliasing should happen after rebasing
-      # as aliasing needs strings or numbers to test value uniqueness
-      @_updates.claims = wd_.aliasingClaims claims
-    else console.warn 'no claims found', @
+    return
 
   setWikiLinks: (lang)->
     @_updates.wikidata =
@@ -104,7 +114,9 @@ module.exports = Entity.extend
 
       @_updates.wikisource = wd_.sitelinks.wikisource sitelinks, lang
 
-  getWikipediaExtract: (lang)->
+    return
+
+  setWikipediaExtract: (lang)->
     title = @get('sitelinks')?["#{lang}wiki"]?.title
     if title?
       @waitForExtract = wd_.wikipediaExtract lang, title
@@ -113,6 +125,7 @@ module.exports = Entity.extend
           @set 'extract', extract
           @save()
       .catch _.Error('getWikipediaExtract err')
+    return
 
   findAPicture: ->
     # initializing pictures array: should only be used
@@ -218,12 +231,20 @@ module.exports = Entity.extend
     if extract? and extract.length > 300 then return extract
     else description or extract
 
-getEntityValue = (attrs, props, lang)->
+getEntityValue = (attrs, props, lang, originalLang)->
   property = attrs[props]
   if property?
-    if property[lang]?.value? then return property[lang].value
-    else if property.en?.value? then return property.en.value
-    else
-      any = _.pickOne(property)?
-      if any?.value? then any.value
+    order = getLangPriorityOrder lang, originalLang, property
+    while order.length > 0
+      nextLang = order.shift()
+      value = property[nextLang]?.value
+      if value? then return value
+
   return
+
+getLangPriorityOrder = (lang, originalLang, property)->
+  order = [ lang ]
+  if originalLang? then order.push originalLang
+  order.push 'en'
+  availableLangs = Object.keys property
+  return _.uniq order.concat(availableLangs)

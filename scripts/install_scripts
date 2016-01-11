@@ -40,3 +40,7 @@ echo -e '\e[0;32mdone copying:\e[0m' wdk
 
 cp node_modules/inv-utils/dist/inv-utils.js vendor/scripts/inv-utils.js
 echo -e '\e[0;32mdone copying:\e[0m' invUtils
+
+cp node_modules/wikidata-lang/dist/index.js vendor/scripts/wikidata-lang.js
+echo -e '\e[0;32mdone copying:\e[0m' wikidata-lang
+
