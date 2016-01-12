@@ -14,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     _.extend @model.toJSON(),
       back: backMessage()
+      canRefreshData: true
 
   initialize: ->
     @initPlugins()
@@ -37,6 +38,7 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
     'click #toggleWikiediaPreview': 'toggleWikiediaPreview'
+    'click .refreshData': 'refreshData'
 
   showEntityData: ->
     @entityData.show new EntityData
@@ -49,6 +51,8 @@ module.exports = Marionette.LayoutView.extend
   showPublicItems: -> showItems Items.public, @publicItems, @uri
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
+
+  refreshData: -> app.execute 'show:entity:refresh', @model
 
 showItems = (baseCollection, region, uri)->
   # using the filtered collection to refresh on Collection 'add' events

@@ -152,11 +152,13 @@ setHandlers = ->
       app.navigate path
 
     'show:entity:from:model': (model, params, region)->
-      uri = model.get('uri')
-      label = model.get('label') or model.get('title')
+      [ uri, label ] = model.gets 'uri', 'label'
       if uri? and label?
         app.execute 'show:entity', uri, label, params, region
       else throw new Error 'couldnt show:entity:from:model'
+
+    'show:entity:refresh': (model)->
+      app.execute 'show:entity:from:model', model, { refresh: true }
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel

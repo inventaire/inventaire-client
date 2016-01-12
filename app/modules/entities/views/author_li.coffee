@@ -78,9 +78,7 @@ module.exports = Marionette.CompositeView.extend
   onRender: ->
     @lazyUpdateBookCounter()
 
-  refreshData: ->
-    [ uri, label ] = @model.gets 'uri', 'label'
-    app.execute 'show:entity', uri, label, { refresh: true }
+  refreshData: -> app.execute 'show:entity:refresh', @model
 
   updateBookCounter: ->
     count = @collection.length
