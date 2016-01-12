@@ -70,29 +70,35 @@ module.exports = Marionette.ItemView.extend
     username = @ui.username.val()
     _.preq.start()
     .then @testUsername.bind(@, username)
-    .then username_.verifyUsername.bind(null, username, '#usernameField')
-    .then @sendUsernameRequest.bind(@, username)
+    .then =>
+      # if the username update is just a change in case
+      # it should be rejected because the username is already taken
+      # which it will be given usernames concurrency is case insensitive
+      if @usernameCaseChange username then return
+      else return username_.verifyUsername username, '#usernameField'
+    .then _.Full(@confirmUsernameChange, @, username)
     .catch forms_.catchAlert.bind(null, @)
+
+  usernameCaseChange: (username)->
+    username.toLowerCase() is @model.get('username').toLowerCase()
 
   testUsername: (username)->
     testAttribute 'username', username, username_
-
-  sendUsernameRequest: (username)->
-    _.preq.post app.API.auth.usernameAvailability, {username: username}
-    .then _.property('username')
-    .then @confirmUsernameChange.bind(@)
 
   confirmUsernameChange: (username)->
     action = @updateUserUsername.bind @, username
     @askConfirmation action,
       requestedUsername: username
       currentUsername: app.user.get 'username'
+      usernameCaseChange: @usernameCaseChange username
       model: @model
 
   askConfirmation: (action, args)->
+    { usernameCaseChange } = args
     @$el.trigger 'askConfirmation',
       confirmationText: _.i18n('username_change_confirmation', args)
-      warningText: _.i18n('username_change_warning')
+      # no need to show the warning if it's just a case change
+      warningText: _.i18n('username_change_warning')  unless usernameCaseChange
       action: action
       selector: '#usernameGroup'
 
