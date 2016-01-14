@@ -21,6 +21,10 @@ Q =
     'Q3972943' #publishing
     'Q17902573' #edition
   ]
+  articles: [
+    'Q191067' #article
+    'Q13442814' #scientific article
+  ]
   humans: [
     'Q5'
     'Q10648343' #duo

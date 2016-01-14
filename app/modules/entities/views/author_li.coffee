@@ -1,26 +1,24 @@
 wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-paginationPlugin = require 'modules/general/plugins/pagination'
 wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
+WorksList = require './works_list'
 
-module.exports = Marionette.CompositeView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/author_li'
   tagName: 'li'
   className: 'authorLi'
   behaviors:
     Loading: {}
 
-  childViewContainer: '.authorsBooks'
-  childView: require './book_li'
-  emptyView: require 'modules/inventory/views/no_item'
-
-  ui:
-    bookCounter: '.books .counter'
+  regions:
+    booksRegion: '.books'
+    articlesRegion: '.articles'
 
   initialize: ->
     @initPlugins()
-    @collection = new Backbone.Collection
-    @initBookCounter()
+    @books = new Backbone.Collection
+    @articles = new Backbone.Collection
+    @lazyRender = _.LazyRender @
     # trigger fetchbooks once the author is in view
     @$el.once 'inview', @fetchBooks.bind(@)
     @listenTo @model, 'change', @lazyRender.bind(@)
@@ -30,28 +28,17 @@ module.exports = Marionette.CompositeView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    paginationPlugin.call @, 15, (@options.initialLength or 5)
     if @options.standalone
       wikiBarPlugin.call @
 
-  initBookCounter: ->
-    @lazyUpdateBookCounter = _.debounce @updateBookCounter.bind(@), 1000
-    @listenTo @collection, 'add remove', @lazyUpdateBookCounter
-
   events:
-    'click a.displayMore': 'displayMore'
     'click .refreshData': 'refreshData'
 
   modelEvents:
     'add:pictures': 'lazyRender'
 
-  collectionEvents:
-    # required to get access to the collection real length from pagination::more
-    'add': 'lazyRender'
-
   serializeData: ->
     _.extend @model.toJSON(),
-      more: @more()
       standalone: @options.standalone
       canRefreshData: true
 
@@ -61,25 +48,35 @@ module.exports = Marionette.CompositeView.extend
 
     @startLoading()
 
-    wdAuthors_.fetchAuthorsBooks @model, refresh
-    .then @addToCollection.bind(@)
+    wdAuthors_.fetchAuthorsWorks @model, refresh
+    .then @addToCollections.bind(@)
     .catch _.Error('author_li fetchBooks err')
     .finally @stopLoading.bind(@)
 
-  addToCollection: (models)->
-    unless models? then return _.warn 'no book found for #{@model.title}'
-    @collection.add models
+  addToCollections: (works)->
+    { books, articles } = works
+    unless books? or articles?
+      return _.warn 'no work found for #{@model.title}'
+    @books.add books
+    @articles.add articles
 
-  onShow: ->
+    # only show articles yet to make this test possible
+    if @articles.length > 0 then @showArticles()
+
+  onRender: ->
+    @showBooks()
     if @options.standalone
       @model.updateMetadata()
       .finally app.execute.bind(app, 'metadata:update:done')
 
-  onRender: ->
-    @lazyUpdateBookCounter()
+  showBooks: ->
+    @booksRegion.show new WorksList
+      collection: @books
+      type: 'books'
+
+  showArticles: ->
+    @articlesRegion.show new WorksList
+      collection: @articles
+      type: 'articles'
 
   refreshData: -> app.execute 'show:entity:refresh', @model
-
-  updateBookCounter: ->
-    count = @collection.length
-    @ui.bookCounter.text(count).hide().slideDown()

@@ -15,6 +15,9 @@
       @extend .link;
     }
   }
+  .works{
+    @include flex(1);
+  }
   .loading{
     color: $contrast;
   }
@@ -35,7 +38,7 @@
     padding-left: 1em;
     font-size: 0.8em;
   }
-  .books{
+  .books, .articles{
     .header{
       @include display-flex(row, center, center);
     }
@@ -71,7 +74,7 @@
       @include flex(0, 0);
       width: 25em;
     }
-    .books{
+    .books, .articles{
       margin-left: 0.2em;
       margin-right: 0.2em;
       @include flex(1);

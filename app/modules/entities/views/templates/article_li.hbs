@@ -1,0 +1,22 @@
+<h4>
+  {{#if href}}
+    {{iconLinkText 'link' href title}}
+  {{else}}
+    {{title}}
+  {{/if}}
+  {{#if hasDate}}
+    <span class="date">
+      ({{timeClaim claims 'P577' 'year' true true}} ) {{!-- time of publication --}}
+    </span>
+  {{/if}}
+</h4>
+
+
+{{#if description}}
+  <p class="clamped grey">{{{description}}}</p>
+{{/if}}
+
+<p>
+  {{claim claims 'P50' true false true}}  {{!-- author --}}
+  {{stringClaim claims 'P2093' true true true}}  {{!-- author --}}
+</p>

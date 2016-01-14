@@ -1,0 +1,18 @@
+.articleLi{
+  // margin: 0 auto;
+  // max-width: $bookLiMaxWidth;
+  text-align: center;
+  // background-color: white;
+  padding: 0.2em;
+  // margin-bottom: 1em;
+  h4{
+    margin: 0;
+    padding: 0;
+    line-height: 1em;
+  }
+  .date{
+    font-size: 0.7em;
+    opacity: 0.8;
+    white-space: nowrap;
+  }
+}

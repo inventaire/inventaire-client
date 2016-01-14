@@ -14,7 +14,7 @@ module.exports =
     if claims?[pid]?[0]?
       label = labelString pid, omitLabel
       values = getQsTemplates claims[pid], linkify
-      return claimString label, values
+      return claimString label, values, inline
 
   timeClaim: (args...)->
     [ claims, pid, format, omitLabel, inline ] = neutralizeDataObject args
@@ -41,7 +41,7 @@ module.exports =
     if claims?[pid]?[0]?
       label = labelString pid, omitLabel
       values = claims[pid]?.join ', '
-      return claimString label, values
+      return claimString label, values, inline
 
   urlClaim: (args...)->
     [ claims, pid ] = neutralizeDataObject args
