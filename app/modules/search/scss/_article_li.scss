@@ -45,4 +45,8 @@
       }
     }
   }
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    @include flex-direction(column);
+  }
 }
