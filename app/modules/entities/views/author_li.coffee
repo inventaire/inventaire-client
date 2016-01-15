@@ -41,6 +41,8 @@ module.exports = Marionette.LayoutView.extend
     _.extend @model.toJSON(),
       standalone: @options.standalone
       canRefreshData: true
+      # having an epub download button on an author isn't really interesting
+      hideWikisourceEpub: true
 
   fetchBooks: ->
     # make sure refresh is a Boolean and not an object incidently passed

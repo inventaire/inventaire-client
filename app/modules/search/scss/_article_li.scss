@@ -1,10 +1,10 @@
 .articleLi{
-  // margin: 0 auto;
-  // max-width: $bookLiMaxWidth;
+  @include display-flex(row, center, space-between);
+  .main{
+    @include flex(1);
+  }
   text-align: center;
-  // background-color: white;
   padding: 0.2em;
-  // margin-bottom: 1em;
   h4{
     margin: 0;
     padding: 0;
@@ -13,6 +13,36 @@
   .date{
     font-size: 0.7em;
     opacity: 0.8;
-    white-space: nowrap;
+  }
+  position: relative;
+  .right-bar{
+    @include position(absolute, 0, 0, 0);
+    @include display-flex(column, right, flex-start);
+  }
+  .fa-file-text-o{
+    padding: 0.5em;
+    margin: -0.1em -0.1em 0 0;
+    border-bottom-left-radius: $global-radius;
+    background-color: $dark-grey;
+    color: white;
+  }
+  .sitelinks{
+    padding-top: 0.3em;
+    margin-right: -0.1em;
+    @include display-flex(column, right, flex-start);
+    a{
+      height: 2rem;
+      width: 2rem;
+      .fa-pencil{
+        @include shy(0.7);
+        @include display-flex(row, center, center);
+        font-size: 1.5em;
+        margin: auto;
+        padding-top: 0.1em;
+      }
+      &:last-child{
+        padding-top: 0.2em;
+      }
+    }
   }
 }

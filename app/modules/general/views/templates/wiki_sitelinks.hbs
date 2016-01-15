@@ -11,8 +11,10 @@
     <span class="wikisource two-buttons">
       <a href="{{wikisource.url}}" target="_blank">
       {{icon 'wikisource'}} {{I18n 'read online'}}</a>
-      <a class="epub" href="{{wikisource.epub}}" target="_blank">
-      {{icon 'download'}} {{i18n 'epub'}}</a>
+      {{#unless hideWikisourceEpub}}
+        <a class="epub" href="{{wikisource.epub}}" target="_blank">
+        {{icon 'download'}} {{i18n 'epub'}}</a>
+      {{/unless}}
     </span>
   {{/if}}
   {{#if wikidata}}

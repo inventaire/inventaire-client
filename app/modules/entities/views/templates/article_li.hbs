@@ -1,22 +1,46 @@
-<h4>
-  {{#if href}}
-    {{iconLinkText 'link' href title}}
-  {{else}}
-    {{title}}
-  {{/if}}
-  {{#if hasDate}}
-    <span class="date">
-      ({{timeClaim claims 'P577' 'year' true true}} ) {{!-- time of publication --}}
-    </span>
-  {{/if}}
-</h4>
-
-
-{{#if description}}
-  <p class="clamped grey">{{{description}}}</p>
+{{#if pictures}}
+<div>
+  <img src='{{src pictures 150}}' alt='{{title}}'>
+</div>
 {{/if}}
+<div class="main">
+  <h4>
+    {{#if href}}
+      {{iconLinkText 'link' href title}}
+    {{else}}
+      {{title}}
+    {{/if}}
+    {{#if hasDate}}
+      <span class="date">
+        ({{timeClaim claims 'P577' 'year' true true}} ) {{!-- time of publication --}}
+      </span>
+    {{/if}}
+  </h4>
 
-<p>
-  {{claim claims 'P50' true false true}}  {{!-- author --}}
-  {{stringClaim claims 'P2093' true true true}}  {{!-- author --}}
-</p>
+
+  {{#if description}}
+    <p class="grey">{{{description}}}</p>
+  {{/if}}
+
+  <p>
+    {{claim claims 'P50' true false true}}  {{!-- author --}}
+    {{stringClaim claims 'P2093' true true true}}  {{!-- author --}}
+  </p>
+
+</div>
+<div class="right-bar">
+  <span class="fa fa-file-text-o" title="{{i18n 'article_limitation'}}"></span>
+  <div class="sitelinks">
+    {{partial 'entities:edit_wikidata' this}}
+    {{#if wikisource}}
+      <a href="{{wikisource.url}}" target="_blank" title="{{I18n 'read online'}}">
+        {{icon 'wikisource'}}
+      </a>
+    {{/if}}
+    {{#if wikipedia}}
+      <a href="{{wikipedia.url}}" target="_blank" title="{{I18n 'see on Wikipedia'}}">
+        {{icon 'wikipedia'}}
+      </a>
+    {{/if}}
+  </div>
+</div>

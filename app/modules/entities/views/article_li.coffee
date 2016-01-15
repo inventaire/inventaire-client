@@ -3,7 +3,9 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: 'articleLi'
   serializeData: ->
-    _.extend @model.toJSON(),
+    attrs = @model.toJSON()
+    attrs.wikidata.customStyle = true
+    _.extend attrs,
       href: @getHref()
       hasDate: @hasDate()
 
