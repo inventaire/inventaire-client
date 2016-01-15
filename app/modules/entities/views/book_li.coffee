@@ -19,8 +19,13 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
 
+  ui:
+    zoomButtons: '.zoom-button .buttons span'
+    cover: 'img'
+
   events:
     'click a.addToInventory': 'showItemCreationForm'
+    'click a.zoom-button': 'toggleZoom'
 
   showItemCreationForm: (e)->
     unless _.isOpenedOutside(e)
@@ -38,3 +43,8 @@ module.exports = Marionette.ItemView.extend
     return counter =
       count: count
       highlight: count > 0
+
+  toggleZoom: ->
+    _.invertAttr @ui.cover, 'src', 'data-zoom-toggle'
+    @ui.zoomButtons.toggle()
+    @$el.toggleClass 'zoom', {duration:500}

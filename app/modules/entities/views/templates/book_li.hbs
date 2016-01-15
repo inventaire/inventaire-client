@@ -1,6 +1,14 @@
 <div class="bookCover">
   {{#if pictures}}
-    <img src='{{src pictures 500 1000}}' alt='{{title}} cover'>
+    <a class="zoom-button">
+      <img src="{{src pictures 200 400}}"
+      data-zoom-toggle="{{src pictures 500 1000}}"
+      alt='{{title}} cover'>
+      <span class="buttons">
+        <span>{{icon 'search-plus'}}</span>
+        <span class="hidden">{{icon 'search-minus'}}</span>
+      </span>
+    </a>
   {{/if}}
 </div>
 <div class="bookLiData">

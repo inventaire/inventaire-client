@@ -16,12 +16,36 @@ $bookLiMaxWidth: 45em;
   @include display-flex(row, center, space-around);
   margin-bottom: 1em;
   .bookCover{
+    position: relative;
     max-width: 10em;
     // a minimum width is required so that the covers
     // don't appear shrinked on webkit browsers
     min-width: 7em;
     img{
       display: block;
+      @include shy-border;
+    }
+    &.zoom{
+      max-width: auto;
+    }
+  }
+  .zoom-button{
+    .buttons{
+      @include position(absolute, 0, 0);
+      opacity: 0.2;
+      @include transition(opacity);
+      font-size: 2em;
+      // padding: 0.5em;
+      color: #eee;
+    }
+    &:hover{
+      .buttons{
+        opacity: 1;
+      }
+    }
+  }
+  &.zoom{
+    img{
     }
   }
   .bookLiData{
@@ -112,6 +136,16 @@ $bookLiMaxWidth: 45em;
     }
     img{
       max-height: 10em;
+    }
+    &.zoom{
+      .bookCover, img{
+        max-height: 30em;
+        max-width: 30em;
+      }
+      @include display-flex(column, center, center);
+      .actions{
+        margin-left: 0;
+      }
     }
   }
 }

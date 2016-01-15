@@ -214,4 +214,10 @@ module.exports = (Backbone, _, app, window, csle)->
       cautiousRender = -> unless view.isDestroyed then view.render()
       return _.debounce cautiousRender, timespan
 
+    invertAttr: ($target, a, b)->
+      aVal = $target.attr a
+      bVal = $target.attr b
+      $target.attr a, bVal
+      $target.attr b, aVal
+
   return _.extend {}, utils, loggers, tests_
