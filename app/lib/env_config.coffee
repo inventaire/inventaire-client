@@ -5,8 +5,9 @@ else window.env = 'prod'
 module.exports = ->
   if env is 'dev'
     Promise.config
-      # warning: true
       longStackTraces: true
+      warnings:
+        wForgottenReturn: false
 
   window.CONFIG =
     images:
