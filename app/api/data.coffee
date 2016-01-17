@@ -26,3 +26,8 @@ module.exports =
       api: 'openlibrary-cover'
       id: openLibraryId
       type: type
+
+  enWpImage: (enWpTitle)->
+    dataQuery
+      api: 'en-wikipedia-image'
+      title: enWpTitle

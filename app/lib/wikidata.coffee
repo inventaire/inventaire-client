@@ -15,13 +15,17 @@ wd_.wmCommonsThumb = (file, width=500)->
     console.warn "couldnt find #{file} via tools.wmflabs.org, will use the small thumb version"
     return @wmCommonsSmallThumb file, 200
 
+wd_.enWpImage = (enWpTitle)->
+  preq.get app.API.data.enWpImage enWpTitle
+  .then _.property('url')
+  .catch _.ErrorRethrow('wikipediaExtract err')
 
 wd_.wikipediaExtract = (lang, title)->
   preq.get app.API.data.wikipediaExtract(lang, title)
   .then (data)->
     { extract, url } = data
     return sourcedExtract extract, url
-  .catch _.Error('wikipediaExtract err')
+  .catch _.ErrorRethrow('wikipediaExtract err')
 
 # add a link to the full wikipedia article at the end of the extract
 sourcedExtract = (extract, url)->

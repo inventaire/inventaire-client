@@ -3,6 +3,7 @@ wd_ = require 'lib/wikidata'
 wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 error_ = require 'lib/error'
+images_ = require '../lib/images'
 
 module.exports = Entity.extend
   # entities won't be saved to CouchDB and can keep their
@@ -109,6 +110,8 @@ module.exports = Entity.extend
     @originalLang = @_updates.claims?.P364?[0]
     sitelinks = @get 'sitelinks'
     if sitelinks?
+      # required to fetch images from the English Wikipedia
+      @enWpTitle = sitelinks.enwiki?.title
       @_updates.wikipedia = wd_.sitelinks.wikipedia sitelinks, lang
 
       @_updates.wikisource = wd_.sitelinks.wikisource sitelinks, lang
@@ -137,50 +140,37 @@ module.exports = Entity.extend
     # but in cases it has several, we just pick one
     # as there is just one pictureCredits attribute.
     commonsImage = @_updates.claims?.P18?[0]
-    olPicGetter = @setPictureFromOpenLibraryId.bind @, openLibraryId
-    commonsPicGetter = @setCommonsPicture.bind @, commonsImage
+    @waitForPicture = @_pickBestPic openLibraryId, commonsImage
 
+  _pickBestPic: (openLibraryId, commonsImage)->
+    getters = {}
+    if openLibraryId?
+      getters.ol = images_.openLibrary.bind @, openLibraryId
+
+    if commonsImage?
+      getters.wm = images_.wmCommons.bind @, commonsImage
+
+    if @enWpTitle?
+      getters.wp = images_.enWikipedia.bind @, @enWpTitle
+
+    # unless it's an author, in which case commons pictures are prefered
+    # => gives access to photo credits
+    if @type is 'human' then order = ['wm', 'wp', 'ol']
     # giving priority to openlibrary's pictures for books
     # as it has only covers while commons sometimes has just an illustration
-    if openLibraryId?
-      if commonsImage?
-        # unless it's an author, in which case commons pictures are prefered
-        # => gives access to photo credits
-        if @type is 'human'
-          @waitForPicture = commonsPicGetter().catch olPicGetter
-        else
-          @waitForPicture = olPicGetter().catch commonsPicGetter
-      else
-        @waitForPicture = olPicGetter().catch _.Error('open library image err')
-    else if commonsImage?
-      @waitForPicture = commonsPicGetter()
+    else order = ['ol', 'wp', 'wm']
 
-  setPictureFromOpenLibraryId: (openLibraryId)->
-    type = if @type is 'book' then 'book' else 'author'
-    _.preq.get app.API.data.openLibraryCover(openLibraryId, type)
-    .then (data)=>
-      { url } = data
-      @push 'pictures', url
-      @save()
+    candidates = _.values _.pick(getters, order)
+    if candidates.length is 0 then return _.preq.resolve()
 
-  setCommonsPicture: (title)->
-    wd_.wmCommonsThumbData title, 1000
-    .then (data)=>
-      { thumbnail, author, license } = data
+    _.preq.fallbackChain candidates
+    .then @_savePicture.bind(@)
+    .catch _.Error('_pickBestPic err')
 
-      # async so can't be on the @_updates bulk set
-      @push 'pictures', thumbnail
-      @setPictureCredits title, author, license
-      @save()
-    .catch _.ErrorRethrow('setCommonsPicture')
-
-  setPictureCredits: (title, author, license)->
-    if author? and license? then text = "#{author} - #{license}"
-    else text = author or license
-
-    @set 'pictureCredits',
-      url: "https://commons.wikimedia.org/wiki/File:#{title}"
-      text: text
+  _savePicture: (url)->
+    _.log url, 'url'
+    @push 'pictures', url
+    @save()
 
   typeSpecificInitilize: ->
     switch @type
