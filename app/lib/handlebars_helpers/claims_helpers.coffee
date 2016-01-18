@@ -9,7 +9,7 @@ P = (id)->
 Q = (id, linkify, alt)->
   if id?
     unless typeof alt is 'string' then alt = ''
-    app.request 'qLabel:update'
+    app.execute 'qlabel:update'
     return wdQ {id: id, linkify: linkify, alt: alt, label: alt}
 
 module.exports =

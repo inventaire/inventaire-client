@@ -30,7 +30,7 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
 
   onRender: ->
-    app.request 'qLabel:update'
+    app.execute 'qlabel:update'
 
   events:
     'click .toggler': 'toggleDescLength'

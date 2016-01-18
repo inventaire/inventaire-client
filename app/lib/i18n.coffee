@@ -7,7 +7,6 @@ module.exports =
     app.reqres.setHandlers
       # make sure to return a promise
       'i18n:set': -> _.preq.start().then setLanguage
-      'qLabel:update': updateQlabel
       'i18n:current': -> app.user.lang
 
     if window.env is 'dev'
@@ -17,6 +16,7 @@ module.exports =
     app.commands.setHandlers
       # called from a customized polyglot.js
       'i18n:missing:key': missingKey
+      'qlabel:update': updateQlabel
 
     app.vent.on 'i18n:set', updateQlabel
 

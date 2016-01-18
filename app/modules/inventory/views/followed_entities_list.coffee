@@ -14,7 +14,8 @@ module.exports = Marionette.CompositeView.extend
     label: _.i18n 'researched books'
 
   onShow: ->
-    app.request('qLabel:update')
+    app.execute 'qlabel:update'
+
     _.inspect(@)
     @listenTo app.vent, 'inventory:change', (username)=>
       unless username is @username

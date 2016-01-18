@@ -17,4 +17,4 @@ module.exports = Marionette.ItemView.extend
   serializeData: -> @model.serializeData()
 
   onRender: ->
-    app.request 'qLabel:update'
+    app.execute 'qlabel:update'

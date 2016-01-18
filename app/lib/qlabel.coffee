@@ -2,10 +2,11 @@
 
 language = null
 labels = {}
-elements = null
+elements = []
 
 # keep in sync with app/modules/general/views/behaviors/templates/wikidata_Q.hbs
-selector = ".qlabel"
+className = 'qlabel'
+selector = ".#{className}"
 attribute = 'data-qid'
 
 getQid = (el)->
@@ -25,14 +26,16 @@ display = ->
     { qid } = el
     if qid?
       label = getLabel qid, language
-      if label? then el.textContent = label
+      if label?
+        el.textContent = label
+        # remove the class so that it doesn't re-appear in the update list
+        el.className = el.className.replace className, ''
 
 # TODO deal with more than 50 entities
 wikidataLoader = (qids)->
   if qids.length > 0
     Entities.data.wd.local.get qids
     .then (entities)->
-      console.log 'wikidataLoader entities', entities, qids
       for id, entity of entities
         for lang, label of entity.labels
           setLabel id, lang, label.value
