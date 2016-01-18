@@ -10,10 +10,9 @@ Promise.onPossiblyUnhandledRejection (err)->
   window.reportErr report
   console.error label, stack, clue
 
-# used has a way to create only one resolved promise to start promise chains
-resolved = Object.freeze Promise.resolve()
+preq = sharedLib('promises')(Promise)
 
-module.exports = preq =
+module.exports = _.extend preq,
   # keep the options object interface to keep the same signature
   # as the server side promises_.get, to ease shared libs
   get: (url, options)->
@@ -25,12 +24,6 @@ module.exports = preq =
   delete: (url)-> wrap $.delete(url), url
   getScript: (url)-> wrap $.getScript(url), url
 
-  resolve: (res)-> Promise.resolve res
-  reject: (err)-> Promise.reject err
-
-  start: resolved
-  resolved: resolved
-
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return
 
@@ -41,9 +34,9 @@ module.exports = preq =
         setTimeout cb, ms
 
   fallbackChain: (getters)->
-    _.type getters, 'array'
+    _.types getters, 'functions...'
     first = true
-    p = resolved
+    p = preq.resolved
     while getters.length > 0
       next = getters.shift()
       if first
