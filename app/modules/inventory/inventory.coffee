@@ -60,7 +60,7 @@ API =
     .then @showItemShow.bind(@, username, entity, label)
 
   showItemShow: (username, entity, label)->
-    _.preq.start()
+    _.preq.start
     .then @fetchEntityData.bind(@, entity)
     .then @findItemByUsernameAndEntity.bind(@, username, entity)
     .then @displayFoundItems.bind(@)

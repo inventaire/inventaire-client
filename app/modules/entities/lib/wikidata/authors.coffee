@@ -10,7 +10,7 @@ module.exports =
 
 fetchAuthorsWorksIds = (authorModel, refresh)->
   if (not refresh) and authorModel.get('reverseClaims')?.P50?
-    return _.preq.resolve()
+    return _.preq.resolved
 
   # TODO: also fetch aliased Properties, not only P50
   wd_.getReverseClaims 'P50', authorModel.id, refresh
@@ -21,7 +21,7 @@ fetchAuthorsWorksIds = (authorModel, refresh)->
 fetchAuthorsWorksEntities = (authorModel, refresh)->
   authorsWorks = authorModel.get 'reverseClaims.P50'
   _.log authorsWorks, 'authorsWorks'
-  unless authorsWorks?.length > 0 then return _.preq.resolve()
+  unless authorsWorks?.length > 0 then return _.preq.resolved
 
   # only fetching the 50 first entities to avoid querying entities
   # wikidata api won't return anyway due to API limits

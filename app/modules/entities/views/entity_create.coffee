@@ -90,7 +90,7 @@ module.exports = Marionette.LayoutView.extend
     app.layout.modal.show picturePicker
 
   showItemCreation: (transaction)->
-    _.preq.start()
+    _.preq.start
     .then @createEntity.bind(@)
     .then @showItemCreationForm.bind(@, transaction)
     .catch forms_.catchAlert.bind(null, @)

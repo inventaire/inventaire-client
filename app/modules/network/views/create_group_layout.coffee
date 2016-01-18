@@ -57,7 +57,7 @@ module.exports = Marionette.LayoutView.extend
       searchable: @ui.searchabilityToggler[0].checked
       coords: @coords
 
-    _.preq.start()
+    _.preq.start
     .then groups_.validateName.bind(@, name, '#nameField')
     .then groups_.validateDescription.bind(@, description, '#description')
     .then groups_.createGroup.bind(null, data)

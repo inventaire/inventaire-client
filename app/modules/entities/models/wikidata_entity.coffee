@@ -48,8 +48,8 @@ module.exports = Entity.extend
       @save()
 
     # if waiters werent defined yet, they wont be fetched
-    @waitForExtract ?= _.preq.resolve()
-    @waitForPicture ?= _.preq.resolve()
+    @waitForExtract ?= _.preq.resolved
+    @waitForPicture ?= _.preq.resolved
     @waitForData = Promise.all [ @waitForExtract, @waitForPicture ]
 
     # data on models root aren't persisted so need to be set everytimes
@@ -161,7 +161,7 @@ module.exports = Entity.extend
     else order = ['ol', 'wp', 'wm']
 
     candidates = _.values _.pick(getters, order)
-    if candidates.length is 0 then return _.preq.resolve()
+    if candidates.length is 0 then return _.preq.resolved
 
     _.preq.fallbackChain candidates
     .then @_savePicture.bind(@)

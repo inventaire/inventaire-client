@@ -27,7 +27,7 @@ module.exports = Marionette.ItemView.extend
   updatePassword: ->
     password = @ui.password.val()
 
-    _.preq.start()
+    _.preq.start
     .then -> password_.pass password, '#finalAlertbox'
     .then @startLoading.bind(@, '#updatePassword')
     .then @updateUserPassword.bind(@, password)

@@ -8,7 +8,7 @@ module.exports = Backbone.NestedModel.extend
 
   updateMetadata: ->
     # has to return a promise
-    _.preq.start().then @executeMetadataUpdate.bind(@)
+    _.preq.start.then @executeMetadataUpdate.bind(@)
 
   executeMetadataUpdate: ->
     app.execute 'metadata:update',

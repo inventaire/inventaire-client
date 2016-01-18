@@ -6,7 +6,7 @@ module.exports =
   initialize: (app)->
     app.reqres.setHandlers
       # make sure to return a promise
-      'i18n:set': -> _.preq.start().then setLanguage
+      'i18n:set': -> _.preq.start.then setLanguage
       'i18n:current': -> app.user.lang
 
     if window.env is 'dev'

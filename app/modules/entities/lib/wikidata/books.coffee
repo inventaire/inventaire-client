@@ -15,6 +15,6 @@ wdBooks_.fetchAuthorsEntities = (bookModel)->
   else
     label = bookModel.get('label')
     _.warn "no author found for #{label}"
-    return _.preq.resolve()
+    return _.preq.resolved
 
 module.exports = wdBooks_

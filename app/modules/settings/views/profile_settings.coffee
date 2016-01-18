@@ -68,7 +68,7 @@ module.exports = Marionette.ItemView.extend
   # USERNAME
   updateUsername: ->
     username = @ui.username.val()
-    _.preq.start()
+    _.preq.start
     .then @testUsername.bind(@, username)
     .then =>
       # if the username update is just a change in case
@@ -112,7 +112,7 @@ module.exports = Marionette.ItemView.extend
 
   updateEmail: ->
     email = @ui.email.val()
-    _.preq.start()
+    _.preq.start
     .then @testEmail.bind(@, email)
     .then @startLoading.bind(@, '#emailButton')
     .then email_.verifyAvailability.bind(null, email, "#emailField")
@@ -160,7 +160,7 @@ module.exports = Marionette.ItemView.extend
     currentPassword = @ui.currentPassword.val()
     newPassword = @ui.newPassword.val()
 
-    _.preq.start()
+    _.preq.start
     .then -> password_.pass currentPassword, '#currentPasswordAlert'
     .then -> password_.pass newPassword, '#newPasswordAlert'
     .then @startLoading.bind(@, '#updatePassword')

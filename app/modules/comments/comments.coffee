@@ -45,7 +45,7 @@ addComment = (comment, commentsCollection)->
 
 updateComment = (commentModel, newMessage)->
   currentMessage = commentModel.get 'message'
-  if newMessage is currentMessage then return _.preq.resolve()
+  if newMessage is currentMessage then return _.preq.resolved
 
   commentModel.set
     message: newMessage

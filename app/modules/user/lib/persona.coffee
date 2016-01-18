@@ -14,7 +14,7 @@ requestPersonaLogin = ->
   .catch _.Error('Persona Login err')
 
 fetchPersona = ->
-  if navigator.id? then _.preq.resolve()
+  if navigator.id? then _.preq.resolved
   else
     _.preq.getScript app.API.scripts.persona
 

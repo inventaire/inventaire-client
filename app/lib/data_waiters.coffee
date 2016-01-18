@@ -7,7 +7,7 @@ module.exports = ->
   Waiter = (eventName, ready)->
     _.time eventName
     fn = ->
-      if ready() then return _.preq.resolve()
+      if ready() then return _.preq.resolved
       else
         return new Promise (resolve, reject)->
           app.vent.once eventName, ->
@@ -18,10 +18,10 @@ module.exports = ->
     return _.once fn
 
   waitForItems = ->
-    unless app.user.loggedIn then return _.preq.resolve()
+    unless app.user.loggedIn then return _.preq.resolved
 
     if Items?.friends?.fetched and Items.personal?.fetched
-      return _.preq.resolve()
+      return _.preq.resolved
     else
       return new Promise (resolve, reject)->
         app.vent.once 'friends:items:ready', ->

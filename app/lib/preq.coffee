@@ -10,6 +10,9 @@ Promise.onPossiblyUnhandledRejection (err)->
   window.reportErr report
   console.error label, stack, clue
 
+# used has a way to create only one resolved promise to start promise chains
+resolved = Object.freeze Promise.resolve()
+
 module.exports = preq =
   # keep the options object interface to keep the same signature
   # as the server side promises_.get, to ease shared libs
@@ -22,9 +25,11 @@ module.exports = preq =
   delete: (url)-> wrap $.delete(url), url
   getScript: (url)-> wrap $.getScript(url), url
 
-  start: -> Promise.resolve()
-  resolve: (res)-> Promise.resolve(res)
-  reject: (err)-> Promise.reject(err)
+  resolve: (res)-> Promise.resolve res
+  reject: (err)-> Promise.reject err
+
+  start: resolved
+  resolved: resolved
 
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return
@@ -38,7 +43,7 @@ module.exports = preq =
   fallbackChain: (getters)->
     _.type getters, 'array'
     first = true
-    p = Promise.resolve()
+    p = resolved
     while getters.length > 0
       next = getters.shift()
       if first

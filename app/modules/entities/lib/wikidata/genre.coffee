@@ -13,7 +13,7 @@ wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
   reverseClaims = genreModel.get 'reverseClaims'
   if reverseClaims?
     { P135, P136 } = reverseClaims
-    if P135? or P136? then return _.preq.resolve()
+    if P135? or P136? then return _.preq.resolved
 
   Promise.all [
     getReverseClaims('P135', genreModel) #mouvement
@@ -40,7 +40,7 @@ wdGenre_.fetchBooksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
 
   unless range.length > 0
     _.warn 'no more ids: range is empty'
-    return _.preq.resolve()
+    return _.preq.resolved
 
   return app.request 'get:entities:models', 'wd', range
 
