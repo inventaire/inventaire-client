@@ -4,13 +4,16 @@ books, authors... not publisher or genre, yet --}}
   <a
     href="{{wdLocalHref id label}}"
     class='link qlabel wd-Q'
-    resource='{{wdRemoteHref id}}'>
+    {{!-- keeping the resource attribute for SEO (?)--}}
+    resource='{{wdRemoteHref id}}'
+    data-qid='{{id}}'>
   {{alt}}
   </a>
 {{else}}
   <span
     class='qlabel wd-Q'
-    resource='{{wdRemoteHref id}}'>
+    resource='{{wdRemoteHref id}}'
+    data-qid='{{id}}'>
   {{alt}}
   </span>
 {{/if}}

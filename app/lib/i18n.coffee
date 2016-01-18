@@ -1,4 +1,5 @@
 fetchMomentLocale = require './fetch_moment_local'
+qlabel = require('lib/qlabel')()
 
 module.exports =
   # Convention: 'lang' always stands for ISO 639-1 two letters language codes (like 'en', 'fr', etc.)
@@ -52,5 +53,4 @@ doneChanging = (polyglot)->
 
 updateQlabel = ->
   { lang } = app.user
-  # setTimeout-0 switchLang to put it at the end of the stack, to let the DOM update before qLabel looks for URIs
-  setTimeout $.qLabel.switchLanguage.bind($.qLabel, lang), 0
+  qlabel.update lang
