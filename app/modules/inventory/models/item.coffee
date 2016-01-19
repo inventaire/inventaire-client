@@ -97,6 +97,8 @@ module.exports = Filterable.extend
     @trigger 'destroy', @, @collection
     url = _.buildPath @url(),
       id: @id
+      # TODO: rev isn't required anymore
+      # this might make possible to use the default Backbone behavior
       rev: @get('_rev')
     return _.preq.delete url
 
