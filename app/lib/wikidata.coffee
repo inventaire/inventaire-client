@@ -59,3 +59,7 @@ wd_.aliasingClaims = (claims)->
 wd_.getReverseClaims = (property, value, refresh)->
   preq.get app.API.data.wdq('claim', property, value, refresh)
   .then wdk.parse.wdq.entities
+
+wd_.queryAuthorWorks = (authorQid, refresh)->
+  preq.get app.API.data.wdQuery('author-works', authorQid, refresh)
+  .then wdk.parse.wdq.entities

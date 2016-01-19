@@ -12,9 +12,8 @@ fetchAuthorsWorksIds = (authorModel, refresh)->
   if (not refresh) and authorModel.get('reverseClaims')?.P50?
     return _.preq.resolved
 
-  # TODO: also fetch aliased Properties, not only P50
-  wd_.getReverseClaims 'P50', authorModel.id, refresh
-  .then _.Log('booksIds')
+  wd_.queryAuthorWorks authorModel.id, refresh
+  .then _.Log('worksIds')
   .then authorModel.save.bind(authorModel, 'reverseClaims.P50')
   .catch _.Error('fetchAuthorsWorksIds err')
 
