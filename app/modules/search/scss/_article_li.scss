@@ -1,10 +1,14 @@
 .articleLi{
   @include display-flex(row, center, space-between);
-  .main{
-    @include flex(1);
-  }
   text-align: center;
   padding: 0.2em;
+  .main{
+    @include flex(1);
+    // hacky way to avoid passing behind the .right-bar
+    padding-right: 1.8em;
+    // compensating the padding-right to keep the text centered
+    padding-left: 1.8em;
+  }
   h4{
     margin: 0;
     padding: 0;
