@@ -52,9 +52,26 @@
     padding-bottom: 0.5em;
   }
 }
-
+.position-status{
+  background-color: #ddd;
+  @include radius;
+  margin: auto;
+  .fa{
+    font-size: 0.8em;
+    padding-left: 0.6em;
+    opacity: 0.6;
+  }
+  .coordinates{
+    opacity: 0.6;
+  }
+}
 .group-position-setting{
   @include display-flex(row, center, space-between);
+  div{
+    span, label{
+      display: inline;
+    }
+  }
   margin-top: 1em;
   padding-top: 1em;
   padding-bottom: 1em;

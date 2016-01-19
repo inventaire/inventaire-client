@@ -26,7 +26,7 @@
   <label>{{i18n 'geolocation'}}</label>
   <p class="position-status">
     {{#if hasPosition}}
-      {{i18n "the group has a position set"}}<br>
+      {{i18n "the group has a position set"}} {{icon 'check'}}<br>
       <span class="coordinates">{{position.lat}}, {{position.lng}}</span>
     {{else}}
       {{i18n "the group's positon isn't set yet"}}
