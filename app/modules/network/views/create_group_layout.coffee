@@ -43,7 +43,7 @@ module.exports = Marionette.LayoutView.extend
     @ui.searchabilityWarning.slideToggle()
 
   showPositionPicker: ->
-    app.request 'prompt:position:picker'
+    app.request 'prompt:group:position:picker'
     .then (coords)=> @coords = coords
     .catch _.Error('showPositionPicker')
 

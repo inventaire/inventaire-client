@@ -22,7 +22,7 @@ module.exports =
       'show:position:picker:group': showGroupPositionPicker
 
     app.reqres.setHandlers
-      'prompt:position:picker': promptPositionPicker
+      'prompt:group:position:picker': promptGroupPositionPicker
 
 showMap = (coordinates)->
   app.layout.main.show new MapLayout
@@ -34,9 +34,10 @@ navigateMap = (lat, lng, zoom)->
 showPositionPicker = (options)->
   app.layout.modal.show new PositionPicker(options)
 
-updatePosition = (model, updateReqres)->
+updatePosition = (model, updateReqres, type)->
   showPositionPicker
     model: model
+    type: type
     resolve: (newCoords, selector)->
       app.request updateReqres,
         attribute: 'position'
@@ -45,13 +46,16 @@ updatePosition = (model, updateReqres)->
         # required by reqres updaters such as group:update:settings
         model: model
 
-showMainUserPositionPicker = -> updatePosition app.user, 'user:update'
-showGroupPositionPicker = (group)-> updatePosition group, 'group:update:settings'
+showMainUserPositionPicker = ->
+  updatePosition app.user, 'user:update', 'user'
+
+showGroupPositionPicker = (group)->
+  updatePosition group, 'group:update:settings', 'group'
 
 # returns a promise that should resolve with the selected coordinates
-promptPositionPicker = ->
+promptGroupPositionPicker = ->
   new Promise (resolve, reject)->
-    try showPositionPicker { resolve: resolve }
+    try showPositionPicker { resolve: resolve, type: 'group' }
     catch err then reject err
 
 routerAPI =

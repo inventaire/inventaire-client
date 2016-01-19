@@ -26,8 +26,9 @@ module.exports = Marionette.ItemView.extend
       @position = null
 
   serializeData: ->
-    hasPosition: @hasPosition
-    position: @position
+    _.extend {}, typeStrings[@options.type],
+      hasPosition: @hasPosition
+      position: @position
 
   onShow: ->
     app.execute 'modal:open', 'large'
@@ -51,6 +52,7 @@ module.exports = Marionette.ItemView.extend
 
     @marker = map.addMarker
       markerType: 'circle'
+      metersRadius: @getMarkerMetersRadius()
       latLng: [lat, lng]
 
     map.on 'move', updateMarker.bind(null, @marker)
@@ -75,6 +77,21 @@ module.exports = Marionette.ItemView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   close: -> app.execute 'modal:close'
+
+  getMarkerMetersRadius: ->
+    switch @options.type
+      when 'group' then 20
+      when 'user' then 200
+
+typeStrings =
+  user:
+    title: 'select your position'
+    context: 'position_privacy_context'
+    tip: 'position_privacy_tip'
+  group:
+    title: "select the group's position"
+    context: 'group_position_context'
+    # tip: 'position_privacy_tip'
 
 updateMarker = (marker, e)->
   { lat, lng } = e.target.getCenter()
