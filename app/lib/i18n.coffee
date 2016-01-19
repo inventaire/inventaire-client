@@ -1,5 +1,5 @@
 fetchMomentLocale = require './fetch_moment_local'
-qlabel = require('lib/qlabel')()
+qlabel = require 'lib/qlabel/qlabel'
 
 module.exports =
   # Convention: 'lang' always stands for ISO 639-1 two letters language codes (like 'en', 'fr', etc.)
