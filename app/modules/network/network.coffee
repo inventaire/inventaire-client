@@ -56,7 +56,7 @@ API =
   showSearchGroups: (qs)-> API.showNetworkLayout 'searchGroups', qs
   showUserGroups: -> API.showNetworkLayout 'userGroups'
   showCreateGroup: -> API.showNetworkLayout 'createGroup'
-  showNearbyGroups: -> API.showNetworkLayout 'nearbyGroups'
+  showNearbyGroups: (qs)-> API.showNetworkLayout 'nearbyGroups', qs
 
   showNetworkLayout: (tab=defaultTab, qs)->
     { path } = tabsData.all[tab]

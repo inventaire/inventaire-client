@@ -24,8 +24,8 @@ module.exports = (groups)->
     if groupsData then groups.add groupsData
     filtered.filterByText text
 
-  searchByPosition = (latLng)->
-    _.preq.get app.API.groups.searchByPosition(latLng)
+  searchByPosition = (bbox)->
+    _.preq.get app.API.groups.searchByPosition(bbox)
     .then _.Log('groups by position')
     .then addGroupsUnlessHere
 

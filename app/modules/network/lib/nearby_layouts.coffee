@@ -30,7 +30,7 @@ drawMap = (params, coords)->
     zoom: zoom
     cluster: true
 
-  showObjects map, [lat, lng]
+  showObjects map
 
   # update the path after the tabs lazyrendered and updated the path
   fn = updateRoute.bind null, path, lat, lng, zoom

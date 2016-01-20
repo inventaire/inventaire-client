@@ -1,5 +1,4 @@
-map_ = require 'modules/map/lib/map'
-{ showUsersOnMap, updateRouteFromEvent, pointInMap } = map_
+{ showUsersOnMap, getBbox } = require 'modules/map/lib/map'
 { path } = require('../lib/network_tabs').tabsData.users.nearbyUsers
 UsersList = require 'modules/users/views/users_list'
 { initMap, regions, grabMap, refreshListFilter } = require '../lib/nearby_layouts'
@@ -40,12 +39,12 @@ module.exports = Marionette.LayoutView.extend
 
   onMovend: ->
     refreshListFilter.call @
-    @updateUsersMarkers()
+    @showUsersNearby @map
 
-  showUsersNearby: (map, latLng)->
-    showUsersOnMap map, app.user
-
-    app.request 'users:search:byPosition', latLng
+  # showUsersNearby might be used before grabMap
+  # thus the need to explicitly pass the map
+  showUsersNearby: (map)->
+    app.request 'users:search:byPosition', getBbox(map)
     .then @updateUsersMarkers.bind(@)
 
   updateUsersMarkers: ->
@@ -61,5 +60,7 @@ module.exports = Marionette.LayoutView.extend
       collection: @collection
       stretch: true
       emptyViewMessage: "can't find any user at this location"
+      # avoid showing the main user in the list
+      filter: (model)-> model.id isnt app.user.id
 
     refreshListFilter.call @

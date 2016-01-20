@@ -4,9 +4,9 @@ module.exports =
       action: 'search'
       search: text
 
-  searchByPosition: (base, latLng)->
-    [lat, lng] = latLng
+  searchByPosition: (base, bbox)->
     return _.buildPath base,
       action: 'search-by-position'
-      lat: lat
-      lng: lng
+      # don't let buildPath do the bbox stringification
+      # as it would uses a simple bbox.toString() and lose the []
+      bbox: JSON.stringify bbox

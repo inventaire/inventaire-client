@@ -1,5 +1,5 @@
 { initMap, regions, grabMap, refreshListFilter } = require '../lib/nearby_layouts'
-{ showGroupsOnMap } = require 'modules/map/lib/map'
+{ showGroupsOnMap, getBbox } = require 'modules/map/lib/map'
 { path } = require('../lib/network_tabs').tabsData.groups.nearbyGroups
 GroupsList = require './groups_list'
 
@@ -15,7 +15,6 @@ module.exports = Marionette.LayoutView.extend
 
   initMap: ->
     @collection or= app.user.groups.filtered.resetFilters()
-    _.inspect @collection, 'col'
     initMap
       query: @options.query
       path: path
@@ -35,10 +34,10 @@ module.exports = Marionette.LayoutView.extend
 
   onMovend: ->
     refreshListFilter.call @
-    @updateGroupsMarkers()
+    @showGroupsNearby @map
 
-  showGroupsNearby: (map, latLng)->
-    @collection.searchByPosition latLng
+  showGroupsNearby: (map)->
+    @collection.searchByPosition getBbox(map)
     .then @updateGroupsMarkers.bind(@)
 
   updateGroupsMarkers: ->

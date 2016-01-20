@@ -42,6 +42,10 @@ module.exports = map_ =
     # return the distance in kilometers
     return a.distanceTo(b) / 1000
 
+  getBbox: (map)->
+    { _southWest, _northEast } = map.getBounds()
+    return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
+
 showUserOnMap = (map, user)->
   if user.hasPosition()
     map.addMarker

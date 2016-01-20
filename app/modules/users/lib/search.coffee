@@ -12,11 +12,9 @@ module.exports = (app)->
       app.users.queried.push text
       return app.users.filtered.filterByText text
 
-  searchByPosition = (latLng)->
-    app.users.data.remote.searchByPosition latLng
+  searchByPosition = (bbox)->
+    app.users.data.remote.searchByPosition bbox
     .then addUsersUnlessHere
-    # .then -> app.users.filtered.filterByPosition latLng
-    .then -> app.users.filtered
 
   addUsersUnlessHere = (users)->
     # Need to waitForData as isntAlreadyHere can't
