@@ -17,6 +17,7 @@ module.exports =
       # called from a customized polyglot.js
       'i18n:missing:key': missingKey
       'qlabel:update': updateQlabel
+      'qlabel:refresh': qlabel.refreshData
 
     app.vent.on 'i18n:set', updateQlabel
 

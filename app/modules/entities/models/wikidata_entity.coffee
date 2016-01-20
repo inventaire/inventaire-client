@@ -66,14 +66,7 @@ module.exports = Entity.extend
       # aliasing should happen after rebasing
       # as aliasing needs strings or numbers to test value uniqueness
       @_updates.claims = claims = wd_.aliasingClaims claims
-      @setOriginalLang claims
-    return
-
-  setOriginalLang: (claims)->
-    # P364: original language of work
-    # P103: native language
-    originalLangWdId = (claims.P364 or claims.P103)?[0]
-    @originalLang = window.wdLang.byWdId[originalLangWdId]?.code
+      @originalLang = wd_.getOriginalLang claims
     return
 
   setAttributes: (attrs, lang)->

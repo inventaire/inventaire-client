@@ -39,7 +39,10 @@ API =
     unless prefix? and id?
       _.warn 'prefix or id missing at showEntity'
 
-    @_getEntityView prefix, id, params?.refresh
+    refresh = params?.refresh
+    if refresh then app.execute 'qlabel:refresh'
+
+    @_getEntityView prefix, id, refresh
     .then region.show.bind(region)
     .catch @solveMissingEntity.bind(@, prefix, id)
     .catch (err)->

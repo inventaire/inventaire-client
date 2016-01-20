@@ -3,7 +3,8 @@ labels = {}
 module.exports =
   getLabel: (qid, lang)->
     data = labels[qid]
-    if data? then return data[lang] or data.en
+    if data?
+      return data[lang] or data.en or data.original or _.pickOne(data)
 
   setLabel: (qid, lang, label)->
     labels[qid] or= {}
@@ -11,3 +12,5 @@ module.exports =
     return label
 
   getKnownQids: -> Object.keys labels
+
+  resetLabels: -> labels = {}

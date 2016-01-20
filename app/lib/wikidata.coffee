@@ -63,3 +63,18 @@ wd_.getReverseClaims = (property, value, refresh)->
 wd_.queryAuthorWorks = (authorQid, refresh)->
   preq.get app.API.data.wdQuery('author-works', authorQid, refresh)
   .then wdk.parse.wdq.entities
+
+
+# P364: original language of work
+# P103: native language
+langProperties = ['P364', 'P103']
+
+wd_.getOriginalLang = (claims, notSimplified)->
+  langClaims = _.pick claims, langProperties
+  if _.objLength langClaims is 0 then return
+
+  # this has to be simplified claims
+  if notSimplified then langClaims = wdk.simplifyClaims langClaims
+
+  originalLangWdId = _.pickOne(langClaims)?[0]
+  return window.wdLang.byWdId[originalLangWdId]?.code
