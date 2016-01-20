@@ -68,9 +68,10 @@ module.exports = Marionette.LayoutView.extend
       # it would be confusing to see 'welcome in your inventory' there
       isMainUser = if user? then app.request('user:isMainUser', user.id) else false
       if generalInventory or isMainUser
-        @showInventoryWelcome(user)
-        app.execute 'sidenav:show:base'
+        @showInventoryWelcome user
         if isMainUser then navigateToUserInventory user
+        else app.execute 'sidenav:show:base'
+
         return
 
     if user?
