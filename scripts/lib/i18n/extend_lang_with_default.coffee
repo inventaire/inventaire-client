@@ -8,30 +8,44 @@ updateAndArchive = require './update_and_archive'
 writeDistVersion = require './write_dist_version'
 
 module.exports = extendLangWithDefault = (lang)->
-  Promise.all getSources(lang)
-  .then (args)->
-    rethrowErrors(args)
+  Promise.props getSources(lang)
+  .then (sources)->
 
-    [
-      enFull, enShort, enWd
-      langFull, langFullArchive, langFullTransifex
-      langShort, langShortArchive, langShortTransifex
-      langWd, langWdArchive
-    ] = args
+    { enFull, langFull, langFullTransifex, langFullArchive } = sources
+    [full, updateFull, archiveFull] = findKeys
+      enObj: enFull
+      langCurrent: langFull
+      langTransifex: langFullTransifex
+      langArchive: langFullArchive
+      markdown: false
 
-    fullArgs = [enFull, langFull, langFullArchive, langFullTransifex, false]
-    shortArgs = [enShort, langShort, langShortArchive, langShortTransifex, true]
-    wdArgs = [enWd, langWd, langWdArchive, null, false]
+    { enShort, langShort, langShortTransifex, langShortArchive } = sources
+    [short, updateShort, archiveShort] = findKeys
+      enObj: enShort
+      langCurrent: langShort
+      langTransifex: langShortTransifex
+      langArchive: langShortArchive
+      markdown: true
 
-    [full, updateFull, archiveFull] = findKeys.apply null, fullArgs
-    [short, updateShort, archiveShort] = findKeys.apply null, shortArgs
-    [wd, updateWd, archiveWd] = findKeys.apply null, wdArgs
+    { enWd, langWd, langWdArchive } = sources
+    [wd, updateWd, archiveWd] = findKeys
+      enObj: enWd
+      langCurrent: langWd
+      langTransifex: {}
+      langArchive: langWdArchive
+      markdown: false
 
-    updateAndArchive lang, updateFull, archiveFull, updateShort, archiveShort, updateWd, archiveWd
+    updateAndArchive
+      lang: lang
+      updateFull: updateFull
+      archiveFull: archiveFull
+      updateShort: updateShort
+      archiveShort: archiveShort
+      updateWd: updateWd
+      archiveWd: archiveWd
+
     writeDistVersion lang, _.extend({}, full, short, wd)
 
-  .catch (err)-> console.error "#{lang} err".red, err.stack
-
-rethrowErrors = (args)->
-  args.forEach (arg)->
-    if arg instanceof Error then throw arg
+  .catch (err)->
+    console.error "#{lang} err".red, err.stack
+    throw err

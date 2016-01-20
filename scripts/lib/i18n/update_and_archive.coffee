@@ -2,7 +2,8 @@ Promise = require 'bluebird'
 __ = require '../paths'
 json_  = require '../json'
 
-module.exports =  (lang, updateFull, archiveFull, updateShort, archiveShort, updateWd, archiveWd)->
+module.exports =  (params)->
+  { lang, updateFull, archiveFull, updateShort, archiveShort, updateWd, archiveWd } = params
   Promise.all [
     json_.write(__.src.fullkey(lang), updateFull)
     json_.write(__.src.fullkeyArchive(lang), archiveFull)
@@ -12,4 +13,6 @@ module.exports =  (lang, updateFull, archiveFull, updateShort, archiveShort, upd
     json_.write(__.src.wikidataArchive(lang), archiveWd)
   ]
   .then -> console.log "#{lang} src updated!".blue
-  .catch (err)-> console.log "couldnt update #{lang} src files", err.stack
+  .catch (err)->
+    console.log "couldnt update #{lang} src files", err.stack
+    throw err

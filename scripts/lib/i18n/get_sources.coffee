@@ -4,16 +4,14 @@ __ = require '../paths'
 json_  = require '../json'
 
 module.exports = (lang)->
-  return [
-    json_.read __.src.fullkey('en')
-    json_.read __.src.shortkey('en')
-    json_.read __.src.wikidata('en')
-    json_.read __.src.fullkey(lang)
-    json_.read __.src.fullkeyArchive(lang)
-    json_.read __.src.fullkeyTransifex(lang)
-    json_.read __.src.shortkey(lang)
-    json_.read __.src.shortkeyArchive(lang)
-    json_.read __.src.shortkeyTransifex(lang)
-    json_.read __.src.wikidata(lang)
-    json_.read __.src.wikidataArchive(lang)
-  ]
+  enFull: json_.read __.src.fullkey('en')
+  enShort: json_.read __.src.shortkey('en')
+  enWd: json_.read __.src.wikidata('en')
+  langFull: json_.read __.src.fullkey(lang)
+  langFullArchive: json_.read __.src.fullkeyArchive(lang)
+  langFullTransifex: json_.read __.src.fullkeyTransifex(lang)
+  langShort: json_.read __.src.shortkey(lang)
+  langShortArchive: json_.read __.src.shortkeyArchive(lang)
+  langShortTransifex: json_.read __.src.shortkeyTransifex(lang)
+  langWd: json_.read __.src.wikidata(lang)
+  langWdArchive: json_.read __.src.wikidataArchive(lang)
