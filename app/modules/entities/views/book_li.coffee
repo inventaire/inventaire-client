@@ -7,8 +7,9 @@ module.exports = Marionette.ItemView.extend
   className: 'bookLi'
 
   initialize: ->
-    @listenTo @model, 'change', @render
-    @listenTo @model, 'add:pictures', @render
+    @listenTo @model,
+      'change': @render
+      'add:pictures': @render
     app.execute 'qlabel:update'
     @initPlugins()
 

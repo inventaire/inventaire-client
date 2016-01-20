@@ -28,15 +28,15 @@ module.exports = Marionette.LayoutView.extend
     # CommonEl regions insert their views AFTER the attached el
     @addRegion 'notifs', CommonEl.extend {el: '#before-notifications'}
 
-    @listenTo app.vent, 'search:global:show', @showGlobalSearch.bind(@)
-    @listenTo app.vent, 'search:global:hide', @hideGlobalSearch.bind(@)
-
-    # heavier but cleaner than asking the concerned views to call
-    # 'search:global:show' and 'search:global:hide' onShow and onDestroy
-    # as re-showing the view creates an ugly hide/show/hide sequence
-    @listenTo app.vent, 'route:change', (section)=>
-      if section in sectionWithLocalSearch then @hideGlobalSearch()
-      else @showGlobalSearch()
+    @listenTo app.vent,
+      'search:global:show': @showGlobalSearch.bind(@)
+      'search:global:hide': @hideGlobalSearch.bind(@)
+      # heavier but cleaner than asking the concerned views to call
+      # 'search:global:show' and 'search:global:hide' onShow and onDestroy
+      # as re-showing the view creates an ugly hide/show/hide sequence
+      'route:change': (section)=>
+        if section in sectionWithLocalSearch then @hideGlobalSearch()
+        else @showGlobalSearch()
 
   onShow: ->
     app.execute 'foundation:reload'

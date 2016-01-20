@@ -25,8 +25,9 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     _.extend @, behaviorsPlugin
-    @listenTo @model, 'change:picture', @render
-    @listenTo @model, 'change:position', @render
+    @listenTo @model,
+      'change:picture': @render
+      'change:position': @render
     # let the time to the check or fail signal to show-up before re-rendering
     @listenTo app.vent, 'i18n:reset',  _.debounce(@render.bind(@), 1000)
 

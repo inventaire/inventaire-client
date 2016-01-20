@@ -13,8 +13,9 @@ module.exports = Marionette.LayoutView.extend
     fullviewRegion: '#fullview'
 
   initialize: ->
-    @listenTo app.vent, 'transaction:select', @showTransactionFull.bind(@)
-    @listenTo app.vent, 'transactions:welcome', @showTransactionWelcome.bind(@)
+    @listenTo app.vent,
+      'transaction:select': @showTransactionFull.bind(@)
+      'transactions:welcome': @showTransactionWelcome.bind(@)
 
   serializeData: ->
     folders: folders
