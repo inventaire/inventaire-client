@@ -6,5 +6,8 @@ module.exports = (Promise)->
   reject: Promise.reject.bind Promise
   resolved: resolved
 
-  # aliases
+  # used to start a promise chain
+  # allowing the first functions of the chain
+  # to return a promise or not and still be able
+  # to follow it by .then and .catch
   start: resolved
