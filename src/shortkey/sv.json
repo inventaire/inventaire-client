@@ -123,7 +123,6 @@
     "waiting_return_confirmation_info_lending": null,
     "waiting_return_confirmation_info_giving": null,
     "unfriend_confirmation": "är du säker att du verkligen vill radera **%{username}** från din vänner?",
-    "group_invite_friends": null,
     "group_invitor": "%{username} bjöd in dig att delta",
     "requires_barcode_scanner_app": null,
     "giving_personalized": null,
@@ -172,5 +171,11 @@
     "user_default_description": null,
     "group_default_description": null,
     "delete_account_confirmation": null,
-    "delete_account_warning": null
+    "delete_account_warning": null,
+    "group_position_tip": null,
+    "donate_intro": null,
+    "non_monetary_donations": null,
+    "refresh_wikidata_data": null,
+    "group_position_context": null,
+    "article_limitation": null
 }

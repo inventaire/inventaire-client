@@ -38,7 +38,7 @@
     "pictures_credits": "superbes photos par [Sarah Buckley](https://www.flickr.com/photos/17207222@N02/6117998074/), [artfullife](https://www.flickr.com/photos/artfullife/3589991695/) et [ginnerobot](https://www.flickr.com/photos/ginnerobot/3102623100). Merci !",
     "find_by_isbn_title": "votre livre a-t-il un ISBN ? (l'identifiant près du code-barre)",
     "username_change_confirmation": "Votre nom d'utilisateur actuel est **%{currentUsername}**<br>Etes vous sur de vouloir en changer pour **%{requestedUsername}**?",
-    "username_change_warning": "Ne changez pas trop souvent de nom d'utilisateur, c'est avec celui-ci que les autres utilisateurs vous retrouve",
+    "username_change_warning": "Ne changez pas trop souvent de nom d'utilisateur, c'est avec celui-ci que les autres utilisateurs vous retrouvent",
     "waiting_for_persona": "une popup doit s'être ouverte pour vous permettre d'entrer vos identifiants",
     "persona_tip_email": "votre email de contact sera le même que celui utilisé avec Persona",
     "persona_tip_password": "pas besoin de nouveau mot de passe si vous utilisez Persona",
@@ -174,5 +174,8 @@
     "delete_account_warning": "**Cette opération ne peut pas être annulée !!!**<br>Plusieurs cas possibles : soit vous êtes arrivé ici par erreur et il vous suffit de fermer cette popup pour tout annuler. Soit vous êtes sous l'emprise de l'alcool ou autre stupéfiant, auquel cas ne touchez plus à rien ! Débranchez votre ordinateur, éteignez votre portable, rallumez votre portable pour appeler quelqu'un (si possible pas votre ex) qui puisse les mettre sous verrou et ne vous rendre la clé qu'une fois que vous aurez désaoulé.<br> Soit vous êtes là car vous souhaitez véritablement supprimer ce compte et toutes ses données : dans ce cas, vous pouvez continuer. Nous pleurerons un peu ce compagnon perdu dans cette aventure naissante, les souvenirs grisants d'un court idylle numérique... mais nous resterons fort, promis !",
     "group_position_tip": null,
     "donate_intro": "inventaire.io est un projet visant à produire des outils pour mieux gérer nos ressources tout en faisant grandir le savoir libre. À moyen terme, la mission que ce donne le projet devra être [supportée par une activité économique comme décrit dans la Roadmap](https://trello.com/c/Z7alRtpZ)(en).<br>En attendant, vous pouvez **soutenir le développement du projet en faisant un don** via un des moyens de paiement suivant:",
-    "non_monetary_donations": "Le moyen le plus important et le plus simple pour faire grandir inventaire.io est de nous **aider à faire connaître le projet :  [invitez vos amis à partager leur inventaire](/network/users/invite), partagez le projet dans tous les recoins de l'Internet, écrivez un article de blog ou un tutoriel sur le sujet... soyez créatif !<br> Mais il y a aussi d'[autres moyens de contribuer](https://trello.com/c/VIkw1d8q)(en)"
+    "non_monetary_donations": "Le moyen le plus important et le plus simple pour faire grandir inventaire.io est de nous **aider à faire connaître le projet :  [invitez vos amis à partager leur inventaire](/network/users/invite), partagez le projet dans tous les recoins de l'Internet, écrivez un article de blog ou un tutoriel sur le sujet... soyez créatif !<br> Mais il y a aussi d'[autres moyens de contribuer](https://trello.com/c/VIkw1d8q)(en)",
+    "refresh_wikidata_data": null,
+    "group_position_context": null,
+    "article_limitation": null
 }

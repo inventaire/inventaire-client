@@ -320,7 +320,7 @@
     "no pending requests": "no pending requests",
     "requested": "requested",
     "you need to be connected to add a book to your inventory": "you need to be connected to add a book to your inventory",
-    "your friends and communities are your best library": "vos amis et communautés sont votre meilleur bibliothèque",
+    "your friends and communities are your best library": "your friends and communities are your best library",
     "Welcome on Inventaire": "Welcome on Inventaire",
     "Welcome": "Welcome",
     "you need to be connected to comment": "you need to be connected to comment",
@@ -432,5 +432,15 @@
     "donate": "donate",
     "non-monetary donations": "non-monetary donations",
     "not available yet": "not available yet",
-    "credit/debit card": "credit/debit card"
+    "credit/debit card": "credit/debit card",
+    "search your friends in the current users or invite them to join!": "search your friends in the current users or invite them to join!",
+    "refresh data": "refresh data",
+    "group": "group",
+    "user": "user",
+    "you can now find people giving, sharing or selling books nearby!!": "you can now find people giving, sharing or selling books nearby!!",
+    "add yourself to the map to see public books of people nearby": "add yourself to the map to see public books of people nearby",
+    "select the group's position": "select the group's position",
+    "the group has a position set": "the group has a position set",
+    "articles": "articles",
+    "article": "article"
 }
