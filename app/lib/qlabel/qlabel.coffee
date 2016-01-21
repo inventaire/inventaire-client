@@ -58,21 +58,17 @@ setEntityOriginalLang = (id, claims, labels)->
 
 getMissingEntities = (qids)->
   missingQids = _.without qids, getKnownQids()
-  _.log missingQids, 'qlabel:missingQids'
-
   if missingQids.length > 0 then return getWikidataEntities qids
+  else return _.preq.resolved
 
 update = (lang)->
   language = lang
-
   qids = gatherRequiredQids()
-  _.log qids, 'qlabel:qids'
 
   # do not trigger display when no qid was found at this stage
   if qids.length is 0 then return
 
-  _.preq.start
-  .then -> getMissingEntities qids
+  getMissingEntities qids
   # trigger display even if missingQids.length is 0
   # has there might be new elements with a known qid
   # but that have not be displayed yet
