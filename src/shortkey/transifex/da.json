@@ -1,0 +1,18 @@
+{
+    "Are you sure you want to remove **%{title}?**": "Er du sikker på du vil fjerne **%{title}?**",
+    "Adding <strong>%{label}** to your inventory": "Tilføjer <strong>%{label}** til dit inventar",
+    "you might want to give more details on the item or the transaction": "Måske ønsker du at give flere detaljer vedrørende emnet eller transaktionen",
+    "you only will see it": "kun du vil se det",
+    "Username can be anything made of 1 to 20 letters, figures or _": "Brugernavnet kan være sammensat af 1 til 20 bogstaver, tal eller _",
+    "We use Mozilla's Persona service to identify users. Why?": "Vi bruger Mozillla's Persona service til at identificere brugere. Hvorfor? ",
+    "1/ Inventaire is very young and can't give you a 100% garanty that your password will be safe just yet.": "1/ Inventaire er meget ungt og og kan ikke give dig 100% garanti for, at dit kodeord vil være sikkert... endnu. ",
+    "2/ as other services use this, that makes you less passwords to remember!": "2/ eftersom andre tjenester bruger dette er der mindre kodeord at huske!",
+    "3/ Mozilla don't ask for any of your data out of your email.": "3/ Mozilla spørger ikke om nogen data fra din mail.",
+    "Last but not least, **you probably already have an account** depending on your email provider. Click the button to verify. Don't have an account yet? Click the button too and follow their instructions.": "Sidst men ikke mindst **du har sikkert allerede en konto** afhængigt af din e-mail-udbyder. Klik på knappen for at bekræft. Har du ikke en konto endnu? Klik på knappen og følg deres anvisninger.",
+    "%{username}'s comment": "%{username}'s kommentar",
+    "%{username} accepted your request": "%{username} accepterede din anmodning ",
+    "added %{date}": "tilføjet %{date}",
+    "This is an experiment about resources and capabilities. Given a resource you have or you look for, what are your possibilities? Make, give, get from a gift, lend, borrow, rent, buy, sell, upcycle, recycle... The goal of the Inventaire project is to **map those possibilities**, make alternatives visible. At the same time, this is about easing resources data transparency and openness, and the transmission of those data from the business to the customer.": "Dette er et eksperiment om ressourcer og kompetencer. Hvad er dine muligheder givet du har en ressource eller du leder efter en? Lav, giv, få en gave, udlån, lån, udlej, køb, sælg, upcycle, genbrug ... Målet med Inventaire projektet er at ** kortlægge disse muligheder **, gøre alternativer synlige. Samtidig handler det om at lempe dataressourcernes gennemsigtighed og åbenhed af overførelsen af disse data fra virksomheden til kunden.",
+    "That's already a wide program isn't it? **Let's start small: just mapping books in your network or nearby**, available for giving, lending or selling. Peer to peer first, but integrating local libraries and local booksellers in the map as soon as possible.": "Det er allerede et bredt program, er det ikke? **Lad os starte småt ved bare at kortlægge bøger i dit netværk og i dit nærområde**, tilgængelige til at forære, udlåne eller sælge. Ligesindede til ligesindede (peer to peer) først, men samtidig også at integrere lokale biblioteker lokale bogsælgere på kortet så snart som muligt.",
+    "%{username} confirmed to have received the book": "%{username} bekræftede at have modtaget bogen"
+}
