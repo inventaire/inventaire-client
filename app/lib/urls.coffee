@@ -31,5 +31,4 @@ module.exports =
     coinbase: 'https://www.coinbase.com/inventaire'
     qrcode: "#{root}/img/f086157157209ee0b3a09ff7bd8eb88c79fb658d.jpg"
 
-  # waiting for the team to be validated, using maxlath personal account meanwhile
-  gratipay: 'https://gratipay.com/~maxlath'
+  gratipay: 'https://gratipay.com/inventaire-io'
