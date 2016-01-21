@@ -13,6 +13,8 @@ module.exports = (Backbone, _, app, window, csle)->
 
     i18n: (key, args)-> app.polyglot.t key, args
     I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
+    icon: (name, classes)->
+      "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
 
     updateQuery: (newParams)->
       [pathname, currentQueryString] = Backbone.history.fragment.split('?')

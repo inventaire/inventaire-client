@@ -1,4 +1,4 @@
-errIcon = '<i class="fa fa-bolt"></i>'
+errIcon = _.icon 'bolt'
 
 # doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 currentPosition = ->

@@ -78,7 +78,7 @@ module.exports = Marionette.LayoutView.extend
   topBarData: ->
     options:
       custom_back_text: true
-      back_text: "<i class='fa fa-caret-left'></i> " + _.i18n 'back'
+      back_text: _.icon('caret-left') + ' ' + _.i18n('back')
       is_hover: false
 
   setCurrentUsername: (username)->

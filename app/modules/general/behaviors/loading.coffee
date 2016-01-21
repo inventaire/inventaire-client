@@ -11,7 +11,7 @@ module.exports = Marionette.Behavior.extend
     @$target = @getTarget params
     # _.log @$target, '@$target'
 
-    body = "<i class='fa fa-circle-o-notch fa-spin'></i>"
+    body = _.icon 'circle-o-notch', 'fa-spin'
     if params?.message?
       mes = params.message
       body += "<p class='grey'>#{mes}</p>"
@@ -33,7 +33,7 @@ module.exports = Marionette.Behavior.extend
       @$target or= this.getTarget params
 
       oups = _.i18n 'Something went wrong :('
-      body = "<i class='fa fa-bolt'></i><p> #{oups}</p>"
+      body = _.icon('bolt') + "<p> #{oups}</p>"
 
       @$target.html body
 

@@ -5,7 +5,10 @@
   </a>
   <ul class="dropdown">
 
-    <li><label>{{i18n 'settings'}}</label></li>
+    {{#unless smallScreen}}
+      <li><label>{{i18n 'settings'}}</label></li>
+    {{/unless}}
+
     <li><a id="editProfile">{{icon 'user'}}{{I18n 'edit profile'}}</a></li>
     <li><a id="editNotifications">{{icon 'envelope'}}{{I18n 'edit notifications'}}</a></li>
     <li><a id="editLabs">{{icon 'flask'}}{{I18n 'labs'}}</a></li>

@@ -2,19 +2,21 @@
 
 exports.icon = (name, classes) ->
   if _.isString(name)
-    if icons[name]?
-      src = icons[name]
-      return new SafeString "<img class='icon svg' src='#{src}'>"
+    if name in imagesList
+      src = images[name]
+      return new SafeString "<img class='icon' src='#{src}'>"
     else
       # overriding the second argument that could be {hash:,data:}
       unless _.isString classes then classes = ''
-      return new SafeString "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
+      return new SafeString _.icon(name, classes)
 
-icons =
-  wikipedia: 'https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg'
-  wikidata: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Wikidata-logo.svg'
-  wikisource: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg'
-  pouchdb: 'http://pouchdb.com/static/img/mark.svg'
+images =
+  wikipedia: '/public/images/wikipedia-64.png'
+  wikidata: '/public/images/wikidata.svg'
+  wikisource: '/public/images/wikisource-64.png'
+  pouchdb: '/public/images/pouchdb.svg'
+
+imagesList = Object.keys images
 
 exports.iconLink = (name, url, classes)->
   icon = @icon.call null, name, classes
