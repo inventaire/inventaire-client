@@ -13,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
     'click #editLabs': -> app.execute 'show:settings:labs'
     'click #signout': -> app.execute 'logout'
     'click a#searchButton': 'search'
+    'click .showWelcome': 'closeMenu'
 
   behaviors:
     PreventDefault: {}
@@ -21,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
     _.extend @model.toJSON(),
       search: searchInputData()
       urls: urls
+      smallScreen: _.smallScreen()
 
   initialize: ->
     # /!\ CommonEl custom Regions implies side effects
@@ -29,6 +31,7 @@ module.exports = Marionette.LayoutView.extend
     @addRegion 'notifs', CommonEl.extend {el: '#before-notifications'}
 
     @listenTo app.vent,
+      'window:resize': @render
       'search:global:show': @showGlobalSearch.bind(@)
       'search:global:hide': @hideGlobalSearch.bind(@)
       # heavier but cleaner than asking the concerned views to call
@@ -65,3 +68,9 @@ module.exports = Marionette.LayoutView.extend
     if _.isNonEmptyString(query) then @ui.searchField.val query
 
   hideGlobalSearch: -> @ui.searchGroup.fadeOut(200)
+
+  # let the event propagate to app_layout, which will trigger show:welcome
+  closeMenu: ->
+    if _.smallScreen
+      # close the topbar menu handled by Foundation
+      $('.toggle-topbar').trigger 'click'

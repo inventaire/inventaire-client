@@ -64,6 +64,7 @@ module.exports = Marionette.LayoutView.extend
 
     initIconNavHandlers.call(@)
     initDynamicBackground.call(@)
+    initWindowResizeEvents()
 
   serializeData: ->
     topbar: @topBarData()
@@ -77,7 +78,7 @@ module.exports = Marionette.LayoutView.extend
   topBarData: ->
     options:
       custom_back_text: true
-      back_text: _.i18n 'back'
+      back_text: "<i class='fa fa-caret-left'></i> " + _.i18n 'back'
       is_hover: false
 
   setCurrentUsername: (username)->
@@ -86,3 +87,9 @@ module.exports = Marionette.LayoutView.extend
 
   hideCurrentUsername: ->
     $('#currentUser').hide()
+
+
+initWindowResizeEvents = ->
+  resizeEnd = -> app.vent.trigger 'window:resize'
+  resize = _.debounce resizeEnd, 150
+  $(window).resize resize

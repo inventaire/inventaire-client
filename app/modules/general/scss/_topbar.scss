@@ -64,6 +64,13 @@ nav.top-bar {
     padding: 0rem 0.4rem 0.1rem 0.4rem;
     height: 30px;
   }
+  // exclude the search bar
+  li:not(.has-form) a .fa{
+    // force the width to align icons and labels
+    width: 1.4em;
+    padding-right: 0.6em;
+    text-align: center;
+  }
 
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
@@ -123,6 +130,12 @@ nav.top-bar {
     .labels{
       margin-right: 0.5em;
       text-transform: capitalize;
+    }
+    .back{
+      background-color: #444;
+      .fa-caret-left{
+        padding-right: 1em;
+      }
     }
   }
 }
