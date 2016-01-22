@@ -21,7 +21,7 @@ module.exports = Marionette.Behavior.extend
     unless $check.length is 1
       return _.warn '.check target not found'
 
-    $check.hide().html _.icon('signal', 'text-center')
+    $check.hide().html _.icon(signal, 'text-center')
     .slideDown(300)
 
     afterTimeout = ->
