@@ -9,6 +9,7 @@ module.exports =
       appRoutes:
         '(home)': 'showHome'
         'welcome': 'showWelcome'
+        'me': 'showMainUser'
         '*route': 'notFound'
 
     app.addInitializer ->
@@ -58,6 +59,9 @@ API =
       docTitle: _.i18n('Welcome on Inventaire')
       noCompletion: true
     app.navigate 'welcome'
+
+  showMainUser: ->
+    app.execute 'show:inventory:main:user'
 
   show403: ->
     app.execute 'show:error',
