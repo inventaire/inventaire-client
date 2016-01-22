@@ -15,7 +15,7 @@ solvePosition = (coords)->
 
   # then to the user saved position
   { user } = app
-  if user.hasPosition() then return _.preq.resolve user.getPosition()
+  if user.hasPosition() then return _.preq.resolve user.getCoords()
 
   # finally a request for the user position is issued
   map_.getCurrentPosition containerId

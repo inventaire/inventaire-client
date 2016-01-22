@@ -16,12 +16,13 @@ module.exports = map_ =
     { _zoom } = e.target
     map_.updateRoute root, lat, lng, _zoom
 
-  updateMarker: (marker, lat, lng)->
+  updateMarker: (marker, coords)->
+    { lat, lng } = coords
     marker.setLatLng [lat, lng]
 
   showUsersOnMap: (map, users)->
     for user in _.forceArray users
-      showUserOnMap map, user
+      map_.showUserOnMap map, user
 
   showGroupsOnMap: (map, groups)->
     for group in _.forceArray groups
@@ -46,12 +47,12 @@ module.exports = map_ =
     { _southWest, _northEast } = map.getBounds()
     return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
 
-showUserOnMap = (map, user)->
-  if user.hasPosition()
-    map.addMarker
-      objectId: user.cid
-      model: user
-      markerType: 'user'
+  showUserOnMap: (map, user)->
+    if user.hasPosition()
+      map.addMarker
+        objectId: user.cid
+        model: user
+        markerType: 'user'
 
 showGroupOnMap = (map, group)->
   if group.hasPosition()

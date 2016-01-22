@@ -20,7 +20,7 @@ module.exports = Marionette.ItemView.extend
     { model } = @options
     if model?
       @hasPosition = model.hasPosition()
-      @position = model.getPosition()
+      @position = model.getCoords()
     else
       @hasPosition = false
       @position = null
@@ -57,11 +57,11 @@ module.exports = Marionette.ItemView.extend
 
     map.on 'move', updateMarker.bind(null, @marker)
 
-  getPosition: ->
+  getCoords: ->
     { lat, lng } = @marker._latlng
     return [ lat, lng ]
 
-  validatePosition: -> @_updatePosition @getPosition(), '#validatePosition'
+  validatePosition: -> @_updatePosition @getCoords(), '#validatePosition'
   removePosition: -> @_updatePosition null, '#removePosition'
   _updatePosition: (newCoords, selector)->
     startLoading.call @, selector
@@ -94,5 +94,4 @@ typeStrings =
     # tip: 'position_privacy_tip'
 
 updateMarker = (marker, e)->
-  { lat, lng } = e.target.getCenter()
-  map_.updateMarker marker, lat, lng
+  map_.updateMarker marker, e.target.getCenter()

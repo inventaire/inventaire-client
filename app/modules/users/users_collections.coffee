@@ -38,14 +38,12 @@ module.exports = (app)->
     @resetFilters()
     @filterBy {status: 'friends'}
 
-  # users.filtered.filterByPosition = (latLng)->
-  #   @resetFilters()
-  #   # temporary placeholder filter just returning
-  #   # all users with a position set
-  #   @filterBy 'position', (user)-> user.has 'position'
-
   keepMembersListUpdated users.friends
   keepMembersListUpdated users.public
+
+  users.list = ->
+    users.map _.property('id')
+    .concat [app.user.id]
 
   return users
 

@@ -44,7 +44,7 @@ module.exports = Marionette.ItemView.extend
       localCreationStrategy: attrs.creationStrategy is 'local'
       hasPassword: attrs.creationStrategy is 'local' or attrs.hasPassword
       hasPosition: @model.hasPosition()
-      position: @model.getPosition()
+      position: @model.getCoords()
 
   usernamePickerData: -> pickerData @model, 'username'
   emailPickerData: -> pickerData @model, 'email'

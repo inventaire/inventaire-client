@@ -4,12 +4,13 @@ Filterable = require './filterable'
 # happen to also need filterable features
 module.exports = Filterable.extend
   hasPosition: -> @has 'position'
-  getPosition: ->
+  getCoords: ->
     latLng = @get 'position'
     if latLng?
       [ lat, lng ] = latLng
       return { lat: lat, lng: lng }
-    else return {}
+    else
+      return {}
 
   getLatLng: ->
     # Create a L.LatLng only once

@@ -60,7 +60,11 @@ module.exports = (app)->
   async =
     getUsersData: (ids)->
       unless ids.length > 0 then return _.preq.resolve []
-      app.users.data.local.get(ids, 'collection')
+
+      app.request 'waitForData'
+      .then -> app.users.data.local.get ids, 'collection'
+      # make sure not to re-add users who have a different status than public
+      .then filterOutAlreadyThere
       .then adders.public
 
     getUserModel: (id, category='public')->
@@ -100,6 +104,10 @@ module.exports = (app)->
           if user?
             userModel = app.users.public.add user
             return userModel
+
+  filterOutAlreadyThere = (users)->
+    current = app.users.list()
+    return users.filter (user)-> not (user._id in current)
 
   adders =
     # usually users not found locally are non-friends users

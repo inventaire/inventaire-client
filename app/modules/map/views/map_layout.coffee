@@ -52,7 +52,7 @@ module.exports = Marionette.LayoutView.extend
 
     # then to the user saved position
     { user } = app
-    if user.hasPosition() then return _.preq.resolve user.getPosition()
+    if user.hasPosition() then return _.preq.resolve user.getCoords()
 
     # finally a request for the user position is issued
     return map_.getCurrentPosition()

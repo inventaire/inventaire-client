@@ -1,4 +1,4 @@
-{ showUsersOnMap, getBbox } = require 'modules/map/lib/map'
+{ showUsersOnMap, showUserOnMap, updateMarker, getBbox } = require 'modules/map/lib/map'
 { path } = require('../lib/network_tabs').tabsData.users.nearbyUsers
 UsersList = require 'modules/users/views/users_list'
 { initMap, regions, grabMap, refreshListFilter } = require '../lib/nearby_layouts'
@@ -25,8 +25,8 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('initMap')
 
   initialize: ->
-    @collection = app.users.filtered.resetFilters()
-    @listenTo app.user, 'change:position', @render.bind(@)
+    @collection = app.users.public.filtered.resetFilters()
+    @listenTo app.user, 'change:position', @updateMainUserPosition.bind(@)
     @lazyInitMap = _.debounce @initMap.bind(@), 300
 
   onRender: ->
@@ -49,6 +49,7 @@ module.exports = Marionette.LayoutView.extend
 
   updateUsersMarkers: ->
     showUsersOnMap @map, @collection.models
+    @mainUserMarker = showUserOnMap @map, app.user
 
   showUserInventory: (e)->
     unless _.isOpenedOutside e
@@ -64,3 +65,7 @@ module.exports = Marionette.LayoutView.extend
       filter: (model)-> model.id isnt app.user.id
 
     refreshListFilter.call @
+
+  updateMainUserPosition: ->
+    if @mainUserMarker?
+      updateMarker @mainUserMarker, app.user.getCoords()
