@@ -67,6 +67,10 @@ module.exports = Entity.extend
       # as aliasing needs strings or numbers to test value uniqueness
       @_updates.claims = claims = wd_.aliasingClaims claims
       @originalLang = wd_.getOriginalLang claims
+
+      publicationDate = claims.P577?[0]
+      if publicationDate?
+        @publicationYear = _. getYearFromEpoch publicationDate
     return
 
   setAttributes: (attrs, lang)->
@@ -148,10 +152,18 @@ module.exports = Entity.extend
 
     # unless it's an author, in which case commons pictures are prefered
     # => gives access to photo credits
-    if @type is 'human' then order = ['wm', 'wp', 'ol']
+    if @type is 'human' then order = ['wm', 'ol', 'wp']
     # giving priority to openlibrary's pictures for books
     # as it has only covers while commons sometimes has just an illustration
-    else order = ['ol', 'wp', 'wm']
+    else
+      # Give priority to Wikimedia over Wikipedia for books
+      # likely to be in the public domain and have a good image set in Wikidata
+      # while querying images from English Wikipedia articles
+      # can be quite random results
+      if @publicationYear? and @publicationYear < _.yearsAgo(70)
+        order = ['ol', 'wm', 'wp']
+      else
+        order = ['ol', 'wp', 'wm']
 
     candidates = _.values _.pick(getters, order)
     if candidates.length is 0 then return _.preq.resolved
@@ -161,7 +173,6 @@ module.exports = Entity.extend
     .catch _.Error('_pickBestPic err')
 
   _savePicture: (url)->
-    _.log url, 'url'
     @push 'pictures', url
     @save()
 

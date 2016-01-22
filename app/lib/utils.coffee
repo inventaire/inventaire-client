@@ -116,6 +116,9 @@ module.exports = (Backbone, _, app, window, csle)->
 
     now: -> new Date().getTime()
 
+    getYearFromEpoch: (epochTime)-> new Date(epochTime).getYear() + 1900
+    yearsAgo: (years)-> new Date().getYear() + 1900 - years
+
     objectifyPairs: (array)->
       pairs = array.length / 2
       if pairs % 1 isnt 0
