@@ -28,16 +28,23 @@ module.exports = Marionette.LayoutView.extend
     groupsList: '#groupsList'
     groupsToggler: '#groups .listToggler'
 
+    publicSection: 'section#public, #publicList'
+    publicList: '#publicList'
+    publicToggler: '#public .listToggler'
+
     membersSection: 'section#members'
     membersList: '#membersList'
     membersToggler: '#members .listToggler'
     memberSearch: '#memberSearch'
 
+    nearby: 'li.nearby'
+    last: 'li.last'
+
     togglers: '.toggler'
 
   initialize: ->
     @initPlugins()
-    app.commands.setHandlers
+    @listenTo app.vent,
       'sidenav:show:base': @showBase.bind(@)
       'sidenav:show:user': @showUser.bind(@)
       'sidenav:show:group': @showGroup.bind(@)
@@ -50,22 +57,29 @@ module.exports = Marionette.LayoutView.extend
   events:
     'keyup #memberField': 'lazyMemberFilter'
     'click .listHeader': 'toggleListHeader'
+    'click #nearby': 'showInventoryNearby'
+    'click #last': 'showInventoryLast'
 
   serializeData: ->
     smallScreen: _.smallScreen()
 
-  showBase: ->
+  showBase: (active)->
     @_listReady = false
     @_usersListShown = false
     @_groupsListShown = false
+    @_publicListShown = false
 
     @showMainUser()
 
     @ui.two.show()
     @ui.membersSection.hide()
     @ui.memberSearch.hide()
+    @ui.publicSection.show()
     @ui.groupsSection.show()
     @ui.friendsSection.show()
+
+    switch active
+      when 'last', 'nearby' then @ui[active].addClass 'active'
 
     if _.smallScreen()
       app.request 'waitForUserData'
@@ -73,6 +87,7 @@ module.exports = Marionette.LayoutView.extend
 
     else
       @showUsersList()
+      @showPublicList()
       app.request 'waitForUserData'
       .then @showGroupsList.bind(@)
       # useful in case the screen is resized
@@ -99,6 +114,10 @@ module.exports = Marionette.LayoutView.extend
     @ui.groupsSection.show()
     @groupsList.show new GroupsList
       collection: app.user.groups.mainUserMember
+
+  showPublicList: ->
+    @_publicListShown = true
+    @ui.publicSection.show()
 
   showGroup: (groupModel)->
     @_membersListShown = false
@@ -156,6 +175,11 @@ module.exports = Marionette.LayoutView.extend
           @toggleList 'members', @_membersListShown
           @ui.memberSearch.toggle()
 
+        when 'publicListHeader'
+          @toggleList 'public', @_publicListShown
+
+        else _.error id, 'unknown list header'
+
   toggleList: (name, shown)->
     if shown
       @ui["#{name}List"].slideToggle 200
@@ -171,7 +195,12 @@ module.exports = Marionette.LayoutView.extend
       when 'users' then @showUsersList()
       when 'groups' then @showGroupsList()
       when 'members' then @showMembersList()
+      when 'public' then @showPublicList()
+      else _.error name, 'unknown list'
 
   toggleUserSearch: ->
     if @_usersListShown then @ui.userSearch.toggle()
     else @ui.userSearch.show()
+
+  showInventoryNearby: -> app.execute 'show:inventory:nearby'
+  showInventoryLast: -> app.execute 'show:inventory:last'

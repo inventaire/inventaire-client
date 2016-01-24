@@ -4,6 +4,9 @@ ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
 Controls = require './controls'
 Group = require 'modules/network/views/group'
+MapLayout = require 'modules/map/views/map_layout'
+showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
+
 # keep in sync with _controls.scss
 gridMinWidth = 750
 
@@ -42,7 +45,24 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('showItemsListOnceData err')
 
   showItemsList: ->
-    {user, group} = @options
+    { user, group, nearby, last } = @options
+
+    if nearby
+      @itemsView.show new MapLayout
+
+      app.vent.trigger 'sidenav:show:base', 'nearby'
+      app.navigate 'inventory/nearby'
+      return
+
+    if last
+      showLastPublicItems @itemsView
+      .catch _.Error('showLastPublicItems err')
+
+      app.vent.trigger 'sidenav:show:base', 'last'
+      app.navigate 'inventory/last'
+      return
+
+
     if user?
       app.request 'resolve:to:userModel', user
       .then @showItemsListStep2.bind(@)
@@ -70,7 +90,7 @@ module.exports = Marionette.LayoutView.extend
       if generalInventory or isMainUser
         @showInventoryWelcome user
         if isMainUser then navigateToUserInventory user
-        else app.execute 'sidenav:show:base'
+        else app.vent.trigger 'sidenav:show:base'
 
         return
 
@@ -85,12 +105,12 @@ module.exports = Marionette.LayoutView.extend
       eventName = "group:#{group.id}"
       group.updateMetadata()
     else
-      app.execute 'sidenav:show:base'
+      app.vent.trigger 'sidenav:show:base'
       app.execute 'filter:inventory:friends:and:main:user'
       eventName = 'general'
       updateInventoryMetadata()
 
-    @showItemsListStep3()
+    # @showItemsListStep3()
     app.vent.trigger 'inventory:change', eventName
 
   showItemsListStep3: ->
@@ -117,13 +137,12 @@ module.exports = Marionette.LayoutView.extend
 
   showInventoryWelcome: (user)->
     inventoryWelcome = require './inventory_welcome'
-    showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
 
     @header.show new inventoryWelcome
     showLastPublicItems @itemsView
     .catch _.Error('showLastPublicItems err')
 
-    if user? then app.execute 'sidenav:show:user', user
+    if user? then app.vent.trigger 'sidenav:show:user', user
 
   showControls: ->
     unless _.smallScreen gridMinWidth
@@ -131,7 +150,7 @@ module.exports = Marionette.LayoutView.extend
 
   prepareGroupItemsList: (group, navigate)->
     app.execute 'filter:inventory:group', group
-    app.execute 'sidenav:show:group', group
+    app.vent.trigger 'sidenav:show:group', group
     unless _.smallScreen()
       @header.show new Group
         model: group
@@ -149,7 +168,7 @@ prepareUserItemsList = (user, navigate)->
 
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
-  app.execute 'sidenav:show:user', user
+  app.vent.trigger 'sidenav:show:user', user
   if navigate then navigateToUserInventory user
 
 navigateToUserInventory = (user)-> app.navigate user.get('pathname')

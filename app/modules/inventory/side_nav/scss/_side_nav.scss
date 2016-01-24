@@ -57,9 +57,29 @@
   }
   // #groups, #friends, #members: the strong selectors are required
   // to be stronger than 'section' display:flex rules
-  #groups, #friends, #members, #userSearch, .listHeader{
+  #public, #groups, #friends, #members, #userSearch, .listHeader{
     // start hidden
     display: none;
+  }
+  #publicList{
+    li{
+      width: 100%;
+      color: white;
+      font-size: 1.2em;
+      padding: 0.2em;
+      @include bg-hover(#505050)
+      &.active{
+        @include inner-shadow;
+        background-color: $off-white;
+        a, .fa{
+          color: $grey;
+        }
+      }
+      .fa{
+        text-align: center;
+        width: 2em;
+      }
+    }
   }
 }
 
@@ -68,6 +88,9 @@
 @media screen and (max-width: $smallscreen) {
   #sideNav{
     margin-top: 0.2em;
+  }
+  #publicList{
+    display: none;
   }
 }
 

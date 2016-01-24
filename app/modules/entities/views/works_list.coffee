@@ -21,7 +21,9 @@ module.exports = Marionette.CompositeView.extend
     @initBookCounter()
 
   initPlugins: ->
-    paginationPlugin.call @, 15, (@options.initialLength or 5)
+    paginationPlugin.call @,
+      batchLength: 15
+      initialLength: @options.initialLength or 5
 
   initBookCounter: ->
     @lazyUpdateBookCounter = _.debounce @updateBookCounter.bind(@), 1000

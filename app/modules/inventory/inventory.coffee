@@ -12,6 +12,8 @@ module.exports =
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
+        'inventory/nearby': 'showInventoryNearby'
+        'inventory/last': 'showInventoryLast'
         'inventory/:username(/)': 'showUserInventory'
         'inventory/:username/:entity(/:title)(/)': 'itemShow'
         'add(/)': 'showAddLayout'
@@ -46,6 +48,14 @@ API =
     showInventory
       group: id
       navigate: navigate
+
+  showInventoryNearby: ->
+    showInventory
+      nearby: true
+
+  showInventoryLast: ->
+    showInventory
+      last: true
 
   showItemCreationForm: (options)->
     form = new ItemCreationForm options
@@ -113,6 +123,7 @@ API =
 
   showAddLayout: ->
     app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
+
 
 showInventory = (options)->
   app.layout.main.show new InventoryLayout(options)
@@ -224,6 +235,9 @@ initializeInventoriesHandlers = (app)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi
       # caused by the item counter trying to update
       setTimeout API.removeUserItems.bind(null, userId), 0
+
+    'show:inventory:nearby': API.showInventoryNearby
+    'show:inventory:last': API.showInventoryLast
 
 
   app.reqres.setHandlers

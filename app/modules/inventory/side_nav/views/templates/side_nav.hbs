@@ -1,6 +1,24 @@
 <div id="one"></div>
 <div id="two">
   <section id="mainUser"></section>
+  <section id="public">
+    <div id="publicListHeader" class="listHeader">
+      <h4 class="header">{{i18n 'public books'}}</h4>
+      {{partial 'network:list_toggler'}}
+    </div>
+    <ul id="publicList">
+      <li class="nearby">
+        <a id="nearby" href="/inventory/nearby" title="{{i18n 'title_map_layout'}}">
+          {{icon 'map-marker'}} {{i18n 'nearby'}}
+        </a>
+      </li>
+      <li class="last">
+        <a id="last" href="/inventory/last" title="{{i18n 'title_last_items'}}">
+          {{icon 'clock-o'}} {{i18n 'last added'}}
+        </a>
+      </li>
+    </ul>
+  </section>
   <section id="groups">
     <div id="groupsListHeader" class="listHeader">
       <h4 class="header">{{i18n 'groups'}}</h4>

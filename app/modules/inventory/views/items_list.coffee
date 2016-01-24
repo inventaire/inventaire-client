@@ -20,7 +20,10 @@ module.exports = Marionette.CompositeView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    paginationPlugin.call @, itemsPerPage()
+    paginationPlugin.call @,
+      batchLength: itemsPerPage()
+      fetchMore: @options.fetchMore
+
     masonryPlugin.call @, '.itemsList', '.itemContainer'
 
   serializeData: ->

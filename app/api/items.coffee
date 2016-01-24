@@ -6,7 +6,9 @@ itemsPublic = (action, query={})->
 
 module.exports =
   base: '/api/items'
-  lastPublicItems: itemsPublic 'last-public-items'
+  lastPublicItems: (offset=0)->
+    itemsPublic 'last-public-items',
+      offset: offset
 
   publicById: (id)->
     itemsPublic 'public-by-id',
