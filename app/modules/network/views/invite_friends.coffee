@@ -62,7 +62,7 @@ module.exports = Marionette.LayoutView.extend
     @emailsInvited = _.uniq @emailsInvited.concat(emails)
 
   _addUser: (user)->
-    userModel = app.users.public.add user
+    userModel = app.request 'user:public:add', user
     # in cases the public was already there
     # the previous model will be kept and the email lost
     # and we want the email to be displayed here

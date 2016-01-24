@@ -64,8 +64,7 @@ module.exports = (app)->
       app.request 'waitForData'
       .then -> app.users.data.local.get ids, 'collection'
       # make sure not to re-add users who have a different status than public
-      .then filterOutAlreadyThere
-      .then adders.public
+      .then addPublicUsers
 
     getUserModel: (id, category='public')->
       app.request('waitForData')
@@ -107,16 +106,29 @@ module.exports = (app)->
 
   filterOutAlreadyThere = (users)->
     current = app.users.list()
+    current.push app.user.id
     return users.filter (user)-> not (user._id in current)
+
+  addPublicUsers = (users)->
+    users = filterOutAlreadyThere users
+    app.users.public.add users
+    return
+
+  # returns the user model
+  addPublicUser = (user)->
+    { _id } = user
+    knownUser = app.users.byId _id
+    if knownUser? then return knownUser
+    else return app.users.public.add user
 
   adders =
     # usually users not found locally are non-friends users
-    public: app.users.public.add.bind(app.users.public)
+    public: addPublicUsers
     nonRelationGroupUser: app.users.nonRelationGroupUser.add.bind(app.users.nonRelationGroupUser)
 
   { searchByText, searchByPosition } = require('./lib/search')(app)
 
-  return reqresHandlers =
+  app.reqres.setHandlers
     'get:user:model': async.getUserModel
     'get:group:user:model': async.getGroupUserModel
     'get:users:data': async.getUsersData
@@ -133,3 +145,9 @@ module.exports = (app)->
     'user:itemsFetched': sync.itemsFetched
     'users:search': searchByText
     'users:search:byPosition': searchByPosition
+    'user:public:add': addPublicUser
+
+  app.commands.setHandlers
+    'users:public:add': addPublicUsers
+
+  return

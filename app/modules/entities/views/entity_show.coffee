@@ -73,5 +73,5 @@ fetchPublicItems = (uri)->
   .catch _.Error('fetchPublicItems')
 
 spreadPublicData = (data)->
-  app.users.public.add data.users
+  app.execute 'users:public:add', data.users
   Items.public.add data.items

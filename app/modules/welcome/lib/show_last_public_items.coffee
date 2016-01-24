@@ -10,7 +10,7 @@ displayPublicItems = (region, res)->
   unless res?.items?.length > 0
     throw new Error 'no public items'
 
-  app.users.public.add res.users
+  app.execute 'users:public:add', res.users
 
   region.show new ItemsList
     collection: new Items res.items

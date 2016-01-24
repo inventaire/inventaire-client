@@ -12,5 +12,7 @@ module.exports = (app, _)->
       app.execute 'track:invitation', 'email', data.emails.length
       return data
 
-  return handlers =
+  app.reqres.setHandlers
     'invitations:by:emails': invitationsByEmails
+
+  return

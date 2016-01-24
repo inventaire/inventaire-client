@@ -140,7 +140,7 @@ triggerItemsReady = ->
 requestPublicItem = (username, entity)->
   _.preq.get(app.API.items.publicByUsernameAndEntity(username, entity))
   .then (res)->
-    app.users.public.add res.user
+    app.execute 'users:public:add', res.user
     return Items.public.add res.items
   .catch (err)-> _.error err, 'requestPublicItem err'
 

@@ -5,11 +5,9 @@ module.exports =
     app.users = require('./users_collections')(app)
     app.users.data = require('./users_data')(app, $, _)
 
-    helpers = require('./helpers')(app)
-    requests = require('./requests')(app, _)
-    invitations = require('./invitations')(app, _)
-
-    app.reqres.setHandlers _.extend(helpers, requests, invitations)
+    require('./helpers')(app)
+    require('./requests')(app, _)
+    require('./invitations')(app, _)
 
     initUsersItems()
     app.request('waitForUserData').then fetchFriendsAndTheirItems

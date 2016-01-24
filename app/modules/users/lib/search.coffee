@@ -20,17 +20,7 @@ module.exports = (app)->
     # Need to waitForData as isntAlreadyHere can't
     # do it's job if user relations data haven't return yet
     app.request 'waitForData'
-    .then ->
-      for user in users
-        addUserUnlessHere user
-
-  addUserUnlessHere = (user)->
-    if isntAlreadyHere user._id then app.users.public.add user
-
-  isntAlreadyHere = (id)->
-    if app.users.byId(id)? then return false
-    if app.request 'user:isMainUser', id then return false
-    return true
+    .then -> app.execute 'users:public:add', users
 
   return API =
     searchByText: searchByText

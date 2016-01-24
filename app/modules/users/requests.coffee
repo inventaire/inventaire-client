@@ -42,9 +42,11 @@ module.exports = (app, _)->
     if user.id? then return [user, user.id]
     else throw new Error('user missing id', user)
 
-  return reqresHandlers =
+  app.reqres.setHandlers
     'request:send': API.sendRequest
     'request:cancel': API.cancelRequest
     'request:accept': API.acceptRequest
     'request:discard': API.discardRequest
     'unfriend': API.unfriend
+
+  return

@@ -14,7 +14,7 @@ module.exports = ->
     # .then _.Log('group public data')
     .then (res)->
       {group, users, items} = res
-      app.users.public.add users
+      app.execute 'users:public:add', users
       Items.public.add items
       groupModel =  groups.add group
       groupModel.publicDataOnly = true
