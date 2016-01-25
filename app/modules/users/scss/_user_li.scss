@@ -126,6 +126,8 @@ $user-bg: #ddd;
   @media screen and (min-width: $smallscreen) {
     @include display-flex(row);
     .right-box{
+      // hacky way to make sure .userLi doesn't scroll horizontally
+      width: 82%;
       @include flex(1);
       @include display-flex(row);
     }

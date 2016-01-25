@@ -52,6 +52,10 @@ img.icon{
   // DONT !important it as it seems it can't be shown then
   display: none;
 }
+.force-hidden{
+  // remove the class to make visible
+  display: none !important;
+}
 
 .glowing{
   border: 0.1em solid rgba(86, 180, 239, 0.6);

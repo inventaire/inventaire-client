@@ -2,8 +2,8 @@
   background-color: lighten($darker-grey, 2%);
   color: $grey;
   padding-left: 0.5em;
-  @include display-flex(row, center, flex-start);
   h4{
+    @include flex(0, 0);
     color: $grey;
     font-size: 1.2em;
   }
@@ -11,21 +11,8 @@
     font-size: 1.2em;
     text-align: right;
   }
-}
-#usersList{
-  @include flex(0, 1, auto);
-  // avoid horizontal scroll
-  // overflow: auto;
-}
-
-#userField, #memberField{
-  margin: 0;
-  @include shadow-box($glow);
-}
-
-/*Small screens*/
-@media screen and (max-width: $smallscreen) {
-  .listHeader{
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
     @include shy-border;
     height: 3em;
     .close{
@@ -47,18 +34,19 @@
       background-color: $darker-grey;
     }
   }
-}
-
-
-/*Large screens*/
-@media screen and (min-width: $smallscreen) {
-  .listHeader{
+  /*Large screens*/
+  @media screen and (min-width: $smallscreen) {
     height: 2em;
+    .header{
+      padding-top: 0.2em;
+    }
     .toggler{
       display: none;
     }
-  }
-  .bottomSearch{
-    @include flex(0, 0, 2.4em);
+    .close{
+      // hacky. forcing the 'close' cross to stay inside the .listHeader
+      max-height: 1.2em;
+      padding-right: 0.2em;
+    }
   }
 }

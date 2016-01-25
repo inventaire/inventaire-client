@@ -39,10 +39,18 @@
   #two{
     @include flex(1);
     @include display-flex(column, left, flex-end);
-    section{
-      @include flex(0);
+    @import 'list_header';
+    // use the ids instead of classes to be stronger that the display:flex
+    // applied to .listHeader
+    #publicList, #groupsList, #usersList, #membersList{
+      // start hidden
+      display: none;
     }
-    @import 'users_lists';
+    #publicListHeader, #groupsListHeader, #usersListHeader, #membersListHeader{
+      // used to place .close at the end of the line
+      // but targeting all headers to keep a consistant placing of .header
+      @include display-flex(row, center, space-between);
+    }
   }
   #groupsList{
     text-align: left;
@@ -55,19 +63,17 @@
     font-weight: 0.6;
     text-align: center;
   }
-  // #groups, #friends, #members: the strong selectors are required
-  // to be stronger than 'section' display:flex rules
-  #public, #groups, #friends, #members, #userSearch, .listHeader{
-    // start hidden
-    display: none;
-  }
   #publicList{
     li{
       width: 100%;
-      color: white;
-      font-size: 1.2em;
-      padding: 0.2em;
+      @include display-flex(column);
       @include bg-hover(#505050)
+      color: white;
+      a{
+        font-size: 1.2em;
+        width: 100%;
+        padding: 0.2em;
+      }
       &.active{
         @include inner-shadow;
         background-color: $off-white;
@@ -80,6 +86,10 @@
         width: 2em;
       }
     }
+  }
+  #userField, #memberField{
+    margin: 0;
+    @include shadow-box($glow);
   }
 }
 
@@ -111,20 +121,15 @@
     }
   }
   #two{
-    section{
-      @include display-flex(column, left, flex-end);
-      @include flex(1, 1, 0);
+    max-height: 100%;
+    @include display-flex(column, left, flex-end);
+    > div, > ul{
+      @include flex(0, 0);
     }
     #groupsList, #usersList, #membersList{
+      @include flex(0, 1);
       overflow: auto;
-      max-height: 40vh;
-    }
-    .userLi{
-      max-width: $sideNavWidth;
-    }
-    .close{
-      // hacky. forcing the 'close' cross to stay inside the .listHeader
-      max-height: 1.2em;
+      width: 100%;
     }
   }
 }

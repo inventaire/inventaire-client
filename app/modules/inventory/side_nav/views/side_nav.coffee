@@ -4,6 +4,7 @@ UserProfile = require './user_profile'
 GroupsList = require 'modules/network/views/groups_list'
 Group = require 'modules/network/views/group'
 UsersSearch = require 'modules/network/plugins/users_search'
+headersData = require '../lib/headers'
 
 module.exports = Marionette.LayoutView.extend
   id: 'innerNav'
@@ -15,24 +16,25 @@ module.exports = Marionette.LayoutView.extend
     membersList: '#membersList'
     mainUser: '#mainUser'
 
+  behaviors:
+    PreventDefault: {}
+
   ui:
     two: '#two'
 
-    listHeaders: '.listHeader'
-
-    friendsSection: 'section#friends'
+    friendsSection: '#usersListHeader, #usersList'
     usersList: '#usersList'
     usersToggler: '#usersListHeader .listToggler'
 
-    groupsSection: 'section#groups'
+    groupsSection: '#groupsListHeader, #groupsList'
     groupsList: '#groupsList'
     groupsToggler: '#groups .listToggler'
 
-    publicSection: 'section#public, #publicList'
+    publicSection: '#publicListHeader, #publicList'
     publicList: '#publicList'
     publicToggler: '#public .listToggler'
 
-    membersSection: 'section#members'
+    membersSection: '#membersListHeader, #membersList'
     membersList: '#membersList'
     membersToggler: '#members .listToggler'
     memberSearch: '#memberSearch'
@@ -61,7 +63,8 @@ module.exports = Marionette.LayoutView.extend
     'click #last': 'showInventoryLast'
 
   serializeData: ->
-    smallScreen: _.smallScreen()
+    _.extend headersData,
+      smallScreen: _.smallScreen()
 
   showBase: (active)->
     @_listReady = false
@@ -74,8 +77,14 @@ module.exports = Marionette.LayoutView.extend
     @ui.two.show()
     @ui.membersSection.hide()
     @ui.memberSearch.hide()
+
+    @ui.publicSection.removeClass 'force-hidden'
     @ui.publicSection.show()
+
+    @ui.groupsSection.removeClass 'force-hidden'
     @ui.groupsSection.show()
+
+    @ui.friendsSection.removeClass 'force-hidden'
     @ui.friendsSection.show()
 
     switch active
@@ -135,6 +144,8 @@ module.exports = Marionette.LayoutView.extend
 
     @ui.groupsSection.hide()
     @ui.friendsSection.hide()
+
+    @ui.membersSection.removeClass 'force-hidden'
     @ui.membersSection.show()
 
     @setGroupHeader groupModel
