@@ -4,7 +4,8 @@
     {{claim claims 'P1680'}} {{!-- subtitle --}}
     {{stringClaim claims 'P1476'}} {{!-- original title --}}
     {{claim claims 'P364'}} {{!-- original language --}}
-    {{claim claims 'P50' true}} {{!-- author --}}
+    {{claim claims 'P50' true null true}} {{!-- author --}}
+    {{{joinAuthors claims.P2093}}}<br> {{!-- short author name --}}
     {{claim claims 'P110' true}} {{!-- illustrator --}}
     {{timeClaim claims 'P577'}} {{!-- time of publication --}}
     {{claim claims 'P155' true}} {{!-- preceded by --}}
@@ -17,6 +18,7 @@
     {{claim claims 'P840'}} {{!-- narrative set in --}}
     {{claim claims 'P674'}} {{!-- characters --}}
     {{urlClaim claims 'P856'}} {{!-- official website --}}
+    {{urlClaim claims 'P953'}} {{!-- full text available at --}}
     {{platformClaim claims 'P2034'}} {{!-- Project Gutenberg ebook ID --}}
     {{platformClaim claims 'P2002'}} {{!-- twitter: yes some books have a twitter!! actually, just one: Q20736124 --}}
   </p>

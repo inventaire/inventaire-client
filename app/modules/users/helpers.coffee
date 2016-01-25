@@ -110,9 +110,8 @@ module.exports = (app)->
     return users.filter (user)-> not (user._id in current)
 
   addPublicUsers = (users)->
-    users = filterOutAlreadyThere users
+    users = filterOutAlreadyThere _.forceArray(users)
     app.users.public.add users
-    return
 
   # returns the user model
   addPublicUser = (user)->
