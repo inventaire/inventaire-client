@@ -6,9 +6,11 @@ itemsPublic = (action, query={})->
 
 module.exports =
   base: '/api/items'
-  lastPublicItems: (offset=0)->
+  lastPublicItems: (limit=15, offset=0, assertImage)->
     itemsPublic 'last-public-items',
+      limit: limit
       offset: offset
+      'assert-image': assertImage
 
   publicById: (id)->
     itemsPublic 'public-by-id',

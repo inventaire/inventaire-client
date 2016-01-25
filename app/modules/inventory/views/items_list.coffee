@@ -23,6 +23,7 @@ module.exports = Marionette.CompositeView.extend
     paginationPlugin.call @,
       batchLength: itemsPerPage()
       fetchMore: @options.fetchMore
+      more: @options.more
 
     masonryPlugin.call @, '.itemsList', '.itemContainer'
 

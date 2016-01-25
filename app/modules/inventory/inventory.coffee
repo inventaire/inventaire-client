@@ -278,6 +278,7 @@ initializeInventoriesHandlers = (app)->
         action: action
 
     'get:item:model': API.findItemById
+    'get:item:model:sync': (id)-> Items.byId id
 
     'inventory:main:user:length': (nonPrivate)->
       fullInventoryLength = Items.personal.length

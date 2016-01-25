@@ -69,13 +69,14 @@ module.exports = Filterable.extend
       attrs.transactions = Items.transactions
       attrs.listings = app.user.listings
       attrs.uiId = _.uniqueId('item_')
-      if attrs.listing?
-        attrs.currentListing = app.user.listings[attrs.listing]
-      else
+
+      { listing } = attrs
+      unless listing?
         # main user item fetched from a public API
         # requires to borrow its listing to the private item
-        listing = app.request('get:item:model', attrs._id)?.get('listing')
-        attrs.currentListing = app.user.listings[listing]
+        mainModel = app.request 'get:item:model:sync', attrs._id
+        listing = mainModel?.get 'listing'
+      attrs.currentListing = app.user.listings[listing]
 
     # picture may be undefined
     attrs.picture = attrs.pictures?[0]

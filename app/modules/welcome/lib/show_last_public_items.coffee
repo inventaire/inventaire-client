@@ -1,34 +1,58 @@
 Items = require 'modules/inventory/collections/items'
 ItemsList = require 'modules/inventory/views/items_list'
+{ lastPublicItems } = app.API.items
 
-module.exports = (region)->
-  _.preq.get app.API.items.lastPublicItems()
-  .catch _.preq.catch404
-  .then displayPublicItems.bind(null, region)
-
-displayPublicItems = (region, res)->
+module.exports = (params)->
+  { region, allowMore, limit, assertImage } = params
   collection = new Items
-  addUsersAndItems collection, res
 
-  region.show new ItemsList
-    collection: collection
-    fetchMore: FetchMore collection
+  # Use an object to store the flag so that it can be modified
+  # by functions the object is passed to
+  moreData = { status: true }
+  more = -> moreData.status
+  fetchMore = FetchMore collection, moreData, limit, assertImage
 
-FetchMore = (collection)->
+  fetchMore()
+  .then ->
+    region.show new ItemsList
+      collection: collection
+      # if not allowMore, let ItemsList set the default values
+      fetchMore: if allowMore then fetchMore
+      more: if allowMore then more
+
+FetchMore = (collection, moreData, limit, assertImage)->
+  # Avoiding fetching more items several times at a time
+  # as it will just return the same items, given that it will pass
+  # the same arguments.
+  # Known case: when the view is locked on the infiniteScroll trigger
+  busy = false
   fetchMore = ->
-    offset = collection.length
-    _.preq.get app.API.items.lastPublicItems(offset)
-    .then addUsersAndItems.bind(null, collection)
+    if busy then return _.preq.resolved
 
-  return _.debounce fetchMore, 2000, true
+    busy = true
+    offset = collection.length
+    _.preq.get lastPublicItems(limit, offset, assertImage)
+    .then addUsersAndItems.bind(null, collection)
+    .catch catch404
+    .finally -> busy = false
+
+  catch404 = (err)->
+    if err.status is 404
+      moreData.status = false
+      _.warn 'no more public items to show'
+    else
+      throw err
+
+  return fetchMore
 
 
 addUsersAndItems = (collection, res)->
   { items, users } = res
   unless items?.length > 0
-    throw new Error 'no public items'
+    err = new Error 'no public items'
+    err.status = 404
+    throw err
 
   app.execute 'users:public:add', users
-
   collection.add items
   return

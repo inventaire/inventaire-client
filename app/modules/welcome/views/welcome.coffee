@@ -38,7 +38,11 @@ module.exports = Marionette.LayoutView.extend
       @hideFeedbackButton()
 
   showPublicItems: ->
-    showLastPublicItems @previewColumns
+    showLastPublicItems
+      region: @previewColumns
+      limit: 15
+      allowMore: false
+      assertImage: true
     .catch @hidePublicItems.bind(@)
     .catch _.Error('hidePublicItems err')
 

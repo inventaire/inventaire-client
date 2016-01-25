@@ -55,8 +55,7 @@ module.exports = Marionette.LayoutView.extend
       return
 
     if last
-      showLastPublicItems @itemsView
-      .catch _.Error('showLastPublicItems err')
+      @showLastPublicItems()
 
       app.vent.trigger 'sidenav:show:base', 'last'
       app.navigate 'inventory/last'
@@ -110,7 +109,7 @@ module.exports = Marionette.LayoutView.extend
       eventName = 'general'
       updateInventoryMetadata()
 
-    # @showItemsListStep3()
+    @showItemsListStep3()
     app.vent.trigger 'inventory:change', eventName
 
   showItemsListStep3: ->
@@ -139,10 +138,16 @@ module.exports = Marionette.LayoutView.extend
     inventoryWelcome = require './inventory_welcome'
 
     @header.show new inventoryWelcome
-    showLastPublicItems @itemsView
-    .catch _.Error('showLastPublicItems err')
+    @showLastPublicItems()
 
     if user? then app.vent.trigger 'sidenav:show:user', user
+
+  showLastPublicItems: ->
+    showLastPublicItems
+      region: @itemsView
+      limit: 25
+      allowMore: true
+    .catch _.Error('showLastPublicItems err')
 
   showControls: ->
     unless _.smallScreen gridMinWidth

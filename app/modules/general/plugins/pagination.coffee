@@ -1,5 +1,5 @@
 module.exports = (params)->
-  { batchLength, initialLength, fetchMore } = params
+  { batchLength, initialLength, fetchMore, more } = params
   batchLength or= 5
   # MUST be called with the CollectionView or CompositeView it extends as context
   unless _.isView @
@@ -8,10 +8,9 @@ module.exports = (params)->
   displayedLimit = initialLength or batchLength
   @lazyRender = _.LazyRender @
 
-  if fetchMore?
-    more = -> true
-  else
+  unless fetchMore?
     fetchMore = -> _.preq.resolved
+    # if fetchMore is defined in params, more should be too
     more = -> @collection.length > displayedLimit
 
   _.extend @,
@@ -21,7 +20,6 @@ module.exports = (params)->
     more: more
 
     displayMore: ->
-      _.log 'displayMore!!!!!!!!'
       fetchMore()
       .then =>
         displayedLimit += batchLength
