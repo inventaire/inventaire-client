@@ -6,6 +6,7 @@ ItemCreationForm = require './views/form/item_creation'
 initLayout = require './lib/layout'
 AddLayout = require './views/add/add_layout'
 initAddHelpers = require './lib/add_helpers'
+{ publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
 
 module.exports =
   define: (Inventory, app, Backbone, Marionette, $, _) ->
@@ -85,7 +86,7 @@ API =
   findItemByUsernameAndEntity: (username, entity)->
     owner = app.request 'get:userId:from:username', username
     if app.request 'user:isPublicUser', owner
-      return app.request 'requestPublicItem', username, entity
+      return requestPublicItem username, entity
     else
       return Items.where {owner: owner, entity: entity}
 
@@ -96,7 +97,7 @@ API =
       if item? then item
       else
         # if it isnt in friends id, it should be a public item
-        _.preq.get app.API.items.publicById(itemId)
+        _.preq.get publicById(itemId)
         .then Items.public.add
     .catch _.Error('findItemById err (maybe the item was deleted?)')
 
@@ -140,7 +141,6 @@ fetchItems = (app)->
 
   app.reqres.setHandlers
     'item:create': itemCreate
-    'requestPublicItem': requestPublicItem
     'items:count:byEntity': itemsCountByEntity
 
 triggerItemsReady = ->
@@ -149,12 +149,11 @@ triggerItemsReady = ->
   app.vent.trigger 'items:ready'
 
 requestPublicItem = (username, entity)->
-  _.preq.get(app.API.items.publicByUsernameAndEntity(username, entity))
+  _.preq.get publicByUsernameAndEntity(username, entity)
   .then (res)->
     app.execute 'users:public:add', res.user
     return Items.public.add res.items
-  .catch (err)-> _.error err, 'requestPublicItem err'
-
+  .catch _.Error('requestPublicItem err')
 
 itemCreate = (itemData)->
   if itemData.entity?.label?
@@ -296,7 +295,7 @@ initializeInventoriesHandlers = (app)->
         _.warn usersIds, 'no user ids, no items fetched'
         return _.preq.resolve []
 
-      _.preq.get app.API.items.usersPublicItems(usersIds)
+      _.preq.get usersPublicItems(usersIds)
       .then _.property('items')
 
     'item:main:user:instance': (entityUri)->
