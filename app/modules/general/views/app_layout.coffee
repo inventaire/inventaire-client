@@ -64,7 +64,9 @@ module.exports = Marionette.LayoutView.extend
 
     initIconNavHandlers.call(@)
     initDynamicBackground.call(@)
-    initWindowResizeEvents()
+    # wait for the app to be initiated before listening to resize events
+    # to avoid firing a meaningless event at initialization
+    app.request('waitForData').then initWindowResizeEvents
 
   serializeData: ->
     topbar: @topBarData()
