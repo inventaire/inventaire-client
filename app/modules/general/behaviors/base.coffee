@@ -12,3 +12,4 @@ module.exports =
   ElasticTextarea: require './elastic_textarea'
   BackupForm: require './backup_form'
   LocalSeachBar: require './local_seach_bar'
+  PlainTextAuthorLink: require './plain_text_author_link'

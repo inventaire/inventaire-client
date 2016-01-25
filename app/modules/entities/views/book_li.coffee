@@ -1,5 +1,4 @@
 mainUserInstance = require '../plugins/main_user_has_one'
-plainTextAuthorLink = require '../plugins/plain_text_author_link'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/book_li'
@@ -15,10 +14,10 @@ module.exports = Marionette.ItemView.extend
 
   initPlugins: ->
     mainUserInstance.call @
-    plainTextAuthorLink.call @
 
   behaviors:
     PreventDefault: {}
+    PlainTextAuthorLink: {}
 
   ui:
     zoomButtons: '.zoom-button .buttons span'
