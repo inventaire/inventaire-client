@@ -1,6 +1,6 @@
 wdQ = require 'modules/general/views/behaviors/templates/wikidata_Q'
 wdP = require 'modules/general/views/behaviors/templates/wikidata_P'
-{ SafeString } = Handlebars
+{ SafeString, escapeExpression } = Handlebars
 
 P = (id)->
   if /^P[0-9]+$/.test id then wdP {id: id}
@@ -10,6 +10,7 @@ Q = (id, linkify, alt)->
   if id?
     unless typeof alt is 'string' then alt = ''
     app.execute 'qlabel:update'
+    alt = escapeExpression alt
     return wdQ {id: id, linkify: linkify, alt: alt, label: alt}
 
 module.exports =

@@ -1,4 +1,5 @@
 { Q } = require './wikidata_claims'
+{ SafeString, escapeExpression } = Handlebars
 
 module.exports = (linkify, arg)->
   # ex: author = 'Ian Fleming'
@@ -15,8 +16,10 @@ module.exports = (linkify, arg)->
         return
 
 formatString = (str, linkify)->
-  if linkify then return linkifyAuthorString str
-  else return str
+  t = if linkify then linkifyAuthorString str else escapeExpression str
+  return new SafeString t
 
 linkifyAuthorString = (text)->
-  "<a href='/search?q=#{text}' class='link searchAuthor'>#{text}</a>"
+  str = escapeExpression text
+  q = encodeURIComponent text
+  return "<a href='/search?q=#{q}' class='link searchAuthor'>#{str}</a>"
