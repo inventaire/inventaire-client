@@ -71,7 +71,7 @@ langProperties = ['P364', 'P103']
 
 wd_.getOriginalLang = (claims, notSimplified)->
   langClaims = _.pick claims, langProperties
-  if _.objLength langClaims is 0 then return
+  if _.objLength(langClaims) is 0 then return
 
   # this has to be simplified claims
   if notSimplified then langClaims = wdk.simplifyClaims langClaims
