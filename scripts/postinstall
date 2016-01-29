@@ -2,7 +2,9 @@
 ./scripts/slim_packages.coffee
 mkdir -p ./vendor/scripts ./vendor/stylesheets ./public/sitemaps
 ./scripts/install_scripts
+
 bower install
+
 npm run patches
 ./scripts/mv_font_awesome_fonts
 ./scripts/mv_moment_locales
