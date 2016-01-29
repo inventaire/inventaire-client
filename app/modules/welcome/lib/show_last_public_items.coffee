@@ -1,5 +1,6 @@
 Items = require 'modules/inventory/collections/items'
 ItemsList = require 'modules/inventory/views/items_list'
+addUsersAndItems = require 'modules/inventory/lib/add_users_and_items'
 { lastPublicItems } = app.API.items
 
 module.exports = (params)->
@@ -44,15 +45,3 @@ FetchMore = (collection, moreData, limit, assertImage)->
       throw err
 
   return fetchMore
-
-
-addUsersAndItems = (collection, res)->
-  { items, users } = res
-  unless items?.length > 0
-    err = new Error 'no public items'
-    err.status = 404
-    throw err
-
-  app.execute 'users:public:add', users
-  collection.add items
-  return

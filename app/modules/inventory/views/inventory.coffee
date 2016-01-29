@@ -2,10 +2,11 @@ SideNav = require '../side_nav/views/side_nav'
 # FollowedEntitiesList = require './followed_entities_list'
 ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
+ItemsCollection = require 'modules/inventory/collections/items'
 Controls = require './controls'
 Group = require 'modules/network/views/group'
-MapLayout = require 'modules/map/views/map_layout'
 showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
+addUsersAndItems = require 'modules/inventory/lib/add_users_and_items'
 
 # keep in sync with _controls.scss
 gridMinWidth = 750
@@ -48,7 +49,7 @@ module.exports = Marionette.LayoutView.extend
     { user, group, nearby, last } = @options
 
     if nearby
-      @itemsView.show new MapLayout
+      @showItemsNearby()
 
       app.vent.trigger 'sidenav:show:base', 'nearby'
       app.navigate 'inventory/nearby'
@@ -166,6 +167,16 @@ module.exports = Marionette.LayoutView.extend
     if navigate then app.navigate pathname
     # correcting possibly custom or outdated group name
     else app.navigateReplace pathname
+
+  showItemsNearby: ->
+    items = new ItemsCollection
+    _.preq.get app.API.users.publicItemsNearby()
+    .then _.Log('showItemsNearby res')
+    .then addUsersAndItems.bind(null, items)
+    .then =>
+      @itemsView.show new ItemsList
+        collection: items
+    .catch _.Error('showItemsNearby')
 
 prepareUserItemsList = (user, navigate)->
   unless app.request 'user:itemsFetched', user

@@ -5,12 +5,17 @@ itemsPublic = (action, query={})->
   _.buildPath publicBase, _.extend(query, { action: action })
 
 module.exports =
-  base: '/api/items'
+  base: base
   lastPublicItems: (limit=15, offset=0, assertImage)->
     itemsPublic 'last-public-items',
       limit: limit
       offset: offset
       'assert-image': assertImage
+
+  publicNearby: (range=50)->
+    _.buildPath base,
+      action: 'get-items-nearby'
+      range: range
 
   publicById: (id)->
     itemsPublic 'public-by-id',

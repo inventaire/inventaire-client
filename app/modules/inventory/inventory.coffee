@@ -37,8 +37,7 @@ module.exports =
 API =
   showGeneralInventory: ->
     if app.request 'require:loggedIn', 'inventory'
-      showInventory
-        generalInventory: true
+      showInventory { generalInventory: true }
 
   showUserInventory: (user, navigate)->
     showInventory
@@ -51,12 +50,12 @@ API =
       navigate: navigate
 
   showInventoryNearby: ->
-    showInventory
-      nearby: true
+    if app.request 'require:loggedIn', 'inventory/nearby'
+      showInventory { nearby: true }
 
   showInventoryLast: ->
-    showInventory
-      last: true
+    if app.request 'require:loggedIn', 'inventory/last'
+      showInventory { last: true }
 
   showItemCreationForm: (options)->
     form = new ItemCreationForm options

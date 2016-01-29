@@ -18,3 +18,8 @@ module.exports =
     else throw new Error "users' items API needs an id"
   search: search.bind null, publik
   searchByPosition: searchByPosition.bind null, publik
+
+  publicItemsNearby: (range=50)->
+    _.buildPath privat,
+      action: 'get-items-nearby'
+      range: range
