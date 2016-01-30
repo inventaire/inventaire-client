@@ -1,6 +1,11 @@
 <div class="map-welcome">
   {{icon 'map-marker'}}
-  <h3>{{i18n 'you can now find people giving, sharing or selling books nearby!!'}}</h3>
-  <p>{{i18n 'add yourself to the map to see public books of people nearby'}}</p>
+  <h3>{{i18n 'you can now find books people nearby have to give, share or sell!'}}</h3>
+  {{!-- <p>{{i18n 'add yourself to the map to see public books of people nearby'}}</p> --}}
   {{icon 'arrow-down'}}
 </div>
+{{#if standalone}}
+  <section id="position-picker" class="centered">
+    {{partial 'map:position_picker_button'}}
+  </section>
+{{/if}}

@@ -29,6 +29,12 @@ $tabs-navigation-font-color: #fff;
   }
 }
 
+.position-welcome{
+  section#position-picker{
+    text-align: center;
+    padding: 1em;
+  }
+}
 
 /*Large screens*/
 @media screen and (min-width: $smallscreen) {

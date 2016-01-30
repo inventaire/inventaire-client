@@ -7,6 +7,7 @@ Controls = require './controls'
 Group = require 'modules/network/views/group'
 showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
 addUsersAndItems = require 'modules/inventory/lib/add_users_and_items'
+PositionWelcome = require 'modules/map/views/position_welcome'
 
 # keep in sync with _controls.scss
 gridMinWidth = 750
@@ -49,8 +50,8 @@ module.exports = Marionette.LayoutView.extend
     { user, group, nearby, last } = @options
 
     if nearby
-      @showItemsNearby()
-
+      if app.user.hasPosition() then @showItemsNearby()
+      else @showPositionWelcome()
       app.vent.trigger 'sidenav:show:base', 'nearby'
       app.navigate 'inventory/nearby'
       return
@@ -177,6 +178,9 @@ module.exports = Marionette.LayoutView.extend
       @itemsView.show new ItemsList
         collection: items
     .catch _.Error('showItemsNearby')
+
+  showPositionWelcome: ->
+    @itemsView.show new PositionWelcome
 
 prepareUserItemsList = (user, navigate)->
   unless app.request 'user:itemsFetched', user
