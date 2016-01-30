@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-echo -e '\e[0;30mbrunch build -P\e[0m'
-brunch build -P
+echo -e '\e[0;30mbrunch build --production\e[0m'
+brunch build --production
 ./scripts/build_index
 
 echo -e '\e[0;30mbuild_index\e[0m'
