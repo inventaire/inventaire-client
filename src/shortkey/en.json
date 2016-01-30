@@ -172,10 +172,10 @@
     "group_default_description": "see the books members of the group %{groupName} want to give, lend or sell",
     "delete_account_confirmation": "Are you sure you want to delete your account \"**%{username}**\"?",
     "delete_account_warning": "**There is no way back!!!**<br>In case you are at the moment under the effects of alcohol or something, don't touch anything anymore: unplug your computer, turn off your phone, turn it back on to call someone (nop, not your ex) that could put those under lock and give you back the key once you will have sober.<br>In other cases, go ahead. Just be aware that we might cry a little",
-    "group_position_tip": "Some groups are associated to a precise public place (universities, coworkings, etc.), it can then be useful to indicate its position to help new users to find it",
     "donate_intro": "inventaire.io is a project aiming to produce useful tools to handle our resources while pushing open knowledge further. In the medium-term, the project's mission should be [supported by an economic activity as described in the Roadmap](https://trello.com/c/Z7alRtpZ).<br>Until then, you can **support the project development by donating** through one of the following channels:",
     "non_monetary_donations": "The biggest and simplest contribution you can do is to **help us spread the news** about this project: [invite your friends to share their inventory](/network/users/invite), share the project throughout all the Internet, write a blog post or a tutorial about it... be creative!<br>But there are also [other ways to contribute](https://trello.com/c/VIkw1d8q)",
-    "refresh_wikidata_data": "if you made modifications on wikidata related to this entity, you can use this button to ask inventaire.io to fetch the updated data",
-    "group_position_context": "If your group is associated to a specific place, it can be useful to indicate it's position to help other users to find it",
-    "article_limitation": "this is an article: it can't be added to your inventory"
+    "refresh_wikidata_data": "if you made modifications on Wikidata related to this entity, you can use this button to ask inventaire.io to fetch the updated data",
+    "group_position_context": "If your group is associated to a specific place (a universities, a coworkings, etc.), it can be useful to indicate it's position to help other users to find it",
+    "article_limitation": "this is an article and not book: it can't be added to your inventory",
+    "title_last_items": "last books added"
 }

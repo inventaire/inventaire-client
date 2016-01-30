@@ -437,10 +437,11 @@
     "refresh data": "refresh data",
     "group": "group",
     "user": "user",
-    "you can now find people giving, sharing or selling books nearby!!": "you can now find people giving, sharing or selling books nearby!!",
-    "add yourself to the map to see public books of people nearby": "add yourself to the map to see public books of people nearby",
     "select the group's position": "select the group's position",
     "the group has a position set": "the group has a position set",
     "articles": "articles",
-    "article": "article"
+    "article": "article",
+    "last added": "last added",
+    "contribute": "contribute",
+    "you can now find books people nearby have to give, share or sell!": "you can now find books people nearby have to give, share or sell!"
 }
