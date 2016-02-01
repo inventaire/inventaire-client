@@ -131,5 +131,9 @@
       overflow: auto;
       width: 100%;
     }
+    #groupsList{
+      // avoid having #groupsList shrinked to display only one group
+      min-height: 7em;
+    }
   }
 }
