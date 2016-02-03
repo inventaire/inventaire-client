@@ -50,11 +50,15 @@ module.exports = map_ =
 
   showUserOnMap: (map, user)->
     if user.hasPosition()
-      map.addMarker
+      marker = map.addMarker
         objectId: user.cid
         model: user
         markerType: 'user'
-      .on 'click', showUserInventory.bind(null, user)
+
+      # map.addMarker will return undefined if the marker was already added
+      # which allows here to not re-add the event listerner
+      if marker?
+        marker.on 'click', showUserInventory.bind(null, user)
 
 showGroupOnMap = (map, group)->
   if group.hasPosition()
