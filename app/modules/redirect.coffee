@@ -4,7 +4,7 @@ CallToConnection = require 'modules/general/views/call_to_connection'
 initQuerystringActions = require 'modules/general/lib/querystring_actions'
 
 module.exports =
-  define: (Redirect, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _) ->
     Router = Marionette.AppRouter.extend
       appRoutes:
         '(home)': 'showHome'

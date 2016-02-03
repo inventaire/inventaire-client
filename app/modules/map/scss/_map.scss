@@ -1,5 +1,12 @@
-@import "./map_layout";
+@import "./position_welcome";
 @import "./position_picker";
+@import "./user_icon";
+
+.map-container{
+  min-height: 60vh;
+  width: 100%;
+  z-index: 100;
+}
 
 .leaflet-control-attribution{
   @include shy(0.5);
