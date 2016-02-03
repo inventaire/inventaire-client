@@ -1,4 +1,3 @@
-unselectPlugin = require 'modules/inventory/plugins/unselect'
 groupPlugin = require '../plugins/group'
 
 module.exports = Marionette.ItemView.extend
@@ -17,12 +16,12 @@ module.exports = Marionette.ItemView.extend
     @listenTo @model, 'change', @lazyRender
 
   initPlugin: ->
-    unselectPlugin.call @
     groupPlugin.call @
 
   behaviors:
     PreventDefault: {}
     SuccessCheck: {}
+    Unselect: {}
 
   onShow: ->
     if @options.highlighted

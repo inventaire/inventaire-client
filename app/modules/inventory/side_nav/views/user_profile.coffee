@@ -1,5 +1,4 @@
 forms_ = require 'modules/general/lib/forms'
-unselectPlugin = require 'modules/inventory/plugins/unselect'
 relationsActions = require 'modules/users/plugins/relations_actions'
 
 module.exports = Marionette.ItemView.extend
@@ -20,6 +19,7 @@ module.exports = Marionette.ItemView.extend
     ElasticTextarea: {}
     ConfirmationModal: {}
     PreventDefault: {}
+    Unselect: {}
 
   ui:
     bio: '.bio'
@@ -31,7 +31,6 @@ module.exports = Marionette.ItemView.extend
     @initPlugin()
 
   initPlugin: ->
-    unselectPlugin.call @
     relationsActions.call @
 
   serializeData: ->
