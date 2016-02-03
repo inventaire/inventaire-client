@@ -12,7 +12,6 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
-    'click .userIcon a': 'showUserInventory'
 
   initMap: ->
     initMap
@@ -50,11 +49,6 @@ module.exports = Marionette.LayoutView.extend
   updateUsersMarkers: ->
     showUsersOnMap @map, @collection.models
     @mainUserMarker = showUserOnMap @map, app.user
-
-  showUserInventory: (e)->
-    unless _.isOpenedOutside e
-      username = e.currentTarget.href.split('/').last()
-      app.execute 'show:inventory:user', username
 
   initList: ->
     @list.show new UsersList

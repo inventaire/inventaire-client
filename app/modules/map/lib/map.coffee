@@ -1,5 +1,6 @@
 { defaultZoom } = require './config'
 getCurrentPosition = require './navigator_position'
+smartPreventDefault = require 'modules/general/lib/smart_prevent_default'
 
 module.exports = map_ =
   draw: require './draw'
@@ -53,6 +54,7 @@ module.exports = map_ =
         objectId: user.cid
         model: user
         markerType: 'user'
+      .on 'click', showUserInventory.bind(null, user)
 
 showGroupOnMap = (map, group)->
   if group.hasPosition()
@@ -60,3 +62,16 @@ showGroupOnMap = (map, group)->
       objectId: group.cid
       model: group
       markerType: 'group'
+
+showUserInventory = (user, e)->
+  e = formatLeafletEvent e
+  smartPreventDefault e
+  unless _.isOpenedOutside e
+    app.execute 'show:inventory:user', user
+
+# extend the event object returned to keep the API entries we need
+# http://leafletjs.com/reference.html#event-objects
+formatLeafletEvent = (e)->
+  e.which = e.originalEvent.which
+  e.preventDefault = e.originalEvent.preventDefault.bind(e.originalEvent)
+  return e
