@@ -90,8 +90,11 @@ module.exports = Marionette.LayoutView.extend
       isMainUser = if user? then app.request('user:isMainUser', user.id) else false
       if generalInventory or isMainUser
         @showInventoryWelcome user
-        if isMainUser then navigateToUserInventory user
-        else app.vent.trigger 'sidenav:show:base'
+        if isMainUser
+          navigateToUserInventory user
+          app.vent.trigger 'sidenav:show:user', user
+        else
+          app.vent.trigger 'sidenav:show:base'
 
         return
 
@@ -141,8 +144,6 @@ module.exports = Marionette.LayoutView.extend
 
     @header.show new inventoryWelcome
     @showLastPublicItems()
-
-    if user? then app.vent.trigger 'sidenav:show:user', user
 
   showLastPublicItems: ->
     showLastPublicItems
