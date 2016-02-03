@@ -24,7 +24,7 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('initMap')
 
   initialize: ->
-    @collection = app.users.public.filtered.resetFilters()
+    @collection = app.users.filtered.resetFilters()
     @listenTo app.user, 'change:position', @updateMainUserPosition.bind(@)
     @lazyInitMap = _.debounce @initMap.bind(@), 300
 
