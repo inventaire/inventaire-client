@@ -5,6 +5,7 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     SuccessCheck: {}
     ElasticTextarea: {}
+    General: {}
 
   serializeData: ->
     data = @options

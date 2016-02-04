@@ -14,6 +14,7 @@ module.exports = Marionette.CompositeView.extend
   childView: require './picture'
 
   behaviors:
+    General: {}
     AlertBox: {}
     SuccessCheck: {}
     Loading: {}

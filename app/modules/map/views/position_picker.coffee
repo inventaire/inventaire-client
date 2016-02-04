@@ -11,6 +11,7 @@ module.exports = Marionette.ItemView.extend
     AlertBox: {}
     Loading: {}
     SuccessCheck: {}
+    General: {}
 
   events:
     'click #validatePosition': 'validatePosition'

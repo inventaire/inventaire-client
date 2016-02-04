@@ -3,6 +3,7 @@ module.exports =
     Marionette.Behaviors.behaviorsLookup = ->
       app.Behaviors
 
+  General: require './general'
   AlertBox: require './alertbox'
   ConfirmationModal: require './confirmation_modal'
   Loading: require './loading'

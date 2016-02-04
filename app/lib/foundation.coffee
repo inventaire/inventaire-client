@@ -20,6 +20,10 @@ modalOpen = (size)->
 
   $('#modal').foundation 'reveal', 'open'
   app.execute 'foundation:reload'
+  setTimeout focusFirstInput, 600
+
+focusFirstInput = ->
+  $('#modal').find('input, textarea').first().focus()
 
 modalClose = -> $('#modal').foundation 'reveal', 'close'
 

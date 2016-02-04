@@ -8,6 +8,7 @@ module.exports = Marionette.ItemView.extend
     Loading: {}
     SuccessCheck: {}
     ElasticTextarea: {}
+    General: {}
 
   initialize: -> _.extend @, behaviorsPlugin
 

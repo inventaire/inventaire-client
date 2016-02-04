@@ -3,13 +3,14 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/valid_email_confirmation'
   behaviors:
     Loading: {}
+    General: {}
 
   events:
     'click .showHome, .showLoginRedirectSettings': -> app.execute 'modal:close'
     'click .showLoginRedirectSettings': 'showLoginRedirectSettings'
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
 
-  onShow: ->  app.execute('modal:open')
+  onShow: ->  app.execute 'modal:open'
 
   serializeData: ->
     validEmail: @options.validEmail

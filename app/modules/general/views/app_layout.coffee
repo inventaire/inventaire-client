@@ -1,6 +1,4 @@
-moveCaretToEnd = require '../lib/move_caret_to_end'
 waitForCheck = require '../lib/wait_for_check'
-enterClick = require '../lib/enter_click'
 documentLang = require '../lib/document_lang'
 showViews = require '../lib/show_views'
 IconNav = require './icon_nav'
@@ -24,21 +22,13 @@ module.exports = Marionette.LayoutView.extend
     bg: '#bg'
 
   events:
-    'submit form': (e)-> e.preventDefault()
-    'click #home, .showHome': -> app.execute 'show:home'
-    'click .showWelcome': -> app.execute 'show:welcome'
-    'click .showLogin': -> app.execute 'show:login'
-    'click .showInventory': -> app.execute 'show:inventory'
     'click .showDonateMenu': 'showDonateMenu'
     'click .showFeedbackMenu': 'showFeedbackMenu'
-    'keyup input.enterClick': enterClick.input
-    'keyup a.button': enterClick.button
-    'click a.back': -> window.history.back()
     'click a.wd-Q, a.showEntity': 'showEntity'
     'click .shareLink': 'shareLink'
-    'focus textarea': moveCaretToEnd
 
   behaviors:
+    General: {}
     PreventDefault: {}
 
   initialize: (e)->

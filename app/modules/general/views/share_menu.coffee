@@ -4,6 +4,8 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 module.exports = Marionette.ItemView.extend
   template: require './templates/share_menu'
   className: 'shareMenu'
+  behaviors:
+    General: {}
   initialize: ->
     @href =  encodeURIComponent host + document.location.pathname
     @title =  encodeURIComponent document.title

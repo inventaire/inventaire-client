@@ -14,10 +14,10 @@
     <span class="email">{{contact.email}}</span>
   </div>
 
-  <input type="text" id="subject" name="subject" placeholder="{{i18n 'subject'}}..." class="radius">
+  <input type="text" id="subject" name="subject" placeholder="{{i18n 'subject'}}..." class="radius" value="{{subject}}">
   <textarea id="message" name="feedback" placeholder="{{i18n 'your message'}}..."></textarea>
   <div>
-    <a id="sendFeedback" class="button success radius bold">
+    <a id="sendFeedback" class="button success radius bold" tabindex="0">
       {{icon 'send'}}{{i18n 'send feedback'}}
       <span class="loading"></span>
     </a>

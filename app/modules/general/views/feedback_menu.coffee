@@ -9,6 +9,8 @@ module.exports = Marionette.ItemView.extend
     Loading: {}
     SuccessCheck: {}
     ElasticTextarea: {}
+    General: {}
+    PreventDefault: {}
 
   initialize: -> _.extend @, behaviorsPlugin
 
@@ -16,6 +18,7 @@ module.exports = Marionette.ItemView.extend
     loggedIn: app.user.loggedIn
     user: app.user.toJSON()
     contact: contact
+    subject: @options.subject
 
   ui:
     unknownUser: '.unknownUser'
