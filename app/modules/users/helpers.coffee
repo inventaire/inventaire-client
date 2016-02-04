@@ -16,13 +16,6 @@ module.exports = (app)->
       if userModel? then userModel.id
       else console.warn "couldnt find the user from username: #{username}"
 
-    getProfilePicFromUserId: (id)->
-      if id is app.user.id then return app.user.get 'picture'
-
-      userModel = app.users.byId(id)
-      if userModel? then userModel.get 'picture'
-      else console.warn "couldnt find the user from id: #{id}"
-
     isMainUser: (userId)->
       if userId? then return userId is app.user.id
 
@@ -53,9 +46,6 @@ module.exports = (app)->
       .without app.user.id
       .reject sync.isFriend
       .value()
-
-  sync.getUsernameFromUserId = (id)->
-    return sync.getUserModelFromUserId(id)?.get('username')
 
   async =
     getUsersData: (ids)->
@@ -134,9 +124,7 @@ module.exports = (app)->
     'resolve:to:userModel': async.resolveToUserModel
     'get:userModel:from:username': async.getUserModelFromUsername
     'get:userModel:from:userId': sync.getUserModelFromUserId
-    'get:username:from:userId': sync.getUsernameFromUserId
     'get:userId:from:username': sync.getUserIdFromUsername
-    'get:profilePic:from:userId': sync.getProfilePicFromUserId
     'get:non:friends:ids': sync.getNonFriendsIds
     'user:isMainUser': sync.isMainUser
     'user:isFriend': sync.isFriend

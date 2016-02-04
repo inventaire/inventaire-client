@@ -11,13 +11,8 @@ module.exports = Backbone.NestedModel.extend
 
   isUnread: -> @get('status') is 'unread'
 
-  commonData: ->
-    attrs = @toJSON()
-    attrs.username = @getUsername()
-    return attrs
-
-  getUsername: ->
-    app.request 'get:username:from:userId', @get('data.user')
-
-  getUserPicture: ->
-    app.request 'get:profilePic:from:userId', @get('data.user')
+  grabAttributeModel: (attribute)->
+    app.request 'waitForData'
+    .then =>
+      id = @get "data.#{attribute}"
+      @reqGrab "get:#{attribute}:model", id, attribute

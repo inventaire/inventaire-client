@@ -5,16 +5,13 @@ Notification = require './notification'
 
 module.exports = Notification.extend
   initSpecific:->
+    @grabAttributeModel 'group'
+    @grabAttributeModel 'user'
     @groupId = @get 'data.group'
-    app.request('waitForData').then @grabGroup.bind(@)
 
-  grabGroup:->
-    @reqGrab 'get:group:model', @groupId, 'group'
-
-  # groupCommonData: ->
   serializeData: ->
-    attrs = @commonData()
-    # _.extend attrs, attrs.data
+    attrs = @toJSON()
+    attrs.username = @user?.get 'username'
     attrs = getUpdateValue attrs
     attrs.pathname = "/network/groups/#{@groupId}"
     if @group?

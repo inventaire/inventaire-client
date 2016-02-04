@@ -1,15 +1,12 @@
 Notification = require './notification'
 
 module.exports = Notification.extend
-  initSpecific:->
-    app.request('waitForData').then @grabUser.bind(@)
-
-  grabUser: ->
-    user = @get 'data.user'
-    @reqGrab 'get:user:model', user, 'user'
+  initSpecific: ->
+    @grabAttributeModel 'user'
 
   serializeData: ->
-    attrs = @commonData()
-    attrs.picture = @getUserPicture()
+    attrs = @toJSON()
+    attrs.username = @user?.get 'username'
+    attrs.picture = @user?.get 'picture'
     attrs.pathname = "/inventory/#{attrs.username}"
     return attrs
