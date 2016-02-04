@@ -130,10 +130,16 @@
       @include flex(0, 1);
       overflow: auto;
       width: 100%;
+      // make sure it has the place for one child element at list
+      min-height: 3em;
     }
-    #groupsList{
-      // avoid having #groupsList shrinked to display only one group
-      min-height: 7em;
+    @media screen and (min-height: 600px) {
+      .expend{
+        // give a slightly bigger minimal room in case a list is way less
+        // populated than the other (for instance when a use has just 2 groups
+        // but 60 friends)
+        min-height: 7em;
+      }
     }
   }
 }

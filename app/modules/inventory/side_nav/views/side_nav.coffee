@@ -117,12 +117,23 @@ module.exports = Marionette.LayoutView.extend
     @_usersListShown = true
     @ui.friendsSection.show()
     @showUsersSearchBase()
+    @adjustHeight app.users.friends, @ui.usersList
 
   showGroupsList: ->
     @_groupsListShown = true
     @ui.groupsSection.show()
     @groupsList.show new GroupsList
       collection: app.user.groups.mainUserMember
+
+    @adjustHeight app.user.groups.mainUserMember, @ui.groupsList
+
+  # if either the users or groups list is way less populated that the other
+  # display:flex will make it appear quite small, thus the need to make sure
+  # it has a minimal descent size
+  adjustHeight: (collection, $el)->
+    if collection.length > 1
+      { offsetHeight, scrollHeight } = $el[0]
+      if scrollHeight > offsetHeight then $el.addClass 'expend'
 
   showPublicList: ->
     @_publicListShown = true
@@ -150,7 +161,6 @@ module.exports = Marionette.LayoutView.extend
 
     @setGroupHeader groupModel
     @initBaseSmallScreen()
-
 
   showMembersList: ->
     @_membersListShown = true
