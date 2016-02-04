@@ -1,4 +1,4 @@
-@mixin underline($color){
+@mixin underline($color:#222){
   text-decoration: underline;
   text-decoration-color: $color;
 }

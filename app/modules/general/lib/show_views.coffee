@@ -30,5 +30,5 @@ module.exports =
   showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
 
   showDonateMenu: -> app.layout.modal.show new DonateMenu
-  showFeedbackMenu: -> app.layout.modal.show new FeedbackMenu
+  showFeedbackMenu: (options)-> app.layout.modal.show new FeedbackMenu(options)
   shareLink: -> app.layout.modal.show new ShareMenu

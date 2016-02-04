@@ -5,7 +5,6 @@ module.exports = ->
 
 logoutSuccess = (data)->
   deleteLocalDatabases()
-  app.execute 'persona:logout:request'
   _.log "You have been successfully logged out"
   # redirecting home so that it doesn't trigger a route requiring login
   # thus triggering a show:login

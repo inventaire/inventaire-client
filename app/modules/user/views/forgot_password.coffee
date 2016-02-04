@@ -20,6 +20,11 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     emailPicker: @emailPickerData()
+    header: @headerData()
+
+  headerData: ->
+    if @options.createPasswordMode then 'create password'
+    else 'forgot password?'
 
   emailPickerData: ->
     nameBase: 'email'

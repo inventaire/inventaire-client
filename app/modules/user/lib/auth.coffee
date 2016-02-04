@@ -7,7 +7,6 @@ module.exports = ->
     'password:confirmation': passwordConfirmation
     'password:update': passwordUpdate
     'password:reset:request': passwordResetRequest
-    'login:persona': requestPersonaLogin
     'email:confirmation:request': emailConfirmationRequest
 
   app.commands.setHandlers
@@ -60,22 +59,6 @@ fakeFormSubmit = (username, password)->
 passwordResetRequest = (email)->
   _.preq.post app.API.auth.resetPassword, { email: email }
 
-# will only be called by persona onlogin method
-requestPersonaLogin = (assertion)->
-  _.preq.post app.API.auth.login,
-    strategy: 'browserid'
-    assertion: assertion
-    # needed on signup requests
-    username: localStorageProxy.getItem 'username'
-  .then redirect
-
-redirect = ->
-  redir = app.request('route:querystring:get', 'redirect')
-  if redir? then redir = "/#{redir}"
-  else redir = '/'
-  window.location.href = redir
-
-# browserid login finds the redirect parameter in the querystring
 # classic login finds the redirect parameter in form#browserLogin action
 prepareLoginRedirect = (redir)->
   _.type redir, 'string'

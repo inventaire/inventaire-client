@@ -21,7 +21,6 @@ module.exports = (_)->
   proxy: (url)-> "/api/proxy/public/#{url}"
   test: '/api/tests/public'
   scripts:
-    persona: '/public/javascripts/persona-include.js?DIGEST'
     pouchdb: '/public/javascripts/pouchdb-3.3.1.min.js'
   upload:
     post: '/api/upload'

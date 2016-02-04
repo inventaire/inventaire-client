@@ -1,24 +1,16 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+subject = 'I need help on switching from Persona to an account with a password'
 
 module.exports = Marionette.ItemView.extend
-  className: 'authMenu login'
+  className: 'authMenu persona'
   template: require './templates/login_persona'
   events:
-    'click #personaLogin': 'triggerPersonaLoggin'
+    'click #createPassword': 'createPassword'
+    'click #askForHelp': 'askForHelp'
 
-  behaviors:
-    Loading: {}
+  createPassword: ->
+    app.execute 'show:forgot:password',
+      createPasswordMode: true
 
-  initialize: -> _.extend @, behaviorsPlugin
-
-  onShow: ->
-    # automatically triggers login
-    @triggerPersonaLoggin()
-
-  triggerPersonaLoggin:->
-    app.execute 'persona:login:request'
-    app.execute 'track:auth:login', 'persona'
-    @startLoading
-      message: _.i18n 'waiting_for_persona'
-      timeout: 'none'
-      selector: '#personaButtonGroup'
+  askForHelp: ->
+    app.execute 'show:feedback:menu',
+      subject: _.i18n subject

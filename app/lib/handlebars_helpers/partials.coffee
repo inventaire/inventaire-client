@@ -11,7 +11,7 @@ module.exports =
     switch parts.length
       # ex: partial 'general:menu:feedback_news'
       when 3 then [module, subfolder, file] = parts
-      # ex: partial 'user:persona_button'
+      # ex: partial 'user:password_input'
       when 2 then [module, file] = parts
       # defaulting to general:partialName
       # ex: partial 'separator'

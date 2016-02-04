@@ -48,8 +48,8 @@ API =
       app.navigate 'login/persona'
       app.layout.main.Show new LoginPersona, _.I18n('persona login')
 
-  showForgotPassword: ->
-    app.layout.main.Show new ForgotPassword, _.I18n('forgot password')
+  showForgotPassword: (options)->
+    app.layout.main.Show new ForgotPassword(options), _.I18n('forgot password')
     app.navigate 'login/forgot-password'
 
   showResetPassword: ->
@@ -78,7 +78,6 @@ initCommands = (app)->
 
 subModules = [
     'auth'
-    'persona'
     'recover_user_data'
     'user_listings'
     'user_update'
