@@ -12,4 +12,7 @@
   <a class="itemShow label">
     {{{i18n currentTransaction.labelPersonalized user}}}
   </a>
+  {{#if showDistance}}
+    <span class="distance">{{i18n 'km_away' user}}</span>
+  {{/if}}
 </div>

@@ -39,7 +39,7 @@ module.exports = Marionette.ItemView.extend
       loggedIn: app.user.loggedIn
       commonGroups: @commonGroupsData()
       visitedGroups: @visitedGroupsData()
-      distance: @model.distanceFromMainUser()
+      distance: @model.distanceFromMainUser
 
   onShow: ->
     @makeRoom()

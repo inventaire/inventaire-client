@@ -178,6 +178,7 @@ module.exports = Marionette.LayoutView.extend
     .then =>
       @itemsView.show new ItemsList
         collection: items
+        showDistance: true
     .catch _.Error('showItemsNearby')
 
   showPositionWelcome: ->

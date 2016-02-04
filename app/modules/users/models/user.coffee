@@ -6,6 +6,10 @@ module.exports = UserCommons.extend
   initialize: ->
     @setPathname()
 
+    if @hasPosition()
+      @listenTo app.user, 'change:position', @calculateDistance.bind(@)
+      @calculateDistance()
+
   serializeData: ->
     attrs = @toJSON()
     relationStatus = attrs.status
@@ -20,8 +24,10 @@ module.exports = UserCommons.extend
   inventoryLength: ->
     if @itemsFetched then app.request 'inventory:user:length', @id
 
-  distanceFromMainUser: ->
-    unless app.user.has('position') and @has('position') then return null
+  # caching the calculated distance to avoid recalculating it
+  # at every item serializeData
+  calculateDistance: ->
+    unless app.user.has('position') and @has('position') then return
 
     a = app.user.get 'position'
     b = @get 'position'
@@ -30,4 +36,5 @@ module.exports = UserCommons.extend
     # aren't precise to the meter or anything close to it
     # Above, return a ~1km precision
     precision = if distance > 20 then 0 else 1
-    return Number(distance.toFixed(precision)).toLocaleString()
+    @distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString()
+    return

@@ -53,7 +53,7 @@ a.user{
   }
 }
 .labelBox{
-  @include display-flex(row, center, center);
+  @include display-flex(column, center, center);
   text-align: center;
   height: $user-box-heigth;
   background-color: #eee;
@@ -61,5 +61,14 @@ a.user{
   overflow: hidden;
   .label{
     color: #444;
+    strong{
+      @include serif;
+    }
+  }
+  position: relative;
+  .distance{
+    font-size: 0.9em;
+    line-height: 0.5em;
+    color: #888;
   }
 }

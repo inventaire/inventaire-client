@@ -16,35 +16,40 @@ module.exports = Filterable.extend
     # - opened issue: the couple username/entity-uri to build the pathname
     # close the possibility to have several instances of a single entity
 
-    {entity, title, owner} = attrs
+    { entity, title, owner } = attrs
 
     unless entity?
       throw new Error "item should have an associated entity"
 
-    entityUri = app.request 'normalize:entity:uri', entity
+    @entityUri = app.request 'normalize:entity:uri', entity
     # make sure the entity model is loaded in the global Entities collection
     # and thus accessible from a Entities.byUri
-    @waitForEntity = @reqGrab 'get:entity:model', entityUri, 'entity'
+    @waitForEntity = @reqGrab 'get:entity:model', @entityUri, 'entity'
 
     # created will be overriden by the server at item creation
-    attrs.created = @get('created') or _.now()
-    attrs._id = @getId(attrs)
+    @set
+      created: @get('created') or _.now()
+      _id: @getId attrs
 
-    @set attrs
+    @reqGrab 'get:user:model', owner, 'user'
+    .then @setUserData.bind(@)
 
-    @username = app.request 'get:username:from:userId', owner
-    @profilePic = app.request 'get:profilePic:from:userId', owner
-    [ @canonical, @pathname ] = @buildPathname attrs
-    @restricted = owner isnt app.user.id
-    @entityPathname = app.request 'get:entity:local:href', entityUri, title
+  setUserData: ->
+    { user } = @
+    @username = user.get 'username'
+    @profilePic = user.get 'picture'
 
-  getId: (attrs)->
-    if @get('_id') then return @get('_id')
-    else return 'new'
+    [ @canonical, @pathname ] = @buildPathname()
+    @restricted = user.id isnt app.user.id
+    title = @get 'title'
+    @entityPathname = app.request 'get:entity:local:href', @entityUri, title
 
-  buildPathname: (attrs)->
-    if @username? and attrs.entity?
-      canonical = pathname = "/inventory/#{@username}/#{attrs.entity}"
+  getId: -> @get('_id') or 'new'
+
+  buildPathname: ->
+    entity = @get 'entity'
+    if @username? and entity?
+      canonical = pathname = "/inventory/#{@username}/#{entity}"
       title = _.softEncodeURI @get('title')
       pathname += "/#{title}"  if title?
       return [canonical, pathname]
@@ -61,7 +66,8 @@ module.exports = Filterable.extend
       user:
         username: @username
         profilePic: @profilePic
-        pathname: "/inventory/#{@username}"
+        pathname: @user?.get 'pathname'
+        distance: @user?.distanceFromMainUser
 
     attrs.currentTransaction = Items.transactions[attrs.transaction]
     attrs[attrs.transaction] = true

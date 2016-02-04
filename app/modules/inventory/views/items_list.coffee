@@ -15,6 +15,9 @@ module.exports = Marionette.CompositeView.extend
   ui:
     itemsList: '.itemsList'
 
+  childViewOptions: ->
+    showDistance: @options.showDistance
+
   initialize: ->
     @initPlugins()
 

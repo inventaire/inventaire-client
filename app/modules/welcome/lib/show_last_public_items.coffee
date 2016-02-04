@@ -20,6 +20,7 @@ module.exports = (params)->
       # if not allowMore, let ItemsList set the default values
       fetchMore: if allowMore then fetchMore
       more: if allowMore then more
+      showDistance: true
 
 FetchMore = (collection, moreData, limit, assertImage)->
   # Avoiding fetching more items several times at a time
