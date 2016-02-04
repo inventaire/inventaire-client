@@ -1,4 +1,5 @@
-<form>
+<form class="custom-cell">
+  <h2 class="subheader">{{i18n 'sign up'}}</h2>
 
   <label for="classicUsername">{{i18n 'username'}}</label>
   <div>
@@ -17,7 +18,7 @@
 
   {{partial 'user:password_input' this}}
 
-  <a id="classicSignup" class="button radius light-blue">
+  <a id="classicSignup" class="button radius light-blue" tabindex="0">
     {{i18n 'sign up'}}
     <span class="loading"></span>
   </a>

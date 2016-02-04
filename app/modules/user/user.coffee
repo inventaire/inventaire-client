@@ -1,6 +1,5 @@
 MainUser = require './models/main_user'
-Signup = require './views/signup'
-SignupPersona = require './views/signup_persona'
+SignupClassic = require './views/signup_classic'
 Login = require './views/login'
 LoginPersona = require './views/login_persona'
 ForgotPassword = require './views/forgot_password'
@@ -10,10 +9,9 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
-        'signup(/)':'showSignup'
-        'signup/persona(/)':'showSignupPersona'
+        'signup(/persona)(/)':'showSignup'
         'login(/)':'showLogin'
-        # this is the route that triggers Persona Signup
+        # this is the route that was triggered by Persona Signup
         # so that Persona confirmation email returns to this route
         'login/persona(/)':'showLoginPersona'
         'login/forgot-password(/)':'showForgotPassword'
@@ -34,17 +32,8 @@ API =
 
   showSignup: ->
     unless redirected 'show:signup'
-      app.layout.main.Show new Signup, _.I18n('sign up')
+      app.layout.main.Show new SignupClassic, _.I18n('sign up')
       app.navigate 'signup'
-
-  showSignupPersona: ->
-    unless redirected 'show:signup:persona'
-      # in standalone mode when not displayed as a region
-      # of Signup LayoutView. 'standalone' serves then as boolean
-      # for handlebars template to display missing elements
-      title = _.I18n('persona sign up')
-      app.layout.main.Show new SignupPersona({standalone: true}), title
-      app.navigate 'signup/persona'
 
   showLogin: ->
     unless redirected 'show:login'
@@ -83,7 +72,6 @@ redirected = (command)->
 initCommands = (app)->
   app.commands.setHandlers
     'show:signup': API.showSignup
-    'show:signup:persona': API.showSignupPersona
     'show:login': API.showLogin
     'show:login:persona': API.showLoginPersona
     'show:forgot:password': API.showForgotPassword

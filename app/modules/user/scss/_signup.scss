@@ -1,43 +1,12 @@
 .authMenu.signup{
-  @include custom-column(60em);
-}
-
-$spaceForBothAligned: 850px;
-
-#signupModes{
-  > div {
-    @include flex(1);
-  }
-  #persona{
-    form{
-      max-width: 18em;
-      margin: auto;
-    }
-    .button{
-      margin-top: 1em;
-    }
+  h2{
+    margin-bottom: 0.8em;
   }
   /*Small screens*/
-  @media screen and (max-width: $spaceForBothAligned) {
-    @include display-flex(column, center, center);
-    > div{
-      max-width: 20em;
+  @media screen and (max-width: $smallscreen) {
+    #classicSignup{
+      // separate the display password and signup buttons
+      margin-top: 1.6em;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $spaceForBothAligned) {
-    @include display-flex(row, baseline, center);
-    > div {
-      max-width: 45%;
-      padding: 0em 1em 0em 1em;
-      &.separator{
-        align-self: center;
-        height: 10em;
-      }
-    }
-  }
-}
-
-#classicSignup{
-  margin-top: 1em;
 }

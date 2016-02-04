@@ -4,6 +4,7 @@ $auth-menu-bg: rgba($light-grey, 0.8);
 
 .authMenu{
   min-height: 80vh;
+  @include custom-column(25em);
   .custom-cell{
     background-color: $auth-menu-bg;
     @include radius;

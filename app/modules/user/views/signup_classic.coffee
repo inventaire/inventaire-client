@@ -5,6 +5,7 @@ forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
+  className: 'authMenu signup'
   template: require './templates/signup_classic'
   behaviors:
     AlertBox: {}
