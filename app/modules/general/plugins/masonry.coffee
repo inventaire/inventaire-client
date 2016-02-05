@@ -9,7 +9,14 @@ module.exports = (containerSelector, itemSelector, minWidth=500)->
     throw new Error('should be called with a view as context')
 
   initMasonry = ->
-    itemsPerLine = $('.itemsList').width() / itemWidth
+    $itemsList = $('.itemsList')
+
+    # It often happen that after triggering a masonry view
+    # the user triggered an other view so that when images are ready
+    # there is no more masonry to do, thus this check
+    if $itemsList.length is 0 then return
+
+    itemsPerLine = $itemsList.width() / itemWidth
     tooFewItems = @collection.length < itemsPerLine
 
     unless _.smallScreen(minWidth) or tooFewItems
