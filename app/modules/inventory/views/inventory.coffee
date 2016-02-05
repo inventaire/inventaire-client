@@ -7,6 +7,7 @@ Group = require 'modules/network/views/group'
 showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
 addUsersAndItems = require 'modules/inventory/lib/add_users_and_items'
 PositionWelcome = require 'modules/map/views/position_welcome'
+{ CheckViewState, catchDestroyedView } = require 'lib/view_state'
 
 # keep in sync with _controls.scss
 gridMinWidth = 750
@@ -40,8 +41,10 @@ module.exports = Marionette.LayoutView.extend
     # waitForUserData to avoid having displaying a user profile without
     # knowing the main user
     app.request 'waitForData'
+    .then CheckViewState(@, 'inventory')
     .then @showItemsList.bind(@)
     .then app.execute.bind(app, 'metadata:update:done')
+    .catch catchDestroyedView
     .catch _.Error('showItemsListOnceData err')
 
   showItemsList: ->
