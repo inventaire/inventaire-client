@@ -1,6 +1,6 @@
 $iconButtonMinWidth: 4.5em;
-$lowerIconButtonMinWidth: 4*$iconButtonMinWidth;
-$upperIconButtonMinWidth: 5*$iconButtonMinWidth;
+$lowerIconButtonMinWidth: 3*$iconButtonMinWidth;
+$upperIconButtonMinWidth: 4*$iconButtonMinWidth;
 
 #iconNav{
   background-color: $darker-grey;
@@ -125,13 +125,13 @@ $upperIconButtonMinWidth: 5*$iconButtonMinWidth;
       margin-bottom: 1em;
     }
   }
-  // between 4 and 5 times $iconButtonMinWidth
+  // between 3 and 4 times $iconButtonMinWidth
   // $iconButtonMinWidth grows to force 2 iconButtons
   // to move to the next row instead of just 1.
   // will need to be adapted if the number of iconButtons changes
   @media screen and (min-width: $lowerIconButtonMinWidth) and (max-width: $upperIconButtonMinWidth){
     a.iconButton{
-      min-width: $iconButtonMinWidth+1.2em;
+      min-width: $iconButtonMinWidth+1.5em;
     }
   }
 }
