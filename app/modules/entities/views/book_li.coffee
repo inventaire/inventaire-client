@@ -1,5 +1,3 @@
-mainUserInstance = require '../plugins/main_user_has_one'
-
 module.exports = Marionette.ItemView.extend
   template: require './templates/book_li'
   tagName: 'li'
@@ -10,10 +8,6 @@ module.exports = Marionette.ItemView.extend
       'change': @render
       'add:pictures': @render
     app.execute 'qlabel:update'
-    @initPlugins()
-
-  initPlugins: ->
-    mainUserInstance.call @
 
   behaviors:
     PreventDefault: {}
@@ -34,7 +28,6 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = _.extend @model.toJSON(),
       counter: @counter()
-      mainUserHasOne: @mainUserHasOne()
     if attrs.extract? then attrs.description = attrs.extract
     return attrs
 

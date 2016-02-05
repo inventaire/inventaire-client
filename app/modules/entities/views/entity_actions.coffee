@@ -1,20 +1,20 @@
-mainUserInstance = require '../plugins/main_user_has_one'
-
 module.exports = Marionette.ItemView.extend
   template: require './templates/entity_actions'
   className: 'entityActions'
+  behaviors:
+    PreventDefault: {}
+
   initialize: ->
     @uri = @model.get 'uri'
-
-    @initPlugins()
-
-  initPlugins: ->
-    mainUserInstance.call @
+    @mainUserInstances = app.request 'item:main:user:instances', @uri
 
   serializeData: ->
-    return _.log attrs =
-      transactions: @transactionsData()
-      mainUserHasOne: @mainUserHasOne()
+    transactions: @transactionsData()
+    mainUserHasOne: @mainUserHasOne()
+    mainUserInstances: @mainUserInstances
+    instances:
+      count: @mainUserInstances.length
+      pathname: @mainUserInstancesPathname()
 
   transactionsData: ->
     transactions = _.clone Items.transactions
@@ -30,6 +30,7 @@ module.exports = Marionette.ItemView.extend
     'click #giving': 'giving'
     'click #lending': 'lending'
     'click #selling': 'selling'
+    'click .hasAnInstance a': 'showMainUserInstances'
 
   giving: -> @showItemCreation 'giving'
   lending: -> @showItemCreation 'lending'
@@ -44,3 +45,10 @@ module.exports = Marionette.ItemView.extend
       app.execute 'show:item:creation:form',
         entity: @model
         transaction: transaction
+
+  mainUserHasOne: ->  @mainUserInstances.length > 0
+  showMainUserInstances: -> app.execute 'show:items', @mainUserInstances
+  mainUserInstancesPathname: ->
+    uri = @uri
+    username = app.user.get 'username'
+    return "/inventory/#{username}/#{uri}"

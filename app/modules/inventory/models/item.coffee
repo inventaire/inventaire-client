@@ -31,30 +31,27 @@ module.exports = Filterable.extend
       created: @get('created') or _.now()
       _id: @getId attrs
 
+    @entityPathname = app.request 'get:entity:local:href', @entityUri, title
+
     @reqGrab 'get:user:model', owner, 'user'
     .then @setUserData.bind(@)
+
+    @setPathname()
+
+  onCreation: (serverRes)->
+    # sync the data with what the server returns
+    # especially update the _id from 'new' to the server _id
+    @set serverRes
+    # update derivated attributes
+    @setPathname()
 
   setUserData: ->
     { user } = @
     @username = user.get 'username'
-    @profilePic = user.get 'picture'
-
-    [ @canonical, @pathname ] = @buildPathname()
     @restricted = user.id isnt app.user.id
-    title = @get 'title'
-    @entityPathname = app.request 'get:entity:local:href', @entityUri, title
 
   getId: -> @get('_id') or 'new'
-
-  buildPathname: ->
-    entity = @get 'entity'
-    if @username? and entity?
-      canonical = pathname = "/inventory/#{@username}/#{entity}"
-      title = _.softEncodeURI @get('title')
-      pathname += "/#{title}"  if title?
-      return [canonical, pathname]
-    else
-      return []
+  setPathname: -> @pathname = '/items/' + @id
 
   serializeData: ->
     attrs = @toJSON()
@@ -63,11 +60,7 @@ module.exports = Filterable.extend
       entityData: @entity?.toJSON()
       entityPathname: @entityPathname
       restricted: @restricted
-      user:
-        username: @username
-        profilePic: @profilePic
-        pathname: @user?.get 'pathname'
-        distance: @user?.distanceFromMainUser
+      user: @userData()
 
     attrs.currentTransaction = Items.transactions[attrs.transaction]
     attrs[attrs.transaction] = true
@@ -89,10 +82,19 @@ module.exports = Filterable.extend
 
     return attrs
 
+  userData: ->
+    { user } = @
+    unless user? then return {}
+    return userData =
+      username: @username
+      picture: user.get 'picture'
+      pathname: user.get 'pathname'
+      distance: user.distanceFromMainUser
+
   asMatchable: ->
     [
       @get('title')
-      @get('username')
+      @username
       @get('details')
       @get('notes')
       @get('entity')
@@ -125,7 +127,7 @@ module.exports = Filterable.extend
       title: @findBestTitle()
       description: @findBestDescription()?[0..500]
       image: @get('pictures')?[0]
-      url: @canonical
+      url: @pathname
 
   findBestTitle: ->
     title = @get('title')

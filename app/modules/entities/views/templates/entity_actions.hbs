@@ -1,8 +1,8 @@
 {{#if mainUserHasOne}}
-  <a class="hasAnInstance">
-    {{i18n 'existing_instance_cant_add'}}
-  </a>
-{{else}}
+  <p class="hasAnInstance">
+    {{{i18n 'item_existing_instances' instances}}}
+  </p>
+{{/if}}
 <div class="entityAction">
   <div class="custom-button-group">
     <a id='addToInventory' class="has-tip button success bold" title="{{i18n 'add it to my inventory'}}">
@@ -18,7 +18,5 @@
         <li><a id="{{id}}">{{icon icon}} <span>{{I18n label}}</span></a></li>
       {{/each}}
     </ul>
-
   </div>
 </div>
-{{/if}}

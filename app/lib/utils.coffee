@@ -3,6 +3,8 @@ books_ = requireProxy 'lib/books'
 regex_ = sharedLib 'regex'
 tests_ = sharedLib('tests')(regex_)
 
+isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
+
 module.exports = (Backbone, _, app, window, csle)->
   loggers = require('./loggers')(_, csle)
 
@@ -148,7 +150,8 @@ module.exports = (Backbone, _, app, window, csle)->
 
     isUuid: (str)-> regex_.Uuid.test str
     isEmail: (str)-> regex_.Email.test str
-    isUserId: (id)-> regex_.CouchUuid.test id
+    isUserId: isCouchUuid
+    isItemId: isCouchUuid
     isUsername: (username)-> regex_.Username.test username
     isEntityUri: (uri)-> regex_.EntityUri.test uri
 

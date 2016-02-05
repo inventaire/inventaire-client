@@ -13,8 +13,4 @@
       padding: 1rem;
     }
   }
-  .hasAnInstance{
-    @include text-hover($grey, $light-grey);
-    font-style: italic;
-  }
 }

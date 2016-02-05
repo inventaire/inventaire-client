@@ -6,6 +6,7 @@ ItemCreationForm = require './views/form/item_creation'
 initLayout = require './lib/layout'
 AddLayout = require './views/add/add_layout'
 initAddHelpers = require './lib/add_helpers'
+ItemsList = require './views/items_list'
 { publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
 
 module.exports =
@@ -16,7 +17,9 @@ module.exports =
         'inventory/nearby': 'showInventoryNearby'
         'inventory/last': 'showInventoryLast'
         'inventory/:username(/)': 'showUserInventory'
-        'inventory/:username/:entity(/:title)(/)': 'itemShow'
+        'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
+        'items/:id(/)': 'showItemFromId'
+        'items(/)': 'showGeneralInventoryNavigate'
         'add(/)': 'showAddLayout'
         'groups/:id(/:name)(/)': 'showGroupInventory'
 
@@ -38,6 +41,10 @@ API =
   showGeneralInventory: ->
     if app.request 'require:loggedIn', 'inventory'
       showInventory { generalInventory: true }
+
+  showGeneralInventoryNavigate: ->
+    API.showGeneralInventory()
+    app.navigate 'inventory'
 
   showUserInventory: (user, navigate)->
     showInventory
@@ -61,60 +68,25 @@ API =
     form = new ItemCreationForm options
     app.layout.main.show form
 
-  itemShow: (username, entity, label)->
+  showItemFromId: (id)->
+    unless _.isItemId id then return app.execute 'show:404'
+    app.execute 'show:loader'
+
+    findItemById id
+    .then showItemShowFromModel
+    .catch _.Error('showItemFromId')
+
+  showUserItemsByEntity: (username, entity, label)->
     unless _.isUsername(username) and _.isEntityUri(entity)
       return app.execute 'show:404'
 
     app.execute 'show:loader', {title: "#{label} - #{username}"}
-    app.request 'waitForItems'
-    .then @showItemShow.bind(@, username, entity, label)
 
-  showItemShow: (username, entity, label)->
-    _.preq.start
-    .then @fetchEntityData.bind(@, entity)
-    .then @findItemByUsernameAndEntity.bind(@, username, entity)
-    .then @displayFoundItems.bind(@)
-    .catch _.Error('showItemShow')
-
-  fetchEntityData: (entity)->
-    # make sure entity model is accessible from Entities.byUri
-    app.request('get:entity:model', entity)
-
-  # returns both sync value and promises
-  # => to be called from within a promise chain only
-  findItemByUsernameAndEntity: (username, entity)->
-    owner = app.request 'get:userId:from:username', username
-    if app.request 'user:isPublicUser', owner
-      return requestPublicItem username, entity
-    else
-      return Items.where {owner: owner, entity: entity}
-
-  findItemById: (itemId)->
-    app.request('waitForFriendsItems')
-    .then Items.byId.bind(Items, itemId)
-    .then (item)->
-      if item? then item
-      else
-        # if it isnt in friends id, it should be a public item
-        _.preq.get publicById(itemId)
-        .then Items.public.add
-    .catch _.Error('findItemById err (maybe the item was deleted?)')
-
-  displayFoundItems: (items)->
-    _.log items, 'displayFoundItems items'
-    unless items?.length?
-      throw new Error 'shouldnt be at least an empty array here?'
-
-    switch items.length
-      when 0 then app.execute 'show:404'
-      when 1 then app.execute 'show:item:show:from:model', items[0]
-      else
-        console.warn 'multi items not implemented yet'
-        app.execute 'show:item:show:from:model', items[0]
-
-  showItemShowFromItemModel: (item)->
-    itemShow = new ItemShow {model: item}
-    app.layout.main.show itemShow
+    fetchEntityData entity
+    .then -> app.request 'waitForItems'
+    .then -> findItemByUsernameAndEntity username, entity
+    .then displayFoundItems
+    .catch _.Error('showItemShowFromUserAndEntity')
 
   removeUserItems: (userId)->
     _.log userId, 'removeUserItems'
@@ -124,10 +96,47 @@ API =
   showAddLayout: ->
     app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
 
+findItemById = (itemId)->
+  app.request 'waitForItems'
+  .then Items.byId.bind(Items, itemId)
+  .then (item)->
+    if item? then item
+    else
+      # if it isnt in friends id, it should be a public item
+      _.preq.get publicById(itemId)
+      .then Items.public.add
+  .catch _.ErrorRethrow('findItemById err (maybe the item was deleted?)')
+
+fetchEntityData = (entity)->
+  # make sure entity model is accessible from Entities.byUri
+  app.request 'get:entity:model', entity
+
+# returns both sync value and promises
+# => to be called from within a promise chain only
+findItemByUsernameAndEntity = (username, entity)->
+  owner = app.request 'get:userId:from:username', username
+  if app.request 'user:isPublicUser', owner
+    return requestPublicItem username, entity
+  else
+    return Items.where {owner: owner, entity: entity}
+
+displayFoundItems = (items)->
+  _.log items, 'displayFoundItems items'
+  unless items?.length?
+    throw new Error 'shouldnt be at least an empty array here?'
+
+  switch items.length
+    when 0 then app.execute 'show:404'
+    # redirect to the item
+    when 1 then showItemShowFromModel items[0]
+    else showItemsList items
 
 showInventory = (options)->
   app.layout.main.show new InventoryLayout(options)
 
+showItemsList = (items)->
+  collection = new Backbone.Collection items
+  app.layout.main.show new ItemsList {collection: collection}
 
 # LOGIC
 fetchItems = (app)->
@@ -163,7 +172,8 @@ itemCreate = (itemData)->
 
   itemModel = Items.add itemData
   _.preq.resolve itemModel.save()
-  .then itemModel.set.bind(itemModel)
+  .then _.Log('item creation server res')
+  .then itemModel.onCreation.bind(itemModel)
   .catch _.Error('item creation err')
 
   return itemModel
@@ -174,11 +184,14 @@ itemsCountByEntity = (uri)->
 showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
 
+showItemShowFromModel = (item)->
+  app.layout.main.show new ItemShow {model: item}
+  if item.pathname? then app.navigate item.pathname
+  else _.error item, 'missing item.pathname'
+
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
-    'show:inventory:general': ->
-      API.showGeneralInventory()
-      app.navigate 'inventory'
+    'show:inventory:general': API.showGeneralInventoryNavigate
 
     # user can be either a username or a user model
     'show:inventory:user': (user)->
@@ -201,29 +214,10 @@ initializeInventoriesHandlers = (app)->
       pathname = "#{entityPathname}/add"
 
       if app.request 'require:loggedIn', pathname
-        app.request 'waitForUserData'
-        .then ->
-          existingInstance = app.request 'item:main:user:instance', uri
-          if existingInstance?
-            # Inventaire doesn't support having several instances of an item
-            # so trying to show the creation form redirects to the existing item
-            app.execute 'show:item:show:from:model', existingInstance
-          else
-            API.showItemCreationForm params
-            app.navigate pathname
+        API.showItemCreationForm params
+        app.navigate pathname
 
-    'show:item:show': (username, entity, title)->
-      API.itemShow(username, entity)
-      if title? then app.navigate "inventory/#{username}/#{entity}/#{title}"
-      else app.navigate "inventory/#{username}/#{entity}"
-
-    'show:item:show:from:model': (item)->
-      { username } = item
-      { entity } = item.attributes
-
-      API.showItemShowFromItemModel item
-      if item.pathname? then app.navigate item.pathname
-      else _.error item, 'missing item.pathname'
+    'show:item:show:from:model': showItemShowFromModel
 
     'show:add:layout': ->
       API.showAddLayout()
@@ -236,7 +230,7 @@ initializeInventoriesHandlers = (app)->
 
     'show:inventory:nearby': API.showInventoryNearby
     'show:inventory:last': API.showInventoryLast
-
+    'show:items': displayFoundItems
 
   app.reqres.setHandlers
     'item:update': (options)->
@@ -275,7 +269,7 @@ initializeInventoriesHandlers = (app)->
         warningText: _.i18n("this action can't be undone")
         action: action
 
-    'get:item:model': API.findItemById
+    'get:item:model': findItemById
     'get:item:model:sync': (id)-> Items.byId id
 
     'inventory:main:user:length': (nonPrivate)->
@@ -297,8 +291,8 @@ initializeInventoriesHandlers = (app)->
       _.preq.get usersPublicItems(usersIds)
       .then _.property('items')
 
-    'item:main:user:instance': (entityUri)->
-      return Items.personal.byEntityUri(entityUri)[0]
+    'item:main:user:instances': (entityUri)->
+      return Items.personal.byEntityUri(entityUri)
 
 mainUserPrivateInventoryLength = ->
   Items.personal.where({listing: 'private'}).length

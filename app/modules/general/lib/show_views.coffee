@@ -5,7 +5,7 @@ ShareMenu = require '../views/share_menu'
 Loader = require '../views/behaviors/loader'
 
 module.exports =
-  showLoader: (options)->
+  showLoader: (options={})->
     [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
     if region?
       region.Show new Loader, title

@@ -1,5 +1,5 @@
 .entityActions{
-  @include display-flex(row, center, center);
+  @include display-flex(column, center, center);
   margin-bottom: 1rem;
   div.entityAction{
     // take care of both row and column display
@@ -22,6 +22,17 @@
     padding: 1rem;
     font-size: 1.2rem;
     cursor: default;
+  }
+  .hasAnInstance{
+    opacity: 0.8;
+    a{
+      color: white;
+      @include underline(rgba(white, 0.5%));
+      @include transition(text-decoration-color);
+      &:hover{
+        text-decoration-color: white;
+      }
+    }
   }
 
   /*Small screens*/

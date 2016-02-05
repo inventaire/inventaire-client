@@ -40,16 +40,10 @@
     {{icon 'chevron-right'}}
     {{i18n 'more details'}}
   </a>
-  {{#if mainUserHasOne}}
-    <a class="hasAnInstance">
-      {{i18n 'existing_instance_cant_add'}}
-    </a>
-  {{else}}
-    <a class='addToInventory' href="{{pathname}}/add" rel="nofollow">
-      {{icon 'plus'}}
-      {{i18n 'add to my inventory'}}
-    </a>
-  {{/if}}
+  <a class='addToInventory' href="{{pathname}}/add" rel="nofollow">
+    {{icon 'plus'}}
+    {{i18n 'add to my inventory'}}
+  </a>
   <div class="counters">
     <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}">
       <span class="count">{{counter.count}}</span>
