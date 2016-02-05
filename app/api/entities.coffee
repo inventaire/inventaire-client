@@ -19,4 +19,3 @@ module.exports =
       _.buildPath '/api/entities/public',
         action: 'get-inv-entities'
         ids: _.piped(ids)
-  followed: '/api/entities/followed'

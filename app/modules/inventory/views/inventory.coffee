@@ -1,5 +1,4 @@
 SideNav = require '../side_nav/views/side_nav'
-# FollowedEntitiesList = require './followed_entities_list'
 ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
 ItemsCollection = require 'modules/inventory/collections/items'
@@ -19,7 +18,6 @@ module.exports = Marionette.LayoutView.extend
     sideNav: '#sideNav'
     header: '#header'
     itemsView: '#itemsView'
-    followedView: '#followedView'
     controls: '#controls'
 
   initialize: ->
@@ -100,7 +98,6 @@ module.exports = Marionette.LayoutView.extend
 
     if user?
       prepareUserItemsList user, navigate
-      # if app.request('user:isMainUser', user.id) then @showFollowedEntitiesList()
       eventName = user.get 'username'
       user.updateMetadata()
 
@@ -133,11 +130,6 @@ module.exports = Marionette.LayoutView.extend
       when 'cascade' then ItemsList
       when 'grid' then ItemsGrid
       else throw new Error('unknow items list layout')
-
-  showFollowedEntitiesList: ->
-    followedEntities = app.request 'entities:followed:collection'
-    if followedEntities.length > 0
-      @followedView.show new FollowedEntitiesList {collection: followedEntities}
 
   showInventoryWelcome: (user)->
     inventoryWelcome = require './inventory_welcome'
