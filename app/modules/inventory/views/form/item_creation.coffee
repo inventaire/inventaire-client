@@ -80,12 +80,12 @@ module.exports = Marionette.LayoutView.extend
     return attrs
 
   listingsData: ->
-    listings = _.clone(app.user.listings)
+    listings = app.user.listings()
     listings.private.classes = 'active'
     return listings
 
   transactionsData: ->
-    transactions =_.clone(Items.transactions)
+    transactions = Items.transactions()
     _.extend transactions.inventorying,
       label: 'just_inventorize_it'
       classes: 'active'

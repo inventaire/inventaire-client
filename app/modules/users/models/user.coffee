@@ -12,6 +12,7 @@ module.exports = UserCommons.extend
 
   serializeData: ->
     attrs = @toJSON()
+    attrs.cid = @cid
     relationStatus = attrs.status
     # converting the status into a boolean for templates
     attrs[relationStatus] = true

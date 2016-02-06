@@ -17,7 +17,7 @@ module.exports = Marionette.ItemView.extend
       pathname: @mainUserInstancesPathname()
 
   transactionsData: ->
-    transactions = _.clone Items.transactions
+    transactions = Items.transactions()
     transactions.inventorying.icon = 'plus'
     transactions.inventorying.label = 'just_inventorize_it'
     return transactions

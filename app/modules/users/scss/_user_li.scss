@@ -30,6 +30,7 @@ $user-bg: #ddd;
       @include display-flex(row, center, flex-end);
       .f-dropdown{
         a, .fa, span{
+          text-align: left !important;
           color: $dark-grey !important;
         }
       }

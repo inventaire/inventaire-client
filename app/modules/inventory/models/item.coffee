@@ -8,14 +8,6 @@ module.exports = Filterable.extend
     unless attrs.owner? then return "a owner must be provided"
 
   initialize: (attrs, options)->
-    # RECIPE:
-      # entity = entity "#{domain}:#{id} uri
-      # pathname = "#{username}/#{entity}/#{title}
-    # - allows entity uri to be used in pathname
-    # nice for super users/wikidata wizzards
-    # - opened issue: the couple username/entity-uri to build the pathname
-    # close the possibility to have several instances of a single entity
-
     { entity, title, owner } = attrs
 
     unless entity?
@@ -30,7 +22,7 @@ module.exports = Filterable.extend
     # created will be overriden by the server at item creation
     @set
       created: @get('created') or _.now()
-      _id: @getId attrs
+      _id: @getId()
 
     @setPathname()
 
@@ -67,12 +59,16 @@ module.exports = Filterable.extend
       restricted: @restricted
       user: @userData()
 
-    attrs.currentTransaction = Items.transactions[attrs.transaction]
-    attrs[attrs.transaction] = true
+    attrs.cid = @cid
+
+    { transaction } = attrs
+    transacs = Items.transactions()
+    attrs.currentTransaction = transacs[transaction]
+    attrs[transaction] = true
+
     unless attrs.restricted
-      attrs.transactions = Items.transactions
-      attrs.listings = app.user.listings
-      attrs.uiId = _.uniqueId('item_')
+      attrs.transactions = transacs
+      attrs.transactions[transaction].classes = 'selected'
 
       { listing } = attrs
       unless listing?
@@ -80,7 +76,10 @@ module.exports = Filterable.extend
         # requires to borrow its listing to the private item
         mainModel = app.request 'get:item:model:sync', attrs._id
         listing = mainModel?.get 'listing'
-      attrs.currentListing = app.user.listings[listing]
+
+      attrs.currentListing = app.user.listings()[listing]
+      attrs.listings = app.user.listings()
+      attrs.listings[listing].classes = 'selected'
 
     # picture may be undefined
     attrs.picture = attrs.pictures?[0]

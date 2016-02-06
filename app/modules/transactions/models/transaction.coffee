@@ -109,7 +109,7 @@ module.exports = Filterable.extend
   icon: ->
     if @item?
       transaction = @item?.get('transaction')
-      Items.transactions[transaction].icon
+      return Items.transactions.data[transaction].icon
 
   context: ->
     if @item? and @owner?

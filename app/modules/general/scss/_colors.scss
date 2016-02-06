@@ -23,6 +23,7 @@ $panel-bg: $contrast; // Foundation variable
 $body-font-color: #222; // Foundation variable
 $tools-active-bg: #222;
 
+// keep in sync with server/lib/emails/activity_summary/last_books_helpers.coffee
 $giving-color: #FEB1BA;
 $lending-color: #9FD5B3;
 $selling-color: #FFE567;

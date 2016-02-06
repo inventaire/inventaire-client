@@ -1,5 +1,6 @@
 module.exports = (Items)->
-  Items.transactions =
+  # made it a factory has its main use is to be cloned
+  Items.transactions = ->
     giving:
       id: 'giving'
       icon: 'heart'
@@ -28,3 +29,6 @@ module.exports = (Items)->
       labelShort: 'in my inventory'
       labelPersonalized: 'inventorying_personalized_strong'
       unicodeIcon:'&#xf1b2;'
+
+  # keep a frozen version of the object at hand for read only
+  Items.transactions.data = Object.freeze Items.transactions()

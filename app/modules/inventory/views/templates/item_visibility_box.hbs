@@ -1,16 +1,16 @@
 {{#unless restricted}}
   <div class="listingMenu {{currentListing.id}}">
-    <a class="current" data-dropdown="{{uiId}}-l-menu">
+    <a class="current" data-dropdown="{{cid}}-l-menu">
       {{icon currentListing.icon}}
       <span class="label">{{i18n currentListing.label}}</span>
       {{icon 'caret-down'}}
     </a>
-    <ul id="{{uiId}}-l-menu" data-options="align:right"
+    <ul id="{{cid}}-l-menu" data-options="align:right"
     class="tiny f-dropdown" data-dropdown-content>
-      <li><label>{{i18n 'change visibility:'}}</label></li>
+      <li class="label2 capitalized">{{i18n 'change visibility:'}}</li>
       {{#each listings}}
         <li>
-          <a id="{{id}}" class="listing">
+          <a id="{{id}}" class="listing {{classes}}">
             {{icon icon}} {{i18n label}}
           </a>
         </li>

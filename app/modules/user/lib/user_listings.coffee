@@ -1,5 +1,6 @@
 module.exports = (app)->
-  app.user.listings =
+  # made it a factory has its main use is to be cloned
+  app.user.listings = ->
     private:
       id: 'private'
       icon: 'lock'
@@ -15,3 +16,6 @@ module.exports = (app)->
       icon: 'globe'
       unicodeIcon: '&#xf0ac;'
       label: 'public'
+
+  # keep a frozen version of the object at hand for read only
+  app.user.listings.data = Object.freeze app.user.listings()

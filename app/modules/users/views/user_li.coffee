@@ -6,10 +6,9 @@ module.exports = Marionette.ItemView.extend
   className: ->
     classes = "userLi"
     status = @model.get('status') or 'noStatus'
-    username = @model.get 'username'
     stretch = if @options.stretch then 'stretch' else ''
     groupContext = if @options.groupContext then 'group-context' else ''
-    "userLi #{status} #{username} #{stretch} #{groupContext}"
+    "userLi #{status} #{stretch} #{groupContext}"
 
   behaviors:
     PreventDefault: {}
