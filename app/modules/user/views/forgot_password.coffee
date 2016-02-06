@@ -23,7 +23,7 @@ module.exports = Marionette.ItemView.extend
     header: @headerData()
 
   headerData: ->
-    if @options.createPasswordMode then 'create password'
+    if @options.createPasswordMode then 'create a password'
     else 'forgot password?'
 
   emailPickerData: ->

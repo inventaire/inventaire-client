@@ -46,7 +46,7 @@ API =
       # as Persona email links redirection depend on the url
       # at the moment the login is triggered
       app.navigate 'login/persona'
-      app.layout.main.Show new LoginPersona, _.I18n('persona login')
+      app.layout.main.Show new LoginPersona, _.I18n('login with Persona')
 
   showForgotPassword: (options)->
     app.layout.main.Show new ForgotPassword(options), _.I18n('forgot password')
