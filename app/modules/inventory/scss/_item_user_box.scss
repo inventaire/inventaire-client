@@ -1,6 +1,10 @@
 $user-box-heigth: 3em;
+$username-color: #333;
 a.user{
   width: 100%;
+  .username{
+    color: $username-color;
+  }
   &:hover{
     .username{
       @include link;
@@ -62,6 +66,7 @@ a.user{
   .label{
     color: #444;
     strong{
+      color: $username-color;
       @include serif;
     }
   }
