@@ -224,6 +224,10 @@ module.exports = Entity.extend
     if extract? and extract.length > 300 then return extract
     else description or extract
 
+  getAuthorsString: ->
+    qids = @claims.P50
+    return wd_.getLabel qids, app.user.lang
+
 getEntityValue = (attrs, props, lang, originalLang)->
   property = attrs[props]
   if property?

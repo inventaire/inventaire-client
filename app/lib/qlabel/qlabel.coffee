@@ -13,6 +13,7 @@ attribute = 'data-qid'
 
 wd_ = require 'lib/wikidata'
 { getLabel, setLabel, getKnownQids, resetLabels } = require './labels_helpers'
+
 language = null
 elements = null
 refresh = false
@@ -93,3 +94,13 @@ endRefreshMode = -> refresh = false
 module.exports =
   update: _.debounce update, 200
   refreshData: refreshData
+
+
+# share access to those labels with external modules
+wd_.getLabel = (qids, lang)->
+  # make sure the qids were queried
+  getWikidataEntities qids
+  .then ->
+    _.forceArray qids
+    .map (qid)-> getLabel qid, lang
+    .join ', '

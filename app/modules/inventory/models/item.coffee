@@ -26,17 +26,22 @@ module.exports = Filterable.extend
     # and thus accessible from a Entities.byUri
     @waitForEntity = @reqGrab 'get:entity:model', @entityUri, 'entity'
 
+
     # created will be overriden by the server at item creation
     @set
       created: @get('created') or _.now()
       _id: @getId attrs
 
+    @setPathname()
+
     @entityPathname = app.request 'get:entity:local:href', @entityUri, title
 
     @reqGrab 'get:user:model', owner, 'user'
     .then @setUserData.bind(@)
+    # chain it to get access to @restricted
+    .then => @waitForEntity
+    .then @updateAuthor.bind(@)
 
-    @setPathname()
 
   onCreation: (serverRes)->
     # sync the data with what the server returns
@@ -94,6 +99,7 @@ module.exports = Filterable.extend
   asMatchable: ->
     [
       @get('title')
+      @get('authors')
       @username
       @get('details')
       @get('notes')
@@ -138,3 +144,14 @@ module.exports = Filterable.extend
   findBestDescription: ->
     details = @get('details')
     if _.isNonEmptyString(details) then details
+
+  # keep a copy of authors as a string on the item
+  updateAuthor: ->
+    if @restricted then return
+    current = @get 'authors'
+    @entity.getAuthorsString()
+    .then (update)=>
+      if _.isNonEmptyString(update) and current isnt update
+        _.log [current, update], 'updateAuthor'
+        @save 'authors', update
+    .catch _.Error('updateAuthor')

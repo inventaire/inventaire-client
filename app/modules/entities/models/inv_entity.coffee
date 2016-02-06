@@ -18,3 +18,16 @@ module.exports = Entity.extend
       pathname: pathname
       uri: "#{@prefix}:#{@id}"
       domain: 'inv'
+
+  getAuthorsString: ->
+    authors = @get 'authors'
+    str = switch _.typeOf authors
+      when 'string' then authors
+      when 'array' then parseAuthors authors
+
+    return _.preq.resolve str
+
+parseAuthors = (authors)->
+  authors
+  .map _.property('value')
+  .join ', '

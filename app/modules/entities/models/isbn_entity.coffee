@@ -31,3 +31,18 @@ module.exports = Entity.extend
     pictures = @get 'pictures'
     unless _.isEmpty pictures
       @set 'pictures', pictures.map(books_.uncurl)
+
+
+  getAuthorsString: ->
+    str = @get 'authors'
+      .map parseAuthor
+      .join ', '
+
+    _.log str, 'isbn author'
+    return _.preq.resolve str
+
+
+parseAuthor = (a)->
+  switch a.type
+    when 'wikidata_id' then a.label
+    when 'string' then a.value
