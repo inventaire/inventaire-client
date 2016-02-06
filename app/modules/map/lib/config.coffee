@@ -9,7 +9,9 @@ module.exports =
       Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,
       <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
       Imagery © <a href="http://mapbox.com">Mapbox</a>"""
+    minZoom: 2
     maxZoom: 18
     id: 'maxlatha.gd5jof9d'
     accessToken: accessToken
+    noWrap: true
   defaultZoom: 13
