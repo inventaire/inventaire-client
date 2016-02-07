@@ -1,12 +1,9 @@
 .itemComments{
-  // padding-bottom: 3em;
   .newComment{
     // a positionned element is required to be used as reference
     // by (great) children elements with position:absolute
     // cf https://developer.mozilla.org/en-US/docs/Web/CSS/position
     position: relative;
-    // padding required to keep the floating button in the frame
-    padding-bottom: 2.5em;
     .local-fog{
       position: absolute;
       background-color: rgba($dark-grey, 0.8);
@@ -23,7 +20,6 @@
       }
     }
   }
-  // background-color: $grey;
   .postComment{}
 }
 

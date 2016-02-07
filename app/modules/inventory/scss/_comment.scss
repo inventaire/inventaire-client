@@ -1,5 +1,5 @@
 .comment{
-  margin: 0.5em 0em 0.5em 0em;
+  margin-bottom: 1em;
   min-height: $user-height;
   width: 100%;
   @include display-flex(row, flex-start, space-between);

@@ -8,6 +8,7 @@ module.exports = Marionette.Behavior.extend
     'submit form': (e)-> e.preventDefault()
     'focus textarea': moveCaretToEnd
     'keyup input.enterClick': enterClick.input
+    'keyup textarea.ctrlEnterClick': enterClick.textarea
     'keyup a.button': enterClick.button
     'click a.back': -> window.history.back()
     'click #home, .showHome': -> app.execute 'show:home'

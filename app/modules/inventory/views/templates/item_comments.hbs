@@ -18,9 +18,12 @@
           <img src="{{src user.picture 50}}">
         {{/if}}
       </div>
-      <textarea class="message" name="message" placeholder="post a comment...">{{message}}</textarea>
+      <textarea class="message ctrlEnterClick" name="message" placeholder="post a comment...">{{message}}</textarea>
     </div>
     <div class="alertBox"></div>
-    <a class="tiny-success-button postComment right">{{i18n 'post comment'}}</a>
+    <div class="bottom">
+      {{partial 'ctrl_enter_click_tip'}}
+      <a class="tiny-success-button postComment right">{{i18n 'post comment'}}</a>
+    </div>
   </form>
 </div>

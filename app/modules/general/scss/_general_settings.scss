@@ -39,6 +39,10 @@ textarea{
   // min-width: 100%;
   max-width: 100%;
   resize: none;
+  border: solid 1px #ccc;
+  &:focus{
+    box-shadow: 0 0 2px $glow;
+  }
 }
 
 img.icon{
@@ -174,3 +178,4 @@ input[type="password"]{
 @import "picture_picker";
 @import "confirmation_modal";
 @import "filter";
+@import "shortcut_tip";

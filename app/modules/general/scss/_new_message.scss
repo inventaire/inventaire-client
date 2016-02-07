@@ -8,6 +8,7 @@
     }
     textarea{
       @include flex(1);
+      border: solid 1px #ccc;
     }
   }
   .sendMessage{

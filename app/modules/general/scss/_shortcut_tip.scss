@@ -1,0 +1,22 @@
+.shortcut-tip{
+  color: grey;
+  font-size: 0.9em;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin-right: 1em;
+
+  /*Small screens*/
+  @media screen and (max-width: $smallscreen) {
+    // doing shortcuts in mobile is quite hard
+    display: none;
+  }
+}
+
+.newMessage, .newComment{
+  .bottom{
+    @include display-flex(row, center, flex-end);
+  }
+}
