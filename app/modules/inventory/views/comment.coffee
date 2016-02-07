@@ -33,7 +33,7 @@ module.exports = Marionette.ItemView.extend
     'click .cancelButton': 'toggleEditMode'
     'keyup textarea.message': 'escapeEditMode'
     'click .saveButton': 'saveEdit'
-
+    'dblclick span.message': 'editCommentIfMobile'
 
   onShow: ->
     app.execute 'foundation:reload'
@@ -41,6 +41,9 @@ module.exports = Marionette.ItemView.extend
   editComment: ->
     @toggleEditMode()
     @ui.editor.focus()
+
+  editCommentIfMobile: ->
+    if _.isMobile then @editComment()
 
   requestDeletion: ->
     app.request 'comments:delete', @model, @
