@@ -57,15 +57,20 @@ module.exports = (app)->
       .then addPublicUsers
 
     getUserModel: (id, category='public')->
-      app.request('waitForData')
+      app.request 'waitForData'
       .then ->
         userModel = app.request 'get:userModel:from:userId', id
         if userModel? then return userModel
         else
           app.users.data.local.get(id, 'collection')
-          .then adders[category]
-          .then _.property('0')
-      .catch _.Error('getUserModel err')
+          .then (usersData)->
+            # known case when userData.length is 0 and this throws:
+            # deleted user with an id still hanging around
+            unless usersData.length is 1
+              throw new Error "user not found: #{id}"
+            return adders[category](usersData)[0]
+
+      .catch _.ErrorRethrow('getUserModel err')
 
     getGroupUserModel: (id)->
       # just adding to users.nonRelationGroupUser instead of users.public
