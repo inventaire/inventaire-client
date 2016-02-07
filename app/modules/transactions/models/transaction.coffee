@@ -21,13 +21,13 @@ module.exports = Filterable.extend
 
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
-    @once
-      'grab:owner': @setNextActions.bind(@)
-      'grab:requester': @setNextActions.bind(@)
-    @on
-      'change:state': @setNextActions.bind(@)
-      'change:state': @setArchivedStatus.bind(@)
-      'change:read': @deduceReadStatus.bind(@)
+
+    @once 'grab:owner', @setNextActions.bind(@)
+    @once 'grab:requester', @setNextActions.bind(@)
+
+    @on 'change:state', @setNextActions.bind(@)
+    @on 'change:state', @setArchivedStatus.bind(@)
+    @on 'change:read', @deduceReadStatus.bind(@)
 
   grabLinkedModels: ->
     @reqGrab 'get:user:model', @get('requester'), 'requester'

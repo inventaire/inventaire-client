@@ -17,9 +17,8 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @
-    @listenTo @model,
-      'change': @lazyRender
-      'grab': @lazyRender
+    @listenTo @model, 'change', @lazyRender
+    @listenTo @model, 'grab', @lazyRender
 
   serializeData: -> @model.serializeData()
 

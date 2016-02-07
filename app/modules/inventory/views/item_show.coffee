@@ -32,10 +32,9 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @initPlugins()
     @uniqueSelector = '#'+@id
-    @listenTo @model,
-      'change:details': @render
-      'change:notes': @render
-      'add:pictures': @render
+    @listenTo @model, 'change:details', @render
+    @listenTo @model, 'change:notes', @render
+    @listenTo @model, 'add:pictures', @render
     app.execute 'metadata:update:needed'
 
   initPlugins: ->
