@@ -1,9 +1,22 @@
 #transactionView{
-  @include radius;
-  @include shy-border;
-  background-color: white;
   max-width: 40em;
   margin: 1em auto;
+  section{
+    @include radius;
+    @include shy-border;
+    background-color: white;
+  }
+  h3{
+    padding-top: 0.8em;
+    padding-left: 1em;
+    font-size: 1em;
+    opacity: 0.5;
+    @include sans-serif;
+    margin: 0;
+  }
+  .new-message{
+    margin-top: 1em;
+  }
   @import "header";
   @import "timeline";
   @import "actions";

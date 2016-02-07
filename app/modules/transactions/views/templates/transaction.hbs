@@ -1,47 +1,53 @@
-<div class="header">
-  <div class="facts">
-    <a class="item" href="{{item.pathname}}">
-      <div class="cover">
-        {{#if item.pictures}}
-          <img src="{{src item.pictures 100}}" alt="{{item.title}}">
-        {{/if}}
-      </div>
-      <div class="data">
-        <h4 class="title">{{item.title}}</h4>
-        <div class="authors">
-          {{#if item.entityData.wikidata}}
-            {{claim item.entityData.claims 'P50'}}
-          {{else}}
-            {{{joinAuthors item.entityData.authors false}}}
+<section>
+  <div class="header">
+    <div class="facts">
+      <a class="item" href="{{item.pathname}}">
+        <div class="cover">
+          {{#if item.pictures}}
+            <img src="{{src item.pictures 100}}" alt="{{item.title}}">
           {{/if}}
         </div>
-      </div>
-    </a>
-    <div class="context {{item.transaction}}">
-      {{icon icon}}
-      {{{context}}}
-      {{#if owner.picture}}
-        <a href="{{owner.pathname}}" class="owner" alt="{{owner.username}}">
-          <img src="{{src owner.picture 64}}">
-        </a>
-      {{/if}}
-    </div>
-  </div>
-</div>
-<div class="timeline"></div>
-<div class="actions">
-  <span class="next">{{i18n 'next action'}}:</span>
-  {{#if nextActions}}
-    {{#each nextActions}}
-      <div class="action">
-        <a class="{{classes}}">{{{i18n text this}}}</a>
-        {{#if info}}
-          <p class="info">{{i18n info}}</p>
+        <div class="data">
+          <h4 class="title">{{item.title}}</h4>
+          <div class="authors">
+            {{#if item.entityData.wikidata}}
+              {{claim item.entityData.claims 'P50'}}
+            {{else}}
+              {{{joinAuthors item.entityData.authors false}}}
+            {{/if}}
+          </div>
+        </div>
+      </a>
+      <div class="context {{item.transaction}}">
+        {{icon icon}}
+        {{{context}}}
+        {{#if owner.picture}}
+          <a href="{{owner.pathname}}" class="owner" alt="{{owner.username}}">
+            <img src="{{src owner.picture 64}}">
+          </a>
         {{/if}}
       </div>
-    {{/each}}
-  {{else}}
-    <span class="finished">{{i18n 'transaction_finished'}}</span>
-  {{/if}}
-</div>
-{{partial 'new_message' this}}
+    </div>
+  </div>
+  <div class="timeline"></div>
+</section>
+{{#if nextActions}}
+  <h3 class="next">{{i18n 'next action'}}:</h3>
+  <section>
+    <div class="actions">
+        {{#each nextActions}}
+          <div class="action">
+            <a class="{{classes}}">{{{i18n text this}}}</a>
+            {{#if info}}
+              <p class="info">{{i18n info}}</p>
+            {{/if}}
+          </div>
+        {{/each}}
+    </div>
+  </section>
+{{else}}
+  <span class="finished">{{i18n 'transaction_finished'}}</span>
+{{/if}}
+<section class="new-message">
+  {{partial 'new_message' this}}
+</section>
