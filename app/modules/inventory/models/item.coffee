@@ -45,7 +45,8 @@ module.exports = Filterable.extend
   setUserData: ->
     { user } = @
     @username = user.get 'username'
-    @restricted = user.id isnt app.user.id
+    @authorized = user.id is app.user.id
+    @restricted = not @authorized
 
   getId: -> @get('_id') or 'new'
   setPathname: -> @pathname = '/items/' + @id
@@ -66,7 +67,7 @@ module.exports = Filterable.extend
     attrs.currentTransaction = transacs[transaction]
     attrs[transaction] = true
 
-    unless attrs.restricted
+    if @authorized
       attrs.transactions = transacs
       attrs.transactions[transaction].classes = 'selected'
 
