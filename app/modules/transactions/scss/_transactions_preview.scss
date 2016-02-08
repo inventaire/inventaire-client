@@ -10,6 +10,13 @@
       display: none;
     }
   }
+  .profile-pic, .profile-pic img{
+    width: $user-box-heigth;
+    height: $user-box-heigth;
+  }
+  .item-pic, .item-pic img{
+    max-width: $user-box-heigth;
+  }
   @include bg-hover(white);
   border-bottom: 1px solid rgba($grey, 0.2);
   &:first-child{

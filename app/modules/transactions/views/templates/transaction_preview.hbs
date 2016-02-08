@@ -3,7 +3,7 @@
     {{icon item.currentTransaction.icon}}
   </div>
   {{#if onItem}}
-    <div>
+    <div class="profile-pic">
       {{#if requester.picture}}
         <img src="{{src requester.picture 48}}" alt="{{requester.username}}">
       {{/if}}
@@ -12,7 +12,7 @@
       <span class="context">{{{requestContext}}}</span>
     </div>
   {{else}}
-    <div>
+    <div class="profile-pic">
       {{#if other.picture}}
         <img src="{{src other.picture 48}}" alt="{{other.username}}">
       {{/if}}
@@ -21,7 +21,7 @@
       <span class="title">{{item.title}}</span>
       <span class="context">{{other.username}}</span>
     </div>
-    <div>
+    <div class="item-pic">
       {{#if item.pictures}}
         <img src="{{src item.pictures 48}}" alt="{{item.title}}">
       {{/if}}
