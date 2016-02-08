@@ -7,7 +7,7 @@
 .facts{
   .item{
     @include display-flex(row, center, center);
-    }
+  }
   .cover{
     @include flex(0, 0);
     img{

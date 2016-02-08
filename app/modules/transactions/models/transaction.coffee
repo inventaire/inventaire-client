@@ -31,6 +31,7 @@ module.exports = Filterable.extend
 
   grabLinkedModels: ->
     @reqGrab 'get:user:model', @get('requester'), 'requester'
+
     # wait for the owner to be ready to fetch the item
     # to avoid errors at item initialization
     # during sync functions depending on the owner data

@@ -1,3 +1,10 @@
+@mixin white-text{
+  color: white;
+  a.current{
+    color: white;
+  }
+}
+
 #itemShowLayout{
   .userBox{
     .profilePic{
@@ -40,19 +47,17 @@
     }
   }
   // (1)
-  @mixin box-color($color, $white-bg:1){
+  @mixin box-color($color, $white-text:1){
     .icon{
       background-color: lighten($color, 2%);
-      @if $white-bg {
-        @extend .currentWhite;
-      }
+      @if $white-text { @include white-text; }
     }
   }
   @import 'item_transaction_box';
   @import 'item_listing_box';
 }
 
-.itemContainer, .mixedBox{
+.itemContainer, .mixedBox, .transactionPreview{
   .transactionBox, .listingMenu{
     .current{
       width: 100%;
@@ -61,11 +66,9 @@
     }
   }
   // (1)
-  @mixin box-color($color, $white-bg:1){
+  @mixin box-color($color, $white-text:1){
     background-color: lighten($color, 2%);
-    @if $white-bg {
-      @extend .currentWhite;
-    }
+    @if $white-text { @include white-text; }
   }
   @import 'item_transaction_box';
   @import 'item_listing_box';

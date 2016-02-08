@@ -72,12 +72,6 @@
   width: 100%;
   @include display-flex(row, center, center);
 }
-.currentWhite{
-  color: white;
-  a.current{
-    color: white;
-  }
-}
 .item-settings{
   text-align: center;
   div{
