@@ -18,23 +18,25 @@
     </div>
   </div>
 </a>
-{{#if restricted}}
-  {{partial 'inventory:item_mixed_box' this}}
-{{else}}
-  {{partial 'inventory:item_user_box' this}}
-  <div class="item-settings itemBox">
-    {{partial 'inventory:item_transaction_box' this}}
-    {{partial 'inventory:item_visibility_box' this}}
-  </div>
+{{#if userReady}}
+  {{#if restricted}}
+    {{partial 'inventory:item_mixed_box' this}}
+  {{else}}
+    {{partial 'inventory:item_user_box' this}}
+    <div class="item-settings itemBox">
+      {{partial 'inventory:item_transaction_box' this}}
+      {{partial 'inventory:item_visibility_box' this}}
+    </div>
+  {{/if}}
+  {{#if details}}
+    <div class="detailsBox">
+      <span class="details wrapped user-content">
+        {{userContent details}}
+        {{#if detailsMore}}
+          <a class='itemShow more'>{{i18n 'see more'}}</a>
+        {{/if}}
+      </span>
+    </div>
+  {{/if}}
+  {{partial 'inventory:item_request_box' this}}
 {{/if}}
-{{#if details}}
-  <div class="detailsBox">
-    <span class="details wrapped user-content">
-      {{userContent details}}
-      {{#if detailsMore}}
-        <a class='itemShow more'>{{i18n 'see more'}}</a>
-      {{/if}}
-    </span>
-  </div>
-{{/if}}
-{{partial 'inventory:item_request_box' this}}

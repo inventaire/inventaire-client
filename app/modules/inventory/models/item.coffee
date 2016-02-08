@@ -28,12 +28,13 @@ module.exports = Filterable.extend
 
     @entityPathname = app.request 'get:entity:local:href', @entityUri, title
 
+    @userReady = false
+
     @reqGrab 'get:user:model', owner, 'user'
     .then @setUserData.bind(@)
     # chain it to get access to @restricted
     .then => @waitForEntity
     .then @updateAuthor.bind(@)
-
 
   onCreation: (serverRes)->
     # sync the data with what the server returns
@@ -45,8 +46,9 @@ module.exports = Filterable.extend
   setUserData: ->
     { user } = @
     @username = user.get 'username'
-    @authorized = user.id is app.user.id
+    @authorized = user.id? and user.id is app.user.id
     @restricted = not @authorized
+    @userReady = true
 
   getId: -> @get('_id') or 'new'
   setPathname: -> @pathname = '/items/' + @id
@@ -58,6 +60,7 @@ module.exports = Filterable.extend
       entityData: @entity?.toJSON()
       entityPathname: @entityPathname
       restricted: @restricted
+      userReady: @userReady
       user: @userData()
 
     attrs.cid = @cid
@@ -88,13 +91,13 @@ module.exports = Filterable.extend
     return attrs
 
   userData: ->
-    { user } = @
-    unless user? then return {}
-    return userData =
-      username: @username
-      picture: user.get 'picture'
-      pathname: user.get 'pathname'
-      distance: user.distanceFromMainUser
+    if @userReady
+      { user } = @
+      return userData =
+        username: @username
+        picture: user.get 'picture'
+        pathname: user.get 'pathname'
+        distance: user.distanceFromMainUser
 
   asMatchable: ->
     [

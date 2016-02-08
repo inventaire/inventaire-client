@@ -30,11 +30,14 @@ module.exports = Marionette.LayoutView.extend
     ElasticTextarea: {}
 
   initialize: ->
+    @lazyRender = _.LazyRender @
     @initPlugins()
     @uniqueSelector = '#'+@id
-    @listenTo @model, 'change:details', @render
-    @listenTo @model, 'change:notes', @render
-    @listenTo @model, 'add:pictures', @render
+    @listenTo @model, 'change:details', @lazyRender
+    @listenTo @model, 'change:notes', @lazyRender
+    @listenTo @model, 'add:pictures', @lazyRender
+    # use lazyRender to let the time to the item model to setUserData
+    @listenTo @model, 'grab:user', @lazyRender
     app.execute 'metadata:update:needed'
 
   initPlugins: ->

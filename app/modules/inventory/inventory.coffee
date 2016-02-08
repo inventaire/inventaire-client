@@ -74,7 +74,9 @@ API =
 
     findItemById id
     .then showItemShowFromModel
-    .catch _.Error('showItemFromId')
+    .catch (err)->
+      if err.status is 404 then app.execute 'show:404'
+      else _.error err, 'showItemFromId'
 
   showUserItemsByEntity: (username, entity, label)->
     unless _.isUsername(username) and _.isEntityUri(entity)
