@@ -1,9 +1,11 @@
 {{#unless restricted}}
   <div class="listingMenu {{currentListing.id}}">
     <a class="current" data-dropdown="{{cid}}-l-menu">
-      {{icon currentListing.icon}}
-      <span class="label">{{i18n currentListing.label}}</span>
-      {{icon 'caret-down'}}
+      <span class="icon">{{icon currentListing.icon}}</span>
+      <span class="rest">
+        <span class="label">{{i18n currentListing.label}}</span>
+        {{icon 'caret-down'}}
+      </span>
     </a>
     <ul id="{{cid}}-l-menu" data-options="align:right"
     class="tiny f-dropdown" data-dropdown-content>

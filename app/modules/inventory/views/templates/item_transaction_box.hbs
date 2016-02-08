@@ -5,9 +5,13 @@
     </a>
   {{else}}
     <a class="current" data-dropdown="{{cid}}-t-menu">
-      {{icon currentTransaction.icon}}
-      <span class="label">{{i18n currentTransaction.labelShort}}</span>
-      {{icon 'caret-down'}}
+      <span class="icon">
+        {{icon currentTransaction.icon}}
+      </span>
+      <span class="rest">
+        <span class="label">{{i18n currentTransaction.labelShort}}</span>
+        {{icon 'caret-down'}}
+      </span>
     </a>
     <ul id="{{cid}}-t-menu" data-options="align:right"
     class="tiny f-dropdown" data-dropdown-content>

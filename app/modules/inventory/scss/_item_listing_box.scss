@@ -2,15 +2,7 @@
   // just 'height' wasnt working on chrome
   min-height: $user-box-heigth;
   max-height: $user-box-heigth;
-  &.private{
-    background-color: $private-color;
-    @extend .currentWhite;
-  }
-  &.friends{
-    background-color: $friends-color;
-    @extend .currentWhite;
-  }
-  &.public{
-    background-color: $public-color;
-  }
+  &.private{ @include box-color($private-color); }
+  &.friends{ @include box-color($friends-color); }
+  &.public{ @include box-color($public-color, null); }
 }

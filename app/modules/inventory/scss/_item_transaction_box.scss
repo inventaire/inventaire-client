@@ -5,20 +5,8 @@
   li.capitalized{
     color: $dark-grey;
   }
-  &.giving{
-    background-color: lighten($giving-color, 2%);
-    @extend .currentWhite;
-  }
-  &.lending{
-    background-color: lighten($lending-color, 2%);
-    @extend .currentWhite;
-  }
-  &.selling{
-    background-color: lighten($selling-color, 2%);
-    @extend .currentWhite;
-  }
-  &.inventorying{
-    background-color: lighten($inventorying-color, 2%);
-    @extend .currentWhite;
-  }
+  &.giving{ @include box-color($giving-color); }
+  &.lending{ @include box-color($lending-color); }
+  &.selling{ @include box-color($selling-color); }
+  &.inventorying{ @include box-color($inventorying-color); }
 }

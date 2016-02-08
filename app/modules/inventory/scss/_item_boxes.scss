@@ -1,0 +1,82 @@
+#itemShowLayout{
+  .userBox{
+    .profilePic{
+      // required in Chromium
+      min-width: $user-box-heigth;
+    }
+    span.user{
+      width: 100%;
+    }
+    .username{
+      text-align: center;
+    }
+  }
+  .transactionBox, .listingMenu{
+    .current{
+      @include flex(1);
+      height: 100%;
+      // required in Chromium
+      min-height: $user-box-heigth;
+      @include display-flex(row, center, center);
+      border-top: 1px solid #fefefe;
+    }
+    .icon{
+      @include flex(0, 0);
+      @include display-flex(row, center, center);
+      height: 100%;
+      width: $user-box-heigth;
+      // required in Chromium
+      min-height: $user-box-heigth;
+      .fa{
+        // centering
+        padding-left: 0.3em;
+      }
+    }
+    .rest{
+      @include flex(1);
+      .fa-caret-down{
+        padding-left: 0.5em;
+      }
+    }
+  }
+  // (1)
+  @mixin box-color($color, $white-bg:1){
+    .icon{
+      background-color: lighten($color, 2%);
+      @if $white-bg {
+        @extend .currentWhite;
+      }
+    }
+  }
+  @import 'item_transaction_box';
+  @import 'item_listing_box';
+}
+
+.itemContainer, .mixedBox{
+  .transactionBox, .listingMenu{
+    .current{
+      width: 100%;
+      height: 100%;
+      @include display-flex(row, center, center);
+    }
+  }
+  // (1)
+  @mixin box-color($color, $white-bg:1){
+    background-color: lighten($color, 2%);
+    @if $white-bg {
+      @extend .currentWhite;
+    }
+  }
+  @import 'item_transaction_box';
+  @import 'item_listing_box';
+}
+
+// (1): defining a custom box-color mixin
+// for the different needs:
+// in #itemShowLayout, only the .icon should have a color background
+// in .itemContainer and .mixedBox, the label being hidden, the color background
+// should cover the whole box
+
+
+@import 'item_request_box';
+@import 'item_details_box';
