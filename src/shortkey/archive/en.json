@@ -14,5 +14,7 @@
     "missing_account_legend": "it seems, you have a Persona account but not an Inventaire.io account, you might need to create one:",
     "status_title": "experimental version",
     "status_text": "Everything has to start somewhere: expect missing features and bugs. Do not publish sensible data. At this point, the best use possible is in groups of friends wishing to share books and who can easily communicate with other tools: there is no internal messaging service yet, but there will be soon!",
-    "existing_instance_cant_add": "you already have this book in your inventory, you can't add it again"
+    "existing_instance_cant_add": "you already have this book in your inventory, you can't add it again",
+    "newletter_pitch": "Want to be updated of the project developments?<br>Subscribe to the newsletter! (low frequency)",
+    "newletter_thanks": "Thank you for subscribing!"
 }
