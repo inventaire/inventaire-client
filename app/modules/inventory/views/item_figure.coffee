@@ -35,7 +35,7 @@ module.exports = Marionette.ItemView.extend
     attrs.date = {date: attrs.created}
     attrs.detailsMore = @detailsMoreData attrs.details
     attrs.details = @detailsData attrs.details
-    attrs.showDistance = @options.showDistance and attrs.user.distance?
+    attrs.showDistance = @options.showDistance and attrs.user?.distance?
     return attrs
 
   itemEdit: -> app.execute 'show:item:form:edition', @model
