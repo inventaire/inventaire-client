@@ -217,7 +217,10 @@ initializeInventoriesHandlers = (app)->
 
       if app.request 'require:loggedIn', pathname
         API.showItemCreationForm params
-        app.navigate pathname
+        # Remove the final add part so that hitting reload or previous
+        # reloads the entity page instead of the creation form,
+        # avoiding to create undesired item dupplicates
+        app.navigate pathname.replace(/\/add$/, '')
 
     'show:item:show:from:model': showItemShowFromModel
 
