@@ -13,9 +13,9 @@ module.exports = Entity.extend
     unless isbn?
       throw new Error "isbn entity doesn't have an isbn: #{@get('uri')}"
 
-    @findAPicture()
     @uri = @get('uri') or "isbn:#{isbn}"
     canonical = pathname = "/entity/#{@uri}"
+    @findAPicture()
 
     if title = @get 'title'
       pathname += "/" + _.softEncodeURI(title)
@@ -29,9 +29,15 @@ module.exports = Entity.extend
 
   findAPicture: ->
     pictures = @get 'pictures'
-    unless _.isEmpty pictures
+    if _.isEmpty pictures
+      @_fetchPicture()
+    else
       @set 'pictures', pictures.map(books_.uncurl)
 
+  _fetchPicture: ->
+    books_.getImage @uri
+    .then (images)=> @set 'pictures', images.map(_.property('image'))
+    .catch _.Error('findAPicture')
 
   getAuthorsString: ->
     str = @get 'authors'
