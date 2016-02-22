@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 module.exports = (_)->
 
   sharedLib('global_libs_extender')()
@@ -41,6 +43,9 @@ module.exports = (_)->
     .catch _.Error("reqGrab #{request} #{id} #{name}")
 
   Backbone.Model::grab = (name, model)->
+    unless model?
+      throw error_.new('grab failed: missing model', arguments)
+
     @[name] = model
     @triggerGrab name, model
 
