@@ -55,7 +55,7 @@ module.exports = (_)->
 
   Backbone.Collection::findOne = -> @models[0]
   Backbone.Collection::byId = (id)-> @_byId[id]
-  Backbone.Collection::byIds = (ids)-> ids.map (id)=> @byId(id)
+  Backbone.Collection::byIds = (ids)-> ids.map (id)=> @_byId[id]
   Backbone.Collection::attributes = -> @toJSON()
 
   FilteredCollection::filterByText = (text, reset=true)->
