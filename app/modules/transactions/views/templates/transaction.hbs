@@ -10,10 +10,14 @@
         <div class="data">
           <h4 class="title">{{item.title}}</h4>
           <div class="authors">
-            {{#if item.entityData.wikidata}}
-              {{claim item.entityData.claims 'P50'}}
+            {{#if item.authors}}
+              {{item.authors}}
             {{else}}
-              {{{joinAuthors item.entityData.authors false}}}
+              {{#if item.entityData.wikidata}}
+                {{claim item.entityData.claims 'P50'}}
+              {{else}}
+                {{{joinAuthors item.entityData.authors false}}}
+              {{/if}}
             {{/if}}
           </div>
         </div>
