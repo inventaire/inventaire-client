@@ -1,0 +1,2 @@
+# not linting before commit as its messing with brunch
+npm test > /dev/null

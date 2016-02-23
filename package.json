@@ -22,7 +22,6 @@
     "test-build": "./scripts/test_build/run local",
     "test-build-prod": "./scripts/test_build/run prod",
     "build": "./scripts/build",
-    "update-git-hooks": "../scripts/update_git_hooks",
     "flo": "supervisor -w flo-server.coffee -- server.coffee",
     "patches": "../scripts/run_patches ./scripts/patches",
     "generate-sitemaps": "./scripts/sitemaps/generate.coffee"
@@ -52,6 +51,7 @@
     "css-brunch": "^2.0.0",
     "fb-flo": "^0.5.0",
     "git-digest-brunch": "^1.0.3",
+    "git-hooks": "^1.0.2",
     "graceful-fs": "^4.1.2",
     "handlebars": "^4.0.5",
     "handlebars-brunch": "^2.0.1",

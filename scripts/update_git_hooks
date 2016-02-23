@@ -1,3 +1,0 @@
-# not linting before commit as its messing with brunch
-echo "npm test > /dev/null" > .git/hooks/pre-commit
-echo -e "\e[0;32mgit hooks updated\e[0m"
