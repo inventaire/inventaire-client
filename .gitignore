@@ -28,3 +28,4 @@ tmp/
 *.gz
 public/*
 app/assets/fonts
+config/local.coffee
