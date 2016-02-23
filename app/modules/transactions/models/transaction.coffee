@@ -22,6 +22,8 @@ module.exports = Filterable.extend
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
 
+    # provide views with a flag on actions data state
+    @actionsReady = false
     @once 'grab:owner', @setNextActions.bind(@)
     @once 'grab:requester', @setNextActions.bind(@)
 
@@ -83,6 +85,7 @@ module.exports = Filterable.extend
   setNextActions: ->
     if @owner? and @requester?
       @nextActions = getNextActionsData @
+      @actionsReady = true
 
   serializeData: ->
     attrs = @toJSON()
@@ -94,6 +97,7 @@ module.exports = Filterable.extend
       messages: @messages
       mainUserIsOwner: @mainUserIsOwner
       nextActions: @nextActions
+      actionsReady: @actionsReady
       icon: @icon()
       context: @context()
       mainUserRead: @mainUserRead

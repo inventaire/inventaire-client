@@ -31,23 +31,26 @@
   </div>
   <div class="timeline"></div>
 </section>
-{{#if nextActions}}
-  <h3 class="next">{{i18n 'next action'}}:</h3>
-  <section>
-    <div class="actions">
-        {{#each nextActions}}
-          <div class="action">
-            <a class="{{classes}}">{{{i18n text this}}}</a>
-            {{#if info}}
-              <p class="info">{{i18n info}}</p>
-            {{/if}}
-          </div>
-        {{/each}}
-    </div>
-  </section>
-{{else}}
-  <br>
-  <span class="finished">{{i18n 'transaction_finished'}}</span>
+{{!-- prevent showing actions before actions data are available --}}
+{{#if actionsReady}}
+  {{#if nextActions}}
+    <h3 class="next">{{i18n 'next action'}}:</h3>
+    <section>
+      <div class="actions">
+          {{#each nextActions}}
+            <div class="action">
+              <a class="{{classes}}">{{{i18n text this}}}</a>
+              {{#if info}}
+                <p class="info">{{i18n info this}}</p>
+              {{/if}}
+            </div>
+          {{/each}}
+      </div>
+    </section>
+  {{else}}
+    <br>
+    <span class="finished">{{i18n 'transaction_finished'}}</span>
+  {{/if}}
 {{/if}}
 <section class="new-message">
   {{partial 'new_message' this}}
