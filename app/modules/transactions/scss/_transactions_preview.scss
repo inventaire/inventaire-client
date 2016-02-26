@@ -1,7 +1,15 @@
 .transactionPreview{
+  max-height: $user-box-heigth;
   .transactionBox{
     width: 1.6em;
+    max-width: 1.6em;
+    min-width: 1.6em;
+    @include flex(0, 0, 1.6em);
     @include display-flex(row, center, center);
+    .fa{
+      // centering
+      padding-left: 0.3em;
+    }
   }
   &.selected{
     box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.1) inset;
@@ -10,12 +18,21 @@
       display: none;
     }
   }
+  .profile-pic, .item-pic{
+    // hidding overflowing alt text
+    overflow: hidden;
+  }
+  .profile-pic{
+    @include flex(0, 0, $user-box-heigth);
+  }
   .profile-pic, .profile-pic img{
     width: $user-box-heigth;
     height: $user-box-heigth;
   }
   .item-pic, .item-pic img{
     max-width: $user-box-heigth;
+    max-height: $user-box-heigth;
+    overflow: hidden;
   }
   @include bg-hover(white);
   border-bottom: 1px solid rgba($grey, 0.2);
