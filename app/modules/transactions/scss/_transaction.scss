@@ -6,6 +6,10 @@
     @include shy-border;
     background-color: white;
   }
+  .cover{
+    max-width: 5em;
+    overflow: hidden;
+  }
   h3, .finished{
     padding-top: 0.8em;
     padding-left: 1em;
@@ -32,5 +36,8 @@
   /*Large screens*/
   @media screen and (min-width: $smallscreen) {
     padding: 1em;
+    .info{
+      max-width: 22em;
+    }
   }
 }
