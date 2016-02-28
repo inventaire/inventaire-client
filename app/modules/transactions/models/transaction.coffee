@@ -9,6 +9,7 @@ Filterable = require 'modules/general/models/filterable'
 Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
+formatSnapshotData = require '../lib/format_snapshot_data'
 
 module.exports = Filterable.extend
   url: -> app.API.transactions
@@ -23,13 +24,20 @@ module.exports = Filterable.extend
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
 
     # provide views with a flag on actions data state
-    @actionsReady = false
+    @set 'actionsReady', false
+
     @once 'grab:owner', @setNextActions.bind(@)
     @once 'grab:requester', @setNextActions.bind(@)
 
     @on 'change:state', @setNextActions.bind(@)
     @on 'change:state', @setArchivedStatus.bind(@)
     @on 'change:read', @deduceReadStatus.bind(@)
+
+    @set 'icon', @getIcon()
+    # snapshot data are to be used in views only when the snapshot
+    # is more meaningful than the current version
+    # ex: the item transaction mode at the time of the transaction request
+    formatSnapshotData.call @
 
   grabLinkedModels: ->
     @reqGrab 'get:user:model', @get('requester'), 'requester'
@@ -83,27 +91,31 @@ module.exports = Filterable.extend
       @timeline.add new Message(message)
 
   setNextActions: ->
+    # /!\ if the other user stops being accessible (ex: deleted user)
+    # next actions will never be ready
     if @owner? and @requester?
-      @nextActions = getNextActionsData @
-      @actionsReady = true
+      @set
+        nextActions: getNextActionsData @
+        actionsReady: true
 
   serializeData: ->
     attrs = @toJSON()
     attrs[attrs.state] = true
     _.extend attrs,
-      item: @item?.serializeData()
-      owner: @owner?.serializeData()
-      requester: @requester?.serializeData()
+      item: @itemData()
+      owner: @ownerData()
+      requester: @requesterData()
       messages: @messages
       mainUserIsOwner: @mainUserIsOwner
-      nextActions: @nextActions
-      actionsReady: @actionsReady
-      icon: @icon()
       context: @context()
       mainUserRead: @mainUserRead
 
     [attrs.user, attrs.other] = @aliasUsers(attrs)
     return attrs
+
+  itemData: -> @item?.serializeData() or @get('snapshot.item')
+  ownerData: -> @owner?.serializeData() or @get('snapshot.owner')
+  requesterData: -> @requester?.serializeData() or @get('snapshot.requester')
 
   aliasUsers: (attrs)->
     if @mainUserIsOwner then [attrs.owner, attrs.requester]
@@ -111,14 +123,13 @@ module.exports = Filterable.extend
 
   otherUser: -> if @mainUserIsOwner then @requester else @owner
 
-  icon: ->
-    if @item?
-      transaction = @item?.get('transaction')
-      return Items.transactions.data[transaction].icon
+  getIcon: ->
+    transaction = @get 'transaction'
+    return Items.transactions.data[transaction].icon
 
   context: ->
-    if @item? and @owner?
-      transaction = @item?.get('transaction')
+    if @owner?
+      transaction = @get 'transaction'
       if @mainUserIsOwner then _.i18n "main_user_#{transaction}"
       else
         _.i18n "other_user_#{transaction}",

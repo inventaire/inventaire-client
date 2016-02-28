@@ -1,6 +1,9 @@
 <a href="{{pathname}}" class="showTransaction {{#unless mainUserRead}}unread{{/unless}}">
-  <div class="current transactionBox {{item.transaction}}">
-    {{icon item.currentTransaction.icon}}
+  {{!-- snapshot data are always more meaningful than the item data
+  as they reflect the state of the item - especially the transaction -
+  when the transaction started --}}
+  <div class="current transactionBox {{transaction}}">
+    {{icon icon}}
   </div>
   {{#if onItem}}
     <div class="profile-pic">

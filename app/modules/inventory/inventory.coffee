@@ -107,7 +107,7 @@ findItemById = (itemId)->
       # if it isnt in friends id, it should be a public item
       _.preq.get publicById(itemId)
       .then Items.public.add
-  .catch _.ErrorRethrow('findItemById err (maybe the item was deleted?)')
+  .catch _.ErrorRethrow('findItemById err (maybe the item was deleted or its visibility changed?)')
 
 fetchEntityData = (entity)->
   # make sure entity model is accessible from Entities.byUri

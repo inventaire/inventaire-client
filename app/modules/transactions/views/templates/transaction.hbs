@@ -1,7 +1,7 @@
 <section>
   <div class="header">
     <div class="facts">
-      <a class="item" href="{{item.pathname}}">
+      <a class="item" href="{{item.pathname}}" title="{{item.title}}">
         <div class="cover">
           {{#if item.pictures}}
             <img src="{{src item.pictures 100}}" alt="{{item.title}}">
@@ -22,12 +22,12 @@
           </div>
         </div>
       </a>
-      <div class="context {{item.transaction}}">
+      <div class="context {{transaction}}">
         {{icon icon}}
         {{{context}}}
         {{#if owner.picture}}
-          <a href="{{owner.pathname}}" class="owner" alt="{{owner.username}}">
-            <img src="{{src owner.picture 48}}">
+          <a href="{{owner.pathname}}" class="owner" title="{{owner.username}}">
+            <img src="{{src owner.picture 48}}" alt="{{owner.username}}">
           </a>
         {{/if}}
       </div>
@@ -45,7 +45,7 @@
             <div class="action">
               <a class="{{classes}}">{{{i18n text this}}}</a>
               {{#if info}}
-                <p class="info">{{i18n info this}}</p>
+                <p class="info">{{{i18n info this}}}</p>
               {{/if}}
             </div>
           {{/each}}

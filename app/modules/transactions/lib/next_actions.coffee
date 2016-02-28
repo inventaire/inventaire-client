@@ -4,7 +4,7 @@ getNextActionsData = (transaction)->
   nextActions = proxyFindNextActions transaction
   data = actionsData[nextActions]
   if data?
-    data = addTransactionInfo data, transaction.get('transaction')
+    data = addTransactionInfo data, transaction
     grabOtherUsername transaction, data
   else return
 
@@ -17,8 +17,10 @@ sharedLibAdapter = (transaction)->
   mainUserIsOwner: transaction.mainUserIsOwner
 
 addTransactionInfo = (data, transaction)->
+  transactionMode = transaction.get('transaction')
   data.map (action)->
-    action.info = "#{action.text}_info_#{transaction}"
+    action.info = "#{action.text}_info_#{transactionMode}"
+    action.itemId = transaction.get('item')
     return action
 
 grabOtherUsername = (transaction, actions)->
