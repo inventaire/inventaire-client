@@ -33,9 +33,13 @@ module.exports = (_)->
   # - adding a reference to the model
   # - triggering events
 
-  # get several attributes at once
+  # Get several attributes at once.
+  # Especially useful conbined with destructuring assignment:
+  # [ a, b, c ] = model.gets 'a', 'b', 'c'
   Backbone.Model::gets = (attributes...)->
-    attributes.map (attribute)=> @get attribute
+    if _.isArray attributes[0]
+      throw new Error 'gets expects attributes as different arguments'
+    return attributes.map @get.bind(@)
 
   Backbone.Model::reqGrab = (request, id, name)->
     app.request(request, id)
