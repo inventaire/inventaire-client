@@ -47,12 +47,13 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showEntityData()
     @showPicture()
-    app.execute('foundation:reload')
     @showComments()
+    app.execute 'foundation:reload'
+    if app.user.loggedIn
+      @showTransactions()
 
   onShow: ->
-    @showTransactions()
-
+    # needs to be run only once
     @model.updateMetadata()
     .finally app.execute.bind(app, 'metadata:update:done')
 
