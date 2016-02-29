@@ -286,7 +286,10 @@ initializeInventoriesHandlers = (app)->
     'inventory:user:length': (userId)->
       # Items.where({owner: userId}).length would be simpler
       # but probably less efficient?
-      Items.inventoryLength[userId]
+      return Items.inventoryLength[userId]
+
+    'inventory:user:items': (userId)->
+      return Items.where({owner: userId})
 
     'inventory:fetch:users:public:items': (usersIds)->
       if usersIds.length is 0

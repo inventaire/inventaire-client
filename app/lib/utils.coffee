@@ -2,8 +2,8 @@ wd_ = requireProxy 'lib/wikidata'
 books_ = requireProxy 'lib/books'
 regex_ = sharedLib 'regex'
 tests_ = sharedLib('tests')(regex_)
-
 isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
+oneDay = 24*60*60*1000
 
 module.exports = (Backbone, _, app, window, csle)->
   loggers = require('./loggers')(_, csle)
@@ -227,5 +227,7 @@ module.exports = (Backbone, _, app, window, csle)->
       bVal = $target.attr b
       $target.attr a, bVal
       $target.attr b, aVal
+
+    daysAgo: (epochTime)-> Math.floor(( _.now() - epochTime ) / oneDay)
 
   return _.extend {}, utils, loggers, tests_
