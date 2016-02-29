@@ -20,6 +20,16 @@ $global-radius: 2px; // Foundation variable
   border-bottom-right-radius: $radius;
 }
 
+@mixin radius-diagonal-a($radius:$global-radius){
+  border-top-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin radius-diagonal-b($radius:$global-radius){
+  border-bottom-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
 @mixin radius-horizontal-group($radius:$global-radius){
   :first-child{
     @include radius-left($radius);
