@@ -1,3 +1,8 @@
+{{#if busy}}
+  <div class="busy-sign" title="{{i18n 'unavailable'}}">
+    {{icon 'sign-out'}}
+  </div>
+{{/if}}
 <a class="itemShow" href="{{pathname}}" rel="nofollow">
   <div class="cover">
     {{#if picture}}

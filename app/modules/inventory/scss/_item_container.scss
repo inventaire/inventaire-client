@@ -7,6 +7,23 @@
   padding: 1em;
   background: #fefefe;
   text-align: center;
+  &.busy{
+    .itemShow{
+      @include shy(0.5);
+    }
+    position: relative;
+    .busy-sign{
+      opacity: 1;
+      z-index: 100;
+      @include position(absolute, 0, 0);
+      background-color: #222;
+      height: 2em;
+      width: 2em;
+      color: white;
+      padding: 0.3em 0.5em 0.5em 0.5em;
+      @include radius-diagonal-b;
+    }
+  }
   > a.itemShow{
     width: 100%;
     &:hover{
@@ -67,10 +84,14 @@
   height: $user-box-heigth;
   @include display-flex(row, center, center);
 }
-.itemBox:not(:empty){
+.itemBox:not(:empty), .busyBox{
   min-height: $user-box-heigth;
   width: 100%;
   @include display-flex(row, center, center);
+}
+.busyBox{
+  background-color: #444;
+  color: white;
 }
 .item-settings{
   text-align: center;

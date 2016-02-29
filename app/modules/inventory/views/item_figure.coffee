@@ -6,7 +6,8 @@ module.exports = Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
     @uniqueSelector = ".#{@cid}"
-    "itemContainer #{@cid}"
+    busy = if @model.get('busy') then 'busy' else ''
+    "itemContainer #{@cid} #{busy}"
   template: require './templates/item_figure'
   behaviors:
     PreventDefault: {}

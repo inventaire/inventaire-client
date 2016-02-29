@@ -25,11 +25,7 @@
       {{#if userReady}}
         {{#if restricted}}
           {{partial 'inventory:item_mixed_box' this}}
-          {{#if busy}}
-            {{i18n 'ongoing transaction'}}
-          {{else}}
-            {{partial 'inventory:item_request_box' this}}
-          {{/if}}
+          {{partial 'inventory:item_request_box' this}}
         {{else}}
           {{partial 'inventory:item_user_box' this}}
           <div class="item-settings itemBox">
