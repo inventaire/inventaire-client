@@ -53,6 +53,16 @@ module.exports = (app)->
 
       app.request 'waitForData'
       .then -> app.users.data.local.get ids, 'collection'
+      .then (users)->
+        compacted = _.compact users
+
+        if compacted.length isnt ids.length
+          missingIds = _.difference ids, compacted.map(_.property('_id'))
+          # known cases: when a user was deleted
+          # and a notification depended on his data
+          _.warn missingIds, 'getUsersData missing ids'
+
+        return compacted
       # make sure not to re-add users who have a different status than public
       .then addPublicUsers
 

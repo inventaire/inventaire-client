@@ -36,6 +36,7 @@ getUsersData = (notifications)->
 
 getUsersIds = (notifications)->
   ids = notifications.map (notif)-> notif.data.user
+  return _.uniq ids
 
 API =
   showNotifications: ->
