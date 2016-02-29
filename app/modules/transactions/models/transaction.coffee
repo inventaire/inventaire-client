@@ -10,6 +10,7 @@ Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
 formatSnapshotData = require '../lib/format_snapshot_data'
+applySideEffects = require '../lib/apply_side_effects'
 
 module.exports = Filterable.extend
   url: -> app.API.transactions
@@ -155,7 +156,10 @@ module.exports = Filterable.extend
       id: @id
       state: state
       action: 'update-state'
-    .then _.Tap(tracker)
+    # apply side effects only once the server confirmed
+    # to avoid having to handle reverting the item if it fails
+    .then _.Full(applySideEffects, null, @, state)
+    .then tracker
     .catch @_updateFail.bind(@, actionModel)
 
   _updateFail: (actionModel, err)->
