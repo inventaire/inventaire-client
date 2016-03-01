@@ -85,6 +85,12 @@ module.exports = Filterable.extend
       attrs.listings = app.user.listings()
       attrs.listings[listing].classes = 'selected'
 
+    else
+      # used to hide the "request button" given accessible transactions
+      # are necessarly involving the main user, which should be able
+      # to have several transactions ongoing with a given item
+      attrs.hasActiveTransaction = @hasActiveTransaction()
+
     # picture may be undefined
     attrs.picture = attrs.pictures?[0]
 
@@ -158,3 +164,6 @@ module.exports = Filterable.extend
         _.log [current, update], 'updateAuthor'
         @save 'authors', update
     .catch _.Error('updateAuthor')
+
+  hasActiveTransaction: ->
+    return app.request 'has:transactions:ongoing:byItemId', @id

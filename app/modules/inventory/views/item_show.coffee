@@ -9,15 +9,6 @@ itemUpdaters = require '../plugins/item_updaters'
 module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
   template: require './templates/item_show'
-  serializeData: ->
-    attrs = @model.serializeData()
-    _.extend attrs,
-      nextPictures: @nextPicturesData(attrs)
-
-  nextPicturesData: (attrs)->
-    if attrs.pictures?.length > 1
-      return attrs.pictures.slice(1)
-
   regions:
     entityRegion: '#entity'
     pictureRegion: '#picture'
@@ -80,6 +71,15 @@ module.exports = Marionette.LayoutView.extend
     'click a#validateNotes': 'validateNotes'
     'click a.requestItem': -> app.execute 'show:item:request', @model
 
+  serializeData: ->
+    attrs = @model.serializeData()
+    _.extend attrs,
+      nextPictures: @nextPicturesData attrs
+
+  nextPicturesData: (attrs)->
+    if attrs.pictures?.length > 1
+      return attrs.pictures.slice(1)
+
   itemEdit: -> app.execute 'show:item:form:edition', @model
 
   changePicture: ->
@@ -127,8 +127,8 @@ module.exports = Marionette.LayoutView.extend
     @commentsRegion.show new ItemComments { model: @model }
 
   showTransactions: ->
-    transactions = app.request 'get:transactions:ongoing:byItemId', @model.id
-    @transactionsRegion.show new ItemTransactions { collection: transactions }
+    @transactions ?= app.request 'get:transactions:ongoing:byItemId', @model.id
+    @transactionsRegion.show new ItemTransactions { collection: @transactions }
 
   afterDestroy: ->
     app.execute 'show:inventory:main:user'

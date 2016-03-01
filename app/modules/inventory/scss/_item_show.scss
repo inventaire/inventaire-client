@@ -139,6 +139,10 @@
       }
     }
   }
+  .mainUserRequested{
+    // transactions are already listed in the transactionsRegion
+    display: none;
+  }
 }
 
 .noteBox{

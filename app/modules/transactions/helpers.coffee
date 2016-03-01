@@ -48,5 +48,17 @@ initLateHelpers = ->
         transac.get('item') is itemId and not transac.archived
       return filtered
 
+    getOngoingTransactionsModelsByItemId = (itemId)->
+      return app.user.transactions.filter (transac)->
+        transac.get('item') is itemId and not transac.archived
+
+    getOneOngoingTransactionByItemId = (itemId)->
+      getOngoingTransactionsModelsByItemId(itemId)[0]
+
+    hasOngoingTransactionsByItemId = (itemId)->
+      getOngoingTransactionsModelsByItemId(itemId).length > 0
+
     app.reqres.setHandlers
       'get:transactions:ongoing:byItemId': getOngoingTransactionsByItemId
+      'get:transaction:ongoing:byItemId': getOneOngoingTransactionByItemId
+      'has:transactions:ongoing:byItemId': hasOngoingTransactionsByItemId

@@ -84,14 +84,18 @@
   height: $user-box-heigth;
   @include display-flex(row, center, center);
 }
-.itemBox:not(:empty), .busyBox{
+.itemBox:not(:empty), .busy-box, .mainUserRequested{
   min-height: $user-box-heigth;
   width: 100%;
   @include display-flex(row, center, center);
 }
-.busyBox{
+.busy-box{
   background-color: #444;
   color: white;
+}
+.mainUserRequested{
+  @include inner-shadow(1px, 1px, 3px, 2px, rgba(grey, 0.2));
+  @include bg-hover(white, 5%);
 }
 .item-settings{
   text-align: center;

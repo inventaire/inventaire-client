@@ -1,16 +1,22 @@
 {{#if restricted}}
   {{#if busy}}
-    <div class="busyBox">
+    <div class="busy-box">
       {{icon 'sign-out'}}{{i18n 'unavailable'}}
     </div>
   {{else}}
-    {{#unless inventorying}}
-      <div class="itemBox">
-        <a class="requestItem">
-          {{icon 'comments'}}
-          {{i18n 'send request'}}
-        </a>
-      </div>
-    {{/unless}}
+    {{#if hasActiveTransaction}}
+      <a class="mainUserRequested">
+        {{i18n 'main_user_requested'}}
+      </a>
+    {{else}}
+      {{#unless inventorying}}
+        <div class="itemBox">
+          <a class="requestItem">
+            {{icon 'comments'}}
+            {{i18n 'send request'}}
+          </a>
+        </div>
+      {{/unless}}
+    {{/if}}
   {{/if}}
 {{/if}}
