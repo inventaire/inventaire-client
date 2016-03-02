@@ -28,7 +28,6 @@ findIsbn = (claims)->
 getTitleAndAuthor = (bookModel)->
   title = bookModel.get 'label'
   if title? and bookModel.claims?.P50?
-    # look for Entities.byUri => assumes the entity data were already requested
     authors = app.request 'get:entities:labels', bookModel.claims.P50
     if authors?[0]?
       authors = authors.join ' '

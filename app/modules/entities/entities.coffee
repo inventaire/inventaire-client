@@ -11,7 +11,7 @@ GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 
 module.exports =
-  define: (Entities, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _) ->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
@@ -23,8 +23,8 @@ module.exports =
 
   initialize: ->
     setHandlers()
-    window.Entities = Entities = new Entities
-    Entities.data = require('./entities_data')(app, _, _.preq)
+    app.entities = new Entities
+    app.entities.data = require('./entities_data')(app, _, _.preq)
 
 API =
   showEntity: (uri, label, params, region)->
@@ -86,7 +86,7 @@ API =
     try Model = getModelFromPrefix(prefix)
     catch err then return _.preq.reject(err)
 
-    Entities.data.get prefix, ids, 'collection', refresh
+    app.entities.data.get prefix, ids, 'collection', refresh
     .then (data)->
       unless data?
         throw error_.new 'no data at getEntitiesModels', arguments
@@ -98,7 +98,7 @@ API =
         unless el?
           return _.warn 'missing entity(possible reason: reached API limit, pagination is needed)'
         model = new Model(el)
-        Entities.add model
+        app.entities.add model
         return model
       return models
 
@@ -175,7 +175,7 @@ getEntityModel = (prefix, id)->
   else throw error_.new 'missing prefix or id', arguments
 
 getEntitiesLabels = (Qids)->
-  return Qids.map (Qid)-> Entities.byUri("wd:#{Qid}")?.get 'label'
+  return Qids.map (Qid)-> app.entities.byUri("wd:#{Qid}")?.get 'label'
 
 getPrefixId = (prefix, id)->
   # resolving the polymorphic interface
@@ -195,16 +195,16 @@ getModelFromPrefix = (prefix)->
 
 saveEntityModel = (prefix, data)->
   if data?.id?
-    Entities.data[prefix].local.save(data.id, data)
+    app.entities.data[prefix].local.save(data.id, data)
   else _.error arguments, 'couldnt save entity model'
 
 createEntity = (data)->
-  Entities.data.inv.local.post(data)
+  app.entities.data.inv.local.post(data)
   .then (entityData)->
     _.type entityData, 'object'
     if entityData.isbn? then model = new IsbnEntity entityData
     else model = new InvEntity entityData
-    Entities.add model
+    app.entities.add model
     return model
 
 getEntityLocalHref = (domain, id, label)->

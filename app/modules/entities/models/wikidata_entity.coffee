@@ -16,12 +16,12 @@ module.exports = Entity.extend
     # _.log @status = @get('status'), 'status'
 
     # data that are @set don't need to be re-set when
-    # the model was cached in Entities local/temporary collections
+    # the model was cached in app.entities local/temporary collections
     unless @get('status')?.formatted
 
       # todo: make search only return ids and let the client fetch entities data
       # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
-      if Entities.byUri('wd:#{@id}')?
+      if app.entities.byUri('wd:#{@id}')?
         console.warn "reformatting #{@id} while it was already cached!
         Probably because the server returned fresh data (ex: during entity search)"
 

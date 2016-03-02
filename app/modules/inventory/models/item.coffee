@@ -14,8 +14,8 @@ module.exports = Filterable.extend
       throw new Error "item should have an associated entity"
 
     @entityUri = app.request 'normalize:entity:uri', entity
-    # make sure the entity model is loaded in the global Entities collection
-    # and thus accessible from a Entities.byUri
+    # make sure the entity model is loaded in the global app.entities collection
+    # and thus accessible from a app.entities.byUri
     @waitForEntity = @reqGrab 'get:entity:model', @entityUri, 'entity'
 
 

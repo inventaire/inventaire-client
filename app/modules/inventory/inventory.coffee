@@ -10,7 +10,7 @@ ItemsList = require './views/items_list'
 { publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
 
 module.exports =
-  define: (Inventory, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _) ->
     InventoryRouter = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'

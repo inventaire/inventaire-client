@@ -41,7 +41,7 @@ display = ->
 
 # TODO deal with more than 50 entities
 getWikidataEntities = (qids)->
-  Entities.data.wd.local.get qids, null, refresh
+  app.entities.data.wd.local.get qids, null, refresh
   .then (entities)->
     for id, entity of entities
       { labels, claims } = entity
