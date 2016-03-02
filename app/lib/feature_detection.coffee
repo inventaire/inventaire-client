@@ -45,7 +45,7 @@ ISODatePolyFill = ->
         ':' + pad( @getUTCMinutes() ) +
         ':' + pad( @getUTCSeconds() ) +
         '.' + (@getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
-        'Z';
+        'Z'
 
 
 testLocalStorage = ->
