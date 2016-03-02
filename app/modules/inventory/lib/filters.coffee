@@ -1,69 +1,68 @@
 itemsFiltered = require './items_filtered'
 
-module.exports =
-  initialize: (app)->
+module.exports = (app)->
+  { items } = app
 
-    Items.filtered = itemsFiltered Items
+  items.filtered = itemsFiltered items
+  items.personal.filtered = itemsFiltered items.personal
+  items.friends.filtered = itemsFiltered items.friends
+  items.public.filtered = itemsFiltered items.public
+  items.network.filtered = itemsFiltered items.network
 
-    Items.personal.filtered = itemsFiltered Items.personal
-    Items.friends.filtered = itemsFiltered Items.friends
-    Items.public.filtered = itemsFiltered Items.public
-    Items.network.filtered = itemsFiltered Items.network
+  filterInventory = (filterName, filterFn)->
+    unless singleFilterReady filterName
+      items.filtered.resetFilters()
+      items.filtered.filterBy filterName, filterFn
 
-    app.commands.setHandlers
-      'filter:inventory:owner': filterInventoryByOwner
-      'filter:inventory:friends:and:main:user': filterInventoryByFriendsAndMainUser
-      'filter:inventory:group': filterInventoryByGroup
-      'filter:items:byText': filterItemsByText
-      'filter:inventory:transaction:include': includeTransaction
-      'filter:inventory:transaction:exclude': excludeTransaction
+  filterInventoryByOwner = (owner)->
+    filterInventory "owner:#{owner}", (itemModel)-> itemModel.get('owner') is owner
 
-    app.request 'waitForFriendsItems'
-    # wait for debounced recalculations
-    # ex: user:isFriend depends on app.users.friends.list
-    .delay(400)
-    .then Items.filtered.refilter.bind(Items.filtered)
+  ownedByFriendOrMainUser = (itemModel)->
+    ownerId = itemModel.get 'owner'
+    if app.request 'user:isMainUser', ownerId then return true
+    else if app.request 'user:isFriend', ownerId then return true
+    else false
 
-filterInventory = (filterName, filterFn)->
-  unless singleFilterReady filterName
-    Items.filtered.resetFilters()
-    Items.filtered.filterBy filterName, filterFn
+  filterInventoryByFriendsAndMainUser = filterInventory.bind null, 'friendsAndMainUser', ownedByFriendOrMainUser
 
-filterInventoryByOwner = (owner)->
-  filterInventory "owner:#{owner}", (itemModel)-> itemModel.get('owner') is owner
+  filterInventoryByGroup = (groupModel)->
+    items.filtered.resetFilters()
+    allMembersIds = groupModel.allMembersIds()
+    mainUserId = app.user.id
+    items.filtered.filterBy 'group', (itemModel)->
+      owner = itemModel.get 'owner'
+      unless owner in allMembersIds then return false
 
-ownedByFriendOrMainUser = (itemModel)->
-  ownerId = itemModel.get 'owner'
-  if app.request 'user:isMainUser', ownerId then return true
-  else if app.request 'user:isFriend', ownerId then return true
-  else false
+      if owner is mainUserId then isntPrivateItem itemModel
+      else true
 
-filterInventoryByFriendsAndMainUser = filterInventory.bind null, 'friendsAndMainUser', ownedByFriendOrMainUser
+  isntPrivateItem = (itemModel)->
+    itemModel.get('listing') isnt 'private'
 
-filterInventoryByGroup = (groupModel)->
-  Items.filtered.resetFilters()
-  allMembersIds = groupModel.allMembersIds()
-  mainUserId = app.user.id
-  Items.filtered.filterBy 'group', (itemModel)->
-    owner = itemModel.get 'owner'
-    unless owner in allMembersIds then return false
+  filterItemsByText = (text, reset)->
+    items.filtered.filterByText text, reset
 
-    if owner is mainUserId then isntPrivateItem itemModel
-    else true
+  includeTransaction = (transaction)->
+    items.filtered.removeFilter "exclude:#{transaction}"
 
-isntPrivateItem = (itemModel)->
-  itemModel.get('listing') isnt 'private'
+  excludeTransaction = (transaction)->
+    items.filtered.filterBy "exclude:#{transaction}", (item)->
+      item.get('transaction') isnt transaction
 
-filterItemsByText = (text, reset)->
-  Items.filtered.filterByText text, reset
+  singleFilterReady = (filter)->
+    filters = items.filtered.getFilters()
+    return filters.length is 1 and filters[0] is filter
 
-includeTransaction = (transaction)->
-  Items.filtered.removeFilter "exclude:#{transaction}"
+  app.commands.setHandlers
+    'filter:inventory:owner': filterInventoryByOwner
+    'filter:inventory:friends:and:main:user': filterInventoryByFriendsAndMainUser
+    'filter:inventory:group': filterInventoryByGroup
+    'filter:items:byText': filterItemsByText
+    'filter:inventory:transaction:include': includeTransaction
+    'filter:inventory:transaction:exclude': excludeTransaction
 
-excludeTransaction = (transaction)->
-  Items.filtered.filterBy "exclude:#{transaction}", (item)->
-    item.get('transaction') isnt transaction
-
-singleFilterReady = (filter)->
-  filters = Items.filtered.getFilters()
-  return filters.length is 1 and filters[0] is filter
+  app.request 'waitForFriendsItems'
+  # wait for debounced recalculations
+  # ex: user:isFriend depends on app.users.friends.list
+  .delay(400)
+  .then items.filtered.refilter.bind(items.filtered)

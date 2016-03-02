@@ -85,7 +85,7 @@ module.exports = Marionette.LayoutView.extend
     return listings
 
   transactionsData: ->
-    transactions = Items.transactions()
+    transactions = app.items.transactions()
     _.extend transactions.inventorying,
       label: 'just_inventorize_it'
       classes: 'active'

@@ -66,7 +66,7 @@ module.exports = Filterable.extend
     attrs.cid = @cid
 
     { transaction } = attrs
-    transacs = Items.transactions()
+    transacs = app.items.transactions()
     attrs.currentTransaction = transacs[transaction]
     attrs[transaction] = true
 

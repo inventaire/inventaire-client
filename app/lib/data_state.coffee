@@ -65,7 +65,7 @@ data = [
   },
   {
     eventName: 'items:ready'
-    ready: -> Items?.personal?.fetched
+    ready: -> app?.items?.personal?.fetched
   },
   {
     eventName: 'users:ready'

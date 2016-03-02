@@ -48,7 +48,7 @@ module.exports = Marionette.LayoutView.extend
     @ui.localSearchField.val @query
 
   showItems: ->
-    collection = Items.filtered.resetFilters().filterByText @query
+    collection = app.items.filtered.resetFilters().filterByText @query
     if collection.length > 0
       @inventoryItems.show new ItemsList
         collection: collection

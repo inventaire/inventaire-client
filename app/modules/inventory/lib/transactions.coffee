@@ -1,6 +1,6 @@
-module.exports = (Items)->
+module.exports = (items)->
   # made it a factory has its main use is to be cloned
-  Items.transactions = ->
+  items.transactions = ->
     giving:
       id: 'giving'
       icon: 'heart'
@@ -31,4 +31,4 @@ module.exports = (Items)->
       unicodeIcon:'&#xf1b2;'
 
   # keep a frozen version of the object at hand for read only
-  Items.transactions.data = Object.freeze Items.transactions()
+  items.transactions.data = Object.freeze items.transactions()

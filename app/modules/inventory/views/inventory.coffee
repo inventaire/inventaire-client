@@ -85,7 +85,7 @@ module.exports = Marionette.LayoutView.extend
 
   showItemsListStep2: (user, group)->
     { navigate, generalInventory } = @options
-    if Items.length is 0
+    if app.items.length is 0
       # dont show welcome inventory screen on other users inventory
       # it would be confusing to see 'welcome in your inventory' there
       isMainUser = if user? then app.request('user:isMainUser', user.id) else false
@@ -121,7 +121,7 @@ module.exports = Marionette.LayoutView.extend
     ItemsListView = @getItemsListView()
 
     itemsList = new ItemsListView
-      collection: Items.filtered
+      collection: app.items.filtered
     @itemsView.show itemsList
 
     # only triggering controls now, as it prevents controls
@@ -194,7 +194,7 @@ navigateToUserInventory = (user)-> app.navigate user.get('pathname')
 fetchUserPublicItems = (user)->
   app.request 'inventory:fetch:users:public:items', user.id
   .then _.Log('public user public items')
-  .then Items.public.add
+  .then app.items.public.add
   .catch _.Error('fetchUserPublicItems')
 
   # remove items on inventory change

@@ -74,7 +74,7 @@ fetchItemsOnNewFriend = ->
     app.request 'show:inventory:user', friend
 
 fetchFriendItems = (userModel)->
-  Items.friends.fetchFriendItems(userModel)
+  app.items.friends.fetchFriendItems(userModel)
 
 removeContactItems = ->
-  return Items.friends.remove(Items.friends.where({owner: @id}))
+  return app.items.friends.remove(app.items.friends.where({owner: @id}))

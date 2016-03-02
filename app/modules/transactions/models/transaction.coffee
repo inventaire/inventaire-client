@@ -126,7 +126,7 @@ module.exports = Filterable.extend
 
   getIcon: ->
     transaction = @get 'transaction'
-    return Items.transactions.data[transaction].icon
+    return app.items.transactions.data[transaction].icon
 
   context: ->
     if @owner?

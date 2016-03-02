@@ -30,7 +30,7 @@ module.exports = Marionette.ItemView.extend
       classes: 'dark-grey postfix'
 
   jsonInventoryExport: ->
-    userInventory = Items.personal.toJSON()
+    userInventory = app.items.personal.toJSON()
     username = app.user.get 'username'
     date = new Date().toLocaleDateString()
     name = "inventaire.io-#{username}-#{date}.json"
@@ -91,7 +91,7 @@ module.exports = Marionette.ItemView.extend
     .finally @stopLoading.bind(@)
 
 putItems = (db)->
-  docs = Items.personal.toJSON()
+  docs = app.items.personal.toJSON()
   _.log docs, 'transfer items to PouchDB'
   db.bulkDocs docs
 

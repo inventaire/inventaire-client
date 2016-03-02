@@ -11,7 +11,7 @@ module.exports = Marionette.ItemView.extend
     transactions: @transactionsData()
 
   transactionsData: ->
-    _.values Items.transactions()
+    _.values app.items.transactions()
     .map (transaction)->
       { label } = transaction
       transaction.title = "show/hide \"#{label}\" books"

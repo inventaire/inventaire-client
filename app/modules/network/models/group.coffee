@@ -124,7 +124,7 @@ module.exports = Positionable.extend
     if groupNonFriendsUsersIds.length > 0
       _.preq.get app.API.users.items(groupNonFriendsUsersIds)
       .then _.Log('groupNonFriendsUsers items')
-      .then Items.add.bind(Items)
+      .then app.items.add.bind(app.items)
       .catch _.Error('fetchGroupUsersMissingItems err')
 
   getEscapedName: -> escapeExpression @get('name')

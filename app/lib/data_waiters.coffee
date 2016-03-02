@@ -20,19 +20,19 @@ module.exports = ->
   waitForItems = ->
     unless app.user.loggedIn then return _.preq.resolved
 
-    if Items?.friends?.fetched and Items.personal?.fetched
+    if app.items?.friends?.fetched and app.items.personal?.fetched
       return _.preq.resolved
     else
       return new Promise (resolve, reject)->
         app.vent.once 'friends:items:ready', ->
-          if Items.personal?.fetched then resolve()
+          if app.items.personal?.fetched then resolve()
         app.vent.once 'items:ready', ->
-          if Items.friends?.fetched then resolve()
+          if app.items.friends?.fetched then resolve()
 
   app.reqres.setHandlers
     'waitForData': Waiter 'data:ready', -> app.data.ready
     'waitForData:after': Waiter 'data:ready:after', -> app.data.ready
     'waitForUserData': Waiter 'user:ready', -> app.user?.fetched
-    'waitForFriendsItems': Waiter 'friends:items:ready', -> Items?.friends?.fetched
+    'waitForFriendsItems': Waiter 'friends:items:ready', -> app.items?.friends?.fetched
     'waitForItems': _.once waitForItems
     'waitForLayout': Waiter 'layout:ready', -> app.layout?.ready

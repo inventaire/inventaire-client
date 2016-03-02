@@ -1,10 +1,10 @@
 ItemShow = require './views/item_show'
-Filters = require './lib/filters'
-Transactions = require './lib/transactions'
+initFilters = require './lib/filters'
 InventoryLayout = require './views/inventory'
 ItemCreationForm = require './views/form/item_creation'
-initLayout = require './lib/layout'
 AddLayout = require './views/add/add_layout'
+initLayout = require './lib/layout'
+initTransactions = require './lib/transactions'
 initAddHelpers = require './lib/add_helpers'
 ItemsList = require './views/items_list'
 { publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
@@ -29,13 +29,13 @@ module.exports =
 
 
   initialize: ->
-    window.Items = Items = require('./items_collections')(app, _)
+    app.items = require('./items_collections')(app, _)
     app.request('waitForUserData').then fetchItems.bind(null, app)
-    Filters.initialize(app)
-    Transactions(Items)
-    initializeInventoriesHandlers(app)
+    initFilters app
+    initTransactions app.items
+    initializeInventoriesHandlers app
     initAddHelpers()
-    initLayout(app)
+    initLayout app
 
 API =
   showGeneralInventory: ->
@@ -92,21 +92,21 @@ API =
 
   removeUserItems: (userId)->
     _.log userId, 'removeUserItems'
-    userItems = Items.byOwner(userId)
-    if userItems?.length > 0 then Items.remove userItems
+    userItems = app.items.byOwner(userId)
+    if userItems?.length > 0 then app.items.remove userItems
 
   showAddLayout: ->
     app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
 
 findItemById = (itemId)->
   app.request 'waitForItems'
-  .then Items.byId.bind(Items, itemId)
+  .then app.items.byId.bind(app.items, itemId)
   .then (item)->
     if item? then item
     else
       # if it isnt in friends id, it should be a public item
       _.preq.get publicById(itemId)
-      .then Items.public.add
+      .then app.items.public.add
   .catch _.ErrorRethrow('findItemById err (maybe the item was deleted or its visibility changed?)')
 
 fetchEntityData = (entity)->
@@ -120,7 +120,7 @@ findItemByUsernameAndEntity = (username, entity)->
   if app.request 'user:isPublicUser', owner
     return requestPublicItem username, entity
   else
-    return Items.where {owner: owner, entity: entity}
+    return app.items.where {owner: owner, entity: entity}
 
 displayFoundItems = (items)->
   _.log items, 'displayFoundItems items'
@@ -143,7 +143,7 @@ showItemsList = (items)->
 # LOGIC
 fetchItems = (app)->
   if app.user?.loggedIn
-    Items.fetch({reset: true})
+    app.items.fetch({reset: true})
     .always triggerItemsReady
   else
     _.log 'user isnt logged in. not fetching items'
@@ -154,7 +154,7 @@ fetchItems = (app)->
     'items:count:byEntity': itemsCountByEntity
 
 triggerItemsReady = ->
-  Items.personal.fetched = true
+  app.items.personal.fetched = true
   app.user.itemsFetched = true
   app.vent.trigger 'items:ready'
 
@@ -162,7 +162,7 @@ requestPublicItem = (username, entity)->
   _.preq.get publicByUsernameAndEntity(username, entity)
   .then (res)->
     app.execute 'users:public:add', res.user
-    return Items.public.add res.items
+    return app.items.public.add res.items
   .catch _.Error('requestPublicItem err')
 
 itemCreate = (itemData)->
@@ -172,7 +172,7 @@ itemCreate = (itemData)->
   unless itemData.title? and itemData.title isnt ''
     throw new Error('cant create item: missing title')
 
-  itemModel = Items.add itemData
+  itemModel = app.items.add itemData
   _.preq.resolve itemModel.save()
   .then _.Log('item creation server res')
   .then itemModel.onCreation.bind(itemModel)
@@ -181,7 +181,7 @@ itemCreate = (itemData)->
   return itemModel
 
 itemsCountByEntity = (uri)->
-  Items.where({entity: uri}).length
+  app.items.where({entity: uri}).length
 
 showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
@@ -275,21 +275,21 @@ initializeInventoriesHandlers = (app)->
         action: action
 
     'get:item:model': findItemById
-    'get:item:model:sync': (id)-> Items.byId id
+    'get:item:model:sync': (id)-> app.items.byId id
 
     'inventory:main:user:length': (nonPrivate)->
-      fullInventoryLength = Items.personal.length
+      fullInventoryLength = app.items.personal.length
       privateInventoryLength = mainUserPrivateInventoryLength()
       if nonPrivate then fullInventoryLength - privateInventoryLength
       else fullInventoryLength
 
     'inventory:user:length': (userId)->
-      # Items.where({owner: userId}).length would be simpler
+      # app.items.where({owner: userId}).length would be simpler
       # but probably less efficient?
-      return Items.inventoryLength[userId]
+      return app.items.inventoryLength[userId]
 
     'inventory:user:items': (userId)->
-      return Items.where({owner: userId})
+      return app.items.where({owner: userId})
 
     'inventory:fetch:users:public:items': (usersIds)->
       if usersIds.length is 0
@@ -300,7 +300,7 @@ initializeInventoriesHandlers = (app)->
       .then _.property('items')
 
     'item:main:user:instances': (entityUri)->
-      return Items.personal.byEntityUri(entityUri)
+      return app.items.personal.byEntityUri(entityUri)
 
 mainUserPrivateInventoryLength = ->
-  Items.personal.where({listing: 'private'}).length
+  app.items.personal.where({listing: 'private'}).length

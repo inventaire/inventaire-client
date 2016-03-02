@@ -47,8 +47,8 @@ module.exports = Marionette.LayoutView.extend
 
   showEntityActions: -> @entityActions.show new EntityActions {model: @model}
 
-  showLocalItems: -> showItems Items.network, @localItems, @uri
-  showPublicItems: -> showItems Items.public, @publicItems, @uri
+  showLocalItems: -> showItems app.items.network, @localItems, @uri
+  showPublicItems: -> showItems app.items.public, @publicItems, @uri
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
 
@@ -74,4 +74,4 @@ fetchPublicItems = (uri)->
 
 spreadPublicData = (data)->
   app.execute 'users:public:add', data.users
-  Items.public.add data.items
+  app.items.public.add data.items
