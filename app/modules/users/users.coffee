@@ -73,8 +73,10 @@ fetchItemsOnNewFriend = ->
     app.execute 'friend:fetchItems', friend
     app.request 'show:inventory:user', friend
 
+# do not just bind app.items.fetchFriendItems
+# as app.items might not be defined yet
 fetchFriendItems = (userModel)->
-  app.items.friends.fetchFriendItems(userModel)
+  app.items.fetchFriendItems userModel
 
 removeContactItems = ->
   return app.items.friends.remove(app.items.friends.where({owner: @id}))

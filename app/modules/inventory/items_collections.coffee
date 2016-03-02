@@ -1,40 +1,31 @@
 FriendsItems = require './collections/friends_items'
 
 module.exports = (app, _)->
-
   items = new FriendsItems
 
-  isMainUser = (model)-> model.get('owner') is app.user.id
-  personal = new FilteredCollection(items)
-  personal.filterBy 'personal', isMainUser
-  personal.add = items.add.bind(items)
-  personal.create = items.create.bind(items)
-  personal.byEntityUri = items.byEntityUri.bind(personal)
+  itemsAddProxy = items.add.bind items
 
+  attachFilteredCollection = (label, filter)->
+    items[label] = new FilteredCollection items
+    items[label].filterBy label, filter
+    items[label].add = itemsAddProxy
+
+  isMainUser = (model)-> model.get('owner') is app.user.id
+  isFriend = (model)-> app.request 'user:isFriend', model.get('owner')
+  isPublicUser = (model)-> app.request 'user:isPublicUser', model.get('owner')
+  isntPublicUser = (model)-> not isPublicUser(model)
+
+  attachFilteredCollection 'personal', isMainUser
+  items.personal.create = items.create.bind items
+  items.personal.byEntityUri = items.byEntityUri.bind items.personal
   # used to overcome the issue with first use of isMainUser
   # while app.user.id is undefined
-  app.user.once 'change', -> personal.refilter()
+  app.user.once 'change', -> items.personal.refilter()
 
-  itemsAddProxy = items.add.bind(items)
+  attachFilteredCollection 'friends', isFriend
+  app.vent.once 'friends:items:ready', -> items.friends.fetched = true
 
-  isFriend = (model)-> app.request 'user:isFriend', model.get('owner')
-  friends = new FilteredCollection(items).filterBy 'friends', isFriend
-  friends.fetchFriendItems = items.fetchFriendItems.bind(items)
-  friends.add = itemsAddProxy
+  attachFilteredCollection 'public', isPublicUser
+  attachFilteredCollection 'network', isntPublicUser
 
-  app.vent.once 'friends:items:ready', -> friends.fetched = true
-
-  isPublicUser = (model)-> app.request 'user:isPublicUser', model.get('owner')
-  # public is a reserved word
-  publik = new FilteredCollection(items).filterBy 'public', isPublicUser
-  publik.add = itemsAddProxy
-
-  isntPublicUser = (model)-> not isPublicUser(model)
-  network = new FilteredCollection(items).filterBy 'network', isntPublicUser
-  network.add = itemsAddProxy
-
-  return _.extend items,
-    personal: personal
-    friends: friends
-    public: publik
-    network: network
+  return items
