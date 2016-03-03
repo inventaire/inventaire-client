@@ -16,5 +16,13 @@
     "status_text": "Everything has to start somewhere: expect missing features and bugs. Do not publish sensible data. At this point, the best use possible is in groups of friends wishing to share books and who can easily communicate with other tools: there is no internal messaging service yet, but there will be soon!",
     "existing_instance_cant_add": "you already have this book in your inventory, you can't add it again",
     "newletter_pitch": "Want to be updated of the project developments?<br>Subscribe to the newsletter! (low frequency)",
-    "newletter_thanks": "Thank you for subscribing!"
+    "newletter_thanks": "Thank you for subscribing!",
+    "accept_request_info_selling": "Once you accepted, %{username} will be asked to confirm the good reception of the book. The book will then be moved to %{username}'s inventory",
+    "accept_request_info_lending": "Once you accepted, %{username} will be asked to confirm the good reception of the book.<br><br>**Advices**:<ul><li>Before accepting, you probably want to discuss where and when the exchange should happen, and to agree on how long %{username} can keep the book</li><li>do not lend books you absolutely want to see come back if you're not sure you can trust this person.</li></ul>",
+    "accept_request_info_giving": "Once you accepted, %{username} will be asked to confirm the good reception of the book. The book will then be moved to %{username}'s inventory",
+    "confirm_reception_info_selling": "[The book](/items/%{itemId}) will be added to your inventory",
+    "confirm_reception_info_giving": "[The book](/items/%{itemId}) will be added to your inventory",
+    "waiting_confirmation_info_selling": "Once confirmed, [the book](/items/%{itemId}) will be moved to %{username}'s inventory",
+    "waiting_confirmation_info_giving": "Once confirmed, [the book](/items/%{itemId}) will be moved to %{username}'s inventory",
+    "accept_request_one_way_effects": "The book will then be moved to %{username}'s inventory"
 }

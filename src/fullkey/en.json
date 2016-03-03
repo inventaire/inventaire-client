@@ -15,7 +15,6 @@
     "Built on and for Open Knowledge": "Built on and for Open Knowledge",
     "Built on and in Open Source": "Built on and in Open Source",
     "You own your data": "You own your data",
-    "status:": "status:",
     "add or search a book": "add or search a book",
     "search": "search",
     "only available from mobiles for now": "only available from mobiles for now",
@@ -443,5 +442,14 @@
     "article": "article",
     "last added": "last added",
     "contribute": "contribute",
-    "you can now find books people nearby have to give, share or sell!": "you can now find books people nearby have to give, share or sell!"
+    "you can now find books people nearby have to give, share or sell!": "you can now find books people nearby have to give, share or sell!",
+    "forgot password": "forgot password",
+    "from": "from",
+    "create a password": "create a password",
+    "ask for help": "ask for help",
+    "I need help on switching from Persona to an account with a password": "I need help on switching from Persona to an account with a password",
+    "this email is unknown": "this email is unknown",
+    "Ctrl+Enter to send": "Ctrl+Enter to send",
+    "unavailable": "unavailable",
+    "advice:": "advice:"
 }
