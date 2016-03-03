@@ -1,10 +1,8 @@
 // actions buttons, not to be mistaken for action events in _timeline.scss
 .actions{
-  padding: 0.5em 1em 0em 1em;
+  padding: 0.5em 1em 0.5em 1em;
   text-align: center;
-  @include display-flex(row, baseline, center);
   .action{
-    @include display-flex(column);
     margin-left: 0.2em;
     margin-right: 0.2em;
   }
@@ -18,8 +16,44 @@
     color: $grey;
     cursor: default;
   }
-  .info{
-    padding: 0.2em;
-    color: $grey;
+  /*Small screens*/
+  @media screen and (max-width: $verysmallscreen) {
+    @include display-flex(column, center, stretch);
+    .action{
+      width: 100%;
+      max-width: 20em;
+      white-space: nowrap;
+      padding: 0.5em;
+      margin: 0.5em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $verysmallscreen) {
+    @include display-flex(row, baseline, center);
+  }
+}
+.info{
+  text-align: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  color: #666;
+  > p:first-child{
+    padding-top: 1em;
+  }
+  .check-list{
+    // @include panel;
+    padding-bottom: 0;
+    p{
+      text-align: left;
+      padding: 1em 1em 0 1em;
+    }
+  }
+  ul{
+    padding: 0 1em 1em 2em;
+  }
+  li{
+    color: #444;
+    text-align: left;
+    list-style-type: disc;
   }
 }

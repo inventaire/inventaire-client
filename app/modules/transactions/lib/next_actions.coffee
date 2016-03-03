@@ -1,8 +1,10 @@
 { findNextActions, isArchived } = sharedLib('transactions')(_)
+infoPartials = require './info_partials'
+actionsData = require './actions_data'
 
 getNextActionsData = (transaction)->
   nextActions = proxyFindNextActions transaction
-  data = actionsData[nextActions]
+  data = actionsData()[nextActions]
   if data?
     data = addTransactionInfo data, transaction
     grabOtherUsername transaction, data
@@ -17,28 +19,17 @@ sharedLibAdapter = (transaction)->
   mainUserIsOwner: transaction.mainUserIsOwner
 
 addTransactionInfo = (data, transaction)->
-  transactionMode = transaction.get('transaction')
+  transactionMode = transaction.get 'transaction'
   data.map (action)->
-    action.info = "#{action.text}_info_#{transactionMode}"
-    action.itemId = transaction.get('item')
+    action[transactionMode] = true
+    action.itemId = transaction.get 'item'
+    infoData = infoPartials[transactionMode][action.text]
+    if infoData? then _.extend action, infoData
     return action
 
 grabOtherUsername = (transaction, actions)->
   username = transaction.otherUser()?.get('username')
   actions.map (action)-> _.extend {}, action, {username: username}
-
-actionsData =
-  'accept/decline':
-    [
-      {classes: 'accept', text: 'accept_request'},
-      {classes: 'decline', text: 'decline_request'}
-    ]
-  'confirm': [{classes: 'confirm', text: 'confirm_reception'}]
-  'returned': [{classes: 'returned', text: 'confirm_returned'}]
-  'waiting:accepted': [{classes: 'waiting', text: 'waiting_accepted'}]
-  'waiting:confirmed': [{classes: 'waiting', text: 'waiting_confirmation'}]
-  'waiting:returned': [{classes: 'waiting', text: 'waiting_return_confirmation'}]
-
 
 module.exports =
   getNextActionsData: getNextActionsData

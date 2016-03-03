@@ -28,9 +28,10 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {
-    padding: 0.2em;
+    padding: 1em;
     @include display-flex(row, center, space-around, wrap);
     .context{
+      margin-top: 1em;
       img{
         max-width: 15vw;
       }

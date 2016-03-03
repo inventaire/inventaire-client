@@ -41,16 +41,18 @@
     <h3 class="next">{{i18n 'next action'}}:</h3>
     <section>
       <div class="actions">
-          {{#each nextActions}}
-            <div class="action">
-              <a class="{{classes}}">{{{i18n text this}}}</a>
-              {{#if info}}
-                <p class="info">{{{i18n info this}}}</p>
-              {{/if}}
-            </div>
-          {{/each}}
+        {{#each nextActions}}
+          <a class="action {{classes}}">{{{i18n text this}}}</a>
+        {{/each}}
       </div>
     </section>
+    <div class="info">
+      {{!-- there should be only one action with info at a time, thus the absence of separating markups --}}
+      {{#each nextActions}}
+        {{#if partialPath}}{{partial partialPath this}}{{/if}}
+        {{#if i18nKey}}<p>{{{i18n i18nKey this}}}</p>{{/if}}
+      {{/each}}
+    </div>
   {{else}}
     <br>
     <span class="finished">{{i18n 'transaction_finished'}}</span>
