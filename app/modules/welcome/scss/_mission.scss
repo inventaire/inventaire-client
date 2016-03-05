@@ -2,7 +2,9 @@ $mission-text-color: $dark-grey;
 $mission-text-bg-color: rgba(white, 0.9);
 
 section#mission{
-  padding-top: 1em;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  // height: 10em;
   @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
   .toggleMission{
     text-align: center;

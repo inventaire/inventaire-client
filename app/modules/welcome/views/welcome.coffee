@@ -2,6 +2,7 @@ NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
 loginPlugin = require 'modules/general/plugins/login'
 showLastPublicItems = require '../lib/show_last_public_items'
 urls = require 'lib/urls'
+{ tweets, articles } = require '../lib/mentions'
 
 module.exports = Marionette.LayoutView.extend
   id: 'welcome'
@@ -23,6 +24,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     loggedIn: app.user.loggedIn
     urls: urls
+    mentions: _.log @mentionsData(), 'mentions data'
 
   ui:
     topBarTrigger: '#middle-three'
@@ -66,3 +68,23 @@ module.exports = Marionette.LayoutView.extend
   toggleMission: ->
     @ui.missions.slideToggle()
     @ui.missionsTogglers.toggle()
+
+  mentionsData: ->
+    { lang } = app.user
+    return data =
+      tweets: tailorForLang tweets, lang
+      articles: tailorForLang articles, lang
+
+
+tailorForLang = (data, lang)->
+  # first the user lang
+  orderedData = data[lang]
+  # then English
+  if lang isnt 'en'
+    if data.en? then orderedData = orderedData.concat data.en
+  # then other langs
+  for k, v of data
+    unless k is lang or k is 'en'
+      orderedData = orderedData.concat data[k]
+
+  return orderedData

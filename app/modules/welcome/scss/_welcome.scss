@@ -1,3 +1,10 @@
+#welcome{
+  h3{
+    margin-top: 0.5em;
+    color: $dark-grey;
+  }
+}
+
 section#status, section#social-networks{
   text-align: center;
   padding: 1em;
@@ -38,5 +45,6 @@ section#status{
 @import "last_public_books";
 @import "mission";
 @import "social_networks";
+@import "mentions";
 @import "credits";
 @import "embedded_welcome";

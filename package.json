@@ -24,7 +24,8 @@
     "build": "./scripts/build",
     "flo": "supervisor -w flo-server.coffee -- server.coffee",
     "patches": "../scripts/run_patches ./scripts/patches",
-    "generate-sitemaps": "./scripts/sitemaps/generate.coffee"
+    "generate-sitemaps": "./scripts/sitemaps/generate.coffee",
+    "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee"
   },
   "dependencies": {
     "browser-locale": "^1.0.0",
@@ -39,7 +40,8 @@
   },
   "devDependencies": {
     "auto-reload-brunch": "^2.0.0",
-    "bluebird": "^3.1.5",
+    "bluebird": "^3.3.3",
+    "bluereq": "^2.0.2",
     "bower": "^1.7.7",
     "browserify": "^11.2.0",
     "brunch": "^2.2.2",
@@ -49,6 +51,7 @@
     "coffeeify": "^2.0.1",
     "config": "^1.19.0",
     "css-brunch": "^2.0.0",
+    "csvtojson": "^0.5.2",
     "fb-flo": "^0.5.0",
     "git-digest-brunch": "^1.0.3",
     "git-hooks": "^1.0.2",
@@ -57,6 +60,7 @@
     "handlebars-brunch": "^2.0.1",
     "html-minifier": "^1.1.1",
     "javascript-brunch": "^2.0.0",
+    "lodash": "^4.6.1",
     "ls": "^0.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",

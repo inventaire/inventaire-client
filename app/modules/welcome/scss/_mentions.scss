@@ -1,0 +1,43 @@
+section#mentions{
+  padding: 0.8em;
+  background-color: #dadada;
+  text-align: center;
+  li{
+    background-color: #eee;
+    @include radius;
+    margin: 0.5em;
+  }
+  img{
+    @include radius;
+  }
+  #tweets{
+    width: 100%;
+    @include display-flex(row, baseline, space-around, wrap);
+    width: 100%;
+    li{
+      width: 23em;
+      padding: 0.2em;
+      @include display-flex(column, center, center);
+    }
+  }
+  #articles{
+    @include display-flex(column, center, center);
+    li{
+      @include display-flex(row, center, center);
+      /*Large screens*/
+      @media screen and (min-width: $smallscreen) {
+        height: 3em;
+      }
+    }
+    span{
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+    }
+  }
+  .fa-quote-left, .fa-quote-right{
+    color: #777;
+  }
+  .fa-quote-right{
+    padding-left: 0.3em;
+  }
+}

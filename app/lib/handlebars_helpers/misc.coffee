@@ -19,8 +19,8 @@ module.exports =
   link: (text, url, classes)->
     new SafeString @linkify(text, url, classes)
 
-  i18nLink: (text, url)->
-    text = _.i18n text
+  i18nLink: (text, url, context)->
+    text = _.i18n text, context
     @link text, url
 
   limit: (text, limit)->
