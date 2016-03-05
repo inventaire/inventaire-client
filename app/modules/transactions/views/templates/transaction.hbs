@@ -61,3 +61,12 @@
 <section class="new-message">
   {{partial 'new_message' this}}
 </section>
+{{#if cancellable}}
+  <div class="bottom-actions">
+    <p>
+      {{i18n 'transaction_cancel_info'}}<br>
+      {{i18n 'transaction_cancel_effects'}}
+    </p>
+    <a class="action cancel">{{i18n 'cancel'}}</a>
+  </div>
+{{/if}}

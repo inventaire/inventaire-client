@@ -3,14 +3,16 @@
 # - accepted / declined (owner)
 # - performed (requester)
 # - returned (owner) (for lending only)
-
+# - cancelled (owner/requester)
 { getNextActionsData, isArchived } = require '../lib/next_actions'
+cancellableStates = require '../lib/cancellable_states'
+applySideEffects = require '../lib/apply_side_effects'
+
 Filterable = require 'modules/general/models/filterable'
 Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
 formatSnapshotData = require '../lib/format_snapshot_data'
-applySideEffects = require '../lib/apply_side_effects'
 
 module.exports = Filterable.extend
   url: -> app.API.transactions
@@ -21,6 +23,7 @@ module.exports = Filterable.extend
     @fetchMessages()
     @setArchivedStatus()
 
+    @setMainUserIsOwner()
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
 
@@ -110,6 +113,7 @@ module.exports = Filterable.extend
       mainUserIsOwner: @mainUserIsOwner
       context: @context()
       mainUserRead: @mainUserRead
+      cancellable: @isCancellable()
 
     [attrs.user, attrs.other] = @aliasUsers(attrs)
     return attrs
@@ -140,6 +144,7 @@ module.exports = Filterable.extend
   declined: -> @updateState 'declined'
   confirmed: -> @updateState 'confirmed'
   returned: -> @updateState 'returned'
+  cancelled: -> @updateState 'cancelled'
 
   updateState: (state)->
     @backup()
@@ -180,3 +185,6 @@ module.exports = Filterable.extend
       app.vent.trigger 'transactions:folder:change'
 
   isArchived: -> isArchived @
+  isCancellable: ->
+    [ state, transaction ] = @gets 'state', 'transaction'
+    return state in cancellableStates[transaction][@role]

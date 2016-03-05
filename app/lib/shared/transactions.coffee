@@ -15,6 +15,9 @@ module.exports = (_)->
     confirmed:
       owner: null
       requester: null
+    cancelled:
+      owner: null
+      requester: null
 
   # customizing actions for transactions where the item should be returned
   # currently only 'lending'

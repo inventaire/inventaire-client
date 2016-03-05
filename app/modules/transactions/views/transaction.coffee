@@ -11,6 +11,7 @@ module.exports = Marionette.CompositeView.extend
     ElasticTextarea: {}
     PreventDefault: {}
     BackupForm: {}
+    ConfirmationModal: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -47,6 +48,7 @@ module.exports = Marionette.CompositeView.extend
     'click .archive': 'archive'
     'click .item': 'showItem'
     'click .owner': 'showOwner'
+    'click .cancel': 'cancel'
 
   sendMessage: ->
     @postMessage 'transaction:post:message', @model.timeline
@@ -69,3 +71,9 @@ module.exports = Marionette.CompositeView.extend
   showOwner: (e)->
     unless _.isOpenedOutside(e)
       app.execute 'show:inventory:user', @model.owner
+
+  cancel: ->
+    @$el.trigger 'askConfirmation',
+      confirmationText: _.i18n 'transaction_cancel_confirmation'
+      action: @model.cancelled.bind(@)
+      selector: '.cancel'

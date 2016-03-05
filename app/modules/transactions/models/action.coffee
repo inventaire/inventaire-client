@@ -12,7 +12,7 @@ module.exports = Backbone.Model.extend
       when 'requested' then 'envelope'
       when 'accepted' then 'check'
       when 'confirmed' then 'sign-in'
-      when 'declined' then 'times'
+      when 'declined', 'cancelled' then 'times'
       when 'returned' then 'check'
       else _.warn @, 'unknown action', true
 
