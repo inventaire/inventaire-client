@@ -59,7 +59,7 @@ module.exports = ->
       .catch _.ErrorRethrow('fetchLastGroupsCreated')
 
   app.commands.setHandlers
-    'fetch:last:group:created': fetchLastGroupsCreated
+    'fetch:last:groups:created': fetchLastGroupsCreated
 
 initGroupFilteredCollection = (groups, name)->
   filtered = groups[name] = new FilteredCollection groups

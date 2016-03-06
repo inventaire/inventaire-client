@@ -25,7 +25,7 @@ module.exports = Marionette.LayoutView.extend
 
   initSearch: (q)->
     @collection = app.user.groups.filtered.resetFilters()
-    app.execute 'fetch:last:group:created'
+    app.execute 'fetch:last:groups:created'
     if _.isNonEmptyString q then @searchGroup q
 
   serializeData: ->
