@@ -190,9 +190,6 @@ requestPublicItem = (username, entity)->
   .catch _.Error('requestPublicItem err')
 
 itemCreate = (itemData)->
-  if itemData.entity?.label?
-    itemData.title = itemData.entity.label
-
   unless itemData.title? and itemData.title isnt ''
     throw new Error('cant create item: missing title')
 
