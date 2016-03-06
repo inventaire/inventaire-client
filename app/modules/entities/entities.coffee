@@ -16,6 +16,9 @@ module.exports =
       appRoutes:
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)(/)': 'showEntity'
+        'wd/:qid': 'showWdEntity'
+        'isbn/:isbn': 'showIsbnEntity'
+        'inv/:id': 'showInvEntity'
 
     app.addInitializer ->
       new EntitiesRouter
@@ -141,6 +144,9 @@ API =
   getEntityPublicItems: (uri)->
     _.preq.get app.API.items.publicByEntity(uri)
 
+  showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
+  showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
+  showInvEntity: (id)-> API.showEntity "inv:#{id}"
 
 setHandlers = ->
   app.commands.setHandlers
