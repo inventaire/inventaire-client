@@ -10,6 +10,9 @@ section#mentions{
   img{
     @include radius;
   }
+  h4{
+    margin-top: 1em;
+  }
   #tweets{
     width: 100%;
     @include display-flex(row, baseline, space-around, wrap);
