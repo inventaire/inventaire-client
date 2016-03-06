@@ -22,7 +22,8 @@ module.exports =
         'items(/)': 'showGeneralInventoryNavigate'
         'add(/)': 'showAddLayout'
         'groups/:id(/:name)(/)': 'showGroupInventory'
-        'g/(:name)': 'searchGroup'
+        'g/(:name)': 'shortCutGroup'
+        'u/(:username)': 'shortCutUser'
 
     app.addInitializer ->
       new InventoryRouter
@@ -99,7 +100,7 @@ API =
   showAddLayout: ->
     app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
 
-  searchGroup: (name)->
+  shortCutGroup: (name)->
     name = _.softDecodeURI name
     # initGroupHelpers, during which 'group:search:byName'
     # is initialized, runs after waitForUserData
@@ -115,6 +116,8 @@ API =
       # else show group search
       else app.execute 'show:group:search', name
     .catch _.Error('searchGroup err')
+
+  shortCutUser: (username)-> API.showUserInventory username, true
 
 groupNameMatch = (name, model)->
   model.get('name').toLowerCase() is name
