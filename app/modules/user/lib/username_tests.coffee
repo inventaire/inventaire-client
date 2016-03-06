@@ -19,14 +19,7 @@ username_.verifyUsername = (username, selector)->
   .then username_.verifyAvailability.bind(null, username, selector)
 
 usernameTests =
-  "username can't be empty" : (username)->
-    username is ''
-
-  'username should be 20 characters maximum' : (username)->
-    username.length > 20
-
-  "username can't contain space" : (username)->
-    /\s/.test username
-
-  'username can only contain letters, figures or _' : (username)->
-    /\W/.test username
+  'username should be 2 characters minimum' : (username)-> username.length < 2
+  'username should be 20 characters maximum' : (username)-> username.length > 20
+  "username can't contain space" : (username)-> /\s/.test username
+  'username can only contain letters, figures or _' : (username)-> /\W/.test username
