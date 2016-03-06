@@ -33,6 +33,7 @@ module.exports =
       'show:network:friends': API.showFriends
       'show:network:groups': API.showGroups
       'show:group:board': API.showGroupBoardFromModel
+      'show:group:search': API.showGroupSearch
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
@@ -78,6 +79,9 @@ API =
   showGroupBoardFromModel: (model)->
     showGroupBoardFromModel model
     app.navigate model.get('boardPathname')
+
+  showGroupSearch: (name)->
+    API.showSearchGroups "q=#{name}"
 
 showGroupBoardFromModel = (group)->
   if group.mainUserIsMember()

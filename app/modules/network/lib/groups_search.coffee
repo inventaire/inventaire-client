@@ -44,4 +44,8 @@ module.exports = (groups)->
   filtered.searchByText = _.debounce searchByText, 200
   filtered.searchByPosition = searchByPosition
 
+  app.reqres.setHandlers
+    # return a filtered collection
+    'group:search:byName': searchByText
+
   return filtered

@@ -22,6 +22,7 @@ module.exports =
         'items(/)': 'showGeneralInventoryNavigate'
         'add(/)': 'showAddLayout'
         'groups/:id(/:name)(/)': 'showGroupInventory'
+        'g/(:name)': 'searchGroup'
 
     app.addInitializer ->
       new InventoryRouter
@@ -97,6 +98,26 @@ API =
 
   showAddLayout: ->
     app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
+
+  searchGroup: (name)->
+    name = _.softDecodeURI name
+    # initGroupHelpers, during which 'group:search:byName'
+    # is initialized, runs after waitForUserData
+    app.request 'waitForUserData'
+    # make sure this runs after initGroupHelpers
+    .delay 100
+    # search group by name
+    .then -> app.request 'group:search:byName', name
+    .then (collection)->
+      match = collection.models.filter groupNameMatch.bind(null, name)
+      # if found, show group
+      if match.length is 1 then showGroupInventory match[0]
+      # else show group search
+      else app.execute 'show:group:search', name
+    .catch _.Error('searchGroup err')
+
+groupNameMatch = (name, model)->
+  model.get('name').toLowerCase() is name
 
 findItemById = (itemId)->
   app.request 'waitForItems'
