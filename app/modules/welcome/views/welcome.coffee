@@ -78,7 +78,7 @@ module.exports = Marionette.LayoutView.extend
 
 tailorForLang = (data, lang)->
   # first the user lang
-  orderedData = data[lang]
+  orderedData = data[lang] or []
   # then English
   if lang isnt 'en'
     if data.en? then orderedData = orderedData.concat data.en
