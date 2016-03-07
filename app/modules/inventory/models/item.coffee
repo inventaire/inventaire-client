@@ -37,9 +37,11 @@ module.exports = Filterable.extend
     .then @updateAuthor.bind(@)
 
   onCreation: (serverRes)->
-    # sync the data with what the server returns
-    # especially update the _id from 'new' to the server _id
-    @set serverRes
+    # update the _id from 'new' to the server _id
+    # but don't update other attributes such as transaction and visibility
+    # that might have been changed since the server received the creation request
+    udpate = _.pick serverRes, ['_id', '_res']
+    @set udpate
     # update derivated attributes
     @setPathname()
 
@@ -50,6 +52,9 @@ module.exports = Filterable.extend
     @restricted = not @authorized
     @userReady = true
 
+  # using 'new' as a temporary id to signal to the server
+  # that this item should be created
+  # and set an id from the db from the server response
   getId: -> @get('_id') or 'new'
   setPathname: -> @pathname = '/items/' + @id
 
@@ -162,8 +167,20 @@ module.exports = Filterable.extend
     .then (update)=>
       if _.isNonEmptyString(update) and current isnt update
         _.log [current, update], 'updateAuthor'
-        @save 'authors', update
+        @saveWhenPossible 'authors', update
     .catch _.Error('updateAuthor')
 
   hasActiveTransaction: ->
     return app.request 'has:transactions:ongoing:byItemId', @id
+
+  saveWhenPossible: (key, value)->
+    if @id is 'new'
+      # the item wasn't created yet in the database
+      # and updating right now would thus create a dupplicate
+      _.log arguments, 'delayed item save'
+      # return a promise to keep the interface consistant
+      return _.preq.delay(1000).then @saveWhenPossible.bind(@, key, value)
+    else
+      _.log arguments, 'finally saving item'
+      # wrapping the jQuery promise
+      return _.preq.resolve @save(key, value)

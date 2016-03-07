@@ -12,3 +12,5 @@ module.exports = (Promise)->
     # to return a promise or not and still be able
     # to follow it by .then and .catch
     start: resolved
+    # start a promise chain after a delay
+    delay: resolved.delay
