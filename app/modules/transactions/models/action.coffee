@@ -18,11 +18,20 @@ module.exports = Backbone.Model.extend
 
   context: (withLink)-> @userAction @findUser(), withLink
   findUser: ->
+    if @action in actorCanBeBoth then return @findCancelActor()
     if @transaction?.owner?
       if @transaction.mainUserIsOwner
         if @action in ownerActions then 'main' else 'other'
       else
         if @action in ownerActions then 'other' else 'main'
+
+  findCancelActor: ->
+    roleIsOwner = @get('role') is 'owner'
+    { mainUserIsOwner } = @transaction
+    if mainUserIsOwner
+      if roleIsOwner then 'main' else 'other'
+    else
+      if roleIsOwner then 'other' else 'main'
 
   userAction: (user, withLink)->
     if user?
@@ -36,6 +45,8 @@ module.exports = Backbone.Model.extend
         href = @transaction.otherUser()?.get 'pathname'
         return "<a href='#{href}' class='username'>#{username}</a>"
       else username
+
+actorCanBeBoth = ['cancelled']
 
 ownerActions = [
   'accepted'

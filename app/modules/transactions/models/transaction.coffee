@@ -152,6 +152,8 @@ module.exports = Filterable.extend
     # might need to be refactored to deduce state from last action
     @set {state: state}
     action = { action: state, timestamp: _.now() }
+    # keep track of the actor when it can be both
+    if state in actorCanBeBoth then action.actor = @role
     @push 'actions', action
     actionModel = @addActionToTimeline action
     userStatus = @otherUser().get 'status'
@@ -188,3 +190,5 @@ module.exports = Filterable.extend
   isCancellable: ->
     [ state, transaction ] = @gets 'state', 'transaction'
     return state in cancellableStates[transaction][@role]
+
+actorCanBeBoth = ['cancelled']
