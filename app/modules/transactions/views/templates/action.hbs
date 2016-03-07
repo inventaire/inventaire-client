@@ -1,2 +1,4 @@
-<span class="context">{{icon icon}} {{{context}}}</span>
-<span class="time">{{timeFromNow timestamp}}</span>
+{{#if userReady}}
+  <span class="context">{{icon icon}} {{{context}}}</span>
+  <span class="time">{{timeFromNow timestamp}}</span>
+{{/if}}

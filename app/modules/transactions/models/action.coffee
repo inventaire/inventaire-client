@@ -1,11 +1,13 @@
 module.exports = Backbone.Model.extend
   initialize: ->
     @action = @get('action')
+    @userReady = false
 
   serializeData: ->
     _.extend @toJSON(),
       icon: @icon()
       context: @context(true)
+      userReady: @userReady
 
   icon: ->
     switch @action
@@ -35,6 +37,7 @@ module.exports = Backbone.Model.extend
 
   userAction: (user, withLink)->
     if user?
+      @userReady = true
       _.i18n "#{user}_user_#{@action}", { username: @otherUsername(withLink) }
 
   otherUsername: (withLink)->
