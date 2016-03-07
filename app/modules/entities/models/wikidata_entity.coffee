@@ -80,8 +80,10 @@ module.exports = Entity.extend
     label = getEntityValue attrs, 'labels', lang, @originalLang
     unless label?
       # if no label was found, try to use the wikipedia page title
+      # remove the escaped spaces: %20
+      label = decodeURIComponent @_updates.wikipedia?.title
       # remove the part between parenthesis
-      label = @_updates.wikipedia?.title?.replace /\s\(\w+\)/, ''
+      label = label?.replace /\s\(\w+\)/, ''
     if label?
       @_updates.label = label
       @_updates.title = label
