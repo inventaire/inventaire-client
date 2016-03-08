@@ -28,12 +28,12 @@ module.exports = Backbone.Model.extend
         if @action in ownerActions then 'other' else 'main'
 
   findCancelActor: ->
-    roleIsOwner = @get('role') is 'owner'
+    actorIsOwner = @get('actor') is 'owner'
     { mainUserIsOwner } = @transaction
     if mainUserIsOwner
-      if roleIsOwner then 'main' else 'other'
+      if actorIsOwner then 'main' else 'other'
     else
-      if roleIsOwner then 'other' else 'main'
+      if actorIsOwner then 'other' else 'main'
 
   userAction: (user, withLink)->
     if user?
