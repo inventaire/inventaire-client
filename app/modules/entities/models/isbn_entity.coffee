@@ -40,13 +40,8 @@ module.exports = Entity.extend
     .catch _.Error('findAPicture')
 
   getAuthorsString: ->
-    str = @get 'authors'
-      .map parseAuthor
-      .join ', '
-
-    _.log str, 'isbn author'
+    str = _.compact(@get('authors').map(parseAuthor)).join ', '
     return _.preq.resolve str
-
 
 parseAuthor = (a)->
   switch a.type

@@ -101,6 +101,5 @@ wd_.getLabel = (qids, lang)->
   # make sure the qids were queried
   getWikidataEntities qids
   .then ->
-    _.forceArray qids
-    .map (qid)-> getLabel qid, lang
-    .join ', '
+    labels = _.forceArray(qids).map (qid)-> getLabel qid, lang
+    return _.compact(labels).join ', '
