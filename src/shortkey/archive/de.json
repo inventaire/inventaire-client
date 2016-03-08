@@ -1,4 +1,22 @@
 {
     "item_request_text_suggestion": "Hallo %{username}! Can ich mit dieses Buch ausleihen?",
-    "pitch_no_startup": "Dies ist eine interessensorientierte Untersuchung."
+    "pitch_no_startup": "Dies ist eine interessensorientierte Untersuchung.",
+    "persona_tip_intro": "Wir benutzen Mozillas Persona Service, um Benutzer anzumelden. Wieso?",
+    "persona_tip_1": "1/ Inventaire ist noch sehr jung und kann Dir keine 100%ige Garantie geben, dass dein Passwort sicher ist.",
+    "persona_tip_2": "2/ da andere Services dies benutzen, musst du dich an weniger Passwörter erinnern!",
+    "persona_tip_3": "3/ abgesehen von Deiner E-Mail-Adresse fragt Mozilla Dich nicht nach Deinen Daten.",
+    "persona_tip_last": "Zu gutern letzt, **Du hast wahrscheinlich schon einen Benutzerkonto**, je nachdem, welchen E-Mail-Anbieter Du nutzt. Klicke auf die Schaltfläche, um zu bestätigen. Du hast noch keinen Benutzerkonto? Klicke auch auf die Schaltfläche und befolge die Erklärung.",
+    "status_title": "experimentelle Version",
+    "status_text": "Alles muss irgendwann anfangen; Rechne mit fehlenden Funktionalitäten und Softwarefehlern. Veröffentliche keine sensible Daten. Bisher ist es wahrscheinlich am besten, die Website mit einer Gruppe Freunde zu nutzen, die Bücher teilen möchten und einfach auch mit anderen Hilfsmitteln kommunizieren können: Es gibt noch keinen internen Nachrichtenservice, es wird aber bald einer hinzugefügt!",
+    "missing_account_title": "es konnte kein Benutzerkonto mit dieser E-Mail-Adresse gefunden werden",
+    "missing_account_legend": "anscheinend hast Du ein Persona-Benutzerkonto, aber kein Inventaire.io-Benutzerkonto. Du solltest Dir eins erstellen:",
+    "email_note": "Inventaire wird Dir Benachrichtigungen an die E-Mail-Adresse senden, die Du zur Identifikation mit Mozilla Persona benutzt ",
+    "waiting_for_persona": "ein Pop-up sollte sich jetzt öffnen, damit Du Deine Anmeldeinformationen bestätigen kannst",
+    "persona_tip_email": "Deine Kontakt-E-Mai-Adresse ist die, mit der Du Persona nutzt",
+    "persona_tip_password": "Du musst kein Passwort erstellen, wenn Du Persona nutzt",
+    "persona_popup_signup": "Nachdem Du Dich mit Persona angemeldet hast, wist du eine E-Mail erhalten, um inventaire.io zu bestätigen. Du musst nur noch den Link in dieser E-Mail anklicken",
+    "persona_email_return": "Fast geschafft! Jetzt musst du nur noch das Anmeldebestätigungs Pop-up von Persona bestätigen und du bist fertig!",
+    "existing_instance_cant_add": "Du hast dieses Buch schon in Deinem Inventar, du kannst es nicht noch einmal hinzufügen ",
+    "newletter_pitch": "Möchtest du über die Entwicklungen des Projekts auf dem laufenden gehlaten werden?<br>Abonniere den Newsletter (auf Englisch)",
+    "newletter_thanks": "Danke fürs Abonnieren!"
 }

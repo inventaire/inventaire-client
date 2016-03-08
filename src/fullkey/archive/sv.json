@@ -1,4 +1,5 @@
 {
     "original language": "originalspråk",
-    "original title": "originaltitel"
+    "original title": "originaltitel",
+    "username can't be empty": "användarnamn kan inte vara tomt"
 }

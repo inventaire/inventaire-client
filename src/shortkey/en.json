@@ -152,8 +152,8 @@
     "book_displayed_unavailable": "The book is now displayed as unavailable.",
     "tweet_by": "tweet by %{name}",
     "transaction_cancel_info": "If for any reason, the transaction didn't happen, you can cancel it from the button hereafter.",
-    "transaction_cancel_effects": "This discussion will then be archived and the book will be displayed as available again",
-    "transaction_cancel_confirmation": "Are you sure you want to cancel this transaction ?",
+    "transaction_cancel_effects": "This discussion will then be archived and the book will be displayed as available again.",
+    "transaction_cancel_confirmation": "Are you sure you want to cancel this transaction?",
     "main_user_cancelled": "you cancelled the transaction",
     "other_user_cancelled": "%{username} cancelled the transaction"
 }

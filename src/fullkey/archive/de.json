@@ -8,5 +8,7 @@
     "Mozilla Persona": "Mozilla Persona",
     "you have no pending invitation to join a group": "Du hast keine ausstehenden Anfragen einer Gruppe beizutreten.",
     "original language": "Originalsprache ",
-    "original title": "Orginaltitel "
+    "original title": "Orginaltitel ",
+    "status:": "Status:",
+    "username can't be empty": "Benutzername darf nicht leer sein"
 }

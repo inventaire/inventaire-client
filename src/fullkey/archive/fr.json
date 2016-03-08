@@ -63,5 +63,7 @@
     "you have no pending invitation to join a group": "aucune invitation en attente pour rejoindre un groupe",
     "original language": "langue originale",
     "original title": "titre original",
-    "Cookies are disabled": "les cookies sont désactivés"
+    "Cookies are disabled": "les cookies sont désactivés",
+    "status:": "statut :",
+    "username can't be empty": "un nom d'utilisateur est requis"
 }
