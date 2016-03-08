@@ -22,7 +22,7 @@
     "joyride_last": "it's a very young tool yet, you will probably encounter missing features and bugs, but hopefully you now have a good hint of where this project is going. You may even want to contribute to make it grow: if so, that's great!! Your contribution is more than welcome for there is a lot of work! - At this point, the best is to use it with friends. Share it with your network and join the conversation!",
     "joyride_last_conlusion_point_1": "thank you for being here!",
     "joyride_last_conlusion_point_2": "now let's inventorize all the things!",
-    "assembled_by": "prototype assembled by [Maxime Lathuilière](http://maxlath.eu/)",
+    "assembled_by": "assembled by [Maxime Lathuilière](http://maxlath.eu/)",
     "labs_intro": "Inventaire is an experimentation to empower citizens with better information on resources, and the Labs is the place for pionners to try those new paths!",
     "open_source_credits": "standing on the shoulders of [libre and open source giants](https://github.com/inventaire/inventaire#powered-by)!",
     "pictures_credits": "wonderful Creative Commons pictures by [Sarah Buckley](https://www.flickr.com/photos/17207222@N02/6117998074/), [artfullife](https://www.flickr.com/photos/artfullife/3589991695/) and [ginnerobot](https://www.flickr.com/photos/ginnerobot/3102623100). Thanks!",
@@ -149,5 +149,11 @@
     "before_accepting_lending_advice": "Do not lend books you absolutely want to see come back if you're not sure you can trust this person.",
     "confirm_reception_one_way": "[The book](/items/%{itemId}) will be added to your inventory.",
     "waiting_confirmation_one_way": "Once confirmed, [the book](/items/%{itemId}) will be moved to %{username}'s inventory.",
-    "book_displayed_unavailable": "The book is now displayed as unavailable."
+    "book_displayed_unavailable": "The book is now displayed as unavailable.",
+    "tweet_by": "tweet by %{name}",
+    "transaction_cancel_info": "If for any reason, the transaction didn't happen, you can cancel it from the button hereafter.",
+    "transaction_cancel_effects": "This discussion will then be archived and the book will be displayed as available again",
+    "transaction_cancel_confirmation": "Are you sure you want to cancel this transaction ?",
+    "main_user_cancelled": "you cancelled the transaction",
+    "other_user_cancelled": "%{username} cancelled the transaction"
 }

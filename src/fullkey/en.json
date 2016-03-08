@@ -173,7 +173,6 @@
     "email": "email",
     "classic": "classic",
     "alternative": "alternative",
-    "username can't be empty": "username can't be empty",
     "invalid email": "invalid email",
     "it doesn't look like an email": "it doesn't look like an email",
     "this username is already used": "this username is already used",
@@ -451,5 +450,8 @@
     "this email is unknown": "this email is unknown",
     "Ctrl+Enter to send": "Ctrl+Enter to send",
     "unavailable": "unavailable",
-    "advice:": "advice:"
+    "advice:": "advice:",
+    "username should be 2 characters minimum": "username should be 2 characters minimum",
+    "totally randomly-selected messages from the people of the Internet": "totally randomly-selected messages from the people of the Internet",
+    "download ebook": "download ebook"
 }

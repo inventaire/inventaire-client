@@ -22,7 +22,7 @@
     "joyride_last": "c'est un outil encore jeune, vous allez peut-être des bugs et fonctionnalités manquantes, mais j'espère que vous avez maintenant une meilleure idée de la direction que souhaite prendre ce projet. Il se pourrait même que vous souhaitiez contribuer à le faire grandir: votre contribution est très bienvenue !! Faut dire qu'il y a encore plein de choses à faire :)",
     "joyride_last_conlusion_point_1": "merci d'être ici !",
     "joyride_last_conlusion_point_2": "et maintenant, à vos inventaires !!",
-    "assembled_by": "prototype assemblé par [Maxime Lathuilière](http://maxlath.eu/)",
+    "assembled_by": "assemblé par [Maxime Lathuilière](http://maxlath.eu/)",
     "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !",
     "open_source_credits": "grâce à l'immense travail de [nombreux projets libres et open source](https://github.com/inventaire/inventaire#powered-by) !",
     "pictures_credits": "superbes photos par [Sarah Buckley](https://www.flickr.com/photos/17207222@N02/6117998074/), [artfullife](https://www.flickr.com/photos/artfullife/3589991695/) et [ginnerobot](https://www.flickr.com/photos/ginnerobot/3102623100). Merci !",
@@ -149,5 +149,11 @@
     "before_accepting_lending_advice": "Ne prêtez pas un livre que vous voulez absolument voir revenir si vous n'êtes pas sûr de pouvoir faire confiance à cette personne.",
     "confirm_reception_one_way": "[le livre](/items/%{itemId}) sera ajouté à votre inventaire",
     "waiting_confirmation_one_way": "Une fois confirmé, [le livre](/items/%{itemId}) sera déplacé dans l'inventaire de %{username}",
-    "book_displayed_unavailable": "Le livre est maintenant affiché comme étant indisponible"
+    "book_displayed_unavailable": "Le livre est maintenant affiché comme étant indisponible",
+    "tweet_by": "tweet de %{name}",
+    "transaction_cancel_info": "Si la transaction ne devait finalement pas avoir lieu, vous pouvez l'annuler avec le bouton ci-dessous.",
+    "transaction_cancel_effects": "Cette discussion sera alors archivée et le livre sera à nouveau affiché comme disponible.",
+    "transaction_cancel_confirmation": "Êtes-vous sûr de vouloir annuler cette transaction ? ",
+    "main_user_cancelled": "vous avez annulé la transaction",
+    "other_user_cancelled": "%{username} a annulé(e) la transaction"
 }

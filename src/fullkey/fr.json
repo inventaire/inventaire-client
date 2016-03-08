@@ -173,7 +173,6 @@
     "email": "email",
     "classic": "classique",
     "alternative": "alternative",
-    "username can't be empty": "un nom d'utilisateur est requis",
     "invalid email": "adresse email invalide",
     "it doesn't look like an email": "ça ne ressemble pas à un email",
     "this username is already used": "ce nom d'utilisateur est déjà utilisé",
@@ -296,7 +295,7 @@
     "group name:": "nom du groupe :",
     "invited": "invité(e)",
     "invite": "inviter",
-    "username should be 20 characters maximum": "le nom d'utilisateur ne doit pas dépasser 20 caractères",
+    "username should be 20 characters maximum": "le nom d'utilisateur ne peut pas dépasser 20 caractères",
     "you aren't connected to anyone yet": "vous n'êtes connecté à personne pour le moment",
     "request to join group": "demander à rejoindre le groupe",
     "filter group members": "filtrer les membres du groupe",
@@ -310,7 +309,7 @@
     "requests waiting your approval": "demandes en attente d'approbation",
     "members": "membres",
     "no more pending requests": "aucune demande en attente",
-    "you have no more pending invitations": null,
+    "you have no more pending invitations": "vous n'avez aucune invitation en attente",
     "this book isnt in the database: let's just create the book card": "ce livre n'est pas dans la base de donnée : créons la fiche du livre",
     "validate and add another book": "valider et ajouter un autre livre",
     "invite friends": "inviter des amis",
@@ -451,5 +450,8 @@
     "this email is unknown": "cet email est inconnu",
     "Ctrl+Enter to send": "Ctrl+Entrer pour envoyer",
     "unavailable": "indisponible",
-    "advice:": "conseil:"
+    "advice:": "conseil:",
+    "username should be 2 characters minimum": "le nom d'utilisateur ne peut pas faire moins de 2 caractères",
+    "totally randomly-selected messages from the people of the Internet": "messages de gens de l'Internet choisis complètement au hasard",
+    "download ebook": "télécharger l'ebook"
 }
