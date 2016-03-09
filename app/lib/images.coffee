@@ -8,16 +8,6 @@ handlers =
         array.trigger(event)
 
 
-  getFileDataUrl: (file)->
-    reader = new FileReader()
-    new Promise (resolve, reject)->
-      reader.onerror = reject
-      reader.onload = (readerEvent) ->
-        resolve readerEvent.target.result
-
-      reader.readAsDataURL file
-
-
   getUrlDataUrl: (url)->
     if /^http/.test url then url = app.API.proxy url
     new Promise (resolve, reject)->

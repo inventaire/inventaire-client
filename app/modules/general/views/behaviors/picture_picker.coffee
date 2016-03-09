@@ -1,5 +1,6 @@
 Imgs = require 'modules/general/collections/imgs'
 images_ = require 'lib/images'
+files_ = require 'lib/files'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
@@ -89,16 +90,9 @@ module.exports = Marionette.CompositeView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   getFilesPictures: (e)->
-    files = _.toArray e.target.files
-    _.log files, 'files'
-    for file in files
-      @_addFileToPictures file
-
-  _addFileToPictures: (file)->
-    unless _.isObject file then return _.warn file, 'couldnt _addFileToPictures'
-    images_.getFileDataUrl file
-    .then @_addToPictures.bind(@)
-    .catch _.Error('_addFileToPictures')
+    files_.parseFileEventAsDataURL e
+    .then _.Log('filesDataUrl')
+    .map @_addToPictures.bind(@)
 
   _addToPictures: (dataUrl)->
     if @limit is 1 then @_unselectAll()
