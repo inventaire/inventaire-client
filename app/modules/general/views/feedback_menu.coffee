@@ -3,8 +3,15 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/feedback_menu'
-  className: 'feedback-menu'
-  onShow: -> app.execute 'modal:open'
+
+  className: ->
+    standalone = if @options.standalone then 'standalone' else ''
+    return "feedback-menu #{standalone}"
+
+  onShow: ->
+    unless @options.standalone
+      app.execute 'modal:open'
+
   behaviors:
     Loading: {}
     SuccessCheck: {}
@@ -19,6 +26,7 @@ module.exports = Marionette.ItemView.extend
     user: app.user.toJSON()
     contact: contact
     subject: @options.subject
+    standalone: @options.standalone
 
   ui:
     unknownUser: '.unknownUser'

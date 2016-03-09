@@ -2,6 +2,8 @@ Welcome = require 'modules/welcome/views/welcome'
 ErrorView = require 'modules/general/views/error'
 CallToConnection = require 'modules/general/views/call_to_connection'
 initQuerystringActions = require 'modules/general/lib/querystring_actions'
+DonateMenu = require 'modules/general/views/donate_menu'
+FeedbackMenu = require 'modules/general/views/feedback_menu'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _) ->
@@ -9,6 +11,8 @@ module.exports =
       appRoutes:
         '(home)': 'showHome'
         'welcome': 'showWelcome'
+        'donate': 'showDonate'
+        'feedback': 'showFeedback'
         'me': 'showMainUser'
         '*route': 'notFound'
 
@@ -60,6 +64,9 @@ API =
       noCompletion: true
     app.navigate 'welcome'
 
+  showDonate: -> showMenuStandalone DonateMenu, 'donate'
+  showFeedback: -> showMenuStandalone FeedbackMenu, 'feedback'
+
   showMainUser: ->
     app.execute 'show:inventory:main:user'
 
@@ -96,3 +103,7 @@ API =
         buttonAction: ->
           if command? then app.execute command
           else location.href = location.href
+
+showMenuStandalone = (Menu, titleKey)->
+  view = new Menu { standalone: true }
+  app.layout.main.Show view, { docTitle: _.i18n(titleKey) }

@@ -1,0 +1,19 @@
+.donate-menu, .feedback-menu{
+  text-align: center;
+  &.standalone{
+    @include custom-column(40em);
+    // background-color: blue;
+    > div {
+      background-color: white;
+      // background-color: red;
+      padding: 1em;
+    }
+    /*Large screens*/
+    @media screen and (min-width: $smallscreen) {
+      padding-top: 1em;
+    }
+  }
+}
+
+@import "feedback";
+@import "donate";
