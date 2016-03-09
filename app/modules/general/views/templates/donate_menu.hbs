@@ -4,8 +4,11 @@
 <p>{{{i18n 'donate_intro'}}}</p>
 <ul>
   <li>
-    <h4>{{icon 'credit-card'}} {{I18n 'credit/debit card'}}</h4>
-    {{i18n 'not available yet'}}
+    <h4>{{icon 'gratipay'}} Gratipay / Liberapay </h4>
+    {{i18n 'make a one-time or reccurent donation'}}
+    <p>
+      {{link 'via Gratipay' gratipay}} / {{link 'via Liberapay' liberapay}} ({{I18n 'europe'}})
+    </p>
   </li>
   <li>
     <h4>{{icon 'bitcoin'}} Bitcoin</h4>
@@ -14,9 +17,9 @@
       {{i18n 'or'}} {{link 'via coinbase' bitcoin.coinbase}}
     </span>
   </li>
-  <li>
-    <h4>{{icon 'gratipay'}} Gratipay</h4>
-    {{link 'make a one-time or reccurent donation via gratipay' gratipay}}
+  <li class="not-available">
+    <h4>{{icon 'credit-card'}} {{I18n 'credit/debit card'}}</h4>
+    {{i18n 'not available yet'}}
   </li>
 </ul>
 
