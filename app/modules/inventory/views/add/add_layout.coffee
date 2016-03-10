@@ -1,5 +1,7 @@
 searchInputData = require 'modules/general/views/menu/search_input_data'
 scanner = require 'lib/scanner'
+files_ = require 'lib/files'
+imports = require '../../lib/imports'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/add_layout'
@@ -21,6 +23,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #scanner': 'setAddModeScan'
+    'change input[type=file]': 'getCsvFile'
 
   setAddModeScan: -> app.execute 'last:add:mode:set', 'scan'
 
@@ -32,3 +35,10 @@ module.exports = Marionette.LayoutView.extend
   onDestroy: ->
     unless @loggedIn
       app.execute 'modal:close'
+
+  getCsvFile: (e)->
+    files_.parseFileEventAsText e, true, 'ISO-8859-1'
+    # TODO: throw error on non-utf-8 encoding
+    .then _.Log('csv files')
+    .then imports.babelio
+    .then _.Log('babelio parse')
