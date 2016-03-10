@@ -227,6 +227,7 @@ module.exports = Entity.extend
     else description or extract
 
   getAuthorsString: ->
+    unless @claims? then return _.preq.resolve ''
     qids = @claims.P50
     return wd_.getLabel qids, app.user.lang
 
