@@ -1,6 +1,23 @@
-<h3>{{icon 'download'}} {{i18n 'data exports'}}</h3>
+<h3>{{icon 'database'}} {{i18n 'data exports'}}</h3>
+<h4>{{icon 'download'}} {{i18n 'download'}} (JSON)</h4>
+<ul class="downloads">
+  <li>
+    <a id="itemsJsonExport" class="link">{{i18n 'books'}}</a>
+  </li>
+  <li>
+    <a id="userJsonExport" class="link">{{i18n 'user'}}</a>
+  </li>
+</ul>
 
-<div class="panel">
-  <h5>{{i18n 'books'}}</h5>
-  <a id="itemsJsonExport" class="button grey">JSON</a>
-</div>
+<h4>{{icon 'plug'}} {{i18n 'via the API'}}</h4>
+{{i18nLink 'see the API documentation' apiDoc}}
+<ul class="api">
+  <li>
+    <span class="header">{{i18n 'books'}}</span>
+    <p class="code">{{endpoints.items}}</p>
+  </li>
+  <li>
+    <span class="header">{{i18n 'user'}}</span>
+    <p class="code">{{endpoints.user}}</p>
+  </li>
+</ul>

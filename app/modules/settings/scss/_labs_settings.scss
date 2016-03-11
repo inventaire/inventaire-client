@@ -6,6 +6,37 @@
       color: #aaa;
     }
   }
+  h4{
+    @include sans-serif;
+    font-size: 1.1em;
+    margin-top: 2em;
+    font-weight: bold;
+  }
+  li{
+    list-style-type: disc;
+  }
+  ul{
+    margin-left: 2em;
+  }
+  .api{
+    li{
+      padding: 1em 0 1em 0;
+    }
+    .code{
+      margin-left: -3em;
+    }
+  }
+}
+
+.code{
+  font-family: "monospace";
+  font-size: 0.8em;
+  background-color: #ddd;
+  color: $dark-grey;
+  padding: 1em;
+  overflow: auto;
+  // max-width: 20%;
+  white-space: nowrap;
 }
 
 /*Small screens*/

@@ -33,3 +33,4 @@ module.exports =
 
   gratipay: 'https://gratipay.com/inventaire-io'
   liberapay: 'https://liberapay.com/inventaire_io'
+  apiDoc: 'https://github.com/inventaire/inventaire/wiki/API'
