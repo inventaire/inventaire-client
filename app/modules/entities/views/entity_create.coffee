@@ -38,7 +38,7 @@ module.exports = Marionette.LayoutView.extend
   getHeader: ->
     header = "let's just create the book card"
     if @options.secondChoice then header = "otherwise, #{header}"
-    if @options.standalone then header = "this book isnt in the database: #{header}"
+    if @options.standalone then header = "this book isn't in the database: #{header}"
     return _.i18n header
 
   fieldData: (attr, placeholder)->

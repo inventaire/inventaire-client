@@ -13,6 +13,6 @@ npm run patches
 # need to build once to make the public folder available
 ./node_modules/brunch/bin/brunch build
 
-git clone -b i18n git@github.com:maxlath/inventaire-client.git ./public/i18n
+git clone -b i18n git@github.com:inventaire/inventaire-client.git ./public/i18n
 mkdir -p ./server/lib/emails/i18n/dist
 ./scripts/update_i18n_all

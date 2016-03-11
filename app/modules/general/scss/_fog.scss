@@ -6,7 +6,7 @@
 }
 // bring a fog layer to a smaller area
 // requires a container to have a position set
-// (usually positon: relative;)
+// (usually position: relative;)
 .local-fog{
   @extend .fog;
   position: absolute;

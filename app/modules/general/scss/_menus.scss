@@ -2,10 +2,8 @@
   text-align: center;
   &.standalone{
     @include custom-column(40em);
-    // background-color: blue;
     > div {
       background-color: white;
-      // background-color: red;
       padding: 1em;
     }
     /*Large screens*/

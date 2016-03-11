@@ -71,6 +71,6 @@ module.exports = Marionette.LayoutView.extend
 
   # let the event propagate to app_layout, which will trigger show:welcome
   closeMenu: ->
-    if _.smallScreen
+    if _.smallScreen()
       # close the topbar menu handled by Foundation
       $('.toggle-topbar').trigger 'click'
