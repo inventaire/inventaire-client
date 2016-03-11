@@ -1,8 +1,6 @@
 .tabs{
   width: 100%;
-  padding-top: 1em;
-  // @include radius-horizontal-group;
-  section{
+  .level-1, .level-2{
     @include display-flex(row, center, center, nowrap);
   }
   .counter{
@@ -70,8 +68,8 @@
       padding: 0.5em 0 0.5em 0;
     }
   }
-  /*Very Small screens*/
-  @media screen and (max-width: 700px) {
+  /*Even Smaller screens*/
+  @media screen and (max-width: $networkLayoutVerticalTabCeil) {
     .level-1{
       .tab{
         padding: 0.5em;
@@ -96,5 +94,9 @@
         margin: 0.2em;
       }
     }
+  }
+  /*Medium to Large screens*/
+  @media screen and (min-width: $networkLayoutVerticalTabCeil) {
+    padding-top: 1em;
   }
 }

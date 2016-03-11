@@ -24,12 +24,12 @@ module.exports = Marionette.ItemView.extend
 
   updateTabs: (e)->
     unless _.isOpenedOutside e
-      tab = getNameFromId e.currentTarget.id
-      tab = resolveCurrentTab tab
+      originalTab = getNameFromId e.currentTarget.id
+      tab = resolveCurrentTab originalTab
 
       unless tab is @currentTab
         # triggering events on the parent view
-        @triggerMethod 'tabs:change', tab
+        @triggerMethod 'tabs:change', tab, originalTab
         @currentTab = tab
         @currentTabData = tabsData.all[tab]
         @render()

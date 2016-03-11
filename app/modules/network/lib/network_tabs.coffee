@@ -81,3 +81,4 @@ module.exports =
   resolveCurrentTab: resolveCurrentTab
   getNameFromId: (id)-> id.replace 'Tab', ''
   defaultTab: usersTabsDefault
+  level1Tabs: ['users', 'groups']

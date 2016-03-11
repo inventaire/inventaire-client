@@ -1,5 +1,7 @@
 Tabs = require './tabs'
-{ tabsData, resolveCurrentTab } = require '../lib/network_tabs'
+{ tabsData, resolveCurrentTab, level1Tabs } = require '../lib/network_tabs'
+# keep in sync with app/modules/network/scss/_network_layout.scss
+verticalTabCeil = 700
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/network_layout'
@@ -17,8 +19,13 @@ module.exports = Marionette.LayoutView.extend
     @tabs.show new Tabs {tab: tab}
     @showLayout tab
 
-  updateLayout: (view, tab)->
+  updateLayout: (view, tab, originalTab)->
     @showLayout tab
+    if _.smallScreen verticalTabCeil
+      # avoid to scroll to the content top when a level-1 tab is clicked
+      # so that the level-2 tabs stay visible
+      if originalTab in level1Tabs then _.scrollTop @tabs.$el
+      else _.scrollTop @content.$el
 
   showLayout: (tab)->
     tab = resolveCurrentTab tab

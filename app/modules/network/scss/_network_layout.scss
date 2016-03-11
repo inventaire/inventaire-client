@@ -1,4 +1,6 @@
 $networkLayoutWidth: 40em;
+// keep in sync with app/modules/network/views/network_layout.coffee
+$networkLayoutVerticalTabCeil: 700px;
 
 #networkLayout{
   @include custom-column($networkLayoutWidth);
@@ -31,6 +33,13 @@ $networkLayoutWidth: 40em;
         text-align: left;
         font-size: 1.1em;
       }
+    }
+    /*Small screens*/
+    @media screen and (max-width: $networkLayoutVerticalTabCeil) {
+      // allow _.scrollTop to really get the top of the div
+      // at the top of the screen
+      // which would not be possible if main was smaller than the screen
+      min-height: 100vh;
     }
   }
   .userLi.stretch{
