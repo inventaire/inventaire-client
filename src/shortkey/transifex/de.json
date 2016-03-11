@@ -40,7 +40,7 @@
     "you don't need to create a password if you use Persona": "Du musst kein Passwort erstellen, wenn Du Persona nutzt",
     "After you login on Persona, you will receive an email from Person to validate inventaire.io. You then just need to click the link in this email": "Nachdem Du Dich mit Persona angemeldet hast, wist du eine E-Mail erhalten, um inventaire.io zu bestätigen. Du musst nur noch den Link in dieser E-Mail anklicken",
     "Almost done! Now you just need to valid the new Persona authentification popup and you are all set!": "Fast geschafft! Jetzt musst du nur noch das Anmeldebestätigungs Pop-up von Persona bestätigen und du bist fertig!",
-    "email succesfully confirmed, thanks!": "E-Mail-Adresse wurde erfolgreich bestätigt, vielen Dank!",
+    "email successfully confirmed, thanks!": "E-Mail-Adresse wurde erfolgreich bestätigt, vielen Dank!",
     "email confirmation request was invalid or expired": "E-Mail-Bestätigungsanfrage war ungültig oder veraltet",
     "send a new confirmation email": "sende eine neue Bestätigungs-E-Mail",
     "login to request a new confirmation email": "melde Dich an, um eine neue Bestätigungs-E-Mail anzufragen",
@@ -85,7 +85,7 @@
     "search your book by its title, author or ISBN": "suche Dein Buch mithilfe des Titels, Autors oder der ISBN",
     "scan your book's barcode": "scanne den Strichcode Deines Buches",
     "only available from mobiles for now": "bisher nur mobil verfügbar",
-    "enter one ISBN or several separeted by a comma": "gebe eine ISBN ein oder mehrere, durch Kommata getrennt",
+    "enter one ISBN or several separated by a comma": "gebe eine ISBN ein oder mehrere, durch Kommata getrennt",
     "in your network": "in Deinem Netzwerk",
     "you already have this book in your inventory, you can't add it again": "Du hast dieses Buch schon in Deinem Inventar, du kannst es nicht noch einmal hinzufügen ",
     "Read more or edit on Wikipedia": "Mehr darüber lesen oder editieren auf Wikipedia"

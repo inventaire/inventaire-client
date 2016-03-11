@@ -65,5 +65,14 @@
     "original title": "titre original",
     "Cookies are disabled": "les cookies sont désactivés",
     "status:": "statut :",
-    "username can't be empty": "un nom d'utilisateur est requis"
+    "username can't be empty": "un nom d'utilisateur est requis",
+    "enter the url of your CouchDB database": "entrez l'url de votre base de donnée CouchDB",
+    "replicate": "répliquer",
+    "personal inventory data": "données de votre inventaire",
+    "PouchDB export": "export PouchDB",
+    "Replicate your data to a CouchDB instance you control": "Répliquez vos données sur une instance de CouchDB que vous contrôlez",
+    "It's just a backup for the moment, it won't stay in sync": "c'est juste un export pour le moment, ça ne restera pas synchronisé",
+    "what is PouchDB?": "qu'est-ce que PouchDB",
+    "pouchdb": "pouchdb",
+    "downloads": "téléchargements"
 }

@@ -21,5 +21,8 @@
     "newletter_thanks": "Merci de vous être abonné !",
     "accept_request_info_selling": "Une fois que vous avez accépté, %{username} devra confirmer la bonne récetion du livre. Le livre sera alors déplacé dans l'inventaire de %{username}",
     "accept_request_info_lending": "Une fois que vous avez accépté, %{username} devra confirmer la bonne récetion du livre. <br><br>**Conseils**:<ul><li>Before accepting, you probably want to discuss where and when the exchange should happen, and to agree on how long %{username} can keep the book</li><li>ne prêtez pas un livre que vous voulez absolument voir revenir si vous  n'êtes pas sûr de pouvoir faire confiance à cette personne.</li></ul>",
-    "confirm_reception_info_giving": "[le livre](/items/%{itemId}) sera ensuite ajouté à votre inventaire"
+    "confirm_reception_info_giving": "[le livre](/items/%{itemId}) sera ensuite ajouté à votre inventaire",
+    "contribute_with_code_or_ideas": "Contribuez avec du [code](http://github.com/inventaire/inventaire-client/) ou des [idées](https://github.com/inventaire/inventaire-client/issues)",
+    "data_export_intro": "Le schéma de données n'est ni mature ni au standard pour le moment : il est peu probable qu'il soit compatible tel quel avec vos autres jeux de données. Néanmoins, si la NSA se donne le droit d'avoir vos données, vous devriez avoir le droit aussi",
+    "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !"
 }

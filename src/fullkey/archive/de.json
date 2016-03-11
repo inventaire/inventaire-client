@@ -10,5 +10,14 @@
     "original language": "Originalsprache ",
     "original title": "Orginaltitel ",
     "status:": "Status:",
-    "username can't be empty": "Benutzername darf nicht leer sein"
+    "username can't be empty": "Benutzername darf nicht leer sein",
+    "enter the url of your CouchDB database": "Gebe die URL Deiner CouchDB Datenbank ein",
+    "replicate": "wiederholen",
+    "personal inventory data": "persönliche Inventardaten",
+    "PouchDB export": "PouchDB Export",
+    "Replicate your data to a CouchDB instance you control": "Kopiere Deine Daten auf eine CouchDB Instanz, die du verwaltest",
+    "It's just a backup for the moment, it won't stay in sync": "Momentan ist es nur eine Sicherheitskopie, die nicht synchronisiert wird.",
+    "what is PouchDB?": "Was ist PouchDB?",
+    "pouchdb": "PouchDB",
+    "downloads": "Downloads"
 }
