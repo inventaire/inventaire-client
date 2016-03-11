@@ -9,6 +9,8 @@ module.exports = (params)->
   map = L.map(containerId).setView latLng, zoom
   L.tileLayer(tileUrl, settings).addTo map
 
+  if _.isMobile then map.scrollWheelZoom.disable()
+
   if cluster then initWithCluster map
   else initWithoutCluster map
 
