@@ -95,16 +95,7 @@
     "username": "username",
     "language": "language",
     "change picture": "change picture",
-    "enter the url of your CouchDB database": "enter the url of your CouchDB database",
-    "replicate": "replicate",
     "data exports": "data exports",
-    "personal inventory data": "personal inventory data",
-    "PouchDB export": "PouchDB export",
-    "Replicate your data to a CouchDB instance you control": "Replicate your data to a CouchDB instance you control",
-    "It's just a backup for the moment, it won't stay in sync": "It's just a backup for the moment, it won't stay in sync",
-    "what is PouchDB?": "what is PouchDB?",
-    "pouchdb": "pouchdb",
-    "downloads": "downloads",
     "can't find anyone with that name": "can't find anyone with that name",
     "find friends to share your inventory with!": "find friends to share your inventory with!",
     "otherwise": "otherwise",
@@ -453,5 +444,10 @@
     "advice:": "advice:",
     "username should be 2 characters minimum": "username should be 2 characters minimum",
     "totally randomly-selected messages from the people of the Internet": "totally randomly-selected messages from the people of the Internet",
-    "download ebook": "download ebook"
+    "download ebook": "download ebook",
+    "the importer for your data is missing? tell us!": "the importer for your data is missing? tell us!",
+    "make a one-time or reccurent donation": "make a one-time or reccurent donation",
+    "europe": "europe",
+    "scan": "scan",
+    "import": "import"
 }

@@ -24,5 +24,8 @@
     "confirm_reception_info_giving": "[The book](/items/%{itemId}) will be added to your inventory",
     "waiting_confirmation_info_selling": "Once confirmed, [the book](/items/%{itemId}) will be moved to %{username}'s inventory",
     "waiting_confirmation_info_giving": "Once confirmed, [the book](/items/%{itemId}) will be moved to %{username}'s inventory",
-    "accept_request_one_way_effects": "The book will then be moved to %{username}'s inventory"
+    "accept_request_one_way_effects": "The book will then be moved to %{username}'s inventory",
+    "contribute_with_code_or_ideas": "Contribute with [code](http://github.com/inventaire/inventaire-client/) or [ideas](https://github.com/inventaire/inventaire-client/issues)",
+    "labs_intro": "Inventaire is an experimentation to empower citizens with better information on resources, and the Labs is the place for pionners to try those new paths!",
+    "data_export_intro": "The data schema is neither mature nor standardized yet: it is unlikely to be compatible out of the box with any other of your data sets. Still, if the NSA allows itself to have it, you should be allowed to have it too."
 }
