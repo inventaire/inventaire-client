@@ -39,7 +39,7 @@ module.exports = Marionette.ItemView.extend
       button = sectionsButtonMap[section]
       # some sections don't have an associated button
       # so we just unselect the current one
-      if button? then @selectButton
+      if button? then @selectButton button
       lastSection = section
 
   unselectAll: -> @ui.all.removeClass 'selected'
@@ -52,6 +52,7 @@ module.exports = Marionette.ItemView.extend
     unless _.isOpenedOutside e
       commandKey = e.currentTarget.id.split('IconButton')[0]
       app.execute commands[commandKey]
+      if _.smallScreen() then _.scrollTop $('main')
 
   networkUpdates: ->
     app.request('get:network:counters').total
