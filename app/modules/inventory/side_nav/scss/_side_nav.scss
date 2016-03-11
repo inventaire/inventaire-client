@@ -20,6 +20,7 @@
   $user-profile-height: 16em;
 
   #one{
+    width: 100%;
     &.notEmpty{
       min-height: $user-profile-height;
       @include flex(0, 0);
@@ -37,16 +38,19 @@
   }
 
   #two{
+    width: 100%;
     @include flex(1);
     @include display-flex(column, left, flex-end);
     @import 'list_header';
     // use the ids instead of classes to be stronger that the display:flex
     // applied to .listHeader
     #publicList, #groupsList, #usersList, #membersList{
+      width: 100%;
       // start hidden
       display: none;
     }
     #publicListHeader, #groupsListHeader, #usersListHeader, #membersListHeader{
+      width: 100%;
       // used to place .close at the end of the line
       // but targeting all headers to keep a consistant placing of .header
       @include display-flex(row, center, space-between);
@@ -86,6 +90,9 @@
         width: 2em;
       }
     }
+  }
+  #userSearch, #memberSearch{
+    width: 100%;
   }
   #userField, #memberField{
     margin: 0;

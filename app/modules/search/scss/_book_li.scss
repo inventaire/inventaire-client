@@ -65,6 +65,7 @@ $bookLiMaxWidth: 45em;
     @include display-flex(column, left, center);
     padding: 0.5em;
     > a{
+      width: 100%;
       @include custom-button($light-grey, $dark-grey);
       white-space: nowrap;
       text-decoration: none;

@@ -25,6 +25,13 @@
   }
   .data{
     width: 100%;
+    /*Small screens*/
+    @media screen and (max-width: $smallscreen) {
+      max-width: 38em;
+      margin: auto;
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
     li{
       &:not(.custom){
         @include display-flex(row, center, space-between, wrap);
@@ -33,7 +40,6 @@
         width: 1em;
       }
       padding: 0.3em;
-      max-width: 20em;
       width: 100%;
       a.edit{
         text-decoration: underline;
@@ -44,6 +50,10 @@
   .bio-wrapper{
     max-height: 7em;
     overflow: auto;
+    /*Small screens*/
+    @media screen and (max-width: $smallscreen) {
+      max-height: 15em;
+    }
   }
   .bio-editor{
     text-align: center;
