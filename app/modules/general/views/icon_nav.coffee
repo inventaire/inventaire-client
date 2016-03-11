@@ -13,11 +13,7 @@ module.exports = Marionette.ItemView.extend
       'network:requests:udpate': @lazyRender
 
   events:
-    'click .add': 'showAddLayout'
-    'click .network': 'showNetwork'
-    'click .browse': 'showInventory'
-    'click .map': 'showMap'
-    'click .exchanges': 'showTransactions'
+    'click .iconButton': 'showLayout'
 
   ui:
     all: 'a.iconButton'
@@ -38,50 +34,45 @@ module.exports = Marionette.ItemView.extend
     @selectButtonFromRoute _.currentSection()
 
   selectButtonFromRoute: (section)->
-    @unselectAll()
-    switch section
-      when 'add', 'search' then @selectButton 'add'
-      when 'network' then @selectButton 'network'
-      when 'inventory', 'groups' then @selectButton 'browse'
-      when 'map' then @selectButton 'map'
-      when 'transactions' then @selectButton 'exchanges'
+    if _.isNonEmptyString(section) and section isnt lastSection
+      @unselectAll()
+      button = sectionsButtonMap[section]
+      # some sections don't have an associated button
+      # so we just unselect the current one
+      if button? then @selectButton
+      lastSection = section
 
-    # sections without an associated icon nav button:
-    # entity, settings
+  unselectAll: -> @ui.all.removeClass 'selected'
+  selectButton: (uiName)-> @ui[uiName].addClass 'selected'
 
-  unselectAll: ->
-    @ui.all.removeClass 'selected'
-
-  selectButton: (uiName)->
-    @ui[uiName].addClass 'selected'
-
-  showAddLayout: (e)->
+  # no need to manually add and remove the 'selected' class
+  # as the command should trigger a route change
+  # which in turn will fire @selectButtonFromRoute
+  showLayout: (e)->
     unless _.isOpenedOutside e
-      @selectButton 'add'
-      app.execute 'show:add:layout'
-
-  showNetwork: (e)->
-    unless _.isOpenedOutside e
-      @selectButton 'network'
-      app.execute 'show:network'
-
-  showInventory: (e)->
-    unless _.isOpenedOutside e
-      @selectButton 'browse'
-      app.execute 'show:inventory:general'
-
-  showMap: (e)->
-    unless _.isOpenedOutside e
-      @selectButton 'map'
-      app.execute 'show:map'
-
-  showTransactions: (e)->
-    unless _.isOpenedOutside e
-      @selectButton 'exchanges'
-      app.execute 'show:transactions'
+      commandKey = e.currentTarget.id.split('IconButton')[0]
+      app.execute commands[commandKey]
 
   networkUpdates: ->
     app.request('get:network:counters').total
 
   exchangesUpdates: ->
     app.request 'transactions:unread:count'
+
+lastSection = null
+
+# sections without an associated icon nav button:
+# entity, settings
+sectionsButtonMap =
+  add: 'add'
+  search: 'add'
+  network: 'network'
+  inventory: 'browse'
+  groups: 'browse'
+  transactions: 'exchanges'
+
+commands =
+  add: 'show:add:layout'
+  network: 'show:network'
+  browse: 'show:inventory:general'
+  exchanges: 'show:transactions'
