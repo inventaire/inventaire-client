@@ -28,7 +28,8 @@
     "cropper": "~0.11.1",
     "df-visible": "jquery-visible#~1.2.0",
     "font-awesome": "~4.4.0",
-    "foundation": "https://github.com/maxlath/bower-foundation.git#brunch-custom",
+    "modernizr": "~2.8.3",
+    "foundation": "https://github.com/maxlath/bower-foundation.git#^5.4.4",
     "imagesloaded": "~3.1.8",
     "jquery.inview": "jquery.inview#~1.0.0",
     "leaflet": "~0.7.5",
@@ -84,5 +85,8 @@
         "outlayer.js"
       ]
     }
+  },
+  "resolutions": {
+    "underscore": ">=1.7.0"
   }
 }
