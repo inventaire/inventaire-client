@@ -1,27 +1,6 @@
-<p class="intro">
-  {{icon 'quote-left'}}
-  {{i18n 'labs_intro'}}
-  <br>
-  {{{i18n 'contribute_with_code_or_ideas'}}}!
-</p>
-
-<h3>{{i18n 'data exports'}}</h3>
-{{i18n 'data_export_intro'}}
-
-<h4 class="subheader">{{i18n 'personal inventory data'}}</h4>
+<h3>{{icon 'download'}} {{i18n 'data exports'}}</h3>
 
 <div class="panel">
-  <h5>{{icon 'pouchdb'}} {{i18n 'PouchDB export'}}:</h5>
-  <p class="intro">
-    {{i18n 'Replicate your data to a CouchDB instance you control'}}!
-    {{i18n "It's just a backup for the moment, it won't stay in sync"}}.
-    <br>
-    {{icon 'question-circle'}}{{i18nLink 'what is PouchDB?' 'http://pouchdb.com/'}}
-  </p>
-  {{input pouchdb 'check'}}
-</div>
-
-<div class="panel">
-  <h5>{{icon 'download'}}{{I18n 'downloads'}}:</h5>
-  <a id="jsonInventoryExport" class="button grey">JSON</a>
+  <h5>{{i18n 'books'}}</h5>
+  <a id="itemsJsonExport" class="button grey">JSON</a>
 </div>
