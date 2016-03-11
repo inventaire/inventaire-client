@@ -147,14 +147,13 @@ module.exports = Marionette.LayoutView.extend
         model: groupModel
         highlighted: true
     else
-      # shown by inventory::prepareGroupItemsList
+      # Group is shown by inventory::prepareGroupItemsList
       @showMembersList()
-      @ui.userSearch.hide()
       @ui.memberSearch.show()
-
 
     @ui.groupsSection.hide()
     @ui.friendsSection.hide()
+    @ui.userSearch.hide()
 
     @ui.membersSection.removeClass 'force-hidden'
     @ui.membersSection.show()
