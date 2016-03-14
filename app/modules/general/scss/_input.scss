@@ -16,6 +16,7 @@
   @media screen and (max-width: $verysmallscreen) {
     @include flex-direction(column);
     .inputBox{
+      width: 100%;
       input{
         margin: 0 !important;
         @include radius-top;
@@ -27,6 +28,9 @@
         // Foundation sets .alert-box with negative margin-top
         margin: 0;
       }
+    }
+    .button{
+      width: 100%;
     }
   }
 
