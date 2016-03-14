@@ -21,10 +21,6 @@ $addLayoutWidth: 38em;
     margin-top: 2em;
     margin-bottom: 2em;
   }
-  .custom-tabs-titles{
-    // completing radius already added in custom_tabs
-    @include radius-horizontal-group-bottom;
-  }
   /*Very Small screens*/
   @media screen and (max-width: $verysmallscreen) {
     h2{
@@ -53,6 +49,10 @@ $addLayoutWidth: 38em;
     padding: 1em;
     margin: 1em auto;
     width: $addLayoutWidth;
+    .custom-tabs-titles{
+      // completing radius already added in custom_tabs
+      @include radius-horizontal-group-bottom;
+    }
   }
 }
 
