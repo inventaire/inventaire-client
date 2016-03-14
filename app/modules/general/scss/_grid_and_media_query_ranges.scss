@@ -4,8 +4,9 @@ $column-gutter: rem-calc(0);
 
 // Media Query Ranges
 
-$verysmallscreen: 350px;
+// keep in sync with app/lib/utils.coffee _.smallScreen
 $smallscreen: 1200px;
+$verysmallscreen: 350px;
 
 $small-range: (0em, 75em);
 $medium-range: (75.01em, 75.02em);

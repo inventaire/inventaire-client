@@ -2,7 +2,6 @@ $addLayoutWidth: 38em;
 
 #addLayout{
   @include flex(1);
-  padding: 1em;
   section{
     background-color: #fefefe;
     @include radius(4px);
@@ -22,12 +21,36 @@ $addLayoutWidth: 38em;
     margin-top: 2em;
     margin-bottom: 2em;
   }
+  .custom-tabs-titles{
+    // completing radius already added in custom_tabs
+    @include radius-horizontal-group-bottom;
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $verysmallscreen) {
+    h2{
+      margin-top: 1em;
+    }
+    .level-1{
+      @include flex-direction(column);
+      .tab{
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
   /*Small screens*/
-  @media screen and (max-width: $addLayoutWidth) {
+  @media screen and (max-width: $smallscreen) {
+    .custom-tabs-content{
+      // allow _.scrollTop to really get the top of the div
+      // at the top of the screen
+      min-height: 100vh
+    }
   }
 
   /*Large screens*/
   @media screen and (min-width: $addLayoutWidth) {
+    padding: 1em;
     margin: 1em auto;
     width: $addLayoutWidth;
   }

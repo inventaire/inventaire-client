@@ -1,34 +1,32 @@
-searchInputData = require 'modules/general/views/menu/search_input_data'
-scanner = require 'lib/scanner'
-files_ = require 'lib/files'
-imports = require '../../lib/imports'
-
 module.exports = Marionette.LayoutView.extend
   template: require './templates/add_layout'
   id: 'addLayout'
+
+  regions:
+    content: '.custom-tabs-content'
+
+  ui:
+    tabs: '.tab'
+    searchTab: '#searchTab'
+    scanTab: '#scanTab'
+    importTab: '#importTab'
+
   initialize: ->
     @loggedIn = app.user.loggedIn
-  serializeData: ->
-    attrs =
-      search: searchInputData 'localSearch', true
-      loggedIn: @loggedIn
 
-    if _.isMobile then attrs.scanner = scanner.url
-    return attrs
+  serializeData: ->
+    loggedIn: @loggedIn
 
   behaviors:
     PreventDefault: {}
-    ElasticTextarea: {}
-    LocalSeachBar: {}
 
   events:
-    'click #scanner': 'setAddModeScan'
-    'change input[type=file]': 'getCsvFile'
-
-  setAddModeScan: -> app.execute 'last:add:mode:set', 'scan'
+    'click .tab': 'changeTab'
 
   onShow: ->
-    unless @loggedIn
+    if @loggedIn
+      @showTabView @options.tab
+    else
       msg = 'you need to be connected to add a book to your inventory'
       app.execute 'show:call:to:connection', msg
 
@@ -36,9 +34,15 @@ module.exports = Marionette.LayoutView.extend
     unless @loggedIn
       app.execute 'modal:close'
 
-  getCsvFile: (e)->
-    files_.parseFileEventAsText e, true, 'ISO-8859-1'
-    # TODO: throw error on non-utf-8 encoding
-    .then _.Log('csv files')
-    .then imports.babelio
-    .then _.Log('babelio parse')
+  showTabView: (tab)->
+    View = require "./#{tab}"
+    @content.show new View @options
+    tabKey = "#{tab}Tab"
+    @ui.tabs.removeClass 'active'
+    @ui[tabKey].addClass 'active'
+    app.navigate "add/#{tab}"
+
+  changeTab: (e)->
+    tab = e.currentTarget.id.split('Tab')[0]
+    @showTabView tab
+    if _.smallScreen() then _.scrollTop @content.$el

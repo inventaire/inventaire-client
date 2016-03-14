@@ -48,6 +48,15 @@ $global-radius: 2px; // Foundation variable
   }
 }
 
+@mixin radius-horizontal-group-bottom($radius:$global-radius){
+  :first-child{
+    border-bottom-left-radius: $radius;
+  }
+  :last-child{
+    border-bottom-right-radius: $radius;
+  }
+}
+
 .radius-top{ @include radius-top() }
 .radius-bottom{ @include radius-bottom() }
 .radius-left{ @include radius-left() }

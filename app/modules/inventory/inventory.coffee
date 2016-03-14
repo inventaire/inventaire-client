@@ -20,7 +20,9 @@ module.exports =
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
         'items(/)': 'showGeneralInventoryNavigate'
-        'add(/)': 'showAddLayout'
+        'add(/search)(/)': 'showSearch'
+        'add/scan(/)': 'showScan'
+        'add/import(/)': 'showImport'
         'groups/:id(/:name)(/)': 'showGroupInventory'
         'g/(:name)': 'shortCutGroup'
         'u/(:username)': 'shortCutUser'
@@ -97,8 +99,9 @@ API =
     userItems = app.items.byOwner(userId)
     if userItems?.length > 0 then app.items.remove userItems
 
-  showAddLayout: ->
-    app.layout.main.Show new AddLayout, _.I18n('title_add_layout')
+  showSearch: -> showAddLayout 'search'
+  showScan: -> showAddLayout 'scan'
+  showImport: -> showAddLayout 'import'
 
   shortCutGroup: (name)->
     name = _.softDecodeURI name
@@ -118,6 +121,11 @@ API =
     .catch _.Error('searchGroup err')
 
   shortCutUser: (username)-> API.showUserInventory username, true
+
+showAddLayout = (tab='search')->
+  view = new AddLayout { tab: tab }
+  titleKey = "title_add_layout_#{tab}"
+  app.layout.main.Show view, _.I18n(titleKey)
 
 groupNameMatch = (name, model)->
   model.get('name').toLowerCase() is name
@@ -245,9 +253,7 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:show:from:model': showItemShowFromModel
 
-    'show:add:layout': ->
-      API.showAddLayout()
-      app.navigate 'add'
+    'show:add:layout': showAddLayout
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi

@@ -1,51 +1,24 @@
 {{#unless loggedIn}}<div class="fog"></div>{{/unless}}
+
 <h2>{{i18n 'add_menu_title'}}</h2>
 
-<section>
-  <h3>{{i18n 'add_by_search'}}</h3>
-  {{input search}}
-</section>
-
-{{partial 'horizontal_separator' 'or'}}
-
-<section class="scan">
-  <h3>{{i18n 'add_by_barcode_scan'}}</h3>
-  <div class="scan">
-    {{#if scanner}}
-      <a id="scanner" href="{{scanner}}">
-        {{icon 'barcode'}}{{I18n 'scan a barcode'}}
+<div class="custom-tabs-titles">
+  <div class="tabs">
+    <div class="level-1">
+      <a id="searchTab" href="/add/search" class="tab">
+        {{icon 'search'}}
+        <span class="label">{{I18n 'search'}}</span>
       </a>
-      <div class="dependency">
-        <p>{{i18n 'requires_barcode_scanner_app'}}</p>
-        <div class="apps">
-          {{iconLinkText 'android' 'https://play.google.com/store/apps/details?id=com.google.zxing.client.android' 'Barcode Scanner for Android'}}
-          {{!-- {{iconLinkText 'apple' 'https://itunes.apple.com/en/app/barcodes-scanner/id417257150?mt=8' 'Barcode Scanner for iPhone'}} --}}
-        </div>
-      </div>
-    {{else}}
-      <p class="disabled">
-        {{i18n 'scanner_disabled_tip'}}
+      <a id="scanTab" href="/add/scan" class="tab">
         {{icon 'barcode'}}
-      </p>
-    {{/if}}
+        <span class="label">{{I18n 'scan'}}</span>
+      </a>
+      <a id="importTab" href="/add/import" class="tab">
+        {{icon 'database'}}
+        <span class="label">{{I18n 'import'}}</span>
+      </a>
+    </div>
   </div>
-</section>
+</div>
 
-{{partial 'horizontal_separator' 'or'}}
-
-{{partial 'inventory:add:importers'}}
-
-{{!-- IMPORT FROM OTHER WEBSITE--}}
-
-{{!-- {{partial 'horizontal_separator' 'or'}} --}}
-
-{{!-- <section>
-  <h3>{{i18n 'add_by_isbn'}}</h3>
-  <p class="tip">{{i18n 'add_by_isbn_tip'}}</p>
-  <textarea name="isbns" class="isbns"></textarea>
-  <a class="isbns tiny-success-button">{{i18n 'validate'}}</a>
-</section>
- --}}
-
-
-{{!-- <h3>{{i18n 'import your collection from another tool'}}</h3> --}}
+<div class="custom-tabs-content"></div>
