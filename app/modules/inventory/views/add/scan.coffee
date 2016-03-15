@@ -1,6 +1,8 @@
 scanner = require 'lib/scanner'
 
 module.exports = Marionette.ItemView.extend
+  tagName: 'section'
+  className: 'scan'
   template: require './templates/scan'
   serializeData: ->
     attrs = {}

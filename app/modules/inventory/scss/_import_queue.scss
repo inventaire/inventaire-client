@@ -1,0 +1,32 @@
+.import-queue{
+  table{
+    width: 100%;
+    th{
+      background-color: #ddd;
+      input[type="checkbox"]{
+        margin-top: 0.5em;
+        margin-bottom: 0;
+      }
+    }
+    tr{
+      &:not(:last-child){
+        border-bottom: 1px solid #bbb;
+      }
+    }
+    .selected{
+      width: 1.8em;
+    }
+  }
+  .settings{
+    text-align: left;
+  }
+  label{
+    margin-top: 0.5em;
+    margin-bottom: 0;
+    font-size: 1em;
+  }
+  .validation{
+    padding: 1em;
+    text-align: center;
+  }
+}

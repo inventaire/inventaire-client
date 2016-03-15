@@ -1,17 +1,28 @@
-.itemCreation{
-  .entityData{
-    @extend .dark-panel;
-  }
-  label{
-    margin-top: 0.5em;
-    margin-bottom: 0;
-    font-size: 1.5em;
-  }
+.itemCreation, .import-queue{
   .button{
     font-weight: bold;
     // padding adapted to avoid wrapping in German
     padding: 0.8em 1.45em 1em 1.45em;
     white-space: nowrap;
+  }
+  #giving{ @include selected-button-color($giving-color); }
+  #lending{ @include selected-button-color($lending-color); }
+  #selling{ @include selected-button-color($selling-color); }
+  #inventorying{ @include selected-button-color($inventorying-color); }
+
+  #private{ @include selected-button-color($private-color, $private-color-text); }
+  #friends{ @include selected-button-color($friends-color, $friends-color-text); }
+  #public{ @include selected-button-color($public-color, $public-color-text); }
+}
+
+.itemCreation{
+  label{
+    margin-top: 0.5em;
+    margin-bottom: 0;
+    font-size: 1.5em;
+  }
+  .entityData{
+    @extend .dark-panel;
   }
   #notesGroup{
     background-color: $dark-grey;
@@ -35,14 +46,6 @@
     }
 
   }
-  #giving{ @include selected-button-color($giving-color); }
-  #lending{ @include selected-button-color($lending-color); }
-  #selling{ @include selected-button-color($selling-color); }
-  #inventorying{ @include selected-button-color($inventorying-color); }
-
-  #private{ @include selected-button-color($private-color, $private-color-text); }
-  #friends{ @include selected-button-color($friends-color, $friends-color-text); }
-  #public{ @include selected-button-color($public-color, $public-color-text); }
 
   /*Small screens*/
   @media screen and (max-width: $smallscreen) {

@@ -1,0 +1,34 @@
+#importLayout{
+  h3{
+    text-align: left;
+    padding-left: 0.2em;
+    font-weight: bold;
+  }
+  section{
+    margin-top: 0;
+  }
+}
+
+.importers{
+  li{
+    // height: 3em;
+    @include display-flex(row, center, space-between);
+    label{
+      width: 10em;
+      font-size: 1em;
+      font-weight: bold;
+      text-align: left;
+      padding: 0;
+      margin: 0;
+    }
+    input{
+      margin: 0;
+      padding: 1.2em 0 0.8em 1em;
+    }
+    &:not(:last-child){
+      border-bottom: 1px solid #bbb;
+    }
+  }
+}
+
+@import 'import_queue';

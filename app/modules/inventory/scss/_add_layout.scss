@@ -1,4 +1,4 @@
-$addLayoutWidth: 38em;
+$addLayoutWidth: 50em;
 
 #addLayout{
   @include flex(1);
@@ -53,6 +53,10 @@ $addLayoutWidth: 38em;
       // completing radius already added in custom_tabs
       @include radius-horizontal-group-bottom;
     }
+    .custom-tabs-content{
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
@@ -85,3 +89,5 @@ section.scan{
     margin-top: 1.5em;
   }
 }
+
+@import "import";

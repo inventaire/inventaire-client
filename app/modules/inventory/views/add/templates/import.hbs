@@ -1,5 +1,19 @@
-<h3>import</h3>
-<input type="file" accept="text/csv" />
-<a class="missingImporter">
-  {{i18n 'the importer for your data is missing? tell us!'}}
-</a>
+<h3>1/ {{i18n 'upload your collection from another website'}}</h3>
+<section>
+  <ul class="importers">
+    <li>
+      <label for="goodReads">GoodReads</label>
+      <input id="goodReads" type="file" accept="text/csv" />
+    </li>
+    <li>
+      <label for="libraryThing">LibraryThing</label>
+      <input id="libraryThing" type="file" accept="text/csv" />
+    </li>
+    <li>
+      <label for="babelio">Babelio</label>
+      <input id="babelio" type="file" accept="text/csv" />
+    </li>
+  </ul>
+</section>
+
+<div id="queue"></div>

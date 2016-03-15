@@ -1,5 +1,7 @@
 EntityData = require 'modules/entities/views/entity_data'
 scanner = require 'lib/scanner'
+itemCreationData = require 'modules/inventory/lib/item_creation_data'
+ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
@@ -8,6 +10,8 @@ module.exports = Marionette.LayoutView.extend
     entityRegion: '#entity'
   behaviors:
     ElasticTextarea: {}
+    ItemCreationSelect:
+      behaviorClass: ItemCreationSelect
 
   ui:
     'transaction': '#transaction'
@@ -72,24 +76,12 @@ module.exports = Marionette.LayoutView.extend
     title = @entity.get('title')
     attrs =
       title: title
-      listings: @listingsData()
-      transactions: @transactionsData()
+      listings: itemCreationData.listingsData()
+      transactions: itemCreationData.transactionsData()
       header: _.i18n 'add_item_text', {title: title}
 
     attrs = @setAddModeSpecificAttr attrs
     return attrs
-
-  listingsData: ->
-    listings = app.user.listings()
-    listings.private.classes = 'active'
-    return listings
-
-  transactionsData: ->
-    transactions = app.items.transactions()
-    _.extend transactions.inventorying,
-      label: 'just_inventorize_it'
-      classes: 'active'
-    return transactions
 
   setAddModeSpecificAttr: (attrs)->
     # if mobile and last add mode is scan
@@ -100,7 +92,6 @@ module.exports = Marionette.LayoutView.extend
     return attrs
 
   events:
-    'click .select-button-group > .button': 'updateSelector'
     'click #transaction': 'updateTransaction'
     'click #listing': 'updateListing'
     'click #cancel': 'destroyItem'
@@ -109,11 +100,6 @@ module.exports = Marionette.LayoutView.extend
 
   showEntityData: ->
     @entityRegion.show new EntityData { model: @entity }
-
-  updateSelector: (e)->
-    $el = $(e.currentTarget)
-    $el.siblings().removeClass 'active'
-    $el.addClass 'active'
 
   # TODO: update the UI for update errors
   updateTransaction: ->
