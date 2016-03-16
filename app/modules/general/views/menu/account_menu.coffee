@@ -40,10 +40,17 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     app.execute 'foundation:reload'
-    @showNotifications()
     # needed as 'route:change' might have been triggered before
     # this view was initialized
     @updateGlobalSearch _.currentSection(), _.currentRoute()
+
+  onRender: ->
+    # Make sure notifications are shown after account_menu re-rendered.
+    # Weirdly, triggering without the timeout triggers an error:
+    # Error: An "el" #before-notifications must exist in DOM
+    # Which is super weird given there is no reason #before-notifications
+    # wouldn't exist in the DOM once the view rendered
+    setTimeout @showNotifications.bind(@), 500
 
   showNotifications: ->
     @notifs.show new NotificationsList
