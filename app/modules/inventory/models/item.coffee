@@ -5,7 +5,7 @@ module.exports = Filterable.extend
 
   validate: (attrs, options)->
     unless attrs.title? then return "a title must be provided"
-    unless attrs.owner? then return "a owner must be provided"
+    unless attrs.owner? then return "an owner must be provided"
 
   initialize: (attrs, options)->
     { entity, title, owner } = attrs
@@ -171,6 +171,9 @@ module.exports = Filterable.extend
     .catch _.Error('updateAuthor')
 
   hasActiveTransaction: ->
+    # the reqres 'has:transactions:ongoing:byItemId' wont be defined
+    # if the user isn't logged in
+    unless app.user.loggedIn then return false
     return app.request 'has:transactions:ongoing:byItemId', @id
 
   saveWhenPossible: (key, value)->

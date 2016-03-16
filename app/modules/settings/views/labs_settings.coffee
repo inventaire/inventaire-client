@@ -30,7 +30,7 @@ openDownloadPage = (data, label)->
   _.openJsonWindow data, name
 
 endpointDemo = (username, endpoint)->
-  "$ curl https://#{username}:yourpassword@#{host}/api/#{endpoint}"
+  "$ curl #{location.protocol}//#{username}:yourpassword@#{host}/api/#{endpoint}"
 
 endpointsData = (username)->
   user: endpointDemo username, 'user'
