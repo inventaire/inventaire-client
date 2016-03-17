@@ -1,11 +1,13 @@
 module.exports = Marionette.ItemView.extend
   className: 'confirmationModal'
   template: require './templates/confirmation_modal'
-  onShow: -> app.execute 'modal:open'
   behaviors:
     SuccessCheck: {}
     ElasticTextarea: {}
     General: {}
+
+  ui:
+    no: '#no'
 
   serializeData: ->
     data = @options
@@ -16,6 +18,11 @@ module.exports = Marionette.ItemView.extend
   events:
     'click a#yes': 'yesClick'
     'click a#no': 'close'
+
+  onShow: ->
+    app.execute 'modal:open'
+    # trigger once the modal is done sliding down
+    setTimeout @ui.no.focus.bind(@ui.no), 600
 
   yesClick: ->
     { action, selector } = @options
