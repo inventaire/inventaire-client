@@ -34,7 +34,7 @@ module.exports = Filterable.extend
     .then @setUserData.bind(@)
     # chain it to get access to @restricted
     .then => @waitForEntity
-    .then @updateAuthor.bind(@)
+    .then @lookForMissingData.bind(@)
 
   onCreation: (serverRes)->
     # update the _id from 'new' to the server _id
@@ -160,8 +160,12 @@ module.exports = Filterable.extend
     if _.isNonEmptyString(details) then details
 
   # keep a copy of authors as a string on the item
-  updateAuthor: ->
+  lookForMissingData: ->
     if @restricted then return
+    @updateAuthor()
+    @lookForPicture()
+
+  updateAuthor: ->
     current = @get 'authors'
     @entity.getAuthorsString()
     .then (update)=>
@@ -169,6 +173,13 @@ module.exports = Filterable.extend
         _.log [current, update], 'updateAuthor'
         @saveWhenPossible 'authors', update
     .catch _.Error('updateAuthor')
+
+  lookForPicture: ->
+    # pass if the item already has a picture
+    if @get('pictures')?[0]? then return
+    entityPictures = @entity.get 'pictures'
+    if _.isArray(entityPictures) and entityPictures.length > 0
+      @saveWhenPossible 'pictures', entityPictures
 
   hasActiveTransaction: ->
     # the reqres 'has:transactions:ongoing:byItemId' wont be defined
