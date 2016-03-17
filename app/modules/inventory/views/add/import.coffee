@@ -22,8 +22,12 @@ module.exports = Marionette.LayoutView.extend
     'click input': 'hideAlertBox'
 
   initialize: ->
-    @candidates = new Candidates
-    @listenToOnce @candidates, 'add', @showImportQueue.bind(@)
+    @candidates = app.items.candidates ?= new Candidates
+
+  onShow: ->
+    # show the import queue if there were still candidates from last time
+    if @candidates.length > 0 then @showImportQueue()
+    else @listenToOnce @candidates, 'add', @showImportQueue.bind(@)
 
   serializeData: ->
     importers: importers
