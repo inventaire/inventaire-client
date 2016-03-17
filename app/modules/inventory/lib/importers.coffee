@@ -1,3 +1,7 @@
+# How to add an importer:
+# - add an entry to the importers object hereafter
+# - add a parser to the ./parsers folder
+
 csvParser = (source, data)->
   data
   # split by line
@@ -10,14 +14,12 @@ csvParser = (source, data)->
 importers =
   goodReads:
     format: 'csv'
-    encoding: 'UTF-8'
     first20Characters: 'Book Id,Title,Author'
     link: 'https://www.goodreads.com/review/import'
     parse: csvParser.bind(null, 'good_reads')
 
   libraryThing:
     format: 'json'
-    encoding: 'UTF-8'
     specificKey: 'books_id'
     link: 'https://www.librarything.com/export.php?export_type=json'
     parse: (data)->

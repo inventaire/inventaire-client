@@ -26,8 +26,7 @@ ParseReaderResult = (mode, file, verifyEncoding, resolve)->
 
 # Parsing a 'change input[type=file]' event.
 # mode: readAsDataURL or readAsText
-# encoding: the expected encoding of the file
-# ex: ISO-8859-1
+# encoding: the expected encoding of the file. FileReader defaults to UTF-8.
 parseFileEvent = (mode, e, expectOneFile=false, encoding)->
   filesObjets = _.toArray e.target.files
   # return a promise resolving to a file object
