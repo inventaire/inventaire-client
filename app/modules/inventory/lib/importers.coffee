@@ -1,6 +1,4 @@
 module.exports =
-  # /!\ ISO-8859 ENCODING by default
-  # Copy/Paste in an empty text file to get the right encoding
   babelio: (data)->
     data
     # split by line
