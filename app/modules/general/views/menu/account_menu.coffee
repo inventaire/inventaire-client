@@ -30,7 +30,7 @@ module.exports = Marionette.LayoutView.extend
     @addRegion 'notifs', CommonEl.extend {el: '#before-notifications'}
 
     @listenTo app.vent,
-      'window:resize': @render
+      'screen:mode:change': @render
       'search:global:show': @showGlobalSearch.bind(@)
       'search:global:hide': @hideGlobalSearch.bind(@)
       # heavier but cleaner than asking the concerned views to call
@@ -50,7 +50,7 @@ module.exports = Marionette.LayoutView.extend
     # Error: An "el" #before-notifications must exist in DOM
     # Which is super weird given there is no reason #before-notifications
     # wouldn't exist in the DOM once the view rendered
-    setTimeout @showNotifications.bind(@), 500
+    setTimeout @showNotifications.bind(@), 0
 
   showNotifications: ->
     @notifs.show new NotificationsList

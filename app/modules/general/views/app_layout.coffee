@@ -83,6 +83,12 @@ module.exports = Marionette.LayoutView.extend
 
 
 initWindowResizeEvents = ->
-  resizeEnd = -> app.vent.trigger 'window:resize'
+  previousScreenMode = _.smallScreen()
+  resizeEnd = ->
+    newScreenMode = _.smallScreen()
+    if newScreenMode isnt previousScreenMode
+      previousScreenMode = newScreenMode
+      app.vent.trigger 'screen:mode:change'
+
   resize = _.debounce resizeEnd, 150
   $(window).resize resize
