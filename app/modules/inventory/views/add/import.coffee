@@ -11,32 +11,51 @@ module.exports = Marionette.LayoutView.extend
   id: 'importLayout'
   template: require './templates/import'
   behaviors:
-    Loading: {}
     AlertBox: {}
+    Loading: {}
+    SuccessCheck: {}
 
   regions:
     queue: '#queue'
 
+  ui:
+    addedItems: '#addedItems'
+
   events:
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
+    'click #addedItems': 'showMainUserInventory'
+
+  childEvents:
+    'import:done': 'onImportDone'
 
   initialize: ->
-    @candidates = app.items.candidates ?= new Candidates
+    @candidates = app.items.candidates or= new Candidates
 
   onShow: ->
     # show the import queue if there were still candidates from last time
-    if @candidates.length > 0 then @showImportQueue()
-    else @listenToOnce @candidates, 'add', @showImportQueue.bind(@)
+    @showImportQueueUnlessEmpty()
+    @listenTo @candidates, 'reset', @hideImportQueueIfEmpty.bind(@)
 
   serializeData: ->
     importers: importers
+    inventory: app.user.get('pathname')
 
-  showImportQueue: ->
-    @queue.show new ImportQueue { collection: @candidates }
+  showImportQueueUnlessEmpty: ->
+    if @candidates.length > 0
+      # slide down in case @queue.$el was previously hidden
+      # by hideImportQueueIfEmpty
+      @queue.$el.slideDown()
+      if not @queue.hasView()
+        @queue.show new ImportQueue { collection: @candidates }
+
+      _.scrollTop @queue.$el
+
+  hideImportQueueIfEmpty: ->
+    if @candidates.length is 0 then @queue.$el.slideUp()
 
   getFile: (e)->
-    behaviorsPlugin.startLoading.call @
+    behaviorsPlugin.startLoading.call @, '.loading'
     source = e.currentTarget.id
     { parse, encoding } = importers[source]
 
@@ -50,10 +69,15 @@ module.exports = Marionette.LayoutView.extend
     .catch error_.Complete(".warning")
     .then _.Log('parsed')
     .then @candidates.add.bind(@candidates)
-    .then @scrollToQueue.bind(@)
+    .then @showImportQueueUnlessEmpty.bind(@)
+    # .then @scrollToQueue.bind(@)
     .catch forms_.catchAlert.bind(null, @)
-
-  scrollToQueue: -> _.scrollTop @queue.$el
 
   # passing the event to the AlertBox behavior
   hideAlertBox: -> @$el.trigger 'hideAlertBox'
+
+  onImportDone: ->
+    @hideImportQueueIfEmpty()
+    @$el.trigger 'check'
+    # show the message once import_queue success check is over
+    setTimeout @ui.addedItems.fadeIn.bind(@ui.addedItems), 700

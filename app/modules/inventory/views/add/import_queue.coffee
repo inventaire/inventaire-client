@@ -16,24 +16,20 @@ module.exports = Marionette.CompositeView.extend
     listing: '#listing'
     meter: '.meter'
     fraction: '.fraction'
-    addedItems: '#addedItems'
 
   behaviors:
     PreventDefault: {}
-    SuccessCheck: {}
     ItemCreationSelect:
       behaviorClass: ItemCreationSelect
 
   serializeData: ->
     listings: listingsData()
     transactions: transactionsData()
-    inventory: app.user.get('pathname')
 
   events:
     'change th.selected input': 'toggleAll'
     'click #emptyQueue': 'emptyQueue'
     'click #validate': 'validate'
-    'click #addedItems': 'showMainUserInventory'
 
   initialize: ->
     @lazyUpdateHeadCheckbox = _.debounce @updateHeadCheckbox.bind(@), 200
@@ -114,13 +110,13 @@ module.exports = Marionette.CompositeView.extend
       @updateHeadCheckbox()
       # Hide the cant import message now
       # as it might sound like the import failed.
-      # The section will not be empty though, thank to the addedItems message.
+      # The section will not be empty though, thank to the addedItems message
+      # on the import layout.
       # Has to happen after updateHeadCheckbox as it will trigger
       # onSelectionChange, which in turn could show cantValidateMessage
       @ui.cantValidateMessage.hide()
-      @$el.trigger 'check'
-      # show the message once the success check is over
-      setTimeout @ui.addedItems.fadeIn.bind(@ui.addedItems), 700
+      # triggering events on the parent via childEvents
+      @triggerMethod 'import:done'
 
   showValidateButton: ->
     @ui.validateButton.show()
