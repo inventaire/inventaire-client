@@ -201,6 +201,9 @@ itemCreate = (itemData)->
   unless itemData.title? and itemData.title isnt ''
     throw new Error('cant create item: missing title')
 
+  # will be confirmed by the server
+  itemData.owner = app.user.id
+
   itemModel = app.items.add itemData
   _.preq.resolve itemModel.save()
   .then _.Log('item creation server res')

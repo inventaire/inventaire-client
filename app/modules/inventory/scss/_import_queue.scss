@@ -29,4 +29,19 @@
     padding: 1em;
     text-align: center;
   }
+  .cant-import{
+    color: #444;
+  }
+}
+
+.progress{
+  // overriding Foundation
+  background-color: #999 !important;
+  .fraction{
+    font-size: 0.9em;
+    padding-left: 1em;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+  }
 }

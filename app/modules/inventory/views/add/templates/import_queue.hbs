@@ -27,5 +27,20 @@
 
 <h3>4/ {{i18n 'import this batch'}}</h3>
 <div class="validation">
-  <a id="validate" class="button success radius">{{i18n 'import'}}</a>
+  <div class="import">
+    <a id="validate" class="button success radius">{{i18n 'import'}}</a>
+    <span class="cant-import hidden">
+      {{i18n "no book selected"}}
+    </span>
+  </div>
+  {{!-- using force-hidden to override Foundation display setting --}}
+  <div class="progress round success force-hidden">
+    <span class="meter" style="width:0%">
+      <p class="fraction"></p>
+    </span>
+  </div>
 </div>
+
+<a id="addedItems" href="{{inventory}}" class="link hidden">
+  {{i18n 'go to your inventory to see the imported books'}}
+</a>

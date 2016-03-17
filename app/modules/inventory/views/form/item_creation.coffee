@@ -1,6 +1,6 @@
 EntityData = require 'modules/entities/views/entity_data'
 scanner = require 'lib/scanner'
-itemCreationData = require 'modules/inventory/lib/item_creation_data'
+{ listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 
 module.exports = Marionette.LayoutView.extend
@@ -14,10 +14,10 @@ module.exports = Marionette.LayoutView.extend
       behaviorClass: ItemCreationSelect
 
   ui:
-    'transaction': '#transaction'
-    'listing': '#listing'
-    'details': '#details'
-    'notes': '#notes'
+    transaction: '#transaction'
+    listing: '#listing'
+    details: '#details'
+    notes: '#notes'
 
   initialize: ->
     @entity = @options.entity
@@ -35,8 +35,6 @@ module.exports = Marionette.LayoutView.extend
     if pictures = @entity.get 'pictures'
       attrs.pictures = pictures
 
-    # will be confirmed by the server
-    attrs.owner = app.user.id
     unless attrs.entity? and attrs.title?
       throw new Error 'missing uri or title at item creation from entity'
 
@@ -76,8 +74,8 @@ module.exports = Marionette.LayoutView.extend
     title = @entity.get('title')
     attrs =
       title: title
-      listings: itemCreationData.listingsData()
-      transactions: itemCreationData.transactionsData()
+      listings: listingsData()
+      transactions: transactionsData()
       header: _.i18n 'add_item_text', {title: title}
 
     attrs = @setAddModeSpecificAttr attrs
@@ -103,13 +101,13 @@ module.exports = Marionette.LayoutView.extend
 
   # TODO: update the UI for update errors
   updateTransaction: ->
-    transaction = @ui.transaction.find('.active').attr 'id'
+    transaction = getSelectorData @, 'transaction'
     app.execute 'last:transaction:set', transaction
     @updateItem { transaction: transaction }
     .catch _.Error('updateTransaction err')
 
   updateListing: ->
-    listing = @ui.listing.find('.active').attr 'id'
+    listing = getSelectorData @, 'listing'
     app.execute 'last:listing:set', listing
     @updateItem { listing: listing }
     .catch _.Error('updateListing err')
