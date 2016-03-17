@@ -18,30 +18,35 @@ module.exports = Marionette.LayoutView.extend
     queue: '#queue'
 
   events:
-    'change input[type=file]': 'getCsvFile'
+    'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
 
   initialize: ->
     @candidates = new Candidates
     @listenToOnce @candidates, 'add', @showImportQueue.bind(@)
 
+  serializeData: ->
+    importers: importers
+
   showImportQueue: ->
     @queue.show new ImportQueue { collection: @candidates }
 
-  getCsvFile: (e)->
+  getFile: (e)->
     behaviorsPlugin.startLoading.call @
     source = e.currentTarget.id
-    files_.parseFileEventAsText e, true, 'ISO-8859-1'
-    # TODO: throw error on non-utf-8 encoding
-    .then _.Log('imported file')
+    { parse, encoding } = importers[source]
+
+    files_.parseFileEventAsText e, true, encoding
+    .then _.Log('uploaded file')
     .tap dataValidator.bind(null, source)
-    .then importers[source]
+    .then parse
+    .catch _.ErrorRethrow('parsing error')
+    # add the selector to the rejected error
+    # so that it can be catched by catchAlert
     .catch error_.Complete(".warning")
     .then _.Log('parsed')
     .then @candidates.add.bind(@candidates)
     .then @scrollToQueue.bind(@)
-    # add the selector to the rejected error
-    # so that an alert can be shown under the right source
     .catch forms_.catchAlert.bind(null, @)
 
   scrollToQueue: -> _.scrollTop @queue.$el

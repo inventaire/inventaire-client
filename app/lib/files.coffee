@@ -17,6 +17,7 @@ ParseReaderResult = (mode, file, verifyEncoding, resolve)->
 
     differentEncoding = testEncodingErrors result
     if differentEncoding
+      _.warn differentEncoding, 'retrying file with different encoding'
       # retrying with different encoding but prevent
       # to enter a retry loop by passing verifyEncoding=false
       resolve readFile(mode, file, differentEncoding, false)

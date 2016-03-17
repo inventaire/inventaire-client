@@ -1,13 +1,24 @@
 error_ = require 'lib/error'
+importers = require './importers'
 
 module.exports = (source, data)->
-  first20Char = data[0...20]
-  unless first20Char is first20Characters[source]
-    message = _.i18n 'data_mismatch', { source: _.capitaliseFirstLetter(source) }
-    throw error_.new message, first20Char
+  { format, label } = importers[source]
+  unless isValid[format](source, data)
+    message = _.i18n 'data_mismatch', { source: label }
+    # avoid attaching the whole file as context as it might be pretty heavy
+    throw error_.new message, data[0..100]
 
-# the expected first 20 characters for each source
-# to validate that it looks like what we expecte from this source
-first20Characters =
-  goodReads: 'Book Id,Title,Author'
-  babelio: '"ISBN";"Titre";"Aute'
+isValid =
+  csv: (source, data)->
+    # Comparing the first 20 first characters
+    # as those should be the header line and thus be constant
+    first20Char = data[0...20]
+    return first20Char is importers[source].first20Characters
+
+  json: (source, data)->
+    unless data[0] is '{' then return false
+    # No headers line here, so we look for the presence of a specific key instead
+    re = new RegExp importers[source].specificKey
+    # Testing only an extract to avoid passing a super long doc to the regexp.
+    # Make sure to choose a specificKey that would appear in this extract
+    return re.test data[0..1000]

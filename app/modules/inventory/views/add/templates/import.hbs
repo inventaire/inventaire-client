@@ -1,18 +1,15 @@
 <h3>1/ {{i18n 'upload your collection from another website'}}</h3>
 <section>
   <ul class="importers">
-    <li>
-      <label for="goodReads">GoodReads</label>
-      <input id="goodReads" type="file" accept="text/csv" />
-    </li>
-    <li>
-      <label for="libraryThing">LibraryThing</label>
-      <input id="libraryThing" type="file" accept="text/csv" />
-    </li>
-    <li>
-      <label for="babelio">Babelio</label>
-      <input id="babelio" type="file" accept="text/csv" />
-    </li>
+    {{#each importers}}
+      <li>
+        <p>
+          {{link label this.link}}
+          <span class="format">( .{{format}} )</span>
+        </p>
+        <input id="{{id}}" type="file" accept="{{accept}}" />
+      </li>
+    {{/each}}
   </ul>
   <p class="warning"></p>
 </section>
