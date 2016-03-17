@@ -31,6 +31,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'change th.selected input': 'toggleAll'
+    'click #emptyQueue': 'emptyQueue'
     'click #validate': 'validate'
     'click #addedItems': 'showMainUserInventory'
 
@@ -51,6 +52,9 @@ module.exports = Marionette.CompositeView.extend
 
   changeAll: (bool)->
     @collection.forEach (model)-> model.set 'selected', bool
+
+  emptyQueue: ->
+    @collection.reset()
 
   childEvents:
     'checkbox:change': 'lazyUpdateHeadCheckbox'

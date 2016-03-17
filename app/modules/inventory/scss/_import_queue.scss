@@ -32,7 +32,23 @@
   .cant-import{
     color: #444;
   }
+  section{
+    position: relative;
+  }
+  .bottom{
+    padding-top: 0.5em;
+    margin-bottom: -0.8em;
+  }
 }
+#emptyQueue{
+  @include shy(0.6);
+  &:hover{
+    span{
+      @include underline;
+    }
+  }
+}
+
 
 .progress{
   // overriding Foundation
