@@ -20,6 +20,7 @@ module.exports = Marionette.CompositeView.extend
 
   behaviors:
     PreventDefault: {}
+    SuccessCheck: {}
     ItemCreationSelect:
       behaviorClass: ItemCreationSelect
 
@@ -106,13 +107,16 @@ module.exports = Marionette.CompositeView.extend
       _.log 'done importing!'
       @stopProgressUpdate()
       @toggleValidationElements()
-      @ui.addedItems.show()
+      @updateHeadCheckbox()
       # Hide the cant import message now
       # as it might sound like the import failed.
-      # The section will not be empty though, thank to
-      # the addedItems cantValidateMessage
-      # @ui.cantValidateMessage.hide()
-      @lazyUpdateHeadCheckbox()
+      # The section will not be empty though, thank to the addedItems message.
+      # Has to happen after updateHeadCheckbox as it will trigger
+      # onSelectionChange, which in turn could show cantValidateMessage
+      @ui.cantValidateMessage.hide()
+      @$el.trigger 'check'
+      # show the message once the success check is over
+      setTimeout @ui.addedItems.fadeIn.bind(@ui.addedItems), 700
 
   showValidateButton: ->
     @ui.validateButton.show()
