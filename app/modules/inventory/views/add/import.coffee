@@ -13,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     AlertBox: {}
     Loading: {}
+    PreventDefault: {}
     SuccessCheck: {}
 
   regions:
@@ -81,3 +82,7 @@ module.exports = Marionette.LayoutView.extend
     @$el.trigger 'check'
     # show the message once import_queue success check is over
     setTimeout @ui.addedItems.fadeIn.bind(@ui.addedItems), 700
+
+  showMainUserInventory: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:inventory:main:user'

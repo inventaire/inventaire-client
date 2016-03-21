@@ -101,7 +101,10 @@ API =
 
   showSearch: -> showAddLayout 'search'
   showScan: -> showAddLayout 'scan'
-  showImport: -> showAddLayout 'import'
+  showImport: ->
+    # app.user.get('pathname') should be available at data serialization
+    app.request 'waitForUserData'
+    .then -> showAddLayout 'import'
 
   shortCutGroup: (name)->
     name = _.softDecodeURI name
