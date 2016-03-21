@@ -76,7 +76,7 @@ module.exports =
       group: @id
       # requiered only for actions implying an other user
       user: userId
-    .then _.Tap(@_postActionHooks.bind(@, action))
+    .tap @_postActionHooks.bind(@, action)
 
   _postActionHooks: (action)->
     app.execute 'track:group', action

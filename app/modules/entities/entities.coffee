@@ -50,7 +50,7 @@ API =
 
   _getEntityView: (prefix, id, refresh)->
     @getEntityModel prefix, id, refresh
-    .then _.Tap(@_replaceEntityPathname.bind(@))
+    .tap @_replaceEntityPathname.bind(@)
     .then @_getDomainEntityView.bind(@, prefix, refresh)
 
   _replaceEntityPathname: (entity)->

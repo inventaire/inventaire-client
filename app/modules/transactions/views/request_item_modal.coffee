@@ -48,7 +48,7 @@ module.exports = Marionette.ItemView.extend
       action: 'request'
       item: @model.id
       message: @ui.message.val()
-    .then _.Tap(tracker)
+    .tap tracker
 
 addTransaction = (transaction)->
   app.request 'transactions:add', transaction

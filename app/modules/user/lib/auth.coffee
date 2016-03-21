@@ -16,7 +16,7 @@ module.exports = ->
 requestClassicSignup = (options)->
   { username, password } = options
   _.preq.post app.API.auth.signup, options
-  .then _.Tap(app.execute.bind(app, 'track:auth:signup', 'classic'))
+  .tap app.execute.bind(app, 'track:auth:signup', 'classic')
   # not submitting email as there is no need for it
   # to be remembered by browsers
   .then fakeFormSubmit.bind(null, username, password)
@@ -28,7 +28,7 @@ passwordConfirmation = (currentPassword)->
 
 requestClassicLogin = (username, password)->
   classicLogin(username, password)
-  .then _.Tap(app.execute.bind(app, 'track:auth:login', 'classic'))
+  .tap app.execute.bind(app, 'track:auth:login', 'classic')
   .then fakeFormSubmit.bind(null, username, password)
 
 classicLogin = (username, password)->

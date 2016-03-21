@@ -12,7 +12,7 @@ module.exports =
       description: description
       searchable: searchable
     .then groups.add.bind(groups)
-    .then _.Tap(app.execute.bind(app, 'track:group', 'create'))
+    .tap app.execute.bind(app, 'track:group', 'create')
     .then _.Log('group')
     .catch _.Error('group create')
 
