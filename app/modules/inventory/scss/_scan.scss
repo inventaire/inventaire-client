@@ -1,0 +1,16 @@
+#embedded{
+  // start hidden
+  display: none;
+  @include position(fixed, 0, 0, 0, 0, 10000);
+  background-color: rgba(#222, 0.9);
+  video, canvas.drawingBuffer{
+    @include position(absolute, 50%, null, null, 50%);
+    // centering
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+  }
+  &.portrait{
+    transform: rotate(90deg);
+  }
+}

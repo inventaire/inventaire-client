@@ -1,5 +1,5 @@
 EntityData = require 'modules/entities/views/entity_data'
-scanner = require 'lib/scanner'
+zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 
@@ -86,7 +86,7 @@ module.exports = Marionette.LayoutView.extend
     # set #validateAndAddNext href to the scanner.url
     if _.isMobile
       @_addMode = app.request 'last:add:mode:get'
-      if @_addMode is 'scan' then attrs.scanner = scanner
+      if @_addMode is 'scan' then attrs.scanner = zxing
     return attrs
 
   events:
