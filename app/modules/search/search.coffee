@@ -21,7 +21,7 @@ module.exports =
 API = {}
 API.search = (query)->
   unless _.isNonEmptyString query
-    app.execute 'show:add:layout'
+    app.execute 'show:add:layout:search'
     return
 
   app.search = searchLayout = new Search

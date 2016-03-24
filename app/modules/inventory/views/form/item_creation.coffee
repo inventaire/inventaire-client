@@ -2,6 +2,8 @@ EntityData = require 'modules/entities/views/entity_data'
 zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
+embeddedScanner = require 'modules/inventory/lib/scanner/embedded'
+error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
@@ -78,16 +80,13 @@ module.exports = Marionette.LayoutView.extend
       transactions: transactionsData()
       header: _.i18n 'add_item_text', {title: title}
 
-    attrs = @setAddModeSpecificAttr attrs
-    return attrs
+    return _.extend attrs, @addNextData()
 
-  setAddModeSpecificAttr: (attrs)->
-    # if mobile and last add mode is scan
-    # set #validateAndAddNext href to the scanner.url
-    if _.isMobile
-      @_addMode = app.request 'last:add:mode:get'
-      if @_addMode is 'scan' then attrs.scanner = zxing
-    return attrs
+  addNextData: ->
+    data = {}
+    @_lastAddMode = app.request 'last:add:mode:get'
+    if @_lastAddMode is 'scan:zxing' then data.zxing = zxing
+    return data
 
   events:
     'click #transaction': 'updateTransaction'
@@ -133,8 +132,12 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('validateAndAddNext err')
 
   addNext: ->
-    # if addMode is scan, the scanner should have opened a new window
-    app.execute 'show:add:layout'
+    switch @_lastAddMode
+      when 'search' then app.execute 'show:add:layout:search'
+      when 'scan:embedded' then embeddedScanner @$el
+      # if addMode is scan, the scanner should have opened a new window
+      when 'scan:zxing' then return
+      else throw error_.new 'unknown add mode', @_lastAddMode
 
   validateItem: ->
     @updateItem

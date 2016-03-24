@@ -1,5 +1,5 @@
 zxing = require 'modules/inventory/lib/scanner/zxing'
-embedded = require 'modules/inventory/lib/scanner/embedded'
+embeddedScanner = require 'modules/inventory/lib/scanner/embedded'
 
 module.exports = Marionette.ItemView.extend
   className: 'scan'
@@ -16,17 +16,11 @@ module.exports = Marionette.ItemView.extend
   events:
     'click #embeddedScanner': 'startEmbeddedScanner'
     # should open the href url
-    'click #zxingScanner': 'setAddModeScan'
+    'click #zxingScanner': 'setAddModeScanZxing'
     'change .toggler-input': 'toggleZxing'
 
-  setAddModeScan: -> app.execute 'last:add:mode:set', 'scan'
-
-  startEmbeddedScanner: ->
-    @setAddModeScan()
-    embedded()
-    .then _.Log('embedded scanner isbn')
-    .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
-    .catch _.Error('embedded scanner err')
+  setAddModeScanZxing: -> app.execute 'last:add:mode:set', 'scan:zxing'
+  startEmbeddedScanner: -> embeddedScanner @$el
 
   toggleZxing: (e)->
     { checked } = e.currentTarget

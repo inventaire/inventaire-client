@@ -1,8 +1,22 @@
-# keep in sync with app/modules/inventory/views/add/templates/scan.hbs
-selector = '#embedded'
+id = 'embedded'
+selector = "##{id}"
 drawCanvas = require './draw_canvas'
 
-module.exports = ->
+module.exports = ($el)->
+  app.execute 'last:add:mode:set', 'scan:embedded'
+  createContainer $el
+
+  scan()
+  .then _.Log('embedded scanner isbn')
+  .then (isbn)->
+    app.execute 'show:entity:add', "isbn:#{isbn}"
+  .catch _.Error('embedded scanner err')
+
+createContainer = ($el)->
+  if $(selector).length is 1 then return
+  else $el.append "<div id='#{id}'></div>"
+
+scan = ->
   new Promise (resolve, reject)->
     constraints = getConstraints()
     $target = $(selector)

@@ -260,6 +260,9 @@ initializeInventoriesHandlers = (app)->
     'show:item:show:from:model': showItemShowFromModel
 
     'show:add:layout': showAddLayout
+    # equivalent to the previous one as long as search is the default tab
+    # but more explicit
+    'show:add:layout:search': API.showSearch
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi
