@@ -16,6 +16,7 @@ Q =
     'Q49084' #short story / conte
     'Q34620' #Greek tragedy
     'Q8274' #manga
+    'Q128093' #ebook
   ]
   edition: [
     'Q3972943' #publishing
