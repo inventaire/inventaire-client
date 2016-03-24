@@ -1,8 +1,11 @@
+testVideoInput = require 'lib/has_video_input'
+
 module.exports = ->
   ISODatePolyFill()
   sayHi()
   testFlexSupport()
   testLocalStorage()
+  testVideoInput()
   setDebugSetting()
   return testIndexedDbSupport()
 

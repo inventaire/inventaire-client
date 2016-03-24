@@ -30,6 +30,9 @@ logDone toDataURL
 browserify node_modules/browser-locale -s browserLocale > vendor/scripts/browser-locale.js
 logDone browserLocale
 
+browserify node_modules/enumerate-devices -s enumerateDevices > vendor/scripts/enumerate-devices.js
+logDone enumerateDevices
+
 cp node_modules/wikidata-sdk/dist/wikidata-sdk.js vendor/scripts/wikidata-sdk.js
 echo -e '\e[0;32mdone copying:\e[0m' wdk
 
