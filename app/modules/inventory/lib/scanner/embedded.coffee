@@ -20,7 +20,7 @@ module.exports = ->
       _.log 'quagga initialization finished. Starting'
       Quagga.start()
 
-      Quagga.onProcessed drawCanvas(constraints)
+      Quagga.onProcessed drawCanvas()
 
       Quagga.onDetected (result)->
         # TODO: verify that we get a valid ISBN before stopping and resolving
