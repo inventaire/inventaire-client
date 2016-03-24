@@ -6,9 +6,16 @@ module.exports = ($el)->
   app.execute 'last:add:mode:set', 'scan:embedded'
   createContainer $el
 
+  previousRoute = _.currentRoute()
+  # navigate to a different route so that hitting back
+  # looks like escaping the embedded scanner
+  app.navigate 'add/scan/embedded'
+
   scan()
   .then _.Log('embedded scanner isbn')
   .then (isbn)->
+    # remove the add/scan/embedded from the history
+    app.navigateReplace previousRoute
     app.execute 'show:entity:add', "isbn:#{isbn}"
   .catch _.Error('embedded scanner err')
 
