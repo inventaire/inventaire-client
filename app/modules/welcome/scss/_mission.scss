@@ -53,7 +53,7 @@ section#mission{
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     ul.mission{
       @include display-flex(column, center, center);
       li{
@@ -66,7 +66,7 @@ section#mission{
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     ul.mission{
       @include display-flex(row, baseline, space-around, wrap);
       li{

@@ -19,7 +19,7 @@
   }
 
   /*Very Small screens*/
-  @media screen and (max-width: $verysmallscreen) {
+  @media screen and (max-width: $very-small-screen) {
     .otherOptions{
       @include flex-direction(column);
       a{

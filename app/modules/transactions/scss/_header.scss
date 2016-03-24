@@ -27,7 +27,7 @@
     display: none;
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     padding: 1em;
     @include display-flex(row, center, space-around, wrap);
     .context{
@@ -38,7 +38,7 @@
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     @include display-flex(row, center, space-between);
     padding: 1em;
   }

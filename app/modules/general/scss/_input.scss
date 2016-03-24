@@ -13,7 +13,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $verysmallscreen) {
+  @media screen and (max-width: $very-small-screen) {
     @include flex-direction(column);
     .inputBox{
       width: 100%;
@@ -35,7 +35,7 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $verysmallscreen) {
+  @media screen and (min-width: $very-small-screen) {
     input{
       @include radius-left;
     }

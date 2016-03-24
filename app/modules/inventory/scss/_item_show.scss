@@ -10,7 +10,7 @@
       @include radius;
     }
     /*Large screens*/
-    @media screen and (min-width: $smallscreen) {
+    @media screen and (min-width: $small-screen) {
       padding-top: 2em;
       padding-bottom: 2em;
       // height needed in parents element to give room for the position sticky

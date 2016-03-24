@@ -102,7 +102,7 @@
 
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $small-screen) {
   #sideNav{
     margin-top: 0.2em;
   }
@@ -113,7 +113,7 @@
 
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
   #sideNav{
     @include position(fixed, $topbar-height, null, 0);
     margin-right: 2px;

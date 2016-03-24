@@ -12,7 +12,7 @@
     text-align: right;
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     @include shy-border;
     height: 3em;
     .close{
@@ -35,7 +35,7 @@
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     height: 2em;
     .header{
       padding-top: 0.2em;

@@ -48,7 +48,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     .entityData{
       h2, a {
         margin-left: 1rem;
@@ -58,6 +58,6 @@
 
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
   }
 }

@@ -6,7 +6,7 @@
     @include display-flex(row);
 
     /*Small screens*/
-    @media screen and (max-width: $smallscreen) {
+    @media screen and (max-width: $small-screen) {
       @include flex-direction(column);
       .pics{
         padding: 1em;
@@ -14,7 +14,7 @@
       }
     }
     /*Large screens*/
-    @media screen and (min-width: $smallscreen) {
+    @media screen and (min-width: $small-screen) {
       .fields{
         @include flex(3);
       }

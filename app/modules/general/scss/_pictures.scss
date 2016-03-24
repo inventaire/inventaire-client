@@ -24,7 +24,7 @@ figure {
 }
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $small-screen) {
   .max-large-profilePic{
     max-width: 90%;
     max-height: 10em;
@@ -33,7 +33,7 @@ figure {
 
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
   .max-large-profilePic{
     max-width: 25em;
     max-height: 25em;

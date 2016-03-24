@@ -10,7 +10,7 @@
     text-align: center;
   }
   /*Not VerySmall screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     padding: 1em;
     .from, .to{
       label, input{

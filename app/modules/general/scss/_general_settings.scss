@@ -146,11 +146,11 @@ input[type="password"]{
 }
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $small-screen) {
 }
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
 }
 
 @import "buttons";

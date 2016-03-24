@@ -50,7 +50,7 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     @include flex-direction(column);
   }
 }

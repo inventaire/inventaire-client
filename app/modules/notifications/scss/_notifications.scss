@@ -41,14 +41,14 @@
   @import "request_li";
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     .notification, .request{
     }
   }
 
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     ul.dropdown{
       padding: 0.2em;
       background-color: $dark-grey;

@@ -48,7 +48,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     .wiki-menu-bar{
       @include display-flex(column);
       .wiki-sitelinks{
@@ -66,6 +66,6 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
   }
 }

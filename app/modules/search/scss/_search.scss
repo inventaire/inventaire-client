@@ -14,7 +14,7 @@
     @include shy-border(0.4);
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     margin-top: 1.5em;
     .button{
       max-width: 6em;
@@ -60,7 +60,7 @@
     #create{}
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     section#results{
       > div:not(:empty){
         margin-top: 1em;

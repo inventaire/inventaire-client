@@ -5,10 +5,10 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
 #iconNav{
   background-color: $darker-grey;
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     @include position(fixed, $topbar-height, null, 0);
     width: $iconNavWidth;
   }
@@ -31,7 +31,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
         display: none;
       }
       /*Large screens*/
-      @media screen and (min-width: $smallscreen) {
+      @media screen and (min-width: $small-screen) {
         @include display-flex(row, center, center);
         .counter{
           margin: 0.1em -0.8em 0.2em -0.2em;
@@ -89,7 +89,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
         margin-right: 0.1em;
       }
       /*Large screens*/
-      @media screen and (min-width: $smallscreen) {
+      @media screen and (min-width: $small-screen) {
         .fa{
           font-size: 1.2em;
         }
@@ -97,7 +97,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     @include display-flex(row, baseline, space-around);
     a.iconButton{
       max-width: 50%;
@@ -112,12 +112,12 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
     }
   }
   /*Very Small screens*/
-  @media screen and (max-width: $verysmallscreen) {
+  @media screen and (max-width: $very-small-screen) {
     @include flex-wrap(wrap);
     @include flex(1, 0, auto);
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     max-width: 100%;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
@@ -142,7 +142,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
   height: 1px;
   z-index: 300;
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     display: none;
   }
 }

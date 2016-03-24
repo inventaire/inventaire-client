@@ -40,7 +40,7 @@
 }
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $small-screen) {
   .intro{
     padding: 0.5em;
   }
@@ -48,7 +48,7 @@
 
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
   .intro{
     padding: 1em;
   }

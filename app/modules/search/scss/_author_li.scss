@@ -71,7 +71,7 @@
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     @include display-flex(row, flex-start, flex-start);
     .infobox{
       @include flex(0, 0);
@@ -87,7 +87,7 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     .bookLi:first-child{
       margin-top: 1em;
     }

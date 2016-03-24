@@ -60,7 +60,7 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     a, a.active{
       max-height: 5em;
       white-space: nowrap;

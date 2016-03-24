@@ -40,7 +40,7 @@
   }
   .authorLi{
     /*Large screens*/
-    @media screen and (min-width: $smallscreen) {
+    @media screen and (min-width: $small-screen) {
       margin: 1em;
       padding: 1em;
       @include radius;

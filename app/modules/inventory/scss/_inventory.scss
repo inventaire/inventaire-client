@@ -33,7 +33,7 @@ $tabs-navigation-font-color: #fff;
 }
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
   #innerMain{
     .sideNavClones{
       width: $sideNavWidth;
@@ -46,7 +46,7 @@ $tabs-navigation-font-color: #fff;
 }
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $small-screen) {
   #innerMain{
     @include flex-direction(column);
     .sideNavClones{}

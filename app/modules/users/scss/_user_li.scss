@@ -70,7 +70,7 @@ $user-bg: #ddd;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     width: 100%;
     .right-box{
       width: 100%;
@@ -97,7 +97,7 @@ $user-bg: #ddd;
         @include display-flex(row, center, flex-start);
         .inventoryLength{
           /*Small screens*/
-          @media screen and (max-width: $verysmallscreen) {
+          @media screen and (max-width: $very-small-screen) {
             display: none;
           }
         }
@@ -124,7 +124,7 @@ $user-bg: #ddd;
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     @include display-flex(row);
     .right-box{
       // hacky way to make sure .userLi doesn't scroll horizontally
@@ -223,7 +223,7 @@ $user-bg: #ddd;
       display: none;
     }
     /*Small screens*/
-    @media screen and (max-width: $smallscreen) {
+    @media screen and (max-width: $small-screen) {
       margin-right: 0.5em;
     }
   }
@@ -261,7 +261,7 @@ $user-bg: #ddd;
 
 #sideNav{
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     .userLi{
       .right-box{
         max-width: 230px;

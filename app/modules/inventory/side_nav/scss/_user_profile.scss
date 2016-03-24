@@ -26,7 +26,7 @@
   .data{
     width: 100%;
     /*Small screens*/
-    @media screen and (max-width: $smallscreen) {
+    @media screen and (max-width: $small-screen) {
       max-width: 38em;
       margin: auto;
       padding-top: 1em;
@@ -51,7 +51,7 @@
     max-height: 7em;
     overflow: auto;
     /*Small screens*/
-    @media screen and (max-width: $smallscreen) {
+    @media screen and (max-width: $small-screen) {
       max-height: 15em;
     }
   }

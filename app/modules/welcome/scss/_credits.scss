@@ -29,7 +29,7 @@
     padding-bottom: 1em;
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     padding: 0.5em 0.5em 2em 0.5em;
     .contributors{
       a{
@@ -38,7 +38,7 @@
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     padding: 2em;
   }
 }

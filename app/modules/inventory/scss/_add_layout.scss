@@ -22,7 +22,7 @@ $addLayoutWidth: 50em;
     margin-bottom: 2em;
   }
   /*Very Small screens*/
-  @media screen and (max-width: $verysmallscreen) {
+  @media screen and (max-width: $very-small-screen) {
     h2{
       margin-top: 1em;
     }
@@ -36,7 +36,7 @@ $addLayoutWidth: 50em;
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     .custom-tabs-content{
       // allow _.scrollTop to really get the top of the div
       // at the top of the screen

@@ -15,11 +15,11 @@
 .importers{
   li{
     /*Medium to Large screens*/
-    @media screen and (min-width: $smallerscreen) {
+    @media screen and (min-width: $smaller-screen) {
       @include display-flex(row, center, space-between);
     }
     /*Small screens*/
-    @media screen and (max-width: $smallerscreen) {
+    @media screen and (max-width: $smaller-screen) {
       padding: 0.5em;
     }
     p{

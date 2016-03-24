@@ -52,7 +52,7 @@ section#landingScreen{
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     h2 {
       font-size: 3em;
     }
@@ -70,7 +70,7 @@ section#landingScreen{
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     height: 85vh;
     // addressing the crazy case of a screen
     // with width > 1000px and height < 640px

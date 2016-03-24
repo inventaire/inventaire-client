@@ -18,14 +18,14 @@ $transaction-list-width: 20em;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     #list{
       margin-bottom: 1em;
     }
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     #list{
       @include position(fixed, $topbar-height, null, 0);
       width: $transaction-list-width;

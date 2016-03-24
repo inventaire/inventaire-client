@@ -28,7 +28,7 @@ section#mentions{
     li{
       @include display-flex(row, center, center);
       /*Large screens*/
-      @media screen and (min-width: $smallscreen) {
+      @media screen and (min-width: $small-screen) {
         height: 3em;
       }
     }

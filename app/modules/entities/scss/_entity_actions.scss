@@ -36,17 +36,17 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     @include flex-direction(column);
     .custom-button-group{
       /*Small screens*/
-      @media screen and (max-width: $verysmallscreen) {
+      @media screen and (max-width: $very-small-screen) {
         #addToInventory{
           @include radius;
           margin-top: 0.5em;
         }
         // adding the dropdown menu as it was making
-        // a big ugly button on smallscreens
+        // a big ugly button on small-screens
         #addToInventory + a{
           display: none;
         }
@@ -54,7 +54,7 @@
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $verysmallscreen) {
+  @media screen and (min-width: $very-small-screen) {
     .custom-button-group{
       @include display-flex(row);
       a:first-child{

@@ -35,7 +35,7 @@
 
 .summary-periodicity{
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     margin-top: 0.5em;
     padding: 0.5em 1em 0.5em 1em;
     text-align: center;

@@ -4,11 +4,10 @@ $column-gutter: rem-calc(0);
 
 // Media Query Ranges
 
-// TODO: convert to dashed case
 // keep in sync with app/lib/utils.coffee _.smallScreen
-$smallscreen: 1200px;
-$smallerscreen: 600px;
-$verysmallscreen: 350px;
+$small-screen: 1200px;
+$smaller-screen: 600px;
+$very-small-screen: 350px;
 
 $small-range: (0em, 75em);
 $medium-range: (75.01em, 75.02em);

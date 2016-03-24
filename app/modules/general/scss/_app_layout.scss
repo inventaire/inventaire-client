@@ -21,7 +21,7 @@ body{
 }
 
 /*Small screens*/
-@media screen and (max-width: $smallscreen) {
+@media screen and (max-width: $small-screen) {
   main{
     // allow _.scrollTop to really get the top of the div
     // at the top of the screen
@@ -31,7 +31,7 @@ body{
 }
 
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
   main:not(.no-topbar){
     margin-top: $topbar-height;
     // trying to make the transition as close as possible

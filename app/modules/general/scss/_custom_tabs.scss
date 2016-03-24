@@ -5,11 +5,11 @@ $customTabMaxWidth: 40em;
   @include display-flex(column, left);
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     width: 100%;
   }
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     width: $customTabMaxWidth;
   }
 }

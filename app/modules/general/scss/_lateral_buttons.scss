@@ -1,11 +1,11 @@
 #lateral-buttons{
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     display: none;
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     @include position(fixed, null, 0, 20em, null, 1000);
     @include vendor-prefix(transform, rotate(-90deg));
     @include vendor-prefix(transform-origin, right bottom 0);

@@ -19,7 +19,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smallscreen) {
+  @media screen and (max-width: $small-screen) {
     @include radius-vertical-group;
     @include flex-direction(column);
     .button{
@@ -31,7 +31,7 @@
 
 
   /*Large screens*/
-  @media screen and (min-width: $smallscreen) {
+  @media screen and (min-width: $small-screen) {
     @include radius-horizontal-group;
     .button{
       outline: 0.1em solid $contrast;

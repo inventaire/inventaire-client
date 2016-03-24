@@ -81,7 +81,7 @@
   }
 }
 /*Large screens*/
-@media screen and (min-width: $smallscreen) {
+@media screen and (min-width: $small-screen) {
   figure.changePicture{
     img{
       max-width: 20vw;
