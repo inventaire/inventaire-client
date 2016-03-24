@@ -40,12 +40,12 @@
     "wikidata-sdk": "^2.2.1"
   },
   "devDependencies": {
-    "auto-reload-brunch": "^2.0.0",
+    "auto-reload-brunch": "^2.1.0",
     "bluebird": "^3.3.3",
     "bluereq": "^2.0.2",
     "bower": "^1.7.7",
     "browserify": "^11.2.0",
-    "brunch": "^2.2.2",
+    "brunch": "^2.5.3",
     "chai": "^3.5.0",
     "clean-css-brunch": "^2.0.0",
     "coffee-script-brunch": "^2.0.0",
