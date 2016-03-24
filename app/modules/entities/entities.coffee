@@ -167,6 +167,8 @@ setHandlers = ->
     'show:entity:refresh': (model)->
       app.execute 'show:entity:from:model', model, { refresh: true }
 
+    'show:entity:add': API.showAddEntity.bind(API)
+
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
     'get:entities:models': API.getEntitiesModelsWithCatcher.bind(API)

@@ -13,8 +13,9 @@ module.exports =
     else context = null
     return _.i18n(key, context)
 
-  I18n: (args...)->
-    _.capitaliseFirstLetter @i18n.apply(@, args)
+  I18n: (args...)-> _.capitaliseFirstLetter @i18n.apply(@, args)
+
+  capitalize: (str)-> _.capitaliseFirstLetter str
 
   link: (text, url, classes)->
     new SafeString @linkify(text, url, classes)

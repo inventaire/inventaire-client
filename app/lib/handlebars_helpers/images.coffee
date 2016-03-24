@@ -14,7 +14,7 @@ images =
   wikipedia: '/public/images/wikipedia-64.png'
   wikidata: '/public/images/wikidata.svg'
   wikisource: '/public/images/wikisource-64.png'
-  pouchdb: '/public/images/pouchdb.svg'
+  'barcode-scanner': '/public/images/barcode-scanner-64.png'
 
 imagesList = Object.keys images
 
