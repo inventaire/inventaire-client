@@ -95,11 +95,15 @@ API =
         throw error_.new 'no data at getEntitiesModels', arguments
 
       models = data.map (el)->
-        # main reason for missing entities:
-        # no pagination makes request overflow the source API limit
-        # ex: wikidata limits to 50 entities per calls
-        unless el?
-          return _.warn 'missing entity(possible reason: reached API limit, pagination is needed)'
+        # Possible reasons for missing entities:
+        # - no match found in inventaire entities database
+        # - no match found in external databases or API limited were exceeded
+        # - no pagination makes request overflow the source API limit
+        #   ex: wikidata limits to 50 entities per calls
+        # If an an item was created using an isbn that can't be found
+        # the server is expected to create an entity from the item's data
+        unless el? then return _.warn 'missing entity'
+
         model = new Model(el)
         app.entities.add model
         return model
@@ -117,12 +121,7 @@ API =
     .then (models)->
       if models?[0]? then return models[0]
       else
-        # Some instance of this problem seem to be due to the server
-        # caching empty results returned, possibly when API quota where passed?!?
-        # Another case seem to be that an item was created using an isbn can't be found later
-        # ex: https://inventaire.io/inventory/bnnz/isbn:2070360555/Fondation_Et_Empire
-        # This later case should now be taken care of by the server
-        # which will create a entity from the item's data
+        # see getEntitiesModels "Possible reasons for missing entities"
         _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
         throw error_.new 'entity_not_found', [prefix, id, models]
 
