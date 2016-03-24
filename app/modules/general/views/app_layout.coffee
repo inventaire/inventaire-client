@@ -16,7 +16,7 @@ module.exports = Marionette.LayoutView.extend
     main: 'main'
     accountMenu: '#accountMenu'
     modal: '#modalContent'
-    joyride: '#joyride'
+    fullScreen: '#fullScreen'
 
   ui:
     bg: '#bg'

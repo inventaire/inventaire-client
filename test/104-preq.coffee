@@ -17,10 +17,12 @@ describe 'preq', ->
       preq.resolved.catch.should.be.a.Function
       preq.resolved.then -> done()
 
-    it 'should not be modifiable', (done)->
-      preq.resolved.wat = 'yo'
-      expect(preq.resolved.wat).to.be.undefined
-      done()
+    # the immutability requirement was removed for compatibility
+    # with the global cancellable promises setting
+    # it 'should not be modifiable', (done)->
+    #   preq.resolved.wat = 'yo'
+    #   expect(preq.resolved.wat).to.be.undefined
+    #   done()
 
     it 'should be usable as different promise chain starter', (done)->
 

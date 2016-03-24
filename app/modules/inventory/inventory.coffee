@@ -3,6 +3,7 @@ initFilters = require './lib/filters'
 InventoryLayout = require './views/inventory'
 ItemCreationForm = require './views/form/item_creation'
 AddLayout = require './views/add/add_layout'
+EmbeddedScanner = require './views/add/embedded_scanner'
 initLayout = require './lib/layout'
 initTransactions = require './lib/transactions'
 initAddHelpers = require './lib/add_helpers'
@@ -22,6 +23,7 @@ module.exports =
         'items(/)': 'showGeneralInventoryNavigate'
         'add(/search)(/)': 'showSearch'
         'add/scan(/)': 'showScan'
+        'add/scan/embedded(/)': 'showEmbeddedScanner'
         'add/import(/)': 'showImport'
         'groups/:id(/:name)(/)': 'showGroupInventory'
         'g/(:name)': 'shortCutGroup'
@@ -105,6 +107,12 @@ API =
     # app.user.get('pathname') should be available at data serialization
     app.request 'waitForUserData'
     .then -> showAddLayout 'import'
+
+  showEmbeddedScanner: ->
+    if window.hasVideoInput
+      app.layout.fullScreen.show new EmbeddedScanner
+    else
+      API.showScan()
 
   shortCutGroup: (name)->
     name = _.softDecodeURI name
@@ -263,6 +271,8 @@ initializeInventoriesHandlers = (app)->
     # equivalent to the previous one as long as search is the default tab
     # but more explicit
     'show:add:layout:search': API.showSearch
+
+    'show:scanner:embedded': API.showEmbeddedScanner
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi

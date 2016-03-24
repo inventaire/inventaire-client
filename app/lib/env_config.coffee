@@ -2,12 +2,17 @@
 if location.hostname is 'localhost' then window.env = 'dev'
 else window.env = 'prod'
 
+promiseConfig =
+  cancellation: true
+
 module.exports = ->
   if env is 'dev'
-    Promise.config
+    _.extend promiseConfig,
       longStackTraces: true
       warnings:
         wForgottenReturn: false
+
+  Promise.config promiseConfig
 
   window.CONFIG =
     images:

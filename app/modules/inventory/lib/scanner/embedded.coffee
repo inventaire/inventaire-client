@@ -1,55 +1,36 @@
-id = 'embedded'
-selector = "##{id}"
 drawCanvas = require './draw_canvas'
 
-module.exports = ($el)->
-  app.execute 'last:add:mode:set', 'scan:embedded'
-  createContainer $el
-
-  previousRoute = _.currentRoute()
-  # navigate to a different route so that hitting back
-  # looks like escaping the embedded scanner
-  app.navigate 'add/scan/embedded'
-
-  scan()
-  .then _.Log('embedded scanner isbn')
-  .then (isbn)->
-    # remove the add/scan/embedded from the history
-    app.navigateReplace previousRoute
-    app.execute 'show:entity:add', "isbn:#{isbn}"
-  .catch _.Error('embedded scanner err')
-
-createContainer = ($el)->
-  if $(selector).length is 1 then return
-  else $el.append "<div id='#{id}'></div>"
-
-scan = ->
-  new Promise (resolve, reject)->
+module.exports = ->
+  new Promise (resolve, reject, onCancel)->
     constraints = getConstraints()
-    $target = $(selector)
     _.log 'starting quagga initialization'
+
+    cancelled = false
+    onCancel ->
+      _.log 'cancelled promise: stopping quagga'
+      cancelled = true
+      Quagga.stop()
+
     Quagga.init getOptions(constraints), (err) ->
+      if cancelled then return
       if err
         _.error err, 'quagga init err'
         return reject err
 
       _.log 'quagga initialization finished. Starting'
       Quagga.start()
-      $target.show()
+
+      Quagga.onProcessed drawCanvas(constraints)
 
       Quagga.onDetected (result)->
         # TODO: verify that we get a valid ISBN before stopping and resolving
         Quagga.stop()
-        $target.hide()
         _.log result, 'result'
         resolve result.codeResult.code
 
-      Quagga.onProcessed drawCanvas(constraints)
-
-
 # see doc: https://github.com/serratus/quaggaJS#configuration
 getOptions = (constraints)->
-  baseOptions.inputStream.target = document.querySelector selector
+  baseOptions.inputStream.target = document.querySelector '.embedded .container'
   baseOptions.inputStream.constraints = constraints
   return baseOptions
 
@@ -60,6 +41,7 @@ getConstraints = ->
 
 verticalMargin = '30%'
 horizontalMargin = '15%'
+
 baseOptions =
   inputStream:
     name: 'Live'
@@ -76,7 +58,4 @@ baseOptions =
   decoder:
     readers: [ 'ean_reader' ]
     multiple: false
-  # drawBoundingBox: false
-  # showFrequency: false
-  # drawScanline: true
-  # showPattern: false
+

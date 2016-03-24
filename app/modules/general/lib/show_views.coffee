@@ -27,7 +27,7 @@ module.exports =
       app.execute 'show:entity', uri, label
 
 
-  showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
+  showJoyrideWelcomeTour: -> @fullScreen.show new JoyrideWelcomeTour
 
   showDonateMenu: -> app.layout.modal.show new DonateMenu
   showFeedbackMenu: (options)-> app.layout.modal.show new FeedbackMenu(options)

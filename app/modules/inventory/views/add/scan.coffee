@@ -1,5 +1,4 @@
 zxing = require 'modules/inventory/lib/scanner/zxing'
-embeddedScanner = require 'modules/inventory/lib/scanner/embedded'
 
 module.exports = Marionette.ItemView.extend
   className: 'scan'
@@ -20,7 +19,7 @@ module.exports = Marionette.ItemView.extend
     'change .toggler-input': 'toggleZxing'
 
   setAddModeScanZxing: -> app.execute 'last:add:mode:set', 'scan:zxing'
-  startEmbeddedScanner: -> embeddedScanner @$el
+  startEmbeddedScanner: -> app.execute 'show:scanner:embedded'
 
   toggleZxing: (e)->
     { checked } = e.currentTarget

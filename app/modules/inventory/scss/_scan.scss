@@ -64,16 +64,4 @@ $scan-contrast: #f5f5f5;
   }
 }
 
-#embedded{
-  // start hidden
-  display: none;
-  @include position(fixed, 0, 0, 0, 0, 10000);
-  background-color: rgba(#222, 0.9);
-  video, canvas.drawingBuffer{
-    @include position(absolute, 50%, null, null, 50%);
-    // centering
-    @include vendor-prefix(transform,  translate(-50%, -50%));
-    // avoid scrolls
-    overflow: hidden;
-  }
-}
+@import "embedded";

@@ -1,6 +1,8 @@
 module.exports = (Promise)->
-  # used has a way to create only one resolved promise to start promise chains
-  resolved = Object.freeze Promise.resolve()
+  # Used has a way to create only one resolved promise to start promise chains.
+  # Unfortunatly, this object can't be froozen as it would be incompatible with
+  # bluebird cancellable promises.
+  resolved = Promise.resolve()
 
   return API =
     resolve: Promise.resolve.bind Promise

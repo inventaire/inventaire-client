@@ -2,7 +2,6 @@ EntityData = require 'modules/entities/views/entity_data'
 zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
-embeddedScanner = require 'modules/inventory/lib/scanner/embedded'
 error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
@@ -134,7 +133,7 @@ module.exports = Marionette.LayoutView.extend
   addNext: ->
     switch @_lastAddMode
       when 'search' then app.execute 'show:add:layout:search'
-      when 'scan:embedded' then embeddedScanner @$el
+      when 'scan:embedded' then app.execute 'show:scanner:embedded'
       # if addMode is scan, the scanner should have opened a new window
       when 'scan:zxing' then return
       else throw error_.new 'unknown add mode', @_lastAddMode
