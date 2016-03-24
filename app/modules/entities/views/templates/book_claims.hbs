@@ -1,8 +1,8 @@
 {{partial 'entities:edit_wikidata' this}}
 <div class='wiki-attributes'>
   <p class="claims">
-    {{claim claims 'P1680'}} {{!-- subtitle --}}
     {{stringClaim claims 'P1476'}} {{!-- original title --}}
+    {{stringClaim claims 'P1680'}} {{!-- subtitle --}}
     {{claim claims 'P364'}} {{!-- original language --}}
     {{claim claims 'P50' true null true}} {{!-- author --}}
     {{{joinAuthors claims.P2093}}}<br> {{!-- short author name --}}
