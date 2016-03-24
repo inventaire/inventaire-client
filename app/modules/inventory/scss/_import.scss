@@ -14,14 +14,22 @@
 
 .importers{
   li{
-    @include display-flex(row, center, space-between);
+    /*Medium to Large screens*/
+    @media screen and (min-width: $smallerscreen) {
+      @include display-flex(row, center, space-between);
+    }
+    /*Small screens*/
+    @media screen and (max-width: $smallerscreen) {
+      padding: 0.5em;
+    }
     p{
-      width: 10em;
+      width: 11em;
       font-size: 1em;
       font-weight: bold;
       text-align: left;
       padding: 0;
       margin: 0;
+      white-space: nowrap;
     }
     a{
       @include text-hover(#000088, #0000ee);
