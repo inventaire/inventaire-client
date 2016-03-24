@@ -162,8 +162,8 @@ module.exports = Filterable.extend
   # keep a copy of authors as a string on the item
   lookForMissingData: ->
     if @restricted then return
-    @updateAuthor()
     @lookForPicture()
+    @updateAuthor()
 
   updateAuthor: ->
     current = @get 'authors'
