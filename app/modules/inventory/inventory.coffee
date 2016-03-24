@@ -272,7 +272,11 @@ initializeInventoriesHandlers = (app)->
     # but more explicit
     'show:add:layout:search': API.showSearch
 
-    'show:scanner:embedded': API.showEmbeddedScanner
+    'show:scanner:embedded': ->
+      # navigate before triggering the view itself has
+      # special behaviors on route change
+      app.navigate 'add/scan/embedded'
+      API.showEmbeddedScanner()
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi
