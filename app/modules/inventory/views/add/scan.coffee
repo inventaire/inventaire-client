@@ -10,7 +10,7 @@ module.exports = Marionette.ItemView.extend
     useZxing:
       id: 'toggleZxing'
       label: 'use_zxing_application'
-      checked: getZxingSetting()
+      checked: zxingLocalSetting.get()
       inverted: false
 
   events:
@@ -30,11 +30,9 @@ module.exports = Marionette.ItemView.extend
 
   toggleZxing: (e)->
     { checked } = e.currentTarget
-    setZxingSetting checked
+    zxingLocalSetting.set checked
     # wait for the end of the toggle animation
     # keep in sync with app/modules/general/scss/_toggler.scss
     setTimeout @render.bind(@), 400
 
-zxingSettingKey = 'use-zxing-scanner'
-getZxingSetting = -> localStorageProxy.getItem(zxingSettingKey) is 'true'
-setZxingSetting = (bool)-> localStorageProxy.setItem zxingSettingKey, bool
+zxingLocalSetting = window.localStorageBoolApi 'use-zxing-scanner'

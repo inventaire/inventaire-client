@@ -1,4 +1,5 @@
 testVideoInput = require 'lib/has_video_input'
+testLocalStorage = require 'lib/local_storage'
 
 module.exports = ->
   ISODatePolyFill()
@@ -21,7 +22,6 @@ sayHi = ->
   Guidelines and inspiration: https://inventaire.io/guidelines-and-inspiration
   ------
   """
-
 
 testFlexSupport = ->
   # detect CSS display:flex support in JavaScript
@@ -50,29 +50,8 @@ ISODatePolyFill = ->
         '.' + (@getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
         'Z'
 
-
-testLocalStorage = ->
-  # if localStorage isnt supported (or more probably, blocked), replace it by a global object:
-  # data won't be persisted from one session to the other, but who's fault is that
-  try
-    window.localStorage.setItem 'localStorage-support', true
-    localStorageProxy = localStorage
-  catch err
-    console.warn 'localStorage isnt supported'
-    storage = {}
-    localStorageProxy =
-      getItem: (key)-> storage[key] or null
-      setItem: (key, value)->
-        storage[key] = value
-        return
-      clear: -> storage = {}
-
-  window.localStorageProxy = localStorageProxy
-
 setDebugSetting = ->
-  # localStorage doesn't handle booleans
-  # anything else than the string "true" will be considered false
-  persistantDebug = localStorageProxy.getItem('debug') is 'true'
+  persistantDebug = localStorageBool.get 'debug'
   queryStringDebug = window.location.search.split('debug=true').length > 1
   if persistantDebug or queryStringDebug
     console.log 'debug enabled'
