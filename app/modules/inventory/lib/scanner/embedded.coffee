@@ -1,6 +1,12 @@
 drawCanvas = require './draw_canvas'
 
 module.exports = ->
+  scan()
+  .then _.Log('embedded scanner isbn')
+  .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
+  .catch _.Error('embedded scanner err')
+
+scan = ->
   new Promise (resolve, reject, onCancel)->
     constraints = getConstraints()
     _.log 'starting quagga initialization'

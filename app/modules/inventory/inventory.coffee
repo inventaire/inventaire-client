@@ -110,7 +110,8 @@ API =
 
   showEmbeddedScanner: ->
     if window.hasVideoInput
-      app.layout.fullScreen.show new EmbeddedScanner
+      # showing in main so that requesting another layout destroy this view
+      app.layout.main.show new EmbeddedScanner
     else
       API.showScan()
 

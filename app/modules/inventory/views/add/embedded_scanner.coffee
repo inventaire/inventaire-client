@@ -8,22 +8,16 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     app.execute 'last:add:mode:set', 'scan:embedded'
-
-    @listenToOnce app.vent, 'route:change', @stop.bind(@)
-
-    @scanner = embeddedScanner '.container'
-      .then _.Log('embedded scanner isbn')
-      .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
-      .catch _.Error('embedded scanner err')
+    @scanner = embeddedScanner()
 
   close: ->
-    @stop()
     # come back to the previous view
+    # which should trigger @destroy as the previous view is expected to be shown
+    # in app.layout.main too
     window.history.back()
 
-  stop: ->
+  onDestroy: ->
     # Cancelling the promise to let the opportunity to Quagga to stop properly
     # and avoid having a promise unfulfilled.
+    # Has no effect if the promise is already fulfilled
     @scanner.cancel()
-    @destroy()
-    # Reverting route isn't needed when stopping is due to a route event.
