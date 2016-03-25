@@ -109,11 +109,12 @@ API =
     .then -> showAddLayout 'import'
 
   showEmbeddedScanner: ->
-    if window.hasVideoInput
-      # showing in main so that requesting another layout destroy this view
-      app.layout.main.show new EmbeddedScanner
-    else
-      API.showScan()
+    if app.request 'require:loggedIn', 'add/scan/embedded'
+      if window.hasVideoInput
+        # showing in main so that requesting another layout destroy this view
+        app.layout.main.show new EmbeddedScanner
+      else
+        API.showScan()
 
   shortCutGroup: (name)->
     name = _.softDecodeURI name
