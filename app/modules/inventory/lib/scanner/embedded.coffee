@@ -1,4 +1,5 @@
 drawCanvas = require './draw_canvas'
+books_ = require 'lib/books'
 
 module.exports = ->
   getQuagga()
@@ -38,10 +39,13 @@ scan = ->
       Quagga.onProcessed drawCanvas()
 
       Quagga.onDetected (result)->
-        # TODO: verify that we get a valid ISBN before stopping and resolving
-        Quagga.stop()
         _.log result, 'result'
-        resolve result.codeResult.code
+        candidate = result.codeResult.code
+        if books_.isIsbn candidate
+          Quagga.stop()
+          resolve result.codeResult.code
+        else
+          _.log candidate, 'discarded result. continuing to try'
 
 # see doc: https://github.com/serratus/quaggaJS#configuration
 getOptions = (constraints)->
