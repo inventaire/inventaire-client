@@ -1,4 +1,4 @@
-embeddedScanner = require 'modules/inventory/lib/scanner/embedded'
+embedded_ = require 'modules/inventory/lib/scanner/embedded'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/embedded_scanner'
@@ -8,7 +8,7 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     app.execute 'last:add:mode:set', 'scan:embedded'
-    @scanner = embeddedScanner()
+    @scanner = embedded_.scan()
 
   close: ->
     # come back to the previous view

@@ -1,20 +1,27 @@
 drawCanvas = require './draw_canvas'
 books_ = require 'lib/books'
 
-module.exports = ->
-  getQuagga()
-  .then scan
-  .then _.Log('embedded scanner isbn')
-  .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
-  .catch _.Error('embedded scanner err')
+quaggaPromise = null
+alreadyPrepared = false
 
 getQuagga = ->
-  if window.Quagga?
-    _.log 'Quagga already fetched'
-    return _.preq.start
-  else
+  unless quaggaPromise?
     _.log 'fetching Quagga'
-    return _.preq.getScript app.API.scripts.quagga()
+    alreadyPrepared = true
+    quaggaPromise = _.preq.getScript app.API.scripts.quagga()
+
+  return quaggaPromise
+
+module.exports =
+  # pre-fetch quagga when the scanner is probably about to be used
+  # to be ready to start scanning faster
+  prepare: -> unless alreadyPrepared then getQuagga()
+  scan: ->
+    getQuagga()
+    .then scan
+    .then _.Log('embedded scanner isbn')
+    .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
+    .catch _.Error('embedded scanner err')
 
 scan = ->
   new Promise (resolve, reject, onCancel)->
