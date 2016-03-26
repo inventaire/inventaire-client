@@ -12,8 +12,15 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     app.execute 'last:add:mode:set', 'scan:embedded'
-    @scanner = embedded_.scan()
     behaviorsPlugin.startLoading.call @
+
+    @scanner = embedded_.scan().catch @permissionDenied.bind(@)
+
+  permissionDenied: (err)->
+    if err.reason is 'permission_denied'
+      _.log 'permission denied: closing scanner'
+      @close()
+    # else: the error was already logged
 
   close: ->
     # come back to the previous view

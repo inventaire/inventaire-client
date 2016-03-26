@@ -18,12 +18,12 @@ module.exports =
   prepare: -> unless alreadyPrepared then getQuagga()
   scan: ->
     getQuagga()
-    .then scan
+    .then startScanning
     .then _.Log('embedded scanner isbn')
     .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
-    .catch _.Error('embedded scanner err')
+    .catch _.ErrorRethrow('embedded scanner err')
 
-scan = ->
+startScanning = ->
   new Promise (resolve, reject, onCancel)->
     constraints = getConstraints()
     _.log 'starting quagga initialization'
@@ -37,7 +37,10 @@ scan = ->
     Quagga.init getOptions(constraints), (err) ->
       if cancelled then return
       if err
-        _.error err, 'quagga init err'
+        # TODO: verify that this is a standard message
+        if err.message is 'The operation is insecure.'
+          err.reason = 'permission_denied'
+
         return reject err
 
       _.log 'quagga initialization finished. Starting'
