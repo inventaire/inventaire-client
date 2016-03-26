@@ -1,17 +1,24 @@
 #!/usr/bin/env sh
 # keep an history if builds weight
 PWD=$(pwd)
-FILE="$PWD/scripts/assets/build_weight_history"
+FOLDER="$PWD/scripts/assets/weight_history"
 JS="$PWD/public/javascripts"
 CSS="$PWD/public/stylesheets"
 
 DATE=$(date +'%F')
 COMMIT=$(git rev-parse --short HEAD)
+FILE="$FOLDER/$DATE-$COMMIT"
+
 echo "-- date: $DATE - commit: $COMMIT --" >> $FILE
+
 cd $JS
+du -s -h app.js >> $FILE
 du -s -h app.js.gz >> $FILE
+du -s -h vendor.js >> $FILE
 du -s -h vendor.js.gz >> $FILE
 cd $CSS
+du -s -h app.css >> $FILE
 du -s -h app.css.gz >> $FILE
+du -s -h vendor.css >> $FILE
 du -s -h vendor.css.gz >> $FILE
-tail -n 10 $FILE
+cat $FOLDER/* | tail -n 20
