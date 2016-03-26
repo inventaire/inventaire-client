@@ -1,14 +1,19 @@
 embedded_ = require 'modules/inventory/lib/scanner/embedded'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/embedded_scanner'
   className: 'embedded'
+  behaviors:
+    Loading: {}
+
   events:
     'click .close': 'close'
 
   onShow: ->
     app.execute 'last:add:mode:set', 'scan:embedded'
     @scanner = embedded_.scan()
+    behaviorsPlugin.startLoading.call @
 
   close: ->
     # come back to the previous view

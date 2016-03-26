@@ -23,6 +23,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @entity = @options.entity
     @createItem()
+    @_lastAddMode = app.request 'last:add:mode:get'
 
   createItem: ->
     attrs =
@@ -83,7 +84,6 @@ module.exports = Marionette.LayoutView.extend
 
   addNextData: ->
     data = {}
-    @_lastAddMode = app.request 'last:add:mode:get'
     if @_lastAddMode is 'scan:zxing' then data.zxing = zxing
     return data
 

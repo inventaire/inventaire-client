@@ -1,12 +1,16 @@
 .embedded{
   @include position(fixed, 0, 0, 0, 0, 10000);
   background-color: rgba(#222, 0.9);
-  video, canvas.drawingBuffer{
+  video, canvas.drawingBuffer, .loading{
     @include position(absolute, 50%, null, null, 50%);
     // centering
     @include vendor-prefix(transform,  translate(-50%, -50%));
     // avoid scrolls
     overflow: hidden;
+  }
+  text-align: center;
+  .loading{
+    color: white;
   }
   .close{
     @include position(fixed, 0, 0);
