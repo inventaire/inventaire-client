@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 logDone(){
   echo -e '\e[0;32mdone browserifying:\e[0m' $1
@@ -42,3 +42,11 @@ echo -e '\e[0;32mdone copying:\e[0m' invUtils
 cp node_modules/wikidata-lang/dist/index.js vendor/scripts/wikidata-lang.js
 echo -e '\e[0;32mdone copying:\e[0m' wikidata-lang
 
+pub=public/javascripts
+quagga_base=quagga-0.9.2
+source scripts/init_gzip_utils
+
+cp node_modules/quagga/dist/quagga.js ${pub}/${quagga_base}.js
+cp node_modules/quagga/dist/quagga.min.js ${pub}/${quagga_base}.min.js
+gzipkeep "${pub}/${quagga_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' quagga

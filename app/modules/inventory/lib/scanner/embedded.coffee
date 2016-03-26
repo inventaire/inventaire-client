@@ -1,10 +1,19 @@
 drawCanvas = require './draw_canvas'
 
 module.exports = ->
-  scan()
+  getQuagga()
+  .then scan
   .then _.Log('embedded scanner isbn')
   .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
   .catch _.Error('embedded scanner err')
+
+getQuagga = ->
+  if window.Quagga?
+    _.log 'Quagga already fetched'
+    return _.preq.start
+  else
+    _.log 'fetching Quagga'
+    return _.preq.getScript app.API.scripts.quagga()
 
 scan = ->
   new Promise (resolve, reject, onCancel)->

@@ -1,5 +1,5 @@
-# only addressing the general case
-if location.hostname is 'localhost' then window.env = 'dev'
+# roughtly addressing the general case
+if location.hostname.match /^(localhost|192\.168)/ then window.env = 'dev'
 else window.env = 'prod'
 
 promiseConfig =

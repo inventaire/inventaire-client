@@ -20,8 +20,7 @@ module.exports = (_)->
   moment: (lang)-> "/public/javascripts/moment/#{lang}.js?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
   test: '/api/tests/public'
-  scripts:
-    pouchdb: '/public/javascripts/pouchdb-3.3.1.min.js'
+  scripts: require './scripts'
   upload:
     post: '/api/upload'
     del: '/api/upload/delete'
