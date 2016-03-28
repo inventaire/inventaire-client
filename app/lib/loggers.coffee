@@ -40,6 +40,8 @@ module.exports = (_, csle)->
 
     if err?.context? then report.push err.context
 
+    report.push label
+
     window.reportErr {error: report}
     csle.error.apply csle, report
 
