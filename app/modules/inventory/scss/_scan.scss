@@ -23,6 +23,11 @@ $scan-contrast: #f5f5f5;
       font-size: 2em;
       display: block;
     }
+    // the "modern browsers" link in the i18n block
+    span a{
+      @include text-hover(white, #eee);
+      @include underline(white);
+    }
   }
   .alternative{
     margin-top: 1em;
