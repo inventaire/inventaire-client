@@ -36,7 +36,8 @@ module.exports = Entity.extend
 
   _fetchPicture: ->
     books_.getImage @uri
-    .then (images)=> @set 'pictures', images.map(_.property('image'))
+    .map _.property('image')
+    .then @set.bind(@, 'pictures')
     .catch _.Error('findAPicture')
 
   getAuthorsString: ->
