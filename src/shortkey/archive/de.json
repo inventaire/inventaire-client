@@ -21,5 +21,6 @@
     "newletter_thanks": "Danke fürs Abonnieren!",
     "contribute_with_code_or_ideas": "Beteilige Dich mit [Code](http://github.com/inventaire/inventaire-client/) oder [Ideen](https://github.com/inventaire/inventaire-client/issues)",
     "data_export_intro": "Das Datenschema ist bisher weder fertig noch standarisiert: Es ist wahrscheinlich nicht sofort kompatibel mit irgendwelchen Deiner anderen Datensätze. Wie auch immer, wenn die NSA sich erlaubt, einen zu haben, solltest du es Dir auch erlauben.",
-    "labs_intro": "Inventaire ist ein Experiment, Büger mit besseren Informationen zu Ressourcen zu bestärken und Labs ist der Ort für Pioniere diese neuen Wege auszuprobieren!"
+    "labs_intro": "Inventaire ist ein Experiment, Büger mit besseren Informationen zu Ressourcen zu bestärken und Labs ist der Ort für Pioniere diese neuen Wege auszuprobieren!",
+    "scanner_disabled_tip": "bisher nur mobil verfügbar"
 }

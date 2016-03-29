@@ -452,5 +452,18 @@
     "import": "import",
     "download": "download",
     "via the API": "via the API",
-    "see the API documentation": "see the API documentation"
+    "see the API documentation": "see the API documentation",
+    "selected": "selected",
+    "select all": "select all",
+    "unselect all": "unselect all",
+    "import data": "import data",
+    "it doesn't look like babelio data": "it doesn't look like babelio data",
+    "it doesn't look like Babelio data": "it doesn't look like Babelio data",
+    "it doesn't look like LibraryThing data": "it doesn't look like LibraryThing data",
+    "it doesn't look like GoodReads data": "it doesn't look like GoodReads data",
+    "external scanner": "external scanner",
+    "upload your collection from another website": "upload your collection from another website",
+    "go to your inventory to see the imported books": "go to your inventory to see the imported books",
+    "Search your friends in the current users or invite them to join!": "Search your friends in the current users or invite them to join!",
+    "That's also the place where you can create groups.": "That's also the place where you can create groups."
 }

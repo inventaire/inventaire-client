@@ -19,5 +19,6 @@
     "It's just a backup for the moment, it won't stay in sync": "Momentan ist es nur eine Sicherheitskopie, die nicht synchronisiert wird.",
     "what is PouchDB?": "Was ist PouchDB?",
     "pouchdb": "PouchDB",
-    "downloads": "Downloads"
+    "downloads": "Downloads",
+    "scanner_disabled_tip": "bisher nur mobil verfügbar"
 }

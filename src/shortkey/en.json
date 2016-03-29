@@ -72,11 +72,9 @@
     "other_user_declined": "%{username} declined the request",
     "exchanges_manager_welcome_title": "Welcome to the transactions manager!",
     "exchanges_manager_welcome_text": "This is where the books requests you send or receive will be displayed.<br>To send a book request, go to the book's page and click on \"send a request\"",
-    "add_menu_title": "add a book to your inventory",
     "add_by_search": "search your book by its title, author or ISBN",
     "add_by_isbn": "add a book by its ISBN",
     "add_by_barcode_scan": "scan your book's barcode",
-    "scanner_disabled_tip": "only available from mobiles for now",
     "add_by_isbn_tip": "enter one ISBN or several separated by a comma",
     "network_counter_label": "in your network",
     "read_more_on_wikipedia": "Read more or edit on Wikipedia",
@@ -153,6 +151,12 @@
     "transaction_cancel_confirmation": "Are you sure you want to cancel this transaction?",
     "main_user_cancelled": "you cancelled the transaction",
     "other_user_cancelled": "%{username} cancelled the transaction",
-    "title_add_layout_search": null,
-    "title_add_layout_import": null
+    "title_add_layout_search": "search a book",
+    "title_add_layout_scan": "scan a book's barcode",
+    "title_add_layout_import": "import a collection",
+    "data_mismatch": "it doesn't look like %{source} data",
+    "scanner_disabled_tip_2": "requires a camera and a [modern browser](https://www.mozilla.org/firefox)",
+    "use_zxing_application": "use an external scanner application",
+    "external_scanner_intro": "if you have difficulties using the internal barcode scanner, you can use an external application compatible with the Zxing protocol instead:",
+    "failing_scan_tip": "if the scanner has difficulties to find the codebar, it might be that the light isn't adequate or that the camera isn't good enough"
 }

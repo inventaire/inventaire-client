@@ -24,5 +24,7 @@
     "confirm_reception_info_giving": "[le livre](/items/%{itemId}) sera ensuite ajouté à votre inventaire",
     "contribute_with_code_or_ideas": "Contribuez avec du [code](http://github.com/inventaire/inventaire-client/) ou des [idées](https://github.com/inventaire/inventaire-client/issues)",
     "data_export_intro": "Le schéma de données n'est ni mature ni au standard pour le moment : il est peu probable qu'il soit compatible tel quel avec vos autres jeux de données. Néanmoins, si la NSA se donne le droit d'avoir vos données, vous devriez avoir le droit aussi",
-    "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !"
+    "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !",
+    "scanner_disabled_tip": "disponible seulement depuis un mobile pour le moment",
+    "add_menu_title": "ajoutez un livre à votre inventaire"
 }
