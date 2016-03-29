@@ -18,7 +18,7 @@ module.exports = Marionette.Behavior.extend
 
     @$target.html body
 
-    timeout = params?.timeout or 16
+    timeout = params?.timeout or 30
     unless timeout is 'none'
       cb = @somethingWentWrong.bind @, null, params
       setTimeout cb, timeout * 1000
