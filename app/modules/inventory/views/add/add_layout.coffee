@@ -1,3 +1,5 @@
+tabsData = require 'modules/inventory/lib/add_layout_tabs'
+
 module.exports = Marionette.LayoutView.extend
   template: require './templates/add_layout'
   id: 'addLayout'
@@ -16,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     loggedIn: @loggedIn
+    tabs: tabsData
 
   behaviors:
     PreventDefault: {}

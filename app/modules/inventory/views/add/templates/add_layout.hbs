@@ -3,18 +3,12 @@
 <div class="custom-tabs-titles">
   <div class="tabs">
     <div class="level-1">
-      <a id="searchTab" href="/add/search" class="tab">
-        {{icon 'search'}}
-        <span class="label">{{I18n 'search'}}</span>
-      </a>
-      <a id="scanTab" href="/add/scan" class="tab">
-        {{icon 'barcode'}}
-        <span class="label">{{I18n 'scan'}}</span>
-      </a>
-      <a id="importTab" href="/add/import" class="tab">
-        {{icon 'database'}}
-        <span class="label">{{I18n 'import'}}</span>
-      </a>
+      {{#each tabs}}
+        <a id="{{id}}" href="{{href}}" class="tab" title="{{i18n title}}">
+          {{icon this.icon}}
+          <span class="label">{{I18n label}}</span>
+        </a>
+      {{/each}}
     </div>
   </div>
 </div>
