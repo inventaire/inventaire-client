@@ -16,14 +16,16 @@ module.exports =
   # pre-fetch quagga when the scanner is probably about to be used
   # to be ready to start scanning faster
   prepare: -> unless alreadyPrepared then getQuagga()
-  scan: ->
+  scan: (beforeStart)->
+    beforeStart or= _.noop
+
     getQuagga()
-    .then startScanning
+    .then startScanning.bind(null, beforeStart)
     .then _.Log('embedded scanner isbn')
     .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
     .catch _.ErrorRethrow('embedded scanner err')
 
-startScanning = ->
+startScanning = (beforeStart)->
   new Promise (resolve, reject, onCancel)->
     constraints = getConstraints()
     _.log 'starting quagga initialization'
@@ -43,6 +45,7 @@ startScanning = ->
 
         return reject err
 
+      beforeStart()
       _.log 'quagga initialization finished. Starting'
       Quagga.start()
 

@@ -12,6 +12,12 @@
   .loading{
     color: white;
   }
+  .failing{
+    @include position(fixed, null, 0, 0, 0);
+    background-color: rgba($dark-grey, 0.8);
+    color: white;
+    padding: 0.5em;
+  }
   .close{
     @include position(fixed, 0, 0);
     @include text-hover(white);
