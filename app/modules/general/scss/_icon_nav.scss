@@ -119,8 +119,6 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     max-width: 100%;
-    padding-top: 0.3em;
-    padding-bottom: 0.3em;
     .iconButton{
       margin-bottom: 1em;
     }
