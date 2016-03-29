@@ -9,9 +9,6 @@ $addLayoutWidth: 50em;
     padding: 1em;
   }
   text-align: center;
-  h2{
-    font-size: 1.6em;
-  }
   h3{
     @include sans-serif;
     color: $dark-grey;
@@ -47,7 +44,7 @@ $addLayoutWidth: 50em;
   /*Large screens*/
   @media screen and (min-width: $addLayoutWidth) {
     padding: 1em;
-    margin: 1em auto;
+    margin: 0 auto;
     width: $addLayoutWidth;
     .custom-tabs-titles{
       // completing radius already added in custom_tabs

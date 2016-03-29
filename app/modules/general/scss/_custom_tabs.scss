@@ -24,11 +24,14 @@ $customTabMaxWidth: 40em;
       color: $dark-grey;
       background-color: $active-custom-tab-bg;
     }
-    &:first-child{
-      border-top-left-radius: $global-radius;
-    }
-    &:last-child{
-      border-top-right-radius: $global-radius;
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      &:first-child{
+        border-top-left-radius: $global-radius;
+      }
+      &:last-child{
+        border-top-right-radius: $global-radius;
+      }
     }
   }
   /*Small screens*/
