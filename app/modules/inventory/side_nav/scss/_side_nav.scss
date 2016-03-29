@@ -60,10 +60,14 @@
     text-align: left;
     font-weight: bold;
     @include serif;
+    .noGroup{
+      @include sans-serif;
+      font-style: normal;
+    }
   }
   .noGroup{
     color: white;
-    opacity: 0.2;
+    opacity: 0.8;
     font-weight: 0.6;
     text-align: center;
   }
