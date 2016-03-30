@@ -17,3 +17,5 @@ module.exports = Backbone.Model.extend
     return data
 
   updateTimestamp: -> @set 'timestamp', _.now()
+
+  show: -> app.execute 'search:global', @get('query')

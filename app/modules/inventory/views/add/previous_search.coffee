@@ -9,4 +9,4 @@ module.exports = Marionette.ItemView.extend
   events:
     'click a': 'showSearch'
 
-  showSearch: -> app.execute 'search:global', @model.get('query')
+  showSearch: -> @model.show()

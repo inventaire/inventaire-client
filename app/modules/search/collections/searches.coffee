@@ -11,11 +11,7 @@ module.exports = Backbone.Collection.extend
 
     return model
 
-  comparator: (model)->
-    timestamp = model.get 'timestamp'
-    _.log timestamp, 'COMPARATOR'
-    return -timestamp
-  # comparator: 'timestamp'
+  comparator: (model)-> - model.get('timestamp')
 
   initialize: ->
     data = localStorageProxy.getItem 'searches'
@@ -34,3 +30,7 @@ module.exports = Backbone.Collection.extend
     # keep only track of the 10 last searches
     data = JSON.stringify @toJSON()[0..10]
     localStorageProxy.setItem 'searches', data
+
+  findLastSearch: ->
+    @sort()
+    return @models[0]

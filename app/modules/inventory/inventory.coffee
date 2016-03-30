@@ -273,6 +273,12 @@ initializeInventoriesHandlers = (app)->
     # equivalent to the previous one as long as search is the default tab
     # but more explicit
     'show:add:layout:search': API.showSearch
+    # show the last search if it can be found
+    # else show the add_layout search tab
+    'show:add:layout:search:last': ->
+      lastSearch = app.searches.findLastSearch()
+      if lastSearch? then lastSearch.show()
+      else API.showSearch()
 
     'show:scanner:embedded': ->
       # navigate before triggering the view itself has
