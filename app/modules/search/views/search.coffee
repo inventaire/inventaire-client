@@ -10,6 +10,8 @@ books_ = require 'lib/books'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 searchInputData = require 'modules/general/views/menu/search_input_data'
 
+resultsCache = {}
+
 module.exports = Marionette.LayoutView.extend
   id: 'searchLayout'
   template: require './templates/search'
@@ -58,9 +60,10 @@ module.exports = Marionette.LayoutView.extend
           classes: 'subheader'
 
   sameAsPreviousQuery: ->
+    resultsLength = resultsCache.books?.length or resultsCache.editions?.length
     # verifying that the query is not the same as the last one
     # and using the previous results if so
-    if app.results?.search is @query and app.results?.books?.length > 0
+    if resultsCache.search is @query and resultsLength > 0
       @displayResults()
       @authors.$el.hide().fadeIn(200)
       return true
@@ -69,7 +72,7 @@ module.exports = Marionette.LayoutView.extend
     search = @query
     _.log search, 'search'
     unless @sameAsPreviousQuery()
-      app.results = {}
+      resultsCache = {}
       _.preq.get app.API.entities.search(search)
       .catch _.preq.catch404
       .then (res)=>
@@ -91,11 +94,11 @@ module.exports = Marionette.LayoutView.extend
 
 
   displayResults: ->
-    {humans, authors, books, editions} = app.results
+    { humans, authors, books, editions } = resultsCache
 
-    @showAuthors(authors, humans)
-    @showBooks(books)
-    @showEditions(editions)
+    @showAuthors authors, humans
+    @showBooks books
+    @showEditions editions
 
   showAuthors: (authors, humans)->
     if authors?.length is 0 then authors = humans
@@ -139,14 +142,14 @@ firstPicture = (model)-> model.get('pictures')[0]
 
 spreadResults = (res)->
   _.log res, 'res at spreadResults'
-  app.results =
+  resultsCache =
     humans: new Entities
     authors: new Entities
     books: new Entities
     editions: new Entities
     search: res.search
 
-  {wd, ol, google} = res
+  { wd, ol, google } = res
 
   if wd? then addWikidataEntities wd.items
   if ol? then addIsbnEntities ol.items
@@ -161,17 +164,17 @@ addWikidataEntities = (resultsArray)->
     claims = model.get 'claims'
     if _.isntEmpty(claims.P31)
       if wd_.isBook(claims.P31)
-        app.results.books.add model
+        resultsCache.books.add model
 
       if wd_.isHuman(claims.P31)
-        app.results.humans.add model
+        resultsCache.humans.add model
 
     if _.isntEmpty(claims.P106)
       if wd_.isAuthor(claims.P106)
-        app.results.authors.add model
+        resultsCache.authors.add model
 
 addIsbnEntities = (resultsArray)->
   # initializing models as IsbnEntities
   editions = new IsbnEntities resultsArray
   # adding them to the less specific editions collection
-  app.results.editions.add editions.models
+  resultsCache.editions.add editions.models
