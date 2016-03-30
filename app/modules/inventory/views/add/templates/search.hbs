@@ -1,2 +1,10 @@
-<h3>{{i18n 'add_by_search'}}</h3>
-{{input search}}
+<section class="inner">
+  <h3>{{i18n 'add_by_search'}}</h3>
+  {{input search}}
+</section>
+
+<div id="historyWrapper" class="hidden">
+  <h3>{{icon 'history'}}{{i18n 'previous searches'}}</h3>
+  <ul id="history"></ul>
+  <a class="clearHistory">{{icon 'trash'}}{{i18n 'clear history'}}</a>
+</div>

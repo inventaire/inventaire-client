@@ -34,6 +34,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: (params)->
     _.extend @, behaviorsPlugin
     @query = params.query
+    @model = app.searches.addNonExisting { query: @query }
 
   onShow: ->
     app.request('waitForFriendsItems').then @showItems.bind(@)
@@ -102,15 +103,21 @@ module.exports = Marionette.LayoutView.extend
       authorsList = new ResultsList {collection: authors, type: 'authors'}
       @authors.show authorsList
 
+      @saveSearchPictures authors
+
   showBooks: (books)->
     if books?.length > 0
       booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
       @books.show booksList
 
+      @saveSearchPictures books
+
   showEditions: (editions)->
     if editions?.length > 0
       editionsList = new ResultsList {collection: editions, type: 'editions', entity: 'Q17902573'}
       @editions.show editionsList
+
+      @saveSearchPictures editions
 
   showFindByIsbn: ->
     @findByIsbn.show new FindByIsbn
@@ -121,6 +128,14 @@ module.exports = Marionette.LayoutView.extend
     unless queryIsIsbn then options.secondChoice = true
     @createEntity.show new EntityCreate(options)
     @$el.find('h3.create').show()
+
+  saveSearchPictures: (collection)->
+    # keep only every entity first picture to avoid passing
+    # several possibily identical pictures for a single entity
+    pictures = collection.map firstPicture
+    @model.savePictures pictures
+
+firstPicture = (model)-> model.get('pictures')[0]
 
 spreadResults = (res)->
   _.log res, 'res at spreadResults'

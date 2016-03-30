@@ -1,4 +1,5 @@
-Search = require './views/search'
+Searches = require './collections/searches'
+SearchLayout = require './views/search'
 error_ = require 'lib/error'
 
 module.exports =
@@ -18,13 +19,16 @@ module.exports =
     app.reqres.setHandlers
       'search:entities': API.searchEntities
 
+    # keep an history of searches
+    app.searches = new Searches
+
 API = {}
 API.search = (query)->
   unless _.isNonEmptyString query
     app.execute 'show:add:layout:search'
     return
 
-  app.search = searchLayout = new Search
+  searchLayout = new SearchLayout
     query: _.softDecodeURI(query)
 
   docTitle = "#{query} - " +  _.i18n('Search')

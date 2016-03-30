@@ -1,0 +1,11 @@
+<a href="{{pathname}}">
+  {{icon 'search'}}
+  <div class="query">
+    {{query}}
+  </div>
+  <div class="pics">
+    {{#each pictures}}
+      <img src="{{src this 96}}" alt="{{query}}">
+    {{/each}}
+  </div>
+</a>
