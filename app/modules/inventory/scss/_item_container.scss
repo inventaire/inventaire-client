@@ -54,11 +54,13 @@
     margin-bottom: 0.5em;
     .title{
       @include serif;
-      // color: $light-blue;
       font-size: 1.2em;
       line-height: 1em;
       margin: 0;
-      padding: 0;
+      max-height: 7em;
+      overflow: hidden;
+      // avoid hidding letters descender
+      padding-bottom: 0.2em;
     }
     .authors{
       font-size: 0.8em;
