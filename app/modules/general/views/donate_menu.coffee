@@ -1,4 +1,4 @@
-{ bitcoin, gratipay } = require 'lib/urls'
+{ donate } = require 'lib/urls'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/donate_menu'
@@ -16,5 +16,5 @@ module.exports = Marionette.ItemView.extend
       app.execute 'modal:open'
 
   serializeData: ->
-    bitcoin: bitcoin
-    standalone: @options.standalone
+    _.extend donate,
+      standalone: @options.standalone

@@ -1,6 +1,7 @@
 host = 'https://inventaire.io'
 root = if window.env is 'dev' then host else ''
-bcHash = '1QGMFXJevme8eNCusNmLddiecAiXspSguw'
+bitcoinHash = '1QGMFXJevme8eNCusNmLddiecAiXspSguw'
+faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
 
 module.exports =
   host: host
@@ -14,6 +15,7 @@ module.exports =
   transifex: 'https://www.transifex.com/organization/inventaire'
   trello: 'https://trello.com/b/0lKcsZDj/inventaire-roadmap'
   tracker: 'https://piwik.allmende.io/piwik.php'
+  apiDoc: 'https://github.com/inventaire/inventaire/wiki/API'
   images:
     # not passing an absolute url so that it can be easily digested
     # by the {{src}} helper as a local image url
@@ -24,13 +26,15 @@ module.exports =
     bokeh: "#{root}/img/6fca0921e336dd4dab1f1900e8f1143a9a9e9623.jpg"
     ginnerobot: "#{root}/img/28945a3c26a986b371767cfdb9d0e11156a6d641.jpg"
     brittanystevens: "#{root}/img/f3c063914d81996e3d262201d1e71c5e38212948.jpg"
+  donate:
+    bitcoin:
+      hash: bitcoinHash
+      url: "bitcoin:#{bitcoinHash}"
+      coinbase: 'https://www.coinbase.com/inventaire'
+      qrcode: "#{root}/img/f086157157209ee0b3a09ff7bd8eb88c79fb658d.jpg"
 
-  bitcoin:
-    hash: bcHash
-    url: "bitcoin:#{bcHash}"
-    coinbase: 'https://www.coinbase.com/inventaire'
-    qrcode: "#{root}/img/f086157157209ee0b3a09ff7bd8eb88c79fb658d.jpg"
-
-  gratipay: 'https://gratipay.com/inventaire-io'
-  liberapay: 'https://liberapay.com/inventaire_io'
-  apiDoc: 'https://github.com/inventaire/inventaire/wiki/API'
+    faircoin:
+      hash: faircoinHash
+      url: "faircoin:#{faircoinHash}"
+    gratipay: 'https://gratipay.com/inventaire-io'
+    liberapay: 'https://liberapay.com/inventaire_io'
