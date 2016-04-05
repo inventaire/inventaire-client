@@ -11,9 +11,9 @@ module.exports = ->
   require('lib/global_libs_extender')(_)
   require('lib/global_helpers')(app, _)
 
-  LocalDB = require('lib/data/local_db')(window, _)
+  LocalDB = require('lib/data/local_db').build(window, _)
   # constructor for interactions between module and LevelDb/IndexedDb
-  app.LocalCache = require('lib/data/local_cache')(LocalDB, _, require 'lib/preq')
+  app.LocalCache = require('lib/data/local_cache')(LocalDB, _, _.preq)
 
   # setting reqres to trigger methods on data:ready events
   app.data = require('lib/data_state')

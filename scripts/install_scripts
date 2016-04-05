@@ -9,7 +9,12 @@ rmComments(){
   uglify -s $1 -o $1
 }
 
-wget --no-check-certificate https://piwik.allmende.io/piwik.js && mv piwik.js vendor/scripts/
+# avoid to rely on globally installed packages
+# to ease installation
+alias uglifyjs=node_modules/uglify-js/bin/uglifyjs
+alias browserify=node_modules/browserify/bin/cmd.js
+
+curl -sk https://piwik.allmende.io/piwik.js > vendor/scripts/piwik.js
 echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
 
 browserify node_modules/levelup -s LevelUp > vendor/scripts/level-up.js
@@ -20,9 +25,6 @@ logDone LevelMultiply
 
 browserify node_modules/level-js -s LevelJs > vendor/scripts/level-js.js
 logDone LevelJs
-
-browserify node_modules/memdown -s MemDown > vendor/scripts/memdown.js
-logDone MemDown
 
 browserify node_modules/to-data-url -s toDataURL > vendor/scripts/to-data-url.js
 logDone toDataURL
@@ -43,9 +45,15 @@ cp node_modules/wikidata-lang/dist/index.js vendor/scripts/wikidata-lang.js
 echo -e '\e[0;32mdone copying:\e[0m' wikidata-lang
 
 pub=public/javascripts
-quagga_base=quagga-0.9.2
 source scripts/init_gzip_utils
 
+memdown_base=memdown-1.1.2
+browserify node_modules/memdown -s MemDown > ${pub}/${memdown_base}.js
+uglifyjs ${pub}/${memdown_base}.js -c -m -o ${pub}/${memdown_base}.min.js 2> /dev/null
+gzipkeep "${pub}/${memdown_base}.min.js"
+echo -e '\e[0;32mdone browserifying and copying:\e[0m' memdown
+
+quagga_base=quagga-0.9.2
 cp node_modules/quagga/dist/quagga.js ${pub}/${quagga_base}.js
 cp node_modules/quagga/dist/quagga.min.js ${pub}/${quagga_base}.min.js
 gzipkeep "${pub}/${quagga_base}.min.js"

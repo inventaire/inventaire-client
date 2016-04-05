@@ -62,6 +62,8 @@ setDebugSetting = ->
     localStorage.setItem('debug', true)\n
     Or activate logs once by adding debug=true as a query parameter"
 
+# can't rely on Modernizr.indexeddb boolean
+# as it doesn't detect Private navigation
 testIndexedDbSupport = ->
   indexedDB = indexedDB or window.indexedDB or window.webkitIndexedDB or window.mozIndexedDB or window.OIndexedDB or window.msIndexedDB
 

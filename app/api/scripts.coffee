@@ -1,6 +1,10 @@
-quagga = '/public/javascripts/quagga-0.9.2.min.js'
+jsFolder = '/public/javascripts/'
+
+GetEnvPath = (pathBase)->
+  getEnvPath = ->
+    if window.env is 'dev' then "#{jsFolder}/#{pathBase}.js"
+    else "#{jsFolder}/#{pathBase}.min.js"
 
 module.exports =
-  quagga: ->
-    if window.env is 'dev' then quagga.replace '.min', ''
-    else quagga
+  quagga: GetEnvPath 'quagga-0.9.2'
+  memdown: GetEnvPath 'memdown-1.1.2'

@@ -34,7 +34,7 @@ module.exports = (LocalDB, _, promises_)->
         catch err then return Promise.reject(err)
 
         if ids.length is 0
-          promise = _.preq.resolve {}
+          promise = promises_.resolve {}
         else if refresh
           promise = getMissingData(ids)
         else
