@@ -5,8 +5,8 @@ FOLDER="$PWD/scripts/assets/weight_history"
 JS="$PWD/public/javascripts"
 CSS="$PWD/public/stylesheets"
 
-DATE=$(date +'%F')
 COMMIT=$(git rev-parse --short HEAD)
+DATE=$(git show -s --format="%ci" $COMMIT|sed 's/ .*$//')
 FILE="$FOLDER/$DATE-$COMMIT"
 
 echo "-- date: $DATE - commit: $COMMIT --" >> $FILE
