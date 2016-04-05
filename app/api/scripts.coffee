@@ -1,4 +1,4 @@
-jsFolder = '/public/javascripts/'
+jsFolder = '/public/js'
 
 GetEnvPath = (pathBase)->
   getEnvPath = ->
@@ -8,3 +8,4 @@ GetEnvPath = (pathBase)->
 module.exports =
   quagga: GetEnvPath 'quagga-0.9.2'
   memdown: GetEnvPath 'memdown-1.1.2'
+  moment: (lang)-> "#{jsFolder}/moment/#{lang}.js?DIGEST"

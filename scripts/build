@@ -7,15 +7,15 @@ brunch build --production
 echo -e '\e[0;30mbuild_index\e[0m'
 # commenting-out cssnext as flexbox-wise, it was messing with crappy browsers
 # (especially Safari) more than fixing anything
-# cssnext public/stylesheets/app.css{,}
-# cssnext public/stylesheets/vendor.css{,}
+# cssnext public/css/app.css{,}
+# cssnext public/css/vendor.css{,}
 
 echo -e '\e[0;30mgzip js and css files\e[0m'
 source ./scripts/init_gzip_utils
-gzipkeepall public/javascripts
+gzipkeepall public/js
 # no need to run it everytimes as it doesn't change
-# gzipkeepall public/javascripts/moment
-gzipkeepall public/stylesheets
+# gzipkeepall public/js/moment
+gzipkeepall public/css
 
 echo -e '\e[0;30mgzip index.html\e[0m'
 gzipkeep public/index.html

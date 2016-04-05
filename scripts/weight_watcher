@@ -2,8 +2,8 @@
 # keep an history if builds weight
 PWD=$(pwd)
 FOLDER="$PWD/scripts/assets/weight_history"
-JS="$PWD/public/javascripts"
-CSS="$PWD/public/stylesheets"
+JS="$PWD/public/js"
+CSS="$PWD/public/css"
 
 COMMIT=$(git rev-parse --short HEAD)
 DATE=$(git show -s --format="%ci" $COMMIT|sed 's/ .*$//')

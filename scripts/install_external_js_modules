@@ -1,0 +1,51 @@
+#!/usr/bin/env zsh
+
+# avoid to rely on globally installed packages
+# to ease installation
+alias uglifyjs=node_modules/uglify-js/bin/uglifyjs
+alias browserify=node_modules/browserify/bin/cmd.js
+pub=public/js
+vendor=vendor/js
+source scripts/init_gzip_utils
+
+browserifyModule(){
+  browserify node_modules/$1 -s $2 > ${vendor}/${1}.js
+  echo -e '\e[0;32mdone browserifying:\e[0m' $1
+}
+copyIt(){
+  cp node_modules/$1 ${vendor}/$2.js
+  echo -e '\e[0;32mdone copying:\e[0m' $2
+}
+
+uglifyIt(){
+  # 2>&1: redirect stderr to stdin to be able to pipe it
+  # grep -v WARN: avoid showing warnings
+  uglifyjs ${1}/${2}.js -c -m -o ${1}/${2}.min.js 2>&1 |grep -v WARN
+}
+
+curl -sk https://piwik.allmende.io/piwik.js > ${vendor}/piwik.js
+echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
+
+browserifyModule levelup LevelUp
+browserifyModule level-multiply LevelMultiply
+browserifyModule level-js LevelJs
+browserifyModule to-data-url toDataURL
+browserifyModule browser-locale browserLocale
+browserifyModule enumerate-devices enumerateDevices
+
+copyIt wikidata-sdk/dist/wikidata-sdk.js wikidata-sdk
+copyIt inv-utils/dist/inv-utils.js inv-utils
+copyIt wikidata-lang/dist/index.js wikidata-lang
+
+memdown_base=memdown-1.1.2
+quagga_base=quagga-0.9.2
+
+browserify node_modules/memdown -s MemDown > ${pub}/${memdown_base}.js
+uglifyIt $pub $memdown_base
+gzipkeep "${pub}/${memdown_base}.min.js"
+echo -e '\e[0;32mdone browserifying and copying:\e[0m' memdown
+
+cp node_modules/quagga/dist/quagga.js ${pub}/${quagga_base}.js
+cp node_modules/quagga/dist/quagga.min.js ${pub}/${quagga_base}.min.js
+gzipkeep "${pub}/${quagga_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' quagga

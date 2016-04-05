@@ -2,7 +2,7 @@
 
 CWD=$PWD
 bowerMoment=./bower_components/moment/locale
-publicMoment=./public/javascripts/moment
+publicMoment=./public/js/moment
 mkdir -p $publicMoment
 
 cp $bowerMoment/* $publicMoment

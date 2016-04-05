@@ -9,8 +9,8 @@ exports.config =
     javascripts:
       joinTo:
         # foundation js is included in vendor as a normal bower component
-        'javascripts/vendor.js': /^(vendor\/scripts|bower_components)/
-        'javascripts/app.js': /^app/
+        'js/vendor.js': /^(vendor\/js|bower_components)/
+        'js/app.js': /^app/
       order:
         before: [
           "bower_components/jquery/dist/jquery.js"
@@ -26,11 +26,11 @@ exports.config =
       joinTo:
         # /!\ foundation is joined to app.css as its scss '!default'ed properties requires to be after app
         # but in the same compiled file! (thus the failing attemps to extract foundation in its own file)
-        'stylesheets/vendor.css': /^(vendor\/stylesheets|bower_components\/(?!foundation))/
-        'stylesheets/app.css': /^app/
+        'css/vendor.css': /^(vendor\/css|bower_components\/(?!foundation))/
+        'css/app.css': /^app/
 
     templates:
-      joinTo: 'javascripts/app.js'
+      joinTo: 'js/app.js'
 
   plugins:
     autoReload:
