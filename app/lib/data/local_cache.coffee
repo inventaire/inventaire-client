@@ -14,9 +14,9 @@
 
 module.exports = (LocalDB, _, promises_)->
 
-  LocalCache = (options)->
+  return LocalCache = (options)->
     # _.log options, 'cache:options'
-    {name, remote, normalizeId, parseData} = options
+    { name, remote, normalizeId, parseData } = options
 
     args = [name, remote, normalizeId, parseData]
     types = ['string', 'object', 'function|undefined', 'function|undefined']
