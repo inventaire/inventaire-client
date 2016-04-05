@@ -16,3 +16,4 @@ module.exports = (Promise)->
     start: resolved
     # start a promise chain after a delay
     delay: resolved.delay
+    try: Promise.try.bind Promise
