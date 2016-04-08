@@ -37,8 +37,9 @@ copyIt wikidata-sdk/dist/wikidata-sdk.js wikidata-sdk
 copyIt inv-utils/dist/inv-utils.js inv-utils
 copyIt wikidata-lang/dist/index.js wikidata-lang
 
+# keep versions in sync with app/api/scripts.coffee
 memdown_base=memdown-1.1.2
-quagga_base=quagga-0.9.2
+quagga_base=quagga-0.10.2
 
 browserify node_modules/memdown -s MemDown > ${pub}/${memdown_base}.js
 uglifyIt $pub $memdown_base

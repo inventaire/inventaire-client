@@ -6,6 +6,7 @@ GetEnvPath = (pathBase)->
     else "#{jsFolder}/#{pathBase}.min.js"
 
 module.exports =
-  quagga: GetEnvPath 'quagga-0.9.2'
+  # keep versions in sync with scripts/install_external_js_modules
+  quagga: GetEnvPath 'quagga-0.10.2'
   memdown: GetEnvPath 'memdown-1.1.2'
   moment: (lang)-> "#{jsFolder}/moment/#{lang}.js?DIGEST"
