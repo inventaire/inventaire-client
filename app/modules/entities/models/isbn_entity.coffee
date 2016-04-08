@@ -45,6 +45,7 @@ module.exports = Entity.extend
     return _.preq.resolve str
 
 parseAuthor = (a)->
-  switch a.type
+  switch a?.type
     when 'wikidata_id' then a.label
     when 'string' then a.value
+    else null

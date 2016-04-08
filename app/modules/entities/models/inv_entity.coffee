@@ -24,10 +24,11 @@ module.exports = Entity.extend
     str = switch _.typeOf authors
       when 'string' then authors
       when 'array' then parseAuthors authors
+      else ''
 
     return _.preq.resolve str
 
 parseAuthors = (authors)->
-  authors
+  _.compact(authors)
   .map _.property('value')
   .join ', '

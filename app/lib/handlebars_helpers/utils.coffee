@@ -14,7 +14,8 @@ module.exports =
   default: (text, def)-> text or def
 
   joinAuthors: (array, linkify)->
-    unless array? then return ''
+    array = _.compact array
+    unless array?.length > 0 then return ''
     # defaulting to true while taking care of neutralizing
     # handlebars data object
     unless _.isBoolean linkify then linkify = true
