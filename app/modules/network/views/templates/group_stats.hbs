@@ -1,6 +1,6 @@
 <ul class="stats">
   <li class="membersCount count">{{i18n 'members:'}} {{membersCount}}</li>
-  {{#unless publicDataOnly}}
+  {{#if mainUserIsMember}}
     <li class="booksCount count">{{i18n 'books:'}} {{itemsCount}}</li>
-  {{/unless}}
+  {{/if}}
 </ul>

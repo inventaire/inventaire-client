@@ -80,14 +80,15 @@ module.exports = Positionable.extend
         lat: attrs.position[0]
         lng: attrs.position[1]
 
+    mainUserIsMember = @mainUserIsMember()
+
     _.extend attrs,
-      publicDataOnly: @publicDataOnly
       membersCount: @membersCount()
       # itemsCount isnt available for public groups
       # due to an unsolved issue with user:inventoryLength in this case
-      itemsCount: @itemsCount()  unless @publicDataOnly
+      itemsCount: if mainUserIsMember then @itemsCount() else 0
       mainUserIsAdmin: @mainUserIsAdmin()
-      mainUserIsMember: @mainUserIsMember()
+      mainUserIsMember: mainUserIsMember
       hasPosition: @hasPosition()
 
   userStatus: (user)->

@@ -23,7 +23,6 @@ module.exports = ->
       app.items.public.add items
       groupModel ?= groups.add group
       groupModel.publicItemsFetched = true
-      groupModel.publicDataOnly = true
       return groupModel
 
   groupSettingsUpdater = Updater
