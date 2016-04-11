@@ -73,6 +73,8 @@ module.exports = Marionette.LayoutView.extend
         app.execute 'show:404'
 
     else if group?
+      # get:group:model takes care of fetching the group users
+      # and items public data
       app.request 'get:group:model', group
       # make sure the group is passed as second argument
       .then @showItemsListStep2.bind(@, null)

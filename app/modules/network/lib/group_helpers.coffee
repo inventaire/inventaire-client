@@ -6,17 +6,23 @@ module.exports = ->
 
   getGroupModel = (id)->
     group = groups.byId id
-    if group? then _.preq.resolve group
-    else getGroupPublicData id
+    unless group? then return getGroupPublicData id
 
-  getGroupPublicData = (id)->
+    # the group model might have arrived from a simple search
+    # thus without fetching its users and items public data
+    if group.publicItemsFetched then _.preq.resolve group
+    else getGroupPublicData null, group
+
+  getGroupPublicData = (id, groupModel)->
+    if groupModel? then id = groupModel.id
     _.preq.get _.buildPath(app.API.groups.public, {id: id})
-    # .then _.Log('group public data')
+    .then _.Log('group public data')
     .then (res)->
-      {group, users, items} = res
+      { group, users, items } = res
       app.execute 'users:public:add', users
       app.items.public.add items
-      groupModel =  groups.add group
+      groupModel ?= groups.add group
+      groupModel.publicItemsFetched = true
       groupModel.publicDataOnly = true
       return groupModel
 
