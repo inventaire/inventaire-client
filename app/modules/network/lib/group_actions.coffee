@@ -28,15 +28,15 @@ module.exports =
     .catch @revertMove.bind(@, app.user, 'invited', 'declined')
 
   requestToJoin: ->
-    @createRequest()
+    # create membership doc in the requested list
+    @push 'requested',
+      user: app.user.id
+      timestamp: _.now()
+
+    @triggeredListChange()
 
     return @action 'request'
     .catch @revertMove.bind(@, app.user, null, 'requested')
-
-  createRequest: ->
-    return @push 'requested',
-      user: app.user.id
-      timestamp: _.now()
 
   cancelRequest: ->
     @moveMembership app.user, 'requested', 'tmp'
@@ -109,7 +109,6 @@ module.exports =
     @trigger 'list:change:after'
 
 triggerUserChange = (user)->
-  trigger = ->
-    user.trigger 'group:user:change'
+  trigger = -> user.trigger 'group:user:change'
   # delay the event to let the time to the debounced recalculateAllLists to run
   setTimeout trigger, 100
