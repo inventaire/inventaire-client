@@ -42,4 +42,6 @@ exports.config =
     production:
       sourceMaps: true
       optimize: true
-      plugins: autoReload: enabled: false
+      plugins:
+        autoReload:
+          enabled: false

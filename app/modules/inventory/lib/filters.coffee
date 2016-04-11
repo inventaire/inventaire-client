@@ -33,6 +33,9 @@ module.exports = (app)->
       owner = itemModel.get 'owner'
       unless owner in allMembersIds then return false
 
+      # avoid showing private items in groups
+      # as it might send the wrong information, that is that those books
+      # are visible from this group
       if owner is mainUserId then isntPrivateItem itemModel
       else true
 
