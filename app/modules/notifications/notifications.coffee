@@ -3,7 +3,7 @@ NotificationsList = require './views/notifications_list'
 NotificationsLayout = require './views/notifications_layout'
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
         'notifications': 'showNotifications'

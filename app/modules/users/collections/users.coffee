@@ -10,7 +10,7 @@ module.exports = Backbone.Collection.extend
   comparator: 'highlightScore'
 
   filtered: (text)->
-    return @filter (user) ->
+    return @filter (user)->
       filterExpr = new RegExp '^' + text, "i"
       return filterExpr.test user.get('username')
 

@@ -11,7 +11,7 @@ GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
         'entity/:uri(/:label)/add(/)': 'showAddEntity'

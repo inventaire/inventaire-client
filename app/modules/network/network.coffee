@@ -5,7 +5,7 @@ initGroupHelpers = require './lib/group_helpers'
 { defaultTab } = require './lib/network_tabs'
 
 module.exports =
-  define: (Redirect, app, Backbone, Marionette, $, _) ->
+  define: (Redirect, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
         'network(/users)(/search)(/)':'showSearchUsers'

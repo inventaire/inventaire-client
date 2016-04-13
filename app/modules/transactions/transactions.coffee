@@ -4,7 +4,7 @@ initHelpers = require('./helpers')
 lastTransactionId = null
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     TransactionsRouter = Marionette.AppRouter.extend
       appRoutes:
         'transactions(/)': 'showFirstTransaction'

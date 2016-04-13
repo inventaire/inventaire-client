@@ -3,7 +3,7 @@
 formatAuthor = require './format_author'
 
 module.exports =
-  join: (array, separator) ->
+  join: (array, separator)->
     unless array? then return ''
 
     separator = ', '  unless _.isString(separator)

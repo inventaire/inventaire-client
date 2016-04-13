@@ -6,7 +6,7 @@ ForgotPassword = require './views/forgot_password'
 ResetPassword = require './views/reset_password'
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
         'signup(/persona)(/)':'showSignup'

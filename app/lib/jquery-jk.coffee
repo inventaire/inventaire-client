@@ -1,7 +1,7 @@
 # adapted from jquery-jk from https://github.com/nakajima/jquery-jk
 module.exports.initialize = ($)->
   focused = -> @find '.focus'
-  focusOn = (dir) ->
+  focusOn = (dir)->
     return @find('*:first').addClass('focus')  unless @focused().length
     focusedOld = @focused()
     focusedNew = focusedOld[dir]()
@@ -20,7 +20,7 @@ module.exports.initialize = ($)->
   nextKey = -> $.jk.NEXT.charCodeAt()
   prevKey = -> $.jk.PREV.charCodeAt()
   selectKey = -> $.jk.SELECT.charCodeAt()
-  attempt = (event) ->
+  attempt = (event)->
     return  unless event.which
     return  if $(event.target).is(':input')
     if event.which is nextKey()

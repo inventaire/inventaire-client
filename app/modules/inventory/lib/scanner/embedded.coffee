@@ -36,7 +36,7 @@ startScanning = (beforeStart)->
       cancelled = true
       Quagga.stop()
 
-    Quagga.init getOptions(constraints), (err) ->
+    Quagga.init getOptions(constraints), (err)->
       if cancelled then return
       if err
         # TODO: verify that this is a standard message

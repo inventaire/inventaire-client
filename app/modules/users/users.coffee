@@ -1,5 +1,5 @@
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
 
   initialize: ->
     app.users = require('./users_collections')(app)

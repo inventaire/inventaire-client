@@ -104,7 +104,7 @@ module.exports = (Backbone, _, app, window, csle)->
       return Object.keys(obj)
 
     # adapted from lodash implementation
-    values: (obj) ->
+    values: (obj)->
       index = -1
       props = Object.keys(obj)
       length = props.length

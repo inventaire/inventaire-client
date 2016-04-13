@@ -1,7 +1,7 @@
 SettingsLayout = require './views/settings'
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     SettingsRouter = Marionette.AppRouter.extend
       appRoutes:
         'settings(/profile)(/)': 'showProfileSettings'

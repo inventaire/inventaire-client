@@ -6,7 +6,7 @@ DonateMenu = require 'modules/general/views/donate_menu'
 FeedbackMenu = require 'modules/general/views/feedback_menu'
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
         '(home)': 'showHome'

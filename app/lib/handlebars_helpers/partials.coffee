@@ -5,7 +5,7 @@ tip = behavior 'tip'
 
 
 module.exports =
-  partial: (name, context, option) ->
+  partial: (name, context, option)->
     # parse the name to build the partial path
     parts = name.split ':'
     switch parts.length

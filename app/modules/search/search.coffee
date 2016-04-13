@@ -3,7 +3,7 @@ SearchLayout = require './views/search'
 error_ = require 'lib/error'
 
 module.exports =
-  define: (module, app, Backbone, Marionette, $, _) ->
+  define: (module, app, Backbone, Marionette, $, _)->
     SearchRouter = Marionette.AppRouter.extend
       appRoutes:
         'search': 'searchFromQueryString'

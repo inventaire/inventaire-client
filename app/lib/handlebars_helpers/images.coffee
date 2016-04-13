@@ -1,6 +1,6 @@
 { SafeString } = Handlebars
 
-exports.icon = (name, classes) ->
+exports.icon = (name, classes)->
   if _.isString(name)
     if name in imagesList
       src = images[name]
