@@ -74,9 +74,9 @@ module.exports = Marionette.Behavior.extend
       dir: 'auto'
 
   onKeyDown: (e)->
-    key = e.which or e.keyCode
+    key = getActionKey e
     # only addressing 'tab' as it isn't caught by the keyup event
-    if key is 9
+    if key is 'tab'
       # In the case the dropdown was shown and a value was selected
       # @fillQuery will have been triggered, the input filled
       # and the selected suggestion kept at end: we can let the event
@@ -87,16 +87,12 @@ module.exports = Marionette.Behavior.extend
     e.preventDefault()
     e.stopPropagation()
 
-    key = e.which or e.keyCode
-    @onKey key, e
-
-  onKey: (key, e)->
     value = @ui.autocomplete.val()
     if value.length is 0
       @hideDropdown()
     else
       @showDropdown()
-      actionKey = actionKeysMap[key]
+      actionKey = getActionKey e
       if actionKey? then @keyAction actionKey, e
       else @lazyUpdateQuery value
 
@@ -144,6 +140,10 @@ module.exports = Marionette.Behavior.extend
 isSelectionEnd = (e)->
   { value, selectionEnd } = e.target
   return value.length is selectionEnd
+
+getActionKey = (e)->
+  key = e.which or e.keyCode
+  return actionKeysMap[key]
 
 actionKeysMap =
   9: 'tab'
