@@ -18,11 +18,17 @@ module.exports = Marionette.LayoutView.extend
   ui:
     title: '#titleField'
     authors: '#authorsField'
+    autocomplete: '#authorsField'
     isbn: '#isbnField'
 
   behaviors:
     AlertBox: {}
     BackupForm: {}
+    AutoComplete:
+      collection:
+        options:
+          type: 'dataset',
+          data: [{value: 'Victor Hugo'}, {value: 'Jean Valjean'}]
 
   initialize: ->
     @initModel()

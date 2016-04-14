@@ -1,0 +1,22 @@
+.ac-container{
+  position: relative;
+}
+.ac-suggestions{
+  // positioning .ac-suggestions just under .ac-container
+  @include position(absolute, 95%)
+  width: 100%;
+  background-color: white;
+  @include shy-border(0.9);
+  @include radius-bottom;
+}
+.ac-suggestion{
+  padding: 0 0.4em 0 0.4em;
+  @include bg-hover(white);
+  cursor: pointer;
+  &.active{
+    background-color: #eee;
+  }
+  &:not(:last-child){
+    border-bottom: 1px solid #eee;
+  }
+}
