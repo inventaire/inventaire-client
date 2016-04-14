@@ -20,7 +20,7 @@
   @include bg-hover(white);
   cursor: pointer;
   &.active{
-    background-color: #eee;
+    background-color: #ddd;
   }
   &:not(:last-child){
     border-bottom: 1px solid #eee;
