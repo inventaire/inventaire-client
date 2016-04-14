@@ -20,7 +20,12 @@ else
 
 global._ = _ = require 'underscore'
 
+# no need to require jquery
+# just faking what needs to be accessible to let tests pass
+global.$ =
+  extend: ->
+
 invUtils = require('inv-utils')(_)
-localLib = __.require('lib', 'utils')(Backbone, _, app, window, csle)
+localLib = __.require('lib', 'utils')(Backbone, _, $, app, window, csle)
 
 module.exports = _.extend _, localLib, invUtils

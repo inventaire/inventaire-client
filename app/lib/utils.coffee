@@ -5,7 +5,7 @@ tests_ = sharedLib('tests')(regex_)
 isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
 oneDay = 24*60*60*1000
 
-module.exports = (Backbone, _, app, window, csle)->
+module.exports = (Backbone, _, $, app, window, csle)->
   loggers = require('./loggers')(_, csle)
 
   utils =
@@ -233,4 +233,12 @@ module.exports = (Backbone, _, app, window, csle)->
 
     daysAgo: (epochTime)-> Math.floor(( _.now() - epochTime ) / oneDay)
 
+    deepExtend: $.extend.bind($, yes)
+
+    # Get the value from an object using a string
+    # (equivalent to lodash deep 'get' function).
+    get: (obj, prop)-> prop.split('.').reduce objectWalker, obj
+
   return _.extend {}, utils, loggers, tests_
+
+objectWalker = (subObject, property)-> subObject?[property]

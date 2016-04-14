@@ -2,7 +2,7 @@ module.exports = ->
   app = require 'app'
   window.app = app
 
-  _ = require('lib/builders/utils')(Backbone, window._, app, window)
+  _ = require('lib/builders/utils')()
 
   # gets all the routes used in the app
   app.API = require('api/api')(_)
