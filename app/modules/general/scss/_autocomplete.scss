@@ -15,8 +15,10 @@
     color: #333;
   }
 }
-.ac-suggestion{
+.ac-suggestion, .ac-no-suggestion{
   padding: 0 0.4em 0 0.4em;
+}
+.ac-suggestion{
   @include bg-hover(white);
   cursor: pointer;
   &.active{
@@ -24,5 +26,11 @@
   }
   &:not(:last-child){
     border-bottom: 1px solid #eee;
+  }
+}
+.ac-no-suggestion{
+  text-align: center;
+  a{
+    color: #666;
   }
 }
