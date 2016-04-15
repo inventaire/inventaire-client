@@ -28,6 +28,7 @@ module.exports = Marionette.Behavior.extend
     'keyup @ui.autocomplete': 'onKeyUp'
     'keydown @ui.autocomplete': 'onKeyDown'
     'focus input': 'onInputFocus'
+    'click .close': 'hideDropdown'
 
   initialize: (options)->
     @visible = no
@@ -113,6 +114,7 @@ module.exports = Marionette.Behavior.extend
   showDropdown: ->
     @visible = true
     @ui.autocomplete.parent().find('.ac-suggestions').show()
+
   hideDropdown: ->
     @visible = false
     @ui.autocomplete.parent().find('.ac-suggestions').hide()
