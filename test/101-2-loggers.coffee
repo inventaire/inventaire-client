@@ -46,12 +46,3 @@ describe 'Logger', ->
       done()
 
   err = new Error('all your base are belong to us')
-
-  describe 'logIt', (done)->
-    it 'should give String.prototype and Object.prototype a label', (done)->
-      String::logIt.should.be.ok
-      done()
-
-    it 'should make Strings return Strings', (done)->
-      'hello'.logIt('helli').should.be.a.String
-      done()

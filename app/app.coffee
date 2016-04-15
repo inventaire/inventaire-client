@@ -24,7 +24,7 @@ App = Marionette.Application.extend
       # by a slash to avoid being interpreted as relative pathnames
       route = route.replace /^\//, ''
 
-      # route.logIt('route:change')
+      # _.log route, 'route:change'
       @vent.trigger 'route:change', _.routeSection(route), route
       # record all routes visited for server-side statistics
       @session.record route
@@ -36,13 +36,13 @@ App = Marionette.Application.extend
       unless options?.preventScrollTop then scrollToPageTop()
 
     @goTo = (route, options)->
-      # route.logIt('route:goTo')
+      # _.log route, 'route:goTo'
       options or= {}
       options.trigger = true
       Backbone.history.navigate(route, options)
 
     @navigateReplace = (route, options)->
-      # route.logIt('route:navigateReplace')
+      # _.log route, 'route:navigateReplace'
       options or= {}
       options.replace = true
       @navigate(route, options)

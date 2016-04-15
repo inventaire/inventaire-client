@@ -8,7 +8,7 @@ module.exports = (_, csle)->
     # of the real line and file the _.log function was called from
     # the trade-off might not be worthing it...
     if _.isString obj
-      if label? then obj.logIt(label)
+      if label? then csle.log "[#{label}] #{obj}"
       else csle.log obj
     else
       csle.log "===== #{label} =====" if label?
@@ -90,10 +90,6 @@ module.exports = (_, csle)->
       report = {obj: obj, label: label}
       $.post app.API.test, report
       return obj
-
-  String::logIt = (label)->
-    csle.log "[#{label}] #{@toString()}"
-    return @toString()
 
   proxied =
     trace: csle.trace.bind(csle)
