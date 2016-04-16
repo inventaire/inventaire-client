@@ -60,7 +60,7 @@ findMissingDataSets = ->
 
 data = [
   {
-    eventName: 'user:ready'
+    eventName: 'main:user:ready'
     ready: -> app?.user?.fetched
   },
   {

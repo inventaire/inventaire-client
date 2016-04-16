@@ -28,7 +28,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'change:notes', @lazyRender
     @listenTo @model, 'add:pictures', @lazyRender
     # use lazyRender to let the time to the item model to setUserData
-    @listenTo @model, 'grab:user', @lazyRender
+    @listenTo @model, 'user:ready', @lazyRender
     app.execute 'metadata:update:needed'
 
   initPlugins: ->

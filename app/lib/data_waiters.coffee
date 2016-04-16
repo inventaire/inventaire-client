@@ -32,7 +32,7 @@ module.exports = ->
   app.reqres.setHandlers
     'waitForData': Waiter 'data:ready', -> app.data.ready
     'waitForData:after': Waiter 'data:ready:after', -> app.data.ready
-    'waitForUserData': Waiter 'user:ready', -> app.user?.fetched
+    'waitForUserData': Waiter 'main:user:ready', -> app.user?.fetched
     'waitForFriendsItems': Waiter 'friends:items:ready', -> app.items?.friends?.fetched
     'waitForItems': _.once waitForItems
     'waitForLayout': Waiter 'layout:ready', -> app.layout?.ready

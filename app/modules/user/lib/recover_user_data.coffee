@@ -30,7 +30,7 @@ fetchError =  (err)->
   resetSession()
 
 userReady = ->
-  app.vent.trigger 'user:ready'
+  app.vent.trigger 'main:user:ready'
   app.user.fetched = true
 
 resetSession = ->

@@ -51,6 +51,7 @@ module.exports = Filterable.extend
     @authorized = user.id? and user.id is app.user.id
     @restricted = not @authorized
     @userReady = true
+    @trigger 'user:ready'
 
   # using 'new' as a temporary id to signal to the server
   # that this item should be created
