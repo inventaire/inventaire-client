@@ -5,11 +5,11 @@
   @include display-flex(row, flex-start, space-between);
   .avatar{
     min-height: $user-height;
-    @include flex(0, 0, $user-height);
+    flex: 0 0 $user-height;
   }
   .rest{
     padding: 0 0.4em 0 0.4em;
-    @include flex(1);
+    flex: 1 1 auto;
     @include display-flex(column);
     .header{
       // width: 100%;
@@ -19,7 +19,7 @@
         @include serif;
       }
       .icon-buttons{
-        @include flex(0, 0);
+        flex: 0 0 auto;
         span{
           margin-right: 0.5em;
           font-size: 0.8em;

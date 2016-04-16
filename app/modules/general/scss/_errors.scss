@@ -1,6 +1,6 @@
 #error{
   text-align: center;
-  @include flex(1);
+  flex: 1 1 auto;
   min-height: 80vh;
   @include display-flex(column, center, center);
   .errorBox{

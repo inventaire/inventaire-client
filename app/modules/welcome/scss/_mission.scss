@@ -26,7 +26,7 @@ section#mission{
     }
     // a hack to force the h2 and .fa to be stuck to one another
     .pusher{
-      @include flex(1);
+      flex: 1 1 auto;
     }
   }
   ul.mission{
@@ -57,7 +57,7 @@ section#mission{
     ul.mission{
       @include display-flex(column, center, center);
       li{
-        @include flex(1, 0);
+        flex: 1 0 auto;
         margin: 0;
         margin-bottom: 0.2rem;
         width: 100%;
@@ -70,7 +70,7 @@ section#mission{
     ul.mission{
       @include display-flex(row, baseline, space-around, wrap);
       li{
-        @include flex(1, 0, 450px);
+        flex: 1 0 450px;
         margin-bottom: 1em;
       }
     }

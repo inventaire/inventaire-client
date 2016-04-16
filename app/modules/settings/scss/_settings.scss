@@ -32,7 +32,7 @@
         width: 100%;
         @include radius(0);
         &.active{
-          @include order(3);
+          order: 3;
           background-color: #fafafa;
         }
       }

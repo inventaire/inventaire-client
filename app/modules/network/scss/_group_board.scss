@@ -57,7 +57,7 @@
         font-size: 1.5em;
         opacity: 0.5;
         &.toggled{
-          @include vendor-prefix(transform, rotate(-90deg));
+          transform: rotate(-90deg);
         }
       }
     }

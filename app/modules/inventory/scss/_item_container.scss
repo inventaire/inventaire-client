@@ -81,7 +81,7 @@
 .itemBox > .remove{
   margin-top: 1em;
   @include dangerous-action;
-  @include flex(1);
+  flex: 1 1 auto;
   width: 100%;
   height: $user-box-heigth;
   @include display-flex(row, center, center);
@@ -103,7 +103,7 @@
   text-align: center;
   div{
     background-color: $main-bg;
-    @include flex(null, null, auto);
+    flex: 1 1 auto;
     height: 100%;
     @include display-flex(row, center, center);
     color: $dark-grey;

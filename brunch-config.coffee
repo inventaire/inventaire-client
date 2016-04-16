@@ -35,9 +35,7 @@ exports.config =
   plugins:
     autoReload:
       enabled: true
-  # modules:
-  #   nameCleaner: (path) ->
-  #     path.replace /.*app\//, ''
+
   overrides:
     production:
       sourceMaps: true
@@ -45,3 +43,7 @@ exports.config =
       plugins:
         autoReload:
           enabled: false
+        postcss:
+            processors: [
+              require('autoprefixer')(['> 1%', 'last 3 versions']),
+            ]

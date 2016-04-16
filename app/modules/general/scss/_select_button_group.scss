@@ -21,7 +21,7 @@
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     @include radius-vertical-group;
-    @include flex-direction(column);
+    flex-direction: column;
     .button{
       outline: 0.1em solid $contrast;
       &:first-child { outline-top: none; }

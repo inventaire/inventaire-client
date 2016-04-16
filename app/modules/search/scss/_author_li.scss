@@ -16,7 +16,7 @@
     }
   }
   .works{
-    @include flex(1);
+    flex: 1 1 auto;
   }
   .loading{
     color: $contrast;
@@ -28,7 +28,7 @@
     a.displayMore{
       width: 10em;
       margin: 0.2em;
-      @include flex(1);
+      flex: 1 1 auto;
       @include radius;
       @include display-flex(row, center, center);
       @include bg-hover($light-grey);
@@ -74,13 +74,13 @@
   @media screen and (min-width: $small-screen) {
     @include display-flex(row, flex-start, flex-start);
     .infobox{
-      @include flex(0, 0);
+      flex: 0 0 auto;
       width: 25em;
     }
     .books, .articles{
       margin-left: 0.2em;
       margin-right: 0.2em;
-      @include flex(1);
+      flex: 1 1 auto;
     }
     .bookLi{
       min-width: 36em;

@@ -4,7 +4,7 @@
   text-align: center;
   line-height: 1em;
   .rule{
-    @include flex(1);
+    flex: 1 1 auto;
     background-color: $grey;
   }
 }

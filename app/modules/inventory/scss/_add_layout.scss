@@ -1,7 +1,7 @@
 $addLayoutWidth: 50em;
 
 #addLayout{
-  @include flex(1);
+  flex: 1 1 auto;
   section{
     background-color: #fefefe;
     @include radius(4px);
@@ -24,7 +24,7 @@ $addLayoutWidth: 50em;
       margin-top: 1em;
     }
     .level-1{
-      @include flex-direction(column);
+      flex-direction: column;
       .tab{
         width: 100%;
         max-width: 100%;

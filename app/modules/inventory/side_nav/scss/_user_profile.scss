@@ -106,7 +106,7 @@
   .userMenuWrapper{
     width: 100%;
     .userMenu{
-      @include flex(row, center, center);
+      @include display-flex(row, center, center);
       .action{
         margin: 0 auto;
       }

@@ -19,7 +19,7 @@ a.user{
   background-color: $main-bg;
   @include display-flex(row, center, flex-start);
   .userShow{
-    @include flex(0, 0, $user-box-heigth);
+    flex: 0 0 $user-box-heigth;
     .profilePic{
       height: $user-box-heigth;
       width: $user-box-heigth;
@@ -42,10 +42,10 @@ a.user{
 }
 .mixedBox{
   .itemShow{
-    @include flex(1);
+    flex: 1 1 auto;
     @include display-flex(row, center, space-between);
     .transactionBox{
-      @include flex(1);
+      flex: 1 1 auto;
       height: 100%;
       @include display-flex(row, center, center);
       .fa{

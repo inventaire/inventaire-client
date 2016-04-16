@@ -15,11 +15,11 @@
     @include text-hover(#999);
   }
   .cover{
-    @include flex(0,0);
+    flex: 0 0 auto;
     max-width: 20em;
   }
   .data{
-    @include flex(1);
+    flex: 1 1 auto;
     @include display-flex(column);
   }
   .description{
@@ -47,7 +47,7 @@
   }
   /*Small screens*/
   @media screen and (max-width: 700px) {
-    @include flex-direction(column);
+    flex-direction: column;
     .cover{
       margin: 0 auto;
     }

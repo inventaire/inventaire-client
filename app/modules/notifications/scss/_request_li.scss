@@ -2,7 +2,7 @@
   @include display-flex(row, center, space-between);
   div.selectUser, div.actions{
     @include display-flex(row);
-    @include flex(1);
+    flex: 1 1 auto;
   }
   div.selectUser{
     @include display-flex(row, center, flex-start);

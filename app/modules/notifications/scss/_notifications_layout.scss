@@ -22,7 +22,7 @@
     }
   }
   a{
-    @include flex(1);
+    flex: 1 1 auto;
     padding: 0.2em;
   }
 }

@@ -28,7 +28,7 @@
       font-size: 0.7em;
       color: white;
       @include shy-text-border;
-      @include align-self(flex-end);
+      align-self: flex-end;
       margin-right: 0.2em;
       opacity: 0.5;
       @include transition(opacity);

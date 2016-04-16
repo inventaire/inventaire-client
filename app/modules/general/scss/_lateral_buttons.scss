@@ -7,8 +7,8 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     @include position(fixed, null, 0, 20em, null, 1000);
-    @include vendor-prefix(transform, rotate(-90deg));
-    @include vendor-prefix(transform-origin, right bottom 0);
+    transform: rotate(-90deg);
+    transform-origin: right bottom 0;
     a{
       @include radius-top;
       @include custom-button($dark-grey, white, 0.1em, 0.2em 0.5em 0.2em 0.5em);

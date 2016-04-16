@@ -1,7 +1,7 @@
 .message{
   @include display-flex(row);
   .avatar{
-    @include flex(0, 0, 36px);
+    flex: 0 0 36px;
     &:not(.sameUser){
       margin-top: 0.8em;
       @extend .event-icon;
@@ -14,7 +14,7 @@
     margin-left: 0.2em;
     padding: 0.5em;
     padding-left: 1em;
-    @include flex(1);
+    flex: 1 1 auto;
     span{
       display: block;
     }
@@ -32,7 +32,7 @@
     }
     .time{
       margin-left: auto;
-      @include order(2);
+      order: 2;
     }
   }
   /*Large screens*/

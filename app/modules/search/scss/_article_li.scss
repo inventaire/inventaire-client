@@ -3,7 +3,7 @@
   text-align: center;
   padding: 0.2em;
   .main{
-    @include flex(1);
+    flex: 1 1 auto;
     // hacky way to avoid passing behind the .right-bar
     padding-right: 1.8em;
     // compensating the padding-right to keep the text centered
@@ -51,6 +51,6 @@
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    @include flex-direction(column);
+    flex-direction: column;
   }
 }

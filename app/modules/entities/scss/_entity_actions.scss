@@ -37,7 +37,7 @@
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    @include flex-direction(column);
+    flex-direction: column;
     .custom-button-group{
       /*Small screens*/
       @media screen and (max-width: $very-small-screen) {

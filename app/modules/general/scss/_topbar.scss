@@ -86,14 +86,14 @@ nav.top-bar {
     // passing flex-grow:1 to the search input
     section, .right, .right div, li.has-form{
       @include display-flex;
-      @include flex(1);
+      flex: 1 1 auto;
     }
     .right{
       max-width: 70em;
       margin-left: auto;
     }
     .notLoggedMenu{
-      @include justify-content(flex-end);
+      justify-content: flex-end;
     }
     // force the input and the .button to have the same height
     $search-input-height: 2.3em;
@@ -102,7 +102,7 @@ nav.top-bar {
       margin-left: auto;
       // already displayed flex thank to input.scss
       input{
-        @include flex(1);
+        flex: 1 1 auto;
         height: $search-input-height;
         padding-left: 1em;
         @include radius-left(3px);

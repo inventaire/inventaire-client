@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "auto-reload-brunch": "^2.1.0",
+    "autoprefixer": "^6.3.6",
     "bluebird": "^3.3.3",
     "bluereq": "^2.0.2",
     "bower": "^1.7.7",
@@ -66,6 +67,7 @@
     "ls": "^0.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
+    "postcss-brunch": "^0.5.0",
     "sass-brunch": "^2.0.0",
     "sinon": "^1.17.3",
     "transifexify": "^1.0.6",

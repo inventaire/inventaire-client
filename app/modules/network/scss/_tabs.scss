@@ -15,7 +15,7 @@
       font-size: 1.2em;
       height: 4em;
       @include custom-button($darker-grey, white, 0);
-      @include flex(1, 1, 0);
+      flex: 1 1 0;
       padding: 0 0.5em 0 0.5em;
       @include display-flex(row, center, center);
       @include sans-serif;
@@ -34,14 +34,14 @@
     background-color: white;
     padding: 0.2em;
     height: 4em;
-    @include justify-content(flex-start);
+    justify-content: flex-start;
     .tab{
-      @include flex(1, 1, 0);
+      flex: 1 1 0;
       // webkit-browsers only
       @media screen and (-webkit-min-device-pixel-ratio:0) {
         // with flex-grow set to 0, chromium was giving an equal width to all
         // the tabs, despite one needing more than the others due to the counter
-        @include flex-basis(auto);
+        flex-basis: auto;
       }
       font-size: 1.2em;
       padding: 0.2em 0.4em 0.2em 0.4em;
@@ -74,9 +74,9 @@
       .tab{
         padding: 0.5em;
         max-width: 50%;
-        @include flex-wrap(wrap);
+        flex-wrap: wrap;
         .label{
-          @include order(2);
+          order: 2;
           // force the label to take its own line
           width: 100%;
         }
@@ -90,7 +90,7 @@
       @include display-flex(column, center, center, nowrap);
       .tab{
         min-width: 90%;
-        @include flex(1);
+        flex: 1 1 auto;
         margin: 0.2em;
       }
     }

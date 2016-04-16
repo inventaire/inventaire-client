@@ -9,7 +9,7 @@
     @include display-flex(row, center, center);
   }
   .cover{
-    @include flex(0, 0);
+    flex: 0 0 auto;
     img{
       padding-right: 0.2em;
     }
@@ -44,7 +44,7 @@
   }
 }
 .context{
-  @include flex(0, 0);
+  flex: 0 0 auto;
   .fa{
     color: white;
     padding: 0.5em;

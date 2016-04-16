@@ -7,19 +7,19 @@
 
     /*Small screens*/
     @media screen and (max-width: $small-screen) {
-      @include flex-direction(column);
+      flex-direction: column;
       .pics{
         padding: 1em;
-        @include align-self(center);
+        align-self: center;
       }
     }
     /*Large screens*/
     @media screen and (min-width: $small-screen) {
       .fields{
-        @include flex(3);
+        flex: 3 1 auto;
       }
       .pics{
-        @include flex(1);
+        flex: 1 1 auto;
         white-space: nowrap;
         @include display-flex(column, center, center);
         padding: 2.6em 2em 2em 2em;

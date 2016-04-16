@@ -15,10 +15,10 @@ $tabs-navigation-font-color: #fff;
   .sideNavClones{}
   #inventoryView{
     @include display-flex(column);
-    @include flex(1);
+    flex: 1 1 auto;
     #itemsView{
       @include display-flex(row);
-      @include flex(1);
+      flex: 1 1 auto;
       // make sure #controls won't hide anything
       margin-bottom: 4em;
     }
@@ -40,7 +40,7 @@ $tabs-navigation-font-color: #fff;
       @include transition(width);
     }
     #shadowSideNav{
-      @include flex(0, 0, $sideNavWidth);
+      flex: 0 0 $sideNavWidth;
     }
   }
 }
@@ -48,7 +48,7 @@ $tabs-navigation-font-color: #fff;
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
   #innerMain{
-    @include flex-direction(column);
+    flex-direction: column;
     .sideNavClones{}
   }
 }

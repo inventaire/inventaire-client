@@ -1,5 +1,5 @@
 .inventoryWelcome{
-  @include flex(1);
+  flex: 1 1 auto;
   @include display-flex(column, center, center);
   text-align: center;
   a{

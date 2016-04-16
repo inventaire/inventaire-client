@@ -3,7 +3,7 @@
   color: $grey;
   padding-left: 0.5em;
   h4{
-    @include flex(0, 0);
+    flex: 0 0 auto;
     color: $grey;
     font-size: 1.2em;
   }

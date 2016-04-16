@@ -104,7 +104,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
       min-width: $iconButtonMinWidth;
       height: 100%;
       // force items to take the same space
-      @include flex(1, 1, 0);
+      flex: 1 1 0;
       margin-bottom: 0.2em;
       .fa{
         font-size: 1em;
@@ -113,8 +113,8 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
   }
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
-    @include flex-wrap(wrap);
-    @include flex(1, 0, auto);
+    flex-wrap: wrap;
+    flex: 1 0 auto;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {

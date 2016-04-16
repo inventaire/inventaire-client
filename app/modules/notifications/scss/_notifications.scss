@@ -7,10 +7,10 @@
       img{
         margin-left: 0;
         max-height: $user-height;
-        @include flex(0, 0);
+        flex: 0 0 auto;
       }
       a{
-        @include flex(1);
+        flex: 1 1 auto;
         background-color: $main-bg;
         color: $dark-grey;
         line-height: 1em;
@@ -28,8 +28,8 @@
       }
     }
     .empty{
-      @include align-items(center);
-      @include justify-content(center);
+      align-items: center;
+      justify-content: center;
       color: white;
     }
   }

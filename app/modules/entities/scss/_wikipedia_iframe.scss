@@ -14,14 +14,14 @@
     }
     .wikipediaPreviewToggler{
       @include display-flex(column, center, center);
-      @include flex(2, 1);
+      flex: 2 1 auto;
       a{
         font-size: 1.4em;
       }
     }
     .wiki-sitelinks{
       @include display-flex(row, center, flex-end, nowrap);
-      @include flex(3, 0);
+      flex: 3 0 auto;
       a{
         padding: 1em;
         @include display-flex(row, center, center, wrap);
@@ -58,7 +58,7 @@
         }
         .wikipedia{
           a:first-child{
-            @include flex(1);
+            flex: 1 1 auto;
           }
         }
       }

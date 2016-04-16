@@ -21,7 +21,7 @@
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
     .otherOptions{
-      @include flex-direction(column);
+      flex-direction: column;
       a{
         margin: 0.5em;
       }

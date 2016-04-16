@@ -1,59 +1,7 @@
-@mixin flex-direction($direction){
-  // @if $direction == row {
-  //   @include vendor-prefix(box-orient, horizontal);
-  // }
-  // @if $direction == column {
-  //   @include vendor-prefix(box-orient, vertical);
-  // }
-  // @include vendor-prefix(box-direction, $direction);
-  @include vendor-prefix(flex-direction, $direction);
-}
-
-@mixin align-items($align){
-  @include vendor-prefix(align-items, $align);
-}
-
-@mixin justify-content($justify){
-  @include vendor-prefix(justify-content, $justify);
-}
-
-@mixin flex-wrap($wrap){
-  @include vendor-prefix(flex-wrap, $wrap);
-}
-@mixin order($order){
-  @include vendor-prefix(order, $order);
-}
-
 @mixin display-flex($direction:null, $align:null, $justify:null, $wrap:null) {
-  // display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  // display: -ms-flexbox;      /* TWEENER - IE 10 */
-  @include vendor-prefix-value(display, box);
-  @include vendor-prefix-value(display, flexbox);
-  @include vendor-prefix-value(display, flex);
-
-  @if $direction {
-    @include flex-direction($direction)
-  }
-  @if $align {
-    @include align-items($align)
-  }
-  @if $justify {
-    @include justify-content($justify)
-  }
-  @if $wrap {
-    @include flex-wrap($wrap)
-  }
-}
-
-@mixin flex($grow:0, $shrink:1, $basis:auto) {
-  @include vendor-prefix(box-flex, $grow $shrink $basis);
-  @include vendor-prefix(flex, $grow $shrink $basis);
-}
-
-@mixin flex-basis($basis:auto){
-  @include vendor-prefix(flex-basis, $basis);
-}
-
-@mixin align-self($value) {
-  @include vendor-prefix(align-self, $value);
+  display: flex;
+  @if $direction {  flex-direction: $direction; }
+  @if $align { align-items: $align; }
+  @if $justify { justify-content: $justify; }
+  @if $wrap { flex-wrap: $wrap; }
 }

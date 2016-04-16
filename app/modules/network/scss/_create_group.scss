@@ -7,7 +7,7 @@
     text-align: left;
     font-size: 1em;
   }
-  @include flex(1);
+  flex: 1 1 auto;
   a#createGroup{
     margin-top: 1em;
   }

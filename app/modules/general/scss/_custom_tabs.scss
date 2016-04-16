@@ -36,7 +36,7 @@ $customTabMaxWidth: 40em;
   }
   /*Small screens*/
   @media screen and (max-width: $customTabMaxWidth) {
-    @include flex-wrap(wrap);
+    flex-wrap: wrap;
     width: 100%;
   }
 }

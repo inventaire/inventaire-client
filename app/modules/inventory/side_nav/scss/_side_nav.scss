@@ -23,7 +23,7 @@
     width: 100%;
     &.notEmpty{
       min-height: $user-profile-height;
-      @include flex(0, 0);
+      flex: 0 0 auto;
     }
     @import 'user_profile';
     .fa{
@@ -39,7 +39,7 @@
 
   #two{
     width: 100%;
-    @include flex(1);
+    flex: 1 1 auto;
     @include display-flex(column, left, flex-end);
     @import 'list_header';
     // use the ids instead of classes to be stronger that the display:flex
@@ -135,10 +135,10 @@
     max-height: 100%;
     @include display-flex(column, left, flex-end);
     > div, > ul{
-      @include flex(0, 0);
+      flex: 0 0 auto;
     }
     #groupsList, #usersList, #membersList{
-      @include flex(0, 1);
+      flex: 0 1 auto;
       overflow: auto;
       width: 100%;
       // make sure it has the place for one child element at list

@@ -2,7 +2,7 @@
   @include display-flex(row, center, center, wrap);
   a{
     display: inline-block;
-    @include flex(0, 0, auto);
+    flex: 0 0 auto;
     @include bg-hover(white);
     @include radius;
     padding: 0.5em;

@@ -105,7 +105,7 @@ $bookLiMaxWidth: 45em;
   .bookLi{
     max-width: 100vw;
     @include display-flex(column);
-    @include flex(1);
+    flex: 1 1 auto;
     margin-left: 0;
     margin-right: 0;
     .bookCover{
@@ -116,7 +116,7 @@ $bookLiMaxWidth: 45em;
       max-height: 16em;
     }
     .actions{
-      @include align-self(stretch);
+      align-self: stretch;
     }
   }
 }
@@ -129,10 +129,10 @@ $bookLiMaxWidth: 45em;
       margin: 1em;
     }
     .bookLiData{
-      @include flex(1);
+      flex: 1 1 auto;
     }
     .actions{
-      @include flex(0, 0, 14em);
+      flex: 0 0 14em;
       margin-left: auto;
     }
     img{

@@ -1,13 +1,13 @@
 .entityShow{
   @include custom-column(50em);
   .back{
-    @include align-self(flex-start);;
+    align-self: flex-start;
   }
   .panel, .allItems{
     width: 100%;
   }
   .allItems{
-    @include flex(1);
+    flex: 1 1 auto;
     background-color: #fafafa;
     .items, .subheader{
       padding: 1rem;

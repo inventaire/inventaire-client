@@ -13,10 +13,10 @@
     .main{
       @include display-flex(row, flex-start, space-between);
       .avatar{
-        @include flex(0,0);
+        flex: 0 0 auto;
       }
       textarea{
-        @include flex(1);
+        flex: 1 1 auto;
       }
     }
   }

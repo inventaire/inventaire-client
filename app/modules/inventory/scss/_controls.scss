@@ -15,7 +15,7 @@ $controlsElementMaxHeight: 2.3em;
   background-color: $darker-grey;
   @include display-flex(row, center, flex-end);
   &:not(.displayed){
-    @include vendor-prefix(transform, translateX(calc(100% - 2.6em)));
+    transform: translateX(calc(100% - 2.6em));
     .fa-chevron-right{
       display: none;
     }

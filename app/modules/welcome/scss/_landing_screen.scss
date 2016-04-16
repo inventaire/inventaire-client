@@ -35,7 +35,7 @@ section#landingScreen{
     @include display-flex(row, center, center, wrap);
     @include radius-horizontal-group;
     .button{
-      @include flex(1);
+      flex: 1 1 auto;
       font-weight: bold;
       min-width: 10em;
     }
@@ -48,7 +48,7 @@ section#landingScreen{
   // force other elements to be grouped in the middle
   // to avoid an ugly repartition on big screens
   .pusher{
-    @include flex(1);
+    flex: 1 1 auto;
   }
 
   /*Small screens*/

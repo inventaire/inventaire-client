@@ -4,7 +4,7 @@
   video, canvas.drawingBuffer, .loading{
     @include position(absolute, 50%, null, null, 50%);
     // centering
-    @include vendor-prefix(transform,  translate(-50%, -50%));
+    transform: translate(-50%, -50%);
     // avoid scrolls
     overflow: hidden;
   }

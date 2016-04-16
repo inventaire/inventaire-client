@@ -20,7 +20,7 @@
   }
   .transactionBox, .listingMenu{
     .current{
-      @include flex(1);
+      flex: 1 1 auto;
       height: 100%;
       // required in Chromium
       min-height: $user-box-heigth;
@@ -28,7 +28,7 @@
       border-top: 1px solid #fefefe;
     }
     .icon{
-      @include flex(0, 0);
+      flex: 0 0 auto;
       @include display-flex(row, center, center);
       height: 100%;
       width: $user-box-heigth;
@@ -40,7 +40,7 @@
       }
     }
     .rest{
-      @include flex(1);
+      flex: 1 1 auto;
       .fa-caret-down{
         padding-left: 0.5em;
       }

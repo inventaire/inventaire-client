@@ -2,7 +2,7 @@
   width: 100%;
   @include display-flex(row, left, flex-start);
   .inputBox{
-    @include flex(1);
+    flex: 1 1 auto;
     min-width: 60%;
   }
   margin-bottom: 0.5em;
@@ -14,7 +14,7 @@
 
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
-    @include flex-direction(column);
+    flex-direction: column;
     .inputBox{
       width: 100%;
       input{

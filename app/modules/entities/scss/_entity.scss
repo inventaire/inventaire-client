@@ -30,8 +30,8 @@
     width: 100%;
   }
   .wiki-sitelinks{
-    @include flex-direction(column);
-    @include align-items(center);
+    flex-direction: column;
+    align-items: center;
     li{
       background-color: $grey;
       width: 90%;
