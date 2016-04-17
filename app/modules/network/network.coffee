@@ -78,7 +78,7 @@ API =
     .then showGroupBoardFromModel
     .catch (err)->
       _.error err, 'get:group:model err'
-      app.execute 'show:404'
+      app.execute 'show:error:missing'
 
   showGroupBoardFromModel: (model)->
     showGroupBoardFromModel model

@@ -3,6 +3,7 @@ TransactionsList = require 'modules/transactions/views/transactions_list'
 TransactionsWelcome = require './transactions_welcome'
 folders = require '../lib/folders'
 foldersNames = Object.keys folders
+{ CheckViewState, catchDestroyedView } = require 'lib/view_state'
 
 module.exports = Marionette.LayoutView.extend
   className: 'transactionsLayout'
@@ -21,7 +22,13 @@ module.exports = Marionette.LayoutView.extend
     folders: folders
 
   onShow: ->
-    app.request('waitForFriendsItems').then @showTransactionsFolders.bind(@)
+    app.request 'waitForFriendsItems'
+    # The view might have already been destroyed
+    # in the case the transaction can not be found
+    # and triggered the 'show:error:missing' command
+    .then CheckViewState(@, 'transactions')
+    .then @showTransactionsFolders.bind(@)
+    .catch catchDestroyedView
 
   showTransactionsFolders: ->
     # every folder share the app.user.transactions collection

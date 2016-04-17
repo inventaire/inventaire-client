@@ -75,18 +75,18 @@ API =
     app.layout.main.show form
 
   showItemFromId: (id)->
-    unless _.isItemId id then return app.execute 'show:404'
+    unless _.isItemId id then return app.execute 'show:error:missing'
     app.execute 'show:loader'
 
     findItemById id
     .then showItemShowFromModel
     .catch (err)->
-      if err.status is 404 then app.execute 'show:404'
+      if err.status is 404 then app.execute 'show:error:missing'
       else _.error err, 'showItemFromId'
 
   showUserItemsByEntity: (username, entity, label)->
     unless _.isUsername(username) and _.isEntityUri(entity)
-      return app.execute 'show:404'
+      return app.execute 'show:error:missing'
 
     app.execute 'show:loader', {title: "#{label} - #{username}"}
 
@@ -173,7 +173,7 @@ displayFoundItems = (items)->
     throw new Error 'shouldnt be at least an empty array here?'
 
   switch items.length
-    when 0 then app.execute 'show:404'
+    when 0 then app.execute 'show:error:missing'
     # redirect to the item
     when 1 then showItemShowFromModel items[0]
     else showItemsList items

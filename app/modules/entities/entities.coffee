@@ -46,7 +46,7 @@ API =
     .catch @solveMissingEntity.bind(@, prefix, id)
     .catch (err)->
       _.error err, 'couldnt showEntity'
-      app.execute 'show:404'
+      app.execute 'show:error:missing'
 
   _getEntityView: (prefix, id, refresh)->
     @getEntityModel prefix, id, refresh

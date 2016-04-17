@@ -22,32 +22,21 @@ module.exports =
 
   initialize: ->
     app.reqres.setHandlers
-      'require:loggedIn': API.requireLoggedIn
-      'show:login:redirect': API.requireLoggedIn
+      'require:loggedIn': requireLoggedIn
+      'show:login:redirect': requireLoggedIn
 
     app.commands.setHandlers
       'show:home': API.showHome
       'show:welcome': API.showWelcome
-      'show:error': API.showError
-      'show:403': API.show403
-      'show:404': API.show404
-      'show:offline:error': API.showOfflineError
-      'show:call:to:connection': API.showCallToConnection
-      'show:error:cookieRequired': API.showErrorCookieRequired
+      'show:error:missing': showErrorMissing
+      'show:offline:error': showOfflineError
+      'show:call:to:connection': showCallToConnection
+      'show:error:cookieRequired': showErrorCookieRequired
 
     # should be run before app start to access the unmodifed url
     initQuerystringActions()
 
 API =
-  requireLoggedIn: (route)->
-    if app.user.loggedIn then return true
-    else
-      app.execute 'show:login'
-      # the route shouldn't have the first '/'. ex: inventory/georges
-      route = route.replace /^\//, ''
-      app.execute 'prepare:login:redirect', route
-      return false
-
   showHome: ->
     if app.user.loggedIn then app.execute 'show:inventory:general'
     else app.execute 'show:welcome'
@@ -55,7 +44,7 @@ API =
   notFound: (route)->
     if app.user.loggedIn
       _.log route, 'route:notFound', true
-      app.execute 'show:404'
+      app.execute 'show:error:missing'
     else @showWelcome()
 
   showWelcome: ->
@@ -66,43 +55,47 @@ API =
 
   showDonate: -> showMenuStandalone DonateMenu, 'donate'
   showFeedback: -> showMenuStandalone FeedbackMenu, 'feedback'
+  showMainUser: -> app.execute 'show:inventory:main:user'
 
-  showMainUser: ->
-    app.execute 'show:inventory:main:user'
+requireLoggedIn = (route)->
+  if app.user.loggedIn then return true
+  else
+    app.execute 'show:login'
+    # the route shouldn't have the first '/'. ex: inventory/georges
+    route = route.replace /^\//, ''
+    app.execute 'prepare:login:redirect', route
+    return false
 
-  show403: ->
-    app.execute 'show:error',
-      header: 403
-      message: _.i18n 'forbidden'
+showErrorMissing = ->
+  showError
+    icon: 'warning'
+    header: _.I18n 'oops'
+    message: _.i18n "this resource doesn't exist or you don't have the right to access it"
 
-  show404: ->
-    app.execute 'show:error',
-      header: 404
-      message: _.i18n 'not found'
+showOfflineError = ->
+  showError
+    icon: 'plug'
+    header: _.i18n "can't reach the server"
 
-  showOfflineError: ->
-    app.execute 'show:error',
-      message: _.i18n("can't reach the server")
+showErrorCookieRequired = (command)->
+  showError
+    icon: 'cog'
+    header: _.I18n 'cookies are disabled'
+    message: _.i18n 'cookies_are_required'
+    redirection:
+      text: _.I18n 'retry'
+      classes: 'dark-grey'
+      buttonAction: ->
+        if command? then app.execute command
+        else location.href = location.href
 
-  showError: (options)->
-    _.log options, 'showError', true
-    app.layout.main.show new ErrorView options
+showError = (options)->
+  _.log options, 'showError', true
+  app.layout.main.show new ErrorView options
 
-  showCallToConnection: (message)->
-    app.layout.modal.show new CallToConnection
-      connectionMessage: message
-
-  showErrorCookieRequired: (command)->
-    app.execute 'show:error',
-      icon: 'cog'
-      header: _.I18n 'cookies are disabled'
-      message: _.i18n 'cookies_are_required'
-      redirection:
-        text: _.I18n 'retry'
-        classes: 'dark-grey'
-        buttonAction: ->
-          if command? then app.execute command
-          else location.href = location.href
+showCallToConnection = (message)->
+  app.layout.modal.show new CallToConnection
+    connectionMessage: message
 
 showMenuStandalone = (Menu, titleKey)->
   view = new Menu { standalone: true }

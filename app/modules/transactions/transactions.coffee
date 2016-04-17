@@ -74,8 +74,7 @@ triggerTransactionSelect = (id)->
   transaction = app.request 'get:transaction:byId', id
   if transaction?
     app.vent.trigger 'transaction:select', transaction
-  else app.execute 'show:404'
-
+  else app.execute 'show:error:missing'
 
 updateTransactionRoute = (transaction, nonExplicitSelection)->
   { id } = transaction

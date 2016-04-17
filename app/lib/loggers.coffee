@@ -15,10 +15,9 @@ module.exports = (_, csle)->
       csle.log obj
       csle.log "-----" if label?
 
-    # log a stack trace if stack option is true
-    if stack
-      # prerender error object doesnt seem to have a stack, thus the stack?
-      csle.log "#{label} stack", new Error('fake error').stack?.split("\n")
+    # Log a stack trace if stack option is true.
+    # Testing console.trace? as not all browsers have this function
+    if stack then console.trace?()
 
     return obj
 

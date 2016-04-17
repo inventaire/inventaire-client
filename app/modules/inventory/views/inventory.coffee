@@ -70,7 +70,7 @@ module.exports = Marionette.LayoutView.extend
       .then @showItemsListStep2.bind(@)
       .catch (err)->
         _.error err, 'resolve:to:userModel err'
-        app.execute 'show:404'
+        app.execute 'show:error:missing'
 
     else if group?
       # get:group:model takes care of fetching the group users
@@ -80,7 +80,7 @@ module.exports = Marionette.LayoutView.extend
       .then @showItemsListStep2.bind(@, null)
       .catch (err)->
         _.error err, 'get:group:model err'
-        app.execute 'show:404'
+        app.execute 'show:error:missing'
 
     else @showItemsListStep2()
 
