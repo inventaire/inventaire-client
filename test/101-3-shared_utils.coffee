@@ -9,7 +9,7 @@ describe 'Shared Utils', ->
     it "should return a function", (done)->
       cb = -> console.log arguments
       fn = shared_.Full(cb, null, 1, 2, 3, 'whatever')
-      fn.should.be.a.Function
+      fn.should.be.a.Function()
       done()
 
     it "should not accept other argumens", (done)->

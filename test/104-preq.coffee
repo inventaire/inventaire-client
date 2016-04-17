@@ -12,9 +12,9 @@ Promise.onPossiblyUnhandledRejection (err)->
 describe 'preq', ->
   describe 'resolved', (done)->
     it 'should be a resolved promise', (done)->
-      preq.resolved.should.be.an.Object
-      preq.resolved.then.should.be.a.Function
-      preq.resolved.catch.should.be.a.Function
+      preq.resolved.should.be.an.Object()
+      preq.resolved.then.should.be.a.Function()
+      preq.resolved.catch.should.be.a.Function()
       preq.resolved.then -> done()
 
     # the immutability requirement was removed for compatibility
