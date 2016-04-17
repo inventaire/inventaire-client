@@ -56,12 +56,13 @@ module.exports = (_, csle)->
     console.log label
     return res
 
+  PartialLogger = (logger)-> (label)-> (obj)-> logger obj, label
 
   partialLoggers =
-    Log: (label)-> _.partial log, _, label
-    Error: (label)-> _.partial error, _, label
-    Warn: (label)-> _.partial warn, _, label
-    Spy: (label)-> _.partial spy, _, label
+    Log: PartialLogger log
+    Error: PartialLogger error
+    Warn: PartialLogger warn
+    Spy: PartialLogger spy
     ErrorRethrow: (label)->
       return fn = (err)->
         error err, label
