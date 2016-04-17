@@ -48,8 +48,9 @@ API =
     else @showWelcome()
 
   showWelcome: ->
+    title = 'Inventaire - ' + _.i18n('your friends and communities are your best library')
     app.layout.main.Show new Welcome,
-      docTitle: _.i18n('Welcome on Inventaire')
+      docTitle: title
       noCompletion: true
     app.navigate 'welcome'
 
