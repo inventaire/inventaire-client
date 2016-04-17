@@ -9,7 +9,7 @@ COMMIT=$(git rev-parse --short HEAD)
 DATE=$(git show -s --format="%ci" $COMMIT|sed 's/ .*$//')
 FILE="$FOLDER/$DATE-$COMMIT"
 
-echo "-- date: $DATE - commit: $COMMIT --" >> $FILE
+echo "-- date: $DATE - commit: $COMMIT --" > $FILE
 
 cd $JS
 du -s -h app.js >> $FILE
