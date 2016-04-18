@@ -1,29 +1,9 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
 rateLimit = 200
+Suggestions = require '../collections/suggestions'
+SuggestionsList = require '../views/behaviors/suggestions'
 
 module.exports = Marionette.Behavior.extend
-  defaults:
-    collection:
-      class: require('../collections/suggestions')
-      options:
-        type: 'remote'
-        remote: null
-        data: []
-        parseKey: null
-        valueKey: 'value'
-        keys:
-          query: 'query'
-          limit: 'limit'
-        values:
-          query: null
-          limit: 10
-
-    collectionView:
-      class: require('../views/behaviors/suggestions')
-
-    childView:
-      class: require('../views/behaviors/suggestion')
-
   events:
     'keyup @ui.autocomplete': 'onKeyUp'
     'keydown @ui.autocomplete': 'onKeyDown'
@@ -32,13 +12,8 @@ module.exports = Marionette.Behavior.extend
 
   initialize: (options)->
     @visible = no
-    @options = _.deepExtend {}, @defaults, options
-
-    { collection } = @options
-
-    Collection = collection.class
-    @suggestions = new Collection [], collection.options
-    @lazyUpdateQuery = _.throttle @updateQuery, rateLimit
+    @suggestions = Suggestions options
+    @lazyUpdateQuery = _.debounce @updateQuery, rateLimit
 
     @_startListening()
 
@@ -54,19 +29,13 @@ module.exports = Marionette.Behavior.extend
   # and then append collectionView
   _buildElement: ->
     @container = $ '<div class="ac-container"></div>'
-    @collectionView = @getCollectionView()
+    @collectionView = new SuggestionsList { collection: @suggestions }
 
     @ui.autocomplete.replaceWith @container
 
     @container
     .append @ui.autocomplete
     .append @collectionView.render().el
-
-  getCollectionView: ->
-    { collectionView, childView } = @options
-    new collectionView.class
-      childView: childView.class
-      collection: @suggestions
 
   _setInputAttributes: ->
     @ui.autocomplete.attr
@@ -126,7 +95,7 @@ module.exports = Marionette.Behavior.extend
 
   # Complete the query using the highlighted suggestion.
   fillQuery: (suggestion)->
-    @ui.autocomplete.val suggestion.get('value')
+    @ui.autocomplete.val suggestion.get('label')
     @selectedSuggestion = suggestion
 
   # Complete the query using the selected suggestion.

@@ -4,6 +4,7 @@
 .ac-suggestions{
   // positioning .ac-suggestions just under .ac-container
   @include position(absolute, 95%)
+  z-index: 1;
   width: 100%;
   background-color: white;
   @include shy-border(0.9);
@@ -26,6 +27,15 @@
   }
   &:not(:last-child){
     border-bottom: 1px solid #eee;
+  }
+  padding-top: 0.3em;
+  padding-bottom: 0.2em;
+  line-height: 1.2em;
+  .identifier{
+    float: right;
+    opacity: 0.5;
+    font-family: sans-serif;
+    font-size: 0.7em;
   }
 }
 .ac-no-suggestion{

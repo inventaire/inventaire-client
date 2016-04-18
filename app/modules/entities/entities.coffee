@@ -29,6 +29,9 @@ module.exports =
     app.entities = new Entities
     app.entities.data = require('./entities_data')(app, _, _.preq)
 
+    app.entities.authors = new FilteredCollection app.entities
+    app.entities.authors.filterBy (model)-> model.type is 'human'
+
 API =
   showEntity: (uri, label, params, region)->
     region or= app.layout.main

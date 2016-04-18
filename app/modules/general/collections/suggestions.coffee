@@ -1,67 +1,32 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
+valueKey = 'value'
 
-module.exports = Backbone.Collection.extend
-  initialize: (models, @options)->
-    @setDataset @options.data
+module.exports = (options)->
+  { collection, remote } = options.source()
+  # FilteredCollection don't have an extend method
+  # and do weird things when `call`ed with Backbone.Collection.extend
+  # so here is a custom extension
+  suggestions = new FilteredCollection collection
+  _.extend suggestions, suggestionMethods
+  suggestions.init remote
+  return suggestions
 
+# module.exports = Backbone.Collection.extend
+suggestionMethods =
+  init: (remote)->
+    @index = -1
+    @remote = remote
     @on 'find', @fetchNewSuggestions
     @on 'select', @select
     @on 'highlight:next', @highlightNext
     @on 'highlight:previous', @highlightPrevious
-    @on 'clear', @reset
-
-  # Save models passed into the constructor seperately to avoid
-  # rendering the entire dataset.
-  setDataset: (dataset)->
-    @dataset = @parse dataset, no
-
-  # Parse API response
-  parse: (suggestions, limit)->
-    { parseKey, valueKey, values } = @options
-
-    if parseKey
-      suggestions = _.get suggestions, parseKey
-
-    if limit
-      suggestions = _.take suggestions, values.limit
-
-    suggestions.map (suggestion)->
-      _.extend suggestion, { value: _.get(suggestion, valueKey) }
-
-  # Get query parameters.
-  getParams: (query)->
-    data = {}
-    { keys, values } = @options
-
-    data[keys.query] = query
-
-    for k, v of keys
-      data[v] ?= values[k]
-
-    { data }
 
   # Get suggestions based on the current input. Either query
   # the api or filter the dataset.
   fetchNewSuggestions: (query)->
-    { type, remote } = @options
-    switch type
-      when 'remote'
-        @fetch _.extend({ url: remote, reset: yes }, @getParams(query))
-      when 'dataset'
-        @filterDataSet query
-      else
-        throw new Error 'Unkown type passed'
-
-  filterDataSet: (query)->
-    matches = []
     @index = -1
-
-    for suggestion in @dataset
-      if matches.length >= @options.values.limit then return false
-
-      if matching(suggestion.value, query) then matches.push suggestion
-
-    @set matches
+    @filterByText query
+    @remote query
 
   # Select first suggestion unless the suggestion list
   # has been navigated then select at the current index.
@@ -70,15 +35,18 @@ module.exports = Backbone.Collection.extend
     @trigger 'selected', @at(index)
 
   highlightPrevious: ->
+    _.log 'highlight:previous'
     unless @isFirst() or not @isStarted()
       @removeHighlight @index
       @index -= 1
       @highlight @index
 
   highlightNext: ->
+    _.log 'highlight:next'
     unless @isLast()
       if @isStarted() then @removeHighlight @index
-      @highlight @index = @index + 1
+      @index += 1
+      @highlight @index
 
   isFirst: -> @index is 0
   isLast: -> @index + 1 is @length
@@ -90,14 +58,19 @@ module.exports = Backbone.Collection.extend
   highlight: (index)->
     model = @at index
     model.trigger 'highlight', model
+    # (1)
+    @trigger 'highlight', model
 
   removeHighlight: (index)->
     model = @at index
     model.trigger 'highlight:remove', model
+    # (1)
+    @trigger 'highlight:remove', model
 
-  reset: ->
-    @index = -1
-    Backbone.Collection::reset.apply @, arguments
+# (1):
+# the event needs to be triggered on the filteredCollection too
+# as it isn't the model's native collection, thus the event
+# isn't automatically triggered
 
 # Check to see if the query matches the suggestion.
 matching = (suggestion, query)->

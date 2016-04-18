@@ -4,4 +4,5 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/suggestions'
   className: 'ac-suggestions hidden'
   childViewContainer: 'ul'
+  childView: require './suggestion'
   emptyView: require './no_suggestion'

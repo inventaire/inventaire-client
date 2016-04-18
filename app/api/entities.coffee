@@ -1,11 +1,18 @@
 module.exports =
-  search: (search)->
-    _.buildPath "/api/entities/public",
+  search: (search, filter)->
+    options =
       action: 'search'
       search: search
       language: app.user.lang
+
+    # WDQ-style filter
+    # ex: P31:Q5
+    if filter? then options.filter = filter
+
+    _.buildPath '/api/entities/public', options
+
   getImages: (entityUri, data)->
-    _.buildPath "/api/entities/public",
+    _.buildPath '/api/entities/public',
       action: 'get-images'
       entity: entityUri
       data: data
