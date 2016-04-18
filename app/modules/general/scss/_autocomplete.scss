@@ -36,6 +36,7 @@
     opacity: 0.5;
     font-family: sans-serif;
     font-size: 0.7em;
+    @include underline;
   }
 }
 .ac-no-suggestion{

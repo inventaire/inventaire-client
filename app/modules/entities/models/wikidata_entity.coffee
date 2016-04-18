@@ -231,18 +231,6 @@ module.exports = Entity.extend
     qids = @claims.P50
     return wd_.getLabel qids, app.user.lang
 
-  asMatchable: (expr)->
-    @aliases or= @getAliases()
-    @aliases.concat [ @get('label') ]
-
-  getAliases: ->
-    _.chain @get('aliases')
-    .values()
-    .flatten()
-    .pluck 'value'
-    .uniq()
-    .value()
-
 getEntityValue = (attrs, props, lang, originalLang)->
   property = attrs[props]
   if property?

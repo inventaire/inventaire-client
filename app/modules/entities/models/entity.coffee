@@ -1,6 +1,4 @@
-Filterable = require 'modules/general/models/filterable'
-
-module.exports = Filterable.extend
+module.exports = Backbone.NestedModel.extend
   initLazySave: ->
     lazySave = _.debounce customSave.bind(@), 100
     @save = (args...)->

@@ -63,7 +63,8 @@ module.exports = (_)->
   Backbone.Collection::attributes = -> @toJSON()
 
   FilteredCollection::filterByText = (text, reset=true)->
-    @resetFilters()  if reset
+    if reset then @resetFilters()
+    text = text.trim().replace /\s{2,}/g, ' '
     filterExpr = new RegExp text, 'i'
     @filterBy 'text', (model)->
       if model.matches? then model.matches filterExpr
