@@ -74,6 +74,8 @@ module.exports = Marionette.Behavior.extend
         when 'enter' then @suggestions.trigger 'select'
         when 'down' then @suggestions.trigger 'highlight:next'
         when 'up' then @suggestions.trigger 'highlight:previous'
+        when 'home' then @suggestions.trigger 'highlight:first'
+        when 'end' then @suggestions.trigger 'highlight:last'
         when 'esc' then @hideDropdown()
 
   onInputFocus: (e)->
@@ -120,6 +122,8 @@ actionKeysMap =
   9: 'tab'
   13: 'enter'
   27: 'esc'
+  35: 'end'
+  36: 'home'
   37: 'left'
   38: 'up'
   39: 'right'
