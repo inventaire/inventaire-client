@@ -9,6 +9,11 @@
   background-color: white;
   @include shy-border(0.9);
   @include radius-bottom;
+  ul{
+    // keep in sync with app/modules/general/views/behaviors/suggestions.coffee
+    max-height: 170px;
+    overflow: auto;
+  }
   .close{
     display: block;
     text-align: center;

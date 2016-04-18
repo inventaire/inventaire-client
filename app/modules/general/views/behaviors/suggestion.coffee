@@ -12,11 +12,10 @@ module.exports = Marionette.ItemView.extend
     'highlight': 'highlight'
     'highlight:remove': 'removeHighlight'
 
-  highlight: -> @$el.addClass 'active'
+  highlight: ->
+    @trigger 'highlight'
+    @$el.addClass 'active'
+
   removeHighlight: -> @$el.removeClass 'active'
 
-  select: (e)->
-    e.preventDefault()
-    e.stopPropagation()
-
-    @model.trigger 'selected', @model
+  select: (e)-> @model.trigger 'selected', @model
