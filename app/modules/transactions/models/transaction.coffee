@@ -8,13 +8,12 @@
 cancellableStates = require '../lib/cancellable_states'
 applySideEffects = require '../lib/apply_side_effects'
 
-Filterable = require 'modules/general/models/filterable'
 Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
 formatSnapshotData = require '../lib/format_snapshot_data'
 
-module.exports = Filterable.extend
+module.exports = Backbone.NestedModel.extend
   url: -> app.API.transactions
   initialize: ->
     @set 'pathname', "/transactions/#{@id}"
