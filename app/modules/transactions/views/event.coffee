@@ -28,6 +28,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .username': 'showOtherUser'
+    'click .showUser': 'showUser'
 
   # hide avatar on successsive messages from the same user
   sameUser: ->
@@ -40,6 +41,10 @@ module.exports = Marionette.ItemView.extend
     if prev.get('user') is @model.get('user')
       return true
 
+  showUser: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:inventory:user', @model.user
+
   showOtherUser: (e)->
-    unless _.isOpenedOutside(e)
+    unless _.isOpenedOutside e
       app.execute 'show:inventory:user', @model.transaction?.otherUser()

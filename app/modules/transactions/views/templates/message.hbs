@@ -2,7 +2,9 @@
   {{#unless sameUser}}
     {{#if user.picture}}
       <div class="innerAvatar">
-        <img src="{{src user.picture 36}}" alt="{{user.username}}">
+        <a href="{{user.pathname}}" class="showUser" title="{{user.username}}">
+          <img src="{{src user.picture 36}}" alt="{{user.username}}">
+        </a>
       </div>
     {{/if}}
   {{/unless}}
