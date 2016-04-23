@@ -25,7 +25,6 @@
     "backbone-nested-model": "backbone-nested-afeld#~2.0.4",
     "backbone.marionette": "marionette#2.4.1",
     "blueimp-canvas-to-blob": "^3.1.0",
-    "cropper": "~0.11.1",
     "df-visible": "jquery-visible#~1.2.0",
     "font-awesome": "~4.4.0",
     "modernizr": "~2.8.3",

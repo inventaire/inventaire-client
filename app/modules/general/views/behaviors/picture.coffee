@@ -1,4 +1,5 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+cropper = require 'modules/general/lib/cropper'
 
 module.exports = Marionette.ItemView.extend
   tagName: 'div'
@@ -9,7 +10,9 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change:selected', @lazyRender
-    @model.waitForReady
+
+    cropper.get()
+    .then => @model.waitForReady
     .then => @ready = true
     .then @lazyRender
 

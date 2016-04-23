@@ -1,21 +1,13 @@
 drawCanvas = require './draw_canvas'
 books_ = require 'lib/books'
 
-quaggaPromise = null
-alreadyPrepared = false
-
-getQuagga = ->
-  unless quaggaPromise?
-    _.log 'fetching Quagga'
-    alreadyPrepared = true
-    quaggaPromise = _.preq.getScript app.API.scripts.quagga()
-
-  return quaggaPromise
+getScript = require 'lib/get_script'
+{ prepare, get:getQuagga } = getScript 'quagga'
 
 module.exports =
   # pre-fetch quagga when the scanner is probably about to be used
   # to be ready to start scanning faster
-  prepare: -> unless alreadyPrepared then getQuagga()
+  prepare: prepare
   scan: (beforeStart)->
     beforeStart or= _.noop
 

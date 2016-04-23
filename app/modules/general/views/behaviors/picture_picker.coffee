@@ -4,6 +4,7 @@ files_ = require 'lib/files'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+cropper = require 'modules/general/lib/cropper'
 
 module.exports = Marionette.CompositeView.extend
   className: ->
@@ -24,6 +25,7 @@ module.exports = Marionette.CompositeView.extend
   initialize: ->
     @limit = @options.limit or 1
     pictures = _.forceArray @options.pictures
+    cropper.prepare()
     collectionData = pictures.map getImgData.bind(null, @options.crop)
     @collection = new Imgs collectionData
 

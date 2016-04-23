@@ -40,6 +40,7 @@ copyIt wikidata-lang/dist/index.js wikidata-lang
 # keep versions in sync with app/api/scripts.coffee
 memdown_base=memdown-1.1.2
 quagga_base=quagga-0.10.2
+cropper_base=cropper-2.3.0
 
 browserify node_modules/memdown -s MemDown > ${pub}/${memdown_base}.js
 uglifyIt $pub $memdown_base
@@ -50,3 +51,9 @@ cp node_modules/quagga/dist/quagga.js ${pub}/${quagga_base}.js
 cp node_modules/quagga/dist/quagga.min.js ${pub}/${quagga_base}.min.js
 gzipkeep "${pub}/${quagga_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m' quagga
+
+cp node_modules/cropper/dist/cropper.css vendor/css
+cp node_modules/cropper/dist/cropper.js ${pub}/${cropper_base}.js
+cp node_modules/cropper/dist/cropper.min.js ${pub}/${cropper_base}.min.js
+gzipkeep "${pub}/${cropper_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' cropper
