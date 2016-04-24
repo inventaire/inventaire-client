@@ -11,9 +11,9 @@ wd_.wmCommonsThumbData = (file, width=500)->
 wd_.wmCommonsThumb = (file, width=500)->
   wd_.wmCommonsThumbData file, width
   .then _.property('thumbnail')
-  .catch (err)=>
+  .catch (err)->
     console.warn "couldnt find #{file} via tools.wmflabs.org, will use the small thumb version"
-    return @wmCommonsSmallThumb file, 200
+    return wd_.wmCommonsSmallThumb file, 200
 
 wd_.enWpImage = (enWpTitle)->
   preq.get app.API.data.enWpImage enWpTitle
@@ -56,14 +56,15 @@ wd_.aliasingClaims = (claims)->
         _.warn [err, id, claim], 'aliasingClaims err'
   return claims
 
-wd_.getReverseClaims = (property, value, refresh)->
-  preq.get app.API.data.wdq('claim', property, value, refresh)
-  .then wdk.parse.wdq.entities
+wd_.getClaimSubjects = (property, value, refresh)->
+  preq.get app.API.data.claim(property, value, refresh)
+  .then _.Log("claim subjects - #{property}:#{value}")
+  .then _.property('entities')
 
 wd_.queryAuthorWorks = (authorQid, refresh)->
-  preq.get app.API.data.wdQuery('author-works', authorQid, refresh)
-  .then wdk.parse.wdq.entities
-
+  preq.get app.API.data.authorWorks(authorQid, refresh)
+  .then _.Log("author work - #{authorQid}")
+  .then _.property('entities')
 
 # P364: original language of work
 # P103: native language

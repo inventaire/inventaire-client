@@ -1,18 +1,20 @@
 dataQuery = _.buildPath.bind(_, '/api/data/public')
 
+wdQuery = (params)->
+  params.api = 'wd-query'
+  dataQuery params
+
 module.exports =
-  wdQuery: (query, qid, refresh)->
-    dataQuery
-      api: 'wd-query'
-      query: query
+  claim: (pid, qid, refresh)->
+    wdQuery
+      query: 'claim'
+      pid: pid
       qid: qid
       refresh: refresh
 
-  wdq: (query, pid, qid, refresh)->
-    dataQuery
-      api: 'wdq'
-      query:query
-      pid: pid
+  authorWorks: (qid, refresh)->
+    wdQuery
+      query: 'author-works'
       qid: qid
       refresh: refresh
 

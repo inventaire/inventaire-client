@@ -16,17 +16,16 @@ wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
     if P135? or P136? then return _.preq.resolved
 
   Promise.all [
-    getReverseClaims('P135', genreModel) #mouvement
-    getReverseClaims('P136', genreModel) #genre
+    getClaimSubjects('P135', genreModel) #mouvement
+    getClaimSubjects('P136', genreModel) #genre
   ]
   .then _.flatten
   .catch _.ErrorRethrow('wdGenre_.fetchBooksAndAuthorsIds')
 
-getReverseClaims = (P, genreModel)->
+getClaimSubjects = (P, genreModel)->
   Q = genreModel.id
-  wd_.getReverseClaims P, Q
+  wd_.getClaimSubjects P, Q
   .then _.uniq
-  .then _.Log("books and authors ids (#{P})")
   .then genreModel.save.bind(genreModel, "reverseClaims.#{P}")
 
 # setting default limit to 10 to avoid loading too many authors
