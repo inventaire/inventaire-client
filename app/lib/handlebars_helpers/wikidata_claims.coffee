@@ -34,7 +34,7 @@ module.exports =
     if claims?[pid]?[0]?
       file = claims[pid][0]
       src = wd_.wmCommonsSmallThumb file, 200
-      return new SafeString "<img src='#{src}'>"
+      return new SafeString "<img src=\"#{src}\">"
 
   stringClaim: (args...)->
     [ claims, pid, linkify, omitLabel, inline ] = neutralizeDataObject args

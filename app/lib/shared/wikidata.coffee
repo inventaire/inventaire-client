@@ -27,4 +27,5 @@ module.exports = (promises_, _, wdk)->
         if @isGenre P31 then return 'genre'
 
     wmCommonsSmallThumb: (file, width="100")->
+      file = encodeURIComponent file
       "https://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
