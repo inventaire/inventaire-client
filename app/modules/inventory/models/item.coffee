@@ -30,11 +30,11 @@ module.exports = Filterable.extend
 
     @userReady = false
 
-    @reqGrab 'get:user:model', owner, 'user'
-    .then @setUserData.bind(@)
-    # chain it to get access to @restricted
-    .then => @waitForEntity
-    .then @lookForMissingData.bind(@)
+    @waitForUser = @reqGrab 'get:user:model', owner, 'user'
+      .then @setUserData.bind(@)
+      # chain it to get access to @restricted
+      .then => @waitForEntity
+      .then @lookForMissingData.bind(@)
 
   onCreation: (serverRes)->
     # update the _id from 'new' to the server _id
@@ -137,8 +137,12 @@ module.exports = Filterable.extend
   updateMetadata: ->
     # start by adding the entity's metadata
     # and then override by the data available on the item
-    @waitForEntity
-    # cant be @entity.updateMetadata.bind(@entity)
+    Promise.all [
+      # wait for every model the item model depends on
+      @waitForUser
+      @waitForEntity
+    ]
+    # /!\ cant be replaced by @entity.updateMetadata.bind(@entity)
     # as @entity is probably undefined yet
     .then => @entity.updateMetadata()
     .then @executeMetadataUpdate.bind(@)
@@ -157,8 +161,9 @@ module.exports = Filterable.extend
     return "#{title} - #{context}"
 
   findBestDescription: ->
-    details = @get('details')
-    if _.isNonEmptyString(details) then details
+    details = @get 'details'
+    if _.isNonEmptyString details then details
+    else @entity.findBestDescription()
 
   # keep a copy of authors as a string on the item
   lookForMissingData: ->
