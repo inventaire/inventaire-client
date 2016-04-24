@@ -35,6 +35,9 @@ exports.config =
   plugins:
     autoReload:
       enabled: true
+    afterBrunch: [
+      './scripts/check_empty_files'
+    ]
 
   overrides:
     production:

@@ -28,6 +28,7 @@
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee"
   },
   "dependencies": {
+    "after-brunch": "0.0.5",
     "browser-locale": "^1.0.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.0.0",
