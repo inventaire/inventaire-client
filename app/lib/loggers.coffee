@@ -88,7 +88,7 @@ module.exports = (_, csle)->
 
     logServer: (obj, label)->
       report = {obj: obj, label: label}
-      $.post app.API.test, report
+      $.post app.API.tests, report
       return obj
 
   proxied =

@@ -74,7 +74,7 @@ data = [
 ]
 
 ping = ->
-  _.preq.get app.API.test
+  _.preq.get app.API.tests
   .then ->
     online = true
     app.vent.trigger 'app:online'

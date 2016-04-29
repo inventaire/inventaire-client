@@ -8,7 +8,7 @@ module.exports = ->
   # - reduces the load on the real tracker server
   # - easier debug
   # /!\ no request is made from users recognized as admin on the piwik
-  if env is 'dev' then trackerUrl = app.API.test
+  if env is 'dev' then trackerUrl = app.API.tests
 
   _paq.push ['enableLinkTracking']
   _paq.push ['setTrackerUrl', trackerUrl]

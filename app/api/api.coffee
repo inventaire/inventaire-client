@@ -18,7 +18,7 @@ module.exports = (_)->
   feedback: '/api/feedback/public'
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
-  test: '/api/tests/public'
+  tests: '/api/tests/public'
   scripts: require './scripts'
   upload:
     post: '/api/upload'
