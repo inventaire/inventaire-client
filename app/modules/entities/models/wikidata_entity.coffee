@@ -4,6 +4,7 @@ wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 error_ = require 'lib/error'
 images_ = require '../lib/images'
+getBestLangValue = require '../lib/get_best_lang_value'
 
 module.exports = Entity.extend
   # entities won't be saved to CouchDB and can keep their
@@ -234,17 +235,7 @@ module.exports = Entity.extend
 getEntityValue = (attrs, props, lang, originalLang)->
   property = attrs[props]
   if property?
-    order = getLangPriorityOrder lang, originalLang, property
-    while order.length > 0
-      nextLang = order.shift()
-      value = property[nextLang]?.value
-      if value? then return value
+    value = getBestLangValue lang, originalLang, property
+    if value?.value? then return value.value
 
   return
-
-getLangPriorityOrder = (lang, originalLang, property)->
-  order = [ lang ]
-  if originalLang? then order.push originalLang
-  order.push 'en'
-  availableLangs = Object.keys property
-  return _.uniq order.concat(availableLangs)
