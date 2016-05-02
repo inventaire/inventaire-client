@@ -13,40 +13,7 @@ module.exports = Entity.extend
   prefix: 'wd'
   initialize: ->
     @initLazySave()
-    @_updates = {}
-    # _.log @status = @get('status'), 'status'
-
-    # data that are @set don't need to be re-set when
-    # the model was cached in app.entities local/temporary collections
-    unless @get('status')?.formatted
-
-      # todo: make search only return ids and let the client fetch entities data
-      # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
-      if app.entities.byUri('wd:#{@id}')?
-        console.warn "reformatting #{@id} while it was already cached!
-        Probably because the server returned fresh data (ex: during entity search)"
-
-      { lang } = app.user
-
-      @setWikiLinks lang
-      @setWikipediaExtract lang
-      # overriding sitelinks to make room when persisted to indexeddb
-      @_updates.sitelinks = {}
-
-      @rebaseClaims()
-      @setAttributes @attributes, lang
-      # depends on the freshly defined @_updates.claims
-      @type = wd_.type @_updates
-      @findAPicture()
-
-      @set @_updates
-      # @_updates isnt needed anymore
-      @_updates = null
-
-      # status might have been initialized by findAPicture
-      @set 'status.formatted', true
-
-      @save()
+    @formatIfNew()
 
     # if waiters werent defined yet, they wont be fetched
     @waitForExtract ?= _.preq.resolved
@@ -59,6 +26,32 @@ module.exports = Entity.extend
     @wikidata = true
 
     @typeSpecificInitilize()
+
+  format: ->
+    # gathering updates to set them all at once and trigger only one change event
+    @_updates = {}
+    # todo: make search only return ids and let the client fetch entities data
+    # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
+    if app.entities.byUri('wd:#{@id}')?
+      console.warn "reformatting #{@id} while it was already cached!
+      Probably because the server returned fresh data (ex: during entity search)"
+
+    { lang } = app.user
+
+    @setWikiLinks lang
+    @setWikipediaExtract lang
+    # overriding sitelinks to make room when persisted to indexeddb
+    @_updates.sitelinks = {}
+
+    @rebaseClaims()
+    @setAttributes @attributes, lang
+    # depends on the freshly defined @_updates.claims
+    @type = wd_.type @_updates
+    @findAPicture()
+
+    @set @_updates
+    # @_updates isnt needed anymore
+    @_updates = null
 
   rebaseClaims: ->
     claims = @get 'claims'

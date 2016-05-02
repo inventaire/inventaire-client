@@ -15,7 +15,10 @@ module.exports = Entity.extend
 
     @uri = @get('uri') or "isbn:#{isbn}"
     canonical = pathname = "/entity/#{@uri}"
-    @findAPicture()
+
+    # required by 'save:entity:model'
+    @set 'id', @get('isbn')
+    @formatIfNew()
 
     if title = @get 'title'
       pathname += "/" + _.softEncodeURI(title)
@@ -27,18 +30,18 @@ module.exports = Entity.extend
       # need to be set for inv-isbn entities
       uri: @uri
 
-  findAPicture: ->
-    pictures = @get 'pictures'
-    if _.isEmpty pictures
-      @_fetchPicture()
-    else
-      @set 'pictures', pictures.map(books_.uncurl)
+  format: ->
+    @initPictures()
 
-  _fetchPicture: ->
+  initPictures: ->
+    pictures = @get('pictures') or []
+    @set 'pictures', pictures
+
     books_.getImage @uri
     .map _.property('image')
+    .then pickBestPictures.bind(null, pictures)
+    .then _.Log("#{@uri} pictures")
     .then @set.bind(@, 'pictures')
-    .catch _.Error('findAPicture')
 
   getAuthorsString: ->
     str = _.compact(@get('authors').map(parseAuthor)).join ', '
@@ -49,3 +52,13 @@ parseAuthor = (a)->
     when 'wikidata_id' then a.label
     when 'string' then a.value
     else null
+
+pickBestPictures = (pictures, newPictures)->
+  pictures = _.uniq pictures.concat(newPictures)
+  filtered = pictures.filter discardGoogleBooksPictures
+  # if we can do without Google Books low quality pictures, that's better
+  if filtered.length > 0 then return filtered
+  else return pictures
+
+gBooks = /books\.google\.com/
+discardGoogleBooksPictures = (picture)-> not gBooks.test picture
