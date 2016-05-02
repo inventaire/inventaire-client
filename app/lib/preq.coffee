@@ -20,6 +20,15 @@ module.exports = _.extend preq,
     return wrap $.get(url), url
 
   post: (url, body)-> wrap $.post(url, body), url
+  postJSON: (url, body)->
+    options =
+      url: url
+      data: JSON.stringify body
+      headers:
+        'content-type': 'application/json'
+
+    wrap $.post(options), url
+
   put: (url, body)-> wrap $.put(url, body), url
   delete: (url)-> wrap $.delete(url), url
   getScript: (url)-> wrap $.getScript(url), url
