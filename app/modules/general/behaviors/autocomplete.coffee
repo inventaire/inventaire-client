@@ -19,7 +19,7 @@ module.exports = Marionette.Behavior.extend
     @_startListening()
 
   _startListening: ->
-    @listenTo @suggestions, 'selected', @completeQuery
+    @listenTo @suggestions, 'selected:value', @completeQuery
     @listenTo @suggestions, 'highlight', @fillQuery
 
   onRender: ->

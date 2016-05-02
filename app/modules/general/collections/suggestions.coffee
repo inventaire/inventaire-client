@@ -1,5 +1,4 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
-valueKey = 'value'
 
 module.exports = (options)->
   { collection, remote } = options.source()
@@ -8,20 +7,24 @@ module.exports = (options)->
   # so here is a custom extension
   suggestions = new FilteredCollection collection
   _.extend suggestions, suggestionMethods
-  suggestions.init remote
+  suggestions.init collection, remote
   return suggestions
 
 # module.exports = Backbone.Collection.extend
 suggestionMethods =
-  init: (remote)->
+  init: (collection, remote)->
     @index = -1
     @remote = remote
     @on 'find', @fetchNewSuggestions
-    @on 'select', @select
     @on 'highlight:next', @highlightNext
     @on 'highlight:previous', @highlightPrevious
     @on 'highlight:first', @highlightFirst
     @on 'highlight:last', @highlightLast
+    @on 'select', @select
+
+    # Model events are passed to their collection but not to their
+    # filtered collection, thus the need to add a listner
+    @listenTo collection, 'select', @select
 
   # Get suggestions based on the current input. Either query
   # the api or filter the dataset.
@@ -35,7 +38,7 @@ suggestionMethods =
   # has been navigated then select at the current index.
   select: ->
     index = if @isStarted() then @index else 0
-    @trigger 'selected', @at(index)
+    @trigger 'selected:value', @at(index)
 
   highlightPrevious: -> unless @isFirst() then @highlightAt @index - 1
   highlightNext: -> unless @isLast() then @highlightAt @index + 1
@@ -60,7 +63,3 @@ suggestionMethods =
   highlightEvent: (eventName, index)->
     model = @at index
     model.trigger eventName, model
-    # the event needs to be triggered on the filteredCollection too
-    # as it isn't the model's native collection, thus the event
-    # isn't automatically triggered
-    @trigger eventName, model

@@ -18,4 +18,4 @@ module.exports = Marionette.ItemView.extend
 
   removeHighlight: -> @$el.removeClass 'active'
 
-  select: (e)-> @model.trigger 'selected', @model
+  select: -> @model.trigger 'select', @model
