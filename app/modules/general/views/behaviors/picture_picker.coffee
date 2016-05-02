@@ -59,7 +59,13 @@ module.exports = Marionette.CompositeView.extend
     @collection.models[0]?.select()
 
   validate: ->
-    behaviorsPlugin.startLoading.call @, '#validate'
+    behaviorsPlugin.startLoading.call @,
+      selector: '#validate'
+      # The upload might take longer than the default 30 secondes,
+      # so here is a very permissive 10 minutes, for the case a user
+      # uploads a big picture with a slow connexion
+      timeout: 600
+
     @getFinalUrls()
     .catch error_.Complete('.alertBox')
     .then _.Log('final urls')
