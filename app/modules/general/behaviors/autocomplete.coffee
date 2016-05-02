@@ -13,7 +13,8 @@ module.exports = Marionette.Behavior.extend
   initialize: (options)->
     @visible = no
     @suggestions = Suggestions options
-    @lazyUpdateQuery = _.debounce @updateQuery, rateLimit
+    # throttling to take advantage of match_phrase_prefix search
+    @lazyUpdateQuery = _.throttle @updateQuery, rateLimit
 
     @_startListening()
 
