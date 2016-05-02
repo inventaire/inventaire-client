@@ -37,7 +37,7 @@ suggestionMethods =
     index = if @isStarted() then @index else 0
     @trigger 'selected', @at(index)
 
-  highlightPrevious: -> unless @isFirst() then @highlightAt @index + 1
+  highlightPrevious: -> unless @isFirst() then @highlightAt @index - 1
   highlightNext: -> unless @isLast() then @highlightAt @index + 1
   highlightFirst: -> @highlightAt 0
   highlightLast: -> @highlightAt @length - 1
