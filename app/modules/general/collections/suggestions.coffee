@@ -20,11 +20,11 @@ suggestionMethods =
     @on 'highlight:previous', @highlightPrevious
     @on 'highlight:first', @highlightFirst
     @on 'highlight:last', @highlightLast
-    @on 'select', @select
+    @on 'select:from:key', @selectFromKey
 
     # Model events are passed to their collection but not to their
     # filtered collection, thus the need to add a listner
-    @listenTo collection, 'select', @select
+    @listenTo collection, 'select:from:click', @selectFromClick
 
   # Get suggestions based on the current input. Either query
   # the api or filter the dataset.
@@ -36,9 +36,12 @@ suggestionMethods =
 
   # Select first suggestion unless the suggestion list
   # has been navigated then select at the current index.
-  select: ->
+  selectFromKey: ->
     index = if @isStarted() then @index else 0
     @trigger 'selected:value', @at(index)
+
+  selectFromClick: (model)->
+    @trigger 'selected:value', model
 
   highlightPrevious: -> unless @isFirst() then @highlightAt @index - 1
   highlightNext: -> unless @isLast() then @highlightAt @index + 1
