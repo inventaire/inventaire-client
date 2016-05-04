@@ -96,10 +96,10 @@ module.exports = Marionette.Behavior.extend
   updateQuery: (query)->
     @suggestions.trigger 'find', query
 
-  # Complete the query using the highlighted suggestion.
+  # Complete the query using the highlighted or the clicked suggestion.
   fillQuery: (suggestion)->
     @ui.autocomplete.val suggestion.get('label')
-    @selectedSuggestion = suggestion
+    @ui.autocomplete.attr 'data-autocomplete-value', suggestion.id
 
   # Complete the query using the selected suggestion.
   completeQuery: (suggestion)->

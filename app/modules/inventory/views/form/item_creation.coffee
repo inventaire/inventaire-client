@@ -38,7 +38,7 @@ module.exports = Marionette.LayoutView.extend
       attrs.pictures = pictures
 
     unless attrs.entity? and attrs.title?
-      throw new Error 'missing uri or title at item creation from entity'
+      throw error_.new 'missing uri or title at item creation from entity', attrs
 
     @model = app.request 'item:create', attrs
 

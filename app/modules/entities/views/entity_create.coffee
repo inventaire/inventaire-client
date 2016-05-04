@@ -4,6 +4,7 @@ entityDataTests = require '../lib/inv/entity_data_tests'
 EntityActions = require './entity_actions'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 authorsSource = require '../lib/authors_source'
+createEntities = require '../lib/create_entities'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/entity_create'
@@ -61,12 +62,6 @@ module.exports = Marionette.LayoutView.extend
     @model.delegateItemCreation = true
     @listenTo @model, 'delegate:item:creation', @showItemCreation.bind(@)
 
-  updateModel: (attr)->
-    val = @ui[attr].val()
-    # not testing if val is an empty string
-    # as it might mean that the value was overriden
-    @model.set attr, val
-
   onRender: ->
     @showEntityActions()
 
@@ -100,28 +95,14 @@ module.exports = Marionette.LayoutView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   createEntity: ->
-    @updateModel 'title'
-    @updateModel 'authors'
-    @updateModel 'isbn'
-    entityData = @normalizeEntityData()
-    return app.request 'create:entity', entityData
-
-  normalizeEntityData: ->
-    entityData = @model.toJSON()
-    entityDataTests entityData
-    { title, authors, isbn, pictures } = entityData
-
-    if authors.trim() is '' then authors = null
-    if isbn.trim() is '' then isbn = null
-
-    entity =
-      title: title.trim()
-      authors: authors?.split(',').map (str)-> str.trim()
-      pictures: pictures
-
-    if isbn? then entity.isbn = books_.normalizeIsbn isbn
-
-    return _.log entity, 'entity?'
+    title = @ui.title.val()
+    author = @ui.authors.attr('data-autocomplete-value')
+    # TODO:
+    # - re-integrate isbn (via createEntities.bookEdition)
+    # - re-integrate the pictures: pictures = @model.get 'pictures'
+    # - re-integrate value validation and form errors
+    # - allow multiple authors
+    return createEntities.book title, [author], null, app.user.lang
 
   showItemCreationForm: (transaction, entityModel)->
     app.execute 'show:item:creation:form',
