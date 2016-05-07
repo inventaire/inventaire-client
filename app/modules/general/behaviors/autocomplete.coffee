@@ -19,8 +19,8 @@ module.exports = Marionette.Behavior.extend
     @_startListening()
 
   _startListening: ->
-    @listenTo @suggestions, 'selected:value', @completeQuery
-    @listenTo @suggestions, 'highlight', @fillQuery
+    @listenTo @suggestions, 'selected:value', @completeQuery.bind(@)
+    @listenTo @suggestions, 'highlight', @fillQuery.bind(@)
 
   onRender: ->
     @_setInputAttributes()
@@ -102,8 +102,9 @@ module.exports = Marionette.Behavior.extend
 
   # Complete the query using the highlighted or the clicked suggestion.
   fillQuery: (suggestion)->
-    @ui.autocomplete.val suggestion.get('label')
-    @ui.autocomplete.attr 'data-autocomplete-value', suggestion.id
+    @ui.autocomplete
+    .val suggestion.get('label')
+    .attr 'data-autocomplete-value', suggestion.id
 
   # Complete the query using the selected suggestion.
   completeQuery: (suggestion)->
