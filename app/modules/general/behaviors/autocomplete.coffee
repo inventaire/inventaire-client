@@ -68,6 +68,11 @@ module.exports = Marionette.Behavior.extend
       else @lazyUpdateQuery value
 
   keyAction: (actionKey, e)->
+    # actions happening in any case
+    switch actionKey
+      when 'esc' then return @hideDropdown()
+
+    # actions conditional to suggestions state
     unless @suggestions.isEmpty()
       switch actionKey
         when 'right'
@@ -77,7 +82,6 @@ module.exports = Marionette.Behavior.extend
         when 'up' then @suggestions.trigger 'highlight:previous'
         when 'home' then @suggestions.trigger 'highlight:first'
         when 'end' then @suggestions.trigger 'highlight:last'
-        when 'esc' then @hideDropdown()
 
   onInputFocus: (e)->
     focusIsOnAutocomplete = e.target is @ui.autocomplete[0]
