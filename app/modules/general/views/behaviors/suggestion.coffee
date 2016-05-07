@@ -6,7 +6,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/suggestion'
 
   events:
-    'click': 'select'
+    'click .select': 'select'
 
   modelEvents:
     'highlight': 'highlight'

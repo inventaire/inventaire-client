@@ -21,21 +21,24 @@
     color: #333;
   }
 }
-.ac-suggestion, .ac-no-suggestion{
+.ac-suggestion .select, .ac-no-suggestion{
   padding: 0 0.4em 0 0.4em;
 }
 .ac-suggestion{
   @include bg-hover(white);
-  cursor: pointer;
   &.active{
     background-color: #ddd;
   }
   &:not(:last-child){
     border-bottom: 1px solid #eee;
   }
-  padding-top: 0.3em;
-  padding-bottom: 0.2em;
-  line-height: 1.2em;
+  .select{
+    width: 100%;
+    cursor: pointer;
+    padding-top: 0.3em;
+    padding-bottom: 0.2em;
+    line-height: 1.2em;
+  }
   .identifier{
     float: right;
     opacity: 0.5;
