@@ -7,7 +7,6 @@ module.exports = Marionette.Behavior.extend
   events:
     'keyup @ui.autocomplete': 'onKeyUp'
     'keydown @ui.autocomplete': 'onKeyDown'
-    'focus input': 'onInputFocus'
     'click .close': 'hideDropdown'
 
   initialize: (options)->
@@ -82,10 +81,6 @@ module.exports = Marionette.Behavior.extend
         when 'up' then @suggestions.trigger 'highlight:previous'
         when 'home' then @suggestions.trigger 'highlight:first'
         when 'end' then @suggestions.trigger 'highlight:last'
-
-  onInputFocus: (e)->
-    focusIsOnAutocomplete = e.target is @ui.autocomplete[0]
-    unless focusIsOnAutocomplete then @hideDropdown()
 
   showDropdown: ->
     @visible = true
