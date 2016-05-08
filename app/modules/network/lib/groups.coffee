@@ -6,7 +6,7 @@ module.exports =
     { name, description, searchable, coords } = data
     { groups } = app.user
 
-    _.preq.post app.API.groups.private,
+    _.preq.post app.API.groups.authentified,
       action: 'create'
       name: name
       description: description

@@ -1,6 +1,6 @@
 module.exports = Backbone.Collection.extend
   model: require "../models/item"
-  url: -> app.API.items.base
+  url: -> app.API.items.authentified
 
   comparator: (item)-> - item.get 'created'
 

@@ -1,4 +1,7 @@
+{ public:publik } = require('./endpoint')('services')
+
 module.exports =
   emailValidation: (email)->
-    email = encodeURIComponent email
-    "/api/services/public?service=email-validation&email=#{email}"
+    _.buildPath publik,
+      service: 'email-validation'
+      email: encodeURIComponent email

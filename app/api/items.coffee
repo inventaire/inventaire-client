@@ -1,11 +1,10 @@
-base = '/api/items'
-publicBase = '/api/items/public'
+{ public:publik, authentified } = require('./endpoint')('items')
 
 itemsPublic = (action, query={})->
-  _.buildPath publicBase, _.extend(query, { action: action })
+  _.buildPath publik, _.extend(query, { action: action })
 
 module.exports =
-  base: base
+  authentified: authentified
   lastPublicItems: (limit=15, offset=0, assertImage)->
     itemsPublic 'last-public-items',
       limit: limit
@@ -13,7 +12,7 @@ module.exports =
       'assert-image': assertImage
 
   publicNearby: (range=50)->
-    _.buildPath base,
+    _.buildPath authentified,
       action: 'get-items-nearby'
       range: range
 

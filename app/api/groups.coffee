@@ -1,10 +1,8 @@
-privat = '/api/groups'
-publik = '/api/groups/public'
-
+{ public:publik, authentified } = require('./endpoint')('groups')
 { search, searchByPosition } = require './commons'
 
 module.exports =
-  private: privat
+  authentified: authentified
   public: publik
   last: "#{publik}?action=last"
   search: search.bind null, publik

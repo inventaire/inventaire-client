@@ -29,7 +29,7 @@ postComment = (itemId, message, commentsCollection)->
 
   commentModel = addComment comment, commentsCollection
 
-  _.preq.post app.API.comments.private, comment
+  _.preq.post app.API.comments.authentified, comment
   .then poster_.UpdateModelIdRev(commentModel)
   .catch poster_.Rewind(commentModel, commentsCollection)
   .catch _.ErrorRethrow('postComment')
@@ -51,7 +51,7 @@ updateComment = (commentModel, newMessage)->
     message: newMessage
     edited: _.now()
 
-  _.preq.put app.API.comments.private,
+  _.preq.put app.API.comments.authentified,
     id: commentModel.id
     message: newMessage
 

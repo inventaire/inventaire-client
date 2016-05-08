@@ -1,4 +1,5 @@
-dataQuery = _.buildPath.bind(_, '/api/data/public')
+{ public:publik } = require('./endpoint')('groups')
+dataQuery = _.buildPath.bind(_, publik)
 
 wdQuery = (params)->
   params.api = 'wd-query'

@@ -1,6 +1,4 @@
-privat = '/api/users'
-publik = '/api/users/public'
-
+{ public:publik, authentified } = require('./endpoint')('users')
 { search, searchByPosition } = require './commons'
 
 module.exports =
@@ -14,12 +12,12 @@ module.exports =
     ids = _.forceArray ids
     if ids?
       ids = ids.join '|'
-      return "#{privat}?action=get-users-items&ids=#{ids}"
+      return "#{authentified}?action=get-users-items&ids=#{ids}"
     else throw new Error "users' items API needs an id"
   search: search.bind null, publik
   searchByPosition: searchByPosition.bind null, publik
 
   publicItemsNearby: (range=50)->
-    _.buildPath privat,
+    _.buildPath authentified,
       action: 'get-items-nearby'
       range: range

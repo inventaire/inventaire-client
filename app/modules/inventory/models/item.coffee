@@ -1,7 +1,7 @@
 Filterable = require 'modules/general/models/filterable'
 
 module.exports = Filterable.extend
-  url: -> app.API.items.base
+  url: -> app.API.items.authentified
 
   validate: (attrs, options)->
     unless attrs.title? then return "a title must be provided"

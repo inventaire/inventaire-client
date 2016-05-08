@@ -1,3 +1,5 @@
+{ public:publik } = require('./endpoint')('entities')
+
 module.exports =
   search: (search, filter)->
     options =
@@ -9,20 +11,20 @@ module.exports =
     # ex: P31:Q5
     if filter? then options.filter = filter
 
-    _.buildPath '/api/entities/public', options
+    _.buildPath publik, options
 
   getImages: (entityUri, data)->
-    _.buildPath '/api/entities/public',
+    _.buildPath publik,
       action: 'get-images'
       entity: entityUri
       data: data
   isbns: (isbns)->
-    _.buildPath '/api/entities/public',
+    _.buildPath publik,
       action: 'get-isbn-entities'
       isbns: _.piped(isbns)
   inv:
     create: '/api/entities'
     get: (ids)->
-      _.buildPath '/api/entities/public',
+      _.buildPath publik,
         action: 'get-inv-entities'
         ids: _.piped(ids)
