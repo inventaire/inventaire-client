@@ -23,8 +23,6 @@ module.exports = (_, csle)->
 
   error = (err, label)->
     if err?.status?
-      # log http errors
-      if err?.responseText? then label = "#{err.responseText} (#{label})"
       switch err.status
         when 401 then return csle.warn '401', label
         when 404 then return csle.warn '404', label
@@ -33,16 +31,21 @@ module.exports = (_, csle)->
     unless err?.stack?
       label or= 'empty error'
       newErr = new Error(label)
-      report = [err, newErr.message, newErr.stack?.split('\n')]
+      stackLines = newErr.stack?.split('\n')
+      report = [err, newErr.message, stackLines]
     else
-      report = [err.message or err, err.stack?.split('\n')]
+      stackLines = err.stack?.split('\n')
+      report = [err.message or err, stackLines]
 
     if err?.context? then report.push err.context
 
     report.push label
 
     window.reportErr {error: report}
-    csle.error.apply csle, report
+
+    prettyLog = "===== #{label} =====\n"
+    if err?.responseText? then prettyLog += "\n#{err.responseText}\n\n"
+    csle.error prettyLog, stackLines, "\n-----"
 
   # providing a custom warn as it might be used
   # by methods shared with the server
