@@ -1,4 +1,5 @@
 forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 module.exports =
 
@@ -15,7 +16,7 @@ module.exports =
     .then groups.add.bind(groups)
     .tap app.execute.bind(app, 'track:group', 'create')
     .then _.Log('group')
-    .catch _.Error('group create')
+    .catch error_.Complete('#createGroup')
 
   validateName: (name, selector)->
     forms_.pass
