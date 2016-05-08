@@ -3,7 +3,7 @@ forms_ = require 'modules/general/lib/forms'
 module.exports =
 
   createGroup: (data)->
-    { name, description, searchable, coords } = data
+    { name, description, searchable, position } = data
     { groups } = app.user
 
     _.preq.post app.API.groups.authentified,
@@ -11,6 +11,7 @@ module.exports =
       name: name
       description: description
       searchable: searchable
+      position: position
     .then groups.add.bind(groups)
     .tap app.execute.bind(app, 'track:group', 'create')
     .then _.Log('group')

@@ -44,7 +44,7 @@ module.exports = Marionette.LayoutView.extend
 
   showPositionPicker: ->
     app.request 'prompt:group:position:picker'
-    .then (coords)=> @coords = coords
+    .then (position)=> @position = position
     .catch _.Error('showPositionPicker')
 
   createGroup: ->
@@ -55,7 +55,9 @@ module.exports = Marionette.LayoutView.extend
       name: name
       description: description
       searchable: @ui.searchabilityToggler[0].checked
-      coords: @coords
+      position: @position
+
+    _.log data, 'group data'
 
     _.preq.start
     .then groups_.validateName.bind(@, name, '#nameField')
