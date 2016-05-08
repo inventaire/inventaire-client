@@ -3,10 +3,7 @@ expect = require('chai').expect
 
 _ = require './utils_builder'
 
-
 describe 'Logger', ->
-
-
   describe 'log', ->
     it 'should return a string for string input', (done)->
       _.log('salut').should.be.a.String()
@@ -26,7 +23,6 @@ describe 'Logger', ->
       waitingLog({hey: "there"}).should.be.an.Object()
       done()
 
-
   describe 'warn', ->
     it 'should always return undefined', (done)->
       expect(_.warn('yo')).to.be.undefined
@@ -34,4 +30,26 @@ describe 'Logger', ->
       expect(_.warn({hello: 'wat'}, 'yo')).to.be.undefined
       done()
 
-  # err = new Error('all your base are belong to us')
+  describe 'error', ->
+    it 'should always return undefined', (done)->
+      expect(_.error('yo')).to.be.undefined
+      expect(_.error('yo', {hello: 'wat'})).to.be.undefined
+      expect(_.error({hello: 'wat'}, 'yo')).to.be.undefined
+      done()
+
+  describe 'Error', ->
+    it 'should return an error logger that catches errors', (done)->
+      expect(_.Error('yo label')('yo')).to.be.undefined
+      expect(_.Error('yo label')({hello: 'wat'})).to.be.undefined
+
+      Promise.reject new Error('damned 1')
+      .catch _.Error('catching!')
+      .then -> done()
+
+  describe 'ErrorRethrow', ->
+    it 'should return an error logger that rethrows errors', (done)->
+      Promise.reject new Error('damned 2')
+      .catch _.ErrorRethrow('rethrowing!')
+      .catch -> done()
+      # expect(_.ErrorRethrow('yo label')('yo')).to.be.undefined
+      # expect(_.ErrorRethrow('yo label')({hello: 'wat'})).to.be.undefined
