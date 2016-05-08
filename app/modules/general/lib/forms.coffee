@@ -33,7 +33,7 @@ forms_.catchAlert = (view, err)->
     forms_.alert(view, err)
   else
     view.$el.trigger 'somethingWentWrong'
-    _.error err, 'catchAlert err'
+    _.error err, 'error catched by forms_.catchAlert but the error object miss a selector'
 
 forms_.alert = (view, err)->
   {selector} = err
