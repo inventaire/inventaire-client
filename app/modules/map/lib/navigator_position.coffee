@@ -13,21 +13,26 @@ currentPosition = ->
       _.error err, 'currentPosition err'
       reject new Error(err.message or 'getCurrentPosition error')
 
-    navigator.geolocation.getCurrentPosition resolve, formattedReject,
-      timeout: 20*1000
+    options =
+      # The timeout option doesn't seem to have any effect
+      timeout: 10*1000
+
+    navigator.geolocation.getCurrentPosition resolve, formattedReject, options
 
 normalizeCoords = (position)->
   { latitude, longitude } = position.coords
   return { lat: latitude, lng: longitude }
 
-PositionError = (containerId)->
-  catcher = (err)->
-    $("##{containerId}").addClass 'position-error'
-    .html errIcon + _.i18n("couldn't obtain your position")
-    throw err
+returnPlaceholderCoords = (err)->
+  _.warn err, "couldn't obtain user's position: returning placeholder coordinates"
+  return coords =
+    lat: 46.232464793934994
+    lng: 6.045017838478088
+    zoom: 3
 
 module.exports = (containerId)->
   currentPosition()
+  .timeout 10*1000
   .then normalizeCoords 
   .then _.Log('current position')
-  .catch PositionError(containerId)
+  .catch returnPlaceholderCoords
