@@ -119,7 +119,7 @@ module.exports = Entity.extend
         if extract?
           @set 'extract', extract
           @save()
-      .catch _.Error('getWikipediaExtract err')
+      .catch _.Error('setWikipediaExtract err')
     return
 
   findAPicture: ->

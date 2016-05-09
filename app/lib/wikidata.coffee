@@ -18,7 +18,7 @@ wd_.wmCommonsThumb = (file, width=500)->
 wd_.enWpImage = (enWpTitle)->
   preq.get app.API.data.enWpImage enWpTitle
   .then _.property('url')
-  .catch _.ErrorRethrow('wikipediaExtract err')
+  .catch _.ErrorRethrow('enWpImage err')
 
 wd_.wikipediaExtract = (lang, title)->
   preq.get app.API.data.wikipediaExtract(lang, title)
