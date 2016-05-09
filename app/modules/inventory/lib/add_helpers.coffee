@@ -5,7 +5,7 @@ get = localStorageProxy.getItem.bind localStorageProxy
 
 module.exports = ->
   app.commands.setHandlers
-    # 'scan' or 'search'
+    # 'search' or 'scan:embedded' or 'scan:zxing'
     'last:add:mode:set': set.bind null, 'lastAddMode'
     # 'inventorying', 'giving', 'lending', 'selling'
     'last:transaction:set': set.bind null, 'lastTransaction'

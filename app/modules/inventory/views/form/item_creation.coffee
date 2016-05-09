@@ -134,9 +134,13 @@ module.exports = Marionette.LayoutView.extend
     switch @_lastAddMode
       when 'search' then app.execute 'show:add:layout:search:last'
       when 'scan:embedded' then app.execute 'show:scanner:embedded'
-      # if addMode is scan, the scanner should have opened a new window
-      when 'scan:zxing' then return
-      else throw error_.new 'unknown add mode', @_lastAddMode
+      # If _lastAddMode is scan:zxing, the scanner should have been opened
+      # by the click on the <a href=zxing.url>, which should open a new window
+      # 'scan' is here as legacy
+      when 'scan', 'scan:zxing' then return
+      else
+        _.warn @_lastAddMode, 'unknown or obsolete add mode'
+        app.execute 'show:add:layout'
 
   validateItem: ->
     @updateItem
