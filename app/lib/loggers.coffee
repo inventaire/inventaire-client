@@ -11,6 +11,8 @@ module.exports = (_, csle)->
       if label? then csle.log "[#{label}] #{obj}"
       else csle.log obj
     else
+      # logging arguments as arrays for readability
+      if _.isArguments obj then obj = _.toArray obj
       csle.log "===== #{label} =====" if label?
       csle.log obj
       csle.log "-----" if label?
