@@ -1,7 +1,11 @@
 error_ =
   new: (message, context)->
     err = new Error message
+
+    # converting arguments object to array for readability in logs
+    if _.isArguments context then context = _.toArray context
     err.context = context
+
     return err
 
   # newWithSelector: use forms_.throwError instead
