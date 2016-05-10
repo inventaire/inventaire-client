@@ -1,0 +1,61 @@
+#entityEdit{
+  @include custom-column(50em);
+  .labels{
+    @include panel;
+  }
+  .claims{
+    @include panel;
+  }
+}
+
+.property-editor{
+  @include display-flex(row);
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    flex-direction: column;
+  }
+  > .label{
+    font-weight: bold;
+    flex: 0 0 auto;
+    min-width: 10em;
+    padding: 0.5em;
+  }
+  > .values{
+    flex: 1 1 auto;
+  }
+}
+
+.value-editor{
+  @include display-flex(row, center, flex-end);
+  padding: 0.5em;
+  .ac-container{
+    flex: 1 0 auto;
+    position: relative;
+    input{
+      margin: 0;
+    }
+    .alert-box{
+      @include position(absolute, 2.6em, 0, null, 0)
+      margin-top: 0;
+    }
+  }
+  .label{
+    margin-right: auto;
+    .fa-spin{
+      opacity: 0.3;
+      margin-left: 2em;
+    }
+  }
+  .ac-container + .tiny-button{
+    margin-left: 0.5em;
+  }
+  .tiny-button{
+    margin-left: 0.2em;
+  }
+  .edit, .cancel{
+    @include tiny-button(#bbb);
+  }
+  .save{
+    @include tiny-button($success-color);
+  }
+}

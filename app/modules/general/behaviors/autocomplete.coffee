@@ -1,3 +1,6 @@
+getSources = require 'modules/entities/lib/sources/sources'
+getActionKey = require 'lib/get_action_key'
+
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
 rateLimit = 200
 Suggestions = require '../collections/suggestions'
@@ -9,11 +12,12 @@ module.exports = Marionette.Behavior.extend
     'keydown @ui.autocomplete': 'onKeyDown'
     'click .close': 'hideDropdown'
 
-  initialize: (options)->
+  initialize: ->
     @visible = no
-    @suggestions = Suggestions options
-    # throttling to take advantage of match_phrase_prefix search
-    @lazyUpdateQuery = _.throttle @updateQuery, rateLimit
+    prop = @view.options.model.get('property')
+    source = getSources prop
+    @suggestions = Suggestions source
+    @lazyUpdateQuery = _.debounce @updateQuery, rateLimit
 
     @_startListening()
 
@@ -114,18 +118,3 @@ module.exports = Marionette.Behavior.extend
 isSelectionEnd = (e)->
   { value, selectionEnd } = e.target
   return value.length is selectionEnd
-
-getActionKey = (e)->
-  key = e.which or e.keyCode
-  return actionKeysMap[key]
-
-actionKeysMap =
-  9: 'tab'
-  13: 'enter'
-  27: 'esc'
-  35: 'end'
-  36: 'home'
-  37: 'left'
-  38: 'up'
-  39: 'right'
-  40: 'down'

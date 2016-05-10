@@ -1,0 +1,15 @@
+{{#if editMode}}
+  {{!-- input will be wrapped into .ac-container  --}}
+  <input type="text" value="{{label}}" class="has-alertbox">
+  <a class="tiny-button save">{{icon 'check'}} {{i18n 'save'}}</a>
+  <a class="tiny-button cancel">{{icon 'times'}} {{i18n 'cancel'}}</a>
+{{else}}
+  <span class="label">
+    {{#if label}}
+      {{label}}
+    {{else}}
+      {{icon 'circle-o-notch' 'fa-spin'}}
+    {{/if}}
+  </span>
+  <a class="tiny-button edit">{{icon 'pencil'}} {{i18n 'edit'}}</a>
+{{/if}}

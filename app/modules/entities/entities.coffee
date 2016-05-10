@@ -7,6 +7,7 @@ Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
 EntityCreate = require './views/entity_create'
+EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 
@@ -15,6 +16,7 @@ module.exports =
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
+        'entity/:uri(/:label)/edit(/)': 'showEditEntity'
         'entity/:uri(/:label)(/)': 'showEntity'
         'wd/:qid': 'showWdEntity'
         'isbn/:isbn': 'showIsbnEntity'
@@ -125,13 +127,22 @@ API =
         _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
         throw error_.new 'entity_not_found', [prefix, id, models]
 
+  getEntityModelFromUri: (uri, refresh)->
+    [prefix, id] = getPrefixId uri
+    if prefix? and id? then @getEntityModel prefix, id, refresh
+    else _.preq.reject error_.new('invalid uri', uri)
+
   showAddEntity: (uri)->
-    [prefix, id] = getPrefixId(uri)
-    if prefix? and id?
-      @getEntityModel(prefix, id)
-      .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
-      .catch @solveMissingEntity.bind(@, prefix, id)
-      .catch _.Error('showAddEntity err')
+    @getEntityModelFromUri uri
+    .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
+    .catch @solveMissingEntity.bind(@, prefix, id)
+    .catch _.Error('showAddEntity err')
+
+  showEditEntity: (uri)->
+    # make sure we have the freshest data before trying to edit
+    @getEntityModelFromUri uri, true
+    .then showEntityEdit
+    .catch _.Error('showEditEntity err')
 
   solveMissingEntity: (prefix, id, err)->
     if err.message is 'entity_not_found' then @showCreateEntity id
@@ -170,6 +181,7 @@ setHandlers = ->
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
+    'get:entity:model:from:uri': API.getEntityModelFromUri.bind(API)
     'get:entities:models': API.getEntitiesModelsWithCatcher.bind(API)
     'save:entity:model': saveEntityModel
     'get:entity:public:items': API.getEntityPublicItems
@@ -235,3 +247,8 @@ normalizeEntityUri = (prefix, id)->
   [prefix, id] = getPrefixId(prefix, id)
   if prefix is 'isbn' then id = books_.normalizeIsbn(id)
   return "#{prefix}:#{id}"
+
+showEntityEdit = (entity)->
+  view = new EntityEdit {model: entity}
+  title = entity.get('label') + ' - ' + _.i18n 'edit'
+  app.layout.main.Show view, title

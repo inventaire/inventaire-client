@@ -1,4 +1,4 @@
-{ public:publik } = require('./endpoint')('entities')
+{ public:publik, authentified } = require('./endpoint')('entities')
 
 module.exports =
   search: (search, filter)->
@@ -28,3 +28,7 @@ module.exports =
       _.buildPath publik,
         action: 'get-inv-entities'
         ids: _.piped(ids)
+
+    claims:
+      # PUT
+      update: "#{authentified}?action=update-claim"

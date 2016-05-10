@@ -1,7 +1,7 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
 
-module.exports = (options)->
-  { collection, remote } = options.source()
+module.exports = (source)->
+  { collection, remote } = source
   # FilteredCollection don't have an extend method
   # and do weird things when `call`ed with Backbone.Collection.extend
   # so here is a custom extension
@@ -66,3 +66,5 @@ suggestionMethods =
   highlightEvent: (eventName, index)->
     model = @at index
     model.trigger eventName, model
+    # events required by app/modules/general/behaviors/autocomplete.coffee
+    @trigger eventName, model

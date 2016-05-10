@@ -239,6 +239,14 @@ module.exports = (Backbone, _, $, app, window, csle)->
     # (equivalent to lodash deep 'get' function).
     get: (obj, prop)-> prop.split('.').reduce objectWalker, obj
 
+    # Returns a .catch function that execute the reverse action
+    # then passes the error to the next .catch
+    Rollback: (reverseAction, label)->
+      return rollback = (err)->
+        if label? then _.log "rollback: #{label}"
+        reverseAction()
+        throw err
+
   return _.extend {}, utils, loggers, tests_
 
 objectWalker = (subObject, property)-> subObject?[property]

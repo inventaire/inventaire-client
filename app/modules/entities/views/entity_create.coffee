@@ -3,7 +3,7 @@ forms_ = require 'modules/general/lib/forms'
 entityDataTests = require '../lib/inv/entity_data_tests'
 EntityActions = require './entity_actions'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
-authorsSource = require '../lib/authors_source'
+# authorsSource = require '../lib/authors_source'
 createEntities = require '../lib/create_entities'
 
 module.exports = Marionette.LayoutView.extend
@@ -26,8 +26,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     AlertBox: {}
     BackupForm: {}
-    AutoComplete:
-      source: authorsSource
+    # AutoComplete: {}
 
   initialize: ->
     @initModel()
