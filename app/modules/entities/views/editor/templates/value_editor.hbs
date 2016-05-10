@@ -1,8 +1,8 @@
 {{#if editMode}}
   {{!-- input will be wrapped into .ac-container  --}}
   <input type="text" value="{{label}}" class="has-alertbox">
-  <a class="tiny-button save">{{icon 'check'}} {{i18n 'save'}}</a>
-  <a class="tiny-button cancel">{{icon 'times'}} {{i18n 'cancel'}}</a>
+  <a class="tiny-button save" title="Ctrl+Enter">{{icon 'check'}} {{i18n 'save'}}</a>
+  <a class="tiny-button cancel" title="Esc">{{icon 'times'}} {{i18n 'cancel'}}</a>
 {{else}}
   <span class="label">
     {{#if label}}

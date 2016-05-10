@@ -44,7 +44,10 @@ module.exports = Marionette.ItemView.extend
 
   hideEditModeIfEsc: (e)->
     key = getActionKey e
-    if key is 'esc' then @hideEditMode()
+    switch key
+      when 'esc' then @hideEditMode()
+      when 'enter'
+        if e.ctrlKey then @save()
 
   toggleEditMode: (bool)->
     @editMode = bool

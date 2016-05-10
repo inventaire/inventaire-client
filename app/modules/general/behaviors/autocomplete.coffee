@@ -65,10 +65,13 @@ module.exports = Marionette.Behavior.extend
     if value.length is 0
       @hideDropdown()
     else
-      @showDropdown()
       actionKey = getActionKey e
-      if actionKey? then @keyAction actionKey, e
-      else @lazyUpdateQuery value
+
+      if actionKey?
+        @keyAction actionKey, e
+      else
+        @showDropdown()
+        @lazyUpdateQuery value
 
   keyAction: (actionKey, e)->
     # actions happening in any case
