@@ -1,15 +1,19 @@
 {{#if editMode}}
   {{!-- input will be wrapped into .ac-container  --}}
-  <input type="text" value="{{label}}" class="has-alertbox">
+  <input type="text" value="{{valueEntity.label}}" class="has-alertbox">
   <a class="tiny-button save" title="Ctrl+Enter">{{icon 'check'}} {{i18n 'save'}}</a>
   <a class="tiny-button cancel" title="Esc">{{icon 'times'}} {{i18n 'cancel'}}</a>
 {{else}}
-  <span class="label">
-    {{#if label}}
-      {{label}}
+  <div class="data">
+    {{#if valueEntity}}
+      {{#with valueEntity}}
+        <span class="label">{{label}}</span><br>
+        <span class="description">{{description}}</span>
+        {{link id wikidata.wiki 'identifier'}}
+      {{/with}}
     {{else}}
       {{icon 'circle-o-notch' 'fa-spin'}}
     {{/if}}
-  </span>
+  </div>
   <a class="tiny-button edit">{{icon 'pencil'}} {{i18n 'edit'}}</a>
 {{/if}}

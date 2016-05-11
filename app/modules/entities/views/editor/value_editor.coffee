@@ -18,27 +18,32 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attr = @model.toJSON()
-    { valueEntity } = @model
-    attr.label = valueEntity?.get 'label'
+    attr.valueEntity = @valueEntityData()
     attr.editMode = @editMode
     return attr
+
+  valueEntityData: ->
+    { valueEntity } = @model
+    if valueEntity? then valueEntity.toJSON()
 
   onShow: ->
     @listenTo @model, 'grab', @lazyRender
     @listenTo @model, 'change:value', @lazyRender
 
   events:
-    'click .edit, .label': 'showEditMode'
+    'click .edit, .data': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'keyup input': 'hideEditModeIfEsc'
 
-  showEditMode: ->
+  showEditMode: (e)->
+    # Clicking on the identifier should only open wikidata in another window
+    if e?.target.className is 'identifier' then return
     @toggleEditMode true
     # select after toggleEditMode lazyRender re-rendered
     setTimeout @select.bind(@), 150
 
-  select: -> @ui.autocomplete.select()
+  select: -> @ui.autocomplete.focus().select()
 
   hideEditMode: -> @toggleEditMode false
 

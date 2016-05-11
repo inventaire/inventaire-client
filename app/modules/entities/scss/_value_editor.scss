@@ -12,11 +12,24 @@
       margin-top: 0;
     }
   }
-  .label{
-    margin-right: auto;
+  .data{
+    flex: 1;
+    margin-right: 2em;
+    padding-left: 0.5em;
+    cursor: pointer;
+    @include bg-hover(white, 5%);
     .fa-spin{
       opacity: 0.3;
       margin-left: 2em;
+    }
+    .identifier{
+      padding-top: 0.4em;
+    }
+    .description{
+      opacity: 0.5;
+    }
+    .description:not(:empty) + .identifier{
+      padding-left: 1em;
     }
   }
   .ac-container + .tiny-button{
