@@ -3,6 +3,9 @@ module.exports = Marionette.ItemView.extend
   className: 'text-center hidden'
   template: require './templates/no_user'
 
+  behaviors:
+    PreventDefault: {}
+
   initialize: -> @getLink()
 
   getLink: ->
@@ -19,8 +22,8 @@ module.exports = Marionette.ItemView.extend
   events:
     'click .linkAction': 'triggerLinkAction'
 
-  triggerLinkAction: -> @link.action()
-
+  triggerLinkAction: (e)->
+    unless _.isOpenedOutside e then @link.action()
 
 links =
   inviteFriends:

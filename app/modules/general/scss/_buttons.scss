@@ -40,7 +40,6 @@ $default-button-padding: 1em;
   @include tiny-button($success-color);
 }
 
-
 // text-with-padding buttons
 .validateButton{
   @include tiny-button($success-color);

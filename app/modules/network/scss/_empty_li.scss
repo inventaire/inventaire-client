@@ -1,0 +1,16 @@
+#friendsLayout .noUser, #groupsLayout .noGroup{
+  background-color: white;
+  .message{
+    text-align: center;
+    font-weight: normal;
+    font-style: italic;
+    background-color: $light-grey;
+    padding: 1em;
+  }
+  .suggestion{
+    padding: 1em;
+    a{
+      @extend .light-blue-fat-button;
+    }
+  }
+}

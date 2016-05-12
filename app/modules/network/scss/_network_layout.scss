@@ -64,14 +64,18 @@ $networkLayoutVerticalTabCeil: 700px;
   }
 }
 
+// common
 @import 'tabs';
+@import 'empty_li';
+@import 'nearby_layout';
 
+// users
 @import 'friends_layout';
 @import 'invite_friends';
 @import 'users_search';
-@import 'groups_layout';
-@import 'nearby_layout';
 
+// groups
+@import 'groups_layout';
 @import 'groups_list';
 @import 'group_board';
 @import 'group_board_header';
