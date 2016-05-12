@@ -36,6 +36,7 @@ module.exports =
       'show:network': API.showNetworkLayout
       'show:group:board': API.showGroupBoardFromModel
       'show:group:search': API.showGroupSearch
+      'show:group:user': API.showUserGroups
       'show:group:create': API.showCreateGroup
 
     app.reqres.setHandlers

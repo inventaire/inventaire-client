@@ -127,16 +127,32 @@ module.exports = Marionette.ItemView.extend
       .then _.Full(@_updateGroup, @, 'description', description, '#description')
       .catch forms_.catchAlert.bind(null, @)
 
-  leaveGroup: -> @_leaveGroup 'leave_group_confirmation', 'leave_group_warning',
-  destroyGroup: -> @_leaveGroup 'destroy_group_confirmation', 'cant_undo_warning'
-  _leaveGroup: (confirmationText, warningText)->
+  leaveGroup: ->
+    action = @model.leave.bind @model
+    @_leaveGroup 'leave_group_confirmation', 'leave_group_warning', action
+
+  destroyGroup: ->
+    group = @model
+    action = ->
+      group.leave()
+      .then ->
+        # Dereference group model
+        app.user.groups.remove group
+        # And change page as staying on the same page would just display
+        # the group as empty but accepting a join request
+        app.execute 'show:group:user'
+      .catch _.ErrorRethrow('destroyGroup action err')
+
+    @_leaveGroup 'destroy_group_confirmation', 'cant_undo_warning', action
+
+  _leaveGroup: (confirmationText, warningText, action)->
     group = @model
     args = { groupName: group.get('name') }
 
     @$el.trigger 'askConfirmation',
       confirmationText: _.i18n confirmationText, args
       warningText: _.i18n warningText
-      action: group.leave.bind(group)
+      action: action
       selector: '#usernameGroup'
 
   showPositionPicker: ->
