@@ -6,3 +6,6 @@ module.exports = Marionette.ItemView.extend
     message: @options.message
   onShow: ->
     @$el.hide().fadeIn()
+
+  events:
+    'click #create': -> app.execute 'show:group:create'

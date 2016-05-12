@@ -34,10 +34,9 @@ module.exports =
   initialize: ->
     app.commands.setHandlers
       'show:network': API.showNetworkLayout
-      'show:network:friends': API.showFriends
-      'show:network:groups': API.showGroups
       'show:group:board': API.showGroupBoardFromModel
       'show:group:search': API.showGroupSearch
+      'show:group:create': API.showCreateGroup
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters

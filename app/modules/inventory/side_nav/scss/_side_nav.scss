@@ -63,6 +63,9 @@
     .noGroup{
       @include sans-serif;
       font-style: normal;
+      .suggestion{
+        display: none;
+      }
     }
   }
   .noUser, .noGroup{
