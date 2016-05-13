@@ -23,7 +23,6 @@ module.exports =
   initialize: ->
     app.reqres.setHandlers
       'require:loggedIn': requireLoggedIn
-      'show:login:redirect': requireLoggedIn
 
     app.commands.setHandlers
       'show:home': API.showHome
@@ -32,6 +31,8 @@ module.exports =
       'show:offline:error': showOfflineError
       'show:call:to:connection': showCallToConnection
       'show:error:cookieRequired': showErrorCookieRequired
+      'show:signup:redirect': showSignupRedirect
+      'show:login:redirect': showLoginRedirect
 
     # should be run before app start to access the unmodifed url
     initQuerystringActions()
@@ -62,10 +63,26 @@ requireLoggedIn = (route)->
   if app.user.loggedIn then return true
   else
     app.execute 'show:login'
-    # the route shouldn't have the first '/'. ex: inventory/georges
-    route = route.replace /^\//, ''
-    app.execute 'prepare:login:redirect', route
+    prepareLoginRedirect route
     return false
+
+showAuthRedirect = (action, route)->
+  route or= _.currentRoute()
+  app.execute "show:#{action}"
+  if route not in noRedirectionRequired
+    prepareLoginRedirect route
+
+prepareLoginRedirect = (route)->
+  # the route shouldn't have the first '/'. ex: inventory/georges
+  route = route.replace /^\//, ''
+  app.execute 'prepare:login:redirect', route
+
+noRedirectionRequired = [
+  'welcome'
+]
+
+showSignupRedirect = showAuthRedirect.bind null, 'signup'
+showLoginRedirect = showAuthRedirect.bind null, 'login'
 
 showErrorMissing = ->
   showError

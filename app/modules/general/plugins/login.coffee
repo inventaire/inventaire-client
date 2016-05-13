@@ -3,7 +3,7 @@ events =
   'click #loginRequest': 'showLogin'
 
 handlers =
-  showSignup: -> app.execute 'show:signup'
-  showLogin:-> app.execute 'show:login'
+  showSignup: -> app.execute 'show:signup:redirect'
+  showLogin:-> app.execute 'show:login:redirect'
 
 module.exports = _.BasicPlugin events, handlers
