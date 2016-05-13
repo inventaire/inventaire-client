@@ -53,7 +53,8 @@ ISODatePolyFill = ->
 setDebugSetting = ->
   persistantDebug = localStorageBool.get 'debug'
   queryStringDebug = window.location.search.split('debug=true').length > 1
-  if persistantDebug or queryStringDebug
+  hostnameDebug = window.location.hostname is 'localhost'
+  if persistantDebug or queryStringDebug or hostnameDebug
     console.log 'debug enabled'
     CONFIG.debug = true
   else
