@@ -153,6 +153,8 @@ module.exports = Marionette.LayoutView.extend
       data: data
 
   destroyItem: ->
+    _.log 'item creation cancelled: destroying item'
     @model.destroy()
+    .then _.Log('item destroyed')
     .then -> window.history.back()
     .catch _.Error('destroyItem err')
