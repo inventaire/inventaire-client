@@ -1,4 +1,4 @@
-{SafeString} = Handlebars
+{ SafeString } = Handlebars
 
 module.exports =
   i18n: (key, args..., data)->

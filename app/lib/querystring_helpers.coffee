@@ -15,7 +15,7 @@ module.exports = (app, _)->
   # report persistant querystrings from the current route to the next one
   keep = (newRoute)->
     # get info on new route
-    [newRoute, newQuery] = newRoute.split '?'
+    [ newRoute, newQuery ] = newRoute.split '?'
     newQuery = _.parseQuery newQuery
 
     currentQuery = getQuery()

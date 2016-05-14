@@ -66,7 +66,7 @@ prepareLoginRedirect = (redir)->
   # for browserid login
   app.execute 'route:querystring:set', 'redirect', redir
   # for classic login
-  [path, querystring] = $('#browserLogin')[0].action.split('?')
+  [ path, querystring ] = $('#browserLogin')[0].action.split('?')
   query = _.parseQuery querystring
   # override redirect if one was already set
   query.redirect = redir

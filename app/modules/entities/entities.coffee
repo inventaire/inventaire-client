@@ -36,7 +36,7 @@ API =
     region or= app.layout.main
     app.execute 'show:loader', {region: region}
 
-    [prefix, id] = getPrefixId uri
+    [ prefix, id ] = getPrefixId uri
     unless prefix? and id?
       _.warn 'prefix or id missing at showEntity'
 
@@ -128,7 +128,7 @@ API =
         throw error_.new 'entity_not_found', [prefix, id, models]
 
   getEntityModelFromUri: (uri, refresh)->
-    [prefix, id] = getPrefixId uri
+    [ prefix, id ] = getPrefixId uri
     if prefix? and id? then @getEntityModel prefix, id, refresh
     else _.preq.reject error_.new('invalid uri', uri)
 
@@ -191,7 +191,7 @@ setHandlers = ->
     'normalize:entity:uri': normalizeEntityUri
 
 getEntityModel = (prefix, id)->
-  [prefix, id] = getPrefixId(prefix, id)
+  [ prefix, id ] = getPrefixId(prefix, id)
   if prefix? and id? then API.getEntityModel prefix, id
   else throw error_.new 'missing prefix or id', arguments
 
@@ -230,7 +230,7 @@ createEntity = (data)->
 
 getEntityLocalHref = (domain, id, label)->
   # accept both domain, id or uri-style "#{domain}:#{id}"
-  [domain, possibleId] = domain?.split(':')
+  [ domain, possibleId ] = domain?.split(':')
   if possibleId? then [id, label] = [possibleId, id]
 
   if domain?.length > 0 and id?.length > 0
@@ -244,7 +244,7 @@ getEntityLocalHref = (domain, id, label)->
 normalizeEntityUri = (prefix, id)->
   # accepts either a 'prefix:id' uri or 'prefix', 'id'
   # the polymorphic interface is resolved by getPrefixId
-  [prefix, id] = getPrefixId(prefix, id)
+  [ prefix, id ] = getPrefixId(prefix, id)
   if prefix is 'isbn' then id = books_.normalizeIsbn(id)
   return "#{prefix}:#{id}"
 

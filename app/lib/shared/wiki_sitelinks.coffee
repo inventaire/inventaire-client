@@ -12,16 +12,16 @@ module.exports =
 getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, originalLang)->
   getTitleForLang = (Lang)-> getWikiProjectTitle sitelinks, projectBaseName, Lang
 
-  [title, L] = [getTitleForLang(lang), lang]
+  [ title, L ] = [ getTitleForLang(lang), lang ]
 
   if originalLang? and not title?
-    [title, L] = [getTitleForLang(originalLang), originalLang]
+    [ title, L ] = [ getTitleForLang(originalLang), originalLang ]
 
   unless title?
-    [title, L] = [getTitleForLang('en'), 'en']
+    [ title, L ] = [ getTitleForLang('en'), 'en' ]
 
   unless title?
-    [title, L] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
+    [ title, L ] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
 
   if title? and L
     title = encodeURIComponent title

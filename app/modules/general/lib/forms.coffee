@@ -36,7 +36,7 @@ forms_.catchAlert = (view, err)->
     _.error err, 'error catched by forms_.catchAlert but the error object miss a selector'
 
 forms_.alert = (view, err)->
-  {selector} = err
+  { selector } = err
   errMessage = err.responseJSON?.status_verbose or err.message
   _.types [view, err, selector, errMessage], ['object', 'object', 'string', 'string']
 

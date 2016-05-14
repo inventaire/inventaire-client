@@ -6,7 +6,7 @@ Loader = require '../views/behaviors/loader'
 
 module.exports =
   showLoader: (options={})->
-    [region, selector, title] = _.pickToArray options, ['region', 'selector', 'title']
+    [ region, selector, title ] = _.pickToArray options, ['region', 'selector', 'title']
     if region?
       region.Show new Loader, title
     else if selector?
@@ -23,7 +23,7 @@ module.exports =
 
     unless _.isOpenedOutside(e)
       data = href.split('/entity/').last()
-      [uri, label] = data.split '/'
+      [ uri, label ] = data.split '/'
       app.execute 'show:entity', uri, label
 
 

@@ -114,7 +114,7 @@ module.exports = Backbone.NestedModel.extend
       mainUserRead: @mainUserRead
       cancellable: @isCancellable()
 
-    [attrs.user, attrs.other] = @aliasUsers(attrs)
+    [ attrs.user, attrs.other ] = @aliasUsers(attrs)
     return attrs
 
   itemData: -> @item?.serializeData() or @get('snapshot.item')

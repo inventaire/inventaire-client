@@ -43,7 +43,7 @@ module.exports =
       dbObj = {}
       db.createReadStream()
       .on 'data', (res)->
-        {key, value} = res
+        { key, value } = res
         _.log JSON.parse(value), key
       .on 'end', _.Log("-- #{dbName} inspect end")
 

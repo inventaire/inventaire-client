@@ -254,7 +254,7 @@ initializeInventoriesHandlers = (app)->
       showGroupInventory group
 
     'show:item:creation:form': (params)->
-      {entity} = params
+      { entity } = params
       unless entity? then throw new Error 'missing entity'
       uri = entity.get 'uri'
       entityPathname = params.entity.get 'pathname'
@@ -300,7 +300,7 @@ initializeInventoriesHandlers = (app)->
       # expects: item, attribute, value
       # OR expects: item, data
       # optional: selector
-      {item, attribute, value, data, selector} = options
+      { item, attribute, value, data, selector } = options
       _.types [item, selector], ['object', 'string|undefined']
 
       if data?
@@ -321,7 +321,7 @@ initializeInventoriesHandlers = (app)->
       # requires the ConfirmationModal behavior to be on the view
       # MUST: selector, model with title
       # CAN: next
-      {model, selector, next} = options
+      { model, selector, next } = options
       _.types [model, selector, next], ['object', 'string', 'function']
       title = model.get('title')
 

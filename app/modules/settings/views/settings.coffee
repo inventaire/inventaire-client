@@ -15,7 +15,7 @@ module.exports = Marionette.LayoutView.extend
     labsTitle: '#labs'
 
   onShow: ->
-    {tab} = @options
+    { tab } = @options
     switch tab
       when 'profile' then fn = @showProfileSettings
       when 'notifications' then fn = @showNotificationsSettings

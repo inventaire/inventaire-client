@@ -19,7 +19,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
       "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
 
     updateQuery: (newParams)->
-      [pathname, currentQueryString] = Backbone.history.fragment.split('?')
+      [ pathname, currentQueryString ] = Backbone.history.fragment.split('?')
       query = @parseQuery(currentQueryString)
       _.extend query, newParams
       route = @buildPath(pathname, query)
@@ -37,7 +37,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
 
     hasKnownUriDomain: (str)->
       if _.isString(str)
-        [prefix, id] = str.split(':')
+        [ prefix, id ] = str.split(':')
         if prefix? and id?
           switch prefix
             when 'wd'
@@ -90,7 +90,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
       return result
 
     isUri: (str)->
-      [prefix, id] = str.split ':'
+      [ prefix, id ] = str.split ':'
       if prefix? and id?
         switch prefix
           when 'wd' then return wd.isWikidataId id
@@ -131,7 +131,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
       if pairs >= 1
         i = 0
         while i < pairs
-          [key, value] = [ array[i], array[i+1] ]
+          [ key, value ] = [ array[i], array[i+1] ]
           obj[key] = value
           i += 1
 

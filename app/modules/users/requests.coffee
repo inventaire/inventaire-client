@@ -11,7 +11,7 @@ module.exports = (app, _)->
         user: userId
 
   action = (user, action, newStatus, label)->
-    [user, userId] = normalizeUser user
+    [ user, userId ] = normalizeUser user
     currentStatus = user.get 'status'
     user.set 'status', newStatus
     server[action](userId)
@@ -31,7 +31,7 @@ module.exports = (app, _)->
       if showUserInvetory then app.execute 'show:inventory:user', user
     discardRequest: (user)-> action user, 'discard', 'public'
     unfriend: (user)->
-      [user, userId] = normalizeUser user
+      [ user, userId ] = normalizeUser user
       app.execute 'inventory:remove:user:items', userId
       action user, 'unfriend', 'public'
 
