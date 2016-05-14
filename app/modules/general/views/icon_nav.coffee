@@ -52,7 +52,10 @@ module.exports = Marionette.ItemView.extend
     unless _.isOpenedOutside e
       commandKey = e.currentTarget.id.split('IconButton')[0]
       app.execute commands[commandKey]
-      if _.smallScreen() then _.scrollTop $('main')
+      # Commenting-out scrolling to <main>'s top
+      # as keeping the icon_nav visible helps keeping landmarks
+      # see also app/modules/inventory/views/inventory.coffee onShow
+      # if _.smallScreen() then _.scrollTop $('main')
 
   networkUpdates: ->
     app.request('get:network:counters').total

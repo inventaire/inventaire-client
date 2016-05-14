@@ -28,9 +28,12 @@ module.exports = Marionette.LayoutView.extend
     @showSideNav()
     @showItemsListOnceData()
 
-    if _.smallScreen()
-      if @options.user? then _.scrollTop '#sideNav'
-      else _.scrollTop '#itemsView'
+    # Commenting-out scrolling to <main>'s top
+    # as keeping the icon_nav visible helps keeping landmarks
+    # see also app/modules/general/views/icon_nav.coffee showLayout
+    # if _.smallScreen()
+    #   if @options.user? then _.scrollTop '#sideNav'
+    #   else _.scrollTop '#itemsView'
 
   showSideNav: ->
     @sideNav.show new SideNav
