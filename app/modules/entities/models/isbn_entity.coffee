@@ -40,7 +40,6 @@ module.exports = Entity.extend
     books_.getImage @uri
     .map _.property('image')
     .then pickBestPictures.bind(null, pictures)
-    .then _.Log("#{@uri} pictures")
     .then @set.bind(@, 'pictures')
 
   getAuthorsString: ->
