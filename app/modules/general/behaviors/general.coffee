@@ -9,7 +9,7 @@ module.exports = Marionette.Behavior.extend
     'focus textarea': moveCaretToEnd
     'keyup input.enterClick': enterClick.input
     'keyup textarea.ctrlEnterClick': enterClick.textarea
-    'keyup a.button': enterClick.button
+    'keyup a.button,a.enterClick': enterClick.button
     'click a.back': -> window.history.back()
     'click #home, .showHome': -> app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'

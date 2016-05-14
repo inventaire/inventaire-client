@@ -14,6 +14,7 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
     SuccessCheck: {}
     BackupForm: {}
+    Toggler: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @, 500
@@ -114,8 +115,8 @@ module.exports = Marionette.ItemView.extend
       @_saveCancelShown = true
 
   cancelDescription: ->
-    @render()
     @_saveCancelShown = false
+    @render()
 
   saveDescription: ->
     @ui.saveCancel.slideUp()

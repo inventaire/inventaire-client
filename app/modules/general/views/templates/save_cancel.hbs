@@ -1,2 +1,10 @@
-<a class="cancelButton">{{icon 'times'}}{{i18n 'cancel'}}</a>
-<a class="saveButton">{{icon 'check'}}{{i18n 'save'}}</a>
+<a class="cancelButton enterClick"
+{{!-- specify the target so that the BackupForm behavior
+knows what to forget on cancel --}}
+{{#if hash.target}}data-forget="{{hash.target}}"{{/if}}
+tabindex="0">
+  {{icon 'times'}}{{i18n 'cancel'}}
+</a>
+<a class="saveButton enterClick" tabindex="0">
+  {{icon 'check'}}{{i18n 'save'}}
+</a>

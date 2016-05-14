@@ -21,6 +21,10 @@ $default-button-padding: 1em;
   @include text-hover($color);
   @include tiny-button-padding;
   border-radius: $radius;
+  &:focus{
+    background-color: darken($bg-color, $darken);
+    color: $color;
+  }
 }
 
 @mixin dangerous-button(){
@@ -42,6 +46,9 @@ $default-button-padding: 1em;
 
 // text-with-padding buttons
 .validateButton{
+  @include tiny-button($success-color);
+}
+.saveButton{
   @include tiny-button($success-color);
 }
 .cancelButton{
@@ -104,12 +111,4 @@ div.icon-buttons-header{
 .button-group-right{
   @include button-group;
   @include display-flex(row, center, flex-end);
-}
-
-
-.cancelButton{
-  @include tiny-button($warning-color);
-}
-.saveButton{
-  @include tiny-button($success-color);
 }

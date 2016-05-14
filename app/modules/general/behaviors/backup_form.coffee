@@ -1,6 +1,7 @@
 module.exports = Marionette.Behavior.extend
   events:
     'change input, textarea': 'backup'
+    'click a': 'forget'
 
   initialize: ->
     @_backup =
@@ -21,6 +22,20 @@ module.exports = Marionette.Behavior.extend
     _.log @_backup, 'recovering form data'
     customRecover @$el, @_backup.byId, buildIdSelector
     customRecover @$el, @_backup.byName, buildNameSelector
+
+  # Listen on clicks on anchor with a 'data-forget' attribute
+  # to delete the data associated with the form element related to this anchor.
+  # Typically used on 'cancel' buttons
+  forget: (e)->
+    forgetAttr = e.currentTarget.attributes['data-forget']?.value
+    if forgetAttr?
+      _.log forgetAttr, 'form:forget'
+      if forgetAttr[0] is '#'
+        id = forgetAttr.slice(1)
+        delete @_backup.byId[id]
+      else
+        name = forgetAttr
+        delete @_backup.byName[name]
 
   onRender: -> @recover()
 
