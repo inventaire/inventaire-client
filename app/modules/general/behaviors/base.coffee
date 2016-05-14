@@ -16,3 +16,4 @@ module.exports =
   LocalSeachBar: require './local_seach_bar'
   PlainTextAuthorLink: require './plain_text_author_link'
   Unselect: require './unselect'
+  Toggler: require './toggler'

@@ -14,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     AlertBox: {}
     ElasticTextarea: {}
+    Toggler: {}
 
   regions:
     invite: '#invite'
@@ -47,7 +48,7 @@ module.exports = Marionette.LayoutView.extend
     .then (position)=> @position = position
     .catch _.Error('showPositionPicker')
 
-  createGroup: ->
+  createGroup: (e)->
     name = @ui.nameField.val()
     description = @ui.description.val()
 

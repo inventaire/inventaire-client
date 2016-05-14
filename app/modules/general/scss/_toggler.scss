@@ -4,6 +4,9 @@
 // but allow to give more strength to those settings
 // or to :not(.them)ify by their class
 
+$toggler-selected-color: #8ce196;
+$toggler-unselected-color: $dark-grey;
+
 .toggler-wrapper{
   position: relative;
   @include display-flex(row, center, space-between);
@@ -39,8 +42,7 @@ input.toggler-input + label.toggler-label:after {
 }
 input.toggler-input + label.toggler-label:before {
   right: 1px;
-  // background-color: #f1f1f1;
-  background-color: $dark-grey;
+  background-color: $toggler-unselected-color;
   border-radius: 30px;
   transition: background 0.4s;
 }
@@ -52,11 +54,18 @@ input.toggler-input + label.toggler-label:after {
   transition: margin 0.4s;
 }
 input.toggler-input:checked + label.toggler-label:before {
-  background-color: #8ce196;
+  background-color: $toggler-selected-color;
 }
 input.toggler-input:checked + label.toggler-label:after {
   margin-left: 30px;
 }
 input.toggler-input:checked ~ span.toggler-warning {
   display: none;
+}
+
+input.toggler-input + label.toggler-label:focus:before {
+  background-color: lighten($toggler-unselected-color, 10%);
+}
+input.toggler-input:checked + label.toggler-label:focus:before {
+  background-color: lighten($toggler-selected-color, 10%);
 }
