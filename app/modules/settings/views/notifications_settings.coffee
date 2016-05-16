@@ -6,12 +6,14 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/notifications_settings'
   className: 'notificationsSettings'
   initialize: ->
-    # used here to delay the rendering once 'main:user:ready' is triggered
     @lazyRender = _.LazyRender @
-    @listenTo app.user, 'change:settings', @lazyRender
+    @listenTo app.user, 'rollback', @lazyRender
 
   behaviors:
+    # autofocus doesn't really seem to work here :/
+    AutoFocus: {}
     SuccessCheck: {}
+    Toggler: {}
 
   serializeData: ->
     notifications = app.user.get 'settings.notifications'
