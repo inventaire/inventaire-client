@@ -1,0 +1,20 @@
+.changePicture{
+  img{
+    @include radius-top;
+  }
+}
+
+#changePicture{
+  display: block;
+  @include sans-serif;
+  @include bg-hover($dark-grey, 5%);
+  @include radius-bottom;
+}
+/*Large screens*/
+@media screen and (min-width: $small-screen) {
+  figure.changePicture{
+    img{
+      max-width: 20vw;
+    }
+  }
+}

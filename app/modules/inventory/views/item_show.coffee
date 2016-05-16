@@ -2,7 +2,6 @@ ItemComments = require './item_comments'
 ItemTransactions = require './item_transactions'
 EntityData = require 'modules/entities/views/entity_data'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
-ChangePicture = require 'modules/general/views/behaviors/change_picture'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
 
@@ -37,7 +36,6 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     @showEntityData()
-    @showPicture()
     @showComments()
     app.execute 'foundation:reload'
     if app.user.loggedIn
@@ -57,10 +55,6 @@ module.exports = Marionette.LayoutView.extend
     @entityRegion.show new EntityData
       model: entity
       hidePicture: true
-
-  showPicture: ->
-    picture = new ChangePicture {model: @model}
-    @pictureRegion.show picture
 
   events:
     'click a#destroy': 'itemDestroy'
