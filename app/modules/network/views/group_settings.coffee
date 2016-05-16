@@ -4,6 +4,7 @@ groups_ = require '../lib/groups'
 error_ = require 'lib/error'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 groupFormData = require '../lib/group_form_data'
+getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
@@ -110,9 +111,9 @@ module.exports = Marionette.ItemView.extend
     update.model = @model
     app.request 'group:update:settings', update
 
-  showSaveCancel: ->
-    @_saveCancelShown = false
-    unless @_saveCancelShown
+  showSaveCancel: (e)->
+    specialKey = getActionKey e
+    unless specialKey or @_saveCancelShown
       @ui.saveCancel.slideDown()
       @_saveCancelShown = true
 
