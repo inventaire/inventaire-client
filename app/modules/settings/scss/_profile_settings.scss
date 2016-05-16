@@ -75,10 +75,9 @@
 }
 
 #changePicture{
-  figcaption {
-    @include bg-hover($dark-grey, 5%);
-    @include radius-bottom;
-  }
+  display: block;
+  @include bg-hover($dark-grey, 5%);
+  @include radius-bottom;
 }
 /*Large screens*/
 @media screen and (min-width: $small-screen) {

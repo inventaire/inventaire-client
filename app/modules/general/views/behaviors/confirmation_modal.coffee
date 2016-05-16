@@ -20,7 +20,7 @@ module.exports = Marionette.ItemView.extend
     'click a#no': 'close'
 
   onShow: ->
-    app.execute 'modal:open'
+    app.execute 'modal:open', null, @options.focus
     # trigger once the modal is done sliding down
     setTimeout @ui.no.focus.bind(@ui.no), 600
 

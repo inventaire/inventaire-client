@@ -17,7 +17,7 @@ module.exports = Marionette.ItemView.extend
     Toggler: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @, 500
+    @lazyRender = _.LazyRender @, 200, true
 
   serializeData: ->
     attrs = @model.serializeData()
@@ -55,15 +55,16 @@ module.exports = Marionette.ItemView.extend
     'click #showPositionPicker': 'showPositionPicker'
 
   onShow: ->
-    @listenTo @model, 'change:picture', @lazyRender
-    # using lazyRender to let the toggler animation the time to play
-    @listenTo @model, 'change:searchable', @lazyRender
+    @listenTo @model, 'change:picture', @LazyRenderFocus('#changePicture')
     # re-render after a position was selected to display
     # the new geolocation status
-    @listenTo @model, 'change:position', @lazyRender
+    @listenTo @model, 'change:position', @LazyRenderFocus('#showPositionPicker')
     # re-render to unlock the possibility to leave the group
     # if a new admin was selected
     @listenTo @model, 'list:change:after', @lazyRender
+    # Prevent having to listen for 'change:searchable' among others
+    # aas it will be out-of-date only in case of a rollback
+    @listenTo @model, 'rollback', @lazyRender
 
   editName:->
     name = @ui.editNameField.val()
@@ -85,6 +86,7 @@ module.exports = Marionette.ItemView.extend
       pictures: @model.get 'picture'
       save: @_savePicture.bind(@)
       limit: 1
+      focus: '#changePicture'
 
   _savePicture: (pictures)->
     picture = pictures[0]
@@ -154,7 +156,8 @@ module.exports = Marionette.ItemView.extend
       confirmationText: _.i18n confirmationText, args
       warningText: _.i18n warningText
       action: action
-      selector: '#usernameGroup'
+      # re-focus on the only existing anchor
+      focus: '#groupControls a'
 
   showPositionPicker: ->
-    app.execute 'show:position:picker:group', @model
+    app.execute 'show:position:picker:group', @model, '#showPositionPicker'

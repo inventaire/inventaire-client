@@ -1,10 +1,13 @@
 <section id="image-inputs">
   <h4>{{i18n 'import a picture'}}</h4>
   <div class="box">
-    <h5>{{icon 'upload'}}{{i18n 'from a file'}}</h5>
-    <input type="file" accept="image/*" {{#if allowMultiple}}multiple{{/if}} />
     <h5>{{icon 'link'}}{{i18n 'from a URL'}}</h5>
     {{input urlInput}}
+    {{!-- putting the file upload second as it will get the focus on
+    modal:open but a user directly wanting to close the modal will be prevented
+    from doing so by preventUnwantedModalClose --}}
+    <h5>{{icon 'upload'}}{{i18n 'from a file'}}</h5>
+    <input type="file" accept="image/*" {{#if allowMultiple}}multiple{{/if}} />
   </div>
 </section>
 <section id="image-importer">

@@ -221,8 +221,16 @@ module.exports = (Backbone, _, $, app, window, csle)->
 
     isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
 
-    LazyRender: (view, timespan=200)->
-      cautiousRender = -> unless view.isDestroyed then view.render()
+    LazyRender: (view, timespan=200, attachFocusHandler)->
+      cautiousRender = (focusSelector)->
+        unless view.isDestroyed
+          view.render()
+          if _.isString focusSelector then view.$el.find(focusSelector).focus()
+
+      if attachFocusHandler
+        view.LazyRenderFocus = (focusSelector)->
+          return fn = -> view.lazyRender focusSelector
+
       return _.debounce cautiousRender, timespan
 
     invertAttr: ($target, a, b)->

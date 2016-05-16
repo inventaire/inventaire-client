@@ -44,7 +44,7 @@ input.toggler-input + label.toggler-label:before {
   right: 1px;
   background-color: $toggler-unselected-color;
   border-radius: 30px;
-  transition: background 0.4s;
+  transition: background 0.2s;
 }
 input.toggler-input + label.toggler-label:after {
   width: 29px;

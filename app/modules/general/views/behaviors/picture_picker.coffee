@@ -5,6 +5,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 cropper = require 'modules/general/lib/cropper'
+getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.CompositeView.extend
   className: ->
@@ -42,7 +43,7 @@ module.exports = Marionette.CompositeView.extend
     allowMultiple: @limit > 1
 
   onShow: ->
-    app.execute 'modal:open', 'large'
+    app.execute 'modal:open', 'large', @options.focus
     @selectFirst()
     @ui.urlInput.focus()
 
@@ -54,6 +55,7 @@ module.exports = Marionette.CompositeView.extend
     'click #cancel': 'close'
     'change input[type=file]': 'getFilesPictures'
     'click #urlButton': 'fetchUrlPicture'
+    'keyup input[type=file]': 'preventUnwantedModalClose'
 
   selectFirst: ->
     @collection.models[0]?.select()
@@ -80,7 +82,7 @@ module.exports = Marionette.CompositeView.extend
     Promise.all _.invoke(selectedModels, 'getFinalUrl')
 
   _saveAndClose: (urls)->
-    @options.save urls
+    if urls.length > 0 then @options.save urls
     @close()
 
   fetchUrlPicture: (e)->
@@ -116,6 +118,13 @@ module.exports = Marionette.CompositeView.extend
       crop: @options.crop
 
   close: -> app.execute 'modal:close'
+
+  preventUnwantedModalClose: (e)->
+    key = getActionKey e
+    if key is 'esc'
+      # prevent that closing the file picker with ESC to trigger modal:close
+      _.log 'stopped ESC propagation'
+      e.stopPropagation()
 
 isSelectedModel = (model)-> model.get('selected')
 

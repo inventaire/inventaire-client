@@ -54,6 +54,9 @@ $default-button-padding: 1em;
 .cancelButton{
   @include tiny-button($grey);
 }
+.cancelButton + .saveButton{
+  margin-left: 0.2em;
+}
 
 // icon buttons
 .editButton{

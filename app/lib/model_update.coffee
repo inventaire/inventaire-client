@@ -55,6 +55,7 @@ rollbackUpdate = (options, err)->
   if previousValue?
     _.warn previousValue, "reversing #{attribute} update"
     model.set attribute, previousValue
+    model.trigger 'rollback'
   else
     _.warn previousValue, "couldn't reverse update: previousValue not found"
 

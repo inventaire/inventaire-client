@@ -13,6 +13,7 @@
     margin-top: -0.6em;
     margin-bottom: 0.5em;
     @include shy(0.4);
+    @include bg-hover($dark-grey, 5%);
   }
   .username{
     margin-top: -0.2em;

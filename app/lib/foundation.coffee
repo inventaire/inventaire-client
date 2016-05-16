@@ -14,13 +14,21 @@ foundationReload = (options)->
   $(document).foundation options
   app.vent.trigger 'foundation:reload'
 
-modalOpen = (size)->
+modalOpen = (size, focusSelector)->
   if size is 'large' then largeModal()
   else normalModal()
 
   $('#modal').foundation 'reveal', 'open'
   app.execute 'foundation:reload'
   setTimeout focusFirstInput, 600
+
+  # allow to pass a selector to which to re-focus once the modal closes
+  if _.isNonEmptyString focusSelector
+    _.log focusSelector, 'preparing re-focus'
+    focus = ->
+      $(focusSelector).focus()
+      _.log focusSelector, 're-focusing'
+    $(document).once 'closed.fndtn.reveal', focus
 
 focusFirstInput = ->
   $('#modal').find('input, textarea').first().focus()

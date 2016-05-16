@@ -32,7 +32,7 @@ module.exports = Marionette.ItemView.extend
       position: @position
 
   onShow: ->
-    app.execute 'modal:open', 'large'
+    app.execute 'modal:open', 'large', @options.focus
     # let the time to the modal to be fully open
     # so that the map can be drawned correctly
     setTimeout @initMap.bind(@), 500
@@ -42,6 +42,8 @@ module.exports = Marionette.ItemView.extend
     else
       map_.getCurrentPosition containerId
       .then @_initMap.bind(@)
+
+    @$el.find('#validatePosition').focus()
 
   _initMap: (coords)->
     { lat, lng, zoom } = coords

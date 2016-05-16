@@ -39,10 +39,10 @@
 <section id="groupControls">
   {{#if userCanLeave}}
     {{#if userIsLastUser}}
-      <a class="destroy">
+      <a class="destroy" tabindex="0">
         {{icon 'trash'}} {{I18n 'destroy group'}}
     {{else}}
-      <a class="leave">
+      <a class="leave" tabindex="0">
         {{icon 'sign-out'}} {{I18n 'leave group'}}
     {{/if}}
     </a>

@@ -16,6 +16,9 @@
     max-width: 10em;
     font-weight: bold;
   }
+  #changePicture{
+    @include bg-hover(#555, 10%);
+  }
 }
 #groupControls{
   padding-top: 2em;

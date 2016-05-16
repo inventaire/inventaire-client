@@ -5,16 +5,13 @@
   {{/if}}
 
   {{#unless restricted}}
-    <a id="changePicture">
-      <figcaption>
-        <h5>{{icon 'camera'}}
-          {{#if picture}}
-            {{i18n 'change picture'}}
-          {{else}}
-            {{i18n 'add a picture'}}
-          {{/if}}
-        </h5>
-      </figcaption>
+    <a id="changePicture" class="button light-blue bold" tabindex="0">
+      {{icon 'camera'}}
+      {{#if picture}}
+        {{i18n 'change picture'}}
+      {{else}}
+        {{i18n 'add a picture'}}
+      {{/if}}
     </a>
   {{/unless}}
 </figure>

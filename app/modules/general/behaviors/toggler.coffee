@@ -7,7 +7,4 @@ module.exports = Marionette.Behavior.extend
   toggleCheckbox: (e)->
     key = getActionKey e
     if key is 'enter'
-      $checkbox = $('.toggler-label').siblings '.toggler-input'
-      bool = $checkbox.prop 'checked'
-      $checkbox.prop 'checked', not bool
-
+      $(e.currentTarget).siblings('.toggler-input').trigger 'click'

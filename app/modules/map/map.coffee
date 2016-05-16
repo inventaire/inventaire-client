@@ -12,10 +12,11 @@ module.exports = ->
 showPositionPicker = (options)->
   app.layout.modal.show new PositionPicker(options)
 
-updatePosition = (model, updateReqres, type)->
+updatePosition = (model, updateReqres, type, focusSelector)->
   showPositionPicker
     model: model
     type: type
+    focus: focusSelector
     resolve: (newCoords, selector)->
       app.request updateReqres,
         attribute: 'position'
@@ -27,8 +28,8 @@ updatePosition = (model, updateReqres, type)->
 showMainUserPositionPicker = ->
   updatePosition app.user, 'user:update', 'user'
 
-showGroupPositionPicker = (group)->
-  updatePosition group, 'group:update:settings', 'group'
+showGroupPositionPicker = (group, focusSelector)->
+  updatePosition group, 'group:update:settings', 'group', focusSelector
 
 # returns a promise that should resolve with the selected coordinates
 promptGroupPositionPicker = ->
