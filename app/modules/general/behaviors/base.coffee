@@ -6,6 +6,7 @@ module.exports =
   General: require './general'
   AlertBox: require './alertbox'
   AutoComplete: require './autocomplete'
+  AutoFocus: require './autofocus'
   ConfirmationModal: require './confirmation_modal'
   Loading: require './loading'
   SuccessCheck: require './success_check'

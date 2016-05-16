@@ -6,6 +6,7 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     PreventDefault: {}
     LocalSeachBar: {}
+    AutoFocus: {}
 
   childViewContainer: '#history'
   childView: require './previous_search'
