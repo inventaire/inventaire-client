@@ -42,7 +42,7 @@
     <section>
       <div class="actions">
         {{#each nextActions}}
-          <a class="action {{classes}}">{{{i18n text this}}}</a>
+          <a class="action {{classes}}" tabindex="0">{{{i18n text this}}}</a>
         {{/each}}
       </div>
     </section>
@@ -67,6 +67,6 @@
       {{i18n 'transaction_cancel_info'}}<br>
       {{i18n 'transaction_cancel_effects'}}
     </p>
-    <a class="action cancel">{{i18n 'cancel'}}</a>
+    <a class="action cancel" tabindex="0">{{i18n 'cancel'}}</a>
   </div>
 {{/if}}
