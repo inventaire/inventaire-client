@@ -4,7 +4,7 @@
 export gzipkeep(){
   # test it the file exists before deleting to avoid an error message
   [ -f "$1.gz" ] && rm $1.gz && echo "deleted $1.gz";
-  # test it its a file to avoid error message with folders
+  # test it's a file to avoid error message with folders
   [ -f $1 ] && gzip -9 -f < $1 > $1.gz
 }
 
