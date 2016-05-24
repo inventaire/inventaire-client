@@ -25,18 +25,27 @@ module.exports = Backbone.NestedModel.extend
     title = @get 'title'
     "#{title} - " + _.I18n 'book'
 
+  # Entities data are saved formatted in the LocalDb,
+  # thus the need to run formatting only once
   formatIfNew: ->
-    # data that are @set during @format don't need to be re-set when
-    # the model was cached in app.entities local/temporary collections
     unless @get '_formatted'
       uri = @get 'uri'
-      # # handle both sync and async @format functions as async
-      _.preq.start
-      .then @format.bind(@)
-      .then =>
-         @set '_formatted', true
-         @save()
+      # Running formatSync out of a promise chain
+      # as other initialization steps might depend on those sync formatted data:
+      # this shouldn't thus be run on next tick
+      @formatSync()
+
+      @formatAsync()
+      .then @_formatted.bind(@)
       .catch _.Error("formatting new entity #{uri}")
+
+  _formatted: ->
+    @set '_formatted', true
+    @save()
+
+  # placeholders to override in sub classes
+  formatSync: _.noop
+  formatAsync: -> _.preq.resolved
 
 customSave = ->
   app.request 'save:entity:model', @prefix, @toJSON()

@@ -30,7 +30,7 @@ module.exports = Entity.extend
       # need to be set for inv-isbn entities
       uri: @uri
 
-  format: ->
+  formatAsync: ->
     @initPictures()
 
   initPictures: ->

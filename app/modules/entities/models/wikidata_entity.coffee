@@ -13,22 +13,26 @@ module.exports = Entity.extend
   prefix: 'wd'
   initialize: ->
     @initLazySave()
+
     @formatIfNew()
+
+    # Data set as direct model object attributes aren't persisted on save
+    # so need to be set everytimes
+    @claims = @get 'claims'
 
     # if waiters werent defined yet, they wont be fetched
     @waitForExtract ?= _.preq.resolved
     @waitForPicture ?= _.preq.resolved
     @waitForData = Promise.all [ @waitForExtract, @waitForPicture ]
 
-    # data on models root aren't persisted so need to be set everytimes
-    @claims = @get 'claims'
     # for conditionals in templates
     @wikidata = true
 
     @typeSpecificInitilize()
 
-  format: ->
-    # gathering updates to set them all at once and trigger only one change event
+  formatSync: ->
+    # Gathering updates to set them all at once and trigger only one change event:
+    # to be used only in formatSync sub methods
     @_updates = {}
     # todo: make search only return ids and let the client fetch entities data
     # so that it can avoid overriding cached entities and re-fetch associated data (reverse claims, images...)
@@ -42,23 +46,28 @@ module.exports = Entity.extend
     @setWikipediaExtract lang
     # overriding sitelinks to make room when persisted to indexeddb
     @_updates.sitelinks = {}
+    # will be populated by findPictures
+    @_updates.pictures = []
 
     @rebaseClaims()
     @setAttributes @attributes, lang
     # depends on the freshly defined @_updates.claims
     @type = wd_.type @_updates
-    @findAPicture()
 
+    # Setting all those updates at once
     @set @_updates
     # @_updates isnt needed anymore
     @_updates = null
+
+  formatAsync: ->
+    @findAPicture()
 
   rebaseClaims: ->
     claims = @get 'claims'
     if claims?
       claims = wdk.simplifyClaims claims
-      # aliasing should happen after rebasing
-      # as aliasing needs strings or numbers to test value uniqueness
+      # Aliasing should happen after rebasing
+      # as aliasing needs simplified values (strings, numbers, etc) to test value uniqueness
       @_updates.claims = claims = wd_.aliasingClaims claims
       @originalLang = wd_.getOriginalLang claims
 
@@ -123,16 +132,11 @@ module.exports = Entity.extend
     return
 
   findAPicture: ->
-    # initializing pictures array: should only be used
-    # at first reception of the entity data
-    @_updates.pictures = pictures = []
-    @save()
-
-    openLibraryId = @_updates.claims?.P648?[0]
+    openLibraryId = @claims?.P648?[0]
     # P18 is expected to have only one value
     # but in cases it has several, we just pick one
     # as there is just one pictureCredits attribute.
-    commonsImage = @_updates.claims?.P18?[0]
+    commonsImage = @claims?.P18?[0]
     @waitForPicture = @_pickBestPic openLibraryId, commonsImage
 
   _pickBestPic: (openLibraryId, commonsImage)->
