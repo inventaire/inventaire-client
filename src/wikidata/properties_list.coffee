@@ -1,5 +1,6 @@
 module.exports = [
     'P27'
+    'P31'
     'P39'
     'P50'
     'P58'

@@ -26,5 +26,7 @@
     "data_export_intro": "Le schéma de données n'est ni mature ni au standard pour le moment : il est peu probable qu'il soit compatible tel quel avec vos autres jeux de données. Néanmoins, si la NSA se donne le droit d'avoir vos données, vous devriez avoir le droit aussi",
     "labs_intro": "Inventaire est une expérimentation pour redonner du pouvoir au citoyen grace à une meilleure information sur les ressources, et le Labs est l'endroit pour les pionniers qui voudraient explorer de nouveaux chemins !",
     "scanner_disabled_tip": "disponible seulement depuis un mobile pour le moment",
-    "add_menu_title": "ajoutez un livre à votre inventaire"
+    "add_menu_title": "ajoutez un livre à votre inventaire",
+    "joyride_last": "c'est un outil encore jeune, vous allez peut-être rencontrer des bugs ou des fonctionnalités manquantes, mais j'espère que vous avez maintenant une meilleure idée de la direction que souhaite prendre ce projet. Il se pourrait même que vous souhaitiez contribuer à le faire grandir: votre contribution est très bienvenue !! Faut dire qu'il y a encore plein de choses à faire :)",
+    "requires_barcode_scanner_app": "Pour pouvoir scanner le code-barre de votre livre, une application Barcode Scanner doit être installé sur votre smartphone"
 }

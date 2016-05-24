@@ -29,5 +29,7 @@
     "labs_intro": "Inventaire is an experimentation to empower citizens with better information on resources, and the Labs is the place for pionners to try those new paths!",
     "data_export_intro": "The data schema is neither mature nor standardized yet: it is unlikely to be compatible out of the box with any other of your data sets. Still, if the NSA allows itself to have it, you should be allowed to have it too.",
     "scanner_disabled_tip": "only available from mobiles for now",
-    "add_menu_title": "add a book to your inventory"
+    "add_menu_title": "add a book to your inventory",
+    "requires_barcode_scanner_app": "To be able to scan your books barcode, you need to have a Barcode Scanner app already installed on your smartphone:",
+    "joyride_last": "it's a very young tool yet, you will probably encounter missing features and bugs, but hopefully you now have a good hint of where this project is going. You may even want to contribute to make it grow: if so, that's great!! Your contribution is more than welcome for there is a lot of work! - At this point, the best is to use it with friends. Share it with your network and join the conversation!"
 }
