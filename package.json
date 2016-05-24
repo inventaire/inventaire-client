@@ -31,7 +31,7 @@
     "after-brunch": "0.0.5",
     "browser-locale": "^1.0.0",
     "cropper": "^2.3.0",
-    "enumerate-devices": "^1.0.0",
+    "enumerate-devices": "^1.1.0",
     "inv-utils": "^2.0.2",
     "level-js": "^2.2.3",
     "level-multiply": "git+https://github.com/maxlath/node-level-multiply.git",
