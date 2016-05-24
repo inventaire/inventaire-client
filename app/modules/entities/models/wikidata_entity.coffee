@@ -16,10 +16,6 @@ module.exports = Entity.extend
 
     @formatIfNew()
 
-    # Data set as direct model object attributes aren't persisted on save
-    # so need to be set everytimes
-    @claims = @get 'claims'
-
     # if waiters werent defined yet, they wont be fetched
     @waitForExtract ?= _.preq.resolved
     @waitForPicture ?= _.preq.resolved
@@ -61,6 +57,9 @@ module.exports = Entity.extend
 
   formatAsync: ->
     @findAPicture()
+
+  afterFormatSync: ->
+    @claims = @get 'claims'
 
   rebaseClaims: ->
     claims = @get 'claims'

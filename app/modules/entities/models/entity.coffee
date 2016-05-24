@@ -39,6 +39,9 @@ module.exports = Backbone.NestedModel.extend
       .then @_formatted.bind(@)
       .catch _.Error("formatting new entity #{uri}")
 
+    # Always fired as it formats temporary data that aren't persisted to the LocalDb
+    @afterFormatSync()
+
   _formatted: ->
     @set '_formatted', true
     @save()
@@ -46,6 +49,11 @@ module.exports = Backbone.NestedModel.extend
   # placeholders to override in sub classes
   formatSync: _.noop
   formatAsync: -> _.preq.resolved
+  # Data set as direct model object attributes aren't persisted on save
+  # so need to be set everytimes.
+  # afterFormatSync is the place where to declare those: it will be run everytime,
+  # once sync formatting happened
+  afterFormatSync: _.noop
 
 customSave = ->
   app.request 'save:entity:model', @prefix, @toJSON()
