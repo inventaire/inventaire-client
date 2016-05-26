@@ -40,6 +40,7 @@ Updater = (fixedOptions)->
       if modelIdLabel? then body[modelIdLabel] = model.id
 
       promise = _.preq.put endpoint, body
+      .tap ConfirmUpdate(model, attribute, value)
       .catch rollbackUpdate.bind(null, options)
 
     if selector?
@@ -49,6 +50,11 @@ Updater = (fixedOptions)->
 
     return promise
 
+# trigger events when the server confirmed the change
+ConfirmUpdate = (model, attribute, value)->
+  return confirm = ->
+    model.trigger 'confirmed', attribute, value
+    model.trigger "confirmed:#{attribute}", value
 
 rollbackUpdate = (options, err)->
   { model, attribute, previousValue, selector } = options
