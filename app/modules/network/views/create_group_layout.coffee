@@ -64,5 +64,5 @@ module.exports = Marionette.LayoutView.extend
     .then groups_.validateName.bind(@, name, '#nameField')
     .then groups_.validateDescription.bind(@, description, '#description')
     .then groups_.createGroup.bind(null, data)
-    .then app.execute.bind(app, 'show:group:board')
+    .then app.Execute('show:group:board')
     .catch forms_.catchAlert.bind(null, @)

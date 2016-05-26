@@ -33,7 +33,7 @@ module.exports = Marionette.LayoutView.extend
     @showPublicItems()
 
     @model.updateMetadata()
-    .finally app.execute.bind(app, 'metadata:update:done')
+    .finally app.Execute('metadata:update:done')
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'

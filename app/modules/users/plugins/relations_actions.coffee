@@ -27,7 +27,7 @@ confirmAction = (actionLabel, actionFn, warningText)->
     action: actionFn
 
 confirmUnfriend = ->
-  confirmAction.call @, 'unfriend', app.request.bind(app, 'unfriend', @model)
+  confirmAction.call @, 'unfriend', app.Request('unfriend', @model)
 
 handlers =
   cancel: -> app.request 'request:cancel', @model

@@ -44,7 +44,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     # needs to be run only once
     @model.updateMetadata()
-    .finally app.execute.bind(app, 'metadata:update:done')
+    .finally app.Execute('metadata:update:done')
 
   showEntityData: ->
     { entity } = @model

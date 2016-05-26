@@ -46,7 +46,7 @@ module.exports = Marionette.LayoutView.extend
     app.request 'waitForData'
     .then CheckViewState(@, 'inventory')
     .then @showItemsList.bind(@)
-    .then app.execute.bind(app, 'metadata:update:done')
+    .then app.Execute('metadata:update:done')
     .catch catchDestroyedView
     .catch _.Error('showItemsListOnceData err')
 

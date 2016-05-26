@@ -156,7 +156,7 @@ module.exports = Backbone.NestedModel.extend
     @push 'actions', action
     actionModel = @addActionToTimeline action
     userStatus = @otherUser().get 'status'
-    tracker = app.execute.bind app, 'track:transaction', state, userStatus
+    tracker = app.Execute 'track:transaction', state, userStatus
 
     _.preq.put app.API.transactions,
       id: @id

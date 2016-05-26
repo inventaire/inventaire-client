@@ -69,7 +69,7 @@ module.exports = Marionette.LayoutView.extend
     @showBooks()
     if @options.standalone
       @model.updateMetadata()
-      .finally app.execute.bind(app, 'metadata:update:done')
+      .finally app.Execute('metadata:update:done')
 
   showBooks: ->
     @booksRegion.show new WorksList

@@ -33,7 +33,7 @@ module.exports = UserCommons.extend
   addNotifications: (notifications)->
     if notifications?
       app.request('waitForData')
-      .then app.request.bind(app, 'notifications:add', notifications)
+      .then app.Request('notifications:add', notifications)
 
   setDefaultSettings: (settings)->
     settings.notifications = @setDefaultNotificationsSettings(settings.notifications)

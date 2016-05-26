@@ -1,4 +1,5 @@
 Session = require 'modules/general/models/session'
+BindedPartialBuilder = require 'lib/binded_partial_builder'
 
 App = Marionette.Application.extend
   initialize: ->
@@ -44,6 +45,9 @@ App = Marionette.Application.extend
       options or= {}
       options.replace = true
       @navigate(route, options)
+
+    @Execute = BindedPartialBuilder @, 'execute'
+    @Request = BindedPartialBuilder @, 'request'
 
     @once 'start', (options) =>
       # _.log 'app:start'

@@ -14,7 +14,7 @@ module.exports =
       searchable: searchable
       position: position
     .then groups.add.bind(groups)
-    .tap app.execute.bind(app, 'track:group', 'create')
+    .tap app.Execute('track:group', 'create')
     .then _.Log('group')
     .catch error_.Complete('#createGroup')
 
