@@ -5,8 +5,6 @@ App = Marionette.Application.extend
 
     @session = new Session
 
-    @vent = new Backbone.Wreqr.EventAggregator()
-
     @Behaviors = require('modules/general/behaviors/base')
     @Behaviors.initialize()
 
