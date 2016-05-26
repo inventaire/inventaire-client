@@ -73,14 +73,24 @@ nav.top-bar {
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     #home{
-      // aligning with #currentUser
-      margin-top: -0.1em;
+      font-weight: bold;
     }
     .breadcrumb{
       a{
         font-size: 1.2em;
         // overriding Foundation padding
         padding-left: 0 !important;
+        background-color: blue;
+        div{
+          // aligning with #home
+          padding-top: 0.18em;
+          height: 2.3em;
+          overflow: hidden;
+          span{
+            font-weight: bold;
+            font-size: 1.1em;
+          }
+        }
       }
     }
     // passing flex-grow:1 to the search input

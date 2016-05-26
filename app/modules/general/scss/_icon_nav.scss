@@ -71,7 +71,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
       @include inner-shadow;
       @include radius;
       .fa, span{
-        color: $grey
+        color: $grey;
       }
       @include hide-counter;
     }

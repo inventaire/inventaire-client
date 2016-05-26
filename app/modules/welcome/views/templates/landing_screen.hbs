@@ -1,20 +1,33 @@
 <section id="landingScreen" class="text-center">
-  <div class="pusher"></div>
   <div class="polyglotTitle">
-    <h2>{{{Q 'Q815410' false 'Inventaire'}}}</h2>
-    <h2 class="toggler">Inventaire</h2>
+    <h2 class="respect-case">{{{Q 'Q815410' false 'inventaire'}}}</h2>
+    <h2 class="respect-case toggler">inventaire</h2>
   </div>
-  <div class="pitch">
-    <h3>{{i18n 'keep an inventory of your books'}}</h3>
-    <h3>{{i18n 'share it with your friends and communities'}}</h3>
-    <h3>{{i18n 'discover the books available in your network!'}}</h3>
+  {{!-- wrap the rest in the bottom div to push it down --}}
+  <div class="bottom">
+    <ul class="pitch">
+      <li>
+        {{icon 'list'}}
+        <h3>{{i18n 'keep an inventory of your books'}}</h3>
+        <p>{{i18n 'and of what can be done with them:'}} "<em>{{i18n 'this book I can give, this book I can lend, this one is for sell...'}}</em>"</p>
+      </li>
+      <li>
+        {{icon 'users'}}
+        <h3>{{i18n 'share it with your friends and communities'}}</h3>
+        <p>{{i18n 'Always dreamed of a collaborative library for your coworking / association / book club? Here it is!'}}</p>
+      </li>
+      <li>
+        {{icon 'exchange'}}
+        <h3>{{i18n 'Remember the books you lend or borrow'}}</h3>
+        <p>{{i18n 'The books you lend might actually come back now!'}}</p>
+      </li>
+    </ul>
+    <div id="loginButtons">
+      {{#if loggedIn}}
+        <a id="loginRequest" class="button dark-grey">{{i18n 'back to your inventory'}}</a>
+      {{else}}
+        {{partial 'welcome:login_buttons'}}
+      {{/if}}
+    </div>
   </div>
-  <div id="loginButtons">
-  {{#if loggedIn}}
-    <a id="loginRequest" class="button dark-grey">{{i18n 'back to your inventory'}}</a>
-  {{else}}
-    {{partial 'welcome:login_buttons'}}
-  {{/if}}
-  </div>
-  <div class="pusher"></div>
 </section>

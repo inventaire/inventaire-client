@@ -1,14 +1,20 @@
 $title-color: white;
-$pitch-bg-color: rgba(255, 255, 255, 0.6);
+$home-grey: #696A6F;
+$landing-screen-bg-filter-color: rgba($home-grey, 0.1);
+$pitch-text-color: white;
+$pitch-bg-color: rgba($home-grey, 0.98);
 
 section#landingScreen{
+  background-color: $landing-screen-bg-filter-color;
   @include display-flex(column, center, center);
   .polyglotTitle{
-    margin-top: auto;
+    @include display-flex(column, center, center);
     h2{
       color: $title-color;
-      @include shy-text-border;
       font-weight: bold;
+      font-size: 10em;
+      line-height: 1em;
+      margin: auto;
     }
     .toggler{
       display: none;
@@ -23,49 +29,84 @@ section#landingScreen{
     }
   }
   .pitch{
-    margin: 1em;
-    padding: 0.5em;
-    h3{
-      font-weight: bold;
+    width: 100%;
+    max-width: 95em;
+    @include display-flex(row, stretch, space-between);
+    li{
+      flex: 1 0 0;
+      background-color: $pitch-bg-color;
+      @include radius(5px);
+      padding: 1em 0.5em 1em 0.5em;
+      margin: 1em;
+      .fa, h3, p{
+        color: $pitch-text-color;
+      }
+      .fa{
+        font-size: 2.5em;
+      }
+      h3{
+        font-size: 1.3em;
+        font-weight: bold;
+      }
+      p{
+        margin-top: auto;
+        opacity: $shy-opacity;
+      }
     }
-    border-radius: $global-radius;
   }
   #loginButtons{
-    margin-bottom: auto;
     @include display-flex(row, center, center, wrap);
     @include radius-horizontal-group;
     .button{
-      flex: 1 1 auto;
       font-weight: bold;
       min-width: 10em;
     }
   }
-  // for Safari bad flex support
-  .polyglotTitle, #loginButtons{
-    padding-top: 2em;
-    padding-bottom: 2em;
+  // < compensation for Safari bad flex support
+  .polyglotTitle{
+    margin-top: 2em;
+    margin-bottom: 2em;
   }
-  // force other elements to be grouped in the middle
-  // to avoid an ugly repartition on big screens
-  .pusher{
-    flex: 1 1 auto;
+  #loginButtons{
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
+  // />
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    h2 {
-      font-size: 3em;
+    .polyglotTitle{
+      padding-top: 3em;
+      padding-bottom: 2em;
+      h2 {
+        font-size: 6em;
+      }
     }
     .pitch{
-      background-color: $pitch-bg-color;
-      margin: 0.5em;
-      h3{
-        font-weight: bold;
-        padding: 0.3em;
+      li{
       }
     }
     #loginButtons{
       margin: 0.5em;
+      margin-bottom: 1em;
+    }
+  }
+
+  /*Smaller screens*/
+  @media screen and (max-width: 800px) {
+    .pitch{
+      flex-direction: column;
+      align-items: stretch;
+      li{
+        max-width: 20em;
+      }
+    }
+  }
+  @media screen and (max-width: $smaller-screen) {
+    .polyglotTitle{
+      h2 {
+        font-size: 3em;
+      }
     }
   }
 
@@ -78,15 +119,25 @@ section#landingScreen{
     @media screen and (max-height: 640px) {
       height: 30em;
     }
-    h2{
-      font-size: 10em;
-      line-height: 1em;
-      margin: auto;
+    .polyglotTitle{
+      flex: 5 0 0;
+    }
+    .bottom{
+      flex: 4 0 0;
+      @include display-flex(column, center, space-around);
+      padding: 1em;
     }
     .pitch{
-      background-color: $pitch-bg-color;
-      padding: 1em 2em 1em 2em;
-      margin: auto;
+      li{
+        p{
+          @include transition(opacity);
+        }
+        &:hover{
+          p{
+            opacity: 1;
+          }
+        }
+      }
     }
     #loginButtons{
       margin: auto;

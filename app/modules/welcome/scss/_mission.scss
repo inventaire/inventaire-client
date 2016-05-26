@@ -5,7 +5,8 @@ section#mission{
   padding-top: 2em;
   padding-bottom: 1em;
   // height: 10em;
-  @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
+  // Commented-out while this image is also used as main background
+  // @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
   .toggleMission{
     text-align: center;
     background-color: $mission-text-bg-color;

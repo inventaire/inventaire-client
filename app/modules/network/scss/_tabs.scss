@@ -26,7 +26,8 @@
       &.active{
         @include hide-counter;
         background-color: white;
-        color: $grey
+        color: $grey;
+        font-weight: bold;
       }
     }
   }

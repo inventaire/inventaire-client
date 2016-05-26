@@ -16,7 +16,12 @@
       {{!-- Left Nav Section --}}
       <ul class="left">
         <li id="currentUser" class="hidden breadcrumb">
-          <a>{{icon 'chevron-right'}} <span id="currentUsername"></span></a>
+          <a>
+            {{!-- wrapping it in a subdiv to be able to adjust it in css despite Foundation TopBar style --}}
+            <div>
+              {{icon 'chevron-right'}} <span id="currentUsername"></span>
+            </div>
+          </a>
         </li>
       </ul>
       {{!-- Right Nav Section --}}
