@@ -141,7 +141,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
     screenWidth: -> $(window).width()
     screenHeight: -> $(window).height()
     # keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
-    smallScreen: (ceil=1200)-> utils.screenWidth() < ceil
+    smallScreen: (ceil=1000)-> utils.screenWidth() < ceil
 
     deepClone: (obj)->
       @type obj, 'object'
