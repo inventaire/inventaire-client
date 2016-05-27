@@ -3,6 +3,14 @@
   text-decoration-color: $color;
 }
 
+@mixin underline-on-hover($color:#222){
+  text-decoration: none;
+  &:hover, &:focus{
+    text-decoration: underline;
+    text-decoration-color: $color;
+  }
+}
+
 @mixin link(){
   color: $link-blue;
   @include underline(rgba(white, 0.2));
