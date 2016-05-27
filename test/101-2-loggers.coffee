@@ -1,5 +1,4 @@
 should = require 'should'
-expect = require('chai').expect
 
 _ = require './utils_builder'
 
@@ -25,22 +24,22 @@ describe 'Logger', ->
 
   describe 'warn', ->
     it 'should always return undefined', (done)->
-      expect(_.warn('yo')).to.be.undefined
-      expect(_.warn('yo', {hello: 'wat'})).to.be.undefined
-      expect(_.warn({hello: 'wat'}, 'yo')).to.be.undefined
+      should(_.warn('yo')).not.be.ok()
+      should(_.warn('yo', {hello: 'wat'})).not.be.ok()
+      should(_.warn({hello: 'wat'}, 'yo')).not.be.ok()
       done()
 
   describe 'error', ->
     it 'should always return undefined', (done)->
-      expect(_.error('yo')).to.be.undefined
-      expect(_.error('yo', {hello: 'wat'})).to.be.undefined
-      expect(_.error({hello: 'wat'}, 'yo')).to.be.undefined
+      should(_.error('yo')).not.be.ok()
+      should(_.error('yo', {hello: 'wat'})).not.be.ok()
+      should(_.error({hello: 'wat'}, 'yo')).not.be.ok()
       done()
 
   describe 'Error', ->
     it 'should return an error logger that catches errors', (done)->
-      expect(_.Error('yo label')('yo')).to.be.undefined
-      expect(_.Error('yo label')({hello: 'wat'})).to.be.undefined
+      should(_.Error('yo label')('yo')).not.be.ok()
+      should(_.Error('yo label')({hello: 'wat'})).not.be.ok()
 
       Promise.reject new Error('damned 1')
       .catch _.Error('catching!')
@@ -51,5 +50,5 @@ describe 'Logger', ->
       Promise.reject new Error('damned 2')
       .catch _.ErrorRethrow('rethrowing!')
       .catch -> done()
-      # expect(_.ErrorRethrow('yo label')('yo')).to.be.undefined
-      # expect(_.ErrorRethrow('yo label')({hello: 'wat'})).to.be.undefined
+      # should(_.ErrorRethrow('yo label')('yo')).not.be.ok()
+      # should(_.ErrorRethrow('yo label')({hello: 'wat'})).not.be.ok()

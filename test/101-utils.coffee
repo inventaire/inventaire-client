@@ -1,5 +1,4 @@
 should = require 'should'
-{ expect } = require 'chai'
 
 _ = require './utils_builder'
 
@@ -24,6 +23,6 @@ describe 'Utils', ->
 
     it "should return undefined if the value can't be accessed", (done)->
       obj = {a: {b: {c: 123}}, d: 2}
-      expect(_.get(obj, 'a.b.d')).to.be.undefined
-      expect(_.get(obj, 'nop.nop.nop')).to.be.undefined
+      should(_.get(obj, 'a.b.d')).not.be.ok()
+      should(_.get(obj, 'nop.nop.nop')).not.be.ok()
       done()

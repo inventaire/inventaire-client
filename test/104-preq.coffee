@@ -1,5 +1,4 @@
 should = require 'should'
-{ expect } = require 'chai'
 __ = require '../root'
 _ = require './utils_builder'
 
@@ -21,7 +20,7 @@ describe 'preq', ->
     # with the global cancellable promises setting
     # it 'should not be modifiable', (done)->
     #   preq.resolved.wat = 'yo'
-    #   expect(preq.resolved.wat).to.be.undefined
+    #   should(preq.resolved.wat).not.be.ok()
     #   done()
 
     it 'should be usable as different promise chain starter', (done)->
@@ -41,7 +40,7 @@ describe 'preq', ->
         getResolved()
         .catch (err)-> throw new Error "shouldn't be triggered"
         .then (res)->
-          expect(res).to.be.undefined
+          should(res).not.be.ok()
           done()
 
       setTimeout(later, 100)

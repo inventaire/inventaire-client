@@ -50,7 +50,6 @@
     "bower": "^1.7.7",
     "browserify": "^11.2.0",
     "brunch": "^2.5.3",
-    "chai": "^3.5.0",
     "clean-css-brunch": "^2.0.0",
     "coffee-script-brunch": "^2.0.0",
     "coffeeify": "^2.0.1",
