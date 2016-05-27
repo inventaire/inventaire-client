@@ -14,3 +14,10 @@ h1, h2, h3, h4, h5, h6, .button, label, .capitalized {
 .uppercased{
   text-transform: uppercase;
 }
+
+// capitalize only the first letter, not every words first letter
+@mixin capitalized(){
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}

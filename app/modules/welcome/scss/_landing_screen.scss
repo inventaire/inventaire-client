@@ -1,11 +1,9 @@
 $title-color: white;
-$home-grey: #696A6F;
-$landing-screen-bg-filter-color: rgba($home-grey, 0.1);
-$pitch-text-color: white;
-$pitch-bg-color: rgba($home-grey, 0.98);
+$pitch-text-color: rgba(darken($welcome-bg-filter, 15%), 0.9);
+$pitch-bg-color: rgba(white, 0.95);
 
 section#landingScreen{
-  background-color: $landing-screen-bg-filter-color;
+  background-color: $welcome-bg-filter;
   @include display-flex(column, center, center);
   .polyglotTitle{
     @include display-flex(column, center, center);
@@ -82,10 +80,6 @@ section#landingScreen{
         font-size: 6em;
       }
     }
-    .pitch{
-      li{
-      }
-    }
     #loginButtons{
       margin: 0.5em;
       margin-bottom: 1em;
@@ -126,18 +120,6 @@ section#landingScreen{
       flex: 4 0 0;
       @include display-flex(column, center, space-around);
       padding: 1em;
-    }
-    .pitch{
-      li{
-        p{
-          @include transition(opacity);
-        }
-        &:hover{
-          p{
-            opacity: 1;
-          }
-        }
-      }
     }
     #loginButtons{
       margin: auto;

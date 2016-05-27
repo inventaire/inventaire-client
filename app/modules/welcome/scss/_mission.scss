@@ -1,33 +1,32 @@
 $mission-text-color: $dark-grey;
-$mission-text-bg-color: rgba(white, 0.9);
+$mission-bg-color: rgba(white, 0.95);
 
 section#mission{
+  background-color: $welcome-bg-filter;
   padding-top: 2em;
   padding-bottom: 1em;
-  // height: 10em;
   // Commented-out while this image is also used as main background
   // @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
   .toggleMission{
+    margin: 0 auto;
     text-align: center;
-    background-color: $mission-text-bg-color;
+    background-color: $mission-bg-color;
     @include transition(background-color);
-    &:hover{
-      background-color: white;
-      background-color: rgba(white, 0.6);
-    }
     @include display-flex(row, center, center);
+    @include radius;
     margin: 0 1em 1em 1em;
-    h2, .fa{
+    &:hover{
+      background-color: rgba(white, 0.8);
+    }
+    h3, .fa{
       color: $mission-text-color;
     }
-    .fa{
-      padding-left: 0.5em;
-      margin-top: -0.2em;
-      font-size: 1.6em;
+    h3{
+      font-weight: bold;
     }
-    // a hack to force the h2 and .fa to be stuck to one another
-    .pusher{
-      flex: 1 1 auto;
+    .fa{
+      margin-top: 0.3em;
+      font-size: 1.6em;
     }
   }
   ul.mission{
@@ -38,18 +37,20 @@ section#mission{
       margin-left: 1em;
       margin-right: 1em;
     }
+    h4, p{
+      @include radius;
+      color: $mission-text-color;
+      background-color: $mission-bg-color;
+    }
     h4{
       text-align: center;
       font-weight: bold;
       padding: 1em;
-      color: $mission-text-color;
-      background-color: $mission-text-bg-color;
     }
     p{
       padding: 1em;
       font-size: 1.2em;
-      color: $mission-text-color;
-      background-color: $mission-text-bg-color;
+      @include capitalized;
     }
   }
 

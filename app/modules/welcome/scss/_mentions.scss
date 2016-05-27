@@ -1,6 +1,12 @@
 section#mentions{
   padding: 0.8em;
-  background-color: #dadada;
+  background-color: $welcome-bg-filter;
+  h3, h4, .fa{
+    color: white;
+  }
+  h3, h4{
+    font-weight: bold;
+  }
   text-align: center;
   ul{
     margin: 0 auto;

@@ -40,6 +40,8 @@ section#status{
 @media screen and (min-width: $small-screen) {
 }
 
+$welcome-bg-filter: rgba(#124056, 0.5);
+
 @import "landing_screen";
 // @import "tutorial";
 @import "last_public_books";
