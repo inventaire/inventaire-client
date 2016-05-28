@@ -6,18 +6,20 @@
 {{else}}
   <div class="data">
     {{#if valueEntity}}
-      {{#with valueEntity}}
-        <div class="img-wrapper">
-          {{#if pictures}}
-            <img src='{{src pictures 48}}' alt='{{label}}'>
-          {{/if}}
-        </div>
-        <div>
-          <span class="label">{{label}}</span><br>
-          <span class="description">{{description}}</span>
-          {{link id wikidata.wiki 'identifier'}}
-        </div>
-      {{/with}}
+      <div class="value-entity-wrapper">
+        {{#with valueEntity}}
+          <div class="img-wrapper">
+            {{#if pictures}}
+              <img src='{{src pictures 48}}' alt='{{label}}'>
+            {{/if}}
+          </div>
+          <div>
+            <span class="label">{{label}}</span><br>
+            <span class="description">{{description}}</span>
+            {{link id wikidata.wiki 'identifier'}}
+          </div>
+        {{/with}}
+      </div>
     {{else}}
       {{icon 'circle-o-notch' 'fa-spin'}}
     {{/if}}

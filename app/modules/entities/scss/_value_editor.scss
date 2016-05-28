@@ -19,7 +19,9 @@
     padding-left: 0.5em;
     cursor: pointer;
     @include bg-hover(white, 5%);
-    @include display-flex(row);
+    .value-entity-wrapper{
+      @include display-flex(row);
+    }
     .img-wrapper{
       width: 50px;
     }
