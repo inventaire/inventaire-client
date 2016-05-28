@@ -11,6 +11,7 @@ module.exports =
       appRoutes:
         '(home)': 'showHome'
         'welcome': 'showWelcome'
+        'about': 'showWelcome'
         'donate': 'showDonate'
         'feedback': 'showFeedback'
         'me': 'showMainUser'
