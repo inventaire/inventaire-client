@@ -43,10 +43,8 @@ API =
     else app.execute 'show:welcome'
 
   notFound: (route)->
-    if app.user.loggedIn
-      _.log route, 'route:notFound', true
-      app.execute 'show:error:missing'
-    else @showWelcome()
+    _.log route, 'route:notFound', true
+    app.execute 'show:error:missing'
 
   showWelcome: ->
     title = 'Inventaire - ' + _.i18n('your friends and communities are your best library')
