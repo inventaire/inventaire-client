@@ -4,7 +4,7 @@
   min-height: 80vh;
   @include display-flex(column, center, center);
   .errorBox{
-    background-color: rgba(#eee, 0.8);
+    background-color: $global-background-contrast-color;
     max-width: 30em;
     margin: 1em;
     @include radius;

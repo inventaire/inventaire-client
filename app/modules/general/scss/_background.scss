@@ -37,3 +37,5 @@
   // photo attribution in credits.hbs: Brittany Stevens
   @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
 }
+
+$global-background-contrast-color: rgba($light-grey, 0.98);

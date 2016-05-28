@@ -1,6 +1,6 @@
 $tooltip-font-size: 1em;
 
-$auth-menu-bg: rgba($light-grey, 0.8);
+$auth-menu-bg: $global-background-contrast-color;
 
 .authMenu{
   min-height: 80vh;
