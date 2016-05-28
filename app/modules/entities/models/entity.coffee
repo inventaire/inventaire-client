@@ -28,19 +28,22 @@ module.exports = Backbone.NestedModel.extend
   # Entities data are saved formatted in the LocalDb,
   # thus the need to run formatting only once
   formatIfNew: ->
-    unless @get '_formatted'
+    if @get '_formatted'
+      # Always fired as it formats temporary data that aren't persisted to the LocalDb
+      @afterFormatSync()
+    else
       uri = @get 'uri'
       # Running formatSync out of a promise chain
       # as other initialization steps might depend on those sync formatted data:
       # this shouldn't thus be run on next tick
       @formatSync()
+      @afterFormatSync()
 
       @formatAsync()
       .then @_formatted.bind(@)
       .catch _.Error("formatting new entity #{uri}")
 
-    # Always fired as it formats temporary data that aren't persisted to the LocalDb
-    @afterFormatSync()
+    return
 
   _formatted: ->
     @set '_formatted', true
