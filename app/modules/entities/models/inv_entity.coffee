@@ -35,10 +35,12 @@ module.exports = Entity.extend
     _.log arguments, 'savePropertyValue args'
     if oldValue isnt newValue
       propArray = @get "claims.#{property}"
-      if oldValue not in propArray
+      # let pass null oldValue, it will create a claim
+      if oldValue? and oldValue not in propArray
         return error_.reject 'unknown property value', arguments
 
-      index = propArray.indexOf oldValue
+      # in cases of a new value, index is last index + 1 = propArray.length
+      index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
       @set "claims.#{property}.#{index}", newValue
 
       reverseAction = @set.bind @, "claims.#{property}.#{index}", oldValue

@@ -1,4 +1,4 @@
-PropertyValue = require 'modules/entities/models/property_value'
+PropertyValues = require 'modules/entities/collections/property_values'
 
 work =
   # P31: true
@@ -33,12 +33,10 @@ getPropertyModel = (entityModel, prop, multivalue)->
 
 getPropertyValuesCollection = (entityModel, prop)->
   claims = entityModel.get("claims.#{prop}") or []
-  propValuesCollection = new Backbone.Collection
-  for val in claims
-    model = new PropertyValue
-      property: prop
-      value: val
-    model.entity = entityModel
-    propValuesCollection.add model
+  collection = new PropertyValues [],
+    entity: entityModel
+    property: prop
 
-  return propValuesCollection
+  collection.addClaimsValues claims
+
+  return collection

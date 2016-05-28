@@ -8,7 +8,7 @@ module.exports = Backbone.Model.extend
 
   updateValueEntity: ->
     { property, value } = @toJSON()
-    if properties[property].type is 'entity'
+    if value? and properties[property].type is 'entity'
       # TODO: make the whole entity stack use uris
       # instead of simple wikidata or inventaire ids
       @reqGrab 'get:entity:model:from:uri', "wd:#{value}", 'valueEntity'

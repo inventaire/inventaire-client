@@ -4,6 +4,7 @@
   .ac-container{
     flex: 1 0 auto;
     position: relative;
+    margin-left: 0.5em;
     input{
       margin: 0;
     }
@@ -18,6 +19,10 @@
     padding-left: 0.5em;
     cursor: pointer;
     @include bg-hover(white, 5%);
+    @include display-flex(row);
+    .img-wrapper{
+      width: 50px;
+    }
     .fa-spin{
       opacity: 0.3;
       margin-left: 2em;
@@ -39,7 +44,7 @@
     margin-left: 0.2em;
   }
   .edit, .cancel{
-    @include tiny-button(#bbb);
+    @include tiny-button($edit-button-grey);
   }
   .save{
     @include tiny-button($success-color);

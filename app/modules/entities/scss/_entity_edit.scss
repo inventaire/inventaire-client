@@ -8,23 +8,6 @@
   }
 }
 
-.property-editor{
-  @include display-flex(row);
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    flex-direction: column;
-  }
-  > .label{
-    font-weight: bold;
-    flex: 0 0 auto;
-    min-width: 10em;
-    padding: 0.5em;
-  }
-  > .values{
-    flex: 1 1 auto;
-  }
-}
-
 .identifier{
   opacity: 0.5;
   font-family: sans-serif;
@@ -32,4 +15,7 @@
   @include underline;
 }
 
+$edit-button-grey: #bbb;
+
+@import "property_editor";
 @import "value_editor";
