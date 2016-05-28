@@ -18,6 +18,8 @@ module.exports = Marionette.ItemView.extend
     @editMode = if @model.get('value')? then false else true
     @lazyRender = _.LazyRender @, 200
 
+  lazyRenderIfDisplayMode: -> if not @editMode then @lazyRender()
+
   serializeData: ->
     attr = @model.toJSON()
     attr.valueEntity = @valueEntityData()
@@ -29,8 +31,14 @@ module.exports = Marionette.ItemView.extend
     if valueEntity? then valueEntity.toJSON()
 
   onShow: ->
-    @listenTo @model, 'grab', @lazyRender
+    @listenTo @model, 'grab', @onGrab.bind(@)
     @listenTo @model, 'change:value', @lazyRender
+
+  onGrab: ->
+    if @model.valueEntity?
+      @listenToOnce @model.valueEntity, 'change:pictures', @lazyRenderIfDisplayMode.bind(@)
+
+    @lazyRender()
 
   onRender: ->
     # Empty values should be allowed only in editMode
