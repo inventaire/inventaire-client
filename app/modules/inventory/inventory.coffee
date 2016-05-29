@@ -24,7 +24,6 @@ module.exports =
         'add(/search)(/)': 'showSearch'
         'add/scan(/)': 'showScan'
         'add/scan/embedded(/)': 'showEmbeddedScanner'
-        'add/import(/)': 'showImport'
         'groups/:id(/:name)(/)': 'showGroupInventory'
         'g/(:name)': 'shortCutGroup'
         'u/(:username)': 'shortCutUser'
@@ -70,10 +69,6 @@ API =
     if app.request 'require:loggedIn', 'inventory/last'
       showInventory { last: true }
 
-  showItemCreationForm: (options)->
-    form = new ItemCreationForm options
-    app.layout.main.show form
-
   showItemFromId: (id)->
     unless _.isItemId id then return app.execute 'show:error:missing'
     app.execute 'show:loader'
@@ -103,10 +98,6 @@ API =
 
   showSearch: -> showAddLayout 'search'
   showScan: -> showAddLayout 'scan'
-  showImport: ->
-    # app.user.get('pathname') should be available at data serialization
-    app.request 'waitForUserData'
-    .then -> showAddLayout 'import'
 
   showEmbeddedScanner: ->
     if app.request 'require:loggedIn', 'add/scan/embedded'
@@ -253,19 +244,7 @@ initializeInventoriesHandlers = (app)->
       group = app.request 'get:group:model:sync', groupId
       showGroupInventory group
 
-    'show:item:creation:form': (params)->
-      { entity } = params
-      unless entity? then throw new Error 'missing entity'
-      uri = entity.get 'uri'
-      entityPathname = params.entity.get 'pathname'
-      pathname = "#{entityPathname}/add"
-
-      if app.request 'require:loggedIn', pathname
-        API.showItemCreationForm params
-        # Remove the final add part so that hitting reload or previous
-        # reloads the entity page instead of the creation form,
-        # avoiding to create undesired item dupplicates
-        app.navigate pathname.replace(/\/add$/, '')
+    'show:item:creation:form': showItemCreationForm
 
     'show:item:show:from:model': showItemShowFromModel
 
@@ -362,3 +341,33 @@ initializeInventoriesHandlers = (app)->
 
 mainUserPrivateInventoryLength = ->
   app.items.personal.where({listing: 'private'}).length
+
+showItemCreationForm = (params)->
+  { entity, preventDupplicates } = params
+  unless entity? then throw new Error 'missing entity'
+  uri = entity.get 'uri'
+
+  # 'waitForItems' is required by item:main:user:instances
+  if preventDupplicates then waiter = app.Request 'waitForItems'
+  else waiter = _.preq.resolve
+
+  waiter()
+  .then ->
+    if preventDupplicates
+      existingInstances = app.request 'item:main:user:instances', uri
+      if existingInstances.length > 0
+        _.log existingInstances, 'existing instances'
+        # Show the entity instead to display the number of existing instances
+        # and avoid creating a dupplicate
+        app.execute 'show:entity', uri
+        return
+
+    entityPathname = params.entity.get 'pathname'
+    pathname = "#{entityPathname}/add"
+
+    if app.request 'require:loggedIn', pathname
+      app.layout.main.show new ItemCreationForm(params)
+      # Remove the final add part so that hitting reload or previous
+      # reloads the entity page instead of the creation form,
+      # avoiding to create undesired item dupplicates
+      app.navigate pathname.replace(/\/add$/, '')

@@ -134,7 +134,11 @@ API =
 
   showAddEntity: (uri)->
     @getEntityModelFromUri uri
-    .then (entity)-> app.execute 'show:item:creation:form', {entity: entity}
+    .then (entity)->
+      app.execute 'show:item:creation:form',
+        entity: entity
+        preventDupplicates: true
+
     .catch @solveMissingEntity.bind(@, prefix, id)
     .catch _.Error('showAddEntity err')
 

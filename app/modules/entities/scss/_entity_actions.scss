@@ -2,8 +2,6 @@
   @include display-flex(column, center, center);
   margin-bottom: 1rem;
   div.entityAction{
-    // take care of both row and column display
-    margin: 0.5rem 0.5rem 0.5rem 0rem;
     .f-dropdown{
       .fa{
         font-size: 1.5rem;
@@ -24,15 +22,14 @@
     cursor: default;
   }
   .hasAnInstance{
-    opacity: 0.8;
-    a{
-      color: white;
-      @include underline(rgba(white, 0.5%));
-      @include transition(text-decoration-color);
-      &:hover{
-        text-decoration-color: white;
-      }
-    }
+    background-color: white;
+    padding: 1em;
+    margin: 0.5em 0 0.5em 0;
+    @include radius;
+    color: $dark-grey;
+    text-align: center;
+    // egalizing with .entityAction width
+    max-width: 21em;
   }
 
   /*Small screens*/
@@ -45,9 +42,9 @@
           @include radius;
           margin-top: 0.5em;
         }
-        // adding the dropdown menu as it was making
+        // hidding the dropdown menu as it was making
         // a big ugly button on small-screens
-        #addToInventory + a{
+        .dropdown-custom{
           display: none;
         }
       }
@@ -57,10 +54,10 @@
   @media screen and (min-width: $very-small-screen) {
     .custom-button-group{
       @include display-flex(row);
-      a:first-child{
+      #addToInventory{
         @include radius-left;
       }
-      a:last-child{
+      .dropdown-custom{
         @include radius-right;
       }
     }
