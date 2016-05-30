@@ -20,6 +20,7 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     bg: '#bg'
+    lateralButtons: '#lateralButtons'
 
   events:
     'click .showDonateMenu': 'showDonateMenu'
@@ -58,6 +59,10 @@ module.exports = Marionette.LayoutView.extend
     # wait for the app to be initiated before listening to resize events
     # to avoid firing a meaningless event at initialization
     app.request('waitForData').then initWindowResizeEvents
+
+    app.vent.on
+      'lateral:buttons:show': @ui.lateralButtons.show.bind(@ui.lateralButtons)
+      'lateral:buttons:hide': @ui.lateralButtons.hide.bind(@ui.lateralButtons)
 
   serializeData: ->
     topbar: @topBarData()
