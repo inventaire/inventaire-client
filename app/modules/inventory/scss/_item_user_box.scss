@@ -57,12 +57,14 @@ a.user{
   }
 }
 .labelBox{
-  @include display-flex(column, center, center);
+  // wrapping combined with overflow:hidden hides .distance
+  // if there isn't enough room for it
+  @include display-flex(column, center, center, wrap);
+  overflow: hidden;
   text-align: center;
   height: $user-box-heigth;
   background-color: #eee;
   width: 100%;
-  overflow: hidden;
   .label{
     color: #444;
     strong{
