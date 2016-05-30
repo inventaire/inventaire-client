@@ -34,9 +34,9 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @showPublicItems()
+    app.vent.trigger 'lateral:buttons:hide'
     unless app.user.loggedIn or _.smallScreen()
       app.vent.trigger 'top:bar:hide'
-      app.vent.trigger 'lateral:buttons:hide'
       @showTopBarOnceLandingScreenIsOutOfView()
 
   showTopBarOnceLandingScreenIsOutOfView: ->
