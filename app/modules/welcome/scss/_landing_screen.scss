@@ -34,8 +34,8 @@ section#landingScreen{
       flex: 1 0 0;
       background-color: $pitch-bg-color;
       @include radius(5px);
-      padding: 1em 0.5em 1em 0.5em;
-      margin: 1em;
+      padding: 1em 0.6em 1em 0.6em;
+      margin: 0.5em;
       .fa, h3, p{
         color: $pitch-text-color;
       }
@@ -107,19 +107,15 @@ section#landingScreen{
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     height: 85vh;
-    // addressing the crazy case of a screen
-    // with width > 1000px and height < 640px
-    // happens when dev tools are open
-    @media screen and (max-height: 640px) {
-      height: 30em;
-    }
+    // prevent everything from overflowing on screens with a rather small height
+    min-height: 650px;
     .polyglotTitle{
-      flex: 5 0 0;
+      flex: 4 0 auto;
     }
     .bottom{
-      flex: 4 0 0;
+      flex: 1 0 auto;
       @include display-flex(column, center, space-around);
-      padding: 1em;
+      margin-bottom: 1em;
     }
     #loginButtons{
       margin: auto;
