@@ -20,6 +20,7 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     bg: '#bg'
+    topBar: '#topBar'
     lateralButtons: '#lateralButtons'
 
   events:
@@ -61,6 +62,8 @@ module.exports = Marionette.LayoutView.extend
     app.request('waitForData').then initWindowResizeEvents
 
     app.vent.on
+      'top:bar:show': @showTopBar.bind(@)
+      'top:bar:hide': @hideTopBar.bind(@)
       'lateral:buttons:show': @ui.lateralButtons.show.bind(@ui.lateralButtons)
       'lateral:buttons:hide': @ui.lateralButtons.hide.bind(@ui.lateralButtons)
 
@@ -86,6 +89,13 @@ module.exports = Marionette.LayoutView.extend
   hideCurrentUsername: ->
     $('#currentUser').hide()
 
+  showTopBar: ->
+    @main.$el.removeClass 'no-topbar'
+    @ui.topBar.slideDown()
+
+  hideTopBar: ->
+    @main.$el.addClass 'no-topbar'
+    @ui.topBar.hide()
 
 initWindowResizeEvents = ->
   previousScreenMode = _.smallScreen()

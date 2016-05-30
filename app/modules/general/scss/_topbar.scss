@@ -47,7 +47,7 @@ nav.top-bar {
   .fa{
     font-size: 1em;
   }
-  #name{
+  #home, #name{
     font-weight: bold;
   }
   #pic{
@@ -72,9 +72,6 @@ nav.top-bar {
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    #home{
-      font-weight: bold;
-    }
     .breadcrumb{
       a{
         font-size: 1.2em;

@@ -24,20 +24,26 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     loggedIn: app.user.loggedIn
     urls: urls
-    mentions: _.log @mentionsData(), 'mentions data'
+    mentions: @mentionsData()
 
   ui:
-    topBarTrigger: '#middle-three'
     thanks: '#thanks'
     missions: 'ul.mission li'
     missionsTogglers: '.toggleMission .fa'
+    landingScreen: '#landingScreen'
 
   onShow: ->
     @showPublicItems()
-    unless app.user.loggedIn
-      @hideTopBar()
-      @ui.topBarTrigger.once 'inview', @showTopBar
+    unless app.user.loggedIn or _.smallScreen()
+      app.vent.trigger 'top:bar:hide'
       app.vent.trigger 'lateral:buttons:hide'
+      @showTopBarOnceLandingScreenIsOutOfView()
+
+  showTopBarOnceLandingScreenIsOutOfView: ->
+    @ui.landingScreen.on 'inview', (e, inview)=>
+      if not inview
+        app.vent.trigger 'top:bar:show'
+        @ui.landingScreen.off 'inview'
 
   showPublicItems: ->
     showLastPublicItems
@@ -49,19 +55,12 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('hidePublicItems err')
 
   onDestroy: ->
+    app.vent.trigger 'top:bar:show'
     app.vent.trigger 'lateral:buttons:show'
-    @showTopBar()
 
   hidePublicItems: (err)->
     $('#lastPublicBooks').hide()
     if err? then throw err
-
-  hideTopBar: ->
-    $('.top-bar').hide()
-    $('main').addClass('no-topbar')
-  showTopBar: ->
-    $('.top-bar').slideDown()
-    $('main').removeClass('no-topbar')
 
   toggleMission: ->
     @ui.missions.slideToggle()
