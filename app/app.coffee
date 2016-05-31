@@ -48,6 +48,7 @@ App = Marionette.Application.extend
 
     @Execute = BindedPartialBuilder @, 'execute'
     @Request = BindedPartialBuilder @, 'request'
+    @vent.Trigger = BindedPartialBuilder @vent, 'trigger'
 
     @once 'start', (options) =>
       # _.log 'app:start'

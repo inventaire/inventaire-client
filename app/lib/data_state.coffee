@@ -41,7 +41,7 @@ module.exports =
     if @missing.length is 0
       @ready = true
       app.vent.trigger 'data:ready'
-      setTimeout app.vent.trigger.bind(app.vent, 'data:ready:after'), 100
+      setTimeout app.vent.Trigger('data:ready:after'), 100
       return true
     else false
 
