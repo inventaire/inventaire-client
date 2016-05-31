@@ -16,6 +16,7 @@ module.exports = Marionette.Behavior.extend
     @visible = no
     prop = @view.options.model.get('property')
     source = getSources prop
+    # TODO: init @suggestions only if needed
     @suggestions = Suggestions source
     @lazyUpdateQuery = _.debounce @updateQuery, rateLimit
 
@@ -96,6 +97,7 @@ module.exports = Marionette.Behavior.extend
   hideDropdown: ->
     @visible = false
     @ui.autocomplete.parent().find('.ac-suggestions').hide()
+    @ui.autocomplete.focus()
 
   # Update suggestions list, never directly call this use @lazyUpdateQuery
   # which is a limit throttled alias.

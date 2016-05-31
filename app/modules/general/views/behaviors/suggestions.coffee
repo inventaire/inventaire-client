@@ -14,6 +14,7 @@ module.exports = Marionette.CompositeView.extend
 
   childEvents:
     'highlight': 'scrollToHighlightedChild'
+    'select:from:click': 'selectFromClick'
 
   scrollToHighlightedChild: (child)->
     childTop = child.$el.position().top
@@ -21,3 +22,6 @@ module.exports = Marionette.CompositeView.extend
     listPosition = @ui.list.scrollTop()
     if childTop < 0 or childBottom > listHeight
       @ui.list.animate { scrollTop: listPosition + childTop - 20 }
+
+  # Pass the child view event to the filtered collection
+  selectFromClick: (e, model)-> @collection.trigger 'select:from:click', model

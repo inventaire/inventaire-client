@@ -9,6 +9,7 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     AlertBox: {}
     AutoComplete: {}
+    ConfirmationModal: {}
 
   ui:
     autocomplete: 'input'
@@ -41,17 +42,15 @@ module.exports = Marionette.ItemView.extend
     @lazyRender()
 
   onRender: ->
-    # Empty values should be allowed only in editMode
-    # (to allow adding a new value)
-    # non editMode should clear the value model
-    # Known case: after a value rollback
-    if not @editMode and not @model.get('value')?
-      @model.destroy()
+    if @editMode
+      # somehow seems to need a delay
+      setTimeout @select.bind(@), 100
 
   events:
     'click .edit, .data': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
+    'click .delete': 'delete'
     'keyup input': 'hideEditModeIfEsc'
 
   showEditMode: (e)->
@@ -60,12 +59,14 @@ module.exports = Marionette.ItemView.extend
       if e?.target.className is 'identifier' then return
 
       @toggleEditMode true
-      # select after toggleEditMode lazyRender re-rendered
-      setTimeout @select.bind(@), 150
 
-  select: -> @ui.autocomplete.focus().select()
+  select: -> @ui.autocomplete.select()
 
-  hideEditMode: -> @toggleEditMode false
+  hideEditMode: ->
+    @toggleEditMode false
+    # In case an empty value was created to allow creating a new claim
+    # but the action was cancelled
+    if not @model.get('value')? then @model.destroy()
 
   hideEditModeIfEsc: (e)->
     key = getActionKey e
@@ -79,43 +80,16 @@ module.exports = Marionette.ItemView.extend
     @lazyRender()
 
   save: ->
-    oldValue = @model.get 'value'
-    oldValueEntity = @model.valueEntity
     newValue = @ui.autocomplete.attr 'data-autocomplete-value'
-    _.log oldValue, 'oldValue'
-    _.log newValue, 'newValue'
+    @_save newValue
 
-    _.inspect @, 'value editor'
+  _save: (newValue)->
+    @model.saveValue newValue
+    # target only this view
+    .catch error_.Complete(".#{@cid} .has-alertbox")
+    .catch @_catchAlert.bind(@)
 
-    if newValue? and newValue isnt oldValue
-      property = @model.get 'property'
-
-      # Changing the model value only once saved successfully
-      # to avoid re-rendering without confirmation
-      # knowing that re-rendering could interfere with the alertBox
-      @model.set 'value', newValue
-      # Reset the value entity to avoid showing the former entity's label
-      # while we wait for the new entity to be grabbed
-      @model.valueEntity = null
-
-      reverseAction = =>
-        @model.set 'value', oldValue
-        @model.valueEntity = oldValueEntity
-
-      rollback = _.Rollback reverseAction, 'value_editor save'
-
-
-      # Also waiting to hideEditMode as it triggers a (lazy) re-render too
-      @hideEditMode()
-
-      @model.entity.savePropertyValue property, oldValue, newValue
-      .catch rollback
-      # target only this view
-      .catch error_.Complete(".#{@cid} .has-alertbox")
-      .catch @_catchAlert.bind(@)
-
-    else
-      @hideEditMode()
+    @hideEditMode()
 
   _catchAlert: (err)->
     # Making sure that we are in edit mode as it might have re-rendered
@@ -126,3 +100,10 @@ module.exports = Marionette.ItemView.extend
     # Let the time to the changes and rollbacks to trigger lazy re-render
     # before trying to show the alert message
     setTimeout alert, 500
+
+  delete: ->
+    action = => @_save null
+
+    @$el.trigger 'askConfirmation',
+      confirmationText: _.i18n 'Are you sure you want to delete this statement?'
+      action: action

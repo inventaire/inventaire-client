@@ -16,14 +16,28 @@ $default-button-padding: 1em;
   padding: 0.2em 0.6em 0.2em 0.6em;
 }
 
-@mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
+// A mixin for selectors already affected by .tiny-button
+// but just requiring some color customization
+@mixin tiny-button-color($bg-color, $color:null, $darken:15%){
   @include bg-hover($bg-color, $darken);
-  @include text-hover($color);
+  @if $color {
+    @include text-hover($color);
+  }
+}
+
+@mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
   @include tiny-button-padding;
   border-radius: $radius;
-  &:focus{
-    background-color: darken($bg-color, $darken);
-    color: $color;
+  @include tiny-button-color($bg-color, $color);
+}
+
+.tiny-button{
+  @include tiny-button($grey);
+  &.light-blue{
+    @include tiny-button-color($light-blue, null, 5%);
+  }
+  &.dangerous{
+    @include dangerous-action;
   }
 }
 
@@ -114,4 +128,22 @@ div.icon-buttons-header{
 .button-group-right{
   @include button-group;
   @include display-flex(row, center, flex-end);
+}
+
+.shy-label{
+  span{
+    display: none;
+    @include transition(display);
+  }
+  &:hover, &:focus{
+    span{
+      display: inline;
+    }
+  }
+  &.tiny-button{
+    .fa{
+      // centering
+      margin-right: -0.3em;
+    }
+  }
 }

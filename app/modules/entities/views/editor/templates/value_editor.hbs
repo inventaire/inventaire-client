@@ -1,10 +1,17 @@
 {{#if editMode}}
   {{!-- input will be wrapped into .ac-container  --}}
   <input type="text" value="{{valueEntity.label}}" class="has-alertbox">
-  <a class="tiny-button save" title="Ctrl+Enter">{{icon 'check'}} {{i18n 'save'}}</a>
-  <a class="tiny-button cancel" title="Esc">{{icon 'times'}} {{i18n 'cancel'}}</a>
+  <a class="tiny-button save" title="Ctrl+Enter" tabindex="0">
+    {{icon 'check'}} {{i18n 'save'}}
+  </a>
+  <a class="tiny-button dangerous delete" tabindex="0">
+    {{icon 'trash'}} {{i18n 'delete'}}
+  </a>
+  <a class="tiny-button cancel" title="Esc" tabindex="0">
+    {{icon 'times'}} {{i18n 'cancel'}}
+  </a>
 {{else}}
-  <div class="data">
+  <div class="data enterClick" tabindex="0">
     {{#if valueEntity}}
       <div class="value-entity-wrapper">
         {{#with valueEntity}}
@@ -24,5 +31,8 @@
       {{icon 'circle-o-notch' 'fa-spin'}}
     {{/if}}
   </div>
-  <a class="tiny-button edit">{{icon 'pencil'}} {{i18n 'edit'}}</a>
+  <a class="tiny-button light-blue shy-label edit" tabindex="0">
+    {{icon 'pencil'}}
+    <span>{{i18n 'edit'}}</span>
+  </a>
 {{/if}}

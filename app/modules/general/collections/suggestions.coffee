@@ -10,21 +10,20 @@ module.exports = (source)->
   suggestions.init collection, remote
   return suggestions
 
-# module.exports = Backbone.Collection.extend
 suggestionMethods =
   init: (collection, remote)->
     @index = -1
     @remote = remote
+
+    # Using the filtered collection as the behavior event bus
+    # but never the original collection as it is shared between all views
     @on 'find', @fetchNewSuggestions
     @on 'highlight:next', @highlightNext
     @on 'highlight:previous', @highlightPrevious
     @on 'highlight:first', @highlightFirst
     @on 'highlight:last', @highlightLast
     @on 'select:from:key', @selectFromKey
-
-    # Model events are passed to their collection but not to their
-    # filtered collection, thus the need to add a listner
-    @listenTo collection, 'select:from:click', @selectFromClick
+    @on 'select:from:click', @selectFromClick
 
   # Get suggestions based on the current input. Either query
   # the api or filter the dataset.
@@ -41,6 +40,7 @@ suggestionMethods =
     @trigger 'selected:value', @at(index)
 
   selectFromClick: (model)->
+    @index = @models.indexOf model
     @trigger 'selected:value', model
 
   highlightPrevious: -> unless @isFirst() then @highlightAt @index - 1

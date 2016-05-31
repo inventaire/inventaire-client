@@ -1,3 +1,4 @@
+
 @mixin hover-darken($color, $darken:15%) {
   background-color: $color;
   @include transition(background-color);
@@ -32,7 +33,6 @@
 }
 
 @mixin dangerous-action(){
-  // @include bg-hover(#faeaea, 30%);
   @include transition(background-color, 0.2);
   background-color: $grey;
   color: white;
