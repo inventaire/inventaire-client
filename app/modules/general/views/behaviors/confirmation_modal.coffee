@@ -1,3 +1,5 @@
+getActionKey = require 'lib/get_action_key'
+
 module.exports = Marionette.ItemView.extend
   className: 'confirmationModal'
   template: require './templates/confirmation_modal'
@@ -8,6 +10,7 @@ module.exports = Marionette.ItemView.extend
 
   ui:
     no: '#no'
+    yes: '#yes'
 
   serializeData: ->
     data = @options
@@ -18,6 +21,7 @@ module.exports = Marionette.ItemView.extend
   events:
     'click a#yes': 'yesClick'
     'click a#no': 'close'
+    'keydown': 'changeButton'
 
   onShow: ->
     app.execute 'modal:open', null, @options.focus
@@ -47,7 +51,7 @@ module.exports = Marionette.ItemView.extend
 
   stopLoading: (selector)->
     if selector? then $(selector).trigger('stopLoading')
-    else _.warn 'no selector was provided'
+    else _.warn 'confirmation modal: no selector was provided'
 
   executeFormAction: ->
     { formAction } = @options
@@ -55,3 +59,9 @@ module.exports = Marionette.ItemView.extend
       formContent = @$el.find('#confirmationForm').val()
       if _.isNonEmptyString formContent
         return formAction formContent
+
+  changeButton: (e)->
+    key = getActionKey e
+    switch key
+      when 'left' then @ui.no.focus()
+      when 'right' then @ui.yes.focus()
