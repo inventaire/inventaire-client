@@ -15,6 +15,7 @@ module.exports = Marionette.ItemView.extend
     autocomplete: 'input'
 
   initialize: ->
+    @property = @model.get 'property'
     # If the model's value is null, start in edit mode
     @editMode = if @model.get('value')? then false else true
     @lazyRender = _.LazyRender @, 200
@@ -34,6 +35,9 @@ module.exports = Marionette.ItemView.extend
   onShow: ->
     @listenTo @model, 'grab', @onGrab.bind(@)
     @listenTo @model, 'change:value', @lazyRender
+    @listenTo app.vent, 'entity:value:editor:edit', @preventMultiEdit.bind(@)
+
+    if @editMode then @triggerEditEvent()
 
   onGrab: ->
     if @model.valueEntity?
@@ -59,6 +63,7 @@ module.exports = Marionette.ItemView.extend
       if e?.target.className is 'identifier' then return
 
       @toggleEditMode true
+      @triggerEditEvent()
 
   select: -> @ui.autocomplete.select()
 
@@ -78,6 +83,15 @@ module.exports = Marionette.ItemView.extend
   toggleEditMode: (bool)->
     @editMode = bool
     @lazyRender()
+
+  # An event to tell every other value editor of the same property
+  # that this view passes in edit mode and thus that other view in edit mode
+  # should toggle to display mode
+  triggerEditEvent: ->
+    app.vent.trigger 'entity:value:editor:edit', @property, @cid
+  preventMultiEdit: (property, viewCid)->
+    if @editMode and property is @property and @cid isnt viewCid
+      @hideEditMode()
 
   save: ->
     newValue = @ui.autocomplete.attr 'data-autocomplete-value'
