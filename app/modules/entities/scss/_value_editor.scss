@@ -30,13 +30,16 @@
       margin-left: 2em;
     }
     .identifier{
-      padding-top: 0.4em;
+      margin-top: 0.4em;
+      &:focus{
+        background-color: #aaa;
+      }
     }
     .description{
       opacity: 0.5;
     }
     .description:not(:empty) + .identifier{
-      padding-left: 1em;
+      margin-left: 1em;
     }
   }
   .ac-container + .tiny-button{
