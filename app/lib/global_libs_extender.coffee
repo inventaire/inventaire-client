@@ -82,25 +82,6 @@ module.exports = (_)->
   # JQUERY
   # aliasing once to one to match Backbone vocabulary
   $.fn.once = $.fn.one
-  # only implementing the promise interface
-  # i.e. no success callbacks
-  $.postJSON = (url, data)-> ajax 'POST', url, 'json', data
-  $.put = (url, data)->
-    $.ajax
-      url: url
-      data: data
-      type: 'PUT'
-  $.putJSON = (url, data)-> ajax 'PUT', url, 'json', data
-  $.delete = (url)-> ajax 'DELETE', url
-  $.getXML = (url)-> ajax 'GET', url, 'xml'
-
-  ajax = (verb, url, dataType, data)->
-    $.ajax
-      url: url
-      type: verb
-      data: data
-      dataType: dataType
-
 
 triggerChange = (model, attr, value)->
   model.trigger 'change', model, attr, value

@@ -12,6 +12,19 @@ Promise.onPossiblyUnhandledRejection (err)->
 
 preq = sharedLib('promises')(Promise)
 
+Ajax = (verb, hasBody)->
+  return ajax = (url, body)->
+    options =
+      type: verb
+      url: url
+
+    if hasBody
+      options.data = JSON.stringify body
+      options.headers =
+        'content-type': 'application/json'
+
+    return wrap $.ajax(options), url
+
 module.exports = _.extend preq,
   # keep the options object interface to keep the same signature
   # as the server side promises_.get, to ease shared libs
@@ -19,18 +32,10 @@ module.exports = _.extend preq,
     if proxiedUrl url then url = app.API.proxy url
     return wrap $.get(url), url
 
-  post: (url, body)-> wrap $.post(url, body), url
-  postJSON: (url, body)->
-    options =
-      url: url
-      data: JSON.stringify body
-      headers:
-        'content-type': 'application/json'
+  post: Ajax 'POST', true
+  put: Ajax 'PUT', true
+  delete: Ajax 'DELETE', false
 
-    wrap $.post(options), url
-
-  put: (url, body)-> wrap $.put(url, body), url
-  delete: (url)-> wrap $.delete(url), url
   getScript: (url)-> wrap $.getScript(url), url
 
   catch401: (err)-> if err.status is 401 then return
