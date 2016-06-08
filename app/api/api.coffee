@@ -18,6 +18,7 @@ module.exports = (_)->
   feedback: endpoint('feedback').public
   tests: endpoint('tests').public
   i18n: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
+  json: (filename)-> "/public/json/#{filename}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
   scripts: require './scripts'
   upload:

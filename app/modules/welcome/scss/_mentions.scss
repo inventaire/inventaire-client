@@ -1,6 +1,8 @@
 section#mentions{
-  padding: 0.8em;
-  background-color: $welcome-bg-filter;
+  > div{
+    padding: 0.8em;
+    background-color: $welcome-bg-filter;
+  }
   h3, h4, .fa{
     color: white;
   }

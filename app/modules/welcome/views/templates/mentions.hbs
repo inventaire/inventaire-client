@@ -1,26 +1,23 @@
-<section id="mentions">
-  <h3>{{i18n 'totally randomly-selected messages from the people of the Internet'}}</h3>
-  <ul id="tweets">
-    {{#each tweets}}
-      <li>
+<h3>{{i18n 'totally randomly-selected messages from the people of the Internet'}}</h3>
+<ul id="tweets">
+  {{#each tweets}}
+    <li>
+      <img src="{{src picture 48}}" alt="{{name}}">
+      <span>
+        {{icon 'quote-left'}}{{{text}}}{{icon 'quote-right'}}
+        {{i18nLink 'tweet_by' url this}}
+      </span>
+    </li>
+  {{/each}}
+</ul>
+<h4>{{icon 'newspaper-o'}} {{I18n 'articles'}}</h4>
+<ul id="articles">
+  {{#each articles}}
+    <li>
+      <span>{{link text url 'link'}}  –  <strong>{{name}}</strong></span>
+      {{#if picture}}
         <img src="{{src picture 48}}" alt="{{name}}">
-        <span>
-          {{icon 'quote-left'}}{{{text}}}{{icon 'quote-right'}}
-          {{i18nLink 'tweet_by' url this}}
-        </span>
-
-      </li>
-    {{/each}}
-  </ul>
-  <h4>{{icon 'newspaper-o'}} {{I18n 'articles'}}</h4>
-  <ul id="articles">
-    {{#each articles}}
-      <li>
-        <span>{{link text url 'link'}}  –  <strong>{{name}}</strong></span>
-        {{#if picture}}
-          <img src="{{src picture 48}}" alt="{{name}}">
-        {{/if}}
-      </li>
-    {{/each}}
-  </ul>
-</section>
+      {{/if}}
+    </li>
+  {{/each}}
+</ul>

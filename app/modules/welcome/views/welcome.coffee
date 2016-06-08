@@ -2,16 +2,18 @@ NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
 loginPlugin = require 'modules/general/plugins/login'
 showLastPublicItems = require '../lib/show_last_public_items'
 urls = require 'lib/urls'
-{ tweets, articles } = require '../lib/mentions'
+Mentions = require './mentions'
 
 module.exports = Marionette.LayoutView.extend
   id: 'welcome'
   template: require './templates/welcome'
   regions:
     previewColumns: '#previewColumns'
+    mentions: '#mentions'
 
   initialize: ->
     loginPlugin.call @
+    @waitForMention = getMentionsData()
 
   events:
     'click .toggleMission': 'toggleMission'
@@ -24,7 +26,6 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     loggedIn: app.user.loggedIn
     urls: urls
-    mentions: @mentionsData()
 
   ui:
     thanks: '#thanks'
@@ -38,6 +39,9 @@ module.exports = Marionette.LayoutView.extend
     unless app.user.loggedIn or _.smallScreen()
       app.vent.trigger 'top:bar:hide'
       @showTopBarOnceLandingScreenIsOutOfView()
+
+    @waitForMention
+    .then @showMentions.bind(@)
 
   showTopBarOnceLandingScreenIsOutOfView: ->
     @ui.landingScreen.on 'inview', (e, inview)=>
@@ -66,22 +70,11 @@ module.exports = Marionette.LayoutView.extend
     @ui.missions.slideToggle()
     @ui.missionsTogglers.toggle()
 
-  mentionsData: ->
-    { lang } = app.user
-    return data =
-      tweets: tailorForLang tweets, lang
-      articles: tailorForLang articles, lang
+  showMentions: (data)->
+    @mentions.show new Mentions({data: data})
 
-
-tailorForLang = (data, lang)->
-  # first the user lang
-  orderedData = data[lang] or []
-  # then English
-  if lang isnt 'en'
-    if data.en? then orderedData = orderedData.concat data.en
-  # then other langs
-  for k, v of data
-    unless k is lang or k is 'en'
-      orderedData = orderedData.concat data[k]
-
-  return orderedData
+# no need to fetch mentions data more than once per session
+mentionsData = null
+getMentionsData = ->
+  if mentionsData? then _.preq.resolve mentionsData
+  else _.preq.get app.API.json('mentions')
