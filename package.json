@@ -10,15 +10,15 @@
     "url": "http://github.com/maxlath/inventaire-client"
   },
   "engines": {
-    "node": "~4.2.1"
+    "node": "^4.2.1"
   },
   "scripts": {
     "postinstall": "./scripts/postinstall",
-    "start": "./node_modules/brunch/bin/brunch watch",
+    "start": "brunch watch",
     "lint": "coffeelint -f ./config/coffeelint.json app/*",
     "lint-staged": "../scripts/lint-staged",
-    "test": "./node_modules/mocha/bin/mocha --compilers coffee:coffee-script/register",
-    "test-watch": "./node_modules/mocha/bin/mocha --compilers coffee:coffee-script/register --watch",
+    "test": "mocha --compilers coffee:coffee-script/register",
+    "test-watch": "mocha --compilers coffee:coffee-script/register --watch",
     "test-build": "./scripts/test_build/run local",
     "test-build-prod": "./scripts/test_build/run prod",
     "build": "./scripts/build",
@@ -28,7 +28,6 @@
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee"
   },
   "dependencies": {
-    "after-brunch": "0.0.5",
     "bluebird": "^3.4.0",
     "browser-locale": "^1.0.0",
     "cropper": "^2.3.0",
@@ -44,6 +43,7 @@
     "wikidata-sdk": "^3.0.1"
   },
   "devDependencies": {
+    "after-brunch": "0.0.5",
     "auto-reload-brunch": "^2.1.0",
     "autoprefixer": "^6.3.6",
     "bluereq": "^2.0.2",
