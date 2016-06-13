@@ -12,21 +12,21 @@ module.exports =
 getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, originalLang)->
   getTitleForLang = (Lang)-> getWikiProjectTitle sitelinks, projectBaseName, Lang
 
-  [ title, L ] = [ getTitleForLang(lang), lang ]
+  [ title, langCode ] = [ getTitleForLang(lang), lang ]
 
   if originalLang? and not title?
-    [ title, L ] = [ getTitleForLang(originalLang), originalLang ]
+    [ title, langCode ] = [ getTitleForLang(originalLang), originalLang ]
 
   unless title?
-    [ title, L ] = [ getTitleForLang('en'), 'en' ]
+    [ title, langCode ] = [ getTitleForLang('en'), 'en' ]
 
   unless title?
-    [ title, L ] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
+    [ title, langCode ] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
 
-  if title? and L
+  if title? and langCode
     title = encodeURIComponent title
-    url = "https://#{L}.#{projectRoot}.org/wiki/#{title}"
-    return {title: title, lang: L, url: url}
+    url = "https://#{langCode}.#{projectRoot}.org/wiki/#{title}"
+    return {title: title, lang: langCode, url: url}
 
   return
 
@@ -40,8 +40,8 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
     match = k.split(projectBaseName)
     # ex: 'lawikisource'.split 'wikisource' == ['la', '']
     if match.length is 2
-      L = match[0]
-      return [v.title, L]
+      langCode = match[0]
+      return [v.title, langCode]
   return []
 
 getEpubLink = (wikisourceData)->
