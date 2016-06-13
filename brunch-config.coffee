@@ -9,7 +9,7 @@ exports.config =
     javascripts:
       joinTo:
         # foundation js is included in vendor as a normal bower component
-        'js/vendor.js': /^(vendor\/js|bower_components)/
+        'js/vendor.js': /^(vendor\/js|bower_components|node_modules)/
         'js/app.js': /^app/
       order:
         before: [

@@ -1,3 +1,6 @@
+LevelUp = require 'levelup'
+LevelMultiply = require 'level-multiply'
+LevelJs = require 'level-js'
 resetDbsPeriodically = require './reset_dbs_periodically'
 
 DB = null

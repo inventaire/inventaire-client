@@ -1,3 +1,4 @@
+toDataURL = require 'to-data-url'
 error_ = require 'lib/error'
 
 handlers =
@@ -11,7 +12,7 @@ handlers =
   getUrlDataUrl: (url)->
     if /^http/.test url then url = app.API.proxy url
     new Promise (resolve, reject)->
-      window.toDataURL url,
+      toDataURL url,
         callback: (err, res)->
           if err? then reject err
           else resolve res

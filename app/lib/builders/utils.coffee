@@ -1,3 +1,5 @@
+invUtils = require 'inv-utils'
+
 module.exports = ->
   # _ starts as a global object with just the underscore lib
   # It needs to be explicitly definied hereafter to avoid
@@ -5,7 +7,7 @@ module.exports = ->
   { _ } = window
 
   # extending _ with invUtils functions
-  _ = window.invUtils _
+  _ = invUtils _
 
   csle = if CONFIG.debug then window.console else require 'lib/noop_console'
 

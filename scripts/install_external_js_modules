@@ -10,15 +10,6 @@ pub=public/js
 vendor=vendor/js
 source scripts/init_gzip_utils
 
-browserifyModule(){
-  browserify node_modules/$1 -s $2 > ${vendor}/${1}.js
-  echo -e '\e[0;32mdone browserifying:\e[0m' $1
-}
-copyIt(){
-  cp node_modules/$1 ${vendor}/$2.js
-  echo -e '\e[0;32mdone copying:\e[0m' $2
-}
-
 uglifyIt(){
   # 2>&1: redirect stderr to stdin to be able to pipe it
   # grep -v WARN: avoid showing warnings
@@ -34,17 +25,6 @@ cropper_base=cropper-2.3.0
 
 curl -sk https://piwik.allmende.io/piwik.js > ${vendor}/piwik.js
 echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
-
-browserifyModule levelup LevelUp
-browserifyModule level-multiply LevelMultiply
-browserifyModule level-js LevelJs
-browserifyModule to-data-url toDataURL
-browserifyModule browser-locale browserLocale
-browserifyModule enumerate-devices enumerateDevices
-
-copyIt wikidata-sdk/dist/wikidata-sdk.js wikidata-sdk
-copyIt inv-utils/dist/inv-utils.js inv-utils
-copyIt wikidata-lang/dist/index.js wikidata-lang
 
 browserify node_modules/memdown -s MemDown > ${pub}/${memdown_base}.js
 uglifyIt $pub $memdown_base

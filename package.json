@@ -46,11 +46,10 @@
   "devDependencies": {
     "auto-reload-brunch": "^2.1.0",
     "autoprefixer": "^6.3.6",
-    "bluebird": "^3.3.3",
     "bluereq": "^2.0.2",
     "bower": "^1.7.7",
     "browserify": "^11.2.0",
-    "brunch": "^2.5.3",
+    "brunch": "^2.8.0",
     "clean-css-brunch": "^2.0.0",
     "coffee-script-brunch": "^2.0.0",
     "coffeeify": "^2.0.1",

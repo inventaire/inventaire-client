@@ -3,6 +3,7 @@ email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+wdLang = require 'wikidata-lang'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/profile_settings'
@@ -49,7 +50,7 @@ module.exports = Marionette.ItemView.extend
   emailPickerData: -> pickerData @model, 'email'
 
   languagesData: ->
-    languages = _.deepClone window.wdLang.byCode
+    languages = _.deepClone wdLang.byCode
     currentLanguages = _.shortLang @model.get('language')
     languages[currentLanguages]?.selected = true
     return languages

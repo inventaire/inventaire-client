@@ -1,8 +1,10 @@
+browserLocale = require 'browser-locale'
+
 guessLanguage = ->
   lang = $.cookie 'lang'
   if lang? then return lang
 
-  lang = window.browserLocale()
+  lang = browserLocale()
   if lang? then return lang
 
   return 'en'

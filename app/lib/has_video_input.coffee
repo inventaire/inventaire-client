@@ -1,6 +1,8 @@
+enumerateDevices = require 'enumerate-devices'
+
 # using https://www.npmjs.com/package/enumerate-devices
 module.exports = ->
-  window.enumerateDevices()
+  enumerateDevices()
   .then hasVideoInput
   .then (bool)-> window.hasVideoInput = bool
   .catch (err)->

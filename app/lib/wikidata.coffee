@@ -1,5 +1,7 @@
 aliases = sharedLib 'wikidata_aliases'
 preq = requireProxy 'lib/preq'
+wdk = require 'wikidata-sdk'
+wdLang = require 'wikidata-lang'
 
 module.exports = wd_ = sharedLib('wikidata')(preq, _, wdk)
 
@@ -78,4 +80,4 @@ wd_.getOriginalLang = (claims, notSimplified)->
   if notSimplified then langClaims = wdk.simplifyClaims langClaims
 
   originalLangWdId = _.pickOne(langClaims)?[0]
-  return window.wdLang.byWdId[originalLangWdId]?.code
+  return wdLang.byWdId[originalLangWdId]?.code

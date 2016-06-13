@@ -1,5 +1,6 @@
 Entity = require './entity'
 wd_ = require 'lib/wikidata'
+wdk = require 'wikidata-sdk'
 wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 error_ = require 'lib/error'

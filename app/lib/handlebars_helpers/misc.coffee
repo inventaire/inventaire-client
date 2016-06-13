@@ -1,3 +1,4 @@
+{ moment } = window
 { SafeString } = Handlebars
 
 module.exports =

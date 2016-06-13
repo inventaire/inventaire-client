@@ -1,3 +1,5 @@
+{ moment } = window
+
 module.exports = (lang)->
   validLang = pickMomentLang lang
   # _.log "moment lang: #{lang} -> #{validLang}"
