@@ -18,16 +18,13 @@ convertFromString = bluebird.promisify converter.fromString.bind(converter)
 csvFile = __.path 'client', 'scripts/assets/mentions.csv'
 jsonFile = __.path 'client', 'public/json/mentions.json'
 
-mentions =
-  tweets: {}
-  articles: {}
-
 cleanAttributes = (obj)->
   for k, v of obj
     if v is '' then delete obj[k]
 
   return obj
 
+mentions = {}
 
 readFile csvFile, { encoding: 'utf-8' }
 .then (file)->
@@ -40,8 +37,9 @@ readFile csvFile, { encoding: 'utf-8' }
       # convert type to plural form
       type += 's'
       el.text = convertMarkdown el.text
+      mentions[type] or= {}
       mentions[type][lang] or= []
-      mentions[type][lang].push _.omit(el, ['type', 'lang'])
+      mentions[type][lang].push _.omit(el, ['type'])
 
     console.log 'mentions', mentions
 

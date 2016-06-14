@@ -21,3 +21,17 @@
     </li>
   {{/each}}
 </ul>
+<h4>{{icon 'video-camera'}} {{I18n 'videos'}}</h4>
+<ul id="videos">
+  {{#each videos}}
+    <li style="background-image:url({{src picture 400}})">
+      <a href="{{url}}" target='_blank'>
+        <div class="grey-filter">
+          {{icon 'play-circle'}}
+          <p class="label">{{text}}</p>
+          <p class="lang">{{lang}}</p>
+        </div>
+      </a>
+    </li>
+  {{/each}}
+</ul>

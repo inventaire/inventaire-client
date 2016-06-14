@@ -13,8 +13,8 @@ echo -e '\e[0;30mbuild_index\e[0m'
 echo -e '\e[0;30mgzip js and css files\e[0m'
 source ./scripts/init_gzip_utils
 gzipkeepall public/js
-# no need to run it everytimes as it doesn't change
-# gzipkeepall public/js/moment
+gzipkeepall public/js/moment
+gzipkeepall public/json
 gzipkeepall public/css
 
 echo -e '\e[0;30mgzip index.html\e[0m'

@@ -11,6 +11,6 @@ export gzipkeep(){
 export gzipkeepall(){
   # delete all the .gz files
   # to avoid catching them in the * on the for loop selector
-  rm $1/*gz && echo "deleted $1/*gz"
+  rm -f $1/*gz && echo "deleted $1/*gz"
   for f in $1/*; do gzipkeep $f; done;
 }

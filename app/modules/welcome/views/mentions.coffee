@@ -1,11 +1,11 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/mentions'
   serializeData: ->
-    { tweets, articles } = @options.data
     { lang } = app.user
-    return data =
-      tweets: tailorForLang tweets, lang
-      articles: tailorForLang articles, lang
+    data = {}
+    for k, v of @options.data
+      data[k] = tailorForLang v, lang
+    return _.log data, 'data'
 
 tailorForLang = (data, lang)->
   # first the user lang
