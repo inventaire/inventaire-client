@@ -1,3 +1,6 @@
+// those can't be split into several non-partial files (despite the fact that
+// it would allow better error reports than just "base.scss failed"), as global
+// variables need to be accessible to all
 @import "grid_and_media_query_ranges";
 @import "fonts_and_typo";
 @import "general_settings";
