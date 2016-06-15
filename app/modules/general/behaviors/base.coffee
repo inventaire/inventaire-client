@@ -18,3 +18,4 @@ module.exports =
   PlainTextAuthorLink: require './plain_text_author_link'
   Unselect: require './unselect'
   Toggler: require './toggler'
+  DeepLinks: require './deep_links'

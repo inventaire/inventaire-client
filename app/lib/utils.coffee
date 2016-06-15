@@ -187,11 +187,12 @@ module.exports = (Backbone, _, $, app, window, csle)->
     currentSection: ->
       _.routeSection _.currentRoute()
 
-    # scroll to the top of an $el
-    scrollTop: ($el, duration=500)->
+    # Scroll to the top of an $el
+    # Increase marginTop to scroll to a point before the element top
+    scrollTop: ($el, duration=500, marginTop=0)->
       # Polymorphism: accept jquery objects or selector strings as $el
       if _.isString then $el = $($el)
-      top = $el.position().top
+      top = $el.position().top - marginTop
       $('html, body').animate {scrollTop: top}, duration
 
     # scroll to a given height

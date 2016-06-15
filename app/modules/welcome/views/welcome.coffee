@@ -20,6 +20,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     AlertBox: {}
+    DeepLinks: {}
     Loading: {}
     SuccessCheck: {}
 
@@ -58,6 +59,8 @@ module.exports = Marionette.LayoutView.extend
     .catch @hidePublicItems.bind(@)
     .catch _.Error('hidePublicItems err')
 
+    @triggerMethod 'child:view:ready'
+
   onDestroy: ->
     app.vent.trigger 'top:bar:show'
     app.vent.trigger 'lateral:buttons:show'
@@ -71,6 +74,7 @@ module.exports = Marionette.LayoutView.extend
     @ui.missionsTogglers.toggle()
 
   showMentions: (data)->
+    @triggerMethod 'child:view:ready'
     @mentions.show new Mentions({data: data})
 
 # no need to fetch mentions data more than once per session
