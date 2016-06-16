@@ -9,7 +9,6 @@ module.exports = Marionette.ItemView.extend
     @listenTo app.vent,
       'route:change': @selectButtonFromRoute.bind(@)
       'transactions:unread:change': @lazyRender
-      'i18n:reset': @lazyRender
       'network:requests:udpate': @lazyRender
 
   events:

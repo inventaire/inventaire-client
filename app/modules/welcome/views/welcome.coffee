@@ -1,4 +1,3 @@
-NotLoggedMenu = require 'modules/general/views/menu/not_logged_menu'
 loginPlugin = require 'modules/general/plugins/login'
 showLastPublicItems = require '../lib/show_last_public_items'
 urls = require 'lib/urls'
@@ -37,18 +36,9 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     @showPublicItems()
     app.vent.trigger 'lateral:buttons:hide'
-    unless app.user.loggedIn or _.smallScreen()
-      app.vent.trigger 'top:bar:hide'
-      @showTopBarOnceLandingScreenIsOutOfView()
 
     @waitForMention
     .then @showMentions.bind(@)
-
-  showTopBarOnceLandingScreenIsOutOfView: ->
-    @ui.landingScreen.on 'inview', (e, inview)=>
-      if not inview
-        app.vent.trigger 'top:bar:show'
-        @ui.landingScreen.off 'inview'
 
   showPublicItems: ->
     showLastPublicItems
@@ -62,7 +52,6 @@ module.exports = Marionette.LayoutView.extend
     @triggerMethod 'child:view:ready'
 
   onDestroy: ->
-    app.vent.trigger 'top:bar:show'
     app.vent.trigger 'lateral:buttons:show'
 
   hidePublicItems: (err)->

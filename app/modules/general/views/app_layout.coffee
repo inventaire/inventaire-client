@@ -48,11 +48,7 @@ module.exports = Marionette.LayoutView.extend
     app.reqres.setHandlers
       'waitForCheck': waitForCheck
 
-    # needed by search engines
-    # or to make by-language css rules (with :lang)
-    documentLang.keepBodyLangUpdated.call(@)
-    documentLang.keepHeadAlternateLangsUpdated.call(@)
-    documentLang.updateOgLocalAlternates()
+    documentLang @$el, app.user.lang
     initHeadMetadataCommands()
 
     initIconNavHandlers.call(@)

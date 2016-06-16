@@ -19,8 +19,6 @@ module.exports = ->
   app.data = require('lib/data_state')
   app.data.initialize()
 
-  require('lib/i18n').initialize(app)
-
   # initialize all the modules and their routes before app.start()
   # the first routes initialized have the lowest priority
 
@@ -41,9 +39,8 @@ module.exports = ->
 
   AppLayout = require 'modules/general/views/app_layout'
 
-  app.request('i18n:set')
-  .done ->
-
+  app.request 'waitForI18n'
+  .then ->
     # Initialize the application on DOM ready event.
     $ ->
       # initialize layout after user to get i18n data

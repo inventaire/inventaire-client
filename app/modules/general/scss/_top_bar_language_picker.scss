@@ -1,0 +1,39 @@
+.language-picker{
+  li.option{
+    a{
+      display: block;
+      // width: 98%;
+      padding: 0;
+      position: relative;
+      z-index: 1;
+      line-height: 2.5em;
+      overflow: hidden;
+      // overriding Foundation
+      background-color: $grey !important;
+      @include transition(background-color);
+    }
+    .completion{
+      display: block;
+      @include radius-right;
+      @include position(absolute, 0, null, 0, null, -1);
+      background-color: $light-blue;
+      @include transition(opacity);
+    }
+    .lang{
+      font-weight: bold;
+      padding: 0 0.4em 0 0.4em;
+    }
+    &:hover{
+      .completion{
+        // opacity: 0.2 !important;
+        opacity: 0.25;
+      }
+      a{
+        background-color: $dark-grey !important;
+      }
+    }
+    &:not(:last-child) .completion{
+      border-bottom-right-radius: $global-radius;
+    }
+  }
+}

@@ -1,46 +1,40 @@
 { origin } = location
-{ alternateLangs, territorialize } = require './active_langs'
+{ langs, regionify } = require 'lib/active_languages'
 
-exports.keepBodyLangUpdated = ->
-  updateBodyLang.call @, app.request('i18n:current')
-  @listenTo app.vent, 'i18n:set', updateBodyLang.bind(@)
+# lang metadata updates needed by search engines
+# or to make by-language css rules (with :lang)
+module.exports = ($app, lang)->
+  setAppLang $app, lang
 
-updateBodyLang = (lang)-> @$el.attr 'lang', lang
+  $head = $('head')
+  setHeadAlternateLangs $head, _.currentRoute()
+  setOgLocalAlternates $head, lang
 
+setAppLang = ($app, lang)-> $app.attr 'lang', lang
 
-exports.keepHeadAlternateLangsUpdated = ->
-  updateHeadAlternateLangs null, _.currentRoute()
-  # we dont need to keep it udpated,
-  # its just to help search engines find the appropriate url for static content
-  # @listenTo app.vent, 'route:change', updateHeadAlternateLangs
-
-updateHeadAlternateLangs = (section, route)->
-  # the default lang - en - doesnt need a lang querystring to be set.
-  # it could have one, but search engines need to know that the default url
+setHeadAlternateLangs = ($head, currentRoute)->
+  href = "#{origin}/#{currentRoute}"
+  # Non-default langs needing a lang querystring
+  for lang in langs
+    if lang isnt 'en' then setHreflang $head, href, true, lang
+  # The default lang - en - doesnt need a lang querystring to be set.
+  # It could have one, but search engines need to know that the default url
   # they got matches this languages hreflang
-  setHreflang route, false, 'en'
-  # non-default langs needing a lang querystring
-  for lang in alternateLangs
-    setHreflang route, true, lang
+  setHreflang $head, href, false, 'en'
 
-setHreflang = (route, withLangQueryString, lang)->
-  # can't use location.href directly as it seems
+setHreflang = ($head, href, withLangQueryString, lang)->
+  # Can't use location.href directly as it seems
   # to be updated after route:navigate
-
-  # discarding querystring to only keep lang
-  href = "#{origin}/#{route}"
+  # Discarding querystring to only keep lang
   if withLangQueryString then href = _.setQuerystring href, 'lang', lang
-  $("head link[hreflang='#{lang}']").attr 'href', href
+  $head.find("link[hreflang='#{lang}']").attr 'href', href
 
-exports.updateOgLocalAlternates = ->
-  lang = app.request 'i18n:current'
-
+setOgLocalAlternates = ($head, lang)->
   # set the current lang as 'og:locale'
-  local = territorialize[lang]
-  $('head').append "<meta property='og:locale' content='#{local}' />"
+  local = regionify[lang]
+  $head.append "<meta property='og:locale' content='#{local}' />"
 
   # set the others as 'og:locale:alternate'
-  otherTerritories = _.values _.omit(territorialize, lang)
+  otherTerritories = _.values _.omit(regionify, lang)
   for territory in otherTerritories
-    $('head')
-    .append "<meta property='og:locale:alternate' content='#{territory}' />"
+    $head.append "<meta property='og:locale:alternate' content='#{territory}' />"

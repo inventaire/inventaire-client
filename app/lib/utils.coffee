@@ -9,8 +9,11 @@ module.exports = (Backbone, _, $, app, window, csle)->
   loggers = require('./loggers')(_, csle)
 
   utils =
+    # sync
+    getCookie: $.cookie
+    # async
     setCookie: (key, value)->
-      @preq.post '/api/cookie', {key: key, value: value}
+      @preq.post app.API.cookie, {key: key, value: value}
       .catch _.Error("setCookie: failed: #{key} - #{value}")
 
     i18n: require './translate'

@@ -1,0 +1,25 @@
+<li class="has-dropdown language-picker">
+  <a class="current-lang">{{currentLanguage}}</a>
+  <ul class="dropdown">
+    <li>
+      <ul class="options">
+        {{#each languages}}
+          <li class="option">
+            <a data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}}">
+              <span class="completion" style="width:{{completion}}%"></span>
+              <span class="lang">{{native}}</span>
+              ({{i18n 'translation_completion' completion=completion}})
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </li>
+    <li class="contribute">
+      <a href="{{transifex}}" target="_blank">
+        {{icon 'pencil'}}
+        <strong>{{i18n 'help translate inventaire'}}</strong>
+      </a>
+    </li>
+  </ul>
+</li>
+

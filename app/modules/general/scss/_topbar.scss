@@ -2,6 +2,7 @@
 $topbar-bg-color: $darker-grey;
 $topbar-title-font-size: 2rem;
 $topbar-link-font-size: 1rem;
+$topbar-link-bg-hover: #555;
 $topbar-link-bg-active: darken($secondary-color, 2%);
 $topbar-link-bg-active-hover: scale-color($secondary-color, $lightness: -14%);
 $topbar-link-color-active: $dark-grey;
@@ -17,28 +18,6 @@ $topbar-height: 45px;
 }
 
 nav.top-bar {
-  .notLoggedMenu{
-    a{
-      font-weight: bold;
-      text-align: center;
-    }
-  }
-  #signupRequest{
-    a{
-      @include bg-hover($secondary-color, 5%);
-      color: $dark-grey;
-    }
-  }
-  #loginRequest{
-    a{
-      @include bg-hover($success-color, 5%);
-      color: white;
-    }
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    @include position(fixed, 0, 0, null, 0);
-  }
   // needed to be above everything that has a z-index or is fixed
   z-index: 9000;
   img{
@@ -59,7 +38,11 @@ nav.top-bar {
       @include shadow-box($darker-grey);
     }
   }
-
+  li{
+    a{
+      @include transition(background-color);
+    }
+  }
   .listWithCounter{
     @include display-flex(row, center);
   }
@@ -73,6 +56,7 @@ nav.top-bar {
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
+    @include position(fixed, 0, 0, null, 0);
     .breadcrumb{
       a{
         font-size: 1.2em;
@@ -99,9 +83,6 @@ nav.top-bar {
     .right{
       max-width: 70em;
       margin-left: auto;
-    }
-    .notLoggedMenu{
-      justify-content: flex-end;
     }
     // force the input and the .button to have the same height
     $search-input-height: 2.3em;
@@ -151,4 +132,5 @@ nav.top-bar {
       @include align-icons;
     }
   }
+  @import 'not_logged_menu';
 }

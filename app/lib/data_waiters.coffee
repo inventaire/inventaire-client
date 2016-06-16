@@ -36,3 +36,4 @@ module.exports = ->
     'waitForFriendsItems': Waiter 'friends:items:ready', -> app.items?.friends?.fetched
     'waitForItems': _.once waitForItems
     'waitForLayout': Waiter 'layout:ready', -> app.layout?.ready
+    'waitForI18n': Waiter 'i18n:ready', -> app.data.i18nReady

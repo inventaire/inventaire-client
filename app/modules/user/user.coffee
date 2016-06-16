@@ -82,7 +82,6 @@ subModules = [
     'user_listings'
     'user_update'
     'user_menu_update'
-    'user_language_update'
   ]
 
 initSubModules = (app)->

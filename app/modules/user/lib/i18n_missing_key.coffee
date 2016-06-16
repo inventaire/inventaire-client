@@ -7,7 +7,7 @@ module.exports = (key)->
 
 sendMissingKeys = ->
   if missingKeys?.length > 0
-    _.preq.post '/log/i18n', {missingKeys: _.uniq(missingKeys)}
+    _.preq.post app.API.i18n, {missingKeys: _.uniq(missingKeys)}
     .then (res)->
       _.log missingKeys, 'i18n:missing added'
       missingKeys = []

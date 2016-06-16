@@ -3,6 +3,8 @@ Transactions = require 'modules/transactions/collections/transactions'
 Groups = require 'modules/network/collections/groups'
 solveLang = require '../lib/solve_lang'
 notificationsList = sharedLib 'notifications_settings_list'
+initI18n = require '../lib/i18n'
+{ location } = window
 
 module.exports = UserCommons.extend
   isMainUser: true
@@ -21,22 +23,49 @@ module.exports = UserCommons.extend
     return _(data).omit ['relations', 'notifications', 'transactions', 'groups']
 
   initialize: ->
-    @setLang()
-    @on 'change:language', @setLang.bind(@)
+    @on 'change:language', @changeLang.bind(@)
     @on 'change:username', @setPathname.bind(@)
     @on 'change:position', @setLatLng.bind(@)
     # user._id should only change once from undefined to defined
     @once 'change:_id', (model, id)-> app.execute 'track:user:id', id
 
-  setLang: -> @lang = solveLang @get('language')
+    # If the user is logged in, this will wait for her document to arrive
+    # with its language attribute. Else, it will fire at next tick.
+    app.request 'waitForUserData'
+    .then @setLang.bind(@)
+
+  setLang: ->
+    @lang = lang = solveLang @get('language')
+    initI18n app, lang
+
+  # Two valid language change cases:
+  # - The user isn't logged in and change the language from the top bar selector
+  # - The user is logged in and change the language from her profile settings
+  changeLang: ->
+    unless app.polyglot? then return
+
+    lang = @get 'language'
+    if lang is app.polyglot.currentLocale then return
+
+    reload = location.reload.bind location
+
+    if @loggedIn
+      # wait for the server confirmation as we keep the language setting
+      # in the user's document
+      @once 'confirmed:language', reload
+    else
+      # the language setting is persisted as a cookie instead
+      _.setCookie 'lang', lang
+      .then reload
 
   addNotifications: (notifications)->
     if notifications?
-      app.request('waitForData')
+      app.request 'waitForData'
       .then app.Request('notifications:add', notifications)
 
   setDefaultSettings: (settings)->
-    settings.notifications = @setDefaultNotificationsSettings(settings.notifications)
+    { notifications } = settings
+    settings.notifications = @setDefaultNotificationsSettings notifications
     return settings
 
   setDefaultNotificationsSettings: (notifications)->

@@ -1,6 +1,6 @@
 events =
-  'click #signupRequest': 'showSignup'
-  'click #loginRequest': 'showLogin'
+  'click .signupRequest': 'showSignup'
+  'click .loginRequest': 'showLogin'
 
 handlers =
   showSignup: -> app.execute 'show:signup:redirect'
