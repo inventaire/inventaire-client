@@ -2,17 +2,14 @@
 { SafeString } = Handlebars
 
 module.exports =
-  i18n: (key, args..., data)->
-    # this function might be called before the tempates data arrived
+  i18n: (key, context)->
+    # This function might be called before the tempates data arrived
     # returning '' early prevents to display undefined and make polyglot worry
     unless key? then return ''
-    # key, contextObj OR key, smart_count form
-    firstArg = args[0]
-    if _.isObject(firstArg) or _.isNumber(firstArg) then context = firstArg
-    # key, context pairs form
-    else if args.length % 2 is 0 then context = _.objectifyPairs args
-    else context = null
-    return _.i18n(key, context)
+    # Allow to pass context through Handlebars hash object
+    # ex: {{{i18n 'email_invitation_sent' email=this}}}
+    if _.isObject context?.hash then context = context.hash
+    return _.i18n key, context
 
   I18n: (args...)-> _.capitaliseFirstLetter @i18n.apply(@, args)
 

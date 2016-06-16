@@ -123,22 +123,6 @@ module.exports = (Backbone, _, $, app, window, csle)->
     getYearFromEpoch: (epochTime)-> new Date(epochTime).getYear() + 1900
     yearsAgo: (years)-> new Date().getYear() + 1900 - years
 
-    objectifyPairs: (array)->
-      pairs = array.length / 2
-      if pairs % 1 isnt 0
-        err = 'expected pairs, got odd number of arguments'
-        throw new Error(err, arguments)
-
-      obj = {}
-      if pairs >= 1
-        i = 0
-        while i < pairs
-          [ key, value ] = [ array[i], array[i+1] ]
-          obj[key] = value
-          i += 1
-
-      return obj
-
     # /!\ window.screen.width is the screen's width not the current window width
     screenWidth: -> $(window).width()
     screenHeight: -> $(window).height()
