@@ -46,7 +46,10 @@ module.exports = (_, csle)->
     window.reportErr {error: report}
 
     prettyLog = "===== #{label} =====\n"
-    if err?.responseText? then prettyLog += "\n#{err.responseText}\n\n"
+    if err?.responseText? then prettyLog += "#{err.responseText}\n\n"
+    if err?.context?
+      json = JSON.stringify err.context, null, 2
+      prettyLog += "context: #{json}\n\n"
     csle.error prettyLog, stackLines, "\n-----"
 
   # providing a custom warn as it might be used

@@ -2,7 +2,9 @@ Promise::fail = Promise::caught
 Promise::always = Promise::finally
 
 Promise.onPossiblyUnhandledRejection (err)->
-  label = "[PossiblyUnhandledError] #{err.name}: #{err.message} (#{typeof err.message})"
+  { lineNumber, columnNumber } = err
+  pointer = if lineNumber? then "#{lineNumber}:#{columnNumber}" else ''
+  label = "[PossiblyUnhandledError] #{err.name}: #{err.message} #{pointer}"
   stack = err?.stack?.split('\n')
   report = {label: label, error: err, stack: stack}
   if err.message is "[object Object]"
@@ -12,8 +14,11 @@ Promise.onPossiblyUnhandledRejection (err)->
 
 preq = sharedLib('promises')(Promise)
 
-Ajax = (verb, hasBody)->
+Ajax = (verb, hasBody, allowProxiedUrl=false)->
   return ajax = (url, body)->
+    if allowProxiedUrl
+      if proxiedUrl(url) then url = app.API.proxy url
+
     options =
       type: verb
       url: url
@@ -23,15 +28,10 @@ Ajax = (verb, hasBody)->
       options.headers =
         'content-type': 'application/json'
 
-    return wrap $.ajax(options), url
+    return wrap $.ajax(options), options
 
 module.exports = _.extend preq,
-  # keep the options object interface to keep the same signature
-  # as the server side promises_.get, to ease shared libs
-  get: (url, options)->
-    if proxiedUrl url then url = app.API.proxy url
-    return wrap $.get(url), url
-
+  get: Ajax 'GET', false, true
   post: Ajax 'POST', true
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
@@ -63,18 +63,19 @@ module.exports = _.extend preq,
 
 proxiedUrl = (url)-> /wikidata\.org/.test url
 
-preq.wrap = wrap = (jqPromise, url)->
+preq.wrap = wrap = (jqPromise, context)->
   return new Promise (resolve, reject)->
     jqPromise
     .then resolve
-    .fail (err)-> reject rewriteError(err, url)
+    .fail (err)-> reject rewriteError(err, context)
 
-rewriteError = (err, url)->
+rewriteError = (err, context)->
   { status, statusText, responseText, responseJSON } = err
-
+  { url } = context
   error = new Error "#{status}: #{statusText} - #{responseText} - #{url}"
   return _.extend error,
     status: status
     statusText: statusText
     responseText: responseText
     responseJSON: responseJSON
+    context: context
