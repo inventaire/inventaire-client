@@ -33,6 +33,8 @@ module.exports = (Backbone, _, $, app, window, csle)->
       if window.current?
         window.previous or= []
         window.previous.unshift(window.current)
+
+      if _.isArguments obj then obj = _.toArray obj
       return window.current = obj
 
     hasKnownUriDomain: (str)->
