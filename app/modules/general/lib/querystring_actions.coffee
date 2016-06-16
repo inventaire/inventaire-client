@@ -1,7 +1,7 @@
 ValidEmailConfirmation = require 'modules/user/views/valid_email_confirmation'
 
 module.exports = ->
-  validEmail = app.request 'route:querystring:get', 'validEmail'
+  validEmail = app.request 'querystring:get', 'validEmail'
   if validEmail?
     # parsing boolean string
     validEmail = validEmail is 'true'

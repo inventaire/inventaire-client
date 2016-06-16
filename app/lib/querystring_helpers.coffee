@@ -42,8 +42,8 @@ module.exports = (app, _)->
     _.parseQuery window.location.search.slice(1)
 
   app.reqres.setHandlers
-    'route:querystring:get': get
-    'route:querystring:keep': keep
+    'querystring:get': get
+    'querystring:keep': keep
 
   app.commands.setHandlers
-    'route:querystring:set': set
+    'querystring:set': set

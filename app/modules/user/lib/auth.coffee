@@ -64,7 +64,7 @@ prepareLoginRedirect = (redir)->
   _.type redir, 'string'
   if redir[0] is '/' then redir = redir.slice(1)
   # for browserid login
-  app.execute 'route:querystring:set', 'redirect', redir
+  app.execute 'querystring:set', 'redirect', redir
   # for classic login
   [ path, querystring ] = $('#browserLogin')[0].action.split('?')
   query = _.parseQuery querystring
