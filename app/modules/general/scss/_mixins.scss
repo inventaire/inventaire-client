@@ -1,8 +1,10 @@
 @import 'flex_mixins';
 @import 'colors_mixins';
 
-@mixin transition($elements:all, $speed:0.5s, $mode:ease){
-  transition: $elements $speed $mode;
+// the interest of a transition mixin is only to set default values
+// doc: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions
+@mixin transition($elements:all, $speed:0.5s, $delay:0, $mode:ease){
+  transition: $elements $speed $delay $mode;
 }
 
 @mixin border($color, $width:1px, $style:solid){

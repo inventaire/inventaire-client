@@ -7,7 +7,7 @@ fs = require 'graceful-fs'
 readFile = Promise.promisify fs.readFile
 writeFile = Promise.promisify fs.writeFile
 
-getLanguageStats = require './lib/get_language_stats'
+getLanguageStats = require './lib/i18n/get_language_stats'
 langs = require('./lib/i18n/langs').active
 
 languagesDataPath = __.path 'client', 'app/lib/languages_data.coffee'
