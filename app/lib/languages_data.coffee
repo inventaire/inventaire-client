@@ -25,7 +25,7 @@ module.exports = {
     "defaultRegion": "es_ES"
   },
   "fr": {
-    "completion": 99,
+    "completion": 100,
     "defaultRegion": "fr_FR"
   },
   "it": {
