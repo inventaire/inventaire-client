@@ -20,7 +20,7 @@ createDirs = require './lib/i18n/create_dirs'
 console.time 'generate'.grey
 
 createDirs()
-.then Promise.all(langs.map(extendLangWithDefault))
+.then -> Promise.all langs.map(extendLangWithDefault)
 .then ->
   console.timeEnd 'generate'.grey
   console.timeEnd 'total'.grey

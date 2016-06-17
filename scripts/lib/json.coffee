@@ -11,8 +11,9 @@ read = (path)->
 
   fs.readFileAsync path
   .catch (err)->
-    if err?.cause?.errno is 34
-      console.log "file not found: #{path}. Replacing by {}".yellow
+    if err?.code is 'ENOENT'
+      console.log "file not found: #{path}. Creating: {}".yellow
+      fs.writeFile path, '{}'
     else
       console.log "error reading file at #{path}. Replacing by {}".red, err.stack
   .then (text)->

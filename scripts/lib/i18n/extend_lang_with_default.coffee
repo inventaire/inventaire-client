@@ -35,7 +35,7 @@ module.exports = extendLangWithDefault = (lang)->
       langArchive: langWdArchive
       markdown: false
 
-    updateAndArchive
+    promA = updateAndArchive
       lang: lang
       updateFull: updateFull
       archiveFull: archiveFull
@@ -44,7 +44,9 @@ module.exports = extendLangWithDefault = (lang)->
       updateWd: updateWd
       archiveWd: archiveWd
 
-    writeDistVersion lang, _.extend({}, full, short, wd)
+    promB = writeDistVersion lang, _.extend({}, full, short, wd)
+
+    return Promise.all [promA, promB]
 
   .catch (err)->
     console.error "#{lang} err".red, err.stack

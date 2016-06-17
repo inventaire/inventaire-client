@@ -17,7 +17,7 @@ getKeysNumber = (path)->
     .length
   .catch (err)->
     # return 0 if the file doesn't exist
-    if err.errno then return 0
+    if err.code is 'ENOENT' then return 0
     else throw err
 
 module.exports = (lang)->

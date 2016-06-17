@@ -9,7 +9,7 @@
 
 module.exports = {
   "da": {
-    "completion": 9,
+    "completion": 24,
     "defaultRegion": "da_DK"
   },
   "de": {
@@ -29,7 +29,7 @@ module.exports = {
     "defaultRegion": "fr_FR"
   },
   "it": {
-    "completion": 9,
+    "completion": 11,
     "defaultRegion": "it_IT"
   },
   "pl": {
@@ -37,7 +37,7 @@ module.exports = {
     "defaultRegion": "pl_PL"
   },
   "pt": {
-    "completion": 8,
+    "completion": 9,
     "defaultRegion": "pt_PT"
   },
   "sv": {
