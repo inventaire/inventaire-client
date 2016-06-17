@@ -33,7 +33,7 @@
 }
 
 @mixin dangerous-action(){
-  @include transition(background-color, 0.2);
+  @include transition(background-color, 0.2s);
   background-color: $grey;
   color: white;
   &:hover, &:focus{

@@ -1,6 +1,5 @@
 .language-picker{
   li.option{
-    // @include transition-cascade(completion, 9);
     @for $i from 1 through 9 {
       &:nth-child(#{$i}) .completion {
         transition: max-width 0.3s $i*0.1s ease-in;

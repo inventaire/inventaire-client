@@ -3,7 +3,7 @@
 
 // the interest of a transition mixin is only to set default values
 // doc: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions
-@mixin transition($elements:all, $speed:0.5s, $delay:0, $mode:ease){
+@mixin transition($elements:all, $speed:0.5s, $delay:0s, $mode:ease){
   transition: $elements $speed $delay $mode;
 }
 
