@@ -9,7 +9,6 @@ regionify = {}
 
 for lang, obj of languages
   obj.lang = lang
-  console.log('lang', lang, wdLang.byCode[lang])
   obj.native = wdLang.byCode[lang].native
   regionify[lang] = obj.defaultRegion
 
