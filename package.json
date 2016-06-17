@@ -46,7 +46,7 @@
     "after-brunch": "0.0.5",
     "auto-reload-brunch": "^2.1.0",
     "autoprefixer": "^6.3.6",
-    "bluereq": "^2.0.2",
+    "bluereq": "^2.1.1",
     "bower": "^1.7.7",
     "browserify": "^11.2.0",
     "brunch": "^2.8.0",
