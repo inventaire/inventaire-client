@@ -156,6 +156,6 @@
     "use_zxing_application": "utiliser une application de scanner externe",
     "external_scanner_intro": "si vous avez des difficultés à utiliser le scanner de code-barre interne, vous avez la possibilité d'utiliser à la place une application externe compatible avec le protocole Zxing :",
     "failing_scan_tip": "si le scanner a des difficultés à trouver le code-barre, il est possible que la lumière soit inadéquate ou que la caméra ne soit pas assez précise",
-    "translation_completion": null,
-    "switch_to_lang": null
+    "translation_completion": "complet à %{completion}%",
+    "switch_to_lang": "passer en %{language}"
 }
