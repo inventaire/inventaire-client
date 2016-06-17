@@ -40,7 +40,6 @@
     "delete_account_confirmation": "Êtes-vous sûr de vouloir supprimer le compte \"**%{username}**\" ?",
     "new_comment_on_followed_item": "**%{username}** a commenté **%{title}**",
     "global_email_toggle_warning": "Désactiver toutes les notifications par email est déconseillé car vous pourriez manquer des informations importantes : si possible, ajustez les paramètres ci-dessous à vos besoins",
-    "undefined": "Demandez à être ajouté au [tableau de bord du projet](https://trello.com/b/0lKcsZDj/inventaire-community) <small>(en)</small>, rejoignez [l'équipe de traduction](https://www.transifex.com/organization/inventaire/), postez une [remarque sur github](https://github.com/inventaire/inventaire/issues) <small>(en)</small>, ou commencez simplement une discussion en répondant à cet email !",
     "title_networt_layout": "connectez-vous à vos amis et vos communautés pour voir leurs livres",
     "group_position_context": "Si votre groupe est associé à un endroit spécifique (une université, des bureaux, etc.), il peut être judicieux d’indiquer sa position pour aider les autres utilisateurs à le trouver",
     "email_confirmation_success": "adresse e-mail confirmée avec succès. Merci !",
