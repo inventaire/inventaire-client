@@ -19,8 +19,7 @@
     "welcome_username": "bienvenue %{username} !",
     "joyride_last_conlusion_point_1": "merci d'être ici !",
     "joyride_last_conlusion_point_2": "et maintenant, à vos inventaires !!",
-    "assembled_by": "assemblé par [Maxime Lathuilière](http://maxlath.eu/)",
-    "open_source_credits": "grâce à l'immense travail de [nombreux projets libres et open source](https://github.com/inventaire/inventaire#powered-by) !",
+    "open_source_credits": "ce projet est rendu possible grâce à l'immense travail de [nombreux projets libres et open source](https://github.com/inventaire/inventaire#powered-by) !",
     "pictures_credits": "superbes photos par [Sarah Buckley](https://www.flickr.com/photos/17207222@N02/6117998074/), [artfullife](https://www.flickr.com/photos/artfullife/3589991695/) et [ginnerobot](https://www.flickr.com/photos/ginnerobot/3102623100). Merci !",
     "find_by_isbn_title": "votre livre a-t-il un ISBN ? (l'identifiant près du code-barre)",
     "username_change_confirmation": "Votre nom d'utilisateur actuel est **%{currentUsername}**<br>Êtes-vous sur de vouloir en changer pour **%{requestedUsername}**?",
@@ -156,5 +155,7 @@
     "scanner_disabled_tip_2": "requière une caméra et un [navigateur moderne](https://www.mozilla.org/firefox)",
     "use_zxing_application": "utiliser une application de scanner externe",
     "external_scanner_intro": "si vous avez des difficultés à utiliser le scanner de code-barre interne, vous avez la possibilité d'utiliser à la place une application externe compatible avec le protocole Zxing :",
-    "failing_scan_tip": "si le scanner a des difficultés à trouver le code-barre, il est possible que la lumière soit inadéquate ou que la caméra ne soit pas assez précise"
+    "failing_scan_tip": "si le scanner a des difficultés à trouver le code-barre, il est possible que la lumière soit inadéquate ou que la caméra ne soit pas assez précise",
+    "translation_completion": null,
+    "switch_to_lang": null
 }

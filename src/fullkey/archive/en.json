@@ -9,5 +9,7 @@
     "pouchdb": "pouchdb",
     "downloads": "downloads",
     "enter the url of your CouchDB database": "enter the url of your CouchDB database",
-    "replicate": "replicate"
+    "replicate": "replicate",
+    "discover the books available in your network!": "discover the books available in your network!",
+    "assembled_by": "assembled by [Maxime Lathuilière](http://maxlath.eu/)"
 }

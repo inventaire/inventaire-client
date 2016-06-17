@@ -1,6 +1,6 @@
 {
     "destroy_item_text": "Are you sure you want to remove **%{title}?**",
-    "add_item_text": "Adding <strong>%{label}** to your inventory",
+    "add_item_text": "Adding **%{label}** to your inventory",
     "details_placeholder": "you might want to give more details on the item or the transaction",
     "notes_placeholder": "you only will see it",
     "username_tip": "Username can be anything made of 1 to 20 letters, figures or _",
@@ -19,7 +19,6 @@
     "welcome_username": "welcome %{username}!",
     "joyride_last_conlusion_point_1": "thank you for being here!",
     "joyride_last_conlusion_point_2": "now let's inventorize all the things!",
-    "assembled_by": "assembled by [Maxime Lathuilière](http://maxlath.eu/)",
     "open_source_credits": "standing on the shoulders of [libre and open source giants](https://github.com/inventaire/inventaire#powered-by)!",
     "pictures_credits": "wonderful Creative Commons pictures by [Sarah Buckley](https://www.flickr.com/photos/17207222@N02/6117998074/), [artfullife](https://www.flickr.com/photos/artfullife/3589991695/) and [ginnerobot](https://www.flickr.com/photos/ginnerobot/3102623100). Thanks!",
     "find_by_isbn_title": "does your book have an ISBN? (the identifier near the barcode)",
@@ -36,7 +35,7 @@
     "feedback_title": "send feedback",
     "feedback_intro": "A bug to report, a functionality that you absolutely need, or maybe you just want to send love? You can do that here!",
     "get_involved": "Think you can contribute to make Inventaire better? Get involved!!",
-    "contribution_ideas": "Ask to be added to the [project development board](https://trello.com/b/0lKcsZDj/inventaire-roadmap), join the [translation team](https://www.transifex.com/projects/p/inventaire/), post an [issue on github](https://github.com/inventaire/inventaire/issues), or simply start a discussion from here or on social networks!",
+    "contribution_ideas": "Ask to be added to the [project development board](https://trello.com/b/0lKcsZDj/inventaire-roadmap), join the [translation team](https://www.transifex.com/projects/p/inventaire), post an [issue on github](https://github.com/inventaire/inventaire/issues), or simply start a discussion from here or on social networks!",
     "item_request_text_suggestion_giving": "Hello %{username}! May I have this book?",
     "item_request_text_suggestion_lending": "Hello %{username}! May I borrow this book?",
     "item_request_text_suggestion_selling": "Hello %{username}! May I buy this book?",
@@ -156,5 +155,7 @@
     "scanner_disabled_tip_2": "requires a camera and a [modern browser](https://www.mozilla.org/firefox)",
     "use_zxing_application": "use an external scanner application",
     "external_scanner_intro": "if you have difficulties using the internal barcode scanner, you can use an external application compatible with the Zxing protocol instead:",
-    "failing_scan_tip": "if the scanner has difficulties to find the codebar, it might be that the light isn't adequate or that the camera isn't good enough"
+    "failing_scan_tip": "if the scanner has difficulties to find the codebar, it might be that the light isn't adequate or that the camera isn't good enough",
+    "translation_completion": "%{completion}% complete",
+    "switch_to_lang": "switch language to %{language}"
 }

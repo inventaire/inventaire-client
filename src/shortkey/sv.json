@@ -1,6 +1,6 @@
 {
     "destroy_item_text": "Är du säker att du vill radera **%{title}?**",
-    "add_item_text": "Lägg till <strong>%{label}** till din inventering",
+    "add_item_text": "Lägg till **%{label}** till din inventering",
     "details_placeholder": null,
     "notes_placeholder": "endast du vill se detta",
     "username_tip": null,
@@ -19,7 +19,6 @@
     "welcome_username": null,
     "joyride_last_conlusion_point_1": null,
     "joyride_last_conlusion_point_2": null,
-    "assembled_by": null,
     "open_source_credits": null,
     "pictures_credits": null,
     "find_by_isbn_title": null,
@@ -156,5 +155,7 @@
     "scanner_disabled_tip_2": null,
     "use_zxing_application": null,
     "external_scanner_intro": null,
-    "failing_scan_tip": null
+    "failing_scan_tip": null,
+    "translation_completion": null,
+    "switch_to_lang": null
 }
