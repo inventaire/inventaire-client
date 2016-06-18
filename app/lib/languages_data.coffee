@@ -32,6 +32,10 @@ module.exports = {
     "completion": 11,
     "defaultRegion": "it_IT"
   },
+  "no": {
+    "completion": 5,
+    "defaultRegion": "nb_NO"
+  },
   "pl": {
     "completion": 14,
     "defaultRegion": "pl_PL"

@@ -12,7 +12,7 @@ module.exports =
   twitter: 'https://twitter.com/inventaire_io'
   facebook: 'https://facebook.com/inventaire.io'
   github: 'https://github.com/inventaire/inventaire'
-  transifex: 'https://www.transifex.com/inventaire/inventaire_live'
+  transifex: 'https://www.transifex.com/inventaire/inventaire'
   trello: 'https://trello.com/b/0lKcsZDj/inventaire-roadmap'
   tracker: 'https://piwik.allmende.io/piwik.php'
   apiDoc: 'https://github.com/inventaire/inventaire/wiki/API'
