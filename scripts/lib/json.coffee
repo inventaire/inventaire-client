@@ -5,14 +5,22 @@ Promise.promisifyAll(fs)
 _ = require 'lodash'
 cwd = process.cwd()
 
-read = (path, createIfMissing)->
+read = (path, createIfMissing=true)->
   unless path? then return Promise.resolve {}
 
   # using the absolutePath as require would need a file relative path otherwise
   # and we don't have it
-  absolutePath = cwd + path.replace(/^./, '')
+  absolutePath = if path[0] is '/' then path else cwd + path.replace(/^./, '')
 
   Promise.try -> require(absolutePath)
+  .catch (err)->
+    if err.code is 'MODULE_NOT_FOUND' and createIfMissing
+      console.log "file not found: #{path}. Creating: {}".yellow
+      fs.writeFile path, '{}'
+      return {}
+    else
+      throw err
+
 
 write = (path, data)->
   # skip a write operation by return null
