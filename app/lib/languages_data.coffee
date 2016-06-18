@@ -9,11 +9,11 @@
 
 module.exports = {
   "da": {
-    "completion": 24,
+    "completion": 26,
     "defaultRegion": "da_DK"
   },
   "de": {
-    "completion": 71,
+    "completion": 72,
     "defaultRegion": "de_DE"
   },
   "en": {
@@ -21,7 +21,7 @@ module.exports = {
     "defaultRegion": "en_US"
   },
   "es": {
-    "completion": 8,
+    "completion": 11,
     "defaultRegion": "es_ES"
   },
   "fr": {
@@ -29,7 +29,7 @@ module.exports = {
     "defaultRegion": "fr_FR"
   },
   "it": {
-    "completion": 11,
+    "completion": 14,
     "defaultRegion": "it_IT"
   },
   "no": {
@@ -37,15 +37,15 @@ module.exports = {
     "defaultRegion": "nb_NO"
   },
   "pl": {
-    "completion": 14,
+    "completion": 16,
     "defaultRegion": "pl_PL"
   },
   "pt": {
-    "completion": 9,
+    "completion": 12,
     "defaultRegion": "pt_PT"
   },
   "sv": {
-    "completion": 52,
+    "completion": 54,
     "defaultRegion": "sv_SE"
   }
 }

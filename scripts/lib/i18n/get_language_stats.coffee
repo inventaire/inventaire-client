@@ -24,8 +24,9 @@ module.exports = (lang)->
   emailKeys = getKeysNumber __.path('i18nSrc', "#{lang}.json")
   shortKeys = getKeysNumber __.path('i18nClientSrc', "shortkey/#{lang}.json")
   fullKeys = getKeysNumber __.path('i18nClientSrc', "fullkey/#{lang}.json")
+  wikidataKeys = getKeysNumber __.path('i18nClientSrc', "wikidata/#{lang}.json")
 
-  Promise.all [ emailKeys, shortKeys, fullKeys ]
+  Promise.all [ emailKeys, shortKeys, fullKeys, wikidataKeys ]
   .then (res)->
     total = res.sum()
     _.success "#{res} => #{total}", lang
