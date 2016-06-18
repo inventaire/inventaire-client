@@ -1,14 +1,13 @@
 #!/usr/bin/env zsh
 
+echo -e '\e[0;30mupdating i18n\e[0m'
+./scripts/build_i18n
+# should run before brunch build
+./scripts/update_languages_stats
+
 echo -e '\e[0;30mbrunch build --production\e[0m'
 brunch build --production
 ./scripts/build_index
-
-echo -e '\e[0;30mbuild_index\e[0m'
-# commenting-out cssnext as flexbox-wise, it was messing with crappy browsers
-# (especially Safari) more than fixing anything
-# cssnext public/css/app.css{,}
-# cssnext public/css/vendor.css{,}
 
 echo -e '\e[0;30mgzip js and css files\e[0m'
 source ./scripts/init_gzip_utils
@@ -22,5 +21,4 @@ gzipkeep public/index.html
 echo -e '\e[0;30mgzip robots.txt\e[0m'
 gzipkeep public/robots.txt
 
-./scripts/build_i18n
 ./scripts/weight_watcher
