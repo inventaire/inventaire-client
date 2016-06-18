@@ -1,4 +1,5 @@
 wdLang = require 'wikidata-lang'
+{ formatLabel } = require 'lib/wikidata'
 
 # defaultRegions are needed for 'og:locale' and 'og:locale:alternate'
 # that seem to snob 2 letters languages
@@ -9,7 +10,7 @@ regionify = {}
 
 for lang, obj of languages
   obj.lang = lang
-  obj.native = wdLang.byCode[lang].native
+  obj.native = formatLabel wdLang.byCode[lang].native
   regionify[lang] = obj.defaultRegion
 
 module.exports =

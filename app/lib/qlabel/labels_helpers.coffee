@@ -1,4 +1,5 @@
 labels = {}
+{ formatLabel } = require 'lib/wikidata'
 
 module.exports =
   getLabel: (qid, lang)->
@@ -15,8 +16,3 @@ module.exports =
   getKnownQids: -> Object.keys labels
 
   resetLabels: -> labels = {}
-
-
-# It sometimes happen that a Wikidata label is a direct copy of the Wikipedia
-# title, which can then have desambiguating parenthesis: we got to drop those
-formatLabel = (label)-> label.replace /\s\([\w\s]+\)$/, ''

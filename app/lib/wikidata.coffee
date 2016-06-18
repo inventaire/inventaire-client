@@ -81,3 +81,7 @@ wd_.getOriginalLang = (claims, notSimplified)->
 
   originalLangWdId = _.pickOne(langClaims)?[0]
   return wdLang.byWdId[originalLangWdId]?.code
+
+# It sometimes happen that a Wikidata label is a direct copy of the Wikipedia
+# title, which can then have desambiguating parenthesis: we got to drop those
+wd_.formatLabel = (label)-> label.replace /\s\(.*\)$/, ''
