@@ -11,7 +11,7 @@ global._ = _ = require './utils_builder'
 _.extend global,
   # /!\ level-test takes time to delete the previous instance
   # which might get some tests to timeout when run in watch mode
-  LevelUp: require('level-test')()
+  LevelUp: require('level-test')({ mem: true })
   LevelJs: {}
   LevelMultiply: require 'level-multiply'
   Promise: require 'bluebird'
@@ -36,10 +36,6 @@ getOptions = ->
 
 describe 'Local Cache', ->
   describe 'env', ->
-    it 'should get a level-test instance', (done)->
-      LocalDB.should.be.a.Function()
-      done()
-
     it 'should find the lib', (done)->
       [opts, spy] = getOptions()
       local = new LocalCache opts
@@ -151,3 +147,4 @@ describe 'Local Cache', ->
           spy.callCount.should.equal 2
           done()
       .catch _.error.bind(_)
+

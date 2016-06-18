@@ -64,6 +64,7 @@
     "handlebars-brunch": "^2.0.1",
     "html-minifier": "^1.1.1",
     "javascript-brunch": "^2.0.0",
+    "level-test": "^2.0.2",
     "lodash": "^4.6.1",
     "ls": "^0.1.0",
     "mkdirp": "^0.5.1",

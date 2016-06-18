@@ -1,4 +1,3 @@
-LevelUp = require 'levelup'
 LevelMultiply = require 'level-multiply'
 LevelJs = require 'level-js'
 resetDbsPeriodically = require './reset_dbs_periodically'
@@ -31,16 +30,21 @@ module.exports =
     global.dbs =
       list: {}
 
+    # let the possibility to inject a different LevelUp upstream for tests
+    global.LevelUp or= require 'levelup'
+
     # DO NOT promisify method on LevelUp
     # As it messes with LevelMultiply
     Level = (dbName)->
       LevelMultiply LevelUp(dbName, {db: DB})
 
     reset = (db, dbName)->
-      ops = []
-      db.createKeyStream()
-      .on 'data', pushKey.bind(null, ops)
-      .on 'end', deleteBatch.bind(null, db, ops, dbName)
+      return new Promise (resolve, reject)->
+        ops = []
+        db.createKeyStream()
+        .on 'data', pushKey.bind(null, ops)
+        .on 'error', reject
+        .on 'end', -> resolve deleteBatch(db, ops, dbName)
 
     inspect = (db, dbName)->
       dbObj = {}
@@ -55,22 +59,23 @@ module.exports =
       ops.push {type: 'del', key: key}
 
     deleteBatch = (db, ops, dbName)->
-      # cant use the promisified API.batch from here
-      db.batch ops, (err)->
-        if err then _.log err, "#{dbName} reset failed"
-        else _.log "#{dbName} reset successfully!"
+      db.customApi.batch ops
+      .then -> _.log "#{dbName} reset successfully!"
+      .catch _.ErrorRethrow("#{dbName} reset failed")
 
-    dbs.reset = -> db.reset()  for dbName, db of dbs.list
+    dbs.reset = -> Promise.all _.invoke(_.values(dbs.list), 'reset')
     dbs.inspect = -> db.inspect()  for dbName, db of dbs.list
 
     return LocalDB = (dbName)->
       db = Level(dbName)
       API =
-        get: Promise.promisify db.get
-        put: Promise.promisify db.put
-        batch: Promise.promisify db.batch
+        get: Promise.promisify db.get, { context: db }
+        put: Promise.promisify db.put, { context: db }
+        batch: Promise.promisify db.batch, { context: db }
         reset: reset.bind(null, db, dbName)
         inspect: inspect.bind(null, db, dbName)
         db: db
 
-      return dbs.list[dbName] = API
+      db.customApi = API
+      dbs.list[dbName] = API
+      return API

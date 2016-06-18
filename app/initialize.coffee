@@ -4,7 +4,7 @@ window.sharedLib = require 'lib/shared/shared_libs'
 window.requireProxy = (path)-> require path
 featureDetection = require 'lib/feature_detection'
 initApp = require './init_app'
-localDb = require 'lib/data/local_db'
+localdb_ = require 'lib/data/local_db'
 
 reportError = (label, err)->
   # _.error might not be defined yet, so to increase the chances
@@ -16,7 +16,7 @@ reportError = (label, err)->
 
 featureDetection()
 .catch reportError.bind(null, 'featureDetection err')
-.tap localDb.init
+.tap localdb_.init
 .then initApp
 # letting Bluebird 'PossiblyUnhandledError' handle it
 # as it seems it gives a more useful stack trace of the error
