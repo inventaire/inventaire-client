@@ -1,7 +1,7 @@
 breq = require 'bluereq'
 _ = require 'lodash'
 writeSitemap = require './write_sitemap'
-Promise = require 'bluebird'
+Promise = require '../lib/bluebird'
 { folder, wdq, autolists } = require './config'
 
 

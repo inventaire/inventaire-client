@@ -1,6 +1,6 @@
 require 'colors'
 fs = require 'graceful-fs'
-Promise = require 'bluebird'
+Promise = require './bluebird'
 Promise.promisifyAll(fs)
 _ = require 'lodash'
 
@@ -12,6 +12,7 @@ read = (path)->
   fs.readFileAsync path
   .catch (err)->
     if err?.code is 'ENOENT'
+      console.trace()
       console.log "file not found: #{path}. Creating: {}".yellow
       fs.writeFile path, '{}'
     else

@@ -9,7 +9,7 @@ unless /client$/.test process.cwd()
 
 require 'colors'
 console.time 'total'.grey
-Promise = require 'bluebird'
+Promise = require './lib/bluebird'
 { universalPath } = require 'config'
 args = process.argv.slice(2)
 langs = universalPath.require('i18nSrc', './lib/validate_lang')(args)

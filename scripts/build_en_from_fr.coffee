@@ -5,7 +5,7 @@ unless /client$/.test process.cwd()
 
 require 'colors'
 fs = require 'graceful-fs'
-Promise = require 'bluebird'
+Promise = require './lib/bluebird'
 Promise.promisifyAll(fs)
 _ = require 'lodash'
 

@@ -1,5 +1,5 @@
 fs = require 'fs'
-Promise = require 'bluebird'
+Promise = require '../lib/bluebird'
 writeFile = Promise.promisify fs.writeFile
 
 module.exports = (path, content)->

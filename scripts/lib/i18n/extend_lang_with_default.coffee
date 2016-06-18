@@ -1,5 +1,5 @@
 _ = require 'lodash'
-Promise = require 'bluebird'
+Promise = require '../bluebird'
 getSources = require './get_sources'
 
 { universalPath } = require 'config'

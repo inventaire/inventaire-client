@@ -1,4 +1,4 @@
-Promise = require 'bluebird'
+Promise = require '../bluebird'
 __ = require '../paths'
 _ = require 'lodash'
 json_  = require '../json'

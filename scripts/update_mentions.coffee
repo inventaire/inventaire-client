@@ -3,17 +3,17 @@
 CONFIG = require 'config'
 __ = CONFIG.universalPath
 _ = __.require 'builders', 'utils'
-bluebird = require 'bluebird'
+Promise = require './lib/bluebird'
 fs = require 'fs'
-readFile = bluebird.promisify fs.readFile
-writeFile = bluebird.promisify fs.writeFile
+readFile = Promise.promisify fs.readFile
+writeFile = Promise.promisify fs.writeFile
 
 linkify = __.require 'client', 'app/lib/handlebars_helpers/linkify'
 convertMarkdown = __.require('i18nSrc', 'lib/convert_markdown')(linkify)
 
 { Converter }  = require 'csvtojson'
 converter = new Converter {}
-convertFromString = bluebird.promisify converter.fromString.bind(converter)
+convertFromString = Promise.promisify converter.fromString.bind(converter)
 
 csvFile = __.path 'client', 'scripts/assets/mentions.csv'
 jsonFile = __.path 'client', 'public/json/mentions.json'

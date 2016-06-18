@@ -33,7 +33,7 @@ projects =
 resources = Object.keys projects
 
 breq = require 'bluereq'
-Promise = require 'bluebird'
+Promise = require './lib/bluebird'
 { username, password } = require('config').transifex
 json_ = require './lib/json'
 _ = require 'lodash'

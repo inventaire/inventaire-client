@@ -1,4 +1,4 @@
-Promise = require 'bluebird'
+Promise = require '../bluebird'
 mkdirp = Promise.promisify require('mkdirp')
 __ = require '../paths'
 

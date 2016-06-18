@@ -2,8 +2,6 @@
 json_  = require './lib/json'
 __ = require './lib/paths'
 
-console.log process.cwd()
-
 path = '../public/i18n/src/wikidata/properties_list'
 propertiesList = require(path)
 
