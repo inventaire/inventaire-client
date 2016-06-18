@@ -3,24 +3,16 @@ fs = require 'graceful-fs'
 Promise = require './bluebird'
 Promise.promisifyAll(fs)
 _ = require 'lodash'
+cwd = process.cwd()
 
-read = (path)->
-  # returning a null path when a lang doesnt have an active source
-  # ex: no translation on transifex
+read = (path, createIfMissing)->
   unless path? then return Promise.resolve {}
 
-  fs.readFileAsync path
-  .catch (err)->
-    if err?.code is 'ENOENT'
-      console.trace()
-      console.log "file not found: #{path}. Creating: {}".yellow
-      fs.writeFile path, '{}'
-    else
-      console.log "error reading file at #{path}. Replacing by {}".red, err.stack
-  .then (text)->
-    if text? and text.length > 0 then return JSON.parse text.toString()
-    else return {}
-  .catch (err)-> console.log "parsing error at #{path}".red, err
+  # using the absolutePath as require would need a file relative path otherwise
+  # and we don't have it
+  absolutePath = cwd + path.replace(/^./, '')
+
+  Promise.try -> require(absolutePath)
 
 write = (path, data)->
   # skip a write operation by return null
@@ -36,6 +28,5 @@ write = (path, data)->
   return fs.writeFileAsync path, json
 
 module.exports =
-  # caching results as 'en' files will be requested multiple times
-  read: _.memoize read
+  read: read
   write: write

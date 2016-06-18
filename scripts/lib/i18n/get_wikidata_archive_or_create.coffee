@@ -1,9 +1,9 @@
-Promise = require 'bluebird'
+Promise = require '../bluebird'
 __ = require '../paths'
 json_  = require '../json'
 exec = Promise.promisify require('child_process').exec
 wdpropsCmd = './node_modules/.bin/wdprops'
-activeLangs = require('./lib/i18n/langs').active
+activeLangs = require('./langs').active
 
 module.exports = (lang)->
   path = __.src.wikidataArchive lang
