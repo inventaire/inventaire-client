@@ -2,6 +2,7 @@ Promise = require 'bluebird'
 mkdirp = Promise.promisify require('mkdirp')
 __ = require '../paths'
 json_  = require '../json'
+getWikidataArchiveOrCreate = require './get_wikidata_archive_or_create'
 
 module.exports = (lang)->
   enFull: json_.read __.src.fullkey('en')
@@ -14,4 +15,4 @@ module.exports = (lang)->
   langShortArchive: json_.read __.src.shortkeyArchive(lang)
   langShortTransifex: json_.read __.src.shortkeyTransifex(lang)
   langWd: json_.read __.src.wikidata(lang)
-  langWdArchive: json_.read __.src.wikidataArchive(lang)
+  langWdArchive: getWikidataArchiveOrCreate lang
