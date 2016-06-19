@@ -49,7 +49,7 @@ module.exports = (LocalDB, _, promises_)->
         # _.log "cache:saving #{id}"
         putInLocalDb id, value
 
-      reset: -> localdb.destroy()
+      reset: -> localdb.reset()
       db: localdb
 
     getLocalData = (ids)->

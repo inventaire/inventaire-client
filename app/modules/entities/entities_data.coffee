@@ -14,6 +14,12 @@ module.exports = (app, _, promises_)->
     isbn: isbnData
     inv: invData
 
+  # different from window.dbs.reset as it resets only entities caches
+  reset = ->
+    domains = [wdData, isbnData, invData]
+    promises = domains.map (domain)-> domain.local.reset()
+    return Promise.all promises
+
   get = (prefix, ids, format, refresh)->
     types = ['string', 'array|string', 'string|undefined', 'boolean']
     _.types arguments, types, 2
@@ -29,3 +35,4 @@ module.exports = (app, _, promises_)->
     isbn: isbnData
     inv: invData
     get: get
+    reset: reset

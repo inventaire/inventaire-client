@@ -52,10 +52,15 @@ module.exports = UserCommons.extend
     if @loggedIn
       # wait for the server confirmation as we keep the language setting
       # in the user's document
-      @once 'confirmed:language', reload
+      @once 'confirmed:language', ->
+        app.entities.data.reset()
+        .then reload
     else
-      # the language setting is persisted as a cookie instead
-      _.setCookie 'lang', lang
+      Promise.all [
+        # the language setting is persisted as a cookie instead
+        _.setCookie('lang', lang)
+        app.entities.data.reset()
+      ]
       .then reload
 
   addNotifications: (notifications)->
