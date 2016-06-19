@@ -15,7 +15,7 @@
   }
   .data{
     flex: 1;
-    margin-right: 2em;
+    margin-right: 0.5em;
     padding-left: 0.5em;
     cursor: pointer;
     @include bg-hover(white, 5%);
@@ -24,6 +24,7 @@
     }
     .img-wrapper{
       width: 50px;
+      margin-right: 0.5em;
     }
     .fa-spin{
       opacity: 0.3;
@@ -38,9 +39,15 @@
     .description{
       opacity: 0.5;
     }
-    .description:not(:empty) + .identifier{
-      margin-left: 1em;
+    .description:not(:empty){
+      margin-right: 1em;
     }
+  }
+  .edit-wrapper{
+    // Taking more place than needed to avoid flickering
+    // when the label is shown on hover
+    min-width: 8em;
+    @include display-flex(row, null, flex-end);
   }
   .ac-container + .tiny-button{
     margin-left: 0.5em;

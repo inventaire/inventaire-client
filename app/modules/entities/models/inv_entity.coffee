@@ -34,16 +34,21 @@ module.exports = Entity.extend
   savePropertyValue: (property, oldValue, newValue)->
     _.log arguments, 'savePropertyValue args'
     if oldValue isnt newValue
-      propArray = @get "claims.#{property}"
+      propArrayPath = "claims.#{property}"
+      propArray = @get propArrayPath
+      unless propArray?
+        propArray = []
+        @set propArrayPath, []
+
       # let pass null oldValue, it will create a claim
       if oldValue? and oldValue not in propArray
         return error_.reject 'unknown property value', arguments
 
       # in cases of a new value, index is last index + 1 = propArray.length
       index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
-      @set "claims.#{property}.#{index}", newValue
+      @set "#{propArrayPath}.#{index}", newValue
 
-      reverseAction = @set.bind @, "claims.#{property}.#{index}", oldValue
+      reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
       rollback = _.Rollback reverseAction, 'inv_entity savePropertyValue'
 
       _.preq.put app.API.entities.inv.claims.update,

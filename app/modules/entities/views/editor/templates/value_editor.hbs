@@ -4,11 +4,13 @@
   <a class="tiny-button save" title="Ctrl+Enter" tabindex="0">
     {{icon 'check'}} {{i18n 'save'}}
   </a>
-  <a class="tiny-button dangerous delete" tabindex="0">
-    {{icon 'trash'}} {{i18n 'delete'}}
+  <a class="tiny-button shy-label dangerous delete" tabindex="0">
+    {{icon 'trash'}}
+    <span>{{i18n 'delete'}}</span>
   </a>
-  <a class="tiny-button cancel" title="Esc" tabindex="0">
-    {{icon 'times'}} {{i18n 'cancel'}}
+  <a class="tiny-button shy-label cancel" title="Esc" tabindex="0">
+    {{icon 'times'}}
+    <span>{{i18n 'cancel'}}</span>
   </a>
 {{else}}
   <div class="data enterClick" tabindex="0">
@@ -31,8 +33,10 @@
       {{icon 'circle-o-notch' 'fa-spin'}}
     {{/if}}
   </div>
-  <a class="tiny-button light-blue shy-label edit" tabindex="0">
-    {{icon 'pencil'}}
-    <span>{{i18n 'edit'}}</span>
-  </a>
+  <div class="edit-wrapper">
+    <a class="tiny-button light-blue shy-label edit" tabindex="0">
+      {{icon 'pencil'}}
+      <span>{{i18n 'edit'}}</span>
+    </a>
+  </div>
 {{/if}}

@@ -39,6 +39,9 @@ $default-button-padding: 1em;
   &.dangerous{
     @include dangerous-action;
   }
+  &.soft-grey{
+    @include tiny-button-color($soft-grey);
+  }
 }
 
 @mixin dangerous-button(){

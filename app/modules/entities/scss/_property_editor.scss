@@ -1,0 +1,23 @@
+.property-editor{
+  @include panel;
+  @include display-flex(row);
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    flex-direction: column;
+  }
+  > .label{
+    font-weight: bold;
+    flex: 0 0 auto;
+    min-width: 8em;
+    padding: 0.5em;
+  }
+  .values-wrapper{
+    flex: 1 1 auto;
+  }
+  .values{
+    margin-bottom: 0.5em;
+  }
+  #addValue{
+    margin-left: 0.5em;
+  }
+}

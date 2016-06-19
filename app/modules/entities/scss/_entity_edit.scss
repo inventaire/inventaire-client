@@ -4,7 +4,6 @@
     @include panel;
   }
   .claims{
-    @include panel;
   }
 }
 
@@ -15,7 +14,7 @@
   @include underline;
 }
 
-$edit-button-grey: #bbb;
+$edit-button-grey: $soft-grey;
 
 @import "property_editor";
 @import "value_editor";
