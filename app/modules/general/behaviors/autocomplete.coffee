@@ -102,6 +102,8 @@ module.exports = Marionette.Behavior.extend
   # Update suggestions list, never directly call this use @lazyUpdateQuery
   # which is a limit throttled alias.
   updateQuery: (query)->
+    # remove the value as the input changed
+    @removeSuggestedValue()
     @suggestions.trigger 'find', query
 
   # Complete the query using the highlighted or the clicked suggestion.
@@ -115,6 +117,9 @@ module.exports = Marionette.Behavior.extend
     _.log suggestion, 'completeQuery'
     @fillQuery suggestion
     @hideDropdown()
+
+  removeSuggestedValue: ->
+    @ui.autocomplete.attr 'data-autocomplete-value', null
 
   # Clean up
   onDestroy: -> @collectionView.destroy()
