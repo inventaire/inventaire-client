@@ -8,4 +8,4 @@ module.exports =
   LocalImg: /^\/img\/[0-9a-f]{40}.jpg$/
   # all 1 letter strings are reserved for the application
   Username: /^\w{2,20}$/
-  EntityUri: /^(wd:Q[0-9]+|(isbn|inv):[\w\-]+)$/
+  EntityUri: /^(wd:Q\d+|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
