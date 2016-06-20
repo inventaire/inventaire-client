@@ -108,7 +108,7 @@ module.exports = Marionette.Behavior.extend
   fillQuery: (suggestion)->
     @ui.autocomplete
     .val suggestion.get('label')
-    .attr 'data-autocomplete-value', suggestion.id
+    .attr 'data-autocomplete-value', suggestion.get('uri')
 
   # Complete the query using the selected suggestion.
   completeQuery: (suggestion)->

@@ -2,45 +2,45 @@ PropertyValues = require 'modules/entities/collections/property_values'
 
 book =
   # instance of (=> books aliases)
-  # P31: true
+  # 'wdt:P31': true
   # author
-  P50: true
+  'wdt:P50': true
   # illustrator
-  # P110: true
+  # 'wdt:P110': true
   # publication date
-  # P577: false
+  # 'wdt:P577': false
   # series
-  # P179: false
+  # 'wdt:P179': false
 
   # original language of work
-  # P364: false
+  # 'wdt:P364': false
   # title (using P364 lang)
-  # P1476: false
+  # 'wdt:P1476': false
   # subtitle (using P364 lang)
-  # P1680: false
+  # 'wdt:P1680': false
 
   # follow
-  # P155: false
+  # 'wdt:P155': false
   # is follow by
-  # P156: false
+  # 'wdt:P156': false
   # genre
-  P136: true
+  'wdt:P136': true
   # main subject
-  # P921: true
+  # 'wdt:P921': true
   # narrative location
-  # P840: true
+  # 'wdt:P840': true
   # characters
-  # P674: true
+  # 'wdt:P674': true
 
 edition =
   # instance of (=> edition aliases?)
   # P31: true
   # ISBN-13
-  P212: false
+  'wdt:P212': false
   # ISBN-10
-  P957: false
+  'wdt:P957': false
   # language of work
-  P407: true
+  'wdt:P407': true
 
 module.exports = (entityModel)->
   propertiesCollection = new Backbone.Collection

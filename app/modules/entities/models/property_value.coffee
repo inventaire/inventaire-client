@@ -1,4 +1,6 @@
 properties = require 'modules/entities/lib/properties'
+regex_ = sharedLib 'regex'
+error_ = require 'lib/error'
 
 module.exports = Backbone.Model.extend
   initialize: (attr)->
@@ -8,10 +10,13 @@ module.exports = Backbone.Model.extend
 
   updateValueEntity: ->
     { property, value } = @toJSON()
+
     if value? and properties[property].type is 'entity'
-      # TODO: make the whole entity stack use uris
-      # instead of simple wikidata or inventaire ids
-      @reqGrab 'get:entity:model:from:uri', "wd:#{value}", 'valueEntity'
+
+      unless regex_.EntityUri.test value
+        throw error_.new 'invalid entity uri', @toJSON()
+
+      @reqGrab 'get:entity:model:from:uri', value, 'valueEntity'
 
   saveValue: (newValue)->
     oldValue = @get 'value'

@@ -1,8 +1,8 @@
 module.exports =
-  P50:
+  'wdt:P50':
     source: 'humans'
     type: 'entity'
 
-  P136:
+  'wdt:P136':
     source: 'genres'
     type: 'entity'

@@ -9,3 +9,4 @@ module.exports =
   # all 1 letter strings are reserved for the application
   Username: /^\w{2,20}$/
   EntityUri: /^(wd:Q\d+|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
+  PropertyUri: /^(wdt|invp):P\d+$/

@@ -2,6 +2,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 getActionKey = require 'lib/get_action_key'
 isLoggedIn = require './lib/is_logged_in'
+createEntities = require 'modules/entities/lib/create_entities'
 
 module.exports = Marionette.ItemView.extend
   className: -> "value-editor #{@cid}"
@@ -94,8 +95,15 @@ module.exports = Marionette.ItemView.extend
       @hideEditMode()
 
   save: ->
-    newValue = @ui.autocomplete.attr 'data-autocomplete-value'
-    @_save newValue
+    autocompleteValue = @ui.autocomplete.attr 'data-autocomplete-value'
+    if autocompleteValue? then return @_save autocompleteValue
+    else
+      textValue = @ui.autocomplete.val()
+      createEntities.byProperty
+        property: @property
+        textValue: textValue
+      .then _.Log('created entity')
+      .then (entity)=> @_save entity.get('uri')
 
   _save: (newValue)->
     @model.saveValue newValue
