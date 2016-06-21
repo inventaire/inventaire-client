@@ -112,6 +112,9 @@ module.exports = Marionette.Behavior.extend
     .val suggestion.get('label')
     .attr 'data-autocomplete-value', suggestion.get('uri')
 
+    # (1)
+    # @view.onAutoCompleteSelect suggestion
+
   # Complete the query using the selected suggestion.
   completeQuery: (suggestion)->
     _.log suggestion, 'completeQuery'
@@ -121,6 +124,9 @@ module.exports = Marionette.Behavior.extend
   removeSuggestedValue: ->
     @ui.autocomplete.attr 'data-autocomplete-value', null
 
+    # (1)
+    # @view.onAutoCompleteUnselect()
+
   # Clean up
   onDestroy: -> @collectionView.destroy()
 
@@ -128,3 +134,5 @@ module.exports = Marionette.Behavior.extend
 isSelectionEnd = (e)->
   { value, selectionEnd } = e.target
   return value.length is selectionEnd
+
+# (1): Possible alternative to using the DOM as data bus: triggering a view hook
