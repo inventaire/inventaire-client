@@ -1,7 +1,10 @@
-getSources = require 'modules/entities/lib/sources/sources'
-getActionKey = require 'lib/get_action_key'
+# A behavior that passes a suggestion model to its view through
+# onAutoCompleteSelect and onAutoCompleteUnselect hooks
 
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
+
+getSources = require 'modules/entities/lib/sources/sources'
+getActionKey = require 'lib/get_action_key'
 rateLimit = 200
 Suggestions = require '../collections/suggestions'
 SuggestionsList = require '../views/behaviors/suggestions'
@@ -110,10 +113,10 @@ module.exports = Marionette.Behavior.extend
   fillQuery: (suggestion)->
     @ui.autocomplete
     .val suggestion.get('label')
-    .attr 'data-autocomplete-value', suggestion.get('uri')
+    # .attr 'data-autocomplete-value', suggestion.get('uri')
 
-    # (1)
-    # @view.onAutoCompleteSelect suggestion
+    @view.onAutoCompleteSelect?(suggestion)
+    @_suggestionSelected = true
 
   # Complete the query using the selected suggestion.
   completeQuery: (suggestion)->
@@ -122,10 +125,9 @@ module.exports = Marionette.Behavior.extend
     @hideDropdown()
 
   removeSuggestedValue: ->
-    @ui.autocomplete.attr 'data-autocomplete-value', null
-
-    # (1)
-    # @view.onAutoCompleteUnselect()
+    # @ui.autocomplete.attr 'data-autocomplete-value', null
+    @view.onAutoCompleteUnselect?()
+    @_suggestionSelected = false
 
   # Clean up
   onDestroy: -> @collectionView.destroy()
@@ -134,5 +136,3 @@ module.exports = Marionette.Behavior.extend
 isSelectionEnd = (e)->
   { value, selectionEnd } = e.target
   return value.length is selectionEnd
-
-# (1): Possible alternative to using the DOM as data bus: triggering a view hook

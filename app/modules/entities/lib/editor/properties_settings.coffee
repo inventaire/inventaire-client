@@ -1,5 +1,7 @@
 propObj = (property, multivalue=true, allowEntityCreation=false)->
-  { property: property, multivalue: true, allowEntityCreation: true }
+  property: property
+  multivalue: multivalue
+  allowEntityCreation: allowEntityCreation
 
 module.exports =
   book: [

@@ -14,11 +14,12 @@ getPropertyModel = (entityModel, propData)->
   return propertyModel
 
 getPropertyValuesCollection = (entityModel, propData)->
-  { property } = propData
+  { property, allowEntityCreation } = propData
   claims = entityModel.get("claims.#{property}") or []
   collection = new PropertyValues [],
     entity: entityModel
     property: property
+    allowEntityCreation: allowEntityCreation
 
   collection.addClaimsValues claims
 

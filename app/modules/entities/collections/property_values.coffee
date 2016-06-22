@@ -1,9 +1,7 @@
 module.exports = Backbone.Collection.extend
   model: require '../models/property_value'
   initialize: (models, options)->
-    { entity, property, claims } = options
-    @property = property
-    @entity = entity
+    { @entity, @property, @allowEntityCreation } = options
 
   addClaimsValues: (claims)->
     # accept both an array of claims values or a single claim value
@@ -19,5 +17,6 @@ module.exports = Backbone.Collection.extend
     model = @add
       value: value
       property: @property
+      allowEntityCreation: @allowEntityCreation
     model.entity = @entity
     return model

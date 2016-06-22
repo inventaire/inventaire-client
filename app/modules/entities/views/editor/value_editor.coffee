@@ -14,9 +14,11 @@ module.exports = Marionette.ItemView.extend
 
   ui:
     autocomplete: 'input'
+    save: '.save'
 
   initialize: ->
     @property = @model.get 'property'
+    @allowEntityCreation = @model.get 'allowEntityCreation'
     # If the model's value is null, start in edit mode
     @editMode = if @model.get('value')? then false else true
     @lazyRender = _.LazyRender @, 200
@@ -43,6 +45,9 @@ module.exports = Marionette.ItemView.extend
   onGrab: ->
     if @model.valueEntity?
       @listenToOnce @model.valueEntity, 'change:pictures', @lazyRenderIfDisplayMode.bind(@)
+      # init suggestion with the current value entity so that
+      # saving without any change is equivalent to re-selecting the current value
+      @suggestion or= @model.valueEntity
 
     @lazyRender()
 
@@ -50,6 +55,8 @@ module.exports = Marionette.ItemView.extend
     if @editMode
       # somehow seems to need a delay
       setTimeout @select.bind(@), 100
+
+      @updateSaveState()
 
   events:
     'click .edit, .data': 'showEditMode'
@@ -66,7 +73,16 @@ module.exports = Marionette.ItemView.extend
       @toggleEditMode true
       @triggerEditEvent()
 
+  # this is a jQuery select, not an autocomplete one
   select: -> @ui.autocomplete.select()
+
+  onAutoCompleteSelect: (suggestion)->
+    @suggestion = suggestion
+    @updateSaveState()
+
+  onAutoCompleteUnselect: ->
+    @suggestion = null
+    @updateSaveState()
 
   hideEditMode: ->
     @toggleEditMode false
@@ -94,16 +110,22 @@ module.exports = Marionette.ItemView.extend
     if @editMode and property is @property and @cid isnt viewCid
       @hideEditMode()
 
+  # TODO: prevent an existing entity to be re created just
+  # because we passed in edit mode and clicked save
   save: ->
-    autocompleteValue = @ui.autocomplete.attr 'data-autocomplete-value'
-    if autocompleteValue? then return @_save autocompleteValue
+    uri = @suggestion?.get 'uri'
+    # if the suggestion is the same as the current value, ignore
+    if uri is @model.get('value') then return @hideEditMode()
+
+    if @suggestion? then return @_save uri
     else
-      textValue = @ui.autocomplete.val()
-      createEntities.byProperty
-        property: @property
-        textValue: textValue
-      .then _.Log('created entity')
-      .then (entity)=> @_save entity.get('uri')
+      if @allowEntityCreation
+        textValue = @ui.autocomplete.val()
+        createEntities.byProperty
+          property: @property
+          textValue: textValue
+        .then _.Log('created entity')
+        .then (entity)=> @_save entity.get('uri')
 
   _save: (newValue)->
     @model.saveValue newValue
@@ -129,3 +151,8 @@ module.exports = Marionette.ItemView.extend
     @$el.trigger 'askConfirmation',
       confirmationText: _.i18n 'Are you sure you want to delete this statement?'
       action: action
+
+  updateSaveState: ->
+    unless @allowEntityCreation
+      if @suggestion? then @ui.save.removeClass 'disabled'
+      else @ui.save.addClass 'disabled'
