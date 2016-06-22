@@ -32,6 +32,8 @@
     }
     .identifier{
       margin-top: 0.4em;
+      opacity: 0.2;
+      @include transition(opacity);
       &:focus{
         background-color: #aaa;
       }
@@ -61,6 +63,9 @@
   .save{
     @include tiny-button-color($success-color);
   }
-  .delete{
+  &:hover{
+    .identifier{
+      opacity: 0.4;
+    }
   }
 }
