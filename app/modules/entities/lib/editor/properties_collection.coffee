@@ -1,9 +1,11 @@
 PropertyValues = require 'modules/entities/collections/property_values'
-{ book, edition } = require './properties_settings'
+properties = require '../properties'
+{ book, edition } = require './properties_per_type'
 
 module.exports = (entityModel)->
   propertiesCollection = new Backbone.Collection
-  for propData in book
+  for prop in book
+    propData = properties[prop]
     propertiesCollection.add getPropertyModel(entityModel, propData)
 
   return propertiesCollection
