@@ -2,15 +2,16 @@
   {{!-- input will be wrapped into .ac-container  --}}
   <input type="text" value="{{valueEntity.label}}" class="has-alertbox">
   <a class="tiny-button save" title="Ctrl+Enter" tabindex="0">
-    {{icon 'check'}} {{i18n 'save'}}
-  </a>
-  <a class="tiny-button shy-label dangerous delete" tabindex="0">
-    {{icon 'trash'}}
-    <span>{{i18n 'delete'}}</span>
+    {{icon 'check'}}
+    <span>{{i18n 'save'}}</span>
   </a>
   <a class="tiny-button shy-label cancel" title="Esc" tabindex="0">
     {{icon 'times'}}
     <span>{{i18n 'cancel'}}</span>
+  </a>
+  <a class="tiny-button shy-label dangerous delete" tabindex="0">
+    {{icon 'trash'}}
+    <span>{{i18n 'delete'}}</span>
   </a>
 {{else}}
   <div class="data enterClick" tabindex="0">
