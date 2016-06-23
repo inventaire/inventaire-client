@@ -30,7 +30,7 @@ module.exports = Filterable.extend
       uri: "inv:#{@id}"
       url: "/entity/#{@id}"
 
-  asMatchable: ->
+  matchable: ->
     if @_values? then return @_values
     labels = _.values @get('labels')
     aliases = _.flatten _.values(@get('aliases'))

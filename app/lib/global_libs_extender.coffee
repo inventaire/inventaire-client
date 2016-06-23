@@ -66,9 +66,7 @@ module.exports = (_)->
     if reset then @resetFilters()
     text = text.trim().replace /\s{2,}/g, ' '
     filterExpr = new RegExp text, 'i'
-    @filterBy 'text', (model)->
-      if model.matches? then model.matches filterExpr
-      else _.error model, 'model has no matches method'
+    @filterBy 'text', (model)-> model.matches filterExpr
 
   Marionette.Region::Show = (view, options={})->
     if _.isString options then docTitle = options

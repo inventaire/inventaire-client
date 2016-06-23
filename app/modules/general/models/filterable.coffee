@@ -1,10 +1,9 @@
 module.exports = Backbone.NestedModel.extend
   matches: (expr)->
     unless expr? then return true
+    matches = (field)-> field?.match(expr)?
 
-    hasMatch = _.some @asMatchable(), (field)-> field?.match(expr)?
-    if hasMatch then return true
-    else return false
+    return _.some @matchable(), matches
 
-  # asMatchable should be defined on sub classes. ex:
-  # asMatchable: (expr)-> [ @get('title') ]
+  # matchable should be defined on sub classes. ex:
+  # matchable: -> [ @get('title') ]

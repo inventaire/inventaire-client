@@ -154,7 +154,7 @@ module.exports = Positionable.extend
 
   getCover: -> @get('picture') or defaultCover
 
-  asMatchable: ->
+  matchable: ->
     [
       @get('name')
       @get('description')

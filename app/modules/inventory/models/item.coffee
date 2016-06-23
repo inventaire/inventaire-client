@@ -113,7 +113,7 @@ module.exports = Filterable.extend
         pathname: user.get 'pathname'
         distance: user.distanceFromMainUser
 
-  asMatchable: ->
+  matchable: ->
     [
       @get('title')
       @get('authors')

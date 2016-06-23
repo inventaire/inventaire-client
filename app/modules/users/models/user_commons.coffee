@@ -4,7 +4,7 @@ module.exports = Positionable.extend
   setPathname: ->
     username = @get('username')
     @set 'pathname', "/inventory/#{username}"
-  asMatchable: ->
+  matchable: ->
     [
       @get('username')
       @get('bio')
