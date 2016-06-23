@@ -25,7 +25,7 @@ module.exports =
     # genre
     'wdt:P136'
     # main subject
-    # 'wdt:P921'
+    'wdt:P921'
     # narrative location
     # 'wdt:P840'
     # characters

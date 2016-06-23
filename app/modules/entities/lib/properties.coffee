@@ -10,3 +10,4 @@ addProp = (property, type, source, multivalue=true, allowEntityCreation=false)->
 
 addProp 'wdt:P50', 'entity', 'humans', true, true
 addProp 'wdt:P136', 'entity', 'genres', true, false
+addProp 'wdt:P921', 'entity', 'topics', true, false

@@ -10,9 +10,9 @@ module.exports = Filterable.extend
   initialize: ->
     { lang } = app.user
 
-    @set
-      label: getBestLangValue lang, null, @get('labels')
-      description: getBestLangValue lang, null, @get('descriptions')
+    [ labels, descriptions ] = @gets 'labels', 'descriptions'
+    if labels? then @set 'label', getBestLangValue(lang, null, labels)
+    if descriptions? then @set 'description', getBestLangValue(lang, null, descriptions)
 
     [ prefix ] = getPrefix @id
 
@@ -34,7 +34,8 @@ module.exports = Filterable.extend
     if @_values? then return @_values
     labels = _.values @get('labels')
     aliases = _.flatten _.values(@get('aliases'))
-    return @_values = [ @id ].concat labels, aliases
+    @_values = [ @id ].concat labels, aliases
+    return @_values
 
 
 # Search results arrive as either Wikidata or inventaire documents
@@ -45,4 +46,4 @@ module.exports = Filterable.extend
 getPrefix = (id)->
   if wdk.isWikidataEntityId id then return ['wd', id]
   else if _.isUuid id then return ['inv', id]
-  else throw error_.new 'unknown id domain', id
+  else throw error_.new('unknown id domain', {id: id})

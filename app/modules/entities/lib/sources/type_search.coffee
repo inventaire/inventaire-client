@@ -1,18 +1,17 @@
 SearchResult = require 'modules/entities/models/search_result'
-dataUrl = 'https://data.inventaire.io'
+elasticSearch = require './elastic_search'
+wikidataSearch = require './wikidata_search'
 
 module.exports = (type)->
   collection = new Backbone.Collection [], { model: SearchResult }
   searches = []
-  searchBase = "#{dataUrl}/wikidata/#{type}/_search"
-  searchType = (query)->
-    _.preq.post searchBase,
-      query:
-        match_phrase_prefix:
-          _all: query
 
-    .then parseSearch
-    .then _.Log(type)
+  # the searchType function should take a query string
+  # and return an array of results
+  searchType = switch type
+    when 'humans', 'genres' then elasticSearch type
+    when 'topics' then wikidataSearch
+    else throw new Error("unknown type: #{type}")
 
   remote = (query)->
     # _.log query, 'query'
@@ -30,7 +29,3 @@ module.exports = (type)->
   return API =
     collection: collection
     remote: remote
-
-parseSearch = (res)->
-  res.hits.hits
-  .map _.property('_source')
