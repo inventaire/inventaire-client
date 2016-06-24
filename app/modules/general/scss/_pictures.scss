@@ -1,5 +1,10 @@
 $profile-pic-size: 2.8em;
 
+img{
+  // prevent images' alt text to overflow
+  overflow: hidden;
+}
+
 .profilePic{
   height: $profile-pic-size;
   background-color: white;
