@@ -141,7 +141,7 @@ module.exports = Marionette.ItemView.extend
       group.leave()
       .then ->
         # Dereference group model
-        app.user.groups.remove group
+        app.groups.remove group
         # And change page as staying on the same page would just display
         # the group as empty but accepting a join request
         app.execute 'show:group:user'

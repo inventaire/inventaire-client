@@ -7,7 +7,8 @@ module.exports = (app, $, _)->
 
 
   fetchRelationsData = ->
-    { relations, groups } = app.user
+    { relations } = app.user
+    { groups } = app
     unless relations? or groups?
       return _.preq.reject 'no relations found at fetchRelationsData'
 

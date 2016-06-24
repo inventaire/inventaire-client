@@ -5,7 +5,7 @@ module.exports =
 
   createGroup: (data)->
     { name, description, searchable, position } = data
-    { groups } = app.user
+    { groups } = app
 
     _.preq.post app.API.groups.authentified,
       action: 'create'

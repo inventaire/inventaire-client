@@ -38,8 +38,8 @@ module.exports = (groups)->
 
   addGroupUnlessHere = (group)->
     { _id } = group
-    unless app.user.groups.byId(_id)?
-      app.user.groups.add group
+    unless app.groups.byId(_id)?
+      app.groups.add group
 
   filtered.searchByText = _.debounce searchByText, 200
   filtered.searchByPosition = searchByPosition

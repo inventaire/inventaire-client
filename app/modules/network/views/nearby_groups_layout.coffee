@@ -14,7 +14,7 @@ module.exports = Marionette.LayoutView.extend
     'click .groupIcon a': 'showGroup'
 
   initMap: ->
-    @collection or= app.user.groups.filtered.resetFilters()
+    @collection or= app.groups.filtered.resetFilters()
     initMap
       query: @options.query
       path: path

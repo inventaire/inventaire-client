@@ -25,7 +25,7 @@ module.exports = Marionette.LayoutView.extend
     @showGroupsList()
 
   showGroupsInvitations: ->
-    { mainUserInvited } = app.user.groups
+    { mainUserInvited } = app.groups
     if mainUserInvited.length > 0
       @groupsInvitations.show new GroupsList
         collection: mainUserInvited
@@ -34,5 +34,5 @@ module.exports = Marionette.LayoutView.extend
 
   showGroupsList: ->
     @groupList.show new GroupsList
-      collection: app.user.groups.mainUserMember
+      collection: app.groups.mainUserMember
       mode: 'board'

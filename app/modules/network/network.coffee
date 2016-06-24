@@ -1,3 +1,4 @@
+Groups = require './collections/groups'
 NetworkLayout = require './views/network_layout'
 GroupBoard =  require './views/group_board'
 initGroupHelpers = require './lib/group_helpers'
@@ -41,6 +42,9 @@ module.exports =
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
+
+    app.groups = new Groups
+    if app.user.loggedIn then app.groups.fetch()
 
     app.request 'waitForUserData'
     .then initGroupHelpers
@@ -98,7 +102,7 @@ showGroupBoardFromModel = (group)->
 
 networkCounters = ->
   friendsRequestsCount = app.users.otherRequested?.length or 0
-  { groups } = app.user
+  { groups } = app
   mainUserInvitationsCount = groups?.mainUserInvited.length or 0
   otherUsersRequestsCount = groups?.otherUsersRequestsCount() or 0
   groupsRequestsCount = mainUserInvitationsCount + otherUsersRequestsCount

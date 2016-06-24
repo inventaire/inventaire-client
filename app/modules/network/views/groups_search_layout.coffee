@@ -19,12 +19,12 @@ module.exports = Marionette.LayoutView.extend
     @lastSearch = q or ''
 
     # groups waitForUserData to be initialized
-    # so app.user.groups will be undefined before
+    # so app.groups will be undefined before
     app.request 'waitForUserData'
     .then @initSearch.bind(@, q)
 
   initSearch: (q)->
-    @collection = app.user.groups.filtered.resetFilters()
+    @collection = app.groups.filtered.resetFilters()
     app.execute 'fetch:last:groups:created'
     if _.isNonEmptyString q then @searchGroup q
 

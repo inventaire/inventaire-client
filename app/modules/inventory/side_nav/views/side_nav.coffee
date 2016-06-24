@@ -123,9 +123,9 @@ module.exports = Marionette.LayoutView.extend
     @_groupsListShown = true
     @ui.groupsSection.show()
     @groupsList.show new GroupsList
-      collection: app.user.groups.mainUserMember
+      collection: app.groups.mainUserMember
 
-    @adjustHeight app.user.groups.mainUserMember, @ui.groupsList
+    @adjustHeight app.groups.mainUserMember, @ui.groupsList
 
   # if either the users or groups list is way less populated that the other
   # display:flex will make it appear quite small, thus the need to make sure

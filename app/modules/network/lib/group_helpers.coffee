@@ -1,8 +1,7 @@
-Groups = require 'modules/network/collections/groups'
 { Updater } = require 'lib/model_update'
 
 module.exports = ->
-  groups = app.user?.groups or new Groups
+  { groups } = app
 
   getGroupModel = (id)->
     group = groups.byId id
