@@ -21,14 +21,15 @@ module.exports =
       .then _.Full(notifications.addPerType, notifications, notifs)
       .catch _.Error('addNotifications')
 
-    app.reqres.setHandlers
-      'notifications:add': addNotifications.bind(@)
-
     app.commands.setHandlers
       'show:notifications': ->
         API.showNotifications()
         app.navigate 'notifications'
 
+    _.preq.get app.API.notifs
+    .tap app.Request('waitForData')
+    .then addNotifications
+    .catch _.Error('notifications init err')
 
 getUsersData = (notifications)->
   ids = getUsersIds notifications

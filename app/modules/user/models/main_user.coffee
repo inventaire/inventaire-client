@@ -13,14 +13,13 @@ module.exports = UserCommons.extend
 
   parse: (data)->
     # _.log data, 'data:main user parse data'
-    { notifications, relations, transactions, groups, settings } = data
-    @addNotifications(notifications)
+    { relations, transactions, groups, settings } = data
     data.settings = @setDefaultSettings settings
     @relations = relations
     @transactions = new Transactions transactions
     @groups = new Groups groups
     app.vent.trigger 'transactions:unread:changes'
-    return _(data).omit ['relations', 'notifications', 'transactions', 'groups']
+    return _(data).omit ['relations', 'transactions', 'groups']
 
   initialize: ->
     @on 'change:language', @changeLang.bind(@)
@@ -62,11 +61,6 @@ module.exports = UserCommons.extend
         app.entities.data.reset()
       ]
       .then reload
-
-  addNotifications: (notifications)->
-    if notifications?
-      app.request 'waitForData'
-      .then app.Request('notifications:add', notifications)
 
   setDefaultSettings: (settings)->
     { notifications } = settings
