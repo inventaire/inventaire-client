@@ -7,7 +7,7 @@ module.exports = (userLanguage)->
   return _.log _.shortLang(lang), 'lang'
 
 guessLanguage = ->
-  lang = $.cookie 'lang'
+  lang = _.getCookie 'lang'
   if lang? then return lang
 
   lang = browserLocale()

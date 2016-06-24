@@ -1,19 +1,12 @@
 module.exports = (app)->
-  # set app.user.lang from cookie before confirmation
-  # from user.fetch which will trigger setLang on User model
-  if $.cookie('lang')
-    app.user.lang or= $.cookie('lang')
-
-
-  if $.cookie('loggedIn')?
+  if _.getCookie('loggedIn')?
     app.user.loggedIn = true
-    fetchUser()
+    fetchUserData()
   else
     app.user.loggedIn = false
     userReady()
 
-
-fetchUser = ->
+fetchUserData = ->
   # beware: Backbone uses jQuery promise not wrapped by bluebird/preq
   app.user.fetch()
   .then fetchSuccess
@@ -21,9 +14,6 @@ fetchUser = ->
   .always userReady
 
 fetchSuccess = (userAttrs)->
-  unless app.user.get('language')?
-    if lang = $.cookie 'lang'
-      _.log app.user.set('language', lang), 'language set from cookie'
 
 fetchError =  (err)->
   _.error err, 'recoverUserData fail'

@@ -58,7 +58,7 @@ module.exports = UserCommons.extend
     else
       Promise.all [
         # the language setting is persisted as a cookie instead
-        _.setCookie('lang', lang)
+        _.setCookie 'lang', lang
         app.entities.data.reset()
       ]
       .then reload
