@@ -54,7 +54,7 @@ module.exports = Marionette.LayoutView.extend
 
   showNotifications: ->
     @notifs.show new NotificationsList
-      collection: app.user.notifications
+      collection: app.notifications
 
   selectMainUser: (e)->
     unless _.isOpenedOutside(e)

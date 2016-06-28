@@ -6,4 +6,4 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: 'ul'
 
   initialize:->
-    @collection = app.user.notifications
+    @collection = app.notifications

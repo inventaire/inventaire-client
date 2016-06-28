@@ -13,7 +13,7 @@ module.exports =
         controller: API
 
   initialize: ->
-    notifications = app.user.notifications = new Notifications
+    notifications = app.notifications = new Notifications
 
     addNotifications = (notifs)->
       _.log notifs, 'notifications:add'
