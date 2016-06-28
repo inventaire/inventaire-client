@@ -31,7 +31,7 @@ module.exports = Marionette.LayoutView.extend
     .catch catchDestroyedView
 
   showTransactionsFolders: ->
-    # every folder share the app.user.transactions collection
+    # every folder share the app.transactions collection
     # but with the filter applied by TransactionsList
     # => there should be a region matching every filter's name
     for folder in foldersNames
@@ -40,7 +40,7 @@ module.exports = Marionette.LayoutView.extend
   showTransactionList: (folder)->
     @["#{folder}Region"].show new TransactionsList
       folder: folder
-      collection: app.user.transactions
+      collection: app.transactions
 
   showTransactionFull: (transaction, nonExplicitSelection)->
     @fullviewRegion.show new Transaction

@@ -1,3 +1,4 @@
+Transactions = require 'modules/transactions/collections/transactions'
 TransactionsLayout = require './views/transactions_layout'
 RequestItemModal = require './views/request_item_modal'
 initHelpers = require('./helpers')
@@ -25,6 +26,12 @@ module.exports =
     app.reqres.setHandlers
       'last:transaction:id': -> lastTransactionId
       'transactions:unread:count': unreadCount
+
+    app.transactions = new Transactions
+
+    _.preq.wrap app.transactions.fetch(), { url: app.transactions.url() }
+    .then app.vent.Trigger('transactions:unread:changes')
+    .catch _.Error('transaction init err')
 
     initHelpers()
 
@@ -86,7 +93,7 @@ updateTransactionRoute = (transaction, nonExplicitSelection)->
 
 findFirstTransaction = ->
   firstTransac = null
-  transacs = _.clone app.user.transactions.models
+  transacs = _.clone app.transactions.models
   while transacs.length > 0 and not firstTransac?
     candidate = transacs.shift()
     unless candidate.archived then firstTransac = candidate
@@ -94,7 +101,7 @@ findFirstTransaction = ->
   return firstTransac
 
 unreadCount = ->
-  transac = app.user.transactions?.models
+  transac = app.transactions?.models
   unless transac?.length > 0 then return 0
 
   transac

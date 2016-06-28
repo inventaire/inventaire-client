@@ -10,11 +10,9 @@ module.exports = ->
   app.request('waitForUserData').then initLateHelpers
 
 API =
-  addTransaction: (transaction)->
-    app.user.transactions.add transaction
+  addTransaction: (transaction)-> app.transactions.add transaction
 
-  getTransaction: (id)->
-    app.user.transactions.byId id
+  getTransaction: (id)-> app.transactions.byId id
 
   postMessage: (transactionId, message, timeline)->
     messegeData =
@@ -39,8 +37,8 @@ addMessageToTimeline = (messegeData, timeline)->
   return mesModel
 
 initLateHelpers = ->
-  if app.user.transactions?
-    filtered = new FilteredCollection app.user.transactions
+  if app.transactions?
+    filtered = new FilteredCollection app.transactions
 
     getOngoingTransactionsByItemId = (itemId)->
       filtered.resetFilters()
@@ -49,7 +47,7 @@ initLateHelpers = ->
       return filtered
 
     getOngoingTransactionsModelsByItemId = (itemId)->
-      return app.user.transactions.filter (transac)->
+      return app.transactions.filter (transac)->
         transac.get('item') is itemId and not transac.archived
 
     getOneOngoingTransactionByItemId = (itemId)->

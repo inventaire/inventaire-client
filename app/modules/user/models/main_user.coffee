@@ -1,5 +1,4 @@
 UserCommons = require 'modules/users/models/user_commons'
-Transactions = require 'modules/transactions/collections/transactions'
 solveLang = require '../lib/solve_lang'
 notificationsList = sharedLib 'notifications_settings_list'
 initI18n = require '../lib/i18n'
@@ -12,12 +11,10 @@ module.exports = UserCommons.extend
 
   parse: (data)->
     # _.log data, 'data:main user parse data'
-    { relations, transactions, settings } = data
+    { relations, settings } = data
     data.settings = @setDefaultSettings settings
     @relations = relations
-    @transactions = new Transactions transactions
-    app.vent.trigger 'transactions:unread:changes'
-    return _(data).omit ['relations', 'transactions']
+    return _(data).omit ['relations']
 
   initialize: ->
     @on 'change:language', @changeLang.bind(@)
