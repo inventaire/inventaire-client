@@ -28,6 +28,13 @@
       margin-bottom: 1em;
     }
   }
+  #confirmation{
+    color: white;
+    background-color: $success-color;
+    @include radius;
+    padding: 0.5em;
+    margin-top: 2em;
+  }
   #getInvolved{
     margin-top: 2em;
   }

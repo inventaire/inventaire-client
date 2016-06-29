@@ -19,7 +19,7 @@
   <input type="text" id="subject" name="subject" placeholder="{{i18n 'subject'}}..." class="radius" value="{{subject}}">
   <textarea id="message" name="feedback" placeholder="{{i18n 'your message'}}..."></textarea>
   <div>
-    <a id="sendFeedback" class="button success radius bold" tabindex="0">
+    <a id="sendFeedback" class="button light-blue radius bold" tabindex="0">
       {{icon 'send'}}{{i18n 'send feedback'}}
       <span class="loading"></span>
     </a>
@@ -28,6 +28,10 @@
 <div class="checkWrapper">
   <span class="check"></span>
 </div>
+<p id="confirmation" class="hidden">
+  {{icon 'check'}}
+  {{i18n 'Thank you for your message! Coming back to you shortly'}}
+</p>
 <div id="getInvolved">
   <h5>{{{i18n 'get_involved'}}}</h5>
   <p>{{{i18n 'contribution_ideas'}}}</p>

@@ -33,18 +33,39 @@ module.exports = Marionette.ItemView.extend
     subject: '#subject'
     message: '#message'
     sendFeedback: '#sendFeedback'
+    confirmation: '#confirmation'
 
   events:
     'click a#sendFeedback': 'sendFeedback'
 
   sendFeedback: ->
-    @startLoading('#sendFeedback')
+    @startLoading '#sendFeedback'
+
     @postFeedback()
-    .then @Check('feedback res', -> app.execute('modal:close'))
-    .catch @Fail('feedback err')
+    .then @confirm.bind(@)
+    .catch @postFailed.bind(@)
 
   postFeedback: ->
     _.preq.post app.API.feedback,
       subject: _.log @ui.subject.val(), 'subject'
       message: _.log @ui.message.val(), 'message'
       unknownUser: _.log @ui.unknownUser.val(), 'unknownUser'
+
+  confirm: ->
+    @stopLoading '#sendFeedback'
+    @ui.subject.val null
+    @ui.message.val null
+    @ui.confirmation.slideDown()
+
+    if @options.standalone
+      # simply hide the confirmation so that the user can still send a new feedback
+      # and get a new confirmation for it
+      setTimeout @hideConfirmation.bind(@), 5000
+    else
+      setTimeout app.Execute('modal:close'), 2000
+
+  postFailed: ->
+    @stopLoading '#sendFeedback'
+    @fail 'feedback err'
+
+  hideConfirmation: -> unless @isDestroyed then @ui.confirmation.slideUp()
