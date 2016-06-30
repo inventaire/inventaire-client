@@ -1,13 +1,14 @@
 ItemShow = require './views/item_show'
 initFilters = require './lib/filters'
 InventoryLayout = require './views/inventory'
-ItemCreationForm = require './views/form/item_creation'
 AddLayout = require './views/add/add_layout'
 EmbeddedScanner = require './views/add/embedded_scanner'
 initLayout = require './lib/layout'
 initTransactions = require './lib/transactions'
 initAddHelpers = require './lib/add_helpers'
 ItemsList = require './views/items_list'
+showItemCreationForm = require './lib/show_item_creation_form'
+itemActions = require './lib/item_actions'
 { publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
 
 module.exports =
@@ -186,7 +187,7 @@ fetchItems = (app)->
     triggerItemsReady()
 
   app.reqres.setHandlers
-    'item:create': itemCreate
+    'item:create': itemActions.create
     'items:count:byEntity': itemsCountByEntity
 
 triggerItemsReady = ->
@@ -200,21 +201,6 @@ requestPublicItem = (username, entity)->
     app.execute 'users:public:add', res.user
     return app.items.public.add res.items
   .catch _.Error('requestPublicItem err')
-
-itemCreate = (itemData)->
-  unless itemData.title? and itemData.title isnt ''
-    throw new Error('cant create item: missing title')
-
-  # will be confirmed by the server
-  itemData.owner = app.user.id
-
-  itemModel = app.items.add itemData
-  _.preq.resolve itemModel.save()
-  .then _.Log('item creation server res')
-  .then itemModel.onCreation.bind(itemModel)
-  .catch _.Error('item creation err')
-
-  return itemModel
 
 itemsCountByEntity = (uri)->
   app.items.where({entity: uri}).length
@@ -275,41 +261,8 @@ initializeInventoriesHandlers = (app)->
     'show:items': displayFoundItems
 
   app.reqres.setHandlers
-    'item:update': (options)->
-      # expects: item, attribute, value
-      # OR expects: item, data
-      # optional: selector
-      { item, attribute, value, data, selector } = options
-      _.types [item, selector], ['object', 'string|undefined']
-
-      if data?
-        _.type data, 'object'
-        item.set data
-      else
-        _.type attribute, 'string'
-        item.set attribute, value
-
-      promise = _.preq.resolve item.save()
-      if selector?
-        app.request 'waitForCheck',
-          promise: promise
-          selector: selector
-      return promise
-
-    'item:destroy': (options)->
-      # requires the ConfirmationModal behavior to be on the view
-      # MUST: selector, model with title
-      # CAN: next
-      { model, selector, next } = options
-      _.types [model, selector, next], ['object', 'string', 'function']
-      title = model.get('title')
-
-      action = -> model.destroy().then next
-
-      $(selector).trigger 'askConfirmation',
-        confirmationText: _.i18n('destroy_item_text', {title: title})
-        warningText: _.i18n("this action can't be undone")
-        action: action
+    'item:update': itemActions.update
+    'item:destroy': itemActions.destroy
 
     'get:item:model': findItemById
     'get:item:model:sync': (id)-> app.items.byId id
@@ -341,33 +294,3 @@ initializeInventoriesHandlers = (app)->
 
 mainUserPrivateInventoryLength = ->
   app.items.personal.where({listing: 'private'}).length
-
-showItemCreationForm = (params)->
-  { entity, preventDupplicates } = params
-  unless entity? then throw new Error 'missing entity'
-  uri = entity.get 'uri'
-
-  # 'waitForItems' is required by item:main:user:instances
-  if preventDupplicates then waiter = app.Request 'waitForItems'
-  else waiter = _.preq.resolve
-
-  waiter()
-  .then ->
-    if preventDupplicates
-      existingInstances = app.request 'item:main:user:instances', uri
-      if existingInstances.length > 0
-        _.log existingInstances, 'existing instances'
-        # Show the entity instead to display the number of existing instances
-        # and avoid creating a dupplicate
-        app.execute 'show:entity', uri
-        return
-
-    entityPathname = params.entity.get 'pathname'
-    pathname = "#{entityPathname}/add"
-
-    if app.request 'require:loggedIn', pathname
-      app.layout.main.show new ItemCreationForm(params)
-      # Remove the final add part so that hitting reload or previous
-      # reloads the entity page instead of the creation form,
-      # avoiding to create undesired item dupplicates
-      app.navigate pathname.replace(/\/add$/, '')
