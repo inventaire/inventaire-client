@@ -10,11 +10,8 @@ module.exports = UserCommons.extend
     app.API.user
 
   parse: (data)->
-    # _.log data, 'data:main user parse data'
-    { relations, settings } = data
-    data.settings = @setDefaultSettings settings
-    @relations = relations
-    return _(data).omit ['relations']
+    data.settings = @setDefaultSettings data.settings
+    return data
 
   initialize: ->
     @on 'change:language', @changeLang.bind(@)

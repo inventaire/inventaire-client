@@ -9,14 +9,15 @@ module.exports =
     require('./requests')(app, _)
     require('./invitations')(app, _)
 
-    initUsersItems()
-    app.request('waitForUserData').then fetchFriendsAndTheirItems
+    app.commands.setHandlers
+      'show:user': app.Execute 'show:inventory:user'
+      'friend:fetchItems': fetchFriendItems
 
-initUsersItems = ->
-  app.commands.setHandlers
-    'show:user': (username)-> app.execute 'show:inventory:user', username
-    'friend:fetchItems': fetchFriendItems
-    # 'contact:removeItems': (userModel)-> removeContactItems.call userModel
+    # if app.user.loggedIn
+    _.preq.get app.API.relations
+    .then (relations)-> app.relations = relations
+    .then fetchFriendsAndTheirItems
+    .catch _.Error('relations init err')
 
 fetchFriendsAndTheirItems = ->
   unless app.user.loggedIn then return usersReady()

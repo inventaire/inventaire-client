@@ -4,6 +4,7 @@ GroupBoard =  require './views/group_board'
 initGroupHelpers = require './lib/group_helpers'
 { tabsData } = require './lib/network_tabs'
 { defaultTab } = require './lib/network_tabs'
+fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _)->
@@ -43,8 +44,10 @@ module.exports =
     app.reqres.setHandlers
       'get:network:counters': networkCounters
 
-    app.groups = new Groups
-    if app.user.loggedIn then app.groups.fetch()
+    fetchData
+      name: 'groups'
+      Collection: Groups
+      condition: app.user.loggedIn
 
     app.request 'waitForUserData'
     .then initGroupHelpers

@@ -5,10 +5,12 @@ module.exports = (app, $, _)->
     remote: remote
     parseData: _.property 'users'
 
-
   fetchRelationsData = ->
-    { relations } = app.user
-    { groups } = app
+    app.request 'waitFor', 'groups'
+    .then _fetchRelationsData
+
+  _fetchRelationsData = ->
+    { relations, groups } = app
     unless relations? or groups?
       return _.preq.reject 'no relations found at fetchRelationsData'
 

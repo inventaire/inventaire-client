@@ -1,5 +1,23 @@
+waitedData = [
+  'groups'
+]
+pendingWaiters = {}
+waitersPromises = {}
+
 module.exports = ->
 
+  # New waiters paradigma based on promises.
+  for name in waitedData
+    promise = new Promise (resolve, reject)->
+      # Store the resolve and reject functions to call
+      # them from resolveWaiter and rejectWaiter commands
+      pendingWaiters[name] =
+        resolve: resolve
+        reject: reject
+
+    waitersPromises[name] = promise
+
+  # Old waiters paradigma based on events.
   # 'ready' should be function so that its value isn't blocked
   # to its value when Waiters reqres are defined
   # (i.e. necessarly false or undefined) while the first call might
@@ -37,3 +55,15 @@ module.exports = ->
     'waitForItems': _.once waitForItems
     'waitForLayout': Waiter 'layout:ready', -> app.layout?.ready
     'waitForI18n': Waiter 'i18n:ready', -> app.data.i18nReady
+    'waitFor': (name)-> waitersPromises[name]
+
+  app.commands.setHandlers
+    'resolveWaiter': fulfillWaiter.bind null, 'resolve'
+    'rejectWaiter': fulfillWaiter.bind null, 'reject'
+
+fulfillWaiter = (action, name, args...)->
+  waiter = pendingWaiters[name]
+  unless waiter? then throw new Error("unknown waiter: #{name}")
+  _.log name, action
+  waiter[action].apply waiter, args
+  return
