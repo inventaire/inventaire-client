@@ -22,8 +22,18 @@ module.exports =
         controller: API
 
     app.user = new MainUser
-    initCommands(app)
-    initSubModules(app)
+
+    app.commands.setHandlers
+      'show:signup': API.showSignup
+      'show:login': API.showLogin
+      'show:login:persona': API.showLoginPersona
+      'show:forgot:password': API.showForgotPassword
+
+    require('./lib/auth')(app)
+    require('./lib/recover_user_data')(app)
+    require('./lib/user_listings')(app)
+    require('./lib/user_update')(app)
+    require('./lib/user_menu_update')(app)
 
 
 # beware that app.layout is undefined when User.define is fired
@@ -68,22 +78,3 @@ redirected = (command)->
 
   app.execute 'show:home'
   return true
-
-initCommands = (app)->
-  app.commands.setHandlers
-    'show:signup': API.showSignup
-    'show:login': API.showLogin
-    'show:login:persona': API.showLoginPersona
-    'show:forgot:password': API.showForgotPassword
-
-subModules = [
-    'auth'
-    'recover_user_data'
-    'user_listings'
-    'user_update'
-    'user_menu_update'
-  ]
-
-initSubModules = (app)->
-  for subModule in subModules
-    require("./lib/#{subModule}")(app)
