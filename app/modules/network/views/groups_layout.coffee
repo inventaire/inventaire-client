@@ -16,7 +16,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     behaviorsPlugin.startLoading.call @, '#groupsList'
-    app.request('waitForFriendsItems')
+    app.request('wait:for', 'friends:items')
     .then @showGroupsLists.bind(@)
     .catch _.Error('showTabGroups')
 

@@ -9,6 +9,7 @@ initAddHelpers = require './lib/add_helpers'
 ItemsList = require './views/items_list'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
+fetchData = require 'lib/data/fetch'
 { publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
 
 module.exports =
@@ -36,7 +37,7 @@ module.exports =
 
   initialize: ->
     app.items = require('./items_collections')(app, _)
-    app.request('waitForUserData').then fetchItems.bind(null, app)
+    fetchItems()
     initFilters app
     initTransactions app.items
     initializeInventoriesHandlers app
@@ -111,8 +112,8 @@ API =
   shortCutGroup: (name)->
     name = _.softDecodeURI name
     # initGroupHelpers, during which 'group:search:byName'
-    # is initialized, runs after waitForUserData
-    app.request 'waitForUserData'
+    # is initialized, runs after waitFor user
+    app.request 'wait:for', 'user'
     # make sure this runs after initGroupHelpers
     .delay 100
     # search group by name
@@ -177,23 +178,14 @@ showItemsList = (items)->
   collection = new Backbone.Collection items
   app.layout.main.show new ItemsList {collection: collection}
 
-# LOGIC
-fetchItems = (app)->
-  if app.user?.loggedIn
-    app.items.fetch({reset: true})
-    .always triggerItemsReady
-  else
-    _.log 'user isnt logged in. not fetching items'
-    triggerItemsReady()
-
-  app.reqres.setHandlers
-    'item:create': itemActions.create
-    'items:count:byEntity': itemsCountByEntity
-
-triggerItemsReady = ->
-  app.items.personal.fetched = true
-  app.user.itemsFetched = true
-  app.vent.trigger 'items:ready'
+fetchItems = ->
+  app.request 'wait:for', 'user'
+  .then ->
+    fetchData
+      name: 'items'
+      collection: app.items
+      condition: app.user.loggedIn
+      fetchOptions: { reset: true }
 
 requestPublicItem = (username, entity)->
   _.preq.get publicByUsernameAndEntity(username, entity)
@@ -263,6 +255,9 @@ initializeInventoriesHandlers = (app)->
   app.reqres.setHandlers
     'item:update': itemActions.update
     'item:destroy': itemActions.destroy
+    'item:create': itemActions.create
+
+    'items:count:byEntity': itemsCountByEntity
 
     'get:item:model': findItemById
     'get:item:model:sync': (id)-> app.items.byId id

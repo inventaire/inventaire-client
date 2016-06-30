@@ -26,10 +26,11 @@ module.exports =
         API.showNotifications()
         app.navigate 'notifications'
 
-    _.preq.get app.API.notifs
-    .tap app.Request('waitForData')
-    .then addNotifications
-    .catch _.Error('notifications init err')
+    if app.user.loggedIn
+      _.preq.get app.API.notifs
+      .tap app.Request('waitForData')
+      .then addNotifications
+      .catch _.Error('notifications init err')
 
 getUsersData = (notifications)->
   ids = getUsersIds notifications

@@ -13,15 +13,16 @@ module.exports =
       'show:user': app.Execute 'show:inventory:user'
       'friend:fetchItems': fetchFriendItems
 
-    # if app.user.loggedIn
-    _.preq.get app.API.relations
-    .then (relations)-> app.relations = relations
-    .then fetchFriendsAndTheirItems
-    .catch _.Error('relations init err')
+    if app.user.loggedIn
+      _.preq.get app.API.relations
+      .then (relations)-> app.relations = relations
+      .then fetchFriendsAndTheirItems
+      .catch _.Error('relations init err')
+    else
+      app.execute 'waiter:resolve', 'users'
+      app.execute 'waiter:resolve', 'friends:items'
 
 fetchFriendsAndTheirItems = ->
-  unless app.user.loggedIn then return usersReady()
-
   app.users.data.fetchRelationsData()
   .then fetchRelationsDataSuccess
   .catch _.Error('fetchFriendsAndTheirItems err')
@@ -32,13 +33,8 @@ fetchRelationsDataSuccess = (relationsData)->
     # triggers events related to fetching relations user and item data
     app.execute 'friends:zero'
   spreadRelationsData relationsData
-  usersReady()
+  app.execute 'waiter:resolve', 'users'
   fetchItemsOnNewFriend()
-
-usersReady = ->
-  app.users.fetched = true
-  app.vent.trigger 'users:ready'
-  return
 
 # tightly coupled to users_data spreadRelationsData
 spreadRelationsData = (relationsData)->

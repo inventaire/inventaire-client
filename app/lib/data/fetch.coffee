@@ -1,20 +1,24 @@
 # Fetching data in a standardized way:
-# - attaching the created collection to window.app
-# - firing resolveWaiter / rejectWaiter waiter based on the result
+# - use the passed collection or create one using the Collection class
+#   attaching it to window.app
+# - firing waiter:resolve / waiter:reject waiter based on the result
 
 module.exports = (options)->
-  { name, Collection, fetchCondition } = options
-  app[name] = collection = new Collection
+  { name, collection, Collection, condition, fetchOptions } = options
 
-  fetchCondition ?= true
+  unless collection?
+    app[name] = collection = new Collection
 
-  if fetchCondition
-    fetchPromise = _.preq.wrap collection.fetch(), { url: collection.url() }
+  condition ?= true
+
+  if condition
+    fetchPromise = _.preq.wrap collection.fetch(fetchOptions), { url: collection.url() }
   else
     fetchPromise = _.preq.resolved
 
   fetchPromise
-  .then app.Execute('resolveWaiter', name)
-  .catch app.Execute('rejectWaiter', name)
+  .timeout 10000
+  .then app.Execute('waiter:resolve', name)
+  .catch app.Execute('waiter:reject', name)
 
   return fetchPromise

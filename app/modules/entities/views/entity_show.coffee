@@ -28,7 +28,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     @showEntityData()
     # need to wait to know if the user has an instance of this entity
-    app.request('waitForUserData').then @showEntityActions.bind(@)
+    app.request('wait:for', 'user').then @showEntityActions.bind(@)
     @showLocalItems()  if app.user.loggedIn
     @showPublicItems()
 

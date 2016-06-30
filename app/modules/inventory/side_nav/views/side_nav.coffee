@@ -91,13 +91,13 @@ module.exports = Marionette.LayoutView.extend
       when 'last', 'nearby' then @ui[active].addClass 'active'
 
     if _.smallScreen()
-      app.request 'waitForUserData'
+      app.request 'wait:for', 'user'
       .then @initBaseSmallScreen.bind(@)
 
     else
       @showUsersList()
       @showPublicList()
-      app.request 'waitForUserData'
+      app.request 'wait:for', 'user'
       .then @showGroupsList.bind(@)
       # useful in case the screen is resized
       .then @initBaseSmallScreen.bind(@)

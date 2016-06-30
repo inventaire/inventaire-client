@@ -25,8 +25,7 @@ module.exports = Items.extend
     @on 'remove', @updateCounter.bind(@, -1)
 
   friendsReady:->
-    app.vent.trigger 'friends:items:ready'
-    @fetched = true
+    app.execute 'waiter:resolve', 'friends:items'
 
   inventoryLength: {}
 

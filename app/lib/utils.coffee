@@ -10,7 +10,10 @@ module.exports = (Backbone, _, $, app, window, csle)->
 
   utils =
     # sync
-    getCookie: $.cookie
+    getCookie: (key)->
+      value = $.cookie key
+      return parseCookieValue value
+
     # async
     setCookie: (key, value)->
       @preq.post app.API.cookie, {key: key, value: value}
@@ -248,3 +251,9 @@ module.exports = (Backbone, _, $, app, window, csle)->
   return _.extend {}, utils, loggers, tests_
 
 objectWalker = (subObject, property)-> subObject?[property]
+
+parseCookieValue = (value)->
+  switch value
+    when 'true' then true
+    when 'false' then false
+    else value

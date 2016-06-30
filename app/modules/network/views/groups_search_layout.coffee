@@ -20,7 +20,7 @@ module.exports = Marionette.LayoutView.extend
 
     # groups waitForUserData to be initialized
     # so app.groups will be undefined before
-    app.request 'waitForUserData'
+    app.request 'wait:for', 'user'
     .then @initSearch.bind(@, q)
 
   initSearch: (q)->

@@ -39,7 +39,7 @@ module.exports = Marionette.LayoutView.extend
     @model = app.searches.addNonExisting { query: @query }
 
   onShow: ->
-    app.request('waitForFriendsItems').then @showItems.bind(@)
+    app.request('wait:for', 'friends:items').then @showItems.bind(@)
     @searchEntities()
     unless books_.isIsbn(@query)
       @showFindByIsbn()

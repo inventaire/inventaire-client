@@ -49,7 +49,7 @@ module.exports =
       Collection: Groups
       condition: app.user.loggedIn
 
-    app.request 'waitForUserData'
+    app.request 'wait:for', 'user'
     .then initGroupHelpers
     .then initRequestsCollectionsEvent.bind(@)
 
@@ -80,7 +80,7 @@ API =
 
   showGroupBoard: (id, name)->
     # depend on group_helpers which waitForUserData
-    app.request 'waitForUserData'
+    app.request 'wait:for', 'user'
     .then -> app.request 'get:group:model', id
     .then showGroupBoardFromModel
     .catch (err)->

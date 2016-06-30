@@ -3,6 +3,7 @@ TransactionsLayout = require './views/transactions_layout'
 RequestItemModal = require './views/request_item_modal'
 initHelpers = require('./helpers')
 lastTransactionId = null
+fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -27,9 +28,10 @@ module.exports =
       'last:transaction:id': -> lastTransactionId
       'transactions:unread:count': unreadCount
 
-    app.transactions = new Transactions
-
-    _.preq.wrap app.transactions.fetch(), { url: app.transactions.url() }
+    fetchData
+      name: 'transactions'
+      Collection: Transactions
+      condition: app.user.loggedIn
     .then app.vent.Trigger('transactions:unread:changes')
     .catch _.Error('transaction init err')
 
@@ -43,7 +45,7 @@ API =
   showFirstTransaction: ->
     if app.request 'require:loggedIn', 'transactions'
       @showTransactions()
-      app.request('waitForUserData')
+      app.request 'wait:for', 'user'
       .then findFirstTransaction
       .then (transac)->
         if transac?
@@ -61,7 +63,7 @@ API =
     if app.request 'require:loggedIn', "transactions/#{id}"
       lastTransactionId = id
       @showTransactions()
-      app.request('waitForUserData')
+      app.request('wait:for', 'user')
       .then triggerTransactionSelect.bind(null, id)
 
   showItemRequestModal: (model)->

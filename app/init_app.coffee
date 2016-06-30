@@ -17,18 +17,18 @@ module.exports = ->
   app.LocalCache = require('lib/data/local_cache')(LocalDB, _, _.preq)
 
   # setting reqres to trigger methods on data:ready events
-  app.data = require('lib/data_state')
-  app.data.initialize()
+  require('lib/data/state')()
 
   # initialize all the modules and their routes before app.start()
   # the first routes initialized have the lowest priority
 
   # /!\ routes defined before Redirect will be overriden by the glob
   app.module 'Redirect', require 'modules/redirect'
+  # other modules might need to access app.user so it should be initialized early on
+  app.module 'User', require 'modules/user/user'
   # Users and Entities need to be initialize for the Welcome item panel to work
   app.module 'Users', require 'modules/users/users'
   app.module 'Entities', require 'modules/entities/entities'
-  app.module 'User', require 'modules/user/user'
   app.module 'Search', require 'modules/search/search'
   app.module 'Inventory', require 'modules/inventory/inventory'
   app.module 'Transactions', require 'modules/transactions/transactions'
@@ -40,7 +40,7 @@ module.exports = ->
 
   AppLayout = require 'modules/general/views/app_layout'
 
-  app.request 'waitForI18n'
+  app.request 'wait:for', 'i18n'
   .then ->
     # Initialize the application on DOM ready event.
     $ ->
@@ -51,8 +51,7 @@ module.exports = ->
 
       app.start()
 
-      app.vent.trigger 'layout:ready'
-      app.layout.ready = true
+      app.execute 'waiter:resolve', 'layout'
 
   require('lib/piwik')()
   require('lib/jquery-jk').initialize($)

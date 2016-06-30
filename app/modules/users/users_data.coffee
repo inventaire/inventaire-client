@@ -6,7 +6,7 @@ module.exports = (app, $, _)->
     parseData: _.property 'users'
 
   fetchRelationsData = ->
-    app.request 'waitFor', 'groups'
+    app.request 'wait:for', 'groups'
     .then _fetchRelationsData
 
   _fetchRelationsData = ->

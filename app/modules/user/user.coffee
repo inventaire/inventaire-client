@@ -1,9 +1,9 @@
-MainUser = require './models/main_user'
 SignupClassic = require './views/signup_classic'
 Login = require './views/login'
 LoginPersona = require './views/login_persona'
 ForgotPassword = require './views/forgot_password'
 ResetPassword = require './views/reset_password'
+fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -17,11 +17,13 @@ module.exports =
         'login/forgot-password(/)':'showForgotPassword'
         'login/reset-password(/)':'showResetPassword'
 
-    app.addInitializer ->
-      new UserRouter
-        controller: API
+    app.addInitializer -> new UserRouter { controller: API }
 
-    app.user = new MainUser
+    require('./lib/init_main_user')(app)
+    require('./lib/auth')(app)
+    require('./lib/user_listings')(app)
+    require('./lib/user_update')(app)
+    require('./lib/user_menu_update')(app)
 
     app.commands.setHandlers
       'show:signup': API.showSignup
@@ -29,17 +31,10 @@ module.exports =
       'show:login:persona': API.showLoginPersona
       'show:forgot:password': API.showForgotPassword
 
-    require('./lib/auth')(app)
-    require('./lib/recover_user_data')(app)
-    require('./lib/user_listings')(app)
-    require('./lib/user_update')(app)
-    require('./lib/user_menu_update')(app)
-
 
 # beware that app.layout is undefined when User.define is fired
 # app.layout should thus appear only in callbacks
 API =
-
   showSignup: ->
     unless redirected 'show:signup'
       app.layout.main.Show new SignupClassic, _.I18n('sign up')

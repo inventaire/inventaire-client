@@ -23,8 +23,6 @@ module.exports = (app, _)->
   app.user.once 'change', -> items.personal.refilter()
 
   attachFilteredCollection 'friends', isFriend
-  app.vent.once 'friends:items:ready', -> items.friends.fetched = true
-
   attachFilteredCollection 'public', isPublicUser
   attachFilteredCollection 'network', isntPublicUser
 

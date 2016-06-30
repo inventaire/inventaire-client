@@ -22,7 +22,7 @@ module.exports = Marionette.LayoutView.extend
       when 'labs' then fn = @showLabsSettings
       else _.error 'unknown tab requested'
 
-    app.request('waitForUserData').then fn.bind(@)
+    app.request('wait:for', 'user').then fn.bind(@)
 
   events:
     'click #profile': 'showProfileSettings'

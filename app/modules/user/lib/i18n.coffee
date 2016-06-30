@@ -39,8 +39,7 @@ requestI18nFile = (polyglot, lang)->
 updatePolyglot = (polyglot, lang, res)->
   polyglot.replace res
   polyglot.locale lang
-  app.data.i18nReady = true
-  app.vent.trigger 'i18n:ready'
+  app.execute 'waiter:resolve', 'i18n'
 
 updateQlabel = ->
   { lang } = app.user

@@ -11,7 +11,8 @@ module.exports = UserCommons.extend
       @calculateDistance()
 
     # let the time for items to be accessible from their collection
-    @listenToOnce app.vent, 'friends:items:ready', @calculateHighlightScore.bind(@)
+    app.request 'wait:for', 'friends:items'
+    .then @calculateHighlightScore.bind(@)
 
   serializeData: ->
     attrs = @toJSON()

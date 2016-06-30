@@ -22,7 +22,7 @@ module.exports = Marionette.LayoutView.extend
     folders: folders
 
   onShow: ->
-    app.request 'waitForFriendsItems'
+    app.request 'wait:for', 'friends:items'
     # The view might have already been destroyed
     # in the case the transaction can not be found
     # and triggered the 'show:error:missing' command

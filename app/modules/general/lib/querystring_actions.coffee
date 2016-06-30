@@ -7,7 +7,7 @@ module.exports = ->
     validEmail = validEmail is 'true'
 
     # we need to wait for app.user to be ready to get the validEmail value
-    app.request 'waitForUserData'
+    app.request 'wait:for', 'user'
     .then -> app.request 'waitForLayout'
     .then showValidEmailConfirmation.bind(null, validEmail)
 

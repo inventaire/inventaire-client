@@ -1,27 +1,17 @@
+fetchData = require 'lib/data/fetch'
+MainUser = require '../models/main_user'
+
 module.exports = (app)->
-  if _.getCookie('loggedIn')?
-    app.user.loggedIn = true
-    fetchUserData()
-  else
-    app.user.loggedIn = false
-    userReady()
+  # the cookie is deleted on logout
+  loggedIn = _.getCookie('loggedIn')?
 
-fetchUserData = ->
-  # beware: Backbone uses jQuery promise not wrapped by bluebird/preq
-  app.user.fetch()
-  .then fetchSuccess
-  .fail fetchError
-  .always userReady
+  fetchData
+    name: 'user'
+    Collection: MainUser
+    condition: loggedIn
+  .catch resetSession
 
-fetchSuccess = (userAttrs)->
-
-fetchError =  (err)->
-  _.error err, 'recoverUserData fail'
-  resetSession()
-
-userReady = ->
-  app.vent.trigger 'main:user:ready'
-  app.user.fetched = true
+  app.user.loggedIn = loggedIn
 
 resetSession = ->
   app.user.loggedIn = false

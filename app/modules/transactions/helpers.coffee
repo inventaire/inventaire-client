@@ -7,7 +7,7 @@ module.exports = ->
     'get:transaction:byId': API.getTransaction
     'transaction:post:message': API.postMessage
 
-  app.request('waitForUserData').then initLateHelpers
+  app.request('wait:for', 'user').then initLateHelpers
 
 API =
   addTransaction: (transaction)-> app.transactions.add transaction

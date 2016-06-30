@@ -22,7 +22,7 @@ module.exports = UserCommons.extend
 
     # If the user is logged in, this will wait for her document to arrive
     # with its language attribute. Else, it will fire at next tick.
-    app.request 'waitForUserData'
+    app.request 'wait:for', 'user'
     .then @setLang.bind(@)
 
   setLang: ->
