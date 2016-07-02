@@ -79,7 +79,6 @@ module.exports =
     .tap @_postActionHooks.bind(@, action)
 
   _postActionHooks: (action)->
-    app.execute 'track:group', action
     @trigger "action:#{action}"
 
   revertMove: (user, previousCategory, newCategory, err)->

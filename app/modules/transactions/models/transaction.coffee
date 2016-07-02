@@ -156,7 +156,6 @@ module.exports = Backbone.NestedModel.extend
     @push 'actions', action
     actionModel = @addActionToTimeline action
     userStatus = @otherUser().get 'status'
-    tracker = app.Execute 'track:transaction', state, userStatus
 
     _.preq.put app.API.transactions,
       id: @id
@@ -165,7 +164,6 @@ module.exports = Backbone.NestedModel.extend
     # apply side effects only once the server confirmed
     # to avoid having to handle reverting the item if it fails
     .then _.Full(applySideEffects, null, @, state)
-    .then tracker
     .catch @_updateFail.bind(@, actionModel)
 
   _updateFail: (actionModel, err)->

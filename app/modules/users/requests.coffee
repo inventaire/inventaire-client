@@ -15,7 +15,6 @@ module.exports = (app, _)->
     currentStatus = user.get 'status'
     user.set 'status', newStatus
     server[action](userId)
-    .tap app.Execute('track:friend', action)
     .catch Rewind(user, currentStatus, 'action err')
 
   Rewind = (user, currentStatus, label)->

@@ -60,7 +60,6 @@ module.exports = Marionette.LayoutView.extend
     # on the chosen listing and transaction mode
     listing = @model.get 'listing'
     transaction = @model.get 'transaction'
-    app.execute 'track:item', 'create', listing, transaction
 
   selectTransaction: -> @selectButton 'transaction'
   selectListing: -> @selectButton 'listing'
