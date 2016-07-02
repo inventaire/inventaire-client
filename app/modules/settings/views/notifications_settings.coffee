@@ -64,7 +64,8 @@ module.exports = Marionette.ItemView.extend
     @ui.periodicityFog.fadeToggle 200
 
   updatePeriodicity: (e)->
+    value = parseInt e.target.value
     app.request 'user:update',
       attribute: 'summaryPeriodicity'
-      value: e.target.value
+      value: value
       selector: '#periodicityPicker'
