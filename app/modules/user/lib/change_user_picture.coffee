@@ -1,5 +1,6 @@
 regex_ = sharedLib 'regex'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
+error_ = require 'lib/error'
 
 module.exports = ->
   app.layout.modal.show new PicturePicker
@@ -12,7 +13,8 @@ savePicture = (pictures)->
   picture = pictures[0]
   _.log picture, 'picture'
   unless _.isLocalImg picture
-    throw new Error 'couldnt save picture: requires a local image url'
+    message = 'couldnt save picture: requires a local image url'
+    throw error_.new message, pictures
 
   app.request 'user:update',
     attribute: 'picture'

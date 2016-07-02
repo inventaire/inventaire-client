@@ -5,6 +5,7 @@ error_ = require 'lib/error'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 groupFormData = require '../lib/group_form_data'
 getActionKey = require 'lib/get_action_key'
+error_ = require 'lib/error'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
@@ -93,7 +94,8 @@ module.exports = Marionette.ItemView.extend
     picture = pictures[0]
     _.log picture, 'picture'
     unless _.isLocalImg picture
-      throw new Error 'couldnt save picture: requires a local image url'
+      message = 'couldnt save picture: requires a local image url'
+      throw error_.new message, pictures
 
     @updateSettings
       attribute: 'picture'
