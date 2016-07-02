@@ -4,22 +4,15 @@
       @include display-flex(column, center, center);
       margin: 0.5em;
       padding: 2em;
-      background-color: #eaeaea;
+      background-color: #ddd;
       @include radius;
-      &.not-available{
-        background-color: #444;
-        color: white;
-        .fa, h4{
-          color: white;
-        }
-      }
     }
   }
   a{
     @include underline($dark-grey);
     @include transition(text-decoration-color);
     &:not(:hover){
-      text-decoration-color: #bbb;
+      text-decoration-color: #999;
     }
   }
 }

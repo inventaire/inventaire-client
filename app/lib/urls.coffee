@@ -38,3 +38,4 @@ module.exports =
       url: "faircoin:#{faircoinHash}"
     gratipay: 'https://gratipay.com/inventaire-io'
     liberapay: 'https://liberapay.com/inventaire_io'
+    paypal: 'https://www.paypal.me/inventaire/10'
