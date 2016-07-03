@@ -1,3 +1,2 @@
 # Not linting before commit as its messing with brunch.
-# Not running slow tests as it makes commits fail without reason
-export CONSOLE=silent; export NODE_ENV=tests; mocha --compilers coffee:coffee-script/register $(ls -l test |grep coffee |sed -e 's/^.*\s/test\//' |grep -v '.slow.coffee') > /dev/null
+export CONSOLE=silent; export NODE_ENV=tests; npm test > /dev/null
