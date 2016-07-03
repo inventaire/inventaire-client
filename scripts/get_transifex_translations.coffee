@@ -49,7 +49,8 @@ fetchTranslation = (resource, lang, enVersion)->
     invertedEnObj = _.invert enObj
     getKey = (obj)-> invertedEnObj[obj.source_string]
   else
-    getKey = (obj)-> obj.key
+    # replacing '\\.\\.\\.' by '...'
+    getKey = (obj)-> obj.key.replace /\\./g, '.'
 
   unless project?
     throw new Error "project couldnt be found for resource #{resource}"
