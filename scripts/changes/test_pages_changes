@@ -1,0 +1,44 @@
+#!/usr/bin/env coffee
+{ host, prerenderUrl } = require 'config'
+console.log('prerenderUrl', prerenderUrl)
+console.log('host', host)
+
+pages = require './pages'
+breq = require 'bluereq'
+Promise = require 'bluebird'
+require 'colors'
+{ diffLines } = require 'diff'
+_ = require 'lodash'
+
+checkChanges = (page)->
+  old = "#{prerenderUrl}/#{host}/#{page}"
+  updated = "#{old}?__refresh=true"
+  breq.get old
+  .then (res1)->
+    breq.get updated
+    .then (res2)->
+      if res1.body is res2.body
+        console.log 'no change:'.grey, "/#{page}"
+        return null
+      else return data =
+        page: page
+        diff: diffLines res1.body, res2.body
+  .catch (err)-> console.log('err', err)
+
+Promise.all pages.map(checkChanges)
+.then (changes)->
+  _.compact changes
+  .forEach (change)->
+    { page, diff } = change
+    console.log 'changed:'.cyan, page
+    diff.forEach (part)->
+      { added, removed, value } = part
+      if added? then console.log value.green
+      else if removed? then console.log value.red
+      # else
+      #   lines = value.split('\n')
+      #   head = lines[0..1].join('\n')
+      #   tail = lines[-2..-1].join('\n')
+      #   value = "#{head}\n[...]\n#{tail}"
+      #   console.log value.grey
+.catch (err)-> console.log('ERR', err)

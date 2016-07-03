@@ -4,3 +4,5 @@ module.exports =
     username: 'customize'
     password: 'customize'
   universalPath: require '../../config/universal_path'
+  host: 'http://localhost:3006'
+  prerenderUrl: 'http://localhost:3000'
