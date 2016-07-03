@@ -254,6 +254,7 @@
     "next action": "następna akcja",
     "wrong user": "zły użytkownik",
     "archive": null,
+    "epub": null,
     "download epub": "pobierz epub",
     "pages": "strony",
     "matching books in your network": "powiąż książki ze swoją siecią",
@@ -483,5 +484,6 @@
     "you need to be connected to edit this page": null,
     "videos": null,
     "ask us anything": null,
-    "help translate inventaire": null
+    "help translate inventaire": null,
+    "Thank you for your message! Coming back to you shortly": null
 }
