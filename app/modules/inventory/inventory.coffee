@@ -186,6 +186,7 @@ fetchItems = ->
       collection: app.items
       condition: app.user.loggedIn
       fetchOptions: { reset: true }
+    .then -> app.user.itemsFetched = true
 
 requestPublicItem = (username, entity)->
   _.preq.get publicByUsernameAndEntity(username, entity)
