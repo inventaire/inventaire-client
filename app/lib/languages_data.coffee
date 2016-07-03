@@ -13,7 +13,7 @@ module.exports = {
     "defaultRegion": "da_DK"
   },
   "de": {
-    "completion": 72,
+    "completion": 90,
     "defaultRegion": "de_DE"
   },
   "en": {
@@ -45,7 +45,7 @@ module.exports = {
     "defaultRegion": "pt_PT"
   },
   "sv": {
-    "completion": 54,
+    "completion": 53,
     "defaultRegion": "sv_SE"
   }
 }
