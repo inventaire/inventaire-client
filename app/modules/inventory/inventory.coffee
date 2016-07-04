@@ -28,7 +28,7 @@ module.exports =
         'add/scan/embedded(/)': 'showEmbeddedScanner'
         'groups/:id(/:name)(/)': 'showGroupInventory'
         'g/(:name)': 'shortCutGroup'
-        'u/(:username)': 'shortCutUser'
+        'u(ser)(s)/:id': 'shortCutUser'
 
     app.addInitializer ->
       new InventoryRouter
@@ -126,7 +126,7 @@ API =
       else app.execute 'show:group:search', name
     .catch _.Error('searchGroup err')
 
-  shortCutUser: (username)-> API.showUserInventory username, true
+  shortCutUser: (usernameOrId)-> API.showUserInventory usernameOrId, true
 
 showAddLayout = (tab='search')->
   view = new AddLayout { tab: tab }

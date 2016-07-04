@@ -87,11 +87,17 @@ module.exports = (app)->
       async.getUserModel id, 'nonRelationGroupUser'
 
     resolveToUserModel: (user)->
-      # 'user' is either the user model or a username
-      if _.isModel(user) then return _.preq.resolve(user)
+      # 'user' is either the user model, a user id, or a username
+      if _.isModel(user) then return _.preq.resolve user
       else
-        username = user
-        app.request('get:userModel:from:username', username)
+        if _.isUserId user
+          userId = user
+          promise = app.request 'get:user:model', userId
+        else
+          username = user
+          promise = app.request 'get:userModel:from:username', username
+
+        promise
         .then (userModel)->
           if userModel? then return userModel
           else throw new Error("user model not found: #{user}")
