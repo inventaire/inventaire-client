@@ -28,6 +28,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attr = @model.toJSON()
     attr.valueEntity = @valueEntityData()
+    attr.text = attr.valueEntity?.label or attr.value
     attr.editMode = @editMode
     return attr
 
