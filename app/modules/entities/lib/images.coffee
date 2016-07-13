@@ -5,7 +5,7 @@ module.exports =
     # _.log openLibraryId, 'ol'
     type = if @type is 'book' then 'book' else 'author'
     _.preq.get app.API.data.openLibraryCover(openLibraryId, type)
-    .then _.property('url')
+    .get 'url'
     .catch _.ErrorRethrow('openLibrary')
 
   wmCommons: (title)->

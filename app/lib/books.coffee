@@ -2,7 +2,7 @@ books_ = sharedLib('books')(_)
 
 books_.getImage = (entityUri, data)->
   _.preq.get app.API.entities.getImages(entityUri, data)
-  .then _.property('images')
+  .get 'images'
 
 books_.getIsbnEntities = (isbns)->
   isbns = isbns.map books_.normalizeIsbn

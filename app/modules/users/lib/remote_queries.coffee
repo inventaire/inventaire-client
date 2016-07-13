@@ -8,7 +8,7 @@ module.exports = (app, _)->
     if _.isEmpty(text) then return _.preq.resolve []
 
     _.preq.get app.API.users.search(text)
-    .then _.property('users')
+    .get 'users'
     .catch _.Error('users_data search err')
 
 
@@ -22,5 +22,5 @@ module.exports = (app, _)->
 
   searchByPosition: (latLng)->
     _.preq.get app.API.users.searchByPosition(latLng)
-    .then _.property('users')
+    .get 'users'
     .catch _.Error('searchByPosition err')

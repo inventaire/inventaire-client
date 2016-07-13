@@ -68,5 +68,5 @@ module.exports = Backbone.NestedModel.extend
     images_.upload
       blob: images_.dataUrlToBlob @getFinalDataUrl()
       id: @cid
-    .then _.property(@cid)
+    .get @cid
     .then _.Log('url?')

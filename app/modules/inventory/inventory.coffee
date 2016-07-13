@@ -283,7 +283,7 @@ initializeInventoriesHandlers = (app)->
         return _.preq.resolve []
 
       _.preq.get usersPublicItems(usersIds)
-      .then _.property('items')
+      .get 'items'
 
     'item:main:user:instances': (entityUri)->
       return app.items.personal.byEntityUri(entityUri)

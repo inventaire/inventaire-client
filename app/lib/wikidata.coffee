@@ -12,14 +12,14 @@ wd_.wmCommonsThumbData = (file, width=500)->
 
 wd_.wmCommonsThumb = (file, width=500)->
   wd_.wmCommonsThumbData file, width
-  .then _.property('thumbnail')
+  .get 'thumbnail'
   .catch (err)->
     console.warn "couldnt find #{file} via tools.wmflabs.org, will use the small thumb version"
     return wd_.wmCommonsSmallThumb file, 200
 
 wd_.enWpImage = (enWpTitle)->
   preq.get app.API.data.enWpImage enWpTitle
-  .then _.property('url')
+  .get 'url'
   .catch _.ErrorRethrow('enWpImage err')
 
 wd_.wikipediaExtract = (lang, title)->
@@ -61,12 +61,12 @@ wd_.aliasingClaims = (claims)->
 wd_.getClaimSubjects = (property, value, refresh)->
   preq.get app.API.data.claim(property, value, refresh)
   .then _.Log("claim subjects - #{property}:#{value}")
-  .then _.property('entities')
+  .get 'entities'
 
 wd_.queryAuthorWorks = (authorQid, refresh)->
   preq.get app.API.data.authorWorks(authorQid, refresh)
   .then _.Log("author work - #{authorQid}")
-  .then _.property('entities')
+  .get 'entities'
 
 # P364: original language of work
 # P103: native language

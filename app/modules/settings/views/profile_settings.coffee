@@ -126,7 +126,7 @@ module.exports = Marionette.ItemView.extend
 
   sendEmailRequest: (email)->
     _.preq.post app.API.auth.emailAvailability, {email: email}
-    .then _.property('email')
+    .get 'email'
     .then @sendEmailChangeRequest
 
   sendEmailChangeRequest: (email)->
