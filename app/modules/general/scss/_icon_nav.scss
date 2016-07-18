@@ -104,6 +104,11 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
     max-width: 100%;
     .iconButton{
       margin-bottom: 1em;
+      height: 4.2em;
+      .label{
+        flex: 1;
+        @include display-flex(column, center, center);
+      }
     }
   }
   // between 3 and 4 times $iconButtonMinWidth

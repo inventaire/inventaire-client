@@ -1,0 +1,17 @@
+{{#with hash}}
+  <a href="{{href}}" id="{{name}}IconButton" class="iconButton {{name}}"
+     title="{{i18n title}}">
+    {{#if counter}}
+      <div class="iconWithCounter count-{{counter}}">
+        {{icon icon}}
+        <span class="counter">{{counter}}</span>
+      </div>
+      <div class="label">
+        <span>{{i18n label}}</span>
+      </div>
+    {{else}}
+      {{icon icon}}
+      <span class="label">{{i18n label}}</span>
+    {{/if}}
+  </a>
+{{/with}}
