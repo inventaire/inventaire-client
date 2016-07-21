@@ -1,0 +1,22 @@
+// see also ./_property_editor.scss
+.title-editor{
+  @include display-flex(row, center, center);
+  .input-wrapper{
+    flex: 1;
+    .alert-box{
+      margin: 0;
+    }
+  }
+  .value-editor{
+    flex: 1;
+    input{
+      margin: 0;
+    }
+  }
+  .tiny-button{
+    white-space: nowrap;
+  }
+  .edit-wrapper{
+    margin-left: auto;
+  }
+}

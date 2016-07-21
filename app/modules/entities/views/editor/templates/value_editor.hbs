@@ -1,18 +1,5 @@
 {{#if editMode}}
-  {{!-- input will be wrapped into .ac-container  --}}
-  <input type="text" value="{{text}}" class="has-alertbox">
-  <a class="tiny-button save" title="Ctrl+Enter" tabindex="0">
-    {{icon 'check'}}
-    <span>{{i18n 'save'}}</span>
-  </a>
-  <a class="tiny-button shy-label cancel" title="Esc" tabindex="0">
-    {{icon 'times'}}
-    <span>{{i18n 'cancel'}}</span>
-  </a>
-  <a class="tiny-button shy-label dangerous delete" tabindex="0">
-    {{icon 'trash'}}
-    <span>{{i18n 'delete'}}</span>
-  </a>
+  {{partial 'entities:editor:edit_mode' this}}
 {{else}}
   <div class="data enterClick" tabindex="0">
     {{#if valueEntity}}

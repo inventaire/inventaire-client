@@ -1,10 +1,11 @@
 .value-editor{
   @include display-flex(row, center, flex-end);
   padding: 0.5em;
+  .input-wrapper{
+    flex: 1;
+  }
   .ac-container{
-    flex: 1 0 auto;
     position: relative;
-    margin-left: 0.5em;
     input{
       margin: 0;
     }
@@ -45,23 +46,8 @@
       margin-right: 1em;
     }
   }
-  .edit-wrapper{
-    // Taking more place than needed to avoid flickering
-    // when the label is shown on hover
-    min-width: 8em;
-    @include display-flex(row, null, flex-end);
-  }
   .ac-container + .tiny-button{
     margin-left: 0.5em;
-  }
-  .tiny-button{
-    margin-left: 0.2em;
-  }
-  .cancel{
-    @include tiny-button-color($edit-button-grey);
-  }
-  .save{
-    @include tiny-button-color($success-color);
   }
   &:hover{
     .identifier{
@@ -86,24 +72,43 @@
       min-height: 2em;
       padding: 0.5em;
     }
-    .tiny-button{
-      margin-left: 0.5em;
-      @include display-flex(row, center, center);
-      @include radius(0);
-      &:first-child{ @include radius-top; }
-      &:last-child{ @include radius-bottom; }
-      .fa{
-        min-width: 1.2em;
-      }
-      height: 3em;
+  }
+}
+.tiny-button{
+  margin-left: 0.2em;
+}
+.cancel{
+  @include tiny-button-color($edit-button-grey);
+}
+.save{
+  @include tiny-button-color($success-color);
+}
+.edit-wrapper{
+  // Taking more place than needed to avoid flickering
+  // when the label is shown on hover
+  min-width: 8em;
+  @include display-flex(row, null, flex-end);
+}
+
+/*Very Small screens*/
+@media screen and (max-width: 500px) {
+  .tiny-button{
+    margin-left: 0.5em;
+    @include display-flex(row, center, center);
+    @include radius(0);
+    &:first-child{ @include radius-top; }
+    &:last-child{ @include radius-bottom; }
+    .fa{
+      min-width: 1.2em;
     }
-    .edit{
-      display: none;
-    }
-    .shy-label{
-      span{
-        display: inline-block;
-      }
+    height: 3em;
+  }
+  .edit{
+    display: none;
+  }
+  .shy-label{
+    span{
+      display: inline-block;
     }
   }
 }

@@ -26,14 +26,26 @@ module.exports = (promises_, _, wdk)->
       file = encodeURIComponent file
       "https://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
-  helpers.type = (entity)->
-    if _.isModel entity then P31 = entity.get?('claims')?.P31
-    else P31 = entity.claims?.P31
+  unprefix = (value)-> value.replace 'wd:', ''
 
-    if P31?
-      if helpers.isBook P31 then return 'book'
-      if helpers.isArticle P31 then return 'article'
-      if helpers.isHuman P31 then return 'human'
-      if helpers.isGenre P31 then return 'genre'
+  helpers.type = (entity)->
+    if _.isModel entity then claims = entity.get?('claims')
+    else { claims } = entity
+
+    unless claims? then return
+
+    P31 = claims.P31 or claims['wdt:P31']
+    unless P31? then return
+    P31 = P31.map unprefix
+    console.log('P31', P31)
+
+    if helpers.isBook P31 then return 'book'
+    if helpers.isEdition P31 then return 'edition'
+    if helpers.isArticle P31 then return 'article'
+    if helpers.isHuman P31 then return 'human'
+    if helpers.isGenre P31 then return 'genre'
+
+    _.warn entity, 'entity type not found'
+    return
 
   return helpers

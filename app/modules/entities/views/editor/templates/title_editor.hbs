@@ -1,0 +1,14 @@
+<div class="property-label">{{I18n 'title'}}</div>
+<div class="value-editor">
+  {{#if editMode}}
+    {{partial 'entities:editor:edit_mode' this}}
+  {{else}}
+    <div class="title-value">{{value}}</div>
+    <div class="edit-wrapper">
+      <a class="tiny-button light-blue shy-label edit" tabindex="0">
+        {{icon 'pencil'}}
+        <span>{{i18n 'edit'}}</span>
+      </a>
+    </div>
+  {{/if}}
+</div>

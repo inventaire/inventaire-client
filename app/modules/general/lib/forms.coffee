@@ -50,6 +50,11 @@ forms_.alert = (view, err)->
     message: _.i18n(errMessage)
     selector: selector
 
+forms_.bundleAlert = (view, message, selector)->
+  err = new Error message
+  err.selector = selector
+  forms_.alert view, err
+
 # format the error to be catched by forms_.catchAlert
 # ex: forms_.throwError 'a title is required', '#titleField'
 forms_.throwError = (message, selector, context...)->

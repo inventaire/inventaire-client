@@ -19,8 +19,8 @@ Q =
     'Q128093' #ebook
   ]
   edition: [
+    'Q3331189' #edition
     'Q3972943' #publishing
-    'Q17902573' #edition
   ]
   articles: [
     'Q191067' #article

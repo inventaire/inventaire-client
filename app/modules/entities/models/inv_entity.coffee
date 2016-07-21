@@ -1,11 +1,11 @@
 Entity = require './entity'
 getBestLangValue = require '../lib/get_best_lang_value'
 wd_ = require 'lib/wikidata'
-error_ = require 'lib/error'
+inv_ = require '../lib/inv/helpers'
 
 module.exports = Entity.extend
   prefix: 'inv'
-  initialize: (attr)->
+  initialize: (attr, options)->
     @type = wd_.type @
 
     { lang } = app.user
@@ -31,33 +31,50 @@ module.exports = Entity.extend
     qids = @get('claims').P50
     return wd_.getLabel qids, app.user.lang
 
-  savePropertyValue: (property, oldValue, newValue)->
+  setPropertyValue: (property, oldValue, newValue)->
     _.log arguments, 'savePropertyValue args'
-    if oldValue isnt newValue
-      propArrayPath = "claims.#{property}"
-      propArray = @get propArrayPath
-      unless propArray?
-        propArray = []
-        @set propArrayPath, []
+    if oldValue is newValue then return _.preq.resolved
 
-      # let pass null oldValue, it will create a claim
-      if oldValue? and oldValue not in propArray
-        return error_.reject 'unknown property value', arguments
+    propArrayPath = "claims.#{property}"
+    propArray = @get propArrayPath
+    unless propArray?
+      propArray = []
+      @set propArrayPath, []
 
-      # in cases of a new value, index is last index + 1 = propArray.length
-      index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
-      @set "#{propArrayPath}.#{index}", newValue
+    # let pass null oldValue, it will create a claim
+    if oldValue? and oldValue not in propArray
+      return error_.reject 'unknown property value', arguments
 
-      reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
-      rollback = _.Rollback reverseAction, 'inv_entity savePropertyValue'
+    # in cases of a new value, index is last index + 1 = propArray.length
+    index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
+    @set "#{propArrayPath}.#{index}", newValue
 
-      _.preq.put app.API.entities.inv.claims.update,
-        id: @id
-        property: property
-        'new-value': newValue
-        'old-value': oldValue
-      .catch rollback
-      .catch _.ErrorRethrow('savePropertyValue err')
+    reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
+    rollback = _.Rollback reverseAction, 'inv_entity savePropertyValue'
 
-    else
-      _.preq.resolved
+    return @savePropertyValue property, oldValue, newValue
+    .catch rollback
+
+  savePropertyValue: (property, oldValue, newValue)->
+    _.preq.put app.API.entities.inv.claims.update,
+      id: @id
+      property: property
+      'new-value': newValue
+      'old-value': oldValue
+    .catch _.ErrorRethrow('savePropertyValue err')
+
+  setLabel: (lang, value)->
+    labelPath = "labels.#{lang}"
+    oldValue = @get labelPath
+    @set labelPath, value
+    @saveLabel labelPath, oldValue, value
+
+  saveLabel: (labelPath, oldValue, value)->
+    reverseAction = @set.bind @, labelPath, oldValue
+    rollback = _.Rollback reverseAction, 'title_editor save'
+
+    _.preq.put app.API.entities.inv.labels.update,
+      id: @id
+      lang: lang
+      value: value
+    .catch rollback

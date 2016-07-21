@@ -1,10 +1,10 @@
+$edit-button-grey: $soft-grey;
+
 #entityEdit{
   @include custom-column(50em);
-  .labels{
-    @include panel;
-  }
-  .claims{
-  }
+  @import "property_editor";
+  @import "value_editor";
+  @import "title_editor";
 }
 
 .identifier{
@@ -13,8 +13,3 @@
   font-size: 0.7em;
   @include underline;
 }
-
-$edit-button-grey: $soft-grey;
-
-@import "property_editor";
-@import "value_editor";
