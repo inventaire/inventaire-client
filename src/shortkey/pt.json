@@ -1,6 +1,6 @@
 {
-    "destroy_item_text": null,
-    "add_item_text": null,
+    "destroy_item_text": "Você está certo de quer remover **%{title}** ?",
+    "add_item_text": "Criando **%{label}** no seu inventário",
     "details_placeholder": null,
     "notes_placeholder": null,
     "username_tip": null,

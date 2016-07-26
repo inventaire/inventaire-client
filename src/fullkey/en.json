@@ -99,8 +99,6 @@
     "find friends to share your inventory with!": "find friends to share your inventory with!",
     "otherwise": "otherwise",
     "create an account": "create an account",
-    "step 1: Choose a username": "step 1: Choose a username",
-    "Step 2: associate your account with an email": "Step 2: associate your account with an email",
     "this username isn't available": "this username isn't available",
     "a popup should now open to let you verify your credentials": "a popup should now open to let you verify your credentials",
     "I'm selling it": "I'm selling it",
@@ -192,7 +190,6 @@
     "your message": "your message",
     "subject": "subject",
     "discussions": "discussions",
-    "Something went wrong :(": "Something went wrong :(",
     "something went wrong :(": "something went wrong :(",
     "from:": "from:",
     "to:": "to:",
@@ -485,5 +482,7 @@
     "videos": "videos",
     "ask us anything": "ask us anything",
     "help translate inventaire": "help translate inventaire",
-    "Thank you for your message! Coming back to you shortly": "Thank you for your message! Coming back to you shortly"
+    "Thank you for your message! Coming back to you shortly": "Thank you for your message! Coming back to you shortly",
+    "some of the last books listed": "some of the last books listed",
+    "return to the book's page": "return to the book's page"
 }

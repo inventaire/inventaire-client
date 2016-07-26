@@ -11,5 +11,8 @@
     "enter the url of your CouchDB database": "enter the url of your CouchDB database",
     "replicate": "replicate",
     "discover the books available in your network!": "discover the books available in your network!",
-    "assembled_by": "assembled by [Maxime Lathuilière](http://maxlath.eu/)"
+    "assembled_by": "assembled by [Maxime Lathuilière](http://maxlath.eu/)",
+    "step 1: Choose a username": "step 1: Choose a username",
+    "Step 2: associate your account with an email": "Step 2: associate your account with an email",
+    "Something went wrong :(": "Something went wrong :("
 }

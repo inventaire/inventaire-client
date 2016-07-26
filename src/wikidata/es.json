@@ -14,12 +14,16 @@
     "P155": "precedida por",
     "P156": "sucedida por",
     "P166": "premio recibido",
+    "P212": null,
+    "P407": "idioma de la obra",
     "P577": "fecha de publicación",
+    "P629": "edición de",
     "P674": "personajes",
     "P737": "influido por",
     "P738": "influye en",
     "P840": "narración ambientada en",
     "P921": "tema principal de la obra",
+    "P957": null,
     "P1066": "alumno de",
     "P1680": "subtítulo"
 }

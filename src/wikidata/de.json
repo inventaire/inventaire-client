@@ -14,12 +14,16 @@
     "P155": "Vorgänger",
     "P156": "Nachfolger",
     "P166": "Auszeichnung",
+    "P212": null,
+    "P407": "Sprache des Werks",
     "P577": "Veröffentlichungsdatum",
+    "P629": "Ausgabe oder Übersetzung von",
     "P674": "Figuren",
     "P737": "beeinflusst von",
     "P738": "beeinflusste",
     "P840": "Handlungsort",
     "P921": "Schlagwort",
+    "P957": null,
     "P1066": "Schüler von",
     "P1680": "Untertitel"
 }
