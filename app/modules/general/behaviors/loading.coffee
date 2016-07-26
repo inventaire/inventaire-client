@@ -32,7 +32,7 @@ module.exports = Marionette.Behavior.extend
     unless @hidden
       @$target or= this.getTarget params
 
-      oups = _.i18n 'Something went wrong :('
+      oups = _.I18n 'something went wrong :('
       body = _.icon('bolt') + "<p> #{oups}</p>"
 
       @$target.html body
