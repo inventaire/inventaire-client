@@ -1,6 +1,7 @@
 SearchResult = require 'modules/entities/models/search_result'
 elasticSearch = require './elastic_search'
 wikidataSearch = require './wikidata_search'
+languageSearch = require './language_search'
 
 module.exports = (type)->
   collection = new Backbone.Collection [], { model: SearchResult }
@@ -11,6 +12,7 @@ module.exports = (type)->
   searchType = switch type
     when 'humans', 'genres' then elasticSearch type
     when 'topics' then wikidataSearch
+    when 'languages' then languageSearch
     else throw new Error("unknown type: #{type}")
 
   remote = (query)->

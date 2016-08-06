@@ -1,11 +1,11 @@
 Entity = require './entity'
 getBestLangValue = require '../lib/get_best_lang_value'
 wd_ = require 'lib/wikidata'
-inv_ = require '../lib/inv/helpers'
 
 module.exports = Entity.extend
   prefix: 'inv'
   initialize: (attr, options)->
+    @refresh = options?.refresh
     @type = wd_.type @
 
     { lang } = app.user
@@ -26,13 +26,19 @@ module.exports = Entity.extend
       wikidata:
         wiki: "#{pathname}/edit"
 
+    # an object to store references to subentities collections
+    # ex: @subentities['wdt:P629'] = thisBookEditionsCollection
+    @subentities = {}
+
+    @typeSpecificInitilize()
+
   getAuthorsString: ->
     unless @get('claims')?.P50?.length > 0 then return _.preq.resolve ''
     qids = @get('claims').P50
     return wd_.getLabel qids, app.user.lang
 
   setPropertyValue: (property, oldValue, newValue)->
-    _.log arguments, 'savePropertyValue args'
+    _.log arguments, 'setPropertyValue args'
     if oldValue is newValue then return _.preq.resolved
 
     propArrayPath = "claims.#{property}"
@@ -50,7 +56,7 @@ module.exports = Entity.extend
     @set "#{propArrayPath}.#{index}", newValue
 
     reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
-    rollback = _.Rollback reverseAction, 'inv_entity savePropertyValue'
+    rollback = _.Rollback reverseAction, 'inv_entity setPropertyValue'
 
     return @savePropertyValue property, oldValue, newValue
     .catch rollback
@@ -70,6 +76,7 @@ module.exports = Entity.extend
     @saveLabel labelPath, oldValue, value
 
   saveLabel: (labelPath, oldValue, value)->
+    # If creating, this model is a draft waiting to be send to the server for creation
     reverseAction = @set.bind @, labelPath, oldValue
     rollback = _.Rollback reverseAction, 'title_editor save'
 
@@ -78,3 +85,26 @@ module.exports = Entity.extend
       lang: lang
       value: value
     .catch rollback
+
+  typeSpecificInitilize: ->
+    switch @type
+      when 'book' then @initializeBook()
+      when 'human' then @initializeAuthor()
+
+  initializeBook: ->
+    # property by which sub-entities are linked to this one
+    @childrenClaimProperty = 'wdt:P629'
+    @fetchSubEntities @refresh
+
+  initializeAuthor: ->
+    @childrenClaimProperty = 'wdt:P50'
+
+  fetchSubEntities: (refresh)->
+    uri = @get 'uri'
+
+    @subentities[@childrenClaimProperty] = subentities = new Backbone.Collection
+
+    _.preq.get app.API.entities.inv.idsByClaim @childrenClaimProperty, uri
+    .get 'ids'
+    .then (ids)-> app.request 'get:entities:models', 'inv', ids, refresh
+    .then subentities.add.bind(subentities)

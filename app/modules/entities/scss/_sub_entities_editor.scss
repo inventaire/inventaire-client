@@ -1,0 +1,10 @@
+.sub-entities-editor{
+  #entityEdit{
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.add-by-isbn{
+  @include panel;
+}

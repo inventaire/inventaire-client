@@ -29,6 +29,13 @@ module.exports =
         action: 'get-inv-entities'
         ids: _.piped(ids)
 
+    idsByClaim: (property, value)->
+      _.buildPath publik,
+        action: 'ids-by-claim'
+        property: property
+        value: value
+
     claims:
-      # PUT
       update: "#{authentified}?action=update-claim"
+    labels:
+      update: "#{authentified}?action=update-label"

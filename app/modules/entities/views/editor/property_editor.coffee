@@ -1,15 +1,32 @@
 isLoggedIn = require './lib/is_logged_in'
 
 module.exports = Marionette.CompositeView.extend
-  className: 'property-editor'
+  className: ->
+    singleValue = if not @model.get('multivalue') then 'single-value' else ''
+    return "property-editor #{singleValue}"
   template: require './templates/property_editor'
-  childView: require './value_editor'
+  getChildView: ->
+    switch datatype
+      when 'entity' then require './value_editor'
+      when 'string' then require './string_value_editor'
+      else throw new Error "unknown datatype: #{datatype}"
+
   childViewContainer: '.values'
   initialize: ->
     @collection = @model.values
 
-  events:
-    'click #addValue': 'addValue'
+  serializeData: ->
+    attrs = @model.toJSON()
+    attrs.canAddValues = @canAddValues()
+    return attrs
 
-  addValue: ->
+  canAddValues: -> @model.get('multivalue') or @collection.length is 0
+
+  events:
+    'click .addValue': 'addValue'
+
+  addValue: (e)->
     if isLoggedIn() then @collection.addEmptyValue()
+    # Prevent parent views including the same 'click .addValue': 'addValue'
+    # event listener to be triggered
+    e.stopPropagation()

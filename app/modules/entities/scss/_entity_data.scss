@@ -8,7 +8,7 @@
   a{
     color: white;
   }
-  a.showEntity, a.wd-Q, a.link{
+  a.showEntity:not(.light-blue-button), a.wd-Q, a.link{
     @include link-light;
   }
   a.source{

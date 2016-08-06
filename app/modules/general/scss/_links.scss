@@ -36,7 +36,7 @@
   }
 }
 
-.showEntity:not(.counter), .showItem{
+.showEntity:not(.counter):not(.light-blue-button), .showItem{
   @extend .link;
 }
 

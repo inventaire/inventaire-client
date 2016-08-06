@@ -6,10 +6,28 @@
   <div id="editions"></div>
 </section>
 
-<section id="createGroup">
+<section id="resultNotFound">
   <h3 class="create">
     {{i18n "couldn't find your book?"}}
   </h3>
-  <div id="findByIsbn"></div>
-  <div id="create"></div>
+  {{#unless queryIsIsbn}}
+    <div class="findByIsbn">
+      <div id="showFindByIsbn">
+        <a class="button light-blue radius bold">
+          {{i18n 'find by ISBN'}}
+        </a>
+        <p class="tip">{{i18n "the identifier near the book's barcode"}}</p>
+      </div>
+      <div id="findByIsbnForm" class="hidden">
+        {{input findByIsbn}}
+        <p>
+          {{i18n 'or'}}&nbsp;
+          <a class="scanner link">{{i18n 'use the barcode scanner'}}</a>
+        </p>
+      </div>
+    </div>
+  {{/unless}}
+  <a id="createEntity" class="button light-blue radius bold">
+    {{i18n 'add a book to the database'}}
+  </a>
 </section>

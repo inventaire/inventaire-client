@@ -1,2 +1,23 @@
+{{!-- entity type selector --}}
 <div class="title"></div>
 <div class="claims"></div>
+<div class="subentities"></div>
+
+{{#unless subeditor}}
+  <div class="next">
+    {{#if creating}}
+      <a href="{{pathname}}" class="createAndShowEntity light-blue-button">
+        {{icon 'arrow-left'}}
+        {{I18n "create and return to the book's page"}}
+      </a>
+      <a href="{{pathname}}/add" class="createAndAddEntity success-button">
+        {{icon 'plus'}}
+        {{I18n "create and add to your inventory"}}
+      </a>
+    {{else}}
+      <a href="{{pathname}}" class="showEntity light-blue-button">
+        {{I18n "return to the book's page"}}
+      </a>
+    {{/if}}
+  </div>
+{{/unless}}

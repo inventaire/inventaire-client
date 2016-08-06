@@ -1,0 +1,10 @@
+<h3>{{i18n propertyLabel}}</h3>
+<ul></ul>
+{{#if parentTypeIsBook}}
+  <div class="add-by-isbn">
+    <strong>{{I18n 'add edition by ISBN'}}</strong>
+    {{input addByIsbn}}
+  </div>
+{{else}}
+  {{partial 'entities:editor:add_button'}}
+{{/if}}

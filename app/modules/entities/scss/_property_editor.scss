@@ -1,11 +1,11 @@
-.property-editor{
+.property-editor, .title-editor{
   @include panel;
   @include display-flex(row);
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     flex-direction: column;
   }
-  > .label{
+  .property-label{
     font-weight: bold;
     flex: 0 0 auto;
     min-width: 8em;
@@ -17,7 +17,12 @@
   .values{
     margin-bottom: 0.5em;
   }
-  #addValue{
+  .addValue{
     margin-left: 0.5em;
+  }
+  &.single-value{
+    .values{
+      padding-top: 0.5em;
+    }
   }
 }

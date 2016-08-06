@@ -1,5 +1,6 @@
 InvEntity = require '../models/inv_entity'
 error_ = require 'lib/error'
+books_ = require 'lib/books'
 
 createAuthor = (name, lang)->
   _.types arguments, 'strings...'
@@ -30,17 +31,25 @@ createBook = (title, authors, authorsNames, lang)->
       'wdt:P31': ['wd:Q571']
       P50: authors.concat createdAuthorsUris
 
-    createEntity labels, claims
+    return createEntity labels, claims
 
-createBookEdition = (title, authors, isbn, lang)->
-  _.types arguments, ['string', 'array', 'string', 'string']
-  createBook title, authors
-  .then (entity)->
+createWorkEdition = (workEntity, isbn)->
+  _.types arguments, ['object', 'string']
+
+  books_.getIsbnData isbn
+  .then (isbnData)->
     claims =
       # instance of (P31) -> edition (Q3331189)
       'wdt:P31': ['wd:Q3331189']
+      # isbn 13 (isbn 10 will be added by the server)
+      'wdt:P212': [ isbnData.isbn13 ]
       # edition or translation of (P629) -> created book
-      'wdt:P629': [entity.get('uri')]
+      'wdt:P629': [ workEntity.get('uri') ]
+
+    return createEntity {}, claims
+    .then (editionEntity)->
+      workEntity.subentities['wdt:P629'].add editionEntity
+      return editionEntity
 
 byProperty = (options)->
   { property, textValue, lang } = options
@@ -59,7 +68,8 @@ createEntity = (labels, claims)->
   .then (entityData)-> new InvEntity entityData
 
 module.exports =
+  create: createEntity
   book: createBook
-  bookEdition: createBookEdition
+  workEdition: createWorkEdition
   author: createAuthor
   byProperty: byProperty

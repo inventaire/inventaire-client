@@ -44,4 +44,7 @@ module.exports = EditorCommons.extend
       return forms_.bundleAlert @, "this value can't be empty", ".#{@cid} .has-alertbox"
 
     @editMode = false
-    @model.setLabel @lang, value
+
+    if value is @getValue() then @lazyRender()
+    # re-render will be triggered by change:labels event listener
+    else @model.setLabel @lang, value

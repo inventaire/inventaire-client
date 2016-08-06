@@ -1,15 +1,17 @@
 InvEntity = require '../models/inv_entity'
+createEntities = require './create_entities'
 
 module.exports = (options)->
   { type, label } = options
 
-  unless typeDefaultP31[type]?
+  defaultP31 = typeDefaultP31[type]
+  unless defaultP31?
     throw new Error "unknown type: #{type}"
 
   model = new Backbone.NestedModel
     labels: {}
     claims:
-      'wdt:P31': typeDefaultP31[type]
+      'wdt:P31': [ defaultP31 ]
 
   if label?
     # use the label we got as a label suggestion
@@ -23,9 +25,9 @@ module.exports = (options)->
     savePropertyValue: _.preq.resolve
     setLabel: InvEntity::setLabel
     saveLabel: _.preq.resolve
+    create: -> createEntities.create @get('labels'), @get('claims')
 
   return model
-
 
 typeDefaultP31 =
   book: 'wd:Q571'

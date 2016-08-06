@@ -4,7 +4,7 @@ WikidataEntities = require 'modules/entities/collections/wikidata_entities'
 IsbnEntities = require 'modules/entities/collections/isbn_entities'
 FindByIsbn = require './find_by_isbn'
 ItemsList = require 'modules/inventory/views/items_list'
-EntityCreate = require 'modules/entities/views/entity_create'
+EntityEdit = require 'modules/entities/views/editor/entity_edit'
 wd_ = require 'lib/wikidata'
 books_ = require 'lib/books'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
@@ -19,33 +19,47 @@ module.exports = Marionette.LayoutView.extend
     AlertBox: {}
     LocalSeachBar: {}
 
-  serializeData: ->
-    search: searchInputData 'localSearch', true
-
   regions:
     inventoryItems: '#inventoryItems'
     authors: '#authors'
     books: '#books'
     editions: '#editions'
-    findByIsbn: '#findByIsbn'
-    createEntity: '#create'
 
   ui:
+    showFindByIsbnButton: '#showFindByIsbn'
+    findByIsbnForm: '#findByIsbnForm'
     localSearchField: '#localSearchField'
 
   initialize: (params)->
     _.extend @, behaviorsPlugin
     @query = params.query
+    @queryIsIsbn = books_.isIsbn @query
     @model = app.searches.addNonExisting { query: @query }
 
+  serializeData: ->
+    queryIsIsbn: @queryIsIsbn
+    search: searchInputData 'localSearch', true
+    findByIsbn:
+      nameBase: 'findIsbn'
+      field:
+        name: 'isbn'
+        placeholder: _.i18n 'ex: 978-2-07-036822-8'
+        dotdotdot: ''
+      button:
+        icon: 'search'
+        classes: 'secondary postfix'
+
+  events:
+    'click #showFindByIsbn a': 'showFindByIsbn'
+    'click .scanner': -> app.execute 'show:scan'
+    'click #findIsbnButton': 'searchByIsbn'
+    'click #createEntity': 'createEntity'
+
   onShow: ->
-    app.request('wait:for', 'friends:items').then @showItems.bind(@)
+    app.request 'wait:for', 'friends:items'
+    .then @showItems.bind(@)
+
     @searchEntities()
-    unless books_.isIsbn(@query)
-      @showFindByIsbn()
-      @showEntityCreationForm()
-    else
-      @showEntityCreationForm true
 
   updateSearchBar: ->
     @ui.localSearchField.val @query
@@ -123,20 +137,21 @@ module.exports = Marionette.LayoutView.extend
       @saveSearchPictures editions
 
   showFindByIsbn: ->
-    @findByIsbn.show new FindByIsbn
-
-  showEntityCreationForm: (queryIsIsbn)->
-    options = { data: @query }
-    # adapt the header
-    unless queryIsIsbn then options.secondChoice = true
-    @createEntity.show new EntityCreate(options)
-    @$el.find('h3.create').show()
+    @ui.showFindByIsbnButton.slideUp()
+    @ui.findByIsbnForm.slideDown()
 
   saveSearchPictures: (collection)->
     # keep only every entity first picture to avoid passing
     # several possibily identical pictures for a single entity
     pictures = collection.map firstPicture
     @model.savePictures pictures
+
+  searchByIsbn: ->
+    query = $('input#findIsbnField').val()
+    _.log query, 'isbn query'
+    app.execute 'search:global', query
+
+  createEntity: -> app.execute 'show:entity:create', 'book', @query
 
 firstPicture = (model)-> model.get('pictures')[0]
 

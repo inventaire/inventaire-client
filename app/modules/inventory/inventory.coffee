@@ -238,6 +238,8 @@ initializeInventoriesHandlers = (app)->
       if lastSearch? then lastSearch.show()
       else API.showSearch()
 
+    'show:scan': -> API.showScan()
+
     'show:scanner:embedded': ->
       # navigate before triggering the view itself has
       # special behaviors on route change

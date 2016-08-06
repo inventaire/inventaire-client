@@ -5,6 +5,14 @@ $edit-button-grey: $soft-grey;
   @import "property_editor";
   @import "value_editor";
   @import "title_editor";
+  @import "sub_entities_editor";
+  .next{
+    padding: 0.5em;
+    @include display-flex(row, center, center);
+    a{
+      margin: 0.5em;
+    }
+  }
 }
 
 .identifier{

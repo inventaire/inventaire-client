@@ -29,6 +29,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .toggler': 'toggleDescLength'
+    'click .editWikidata': 'showEntityEdit'
 
   toggleDescLength: ->
     @ui.description.toggleClass 'clamped'
@@ -40,3 +41,7 @@ module.exports = Marionette.ItemView.extend
       attrs.descOverflow = attrs.description.length > 400
 
     return attrs
+
+  showEntityEdit: ->
+    if @model.prefix is 'inv'
+      app.execute 'show:entity:edit:from:model', @model

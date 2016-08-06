@@ -1,15 +1,19 @@
 .button{
   font-weight: bold;
+  &.soft-grey{
+    background-color: $soft-grey;
+  }
 }
 
 $default-button-margin: 0.1em;
 $default-button-padding: 1em;
 
 @mixin custom-button($bg-color, $color: white, $margin: $default-button-margin, $padding:$default-button-padding, $darken:15%){
-  @include bg-hover($bg-color, $darken);
   @include text-hover($color);
   padding: $padding;
   margin: $margin;
+  // include last to keep the transition effect
+  @include bg-hover($bg-color, $darken);
 }
 
 @mixin tiny-button-padding(){
@@ -153,4 +157,19 @@ div.icon-buttons-header{
       margin-right: -0.3em;
     }
   }
+}
+
+@mixin big-button($color){
+  @include custom-button($color);
+  @include radius;
+  @include serif;
+  font-weight: bold;
+}
+
+.light-blue-button{
+  @include big-button($light-blue);
+}
+
+.success-button{
+  @include big-button($success-color);
 }

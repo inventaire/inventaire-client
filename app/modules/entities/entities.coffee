@@ -6,15 +6,17 @@ InvEntity = require './models/inv_entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
-EntityCreate = require './views/entity_create'
 EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
+createEntities = require './lib/create_entities'
+createEntityDraftModel = require './lib/create_entity_draft_model'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
+        'entity/new': 'showEntityCreateFromRoute'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntity'
         'entity/:uri(/:label)(/)': 'showEntity'
@@ -45,7 +47,7 @@ API =
 
     @_getEntityView prefix, id, refresh
     .then region.show.bind(region)
-    .catch @solveMissingEntity.bind(@, prefix, id)
+    # .catch @solveMissingEntity.bind(@, prefix, id)
     .catch (err)->
       _.error err, 'couldnt showEntity'
       app.execute 'show:error:missing'
@@ -106,7 +108,8 @@ API =
         # the server is expected to create an entity from the item's data
         unless el? then return _.warn 'missing entity'
 
-        model = new Model(el)
+        # Passing the refresh option to let it be passed to possible subentities
+        model = new Model el, { refresh: refresh }
         app.entities.add model
         return model
       return models
@@ -139,7 +142,7 @@ API =
         entity: entity
         preventDupplicates: true
 
-    .catch @solveMissingEntity.bind(@, prefix, id)
+    # .catch @solveMissingEntity.bind(@, prefix, id)
     .catch _.Error('showAddEntity err')
 
   showEditEntity: (uri)->
@@ -148,14 +151,19 @@ API =
     .then showEntityEdit
     .catch _.Error('showEditEntity err')
 
-  solveMissingEntity: (prefix, id, err)->
-    if err.message is 'entity_not_found' then @showCreateEntity id
-    else throw err
+  showEntityCreateFromRoute: ->
+    type = decodeURIComponent app.request('querystring:get', 'type')
+    label = decodeURIComponent app.request('querystring:get', 'label')
+    showEntityCreate type, label
 
-  showCreateEntity: (isbn)->
-    app.layout.main.show new EntityCreate
-      data: isbn
-      standalone: true
+  # solveMissingEntity: (prefix, id, err)->
+  #   if err.message is 'entity_not_found' then @showCreateEntity id
+  #   else throw err
+
+  # showCreateEntity: (isbn)->
+  #   app.layout.main.show new EntityCreate
+  #     data: isbn
+  #     standalone: true
 
   getEntityPublicItems: (uri)->
     _.preq.get app.API.items.publicByEntity(uri)
@@ -163,6 +171,13 @@ API =
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
   showInvEntity: (id)-> API.showEntity "inv:#{id}"
+
+showEntityCreate = (type, label)->
+  model = createEntityDraftModel
+    type: type
+    label: label
+    # minimized: true
+  showEntityEdit model
 
 setHandlers = ->
   app.commands.setHandlers
@@ -181,12 +196,21 @@ setHandlers = ->
     'show:entity:refresh': (model)->
       app.execute 'show:entity:from:model', model, { refresh: true }
 
-    'show:entity:add': API.showAddEntity.bind(API)
+    'show:entity:add': API.showAddEntity.bind API
+    'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')
+    'show:entity:edit:from:model': (entity)->
+      showEntityEdit entity
+      app.navigate entity.get('wikidata.wiki')
+
+    'show:entity:create': (type, label)->
+      showEntityCreate type, label
+      path = _.buildPath 'entity/new', { type: type, label: label }
+      app.navigate path
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
-    'get:entity:model:from:uri': API.getEntityModelFromUri.bind(API)
-    'get:entities:models': API.getEntitiesModelsWithCatcher.bind(API)
+    'get:entity:model:from:uri': API.getEntityModelFromUri.bind API
+    'get:entities:models': API.getEntitiesModelsWithCatcher.bind API
     'save:entity:model': saveEntityModel
     'get:entity:public:items': API.getEntityPublicItems
     'get:entities:labels': getEntitiesLabels
@@ -253,6 +277,11 @@ normalizeEntityUri = (prefix, id)->
   return "#{prefix}:#{id}"
 
 showEntityEdit = (entity)->
-  view = new EntityEdit {model: entity}
-  title = entity.get('label') + ' - ' + _.i18n 'edit'
+  view = new EntityEdit { model: entity }
+  label = entity?.get 'label'
+  if label?
+    title = label + ' - ' + _.i18n 'edit'
+  else
+    title = _.i18n 'new entity'
+
   app.layout.main.Show view, title

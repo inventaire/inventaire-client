@@ -1,10 +1,20 @@
 PropertyValues = require 'modules/entities/collections/property_values'
 properties = require '../properties'
-{ book, edition } = require './properties_per_type'
+propertiesPerType = require './properties_per_type'
+error_ = require 'lib/error'
 
 module.exports = (entityModel)->
   propertiesCollection = new Backbone.Collection
-  for prop in book
+
+  { type } = entityModel
+  unless type?
+    throw error_.new 'unknown entity type', entityModel
+
+  typeProps = propertiesPerType[type]
+  unless typeProps?
+    throw error_.new "no properties found for entity type: #{type}", entityModel
+
+  for prop in typeProps
     propData = properties[prop]
     propertiesCollection.add getPropertyModel(entityModel, propData)
 

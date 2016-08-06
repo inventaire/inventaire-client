@@ -5,6 +5,7 @@ sources =
   humans: typeSearch 'humans'
   genres: typeSearch 'genres'
   topics: typeSearch 'topics'
+  languages: typeSearch 'languages'
 
 module.exports = (property)->
   { source } = properties[property]

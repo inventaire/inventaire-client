@@ -11,7 +11,7 @@ module.exports = Backbone.Model.extend
   updateValueEntity: ->
     { property, value } = @toJSON()
 
-    if value? and properties[property].type is 'entity'
+    if value? and properties[property].datatype is 'entity'
 
       unless regex_.EntityUri.test value
         throw error_.new 'invalid entity uri', @toJSON()
@@ -39,7 +39,7 @@ module.exports = Backbone.Model.extend
 
     rollback = _.Rollback reverseAction, 'value_editor save'
 
-    @entity.savePropertyValue property, oldValue, newValue
+    @entity.setPropertyValue property, oldValue, newValue
     .then @_destroyIfEmpty.bind(@, newValue)
     .catch rollback
 
