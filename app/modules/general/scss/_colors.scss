@@ -92,12 +92,3 @@ $tumblr-color: #36465D;
 .contrast{
   background-color: $contrast;
 }
-
-
-$selection-color: rgba($secondary-color, 0.4);
-::selection {
-  background: $selection-color;  /* WebKit/Blink Browsers */
-}
-::-moz-selection {
-  background: $selection-color; /* Gecko Browsers */
-}
