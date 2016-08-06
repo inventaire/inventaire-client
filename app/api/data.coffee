@@ -41,3 +41,5 @@ module.exports =
     dataQuery
       api: 'en-wikipedia-image'
       title: enWpTitle
+
+  isbn: (isbn)-> _.buildPath publik, { isbn: isbn }

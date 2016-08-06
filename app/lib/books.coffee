@@ -9,4 +9,6 @@ books_.getIsbnEntities = (isbns)->
   _.preq.get app.API.entities.isbns(isbns)
   .catch _.Error('getIsbnEntities err')
 
+books_.getIsbnData = (isbn)-> _.preq.get app.API.data.isbn(isbn)
+
 module.exports = books_
