@@ -6,7 +6,7 @@ module.exports = Marionette.CompositeView.extend
     return "property-editor #{singleValue}"
   template: require './templates/property_editor'
   getChildView: ->
-    switch datatype
+    switch @model.get 'datatype'
       when 'entity' then require './value_editor'
       when 'string' then require './string_value_editor'
       else throw new Error "unknown datatype: #{datatype}"

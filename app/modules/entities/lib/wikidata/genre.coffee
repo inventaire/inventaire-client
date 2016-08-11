@@ -12,27 +12,27 @@ wdGenre_.fetchBooksAndAuthors = (genreModel)->
 wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
   reverseClaims = genreModel.get 'reverseClaims'
   if reverseClaims?
-    { P135, P136 } = reverseClaims
-    if P135? or P136? then return _.preq.resolved
+    { 'wdt:P135':wdtP135, 'wdt:P136':wdtP136 } = reverseClaims
+    if wdtP135? or wdtP136? then return _.preq.resolved
 
   Promise.all [
-    getClaimSubjects('P135', genreModel) #mouvement
-    getClaimSubjects('P136', genreModel) #genre
+    getClaimSubjects('wdt:P135', genreModel) #mouvement
+    getClaimSubjects('wdt:P136', genreModel) #genre
   ]
   .then _.flatten
   .catch _.ErrorRethrow('wdGenre_.fetchBooksAndAuthorsIds')
 
-getClaimSubjects = (P, genreModel)->
-  Q = genreModel.id
-  wd_.getClaimSubjects P, Q
+getClaimSubjects = (prop, genreModel)->
+  uri = genreModel.get('uri')
+  wd_.getClaimSubjects prop, uri
   .then _.uniq
-  .then genreModel.save.bind(genreModel, "reverseClaims.#{P}")
+  .then genreModel.save.bind(genreModel, "reverseClaims.#{prop}")
 
 # setting default limit to 10 to avoid loading too many authors
 # which will load all their books in return
 wdGenre_.fetchBooksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
   _.types [genreModel, limit, offset], ['object', 'number', 'number']
-  ids = _.flatten genreModel.gets('reverseClaims.P135', 'reverseClaims.P136')
+  ids = _.flatten genreModel.gets('reverseClaims.wdt:P135', 'reverseClaims.wdt:P136')
   first = offset
   last = offset + limit
   range = ids[first...last]
@@ -52,4 +52,4 @@ wdGenre_.spreadBooksAndAuthors = (books, authors, entities)->
     switch wd_.type entity
       when 'book' then books.add entity
       when 'human' then authors.add entity
-      else _.warn [entity, entity.get('label'), entity.get('claims.P31')], 'neither a book or a human'
+      else _.warn [entity, entity.get('label'), entity.get('claims.wdt:P31')], 'neither a book or a human'

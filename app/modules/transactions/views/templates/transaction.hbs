@@ -13,8 +13,8 @@
             {{#if item.authors}}
               {{item.authors}}
             {{else}}
-              {{#if item.entityData.wikidata}}
-                {{claim item.entityData.claims 'P50'}}
+              {{#if item.entityData.editable}}
+                {{claim item.entityData.claims 'wdt:P50'}}
               {{else}}
                 {{{joinAuthors item.entityData.authors false}}}
               {{/if}}

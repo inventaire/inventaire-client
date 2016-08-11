@@ -63,14 +63,14 @@ wd_.getClaimSubjects = (property, value, refresh)->
   .then _.Log("claim subjects - #{property}:#{value}")
   .get 'entities'
 
-wd_.queryAuthorWorks = (authorQid, refresh)->
-  preq.get app.API.data.authorWorks(authorQid, refresh)
-  .then _.Log("author work - #{authorQid}")
+wd_.queryAuthorWorks = (uri, refresh)->
+  preq.get app.API.data.authorWorks(uri, refresh)
+  .then _.Log("author work - #{uri}")
   .get 'entities'
 
 # P364: original language of work
 # P103: native language
-langProperties = ['P364', 'P103']
+langProperties = ['wdt:P364', 'wdt:P103']
 
 wd_.getOriginalLang = (claims, notSimplified)->
   langClaims = _.pick claims, langProperties
@@ -85,3 +85,16 @@ wd_.getOriginalLang = (claims, notSimplified)->
 # It sometimes happen that a Wikidata label is a direct copy of the Wikipedia
 # title, which can then have desambiguating parenthesis: we got to drop those
 wd_.formatLabel = (label)-> label.replace /\s\(.*\)$/, ''
+
+wd_.formatClaims = (claims)-> prefixifyClaims wdk.simplifyClaims(claims)
+
+prefixifyClaims = (simplifiedClaims)->
+  prefixedClaims = {}
+  for prop, array of simplifiedClaims
+    prefixedClaims["wdt:#{prop}"] = array.map prefixyfyValue
+
+  return prefixedClaims
+
+prefixyfyValue = (value)->
+  if value[0] is 'Q' then "wd:#{value}"
+  else value

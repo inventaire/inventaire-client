@@ -25,7 +25,7 @@ module.exports = Marionette.ItemView.extend
     PlainTextAuthorLink: {}
 
   onRender: ->
-    app.execute 'qlabel:update'
+    app.execute 'uriLabel:update'
 
   events:
     'click .toggler': 'toggleDescLength'

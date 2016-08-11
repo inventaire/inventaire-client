@@ -8,7 +8,7 @@
   a{
     color: white;
   }
-  a.showEntity:not(.light-blue-button), a.wd-Q, a.link{
+  a.showEntity:not(.light-blue-button), a.entity-value, a.link{
     @include link-light;
   }
   a.source{
@@ -33,7 +33,7 @@
     margin: -0.9em -0.8em 0 auto;
   }
   .attributes{
-    span:not(.wd-Q), .wd-P{
+    span:not(.entity-value), .property-value{
       color: #999;
       margin-right: 0.5em;
     }

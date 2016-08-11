@@ -1,47 +1,48 @@
 Q =
   books: [
-    'Q571' #book
-    'Q2831984' #comic book album
-    'Q1004' #bande dessinée / comic book
-    'Q1760610' #comic book
-    'Q14406742' #bande dessinée / comic book series
-    'Q8261' #novel / roman
-    'Q25379' #theatre play
-    'Q7725634' #literary work
-    'Q17518870' #group of literary works
-    'Q5185279' #poem
-    'Q2150386' #poetry anthology
-    'Q37484' #epic poem
-    'Q386724' #work
-    'Q49084' #short story / conte
-    'Q34620' #Greek tragedy
-    'Q8274' #manga
-    'Q128093' #ebook
+    'wd:Q571' #book
+    'wd:Q2831984' #comic book album
+    'wd:Q1004' #bande dessinée / comic book
+    'wd:Q1760610' #comic book
+    'wd:Q14406742' #bande dessinée / comic book series
+    'wd:Q8261' #novel / roman
+    'wd:Q25379' #theatre play
+    'wd:Q7725634' #literary work
+    'wd:Q17518870' #group of literary works
+    'wd:Q5185279' #poem
+    'wd:Q12308638' #poetry anthology
+    'wd:Q37484' #epic poem
+    'wd:Q386724' #work
+    'wd:Q49084' #short story / conte
+    'wd:Q34620' #Greek tragedy
+    'wd:Q8274' #manga
+    'wd:Q128093' #ebook
+    'wd:Q128093' #ebook
   ]
   edition: [
-    'Q3331189' #edition
-    'Q3972943' #publishing
+    'wd:Q3331189' #edition
+    'wd:Q3972943' #publishing
   ]
   articles: [
-    'Q191067' #article
-    'Q13442814' #scientific article
+    'wd:Q191067' #article
+    'wd:Q13442814' #scientific article
   ]
   humans: [
-    'Q5'
-    'Q10648343' #duo
-    'Q14073567' #sibling duo
+    'wd:Q5'
+    'wd:Q10648343' #duo
+    'wd:Q14073567' #sibling duo
   ]
   authors: [
-    'Q36180' #writer
+    'wd:Q36180' #writer
   ]
   genres: [
-    'Q483394' #genre
-    'Q223393' #literary genre
+    'wd:Q483394' #genre
+    'wd:Q223393' #literary genre
   ]
 
 P =
-  P50: [
-    'P58' #screen writer / scénariste
+  'wdt:P50': [
+    'wdt:P58' #screen writer / scénariste
   ]
 
 aliases = {}

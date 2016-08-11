@@ -4,13 +4,13 @@ module.exports = Marionette.ItemView.extend
   className: 'articleLi'
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.wikidata.customStyle = true
+    attrs.editable.customStyle = true
     _.extend attrs,
       href: @getHref()
       hasDate: @hasDate()
 
   getHref: ->
-    DOI = @model.get('claims')?.P356?[0]
+    DOI = @model.get('claims')?['wdt:P356']?[0]
     if DOI? then "https://dx.doi.org/#{DOI}"
 
-  hasDate: -> @model.get('claims')?.P577?[0]?
+  hasDate: -> @model.get('claims')?['wdt:P577']?[0]?

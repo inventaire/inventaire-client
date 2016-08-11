@@ -66,10 +66,10 @@
       font-size: 0.8em;
       color: $dark-grey;
       // forcing the height so that masonry height calucations
-      // won't be disturbed by qlabel data arriving
+      // won't be disturbed by uriLabel data arriving
       min-height: 1.3em;
       width: 100%;
-      .wd-P{
+      .property-value{
         display: none;
       }
     }

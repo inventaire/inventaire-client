@@ -12,7 +12,7 @@
     {{/if}}
     {{#if hasDate}}
       <span class="date">
-        ({{timeClaim claims 'P577' 'year' true true}} ) {{!-- time of publication --}}
+        ({{timeClaim claims 'wdt:P577' 'year' true true}} ) {{!-- time of publication --}}
       </span>
     {{/if}}
   </h4>
@@ -23,8 +23,8 @@
   {{/if}}
 
   <p>
-    {{claim claims 'P50' true false true}}  {{!-- author --}}
-    {{stringClaim claims 'P2093' true true true}}  {{!-- author --}}
+    {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}
+    {{stringClaim claims 'wdt:P2093' true true true}}  {{!-- author --}}
   </p>
 
 </div>

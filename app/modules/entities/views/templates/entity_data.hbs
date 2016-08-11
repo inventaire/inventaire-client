@@ -25,12 +25,12 @@
     </a>
   {{/if}}
   <div class="attributes">
-    {{#if wikidata}}
+    {{#if editable}}
       {{partial 'entities:book_claims' this}}
     {{else}}
       <p class="isbn-attributes">
-        {{#if authors}} {{{P '50'}}} {{{joinAuthors authors}}} <br> {{/if}}
-        {{#if publishedDate}}{{{P 'P577'}}} {{dateYear publishedDate}} <br> {{/if}}
+        {{#if authors}} {{{prop 'wdt:P50'}}} {{{joinAuthors authors}}} <br> {{/if}}
+        {{#if publishedDate}}{{{prop 'wdt:P577'}}} {{dateYear publishedDate}} <br> {{/if}}
         {{#if publisher}}<span>{{i18n 'publisher'}}:</span>{{publisher}} <br> {{/if}}
         {{#if pageCount}}<span>{{i18n 'pages'}}:</span>{{pageCount}} <br> {{/if}}
         {{!-- displays an ugly 2 letters code --}}

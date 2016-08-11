@@ -2,8 +2,8 @@
   <a class="link itemShow">{{title}}</a>
 </td>
 <td class="authors">
-  {{#if entityData.wikidata}}
-    {{claim entityData.claims 'P50' true true}}
+  {{#if entityData.editable}}
+    {{claim entityData.claims 'wdt:P50' true true}}
   {{else}}
     {{{joinAuthors entityData.authors}}}
   {{/if}}

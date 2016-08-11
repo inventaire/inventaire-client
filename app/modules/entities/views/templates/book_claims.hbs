@@ -1,25 +1,25 @@
 {{partial 'entities:edit_wikidata' this}}
 <div class='wiki-attributes'>
   <p class="claims">
-    {{stringClaim claims 'P1476'}} {{!-- original title --}}
-    {{stringClaim claims 'P1680'}} {{!-- subtitle --}}
-    {{claim claims 'P364'}} {{!-- original language --}}
-    {{claim claims 'P50' true null true}} {{!-- author --}}
-    {{{joinAuthors claims.P2093}}}<br> {{!-- short author name --}}
-    {{claim claims 'P110' true}} {{!-- illustrator --}}
-    {{timeClaim claims 'P577'}} {{!-- time of publication --}}
-    {{claim claims 'P155' true}} {{!-- preceded by --}}
-    {{claim claims 'P156' true}} {{!-- followed by --}}
-    {{claim claims 'P136' true}} {{!-- genre --}}
-    {{claim claims 'P135'}} {{!-- movement --}}
+    {{stringClaim claims 'wdt:P1476'}} {{!-- original title --}}
+    {{stringClaim claims 'wdt:P1680'}} {{!-- subtitle --}}
+    {{claim claims 'wdt:P364'}} {{!-- original language --}}
+    {{claim claims 'wdt:P50' true null true}} {{!-- author --}}
+    {{{joinAuthors claims.wdt:P2093}}}<br> {{!-- short author name --}}
+    {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
+    {{timeClaim claims 'wdt:P577'}} {{!-- time of publication --}}
+    {{claim claims 'wdt:P155' true}} {{!-- preceded by --}}
+    {{claim claims 'wdt:P156' true}} {{!-- followed by --}}
+    {{claim claims 'wdt:P136' true}} {{!-- genre --}}
+    {{claim claims 'wdt:P135'}} {{!-- movement --}}
     {{!-- publisher is confusing: might differ from the book instance editor --}}
-    {{!-- {{claim claims 'P123'}} --}}
-    {{claim claims 'P921'}} {{!-- main subject --}}
-    {{claim claims 'P840'}} {{!-- narrative set in --}}
-    {{claim claims 'P674'}} {{!-- characters --}}
-    {{urlClaim claims 'P856'}} {{!-- official website --}}
-    {{urlClaim claims 'P953'}} {{!-- full text available at --}}
-    {{platformClaim claims 'P2034'}} {{!-- Project Gutenberg ebook ID --}}
-    {{platformClaim claims 'P2002'}} {{!-- twitter: yes some books have a twitter!! actually, just one: Q20736124 --}}
+    {{!-- {{claim claims 'wdt:P123'}} --}}
+    {{claim claims 'wdt:P921'}} {{!-- main subject --}}
+    {{claim claims 'wdt:P840'}} {{!-- narrative set in --}}
+    {{claim claims 'wdt:P674'}} {{!-- characters --}}
+    {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
+    {{urlClaim claims 'wdt:P953'}} {{!-- full text available at --}}
+    {{platformClaim claims 'wdt:P2034'}} {{!-- Project Gutenberg ebook ID --}}
+    {{platformClaim claims 'wdt:P2002'}} {{!-- twitter: yes some books have a twitter!! actually, just one: Q20736124 --}}
   </p>
 </div>

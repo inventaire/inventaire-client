@@ -1,4 +1,4 @@
-{ Q } = require './wikidata_claims'
+{ entity } = require './wikidata_claims'
 { SafeString, escapeExpression } = Handlebars
 
 module.exports = (linkify, arg)->
@@ -10,7 +10,7 @@ module.exports = (linkify, arg)->
       # ex: author = {type: 'string', value: 'Ian Fleming'}
       when 'string' then return formatString value, linkify
       # ex: author = {type: 'wikidata_id', value: 'Q82104', label: 'Ian Fleming'}
-      when 'wikidata_id' then return Q value, linkify, label
+      when 'wikidata_id' then return entity value, linkify, label
       else
         _.warn arg, 'unknown author data type'
         return

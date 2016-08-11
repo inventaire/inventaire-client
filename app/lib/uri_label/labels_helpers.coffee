@@ -2,17 +2,17 @@ labels = {}
 { formatLabel } = require 'lib/wikidata'
 
 module.exports =
-  getLabel: (qid, lang)->
-    data = labels[qid]
+  getLabel: (uri, lang)->
+    data = labels[uri]
     if data?
       return data[lang] or data.en or data.original or _.pickOne(data)
 
-  setLabel: (qid, lang, label)->
+  setLabel: (uri, lang, label)->
     label = formatLabel label
-    labels[qid] or= {}
-    labels[qid][lang] = label
+    labels[uri] or= {}
+    labels[uri][lang] = label
     return label
 
-  getKnownQids: -> Object.keys labels
+  getKnownUris: -> Object.keys labels
 
   resetLabels: -> labels = {}

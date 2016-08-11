@@ -6,7 +6,7 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     @listenTo @model, 'change', @render
     @listenTo @model, 'add:pictures', @render
-    app.execute 'qlabel:update'
+    app.execute 'uriLabel:update'
 
   behaviors:
     PreventDefault: {}

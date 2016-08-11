@@ -2,18 +2,18 @@
 books, authors... not publisher or genre, yet --}}
 {{#if linkify}}
   <a
-    href="{{wdLocalHref id label}}"
-    class='link qlabel wd-Q'
+    href="{{entityLocalHref id label}}"
+    class='link uriLabel entity-value'
     {{!-- keeping the resource attribute for SEO (?)--}}
-    resource='{{wdRemoteHref id}}'
-    data-qid='{{id}}'>
+    resource='{{entityRemoteHref id}}'
+    data-uri='{{id}}'>
   {{alt}}
   </a>
 {{else}}
   <span
-    class='qlabel wd-Q'
-    resource='{{wdRemoteHref id}}'
-    data-qid='{{id}}'>
+    class='uriLabel entity-value'
+    resource='{{entityRemoteHref id}}'
+    data-uri='{{id}}'>
   {{alt}}
   </span>
 {{/if}}

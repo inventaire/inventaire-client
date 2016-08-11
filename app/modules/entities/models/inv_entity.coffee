@@ -23,7 +23,7 @@ module.exports = Entity.extend
       pathname: pathname
       uri: "#{@prefix}:#{@id}"
       domain: 'inv'
-      wikidata:
+      editable:
         wiki: "#{pathname}/edit"
 
     # an object to store references to subentities collections
@@ -33,9 +33,9 @@ module.exports = Entity.extend
     @typeSpecificInitilize()
 
   getAuthorsString: ->
-    unless @get('claims')?.P50?.length > 0 then return _.preq.resolve ''
-    qids = @get('claims').P50
-    return wd_.getLabel qids, app.user.lang
+    unless @get('claims')?['wdt:P50']?.length > 0 then return _.preq.resolve ''
+    uris = @get('claims')['wdt:P50']
+    return wd_.getLabel uris, app.user.lang
 
   setPropertyValue: (property, oldValue, newValue)->
     _.log arguments, 'setPropertyValue args'

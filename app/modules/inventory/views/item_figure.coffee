@@ -26,7 +26,7 @@ module.exports = Marionette.ItemView.extend
 
   onRender: ->
     app.execute 'foundation:reload'
-    app.execute 'qlabel:update'
+    app.execute 'uriLabel:update'
 
   events:
     'click .edit': 'itemEdit'

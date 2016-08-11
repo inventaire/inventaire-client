@@ -18,6 +18,8 @@
   </div>
 </div>
 {{#if standalone}}
-  {{partial 'entities:wikipedia_iframe' this}}
+  {{#if editable.wikidata}}
+    {{partial 'entities:wikipedia_iframe' this}}
+  {{/if}}
   {{partial 'welcome:embedded_welcome'}}
 {{/if}}

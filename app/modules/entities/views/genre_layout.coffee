@@ -60,12 +60,12 @@ module.exports = Marionette.LayoutView.extend
     @findModelFirstPicture() or @findEntitiesFirstPicture()
 
   findModelFirstPicture: ->
-    @model.get('claims.P18')?[0]
+    @model.get('claims.wdt:P18')?[0]
 
   findEntitiesFirstPicture: ->
     if @books?
       images = @books.map (entity)->
-        pics = entity.get('claims.P18')
+        pics = entity.get('claims.wdt:P18')
         return pics?[0]
 
       return _.compact(images)[0]

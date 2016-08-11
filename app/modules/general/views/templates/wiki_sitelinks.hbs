@@ -17,20 +17,26 @@
       {{/unless}}
     </span>
   {{/if}}
-  {{#if wikidata}}
+  {{#if editable}}
 
-    {{#if canRefreshData}}
+    {{#if editable.wikidata}}{{#if canRefreshData}}
       {{!-- opening a span that will be closed in the next if block --}}
       <span class="wikidata two-buttons">
-    {{/if}}
+    {{/if}}{{/if}}
 
-    <a class="wikidata" href="{{wikidata.wiki}}" target="_blank">
-    {{icon 'wikidata'}} {{I18n "edit data"}}</a>
+    <a class="wikidata" href="{{editable.wiki}}" target="_blank">
+      {{#if editable.wikidata}}
+        {{icon 'wikidata'}}
+      {{else}}
+        {{icon 'pencil'}}
+      {{/if}}
+      {{I18n "edit data"}}
+    </a>
 
-    {{#if canRefreshData}}
+    {{#if editable.wikidata}}{{#if canRefreshData}}
         <a class="refreshData" title="{{i18n 'refresh_wikidata_data'}}">
         {{icon 'refresh'}} {{I18n "refresh data"}}</a>
       </span>
-    {{/if}}
+    {{/if}}{{/if}}
   {{/if}}
 </div>

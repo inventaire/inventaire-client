@@ -9,16 +9,16 @@ module.exports =
     .catch _.Error('wdAuthors_.fetchAuthorsWorks')
 
 fetchAuthorsWorksIds = (authorModel, refresh)->
-  if (not refresh) and authorModel.get('reverseClaims')?.P50?
+  if (not refresh) and authorModel.get('reverseClaims')?['wdt:P50']?
     return _.preq.resolved
 
   wd_.queryAuthorWorks authorModel.id, refresh
   .then _.Log('worksIds')
-  .then authorModel.save.bind(authorModel, 'reverseClaims.P50')
+  .then authorModel.save.bind(authorModel, 'reverseClaims.wdt:P50')
   .catch _.Error('fetchAuthorsWorksIds err')
 
 fetchAuthorsWorksEntities = (authorModel, refresh)->
-  authorsWorks = authorModel.get 'reverseClaims.P50'
+  authorsWorks = authorModel.get 'reverseClaims.wdt:P50'
   _.log authorsWorks, 'authorsWorks'
   unless authorsWorks?.length > 0 then return _.preq.resolved
 

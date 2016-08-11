@@ -5,18 +5,21 @@ wdQuery = (params)->
   params.api = 'wd-query'
   dataQuery params
 
+formatQid = (qid)-> qid.replace 'wd:', ''
+formatPid = (pid)-> pid.replace 'wdt:', ''
+
 module.exports =
   claim: (pid, qid, refresh)->
     wdQuery
       query: 'claim'
-      pid: pid
-      qid: qid
+      pid: formatPid pid
+      qid: formatQid qid
       refresh: refresh
 
   authorWorks: (qid, refresh)->
     wdQuery
       query: 'author-works'
-      qid: qid
+      qid: formatQid qid
       refresh: refresh
 
   commonsThumb: (file, width)->

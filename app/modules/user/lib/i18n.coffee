@@ -5,7 +5,7 @@
 # @listenTo app.user, 'change:language', @render
 
 fetchMomentLocale = require './fetch_moment_local'
-qlabel = require 'lib/qlabel/qlabel'
+uriLabel = require 'lib/uri_label/uri_label'
 
 # Convention: 'lang' always stands for ISO 639-1 two letters language codes
 # (like 'en', 'fr', etc.)
@@ -20,12 +20,12 @@ module.exports = (app, lang)->
   app.commands.setHandlers
     # called from a customized polyglot.js
     'i18n:missing:key': missingKey
-    'qlabel:update': updateQlabel
-    'qlabel:refresh': qlabel.refreshData
+    'uriLabel:update': updateQlabel
+    'uriLabel:refresh': uriLabel.refreshData
 
 setLanguage = (lang)->
   app.polyglot = new Polyglot
-  app.vent.trigger 'qlabel:update'
+  app.vent.trigger 'uriLabel:update'
   return requestI18nFile app.polyglot, lang
 
 requestI18nFile = (polyglot, lang)->
@@ -43,4 +43,4 @@ updatePolyglot = (polyglot, lang, res)->
 
 updateQlabel = ->
   { lang } = app.user
-  qlabel.update lang
+  uriLabel.update lang

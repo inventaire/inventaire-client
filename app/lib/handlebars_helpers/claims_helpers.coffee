@@ -1,21 +1,21 @@
-wdQ = require 'modules/general/views/behaviors/templates/wikidata_Q'
-wdP = require 'modules/general/views/behaviors/templates/wikidata_P'
+entityValue = require 'modules/general/views/behaviors/templates/entity_value'
+propertyValue = require 'modules/general/views/behaviors/templates/property_value'
 { SafeString, escapeExpression } = Handlebars
 
-P = (id)->
-  if /^P[0-9]+$/.test id then wdP {id: id}
-  else wdP {id: "P#{id}"}
+prop = (id)->
+  if /^wdt:P\d+$/.test id then propertyValue {id: id}
+  else propertyValue {id: "wdt:P#{id}"}
 
-Q = (id, linkify, alt)->
+entity = (id, linkify, alt)->
   if id?
     unless typeof alt is 'string' then alt = ''
-    app.execute 'qlabel:update'
+    app.execute 'uriLabel:update'
     alt = escapeExpression alt
-    return wdQ {id: id, linkify: linkify, alt: alt, label: alt}
+    return entityValue {id: id, linkify: linkify, alt: alt, label: alt}
 
 module.exports =
-  P: P
-  Q: Q
+  prop: prop
+  entity: entity
   # handlebars pass a sometime confusing {data:, hash: object} as last argument
   # this method is used to make helpers less error-prone by removing this object
   neutralizeDataObject: (args)->
@@ -23,14 +23,14 @@ module.exports =
     if last?.hash? and last.data? then args[0...-1]
     else args
 
-  getQsTemplates: (valueArray, linkify)->
+  getValuesTemplates: (valueArray, linkify)->
     # prevent any null value to sneak in
     _.compact valueArray
-    .map (id)-> Q(id, linkify).trim()
+    .map (id)-> entity(id, linkify).trim()
     .join ', '
 
   labelString: (pid, omitLabel)->
-    if omitLabel then '' else P pid
+    if omitLabel then '' else prop pid
 
   claimString: (label, values, inline)->
     text = "#{label} #{values}"

@@ -124,14 +124,14 @@ module.exports = Marionette.LayoutView.extend
 
   showBooks: (books)->
     if books?.length > 0
-      booksList = new ResultsList {collection: books, type: 'books', entity: 'Q571'}
+      booksList = new ResultsList {collection: books, type: 'books' }
       @books.show booksList
 
       @saveSearchPictures books
 
   showEditions: (editions)->
     if editions?.length > 0
-      editionsList = new ResultsList {collection: editions, type: 'editions', entity: 'Q17902573'}
+      editionsList = new ResultsList {collection: editions, type: 'editions' }
       @editions.show editionsList
 
       @saveSearchPictures editions
@@ -177,15 +177,15 @@ addWikidataEntities = (resultsArray)->
   wdEntities = new WikidataEntities resultsArray
   for model in wdEntities.models
     claims = model.get 'claims'
-    if _.isntEmpty(claims.P31)
-      if wd_.isBook(claims.P31)
+    if _.isntEmpty(claims['wdt:P31'])
+      if wd_.isBook(claims['wdt:P31'])
         resultsCache.books.add model
 
-      if wd_.isHuman(claims.P31)
+      if wd_.isHuman(claims['wdt:P31'])
         resultsCache.humans.add model
 
-    if _.isntEmpty(claims.P106)
-      if wd_.isAuthor(claims.P106)
+    if _.isntEmpty(claims['wdt:P106'])
+      if wd_.isAuthor(claims['wdt:P106'])
         resultsCache.authors.add model
 
 addIsbnEntities = (resultsArray)->

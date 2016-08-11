@@ -9,7 +9,7 @@ wdBooks_.findAPictureByBookData = (bookModel)->
   requestBookCover bookModel
 
 wdBooks_.fetchAuthorsEntities = (bookModel)->
-  authors = bookModel.get('claims.P50')
+  authors = bookModel.get('claims.wdt:P50')
   if authors?.length > 0
     return app.request('get:entities:models', 'wd', authors)
   else

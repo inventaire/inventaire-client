@@ -22,9 +22,6 @@ module.exports = Entity.extend
     @waitForPicture ?= _.preq.resolved
     @waitForData = Promise.all [ @waitForExtract, @waitForPicture ]
 
-    # for conditionals in templates
-    @wikidata = true
-
     @typeSpecificInitilize()
 
   formatSync: ->
@@ -65,13 +62,13 @@ module.exports = Entity.extend
   rebaseClaims: ->
     claims = @get 'claims'
     if claims?
-      claims = wdk.simplifyClaims claims
+      claims = wd_.formatClaims claims
       # Aliasing should happen after rebasing
       # as aliasing needs simplified values (strings, numbers, etc) to test value uniqueness
       @_updates.claims = claims = wd_.aliasingClaims claims
       @originalLang = wd_.getOriginalLang claims
 
-      publicationDate = claims.P577?[0]
+      publicationDate = claims['wdt:P577']?[0]
       if publicationDate?
         @publicationYear = _. getYearFromEpoch publicationDate
     return
@@ -104,12 +101,13 @@ module.exports = Entity.extend
     return
 
   setWikiLinks: (lang)->
-    @_updates.wikidata =
+    @_updates.editable =
       url: "https://www.wikidata.org/entity/#{@id}"
       wiki: "https://www.wikidata.org/wiki/#{@id}"
+      wikidata: true
     @_updates.uri = "wd:#{@id}"
 
-    @originalLang = @_updates.claims?.P364?[0]
+    @originalLang = @_updates.claims?['wdt:P364']?[0]
     sitelinks = @get 'sitelinks'
     if sitelinks?
       # required to fetch images from the English Wikipedia
@@ -132,11 +130,11 @@ module.exports = Entity.extend
     return
 
   findAPicture: ->
-    openLibraryId = @claims?.P648?[0]
+    openLibraryId = @claims?['wdt:P648']?[0]
     # P18 is expected to have only one value
     # but in cases it has several, we just pick one
     # as there is just one pictureCredits attribute.
-    commonsImage = @claims?.P18?[0]
+    commonsImage = @claims?['wdt:P18']?[0]
     @waitForPicture = @_pickBestPic openLibraryId, commonsImage
 
   _pickBestPic: (openLibraryId, commonsImage)->
@@ -230,9 +228,9 @@ module.exports = Entity.extend
     else description or extract
 
   getAuthorsString: ->
-    unless @claims?.P50?.length > 0 then return _.preq.resolve ''
-    qids = @claims.P50
-    return wd_.getLabel qids, app.user.lang
+    unless @claims?['wdt:P50']?.length > 0 then return _.preq.resolve ''
+    uris = @claims['wdt:P50']
+    return wd_.getLabel uris, app.user.lang
 
 getEntityValue = (attrs, props, lang, originalLang)->
   property = attrs[props]

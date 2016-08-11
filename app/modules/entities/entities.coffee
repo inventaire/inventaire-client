@@ -43,7 +43,7 @@ API =
       _.warn 'prefix or id missing at showEntity'
 
     refresh = params?.refresh
-    if refresh then app.execute 'qlabel:refresh'
+    if refresh then app.execute 'uriLabel:refresh'
 
     @_getEntityView prefix, id, refresh
     .then region.show.bind(region)
@@ -63,8 +63,8 @@ API =
 
   _getDomainEntityView: (prefix, refresh, entity)->
     switch prefix
-      when 'isbn', 'inv' then @getCommonBookEntityView entity
-      when 'wd' then @getWikidataEntityView entity, refresh
+      when 'wd', 'inv' then @getWikidataEntityView entity, refresh
+      when 'isbn' then @getCommonBookEntityView entity
       else _.error "getDomainEntityView err: unknown domain #{prefix}"
 
   getWikidataEntityView: (entity, refresh)->
@@ -200,7 +200,7 @@ setHandlers = ->
     'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')
     'show:entity:edit:from:model': (entity)->
       showEntityEdit entity
-      app.navigate entity.get('wikidata.wiki')
+      app.navigate entity.get('editable.wiki')
 
     'show:entity:create': (type, label)->
       showEntityCreate type, label
@@ -223,8 +223,8 @@ getEntityModel = (prefix, id)->
   if prefix? and id? then API.getEntityModel prefix, id
   else throw error_.new 'missing prefix or id', arguments
 
-getEntitiesLabels = (Qids)->
-  return Qids.map (Qid)-> app.entities.byUri("wd:#{Qid}")?.get 'label'
+getEntityLabel = (uri)-> app.entities.byUri(uri)?.get 'label'
+getEntitiesLabels = (uris)-> uris.map getEntityLabel
 
 getPrefixId = (prefix, id)->
   # resolving the polymorphic interface
@@ -267,7 +267,7 @@ getEntityLocalHref = (domain, id, label)->
       label = _.softEncodeURI(label)
       href += "/#{label}"
     return href
-  else throw new Error "couldnt find EntityLocalHref: domain=#{domain}, id=#{id}, label=#{label}"
+  else throw new Error "couldnt find entityLocalHref: domain=#{domain}, id=#{id}, label=#{label}"
 
 normalizeEntityUri = (prefix, id)->
   # accepts either a 'prefix:id' uri or 'prefix', 'id'
