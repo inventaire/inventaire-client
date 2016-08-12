@@ -36,10 +36,6 @@
   }
 }
 
-.showEntity:not(.counter):not(.light-blue-button), .showItem{
-  @extend .link;
-}
-
 .content-link{
   @include text-hover($grey, null, 10%);
   @include underline(rgba($grey, 0.4));
