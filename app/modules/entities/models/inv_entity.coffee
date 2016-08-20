@@ -73,13 +73,12 @@ module.exports = Entity.extend
     @saveLabel labelPath, oldValue, value
 
   saveLabel: (labelPath, oldValue, value)->
-    # If creating, this model is a draft waiting to be send to the server for creation
     reverseAction = @set.bind @, labelPath, oldValue
     rollback = _.Rollback reverseAction, 'title_editor save'
 
     _.preq.put app.API.entities.inv.labels.update,
       id: @id
-      lang: lang
+      lang: app.user.lang
       value: value
     .catch rollback
 
