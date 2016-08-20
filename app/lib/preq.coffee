@@ -36,7 +36,7 @@ module.exports = _.extend preq,
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
 
-  getScript: (url)-> wrap $.getScript(url), url
+  getScript: (url)-> wrap $.getScript(url), { type: 'GET', url: url }
 
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return
@@ -71,8 +71,17 @@ preq.wrap = wrap = (jqPromise, context)->
 
 rewriteError = (err, context)->
   { status, statusText, responseText, responseJSON } = err
-  { url } = context
-  error = new Error "#{status}: #{statusText} - #{responseText} - #{url}"
+  { url, type:verb } = context
+  if err.status >= 400
+    message = "#{status}: #{statusText} - #{responseText} - #{url}"
+  else
+    # cf http://stackoverflow.com/a/6186905
+    message = """
+      parsing error: #{verb} #{url}
+      got status #{status} but invalid JSON: #{responseText}
+      """
+
+  error = new Error message
   return _.extend error,
     status: status
     statusText: statusText
