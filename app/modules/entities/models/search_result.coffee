@@ -45,5 +45,5 @@ module.exports = Filterable.extend
 # For the moment, let's keep it easy and use the 2nd solution
 getPrefix = (id)->
   if wdk.isWikidataEntityId id then return ['wd', id]
-  else if _.isUuid id then return ['inv', id]
+  else if _.isInvEntityId id then return ['inv', id]
   else throw error_.new('unknown id domain', {id: id})

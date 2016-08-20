@@ -1,5 +1,6 @@
 books_ = require 'lib/books'
 wd_ = require 'lib/wikidata'
+wdk = require 'wikidata-sdk'
 WikidataEntity = require './models/wikidata_entity'
 IsbnEntity = require './models/isbn_entity'
 InvEntity = require './models/inv_entity'
@@ -54,12 +55,8 @@ API =
 
   _getEntityView: (prefix, id, refresh)->
     @getEntityModel prefix, id, refresh
-    .tap @_replaceEntityPathname.bind(@)
+    .tap replaceEntityPathname.bind(null, '')
     .then @_getDomainEntityView.bind(@, prefix, refresh)
-
-  _replaceEntityPathname: (entity)->
-    # correcting possibly custom entity label
-    app.navigateReplace entity.get('pathname')
 
   _getDomainEntityView: (prefix, refresh, entity)->
     switch prefix
@@ -148,6 +145,7 @@ API =
   showEditEntity: (uri)->
     # make sure we have the freshest data before trying to edit
     @getEntityModelFromUri uri, true
+    .tap replaceEntityPathname.bind(null, '/edit')
     .then showEntityEdit
     .catch _.Error('showEditEntity err')
 
@@ -216,7 +214,7 @@ setHandlers = ->
     'normalize:entity:uri': normalizeEntityUri
 
 getEntityModel = (prefix, id)->
-  [ prefix, id ] = getPrefixId(prefix, id)
+  [ prefix, id ] = getPrefixId prefix, id
   if prefix? and id? then API.getEntityModel prefix, id
   else throw error_.new 'missing prefix or id', arguments
 
@@ -227,10 +225,18 @@ getPrefixId = (prefix, id)->
   # resolving the polymorphic interface
   # accepts 'prefix', 'id' or 'prefix:id'
   # returns ['prefix', 'id']
-  unless id? then [prefix, id] = prefix?.split ':'
-  if prefix? and id? then return [prefix, id]
-  else
-    throw new Error "prefix and id not found for: #{prefix} / #{id}"
+
+  unless id?
+    [ prefix, id ] = prefix?.split ':'
+    unless id?
+      # trying to guess the prefix when not provided
+      if _.isInvEntityId prefix
+        [ prefix, id ] = [ 'inv', prefix ]
+      else if wdk.isWikidataEntityId prefix
+        [ prefix, id ] = [ 'wd', prefix ]
+
+  if prefix? and id? then return [ prefix, id ]
+  else throw new Error "prefix and id not found for: #{prefix} / #{id}"
 
 getModelFromPrefix = (prefix)->
   switch prefix
@@ -253,18 +259,15 @@ createEntity = (data)->
     app.entities.add model
     return model
 
-getEntityLocalHref = (domain, id, label)->
-  # accept both domain, id or uri-style "#{domain}:#{id}"
-  [ domain, possibleId ] = domain?.split(':')
+getEntityLocalHref = (prefix, id, label)->
+  # accept both prefix, id or uri-style "#{prefix}:#{id}"
+  [ prefix, possibleId ] = prefix?.split(':')
   if possibleId? then [id, label] = [possibleId, id]
 
-  if domain?.length > 0 and id?.length > 0
-    href = "/entity/#{domain}:#{id}"
-    if label?
-      label = _.softEncodeURI(label)
-      href += "/#{label}"
-    return href
-  else throw new Error "couldnt find entityLocalHref: domain=#{domain}, id=#{id}, label=#{label}"
+  if prefix?.length > 0 and id?.length > 0
+    return "/entity/#{prefix}:#{id}"
+  else
+    throw new Error "couldnt find entityLocalHref: prefix=#{prefix}, id=#{id}, label=#{label}"
 
 normalizeEntityUri = (prefix, id)->
   # accepts either a 'prefix:id' uri or 'prefix', 'id'
@@ -282,3 +285,8 @@ showEntityEdit = (entity)->
     title = _.i18n 'new entity'
 
   app.layout.main.Show view, title
+
+replaceEntityPathname = (suffix, entity)->
+  # Correcting possibly custom entity label or missing prefix
+  path = entity.get('pathname') + suffix
+  app.navigateReplace path

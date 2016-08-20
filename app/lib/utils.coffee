@@ -53,7 +53,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
             when  isbn
               if books_.isIsbn id then return true
             when 'inv'
-              if @isUuid(id) then return true
+              if @isInvEntityId(id) then return true
       return false
 
     lastRouteMatch: (regex)->
@@ -143,7 +143,7 @@ module.exports = (Backbone, _, $, app, window, csle)->
       if str is '' then return ''
       str[0].toUpperCase() + str[1..-1]
 
-    isUuid: (str)-> regex_.Uuid.test str
+    isInvEntityId: isCouchUuid
     isEmail: (str)-> regex_.Email.test str
     isUserId: isCouchUuid
     isItemId: isCouchUuid
