@@ -74,8 +74,7 @@ module.exports = Entity.extend
     return
 
   setAttributes: (attrs, lang)->
-    pathname = "/entity/wd:#{@id}"
-    @_updates.canonical = pathname
+    @_updates.canonical = @_updates.pathname = "/entity/wd:#{@id}"
 
     label = getEntityValue attrs, 'labels', lang, @originalLang
     unless label?
@@ -87,10 +86,6 @@ module.exports = Entity.extend
     if label?
       @_updates.label = label
       @_updates.title = label
-      pathname += "/" + _.softEncodeURI(label)
-
-    @_updates.pathname = pathname
-    @_updates.domain = 'wd'
 
     description = getEntityValue attrs, 'descriptions', lang, @originalLang
     if description?

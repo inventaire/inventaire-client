@@ -16,7 +16,6 @@ module.exports = Notification.extend
     attrs.pathname = "/network/groups/#{@groupId}"
     if @group?
       attrs.picture = @group.get 'picture'
-      attrs.groupName = @group.getEscapedName()
       attrs.text = getText attrs.type, attrs.data.attribute
       attrs.previousValue
     return attrs

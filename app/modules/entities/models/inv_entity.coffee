@@ -11,18 +11,15 @@ module.exports = Entity.extend
     { lang } = app.user
     label = getBestLangValue lang, null, attr.labels
 
-    canonical = pathname = "/entity/#{@prefix}:#{@id}"
-
-    if title = @get('title')
-      pathname += '/' + _.softEncodeURI(title)
+    uri = "#{@prefix}:#{@id}"
+    canonical = pathname = "/entity/#{uri}"
 
     @set
       title: label
       label: label
       canonical: canonical
       pathname: pathname
-      uri: "#{@prefix}:#{@id}"
-      domain: 'inv'
+      uri: uri
       editable:
         wiki: "#{pathname}/edit"
 

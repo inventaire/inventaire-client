@@ -183,14 +183,11 @@ setHandlers = ->
   app.commands.setHandlers
     'show:entity': (uri, label, params, region)->
       API.showEntity uri, label, params, region
-      path = "entity/#{uri}"
-      path += "/#{label}"  if label?
-      app.navigate path
+      app.navigate "entity/#{uri}"
 
     'show:entity:from:model': (model, params, region)->
-      [ uri, label ] = model.gets 'uri', 'label'
-      if uri? and label?
-        app.execute 'show:entity', uri, label, params, region
+      uri = model.get('uri')
+      if uri? then app.execute 'show:entity', uri, null, params, region
       else throw new Error 'couldnt show:entity:from:model'
 
     'show:entity:refresh': (model)->

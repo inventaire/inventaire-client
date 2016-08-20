@@ -13,9 +13,7 @@ module.exports = Positionable.extend
     _.extend @, groupActions
 
     { _id, name } = @toJSON()
-    uriEscapedGroupName = @getUriEscapedName()
-    canonical = "/groups/#{_id}"
-    pathname = "#{canonical}/#{uriEscapedGroupName}"
+    canonical = pathname = "/groups/#{_id}"
     @set
       canonical: canonical
       pathname: pathname
@@ -127,9 +125,6 @@ module.exports = Positionable.extend
       .then _.Log('groupNonFriendsUsers items')
       .then app.items.add.bind(app.items)
       .catch _.Error('fetchGroupUsersMissingItems err')
-
-  getEscapedName: -> escapeExpression @get('name')
-  getUriEscapedName: -> encodeURIComponent @get('name')
 
   userCanLeave: ->
     unless @mainUserIsAdmin() then return true
