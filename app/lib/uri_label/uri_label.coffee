@@ -58,8 +58,7 @@ getEntities = (uris)->
   invPromise = app.entities.data.inv.local.get invUris, null, refresh
     .then addEntitiesLabels.bind(null, 'inv', null)
 
-  return Promise.all [ wdPromise, invPromise ]
-
+  return Promise.all([ wdPromise, invPromise ]).then debouncedUpdate
 
 addEntitiesLabels = (prefix, valueProperty, entities)->
   for id, entity of entities
@@ -119,8 +118,10 @@ refreshData = ->
 
 endRefreshMode = -> refresh = false
 
+debouncedUpdate = _.debounce update, 200
+
 module.exports =
-  update: _.debounce update, 200
+  update: debouncedUpdate
   refreshData: refreshData
 
 
