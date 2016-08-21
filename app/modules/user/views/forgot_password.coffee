@@ -31,6 +31,7 @@ module.exports = Marionette.ItemView.extend
     special: true
     field:
       value: app.user.get('email')
+      placeholder: _.i18n 'email address'
     button:
       text: _.i18n 'send email'
       classes: 'grey postfix'
