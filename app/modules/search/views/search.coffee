@@ -1,6 +1,6 @@
 ResultsList = require './results_list'
 Entities = require 'modules/entities/collections/entities'
-WikidataEntities = require 'modules/entities/collections/wikidata_entities'
+{ WikidataEntities, InvEntities } = require 'modules/entities/collections/structured_entities'
 IsbnEntities = require 'modules/entities/collections/isbn_entities'
 FindByIsbn = require './find_by_isbn'
 ItemsList = require 'modules/inventory/views/items_list'
@@ -98,8 +98,6 @@ module.exports = Marionette.LayoutView.extend
         else return
       .then @displayResults.bind(@)
       .catch (err)=>
-        # couldn't make the alert Behavior work properly
-        # so the triggerMethod '404' thing is a provisory solution
         @alert 'no item found'
         @displayResults()
         _.error err, 'searchEntities err'
@@ -164,18 +162,20 @@ spreadResults = (res)->
     editions: new Entities
     search: res.search
 
-  { wd, ol, google } = res
+  { wd, ol, google, inv } = res
 
-  if wd? then addWikidataEntities wd.items
-  if ol? then addIsbnEntities ol.items
-  if google? then addIsbnEntities google.items
+  if wd? then addWikidataEntities wd.results
+  if ol? then addIsbnEntities ol.results
+  if google? then addIsbnEntities google.results
+  if inv? then addInvEntities inv.results
 
-addWikidataEntities = (resultsArray)->
+
+addStructuredEntities = (Collection, resultsArray)->
   # instantiating generic wikidata entities first
   # and only upgrading later on more specific Models
-  # as methods on WikidataEntities greatly ease the sorting process
-  wdEntities = new WikidataEntities resultsArray
-  for model in wdEntities.models
+  # as methods on Collection greatly ease the sorting process
+  entities = new Collection resultsArray
+  for model in entities.models
     claims = model.get 'claims'
     if _.isntEmpty(claims['wdt:P31'])
       if wd_.isBook(claims['wdt:P31'])
@@ -187,6 +187,9 @@ addWikidataEntities = (resultsArray)->
     if _.isntEmpty(claims['wdt:P106'])
       if wd_.isAuthor(claims['wdt:P106'])
         resultsCache.authors.add model
+
+addWikidataEntities = addStructuredEntities.bind null, WikidataEntities
+addInvEntities = addStructuredEntities.bind null, InvEntities
 
 addIsbnEntities = (resultsArray)->
   # initializing models as IsbnEntities

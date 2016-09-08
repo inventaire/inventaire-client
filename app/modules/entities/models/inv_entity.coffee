@@ -19,6 +19,8 @@ module.exports = Entity.extend
       label: label
       canonical: canonical
       pathname: pathname
+      # placeholder to match Wikidata Entity interface
+      pictures: []
       uri: uri
       editable:
         wiki: "#{pathname}/edit"
