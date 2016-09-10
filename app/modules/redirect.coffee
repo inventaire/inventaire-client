@@ -29,6 +29,7 @@ module.exports =
       'show:home': API.showHome
       'show:welcome': API.showWelcome
       'show:error:missing': showErrorMissing
+      'show:error:other': showOtherError
       'show:offline:error': showOfflineError
       'show:call:to:connection': showCallToConnection
       'show:error:cookieRequired': showErrorCookieRequired
@@ -88,6 +89,13 @@ showErrorMissing = ->
     icon: 'warning'
     header: _.I18n 'oops'
     message: _.i18n "this resource doesn't exist or you don't have the right to access it"
+
+showOtherError = (err, label)->
+  _.error err, label
+  showError
+    icon: 'bolt'
+    header: _.I18n 'error'
+    message: err.message
 
 showOfflineError = ->
   showError

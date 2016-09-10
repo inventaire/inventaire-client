@@ -49,9 +49,7 @@ API =
     @_getEntityView prefix, id, refresh
     .then region.show.bind(region)
     # .catch @solveMissingEntity.bind(@, prefix, id)
-    .catch (err)->
-      _.error err, 'couldnt showEntity'
-      app.execute 'show:error:missing'
+    .catch handleMissingEntityError.bind(null, 'showEntity err')
 
   _getEntityView: (prefix, id, refresh)->
     @getEntityModel prefix, id, refresh
@@ -140,14 +138,14 @@ API =
         preventDupplicates: true
 
     # .catch @solveMissingEntity.bind(@, prefix, id)
-    .catch _.Error('showAddEntity err')
+    .catch handleMissingEntityError.bind(null, 'showAddEntity err')
 
   showEditEntity: (uri)->
     # make sure we have the freshest data before trying to edit
     @getEntityModelFromUri uri, true
     .tap replaceEntityPathname.bind(null, '/edit')
     .then showEntityEdit
-    .catch _.Error('showEditEntity err')
+    .catch handleMissingEntityError.bind(null, 'showEditEntity err')
 
   showEntityCreateFromRoute: ->
     type = decodeURIComponent app.request('querystring:get', 'type')
@@ -290,3 +288,7 @@ replaceEntityPathname = (suffix, entity)->
   # Correcting possibly custom entity label or missing prefix
   path = entity.get('pathname') + suffix
   app.navigateReplace path
+
+handleMissingEntityError = (label, err)->
+  if err.message is 'entity_not_found' then app.execute 'show:error:missing'
+  else app.execute 'show:error:other', err, label
