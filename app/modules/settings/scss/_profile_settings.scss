@@ -1,7 +1,7 @@
 .profileSettings{
   text-align: center;
   .note{
-    font-family: 'Alegreya Sans';
+    @include sans-serif;
     color: $grey;
     padding: 0;
     margin: 0;

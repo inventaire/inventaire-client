@@ -1,6 +1,6 @@
 .validEmailConfirmation{
   text-align: center;
-  font-family: 'Alegreya Sans';
+  @include sans-serif;
   color: white;
   p{
     margin-bottom: 1em;
