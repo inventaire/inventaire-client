@@ -80,7 +80,6 @@ handlers =
       request.send formData
 
   del: (imageUrlToDelete)->
-    _.inspect imageUrlToDelete, 'imageUrlToDelete'
     _.preq.post app.API.upload.del, {urls: imageUrlToDelete}
     .then _.Log('image del res')
     .catch _.Error('image del err')
