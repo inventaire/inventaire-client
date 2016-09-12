@@ -38,7 +38,7 @@ addComment = (comment, commentsCollection)->
   # adding elements set by the server firgures out alone
   _.extend comment,
     user: app.user.id
-    created: _.now()
+    created: Date.now()
 
   return commentsCollection.add comment
 
@@ -49,7 +49,7 @@ updateComment = (commentModel, newMessage)->
 
   commentModel.set
     message: newMessage
-    edited: _.now()
+    edited: Date.now()
 
   _.preq.put app.API.comments.authentified,
     id: commentModel.id

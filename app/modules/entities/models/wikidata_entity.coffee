@@ -70,7 +70,7 @@ module.exports = Entity.extend
 
       publicationDate = claims['wdt:P577']?[0]
       if publicationDate?
-        @publicationYear = _. getYearFromEpoch publicationDate
+        @publicationYear = getYearFromEpoch publicationDate
     return
 
   setAttributes: (attrs, lang)->
@@ -165,7 +165,7 @@ module.exports = Entity.extend
         # likely to be in the public domain and have a good image set in Wikidata
         # while querying images from English Wikipedia articles
         # can be quite random results
-        if @publicationYear? and @publicationYear < _.yearsAgo(70)
+        if @publicationYear? and @publicationYear < yearsAgo(70)
           return ['ol', 'wm', 'wp']
         else
           return ['ol', 'wp', 'wm']
@@ -234,3 +234,6 @@ getEntityValue = (attrs, props, lang, originalLang)->
     if value?.value? then return value.value
 
   return
+
+getYearFromEpoch = (epochTime)-> new Date(epochTime).getYear() + 1900
+yearsAgo = (years)-> new Date().getYear() + 1900 - years

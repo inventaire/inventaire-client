@@ -13,11 +13,6 @@ global.Promise = require 'bluebird'
 
 sharedLib = require './shared_lib'
 
-if process.env.CONSOLE is 'silent'
-  csle = __.require 'lib', 'noop_console'
-else
-  csle = console
-
 global._ = _ = require 'underscore'
 
 # no need to require jquery
@@ -25,7 +20,6 @@ global._ = _ = require 'underscore'
 global.$ =
   extend: ->
 
-invUtils = require('inv-utils')(_)
-localLib = __.require('lib', 'utils')(Backbone, _, $, app, window, csle)
+localLib = __.require('lib', 'utils')(Backbone, _, $, app, window)
 
-module.exports = _.extend _, localLib, invUtils
+module.exports = _.extend _, localLib

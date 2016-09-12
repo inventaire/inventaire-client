@@ -37,7 +37,7 @@ module.exports = Backbone.NestedModel.extend
       $.post '/api/logs/public', report
 
   record: (page)->
-    timestamp = _.now()
+    timestamp = Date.now()
     action =
       # sometimes there is a root /, sometimes not
       # normalizing to always have one
@@ -91,7 +91,7 @@ module.exports = Backbone.NestedModel.extend
 
   timer: ->
     first = @get('time.first')
-    now = _.now()
+    now = Date.now()
     @set 'time.last', now
     time = (now - first) / 1000
     return time

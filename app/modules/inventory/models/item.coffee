@@ -10,6 +10,9 @@ module.exports = Filterable.extend
   initialize: (attrs, options)->
     { entity, title, owner } = attrs
 
+    # replace title with snapshot.title if simply taken from the entity
+    # so that it stays in sync
+
     unless entity?
       throw new Error "item should have an associated entity"
 
@@ -21,7 +24,7 @@ module.exports = Filterable.extend
 
     # created will be overriden by the server at item creation
     @set
-      created: @get('created') or _.now()
+      created: @get('created') or Date.now()
       _id: @getId()
 
     @setPathname()

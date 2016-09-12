@@ -16,6 +16,6 @@ module.exports = Backbone.Model.extend
     data.pathname = "search?q=#{query}"
     return data
 
-  updateTimestamp: -> @set 'timestamp', _.now()
+  updateTimestamp: -> @set 'timestamp', Date.now()
 
   show: -> app.execute 'search:global', @get('query')

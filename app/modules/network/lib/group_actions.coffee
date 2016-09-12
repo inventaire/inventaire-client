@@ -10,7 +10,7 @@ module.exports =
     @push 'invited',
       user: user.id
       invitor: app.user.id
-      timestamp: _.now()
+      timestamp: Date.now()
     @triggeredListChange()
     triggerUserChange user
 
@@ -31,7 +31,7 @@ module.exports =
     # create membership doc in the requested list
     @push 'requested',
       user: app.user.id
-      timestamp: _.now()
+      timestamp: Date.now()
 
     @triggeredListChange()
 

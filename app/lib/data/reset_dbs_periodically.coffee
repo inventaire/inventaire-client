@@ -27,9 +27,9 @@ initPeriodicalReset = ->
   resetDbsNow 'intializing dbs.reset'
 
 periodIsOver = (lastResetTime)->
-  _.now() - lastResetTime > period
+  Date.now() - lastResetTime > period
 
 resetDbsNow = (label)->
   if label? then _.log label
   dbs.reset()
-  localStorageProxy.setItem 'last_db_reset', _.now()
+  localStorageProxy.setItem 'last_db_reset', Date.now()

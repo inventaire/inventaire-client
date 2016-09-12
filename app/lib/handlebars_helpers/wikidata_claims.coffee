@@ -48,7 +48,7 @@ module.exports = API =
     firstUrl = claims?[prop]?[0]
     if firstUrl?
       label = images_.icon 'link'
-      cleanedUrl = _.dropProtocol firstUrl
+      cleanedUrl = dropProtocol firstUrl
       values = linkify_ cleanedUrl, firstUrl, 'link website'
       return claimString label, values
 
@@ -68,3 +68,5 @@ module.exports = API =
       else API.entityLocalHref uri
 
   entityLocalHref: (uri)-> "/entity/#{uri}"
+
+dropProtocol = (path)-> path.replace /^(https?:)?\/\//, ''

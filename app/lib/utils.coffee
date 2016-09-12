@@ -1,254 +1,215 @@
-wd_ = requireProxy 'lib/wikidata'
-books_ = requireProxy 'lib/books'
-regex_ = sharedLib 'regex'
-tests_ = sharedLib('tests')(regex_)
-isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
 oneDay = 24*60*60*1000
 
-module.exports = (Backbone, _, $, app, window, csle)->
-  loggers = require('./loggers')(_, csle)
+module.exports = (Backbone, _, $, app, window)->
+  # sync
+  getCookie: (key)->
+    value = $.cookie key
+    return parseCookieValue value
 
-  utils =
-    # sync
-    getCookie: (key)->
-      value = $.cookie key
-      return parseCookieValue value
+  # async
+  setCookie: (key, value)->
+    _.preq.post app.API.cookie, {key: key, value: value}
+    .catch _.Error("setCookie: failed: #{key} - #{value}")
 
-    # async
-    setCookie: (key, value)->
-      @preq.post app.API.cookie, {key: key, value: value}
-      .catch _.Error("setCookie: failed: #{key} - #{value}")
+  i18n: require './translate'
+  I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
+  icon: (name, classes)-> "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
 
-    i18n: require './translate'
-    I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
-    icon: (name, classes)->
-      "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
+  parseQuery: (queryString)->
+    query = {}
+    if queryString?
+      queryString
+      .replace /^\?/, ''
+      .split '&'
+      .forEach (param)->
+        pairs = param.split '='
+        if pairs[0]?.length > 0 and pairs[1]?
+          query[pairs[0]] = _.softDecodeURI pairs[1]
+    return query
 
-    updateQuery: (newParams)->
-      [ pathname, currentQueryString ] = Backbone.history.fragment.split('?')
-      query = @parseQuery(currentQueryString)
-      _.extend query, newParams
-      route = @buildPath(pathname, query)
-      if route? then app.navigate(route)
-      else _.error [query, newParams], 'couldnt updateQuery'
+  # Should not be useful anymore as urls with labels were removed
+  # Possible exception: short group names apparently still need it
+  softDecodeURI: (str)->
+    _.typeString str
+    .replace /_/g,' '
 
-    inspect: (obj, label)->
-      # remove after using as it keeps reference of the inspected object
-      # making the garbage collection impossible
-      if label? then _.log obj, "#{label} added to window.current for inspection"
-      if window.current?
-        window.previous or= []
-        window.previous.unshift(window.current)
+  # Not used: waiting for _.softDecodeURI to be ready for removal to remove
+  # softEncodeURI: (str)->
+  #   _.typeString str
+  #   .replace /(\s|')/g, '_'
+  #   .replace /\?/g, ''
 
-      if _.isArguments obj then obj = _.toArray obj
-      return window.current = obj
+  piped: (data)-> _.forceArray(data).join '|'
 
-    hasKnownUriDomain: (str)->
-      if _.isString(str)
-        [ prefix, id ] = str.split(':')
-        if prefix? and id?
-          switch prefix
-            when 'wd'
-              if wd_.isWikidataId id then return true
-            when  isbn
-              if books_.isIsbn id then return true
-            when 'inv'
-              if @isInvEntityId(id) then return true
-      return false
+  inspect: (obj, label)->
+    # remove after using as it keeps reference of the inspected object
+    # making the garbage collection impossible
+    if label? then _.log obj, "#{label} added to window.current for inspection"
+    if window.current?
+      window.previous or= []
+      window.previous.unshift(window.current)
 
-    lastRouteMatch: (regex)->
-      if Backbone.history.last?[1]?
-        last = Backbone.history.last[1]
-        return regex.test(last)
-      else false
+    if _.isArguments obj then obj = _.toArray obj
+    return window.current = obj
 
-    openJsonWindow: (obj, windowName)->
-      json = JSON.stringify obj, null, 4
-      data = 'data:application/json;charset=utf-8,' + encodeURI(json)
-      window.open data, windowName
+  lastRouteMatch: (regex)->
+    if Backbone.history.last?[1]?
+      last = Backbone.history.last[1]
+      return regex.test(last)
+    else false
 
-    style: (text, style)->
-      switch style
-        when 'strong' then "<strong>#{text}</strong>"
+  isntEmpty: (array)-> not _.isEmpty(array)
+  pickOne: (obj)->
+    k = Object.keys(obj)[0]
+    return obj[k]
 
-    stringOnly: (str)->
-      if typeof str is 'string' then str
-      else return
+  pickToArray: (obj, props...)->
+    if _.isArray(props[0]) then props = props[0]
+    _.typeArray props
+    pickObj = _.pick(obj, props)
+    # returns an undefined array element when prop is undefined
+    return props.map (prop)-> pickObj[prop]
 
-    isntEmpty: (array)-> not @isEmpty(array)
-    pickOne: (obj)->
-      k = Object.keys(obj)[0]
-      return obj[k]
+  # /!\ window.screen.width is the screen's width not the current window width
+  screenWidth: -> $(window).width()
+  screenHeight: -> $(window).height()
+  # keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
+  smallScreen: (ceil=1000)-> _.screenWidth() < ceil
 
-    isModel: (obj)-> obj instanceof Backbone.Model
-    isView: (obj)-> obj instanceof Backbone.View
+  deepExtend: $.extend.bind($, yes)
+  deepClone: (obj)->
+    _.type obj, 'object'
+    return JSON.parse JSON.stringify(obj)
 
-    validImageSrc: (url, callback)->
-      image = new Image()
-      image.src = url
-      cb = ->
-        if image.complete then @preq.resolve(url)
-        else @preq.reject(url)
-      setTimeout cb, 500
+  capitaliseFirstLetter: (str)->
+    if str is '' then return ''
+    str[0].toUpperCase() + str[1..-1]
 
-    allValid: (array, test)->
-      result = true
-      for el in array
-        if not test(el) then result = false
-      return result
+  # anchor with a href are opened out of the current window
+  # when the ctrlKey is pressed: the normal action should thus be prevented
+  isOpenedOutside: (e)-> e.ctrlKey
 
-    isUri: (str)->
-      [ prefix, id ] = str.split ':'
-      if prefix? and id?
-        switch prefix
-          when 'wd' then return wd.isWikidataId id
-          when 'isbn' then return books_.isNormalizedIsbn id
-      return false
+  noop: ->
 
-    uniq: (array)->
-      obj = {}
-      for value in array
-        obj[value] = true
-      return Object.keys(obj)
+  currentRoute: -> location.pathname.slice(1)
+  setQuerystring: (url, key, value)->
+    [ href, qs ] = url.split '?'
+    qsObj = _.parseQuery qs
+    # override the previous key/value
+    qsObj[key] = value
+    return _.buildPath href, qsObj
 
-    # adapted from lodash implementation
-    values: (obj)->
-      index = -1
-      props = Object.keys(obj)
-      length = props.length
-      result = Array(length)
-      result[index] = obj[props[index]]  while ++index < length
-      return result
+  # calling a section the first part of the route matching to a module
+  # ex: for '/inventory/bla/bla', the section is 'inventory'
+  routeSection: (route)->
+    # split on the first non-alphabetical character
+    route.split(/[^\w]/)[0]
 
-    localUrl: (url)-> /^\//.test(url)
+  currentSection: -> _.routeSection _.currentRoute()
 
-    allValues: (obj)-> @flatten @values(obj)
+  # Scroll to the top of an $el
+  # Increase marginTop to scroll to a point before the element top
+  scrollTop: ($el, duration=500, marginTop=0)->
+    # Polymorphism: accept jquery objects or selector strings as $el
+    if _.isString then $el = $($el)
+    top = $el.position().top - marginTop
+    $('html, body').animate {scrollTop: top}, duration
 
-    now: -> new Date().getTime()
+  # scroll to a given height
+  scrollHeight: (height, ms=500)->
+    $('html, body').animate {scrollTop: height}, ms
 
-    getYearFromEpoch: (epochTime)-> new Date(epochTime).getYear() + 1900
-    yearsAgo: (years)-> new Date().getYear() + 1900 - years
+  # let the view call the plugin with the view as context
+  # ex: module.exports = _.BasicPlugin events, handlers
+  BasicPlugin: (events, handlers)->
+    _.partial _.basicPlugin, events, handlers
 
-    # /!\ window.screen.width is the screen's width not the current window width
-    screenWidth: -> $(window).width()
-    screenHeight: -> $(window).height()
-    # keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
-    smallScreen: (ceil=1000)-> utils.screenWidth() < ceil
+  # expected to be passed a view as context, an events object
+  # and the associated handlers
+  # ex: _.basicPlugin.call @, events, handlers
+  basicPlugin: (events, handlers)->
+    @events or= {}
+    _.extend @events, events
+    _.extend @, handlers
+    return
 
-    deepClone: (obj)->
-      @type obj, 'object'
-      return JSON.parse JSON.stringify(obj)
+  cutBeforeWord: (text, limit)->
+    shortenedText = text[0..limit]
+    return shortenedText.replace /\s\w+$/, ''
 
-    capitaliseFirstLetter: (str)->
-      if str is '' then return ''
-      str[0].toUpperCase() + str[1..-1]
+  LazyRender: (view, timespan=200, attachFocusHandler)->
+    cautiousRender = (focusSelector)->
+      unless view.isDestroyed
+        view.render()
+        if _.isString focusSelector then view.$el.find(focusSelector).focus()
 
-    isInvEntityId: isCouchUuid
-    isEmail: (str)-> regex_.Email.test str
-    isUserId: isCouchUuid
-    isItemId: isCouchUuid
-    isUsername: (username)-> regex_.Username.test username
-    isEntityUri: (uri)-> regex_.EntityUri.test uri
+    if attachFocusHandler
+      view.LazyRenderFocus = (focusSelector)->
+        return fn = -> view.lazyRender focusSelector
 
-    # anchor with a href are opened out of the current window
-    # when the ctrlKey is pressed: the normal action should thus be prevented
-    isOpenedOutside: (e)-> e.ctrlKey
+    return _.debounce cautiousRender, timespan
 
-    noop: ->
+  invertAttr: ($target, a, b)->
+    aVal = $target.attr a
+    bVal = $target.attr b
+    $target.attr a, bVal
+    $target.attr b, aVal
 
-    escapeKeyPressed: (e)-> e.keyCode is 27
+  daysAgo: (epochTime)-> Math.floor(( Date.now() - epochTime ) / oneDay)
 
-    currentRoute: -> location.pathname.slice(1)
-    currentQuerystring: -> location.search
-    setQuerystring: (url, key, value)->
-      [ href, qs ] = url.split('?')
-      if qs?
-        qsObj = _.parseQuery qs
-        # override the previous key/value
-        qsObj[key] = value
-        return _.buildPath href, qsObj
-      else
-        return "#{href}?#{key}=#{value}"
+  niceDate: ->
+    new Date().toISOString().split('T')[0]
 
-    # calling a section the first part of the route matching to a module
-    # ex: for '/inventory/bla/bla', the section is 'inventory'
-    routeSection: (route)->
-      # split on the first non-alphabetical character
-      route.split(/[^\w]/)[0]
+  timeSinceMidnight: ->
+    today = _.niceDate()
+    midnight = new Date(today).getTime()
+    return Date.now() - midnight
 
-    currentSection: ->
-      _.routeSection _.currentRoute()
+  bestImageWidth: (width)->
+    # under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
+    # while still grouping on the initially requested width
+    if width < 500 then return width
 
-    # Scroll to the top of an $el
-    # Increase marginTop to scroll to a point before the element top
-    scrollTop: ($el, duration=500, marginTop=0)->
-      # Polymorphism: accept jquery objects or selector strings as $el
-      if _.isString then $el = $($el)
-      top = $el.position().top - marginTop
-      $('html, body').animate {scrollTop: top}, duration
+    # if in a browser, use the screen width as a max value
+    if screen?.width then width = Math.min width, screen.width
+    # group image width above 500 by levels of 100px to limit generated versions
+    return Math.ceil(width / 100) * 100
 
-    # scroll to a given height
-    scrollHeight: (height, ms=500)->
-      $('html, body').animate {scrollTop: height}, ms
 
-    # let the view call the plugin with the view as context
-    # ex: module.exports = _.BasicPlugin events, handlers
-    BasicPlugin: (events, handlers)->
-      _.partial _.basicPlugin, events, handlers
+  # Returns a .catch function that execute the reverse action
+  # then passes the error to the next .catch
+  Rollback: (reverseAction, label)->
+    return rollback = (err)->
+      if label? then _.log "rollback: #{label}"
+      reverseAction()
+      throw err
 
-    # expected to be passed a view as context, an events object
-    # and the associated handlers
-    # ex: _.basicPlugin.call @, events, handlers
-    basicPlugin: (events, handlers)->
-      @events or= {}
-      _.extend @events, events
-      _.extend @, handlers
-      return
 
-    stringContains: (str, target)->
-      str.split(target).length > 1
+  # Tests (compeling app/lib/shared/tests for the client needs)
+  isModel: (obj)-> obj instanceof Backbone.Model
+  isView: (obj)-> obj instanceof Backbone.View
+  isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
+  isDataUrl: (str)-> /^data:image/.test str
 
-    cutBeforeWord: (text, limit)->
-      shortenedText = text[0..limit]
-      return shortenedText.replace /\s\w+$/, ''
+  allValues: (obj)-> _.flatten _.values(obj)
 
-    isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
+  # Functions mimicking Lodash
 
-    LazyRender: (view, timespan=200, attachFocusHandler)->
-      cautiousRender = (focusSelector)->
-        unless view.isDestroyed
-          view.render()
-          if _.isString focusSelector then view.$el.find(focusSelector).focus()
+  # Get the value from an object using a string
+  # (equivalent to lodash deep 'get' function).
+  get: (obj, prop)-> prop.split('.').reduce objectWalker, obj
 
-      if attachFocusHandler
-        view.LazyRenderFocus = (focusSelector)->
-          return fn = -> view.lazyRender focusSelector
+  # adapted from lodash implementation
+  values: (obj)->
+    index = -1
+    props = Object.keys obj
+    length = props.length
+    result = Array length
 
-      return _.debounce cautiousRender, timespan
+    while ++index < length
+      result[index] = obj[props[index]]
 
-    invertAttr: ($target, a, b)->
-      aVal = $target.attr a
-      bVal = $target.attr b
-      $target.attr a, bVal
-      $target.attr b, aVal
-
-    daysAgo: (epochTime)-> Math.floor(( _.now() - epochTime ) / oneDay)
-
-    deepExtend: $.extend.bind($, yes)
-
-    # Get the value from an object using a string
-    # (equivalent to lodash deep 'get' function).
-    get: (obj, prop)-> prop.split('.').reduce objectWalker, obj
-
-    # Returns a .catch function that execute the reverse action
-    # then passes the error to the next .catch
-    Rollback: (reverseAction, label)->
-      return rollback = (err)->
-        if label? then _.log "rollback: #{label}"
-        reverseAction()
-        throw err
-
-  return _.extend {}, utils, loggers, tests_
+    return result
 
 objectWalker = (subObject, property)-> subObject?[property]
 
@@ -257,3 +218,6 @@ parseCookieValue = (value)->
     when 'true' then true
     when 'false' then false
     else value
+
+# Polyfill if needed
+Date.now or= -> new Date().getTime()

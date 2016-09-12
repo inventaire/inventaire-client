@@ -150,7 +150,7 @@ module.exports = Backbone.NestedModel.extend
     # redondant info:
     # might need to be refactored to deduce state from last action
     @set {state: state}
-    action = { action: state, timestamp: _.now() }
+    action = { action: state, timestamp: Date.now() }
     # keep track of the actor when it can be both
     if state in actorCanBeBoth then action.actor = @role
     @push 'actions', action

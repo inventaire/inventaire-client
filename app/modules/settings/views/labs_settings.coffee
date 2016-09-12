@@ -27,7 +27,7 @@ openDownloadPage = (data, label)->
   username = app.user.get 'username'
   date = new Date().toLocaleDateString()
   name = "inventaire.io-#{username}-#{label}-#{date}.json"
-  _.openJsonWindow data, name
+  openJsonWindow data, name
 
 endpointDemo = (username, endpoint)->
   "$ curl #{location.protocol}//#{username}:yourpassword@#{host}/api/#{endpoint}"
@@ -35,3 +35,8 @@ endpointDemo = (username, endpoint)->
 endpointsData = (username)->
   user: endpointDemo username, 'user'
   items: endpointDemo username, 'items'
+
+openJsonWindow = (obj, windowName)->
+  json = JSON.stringify obj, null, 4
+  data = 'data:application/json;charset=utf-8,' + encodeURI(json)
+  window.open data, windowName

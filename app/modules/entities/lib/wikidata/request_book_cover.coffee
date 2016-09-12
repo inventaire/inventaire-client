@@ -20,8 +20,8 @@ getMostAccurateData = (bookModel)->
   else return getTitleAndAuthor bookModel
 
 findIsbn = (claims)->
-  isbn13 = _.stringOnly claims?['wdt:P957']?[0]
-  isbn10 = _.stringOnly claims?['wdt:P212']?[0]
+  isbn13 = stringOnly claims?['wdt:P957']?[0]
+  isbn10 = stringOnly claims?['wdt:P212']?[0]
   isbn = isbn13 or isbn10
   if isbn? then return books_.normalizeIsbn isbn
 
@@ -41,3 +41,7 @@ attachPictures = (bookModel, pictures)->
     pictures = pictures.map _.property('image')
     bookModel.set 'pictures', pictures.concat(pics)
     bookModel.save()
+
+stringOnly = (str)->
+  if typeof str is 'string' then str
+  else return

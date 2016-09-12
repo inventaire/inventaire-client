@@ -1,4 +1,5 @@
 forms_ = require 'modules/general/lib/forms'
+getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/comment'
@@ -49,7 +50,9 @@ module.exports = Marionette.ItemView.extend
     app.request 'comments:delete', @model, @
 
   escapeEditMode: (e)->
-    if _.escapeKeyPressed(e) then @toggleEditMode()
+    key = getActionKey e
+    switch key
+      when 'esc' then @toggleEditMode()
 
   toggleEditMode: ->
     @trigger 'edit:toggle'
