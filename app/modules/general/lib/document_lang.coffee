@@ -6,35 +6,36 @@
 module.exports = ($app, lang)->
   setAppLang $app, lang
 
-  $head = $('head')
-  setHeadAlternateLangs $head, _.currentRoute()
-  setOgLocalAlternates $head, lang
+  elements = []
+  addAlternateLangs elements, _.currentRoute()
+  addOgLocalAlternates elements, lang
+  $('head').append elements.join('')
 
 setAppLang = ($app, lang)-> $app.attr 'lang', lang
 
-setHeadAlternateLangs = ($head, currentRoute)->
+addAlternateLangs = (elements, currentRoute)->
   href = "#{origin}/#{currentRoute}"
   # Non-default langs needing a lang querystring
   for lang in langs
-    if lang isnt 'en' then setHreflang $head, href, true, lang
+    if lang isnt 'en' then addHreflang elements, href, true, lang
   # The default lang - en - doesnt need a lang querystring to be set.
   # It could have one, but search engines need to know that the default url
   # they got matches this languages hreflang
-  setHreflang $head, href, false, 'en'
+  addHreflang elements, href, false, 'en'
 
-setHreflang = ($head, href, withLangQueryString, lang)->
+addHreflang = (elements, href, withLangQueryString, lang)->
   # Can't use location.href directly as it seems
   # to be updated after route:navigate
   # Discarding querystring to only keep lang
   if withLangQueryString then href = _.setQuerystring href, 'lang', lang
-  $head.find("link[hreflang='#{lang}']").attr 'href', href
+  elements.push "<link rel='alternate' href='#{href}' hreflang='#{lang}' />"
 
-setOgLocalAlternates = ($head, lang)->
+addOgLocalAlternates = (elements, lang)->
   # set the current lang as 'og:locale'
   local = regionify[lang]
-  $head.append "<meta property='og:locale' content='#{local}' />"
+  elements.push "<meta property='og:locale' content='#{local}' />"
 
   # set the others as 'og:locale:alternate'
   otherTerritories = _.values _.omit(regionify, lang)
   for territory in otherTerritories
-    $head.append "<meta property='og:locale:alternate' content='#{territory}' />"
+    elements.push "<meta property='og:locale:alternate' content='#{territory}' />"
