@@ -1,8 +1,10 @@
+localCache = require 'lib/data/local_cache'
+
 module.exports = (app, _, books, promises_)->
   remote =
     get: books.getIsbnEntities
 
-  local = new app.LocalCache
+  local = localCache
     name: 'entities_isbn'
     normalizeId: books.normalizeIsbn
     remote: remote

@@ -1,6 +1,8 @@
+localCache = require 'lib/data/local_cache'
+
 module.exports = (app, $, _)->
   remote = require('./lib/remote_queries')(app, _)
-  localData = new app.LocalCache
+  localData = localCache
     name: 'users'
     remote: remote
     parseData: _.property 'users'

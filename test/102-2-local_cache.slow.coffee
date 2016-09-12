@@ -15,11 +15,12 @@ _.extend global,
   LevelJs: {}
   LevelMultiply: require 'level-multiply'
   Promise: require 'bluebird'
+  localdb_: __.require 'lib', 'data/local_db'
+  reportErr: _.noop
 
-# doesn't need to be init before
-# as levelup will use level-test
-LocalDB = __.require('lib', 'data/local_db').build(global, _)
-LocalCache = __.require('lib', 'data/local_cache')(LocalDB, _, promises_)
+global.window = global
+
+localCache = __.require 'lib', 'data/local_cache'
 
 getOptions = ->
   spy = sinon.spy()
@@ -38,21 +39,21 @@ describe 'Local Cache', ->
   describe 'env', ->
     it 'should find the lib', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       local.should.be.an.Object()
       done()
 
   describe 'get', ->
     it 'should accept one id or an Array ids', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       local.get('what').then.should.be.a.Function()
       local.get(['1','2','3']).then.should.be.a.Function()
       done()
 
     it 'should return a Promise', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       local.get.should.be.an.Function()
       local.get(['what']).then.should.be.a.Function()
       done()
@@ -62,7 +63,7 @@ describe 'Local Cache', ->
       [opts, spy] = getOptions()
       # console.timeEnd 'options'
       # console.time 'LocalCache'
-      local = new LocalCache opts
+      local = localCache opts
       # console.timeEnd 'LocalCache'
       spy.callCount.should.equal 0
       # console.time 'get'
@@ -77,7 +78,7 @@ describe 'Local Cache', ->
 
     it 'should not recall remote.get for the same ids', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       spy.callCount.should.equal 0
       local.get(['Hitchy', 'Scratchy'])
       .then (res)->
@@ -90,7 +91,7 @@ describe 'Local Cache', ->
 
     it 'should recall remote.get for different ids', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       spy.callCount.should.equal 0
       local.get(['Melchior', 'Baltazar'])
       .then (res)->
@@ -103,7 +104,7 @@ describe 'Local Cache', ->
 
     it 'should return an indexed collection by default', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       local.get(['do', 're'])
       .then (res)->
         res.should.be.an.Object()
@@ -120,7 +121,7 @@ describe 'Local Cache', ->
 
     it 'should return a collection if requested in options', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       local.get(['mi', 'fa'], 'collection')
       .then (res)->
         res.should.be.an.Array()
@@ -137,7 +138,7 @@ describe 'Local Cache', ->
 
     it 'should refresh when asked', (done)->
       [opts, spy] = getOptions()
-      local = new LocalCache opts
+      local = localCache opts
       spy.callCount.should.equal 0
       local.get(['sol', 'la'])
       .then (res)->
