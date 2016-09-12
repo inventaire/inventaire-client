@@ -6,9 +6,10 @@ console.log('host', host)
 pages = require './pages'
 breq = require 'bluereq'
 Promise = require 'bluebird'
-require 'colors'
 { diffLines } = require 'diff'
 _ = require 'lodash'
+
+{ grey, cyan, green, red } = require 'chalk'
 
 checkChanges = (page)->
   old = "#{prerenderUrl}/#{host}/#{page}"
@@ -18,7 +19,7 @@ checkChanges = (page)->
     breq.get updated
     .then (res2)->
       if res1.body is res2.body
-        console.log 'no change:'.grey, "/#{page}"
+        console.log grey('no change:'), "/#{page}"
         return null
       else return data =
         page: page
@@ -30,15 +31,15 @@ Promise.all pages.map(checkChanges)
   _.compact changes
   .forEach (change)->
     { page, diff } = change
-    console.log 'changed:'.cyan, page
+    console.log cyan('changed:'), page
     diff.forEach (part)->
       { added, removed, value } = part
-      if added? then console.log value.green
-      else if removed? then console.log value.red
+      if added? then console.log green(value)
+      else if removed? then console.log red(value)
       # else
       #   lines = value.split('\n')
       #   head = lines[0..1].join('\n')
       #   tail = lines[-2..-1].join('\n')
       #   value = "#{head}\n[...]\n#{tail}"
-      #   console.log value.grey
+      #   console.log grey(value)
 .catch (err)-> console.log('ERR', err)

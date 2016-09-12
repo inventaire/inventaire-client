@@ -1,7 +1,7 @@
 #!/usr/bin/env coffee
 { get } = require 'bluereq'
 _ = require 'lodash'
-require 'colors'
+{ green, grey, red } = require 'chalk'
 Promise = require '../lib/bluebird'
 
 root = require('./get_root')()
@@ -21,14 +21,14 @@ buildUrl = (path)->
   url += if /\?/.test path then '&' else '?'
   url += customQuery
 
-  console.log 'get'.grey, url.grey
+  console.log grey('get'), grey(url)
   return url
 
 
 passSectionTests = (sectionTests, html)->
   for label, test of sectionTests
     test html
-    console.log 'ok'.green, k, label
+    console.log green('ok'), k, label
 
 rejectEmptyHtml = (html)->
   unless html? then throw new Error "couldn't reach #{root}"
@@ -39,14 +39,14 @@ passSectionsTests = (k, v)->
   .then _.property('body')
   .then rejectEmptyHtml
   .then passSectionTests.bind(null, v.tests)
-  .then -> console.log 'OK'.green, k
+  .then -> console.log green('OK'), k
   .catch (err)->
-    console.log "#{k} err".red, err.stack
+    console.log red("#{k} err"), err.stack
     throw err
 
 for k, v of tests
   promises.push passSectionsTests(k, v)
 
 Promise.all promises
-.then -> console.log 'the build was successfully tested: ready for deploy!'.green
-.catch (err)-> console.log 'global err'.red, err.stack
+.then -> console.log green('the build was successfully tested: ready for deploy!')
+.catch (err)-> console.log red('global err'), err.stack

@@ -3,7 +3,7 @@ _ = require 'lodash'
 writeSitemap = require './write_sitemap'
 Promise = require '../lib/bluebird'
 { folder, wdq, autolists } = require './config'
-
+{ green, blue } = require 'chalk'
 
 module.exports = ->
   promises = []
@@ -15,7 +15,7 @@ module.exports = ->
 generateFilesFromWdqItems = (name, tupple)->
   [ P, Q ] = tupple
   url = wdq P, Q
-  console.log 'wdq url'.blue, url
+  console.log blue('wdq url'), url
   breq.get url
   .then _.property('body.items')
   .then getParts.bind(null, name)
@@ -33,7 +33,7 @@ getParts = (name, items)->
       items: part
       index: index
 
-  console.log "got #{index} parts".green
+  console.log green("got #{index} parts")
   return parts
 
 generateFile = (part)->

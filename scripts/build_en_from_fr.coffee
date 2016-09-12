@@ -3,11 +3,11 @@
 unless /client$/.test process.cwd()
   throw new Error 'this script should be run from the /client/ folder'
 
-require 'colors'
 fs = require 'graceful-fs'
 Promise = require './lib/bluebird'
 Promise.promisifyAll(fs)
 _ = require 'lodash'
+{ yellow, red } = require 'chalk'
 
 __ =
   src:
@@ -24,10 +24,10 @@ json_  =
     .then (text)-> JSON.parse text.toString()
     .catch (err)->
       if err?.cause?.errno is 34
-        console.log "file not found: #{path}".yellow
+        console.log yellow("file not found: #{path}")
         return {}
       else
-        console.log "error reading file at #{path}".red, err.stack
+        console.log red("error reading file at #{path}"), err.stack
         throw err
 
   write: (path, data)->

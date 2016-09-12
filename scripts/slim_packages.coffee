@@ -1,7 +1,7 @@
 #!/usr/bin/env coffee
 fs = require 'graceful-fs'
 ls = require 'ls'
-require 'colors'
+{ green, red } = require 'chalk'
 
 # to be fired at project root
 packages = ls( process.cwd() + '/node_modules/level**/package.json').map (res)-> res.full
@@ -32,6 +32,6 @@ packages.forEach (file)->
 
     fs.writeFile file, updatedJson, (err, body)->
       if err?
-        console.error('err'.red, err)
+        console.error(red('err'), err)
       else
-        console.log "slimed #{name} package.json\n".green
+        console.log green("slimed #{name} package.json\n")

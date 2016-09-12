@@ -7,8 +7,9 @@
 unless /client$/.test process.cwd()
   throw new Error 'this script should be run from the /client/ folder'
 
-require 'colors'
-console.time 'total'.grey
+{ grey, red } = require 'chalk'
+
+console.time grey('total')
 Promise = require './lib/bluebird'
 { universalPath } = require 'config'
 args = process.argv.slice(2)
@@ -17,11 +18,11 @@ langs = universalPath.require('i18nSrc', './lib/validate_lang')(args)
 extendLangWithDefault = require './lib/i18n/extend_lang_with_default'
 createDirs = require './lib/i18n/create_dirs'
 
-console.time 'generate'.grey
+console.time grey('generate')
 
 createDirs()
 .then -> Promise.all langs.map(extendLangWithDefault)
 .then ->
-  console.timeEnd 'generate'.grey
-  console.timeEnd 'total'.grey
-.catch (err)-> console.log 'global err'.red, err.stack
+  console.timeEnd grey('generate')
+  console.timeEnd grey('total')
+.catch (err)-> console.log red('global err'), err.stack

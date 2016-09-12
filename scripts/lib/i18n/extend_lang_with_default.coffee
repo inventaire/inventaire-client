@@ -6,6 +6,7 @@ getSources = require './get_sources'
 findKeys = universalPath.require 'i18nSrc', 'lib/find_keys'
 updateAndArchive = require './update_and_archive'
 writeDistVersion = require './write_dist_version'
+{ red } = require 'chalk'
 
 module.exports = extendLangWithDefault = (lang)->
   Promise.props getSources(lang)
@@ -49,5 +50,5 @@ module.exports = extendLangWithDefault = (lang)->
     return Promise.all [promA, promB]
 
   .catch (err)->
-    console.error "#{lang} err".red, err.stack
+    console.error red("#{lang} err"), err.stack
     throw err

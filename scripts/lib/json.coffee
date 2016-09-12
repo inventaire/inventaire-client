@@ -1,4 +1,3 @@
-require 'colors'
 fs = require 'graceful-fs'
 Promise = require './bluebird'
 Promise.promisifyAll(fs)
@@ -15,7 +14,7 @@ read = (path, createIfMissing=true)->
   Promise.try -> require(absolutePath)
   .catch (err)->
     if err.code is 'MODULE_NOT_FOUND' and createIfMissing
-      console.log "file not found: #{path}. Creating: {}".yellow
+      console.log yellow("file not found: #{path}. Creating: {}")
       fs.writeFile path, '{}'
       return {}
     else

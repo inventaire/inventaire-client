@@ -3,7 +3,7 @@ CONFIG = require 'config'
 __ = CONFIG.universalPath
 _ = __.require 'builders', 'utils'
 translatedLangs = require('./lib/i18n/langs').translated
-require 'colors'
+{ green, yellow, green, red } = require 'chalk'
 
 # For Live projects, Transifex doesn't pass the original key
 # just a hash of the content and the source_string -_-
@@ -59,7 +59,7 @@ fetchTranslation = (resource, lang, enVersion)->
   # console.log('url', url)
   breq.get url
   .then (res)->
-    # console.log 'received'.green, lang
+    # console.log green('received'), lang
     strings = res.body
     translations = {}
     # console.log('strings', typeof strings, Object.keys(strings))
@@ -68,18 +68,18 @@ fetchTranslation = (resource, lang, enVersion)->
       { translation } = strObj
       val = if translation isnt '' then formatValue(translation) else null
       if key? then translations[key] = val
-      else console.warn 'key not found: ignoring'.yellow, strObj
+      else console.warn yellow('key not found: ignoring'), strObj
 
     pathBase = projects[resource].path
     json_.write "#{pathBase}#{lang}.json", translations
     .then (res)->
-      console.log 'saved'.green, resource, lang
+      console.log green('saved'), resource, lang
       if res? then console.log res
 
   .catch (err)->
     # if res.statusCode is 404
       # throw new Error "#{resource} - #{lang} : Not Found\n url: #{url}"
-    console.error 'err', resource, lang, err.stack or err
+    console.error red('err'), resource, lang, err.stack or err
     throw err
 
 

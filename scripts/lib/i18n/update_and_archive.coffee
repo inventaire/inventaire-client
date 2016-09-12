@@ -2,16 +2,17 @@ Promise = require '../bluebird'
 __ = require '../paths'
 _ = require 'lodash'
 json_  = require '../json'
+{ red, blue } = require 'chalk'
 
 module.exports =  (params)->
   { lang } = params
 
   Promise.all getUpdatePromises(params, lang)
   .then (res)->
-    if res is false then console.log "#{lang} src empty: not updated".blue
-    else console.log "#{lang} src updated!".blue
+    if res is false then console.log blue("#{lang} src empty: not updated")
+    else console.log blue("#{lang} src updated!")
   .catch (err)->
-    console.log "couldnt update #{lang} src files", err.stack
+    console.log red("couldnt update #{lang} src files"), err.stack
     throw err
 
 getUpdatePromises = (params, lang)->

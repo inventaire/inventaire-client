@@ -4,6 +4,7 @@ json_  = require '../json'
 exec = Promise.promisify require('child_process').exec
 wdpropsCmd = './node_modules/.bin/wdprops'
 activeLangs = require('./langs').active
+{ red, blue, green } = require 'chalk'
 
 module.exports = (lang)->
   path = __.src.wikidataArchive lang
@@ -16,11 +17,11 @@ module.exports = (lang)->
 
   # forcing to get a path despite the file not being there yet
   path = __.src.wikidataArchive lang, true
-  console.log "missing Wikidata properties for #{lang}: fetching".blue
+  console.log blue("missing Wikidata properties for #{lang}: fetching")
   exec "#{wdpropsCmd} #{lang} > #{path}"
   .then ->
-    console.log "#{lang} Wikidata properties fetched!: saved at #{path}".green
+    console.log green("#{lang} Wikidata properties fetched!: saved at #{path}")
     return json_.read path
   .catch (err)->
-    console.error 'langWdArchive err', err
+    console.error red('langWdArchive err'), err
     throw err
