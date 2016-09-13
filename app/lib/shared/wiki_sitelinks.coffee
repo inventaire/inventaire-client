@@ -24,7 +24,7 @@ getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, origina
     [ title, langCode ] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
 
   if title? and langCode
-    title = encodeURIComponent title
+    title = _.fixedEncodeURIComponent title
     url = "https://#{langCode}.#{projectRoot}.org/wiki/#{title}"
     return {title: title, lang: langCode, url: url}
 

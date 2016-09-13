@@ -4,4 +4,4 @@ module.exports =
   emailValidation: (email)->
     _.buildPath publik,
       service: 'email-validation'
-      email: encodeURIComponent email
+      email: _.fixedEncodeURIComponent email

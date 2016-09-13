@@ -23,7 +23,7 @@ module.exports = (promises_, _, wdk)->
     entityIsArticle: (entity)-> helpers.isArticle entity.claims['wdt:P31']
 
     wmCommonsSmallThumb: (file, width="100")->
-      file = encodeURIComponent file
+      file = _.fixedEncodeURIComponent file
       "https://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
   helpers.unprefix = unprefix = (value)-> value.replace 'wd:', ''

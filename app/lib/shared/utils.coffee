@@ -65,6 +65,13 @@ module.exports = (_)->
   # might look at an anonymous function wanting to turn it into a named function
   Full: (fn, context, args...)-> fullFn = -> fn.apply context, args
 
+  # encodeURIComponent ignores !, ', (, ), and *
+  # cf https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent#Description
+  fixedEncodeURIComponent: (str)->
+    encodeURIComponent(str).replace /[!'()*]/g, encodeCharacter
+
+encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
+
 removeUndefined = (obj)->
   newObj = {}
   for k,v of obj

@@ -7,8 +7,8 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     General: {}
   initialize: ->
-    @href =  encodeURIComponent host + document.location.pathname
-    @title =  encodeURIComponent document.title
+    @href =  _.fixedEncodeURIComponent host + document.location.pathname
+    @title =  _.fixedEncodeURIComponent document.title
   onShow: -> app.execute 'modal:open'
 
   serializeData: ->

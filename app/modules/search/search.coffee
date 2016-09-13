@@ -28,12 +28,12 @@ API.search = (query)->
     app.execute 'show:add:layout:search'
     return
 
-  searchLayout = new SearchLayout
-    query: _.softDecodeURI(query)
+  searchLayout = new SearchLayout { query }
 
   docTitle = "#{query} - " +  _.i18n('Search')
   app.layout.main.Show searchLayout, docTitle
-  app.navigate "search?q=#{query}"
+  encodedQuery = _.fixedEncodeURIComponent query
+  app.navigate "search?q=#{encodedQuery}"
 
 API.searchFromQueryString = (querystring)->
   { q } = _.parseQuery querystring

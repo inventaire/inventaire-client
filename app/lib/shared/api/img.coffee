@@ -5,7 +5,7 @@ module.exports = (_, root='')->
     unless _.isNonEmptyString path then return
     if /^http/.test path
       key = _.hashCode path
-      href = encodeURIComponent path
+      href = _.fixedEncodeURIComponent path
       "#{root}/img/#{width}x#{height}/#{key}?href=#{href}"
     else
       path = path.replace '/img/', ''

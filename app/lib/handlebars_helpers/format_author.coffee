@@ -21,5 +21,5 @@ formatString = (str, linkify)->
 
 linkifyAuthorString = (text)->
   str = escapeExpression text
-  q = encodeURIComponent text
+  q = _.fixedEncodeURIComponent text
   return "<a href='/search?q=#{q}' class='link searchAuthor'>#{str}</a>"
