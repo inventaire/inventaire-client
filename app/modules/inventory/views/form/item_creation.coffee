@@ -100,13 +100,13 @@ module.exports = Marionette.LayoutView.extend
   updateTransaction: ->
     transaction = getSelectorData @, 'transaction'
     app.execute 'last:transaction:set', transaction
-    @updateItem { transaction: transaction }
+    @updateItem { transaction }
     .catch _.Error('updateTransaction err')
 
   updateListing: ->
     listing = getSelectorData @, 'listing'
     app.execute 'last:listing:set', listing
-    @updateItem { listing: listing }
+    @updateItem { listing }
     .catch _.Error('updateListing err')
 
   updateDetails: -> @updateTextAttribute 'details'

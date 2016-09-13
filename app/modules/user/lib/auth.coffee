@@ -55,7 +55,7 @@ fakeFormSubmit = (username, password)->
   $('#browserLogin').trigger('submit')
 
 passwordResetRequest = (email)->
-  _.preq.post app.API.auth.resetPassword, { email: email }
+  _.preq.post app.API.auth.resetPassword, { email }
 
 # classic login finds the redirect parameter in form#browserLogin action
 prepareLoginRedirect = (redir)->

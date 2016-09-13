@@ -8,7 +8,7 @@ module.exports = Filterable.extend
     latLng = @get 'position'
     if latLng?
       [ lat, lng ] = latLng
-      return { lat: lat, lng: lng }
+      return { lat, lng }
     else
       return {}
 

@@ -118,7 +118,7 @@ module.exports = Marionette.LayoutView.extend
         selector: "##{nameBase}Editor"
 
   showComments:->
-    @commentsRegion.show new ItemComments { model: @model }
+    @commentsRegion.show new ItemComments { @model }
 
   showTransactions: ->
     @transactions ?= app.request 'get:transactions:ongoing:byItemId', @model.id

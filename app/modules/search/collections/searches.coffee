@@ -3,7 +3,7 @@ module.exports = Backbone.Collection.extend
   # dedupplicating searches
   addNonExisting: (data)->
     { query } = data
-    model = @where({ query: query })[0]
+    model = @where({ query })[0]
 
     # create the model if not existing
     if model? then model.updateTimestamp()

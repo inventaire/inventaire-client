@@ -19,7 +19,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     unless @model.type is 'edition'
-      @title.show new TitleEditor { model: @model }
+      @title.show new TitleEditor { @model }
 
     @claims.show new PropertiesEditor
       collection: @properties

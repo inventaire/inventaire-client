@@ -88,7 +88,7 @@ module.exports = Marionette.LayoutView.extend
       @$el.addClass 'with-bg-image'
 
   showGenreData: ->
-    @genreRegion.show new GenreData { model: @model }
+    @genreRegion.show new GenreData { @model }
 
   showResults: ->
     for type in ['authors', 'books']

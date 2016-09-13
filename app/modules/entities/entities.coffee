@@ -104,7 +104,7 @@ API =
         unless el? then return _.warn 'missing entity'
 
         # Passing the refresh option to let it be passed to possible subentities
-        model = new Model el, { refresh: refresh }
+        model = new Model el, { refresh }
         app.entities.add model
         return model
       return models
@@ -197,7 +197,7 @@ setHandlers = ->
 
     'show:entity:create': (type, label)->
       showEntityCreate type, label
-      path = _.buildPath 'entity/new', { type: type, label: label }
+      path = _.buildPath 'entity/new', { type, label }
       app.navigate path
 
   app.reqres.setHandlers

@@ -45,4 +45,4 @@ module.exports =
       api: 'en-wikipedia-image'
       title: enWpTitle
 
-  isbn: (isbn)-> _.buildPath publik, { isbn: isbn }
+  isbn: (isbn)-> _.buildPath publik, { isbn }

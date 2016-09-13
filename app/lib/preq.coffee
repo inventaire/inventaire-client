@@ -36,7 +36,7 @@ module.exports = _.extend preq,
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
 
-  getScript: (url)-> wrap $.getScript(url), { type: 'GET', url: url }
+  getScript: (url)-> wrap $.getScript(url), { type: 'GET', url }
 
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return

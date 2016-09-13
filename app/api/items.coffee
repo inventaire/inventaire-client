@@ -1,7 +1,7 @@
 { public:publik, authentified } = require('./endpoint')('items')
 
 itemsPublic = (action, query={})->
-  _.buildPath publik, _.extend(query, { action: action })
+  _.buildPath publik, _.extend(query, { action })
 
 module.exports =
   authentified: authentified
