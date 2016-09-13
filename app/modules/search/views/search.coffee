@@ -108,31 +108,17 @@ module.exports = Marionette.LayoutView.extend
   displayResults: ->
     { humans, authors, books, editions } = resultsCache
 
-    @showAuthors authors, humans
-    @showBooks books
-    @showEditions editions
-
-  showAuthors: (authors, humans)->
     if authors?.length is 0 then authors = humans
-    if authors?.length > 0
-      authorsList = new ResultsList {collection: authors, type: 'authors'}
-      @authors.show authorsList
+    @_displayTypeResults authors, 'authors'
+    @_displayTypeResults books, 'books'
+    @_displayTypeResults editions, 'editions'
 
-      @saveSearchPictures authors
+  _displayTypeResults: (collection, type)->
+    if collection?.length > 0
+      list = new ResultsList { collection, type }
+      @[type].show list
 
-  showBooks: (books)->
-    if books?.length > 0
-      booksList = new ResultsList {collection: books, type: 'books' }
-      @books.show booksList
-
-      @saveSearchPictures books
-
-  showEditions: (editions)->
-    if editions?.length > 0
-      editionsList = new ResultsList {collection: editions, type: 'editions' }
-      @editions.show editionsList
-
-      @saveSearchPictures editions
+      @saveSearchPictures collection
 
   showFindByIsbn: ->
     @ui.showFindByIsbnButton.slideUp()
