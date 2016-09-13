@@ -42,9 +42,12 @@ createWorkEdition = (workEntity, isbn)->
       # instance of (P31) -> edition (Q3331189)
       'wdt:P31': ['wd:Q3331189']
       # isbn 13 (isbn 10 will be added by the server)
-      'wdt:P212': [ isbnData.isbn13 ]
+      'wdt:P212': [ isbnData.isbn13h ]
       # edition or translation of (P629) -> created book
       'wdt:P629': [ workEntity.get('uri') ]
+
+    if isbnData.image?
+      claims['wdt:P18'] = [ isbnData.image ]
 
     return createEntity {}, claims
     .then (editionEntity)->
