@@ -13,8 +13,8 @@ This repository tracks the client-side developments, while the [server-side can 
 
 Both are licenced [AGPL3](http://www.gnu.org/licenses/agpl-3.0.html)
 
-## Stack approximative overview
-![stack-en](http://profile.maxlath.eu/slides/backbone-meetup/img/stack-en.jpg)
+## inventaire stack map
+[![stack](https://raw.githubusercontent.com/inventaire/stack/master/snapshots/stack-from-client.png)](https://inventaire.github.io/stack/)
 
 ## License
 [AGPL](LICENSE.md)
