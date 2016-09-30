@@ -2,22 +2,22 @@ breq = require 'bluereq'
 _ = require 'lodash'
 writeSitemap = require './write_sitemap'
 Promise = require '../lib/bluebird'
-{ folder, wdq, autolists } = require './config'
+{ folder, wdQuery, autolists } = require './config'
 { green, blue } = require 'chalk'
 
 module.exports = ->
   promises = []
   for name, tupple of autolists
-    promises.push generateFilesFromWdqItems name, tupple
+    promises.push generateFilesFromClaim name, tupple
 
   return Promise.all promises
 
-generateFilesFromWdqItems = (name, tupple)->
+generateFilesFromClaim = (name, tupple)->
   [ P, Q ] = tupple
-  url = wdq P, Q
-  console.log blue('wdq url'), url
+  url = wdQuery P, Q
+  console.log blue('wdQuery url'), url
   breq.get url
-  .then _.property('body.items')
+  .then _.property('body.entities')
   .then getParts.bind(null, name)
   .map generateFile
 
