@@ -1,9 +1,12 @@
+{ Check } = require 'modules/general/plugins/behaviors'
+
 module.exports = Marionette.ItemView.extend
   className: 'validEmailConfirmation'
   template: require './templates/valid_email_confirmation'
   behaviors:
     Loading: {}
     General: {}
+    SuccessCheck: {}
 
   events:
     'click .showHome, .showLoginRedirectSettings': -> app.execute 'modal:close'
@@ -19,11 +22,10 @@ module.exports = Marionette.ItemView.extend
   emailConfirmationRequest: ->
     @$el.trigger 'loading'
     app.request 'email:confirmation:request'
-    .then emailSent
+    .then Check.call(@, 'emailConfirmationRequest', app.Execute('modal:close'))
     .catch emailFail.bind(@)
 
   showLoginRedirectSettings: ->
     app.request 'show:login:redirect', 'settings/profile'
 
-emailSent = -> app.execute 'modal:close'
 emailFail = -> @$el.trigger 'somethingWentWrong'
