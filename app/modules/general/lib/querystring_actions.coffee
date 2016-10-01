@@ -8,7 +8,7 @@ module.exports = ->
 
     # we need to wait for app.user to be ready to get the validEmail value
     app.request 'wait:for', 'user'
-    .then -> app.request 'waitForLayout'
+    .then -> app.request 'wait:for', 'layout'
     .then showValidEmailConfirmation.bind(null, validEmail)
 
 showValidEmailConfirmation = (validEmail)->
