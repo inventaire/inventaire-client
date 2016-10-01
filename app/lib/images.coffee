@@ -4,10 +4,8 @@ error_ = require 'lib/error'
 handlers =
   addDataUrlToArray: (file, array, event)->
     resize.photo file, 600, 'dataURL', (data)->
-      array.unshift(data)
-      if array.trigger? and event?
-        array.trigger(event)
-
+      array.unshift data
+      if array.trigger? and event? then array.trigger event
 
   getUrlDataUrl: (url)->
     if /^http/.test url then url = app.API.proxy url
@@ -82,10 +80,9 @@ handlers =
   del: (imageUrlToDelete)->
     _.preq.post app.API.upload.del, {urls: imageUrlToDelete}
     .then _.Log('image del res')
-    .catch _.Error('image del err')
+    .catch _.ErrorRethrow('image del err')
 
-  getNonResizedUrl: (url)->
-    url.replace /\/img\/\d+x\d+\//, '/img/'
+  getNonResizedUrl: (url)-> url.replace /\/img\/\d+x\d+\//, '/img/'
 
 getResizedDimensions = (width, height, maxSize)->
   if width > height
