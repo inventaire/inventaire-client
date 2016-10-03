@@ -41,7 +41,7 @@
     "quagga": "^0.10.2",
     "to-data-url": "^1.0.1",
     "wikidata-lang": "^2.0.3",
-    "wikidata-sdk": "^3.0.1"
+    "wikidata-sdk": "~4.0.5"
   },
   "devDependencies": {
     "after-brunch": "0.0.5",
