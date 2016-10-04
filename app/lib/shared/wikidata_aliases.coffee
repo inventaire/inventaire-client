@@ -19,7 +19,7 @@ Q =
     'wd:Q128093' #ebook
     'wd:Q128093' #ebook
   ]
-  edition: [
+  editions: [
     'wd:Q3331189' #edition
     'wd:Q3972943' #publishing
   ]
@@ -31,14 +31,20 @@ Q =
     'wd:Q5'
     'wd:Q10648343' #duo
     'wd:Q14073567' #sibling duo
-  ]
-  authors: [
     'wd:Q36180' #writer
   ]
   genres: [
     'wd:Q483394' #genre
     'wd:Q223393' #literary genre
   ]
+
+types = {}
+
+for type, typeIds of Q
+  # drop the plural form
+  type = type.replace /s$/, ''
+  for id in typeIds
+    types[id] = type
 
 P =
   'wdt:P50': [
@@ -51,9 +57,8 @@ for mainP, aliasedPs of P
   for aliasedP in aliasedPs
     aliases[aliasedP] = mainP
 
-Q.softAuthors = Q.authors.concat(Q.humans)
-
 module.exports =
   aliases: aliases
+  types: types
   Q: Q
   P: P

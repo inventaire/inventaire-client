@@ -1,5 +1,4 @@
 wd_ = require 'lib/wikidata'
-aliases = sharedLib 'wikidata_aliases'
 
 module.exports =
   fetchAuthorsWorks: (authorModel, refresh)->
@@ -31,6 +30,12 @@ fetchAuthorsWorksEntities = (authorModel, refresh)->
 parseEntities = (entities)->
   # Compaction needed in case entities are missing
   # (typically because of API limits)
-  # Could be optimized with a unique loop dispatcher instead of two filters
-  books: _.compact(entities).filter wd_.entityIsBook
-  articles: _.compact(entities).filter wd_.entityIsArticle
+  entities = _.compact entities
+  books = []
+  articles = []
+  for entity in entities
+    switch wd_.type entity
+      when 'book' then books.push entity
+      when 'article' then articles.push entity
+
+  return { books, articles }
