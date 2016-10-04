@@ -55,6 +55,7 @@
     "clean-css-brunch": "^2.0.0",
     "coffee-script-brunch": "^2.0.0",
     "coffeeify": "^2.0.1",
+    "coffeelint": "^1.16.0",
     "config": "^1.19.0",
     "css-brunch": "^2.0.0",
     "csvtojson": "^0.5.2",
