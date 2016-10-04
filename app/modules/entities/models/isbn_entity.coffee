@@ -6,8 +6,6 @@ module.exports = Entity.extend
   initialize: ->
     @initLazySave()
 
-    # should expect data coming from both google books
-    # and the local entities database (inv-isbn entities)
     @id = @get 'id'
     isbn = @get 'isbn'
     unless isbn?
@@ -25,18 +23,7 @@ module.exports = Entity.extend
       pathname: pathname
       # need to be set for inv-isbn entities
       uri: @uri
-
-  formatAsync: ->
-    @initPictures()
-
-  initPictures: ->
-    pictures = @get('pictures') or []
-    @set 'pictures', pictures
-
-    books_.getImage @uri
-    .map _.property('image')
-    .then pickBestPictures.bind(null, pictures)
-    .then @set.bind(@, 'pictures')
+      pictures: [ @get('image') ]
 
   getAuthorsString: ->
     str = _.compact(@get('authors').map(parseAuthor)).join ', '
@@ -47,13 +34,3 @@ parseAuthor = (a)->
     when 'wikidata_id' then a.label
     when 'string' then a.value
     else null
-
-pickBestPictures = (pictures, newPictures)->
-  pictures = _.uniq pictures.concat(newPictures)
-  filtered = pictures.filter discardGoogleBooksPictures
-  # if we can do without Google Books low quality pictures, that's better
-  if filtered.length > 0 then return filtered
-  else return pictures
-
-gBooks = /books\.google\.com/
-discardGoogleBooksPictures = (picture)-> not gBooks.test picture

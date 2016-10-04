@@ -85,30 +85,33 @@ module.exports = Marionette.LayoutView.extend
   searchEntities: ->
     search = @query
     _.log search, 'search'
-    unless @sameAsPreviousQuery()
-      resultsCache = {}
-      _.preq.get app.API.entities.search(search)
-      .catch _.preq.catch404
-      .then (res)=>
-        # hiding the loader
-        @authors.empty()
-        if res?
-          # _.log res, 'query:searchEntities res'
-          spreadResults res
-        else return
-      .then @displayResults.bind(@)
-      .catch (err)=>
-        @alert 'no item found'
-        @displayResults()
-        _.error err, 'searchEntities err'
+    if @sameAsPreviousQuery() then return
 
-      app.execute 'show:loader', {region: @authors}
+    resultsCache = {}
+    _.preq.get app.API.entities.search(search)
+    .catch _.preq.catch404
+    .then @_parseResponse.bind(@)
+    .then @displayResults.bind(@)
+    .catch @_catchErr.bind(@)
 
+    app.execute 'show:loader', {region: @authors}
+
+  _parseResponse: (res)->
+    # hiding the loader
+    @authors.empty()
+    if res? then spreadResults res
+
+  _catchErr: (err)->
+    @alert 'no item found'
+    @displayResults()
+    _.error err, 'searchEntities err'
 
   displayResults: ->
     { humans, authors, books, editions } = resultsCache
-
     if authors?.length is 0 then authors = humans
+
+    dedupplicateAuthorsBooks authors, books
+
     @_displayTypeResults authors, 'authors'
     @_displayTypeResults books, 'books'
     @_displayTypeResults editions, 'editions'
@@ -140,7 +143,6 @@ module.exports = Marionette.LayoutView.extend
 firstPicture = (model)-> model.get('pictures')[0]
 
 spreadResults = (res)->
-  _.log res, 'res at spreadResults'
   resultsCache =
     humans: new Entities
     authors: new Entities
@@ -148,31 +150,28 @@ spreadResults = (res)->
     editions: new Entities
     search: res.search
 
-  { wd, ol, google, inv } = res
+  { wd, inv, dataseed } = res
 
   if wd? then addWikidataEntities wd.results
-  if ol? then addIsbnEntities ol.results
-  if google? then addIsbnEntities google.results
   if inv? then addInvEntities inv.results
-
+  if dataseed? then addIsbnEntities dataseed.results
 
 addStructuredEntities = (Collection, resultsArray)->
   # instantiating generic wikidata entities first
   # and only upgrading later on more specific Models
   # as methods on Collection greatly ease the sorting process
   entities = new Collection resultsArray
-  for model in entities.models
-    claims = model.get 'claims'
-    if _.isntEmpty(claims['wdt:P31'])
-      if wd_.isBook(claims['wdt:P31'])
-        resultsCache.books.add model
-
-      if wd_.isHuman(claims['wdt:P31'])
-        resultsCache.humans.add model
-
-    if _.isntEmpty(claims['wdt:P106'])
-      if wd_.isAuthor(claims['wdt:P106'])
-        resultsCache.authors.add model
+  for entity in entities.models
+    switch wd_.type entity
+      when 'book' then resultsCache.books.add entity
+      when 'human'
+        # Add it to humans in any case
+        resultsCache.humans.add entity
+        # But if we happen to find entities with the occupation author,
+        # we will keep those only to avoid getting all sorts of non-authors
+        # humans poping up in results (see @displayResults above)
+        { 'wdt:P106':P106 } = entity.claims
+        if wd_.isAuthor P106 then resultsCache.authors.add entity
 
 addWikidataEntities = addStructuredEntities.bind null, WikidataEntities
 addInvEntities = addStructuredEntities.bind null, InvEntities
@@ -182,3 +181,16 @@ addIsbnEntities = (resultsArray)->
   editions = new IsbnEntities resultsArray
   # adding them to the less specific editions collection
   resultsCache.editions.add editions.models
+
+dedupplicateAuthorsBooks = (authors, books)->
+  authorsUris = authors.models.map (author)-> author.get 'uri'
+
+  # Remove books that have an author in the authors list
+  # as they will appear in the author's books list instead
+  toRemove = []
+  books.forEach (book)->
+    if _.haveAMatch book.claims['wdt:P50'], authorsUris
+      # Not removing directly as it would alter the forEach loop
+      toRemove.push book
+
+  books.remove toRemove

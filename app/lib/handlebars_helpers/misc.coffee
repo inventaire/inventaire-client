@@ -51,7 +51,6 @@ module.exports =
 
   timeFromNow: (time)-> moment(time).fromNow()
 
-  # tailored for Google Books dates:
-  # just the year: 1951
-  # or the day in the form: 1951-04-12
+  # Tailored for YYYY-MM-DD date format
+  # to return just the year: YYYY
   dateYear: (date)-> date.split('-')[0]

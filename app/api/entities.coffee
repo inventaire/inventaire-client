@@ -5,7 +5,7 @@ module.exports =
     options =
       action: 'search'
       search: search
-      language: app.user.lang
+      lang: app.user.lang
 
     # WDQ-style filter
     # ex: P31:Q5
