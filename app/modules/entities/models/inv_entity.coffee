@@ -1,6 +1,6 @@
 Entity = require './entity'
 getBestLangValue = require '../lib/get_best_lang_value'
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
 
 module.exports = Entity.extend
   prefix: 'inv'

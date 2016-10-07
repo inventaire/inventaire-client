@@ -1,5 +1,5 @@
 labels = {}
-{ formatLabel } = require 'lib/wikidata'
+{ formatLabel } = require 'lib/wikimedia/wikidata'
 
 module.exports =
   getLabel: (uri, lang)->

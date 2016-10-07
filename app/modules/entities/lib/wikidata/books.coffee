@@ -1,5 +1,4 @@
-wd_ = require 'lib/wikidata'
-books_ = require 'lib/books'
+wd_ = require 'lib/wikimedia/wikidata'
 requestBookCover = require './request_book_cover'
 
 wdBooks_ = {}

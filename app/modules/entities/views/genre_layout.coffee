@@ -1,4 +1,5 @@
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
+commons_ = require 'lib/wikimedia/commons'
 wdGenre_ = require 'modules/entities/lib/wikidata/genre'
 Entities = require 'modules/entities/collections/entities'
 ResultsList = require 'modules/search/views/results_list'
@@ -52,7 +53,7 @@ module.exports = Marionette.LayoutView.extend
       wmCommonsFile = @findPicture()
       if wmCommonsFile?
         @_headerBackgroundSet = true
-        wd_.wmCommonsThumb(wmCommonsFile, window.screen.width)
+        commons_.thumb wmCommonsFile, window.screen.width
         .then @setHeaderBackground.bind(@)
         .catch _.Error('fetchAndSetHeaderBackground')
 

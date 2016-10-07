@@ -1,6 +1,7 @@
 { SafeString } = Handlebars
 
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
+commons_ = require 'lib/wikimedia/commons'
 linkify_ = require './linkify'
 images_ = require './images'
 platforms_ = require './platforms'
@@ -33,7 +34,7 @@ module.exports = API =
   imageClaim: (claims, prop, omitLabel, inline, data)->
     if claims?[prop]?[0]?
       file = claims[prop][0]
-      src = wd_.wmCommonsSmallThumb file, 200
+      src = commons_.smallThumb file, 200
       return new SafeString "<img src=\"#{src}\">"
 
   stringClaim: (args...)->

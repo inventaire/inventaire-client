@@ -1,5 +1,5 @@
 books_ = require 'lib/books'
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
 wdk = require 'wikidata-sdk'
 WikidataEntity = require './models/wikidata_entity'
 IsbnEntity = require './models/isbn_entity'

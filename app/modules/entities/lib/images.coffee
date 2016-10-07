@@ -1,4 +1,6 @@
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
+wikipedia_ = require 'lib/wikimedia/wikipedia'
+commons_ = require 'lib/wikimedia/commons'
 
 module.exports =
   openLibrary: (openLibraryId)->
@@ -10,7 +12,7 @@ module.exports =
 
   wmCommons: (title)->
     # _.log title, 'wm'
-    wd_.wmCommonsThumbData title, 1000
+    commons_.thumbData title, 1000
     .then (data)=>
       { thumbnail, author, license } = data
       setPictureCredits.call @, title, author, license
@@ -19,7 +21,7 @@ module.exports =
 
   enWikipedia: (enWpTitle)->
     # _.log enWpTitle, 'wp'
-    wd_.enWpImage enWpTitle
+    wikipedia_.enWpImage enWpTitle
     .catch _.ErrorRethrow('enWikipedia')
 
 

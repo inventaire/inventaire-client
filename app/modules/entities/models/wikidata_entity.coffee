@@ -1,6 +1,9 @@
 Entity = require './entity'
-wd_ = require 'lib/wikidata'
 wdk = require 'wikidata-sdk'
+wd_ = require 'lib/wikimedia/wikidata'
+sitelinks_ = require 'lib/wikimedia/sitelinks'
+wikipedia_ = require 'lib/wikimedia/wikipedia'
+aliasClaims = require 'lib/wikimedia/alias_claims'
 wdBooks_ = require 'modules/entities/lib/wikidata/books'
 wdAuthors_ = require 'modules/entities/lib/wikidata/books'
 error_ = require 'lib/error'
@@ -65,7 +68,7 @@ module.exports = Entity.extend
       claims = wd_.formatClaims claims
       # Aliasing should happen after rebasing
       # as aliasing needs simplified values (strings, numbers, etc) to test value uniqueness
-      @_updates.claims = claims = wd_.aliasingClaims claims
+      @_updates.claims = claims = aliasClaims claims
       @originalLang = wd_.getOriginalLang claims
 
       publicationDate = claims['wdt:P577']?[0]
@@ -107,16 +110,16 @@ module.exports = Entity.extend
     if sitelinks?
       # required to fetch images from the English Wikipedia
       @enWpTitle = sitelinks.enwiki?.title
-      @_updates.wikipedia = wd_.sitelinks.wikipedia sitelinks, lang
+      @_updates.wikipedia = sitelinks_.wikipedia sitelinks, lang
 
-      @_updates.wikisource = wd_.sitelinks.wikisource sitelinks, lang
+      @_updates.wikisource = sitelinks_.wikisource sitelinks, lang
 
     return
 
   setWikipediaExtract: (lang)->
     title = @get('sitelinks')?["#{lang}wiki"]?.title
     if title?
-      @waitForExtract = wd_.wikipediaExtract lang, title
+      @waitForExtract = wikipedia_.extract lang, title
       .then (extract)=>
         if extract?
           @set 'extract', extract

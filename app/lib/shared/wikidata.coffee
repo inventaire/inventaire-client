@@ -3,13 +3,10 @@
 module.exports = (promises_, _, wdk)->
   API = require('./wikidata_api')(_)
 
-  unprefix = (value)-> value.replace 'wd:', ''
-  addPrefixes = (value)-> "wd:#{value}"
+  unprefixify = (value)-> value.replace 'wd:', ''
 
-  getType = (P31Array, missPrefixes)->
+  getType = (P31Array)->
     unless P31Array? then return
-
-    if missPrefixes then P31Array = P31Array.map addPrefixes
 
     for value in P31Array
       type = types[value]
@@ -19,20 +16,14 @@ module.exports = (promises_, _, wdk)->
     _.warn P31Array, 'type not found'
     return
 
-  return {
+  return helpers =
     API: API
     getType: getType
-    unprefix: unprefix
     getEntities: (ids, languages, props)->
-      url = wdk.getEntities ids.map(unprefix), languages, props
+      url = wdk.getEntities ids.map(unprefixify), languages, props
       return promises_.get url
 
-    getUri: (id)-> 'wd:' + wdk.normalizeId(id)
     isAuthor: (P106Array=[])-> _.haveAMatch Q.authors, P106Array
-
-    wmCommonsSmallThumb: (file, width="100")->
-      file = _.fixedEncodeURIComponent file
-      "https://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
 
     # Takes an entity model
     # Returns a entity type string: book, edition, article, human, genre
@@ -47,4 +38,3 @@ module.exports = (promises_, _, wdk)->
 
       entity.type = getType P31Array
       return entity.type
-    }

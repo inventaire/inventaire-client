@@ -1,7 +1,7 @@
 WdData = require './lib/wikidata/wikidata_data'
 IsbnData = require './lib/isbn/isbn_data'
 InvData = require './lib/inv/inv_data'
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
 books_ = require 'lib/books'
 
 module.exports = (app, _, promises_)->

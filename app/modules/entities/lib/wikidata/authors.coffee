@@ -1,4 +1,4 @@
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
 
 module.exports =
   fetchAuthorsWorks: (authorModel, refresh)->

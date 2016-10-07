@@ -11,7 +11,7 @@ className = 'uriLabel'
 selector = ".#{className}"
 attribute = 'data-uri'
 
-wd_ = require 'lib/wikidata'
+wd_ = require 'lib/wikimedia/wikidata'
 { getLabel, setLabel, getKnownUris, resetLabels } = require './labels_helpers'
 
 language = null
