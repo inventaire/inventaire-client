@@ -1,6 +1,6 @@
 module.exports = ->
 
-  { $el } = @iconNav
+  { $el } = @iconNav
 
   show = ->
     $el.show()

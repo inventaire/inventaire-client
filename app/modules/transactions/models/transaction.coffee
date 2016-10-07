@@ -4,7 +4,7 @@
 # - performed (requester)
 # - returned (owner) (for lending only)
 # - cancelled (owner/requester)
-{ getNextActionsData, isArchived } = require '../lib/next_actions'
+{ getNextActionsData, isArchived } = require '../lib/next_actions'
 cancellableStates = require '../lib/cancellable_states'
 applySideEffects = require '../lib/apply_side_effects'
 

@@ -58,7 +58,7 @@ groupsTabs =
 
 addPath = (category, categoryData)->
   for key, obj of categoryData
-    { section } = obj
+    { section } = obj
     obj.parent = category
     obj.path = "network/#{category}/#{section}"
 

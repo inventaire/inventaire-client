@@ -9,7 +9,7 @@ module.exports = Items.extend
 
   fetchFriendsItems: ->
     ids = @friendsItemsToFetch
-    @friendsItemsToFetch = new Array
+    @friendsItemsToFetch = new Array
     _.preq.get app.API.users.items(ids)
     .then @add.bind(@)
     .always @friendsReady.bind(@)

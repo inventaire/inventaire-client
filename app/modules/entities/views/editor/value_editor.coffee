@@ -8,7 +8,7 @@ module.exports = EditorCommons.extend
   template: require './templates/value_editor'
   behaviors:
     AlertBox: {}
-    AutoComplete: {}
+    AutoComplete: {}
     ConfirmationModal: {}
 
   ui:

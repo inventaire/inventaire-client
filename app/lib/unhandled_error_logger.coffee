@@ -40,7 +40,7 @@ parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
     if context? then report.push context
     return report
   else
-    return [ errorMsg, url, lineNumber, columnNumber ]
+    return [ errorMsg, url, lineNumber, columnNumber ]
 
 
 window.reportErr = (report)->

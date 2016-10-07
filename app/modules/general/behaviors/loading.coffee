@@ -30,7 +30,7 @@ module.exports = Marionette.Behavior.extend
 
   somethingWentWrong: (e, params)->
     unless @hidden
-      @$target or= this.getTarget params
+      @$target or= this.getTarget params
 
       oups = _.I18n 'something went wrong :('
       body = _.icon('bolt') + "<p> #{oups}</p>"

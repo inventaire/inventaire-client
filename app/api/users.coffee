@@ -1,5 +1,5 @@
 { public:publik, authentified } = require('./endpoint')('users')
-{ search, searchByPosition } = require './commons'
+{ search, searchByPosition } = require './commons'
 
 module.exports =
   data: (ids)->

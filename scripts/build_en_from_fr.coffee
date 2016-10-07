@@ -7,7 +7,7 @@ fs = require 'graceful-fs'
 Promise = require './lib/bluebird'
 Promise.promisifyAll(fs)
 _ = require 'lodash'
-{ yellow, red } = require 'chalk'
+{ yellow, red } = require 'chalk'
 
 __ =
   src:

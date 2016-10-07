@@ -15,7 +15,7 @@ createAuthors = (authorsNames, lang)->
   if authorsNames?.length > 0
     return Promise.all authorsNames.map (name)-> createAuthor name, lang
   else
-    return _.preq.resolve []
+    return _.preq.resolve []
 
 createBook = (title, authors, authorsNames, lang)->
   _.types arguments, ['string', 'array', 'array|null', 'string']

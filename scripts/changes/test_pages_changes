@@ -9,7 +9,7 @@ Promise = require 'bluebird'
 { diffLines } = require 'diff'
 _ = require 'lodash'
 
-{ grey, cyan, green, red } = require 'chalk'
+{ grey, cyan, green, red } = require 'chalk'
 
 checkChanges = (page)->
   old = "#{prerenderUrl}/#{host}/#{page}"
@@ -33,7 +33,7 @@ Promise.all pages.map(checkChanges)
     { page, diff } = change
     console.log cyan('changed:'), page
     diff.forEach (part)->
-      { added, removed, value } = part
+      { added, removed, value } = part
       if added? then console.log green(value)
       else if removed? then console.log red(value)
       # else

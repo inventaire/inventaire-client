@@ -1,5 +1,5 @@
 { public:publik, authentified } = require('./endpoint')('groups')
-{ search, searchByPosition } = require './commons'
+{ search, searchByPosition } = require './commons'
 
 module.exports =
   authentified: authentified

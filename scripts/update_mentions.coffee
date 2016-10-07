@@ -37,7 +37,7 @@ readFile csvFile, { encoding: 'utf-8' }
       # convert type to plural form
       type += 's'
       el.text = convertMarkdown el.text
-      mentions[type] or= {}
+      mentions[type] or= {}
       mentions[type][lang] or= []
       mentions[type][lang].push _.omit(el, ['type'])
 

@@ -16,7 +16,7 @@ module.exports = Marionette.ItemView.extend
     else @ui.checkbox.prop 'checked', value
 
   updateSelected: (e)->
-    { checked } = e.currentTarget
+    { checked } = e.currentTarget
     @updatedFromView = true
     @model.set 'selected', checked
     @trigger 'checkbox:change'

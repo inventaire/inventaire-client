@@ -1,7 +1,7 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
 
 module.exports = (source)->
-  { collection, remote } = source
+  { collection, remote } = source
   # FilteredCollection don't have an extend method
   # and do weird things when `call`ed with Backbone.Collection.extend
   # so here is a custom extension

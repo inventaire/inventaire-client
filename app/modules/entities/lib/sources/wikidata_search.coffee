@@ -15,7 +15,7 @@ parse = (res)->
 formatAsSearchResult = (result)->
   { lang } = app.user
   { label, aliases } = result
-  result.labels = {}
+  result.labels = {}
   result.labels[lang] = label
   # overriding the array of aliases
   result.aliases = {}

@@ -15,7 +15,7 @@ module.exports = Marionette.CompositeView.extend
     AlertBox: {}
 
   initialize: ->
-    { @parent } = @options
+    { @parent } = @options
     @parentType = @parent.type
     capitalizedParentType = _.capitaliseFirstLetter @parentType
     @parentTypeFlag = getParentTypeFlab @parentType

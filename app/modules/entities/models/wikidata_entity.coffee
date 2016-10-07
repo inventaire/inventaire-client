@@ -136,7 +136,7 @@ module.exports = Entity.extend
     @waitForPicture = @_pickBestPic openLibraryId, commonsImage
 
   _pickBestPic: (openLibraryId, commonsImage)->
-    getters = {}
+    getters = {}
     if openLibraryId?
       getters.ol = images_.openLibrary.bind @, openLibraryId
 

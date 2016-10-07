@@ -29,4 +29,4 @@ module.exports =
     'confirm_reception': i18nKey 'confirm_reception_one_way'
     # 'waiting_accepted':
     'waiting_confirmation': partialPath 'waiting_confirmation_one_way'
-  inventorying: {}
+  inventorying: {}

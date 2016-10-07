@@ -87,7 +87,7 @@ module.exports = Marionette.LayoutView.extend
     _.log search, 'search'
     if @sameAsPreviousQuery() then return
 
-    resultsCache = {}
+    resultsCache = {}
     _.preq.get app.API.entities.search(search)
     .catch _.preq.catch404
     .then @_parseResponse.bind(@)
@@ -168,7 +168,7 @@ addStructuredEntities = (Collection, resultsArray)->
         # Add it to humans in any case
         resultsCache.humans.add entity
         # But if we happen to find entities with the occupation author,
-        # we will keep those only to avoid getting all sorts of non-authors
+        # we will keep those only to avoid getting all sorts of non-authors
         # humans poping up in results (see @displayResults above)
         { 'wdt:P106':P106 } = entity.claims
         if wd_.isAuthor P106 then resultsCache.authors.add entity
@@ -186,11 +186,11 @@ dedupplicateAuthorsBooks = (authors, books)->
   authorsUris = authors.models.map (author)-> author.get 'uri'
 
   # Remove books that have an author in the authors list
-  # as they will appear in the author's books list instead
+  # as they will appear in the author's books list instead
   toRemove = []
   books.forEach (book)->
     if _.haveAMatch book.claims['wdt:P50'], authorsUris
-      # Not removing directly as it would alter the forEach loop
+      # Not removing directly as it would alter the forEach loop
       toRemove.push book
 
   books.remove toRemove

@@ -8,7 +8,7 @@ module.exports = EditorCommons.extend
   className: -> "#{@cid} title-editor"
   initialize: ->
     { @creating } = @model
-    { @lang } = app.user
+    { @lang } = app.user
     @editMode = if @creating then true else false
     @lazyRender = _.LazyRender @
 

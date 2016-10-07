@@ -1,5 +1,5 @@
 loginPlugin = require 'modules/general/plugins/login'
-{ transifex } = require 'lib/urls'
+{ transifex } = require 'lib/urls'
 { languages } = require 'lib/active_languages'
 mostCompleteFirst = (a, b)-> b.completion - a.completion
 languagesList = _.values(languages).sort mostCompleteFirst

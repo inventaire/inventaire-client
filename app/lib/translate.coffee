@@ -11,7 +11,7 @@ modifiers =
   fr: (key, val, data)->
     if data? and isShortkey key
       k = app.polyglot.phrases[key]
-      { username } = data
+      { username } = data
       if username?
         firstLetter = username[0].toLowerCase()
         if firstLetter in vowels

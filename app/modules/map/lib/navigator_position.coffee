@@ -19,8 +19,8 @@ currentPosition = ->
 
     navigator.geolocation.getCurrentPosition resolve, formattedReject, options
 
-normalizeCoords = (position)->
-  { latitude, longitude } = position.coords
+normalizeCoords = (position)->
+  { latitude, longitude } = position.coords
   return { lat: latitude, lng: longitude }
 
 returnPlaceholderCoords = (err)->
@@ -33,6 +33,6 @@ returnPlaceholderCoords = (err)->
 module.exports = (containerId)->
   currentPosition()
   .timeout 10*1000
-  .then normalizeCoords 
+  .then normalizeCoords
   .then _.Log('current position')
   .catch returnPlaceholderCoords

@@ -41,7 +41,7 @@ module.exports = Filterable.extend
 # Search results arrive as either Wikidata or inventaire documents
 # with ids unprefixed. To solutions to fix it:
 # * formatting search documents to include prefixes
-# * guessing which source the document belongs too from what we get
+# * guessing which source the document belongs too from what we get
 # For the moment, let's keep it easy and use the 2nd solution
 getPrefix = (id)->
   if wdk.isWikidataEntityId id then return ['wd', id]

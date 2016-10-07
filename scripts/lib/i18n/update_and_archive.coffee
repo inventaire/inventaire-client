@@ -5,7 +5,7 @@ json_  = require '../json'
 { red, blue } = require 'chalk'
 
 module.exports =  (params)->
-  { lang } = params
+  { lang } = params
 
   Promise.all getUpdatePromises(params, lang)
   .then (res)->

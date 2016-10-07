@@ -1,4 +1,4 @@
-{ Check } = require 'modules/general/plugins/behaviors'
+{ Check } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   className: 'validEmailConfirmation'

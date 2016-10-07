@@ -15,7 +15,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @subeditor } = @options
     @properties = propertiesCollection @model
-    { @childrenClaimProperty } = @model
+    { @childrenClaimProperty } = @model
 
   onShow: ->
     unless @model.type is 'edition'

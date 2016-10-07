@@ -2,7 +2,7 @@
 
 generateSitemaps = require './generate_sitemaps'
 generateIndex = require './generate_index'
-{ rmFiles, gzipFiles, generateMainSitemap } = require './files_commands'
+{ rmFiles, gzipFiles, generateMainSitemap } = require './files_commands'
 { red } = require 'chalk'
 
 rmFiles()
