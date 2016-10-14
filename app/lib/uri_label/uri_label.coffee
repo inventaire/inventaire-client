@@ -14,6 +14,8 @@ attribute = 'data-uri'
 wd_ = require 'lib/wikimedia/wikidata'
 { getLabel, setLabel, getKnownUris, resetLabels } = require './labels_helpers'
 
+getEntitiesData = require 'modules/entities/lib/get_entities_data'
+
 language = null
 elements = null
 refresh = false
@@ -41,51 +43,32 @@ display = ->
 getEntities = (uris)->
   if uris.length is 0 then return
 
-  wdUris = []
-  invUris = []
+  getEntitiesData { uris }
+  .then _.Log('getEntitiesData res')
+  .then addEntitiesLabels
+  # /!\ Not waiting for the update to run
+  # but simply calling the debounced function
+  .then debouncedUpdate
+  .catch _.Error('uri_label getEntities err')
 
-  for uri in uris
-    [ prefix, id ] = uri.split ':'
-    switch prefix
-      when 'wd' then wdUris.push id
-      when 'inv' then invUris.push id
-      else throw new Error 'unknown prefix'
-
-  # TODO deal with more than 50 entities
-  wdPromise = app.entities.data.wd.local.get wdUris, null, refresh
-    .then addEntitiesLabels.bind(null, 'wd', 'value')
-
-  invPromise = app.entities.data.inv.local.get invUris, null, refresh
-    .then addEntitiesLabels.bind(null, 'inv', null)
-
-  return Promise.all([ wdPromise, invPromise ]).then debouncedUpdate
-
-addEntitiesLabels = (prefix, valueProperty, entities)->
-  for id, entity of entities
-    uri = "#{prefix}:#{id}"
+addEntitiesLabels = (entities)->
+  for uri, entity of entities
     { labels, claims } = entity
-
-    # entities data might have been formatted as a Wikidata_Entity model
-    # thus not needing further formatting
-    if prefix is 'wd' and not entity._formatted
-      claims = wd_.formatClaims claims
 
     setEntityOriginalLang uri, claims, labels
     for lang, label of labels
-      # using valueProperty to parse the different labels objects
-      if valueProperty then label = label[valueProperty]
       setLabel uri, lang, label
 
   return
 
 setEntityOriginalLang = (uri, claims, labels)->
-  originalLang = wd_.getOriginalLang claims, true
-  originalValue = labels[originalLang]?.value
+  originalLang = wd_.getOriginalLang claims
+  originalValue = labels[originalLang]
   if originalValue? then setLabel uri, 'original', originalValue
   return
 
 getMissingEntities = (uris)->
-  missingUris = _.without uris, getKnownUris()
+  missingUris = _.difference uris, getKnownUris()
   if missingUris.length > 0 then return getEntities uris
   else return _.preq.resolved
 
@@ -93,11 +76,11 @@ update = (lang)->
   language = lang
   uris = gatherRequiredUris()
 
-  # do not trigger display when no uri was found at this stage
+  # Do not trigger display when no uri was found at this stage
   if uris.length is 0 then return
 
   getMissingEntities uris
-  # trigger display even if missingUris.length is 0
+  # Trigger display even if missingUris.length is 0
   # has there might be new elements with a known uri
   # but that have not be displayed yet
   .then display
@@ -124,10 +107,10 @@ module.exports =
   update: debouncedUpdate
   refreshData: refreshData
 
-
 # share access to those labels with external modules
 wd_.getLabel = (uris, lang)->
-  # make sure the uris were queried
+  # Make sure the uris were queried
+  # TODO: work around the debounce to make sure the entities returned
   getEntities uris
   .then ->
     labels = _.forceArray(uris).map (uri)-> getLabel uri, lang

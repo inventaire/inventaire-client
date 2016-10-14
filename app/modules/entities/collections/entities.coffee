@@ -1,2 +1,3 @@
 module.exports = Backbone.Collection.extend
-  byUri: (uri)-> @findWhere {uri: uri}
+  model: require '../models/entity'
+  byUri: (uri)-> @findWhere { uri }

@@ -1,6 +1,7 @@
-InvEntity = require '../models/inv_entity'
+Entity = require '../models/entity'
 error_ = require 'lib/error'
-books_ = require 'lib/books'
+isbn_ = require 'lib/isbn'
+createInvEntity = require './inv/create_inv_entity'
 
 createAuthor = (name, lang)->
   _.types arguments, 'strings...'
@@ -36,7 +37,7 @@ createBook = (title, authors, authorsNames, lang)->
 createWorkEdition = (workEntity, isbn)->
   _.types arguments, ['object', 'string']
 
-  books_.getIsbnData isbn
+  isbn_.getIsbnData isbn
   .then (isbnData)->
     claims =
       # instance of (P31) -> edition (Q3331189)
@@ -65,10 +66,10 @@ byProperty = (options)->
 
 createEntity = (labels, claims)->
   _.types arguments, 'objects...'
-  app.entities.data.inv.local.post
-    labels: labels
+  createInvEntity
+    labelsInv: labels
     claims: claims
-  .then (entityData)-> new InvEntity entityData
+  .then (entityData)-> new Entity entityData
 
 module.exports =
   create: createEntity

@@ -1,39 +1,31 @@
 { public:publik, authentified } = require('./endpoint')('entities')
 
 module.exports =
-  search: (search, filter)->
+  search: (search)->
     options =
       action: 'search'
       search: search
       lang: app.user.lang
 
-    # WDQ-style filter
-    # ex: P31:Q5
-    if filter? then options.filter = filter
-
     _.buildPath publik, options
 
-  getImages: (entityUri, data)->
-    _.buildPath publik,
-      action: 'get-images'
-      entity: entityUri
-      data: data
-  isbns: (isbns)->
-    _.buildPath publik,
-      action: 'get-isbn-entities'
-      isbns: _.piped(isbns)
+  get: (uris, refresh)->
+    _.buildPath publik, { action: 'get-entities', uris: uris.join('|') }
+
+  # getImages: (entityUri, data)->
+  #   _.buildPath publik,
+  #     action: 'get-images'
+  #     entity: entityUri
+  #     data: data
+
+  reverseClaims: (property, uri)->
+    _.buildPath publik, { action: 'reverse-claims', property, uri }
+
+  authorWorks: (uri, refresh)->
+    _.buildPath publik, { action: 'author-works', uri, refresh }
+
   inv:
     create: '/api/entities'
-    get: (ids)->
-      _.buildPath publik,
-        action: 'get-inv-entities'
-        ids: _.piped(ids)
-
-    idsByClaim: (property, value)->
-      _.buildPath publik,
-        action: 'ids-by-claim'
-        property: property
-        value: value
 
     claims:
       update: "#{authentified}?action=update-claim"

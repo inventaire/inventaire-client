@@ -1,4 +1,4 @@
-wd_ = require 'lib/wikimedia/wikidata'
+entities_ = require '../entities'
 
 module.exports = wdGenre_ = {}
 
@@ -16,15 +16,15 @@ wdGenre_.fetchBooksAndAuthorsIds = (genreModel)->
     if wdtP135? or wdtP136? then return _.preq.resolved
 
   Promise.all [
-    getClaimSubjects('wdt:P135', genreModel) #mouvement
-    getClaimSubjects('wdt:P136', genreModel) #genre
+    getReverseClaims('wdt:P135', genreModel) #mouvement
+    getReverseClaims('wdt:P136', genreModel) #genre
   ]
   .then _.flatten
   .catch _.ErrorRethrow('wdGenre_.fetchBooksAndAuthorsIds')
 
-getClaimSubjects = (prop, genreModel)->
-  uri = genreModel.get('uri')
-  wd_.getClaimSubjects prop, uri
+getReverseClaims = (prop, genreModel)->
+  uri = genreModel.get 'uri'
+  entities_.getReverseClaims prop, uri
   .then _.uniq
   .then genreModel.save.bind(genreModel, "reverseClaims.#{prop}")
 
@@ -49,7 +49,7 @@ wdGenre_.spreadBooksAndAuthors = (books, authors, entities)->
   unless entities? then return _.warn 'no entities to spread'
 
   for entity in entities
-    switch wd_.type entity
+    switch  entity.type
       when 'book' then books.add entity
       when 'human' then authors.add entity
       else _.warn [entity, entity.get('label'), entity.get('claims.wdt:P31')], 'neither a book or a human'

@@ -1,14 +1,14 @@
 <div class="innerAuthorLi">
   <div class='infobox'>
-    {{#if pictures}}
-      <img src='{{src pictures 600}}' alt='{{label}} cover'>
+    {{#if image.url}}
+      <img src='{{src image.url 600}}' alt='{{label}} cover'>
     {{/if}}
     <div class="authorData text-center">
       <h3><a class="showEntity link" href="{{pathname}}">{{label}}</a></h3>
       <h4 class="subheader">{{description}}</h4>
       {{partial 'entities:author_claims' this}}
       <p class="extract">{{{extract}}}</p>
-      {{partial 'entities:photo_credits' pictureCredits}}
+      {{partial 'entities:photo_credits' image.credits}}
     </div>
   </div>
 

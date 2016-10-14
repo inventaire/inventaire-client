@@ -3,7 +3,7 @@
     <a class="zoom-button">
       <img src="{{src pictures 200 400}}"
       data-zoom-toggle="{{src pictures 500 1000}}"
-      alt='{{title}} cover'>
+      alt='{{label}} cover'>
       <span class="buttons">
         <span>{{icon 'search-plus'}}</span>
         <span class="hidden">{{icon 'search-minus'}}</span>
@@ -12,7 +12,7 @@
   {{/if}}
 </div>
 <div class="bookLiData">
-  <h3><a class="showEntity link" href="{{pathname}}">{{title}}</a></h3>
+  <h3><a class="showEntity link" href="{{pathname}}">{{label}}</a></h3>
   {{#if description}}
     <p class="clamped grey">{{{description}}}</p>
   {{/if}}

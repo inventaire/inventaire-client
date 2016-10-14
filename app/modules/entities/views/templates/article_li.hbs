@@ -1,14 +1,14 @@
 {{#if pictures}}
 <div>
-  <img src='{{src pictures 150}}' alt='{{title}}'>
+  <img src='{{src pictures 150}}' alt='{{label}}'>
 </div>
 {{/if}}
 <div class="main">
   <h4>
     {{#if href}}
-      {{iconLinkText 'link' href title}}
+      {{iconLinkText 'link' href label}}
     {{else}}
-      {{title}}
+      {{label}}
     {{/if}}
     {{#if hasDate}}
       <span class="date">

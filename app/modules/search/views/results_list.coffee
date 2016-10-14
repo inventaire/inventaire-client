@@ -6,14 +6,13 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: '.resultsList'
   getChildView: ->
     switch @options.type
-      when 'books' then BookLi
-      when 'editions' then BookLi
       when 'authors' then AuthorLi
+      when 'books', 'editions' then BookLi
       else throw new Error 'unvalid type provided: cant choose getChildView'
   emptyView: require 'modules/inventory/views/no_item'
 
   serializeData: ->
-    type: _.i18n @options.type
+    type: @options.type
 
   collectionEvents:
     'add': 'hideIfEmpty'

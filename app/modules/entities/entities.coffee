@@ -1,9 +1,7 @@
-books_ = require 'lib/books'
+isbn_ = require 'lib/isbn'
 wd_ = require 'lib/wikimedia/wikidata'
 wdk = require 'wikidata-sdk'
-WikidataEntity = require './models/wikidata_entity'
-IsbnEntity = require './models/isbn_entity'
-InvEntity = require './models/inv_entity'
+Entity = require './models/entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'
 EntityShow = require './views/entity_show'
@@ -12,6 +10,8 @@ GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
 createEntityDraftModel = require './lib/create_entity_draft_model'
+getEntitiesData = require './lib/get_entities_data'
+createInvEntity = require './lib/inv/create_inv_entity'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -32,7 +32,6 @@ module.exports =
   initialize: ->
     setHandlers()
     app.entities = new Entities
-    app.entities.data = require('./entities_data')(app, _, _.preq)
 
 API =
   showEntity: (uri, label, params, region)->
@@ -52,7 +51,7 @@ API =
     .catch handleMissingEntityError.bind(null, 'showEntity err')
 
   _getEntityView: (prefix, id, refresh)->
-    @getEntityModel prefix, id, refresh
+    getEntityModel prefix, id, refresh
     .tap replaceEntityPathname.bind(null, '')
     .then @_getDomainEntityView.bind(@, prefix, refresh)
 
@@ -63,16 +62,15 @@ API =
       else _.error "getDomainEntityView err: unknown domain #{prefix}"
 
   getWikidataEntityView: (entity, refresh)->
-    switch wd_.type entity
+    switch entity.type
       when 'human' then @getAuthorView entity, refresh
       when 'book' then @getCommonBookEntityView entity
       # display anything else as a genre
       # so that in the worst case it's just a page with a few data
       # and not a page you can 'add to your inventory'
-      else new GenreLayout {model: entity}
+      else new GenreLayout { model: entity }
 
-  getCommonBookEntityView: (entity)->
-    new EntityShow {model: entity}
+  getCommonBookEntityView: (entity)-> new EntityShow { model: entity }
 
   getAuthorView: (entity, refresh)->
     new AuthorLi
@@ -82,56 +80,8 @@ API =
       initialLength: 20
       refresh: refresh
 
-  getEntitiesModels: (prefix, ids, refresh)->
-    # make sure its a 'true' flag and not an object incidently passed
-    refresh = refresh is true
-    try Model = getModelFromPrefix(prefix)
-    catch err then return _.preq.reject(err)
-
-    app.entities.data.get prefix, ids, 'collection', refresh
-    .then (data)->
-      unless data?
-        throw error_.new 'no data at getEntitiesModels', arguments
-
-      models = data.map (el)->
-        # Possible reasons for missing entities:
-        # - no match found in inventaire entities database
-        # - no match found in external databases or API limited were exceeded
-        # - no pagination makes request overflow the source API limit
-        #   ex: wikidata limits to 50 entities per calls
-        # If an an item was created using an isbn that can't be found
-        # the server is expected to create an entity from the item's data
-        unless el? then return _.warn 'missing entity'
-
-        # Passing the refresh option to let it be passed to possible subentities
-        model = new Model el, { refresh }
-        app.entities.add model
-        return model
-      return models
-
-  getEntitiesModelsWithCatcher: ->
-    @getEntitiesModels.apply @, arguments
-    .catch _.Error('getEntitiesModels err')
-
-  getEntityModel: (prefix, id, refresh)->
-    unless prefix? and id?
-      throw error_.new 'missing prefix or id', arguments
-
-    @getEntitiesModels prefix, id, refresh
-    .then (models)->
-      if models?[0]? then return models[0]
-      else
-        # see getEntitiesModels "Possible reasons for missing entities"
-        _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
-        throw error_.new 'entity_not_found', [prefix, id, models]
-
-  getEntityModelFromUri: (uri, refresh)->
-    [ prefix, id ] = getPrefixId uri
-    if prefix? and id? then @getEntityModel prefix, id, refresh
-    else _.preq.reject error_.new('invalid uri', uri)
-
   showAddEntity: (uri)->
-    @getEntityModelFromUri uri
+    getEntityModelFromUri uri
     .then (entity)->
       app.execute 'show:item:creation:form',
         entity: entity
@@ -142,7 +92,7 @@ API =
 
   showEditEntity: (uri)->
     # make sure we have the freshest data before trying to edit
-    @getEntityModelFromUri uri, true
+    getEntityModelFromUri uri, true
     .tap replaceEntityPathname.bind(null, '/edit')
     .then showEntityEdit
     .catch handleMissingEntityError.bind(null, 'showEditEntity err')
@@ -202,19 +152,58 @@ setHandlers = ->
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
-    'get:entity:model:from:uri': API.getEntityModelFromUri.bind API
-    'get:entities:models': API.getEntitiesModelsWithCatcher.bind API
-    'save:entity:model': saveEntityModel
+    'get:entity:model:from:uri': getEntityModelFromUri
+    'get:entities:models': getEntitiesModelsWithCatcher
+    'get:entities:models:from:uris': getEntitiesModelsFromUris
     'get:entity:public:items': API.getEntityPublicItems
     'get:entities:labels': getEntitiesLabels
     'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
     'normalize:entity:uri': normalizeEntityUri
 
-getEntityModel = (prefix, id)->
-  [ prefix, id ] = getPrefixId prefix, id
-  if prefix? and id? then API.getEntityModel prefix, id
-  else throw error_.new 'missing prefix or id', arguments
+getEntitiesModelsFromUris = (uris, refresh)->
+  _.type uris, 'array'
+  _.types uris, 'strings...'
+  # Make sure its a 'true' flag and not an object incidently passed
+  refresh = refresh is true
+
+  getEntitiesData { uris, refresh }
+  .then (entities)->
+    foundUris = Object.keys entities
+    missing = _.difference uris, foundUris
+    if missing.length > 0
+      _.warn missing, 'missing entities'
+
+    # Return an array of models rather than a collection
+    return _.values entities
+    .map (entity)->
+      # Passing the refresh option to let it be passed to possible subentities
+      model = new Entity entity, { refresh }
+      app.entities.add model
+      return model
+
+getEntitiesModels = (prefix, ids, refresh)->
+  uris = ids.map (id)-> "#{prefix}:#{id}"
+  getEntitiesModelsFromUris uris
+
+getEntitiesModelsWithCatcher = ->
+  getEntitiesModels.apply null, arguments
+  .catch _.Error('getEntitiesModels err')
+
+getEntityModel = (prefix, id, refresh)->
+  unless prefix? and id?
+    throw error_.new 'missing prefix or id', arguments
+
+  getEntityModelFromUri "#{prefix}:#{id}"
+
+getEntityModelFromUri = (uri, refresh)->
+  getEntitiesModelsFromUris [ uri ]
+  .then (models)->
+    if models?[0]? then return models[0]
+    else
+      # see getEntitiesModels "Possible reasons for missing entities"
+      _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
+      throw error_.new 'entity_not_found', [prefix, id, models]
 
 getEntityLabel = (uri)-> app.entities.byUri(uri)?.get 'label'
 getEntitiesLabels = (uris)-> uris.map getEntityLabel
@@ -236,20 +225,8 @@ getPrefixId = (prefix, id)->
   if prefix? and id? then return [ prefix, id ]
   else throw new Error "prefix and id not found for: #{prefix} / #{id}"
 
-getModelFromPrefix = (prefix)->
-  switch prefix
-    when 'wd' then WikidataEntity
-    when 'isbn' then IsbnEntity
-    when 'inv' then InvEntity
-    else throw new Error("prefix not implemented: #{prefix}")
-
-saveEntityModel = (prefix, data)->
-  if data?.id?
-    app.entities.data[prefix].local.save(data.id, data)
-  else _.error arguments, 'couldnt save entity model'
-
 createEntity = (data)->
-  app.entities.data.inv.local.post(data)
+  createInvEntity data
   .then (entityData)->
     _.type entityData, 'object'
     if entityData.isbn? then model = new IsbnEntity entityData
@@ -271,7 +248,7 @@ normalizeEntityUri = (prefix, id)->
   # accepts either a 'prefix:id' uri or 'prefix', 'id'
   # the polymorphic interface is resolved by getPrefixId
   [ prefix, id ] = getPrefixId(prefix, id)
-  if prefix is 'isbn' then id = books_.normalizeIsbn(id)
+  if prefix is 'isbn' then id = isbn_.normalizeIsbn id
   return "#{prefix}:#{id}"
 
 showEntityEdit = (entity)->

@@ -1,4 +1,4 @@
-wdAuthors_ = require 'modules/entities/lib/wikidata/authors'
+authors_ = require 'modules/entities/lib/authors'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 WorksList = require './works_list'
@@ -50,15 +50,16 @@ module.exports = Marionette.LayoutView.extend
 
     @startLoading()
 
-    wdAuthors_.fetchAuthorsWorks @model, refresh
+    authors_.getAuthorBooks @model, refresh
     .then @addToCollections.bind(@)
     .catch _.Error('author_li fetchBooks err')
     .finally @stopLoading.bind(@)
 
   addToCollections: (works)->
     { books, articles } = works
+    _.log works, 'works'
     unless books? or articles?
-      return _.warn 'no work found for #{@model.title}'
+      return _.warn "no work found for #{@model.get('label')}"
     @books.add books
     @articles.add articles
 

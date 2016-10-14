@@ -1,5 +1,5 @@
 drawCanvas = require './draw_canvas'
-books_ = require 'lib/books'
+isbn_ = require 'lib/isbn'
 
 getScript = require 'lib/get_script'
 { prepare, get:getQuagga } = getScript 'quagga'
@@ -46,7 +46,7 @@ startScanning = (beforeStart)->
       Quagga.onDetected (result)->
         _.log result, 'result'
         candidate = result.codeResult.code
-        if books_.isIsbn candidate
+        if isbn_.isIsbn candidate
           Quagga.stop()
           resolve result.codeResult.code
         else

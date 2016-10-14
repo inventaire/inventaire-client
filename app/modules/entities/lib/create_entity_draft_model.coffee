@@ -1,4 +1,4 @@
-InvEntity = require '../models/inv_entity'
+editableEntity = require './inv/editable_entity'
 createEntities = require './create_entities'
 
 module.exports = (options)->
@@ -21,9 +21,9 @@ module.exports = (options)->
     type: type
     creating: true
     propertiesShortlist: propertiesShortlists[type]
-    setPropertyValue: InvEntity::setPropertyValue
+    setPropertyValue: editableEntity.setPropertyValue
     savePropertyValue: _.preq.resolve
-    setLabel: InvEntity::setLabel
+    setLabel: editableEntity.setLabel
     saveLabel: _.preq.resolve
     create: -> createEntities.create @get('labels'), @get('claims')
 

@@ -1,15 +1,31 @@
-module.exports =
-  wikipedia: (sitelinks, lang)->
-    return getBestWikiProjectInfo sitelinks, 'wiki', 'wikipedia', lang, @originalLang
+# lang: the user's lang
+# original lang: the entity's original lang
 
-  wikisource: (sitelinks, lang)->
-    wsData = getBestWikiProjectInfo sitelinks, 'wikisource', 'wikisource', lang, @originalLang
+module.exports =
+  wikipedia: (sitelinks, lang, originalLang)->
+    getBestWikiProjectInfo
+      sitelinks: sitelinks
+      projectBaseName: 'wiki'
+      projectRoot: 'wikipedia'
+      lang: lang
+      originalLang: originalLang
+
+  wikisource: (sitelinks, lang, originalLang)->
+    wsData = getBestWikiProjectInfo
+      sitelinks: sitelinks
+      projectBaseName: 'wikisource'
+      projectRoot: 'wikisource'
+      lang: lang
+      originalLang: originalLang
     if wsData?
       wsData.epub = getEpubLink wsData
       return wsData
 
 
-getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, originalLang)->
+getBestWikiProjectInfo = (params)->
+  { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params
+  unless sitelinks? then return
+
   getTitleForLang = (Lang)-> getWikiProjectTitle sitelinks, projectBaseName, Lang
 
   [ title, langCode ] = [ getTitleForLang(lang), lang ]
@@ -26,22 +42,19 @@ getBestWikiProjectInfo = (sitelinks, projectBaseName, projectRoot, lang, origina
   if title? and langCode
     title = _.fixedEncodeURIComponent title
     url = "https://#{langCode}.#{projectRoot}.org/wiki/#{title}"
-    return {title: title, lang: langCode, url: url}
+    return { title, lang: langCode, url }
 
   return
 
-getWikiProjectTitle = (sitelinks, projectBaseName, lang)->
-  link = sitelinks?["#{lang}#{projectBaseName}"]
-  if link?.title? then return link.title
-  return
+getWikiProjectTitle = (sitelinks, projectBaseName, lang)-> sitelinks["#{lang}#{projectBaseName}"]
 
 pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
-  for k,v of sitelinks
-    match = k.split(projectBaseName)
+  for projectName, value of sitelinks
+    match = projectName.split projectBaseName
     # ex: 'lawikisource'.split 'wikisource' == ['la', '']
     if match.length is 2
       langCode = match[0]
-      return [v.title, langCode]
+      return [value, langCode]
   return []
 
 getEpubLink = (wikisourceData)->

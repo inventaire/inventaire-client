@@ -47,20 +47,6 @@ module.exports = _.extend preq,
         cb = -> resolve res
         setTimeout cb, ms
 
-  fallbackChain: (getters)->
-    _.types getters, 'functions...'
-    first = true
-    p = preq.resolved
-    while getters.length > 0
-      next = getters.shift()
-      if first
-        p = p.then next
-        first = false
-      else
-        # chaining the following options in case the first fails
-        p = p.catch next
-    return p
-
 proxiedUrl = (url)-> /wikidata\.org/.test url
 
 preq.wrap = wrap = (jqPromise, context)->

@@ -1,16 +1,15 @@
 ResultsList = require './results_list'
 Entities = require 'modules/entities/collections/entities'
-{ WikidataEntities, InvEntities } = require 'modules/entities/collections/structured_entities'
-IsbnEntities = require 'modules/entities/collections/isbn_entities'
 FindByIsbn = require './find_by_isbn'
 ItemsList = require 'modules/inventory/views/items_list'
 EntityEdit = require 'modules/entities/views/editor/entity_edit'
 wd_ = require 'lib/wikimedia/wikidata'
-books_ = require 'lib/books'
+isbn_ = require 'lib/isbn'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 searchInputData = require 'modules/general/views/menu/search_input_data'
 
-resultsCache = {}
+# An object to cache search results from one search to the next
+cache = {}
 
 module.exports = Marionette.LayoutView.extend
   id: 'searchLayout'
@@ -33,7 +32,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: (params)->
     _.extend @, behaviorsPlugin
     @query = params.query
-    @queryIsIsbn = books_.isIsbn @query
+    @queryIsIsbn = isbn_.isIsbn @query
     @model = app.searches.addNonExisting { @query }
 
   serializeData: ->
@@ -74,27 +73,27 @@ module.exports = Marionette.LayoutView.extend
           classes: 'subheader'
 
   sameAsPreviousQuery: ->
-    resultsLength = resultsCache.books?.length or resultsCache.editions?.length
-    # verifying that the query is not the same as the last one
+    # Verifying that the query is not the same as the last one
     # and using the previous results if so
-    if resultsCache.search is @query and resultsLength > 0
+    if cache.search is @query and cache.length > 0
       @displayResults()
-      @authors.$el.hide().fadeIn(200)
+      @authors.$el.hide().fadeIn 200
       return true
 
   searchEntities: ->
     search = @query
-    _.log search, 'search'
     if @sameAsPreviousQuery() then return
 
-    resultsCache = {}
+    # Reset cache
+    cache = { search }
+
     _.preq.get app.API.entities.search(search)
     .catch _.preq.catch404
     .then @_parseResponse.bind(@)
     .then @displayResults.bind(@)
     .catch @_catchErr.bind(@)
 
-    app.execute 'show:loader', {region: @authors}
+    app.execute 'show:loader', { region: @authors }
 
   _parseResponse: (res)->
     # hiding the loader
@@ -102,17 +101,20 @@ module.exports = Marionette.LayoutView.extend
     if res? then spreadResults res
 
   _catchErr: (err)->
-    @alert 'no item found'
+    if err.status is 404 then @alert 'no item found'
+    else _.error err, 'searchEntities err'
     @displayResults()
-    _.error err, 'searchEntities err'
 
   displayResults: ->
-    { humans, authors, books, editions } = resultsCache
-    if authors?.length is 0 then authors = humans
+    { humans, books, editions } = cache
 
-    dedupplicateAuthorsBooks authors, books
+    _.log cache, 'cache'
 
-    @_displayTypeResults authors, 'authors'
+    dedupplicateAuthorsBooks humans, books
+    dedupplicateBooksEditions books, editions
+
+    # Eventually, add a filter to display humans with occupation writter only
+    @_displayTypeResults humans, 'authors'
     @_displayTypeResults books, 'books'
     @_displayTypeResults editions, 'editions'
 
@@ -130,7 +132,7 @@ module.exports = Marionette.LayoutView.extend
   saveSearchPictures: (collection)->
     # keep only every entity first picture to avoid passing
     # several possibily identical pictures for a single entity
-    pictures = collection.map firstPicture
+    pictures = collection.map (model)-> model.get('image.url')
     @model.savePictures pictures
 
   searchByIsbn: ->
@@ -140,57 +142,24 @@ module.exports = Marionette.LayoutView.extend
 
   createEntity: -> app.execute 'show:entity:create', 'book', @query
 
-firstPicture = (model)-> model.get('pictures')[0]
-
 spreadResults = (res)->
-  resultsCache =
-    humans: new Entities
-    authors: new Entities
-    books: new Entities
-    editions: new Entities
-    search: res.search
-
-  { wd, inv, dataseed } = res
-
-  if wd? then addWikidataEntities wd.results
-  if inv? then addInvEntities inv.results
-  if dataseed? then addIsbnEntities dataseed.results
-
-addStructuredEntities = (Collection, resultsArray)->
-  # instantiating generic wikidata entities first
-  # and only upgrading later on more specific Models
-  # as methods on Collection greatly ease the sorting process
-  entities = new Collection resultsArray
-  for entity in entities.models
-    switch wd_.type entity
-      when 'book' then resultsCache.books.add entity
-      when 'human'
-        # Add it to humans in any case
-        resultsCache.humans.add entity
-        # But if we happen to find entities with the occupation author,
-        # we will keep those only to avoid getting all sorts of non-authors
-        # humans poping up in results (see @displayResults above)
-        { 'wdt:P106':P106 } = entity.claims
-        if wd_.isAuthor P106 then resultsCache.authors.add entity
-
-addWikidataEntities = addStructuredEntities.bind null, WikidataEntities
-addInvEntities = addStructuredEntities.bind null, InvEntities
-
-addIsbnEntities = (resultsArray)->
-  # initializing models as IsbnEntities
-  editions = new IsbnEntities resultsArray
-  # adding them to the less specific editions collection
-  resultsCache.editions.add editions.models
+  cache.humans = new Entities res.humans
+  cache.books = new Entities res.books
+  cache.editions = new Entities res.editions
+  cache.length = res.humans.length + res.books.length + res.editions.length
 
 dedupplicateAuthorsBooks = (authors, books)->
+  _.log authors, 'authors'
   authorsUris = authors.models.map (author)-> author.get 'uri'
 
   # Remove books that have an author in the authors list
-  # as they will appear in the author's books list instead
+  # as they will fetched and displayed in the author's books list
   toRemove = []
   books.forEach (book)->
-    if _.haveAMatch book.claims['wdt:P50'], authorsUris
+    if _.haveAMatch book.get('claims.wdt:P50'), authorsUris
       # Not removing directly as it would alter the forEach loop
       toRemove.push book
 
   books.remove toRemove
+
+dedupplicateBooksEditions = (books, editions)->

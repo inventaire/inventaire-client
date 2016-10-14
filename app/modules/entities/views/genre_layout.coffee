@@ -25,7 +25,7 @@ module.exports = Marionette.LayoutView.extend
     @initPlugins()
     @initCollections()
     @fetchBooksAndAuthors()
-    @fetchAndSetHeaderBackground()
+    @setHeaderBackground()
 
   initPlugins: ->
     wikiBarPlugin.call @
@@ -40,42 +40,24 @@ module.exports = Marionette.LayoutView.extend
     .then wdGenre_.spreadBooksAndAuthors.bind(null, @books, @authors)
     .catch _.Error('fetchBooksAndAuthors')
     .then @stopLoading.bind(@)
-    # retrying to fetchAndSetHeaderBackground with books data
-    # in case the model has no image
-    .then @fetchAndSetHeaderBackground.bind(@)
     .then @blockLoader.bind(@)
 
   blockLoader: ->
     @_dataFetched = true
 
-  fetchAndSetHeaderBackground: ->
-    unless @_headerBackgroundSet
-      wmCommonsFile = @findPicture()
-      if wmCommonsFile?
-        @_headerBackgroundSet = true
-        commons_.thumb wmCommonsFile, window.screen.width
-        .then @setHeaderBackground.bind(@)
-        .catch _.Error('fetchAndSetHeaderBackground')
+  setHeaderBackground: ->
+    image = @findImage()
+    if image? then @headerBgUrl = image
 
-  findPicture: ->
-    @findModelFirstPicture() or @findEntitiesFirstPicture()
+  findImage: ->
+    @findModelFirstImage() or @findEntitiesFirstImage()
 
-  findModelFirstPicture: ->
-    @model.get('claims.wdt:P18')?[0]
-
-  findEntitiesFirstPicture: ->
+  findModelFirstImage: -> @model.get 'image.url'
+  findEntitiesFirstImage: ->
     if @books?
-      images = @books.map (entity)->
-        pics = entity.get('claims.wdt:P18')
-        return pics?[0]
-
-      return _.compact(images)[0]
-
-  setHeaderBackground: (url)->
-    @headerBgUrl = url
-    # showHeaderBackground is called at render but need to be called
-    # if the view was already rendered when the data arrives
-    if @isRendered then @showHeaderBackground()
+      while book in @books
+        image = entity.get 'image.url'
+        if image? then return image
 
   onRender: ->
     unless @_dataFetched then @startLoading()

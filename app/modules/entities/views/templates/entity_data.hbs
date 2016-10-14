@@ -1,17 +1,17 @@
 {{#unless hidePicture}}
-  {{#if pictures}}
+  {{#if image.url}}
     <div class="cover">
-        <img src="{{src pictures 300}}" alt="{{title}} {{i18n 'cover'}}">
-        {{partial 'entities:photo_credits' pictureCredits}}
+        <img src="{{src image.url 300}}" alt="{{label}} {{i18n 'cover'}}">
+        {{partial 'entities:photo_credits' image.credits}}
     </div>
   {{/if}}
 {{/unless}}
 
 <div class="data">
   {{#if entityPage}}
-    <h2>{{title}}</h2>
+    <h2>{{label}}</h2>
   {{else}}
-    <h2><a href="{{pathname}}" class="showEntity link">{{title}}</a></h2>
+    <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
   {{/if}}
   <p class="uri">{{uri}}</p>
 
@@ -25,20 +25,6 @@
     </a>
   {{/if}}
   <div class="attributes">
-    {{#if editable}}
-      {{partial 'entities:book_claims' this}}
-    {{else}}
-      <p class="isbn-attributes">
-        {{#if authors}} {{{prop 'wdt:P50'}}} {{{joinAuthors authors}}} <br> {{/if}}
-        {{#if publishedDate}}{{{prop 'wdt:P577'}}} {{dateYear publishedDate}} <br> {{/if}}
-        {{#if publisher}}<span>{{i18n 'publisher'}}:</span>{{publisher}} <br> {{/if}}
-        {{#if pageCount}}<span>{{i18n 'pages'}}:</span>{{pageCount}} <br> {{/if}}
-        {{!-- displays an ugly 2 letters code --}}
-        {{!-- {{#if language}}<span>{{i18n 'language'}}:<span> {{language}} {{/if}} --}}
-        {{!-- <span class="source">
-          {{#if source}}<span>{{i18n 'source'}}:</span>{{source}} <br> {{/if}}
-        </span> --}}
-      </p>
-    {{/if}}
+    {{partial 'entities:book_claims' this}}
   </div>
 </div>
