@@ -1,12 +1,12 @@
 <div class="header">
-  <h3>{{i18n title}}</h3><span class="counter"></span>
+  <h3>{{i18n title}}</h3><span class="counter">{{totalLength}}</span>
 </div>
 <ul class="container"></ul>
 <div class="more">
   {{#if more}}
     <a class="displayMore">
       {{icon 'chevron-down'}}{{i18n 'more'}}
+      <span class="counter">{{more}}</span>
     </a>
   {{/if}}
-  <span class="loading"></span>
 </div>

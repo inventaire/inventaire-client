@@ -1,4 +1,4 @@
-paginationPlugin = require 'modules/general/plugins/pagination'
+spinner = _.icon 'circle-o-notch', 'fa-spin'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/works_list'
@@ -14,43 +14,36 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     counter: '.counter'
+    displayMore: '.displayMore'
+    more: '.displayMore .counter'
 
   initialize: ->
-    @initPlugins()
     @collection = @options.collection
-    @initBookCounter()
 
-  initPlugins: ->
-    paginationPlugin.call @,
-      batchLength: 15
-      initialLength: @options.initialLength or 5
+    initialLength = @options.initialLength or 5
+    @batchLength = @options.batchLength or 15
 
-  initBookCounter: ->
-    @lazyUpdateBookCounter = _.debounce @updateBookCounter.bind(@), 1000
-    @listenTo @collection, 'add remove', @lazyUpdateBookCounter
+    @fetchMore = @collection.fetchMore.bind @collection
+    @more = @collection.more.bind @collection
+
+    # First fetch
+    @collection.firstFetch initialLength
 
   events:
     'click a.displayMore': 'displayMore'
 
-  collectionEvents:
-    # required to get access to the collection real length from pagination::more
-    'add': 'lazyRender'
+  displayMore: ->
+    @startMoreLoading()
+
+    @collection.fetchMore @batchLength
+    .then =>
+      if @more() then @ui.more.text @more()
+      else @ui.displayMore.hide()
+
+  startMoreLoading: -> @ui.more.html spinner
 
   serializeData: ->
-    _.extend {}, strings[@options.type],
-      more: @more()
-      canRefreshData: true
-
-  onRender: ->
-    @lazyUpdateBookCounter()
-
-  updateBookCounter: ->
-    count = @collection.length
-    # test text function existance to prevent crashes when the DOM isn't ready
-    @ui.counter.text?(count).hide().slideDown()
-
-strings =
-  books:
-    title: 'books'
-  articles:
-    title: 'articles'
+    title: @options.type
+    more: @more()
+    canRefreshData: true
+    totalLength: @collection.totalLength

@@ -1,4 +1,3 @@
-authors_ = require 'modules/entities/lib/authors'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 WorksList = require './works_list'
@@ -16,26 +15,17 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @initPlugins()
-    @books = new Backbone.Collection
-    @articles = new Backbone.Collection
     @lazyRender = _.LazyRender @
     # trigger fetchbooks once the author is in view
     @$el.once 'inview', @fetchBooks.bind(@)
-    @listenTo @model, 'change', @lazyRender.bind(@)
-    if @options.standalone
-      app.execute 'metadata:update:needed'
-
+    if @options.standalone then app.execute 'metadata:update:needed'
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    if @options.standalone
-      wikiBarPlugin.call @
+    if @options.standalone then wikiBarPlugin.call @
 
   events:
     'click .refreshData': 'refreshData'
-
-  modelEvents:
-    'add:pictures': 'lazyRender'
 
   serializeData: ->
     _.extend @model.toJSON(),
@@ -45,41 +35,42 @@ module.exports = Marionette.LayoutView.extend
       hideWikisourceEpub: true
 
   fetchBooks: ->
+    @worksShouldBeShown = true
     # make sure refresh is a Boolean and not an object incidently passed
     refresh = @options.refresh is true
 
-    @startLoading()
-
-    authors_.getAuthorBooks @model, refresh
-    .then @addToCollections.bind(@)
+    @model.initAuthorWorks refresh
+    .then @_showWorksIfRendered.bind(@)
     .catch _.Error('author_li fetchBooks err')
-    .finally @stopLoading.bind(@)
 
-  addToCollections: (works)->
-    { books, articles } = works
-    _.log works, 'works'
-    unless books? or articles?
-      return _.warn "no work found for #{@model.get('label')}"
-    @books.add books
-    @articles.add articles
-
-    # only show articles yet to make this test possible
-    if @articles.length > 0 then @showArticles()
+  _showWorksIfRendered: ->
+    if @isRendered then @showWorks()
+    # else, let the onRender hook do it
 
   onRender: ->
-    @showBooks()
+    if @worksShouldBeShown then @showWorks()
     if @options.standalone
       @model.updateMetadata()
       .finally app.Execute('metadata:update:done')
 
+  showWorks: ->
+    @startLoading()
+
+    @model.waitForWorks
+    .then @_showWorks.bind(@)
+
+  _showWorks: ->
+    @showBooks()
+    if @model.works.articles.totalLength > 0 then @showArticles()
+
   showBooks: ->
     @booksRegion.show new WorksList
-      collection: @books
+      collection: @model.works.books
       type: 'books'
 
   showArticles: ->
     @articlesRegion.show new WorksList
-      collection: @articles
+      collection: @model.works.articles
       type: 'articles'
 
   refreshData: -> app.execute 'show:entity:refresh', @model

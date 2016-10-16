@@ -18,9 +18,6 @@
   .works{
     flex: 1 1 auto;
   }
-  .loading{
-    color: $contrast;
-  }
   div.more{
     @include display-flex(column, center, center);
     text-align: center;
@@ -32,6 +29,10 @@
       @include radius;
       @include display-flex(row, center, center);
       @include bg-hover($light-grey);
+      .counter{
+        background-color: #ccc;
+        color: white;
+      }
     }
   }
   .photo-credits{
@@ -39,6 +40,8 @@
     font-size: 0.8em;
   }
   .books, .articles{
+    // required to center .loading
+    @include display-flex(row, center, center);
     .header{
       @include display-flex(row, center, center);
     }
@@ -46,6 +49,12 @@
       color: white;
       text-align: center;
     }
+  }
+  .loading{
+    text-align: center;
+    color: $contrast;
+    font-size: 2em;
+    padding: 1em;
   }
   .articles{
     margin-top: 2em;
