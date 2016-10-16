@@ -8,7 +8,7 @@ module.exports =
   contact:
     email: 'hello@inventaire.io'
     mailto: 'mailto:hello@inventaire.io'
-  blog: 'http://asongofinventoryandfire.tumblr.com'
+  blog: 'http://blog.inventaire.io'
   twitter: 'https://twitter.com/inventaire_io'
   facebook: 'https://facebook.com/inventaire.io'
   github: 'https://github.com/inventaire/inventaire'
