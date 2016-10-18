@@ -167,6 +167,8 @@ getEntitiesModelsFromUris = (uris, refresh)->
   # Make sure its a 'true' flag and not an object incidently passed
   refresh = refresh is true
 
+  if uris.length is 0 then return _.preq.resolve []
+
   getEntitiesData { uris, refresh }
   .then (entities)->
     foundUris = Object.keys entities
