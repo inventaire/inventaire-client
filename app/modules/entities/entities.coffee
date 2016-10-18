@@ -36,13 +36,13 @@ module.exports =
 API =
   showEntity: (uri, label, params, region)->
     region or= app.layout.main
-    app.execute 'show:loader', {region: region}
+    app.execute 'show:loader', { region }
 
     [ prefix, id ] = getPrefixId uri
     unless prefix? and id?
       _.warn 'prefix or id missing at showEntity'
 
-    refresh = params?.refresh
+    refresh = params?.refresh or app.request('querystring:get', 'refresh')
     if refresh then app.execute 'uriLabel:refresh'
 
     @_getEntityView prefix, id, refresh
