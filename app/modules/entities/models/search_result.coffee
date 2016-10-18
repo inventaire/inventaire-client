@@ -1,6 +1,6 @@
 Filterable = require 'modules/general/models/filterable'
 getBestLangValue = require '../lib/get_best_lang_value'
-wdk = require 'wikidata-sdk'
+wdk = require 'lib/wikidata-sdk'
 error_ = require 'lib/error'
 
 # make models use 'id' as idAttribute so that search results

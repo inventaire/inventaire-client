@@ -8,7 +8,6 @@ global.window =
   # for when window is undefined
   location: {}
 global.location = {}
-global.wdk = require 'wikidata-sdk'
 global.Promise = require 'bluebird'
 
 sharedLib = require './shared_lib'

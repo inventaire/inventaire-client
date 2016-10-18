@@ -1,6 +1,6 @@
 isbn_ = require 'lib/isbn'
 wd_ = require 'lib/wikimedia/wikidata'
-wdk = require 'wikidata-sdk'
+wdk = require 'lib/wikidata-sdk'
 Entity = require './models/entity'
 Entities = require './collections/entities'
 AuthorLi = require './views/author_li'

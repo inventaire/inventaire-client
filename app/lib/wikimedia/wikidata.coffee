@@ -1,7 +1,6 @@
 preq = requireProxy 'lib/preq'
-wdk = require 'wikidata-sdk'
 wdLang = require 'wikidata-lang'
-wd_ = sharedLib('wikidata')(preq, _, wdk)
+wd_ = sharedLib('wikidata')(preq, _)
 
 module.exports = _.extend wd_,
   getOriginalLang: (claims)->

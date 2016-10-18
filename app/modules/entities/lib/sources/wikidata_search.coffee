@@ -1,4 +1,4 @@
-wdk = require 'wikidata-sdk'
+wdk = require 'lib/wikidata-sdk'
 
 module.exports = (query)->
   _.preq.get wdk.searchEntities(query, app.user.lang, 10)
