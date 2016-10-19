@@ -5,6 +5,7 @@ initializeWikidataEntity = require '../lib/wikidata/init_entity'
 editableEntity = require '../lib/inv/editable_entity'
 getBestLangValue = require '../lib/get_best_lang_value'
 initializeBook = require '../lib/types/book'
+initializeSerie = require '../lib/types/serie'
 initializeAuthor = require '../lib/types/author'
 
 # One unique Entity model to rule them all
@@ -38,8 +39,11 @@ module.exports = Backbone.NestedModel.extend
     @set 'reverseClaims', {}
 
     switch @type
+      when 'serie' then initializeSerie.call @
       when 'book' then initializeBook.call @
       when 'human' then initializeAuthor.call @
+      when 'article', 'edition' then null
+      else _.warn @type, 'no initializer found for this type'
       # when 'edition' then @initializeEdition()
 
     if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
@@ -75,13 +79,17 @@ module.exports = Backbone.NestedModel.extend
         wiki: "#{pathname}/edit"
 
   fetchSubEntities: (refresh)->
-    @subentities[@childrenClaimProperty] = subentities = new Backbone.Collection
+    if not refresh and @waitForSubentities?
+      return @waitForSubentities
+
+    @subentities = new Backbone.Collection
 
     uri = @get 'uri'
+    prop = @childrenClaimProperty
 
-    entities_.getReverseClaims @childrenClaimProperty, uri
+    @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
     .then (uris)-> app.request 'get:entities:models:from:uris', uris, refresh
-    .then subentities.add.bind(subentities)
+    .then @subentities.add.bind(@subentities)
 
   # To be called by a view onShow:
   # updates the document with the entities data

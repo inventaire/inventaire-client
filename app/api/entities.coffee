@@ -1,5 +1,8 @@
 { public:publik, authentified } = require('./endpoint')('entities')
 
+CustomQuery = (action)-> (uri, refresh)->
+  _.buildPath publik, { action, uri, refresh }
+
 module.exports =
   search: (search)->
     options =
@@ -10,7 +13,10 @@ module.exports =
     _.buildPath publik, options
 
   get: (uris, refresh)->
-    _.buildPath publik, { action: 'get-entities', uris: uris.join('|') }
+    _.buildPath publik,
+      action: 'get-entities'
+      uris: uris.join '|'
+      refresh: refresh
 
   # getImages: (entityUri, data)->
   #   _.buildPath publik,
@@ -21,8 +27,8 @@ module.exports =
   reverseClaims: (property, uri)->
     _.buildPath publik, { action: 'reverse-claims', property, uri }
 
-  authorWorks: (uri, refresh)->
-    _.buildPath publik, { action: 'author-works', uri, refresh }
+  authorWorks: CustomQuery 'author-works'
+  serieParts: CustomQuery 'serie-parts'
 
   inv:
     create: '/api/entities'

@@ -1,12 +1,12 @@
 BookLi = require 'modules/entities/views/book_li'
-AuthorLi = require 'modules/entities/views/author_li'
+AuthorLayout = require 'modules/entities/views/author_layout'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/results_list'
   childViewContainer: '.resultsList'
   getChildView: ->
     switch @options.type
-      when 'authors' then AuthorLi
+      when 'authors' then AuthorLayout
       when 'books', 'editions' then BookLi
       else throw new Error 'unvalid type provided: cant choose getChildView'
   emptyView: require 'modules/inventory/views/no_item'

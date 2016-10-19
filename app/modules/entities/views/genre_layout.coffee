@@ -3,7 +3,6 @@ commons_ = require 'lib/wikimedia/commons'
 wdGenre_ = require 'modules/entities/lib/wikidata/genre'
 Entities = require 'modules/entities/collections/entities'
 ResultsList = require 'modules/search/views/results_list'
-wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 GenreData = require './genre_data'
 
@@ -20,6 +19,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     Loading: {}
+    WikiBar: {}
 
   initialize: ->
     @initPlugins()
@@ -28,7 +28,6 @@ module.exports = Marionette.LayoutView.extend
     @setHeaderBackground()
 
   initPlugins: ->
-    wikiBarPlugin.call @
     _.extend @, behaviorsPlugin
 
   initCollections: ->

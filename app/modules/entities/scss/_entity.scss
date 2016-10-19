@@ -3,6 +3,13 @@
 @import 'entity_data';
 @import "entity_create";
 @import "entity_edit";
+@import "book_li";
+@import "article_li";
+@import "author_layout";
+@import "works_list";
+@import "serie_layout";
+@import 'genre_layout';
+@import './wiki_bar';
 
 .uri{
   color: $grey !important;
@@ -16,17 +23,7 @@
   }
 }
 
-.wiki-sitelinks{
-  .icon{
-    margin-right: 0.5em;
-  }
-  @include display-flex(row, null, null, wrap);
-  li{
-    margin-right: 0.4em;
-  }
-}
-
-.authorLi{
+.authorLayout{
   .more{
     width: 100%;
   }
@@ -69,8 +66,6 @@
   margin-right: 0.5em;
 }
 
-@import './wikipedia_iframe';
-
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
   .entityActions{
@@ -85,5 +80,3 @@
 /*Large screens*/
 @media screen and (min-width: $small-screen) {
 }
-
-@import 'genre_layout';

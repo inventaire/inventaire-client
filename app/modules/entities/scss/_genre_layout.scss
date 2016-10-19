@@ -31,14 +31,13 @@
       display:none;
     }
   }
-  .wikipedia-iframe{}
   .loading{
     color: white;
     &:not(:empty){
       padding: 1em;
     }
   }
-  .authorLi{
+  .authorLayout{
     /*Large screens*/
     @media screen and (min-width: $small-screen) {
       margin: 1em;

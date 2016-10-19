@@ -18,6 +18,7 @@ specificMethods =
 
   initWorksCollections: (worksUris)->
     @works =
+      series: new Works null, { uris: worksUris.series.map(getUri) }
       books: new Works null, { uris: worksUris.books.map(getUri) }
       articles: new Works null, { uris: worksUris.articles.map(getUri) }
 

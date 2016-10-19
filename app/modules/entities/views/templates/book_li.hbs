@@ -1,18 +1,18 @@
-<div class="bookCover">
-  {{#if pictures}}
-    <a class="zoom-button">
-      <img src="{{src pictures 200 400}}"
-      data-zoom-toggle="{{src pictures 500 1000}}"
-      alt='{{label}} cover'>
-      <span class="buttons">
-        <span>{{icon 'search-plus'}}</span>
-        <span class="hidden">{{icon 'search-minus'}}</span>
-      </span>
-    </a>
-  {{/if}}
-</div>
+{{#if image.url}}
+  <div class="bookCover">
+      <a class="zoom-button">
+        <img src="{{src image.url 200 400}}"
+        data-zoom-toggle="{{src image.url 500 1000}}"
+        alt='{{label}} cover'>
+        <span class="buttons">
+          <span>{{icon 'search-plus'}}</span>
+          <span class="hidden">{{icon 'search-minus'}}</span>
+        </span>
+      </a>
+  </div>
+{{/if}}
 <div class="bookLiData">
-  <h3><a class="showEntity link" href="{{pathname}}">{{label}}</a></h3>
+  <h4><a class="showEntity link" href="{{pathname}}">{{label}}</a></h4>
   {{#if description}}
     <p class="clamped grey">{{{description}}}</p>
   {{/if}}

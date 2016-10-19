@@ -1,7 +1,3 @@
-@import "book_li";
-@import "article_li";
-@import "author_li";
-
 #localSearchGroup, #findIsbnGroup{
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -28,7 +24,7 @@
     width: 100%;
     margin: 0;
   }
-  .authorLi{
+  .authorLayout{
     @include radius;
   }
   /*Large screens*/
@@ -39,7 +35,7 @@
         margin-bottom: 1em;
       }
     }
-    .authorLi{
+    .authorLayout{
       padding: 1em;
     }
     .itemsList{

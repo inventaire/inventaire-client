@@ -43,7 +43,7 @@ display = ->
 getEntities = (uris)->
   if uris.length is 0 then return
 
-  getEntitiesData { uris }
+  getEntitiesData { uris, refresh }
   .then _.Log('getEntitiesData res')
   .then addEntitiesLabels
   # /!\ Not waiting for the update to run

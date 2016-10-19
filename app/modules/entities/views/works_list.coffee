@@ -2,13 +2,16 @@ spinner = _.icon 'circle-o-notch', 'fa-spin'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/works_list'
+  className: 'worksList'
   behaviors:
     Loading: {}
 
   childViewContainer: '.container'
   getChildView: ->
-    if @options.type is 'articles' then require './article_li'
-    else require './book_li'
+    switch @options.type
+      when 'series' then require './serie_layout'
+      when 'articles' then require './article_li'
+      else require './book_li'
 
   emptyView: require 'modules/inventory/views/no_item'
 
@@ -18,8 +21,6 @@ module.exports = Marionette.CompositeView.extend
     more: '.displayMore .counter'
 
   initialize: ->
-    @collection = @options.collection
-
     initialLength = @options.initialLength or 5
     @batchLength = @options.batchLength or 15
 
@@ -44,6 +45,7 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     title: @options.type
+    hideHeader: @options.hideHeader
     more: @more()
     canRefreshData: true
     totalLength: @collection.totalLength

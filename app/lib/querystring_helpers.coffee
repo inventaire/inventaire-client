@@ -2,7 +2,13 @@ allowPersistantQuery = require './allow_persistant_query'
 
 module.exports = (app, _)->
 
-  get = (key)-> getQuery()?[key]
+  get = (key)->
+    value = getQuery()?[key]
+    switch value
+      # Parsing boolean string
+      when 'true' then true
+      when 'false' then false
+      else value
 
   set = (key, value)->
     # omit the first character: '/'

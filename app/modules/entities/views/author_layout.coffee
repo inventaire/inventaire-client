@@ -1,15 +1,17 @@
+AuthorInfobox = require './author_infobox'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 WorksList = require './works_list'
 
 module.exports = Marionette.LayoutView.extend
-  template: require './templates/author_li'
-  tagName: 'li'
-  className: 'authorLi'
+  template: require './templates/author_layout'
+  className: 'authorLayout'
   behaviors:
     Loading: {}
+    WikiBar: {}
 
   regions:
+    infoboxRegion: '.infobox'
+    seriesRegion: '.series'
     booksRegion: '.books'
     articlesRegion: '.articles'
 
@@ -22,7 +24,6 @@ module.exports = Marionette.LayoutView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
-    if @options.standalone then wikiBarPlugin.call @
 
   events:
     'click .refreshData': 'refreshData'
@@ -41,17 +42,21 @@ module.exports = Marionette.LayoutView.extend
 
     @model.initAuthorWorks refresh
     .then @_showWorksIfRendered.bind(@)
-    .catch _.Error('author_li fetchBooks err')
+    .catch _.Error('author_layout fetchBooks err')
 
   _showWorksIfRendered: ->
     if @isRendered then @showWorks()
     # else, let the onRender hook do it
 
   onRender: ->
+    @showInfobox()
     if @worksShouldBeShown then @showWorks()
     if @options.standalone
       @model.updateMetadata()
       .finally app.Execute('metadata:update:done')
+
+  showInfobox: ->
+    @infoboxRegion.show new AuthorInfobox { model: @model }
 
   showWorks: ->
     @startLoading()
@@ -60,17 +65,13 @@ module.exports = Marionette.LayoutView.extend
     .then @_showWorks.bind(@)
 
   _showWorks: ->
-    @showBooks()
-    if @model.works.articles.totalLength > 0 then @showArticles()
+    @showWorkCollection 'books'
+    if @model.works.series.totalLength > 0 then @showWorkCollection 'series'
+    if @model.works.articles.totalLength > 0 then @showWorkCollection 'articles'
 
-  showBooks: ->
-    @booksRegion.show new WorksList
-      collection: @model.works.books
-      type: 'books'
-
-  showArticles: ->
-    @articlesRegion.show new WorksList
-      collection: @model.works.articles
-      type: 'articles'
+  showWorkCollection: (type)->
+    @["#{type}Region"].show new WorksList
+      collection: @model.works[type]
+      type: type
 
   refreshData: -> app.execute 'show:entity:refresh', @model

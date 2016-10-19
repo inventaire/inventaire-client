@@ -1,0 +1,31 @@
+.serieLayout{
+  text-align: center;
+  @include radius;
+  .description{
+    color: white;
+  }
+  .claims-wrapper{
+    margin: 0 auto;
+    max-width: 40em;
+  }
+  &.standalone{
+    .more{
+      margin-bottom: 2em;
+    }
+  }
+  &:not(.standalone){
+    margin-bottom: 2em;
+    background-color: #eee;
+  }
+}
+
+.parts > div {
+  .header .counter{
+    display: none;
+  }
+  .bookLi{
+    p:not(.date), .actions{
+      display: none;
+    }
+  }
+}

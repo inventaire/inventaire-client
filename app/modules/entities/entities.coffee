@@ -3,7 +3,8 @@ wd_ = require 'lib/wikimedia/wikidata'
 wdk = require 'lib/wikidata-sdk'
 Entity = require './models/entity'
 Entities = require './collections/entities'
-AuthorLi = require './views/author_li'
+AuthorLayout = require './views/author_layout'
+SerieLayout = require './views/serie_layout'
 EntityShow = require './views/entity_show'
 EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
@@ -64,16 +65,19 @@ API =
   getWikidataEntityView: (entity, refresh)->
     switch entity.type
       when 'human' then @getAuthorView entity, refresh
-      when 'book' then @getCommonBookEntityView entity
+      when 'book' then @getCommonBookEntityView entity, refresh
+      when 'serie' then @getSerieEntityView entity, refresh
       # display anything else as a genre
       # so that in the worst case it's just a page with a few data
       # and not a page you can 'add to your inventory'
       else new GenreLayout { model: entity }
 
-  getCommonBookEntityView: (entity)-> new EntityShow { model: entity }
+  getCommonBookEntityView: (model, refresh)-> new EntityShow { model, refresh }
+  getSerieEntityView: (model, refresh)->
+    new SerieLayout { model, refresh, standalone: true }
 
   getAuthorView: (entity, refresh)->
-    new AuthorLi
+    new AuthorLayout
       model: entity
       standalone: true
       displayBooks: true
@@ -186,7 +190,7 @@ getEntitiesModelsFromUris = (uris, refresh)->
 
 getEntitiesModels = (prefix, ids, refresh)->
   uris = ids.map (id)-> "#{prefix}:#{id}"
-  getEntitiesModelsFromUris uris
+  getEntitiesModelsFromUris uris, refresh
 
 getEntitiesModelsWithCatcher = ->
   getEntitiesModels.apply null, arguments
@@ -196,10 +200,10 @@ getEntityModel = (prefix, id, refresh)->
   unless prefix? and id?
     throw error_.new 'missing prefix or id', arguments
 
-  getEntityModelFromUri "#{prefix}:#{id}"
+  getEntityModelFromUri "#{prefix}:#{id}", refresh
 
 getEntityModelFromUri = (uri, refresh)->
-  getEntitiesModelsFromUris [ uri ]
+  getEntitiesModelsFromUris [ uri ], refresh
   .then (models)->
     if models?[0]? then return models[0]
     else

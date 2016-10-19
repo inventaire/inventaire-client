@@ -1,4 +1,4 @@
-.wikipedia-iframe{
+.wiki-bar{
   width: 100%;
   .wiki-menu-bar{
     width: 100%;
@@ -20,6 +20,12 @@
       }
     }
     .wiki-sitelinks{
+      .icon{
+        margin-right: 0.5em;
+      }
+      li{
+        margin-right: 0.4em;
+      }
       @include display-flex(row, center, flex-end, nowrap);
       flex: 3 0 auto;
       a{

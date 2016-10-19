@@ -1,6 +1,5 @@
 EntityData = require './entity_data'
 EntityActions = require './entity_actions'
-wikiBarPlugin = require 'modules/general/plugins/wiki_bar'
 ItemsList = require 'modules/inventory/views/items_list'
 
 module.exports = Marionette.LayoutView.extend
@@ -11,19 +10,18 @@ module.exports = Marionette.LayoutView.extend
     localItems: '#localItems'
     publicItems: '#publicItems'
 
+  behaviors:
+    WikiBar: {}
+
   serializeData: ->
     _.extend @model.toJSON(),
       back: backMessage()
       canRefreshData: true
 
   initialize: ->
-    @initPlugins()
     @uri = @model.get('uri')
     fetchPublicItems @uri
     app.execute 'metadata:update:needed'
-
-  initPlugins: ->
-    wikiBarPlugin.call @
 
   onShow: ->
     @showEntityData()

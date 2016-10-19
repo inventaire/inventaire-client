@@ -1,6 +1,5 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/book_li'
-  tagName: 'li'
   className: 'bookLi'
 
   initialize: ->

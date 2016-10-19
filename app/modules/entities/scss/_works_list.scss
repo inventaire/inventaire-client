@@ -1,0 +1,26 @@
+.worksList{
+  div.more{
+    @include display-flex(column, center, center);
+    text-align: center;
+    height: 3em;
+    a.displayMore{
+      width: 10em;
+      margin: 0.2em;
+      flex: 1 1 auto;
+      @include radius;
+      @include display-flex(row, center, center);
+      @include bg-hover($dark-grey);
+      color: white;
+      .counter{
+        background-color: $grey;
+        color: white;
+      }
+    }
+  }
+  .counter{
+    @include counter-commons;
+    background-color: white;
+    font-size: 1rem;
+    margin-left: 0.5em;
+  }
+}

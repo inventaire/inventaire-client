@@ -1,8 +1,13 @@
+{ escapeExpression } = Handlebars
+
 module.exports =
   extract: (lang, title)->
     _.preq.get app.API.data.wikipediaExtract(lang, title)
     .then (data)->
       { extract, url } = data
+      # Escaping as extracts are user-generated external content
+      # but that should normally already be done by Wikipedia
+      extract = escapeExpression extract
       return sourcedExtract extract, url
     .catch _.ErrorRethrow('wikipediaExtract err')
 

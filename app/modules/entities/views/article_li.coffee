@@ -1,6 +1,5 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/article_li'
-  tagName: 'li'
   className: 'articleLi'
   serializeData: ->
     attrs = @model.toJSON()

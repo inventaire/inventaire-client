@@ -1,0 +1,14 @@
+<div class="innerAuthorLi">
+  <div class='infobox'></div>
+  <div class="works">
+    <div class='series'></div>
+    <div class='books'><span class="loading"></span></div>
+    <div class='articles'></div>
+  </div>
+</div>
+{{#if standalone}}
+  {{#if wikidata}}
+    {{partial 'entities:wiki_bar' this}}
+  {{/if}}
+  {{partial 'welcome:embedded_welcome'}}
+{{/if}}

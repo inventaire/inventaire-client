@@ -1,0 +1,39 @@
+.infobox{
+  // center the image
+  @include display-flex(column);
+  img{
+    margin: auto;
+  }
+  .photo-credits{
+    padding-left: 1em;
+    font-size: 0.8em;
+  }
+}
+.authorData{
+  @include radius;
+  background-color: $contrast;
+  .extract{
+    text-align: left;
+    padding: 1em;
+  }
+  .source{
+    @extend .link;
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $small-screen) {
+  .infobox{
+    flex: 0 0 auto;
+    width: 25em;
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $small-screen) {
+  .infobox{
+    img{
+      max-width: 95vw;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{{#if image.url}}
+  <div class="cover">
+      <img src="{{src image.url 300}}" alt="{{label}}">
+      {{partial 'entities:photo_credits' image.credits}}
+  </div>
+{{/if}}
+<h4><a class="showEntity link" href="{{pathname}}" title="{{label}}">{{label}}</a></h4>
+<div class="claims-wrapper">
+  {{partial 'entities:book_claims' this}}
+</div>
+<p class="description clamped">{{description}}</p>
+<div class="parts"></div>
+{{#if standalone}}
+  {{#if wikidata}}
+    {{partial 'entities:wiki_bar' this}}
+  {{/if}}
+  {{partial 'welcome:embedded_welcome'}}
+{{/if}}
