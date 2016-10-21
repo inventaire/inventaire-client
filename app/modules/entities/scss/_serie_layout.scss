@@ -1,4 +1,19 @@
 .serieLayout{
+  background-color: $darker-grey;
+  padding: 1em;
+  .photo-credits{
+    font-size: 0.7em;
+    color: #aaa;
+    .link{
+      color: #888;
+    }
+  }
+  .wiki-attributes{
+    background-color: white;
+  }
+  > h4 a.link{
+    color: white;
+  }
   text-align: center;
   @include radius;
   .description{
@@ -14,18 +29,27 @@
     }
   }
   &:not(.standalone){
-    margin-bottom: 2em;
-    background-color: #eee;
+    background-color: $dark-grey;
+    &:not(:last-child){
+      margin-bottom: 2em;
+    }
   }
 }
 
 .parts > div {
+  padding: 1em;
+  background-color: white;
+  margin: 0 auto;
+  max-width: 50em;
   .header .counter{
     display: none;
   }
   .bookLi{
     p:not(.date), .actions{
       display: none;
+    }
+    .date{
+      color: $dark-grey;
     }
   }
 }

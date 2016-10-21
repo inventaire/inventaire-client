@@ -1,6 +1,7 @@
 {{partial 'entities:edit_wikidata' this}}
 <div class='wiki-attributes'>
   <p class="claims">
+    {{claim claims 'wdt:P179' true}} {{!-- serie --}}
     {{stringClaim claims 'wdt:P1476'}} {{!-- original title --}}
     {{stringClaim claims 'wdt:P1680'}} {{!-- subtitle --}}
     {{claim claims 'wdt:P364'}} {{!-- original language --}}
@@ -8,6 +9,7 @@
     {{{joinAuthors claims.wdt:P2093}}}<br> {{!-- short author name --}}
     {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
     {{timeClaim claims 'wdt:P577'}} {{!-- time of publication --}}
+    {{claim claims 'wdt:P144' true}} {{!-- based on --}}
     {{claim claims 'wdt:P155' true}} {{!-- preceded by --}}
     {{claim claims 'wdt:P156' true}} {{!-- followed by --}}
     {{claim claims 'wdt:P136' true}} {{!-- genre --}}
