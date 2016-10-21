@@ -66,12 +66,18 @@ module.exports = Marionette.LayoutView.extend
 
   _showWorks: ->
     @showWorkCollection 'books'
-    if @model.works.series.totalLength > 0 then @showWorkCollection 'series'
-    if @model.works.articles.totalLength > 0 then @showWorkCollection 'articles'
 
-  showWorkCollection: (type)->
+    if @model.works.series.totalLength > 0
+      initialLength = if @options.standalone then 10 else 5
+      @showWorkCollection 'series', initialLength
+
+    if @model.works.articles.totalLength > 0
+      @showWorkCollection 'articles'
+
+  showWorkCollection: (type, initialLength)->
     @["#{type}Region"].show new WorksList
       collection: @model.works[type]
       type: type
+      initialLength: initialLength
 
   refreshData: -> app.execute 'show:entity:refresh', @model
