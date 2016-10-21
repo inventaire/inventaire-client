@@ -7,7 +7,7 @@ module.exports = ->
   setWikiLinks.call @, lang
   setAttributes.call @, lang
 
-  waitForExtract = setWikipediaExtract.call @, lang
+  waitForExtract = setWikipediaExtract.call @
   @_dataPromises.push waitForExtract
 
 setWikiLinks = (lang)->
@@ -29,9 +29,10 @@ setWikiLinks = (lang)->
 
   @set updates
 
-setWikipediaExtract = (lang)->
+setWikipediaExtract = ->
+  lang = @get 'wikipedia.lang'
   title = @get 'wikipedia.title'
-  unless title? then return _.preq.resolved
+  unless lang? and title? then return _.preq.resolved
 
   wikipedia_.extract lang, title
   .then (extract)=> if extract? then @set 'extract', extract
