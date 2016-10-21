@@ -26,8 +26,27 @@ getLocalEntities = (uris)-> _.pick entitiesCache, uris
 getRemoteEntities = (uris, foundEntities, refresh)->
   _.preq.get entitiesGet(uris, refresh)
   .then (res)->
-    { entities } = res
+    { entities, redirects } = res
+    aliasRedirects entities, redirects
+    # Prevent missing entities to be re-fetched
+    addPlaceholderForMissingEntities entities, uris
     # Add the newly fetched entities to the cache
     _.extend entitiesCache, entities
     # Return all the requested entities
     return _.extend foundEntities, entities
+
+# Add links to the redirected entities objects
+aliasRedirects = (entities, redirects)->
+  for from, to of redirects
+    entities[from] = entities[to]
+
+  return
+
+addPlaceholderForMissingEntities = (entities, requestedUris)->
+  foundUris = Object.keys entities
+  missingUris = _.difference requestedUris, foundUris
+  _.error missingUris, 'entities not found'
+  for uri in missingUris
+    entities[uri] = null
+
+  return
