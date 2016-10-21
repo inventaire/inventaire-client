@@ -1,4 +1,5 @@
 spinner = _.icon 'circle-o-notch', 'fa-spin'
+error_ = require 'lib/error'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/works_list'
@@ -7,11 +8,13 @@ module.exports = Marionette.CompositeView.extend
     Loading: {}
 
   childViewContainer: '.container'
-  getChildView: ->
-    switch @options.type
-      when 'series' then require './serie_layout'
-      when 'articles' then require './article_li'
-      else require './book_li'
+  getChildView: (model)->
+    { type } = model
+    switch type
+      when 'serie' then require './serie_layout'
+      when 'book' then require './book_li'
+      when 'article' then require './article_li'
+      else throw error_.new "unknown work type: #{type}", model
 
   emptyView: require 'modules/inventory/views/no_item'
 
