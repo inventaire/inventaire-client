@@ -1,4 +1,5 @@
 WorksList = require './works_list'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/serie_layout'
@@ -10,6 +11,7 @@ module.exports = Marionette.LayoutView.extend
     parts: '.parts'
 
   behaviors:
+    Loading: {}
     WikiBar: {}
 
   initialize: ->
@@ -21,10 +23,14 @@ module.exports = Marionette.LayoutView.extend
       standalone: @options.standalone
 
   fetchParts: ->
+    behaviorsPlugin.startLoading.call @
+
     @model.initSerieParts @options.refresh
     .then @showParts.bind(@)
 
   showParts: ->
+    behaviorsPlugin.stopLoading.call @
+
     @parts.show new WorksList
       collection: @model.parts
       type: 'books'
