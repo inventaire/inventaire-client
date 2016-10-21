@@ -1,3 +1,4 @@
+SerieInfobox = require './serie_infobox'
 WorksList = require './works_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
@@ -8,6 +9,7 @@ module.exports = Marionette.LayoutView.extend
     return "serieLayout #{standalone}"
 
   regions:
+    infobox: '.infobox'
     parts: '.parts'
 
   behaviors:
@@ -20,6 +22,14 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     _.extend @model.toJSON(),
+      standalone: @options.standalone
+
+  onRender: ->
+    @showInfobox()
+
+  showInfobox: ->
+    @infobox.show new SerieInfobox
+      model: @model
       standalone: @options.standalone
 
   fetchParts: ->

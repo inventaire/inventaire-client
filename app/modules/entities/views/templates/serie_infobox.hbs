@@ -1,0 +1,11 @@
+{{#if image.url}}
+  <div class="cover">
+      <img src="{{src image.url 300}}" alt="{{label}}">
+      {{partial 'entities:photo_credits' image.credits}}
+  </div>
+{{/if}}
+<{{headerLevel}}>
+  <a class="showEntity link" href="{{pathname}}" title="{{label}}">{{label}}</a>
+</{{headerLevel}}>
+<p class="description">{{{description}}}</p>
+<div class="claims-wrapper">{{partial 'entities:book_claims' this}}</div>

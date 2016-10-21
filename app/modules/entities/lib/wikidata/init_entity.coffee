@@ -35,8 +35,15 @@ setWikipediaExtract = ->
   unless lang? and title? then return _.preq.resolved
 
   wikipedia_.extract lang, title
-  .then (extract)=> if extract? then @set 'extract', extract
+  .then _setWikipediaExtractAndDescription.bind(@)
   .catch _.Error('setWikipediaExtract err')
+
+_setWikipediaExtractAndDescription = (extract)->
+  if extract?
+    @set 'extract', extract
+    description = @get('description') or ''
+    if extract.length > description.length
+      @set 'description', extract
 
 setAttributes = (lang)->
   label = @get 'label'

@@ -1,14 +1,4 @@
-{{#if image.url}}
-  <div class="cover">
-      <img src="{{src image.url 300}}" alt="{{label}}">
-      {{partial 'entities:photo_credits' image.credits}}
-  </div>
-{{/if}}
-<h4><a class="showEntity link" href="{{pathname}}" title="{{label}}">{{label}}</a></h4>
-<div class="claims-wrapper">
-  {{partial 'entities:book_claims' this}}
-</div>
-<p class="description">{{description}}</p>
+<div class="infobox"></div>
 <div class="parts"><span class="loading"></span></div>
 {{#if standalone}}
   {{#if wikidata}}
