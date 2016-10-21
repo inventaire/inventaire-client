@@ -24,6 +24,7 @@ module.exports = (_, csle)->
     return obj
 
   error = (err, label)->
+    originalErr = err
     if err?.status?
       switch err.status
         when 401 then return csle.warn '401', label
@@ -32,14 +33,13 @@ module.exports = (_, csle)->
 
     unless err?.stack?
       label or= 'empty error'
-      newErr = new Error(label)
-      stackLines = newErr.stack?.split('\n')
-      report = [err, newErr.message, stackLines]
-    else
-      stackLines = err.stack?.split('\n')
-      report = [err.message or err, stackLines]
+      err = new Error(label)
+      err.context = originalErr
 
-    if err?.context? then report.push err.context
+    stackLines = err.stack?.split('\n')
+    report = [err.message, stackLines]
+
+    if err.context? then report.push err.context
 
     report.push label
 

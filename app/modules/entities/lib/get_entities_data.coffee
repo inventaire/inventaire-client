@@ -29,7 +29,7 @@ getRemoteEntities = (uris, foundEntities, refresh)->
     { entities, redirects } = res
     aliasRedirects entities, redirects
     # Prevent missing entities to be re-fetched
-    addPlaceholderForMissingEntities entities, uris
+    logMissingEntities entities, uris
     # Add the newly fetched entities to the cache
     _.extend entitiesCache, entities
     # Return all the requested entities
@@ -42,11 +42,8 @@ aliasRedirects = (entities, redirects)->
 
   return
 
-addPlaceholderForMissingEntities = (entities, requestedUris)->
-  foundUris = Object.keys entities
+logMissingEntities = (foundEntities, requestedUris)->
+  foundUris = Object.keys foundEntities
   missingUris = _.difference requestedUris, foundUris
-  _.error missingUris, 'entities not found'
-  for uri in missingUris
-    entities[uri] = null
-
-  return
+  if missingUris.length > 0
+    _.error missingUris, 'entities not found'
