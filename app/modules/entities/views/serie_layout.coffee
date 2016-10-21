@@ -35,3 +35,4 @@ module.exports = Marionette.LayoutView.extend
       collection: @model.parts
       type: 'books'
       hideHeader: true
+      refresh: @options.refresh

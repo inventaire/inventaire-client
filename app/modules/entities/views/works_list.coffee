@@ -16,6 +16,9 @@ module.exports = Marionette.CompositeView.extend
       when 'article' then require './article_li'
       else throw error_.new "unknown work type: #{type}", model
 
+  childViewOptions: (model, index)->
+    refresh: @options.refresh
+
   emptyView: require 'modules/inventory/views/no_item'
 
   ui:
