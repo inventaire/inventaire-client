@@ -13,14 +13,15 @@ module.exports = Marionette.LayoutView.extend
     WikiBar: {}
 
   initialize: ->
-    @model.initSerieParts @options.refresh
+    # Trigger fetchParts only once the author is in view
+    @$el.once 'inview', @fetchParts.bind(@)
 
   serializeData: ->
     _.extend @model.toJSON(),
       standalone: @options.standalone
 
-  onShow: ->
-    @model.waitForParts
+  fetchParts: ->
+    @model.initSerieParts @options.refresh
     .then @showParts.bind(@)
 
   showParts: ->

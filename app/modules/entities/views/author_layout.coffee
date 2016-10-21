@@ -18,8 +18,8 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @initPlugins()
     @lazyRender = _.LazyRender @
-    # trigger fetchbooks once the author is in view
-    @$el.once 'inview', @fetchBooks.bind(@)
+    # Trigger fetchWorks only once the author is in view
+    @$el.once 'inview', @fetchWorks.bind(@)
     if @options.standalone then app.execute 'metadata:update:needed'
 
   initPlugins: ->
@@ -35,14 +35,14 @@ module.exports = Marionette.LayoutView.extend
       # having an epub download button on an author isn't really interesting
       hideWikisourceEpub: true
 
-  fetchBooks: ->
+  fetchWorks: ->
     @worksShouldBeShown = true
     # make sure refresh is a Boolean and not an object incidently passed
     refresh = @options.refresh is true
 
     @model.initAuthorWorks refresh
     .then @_showWorksIfRendered.bind(@)
-    .catch _.Error('author_layout fetchBooks err')
+    .catch _.Error('author_layout fetchWorks err')
 
   _showWorksIfRendered: ->
     if @isRendered then @showWorks()
