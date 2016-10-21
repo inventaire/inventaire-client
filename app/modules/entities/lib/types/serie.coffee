@@ -9,7 +9,6 @@ module.exports = ->
 
 specificMethods =
   initSerieParts: (refresh)->
-    _.log refresh, 'refresh initSerieParts??'
     if not refresh and @waitForParts? then return @waitForParts
 
     uri = @get 'uri'
