@@ -19,11 +19,9 @@ specificMethods =
     .then @importDataFromParts.bind(@)
 
   initPartsCollections: (refresh, res)->
-    { parts } = res
-    parts = res.parts.map getUri
-    # Emit the event associated event
-    @set 'parts', parts
-    @parts = new Works null, { uris: parts, refresh }
+    @parts = new Works null,
+      uris: res.parts.map getUri
+      refresh: refresh
 
   importDataFromParts: ->
     firstPartWithPublicationDate = @parts.find getPublicationDate

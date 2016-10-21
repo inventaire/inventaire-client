@@ -1,5 +1,7 @@
+$serie-bg: #252525;
+
 .serieLayout{
-  background-color: $darker-grey;
+  background-color: $serie-bg;
   padding: 1em;
   .photo-credits{
     font-size: 0.7em;
@@ -11,17 +13,15 @@
   .wiki-attributes{
     background-color: white;
   }
-  > h4 a.link{
-    color: white;
-  }
   text-align: center;
-  @include radius;
-  .description{
-    color: white;
-  }
-  .claims-wrapper{
+  .description, .claims-wrapper{
     margin: 0 auto;
     max-width: 40em;
+    margin-bottom: 1em;
+  }
+  .description{
+    color: white;
+    text-align: left;
   }
   &.standalone{
     .more{
@@ -29,30 +29,39 @@
     }
   }
   &:not(.standalone){
-    background-color: $dark-grey;
+    @include radius;
+    background-color: lighten($serie-bg, 1%);
     &:not(:last-child){
       margin-bottom: 2em;
     }
   }
-}
-
-.parts > div {
-  .fa-spin{
-    color: white;
+  .infobox{
+    h3, h4{
+      a.link{
+        color: white;
+      }
+    }
   }
-  padding: 1em;
-  background-color: white;
-  margin: 0 auto;
-  max-width: 50em;
-  .header .counter{
-    display: none;
-  }
-  .bookLi{
-    p:not(.date), .actions{
+  .parts > div {
+    .fa-spin{
+      color: white;
+    }
+    padding: 1em;
+    background-color: #ccc;
+    margin: 0 auto;
+    max-width: 50em;
+    .header .counter{
       display: none;
     }
-    .date{
-      color: $dark-grey;
+    .bookLi{
+      text-align: center;
+      p:not(.date), .actions{
+        display: none;
+      }
+      .date{
+        color: $dark-grey;
+      }
     }
+    margin-bottom: 1em;
   }
 }
