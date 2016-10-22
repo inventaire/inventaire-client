@@ -26,6 +26,12 @@
   }
   .articles{
     margin-top: 2em;
+    margin-bottom: 2em;
+    .main{
+      h4{
+        color: $dark-grey;
+      }
+    }
   }
   @import './author_infobox';
 }
