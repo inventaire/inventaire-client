@@ -1,4 +1,5 @@
 Filterable = require 'modules/general/models/filterable'
+error_ = require 'lib/error'
 
 module.exports = Filterable.extend
   url: -> app.API.items.authentified
@@ -13,14 +14,11 @@ module.exports = Filterable.extend
     # replace title with snapshot.title if simply taken from the entity
     # so that it stays in sync
 
-    unless entity?
-      throw new Error "item should have an associated entity"
+    unless _.isEntityUri entity
+      throw error_.new "invalid entity URI: #{entity}", attrs
 
-    @entityUri = app.request 'normalize:entity:uri', entity
-    # make sure the entity model is loaded in the global app.entities collection
-    # and thus accessible from a app.entities.byUri
+    @entityUri = entity
     @waitForEntity = @reqGrab 'get:entity:model', @entityUri, 'entity'
-
 
     # created will be overriden by the server at item creation
     @set
@@ -29,7 +27,7 @@ module.exports = Filterable.extend
 
     @setPathname()
 
-    @entityPathname = app.request 'get:entity:local:href', @entityUri, title
+    @entityPathname = app.request 'get:entity:local:href', @entityUri
 
     @userReady = false
 

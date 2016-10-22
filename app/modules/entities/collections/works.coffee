@@ -17,7 +17,7 @@ module.exports = Backbone.Collection.extend
       @remainingUris = urisToFetch.concat @remainingUris
       @fetchedUris = fetchedUrisBefore
 
-    app.request 'get:entities:models:from:uris', urisToFetch, @refresh
+    app.request 'get:entities:models', urisToFetch, @refresh
     .then @add.bind(@)
     .catch rollback
 

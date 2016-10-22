@@ -43,7 +43,7 @@ module.exports = Backbone.NestedModel.extend
       when 'book' then initializeBook.call @
       when 'human' then initializeAuthor.call @
       when 'article', 'edition' then null
-      else _.warn @type, 'no initializer found for this type'
+      else _.warn @, "no initializer found for this type: #{@type}"
       # when 'edition' then @initializeEdition()
 
     if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
@@ -88,7 +88,7 @@ module.exports = Backbone.NestedModel.extend
     prop = @childrenClaimProperty
 
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
-    .then (uris)-> app.request 'get:entities:models:from:uris', uris, refresh
+    .then (uris)-> app.request 'get:entities:models', uris, refresh
     .then @subentities.add.bind(@subentities)
 
   # To be called by a view onShow:

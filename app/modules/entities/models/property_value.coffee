@@ -16,7 +16,7 @@ module.exports = Backbone.Model.extend
       unless regex_.EntityUri.test value
         throw error_.new 'invalid entity uri', @toJSON()
 
-      @reqGrab 'get:entity:model:from:uri', value, 'valueEntity'
+      @reqGrab 'get:entity:model', value, 'valueEntity'
 
   saveValue: (newValue)->
     oldValue = @get 'value'

@@ -14,7 +14,7 @@ attribute = 'data-uri'
 wd_ = require 'lib/wikimedia/wikidata'
 { getLabel, setLabel, getKnownUris, resetLabels } = require './labels_helpers'
 
-getEntitiesData = require 'modules/entities/lib/get_entities_data'
+{ get:getEntitiesModels } = require 'modules/entities/lib/get_entities_models'
 
 language = null
 elements = null
@@ -43,17 +43,17 @@ display = ->
 getEntities = (uris)->
   if uris.length is 0 then return
 
-  getEntitiesData { uris, refresh }
-  .then _.Log('getEntitiesData res')
+  getEntitiesModels { uris, refresh }
+  .then _.Log('getEntitiesModels res')
   .then addEntitiesLabels
   # /!\ Not waiting for the update to run
   # but simply calling the debounced function
   .then debouncedUpdate
   .catch _.Error('uri_label getEntities err')
 
-addEntitiesLabels = (entities)->
-  for uri, entity of entities
-    { labels, claims } = entity
+addEntitiesLabels = (entitiesModels)->
+  for uri, entityModel of entitiesModels
+    [ labels, claims ] = entityModel.gets 'labels', 'claims'
 
     setEntityOriginalLang uri, claims, labels
     for lang, label of labels

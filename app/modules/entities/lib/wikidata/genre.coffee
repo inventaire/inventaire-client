@@ -41,7 +41,8 @@ wdGenre_.fetchBooksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
     _.warn 'no more ids: range is empty'
     return _.preq.resolved
 
-  return app.request 'get:entities:models', 'wd', range
+  uris = range.map (qid)-> "wd:#{qid}"
+  return app.request 'get:entities:models', uris
 
 # EXPECT books collection, authors collection, entities models
 wdGenre_.spreadBooksAndAuthors = (books, authors, entities)->

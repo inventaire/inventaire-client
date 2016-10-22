@@ -11,7 +11,7 @@ GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
 createEntityDraftModel = require './lib/create_entity_draft_model'
-getEntitiesData = require './lib/get_entities_data'
+entitiesModels = require './lib/get_entities_models'
 createInvEntity = require './lib/inv/create_inv_entity'
 
 module.exports =
@@ -32,37 +32,23 @@ module.exports =
 
   initialize: ->
     setHandlers()
-    app.entities = new Entities
 
 API =
   showEntity: (uri, label, params, region)->
     region or= app.layout.main
     app.execute 'show:loader', { region }
 
-    [ prefix, id ] = getPrefixId uri
-    unless prefix? and id?
-      _.warn 'prefix or id missing at showEntity'
-
     refresh = params?.refresh or app.request('querystring:get', 'refresh')
     if refresh then app.execute 'uriLabel:refresh'
 
-    @_getEntityView prefix, id, refresh
+    getEntityModel uri, refresh
+    .tap replaceEntityPathname.bind(null, '')
+    .then @getEntityViewByType.bind(@, refresh)
     .then region.show.bind(region)
-    # .catch @solveMissingEntity.bind(@, prefix, id)
+    # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showEntity err')
 
-  _getEntityView: (prefix, id, refresh)->
-    getEntityModel prefix, id, refresh
-    .tap replaceEntityPathname.bind(null, '')
-    .then @_getDomainEntityView.bind(@, prefix, refresh)
-
-  _getDomainEntityView: (prefix, refresh, entity)->
-    switch prefix
-      when 'wd', 'inv' then @getWikidataEntityView entity, refresh
-      when 'isbn' then @getCommonBookEntityView entity
-      else _.error "getDomainEntityView err: unknown domain #{prefix}"
-
-  getWikidataEntityView: (entity, refresh)->
+  getEntityViewByType: (refresh, entity)->
     switch entity.type
       when 'human' then @getAuthorView entity, refresh
       when 'book' then @getCommonBookEntityView entity, refresh
@@ -85,18 +71,18 @@ API =
       refresh: refresh
 
   showAddEntity: (uri)->
-    getEntityModelFromUri uri
+    getEntityModel uri
     .then (entity)->
       app.execute 'show:item:creation:form',
         entity: entity
         preventDupplicates: true
 
-    # .catch @solveMissingEntity.bind(@, prefix, id)
+    # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showAddEntity err')
 
   showEditEntity: (uri)->
     # make sure we have the freshest data before trying to edit
-    getEntityModelFromUri uri, true
+    getEntityModel uri, true
     .tap replaceEntityPathname.bind(null, '/edit')
     .then showEntityEdit
     .catch handleMissingEntityError.bind(null, 'showEditEntity err')
@@ -106,7 +92,7 @@ API =
     label = decodeURIComponent app.request('querystring:get', 'label')
     showEntityCreate type, label
 
-  # solveMissingEntity: (prefix, id, err)->
+  # solveMissingEntity: (uri, err)->
   #   if err.message is 'entity_not_found' then @showCreateEntity id
   #   else throw err
 
@@ -114,9 +100,6 @@ API =
   #   app.layout.main.show new EntityCreate
   #     data: isbn
   #     standalone: true
-
-  getEntityPublicItems: (uri)->
-    _.preq.get app.API.items.publicByEntity(uri)
 
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
@@ -156,16 +139,12 @@ setHandlers = ->
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
-    'get:entity:model:from:uri': getEntityModelFromUri
-    'get:entities:models': getEntitiesModelsWithCatcher
-    'get:entities:models:from:uris': getEntitiesModelsFromUris
-    'get:entity:public:items': API.getEntityPublicItems
-    'get:entities:labels': getEntitiesLabels
+    'get:entities:models': getEntitiesModels
+    'get:entity:public:items': getEntityPublicItems
     'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
-    'normalize:entity:uri': normalizeEntityUri
 
-getEntitiesModelsFromUris = (uris, refresh)->
+getEntitiesModels = (uris, refresh)->
   _.type uris, 'array'
   _.types uris, 'strings...'
   # Make sure its a 'true' flag and not an object incidently passed
@@ -173,37 +152,11 @@ getEntitiesModelsFromUris = (uris, refresh)->
 
   if uris.length is 0 then return _.preq.resolve []
 
-  getEntitiesData { uris, refresh }
-  .then (entities)->
-    foundUris = Object.keys entities
-    missing = _.difference uris, foundUris
-    if missing.length > 0
-      _.warn missing, 'missing entities'
+  entitiesModels.get { uris, refresh }
+  .then _.values
 
-    # Return an array of models rather than a collection
-    return _.values entities
-    .map (entity)->
-      # Passing the refresh option to let it be passed to possible subentities
-      model = new Entity entity, { refresh }
-      app.entities.add model
-      return model
-
-getEntitiesModels = (prefix, ids, refresh)->
-  uris = ids.map (id)-> "#{prefix}:#{id}"
-  getEntitiesModelsFromUris uris, refresh
-
-getEntitiesModelsWithCatcher = ->
-  getEntitiesModels.apply null, arguments
-  .catch _.Error('getEntitiesModels err')
-
-getEntityModel = (prefix, id, refresh)->
-  unless prefix? and id?
-    throw error_.new 'missing prefix or id', arguments
-
-  getEntityModelFromUri "#{prefix}:#{id}", refresh
-
-getEntityModelFromUri = (uri, refresh)->
-  getEntitiesModelsFromUris [ uri ], refresh
+getEntityModel = (uri, refresh)->
+  getEntitiesModels [ uri ], refresh
   .then (models)->
     if models?[0]? then return models[0]
     else
@@ -211,51 +164,13 @@ getEntityModelFromUri = (uri, refresh)->
       _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
       throw error_.new 'entity_not_found', [prefix, id, models]
 
-getEntityLabel = (uri)-> app.entities.byUri(uri)?.get 'label'
-getEntitiesLabels = (uris)-> uris.map getEntityLabel
-
-getPrefixId = (prefix, id)->
-  # resolving the polymorphic interface
-  # accepts 'prefix', 'id' or 'prefix:id'
-  # returns ['prefix', 'id']
-
-  unless id?
-    [ prefix, id ] = prefix?.split ':'
-    unless id?
-      # trying to guess the prefix when not provided
-      if _.isInvEntityId prefix
-        [ prefix, id ] = [ 'inv', prefix ]
-      else if wdk.isWikidataEntityId prefix
-        [ prefix, id ] = [ 'wd', prefix ]
-
-  if prefix? and id? then return [ prefix, id ]
-  else throw new Error "prefix and id not found for: #{prefix} / #{id}"
-
 createEntity = (data)->
   createInvEntity data
-  .then (entityData)->
-    _.type entityData, 'object'
-    if entityData.isbn? then model = new IsbnEntity entityData
-    else model = new InvEntity entityData
-    app.entities.add model
-    return model
+  .then entitiesModels.add
 
-getEntityLocalHref = (prefix, id, label)->
-  # accept both prefix, id or uri-style "#{prefix}:#{id}"
-  [ prefix, possibleId ] = prefix?.split(':')
-  if possibleId? then [id, label] = [possibleId, id]
+getEntityPublicItems = (uri)-> _.preq.get app.API.items.publicByEntity(uri)
 
-  if prefix?.length > 0 and id?.length > 0
-    return "/entity/#{prefix}:#{id}"
-  else
-    throw new Error "couldnt find entityLocalHref: prefix=#{prefix}, id=#{id}, label=#{label}"
-
-normalizeEntityUri = (prefix, id)->
-  # accepts either a 'prefix:id' uri or 'prefix', 'id'
-  # the polymorphic interface is resolved by getPrefixId
-  [ prefix, id ] = getPrefixId(prefix, id)
-  if prefix is 'isbn' then id = isbn_.normalizeIsbn id
-  return "#{prefix}:#{id}"
+getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
 showEntityEdit = (entity)->
   view = new EntityEdit { model: entity }
