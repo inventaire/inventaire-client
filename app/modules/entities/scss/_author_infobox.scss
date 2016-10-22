@@ -1,4 +1,4 @@
-.infobox{
+.authorInfobox{
   // center the image
   @include display-flex(column);
   img{
@@ -23,7 +23,7 @@
 
 /*Large screens*/
 @media screen and (min-width: $small-screen) {
-  .infobox{
+  .authorInfobox{
     flex: 0 0 auto;
     width: 25em;
   }
@@ -31,7 +31,7 @@
 
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
-  .infobox{
+  .authorInfobox{
     img{
       max-width: 95vw;
     }

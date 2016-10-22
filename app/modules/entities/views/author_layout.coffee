@@ -10,7 +10,7 @@ module.exports = Marionette.LayoutView.extend
     WikiBar: {}
 
   regions:
-    infoboxRegion: '.infobox'
+    infoboxRegion: '.authorInfobox'
     seriesRegion: '.series'
     booksRegion: '.books'
     articlesRegion: '.articles'

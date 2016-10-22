@@ -9,7 +9,7 @@ module.exports = Marionette.LayoutView.extend
     return "serieLayout #{standalone}"
 
   regions:
-    infobox: '.infobox'
+    infobox: '.serieInfobox'
     parts: '.parts'
 
   behaviors:
