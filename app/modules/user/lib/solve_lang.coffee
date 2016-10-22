@@ -4,7 +4,7 @@ module.exports = (userLanguage)->
   # querystring parameters > other settings sources
   qsLang = app.request 'querystring:get', 'lang'
   lang = qsLang or userLanguage or guessLanguage()
-  return _.log _.shortLang(lang), 'lang'
+  return _.shortLang lang
 
 guessLanguage = ->
   lang = _.getCookie 'lang'

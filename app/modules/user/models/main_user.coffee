@@ -26,8 +26,8 @@ module.exports = UserCommons.extend
     .then @setLang.bind(@)
 
   setLang: ->
-    @lang = lang = solveLang @get('language')
-    initI18n app, lang
+    @lang = solveLang @get('language')
+    initI18n app, @lang
 
   # Two valid language change cases:
   # - The user isn't logged in and change the language from the top bar selector
@@ -38,20 +38,24 @@ module.exports = UserCommons.extend
     lang = @get 'language'
     if lang is app.polyglot.currentLocale then return
 
-    reload = location.reload.bind location
+    reloadHref = window.location.href
+    if app.request('querystring:get', 'lang')?
+      # Prevent the querystring to override the language change
+      # Can't just pass null to 'querystring:set' due to its limitations
+      reloadHref = reloadHref
+        .replace /&?lang=\w+/, ''
+        # If all there is left from the querystring is a '?', remove it
+        .replace /\?$/, ''
+
+    reload = -> location.href = reloadHref
 
     if @loggedIn
       # wait for the server confirmation as we keep the language setting
       # in the user's document
-      @once 'confirmed:language', ->
-        app.entities.data.reset()
-        .then reload
+      @once 'confirmed:language', reload
     else
-      Promise.all [
-        # the language setting is persisted as a cookie instead
-        _.setCookie 'lang', lang
-        app.entities.data.reset()
-      ]
+      # the language setting is persisted as a cookie instead
+      _.setCookie 'lang', lang
       .then reload
 
   setDefaultSettings: (settings)->
