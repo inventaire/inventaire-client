@@ -22,6 +22,10 @@ module.exports = Backbone.NestedModel.extend
     @refresh = options?.refresh
     @type = attrs.type
 
+    # If the entity isn't of any known type, it was probably fetched
+    # for its label, there is thus no need to go further on initialization
+    unless @type then return
+
     @setCommonAttributes attrs
 
     # List of promises created from specialized initializers
@@ -43,7 +47,6 @@ module.exports = Backbone.NestedModel.extend
       when 'book' then initializeBook.call @
       when 'human' then initializeAuthor.call @
       when 'article', 'edition' then null
-      else _.warn @, "no initializer found for this type: #{@type}"
       # when 'edition' then @initializeEdition()
 
     if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
