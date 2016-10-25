@@ -1,6 +1,7 @@
 sitelinks_ = require 'lib/wikimedia/sitelinks'
 wikipedia_ = require 'lib/wikimedia/wikipedia'
 getBestLangValue = require '../get_best_lang_value'
+{ escapeExpression } = Handlebars
 
 module.exports = ->
   { lang } = app.user
@@ -29,6 +30,28 @@ setWikiLinks = (lang)->
 
   @set updates
 
+setAttributes = (lang)->
+  label = @get 'label'
+  wikipediaTitle = @get 'wikipedia.title'
+  if wikipediaTitle? and not label?
+    # If no label was found, try to use the wikipedia page title
+    # remove the escaped spaces: %20
+    label = decodeURIComponent wikipediaTitle
+      # Remove the eventual desambiguation part between parenthesis
+      .replace /\s\(\w+\)/, ''
+
+    @set 'label', label
+
+  description = getBestLangValue lang, @originalLang, @get('descriptions')
+  if description?
+    # This may be overriden by a Wikipedia extract
+    # Escaping as description are user-generated external content
+    # that will be displayed as {{{SafeStrings}}} in views as
+    # they may be enriched with HTML (see app/lib/wikimedia/wikipedia)
+    @set 'description', escapeExpression(description)
+    # This stays the same in any case
+    @set 'shortDescription', description
+
 setWikipediaExtract = ->
   lang = @get 'wikipedia.lang'
   title = @get 'wikipedia.title'
@@ -44,18 +67,3 @@ _setWikipediaExtractAndDescription = (extract)->
     description = @get('description') or ''
     if extract.length > description.length
       @set 'description', extract
-
-setAttributes = (lang)->
-  label = @get 'label'
-  wikipediaTitle = @get 'wikipedia.title'
-  if wikipediaTitle? and not label?
-    # If no label was found, try to use the wikipedia page title
-    # remove the escaped spaces: %20
-    label = decodeURIComponent wikipediaTitle
-      # Remove the eventual desambiguation part between parenthesis
-      .replace /\s\(\w+\)/, ''
-
-    @set 'label', label
-
-  description = getBestLangValue lang, @originalLang, @get('descriptions')
-  if description? then @set 'description', description

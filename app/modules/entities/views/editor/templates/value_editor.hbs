@@ -6,13 +6,13 @@
       <div class="value-entity-wrapper">
         {{#with valueEntity}}
           <div class="img-wrapper">
-            {{#if pictures}}
-              <img src='{{src pictures 48}}' alt='{{label}}'>
+            {{#if image.url}}
+              <img src='{{src image.url 48}}' alt='{{label}}'>
             {{/if}}
           </div>
           <div>
             <span class="label">{{label}}</span><br>
-            <span class="description">{{description}}</span>
+            <span class="description">{{shortDescription}}</span>
             {{link uri wikidata.wiki 'identifier'}}
           </div>
         {{/with}}

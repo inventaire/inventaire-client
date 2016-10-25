@@ -6,7 +6,8 @@ module.exports =
     .then (data)->
       { extract, url } = data
       # Escaping as extracts are user-generated external content
-      # but that should normally already be done by Wikipedia
+      # that will be displayed as {{{SafeStrings}}} in views as
+      # they are enriched with HTML by sourcedExtract hereafter
       extract = escapeExpression extract
       return sourcedExtract extract, url
     .catch _.ErrorRethrow('wikipediaExtract err')
