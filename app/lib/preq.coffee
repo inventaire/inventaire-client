@@ -62,15 +62,11 @@ rewriteError = (err, context)->
     message = "#{status}: #{statusText} - #{responseText} - #{url}"
   else
     # cf http://stackoverflow.com/a/6186905
+    # Known case: request blocked by CORS headers
     message = """
       parsing error: #{verb} #{url}
-      got status #{status} but invalid JSON: #{responseText}
+      got status #{status} but invalid JSON: #{responseText} / #{responseJSON}
       """
 
   error = new Error message
-  return _.extend error,
-    status: status
-    statusText: statusText
-    responseText: responseText
-    responseJSON: responseJSON
-    context: context
+  return _.extend error, { status, statusText, responseText, responseJSON, context }
