@@ -1,18 +1,5 @@
 should = require 'should'
-__ = require '../root'
-_ = require 'underscore'
-
-if process.env.CONSOLE is 'silent'
-  csle = __.require 'lib', 'noop_console'
-else
-  csle = console
-
-loggers_ = __.require('lib', 'loggers')(_, csle)
-_.extend _, loggers_
-
-global =
-  reportErr: ->
-window = global.window = global
+_ = require './utils_builder'
 
 describe 'Logger', ->
   describe 'log', ->

@@ -1,8 +1,5 @@
 should = require 'should'
-sharedLib = require './shared_lib'
-_ = require 'underscore'
-types_ = sharedLib('types')(_)
-_.extend _, types_
+_ = require './utils_builder'
 
 describe 'Types utils', ->
   describe 'TYPEOF', ->
@@ -103,11 +100,13 @@ describe 'Types utils', ->
       done()
 
     it "should not throw when less arguments than types but more or as many as minArgsLength", (done)->
-      (-> _.types ['im am a string'], ['string', 'string']).should.throw()
-      (-> _.types ['im am a string'], ['string', 'string'], 0).should.not.throw()
-      (-> _.types ['im am a string'], ['string', 'string'], 1).should.not.throw()
-      (-> _.types ['im am a string'], ['string'], 0).should.not.throw()
-      (-> _.types ['im am a string'], ['string'], 1).should.not.throw()
+      (-> _.types ['i am a string'], ['string', 'string']).should.throw()
+      (-> _.types ['i am a string'], ['string', 'string'], 0).should.not.throw()
+      (-> _.types ['i am a string'], ['string', 'string'], 1).should.not.throw()
+      (-> _.types ['i am a string'], ['string', 'boolean|undefined'], 1).should.not.throw()
+      (-> _.types ['i am a string'], ['string', 'boolean|undefined'], 1).should.not.throw()
+      (-> _.types ['i am a string'], ['string'], 0).should.not.throw()
+      (-> _.types ['i am a string'], ['string'], 1).should.not.throw()
       done()
 
     it "should throw when less arguments than types and not more or as many as minArgsLength", (done)->
