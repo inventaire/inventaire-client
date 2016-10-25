@@ -67,7 +67,7 @@ byProperty = (options)->
 createEntity = (labels, claims)->
   _.types arguments, 'objects...'
   createInvEntity
-    labelsInv: labels
+    labels: labels
     claims: claims
   .then (entityData)-> new Entity entityData
 

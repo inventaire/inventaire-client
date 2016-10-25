@@ -7,6 +7,9 @@ SubEntitiesEditor = require './sub_entities_editor'
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
   template: require './templates/entity_edit'
+  behaviors:
+    PreventDefault: {}
+
   regions:
     title: '.title'
     claims: '.claims'
