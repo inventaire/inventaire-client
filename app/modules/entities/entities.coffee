@@ -161,8 +161,8 @@ getEntityModel = (uri, refresh)->
     if models?[0]? then return models[0]
     else
       # see getEntitiesModels "Possible reasons for missing entities"
-      _.log "getEntityModel entity_not_found: #{prefix}:#{id}"
-      throw error_.new 'entity_not_found', [prefix, id, models]
+      _.log "getEntityModel entity_not_found: #{uri}"
+      throw error_.new 'entity_not_found', [uri, models]
 
 createEntity = (data)->
   createInvEntity data
@@ -183,7 +183,7 @@ showEntityEdit = (entity)->
   app.layout.main.Show view, title
 
 replaceEntityPathname = (suffix, entity)->
-  # Correcting possibly custom entity label or missing prefix
+  # Correcting possibly custom entity label
   path = entity.get('pathname') + suffix
   app.navigateReplace path
 
