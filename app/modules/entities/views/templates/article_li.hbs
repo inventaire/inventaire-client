@@ -1,6 +1,6 @@
-{{#if pictures}}
+{{#if image.url}}
 <div>
-  <img src='{{src pictures 150}}' alt='{{label}}'>
+  <img src='{{src image.url 150}}' alt='{{label}}'>
 </div>
 {{/if}}
 <div class="main">
@@ -31,7 +31,7 @@
 <div class="right-bar">
   <span class="fa fa-file-text-o" title="{{i18n 'article_limitation'}}"></span>
   <div class="sitelinks">
-    {{partial 'entities:edit_wikidata' this}}
+    {{partial 'entities:edit_data' this}}
     {{#if wikisource}}
       <a href="{{wikisource.url}}" target="_blank" title="{{I18n 'read online'}}">
         {{icon 'wikisource'}}

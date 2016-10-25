@@ -1,0 +1,10 @@
+<a href="{{editable.wiki}}"
+  {{#unless editable.articleCustomStyle}}class="editEntityData"{{/unless}}
+  {{#if wikidata}}
+    title="{{i18n 'edit data on Wikidata'}}"
+  {{else}}
+    title="{{i18n 'edit data'}}"
+  {{/if}}
+  target="_blank">
+  {{icon 'pencil'}}
+</a>

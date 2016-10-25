@@ -29,7 +29,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .toggler': 'toggleDescLength'
-    'click .editWikidata': 'showEntityEdit'
+    'click .editEntityData': 'showEntityEdit'
 
   toggleDescLength: ->
     @ui.description.toggleClass 'clamped'
@@ -43,5 +43,7 @@ module.exports = Marionette.ItemView.extend
     return attrs
 
   showEntityEdit: ->
-    if @model.prefix is 'inv'
+    # If it's a Wikidata entity, clicking on .editEntityData shouldn't be
+    # preventDefaulted and should open the entity page in Wikidata
+    if @model.prefix isnt 'wd'
       app.execute 'show:entity:edit:from:model', @model
