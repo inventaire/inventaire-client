@@ -70,6 +70,22 @@ module.exports = (_)->
   fixedEncodeURIComponent: (str)->
     encodeURIComponent(str).replace /[!'()*]/g, encodeCharacter
 
+  pickOne: (obj)->
+    key = Object.keys(obj)[0]
+    if key? then return obj[key]
+
+  isDataUrl: (str)-> /^data:image/.test str
+
+  bestImageWidth: (width)->
+    # under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
+    # while still grouping on the initially requested width
+    if width < 500 then return width
+
+    # if in a browser, use the screen width as a max value
+    if screen?.width then width = Math.min width, screen.width
+    # group image width above 500 by levels of 100px to limit generated versions
+    return Math.ceil(width / 100) * 100
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->

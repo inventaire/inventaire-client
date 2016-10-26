@@ -59,9 +59,6 @@ module.exports = (Backbone, _, $, app, window)->
     else false
 
   isntEmpty: (array)-> not _.isEmpty(array)
-  pickOne: (obj)->
-    k = Object.keys(obj)[0]
-    return obj[k]
 
   pickToArray: (obj, props...)->
     if _.isArray(props[0]) then props = props[0]
@@ -165,17 +162,6 @@ module.exports = (Backbone, _, $, app, window)->
     midnight = new Date(today).getTime()
     return Date.now() - midnight
 
-  bestImageWidth: (width)->
-    # under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
-    # while still grouping on the initially requested width
-    if width < 500 then return width
-
-    # if in a browser, use the screen width as a max value
-    if screen?.width then width = Math.min width, screen.width
-    # group image width above 500 by levels of 100px to limit generated versions
-    return Math.ceil(width / 100) * 100
-
-
   # Returns a .catch function that execute the reverse action
   # then passes the error to the next .catch
   Rollback: (reverseAction, label)->
@@ -189,7 +175,6 @@ module.exports = (Backbone, _, $, app, window)->
   isModel: (obj)-> obj instanceof Backbone.Model
   isView: (obj)-> obj instanceof Backbone.View
   isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
-  isDataUrl: (str)-> /^data:image/.test str
 
   allValues: (obj)-> _.flatten _.values(obj)
 
