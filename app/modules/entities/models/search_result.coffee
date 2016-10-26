@@ -1,5 +1,5 @@
 Filterable = require 'modules/general/models/filterable'
-getBestLangValue = require '../lib/get_best_lang_value'
+getBestLangValue = sharedLib('get_best_lang_value')(_)
 wdk = require 'lib/wikidata-sdk'
 error_ = require 'lib/error'
 

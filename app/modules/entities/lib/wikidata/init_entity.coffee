@@ -1,6 +1,6 @@
 sitelinks_ = require 'lib/wikimedia/sitelinks'
 wikipedia_ = require 'lib/wikimedia/wikipedia'
-getBestLangValue = require '../get_best_lang_value'
+getBestLangValue = sharedLib('get_best_lang_value')(_)
 { escapeExpression } = Handlebars
 
 module.exports = ->
