@@ -4,6 +4,8 @@ module.exports = (regex_)->
   bindedTest = (regexName)-> regex_[regexName].test.bind regex_[regexName]
 
   return tests =
+    isUrl: bindedTest 'Url'
+    isIpfsPath: bindedTest 'IpfsPath'
     isLocalImg: bindedTest 'LocalImg'
     isLang: bindedTest 'Lang'
     isInvEntityId: isCouchUuid
@@ -13,3 +15,4 @@ module.exports = (regex_)->
     isUsername: bindedTest 'Username'
     isEntityUri: bindedTest 'EntityUri'
     isPropertyUri: bindedTest 'PropertyUri'
+    isSimpleDay: bindedTest 'SimpleDay'

@@ -71,39 +71,6 @@ describe 'Shared Utils', ->
       _.pickToArray(obj, array)[1].should.equal 35
       done()
 
-  validUrls = [
-    'http://yo.fr'
-    'https://yo.fr'
-    'https://yo.yo.fr'
-    'https://y_o.yo.fr'
-    'https://y-o.yo.fr'
-    'https://hello:pwd@y-o.yo.holidays:3006'
-    'https://hello:pwd@y-o.yo.holidays:3006/glou_-bi?q=boulga#yolo'
-  ]
-
-  invalidUrls = [
-    'nop'
-    'yo.fr'
-    'htp://yo.fr'
-    'http//yo.fr'
-    'https//yo.fr'
-    'http:/yo.fr'
-    'http:/yo.fr'
-    'http://yo-.yo.fr'
-    'http://yo_.yo.fr'
-    'http://_yo.yo.fr'
-    'http://yo._yo.fr'
-  ]
-
-  describe 'isUrl', ->
-    it 'should return true on valid urls', (done)->
-      _.all(validUrls, _.isUrl).should.equal true
-      done()
-
-    it 'should return false on invalid urls', (done)->
-      _.any(invalidUrls, _.isUrl).should.equal false
-      done()
-
   describe 'Full', ->
     it "should return a function", (done)->
       cb = -> console.log arguments
