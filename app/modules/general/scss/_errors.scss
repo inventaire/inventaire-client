@@ -3,9 +3,20 @@
   flex: 1 1 auto;
   min-height: 80vh;
   @include display-flex(column, center, center);
+
+   #local-icon-buttons{
+    height: 4em;
+    @include display-flex(row, center, center);
+   }     
+
+  .iconButton{
+     @include custom-button($dark-grey);
+    margin-top: 2em;
+  }
+
   .errorBox{
     background-color: $global-background-contrast-color;
-    max-width: 30em;
+    max-width: 50em;
     margin: 1em;
     @include radius;
     .button{
