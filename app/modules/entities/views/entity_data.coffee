@@ -45,5 +45,5 @@ module.exports = Marionette.ItemView.extend
   showEntityEdit: ->
     # If it's a Wikidata entity, clicking on .editEntityData shouldn't be
     # preventDefaulted and should open the entity page in Wikidata
-    if @model.prefix isnt 'wd'
+    if @model.get('prefix') isnt 'wd'
       app.execute 'show:entity:edit:from:model', @model
