@@ -84,7 +84,7 @@ module.exports = (Backbone, _, $, app, window)->
 
   # anchor with a href are opened out of the current window
   # when the ctrlKey is pressed: the normal action should thus be prevented
-  isOpenedOutside: (e)-> e.ctrlKey
+  isOpenedOutside: (e)-> e.ctrlKey or e.metaKey
 
   noop: ->
 

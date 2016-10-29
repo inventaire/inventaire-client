@@ -78,4 +78,6 @@ showUserInventory = (user, e)->
 formatLeafletEvent = (e)->
   e.which = e.originalEvent.which
   e.preventDefault = e.originalEvent.preventDefault.bind(e.originalEvent)
+  e.ctrlKey = e.originalEvent.ctrlKey
+  e.metaKey = e.originalEvent.metaKey
   return e
