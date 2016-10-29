@@ -1,3 +1,5 @@
+wd_ = require 'lib/wikimedia/wikidata'
+
 module.exports = ->
   # Main property by which sub-entities are linked to this one
   @childrenClaimProperty = 'wdt:P629'
