@@ -13,6 +13,9 @@ module.exports = (e)->
   # `unless _.isOpenedOutside(e) then handler()`
   if _.isOpenedOutside(e) then return
 
+  # If there is no href on current target, then the default
+  # behaviour is to do nothing.
+  # Therefore, there is no reason to preventDefault.
   if e.currentTarget?
     $link = $(e.currentTarget)
     # Get the href; stop processing if there isn't one
