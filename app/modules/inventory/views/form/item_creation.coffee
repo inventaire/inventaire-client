@@ -29,12 +29,12 @@ module.exports = Marionette.LayoutView.extend
     attrs =
       # copying the title for convinience
       # as it is used to display and find the item from search
-      title: @entity.get 'title'
+      title: @entity.get 'label'
       entity: @entity.get 'uri'
       transaction: @guessTransaction()
       listing: @guessListing()
 
-    if pictures = @entity.get 'pictures'
+    if pictures = @entity.get 'images.url'
       attrs.pictures = pictures
 
     unless attrs.entity? and attrs.title?
@@ -72,12 +72,12 @@ module.exports = Marionette.LayoutView.extend
         $el.addClass 'active'
 
   serializeData: ->
-    title = @entity.get('title')
+    title = @entity.get 'label'
     attrs =
       title: title
       listings: listingsData()
       transactions: transactionsData()
-      header: _.i18n 'add_item_text', {title: title}
+      header: _.i18n 'add_item_text', { title }
 
     return _.extend attrs, @addNextData()
 
