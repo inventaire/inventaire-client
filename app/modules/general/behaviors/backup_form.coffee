@@ -1,3 +1,7 @@
+# A behavior to preserve input text from being lost on a view re-render
+# by saving it at every change and recovering it on re-render
+# This behavior should probably be added to any view with input or textarea
+# that is suceptible to be re-rendered due to some event listener
 module.exports = Marionette.Behavior.extend
   events:
     'change input, textarea': 'backup'
