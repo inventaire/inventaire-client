@@ -3,6 +3,7 @@ Promise = require './bluebird'
 Promise.promisifyAll(fs)
 _ = require 'lodash'
 cwd = process.cwd()
+{ yellow } = require 'chalk'
 
 read = (path, createIfMissing=true)->
   unless path? then return Promise.resolve {}
