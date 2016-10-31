@@ -82,9 +82,9 @@ module.exports = (Backbone, _, $, app, window)->
     if str is '' then return ''
     str[0].toUpperCase() + str[1..-1]
 
-  # anchor with a href are opened out of the current window
-  # when the ctrlKey is pressed: the normal action should thus be prevented
-  isOpenedOutside: (e)-> e.ctrlKey or e.metaKey
+  # Anchor with a href are opened out of the current window when the ctrlKey is
+  # pressed, or the metaKey (Command) in case its a Mac
+  isOpenedOutside: (e)-> if isMac then e.metaKey else e.ctrlKey
 
   noop: ->
 
@@ -206,3 +206,6 @@ parseCookieValue = (value)->
 
 # Polyfill if needed
 Date.now or= -> new Date().getTime()
+
+# source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
+isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0

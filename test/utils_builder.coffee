@@ -9,6 +9,8 @@ global.window =
   location: {}
 global.location = {}
 global.Promise = require 'bluebird'
+global.navigator =
+  platform: 'None in particular'
 
 sharedLib = require './shared_lib'
 
