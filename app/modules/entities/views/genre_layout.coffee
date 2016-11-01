@@ -1,6 +1,6 @@
 wd_ = require 'lib/wikimedia/wikidata'
 commons_ = require 'lib/wikimedia/commons'
-wdGenre_ = require 'modules/entities/lib/wikidata/genre'
+genre_ = require 'modules/entities/lib/types/genre'
 Entities = require 'modules/entities/collections/entities'
 ResultsList = require 'modules/search/views/results_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
@@ -24,8 +24,9 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @initPlugins()
     @initCollections()
+
     @fetchBooksAndAuthors()
-    @setHeaderBackground()
+    .then @setHeaderBackground.bind(@)
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
@@ -35,8 +36,8 @@ module.exports = Marionette.LayoutView.extend
     @authors = new Entities
 
   fetchBooksAndAuthors: ->
-    wdGenre_.fetchBooksAndAuthors @model
-    .then wdGenre_.spreadBooksAndAuthors.bind(null, @books, @authors)
+    genre_.fetchBooksAndAuthors @model
+    .then genre_.spreadBooksAndAuthors.bind(null, @books, @authors)
     .catch _.Error('fetchBooksAndAuthors')
     .then @stopLoading.bind(@)
     .then @blockLoader.bind(@)
@@ -46,7 +47,9 @@ module.exports = Marionette.LayoutView.extend
 
   setHeaderBackground: ->
     image = @findImage()
-    if image? then @headerBgUrl = image
+    if image?
+      @headerBgUrl = image
+      if @isRendered then @showHeaderBackground()
 
   findImage: ->
     @findModelFirstImage() or @findEntitiesFirstImage()
@@ -54,8 +57,8 @@ module.exports = Marionette.LayoutView.extend
   findModelFirstImage: -> @model.get 'image.url'
   findEntitiesFirstImage: ->
     if @books?
-      while book in @books
-        image = entity.get 'image.url'
+      for book in @books.models
+        image = book.get 'image.url'
         if image? then return image
 
   onRender: ->

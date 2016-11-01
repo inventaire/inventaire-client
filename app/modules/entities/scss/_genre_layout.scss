@@ -19,16 +19,18 @@
     // (1)
     margin: 2em auto 1em auto;
   }
-  .extract{
-    margin: 0 auto;
-    max-width: $bookLiMaxWidth;
-    padding: 1em;
-    text-align: left;
-    background-color: $contrast;
-    @include radius;
-    @include shy-border;
-    &:empty{
-      display:none;
+  .genreData{
+    .extract{
+      margin: 0 auto;
+      max-width: $bookLiMaxWidth;
+      padding: 1em;
+      text-align: left;
+      background-color: $contrast;
+      @include radius;
+      @include shy-border;
+      &:empty{
+        display:none;
+      }
     }
   }
   .loading{

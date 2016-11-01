@@ -61,7 +61,9 @@ module.exports = Marionette.LayoutView.extend
       standalone: @options.standalone
 
   showWorks: ->
-    @startLoading()
+    # Target specifically .books .loading, so that it doesn't conflict
+    # with other loaders as it been seen on genre_layout for instance
+    @startLoading '.books'
 
     @model.waitForWorks
     .then @_showWorks.bind(@)

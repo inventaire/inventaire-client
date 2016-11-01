@@ -1,7 +1,4 @@
 module.exports = Marionette.Behavior.extend
-  ui:
-    loading: '.loading, .check'
-
   events:
     'loading': 'showSpinningLoader'
     'stopLoading': 'hideSpinningLoader'
@@ -30,7 +27,7 @@ module.exports = Marionette.Behavior.extend
 
   somethingWentWrong: (e, params)->
     unless @hidden
-      @$target or= this.getTarget params
+      @$target or= @getTarget params
 
       oups = _.I18n 'something went wrong :('
       body = _.icon('bolt') + "<p> #{oups}</p>"
@@ -39,5 +36,5 @@ module.exports = Marionette.Behavior.extend
 
   getTarget: (params)->
     # _.log params, 'params'
-    if params?.selector? then $(params.selector).find '.loading'
-    else @ui.loading
+    if params?.selector? then @$el.find(params.selector).find '.loading'
+    else @$el.find '.loading'
