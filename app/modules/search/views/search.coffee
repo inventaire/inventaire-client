@@ -21,6 +21,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     inventoryItems: '#inventoryItems'
     authors: '#authors'
+    series: '#series'
     books: '#books'
     editions: '#editions'
 
@@ -106,15 +107,19 @@ module.exports = Marionette.LayoutView.extend
     @displayResults()
 
   displayResults: ->
-    { humans, books, editions } = cache
+    { humans, series, books, editions } = cache
 
     _.log cache, 'cache'
 
-    dedupplicateAuthorsBooks humans, books
-    dedupplicateBooksEditions books, editions
+    authorsUris = humans.models.map getUri
+    seriesUris = series.models.map getUri
+    dedupplicateSubEntities authorsUris, series, 'wdt:P50'
+    dedupplicateSubEntities authorsUris, books, 'wdt:P50'
+    dedupplicateSubEntities seriesUris, books, 'wdt:P179'
 
     # Eventually, add a filter to display humans with occupation writter only
     @_displayTypeResults humans, 'authors'
+    @_displayTypeResults series, 'series'
     @_displayTypeResults books, 'books'
     @_displayTypeResults editions, 'editions'
 
@@ -143,23 +148,24 @@ module.exports = Marionette.LayoutView.extend
   createEntity: -> app.execute 'show:entity:create', 'book', @query
 
 spreadResults = (res)->
-  cache.humans = new Entities res.humans
-  cache.books = new Entities res.books
-  cache.editions = new Entities res.editions
-  cache.length = res.humans.length + res.books.length + res.editions.length
+  { humans, series, books, editions } = res
+  cache.humans = new Entities humans
+  cache.series = new Entities series
+  cache.books = new Entities books
+  cache.editions = new Entities editions
+  cache.length = humans.length + series.length + books.length + editions.length
+  return
 
-dedupplicateAuthorsBooks = (authors, books)->
-  _.log authors, 'authors'
-  authorsUris = authors.models.map (author)-> author.get 'uri'
-
-  # Remove books that have an author in the authors list
-  # as they will fetched and displayed in the author's books list
+# Remove books and series that have an author in the authors list or books that are
+# part of a found serie as they will fetched and displayed in the author's or serie's
+# subentities list
+dedupplicateSubEntities = (authorsUris, subentities, subentitiesProperty)->
   toRemove = []
-  books.forEach (book)->
-    if _.haveAMatch book.get('claims.wdt:P50'), authorsUris
-      # Not removing directly as it would alter the forEach loop
-      toRemove.push book
+  subentities.forEach (subentity)->
+    if _.haveAMatch subentity.get("claims.#{subentitiesProperty}"), authorsUris
+      # Not removing directly as it would conflict with the forEach loop
+      toRemove.push subentity
 
-  books.remove toRemove
+  subentities.remove toRemove
 
-dedupplicateBooksEditions = (books, editions)->
+getUri = (model)-> model.get 'uri'

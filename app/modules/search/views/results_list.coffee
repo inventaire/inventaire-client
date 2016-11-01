@@ -1,14 +1,18 @@
 BookLi = require 'modules/entities/views/book_li'
 AuthorLayout = require 'modules/entities/views/author_layout'
+SerieLayout = require 'modules/entities/views/serie_layout'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/results_list'
   childViewContainer: '.resultsList'
   getChildView: ->
-    switch @options.type
+    { type } = @options
+    switch type
       when 'authors' then AuthorLayout
+      when 'series' then SerieLayout
       when 'books', 'editions' then BookLi
-      else throw new Error 'unvalid type provided: cant choose getChildView'
+      else throw new Error "unvalid type provided #{type}: cant choose getChildView"
+
   emptyView: require 'modules/inventory/views/no_item'
 
   serializeData: ->
