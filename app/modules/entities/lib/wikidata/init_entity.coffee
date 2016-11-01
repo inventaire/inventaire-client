@@ -19,7 +19,7 @@ setWikiLinks = (lang)->
       wiki: "https://www.wikidata.org/wiki/#{wdId}"
 
   # Editions happen on Wikidata for now
-  updates.editable = updates.wikidata
+  updates.edit = updates.wikidata.wiki
 
   sitelinks = @get 'sitelinks'
   if sitelinks?

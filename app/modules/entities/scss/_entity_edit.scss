@@ -19,5 +19,7 @@ $edit-button-grey: $soft-grey;
   opacity: 0.5;
   font-family: sans-serif;
   font-size: 0.7em;
-  @include underline;
+  &a{
+    @include underline;
+  }
 }

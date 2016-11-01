@@ -130,7 +130,7 @@ setHandlers = ->
     'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')
     'show:entity:edit:from:model': (entity)->
       showEntityEdit entity
-      app.navigate entity.get('editable.wiki')
+      app.navigate entity.get('edit')
 
     'show:entity:create': (type, label)->
       showEntityCreate type, label

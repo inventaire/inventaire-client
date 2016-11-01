@@ -15,11 +15,7 @@
     </h3>
     <hr>
     <div class="authors">
-      {{#if entityData.editable}}
-        {{claim entityData.claims 'wdt:P50'}}
-      {{else}}
-        {{{joinAuthors entityData.authors false}}}
-      {{/if}}
+      {{claim entityData.claims 'wdt:P50'}}
     </div>
   </div>
 </a>

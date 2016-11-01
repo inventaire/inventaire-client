@@ -16,23 +16,13 @@
   {{#if description}}
     <p class="clamped grey">{{{description}}}</p>
   {{/if}}
-  {{#if editable}}
-    <p>
-      {{!-- {{partial 'entities:book_claims' this}} --}}
-      {{claim claims 'wdt:P50' true}}  {{!-- author --}}
-    </p>
-    <p class="date">
-      {{timeClaim claims 'wdt:P577' 'year' true}} {{!-- time of publication --}}
-    </p>
-  {{else}}
-    <p class="isbn-attributes">
-      {{{prop 'wdt:P50'}}} {{{joinAuthors authors}}} <br>
-      {{!-- insuffisiant data quality / homogeneity to be displayed
-      {{{prop 'wdt:P577'}}} {{publishedDate}} <br>
-      {{{prop 'wdt:P123'}}} {{publisher}} <br>
-      <span class="attribute">{{i18n 'language'}}</span>{{language}} --}}
-    </p>
-  {{/if}}
+  <p>
+    {{!-- {{partial 'entities:book_claims' this}} --}}
+    {{claim claims 'wdt:P50' true}}  {{!-- author --}}
+  </p>
+  <p class="date">
+    {{timeClaim claims 'wdt:P577' 'year' true}} {{!-- time of publication --}}
+  </p>
 </div>
 
 <div class='actions'>

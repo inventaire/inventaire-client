@@ -3,7 +3,6 @@ module.exports = Marionette.ItemView.extend
   className: 'articleLi'
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.editable.articleCustomStyle = true
     _.extend attrs,
       href: @getHref()
       hasDate: @hasDate()

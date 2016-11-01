@@ -32,7 +32,12 @@ module.exports = Backbone.NestedModel.extend
     # to wait for before triggering @executeMetadataUpdate (see below)
     @_dataPromises = []
     if @wikidataId then initializeWikidataEntity.call @, attrs
-    _.extend @, editableEntity
+    # For the moment, among local entities, only books are editable
+    else if @type is 'book'
+      pathname = @get 'pathname'
+      @set 'edit', "#{pathname}/edit"
+
+    if @get('edit')? then _.extend @, editableEntity
 
     # An object to store references to subentities collections
     # ex: @subentities['wdt:P629'] = thisBookEditionsCollection
@@ -78,8 +83,6 @@ module.exports = Backbone.NestedModel.extend
       prefix: prefix
       pathname: pathname
       label: label
-      editable:
-        wiki: "#{pathname}/edit"
 
   fetchSubEntities: (refresh)->
     if not refresh and @waitForSubentities?

@@ -2,11 +2,7 @@
   <a class="link itemShow">{{title}}</a>
 </td>
 <td class="authors">
-  {{#if entityData.editable}}
-    {{claim entityData.claims 'wdt:P50' true true}}
-  {{else}}
-    {{{joinAuthors entityData.authors}}}
-  {{/if}}
+  {{claim entityData.claims 'wdt:P50' true true}}
 </td>
 <td class="user">
   <a class="user link serif" href="{{user.pathname}}">

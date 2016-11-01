@@ -13,11 +13,7 @@
             {{#if item.authors}}
               {{item.authors}}
             {{else}}
-              {{#if item.entityData.editable}}
-                {{claim item.entityData.claims 'wdt:P50'}}
-              {{else}}
-                {{{joinAuthors item.entityData.authors false}}}
-              {{/if}}
+              {{claim item.entityData.claims 'wdt:P50'}}
             {{/if}}
           </div>
         </div>

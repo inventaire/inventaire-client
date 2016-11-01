@@ -13,7 +13,11 @@
           <div>
             <span class="label">{{label}}</span><br>
             <span class="description">{{shortDescription}}</span>
-            {{link uri wikidata.wiki 'identifier'}}
+            {{#if edit}}
+              {{link uri edit 'identifier'}}
+            {{else}}
+              <span class="identifier">{{uri}}</span>
+            {{/if}}
           </div>
         {{/with}}
       </div>
