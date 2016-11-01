@@ -23,12 +23,12 @@ module.exports =
     app.searches = new Searches
 
 API = {}
-API.search = (query)->
+API.search = (query, refresh)->
   unless _.isNonEmptyString query
     app.execute 'show:add:layout:search'
     return
 
-  searchLayout = new SearchLayout { query }
+  searchLayout = new SearchLayout { query, refresh }
 
   docTitle = "#{query} - " +  _.i18n('Search')
   app.layout.main.Show searchLayout, docTitle
@@ -36,7 +36,8 @@ API.search = (query)->
   app.navigate "search?q=#{encodedQuery}"
 
 API.searchFromQueryString = (querystring)->
-  { q } = _.parseQuery querystring
+  { q, refresh } = _.parseQuery querystring
+  refresh = _.parseBooleanString refresh
   # replacing "+" added that the browser search might have added
   q = q.replace /\+/g, ' '
-  API.search q
+  API.search q, refresh

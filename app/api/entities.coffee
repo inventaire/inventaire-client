@@ -4,11 +4,12 @@ CustomQuery = (action)-> (uri, refresh)->
   _.buildPath publik, { action, uri, refresh }
 
 module.exports =
-  search: (search)->
+  search: (search, refresh)->
     options =
       action: 'search'
       search: search
       lang: app.user.lang
+      refresh: refresh
 
     _.buildPath publik, options
 

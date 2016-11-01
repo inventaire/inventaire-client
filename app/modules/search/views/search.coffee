@@ -87,7 +87,7 @@ module.exports = Marionette.LayoutView.extend
     # Reset cache
     cache = { search }
 
-    _.preq.get app.API.entities.search(search)
+    _.preq.get app.API.entities.search(search, @options.refresh)
     .catch _.preq.catch404
     .then @_parseResponse.bind(@)
     .then @displayResults.bind(@)

@@ -71,6 +71,8 @@ module.exports = (_)->
     # group image width above 500 by levels of 100px to limit generated versions
     return Math.ceil(width / 100) * 100
 
+  parseBooleanString: (booleanString)-> booleanString is 'true'
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->
