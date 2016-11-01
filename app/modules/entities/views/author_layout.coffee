@@ -56,7 +56,9 @@ module.exports = Marionette.LayoutView.extend
       .finally app.Execute('metadata:update:done')
 
   showInfobox: ->
-    @infoboxRegion.show new AuthorInfobox { model: @model }
+    @infoboxRegion.show new AuthorInfobox
+      model: @model
+      standalone: @options.standalone
 
   showWorks: ->
     @startLoading()

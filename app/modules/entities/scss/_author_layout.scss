@@ -7,15 +7,22 @@
   .works{
     flex: 1 1 auto;
   }
+  // Precising :not(.standalone) to override the selector
+  .serieLayout:not(.standalone){
+    background-color: $darker-grey;
+  }
   .series, .books, .articles{
     // required to center .loading
     @include display-flex(row, center, center);
     .header{
       @include display-flex(row, center, center);
     }
-    h3, h4{
+    h3, h4, .fa-pencil{
       color: white;
+    }
+    h3, h4{
       text-align: center;
+      font-size: 1.4em;
     }
   }
   .loading{
@@ -24,7 +31,7 @@
     font-size: 2em;
     padding: 1em;
   }
-  .articles{
+  .articles:not(:empty){
     margin-top: 2em;
     margin-bottom: 2em;
     .main{
@@ -37,13 +44,13 @@
 }
 
 .innerAuthorLi{
+  @include display-flex(column);
   .bookLi{
     margin: auto;
     margin-bottom: 1em;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    @include display-flex(row, flex-start, flex-start);
     .series, .books, .articles{
       margin-left: 0.2em;
       margin-right: 0.2em;
@@ -57,9 +64,6 @@
   @media screen and (max-width: $small-screen) {
     .bookLi:first-child{
       margin-top: 1em;
-    }
-    .innerAuthorLi{
-      @include display-flex(column);
     }
   }
 }

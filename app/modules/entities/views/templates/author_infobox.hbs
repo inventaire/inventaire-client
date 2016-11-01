@@ -1,10 +1,18 @@
 {{#if image.url}}
-  <img src='{{src image.url 600}}' alt='{{label}} cover'>
+  <div class="image-wrapper">
+    <img src="{{src image.url 300}}" alt="{{label}} cover">
+    {{partial 'entities:photo_credits' image.credits}}
+  </div>
 {{/if}}
 <div class="authorData text-center">
-  <h3><a class="showEntity link" href="{{pathname}}">{{label}}</a></h3>
+  <h3>
+  {{#if standalone}}
+    {{label}}
+  {{else}}
+    <a class="showEntity link" href="{{pathname}}">{{label}}</a>
+  {{/if}}
+  </h3>
   <h4 class="subheader">{{shortDescription}}</h4>
   {{partial 'entities:author_claims' this}}
   <p class="extract">{{{extract}}}</p>
-  {{partial 'entities:photo_credits' image.credits}}
 </div>

@@ -3,3 +3,7 @@ module.exports = Marionette.ItemView.extend
   modelEvents:
     # The extract might arrive later
     'change:extract': 'render'
+
+  serializeData: ->
+    _.extend @model.toJSON(),
+      standalone: @options.standalone

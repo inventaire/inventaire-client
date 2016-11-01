@@ -1,39 +1,54 @@
 .authorInfobox{
+  margin: 0 auto;
+  max-width: 60em;
   // center the image
-  @include display-flex(column);
-  img{
-    margin: auto;
+  @include display-flex(column, center, center);
+  .image-wrapper{
+    @include display-flex(column);
+    text-align: center;
+    img{
+      margin: 0 auto;
+      max-width: 95vw;
+    }
   }
   .photo-credits{
-    padding-left: 1em;
+    margin: 0 auto;
+    margin-bottom: 1em;
     font-size: 0.8em;
+    color: white;
+    max-width: 20em;
+    @include shy(0.4);
+    .link{
+      color: white;
+    }
+    padding-bottom: 1em;
+  }
+  .fa-pencil{
+    @include text-hover(#bbb, white);
+  }
+  .claims{
+    .link{
+      @include text-hover(white, #bbb);
+    }
   }
 }
 .authorData{
-  @include radius;
-  background-color: $contrast;
+  color: white;
+  h3{
+    color: white;
+    a{
+      @include text-hover(white, #bbb);
+    }
+  }
   .extract{
     text-align: left;
     padding: 1em;
+    &:empty{
+      padding: 0;
+      height: 0;
+    }
   }
   .source{
     @extend .link;
-  }
-}
-
-/*Large screens*/
-@media screen and (min-width: $small-screen) {
-  .authorInfobox{
-    flex: 0 0 auto;
-    width: 25em;
-  }
-}
-
-/*Small screens*/
-@media screen and (max-width: $small-screen) {
-  .authorInfobox{
-    img{
-      max-width: 95vw;
-    }
   }
 }
