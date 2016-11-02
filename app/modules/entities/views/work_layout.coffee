@@ -1,10 +1,12 @@
 WorkData = require './work_data'
+EditionsList = require './editions_list'
 WorkActions = require './work_actions'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/work_layout'
   regions:
     workData: '#workData'
+    editionsList: '#editionsList'
     workActions: '#workActions'
 
   behaviors:
@@ -35,6 +37,10 @@ module.exports = Marionette.LayoutView.extend
       model: @model
       workPage: true
 
+    _.log @model.editions, '@model.editions'
+
+    @editionsList.show new EditionsList
+      collection: @model.editions
 
   showWorkActions: -> @workActions.show new WorkActions { model: @model }
 

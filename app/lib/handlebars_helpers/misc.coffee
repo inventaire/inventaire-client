@@ -53,4 +53,4 @@ module.exports =
 
   # Tailored for YYYY-MM-DD date format
   # to return just the year: YYYY
-  dateYear: (date)-> date.split('-')[0]
+  dateYear: (dateArray)-> dateArray[0]?.split('-')[0]

@@ -35,6 +35,9 @@ module.exports =
 
 API =
   showEntity: (uri, label, params, region)->
+    uri = normalizeUri uri
+    unless _.isEntityUri uri then return app.execute 'show:error:missing'
+
     region or= app.layout.main
     app.execute 'show:loader', { region }
 
@@ -51,17 +54,13 @@ API =
   getEntityViewByType: (refresh, entity)->
     switch entity.type
       when 'human' then @getAuthorView entity, refresh
-      when 'work' then @getWorkEntityView entity, refresh
-      when 'serie' then @getSerieEntityView entity, refresh
+      when 'serie' then @getSerieView entity, refresh
+      when 'work' then @getWorkView entity, refresh
+      when 'edition' then @getWorkViewFromEdition entity, refresh
       # display anything else as a genre
       # so that in the worst case it's just a page with a few data
       # and not a page you can 'add to your inventory'
       else new GenreLayout { model: entity }
-
-  getWorkEntityView: (model, refresh)-> new WorkLayout { model, refresh }
-
-  getSerieEntityView: (model, refresh)->
-    new SerieLayout { model, refresh, standalone: true }
 
   getAuthorView: (entity, refresh)->
     new AuthorLayout
@@ -69,6 +68,16 @@ API =
       standalone: true
       initialLength: 20
       refresh: refresh
+
+  getSerieView: (model, refresh)->
+    new SerieLayout { model, refresh, standalone: true }
+
+  getWorkView: (model, refresh)-> new WorkLayout { model, refresh }
+
+  getWorkViewFromEdition: (model, refresh)->
+    workUri = model.get 'claims.wdt:P629.0'
+    getEntityModel workUri, refresh
+    .then (workModel)-> new WorkLayout { model, refresh }
 
   showAddEntity: (uri)->
     getEntityModel uri
@@ -190,3 +199,8 @@ replaceEntityPathname = (suffix, entity)->
 handleMissingEntityError = (label, err)->
   if err.message is 'entity_not_found' then app.execute 'show:error:missing'
   else app.execute 'show:error:other', err, label
+
+normalizeUri = (uri)->
+  [ prefix, id ] = uri.split ':'
+  if prefix is 'isbn' then id = isbn_.normalizeIsbn id
+  return "#{prefix}:#{id}"

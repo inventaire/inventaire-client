@@ -1,0 +1,28 @@
+<div>
+  {{#if claims.wdt:P18}}
+    <img src="{{src claims.wdt:P18 128}}" alt="{{label}}">
+  {{/if}}
+</div>
+<div class="data">
+  <div>
+    {{{i18n 'language'}}}:
+    {{#each claims.wdt:P407}}
+      {{{entity this false}}}&nbsp;
+    {{/each}}
+  </div>
+  <div>
+    {{#if claims.wdt:P577}}
+      {{{prop 'wdt:P577'}}}
+      {{dateYear claims.wdt:P577}}
+    {{/if}}
+  </div>
+  {{!-- not so important for most users --}}
+  <div>
+    {{{prop 'wdt:P212'}}}
+    {{claims.wdt:P212}}
+  </div>
+</div>
+<a class="add shy-label">
+  {{icon 'plus'}}
+  <span>{{i18n 'add to my inventory'}}</span>
+</a>

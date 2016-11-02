@@ -1,0 +1,12 @@
+#editionsList{
+  .editionLi{
+    @include display-flex(row);
+    background-color: white;
+    max-width: 50em;
+    margin: 0 auto;
+    @include radius;
+    .data{
+      padding: 0.5em;
+    }
+  }
+}
