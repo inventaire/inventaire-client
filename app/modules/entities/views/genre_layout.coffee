@@ -12,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     genreRegion: '#genre'
     authorsRegion: '#authors'
-    booksRegion: '#books'
+    worksRegion: '#works'
 
   ui:
     headerBg: '.headerBg'
@@ -25,20 +25,20 @@ module.exports = Marionette.LayoutView.extend
     @initPlugins()
     @initCollections()
 
-    @fetchBooksAndAuthors()
+    @fetchWorksAndAuthors()
     .then @setHeaderBackground.bind(@)
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
 
   initCollections: ->
-    @books = new Entities
+    @works = new Entities
     @authors = new Entities
 
-  fetchBooksAndAuthors: ->
-    genre_.fetchBooksAndAuthors @model
-    .then genre_.spreadBooksAndAuthors.bind(null, @books, @authors)
-    .catch _.Error('fetchBooksAndAuthors')
+  fetchWorksAndAuthors: ->
+    genre_.fetchWorksAndAuthors @model
+    .then genre_.spreadWorksAndAuthors.bind(null, @works, @authors)
+    .catch _.Error('fetchWorksAndAuthors')
     .then @stopLoading.bind(@)
     .then @blockLoader.bind(@)
 
@@ -56,9 +56,9 @@ module.exports = Marionette.LayoutView.extend
 
   findModelFirstImage: -> @model.get 'image.url'
   findEntitiesFirstImage: ->
-    if @books?
-      for book in @books.models
-        image = book.get 'image.url'
+    if @works?
+      for work in @works.models
+        image = work.get 'image.url'
         if image? then return image
 
   onRender: ->
@@ -76,7 +76,7 @@ module.exports = Marionette.LayoutView.extend
     @genreRegion.show new GenreData { @model }
 
   showResults: ->
-    for type in ['authors', 'books']
+    for type in ['authors', 'works']
       collection = @[type]
       region = @["#{type}Region"]
       region.show new ResultsList

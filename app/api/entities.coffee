@@ -19,12 +19,6 @@ module.exports =
       uris: uris.join '|'
       refresh: refresh
 
-  # getImages: (entityUri, data)->
-  #   _.buildPath publik,
-  #     action: 'get-images'
-  #     entity: entityUri
-  #     data: data
-
   reverseClaims: (property, uri)->
     _.buildPath publik, { action: 'reverse-claims', property, uri }
 

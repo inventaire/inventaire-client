@@ -1,6 +1,6 @@
 ItemComments = require './item_comments'
 ItemTransactions = require './item_transactions'
-EntityData = require 'modules/entities/views/entity_data'
+WorkData = require 'modules/entities/views/work_data'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
@@ -52,7 +52,7 @@ module.exports = Marionette.LayoutView.extend
     else @listenTo @model, 'grab:entity', @showEntity.bind(@)
 
   showEntity: (entity)->
-    @entityRegion.show new EntityData
+    @entityRegion.show new WorkData
       model: entity
       hidePicture: true
 

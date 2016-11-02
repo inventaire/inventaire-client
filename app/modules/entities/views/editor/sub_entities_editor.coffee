@@ -26,7 +26,7 @@ module.exports = Marionette.CompositeView.extend
     data[@parentTypeFlag] = true
     return _.extend data,
       propertyLabel: propertyLabels[@options.property]
-      addByIsbn: if @parentTypeIsBook then @addByIsbnData()
+      addByIsbn: if @parentTypeIsWork then @addByIsbnData()
 
   addByIsbnData: ->
     nameBase: 'isbn'
@@ -40,13 +40,13 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .addValue': 'addSubEntity'
-    'click #isbnButton': 'addBookEditionSubEntity'
+    'click #isbnButton': 'addWorkEditionSubEntity'
 
   addSubEntity: ->
     model = createEntityDraftModel()
     @collection.add model
 
-  addBookEditionSubEntity: ->
+  addWorkEditionSubEntity: ->
     isbn = @$el.find('#isbnField').val()
     createEntities.workEdition @parent, isbn
     .catch error_.Complete('#isbnField')

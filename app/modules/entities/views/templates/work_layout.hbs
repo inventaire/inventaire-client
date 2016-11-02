@@ -1,0 +1,8 @@
+{{partial 'welcome:embedded_welcome'}}
+<section class="workLayout">
+  <div id="workData"></div>
+  <div id="workActions"></div>
+  {{#if wikidata}}
+    {{partial 'entities:wiki_bar' this}}
+  {{/if}}
+</section>

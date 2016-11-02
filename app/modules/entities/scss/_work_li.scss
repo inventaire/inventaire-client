@@ -1,8 +1,8 @@
-$bookLiMaxWidth: 45em;
+$workLiMaxWidth: 45em;
 
-.bookLi, .articleLi{
+.workLi, .articleLi{
   margin: 0 auto;
-  max-width: $bookLiMaxWidth;
+  max-width: $workLiMaxWidth;
   background-color: $contrast;
   &:not(:first-child){
     margin-top: 1em;
@@ -11,11 +11,11 @@ $bookLiMaxWidth: 45em;
   @include shy-border;
 }
 
-.bookLi{
+.workLi{
   text-align: left;
   @include display-flex(row, center, space-around);
   margin-bottom: 1em;
-  .bookCover{
+  .workCover{
     position: relative;
     max-width: 10em;
     // a minimum width is required so that the covers
@@ -48,7 +48,7 @@ $bookLiMaxWidth: 45em;
     img{
     }
   }
-  .bookLiData{
+  .workLiData{
     padding-left: 0.5em;
     padding-right: 0.5em;
     @include display-flex(column, center, center);
@@ -101,14 +101,14 @@ $bookLiMaxWidth: 45em;
 }
 
 /*Small screens*/
-@media screen and (max-width: $bookLiMaxWidth) {
-  .bookLi{
+@media screen and (max-width: $workLiMaxWidth) {
+  .workLi{
     max-width: 100vw;
     @include display-flex(column);
     flex: 1 1 auto;
     margin-left: 0;
     margin-right: 0;
-    .bookCover{
+    .workCover{
       max-width: 100%;
       margin: 0.2em;
     }
@@ -123,12 +123,12 @@ $bookLiMaxWidth: 45em;
 
 
 /*Large screens*/
-@media screen and (min-width: $bookLiMaxWidth) {
-  .bookLi{
-    .bookCover{
+@media screen and (min-width: $workLiMaxWidth) {
+  .workLi{
+    .workCover{
       margin: 1em;
     }
-    .bookLiData{
+    .workLiData{
       flex: 1 1 auto;
     }
     .actions{
@@ -139,7 +139,7 @@ $bookLiMaxWidth: 45em;
       max-height: 10em;
     }
     &.zoom{
-      .bookCover, img{
+      .workCover, img{
         max-height: 30em;
         max-width: 30em;
       }

@@ -4,7 +4,7 @@ entities_ = require '../lib/entities'
 initializeWikidataEntity = require '../lib/wikidata/init_entity'
 editableEntity = require '../lib/inv/editable_entity'
 getBestLangValue = sharedLib('get_best_lang_value')(_)
-initializeBook = require '../lib/types/book'
+initializeWork = require '../lib/types/work'
 initializeSerie = require '../lib/types/serie'
 initializeAuthor = require '../lib/types/author'
 
@@ -14,7 +14,7 @@ initializeAuthor = require '../lib/types/author'
 #   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 # - By type:
 #   - Human (presumably an author)
-#   - Book
+#   - Work
 #   - Edition
 
 module.exports = Backbone.NestedModel.extend
@@ -32,16 +32,13 @@ module.exports = Backbone.NestedModel.extend
     # to wait for before triggering @executeMetadataUpdate (see below)
     @_dataPromises = []
     if @wikidataId then initializeWikidataEntity.call @, attrs
-    # For the moment, among local entities, only books are editable
-    else if @type is 'book'
+    # For the moment, among local entities, only works are editable
+    else if @type is 'work'
       pathname = @get 'pathname'
       @set 'edit', "#{pathname}/edit"
 
     if @get('edit')? then _.extend @, editableEntity
 
-    # An object to store references to subentities collections
-    # ex: @subentities['wdt:P629'] = thisBookEditionsCollection
-    @subentities = {}
     # An object to store only the ids of such a relationship
     # ex: this entity is a P50 of entities Q...
     # /!\ Legacy: to be harmonized/merged with @subentities
@@ -49,7 +46,7 @@ module.exports = Backbone.NestedModel.extend
 
     switch @type
       when 'serie' then initializeSerie.call @
-      when 'book' then initializeBook.call @
+      when 'work' then initializeWork.call @
       when 'human' then initializeAuthor.call @
       when 'article', 'edition' then null
       # when 'edition' then @initializeEdition()
@@ -84,18 +81,18 @@ module.exports = Backbone.NestedModel.extend
       pathname: pathname
       label: label
 
-  fetchSubEntities: (refresh)->
+  fetchSubEntities: (subentitiesName, refresh)->
     if not refresh and @waitForSubentities?
       return @waitForSubentities
 
-    @subentities = new Backbone.Collection
+    collection = @[subentitiesName] = new Backbone.Collection
 
     uri = @get 'uri'
     prop = @childrenClaimProperty
 
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
     .then (uris)-> app.request 'get:entities:models', uris, refresh
-    .then @subentities.add.bind(@subentities)
+    .then collection.add.bind(collection)
 
   # To be called by a view onShow:
   # updates the document with the entities data
@@ -123,5 +120,5 @@ module.exports = Backbone.NestedModel.extend
     title = @get 'label'
     switch @type
       when 'human' then _.i18n 'books_by_author', { author: title }
-      when 'book', 'edition' then @buildBookTitle @type
+      when 'work', 'edition' then @buildWorkTitle()
       else title

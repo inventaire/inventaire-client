@@ -1,8 +1,8 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 
 module.exports =
-  book: [
-    # 'wdt:P31' # instance of (=> books aliases)
+  work: [
+    # 'wdt:P31' # instance of (=> works aliases)
     'wdt:P50' # author
     # 'wdt:P110' # illustrator
     # 'wdt:P577' # publication date

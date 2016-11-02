@@ -4,14 +4,14 @@
   &:not(:first-child){
     margin-top: 1em;
   }
-  .works{
+  .subentities{
     flex: 1 1 auto;
   }
   // Precising :not(.standalone) to override the selector
   .serieLayout:not(.standalone){
     background-color: $darker-grey;
   }
-  .series, .books, .articles{
+  .series, .works, .articles{
     // required to center .loading
     @include display-flex(row, center, center);
     .header{
@@ -45,24 +45,24 @@
 
 .innerAuthorLi{
   @include display-flex(column);
-  .bookLi{
+  .workLi{
     margin: auto;
     margin-bottom: 1em;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    .series, .books, .articles{
+    .series, .works, .articles{
       margin-left: 0.2em;
       margin-right: 0.2em;
       flex: 1 1 auto;
     }
-    .bookLi{
+    .workLi{
       min-width: 36em;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .bookLi:first-child{
+    .workLi:first-child{
       margin-top: 1em;
     }
   }

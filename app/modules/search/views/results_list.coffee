@@ -1,4 +1,4 @@
-BookLi = require 'modules/entities/views/book_li'
+workLi = require 'modules/entities/views/work_li'
 AuthorLayout = require 'modules/entities/views/author_layout'
 SerieLayout = require 'modules/entities/views/serie_layout'
 
@@ -10,7 +10,7 @@ module.exports = Marionette.CompositeView.extend
     switch type
       when 'authors' then AuthorLayout
       when 'series' then SerieLayout
-      when 'books', 'editions' then BookLi
+      when 'works', 'editions' then workLi
       else throw new Error "unvalid type provided #{type}: cant choose getChildView"
 
   emptyView: require 'modules/inventory/views/no_item'

@@ -12,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     infoboxRegion: '.authorInfobox'
     seriesRegion: '.series'
-    booksRegion: '.books'
+    worksRegion: '.works'
     articlesRegion: '.articles'
 
   initialize: ->
@@ -61,15 +61,15 @@ module.exports = Marionette.LayoutView.extend
       standalone: @options.standalone
 
   showWorks: ->
-    # Target specifically .books .loading, so that it doesn't conflict
+    # Target specifically .works .loading, so that it doesn't conflict
     # with other loaders as it been seen on genre_layout for instance
-    @startLoading '.books'
+    @startLoading '.works'
 
     @model.waitForWorks
     .then @_showWorks.bind(@)
 
   _showWorks: ->
-    @showWorkCollection 'books'
+    @showWorkCollection 'works'
 
     if @model.works.series.totalLength > 0
       initialLength = if @options.standalone then 10 else 5

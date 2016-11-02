@@ -1,7 +1,12 @@
-.entityData{
+.workData{
   // width: 100%;
-  max-width: 50em;
-  @include display-flex(row);
+  // max-width: 50em;
+  @include display-flex(column, center, center);
+  text-align: center;
+  position: relative;
+  .editEntityData{
+    @include position(absolute, 1em, 1em);
+  }
   h2, span, label, p{
     color: white;
   }

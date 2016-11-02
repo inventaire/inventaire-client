@@ -43,6 +43,6 @@ module.exports = Marionette.LayoutView.extend
 
     @parts.show new WorksList
       collection: @model.parts
-      type: 'books'
+      type: 'works'
       hideHeader: true
       refresh: @options.refresh

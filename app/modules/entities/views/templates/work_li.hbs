@@ -1,5 +1,5 @@
 {{#if image.url}}
-  <div class="bookCover">
+  <div class="workCover">
       <a class="zoom-button">
         <img src="{{src image.url 200 400}}"
         data-zoom-toggle="{{src image.url 500 1000}}"
@@ -11,13 +11,13 @@
       </a>
   </div>
 {{/if}}
-<div class="bookLiData">
+<div class="workLiData">
   <h4><a class="showEntity link" href="{{pathname}}">{{label}}</a></h4>
   {{#if description}}
     <p class="clamped grey">{{{description}}}</p>
   {{/if}}
   <p>
-    {{!-- {{partial 'entities:book_claims' this}} --}}
+    {{!-- {{partial 'entities:work_claims' this}} --}}
     {{claim claims 'wdt:P50' true}}  {{!-- author --}}
   </p>
   <p class="date">

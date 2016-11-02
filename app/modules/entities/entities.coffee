@@ -5,7 +5,7 @@ Entity = require './models/entity'
 Entities = require './collections/entities'
 AuthorLayout = require './views/author_layout'
 SerieLayout = require './views/serie_layout'
-EntityShow = require './views/entity_show'
+WorkLayout = require './views/work_layout'
 EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
@@ -51,14 +51,15 @@ API =
   getEntityViewByType: (refresh, entity)->
     switch entity.type
       when 'human' then @getAuthorView entity, refresh
-      when 'book' then @getCommonBookEntityView entity, refresh
+      when 'work' then @getWorkEntityView entity, refresh
       when 'serie' then @getSerieEntityView entity, refresh
       # display anything else as a genre
       # so that in the worst case it's just a page with a few data
       # and not a page you can 'add to your inventory'
       else new GenreLayout { model: entity }
 
-  getCommonBookEntityView: (model, refresh)-> new EntityShow { model, refresh }
+  getWorkEntityView: (model, refresh)-> new WorkLayout { model, refresh }
+
   getSerieEntityView: (model, refresh)->
     new SerieLayout { model, refresh, standalone: true }
 
@@ -66,7 +67,6 @@ API =
     new AuthorLayout
       model: entity
       standalone: true
-      displayBooks: true
       initialLength: 20
       refresh: refresh
 

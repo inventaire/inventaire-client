@@ -1,7 +1,7 @@
-.entityActions{
+.workActions{
   @include display-flex(column, center, center);
   margin-bottom: 1rem;
-  div.entityAction{
+  div.workAction{
     .f-dropdown{
       .fa{
         font-size: 1.5rem;
@@ -28,7 +28,7 @@
     @include radius;
     color: $dark-grey;
     text-align: center;
-    // egalizing with .entityAction width
+    // egalizing with .workAction width
     max-width: 21em;
   }
 

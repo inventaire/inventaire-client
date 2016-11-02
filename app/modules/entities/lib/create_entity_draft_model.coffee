@@ -30,7 +30,7 @@ module.exports = (options)->
   return model
 
 typeDefaultP31 =
-  book: 'wd:Q571'
+  work: 'wd:Q571'
 
 propertiesShortlists =
-  book: ['wdt:P50']
+  work: ['wdt:P50']

@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
-  template: require './templates/entity_data'
-  className: 'entityData'
+  template: require './templates/work_data'
+  className: 'workData'
   initialize: (options)->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
@@ -12,7 +12,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs = @setDescriptionAttributes(attrs)
-    attrs.entityPage = @options.entityPage
+    attrs.workPage = @options.workPage
     attrs.hidePicture = @hidePicture
     return attrs
 

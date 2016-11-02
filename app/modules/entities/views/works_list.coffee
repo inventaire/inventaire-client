@@ -12,7 +12,7 @@ module.exports = Marionette.CompositeView.extend
     { type } = model
     switch type
       when 'serie' then require './serie_layout'
-      when 'book' then require './book_li'
+      when 'work' then require './work_li'
       when 'article' then require './article_li'
       else throw error_.new "unknown work type: #{type}", model
 

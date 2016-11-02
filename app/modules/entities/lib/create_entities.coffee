@@ -29,6 +29,7 @@ createBook = (title, authors, authorsNames, lang)->
     createdAuthorsUris = createdAuthors.map _.property('id')
     claims =
       # instance of (P31) -> book (Q571)
+      # TODO: support other work P31 values
       'wdt:P31': ['wd:Q571']
       P50: authors.concat createdAuthorsUris
 

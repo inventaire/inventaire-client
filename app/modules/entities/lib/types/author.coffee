@@ -21,12 +21,12 @@ specificMethods =
     isntSeriePart = IsntSeriePart(serieUris)
     # Filter-out works that are part of a serie and will be displayed
     # in the serie layout
-    booksUris = worksData.books.filter(isntSeriePart).map getUri
+    worksUris = worksData.works.filter(isntSeriePart).map getUri
     articlesUris = worksData.articles.filter(isntSeriePart).map getUri
 
     @works =
       series: new Works null, { uris: serieUris }
-      books: new Works null, { uris: booksUris }
+      works: new Works null, { uris: worksUris }
       articles: new Works null, { uris: articlesUris }
 
 getUri = _.property 'uri'

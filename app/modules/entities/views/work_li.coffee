@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
-  template: require './templates/book_li'
-  className: 'bookLi'
+  template: require './templates/work_li'
+  className: 'workLi'
 
   initialize: ->
     @listenTo @model, 'change', @render

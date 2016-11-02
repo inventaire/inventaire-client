@@ -2,13 +2,13 @@ entities_ = require '../entities'
 
 module.exports = genre_ = {}
 
-genre_.fetchBooksAndAuthors = (genreModel)->
-  fetchBooksAndAuthorsUris genreModel
-  # forcing default argument to neutralize fetchBooksAndAuthorsUris returned value
-  .then fetchBooksAndAuthorsEntities.bind(null, genreModel, null, null)
-  .catch _.ErrorRethrow('genre_.fetchBooksAndAuthors')
+genre_.fetchWorksAndAuthors = (genreModel)->
+  fetchWorksAndAuthorsUris genreModel
+  # forcing default argument to neutralize fetchWorksAndAuthorsUris returned value
+  .then fetchWorksAndAuthorsEntities.bind(null, genreModel, null, null)
+  .catch _.ErrorRethrow('genre_.fetchWorksAndAuthors')
 
-fetchBooksAndAuthorsUris = (genreModel)->
+fetchWorksAndAuthorsUris = (genreModel)->
   reverseClaims = genreModel.get 'reverseClaims'
   if reverseClaims?
     { 'wdt:P135':P135, 'wdt:P136':P136 } = reverseClaims
@@ -19,7 +19,7 @@ fetchBooksAndAuthorsUris = (genreModel)->
     getReverseClaims('wdt:P136', genreModel) #genre
   ]
   .then _.flatten
-  .catch _.ErrorRethrow('fetchBooksAndAuthorsUris')
+  .catch _.ErrorRethrow('fetchWorksAndAuthorsUris')
 
 getReverseClaims = (prop, genreModel)->
   uri = genreModel.get 'uri'
@@ -28,8 +28,8 @@ getReverseClaims = (prop, genreModel)->
   .then genreModel.set.bind(genreModel, "reverseClaims.#{prop}")
 
 # setting default limit to 10 to avoid loading too many authors
-# which will load all their books in return
-fetchBooksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
+# which will load all their works in return
+fetchWorksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
   _.types [genreModel, limit, offset], ['object', 'number', 'number']
   uris = _.flatten genreModel.gets('reverseClaims.wdt:P135', 'reverseClaims.wdt:P136')
   first = offset
@@ -44,13 +44,13 @@ fetchBooksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
 
   return app.request 'get:entities:models', range
 
-# EXPECT books collection, authors collection, entities models
-genre_.spreadBooksAndAuthors = (books, authors, entities)->
+# EXPECT works collection, authors collection, entities models
+genre_.spreadWorksAndAuthors = (works, authors, entities)->
   unless entities? then return _.warn 'no entities to spread'
   for entity in entities
     switch  entity.type
-      when 'book' then books.add entity
+      when 'work' then works.add entity
       when 'human' then authors.add entity
       else
         context = [ entity, entity.get('label'), entity.get('claims.wdt:P31') ]
-        _.warn context, 'neither a book or a human'
+        _.warn context, 'neither a work or a human'

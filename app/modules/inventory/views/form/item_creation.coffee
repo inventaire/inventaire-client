@@ -1,4 +1,4 @@
-EntityData = require 'modules/entities/views/entity_data'
+WorkData = require 'modules/entities/views/work_data'
 zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
@@ -6,9 +6,9 @@ error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
-  className: 'addEntity'
+  className: 'addWork'
   regions:
-    entityRegion: '#entity'
+    workRegion: '#work'
   behaviors:
     ElasticTextarea: {}
     ItemCreationSelect:
@@ -21,7 +21,7 @@ module.exports = Marionette.LayoutView.extend
     notes: '#notes'
 
   initialize: ->
-    @entity = @options.entity
+    { @work } = @options
     @createItem()
     @_lastAddMode = app.request 'last:add:mode:get'
 
@@ -29,16 +29,16 @@ module.exports = Marionette.LayoutView.extend
     attrs =
       # copying the title for convinience
       # as it is used to display and find the item from search
-      title: @entity.get 'label'
-      entity: @entity.get 'uri'
+      title: @work.get 'label'
+      entity: @work.get 'uri'
       transaction: @guessTransaction()
       listing: @guessListing()
 
-    if pictures = @entity.get 'images.url'
+    if pictures = @work.get 'images.url'
       attrs.pictures = pictures
 
-    unless attrs.entity? and attrs.title?
-      throw error_.new 'missing uri or title at item creation from entity', attrs
+    unless attrs.work? and attrs.title?
+      throw error_.new 'missing uri or title at item creation from work', attrs
 
     @model = app.request 'item:create', attrs
 
@@ -53,7 +53,7 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'foundation:reload'
     @selectTransaction()
     @selectListing()
-    @showEntityData()
+    @showWorkData()
 
   onDestroy: ->
     # waiting for the page to be closed to have the best guess
@@ -72,7 +72,7 @@ module.exports = Marionette.LayoutView.extend
         $el.addClass 'active'
 
   serializeData: ->
-    title = @entity.get 'label'
+    title = @work.get 'label'
     attrs =
       title: title
       listings: listingsData()
@@ -93,8 +93,8 @@ module.exports = Marionette.LayoutView.extend
     'click #validate': 'validateSimple'
     'click #validateAndAddNext': 'validateAndAddNext'
 
-  showEntityData: ->
-    @entityRegion.show new EntityData { model: @entity }
+  showWorkData: ->
+    @workRegion.show new WorkData { model: @work }
 
   # TODO: update the UI for update errors
   updateTransaction: ->

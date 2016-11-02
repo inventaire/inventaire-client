@@ -1,9 +1,9 @@
-@import 'entity_actions';
-@import 'entity_show';
-@import 'entity_data';
+@import 'work_actions';
+@import 'work_layout';
+@import 'work_data';
 @import "entity_create";
 @import "entity_edit";
-@import "book_li";
+@import "work_li";
 @import "article_li";
 @import "author_layout";
 @import "works_list";
@@ -17,7 +17,7 @@
   // text-align: right;
 }
 
-.addEntity{
+.addWork{
   h2{
     max-width: 36rem;
   }
@@ -66,7 +66,7 @@
 
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
-  .entityActions{
+  .workActions{
     .button-group > li {
       // overriding Foundation "margin 0 0.2px;" value
       margin: 0;

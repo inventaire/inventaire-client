@@ -22,7 +22,7 @@ module.exports = Marionette.LayoutView.extend
     inventoryItems: '#inventoryItems'
     authors: '#authors'
     series: '#series'
-    books: '#books'
+    works: '#works'
     editions: '#editions'
 
   ui:
@@ -70,7 +70,7 @@ module.exports = Marionette.LayoutView.extend
       @inventoryItems.show new ItemsList
         collection: collection
         header:
-          text: 'matching books in your network'
+          text: 'matching works in your network'
           classes: 'subheader'
 
   sameAsPreviousQuery: ->
@@ -107,20 +107,20 @@ module.exports = Marionette.LayoutView.extend
     @displayResults()
 
   displayResults: ->
-    { humans, series, books, editions } = cache
+    { humans, series, works, editions } = cache
 
     _.log cache, 'cache'
 
     authorsUris = humans.models.map getUri
     seriesUris = series.models.map getUri
     dedupplicateSubEntities authorsUris, series, 'wdt:P50'
-    dedupplicateSubEntities authorsUris, books, 'wdt:P50'
-    dedupplicateSubEntities seriesUris, books, 'wdt:P179'
+    dedupplicateSubEntities authorsUris, works, 'wdt:P50'
+    dedupplicateSubEntities seriesUris, works, 'wdt:P179'
 
     # Eventually, add a filter to display humans with occupation writter only
     @_displayTypeResults humans, 'authors'
     @_displayTypeResults series, 'series'
-    @_displayTypeResults books, 'books'
+    @_displayTypeResults works, 'works'
     @_displayTypeResults editions, 'editions'
 
   _displayTypeResults: (collection, type)->
@@ -145,18 +145,18 @@ module.exports = Marionette.LayoutView.extend
     _.log query, 'isbn query'
     app.execute 'search:global', query
 
-  createEntity: -> app.execute 'show:entity:create', 'book', @query
+  createEntity: -> app.execute 'show:entity:create', 'work', @query
 
 spreadResults = (res)->
-  { humans, series, books, editions } = res
+  { humans, series, works, editions } = res
   cache.humans = new Entities humans
   cache.series = new Entities series
-  cache.books = new Entities books
+  cache.works = new Entities works
   cache.editions = new Entities editions
-  cache.length = humans.length + series.length + books.length + editions.length
+  cache.length = humans.length + series.length + works.length + editions.length
   return
 
-# Remove books and series that have an author in the authors list or books that are
+# Remove works and series that have an author in the authors list or works that are
 # part of a found serie as they will fetched and displayed in the author's or serie's
 # subentities list
 dedupplicateSubEntities = (authorsUris, subentities, subentitiesProperty)->

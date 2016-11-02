@@ -8,7 +8,7 @@
 {{/unless}}
 
 <div class="data">
-  {{#if entityPage}}
+  {{#if workPage}}
     <h2>{{label}}</h2>
   {{else}}
     <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
@@ -25,6 +25,6 @@
     </a>
   {{/if}}
   <div class="attributes">
-    {{partial 'entities:book_claims' this}}
+    {{partial 'entities:work_claims' this}}
   </div>
 </div>
