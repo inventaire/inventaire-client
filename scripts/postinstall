@@ -19,5 +19,8 @@ npm run patches
 ./node_modules/brunch/bin/brunch build
 
 git clone -b i18n https://github.com/inventaire/inventaire-client.git ./public/i18n
-mkdir -p ./server/lib/emails/i18n/dist
-./scripts/update_i18n_all
+
+# The `coffee` executable is already made accessible to this present script
+# (cf http://www.2ality.com/2016/01/locally-installed-npm-executables.html)
+# but not nested scripts, thus the need to use `npm run`
+npm run update-i18n
