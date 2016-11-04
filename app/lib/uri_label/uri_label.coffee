@@ -44,7 +44,6 @@ getEntities = (uris)->
   if uris.length is 0 then return
 
   getEntitiesModels { uris, refresh }
-  .then _.Log('getEntitiesModels res')
   .then addEntitiesLabels
   # /!\ Not waiting for the update to run
   # but simply calling the debounced function
@@ -67,10 +66,23 @@ setEntityOriginalLang = (uri, claims, labels)->
   if originalValue? then setLabel uri, 'original', originalValue
   return
 
+previouslyMissing = []
 getMissingEntities = (uris)->
   missingUris = _.difference uris, getKnownUris()
-  if missingUris.length > 0 then return getEntities uris
+  # Avoid refetching URIs: either the data is about to arrive
+  # or the data is missing (in case of failing connection to Wikidata for instance)
+  # and it would keep requesting it if not filtered-out
+  urisToFetch = missingUris.filter wasntPrevisoulyMissing
+  previouslyMissing = missingUris
+  if urisToFetch.length > 0 then return getEntities urisToFetch
   else return _.preq.resolved
+
+wasntPrevisoulyMissing = (uri)->
+  if uri in previouslyMissing
+    _.warn uri, 'was already previsouly missing: not re-fetching'
+    return false
+  else
+    return true
 
 update = (lang)->
   language = lang
