@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 PUBLIC=$(pwd)/public
 # partials used to keep pieces of code not useful for development out of the index
 ./scripts/add_index_partials.coffee
