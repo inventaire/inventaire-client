@@ -1,9 +1,14 @@
 #!/usr/bin/env zsh
 PUBLIC=$(pwd)/public
+
 # partials used to keep pieces of code not useful for development out of the index
 ./scripts/add_index_partials.coffee
-echo 'piwik added'
-html-minifier --collapse-whitespace --remove-comments --minify-js $PUBLIC/index.html --output $PUBLIC/index.html
+echo 'partials added'
+
+# taking two steps for minifications as no way could be found to minify it in place
+html-minifier $PUBLIC/index.html --collapse-whitespace --remove-comments --minify-js > ./minified-index.html
+mv ./minified-index.html $PUBLIC/index.html
 echo 'index.html minified'
+
 ./scripts/add_jsonld_actions.coffee
 echo 'jsonld actions added'
