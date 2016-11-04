@@ -3,13 +3,13 @@ Entity = require '../models/entity'
 { get:entitiesGet } = app.API.entities
 
 # In-memory cache for all entities used during a session
-entitiesModelsIndexedByUri = {}
+# It's ok to attach it to window for inspection purpose
+# as we aren't letting it a change to be garbage collected anyway
+window.entitiesModelsIndexedByUri = entitiesModelsIndexedByUri = {}
 
 exports.get = (params)->
-  { uris, prefix, ids, refresh } = params
-
-  if prefix? and ids? then uris = _.forceArray(ids).map (id)-> "#{prefix}:#{id}"
-
+  { uris, refresh } = params
+  uris = _.uniq uris
   if refresh then return getRemoteEntitiesModels uris, {}, refresh
 
   foundEntitiesModels = getLocalEntities uris
