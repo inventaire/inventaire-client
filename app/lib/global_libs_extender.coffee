@@ -52,6 +52,7 @@ module.exports = (_)->
 
     @[name] = model
     @triggerGrab name, model
+    return model
 
   Backbone.Model::triggerGrab = (name, model)->
     @trigger 'grab', name, model
