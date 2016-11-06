@@ -4,9 +4,10 @@ entities_ = require '../lib/entities'
 initializeWikidataEntity = require '../lib/wikidata/init_entity'
 editableEntity = require '../lib/inv/editable_entity'
 getBestLangValue = sharedLib('get_best_lang_value')(_)
-initializeWork = require '../lib/types/work'
-initializeSerie = require '../lib/types/serie'
 initializeAuthor = require '../lib/types/author'
+initializeSerie = require '../lib/types/serie'
+initializeWork = require '../lib/types/work'
+initializeEdition = require '../lib/types/edition'
 
 # One unique Entity model to rule them all
 # but with specific initializers:
@@ -45,11 +46,11 @@ module.exports = Backbone.NestedModel.extend
     @set 'reverseClaims', {}
 
     switch @type
+      when 'human' then initializeAuthor.call @
       when 'serie' then initializeSerie.call @
       when 'work' then initializeWork.call @
-      when 'human' then initializeAuthor.call @
-      when 'article', 'edition' then null
-      # when 'edition' then @initializeEdition()
+      when 'edition' then initializeEdition.call @
+      when 'article' then null
 
     if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
     else @waitForData = Promise.all @_dataPromises

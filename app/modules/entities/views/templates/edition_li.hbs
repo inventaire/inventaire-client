@@ -1,3 +1,13 @@
+{{#if standalone}}
+<h2><a class="showEntity" href="{{work.pathname}}" title="{{work.label}}">{{work.label}}</a></h2>
+<p class="work-data">
+  {{#with work}}
+    {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}<br>
+    {{claim claims 'wdt:P179' true}} {{!-- serie --}}
+  {{/with}}
+</p>
+<div class="editionLi">
+{{/if}}
 <div>
   {{#if claims.wdt:P18}}
     <img src="{{src claims.wdt:P18 128}}" alt="{{label}}">
@@ -22,7 +32,13 @@
     {{claims.wdt:P212}}
   </div>
 </div>
-<a class="add shy-label">
-  {{icon 'plus'}}
-  <span>{{i18n 'add to my inventory'}}</span>
-</a>
+<div class="actions">
+  <a class="add">
+    {{icon 'plus'}}
+    <span>{{i18n 'add to my inventory'}}</span>
+  </a>
+</div>
+{{#if standalone}}
+  </div>
+  <a class="showEntity light-blue-button capitalize" href="{{work.pathname}}" title="{{work.label}}">{{I18n 'see all editions'}}</a>
+{{/if}}

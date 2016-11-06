@@ -6,6 +6,7 @@ Entities = require './collections/entities'
 AuthorLayout = require './views/author_layout'
 SerieLayout = require './views/serie_layout'
 WorkLayout = require './views/work_layout'
+EditionLi = require './views/edition_li'
 EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
@@ -74,10 +75,7 @@ API =
 
   getWorkView: (model, refresh)-> new WorkLayout { model, refresh }
 
-  getWorkViewFromEdition: (model, refresh)->
-    workUri = model.get 'claims.wdt:P629.0'
-    getEntityModel workUri, refresh
-    .then (workModel)-> new WorkLayout { model, refresh }
+  getWorkViewFromEdition: (model, refresh)-> new EditionLi { model, refresh, standalone: true }
 
   showAddEntity: (uri)->
     getEntityModel uri

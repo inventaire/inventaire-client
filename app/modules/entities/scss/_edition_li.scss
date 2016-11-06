@@ -1,0 +1,27 @@
+.editionLi{
+  margin: 1em;
+  @include radius;
+  @include display-flex(row);
+  background-color: white;
+  .data{
+    padding: 0.5em;
+  }
+  .actions{
+    margin-left: auto;
+    @include display-flex(column, center, center);
+    padding: 1em;
+  }
+  .add{
+    @include tiny-button($light-blue);
+    margin: 0 auto;
+  }
+}
+
+.editionLayout{
+  @include display-flex(column, center, center);
+  max-width: 50em;
+  margin: 1em auto;
+  h2{
+    text-align: center;
+  }
+}

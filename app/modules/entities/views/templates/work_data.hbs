@@ -1,4 +1,3 @@
-{{partial 'entities:edit_data' this}}
 {{#unless hidePicture}}
   {{#if image.url}}
     <div class="cover">
@@ -27,5 +26,6 @@
   {{/if}}
   <div class="attributes">
     {{partial 'entities:work_claims' this}}
+    {{partial 'entities:edit_data' this}}
   </div>
 </div>

@@ -1,1 +1,10 @@
+<h3>{{i18n 'editions'}}</h3>
+<div class="filters">
+  <select class="languageFilter" name="language-filter">
+    <option value="all">{{i18n 'all languages'}}</option>
+    {{#each availableLanguages}}
+      <option value="{{code}}" {{#if selected}}selected{{/if}}>{{code}} - {{native}}</option>
+    {{/each}}
+  </select>
+</div>
 <ul></ul>

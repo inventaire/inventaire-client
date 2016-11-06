@@ -9,42 +9,16 @@ module.exports = Marionette.ItemView.extend
     @mainUserInstances = app.request 'item:main:user:instances', @uri
 
   serializeData: ->
-    transactions: @transactionsData()
     mainUserHasOne: @mainUserHasOne()
-    mainUserInstances: @mainUserInstances
     instances:
       count: @mainUserInstances.length
       pathname: @mainUserInstancesPathname()
 
-  transactionsData: ->
-    transactions = app.items.transactions()
-    transactions.inventorying.icon = 'plus'
-    transactions.inventorying.label = 'just_inventorize_it'
-    return transactions
-
-  onRender: ->
-    app.execute 'foundation:reload'
-
   events:
-    'click #addToInventory, #inventorying': 'inventorying'
-    'click #giving': 'giving'
-    'click #lending': 'lending'
-    'click #selling': 'selling'
+    'click .add': 'add'
     'click .hasAnInstance a': 'showMainUserInstances'
 
-  giving: -> @showItemCreation 'giving'
-  lending: -> @showItemCreation 'lending'
-  selling: -> @showItemCreation 'selling'
-  inventorying: -> @showItemCreation 'inventorying'
-
-  showItemCreation: (transaction)->
-    if @model.delegateItemCreation
-      @model.trigger 'delegate:item:creation', transaction
-      _.log 'delegating item creation'
-    else
-      app.execute 'show:item:creation:form',
-        entity: @model
-        transaction: transaction
+  add: -> app.execute 'show:item:creation:form', { entity: @model }
 
   mainUserHasOne: ->  @mainUserInstances.length > 0
   showMainUserInstances: -> app.execute 'show:items', @mainUserInstances

@@ -1,5 +1,13 @@
 .workLayout{
   background-color: $dark-grey;
+  .data{
+    max-width: 60em;
+  }
+  .extract{
+    text-align: left;
+  }
+  padding-bottom: 1em;
 }
 
-@import './editions_list'
+@import './editions_list';
+@import './edition_li';

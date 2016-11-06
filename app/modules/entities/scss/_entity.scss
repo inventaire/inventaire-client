@@ -1,6 +1,7 @@
 @import 'work_actions';
 @import 'work_layout';
 @import 'work_data';
+@import "entity_data_overview";
 @import "entity_create";
 @import "entity_edit";
 @import "work_li";
@@ -17,7 +18,7 @@
   // text-align: right;
 }
 
-.addWork{
+.addEntity{
   h2{
     max-width: 36rem;
   }
@@ -62,6 +63,13 @@
   @include shy;
   margin-top: 0.5em;
   margin-right: 0.5em;
+}
+
+.workLayout, .editionLi {
+  .add{
+    @include tiny-button($light-blue);
+    margin: 0 auto;
+  }
 }
 
 /*Small screens*/

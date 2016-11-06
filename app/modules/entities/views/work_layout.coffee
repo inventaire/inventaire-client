@@ -9,9 +9,6 @@ module.exports = Marionette.LayoutView.extend
     editionsList: '#editionsList'
     workActions: '#workActions'
 
-  behaviors:
-    WikiBar: {}
-
   serializeData: ->
     _.extend @model.toJSON(),
       canRefreshData: true
@@ -36,8 +33,6 @@ module.exports = Marionette.LayoutView.extend
     @workData.show new WorkData
       model: @model
       workPage: true
-
-    _.log @model.editions, '@model.editions'
 
     @editionsList.show new EditionsList
       collection: @model.editions

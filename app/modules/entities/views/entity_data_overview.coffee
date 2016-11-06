@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
-  template: require './templates/work_data'
-  className: 'workData'
+  template: require './templates/entity_data_overview'
+  className: 'entityDataOverview'
   initialize: (options)->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender

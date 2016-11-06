@@ -4,9 +4,6 @@
   @include display-flex(column, center, center);
   text-align: center;
   position: relative;
-  .editEntityData{
-    @include position(absolute, 1em, 1em);
-  }
   h2, span, label, p{
     color: white;
   }
@@ -25,7 +22,6 @@
   }
   .data{
     flex: 1 1 auto;
-    @include display-flex(column);
   }
   .description{
     margin: 0;
@@ -38,12 +34,20 @@
     margin: -0.9em -0.8em 0 auto;
   }
   .attributes{
+    background-color: $darker-grey;
+    max-width: 50em;
+    margin: 0 auto;
+    position: relative;
     span:not(.entity-value), .property-value{
       color: #999;
       margin-right: 0.5em;
     }
   }
   .editEntityData{
+    /*Large screens*/
+    @media screen and (min-width: 500px) {
+      @include position(absolute, 0.5em, 0.5em);
+    }
     color: white;
   }
   .photo-credits{

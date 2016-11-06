@@ -1,22 +1,9 @@
+<a class="add">
+  {{icon 'plus'}}
+  <span>{{i18n 'add to my inventory'}}</span>
+</a>
 {{#if mainUserHasOne}}
   <p class="hasAnInstance">
     {{{i18n 'item_existing_instances' instances}}}
   </p>
 {{/if}}
-<div class="workAction">
-  <div class="custom-button-group">
-    <a id='addToInventory' class="has-tip button success bold" title="{{i18n 'add it to my inventory'}}">
-      {{icon 'plus'}}
-      {{i18n 'add it to my inventory'}}
-    </a>
-    <a class="button success dropdown-custom" data-options="is_hover:true" data-dropdown="have">{{icon 'chevron-down'}}</a>
-    <ul id="have" class="small f-dropdown" data-dropdown-content>
-      <li class="dropdownLegend">
-        <label>{{i18n "I have it and it is available for:"}}</label>
-      </li>
-      {{#each transactions}}
-        <li><a id="{{id}}">{{icon icon}} <span>{{I18n label}}</span></a></li>
-      {{/each}}
-    </ul>
-  </div>
-</div>

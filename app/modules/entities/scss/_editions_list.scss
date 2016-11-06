@@ -1,12 +1,14 @@
 #editionsList{
-  .editionLi{
-    @include display-flex(row);
-    background-color: white;
-    max-width: 50em;
-    margin: 0 auto;
-    @include radius;
-    .data{
-      padding: 0.5em;
-    }
+  margin: 0 auto;
+  max-width: 50em;
+  h3{
+    text-align: center;
+    color: white;
+  }
+  .filters{
+    @include display-flex(row, center, center);
+  }
+  .languageFilter{
+    max-width: 10em;
   }
 }
