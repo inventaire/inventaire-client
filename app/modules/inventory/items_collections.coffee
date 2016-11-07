@@ -23,7 +23,11 @@ module.exports = (app, _)->
   app.user.once 'change', -> items.personal.refilter()
 
   attachFilteredCollection 'friends', isFriend
+
   attachFilteredCollection 'public', isPublicUser
+  items.public.byEntityUri = items.byEntityUri.bind items.public
+
   attachFilteredCollection 'network', isntPublicUser
+  items.network.byEntityUri = items.byEntityUri.bind items.network
 
   return items

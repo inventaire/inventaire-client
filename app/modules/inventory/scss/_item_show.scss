@@ -28,34 +28,13 @@
     }
   }
   #entityData{
-    @extend .dark-panel;
-    @include display-flex(row, center, space-around);
-    #entity{
-      flex: 1 1 auto;
+    #work, #edition {
+      @extend .dark-panel;
     }
-    .icon-bar{
-      flex: 0 0 auto;
-      font-size: 1.1em;
-      a{
-        @include shy;
-        margin: 1em auto;
-      }
-      a, span{
-        color: white;
-        display: block;
-        text-align: center;
-        text-decoration: none;
-      }
-    }
-    /*Small screens*/
-    @media screen and (max-width: 700px) {
-      flex-direction: column;
-      .icon-bar{
-        @include display-flex(row);
-        a{
-          margin-left: 1em;
-          margin-right: 1em;
-        }
+    #edition{
+      background-color: lighten($dark-grey, 20%);
+      &:empty{
+        display: none;
       }
     }
   }

@@ -1,6 +1,7 @@
 ItemComments = require './item_comments'
 ItemTransactions = require './item_transactions'
 WorkData = require 'modules/entities/views/work_data'
+EditionData = require 'modules/entities/views/edition_data'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
@@ -9,7 +10,8 @@ module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
   template: require './templates/item_show'
   regions:
-    entityRegion: '#entity'
+    workRegion: '#work'
+    editionRegion: '#edition'
     pictureRegion: '#picture'
     transactionsRegion: '#transactions'
     commentsRegion: '#comments'
@@ -52,9 +54,14 @@ module.exports = Marionette.LayoutView.extend
     else @listenTo @model, 'grab:entity', @showEntity.bind(@)
 
   showEntity: (entity)->
-    @entityRegion.show new WorkData
-      model: entity
-      hidePicture: true
+    type = entity.get 'type'
+    if type is 'edition'
+      entity.waitForWork.then @showEntity.bind(@)
+      @editionRegion.show new EditionData { model: entity }
+    else
+      @workRegion.show new WorkData
+        model: entity
+        hidePicture: true
 
   events:
     'click a#destroy': 'itemDestroy'

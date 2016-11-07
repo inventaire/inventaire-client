@@ -4,10 +4,7 @@ module.exports = Marionette.ItemView.extend
   initialize: (options)->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
-
     @hidePicture = options.hidePicture
-    unless @hidePicture
-      @listenTo @model, 'add:pictures', @lazyRender
 
   serializeData: ->
     attrs = @model.toJSON()

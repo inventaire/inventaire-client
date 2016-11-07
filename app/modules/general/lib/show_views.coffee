@@ -1,7 +1,7 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 DonateMenu = require '../views/donate_menu'
 FeedbackMenu = require '../views/feedback_menu'
-ShareMenu = require '../views/share_menu'
+# ShareMenu = require '../views/share_menu'
 Loader = require '../views/behaviors/loader'
 
 module.exports =
@@ -31,4 +31,4 @@ module.exports =
 
   showDonateMenu: -> app.layout.modal.show new DonateMenu
   showFeedbackMenu: (options)-> app.layout.modal.show new FeedbackMenu(options)
-  shareLink: -> app.layout.modal.show new ShareMenu
+  # shareLink: -> app.layout.modal.show new ShareMenu

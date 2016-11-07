@@ -1,0 +1,9 @@
+<div>
+  {{#if claims.wdt:P18}}
+    <img src="{{src claims.wdt:P18 200}}" alt="{{label}}">
+  {{/if}}
+</div>
+<div class="data">
+  <h3><a href="{{pathname}}" class="showEntity">{{i18n 'edition'}}</a></h3>
+  {{partial 'entities:edition_claims' this}}
+</div>

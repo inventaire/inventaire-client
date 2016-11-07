@@ -1,19 +1,20 @@
 .editionLi{
-  margin: 1em;
+  margin: 2em;
   @include radius;
-  @include display-flex(row);
   background-color: white;
-  .data{
+  .claims{
     padding: 0.5em;
   }
   .actions{
     margin-left: auto;
-    @include display-flex(column, center, center);
     padding: 1em;
   }
   .add{
     @include tiny-button($light-blue);
     margin: 0 auto;
+  }
+  .items-lists{
+    padding: 0.5em;
   }
 }
 
@@ -21,7 +22,12 @@
   @include display-flex(column, center, center);
   max-width: 50em;
   margin: 1em auto;
-  h2{
+  h2 {
     text-align: center;
+    a{
+      @include underline-on-hover($dark-grey);
+    }
   }
 }
+
+@import '../../inventory/scss/items_preview_lists';

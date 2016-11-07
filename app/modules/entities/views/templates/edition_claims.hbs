@@ -1,0 +1,17 @@
+<div>
+  <span class="property-value">{{i18n 'language'}}:</span>
+  {{#each claims.wdt:P407}}
+    {{{entity this false}}}&nbsp;
+  {{/each}}
+</div>
+<div>
+  {{#if claims.wdt:P577}}
+    {{{prop 'wdt:P577'}}}
+    {{dateYear claims.wdt:P577}}
+  {{/if}}
+</div>
+{{!-- not so important for most users --}}
+<div>
+  {{{prop 'wdt:P212'}}}
+  {{claims.wdt:P212}}
+</div>

@@ -1,0 +1,10 @@
+.edition-data{
+  @include display-flex(row, flex-start, center);
+  > div {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+  h3 a{
+    @include link-light;
+  }
+}

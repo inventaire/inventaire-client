@@ -1,0 +1,40 @@
+.itemsPreviewLists{
+  background-color: #f2f2f2;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  @include radius;
+  .header{
+    color: $grey;
+  }
+}
+.itemsPreviewList{
+  margin-bottom: 0.5em;
+}
+.transaction-icon{
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  color: white;
+  // margin-right: 0.5em;
+  @include radius;
+  &.giving{ background-color: $giving-color; }
+  &.lending{ background-color: $lending-color; }
+  &.selling{ background-color: $selling-color; }
+  &.inventorying{ background-color: $inventorying-color; }
+  .fa{
+    // centering
+    padding-left: 0.3em;
+    margin: 0 auto;
+  }
+}
+.items-preview{
+  margin-right: 1em;
+}
+.transaction-icon, .item-preview{
+  margin-right: 0.1em;
+}
+.item-preview{
+  img{
+    @include radius;
+  }
+}

@@ -11,32 +11,25 @@
   }
 }
 
+@mixin link-underline-on-hover($color, $hover){
+  @include text-hover($color, $hover);
+  @include underline-on-hover($hover);
+}
+
 @mixin link(){
-  color: $link-blue;
-  @include underline(rgba(white, 0.2));
+  @include link-underline-on-hover($link-blue, darken($link-blue, 5%));
 }
 
 // to be used on dark background
 @mixin link-light(){
-  color: white;
-  @include underline(rgba(white, 0.2));
-  @include transition(text-decoration-color, 0.2s);
-  &:hover{
-    text-decoration-color: rgba(white, 0.6);
-  }
+  @include link-underline-on-hover(white, #eee);
 }
 
+$link-hover-grey: lighten($dark-grey, 5%);
 .link{
-  @include underline(rgba($grey, 0.4));
-  color: #555566;
-  // border-bottom: 3px solid rgba(255,255,0,0.2);
-  &:hover {
-    color: $secondary-color;
-    // border-bottom: 3px solid rgba(255,255,0,1);
-  }
+  @include link-underline-on-hover($dark-grey, $link-hover-grey);
 }
 
 .content-link{
-  @include text-hover($grey, null, 10%);
-  @include underline(rgba($grey, 0.4));
+  @include link-underline-on-hover($grey, lighten($grey, 5%));
 }
