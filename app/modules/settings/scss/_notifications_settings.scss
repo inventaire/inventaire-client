@@ -39,9 +39,6 @@
     margin-top: 0.5em;
     padding: 0.5em 1em 0.5em 1em;
     text-align: center;
-    .row{
-      @include display-flex(row, center, center);
-    }
     span{
       flex: 1 1 auto;
     }

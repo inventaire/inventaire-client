@@ -1,0 +1,33 @@
+@mixin display-flex($direction:null, $align:null, $justify:null, $wrap:null) {
+  display: flex;
+  @if $direction {  flex-direction: $direction; }
+  @if $align { align-items: $align; }
+  @if $justify { justify-content: $justify; }
+  @if $wrap { flex-wrap: $wrap; }
+}
+
+// Get rid of Foundation before using the .row and .column classes
+// see https://github.com/inventaire/inventaire-client/issues/87
+.flex-row{
+  @include display-flex(row);
+}
+.flex-row-center-center{
+  @include display-flex(row, center, center);
+}
+.flex-row-center-start{
+  @include display-flex(row, center, flex-start);
+}
+
+.flex-column{
+  @include display-flex(column);
+}
+.flex-column-center-center{
+  @include display-flex(column, center, center);
+}
+
+.flex-grow{
+  flex: 1 0 auto;
+}
+.flex-wrap{
+  flex-wrap: wrap;
+}
