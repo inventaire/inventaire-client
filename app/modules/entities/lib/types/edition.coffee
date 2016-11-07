@@ -23,6 +23,5 @@ setLabel = (work)->
   unless @get('label')? then @set 'label', @work.get('label')
 
 editionMethods =
-  getAuthorsString: ->
-    @waitForWork
-    .then (work)-> work.getAuthorsString()
+  getAuthorsString: -> @waitForWork.then (work)-> work.getAuthorsString()
+  buildWorkTitle: -> @waitForWork.then (work)-> work.buildWorkTitle()
