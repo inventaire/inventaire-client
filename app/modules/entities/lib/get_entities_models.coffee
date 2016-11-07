@@ -22,7 +22,6 @@ exports.get = (params)->
   else missingUris = getMissingUris uris
 
   if missingUris.length > 0
-    _.log missingUris, 'missingUris'
     # Populate entitiesModelsIndexedByUri with promises of entity models
     # for the missing entities
     populateIndexWithMissingEntitiesModelsPromises missingUris

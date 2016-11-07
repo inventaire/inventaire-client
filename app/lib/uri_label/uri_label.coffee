@@ -77,12 +77,7 @@ getMissingEntities = (uris)->
   if urisToFetch.length > 0 then return getEntities urisToFetch
   else return _.preq.resolved
 
-wasntPrevisoulyMissing = (uri)->
-  if uri in previouslyMissing
-    _.warn uri, 'was already previsouly missing: not re-fetching'
-    return false
-  else
-    return true
+wasntPrevisoulyMissing = (uri)-> uri not in previouslyMissing
 
 update = (lang)->
   language = lang
