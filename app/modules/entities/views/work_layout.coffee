@@ -1,6 +1,7 @@
 WorkData = require './work_data'
 EditionsList = require './editions_list'
 WorkActions = require './work_actions'
+entityItems = require '../lib/entity_items'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/work_layout'
@@ -8,13 +9,15 @@ module.exports = Marionette.LayoutView.extend
     workData: '#workData'
     editionsList: '#editionsList'
     workActions: '#workActions'
+    networkItemsRegion: '.networkItems'
+    publicItemsRegion: '.publicItems'
 
   serializeData: ->
     _.extend @model.toJSON(),
       canRefreshData: true
 
   initialize: ->
-    @uri = @model.get('uri')
+    entityItems.initialize.call @
     app.execute 'metadata:update:needed'
 
   onShow: ->
@@ -23,7 +26,9 @@ module.exports = Marionette.LayoutView.extend
     app.request('wait:for', 'user').then @showWorkActions.bind(@)
 
     @model.updateMetadata()
-    .finally app.Execute('metadata:update:done')
+    .then app.Execute('metadata:update:done')
+
+  onRender: -> entityItems.onRender.call @
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'

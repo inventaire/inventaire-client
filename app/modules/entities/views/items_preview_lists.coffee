@@ -34,5 +34,5 @@ spreadByTransactions = (itemsModels)->
   return collections
 
 headers =
-  network: "in your friends' & groups' inventories"
+  network: "in your friends' and groups' inventories"
   public: 'public'

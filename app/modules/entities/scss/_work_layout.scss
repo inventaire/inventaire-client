@@ -7,6 +7,11 @@
     text-align: left;
   }
   padding-bottom: 1em;
+  > .items-lists{
+    max-width: 50em;
+    margin: 0 auto;
+    margin-bottom: 2em;
+  }
 }
 
 @import './editions_list';

@@ -1,7 +1,4 @@
 .workData{
-  // width: 100%;
-  // max-width: 50em;
-  @include display-flex(column, center, center);
   text-align: center;
   position: relative;
   h2, span, label, p{
@@ -36,6 +33,7 @@
   .attributes{
     background-color: $darker-grey;
     max-width: 50em;
+    @include radius;
     margin: 0 auto;
     position: relative;
     span:not(.entity-value), .property-value{

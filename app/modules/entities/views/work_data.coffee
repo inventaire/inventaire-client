@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/work_data'
-  className: 'workData'
+  className: 'workData flex-column-center-center'
   initialize: (options)->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender

@@ -6,7 +6,7 @@
       {{claim claims 'wdt:P179' true}} {{!-- serie --}}
     {{/with}}
   </p>
-  <div class="editionLi">
+  <div class="editionLi flex-row">
 {{/if}}
 
 <div>
@@ -26,10 +26,7 @@
       </a>
     </div>
   </div>
-  <div class="items-lists">
-    <div class="networkItems"></div>
-    <div class="publicItems"></div>
-  </div>
+  {{partial 'entities:items_lists'}}
 </div>
 
 {{#if standalone}}
