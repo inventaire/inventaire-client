@@ -10,6 +10,12 @@ module.exports = ->
 
   workUri = @get 'claims.wdt:P629.0'
 
+  # Editions don't have subentities so the list of all their uris,
+  # including their subentities, are limited to their own uri
+  @set 'allUris', [ @get('uri') ]
+  # No subentities to fetch
+  @waitForSubentities = _.preq.resolved
+
   @waitForWork = @reqGrab 'get:entity:model', workUri, 'work'
   .tap setLabel.bind(@)
 

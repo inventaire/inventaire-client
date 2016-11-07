@@ -25,9 +25,9 @@ module.exports = (app, _)->
   attachFilteredCollection 'friends', isFriend
 
   attachFilteredCollection 'public', isPublicUser
-  items.public.byEntityUri = items.byEntityUri.bind items.public
+  items.public.byEntityUris = items.byEntityUris.bind items.public
 
   attachFilteredCollection 'network', isntPublicUser
-  items.network.byEntityUri = items.byEntityUri.bind items.network
+  items.network.byEntityUris = items.byEntityUris.bind items.network
 
   return items

@@ -8,6 +8,8 @@ module.exports = Backbone.Collection.extend
 
   byEntityUri: (uri)-> @where {entity: uri}
 
+  byEntityUris: (uris)-> @filter (item)-> item.get('entity') in uris
+
   byUsername: (username)->
     owner = app.request 'get:userId:from:username', username
     return @where {owner: owner}

@@ -92,8 +92,15 @@ module.exports = Backbone.NestedModel.extend
     prop = @childrenClaimProperty
 
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
+    .tap @setSubEntitiesUris.bind(@)
     .then (uris)-> app.request 'get:entities:models', uris, refresh
     .then collection.add.bind(collection)
+
+  setSubEntitiesUris: (uris)->
+    @set 'subEntitiesUris', uris
+    # The list of all uris that describe an entity that is this work or a subentity,
+    # that is, an edition of this work
+    @set 'allUris', [ @get('uri') ].concat(uris)
 
   # To be called by a view onShow:
   # updates the document with the entities data
