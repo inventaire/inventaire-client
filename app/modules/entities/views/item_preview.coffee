@@ -3,6 +3,12 @@ module.exports = Marionette.ItemView.extend
   className: 'item-preview'
   behaviors:
     PreventDefault: {}
+
+  onShow: ->
+    unless @model.user?
+      @model.waitForUser
+      .then @render.bind(@)
+
   serializeData: -> @model.serializeData()
   events:
     'click .showItem': 'showItem'
