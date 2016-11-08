@@ -10,6 +10,9 @@ module.exports = Marionette.LayoutView.extend
     sellingRegion: '.selling'
     inventoryingRegion: '.inventorying'
 
+  ui:
+    detailsTogglers: '.detailsTogglers a'
+
   initialize: ->
     { @category, itemsModels } = @options
     if itemsModels.length is 0 then return
@@ -18,11 +21,32 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     header: headers[@category]
 
-  onShow: ->
+  onShow: -> @showItemsPreviewLists false
+
+  events:
+    'click .showDetails': 'showDetails'
+    'click .hideDetails': 'hideDetails'
+
+  # Re-rendering all the children view might be sub-optimal
+  # but I couldn't figure-out how to pass them an event properly
+  # and everything would have to be re-drawn anyway
+  showDetails: ->
+    @showItemsPreviewLists true
+    @ui.detailsTogglers.toggleClass 'hidden'
+
+  hideDetails: ->
+    @showItemsPreviewLists false
+    @ui.detailsTogglers.toggleClass 'hidden'
+
+  showItemsPreviewLists: (showDetails)->
+    if showDetails then @$el.addClass 'show-details'
+    else @$el.removeClass 'show-details'
+
     for transaction, collection of @collections
       @["#{transaction}Region"].show new ItemsPreviewList
         transaction: transaction
         collection: collection
+        showDetails: showDetails
 
 spreadByTransactions = (itemsModels)->
   collections = {}

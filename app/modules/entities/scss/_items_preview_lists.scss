@@ -4,39 +4,100 @@ $preview-icon-base-size: 2em;
   background-color: #f2f2f2;
   padding: 0.5em;
   margin-bottom: 0.5em;
+  position: relative;
   @include radius;
   .header{
     color: $grey;
   }
+  .showDetails, .hideDetails{
+    @include underline;
+    @include shy;
+    @include position(absolute, null, 5px, 1px, null);
+  }
+  &:not(.show-details){
+    .items-lists-per-transactions{
+      @include display-flex(row, center, flex-start, wrap);
+    }
+    .itemsPreviewList{
+      @include display-flex(row, center, flex-start);
+    }
+    .transaction-icon, .item-preview{
+      flex: 0 0 $preview-icon-base-size;
+      margin-right: 0.1em;
+      margin-bottom: 0.1em;
+    }
+    .transaction-icon{
+      .fa{
+        // centering
+        padding-left: 0.3em;
+        margin: 0 auto;
+      }
+    }
+    .items-preview{
+      margin-right: $preview-icon-base-size;
+    }
+  }
+  &.show-details{
+    .items-lists-per-transactions{
+      @include display-flex(column, center, center);
+      > div {
+        width: 100%;
+      }
+    }
+    .itemsPreviewList{
+      @include display-flex(column, center, center);
+    }
+    .transaction-icon{
+      min-width: 10em;
+      justify-content: center;
+    }
+    .items-preview{
+      padding: 1em;
+      width: 100%;
+      display: block;
+    }
+    .item-preview{
+      .showItem{
+        @include display-flex(row, center, flex-start);
+        @include bg-hover(white);
+        margin-bottom: 0.5em;
+      }
+      img{
+        align-self: flex-start;
+      }
+      .right-part{
+        margin-left: 0.5em;
+        .details, .notes{
+          padding: 0.2em;
+        }
+        .notes{
+          color: white;
+          background-color: $darker-grey;
+        }
+      }
+      margin-right: auto;
+    }
+  }
 }
+
+// Here after are the rules applying to both with
+// and without .show-details set on .itemsPreviewLists
 .itemsPreviewList{
   margin-bottom: 0.5em;
 }
 .transaction-icon{
+  @include display-flex(row, center, flex-start);
   width: $preview-icon-base-size;
   height: $preview-icon-base-size;
-  text-align: center;
   color: white;
   @include radius;
   &.giving{ background-color: $giving-color; }
   &.lending{ background-color: $lending-color; }
   &.selling{ background-color: $selling-color; }
   &.inventorying{ background-color: $inventorying-color; }
-  .fa{
-    // centering
-    padding-left: 0.3em;
-    margin: 0 auto;
-  }
-  align-self: flex-start;
+  margin: auto;
 }
-.items-preview{
-  margin-right: $preview-icon-base-size;
-}
-.transaction-icon, .item-preview{
-  flex: 0 0 $preview-icon-base-size;
-  margin-right: 0.1em;
-  margin-bottom: 0.1em;
-}
+
 .item-preview{
   img{
     @include radius;

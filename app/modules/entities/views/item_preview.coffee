@@ -9,7 +9,10 @@ module.exports = Marionette.ItemView.extend
       @model.waitForUser
       .then @render.bind(@)
 
-  serializeData: -> @model.serializeData()
+  serializeData: ->
+    _.extend @model.serializeData(),
+      showDetails: @options.showDetails
+
   events:
     'click .showItem': 'showItem'
 
