@@ -121,8 +121,9 @@ module.exports = (app)->
     return users.filter (user)-> not (user._id in current)
 
   addPublicUsers = (users)->
-    allUsersIds = users.map(_.property('_id'))
-    users = filterOutAlreadyThere _.forceArray(users)
+    users = _.forceArray users
+    allUsersIds = users.map _.property('_id')
+    users = filterOutAlreadyThere users
     app.users.public.add users
     # make sure to return all requested users models
     # and not only those that were missing
