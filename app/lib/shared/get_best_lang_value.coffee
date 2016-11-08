@@ -5,6 +5,7 @@ module.exports = (_)->
   # Once it made it's closure on _
   if getBestLangValue then return getBestLangValue
 
+  # data: labels or descriptions
   getBestLangValue = (lang, originalLang, data)->
     order = getLangPriorityOrder lang, originalLang, data
     while order.length > 0
