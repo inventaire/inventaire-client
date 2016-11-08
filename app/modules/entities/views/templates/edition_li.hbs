@@ -6,16 +6,16 @@
       {{claim claims 'wdt:P179' true}} {{!-- serie --}}
     {{/with}}
   </p>
-  <div class="editionLi flex-row">
+  <div class="editionLi">
 {{/if}}
 
 <div>
   {{#if claims.wdt:P18}}
-    <img src="{{src claims.wdt:P18 128}}" alt="{{label}}">
+    <img src="{{src claims.wdt:P18 150}}" alt="{{label}}">
   {{/if}}
 </div>
-<div class="right-part flex-grow">
-  <div class="flex-row">
+<div class="right-part">
+  <div class="upper-part">
     <div class="claims">
       {{partial 'entities:edition_claims' this}}
     </div>

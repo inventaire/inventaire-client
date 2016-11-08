@@ -3,7 +3,7 @@ entityItems = require '../lib/entity_items'
 module.exports = Marionette.LayoutView.extend
   template: require './templates/edition_li'
   tagName: -> if @options.standalone then 'div' else 'li'
-  className: -> if @options.standalone then 'editionLayout' else 'editionLi flex-row'
+  className: -> if @options.standalone then 'editionLayout' else 'editionLi'
 
   regions:
     networkItemsRegion: '.networkItems'
