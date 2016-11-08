@@ -82,9 +82,12 @@ module.exports = (Backbone, _, $, app, window)->
     if str is '' then return ''
     str[0].toUpperCase() + str[1..-1]
 
-  # Anchor with a href are opened out of the current window when the ctrlKey is
-  # pressed, or the metaKey (Command) in case its a Mac
-  isOpenedOutside: (e)-> if isMac then e.metaKey else e.ctrlKey
+  isOpenedOutside: (e)->
+    # Anchor with a href are opened out of the current window when the ctrlKey is
+    # pressed, or the metaKey (Command) in case its a Mac
+    openOutsideByKey = if isMac then e.metaKey else e.ctrlKey
+    openOutsideByTarget = e.currentTarget.target is '_blank'
+    return openOutsideByKey or openOutsideByTarget
 
   noop: ->
 

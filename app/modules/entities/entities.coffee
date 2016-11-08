@@ -135,6 +135,8 @@ setHandlers = ->
 
     'show:entity:add': API.showAddEntity.bind API
     'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')
+
+    'show:entity:edit': API.showEditEntity
     'show:entity:edit:from:model': (entity)->
       showEntityEdit entity
       app.navigate entity.get('edit')
