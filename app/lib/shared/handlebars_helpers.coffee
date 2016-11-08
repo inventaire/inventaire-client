@@ -15,6 +15,6 @@ module.exports = (_, appApi)->
       height = getImgDimension height, width
       path = onePictureOnly path
 
-      return ''  unless path?
+      unless path? then return ''
 
       return appApi.img path, width, height
