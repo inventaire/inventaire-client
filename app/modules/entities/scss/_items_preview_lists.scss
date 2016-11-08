@@ -17,6 +17,9 @@ $preview-icon-base-size: 2em;
   &:not(.show-details){
     .items-lists-per-transactions{
       @include display-flex(row, center, flex-start, wrap);
+      // add a hint of padding to prevent the "show details" link (which has
+      // a position: absolute) to overlap
+      padding-bottom: 0.3em;
     }
     .itemsPreviewList{
       @include display-flex(row, center, flex-start);
@@ -53,24 +56,32 @@ $preview-icon-base-size: 2em;
     }
     .items-preview{
       padding: 1em;
-      width: 100%;
       display: block;
+      width: 100%;
     }
     .item-preview{
+      padding: 1em;
       .showItem{
         @include display-flex(row, center, flex-start);
         @include bg-hover(white);
         margin-bottom: 0.5em;
+        width: 100%;
       }
       img{
         align-self: flex-start;
+        flex: 0 0 auto;
       }
       .right-part{
+        text-align: left;
+        flex: 1 0 0;
         margin-left: 0.5em;
-        .details, .notes{
-          padding: 0.2em;
+        .details{
+          // Just pulling details slightly up so that a one-line text would make
+          // the box have the same height as the user profile pic
+          margin-top: -0.2em;
         }
         .notes{
+          padding-top: 0.2em;
           color: white;
           background-color: $darker-grey;
         }

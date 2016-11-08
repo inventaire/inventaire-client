@@ -18,6 +18,9 @@ initializeEdition = require '../lib/types/edition'
 #   - Work
 #   - Edition
 
+# Progressively extending the whitelist of editable types
+editableTypes = [ 'work', 'edition' ]
+
 module.exports = Backbone.NestedModel.extend
   initialize: (attrs)->
     @refresh = options?.refresh
@@ -34,7 +37,7 @@ module.exports = Backbone.NestedModel.extend
     @_dataPromises = []
     if @wikidataId then initializeWikidataEntity.call @, attrs
     # For the moment, among local entities, only works are editable
-    else if @type is 'work'
+    else if @type in editableTypes
       pathname = @get 'pathname'
       @set 'edit', "#{pathname}/edit"
 

@@ -7,17 +7,30 @@
     {{/with}}
   </p>
   <div class="editionLi">
+    {{partial 'entities:edit_data' this}}
 {{/if}}
 
-<div>
+<div class="cover">
   {{#if claims.wdt:P18}}
-    <img src="{{src claims.wdt:P18 150}}" alt="{{label}}">
+    {{#if standalone}}
+      <img src="{{src claims.wdt:P18 300}}" alt="{{label}}">
+    {{else}}
+      <a class="showEntity" href="{{pathname}}" title="{{label}}">
+        <img src="{{src claims.wdt:P18 150}}" alt="{{label}}">
+      </a>
+    {{/if}}
   {{/if}}
 </div>
 <div class="right-part">
   <div class="upper-part">
     <div class="claims">
-      {{partial 'entities:edition_claims' this}}
+      {{#if standalone}}
+        {{partial 'entities:edition_claims' this}}
+      {{else}}
+        <a class="showEntity" href="{{pathname}}" title="{{label}}">
+          {{partial 'entities:edition_claims' this}}
+        </a>
+      {{/if}}
     </div>
     <div class="actions flex-column-center-center">
       <a class="add">
