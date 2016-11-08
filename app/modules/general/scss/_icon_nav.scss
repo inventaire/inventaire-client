@@ -23,7 +23,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
     padding: 0.4em 0.1em 0.4em 0.1em;
     @include display-flex(column);
     text-align: center;
-    .iconWithCounter{
+    .icon-with-counter{
       .counter{
         @include counter-commons;
       }
@@ -35,33 +35,33 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
         @include display-flex(row, center, center);
         .counter{
           margin: 0.1em -0.8em 0.2em -0.2em;
-          z-index: 21;
           opacity: 1;
         }
       }
     }
-    .fa, span{
+    .fa, .label{
       color: white;
     }
     .fa{
       font-size: 1.5em;
       text-align: center;
     }
-    span{
+    .counter{
       text-align: center;
       margin-top: -1.4em;
       line-height: 1em;
     }
     .label{
       line-height: 1em;
+      flex: 3 0 ;
     }
     &:not(.selected){
-      span:not(.counter), .fa{
+      .fa, .label{
         @include transition(opacity);
         opacity: 0.6;
       }
       &:hover{
-        span:not(.counter), .fa{
+        .fa, .label{
           opacity: 1;
         }
       }
@@ -70,7 +70,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
       background-color: $off-white;
       @include inner-shadow;
       @include radius;
-      .fa, span{
+      .fa, .label{
         color: $grey;
       }
       @include hide-counter;
