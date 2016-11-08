@@ -3,7 +3,7 @@ wdLang = require 'wikidata-lang'
 module.exports = Marionette.CompositeView.extend
   template: require './templates/editions_list'
   childViewContainer: 'ul'
-  childView: require './edition_li'
+  childView: require './edition_layout'
 
   initialize: ->
     @lazyRender = _.LazyRender @, 50

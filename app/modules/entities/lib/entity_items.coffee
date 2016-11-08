@@ -1,6 +1,6 @@
 ItemsPreviewLists = require '../views/items_preview_lists'
 
-# Sharing logic between work_layout and edition_li
+# Sharing logic between work_layout and edition_layout
 module.exports =
   initialize: ->
     { @standalone } = @options

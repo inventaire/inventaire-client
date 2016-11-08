@@ -6,7 +6,7 @@ Entities = require './collections/entities'
 AuthorLayout = require './views/author_layout'
 SerieLayout = require './views/serie_layout'
 WorkLayout = require './views/work_layout'
-EditionLi = require './views/edition_li'
+EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
@@ -75,7 +75,7 @@ API =
 
   getWorkView: (model, refresh)-> new WorkLayout { model, refresh }
 
-  getWorkViewFromEdition: (model, refresh)-> new EditionLi { model, refresh, standalone: true }
+  getWorkViewFromEdition: (model, refresh)-> new EditionLayout { model, refresh, standalone: true }
 
   showAddEntity: (uri)->
     getEntityModel uri
