@@ -37,6 +37,9 @@ module.exports = Marionette.LayoutView.extend
   hideDetails: ->
     @showItemsPreviewLists false
     @ui.detailsTogglers.toggleClass 'hidden'
+    # Scroll back at the top to avoid jumping
+    # somewhere at the middle of what stands below
+    _.scrollTop @$el, 0
 
   showItemsPreviewLists: (showDetails)->
     if showDetails then @$el.addClass 'show-details'
