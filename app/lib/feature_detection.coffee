@@ -18,8 +18,9 @@ sayHi = ->
   [-.-]   I've been expecting you, Mr Bond
   /)__)
   -"--"-
-  Want to make Inventaire better? Jump in! https://github.com/inventaire/inventaire
-  Guidelines and inspiration: https://inventaire.io/guidelines-and-inspiration
+  Want to make Inventaire better? Jump in!
+  Design: https://trello.com/b/0lKcsZDj/inventaire-roadmap
+  Code: https://github.com/inventaire/inventaire
   ------
   """
 
