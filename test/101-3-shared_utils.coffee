@@ -8,7 +8,7 @@ describe 'Shared Utils', ->
   describe 'buildPath', ->
     it 'should return a string with parameters', (done)->
       path = _.buildPath 'http://hero/api', {action: 'man'}
-      path.should.be.a.String
+      path.should.be.a.String()
       path.should.equal 'http://hero/api?action=man'
       done()
 
@@ -24,11 +24,11 @@ describe 'Shared Utils', ->
 
   describe 'parseQuery', ->
     it 'should return an object', (done)->
-      _.parseQuery(queries.good).should.be.an.Object
-      _.parseQuery(queries.goodToo).should.be.an.Object
-      _.parseQuery(queries.uncompleteButGood).should.be.an.Object
-      _.parseQuery().should.be.an.Object
-      _.parseQuery(null).should.be.an.Object
+      _.parseQuery(queries.good).should.be.an.Object()
+      _.parseQuery(queries.goodToo).should.be.an.Object()
+      _.parseQuery(queries.uncompleteButGood).should.be.an.Object()
+      _.parseQuery().should.be.an.Object()
+      _.parseQuery(null).should.be.an.Object()
       _.log _.parseQuery(queries.goodToo), queries.goodToo
       done()
 
@@ -43,7 +43,7 @@ describe 'Shared Utils', ->
 
   describe 'idGenerator', ->
     it 'should return a string', (done)->
-      _.idGenerator(10).should.be.a.String
+      _.idGenerator(10).should.be.a.String()
       done()
 
     it 'should return a string with the right length', (done)->
@@ -65,7 +65,7 @@ describe 'Shared Utils', ->
         b: 25
         c: 35
       array = ['b', 'c']
-      _.pickToArray(obj, array).should.be.an.Array
+      _.pickToArray(obj, array).should.be.an.Array()
       _.pickToArray(obj, array).length.should.equal 2
       _.pickToArray(obj, array)[0].should.equal 25
       _.pickToArray(obj, array)[1].should.equal 35
