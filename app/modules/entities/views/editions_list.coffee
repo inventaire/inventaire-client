@@ -8,8 +8,9 @@ module.exports = Marionette.CompositeView.extend
   initialize: ->
     @lazyRender = _.LazyRender @, 50
 
-    # Start with user lang as default
-    @filter = LangFilter app.user.lang
+    # Start with user lang as default if there are editions in that language
+    if app.user.lang in @getAvailableLangs()
+      @filter = LangFilter app.user.lang
     @selectedLang = app.user.lang
 
     onceCollectionReady = _.debounce @onceCollectionReady.bind(@), 100
