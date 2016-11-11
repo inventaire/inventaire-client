@@ -14,7 +14,7 @@ $serie-bg: #252525;
     background-color: white;
   }
   text-align: center;
-  .description, .claims-wrapper{
+  .serieInfobox, .description, .claims-wrapper{
     margin: 0 auto;
     max-width: 40em;
     margin-bottom: 1em;
@@ -36,6 +36,7 @@ $serie-bg: #252525;
     }
   }
   .serieInfobox{
+    position: relative;
     h3, h4{
       a.link{
         color: white;
