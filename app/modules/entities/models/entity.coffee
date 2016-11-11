@@ -26,11 +26,11 @@ module.exports = Backbone.NestedModel.extend
     @refresh = options?.refresh
     @type = attrs.type
 
+    @setCommonAttributes attrs
+
     # If the entity isn't of any known type, it was probably fetched
     # for its label, there is thus no need to go further on initialization
     unless @type then return
-
-    @setCommonAttributes attrs
 
     # List of promises created from specialized initializers
     # to wait for before triggering @executeMetadataUpdate (see below)
