@@ -23,8 +23,8 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     counter: '.counter'
-    displayMore: '.displayMore'
-    more: '.displayMore .counter'
+    more: 'div.more'
+    moreCounter: 'div.more .counter'
 
   initialize: ->
     initialLength = @options.initialLength or 5
@@ -44,10 +44,10 @@ module.exports = Marionette.CompositeView.extend
 
     @collection.fetchMore @batchLength
     .then =>
-      if @more() then @ui.more.text @more()
-      else @ui.displayMore.hide()
+      if @more() then @ui.moreCounter.text @more()
+      else @ui.more.hide()
 
-  startMoreLoading: -> @ui.more.html spinner
+  startMoreLoading: -> @ui.moreCounter.html spinner
 
   serializeData: ->
     title: @options.type
