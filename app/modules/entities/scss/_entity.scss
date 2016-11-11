@@ -11,7 +11,6 @@
 @import "works_list";
 @import "serie_layout";
 @import 'genre_layout';
-@import './wiki_bar';
 
 .uri{
   color: $grey !important;
@@ -60,7 +59,7 @@
 .editEntityData{
   float: right;
   font-size: 1.4em;
-  @include shy;
+  @include text-hover(rgba(white, 0.5), white);
   margin-top: 0.5em;
   margin-right: 0.5em;
 }
@@ -69,6 +68,13 @@
   .add{
     @include tiny-button($light-blue);
     margin: 0 auto;
+  }
+}
+
+.wikisource{
+  .icon{
+    height: 1em;
+    padding-right: 0.35em;
   }
 }
 

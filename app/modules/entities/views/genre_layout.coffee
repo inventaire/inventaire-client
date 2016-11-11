@@ -19,7 +19,6 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     Loading: {}
-    WikiBar: {}
 
   initialize: ->
     @initPlugins()

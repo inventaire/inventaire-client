@@ -49,6 +49,6 @@
     }
   }
   .source{
-    @extend .link;
+    @include link-underline-on-hover(#888, #aaa);
   }
 }

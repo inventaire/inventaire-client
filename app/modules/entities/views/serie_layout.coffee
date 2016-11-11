@@ -14,7 +14,6 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     Loading: {}
-    WikiBar: {}
 
   initialize: ->
     # Trigger fetchParts only once the author is in view

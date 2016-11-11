@@ -17,7 +17,7 @@
     .header{
       @include display-flex(row, center, center);
     }
-    h3, h4, .fa-pencil{
+    h3, h4{
       color: white;
     }
     h3, h4{
@@ -44,6 +44,8 @@
 }
 
 .innerAuthorLi{
+  padding-top: 1em;
+  padding-bottom: 1em;
   @include display-flex(column);
   .workLi{
     margin: auto;

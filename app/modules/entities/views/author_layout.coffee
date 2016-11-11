@@ -7,7 +7,6 @@ module.exports = Marionette.LayoutView.extend
   className: 'authorLayout'
   behaviors:
     Loading: {}
-    WikiBar: {}
 
   regions:
     infoboxRegion: '.authorInfobox'
