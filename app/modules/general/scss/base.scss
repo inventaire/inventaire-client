@@ -1,26 +1,26 @@
 // those can't be split into several non-partial files (despite the fact that
-// it would allow better error reports than just "base.scss failed"), as global
+// it would allow better error reports than just 'base.scss failed'), as global
 // variables need to be accessible to all
-@import "grid_and_media_query_ranges";
-@import "fonts_and_typo";
-@import "general_settings";
-@import "behaviors";
-@import "app_layout";
-@import "../../users/scss/users";
-@import "../../welcome/scss/welcome";
-@import "../../user/scss/user";
-@import "../../settings/scss/settings";
-@import "../../inventory/scss/inventory";
-@import "../../search/scss/search";
-@import "../../entities/scss/entity";
-@import "../../notifications/scss/notifications";
-@import "../../transactions/scss/transactions";
-@import "../../network/scss/network";
-@import "../../map/scss/map";
+@import 'grid_and_media_query_ranges';
+@import 'fonts_and_typo';
+@import 'general_settings';
+@import 'behaviors';
+@import 'app_layout';
+@import '../../users/scss/users';
+@import '../../welcome/scss/welcome';
+@import '../../user/scss/user';
+@import '../../settings/scss/settings';
+@import '../../inventory/scss/inventory';
+@import '../../search/scss/search';
+@import '../../entities/scss/entities';
+@import '../../notifications/scss/notifications';
+@import '../../transactions/scss/transactions';
+@import '../../network/scss/network';
+@import '../../map/scss/map';
 
 // foundation doesn't overwrite variables
 // but only !default to them when not defined before
-@import "foundation/imports";
+@import 'foundation/imports';
 
 // Foundation overrides
 body{
