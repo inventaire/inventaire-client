@@ -29,18 +29,16 @@
 
 </div>
 <div class="right-bar">
-  <span class="fa fa-file-text-o" title="{{i18n 'article_limitation'}}"></span>
-  <div class="sitelinks">
-    {{partial 'entities:edit_data' this}}
-    {{#if wikisource}}
-      <a href="{{wikisource.url}}" target="_blank" title="{{I18n 'read online'}}">
-        {{icon 'wikisource'}}
-      </a>
-    {{/if}}
-    {{#if wikipedia}}
-      <a href="{{wikipedia.url}}" target="_blank" title="{{I18n 'see on Wikipedia'}}">
-        {{icon 'wikipedia'}}
-      </a>
-    {{/if}}
-  </div>
+  <div class="fa fa-file-text-o" title="{{i18n 'article_limitation'}}"></div>
+  {{partial 'entities:edit_data' this}}
+  {{#if wikisource}}
+    <a class="wikisource" href="{{wikisource.url}}" target="_blank" title="{{I18n 'read online'}}">
+      {{icon 'wikisource'}}
+    </a>
+  {{/if}}
+  {{#if wikipedia}}
+    <a class="wikipedia" href="{{wikipedia.url}}" target="_blank" title="{{I18n 'see on Wikipedia'}}">
+      {{icon 'wikipedia'}}
+    </a>
+  {{/if}}
 </div>

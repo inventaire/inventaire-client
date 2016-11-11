@@ -1,8 +1,8 @@
 .articleLi{
   @include display-flex(row, center, space-between);
   text-align: center;
-  padding: 0.2em;
   .main{
+    padding: 0.2em;
     flex: 1 1 auto;
     // hacky way to avoid passing behind the .right-bar
     padding-right: 1.8em;
@@ -20,8 +20,7 @@
   }
   position: relative;
   .right-bar{
-    @include position(absolute, 0, 0, 0);
-    @include display-flex(column, right, flex-start);
+    @include display-flex(column, center, flex-start);
   }
   .fa-file-text-o{
     padding: 0.5em;
@@ -30,24 +29,18 @@
     background-color: $dark-grey;
     color: white;
   }
-  .sitelinks{
-    padding-top: 0.3em;
-    margin-right: -0.1em;
-    @include display-flex(column, right, flex-start);
-    a{
-      height: 2rem;
-      width: 2rem;
-      .fa-pencil{
-        @include shy(0.7);
-        @include display-flex(row, center, center);
-        font-size: 1.5em;
-        margin: auto;
-        padding-top: 0.1em;
-      }
-      &:last-child{
-        padding-top: 0.2em;
-      }
-    }
+  .editEntityData{
+    margin: 0;
+    @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
+  }
+  .fa-file-text-o, .editEntityData, .wikisource, .wikipedia{
+    height: 2em;
+  }
+  .editEntityData{
+    @include display-flex(row, center, center);
+  }
+  .fa-pencil{
+    padding-left: 0.3em;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
