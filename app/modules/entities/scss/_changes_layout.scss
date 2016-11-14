@@ -1,0 +1,33 @@
+#changeLayout{
+  max-width: 50em;
+  margin: 0 auto;
+  h2, h3{
+    text-align: center;
+  }
+  .header{
+    @include display-flex(row, center, center);
+  }
+  .counter{
+    @include counter-commons;
+    background-color: #e4e4e4;
+    text-align: center;
+    padding-right: 0.4em;
+    margin-left: 0.6em;
+  }
+  .more{
+    // force a min-height so that it can always trigger an inview event
+    min-height: 1em;
+    text-align: center;
+  }
+}
+
+#feed{
+  padding: 1em;
+}
+
+.feedLi{
+  padding: 1em;
+  margin: 1em;
+  text-align: center;
+  background-color: white;
+}

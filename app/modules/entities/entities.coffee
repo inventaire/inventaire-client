@@ -14,12 +14,14 @@ createEntities = require './lib/create_entities'
 createEntityDraftModel = require './lib/create_entity_draft_model'
 entitiesModels = require './lib/get_entities_models'
 createInvEntity = require './lib/inv/create_inv_entity'
+ChangesLayout = require './views/changes_layout'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     EntitiesRouter = Marionette.AppRouter.extend
       appRoutes:
         'entity/new': 'showEntityCreateFromRoute'
+        'entit(y)(ies)(/changes)': 'showChanges'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntity'
         'entity/:uri(/:label)(/)': 'showEntity'
@@ -111,6 +113,9 @@ API =
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
   showInvEntity: (id)-> API.showEntity "inv:#{id}"
+  showChanges: ->
+    app.navigate 'entities/changes'
+    app.layout.main.Show new ChangesLayout
 
 showEntityCreate = (type, label)->
   model = createEntityDraftModel

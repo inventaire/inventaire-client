@@ -25,6 +25,8 @@ module.exports =
   authorWorks: CustomQuery 'author-works'
   serieParts: CustomQuery 'serie-parts'
 
+  changes: -> _.buildPath publik, { action: 'get-changes' }
+
   inv:
     create: '/api/entities'
 
