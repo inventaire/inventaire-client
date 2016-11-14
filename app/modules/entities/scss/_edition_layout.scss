@@ -26,6 +26,7 @@
     position: relative;
     .editEntityData{
       @include position(absolute, 0, 0);
+      @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
     }
     @include vertical-edition-layout;
     /*Large screens*/
