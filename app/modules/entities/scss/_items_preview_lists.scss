@@ -17,9 +17,6 @@ $preview-icon-base-size: 2em;
   &:not(.show-details){
     .items-lists-per-transactions{
       @include display-flex(row, center, flex-start, wrap);
-      // add a hint of padding to prevent the "show details" link (which has
-      // a position: absolute) to overlap
-      padding-bottom: 0.3em;
     }
     .itemsPreviewList{
       @include display-flex(row, center, flex-start);
@@ -41,21 +38,27 @@ $preview-icon-base-size: 2em;
     }
   }
   &.show-details{
+    background-color: white;
     .items-lists-per-transactions{
       @include display-flex(column, center, center);
       > div {
         width: 100%;
       }
     }
+    .header{
+      font-weight: bold;
+    }
     .itemsPreviewList{
+      margin-top: 1em;
       @include display-flex(column, center, center);
+      background-color: #eee;
     }
     .transaction-icon{
       min-width: 10em;
       justify-content: center;
     }
     .items-preview{
-      padding: 1em;
+      padding: 0.5em 1em 0.5em 1em;
       display: block;
       width: 100%;
     }
@@ -90,7 +93,11 @@ $preview-icon-base-size: 2em;
     }
   }
 }
-
+.items-lists-per-transactions{
+  // add a hint of padding to prevent the "show/hide details" links
+  // (which have a position: absolute) to overlap
+  padding-bottom: 0.3em;
+}
 // Here after are the rules applying to both with
 // and without .show-details set on .itemsPreviewLists
 .itemsPreviewList{
