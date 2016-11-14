@@ -21,7 +21,7 @@ module.exports =
     limit or= '20'
     format or= 'json'
 
-    return _.buildPath 'wikidata',
+    return _.buildPath 'https://www.wikidata.org/w/api.php',
       action: 'wbsearchentities'
       search: search
       language: language
