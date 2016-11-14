@@ -28,10 +28,6 @@ module.exports = Backbone.NestedModel.extend
 
     @setCommonAttributes attrs
 
-    # If the entity isn't of any known type, it was probably fetched
-    # for its label, there is thus no need to go further on initialization
-    unless @type then return
-
     # List of promises created from specialized initializers
     # to wait for before triggering @executeMetadataUpdate (see below)
     @_dataPromises = []
@@ -40,6 +36,11 @@ module.exports = Backbone.NestedModel.extend
     else if @type in editableTypes
       pathname = @get 'pathname'
       @set 'edit', "#{pathname}/edit"
+
+    # If the entity isn't of any known type, it was probably fetched
+    # for its label, there is thus no need to go further on initialization
+    # as what follows is specific to core entities types
+    unless @type then return
 
     if @get('edit')? then _.extend @, editableEntity
 

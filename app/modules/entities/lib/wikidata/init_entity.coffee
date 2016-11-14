@@ -12,11 +12,10 @@ module.exports = ->
   @_dataPromises.push waitForExtract
 
 setWikiLinks = (lang)->
-  wdId = @get('claims.invp:P1.0')
   updates =
     wikidata:
-      url: "https://www.wikidata.org/entity/#{wdId}"
-      wiki: "https://www.wikidata.org/wiki/#{wdId}"
+      url: "https://www.wikidata.org/entity/#{@wikidataId}"
+      wiki: "https://www.wikidata.org/wiki/#{@wikidataId}"
 
   # Editions happen on Wikidata for now
   updates.edit = updates.wikidata.wiki
