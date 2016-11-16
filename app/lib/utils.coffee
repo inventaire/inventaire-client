@@ -157,11 +157,8 @@ module.exports = (Backbone, _, $, app, window)->
 
   daysAgo: (epochTime)-> Math.floor(( Date.now() - epochTime ) / oneDay)
 
-  niceDate: ->
-    new Date().toISOString().split('T')[0]
-
   timeSinceMidnight: ->
-    today = _.niceDate()
+    today = _.simpleDay()
     midnight = new Date(today).getTime()
     return Date.now() - midnight
 

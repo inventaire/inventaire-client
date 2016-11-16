@@ -73,6 +73,8 @@ module.exports = (_)->
 
   parseBooleanString: (booleanString)-> booleanString is 'true'
 
+  simpleDay: -> new Date().toISOString().split('T')[0]
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->

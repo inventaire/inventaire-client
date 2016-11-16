@@ -16,7 +16,7 @@ module.exports = Backbone.NestedModel.extend
 
   setId: ->
     # dev-friendly date, but shorter
-    day = _.niceDate().replace /-/g, ''
+    day = _.simpleDay().replace /-/g, ''
     # just keeping the part representing the day time
     # => sequential ids, while shorter than full epoch time
     millisec = _.timeSinceMidnight()
