@@ -13,11 +13,26 @@
           <div>
             <span class="label">{{label}}</span><br>
             <span class="description">{{shortDescription}}</span>
-            {{#if edit}}
-              {{link uri edit 'identifier'}}
-            {{else}}
-              <span class="identifier">{{uri}}</span>
-            {{/if}}
+            <span class='identifier has-diy-tooltip'>
+              {{uri}}
+              {{#if hasIdentifierTooltipLinks}}
+                <div class="diy-tooltip-wrapper">
+                  <div class="diy-tooltip-content">
+                    {{!-- If a type was defined, it should have a page that make
+                    sense on inventaire filtering out things like book subjects --}}
+                    {{#if type}}
+                      <a href="{{pathname}}" class="link showEntity">
+                        {{i18n 'see_on_website' website='inventaire.io'}}
+                      </a>
+                    {{/if}}
+                    {{#if wikidata}}
+                      {{link i18n='see_on_website' i18nArgs='website=wikidata.org'
+                      url=wikidata.url classes='link'}}
+                    {{/if}}
+                  </div>
+                </div>
+              {{/if}}
+            </span>
           </div>
         {{/with}}
       </div>

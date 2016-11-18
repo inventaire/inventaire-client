@@ -1,0 +1,66 @@
+// Adapted from http://www.cssportal.com/css-tooltip-generator/
+// Naming it DIY tooltip until Foundation tooltip can be removed
+$tooltip-bg-color: $dark-grey;
+$spike-size: 0.5em;
+
+.has-diy-tooltip{
+  position: relative;
+  // Positioning
+  .diy-tooltip-wrapper{
+    @include position(absolute, null, null, 130%, 50%, 10);
+    transform: translateX(-50%);
+    visibility: hidden;
+    @include transition(visibility);
+    // Take more place than needed so that the content
+    // can take just the place it needs
+    width: 30em;
+    @include display-flex(row);
+
+    // The actual tooltip box shape and what's inside
+    .diy-tooltip-content{
+      cursor: default;
+      padding: 1em;
+      margin: 0 auto;
+      min-width: 3em;
+      text-align: center;
+      color: white;
+      background-color: $tooltip-bg-color;
+      @include radius;
+      .link{
+        @include link-light;
+        padding: 0.5em;
+        &:not(:first-child){
+          // Compensate for the presence of the hereafter defined separator
+          padding-left: 0;
+          // Separator
+          &:before{
+            content: '|';
+            padding-right: 0.6em;
+            // Prevent to be underlined when the .link is hovered
+            text-decoration: none;
+            // Hack to get text-decoration to apply: http://stackoverflow.com/a/15688237/3324977
+            display: inline-block;
+          }
+        }
+      }
+
+      // Arrow
+      &:after{
+        content: '';
+        @include position(absolute, 100%, null, null, 50%);
+        margin-left: -$spike-size;
+        width: 0;
+        height: 0;
+        border-top: $spike-size solid $tooltip-bg-color;
+        border-right: $spike-size solid transparent;
+        border-left: $spike-size solid transparent;
+      }
+    }
+  }
+
+  &:hover{
+    .diy-tooltip-wrapper{
+      visibility: visible;
+    }
+  }
+}

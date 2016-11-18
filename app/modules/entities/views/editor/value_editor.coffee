@@ -10,6 +10,7 @@ module.exports = EditorCommons.extend
     AlertBox: {}
     AutoComplete: {}
     ConfirmationModal: {}
+    Tooltip: {}
 
   ui:
     autocomplete: 'input'
@@ -26,9 +27,11 @@ module.exports = EditorCommons.extend
 
   serializeData: ->
     attr = @model.toJSON()
+    attr.editMode = @editMode
     attr.valueEntity = @valueEntityData()
     attr.value = attr.valueEntity?.label or attr.value
-    attr.editMode = @editMode
+    if attr.valueEntity?
+      attr.valueEntity.hasIdentifierTooltipLinks = attr.valueEntity.type? or attr.valueEntity.wikidata?
     return attr
 
   valueEntityData: ->

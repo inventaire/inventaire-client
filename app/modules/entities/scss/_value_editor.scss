@@ -38,6 +38,9 @@
       &:focus{
         background-color: #aaa;
       }
+      &:hover{
+        opacity: 0.95;
+      }
     }
     .description{
       opacity: 0.5;

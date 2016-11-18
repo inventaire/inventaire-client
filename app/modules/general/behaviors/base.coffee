@@ -19,3 +19,4 @@ module.exports =
   Unselect: require './unselect'
   Toggler: require './toggler'
   DeepLinks: require './deep_links'
+  Tooltip: require './tooltip'
