@@ -24,7 +24,7 @@ exports.get = (params)->
   if missingUris.length > 0
     # Populate entitiesModelsIndexedByUri with promises of entity models
     # for the missing entities
-    populateIndexWithMissingEntitiesModelsPromises missingUris
+    populateIndexWithMissingEntitiesModelsPromises missingUris, refresh
 
   # Return a promise that should resolved to an object
   # with all the requested entities models
