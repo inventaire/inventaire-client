@@ -75,6 +75,8 @@ module.exports = (_)->
 
   simpleDay: -> new Date().toISOString().split('T')[0]
 
+  Invoke: (methodName)-> (obj)-> _.invoke obj, methodName
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->

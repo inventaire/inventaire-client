@@ -48,7 +48,7 @@ module.exports = UserCommons.extend
     userItems = app.request 'inventory:user:items', @id
     unless userItems.length > 0 then return 0
     # Highlight users with items lately updated
-    itemsAgeFactor = userItems.map(highlightRescentlyUpdated).sum()
+    itemsAgeFactor = _.sum userItems.map(highlightRescentlyUpdated)
     # Highlight users nearby
     distanceFactor = if @kmDistanceFormMainUser? then 10 / @kmDistanceFormMainUser else 0
     # Well, just highlight anyone actually but don't let that dum per-_id default order.

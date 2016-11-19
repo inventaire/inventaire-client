@@ -58,11 +58,7 @@ module.exports = Positionable.extend
     if @mainUserIsAdmin() then @requested.length
     else 0
 
-  itemsCount: ->
-    @members
-    .map userItemsCount
-    .sum()
-
+  itemsCount: -> _.sum @members.map(userItemsCount)
 
   serializeData: ->
     attrs = @toJSON()

@@ -28,6 +28,6 @@ module.exports = (lang)->
 
   Promise.all [ emailKeys, shortKeys, fullKeys, wikidataKeys ]
   .then (res)->
-    total = res.sum()
+    total = _.sum res
     _.success "#{res} => #{total}", lang
     return total

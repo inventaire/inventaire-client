@@ -58,7 +58,7 @@ module.exports = Marionette.CompositeView.extend
     'add': 'lazyUpdateHeadCheckbox'
 
   updateHeadCheckbox: ->
-    selectedCount = @collection.map(convertSelectedToNumber).sum()
+    selectedCount = _.sum @collection.map(convertSelectedToNumber)
     if selectedCount is 0
       @applyCheckState false, false
     else if selectedCount is @collection.length

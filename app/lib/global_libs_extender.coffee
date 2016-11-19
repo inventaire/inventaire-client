@@ -1,9 +1,6 @@
 error_ = require 'lib/error'
 
 module.exports = (_)->
-
-  sharedLib('global_libs_extender')()
-
   window.location.root = window.location.protocol + '//' + window.location.host
 
   #changing the default attribute to fit CouchDB

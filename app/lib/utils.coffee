@@ -196,6 +196,10 @@ module.exports = (Backbone, _, $, app, window)->
 
     return result
 
+  sum: (array)-> array.reduce add, 0
+
+add = (a, b)-> a + b
+
 objectWalker = (subObject, property)-> subObject?[property]
 
 parseCookieValue = (value)->

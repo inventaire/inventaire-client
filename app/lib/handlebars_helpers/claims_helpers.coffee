@@ -19,7 +19,7 @@ module.exports =
   # handlebars pass a sometime confusing {data:, hash: object} as last argument
   # this method is used to make helpers less error-prone by removing this object
   neutralizeDataObject: (args)->
-    last = args.last()
+    last = _.last args
     if last?.hash? and last.data? then args[0...-1]
     else args
 
