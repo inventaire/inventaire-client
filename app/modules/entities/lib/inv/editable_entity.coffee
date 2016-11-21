@@ -24,7 +24,7 @@ module.exports =
     .catch rollback
 
   savePropertyValue: (property, oldValue, newValue)->
-    _.preq.put app.API.entities.inv.claims.update,
+    _.preq.put app.API.entities.claims.update,
       id: @id
       property: property
       'new-value': newValue
@@ -41,7 +41,7 @@ module.exports =
     reverseAction = @set.bind @, labelPath, oldValue
     rollback = _.Rollback reverseAction, 'title_editor save'
 
-    _.preq.put app.API.entities.inv.labels.update,
+    _.preq.put app.API.entities.labels.update,
       id: @id
       lang: app.user.lang
       value: value

@@ -27,10 +27,9 @@ module.exports =
 
   changes: -> _.buildPath publik, { action: 'get-changes' }
 
-  inv:
-    create: '/api/entities'
+  create: '/api/entities'
 
-    claims:
-      update: "#{authentified}?action=update-claim"
-    labels:
-      update: "#{authentified}?action=update-label"
+  claims:
+    update: "#{authentified}?action=update-claim"
+  labels:
+    update: "#{authentified}?action=update-label"
