@@ -8,11 +8,11 @@ module.exports = (_)->
   entities: require './entities'
   services: require './services'
   data: require './data'
+  invitations: require './invitations'
   img: sharedLib('api/img')(_)
   comments: endpoint 'comments'
   transactions: endpoint('transactions').authentified
   relations: endpoint('relations').authentified
-  invitations: endpoint('invitations').authentified
   user: endpoint('user').authentified
   notifs: endpoint('notifs').authentified
   feedback: endpoint('feedback').public
