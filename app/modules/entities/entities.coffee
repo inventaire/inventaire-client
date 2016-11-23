@@ -11,7 +11,7 @@ EntityEdit = require './views/editor/entity_edit'
 GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
-createEntityDraftModel = require './lib/create_entity_draft_model'
+entityDraftModel = require './lib/entity_draft_model'
 entitiesModels = require './lib/get_entities_models'
 createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
@@ -118,7 +118,11 @@ API =
     app.layout.main.Show new ChangesLayout
 
 showEntityCreate = (type, label)->
-  model = createEntityDraftModel
+  unless type in entityDraftModel.whitelistedTypes
+    err = error_.new 'invalid entity draft type', arguments
+    return app.execute 'show:error:other', err
+
+  model = entityDraftModel.create
     type: type
     label: label
     # minimized: true

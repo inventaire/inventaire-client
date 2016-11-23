@@ -1,4 +1,4 @@
-createEntityDraftModel = require '../../lib/create_entity_draft_model'
+entityDraftModel = require '../../lib/entity_draft_model'
 createEntities = require '../../lib/create_entities'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
@@ -43,7 +43,7 @@ module.exports = Marionette.CompositeView.extend
     'click #isbnButton': 'addWorkEditionSubEntity'
 
   addSubEntity: ->
-    model = createEntityDraftModel()
+    model = entityDraftModel.create()
     @collection.add model
 
   addWorkEditionSubEntity: ->
