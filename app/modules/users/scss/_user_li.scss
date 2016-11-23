@@ -28,6 +28,9 @@ $user-bg: #ddd;
     .userMenu{
       flex: 0 0 auto;
       @include display-flex(row, center, flex-end);
+      .action{
+        @include display-flex(row, center, center);
+      }
       .f-dropdown{
         a, .fa, span{
           text-align: left !important;
