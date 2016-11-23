@@ -37,12 +37,11 @@ module.exports =
     setHandlers()
 
 API =
-  showEntity: (uri, label, params, region)->
+  showEntity: (uri, label, params)->
     uri = normalizeUri uri
     unless _.isEntityUri uri then return app.execute 'show:error:missing'
 
-    region or= app.layout.main
-    app.execute 'show:loader', { region }
+    app.execute 'show:loader', { region: app.layout.main }
 
     refresh = params?.refresh or app.request('querystring:get', 'refresh')
     if refresh then app.execute 'uriLabel:refresh'
@@ -50,7 +49,9 @@ API =
     getEntityModel uri, refresh
     .tap replaceEntityPathname.bind(null, '')
     .then @getEntityViewByType.bind(@, refresh)
-    .then RegionShow(region)
+    .then (view)->
+      view.model.buildTitleAsync()
+      .then (title)-> app.layout.main.Show view, title
     # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showEntity err')
 
@@ -130,13 +131,13 @@ showEntityCreate = (type, label)->
 
 setHandlers = ->
   app.commands.setHandlers
-    'show:entity': (uri, label, params, region)->
-      API.showEntity uri, label, params, region
+    'show:entity': (uri, label, params)->
+      API.showEntity uri, label, params
       app.navigate "entity/#{uri}"
 
-    'show:entity:from:model': (model, params, region)->
+    'show:entity:from:model': (model, params)->
       uri = model.get('uri')
-      if uri? then app.execute 'show:entity', uri, null, params, region
+      if uri? then app.execute 'show:entity', uri, null, params
       else throw new Error 'couldnt show:entity:from:model'
 
     'show:entity:refresh': (model)->
@@ -204,10 +205,6 @@ replaceEntityPathname = (suffix, entity)->
   # Correcting possibly custom entity label
   path = entity.get('pathname') + suffix
   app.navigateReplace path
-
-RegionShow = (region)-> (view)->
-  view.model.buildTitleAsync()
-  .then (title)-> region.Show view, title
 
 handleMissingEntityError = (label, err)->
   if err.message is 'entity_not_found' then app.execute 'show:error:missing'
