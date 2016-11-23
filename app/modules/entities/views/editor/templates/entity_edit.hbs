@@ -1,7 +1,16 @@
-{{!-- entity type selector --}}
 <div class="title"></div>
 <div class="claims"></div>
 <div class="subentities"></div>
+
+{{#if userIsAdmin}}
+  {{#unless creationMode}}
+    <div class="admin">
+      <h3>{{i18n 'admin section'}}</h3>
+      {{!-- entity type selector --}}
+      {{input mergeWith}}
+    </div>
+  {{/unless}}
+{{/if}}
 
 {{#unless subeditor}}
   <div class="next">

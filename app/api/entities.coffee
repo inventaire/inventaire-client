@@ -4,6 +4,7 @@ CustomQuery = (action)-> (uri, refresh)->
   _.buildPath publik, { action, uri, refresh }
 
 module.exports =
+  # GET
   search: (search, refresh)->
     options =
       action: 'search'
@@ -27,9 +28,14 @@ module.exports =
 
   changes: -> _.buildPath publik, { action: 'get-changes' }
 
-  create: '/api/entities'
+  # POST/PUT
+  create: authentified
 
   claims:
     update: "#{authentified}?action=update-claim"
+
   labels:
     update: "#{authentified}?action=update-label"
+
+  # ADMIN
+  merge: "#{authentified}/admin?action=merge"

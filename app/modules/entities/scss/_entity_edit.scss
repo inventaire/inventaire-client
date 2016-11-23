@@ -13,7 +13,19 @@ $edit-button-grey: $soft-grey;
       margin: 0.5em;
     }
   }
+  .admin{
+    padding: 1em;
+    background-color: $dark-grey;
+    @include radius;
+    h3{
+      color: white;
+    }
+  }
+  #mergeWithGroup{
+    max-width: 30em;
+  }
 }
+
 
 .identifier{
   opacity: 0.5;
