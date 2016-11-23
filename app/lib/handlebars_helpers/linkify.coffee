@@ -4,5 +4,8 @@ module.exports = (text, url, classes='link')->
   # avoiding using _.isString as the module is used in scripts with differents environments
   unless typeof classes is 'string' then classes = ''
 
+  isExternalLink = url[0] isnt '/'
   # on rel='noopener' see: https://mathiasbynens.github.io/rel-noopener
-  "<a href=\"#{url}\" class='#{classes}' target='_blank' rel='noopener'>#{text}</a>"
+  openOutsideAttributes = if isExternalLink then "target='_blank' rel='noopener'" else ''
+
+  "<a href=\"#{url}\" class='#{classes}' #{openOutsideAttributes}>#{text}</a>"
