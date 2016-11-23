@@ -44,7 +44,9 @@ module.exports = EditorCommons.extend
     @listenTo @model, 'change:value', @lazyRender
     @listenTo app.vent, 'entity:value:editor:edit', @preventMultiEdit.bind(@)
 
-    if @editMode then @triggerEditEvent()
+    if @editMode
+      @triggerEditEvent()
+      @ui.autocomplete.focus()
 
   onGrab: ->
     if @model.valueEntity?

@@ -15,16 +15,16 @@
 {{#unless subeditor}}
   <div class="next">
     {{#if creating}}
-      <a class="createAndShowEntity light-blue-button">
+      <a class="createAndShowEntity light-blue-button" tabindex="0">
         {{icon 'arrow-left'}}
         {{I18n "create and return to the book's page"}}
       </a>
-      <a class="createAndAddEntity success-button">
+      <a class="createAndAddEntity success-button" tabindex="0">
         {{icon 'plus'}}
         {{I18n "create and add to your inventory"}}
       </a>
     {{else}}
-      <a href="{{pathname}}" class="showEntity light-blue-button">
+      <a href="{{pathname}}" class="showEntity light-blue-button" tabindex="0">
         {{icon 'arrow-left'}}{{I18n "return to the book's page"}}
       </a>
     {{/if}}
