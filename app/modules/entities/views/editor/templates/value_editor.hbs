@@ -21,9 +21,7 @@
                     {{!-- If a type was defined, it should have a page that make
                     sense on inventaire filtering out things like book subjects --}}
                     {{#if type}}
-                      <a href="{{pathname}}" class="link showEntity">
-                        {{i18n 'see_on_website' website='inventaire.io'}}
-                      </a>
+                      <a href="{{pathname}}" class="link showEntity">{{i18n 'see_on_website' website='inventaire.io'}}</a>
                     {{/if}}
                     {{#if wikidata}}
                       {{link i18n='see_on_website' i18nArgs='website=wikidata.org'
