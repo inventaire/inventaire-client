@@ -11,6 +11,7 @@ module.exports = EditorCommons.extend
     AutoComplete: {}
     ConfirmationModal: {}
     Tooltip: {}
+    PreventDefault: {}
 
   ui:
     autocomplete: 'input'
