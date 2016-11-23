@@ -25,6 +25,8 @@ module.exports = Marionette.LayoutView.extend
     # need to wait to know if the user has an instance of this work
     app.request('wait:for', 'user').then @showWorkActions.bind(@)
 
+    @model.waitForSubentities.then @showEditions.bind(@)
+
     @model.updateMetadata()
     .then app.Execute('metadata:update:done')
 
@@ -39,8 +41,10 @@ module.exports = Marionette.LayoutView.extend
       model: @model
       workPage: true
 
-    @editionsList.show new EditionsList
-      collection: @model.editions
+  showEditions: ->
+    if @model.editions.length > 0
+      @editionsList.show new EditionsList
+        collection: @model.editions
 
   showWorkActions: -> @workActions.show new WorkActions { model: @model }
 

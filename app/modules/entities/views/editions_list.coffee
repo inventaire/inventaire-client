@@ -13,8 +13,13 @@ module.exports = Marionette.CompositeView.extend
       @filter = LangFilter app.user.lang
     @selectedLang = app.user.lang
 
-    onceCollectionReady = _.debounce @onceCollectionReady.bind(@), 100
-    @listenTo @collection, 'add', onceCollectionReady
+    if @collection.length > 0
+      # If the collection was populated before showing the view, the cpmmection is ready
+      @onceCollectionReady()
+    else
+      # Else, wait for the collection models to arrive
+      onceCollectionReady = _.debounce @onceCollectionReady.bind(@), 100
+      @listenTo @collection, 'add', onceCollectionReady
 
   ui:
     languageSelect: 'select.languageFilter'
