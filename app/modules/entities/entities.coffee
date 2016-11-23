@@ -192,6 +192,14 @@ getEntityPublicItems = (uri)-> _.preq.get app.API.items.publicByEntity(uri)
 getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
 showEntityEdit = (entity)->
+  editPathname = entity.get 'edit'
+  # If this entity edit isn't happening internaly
+  # redirect to the page where it should happen,
+  # typically on Wikidata.org
+  # editPathname might be undefined in the case of a draft entity edit
+  if editPathname? and editPathname[0] isnt '/'
+    return window.location.href = editPathname
+
   view = new EntityEdit { model: entity }
   label = entity?.get 'label'
   if label?
