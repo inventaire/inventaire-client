@@ -14,9 +14,6 @@ module.exports = Marionette.LayoutView.extend
     'click a#searchButton': 'search'
     'click .showWelcome': 'closeMenu'
 
-  behaviors:
-    PreventDefault: {}
-
   serializeData: ->
     _.extend @model.toJSON(),
       search: searchInputData()
