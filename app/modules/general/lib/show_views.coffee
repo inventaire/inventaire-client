@@ -21,7 +21,10 @@ module.exports =
   showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
 
   showDonateMenu: -> app.layout.modal.show new DonateMenu
-  showFeedbackMenu: (options)-> app.layout.modal.show new FeedbackMenu(options)
+  showFeedbackMenu: (options)->
+    # options might simply be a click event object
+    unless _.isOpenedOutside options
+      app.layout.modal.show new FeedbackMenu(options)
   # shareLink: -> app.layout.modal.show new ShareMenu
 
 entityAction = (e, action)->
