@@ -50,7 +50,7 @@ API =
     getEntityModel uri, refresh
     .tap replaceEntityPathname.bind(null, '')
     .then @getEntityViewByType.bind(@, refresh)
-    .then region.show.bind(region)
+    .then RegionShow(region)
     # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showEntity err')
 
@@ -204,6 +204,10 @@ replaceEntityPathname = (suffix, entity)->
   # Correcting possibly custom entity label
   path = entity.get('pathname') + suffix
   app.navigateReplace path
+
+RegionShow = (region)-> (view)->
+  view.model.buildTitleAsync()
+  .then (title)-> region.Show view, title
 
 handleMissingEntityError = (label, err)->
   if err.message is 'entity_not_found' then app.execute 'show:error:missing'

@@ -3,8 +3,11 @@
 metadataUpdate = (key, value)->
   _.log arguments, 'metadataUpdate'
   updates = _.forceObject key, value
-  for k, v of updates
-    updateMetadata k, v
+  # Accept promises as possible values
+  Promise.props updates
+  .then (resolvedUpdates)->
+    for k, v of resolvedUpdates
+      updateMetadata k, v
 
 updateMetadata = (key, value, noCompletion)->
   # _.log arguments, 'updateMetadata'

@@ -29,6 +29,10 @@ specificMethods =
       works: new Works null, { uris: worksUris }
       articles: new Works null, { uris: articlesUris }
 
+  buildTitle: ->
+    author = @get 'label'
+    return _.i18n 'books_by_author', { author }
+
 getUri = _.property 'uri'
 
 IsntSeriePart = (seriesUris)-> (workData)-> workData.serie not in seriesUris

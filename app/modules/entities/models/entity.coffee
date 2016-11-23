@@ -117,7 +117,7 @@ module.exports = Backbone.NestedModel.extend
 
   executeMetadataUpdate: ->
     app.execute 'metadata:update',
-      title: @buildTitle()
+      title: @buildTitleAsync()
       description: @findBestDescription()?[0..500]
       image: @get('images.url')
       url: @get 'pathname'
@@ -130,9 +130,6 @@ module.exports = Backbone.NestedModel.extend
     if extract?.length > 300 then return extract
     else return description or extract
 
-  buildTitle: ->
-    title = @get 'label'
-    switch @type
-      when 'human' then _.i18n 'books_by_author', { author: title }
-      when 'work', 'edition' then @buildWorkTitle()
-      else title
+  # Override in with type-specific methods
+  buildTitle: -> @get 'label'
+  buildTitleAsync: -> _.preq.resolve @buildTitle()

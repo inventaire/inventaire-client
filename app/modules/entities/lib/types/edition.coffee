@@ -23,11 +23,11 @@ module.exports = ->
     lang: lang
     publicationTime: publicationTime
 
-  _.extend @, editionMethods
+  _.extend @, specificMethods
 
 setLabel = (work)->
   unless @get('label')? then @set 'label', @work.get('label')
 
-editionMethods =
+specificMethods =
   getAuthorsString: -> @waitForWork.then (work)-> work.getAuthorsString()
-  buildWorkTitle: -> @waitForWork.then (work)-> work.buildWorkTitle()
+  buildTitleAsync: -> @waitForWork.then (work)-> work.buildTitle()
