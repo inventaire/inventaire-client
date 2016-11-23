@@ -17,12 +17,27 @@ $edit-button-grey: $soft-grey;
     padding: 1em;
     background-color: $dark-grey;
     @include radius;
-    h3{
+    h3, h4{
       color: white;
+    }
+    h4{
+      font-weight: bold;
+      font-size: 1em;
+    }
+    hr{
+      opacity: 0.5;
     }
   }
   #mergeWithGroup{
     max-width: 30em;
+    input{
+      margin-bottom: 0;
+    }
+  }
+  .warning{
+    color: #bbb;
+    font-size: 0.9em;
+    margin-bottom: 0.6em;
   }
 }
 
