@@ -47,7 +47,7 @@ API =
     if refresh then app.execute 'uriLabel:refresh'
 
     getEntityModel uri, refresh
-    .tap replaceEntityPathname.bind(null, '')
+    .tap cleanEntityPathname.bind(null, '')
     .then @getEntityViewByType.bind(@, refresh)
     .then (view)->
       view.model.buildTitleAsync()
@@ -93,7 +93,7 @@ API =
   showEditEntity: (uri)->
     # make sure we have the freshest data before trying to edit
     getEntityModel uri, true
-    .tap replaceEntityPathname.bind(null, '/edit')
+    .tap cleanEntityPathname.bind(null, '/edit')
     .then showEntityEdit
     .catch handleMissingEntityError.bind(null, 'showEditEntity err')
 
@@ -201,10 +201,10 @@ showEntityEdit = (entity)->
 
   app.layout.main.Show view, title
 
-replaceEntityPathname = (suffix, entity)->
+cleanEntityPathname = (suffix, entity)->
   # Correcting possibly custom entity label
   path = entity.get('pathname') + suffix
-  app.navigateReplace path
+  app.navigate path
 
 handleMissingEntityError = (label, err)->
   if err.message is 'entity_not_found' then app.execute 'show:error:missing'
