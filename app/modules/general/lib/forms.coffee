@@ -38,17 +38,21 @@ forms_.catchAlert = (view, err)->
     _.error err, 'error catched by forms_.catchAlert but the error object miss a selector'
 
 forms_.alert = (view, err)->
-  { selector } = err
+  { selector, i18n } = err
   errMessage = err.responseJSON?.status_verbose or err.message
   _.types [view, err, selector, errMessage], ['object', 'object', 'string', 'string']
 
-  # avoid showing raw http error messages
+  # Avoid showing raw http error messages
   if /^\d/.test errMessage then errMessage = 'something went wrong :('
 
   _.log errMessage, "alert message on #{selector}"
-  view.$el.trigger 'alert',
-    message: _.i18n(errMessage)
-    selector: selector
+
+  # Allow to pass a false flag to prevent the use of _.i18n
+  # thus preventing to getting it added to the list of strings to translate
+  if i18n is false then message = errMessage
+  else message = _.i18n errMessage
+
+  view.$el.trigger 'alert', { message, selector }
 
 forms_.bundleAlert = (view, message, selector)->
   err = new Error message

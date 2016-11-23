@@ -7,7 +7,7 @@ formatError = (message, context)->
 
   return err
 
-error_ =
+module.exports = error_ =
   new: formatError
   # newWithSelector: use forms_.throwError instead
 
@@ -15,18 +15,14 @@ error_ =
     err.selector = selector
     return err
 
+  # /!\ throws the error while error_.complete only returns it.
+  # This difference is justified by the different use of both functions
+  Complete: (selector, i18n)-> (err)->
+    err.selector = selector
+    # Only the false flag has an effect
+    if i18n is false then err.i18n = i18n
+    throw err
+
   reject: (message, context)->
     err = formatError message, context
     return Promise.reject err
-
-
-# /!\ throws the error while error_.complete only returns it.
-# this difference is justified by the different use of both functions:
-error_.Complete = (selector)->
-  return throwComplete.bind null, selector
-
-throwComplete = (selector, err)->
-  err.selector = selector
-  throw err
-
-module.exports = error_
