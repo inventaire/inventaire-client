@@ -23,5 +23,12 @@ exports.iconLink = (name, url, classes)->
   return @link.call @, icon, url, ''
 
 exports.iconLinkText = (name, url, text, classes)->
+  if _.isObject name.hash
+    { name, url, classes, text, i18n, I18n, i18nArgs } = name.hash
+    # Expect i18nArgs to be a string formatted as a querystring
+    i18nArgs = _.parseQuery i18nArgs
+    if I18n? then text = _.I18n I18n, i18nArgs
+    else if i18n? then text = _.i18n i18n, i18nArgs
+
   icon = @icon.call null, name, classes
   return @link.call @, "#{icon}<span>#{text}</span>", url, ''

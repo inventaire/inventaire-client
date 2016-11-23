@@ -23,7 +23,7 @@ module.exports =
   link: (text, url, classes)->
     # Polymorphism: accept arguments as hash key/value pairs
     # ex: {{link i18n='see_on_website' i18nArgs='website=wikidata.org' url=wikidata.url classes='link'}}
-    if _.isObject text
+    if _.isObject text.hash
       { i18n, i18nArgs, url, classes } = text.hash
       # Expect i18nArgs to be a string formatted as a querystring
       i18nArgs = _.parseQuery i18nArgs
