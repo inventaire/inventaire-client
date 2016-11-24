@@ -7,13 +7,16 @@
 #   completion: 5
 #   defaultRegion: 'nb_NO'
 
+# defaultRegions are needed for 'og:locale' and 'og:locale:alternate'
+# that seem to snob 2 letters languages
+
 module.exports = {
   "da": {
-    "completion": 26,
+    "completion": 25,
     "defaultRegion": "da_DK"
   },
   "de": {
-    "completion": 90,
+    "completion": 96,
     "defaultRegion": "de_DE"
   },
   "en": {
@@ -21,16 +24,20 @@ module.exports = {
     "defaultRegion": "en_US"
   },
   "es": {
-    "completion": 11,
+    "completion": 37,
     "defaultRegion": "es_ES"
   },
   "fr": {
-    "completion": 100,
+    "completion": 96,
     "defaultRegion": "fr_FR"
   },
   "it": {
     "completion": 14,
     "defaultRegion": "it_IT"
+  },
+  "ja": {
+    "completion": 95,
+    "defaultRegion": "ja_JP"
   },
   "no": {
     "completion": 5,
@@ -41,11 +48,11 @@ module.exports = {
     "defaultRegion": "pl_PL"
   },
   "pt": {
-    "completion": 12,
+    "completion": 13,
     "defaultRegion": "pt_PT"
   },
   "sv": {
-    "completion": 53,
+    "completion": 51,
     "defaultRegion": "sv_SE"
   }
 }

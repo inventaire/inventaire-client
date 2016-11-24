@@ -1,9 +1,6 @@
 wdLang = require 'wikidata-lang'
 { formatLabel } = require 'lib/wikimedia/wikidata'
 
-# defaultRegions are needed for 'og:locale' and 'og:locale:alternate'
-# that seem to snob 2 letters languages
-
 languages = require './languages_data'
 
 regionify = {}
