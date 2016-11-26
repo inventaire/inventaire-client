@@ -4,50 +4,36 @@ getSources = require './get_sources'
 
 { universalPath } = require 'config'
 findKeys = universalPath.require 'i18nSrc', 'lib/find_keys'
-updateAndArchive = require './update_and_archive'
 writeDistVersion = require './write_dist_version'
 { red } = require 'chalk'
 
-module.exports = extendLangWithDefault = (lang)->
+module.exports = (lang)->
   Promise.props getSources(lang)
   .then (sources)->
 
-    { enFull, langFull, langFullTransifex, langFullArchive } = sources
-    [full, updateFull, archiveFull] = findKeys
+    # Rely fully on Transifex and complete missing with English
+    { enFull, langFullTransifex } = sources
+    [ full, updateFull, archiveFull ] = findKeys
       enObj: enFull
-      langCurrent: langFull
       langTransifex: langFullTransifex
-      langArchive: langFullArchive
       markdown: false
 
-    { enShort, langShort, langShortTransifex, langShortArchive } = sources
-    [short, updateShort, archiveShort] = findKeys
+    # Rely fully on Transifex and complete missing with English
+    { enShort, langShortTransifex } = sources
+    [ short, updateShort, archiveShort ] = findKeys
       enObj: enShort
-      langCurrent: langShort
       langTransifex: langShortTransifex
-      langArchive: langShortArchive
       markdown: true
 
+    # Rely on Wikidata language-specific labels, completed by English labels
     { enWd, langWd, langWdArchive } = sources
-    [wd, updateWd, archiveWd] = findKeys
+    [ wd, updateWd, archiveWd ] = findKeys
       enObj: enWd
       langCurrent: langWd
-      langTransifex: {}
       langArchive: langWdArchive
       markdown: false
 
-    promA = updateAndArchive
-      lang: lang
-      updateFull: updateFull
-      archiveFull: archiveFull
-      updateShort: updateShort
-      archiveShort: archiveShort
-      updateWd: updateWd
-      archiveWd: archiveWd
-
-    promB = writeDistVersion lang, _.extend({}, full, short, wd)
-
-    return Promise.all [promA, promB]
+    return writeDistVersion lang, _.extend({}, full, short, wd)
 
   .catch (err)->
     console.error red("#{lang} err"), err.stack
