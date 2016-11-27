@@ -1,6 +1,6 @@
 .language-picker{
   li.option{
-    @for $i from 1 through 10 {
+    @for $i from 1 through 20 {
       &:nth-child(#{$i}) .completion {
         transition: max-width 0.3s $i*0.1s ease-in;
       }
