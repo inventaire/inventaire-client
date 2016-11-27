@@ -25,4 +25,5 @@ module.exports =
     'wdt:P212' # ISBN-13
     'wdt:P957' # ISBN-10
     'wdt:P407' # language of work
+    'wdt:P123' # publisher
   ]

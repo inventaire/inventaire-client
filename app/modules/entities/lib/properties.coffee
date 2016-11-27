@@ -23,7 +23,7 @@ addProp 'wdt:P921', 'entity', 'topics', true, false
 # image
 addProp 'wdt:P18', 'image', null, false, null
 # publisher
-addProp 'wdt:P123', 'string', null, false, null
+addProp 'wdt:P123', 'entity', 'publishers', false, false
 # year of publication
 addProp 'wdt:P577', 'string', null, false, null
 # isbn 13
