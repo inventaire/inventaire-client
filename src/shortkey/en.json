@@ -131,7 +131,6 @@
     "group_position_context": "If your group is associated to a specific place (a universities, a coworkings, etc.), it can be useful to indicate it's position to help other users to find it",
     "article_limitation": "this is an article and not book: it can't be added to your inventory",
     "title_last_items": "last books added",
-    "persona_sunset": "Sad news: **Persona.org will be shutting down**.<br>Users who signed up on inventaire.io using Persona should switch to a password-based account. All our apologies for the inconvenience",
     "item_existing_instances": "you already have [%{count} in your inventory](%{pathname})",
     "km_away": "%{distance} km away",
     "before_accepting_general": "Before accepting, you probably want to discuss the following point(s):",
