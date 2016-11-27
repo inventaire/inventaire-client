@@ -9,7 +9,6 @@ module.exports = Marionette.ItemView.extend
   events:
     'blur #username': 'earlyVerifyUsername'
     'click #classicLogin': 'classicLoginAttempt'
-    'click #personaLogin': 'showPersonaLogin'
     'click #createAccount': -> app.execute 'show:signup'
     'click #forgotPassword': -> app.execute 'show:forgot:password'
 
@@ -65,6 +64,3 @@ module.exports = Marionette.ItemView.extend
     username = @ui.username.val()
     if _.isEmail(username) then 'email or password is incorrect'
     else 'username or password is incorrect'
-
-  showPersonaLogin:->
-    app.execute 'show:login:persona'

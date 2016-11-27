@@ -34,29 +34,6 @@
   @include shy(0.8);
 }
 
-.persona{
-  > div{
-    max-width: 40em;
-  }
-}
-
-.persona-sunset{
-  background-color: $warning-color;
-  color: white;
-  @include radius;
-  padding: 0.5em;
-  margin: 1em;
-}
-
 #forgotPassword{
   padding: 1em;
-}
-
-.help{
-  margin-top: 1em;
-  color: $dark-grey;
-}
-#askForHelp{
-  @include text-hover($dark-grey);
-  @include underline;
 }

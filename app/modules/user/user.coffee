@@ -1,6 +1,5 @@
 SignupClassic = require './views/signup_classic'
 Login = require './views/login'
-LoginPersona = require './views/login_persona'
 ForgotPassword = require './views/forgot_password'
 ResetPassword = require './views/reset_password'
 fetchData = require 'lib/data/fetch'
@@ -9,11 +8,8 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     UserRouter = Marionette.AppRouter.extend
       appRoutes:
-        'signup(/persona)(/)':'showSignup'
+        'signup(/)':'showSignup'
         'login(/)':'showLogin'
-        # this is the route that was triggered by Persona Signup
-        # so that Persona confirmation email returns to this route
-        'login/persona(/)':'showLoginPersona'
         'login/forgot-password(/)':'showForgotPassword'
         'login/reset-password(/)':'showResetPassword'
 
@@ -28,7 +24,6 @@ module.exports =
     app.commands.setHandlers
       'show:signup': API.showSignup
       'show:login': API.showLogin
-      'show:login:persona': API.showLoginPersona
       'show:forgot:password': API.showForgotPassword
 
 
@@ -45,14 +40,6 @@ API =
       app.layout.main.Show new Login, _.I18n('login')
       app.navigate 'login'
 
-  showLoginPersona: ->
-    unless redirected 'show:login:persona'
-      # required to navigate before showing
-      # as Persona email links redirection depend on the url
-      # at the moment the login is triggered
-      app.navigate 'login/persona'
-      app.layout.main.Show new LoginPersona, _.I18n('login with Persona')
-
   showForgotPassword: (options)->
     app.layout.main.Show new ForgotPassword(options), _.I18n('forgot password')
     app.navigate 'login/forgot-password'
@@ -62,7 +49,6 @@ API =
       app.layout.main.Show new ResetPassword, _.I18n('reset password')
     else
       app.execute 'show:forgot:password'
-
 
 redirected = (command)->
   unless navigator.cookieEnabled
