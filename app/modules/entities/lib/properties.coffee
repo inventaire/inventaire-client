@@ -1,13 +1,10 @@
 module.exports = properties = {}
 
-addProp = (property, datatype, source, multivalue=true, allowEntityCreation=false)->
-  properties[property] =
-    datatype: datatype
-    source: source
-    property: property
-    multivalue: multivalue
-    allowEntityCreation: allowEntityCreation
-
+# editorTypes can stay permissive in the input
+# and let the server do the strict validation
+# Ex: isbns can be considered as simple strings before being validated server-side
+addProp = (property, editorType, source, multivalue=true, allowEntityCreation=false)->
+  properties[property] = { editorType, source, property, multivalue, allowEntityCreation }
 
 # Keep in sync with app/modules/entities/lib/editor/properties_per_type.coffee
 
