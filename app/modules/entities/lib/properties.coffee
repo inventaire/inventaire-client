@@ -15,6 +15,8 @@ addProp 'wdt:P50', 'entity', 'humans', true, true
 addProp 'wdt:P136', 'entity', 'genres', true, false
 # main subject
 addProp 'wdt:P921', 'entity', 'topics', true, false
+# serie
+addProp 'wdt:P179', 'entity', 'series', false, false
 
 ## edition
 addProp 'wdt:P629', 'fixed-entity', null, false, null

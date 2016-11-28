@@ -6,8 +6,7 @@ module.exports =
     'wdt:P50' # author
     # 'wdt:P110' # illustrator
     # 'wdt:P577' # publication date
-    # 'wdt:P179' # series
-
+    'wdt:P179' # series
     # 'wdt:P364' # original language of work
     # 'wdt:P1476' # title (using P364 lang)
     # 'wdt:P1680' # subtitle (using P364 lang)
