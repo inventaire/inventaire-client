@@ -13,11 +13,11 @@
   }
   .values-wrapper{
     flex: 1 1 auto;
+    margin: auto;
   }
-  .values{
-    margin-bottom: 0.5em;
-  }
-  .addValue{
+  .values{}
+  .add-value-wrapper{
+    margin-top: 0.5em;
     margin-left: 0.5em;
   }
 }
