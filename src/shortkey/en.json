@@ -156,5 +156,10 @@
     "external_scanner_intro": "if you have difficulties using the internal barcode scanner, you can use an external application compatible with the Zxing protocol instead:",
     "failing_scan_tip": "if the scanner has difficulties to find the codebar, it might be that the light isn't adequate or that the camera isn't good enough",
     "translation_completion": "%{completion}% complete",
-    "switch_to_lang": "switch language to %{language}"
+    "switch_to_lang": "switch language to %{language}",
+    "title_network_layout": "friends & groups",
+    "vote_verb": "vote",
+    "code_verb": "code",
+    "data_loss_at_merge": "labels and claims from properties already defined on the target entity will be lost",
+    "see_on_website": "see on %{website}"
 }
