@@ -1,7 +1,7 @@
 isLoggedIn = require './lib/is_logged_in'
 
 editors =
-  entity: require './value_editor'
+  entity: require './entity_value_editor'
   'fixed-entity': require './fixed_entity'
   string: require './string_value_editor'
 

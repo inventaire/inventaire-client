@@ -4,8 +4,8 @@ error_ = require 'lib/error'
 createEntities = require 'modules/entities/lib/create_entities'
 
 module.exports = EditorCommons.extend
-  className: -> "value-editor #{@cid}"
-  template: require './templates/value_editor'
+  className: -> "entity-value-editor #{@cid}"
+  template: require './templates/entity_value_editor'
   behaviors:
     AlertBox: {}
     AutoComplete: {}

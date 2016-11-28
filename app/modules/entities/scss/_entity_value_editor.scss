@@ -1,4 +1,4 @@
-.value-editor, .fixed-entity{
+.entity-value-editor, .fixed-entity{
   .value-entity-wrapper{
     @include display-flex(row);
   }
@@ -31,7 +31,7 @@
   }
 }
 
-.value-editor{
+.entity-value-editor{
   @include display-flex(row, center, flex-end);
   padding: 0.5em;
   .input-wrapper{
