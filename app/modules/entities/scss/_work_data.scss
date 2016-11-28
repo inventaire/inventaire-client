@@ -36,16 +36,13 @@
     @include radius;
     margin: 0 auto;
     position: relative;
+    padding: 1em;
     span:not(.entity-value), .property-value{
       color: #999;
       margin-right: 0.5em;
     }
   }
   .editEntityData{
-    /*Large screens*/
-    @media screen and (min-width: 500px) {
-      @include position(absolute, 0.5em, 0.5em);
-    }
     color: white;
   }
   .photo-credits{
@@ -59,6 +56,15 @@
       margin: 0 auto;
     }
     text-align: center;
+  }
+  /*Medium to Large screens*/
+  @media screen and (min-width: 500px) {
+    .editEntityData{
+      @include position(absolute, 0.5em, 0.5em);
+    }
+    .attributes{
+      min-width: 20em;
+    }
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
