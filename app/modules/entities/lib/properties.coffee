@@ -8,7 +8,7 @@ addProp = (property, editorType, source, multivalue=true, allowEntityCreation=fa
 
 # Keep in sync with app/modules/entities/lib/editor/properties_per_type.coffee
 
-## book
+## work
 # author
 addProp 'wdt:P50', 'entity', 'humans', true, true
 # genre
@@ -17,6 +17,7 @@ addProp 'wdt:P136', 'entity', 'genres', true, false
 addProp 'wdt:P921', 'entity', 'topics', true, false
 
 ## edition
+addProp 'wdt:P629', 'fixed-entity', null, false, null
 # image
 addProp 'wdt:P18', 'image', null, false, null
 # publisher
@@ -29,3 +30,5 @@ addProp 'wdt:P212', 'string', null, false, null
 addProp 'wdt:P957', 'string', null, false, null
 # language of work
 addProp 'wdt:P407', 'entity', 'languages', true, null
+# number of pages
+addProp 'wdt:P1104', 'positive-integer', null, false, null

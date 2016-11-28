@@ -20,6 +20,7 @@ module.exports =
     # 'wdt:P674' # characters
   ]
   edition: [
+    'wdt:P629' # edition or translation of
     # 'wdt:P31' # P31: instance of (=> edition aliases?)
     # P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
     'wdt:P212' # ISBN-13

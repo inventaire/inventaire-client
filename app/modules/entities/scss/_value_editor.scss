@@ -1,3 +1,36 @@
+.value-editor, .fixed-entity{
+  .value-entity-wrapper{
+    @include display-flex(row);
+  }
+  .img-wrapper{
+    width: 50px;
+    margin-right: 0.5em;
+  }
+  .fa-spin{
+    opacity: 0.3;
+    margin-left: 2em;
+  }
+  .identifier{
+    opacity: 0.3;
+    margin-top: 0.4em;
+  }
+  .description{
+    opacity: 0.5;
+  }
+  .description:not(:empty){
+    margin-right: 1em;
+  }
+  /*Quite Small screens*/
+  @media screen and (max-width: 600px) {
+    .value-entity-wrapper{
+      flex-direction: column;
+    }
+    .identifier{
+      display: none;
+    }
+  }
+}
+
 .value-editor{
   @include display-flex(row, center, flex-end);
   padding: 0.5em;
@@ -20,50 +53,17 @@
     padding-left: 0.5em;
     cursor: pointer;
     @include bg-hover(white, 5%);
-    .value-entity-wrapper{
-      @include display-flex(row);
-    }
-    .img-wrapper{
-      width: 50px;
-      margin-right: 0.5em;
-    }
-    .fa-spin{
-      opacity: 0.3;
-      margin-left: 2em;
-    }
-    .identifier{
-      margin-top: 0.4em;
-      opacity: 0.2;
-      @include transition(opacity);
-      &:focus{
-        background-color: #aaa;
-      }
-      &:hover{
-        opacity: 0.95;
-      }
-    }
-    .description{
-      opacity: 0.5;
-    }
-    .description:not(:empty){
-      margin-right: 1em;
-    }
   }
   .ac-container + .tiny-button{
     margin-left: 0.5em;
   }
-  &:hover{
-    .identifier{
-      opacity: 0.4;
+  .identifier{
+    @include transition(opacity);
+    &:focus{
+      background-color: #aaa;
     }
-  }
-  /*Quite Small screens*/
-  @media screen and (max-width: 600px) {
-    .value-entity-wrapper{
-      flex-direction: column;
-    }
-    .identifier{
-      display: none;
+    &:hover{
+      opacity: 0.95;
     }
   }
   /*Very Small screens*/
@@ -113,5 +113,12 @@
     span{
       display: inline-block;
     }
+  }
+}
+
+.fixed-entity{
+  .value-entity-wrapper{
+    @include bg-hover(#222, 5%);
+    color: white;
   }
 }

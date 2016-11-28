@@ -50,7 +50,7 @@ module.exports = EditorCommons.extend
 
   onGrab: ->
     if @model.valueEntity?
-      @listenToOnce @model.valueEntity, 'change:pictures', @lazyRenderIfDisplayMode.bind(@)
+      @listenToOnce @model.valueEntity, 'change:image', @lazyRenderIfDisplayMode.bind(@)
       # init suggestion with the current value entity so that
       # saving without any change is equivalent to re-selecting the current value
       @suggestion or= @model.valueEntity

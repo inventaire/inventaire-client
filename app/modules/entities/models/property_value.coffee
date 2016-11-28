@@ -2,6 +2,8 @@ properties = require 'modules/entities/lib/properties'
 regex_ = sharedLib 'regex'
 error_ = require 'lib/error'
 
+haveValueEntity = [ 'entity', 'fixed-entity' ]
+
 module.exports = Backbone.Model.extend
   initialize: (attr)->
     @updateValueEntity()
@@ -11,7 +13,7 @@ module.exports = Backbone.Model.extend
   updateValueEntity: ->
     { property, value } = @toJSON()
 
-    if value? and properties[property].editorType is 'entity'
+    if value? and properties[property].editorType in haveValueEntity
 
       unless regex_.EntityUri.test value
         throw error_.new 'invalid entity uri', @toJSON()

@@ -1,5 +1,5 @@
 # customized for client-side needs
-module.exports = (text, url, classes='link')->
+module.exports = (text, url, classes='link', title)->
   # prevent [object Object] classes
   # avoiding using _.isString as the module is used in scripts with differents environments
   unless typeof classes is 'string' then classes = ''
@@ -8,4 +8,6 @@ module.exports = (text, url, classes='link')->
   # on rel='noopener' see: https://mathiasbynens.github.io/rel-noopener
   openOutsideAttributes = if isExternalLink then "target='_blank' rel='noopener'" else ''
 
-  "<a href=\"#{url}\" class='#{classes}' #{openOutsideAttributes}>#{text}</a>"
+  title = if title?.length > 0 then " title='#{title}'" else ''
+
+  "<a href=\"#{url}\" class='#{classes}' #{title} #{openOutsideAttributes}>#{text}</a>"

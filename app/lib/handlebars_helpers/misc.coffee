@@ -20,16 +20,31 @@ module.exports =
 
   capitalize: (str)-> _.capitaliseFirstLetter str
 
-  link: (text, url, classes)->
+  link: (text, url, classes, title)->
     # Polymorphism: accept arguments as hash key/value pairs
     # ex: {{link i18n='see_on_website' i18nArgs='website=wikidata.org' url=wikidata.url classes='link'}}
     if _.isObject text.hash
-      { i18n, i18nArgs, url, classes } = text.hash
-      # Expect i18nArgs to be a string formatted as a querystring
-      i18nArgs = _.parseQuery i18nArgs
-      text = _.i18n i18n, i18nArgs
+      { i18n, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash
 
-    new SafeString @linkify(text, url, classes)
+      titleArgs = {}
+      if titleAttrKey? then titleArgs[titleAttrKey] = titleAttrValue
+      title = _.i18n title, titleArgs
+
+      # A flag to build a complex <a> tag but with more tags between the anchor tags
+      if simpleOpenedAnchor
+        text = ''
+      else
+        # Expect i18nArgs to be a string formatted as a querystring
+        i18nArgs = _.parseQuery i18nArgs
+        text = _.i18n i18n, i18nArgs
+
+    link = @linkify text, url, classes, title
+
+    if simpleOpenedAnchor
+      # Return only the first tag to let the possibility to add a complex innerHTML
+      return new SafeString link.replace('</a>', '')
+    else
+      return new SafeString link
 
   i18nLink: (text, url, context)->
     text = _.i18n text, context

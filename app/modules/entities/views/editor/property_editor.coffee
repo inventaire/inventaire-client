@@ -1,14 +1,17 @@
 isLoggedIn = require './lib/is_logged_in'
 
-module.exports = Marionette.CompositeView.extend
-  className: 'property-editor'
-  template: require './templates/property_editor'
-  getChildView: ->
-    switch @model.get 'datatype'
-      when 'entity' then require './value_editor'
-      when 'string' then require './string_value_editor'
-      else throw new Error "unknown datatype: #{datatype}"
+editors =
+  entity: require './value_editor'
+  'fixed-entity': require './fixed_entity'
+  string: require './string_value_editor'
 
+module.exports = Marionette.CompositeView.extend
+  className: ->
+    specificClass = 'property-editor-' + @model.get('editorType')
+    return "property-editor #{specificClass}"
+
+  template: require './templates/property_editor'
+  getChildView: -> editors[@model.get('editorType')]
   childViewContainer: '.values'
   initialize: ->
     @collection = @model.values

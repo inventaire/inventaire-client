@@ -1,0 +1,20 @@
+{{#if valueEntity}}
+  {{link url=valueEntity.edit classes='showEntityEdit' simpleOpenedAnchor=true title='edit_entity' titleAttrKey='entity' titleAttrValue=valueEntity.label}}
+    <div class="value-entity-wrapper">
+      {{#with valueEntity}}
+        <div class="img-wrapper">
+          {{#if image.url}}
+            <img src='{{src image.url 48}}' alt='{{label}}'>
+          {{/if}}
+        </div>
+        <div>
+          <span class="label">{{label}}</span><br>
+          <span class="description">{{shortDescription}}</span>
+          <span class='identifier'>{{uri}}</span>
+        </div>
+      {{/with}}
+    </div>
+  </a>
+{{else}}
+  {{icon 'circle-o-notch' 'fa-spin'}}
+{{/if}}
