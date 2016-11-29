@@ -2,13 +2,13 @@
 .title-editor{
   @include display-flex(row, center, center);
   .input-wrapper{
-    flex: 1;
+     flex: 1 1 auto;
     .alert-box{
       margin: 0;
     }
   }
   .entity-value-editor{
-    flex: 1;
+     flex: 1 1 auto;
     input{
       margin: 0;
     }

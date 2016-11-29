@@ -53,7 +53,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
     }
     .label{
       line-height: 1em;
-      flex: 3 0 ;
+      flex: 3 0 auto;
     }
     &:not(.selected){
       .fa, .label{
@@ -106,7 +106,7 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
       margin-bottom: 1em;
       height: 4.2em;
       .label{
-        flex: 1;
+         flex: 1 1 auto;
         @include display-flex(column, center, center);
       }
     }
