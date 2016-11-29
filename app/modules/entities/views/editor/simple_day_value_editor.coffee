@@ -27,7 +27,7 @@ module.exports = EditorCommons.extend
     dayPicker: '#dayPicker'
 
   events:
-    'click .edit, .value': 'showEditMode'
+    'click .edit, .displayModeData': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'click .delete': 'delete'

@@ -1,18 +1,16 @@
 .simple-day-value-editor{
+  padding: 0.5em;
+  @include display-flex(row, center, flex-start, wrap);
   .showMonthsAndDays, .showYearsOnly{
     @include link-underline-on-hover($grey, darken($grey, 10%));
     font-size: 0.9em;
   }
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (min-width: $entity-editor-small-thresold) {
     flex: 1 0 auto;
-    @include display-flex(row, center, flex-start);
-    .value{
-      margin-left: 4em;
+    .displayModeData{
+      margin-left: 3em;
       margin-right: auto;
-    }
-    .edit-wrapper{
-      margin-right: 0.5em;
     }
     .edit-mode{
       @include display-flex(row, center, flex-start);
@@ -49,7 +47,6 @@
     @include display-flex(row, center, center);
     .edit-mode{
       @include display-flex(column, center, center);
-      padding: 1em;
     }
     .unit-pickers{
       @include display-flex(row, center, center);
@@ -64,6 +61,7 @@
     .picker-wrapper{
       text-align: center;
       margin: 0.5em;
+      flex: 0 0 auto;
     }
     .unit-toggler-wrapper{
       @include position(absolute, null, 0, -0.2em, 0);

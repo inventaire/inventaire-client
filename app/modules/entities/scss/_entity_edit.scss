@@ -1,12 +1,15 @@
 $edit-button-grey: $soft-grey;
+$entity-editor-small-thresold: 500px;
 
 #entityEdit{
   @include custom-column(50em);
-  @import "property_editor";
-  @import "entity_value_editor";
-  @import "simple_day_value_editor";
-  @import "title_editor";
-  @import "sub_entities_editor";
+  @import 'property_editor';
+  @import 'entity_value_editor';
+  @import 'fixed_entity';
+  @import 'editor_commons';
+  @import 'simple_day_value_editor';
+  @import 'title_editor';
+  @import 'sub_entities_editor';
   .next{
     padding: 0.5em;
     @include display-flex(row, center, center);
@@ -41,7 +44,6 @@ $edit-button-grey: $soft-grey;
     margin-bottom: 0.6em;
   }
 }
-
 
 .identifier{
   opacity: 0.5;

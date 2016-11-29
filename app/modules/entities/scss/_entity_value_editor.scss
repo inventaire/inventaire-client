@@ -1,5 +1,3 @@
-$entity-editor-small-thresold: 500px;
-
 .entity-value-editor, .fixed-entity{
   .value-entity-wrapper{
     @include display-flex(row);
@@ -22,12 +20,19 @@ $entity-editor-small-thresold: 500px;
   .description:not(:empty){
     margin-right: 1em;
   }
-  /*Quite Small screens*/
-  @media screen and (max-width: 600px) {
-    .value-entity-wrapper{
-      flex-direction: column;
-    }
+  /*Small screens*/
+  @media screen and (max-width: $entity-editor-small-thresold) {
+    margin: 1em;
+    @include display-flex(row, center, space-between);
     .identifier{
+      display: none;
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: 300px) {
+    margin: 0;
+    padding: 0;
+    .description, .img-wrapper{
       display: none;
     }
   }
@@ -36,8 +41,15 @@ $entity-editor-small-thresold: 500px;
 .entity-value-editor{
   @include display-flex(row, center, flex-end);
   padding: 0.5em;
+  .editMode{
+    flex: 1 0 auto;
+    /*Large screens*/
+    @media screen and (min-width: $entity-editor-small-thresold) {
+      @include display-flex(row, center, flex-end);
+    }
+  }
   .input-wrapper{
-    flex: 1;
+    flex: 1 1 auto;
   }
   .ac-container{
     position: relative;
@@ -48,13 +60,6 @@ $entity-editor-small-thresold: 500px;
       @include position(absolute, 2.6em, 0, null, 0)
       margin-top: 0;
     }
-  }
-  .data{
-    flex: 1;
-    margin-right: 0.5em;
-    padding-left: 0.5em;
-    cursor: pointer;
-    @include bg-hover(white, 5%);
   }
   .ac-container + .tiny-button{
     margin-left: 0.5em;
@@ -67,73 +72,5 @@ $entity-editor-small-thresold: 500px;
     &:hover{
       opacity: 0.95;
     }
-  }
-  /*Very Small screens*/
-  @media screen and (max-width: $entity-editor-small-thresold) {
-    flex-direction: column;
-    align-items: stretch;
-    .data{
-      background-color: #eee;
-      min-height: 2em;
-      padding: 0.5em;
-    }
-  }
-}
-.cancel{
-  @include tiny-button-color($edit-button-grey);
-}
-.save{
-  @include tiny-button-color($success-color);
-}
-.edit-wrapper{
-  @include display-flex(row, null, flex-end);
-}
-.edit-mode-buttons{
-  @include display-flex(row);
-}
-
-.fixed-entity{
-  .value-entity-wrapper{
-    @include bg-hover(#222, 5%);
-    color: white;
-  }
-}
-
-/*Very Small screens*/
-@media screen and (max-width: $entity-editor-small-thresold) {
-  .tiny-button{
-    margin: 0.3em;
-  }
-  .shy-label{
-    span{
-      // prevent that a hover event triggers the appearance of the label
-      // as it would make everything bump
-      display: none;
-    }
-  }
-  .edit{
-    align-self: center;
-    margin: 1em auto;
-  }
-  .edit-mode-buttons{
-    @include display-flex(row, center, space-between);
-    .tiny-button{
-      padding-top: 0.1em;
-    }
-  }
-  .edit-wrapper{
-    margin-left: 3em;
-  }
-}
-
-/*Large screens*/
-@media screen and (min-width: $entity-editor-small-thresold) {
-  .edit-wrapper{
-    // Taking more place than needed to avoid flickering
-    // when the label is shown on hover
-    min-width: 8em;
-  }
-  .tiny-button{
-    margin-left: 0.2em;
   }
 }

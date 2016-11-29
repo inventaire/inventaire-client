@@ -60,7 +60,7 @@ module.exports = EditorCommons.extend
     if @editMode then @updateSaveState()
 
   events:
-    'click .edit, .data': 'showEditMode'
+    'click .edit, .displayModeData': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'click .delete': 'delete'

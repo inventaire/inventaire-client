@@ -1,7 +1,9 @@
 {{#if editMode}}
-  {{partial 'entities:editor:edit_mode' this}}
+  <div class="editMode">
+    {{partial 'entities:editor:edit_mode' this}}
+  </div>
 {{else}}
-  <div class="data enterClick" tabindex="0">
+  <div class="displayModeData enterClick" tabindex="0">
     {{#if valueEntity}}
       <div class="value-entity-wrapper">
         {{#with valueEntity}}

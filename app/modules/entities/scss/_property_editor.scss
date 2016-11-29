@@ -12,12 +12,17 @@
     padding: 0.5em;
   }
   .values-wrapper{
-    flex: 1 1 auto;
-    margin: auto;
+    width: 100%;
   }
   .values{}
   .add-value-wrapper{
     margin: 0.5em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $entity-editor-small-thresold) {
+    .values-wrapper{
+      margin: auto;
+    }
   }
 }
 
