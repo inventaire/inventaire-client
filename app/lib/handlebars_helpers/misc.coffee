@@ -75,6 +75,5 @@ module.exports =
 
   timeFromNow: (time)-> moment(time).fromNow()
 
-  localDate: (date)-> moment(date).format('LL')
   # Tailored for arrays of YYYY-MM-DD date format and returns just the year: YYYY
   dateYear: (dateArray)-> dateArray[0]?.split('-')[0]

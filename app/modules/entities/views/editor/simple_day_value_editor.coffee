@@ -18,6 +18,8 @@ module.exports = EditorCommons.extend
     # If the value is null, start directly in edit mode
     if not @model.get('value')? then @editMode = true
     @focusTarget = 'yearPicker'
+    [ year, month, day ] = simpleDayData @model.get 'value'
+    if month? then @showMonthsAndDays = true
 
   ui:
     yearPicker: '#yearPicker'
@@ -25,31 +27,35 @@ module.exports = EditorCommons.extend
     dayPicker: '#dayPicker'
 
   events:
-    'click .edit, .data': 'showEditMode'
+    'click .edit, .value': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'click .delete': 'delete'
     # Not setting a particular selector so that any keyup event on the element triggers the event
     'keyup': 'onKeyup'
     'click .showMonthsAndDays': 'displayMonthsAndDays'
+    'click .showYearsOnly': 'displayYearsOnly'
 
   serializeData: ->
     attrs = @model.toJSON()
     [ year, month, day ] = simpleDayData attrs.value
     attrs.editMode = @editMode
-    attrs.showMonthsAndDays = @showMonthsAndDays or month?
+    attrs.showMonthsAndDays = @showMonthsAndDays
     year = @currentlySelectedYear or year
-    attrs.years = getUnits yearsList, currentYear, year
-    attrs.months = getUnits monthsList, currentYear, month
-    attrs.days = getUnits daysList, currentYear, day
+    if @editMode
+      attrs.years = getUnits yearsList, currentYear, year
+      attrs.months = getUnits monthsList, currentYear, month
+      attrs.days = getUnits daysList, currentYear, day
     return attrs
 
-  displayMonthsAndDays: ->
+  displayMonthsAndDays: -> @changeDisplayedUnits true, 'monthPicker'
+  displayYearsOnly: -> @changeDisplayedUnits false, 'yearPicker'
+  changeDisplayedUnits: (showMonthsAndDays, focusTarget)->
     # Save year value to make it the selected one later
     # As rerendering would have lost the currently selected year otherwise
     @currentlySelectedYear = parseInt @ui.yearPicker.val()
-    @showMonthsAndDays = true
-    @focusTarget = 'monthPicker'
+    @showMonthsAndDays = showMonthsAndDays
+    @focusTarget = focusTarget
     @lazyRender()
 
   onRender: ->
@@ -86,4 +92,4 @@ parseDateInt = (date)->
   if _.isNonEmptyString date then parseInt date.replace(/^0/, '')
   else null
 
-paddedValue = (value)-> if value.toString().length is 1 then "0#{value}" else value
+paddedValue = (value)-> if value?.toString().length is 1 then "0#{value}" else value

@@ -40,7 +40,7 @@ $default-button-padding: 1em;
   &.light-blue{
     @include tiny-button-color($light-blue, null, 5%);
   }
-  &.dangerous{
+  &.dangerous, &.alert{
     @include dangerous-action;
   }
   &.soft-grey{
