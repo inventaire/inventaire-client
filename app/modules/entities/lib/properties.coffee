@@ -24,8 +24,8 @@ addProp 'wdt:P629', 'fixed-entity', null, false, null
 addProp 'wdt:P18', 'image', null, false, null
 # publisher
 addProp 'wdt:P123', 'entity', 'publishers', false, false
-# year of publication
-addProp 'wdt:P577', 'string', null, false, null
+# date of publication
+addProp 'wdt:P577', 'simple-day', null, false, null
 # isbn 13
 addProp 'wdt:P212', 'string', null, false, null
 # isbn 10

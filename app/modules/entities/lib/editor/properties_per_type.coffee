@@ -26,4 +26,5 @@ module.exports =
     'wdt:P957' # ISBN-10
     'wdt:P407' # language of work
     'wdt:P123' # publisher
+    'wdt:P577' # date of publication
   ]

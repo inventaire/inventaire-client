@@ -1,0 +1,28 @@
+.simple-day-value-editor{
+  flex: 1 0 auto;
+  @include display-flex(row, center, flex-start);
+  .value{
+    margin-left: 1em;
+    margin-right: auto;
+  }
+  .edit-wrapper{
+    margin-right: 0.5em;
+  }
+  #yearPicker{
+    max-width: 5em;
+  }
+  .picker-wrapper{
+    @include display-flex(column, center, center);
+    &:first-child{
+      margin-left: 2em;
+    }
+    margin-right: 1em;
+  }
+  .showMonthsAndDays{
+    @include link-underline-on-hover($grey, darken($grey, 10%));
+  }
+  a.save{
+    // push all the buttons to the right
+    margin-left: auto;
+  }
+}

@@ -4,17 +4,4 @@
 <div class="input-wrapper">
   <input type="text" value="{{value}}" class="has-alertbox">
 </div>
-<a class="tiny-button save" title="Ctrl+Enter" tabindex="0">
-  {{icon 'check'}}
-  <span>{{i18n 'save'}}</span>
-</a>
-<a class="tiny-button shy-label cancel" title="Esc" tabindex="0">
-  {{icon 'times'}}
-  <span>{{i18n 'cancel'}}</span>
-</a>
-{{#unless disableDelete}}
-  <a class="tiny-button shy-label dangerous delete" tabindex="0">
-    {{icon 'trash'}}
-    <span>{{i18n 'delete'}}</span>
-  </a>
-{{/unless}}
+{{partial 'entities:editor:edit_mode_buttons' this}}

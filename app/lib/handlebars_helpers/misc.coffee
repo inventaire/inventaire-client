@@ -26,9 +26,10 @@ module.exports =
     if _.isObject text.hash
       { i18n, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash
 
-      titleArgs = {}
-      if titleAttrKey? then titleArgs[titleAttrKey] = titleAttrValue
-      title = _.i18n title, titleArgs
+      if titleAttrKey?
+        titleArgs = {}
+        titleArgs[titleAttrKey] = titleAttrValue
+        title = _.i18n title, titleArgs
 
       # A flag to build a complex <a> tag but with more tags between the anchor tags
       if simpleOpenedAnchor
@@ -74,6 +75,6 @@ module.exports =
 
   timeFromNow: (time)-> moment(time).fromNow()
 
-  # Tailored for YYYY-MM-DD date format
-  # to return just the year: YYYY
+  localDate: (date)-> moment(date).format('LL')
+  # Tailored for arrays of YYYY-MM-DD date format and returns just the year: YYYY
   dateYear: (dateArray)-> dateArray[0]?.split('-')[0]

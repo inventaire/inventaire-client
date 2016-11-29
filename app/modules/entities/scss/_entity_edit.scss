@@ -4,6 +4,7 @@ $edit-button-grey: $soft-grey;
   @include custom-column(50em);
   @import "property_editor";
   @import "entity_value_editor";
+  @import "simple_day_value_editor";
   @import "title_editor";
   @import "sub_entities_editor";
   .next{

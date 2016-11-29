@@ -86,6 +86,11 @@ describe 'Regex', ->
       SimpleDay.test('-2-03').should.be.false()
       done()
 
+    it 'should reject non-padded months or day', (done)->
+      SimpleDay.test('1972-1-01').should.be.false()
+      SimpleDay.test('1972-02-2').should.be.false()
+      done()
+
   describe 'Url', ->
     it 'should return true on valid urls', (done)->
       Url.test('http://yo.fr').should.be.true()

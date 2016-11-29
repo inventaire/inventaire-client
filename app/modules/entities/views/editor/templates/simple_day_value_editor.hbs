@@ -1,0 +1,13 @@
+{{#if editMode}}
+  {{partial 'entities:editor:time_unit_picker' unitName='year' unitList=years}}
+  {{#if showMonthsAndDays}}
+    {{partial 'entities:editor:time_unit_picker' unitName='month' unitList=months}}
+    {{partial 'entities:editor:time_unit_picker' unitName='day' unitList=days}}
+  {{else}}
+    <a class="showMonthsAndDays" tabindex="0">+ {{i18n 'precise the day and month'}}</a>
+  {{/if}}
+  {{partial 'entities:editor:edit_mode_buttons' this}}
+{{else}}
+  <div class="value">{{localDate value}}</div>
+  {{partial 'entities:editor:edit_button'}}
+{{/if}}

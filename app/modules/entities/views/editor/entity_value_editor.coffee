@@ -1,6 +1,4 @@
 EditorCommons = require './editor_commons'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
 createEntities = require 'modules/entities/lib/create_entities'
 
 module.exports = EditorCommons.extend
@@ -27,13 +25,13 @@ module.exports = EditorCommons.extend
   lazyRenderIfDisplayMode: -> if not @editMode then @lazyRender()
 
   serializeData: ->
-    attr = @model.toJSON()
-    attr.editMode = @editMode
-    attr.valueEntity = @valueEntityData()
-    attr.value = attr.valueEntity?.label or attr.value
-    if attr.valueEntity?
-      attr.valueEntity.hasIdentifierTooltipLinks = attr.valueEntity.type? or attr.valueEntity.wikidata?
-    return attr
+    attrs = @model.toJSON()
+    attrs.editMode = @editMode
+    attrs.valueEntity = @valueEntityData()
+    attrs.value = attrs.valueEntity?.label or attrs.value
+    if attrs.valueEntity?
+      attrs.valueEntity.hasIdentifierTooltipLinks = attrs.valueEntity.type? or attrs.valueEntity.wikidata?
+    return attrs
 
   valueEntityData: ->
     { valueEntity } = @model
@@ -109,31 +107,6 @@ module.exports = EditorCommons.extend
           textValue: textValue
         .then _.Log('created entity')
         .then (entity)=> @_save entity.get('uri')
-
-  _save: (newValue)->
-    @model.saveValue newValue
-    # target only this view
-    .catch error_.Complete(".#{@cid} .has-alertbox")
-    .catch @_catchAlert.bind(@)
-
-    @hideEditMode()
-
-  _catchAlert: (err)->
-    # Making sure that we are in edit mode as it might have re-rendered
-    # already before the error came back from the server
-    @showEditMode()
-
-    alert = => forms_.catchAlert @, err
-    # Let the time to the changes and rollbacks to trigger lazy re-render
-    # before trying to show the alert message
-    setTimeout alert, 500
-
-  delete: ->
-    action = => @_save null
-
-    @$el.trigger 'askConfirmation',
-      confirmationText: _.i18n 'Are you sure you want to delete this statement?'
-      action: action
 
   updateSaveState: ->
     unless @allowEntityCreation
