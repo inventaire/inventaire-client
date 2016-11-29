@@ -57,6 +57,7 @@ module.exports = Marionette.LayoutView.extend
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
     'click #mergeWithButton': 'merge'
+    'click #signalDataError': 'signalDataError'
 
   createAndShowEntity: ->
     @model.create()
@@ -76,6 +77,13 @@ module.exports = Marionette.LayoutView.extend
     .then showRedirectedEntity.bind(null, fromUri, toUri)
     .catch error_.Complete('#mergeWithField', false)
     .catch forms_.catchAlert.bind(null, @)
+
+  signalDataError: (e)->
+    uri = @model.get 'uri'
+    subject = _.I18n  'data error'
+    app.execute 'show:feedback:menu',
+      subject: "[#{uri}][#{subject}] "
+      event: e
 
 showRedirectedEntity = (fromUri, toUri)->
   # Get the refreshed, redirected entity

@@ -23,7 +23,7 @@ module.exports =
   showDonateMenu: -> app.layout.modal.show new DonateMenu
   showFeedbackMenu: (options)->
     # options might simply be a click event object
-    unless _.isOpenedOutside options
+    unless _.isOpenedOutside options.event
       app.layout.modal.show new FeedbackMenu(options)
   # shareLink: -> app.layout.modal.show new ShareMenu
 
