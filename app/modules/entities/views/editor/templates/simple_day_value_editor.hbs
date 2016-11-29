@@ -1,17 +1,25 @@
 {{#if editMode}}
-  {{partial 'entities:editor:time_unit_picker' unitName='year' unitList=years}}
-  {{#if showMonthsAndDays}}
-    <div class="months-and-days-pickers">
-      <div class="unit-pickers">
-        {{partial 'entities:editor:time_unit_picker' unitName='month' unitList=months}}
-        {{partial 'entities:editor:time_unit_picker' unitName='day' unitList=days}}
-      </div>
-      <a class="showYearsOnly">- {{i18n 'precise the year only'}}</a>
+  <div class="edit-mode">
+    <div class="unit-pickers">
+      {{partial 'entities:editor:time_unit_picker' unitName='year' unitList=years}}
+      {{#if showMonthsAndDays}}
+        <div class="months-and-days-pickers-wrapper">
+          <div class="months-and-days-pickers">
+            {{partial 'entities:editor:time_unit_picker' unitName='month' unitList=months}}
+            {{partial 'entities:editor:time_unit_picker' unitName='day' unitList=days}}
+          </div>
+          <div class="unit-toggler-wrapper">
+            <a class="showYearsOnly">- {{i18n 'precise the year only'}}</a>
+          </div>
+        </div>
+      {{else}}
+        <div class="unit-toggler-wrapper">
+          <a class="showMonthsAndDays">+ {{i18n 'precise the day and month'}}</a>
+        </div>
+      {{/if}}
     </div>
-  {{else}}
-    <a class="showMonthsAndDays">+ {{i18n 'precise the day and month'}}</a>
-  {{/if}}
-  {{partial 'entities:editor:edit_mode_buttons' this}}
+    {{partial 'entities:editor:edit_mode_buttons' this}}
+  </div>
 {{else}}
   <div class="value">{{value}}</div>
   {{partial 'entities:editor:edit_button'}}

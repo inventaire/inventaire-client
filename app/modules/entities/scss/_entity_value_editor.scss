@@ -1,3 +1,5 @@
+$entity-editor-small-thresold: 500px;
+
 .entity-value-editor, .fixed-entity{
   .value-entity-wrapper{
     @include display-flex(row);
@@ -67,7 +69,7 @@
     }
   }
   /*Very Small screens*/
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: $entity-editor-small-thresold) {
     flex-direction: column;
     align-items: stretch;
     .data{
@@ -77,9 +79,6 @@
     }
   }
 }
-.tiny-button{
-  margin-left: 0.2em;
-}
 .cancel{
   @include tiny-button-color($edit-button-grey);
 }
@@ -87,39 +86,54 @@
   @include tiny-button-color($success-color);
 }
 .edit-wrapper{
-  // Taking more place than needed to avoid flickering
-  // when the label is shown on hover
-  min-width: 8em;
   @include display-flex(row, null, flex-end);
 }
-
-/*Very Small screens*/
-@media screen and (max-width: 500px) {
-  .tiny-button{
-    margin-left: 0.5em;
-    @include display-flex(row, center, center);
-    @include radius(0);
-    &:first-child{ @include radius-top; }
-    &:last-child{ @include radius-bottom; }
-    .fa{
-      min-width: 1.2em;
-    }
-    height: 3em;
-  }
-  .edit{
-    align-self: center;
-    margin: 1em auto;
-  }
-  .shy-label{
-    span{
-      display: inline-block;
-    }
-  }
+.edit-mode-buttons{
+  @include display-flex(row);
 }
 
 .fixed-entity{
   .value-entity-wrapper{
     @include bg-hover(#222, 5%);
     color: white;
+  }
+}
+
+/*Very Small screens*/
+@media screen and (max-width: $entity-editor-small-thresold) {
+  .tiny-button{
+    margin: 0.3em;
+  }
+  .shy-label{
+    span{
+      // prevent that a hover event triggers the appearance of the label
+      // as it would make everything bump
+      display: none;
+    }
+  }
+  .edit{
+    align-self: center;
+    margin: 1em auto;
+  }
+  .edit-mode-buttons{
+    @include display-flex(row, center, space-between);
+    .tiny-button{
+      padding-top: 0.1em;
+    }
+  }
+  .edit-wrapper{
+    margin-left: 3em;
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $entity-editor-small-thresold) {
+  .edit-wrapper{
+    // Taking more place than needed to avoid flickering
+    // when the label is shown on hover
+    min-width: 8em;
+  }
+  .tiny-button{
+    margin-left: 0.2em;
   }
 }

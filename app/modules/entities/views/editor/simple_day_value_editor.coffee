@@ -38,11 +38,13 @@ module.exports = EditorCommons.extend
 
   serializeData: ->
     attrs = @model.toJSON()
-    [ year, month, day ] = simpleDayData attrs.value
     attrs.editMode = @editMode
-    attrs.showMonthsAndDays = @showMonthsAndDays
-    year = @currentlySelectedYear or year
     if @editMode
+      attrs.showMonthsAndDays = @showMonthsAndDays
+      [ year, month, day ] = simpleDayData attrs.value
+      year = @currentlySelectedYear or year
+      month = @currentlySelectedMonth or month
+      day = @currentlySelectedDay or day
       attrs.years = getUnits yearsList, currentYear, year
       attrs.months = getUnits monthsList, currentYear, month
       attrs.days = getUnits daysList, currentYear, day
@@ -54,6 +56,9 @@ module.exports = EditorCommons.extend
     # Save year value to make it the selected one later
     # As rerendering would have lost the currently selected year otherwise
     @currentlySelectedYear = parseInt @ui.yearPicker.val()
+    unless showMonthsAndDays
+      @currentlySelectedMonth = parseInt @ui.monthPicker.val()
+      @currentlySelectedDay = parseInt @ui.dayPicker.val()
     @showMonthsAndDays = showMonthsAndDays
     @focusTarget = focusTarget
     @lazyRender()
