@@ -2,7 +2,7 @@ EditorCommons = require './editor_commons'
 createEntities = require 'modules/entities/lib/create_entities'
 
 module.exports = EditorCommons.extend
-  className: -> "entity-value-editor #{@cid}"
+  mainClassName: 'entity-value-editor'
   template: require './templates/entity_value_editor'
   behaviors:
     AlertBox: {}
@@ -76,11 +76,6 @@ module.exports = EditorCommons.extend
   onAutoCompleteUnselect: ->
     @suggestion = null
     @updateSaveState()
-
-  onHideEditMode: ->
-    # In case an empty value was created to allow creating a new claim
-    # but the action was cancelled
-    if not @model.get('value')? then @model.destroy()
 
   # An event to tell every other value editor of the same property
   # that this view passes in edit mode and thus that other view in edit mode

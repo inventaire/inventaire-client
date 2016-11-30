@@ -1,14 +1,11 @@
 .property-editor, .title-editor{
   @include panel;
   @include display-flex(row);
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    flex-direction: column;
-  }
   .property-label{
     font-weight: bold;
     flex: 0 0 auto;
-    min-width: 8em;
+    // Using a fixed width to align all properties and values
+    width: 10em;
     padding: 0.5em;
   }
   .values-wrapper{
@@ -17,6 +14,10 @@
   .values{}
   .add-value-wrapper{
     margin: 0.5em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    flex-direction: column;
   }
   /*Large screens*/
   @media screen and (min-width: $entity-editor-small-thresold) {

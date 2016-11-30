@@ -5,7 +5,7 @@ error_ = require 'lib/error'
 
 module.exports = EditorCommons.extend
   template: require './templates/title_editor'
-  className: -> "#{@cid} title-editor"
+  mainClassName: 'title-editor'
   initialize: ->
     { @creating } = @model
     { @lang } = app.user

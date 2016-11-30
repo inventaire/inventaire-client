@@ -1,3 +1,8 @@
+.value-editor-commons{
+  @include display-flex(row, center, flex-start);
+  padding: 0.5em;
+}
+
 .cancel{
   @include tiny-button-color($edit-button-grey);
 }
@@ -6,6 +11,9 @@
 }
 .edit-mode-buttons{
   @include display-flex(row);
+  flex: 0 0 auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .edit-button-wrapper{
@@ -14,7 +22,7 @@
   margin-left: 0.5em;
   margin-right: 0.5em;
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $entity-editor-small-thresold) {
     .shy-label{
       span{
         // prevent that a hover event triggers the appearance of the label

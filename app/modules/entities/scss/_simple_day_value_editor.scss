@@ -1,6 +1,4 @@
 .simple-day-value-editor{
-  padding: 0.5em;
-  @include display-flex(row, center, flex-start, wrap);
   .showMonthsAndDays, .showYearsOnly{
     @include link-underline-on-hover($grey, darken($grey, 10%));
     font-size: 0.9em;
@@ -9,7 +7,6 @@
   @media screen and (min-width: $entity-editor-small-thresold) {
     flex: 1 0 auto;
     .displayModeData{
-      margin-left: 3em;
       margin-right: auto;
     }
     .edit-mode{
@@ -39,12 +36,10 @@
     .edit-mode-buttons{
       // push all the buttons to the right
       margin-left: auto;
-      flex: 0 0 auto;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $entity-editor-small-thresold) {
-    @include display-flex(row, center, center);
     .edit-mode{
       @include display-flex(column, center, center);
     }

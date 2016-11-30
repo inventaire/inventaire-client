@@ -27,4 +27,5 @@ module.exports =
     'wdt:P407' # language of work
     'wdt:P123' # publisher
     'wdt:P577' # date of publication
+    'wdt:P1104' # number of pages
   ]

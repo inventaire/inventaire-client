@@ -7,7 +7,7 @@ monthsList = [1..12]
 daysList = [1..31]
 
 module.exports = EditorCommons.extend
-  className: 'simple-day-value-editor'
+  mainClassName: 'simple-day-value-editor'
   template: require './templates/simple_day_value_editor'
   behaviors:
     AlertBox: {}
@@ -67,8 +67,7 @@ module.exports = EditorCommons.extend
     @lazyRender()
 
   onRender: ->
-    focus = => @ui[@focusTarget].focus()
-    setTimeout focus, 200
+    @focusOnRender()
 
   save: ->
     year = @ui.yearPicker.val()

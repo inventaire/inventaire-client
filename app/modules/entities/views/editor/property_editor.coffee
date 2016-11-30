@@ -5,6 +5,7 @@ editors =
   'fixed-entity': require './fixed_entity'
   string: require './string_value_editor'
   'simple-day': require './simple_day_value_editor'
+  'positive-integer': require './positive_integer_value_editor'
 
 module.exports = Marionette.CompositeView.extend
   className: ->

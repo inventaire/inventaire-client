@@ -22,7 +22,6 @@
   }
   /*Small screens*/
   @media screen and (max-width: $entity-editor-small-thresold) {
-    margin: 1em;
     @include display-flex(row, center, space-between);
     .identifier{
       display: none;

@@ -4,6 +4,8 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
 module.exports = Marionette.ItemView.extend
+  # @cid class required by _save error_.Complete
+  className: -> "value-editor-commons #{@mainClassName} #{@cid}"
   selectIfInEditMode: ->
     if @editMode
       # somehow seems to need a delay
@@ -28,9 +30,10 @@ module.exports = Marionette.ItemView.extend
 
   hideEditMode: ->
     @toggleEditMode false
-    @onHideEditMode()
-
-  onHideEditMode: ->
+    # In case an empty value was created to allow creating a new claim
+    # but the action was cancelled
+    # Known cases; 'delete', 'cancel' with no previous value saved
+    if not @model.get('value')? then @model.destroy()
 
   toggleEditMode: (bool)->
     @editMode = bool
@@ -47,12 +50,16 @@ module.exports = Marionette.ItemView.extend
   # save: ->
 
   _save: (newValue)->
-    @model.saveValue newValue
+    promise = @model.saveValue newValue
     # target only this view
     .catch error_.Complete(".#{@cid} .has-alertbox")
     .catch @_catchAlert.bind(@)
 
+    # Should be triggered after @model.saveValue so that a defined value
+    # doesn't appear null for @hideEditMode
     @hideEditMode()
+
+    return promise
 
   _catchAlert: (err)->
     # Making sure that we are in edit mode as it might have re-rendered
@@ -63,3 +70,11 @@ module.exports = Marionette.ItemView.extend
     # Let the time to the changes and rollbacks to trigger lazy re-render
     # before trying to show the alert message
     setTimeout alert, 500
+
+  # Focus an element on render
+  # Requires to set a focusTarget and the corresponding UI element
+  focusOnRender: ->
+    if @editMode
+      focus = => @ui[@focusTarget].focus()
+      # Somehow required to let the time to thing to get in place
+      setTimeout focus, 200
