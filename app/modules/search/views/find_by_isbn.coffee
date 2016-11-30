@@ -5,7 +5,7 @@ module.exports = Marionette.ItemView.extend
     findByIsbn:
       nameBase: 'isbn'
       field:
-        placeholder: _.i18n 'ex: 978-2-07-036822-8'
+        placeholder: _.i18n('ex:') + ' 978-2-07-036822-8'
         dotdotdot: ''
       button:
         icon: 'search'
