@@ -19,7 +19,6 @@ initWaiter = (name)->
       resolve: resolve
       reject: reject
 
-  _.time name
   waitersPromises[name] = promise
 
 module.exports = ->
@@ -72,5 +71,4 @@ reject = (name, err)->
 getWaiter = (name)->
   waiter = pendingWaiters[name]
   unless waiter? then throw new Error("unknown waiter: #{name}")
-  _.timeEnd name
   return waiter
