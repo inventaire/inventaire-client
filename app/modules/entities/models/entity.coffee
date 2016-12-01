@@ -68,9 +68,11 @@ module.exports = Backbone.NestedModel.extend
     if @wikidataId
       uri = "wd:#{@wikidataId}"
       prefix = 'wd'
+      @setAltUri()
     else if @isbn
       uri = "isbn:#{@isbn}"
       prefix = 'isbn'
+      @setAltUri()
     else
       uri = "inv:#{attrs._id}"
       prefix = 'inv'
@@ -85,6 +87,10 @@ module.exports = Backbone.NestedModel.extend
       prefix: prefix
       pathname: pathname
       label: label
+
+  setAltUri: ->
+    invId = @get '_id'
+    if invId? then @set 'altUri', "inv:#{invId}"
 
   fetchSubEntities: (subentitiesName, refresh)->
     if not refresh and @waitForSubentities?

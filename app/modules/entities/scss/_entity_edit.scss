@@ -44,6 +44,13 @@ $entity-editor-small-thresold: 500px;
     font-size: 0.9em;
     margin-bottom: 0.6em;
   }
+  .meta{
+    margin-top: 1em;
+    text-align: center;
+    .uri{
+      margin-top: 1em;
+    }
+  }
 }
 
 .identifier{
