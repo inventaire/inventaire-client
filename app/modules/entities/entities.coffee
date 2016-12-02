@@ -115,7 +115,9 @@ API =
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
   showInvEntity: (id)-> API.showEntity "inv:#{id}"
   showChanges: ->
-    app.navigate 'entities/changes'
+    # Only triggered from route yet so any redirection should be a replace
+    # to avoid a redirection loop when going back in history
+    app.navigateReplace 'entities/changes'
     app.layout.main.Show new ChangesLayout
 
 showEntityCreate = (type, label)->
