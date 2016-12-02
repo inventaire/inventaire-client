@@ -12,6 +12,11 @@ module.exports = ->
       warnings:
         wForgottenReturn: false
 
+    trueAlert = window.alert
+    window.alert = (obj)->
+      if _.isObject obj then obj = JSON.stringify(obj, null, 2)
+      trueAlert obj
+
   Promise.config promiseConfig
 
   window.CONFIG =
