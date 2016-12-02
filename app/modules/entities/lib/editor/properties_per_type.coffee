@@ -10,13 +10,15 @@ module.exports =
     # 'wdt:P364' # original language of work
     # 'wdt:P1476' # title (using P364 lang)
     # 'wdt:P1680' # subtitle (using P364 lang)
-
     # 'wdt:P155' # follow
     # 'wdt:P156' # is follow by
     'wdt:P136' # genre
     'wdt:P921' # main subject
     # 'wdt:P840' # narrative location
     # 'wdt:P674' # characters
+
+    # Reverse properties
+    'wdt:P747' # editions (inverse of wdt:P629)
   ]
   edition: [
     'wdt:P629' # edition or translation of

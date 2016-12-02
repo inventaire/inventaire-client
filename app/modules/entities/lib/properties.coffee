@@ -17,6 +17,8 @@ addProp 'wdt:P136', 'entity', 'genres', true, false
 addProp 'wdt:P921', 'entity', 'topics', true, false
 # serie
 addProp 'wdt:P179', 'entity', 'series', false, false
+ # editions (inverse of wdt:P629)
+addProp 'wdt:P747', 'fixed-entity', null, true, false
 
 ## edition
 addProp 'wdt:P629', 'fixed-entity', null, false, null

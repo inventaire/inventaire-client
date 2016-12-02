@@ -6,10 +6,10 @@ module.exports = Marionette.ItemView.extend
     @lazyRender = _.LazyRender @
 
   serializeData: ->
-    attr = @model.toJSON()
-    attr.valueEntity = @valueEntityData()
-    attr.value = attr.valueEntity?.label or attr.value
-    return attr
+    attrs = @model.toJSON()
+    attrs.valueEntity = @valueEntityData()
+    attrs.value = attrs.valueEntity?.label or attrs.value
+    return attrs
 
   valueEntityData: ->
     { valueEntity } = @model

@@ -1,7 +1,10 @@
 .button{
   font-weight: bold;
   &.soft-grey{
-    background-color: $soft-grey;
+    @include bg-hover($soft-grey)
+  }
+  &.sans-serif{
+    @include sans-serif;
   }
 }
 

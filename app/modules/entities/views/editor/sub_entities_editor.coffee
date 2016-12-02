@@ -52,7 +52,6 @@ module.exports = Marionette.CompositeView.extend
     .catch error_.Complete('#isbnField')
     .catch forms_.catchAlert.bind(null, @)
 
-
 # build a flag name for the template to do {{#if}} blocks on
 getParentTypeFlab = (parentType)->
   capitalizedParentType = _.capitaliseFirstLetter parentType

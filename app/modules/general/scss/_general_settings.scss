@@ -94,6 +94,10 @@ $button-margin-bottom: 0rem;
   margin-top: -1rem;
   @include sans-serif;
   font-size: 0.9em !important;
+  a:not(.close){
+    @include text-hover(white, #ccc);
+    text-decoration: underline;
+  }
 }
 .with-tip{
   display: inline-block;

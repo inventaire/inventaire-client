@@ -23,25 +23,23 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { @subeditor } = @options
-    @properties = propertiesCollection @model
-    { @childrenClaimProperty } = @model
     @userIsAdmin = app.user.get 'admin'
     @creationMode = @model.propertiesShortlist
+    @waitForPropCollection = @model.waitForSubentities.then @initPropertiesCollections.bind(@)
+
+  initPropertiesCollections: -> @properties = propertiesCollection @model
 
   onShow: ->
     unless @model.type is 'edition'
       @title.show new TitleEditor { @model }
 
+    @waitForPropCollection
+    .then @showPropertiesEditor.bind(@)
+
+  showPropertiesEditor: ->
     @claims.show new PropertiesEditor
       collection: @properties
       propertiesShortlist: @model.propertiesShortlist
-
-    if @childrenClaimProperty?
-      collection = @model.subentities[@childrenClaimProperty]
-      @subentities.show new SubEntitiesEditor
-        collection: collection
-        property: @childrenClaimProperty
-        parent: @model
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -49,7 +47,6 @@ module.exports = Marionette.LayoutView.extend
     attrs.userIsAdmin = @userIsAdmin
     attrs.subeditor = @subeditor
     attrs.creating = @model.creating
-    attrs.childrenClaimProperty = @childrenClaimProperty
     if @userIsAdmin then attrs.mergeWith = mergeWithData
     return attrs
 

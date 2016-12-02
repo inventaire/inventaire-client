@@ -53,7 +53,8 @@ createWorkEdition = (workEntity, isbn)->
 
     return createEntity {}, claims
     .then (editionEntity)->
-      workEntity.subentities['wdt:P629'].add editionEntity
+      workEntity.editions.add editionEntity
+      workEntity.push 'claims.wdt:P747', editionEntity.get('uri')
       return editionEntity
 
 byProperty = (options)->

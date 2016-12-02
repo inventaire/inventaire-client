@@ -1,7 +1,13 @@
 <div class="property-label">{{I18n property}}</div>
 <div class="values-wrapper">
   <ul class="values"></ul>
-  {{#if canAddValues}}
-    {{partial 'entities:editor:add_button'}}
+  {{#if customAdd}}
+    <div class="creationPartial">
+      {{partial creationPartial creationPartialData}}
+    </div>
+  {{else}}
+    {{#if canAddValues}}
+      {{partial 'entities:editor:add_button'}}
+    {{/if}}
   {{/if}}
 </div>

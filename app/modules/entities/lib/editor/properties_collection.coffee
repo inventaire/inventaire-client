@@ -27,6 +27,7 @@ module.exports = (entityModel)->
 
 getPropertyModel = (entityModel, propData)->
   propertyModel = new Backbone.Model propData
+  propertyModel.entity = entityModel
   propertyModel.values = getPropertyValuesCollection entityModel, propData
   return propertyModel
 

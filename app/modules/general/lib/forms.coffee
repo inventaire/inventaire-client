@@ -48,7 +48,7 @@ forms_.alert = (view, err)->
   _.log errMessage, "alert message on #{selector}"
 
   # Allow to pass a false flag to prevent the use of _.i18n
-  # thus preventing to getting it added to the list of strings to translate
+  # thus preventing to get it added to the list of strings to translate
   if i18n is false then message = errMessage
   else message = _.i18n errMessage
 

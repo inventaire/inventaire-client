@@ -92,11 +92,11 @@ module.exports = Backbone.NestedModel.extend
     invId = @get '_id'
     if invId? then @set 'altUri', "inv:#{invId}"
 
-  fetchSubEntities: (subentitiesName, refresh)->
+  fetchSubEntities: (refresh)->
     if not refresh and @waitForSubentities?
       return @waitForSubentities
 
-    collection = @[subentitiesName] = new Backbone.Collection
+    collection = @[@subentitiesName] = new Backbone.Collection
 
     uri = @get 'uri'
     prop = @childrenClaimProperty
@@ -110,6 +110,7 @@ module.exports = Backbone.NestedModel.extend
 
   setSubEntitiesUris: (uris)->
     @set 'subEntitiesUris', uris
+    if @childrenInverseProperty then @set "claims.#{@childrenInverseProperty}", uris
     # The list of all uris that describe an entity that is this work or a subentity,
     # that is, an edition of this work
     @set 'allUris', [ @get('uri') ].concat(uris)

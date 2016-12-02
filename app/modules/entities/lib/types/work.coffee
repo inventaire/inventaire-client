@@ -1,9 +1,13 @@
 wd_ = require 'lib/wikimedia/wikidata'
 
 module.exports = ->
-  # Main property by which sub-entities are linked to this one
+  # Main property by which sub-entities are linked to this one: edition of
   @childrenClaimProperty = 'wdt:P629'
-  @fetchSubEntities 'editions', @refresh
+  # inverse property: edition(s)
+  @childrenInverseProperty = 'wdt:P747'
+
+  @subentitiesName = 'editions'
+  @fetchSubEntities @refresh
 
   setPublicationYear.call @
   @waitForSubentities.then setImage.bind(@)
