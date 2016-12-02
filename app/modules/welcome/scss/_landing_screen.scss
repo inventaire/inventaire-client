@@ -116,6 +116,8 @@ section#landingScreen{
       flex: 1 0 auto;
       @include display-flex(column, center, space-around);
       margin-bottom: 1em;
+      // Required on Edge for some reason
+      width: 100%;
     }
     #loginButtons{
       margin: auto;
