@@ -24,7 +24,7 @@
     padding-top: 1em;
     min-width: 20em;
     position: relative;
-    .editEntityData{
+    .showEntityEdit{
       @include position(absolute, 0, 0);
       @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
     }

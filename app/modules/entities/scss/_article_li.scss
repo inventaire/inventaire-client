@@ -29,14 +29,14 @@
     background-color: $dark-grey;
     color: white;
   }
-  .editEntityData{
+  .showEntityEdit{
     margin: 0;
     @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
   }
-  .fa-file-text-o, .editEntityData, .wikisource, .wikipedia{
+  .fa-file-text-o, .showEntityEdit, .wikisource, .wikipedia{
     height: 2em;
   }
-  .editEntityData{
+  .showEntityEdit{
     @include display-flex(row, center, center);
   }
   .fa-pencil{

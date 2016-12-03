@@ -57,7 +57,7 @@
   color: $grey;
 }
 
-.editEntityData{
+.showEntityEdit.pencil{
   float: right;
   font-size: 1.4em;
   @include text-hover(rgba(white, 0.5), white);

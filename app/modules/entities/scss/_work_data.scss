@@ -42,7 +42,7 @@
       margin-right: 0.5em;
     }
   }
-  .editEntityData{
+  .showEntityEdit{
     color: white;
   }
   .photo-credits{
@@ -59,7 +59,7 @@
   }
   /*Medium to Large screens*/
   @media screen and (min-width: 500px) {
-    .editEntityData{
+    .showEntityEdit{
       @include position(absolute, 0.5em, 0.5em);
     }
     .attributes{
