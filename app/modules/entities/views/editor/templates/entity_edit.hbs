@@ -1,6 +1,5 @@
 <div class="title"></div>
 <div class="claims"></div>
-<div class="subentities"></div>
 
 {{#if userIsAdmin}}
   {{#unless creationMode}}
@@ -16,24 +15,22 @@
   {{/unless}}
 {{/if}}
 
-{{#unless subeditor}}
-  <div class="next">
-    {{#if creating}}
-      <a class="createAndShowEntity light-blue-button" tabindex="0">
-        {{icon 'arrow-left'}}
-        {{I18n "create and return to the book's page"}}
-      </a>
-      <a class="createAndAddEntity success-button" tabindex="0">
-        {{icon 'plus'}}
-        {{I18n "create and add to your inventory"}}
-      </a>
-    {{else}}
-      <a href="{{pathname}}" class="showEntity light-blue-button" tabindex="0">
-        {{icon 'arrow-left'}}{{I18n "return to the book's page"}}
-      </a>
-    {{/if}}
-  </div>
-{{/unless}}
+<div class="next">
+  {{#if creating}}
+    <a class="createAndShowEntity light-blue-button" tabindex="0">
+      {{icon 'arrow-left'}}
+      {{I18n "create and return to the book's page"}}
+    </a>
+    <a class="createAndAddEntity success-button" tabindex="0">
+      {{icon 'plus'}}
+      {{I18n "create and add to your inventory"}}
+    </a>
+  {{else}}
+    <a href="{{pathname}}" class="showEntity light-blue-button" tabindex="0">
+      {{icon 'arrow-left'}}{{I18n "return to the book's page"}}
+    </a>
+  {{/if}}
+</div>
 
 <div class="meta">
   <a id="signalDataError" class="tiny-button alert" title="{{i18n 'signal_an_error_in_entity_data'}}" tabindex="0">{{icon 'flag'}}{{i18n 'signal an error'}}</a>

@@ -1,8 +1,6 @@
 TitleEditor = require './title_editor'
 PropertiesEditor = require './properties_editor'
 propertiesCollection = require 'modules/entities/lib/editor/properties_collection'
-createEntities = require 'modules/entities/lib/create_entities'
-SubEntitiesEditor = require './sub_entities_editor'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
@@ -16,13 +14,11 @@ module.exports = Marionette.LayoutView.extend
   regions:
     title: '.title'
     claims: '.claims'
-    subentities: '.subentities'
 
   ui:
     mergeWithInput: '#mergeWithField'
 
   initialize: ->
-    { @subeditor } = @options
     @userIsAdmin = app.user.get 'admin'
     @creationMode = @model.propertiesShortlist
     @waitForPropCollection = @model.waitForSubentities.then @initPropertiesCollections.bind(@)
@@ -45,7 +41,6 @@ module.exports = Marionette.LayoutView.extend
     attrs = @model.toJSON()
     attrs.creationMode = @creationMode
     attrs.userIsAdmin = @userIsAdmin
-    attrs.subeditor = @subeditor
     attrs.creating = @model.creating
     if @userIsAdmin then attrs.mergeWith = mergeWithData
     return attrs
