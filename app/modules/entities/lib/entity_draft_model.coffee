@@ -33,6 +33,7 @@ module.exports =
       setLabel: editableEntity.setLabel
       saveLabel: _.preq.resolve
       create: -> createEntities.create @get('labels'), @get('claims')
+      waitForSubentities: _.preq.resolved
 
     return model
 
