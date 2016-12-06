@@ -1,5 +1,6 @@
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/admin_section'
@@ -7,17 +8,20 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
     AlertBox: {}
+    Loading: {}
 
   ui:
     mergeWithInput: '#mergeWithField'
 
   serializeData: ->
-    mergeWith: mergeWithData
+    mergeWith: mergeWithData()
 
   events:
     'click #mergeWithButton': 'merge'
 
   merge: (e)->
+    behaviorsPlugin.startLoading.call @, '#mergeWithButton'
+
     fromUri = @model.get 'uri'
     toUri = @ui.mergeWithInput.val()
     # send to merge endpoint as everything should happen server side now
@@ -28,13 +32,13 @@ module.exports = Marionette.ItemView.extend
     .catch error_.Complete('#mergeWithField', false)
     .catch forms_.catchAlert.bind(null, @)
 
-mergeWithData =
+mergeWithData = ->
   nameBase: 'mergeWith'
   field:
     placeholder: 'ex: wd:Q237087'
     dotdotdot: ''
   button:
-    text: 'merge'
+    text: _.I18n 'merge'
     classes: 'light-blue bold postfix'
 
 showRedirectedEntity = (fromUri, toUri)->

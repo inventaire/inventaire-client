@@ -40,6 +40,16 @@ $entity-editor-small-thresold: 500px;
     input{
       margin-bottom: 0;
     }
+    .alert-box{
+      margin: 0;
+    }
+  }
+  #mergeWithButton{
+    // centering the loading button vertically
+    @include display-flex(row, center, center);
+    .loading{
+      margin-left: 1em;
+    }
   }
   .warning{
     color: #bbb;
