@@ -1,19 +1,6 @@
 <div class="title"></div>
 <div class="claims"></div>
-
-{{#if userIsAdmin}}
-  {{#unless creationMode}}
-    <div class="admin">
-      <h3>{{i18n 'admin section'}}</h3>
-      {{!-- entity type selector --}}
-
-      <hr>
-      <h4>{{i18n 'merge with another entity'}}</h4>
-      <p class="warning">{{icon 'warning'}}{{i18n 'data_loss_at_merge'}}</p>
-      {{input mergeWith}}
-    </div>
-  {{/unless}}
-{{/if}}
+<div class="admin"></div>
 
 <div class="next">
   {{#if creating}}
