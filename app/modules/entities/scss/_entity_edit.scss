@@ -10,51 +10,13 @@ $entity-editor-small-thresold: 500px;
   @import 'simple_day_value_editor';
   @import 'positive_integer_value_editor';
   @import 'title_editor';
+  @import 'admin_section';
   .next{
     padding: 0.5em;
     @include display-flex(row, center, center);
     a{
       margin: 0.5em;
     }
-  }
-  .admin{
-    &:empty{
-      display: none;
-    }
-    padding: 1em;
-    background-color: $dark-grey;
-    @include radius;
-    h3, h4{
-      color: white;
-    }
-    h4{
-      font-weight: bold;
-      font-size: 1em;
-    }
-    hr{
-      opacity: 0.5;
-    }
-  }
-  #mergeWithGroup{
-    max-width: 30em;
-    input{
-      margin-bottom: 0;
-    }
-    .alert-box{
-      margin: 0;
-    }
-  }
-  #mergeWithButton{
-    // centering the loading button vertically
-    @include display-flex(row, center, center);
-    .loading{
-      margin-left: 1em;
-    }
-  }
-  .warning{
-    color: #bbb;
-    font-size: 0.9em;
-    margin-bottom: 0.6em;
   }
   .meta{
     margin-top: 1em;

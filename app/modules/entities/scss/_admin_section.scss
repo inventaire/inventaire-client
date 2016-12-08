@@ -1,0 +1,41 @@
+.admin{
+  background-color: red;
+  &:empty{
+    display: none;
+  }
+  padding: 1em;
+  background-color: $dark-grey;
+  @include radius;
+  h3, h4{
+    color: white;
+  }
+  h4{
+    font-weight: bold;
+    font-size: 1em;
+  }
+  hr{
+    opacity: 0.5;
+  }
+  .warning{
+    color: #bbb;
+    font-size: 0.9em;
+    margin-bottom: 0.6em;
+  }
+}
+
+#mergeWithGroup{
+  max-width: 30em;
+  input{
+    margin-bottom: 0;
+  }
+  .alert-box{
+    margin: 0;
+  }
+}
+#mergeWithButton{
+  // centering the loading button vertically
+  @include display-flex(row, center, center);
+  .loading{
+    margin-left: 1em;
+  }
+}
