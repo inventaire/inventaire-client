@@ -3,5 +3,6 @@
   .value-entity-wrapper{
     @include bg-hover(#222, 5%);
     color: white;
+    padding-right: 0.5em;
   }
 }
