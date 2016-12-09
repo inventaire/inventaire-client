@@ -17,7 +17,7 @@ module.exports = ->
   @waitForSubentities = _.preq.resolved
 
   @waitForWork = @reqGrab 'get:entity:model', workUri, 'work'
-  .tap setLabel.bind(@)
+  .tap inheritData.bind(@)
 
   @set
     lang: lang
@@ -25,8 +25,12 @@ module.exports = ->
 
   _.extend @, specificMethods
 
-setLabel = (work)->
+# Editions inherit claims like author 'wdt:P50' from their work
+inheritData = (work)->
   unless @get('label')? then @set 'label', @work.get('label')
+  claims = @get 'claims'
+  workClaims = work.get 'claims'
+  @set 'claims', _.extend({}, workClaims, claims)
 
 specificMethods =
   getAuthorsString: -> @waitForWork.then (work)-> work.getAuthorsString()
