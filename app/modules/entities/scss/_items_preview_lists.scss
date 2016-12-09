@@ -12,7 +12,15 @@ $preview-icon-base-size: 2em;
   .showDetails, .hideDetails{
     @include underline;
     @include shy;
-    @include position(absolute, null, 5px, 1px, null);
+    position: absolute;
+  }
+  .showDetails{
+    right: 5px;
+    bottom: 1px;
+  }
+  .hideDetails{
+    right: 15px;
+    bottom: 20px;
   }
   &:not(.show-details){
     .items-lists-per-transactions{
