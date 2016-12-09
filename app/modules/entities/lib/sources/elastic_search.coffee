@@ -1,13 +1,15 @@
-dataUrl = 'https://data.inventaire.io'
-
 module.exports = (type)->
-  searchBase = "#{dataUrl}/wikidata/#{type}/_search"
   return searchType = (query)->
+    { wikidata } = app.config.elasticsearch
+    searchBase = "#{wikidata}/#{type}/_search"
     _.preq.post searchBase,
       query:
-        match_phrase_prefix:
-          _all: query
-
+        bool:
+          should: [
+            { match_phrase_prefix: { _all: query } }
+            { match: { _all: query } }
+            { prefix: { _all: query.split(' ').slice(-1)[0] } }
+          ]
     .then parse
     .then _.Log(type)
 

@@ -7,6 +7,8 @@ module.exports = ->
   # gets all the routes used in the app
   app.API = require('api/api')(_)
 
+  configPromise = require('./get_config')()
+
   require('lib/handlebars_helpers/base').initialize(app.API)
   require('lib/global_libs_extender')(_)
   require('lib/global_helpers')(app, _)
@@ -35,7 +37,10 @@ module.exports = ->
 
   AppLayout = require 'modules/general/views/app_layout'
 
-  app.request 'wait:for', 'i18n'
+  Promise.all [
+    app.request 'wait:for', 'i18n'
+    configPromise
+  ]
   .then ->
     # Initialize the application on DOM ready event.
     $ ->

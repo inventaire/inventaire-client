@@ -19,6 +19,7 @@ module.exports = (_)->
   tests: endpoint('tests').public
   cookie: '/api/cookie/public'
   i18n: '/api/i18n/public'
+  config: '/api/config/public'
   i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   json: (filename)-> "/public/json/#{filename}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
