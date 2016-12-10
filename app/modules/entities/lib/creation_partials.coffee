@@ -37,6 +37,5 @@ module.exports =
           icon: 'plus'
           text: 'add'
           classes: 'soft-grey postfix sans-serif'
-    focusTarget: '#isbnField'
     clickEvents:
       isbnButton: createEditionEntityFromWork

@@ -42,12 +42,6 @@ module.exports = Marionette.CompositeView.extend
 
   canAddValues: -> @model.get('multivalue') or @collection.length is 0
 
-  onRender: ->
-    if @customAdd?.focusTarget
-      focus = => @$el.find(@customAdd.focusTarget).focus()
-      # Somehow required to let the time to thing to get in place
-      setTimeout focus, 200
-
   events:
     'click .addValue': 'addValue'
     'click .creationPartial a': 'dispatchCreationPartialClickEvents'
