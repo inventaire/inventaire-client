@@ -11,6 +11,11 @@ $entity-editor-small-thresold: 500px;
   @import 'positive_integer_value_editor';
   @import 'title_editor';
   @import 'admin_section';
+  .type-label{
+    color: $grey;
+    font-size: 1.2em;
+    margin-top: 0.6em;
+  }
   .next{
     padding: 0.5em;
     @include display-flex(row, center, center);
