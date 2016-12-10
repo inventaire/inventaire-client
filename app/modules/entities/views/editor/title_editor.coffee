@@ -40,11 +40,22 @@ module.exports = EditorCommons.extend
 
   save: ->
     value = @ui.input.val()
+    errSelector = ".#{@cid} .has-alertbox"
+
     unless _.isNonEmptyString value
-      return forms_.bundleAlert @, "this value can't be empty", ".#{@cid} .has-alertbox"
+      return forms_.bundleAlert @, "this value can't be empty", errSelector
 
     @editMode = false
 
-    if value is @getValue() then @lazyRender()
-    # re-render will be triggered by change:labels event listener
-    else @model.setLabel @lang, value
+    if value is @getValue()
+      @lazyRender()
+    else
+      # re-render will be triggered by change:labels event listener
+      @model.setLabel @lang, value
+      .catch error_.Complete(errSelector)
+      .catch (err)=>
+        # Bring back the edit mode
+        @editMode = true
+        @lazyRender()
+        # Wait for the view to have re-rendered to show the alert
+        setTimeout forms_.catchAlert.bind(null, @, err), 400
