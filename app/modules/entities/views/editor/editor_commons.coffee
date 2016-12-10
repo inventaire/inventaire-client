@@ -75,6 +75,9 @@ module.exports = Marionette.ItemView.extend
   # Requires to set a focusTarget and the corresponding UI element
   focusOnRender: ->
     if @editMode
-      focus = => @ui[@focusTarget].focus()
+      focus = =>
+        $el = @ui[@focusTarget]
+        if $el[0].tagName is 'INPUT' then $el.select()
+        else $el.focus()
       # Somehow required to let the time to thing to get in place
       setTimeout focus, 200

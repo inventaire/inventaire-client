@@ -1,6 +1,7 @@
 EditorCommons = require './editor_commons'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+inputSelector = '.positive-integer-picker'
 
 module.exports = EditorCommons.extend
   mainClassName: 'positive-integer-value-editor'
@@ -11,7 +12,7 @@ module.exports = EditorCommons.extend
     ConfirmationModal: {}
 
   ui:
-    input: '.positive-integer-picker'
+    input: inputSelector
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -40,7 +41,7 @@ module.exports = EditorCommons.extend
 
     unless _.isIntegerString inputVal
       err = error_.new 'invalid number', inputVal
-      err.selector = '.positive-integer-picker'
+      err.selector = inputSelector
       return forms_.alert @, err
 
     val = parseInt inputVal
@@ -50,7 +51,7 @@ module.exports = EditorCommons.extend
 
     unless 1 <= val <= 100000
       err = error_.new "number can't be higher than 100000", val
-      err.selector = '.positive-integer-picker'
+      err.selector = inputSelector
       return forms_.alert @, err
 
     @_save val

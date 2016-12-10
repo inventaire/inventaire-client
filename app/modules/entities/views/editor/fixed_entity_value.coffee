@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
-  template: require './templates/fixed_entity'
-  className: 'fixed-entity value-editor-commons'
+  template: require './templates/fixed_entity_value'
+  className: 'fixed-entity-value fixed-value value-editor-commons'
 
   initialize: ->
     @lazyRender = _.LazyRender @

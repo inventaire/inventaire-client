@@ -3,6 +3,30 @@
   padding: 0.5em;
 }
 
+.input-editor{
+  @include display-flex(row, center, space-between);
+  width: 100%;
+  .inputBox{
+    width: 100%;
+    input{
+      margin-bottom: 0;
+    }
+    .alert-box{
+      margin-top: 0;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $entity-editor-small-thresold) {
+    flex-direction: column;
+    .inputBox{
+      margin-bottom: 1em;
+      input{
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
 .cancel{
   @include tiny-button-color($edit-button-grey);
 }

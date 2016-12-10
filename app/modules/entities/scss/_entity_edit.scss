@@ -5,7 +5,7 @@ $entity-editor-small-thresold: 500px;
   @include custom-column(50em);
   @import 'property_editor';
   @import 'entity_value_editor';
-  @import 'fixed_entity';
+  @import 'fixed_entity_value';
   @import 'editor_commons';
   @import 'simple_day_value_editor';
   @import 'positive_integer_value_editor';

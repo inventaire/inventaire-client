@@ -1,0 +1,8 @@
+// Most of .fixed-entity-value styling happen in app/modules/entities/scss/_entity_value_editor.scss
+.fixed-entity-value{
+  .value-entity-wrapper{
+    @include bg-hover($fixed-value-bg-color, 5%);
+    color: $fixed-value-color;
+    padding-right: 0.5em;
+  }
+}

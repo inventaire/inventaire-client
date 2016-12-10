@@ -1,1 +1,11 @@
-{{value}}
+{{#if editMode}}
+  <div class="edit-mode input-editor">
+    <div class="inputBox">
+      <input type="text" name="title" class="string-value-input has-alertbox" value="{{value}}">
+    </div>
+    {{partial 'entities:editor:edit_mode_buttons' this}}
+  </div>
+{{else}}
+  <div class="displayModeData">{{value}}</div>
+  {{partial 'entities:editor:edit_button'}}
+{{/if}}

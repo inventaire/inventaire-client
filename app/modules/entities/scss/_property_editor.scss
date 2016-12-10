@@ -27,12 +27,19 @@
     .values-wrapper{
       margin: auto;
     }
+    .property-label{
+      // vertically aligning with the first property value
+      margin-top: 0.2em;
+    }
   }
 }
 
-.property-editor-fixed-entity{
-  background-color: $dark-grey;
-  color: white;
+$fixed-value-bg-color: $dark-grey;
+$fixed-value-color: white;
+
+.property-editor-fixed-entity, .property-editor-fixed-string{
+  background-color: $fixed-value-bg-color;
+  color: $fixed-value-color;
 }
 
 .edition-creation{

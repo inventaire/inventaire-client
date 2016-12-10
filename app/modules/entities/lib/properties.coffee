@@ -22,6 +22,8 @@ addProp 'wdt:P747', 'fixed-entity', null, true, false
 
 ## edition
 addProp 'wdt:P629', 'fixed-entity', null, false, null
+# title
+addProp 'wdt:P1476', 'string', null, false, null
 # image
 addProp 'wdt:P18', 'image', null, false, null
 # publisher
@@ -29,9 +31,9 @@ addProp 'wdt:P123', 'entity', 'publishers', false, false
 # date of publication
 addProp 'wdt:P577', 'simple-day', null, false, null
 # isbn 13
-addProp 'wdt:P212', 'string', null, false, null
+addProp 'wdt:P212', 'fixed-string', null, false, null
 # isbn 10
-addProp 'wdt:P957', 'string', null, false, null
+addProp 'wdt:P957', 'fixed-string', null, false, null
 # language of work
 addProp 'wdt:P407', 'entity', 'languages', true, null
 # number of pages

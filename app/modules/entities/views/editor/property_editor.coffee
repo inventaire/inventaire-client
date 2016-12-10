@@ -3,8 +3,9 @@ creationParials = require 'modules/entities/lib/creation_partials'
 
 editors =
   entity: require './entity_value_editor'
-  'fixed-entity': require './fixed_entity'
+  'fixed-entity': require './fixed_entity_value'
   string: require './string_value_editor'
+  'fixed-string': require './fixed_string_value'
   'simple-day': require './simple_day_value_editor'
   'positive-integer': require './positive_integer_value_editor'
 

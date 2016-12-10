@@ -26,6 +26,7 @@ module.exports =
     # P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
     'wdt:P212' # ISBN-13
     'wdt:P957' # ISBN-10
+    'wdt:P1476' # title
     'wdt:P407' # language of work
     'wdt:P123' # publisher
     'wdt:P577' # date of publication
