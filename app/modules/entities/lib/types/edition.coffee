@@ -16,14 +16,18 @@ module.exports = ->
   # No subentities to fetch
   @waitForSubentities = _.preq.resolved
 
-  @waitForWork = @reqGrab 'get:entity:model', workUri, 'work'
-  .tap inheritData.bind(@)
-
   @set
     lang: lang
     publicationTime: publicationTime
+    # Take the label from the monolingual title property
+    label: @get 'claims.wdt:P1476.0'
+
+  @waitForWork = @reqGrab 'get:entity:model', workUri, 'work'
+  .tap inheritData.bind(@)
 
   _.extend @, specificMethods
+
+  return
 
 # Editions inherit claims like author 'wdt:P50' from their work
 inheritData = (work)->

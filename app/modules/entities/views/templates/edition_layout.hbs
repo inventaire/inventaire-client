@@ -1,11 +1,4 @@
 {{#if standalone}}
-  <h2><a class="showEntity" href="{{work.pathname}}" title="{{work.label}}">{{work.label}}</a></h2>
-  <p class="work-data">
-    {{#with work}}
-      {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}<br>
-      {{claim claims 'wdt:P179' true}} {{!-- serie --}}
-    {{/with}}
-  </p>
   <div class="editionLi">
     {{partial 'entities:edit_data' this}}
 {{/if}}
@@ -25,9 +18,16 @@
   <div class="upper-part">
     <div class="claims">
       {{#if standalone}}
+        <h2>{{label}}</h2>
+        <strong>{{claim claims 'wdt:P629' true false true}}  {{!-- edition of --}}</strong>
+        <br>
+        {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}<br>
+        {{claim claims 'wdt:P179' true}} {{!-- serie --}}
+        <br>
         {{partial 'entities:edition_claims' this}}
       {{else}}
         <a class="showEntity" href="{{pathname}}" title="{{label}}">
+          <strong>{{label}}</strong>
           {{partial 'entities:edition_claims' this}}
         </a>
       {{/if}}
