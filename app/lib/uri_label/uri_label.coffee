@@ -16,7 +16,6 @@ wd_ = require 'lib/wikimedia/wikidata'
 
 { get:getEntitiesModels } = require 'modules/entities/lib/get_entities_models'
 
-language = null
 elements = null
 refresh = false
 
@@ -32,7 +31,10 @@ display = ->
   for el in getElements()
     uri = getUris el
     if uri?
-      label = getLabel uri, language
+      # This runs only after i18n initialization so, app.user.lang should have been set
+      { lang } = app.user
+      unless lang? then throw new Error "lang isn't set"
+      label = getLabel uri, lang
       if label?
         el.textContent = label
         # remove the class so that it doesn't re-appear in the next queries
@@ -79,8 +81,7 @@ getMissingEntities = (uris)->
 
 wasntPrevisoulyMissing = (uri)-> uri not in previouslyMissing
 
-update = (lang)->
-  language = lang
+update = ->
   uris = gatherRequiredUris()
 
   # Do not trigger display when no uri was found at this stage
