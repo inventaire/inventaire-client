@@ -23,4 +23,5 @@ module.exports = (promises_, _)->
 langProperties = [
   'wdt:P103' # native language
   'wdt:P364' # original language of work
+  'wdt:P407' # language of work
 ]
