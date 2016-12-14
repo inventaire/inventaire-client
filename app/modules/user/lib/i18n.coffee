@@ -20,7 +20,7 @@ module.exports = (app, lang)->
   app.commands.setHandlers
     # called from a customized polyglot.js
     'i18n:missing:key': missingKey
-    'uriLabel:update': updateQlabel
+    'uriLabel:update': updateUrilabel
     'uriLabel:refresh': uriLabel.refreshData
 
 setLanguage = (lang)->
@@ -41,6 +41,6 @@ updatePolyglot = (polyglot, lang, res)->
   polyglot.locale lang
   app.execute 'waiter:resolve', 'i18n'
 
-updateQlabel = ->
+updateUrilabel = ->
   { lang } = app.user
   uriLabel.update lang
