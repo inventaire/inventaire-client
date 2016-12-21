@@ -1,10 +1,17 @@
 <h3>{{i18n 'admin section'}}</h3>
 {{!-- entity type selector --}}
-<hr>
-<h4>{{i18n 'merge with another entity'}}</h4>
-<p class="warning">{{icon 'warning'}}{{i18n 'data_loss_at_merge'}}</p>
-{{input mergeWith}}
 
-<hr>
-<h4>history</h4>
-<div id="history"></div>
+<h4>{{i18n 'merge with another entity'}}</h4>
+<section class="merge-section">
+  <p class="warning">{{icon 'warning'}}{{i18n 'data_loss_at_merge'}}</p>
+  {{input mergeWith}}
+</section>
+
+<h4>
+  <a id="historyToggler">
+    {{icon 'chevron-down'}}
+    {{icon 'chevron-up' 'hidden'}}
+    {{I18n 'history'}}
+  </a>
+</h4>
+<section id="history"></section>

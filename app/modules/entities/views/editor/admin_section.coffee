@@ -16,15 +16,17 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     mergeWithInput: '#mergeWithField'
+    historyTogglers: '#historyToggler i.fa'
+
+  initialize: ->
+    @_historyShown = false
 
   serializeData: ->
     mergeWith: mergeWithData()
 
-  onShow: ->
-    @showHistory()
-
   events:
     'click #mergeWithButton': 'merge'
+    'click #historyToggler': 'toggleHistory'
 
   merge: (e)->
     behaviorsPlugin.startLoading.call @, '#mergeWithButton'
@@ -41,7 +43,12 @@ module.exports = Marionette.LayoutView.extend
 
   showHistory: ->
     @model.fetchHistory()
-    .then => @history.show new History { @model, collection: @model.history }
+    .then => @history.show new History { collection: @model.history }
+
+  toggleHistory: ->
+    unless @history.hasView() then @showHistory()
+    @history.$el.toggleClass 'hidden'
+    @ui.historyTogglers.toggle()
 
 mergeWithData = ->
   nameBase: 'mergeWith'

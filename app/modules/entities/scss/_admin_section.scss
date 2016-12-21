@@ -12,9 +12,17 @@
   h4{
     font-weight: bold;
     font-size: 1em;
+    background-color: $darker-grey;
+    padding: 0.5em;
+    @include radius;
   }
-  hr{
-    opacity: 0.5;
+  section{
+    &:not(:last-child){
+      margin-bottom: 1.2em;
+    }
+  }
+  .merge-section{
+    padding-left: 0.5em;
   }
   .warning{
     color: #bbb;
