@@ -1,8 +1,9 @@
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+History = require './history'
 
-module.exports = Marionette.ItemView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/admin_section'
 
   behaviors:
@@ -10,11 +11,17 @@ module.exports = Marionette.ItemView.extend
     AlertBox: {}
     Loading: {}
 
+  regions:
+    history: '#history'
+
   ui:
     mergeWithInput: '#mergeWithField'
 
   serializeData: ->
     mergeWith: mergeWithData()
+
+  onShow: ->
+    @showHistory()
 
   events:
     'click #mergeWithButton': 'merge'
@@ -31,6 +38,10 @@ module.exports = Marionette.ItemView.extend
     .then showRedirectedEntity.bind(null, fromUri, toUri)
     .catch error_.Complete('#mergeWithField', false)
     .catch forms_.catchAlert.bind(null, @)
+
+  showHistory: ->
+    @model.fetchHistory()
+    .then => @history.show new History { @model, collection: @model.history }
 
 mergeWithData = ->
   nameBase: 'mergeWith'

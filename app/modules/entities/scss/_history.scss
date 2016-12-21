@@ -1,0 +1,63 @@
+#history{
+  color: white;
+  .version{
+    background-color: $darker-grey;
+    @include radius;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+  .patch{
+    @include radius;
+    background-color: white;
+    margin: 0.2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding: 0.5em;
+    color: $dark-grey;
+    > div{
+      display: inline-block;
+    }
+    .op{
+      width: 4em;
+    }
+    .path{
+      width: 12em;
+      color: $grey;
+    }
+  }
+  .patch-add{
+    .op{
+     color: green;
+    }
+  }
+  .patch-remove{
+    .op{
+      color: red;
+    }
+  }
+  .label{
+    font-weight: bold;
+    // Allow to set a width
+    display: inline-block;
+    width: 5em;
+  }
+  .value{
+    margin-left: 0.5em;
+  }
+  .special-user{
+    background-color: rgba($grey, 0.5);
+    @include radius;
+    padding: 0.2em;
+    font-size: 0.9em;
+    margin-left: 0.2em;
+  }
+  .precise-time{
+    color: $grey;
+    font-weight: 0.8em;
+    padding-left: 0.5em;
+  }
+  .showUser{
+    color: white;
+    @include underline-on-hover(white);
+  }
+}

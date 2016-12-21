@@ -27,6 +27,7 @@ module.exports =
   serieParts: CustomQuery 'serie-parts'
 
   changes: -> _.buildPath publik, { action: 'get-changes' }
+  history: (id)-> _.buildPath publik, { action: 'history', id }
 
   # POST/PUT
   create: authentified

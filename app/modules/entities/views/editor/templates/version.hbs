@@ -1,0 +1,30 @@
+<p>
+  <span class="label">version:</span>
+  <span class="value">{{versionNumber}}</span>
+</p>
+<p>
+  <span class="label">username:</span>
+    {{#if user.special}}
+      <span class="value">{{user.username}}</span>
+      <span class="special-user">{{I18n 'special user'}}</span>
+    {{else}}
+      <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
+    {{/if}}
+</p>
+<p>
+  <span class="label">date:</span>
+  <span class="value">
+    <span class="time-from-now">{{timeFromNow timestamp}}</span>
+    <span class="precise-time">{{localTimeString timestamp}}</span>
+  </span>
+</p>
+<p>
+  <span class="label">patch:</span>
+  {{#each patch}}
+    <div class="patch patch-{{op}}">
+      <div class="op">{{op}}</div>
+      <div class="path" title="{{i18n property}}">{{path}}</div>
+      {{#if value}}<div class="value">{{value}}</div>{{/if}}
+    </div>
+  {{/each}}
+</p>

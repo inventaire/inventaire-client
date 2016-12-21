@@ -73,6 +73,7 @@ module.exports =
     _.log this, 'hb debug this'
     return JSON.stringify arguments[0]
 
+  localTimeString: (time)-> new Date(time).toLocaleString()
   timeFromNow: (time)-> moment(time).fromNow()
 
   # Tailored for arrays of YYYY-MM-DD date format and returns just the year: YYYY

@@ -1,3 +1,5 @@
+Versions = require '../../collections/versions'
+
 module.exports =
   setPropertyValue: (property, oldValue, newValue)->
     _.log arguments, 'setPropertyValue args'
@@ -46,3 +48,8 @@ module.exports =
       lang: app.user.lang
       value: value
     .catch rollback
+
+  fetchHistory: ->
+    _.preq.get app.API.entities.history(@id)
+    # reversing to get the last patches first
+    .then (res)=> @history = new Versions res.patches.reverse()
