@@ -1,67 +1,41 @@
-localCache = require 'lib/data/local_cache'
+module.exports =
+  get: (ids, format='index', refresh)->
+    ids = _.forceArray ids
 
-module.exports = (app, $, _)->
-  remote = require('./lib/remote_queries')(app, _)
-  localData = localCache
-    name: 'users'
-    remote: remote
-    parseData: _.property 'users'
+    if ids.length is 0
+      promise = _.preq.resolve {}
+    else
+      promise = getUsersByIds ids
 
-  fetchRelationsData = ->
-    app.request 'wait:for', 'groups'
-    .then _fetchRelationsData
+    return promise
+    .then formatData.bind(null, format)
+    .catch _.ErrorRethrow('users_data get err')
 
-  _fetchRelationsData = ->
-    { relations, groups } = app
-    unless relations? or groups?
-      return _.preq.reject 'no relations found at fetchRelationsData'
+  search: (text)->
+    # catches case with ''
+    if _.isEmpty(text) then return _.preq.resolve []
 
-    relationsIds = _.allValues relations
-    groupsIds = extractGroupsIds groups
+    _.preq.get app.API.users.search(text)
+    .get 'users'
+    .catch _.ErrorRethrow('users_data search err')
 
-    relations.nonRelationGroupUser = _.difference groupsIds, relationsIds
-    inGroups = inGroupsNonFriendsRelations relations, groupsIds
-    networkIds = _.union relationsIds, groupsIds
+  findOneByUsername: (username)->
+    @search(username)
+    .then (res)->
+      user = res?[0]
+      # ignoring case as the user database does
+      if user?.username.toLowerCase() is username.toLowerCase()
+        return user
 
-    localData.get networkIds
-    .then spreadRelationsData.bind(null, relations, inGroups)
-    # .then _.Log('spreaded')
+  searchByPosition: (latLng)->
+    _.preq.get app.API.users.searchByPosition(latLng)
+    .get 'users'
+    .catch _.Error('searchByPosition err')
 
-  inGroupsNonFriendsRelations = (relations, groupsIds)->
-    # including possible userRequested and otherRequested users
-    # will be used to fetch all their items
-    userRequested: _.intersection groupsIds, relations.userRequested
-    otherRequested: _.intersection groupsIds, relations.otherRequested
+getUsersByIds = (ids)->
+  _.preq.get app.API.users.data(ids)
+  .get 'users'
 
-  spreadRelationsData = (relations, inGroups, data)->
-    lists =
-      friends: []
-      userRequested: []
-      otherRequested: []
-      nonRelationGroupUser: []
-
-    # _.log relations, 'relations'
-
-    for relationType, list of relations
-      for userId in list
-        userData = data[userId]
-        lists[relationType].push userData
-
-    return relationsData =
-      lists: lists
-      inGroups: inGroups
-
-  return data =
-    remote: remote
-    local: localData
-    fetchRelationsData: fetchRelationsData
-
-extractGroupsIds = (groups)->
-  _.chain(groups.models)
-  .map concatGroupIds
-  .flatten()
-  .uniq()
-  .without app.user.id
-  .value()
-
-concatGroupIds = (group)-> group.allMembersIds()
+formatData = (format, data)->
+  if format is 'collection' then return _.values data
+  else return data

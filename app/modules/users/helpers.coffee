@@ -1,4 +1,5 @@
 error_ = require 'lib/error'
+usersData = require './users_data'
 
 module.exports = (app)->
   sync =
@@ -52,7 +53,7 @@ module.exports = (app)->
       unless ids.length > 0 then return _.preq.resolve []
 
       app.request 'waitForData'
-      .then -> app.users.data.local.get ids, 'collection'
+      .then -> usersData.get ids, 'collection'
       .then (users)->
         compacted = _.compact users
 
@@ -72,12 +73,13 @@ module.exports = (app)->
         userModel = app.request 'get:userModel:from:userId', id
         if userModel? then return userModel
         else
-          app.users.data.local.get(id, 'collection')
+          usersData.get id, 'collection'
           .then (usersData)->
             # known case when userData.length is 0 and this throws:
             # deleted user with an id still hanging around
             unless usersData.length is 1
               throw new Error "user not found: #{id}"
+
             return adders[category](usersData)[0]
 
       .catch _.ErrorRethrow('getUserModel err')
@@ -109,7 +111,7 @@ module.exports = (app)->
       userModel = app.users.findWhere {username: username}
       if userModel? then return _.preq.resolve userModel
       else
-        app.users.data.remote.findOneByUsername username
+        usersData.findOneByUsername username
         .then (user)->
           if user?
             userModel = app.users.public.add user

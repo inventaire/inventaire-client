@@ -1,3 +1,5 @@
+usersData = require '../users_data'
+
 module.exports = (app)->
 
   app.users.queried = []
@@ -6,14 +8,14 @@ module.exports = (app)->
     unless _.isNonEmptyString text
       return app.users.filtered.friends()
 
-    app.users.data.remote.search text
+    usersData.search text
     .then addUsersUnlessHere
     .then ->
       app.users.queried.push text
       return app.users.filtered.filterByText text
 
   searchByPosition = (bbox)->
-    app.users.data.remote.searchByPosition bbox
+    usersData.searchByPosition bbox
     .then addUsersUnlessHere
 
   addUsersUnlessHere = (users)->

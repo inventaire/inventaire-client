@@ -1,9 +1,10 @@
+fetchRelationsData = require './fetch_relations_data'
+
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
 
   initialize: ->
     app.users = require('./users_collections')(app)
-    app.users.data = require('./users_data')(app, $, _)
 
     require('./helpers')(app)
     require('./requests')(app, _)
@@ -23,7 +24,7 @@ module.exports =
       app.execute 'waiter:resolve', 'friends:items'
 
 fetchFriendsAndTheirItems = ->
-  app.users.data.fetchRelationsData()
+  fetchRelationsData()
   .then fetchRelationsDataSuccess
   .catch _.Error('fetchFriendsAndTheirItems err')
 
