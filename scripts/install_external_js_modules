@@ -17,7 +17,6 @@ uglifyIt(){
 }
 
 # keep versions in sync with app/api/scripts.coffee
-memdown_base=memdown-1.1.2
 quagga_base=quagga-0.10.2
 cropper_base=cropper-2.3.0
 
@@ -25,11 +24,6 @@ cropper_base=cropper-2.3.0
 
 curl -sk https://piwik.allmende.io/piwik.js > ${vendor}/piwik.js
 echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
-
-browserify node_modules/memdown -s MemDown > ${pub}/${memdown_base}.js
-uglifyIt $pub $memdown_base
-gzipkeep "${pub}/${memdown_base}.min.js"
-echo -e '\e[0;32mdone browserifying and copying:\e[0m' memdown
 
 cp node_modules/quagga/dist/quagga.js ${pub}/${quagga_base}.js
 cp node_modules/quagga/dist/quagga.min.js ${pub}/${quagga_base}.min.js

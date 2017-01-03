@@ -1,5 +1,4 @@
-module.exports.initialize = ->
-
+module.exports = ->
   # override window.onerror to always log the stacktrace
   window.onerror = ->
 

@@ -19,4 +19,3 @@ deleteLocalDatabases = ->
   localStorageProxy.clear()
   # but keeping debug config
   localStorageProxy.setItem 'debug', debug
-  window.dbs.reset()

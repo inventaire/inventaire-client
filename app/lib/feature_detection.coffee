@@ -8,8 +8,7 @@ module.exports = ->
   testLocalStorage()
   testVideoInput()
   setDebugSetting()
-  return testIndexedDbSupport()
-
+  return
 
 sayHi = ->
   console.log """
@@ -63,28 +62,3 @@ setDebugSetting = ->
     Activate logs by entering this command and reloading the page:\n
     localStorage.setItem('debug', true)\n
     Or activate logs once by adding debug=true as a query parameter"
-
-# can't rely on Modernizr.indexeddb boolean
-# as it doesn't detect Private navigation
-testIndexedDbSupport = ->
-  indexedDB = indexedDB or window.indexedDB or window.webkitIndexedDB or window.mozIndexedDB or window.OIndexedDB or window.msIndexedDB
-
-  return solveIdbSupport(indexedDB)
-  .then (bool)->
-    window.supportsIndexedDB = bool
-    unless bool then console.warn 'Indexeddb isnt supported'
-  .catch console.error.bind(console, 'testIndexedDbSupport err')
-
-
-solveIdbSupport = (indexedDB)->
-  # resolve once supportsIndexedDB is settled
-  return new Promise (resolve, reject)->
-    test = indexedDB.open '_indexeddb_support_detection', 1
-    test.onsuccess = ->
-      resolve true
-
-    test.onerror = ->
-      window.supportsIndexedDB = false
-      resolve false
-
-    return
