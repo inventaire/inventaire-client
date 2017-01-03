@@ -33,6 +33,7 @@ forms_.catchAlert = (view, err)->
   if err.selector?
     view.$el.trigger 'stopLoading'
     forms_.alert(view, err)
+    _.error err, 'err passed to catchAlert'
   else
     view.$el.trigger 'somethingWentWrong'
     _.error err, 'error catched by forms_.catchAlert but the error object miss a selector'

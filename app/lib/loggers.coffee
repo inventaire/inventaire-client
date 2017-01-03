@@ -24,6 +24,9 @@ module.exports = (_, csle)->
     return obj
 
   error = (err, label)->
+    if err.hasBeenLogged then return
+    err.hasBeenLogged = true
+
     originalErr = err
     if err?.status?
       switch err.status
