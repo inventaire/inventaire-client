@@ -86,7 +86,8 @@ module.exports = (Backbone, _, $, app, window)->
     # Anchor with a href are opened out of the current window when the ctrlKey is
     # pressed, or the metaKey (Command) in case its a Mac
     openOutsideByKey = if isMac then e.metaKey else e.ctrlKey
-    openOutsideByTarget = e.currentTarget.target is '_blank'
+    # Known case of missing currentTarget: leaflet formatted events
+    openOutsideByTarget = e.currentTarget?.target is '_blank'
     return openOutsideByKey or openOutsideByTarget
 
   noop: ->
