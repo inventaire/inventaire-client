@@ -3,7 +3,7 @@
 # How to:
 # - Display html nodes with the hereafter defined class
 #   and passing the node Qid as attribute
-# - Trigger uriLabel.udpate to make it look for those elements
+# - Trigger uriLabel.update to make it look for those elements
 #   and replace their text by the best label it can find for the Qid
 
 # keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs

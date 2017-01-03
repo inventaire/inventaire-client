@@ -56,7 +56,7 @@ module.exports =
 initRequestsCollectionsEvent = ->
   if app.user.loggedIn
     app.request 'waitForData'
-    .then -> app.vent.trigger 'network:requests:udpate'
+    .then -> app.vent.trigger 'network:requests:update'
 
 API =
   # qs stands for query string

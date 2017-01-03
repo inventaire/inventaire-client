@@ -62,7 +62,7 @@ module.exports = Marionette.ItemView.extend
     @updateMetadata()
 
   listenToRequestsCollections: ->
-    @listenTo app.vent, 'network:requests:udpate', @lazyRender
+    @listenTo app.vent, 'network:requests:update', @lazyRender
 
   updateMetadata: ->
     { path, title } = @currentTabData

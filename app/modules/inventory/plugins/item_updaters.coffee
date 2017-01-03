@@ -15,7 +15,7 @@ module.exports = ->
 
     updateItem: (attribute, value)->
       unless attribute? and value?
-        return _.preq.reject error_.new('invalid item udpate', arguments)
+        return _.preq.reject error_.new('invalid item update', arguments)
 
       app.request 'item:update',
         item: @model

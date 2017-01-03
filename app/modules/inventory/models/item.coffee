@@ -41,8 +41,8 @@ module.exports = Filterable.extend
     # update the _id from 'new' to the server _id
     # but don't update other attributes such as transaction and visibility
     # that might have been changed since the server received the creation request
-    udpate = _.pick serverRes, ['_id', '_res']
-    @set udpate
+    update = _.pick serverRes, ['_id', '_res']
+    @set update
     # update derivated attributes
     @setPathname()
 

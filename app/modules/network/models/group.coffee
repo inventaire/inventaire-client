@@ -26,7 +26,7 @@ module.exports = Positionable.extend
 
     # keep internal lists updated
     @on 'list:change', @recalculateAllLists.bind(@)
-    # udpated collections once the debounced recalculateAllLists is done
+    # updated collections once the debounced recalculateAllLists is done
     @on 'list:change:after', @initMembersCollection.bind(@)
     @on 'list:change:after', @initRequestersCollection.bind(@)
 
