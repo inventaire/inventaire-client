@@ -4,6 +4,7 @@ formatError = (message, context)->
   # converting arguments object to array for readability in logs
   if _.isArguments context then context = _.toArray context
   err.context = context
+  err.timestamp = new Date().toISOString()
 
   return err
 
