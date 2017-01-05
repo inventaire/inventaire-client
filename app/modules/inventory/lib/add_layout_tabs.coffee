@@ -3,6 +3,7 @@ module.exports = tabs =
     icon: 'search'
   scan:
     icon: 'barcode'
+    wait: window.waitForDeviceDetection
   import:
     icon: 'database'
 

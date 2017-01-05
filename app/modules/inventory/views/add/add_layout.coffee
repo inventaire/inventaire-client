@@ -39,11 +39,15 @@ module.exports = Marionette.LayoutView.extend
 
   showTabView: (tab)->
     View = require "./#{tab}"
-    @content.show new View @options
     tabKey = "#{tab}Tab"
-    @ui.tabs.removeClass 'active'
-    @ui[tabKey].addClass 'active'
-    app.navigate "add/#{tab}"
+    wait = tabsData[tab].wait or _.preq.resolved
+
+    wait
+    .then =>
+      @content.show new View @options
+      @ui.tabs.removeClass 'active'
+      @ui[tabKey].addClass 'active'
+      app.navigate "add/#{tab}"
 
   changeTab: (e)->
     tab = e.currentTarget.id.split('Tab')[0]

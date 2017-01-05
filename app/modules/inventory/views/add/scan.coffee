@@ -8,6 +8,7 @@ module.exports = Marionette.ItemView.extend
   initialize: -> prepareEmbeddedScanner()
   serializeData: ->
     hasVideoInput: window.hasVideoInput
+    doesntSupportEnumerateDevices: window.doesntSupportEnumerateDevices
     zxing: zxing
     useZxing:
       id: 'toggleZxing'
