@@ -149,6 +149,10 @@ input[type="password"]{
   padding: 2em;
 }
 
+noscript{
+  padding: 1em;
+}
+
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
 }
