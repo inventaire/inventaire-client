@@ -7,6 +7,7 @@ alias uglifyjs=node_modules/uglify-js/bin/uglifyjs
 
 pubjs=public/js
 pubcss=public/css
+pubimages=public/images
 vendor=vendor/js
 
 uglifyInPlace(){
@@ -46,6 +47,9 @@ leaflet=node_modules/leaflet/dist
 cat ${leaflet}/leaflet.css > ${pubcss}/${leaflet_base}.css
 cat ${leaflet}/leaflet-src.js > ${pubjs}/${leaflet_base}.js
 cat ${leaflet}/leaflet.js > ${pubjs}/${leaflet_base}.min.js
+
+mkdir -p ${pubimages}/map
+cp ${leaflet}/images/* ${pubimages}/map
 
 leafletmc=node_modules/leaflet.markercluster/dist
 cat ${leafletmc}/MarkerCluster.css >> ${pubcss}/${leaflet_base}.css
