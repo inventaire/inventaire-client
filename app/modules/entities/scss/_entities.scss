@@ -57,7 +57,8 @@
   margin-top: 1em;
   @include display-flex(row, center, flex-start);
   .icon{
-    padding-right: 0.4em;
+    margin-left: 0.6em;
+    margin-right: 0.4em;
   }
   a span{
     // Overriding .workData span:not(.entity-value) selector

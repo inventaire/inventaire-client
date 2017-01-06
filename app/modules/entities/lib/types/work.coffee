@@ -1,4 +1,5 @@
 wd_ = require 'lib/wikimedia/wikidata'
+publicDomainThresholdYear = new Date().getFullYear() - 70
 
 module.exports = ->
   # Main property by which sub-entities are linked to this one: edition of
@@ -18,12 +19,20 @@ module.exports = ->
 setPublicationYear = ->
   publicationDate = @get 'claims.wdt:P577.0'
   if publicationDate?
-    @publicationYear = publicationDate.split('-')[0]
+    @publicationYear = parseInt publicationDate.split('-')[0]
+    @inPublicDomain = @publicationYear < publicDomainThresholdYear
 
 setImage = ->
   images =_.compact @editions.map(getEditionImageData)
   images.sort BestImage(app.user.lang)
-  @set 'image', images[0]?.image
+  currentImage = @get('image')
+  candidateImage = images[0]?.image
+  # If the work is in public domain, we can expect Wikidata image to be better
+  # if there is one. In any other case, prefer images from editions
+  # as illustration from Wikidata for copyrighted content can be quite random.
+  # Wikipedia and OpenLibrary work images follow the same rule for simplicity
+  if currentImage? and @inPublicDomain then return
+  else @set 'image', (candidateImage or currentImage)
 
 getEditionImageData = (model)->
   image = model.get 'image'

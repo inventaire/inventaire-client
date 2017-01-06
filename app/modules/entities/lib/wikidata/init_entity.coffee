@@ -22,8 +22,6 @@ setWikiLinks = (lang)->
 
   sitelinks = @get 'sitelinks'
   if sitelinks?
-    # required to fetch images from the English Wikipedia
-    @enWpTitle = sitelinks.enwiki
     updates.wikipedia = sitelinks_.wikipedia sitelinks, lang, @originalLang
     updates.wikisource = sitelinks_.wikisource sitelinks, lang, @originalLang
 
