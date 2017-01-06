@@ -1,8 +1,9 @@
 accessToken = "pk.eyJ1IjoibWF4bGF0aGEiLCJhIjoiY2lldm9xdjFrMDBkMnN6a3NmY211MzQxcyJ9.a7_CBy6Xao-yF6f1cjsBNA"
 
-L.Icon.Default.imagePath = '/public/images/map'
-
 module.exports =
+  # Init once Leaflet was fetched
+  init: ->
+    L.Icon.Default.imagePath = '/public/images/map'
   tileUrl: "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=#{accessToken}"
   settings:
     attribution: """

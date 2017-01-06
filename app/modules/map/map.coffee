@@ -1,5 +1,6 @@
+onScriptReady = require('./lib/config').init
+{ get:getLeaflet } = require('lib/get_assets')('leaflet', onScriptReady)
 PositionPicker = require './views/position_picker'
-map_ = require './lib/map'
 
 module.exports = ->
   app.commands.setHandlers
@@ -8,6 +9,7 @@ module.exports = ->
 
   app.reqres.setHandlers
     'prompt:group:position:picker': promptGroupPositionPicker
+    'map:before': getLeaflet
 
 showPositionPicker = (options)->
   app.layout.modal.show new PositionPicker(options)
@@ -26,10 +28,12 @@ updatePosition = (model, updateReqres, type, focusSelector)->
         model: model
 
 showMainUserPositionPicker = ->
-  updatePosition app.user, 'user:update', 'user'
+  getLeaflet()
+  .then -> updatePosition app.user, 'user:update', 'user'
 
 showGroupPositionPicker = (group, focusSelector)->
-  updatePosition group, 'group:update:settings', 'group', focusSelector
+  getLeaflet()
+  .then -> updatePosition group, 'group:update:settings', 'group', focusSelector
 
 # returns a promise that should resolve with the selected coordinates
 promptGroupPositionPicker = ->

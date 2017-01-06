@@ -4,7 +4,7 @@ module.exports = (lang)->
   validLang = pickMomentLang lang
   # _.log "moment lang: #{lang} -> #{validLang}"
   if validLang?
-    _.preq.getScript app.API.scripts.moment(lang)
+    _.preq.getScript app.API.assets.scripts.moment(lang)
     .then -> moment.locale lang
     # .then _.Log('moment locale set')
     .catch _.Error('fetchMomentLocale err')

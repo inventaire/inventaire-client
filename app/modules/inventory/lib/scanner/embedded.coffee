@@ -1,8 +1,7 @@
 drawCanvas = require './draw_canvas'
 isbn_ = require 'lib/isbn'
 
-getScript = require 'lib/get_script'
-{ prepare, get:getQuagga } = getScript 'quagga'
+{ prepare, get:getQuagga } = require('lib/get_assets')('quagga')
 
 module.exports =
   # pre-fetch quagga when the scanner is probably about to be used

@@ -30,13 +30,13 @@ Ajax = (verb, hasBody, allowProxiedUrl=false)->
 
     return wrap $.ajax(options), options
 
-module.exports = _.extend preq,
+requestAssets = require './request_assets'
+
+module.exports = _.extend preq, requestAssets,
   get: Ajax 'GET', false, true
   post: Ajax 'POST', true
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
-
-  getScript: (url)-> wrap $.getScript(url), { type: 'GET', url }
 
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return

@@ -17,8 +17,8 @@ gzipkeepall public/json
 gzipkeepall public/css
 
 echo -e '\e[0;30mgzip index.html\e[0m'
-gzipkeep public/index.html
+gzip -9kf public/index.html
 echo -e '\e[0;30mgzip robots.txt\e[0m'
-gzipkeep public/robots.txt
+gzip -9kf public/robots.txt
 
 ./scripts/weight_watcher

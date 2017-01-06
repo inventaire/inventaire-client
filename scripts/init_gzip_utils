@@ -1,16 +1,8 @@
 #!/usr/bin/env zsh
 
-# inspired by http://unix.stackexchange.com/a/58814
-export gzipkeep(){
-  # test it the file exists before deleting to avoid an error message
-  [ -f "$1.gz" ] && rm $1.gz && echo "deleted $1.gz";
-  # test it's a file to avoid error message with folders
-  [ -f $1 ] && gzip -9 -f < $1 > $1.gz
-}
-
 export gzipkeepall(){
   # delete all the .gz files
   # to avoid catching them in the * on the for loop selector
   rm -f $1/*gz && echo "deleted $1/*gz"
-  for f in $1/*; do gzipkeep $f; done;
+  for f in $1/*; do gzip -9kf $f; done;
 }

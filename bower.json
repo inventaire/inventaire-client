@@ -31,10 +31,8 @@
     "foundation": "https://github.com/maxlath/bower-foundation.git#^5.4.4",
     "imagesloaded": "~3.1.8",
     "jquery.inview": "jquery.inview#~1.0.0",
-    "leaflet": "~0.7.5",
     "masonry": "~3.3.2",
     "moment": "~2.10.6",
-    "leaflet.markercluster": "~0.4.0",
     "bluebird": "~3.4.0",
     "polyglot": "^1.0.0"
   },
@@ -63,13 +61,6 @@
         "js/foundation/foundation.orbit.js",
         "js/foundation/foundation.slider.js",
         "js/foundation/foundation.tab.js"
-      ]
-    },
-    "leaflet.markercluster": {
-      "main": [
-        "dist/leaflet.markercluster-src.js",
-        "dist/MarkerCluster.css",
-        "dist/MarkerCluster.Default.css"
       ]
     },
     "modernizr": {

@@ -1,6 +1,7 @@
 { defaultZoom } = require './config'
 getCurrentPosition = require './navigator_position'
 smartPreventDefault = require 'modules/general/lib/smart_prevent_default'
+leafletLite = require './leaflet_lite'
 
 module.exports = map_ =
   draw: require './draw'
@@ -36,13 +37,11 @@ module.exports = map_ =
       point = model.getLatLng()
       return bounds.contains point
 
-  # a, b MUST be LatLng arrays
+  # a, b MUST be { lat, lng } coords objects
   distanceBetween: (a, b)->
-    _.types arguments, 'arrays...'
-    a = new L.LatLng a[0], a[1]
-    b = new L.LatLng b[0], b[1]
+    _.types arguments, 'objects...'
     # return the distance in kilometers
-    return a.distanceTo(b) / 1000
+    return leafletLite.distance(a, b) / 1000
 
   getBbox: (map)->
     { _southWest, _northEast } = map.getBounds()

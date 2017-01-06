@@ -1,2 +1,1 @@
-getScript = require 'lib/get_script'
-module.exports = getScript 'cropper'
+module.exports = require('lib/get_assets')('cropper')

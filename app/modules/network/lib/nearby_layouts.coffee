@@ -4,7 +4,8 @@ containerId = 'map'
 
 initMap = (params)->
   { query } = params
-  solvePosition query
+  app.request 'map:before'
+  .then solvePosition.bind(null, query)
   .then drawMap.bind(null, params)
   .then initEventListners.bind(null, params)
 

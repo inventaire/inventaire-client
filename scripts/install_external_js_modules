@@ -1,37 +1,65 @@
 #!/usr/bin/env zsh
 
 ############ ENV ###############
-
-# avoid to rely on globally installed packages
-# to ease installation
+# Avoid to rely on globally installed packages to ease installation
+alias cleancss=node_modules/.bin/cleancss
 alias uglifyjs=node_modules/uglify-js/bin/uglifyjs
-alias browserify=node_modules/browserify/bin/cmd.js
-pub=public/js
-vendor=vendor/js
-source scripts/init_gzip_utils
 
-uglifyIt(){
+pubjs=public/js
+pubcss=public/css
+vendor=vendor/js
+
+uglifyInPlace(){
   # 2>&1: redirect stderr to stdin to be able to pipe it
   # grep -v WARN: avoid showing warnings
-  uglifyjs ${1}/${2}.js -c -m -o ${1}/${2}.min.js 2>&1 |grep -v WARN
+  uglifyjs $1 -c -m -o $1 2>&1 |grep -v WARN
 }
 
 # keep versions in sync with app/api/scripts.coffee
 quagga_base=quagga-0.10.2
 cropper_base=cropper-2.3.0
+leaflet_base=leaflet-bundle-1.0.2
 
 ############ INSTALLATIONS ###############
-
 curl -sk https://piwik.allmende.io/piwik.js > ${vendor}/piwik.js
 echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
 
-cp node_modules/quagga/dist/quagga.js ${pub}/${quagga_base}.js
-cp node_modules/quagga/dist/quagga.min.js ${pub}/${quagga_base}.min.js
-gzipkeep "${pub}/${quagga_base}.min.js"
+# Non-minified version is used in development
+quagga=node_modules/quagga/dist
+cp ${quagga}/quagga.js ${pubjs}/${quagga_base}.js
+cp ${quagga}/quagga.min.js ${pubjs}/${quagga_base}.min.js
+gzip -9kf "${pubjs}/${quagga_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m' quagga
 
-cp node_modules/cropper/dist/cropper.css vendor/css
-cp node_modules/cropper/dist/cropper.js ${pub}/${cropper_base}.js
-cp node_modules/cropper/dist/cropper.min.js ${pub}/${cropper_base}.min.js
-gzipkeep "${pub}/${cropper_base}.min.js"
+cropper=node_modules/cropper/dist
+cp ${cropper}/cropper.css ${pubcss}/${cropper_base}.css
+cleancss ${pubcss}/${cropper_base}.css > ${pubcss}/${cropper_base}.min.css
+gzip -9kf "${pubcss}/${cropper_base}.min.css"
+cp ${cropper}/cropper.js ${pubjs}/${cropper_base}.js
+cp ${cropper}/cropper.min.js ${pubjs}/${cropper_base}.min.js
+uglifyInPlace ${pubjs}/${cropper_base}.min.js
+gzip -9kf "${pubjs}/${cropper_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m' cropper
+
+# Bundling leaflet and leaflet.markercluster in the same js and css files
+leaflet=node_modules/leaflet/dist
+cat ${leaflet}/leaflet.css > ${pubcss}/${leaflet_base}.css
+cat ${leaflet}/leaflet-src.js > ${pubjs}/${leaflet_base}.js
+cat ${leaflet}/leaflet.js > ${pubjs}/${leaflet_base}.min.js
+
+leafletmc=node_modules/leaflet.markercluster/dist
+cat ${leafletmc}/MarkerCluster.css >> ${pubcss}/${leaflet_base}.css
+cat ${leafletmc}/MarkerCluster.Default.css >> ${pubcss}/${leaflet_base}.css
+
+echo '\n' >> ${pubjs}/${leaflet_base}.js
+cat ${leafletmc}/leaflet.markercluster-src.js >> ${pubjs}/${leaflet_base}.js
+# Line break separator required between non-minified JS files
+cat ${leafletmc}/leaflet.markercluster.js >> ${pubjs}/${leaflet_base}.min.js
+
+cleancss ${pubcss}/${leaflet_base}.css > ${pubcss}/${leaflet_base}.min.css
+gzip -9kf "${pubcss}/${leaflet_base}.min.css"
+# Re-minifying to remove comments
+uglifyInPlace ${pubjs}/${leaflet_base}.min.js
+gzip -9kf "${pubjs}/${leaflet_base}.min.js"
+
+echo -e '\e[0;32mdone copying:\e[0m' leaflet and leaflet.markercluster

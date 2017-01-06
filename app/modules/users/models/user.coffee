@@ -34,8 +34,8 @@ module.exports = UserCommons.extend
   calculateDistance: ->
     unless app.user.has('position') and @has('position') then return
 
-    a = app.user.get 'position'
-    b = @get 'position'
+    a = app.user.getCoords()
+    b = @getCoords()
     distance = @kmDistanceFormMainUser = map_.distanceBetween a, b
     # Under 20km, return a ~100m precision to signal the fact that location
     # aren't precise to the meter or anything close to it

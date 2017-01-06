@@ -16,9 +16,9 @@ module.exports = Filterable.extend
     # Create a L.LatLng only once
     # Update it when position update (only required for the main user)
     if @_latLng? then return @_latLng
-    else @setLatLng()
+    else @_setLatLng()
 
-  setLatLng: ->
+  _setLatLng: ->
     if @hasPosition()
       [ lat, lng ] = @get 'position'
       return @_latLng = new L.LatLng lat, lng

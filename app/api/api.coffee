@@ -23,7 +23,7 @@ module.exports = (_)->
   i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   json: (filename)-> "/public/json/#{filename}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
-  scripts: require './scripts'
+  assets: require './assets'
   upload:
     post: '/api/upload'
     del: '/api/upload/delete'
