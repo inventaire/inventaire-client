@@ -59,7 +59,6 @@
     "css-brunch": "^2.0.0",
     "csvtojson": "^0.5.2",
     "diff": "^2.2.3",
-    "fb-flo": "^0.5.0",
     "git-digest-brunch": "^1.0.3",
     "git-hooks": "^1.0.2",
     "graceful-fs": "^4.1.2",
