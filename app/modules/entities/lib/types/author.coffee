@@ -4,7 +4,15 @@ module.exports = ->
   # Main property by which sub-entities are linked to this one
   @childrenClaimProperty = 'wdt:P50'
 
+  setEbooksData.call @
+
   _.extend @, specificMethods
+
+setEbooksData = ->
+  hasGutenbergPage = @get('claims.wdt:P1938.0')?
+  hasWikisourcePage = @get('wikisource.url')?
+  @set 'hasEbooks', (hasGutenbergPage or hasWikisourcePage)
+  @set 'gutenbergProperty', 'wdt:P1938'
 
 specificMethods =
   initAuthorWorks: (refresh)->

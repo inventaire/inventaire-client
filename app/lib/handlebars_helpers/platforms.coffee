@@ -1,25 +1,25 @@
-images_ = require './images'
+gutenbergText = (id)-> _.i18n 'on_website', { name: 'Gutenberg.org' }
 
 module.exports =
   'wdt:P1938':
-    label: -> images_.icon 'download'
-    text: (id)-> _.i18n "ebooks on gutenberg.org"
+    icon: 'gutenberg'
+    text: gutenbergText
     url: (id)-> "#{gutenbergBase()}ebooks/author/#{id}"
   'wdt:P2002':
-    label: -> images_.icon 'twitter'
+    icon: 'twitter'
     text: (username)-> "@#{username}"
     url: (username)-> "https://twitter.com/#{username}"
   'wdt:P2003':
-    label: -> images_.icon 'instagram'
-    text: (username)-> username
+    icon: 'instagram'
+    text: _.identity
     url: (username)-> "https://instagram.com/#{username}"
   'wdt:P2013':
-    label: -> images_.icon 'facebook'
-    text: (facebookId)-> facebookId
+    icon: 'facebook'
+    text: _.identity
     url: (facebookId)-> "https://facebook.com/#{facebookId}"
   'wdt:P2034':
-    label: -> images_.icon 'download'
-    text: (id)-> _.i18n 'download ebook'
+    icon: 'gutenberg'
+    text: gutenbergText
     url: (id)-> "#{gutenbergBase()}ebooks/#{id}"
 
 gutenbergBase = ->

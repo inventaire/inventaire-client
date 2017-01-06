@@ -14,11 +14,10 @@
     {{claim claims 'wdt:P737' true}} {{!-- influence by --}}
     {{claim claims 'wdt:P738' true}} {{!-- influence of --}}
     {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
-    {{partial 'entities:wikisource_link' wikisource}}
-    {{platformClaim claims 'wdt:P1938'}} {{!-- Project Gutenberg author ID --}}
     {{platformClaim claims 'wdt:P2002'}} {{!-- twitter --}}
     {{platformClaim claims 'wdt:P2013'}} {{!-- facebook --}}
     {{platformClaim claims 'wdt:P2003'}} {{!-- instagram --}}
+    {{#if hasEbooks}}{{partial 'entities:ebooks' this}}{{/if}}
   </p>
   {{imageClaim claims 'wdt:P109'}} {{!-- signature --}}
 </div>

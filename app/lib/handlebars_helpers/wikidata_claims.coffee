@@ -1,4 +1,5 @@
 { SafeString } = Handlebars
+images_ = require './images'
 
 wd_ = require 'lib/wikimedia/wikidata'
 commons_ = require 'lib/wikimedia/commons'
@@ -55,12 +56,14 @@ module.exports = API =
 
   platformClaim: (args...)->
     [ claims, prop ] = neutralizeDataObject args
-    firstUsername = claims?[prop]?[0]
-    if firstUsername?
+    firstPlatformId = claims?[prop]?[0]
+    if firstPlatformId?
       platform = platforms_[prop]
-      label = platform.label()
-      values = linkify_ platform.text(firstUsername), platform.url(firstUsername), 'link social-network'
-      return claimString label, values
+      icon = images_.icon platform.icon
+      text = icon + '<span>' + platform.text(firstPlatformId) + '</span>'
+      url = platform.url firstPlatformId
+      values = linkify_ text, url, 'link social-network'
+      return claimString '', values
 
   entityRemoteHref: (uri)->
     [ prefix, id ] = uri.split ':'

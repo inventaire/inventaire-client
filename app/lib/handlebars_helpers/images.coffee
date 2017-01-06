@@ -1,10 +1,10 @@
 { SafeString } = Handlebars
 
-exports.icon = (name, classes)->
+exports.icon = (name, classes='')->
   if _.isString(name)
     if name in imagesList
       src = images[name]
-      return new SafeString "<img class='icon' src='#{src}'>"
+      return new SafeString "<img class='icon #{classes}' src='#{src}'>"
     else
       # overriding the second argument that could be {hash:,data:}
       unless _.isString classes then classes = ''
@@ -15,6 +15,7 @@ images =
   wikidata: '/public/images/wikidata.svg'
   wikisource: '/public/images/wikisource-64.png'
   'barcode-scanner': '/public/images/barcode-scanner-64.png'
+  gutenberg: '/public/images/gutenberg.png'
 
 imagesList = Object.keys images
 

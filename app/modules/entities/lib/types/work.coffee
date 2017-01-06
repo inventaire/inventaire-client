@@ -10,6 +10,7 @@ module.exports = ->
   @fetchSubEntities @refresh
 
   setPublicationYear.call @
+  setEbooksData.call @
   @waitForSubentities.then setImage.bind(@)
 
   _.extend @, specificMethods
@@ -41,6 +42,12 @@ BestImage = (userLang)-> (a, b)->
   else latestPublication a, b
 
 latestPublication = (a, b)-> b.publicationTime - a.publicationTime
+
+setEbooksData = ->
+  hasGutenbergPage = @get('claims.wdt:P2034.0')?
+  hasWikisourcePage = @get('wikisource.url')?
+  @set 'hasEbooks', (hasGutenbergPage or hasWikisourcePage)
+  @set 'gutenbergProperty', 'wdt:P2034'
 
 specificMethods =
   getAuthorsString: ->
