@@ -16,7 +16,7 @@ uglifyInPlace(){
 }
 
 # keep versions in sync with app/api/scripts.coffee
-quagga_base=quagga-0.10.2
+quagga_base=quagga-0.11.5
 cropper_base=cropper-2.3.0
 leaflet_base=leaflet-bundle-1.0.2
 

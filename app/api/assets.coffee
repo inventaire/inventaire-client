@@ -8,7 +8,7 @@ GetEnvPath = (type, pathBase)->
     if window.env isnt 'dev' then path += '.min'
     return "#{path}.#{type}"
 
-quaggaBaseName = 'quagga-0.10.2'
+quaggaBaseName = 'quagga-0.11.5'
 cropperBaseName = 'cropper-2.3.0'
 leafletBaseName = 'leaflet-bundle-1.0.2'
 
