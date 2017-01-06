@@ -54,4 +54,3 @@ module.exports = ->
       app.execute 'waiter:resolve', 'layout'
 
   require('lib/piwik')()
-  require('lib/jquery-jk').initialize($)
