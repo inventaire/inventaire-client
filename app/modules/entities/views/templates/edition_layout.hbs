@@ -4,12 +4,12 @@
 {{/if}}
 
 <div class="cover">
-  {{#if claims.wdt:P18}}
+  {{#if image.url}}
     {{#if standalone}}
-      <img src="{{src claims.wdt:P18 300}}" alt="{{label}}">
+      <img src="{{src image.url 300}}" alt="{{label}}">
     {{else}}
       <a class="showEntity" href="{{pathname}}" title="{{label}}">
-        <img src="{{src claims.wdt:P18 150}}" alt="{{label}}">
+        <img src="{{src image.url 150}}" alt="{{label}}">
       </a>
     {{/if}}
   {{/if}}
