@@ -1,13 +1,5 @@
 module.exports = (_)->
-  idGenerator: (length, lettersOnly)->
-    text = ''
-    possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    possible += '0123456789'  unless lettersOnly
-    i = 0
-    while i < length
-      text += possible.charAt _.random(possible.length - 1)
-      i++
-    return text
+  randomString: (length=8)-> Math.random().toString(36).slice(2, length + 2)
 
   # adapted from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
   hashCode: (string)->

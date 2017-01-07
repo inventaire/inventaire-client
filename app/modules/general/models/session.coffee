@@ -21,7 +21,7 @@ module.exports = Backbone.NestedModel.extend
     # => sequential ids, while shorter than full epoch time
     millisec = _.timeSinceMidnight()
     # in case two user start a session at the same millisecond - -
-    badLuckToken = _.idGenerator(4)
+    badLuckToken = _.randomString 4
     @set '_id', "#{day}-#{millisec}-#{badLuckToken}"
 
   update: ->
