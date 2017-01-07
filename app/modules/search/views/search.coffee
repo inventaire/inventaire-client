@@ -94,11 +94,30 @@ module.exports = Marionette.LayoutView.extend
     .then @displayResults.bind(@)
     .catch @_catchErr.bind(@)
 
-    app.execute 'show:loader', { region: @authors }
+    app.execute 'show:loader', { region: @authors, timeout: 120 }
+    setTimeout @_pleaseBePatient.bind(@), 6000
+
+  _pleaseBePatient: ->
+    unless cache.returned
+      @_appendToAuthorEl _.i18n('slow_search_message')
+      setTimeout @_pleaseBeVeryPatient.bind(@), 10000
+
+  _pleaseBeVeryPatient: ->
+    unless cache.returned
+      text2 = _.I18n "while you're there,"
+      text3 = _.i18n 'while_you_are_there_1'
+      innerText = "#{text2} #{text3}"
+      @_appendToAuthorEl innerText
+
+  _appendToAuthorEl: (text)->
+    $("<p class='please-be-patient hidden'>#{text}</p>")
+    .appendTo @authors.$el
+    .slideDown()
 
   _parseResponse: (res)->
-    # hiding the loader
-    @authors.empty()
+    cache.returned = true
+    # hiding the loader and .please-be-patient messages
+    @authors.$el.empty()
     if res? then spreadResults res
 
   _catchErr: (err)->
