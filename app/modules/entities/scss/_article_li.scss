@@ -17,6 +17,8 @@
   .date{
     font-size: 0.7em;
     opacity: 0.8;
+    // Avoid to have a parenthesis alone on the next line
+    white-space: nowrap;
   }
   position: relative;
   .right-bar{
@@ -40,7 +42,12 @@
     @include display-flex(row, center, center);
   }
   .fa-pencil{
+    // Hacky centering
+    margin-left: 0.6em;
+    margin-bottom: 0.4em;
     padding-left: 0.3em;
+    @include display-flex(row, center, center);
+    @include text-hover($grey, $dark-grey);
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
