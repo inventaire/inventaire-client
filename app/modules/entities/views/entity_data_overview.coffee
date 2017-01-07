@@ -22,7 +22,6 @@ module.exports = Marionette.ItemView.extend
 
   behaviors:
     PreventDefault: {}
-    PlainTextAuthorLink: {}
 
   onRender: ->
     app.execute 'uriLabel:update'

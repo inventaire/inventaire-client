@@ -1,6 +1,5 @@
 # inspired by some things there http://assemble.io/helpers/
-
-formatAuthor = require './format_author'
+{ SafeString, escapeExpression } = Handlebars
 
 module.exports =
   join: (array, separator)->
@@ -13,10 +12,12 @@ module.exports =
 
   default: (text, def)-> text or def
 
-  joinAuthors: (array, linkify)->
+  joinAuthors: (array)->
     array = _.compact array
     unless array?.length > 0 then return ''
-    # defaulting to true while taking care of neutralizing
-    # handlebars data object
-    unless _.isBoolean linkify then linkify = true
-    @join array.map(formatAuthor.bind(null, linkify))
+    return new SafeString(@join(array.map(linkifyAuthorString)) + '<br>')
+
+linkifyAuthorString = (text)->
+  str = escapeExpression text
+  q = _.fixedEncodeURIComponent text
+  return "<a href='/search?q=#{q}' class='link searchAuthor'>#{str}</a>"

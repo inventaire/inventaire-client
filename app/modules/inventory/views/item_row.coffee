@@ -5,7 +5,6 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/item_row'
   behaviors:
     PreventDefault: {}
-    PlainTextAuthorLink: {}
 
   initialize: ->
     @initPlugins()

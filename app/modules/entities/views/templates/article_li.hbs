@@ -24,7 +24,7 @@
 
   <p>
     {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}
-    {{stringClaim claims 'wdt:P2093' true true true}}  {{!-- author --}}
+    {{joinAuthors claims.wdt:P2093}}  {{!-- short author name --}}
   </p>
 
 </div>

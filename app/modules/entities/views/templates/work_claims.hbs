@@ -6,7 +6,7 @@
     {{stringClaim claims 'wdt:P1680'}} {{!-- subtitle --}}
     {{claim claims 'wdt:P364'}} {{!-- original language --}}
     {{claim claims 'wdt:P50' true null true}} {{!-- author --}}
-    {{{joinAuthors claims.wdt:P2093}}}<br> {{!-- short author name --}}
+    {{joinAuthors claims.wdt:P2093}} {{!-- short author name --}}
     {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
     {{timeClaim claims 'wdt:P577'}} {{!-- time of publication --}}
     {{claim claims 'wdt:P144' true}} {{!-- based on --}}
