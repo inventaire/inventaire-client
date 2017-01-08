@@ -1,8 +1,8 @@
 wdLang = require 'wikidata-lang'
-window.LANGS = languages = _.values wdLang.byCode
+languages = _.values wdLang.byCode
 
-module.exports = window.makeQuery = (query)->
-  re = new RegExp query
+module.exports = (query)->
+  re = new RegExp query.toLowerCase()
   # one more reason to move to Lodash asap, this would really need lazy evaluation
   results = _.chain languages
     .filter (language)-> language.label.toLowerCase().match re
