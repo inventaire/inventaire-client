@@ -1,3 +1,5 @@
+$author-data-threshold: 25em;
+
 .authorInfobox{
   margin: 0 auto;
   max-width: 60em;
@@ -39,12 +41,23 @@
   }
 }
 .authorData{
+  position: relative;
+  background-color: $darker-grey;
+  @include radius;
+  padding: 1em;
+  margin-bottom: 1em;
+  min-width: $author-data-threshold;
   color: white;
   h3{
     color: white;
     a{
       @include text-hover(white, #bbb);
     }
+  }
+  h4:empty{
+    padding: 0;
+    margin: 0;
+    height: 0;
   }
   .extract{
     text-align: left;
@@ -56,5 +69,17 @@
   }
   .source{
     @include link-underline-on-hover(#888, #aaa);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $author-data-threshold) {
+    min-width: auto;
+  }
+  /*Medium and Large screens*/
+  @media screen and (min-width: $author-data-threshold) {
+    .showEntityEdit.pencil{
+      position: absolute;
+      top: 0.5em;
+      right: 0.5em;
+    }
   }
 }
