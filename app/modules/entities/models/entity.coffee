@@ -19,7 +19,7 @@ initializeEdition = require '../lib/types/edition'
 #   - Edition
 
 # Progressively extending the whitelist of editable types
-editableTypes = [ 'work', 'edition' ]
+editableTypes = [ 'work', 'edition', 'human' ]
 
 module.exports = Backbone.NestedModel.extend
   initialize: (attrs)->

@@ -10,7 +10,7 @@ module.exports = (type)->
   # the searchType function should take a query string
   # and return an array of results
   searchType = switch type
-    when 'humans', 'genres', 'publishers', 'series' then elasticSearch type
+    when 'humans', 'genres', 'movements', 'publishers', 'series' then elasticSearch type
     when 'topics' then wikidataSearch
     when 'languages' then languageSearch
     else throw new Error("unknown type: #{type}")

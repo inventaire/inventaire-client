@@ -7,6 +7,7 @@ addProp = (property, editorType, source, multivalue=true, allowEntityCreation=fa
   properties[property] = { editorType, source, property, multivalue, allowEntityCreation }
 
 # Keep in sync with app/modules/entities/lib/editor/properties_per_type.coffee
+# and server/controllers/entities/lib/properties.coffee@inventaire/inventaire
 
 ## work
 # author
@@ -38,3 +39,16 @@ addProp 'wdt:P957', 'fixed-string', null, false, null
 addProp 'wdt:P407', 'entity', 'languages', true, null
 # number of pages
 addProp 'wdt:P1104', 'positive-integer', null, false, null
+
+## human
+# date of birth
+addProp 'wdt:P569', 'simple-day', null, false, null
+# date of death
+addProp 'wdt:P570', 'simple-day', null, false, null
+# languages of expression
+addProp 'wdt:P1412', 'entity', 'languages', true, null
+# influenced by
+addProp 'wdt:P737', 'entity', 'humans', true, true
+# movement
+addProp 'wdt:P135', 'entity', 'movements', true, false
+# genre (already added for works)

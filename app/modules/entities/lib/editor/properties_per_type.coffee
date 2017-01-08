@@ -1,4 +1,5 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
+# and server/controllers/entities/lib/properties.coffee
 
 module.exports =
   work: [
@@ -31,4 +32,12 @@ module.exports =
     'wdt:P123' # publisher
     'wdt:P577' # date of publication
     'wdt:P1104' # number of pages
+  ]
+  human: [
+    'wdt:P1412' # languages of expression
+    'wdt:P135' # movement
+    'wdt:P136' # genres
+    'wdt:P569' # date of birth
+    'wdt:P570' # date of death
+    'wdt:P737' # date of death
   ]
