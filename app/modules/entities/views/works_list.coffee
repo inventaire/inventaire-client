@@ -19,8 +19,6 @@ module.exports = Marionette.CompositeView.extend
   childViewOptions: (model, index)->
     refresh: @options.refresh
 
-  emptyView: require 'modules/inventory/views/no_item'
-
   ui:
     counter: '.counter'
     more: 'div.more'

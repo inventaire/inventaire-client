@@ -1,5 +1,7 @@
+$author-layout-bg: #292929;
+
 .authorLayout{
-  background-color: #292929;
+  background-color: $author-layout-bg;
   // allow to have no margin when there is only one .authorLayout
   &:not(:first-child){
     margin-top: 1em;
@@ -41,6 +43,11 @@
     }
   }
   @import './author_infobox';
+  &:not(.wrapped){
+    .unwrap{
+      display: none;
+    }
+  }
 }
 
 .innerAuthorLi{
@@ -67,5 +74,32 @@
     .workLi:first-child{
       margin-top: 1em;
     }
+  }
+}
+
+#searchLayout .authorLayout.wrapped, .authorLayout.wrapped{
+  padding: 0;
+  h3{
+    font-size: 1.2em;
+  }
+  h4{
+    font-size: 1em;
+    margin: 0;
+  }
+  .innerAuthorLi, .authorData, .subentities, .authorInfobox{
+    padding: 0;
+    margin: 0;
+  }
+  .image-wrapper, .wiki-attributes, .extract{
+    display: none;
+  }
+  .authorInfobox{
+    position: relative;
+  }
+  .unwrap{
+    position: absolute;
+    top: 10%;
+    right: 0;
+    color: white;
   }
 }

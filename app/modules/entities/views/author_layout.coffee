@@ -4,7 +4,11 @@ WorksList = require './works_list'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/author_layout'
-  className: 'authorLayout'
+  className: ->
+    # Default to wrapped mode in non standalone mode
+    secondClass = if @options.standalone then 'standalone' else 'wrapped'
+    return "authorLayout #{secondClass}"
+
   behaviors:
     Loading: {}
 
@@ -26,6 +30,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click .refreshData': 'refreshData'
+    'click .unwrap': 'unwrap'
 
   serializeData: ->
     _.extend @model.toJSON(),
@@ -68,6 +73,11 @@ module.exports = Marionette.LayoutView.extend
     .then @_showWorks.bind(@)
 
   _showWorks: ->
+    { works, series, articles } = @model.works
+    total = works.totalLength + series.totalLength + articles.totalLength
+
+    if total > 0 then @unwrap()
+
     @showWorkCollection 'works'
 
     if @model.works.series.totalLength > 0
@@ -76,6 +86,8 @@ module.exports = Marionette.LayoutView.extend
 
     if @model.works.articles.totalLength > 0
       @showWorkCollection 'articles'
+
+  unwrap: -> @$el.removeClass 'wrapped'
 
   showWorkCollection: (type, initialLength)->
     @["#{type}Region"].show new WorksList
