@@ -101,7 +101,8 @@ module.exports = Filterable.extend
       attrs.hasActiveTransaction = @hasActiveTransaction()
 
     # picture may be undefined
-    attrs.picture = attrs.pictures?[0]
+    attrs.picture = @getPicture()
+    attrs.authors = @get('snapshot.entity:authors')
 
     return attrs
 
@@ -117,7 +118,7 @@ module.exports = Filterable.extend
   matchable: ->
     [
       @get('title')
-      @get('authors')
+      @get('snapshot.entity:authors')
       @username
       @get('details')
       @get('notes')
@@ -154,8 +155,10 @@ module.exports = Filterable.extend
     app.execute 'metadata:update',
       title: @findBestTitle()
       description: @findBestDescription()?[0..500]
-      image: @get('pictures')?[0]
+      image: @getPicture()
       url: @pathname
+
+  getPicture: -> @get('pictures')?[0] or @get('snapshot.entity:image')
 
   findBestTitle: ->
     title = @get('title')
@@ -171,24 +174,21 @@ module.exports = Filterable.extend
   # keep a copy of authors as a string on the item
   lookForMissingData: ->
     if @restricted then return
-    @lookForPicture()
+    @updateEntityImage()
     @updateAuthor()
 
-  updateAuthor: ->
-    current = @get 'authors'
-    @entity.getAuthorsString()
-    .then (update)=>
-      if _.isNonEmptyString(update) and current isnt update
-        _.log [current, update], 'updateAuthor'
-        @saveWhenPossible 'authors', update
-    .catch _.Error('updateAuthor')
-
-  lookForPicture: ->
+  updateEntityImage: ->
     # pass if the item already has a picture
     if @get('pictures')?[0]? then return
-    entityPictures = @entity.get 'pictures'
-    if _.isArray(entityPictures) and entityPictures.length > 0
-      @saveWhenPossible 'pictures', entityPictures
+
+    @entity.getImageAsync()
+    .then (image)=>
+      if image?.url? then @saveSnapshotData 'entity:image', image.url
+
+  updateAuthor: ->
+    @entity.getAuthorsString()
+    .then @saveSnapshotData.bind(@, 'entity:authors')
+    .catch _.Error('updateAuthor')
 
   hasActiveTransaction: ->
     # the reqres 'has:transactions:ongoing:byItemId' wont be defined
@@ -196,14 +196,21 @@ module.exports = Filterable.extend
     unless app.user.loggedIn then return false
     return app.request 'has:transactions:ongoing:byItemId', @id
 
-  saveWhenPossible: (key, value)->
+  # Save snapshot data (i.e. data saved to the item document for convenience
+  # but whose master data live elsewhere)
+  # Those data shouldn't be set on the item model, as it would be sent
+  # to the server on @save, as long as all the other 'official' attributes
+  saveSnapshotData: (key, value)->
+    snapshotKey = "snapshot.#{key}"
+    currentValue = @get snapshotKey
+
+    if not _.isNonEmptyString(value) or value is currentValue then return _.preq.resolved
+
     if @id is 'new'
       # the item wasn't created yet in the database
       # and updating right now would thus create a dupplicate
-      _.log arguments, 'delayed item save'
       # return a promise to keep the interface consistant
-      return _.preq.delay(1000).then @saveWhenPossible.bind(@, key, value)
+      return _.preq.delay(1000).then @saveSnapshotData.bind(@, key, value)
     else
-      _.log arguments, 'finally saving item'
       # wrapping the jQuery promise
-      return _.preq.resolve @save(key, value)
+      return _.preq.wrap @save(snapshotKey, value), arguments

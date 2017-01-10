@@ -126,7 +126,7 @@ module.exports = Backbone.NestedModel.extend
     app.execute 'metadata:update',
       title: @buildTitleAsync()
       description: @findBestDescription()?[0..500]
-      image: @get('images.url')
+      image: @getImageAsync()
       url: @get 'pathname'
 
   findBestDescription: ->
@@ -140,3 +140,4 @@ module.exports = Backbone.NestedModel.extend
   # Override in with type-specific methods
   buildTitle: -> @get 'label'
   buildTitleAsync: -> _.preq.resolve @buildTitle()
+  getImageAsync: -> _.preq.resolve @get('image')

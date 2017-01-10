@@ -1,5 +1,5 @@
-wd_ = require 'lib/wikimedia/wikidata'
 publicDomainThresholdYear = new Date().getFullYear() - 70
+commonsSerieWork = require './commons_serie_work'
 
 module.exports = ->
   # Main property by which sub-entities are linked to this one: edition of
@@ -58,20 +58,12 @@ setEbooksData = ->
   @set 'hasEbooks', (hasGutenbergPage or hasWikisourcePage)
   @set 'gutenbergProperty', 'wdt:P2034'
 
-specificMethods =
-  getAuthorsString: ->
-    P50 = @get 'claims.wdt:P50'
-    unless P50?.length > 0 then return _.preq.resolve ''
-    return wd_.getLabel P50, app.user.lang
-
-  buildTitle: ->
-    title = @get 'label'
-    P31 = @get 'claims.wdt:P31.0'
-    type = _.I18n(typesString[P31] or 'book')
-    return "#{title} - #{type}"
-
 typesString =
   'wd:Q571': 'book'
   'wd:Q1004': 'comic book'
   'wd:Q8274': 'manga'
   'wd:Q49084': 'short story'
+
+specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
+  # wait for setImage to have run
+  getImageAsync: -> @waitForSubentities.then => @get 'image'
