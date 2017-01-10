@@ -91,8 +91,12 @@ module.exports = Marionette.LayoutView.extend
 
   showWorkCollection: (type, initialLength)->
     @["#{type}Region"].show new WorksList
+      parentModel: @model
       collection: @model.works[type]
-      type: type
+      title: type
+      type: dropThePlural type
       initialLength: initialLength
 
   refreshData: -> app.execute 'show:entity:refresh', @model
+
+dropThePlural = (type)-> type.replace /s$/, ''

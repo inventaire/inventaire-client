@@ -1,13 +1,18 @@
 Works = require '../../collections/works'
+commonsSerieWork = require './commons_serie_work'
 
 module.exports = ->
   # Main property by which sub-entities are linked to this one
-  @childrenClaimProperty = 'wdt:P361'
+  @childrenClaimProperty = 'wdt:P179'
 
   _.extend @, specificMethods
 
+typesString =
+  'wd:Q277759': 'book series'
+  'wd:Q14406742': 'comic book series'
+  'wd:Q21198342': 'manga series'
 
-specificMethods =
+specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
   initSerieParts: (refresh)->
     if not refresh and @waitForParts? then return @waitForParts
 

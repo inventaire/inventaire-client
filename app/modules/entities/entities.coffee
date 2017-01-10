@@ -98,18 +98,10 @@ API =
     .catch handleMissingEntityError.bind(null, 'showEditEntity err')
 
   showEntityCreateFromRoute: ->
-    type = decodeURIComponent app.request('querystring:get', 'type')
-    label = decodeURIComponent app.request('querystring:get', 'label')
-    showEntityCreate type, label
-
-  # solveMissingEntity: (uri, err)->
-  #   if err.message is 'entity_not_found' then @showCreateEntity id
-  #   else throw err
-
-  # showCreateEntity: (isbn)->
-  #   app.layout.main.show new EntityCreate
-  #     data: isbn
-  #     standalone: true
+    type = app.request 'querystring:get', 'type'
+    label = app.request 'querystring:get', 'label'
+    claims = app.request 'querystring:get', 'claims'
+    showEntityCreate type, label, claims
 
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
@@ -120,15 +112,12 @@ API =
     app.navigateReplace 'entities/changes'
     app.layout.main.Show new ChangesLayout
 
-showEntityCreate = (type, label)->
+showEntityCreate = (type, label, claims)->
   unless type in entityDraftModel.whitelistedTypes
-    err = error_.new 'invalid entity draft type', arguments
+    err = error_.new "invalid entity draft type: #{type}", arguments
     return app.execute 'show:error:other', err
 
-  model = entityDraftModel.create
-    type: type
-    label: label
-    # minimized: true
+  model = entityDraftModel.create { type, label, claims }
   showEntityEdit model
 
 setHandlers = ->
@@ -153,9 +142,9 @@ setHandlers = ->
       showEntityEdit entity
       app.navigate entity.get('edit')
 
-    'show:entity:create': (type, label)->
-      showEntityCreate type, label
-      path = _.buildPath 'entity/new', { type, label }
+    'show:entity:create': (type, label, claims)->
+      showEntityCreate type, label, claims
+      path = _.buildPath 'entity/new', { type, label, claims }
       app.navigate path
 
   app.reqres.setHandlers

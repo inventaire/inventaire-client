@@ -1,10 +1,17 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 # and server/controllers/entities/lib/properties.coffee
 
-module.exports =
-  work: [
+commonsSeriesWorks = [
+  'wdt:P50' # author
+  'wdt:P136' # genre
+  'wdt:P921' # main subject
+  # 'wdt:P840' # narrative location
+  # 'wdt:P674' # characters
+]
+
+module.exports = propertiesPerType =
+  work: commonsSeriesWorks.concat [
     # 'wdt:P31' # instance of (=> works aliases)
-    'wdt:P50' # author
     # 'wdt:P110' # illustrator
     # 'wdt:P577' # publication date
     'wdt:P179' # series
@@ -13,10 +20,6 @@ module.exports =
     # 'wdt:P1680' # subtitle (using P364 lang)
     # 'wdt:P155' # follow
     # 'wdt:P156' # is follow by
-    'wdt:P136' # genre
-    'wdt:P921' # main subject
-    # 'wdt:P840' # narrative location
-    # 'wdt:P674' # characters
 
     # Reverse properties
     'wdt:P747' # editions (inverse of wdt:P629)
@@ -41,3 +44,4 @@ module.exports =
     'wdt:P570' # date of death
     'wdt:P737' # date of death
   ]
+  serie: commonsSeriesWorks

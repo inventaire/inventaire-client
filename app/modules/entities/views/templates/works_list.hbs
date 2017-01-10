@@ -5,11 +5,14 @@
   </div>
 {{/unless}}
 <div class="container"></div>
-{{#if more}}
-  <div class="more">
+<div class="works-list-controls">
+  {{#if more}}
     <a class="displayMore">
-      {{icon 'chevron-down'}}{{i18n 'more'}}
+      {{icon 'chevron-down'}}{{i18n 'display more'}}
       <span class="counter">{{more}}</span>
     </a>
-  </div>
-{{/if}}
+  {{/if}}
+  <a href="{{addOne.href}}" class="addOne {{#if more}}hidden{{/if}}">
+    {{icon 'plus'}}{{i18n addOne.label}}
+  </a>
+</div>

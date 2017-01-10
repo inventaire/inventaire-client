@@ -6,6 +6,7 @@ module.exports = Marionette.CompositeView.extend
   className: 'worksList'
   behaviors:
     Loading: {}
+    PreventDefault: {}
 
   childViewContainer: '.container'
   getChildView: (model)->
@@ -21,8 +22,9 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     counter: '.counter'
-    more: 'div.more'
-    moreCounter: 'div.more .counter'
+    more: '.displayMore'
+    addOne: '.addOne'
+    moreCounter: '.displayMore .counter'
 
   initialize: ->
     initialLength = @options.initialLength or 5
@@ -34,22 +36,60 @@ module.exports = Marionette.CompositeView.extend
     # First fetch
     @collection.firstFetch initialLength
 
+    @setEntityCreationData()
+
   events:
     'click a.displayMore': 'displayMore'
+    'click a.addOne': 'addOne'
+
+  setEntityCreationData: ->
+    { type, parentModel } = @options
+    { type:parentType } =  parentModel
+
+    claims = {}
+    prop = parentModel.childrenClaimProperty
+    claims[prop] = [ parentModel.get('uri') ]
+
+    if parentType is 'serie'
+      claims['wdt:P50'] = parentModel.get 'claims.wdt:P50'
+
+    href = _.buildPath '/entity/new', { type, claims }
+
+    @_entityCreationData = { type, claims, href }
+
+  serializeData: ->
+    title: @options.title
+    hideHeader: @options.hideHeader
+    more: @more()
+    canRefreshData: true
+    totalLength: @collection.totalLength
+    addOne:
+      label: addOneLabels[@options.parentModel.type][@options.type]
+      href: @_entityCreationData.href
 
   displayMore: ->
     @startMoreLoading()
 
     @collection.fetchMore @batchLength
     .then =>
-      if @more() then @ui.moreCounter.text @more()
-      else @ui.more.hide()
+      if @more()
+        @ui.moreCounter.text @more()
+      else
+        @ui.more.hide()
+        @ui.addOne.removeClass 'hidden'
 
   startMoreLoading: -> @ui.moreCounter.html spinner
 
-  serializeData: ->
-    title: @options.type
-    hideHeader: @options.hideHeader
-    more: @more()
-    canRefreshData: true
-    totalLength: @collection.totalLength
+  addOne: (e)->
+    unless _.isOpenedOutside e
+      { type, claims } = @_entityCreationData
+      app.execute 'show:entity:create', type, null, claims
+
+addOneLabels =
+  # parent model type
+  human:
+    # list elements type
+    work: 'add a work from this author'
+    serie: 'add a serie from this author'
+  serie:
+    work: 'add a work from this serie'

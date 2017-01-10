@@ -1,16 +1,21 @@
 .worksList{
-  div.more{
-    @include display-flex(column, center, center);
+  div.works-list-controls{
+    @include display-flex(row, center, center, wrap);
     text-align: center;
-    height: 3em;
-    a.displayMore{
-      width: 10em;
+    a{
+      height: 3em;
+      max-width: 15em;
+      min-width: 10em;
       margin: 0.2em;
       flex: 1 1 auto;
       @include radius;
-      @include display-flex(row, center, center);
       @include bg-hover($dark-grey);
       color: white;
+      &:not(.hidden){
+        @include display-flex(row, center, center);
+      }
+    }
+    a.displayMore{
       .counter{
         background-color: $grey;
         color: white;

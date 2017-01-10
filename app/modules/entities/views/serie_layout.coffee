@@ -41,7 +41,9 @@ module.exports = Marionette.LayoutView.extend
     behaviorsPlugin.stopLoading.call @
 
     @parts.show new WorksList
+      parentModel: @model
       collection: @model.parts
-      type: 'works'
+      title: 'works'
+      type: 'work'
       hideHeader: true
       refresh: @options.refresh
