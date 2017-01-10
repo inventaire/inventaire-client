@@ -41,11 +41,11 @@
     }
     @include radius-top;
   }
-  figure {
+  figure{
     // determines the croppers width
     width: 100%;
     &.selected{
-      .original {
+      .original{
         box-shadow: 0 -0.1em 0.6em rgba(20,20,90,0.7);
       }
       figcaption{

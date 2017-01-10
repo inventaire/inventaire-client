@@ -37,7 +37,7 @@ $shadow-color: rgba(34, 25, 25, 0.4);
 }
 
 @mixin shy-border-vertical-group($opacity:0.2){
-  > div {
+  > div{
     @include shy-border-sides($opacity);
     &:first-child{ @include shy-border-bottom-less($opacity) }
     &:last-child{ @include shy-border-top-less($opacity) }

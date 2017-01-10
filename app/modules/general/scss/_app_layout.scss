@@ -7,7 +7,7 @@ $sideNavWidth: 280px;
 
 body{
   #topBar{}
-  main {
+  main{
     @include display-flex(column);
   }
   #modal{

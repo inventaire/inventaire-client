@@ -1,6 +1,6 @@
 .edition-data{
   @include display-flex(row, flex-start, center);
-  > div {
+  > div{
     margin-left: 1em;
     margin-right: 1em;
   }

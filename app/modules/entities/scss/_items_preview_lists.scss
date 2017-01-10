@@ -49,7 +49,7 @@ $preview-icon-base-size: 2em;
     background-color: white;
     .items-lists-per-transactions{
       @include display-flex(column, center, center);
-      > div {
+      > div{
         width: 100%;
       }
     }

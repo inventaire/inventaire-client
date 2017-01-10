@@ -47,7 +47,7 @@ nav.top-bar {
     @include display-flex(row, center);
   }
 
-  .counter {
+  .counter{
     @include counter-commons;
     @include display-flex(row, center, center);
     padding: 0rem 0.4rem 0.1rem 0.4rem;

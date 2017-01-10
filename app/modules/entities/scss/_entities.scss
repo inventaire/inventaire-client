@@ -79,7 +79,7 @@
   margin-right: 0.5em;
 }
 
-.workLayout, .editionLi {
+.workLayout, .editionLi{
   .add{
     @include tiny-button($light-blue);
     margin: 0 auto;
@@ -96,7 +96,7 @@
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
   .workActions{
-    .button-group > li {
+    .button-group > li{
       // overriding Foundation "margin 0 0.2px;" value
       margin: 0;
     }

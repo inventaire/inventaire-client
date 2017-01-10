@@ -52,7 +52,7 @@ img.icon{
 
 // OPACITY
 // see Foundation _visibility for media-specific classes
-.hidden {
+.hidden{
   // DONT !important it as it seems it can't be shown then
   display: none;
 }
@@ -81,7 +81,7 @@ img.icon{
   padding: 0.2rem;
 }
 
-.fa.monospaced {
+.fa.monospaced{
   width: 1.2rem;
   text-align: center;
 }
@@ -117,10 +117,10 @@ p.bold, span.bold, a.bold{
   font-weight: 900;
 }
 
-select {
+select{
   // FontAwesome is needed to correctly display icons
   font-family: 'FontAwesome', $sans-serif;
-  option {
+  option{
     // works in Firefox not Chrome
     font-size: 1rem;
     padding-top: 0.2rem;

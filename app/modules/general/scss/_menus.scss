@@ -2,7 +2,7 @@
   text-align: center;
   &.standalone{
     @include custom-column(40em);
-    > div {
+    > div{
       background-color: white;
       padding: 1em;
     }

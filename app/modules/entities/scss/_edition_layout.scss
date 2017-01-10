@@ -14,7 +14,7 @@
   @include display-flex(column, center, center);
   max-width: 50em;
   margin: 1em auto;
-  h2 {
+  h2{
     text-align: center;
     a{
       @include underline-on-hover($dark-grey);
