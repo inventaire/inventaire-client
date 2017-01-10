@@ -3,7 +3,7 @@ module.exports = (regex_)->
 
   bindedTest = (regexName)-> regex_[regexName].test.bind regex_[regexName]
 
-  return tests =
+  tests =
     isUrl: bindedTest 'Url'
     isIpfsPath: bindedTest 'IpfsPath'
     isLocalImg: bindedTest 'LocalImg'
@@ -16,3 +16,7 @@ module.exports = (regex_)->
     isEntityUri: bindedTest 'EntityUri'
     isPropertyUri: bindedTest 'PropertyUri'
     isSimpleDay: bindedTest 'SimpleDay'
+
+  tests.isExtendedUrl = (str)-> tests.isUrl(str) or tests.isIpfsPath(str)
+
+  return tests
