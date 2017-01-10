@@ -1,0 +1,34 @@
+.authorInfobox, .serieInfobox{
+  h3, h4{
+    color: white;
+    a.link{
+      @include text-hover(white, #bbb);
+    }
+  }
+  h4:empty{
+    padding: 0;
+    margin: 0;
+    height: 0;
+  }
+  .extract{
+    text-align: left;
+    padding: 1em;
+    &:empty{
+      padding: 0;
+      height: 0;
+    }
+  }
+  .source{
+    @include link-underline-on-hover(#888, #aaa);
+  }
+  // Typically a signature
+  .image-claim{
+    // Signatures are often dark and sometimes with a transparent background
+    // thus the need to add a white background for contrast
+    background-color: white;
+    @include radius;
+  }
+  .wdt-P109{
+    margin-top: 1em;
+  }
+}

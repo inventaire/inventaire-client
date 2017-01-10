@@ -36,7 +36,8 @@ module.exports = API =
     if claims?[prop]?[0]?
       file = claims[prop][0]
       src = commons_.smallThumb file, 200
-      return new SafeString "<img src=\"#{src}\">"
+      propClass = prop.replace ':', '-'
+      return new SafeString "<img class='image-claim #{propClass}' src='#{src}'>"
 
   stringClaim: (args...)->
     [ claims, prop, linkify, omitLabel, inline ] = neutralizeDataObject args
