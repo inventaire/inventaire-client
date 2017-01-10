@@ -40,6 +40,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs.creationMode = @creationMode
+    attrs.createAndReturnLabel = "create and return to the #{attrs.type}'s page"
     attrs.creating = @model.creating
     return attrs
 

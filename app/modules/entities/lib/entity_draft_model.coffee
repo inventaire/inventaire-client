@@ -24,11 +24,12 @@ module.exports =
 
     claims['wdt:P31'] = [ defaultP31 ]
 
-    model = new Backbone.NestedModel { labels: {}, claims }
-
+    labels = {}
     if label?
       # use the label we got as a label suggestion
-      model.set "labels.#{app.user.lang}", label
+      labels[app.user.lang] = label
+
+    model = new Backbone.NestedModel { type, labels, claims }
 
     _.extend model,
       type: type
