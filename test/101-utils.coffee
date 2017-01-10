@@ -30,7 +30,10 @@ describe 'Utils', ->
   queries =
     good: 'category=book&text=whatever&claim=youknowhat&answer=imhappy'
     goodToo: '?category=book&text=whatever&claim=youknowhat&answer=imhappy'
+    goodEncoded: 'label=ench%C3%A2nt%C3%A9'
     uncompleteButGood: '?category=book&text=&claim=&answer=imhappy'
+    goodWithObject: 'action=man&data={"a":["abc",2]}'
+    goodWithEncodedObject: 'action=man&data={%22wdt:P50%22:[%22wd:Q535%22]}'
 
   describe 'parseQuery', ->
     it 'should return an object', (done)->
@@ -48,6 +51,21 @@ describe 'Utils', ->
       for k,v of queryObj
         k[0].should.not.equal '?'
       _.isEqual(_.parseQuery(queries.goodToo), _.parseQuery(queries.good)).should.be.true
+      done()
+
+    it 'should decode encoded strings', (done)->
+      queryObj = _.parseQuery queries.goodEncoded
+      queryObj.should.deepEqual { label: 'enchânté' }
+      done()
+
+    it 'should parse JSON strings', (done)->
+      queryObj = _.parseQuery queries.goodWithObject
+      queryObj.should.deepEqual { action: 'man', data: { a: ['abc', 2] } }
+      done()
+
+    it 'should parse and decode encoded JSON strings', (done)->
+      queryObj = _.parseQuery queries.goodWithEncodedObject
+      queryObj.should.deepEqual { action: 'man', data: {'wdt:P50': ['wd:Q535']} }
       done()
 
   describe 'pickToArray', ->

@@ -19,6 +19,7 @@ module.exports = (_)->
       queryString = ''
       for k,v of queryObj
         if escape then v = dropSpecialCharacters v
+        if _.isObject v then v = JSON.stringify v
         queryString += "&#{k}=#{v}"
       return pathname + '?' + queryString[1..-1]
     else pathname

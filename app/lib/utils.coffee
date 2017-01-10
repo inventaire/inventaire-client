@@ -21,10 +21,7 @@ module.exports = (Backbone, _, $, app, window)->
       queryString
       .replace /^\?/, ''
       .split '&'
-      .forEach (param)->
-        pairs = param.split '='
-        if pairs[0]?.length > 0 and pairs[1]?
-          query[pairs[0]] = _.softDecodeURI pairs[1]
+      .forEach ParseKeysValues(query)
     return query
 
   # Should not be useful anymore as urls with labels were removed
@@ -216,3 +213,18 @@ Date.now or= -> new Date().getTime()
 
 # source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
 isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+
+ParseKeysValues = (queryObj)-> (param)->
+  pairs = param.split '='
+  [ key, value ] = pairs
+  if key?.length > 0 and value?
+    # Try to parse the value, allowing JSON strings values
+    # like data={%22wdt:P50%22:[%22wd:Q535%22]}
+    value = permissiveJsonParse decodeURIComponent(value)
+    # If it's still a string and not an object, soft decode it
+    if _.isString value then value = _.softDecodeURI value
+    queryObj[key] = value
+
+permissiveJsonParse = (input)->
+  try JSON.parse input
+  catch err then input

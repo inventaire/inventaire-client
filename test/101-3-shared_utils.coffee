@@ -17,6 +17,11 @@ describe 'Shared Utils', ->
       path.should.equal 'http://hero/api?action=man'
       done()
 
+    it 'should stringify object value', (done)->
+      path = _.buildPath 'http://hero/api', {action: 'man', data: { a: ['abc', 2]}}
+      path.should.equal 'http://hero/api?action=man&data={"a":["abc",2]}'
+      done()
+
   describe 'randomString', ->
     it 'should return a string', (done)->
       _.randomString(10).should.be.a.String()
