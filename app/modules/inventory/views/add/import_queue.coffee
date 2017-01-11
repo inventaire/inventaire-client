@@ -23,6 +23,7 @@ module.exports = Marionette.CompositeView.extend
     ItemCreationSelect:
       behaviorClass: ItemCreationSelect
     AlertBox: {}
+    Loading: {}
 
   serializeData: ->
     listings: listingsData()
@@ -134,6 +135,7 @@ module.exports = Marionette.CompositeView.extend
 
   startProgressUpdate: ->
     @intervalId = setInterval @updateProgress.bind(@), 1000
+
   stopProgressUpdate: ->
     clearInterval @intervalId
 
