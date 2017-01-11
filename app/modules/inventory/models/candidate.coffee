@@ -3,15 +3,15 @@ module.exports = Backbone.Model.extend
     @set 'selected', true
 
   createItem: (transaction, listing)->
-    [ title, isbn, authors ] = @gets 'title', 'isbn', 'authors'
+    [ title, isbn ] = @gets 'title', 'isbn'
     itemModel = app.request 'item:create',
       title: title
       entity: "isbn:#{isbn}"
-      authors: authors
       transaction: transaction
       listing: listing
 
-    # return a promise that waits for the item entity
-    return itemModel.waitForEntity
+    itemModel._creationPromise
+    # waits for the item entity
+    .then -> itemModel.waitForEntity
     # before resolving to the item model
     .then -> itemModel

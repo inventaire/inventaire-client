@@ -1,5 +1,7 @@
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
+error_ = require 'lib/error'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.CompositeView.extend
   className: 'import-queue'
@@ -20,6 +22,7 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     ItemCreationSelect:
       behaviorClass: ItemCreationSelect
+    AlertBox: {}
 
   serializeData: ->
     listings: listingsData()
@@ -100,7 +103,8 @@ module.exports = Marionette.CompositeView.extend
         # recursively trigger next import
         @chainedImport transaction, listing
 
-      .catch _.ErrorRethrow('chainedImport')
+      .catch error_.Complete('.validation')
+      .catch forms_.catchAlert.bind(null, @)
 
     else
       _.log 'done importing!'
