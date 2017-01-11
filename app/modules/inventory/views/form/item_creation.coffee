@@ -3,6 +3,7 @@ zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 error_ = require 'lib/error'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
@@ -13,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
     ElasticTextarea: {}
     ItemCreationSelect:
       behaviorClass: ItemCreationSelect
+    AlertBox: {}
 
   ui:
     transaction: '#transaction'
@@ -34,14 +36,13 @@ module.exports = Marionette.LayoutView.extend
       transaction: @guessTransaction()
       listing: @guessListing()
 
-    imageUrl = @entity.get 'image.url'
-    if imageUrl?
-      attrs.pictures = [ imageUrl ]
-
     unless attrs.entity? and attrs.title?
       throw error_.new 'missing uri or title at item creation from entity', attrs
 
     @model = app.request 'item:create', attrs
+
+    @model._creationPromise
+    .catch @_catchAlert.bind(@)
 
   guessTransaction: ->
     transaction = @options.transaction or app.request('last:transaction:get')
@@ -102,13 +103,11 @@ module.exports = Marionette.LayoutView.extend
     transaction = getSelectorData @, 'transaction'
     app.execute 'last:transaction:set', transaction
     @updateItem { transaction }
-    .catch _.Error('updateTransaction err')
 
   updateListing: ->
     listing = getSelectorData @, 'listing'
     app.execute 'last:listing:set', listing
     @updateItem { listing }
-    .catch _.Error('updateListing err')
 
   updateDetails: -> @updateTextAttribute 'details'
   updateNotes: -> @updateTextAttribute 'notes'
@@ -118,17 +117,18 @@ module.exports = Marionette.LayoutView.extend
     update = {}
     update[attr] = val
     @updateItem update
-    .catch _.Error('updateTextAttribute err')
 
   validateSimple: ->
     @validateItem()
     .then -> app.execute 'show:inventory:main:user'
-    .catch _.Error('validateSimple err')
 
   validateAndAddNext: ->
     @validateItem()
     .then @addNext.bind(@)
-    .catch _.Error('validateAndAddNext err')
+
+  _catchAlert: (err)->
+    err.selector = '.panel'
+    forms_.catchAlert @, err
 
   addNext: ->
     switch @_lastAddMode
@@ -146,15 +146,17 @@ module.exports = Marionette.LayoutView.extend
     @updateItem
       details: @ui.details.val()
       notes: @ui.notes.val()
+    .catch @_catchAlert.bind(@)
 
   updateItem: (data)->
     app.request 'item:update',
       item: @model
       data: data
+    .catch @_catchAlert.bind(@)
 
   destroyItem: ->
     _.log 'item creation cancelled: destroying item'
     @model.destroy()
     .then _.Log('item destroyed')
     .then -> window.history.back()
-    .catch _.Error('destroyItem err')
+    .catch @_catchAlert.bind(@)
