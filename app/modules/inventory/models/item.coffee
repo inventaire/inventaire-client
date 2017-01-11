@@ -212,5 +212,4 @@ module.exports = Filterable.extend
       # return a promise to keep the interface consistant
       return _.preq.delay(1000).then @saveSnapshotData.bind(@, key, value)
     else
-      # wrapping the jQuery promise
-      return _.preq.wrap @save(snapshotKey, value), arguments
+      return @save snapshotKey, value

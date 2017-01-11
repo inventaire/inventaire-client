@@ -12,7 +12,7 @@ module.exports = (options)->
   condition ?= true
 
   if condition
-    fetchPromise = _.preq.wrap collection.fetch(fetchOptions), { url: collection.url() }
+    fetchPromise = collection.fetch fetchOptions
   else
     fetchPromise = _.preq.resolved
 

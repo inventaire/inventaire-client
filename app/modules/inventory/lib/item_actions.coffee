@@ -8,7 +8,7 @@ module.exports =
 
     itemModel = app.items.add itemData
 
-    itemModel._creationPromise = _.preq.wrap itemModel.save(), itemData
+    itemModel._creationPromise = itemModel.save()
       .then _.Log('item creation server res')
       .then itemModel.onCreation.bind(itemModel)
       .catch _.ErrorRethrow('item creation err')
@@ -29,7 +29,7 @@ module.exports =
       _.type attribute, 'string'
       item.set attribute, value
 
-    promise = _.preq.wrap item.save(), options
+    promise = item.save()
     if selector?
       app.request 'waitForCheck',
         promise: promise

@@ -60,5 +60,5 @@ deleteComment = (commentModel, view)->
   view.$el.trigger 'askConfirmation',
     confirmationText: _.i18n 'comment_delete_confirmation'
     warningText: _.i18n 'cant_undo_warning'
-    action: -> _.preq.resolve commentModel.destroy()
+    action: commentModel.destroy.bind(commentModel)
     selector: view.uniqueSelector

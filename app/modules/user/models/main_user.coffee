@@ -79,7 +79,7 @@ module.exports = UserCommons.extend
   deleteAccount: ->
     console.log 'starting to play "Somebody that I use to know" and cry a little bit'
 
-    _.preq.wrap @destroy()
+    @destroy()
     .then -> app.execute 'logout'
 
   # maintain the API parity with other user models

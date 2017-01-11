@@ -55,6 +55,19 @@ module.exports = (_)->
     @trigger 'grab', name, model
     @trigger "grab:#{name}", model
 
+  # Wrapping Backbone internal functions to get custom error handling
+  # and A-promises instead of jQuery errors and promises
+  WrapModelRequests = (ClassObj, fnName)->
+    originalFn = ClassObj.prototype[fnName]
+    wrappedFn = -> _.preq.wrap originalFn.apply(@, arguments), arguments
+    ClassObj.prototype[fnName] = wrappedFn
+
+  WrapModelRequests Backbone.Model, 'save'
+  WrapModelRequests Backbone.Model, 'destroy'
+  WrapModelRequests Backbone.Model, 'fetch'
+  WrapModelRequests Backbone.Collection, 'fetch'
+  WrapModelRequests Backbone.Collection, 'destroy'
+
   Backbone.Collection::findOne = -> @models[0]
   Backbone.Collection::byId = (id)-> @_byId[id]
   Backbone.Collection::byIds = (ids)-> ids.map (id)=> @_byId[id]
