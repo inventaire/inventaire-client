@@ -15,7 +15,11 @@
     </h3>
     <hr>
     <div class="authors">
-      {{claim entityData.claims 'wdt:P50'}}
+      {{#if entityData.claims.wdt:P50}}
+        {{claim entityData.claims 'wdt:P50'}}
+      {{else}}
+        {{authors}}
+      {{/if}}
     </div>
   </div>
 </a>
