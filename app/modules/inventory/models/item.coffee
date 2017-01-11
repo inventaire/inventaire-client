@@ -196,6 +196,15 @@ module.exports = Filterable.extend
     unless app.user.loggedIn then return false
     return app.request 'has:transactions:ongoing:byItemId', @id
 
+  # Gather save actions
+  lazySave: (key, value)->
+    # Created a debounced save function if non was created before
+    @_lazySave or= _.debounce @save.bind(@), 200
+    # Set any passed
+    @set key, value
+    # Trigger it
+    @_lazySave()
+
   # Save snapshot data (i.e. data saved to the item document for convenience
   # but whose master data live elsewhere)
   # Those data shouldn't be set on the item model, as it would be sent
@@ -212,4 +221,4 @@ module.exports = Filterable.extend
       # return a promise to keep the interface consistant
       return _.preq.delay(1000).then @saveSnapshotData.bind(@, key, value)
     else
-      return @save snapshotKey, value
+      return @lazySave snapshotKey, value
