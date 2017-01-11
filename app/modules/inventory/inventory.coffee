@@ -26,6 +26,7 @@ module.exports =
         'add(/search)(/)': 'showSearch'
         'add/scan(/)': 'showScan'
         'add/scan/embedded(/)': 'showEmbeddedScanner'
+        'add/import(/)': 'showImport'
         'groups/:id(/:name)(/)': 'showGroupInventory'
         'g/(:name)': 'shortCutGroup'
         'u(ser)(s)/:id': 'shortCutUser'
@@ -100,6 +101,7 @@ API =
 
   showSearch: -> showAddLayout 'search'
   showScan: -> showAddLayout 'scan'
+  showImport: -> showAddLayout 'import'
 
   showEmbeddedScanner: ->
     if app.request 'require:loggedIn', 'add/scan/embedded'
