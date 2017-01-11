@@ -12,7 +12,7 @@ module.exports = ListWithCounter.extend
 
     # wait for the notifications to be added and rendered
     app.request('waitForData')
-    .then _.preq.Sleep(1000)
+    .delay 1000
     .then @updateSeeAllLink.bind(@)
 
   serializeData: ->

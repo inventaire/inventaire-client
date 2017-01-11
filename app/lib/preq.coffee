@@ -41,12 +41,6 @@ module.exports = _.extend preq, requestAssets,
   catch401: (err)-> if err.status is 401 then return
   catch404: (err)-> if err.status is 404 then return
 
-  Sleep: (ms)->
-    fn = (res)->
-      return new Promise (resolve, reject)->
-        cb = -> resolve res
-        setTimeout cb, ms
-
 proxiedUrl = (url)-> /wikidata\.org/.test url
 
 preq.wrap = wrap = (jqPromise, context)->
