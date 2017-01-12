@@ -1,11 +1,7 @@
-Session = require 'modules/general/models/session'
 BindedPartialBuilder = require 'lib/binded_partial_builder'
 
 App = Marionette.Application.extend
   initialize: ->
-
-    @session = new Session
-
     @Behaviors = require('modules/general/behaviors/base')
     @Behaviors.initialize()
 
@@ -25,8 +21,6 @@ App = Marionette.Application.extend
 
       # _.log route, 'route:change'
       @vent.trigger 'route:change', _.routeSection(route), route
-      # record all routes visited for server-side statistics
-      @session.record route
       route = route.replace /(\s|')/g, '_'
       route = @request 'querystring:keep', route
       Backbone.history.last or= []
@@ -53,10 +47,6 @@ App = Marionette.Application.extend
     @once 'start', (options) =>
       # _.log 'app:start'
       routeFound = Backbone.history.start({pushState: true})
-
-      # records the first url found
-      # as it wont go through navigate
-      @session.record Backbone.history.fragment
 
       # Backbone.history 'route' event seem to be only triggerd
       # when 'previous' is hit. it isn't very clear why,

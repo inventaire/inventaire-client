@@ -1,3 +1,5 @@
+{ reportError } = requireProxy 'lib/reports'
+
 # allow to pass a csle object so that we can pass whatever we want in tests
 module.exports = (_, csle)->
   csle or= window.console
@@ -46,7 +48,7 @@ module.exports = (_, csle)->
 
     report.push label
 
-    window.reportErr {error: report}
+    reportError err
 
     prettyLog = "===== #{label} =====\n"
     if err?.responseText? then prettyLog += "#{err.responseText}\n\n"

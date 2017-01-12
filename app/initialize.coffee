@@ -4,5 +4,6 @@ window.sharedLib = require 'lib/shared/shared_libs'
 window.requireProxy = (path)-> require path
 
 require('lib/feature_detection')()
-require('./init_app')()
+# Init handler error before the app so that it can catch any error happenig there
 require('lib/unhandled_error_logger')()
+require('./init_app')()

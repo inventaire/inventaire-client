@@ -29,6 +29,8 @@ _.extend _, loggers_, types_
 # just faking what needs to be accessible to let tests pass
 global.$ =
   extend: ->
+  get: ->
+  post: ->
 
 localLib = __.require('lib', 'utils')(Backbone, _, $, app, window)
 

@@ -1,6 +1,10 @@
+{ reportError } = require 'lib/reports'
+
 module.exports = ->
   # override window.onerror to always log the stacktrace
-  window.onerror = ->
+  window.onerror = (errorMsg, url, lineNumber, columnNumber, errObj)->
+    if errObj.hasBeenLogged then return
+    errObj.hasBeenLogged = true
 
     # avoid using utils that weren't defined yet
     args = [].slice.call(arguments, 0)
@@ -18,15 +22,17 @@ module.exports = ->
         # but not worth the noise in production logs
         return console.warn 'ViewDestroyedError: not reported'
 
-    err = parseErrorObject.apply null, args
-
     # excluding Chrome that do log the stacktrace by default
-    unless window.navigator.webkitGetGamepads?
-      console.error.apply console, err, '(handled by window.onerror)'
+    if window.navigator.webkitGetGamepads?
+      console.error errObj, onerrorSignature
+    else
+      err = parseErrorObject.apply null, args
+      err.hasBeenLogged = true
+      console.error.apply console, err, onerrorSignature
 
-    window.reportErr(err)
+    reportError errObj
 
-
+onerrorSignature = '(handled by window.onerror)'
 
 parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
   # other arguments aren't necessary as already provided by Firefox
@@ -40,33 +46,3 @@ parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
     return report
   else
     return [ errorMsg, url, lineNumber, columnNumber ]
-
-
-window.reportErr = (report)->
-  unless report?.error?
-    err = report
-    report =
-      error: err
-
-  report.context = getContext()
-  if app?.session?.recordError? then app.session.recordError report
-  else $.post '/api/logs/public', report
-
-getContext = ->
-  context = []
-  if app?.user?.loggedIn
-    id = app.user.id
-    username = app.user.get('username')
-    if id? and username?
-      userData = "user: #{id} (#{username})"
-    else
-      userData = "user logged in but error happened before data arrived"
-  else
-    userData = "user: not logged user"
-
-  context = [
-    userData
-    navigator.userAgent
-  ]
-
-  return context

@@ -1,16 +1,19 @@
+{ reportError } = requireProxy 'lib/reports'
+
 Promise::fail = Promise::caught
 Promise::always = Promise::finally
 
 Promise.onPossiblyUnhandledRejection (err)->
   { lineNumber, columnNumber } = err
   pointer = if lineNumber? then "#{lineNumber}:#{columnNumber}" else ''
-  label = "[PossiblyUnhandledError] #{err.name}: #{err.message} #{pointer}"
-  stack = err?.stack?.split('\n')
-  report = {label: label, error: err, stack: stack}
+  err.message = "[PossiblyUnhandledError] #{err.name}: #{err.message} #{pointer}"
+  reportError err
+
+  clue = null
   if err.message is "[object Object]"
-    report.clue = clue = "this is probably an error from a jQuery promise wrapped into a Bluebird one"
-  window.reportErr report
-  console.error label, stack, clue
+    clue = "this is probably an error from a jQuery promise wrapped into a Bluebird one"
+  stack = err?.stack?.split('\n')
+  console.error err.message, stack, clue or ''
 
 preq = sharedLib('promises')(Promise)
 
