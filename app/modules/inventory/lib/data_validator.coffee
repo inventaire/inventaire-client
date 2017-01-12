@@ -2,7 +2,9 @@ error_ = require 'lib/error'
 importers = require './importers'
 
 module.exports = (source, data)->
-  { format, label } = importers[source]
+  { format, label, disableValidation } = importers[source]
+  if disableValidation then return
+
   unless isValid[format](source, data)
     message = _.i18n 'data_mismatch', { source: label }
     # avoid attaching the whole file as context as it might be pretty heavy

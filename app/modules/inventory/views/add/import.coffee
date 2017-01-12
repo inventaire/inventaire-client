@@ -6,6 +6,7 @@ Candidates = require '../../collections/candidates'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+papaparse = require('lib/get_assets')('papaparse')
 
 module.exports = Marionette.LayoutView.extend
   id: 'importLayout'
@@ -31,6 +32,7 @@ module.exports = Marionette.LayoutView.extend
     'import:done': 'onImportDone'
 
   initialize: ->
+    papaparse.prepare()
     @candidates = app.items.candidates or= new Candidates
 
   onShow: ->
@@ -60,8 +62,12 @@ module.exports = Marionette.LayoutView.extend
     source = e.currentTarget.id
     { parse, encoding } = importers[source]
 
-    files_.parseFileEventAsText e, true, encoding
-    .then _.Log('uploaded file')
+    Promise.all [
+      files_.parseFileEventAsText e, true, encoding
+      papaparse.get()
+    ]
+    # We only need the result from the file
+    .spread _.Log('uploaded file')
     .tap dataValidator.bind(null, source)
     .then parse
     .catch _.ErrorRethrow('parsing error')

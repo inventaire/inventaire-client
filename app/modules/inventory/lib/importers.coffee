@@ -3,11 +3,11 @@
 # - add a parser to the ./parsers folder
 
 csvParser = (source, data)->
-  data
-  # split by line
-  .split '\n'
-  # remove the headers line
-  .slice 1, -1
+  data = data.trim()
+  results = window.Papa.parse data, { header: true }
+  if results.errors.length > 0 then _.error results.errors, 'csv parser errors'
+
+  results.data
   # requiring just in time to avoid preloading unnecessary parsers
   .map require("./parsers/#{source}")
 
@@ -30,6 +30,10 @@ importers =
     format: 'csv'
     encoding: 'ISO-8859-1'
     first20Characters: '"ISBN";"Titre";"Aute'
+    # There seem to be several formats depending on the export time
+    # and the last time I checked, the export feature wasn't working
+    # making it hard to arbitrate
+    disableValidation: true
     link: 'http://www.babelio.com/export.php'
     parse: csvParser.bind(null, 'babelio')
 

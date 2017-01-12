@@ -37,6 +37,7 @@
     "enumerate-devices": "^1.1.0",
     "leaflet": "^1.0.2",
     "leaflet.markercluster": "^1.0.0",
+    "papaparse": "^4.1.2",
     "quagga": "^0.11.5",
     "to-data-url": "^1.0.1",
     "wikidata-lang": "^2.0.3"
@@ -65,6 +66,7 @@
     "handlebars": "^4.0.5",
     "handlebars-brunch": "^2.0.1",
     "html-minifier": "^1.1.1",
+    "iconv-lite": "^0.4.15",
     "javascript-brunch": "^2.0.0",
     "lodash": "^4.6.1",
     "ls": "^0.1.0",
@@ -76,6 +78,7 @@
     "transifexify": "^1.0.6",
     "uglify-js": "^2.6.2",
     "uglify-js-brunch": "^2.0.1",
+    "underscore": "^1.8.3",
     "wikidata-cli": "^3.0.6"
   }
 }

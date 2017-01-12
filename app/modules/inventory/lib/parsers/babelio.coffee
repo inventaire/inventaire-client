@@ -1,12 +1,6 @@
-module.exports = (line)->
-  [ isbn, title, author, publisher, publicationDate, dateAddedToBabelio, status, note ] = line.split ';'
-
-  return data =
-    isbn: removeExtraQuotes isbn
-    title: removeExtraQuotes title
-    authors: removeExtraQuotes author
-
-removeExtraQuotes = (str)->
-  str
-  .replace /^"/, ''
-  .replace /"$/, ''
+module.exports = (obj)->
+  title: obj.Titre
+  authors: obj.Auteur
+  isbn: obj.ISBN
+  # Convert 29/02/2012 to 29-02-2012
+  publicationDate: obj['Date de publication']?.replace(/\//g, '-')

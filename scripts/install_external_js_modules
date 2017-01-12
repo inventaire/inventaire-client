@@ -16,10 +16,11 @@ uglifyInPlace(){
   uglifyjs $1 -c -m -o $1 2>&1 |grep -v WARN
 }
 
-# keep versions in sync with app/api/scripts.coffee
+# keep versions in sync with app/api/assets.coffee
 quagga_base=quagga-0.11.5
 cropper_base=cropper-2.3.0
 leaflet_base=leaflet-bundle-1.0.2
+papaparse_base=papaparse-4.1.2
 
 ############ INSTALLATIONS ###############
 curl -sk https://piwik.allmende.io/piwik.js > ${vendor}/piwik.js
@@ -65,5 +66,11 @@ gzip -9kf "${pubcss}/${leaflet_base}.min.css"
 # Re-minifying to remove comments
 uglifyInPlace ${pubjs}/${leaflet_base}.min.js
 gzip -9kf "${pubjs}/${leaflet_base}.min.js"
-
 echo -e '\e[0;32mdone copying:\e[0m' leaflet and leaflet.markercluster
+
+cp node_modules/papaparse/papaparse.js ${pubjs}/${papaparse_base}.js
+cp node_modules/papaparse/papaparse.min.js ${pubjs}/${papaparse_base}.min.js
+# Re-minifying to remove comments
+uglifyInPlace ${pubjs}/${papaparse_base}.min.js ${pubjs}/${papaparse_base}.min.js
+gzip -9kf "${pubjs}/${papaparse_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' papaparse

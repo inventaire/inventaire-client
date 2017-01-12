@@ -11,6 +11,7 @@ GetEnvPath = (type, pathBase)->
 quaggaBaseName = 'quagga-0.11.5'
 cropperBaseName = 'cropper-2.3.0'
 leafletBaseName = 'leaflet-bundle-1.0.2'
+papaparseBaseName = 'papaparse-4.1.2'
 
 module.exports =
   scripts:
@@ -19,6 +20,7 @@ module.exports =
     quagga: GetEnvPath 'js', quaggaBaseName
     cropper: GetEnvPath 'js', cropperBaseName
     leaflet: GetEnvPath 'js', leafletBaseName
+    papaparse: GetEnvPath 'js', papaparseBaseName
   stylesheets:
     cropper: GetEnvPath 'css', cropperBaseName
     leaflet: GetEnvPath 'css', leafletBaseName

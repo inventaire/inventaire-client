@@ -7,7 +7,7 @@ global.window =
   # mimicking node_modules/sinon/lib/sinon/util/fake_server.js:38 result
   # for when window is undefined
   location: {}
-global.location = {}
+global.document = {}
 global.Promise = require 'bluebird'
 global.navigator =
   platform: 'None in particular'
