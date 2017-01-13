@@ -73,7 +73,7 @@ module.exports = Marionette.LayoutView.extend
     .then @_showWorks.bind(@)
 
   _showWorks: ->
-    { works, series, articles } = @model.works
+    { works, series, articles } = @model.works
     total = works.totalLength + series.totalLength + articles.totalLength
 
     if total > 0 then @unwrap()

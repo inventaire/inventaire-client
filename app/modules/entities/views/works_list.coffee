@@ -45,11 +45,11 @@ module.exports = Marionette.CompositeView.extend
         href: @_entityCreationData.href
 
   setEntityCreationData: ->
-    { type, parentModel } = @options
-    { type:parentType } =  parentModel
+    { type, parentModel } = @options
+    { type:parentType } =  parentModel
 
-    claims = {}
-    prop = parentModel.childrenClaimProperty
+    claims = {}
+    prop = parentModel.childrenClaimProperty
     claims[prop] = [ parentModel.get('uri') ]
 
     if parentType is 'serie'

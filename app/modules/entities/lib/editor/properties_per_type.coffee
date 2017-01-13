@@ -1,7 +1,7 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 # and server/controllers/entities/lib/properties.coffee
 
-commonsSeriesWorks = [
+commonsSeriesWorks = [
   'wdt:P50' # author
   'wdt:P136' # genre
   'wdt:P921' # main subject

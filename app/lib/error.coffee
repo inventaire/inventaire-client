@@ -3,7 +3,7 @@ formatError = (message, status, context)->
   # cf server/lib/error/format_error.coffee
   # Allows for instance to not report non-operational/user errors to the server
   # in case status is a 4xx error
-  unless _.isNumber status then [ status, context ] = [ null, status ]
+  unless _.isNumber status then [ status, context ] = [ null, status ]
 
   err = new Error message
   # Set status to a 4xx error for user errors to prevent it

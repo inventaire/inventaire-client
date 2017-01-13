@@ -60,5 +60,5 @@ module.exports = Marionette.CompositeView.extend
     else @ui.addValueButton.hide()
 
   dispatchCreationPartialClickEvents: (e)->
-    { id } = e.currentTarget
+    { id } = e.currentTarget
     @customAdd.clickEvents[id]?(@, @model.entity, e)
