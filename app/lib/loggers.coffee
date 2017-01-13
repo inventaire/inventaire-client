@@ -30,8 +30,17 @@ module.exports = (_, csle)->
     err.hasBeenLogged = true
 
     originalErr = err
-    if err?.status? and /^4\d+$/.test err.status
-      # No need to report this error to the server
+
+    userError = false
+    serverError = false
+    if err?.status?
+      if /^4\d+$/.test err.status then userError = true
+      if /^5\d+$/.test err.status then serverError = true
+
+    # No need to report user errors to the server
+    # This status code can be set from the client for this purpose
+    # of not reporting the error to the server
+    if userError
       return csle.warn "[#{err.status}][#{label}] #{err.message}]"
 
     unless err?.stack?
@@ -46,7 +55,8 @@ module.exports = (_, csle)->
 
     report.push label
 
-    reportError err
+    # No need to report server error back to the server
+    unless serverError then reportError err
 
     prettyLog = "===== #{label} =====\n"
     if err?.responseText? then prettyLog += "#{err.responseText}\n\n"
