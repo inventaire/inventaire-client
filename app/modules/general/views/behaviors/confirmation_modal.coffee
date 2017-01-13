@@ -30,8 +30,7 @@ module.exports = Marionette.ItemView.extend
 
   yesClick: ->
     { action, selector } = @options
-    _.preq.start
-    .then @executeFormAction.bind(@)
+    _.preq.try @executeFormAction.bind(@)
     .then action
     .then @success.bind(@)
     .catch @error.bind(@)

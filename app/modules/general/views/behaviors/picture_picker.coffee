@@ -93,8 +93,7 @@ module.exports = Marionette.CompositeView.extend
     # - allow to host the image only once has the image hash will be the same
     url = images_.getNonResizedUrl url
 
-    _.preq.start
-    .then validateUrlInput.bind(null, url)
+    _.preq.try validateUrlInput.bind(null, url)
     .then images_.getUrlDataUrl.bind(null, url)
     .then @_addToPictures.bind(@)
     .catch error_.Complete('#urlField')

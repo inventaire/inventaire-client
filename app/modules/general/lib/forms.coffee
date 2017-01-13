@@ -11,8 +11,7 @@ forms_.pass = (options)->
 forms_.earlyVerify = (view, e, verificator)->
   # dont show early alert for empty fields as it feels a bit agressive
   unless $(e.target)?.val() is ''
-    _.preq.start
-    .then verificator
+    _.preq.try verificator
     .catch forms_.catchAlert.bind(null, view)
 
 # REQUIRES
@@ -23,8 +22,7 @@ forms_.earlyVerify = (view, e, verificator)->
 # otherwise it's an operational error
 # ex:
 # (in a View context)
-# _.preq.start
-# .then doThingsThatThrowsErrorsWithSelector
+# _.preq.try doThingsThatThrowsErrorsWithSelector
 # .catch forms_.catchAlert.bind(null, @)
 # The selector can be any element, the alert-box will be appended to its parent
 forms_.catchAlert = (view, err)->

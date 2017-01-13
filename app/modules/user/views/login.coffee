@@ -30,8 +30,7 @@ module.exports = Marionette.ItemView.extend
     passwordLabel: 'password'
 
   classicLoginAttempt:->
-    _.preq.start
-    .then @verifyUsername.bind(@)
+    _.preq.try @verifyUsername.bind(@)
     .then @verifyPassword.bind(@)
     .then @classicLogin.bind(@)
     .catch forms_.catchAlert.bind(null, @)

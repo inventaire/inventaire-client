@@ -70,8 +70,7 @@ module.exports = Marionette.ItemView.extend
   saveBio: ->
     bio = @ui.bioText.val()
 
-    _.preq.start
-    .then @testBio.bind(null, bio)
+    _.preq.try @testBio.bind(null, bio)
     .then @updateUserBio.bind(null, bio)
     .then @ui.bio.toggle.bind(@ui.bio)
     .catch forms_.catchAlert.bind(null, @)
