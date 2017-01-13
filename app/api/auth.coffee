@@ -1,12 +1,16 @@
 { public:publik, authentified } = require('./endpoint')('auth')
 
-GetAuthPublic = (action)-> (data)-> _.buildPath publik, _.extend({ action }, data)
+GetAuthPublic = (action, attribute)-> (value)->
+  data = { action }
+  data[attribute] = encodeURIComponent value
+  return _.buildPath publik, data
+
 postAuthPublic = (action)-> "#{publik}?action=#{action}"
 authAuthentified = (action)-> "#{authentified}?action=#{action}"
 
 module.exports =
-  usernameAvailability: GetAuthPublic 'username-availability'
-  emailAvailability: GetAuthPublic 'email-availability'
+  usernameAvailability: GetAuthPublic 'username-availability', 'username'
+  emailAvailability: GetAuthPublic 'email-availability', 'email'
 
   signup: postAuthPublic 'signup'
   login: postAuthPublic 'login'
