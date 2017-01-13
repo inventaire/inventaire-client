@@ -2,6 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 wdLang = require 'wikidata-lang'
 
@@ -219,7 +220,7 @@ sendDeletionFeedback = (message)->
 testAttribute = (attribute, value, validator_)->
   selector = "##{attribute}Field"
   if value is app.user.get attribute
-    err = new Error("that's already your #{attribute}")
+    err = error_.new "that's already your #{attribute}", 400
     err.selector = selector
     throw err
   else

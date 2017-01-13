@@ -30,11 +30,9 @@ module.exports = (_, csle)->
     err.hasBeenLogged = true
 
     originalErr = err
-    if err?.status?
-      switch err.status
-        when 401 then return csle.warn '401', label
-        when 404 then return csle.warn '404', label
-        # else it will be treated as other errors
+    if err?.status? and /^4\d+$/.test err.status
+      # No need to report this error to the server
+      return csle.warn "[#{err.status}][#{label}] #{err.message}]"
 
     unless err?.stack?
       label or= 'empty error'
