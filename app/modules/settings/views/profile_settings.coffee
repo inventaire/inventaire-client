@@ -40,8 +40,6 @@ module.exports = Marionette.ItemView.extend
       languages: @languagesData()
       changePicture:
         classes: 'max-large-profilePic'
-      localCreationStrategy: attrs.creationStrategy is 'local'
-      hasPassword: attrs.creationStrategy is 'local' or attrs.hasPassword
       hasPosition: @model.hasPosition()
       position: @model.getCoords()
 

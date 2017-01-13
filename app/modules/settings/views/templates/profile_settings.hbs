@@ -10,37 +10,33 @@
 {{tip 'username_tip' 'right'}}
 {{input usernamePicker}}
 
-{{#if localCreationStrategy}}
-  <hr>
-  <h3>{{i18n 'email'}}</h3>
+<hr>
+<h3>{{i18n 'email'}}</h3>
 
-  <p class="note">
-    {{i18n 'email will not be publicly displayed.'}}
-  </p>
-  {{input emailPicker}}
+<p class="note">
+  {{i18n 'email will not be publicly displayed.'}}
+</p>
+{{input emailPicker}}
 
-  {{#unless validEmail}}
-    <div id="notValidEmail" class="alertMessageBox">
-      <span class="alert">
-          {{icon 'warning'}}
-          {{{i18n 'email_wasnt_verified'}}}
-      </span>
-      <a id="emailConfirmationRequest" class="button dark-grey radius">
-        {{i18n 'email_confirmation_error_button'}}
-      </a>
-    </div>
-  {{/unless}}
+<div id="confirmationEmailSent" class="hidden successMessageBox">
+  {{icon 'check'}}
+  {{{i18n 'new_confirmation_email'}}}
+</div>
 
-  <div id="confirmationEmailSent" class="hidden successMessageBox">
-    {{icon 'check'}}
-    {{{i18n 'new_confirmation_email'}}}
+{{#unless validEmail}}
+  <div id="notValidEmail" class="alertMessageBox">
+    <span class="alert">
+      {{icon 'warning'}}
+      {{{i18n 'email_wasnt_verified'}}}
+    </span>
+    <a id="emailConfirmationRequest" class="button dark-grey radius">
+      {{i18n 'email_confirmation_error_button'}}
+    </a>
   </div>
-{{/if}}
+{{/unless}}
 
-{{#if hasPassword}}
-  <hr>
-  {{partial 'settings:password_update_input' this 'check'}}
-{{/if}}
+<hr>
+{{partial 'settings:password_update_input' this 'check'}}
 
 <hr>
 <h3>{{i18n 'geolocation'}}</h3>
