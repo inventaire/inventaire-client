@@ -1,5 +1,6 @@
 spinner = _.icon 'circle-o-notch', 'fa-spin'
 error_ = require 'lib/error'
+canAddOneTypeList = [ 'serie', 'work' ]
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/works_list'
@@ -38,9 +39,10 @@ module.exports = Marionette.CompositeView.extend
 
     @setEntityCreationData()
 
-  events:
-    'click a.displayMore': 'displayMore'
-    'click a.addOne': 'addOne'
+    if @options.type in canAddOneTypeList
+      @addOneData =
+        label: addOneLabels[@options.parentModel.type][@options.type]
+        href: @_entityCreationData.href
 
   setEntityCreationData: ->
     { type, parentModel } = @options
@@ -63,9 +65,11 @@ module.exports = Marionette.CompositeView.extend
     more: @more()
     canRefreshData: true
     totalLength: @collection.totalLength
-    addOne:
-      label: addOneLabels[@options.parentModel.type][@options.type]
-      href: @_entityCreationData.href
+    addOne: @addOneData
+
+  events:
+    'click a.displayMore': 'displayMore'
+    'click a.addOne': 'addOne'
 
   displayMore: ->
     @startMoreLoading()
