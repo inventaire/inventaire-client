@@ -48,6 +48,10 @@ forms_.alert = (view, err)->
 
   # Allow to pass a false flag to prevent the use of _.i18n
   # thus preventing to get it added to the list of strings to translate
+  # The normal behavior should be to let operational errors be added
+  # to the list to translate and remove them manually, rather than trying
+  # to make i18n=false the default and cherry pick which should be translated
+  # (which, for having tryied, is a pain)
   if i18n is false then message = errMessage
   else message = _.i18n errMessage
 
