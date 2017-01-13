@@ -52,7 +52,9 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
   for projectName, value of sitelinks
     match = projectName.split projectBaseName
     # ex: 'lawikisource'.split 'wikisource' == ['la', '']
-    if match.length is 2
+    # The second part needs to be an empty string to avoid confusing
+    # a sitelink like : for dewiki
+    if match.length is 2 and match[1] is ''
       langCode = match[0]
       return [value, langCode]
   return []
