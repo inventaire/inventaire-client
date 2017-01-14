@@ -27,8 +27,10 @@ module.exports = Backbone.Collection.extend
     @on 'add remove change reset', @lazySave.bind(@)
 
   save: ->
+    # Remove dupplicates
+    searches = _.uniq @toJSON(), (search)-> search.query.trim().toLowerCase()
     # keep only track of the 10 last searches
-    data = JSON.stringify @toJSON()[0..10]
+    data = JSON.stringify searches[0..10]
     localStorageProxy.setItem 'searches', data
 
   findLastSearch: ->
