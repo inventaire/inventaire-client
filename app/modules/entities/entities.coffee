@@ -153,6 +153,7 @@ setHandlers = ->
     'get:entity:public:items': getEntityPublicItems
     'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
+    'entity:exists:or:create:from:seed': existsOrCreateFromSeed
 
 getEntitiesModels = (uris, refresh)->
   _.type uris, 'array'
@@ -219,3 +220,10 @@ normalizeUri = (uri)->
     if prefix is 'isbn' then id = isbn_.normalizeIsbn id
 
   return "#{prefix}:#{id}"
+
+# Create from the seed data we have, if the entity isn't known yet
+existsOrCreateFromSeed = (data)->
+  _.preq.post app.API.entities.existsOrCreateFromSeed, data
+  # Add the possibly newly created edition entity to the local index
+  # and get it's model
+  .then entitiesModelsIndex.add

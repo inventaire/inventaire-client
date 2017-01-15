@@ -32,6 +32,8 @@ module.exports =
   # POST/PUT
   create: authentified
 
+  existsOrCreateFromSeed: "#{authentified}?action=exists-or-create-from-seed"
+
   claims:
     update: "#{authentified}?action=update-claim"
 
