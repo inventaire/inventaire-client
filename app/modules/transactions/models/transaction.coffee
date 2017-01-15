@@ -113,6 +113,8 @@ module.exports = Backbone.NestedModel.extend
       context: @context()
       mainUserRead: @mainUserRead
       cancellable: @isCancellable()
+      image: @imageData()
+      authors: @get('snapshot.entity.authors')
 
     [ attrs.user, attrs.other ] = @aliasUsers(attrs)
     return attrs
@@ -120,6 +122,7 @@ module.exports = Backbone.NestedModel.extend
   itemData: -> @item?.serializeData() or @get('snapshot.item')
   ownerData: -> @owner?.serializeData() or @get('snapshot.owner')
   requesterData: -> @requester?.serializeData() or @get('snapshot.requester')
+  imageData: -> @get('snapshot.item.pictures.0') or @get('snapshot.entity.image')
 
   aliasUsers: (attrs)->
     if @mainUserIsOwner then [attrs.owner, attrs.requester]

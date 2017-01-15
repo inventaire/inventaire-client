@@ -3,15 +3,15 @@
     <div class="facts">
       <a class="item" href="{{item.pathname}}" title="{{item.title}}">
         <div class="cover">
-          {{#if item.pictures}}
-            <img src="{{src item.pictures 100}}" alt="{{item.title}}">
+          {{#if image}}
+            <img src="{{src image 100}}" alt="{{item.title}}">
           {{/if}}
         </div>
         <div class="data">
           <h4 class="title">{{item.title}}</h4>
           <div class="authors">
-            {{#if item.authors}}
-              {{item.authors}}
+            {{#if authors}}
+              {{authors}}
             {{else}}
               {{claim item.entityData.claims 'wdt:P50'}}
             {{/if}}
