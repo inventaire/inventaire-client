@@ -12,7 +12,7 @@ GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
 entityDraftModel = require './lib/entity_draft_model'
-entitiesModels = require './lib/get_entities_models'
+entitiesModelsIndex = require './lib/entities_models_index'
 createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
 
@@ -162,7 +162,7 @@ getEntitiesModels = (uris, refresh)->
 
   if uris.length is 0 then return _.preq.resolve []
 
-  entitiesModels.get { uris, refresh }
+  entitiesModelsIndex.get { uris, refresh }
   .then _.values
 
 getEntityModel = (uri, refresh)->
@@ -176,7 +176,7 @@ getEntityModel = (uri, refresh)->
 
 createEntity = (data)->
   createInvEntity data
-  .then entitiesModels.add
+  .then entitiesModelsIndex.add
 
 getEntityPublicItems = (uri)-> _.preq.get app.API.items.publicByEntity(uri)
 

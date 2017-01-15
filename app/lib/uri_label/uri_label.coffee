@@ -14,7 +14,7 @@ attribute = 'data-uri'
 wd_ = require 'lib/wikimedia/wikidata'
 { getLabel, setLabel, getKnownUris, resetLabels } = require './labels_helpers'
 
-{ get:getEntitiesModels } = require 'modules/entities/lib/get_entities_models'
+{ get:getEntitiesModels } = require 'modules/entities/lib/entities_models_index'
 
 elements = null
 refresh = false
