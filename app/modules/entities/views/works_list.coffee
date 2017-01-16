@@ -96,4 +96,4 @@ addOneLabels =
     work: 'add a work from this author'
     serie: 'add a serie from this author'
   serie:
-    work: 'add a work from this serie'
+    work: 'add a work to this serie'
