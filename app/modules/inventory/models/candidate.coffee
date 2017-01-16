@@ -13,6 +13,4 @@ module.exports = Backbone.Model.extend
         transaction: transaction
         listing: listing
 
-      itemModel._creationPromise
-      # before resolving to the item model
-      .then -> itemModel
+      return itemModel._creationPromise

@@ -11,6 +11,7 @@ module.exports =
     itemModel._creationPromise = itemModel.save()
       .then _.Log('item creation server res')
       .then itemModel.onCreation.bind(itemModel)
+      .then -> return itemModel
       .catch _.ErrorRethrow('item creation err')
 
     return itemModel
