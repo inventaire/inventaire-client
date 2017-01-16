@@ -6,10 +6,10 @@ module.exports = Backbone.Model.extend
     [ title, isbn, authors ] = @gets 'title', 'isbn', 'authors'
 
     app.request 'entity:exists:or:create:from:seed', { title, isbn, authors }
-    .then ->
+    .then (editionEntityModel)->
       itemModel = app.request 'item:create',
         title: title
-        entity: "isbn:#{isbn}"
+        entity: editionEntityModel.get 'uri'
         transaction: transaction
         listing: listing
 
