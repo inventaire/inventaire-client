@@ -155,7 +155,7 @@ setHandlers = ->
     'get:entity:local:href': getEntityLocalHref
     'entity:exists:or:create:from:seed': existsOrCreateFromSeed
 
-getEntitiesModels = (uris, refresh)->
+getEntitiesModels = (uris, refresh, defaultType)->
   _.type uris, 'array'
   _.types uris, 'strings...'
   # Make sure its a 'true' flag and not an object incidently passed
@@ -163,7 +163,7 @@ getEntitiesModels = (uris, refresh)->
 
   if uris.length is 0 then return _.preq.resolve []
 
-  entitiesModelsIndex.get { uris, refresh }
+  entitiesModelsIndex.get { uris, refresh, defaultType }
   .then _.values
 
 getEntityModel = (uri, refresh)->

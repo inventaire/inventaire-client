@@ -22,9 +22,9 @@ initializeEdition = require '../lib/types/edition'
 editableTypes = [ 'work', 'edition', 'human' ]
 
 module.exports = Backbone.NestedModel.extend
-  initialize: (attrs)->
+  initialize: (attrs, options)->
     @refresh = options?.refresh
-    @type = attrs.type
+    @type = attrs.type or options.defaultType
 
     @setCommonAttributes attrs
 
@@ -40,6 +40,10 @@ module.exports = Backbone.NestedModel.extend
     # If the entity isn't of any known type, it was probably fetched
     # for its label, there is thus no need to go further on initialization
     # as what follows is specific to core entities types
+    # Or, it was fetched for its relation with an other entity but misses
+    # the proper P31 data to display correctly. Then, when fetching the entity
+    # a defaultType should be passed as option.
+    # For instance, parts of a serie will default have a defaultType='work'
     unless @type then return
 
     if @get('edit')? then _.extend @, editableEntity

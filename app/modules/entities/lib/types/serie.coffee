@@ -26,6 +26,7 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
   initPartsCollections: (refresh, res)->
     @parts = new Works null,
       uris: res.parts.map getUri
+      defaultType: 'work'
       refresh: refresh
 
   importDataFromParts: ->

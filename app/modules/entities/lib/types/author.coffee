@@ -38,9 +38,9 @@ specificMethods =
     articlesUris = worksData.articles.filter(isntSeriePart).map getUri
 
     @works =
-      series: new Works null, { uris: serieUris }
-      works: new Works null, { uris: worksUris }
-      articles: new Works null, { uris: articlesUris }
+      series: new Works null, { uris: serieUris, defaultType: 'serie' }
+      works: new Works null, { uris: worksUris, defaultType: 'work' }
+      articles: new Works null, { uris: articlesUris, defaultType: 'article' }
 
   buildTitle: ->
     author = @get 'label'

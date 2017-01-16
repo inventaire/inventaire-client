@@ -15,7 +15,7 @@ Entity = require '../models/entity'
 window.entitiesModelsIndexedByUri = entitiesModelsIndexedByUri = {}
 
 exports.get = (params)->
-  { uris, refresh } = params
+  { uris, refresh, defaultType } = params
   uris = _.uniq uris
 
   if refresh then missingUris = uris
@@ -24,7 +24,7 @@ exports.get = (params)->
   if missingUris.length > 0
     # Populate entitiesModelsIndexedByUri with promises of entity models
     # for the missing entities
-    populateIndexWithMissingEntitiesModelsPromises missingUris, refresh
+    populateIndexWithMissingEntitiesModelsPromises missingUris, refresh, defaultType
 
   # Return a promise that should resolved to an object
   # with all the requested entities models
@@ -40,15 +40,15 @@ getMissingUris = (uris)->
 pickEntitiesModelsPromises = (uris)->
   Promise.props _.pick(entitiesModelsIndexedByUri, uris)
 
-populateIndexWithMissingEntitiesModelsPromises = (uris, refresh)->
-  getEntitiesPromise = getRemoteEntitiesModels uris, refresh
+populateIndexWithMissingEntitiesModelsPromises = (uris, refresh, defaultType)->
+  getEntitiesPromise = getRemoteEntitiesModels uris, refresh, defaultType
   for uri in uris
     # Populate the index with individual promises
     entitiesModelsIndexedByUri[uri] = inidivualPromise getEntitiesPromise, uri
   # But return nothing: let pickEntitiesModelsPromises take what it needs from those
   return
 
-getRemoteEntitiesModels = (uris, refresh)->
+getRemoteEntitiesModels = (uris, refresh, defaultType)->
   _.preq.get entitiesGet(uris, refresh)
   .then (res)->
     { entities:entitiesData, redirects } = res
@@ -62,7 +62,7 @@ getRemoteEntitiesModels = (uris, refresh)->
       if _.isModel currentIndexValue
         newEntities[uri] = currentIndexValue
       else
-        newEntities[uri] = new Entity entityData
+        newEntities[uri] = new Entity entityData, { defaultType }
 
     aliasRedirects newEntities, redirects
     logMissingEntities newEntities, uris
