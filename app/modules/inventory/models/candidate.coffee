@@ -3,9 +3,9 @@ module.exports = Backbone.Model.extend
     @set 'selected', true
 
   createItem: (transaction, listing)->
-    [ title, isbn, authors ] = @gets 'title', 'isbn', 'authors'
+    title = @get 'title'
 
-    app.request 'entity:exists:or:create:from:seed', { title, isbn, authors }
+    app.request 'entity:exists:or:create:from:seed', @toJSON()
     .then (editionEntityModel)->
       itemModel = app.request 'item:create',
         title: title

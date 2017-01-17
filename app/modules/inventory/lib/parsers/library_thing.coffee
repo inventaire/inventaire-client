@@ -1,9 +1,10 @@
 module.exports = (obj)->
-  { title } = obj
   return data =
     isbn: getIsbn obj
-    title: title
+    title: obj.title
     authors: getAuthorsString obj
+    publicationDate: obj.date
+    numberOfPages: obj.pages
 
 getAuthorsString = (obj)->
   { primaryauthor, authors } = obj
