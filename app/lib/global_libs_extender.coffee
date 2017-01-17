@@ -59,7 +59,14 @@ module.exports = (_)->
   # and A-promises instead of jQuery errors and promises
   WrapModelRequests = (ClassObj, fnName)->
     originalFn = ClassObj.prototype[fnName]
-    wrappedFn = -> _.preq.wrap originalFn.apply(@, arguments), arguments
+
+    wrappedFn = ->
+      result = originalFn.apply @, arguments
+      # Backbone classes have some inconsistent APIs
+      # like Model::delete that can return 'false' instead of a jQuery promise
+      if result.then? then _.preq.wrap result, arguments
+      else _.preq.resolve result
+
     ClassObj.prototype[fnName] = wrappedFn
 
   WrapModelRequests Backbone.Model, 'save'
