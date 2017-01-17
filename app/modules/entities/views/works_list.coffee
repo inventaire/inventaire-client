@@ -16,7 +16,12 @@ module.exports = Marionette.CompositeView.extend
       when 'serie' then require './serie_layout'
       when 'work' then require './work_li'
       when 'article' then require './article_li'
-      else throw error_.new "unknown work type: #{type}", model
+      else
+        err = error_.new "unknown work type: #{type}", model
+        # Weird: errors thrown here don't appear anyware
+        # where are those silently catched?!?
+        console.error 'works_list getChildView err', err, model
+        throw err
 
   childViewOptions: (model, index)->
     refresh: @options.refresh
