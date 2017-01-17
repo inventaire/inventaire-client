@@ -33,13 +33,13 @@ module.exports = Filterable.extend
   matchable: ->
     if @_values? then return @_values
     labels = _.values @get('labels')
+    descriptions = _.values @get('descriptions')
     aliases = _.flatten _.values(@get('aliases'))
-    @_values = [ @id ].concat labels, aliases
+    @_values = [ @id ].concat labels, aliases, descriptions
     return @_values
 
-
 # Search results arrive as either Wikidata or inventaire documents
-# with ids unprefixed. To solutions to fix it:
+# with ids unprefixed. The solutions to fix it:
 # * formatting search documents to include prefixes
 # * guessing which source the document belongs too from what we get
 # For the moment, let's keep it easy and use the 2nd solution
