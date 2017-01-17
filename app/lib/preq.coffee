@@ -41,8 +41,8 @@ module.exports = _.extend preq, requestAssets,
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
 
-  catch401: (err)-> if err.status is 401 then return
-  catch404: (err)-> if err.status is 404 then return
+  catch401: (err)-> if err.status isnt 401 then throw err
+  catch404: (err)-> if err.status isnt 404 then throw err
 
 proxiedUrl = (url)-> /wikidata\.org/.test url
 
