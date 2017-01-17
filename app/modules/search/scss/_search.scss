@@ -17,8 +17,6 @@
 
 #searchLayout{
   text-align: center;
-  margin: 1em auto;
-  max-width: 70em;
   .itemsList{
     @include radius;
     width: 100%;
@@ -29,6 +27,8 @@
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
+    margin: 1em auto;
+    max-width: 70em;
     section#results{
       > div:not(:empty){
         margin-top: 1em;
@@ -41,6 +41,10 @@
     .itemsList{
       padding: 1em;
     }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin-top: 1em;
   }
 }
 

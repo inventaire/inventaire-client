@@ -72,7 +72,7 @@
 }
 
 .showEntityEdit.pencil{
-  float: right;
+  @include position(absolute, 20%, 0);
   font-size: 1.4em;
   @include text-hover(rgba(white, 0.5), white);
   margin-top: 0.5em;

@@ -46,14 +46,15 @@ $author-data-threshold: 25em;
   @include radius;
   padding: 1em;
   margin-bottom: 1em;
-  min-width: $author-data-threshold;
   color: white;
   /*Small screens*/
   @media screen and (max-width: $author-data-threshold) {
-    min-width: auto;
+    // Give some room to a.edit .fa-pencil
+    min-width: 90vw
   }
   /*Medium and Large screens*/
   @media screen and (min-width: $author-data-threshold) {
+    min-width: $author-data-threshold;
     .showEntityEdit.pencil{
       position: absolute;
       top: 0.5em;

@@ -120,4 +120,13 @@ $author-layout-bg: #292929;
     padding: 0.5em;
     color: white;
   }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .authorData{
+      flex-direction: column;
+    }
+    .unwrap{
+      font-size: 1.4em;
+    }
+  }
 }
