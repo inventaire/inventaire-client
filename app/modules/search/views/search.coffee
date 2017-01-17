@@ -89,7 +89,6 @@ module.exports = Marionette.LayoutView.extend
     cache = { search }
 
     _.preq.get app.API.entities.search(search, @options.refresh)
-    .catch _.preq.catch404
     .then @_parseResponse.bind(@)
     .then @displayResults.bind(@)
     .catch @_catchErr.bind(@)
@@ -121,9 +120,20 @@ module.exports = Marionette.LayoutView.extend
     if res? then spreadResults res
 
   _catchErr: (err)->
-    if err.status is 404 then @alert 'no item found'
-    else _.error err, 'searchEntities err'
-    @displayResults()
+    switch err.status
+      when 404 then @alert 'no item found'
+      # Known case: invalid ISBN
+      when 400 then @alert err.message
+      else
+        _.error err, 'searchEntities err'
+        @alert err.message
+
+    @_emptyAllRegions()
+    cache.returned = true
+
+  _emptyAllRegions: ->
+    Object.keys @regions
+    .forEach (regionName)=> @[regionName].empty()
 
   displayResults: ->
     { humans, series, works, editions } = cache

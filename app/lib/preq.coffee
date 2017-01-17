@@ -56,7 +56,9 @@ rewriteError = (err, context)->
   { status, statusText, responseText, responseJSON } = err
   { url, type:verb } = context
   if err.status >= 400
-    message = "#{status}: #{statusText} - #{responseText} - #{url}"
+    messageWithContext = "#{status}: #{statusText} - #{responseText} - #{url}"
+    # We need a clean message in case this is to be displayed as an alert
+    message = responseJSON?.status_verbose or messageWithContext
   else
     # cf http://stackoverflow.com/a/6186905
     # Known case: request blocked by CORS headers
