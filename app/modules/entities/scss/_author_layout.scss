@@ -109,9 +109,14 @@ $author-layout-bg: #292929;
     }
   }
   .subentities{
-    // Resize the work list counter without strugguling with counter padding
-    transform: scale(0.8);
-    opacity: 0.8;
+    .header{
+      // Resize the work list counter without strugguling with counter padding
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    .container{
+      display: none;
+    }
   }
   .unwrap{
     position: absolute;

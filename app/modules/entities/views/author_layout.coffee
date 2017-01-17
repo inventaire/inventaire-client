@@ -76,7 +76,8 @@ module.exports = Marionette.LayoutView.extend
     { works, series, articles } = @model.works
     total = works.totalLength + series.totalLength + articles.totalLength
 
-    if total > 0 then @unwrap()
+    # Always starting wrapped on small screens
+    if not _.smallScreen(600) and total > 0 then @unwrap()
 
     @showWorkCollection 'works'
 
