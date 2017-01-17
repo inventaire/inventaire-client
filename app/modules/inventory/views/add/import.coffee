@@ -58,7 +58,7 @@ module.exports = Marionette.LayoutView.extend
     if @candidates.length is 0 then @queue.$el.slideUp()
 
   getFile: (e)->
-    behaviorsPlugin.startLoading.call @, '.loading'
+    behaviorsPlugin.startLoading.call @, '.loading-queue'
     source = e.currentTarget.id
     { parse, encoding } = importers[source]
 
@@ -76,6 +76,7 @@ module.exports = Marionette.LayoutView.extend
     .catch error_.Complete(".warning")
     .then _.Log('parsed')
     .then @candidates.add.bind(@candidates)
+    .tap => behaviorsPlugin.stopLoading.call @, '.loading-queue'
     .then @showImportQueueUnlessEmpty.bind(@)
     # .then @scrollToQueue.bind(@)
     .catch forms_.catchAlert.bind(null, @)
