@@ -78,28 +78,46 @@ $author-layout-bg: #292929;
 }
 
 #searchLayout .authorLayout.wrapped, .authorLayout.wrapped{
+  background-color: $darker-grey;
   padding: 0;
-  h3{
-    font-size: 1.2em;
-  }
-  h4{
-    font-size: 1em;
-    margin: 0;
+  .innerAuthorLi{
+    position: relative;
+    @include display-flex(row, center, center, wrap);
   }
   .innerAuthorLi, .authorData, .subentities, .authorInfobox{
     padding: 0;
     margin: 0;
   }
-  .image-wrapper, .wiki-attributes, .extract{
+  .image-wrapper, .wiki-attributes, .extract, .works-list-controls{
     display: none;
   }
   .authorInfobox{
-    position: relative;
+    flex: 1 0 auto;
+  }
+  .authorData{
+    @include display-flex(row, center, flex-start);
+    h3{
+      font-size: 1.4em;
+      margin-right: 0.5em;
+    }
+    h4{
+      font-size: 1.1em;
+      color: $grey;
+      margin: 0;
+      // Centering vertically
+      margin-top: -0.1em;
+    }
+  }
+  .subentities{
+    // Resize the work list counter without strugguling with counter padding
+    transform: scale(0.8);
+    opacity: 0.8;
   }
   .unwrap{
     position: absolute;
-    top: 10%;
+    top: 0;
     right: 0;
+    padding: 0.5em;
     color: white;
   }
 }
