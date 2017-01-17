@@ -221,6 +221,9 @@ ParseKeysValues = (queryObj)-> (param)->
     # Try to parse the value, allowing JSON strings values
     # like data={%22wdt:P50%22:[%22wd:Q535%22]}
     value = permissiveJsonParse decodeURIComponent(value)
+    # If a number string was parsed into a number, make it a string again
+    # so that the output stays predictible
+    if _.isNumber value then value = value.toString()
     # If it's still a string and not an object, soft decode it
     if _.isString value then value = _.softDecodeURI value
     queryObj[key] = value
