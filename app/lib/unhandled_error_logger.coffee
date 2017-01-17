@@ -1,4 +1,5 @@
 { reportError } = require 'lib/reports'
+formatStack = require './format_stack'
 
 module.exports = ->
   # override window.onerror to always log the stacktrace
@@ -40,7 +41,7 @@ parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
   if errObj
     { stack, context } = errObj
     # prerender error object doesnt seem to have a stack, thus the stack?
-    stack = stack?.split('\n')
+    stack = formatStack stack
     report = ["#{errorMsg} #{url} #{lineNumber}:#{columnNumber}", stack]
     if context? then report.push context
     return report
