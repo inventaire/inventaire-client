@@ -130,8 +130,8 @@ module.exports = Marionette.LayoutView.extend
 
     _.log cache, 'cache'
 
-    authorsUris = humans.models.map getUri
-    seriesUris = series.models.map getUri
+    authorsUris = humans?.models.map(getUri) or []
+    seriesUris = series?.models.map(getUri) or []
     dedupplicateSubEntities authorsUris, series, 'wdt:P50'
     dedupplicateSubEntities authorsUris, works, 'wdt:P50'
     dedupplicateSubEntities seriesUris, works, 'wdt:P179'
@@ -179,6 +179,8 @@ spreadResults = (res)->
 # part of a found serie as they will fetched and displayed in the author's or serie's
 # subentities list
 dedupplicateSubEntities = (authorsUris, subentities, subentitiesProperty)->
+  unless subentities? then return
+
   toRemove = []
   subentities.forEach (subentity)->
     if _.haveAMatch subentity.get("claims.#{subentitiesProperty}"), authorsUris
