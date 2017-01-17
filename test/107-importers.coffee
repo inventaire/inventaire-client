@@ -30,7 +30,7 @@ describe 'Importers', ->
         for doc in parsed
           doc.should.be.a.Object()
           doc.title.should.be.a.String()
-          isbn_.isIsbn(doc.isbn).should.be.ok()
+          isbn_.looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.String()
           if doc.details then doc.details.should.be.a.String()
         done()
@@ -52,7 +52,7 @@ describe 'Importers', ->
         for doc in parsed
           doc.should.be.a.Object()
           doc.title.should.be.a.String()
-          isbn_.isIsbn(doc.isbn).should.be.ok()
+          isbn_.looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.String()
           if doc.notes then doc.notes.should.be.a.String()
         done()

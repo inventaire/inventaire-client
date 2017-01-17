@@ -2,7 +2,7 @@ normalizeIsbn = (text)-> text.replace(/-/g, '').replace /\s/g, ''
 isNormalizedIsbn = (text)-> /^(97(8|9))?\d{9}(\d|X)$/.test text
 
 module.exports = (_)->
-  isIsbn: (text)->
+  looksLikeAnIsbn: (text)->
     unless _.isString text then return false
     cleanedText = normalizeIsbn text
     if isNormalizedIsbn cleanedText

@@ -45,7 +45,7 @@ startScanning = (beforeStart)->
       Quagga.onDetected (result)->
         _.log result, 'result'
         candidate = result.codeResult.code
-        if isbn_.isIsbn candidate
+        if isbn_.looksLikeAnIsbn candidate
           Quagga.stop()
           resolve result.codeResult.code
         else

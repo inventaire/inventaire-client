@@ -33,7 +33,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: (params)->
     _.extend @, behaviorsPlugin
     @query = params.query.trim()
-    @queryIsIsbn = isbn_.isIsbn @query
+    @queryIsIsbn = isbn_.looksLikeAnIsbn @query
     @model = app.searches.addNonExisting { @query }
 
   serializeData: ->
