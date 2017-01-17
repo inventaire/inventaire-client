@@ -88,11 +88,13 @@
   .userMenu{
     margin: 0.5em;
     .action{
-      @include display-flex(row);
+      @include display-flex(row, center, center);
       .fa{
         font-size: 1em;
+      }
+      .label{
         // centering
-        padding-top: 0.35em;
+        margin-top: 0.1em;
       }
       &:not(.friend){
         @include radius;
