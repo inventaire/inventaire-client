@@ -6,3 +6,5 @@ module.exports =
   universalPath: require '../../config/universal_path'
   host: 'http://localhost:3006'
   prerenderUrl: 'http://localhost:3000'
+  gitlabLogging:
+    enabled: false
