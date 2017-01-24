@@ -5,6 +5,7 @@ getSources = require './get_sources'
 { universalPath } = require 'config'
 findKeys = universalPath.require 'i18nSrc', 'lib/find_keys'
 writeDistVersion = require './write_dist_version'
+updateWdFiles = require './update_wd_files'
 { red } = require 'chalk'
 
 module.exports = (lang)->
@@ -17,6 +18,7 @@ module.exports = (lang)->
       enObj: enFull
       langTransifex: langFullTransifex
       markdown: false
+      lang: lang
 
     # Rely fully on Transifex and complete missing with English
     { enShort, langShortTransifex } = sources
@@ -24,6 +26,7 @@ module.exports = (lang)->
       enObj: enShort
       langTransifex: langShortTransifex
       markdown: true
+      lang: lang
 
     # Rely on Wikidata language-specific labels, completed by English labels
     { enWd, langWd, langWdArchive } = sources
@@ -32,8 +35,12 @@ module.exports = (lang)->
       langCurrent: langWd
       langArchive: langWdArchive
       markdown: false
+      lang: lang
 
-    return writeDistVersion lang, _.extend({}, full, short, wd)
+    # Other files don't need to be updated as keys will be removed
+    # once the new English source file will be manually uploaded to Transifex
+    updateWdFiles lang, updateWd, archiveWd
+    .then -> writeDistVersion lang, _.extend({}, full, short, wd)
 
   .catch (err)->
     console.error red("#{lang} err"), err.stack

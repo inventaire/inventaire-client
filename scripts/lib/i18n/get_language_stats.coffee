@@ -6,7 +6,7 @@ fs = require 'graceful-fs'
 readFile = Promise.promisify fs.readFile
 parse = JSON.parse.bind JSON
 
-_.info 'emailKeys, shortKeys, fullKeys => total'
+_.info 'emailKeys, shortKeys, fullKeys, wikidataKeys => total'
 
 getKeysNumber = (path)->
   readFile path, {encoding: 'utf-8'}
