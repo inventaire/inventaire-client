@@ -21,13 +21,17 @@ getKeysNumber = (path)->
     else throw err
 
 module.exports = (lang)->
-  emailKeys = getKeysNumber __.path('i18nSrc', "#{lang}.json")
-  shortKeys = getKeysNumber __.path('i18nClientSrc', "shortkey/#{lang}.json")
-  fullKeys = getKeysNumber __.path('i18nClientSrc', "fullkey/#{lang}.json")
+  emailKeys = getKeysNumber __.path('i18nSrc', getTranslatedFileName(null, lang))
+  shortKeys = getKeysNumber __.path('i18nClientSrc', getTranslatedFileName('shortkey', lang))
+  fullKeys = getKeysNumber __.path('i18nClientSrc', getTranslatedFileName('fullkey', lang))
   wikidataKeys = getKeysNumber __.path('i18nClientSrc', "wikidata/#{lang}.json")
 
   Promise.all [ emailKeys, shortKeys, fullKeys, wikidataKeys ]
   .then (res)->
-    total = _.sum res
+    total = _.sum(res)
     _.success "#{res} => #{total}", lang
     return total
+
+getTranslatedFileName = (base, lang)->
+  filename = if lang is 'en' then "#{lang}.json" else "transifex/#{lang}.json"
+  if base then "#{base}/#{filename}" else filename
