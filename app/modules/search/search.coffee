@@ -30,7 +30,7 @@ API.search = (query, refresh)->
 
   searchLayout = new SearchLayout { query, refresh }
 
-  docTitle = "#{query} - " +  _.i18n('Search')
+  docTitle = "#{query} - " +  _.I18n('search')
   app.layout.main.Show searchLayout, docTitle
   encodedQuery = _.fixedEncodeURIComponent query
   app.navigate "search?q=#{encodedQuery}"
