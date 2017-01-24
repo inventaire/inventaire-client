@@ -1,4 +1,5 @@
 {
+    "P18": "ilustracja",
     "P27": "obywatelstwo",
     "P31": "jest to",
     "P39": "funkcja",
@@ -14,16 +15,19 @@
     "P155": "poprzednik",
     "P156": "następca",
     "P166": "nagroda",
+    "P179": "cykl",
     "P212": null,
     "P407": "język",
-    "P577": "data wydania",
-    "P629": "wydanie lub przekład publikacji",
+    "P569": "data urodzenia",
+    "P570": "data śmierci",
     "P674": "postacie",
     "P737": "pod wpływem",
     "P738": null,
+    "P747": "wydania i przekłady",
     "P840": "miejsce akcji",
     "P921": "główny temat dzieła",
     "P957": null,
     "P1066": "studiował u",
+    "P1104": "liczba stron",
     "P1680": "podtytuł"
 }

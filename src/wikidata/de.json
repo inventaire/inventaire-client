@@ -1,4 +1,5 @@
 {
+    "P18": "Bild",
     "P27": "Land der Staatsangehörigkeit",
     "P31": "ist ein(e)",
     "P39": "öffentliches Amt oder Stellung",
@@ -14,16 +15,19 @@
     "P155": "Vorgänger",
     "P156": "Nachfolger",
     "P166": "Auszeichnung",
+    "P179": "Serie",
     "P212": null,
     "P407": "Sprache des Werks",
-    "P577": "Veröffentlichungsdatum",
-    "P629": "Ausgabe oder Übersetzung von",
+    "P569": "Geburtsdatum",
+    "P570": "Sterbedatum",
     "P674": "Figuren",
     "P737": "beeinflusst von",
     "P738": "beeinflusste",
+    "P747": "Ausgabe (Edition)",
     "P840": "Handlungsort",
     "P921": "Schlagwort",
     "P957": null,
     "P1066": "Schüler von",
+    "P1104": "Seiten",
     "P1680": "Untertitel"
 }

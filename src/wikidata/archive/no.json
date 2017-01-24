@@ -1,6 +1,5 @@
 {
     "P17": "stat",
-    "P18": "bilde",
     "P19": "fødested",
     "P21": "kjønn",
     "P38": "valuta",
@@ -39,8 +38,6 @@
     "P494": "ICD-10",
     "P496": "ORCID",
     "P508": "BNCF",
-    "P569": "fødselsdato",
-    "P570": "dødsdato",
     "P571": "grunnleggelses-/etableringsdato",
     "P576": "Opphørsdato",
     "P625": "geografisk koordinat",

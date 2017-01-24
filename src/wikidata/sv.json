@@ -1,4 +1,5 @@
 {
+    "P18": "bild",
     "P27": "nationalitet",
     "P31": "instans av",
     "P39": "ämbete",
@@ -14,16 +15,19 @@
     "P155": "föregås av",
     "P156": "följs av",
     "P166": "utmärkelse",
+    "P179": "serie",
     "P212": null,
     "P407": "språk",
-    "P577": "utgivningsdatum",
-    "P629": "upplaga av",
+    "P569": "födelsedatum",
+    "P570": "dödsdatum",
     "P674": "rollfigurer",
     "P737": "influerad av",
     "P738": null,
+    "P747": "upplagor",
     "P840": "utspelar sig i",
     "P921": "huvudtema",
     "P957": null,
     "P1066": "student till",
+    "P1104": "sidantal",
     "P1680": "undertitel"
 }

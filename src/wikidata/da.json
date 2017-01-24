@@ -1,4 +1,5 @@
 {
+    "P18": "billede",
     "P27": "statsborger i",
     "P31": "tilfælde af",
     "P39": "position",
@@ -14,16 +15,19 @@
     "P155": "forgænger",
     "P156": "efterfulgt af",
     "P166": "udmærkelser modtaget",
+    "P179": "serie",
     "P212": null,
     "P407": "sprog",
-    "P577": "udgivelsesdato",
-    "P629": "udgave af",
+    "P569": "fødselsdato",
+    "P570": "dødsdato",
     "P674": "figurer",
     "P737": "påvirket af",
     "P738": null,
+    "P747": "udgave",
     "P840": "handlingssted",
     "P921": "hovedtema",
     "P957": null,
     "P1066": "elev af",
+    "P1104": "sideantal",
     "P1680": "undertitel"
 }

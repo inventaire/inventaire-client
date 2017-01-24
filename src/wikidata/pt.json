@@ -1,4 +1,5 @@
 {
+    "P18": "imagem",
     "P27": "país de cidadania",
     "P31": "instância de",
     "P39": "cargo ocupado",
@@ -14,16 +15,19 @@
     "P155": "precedido por",
     "P156": "sucedido por",
     "P166": "distinção",
+    "P179": "série",
     "P212": null,
     "P407": "língua de uma obra",
-    "P577": "data de publicação",
-    "P629": "edição de",
+    "P569": "data de nascimento",
+    "P570": "data de falecimento",
     "P674": "personagens",
     "P737": "influenciado por",
     "P738": "influenciou",
+    "P747": "edição",
     "P840": "local da narrativa",
     "P921": "tópico principal",
     "P957": null,
     "P1066": "estudante de",
+    "P1104": "número de páginas",
     "P1680": "legenda"
 }

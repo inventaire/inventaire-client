@@ -1,4 +1,5 @@
 {
+    "P18": "immagine",
     "P27": "paese di cittadinanza",
     "P31": "istanza di",
     "P39": "carica ricoperta",
@@ -14,16 +15,19 @@
     "P155": "preceduto da",
     "P156": "seguito da",
     "P166": "onorificenze ricevute",
+    "P179": "serie",
     "P212": null,
     "P407": "lingua di un'opera",
-    "P577": "data di pubblicazione",
-    "P629": "edizione di",
+    "P569": "data di nascita",
+    "P570": "data di morte",
     "P674": "personaggi",
     "P737": "influenzato da",
     "P738": "influenza",
+    "P747": "edizione",
     "P840": "ambientazione geografica",
     "P921": "argomento principale",
     "P957": null,
     "P1066": "studente di",
+    "P1104": "numero di pagine",
     "P1680": "sottotitolo"
 }
