@@ -14,7 +14,7 @@
     "P155": "précédé par",
     "P156": "suivi par",
     "P166": "distinction",
-    "P212": null,
+    "P212": "ISBN-13",
     "P407": "langue",
     "P577": "date de publication",
     "P629": "édition de",
@@ -23,7 +23,7 @@
     "P738": "influence",
     "P840": "lieu du récit",
     "P921": "sujet de l'œuvre",
-    "P957": null,
+    "P957": "ISBN-10",
     "P1066": "élève de",
     "P1680": "sous-titre"
 }
