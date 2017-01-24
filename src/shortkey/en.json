@@ -129,7 +129,7 @@
     "non_monetary_donations": "The biggest and simplest contribution you can do is to **help us spread the news** about this project: [invite your friends to share their inventory](/network/users/invite), share the project throughout all the Internet, write a blog post or a tutorial about it... be creative!<br>But there are also [other ways to contribute](https://trello.com/c/VIkw1d8q)",
     "refresh_wikidata_data": "if you made modifications on Wikidata related to this entity, you can use this button to ask inventaire.io to fetch the updated data",
     "group_position_context": "If your group is associated to a specific place (a universities, a coworkings, etc.), it can be useful to indicate it's position to help other users to find it",
-    "article_limitation": "this is an article and not book: it can't be added to your inventory",
+    "article_limitation": "this is an article and not a book: it can't be added to your inventory",
     "title_last_items": "last books added",
     "item_existing_instances": "you already have [%{count} in your inventory](%{pathname})",
     "km_away": "%{distance} km away",
@@ -161,5 +161,10 @@
     "vote_verb": "vote",
     "code_verb": "code",
     "data_loss_at_merge": "labels and claims from properties already defined on the target entity will be lost",
-    "see_on_website": "see on %{website}"
+    "see_on_website": "see on %{website}",
+    "edit_entity": "edit \"%{entity}\"",
+    "signal_an_error_in_entity_data": "Signal an error in the data if you don't know how to fix it",
+    "on_website": "on %{name}",
+    "slow_search_message": "If it takes a bit long, it's probably because you are the first to make this search, we need to fetch some new data: thank you for being a pioneer!",
+    "while_you_are_there_1": "which is stronger, the hippopotamus or the elephant?"
 }

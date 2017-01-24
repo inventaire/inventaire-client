@@ -1,4 +1,5 @@
 {
+    "P18": "image",
     "P27": "country of citizenship",
     "P31": "instance of",
     "P39": "position held",
@@ -17,14 +18,16 @@
     "P179": "series",
     "P212": "ISBN-13",
     "P407": "language of work",
-    "P577": "time of publication",
-    "P629": "edition or translation of",
+    "P569": "date of birth",
+    "P570": "date of death",
     "P674": "characters",
     "P737": "influenced by",
+    "P747": "edition",
     "P738": "influence of",
     "P840": "narrative set in",
     "P921": "main subject",
     "P957": "ISBN-10",
     "P1066": "student of",
+    "P1104": "number of pages",
     "P1680": "subtitle"
 }
