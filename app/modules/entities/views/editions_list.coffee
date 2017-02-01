@@ -38,7 +38,12 @@ module.exports = Marionette.CompositeView.extend
   getAvailableLanguages: (selectedLang)->
     @getAvailableLangs()
     .map (lang)->
-      langObj = _.clone wdLang.byCode[lang]
+      langObj = wdLang.byCode[lang]
+      unless langObj?
+        _.error "lang not found in wikidata-lang: #{lang}"
+        langObj = { code: lang, label: lang, native: lang }
+
+      langObj = _.clone langObj
       if langObj.code is selectedLang then langObj.selected = true
       return langObj
 
