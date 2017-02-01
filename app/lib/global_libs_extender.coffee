@@ -82,7 +82,12 @@ module.exports = (_)->
 
   FilteredCollection::filterByText = (text, reset=true)->
     if reset then @resetFilters()
-    text = text.trim().replace /\s{2,}/g, ' '
+    text = text.trim()
+      # Replace any double space by a simple space
+      .replace /\s{2,}/g, ' '
+      # Escape regex special characters
+      # especially to prevent errors of type "Unterminated group"
+      .replace specialRegexCharactersRegex, '\\$1'
     filterExpr = new RegExp text, 'i'
     @filterBy 'text', (model)-> model.matches filterExpr
 
@@ -102,3 +107,10 @@ module.exports = (_)->
 triggerChange = (model, attr, value)->
   model.trigger 'change', model, attr, value
   model.trigger "change:#{attr}", model, value
+
+specialRegexCharacters = '()[]$^\\'
+  .split ''
+  .map (char)-> '\\' + char
+  .join ''
+
+specialRegexCharactersRegex = new RegExp "([#{specialRegexCharacters}])", 'g'
