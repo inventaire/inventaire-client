@@ -2,6 +2,10 @@ module.exports =
   reportError: (err)->
     if err.hasBeenReported then return
     err.hasBeenReported = true
+    # errors that are assigned a 4xx error code are user errors
+    # that don't need to be reported to the server
+    # Ex: invalid form input
+    if err.statusCode? and err.statusCode < 500 then return
 
     err.envContext = getEnvContext()
     $.post '/api/reports/public?action=error-report',
