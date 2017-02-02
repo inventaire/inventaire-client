@@ -80,6 +80,14 @@ module.exports = (Backbone, _, $, app, window)->
     str[0].toUpperCase() + str[1..-1]
 
   isOpenedOutside: (e)->
+    unless e?.ctrlKey?
+      err = new Error 'non-event object was passed to isOpenedOutside'
+      err.statusCode = 500
+      _.error err
+      # Better breaking an open outside behavior than not responding
+      # to the event at all
+      return false
+
     # Anchor with a href are opened out of the current window when the ctrlKey is
     # pressed, or the metaKey (Command) in case its a Mac
     openOutsideByKey = if isMac then e.metaKey else e.ctrlKey
