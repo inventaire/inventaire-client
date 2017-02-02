@@ -26,8 +26,8 @@ forms_.earlyVerify = (view, e, verificator)->
 # .catch forms_.catchAlert.bind(null, @)
 # The selector can be any element, the alert-box will be appended to its parent
 forms_.catchAlert = (view, err)->
-  # Avoid to display an alert on a simple dupplicated request
-  if err.status is 429 then return _.warn err, 'dupplicated request'
+  # Avoid to display an alert on a simple duplicated request
+  if err.status is 429 then return _.warn err, 'duplicated request'
   if err.selector?
     view.$el.trigger 'stopLoading'
     forms_.alert(view, err)
