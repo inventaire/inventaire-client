@@ -27,7 +27,7 @@ module.exports = ->
 
 # Editions inherit claims like author 'wdt:P50' from their work
 inheritData = (work)->
-  unless @get('label')? then @set 'label', @work.get('label')
+  unless @get('label')? then @set 'label', work.get('label')
   claims = @get 'claims'
   workClaims = work.get 'claims'
   @set 'claims', _.extend({}, workClaims, claims)
