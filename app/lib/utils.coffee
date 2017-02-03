@@ -1,4 +1,5 @@
 oneDay = 24*60*60*1000
+error_ = requireProxy 'lib/error'
 
 module.exports = (Backbone, _, $, app, window)->
   # sync
@@ -81,13 +82,13 @@ module.exports = (Backbone, _, $, app, window)->
 
   isOpenedOutside: (e)->
     unless e?.ctrlKey?
-      reportImplementationError 'non-event object was passed to isOpenedOutside'
+      error_.report 'non-event object was passed to isOpenedOutside'
       # Better breaking an open outside behavior than not responding
       # to the event at all
       return false
 
     unless _.isNonEmptyString e.currentTarget?.href
-      reportImplementationError "can't open anchor outside: href is missing"
+      error_.report "can't open anchor outside: href is missing"
       return false
 
     # Anchor with a href are opened out of the current window when the ctrlKey is
@@ -241,9 +242,3 @@ ParseKeysValues = (queryObj)-> (param)->
 permissiveJsonParse = (input)->
   try JSON.parse input
   catch err then input
-
-reportImplementationError = (message)->
-  err = new Error message
-  err.statusCode = 500
-  _.error err, message
-  return

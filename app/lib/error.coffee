@@ -37,3 +37,9 @@ module.exports = error_ =
   reject: (message, context)->
     err = formatError message, context
     return Promise.reject err
+
+  # Log and report formatted errors to the server, without throwing
+  report: (message)->
+    err = formatError.apply null, arguments
+    _.error err, message
+    return
