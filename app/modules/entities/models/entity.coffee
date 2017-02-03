@@ -8,6 +8,7 @@ initializeAuthor = require '../lib/types/author'
 initializeSerie = require '../lib/types/serie'
 initializeWork = require '../lib/types/work'
 initializeEdition = require '../lib/types/edition'
+error_ = require 'lib/error'
 
 # One unique Entity model to rule them all
 # but with specific initializers:
@@ -64,6 +65,10 @@ module.exports = Backbone.NestedModel.extend
     else @waitForData = Promise.all @_dataPromises
 
   setCommonAttributes: (attrs)->
+    unless attrs.claims?
+      error_.report 'entity without claims', 500, attrs
+      attrs.claims = {}
+
     @wikidataId = attrs.claims['invp:P1']?[0]
     isbn13h = attrs.claims['wdt:P212']?[0]
     # Using de-hyphenated ISBNs for URIs
