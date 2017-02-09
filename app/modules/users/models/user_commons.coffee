@@ -17,6 +17,7 @@ module.exports = Positionable.extend
       description: @getDescription()
       image: @get 'picture'
       url: @get 'pathname'
+      rss: "/api/feeds/public?user=#{@id}"
 
   getDescription: ->
     bio = @get('bio')

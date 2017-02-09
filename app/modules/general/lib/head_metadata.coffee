@@ -56,6 +56,9 @@ metaNodes =
     { selector: "[property='og:url']" },
     { selector: "[rel='canonical']", attribute: 'href' }
   ]
+  rss: [
+    { selector: "[rel='alternate']", attribute: 'href' }
+  ]
 
 
 applyTransformers = (key, value, noCompletion)->
