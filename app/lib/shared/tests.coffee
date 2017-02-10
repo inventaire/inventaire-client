@@ -11,6 +11,7 @@ module.exports = (regex_)->
     isInvEntityId: isCouchUuid
     isEmail: bindedTest 'Email'
     isUserId: isCouchUuid
+    isGroupId: isCouchUuid
     isItemId: isCouchUuid
     isUsername: bindedTest 'Username'
     isEntityUri: bindedTest 'EntityUri'
