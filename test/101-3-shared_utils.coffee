@@ -22,19 +22,6 @@ describe 'Shared Utils', ->
       path.should.equal 'http://hero/api?action=man&data={"a":["abc",2]}'
       done()
 
-  describe 'randomString', ->
-    it 'should return a string', (done)->
-      _.randomString(10).should.be.a.String()
-      done()
-
-    it 'should return a string with the right length (up to 24 or 25)', (done)->
-      _.randomString(10).length.should.equal 10
-      _.randomString(6).length.should.equal 6
-      # Known abstraction leak: the minimalist implementation fails
-      # to get above 24 characters. or sometimes 25
-      _.randomString(100).length.should.not.equal 100
-      done()
-
   describe 'Full', ->
     it "should return a function", (done)->
       cb = -> console.log arguments
