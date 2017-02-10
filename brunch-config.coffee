@@ -1,6 +1,5 @@
 exports.config =
-  # See http://brunch.io/#documentation for docs.
-  notifications: true
+  # See http://brunch.io/docs/getting-started for docs.
   sourceMaps: true
   paths:
     # doc: https://github.com/brunch/brunch/blob/master/docs/config.md#paths
