@@ -10,8 +10,10 @@ module.exports = (e)->
   # Don't intercept if ctrlKey is pressed
   # it should open the targeted anchor href in a new tab/window
   # Prevent the normal handler to also fire:
-  # `unless _.isOpenedOutside(e) then handler()`
-  if _.isOpenedOutside(e) then return
+  # `unless _.isOpenedOutside(e) then handler()
+  # Ignore missing href though, as this behavior is applied to some anchors
+  # purposedly without anchor.Ex: visibility dropdown menus
+  if _.isOpenedOutside(e, true) then return
 
   # If there is no href on current target, then the default
   # behaviour is to do nothing.

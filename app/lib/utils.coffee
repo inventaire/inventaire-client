@@ -80,7 +80,7 @@ module.exports = (Backbone, _, $, app, window)->
     if str is '' then return ''
     str[0].toUpperCase() + str[1..-1]
 
-  isOpenedOutside: (e)->
+  isOpenedOutside: (e, ignoreMissingHref=false)->
     unless e?.ctrlKey?
       error_.report 'non-event object was passed to isOpenedOutside'
       # Better breaking an open outside behavior than not responding
@@ -88,7 +88,8 @@ module.exports = (Backbone, _, $, app, window)->
       return false
 
     unless _.isNonEmptyString e.currentTarget?.href
-      error_.report "can't open anchor outside: href is missing"
+      unless ignoreMissingHref
+        error_.report "can't open anchor outside: href is missing"
       return false
 
     # Anchor with a href are opened out of the current window when the ctrlKey is
