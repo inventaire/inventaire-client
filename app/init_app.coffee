@@ -53,4 +53,4 @@ module.exports = ->
 
       app.execute 'waiter:resolve', 'layout'
 
-  require('lib/piwik')()
+  configPromise.then -> require('lib/piwik')()

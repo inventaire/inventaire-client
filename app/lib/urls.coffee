@@ -14,7 +14,6 @@ module.exports =
   github: 'https://github.com/inventaire/inventaire'
   transifex: 'https://www.transifex.com/inventaire/inventaire'
   trello: 'https://trello.com/b/0lKcsZDj/inventaire-roadmap'
-  tracker: 'https://piwik.allmende.io/piwik.php'
   apiDoc: 'https://github.com/inventaire/inventaire/wiki/API'
   images:
     # not passing an absolute url so that it can be easily digested

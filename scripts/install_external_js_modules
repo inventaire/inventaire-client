@@ -21,10 +21,16 @@ quagga_base=quagga-0.11.5
 cropper_base=cropper-2.3.0
 leaflet_base=leaflet-bundle-1.0.2
 papaparse_base=papaparse-4.1.2
+piwik_base=piwik-3.0.1
 
 ############ INSTALLATIONS ###############
-curl -sk https://piwik.allmende.io/piwik.js > ${vendor}/piwik.js
-echo -e '\e[0;32mdone downloading:\e[0m piwik.js'
+# Following Piwik versions for script versioning
+curl -sk https://piwik.allmende.io/piwik.js > ${pubjs}/${piwik_base}.js
+cp ${pubjs}/${piwik_base}.js ${pubjs}/${piwik_base}.min.js
+# Re-minifying to remove comments
+uglifyInPlace ${pubjs}/${piwik_base}.min.js
+gzip -9kf "${pubjs}/${piwik_base}.min.js"
+echo -e '\e[0;32mdone downloading:\e[0m piwik'
 
 # Non-minified version is used in development
 quagga=node_modules/quagga/dist

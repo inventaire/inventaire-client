@@ -14,7 +14,7 @@ ls -lh app/**/* |
   sed -e 's/^/\x1b[31mempty file: \x1b[0m/' |
   sed -e 's/$/\x1b[30m should be fixed by `touch`ing the file\x1b[0m /'
 
-ls -lh {public,vendor}/js/* |
+ls -lh public/js/* |
   # log any file that would have a file space of 0
   egrep " 0 " |
   # keep only the filename, which is the last element
