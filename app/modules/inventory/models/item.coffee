@@ -1,5 +1,6 @@
 Filterable = require 'modules/general/models/filterable'
 error_ = require 'lib/error'
+updateSnapshotData = require '../lib/update_snapshot_data.coffee'
 
 module.exports = Filterable.extend
   url: -> app.API.items.authentified
@@ -18,7 +19,6 @@ module.exports = Filterable.extend
       throw error_.new "invalid entity URI: #{entity}", attrs
 
     @entityUri = entity
-    @waitForEntity = @reqGrab 'get:entity:model', @entityUri, 'entity'
 
     # created will be overriden by the server at item creation
     @set
@@ -33,9 +33,12 @@ module.exports = Filterable.extend
 
     @waitForUser = @reqGrab 'get:user:model', owner, 'user'
       .then @setUserData.bind(@)
-      # chain it to get access to @restricted
-      .then => @waitForEntity
-      .then @lookForMissingData.bind(@)
+
+    @waitForUser.then updateSnapshotData.bind(@)
+
+  grabEntity: ->
+    @waitForEntity or= @reqGrab 'get:entity:model', @entityUri, 'entity'
+    return @waitForEntity
 
   onCreation: (serverRes)->
     # update the _id from 'new' to the server _id
@@ -64,6 +67,7 @@ module.exports = Filterable.extend
     attrs = @toJSON()
     _.extend attrs,
       pathname: @pathname
+      # @entity will be defined only if @grabEntity was called
       entityData: @entity?.toJSON()
       entityPathname: @entityPathname
       restricted: @restricted
@@ -144,7 +148,7 @@ module.exports = Filterable.extend
     Promise.all [
       # wait for every model the item model depends on
       @waitForUser
-      @waitForEntity
+      @grabEntity()
     ]
     # /!\ cant be replaced by @entity.updateMetadata.bind(@entity)
     # as @entity is probably undefined yet
@@ -171,25 +175,6 @@ module.exports = Filterable.extend
     if _.isNonEmptyString details then details
     else @entity.findBestDescription()
 
-  # keep a copy of authors as a string on the item
-  lookForMissingData: ->
-    if @restricted then return
-    @updateEntityImage()
-    @updateAuthor()
-
-  updateEntityImage: ->
-    # pass if the item already has a picture
-    if @get('pictures')?[0]? then return
-
-    @entity.getImageAsync()
-    .then (image)=>
-      if image?.url? then @saveSnapshotData 'entity:image', image.url
-
-  updateAuthor: ->
-    @entity.getAuthorsString()
-    .then @saveSnapshotData.bind(@, 'entity:authors')
-    .catch _.Error('updateAuthor')
-
   hasActiveTransaction: ->
     # the reqres 'has:transactions:ongoing:byItemId' wont be defined
     # if the user isn't logged in
@@ -204,21 +189,3 @@ module.exports = Filterable.extend
     @set key, value
     # Trigger it
     @_lazySave()
-
-  # Save snapshot data (i.e. data saved to the item document for convenience
-  # but whose master data live elsewhere)
-  # Those data shouldn't be set on the item model, as it would be sent
-  # to the server on @save, as long as all the other 'official' attributes
-  saveSnapshotData: (key, value)->
-    snapshotKey = "snapshot.#{key}"
-    currentValue = @get snapshotKey
-
-    if not _.isNonEmptyString(value) or value is currentValue then return _.preq.resolved
-
-    if @id is 'new'
-      # the item wasn't created yet in the database
-      # and updating right now would thus create a dupplicate
-      # return a promise to keep the interface consistant
-      return _.preq.delay(1000).then @saveSnapshotData.bind(@, key, value)
-    else
-      return @lazySave snapshotKey, value

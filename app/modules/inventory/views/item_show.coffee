@@ -30,6 +30,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'add:pictures', @lazyRender
     # use lazyRender to let the time to the item model to setUserData
     @listenTo @model, 'user:ready', @lazyRender
+    @model.grabEntity()
     app.execute 'metadata:update:needed'
 
   initPlugins: ->
@@ -37,7 +38,7 @@ module.exports = Marionette.LayoutView.extend
     itemUpdaters.call(@)
 
   onRender: ->
-    @showEntityData()
+    @model.waitForEntity.then @showEntity.bind(@)
     @showComments()
     app.execute 'foundation:reload'
     if app.user.loggedIn
@@ -47,11 +48,6 @@ module.exports = Marionette.LayoutView.extend
     # needs to be run only once
     @model.updateMetadata()
     .finally app.Execute('metadata:update:done')
-
-  showEntityData: ->
-    { entity } = @model
-    if entity? then @showEntity entity
-    else @listenTo @model, 'grab:entity', @showEntity.bind(@)
 
   showEntity: (entity)->
     type = entity.get 'type'
