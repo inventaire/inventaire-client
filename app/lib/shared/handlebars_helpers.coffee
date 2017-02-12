@@ -7,7 +7,7 @@ module.exports = (_, appApi)->
     else defaultValue
 
   return helpers_ =
-    src: (path, width, height, extend)->
+    src: (path, width, height)->
       if _.isDataUrl path then return path
 
       width = getImgDimension width, 1600
