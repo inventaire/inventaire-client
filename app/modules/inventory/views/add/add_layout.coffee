@@ -48,6 +48,9 @@ module.exports = Marionette.LayoutView.extend
       @ui.tabs.removeClass 'active'
       @ui[tabKey].addClass 'active'
       app.navigate "add/#{tab}"
+      tab = _.I18n tab
+      add = _.I18n 'add'
+      app.execute 'metadata:update:title', "#{tab} - #{add}"
 
   changeTab: (e)->
     tab = e.currentTarget.id.split('Tab')[0]
