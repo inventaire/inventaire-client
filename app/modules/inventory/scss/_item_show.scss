@@ -1,32 +1,4 @@
 #itemShowLayout{
-  #picture{
-    flex: 0 0 auto;
-    figure{
-      // just required to center the img
-      @include display-flex(column, center, center);
-    }
-    figcaption{
-      @include bg-hover($darker-grey);
-      @include radius;
-    }
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      padding-top: 2em;
-      padding-bottom: 2em;
-      // height needed in parents element to give room for the position sticky
-      height: 100%;
-      @include display-flex(column);
-      > div{
-        @include display-flex(column);
-        flex: 1 1 auto;
-      }
-      figure{
-        @include sticky($topbar-height + 10px);
-        // just required to center the img
-        @include display-flex(column, center, center);
-      }
-    }
-  }
   #itemData{
     flex: 1;
   }

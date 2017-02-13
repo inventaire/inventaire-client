@@ -10,11 +10,9 @@ module.exports = Marionette.LayoutView.extend
     workRegion: '#work'
     editionRegion: '#edition'
     itemData: '#itemData'
-    pictureRegion: '#picture'
 
   initialize: ->
     @lazyRender = _.LazyRender @
-    @listenTo @model, 'add:pictures', @lazyRender
     # use lazyRender to let the time to the item model to setUserData
     @listenTo @model, 'user:ready', @lazyRender
     @model.grabEntity()
@@ -40,20 +38,3 @@ module.exports = Marionette.LayoutView.extend
         hidePicture: true
 
   showItemData: -> @itemData.show new ItemShowData { @model }
-
-  events:
-    'click a#changePicture': 'changePicture'
-
-  changePicture: ->
-    picturePicker = new PicturePicker
-      pictures: @model.get('pictures')
-      # limit: 3
-      limit: 1
-      save: @savePicture.bind(@)
-    app.layout.modal.show picturePicker
-
-  savePicture: (value)->
-    app.request 'item:update',
-      item: @model
-      attribute: 'pictures'
-      value: value
