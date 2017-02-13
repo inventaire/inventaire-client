@@ -30,7 +30,6 @@ module.exports = Marionette.ItemView.extend
     app.execute 'uriLabel:update'
 
   events:
-    'click .edit': 'itemEdit'
     'click a.requestItem': -> app.execute 'show:item:request', @model
 
   serializeData: ->

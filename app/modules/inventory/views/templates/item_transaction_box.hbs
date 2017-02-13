@@ -4,7 +4,7 @@
       {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
     </a>
   {{else}}
-    <a class="current" data-dropdown="{{cid}}-t-menu">
+    <a class="current" data-dropdown="{{cid}}-transaction-menu">
       <span class="icon">
         {{icon currentTransaction.icon}}
       </span>
@@ -13,7 +13,7 @@
         {{icon 'caret-down'}}
       </span>
     </a>
-    <ul id="{{cid}}-t-menu" data-options="align:right"
+    <ul id="{{cid}}-transaction-menu" data-options="align:right"
     class="tiny f-dropdown" data-dropdown-content>
       <li class="label2 capitalized">{{i18n 'available for'}}:</li>
       {{#each transactions}}
