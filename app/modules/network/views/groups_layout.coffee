@@ -19,7 +19,7 @@ module.exports = Marionette.LayoutView.extend
     # TODO: replace by per-group data waiter or remove if made obsolete
     # by users docs snapshot data: we might not need to query the groups items
     # to show this layout
-    app.request 'waitForNetworkItems'
+    app.request 'fetchNetworkItems'
     .then @showGroupsLists.bind(@)
     .catch _.Error('showTabGroups')
 

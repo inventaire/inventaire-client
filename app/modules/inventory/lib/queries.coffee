@@ -87,6 +87,6 @@ fetchNetworkItems = ->
 module.exports = (app)->
   app.reqres.setHandlers
     'items:getById': getById
-    'waitForNetworkItems': fetchNetworkItems
+    'fetchNetworkItems': fetchNetworkItems
     'items:fetchByUsers': fetchByUsers
     'items:getByUsernameAndEntity': getByUsernameAndEntity

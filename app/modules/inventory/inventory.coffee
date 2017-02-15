@@ -50,7 +50,7 @@ API =
     if app.request 'require:loggedIn', 'inventory'
       showInventory
         generalInventory: true
-        waitForData: app.request 'waitForNetworkItems'
+        waitForData: app.request 'fetchNetworkItems'
 
   showGeneralInventoryNavigate: ->
     API.showGeneralInventory()
