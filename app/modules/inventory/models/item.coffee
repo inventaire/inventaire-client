@@ -55,6 +55,13 @@ module.exports = Filterable.extend
     @authorized = user.id? and user.id is app.user.id
     @restricted = not @authorized
     @userReady = true
+    hasListing = @get('listing')?
+    if @authorized
+      unless hasListing
+        error_.report 'item missing private attributes', 500, @
+    else
+      if hasListing
+        error_.report 'item has private attributes', 500, @
     @trigger 'user:ready'
 
   # using 'new' as a temporary id to signal to the server
