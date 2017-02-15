@@ -6,6 +6,7 @@ module.exports = Marionette.LayoutView.extend
   className: -> if @options.standalone then 'editionLayout' else 'editionLi'
 
   regions:
+    personalItemsRegion: '.personalItems'
     networkItemsRegion: '.networkItems'
     publicItemsRegion: '.publicItems'
 

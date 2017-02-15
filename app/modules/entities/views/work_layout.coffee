@@ -9,6 +9,7 @@ module.exports = Marionette.LayoutView.extend
     workData: '#workData'
     editionsList: '#editionsList'
     workActions: '#workActions'
+    personalItemsRegion: '.personalItems'
     networkItemsRegion: '.networkItems'
     publicItemsRegion: '.publicItems'
 
