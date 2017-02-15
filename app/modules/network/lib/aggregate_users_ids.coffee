@@ -7,11 +7,11 @@ module.exports = ->
     return cache[name] or recalculateAll(name, categories)
 
   # locking the context for use here-after
-  getUserIds = @getUserIds.bind(@)
+  getUsersIds = @getUsersIds.bind(@)
 
   recalculateAll = (name, categories)->
     categories = _.forceArray categories
-    ids = _.chain(categories).map(getUserIds).flatten().value()
+    ids = _.chain(categories).map(getUsersIds).flatten().value()
     return cache[name] = ids
 
   for name, categories of aggregates

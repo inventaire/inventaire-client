@@ -48,7 +48,7 @@ module.exports = Positionable.extend
     .then collection.add.bind(collection)
     .catch _.Error('fetchMembers')
 
-  getUserIds: (category)->
+  getUsersIds: (category)->
     @get(category).map _.property('user')
 
   membersCount: -> @allMembersIds().length

@@ -174,7 +174,7 @@ module.exports = Filterable.extend
   findBestTitle: ->
     title = @get('title')
     transaction = @get 'transaction'
-    context = _.i18n "#{transaction}_personalized", {username: @username }
+    context = _.i18n "#{transaction}_personalized", { @username }
     return "#{title} - #{context}"
 
   findBestDescription: ->
