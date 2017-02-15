@@ -17,11 +17,6 @@
 
 #searchLayout{
   text-align: center;
-  .itemsList{
-    @include radius;
-    width: 100%;
-    margin: 0;
-  }
   .authorLayout{
     @include radius;
   }
@@ -36,9 +31,6 @@
       }
     }
     .authorLayout{
-      padding: 1em;
-    }
-    .itemsList{
       padding: 1em;
     }
   }

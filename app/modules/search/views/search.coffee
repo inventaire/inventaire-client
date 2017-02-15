@@ -20,7 +20,6 @@ module.exports = Marionette.LayoutView.extend
     LocalSeachBar: {}
 
   regions:
-    inventoryItems: '#inventoryItems'
     authors: '#authors'
     series: '#series'
     works: '#works'
@@ -57,22 +56,10 @@ module.exports = Marionette.LayoutView.extend
     'click #createEntity': 'createEntity'
 
   onShow: ->
-    app.request 'wait:for', 'friends:items'
-    .then @showItems.bind(@)
-
     @searchEntities()
 
   updateSearchBar: ->
     @ui.localSearchField.val @query
-
-  showItems: ->
-    collection = app.items.filtered.resetFilters().filterByText @query
-    if collection.length > 0
-      @inventoryItems.show new ItemsList
-        collection: collection
-        header:
-          text: 'matching works in your network'
-          classes: 'subheader'
 
   sameAsPreviousQuery: ->
     # Verifying that the query is not the same as the last one
