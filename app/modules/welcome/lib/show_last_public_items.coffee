@@ -1,7 +1,6 @@
 Items = require 'modules/inventory/collections/items'
 ItemsList = require 'modules/inventory/views/items_list'
 addUsersAndItems = require 'modules/inventory/lib/add_users_and_items'
-{ lastPublicItems } = app.API.items
 
 module.exports = (params)->
   { region, allowMore, limit, assertImage } = params
@@ -33,7 +32,7 @@ FetchMore = (collection, moreData, limit, assertImage)->
 
     busy = true
     offset = collection.length
-    _.preq.get lastPublicItems(limit, offset, assertImage)
+    _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
     .then addUsersAndItems.bind(null, collection)
     .catch catch404
     .finally -> busy = false

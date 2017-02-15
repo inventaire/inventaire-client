@@ -9,7 +9,8 @@ module.exports = Marionette.ItemView.extend
     @listenTo @model, 'change', @lazyRender
 
     # update the book counter when all items arrived
-    app.request('wait:for', 'friends:items').then @lazyRender
+    # TODO: replace by per-group data waiter
+    app.request('waitForNetworkItems').then @lazyRender
 
   initPlugin: ->
     groupPlugin.call @

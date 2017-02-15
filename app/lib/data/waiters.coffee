@@ -2,8 +2,6 @@ waitersNames = [
   'user'
   'users'
   'groups'
-  'items'
-  'friends:items'
   'transactions'
   'i18n'
   'layout'
@@ -25,25 +23,15 @@ module.exports = ->
   # using forEach to limit the scope of the name variable
   waitersNames.forEach initWaiter
 
-  _waitForItems = ->
-    return Promise.all [
-      waitersPromises.items
-      waitersPromises['friends:items']
-    ]
-
-  waitForItems = _.once _waitForItems
-
-  _waitForData = ->
+  _waitForNetwork = ->
     return Promise.all [
       waitersPromises.user
       waitersPromises.users
       waitersPromises.groups
-      waitForItems()
     ]
 
   app.reqres.setHandlers
-    'waitForData': _.once _waitForData
-    'waitForItems': waitForItems
+    'waitForNetwork': _.once _waitForNetwork
     'wait:for': (name)-> waitersPromises[name]
 
   app.commands.setHandlers

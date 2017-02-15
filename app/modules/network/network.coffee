@@ -55,7 +55,7 @@ module.exports =
 
 initRequestsCollectionsEvent = ->
   if app.user.loggedIn
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     .then -> app.vent.trigger 'network:requests:update'
 
 API =

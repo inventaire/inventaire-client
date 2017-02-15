@@ -18,7 +18,6 @@ module.exports =
     @moveMembership app.user, 'invited', 'members'
 
     return @action 'accept'
-    .then @fetchGroupUsersMissingItems.bind(@)
     .catch @revertMove.bind(@, app.user, 'invited', 'members')
 
   declineInvitation: ->

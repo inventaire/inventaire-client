@@ -1,5 +1,6 @@
 ItemShow = require './views/item_show'
 initFilters = require './lib/filters'
+initQueries = require './lib/queries'
 InventoryLayout = require './views/inventory'
 AddLayout = require './views/add/add_layout'
 EmbeddedScanner = require './views/add/embedded_scanner'
@@ -10,7 +11,6 @@ ItemsList = require './views/items_list'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
 fetchData = require 'lib/data/fetch'
-{ publicByUsernameAndEntity, publicById, usersPublicItems } = app.API.items
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -38,8 +38,8 @@ module.exports =
 
   initialize: ->
     app.items = require('./items_collections')(app, _)
-    fetchItems()
     initFilters app
+    initQueries app
     initTransactions app.items
     initializeInventoriesHandlers app
     initAddHelpers()
@@ -48,21 +48,30 @@ module.exports =
 API =
   showGeneralInventory: ->
     if app.request 'require:loggedIn', 'inventory'
-      showInventory { generalInventory: true }
+      showInventory
+        generalInventory: true
+        waitForData: app.request 'waitForNetworkItems'
 
   showGeneralInventoryNavigate: ->
     API.showGeneralInventory()
     app.navigate 'inventory'
 
   showUserInventory: (user, navigate)->
-    showInventory
-      user: user
-      navigate: navigate
+    # User might be a user id or a username
+    app.request 'resolve:to:userModel', user
+    .then (userModel)->
+      showInventory
+        user: user
+        navigate: navigate
+        waitForData: app.request 'items:fetchByUsers', [ userModel.id ]
 
   showGroupInventory: (id, name, navigate)->
-    showInventory
-      group: id
-      navigate: navigate
+    app.request 'get:group:model', id
+    .then (group)->
+      showInventory
+        group: id
+        navigate: navigate
+        waitForData: app.request 'items:fetchByUsers', group.allMembersIds()
 
   showInventoryNearby: ->
     if app.request 'require:loggedIn', 'inventory/nearby'
@@ -76,21 +85,20 @@ API =
     unless _.isItemId id then return app.execute 'show:error:missing'
     app.execute 'show:loader'
 
-    findItemById id
+    app.request 'items:getById', id
     .then showItemShowFromModel
     .catch (err)->
       if err.status is 404 then app.execute 'show:error:missing'
       else _.error err, 'showItemFromId'
 
-  showUserItemsByEntity: (username, entity, label)->
-    unless _.isUsername(username) and _.isEntityUri(entity)
+  showUserItemsByEntity: (username, uri, label)->
+    unless _.isUsername(username) and _.isEntityUri(uri)
       return app.execute 'show:error:missing'
 
-    app.execute 'show:loader', {title: "#{label} - #{username}"}
+    title = if label then "#{label} - #{username}" else "#{uri} - #{username}"
+    app.execute 'show:loader', { title }
 
-    fetchEntityData entity
-    .then -> app.request 'waitForItems'
-    .then -> findItemByUsernameAndEntity username, entity
+    app.request 'items:getByUsernameAndEntity', username, uri
     .then displayFoundItems
     .catch _.Error('showItemShowFromUserAndEntity')
 
@@ -138,29 +146,9 @@ showAddLayout = (tab='search')->
 groupNameMatch = (name, model)->
   model.get('name').toLowerCase() is name
 
-findItemById = (itemId)->
-  app.request 'waitForItems'
-  .then app.items.byId.bind(app.items, itemId)
-  .then (item)->
-    if item? then item
-    else
-      # if it isnt in friends id, it should be a public item
-      _.preq.get publicById(itemId)
-      .then app.items.public.add
-  .catch _.ErrorRethrow('findItemById err (maybe the item was deleted or its visibility changed?)')
-
 fetchEntityData = (entity)->
   # make sure entity model is accessible from Entities.byUri
   app.request 'get:entity:model', entity
-
-# returns both sync value and promises
-# => to be called from within a promise chain only
-findItemByUsernameAndEntity = (username, entity)->
-  owner = app.request 'get:userId:from:username', username
-  if app.request 'user:isPublicUser', owner
-    return requestPublicItem username, entity
-  else
-    return app.items.where {owner: owner, entity: entity}
 
 displayFoundItems = (items)->
   _.log items, 'displayFoundItems items'
@@ -179,23 +167,6 @@ showInventory = (options)->
 showItemsList = (items)->
   collection = new Backbone.Collection items
   app.layout.main.show new ItemsList {collection: collection}
-
-fetchItems = ->
-  app.request 'wait:for', 'user'
-  .then ->
-    fetchData
-      name: 'items'
-      collection: app.items
-      condition: app.user.loggedIn
-      fetchOptions: { reset: true }
-    .then -> app.user.itemsFetched = true
-
-requestPublicItem = (username, entity)->
-  _.preq.get publicByUsernameAndEntity(username, entity)
-  .then (res)->
-    app.execute 'users:public:add', res.user
-    return app.items.public.add res.items
-  .catch _.Error('requestPublicItem err')
 
 itemsCountByEntity = (uri)->
   app.items.where({entity: uri}).length
@@ -264,7 +235,8 @@ initializeInventoriesHandlers = (app)->
 
     'items:count:byEntity': itemsCountByEntity
 
-    'get:item:model': findItemById
+    # Aliasing
+    'get:item:model': app.Request 'items:getById'
     'get:item:model:sync': (id)-> app.items.byId id
 
     'inventory:main:user:length': (nonPrivate)->
@@ -280,14 +252,6 @@ initializeInventoriesHandlers = (app)->
 
     'inventory:user:items': (userId)->
       return app.items.where({owner: userId})
-
-    'inventory:fetch:users:public:items': (usersIds)->
-      if usersIds.length is 0
-        _.warn usersIds, 'no user ids, no items fetched'
-        return _.preq.resolve []
-
-      _.preq.get usersPublicItems(usersIds)
-      .get 'items'
 
     'item:main:user:instances': (entityUri)->
       return app.items.personal.byEntityUri(entityUri)

@@ -18,7 +18,7 @@ module.exports = Marionette.ItemView.extend
     @lazyRender = _.LazyRender @
 
     # rerender once counter data arrived
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     .then @lazyRender
     .then @listenToRequestsCollections.bind(@)
 

@@ -11,7 +11,7 @@ module.exports = ListWithCounter.extend
     @initUpdaters()
 
     # wait for the notifications to be added and rendered
-    app.request('waitForData')
+    app.request 'waitForNetwork'
     .delay 1000
     .then @updateSeeAllLink.bind(@)
 

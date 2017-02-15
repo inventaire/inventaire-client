@@ -28,7 +28,7 @@ module.exports =
 
     if app.user.loggedIn
       _.preq.get app.API.notifs
-      .tap app.Request('waitForData')
+      .tap app.Request('waitForNetwork')
       .then addNotifications
       .catch _.Error('notifications init err')
 

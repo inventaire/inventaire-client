@@ -12,7 +12,7 @@ module.exports = Backbone.NestedModel.extend
   isUnread: -> @get('status') is 'unread'
 
   grabAttributeModel: (attribute)->
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     .then =>
       id = @get "data.#{attribute}"
       @reqGrab "get:#{attribute}:model", id, attribute

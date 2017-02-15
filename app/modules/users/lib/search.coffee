@@ -19,9 +19,9 @@ module.exports = (app)->
     .then addUsersUnlessHere
 
   addUsersUnlessHere = (users)->
-    # Need to waitForData as isntAlreadyHere can't
+    # Need to waitForNetwork as isntAlreadyHere can't
     # do it's job if user relations data haven't return yet
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     .then -> app.execute 'users:public:add', users
 
   return API =

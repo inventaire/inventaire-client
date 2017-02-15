@@ -5,12 +5,17 @@ module.exports = ->
   .then _fetchRelationsData
 
 _fetchRelationsData = ->
-  { relations, groups } = app
+  { groups } = app
+  # Using a different object than app.relations, so that adding coGroupMembers
+  # doesn't make spreadRelationsData loop on relations crash
+  relations = _.deepClone app.relations
   unless relations? or groups?
     return _.preq.reject 'no relations found at fetchRelationsData'
 
   relationsIds = _.allValues relations
   groupsIds = extractGroupsIds groups
+
+  app.relations.coGroupMembers = groupsIds
 
   relations.nonRelationGroupUser = _.difference groupsIds, relationsIds
   inGroups = inGroupsNonFriendsRelations relations, groupsIds

@@ -35,7 +35,7 @@ module.exports = Marionette.LayoutView.extend
       value: @lastSearch
 
   onShow: ->
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     .then @showGroupList.bind(@)
 
   showGroupList: ->

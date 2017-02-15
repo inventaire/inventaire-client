@@ -113,15 +113,6 @@ module.exports = Positionable.extend
 
   findMainUserInvitor: -> @findUserInvitor app.user
 
-  fetchGroupUsersMissingItems: ->
-    groupNonFriendsUsersIds = app.request 'get:non:friends:ids', @allMembersIds()
-    _.log groupNonFriendsUsersIds, 'groupNonFriendsUsersIds'
-    if groupNonFriendsUsersIds.length > 0
-      _.preq.get app.API.users.items(groupNonFriendsUsersIds)
-      .then _.Log('groupNonFriendsUsers items')
-      .then app.items.add.bind(app.items)
-      .catch _.Error('fetchGroupUsersMissingItems err')
-
   userCanLeave: ->
     unless @mainUserIsAdmin() then return true
     mainUserIsTheOnlyAdmin = @allAdminsIds().length is 1

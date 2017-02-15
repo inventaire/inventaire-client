@@ -8,15 +8,10 @@ module.exports =
       ids = ids.join '|'
       return "#{publik}?action=get-users&ids=#{ids}"
     else throw new Error "users data API needs an array of valid user ids"
-  items: (ids)->
-    ids = _.forceArray ids
-    if ids?
-      ids = ids.join '|'
-      return "#{authentified}?action=get-users-items&ids=#{ids}"
-    else throw new Error "users' items API needs an id"
   search: search.bind null, publik
   searchByPosition: searchByPosition.bind null, publik
 
+  # TODO: move to items API
   publicItemsNearby: (range=50)->
     _.buildPath authentified,
       action: 'get-items-nearby'

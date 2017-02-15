@@ -30,7 +30,7 @@ module.exports = (groups)->
     .then addGroupsUnlessHere
 
   addGroupsUnlessHere = (groups)->
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     .then ->
       for group in groups
         addGroupUnlessHere group

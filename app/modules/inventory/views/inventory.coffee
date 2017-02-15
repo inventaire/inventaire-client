@@ -43,7 +43,10 @@ module.exports = Marionette.LayoutView.extend
     # waitForItems to avoid having items displaying undefined values
     # waitForUserData to avoid having displaying a user profile without
     # knowing the main user
-    app.request 'waitForData'
+
+    waitForData = @options.waitForData or _.preq.resolved
+
+    waitForData
     .then CheckViewState(@, 'inventory')
     .then @showItemsList.bind(@)
     .then app.Execute('metadata:update:done')
@@ -185,27 +188,12 @@ module.exports = Marionette.LayoutView.extend
     @itemsView.show new PositionWelcome
 
 prepareUserItemsList = (user, navigate)->
-  unless app.request 'user:itemsFetched', user
-    fetchUserPublicItems user
-
   username = user.get 'username'
   app.execute 'filter:inventory:owner', user.id
   app.vent.trigger 'sidenav:show:user', user
   if navigate then navigateToUserInventory user
 
 navigateToUserInventory = (user)-> app.navigate user.get('pathname')
-
-
-fetchUserPublicItems = (user)->
-  app.request 'inventory:fetch:users:public:items', user.id
-  .then _.Log('public user public items')
-  .then app.items.public.add
-  .catch _.Error('fetchUserPublicItems')
-
-  # remove items on inventory change
-  removeUserItems = -> app.execute('inventory:remove:user:items', user.id)
-  cb = -> app.vent.once('inventory:change', removeUserItems)
-  setTimeout cb, 500
 
 updateInventoryMetadata = ->
   app.execute 'metadata:update',

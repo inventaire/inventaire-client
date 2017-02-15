@@ -41,18 +41,11 @@ module.exports = (app)->
         throw error_.new 'itemsFetched expected a model', userModel
       return userModel.itemsFetched is true
 
-    getNonFriendsIds: (usersIds)->
-      _.type usersIds, 'array'
-      _(usersIds).chain()
-      .without app.user.id
-      .reject sync.isFriend
-      .value()
-
   async =
     getUsersData: (ids)->
       unless ids.length > 0 then return _.preq.resolve []
 
-      app.request 'waitForData'
+      app.request 'waitForNetwork'
       .then -> usersData.get ids, 'collection'
       .then (users)->
         compacted = _.compact users
@@ -68,7 +61,7 @@ module.exports = (app)->
       .then addPublicUsers
 
     getUserModel: (id, category='public')->
-      app.request 'waitForData'
+      app.request 'waitForNetwork'
       .then ->
         userModel = app.request 'get:userModel:from:userId', id
         if userModel? then return userModel
@@ -153,7 +146,6 @@ module.exports = (app)->
     'get:userModel:from:username': async.getUserModelFromUsername
     'get:userModel:from:userId': sync.getUserModelFromUserId
     'get:userId:from:username': sync.getUserIdFromUsername
-    'get:non:friends:ids': sync.getNonFriendsIds
     'user:isMainUser': sync.isMainUser
     'user:isFriend': sync.isFriend
     'user:isPublicUser': sync.isPublicUser

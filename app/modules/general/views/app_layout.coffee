@@ -55,7 +55,7 @@ module.exports = Marionette.LayoutView.extend
     initDynamicBackground.call(@)
     # wait for the app to be initiated before listening to resize events
     # to avoid firing a meaningless event at initialization
-    app.request('waitForData').then initWindowResizeEvents
+    app.request('waitForNetwork').then initWindowResizeEvents
 
     app.vent.on
       'top:bar:show': @showTopBar.bind(@)

@@ -150,7 +150,6 @@ setHandlers = ->
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
     'get:entities:models': getEntitiesModels
-    'get:entity:public:items': getEntityPublicItems
     'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
     'entity:exists:or:create:from:seed': existsOrCreateFromSeed
@@ -178,8 +177,6 @@ getEntityModel = (uri, refresh)->
 createEntity = (data)->
   createInvEntity data
   .then entitiesModelsIndex.add
-
-getEntityPublicItems = (uri)-> _.preq.get app.API.items.publicByEntity(uri)
 
 getEntityLocalHref = (uri)-> "/entity/#{uri}"
 

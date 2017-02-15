@@ -29,7 +29,7 @@ module.exports = Marionette.LayoutView.extend
     @lazyInitMap = _.debounce @initMap.bind(@), 300
 
   onRender: ->
-    app.request 'waitForData'
+    app.request 'waitForNetwork'
     # render might be called several times
     .then @lazyInitMap.bind(@)
 
