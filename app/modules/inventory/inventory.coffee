@@ -237,7 +237,6 @@ initializeInventoriesHandlers = (app)->
 
     # Aliasing
     'get:item:model': app.Request 'items:getById'
-    'get:item:model:sync': (id)-> app.items.byId id
 
     'inventory:main:user:length': (nonPrivate)->
       fullInventoryLength = app.items.personal.length

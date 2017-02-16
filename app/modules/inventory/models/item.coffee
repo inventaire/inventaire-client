@@ -98,14 +98,6 @@ module.exports = Filterable.extend
       attrs.transactions[transaction].classes = 'selected'
 
       { listing } = attrs
-      unless listing?
-        # main user item fetched from a public API
-        # requires to borrow its listing to the private item
-        mainModel = app.request 'get:item:model:sync', attrs._id
-        # in the undesired case, but known issue, where the listing
-        # is undefined, default to private
-        listing = mainModel?.get('listing') or 'private'
-
       attrs.currentListing = app.user.listings()[listing]
       attrs.listings = app.user.listings()
       attrs.listings[listing].classes = 'selected'
