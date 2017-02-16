@@ -10,6 +10,8 @@ module.exports = Filterable.extend
     unless attrs.owner? then return "an owner must be provided"
 
   initialize: (attrs, options)->
+    @testPrivateAttributes()
+
     { entity, title, owner } = attrs
 
     # replace title with snapshot.title if simply taken from the entity
@@ -36,6 +38,16 @@ module.exports = Filterable.extend
 
     @waitForUser.then updateSnapshotData.bind(@)
 
+  # Checking that attributes privacy is as expected
+  testPrivateAttributes: ->
+    hasPrivateAttributes = @get('listing')?
+    if @get('owner') is app.user.id
+      unless hasPrivateAttributes
+        error_.report 'item missing private attributes', 500, @
+    else
+      if hasPrivateAttributes
+        error_.report 'item has private attributes', 500, @
+
   grabEntity: ->
     @waitForEntity or= @reqGrab 'get:entity:model', @entityUri, 'entity'
     return @waitForEntity
@@ -55,13 +67,6 @@ module.exports = Filterable.extend
     @authorized = user.id? and user.id is app.user.id
     @restricted = not @authorized
     @userReady = true
-    hasListing = @get('listing')?
-    if @authorized
-      unless hasListing
-        error_.report 'item missing private attributes', 500, @
-    else
-      if hasListing
-        error_.report 'item has private attributes', 500, @
     @trigger 'user:ready'
 
   # using 'new' as a temporary id to signal to the server
