@@ -8,19 +8,18 @@ module.exports = ->
     unless group? then return getGroupPublicData id
 
     # the group model might have arrived from a simple search
-    # thus without fetching its users and items public data
-    if group.publicItemsFetched then _.preq.resolve group
+    # thus without fetching its users
+    if group.usersFetched then _.preq.resolve group
     else getGroupPublicData null, group
 
   getGroupPublicData = (id, groupModel)->
     if groupModel? then id = groupModel.id
-    _.preq.get _.buildPath(app.API.groups.public, {id: id})
+    _.preq.get app.API.groups.byId(id)
     .then (res)->
-      { group, users, items } = res
+      { group, users } = res
       app.execute 'users:public:add', users
-      app.items.public.add items
       groupModel ?= groups.add group
-      groupModel.publicItemsFetched = true
+      groupModel.usersFetched = true
       return groupModel
 
   groupSettingsUpdater = Updater
