@@ -55,7 +55,7 @@ module.exports = Positionable.extend
   requestsCount: ->
     # only used to count groups notifications
     # which only concern group admins
-    if @mainUserIsAdmin() then @requested.length
+    if @mainUserIsAdmin() then @get('requested').length
     else 0
 
   itemsCount: -> _.sum @members.map(userItemsCount)
