@@ -1,11 +1,9 @@
 SideNav = require '../side_nav/views/side_nav'
 ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
-ItemsCollection = require 'modules/inventory/collections/items'
 Controls = require './controls'
 Group = require 'modules/network/views/group'
 showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
-addUsersAndItems = require 'modules/inventory/lib/add_users_and_items'
 PositionWelcome = require 'modules/map/views/position_welcome'
 { CheckViewState, catchDestroyedView } = require 'lib/view_state'
 
@@ -174,11 +172,8 @@ module.exports = Marionette.LayoutView.extend
     else app.navigateReplace pathname
 
   showItemsNearby: ->
-    items = new ItemsCollection
-    _.preq.get app.API.users.publicItemsNearby()
-    .then _.Log('showItemsNearby res')
-    .then addUsersAndItems.bind(null, items)
-    .then =>
+    app.request 'items:nearby'
+    .then (items)=>
       @itemsView.show new ItemsList
         collection: items
         showDistance: true

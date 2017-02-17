@@ -1,6 +1,8 @@
 # Fetch: make sure the items are added to the global collections
 # Get: Fetch and return the desired models
 
+Items = require 'modules/inventory/collections/items'
+
 mainUserItemsFetched = false
 networkItemsFetched = false
 
@@ -84,9 +86,32 @@ fetchNetworkItems = ->
 
   return waitForNetworkItems
 
+nearby = ->
+  collection = new Items
+  _.preq.get app.API.users.publicItemsNearby()
+  .then _.Log('showItemsNearby res')
+  .then addUsersAndItems(collection)
+
+lastPublic = (collection, limit, offset, assertImage)->
+  _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
+  .then addUsersAndItems(collection)
+
+addUsersAndItems = (collection)-> (res)->
+  { items, users } = res
+  unless items?.length > 0
+    err = new Error 'no public items'
+    err.status = 404
+    throw err
+
+  app.execute 'users:public:add', users
+  collection.add items
+  return collection
+
 module.exports = (app)->
   app.reqres.setHandlers
     'items:getById': getById
     'fetchNetworkItems': fetchNetworkItems
     'items:fetchByUsers': fetchByUsers
     'items:getByUsernameAndEntity': getByUsernameAndEntity
+    'items:nearby': nearby
+    'items:lastPublic': lastPublic
