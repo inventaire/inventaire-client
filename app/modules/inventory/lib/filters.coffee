@@ -64,7 +64,7 @@ module.exports = (app)->
     'filter:inventory:transaction:include': includeTransaction
     'filter:inventory:transaction:exclude': excludeTransaction
 
-  app.request 'wait:for', 'friends:items'
+  app.request 'waitForNetwork'
   # wait for debounced recalculations
   # ex: user:isFriend depends on app.users.friends.list
   .delay(400)
