@@ -146,10 +146,6 @@ showAddLayout = (tab='search')->
 groupNameMatch = (name, model)->
   model.get('name').toLowerCase() is name
 
-fetchEntityData = (entity)->
-  # make sure entity model is accessible from Entities.byUri
-  app.request 'get:entity:model', entity
-
 displayFoundItems = (items)->
   _.log items, 'displayFoundItems items'
   unless items?.length?
