@@ -23,6 +23,8 @@ module.exports =
     { item, attribute, value, data, selector } = options
     _.types [item, selector], ['object', 'string|undefined']
 
+    itemAttributesBefore = _.deepClone item.toJSON()
+
     if data?
       _.type data, 'object'
       item.set data
@@ -30,12 +32,8 @@ module.exports =
       _.type attribute, 'string'
       item.set attribute, value
 
-    promise = item.save()
-    if selector?
-      app.request 'waitForCheck',
-        promise: promise
-        selector: selector
-    return promise
+    item.save()
+    .catch rollbackUpdate(item, itemAttributesBefore)
 
   destroy: (options)->
     # requires the ConfirmationModal behavior to be on the view
@@ -51,3 +49,7 @@ module.exports =
       confirmationText: _.i18n('destroy_item_text', {title: title})
       warningText: _.i18n("this action can't be undone")
       action: action
+
+rollbackUpdate = (item, itemAttributesBefore)-> (err)->
+  item.set itemAttributesBefore
+  throw err
