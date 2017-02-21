@@ -4,10 +4,6 @@ module.exports = (app)->
   { items } = app
 
   items.filtered = itemsFiltered items
-  items.personal.filtered = itemsFiltered items.personal
-  items.friends.filtered = itemsFiltered items.friends
-  items.public.filtered = itemsFiltered items.public
-  items.network.filtered = itemsFiltered items.network
 
   filterInventory = (filterName, filterFn)->
     unless singleFilterReady filterName

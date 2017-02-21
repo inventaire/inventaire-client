@@ -9,10 +9,13 @@ module.exports = ->
     'last:add:mode:set': set.bind null, 'lastAddMode'
     # 'inventorying', 'giving', 'lending', 'selling'
     'last:transaction:set': set.bind null, 'lastTransaction'
-    # 'private', 'friends', 'groups'
+    # 'private', 'network', 'groups'
     'last:listing:set': set.bind null, 'lastListing'
 
   app.reqres.setHandlers
     'last:add:mode:get': get.bind null, 'lastAddMode'
     'last:transaction:get': get.bind null, 'lastTransaction'
-    'last:listing:get': get.bind null, 'lastListing'
+    'last:listing:get': ->
+        lastListing = get 'lastListing'
+        # Legacy support for friends listing
+        if lastListing is 'friends' then 'network' else lastListing

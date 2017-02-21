@@ -11,7 +11,7 @@
   #inventorying{ @include selected-button-color($inventorying-color); }
 
   #private{ @include selected-button-color($private-color, $private-color-text); }
-  #friends{ @include selected-button-color($friends-color, $friends-color-text); }
+  #network{ @include selected-button-color($network-color, $network-color-text); }
   #public{ @include selected-button-color($public-color, $public-color-text); }
 }
 

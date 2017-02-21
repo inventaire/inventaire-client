@@ -23,13 +23,11 @@ module.exports = (app, _)->
   # while app.user.id is undefined
   app.user.once 'change', -> items.personal.refilter()
 
-  attachFilteredCollection 'friends', isFriend
-
-  attachFilteredCollection 'public', isPublicUser
-  items.public.byEntityUris = items.byEntityUris.bind items.public
-
   # Includes users who made a friend request or to which a friend request was made
   attachFilteredCollection 'network', isNetworkUser
   items.network.byEntityUris = items.byEntityUris.bind items.network
+
+  attachFilteredCollection 'public', isPublicUser
+  items.public.byEntityUris = items.byEntityUris.bind items.public
 
   return items

@@ -6,8 +6,8 @@ module.exports = (app)->
       icon: 'lock'
       unicodeIcon: '&#xf023;'
       label: 'private'
-    friends:
-      id: 'friends'
+    network:
+      id: 'network'
       icon: 'users'
       unicodeIcon: '&#xf0c0;'
       label: 'friends and groups'
