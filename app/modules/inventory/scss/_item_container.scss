@@ -1,5 +1,8 @@
 // itemContainer internal settings
 // for itemContainer positioning, see items_list
+.alert-box{
+  max-height: 4em;
+}
 .itemContainer{
   @include shadow-box;
   @include radius;

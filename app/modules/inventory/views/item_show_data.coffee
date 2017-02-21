@@ -13,11 +13,15 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     ConfirmationModal: {}
     ElasticTextarea: {}
+    AlertBox: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @
     @initPlugins()
     @uniqueSelector = '#'+@id
+    # The alertbox is appended to the target's parent, which might have
+    # historical reasons but seems a bit dumb now
+    @alertBoxTarget = @uniqueSelector + ' .leftBox .panel'
     @listenTo @model, 'change', @lazyRender
 
   initPlugins: ->

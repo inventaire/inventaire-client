@@ -12,12 +12,14 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
     ConfirmationModal: {}
+    AlertBox: {}
 
   initialize: ->
     @initPlugins()
     @lazyRender = _.LazyRender @, 400
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'user:ready', @lazyRender
+    @alertBoxTarget = "#{@uniqueSelector} .details"
     # Should not be required
     # @listenTo @model, 'grab:entity', @lazyRender
 

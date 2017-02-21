@@ -1,4 +1,5 @@
 error_ = require 'lib/error'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = ->
   _.extend @events,
@@ -21,6 +22,10 @@ module.exports = ->
         item: @model
         attribute: attribute
         value: value
+      .catch (err)=>
+        err.selector = @alertBoxTarget
+        # Let the time to the view to re-render after the model rolled back
+        setTimeout forms_.catchAlert.bind(null, @, err), 500
 
     itemDestroy: ->
       afterDestroy = @afterDestroy or cb = -> console.log 'item deleted'
