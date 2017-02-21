@@ -11,9 +11,10 @@ module.exports = (app, _)->
     items[label].add = itemsAddProxy
 
   isMainUser = (model)-> model.get('owner') is app.user.id
-  isFriend = (model)-> app.request 'user:isFriend', model.get('owner')
+  isNetworkUser = (model)->
+    networkIds = app.users.friends.list.concat(app.relations.coGroupMembers)
+    return model.get('owner') in networkIds
   isPublicUser = (model)-> app.request 'user:isPublicUser', model.get('owner')
-  isNetworkUser = (model)-> not isMainUser(model) and not isPublicUser(model)
 
   attachFilteredCollection 'personal', isMainUser
   items.personal.create = items.create.bind items
