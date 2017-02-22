@@ -4,6 +4,14 @@ formatStack = require './format_stack'
 module.exports = ->
   # override window.onerror to always log the stacktrace
   window.onerror = (errorMsg, url, lineNumber, columnNumber, errObj)->
+    unless errObj?
+      # Prevent error report to crash because a browser doesn't follow this convention
+      # (or is that standard?)
+      errObj =
+        message: errorMsg
+        context: _.toArray arguments
+        stack: ''
+
     if errObj.hasBeenLogged then return
     errObj.hasBeenLogged = true
 
