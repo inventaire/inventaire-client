@@ -234,22 +234,5 @@ initializeInventoriesHandlers = (app)->
     # Aliasing
     'get:item:model': app.Request 'items:getById'
 
-    'inventory:main:user:length': (nonPrivate)->
-      fullInventoryLength = app.items.personal.length
-      privateInventoryLength = mainUserPrivateInventoryLength()
-      if nonPrivate then fullInventoryLength - privateInventoryLength
-      else fullInventoryLength
-
-    'inventory:user:length': (userId)->
-      # app.items.where({owner: userId}).length would be simpler
-      # but probably less efficient?
-      return app.items.inventoryLength[userId]
-
-    'inventory:user:items': (userId)->
-      return app.items.where({owner: userId})
-
     'item:main:user:instances': (entityUri)->
       return app.items.personal.byEntityUri(entityUri)
-
-mainUserPrivateInventoryLength = ->
-  app.items.personal.where({listing: 'private'}).length

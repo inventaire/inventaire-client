@@ -16,6 +16,7 @@ module.exports = UserCommons.extend
   initialize: ->
     @on 'change:language', @changeLang.bind(@)
     @on 'change:username', @setPathname.bind(@)
+    @on 'change:snapshot', @setAllInventoryStats.bind(@)
     # user._id should only change once from undefined to defined
     @once 'change:_id', (model, id)-> app.execute 'track:user:id', id
 
@@ -74,7 +75,13 @@ module.exports = UserCommons.extend
     return attrs
 
   inventoryLength: (nonPrivate)->
-    if @itemsFetched then app.request 'inventory:main:user:length', nonPrivate
+    if nonPrivate then @itemsCount - @privateItemsCount
+    else @privateItemsCount
+
+  setAllInventoryStats: ->
+    @setInventoryStats()
+    # Known case of undefined snapshot: when the user isn't logged in
+    @privateItemsCount = @get('snapshot').private['items:count'] or 0
 
   deleteAccount: ->
     console.log 'starting to play "Somebody that I use to know" and cry a little bit'
