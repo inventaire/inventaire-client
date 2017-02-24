@@ -17,16 +17,21 @@ module.exports = Marionette.LayoutView.extend
     claims: '.claims'
     admin: '.admin'
 
+  ui:
+    creationButtons: '.creationButton'
+
   initialize: ->
     @userIsAdmin = app.user.get 'admin'
     @creationMode = @model.propertiesShortlist
+    @requiresLabel = @model.type isnt 'edition'
     @showAdminSection = @userIsAdmin and not @creationMode
     @waitForPropCollection = @model.waitForSubentities.then @initPropertiesCollections.bind(@)
+    @creationButtonDisabled = false
 
   initPropertiesCollections: -> @properties = propertiesCollection @model
 
   onShow: ->
-    unless @model.type is 'edition'
+    if @requiresLabel
       @title.show new TitleEditor { @model }
 
     if @showAdminSection
@@ -34,6 +39,9 @@ module.exports = Marionette.LayoutView.extend
 
     @waitForPropCollection
     .then @showPropertiesEditor.bind(@)
+
+    @listenTo @model, 'change', @updateCreationButtons.bind(@)
+    @updateCreationButtons()
 
   showPropertiesEditor: ->
     @claims.show new PropertiesEditor
@@ -77,3 +85,16 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'show:feedback:menu',
       subject: "[#{uri}][#{subject}] "
       event: e
+
+  # Hiding creation buttons when a label is required but no label is set yet
+  # to invite the user to edit and save the label, or cancel.
+  updateCreationButtons: ->
+    labelsCount = _.values(@model.get('labels')).length
+    if @requiresLabel and labelsCount is 0
+      unless @creationButtonDisabled
+        @ui.creationButtons.hide()
+        @creationButtonDisabled = true
+    else
+      if @creationButtonDisabled
+        @ui.creationButtons.fadeIn()
+        @creationButtonDisabled = false
