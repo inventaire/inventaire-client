@@ -19,24 +19,29 @@ module.exports = ->
 
   # tracker will be defined once piwik.js is executed
   tracker = null
+  piwikDisabled = false
 
   # Unfortunately, piwik.js can't be bundled within vendor.js
   # as it has to be run after _paq is initialized (here above)
   piwikInitPromise = _.preq.getScript app.API.assets.scripts.piwik()
     .then -> tracker = Piwik.getAsyncTracker()
-    .catch _.Error('piwik init err')
+    .catch (err)->
+      # Known case: ublock origin
+      _.warn 'Fetching Piwik failed (Could be because of a tracker blocker)'
+      piwikDisabled = true
 
   # Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
   setUserId = (id)->
     if _.isUserId id
       piwikInitPromise
-      .then -> tracker.setUserId id
+      .then -> unless piwikDisabled then tracker.setUserId id
 
   trackPageView = (title)->
-    piwikInitPromise
-    .then ->
-      tracker.setCustomUrl location.href
-      tracker.trackPageView title
+    unless piwikDisabled
+      piwikInitPromise
+      .then ->
+        tracker.setCustomUrl location.href
+        tracker.trackPageView title
 
   app.commands.setHandlers
     'track:user:id': setUserId
