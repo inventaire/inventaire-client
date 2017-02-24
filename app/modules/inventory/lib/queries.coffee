@@ -88,16 +88,19 @@ fetchNetworkItems = ->
 
 nearby = ->
   collection = new Items
-  _.preq.get app.API.users.publicItemsNearby()
+  _.preq.get app.API.items.nearby()
   .then _.Log('showItemsNearby res')
   .then addUsersAndItems(collection)
 
-lastPublic = (collection, limit, offset, assertImage)->
+lastPublic = (params)->
+  { collection, limit, offset, assertImage } = params
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
   .then addUsersAndItems(collection)
 
 addUsersAndItems = (collection)-> (res)->
   { items, users } = res
+  # Also accepts items indexed by listings: user, network, public
+  unless _.isArray items then items = _.flatten _.values(items)
   unless items?.length > 0
     err = new Error 'no public items'
     err.status = 404

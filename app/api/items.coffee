@@ -27,4 +27,4 @@ module.exports =
       offset: offset
       'assert-image': assertImage
 
-  nearby: (range=50)-> buildGetPath 'nearby', { range }
+  nearby: (range=50)-> _.buildPath authentified, { action: 'nearby', range }
