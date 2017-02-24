@@ -11,7 +11,9 @@ module.exports =
     itemModel._creationPromise = itemModel.save()
       .then _.Log('item creation server res')
       .then itemModel.onCreation.bind(itemModel)
-      .then -> return itemModel
+      .then ->
+        app.user.trigger 'items:change', null, itemModel.get('listing')
+        return itemModel
       .catch _.ErrorRethrow('item creation err')
 
     return itemModel
@@ -33,6 +35,9 @@ module.exports =
       item.set attribute, value
 
     item.save()
+    .tap ->
+      { listing:previousListing } = itemAttributesBefore
+      app.user.trigger 'items:change', previousListing, item.get('listing')
     .catch rollbackUpdate(item, itemAttributesBefore)
 
   destroy: (options)->
@@ -43,7 +48,10 @@ module.exports =
     _.types [model, selector, next], ['object', 'string', 'function']
     title = model.get('title')
 
-    action = -> model.destroy().then next
+    action = ->
+      model.destroy()
+      .tap -> app.user.trigger 'items:change', model.get('listing'), null
+      .then next
 
     $(selector).trigger 'askConfirmation',
       confirmationText: _.i18n('destroy_item_text', {title: title})

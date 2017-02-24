@@ -16,7 +16,12 @@ module.exports = UserCommons.extend
   initialize: ->
     @on 'change:language', @changeLang.bind(@)
     @on 'change:username', @setPathname.bind(@)
-    @on 'change:snapshot', @setAllInventoryStats.bind(@)
+
+    # Only listening for first change (when the main user data arrive)
+    # as next changes happening in deep objects won't trigger this event anyway
+    @once 'change:snapshot', @setAllInventoryStats.bind(@)
+    @on 'items:change', @updateItemsCounters.bind(@)
+
     # user._id should only change once from undefined to defined
     @once 'change:_id', (model, id)-> app.execute 'track:user:id', id
 
@@ -75,13 +80,19 @@ module.exports = UserCommons.extend
     return attrs
 
   inventoryLength: (nonPrivate)->
-    if nonPrivate then @itemsCount - @privateItemsCount
-    else @privateItemsCount
+    if nonPrivate then @get('itemsCount') - @get('privateItemsCount')
+    else @get 'privateItemsCount'
+
+  updateItemsCounters: (previousListing, newListing)->
+    snapshot = @get 'snapshot'
+    if previousListing? then snapshot[previousListing]['items:count'] -= 1
+    if newListing? then snapshot[newListing]['items:count'] += 1
+    @set 'snapshot', snapshot
+    @setAllInventoryStats()
 
   setAllInventoryStats: ->
     @setInventoryStats()
-    # Known case of undefined snapshot: when the user isn't logged in
-    @privateItemsCount = @get('snapshot').private['items:count'] or 0
+    @set 'privateItemsCount', @get('snapshot').private['items:count']
 
   deleteAccount: ->
     console.log 'starting to play "Somebody that I use to know" and cry a little bit'

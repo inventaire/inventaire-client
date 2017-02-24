@@ -25,7 +25,7 @@ module.exports = UserCommons.extend
     attrs.inventoryLength = @inventoryLength()
     return attrs
 
-  inventoryLength: -> @itemsCount
+  inventoryLength: -> @get 'itemsCount'
 
   # caching the calculated distance to avoid recalculating it
   # at every item serializeData
@@ -43,7 +43,7 @@ module.exports = UserCommons.extend
     return
 
   calculateHighlightScore: ->
-    { itemsCount, itemsLastTime } = @
+    [ itemsCount, itemsLastTime ] = @gets 'itemsCount', 'itemsLastTime'
     # Highlight users with the most known items
     # updated lately (add 1 to avoid dividing by 0)
     freshnessFactor = 100 / (_.daysAgo(itemsLastTime) + 1)

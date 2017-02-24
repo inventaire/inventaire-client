@@ -30,8 +30,11 @@ module.exports = Positionable.extend
     { itemsCount, lastAdd } = _.values @get('snapshot')
       .reduce aggregateScoreData, data
 
-    @itemsCount = itemsCount
-    @itemsLastAdded = lastAdd
+
+    # Setting those as model attributes
+    # so that updating them trigger a model 'change' event
+    @set 'itemsCount', itemsCount
+    @set 'itemsLastAdded', lastAdd
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection
