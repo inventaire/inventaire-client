@@ -17,10 +17,15 @@ requestAsset = (type, url)->
       node.async = true
 
     node.onload = resolve
-    node.onerror = reject
+    node.onerror = normalizeError reject, url
 
     document.head.appendChild node
 
 module.exports =
   getCss: requestAsset.bind null, 'css'
   getScript: requestAsset.bind null, 'js'
+
+normalizeError = (reject, url)-> (errEvent)->
+  err = new Error('request asset failed')
+  err.context = { url }
+  reject err
