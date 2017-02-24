@@ -52,18 +52,8 @@ getByUsernameAndEntity = (username, entity)->
 spreadData = (data)->
   { users, items } = data
   if users? then app.execute 'users:public:add', users
-
-  newlyAddedItemsModels = []
-
-  addItems = (resName, collectionName)->
-    if items[resName]?.length > 0
-      newlyAddedItemsModels.push app.items[collectionName].add(items[resName])
-
-  addItems 'user', 'personal'
-  addItems 'network', 'network'
-  addItems 'public', 'public'
-
-  return _.flatten newlyAddedItemsModels
+  newlyAddedItemsModels = app.items.add items
+  return newlyAddedItemsModels
 
 waitForMainUserItems = null
 waitForNetworkItems = null
