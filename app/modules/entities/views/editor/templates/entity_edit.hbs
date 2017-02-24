@@ -5,6 +5,12 @@
 
 <div class="next">
   {{#if creating}}
+    {{#if canCancel}}
+      <a class="cancel grey-button" tabindex="0">
+          {{icon 'times'}}
+          {{I18n 'cancel'}}
+      </a>
+    {{/if}}
     <a class="createAndShowEntity light-blue-button" tabindex="0">
       {{icon 'arrow-left'}}
       {{I18n createAndReturnLabel}}

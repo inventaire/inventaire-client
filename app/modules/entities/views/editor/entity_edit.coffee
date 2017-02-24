@@ -2,12 +2,15 @@ TitleEditor = require './title_editor'
 PropertiesEditor = require './properties_editor'
 propertiesCollection = require 'modules/entities/lib/editor/properties_collection'
 AdminSection = require './admin_section'
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
   template: require './templates/entity_edit'
   behaviors:
     PreventDefault: {}
+    AlertBox: {}
 
   regions:
     title: '.title'
@@ -42,20 +45,31 @@ module.exports = Marionette.LayoutView.extend
     attrs.creationMode = @creationMode
     attrs.createAndReturnLabel = "create and return to the #{attrs.type}'s page"
     attrs.creating = @model.creating
+    attrs.canCancel = @canCancel()
     return attrs
 
   events:
+    'click .cancel': 'cancel'
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
     'click #signalDataError': 'signalDataError'
 
-  createAndShowEntity: ->
-    @model.create()
-    .then app.Execute('show:entity:from:model')
+  # Don't display a cancel button if we don't know where to redirect
+  # In the case of an entity being created, showing the entity page would fail
+  canCancel: -> window.history.length > 1 or @model.creating
 
-  createAndAddEntity: ->
+  cancel: ->
+    if window.history.length > 1 then window.history.back()
+    else app.execute 'show:entity:from:model', @model
+
+  createAndShowEntity: -> @_createAndAction 'show:entity:from:model'
+  createAndAddEntity: -> @_createAndAction 'show:entity:add:from:model'
+
+  _createAndAction: (command)->
     @model.create()
-    .then app.Execute('show:entity:add:from:model')
+    .then app.Execute(command)
+    .catch error_.Complete('.meta', false)
+    .catch forms_.catchAlert.bind(null, @)
 
   signalDataError: (e)->
     uri = @model.get 'uri'

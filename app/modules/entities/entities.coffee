@@ -129,7 +129,7 @@ setHandlers = ->
     'show:entity:from:model': (model, params)->
       uri = model.get('uri')
       if uri? then app.execute 'show:entity', uri, null, params
-      else throw new Error 'couldnt show:entity:from:model'
+      else throw new Error "couldn't show:entity:from:model"
 
     'show:entity:refresh': (model)->
       app.execute 'show:entity:from:model', model, { refresh: true }
