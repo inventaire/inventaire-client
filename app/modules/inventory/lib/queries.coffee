@@ -2,6 +2,7 @@
 # Get: Fetch and return the desired models
 
 Items = require 'modules/inventory/collections/items'
+error_ = require 'lib/error'
 
 mainUserItemsFetched = false
 networkItemsFetched = false
@@ -91,10 +92,7 @@ addUsersAndItems = (collection)-> (res)->
   { items, users } = res
   # Also accepts items indexed by listings: user, network, public
   unless _.isArray items then items = _.flatten _.values(items)
-  unless items?.length > 0
-    err = new Error 'no public items'
-    err.status = 404
-    throw err
+  unless items?.length > 0 then throw error_.new 'no public items', 404
 
   app.execute 'users:public:add', users
   collection.add items
