@@ -12,21 +12,10 @@ fetchByIds = (requestedIds)->
   ids = _.difference requestedIds, alreadyFetchedIds
   if ids.length is 0 then return _.preq.resolved
 
-  _.preq.get app.API.items.byIds(ids)
+  _.preq.get app.API.items.byIds({ ids })
   .then _.Log("items by ids: #{ids}")
   .then spreadData
   .catch _.ErrorRethrow('fetchByIds err')
-
-alreadyFetchedUsers = []
-fetchByUsers = (usersIds)->
-  usersIds = _.difference usersIds, alreadyFetchedUsers
-  if usersIds.length is 0 then return _.preq.resolved
-
-  alreadyFetchedUsers = alreadyFetchedUsers.concat usersIds
-  _.preq.get app.API.items.byUsers(usersIds)
-  .then _.Log("items by users: #{usersIds}")
-  .then spreadData
-  .catch _.ErrorRethrow('fetchByUsers err')
 
 alreadyFetchedUris = []
 fetchByEntity = (uris)->
@@ -36,7 +25,7 @@ fetchByEntity = (uris)->
   alreadyFetchedUris = alreadyFetchedUris.concat uris
 
   fetchPublicItemsOnly = mainUserItemsFetched and networkItemsFetched
-  _.preq.get app.API.items.byEntities(uris, fetchPublicItemsOnly)
+  _.preq.get app.API.items.byEntities({ ids: uris, fetchPublicItemsOnly })
   .then _.Log("items by entity: #{uris}")
   .then spreadData
   .catch _.ErrorRethrow('fetchByEntity err')
@@ -77,6 +66,26 @@ fetchNetworkItems = ->
 
   return waitForNetworkItems
 
+getNetworkItems = (params)->
+  app.request 'waitForNetwork'
+  .then ->
+    networkIds = app.users.friends.list.concat(app.relations.coGroupMembers)
+    makeRequest params, 'byUsers', networkIds
+
+getUserItems = (params)->
+  userId = params.model.id
+  makeRequest params, 'byUsers', [ userId ]
+
+getGroupItems = (params)->
+  makeRequest params, 'byUsers', params.model.allMembersIds()
+
+makeRequest = (params, endpoint, ids)->
+  if ids.length is 0 then return { items: [], total: 0 }
+  { collection, limit, offset } = params
+  _.preq.get app.API.items[endpoint]({ ids, limit, offset })
+  # Use tap to return the server response instead of the collection
+  .tap addUsersAndItems(collection)
+
 nearby = ->
   collection = new Items
   _.preq.get app.API.items.nearby()
@@ -102,7 +111,9 @@ module.exports = (app)->
   app.reqres.setHandlers
     'items:getById': getById
     'fetchNetworkItems': fetchNetworkItems
-    'items:fetchByUsers': fetchByUsers
     'items:getByUsernameAndEntity': getByUsernameAndEntity
     'items:nearby': nearby
     'items:lastPublic': lastPublic
+    'items:getNetworkItems': getNetworkItems
+    'items:getUserItems': getUserItems
+    'items:getGroupItems': getGroupItems

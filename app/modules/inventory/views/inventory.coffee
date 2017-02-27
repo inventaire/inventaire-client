@@ -3,9 +3,10 @@ ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
 Controls = require './controls'
 Group = require 'modules/network/views/group'
-showLastPublicItems = require 'modules/welcome/lib/show_last_public_items'
+showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 PositionWelcome = require 'modules/map/views/position_welcome'
 { CheckViewState, catchDestroyedView } = require 'lib/view_state'
+itemsPerPage = require '../lib/items_per_pages'
 
 # keep in sync with _controls.scss
 gridMinWidth = 750
@@ -91,48 +92,53 @@ module.exports = Marionette.LayoutView.extend
 
   showItemsListStep2: (user, group)->
     { navigate, generalInventory } = @options
-    if app.items.length is 0
-      # dont show welcome inventory screen on other users inventory
-      # it would be confusing to see 'welcome in your inventory' there
-      isMainUser = if user? then app.request('user:isMainUser', user.id) else false
-      if generalInventory or isMainUser
-        @showInventoryWelcome user
-        if isMainUser
-          navigateToUserInventory user
-          app.vent.trigger 'sidenav:show:user', user
-        else
-          app.vent.trigger 'sidenav:show:base'
 
-        return
+    model = null
+    fallback = null
 
     if user?
       prepareUserItemsList user, navigate
       eventName = user.get 'username'
       user.updateMetadata()
+      model = user
+      request = 'items:getUserItems'
+      if app.request 'user:isMainUser', user.id
+        fallback = @showInventoryWelcome.bind @, user
 
     else if group?
       @prepareGroupItemsList group, navigate
       eventName = "group:#{group.id}"
       group.updateMetadata()
+      request = 'items:getGroupItems'
+      model = group
+
     else
       app.vent.trigger 'sidenav:show:base'
       app.execute 'filter:inventory:friends:and:main:user'
       eventName = 'general'
       updateInventoryMetadata()
+      request = 'items:getNetworkItems'
+      fallback = @showInventoryWelcome.bind @
 
-    @showItemsListStep3()
+    @showItemsListStep3 request, model, fallback
     app.vent.trigger 'inventory:change', eventName
 
-  showItemsListStep3: ->
-    ItemsListView = @getItemsListView()
+  showItemsListStep3: (request, model, fallback)->
+    showPaginatedItems
+      request: request
+      model: model
+      region: @itemsView
+      limit: itemsPerPage 5
+      allowMore: true
+      ItemsListView: @getItemsListView()
+      fallback: fallback
+    .catch _.Error('showLastPublicItems err')
 
-    itemsList = new ItemsListView
-      collection: app.items.filtered
-    @itemsView.show itemsList
-
-    # only triggering controls now, as it prevents controls
-    # to be shown with the InventoryWelcome view
-    @showControls()
+    # Commented-out as filter features aren't available
+    # in the current implementation
+    # # only triggering controls now, as it prevents controls
+    # # to be shown with the InventoryWelcome view
+    # @showControls()
 
   getItemsListView: ->
     switch app.request 'inventory:layout'
@@ -142,15 +148,21 @@ module.exports = Marionette.LayoutView.extend
 
   showInventoryWelcome: (user)->
     inventoryWelcome = require './inventory_welcome'
-
     @header.show new inventoryWelcome
     @showLastPublicItems()
+    if user?
+      navigateToUserInventory user
+      app.vent.trigger 'sidenav:show:user', user
+    else
+      app.vent.trigger 'sidenav:show:base'
 
-  showLastPublicItems: ->
-    showLastPublicItems
+  showLastPublicItems: (params)->
+    showPaginatedItems
+      request: 'items:lastPublic'
       region: @itemsView
-      limit: 25
+      limit: itemsPerPage 5
       allowMore: true
+      showDistance: true
     .catch _.Error('showLastPublicItems err')
 
   showControls: ->

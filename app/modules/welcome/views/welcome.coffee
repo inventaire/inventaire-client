@@ -1,5 +1,5 @@
 loginPlugin = require 'modules/general/plugins/login'
-showLastPublicItems = require '../lib/show_last_public_items'
+showPaginatedItems = require '../lib/show_paginated_items'
 urls = require 'lib/urls'
 Mentions = require './mentions'
 
@@ -41,7 +41,8 @@ module.exports = Marionette.LayoutView.extend
     .then @showMentions.bind(@)
 
   showPublicItems: ->
-    showLastPublicItems
+    showPaginatedItems
+      request: 'items:lastPublic'
       region: @previewColumns
       limit: 15
       allowMore: false

@@ -1,5 +1,4 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-paginationPlugin = require 'modules/general/plugins/pagination'
 masonryPlugin = require 'modules/general/plugins/masonry'
 itemsPerPage = require 'modules/inventory/lib/items_per_pages'
 
@@ -19,14 +18,7 @@ module.exports = Marionette.CompositeView.extend
     showDistance: @options.showDistance
 
   initialize: ->
-    @initPlugins()
-
-  initPlugins: ->
-    _.extend @, behaviorsPlugin
-    paginationPlugin.call @,
-      batchLength: itemsPerPage()
-      fetchMore: @options.fetchMore
-      more: @options.more
+    { @more, @fetchMore } = @options
 
     masonryPlugin.call @, '.itemsList', '.itemContainer'
 
@@ -34,10 +26,9 @@ module.exports = Marionette.CompositeView.extend
     header: @options.header
 
   events:
-    'inview .more': 'infiniteScroll'
+    'inview .fetchMore': 'infiniteScroll'
 
   collectionEvents:
-    'render': 'stopLoading'
     'filtered:add': 'lazyMasonryRefresh'
 
   childEvents:
@@ -45,6 +36,9 @@ module.exports = Marionette.CompositeView.extend
     'resize': 'lazyMasonryRefresh'
 
   infiniteScroll: ->
-    if @more()
-      @startLoading('.more')
-      @displayMore()
+    if @options.more()
+      @startLoading()
+      @fetchMore().then @stopLoading.bind(@)
+
+  startLoading: -> behaviorsPlugin.startLoading.call @, '.fetchMore'
+  stopLoading: -> behaviorsPlugin.stopLoading.call @, '.fetchMore'

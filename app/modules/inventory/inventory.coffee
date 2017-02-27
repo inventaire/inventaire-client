@@ -50,7 +50,6 @@ API =
     if app.request 'require:loggedIn', 'inventory'
       showInventory
         generalInventory: true
-        waitForData: app.request 'fetchNetworkItems'
 
   showGeneralInventoryNavigate: ->
     API.showGeneralInventory()
@@ -63,7 +62,6 @@ API =
       showInventory
         user: user
         navigate: navigate
-        waitForData: app.request 'items:fetchByUsers', [ userModel.id ]
 
   showGroupInventory: (id, name, navigate)->
     app.request 'get:group:model', id
@@ -71,7 +69,6 @@ API =
       showInventory
         group: id
         navigate: navigate
-        waitForData: app.request 'items:fetchByUsers', group.allMembersIds()
 
   showInventoryNearby: ->
     if app.request 'require:loggedIn', 'inventory/nearby'
