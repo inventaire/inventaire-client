@@ -9,12 +9,14 @@ module.exports = Marionette.LayoutView.extend
   regions: regions
   behaviors:
     PreventDefault: {}
+    Loading: {}
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
 
   initMap: ->
     initMap
+      view: @
       query: @options.query
       path: path
       showObjects: @showUsersNearby.bind(@)

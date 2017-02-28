@@ -1,13 +1,19 @@
 map_ = require 'modules/map/lib/map'
 { updateRoute, updateRouteFromEvent, BoundFilter } = map_
 containerId = 'map'
+containerSelector = '#' + containerId
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 initMap = (params)->
-  { query } = params
+  { view, query } = params
+
+  startLoading.call view, containerSelector
+
   Promise.all [
     solvePosition query
     app.request 'map:before'
   ]
+  .tap stopLoading.bind(view, containerSelector)
   .spread drawMap.bind(null, params)
   .then initEventListners.bind(null, params)
 

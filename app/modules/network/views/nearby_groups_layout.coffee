@@ -9,6 +9,7 @@ module.exports = Marionette.LayoutView.extend
   regions: regions
   behaviors:
     PreventDefault: {}
+    Loading: {}
 
   events:
     'click .groupIcon a': 'showGroup'
@@ -16,6 +17,7 @@ module.exports = Marionette.LayoutView.extend
   initMap: ->
     @collection or= app.groups.filtered.resetFilters()
     initMap
+      view: @
       query: @options.query
       path: path
       showObjects: @showGroupsNearby.bind(@)
