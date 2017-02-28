@@ -17,17 +17,23 @@ fetchByIds = (requestedIds)->
   .then spreadData
   .catch _.ErrorRethrow('fetchByIds err')
 
-alreadyFetchedUris = []
+alreadyFetchedUrisIndex = {}
+# Populating app.items with the desired entities items
 fetchByEntity = (uris)->
-  uris = _.difference uris, alreadyFetchedUris
-  if uris.length is 0 then return _.preq.resolved
+  alreadyFetchedUris = Object.keys alreadyFetchedUrisIndex
+  missingUris = _.difference uris, alreadyFetchedUris
+  if missingUris.length is 0
+    return Promise.props _.pick(alreadyFetchedUrisIndex, uris)
 
-  alreadyFetchedUris = alreadyFetchedUris.concat uris
+  promise = _.preq.get app.API.items.byEntities({ ids: missingUris })
+    .then _.Log("items by entity: #{missingUris}")
+    .then spreadData
+    .catch _.ErrorRethrow('fetchByEntity err')
 
-  _.preq.get app.API.items.byEntities({ ids: uris })
-  .then _.Log("items by entity: #{uris}")
-  .then spreadData
-  .catch _.ErrorRethrow('fetchByEntity err')
+  for missingUri in missingUris
+    alreadyFetchedUrisIndex = promise
+
+  return promise
 
 # TODO: check if the username can be found among the already fetched users
 # and if her items where already fetched
@@ -109,6 +115,7 @@ addUsersAndItems = (collection)-> (res)->
 module.exports = (app)->
   app.reqres.setHandlers
     'items:getById': getById
+    'items:fetchByEntity': fetchByEntity
     'fetchNetworkItems': fetchNetworkItems
     'items:getByUsernameAndEntity': getByUsernameAndEntity
     'items:nearby': nearby
