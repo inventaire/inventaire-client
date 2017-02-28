@@ -41,6 +41,6 @@ module.exports = ListWithCounter.extend
       # make sure it is added last
       @ui.list.append seeAll(seeAllData)
     else
-      setTimeout @updateSeeAllLink, 3000
+      setTimeout @updateSeeAllLink.bind(@), 3000
 
   showAllNotification: -> app.execute 'show:notifications'
