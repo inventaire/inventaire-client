@@ -8,12 +8,12 @@ module.exports = (app)->
   filterItemsByText = (text, reset)->
     items.filtered.filterByText text, reset
 
-  includeTransaction = (transaction)->
-    items.filtered.removeFilter "exclude:#{transaction}"
+  # includeTransaction = (transaction)->
+  #   items.filtered.removeFilter "exclude:#{transaction}"
 
-  excludeTransaction = (transaction)->
-    items.filtered.filterBy "exclude:#{transaction}", (item)->
-      item.get('transaction') isnt transaction
+  # excludeTransaction = (transaction)->
+  #   items.filtered.filterBy "exclude:#{transaction}", (item)->
+  #     item.get('transaction') isnt transaction
 
   singleFilterReady = (filter)->
     filters = items.filtered.getFilters()
@@ -21,5 +21,5 @@ module.exports = (app)->
 
   app.commands.setHandlers
     'filter:items:byText': filterItemsByText
-    'filter:inventory:transaction:include': includeTransaction
-    'filter:inventory:transaction:exclude': excludeTransaction
+    # 'filter:inventory:transaction:include': includeTransaction
+    # 'filter:inventory:transaction:exclude': excludeTransaction

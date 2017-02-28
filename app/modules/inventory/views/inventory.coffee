@@ -1,7 +1,7 @@
 SideNav = require '../side_nav/views/side_nav'
 ItemsList = require './items_list'
 ItemsGrid = require './items_grid'
-Controls = require './controls'
+# Controls = require './controls'
 Group = require 'modules/network/views/group'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 PositionWelcome = require 'modules/map/views/position_welcome'
@@ -18,7 +18,7 @@ module.exports = Marionette.LayoutView.extend
     sideNav: '#sideNav'
     header: '#header'
     itemsView: '#itemsView'
-    controls: '#controls'
+    # controls: '#controls'
 
   initialize: ->
     @listenTo app.vent, 'inventory:layout:change', @showItemsListStep3.bind(@)
@@ -164,9 +164,9 @@ module.exports = Marionette.LayoutView.extend
       showDistance: true
     .catch _.Error('showLastPublicItems err')
 
-  showControls: ->
-    unless _.smallScreen gridMinWidth
-      @controls.show new Controls
+  # showControls: ->
+  #   unless _.smallScreen gridMinWidth
+  #     @controls.show new Controls
 
   prepareGroupItemsList: (group, navigate)->
     app.vent.trigger 'sidenav:show:group', group
