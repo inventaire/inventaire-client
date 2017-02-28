@@ -24,8 +24,7 @@ fetchByEntity = (uris)->
 
   alreadyFetchedUris = alreadyFetchedUris.concat uris
 
-  fetchPublicItemsOnly = mainUserItemsFetched and networkItemsFetched
-  _.preq.get app.API.items.byEntities({ ids: uris, fetchPublicItemsOnly })
+  _.preq.get app.API.items.byEntities({ ids: uris })
   .then _.Log("items by entity: #{uris}")
   .then spreadData
   .catch _.ErrorRethrow('fetchByEntity err')
@@ -77,12 +76,12 @@ getUserItems = (params)->
   makeRequest params, 'byUsers', [ userId ]
 
 getGroupItems = (params)->
-  makeRequest params, 'byUsers', params.model.allMembersIds()
+  makeRequest params, 'byUsers', params.model.allMembersIds(), 'group'
 
-makeRequest = (params, endpoint, ids)->
+makeRequest = (params, endpoint, ids, filter)->
   if ids.length is 0 then return { items: [], total: 0 }
   { collection, limit, offset } = params
-  _.preq.get app.API.items[endpoint]({ ids, limit, offset })
+  _.preq.get app.API.items[endpoint]({ ids, limit, offset, filter })
   # Use tap to return the server response instead of the collection
   .tap addUsersAndItems(collection)
 

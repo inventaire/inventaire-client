@@ -4,14 +4,12 @@ buildGetPath = (action, query={})->
   _.buildPath publik, _.extend({ action }, query)
 
 queryEndpoint = (actionName, idsLabel)-> (params)->
-  { ids, limit, offset, fetchPublicItemsOnly } = params
+  { ids, limit, offset, fetchPublicItemsOnly, filter } = params
   data = {}
   if idsLabel? then data[idsLabel] = ids.join '|'
-  # Do not use the public endpoint to fetch public items only
-  # as the main user items would return without ownerSafe attributes
-  if app.user.loggedIn and fetchPublicItemsOnly then data.filter = 'public'
   if limit? then data.limit = limit
   if offset? then data.offset = offset
+  if filter? then data.filter = filter
   return buildGetPath actionName, data
 
 module.exports =
