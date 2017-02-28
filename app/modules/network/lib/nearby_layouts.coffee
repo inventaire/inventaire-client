@@ -4,9 +4,11 @@ containerId = 'map'
 
 initMap = (params)->
   { query } = params
-  app.request 'map:before'
-  .then solvePosition.bind(null, query)
-  .then drawMap.bind(null, params)
+  Promise.all [
+    solvePosition query
+    app.request 'map:before'
+  ]
+  .spread drawMap.bind(null, params)
   .then initEventListners.bind(null, params)
 
 solvePosition = (coords)->
