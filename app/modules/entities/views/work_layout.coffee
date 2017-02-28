@@ -23,8 +23,9 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @showWorkData()
-    # need to wait to know if the user has an instance of this work
-    app.request('wait:for', 'user').then @showWorkActions.bind(@)
+
+    # Need to wait to know if the user has an instance of this work
+    @waitForItems.then @showWorkActions.bind(@)
 
     @model.waitForSubentities.then @showEditions.bind(@)
 
