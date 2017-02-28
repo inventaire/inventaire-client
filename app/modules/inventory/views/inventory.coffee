@@ -158,7 +158,7 @@ module.exports = Marionette.LayoutView.extend
 
   showLastPublicItems: (params)->
     showPaginatedItems
-      request: 'items:lastPublic'
+      request: 'items:getLastPublic'
       region: @itemsView
       limit: itemsPerPage 5
       allowMore: true
@@ -184,7 +184,7 @@ module.exports = Marionette.LayoutView.extend
     else app.navigateReplace pathname
 
   showItemsNearby: ->
-    app.request 'items:nearby'
+    app.request 'items:getNearbyItems'
     .then (items)=>
       @itemsView.show new ItemsList
         collection: items

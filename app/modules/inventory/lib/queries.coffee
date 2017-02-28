@@ -1,6 +1,3 @@
-# Fetch: make sure the items are added to the global collections
-# Get: Fetch and return the desired models
-
 Items = require 'modules/inventory/collections/items'
 error_ = require 'lib/error'
 
@@ -35,13 +32,11 @@ fetchByEntity = (uris)->
 
   return promise
 
-# TODO: check if the username can be found among the already fetched users
-# and if her items where already fetched
-getByUsernameAndEntity = (username, entity)->
+fetchByUsernameAndEntity = (username, entity)->
   _.preq.get app.API.items.byUsernameAndEntity(username, entity)
   .then _.Log("items by username and entity: #{username}/#{entity}")
   .then spreadData
-  .catch _.ErrorRethrow('getByUsernameAndEntity err')
+  .catch _.ErrorRethrow('fetchByUsernameAndEntity err')
 
 # Adding the users and items to the global collections
 spreadData = (data)->
@@ -53,7 +48,7 @@ spreadData = (data)->
 waitForMainUserItems = null
 waitForNetworkItems = null
 
-getById = (id)->
+fetchById = (id)->
   fetchByIds [ id ]
   .then -> app.items.byId id
   .catch _.ErrorRethrow('findItemById err (maybe the item was deleted or its visibility changed?)')
@@ -91,13 +86,13 @@ makeRequest = (params, endpoint, ids, filter)->
   # Use tap to return the server response instead of the collection
   .tap addUsersAndItems(collection)
 
-nearby = ->
+getNearbyItems = ->
   collection = new Items
   _.preq.get app.API.items.nearby()
   .then _.Log('showItemsNearby res')
   .then addUsersAndItems(collection)
 
-lastPublic = (params)->
+getLastPublic = (params)->
   { collection, limit, offset, assertImage } = params
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
   .then addUsersAndItems(collection)
@@ -114,12 +109,16 @@ addUsersAndItems = (collection)-> (res)->
 
 module.exports = (app)->
   app.reqres.setHandlers
-    'items:getById': getById
+    # Fetch: make sure the items are added to the global collections
+    #  => uses spreadData
+    'items:fetchById': fetchById
     'items:fetchByEntity': fetchByEntity
-    'fetchNetworkItems': fetchNetworkItems
-    'items:getByUsernameAndEntity': getByUsernameAndEntity
-    'items:nearby': nearby
-    'items:lastPublic': lastPublic
+    'items:fetchNetworkItems': fetchNetworkItems
+    'items:fetchByUsernameAndEntity': fetchByUsernameAndEntity
+    # Get: Fetch and return the desired models
+    #  => uses addUsersAndItems
+    'items:getNearbyItems': getNearbyItems
+    'items:getLastPublic': getLastPublic
     'items:getNetworkItems': getNetworkItems
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems

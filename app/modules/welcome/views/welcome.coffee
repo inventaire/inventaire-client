@@ -42,7 +42,7 @@ module.exports = Marionette.LayoutView.extend
 
   showPublicItems: ->
     showPaginatedItems
-      request: 'items:lastPublic'
+      request: 'items:getLastPublic'
       region: @previewColumns
       limit: 15
       allowMore: false

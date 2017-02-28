@@ -82,7 +82,7 @@ API =
     unless _.isItemId id then return app.execute 'show:error:missing'
     app.execute 'show:loader'
 
-    app.request 'items:getById', id
+    app.request 'items:fetchById', id
     .then showItemShowFromModel
     .catch (err)->
       if err.status is 404 then app.execute 'show:error:missing'
@@ -229,7 +229,7 @@ initializeInventoriesHandlers = (app)->
     'items:count:byEntity': itemsCountByEntity
 
     # Aliasing
-    'get:item:model': app.Request 'items:getById'
+    'get:item:model': app.Request 'items:fetchById'
 
     'item:main:user:instances': (entityUri)->
       return app.items.personal.byEntityUri(entityUri)

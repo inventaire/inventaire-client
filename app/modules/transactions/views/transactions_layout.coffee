@@ -23,7 +23,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     # TODO: fetch items specific to those transactions instead
-    app.request 'fetchNetworkItems'
+    app.request 'items:fetchNetworkItems'
     # The view might have already been destroyed
     # in the case the transaction can not be found
     # and triggered the 'show:error:missing' command
