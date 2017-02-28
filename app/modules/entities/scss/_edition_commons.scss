@@ -1,0 +1,18 @@
+.edition-commons{
+  .add{
+    @include tiny-button($light-blue);
+    margin: 0 auto;
+    text-align: center;
+  }
+  .items-lists{
+    padding: 0.5em;
+    text-align: center;
+  }
+  .hasAnInstance{
+    background-color: $light-grey;
+    margin: 0.5em;
+  }
+  .property-value{
+    color: $dark-grey;
+  }
+}

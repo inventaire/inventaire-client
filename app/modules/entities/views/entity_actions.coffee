@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
-  template: require './templates/work_actions'
-  className: 'workActions'
+  template: require './templates/entity_actions'
+  className: 'entityActions'
   behaviors:
     PreventDefault: {}
 

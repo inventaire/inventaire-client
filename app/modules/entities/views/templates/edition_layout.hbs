@@ -1,48 +1,29 @@
-{{#if standalone}}
-  <div class="editionLi">
-    {{partial 'entities:edit_data' this}}
-{{/if}}
-
-<div class="cover">
-  {{#if image.url}}
-    {{#if standalone}}
-      <img src="{{src image.url 300}}" alt="{{label}}">
-    {{else}}
-      <a class="showEntity" href="{{pathname}}" title="{{label}}">
-        <img src="{{src image.url 150}}" alt="{{label}}">
-      </a>
-    {{/if}}
-  {{/if}}
-</div>
-<div class="right-part">
-  <div class="upper-part">
+<div class="row-wrap">
+  <div class="edition-data">
+    <div class="cover">
+      {{#if image.url}}
+        <img src="{{src image.url 300}}" alt="{{label}}">
+      {{/if}}
+    </div>
     <div class="claims">
-      {{#if standalone}}
-        <h2>{{label}}</h2>
+      <h2>{{label}}</h2>
+      <div class="inner-claims">
         <strong>{{claim claims 'wdt:P629' true false true}}  {{!-- edition of --}}</strong>
         <br>
         {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}<br>
         {{claim claims 'wdt:P179' true}} {{!-- serie --}}
         <br>
         {{partial 'entities:edition_claims' this}}
-      {{else}}
-        <a class="showEntity" href="{{pathname}}" title="{{label}}">
-          <strong>{{label}}</strong>
-          {{partial 'entities:edition_claims' this}}
-        </a>
-      {{/if}}
-    </div>
-    <div class="actions flex-column-center-center">
-      <a class="add">
-        {{icon 'plus'}}
-        <span>{{i18n 'add to my inventory'}}</span>
-      </a>
+        {{partial 'entities:edit_data' this}}
+      </div>
     </div>
   </div>
-  {{partial 'entities:items_lists'}}
+  <div class="instances">
+    <div id="entityActions"></div>
+    {{partial 'entities:items_lists'}}
+  </div>
 </div>
 
-{{#if standalone}}
-  </div>
-  <a class="showEntity light-blue-button capitalize" href="{{work.pathname}}" title="{{work.label}}">{{I18n 'see all editions'}}</a>
-{{/if}}
+<a class="showEntity light-blue-button capitalize" href="{{work.pathname}}" title="{{work.label}}">{{I18n 'see all editions'}}</a>
+
+{{partial 'welcome:embedded_welcome'}}

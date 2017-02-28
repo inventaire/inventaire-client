@@ -1,0 +1,19 @@
+<div class="cover">
+  {{#if image.url}}
+    <a class="showEntity" href="{{pathname}}" title="{{label}}">
+      <img src="{{src image.url 150}}" alt="{{label}}">
+    </a>
+  {{/if}}
+</div>
+<div class="right-part">
+  <div class="upper-part">
+    <div class="claims">
+      <a class="showEntity" href="{{pathname}}" title="{{label}}">
+        <strong>{{label}}</strong>
+        {{partial 'entities:edition_claims' this}}
+      </a>
+    </div>
+    <div id="entityActions"></div>
+  </div>
+  {{partial 'entities:items_lists'}}
+</div>

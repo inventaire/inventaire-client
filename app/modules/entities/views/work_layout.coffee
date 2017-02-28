@@ -1,6 +1,6 @@
 WorkData = require './work_data'
 EditionsList = require './editions_list'
-WorkActions = require './work_actions'
+EntityActions = require './entity_actions'
 entityItems = require '../lib/entity_items'
 
 module.exports = Marionette.LayoutView.extend
@@ -8,7 +8,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     workData: '#workData'
     editionsList: '#editionsList'
-    workActions: '#workActions'
+    entityActions: '#entityActions'
     personalItemsRegion: '.personalItems'
     networkItemsRegion: '.networkItems'
     publicItemsRegion: '.publicItems'
@@ -25,7 +25,7 @@ module.exports = Marionette.LayoutView.extend
     @showWorkData()
 
     # Need to wait to know if the user has an instance of this work
-    @waitForItems.then @showWorkActions.bind(@)
+    @waitForItems.then @showEntityActions.bind(@)
 
     @model.waitForSubentities.then @showEditions.bind(@)
 
@@ -48,7 +48,7 @@ module.exports = Marionette.LayoutView.extend
       @editionsList.show new EditionsList
         collection: @model.editions
 
-  showWorkActions: -> @workActions.show new WorkActions { model: @model }
+  showEntityActions: -> @entityActions.show new EntityActions { @model }
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
 

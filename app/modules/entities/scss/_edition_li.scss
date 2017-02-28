@@ -1,0 +1,36 @@
+.editionLi, .editionWrapper{
+  @include display-flex(row);
+  @include radius;
+  margin: auto;
+  background-color: white;
+  .cover{
+    flex: 0 0 auto;
+  }
+  > .right-part{
+    flex: 1 0 0;
+  }
+  .upper-part{
+    @include display-flex(row, center, space-between, wrap);
+  }
+  .claims, .actions{
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    @include display-flex(column, center, center);
+    margin: 0.5em;
+    .upper-part{
+      justify-content: center;
+      @include display-flex(column, center, center);
+    }
+    .items-lists{
+      text-align: center;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    margin: 2em;
+  }
+}

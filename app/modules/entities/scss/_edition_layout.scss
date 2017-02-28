@@ -1,79 +1,54 @@
-@mixin vertical-edition-layout(){
-  @include display-flex(column, center, center);
-  margin: 0.5em;
-  .upper-part{
-    justify-content: center;
-    @include display-flex(column, center, center);
-  }
-  .items-lists{
-    text-align: center;
-  }
-}
-
 .editionLayout{
   @include display-flex(column, center, center);
-  max-width: 50em;
-  margin: 1em auto;
+  .row-wrap{
+    width: 100%;
+    @include display-flex(row, center, space-around, wrap);
+    background-color: white;
+    padding: 1em;
+    max-width: 80em;
+  }
+  .edition-data{
+    margin: 0;
+    @include display-flex(row, center, space-around, wrap);
+  }
+  .instances{
+    @include display-flex(column, center, center);
+  }
+  .cover{
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
   h2{
     text-align: center;
     a{
       @include underline-on-hover($dark-grey);
     }
   }
-  .editionLi{
-    padding-top: 1em;
-    min-width: 20em;
+  .inner-claims{
     position: relative;
-    .showEntityEdit{
-      @include position(absolute, 0, 0);
-      @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
+  }
+  .showEntityEdit{
+    @include position(absolute, 0, 0);
+    @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
+  }
+  .showEntity{
+    margin-top: 1em;
+  }
+  .entityActions{
+    margin-top: 2em;
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .items-lists{
+      width: 100%;
+      margin: 1em;
     }
-    @include vertical-edition-layout;
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      .itemsPreviewLists{
-        min-width: 25em;
-      }
+  }
+  /*Medium and Large screens*/
+  @media screen and (min-width: $very-small-screen) {
+    .claims, .itemsPreviewLists{
+      min-width: 20em;
     }
-  }
-  .work-data{
-    padding: 0.5em;
-  }
-}
-
-.editionLi{
-  @include display-flex(row);
-  @include radius;
-  margin: auto;
-  background-color: white;
-  .cover{
-    flex: 0 0 auto;
-  }
-  > .right-part{
-    flex: 1 0 0;
-  }
-  .upper-part{
-    @include display-flex(row, center, space-between, wrap);
-  }
-  .claims, .actions{
-    padding: 0.5em;
-    margin: 0.5em;
-  }
-  .add{
-    @include tiny-button($light-blue);
-    margin: 0 auto;
-    text-align: center;
-  }
-  .items-lists{
-    padding: 0.5em;
-  }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    @include vertical-edition-layout;
-  }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    margin: 2em;
   }
 }
 

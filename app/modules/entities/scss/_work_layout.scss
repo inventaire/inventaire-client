@@ -16,7 +16,7 @@
   .work-instances{
     @include display-flex(column, center, space-around);
   }
-  > .items-lists, .workActions{
+  > .items-lists, .entityActions{
     margin-top: 2em;
   }
   #editionsList{
@@ -27,4 +27,4 @@
 }
 
 @import './editions_list';
-@import './edition_layout';
+@import './edition_li';
