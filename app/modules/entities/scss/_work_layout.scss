@@ -7,10 +7,22 @@
     text-align: left;
   }
   padding-bottom: 1em;
-  > .items-lists{
-    max-width: 50em;
-    margin: 0 auto;
-    margin-bottom: 2em;
+  .workData{
+    flex: 1 0 auto;
+  }
+  .work-section{
+    @include display-flex(row, center, space-around, wrap);
+  }
+  .work-instances{
+    @include display-flex(column, center, space-around);
+  }
+  > .items-lists, .workActions{
+    margin-top: 2em;
+  }
+  #editionsList{
+    margin-top: 1em;
+    background-color: $darker-grey;
+    padding: 1em;
   }
 }
 
