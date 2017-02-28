@@ -34,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     behaviorsPlugin.startLoading.call @, '#friendsList'
 
-    app.request 'waitForNetworks'
+    app.request 'waitForNetwork'
     .then @showFriends.bind(@)
     .catch _.Error('showTabFriends')
 
