@@ -7,11 +7,12 @@ module.exports = (params)->
   unless entity? then throw new Error 'missing entity'
   uri = entity.get 'uri'
 
-  # 'waitForItems' is required by item:main:user:instances
-  if preventDupplicates then waiter = app.Request 'waitForItems'
-  else waiter = _.preq.resolve
+  if preventDupplicates
+    waiter = app.request 'items:fetchByUserIdAndEntity', app.user.id, uri
+  else
+    waiter = _.preq.resolved
 
-  waiter()
+  waiter
   .then ->
     if preventDupplicates
       existingInstances = app.request 'item:main:user:instances', uri

@@ -38,6 +38,12 @@ fetchByUsernameAndEntity = (username, entity)->
   .then spreadData
   .catch _.ErrorRethrow('fetchByUsernameAndEntity err')
 
+fetchByUserIdAndEntity = (userId, entityUri)->
+  _.preq.get app.API.items.byUserAndEntity(userId, entity)
+  .then _.Log("items by user id and entity: #{userId}/#{entity}")
+  .then spreadData
+  .catch _.ErrorRethrow('fetchByUserIdAndEntity err')
+
 # Adding the users and items to the global collections
 spreadData = (data)->
   { users, items } = data
@@ -114,6 +120,7 @@ module.exports = (app)->
     'items:fetchById': fetchById
     'items:fetchByEntity': fetchByEntity
     'items:fetchNetworkItems': fetchNetworkItems
+    'items:fetchByUserIdAndEntity': fetchByUserIdAndEntity
     'items:fetchByUsernameAndEntity': fetchByUsernameAndEntity
     # Get: Fetch and return the desired models
     #  => uses addUsersAndItems

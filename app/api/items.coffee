@@ -19,8 +19,11 @@ module.exports =
   byUsers: queryEndpoint 'by-users', 'users'
   byEntities: queryEndpoint 'by-entities', 'uris'
 
+  byUserAndEntity: (user, uri)->
+    buildGetPath 'by-user-and-entity', { user, uri }
+
   byUsernameAndEntity: (username, uri)->
-    buildGetPath 'by-username-and-entity', { username, uri }
+    buildGetPath 'by-user-and-entity', { username, uri }
 
   lastPublic: (limit=15, offset=0, assertImage)->
     buildGetPath 'last-public',
