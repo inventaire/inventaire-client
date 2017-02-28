@@ -114,7 +114,6 @@ module.exports = Marionette.LayoutView.extend
 
     else
       app.vent.trigger 'sidenav:show:base'
-      app.execute 'filter:inventory:friends:and:main:user'
       eventName = 'general'
       updateInventoryMetadata()
       request = 'items:getNetworkItems'
@@ -170,7 +169,6 @@ module.exports = Marionette.LayoutView.extend
       @controls.show new Controls
 
   prepareGroupItemsList: (group, navigate)->
-    app.execute 'filter:inventory:group', group
     app.vent.trigger 'sidenav:show:group', group
     unless _.smallScreen()
       @header.show new Group
@@ -196,7 +194,6 @@ module.exports = Marionette.LayoutView.extend
 
 prepareUserItemsList = (user, navigate)->
   username = user.get 'username'
-  app.execute 'filter:inventory:owner', user.id
   app.vent.trigger 'sidenav:show:user', user
   if navigate then navigateToUserInventory user
 
