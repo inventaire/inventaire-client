@@ -25,9 +25,12 @@ module.exports = Backbone.NestedModel.extend
 
     @set 'icon', @getIcon()
 
-    @beforeShow = _.once @_beforeShow.bind(@)
+  beforeShow:->
+    # All the actions to run once before showing any view displaying
+    # deep transactions data, but that can be spared otherwise
+    if @_beforeShowCalledOnce then return
+    @_beforeShowCalledOnce = true
 
-  _beforeShow: ->
     @grabLinkedModels()
     @buildTimeline()
     @fetchMessages()
