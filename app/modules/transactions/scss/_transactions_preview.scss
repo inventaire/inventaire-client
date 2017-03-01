@@ -30,6 +30,7 @@
     height: $user-box-heigth;
   }
   .item-pic, .item-pic img{
+    flex: 0 0 auto;
     max-width: $user-box-heigth;
     max-height: $user-box-heigth;
     overflow: hidden;
