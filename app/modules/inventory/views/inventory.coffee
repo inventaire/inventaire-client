@@ -24,8 +24,12 @@ module.exports = Marionette.LayoutView.extend
     @listenTo app.vent, 'inventory:layout:change', @showItemsListStep3.bind(@)
 
   onShow: ->
-    @showSideNav()
-    @showItemsListOnceData()
+    # It's faster to wait for all the network data to arrive and then render
+    # the side nav, than rendering the side nav and adding users and groups
+    # one by one
+    app.request 'waitForNetwork'
+    .then @showSideNav.bind(@)
+    .then @showItemsListOnceData.bind(@)
 
     # Commenting-out scrolling to <main>'s top
     # as keeping the icon_nav visible helps keeping landmarks
@@ -64,11 +68,9 @@ module.exports = Marionette.LayoutView.extend
 
     if last
       @showLastPublicItems()
-
       app.vent.trigger 'sidenav:show:base', 'last'
       app.navigate 'inventory/last'
       return
-
 
     if user?
       app.request 'resolve:to:userModel', user
