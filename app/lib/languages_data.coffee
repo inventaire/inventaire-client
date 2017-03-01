@@ -12,11 +12,11 @@
 
 module.exports = {
   "da": {
-    "completion": 23,
+    "completion": 91,
     "defaultRegion": "da_DK"
   },
   "de": {
-    "completion": 91,
+    "completion": 98,
     "defaultRegion": "de_DE"
   },
   "en": {
@@ -24,7 +24,7 @@ module.exports = {
     "defaultRegion": "en_US"
   },
   "es": {
-    "completion": 91,
+    "completion": 95,
     "defaultRegion": "es_ES"
   },
   "fr": {
@@ -36,9 +36,13 @@ module.exports = {
     "defaultRegion": "it_IT"
   },
   "ja": {
-    "completion": 90,
+    "completion": 94,
     "defaultRegion": "ja_JP"
   },
+  "nl": {
+    "completion": 99,
+    "defaultRegion": "nl_NL"
+  }
   "no": {
     "completion": 4,
     "defaultRegion": "nb_NO"
