@@ -16,7 +16,6 @@ module.exports =
     notifications = app.notifications = new Notifications
 
     addNotifications = (notifs)->
-      _.log notifs, 'notifications:add'
       getUsersData notifs
       .then _.Full(notifications.addPerType, notifications, notifs)
       .catch _.Error('addNotifications')
