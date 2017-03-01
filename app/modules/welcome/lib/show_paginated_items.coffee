@@ -33,6 +33,7 @@ FetchMore = (params)->
     if busy or done then return _.preq.resolved
 
     busy = true
+    params.offset = collection.length
     app.request request, params
     .then (res)->
       moreData.total = res.total
