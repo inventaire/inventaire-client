@@ -17,15 +17,20 @@ module.exports = Backbone.NestedModel.extend
   url: -> app.API.transactions
   initialize: ->
     @set 'pathname', "/transactions/#{@id}"
-    @grabLinkedModels()
-    @buildTimeline()
-    @fetchMessages()
-    @setArchivedStatus()
 
     @setMainUserIsOwner()
+    @setArchivedStatus()
     # re-set mainUserIsOwner once app.user.id is accessible
     @listenToOnce app.user, 'change', @setMainUserIsOwner.bind(@)
 
+    @set 'icon', @getIcon()
+
+    @beforeShow = _.once @_beforeShow.bind(@)
+
+  _beforeShow: ->
+    @grabLinkedModels()
+    @buildTimeline()
+    @fetchMessages()
     # provide views with a flag on actions data state
     @set 'actionsReady', false
 
@@ -36,20 +41,10 @@ module.exports = Backbone.NestedModel.extend
     @on 'change:state', @setArchivedStatus.bind(@)
     @on 'change:read', @deduceReadStatus.bind(@)
 
-    @set 'icon', @getIcon()
     # snapshot data are to be used in views only when the snapshot
     # is more meaningful than the current version
     # ex: the item transaction mode at the time of the transaction request
     formatSnapshotData.call @
-
-  grabLinkedModels: ->
-    @reqGrab 'get:user:model', @get('requester'), 'requester'
-
-    # wait for the owner to be ready to fetch the item
-    # to avoid errors at item initialization
-    # during sync functions depending on the owner data
-    @reqGrab 'get:user:model', @get('owner'), 'owner'
-    .then => @reqGrab 'get:item:model', @get('item'), 'item'
 
   setMainUserIsOwner: ->
     @mainUserIsOwner = @get('owner') is app.user.id
@@ -63,6 +58,15 @@ module.exports = Backbone.NestedModel.extend
     @unreadUpdate = if @mainUserRead then 0 else 1
     if @unreadUpdate isnt prev then app.vent.trigger 'transactions:unread:change'
 
+  grabLinkedModels: ->
+    @reqGrab 'get:user:model', @get('requester'), 'requester'
+
+    # wait for the owner to be ready to fetch the item
+    # to avoid errors at item initialization
+    # during sync functions depending on the owner data
+    @reqGrab 'get:user:model', @get('owner'), 'owner'
+    .then => @reqGrab 'get:item:model', @get('item'), 'item'
+
   markAsRead: ->
     unless @mainUserRead
       @set "read.#{@role}", true
@@ -72,6 +76,7 @@ module.exports = Backbone.NestedModel.extend
       .catch _.Error('markAsRead')
 
   buildTimeline: ->
+    if @timeline? then return
     @timeline = new Timeline
     for action in @get('actions')
       @addActionToTimeline action
@@ -129,6 +134,9 @@ module.exports = Backbone.NestedModel.extend
     else [attrs.requester, attrs.owner]
 
   otherUser: -> if @mainUserIsOwner then @requester else @owner
+  otherUserSnapshot: ->
+    other = if @mainUserIsOwner then 'requester' else 'owner'
+    return @get("snapshot.#{other}")
 
   getIcon: ->
     transaction = @get 'transaction'

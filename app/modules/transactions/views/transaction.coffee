@@ -17,6 +17,7 @@ module.exports = Marionette.CompositeView.extend
     @lazyRender = _.LazyRender @
     @collection = @model.timeline
     @initPlugins()
+    @model.beforeShow()
 
   initPlugins: ->
     _.extend @, behaviorsPlugin, messagesPlugin

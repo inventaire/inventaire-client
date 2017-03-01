@@ -7,6 +7,8 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     @lazyRender = _.LazyRender @
     @listenTo app.vent, 'transaction:select', @autoSelect.bind(@)
+    # Required by @requestContext
+    @model.buildTimeline()
 
   serializeData: ->
     _.extend @model.serializeData(),

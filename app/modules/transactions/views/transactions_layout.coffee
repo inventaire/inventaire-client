@@ -22,14 +22,7 @@ module.exports = Marionette.LayoutView.extend
     folders: folders
 
   onShow: ->
-    # TODO: fetch items specific to those transactions instead
-    app.request 'items:fetchNetworkItems'
-    # The view might have already been destroyed
-    # in the case the transaction can not be found
-    # and triggered the 'show:error:missing' command
-    .then CheckViewState(@, 'transactions')
-    .then @showTransactionsFolders.bind(@)
-    .catch catchDestroyedView
+    @showTransactionsFolders()
 
   showTransactionsFolders: ->
     # every folder share the app.transactions collection

@@ -28,6 +28,8 @@ module.exports =
       'last:transaction:id': -> lastTransactionId
       'transactions:unread:count': unreadCount
 
+    @listenTo app.vent, 'transaction:select', API.updateLastTransactionId
+
     fetchData
       name: 'transactions'
       Collection: Transactions
@@ -69,6 +71,8 @@ API =
   showItemRequestModal: (model)->
     if app.request 'require:loggedIn', model.pathname
       app.layout.modal.show new RequestItemModal {model: model}
+
+  updateLastTransactionId: (transac)-> lastTransactionId = transac.id
 
 navigate =
   showTransactions: ->
