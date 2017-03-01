@@ -42,7 +42,7 @@ module.exports = {
   "nl": {
     "completion": 99,
     "defaultRegion": "nl_NL"
-  }
+  },
   "no": {
     "completion": 4,
     "defaultRegion": "nb_NO"
