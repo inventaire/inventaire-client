@@ -37,7 +37,8 @@ spreadRelationsData = (relationsData)->
   { lists, inGroups } = relationsData
   for status, usersData of lists
     for userData in usersData
-      addUser inGroups, status, userData
+      # Filtering-out deleted users
+      if userData? then addUser inGroups, status, userData
 
 addUser = (inGroups, status, user)-> app.users[status].add user
 
