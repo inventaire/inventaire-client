@@ -36,11 +36,8 @@ fetchRelationsDataSuccess = (relationsData)->
 spreadRelationsData = (relationsData)->
   { lists, inGroups } = relationsData
   for status, usersData of lists
-    for userData in usersData
-      # Filtering-out deleted users
-      if userData? then addUser inGroups, status, userData
-
-addUser = (inGroups, status, user)-> app.users[status].add user
+    # Compacting to ignore deleted users
+    app.users[status].add _.compact(usersData)
 
 possiblyInGroups = [
   'userRequested'
