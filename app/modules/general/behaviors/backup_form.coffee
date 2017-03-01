@@ -23,7 +23,6 @@ module.exports = Marionette.Behavior.extend
     else if _.isNonEmptyString name then @_backup.byName[name] = value
 
   recover: ->
-    _.log @_backup, 'recovering form data'
     customRecover @$el, @_backup.byId, buildIdSelector
     customRecover @$el, @_backup.byName, buildNameSelector
 

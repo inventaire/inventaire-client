@@ -10,7 +10,6 @@ fetchByIds = (requestedIds)->
   if ids.length is 0 then return _.preq.resolved
 
   _.preq.get app.API.items.byIds({ ids })
-  .then _.Log("items by ids: #{ids}")
   .then spreadData
   .catch _.ErrorRethrow('fetchByIds err')
 
@@ -23,7 +22,6 @@ fetchByEntity = (uris)->
     return Promise.props _.pick(alreadyFetchedUrisIndex, uris)
 
   promise = _.preq.get app.API.items.byEntities({ ids: missingUris })
-    .then _.Log("items by entity: #{missingUris}")
     .then spreadData
     .catch _.ErrorRethrow('fetchByEntity err')
 
@@ -34,13 +32,11 @@ fetchByEntity = (uris)->
 
 fetchByUsernameAndEntity = (username, entity)->
   _.preq.get app.API.items.byUsernameAndEntity(username, entity)
-  .then _.Log("items by username and entity: #{username}/#{entity}")
   .then spreadData
   .catch _.ErrorRethrow('fetchByUsernameAndEntity err')
 
 fetchByUserIdAndEntity = (userId, entityUri)->
   _.preq.get app.API.items.byUserAndEntity(userId, entity)
-  .then _.Log("items by user id and entity: #{userId}/#{entity}")
   .then spreadData
   .catch _.ErrorRethrow('fetchByUserIdAndEntity err')
 
@@ -95,7 +91,6 @@ makeRequest = (params, endpoint, ids, filter)->
 getNearbyItems = ->
   collection = new Items
   _.preq.get app.API.items.nearby()
-  .then _.Log('showItemsNearby res')
   .then addUsersAndItems(collection)
 
 getLastPublic = (params)->
