@@ -7,14 +7,15 @@
     text-align: left;
   }
   padding-bottom: 1em;
-  .workData{
-    flex: 1 0 auto;
-  }
   .work-section{
     @include display-flex(row, center, space-around, wrap);
   }
+  .workData{
+    max-width: 40em;
+  }
   .work-instances{
     @include display-flex(column, center, space-around);
+    padding: 2em;
   }
   > .items-lists, .entityActions{
     margin-top: 2em;
