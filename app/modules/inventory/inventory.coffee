@@ -64,11 +64,9 @@ API =
         navigate: navigate
 
   showGroupInventory: (id, name, navigate)->
-    app.request 'get:group:model', id
-    .then (group)->
-      showInventory
-        group: id
-        navigate: navigate
+    showInventory
+      group: id
+      navigate: navigate
 
   showInventoryNearby: ->
     if app.request 'require:loggedIn', 'inventory/nearby'

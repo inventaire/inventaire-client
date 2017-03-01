@@ -82,6 +82,7 @@ API =
     # depend on group_helpers which waitForUserData
     app.request 'wait:for', 'user'
     .then -> app.request 'get:group:model', id
+    .tap (group)-> group.beforeShow()
     .then showGroupBoardFromModel
     .catch (err)->
       _.error err, 'get:group:model err'

@@ -21,14 +21,28 @@ module.exports = Positionable.extend
       # non-persisted category used for convinience on client-side
       tmp: []
 
+  beforeShow:->
+    # All the actions to run once before showing any view displaying
+    # deep groups data (with statistics, members list, etc), but that can
+    # be spared otherwise
+    if @_beforeShowCalledOnce then return @waitForData
+    @_beforeShowCalledOnce = true
+
     @initMembersCollection()
     @initRequestersCollection()
+
+    @waitForData = Promise.all [
+      @waitForMembers
+      @waitForRequested
+    ]
 
     # keep internal lists updated
     @on 'list:change', @recalculateAllLists.bind(@)
     # updated collections once the debounced recalculateAllLists is done
     @on 'list:change:after', @initMembersCollection.bind(@)
     @on 'list:change:after', @initRequestersCollection.bind(@)
+
+    return @waitForData
 
   initMembersCollection: -> @initUsersCollection 'members'
   initRequestersCollection: -> @initUsersCollection 'requested'
@@ -40,11 +54,10 @@ module.exports = Positionable.extend
     @[name].remove @[name].models
     Name = _.capitaliseFirstLetter name
     ids = @["all#{Name}Ids"]()
-    for userId in ids
-      @fetchUser @[name], userId
+    @["waitFor#{Name}"] = @fetchUsers @[name], ids
 
-  fetchUser: (collection, userId)->
-    app.request 'get:group:user:model', userId
+  fetchUsers: (collection, userIds)->
+    app.request 'get:group:users:models', userIds
     .then collection.add.bind(collection)
     .catch _.Error('fetchMembers')
 
@@ -58,7 +71,7 @@ module.exports = Positionable.extend
     if @mainUserIsAdmin() then @get('requested').length
     else 0
 
-  itemsCount: -> _.sum @members.map(userItemsCount)
+  itemsCount: -> if @members? then _.sum @members.map(userItemsCount)
 
   serializeData: ->
     attrs = @toJSON()

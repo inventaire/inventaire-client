@@ -77,9 +77,28 @@ module.exports = (app)->
 
       .catch _.ErrorRethrow('getUserModel err')
 
-    getGroupUserModel: (id)->
+    getUsersModels: (ids, category='public')->
+      app.request 'waitForNetwork'
+      .then ->
+        foundUsersModels = []
+        missingUsersIds = []
+        for id in ids
+          userModel = app.request 'get:userModel:from:userId', id
+          if userModel? then foundUsersModels.push userModel
+          else missingUsersIds.push id
+
+        if missingUsersIds.length is 0 then return foundUsersModels
+        else
+          usersData.get missingUsersIds, 'collection'
+          .then (usersData)->
+            newUsersModels = adders[category](_.compact(usersData))
+            return foundUsersModels.concat newUsersModels
+
+      .catch _.ErrorRethrow('getUserModel err')
+
+    getGroupUsersModels: (ids)->
       # just adding to users.nonRelationGroupUser instead of users.public
-      async.getUserModel id, 'nonRelationGroupUser'
+      async.getUsersModels ids, 'nonRelationGroupUser'
 
     resolveToUserModel: (user)->
       # 'user' is either the user model, a user id, or a username
@@ -140,7 +159,7 @@ module.exports = (app)->
 
   app.reqres.setHandlers
     'get:user:model': async.getUserModel
-    'get:group:user:model': async.getGroupUserModel
+    'get:group:users:models': async.getGroupUsersModels
     'get:users:data': async.getUsersData
     'resolve:to:userModel': async.resolveToUserModel
     'get:userModel:from:username': async.getUserModelFromUsername
