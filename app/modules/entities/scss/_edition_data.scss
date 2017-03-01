@@ -1,5 +1,5 @@
 .edition-data{
-  @include display-flex(row, flex-start, center);
+  @include display-flex(row, flex-start, center, wrap);
   > div{
     margin-left: 1em;
     margin-right: 1em;
@@ -8,6 +8,17 @@
     @include link-light;
   }
   .property-value{
-    color: #666;
+    color: #cfcfcf;
+  }
+  .data{
+    position: relative;
+    padding: 1.5em;
+    /*Large screens*/
+    @media screen and (min-width: 20em) {
+      min-width: 20em;
+    }
+  }
+  .showEntityEdit.pencil{
+    @include position(absolute, 0.9em, 0);
   }
 }
