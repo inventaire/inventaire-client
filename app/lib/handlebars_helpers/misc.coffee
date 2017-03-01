@@ -51,6 +51,10 @@ module.exports =
     text = _.i18n text, context
     @link text, url
 
+  I18nLink: (text, url, context)->
+    text = _.capitaliseFirstLetter _.i18n(text, context)
+    @link text, url
+
   limit: (text, limit)->
     return ''  unless text?
     t = text[0..limit]
