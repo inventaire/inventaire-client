@@ -2,15 +2,13 @@ SettingsLayout = require './views/settings'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
-    SettingsRouter = Marionette.AppRouter.extend
+    Router = Marionette.AppRouter.extend
       appRoutes:
         'settings(/profile)(/)': 'showProfileSettings'
         'settings/notifications(/)': 'showNotificationsSettings'
         'settings/labs(/)': 'showLabsSettings'
 
-    app.addInitializer ->
-      new SettingsRouter
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: -> setHandlers()
 

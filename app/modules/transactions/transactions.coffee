@@ -7,14 +7,12 @@ fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
-    TransactionsRouter = Marionette.AppRouter.extend
+    Router = Marionette.AppRouter.extend
       appRoutes:
         'transactions(/)': 'showFirstTransaction'
         'transactions/:id(/)': 'showTransaction'
 
-    app.addInitializer ->
-      new TransactionsRouter
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     @listenTo app.vent, 'transaction:select', updateTransactionRoute

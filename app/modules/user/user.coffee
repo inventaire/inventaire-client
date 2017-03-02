@@ -6,14 +6,14 @@ fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
-    UserRouter = Marionette.AppRouter.extend
+    Router = Marionette.AppRouter.extend
       appRoutes:
         'signup(/)':'showSignup'
         'login(/)':'showLogin'
         'login/forgot-password(/)':'showForgotPassword'
         'login/reset-password(/)':'showResetPassword'
 
-    app.addInitializer -> new UserRouter { controller: API }
+    app.addInitializer -> new Router { controller: API }
 
     require('./lib/init_main_user')(app)
     require('./lib/auth')(app)

@@ -4,13 +4,11 @@ error_ = require 'lib/error'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
-    SearchRouter = Marionette.AppRouter.extend
+    Router = Marionette.AppRouter.extend
       appRoutes:
         'search': 'searchFromQueryString'
 
-    app.addInitializer ->
-      new SearchRouter
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     app.commands.setHandlers

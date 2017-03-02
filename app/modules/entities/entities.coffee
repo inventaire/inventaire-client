@@ -18,7 +18,7 @@ ChangesLayout = require './views/changes_layout'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
-    EntitiesRouter = Marionette.AppRouter.extend
+    Router = Marionette.AppRouter.extend
       appRoutes:
         'entity/new': 'showEntityCreateFromRoute'
         'entit(y)(ies)(/changes)': 'showChanges'
@@ -29,9 +29,7 @@ module.exports =
         'isbn/:isbn': 'showIsbnEntity'
         'inv/:id': 'showInvEntity'
 
-    app.addInitializer ->
-      new EntitiesRouter
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     setHandlers()

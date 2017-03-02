@@ -29,9 +29,7 @@ module.exports =
         'users(/)':'showSearchUsers'
         'groups(/)':'showSearchGroups'
 
-    app.addInitializer ->
-      new Router
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     app.commands.setHandlers

@@ -14,7 +14,7 @@ fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
-    InventoryRouter = Marionette.AppRouter.extend
+    Router = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
         'inventory/nearby': 'showInventoryNearby'
@@ -31,10 +31,7 @@ module.exports =
         'g/(:name)': 'shortCutGroup'
         'u(ser)(s)/:id': 'shortCutUser'
 
-    app.addInitializer ->
-      new InventoryRouter
-        controller: API
-
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     app.items = require('./items_collections')(app, _)

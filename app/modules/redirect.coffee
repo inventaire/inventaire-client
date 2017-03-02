@@ -17,9 +17,7 @@ module.exports =
         'me': 'showMainUser'
         '*route': 'notFound'
 
-    app.addInitializer ->
-      new Router
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     app.reqres.setHandlers

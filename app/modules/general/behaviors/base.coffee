@@ -1,8 +1,4 @@
-module.exports =
-  initialize: ->
-    Marionette.Behaviors.behaviorsLookup = ->
-      app.Behaviors
-
+behaviors =
   General: require './general'
   AlertBox: require './alertbox'
   AutoComplete: require './autocomplete'
@@ -20,3 +16,7 @@ module.exports =
   Toggler: require './toggler'
   DeepLinks: require './deep_links'
   Tooltip: require './tooltip'
+
+module.exports =
+  initialize: ->
+    Marionette.Behaviors.behaviorsLookup = -> behaviors

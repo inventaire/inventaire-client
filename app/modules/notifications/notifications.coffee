@@ -8,9 +8,7 @@ module.exports =
       appRoutes:
         'notifications': 'showNotifications'
 
-    app.addInitializer ->
-      new Router
-        controller: API
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     notifications = app.notifications = new Notifications
