@@ -15,9 +15,9 @@ modifiers =
       if username?
         firstLetter = username[0].toLowerCase()
         if firstLetter in vowels
-          if /de\s(<strong>)?%{username}/.test k
-            re = new RegExp "de (<strong>)?#{username}"
-            return val.replace re, "d'$1#{username}"
+          if /(d|qu)e\s(<strong>)?%{username}/.test k
+            re = new RegExp "(d|qu)e (<strong>)?#{username}"
+            return val.replace re, "$1'$2#{username}"
 
     return val
 
