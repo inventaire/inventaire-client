@@ -61,12 +61,14 @@ module.exports = Marionette.LayoutView.extend
     if $el.visible() then _.scrollTop $parent
 
   onRender: ->
-    @showHeader()
-    @showMembers()
-    @showJoinRequests()
-    if @model.mainUserIsMember()
-      @initSettings()
-      @showFriendsInvitor()
+    @model.beforeShow()
+    .then =>
+      @showHeader()
+      @showMembers()
+      @showJoinRequests()
+      if @model.mainUserIsMember()
+        @initSettings()
+        @showFriendsInvitor()
 
   onShow: ->
     @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
