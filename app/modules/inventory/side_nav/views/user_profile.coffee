@@ -34,7 +34,9 @@ module.exports = Marionette.ItemView.extend
     relationsActions.call @
 
   serializeData: ->
-    _.extend @model.serializeData(),
+    # Show private items in items counts if available
+    nonPrivate = false
+    _.extend @model.serializeData(nonPrivate),
       onUserProfile: true
       loggedIn: app.user.loggedIn
       commonGroups: @commonGroupsData()

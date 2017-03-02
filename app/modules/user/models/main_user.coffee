@@ -81,7 +81,7 @@ module.exports = UserCommons.extend
 
   inventoryLength: (nonPrivate)->
     if nonPrivate then @get('itemsCount') - @get('privateItemsCount')
-    else @get 'privateItemsCount'
+    else @get 'itemsCount'
 
   updateItemsCounters: (previousListing, newListing)->
     snapshot = @get 'snapshot'
