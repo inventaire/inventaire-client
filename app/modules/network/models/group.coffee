@@ -21,6 +21,8 @@ module.exports = Positionable.extend
       # non-persisted category used for convinience on client-side
       tmp: []
 
+    @calculateHighlightScore()
+
   beforeShow:->
     # All the actions to run once before showing any view displaying
     # deep groups data (with statistics, members list, etc), but that can
@@ -152,6 +154,18 @@ module.exports = Positionable.extend
       @get('name')
       @get('description')
     ]
+
+  # Should only rely on data available without having to fetch users models
+  calculateHighlightScore: ->
+    adminFactor = if @mainUserIsAdmin() then 20 else 0
+    membersFactor = @membersCount()
+    randomFactor = Math.random() * 20
+    ageInDays = _.daysAgo @get('created')
+    # Highlight the group in its early days
+    ageFactor = 50 / (1 + ageInDays)
+    total = adminFactor + membersFactor + randomFactor + ageFactor
+    # Inverting to get the highest scores first
+    @set 'highlightScore', -total
 
 userItemsCount = (user)->
   nonPrivate = true
