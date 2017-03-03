@@ -167,6 +167,11 @@ module.exports = Positionable.extend
     # Inverting to get the highest scores first
     @set 'highlightScore', -total
 
+  boostHighlightScore: ->
+    highestScore = @collection.models[0].get 'highlightScore'
+    @set 'highlightScore', highestScore*2
+    @collection.sort()
+
 userItemsCount = (user)->
   nonPrivate = true
   user.inventoryLength(nonPrivate) or 0

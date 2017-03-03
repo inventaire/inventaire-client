@@ -83,7 +83,9 @@ module.exports = Marionette.LayoutView.extend
       # get:group:model takes care of fetching the group users
       # and items public data
       app.request 'get:group:model', group
-      .tap (group)-> group.beforeShow()
+      .tap (group)->
+        group.beforeShow()
+        group.boostHighlightScore()
       # make sure the group is passed as second argument
       .then @showItemsListStep2.bind(@, null)
       .catch (err)->
