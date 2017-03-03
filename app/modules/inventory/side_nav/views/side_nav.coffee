@@ -28,15 +28,15 @@ module.exports = Marionette.LayoutView.extend
 
     groupsSection: '#groupsListHeader, #groupsList'
     groupsList: '#groupsList'
-    groupsToggler: '#groups .listToggler'
+    groupsToggler: '#groupsListHeader .listToggler'
 
     publicSection: '#publicListHeader, #publicList'
     publicList: '#publicList'
-    publicToggler: '#public .listToggler'
+    publicToggler: '#publicListHeader .listToggler'
 
     membersSection: '#membersListHeader, #membersList'
     membersList: '#membersList'
-    membersToggler: '#members .listToggler'
+    membersToggler: '#membersListHeader .listToggler'
     memberSearch: '#memberSearch'
 
     nearby: 'li.nearby'
@@ -93,13 +93,17 @@ module.exports = Marionette.LayoutView.extend
     if _.smallScreen()
       app.request 'wait:for', 'user'
       .then @initBaseSmallScreen.bind(@)
+      .then =>
+        @ui.publicList.hide()
+        @_publicListShown = false
 
     else
       @showUsersList()
       @showPublicList()
+
       app.request 'wait:for', 'user'
       .then @showGroupsList.bind(@)
-      # useful in case the screen is resized
+      # Useful in case the screen is resized
       .then @initBaseSmallScreen.bind(@)
 
   initBaseSmallScreen: ->
@@ -181,24 +185,9 @@ module.exports = Marionette.LayoutView.extend
     # before lists are ready as it would be out of sync
     if @_listReady and _.smallScreen()
       { id } = e.currentTarget
-
-      switch id
-        when 'usersListHeader'
-          # toggleUserSearch need to be before toggleList as will alter @_usersListShown
-          @toggleUserSearch()
-          @toggleList 'users', @_usersListShown
-
-        when 'groupsListHeader'
-          @toggleList 'groups', @_groupsListShown
-
-        when 'membersListHeader'
-          @toggleList 'members', @_membersListShown
-          @ui.memberSearch.toggle()
-
-        when 'publicListHeader'
-          @toggleList 'public', @_publicListShown
-
-        else _.error id, 'unknown list header'
+      name = id.replace 'ListHeader', ''
+      if name is 'users' then @toggleUserSearch()
+      @toggleList name, @["_#{name}ListShown"]
 
   toggleList: (name, shown)->
     if shown
@@ -207,16 +196,10 @@ module.exports = Marionette.LayoutView.extend
     else
       # showing the view will override display:none rules
       # we just miss the slide effect then
-      @showList name
+      Name = _.capitaliseFirstLetter name
+      @["show#{Name}List"]()
       @ui["#{name}Toggler"].toggle()
-
-  showList: (name)->
-    switch name
-      when 'users' then @showUsersList()
-      when 'groups' then @showGroupsList()
-      when 'members' then @showMembersList()
-      when 'public' then @showPublicList()
-      else _.error name, 'unknown list'
+    @["_#{name}ListShown"] = !shown
 
   toggleUserSearch: ->
     if @_usersListShown then @ui.userSearch.toggle()

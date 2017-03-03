@@ -113,8 +113,9 @@
   #sideNav{
     margin-top: 0.2em;
   }
-  #publicList{
-    display: none;
+  #publicList, #groupsList, #usersList, #membersList{
+    max-height: 10em;
+    overflow: auto;
   }
   #mainUser{
     width: 100%;
