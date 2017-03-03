@@ -1,5 +1,5 @@
 GroupsList = require './groups_list'
-updateRoute = require('../lib/update_query_route')('searchGroups')
+updateRoute = require('../lib/update_query_route')('groups', 'searchGroups')
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/groups_search_layout'

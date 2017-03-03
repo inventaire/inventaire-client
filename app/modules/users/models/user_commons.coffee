@@ -12,17 +12,16 @@ module.exports = Positionable.extend
     ]
 
   updateMetadata: ->
-    app.execute 'metadata:update',
-      title: @get 'username'
-      description: @getDescription()
-      image: @get 'picture'
-      url: @get 'pathname'
-      rss: "/api/feeds/public?user=#{@id}"
+    title: @get 'username'
+    description: @getDescription()
+    image: @get 'picture'
+    url: @get 'pathname'
+    rss: "/api/feeds/public?user=#{@id}"
 
   getDescription: ->
     bio = @get('bio')
     if _.isNonEmptyString bio then return bio
-    else _.i18n 'user_default_description', {username: @get('username')}
+    else _.i18n 'user_default_description', { username: @get('username') }
 
   setInventoryStats: ->
     # Make lastAdd default to the user creation date

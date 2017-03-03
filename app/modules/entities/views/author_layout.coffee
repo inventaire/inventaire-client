@@ -23,7 +23,6 @@ module.exports = Marionette.LayoutView.extend
     @lazyRender = _.LazyRender @
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
-    if @options.standalone then app.execute 'metadata:update:needed'
 
   initPlugins: ->
     _.extend @, behaviorsPlugin
@@ -55,9 +54,6 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showInfobox()
     if @worksShouldBeShown then @showWorks()
-    if @options.standalone
-      @model.updateMetadata()
-      .finally app.Execute('metadata:update:done')
 
   showInfobox: ->
     @infoboxRegion.show new AuthorInfobox

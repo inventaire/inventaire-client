@@ -18,7 +18,6 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     entityItems.initialize.call @
-    if @standalone then app.execute 'metadata:update:needed'
 
   onShow: ->
     @model.waitForWork
@@ -26,10 +25,6 @@ module.exports = Marionette.LayoutView.extend
 
     # Need to wait to know if the user has an instance of this work
     @waitForItems.then @showEntityActions.bind(@)
-
-    if @standalone
-      @model.updateMetadata()
-      .then app.Execute('metadata:update:done')
 
   onRender: -> entityItems.onRender.call @
 

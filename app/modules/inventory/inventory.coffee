@@ -22,7 +22,7 @@ module.exports =
         'inventory/:username(/)': 'showUserInventory'
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
-        'items(/)': 'showGeneralInventoryNavigate'
+        'items(/)': 'showGeneralInventory'
         'add(/search)(/)': 'showSearch'
         'add/scan(/)': 'showScan'
         'add/scan/embedded(/)': 'showEmbeddedScanner'
@@ -44,26 +44,15 @@ module.exports =
 
 API =
   showGeneralInventory: ->
-    if app.request 'require:loggedIn', 'inventory'
-      showInventory
-        generalInventory: true
-
-  showGeneralInventoryNavigate: ->
-    API.showGeneralInventory()
-    app.navigate 'inventory'
+    if app.request 'require:loggedIn', 'inventory' then showInventory()
 
   showUserInventory: (user, navigate)->
     # User might be a user id or a username
     app.request 'resolve:to:userModel', user
-    .then (userModel)->
-      showInventory
-        user: user
-        navigate: navigate
+    .then (userModel)-> showInventory { user, navigate }
 
   showGroupInventory: (id, name, navigate)->
-    showInventory
-      group: id
-      navigate: navigate
+    showInventory { group: id, navigate }
 
   showInventoryNearby: ->
     if app.request 'require:loggedIn', 'inventory/nearby'
@@ -88,7 +77,9 @@ API =
       return app.execute 'show:error:missing'
 
     title = if label then "#{label} - #{username}" else "#{uri} - #{username}"
-    app.execute 'show:loader', { title }
+
+    app.execute 'show:loader'
+    app.navigate "#{username}/#{uri}", { metadata: { title } }
 
     app.request 'items:getByUsernameAndEntity', username, uri
     .then displayFoundItems
@@ -106,6 +97,9 @@ API =
   showEmbeddedScanner: ->
     if app.request 'require:loggedIn', 'add/scan/embedded'
       if window.hasVideoInput
+        # navigate before triggering the view itself has
+        # special behaviors on route change
+        app.navigate 'add/scan/embedded'
         # showing in main so that requesting another layout destroy this view
         app.layout.main.show new EmbeddedScanner
       else
@@ -130,10 +124,7 @@ API =
 
   shortCutUser: (usernameOrId)-> API.showUserInventory usernameOrId, true
 
-showAddLayout = (tab='search')->
-  view = new AddLayout { tab: tab }
-  titleKey = "title_add_layout_#{tab}"
-  app.layout.main.Show view, _.I18n(titleKey)
+showAddLayout = (tab='search')-> app.layout.main.show new AddLayout { tab }
 
 groupNameMatch = (name, model)->
   model.get('name').toLowerCase() is name
@@ -161,15 +152,15 @@ itemsCountByEntity = (uri)->
 
 showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
+  app.navigateFromModel group
 
 showItemShowFromModel = (item)->
-  app.layout.main.show new ItemShow {model: item}
-  if item.pathname? then app.navigate item.pathname
-  else _.error item, 'missing item.pathname'
+  app.layout.main.show new ItemShow { model: item }
+  app.navigateFromModel item
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
-    'show:inventory:general': API.showGeneralInventoryNavigate
+    'show:inventory:general': API.showGeneralInventory
 
     # user can be either a username or a user model
     'show:inventory:user': (user)->
@@ -199,13 +190,9 @@ initializeInventoriesHandlers = (app)->
       if lastSearch? then lastSearch.show()
       else API.showSearch()
 
-    'show:scan': -> API.showScan()
+    'show:scan': API.showScan
 
-    'show:scanner:embedded': ->
-      # navigate before triggering the view itself has
-      # special behaviors on route change
-      app.navigate 'add/scan/embedded'
-      API.showEmbeddedScanner()
+    'show:scanner:embedded': API.showEmbeddedScanner
 
     'inventory:remove:user:items': (userId)->
       # delay the action to avoid to get a ViewDestroyedError on UserLi

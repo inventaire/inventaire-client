@@ -67,16 +67,3 @@ describe 'Utils', ->
       queryObj = _.parseQuery queries.goodWithEncodedObject
       queryObj.should.deepEqual { action: 'man', data: {'wdt:P50': ['wd:Q535']} }
       done()
-
-  describe 'pickToArray', ->
-    it 'should return an array', (done)->
-      obj =
-        a: 15
-        b: 25
-        c: 35
-      array = ['b', 'c']
-      _.pickToArray(obj, array).should.be.an.Array()
-      _.pickToArray(obj, array).length.should.equal 2
-      _.pickToArray(obj, array)[0].should.equal 25
-      _.pickToArray(obj, array)[1].should.equal 35
-      done()

@@ -10,7 +10,7 @@ module.exports = map_ =
   updateRoute: (root, lat, lng, zoom=defaultZoom)->
     # Keep only defined parameters in the route
     # Allow to pass a custom root to let it be used in multiple modules
-    route = _.buildPath root, {lat: lat, lng: lng, zoom: zoom}
+    route = _.buildPath root, { lat, lng, zoom }
     app.navigate route, { preventScrollTop: true }
 
   updateRouteFromEvent: (root, e)->

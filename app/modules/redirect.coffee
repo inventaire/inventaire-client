@@ -47,10 +47,7 @@ API =
     app.execute 'show:error:missing'
 
   showWelcome: ->
-    title = 'Inventaire - ' + _.i18n('your friends and communities are your best library')
-    app.layout.main.Show new Welcome,
-      docTitle: title
-      noCompletion: true
+    app.layout.main.show new Welcome
     app.navigate 'welcome'
 
   showDonate: -> showMenuStandalone DonateMenu, 'donate'
@@ -121,5 +118,5 @@ showCallToConnection = (message)->
     connectionMessage: message
 
 showMenuStandalone = (Menu, titleKey)->
-  view = new Menu { standalone: true }
-  app.layout.main.Show view, { docTitle: _.i18n(titleKey) }
+  app.layout.main.show new Menu { standalone: true }
+  app.navigate titleKey, { metadata: { title: _.i18n(titleKey) } }

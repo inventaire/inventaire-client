@@ -91,15 +91,6 @@ module.exports = (_)->
     filterExpr = new RegExp text, 'i'
     @filterBy 'text', (model)-> model.matches filterExpr
 
-  Marionette.Region::Show = (view, options={})->
-    if _.isString options then docTitle = options
-    else { docTitle, noCompletion } = options
-
-    if docTitle?
-      app.docTitle _.softDecodeURI(docTitle), noCompletion
-
-    return @show(view, options)
-
   # JQUERY
   # aliasing once to one to match Backbone vocabulary
   $.fn.once = $.fn.one

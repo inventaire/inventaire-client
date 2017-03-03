@@ -19,9 +19,7 @@ API =
 
 showSettings = (tab)->
   if app.request 'require:loggedIn', "settings/#{tab}"
-    title = _.I18n 'settings'
-    options = {model: app.user, tab: tab}
-    app.layout.main.Show new SettingsLayout(options), title
+    app.layout.main.show new SettingsLayout { model: app.user, tab }
 
 setHandlers = ->
   app.commands.setHandlers

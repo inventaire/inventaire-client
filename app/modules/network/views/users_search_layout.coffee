@@ -1,6 +1,6 @@
 UsersList = require 'modules/users/views/users_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-updateRoute = require('../lib/update_query_route')('searchUsers')
+updateRoute = require('../lib/update_query_route')('users', 'searchUsers')
 
 module.exports = Marionette.LayoutView.extend
   id: 'usersSearchLayout'

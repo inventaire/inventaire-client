@@ -40,7 +40,7 @@ module.exports =
 API =
   showTransactions: ->
     if app.request 'require:loggedIn', 'transactions'
-      app.layout.main.Show new TransactionsLayout, _.i18n('transactions')
+      app.layout.main.show new TransactionsLayout
 
   showFirstTransaction: ->
     if app.request 'require:loggedIn', 'transactions'
@@ -68,7 +68,7 @@ API =
 
   showItemRequestModal: (model)->
     if app.request 'require:loggedIn', model.pathname
-      app.layout.modal.show new RequestItemModal {model: model}
+      app.layout.modal.show new RequestItemModal { model }
 
   updateLastTransactionId: (transac)-> lastTransactionId = transac.id
 
@@ -79,7 +79,6 @@ navigate =
   showTransaction: (id)->
     API.showTransaction(id)
     app.navigate "transactions/#{id}"
-
 
 triggerTransactionSelect = (id)->
   transaction = app.request 'get:transaction:byId', id

@@ -1,6 +1,7 @@
-ProfileSettings = require './profile_settings'
-NotificationsSettings = require './notifications_settings'
-LabsSettings = require './labs_settings'
+views =
+  profile: require './profile_settings'
+  notifications: require './notifications_settings'
+  labs: require './labs_settings'
 
 module.exports = Marionette.LayoutView.extend
   id: 'settings'
@@ -15,43 +16,34 @@ module.exports = Marionette.LayoutView.extend
     labsTitle: '#labs'
 
   onShow: ->
-    { tab } = @options
-    switch tab
-      when 'profile' then fn = @showProfileSettings
-      when 'notifications' then fn = @showNotificationsSettings
-      when 'labs' then fn = @showLabsSettings
-      else _.error 'unknown tab requested'
-
-    app.request('wait:for', 'user').then fn.bind(@)
+    app.request 'wait:for', 'user'
+    .then @showTab.bind(@)
 
   events:
     'click #profile': 'showProfileSettings'
     'click #notifications': 'showNotificationsSettings'
     'click #labs': 'showLabsSettings'
 
-  showProfileSettings: ->
-    @tabsContent.show new ProfileSettings {model: @model}
-    @tabUpdate 'profile'
-
-  showNotificationsSettings: ->
-    @tabsContent.show new NotificationsSettings {model: @model}
-    @tabUpdate 'notifications'
-
-  showLabsSettings: ->
-    @tabsContent.show new LabsSettings {model: @model}
-    @tabUpdate 'labs'
+  showTab: (tab)->
+    tab or= @options.tab
+    View = views[tab]
+    @tabsContent.show new View { @model }
+    @tabUpdate tab
 
   tabUpdate: (tab)->
     @setActiveTab tab
-    updateDocTitle tab
-    app.navigate "settings/#{tab}"
+
+    tab = _.I18n tab
+    settings = _.I18n 'settings'
+
+    app.navigate "settings/#{tab}",
+      metadata: { title: "#{tab} - #{settings}" }
 
   setActiveTab: (name)->
     tab = "#{name}Title"
     @ui.tabsTitles.find('a').removeClass 'active'
     @ui[tab].addClass 'active'
 
-updateDocTitle = (tab)->
-  tab = _.I18n tab
-  settings = _.I18n 'settings'
-  app.execute 'metadata:update:title', "#{tab} - #{settings}"
+  showProfileSettings: -> @showTab 'profile'
+  showNotificationsSettings: -> @showTab 'notifications'
+  showLabsSettings: -> @showTab 'labs'

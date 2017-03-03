@@ -58,13 +58,6 @@ module.exports = (Backbone, _, $, app, window)->
 
   isntEmpty: (array)-> not _.isEmpty(array)
 
-  pickToArray: (obj, props...)->
-    if _.isArray(props[0]) then props = props[0]
-    _.typeArray props
-    pickObj = _.pick(obj, props)
-    # returns an undefined array element when prop is undefined
-    return props.map (prop)-> pickObj[prop]
-
   # /!\ window.screen.width is the screen's width not the current window width
   screenWidth: -> $(window).width()
   screenHeight: -> $(window).height()

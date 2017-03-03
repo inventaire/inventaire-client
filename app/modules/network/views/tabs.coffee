@@ -66,15 +66,6 @@ module.exports = Marionette.ItemView.extend
 
   updateMetadata: ->
     { path, title } = @currentTabData
-    navigate path
-    updateTitle title
-
-navigate = (path)->
-  # update only if needed
-  # allow to preserve custom query strings handled by sub tabs layouts
-  if path isnt _.currentRoute() then app.navigate path
-
-updateTitle = (title)->
-  title = _.I18n title
-  network = _.I18n 'network'
-  app.execute 'metadata:update:title', "#{title} - #{network}"
+    title = _.I18n title
+    network = _.I18n 'network'
+    app.navigate path, { metadata: { title: "#{title} - #{network}" } }

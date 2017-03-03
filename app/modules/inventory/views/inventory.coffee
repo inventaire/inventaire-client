@@ -42,7 +42,6 @@ module.exports = Marionette.LayoutView.extend
     @sideNav.show new SideNav
 
   showItemsListOnceData: ->
-    app.execute 'metadata:update:needed'
     # waitForItems to avoid having items displaying undefined values
     # waitForUserData to avoid having displaying a user profile without
     # knowing the main user
@@ -52,7 +51,6 @@ module.exports = Marionette.LayoutView.extend
     waitForData
     .then CheckViewState(@, 'inventory')
     .then @showItemsList.bind(@)
-    .then app.Execute('metadata:update:done')
     .catch catchDestroyedView
     .catch _.Error('showItemsListOnceData err')
 
@@ -63,13 +61,15 @@ module.exports = Marionette.LayoutView.extend
       if app.user.hasPosition() then @showItemsNearby()
       else @showPositionWelcome()
       app.vent.trigger 'sidenav:show:base', 'nearby'
-      app.navigate 'inventory/nearby'
+      app.navigate 'inventory/nearby',
+        metadata: { title: _.i18n('title_map_layout') }
       return
 
     if last
       @showLastPublicItems()
       app.vent.trigger 'sidenav:show:base', 'last'
-      app.navigate 'inventory/last'
+      app.navigate 'inventory/last',
+        metadata: { title: _.i18n('title_last_items') }
       return
 
     if user?
@@ -96,31 +96,29 @@ module.exports = Marionette.LayoutView.extend
 
 
   showItemsListStep2: (user, group)->
-    { navigate, generalInventory } = @options
-
     model = null
     fallback = null
 
     if user?
-      prepareUserItemsList user, navigate
+      prepareUserItemsList user
       eventName = user.get 'username'
-      user.updateMetadata()
+      app.navigateFromModel user
       model = user
       request = 'items:getUserItems'
       if app.request 'user:isMainUser', user.id
         fallback = @showInventoryWelcome.bind @, user
 
     else if group?
-      @prepareGroupItemsList group, navigate
+      prepareGroupItemsList.call @, group
       eventName = "group:#{group.id}"
-      group.updateMetadata()
+      app.navigateFromModel group
       request = 'items:getGroupItems'
       model = group
 
     else
       app.vent.trigger 'sidenav:show:base'
       eventName = 'general'
-      updateInventoryMetadata()
+      app.navigate 'inventory', { metadata: inventoryMetadata() }
       request = 'items:getNetworkItems'
       fallback = @showInventoryWelcome.bind @
 
@@ -155,7 +153,6 @@ module.exports = Marionette.LayoutView.extend
     @header.show new inventoryWelcome
     @showLastPublicItems()
     if user?
-      navigateToUserInventory user
       app.vent.trigger 'sidenav:show:user', user
     else
       app.vent.trigger 'sidenav:show:base'
@@ -173,19 +170,6 @@ module.exports = Marionette.LayoutView.extend
   #   unless _.smallScreen gridMinWidth
   #     @controls.show new Controls
 
-  prepareGroupItemsList: (group, navigate)->
-    app.vent.trigger 'sidenav:show:group', group
-    unless _.smallScreen()
-      @header.show new Group
-        model: group
-        highlighted: true
-    # else shown by side_nav::showGroup
-
-    pathname = group.get 'pathname'
-    if navigate then app.navigate pathname
-    # correcting possibly custom or outdated group name
-    else app.navigateReplace pathname
-
   showItemsNearby: ->
     app.request 'items:getNearbyItems'
     .then (items)=>
@@ -197,15 +181,17 @@ module.exports = Marionette.LayoutView.extend
   showPositionWelcome: ->
     @itemsView.show new PositionWelcome
 
-prepareUserItemsList = (user, navigate)->
-  username = user.get 'username'
-  app.vent.trigger 'sidenav:show:user', user
-  if navigate then navigateToUserInventory user
+prepareUserItemsList = (user)-> app.vent.trigger 'sidenav:show:user', user
 
-navigateToUserInventory = (user)-> app.navigate user.get('pathname')
+prepareGroupItemsList = (group)->
+  app.vent.trigger 'sidenav:show:group', group
+  unless _.smallScreen()
+    @header.show new Group
+      model: group
+      highlighted: true
+  # else shown by side_nav::showGroup
 
-updateInventoryMetadata = ->
-  app.execute 'metadata:update',
-    title: _.I18n 'title_browse_layout'
-    url: '/inventory'
-    # keep the general description and image
+inventoryMetadata = ->
+  title: _.I18n 'title_browse_layout'
+  url: '/inventory'
+  # keep the general description and image

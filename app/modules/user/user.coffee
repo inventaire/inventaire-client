@@ -32,21 +32,24 @@ module.exports =
 API =
   showSignup: ->
     unless redirected 'show:signup'
-      app.layout.main.Show new SignupClassic, _.I18n('sign up')
-      app.navigate 'signup'
+      app.layout.main.show new SignupClassic
+      app.navigate 'signup', { metadata: { title: _.I18n('sign up') } }
 
   showLogin: ->
     unless redirected 'show:login'
-      app.layout.main.Show new Login, _.I18n('login')
-      app.navigate 'login'
+      app.layout.main.show new Login
+      app.navigate 'login', { metadata: { title: _.I18n('login') } }
 
   showForgotPassword: (options)->
-    app.layout.main.Show new ForgotPassword(options), _.I18n('forgot password')
-    app.navigate 'login/forgot-password'
+    app.layout.main.show new ForgotPassword options
+    app.navigate 'login/forgot-password',
+      metadata: { title: _.I18n('forgot password') }
 
   showResetPassword: ->
     if app.user.loggedIn
-      app.layout.main.Show new ResetPassword, _.I18n('reset password')
+      app.layout.main.show new ResetPassword
+      app.navigate 'login/reset-password',
+        metadata: { title: _.I18n('reset password') }
     else
       app.execute 'show:forgot:password'
 

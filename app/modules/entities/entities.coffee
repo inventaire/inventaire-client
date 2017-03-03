@@ -21,9 +21,9 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         'entity/new': 'showEntityCreateFromRoute'
-        'entit(y)(ies)(/changes)': 'showChanges'
+        'entity/changes': 'showChanges'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
-        'entity/:uri(/:label)/edit(/)': 'showEditEntity'
+        'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
         'entity/:uri(/:label)(/)': 'showEntity'
         'wd/:qid': 'showWdEntity'
         'isbn/:isbn': 'showIsbnEntity'
@@ -45,11 +45,9 @@ API =
     if refresh then app.execute 'uriLabel:refresh'
 
     getEntityModel uri, refresh
-    .tap cleanEntityPathname.bind(null, '')
+    .tap app.navigateFromModel
     .then @getEntityViewByType.bind(@, refresh)
-    .then (view)->
-      view.model.buildTitleAsync()
-      .then (title)-> app.layout.main.Show view, title
+    .then app.layout.main.show.bind(app.layout.main)
     # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showEntity err')
 
@@ -88,12 +86,11 @@ API =
     # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showAddEntity err')
 
-  showEditEntity: (uri)->
-    # make sure we have the freshest data before trying to edit
+  showEditEntityFromUri: (uri)->
+    # Make sure we have the freshest data before trying to edit
     getEntityModel uri, true
-    .tap cleanEntityPathname.bind(null, '/edit')
     .then showEntityEdit
-    .catch handleMissingEntityError.bind(null, 'showEditEntity err')
+    .catch handleMissingEntityError.bind(null, 'showEditEntityFromUri err')
 
   showEntityCreateFromRoute: ->
     type = app.request 'querystring:get', 'type'
@@ -105,10 +102,8 @@ API =
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
   showInvEntity: (id)-> API.showEntity "inv:#{id}"
   showChanges: ->
-    # Only triggered from route yet so any redirection should be a replace
-    # to avoid a redirection loop when going back in history
-    app.navigateReplace 'entities/changes'
-    app.layout.main.Show new ChangesLayout
+    app.layout.main.show new ChangesLayout
+    app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
 showEntityCreate = (type, label, claims)->
   unless type in entityDraftModel.whitelistedTypes
@@ -120,9 +115,7 @@ showEntityCreate = (type, label, claims)->
 
 setHandlers = ->
   app.commands.setHandlers
-    'show:entity': (uri, label, params)->
-      API.showEntity uri, label, params
-      app.navigate "entity/#{uri}"
+    'show:entity': API.showEntity.bind(API)
 
     'show:entity:from:model': (model, params)->
       uri = model.get('uri')
@@ -134,16 +127,11 @@ setHandlers = ->
 
     'show:entity:add': API.showAddEntity.bind API
     'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')
-
-    'show:entity:edit': API.showEditEntity
-    'show:entity:edit:from:model': (entity)->
-      showEntityEdit entity
-      app.navigate entity.get('edit')
-
-    'show:entity:create': (type, label, claims)->
-      showEntityCreate type, label, claims
-      path = _.buildPath 'entity/new', { type, label, claims }
-      app.navigate path
+    'show:entity:edit': API.showEditEntityFromUri
+    'show:entity:edit:from:model': (model)->
+      # Uses API.showEditEntityFromUri the fetch fresh entity data
+      API.showEditEntityFromUri model.get('uri')
+    'show:entity:create': showEntityCreate
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
@@ -178,8 +166,8 @@ createEntity = (data)->
 
 getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
-showEntityEdit = (entity)->
-  editPathname = entity.get 'edit'
+showEntityEdit = (model)->
+  editPathname = model.get 'edit'
   # If this entity edit isn't happening internaly
   # redirect to the page where it should happen,
   # typically on Wikidata.org
@@ -187,19 +175,8 @@ showEntityEdit = (entity)->
   if editPathname? and editPathname[0] isnt '/'
     return window.location.href = editPathname
 
-  view = new EntityEdit { model: entity }
-  label = entity?.get 'label'
-  if label?
-    title = label + ' - ' + _.i18n 'edit'
-  else
-    title = _.i18n 'new entity'
-
-  app.layout.main.Show view, title
-
-cleanEntityPathname = (suffix, entity)->
-  # Correcting possibly custom entity label
-  path = entity.get('pathname') + suffix
-  app.navigate path
+  app.layout.main.show new EntityEdit { model }
+  app.navigateFromModel model, 'edit'
 
 handleMissingEntityError = (label, err)->
   if err.message is 'entity_not_found' then app.execute 'show:error:missing'

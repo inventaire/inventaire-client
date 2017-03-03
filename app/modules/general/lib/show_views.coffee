@@ -6,15 +6,14 @@ Loader = require '../views/behaviors/loader'
 
 module.exports =
   showLoader: (options={})->
-    [ region, selector, title ] = _.pickToArray options, ['region', 'selector', 'title']
+    { region, selector } = options
     if region?
-      region.Show new Loader, title
+      region.show new Loader
     else if selector?
       loader = new Loader
       $(selector).html loader.render()
-      app.docTitle(title)  if title?
     else
-      app.layout.main.Show new Loader, title
+      app.layout.main.show new Loader
 
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'

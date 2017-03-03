@@ -26,12 +26,11 @@ API.search = (query, refresh)->
     app.execute 'show:add:layout:search'
     return
 
-  searchLayout = new SearchLayout { query, refresh }
+  app.layout.main.show new SearchLayout { query, refresh }
 
-  docTitle = "#{query} - " +  _.I18n('search')
-  app.layout.main.Show searchLayout, docTitle
   encodedQuery = _.fixedEncodeURIComponent query
-  app.navigate "search?q=#{encodedQuery}"
+  app.navigate "search?q=#{encodedQuery}",
+    metadata: { title: "#{query} - " +  _.I18n('search') }
 
 API.searchFromQueryString = (querystring)->
   { q, refresh } = _.parseQuery querystring

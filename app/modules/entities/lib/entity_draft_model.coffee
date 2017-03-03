@@ -42,6 +42,10 @@ module.exports =
       create: -> createEntities.create @get('labels'), @get('claims')
       waitForSubentities: _.preq.resolved
 
+      # Methods and attributes required to be passed to app.navigateFromModel
+      updateMetadata: -> { title: label or _.I18n('new entity') }
+      edit: _.buildPath 'entity/new', { type, label, claims }
+
     return model
 
   whitelistedTypes: Object.keys typeDefaultP31

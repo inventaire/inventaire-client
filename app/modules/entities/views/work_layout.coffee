@@ -19,7 +19,6 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     entityItems.initialize.call @
-    app.execute 'metadata:update:needed'
 
   onShow: ->
     @showWorkData()
@@ -28,9 +27,6 @@ module.exports = Marionette.LayoutView.extend
     @waitForItems.then @showEntityActions.bind(@)
 
     @model.waitForSubentities.then @showEditions.bind(@)
-
-    @model.updateMetadata()
-    .then app.Execute('metadata:update:done')
 
   onRender: -> entityItems.onRender.call @
 

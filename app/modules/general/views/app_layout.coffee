@@ -4,7 +4,6 @@ showViews = require '../lib/show_views'
 IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
 initDynamicBackground = require '../lib/dynamic_background'
-initHeadMetadataCommands = require '../lib/head_metadata'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -49,7 +48,6 @@ module.exports = Marionette.LayoutView.extend
       'waitForCheck': waitForCheck
 
     documentLang @$el, app.user.lang
-    initHeadMetadataCommands()
 
     initIconNavHandlers.call(@)
     initDynamicBackground.call(@)

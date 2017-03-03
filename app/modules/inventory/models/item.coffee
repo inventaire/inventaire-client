@@ -160,7 +160,7 @@ module.exports = Filterable.extend
     .then @executeMetadataUpdate.bind(@)
 
   executeMetadataUpdate: ->
-    app.execute 'metadata:update',
+    return Promise.props
       title: @findBestTitle()
       description: @findBestDescription()?[0..500]
       image: @getPicture()

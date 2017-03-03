@@ -16,16 +16,10 @@ module.exports = Marionette.LayoutView.extend
     # use lazyRender to let the time to the item model to setUserData
     @listenTo @model, 'user:ready', @lazyRender
     @model.grabEntity()
-    app.execute 'metadata:update:needed'
 
   onRender: ->
     @model.waitForEntity.then @showEntity.bind(@)
     @showItemData()
-
-  onShow: ->
-    # needs to be run only once
-    @model.updateMetadata()
-    .finally app.Execute('metadata:update:done')
 
   showEntity: (entity)->
     type = entity.get 'type'

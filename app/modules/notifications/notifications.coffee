@@ -19,9 +19,7 @@ module.exports =
       .catch _.Error('addNotifications')
 
     app.commands.setHandlers
-      'show:notifications': ->
-        API.showNotifications()
-        app.navigate 'notifications'
+      'show:notifications': API.showNotifications
 
     if app.user.loggedIn
       _.preq.get app.API.notifs
@@ -40,5 +38,7 @@ getUsersIds = (notifications)->
 API =
   showNotifications: ->
     if app.request 'require:loggedIn', 'notifications'
-      app.layout.main.Show new NotificationsLayout,
-        docTitle: _.i18n 'notifications'
+      app.layout.main.show new NotificationsLayout
+      app.navigate 'notifications',
+        metadata:
+          title: _.i18n 'notifications'

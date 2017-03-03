@@ -136,17 +136,16 @@ module.exports = Positionable.extend
   userIsLastUser: -> @allMembersIds().length is 1
 
   updateMetadata: ->
-    app.execute 'metadata:update',
-      title: @get 'name'
-      description: @getDescription()
-      image: @getCover()
-      url: @get 'canonical'
-      rss: "/api/feeds/public?group=#{@id}"
+    title: @get 'name'
+    description: @getDescription()
+    image: @getCover()
+    url: @get 'canonical'
+    rss: "/api/feeds/public?group=#{@id}"
 
   getDescription: ->
     desc = @get 'description'
     if _.isNonEmptyString desc then desc
-    else _.i18n 'group_default_description', {groupName: @get('name')}
+    else _.i18n 'group_default_description', { groupName: @get('name') }
 
   getCover: -> @get('picture') or defaultCover
 

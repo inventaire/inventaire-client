@@ -132,7 +132,7 @@ module.exports = Backbone.NestedModel.extend
     .catch _.Error('updateMetadata err')
 
   executeMetadataUpdate: ->
-    app.execute 'metadata:update',
+    return Promise.props
       title: @buildTitleAsync()
       description: @findBestDescription()?[0..500]
       image: @getImageAsync()
