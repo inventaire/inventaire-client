@@ -17,7 +17,6 @@ __ =
     wikidata: (path)-> "#{@root}/wikidata/#{path}.json"
   dist: (path)-> "./public/i18n/dist/#{path}.json"
 
-
 json_  =
   read: (path)->
     fs.readFileAsync(path)

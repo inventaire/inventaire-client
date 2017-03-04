@@ -9,7 +9,6 @@ module.exports = Marionette.Behavior.extend
     'click a.close': 'hideAlertBox'
     'click .button': 'hideAlertBox'
 
-
   # alert-box will be appended to has-alertbox parent
   # OR to the selector parent if a selector is provided in params
   showAlertBox: (e, params)->

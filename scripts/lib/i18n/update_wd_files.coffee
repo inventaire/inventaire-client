@@ -15,7 +15,6 @@ module.exports = (lang, updateWd, archiveWd)->
   ]
   .then -> console.log blue("update #{lang} wd src and archive")
 
-
 sortByKeys = (obj)->
   keys = Object.keys(obj).map (pid)-> parseInt(pid.slice(1))
   sortedKeys = _.sortBy keys

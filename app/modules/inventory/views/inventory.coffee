@@ -94,7 +94,6 @@ module.exports = Marionette.LayoutView.extend
 
     else @showItemsListStep2()
 
-
   showItemsListStep2: (user, group)->
     model = null
     fallback = null

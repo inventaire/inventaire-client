@@ -1,7 +1,6 @@
 $itemContainerBaseWidth: 230px;
 $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
 
-
 .itemsListWrapper{
   @include display-flex(column, center, center);
   flex: 1 1 auto;

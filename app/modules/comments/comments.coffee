@@ -21,7 +21,6 @@ fetchComments = (itemId, commentsCollection)->
   _.preq.get _.buildPath(app.API.comments.public, { item: itemId })
   .then commentsCollection.add.bind(commentsCollection)
 
-
 postComment = (itemId, message, commentsCollection)->
   comment =
     item: itemId
@@ -41,7 +40,6 @@ addComment = (comment, commentsCollection)->
     created: Date.now()
 
   return commentsCollection.add comment
-
 
 updateComment = (commentModel, newMessage)->
   currentMessage = commentModel.get 'message'

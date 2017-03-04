@@ -4,7 +4,6 @@ input = behavior 'input'
 textarea = behavior 'textarea'
 { SafeString } = Handlebars
 
-
 # data =
 #   nameBase: {String}
 #   id: {String} *
@@ -24,7 +23,6 @@ textarea = behavior 'textarea'
 #     classes: {String}
 #
 # (*) guess from nameBase
-
 
 module.exports =
   input: (data, options)->

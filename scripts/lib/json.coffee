@@ -21,7 +21,6 @@ read = (path, createIfMissing=true)->
     else
       throw err
 
-
 write = (path, data)->
   # skip a write operation by return null
   unless path? then return Promise.resolve()
@@ -30,7 +29,6 @@ write = (path, data)->
     return Promise.reject new Error('path isnt a string')
   unless typeof data is 'object'
     return Promise.reject new Error('data isnt a object')
-
 
   json = JSON.stringify data, null, 4
   return fs.writeFileAsync path, json

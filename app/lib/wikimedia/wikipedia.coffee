@@ -12,7 +12,6 @@ module.exports =
       return sourcedExtract extract, url
     .catch _.ErrorRethrow('wikipediaExtract err')
 
-
 # Add a link to the full wikipedia article at the end of the extract
 sourcedExtract = (extract, url)->
   if extract? and url?

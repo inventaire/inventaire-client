@@ -20,11 +20,9 @@ updateData = ->
     text = text.split('{')[0] + json
     writeFile languagesDataPath, text
 
-
 completionData = {}
 for lang in langs
   completionData[lang] = getLanguageStats lang
-
 
 Promise.props completionData
 .then (results)->

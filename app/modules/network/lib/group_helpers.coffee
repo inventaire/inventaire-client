@@ -45,7 +45,6 @@ module.exports = ->
     'get:groups:common': getGroupsInCommon
     'get:groups:others:visited': otherVisitedGroups
 
-
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'
 

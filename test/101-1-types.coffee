@@ -78,7 +78,6 @@ describe 'Types utils', ->
         (-> _.type {andthen: 'what?'}, 'array|string').should.throw()
         done()
 
-
   describe 'TYPES', ->
     it "should handle multi arguments type", (done)->
       (-> _.types([{whoami: 'im an object'}], ['object'])).should.not.throw()

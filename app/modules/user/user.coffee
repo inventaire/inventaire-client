@@ -26,7 +26,6 @@ module.exports =
       'show:login': API.showLogin
       'show:forgot:password': API.showForgotPassword
 
-
 # beware that app.layout is undefined when User.define is fired
 # app.layout should thus appear only in callbacks
 API =

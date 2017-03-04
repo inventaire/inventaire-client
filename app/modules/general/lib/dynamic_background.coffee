@@ -16,7 +16,6 @@ module.exports = ->
     'background:cover': setCoverBg
     'background:normal': setNormalBg
 
-
 coverBgRoots = [
   'login'
   'settings'

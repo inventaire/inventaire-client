@@ -8,7 +8,6 @@ module.exports.initialize = (app)->
     # commented-out as it produce an error: can't find #modalContent once closed once
     # app.layout.modal.reset()
 
-
 foundationReload = (options)->
   # first called on account menu show
   $(document).foundation options
@@ -37,7 +36,6 @@ modalClose = -> $('#modal').foundation 'reveal', 'close'
 
 largeModal = -> $('#modal').addClass 'large'
 normalModal = -> $('#modal').removeClass 'large'
-
 
 startJoyride = (options)->
   $(document).foundation(options).foundation 'joyride', 'start'

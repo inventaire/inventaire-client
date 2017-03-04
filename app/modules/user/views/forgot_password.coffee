@@ -56,7 +56,6 @@ module.exports = Marionette.ItemView.extend
   showSuccessMessage: ->
     @ui.confirmationEmailSent.fadeIn()
 
-
 verifyKnownEmail = (email)->
   # re-using verifyAvailability but with the opposite expectaction:
   # if it throws an error, the email is known and that's the desired result here

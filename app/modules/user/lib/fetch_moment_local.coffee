@@ -15,7 +15,6 @@ pickMomentLang = (lang)->
   else null
 
 
-
 momentLang = ['af','ar','ar-ma','ar-sa','az','be','bg','bn','bo','br','bs',
 'ca','cs','cv','cy','da','de-at','de','el','en-au','en-ca','en-gb','eo','es',
 'et','eu','fa','fi','fo','fr-ca','fr','gl','he','hi','hr','hu','hy-am','id',

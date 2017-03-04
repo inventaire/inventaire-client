@@ -33,7 +33,6 @@ module.exports = Marionette.ItemView.extend
       middle = elMiddle '#networkIconButton', '#browseIconButton'
       $('.joyride-tip-guide[data-index="1"] .joyride-nub').css 'margin-left', middle
 
-
 nubOffset = 22
 
 elMiddle = (selector, next)->
@@ -51,13 +50,11 @@ tipOptions = (options={})->
   _.log base, 'base'
   return _.extend base, options
 
-
 openHiddenParts = ->
   id = @$target[0].id
   switch id
     when 'searchField' then openSmallScreenMenu()
     when 'editProfile' then openSettingsMenu()
-
 
 closeHiddenParts = ->
   id = @$target[0].id

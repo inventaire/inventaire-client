@@ -42,7 +42,6 @@ handlers =
 
       image.src = dataURL
 
-
   canvasToBlob: (canvas)->
     if _.isCanvas canvas then canvas.toBlob()
     else throw new Error 'expected a canvas'

@@ -3,7 +3,6 @@ check = behavior 'success_check'
 tip = behavior 'tip'
 { SafeString } = Handlebars
 
-
 module.exports =
   partial: (name, context, option)->
     # parse the name to build the partial path

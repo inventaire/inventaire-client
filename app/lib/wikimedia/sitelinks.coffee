@@ -21,7 +21,6 @@ module.exports =
       wsData.epub = getEpubLink wsData
       return wsData
 
-
 getBestWikiProjectInfo = (params)->
   { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params
   unless sitelinks? then return

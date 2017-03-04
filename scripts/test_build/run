@@ -24,7 +24,6 @@ buildUrl = (path)->
   console.log grey('get'), grey(url)
   return url
 
-
 passSectionTests = (sectionTests, html)->
   for label, test of sectionTests
     test html

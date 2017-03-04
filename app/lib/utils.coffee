@@ -173,7 +173,6 @@ module.exports = (Backbone, _, $, app, window)->
       reverseAction()
       throw err
 
-
   # Tests (compeling app/lib/shared/tests for the client needs)
   isModel: (obj)-> obj instanceof Backbone.Model
   isView: (obj)-> obj instanceof Backbone.View

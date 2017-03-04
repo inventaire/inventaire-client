@@ -16,7 +16,6 @@ module.exports =
   button: (e)->
     if e.keyCode is 13 then $(e.currentTarget).trigger 'click'
 
-
 clickTarget = ($target)->
   if $target.length > 0
     $target.trigger 'click'

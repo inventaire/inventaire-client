@@ -82,7 +82,6 @@ fetchTranslation = (resource, lang, enVersion)->
     console.error red('err'), resource, lang, err.stack or err
     throw err
 
-
 getUrl = (project, resource, lang)->
   "https://#{username}:#{password}@www.transifex.com/api/2/project/#{project}/resource/#{resource}/translation/#{lang}/strings"
 

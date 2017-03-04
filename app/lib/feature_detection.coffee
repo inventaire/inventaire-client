@@ -31,7 +31,6 @@ testFlexSupport = ->
   unless detector.style.display is 'flex'
     console.warn 'Flex is not supported'
 
-
 # from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString
 ISODatePolyFill = ->
   unless DatetoISOString?

@@ -25,7 +25,6 @@ module.exports =
       err.selector = selector
       throw err
 
-
 emailTests =
   "it doesn't look like an email" : (email)->
     not _.isEmail(email)
