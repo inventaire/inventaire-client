@@ -140,7 +140,7 @@ module.exports = Positionable.extend
     description: @getDescription()
     image: @getCover()
     url: @get 'canonical'
-    rss: app.API.feeds 'group', @id
+    rss: @getRss()
 
   getDescription: ->
     desc = @get 'description'
@@ -148,6 +148,8 @@ module.exports = Positionable.extend
     else _.i18n 'group_default_description', { groupName: @get('name') }
 
   getCover: -> @get('picture') or defaultCover
+
+  getRss: -> app.API.feeds 'group', @id
 
   matchable: ->
     [

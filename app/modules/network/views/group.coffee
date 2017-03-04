@@ -34,3 +34,4 @@ module.exports = Marionette.ItemView.extend
   serializeData:->
     _.extend @model.serializeData(),
       highlighted: @options.highlighted
+      rss: @model.getRss()

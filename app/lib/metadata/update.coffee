@@ -10,7 +10,7 @@ metadataUpdateDone = -> window.prerenderReady = true
 setTimeout metadataUpdateDone, 30*1000
 
 lastRoute = null
-module.exports = (route, metadataPromise)->
+module.exports = (route, metadataPromise={})->
   # There should be no need to re-update metadata when the route stays the same
   if lastRoute is route then return
 

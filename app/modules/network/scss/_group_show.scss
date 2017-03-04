@@ -65,6 +65,22 @@ $coverTextBg: rgba($dark-grey, 0.5);
     background-color: $coverTextBg;
   }
 }
+div.groupShow{
+  .booksCount{
+    margin-left: auto;
+  }
+  .feed{
+    padding-left: 1em;
+    // centering
+    padding-top: 0.2em;
+    a{
+      @include text-hover(white, #ddd)
+    }
+    .fa{
+      font-size: 1.3em;
+    }
+  }
+}
 
 .group{
   .showGroup{

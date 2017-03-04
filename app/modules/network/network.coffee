@@ -34,7 +34,7 @@ module.exports =
   initialize: ->
     app.commands.setHandlers
       'show:network': API.showNetworkLayout
-      'show:group:board': API.showGroupBoardFromModel
+      'show:group:board': showGroupBoardFromModel
       'show:group:search': API.showGroupSearch
       'show:group:user': API.showUserGroups
       'show:group:create': API.showCreateGroup
@@ -72,35 +72,26 @@ API =
     { path } = tabsData.all[tab]
     query = if _.isNonEmptyString qs then _.parseQuery qs else {}
     if app.request 'require:loggedIn', _.buildPath(path, query)
-      app.layout.main.show new NetworkLayout
-        tab: tab
-        query: query
+      app.layout.main.show new NetworkLayout { tab, query }
 
   showGroupBoard: (id, name)->
-    # depend on group_helpers which waitForUserData
-    app.request 'wait:for', 'user'
-    .then -> app.request 'get:group:model', id
-    .tap (group)-> group.beforeShow()
+    app.request 'get:group:model', id
     .then showGroupBoardFromModel
     .catch (err)->
       _.error err, 'get:group:model err'
       app.execute 'show:error:missing'
 
-  showGroupBoardFromModel: (model)->
-    showGroupBoardFromModel model
-    app.navigate model.get('boardPathname')
-
   showGroupSearch: (name)->
     API.showSearchGroups "q=#{name}"
 
-showGroupBoardFromModel = (group)->
-  if group.mainUserIsMember()
-    app.layout.main.show new GroupBoard
-      model: group
-      standalone: true
+showGroupBoardFromModel = (model)->
+  if model.mainUserIsMember()
+    model.beforeShow()
+    app.layout.main.show new GroupBoard { model, standalone: true }
+    app.navigateFromModel model, 'boardPathname'
   else
     # if the user isnt a member, redirect to the group inventory
-    app.execute 'show:inventory:group', group
+    app.execute 'show:inventory:group', model
 
 networkCounters = ->
   friendsRequestsCount = getFriendsRequestsCount()
