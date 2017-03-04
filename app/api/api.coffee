@@ -24,6 +24,7 @@ module.exports = (_)->
   json: (filename)-> "/public/json/#{filename}.json?DIGEST"
   proxy: (url)-> "/api/proxy/public/#{url}"
   assets: require './assets'
+  feeds: require './feeds'
   upload:
     post: '/api/upload'
     del: '/api/upload/delete'

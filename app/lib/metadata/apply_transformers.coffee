@@ -10,6 +10,5 @@ transformers =
     if noCompletion then value else "#{value} - Inventaire"
   url: (canonical)-> host + canonical
   image: (url)-> absolutePath app.API.img(url)
-  rss: absolutePath
 
 withTransformers = Object.keys transformers

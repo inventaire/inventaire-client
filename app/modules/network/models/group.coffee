@@ -140,7 +140,7 @@ module.exports = Positionable.extend
     description: @getDescription()
     image: @getCover()
     url: @get 'canonical'
-    rss: "/api/feeds/public?group=#{@id}"
+    rss: app.API.feeds 'group', @id
 
   getDescription: ->
     desc = @get 'description'
