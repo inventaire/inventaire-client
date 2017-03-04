@@ -1,5 +1,6 @@
 BindedPartialBuilder = require 'lib/binded_partial_builder'
 updateMetadata = require 'lib/metadata/update'
+initialUrlNavigateAlreadyCalled = false
 
 App = Marionette.Application.extend
   initialize: ->
@@ -26,7 +27,13 @@ App = Marionette.Application.extend
     updateMetadata route, options.metadata
     # Easing code mutualization by firing app.navigate, even when the module
     # simply reacted to the requested URL
-    if route is _.currentRoute() then return
+    if route is _.currentRoute()
+      # Trigger a route event for the first URL, so that views listening
+      # on the route:change event can update accordingly
+      unless initialUrlNavigateAlreadyCalled
+        @vent.trigger 'route:change', _.routeSection(route), route
+        initialUrlNavigateAlreadyCalled = true
+      return
 
     # a starting slash would be corrected by the Backbone.Router
     # but _.routeSection relies on the route not starting by a slash.
