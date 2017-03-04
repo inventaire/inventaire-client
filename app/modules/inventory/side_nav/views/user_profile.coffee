@@ -42,6 +42,7 @@ module.exports = Marionette.ItemView.extend
       commonGroups: @commonGroupsData()
       visitedGroups: @visitedGroupsData()
       distance: @model.distanceFromMainUser
+      rss: @model.getRss()
 
   onShow: ->
     @makeRoom()

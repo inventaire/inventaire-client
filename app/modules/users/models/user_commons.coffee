@@ -16,7 +16,7 @@ module.exports = Positionable.extend
     description: @getDescription()
     image: @get 'picture'
     url: @get 'pathname'
-    rss: app.API.feeds 'user', @id
+    rss: @getRss()
 
   getDescription: ->
     bio = @get('bio')
@@ -30,11 +30,12 @@ module.exports = Positionable.extend
     { itemsCount, lastAdd } = _.values @get('snapshot')
       .reduce aggregateScoreData, data
 
-
     # Setting those as model attributes
     # so that updating them trigger a model 'change' event
     @set 'itemsCount', itemsCount
     @set 'itemsLastAdded', lastAdd
+
+  getRss: -> app.API.feeds 'user', @id
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection
