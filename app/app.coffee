@@ -8,7 +8,7 @@ App = Marionette.Application.extend
     @Execute = BindedPartialBuilder @, 'execute'
     @Request = BindedPartialBuilder @, 'request'
     @vent.Trigger = BindedPartialBuilder @vent, 'trigger'
-    @once 'start', @onceStart.bind(@)
+    @once 'start', onceStart
 
     navigateFromModel = (model, pathAttribute='pathname')->
       @navigate model.get(pathAttribute), { metadata: model.updateMetadata() }
@@ -59,20 +59,17 @@ App = Marionette.Application.extend
     options.replace = true
     @navigate route, options
 
-  onceStart: ->
-    routeFound = Backbone.history.start({pushState: true})
+onceStart = ->
+  routeFound = Backbone.history.start { pushState: true }
 
-    # Backbone.history 'route' event seem to be only triggerd
-    # when 'previous' is hit. it isn't very clear why,
-    # but it allows to notify functionalities depending on the route
-    Backbone.history.on 'route', ->
-      route = _.currentRoute()
-      app.vent.trigger 'route:change', _.routeSection(route), route
+  # Backbone.history 'route' event seem to be only triggerd
+  # when 'previous' is hit. it isn't very clear why,
+  # but it allows to notify functionalities depending on the route
+  Backbone.history.on 'route', onPreviousRoute
 
-    unless routeFound
-      console.error('route: not found! check
-      if route is defined before app.start()')
-      _.log Backbone.history.handlers, 'route: handlers at start'
+onPreviousRoute = ->
+  route = _.currentRoute()
+  app.vent.trigger 'route:change', _.routeSection(route), route
 
 module.exports = new App()
 
