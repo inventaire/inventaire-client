@@ -70,7 +70,7 @@ module.exports =
     .catch @revertMove.bind(@, app.user, initialCategory, 'tmp')
 
   action: (action, userId)->
-    return _.preq.put app.API.groups.authentified,
+    return _.preq.put app.API.groups.base,
       action: action
       group: @id
       # requiered only for actions implying an other user

@@ -1,7 +1,4 @@
-{ public:publik, authentified } = require('./endpoint')('items')
-
-buildGetPath = (action, query={})->
-  _.buildPath publik, _.extend({ action }, query)
+{ base, action } = require('./endpoint')('items')
 
 queryEndpoint = (actionName, idsLabel)-> (params)->
   { ids, limit, offset, fetchPublicItemsOnly, filter } = params
@@ -10,25 +7,25 @@ queryEndpoint = (actionName, idsLabel)-> (params)->
   if limit? then data.limit = limit
   if offset? then data.offset = offset
   if filter? then data.filter = filter
-  return buildGetPath actionName, data
+  return action actionName, data
 
 module.exports =
-  authentified: authentified
+  base: base
 
   byIds: queryEndpoint 'by-ids', 'ids'
   byUsers: queryEndpoint 'by-users', 'users'
   byEntities: queryEndpoint 'by-entities', 'uris'
 
   byUserAndEntity: (user, uri)->
-    buildGetPath 'by-user-and-entity', { user, uri }
+    action 'by-user-and-entity', { user, uri }
 
   byUsernameAndEntity: (username, uri)->
-    buildGetPath 'by-user-and-entity', { username, uri }
+    action 'by-user-and-entity', { username, uri }
 
   lastPublic: (limit=15, offset=0, assertImage)->
-    buildGetPath 'last-public',
+    action 'last-public',
       limit: limit
       offset: offset
       'assert-image': assertImage
 
-  nearby: (range=50)-> _.buildPath authentified, { action: 'nearby', range }
+  nearby: (range=50)-> action 'nearby', { range }

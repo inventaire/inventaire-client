@@ -23,7 +23,7 @@ module.exports = ->
       return groupModel
 
   groupSettingsUpdater = Updater
-    endpoint: app.API.groups.authentified
+    endpoint: app.API.groups.base
     action: 'update-settings'
     modelIdLabel: 'group'
 

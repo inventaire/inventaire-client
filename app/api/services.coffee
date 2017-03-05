@@ -1,7 +1,4 @@
-{ public:publik } = require('./endpoint')('services')
+{ actionPartial } = require('./endpoint')('services')
 
 module.exports =
-  emailValidation: (email)->
-    _.buildPath publik,
-      action: 'email-validation'
-      email: _.fixedEncodeURIComponent email
+  emailValidation: actionPartial 'email-validation', 'email'

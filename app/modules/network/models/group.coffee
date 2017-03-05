@@ -7,7 +7,7 @@ defaultCover = require('lib/urls').images.brittanystevens
 Positionable = require 'modules/general/models/positionable'
 
 module.exports = Positionable.extend
-  url: app.API.groups.authentified
+  url: app.API.groups.base
   initialize: ->
     aggregateUsersIds.call @
     _.extend @, groupActions

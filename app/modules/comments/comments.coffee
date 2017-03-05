@@ -18,7 +18,7 @@ initComments = (model)->
   return [model.comments, fetching]
 
 fetchComments = (itemId, commentsCollection)->
-  _.preq.get _.buildPath(app.API.comments.public, { item: itemId })
+  _.preq.get _.buildPath(app.API.comments, { item: itemId })
   .then commentsCollection.add.bind(commentsCollection)
 
 postComment = (itemId, message, commentsCollection)->
@@ -28,7 +28,7 @@ postComment = (itemId, message, commentsCollection)->
 
   commentModel = addComment comment, commentsCollection
 
-  _.preq.post app.API.comments.authentified, comment
+  _.preq.post app.API.comments, comment
   .then poster_.UpdateModelIdRev(commentModel)
   .catch poster_.Rewind(commentModel, commentsCollection)
   .catch _.ErrorRethrow('postComment')
@@ -49,7 +49,7 @@ updateComment = (commentModel, newMessage)->
     message: newMessage
     edited: Date.now()
 
-  _.preq.put app.API.comments.authentified,
+  _.preq.put app.API.comments,
     id: commentModel.id
     message: newMessage
 

@@ -13,4 +13,4 @@ module.exports =
 
   wdQuery: (P, Q)->
     # use the local server to cache requests to Wikidata Query
-    "http://localhost:3006/api/data/public?api=wd-query&query=claim&pid=#{P}&qid=#{Q}"
+    "http://localhost:3006/api/data?api=wd-query&query=claim&pid=#{P}&qid=#{Q}"

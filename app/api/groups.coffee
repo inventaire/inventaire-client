@@ -1,9 +1,9 @@
-{ public:publik, authentified } = require('./endpoint')('groups')
+{ base, action } = require('./endpoint')('groups')
 { search, searchByPosition } = require './commons'
 
 module.exports =
-  authentified: authentified
-  byId: (id)-> _.buildPath publik, { action: 'by-id', id }
-  last: "#{publik}?action=last"
-  search: search.bind null, publik
-  searchByPosition: searchByPosition.bind null, publik
+  base: base
+  byId: (id)-> action 'by-id', { id }
+  last: action 'last'
+  search: search.bind null, base
+  searchByPosition: searchByPosition.bind null, base

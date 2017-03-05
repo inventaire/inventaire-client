@@ -1,4 +1,4 @@
-{ authentified } = require('./endpoint')('invitations')
+{ base, action } = require('./endpoint')('invitations')
 
 module.exports =
-  byEmails: "#{authentified}?action=by-emails"
+  byEmails: action 'by-emails'

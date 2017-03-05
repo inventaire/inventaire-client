@@ -47,5 +47,5 @@ module.exports = Marionette.CompositeView.extend
     @ui.counter.html @collection.length
 
 fetchChanges = ->
-  _.preq.get app.API.entities.changes()
+  _.preq.get app.API.entities.changes
   .get 'uris'

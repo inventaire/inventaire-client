@@ -9,21 +9,20 @@ module.exports = (_)->
   services: require './services'
   data: require './data'
   invitations: require './invitations'
+  comments: endpoint('comments', true)
+  transactions: endpoint('transactions', true)
+  relations: endpoint('relations', true)
+  user: endpoint('user', true)
+  notifs: endpoint('notifs', true)
+  feedback: endpoint('feedback', true)
+  tests: endpoint('tests', true)
+  cookie: endpoint('cookie', true)
+  i18n: endpoint('i18n', true)
+  config: endpoint('config', true)
+  upload: endpoint('upload', true)
   img: sharedLib('api/img')(_)
-  comments: endpoint 'comments'
-  transactions: endpoint('transactions').authentified
-  relations: endpoint('relations').authentified
-  user: endpoint('user').authentified
-  notifs: endpoint('notifs').authentified
-  feedback: endpoint('feedback').public
-  tests: endpoint('tests').public
-  cookie: '/api/cookie/public'
-  i18n: '/api/i18n/public'
-  config: '/api/config/public'
-  i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
-  json: (filename)-> "/public/json/#{filename}.json?DIGEST"
-  proxy: (url)-> "/api/proxy/public/#{url}"
   assets: require './assets'
   feeds: require './feeds'
-  upload:
-    post: '/api/upload'
+  i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
+  json: (filename)-> "/public/json/#{filename}.json?DIGEST"
+  proxy: (url)-> "/api/proxy/#{url}"

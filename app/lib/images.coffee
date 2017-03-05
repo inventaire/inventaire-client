@@ -72,7 +72,7 @@ handlers =
       request.onerror = reject
       request.ontimeout = reject
 
-      request.open 'POST', app.API.upload.post
+      request.open 'POST', app.API.upload
       request.responseType = 'json'
       request.send formData
 

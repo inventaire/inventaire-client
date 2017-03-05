@@ -3,7 +3,7 @@ error_ = require 'lib/error'
 updateSnapshotData = require '../lib/update_snapshot_data.coffee'
 
 module.exports = Filterable.extend
-  url: -> app.API.items.authentified
+  url: -> app.API.items.base
 
   validate: (attrs, options)->
     unless attrs.title? then return "a title must be provided"

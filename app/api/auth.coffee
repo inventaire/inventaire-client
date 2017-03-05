@@ -1,22 +1,14 @@
-{ public:publik, authentified } = require('./endpoint')('auth')
-
-GetAuthPublic = (action, attribute)-> (value)->
-  data = { action }
-  data[attribute] = encodeURIComponent value
-  return _.buildPath publik, data
-
-postAuthPublic = (action)-> "#{publik}?action=#{action}"
-authAuthentified = (action)-> "#{authentified}?action=#{action}"
+{ action, actionPartial } = require('./endpoint')('auth')
 
 module.exports =
-  usernameAvailability: GetAuthPublic 'username-availability', 'username'
-  emailAvailability: GetAuthPublic 'email-availability', 'email'
+  usernameAvailability: actionPartial 'username-availability', 'username'
+  emailAvailability: actionPartial 'email-availability', 'email'
 
-  signup: postAuthPublic 'signup'
-  login: postAuthPublic 'login'
-  logout: postAuthPublic 'logout'
-  resetPassword: postAuthPublic 'reset-password'
+  signup: action 'signup'
+  login: action 'login'
+  logout: action 'logout'
+  resetPassword: action 'reset-password'
 
-  emailConfirmation: authAuthentified 'email-confirmation'
-  updatePassword: authAuthentified 'update-password'
+  emailConfirmation: action 'email-confirmation'
+  updatePassword: action 'update-password'
   # submit: defined directly in index.html form

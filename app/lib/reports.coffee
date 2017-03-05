@@ -8,7 +8,7 @@ module.exports =
     if err.statusCode? and err.statusCode < 500 then return
 
     err.envContext = getEnvContext()
-    $.post '/api/reports/public?action=error-report',
+    $.post '/api/reports?action=error-report',
       error:
         # not simply passing the err object as its properties wouldn't be sent
         message: err.message
@@ -39,7 +39,7 @@ sendOnlineReport = ->
   if document.visibilityState isnt 'hidden'
     # Using jQuery promise instead of preq to be able to report errors
     # happening before preq is initialized
-    $.post '/api/reports/public?action=online', { online: true }
+    $.post '/api/reports?action=online', { online: true }
 
 # Send a POST requests every 30 secondes to notify the server that we are online,
 # useful for maintainance operations.

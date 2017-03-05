@@ -1,8 +1,9 @@
 { host } = require 'lib/urls'
+endpointBase = require('./endpoint')('feeds', true)
 # Always using the absolute path so that links are treated as external links,
 # thus getting target='_blank' attributes, and the associated click behaviors
 # cf app/modules/general/lib/smart_prevent_default.coffee
-endpoint = "#{host}/api/feeds/public"
+endpoint = host + endpointBase
 
 module.exports = (key, id)->
   query = {}
