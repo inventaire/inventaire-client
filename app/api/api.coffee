@@ -27,4 +27,3 @@ module.exports = (_)->
   feeds: require './feeds'
   upload:
     post: '/api/upload'
-    del: '/api/upload/delete'

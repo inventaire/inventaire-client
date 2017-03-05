@@ -76,11 +76,6 @@ handlers =
       request.responseType = 'json'
       request.send formData
 
-  del: (imageUrlToDelete)->
-    _.preq.post app.API.upload.del, {urls: imageUrlToDelete}
-    .then _.Log('image del res')
-    .catch _.ErrorRethrow('image del err')
-
   getNonResizedUrl: (url)-> url.replace /\/img\/\d+x\d+\//, '/img/'
 
 getResizedDimensions = (width, height, maxSize)->
