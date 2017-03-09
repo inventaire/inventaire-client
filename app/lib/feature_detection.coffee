@@ -1,5 +1,6 @@
 testVideoInput = require 'lib/has_video_input'
 testLocalStorage = require 'lib/local_storage'
+{ wiki, roadmap, git } = require 'lib/urls'
 
 module.exports = ->
   ISODatePolyFill()
@@ -12,14 +13,14 @@ module.exports = ->
 
 sayHi = ->
   console.log """
-
   ,___,
   [-.-]   I've been expecting you, Mr Bond
   /)__)
   -"--"-
   Want to make Inventaire better? Jump in!
-  Design: https://trello.com/b/0lKcsZDj/inventaire-roadmap
-  Code: https://github.com/inventaire/inventaire
+  Wiki: #{wiki}
+  Design: #{roadmap}
+  Code: #{git}/inventaire
   ------
   """
 

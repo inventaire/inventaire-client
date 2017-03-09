@@ -3,18 +3,21 @@ root = if window.env is 'dev' then host else ''
 bitcoinHash = '1QGMFXJevme8eNCusNmLddiecAiXspSguw'
 faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
 
+subdomain = (sub)-> "http://#{sub}.inventaire.io"
+
 module.exports =
   host: host
   contact:
     email: 'hello@inventaire.io'
     mailto: 'mailto:hello@inventaire.io'
-  blog: 'http://blog.inventaire.io'
+  blog: subdomain 'blog'
   twitter: 'https://twitter.com/inventaire_io'
   facebook: 'https://facebook.com/inventaire.io'
-  github: 'https://github.com/inventaire/inventaire'
-  transifex: 'https://www.transifex.com/inventaire/inventaire'
-  trello: 'https://trello.com/b/0lKcsZDj/inventaire-roadmap'
-  apiDoc: 'https://github.com/inventaire/inventaire/wiki/API'
+  git: subdomain 'git'
+  wiki: subdomain 'wiki'
+  translate: subdomain 'translate'
+  roadmap: subdomain 'roadmap'
+  apiDoc: subdomain 'api'
   images:
     # not passing an absolute url so that it can be easily digested
     # by the {{src}} helper as a local image url
@@ -29,12 +32,12 @@ module.exports =
     bitcoin:
       hash: bitcoinHash
       url: "bitcoin:#{bitcoinHash}"
-      coinbase: 'https://www.coinbase.com/inventaire'
+      coinbase: subdomain 'coinbase'
       qrcode: "#{root}/img/f086157157209ee0b3a09ff7bd8eb88c79fb658d.jpg"
 
     faircoin:
       hash: faircoinHash
       url: "faircoin:#{faircoinHash}"
-    gratipay: 'https://gratipay.com/inventaire-io'
-    liberapay: 'https://liberapay.com/inventaire_io'
-    paypal: 'https://www.paypal.me/inventaire/10'
+    gratipay: subdomain 'gratipay'
+    liberapay: subdomain 'liberapay'
+    paypal: subdomain 'paypal'

@@ -1,5 +1,5 @@
 loginPlugin = require 'modules/general/plugins/login'
-{ transifex } = require 'lib/urls'
+{ translate } = require 'lib/urls'
 { languages } = require 'lib/active_languages'
 mostCompleteFirst = (a, b)-> b.completion - a.completion
 languagesList = _.values(languages).sort mostCompleteFirst
@@ -15,7 +15,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     currentLanguage: languages[app.user.lang].native
     languages: languagesList
-    transifex: transifex
+    translate: translate
 
   events:
     'click .option a': 'selectLang'
