@@ -19,6 +19,13 @@ module.exports =
       .then fetchFriends
       .catch _.Error('relations init err')
     else
+      app.relations =
+        friends: []
+        userRequested: []
+        otherRequested: []
+        none: []
+        coGroupMembers: []
+
       app.execute 'waiter:resolve', 'users'
 
 fetchFriends = ->
