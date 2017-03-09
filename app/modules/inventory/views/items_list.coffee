@@ -36,7 +36,7 @@ module.exports = Marionette.CompositeView.extend
     'resize': 'lazyMasonryRefresh'
 
   infiniteScroll: ->
-    if @options.more()
+    if @more()
       @startLoading()
       @fetchMore().then @stopLoading.bind(@)
 

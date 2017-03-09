@@ -1,5 +1,6 @@
 Items = require 'modules/inventory/collections/items'
 ItemsList = require 'modules/inventory/views/items_list'
+nop = -> false
 
 module.exports = (params)->
   { region, allowMore, ItemsListView, showDistance } = params
@@ -18,7 +19,7 @@ module.exports = (params)->
       collection: collection
       # if not allowMore, let ItemsList set the default values
       fetchMore: if allowMore then fetchMore
-      more: if allowMore then more
+      more: if allowMore then more else nop
       showDistance: showDistance
 
 FetchMore = (params)->
