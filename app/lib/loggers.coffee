@@ -26,6 +26,13 @@ module.exports = (_, csle)->
     return obj
 
   error = (err, label)->
+    unless err instanceof Error
+      err = new Error('invalid error object')
+      err.context = err
+      err.statusCode = 500
+      reportError err
+      throw err
+
     if err.hasBeenLogged then return
     err.hasBeenLogged = true
 
@@ -33,22 +40,17 @@ module.exports = (_, csle)->
 
     userError = false
     serverError = false
-    if err?.status?
-      if /^4\d+$/.test err.status then userError = true
-      if /^5\d+$/.test err.status then serverError = true
+    if err.statusCode?
+      if /^4\d+$/.test err.statusCode then userError = true
+      if /^5\d+$/.test err.statusCode then serverError = true
 
     # No need to report user errors to the server
-    # This status code can be set from the client for this purpose
+    # This statusCode can be set from the client for this purpose
     # of not reporting the error to the server
     if userError
-      return csle.warn "[#{err.status}][#{label}] #{err.message}]"
+      return csle.warn "[#{err.statusCode}][#{label}] #{err.message}]"
 
-    unless err?.stack?
-      label or= 'empty error'
-      err = new Error(label)
-      err.context = originalErr
-
-    stackLines = err.stack?.split('\n')
+    stackLines = err.stack.split('\n')
     report = [err.message, stackLines]
 
     if err.context? then report.push err.context

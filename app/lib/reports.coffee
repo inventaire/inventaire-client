@@ -14,6 +14,7 @@ module.exports =
         message: err.message
         stack: err.stack
         context: err.context
+        statusCode: err.statusCode
 
 getEnvContext = ->
   envContext = []

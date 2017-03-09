@@ -1,15 +1,15 @@
-formatError = (message, status, context)->
-  # Accept a status number as second argument as done on the server
+formatError = (message, statusCode, context)->
+  # Accept a statusCode number as second argument as done on the server
   # cf server/lib/error/format_error.coffee
   # Allows for instance to not report non-operational/user errors to the server
-  # in case status is a 4xx error
-  unless _.isNumber status then [ status, context ] = [ null, status ]
+  # in case statusCode is a 4xx error
+  unless _.isNumber statusCode then [ statusCode, context ] = [ null, statusCode ]
 
   err = new Error message
-  # Set status to a 4xx error for user errors to prevent it
+  # Set statusCode to a 4xx error for user errors to prevent it
   # to be unnecessary reported to the server:
   # We don't need to open an issue everytime miss type their password
-  err.status = status
+  err.statusCode = statusCode
 
   # converting arguments object to array for readability in logs
   if _.isArguments context then context = _.toArray context
@@ -39,7 +39,7 @@ module.exports = error_ =
     return Promise.reject err
 
   # Log and report formatted errors to the server, without throwing
-  report: (message, status, context)->
+  report: (message, statusCode, context)->
     err = formatError.apply null, arguments
     _.error err, message
     return

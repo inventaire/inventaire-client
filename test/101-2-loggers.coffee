@@ -29,16 +29,17 @@ describe 'Logger', ->
       done()
 
   describe 'error', ->
+    it 'should accept only error objects', (done)->
+      should(-> _.error('yo')).throw()
+      done()
+
     it 'should always return undefined', (done)->
-      should(_.error('yo')).not.be.ok()
-      should(_.error('yo', {hello: 'wat'})).not.be.ok()
-      should(_.error({hello: 'wat'}, 'yo')).not.be.ok()
+      should(_.error(new Error('yo'))).not.be.ok()
       done()
 
   describe 'Error', ->
     it 'should return an error logger that catches errors', (done)->
-      should(_.Error('yo label')('yo')).not.be.ok()
-      should(_.Error('yo label')({hello: 'wat'})).not.be.ok()
+      should(_.Error('yo label')(new Error('yo'))).not.be.ok()
 
       Promise.reject new Error('damned 1')
       .catch _.Error('catching!')

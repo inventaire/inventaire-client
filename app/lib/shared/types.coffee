@@ -43,7 +43,7 @@ module.exports = (_)->
         _.type args[i], types[i]
         i += 1
     catch err
-      _.error arguments, 'types err arguments'
+      err.context = arguments
       throw err
 
   typeOf: (obj)->
