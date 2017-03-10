@@ -2,8 +2,11 @@ createEntities = require './create_entities'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 isbn_ = require 'lib/isbn'
+isLoggedIn = require '../views/editor/lib/is_logged_in'
 
 createEditionEntityFromWork = (view, workModel, e)->
+  unless isLoggedIn() then return
+
   $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField')
   isbn = $isbnField.val()
 
