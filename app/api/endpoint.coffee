@@ -2,10 +2,11 @@
 module.exports = (name, getBaseOnly)->
   base = "/api/#{name}"
   if getBaseOnly then return base
-  action = ActionBuilder base
+  action = Action base
+  actionPartial = ActionPartial action
   return { base, action, actionPartial }
 
-ActionBuilder = (base)-> (actionName, attribute, value)->
+Action = (base)-> (actionName, attribute, value)->
   # Polymorphism: accept one attribute and one value OR a query object
   # NB: object values aren't passed to encodeURIComponent
   if _.isObject attribute
@@ -21,8 +22,6 @@ ActionBuilder = (base)-> (actionName, attribute, value)->
   url = _.buildPath base, _.extend({ action: actionName }, query)
   return _.log url, "#{actionName} URL"
 
-# Pass an (action name) or (an action name and an attribute),
-# get a partial function
-actionPartial = (action)-> (args...)->
-  args = [ null ].concat args
-  return action.bind.apply null, args
+# Pass an action name and an attribute, get a partial function
+ActionPartial = (actionFn)-> (actionName, attribute)-> (value)->
+  actionFn actionName, attribute, value
