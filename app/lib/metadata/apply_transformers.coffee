@@ -1,5 +1,5 @@
 { host } = require 'lib/urls'
-absolutePath = (url)-> if url[0] is '/' then host + url else url
+absolutePath = (url)-> if url?[0] is '/' then host + url else url
 
 module.exports = (key, value, noCompletion)->
   if key in withTransformers then transformers[key](value, noCompletion)

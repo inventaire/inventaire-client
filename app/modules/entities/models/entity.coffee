@@ -135,7 +135,7 @@ module.exports = Backbone.NestedModel.extend
     return Promise.props
       title: @buildTitleAsync()
       description: @findBestDescription()?[0..500]
-      image: @getImageAsync()
+      image: @getImageSrcAsync()
       url: @get 'pathname'
 
   findBestDescription: ->
@@ -150,3 +150,8 @@ module.exports = Backbone.NestedModel.extend
   buildTitle: -> @get 'label'
   buildTitleAsync: -> _.preq.resolve @buildTitle()
   getImageAsync: -> _.preq.resolve @get('image')
+  getImageSrcAsync: ->
+    @getImageAsync()
+    .then (imageObj)->
+      url = imageObj?.url
+      if url? then return app.API.img(url)

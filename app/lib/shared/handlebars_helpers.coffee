@@ -7,6 +7,7 @@ module.exports = (_, appApi)->
     else defaultValue
 
   return helpers_ =
+    # This is tailored for handlebars, for other uses, use app.API.img directly
     src: (path, width, height)->
       if _.isDataUrl path then return path
 
