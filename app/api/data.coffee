@@ -1,4 +1,4 @@
-{ actionPartial } = require('./endpoint')('data')
+{ action } = require('./endpoint')('data')
 
 module.exports =
   wikipediaExtract: (lang, title)-> action 'wp-extract', { lang, title }
