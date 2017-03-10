@@ -21,7 +21,7 @@
 
     {{#unless smallScreen}}
       <li><label>{{i18n 'others'}}</label></li>
-      {{partial 'general:menu:others'}}
+      {{partial 'general:menu:others' urls}}
     {{/unless}}
   </ul>
 </li>
@@ -35,5 +35,5 @@
       {{partial 'general:menu:contribute' urls}}
     </ul>
   </li>
-  {{partial 'general:menu:others'}}
+  {{partial 'general:menu:others' urls}}
 {{/if}}

@@ -15,6 +15,7 @@ module.exports =
   facebook: 'https://facebook.com/inventaire.io'
   git: subdomain 'git'
   wiki: subdomain 'wiki'
+  faq: 'https://wiki.inventaire.io/wiki/FAQ'
   translate: subdomain 'translate'
   roadmap: subdomain 'roadmap'
   apiDoc: subdomain 'api'
