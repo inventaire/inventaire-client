@@ -38,6 +38,12 @@
   flex: 0 0 auto;
   margin-top: auto;
   margin-bottom: auto;
+  .tiny-button{
+    .fa{
+      // centering
+      margin-right: -0.3em;
+    }
+  }
 }
 
 .edit-button-wrapper{

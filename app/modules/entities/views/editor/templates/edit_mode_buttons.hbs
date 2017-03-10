@@ -1,16 +1,14 @@
 <div class="edit-mode-buttons">
-  <a class="tiny-button save" title="Ctrl+Enter" tabindex="0">
+  <a class="tiny-button save" title="{{I18n 'save'}} (Ctrl+Enter)" tabindex="0">
     {{icon 'check'}}
     <span>{{i18n 'save'}}</span>
   </a>
-  <a class="tiny-button shy-label cancel" title="Esc" tabindex="0">
+  <a class="tiny-button cancel" title="{{I18n 'cancel'}} (Esc)" tabindex="0">
     {{icon 'times'}}
-    <span>{{i18n 'cancel'}}</span>
   </a>
   {{#unless disableDelete}}
-    <a class="tiny-button shy-label dangerous delete" tabindex="0">
+    <a class="tiny-button dangerous delete" title="{{I18n 'delete'}}" tabindex="0">
       {{icon 'trash'}}
-      <span>{{i18n 'delete'}}</span>
     </a>
   {{/unless}}
 </div>
