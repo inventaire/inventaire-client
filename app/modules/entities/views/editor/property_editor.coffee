@@ -1,5 +1,5 @@
 isLoggedIn = require './lib/is_logged_in'
-creationParials = require 'modules/entities/lib/creation_partials'
+creationParials = require './lib/creation_partials'
 
 editors =
   entity: require './entity_value_editor'
