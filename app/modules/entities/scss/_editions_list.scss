@@ -7,8 +7,18 @@
   }
   .filters{
     @include display-flex(row, center, center);
+    select{
+      @include radius;
+    }
   }
   .languageFilter{
     max-width: 10em;
+  }
+  .edition-creation{
+    max-width: 20em;
+    margin: 0 auto;
+    label{
+      color: white;
+    }
   }
 }

@@ -40,9 +40,9 @@ module.exports = Marionette.LayoutView.extend
       workPage: true
 
   showEditions: ->
-    if @model.editions.length > 0
-      @editionsList.show new EditionsList
-        collection: @model.editions
+    @editionsList.show new EditionsList
+      collection: @model.editions
+      work: @model
 
   showEntityActions: -> @entityActions.show new EntityActions { @model }
 

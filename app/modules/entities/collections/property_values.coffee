@@ -7,13 +7,13 @@ module.exports = Backbone.Collection.extend
     # accept both an array of claims values or a single claim value
     claims = _.forceArray claims
     for value in claims
-      @_add value
+      @addByValue value
     return
 
   addEmptyValue: ->
-    @_add null
+    @addByValue null
 
-  _add: (value)->
+  addByValue: (value)->
     model = @add
       value: value
       property: @property

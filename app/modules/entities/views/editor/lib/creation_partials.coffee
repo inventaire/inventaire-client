@@ -11,15 +11,19 @@ createEditionEntityFromWork = (view, workModel, e)->
   isbn = $isbnField.val()
 
   createEntities.workEdition workModel, isbn
-  .then (editionModel)->
-    view.collection._add editionModel.get('uri')
-    $isbnField.val null
   .catch RenameIsbnDuplicateErr(isbn)
+  .then (editionModel)->
+    # Special case of property_values collection
+    if view.collection.addByValue?
+      view.collection.addByValue editionModel.get('uri')
+    # In other cases, the model being added to the work edition collection
+    # by createEntities.workEdition is engouh
+    $isbnField.val null
   .catch error_.Complete('#isbnField')
   .catch forms_.catchAlert.bind(null, view)
 
 RenameIsbnDuplicateErr = (isbn)-> (err)->
-  if err.responseJSON.status_verbose is 'this property value is already used'
+  if err.responseJSON?.status_verbose is 'this property value is already used'
     normalizedIsbn = isbn_.normalizeIsbn isbn
     link = "<a href='/entity/isbn:#{normalizedIsbn}' class='showEntity'>#{normalizedIsbn}</a>"
     err.responseJSON.status_verbose = _.i18n('this ISBN already exist:') + " #{link}"
@@ -39,6 +43,6 @@ module.exports =
         button:
           icon: 'plus'
           text: 'add'
-          classes: 'soft-grey postfix sans-serif'
+          classes: 'grey postfix sans-serif'
     clickEvents:
       isbnButton: createEditionEntityFromWork

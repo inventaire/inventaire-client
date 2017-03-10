@@ -1,9 +1,15 @@
 wdLang = require 'wikidata-lang'
+editionCreationParial = require('./editor/lib/creation_partials')['wdt:P747']
+error_ = require 'lib/error'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/editions_list'
   childViewContainer: 'ul'
   childView: require './edition_layout'
+
+  behaviors:
+    # Required by editionCreationParial
+    AlertBox: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @, 50
@@ -14,7 +20,8 @@ module.exports = Marionette.CompositeView.extend
     @selectedLang = app.user.lang
 
     if @collection.length > 0
-      # If the collection was populated before showing the view, the cpmmection is ready
+      # If the collection was populated before showing the view,
+      # the collection is ready
       @onceCollectionReady()
     else
       # Else, wait for the collection models to arrive
@@ -40,7 +47,7 @@ module.exports = Marionette.CompositeView.extend
     .map (lang)->
       langObj = wdLang.byCode[lang]
       unless langObj?
-        _.error "lang not found in wikidata-lang: #{lang}"
+        error_.report "lang not found in wikidata-lang: #{lang}"
         langObj = { code: lang, label: lang, native: lang }
 
       langObj = _.clone langObj
@@ -48,10 +55,13 @@ module.exports = Marionette.CompositeView.extend
       return langObj
 
   serializeData: ->
+    hasEditions: @collection.length > 0
     availableLanguages: @getAvailableLanguages @selectedLang
+    editionCreationData: editionCreationParial.partialData()
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'
+    'click .edition-creation a': 'createEdition'
 
   filter: (child)-> child.get('lang') is app.user.lang
 
@@ -70,5 +80,8 @@ module.exports = Marionette.CompositeView.extend
   onRender: ->
     lang = @selectedLang or 'all'
     @ui.languageSelect.val lang
+
+  createEdition: (e)->
+    editionCreationParial.clickEvents.isbnButton @, @options.work, e
 
 LangFilter = (lang)-> (child)-> child.get('lang') is lang
