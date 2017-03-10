@@ -2,6 +2,6 @@
 { search, searchByPosition } = require './commons'
 
 module.exports =
-  data: (ids)-> action 'get-users', ids.join('|')
+  data: (ids)-> action 'get-users', { ids: ids.join('|') }
   search: search.bind null, base
   searchByPosition: searchByPosition.bind null, base
