@@ -23,13 +23,6 @@ $entity-editor-small-thresold: 500px;
       margin: 0.5em;
     }
   }
-  .meta{
-    margin-top: 1em;
-    text-align: center;
-    .uri{
-      margin-top: 1em;
-    }
-  }
 }
 
 .identifier{
@@ -38,5 +31,15 @@ $entity-editor-small-thresold: 500px;
   font-size: 0.7em;
   &a{
     @include underline;
+  }
+}
+
+#entityEdit, .editionLayout{
+  .meta{
+    margin-top: 1em;
+    text-align: center;
+    .uri{
+      margin-top: 1em;
+    }
   }
 }

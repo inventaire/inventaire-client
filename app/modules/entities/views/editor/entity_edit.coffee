@@ -54,6 +54,7 @@ module.exports = Marionette.LayoutView.extend
     attrs.createAndReturnLabel = "create and return to the #{attrs.type}'s page"
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
+    attrs.signalDataErrorButton = true
     return attrs
 
   events:
