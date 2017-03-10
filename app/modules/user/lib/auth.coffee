@@ -30,10 +30,7 @@ requestClassicLogin = (username, password)->
   .then fakeFormSubmit.bind(null, username, password)
 
 classicLogin = (username, password)->
-  _.preq.post app.API.auth.login,
-    strategy: 'local'
-    username: username
-    password: password
+  _.preq.post app.API.auth.login, { username, password }
 
 passwordUpdate = (currentPassword, newPassword, selector)->
   username = app.user.get('username')

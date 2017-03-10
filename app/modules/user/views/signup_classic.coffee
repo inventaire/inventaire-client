@@ -70,7 +70,6 @@ module.exports = Marionette.LayoutView.extend
       username: @ui.classicUsername.val()
       password: @ui.password.val()
       email: @ui.email.val()
-      strategy: 'local'
 
   # COMMON
   verifyUsername: (name)->
