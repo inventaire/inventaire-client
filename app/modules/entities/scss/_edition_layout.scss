@@ -26,6 +26,10 @@
   }
   .inner-claims{
     position: relative;
+    // nesting to re-inforce the selector's strength
+    .property-value{
+      color: $grey;
+    }
   }
   .showEntityEdit.pencil{
     @include position(absolute, 0, 0);
