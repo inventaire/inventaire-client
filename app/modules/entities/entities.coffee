@@ -81,7 +81,7 @@ API =
     .then (entity)->
       app.execute 'show:item:creation:form',
         entity: entity
-        preventDupplicates: true
+        preventduplicates: true
 
     # .catch @solveMissingEntity.bind(@, uri)
     .catch handleMissingEntityError.bind(null, 'showAddEntity err')

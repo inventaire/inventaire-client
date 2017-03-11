@@ -4,7 +4,7 @@ wdk = require 'lib/wikidata-sdk'
 error_ = require 'lib/error'
 
 # make models use 'id' as idAttribute so that search results
-# automatically dedupplicate themselves
+# automatically deduplicate themselves
 module.exports = Filterable.extend
   idAttribute: 'id'
   initialize: ->

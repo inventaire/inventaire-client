@@ -41,7 +41,7 @@ saveSnapshotData = (key, value)->
 
   if @id is 'new'
     # the item wasn't created yet in the database
-    # and updating right now would thus create a dupplicate
+    # and updating right now would thus create a duplicate
     # return a promise to keep the interface consistant
     return _.preq.delay(1000).then saveSnapshotData.bind(@, key, value)
   else

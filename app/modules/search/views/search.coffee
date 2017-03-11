@@ -132,9 +132,9 @@ module.exports = Marionette.LayoutView.extend
 
     authorsUris = humans?.models.map(getUri) or []
     seriesUris = series?.models.map(getUri) or []
-    dedupplicateSubEntities authorsUris, series, 'wdt:P50'
-    dedupplicateSubEntities authorsUris, works, 'wdt:P50'
-    dedupplicateSubEntities seriesUris, works, 'wdt:P179'
+    deduplicateSubEntities authorsUris, series, 'wdt:P50'
+    deduplicateSubEntities authorsUris, works, 'wdt:P50'
+    deduplicateSubEntities seriesUris, works, 'wdt:P179'
 
     # Eventually, add a filter to display humans with occupation writter only
     @_displayTypeResults humans, 'authors'
@@ -178,7 +178,7 @@ spreadResults = (res)->
 # Remove works and series that have an author in the authors list or works that are
 # part of a found serie as they will fetched and displayed in the author's or serie's
 # subentities list
-dedupplicateSubEntities = (authorsUris, subentities, subentitiesProperty)->
+deduplicateSubEntities = (authorsUris, subentities, subentitiesProperty)->
   unless subentities? then return
 
   toRemove = []

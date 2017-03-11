@@ -9,7 +9,7 @@ Entity = require '../models/entity'
 # Once resolved, the promise object will be replaced by the entity model.
 # The main vertue of this is to allow to request an entity only once and then mutualize
 # the generated promise between several consumers.
-# The only known dupplicate request remaining is when an entity is requested from
+# The only known duplicate request remaining is when an entity is requested from
 # an alias uri and then re-requested from its canonical uri before the first entity
 # returned.
 window.entitiesModelsIndexedByUri = entitiesModelsIndexedByUri = {}

@@ -1,6 +1,6 @@
 module.exports = Backbone.Collection.extend
   model: require '../models/search'
-  # dedupplicating searches
+  # deduplicating searches
   addNonExisting: (data)->
     { query } = data
     model = @where({ query })[0]
@@ -27,7 +27,7 @@ module.exports = Backbone.Collection.extend
     @on 'add remove change reset', @lazySave.bind(@)
 
   save: ->
-    # Remove dupplicates
+    # Remove duplicates
     searches = _.uniq @toJSON(), (search)-> search.query.trim().toLowerCase()
     # keep only track of the 10 last searches
     data = JSON.stringify searches[0..10]
