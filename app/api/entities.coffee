@@ -9,26 +9,26 @@ module.exports =
 
   get: (uris, refresh)->
     uris = uris.join '|'
-    action 'get-entities', { uris, refresh }
+    action 'by-uris', { uris, refresh }
 
   reverseClaims: (property, uri)-> action 'reverse-claims', { property, uri }
 
   authorWorks: CustomQuery 'author-works'
   serieParts: CustomQuery 'serie-parts'
 
-  changes: action 'get-changes'
+  changes: action 'changes'
   history: (id)-> action 'history', { id }
 
-  # POST/PUT
-  create: base
-
+  # POST
+  create: action 'create'
   existsOrCreateFromSeed: action 'exists-or-create-from-seed'
 
+  # PUT
   claims:
     update: action 'update-claim'
 
   labels:
     update: action 'update-label'
 
-  # ADMIN
+  # (ADMIN)
   merge: action 'merge'
