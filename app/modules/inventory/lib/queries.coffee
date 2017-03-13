@@ -36,7 +36,7 @@ fetchByUsernameAndEntity = (username, entity)->
   .catch _.ErrorRethrow('fetchByUsernameAndEntity err')
 
 fetchByUserIdAndEntity = (userId, entityUri)->
-  _.preq.get app.API.items.byUserAndEntity(userId, entity)
+  _.preq.get app.API.items.byUserAndEntity(userId, entityUri)
   .then spreadData
   .catch _.ErrorRethrow('fetchByUserIdAndEntity err')
 
