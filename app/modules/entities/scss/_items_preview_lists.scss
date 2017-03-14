@@ -5,6 +5,16 @@ $preview-icon-base-size: 2em;
   padding: 0.5em;
   margin-bottom: 0.5em;
   position: relative;
+  /*Large screens*/
+  @media screen and (min-width: 25em) {
+    min-width: 25em;
+    padding: 1em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: 25em) {
+    min-width: 90vw;
+    padding: 1em 0.5em 1em 0.5em;
+  }
   @include radius;
   .header{
     color: $grey;
