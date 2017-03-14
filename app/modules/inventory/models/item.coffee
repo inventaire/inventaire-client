@@ -1,6 +1,7 @@
 Filterable = require 'modules/general/models/filterable'
 error_ = require 'lib/error'
-updateSnapshotData = require '../lib/update_snapshot_data.coffee'
+updateSnapshotData = require '../lib/update_snapshot_data'
+saveOmitAttributes = require 'lib/save_omit_attributes'
 
 module.exports = Filterable.extend
   url: -> app.API.items.base
@@ -21,11 +22,6 @@ module.exports = Filterable.extend
       throw error_.new "invalid entity URI: #{entity}", attrs
 
     @entityUri = entity
-
-    # created will be overriden by the server at item creation
-    @set
-      created: @get('created') or Date.now()
-      _id: @getId()
 
     @setPathname()
 
@@ -52,15 +48,6 @@ module.exports = Filterable.extend
     @waitForEntity or= @reqGrab 'get:entity:model', @entityUri, 'entity'
     return @waitForEntity
 
-  onCreation: (serverRes)->
-    # update the _id from 'new' to the server _id
-    # but don't update other attributes such as transaction and visibility
-    # that might have been changed since the server received the creation request
-    update = _.pick serverRes, ['_id', '_res']
-    @set update
-    # update derivated attributes
-    @setPathname()
-
   setUserData: ->
     { user } = @
     @username = user.get 'username'
@@ -69,16 +56,12 @@ module.exports = Filterable.extend
     @userReady = true
     @trigger 'user:ready'
 
-  # using 'new' as a temporary id to signal to the server
-  # that this item should be created
-  # and set an id from the db from the server response
-  getId: -> @get('_id') or 'new'
-  setPathname: -> @pathname = '/items/' + @id
+  setPathname: -> @set 'pathname', 'items/' + @id
 
   serializeData: ->
     attrs = @toJSON()
+
     _.extend attrs,
-      pathname: @pathname
       # @entity will be defined only if @grabEntity was called
       entityData: @entity?.toJSON()
       entityPathname: @entityPathname
@@ -164,7 +147,7 @@ module.exports = Filterable.extend
       title: @findBestTitle()
       description: @findBestDescription()?[0..500]
       image: @getPicture()
-      url: @pathname
+      url: @get 'pathname'
 
   getPicture: -> @get('pictures')?[0] or @get('snapshot.entity:image')
 
@@ -184,6 +167,10 @@ module.exports = Filterable.extend
     # if the user isn't logged in
     unless app.user.loggedIn then return false
     return app.request 'has:transactions:ongoing:byItemId', @id
+
+  # Omit pathname on save, as is expected to be found in the model attributes
+  # in the client, but is an invalid attribute from the server point of view
+  save: saveOmitAttributes 'pathname'
 
   # Gather save actions
   lazySave: (key, value)->

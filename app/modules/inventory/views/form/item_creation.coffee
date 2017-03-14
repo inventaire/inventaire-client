@@ -24,32 +24,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { @entity } = @options
-    @createItem()
     @_lastAddMode = app.request 'last:add:mode:get'
-
-  createItem: ->
-    attrs =
-      # copying the title for convinience
-      # as it is used to display and find the item from search
-      title: @entity.get 'label'
-      entity: @entity.get 'uri'
-      transaction: @guessTransaction()
-      listing: @guessListing()
-
-    unless attrs.entity? and attrs.title?
-      throw error_.new 'missing uri or title at item creation from entity', attrs
-
-    @model = app.request 'item:create', attrs
-
-    @model._creationPromise
-    .catch @_catchAlert.bind(@)
-
-  guessTransaction: ->
-    transaction = @options.transaction or app.request('last:transaction:get')
-    app.execute 'last:transaction:set', transaction
-    return transaction
-
-  guessListing: -> app.request 'last:listing:get'
 
   onShow: ->
     app.execute 'foundation:reload'

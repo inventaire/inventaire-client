@@ -1,22 +1,10 @@
 module.exports =
   create: (itemData)->
-    unless itemData.title? and itemData.title isnt ''
-      throw new Error('cant create item: missing title')
+    _.log itemData, 'item data before creation'
 
-    # will be confirmed by the server
-    itemData.owner = app.user.id
-
-    itemModel = app.items.add itemData
-
-    itemModel._creationPromise = itemModel.save()
-      .then _.Log('item creation server res')
-      .then itemModel.onCreation.bind(itemModel)
-      .then ->
-        app.user.trigger 'items:change', null, itemModel.get('listing')
-        return itemModel
-      .catch _.ErrorRethrow('item creation err')
-
-    return itemModel
+    _.preq.post app.API.items.base, itemData
+    .then _.Log('item data after creation')
+    .then app.items.add.bind(app.items)
 
   update: (options)->
     # expects: item, attribute, value

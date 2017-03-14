@@ -27,8 +27,30 @@ module.exports = (params)->
     pathname = "#{entityPathname}/add"
 
     if app.request 'require:loggedIn', pathname
-      app.layout.main.show new ItemCreationForm(params)
-      # Remove the final add part so that hitting reload or previous
-      # reloads the entity page instead of the creation form,
-      # avoiding to create undesired item duplicates
-      app.navigate pathname.replace(/\/add$/, '')
+      createItem entity, params
+      .then (itemModel)->
+        params.model = itemModel
+        app.layout.main.show new ItemCreationForm(params)
+        # Remove the final add part so that hitting reload or previous
+        # reloads the entity page instead of the creation form,
+        # avoiding to create undesired item duplicates
+        app.navigate pathname.replace(/\/add$/, '')
+
+createItem = (entity, params)->
+  attrs =
+    # copying the title for convinience
+    # as it is used to display and find the item from search
+    title: entity.get 'label'
+    entity: entity.get 'uri'
+    transaction: guessTransaction params
+    listing: app.request 'last:listing:get'
+
+  unless attrs.entity? and attrs.title?
+    throw error_.new 'missing uri or title at item creation from entity', attrs
+
+  return app.request 'item:create', attrs
+
+guessTransaction = (params)->
+  transaction = params.transaction or app.request('last:transaction:get')
+  app.execute 'last:transaction:set', transaction
+  return transaction
