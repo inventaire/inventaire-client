@@ -81,13 +81,17 @@ module.exports = Marionette.CompositeView.extend
 
     @collection.fetchMore @batchLength
     .then =>
+      @ui.moreCounter.removeClass 'spinning'
       if @more()
         @ui.moreCounter.text @more()
       else
         @ui.more.hide()
         @ui.addOne.removeClass 'hidden'
 
-  startMoreLoading: -> @ui.moreCounter.html spinner
+  startMoreLoading: ->
+    @ui.moreCounter
+    .addClass 'spinning'
+    .html spinner
 
   addOne: (e)->
     unless _.isOpenedOutside e
