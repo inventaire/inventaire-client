@@ -17,7 +17,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     app.request 'wait:for', 'user'
-    .then @showTab.bind(@)
+    .then @showTab.bind(@, @options.tab)
 
   events:
     'click #profile': 'showProfileSettings'
@@ -25,7 +25,6 @@ module.exports = Marionette.LayoutView.extend
     'click #labs': 'showLabsSettings'
 
   showTab: (tab)->
-    tab or= @options.tab
     View = views[tab]
     @tabsContent.show new View { @model }
     @tabUpdate tab
