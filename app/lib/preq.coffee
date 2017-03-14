@@ -41,9 +41,6 @@ module.exports = _.extend preq, requestAssets,
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
 
-  catch401: (err)-> if err.status isnt 401 then throw err
-  catch404: (err)-> if err.status isnt 404 then throw err
-
 proxiedUrl = (url)-> /wikidata\.org/.test url
 
 preq.wrap = wrap = (jqPromise, context)->
@@ -53,10 +50,10 @@ preq.wrap = wrap = (jqPromise, context)->
     .fail (err)-> reject rewriteJqueryError(err, context)
 
 rewriteJqueryError = (err, context)->
-  { status, statusText, responseText, responseJSON } = err
+  { status:statusCode, statusText, responseText, responseJSON } = err
   { url, type:verb } = context
-  if err.status >= 400
-    messageWithContext = "#{status}: #{statusText} - #{responseText} - #{url}"
+  if statusCode >= 400
+    messageWithContext = "#{statusCode}: #{statusText} - #{responseText} - #{url}"
     # We need a clean message in case this is to be displayed as an alert
     message = responseJSON?.status_verbose or messageWithContext
   else
@@ -64,8 +61,8 @@ rewriteJqueryError = (err, context)->
     # Known case: request blocked by CORS headers
     message = """
       parsing error: #{verb} #{url}
-      got status #{status} but invalid JSON: #{responseText} / #{responseJSON}
+      got statusCode #{statusCode} but invalid JSON: #{responseText} / #{responseJSON}
       """
 
   error = new Error message
-  return _.extend error, { status, statusText, responseText, responseJSON, context }
+  return _.extend error, { statusCode, statusText, responseText, responseJSON, context }
