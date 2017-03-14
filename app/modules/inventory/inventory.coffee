@@ -154,9 +154,9 @@ showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
   app.navigateFromModel group
 
-showItemShowFromModel = (item)->
-  app.layout.main.show new ItemShow { model: item }
-  app.navigateFromModel item
+showItemShowFromModel = (model)->
+  app.layout.main.show new ItemShow { model }
+  app.navigateFromModel model
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
