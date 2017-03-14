@@ -66,7 +66,7 @@ module.exports = Backbone.NestedModel.extend
 
   setCommonAttributes: (attrs)->
     unless attrs.claims?
-      error_.report 'entity without claims', 500, attrs
+      error_.report 'entity without claims', attrs
       attrs.claims = {}
 
     @wikidataId = attrs.claims['invp:P1']?[0]

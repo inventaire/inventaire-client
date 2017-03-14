@@ -215,7 +215,8 @@ sendDeletionFeedback = (message)->
 testAttribute = (attribute, value, validator_)->
   selector = "##{attribute}Field"
   if value is app.user.get attribute
-    err = error_.new "that's already your #{attribute}", 400
+    # Non-standard convention: 499 = client user error
+    err = error_.new "that's already your #{attribute}", 499
     err.selector = selector
     throw err
   else

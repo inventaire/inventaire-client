@@ -68,7 +68,7 @@ forms_.throwError = (message, selector, context...)->
   err = new Error message
   err.selector = selector
   err.context = context
-  # Form errors are user's errors, thus they don't need to be reported
-  # to the server
-  err.statusCode = 400
+  # Form errors are user's errors, thus they don't need to be reported to the server
+  # Non-standard convention: 499 = client user error
+  err.statusCode = 499
   throw err

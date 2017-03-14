@@ -39,10 +39,10 @@ module.exports = Filterable.extend
     hasPrivateAttributes = @get('listing')?
     if @get('owner') is app.user.id
       unless hasPrivateAttributes
-        error_.report 'item missing private attributes', 500, @
+        error_.report 'item missing private attributes', @
     else
       if hasPrivateAttributes
-        error_.report 'item has private attributes', 500, @
+        error_.report 'item has private attributes', @
 
   grabEntity: ->
     @waitForEntity or= @reqGrab 'get:entity:model', @entityUri, 'entity'
