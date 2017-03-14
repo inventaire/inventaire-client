@@ -50,9 +50,9 @@ preq.wrap = wrap = (jqPromise, context)->
   return new Promise (resolve, reject)->
     jqPromise
     .then resolve
-    .fail (err)-> reject rewriteError(err, context)
+    .fail (err)-> reject rewriteJqueryError(err, context)
 
-rewriteError = (err, context)->
+rewriteJqueryError = (err, context)->
   { status, statusText, responseText, responseJSON } = err
   { url, type:verb } = context
   if err.status >= 400
