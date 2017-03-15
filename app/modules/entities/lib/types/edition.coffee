@@ -27,7 +27,14 @@ module.exports = ->
 
 # Editions inherit claims like author 'wdt:P50' from their work
 inheritData = (work)->
-  unless @get('label')? then @set 'label', work.get('label')
+  unless @get('label')?
+    workLabels = work.get 'labels'
+    lang = @get 'originalLang'
+    # If the work entity as a label in the books language, use it as label
+    if lang? and workLabels[lang] then @set 'label', workLabels[lang]
+    # Else, use the label choosen by the work
+    else @set 'label', work.get('label')
+
   claims = @get 'claims'
   workClaims = work.get 'claims'
   @set 'claims', _.extend({}, workClaims, claims)
