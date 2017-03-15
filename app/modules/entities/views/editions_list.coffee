@@ -10,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     # Required by editionCreationParial
     AlertBox: {}
+    PreventDefault: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @, 50
@@ -61,7 +62,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'
-    'click .edition-creation a': 'createEdition'
+    'click .edition-creation a#isbnButton': 'createEdition'
 
   filter: (child)-> child.get('lang') is app.user.lang
 
