@@ -24,6 +24,13 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = @model.values
+
+    fixedValue = @model.get('editorType').split('-')[0] is 'fixed'
+    noValue = @collection.length is 0
+    if fixedValue and noValue
+      @shouldBeHidden = true
+      return
+
     unless @model.get 'multivalue'
       @listenTo @collection, 'add remove', @updateAddValueButton.bind(@)
 
@@ -31,14 +38,18 @@ module.exports = Marionette.CompositeView.extend
     @customAdd = creationParials[@property]
 
   serializeData: ->
+    if @shouldBeHidden then return
     attrs = @model.toJSON()
     if @customAdd
       attrs.customAdd = true
       attrs.creationPartial = 'entities:editor:' + @customAdd.partial
-      attrs.creationPartialData = @customAdd.partialData()
+      attrs.creationPartialData = @customAdd.partialData @model
     else
       attrs.canAddValues = @canAddValues()
     return attrs
+
+  onShow: ->
+    if @shouldBeHidden then @$el.hide()
 
   canAddValues: -> @model.get('multivalue') or @collection.length is 0
 
