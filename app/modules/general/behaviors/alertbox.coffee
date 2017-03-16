@@ -1,3 +1,5 @@
+getActionKey = require 'lib/get_action_key'
+
 module.exports = Marionette.Behavior.extend
   ui:
     hasAlertbox: ".has-alertbox"
@@ -34,7 +36,15 @@ module.exports = Marionette.Behavior.extend
     $parent.find('.alert-box').slideDown(500)
     @_showAlertTimestamp = Date.now()
 
-  hideAlertBox: ->
-    # don't hide alert box if it has been visible for less than 1s
-    unless @_showAlertTimestamp? and not _.expired @_showAlertTimestamp, 1000
-      @$el.find('.alert-box').hide()
+  hideAlertBox: (e)->
+    key = getActionKey e
+    # Do not close the alert box on 'Ctrl' or 'Shift' especially,
+    # as it prevent from opening a possible link in the alert box in a special way
+    # If the key is not a special key, key should be undefined
+    # and the alertbox will be closde
+    if key? and key isnt 'esc' then return
+
+    # Don't hide alert box if it has been visible for less than 1s
+    if @_showAlertTimestamp? and not _.expired(@_showAlertTimestamp, 1000) then return
+
+    @$el.find('.alert-box').hide()
