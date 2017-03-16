@@ -46,6 +46,7 @@ module.exports = Marionette.LayoutView.extend
 
     app.reqres.setHandlers
       'waitForCheck': waitForCheck
+      'post:feedback': postFeedback
 
     documentLang @$el, app.user.lang
 
@@ -101,3 +102,6 @@ initWindowResizeEvents = ->
 
   resize = _.debounce resizeEnd, 150
   $(window).resize resize
+
+# params = { subject, message, unknownUser }
+postFeedback = (params)-> _.preq.post app.API.feedback, params

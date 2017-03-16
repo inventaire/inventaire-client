@@ -46,10 +46,10 @@ module.exports = Marionette.ItemView.extend
     .catch @postFailed.bind(@)
 
   postFeedback: ->
-    _.preq.post app.API.feedback,
-      subject: _.log @ui.subject.val(), 'subject'
-      message: _.log @ui.message.val(), 'message'
-      unknownUser: _.log @ui.unknownUser.val(), 'unknownUser'
+    app.request 'post:feedback',
+      subject: @ui.subject.val()
+      message: @ui.message.val()
+      unknownUser: @ui.unknownUser.val()
 
   confirm: ->
     @stopLoading '#sendFeedback'
