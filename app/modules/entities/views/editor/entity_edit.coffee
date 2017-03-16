@@ -54,7 +54,9 @@ module.exports = Marionette.LayoutView.extend
     attrs.createAndReturnLabel = "create and return to the #{attrs.type}'s page"
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
-    attrs.signalDataErrorButton = true
+    # Do not show the signal data error button in creation mode
+    # as it wouldn't make sense
+    attrs.signalDataErrorButton = not @creationMode
     return attrs
 
   events:
