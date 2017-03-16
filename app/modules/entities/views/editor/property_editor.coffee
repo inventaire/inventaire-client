@@ -21,6 +21,7 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     # May be required by customAdd creation partials
     AlertBox: {}
+    PreventDefault: {}
 
   initialize: ->
     @collection = @model.values
@@ -43,7 +44,7 @@ module.exports = Marionette.CompositeView.extend
     if @customAdd
       attrs.customAdd = true
       attrs.creationPartial = 'entities:editor:' + @customAdd.partial
-      attrs.creationPartialData = @customAdd.partialData @model
+      attrs.creationPartialData = @customAdd.partialData @model.entity
     else
       attrs.canAddValues = @canAddValues()
     return attrs

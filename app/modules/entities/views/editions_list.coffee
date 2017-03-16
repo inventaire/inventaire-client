@@ -64,8 +64,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'
-    'click .edition-creation a#isbnButton': 'createEditionWithIsbn'
-    'click .edition-creation a.without-isbn': 'createEditionWithoutIsbn'
+    'click .edition-creation a': 'dispatchCreationEditionClickEvents'
 
   filter: (child)-> child.get('lang') is app.user.lang
 
@@ -85,7 +84,8 @@ module.exports = Marionette.CompositeView.extend
     lang = @selectedLang or 'all'
     @ui.languageSelect.val lang
 
-  createEditionWithIsbn: (e)-> clickEvents.isbnButton @, @work, e
-  createEditionWithoutIsbn: (e)-> clickEvents.withoutIsbn @work
+  dispatchCreationEditionClickEvents: (e)->
+    { id } = e.currentTarget
+    clickEvents[id]?(@, @work, e)
 
 LangFilter = (lang)-> (child)-> child.get('lang') is lang

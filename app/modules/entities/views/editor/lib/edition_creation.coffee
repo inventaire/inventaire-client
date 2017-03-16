@@ -14,7 +14,7 @@ module.exports =
 
   clickEvents:
     isbnButton: require './create_edition_entity_from_work'
-    withoutIsbn: (workModel)->
+    withoutIsbn: (view, workModel, e)->
       app.execute 'show:entity:create', workEditionCreationData(workModel)
 
 addWithoutIsbnPath = (workModel)->
