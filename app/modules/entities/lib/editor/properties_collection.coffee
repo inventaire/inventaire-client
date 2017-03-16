@@ -14,13 +14,9 @@ module.exports = (entityModel)->
   unless typeProps?
     throw error_.new "no properties found for entity type: #{type}", entityModel
 
-  for prop in typeProps
+  for prop, typeCustomPropData of typeProps
     propData = properties[prop]
-
-    # Helping for development, should be removed once stable
-    unless propData?
-      throw error_.new 'missing property data: edit modules/entities/lib/properties.coffee', prop
-
+    propData.propertyLabel = typeCustomPropData.customLabel or prop
     propertiesCollection.add getPropertyModel(entityModel, propData)
 
   return propertiesCollection

@@ -22,7 +22,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @userIsAdmin = app.user.get 'admin'
-    @creationMode = @model.propertiesShortlist
+    @creationMode = @model.creating
     @requiresLabel = @model.type isnt 'edition'
     @showAdminSection = @userIsAdmin and not @creationMode
     @waitForPropCollection = @model.waitForSubentities.then @initPropertiesCollections.bind(@)

@@ -9,7 +9,7 @@ typeDefaultP31 =
 propertiesShortlists =
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
-  edition: [ 'wdt:P629', 'wdt:P407', 'wdt:P1476' ]
+  # edition: always display all properties
 
 module.exports =
   create: (options)->
@@ -22,7 +22,11 @@ module.exports =
 
     claims or= {}
     claimsProperties = Object.keys claims
-    propertiesShortlist = propertiesShortlists[type].concat claimsProperties
+    typeShortlist = propertiesShortlists[type]
+    if typeShortlist?
+      propertiesShortlist = propertiesShortlists[type].concat claimsProperties
+    else
+      propertiesShortlist = null
 
     claims['wdt:P31'] = [ defaultP31 ]
 

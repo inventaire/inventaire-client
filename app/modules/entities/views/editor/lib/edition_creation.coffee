@@ -1,3 +1,5 @@
+wdLang = require 'wikidata-lang'
+
 module.exports =
   partial: 'edition_creation'
   partialData: (workModel)->
@@ -21,6 +23,19 @@ addWithoutIsbnPath = (workModel)->
   return _.buildPath '/entity/new', workEditionCreationData(workModel)
 
 workEditionCreationData = (workModel)->
-  type: 'edition',
-  label: workModel.get 'label'
-  claims: { 'wdt:P629': [ workModel.get('uri') ] }
+  data =
+    type: 'edition',
+    claims:
+      'wdt:P629': [ workModel.get('uri') ]
+
+  { lang } = app.user
+  langWdId = wdLang.byCode[lang]?.wd
+  langWdUri = if langWdId? then "wd:#{langWdId}"
+  # Suggest the user's language as the edition language
+  if langWdUri then data.claims['wdt:P407'] = [ langWdUri ]
+
+  langWorkLabel = workModel.get "labels.#{lang}"
+  # Suggest the work entity label in the user's language as the edition title
+  if langWorkLabel then data.claims['wdt:P1476'] = [ langWorkLabel ]
+
+  return data
