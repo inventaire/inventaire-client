@@ -25,7 +25,10 @@ module.exports = ->
 
   return
 
-# Editions inherit claims like author 'wdt:P50' from their work
+# Editions inherit some claims from their work but not all, as it could get confusing.
+# Ex: publication date should not be inherited
+inheritedProperties = [ 'wdt:P50' ]
+
 inheritData = (work)->
   unless @get('label')?
     workLabels = work.get 'labels'
@@ -36,8 +39,8 @@ inheritData = (work)->
     else @set 'label', work.get('label')
 
   claims = @get 'claims'
-  workClaims = work.get 'claims'
-  @set 'claims', _.extend({}, workClaims, claims)
+  inheritedWorkClaims = _.pick work.get('claims'), inheritedProperties
+  @set 'claims', _.extend({}, inheritedWorkClaims, claims)
   return
 
 startListeningForClaimsChanges = ->
