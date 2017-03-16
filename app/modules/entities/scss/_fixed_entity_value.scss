@@ -5,4 +5,9 @@
     color: $fixed-value-color;
     padding-right: 0.5em;
   }
+  .value-entity-details{
+    @include display-flex(column, center, center);
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
 }

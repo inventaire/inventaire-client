@@ -1,4 +1,10 @@
 <div class="edition-creation">
-  <label for="isbnGroup">{{i18n 'Add an edition by its ISBN'}}</label>
-  {{input isbnInputData}}
+  <div class="from-isbn">
+    <label for="isbnGroup">{{i18n 'Add an edition by its ISBN'}}</label>
+    {{input isbnInputData}}
+  </div>
+  <a href="{{addWithoutIsbnPath}}" class="without-isbn tiny-button grey">
+    {{icon 'plus'}}
+    {{i18n 'add an edition without an ISBN'}}
+  </a>
 </div>

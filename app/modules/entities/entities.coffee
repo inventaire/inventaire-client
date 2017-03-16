@@ -93,10 +93,10 @@ API =
     .catch handleMissingEntityError.bind(null, 'showEditEntityFromUri err')
 
   showEntityCreateFromRoute: ->
-    type = app.request 'querystring:get', 'type'
-    label = app.request 'querystring:get', 'label'
-    claims = app.request 'querystring:get', 'claims'
-    showEntityCreate type, label, claims
+    showEntityCreate
+      type: app.request 'querystring:get', 'type'
+      label: app.request 'querystring:get', 'label'
+      claims: app.request 'querystring:get', 'claims'
 
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
@@ -105,7 +105,8 @@ API =
     app.layout.main.show new ChangesLayout
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
-showEntityCreate = (type, label, claims)->
+showEntityCreate = (params)->
+  { type, label, claims } = params
   unless type in entityDraftModel.whitelistedTypes
     err = error_.new "invalid entity draft type: #{type}", arguments
     return app.execute 'show:error:other', err

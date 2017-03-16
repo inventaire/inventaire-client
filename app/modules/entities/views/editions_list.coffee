@@ -1,5 +1,5 @@
 wdLang = require 'wikidata-lang'
-editionCreationParial = require('./editor/lib/creation_partials')['wdt:P747']
+{ partialData, clickEvents } = require './editor/lib/edition_creation'
 error_ = require 'lib/error'
 
 module.exports = Marionette.CompositeView.extend
@@ -14,6 +14,8 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @, 50
+
+    { @work } = @options
 
     # Start with user lang as default if there are editions in that language
     if app.user.lang in @getAvailableLangs()
@@ -58,11 +60,12 @@ module.exports = Marionette.CompositeView.extend
   serializeData: ->
     hasEditions: @collection.length > 0
     availableLanguages: @getAvailableLanguages @selectedLang
-    editionCreationData: editionCreationParial.partialData()
+    editionCreationData: partialData @work
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'
-    'click .edition-creation a#isbnButton': 'createEdition'
+    'click .edition-creation a#isbnButton': 'createEditionWithIsbn'
+    'click .edition-creation a.without-isbn': 'createEditionWithoutIsbn'
 
   filter: (child)-> child.get('lang') is app.user.lang
 
@@ -82,7 +85,7 @@ module.exports = Marionette.CompositeView.extend
     lang = @selectedLang or 'all'
     @ui.languageSelect.val lang
 
-  createEdition: (e)->
-    editionCreationParial.clickEvents.isbnButton @, @options.work, e
+  createEditionWithIsbn: (e)-> clickEvents.isbnButton @, @work, e
+  createEditionWithoutIsbn: (e)-> clickEvents.withoutIsbn @work
 
 LangFilter = (lang)-> (child)-> child.get('lang') is lang

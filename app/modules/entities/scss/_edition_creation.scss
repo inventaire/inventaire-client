@@ -1,0 +1,37 @@
+.edition-creation{
+  @include display-flex(row, flex-start, flex-start, wrap);
+  background-color: $darker-grey;
+  width: 100%;
+  @include radius;
+  padding: 0.5em 0.5em 0.5em 1em;
+  #isbnGroup{
+    max-width: 15em;
+    input{
+      margin: 0;
+      @include radius-left;
+    }
+    .alert-box{
+      margin-top: 0;
+      margin-bottom: 0;
+      // Let room for the whole 'this ISBN already exist' message
+      max-height: 8em;
+    }
+  }
+  #isbnButton{
+    padding-left: 1em;
+    padding-right: 1em;
+    // centering vertically
+    padding-top: 0.1em;
+    width: auto;
+    white-space: nowrap;
+  }
+  .from-isbn{
+    margin-right: 0.5em;
+  }
+  .without-isbn{
+    // Aligning with #isbnField
+    margin-top: 1.55em;
+    font-size: 0.9em;
+    padding: 0.5em;
+  }
+}

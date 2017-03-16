@@ -12,6 +12,10 @@
 </div>
 {{!-- not so important for most users --}}
 <div>
-  {{{prop 'wdt:P212'}}}
-  {{claims.wdt:P212}}
+  {{#if claims.wdt:P212}}
+    {{{prop 'wdt:P212'}}}
+    {{claims.wdt:P212}}
+  {{else}}
+    <span class="property-value">{{i18n 'inventaire id'}}:</span> {{_id}}
+  {{/if}}
 </div>

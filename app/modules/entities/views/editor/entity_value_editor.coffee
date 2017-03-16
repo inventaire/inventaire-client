@@ -18,8 +18,7 @@ module.exports = EditorCommons.extend
   initialize: ->
     @property = @model.get 'property'
     @allowEntityCreation = @model.get 'allowEntityCreation'
-    # If the model's value is null, start in edit mode
-    @editMode = if @model.get('value')? then false else true
+    @initEditModeState()
     @lazyRender = _.LazyRender @
 
   lazyRenderIfDisplayMode: -> if not @editMode then @lazyRender()

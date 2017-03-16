@@ -18,6 +18,10 @@ module.exports = Marionette.ItemView.extend
       when 'enter'
         if e.ctrlKey then @save()
 
+  initEditModeState: ->
+    # If the model's value is null, start in edit mode
+    @editMode = if @model.get('value')? then false else true
+
   showEditMode: (e)->
     if isLoggedIn()
       # Clicking on the identifier should only open wikidata in another window

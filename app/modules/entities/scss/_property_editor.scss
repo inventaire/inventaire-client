@@ -41,29 +41,3 @@ $fixed-value-color: white;
   background-color: $fixed-value-bg-color;
   color: $fixed-value-color;
 }
-
-.edition-creation{
-  background-color: $darker-grey;
-  width: 100%;
-  @include radius;
-  padding: 0.5em 0.5em 0.5em 1em;
-  #isbnGroup{
-    max-width: 15em;
-    input{
-      margin: 0;
-      @include radius-left;
-    }
-    .alert-box{
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-  #isbnButton{
-    padding-left: 1em;
-    padding-right: 1em;
-    // centering vertically
-    padding-top: 0.1em;
-    width: auto;
-    white-space: nowrap;
-  }
-}

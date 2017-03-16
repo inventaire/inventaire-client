@@ -4,16 +4,18 @@ createEntities = require './create_entities'
 typeDefaultP31 =
   work: 'wd:Q571'
   serie: 'wd:Q277759'
+  edition: 'wd:Q3331189'
 
 propertiesShortlists =
-  work: ['wdt:P50']
-  serie: ['wdt:P50']
+  work: [ 'wdt:P50' ]
+  serie: [ 'wdt:P50' ]
+  edition: [ 'wdt:P629', 'wdt:P407', 'wdt:P1476' ]
 
 module.exports =
   create: (options)->
     { type, label, claims } = options
 
-    # ALLOW TO SELECT SPECIFIC TYPE AT CREATION
+    # TODO: allow to select specific type at creation
     defaultP31 = typeDefaultP31[type]
     unless defaultP31?
       throw new Error "unknown type: #{type}"
@@ -42,9 +44,11 @@ module.exports =
       create: -> createEntities.create @get('labels'), @get('claims')
       waitForSubentities: _.preq.resolved
 
-      # Methods and attributes required to be passed to app.navigateFromModel
+      # Methods required by app.navigateFromModel
       updateMetadata: -> { title: label or _.I18n('new entity') }
-      edit: _.buildPath 'entity/new', { type, label, claims }
+
+    # Attributes required by app.navigateFromModel
+    model.set 'edit', _.buildPath('/entity/new', { type, label, claims })
 
     return model
 

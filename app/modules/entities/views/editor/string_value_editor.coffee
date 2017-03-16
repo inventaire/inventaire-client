@@ -13,6 +13,7 @@ module.exports = EditorCommons.extend
   initialize: ->
     @lazyRender = _.LazyRender @
     @focusTarget = 'input'
+    @initEditModeState()
 
   serializeData: ->
     attrs = @model.toJSON()
