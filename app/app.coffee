@@ -42,7 +42,6 @@ App = Marionette.Application.extend
     route = route.replace /^\//, ''
 
     @vent.trigger 'route:change', _.routeSection(route), route
-    route = route.replace /(\s|')/g, '_'
     route = @request 'querystring:keep', route
     Backbone.history.last or= []
     Backbone.history.last.unshift route

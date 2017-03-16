@@ -25,18 +25,6 @@ module.exports = (Backbone, _, $, app, window)->
       .forEach ParseKeysValues(query)
     return query
 
-  # Should not be useful anymore as urls with labels were removed
-  # Possible exception: short group names apparently still need it
-  softDecodeURI: (str)->
-    _.typeString str
-    .replace /_/g,' '
-
-  # Not used: waiting for _.softDecodeURI to be ready for removal to remove
-  # softEncodeURI: (str)->
-  #   _.typeString str
-  #   .replace /(\s|')/g, '_'
-  #   .replace /\?/g, ''
-
   piped: (data)-> _.forceArray(data).join '|'
 
   inspect: (obj, label)->
@@ -228,8 +216,6 @@ ParseKeysValues = (queryObj)-> (param)->
     # If a number string was parsed into a number, make it a string again
     # so that the output stays predictible
     if _.isNumber value then value = value.toString()
-    # If it's still a string and not an object, soft decode it
-    if _.isString value then value = _.softDecodeURI value
     queryObj[key] = value
 
 permissiveJsonParse = (input)->

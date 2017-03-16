@@ -106,7 +106,6 @@ API =
         API.showScan()
 
   shortCutGroup: (name)->
-    name = _.softDecodeURI name
     # initGroupHelpers, during which 'group:search:byName'
     # is initialized, runs after waitFor user
     app.request 'wait:for', 'user'
