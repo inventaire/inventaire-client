@@ -8,6 +8,7 @@ module.exports = (text, url, classes='link', title)->
   # on rel='noopener' see: https://mathiasbynens.github.io/rel-noopener
   openOutsideAttributes = if isExternalLink then "target='_blank' rel='noopener'" else ''
 
+  title = title?.replace /"/g, '&quot;'
   title = if title?.length > 0 then "title=\"#{title}\"" else ''
 
   "<a href=\"#{url}\" class='#{classes}' #{title} #{openOutsideAttributes}>#{text}</a>"

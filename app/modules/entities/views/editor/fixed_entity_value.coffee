@@ -9,6 +9,10 @@ module.exports = Marionette.ItemView.extend
     attrs = @model.toJSON()
     attrs.valueEntity = @valueEntityData()
     attrs.value = attrs.valueEntity?.label or attrs.value
+    if attrs.valueEntity?
+      hasIdentifierTooltipLinks = attrs.valueEntity.type? or attrs.valueEntity.wikidata?
+      attrs.valueEntity.hasIdentifierTooltipLinks = hasIdentifierTooltipLinks
+      attrs.valueEntity.contrast = true
     return attrs
 
   valueEntityData: ->

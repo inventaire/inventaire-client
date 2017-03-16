@@ -25,6 +25,10 @@
   @include link-underline-on-hover(white, #eee);
 }
 
+@mixin link-dark(){
+  @include link-underline-on-hover($dark-grey, $darker-grey);
+}
+
 $link-hover-grey: lighten($dark-grey, 5%);
 .link{
   @include link-underline-on-hover($dark-grey, $link-hover-grey);

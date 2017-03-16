@@ -1,6 +1,7 @@
 // Adapted from http://www.cssportal.com/css-tooltip-generator/
 // Naming it DIY tooltip until Foundation tooltip can be removed
 $tooltip-bg-color: $dark-grey;
+$tooltip-contrast-bg-color: white;
 $spike-size: 0.5em;
 
 .has-diy-tooltip{
@@ -18,6 +19,7 @@ $spike-size: 0.5em;
 
     // The actual tooltip box shape and what's inside
     .diy-tooltip-content{
+      @include shy(0.9);
       cursor: default;
       padding: 1em;
       margin: 0 auto;
@@ -54,6 +56,17 @@ $spike-size: 0.5em;
         border-top: $spike-size solid $tooltip-bg-color;
         border-right: $spike-size solid transparent;
         border-left: $spike-size solid transparent;
+      }
+
+      &.contrast{
+        color: $dark-grey;
+        background-color: white;
+        .link{
+          @include link-dark;
+        }
+        &:after{
+          border-top: $spike-size solid $tooltip-contrast-bg-color;
+        }
       }
     }
   }

@@ -1,8 +1,8 @@
 <span class='identifier has-diy-tooltip'>
-  {{uri}}
+  <span class="identifier-uri">{{uri}}</span>
   {{#if hasIdentifierTooltipLinks}}
     <div class="diy-tooltip-wrapper">
-      <div class="diy-tooltip-content">
+      <div class="diy-tooltip-content {{#if contrast}}contrast{{/if}}">
         {{!-- If a type was defined, it should have a page that make
         sense on inventaire filtering out things like book subjects --}}
         {{#if type}}
