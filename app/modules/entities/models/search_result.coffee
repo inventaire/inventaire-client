@@ -32,11 +32,13 @@ module.exports = Filterable.extend
 
   matchable: ->
     if @_values? then return @_values
-    labels = _.values @get('labels')
-    descriptions = _.values @get('descriptions')
-    aliases = _.flatten _.values(@get('aliases'))
+    labels = getValues @get('labels')
+    descriptions = getValues @get('descriptions')
+    aliases = _.flatten getValues(@get('aliases'))
     @_values = [ @id ].concat labels, aliases, descriptions
     return @_values
+
+getValues = (obj)-> if obj? then _.values(obj) else []
 
 # Search results arrive as either Wikidata or inventaire documents
 # with ids unprefixed. The solutions to fix it:
