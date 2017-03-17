@@ -23,6 +23,12 @@ module.exports = Positionable.extend
 
     @calculateHighlightScore()
 
+    # keep internal lists updated
+    @on 'list:change', @recalculateAllLists.bind(@)
+    # updated collections once the debounced recalculateAllLists is done
+    @on 'list:change:after', @initMembersCollection.bind(@)
+    @on 'list:change:after', @initRequestersCollection.bind(@)
+
   beforeShow:->
     # All the actions to run once before showing any view displaying
     # deep groups data (with statistics, members list, etc), but that can
@@ -33,18 +39,10 @@ module.exports = Positionable.extend
     @initMembersCollection()
     @initRequestersCollection()
 
-    @waitForData = Promise.all [
+    return @waitForData = Promise.all [
       @waitForMembers
       @waitForRequested
     ]
-
-    # keep internal lists updated
-    @on 'list:change', @recalculateAllLists.bind(@)
-    # updated collections once the debounced recalculateAllLists is done
-    @on 'list:change:after', @initMembersCollection.bind(@)
-    @on 'list:change:after', @initRequestersCollection.bind(@)
-
-    return @waitForData
 
   initMembersCollection: -> @initUsersCollection 'members'
   initRequestersCollection: -> @initUsersCollection 'requested'
