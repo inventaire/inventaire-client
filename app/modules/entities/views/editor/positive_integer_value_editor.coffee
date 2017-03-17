@@ -39,7 +39,7 @@ module.exports = EditorCommons.extend
   save: ->
     inputVal = @ui.input.val()
 
-    unless _.isIntegerString inputVal
+    unless _.isPositiveIntegerString inputVal
       err = error_.new 'invalid number', inputVal
       err.selector = inputSelector
       return forms_.alert @, err

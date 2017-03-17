@@ -66,6 +66,8 @@ module.exports = (_)->
 
   simpleDay: -> new Date().toISOString().split('T')[0]
 
+  isPositiveIntegerString: (str)-> _.isString(str) and /^\d+$/.test str
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->

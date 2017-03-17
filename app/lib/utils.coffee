@@ -188,8 +188,6 @@ module.exports = (Backbone, _, $, app, window)->
 
   sum: (array)-> array.reduce add, 0
 
-  isIntegerString: (str)-> /^\d+$/.test str
-
 add = (a, b)-> a + b
 
 objectWalker = (subObject, property)-> subObject?[property]
