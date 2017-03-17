@@ -1,3 +1,5 @@
+window.location.root = window.location.protocol + '//' + window.location.host
+
 module.exports = ->
   app = require 'app'
   window.app = app

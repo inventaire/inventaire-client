@@ -1,8 +1,6 @@
 error_ = require 'lib/error'
 
 module.exports = (_)->
-  window.location.root = window.location.protocol + '//' + window.location.host
-
   #changing the default attribute to fit CouchDB
   Backbone.Model::idAttribute = '_id'
 
