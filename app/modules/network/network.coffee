@@ -74,8 +74,8 @@ API =
     if app.request 'require:loggedIn', _.buildPath(path, query)
       app.layout.main.show new NetworkLayout { tab, query }
 
-  showGroupBoard: (id, name)->
-    app.request 'get:group:model', id
+  showGroupBoard: (slug)->
+    app.request 'get:group:model', slug
     .then showGroupBoardFromModel
     .catch (err)->
       _.error err, 'get:group:model err'

@@ -15,12 +15,18 @@ module.exports = ->
   getGroupPublicData = (id, groupModel)->
     if groupModel? then id = groupModel.id
     _.preq.get app.API.groups.byId(id)
-    .then (res)->
-      { group, users } = res
-      app.execute 'users:public:add', users
-      groupModel ?= groups.add group
-      groupModel.usersFetched = true
-      return groupModel
+    .then (res)-> addGroupData res, groupModel
+
+  getGroupModelFromSlug = (slug)->
+    _.preq.get app.API.groups.bySlug(slug)
+    .then addGroupData
+
+  addGroupData = (res, groupModel)->
+    { group, users } = res
+    app.execute 'users:public:add', users
+    groupModel ?= groups.add group
+    groupModel.usersFetched = true
+    return groupModel
 
   groupSettingsUpdater = Updater
     endpoint: app.API.groups.base
@@ -39,7 +45,9 @@ module.exports = ->
       return mainUserIsntMember and group.userStatus(user) is 'member'
 
   app.reqres.setHandlers
-    'get:group:model': getGroupModel
+    'get:group:model': (id)->
+      if _.isGroupId(id) then getGroupModel id
+      else getGroupModelFromSlug id
     'get:group:model:sync': groups.byId.bind(groups)
     'group:update:settings': groupSettingsUpdater
     'get:groups:common': getGroupsInCommon

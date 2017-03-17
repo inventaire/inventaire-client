@@ -12,8 +12,8 @@ module.exports = Positionable.extend
     aggregateUsersIds.call @
     _.extend @, groupActions
 
-    { _id, name } = @toJSON()
-    canonical = pathname = "/groups/#{_id}"
+    slug = @get 'slug'
+    canonical = pathname = "/groups/#{slug}"
     @set
       canonical: canonical
       pathname: pathname
