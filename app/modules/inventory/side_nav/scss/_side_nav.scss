@@ -105,21 +105,20 @@
     margin: 0;
     @include shadow-box($glow);
   }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin-top: 0.2em;
+    #publicList, #groupsList, #usersList, #membersList{
+      max-height: 10em;
+      overflow: auto;
+    }
+    #mainUser{
+      width: 100%;
+    }
+  }
 }
 
-/*Small screens*/
-@media screen and (max-width: $small-screen) {
-  #sideNav{
-    margin-top: 0.2em;
-  }
-  #publicList, #groupsList, #usersList, #membersList{
-    max-height: 10em;
-    overflow: auto;
-  }
-  #mainUser{
-    width: 100%;
-  }
-}
 
 /*Large screens*/
 @media screen and (min-width: $small-screen) {
