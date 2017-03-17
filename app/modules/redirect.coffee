@@ -85,6 +85,7 @@ showErrorMissing = ->
     icon: 'warning'
     header: _.I18n 'oops'
     message: _.i18n "this resource doesn't exist or you don't have the right to access it"
+    context: location.pathname
 
 showOtherError = (err, label)->
   _.error err, label
@@ -114,7 +115,6 @@ showErrorCookieRequired = (command)->
         else location.href = location.href
 
 showError = (options)->
-  _.log options, 'showError', true
   app.layout.main.show new ErrorView options
   # Navigate so that hitting 'Back' those bring back to the previous page
   # and not to two pages before

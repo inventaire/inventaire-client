@@ -11,6 +11,13 @@
     .button{
       font-weight: bold;
     }
+    .context{
+      background-color: white;
+      opacity: 0.8;
+      @include radius;
+      padding: 1em;
+      margin: 1em 0 1em 0;
+    }
   }
 
   /*Small screens*/
