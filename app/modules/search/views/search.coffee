@@ -110,7 +110,7 @@ module.exports = Marionette.LayoutView.extend
     if res? then spreadResults res
 
   _catchErr: (err)->
-    switch err.status
+    switch err.statusCode
       when 404 then @alert 'no item found'
       # Known case: invalid ISBN
       when 400 then @alert err.message

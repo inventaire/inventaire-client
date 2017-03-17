@@ -45,7 +45,7 @@ FetchMore = (params)->
     .finally -> busy = false
 
   catch404 = (fallback)-> (err)->
-    if err.status is 404
+    if err.statusCode is 404
       moreData.status = false
       _.warn 'no more items to show'
       if fallback? then fallback()

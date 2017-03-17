@@ -168,7 +168,7 @@ module.exports = Marionette.ItemView.extend
   confirmCurrentPassword: (currentPassword)->
     app.request 'password:confirmation', currentPassword
     .catch (err)->
-      if err.status is 401
+      if err.statusCode is 401
         err = new Error('wrong password')
         err.selector = '#currentPasswordAlert'
         throw err

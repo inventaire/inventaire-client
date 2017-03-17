@@ -63,7 +63,7 @@ verifyKnownEmail = (email)->
   email_.verifyAvailability(email, "#emailField")
   .then unknownEmail
   .catch (err)->
-    if err.status is 400 then 'known email'
+    if err.statusCode is 400 then 'known email'
     else throw err
 
 unknownEmail = ->

@@ -56,7 +56,7 @@ module.exports = Marionette.ItemView.extend
 
   loginError: (err)->
     @stopLoading()
-    if err.status is 401 then @alert @getErrMessage()
+    if err.statusCode is 401 then @alert @getErrMessage()
     else _.error err, 'classic login err'
 
   getErrMessage: ->

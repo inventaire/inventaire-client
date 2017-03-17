@@ -69,7 +69,7 @@ API =
     app.request 'items:fetchById', id
     .then showItemShowFromModel
     .catch (err)->
-      if err.status is 404 then app.execute 'show:error:missing'
+      if err.statusCode is 404 then app.execute 'show:error:missing'
       else _.error err, 'showItemFromId'
 
   showUserItemsByEntity: (username, uri, label)->
