@@ -145,8 +145,11 @@
       flex: 0 1 auto;
       overflow: auto;
       width: 100%;
-      // Make sure there is room for at least two child elements
-      min-height: 6em;
+      min-height: 3em;
+    }
+    #groupsList{
+      // Make sure there is room for at least 1.5 child elements, not just 1
+      min-height: 4.5em;
     }
     @media screen and (min-height: 600px) {
       .expend{
