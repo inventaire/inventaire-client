@@ -81,6 +81,7 @@ showLoginRedirect = showAuthRedirect.bind null, 'login'
 
 showErrorMissing = ->
   showError
+    name: 'missing'
     icon: 'warning'
     header: _.I18n 'oops'
     message: _.i18n "this resource doesn't exist or you don't have the right to access it"
@@ -88,17 +89,20 @@ showErrorMissing = ->
 showOtherError = (err, label)->
   _.error err, label
   showError
+    name: 'other'
     icon: 'bolt'
     header: _.I18n 'error'
     message: err.message
 
 showOfflineError = ->
   showError
+    name: 'offline'
     icon: 'plug'
     header: _.i18n "can't reach the server"
 
 showErrorCookieRequired = (command)->
   showError
+    name: 'cookie-required'
     icon: 'cog'
     header: _.I18n 'cookies are disabled'
     message: _.i18n 'cookies_are_required'
@@ -112,6 +116,9 @@ showErrorCookieRequired = (command)->
 showError = (options)->
   _.log options, 'showError', true
   app.layout.main.show new ErrorView options
+  # Navigate so that hitting 'Back' those bring back to the previous page
+  # and not to two pages before
+  app.navigate "error/#{options.name}"
 
 showCallToConnection = (message)->
   app.layout.modal.show new CallToConnection
