@@ -21,6 +21,8 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     nameField: '#nameField'
+    groupUrlWrapper: 'p.group-url'
+    groupUrl: '#groupUrl'
     description: '#description'
     searchabilityToggler: '#searchabilityToggler'
     searchabilityWarning: '.searchability .warning'
@@ -35,10 +37,26 @@ module.exports = Marionette.LayoutView.extend
     'click #createGroup': 'createGroup'
     'change #searchabilityToggler': 'toggleSearchabilityWarning'
     'click #showPositionPicker': 'showPositionPicker'
+    'keyup #nameField': 'lazyUpdateUrl'
 
   serializeData: ->
     description: groupFormData.description()
     searchability: groupFormData.searchability()
+
+  lazyUpdateUrl: ->
+    @_lazyUpdateUrl or= _.debounce @updateUrl.bind(@), 200
+    @_lazyUpdateUrl()
+
+  updateUrl: ->
+    name = @ui.nameField.val()
+    console.log('name', name)
+    if _.isNonEmptyString name
+      _.preq.get app.API.groups.slug(name)
+      .then (res)=>
+        @ui.groupUrl.text "#{window.location.root}/groups/#{res.slug}"
+        @ui.groupUrlWrapper.show()
+    else
+      @ui.groupUrlWrapper.hide()
 
   toggleSearchabilityWarning: ->
     @ui.searchabilityWarning.slideToggle()

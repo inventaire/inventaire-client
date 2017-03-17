@@ -7,3 +7,4 @@ module.exports =
   last: action 'last'
   search: search.bind null, base
   searchByPosition: searchByPosition.bind null, base
+  slug: (name, groupId)-> action 'slug', { name, groupId }
