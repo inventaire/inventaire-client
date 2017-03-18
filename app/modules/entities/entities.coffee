@@ -48,8 +48,7 @@ API =
     .tap app.navigateFromModel
     .then @getEntityViewByType.bind(@, refresh)
     .then app.layout.main.show.bind(app.layout.main)
-    # .catch @solveMissingEntity.bind(@, uri)
-    .catch handleMissingEntityError.bind(null, 'showEntity err')
+    .catch handleMissingEntity(uri)
 
   getEntityViewByType: (refresh, entity)->
     switch entity.type
@@ -83,20 +82,16 @@ API =
         entity: entity
         preventduplicates: true
 
-    # .catch @solveMissingEntity.bind(@, uri)
-    .catch handleMissingEntityError.bind(null, 'showAddEntity err')
+    .catch handleMissingEntity(uri)
 
   showEditEntityFromUri: (uri)->
     # Make sure we have the freshest data before trying to edit
     getEntityModel uri, true
-    .then showEntityEdit
-    .catch handleMissingEntityError.bind(null, 'showEditEntityFromUri err')
+    .then showEntityEditFromModel
+    .catch handleMissingEntity(uri)
 
   showEntityCreateFromRoute: ->
-    showEntityCreate
-      type: app.request 'querystring:get', 'type'
-      label: app.request 'querystring:get', 'label'
-      claims: app.request 'querystring:get', 'claims'
+    showEntityCreate app.request('querystring:get:full')
 
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
@@ -106,13 +101,13 @@ API =
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
 showEntityCreate = (params)->
-  { type, label, claims } = params
+  { type } = params
   unless type in entityDraftModel.whitelistedTypes
-    err = error_.new "invalid entity draft type: #{type}", arguments
+    err = error_.new "invalid entity draft type: #{type}", params
     return app.execute 'show:error:other', err
 
-  model = entityDraftModel.create { type, label, claims }
-  showEntityEdit model
+  params.model = entityDraftModel.create params
+  showEntityEdit params
 
 setHandlers = ->
   app.commands.setHandlers
@@ -167,7 +162,8 @@ createEntity = (data)->
 
 getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
-showEntityEdit = (model)->
+showEntityEdit = (params)->
+  { model } = params
   editPathname = model.get 'edit'
   # If this entity edit isn't happening internaly
   # redirect to the page where it should happen,
@@ -176,12 +172,42 @@ showEntityEdit = (model)->
   if editPathname? and editPathname[0] isnt '/'
     return window.location.href = editPathname
 
-  app.layout.main.show new EntityEdit { model }
+  app.layout.main.show new EntityEdit(params)
   app.navigateFromModel model, 'edit'
 
-handleMissingEntityError = (label, err)->
-  if err.message is 'entity_not_found' then app.execute 'show:error:missing'
-  else app.execute 'show:error:other', err, label
+showEntityEditFromModel = (model)-> showEntityEdit { model }
+
+handleMissingEntity = (uri)-> (err)->
+  unless err.message is 'entity_not_found'
+    return app.execute 'show:error:other', err, 'handleMissingEntity'
+
+  [ prefix, id ] = uri.split ':'
+  if prefix is 'isbn' then showEntityCreateFromIsbn id
+  else app.execute 'show:error:missing'
+
+showEntityCreateFromIsbn = (isbn)->
+  _.preq.get app.API.data.isbn(isbn)
+  .then (isbnData)->
+    { isbn13h, groupLangUri } = isbnData
+    claims = { 'wdt:P212': [ isbn13h ] }
+    # TODO: try to deduce publisher from ISBN publisher section
+    if _.isEntityUri groupLangUri then claims['wdt:P407'] = [ groupLangUri ]
+
+    # Start by requesting the creation of a work entity
+    showEntityCreate
+      header: 'new-work-and-edition'
+      type: 'work'
+      # on which will be based an edition entity
+      next:
+        # The work entity should be used as 'edition of' value
+        relation: 'wdt:P629'
+        # The work label should be used as edition title suggestion
+        labelTransfer: 'wdt:P1476'
+        type: 'edition'
+        claims: claims
+
+  # Known case: when passed an invalid ISBN
+  .catch (err)-> app.execute 'show:error:other', err, 'showEntityCreateFromIsbn'
 
 normalizeUri = (uri)->
   [ prefix, id ] = uri.split ':'

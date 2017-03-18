@@ -89,7 +89,11 @@ logMissingEntities = (newEntities, requestedUris)->
     error_.report 'entities not found', missingUris
 
 # Used when an entity is created locally and needs to be added to the index
+exports.addModel = addModel = (entityModel)->
+  uri = entityModel.get 'uri'
+  return entitiesModelsIndexedByUri[uri] = entityModel
+
 exports.add = (entityData)->
   { uri } = entityData
   unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}", entityData
-  return entitiesModelsIndexedByUri[uri] = new Entity entityData
+  return addModel new Entity(entityData)

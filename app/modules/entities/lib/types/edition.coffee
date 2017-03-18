@@ -8,6 +8,7 @@ module.exports = ->
 
   uri = @get 'uri'
   workUri = @get 'claims.wdt:P629.0'
+  unless workUri? then throw new Error('entity misses an associated work')
 
   # Editions don't have subentities so the list of all their uris,
   # including their subentities, are limited to their own uri

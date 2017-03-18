@@ -47,6 +47,7 @@ module.exports = (app, _)->
 
   app.reqres.setHandlers
     'querystring:get': get
+    'querystring:get:full': getQuery
     'querystring:keep': keep
 
   app.commands.setHandlers

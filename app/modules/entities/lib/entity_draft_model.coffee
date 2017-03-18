@@ -6,6 +6,7 @@ typeDefaultP31 =
   serie: 'wd:Q277759'
   edition: 'wd:Q3331189'
 
+# TODO: allow to toggle the non-shortlisted properties
 propertiesShortlists =
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
@@ -13,7 +14,7 @@ propertiesShortlists =
 
 module.exports =
   create: (options)->
-    { type, label, claims } = options
+    { type, label, claims, next } = options
 
     # TODO: allow to select specific type at creation
     defaultP31 = typeDefaultP31[type]
@@ -52,7 +53,7 @@ module.exports =
       updateMetadata: -> { title: label or _.I18n('new entity') }
 
     # Attributes required by app.navigateFromModel
-    model.set 'edit', _.buildPath('/entity/new', { type, label, claims })
+    model.set 'edit', _.buildPath('/entity/new', options)
 
     return model
 

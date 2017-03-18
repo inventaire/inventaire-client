@@ -4,6 +4,7 @@ propertiesCollection = require 'modules/entities/lib/editor/properties_collectio
 AdminSection = require './admin_section'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+entityDraftModel = require 'modules/entities/lib/entity_draft_model'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
@@ -18,7 +19,7 @@ module.exports = Marionette.LayoutView.extend
     admin: '.admin'
 
   ui:
-    creationButtons: '.creationButton'
+    navigationButtons: '.navigationButtons'
 
   initialize: ->
     @userIsAdmin = app.user.get 'admin'
@@ -26,7 +27,12 @@ module.exports = Marionette.LayoutView.extend
     @requiresLabel = @model.type isnt 'edition'
     @showAdminSection = @userIsAdmin and not @creationMode
     @waitForPropCollection = @model.waitForSubentities.then @initPropertiesCollections.bind(@)
-    @creationButtonDisabled = false
+    @navigationButtonsDisabled = false
+
+    { @next, @relation } = @options
+    @multiEdit = @next? or @relation?
+    if @relation?
+      @previousData = @model.get('claims')[@relation]
 
   initPropertiesCollections: -> @properties = propertiesCollection @model
 
@@ -40,8 +46,8 @@ module.exports = Marionette.LayoutView.extend
     @waitForPropCollection
     .then @showPropertiesEditor.bind(@)
 
-    @listenTo @model, 'change', @updateCreationButtons.bind(@)
-    @updateCreationButtons()
+    @listenTo @model, 'change', @updateNavigationButtons.bind(@)
+    @updateNavigationButtons()
 
   showPropertiesEditor: ->
     @claims.show new PropertiesEditor
@@ -49,9 +55,9 @@ module.exports = Marionette.LayoutView.extend
       propertiesShortlist: @model.propertiesShortlist
 
   serializeData: ->
-    attrs = @model.toJSON()
+    attrs = _.extend @model.toJSON(), @multiEditData()
     attrs.creationMode = @creationMode
-    attrs.createAndReturnLabel = "create and return to the #{attrs.type}'s page"
+    attrs.createAndShowLabel = "create and go to the #{attrs.type}'s page"
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
     # Do not show the signal data error button in creation mode
@@ -59,15 +65,38 @@ module.exports = Marionette.LayoutView.extend
     attrs.signalDataErrorButton = not @creationMode
     return attrs
 
+  multiEditData: ->
+    data = {}
+    { header, next, relation } = @options
+    previous = @model.get('claims')[relation]
+    if next? or previous?
+      data.customHeader = customHeaders[header]
+    if next?
+      data.next = next
+      data.progress = { current: 1, total: 2 }
+    if previous?
+      data.previous = previous
+      data.progress = { current: 2, total: 2 }
+    return data
+
   events:
     'click .cancel': 'cancel'
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
+    'click #next': 'showNextMultiEditPage'
+    'click #previous': 'showPreviousMultiEditPage'
     'click #signalDataError': 'signalDataError'
 
-  # Don't display a cancel button if we don't know where to redirect
-  # In the case of an entity being created, showing the entity page would fail
-  canCancel: -> window.history.length > 1 or @model.creating
+  # Criteria:
+  # - Don't display a cancel button if we don't know where to redirect
+  # - In the case of an entity being created, showing the entity page would fail
+  # - Never display a cancel button when creating in mutliEdit mode as it means
+  #   an entity wasn't found and redirected here, which means hitting a
+  #   redirection loop
+  canCancel: ->
+    canCancelCase1 = @model.creating and not @multiEdit and window.history.length > 1
+    canCancelCase2 = not @model.creating
+    return canCancelCase1 or canCancelCase2
 
   cancel: ->
     if window.history.length > 1 then window.history.back()
@@ -77,7 +106,8 @@ module.exports = Marionette.LayoutView.extend
   createAndAddEntity: -> @_createAndAction 'show:entity:add:from:model'
 
   _createAndAction: (command)->
-    @model.create()
+    @createPreviousAndUpdateCurrentModel()
+    .then @model.create.bind(@model)
     .then app.Execute(command)
     .catch error_.Complete('.meta', false)
     .catch forms_.catchAlert.bind(null, @)
@@ -89,15 +119,59 @@ module.exports = Marionette.LayoutView.extend
       subject: "[#{uri}][#{subject}] "
       event: e
 
-  # Hiding creation buttons when a label is required but no label is set yet
+  # Hiding navigation buttons when a label is required but no label is set yet
   # to invite the user to edit and save the label, or cancel.
-  updateCreationButtons: ->
+  updateNavigationButtons: ->
     labelsCount = _.values(@model.get('labels')).length
     if @requiresLabel and labelsCount is 0
-      unless @creationButtonDisabled
-        @ui.creationButtons.hide()
-        @creationButtonDisabled = true
+      unless @navigationButtonsDisabled
+        @ui.navigationButtons.hide()
+        @navigationButtonsDisabled = true
     else
-      if @creationButtonDisabled
-        @ui.creationButtons.fadeIn()
-        @creationButtonDisabled = false
+      if @navigationButtonsDisabled
+        @ui.navigationButtons.fadeIn()
+        @navigationButtonsDisabled = false
+
+  showNextMultiEditPage: ->
+    { next } = @options
+    { relation, labelTransfer } = next
+    draftModel = serializeDraftModel @model
+    next.claims[relation] = draftModel
+    if labelTransfer? then next.claims[labelTransfer] = [ draftModel.label ]
+    @navigateMultiEdit next
+
+  showPreviousMultiEditPage: ->
+    { relation } = @options
+    previous = @model.get('claims')[relation]
+    previous.next = serializeDraftModel @model, relation
+    @navigateMultiEdit previous
+
+  navigateMultiEdit: (data)->
+    data.header = @options.header
+    app.execute 'show:entity:create', data
+
+  createPreviousAndUpdateCurrentModel: ->
+    unless @previousData? then _.preq.resolved
+    @createPrevious()
+    .then (previousEntityModel)=>
+      claims = @model.get 'claims'
+      # Replace the draft data object by the uri
+      claims[@relation] = [ previousEntityModel.get('uri') ]
+      @model.set 'claims', claims
+
+  createPrevious: ->
+    draftModel = entityDraftModel.create @previousData
+    return draftModel.create()
+
+# Matching entityDraftModel.create interface to allow to re-create the draft model
+# from the URL
+serializeDraftModel = (model, relation)->
+  { labels, claims } = model.pick 'labels', 'claims'
+  label = _.values(labels)[0]
+  { type } = model
+  # Omit the relation property to avoid conflict/cyclic references
+  if relation? then claims = _.omit claims, relation
+  return { type, claims, label, relation }
+
+customHeaders =
+  'new-work-and-edition': 'can you tell us more about this work and this particular edition?'

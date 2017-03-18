@@ -4,8 +4,11 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @
+    @draftValueEntity = @model.valueEntity?.creating
 
   serializeData: ->
+    if @draftValueEntity then return @draftModelData()
+
     attrs = @model.toJSON()
     attrs.valueEntity = @valueEntityData()
     attrs.value = attrs.valueEntity?.label or attrs.value
@@ -27,3 +30,10 @@ module.exports = Marionette.ItemView.extend
       @listenToOnce @model.valueEntity, 'change:image', @lazyRender.bind(@)
 
     @lazyRender()
+
+  draftModelData: ->
+    draftModel = @model.valueEntity
+    return {
+      draft: true
+      label: _.values(draftModel.get('labels'))[0]
+    }

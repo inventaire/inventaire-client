@@ -2,6 +2,7 @@ Entity = require '../models/entity'
 error_ = require 'lib/error'
 isbn_ = require 'lib/isbn'
 createInvEntity = require './inv/create_inv_entity'
+{ addModel:addEntityModel } = require 'modules/entities/lib/entities_models_index'
 
 createAuthor = (name, lang)->
   _.types arguments, 'strings...'
@@ -68,10 +69,10 @@ byProperty = (options)->
 
 createEntity = (labels, claims)->
   _.types arguments, 'objects...'
-  createInvEntity
-    labels: labels
-    claims: claims
+  createInvEntity { labels, claims }
   .then (entityData)-> new Entity entityData
+  # Update the local cache
+  .tap addEntityModel
 
 module.exports =
   create: createEntity

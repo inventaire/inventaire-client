@@ -27,8 +27,7 @@ module.exports =
         'add/scan(/)': 'showScan'
         'add/scan/embedded(/)': 'showEmbeddedScanner'
         'add/import(/)': 'showImport'
-        'groups/:id(/:name)(/)': 'showGroupInventory'
-        'g/(:name)': 'shortCutGroup'
+        'g(roups)/:id(/)': 'showGroupInventory'
         'u(ser)(s)/:id': 'shortCutUser'
 
     app.addInitializer -> new Router { controller: API }

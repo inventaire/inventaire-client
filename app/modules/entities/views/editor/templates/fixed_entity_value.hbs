@@ -1,21 +1,25 @@
-{{#if valueEntity}}
-  {{link url=valueEntity.edit classes='showEntityEdit' simpleOpenedAnchor=true title='edit_entity' titleAttrKey='entity' titleAttrValue=valueEntity.label}}
-    <div class="value-entity-wrapper">
-      {{#with valueEntity}}
-        <div class="img-wrapper">
-          {{#if image.url}}
-            <img src='{{src image.url 48}}' alt='{{label}}'>
-          {{/if}}
-        </div>
-        <div class="value-entity-details">
-          <span class="label">{{label}}</span>
-          <span class="description">{{shortDescription}}</span>
-        </div>
-      {{/with}}
-    </div>
-  </a>
-  {{!-- Should be outside the above anchor to avoid having nested anchors --}}
-  {{partial 'entities:editor:identifier_with_tooltip' valueEntity}}
+{{#if draft}}
+  {{label}}
 {{else}}
-  {{icon 'circle-o-notch' 'fa-spin'}}
+  {{#if valueEntity}}
+    {{link url=valueEntity.edit classes='showEntityEdit' simpleOpenedAnchor=true title='edit_entity' titleAttrKey='entity' titleAttrValue=valueEntity.label}}
+      <div class="value-entity-wrapper">
+        {{#with valueEntity}}
+          <div class="img-wrapper">
+            {{#if image.url}}
+              <img src='{{src image.url 48}}' alt='{{label}}'>
+            {{/if}}
+          </div>
+          <div class="value-entity-details">
+            <span class="label">{{label}}</span>
+            <span class="description">{{shortDescription}}</span>
+          </div>
+        {{/with}}
+      </div>
+    </a>
+    {{!-- Should be outside the above anchor to avoid having nested anchors --}}
+    {{partial 'entities:editor:identifier_with_tooltip' valueEntity}}
+  {{else}}
+    {{icon 'circle-o-notch' 'fa-spin'}}
+  {{/if}}
 {{/if}}

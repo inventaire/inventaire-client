@@ -1,6 +1,7 @@
 properties = require 'modules/entities/lib/properties'
 regex_ = sharedLib 'regex'
 error_ = require 'lib/error'
+entityDraftModel = require '../lib/entity_draft_model'
 
 haveValueEntity = [ 'entity', 'fixed-entity' ]
 
@@ -12,13 +13,19 @@ module.exports = Backbone.Model.extend
 
   updateValueEntity: ->
     { property, value } = @toJSON()
+    { editorType } = properties[property]
 
-    if value? and properties[property].editorType in haveValueEntity
+    if value? and editorType in haveValueEntity
 
-      unless regex_.EntityUri.test value
+      if regex_.EntityUri.test value
+        @reqGrab 'get:entity:model', value, 'valueEntity'
+      else if _.isObject(value) and value.claims? and editorType is 'fixed-entity'
+        # Allow to pass an entity draft as an object of the form:
+        # { labels: {}, claims: {} }
+        # so that its creation is still pending, waiting for confirmation
+        @valueEntity = entityDraftModel.create value
+      else
         throw error_.new 'invalid entity uri', @toJSON()
-
-      @reqGrab 'get:entity:model', value, 'valueEntity'
 
   saveValue: (newValue)->
     oldValue = @get 'value'

@@ -1,4 +1,13 @@
-<h2 class="type-label">{{claim claims 'wdt:P31' false true}}</h2>
+{{#if customHeader}}
+  <div class="header-wrapper">
+    <h2 class="custom-header">{{i18n customHeader}}</h2>
+    {{#if progress}}
+      <span class="creation-progress">({{progress.current}}/{{progress.total}})</span>
+    {{/if}}
+  </div>
+{{else}}
+  <h2 class="type-label">{{claim claims 'wdt:P31' false true}}</h2>
+{{/if}}
 <div class="title"></div>
 <div class="claims"></div>
 <div class="admin"></div>
@@ -11,14 +20,27 @@
           {{I18n 'cancel'}}
       </a>
     {{/if}}
-    <a class="createAndShowEntity creationButton light-blue-button" tabindex="0">
-      {{icon 'arrow-left'}}
-      {{I18n createAndReturnLabel}}
-    </a>
-    <a class="createAndAddEntity creationButton success-button" tabindex="0">
-      {{icon 'plus'}}
-      {{I18n "create and add to your inventory"}}
-    </a>
+    {{#if next}}
+      <a id="next" class="navigationButtons light-blue-button" tabindex="0">
+        {{icon 'arrow-right'}}
+        {{I18n 'next'}}
+      </a>
+    {{else}}
+      {{#if previous}}
+        <a id="previous" class="navigationButtons grey-button" tabindex="0">
+          {{icon 'arrow-left'}}
+          {{I18n 'previous'}}
+        </a>
+      {{/if}}
+      <a class="createAndShowEntity navigationButtons light-blue-button" tabindex="0">
+        {{icon 'arrow-right'}}
+        {{I18n createAndShowLabel}}
+      </a>
+      <a class="createAndAddEntity navigationButtons success-button" tabindex="0">
+        {{icon 'plus'}}
+        {{I18n "create and add to your inventory"}}
+      </a>
+    {{/if}}
   {{else}}
     <a href="{{pathname}}" class="showEntity light-blue-button" tabindex="0">
       {{icon 'arrow-left'}}{{I18n "return to the book's page"}}
