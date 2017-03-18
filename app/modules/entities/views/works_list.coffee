@@ -96,7 +96,7 @@ module.exports = Marionette.CompositeView.extend
   addOne: (e)->
     unless _.isOpenedOutside e
       { type, claims } = @_entityCreationData
-      app.execute 'show:entity:create', type, null, claims
+      app.execute 'show:entity:create', { type, claims }
 
 addOneLabels =
   # parent model type

@@ -164,7 +164,9 @@ module.exports = Marionette.LayoutView.extend
     _.log query, 'isbn query'
     app.execute 'search:global', query
 
-  createEntity: -> app.execute 'show:entity:create', 'work', @query
+  createEntity: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:entity:create', { type: 'work', label: @query }
 
 spreadResults = (res)->
   { humans, series, works, editions } = res
