@@ -8,6 +8,7 @@ $author-layout-bg: #292929;
   }
   .subentities{
     flex: 1 1 auto;
+    @include display-flex(column);
   }
   // Precising :not(.standalone) to override the selector
   .serieLayout:not(.standalone){
@@ -16,6 +17,8 @@ $author-layout-bg: #292929;
   .series, .works, .articles{
     // required to center .loading
     @include display-flex(row, center, center);
+    margin-top: 1em;
+    margin-bottom: 1em;
     .header{
       @include display-flex(row, center, center);
     }

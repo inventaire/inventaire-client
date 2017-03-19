@@ -6,7 +6,7 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/author_layout'
   className: ->
     # Default to wrapped mode in non standalone mode
-    secondClass = if @options.standalone then 'standalone' else 'wrapped'
+    secondClass = if @standalone then 'standalone' else 'wrapped'
     return "authorLayout #{secondClass}"
 
   behaviors:
@@ -21,6 +21,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @initPlugins()
     @lazyRender = _.LazyRender @
+    { @standalone } = @options
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
 
@@ -33,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     _.extend @model.toJSON(),
-      standalone: @options.standalone
+      standalone: @standalone
       canRefreshData: true
       # having an epub download button on an author isn't really interesting
       hideWikisourceEpub: true
@@ -58,7 +59,7 @@ module.exports = Marionette.LayoutView.extend
   showInfobox: ->
     @infoboxRegion.show new AuthorInfobox
       model: @model
-      standalone: @options.standalone
+      standalone: @standalone
 
   showWorks: ->
     # Target specifically .works .loading, so that it doesn't conflict
@@ -77,9 +78,12 @@ module.exports = Marionette.LayoutView.extend
 
     @showWorkCollection 'works'
 
-    if @model.works.series.totalLength > 0
-      initialLength = if @options.standalone then 10 else 5
+    seriesCount = @model.works.series.totalLength
+    if seriesCount > 0 or @standalone
+      initialLength = if @standalone then 10 else 5
       @showWorkCollection 'series', initialLength
+      # If the author has no series, move the series block down
+      if seriesCount is 0 then @seriesRegion.$el.css 'order', 2
 
     if @model.works.articles.totalLength > 0
       @showWorkCollection 'articles'
