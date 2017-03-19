@@ -18,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     AlertBox: {}
     LocalSeachBar: {}
+    PreventDefault: {}
 
   regions:
     authors: '#authors'
