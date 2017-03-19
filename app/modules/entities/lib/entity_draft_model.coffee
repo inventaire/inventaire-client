@@ -6,11 +6,10 @@ typeDefaultP31 =
   serie: 'wd:Q277759'
   edition: 'wd:Q3331189'
 
-# TODO: allow to toggle the non-shortlisted properties
 propertiesShortlists =
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
-  # edition: always display all properties
+  edition: [ 'wdt:P407', 'wdt:P1476', 'wdt:P577' ]
 
 module.exports =
   create: (options)->
