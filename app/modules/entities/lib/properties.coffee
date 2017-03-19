@@ -20,6 +20,8 @@ addProp 'wdt:P921', 'entity', 'topics', true, false
 addProp 'wdt:P179', 'entity', 'series', false, false
  # editions (inverse of wdt:P629)
 addProp 'wdt:P747', 'fixed-entity', null, true, false
+# original language of work
+addProp 'wdt:P364', 'entity', 'languages', true, null
 
 ## edition
 addProp 'wdt:P629', 'fixed-entity', null, false, null

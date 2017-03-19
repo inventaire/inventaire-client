@@ -11,10 +11,10 @@ commonsSeriesWorks =
 module.exports = propertiesPerType =
   work: _.extend {}, commonsSeriesWorks,
     # 'wdt:P31: {}' # instance of (=> works aliases)
+    'wdt:P577': {} # publication date
     # 'wdt:P110': {} # illustrator
-    # 'wdt:P577': {} # publication date
     'wdt:P179': {} # series
-    # 'wdt:P364': {} # original language of work
+    'wdt:P364': {} # original language of work
     # 'wdt:P1476': {} # title (using P364 lang)
     # 'wdt:P1680': {} # subtitle (using P364 lang)
     # 'wdt:P155': {} # follow
