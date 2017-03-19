@@ -151,7 +151,7 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'show:entity:create', data
 
   createPreviousAndUpdateCurrentModel: ->
-    unless @previousData? then _.preq.resolved
+    unless @previousData? then return _.preq.resolved
     @createPrevious()
     .then (previousEntityModel)=>
       claims = @model.get 'claims'
