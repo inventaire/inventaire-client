@@ -68,6 +68,9 @@ module.exports = (_)->
 
   isPositiveIntegerString: (str)-> _.isString(str) and /^\d+$/.test str
 
+  isNonEmptyPlainObject: (obj)->
+    _.isPlainObject(obj) and Object.keys(obj).length > 0
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->

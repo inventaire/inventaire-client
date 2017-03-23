@@ -10,8 +10,9 @@ App = Marionette.Application.extend
     @vent.Trigger = BindedPartialBuilder @vent, 'trigger'
     @once 'start', onceStart
 
-    navigateFromModel = (model, pathAttribute='pathname')->
-      @navigate model.get(pathAttribute), { metadata: model.updateMetadata() }
+    navigateFromModel = (model, pathAttribute='pathname', options={})->
+      options.metadata = model.updateMetadata()
+      @navigate model.get(pathAttribute), options
 
     # Make it a binded function so that it can be reused elsewhere without
     # having to bind it again

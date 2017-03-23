@@ -40,6 +40,7 @@ Updater = (fixedOptions)->
       if modelIdLabel? then body[modelIdLabel] = model.id
 
       promise = _.preq.put endpoint, body
+      .then applyHookUpdates(model)
       .tap ConfirmUpdate(model, attribute, value)
       .catch rollbackUpdate.bind(null, options)
 
@@ -49,6 +50,13 @@ Updater = (fixedOptions)->
         selector: selector
 
     return promise
+
+# Updating an attributes may trigger other attributes to be updated
+# which are then passed in the server response as an 'udpate' object
+# Ex: group 'name' update triggers an update of the 'slug'
+applyHookUpdates = (model)-> (updateRes)->
+  { update } = updateRes
+  if _.isNonEmptyPlainObject(update) then model.set update
 
 # trigger events when the server confirmed the change
 ConfirmUpdate = (model, attribute, value)->

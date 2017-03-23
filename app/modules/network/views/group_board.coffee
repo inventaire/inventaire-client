@@ -9,6 +9,7 @@ module.exports = Marionette.LayoutView.extend
     return "groupBoard #{standalone}"
 
   initialize: ->
+    { @standalone } = @options
     @initPlugin()
     @listenTo @model, 'action:leave', @render.bind(@)
 
@@ -74,8 +75,9 @@ module.exports = Marionette.LayoutView.extend
     @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
 
   initSettings: ->
-    if @options.standalone and @model.mainUserIsAdmin()
+    if @standalone and @model.mainUserIsAdmin()
       @showSettings()
+      @listenTo @model, 'change:slug', @updateRoute.bind(@)
     else
       # begin with group_settings closed
       @toggleUi 'groupSettings'
@@ -106,6 +108,9 @@ module.exports = Marionette.LayoutView.extend
 
   showFriendsInvitor: ->
     @groupInvite.show @getFriendsInvitorView()
+
+  updateRoute: ->
+    app.navigateFromModel @model, 'boardPathname', { preventScrollTop: true }
 
 sectionsData =
   settings:

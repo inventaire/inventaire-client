@@ -21,6 +21,8 @@ module.exports =
         'network/groups/nearby(/)':'showNearbyGroups'
 
         'network/groups/settings/:id(/)': 'showGroupBoard'
+        # Redirect to 'network/groups/user'
+        'network/groups/settings(/)':'showUserGroups'
 
         # legacy redirections
         'network/friends(/)':'showFriends'
