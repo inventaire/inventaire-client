@@ -6,7 +6,7 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/author_layout'
   className: ->
     # Default to wrapped mode in non standalone mode
-    secondClass = if @standalone then 'standalone' else 'wrapped'
+    secondClass = if @options.standalone then 'standalone' else 'wrapped'
     return "authorLayout #{secondClass}"
 
   behaviors:
