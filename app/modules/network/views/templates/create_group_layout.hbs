@@ -1,12 +1,9 @@
 <label for="nameField">{{I18n 'group name'}}</label>
 <div class="inputContainer">
-  <input id="nameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}">
+  <input id="nameField" class="groupNameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}">
 </div>
 
-<p class="group-url hidden">
-  <span>{{I18n 'group URL:'}}</span>
-  <span id="groupUrl"></span>
-</p>
+{{partial 'network:group_url'}}
 
 <label for="description">{{i18n 'description'}}</label>
 {{textarea description}}

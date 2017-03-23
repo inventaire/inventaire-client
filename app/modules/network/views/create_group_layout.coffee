@@ -6,6 +6,7 @@ forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
 groupPlugin = require '../plugins/group'
 groupFormData = require '../lib/group_form_data'
+{ ui:groupUrlUi, events:groupUrlEvents, LazyUpdateUrl } = require '../lib/group_url'
 
 module.exports = Marionette.LayoutView.extend
   id: 'createGroupLayout'
@@ -19,44 +20,30 @@ module.exports = Marionette.LayoutView.extend
   regions:
     invite: '#invite'
 
-  ui:
+  ui: _.extend {}, groupUrlUi,
     nameField: '#nameField'
-    groupUrlWrapper: 'p.group-url'
-    groupUrl: '#groupUrl'
     description: '#description'
     searchabilityToggler: '#searchabilityToggler'
     searchabilityWarning: '.searchability .warning'
 
   initialize: ->
     @initPlugin()
+    @_lazyUpdateUrl = LazyUpdateUrl @
+
+  # Allows to define @_lazyUpdateUrl after events binding
+  lazyUpdateUrl: -> @_lazyUpdateUrl()
 
   initPlugin: ->
     groupPlugin.call @
 
-  events:
+  events: _.extend {}, groupUrlEvents,
     'click #createGroup': 'createGroup'
     'change #searchabilityToggler': 'toggleSearchabilityWarning'
     'click #showPositionPicker': 'showPositionPicker'
-    'keyup #nameField': 'lazyUpdateUrl'
 
   serializeData: ->
     description: groupFormData.description()
     searchability: groupFormData.searchability()
-
-  lazyUpdateUrl: ->
-    @_lazyUpdateUrl or= _.debounce @updateUrl.bind(@), 200
-    @_lazyUpdateUrl()
-
-  updateUrl: ->
-    name = @ui.nameField.val()
-    console.log('name', name)
-    if _.isNonEmptyString name
-      _.preq.get app.API.groups.slug(name)
-      .then (res)=>
-        @ui.groupUrl.text "#{window.location.root}/groups/#{res.slug}"
-        @ui.groupUrlWrapper.show()
-    else
-      @ui.groupUrlWrapper.hide()
 
   toggleSearchabilityWarning: ->
     @ui.searchabilityWarning.slideToggle()

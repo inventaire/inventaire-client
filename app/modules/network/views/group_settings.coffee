@@ -6,6 +6,7 @@ PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 groupFormData = require '../lib/group_form_data'
 getActionKey = require 'lib/get_action_key'
 error_ = require 'lib/error'
+{ ui:groupUrlUi, events:groupUrlEvents, LazyUpdateUrl } = require '../lib/group_url'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
@@ -20,6 +21,10 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @, 200, true
+    @_lazyUpdateUrl = LazyUpdateUrl @
+
+  # Allows to define @_lazyUpdateUrl after events binding
+  lazyUpdateUrl: -> @_lazyUpdateUrl()
 
   serializeData: ->
     attrs = @model.serializeData()
@@ -35,17 +40,18 @@ module.exports = Marionette.ItemView.extend
     field:
       value: groupName
       placeholder: groupName
+      classes: 'groupNameField'
     button:
       text: _.I18n 'save'
     check: true
 
-  ui:
+  ui: _.extend {}, groupUrlUi,
     editNameField: '#editNameField'
     description: '#description'
     saveCancel: '.saveCancel'
     searchabilityWarning: '.searchability .warning'
 
-  events:
+  events: _.extend {}, groupUrlEvents,
     'click #editNameButton': 'editName'
     'click a#changePicture': 'changePicture'
     'change #searchabilityToggler': 'toggleSearchability'
