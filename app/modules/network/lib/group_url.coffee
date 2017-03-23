@@ -7,12 +7,14 @@ module.exports =
   events:
     'keyup .groupNameField': 'lazyUpdateUrl'
 
-  LazyUpdateUrl: (view)-> _.debounce updateUrl.bind(view), 200
+  LazyUpdateUrl: (view)->
+    groupId = view.model.id
+    return _.debounce updateUrl.bind(view, groupId), 200
 
-updateUrl = ->
+updateUrl = (groupId)->
   name = @ui.groupNameField.val()
   if _.isNonEmptyString name
-    _.preq.get app.API.groups.slug(name)
+    _.preq.get app.API.groups.slug(name, groupId)
     .then (res)=>
       @ui.groupUrl.text "#{window.location.root}/groups/#{res.slug}"
       @ui.groupUrlWrapper.show()
