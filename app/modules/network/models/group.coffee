@@ -17,7 +17,7 @@ module.exports = Positionable.extend
     @set
       canonical: canonical
       pathname: pathname
-      boardPathname: "/network#{pathname}"
+      boardPathname: "/network/groups/settings/#{slug}"
       # non-persisted category used for convinience on client-side
       tmp: []
 

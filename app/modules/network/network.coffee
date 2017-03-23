@@ -20,7 +20,7 @@ module.exports =
         'network/groups/create(/)':'showCreateGroup'
         'network/groups/nearby(/)':'showNearbyGroups'
 
-        'network/groups/:id(/:name)(/)': 'showGroupBoard'
+        'network/groups/settings/:id(/)': 'showGroupBoard'
 
         # legacy redirections
         'network/friends(/)':'showFriends'
