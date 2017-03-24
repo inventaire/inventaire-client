@@ -43,9 +43,7 @@ specificMethods =
       works: new Works null, { uris: worksUris, defaultType: 'work' }
       articles: new Works null, { uris: articlesUris, defaultType: 'article' }
 
-  buildTitle: ->
-    author = @get 'label'
-    return _.i18n 'books_by_author', { author }
+  buildTitle: -> _.i18n 'books_by_author', { author: @get('label') }
 
 getUri = _.property 'uri'
 
