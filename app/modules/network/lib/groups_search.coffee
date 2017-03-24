@@ -19,6 +19,7 @@ module.exports = (groups)->
     else
       queried.push text
       _.preq.get app.API.groups.search(text)
+      .get 'groups'
 
   addGroupsAndFilterByText = (text, groupsData)->
     if groupsData then groups.add groupsData

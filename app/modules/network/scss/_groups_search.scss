@@ -3,4 +3,8 @@
     margin-bottom: 1em;
     @include radius;
   }
+  .alert-box{
+    // Somehow required to appear just bellow the input
+    margin-top: 0.8em;
+  }
 }

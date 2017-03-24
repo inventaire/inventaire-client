@@ -58,17 +58,14 @@ module.exports = ->
 
   groups.filtered = require('./groups_search')(groups)
 
-  lastGroupFetched = false
-  fetchLastGroupsCreated = ->
-    # prevent it to be queried several times per sessions
-    unless lastGroupFetched
-      lastGroupFetched = true
+  app.reqres.setHandlers
+    'groups:last': ->
       _.preq.get app.API.groups.last
-      .then groups.add.bind(groups)
-      .catch _.ErrorRethrow('fetchLastGroupsCreated')
+      .get 'groups'
 
-  app.commands.setHandlers
-    'fetch:last:groups:created': fetchLastGroupsCreated
+    'groups:search': (text)->
+      _.preq.get app.API.groups.search(text)
+      .get 'groups'
 
 initGroupFilteredCollection = (groups, name)->
   filtered = groups[name] = new FilteredCollection groups

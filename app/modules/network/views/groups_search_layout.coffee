@@ -1,9 +1,17 @@
 GroupsList = require './groups_list'
 updateRoute = require('../lib/update_query_route')('groups', 'searchGroups')
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
+Group = require '../models/group'
+# Not using the ../collections/groups to avoid having a comparator
+Groups = Backbone.Collection.extend { model: Group }
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/groups_search_layout'
   id: 'groupsSearchLayout'
+
+  behaviors:
+    AlertBox: {}
 
   regions:
     'groupsList': '#groupsList'
@@ -16,17 +24,10 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { q } = @options.query
+    q = q.trim()
     @lastSearch = q or ''
-
-    # groups waitForUserData to be initialized
-    # so app.groups will be undefined before
-    app.request 'wait:for', 'user'
-    .then @initSearch.bind(@, q)
-
-  initSearch: (q)->
-    @collection = app.groups.filtered.resetFilters()
-    app.execute 'fetch:last:groups:created'
-    if _.isNonEmptyString q then @searchGroup q
+    @collection = new Groups
+    @searchGroup @lastSearch
 
   serializeData: ->
     groupsSearch:
@@ -54,4 +55,26 @@ module.exports = Marionette.LayoutView.extend
   searchGroup: (text)->
     updateRoute text
     @lastSearch = text
-    @collection.searchByText text
+    @lazySearchByText text
+
+  lazySearchByText: (text)->
+    @_lazySearchByText or= _.debounce @searchByText.bind(@), 100
+    @_lazySearchByText text
+
+  searchByText: (text)->
+    @_searchByText text
+    .catch error_.Complete('#groupSearch', false)
+    .catch forms_.catchAlert.bind(null, @)
+
+  _searchByText: (text)->
+    if _.isNonEmptyString text
+      app.request 'groups:search'
+      .then @_updateCollection.bind(@)
+    else
+      app.request 'groups:last'
+      .then @_updateCollection.bind(@)
+
+  _updateCollection: (groupsData)->
+    @collection.reset()
+    @collection.add groupsData
+    return
