@@ -104,28 +104,9 @@ API =
       else
         API.showScan()
 
-  shortCutGroup: (name)->
-    # initGroupHelpers, during which 'group:search:byName'
-    # is initialized, runs after waitFor user
-    app.request 'wait:for', 'user'
-    # make sure this runs after initGroupHelpers
-    .delay 100
-    # search group by name
-    .then -> app.request 'group:search:byName', name
-    .then (collection)->
-      match = collection.models.filter groupNameMatch.bind(null, name)
-      # if found, show group
-      if match.length is 1 then showGroupInventory match[0]
-      # else show group search
-      else app.execute 'show:group:search', name
-    .catch _.Error('searchGroup err')
-
   shortCutUser: (usernameOrId)-> API.showUserInventory usernameOrId, true
 
 showAddLayout = (tab='search')-> app.layout.main.show new AddLayout { tab }
-
-groupNameMatch = (name, model)->
-  model.get('name').toLowerCase() is name
 
 displayFoundItems = (items)->
   _.log items, 'displayFoundItems items'
