@@ -37,7 +37,7 @@ module.exports =
 API =
   showEntity: (uri, label, params)->
     uri = normalizeUri uri
-    unless _.isEntityUri uri then return app.execute 'show:error:missing'
+    unless _.isExtendedEntityUri uri then return app.execute 'show:error:missing'
 
     app.execute 'show:loader', { region: app.layout.main }
 

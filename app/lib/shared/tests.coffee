@@ -15,6 +15,11 @@ module.exports = (regex_)->
     isItemId: isCouchUuid
     isUsername: bindedTest 'Username'
     isEntityUri: bindedTest 'EntityUri'
+    isExtendedEntityUri: (uri)->
+      [ prefix, id ] = uri.split ':'
+      # Accept alias URIs.
+      # Ex: twitter:Bouletcorp -> wd:Q1524522
+      return _.isNonEmptyString(prefix) and _.isNonEmptyString(id)
     isPropertyUri: bindedTest 'PropertyUri'
     isSimpleDay: bindedTest 'SimpleDay'
 
