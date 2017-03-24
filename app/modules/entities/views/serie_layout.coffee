@@ -16,25 +16,22 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   initialize: ->
+    { @standalone, @refresh } = @options
     # Trigger fetchParts only once the author is in view
     @$el.once 'inview', @fetchParts.bind(@)
 
-  serializeData: ->
-    _.extend @model.toJSON(),
-      standalone: @options.standalone
+  serializeData: -> _.extend @model.toJSON(), { @standalone }
 
   onRender: ->
     @showInfobox()
 
   showInfobox: ->
-    @infobox.show new SerieInfobox
-      model: @model
-      standalone: @options.standalone
+    @infobox.show new SerieInfobox { @model, @standalone }
 
   fetchParts: ->
     behaviorsPlugin.startLoading.call @
 
-    @model.initSerieParts @options.refresh
+    @model.initSerieParts @refresh
     .then @showParts.bind(@)
 
   showParts: ->
@@ -46,4 +43,4 @@ module.exports = Marionette.LayoutView.extend
       title: 'works'
       type: 'work'
       hideHeader: true
-      refresh: @options.refresh
+      refresh: @refresh

@@ -3,14 +3,9 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/feedback_menu'
-
   className: ->
     standalone = if @options.standalone then 'standalone' else ''
     return "feedback-menu #{standalone}"
-
-  onShow: ->
-    unless @options.standalone
-      app.execute 'modal:open'
 
   behaviors:
     Loading: {}
@@ -19,14 +14,16 @@ module.exports = Marionette.ItemView.extend
     General: {}
     PreventDefault: {}
 
-  initialize: -> _.extend @, behaviorsPlugin
+  initialize: ->
+    _.extend @, behaviorsPlugin
+    { @standalone } = @options
 
   serializeData: ->
     loggedIn: app.user.loggedIn
     user: app.user.toJSON()
     contact: contact
     subject: @options.subject
-    standalone: @options.standalone
+    standalone: @standalone
 
   ui:
     unknownUser: '.unknownUser'
@@ -37,6 +34,8 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click a#sendFeedback': 'sendFeedback'
+
+  onShow: -> unless @standalone then app.execute 'modal:open'
 
   sendFeedback: ->
     @startLoading '#sendFeedback'
@@ -57,7 +56,7 @@ module.exports = Marionette.ItemView.extend
     @ui.message.val null
     @ui.confirmation.slideDown()
 
-    if @options.standalone
+    if @standalone
       # simply hide the confirmation so that the user can still send a new feedback
       # and get a new confirmation for it
       setTimeout @hideConfirmation.bind(@), 5000
