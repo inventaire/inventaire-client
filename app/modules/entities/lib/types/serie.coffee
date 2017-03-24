@@ -14,6 +14,7 @@ typesString =
 
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
   initSerieParts: (refresh)->
+    refresh = @getRefresh refresh
     if not refresh and @waitForParts? then return @waitForParts
 
     uri = @get 'uri'

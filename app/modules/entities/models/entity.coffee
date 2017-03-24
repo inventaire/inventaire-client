@@ -28,6 +28,7 @@ module.exports = Backbone.NestedModel.extend
     @type = attrs.type or options.defaultType
 
     @setCommonAttributes attrs
+    @listenForGraphChanges()
 
     # List of promises created from specialized initializers
     # to wait for before triggering @executeMetadataUpdate (see below)
@@ -155,3 +156,14 @@ module.exports = Backbone.NestedModel.extend
     .then (imageObj)->
       url = imageObj?.url
       if url? then return app.API.img(url)
+
+  listenForGraphChanges: ->
+    uri = @get 'uri'
+    @listenTo app.vent, "entity:graph:change:#{uri}", @setRefreshToken.bind(@)
+
+  setRefreshToken: -> @graphChanged = true
+  getRefresh: (refresh)->
+    refresh = refresh or @graphChanged
+    # No need to force refresh until next graph change
+    @graphChanged = false
+    return refresh

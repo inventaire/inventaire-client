@@ -3,6 +3,7 @@ error_ = require 'lib/error'
 isbn_ = require 'lib/isbn'
 createInvEntity = require './inv/create_inv_entity'
 { addModel:addEntityModel } = require 'modules/entities/lib/entities_models_index'
+graphRelationsProperties = require './graph_relations_properties'
 
 createAuthor = (name, lang)->
   _.types arguments, 'strings...'
@@ -70,9 +71,20 @@ byProperty = (options)->
 createEntity = (labels, claims)->
   _.types arguments, 'objects...'
   createInvEntity { labels, claims }
+  .tap triggerEntityGraphChangesEvents(claims)
   .then (entityData)-> new Entity entityData
   # Update the local cache
   .tap addEntityModel
+
+triggerEntityGraphChangesEvents = (claims)-> ()->
+  for prop, values of claims
+    if prop in graphRelationsProperties
+      for value in values
+        # Signal to the entity that it was affected by another entity's change
+        # so that it refreshes it's graph data next time
+        if _.isEntityUri(value) then app.vent.trigger "entity:graph:change:#{value}"
+
+  return
 
 module.exports =
   create: createEntity

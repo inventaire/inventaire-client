@@ -21,6 +21,7 @@ setEbooksData = ->
 
 specificMethods =
   initAuthorWorks: (refresh)->
+    refresh = @getRefresh refresh
     if not refresh and @waitForWorks? then return @waitForWorks
 
     uri = @get 'uri'
