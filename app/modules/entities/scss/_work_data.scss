@@ -42,7 +42,7 @@
       margin-right: 0.5em;
     }
   }
-  .showEntityEdit{
+  .showEntityEdit.pencil{
     color: white;
   }
   .photo-credits{
@@ -59,9 +59,6 @@
   }
   /*Medium to Large screens*/
   @media screen and (min-width: 500px) {
-    .showEntityEdit{
-      @include position(absolute, 0.5em, 0.5em);
-    }
     .attributes{
       min-width: 20em;
     }

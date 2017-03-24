@@ -4,7 +4,9 @@
   {{/if}}
 </div>
 <div class="data">
-  <h3><a href="{{pathname}}" class="showEntity">{{i18n 'edition'}}</a></h3>
+  <div class="entity-title-and-edit">
+    <h3><a href="{{pathname}}" class="showEntity">{{i18n 'edition'}}</a></h3>
+    {{partial 'entities:edit_data' this}}
+  </div>
   {{partial 'entities:edition_claims' this}}
-  {{partial 'entities:edit_data' this}}
 </div>

@@ -32,7 +32,6 @@
     }
   }
   .showEntityEdit.pencil{
-    @include position(absolute, 0, 0);
     @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
   }
   .showEntity{

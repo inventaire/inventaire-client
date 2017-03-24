@@ -55,10 +55,5 @@ $author-data-threshold: 25em;
   /*Medium and Large screens*/
   @media screen and (min-width: $author-data-threshold) {
     min-width: $author-data-threshold;
-    .showEntityEdit.pencil{
-      position: absolute;
-      top: 0.5em;
-      right: 0.5em;
-    }
   }
 }

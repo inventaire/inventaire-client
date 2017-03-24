@@ -74,12 +74,21 @@
   color: $grey;
 }
 
-.showEntityEdit.pencil{
-  @include position(absolute, 20%, 0);
-  font-size: 1.4em;
-  @include text-hover(rgba(white, 0.5), white);
-  margin-top: 0.5em;
-  margin-right: 0.5em;
+.entity-title-and-edit{
+  @include display-flex(row, center, center, wrap);
+  h2, h3, h4, h5{
+    flex: 1 0 auto;
+    // Compensate the .pencil to stay centered
+    margin-left: 1.3em;
+  }
+  .pencil{
+    font-size: 1.4em;
+    @include text-hover(rgba(white, 0.5), white);
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      font-size: 1.2em;
+    }
+  }
 }
 
 .workLayout, .editionLi{

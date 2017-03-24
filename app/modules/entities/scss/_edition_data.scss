@@ -18,7 +18,4 @@
       min-width: 20em;
     }
   }
-  .showEntityEdit.pencil{
-    @include position(absolute, 0.9em, 0);
-  }
 }

@@ -8,11 +8,14 @@
 {{/unless}}
 
 <div class="data">
-  {{#if workPage}}
-    <h2>{{label}}</h2>
-  {{else}}
-    <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
-  {{/if}}
+  <div class="entity-title-and-edit">
+    {{#if workPage}}
+      <h2>{{label}}</h2>
+    {{else}}
+      <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
+    {{/if}}
+    {{partial 'entities:edit_data' this}}
+  </div>
   <p class="uri">{{uri}}</p>
 
   <p class="description {{#if descOverflow}}clamped{{/if}}">
@@ -26,6 +29,5 @@
   {{/if}}
   <div class="attributes">
     {{partial 'entities:work_claims' this}}
-    {{partial 'entities:edit_data' this}}
   </div>
 </div>

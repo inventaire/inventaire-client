@@ -5,13 +5,16 @@
   </div>
 {{/if}}
 <div class="authorData text-center">
-  <h3>
-  {{#if standalone}}
-    {{label}}
-  {{else}}
-    <a class="showEntity link" href="{{pathname}}">{{label}}</a>
-  {{/if}}
-  </h3>
+  <div class="entity-title-and-edit">
+    <h3>
+    {{#if standalone}}
+      {{label}}
+    {{else}}
+      <a class="showEntity link" href="{{pathname}}">{{label}}</a>
+    {{/if}}
+    </h3>
+    {{partial 'entities:edit_data' this}}
+  </div>
   <h4 class="subheader">{{shortDescription}}</h4>
   {{partial 'entities:author_claims' this}}
   <p class="extract">{{{extract}}}</p>
