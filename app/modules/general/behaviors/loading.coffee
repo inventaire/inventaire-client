@@ -5,7 +5,7 @@ module.exports = Marionette.Behavior.extend
     'somethingWentWrong': 'somethingWentWrong'
 
   showSpinningLoader: (e, params={})->
-    { selector, message, timeout } = params
+    { selector, message, timeout } = params
     @$target = @getTarget selector
     # _.log @$target, '@$target'
 
