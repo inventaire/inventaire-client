@@ -7,7 +7,6 @@ module.exports = Marionette.ItemView.extend
     'click #editBio': 'editBio'
     'click #saveBio': 'saveBio'
     'click #cancelBio': 'cancelBio'
-    'click #editPicture': 'editPicture'
     'click a#changePicture': 'changePicture'
     'click a.showGroup': 'showGroup'
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'

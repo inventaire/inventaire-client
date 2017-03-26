@@ -27,7 +27,6 @@ specificMethods =
     uri = @get 'uri'
 
     @waitForWorks = _.preq.get app.API.entities.authorWorks(uri, refresh)
-    .then _.Log("author work - #{uri}")
     .then @initWorksCollections.bind(@)
 
   initWorksCollections: (worksData)->

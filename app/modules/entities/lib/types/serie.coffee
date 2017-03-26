@@ -20,7 +20,6 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
     uri = @get 'uri'
 
     @waitForParts = _.preq.get app.API.entities.serieParts(uri, refresh)
-    .then _.Log("serie parts - #{uri}")
     .then @initPartsCollections.bind(@, refresh)
     .then @importDataFromParts.bind(@)
 
