@@ -4,12 +4,12 @@
     {{{entity this false}}}&nbsp;
   {{/each}}
 </div>
-<div>
-  {{#if claims.wdt:P577}}
+{{#if claims.wdt:P577}}
+  <div>
     {{{prop 'wdt:P577'}}}
     {{dateYear claims.wdt:P577}}
-  {{/if}}
-</div>
+  </div>
+{{/if}}
 {{!-- not so important for most users --}}
 <div>
   {{#if claims.wdt:P212}}
@@ -19,3 +19,9 @@
     <span class="property-value">{{i18n 'inventaire id'}}:</span> {{_id}}
   {{/if}}
 </div>
+{{#if claims.wdt:P957}}
+  <div>
+    {{{prop 'wdt:P957'}}}
+    {{dateYear claims.wdt:P957}}
+  </div>
+{{/if}}
