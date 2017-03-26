@@ -14,6 +14,10 @@ module.exports = Marionette.Behavior.extend
     $wrapper = $(e.target).parents('.checkWrapper')
     if $wrapper.length is 1
       $check = $wrapper.find('.check')
+    # If the target is a .loading element, use it as a check container
+    # (allows to work easily with the Loading behavior: replacing the loader once done)
+    else if $(e.target)[0]?.attributes.class?.value.match(/loading/)
+      $check = $(e.target)
     else
       # console.warn 'deprecated success check form: please use .checkWrapper format'
       $check = $(e.target).find('.check')

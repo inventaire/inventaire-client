@@ -3,7 +3,7 @@ module.exports = (options)->
   # $selector or selector MUST be provided
   # if selector? then $selector = $(selector)
   $selector or= $(selector)
-  $selector.trigger 'loading', {selector: selector}
+  $selector.trigger 'loading', { selector }
 
   # action or promise MUST be provided
   if action? then promise = action()

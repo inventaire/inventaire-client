@@ -19,4 +19,4 @@ savePicture = (pictures)->
   app.request 'user:update',
     attribute: 'picture'
     value: picture
-    selector: '#changePicture'
+    selector: '.changePicture .loading'
