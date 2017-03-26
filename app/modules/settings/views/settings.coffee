@@ -32,11 +32,11 @@ module.exports = Marionette.LayoutView.extend
   tabUpdate: (tab)->
     @setActiveTab tab
 
-    tab = _.I18n tab
+    tabLabel = _.I18n tab
     settings = _.I18n 'settings'
 
     app.navigate "settings/#{tab}",
-      metadata: { title: "#{tab} - #{settings}" }
+      metadata: { title: "#{tabLabel} - #{settings}" }
 
   setActiveTab: (name)->
     tab = "#{name}Title"
