@@ -24,8 +24,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { q } = @options.query
-    q = q.trim()
-    @lastSearch = q or ''
+    @lastSearch = q?.trim() or ''
     @collection = new Groups
     @searchGroup @lastSearch
 
@@ -68,7 +67,7 @@ module.exports = Marionette.LayoutView.extend
 
   _searchByText: (text)->
     if _.isNonEmptyString text
-      app.request 'groups:search'
+      app.request 'groups:search', text
       .then @_updateCollection.bind(@)
     else
       app.request 'groups:last'
