@@ -3,6 +3,10 @@
 
 module.exports =
   wikipedia: (sitelinks, lang, originalLang)->
+    # Wikimedia Commons is confusingly using a sitelink key that makes it look like
+    # a Wikipedia sitelink - commonswiki - thus the need to omit it before proceeding
+    # https://www.wikidata.org/wiki/Help:Sitelinks#Linking_to_Wikimedia_site_pages
+    sitelinks = _.omit sitelinks, 'commonswiki'
     getBestWikiProjectInfo
       sitelinks: sitelinks
       projectBaseName: 'wiki'
@@ -55,7 +59,8 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
     # a sitelink like : for dewiki
     if match.length is 2 and match[1] is ''
       langCode = match[0]
-      return [value, langCode]
+      # Giving priority to 2 letters code languages
+      if langCode.length is 2 then return [value, langCode]
   return []
 
 getEpubLink = (wikisourceData)->

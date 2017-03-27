@@ -59,7 +59,7 @@ setWikipediaExtract = ->
   .catch _.Error('setWikipediaExtract err')
 
 _setWikipediaExtractAndDescription = (extract)->
-  if extract?
+  if _.isNonEmptyString extract
     @set 'extract', extract
     description = @get('description') or ''
     if extract.length > description.length
