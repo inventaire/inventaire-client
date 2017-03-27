@@ -27,6 +27,11 @@ module.exports = Backbone.NestedModel.extend
     @refresh = options?.refresh
     @type = attrs.type or options.defaultType
 
+    if @type is 'meta'
+      # Set placeholder attributes so that the logic hereafter doesn't crash
+      _.extend attrs, placeholderAttributes
+      @set placeholderAttributes
+
     @setCommonAttributes attrs
     @listenForGraphChanges()
 
@@ -167,3 +172,10 @@ module.exports = Backbone.NestedModel.extend
     # No need to force refresh until next graph change
     @graphChanged = false
     return refresh
+
+placeholderAttributes =
+  labels: {}
+  aliases: {}
+  descriptions: {}
+  claims: {}
+  sitelinks: {}
