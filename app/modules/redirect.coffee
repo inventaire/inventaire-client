@@ -116,9 +116,10 @@ showErrorCookieRequired = (command)->
 
 showError = (options)->
   app.layout.main.show new ErrorView options
-  # Navigate so that hitting 'Back' those bring back to the previous page
-  # and not to two pages before
-  app.navigate "error/#{options.name}"
+  # When the logic leading to the error didn't trigger a new 'navigate' action,
+  # hitting 'Back' would bring back two pages before, so we can pass a navigate
+  # option to prevent it
+  if options.navigate then app.navigate "error/#{options.name}"
 
 showCallToConnection = (message)->
   app.layout.modal.show new CallToConnection
