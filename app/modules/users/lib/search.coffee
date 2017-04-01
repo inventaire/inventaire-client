@@ -4,6 +4,8 @@ module.exports = (app)->
 
   app.users.queried = []
 
+  # TODO: replace the local strict match filter and simply display
+  # the last search result send by the server to integrate fuzzy match results
   searchByText = (text)->
     unless _.isNonEmptyString text
       return app.users.filtered.friends()
