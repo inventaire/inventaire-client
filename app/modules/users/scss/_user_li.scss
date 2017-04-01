@@ -255,9 +255,6 @@ $user-bg: #ddd;
   .userMenu{
     @include display-flex(row, center, center);
     white-space: nowrap;
-    a.action{
-      padding: 0 0.3em 0 0.3em;
-    }
     .cancel{
       background-color: $grey;
     }
@@ -278,6 +275,9 @@ $user-bg: #ddd;
 .userLi:not(.friends):not(.group-context) .right-box{
   .userMenu{
     margin-right: 0.2em;
+    a.action{
+      padding: 0 0.3em 0 0.3em;
+    }
   }
 }
 
