@@ -18,7 +18,7 @@ module.exports = EditorCommons.extend
 
   ui:
     input: 'input'
-    langSelector: 'langSelector'
+    langSelector: '.langSelector'
 
   serializeData: ->
     { value, lang } = @getValue()

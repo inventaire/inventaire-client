@@ -24,13 +24,13 @@ module.exports = propertiesPerType =
     'wdt:P747': { customLabel: 'editions' } # editions (inverse of wdt:P629)
 
   edition:
+    'wdt:P1476': { customLabel: 'edition title' }
+    'wdt:P407': { customLabel: 'edition language' }
     'wdt:P629': {} # edition or translation of
     # 'wdt:P31': {} # P31: instance of (=> edition aliases?)
     # P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
     'wdt:P212': {} # ISBN-13
     'wdt:P957': {} # ISBN-10
-    'wdt:P407': { customLabel: 'edition language' }
-    'wdt:P1476': { customLabel: 'edition title' }
     'wdt:P577': {} # publication date
     'wdt:P123': {} # publisher
     'wdt:P1104': {} # number of pages
