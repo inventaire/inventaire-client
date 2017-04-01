@@ -1,6 +1,6 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 { apiDoc } = require 'lib/urls'
-{ host } = window.location
+{ host, protocol } = window.location
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/labs_settings'
@@ -10,33 +10,13 @@ module.exports = Marionette.ItemView.extend
     SuccessCheck: {}
     Loading: {}
 
-  events:
-    'click a#userJsonExport': 'userJsonExport'
-    'click a#itemsJsonExport': 'itemsJsonExport'
-
   initialize: -> _.extend @, behaviorsPlugin
 
   serializeData: ->
-    apiDoc: apiDoc
-    endpoints: endpointsData app.user.get('username')
-
-  itemsJsonExport: -> openDownloadPage app.items.personal.toJSON(), 'items'
-  userJsonExport: -> openDownloadPage app.user.toJSON(), 'user'
-
-openDownloadPage = (data, label)->
-  username = app.user.get 'username'
-  date = new Date().toLocaleDateString()
-  name = "inventaire.io-#{username}-#{label}-#{date}.json"
-  openJsonWindow data, name
-
-endpointDemo = (username, endpoint)->
-  "$ curl #{location.protocol}//#{username}:yourpassword@#{host}/api/#{endpoint}"
-
-endpointsData = (username)->
-  user: endpointDemo username, 'user'
-  items: endpointDemo username, 'items'
-
-openJsonWindow = (obj, windowName)->
-  json = JSON.stringify obj, null, 4
-  data = 'data:application/json;charset=utf-8,' + encodeURI(json)
-  window.open data, windowName
+    username = app.user.get 'username'
+    return {
+      apiDoc: apiDoc
+      inventoryEndpoint: "/api/items?action=by-users&users=#{app.user.id}"
+      userEndpoint: '/api/user'
+      curlBase: "$ curl #{protocol}//#{username}:yourpassword@#{host}"
+    }
