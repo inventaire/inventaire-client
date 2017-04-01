@@ -142,10 +142,8 @@ module.exports = Marionette.LayoutView.extend
     # @showControls()
 
   getItemsListView: ->
-    switch app.request 'inventory:layout'
-      when 'cascade' then ItemsList
-      when 'grid' then ItemsGrid
-      else throw new Error('unknow items list layout')
+    if app.request('inventory:layout') is 'grid' then ItemsGrid
+    else ItemsList
 
   showInventoryWelcome: (user)->
     inventoryWelcome = require './inventory_welcome'
