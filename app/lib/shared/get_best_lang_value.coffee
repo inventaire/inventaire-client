@@ -11,9 +11,9 @@ module.exports = (_)->
     while order.length > 0
       nextLang = order.shift()
       value = data[nextLang]
-      if value? then return value
+      if value? then return { value, lang: nextLang }
 
-    return
+    return {}
 
   getLangPriorityOrder = (lang, originalLang, data)->
     order = [ lang ]

@@ -23,7 +23,7 @@ module.exports = EditorCommons.extend
     value: @getValue()
     disableDelete: true
 
-  getValue: -> getBestLangValue @lang, null, @model.get('labels')
+  getValue: -> getBestLangValue(@lang, null, @model.get('labels')).value
 
   onShow: ->
     @listenTo @model, 'change:labels', @lazyRender

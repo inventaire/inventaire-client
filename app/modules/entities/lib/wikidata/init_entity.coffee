@@ -39,7 +39,7 @@ setAttributes = (lang)->
 
     @set 'label', label
 
-  description = getBestLangValue lang, @originalLang, @get('descriptions')
+  description = getBestLangValue(lang, @originalLang, @get('descriptions')).value
   if description?
     # This may be overriden by a Wikipedia extract
     # Escaping as description are user-generated external content

@@ -95,7 +95,7 @@ module.exports = Backbone.NestedModel.extend
     pathname = "/entity/#{uri}"
 
     @originalLang = wd_.getOriginalLang attrs.claims
-    label = getBestLangValue app.user.lang, @originalLang, attrs.labels
+    label = getBestLangValue(app.user.lang, @originalLang, attrs.labels).value
 
     @set
       uri: uri

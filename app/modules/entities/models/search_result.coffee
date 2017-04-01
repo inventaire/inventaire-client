@@ -11,8 +11,12 @@ module.exports = Filterable.extend
     { lang } = app.user
 
     [ labels, descriptions ] = @gets 'labels', 'descriptions'
-    if labels? then @set 'label', getBestLangValue(lang, null, labels)
-    if descriptions? then @set 'description', getBestLangValue(lang, null, descriptions)
+
+    if labels?
+      @set 'label', getBestLangValue(lang, null, labels).value
+
+    if descriptions?
+      @set 'description', getBestLangValue(lang, null, descriptions).value
 
     [ prefix ] = getPrefix @id
 
