@@ -53,10 +53,10 @@ module.exports = Marionette.LayoutView.extend
 
   # acting on ui objects and not a region.$el as a region
   # doesn't have a $el before being shown
-  toggleUi: (uiLabel, skipToggle=false)->
+  toggleUi: (uiLabel)->
     $el = @ui[uiLabel]
     $parent = $el.parent()
-    unless skipToggle then $el.slideToggle()
+    $el.slideToggle()
     $parent.find('.fa-caret-down').toggleClass 'toggled'
     if $el.visible() then _.scrollTop $parent
 
@@ -83,12 +83,11 @@ module.exports = Marionette.LayoutView.extend
       @_settingsShownOnce = false
 
   toggleSettings: ->
-    if @_settingsShownOnce then @toggleUi 'groupSettings'
+    if @_settingsShownOnce
+      @toggleUi 'groupSettings'
     else
       @showSettings()
-      # no need to slideDown as showing the view
-      # triggers a show action
-      @toggleUi 'groupSettings', true
+      @toggleUi 'groupSettings'
 
   showSettings: ->
     @_settingsShownOnce = true
