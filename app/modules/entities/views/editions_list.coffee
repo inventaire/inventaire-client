@@ -1,6 +1,6 @@
-wdLang = require 'wikidata-lang'
 { partialData, clickEvents } = require './editor/lib/edition_creation'
 error_ = require 'lib/error'
+availableLangList = require 'lib/available_lang_list'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/editions_list'
@@ -46,16 +46,7 @@ module.exports = Marionette.CompositeView.extend
     return _.uniq langs
 
   getAvailableLanguages: (selectedLang)->
-    @getAvailableLangs()
-    .map (lang)->
-      langObj = wdLang.byCode[lang]
-      unless langObj?
-        error_.report "lang not found in wikidata-lang: #{lang}"
-        langObj = { code: lang, label: lang, native: lang }
-
-      langObj = _.clone langObj
-      if langObj.code is selectedLang then langObj.selected = true
-      return langObj
+    availableLangList @getAvailableLangs(), selectedLang
 
   serializeData: ->
     hasEditions: @collection.length > 0

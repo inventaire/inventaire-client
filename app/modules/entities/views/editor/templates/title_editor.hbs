@@ -1,4 +1,11 @@
-<div class="property-label">{{I18n 'title'}}</div>
+<div class="property-label">
+  {{I18n 'title'}}
+  <select class="langSelector" name="language-selector">
+    {{#each availableLangs}}
+      <option value="{{code}}" {{#if selected}}selected{{/if}}>{{native}}</option>
+    {{/each}}
+  </select>
+</div>
 <div class="entity-value-editor">
   {{#if editMode}}
     {{partial 'entities:editor:edit_mode' this}}

@@ -1,5 +1,6 @@
 EditorCommons = require './editor_commons'
 getBestLangValue = sharedLib('get_best_lang_value')(_)
+availableLangList = require 'lib/available_lang_list'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
@@ -17,13 +18,29 @@ module.exports = EditorCommons.extend
 
   ui:
     input: 'input'
+    langSelector: 'langSelector'
 
   serializeData: ->
-    editMode: @editMode
-    value: @getValue()
-    disableDelete: true
+    { value, lang } = @getValue()
+    return {
+      editMode: @editMode
+      value: value
+      disableDelete: true
+      availableLangs: @getAvailableLangs lang
+    }
 
-  getValue: -> getBestLangValue(@lang, null, @model.get('labels')).value
+  getValue: ->
+    if @requestedLang
+      value = @model.get('labels')[@requestedLang]
+      return { value, lang: @requestedLang }
+    else
+      getBestLangValue @lang, null, @model.get('labels')
+
+  getAvailableLangs: (selectedLang)->
+    availableLangs = Object.keys @model.get('labels')
+    { lang:userLang } = app.user
+    unless userLang in availableLangs then availableLangs.push userLang
+    return availableLangList availableLangs, selectedLang
 
   onShow: ->
     @listenTo @model, 'change:labels', @lazyRender
@@ -37,8 +54,20 @@ module.exports = EditorCommons.extend
     'click .save': 'save'
     'click .cancel': 'hideEditMode'
     'keyup input': 'onKeyup'
+    'change .langSelector': 'changeLabelLang'
+
+  changeLabelLang: (e)->
+    @requestedLang = e.currentTarget.value
+
+    if @model.get('labels')[@requestedLang]?
+      if @editMode then @editMode = false
+    else
+      @editMode = true
+
+    @lazyRender()
 
   save: ->
+    lang = @ui.langSelector.val()
     value = @ui.input.val()
     errSelector = ".#{@cid} .has-alertbox"
 
@@ -51,7 +80,7 @@ module.exports = EditorCommons.extend
       @lazyRender()
     else
       # re-render will be triggered by change:labels event listener
-      @model.setLabel @lang, value
+      @model.setLabel lang, value
       .catch error_.Complete(errSelector)
       .catch (err)=>
         # Bring back the edit mode
