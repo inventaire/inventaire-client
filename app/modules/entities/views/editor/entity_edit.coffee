@@ -26,7 +26,16 @@ module.exports = Marionette.LayoutView.extend
     @creationMode = @model.creating
     @requiresLabel = @model.type isnt 'edition'
     @showAdminSection = @userIsAdmin and not @creationMode
-    @waitForPropCollection = @model.waitForSubentities.then @initPropertiesCollections.bind(@)
+
+    { waitForSubentities } = @model
+    # Some entity type don't automatically fetch their subentities
+    # even for the editor, as sub entites are displayed on the entities' page
+    # already
+    waitForSubentities or= _.preq.resolved
+
+    @waitForPropCollection = waitForSubentities
+      .then @initPropertiesCollections.bind(@)
+
     @navigationButtonsDisabled = false
 
     { @next, @relation } = @options

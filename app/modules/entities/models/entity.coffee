@@ -20,7 +20,7 @@ error_ = require 'lib/error'
 #   - Edition
 
 # Progressively extending the whitelist of editable types
-editableTypes = [ 'work', 'edition', 'human' ]
+editableTypes = [ 'work', 'edition', 'human', 'serie' ]
 
 module.exports = Backbone.NestedModel.extend
   initialize: (attrs, options)->
