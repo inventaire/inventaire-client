@@ -57,7 +57,9 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     attrs = _.extend @model.toJSON(), @multiEditData()
     attrs.creationMode = @creationMode
-    attrs.createAndShowLabel = "create and go to the #{attrs.type}'s page"
+    typePossessive = possessives[attrs.type]
+    attrs.createAndShowLabel = "create and go to the #{typePossessive} page"
+    attrs.returnLabel = "return to the #{typePossessive} page"
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
     # Do not show the signal data error button in creation mode
@@ -175,3 +177,9 @@ serializeDraftModel = (model, relation)->
 
 customHeaders =
   'new-work-and-edition': 'can you tell us more about this work and this particular edition?'
+
+possessives =
+  work: "book's"
+  edition: "edition's"
+  serie: "series'"
+  human: "author's"
