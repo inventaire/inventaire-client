@@ -82,11 +82,7 @@ module.exports = Marionette.ItemView.extend
       .catch forms_.catchAlert.bind(null, @)
 
   _updateGroup: (attribute, value, selector)->
-    app.request 'group:update:settings',
-      model: @model
-      attribute: attribute
-      value: value
-      selector: selector
+    app.request 'group:update:settings', { @model, attribute, value, selector }
 
   changePicture: ->
     app.layout.modal.show new PicturePicker

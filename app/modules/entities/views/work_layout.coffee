@@ -35,9 +35,7 @@ module.exports = Marionette.LayoutView.extend
     'click .refreshData': 'refreshData'
 
   showWorkData: ->
-    @workData.show new WorkData
-      model: @model
-      workPage: true
+    @workData.show new WorkData { @model, workPage: true }
 
   showEditions: ->
     @editionsList.show new EditionsList

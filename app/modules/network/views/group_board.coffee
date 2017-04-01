@@ -43,8 +43,7 @@ module.exports = Marionette.LayoutView.extend
     'click .joinRequest': 'requestToJoin'
 
   showHeader: ->
-    @header.show new GroupBoardHeader
-      model: @model
+    @header.show new GroupBoardHeader { @model }
 
   toggleSection: (e)->
     section = e.currentTarget.parentElement.attributes.id.value
@@ -93,8 +92,7 @@ module.exports = Marionette.LayoutView.extend
 
   showSettings: ->
     @_settingsShownOnce = true
-    @groupSettings.show new GroupSettings
-      model: @model
+    @groupSettings.show new GroupSettings { @model }
 
   showJoinRequests: ->
     if @model.requested.length > 0 and @model.mainUserIsAdmin()

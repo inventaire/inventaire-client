@@ -57,9 +57,7 @@ module.exports = Marionette.LayoutView.extend
     if @worksShouldBeShown then @showWorks()
 
   showInfobox: ->
-    @infoboxRegion.show new AuthorInfobox
-      model: @model
-      standalone: @standalone
+    @infoboxRegion.show new AuthorInfobox { @model, @standalone }
 
   showWorks: ->
     # Target specifically .works .loading, so that it doesn't conflict
