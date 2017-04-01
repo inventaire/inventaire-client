@@ -37,16 +37,13 @@ module.exports =
     labelPath = "labels.#{lang}"
     oldValue = @get labelPath
     @set labelPath, value
-    @saveLabel labelPath, oldValue, value
+    @saveLabel labelPath, lang, oldValue, value
 
-  saveLabel: (labelPath, oldValue, value)->
+  saveLabel: (labelPath, lang, oldValue, value)->
     reverseAction = @set.bind @, labelPath, oldValue
     rollback = _.Rollback reverseAction, 'title_editor save'
 
-    _.preq.put app.API.entities.labels.update,
-      id: @id
-      lang: app.user.lang
-      value: value
+    _.preq.put app.API.entities.labels.update, { @id, lang, value }
     .catch rollback
 
   fetchHistory: ->
