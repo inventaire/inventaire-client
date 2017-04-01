@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Exit on error (cf http://jvns.ca/blog/2017/03/26/bash-quirks/)
+set -e
+
 echo -e '\e[0;30mupdating i18n\e[0m'
 ./scripts/build_i18n
 # should run before brunch build
@@ -11,10 +14,11 @@ brunch build --production
 
 echo -e '\e[0;30mgzip js and css files\e[0m'
 source ./scripts/init_gzip_utils
-gzipkeepall public/js
-gzipkeepall public/js/moment
 gzipkeepall public/json
 gzipkeepall public/css
+# Specify a 'js' extension to avoid problems with subfolders
+gzipkeepall public/js js
+gzipkeepall public/js/moment
 
 echo -e '\e[0;30mgzip index.html\e[0m'
 gzip -9kf public/index.html

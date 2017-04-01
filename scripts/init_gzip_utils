@@ -1,8 +1,10 @@
 #!/usr/bin/env zsh
-
 export gzipkeepall(){
+  ext="$2"
+  gzext="${ext}.gz"
+  echo "path $1/${gzext}"
   # delete all the .gz files
   # to avoid catching them in the * on the for loop selector
-  rm -f $1/*gz && echo "deleted $1/*gz"
-  for f in $1/*; do gzip -9kf $f; done;
+  rm -f $1/*${gzext} && echo "deleted $1/${gzext}"
+  for f in $1/*${ext}; do gzip -9kf $f; done;
 }
