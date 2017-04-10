@@ -33,6 +33,9 @@ module.exports = Backbone.NestedModel.extend
       @set placeholderAttributes
 
     @setCommonAttributes attrs
+    # Keep label updated
+    @on 'change:labels', => @setFavoriteLabel @toJSON()
+
     @listenForGraphChanges()
 
     # List of promises created from specialized initializers
@@ -94,14 +97,14 @@ module.exports = Backbone.NestedModel.extend
 
     pathname = "/entity/#{uri}"
 
+    @set { uri, prefix, pathname }
+    @setFavoriteLabel attrs
+
+  # Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'
+  setFavoriteLabel: (attrs)->
     @originalLang = wd_.getOriginalLang attrs.claims
     label = getBestLangValue(app.user.lang, @originalLang, attrs.labels).value
-
-    @set
-      uri: uri
-      prefix: prefix
-      pathname: pathname
-      label: label
+    @set 'label', label
 
   setAltUri: ->
     invId = @get '_id'
