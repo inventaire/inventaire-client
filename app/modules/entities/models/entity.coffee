@@ -167,6 +167,8 @@ module.exports = Backbone.NestedModel.extend
 
   listenForGraphChanges: ->
     uri = @get 'uri'
+    # Set a refresh token so that next time we need to access the entity's graph
+    # we request a refreshed version
     @listenTo app.vent, "entity:graph:change:#{uri}", @setRefreshToken.bind(@)
 
   setRefreshToken: -> @graphChanged = true
