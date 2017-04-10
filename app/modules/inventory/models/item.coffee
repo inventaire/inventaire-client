@@ -1,22 +1,17 @@
 Filterable = require 'modules/general/models/filterable'
 error_ = require 'lib/error'
-updateSnapshotData = require '../lib/update_snapshot_data'
 saveOmitAttributes = require 'lib/save_omit_attributes'
 
 module.exports = Filterable.extend
   url: -> app.API.items.base
 
   validate: (attrs, options)->
-    unless attrs.title? then return "a title must be provided"
-    unless attrs.owner? then return "an owner must be provided"
+    unless attrs.owner? then return 'an owner must be provided'
 
   initialize: (attrs, options)->
     @testPrivateAttributes()
 
-    { entity, title, owner } = attrs
-
-    # replace title with snapshot.title if simply taken from the entity
-    # so that it stays in sync
+    { entity, owner } = attrs
 
     unless _.isEntityUri entity
       throw error_.new "invalid entity URI: #{entity}", attrs
@@ -31,8 +26,6 @@ module.exports = Filterable.extend
 
     @waitForUser = @reqGrab 'get:user:model', owner, 'user'
       .then @setUserData.bind(@)
-
-    @waitForUser.then updateSnapshotData.bind(@)
 
   # Checking that attributes privacy is as expected
   testPrivateAttributes: ->
@@ -62,6 +55,7 @@ module.exports = Filterable.extend
     attrs = @toJSON()
 
     _.extend attrs,
+      title: @get('snapshot.entity:title')
       # @entity will be defined only if @grabEntity was called
       entityData: @entity?.toJSON()
       entityPathname: @entityPathname
@@ -108,7 +102,7 @@ module.exports = Filterable.extend
 
   matchable: ->
     [
-      @get('title')
+      @get('snapshot.entity:title')
       @get('snapshot.entity:authors')
       @username
       @get('details')
@@ -152,7 +146,7 @@ module.exports = Filterable.extend
   getPicture: -> @get('pictures')?[0] or @get('snapshot.entity:image')
 
   findBestTitle: ->
-    title = @get('title')
+    title = @get('snapshot.entity:title')
     transaction = @get 'transaction'
     context = _.i18n "#{transaction}_personalized", { @username }
     return "#{title} - #{context}"

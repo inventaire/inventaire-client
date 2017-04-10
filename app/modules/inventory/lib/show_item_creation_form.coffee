@@ -38,15 +38,11 @@ module.exports = (params)->
 
 createItem = (entity, params)->
   attrs =
-    # copying the title for convinience
-    # as it is used to display and find the item from search
-    title: entity.get 'label'
     entity: entity.get 'uri'
     transaction: guessTransaction params
     listing: app.request 'last:listing:get'
 
-  unless attrs.entity? and attrs.title?
-    throw error_.new 'missing uri or title at item creation from entity', attrs
+  unless attrs.entity? then throw error_.new 'missing uri', attrs
 
   return app.request 'item:create', attrs
 
