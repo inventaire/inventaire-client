@@ -17,6 +17,8 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'user:ready', @lazyRender
     @model.grabEntity()
 
+  onShow: -> app.execute 'modal:open', 'large'
+
   onRender: ->
     @model.waitForEntity.then @showEntity.bind(@)
     @showItemData()

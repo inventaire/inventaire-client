@@ -128,6 +128,7 @@ setHandlers = ->
       # Uses API.showEditEntityFromUri the fetch fresh entity data
       API.showEditEntityFromUri model.get('uri')
     'show:entity:create': showEntityCreate
+    'show:work:with:item:modal': showWorkWithItemModal
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
@@ -226,3 +227,24 @@ existsOrCreateFromSeed = (data)->
   # Add the possibly newly created edition entity to the local index
   # and get it's model
   .then entitiesModelsIndex.add
+
+showWorkWithItemModal = (item)->
+  getWorkEntity item.get('entity')
+  .then _showWorkWithItem(item)
+
+getWorkEntity = (uri)->
+  getEntityModel uri
+  .then (entity)->
+    if entity.type is 'work'
+      return entity
+    else
+      workUri = entity.get 'claims.wdt:P629.0'
+      return getEntityModel workUri
+
+_showWorkWithItem = (item)-> (work)->
+  { currentView } = app.layout.main
+  if currentView instanceof WorkLayout and currentView.model is work
+    currentView.showItemModal item
+  else
+    app.layout.main.show new WorkLayout { model: work, item }
+  app.navigateFromModel item

@@ -134,8 +134,10 @@ showGroupInventory = (group)->
   app.navigateFromModel group
 
 showItemShowFromModel = (model)->
-  app.layout.main.show new ItemShow { model }
-  app.navigateFromModel model
+  app.execute 'show:work:with:item:modal', model
+
+showItemModal = (model)->
+  app.layout.modal.show new ItemShow { model }
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
@@ -181,6 +183,7 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:nearby': API.showInventoryNearby
     'show:inventory:last': API.showInventoryLast
     'show:items': displayFoundItems
+    'show:item:modal': showItemModal
 
   app.reqres.setHandlers
     'item:update': itemActions.update

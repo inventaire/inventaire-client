@@ -13,16 +13,25 @@ module.exports = Marionette.LayoutView.extend
     networkItemsRegion: '.networkItems'
     publicItemsRegion: '.publicItems'
 
+  initialize: ->
+    entityItems.initialize.call @
+    { @item } = @options
+
   serializeData: ->
     _.extend @model.toJSON(),
       canRefreshData: true
 
-  initialize: ->
-    entityItems.initialize.call @
-
   onShow: ->
     @showWorkData()
 
+    if @item? then @showItemModal @item
+    else @completeShow()
+
+  showItemModal: (item)->
+    app.execute 'show:item:modal', item
+    @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
+
+  completeShow: ->
     # Need to wait to know if the user has an instance of this work
     @waitForItems.then @showEntityActions.bind(@)
 
@@ -47,3 +56,10 @@ module.exports = Marionette.LayoutView.extend
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
 
   refreshData: -> app.execute 'show:entity:refresh', @model
+
+  onClosedItemModal: ->
+    @completeShow()
+    app.navigateFromModel @model
+
+  # Close the item modal when another view is shown in place of this layout
+  onDestroy: -> app.execute 'modal:close'

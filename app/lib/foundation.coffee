@@ -5,8 +5,9 @@ module.exports.initialize = (app)->
     'modal:close': modalClose
     'foundation:joyride:start': startJoyride
 
-    # commented-out as it produce an error: can't find #modalContent once closed once
-    # app.layout.modal.reset()
+  # Foundation moves the #modalContent region in its own wrapper div
+  # so we need to recover the desired events manually
+  $('.close-reveal-modal').on 'click', app.vent.Trigger('modal:closed')
 
 foundationReload = (options)->
   # first called on account menu show
