@@ -3,15 +3,15 @@ propertyValue = require 'modules/general/views/behaviors/templates/property_valu
 { SafeString, escapeExpression } = Handlebars
 
 prop = (id)->
-  if /^wdt:P\d+$/.test id then propertyValue {id: id}
-  else propertyValue {id: "wdt:P#{id}"}
+  if /^wdt:P\d+$/.test id then propertyValue { id }
+  else propertyValue { id: "wdt:P#{id}" }
 
 entity = (id, linkify, alt)->
   if id?
     unless typeof alt is 'string' then alt = ''
     app.execute 'uriLabel:update'
     alt = escapeExpression alt
-    return entityValue {id: id, linkify: linkify, alt: alt, label: alt}
+    return entityValue { id, linkify, alt, label: alt }
 
 module.exports =
   prop: prop
