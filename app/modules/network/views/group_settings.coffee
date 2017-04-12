@@ -12,7 +12,6 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/group_settings'
   behaviors:
     AlertBox: {}
-    ConfirmationModal: {}
     ElasticTextarea: {}
     PreventDefault: {}
     SuccessCheck: {}
@@ -155,7 +154,7 @@ module.exports = Marionette.ItemView.extend
     group = @model
     args = { groupName: group.get('name') }
 
-    @$el.trigger 'askConfirmation',
+    app.execute 'ask:confirmation',
       confirmationText: _.i18n confirmationText, args
       warningText: _.i18n warningText
       action: action

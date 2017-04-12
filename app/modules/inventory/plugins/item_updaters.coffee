@@ -28,10 +28,12 @@ module.exports = ->
         setTimeout forms_.catchAlert.bind(null, @, err), 500
 
     itemDestroy: ->
-      afterDestroy = @afterDestroy or cb = -> console.log 'item deleted'
+      afterDestroy = @afterDestroy?.bind(@) or cb = -> console.log 'item deleted'
+      itemDestroyBack = @itemDestroyBack?.bind(@)
       app.request 'item:destroy',
         model: @model
         selector: @uniqueSelector
         next: afterDestroy
+        back: itemDestroyBack
 
   return

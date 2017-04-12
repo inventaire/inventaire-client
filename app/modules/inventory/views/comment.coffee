@@ -15,7 +15,6 @@ module.exports = Marionette.ItemView.extend
 
   behaviors:
     AlertBox: {}
-    ConfirmationModal: {}
     ElasticTextarea: {}
 
   initialize: ->
@@ -48,6 +47,9 @@ module.exports = Marionette.ItemView.extend
 
   requestDeletion: ->
     app.request 'comments:delete', @model, @
+
+  # TODO: implement to allow coming back from the delete modal
+  # deleteCommentBack: ->
 
   escapeEditMode: (e)->
     key = getActionKey e

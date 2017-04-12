@@ -16,7 +16,6 @@ module.exports = Marionette.ItemView.extend
     SuccessCheck: {}
     Loading: {}
     ElasticTextarea: {}
-    ConfirmationModal: {}
     PreventDefault: {}
     Unselect: {}
 

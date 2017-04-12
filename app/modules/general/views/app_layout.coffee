@@ -4,6 +4,7 @@ showViews = require '../lib/show_views'
 IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
 initDynamicBackground = require '../lib/dynamic_background'
+ConfirmationModal = require './confirmation_modal'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -43,6 +44,7 @@ module.exports = Marionette.LayoutView.extend
       'current:username:hide': @hideCurrentUsername
       'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
       'show:feedback:menu': @showFeedbackMenu
+      'ask:confirmation': @askConfirmation.bind(@)
 
     app.reqres.setHandlers
       'waitForCheck': waitForCheck
@@ -91,6 +93,8 @@ module.exports = Marionette.LayoutView.extend
   hideTopBar: ->
     @main.$el.addClass 'no-topbar'
     @ui.topBar.hide()
+
+  askConfirmation: (options)-> @modal.show new ConfirmationModal(options)
 
 initWindowResizeEvents = ->
   previousScreenMode = _.smallScreen()

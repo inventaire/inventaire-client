@@ -9,7 +9,6 @@ module.exports = EditorCommons.extend
 
   behaviors:
     AlertBox: {}
-    ConfirmationModal: {}
 
   ui:
     input: inputSelector

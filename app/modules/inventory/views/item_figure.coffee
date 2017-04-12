@@ -11,7 +11,6 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/item_figure'
   behaviors:
     PreventDefault: {}
-    ConfirmationModal: {}
     AlertBox: {}
 
   initialize: ->

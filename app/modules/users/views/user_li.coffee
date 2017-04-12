@@ -12,7 +12,6 @@ module.exports = Marionette.ItemView.extend
 
   behaviors:
     PreventDefault: {}
-    ConfirmationModal: {}
     SuccessCheck: {}
 
   events:

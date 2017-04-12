@@ -1,6 +1,3 @@
-# REQUIRED:
-# - ConfirmationModal behavior
-
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 events =
@@ -17,14 +14,11 @@ events =
   'click .makeAdmin': 'makeAdmin'
   'click .kick': 'kick'
 
-confirmAction = (actionLabel, actionFn, warningText)->
+confirmAction = (actionLabel, action, warningText)->
   confirmationText = _.I18n "#{actionLabel}_confirmation",
     username: @model.get 'username'
 
-  @$el.trigger 'askConfirmation',
-    confirmationText: confirmationText
-    warningText: warningText
-    action: actionFn
+  app.execute 'ask:confirmation', { confirmationText, warningText, action }
 
 confirmUnfriend = ->
   confirmAction.call @, 'unfriend', app.Request('unfriend', @model)

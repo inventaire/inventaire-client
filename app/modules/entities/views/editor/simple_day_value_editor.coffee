@@ -11,7 +11,6 @@ module.exports = EditorCommons.extend
   template: require './templates/simple_day_value_editor'
   behaviors:
     AlertBox: {}
-    ConfirmationModal: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @

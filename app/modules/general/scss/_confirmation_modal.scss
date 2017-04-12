@@ -1,5 +1,14 @@
 .confirmationModal{
   text-align: center;
+  // Mimicking .reveal-modal .close-reveal-modal
+  #back{
+    position: absolute;
+    font-weight: bold;
+    font-size: 2.5;
+    color: #aaaaaa;
+    top: 1.2rem;
+    left: 0.8rem;
+  }
   .check{
     margin-top: 1em;
   }

@@ -7,7 +7,6 @@ module.exports = EditorCommons.extend
   behaviors:
     AlertBox: {}
     AutoComplete: {}
-    ConfirmationModal: {}
     Tooltip: {}
     PreventDefault: {}
 

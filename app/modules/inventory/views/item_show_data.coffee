@@ -11,7 +11,6 @@ module.exports = Marionette.LayoutView.extend
     commentsRegion: '#comments'
 
   behaviors:
-    ConfirmationModal: {}
     ElasticTextarea: {}
     AlertBox: {}
 
@@ -44,7 +43,6 @@ module.exports = Marionette.LayoutView.extend
     if app.user.loggedIn then @showTransactions()
 
   events:
-    'click a#destroy': 'itemDestroy'
     'click a#editDetails, a#cancelDetailsEdition': 'toggleDetailsEditor'
     'click a#validateDetails': 'validateDetails'
     'click a#editNotes, a#cancelNotesEdition': 'toggleNotesEditor'
@@ -53,11 +51,9 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: -> @model.serializeData()
 
-  itemDestroy: ->
-    app.request 'item:destroy',
-      model: @model
-      selector: @uniqueSelector
-      next: -> app.execute 'show:home'
+  # itemDestroy is in item_updaters
+  itemDestroyBack: -> app.execute 'show:item:modal', @model
+  afterDestroy: -> app.execute 'show:home'
 
   toggleDetailsEditor: -> @toggleEditor('details')
   toggleNotesEditor: -> @toggleEditor('notes')

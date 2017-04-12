@@ -29,22 +29,22 @@ module.exports =
     .catch rollbackUpdate(item, itemAttributesBefore)
 
   destroy: (options)->
-    # requires the ConfirmationModal behavior to be on the view
     # MUST: selector, model with title
     # CAN: next
-    { model, selector, next } = options
+    { model, selector, next, back } = options
     _.types [model, selector, next], ['object', 'string', 'function']
-    title = model.get('title')
+    title = model.get('snapshot.entity:title')
 
     action = ->
       model.destroy()
       .tap -> app.user.trigger 'items:change', model.get('listing'), null
       .then next
 
-    $(selector).trigger 'askConfirmation',
-      confirmationText: _.i18n('destroy_item_text', {title: title})
-      warningText: _.i18n("this action can't be undone")
+    app.execute 'ask:confirmation',
+      confirmationText: _.i18n 'destroy_item_text', { title }
+      warningText: _.i18n "this action can't be undone"
       action: action
+      back: back
 
 rollbackUpdate = (item, itemAttributesBefore)-> (err)->
   item.set itemAttributesBefore

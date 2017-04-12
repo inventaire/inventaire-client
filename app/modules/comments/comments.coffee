@@ -53,10 +53,10 @@ updateComment = (commentModel, newMessage)->
     id: commentModel.id
     message: newMessage
 
-# requires the view to register to the ConfirmationModal behavior
 deleteComment = (commentModel, view)->
-  view.$el.trigger 'askConfirmation',
+  app.execute 'ask:confirmation',
     confirmationText: _.i18n 'comment_delete_confirmation'
     warningText: _.i18n 'cant_undo_warning'
     action: commentModel.destroy.bind(commentModel)
     selector: view.uniqueSelector
+    back: view.deleteCommentBack?.bind view

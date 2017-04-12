@@ -13,7 +13,6 @@ module.exports = Marionette.ItemView.extend
     AlertBox: {}
     SuccessCheck: {}
     Loading: {}
-    ConfirmationModal: {}
     TogglePassword: {}
 
   ui:
@@ -92,7 +91,7 @@ module.exports = Marionette.ItemView.extend
 
   askConfirmation: (action, args)->
     { usernameCaseChange } = args
-    @$el.trigger 'askConfirmation',
+    app.execute 'ask:confirmation',
       confirmationText: _.i18n('username_change_confirmation', args)
       # no need to show the warning if it's just a case change
       warningText: _.i18n('username_change_warning')  unless usernameCaseChange
@@ -196,7 +195,7 @@ module.exports = Marionette.ItemView.extend
 
   askDeleteAccountConfirmation: ->
     args = { username: @model.get('username') }
-    @$el.trigger 'askConfirmation',
+    app.execute 'ask:confirmation',
       confirmationText: _.i18n('delete_account_confirmation', args)
       warningText: _.i18n 'delete_account_warning'
       action: @model.deleteAccount.bind(@model)

@@ -46,7 +46,7 @@ module.exports = Marionette.ItemView.extend
   delete: ->
     action = => @_save null
 
-    @$el.trigger 'askConfirmation',
+    app.execute 'ask:confirmation',
       confirmationText: _.i18n 'Are you sure you want to delete this statement?'
       action: action
 
