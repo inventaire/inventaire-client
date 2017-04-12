@@ -49,7 +49,7 @@ module.exports = Filterable.extend
     @userReady = true
     @trigger 'user:ready'
 
-  setPathname: -> @set 'pathname', 'items/' + @id
+  setPathname: -> @set 'pathname', '/items/' + @id
 
   serializeData: ->
     attrs = @toJSON()
