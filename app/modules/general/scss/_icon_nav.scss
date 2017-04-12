@@ -12,9 +12,10 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
     @include position(fixed, $topbar-height, null, 0);
     width: $iconNavWidth;
   }
-  // when the window is resized, an horizontal scroll may appear
-  // in which case, you don't want the icon_nav to appear behind the items
-  z-index: 20;
+  // - When the window is resized, an horizontal scroll may appear
+  //   in which case, you don't want the icon_nav to appear behind the items
+  // - Foundation modal has a z-index of 1004
+  z-index: 1005;
 }
 
 .innerIconNav{
