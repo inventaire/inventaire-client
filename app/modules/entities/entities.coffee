@@ -245,6 +245,9 @@ _showWorkWithItem = (item)-> (work)->
   { currentView } = app.layout.main
   if currentView instanceof WorkLayout and currentView.model is work
     currentView.showItemModal item
+    # Do not scroll top as the modal might be displayed down at the level
+    # where the item show event was triggered
+    app.navigateFromModel item, { preventScrollTop: true }
   else
     app.layout.main.show new WorkLayout { model: work, item }
-  app.navigateFromModel item
+    app.navigateFromModel item
