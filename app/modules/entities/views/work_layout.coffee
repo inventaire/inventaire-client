@@ -35,7 +35,11 @@ module.exports = Marionette.LayoutView.extend
     # Need to wait to know if the user has an instance of this work
     @waitForItems.then @showEntityActions.bind(@)
 
-    @model.waitForSubentities.then @showEditions.bind(@)
+    @model.waitForSubentities
+    # Let the time to the collection to the edition collection to initialize,
+    # otherwise it seems to mess with the filter/render process
+    .delay 10
+    .then @showEditions.bind(@)
 
   onRender: -> entityItems.onRender.call @
 

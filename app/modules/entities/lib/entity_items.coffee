@@ -10,6 +10,9 @@ module.exports =
   onRender: ->
     @waitForItems
     .then =>
+      # Happens when app/modules/entities/views/editions_list.coffee
+      # are displayed within work_layout and thus re-redered on filter
+      if @isDestroyed then return
       if app.user.loggedIn
         @showPersonalItems()
         @showNetworkItems()
@@ -42,12 +45,6 @@ entityItemsMethods =
   # Relies on the collection being already filled with all the items as the hereafter
   # created collections won't update on 'add' events from baseCollections
   showItemsPreviews: (category)->
-    unless @isRendered
-      # May happen for not totally clear reasons that might be linked to
-      # app/modules/entities/views/editions_list.coffee re-rendering views
-      _.warn "showItemsPreviews was called before the view was rendered"
-      return
-
     allUris = @model.get 'allUris'
     itemsModels = app.items[category].byEntityUris allUris
     if itemsModels.length is 0 then return
