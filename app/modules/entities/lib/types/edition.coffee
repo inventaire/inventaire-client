@@ -51,7 +51,6 @@ startListeningForClaimsChanges = ->
   return
 
 specificMethods =
-  getAuthorsString: -> @waitForWork.then (work)-> work.getAuthorsString()
   buildTitleAsync: -> @waitForWork.then (work)-> work.buildTitle()
 
   setLang: ->
