@@ -15,7 +15,10 @@
   }
   .work-instances{
     @include display-flex(column, center, space-around);
-    padding: 2em;
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      padding: 2em;
+    }
   }
   > .items-lists, .entityActions{
     margin-top: 2em;
