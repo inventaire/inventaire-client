@@ -1,6 +1,7 @@
 BindedPartialBuilder = require 'lib/binded_partial_builder'
 updateMetadata = require 'lib/metadata/update'
 initialUrlNavigateAlreadyCalled = false
+error_ = require 'lib/error'
 
 App = Marionette.Application.extend
   initialize: ->
@@ -11,17 +12,23 @@ App = Marionette.Application.extend
     @once 'start', onceStart
 
     navigateFromModel = (model, pathAttribute='pathname', options={})->
+      # Polymorphism
+      if _.isObject pathAttribute
+        options = pathAttribute
+        pathAttribute = 'pathname'
+
       options.metadata = model.updateMetadata()
-      @navigate model.get(pathAttribute), options
+      route = model.get pathAttribute
+      if _.isNonEmptyString route
+        @navigate route, options
+      else
+        error_.report "navigation model has no #{pathAttribute} attribute", model
 
     # Make it a binded function so that it can be reused elsewhere without
     # having to bind it again
     @navigateFromModel = navigateFromModel.bind @
 
   navigate: (route, options={})->
-    unless _.isString route
-      return _.error new Error("invalid route, can't navigate: #{route}")
-
     # Update metadata before testing if the route changed
     # so that a call from a router action would trigger a metadata update
     # but not affect the history (due to the early return hereafter)
