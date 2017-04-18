@@ -5,9 +5,9 @@ module.exports.initialize = (app)->
     'modal:close': modalClose
     'foundation:joyride:start': startJoyride
 
-  # Foundation moves the #modalContent region in its own wrapper div
-  # so we need to recover the desired events manually
-  $('.close-reveal-modal').on 'click', app.vent.Trigger('modal:closed')
+  # Aliasing Foundation event
+  # http://foundation.zurb.com/sites/docs/v/5.5.3/components/reveal.html
+  $('body').on 'closed.fndtn.reveal', app.vent.Trigger 'modal:closed'
 
 foundationReload = (options)->
   # first called on account menu show
