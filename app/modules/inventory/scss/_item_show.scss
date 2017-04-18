@@ -1,28 +1,82 @@
+@mixin entity-data-box-grey(){
+  margin: 0.2em 0;
+  @include bg-hover(#f3f3f3);
+}
+
 #itemShowLayout{
-  #itemData{
-    flex: 1;
+  padding: 1em;
+  position: relative;
+  .one{
   }
-  @import 'item_show_data';
-  #entityData{
-    #work, #edition{
-      @extend .dark-panel;
+  .two{
+    max-width: 30em;
+  }
+  a.edition, a.work{
+    @include entity-data-box-grey;
+    @include display-flex(column, center, center);
+    margin-bottom: 2em;
+  }
+  .section-label{
+    color: $grey;
+    display: block;
+  }
+  .identifier{
+    font-size: 0.7em;
+    color: $grey;
+  }
+  .title{
+    font-size: 1.1em;
+    margin-top: 0.5em;
+  }
+  .title, .authors, .work-label{
+    font-weight: bold;
+  }
+  .remove-button{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    @include shy(0.9);
+    .fa{
+      font-size: 1.1em;
     }
-    #edition{
-      background-color: lighten($dark-grey, 20%);
-      &:empty{
-        display: none;
+    &:hover{
+      @include tiny-button-padding;
+      border-radius: $global-radius;
+      background-color: $dangerous-color;
+      padding: 0.2em 0.4em 0.2em 0.6em;
+      color: white;
+      .fa{
+        padding-left: 0.2em;
       }
     }
   }
-  @include display-flex(column, center, center);
-  > div{
-    width: 100%;
-    max-width: 50em;
-    textarea{
-      @include radius;
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    @include display-flex(column, stretch, center);
+    .one{
+      margin-bottom: 1em;
+    }
+    .two{
+    }
+    .title{
+      padding: 0.5em;
     }
   }
-  .button-group{
-    margin-bottom: 1em;
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    @include display-flex(row, flex-start, center);
+    .one{
+      flex: 1 0 0;
+      max-width: 15em;
+      margin-right: 1em;
+    }
+    .two{
+      flex: 2 0 0;
+      margin: 0 auto;
+      padding-bottom: 1em;
+    }
   }
+
+  @import 'item_show_data';
 }

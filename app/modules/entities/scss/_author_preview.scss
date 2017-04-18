@@ -1,0 +1,20 @@
+.author-preview{
+  a{
+    @include entity-data-box-grey;
+    @include display-flex(row, center, flex-start);
+    .image{
+      width: 64px;
+      height: 64px;
+    }
+    .summary-data{
+      @include display-flex(column, center, center);
+      flex: 1 0 auto;
+      .name{
+        line-height: 1.2em;
+      }
+      .birth-death-dates{
+        line-height: 1em;
+      }
+    }
+  }
+}

@@ -1,7 +1,20 @@
-<div id="entityData">
-  <div id="work"></div>
-  <div id="edition"></div>
-</div>
+<div class="one">
+  <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
+    <img src="{{src snapshot.entity:image 400}}">
+    <span class="title">{{snapshot.entity:title}}</span><br>
+    {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}
+      <span class="identifier">ISBN: {{entityData.claims.wdt:P212}}</span>
+    {{/if}}{{/if}}
+  </a>
+  {{#if entityIsEdition}}
+    <span class="section-label">{{I18n 'wdt:P629'}}</span>
+    <a class="work showEntity" href="{{work.pathname}}">
+      <span class="work-label">{{work.label}}</span>
+    </a>
+  {{/if}}
 
-<div id="itemData"></div>
-{{partial 'welcome:embedded_welcome'}}
+  <span class="section-label">{{I18n 'authors'}}</span>
+  <ul class="authors"></ul>
+  <p class="series">{{snapshot.entity:series}}</p>
+</div>
+<div id="itemData" class="two"></div>

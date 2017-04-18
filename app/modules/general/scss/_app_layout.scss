@@ -28,6 +28,9 @@ body{
     // which would not be possible if main was smaller than the screen
     min-height: 100vh;
   }
+  #modal{
+    padding: 0.5em;
+  }
 }
 
 /*Large screens*/

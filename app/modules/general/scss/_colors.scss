@@ -4,6 +4,7 @@ $warning-color: #E13A00; // Foundation variable
 $success-color: #4EBA76; // Foundation variable
 $light-blue: #319CC2;
 $link-blue: #3243BB;
+$dangerous-color: #ff4e4e;
 
 $grey: #737477;
 $dark-grey: #222;
@@ -40,6 +41,8 @@ $public-color-text: $dark-grey;
 $facebook-color: #425F9C;
 $twitter-color: #55ACEE;
 $tumblr-color: #36465D;
+
+@import 'colors_mixins';
 
 .secondary-button{
   background-color: $secondary-color;

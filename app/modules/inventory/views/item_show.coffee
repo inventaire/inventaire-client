@@ -2,35 +2,37 @@ WorkData = require 'modules/entities/views/work_data'
 EditionData = require 'modules/entities/views/edition_data'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 ItemShowData = require './item_show_data'
+AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
 
 module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
   template: require './templates/item_show'
   regions:
-    workRegion: '#work'
-    editionRegion: '#edition'
     itemData: '#itemData'
+    authors: '.authors'
 
   initialize: ->
     @lazyRender = _.LazyRender @
-    # use lazyRender to let the time to the item model to setUserData
-    @listenTo @model, 'user:ready', @lazyRender
-    @model.grabEntity()
+    @waitForEntity = @model.grabEntity()
+    @waitForAuthors = @model.work.getAuthorsModels()
 
-  onShow: -> app.execute 'modal:open', 'large'
+    @listenTo @model, 'grab', @lazyRender
+
+  serializeData: ->
+    attrs = @model.serializeData()
+    attrs.work = @model.work.toJSON()
+    return attrs
+
+  onShow: ->
+    app.execute 'modal:open', 'large'
 
   onRender: ->
-    @model.waitForEntity.then @showEntity.bind(@)
     @showItemData()
-
-  showEntity: (entity)->
-    type = entity.get 'type'
-    if type is 'edition'
-      entity.waitForWork.then @showEntity.bind(@)
-      @editionRegion.show new EditionData { model: entity }
-    else
-      @workRegion.show new WorkData
-        model: entity
-        hidePicture: true
+    @waitForAuthors.then @showAuthorsPreviewList.bind(@)
 
   showItemData: -> @itemData.show new ItemShowData { @model }
+  showAuthorsPreviewList: (authors)->
+    if authors.length is 0 then return
+
+    collection = new Backbone.Collection authors
+    @authors.show new AuthorsPreviewList { collection }

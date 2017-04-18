@@ -56,12 +56,18 @@ module.exports = Filterable.extend
 
     _.extend attrs,
       title: @get('snapshot.entity:title')
-      # @entity will be defined only if @grabEntity was called
-      entityData: @entity?.toJSON()
       entityPathname: @entityPathname
       restricted: @restricted
       userReady: @userReady
       user: @userData()
+
+    # @entity will be defined only if @grabEntity was called
+    if @entity?
+      attrs.entityData = @entity.toJSON()
+      { type } = @entity
+      attrs.entityType = type
+      Type = _.capitaliseFirstLetter type
+      attrs["entityIs#{Type}"] = true
 
     attrs.cid = @cid
 

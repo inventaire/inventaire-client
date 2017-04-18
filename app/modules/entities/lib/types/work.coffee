@@ -67,3 +67,4 @@ typesString =
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
   # wait for setImage to have run
   getImageAsync: -> @waitForSubentities.then => @get 'image'
+  getAuthorsModels: -> app.request 'get:entities:models', @get('claims.wdt:P50')
