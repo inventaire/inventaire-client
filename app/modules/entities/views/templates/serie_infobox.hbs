@@ -5,10 +5,12 @@
   </div>
 {{/if}}
 <div class="entity-title-and-edit">
-  <{{headerLevel}}>
-    <a class="showEntity link" href="{{pathname}}" title="{{label}}">{{label}}</a>
-  </{{headerLevel}}>
-  {{partial 'entities:edit_data' this}}
+  {{#if standalone}}
+    <h2 class="title">{{label}}{{partial 'entities:edit_data' this}}</h2>
+  {{else}}
+    <h3 class="title"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
+  {{/if}}
 </div>
 <p class="description">{{{description}}}</p>
+<div class="authors"></div>
 <div class="claims-wrapper">{{partial 'entities:work_claims' this}}</div>

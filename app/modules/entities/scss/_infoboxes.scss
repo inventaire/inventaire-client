@@ -1,5 +1,8 @@
 .authorInfobox, .serieInfobox{
-  h3, h4{
+  h2{
+    font-size: 1.6em;
+  }
+  h2, h3, h4{
     color: white;
     a.link{
       @include text-hover(white, #bbb);

@@ -17,6 +17,7 @@ module.exports = Marionette.LayoutView.extend
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
     @hidePicture = options.hidePicture
+    @waitForAuthors = @model.getAuthorsModels()
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -28,8 +29,7 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     app.execute 'uriLabel:update'
 
-    @model.getAuthorsModels()
-    .then @showAuthorsPreviewList.bind(@)
+    @waitForAuthors.then @showAuthorsPreviewList.bind(@)
 
   events:
     'click .toggler': 'toggleDescLength'

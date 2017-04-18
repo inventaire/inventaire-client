@@ -3,8 +3,8 @@ $serie-bg: #252525;
 .serieLayout{
   background-color: $serie-bg;
   &:not(.standalone){
-    // Do not apply on standalone so that a possible welcome:embedded_welcome partial
-    // wouldn't be displayed with padding
+    // Do not apply on standalone so that a possible welcome:embedded_welcome
+    // partial wouldn't be displayed with padding
     padding: 1em;
   }
   .photo-credits{
