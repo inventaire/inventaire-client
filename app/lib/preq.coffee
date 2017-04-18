@@ -1,5 +1,4 @@
 { reportError } = requireProxy 'lib/reports'
-formatStack = require './format_stack'
 
 Promise::fail = Promise::caught
 Promise::always = Promise::finally
@@ -13,7 +12,7 @@ Promise.onPossiblyUnhandledRejection (err)->
   clue = null
   if err.message is "[object Object]"
     clue = "this is probably an error from a jQuery promise wrapped into a Bluebird one"
-  console.error err.message, formatStack(err?.stack), clue or ''
+  console.error err, err.context, clue
 
 preq = sharedLib('promises')(Promise)
 

@@ -61,12 +61,7 @@ module.exports = (_, csle)->
     # No need to report server error back to the server
     unless serverError then reportError err
 
-    prettyLog = "===== #{label} =====\n"
-    if err?.responseText? then prettyLog += "#{err.responseText}\n\n"
-    if err?.context?
-      json = JSON.stringify err.context, null, 2
-      prettyLog += "context: #{json}\n\n"
-    csle.error prettyLog, stackLines, "\n-----"
+    csle.error err, err.context
 
   # providing a custom warn as it might be used
   # by methods shared with the server
@@ -110,13 +105,12 @@ module.exports = (_, csle)->
       csle.log '---'
 
     logServer: (obj, label)->
-      report = {obj: obj, label: label}
-      $.post app.API.tests, report
+      $.post app.API.tests, { obj, label }
       return obj
 
   proxied =
-    trace: csle.trace.bind(csle)
-    time: csle.time.bind(csle)
-    timeEnd: csle.timeEnd.bind(csle)
+    trace: csle.trace.bind csle
+    time: csle.time.bind csle
+    timeEnd: csle.timeEnd.bind csle
 
   return _.extend loggers, partialLoggers, proxied
