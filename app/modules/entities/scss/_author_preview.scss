@@ -1,10 +1,13 @@
 .author-preview{
   a{
-    @include entity-data-box-grey;
+    @include radius;
     @include display-flex(row, center, flex-start);
     .image{
       width: 64px;
       height: 64px;
+      background-size: cover;
+      background-position: center center;
+      @include radius-left;
     }
     .summary-data{
       @include display-flex(column, center, center);

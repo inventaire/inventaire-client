@@ -1,6 +1,9 @@
+$work-data-property-color: #999;
+
 .workData{
   text-align: center;
   position: relative;
+  background-color: $darker-grey;
   h2, span, label, p{
     color: white;
   }
@@ -11,7 +14,7 @@
     @include link-light;
   }
   a.source{
-    @include text-hover(#999);
+    @include text-hover($work-data-property-color);
   }
   .cover{
     flex: 0 0 auto;
@@ -31,7 +34,6 @@
     margin: -0.9em -0.8em 0 auto;
   }
   .attributes{
-    background-color: $darker-grey;
     max-width: 50em;
     @include radius;
     margin: 0 auto;
@@ -49,6 +51,23 @@
     font-size: 0.8em;
     text-align: center;
   }
+  .authors{
+    .section-label{
+      text-align: left;
+      color: $work-data-property-color;
+    }
+  }
+  .author-preview a{
+    max-width: 20em;
+    @include bg-hover($dark-grey);
+    .name{
+      color: white;
+      font-weight: bold;
+    }
+    .birth-death-dates{
+      color: $grey;
+    }
+  }
   /*Small screens*/
   @media screen and (max-width: 700px) {
     flex-direction: column;
@@ -61,6 +80,9 @@
   @media screen and (min-width: 500px) {
     .attributes{
       min-width: 20em;
+    }
+    .authors{
+      padding: 1em;
     }
   }
   /*Large screens*/

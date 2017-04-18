@@ -1,6 +1,18 @@
-module.exports = Marionette.ItemView.extend
+AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+
+module.exports = Marionette.LayoutView.extend
   template: require './templates/work_data'
   className: 'workData flex-column-center-center'
+  regions:
+    authors: '.authors'
+
+  ui:
+    description: '.description'
+    togglers: '.toggler i'
+
+  behaviors:
+    PreventDefault: {}
+
   initialize: (options)->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
@@ -13,16 +25,11 @@ module.exports = Marionette.ItemView.extend
     attrs.hidePicture = @hidePicture
     return attrs
 
-  ui:
-    description: '.description'
-    togglers: '.toggler i'
-
-  behaviors:
-    PreventDefault: {}
-    PlainTextAuthorLink: {}
-
   onRender: ->
     app.execute 'uriLabel:update'
+
+    @model.getAuthorsModels()
+    .then @showAuthorsPreviewList.bind(@)
 
   events:
     'click .toggler': 'toggleDescLength'
@@ -37,3 +44,9 @@ module.exports = Marionette.ItemView.extend
       attrs.descOverflow = attrs.description.length > 600
 
     return attrs
+
+  showAuthorsPreviewList: (authors)->
+    if authors.length is 0 then return
+
+    collection = new Backbone.Collection authors
+    @authors.show new AuthorsPreviewList { collection }

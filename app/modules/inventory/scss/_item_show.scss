@@ -1,8 +1,3 @@
-@mixin entity-data-box-grey(){
-  margin: 0.2em 0;
-  @include bg-hover(#f3f3f3);
-}
-
 #itemShowLayout{
   padding: 1em;
   position: relative;
@@ -11,8 +6,11 @@
   .two{
     max-width: 30em;
   }
+  a.edition, a.work, .author-preview a{
+    margin: 0.2em 0;
+    @include bg-hover(#f3f3f3);
+  }
   a.edition, a.work{
-    @include entity-data-box-grey;
     @include display-flex(column, center, center);
     margin-bottom: 2em;
   }

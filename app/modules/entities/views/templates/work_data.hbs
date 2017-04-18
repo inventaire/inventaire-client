@@ -8,13 +8,13 @@
 {{/unless}}
 
 <div class="data">
+  <p class="entity-type-label capitalized">{{claim claims 'wdt:P31' false true}}</p>
   <div class="entity-title-and-edit">
     {{#if workPage}}
-      <h2>{{label}}</h2>
+      <h2>{{label}}{{partial 'entities:edit_data' this}}</h2>
     {{else}}
       <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
     {{/if}}
-    {{partial 'entities:edit_data' this}}
   </div>
   <p class="uri">{{uri}}</p>
 
@@ -28,6 +28,7 @@
     </a>
   {{/if}}
   <div class="attributes">
+    <div class="authors"></div>
     {{partial 'entities:work_claims' this}}
   </div>
 </div>

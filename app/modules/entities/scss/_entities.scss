@@ -75,20 +75,23 @@
   color: $grey;
 }
 
+.entity-type-label{
+  font-weight: bold;
+  @include serif;
+  opacity: 0.3;
+  font-size: 1.4em;
+}
+
 .entity-title-and-edit{
   @include display-flex(row, center, center, wrap);
+  padding: 0.5em;
   h2, h3, h4, h5{
     flex: 1 0 auto;
-    // Compensate the .pencil to stay centered
-    margin-left: 1.3em;
   }
   .pencil{
-    font-size: 1.4em;
+    font-size: 1.4rem;
+    padding-left: 0.5em;
     @include text-hover(rgba(white, 0.5), white);
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
-      font-size: 1.2em;
-    }
   }
 }
 

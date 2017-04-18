@@ -8,7 +8,6 @@ module.exports = Marionette.ItemView.extend
 
   behaviors:
     PreventDefault: {}
-    PlainTextAuthorLink: {}
 
   ui:
     zoomButtons: '.zoom-button .buttons span'
