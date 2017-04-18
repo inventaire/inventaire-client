@@ -19,13 +19,9 @@ module.exports =
     .get 'users'
     .catch _.ErrorRethrow('users_data search err')
 
-  findOneByUsername: (username)->
-    @search(username)
-    .then (res)->
-      user = res?[0]
-      # ignoring case as the user database does
-      if user?.username.toLowerCase() is username.toLowerCase()
-        return user
+  byUsername: (username)->
+    _.preq.get app.API.users.byUsername(username)
+    .then (res)-> res.users[username]
 
   searchByPosition: (latLng)->
     _.preq.get app.API.users.searchByPosition(latLng)
@@ -33,7 +29,7 @@ module.exports =
     .catch _.Error('searchByPosition err')
 
 getUsersByIds = (ids)->
-  _.preq.get app.API.users.data(ids)
+  _.preq.get app.API.users.byIds(ids)
   .get 'users'
 
 formatData = (format, data)->

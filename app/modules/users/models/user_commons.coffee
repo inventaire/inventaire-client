@@ -24,11 +24,16 @@ module.exports = Positionable.extend
     else _.i18n 'user_default_description', { username: @get('username') }
 
   setInventoryStats: ->
+    created = @get('created') or 0
     # Make lastAdd default to the user creation date
-    data = { itemsCount: 0, lastAdd: @get('created') }
+    data = { itemsCount: 0, lastAdd: created }
 
-    { itemsCount, lastAdd } = _.values @get('snapshot')
-      .reduce aggregateScoreData, data
+    snapshot = @get 'snapshot'
+    # Known case of missing snapshot data: user documents return from search
+    if snapshot?
+      data = _.values(snapshot).reduce aggregateScoreData, data
+
+    { itemsCount, lastAdd } = data
 
     # Setting those as model attributes
     # so that updating them trigger a model 'change' event

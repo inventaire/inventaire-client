@@ -43,10 +43,10 @@ module.exports = UserCommons.extend
     return
 
   calculateHighlightScore: ->
-    [ itemsCount, itemsLastTime ] = @gets 'itemsCount', 'itemsLastTime'
+    [ itemsCount, itemsLastAdded ] = @gets 'itemsCount', 'itemsLastAdded'
     # Highlight users with the most known items
     # updated lately (add 1 to avoid dividing by 0)
-    freshnessFactor = 100 / (_.daysAgo(itemsLastTime) + 1)
+    freshnessFactor = 100 / (_.daysAgo(itemsLastAdded) + 1)
     # Highlight users nearby
     distanceFactor = if @kmDistanceFormMainUser? then 100 / (@kmDistanceFormMainUser + 1) else 0
     # Well, just highlight anyone actually but don't let that dum per-_id default

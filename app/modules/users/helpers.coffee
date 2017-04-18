@@ -109,25 +109,25 @@ module.exports = (app)->
           promise = app.request 'get:user:model', userId
         else
           username = user
-          promise = app.request 'get:userModel:from:username', username
+          promise = getUserModelFromUsername username
 
         promise
         .then (userModel)->
           if userModel? then return userModel
           else throw new Error("user model not found: #{user}")
 
-    getUserModelFromUsername: (username)->
-      if username is app.user.get('username')
-        return _.preq.resolve(app.user)
+  getUserModelFromUsername = (username)->
+    if username is app.user.get('username')
+      return _.preq.resolve(app.user)
 
-      userModel = app.users.findWhere {username: username}
-      if userModel? then return _.preq.resolve userModel
-      else
-        usersData.findOneByUsername username
-        .then (user)->
-          if user?
-            userModel = app.users.public.add user
-            return userModel
+    userModel = app.users.findWhere { username }
+    if userModel? then return _.preq.resolve userModel
+    else
+      usersData.byUsername username
+      .then (user)->
+        if user?
+          userModel = app.users.public.add user
+          return userModel
 
   filterOutAlreadyThere = (users)->
     current = app.users.list()
