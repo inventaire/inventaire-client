@@ -51,6 +51,7 @@ createItem = (entity, params)->
 
 guessTransaction = (params)->
   transaction = params.transaction or app.request('last:transaction:get')
+  if transaction is 'null' then transaction = null
   app.execute 'last:transaction:set', transaction
   return transaction
 
