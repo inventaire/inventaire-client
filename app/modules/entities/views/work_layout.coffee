@@ -51,12 +51,20 @@ module.exports = Marionette.LayoutView.extend
   showWorkData: ->
     @workData.show new WorkData { @model, workPage: true }
 
+  showEntityActions: ->
+    @entityActions.show new EntityActions { @model, onAdd: @onAdd.bind(@) }
+
+  onAdd: ->
+    app.layout.modal.show new EditionsList
+      collection: @model.editions
+      work: @model
+      header: 'select an edition'
+    app.execute 'modal:open', 'large'
+
   showEditions: ->
     @editionsList.show new EditionsList
       collection: @model.editions
       work: @model
-
-  showEntityActions: -> @entityActions.show new EntityActions { @model }
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
 

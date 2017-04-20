@@ -23,7 +23,10 @@
   > .items-lists, .entityActions{
     margin-top: 2em;
   }
-  #editionsList{
+}
+
+.workLayout, #modal{
+  .editions-list{
     margin-top: 1em;
     background-color: $darker-grey;
     padding: 1em;

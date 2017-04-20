@@ -3,6 +3,7 @@ error_ = require 'lib/error'
 availableLangList = require 'lib/available_lang_list'
 
 module.exports = Marionette.CompositeView.extend
+  className: 'editions-list'
   template: require './templates/editions_list'
   childViewContainer: 'ul'
   childView: require './edition_layout'
@@ -52,6 +53,7 @@ module.exports = Marionette.CompositeView.extend
     hasEditions: @collection.length > 0
     availableLanguages: @getAvailableLanguages @selectedLang
     editionCreationData: partialData @work
+    header: @options.header or 'editions'
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'

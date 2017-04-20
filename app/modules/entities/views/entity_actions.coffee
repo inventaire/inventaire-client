@@ -18,7 +18,9 @@ module.exports = Marionette.ItemView.extend
     'click .add': 'add'
     'click .hasAnInstance a': 'showMainUserInstances'
 
-  add: -> app.execute 'show:item:creation:form', { entity: @model }
+  add: ->
+    if @options.onAdd? then @options.onAdd()
+    else app.execute 'show:item:creation:form', { entity: @model }
 
   mainUserHasOne: ->  @mainUserInstances.length > 0
   showMainUserInstances: -> app.execute 'show:items', @mainUserInstances
