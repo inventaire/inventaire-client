@@ -42,6 +42,9 @@ createItem = (entity, params)->
     transaction: guessTransaction params
     listing: app.request 'last:listing:get'
 
+  # We need to specify a lang for work entities
+  if entity.type is 'work' then attrs.lang = guessLang entity
+
   unless attrs.entity? then throw error_.new 'missing uri', attrs
 
   return app.request 'item:create', attrs
@@ -50,3 +53,12 @@ guessTransaction = (params)->
   transaction = params.transaction or app.request('last:transaction:get')
   app.execute 'last:transaction:set', transaction
   return transaction
+
+guessLang = (entity)->
+  { lang:userLang } = app.user
+  [ labels, originalLang ] = entity.gets 'labels', 'originalLang'
+  if labels[userLang]? then return userLang
+  if labels[originalLang]? then return originalLang
+  if labels.en? then return 'en'
+  # If none of the above worked, return the first lang we find
+  return Object.keys(labels)[0]
