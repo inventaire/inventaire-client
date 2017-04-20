@@ -52,7 +52,10 @@ waitForNetworkItems = null
 
 fetchById = (id)->
   fetchByIds [ id ]
-  .then -> app.items.byId id
+  .then ->
+    item = app.items.byId id
+    if item? then return item
+    else throw error_.new 'not found', 404, id
   .catch _.ErrorRethrow('findItemById err (maybe the item was deleted or its visibility changed?)')
 
 fetchNetworkItems = ->
