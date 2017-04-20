@@ -37,13 +37,12 @@ module.exports = (_)->
     return attributes.map @get.bind(@)
 
   Backbone.Model::reqGrab = (request, id, name)->
-    app.request(request, id)
+    app.request request, id
     .then @grab.bind(@, name)
-    .catch _.Error("reqGrab #{request} #{id} #{name}")
+    .catch _.ErrorRethrow("reqGrab #{request} #{id} #{name}")
 
   Backbone.Model::grab = (name, model)->
-    unless model?
-      throw error_.new('grab failed: missing model', arguments)
+    unless model? then throw error_.new 'grab failed: missing model', arguments
 
     @[name] = model
     @triggerGrab name, model
