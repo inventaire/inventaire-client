@@ -1,6 +1,6 @@
 PropertyValues = require 'modules/entities/collections/property_values'
 properties = require '../properties'
-propertiesPerType = require './properties_per_type'
+propertiesPerType = sharedLib('properties_per_type')(_)
 error_ = require 'lib/error'
 
 module.exports = (entityModel)->

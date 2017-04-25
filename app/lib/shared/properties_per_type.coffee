@@ -8,7 +8,7 @@ commonsSeriesWorks =
   # 'wdt:P840': {} # narrative location
   # 'wdt:P674': {} # characters
 
-module.exports = propertiesPerType =
+module.exports = (_)->
   work: _.extend {}, commonsSeriesWorks,
     # 'wdt:P31: {}' # instance of (=> works aliases)
     'wdt:P577': {} # publication date
