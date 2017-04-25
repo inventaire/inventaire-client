@@ -93,7 +93,8 @@ module.exports = Filterable.extend
 
     # picture may be undefined
     attrs.picture = @getPicture()
-    attrs.authors = @get('snapshot.entity:authors')
+    attrs.authors = @get 'snapshot.entity:authors'
+    attrs.series = @get 'snapshot.entity:series'
 
     return attrs
 

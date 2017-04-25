@@ -62,19 +62,15 @@
       margin: 0;
       max-height: 7em;
       overflow: hidden;
-      // avoid hidding letters descender
-      padding-bottom: 0.2em;
+      // Avoid hidding letters descender
+      padding: 0.2em 0;
     }
-    .authors{
+    .series, .authors{
       font-size: 0.8em;
-      color: $dark-grey;
-      // forcing the height so that masonry height calucations
-      // won't be disturbed by uriLabel data arriving
-      min-height: 1.3em;
-      width: 100%;
-      .property-value{
-        display: none;
-      }
+      // Required to set line-height
+      display: block;
+      line-height: 1em;
+      color: $grey;
     }
   }
 }

@@ -10,17 +10,15 @@
     {{/if}}
   </div>
   <div class="data">
-    <h3 class="title">
-      {{title}}
-    </h3>
-    <hr>
-    <div class="authors">
-      {{#if entityData.claims.wdt:P50}}
-        {{claim entityData.claims 'wdt:P50'}}
-      {{else}}
-        {{authors}}
-      {{/if}}
-    </div>
+    {{#if series}}
+      <span class="series" title="{{i18n 'series'}}">{{series}}</span>
+      <hr>
+    {{/if}}
+    <h3 class="title">{{title}}</h3>
+    {{#if authors}}
+      <hr>
+      <span class="authors" title="{{i18n 'authors'}}">{{authors}}</span>
+    {{/if}}
   </div>
 </a>
 {{#if userReady}}
