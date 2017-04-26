@@ -111,6 +111,7 @@ module.exports = Filterable.extend
     [
       @get('snapshot.entity:title')
       @get('snapshot.entity:authors')
+      @get('snapshot.entity:series')
       @username
       @get('details')
       @get('notes')
