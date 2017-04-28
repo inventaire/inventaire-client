@@ -2,6 +2,9 @@ normalizeIsbn = (text)-> text.replace(/-/g, '').replace /\s/g, ''
 isNormalizedIsbn = (text)-> /^(97(8|9))?\d{9}(\d|X)$/.test text
 
 module.exports = (_)->
+  # Stricter ISBN validation is done on the server but would be too expensive
+  # to do client-side: so the trade-off is that invalid ISBN might not be spotted
+  # client-side until refused by the server
   looksLikeAnIsbn: (text)->
     unless _.isString text then return false
     cleanedText = normalizeIsbn text
