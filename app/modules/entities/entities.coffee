@@ -45,6 +45,9 @@ API =
     if refresh then app.execute 'uriLabel:refresh'
 
     getEntityModel uri, refresh
+    .then (entity)->
+      if entity.type? then return entity
+      else throw error_.new 'unknown entity type', 400, entity
     .tap app.navigateFromModel
     .then @getEntityViewByType.bind(@, refresh)
     .then app.layout.main.show.bind(app.layout.main)
@@ -59,7 +62,7 @@ API =
       # display anything else as a genre
       # so that in the worst case it's just a page with a few data
       # and not a page you can 'add to your inventory'
-      else new GenreLayout { model: entity }
+      else throw error_.new 'invalid entity type', entity
 
   getAuthorView: (entity, refresh)->
     new AuthorLayout
@@ -179,12 +182,15 @@ showEntityEdit = (params)->
 showEntityEditFromModel = (model)-> showEntityEdit { model }
 
 handleMissingEntity = (uri)-> (err)->
-  unless err.message is 'entity_not_found'
-    return app.execute 'show:error:other', err, 'handleMissingEntity'
-
-  [ prefix, id ] = uri.split ':'
-  if prefix is 'isbn' then showEntityCreateFromIsbn id
-  else app.execute 'show:error:missing'
+  switch err.message
+    when 'invalid entity type'
+      app.execute 'show:error:other', err
+    when 'entity_not_found'
+      [ prefix, id ] = uri.split ':'
+      if prefix is 'isbn' then showEntityCreateFromIsbn id
+      else app.execute 'show:error:missing'
+    else
+      app.execute 'show:error:other', err, 'handleMissingEntity'
 
 showEntityCreateFromIsbn = (isbn)->
   _.preq.get app.API.data.isbn(isbn)
