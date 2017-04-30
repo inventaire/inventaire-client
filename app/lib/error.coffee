@@ -3,7 +3,9 @@ formatError = (message, statusCode, context)->
   # cf server/lib/error/format_error.coffee
   # Allows for instance to not report non-operational/user errors to the server
   # in case statusCode is a 4xx error
-  unless _.isNumber statusCode then [ statusCode, context ] = [ null, statusCode ]
+
+  # Default to client implementation errors: 599
+  unless _.isNumber statusCode then [ statusCode, context ] = [ 599, statusCode ]
 
   err = new Error message
   # Set statusCode to a 4xx error for user errors to prevent it
