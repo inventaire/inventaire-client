@@ -6,4 +6,7 @@ module.exports = (typesString, defaultTypeString)->
     P31 = @get 'claims.wdt:P31.0'
     type = _.I18n(typesString[P31] or 'book')
     return "#{title} - #{type}"
-  getAuthorsModels: -> app.request 'get:entities:models', @get('claims.wdt:P50')
+  getAuthorsModels: ->
+    authorsUris = @get 'claims.wdt:P50'
+    if authorsUris? then app.request 'get:entities:models', authorsUris
+    else _.preq.resolve []
