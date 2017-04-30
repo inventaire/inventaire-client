@@ -4,6 +4,7 @@ isbn_ = require 'lib/isbn'
 createInvEntity = require './inv/create_inv_entity'
 { addModel:addEntityModel } = require 'modules/entities/lib/entities_models_index'
 graphRelationsProperties = require './graph_relations_properties'
+wd_ = require 'lib/wikimedia/wikidata'
 
 createAuthor = (name, lang)->
   _.types arguments, 'strings...'
@@ -42,13 +43,21 @@ createWorkEdition = (workEntity, isbn)->
 
   isbn_.getIsbnData isbn
   .then (isbnData)->
+    { title, groupLang:editionLang } = isbnData
+    _.log title, 'title from isbn data'
+    title or= getTitleFromWork workEntity, editionLang
+    _.log title, 'title after work suggestion'
+
+    unless title? then throw error_.new 'no title could be found', isbn
+
     claims =
       # instance of (P31) -> edition (Q3331189)
-      'wdt:P31': ['wd:Q3331189']
-      # isbn 13 (isbn 10 will be added by the server)
+      'wdt:P31': [ 'wd:Q3331189' ]
+      # isbn 13 (isbn 10 - if it exist - will be added by the server)
       'wdt:P212': [ isbnData.isbn13h ]
       # edition or translation of (P629) -> created book
       'wdt:P629': [ workEntity.get('uri') ]
+      'wdt:P1476': [ title ]
 
     if isbnData.image?
       claims['wdt:P18'] = [ isbnData.image ]
@@ -58,6 +67,22 @@ createWorkEdition = (workEntity, isbn)->
       workEntity.editions.add editionEntity
       workEntity.push 'claims.wdt:P747', editionEntity.get('uri')
       return editionEntity
+
+getTitleFromWork = (workEntity, editionLang)->
+  inEditionLang = workEntity.get "labels.#{editionLang}"
+  if inEditionLang? then return inEditionLang
+
+  inUserLang = workEntity.get "labels.#{app.user.lang}"
+  if inUserLang? then return inUserLang
+
+  originalLang = wd_.getOriginalLang workEntity.get('claims')
+  inWorkOriginalLang = workEntity.get "labels.#{originalLang}"
+  if inWorkOriginalLang? then return inWorkOriginalLang
+
+  inEnglish = workEntity.get 'labels.en'
+  if inEnglish? then return inEnglish
+
+  return workEntity.get('labels')[0]
 
 byProperty = (options)->
   { property, textValue, lang } = options
