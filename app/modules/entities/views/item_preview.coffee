@@ -10,8 +10,11 @@ module.exports = Marionette.ItemView.extend
       .then @render.bind(@)
 
   serializeData: ->
+    transaction = @model.get 'transaction'
+    username = @model.user.get 'username'
     _.extend @model.serializeData(),
       showDetails: @options.showDetails
+      title: _.i18n "#{transaction}_personalized", { username }
 
   events:
     'click .showItem': 'showItem'
