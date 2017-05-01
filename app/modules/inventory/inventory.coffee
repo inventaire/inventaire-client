@@ -78,7 +78,7 @@ API =
     title = if label then "#{label} - #{username}" else "#{uri} - #{username}"
 
     app.execute 'show:loader'
-    app.navigate "#{username}/#{uri}", { metadata: { title } }
+    app.navigate "/inventory/#{username}/#{uri}", { metadata: { title } }
 
     app.request 'items:getByUsernameAndEntity', username, uri
     .then displayFoundItems
@@ -109,22 +109,22 @@ API =
 showAddLayout = (tab='search')-> app.layout.main.show new AddLayout { tab }
 
 displayFoundItems = (items)->
-  _.log items, 'displayFoundItems items'
+  # Accept either an items collection or an array of items models
+  if _.isArray items then items = new Backbone.Collection items
+
   unless items?.length?
     throw new Error 'shouldnt be at least an empty array here?'
 
   switch items.length
     when 0 then app.execute 'show:error:missing'
     # redirect to the item
-    when 1 then showItemShowFromModel items[0]
+    when 1 then showItemShowFromModel items.models[0]
     else showItemsList items
 
 showInventory = (options)->
   app.layout.main.show new InventoryLayout(options)
 
-showItemsList = (items)->
-  collection = new Backbone.Collection items
-  app.layout.main.show new ItemsList {collection: collection}
+showItemsList = (collection)-> app.layout.main.show new ItemsList { collection }
 
 itemsCountByEntity = (uri)->
   app.items.where({entity: uri}).length

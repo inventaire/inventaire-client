@@ -30,11 +30,6 @@ fetchByEntity = (uris)->
 
   return promise
 
-fetchByUsernameAndEntity = (username, entity)->
-  _.preq.get app.API.items.byUsernameAndEntity(username, entity)
-  .then spreadData
-  .catch _.ErrorRethrow('fetchByUsernameAndEntity err')
-
 fetchByUserIdAndEntity = (userId, entityUri)->
   _.preq.get app.API.items.byUserAndEntity(userId, entityUri)
   .then spreadData
@@ -101,11 +96,16 @@ getLastPublic = (params)->
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
   .then addUsersAndItems(collection)
 
+getByUsernameAndEntity = (username, entity)->
+  collection = new Items
+  _.preq.get app.API.items.byUsernameAndEntity(username, entity)
+  .then addUsersAndItems(collection)
+
 addUsersAndItems = (collection)-> (res)->
   { items, users } = res
   # Also accepts items indexed by listings: user, network, public
   unless _.isArray items then items = _.flatten _.values(items)
-  unless items?.length > 0 then throw error_.new 'no public items', 404
+  unless items?.length > 0 then return collection
 
   app.execute 'users:public:add', users
   collection.add items
@@ -119,7 +119,6 @@ module.exports = (app)->
     'items:fetchByEntity': fetchByEntity
     'items:fetchNetworkItems': fetchNetworkItems
     'items:fetchByUserIdAndEntity': fetchByUserIdAndEntity
-    'items:fetchByUsernameAndEntity': fetchByUsernameAndEntity
     # Get: Fetch and return the desired models
     #  => uses addUsersAndItems
     'items:getNearbyItems': getNearbyItems
@@ -127,3 +126,4 @@ module.exports = (app)->
     'items:getNetworkItems': getNetworkItems
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
+    'items:getByUsernameAndEntity': getByUsernameAndEntity
