@@ -26,7 +26,6 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .showDonateMenu': 'showDonateMenu'
     'click .showFeedbackMenu': 'showFeedbackMenu'
-    'click a.entity-value, a.showEntity': 'showEntity'
     'click .showEntityEdit': 'showEntityEdit'
 
   behaviors:

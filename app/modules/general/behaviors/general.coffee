@@ -2,6 +2,7 @@
 # given app_layout can't catch modal events
 moveCaretToEnd = require 'modules/general/lib/move_caret_to_end'
 enterClick = require 'modules/general/lib/enter_click'
+showViews = require '../lib/show_views'
 
 module.exports = Marionette.Behavior.extend
   events:
@@ -16,3 +17,6 @@ module.exports = Marionette.Behavior.extend
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'
+    'click a.entity-value, a.showEntity': 'showEntity'
+
+  showEntity: showViews.showEntity

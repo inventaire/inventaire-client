@@ -11,6 +11,10 @@ module.exports = Marionette.LayoutView.extend
     itemData: '#itemData'
     authors: '.authors'
 
+  behaviors:
+    General: {}
+    PreventDefault: {}
+
   initialize: ->
     @lazyRender = _.LazyRender @
     @waitForEntity = @model.grabEntity()
