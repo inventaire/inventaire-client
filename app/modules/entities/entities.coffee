@@ -220,7 +220,7 @@ normalizeUri = (uri)->
   [ prefix, id ] = uri.split ':'
   if not id?
     if isbn_.isNormalizedIsbn prefix then [ prefix, id ] = [ 'isbn', prefix ]
-    else if wdk.isWikidataEntityId prefix then [ prefix, id ] = [ 'wd', prefix ]
+    else if wdk.isWikidataItemId prefix then [ prefix, id ] = [ 'wd', prefix ]
     else if _.isInvEntityId prefix then [ prefix, id ] = [ 'inv', prefix ]
   else
     if prefix is 'isbn' then id = isbn_.normalizeIsbn id

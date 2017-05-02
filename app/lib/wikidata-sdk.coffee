@@ -29,4 +29,4 @@ module.exports =
       format: format
       uselang: uselang
 
-  isWikidataEntityId: (id)-> /^Q[0-9]+$/.test id
+  isWikidataItemId: (id)-> /^Q[0-9]+$/.test id

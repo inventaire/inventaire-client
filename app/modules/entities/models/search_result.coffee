@@ -50,6 +50,6 @@ getValues = (obj)-> if obj? then _.values(obj) else []
 # * guessing which source the document belongs too from what we get
 # For the moment, let's keep it easy and use the 2nd solution
 getPrefix = (id)->
-  if wdk.isWikidataEntityId id then return ['wd', id]
+  if wdk.isWikidataItemId id then return ['wd', id]
   else if _.isInvEntityId id then return ['inv', id]
   else throw error_.new('unknown id domain', {id: id})
