@@ -1,9 +1,10 @@
 module.exports = Backbone.NestedModel.extend
-  matches: (expr)->
-    unless expr? then return true
-    matches = (field)-> field?.match(expr)?
+  matches: (filterRegex, rawInput)->
+    unless filterRegex? then return true
+    return _.some @matchable(), @fieldMatch(filterRegex, rawInput)
 
-    return _.some @matchable(), matches
+  # Can be overriden to match fields in a custom way
+  fieldMatch: (filterRegex, rawInput)-> (field)-> field?.match(filterRegex)?
 
   # matchable should be defined on sub classes. ex:
   # matchable: -> [ @get('title') ]

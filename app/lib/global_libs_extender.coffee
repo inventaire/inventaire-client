@@ -79,14 +79,20 @@ module.exports = (_)->
 
   FilteredCollection::filterByText = (text, reset=true)->
     if reset then @resetFilters()
-    text = text.trim()
+
+    # Not completly raw, we are not barbarians
+    rawText = text.trim()
       # Replace any double space by a simple space
       .replace /\s{2,}/g, ' '
+
+    regexText = rawText
       # Escape regex special characters
       # especially to prevent errors of type "Unterminated group"
       .replace specialRegexCharactersRegex, '\\$1'
-    filterExpr = new RegExp text, 'i'
-    @filterBy 'text', (model)-> model.matches filterExpr
+
+    filterRegex = new RegExp regexText, 'i'
+
+    @filterBy 'text', (model)-> model.matches filterRegex, rawText
 
   # JQUERY
   # aliasing once to one to match Backbone vocabulary

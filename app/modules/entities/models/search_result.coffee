@@ -39,7 +39,8 @@ module.exports = Filterable.extend
     labels = getValues @get('labels')
     descriptions = getValues @get('descriptions')
     aliases = _.flatten getValues(@get('aliases'))
-    @_values = [ @id ].concat labels, aliases, descriptions
+    uris = [ @id, @get('uri') ]
+    @_values = [ @id ].concat labels, aliases, descriptions, uris
     return @_values
 
 getValues = (obj)-> if obj? then _.values(obj) else []
@@ -52,4 +53,4 @@ getValues = (obj)-> if obj? then _.values(obj) else []
 getPrefix = (id)->
   if wdk.isWikidataItemId id then return ['wd', id]
   else if _.isInvEntityId id then return ['inv', id]
-  else throw error_.new('unknown id domain', {id: id})
+  else throw error_.new 'unknown id domain', { id }
