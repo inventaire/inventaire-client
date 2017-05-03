@@ -29,6 +29,10 @@ getRemoteFn = (type, searchType, collection, searches)-> (input)->
 
   entityUri = getEntityUri input
   if entityUri?
+    # As entering the entity URI triggers an entity request,
+    # it might - in case of cache miss - make the server ask the search engine to
+    # index that entity, so that it can be found by typing free text
+    # instead of a URI next time
     app.request 'get:entity:model', entityUri
     .then (model)->
       pluarlizedType = model.type + 's'
