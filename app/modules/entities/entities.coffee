@@ -54,15 +54,9 @@ API =
     .catch handleMissingEntity(uri)
 
   getEntityViewByType: (refresh, entity)->
-    switch entity.type
-      when 'human' then @getAuthorView entity, refresh
-      when 'serie' then @getSerieView entity, refresh
-      when 'work' then @getWorkView entity, refresh
-      when 'edition' then @getWorkViewFromEdition entity, refresh
-      # display anything else as a genre
-      # so that in the worst case it's just a page with a few data
-      # and not a page you can 'add to your inventory'
-      else throw error_.new 'invalid entity type', entity
+    getter = entityViewGetterByType[entity.type]
+    if getter? then @[getter](entity, refresh)
+    else throw error_.new 'invalid entity type', entity
 
   getAuthorView: (entity, refresh)->
     new AuthorLayout
@@ -76,7 +70,10 @@ API =
 
   getWorkView: (model, refresh)-> new WorkLayout { model, refresh }
 
-  getWorkViewFromEdition: (model, refresh)-> new EditionLayout { model, refresh, standalone: true }
+  getWorkViewFromEdition: (model, refresh)->
+    new EditionLayout { model, refresh, standalone: true }
+
+  getGenreLayout: (model, refresh)-> new GenreLayout { model, refresh }
 
   showAddEntity: (uri)->
     getEntityModel uri
@@ -257,3 +254,10 @@ _showWorkWithItem = (item)-> (work)->
   else
     app.layout.main.show new WorkLayout { model: work, item }
     app.navigateFromModel item
+
+entityViewGetterByType =
+  human: 'getAuthorView'
+  serie: 'getSerieView'
+  work: 'getWorkView'
+  edition: 'getWorkViewFromEdition'
+  genre: 'getGenreLayout'

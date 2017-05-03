@@ -24,6 +24,7 @@ module.exports = Marionette.LayoutView.extend
     @initPlugins()
     @initCollections()
 
+    # TODO: pass the 'refresh' option downstream
     @fetchWorksAndAuthors()
     .then @setHeaderBackground.bind(@)
 
