@@ -1,6 +1,3 @@
-WorkData = require 'modules/entities/views/work_data'
-EditionData = require 'modules/entities/views/edition_data'
-PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 ItemShowData = require './item_show_data'
 AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
 

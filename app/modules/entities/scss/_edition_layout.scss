@@ -10,6 +10,24 @@
   .edition-data{
     margin: 0;
     @include display-flex(row, center, space-around, wrap);
+    > div{
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+    h3 a{
+      @include link-light;
+    }
+    .property-value{
+      color: #cfcfcf;
+    }
+    .data{
+      position: relative;
+      padding: 1.5em;
+      /*Large screens*/
+      @media screen and (min-width: 20em) {
+        min-width: 20em;
+      }
+    }
   }
   .instances{
     @include display-flex(column, center, center);
