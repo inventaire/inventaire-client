@@ -6,6 +6,7 @@ module.exports = Marionette.ItemView.extend
     _.extend attrs,
       href: @getHref()
       hasDate: @hasDate()
+      hideRefreshButton: true
 
   getHref: ->
     DOI = @model.get('claims.wdt:P356.0')

@@ -10,4 +10,9 @@
     >
     {{icon 'pencil'}}
   </a>
+  {{#if wikidata}}{{#unless hideRefreshButton}}
+    <a class="refreshEntityData" title="{{i18n 'refresh Wikidata data'}}">
+      {{icon 'refresh'}}
+    </a>
+  {{/unless}}{{/if}}
 {{/if}}

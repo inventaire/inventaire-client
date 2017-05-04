@@ -2,6 +2,8 @@ AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/serie_infobox'
+  behaviors:
+    EntitiesCommons: {}
 
   regions:
     authors: '.authors'

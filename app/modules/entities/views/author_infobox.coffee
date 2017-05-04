@@ -1,5 +1,8 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/author_infobox'
+  behaviors:
+    EntitiesCommons: {}
+
   modelEvents:
     # The extract might arrive later
     'change:extract': 'render'

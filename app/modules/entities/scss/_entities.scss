@@ -87,7 +87,7 @@
   h2, h3, h4, h5{
     flex: 1 0 auto;
   }
-  .pencil{
+  .pencil, .refreshEntityData{
     font-size: 1.4rem;
     padding-left: 0.5em;
     @include text-hover(rgba(white, 0.5), white);

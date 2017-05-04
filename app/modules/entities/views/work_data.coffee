@@ -12,6 +12,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     PreventDefault: {}
+    EntitiesCommons: {}
 
   initialize: (options)->
     @lazyRender = _.LazyRender @
