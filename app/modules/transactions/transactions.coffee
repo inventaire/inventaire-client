@@ -45,7 +45,8 @@ API =
   showFirstTransaction: ->
     if app.request 'require:loggedIn', 'transactions'
       @showTransactions()
-      app.request 'wait:for', 'user'
+
+      app.request 'wait:for', 'transactions'
       .then findFirstTransaction
       .then (transac)->
         if transac?
@@ -63,7 +64,8 @@ API =
     if app.request 'require:loggedIn', "transactions/#{id}"
       lastTransactionId = id
       @showTransactions()
-      app.request('wait:for', 'user')
+
+      app.request 'wait:for', 'transactions'
       .then triggerTransactionSelect.bind(null, id)
 
   showItemRequestModal: (model)->
