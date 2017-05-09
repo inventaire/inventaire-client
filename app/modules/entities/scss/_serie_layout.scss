@@ -20,7 +20,7 @@ $serie-bg: #252525;
     // make it visible. Applying the padding to the spans doesn't work either
     // Easy solution: go without background-color
     color: white;
-    .entity-value{
+    .link, .entity-value{
       @include link-light;
     }
   }
