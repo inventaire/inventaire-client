@@ -11,7 +11,7 @@ createAuthor = (name, lang)->
   labels = {}
   labels[lang] = name
   # instance of (P31) -> human (Q5)
-  claims = { 'wdt:P31': ['wd:Q5'] }
+  claims = { 'wdt:P31': [ 'wd:Q5' ] }
   return createEntity labels, claims
 
 createAuthors = (authorsNames, lang)->
@@ -20,6 +20,16 @@ createAuthors = (authorsNames, lang)->
     return Promise.all authorsNames.map (name)-> createAuthor name, lang
   else
     return _.preq.resolve []
+
+# Droping the 's' in 'series' to mark the difference with the plural form
+createSerie = (name, lang, wdtP50)->
+  _.types arguments, [ 'string', 'string', 'array|undefined' ]
+  labels = {}
+  labels[lang] = name
+  # instance of (P31) -> book series (Q277759)
+  claims = { 'wdt:P31': [ 'wd:Q277759' ] }
+  if _.isNonEmptyArray wdtP50 then claims['wdt:P50'] = wdtP50
+  return createEntity labels, claims
 
 createBook = (title, authors, authorsNames, lang)->
   _.types arguments, ['string', 'array', 'array|null', 'string']
@@ -85,10 +95,13 @@ getTitleFromWork = (workEntity, editionLang)->
   return workEntity.get('labels')[0]
 
 byProperty = (options)->
-  { property, textValue, lang } = options
+  { property, textValue, relationEntity, lang } = options
   lang or= app.user.lang
   switch property
-    when 'wdt:P50' then return createAuthor textValue, lang
+    when 'wdt:P50'
+      return createAuthor textValue, lang
+    when 'wdt:P179'
+      return createSerie textValue, lang, relationEntity.get('claims.wdt:P50')
     else
       message = "no entity creation function associated to this property"
       throw error_.new message, arguments

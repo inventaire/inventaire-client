@@ -95,9 +95,8 @@ module.exports = EditorCommons.extend
     else
       if @allowEntityCreation
         textValue = @ui.autocomplete.val()
-        createEntities.byProperty
-          property: @property
-          textValue: textValue
+        relationEntity = @options.model.entity
+        createEntities.byProperty { @property, textValue, relationEntity }
         .then _.Log('created entity')
         .then (entity)=> @_save entity.get('uri')
 

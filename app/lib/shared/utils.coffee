@@ -30,6 +30,7 @@ module.exports = (_)->
   expired: (timestamp, ttl)-> Date.now() - timestamp > ttl
 
   isNonEmptyString: (str)-> _.isString(str) and str.length > 0
+  isNonEmptyArray: (array)-> _.isArray(array) and array.length > 0
 
   shortLang: (lang)-> lang?[0..1]
 
