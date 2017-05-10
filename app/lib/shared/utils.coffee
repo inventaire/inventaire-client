@@ -31,6 +31,8 @@ module.exports = (_)->
 
   isNonEmptyString: (str)-> _.isString(str) and str.length > 0
   isNonEmptyArray: (array)-> _.isArray(array) and array.length > 0
+  isNonEmptyPlainObject: (obj)->
+    _.isPlainObject(obj) and Object.keys(obj).length > 0
 
   shortLang: (lang)-> lang?[0..1]
 
@@ -68,9 +70,6 @@ module.exports = (_)->
   simpleDay: -> new Date().toISOString().split('T')[0]
 
   isPositiveIntegerString: (str)-> _.isString(str) and /^\d+$/.test str
-
-  isNonEmptyPlainObject: (obj)->
-    _.isPlainObject(obj) and Object.keys(obj).length > 0
 
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 

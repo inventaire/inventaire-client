@@ -132,6 +132,4 @@ validateUrlInput = (url)->
   unless _.isUrl url
     forms_.throwError 'invalid url', '#urlField', arguments
 
-getImgData = (crop, url)->
-  url: url
-  crop: crop
+getImgData = (crop, url)-> { url, crop }
