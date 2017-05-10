@@ -22,12 +22,14 @@ error_ = require 'lib/error'
 # Progressively extending the whitelist of editable types
 editableTypes = [ 'work', 'edition', 'human', 'serie' ]
 
+placeholdersTypes = [ 'meta', 'missing' ]
+
 module.exports = Backbone.NestedModel.extend
   initialize: (attrs, options)->
     @refresh = options?.refresh
     @type = attrs.type or options.defaultType
 
-    if @type is 'meta'
+    if @type in placeholdersTypes
       # Set placeholder attributes so that the logic hereafter doesn't crash
       _.extend attrs, placeholderAttributes
       @set placeholderAttributes

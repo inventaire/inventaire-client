@@ -146,12 +146,19 @@ getEntitiesModels = (uris, refresh, defaultType)->
   if uris.length is 0 then return _.preq.resolve []
 
   entitiesModelsIndex.get { uris, refresh, defaultType }
-  .then _.values
+  # Do not return entities with type 'missing'.
+  # This type is used to avoid re-fetching an entity already known to be missing
+  # but has no interest past entitiesModelsIndex
+  .then (models)-> _.values(models).filter isntMissing
+
+isntMissing = (model)-> model.type isnt 'missing'
 
 getEntityModel = (uri, refresh)->
   getEntitiesModels [ uri ], refresh
   .then (models)->
-    if models?[0]? then return models[0]
+    model = models[0]
+    if model?
+      return model
     else
       # see getEntitiesModels "Possible reasons for missing entities"
       _.log "getEntityModel entity_not_found: #{uri}"
