@@ -91,7 +91,7 @@ module.exports = Marionette.LayoutView.extend
     return data
 
   events:
-    'click .cancel': 'cancel'
+    'click .entity-edit-cancel': 'cancel'
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
     'click #next': 'showNextMultiEditPage'
