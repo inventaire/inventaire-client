@@ -3,6 +3,7 @@ elasticSearch = require './elastic_search'
 wikidataSearch = require './wikidata_search'
 languageSearch = require './language_search'
 { getEntityUri, prepareSearchResult } = require './entities_uris_results'
+error_ = require 'lib/error'
 
 module.exports = (type)->
   collection = new Backbone.Collection [], { model: SearchResult }
@@ -18,8 +19,10 @@ getSearchTypeFn = (type)->
     when 'languages' then languageSearch
     else throw new Error("unknown type: #{type}")
 
+lastInput = null
 getRemoteFn = (type, searchType, collection, searches)-> (input)->
   _.log input, 'input'
+  lastInput = input
   if input in searches
     _.log input, 'already queried'
     # keep a consistant interface by returning only promises
@@ -36,11 +39,20 @@ getRemoteFn = (type, searchType, collection, searches)-> (input)->
     # instead of a URI next time
     # Refresh=true
     app.request 'get:entity:model', entityUri, true
+    .catch _.Error('get entity err')
     .then (model)->
+      # Ignore errors that were catched and thus didn't return anything
+      unless model? then return
+
+      # Ignore the results if the input changed
+      if input isnt lastInput then return
+
       pluarlizedType = model.type + 's'
       _.log pluarlizedType, "entity type (expected: #{type})"
       if pluarlizedType is type
         collection.add prepareSearchResult(model)
+      else
+        throw error_.new "invalid entity type", 400, model
 
   else
     searchType input

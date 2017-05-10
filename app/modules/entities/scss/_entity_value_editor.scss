@@ -55,7 +55,7 @@
       margin: 0;
     }
     .alert-box{
-      @include position(absolute, 2.6em, 0, null, 0)
+      @include position(absolute, 2.6em, 0, null, 0, 2)
       margin-top: 0;
     }
   }

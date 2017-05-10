@@ -28,6 +28,7 @@ module.exports = Marionette.Behavior.extend
   _startListening: ->
     @listenTo @suggestions, 'selected:value', @completeQuery.bind(@)
     @listenTo @suggestions, 'highlight', @fillQuery.bind(@)
+    @listenTo @suggestions, 'error', @showAlertBox.bind(@)
 
   onRender: ->
     @_setInputAttributes()
@@ -128,6 +129,11 @@ module.exports = Marionette.Behavior.extend
     # @ui.autocomplete.attr 'data-autocomplete-value', null
     @view.onAutoCompleteUnselect?()
     @_suggestionSelected = false
+
+  showAlertBox: (err)->
+    @view.$el.trigger 'alert',
+      message: err.message
+      selector: ".#{@view.cid} .has-alertbox"
 
   # Clean up
   onDestroy: -> @collectionView.destroy()

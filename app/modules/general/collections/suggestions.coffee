@@ -32,6 +32,7 @@ suggestionMethods =
     @index = -1
     @filterByText query
     @remote query
+    .catch @trigger.bind(@, 'error')
 
   # Select first suggestion unless the suggestion list
   # has been navigated then select at the current index.
