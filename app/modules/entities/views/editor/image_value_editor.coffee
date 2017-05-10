@@ -23,6 +23,7 @@ module.exports = EditorCommons.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @
+    @initEditModeState()
     @focusTarget = 'urlInput'
 
   onRender: ->

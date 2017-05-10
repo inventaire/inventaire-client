@@ -14,8 +14,7 @@ module.exports = EditorCommons.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @
-    # If the value is null, start directly in edit mode
-    if not @model.get('value')? then @editMode = true
+    @initEditModeState()
     @focusTarget = 'yearPicker'
     [ year, month, day ] = simpleDayData @model.get 'value'
     @setCurrentValues year, month, day
