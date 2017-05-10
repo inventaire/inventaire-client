@@ -11,7 +11,12 @@
     </div>
     <div class="image-from-file">
       <label>{{icon 'upload'}}{{I18n 'from a file'}}</label>
-      <input type="file" accept="image/*" />
+      {{!-- Restricting to jpeg to match the server's upload restrictions --}}
+      <input type="file" accept="image/jpeg" />
+      <div class="upload-confirmation hidden">
+        <div class="image-preview"></div>
+        <a class="validate-upload success-button">{{i18n 'upload and save'}}</a>
+      </div>
     </div>
   </div>
 {{else}}

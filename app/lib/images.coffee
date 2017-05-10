@@ -1,7 +1,7 @@
 toDataURL = require 'to-data-url'
 error_ = require 'lib/error'
 
-handlers =
+images_ =
   addDataUrlToArray: (file, array, event)->
     resize.photo file, 600, 'dataURL', (data)->
       array.unshift data
@@ -50,13 +50,14 @@ handlers =
     if _.isDataUrl data then window.dataURLtoBlob data
     else throw new Error 'expected a dataURL'
 
-  upload: (blobsData)->
+  upload: (blobsData, ipfs=false)->
     blobsData = _.forceArray blobsData
     formData = new FormData()
 
     i = 0
     for blobData in blobsData
       { blob, id } = blobData
+      unless blob? then throw error_.new 'missing blob', blobData
       id or= "file-#{++i}"
       formData.append id, blob
 
@@ -72,9 +73,14 @@ handlers =
       request.onerror = reject
       request.ontimeout = reject
 
-      request.open 'POST', app.API.upload
+      request.open 'POST', app.API.images.upload(ipfs)
       request.responseType = 'json'
       request.send formData
+
+  getIpfsPathFromDataUrl: (dataUrl)->
+    unless _.isDataUrl dataUrl then throw error_.new 'invalid image', dataUrl
+    return images_.upload { blob: images_.dataUrlToBlob(dataUrl) }, true
+    .then (res)-> _.values(res)[0]
 
   getNonResizedUrl: (url)-> url.replace /\/img\/\d+x\d+\//, '/img/'
 
@@ -93,4 +99,4 @@ saveDimensions = (data, attribute, width, height)->
   data[attribute].width = width
   data[attribute].height = height
 
-module.exports = handlers
+module.exports = images_
