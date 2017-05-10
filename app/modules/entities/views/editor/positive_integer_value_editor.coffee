@@ -19,11 +19,6 @@ module.exports = EditorCommons.extend
     if not @model.get('value')? then @editMode = true
     @focusTarget = 'input'
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    attrs.editMode = @editMode
-    return attrs
-
   onRender: ->
     @focusOnRender()
 

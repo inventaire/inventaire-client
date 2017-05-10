@@ -1,4 +1,5 @@
 getActionKey = require 'lib/get_action_key'
+error_ = require 'lib/error'
 
 module.exports = Marionette.Behavior.extend
   ui:
@@ -20,8 +21,7 @@ module.exports = Marionette.Behavior.extend
       return
 
     if selector?
-      unless /\.|#/.test selector
-        _.error selector, 'invalid selector'
+      unless /\.|#/.test selector then error_.report 'invalid selector', selector
       $target = $(selector)
 
     else $target = @ui.hasAlertbox

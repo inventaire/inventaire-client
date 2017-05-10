@@ -22,6 +22,11 @@ module.exports = Marionette.ItemView.extend
     # If the model's value is null, start in edit mode
     @editMode = if @model.get('value')? then false else true
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    attrs.editMode = @editMode
+    return attrs
+
   showEditMode: (e)->
     if isLoggedIn()
       # Clicking on the identifier should only open wikidata in another window
@@ -76,7 +81,7 @@ module.exports = Marionette.ItemView.extend
     setTimeout alert, 500
 
   # Focus an element on render
-  # Requires to set a focusTarget and the corresponding UI element
+  # Requires to set a focusTarget and the corresponding UI element's name
   focusOnRender: ->
     if @editMode
       focus = =>

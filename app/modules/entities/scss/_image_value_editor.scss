@@ -1,0 +1,29 @@
+.image-value-editor{
+  // Avoid to have a height jump when passing in edit mode
+  min-height: 300px;
+  .edit-mode{
+    flex: 1 0 auto;
+    // @include display-flex(column, flex-start);
+    // Push it up
+    margin-bottom: auto;
+    > div{
+      // flex: 1;
+    }
+    label{
+      color: $dark-grey;
+    }
+  }
+  .url-input-row{
+    @include display-flex(row, baseline, center);
+    padding-bottom: 1.5em;
+  }
+  .url-input-wrapper{
+    flex: 1 0 auto;
+    input{
+      margin: 0;
+    }
+    .alert-box{
+      margin: 0;
+    }
+  }
+}

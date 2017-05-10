@@ -1,0 +1,22 @@
+{{#if editMode}}
+  <div class="edit-mode">
+    <div class="image-from-url">
+      <label>{{icon 'link'}}{{I18n 'from a URL'}}</label>
+      <div class="url-input-row">
+        <div class="url-input-wrapper">
+          <input class="imageUrl" type="url" placeholder="{{i18n 'enter an image url'}}" value="{{value}}">
+        </div>
+        {{partial 'entities:editor:edit_mode_buttons' this}}
+      </div>
+    </div>
+    <div class="image-from-file">
+      <label>{{icon 'upload'}}{{I18n 'from a file'}}</label>
+      <input type="file" accept="image/*" />
+    </div>
+  </div>
+{{else}}
+  <div class="displayModeData">
+    <img src="{{src value 300}}">
+  </div>
+  {{partial 'entities:editor:edit_button'}}
+{{/if}}

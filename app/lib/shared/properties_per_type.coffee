@@ -26,6 +26,7 @@ module.exports = (_)->
   edition:
     'wdt:P1476': { customLabel: 'edition title' }
     'wdt:P407': { customLabel: 'edition language' }
+    'wdt:P18': { customLabel: 'cover' }
     'wdt:P629': {} # edition or translation of
     # 'wdt:P31': {} # P31: instance of (=> edition aliases?)
     # P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
