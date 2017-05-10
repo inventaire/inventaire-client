@@ -4,7 +4,7 @@
       <label>{{icon 'link'}}{{I18n 'from a URL'}}</label>
       <div class="url-input-row">
         <div class="url-input-wrapper">
-          <input class="imageUrl" type="url" placeholder="{{i18n 'enter an image url'}}" value="{{value}}">
+          <input class="imageUrl" type="url" placeholder="{{i18n 'enter an image url'}}">
         </div>
         {{partial 'entities:editor:edit_mode_buttons' this}}
       </div>
@@ -15,7 +15,10 @@
       <input type="file" accept="image/jpeg" />
       <div class="upload-confirmation hidden">
         <div class="image-preview"></div>
-        <a class="validate-upload success-button">{{i18n 'upload and save'}}</a>
+        <a class="validate-upload success-button">
+          <span class="loading">{{icon 'check'}}</span>
+          {{i18n 'upload and save'}}
+        </a>
       </div>
     </div>
   </div>
