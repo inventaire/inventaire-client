@@ -1,4 +1,4 @@
-.author-preview{
+.author-preview, .series-preview{
   a{
     @include radius;
     @include display-flex(row, center, flex-start);

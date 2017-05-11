@@ -22,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     attrs = @model.serializeData()
     attrs.work = @model.work.toJSON()
+    attrs.seriePathname = getSeriePathname @model.work
     return attrs
 
   onShow: ->
@@ -37,3 +38,11 @@ module.exports = Marionette.LayoutView.extend
 
     collection = new Backbone.Collection authors
     @authors.show new AuthorsPreviewList { collection }
+
+  # TODO: allow to precise which edition of a work an item refers to
+
+getSeriePathname = (work)->
+  [ uri, pathname, serieUri ] = work.gets 'uri', 'pathname', 'claims.wdt:P179.0'
+  unless serieUri? then return
+  # Hacky way to get the serie entity pathname without having to request its model
+  return pathname.replace uri, serieUri

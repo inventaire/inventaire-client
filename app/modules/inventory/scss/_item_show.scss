@@ -6,13 +6,20 @@
   .two{
     max-width: 30em;
   }
-  a.edition, a.work, .author-preview a{
+  a.edition, a.work, .author-preview a, .series-preview a{
     margin: 0.2em 0;
     @include bg-hover(#f3f3f3);
   }
   a.edition, a.work{
     @include display-flex(column, center, center);
     margin-bottom: 2em;
+  }
+  .series-preview{
+    margin-top: 1em;
+    // see also app/modules/entities/scss/_author_preview.scss
+    .related-entity-label{
+      padding: 0.5em;
+    }
   }
   .section-label{
     color: $grey;
@@ -22,11 +29,14 @@
     font-size: 0.7em;
     color: $grey;
   }
-  .title{
-    font-size: 1.1em;
-    margin-top: 0.5em;
+  .entity-image{
+    margin-bottom: 0.5em;
   }
-  .title, .authors, .work-label{
+  .title{
+    text-align: center;
+    font-size: 1.1em;
+  }
+  .title, .authors, .related-entity-label{
     font-weight: bold;
   }
   .remove-button{
