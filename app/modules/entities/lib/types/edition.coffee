@@ -31,15 +31,8 @@ module.exports = ->
 inheritedProperties = [ 'wdt:P50' ]
 
 inheritData = (work)->
-  unless @get('label')?
-    workLabels = work.get 'labels'
-    lang = @get 'originalLang'
-    # If the work entity as a label in the books language, use it as label
-    if lang? and workLabels[lang] then @set 'label', workLabels[lang]
-    # Else, use the label choosen by the work
-    else @set 'label', work.get('label')
-
   claims = @get 'claims'
+  # Use cases: used on the edition layout to display authors
   inheritedWorkClaims = _.pick work.get('claims'), inheritedProperties
   @set 'claims', _.extend({}, inheritedWorkClaims, claims)
   return
