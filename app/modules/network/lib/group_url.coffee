@@ -8,7 +8,7 @@ module.exports =
     'keyup .groupNameField': 'lazyUpdateUrl'
 
   LazyUpdateUrl: (view)->
-    groupId = view.model.id
+    groupId = view.model?.id
     return _.debounce updateUrl.bind(view, groupId), 200
 
 updateUrl = (groupId)->
