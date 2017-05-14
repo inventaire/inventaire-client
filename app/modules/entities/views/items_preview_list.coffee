@@ -1,3 +1,5 @@
+{ data:transactionsData } = require 'modules/inventory/lib/transactions_data'
+
 module.exports = Marionette.CompositeView.extend
   template: require './templates/items_preview_list'
   childViewContainer: '.items-preview'
@@ -12,5 +14,5 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     transaction: @transaction
-    icon: app.items.transactions.data[@transaction].icon
+    icon: transactionsData[@transaction].icon
     showDetails: @options.showDetails

@@ -1,3 +1,5 @@
+{ factory:transactionsDataFactory } = require './transactions_data'
+
 module.exports =
   listingsData: ->
     listings = app.user.listings()
@@ -5,7 +7,7 @@ module.exports =
     return listings
 
   transactionsData: ->
-    transactions = app.items.transactions()
+    transactions = transactionsDataFactory()
     _.extend transactions.inventorying,
       label: 'just_inventorize_it'
       classes: 'active'

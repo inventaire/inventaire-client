@@ -1,6 +1,7 @@
 Filterable = require 'modules/general/models/filterable'
 error_ = require 'lib/error'
 saveOmitAttributes = require 'lib/save_omit_attributes'
+{ factory:transactionsDataFactory } = require '../lib/transactions_data'
 
 module.exports = Filterable.extend
   url: -> app.API.items.base
@@ -72,7 +73,7 @@ module.exports = Filterable.extend
     attrs.cid = @cid
 
     { transaction } = attrs
-    transacs = app.items.transactions()
+    transacs = transactionsDataFactory()
     attrs.currentTransaction = transacs[transaction]
     attrs[transaction] = true
 

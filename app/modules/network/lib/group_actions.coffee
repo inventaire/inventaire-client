@@ -95,8 +95,7 @@ module.exports =
     # by letting newCategory undefined
     if newCategory? then @push newCategory, membership
 
-    if app.request 'user:isMainUser', user.id
-      app.vent.trigger 'group:main:user:move'
+    if user.isMainUser then app.vent.trigger 'group:main:user:move'
 
     @triggeredListChange()
 

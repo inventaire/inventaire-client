@@ -27,11 +27,13 @@ module.exports = Marionette.ItemView.extend
     if attrs.extract? then attrs.description = attrs.extract
     return attrs
 
+  # TODO: recover this feature by grabbing entities items with
+  # app.request('items:getByEntities'), with a mutualized call for all the 'li'
   counter: ->
-    count = app.request 'items:count:byEntity', @model.get('uri')
-    return counter =
-      count: count
-      highlight: count > 0
+  #   count = app.request 'items:count:byEntity', @model.get('uri')
+  #   return counter =
+  #     count: count
+  #     highlight: count > 0
 
   toggleZoom: ->
     _.invertAttr @ui.cover, 'src', 'data-zoom-toggle'

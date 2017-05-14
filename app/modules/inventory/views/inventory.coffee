@@ -104,7 +104,7 @@ module.exports = Marionette.LayoutView.extend
       app.navigateFromModel user
       model = user
       request = 'items:getUserItems'
-      if app.request 'user:isMainUser', user.id
+      if user.isMainUser
         fallback = @showInventoryWelcome.bind @, user
 
     else if group?

@@ -13,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   initialize: ->
+    _.inspect @model, 'ITEM @ ITEM SHOW'
     @lazyRender = _.LazyRender @
     @waitForEntity = @model.grabEntity()
     @waitForAuthors = @model.work.getAuthorsModels()

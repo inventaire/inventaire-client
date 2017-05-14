@@ -8,14 +8,13 @@ module.exports = (params)->
   uri = entity.get 'uri'
 
   if preventduplicates
-    waiter = app.request 'items:fetchByUserIdAndEntity', app.user.id, uri
+    waiter = app.request 'item:main:user:instances', uri
   else
     waiter = _.preq.resolved
 
   waiter
-  .then ->
+  .then (existingInstances)->
     if preventduplicates
-      existingInstances = app.request 'item:main:user:instances', uri
       if existingInstances.length > 0
         _.log existingInstances, 'existing instances'
         # Show the entity instead to display the number of existing instances

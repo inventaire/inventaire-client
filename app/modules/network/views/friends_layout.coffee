@@ -21,7 +21,11 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   initialize: ->
-    @friends = app.users.friends.filtered
+    @waitForFriends = app.request 'fetch:friends'
+      .then => @friends = app.users.friends.filtered
+
+    @waitForOtherRequested = app.request 'fetch:otherRequested'
+      .then => @otherRequested = app.users.otherRequested
 
   events:
     'keyup #friendsFilter': 'filterFriends'
@@ -34,21 +38,20 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     behaviorsPlugin.startLoading.call @, '#friendsList'
 
-    app.request 'waitForNetwork'
+    @waitForFriends
     .then @showFriends.bind(@)
     .catch _.Error('showTabFriends')
 
   showFriends: ->
-    @showFriendsRequests()
+    @waitForOtherRequested.then @showFriendsRequests.bind(@)
     @showFriendsFilter()
     @showFriendsLists()
 
   showFriendsRequests: ->
-    { otherRequested } = app.users
-    if otherRequested.length > 0
+    if @otherRequested.length > 0
       @ui.friendsRequestsWrapper.show()
       @friendsRequests.show new UsersList
-        collection: otherRequested
+        collection: @otherRequested
         emptyViewMessage: 'no pending requests'
         stretch: true
 

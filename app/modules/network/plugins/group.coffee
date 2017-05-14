@@ -25,15 +25,17 @@ handlers =
       group: @model
 
   getFriendsInvitorView: ->
-    group = @model
-    new UsersList
-      collection: app.users.friends
-      groupContext: true
-      group: group
-      emptyViewMessage: 'no friends to invite'
-      filter: (child, index, collection)->
-        # in the context of the usersList view
-        group.userStatus(child) isnt 'member'
+    app.request 'fetch:friends'
+    .then =>
+      group = @model
+      return new UsersList
+        collection: app.users.friends
+        groupContext: true
+        group: group
+        emptyViewMessage: 'no friends to invite'
+        filter: (child, index, collection)->
+          # in the context of the usersList view
+          group.userStatus(child) isnt 'member'
 
   getJoinRequestsView: ->
     new UsersList

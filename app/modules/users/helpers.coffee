@@ -1,5 +1,6 @@
 error_ = require 'lib/error'
 usersData = require './users_data'
+Users = require 'modules/users/collections/users'
 
 module.exports = (app)->
   sync =
@@ -10,95 +11,38 @@ module.exports = (app)->
       if userModel? then userModel
       else return
 
-    getUserIdFromUsername: (username)->
-      if username is app.user.get('username') then return app.user.id
-
-      userModel = app.users.findWhere({username: username})
-      if userModel? then userModel.id
-      else console.warn "couldnt find the user from username: #{username}"
-
-    isMainUser: (userId)->
-      if userId? then return userId is app.user.id
-
-    isFriend: (userId)->
-      unless userId? and app.users?.friends?.list?
-        _.warn userId, 'isFriend isnt ready (use or recalculate after data waiters)'
-        return false
-      return userId in app.users.friends.list
-
-    isPublicUser: (userId)->
-      if sync.isMainUser(userId) then return false
-      unless app.user.loggedIn then return true
-      unless userId? and app.users?.public?.list?
-        _.warn userId, 'isPublicUser isnt ready (use or recalculate after data waiters)'
-        return true
-      # NB: nonRelationGroupUser aren't considerer public users
-      # as their user and items data are fetched as friends
-      return userId in app.users.public.list
-
-    itemsFetched: (userModel)->
-      unless _.isModel(userModel)
-        throw error_.new 'itemsFetched expected a model', userModel
-      return userModel.itemsFetched is true
-
   async =
-    getUsersData: (ids)->
+    fetchUsersData: (ids)->
       unless ids.length > 0 then return _.preq.resolve []
 
-      app.request 'waitForNetwork'
-      .then -> usersData.get ids, 'collection'
-      .then (users)->
-        compacted = _.compact users
+      missingIds = _.difference ids, app.users.allIds()
 
-        if compacted.length isnt ids.length
-          missingIds = _.difference ids, compacted.map(_.property('_id'))
-          # known cases: when a user was deleted
-          # and a notification depended on his data
-          _.warn missingIds, 'getUsersData missing ids'
+      usersData.get missingIds, 'collection'
+      .then addUsers
 
-        return compacted
-      # make sure not to re-add users who have a different status than public
-      .then addPublicUsers
+    getUserModel: (id, refresh)->
+      if id is app.user.id then return _.preq.resolve app.user
 
-    getUserModel: (id, category='public')->
-      app.request 'waitForNetwork'
-      .then ->
+      model = app.users.byId id
+      if model? and not refresh then _.preq.resolve model
+      else
+        usersData.get id, 'collection'
+        .then addUser
+
+    getUsersModels: (ids)->
+      foundUsersModels = []
+      missingUsersIds = []
+      for id in ids
         userModel = app.request 'get:userModel:from:userId', id
-        if userModel? then return userModel
-        else
-          usersData.get id, 'collection'
-          .then (usersData)->
-            # known case when userData.length is 0 and this throws:
-            # deleted user with an id still hanging around
-            unless usersData.length is 1
-              throw new Error "user not found: #{id}"
+        if userModel? then foundUsersModels.push userModel
+        else missingUsersIds.push id
 
-            return adders[category](usersData)[0]
-
-      .catch _.ErrorRethrow('getUserModel err')
-
-    getUsersModels: (ids, category='public')->
-      app.request 'waitForNetwork'
-      .then ->
-        foundUsersModels = []
-        missingUsersIds = []
-        for id in ids
-          userModel = app.request 'get:userModel:from:userId', id
-          if userModel? then foundUsersModels.push userModel
-          else missingUsersIds.push id
-
-        if missingUsersIds.length is 0 then return foundUsersModels
-        else
-          usersData.get missingUsersIds, 'collection'
-          .then (usersData)->
-            newUsersModels = adders[category](_.compact(usersData))
-            return foundUsersModels.concat newUsersModels
-
-      .catch _.ErrorRethrow('getUserModel err')
-
-    getGroupUsersModels: (ids)->
-      # just adding to users.nonRelationGroupUser instead of users.public
-      async.getUsersModels ids, 'nonRelationGroupUser'
+      if missingUsersIds.length is 0
+        _.preq.resolve foundUsersModels
+      else
+        usersData.get missingUsersIds, 'collection'
+        .then addUsers
+        .then (newUsersModels)-> foundUsersModels.concat newUsersModels
 
     resolveToUserModel: (user)->
       # 'user' is either the user model, a user id, or a username
@@ -114,66 +58,39 @@ module.exports = (app)->
         promise
         .then (userModel)->
           if userModel? then return userModel
-          else throw new Error("user model not found: #{user}")
+          else throw error_.new 'user model not found', 404, user
 
   getUserModelFromUsername = (username)->
     if username is app.user.get('username')
-      return _.preq.resolve(app.user)
+      return _.preq.resolve app.user
 
     userModel = app.users.findWhere { username }
     if userModel? then return _.preq.resolve userModel
     else
       usersData.byUsername username
-      .then (user)->
-        if user?
-          userModel = app.users.public.add user
-          return userModel
+      .then addUser
 
-  filterOutAlreadyThere = (users)->
-    current = app.users.list()
-    current.push app.user.id
-    return users.filter (user)-> not (user._id in current)
-
-  addPublicUsers = (users)->
+  addUsers = (users)->
     users = _.forceArray users
     allUsersIds = users.map _.property('_id')
-    users = filterOutAlreadyThere users
-    app.users.public.add users
-    # make sure to return all requested users models
-    # and not only those that were missing
-    return app.users.byIds(allUsersIds)
+    # Set merge=true so that updates arriving here aren't just ignored
+    return app.users.add users, { merge: true }
 
-  # returns the user model
-  addPublicUser = (user)->
-    { _id } = user
-    knownUser = app.users.byId _id
-    if knownUser? then return knownUser
-    else return app.users.public.add user
-
-  adders =
-    # usually users not found locally are non-friends users
-    public: addPublicUsers
-    nonRelationGroupUser: app.users.nonRelationGroupUser.add.bind(app.users.nonRelationGroupUser)
+  addUser = (users)-> addUsers(users)[0]
 
   { searchByText, searchByPosition } = require('./lib/search')(app)
 
   app.reqres.setHandlers
     'get:user:model': async.getUserModel
-    'get:group:users:models': async.getGroupUsersModels
-    'get:users:data': async.getUsersData
+    'get:users:models': async.getUsersModels
+    'fetch:users:data': async.fetchUsersData
     'resolve:to:userModel': async.resolveToUserModel
-    'get:userModel:from:username': async.getUserModelFromUsername
     'get:userModel:from:userId': sync.getUserModelFromUserId
-    'get:userId:from:username': sync.getUserIdFromUsername
-    'user:isMainUser': sync.isMainUser
-    'user:isFriend': sync.isFriend
-    'user:isPublicUser': sync.isPublicUser
-    'user:itemsFetched': sync.itemsFetched
     'users:search': searchByText
     'users:search:byPosition': searchByPosition
-    'user:public:add': addPublicUser
+    'user:add': addUser
 
   app.commands.setHandlers
-    'users:public:add': addPublicUsers
+    'users:add': addUsers
 
   return

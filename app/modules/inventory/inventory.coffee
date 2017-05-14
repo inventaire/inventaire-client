@@ -1,16 +1,13 @@
 ItemShow = require './views/item_show'
-initFilters = require './lib/filters'
 initQueries = require './lib/queries'
 InventoryLayout = require './views/inventory'
 AddLayout = require './views/add/add_layout'
 EmbeddedScanner = require './views/add/embedded_scanner'
 initLayout = require './lib/layout'
-initTransactions = require './lib/transactions'
 initAddHelpers = require './lib/add_helpers'
 ItemsList = require './views/items_list'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
-fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -33,10 +30,7 @@ module.exports =
     app.addInitializer -> new Router { controller: API }
 
   initialize: ->
-    app.items = require('./items_collections')(app, _)
-    initFilters app
     initQueries app
-    initTransactions app.items
     initializeInventoriesHandlers app
     initAddHelpers()
     initLayout app
@@ -65,7 +59,7 @@ API =
     unless _.isItemId id then return app.execute 'show:error:missing'
     app.execute 'show:loader'
 
-    app.request 'items:fetchById', id
+    app.request 'get:item:model', id
     .then showItemShowFromModel
     .catch (err)->
       if err.statusCode is 404 then app.execute 'show:error:missing'
@@ -83,11 +77,6 @@ API =
     app.request 'items:getByUsernameAndEntity', username, uri
     .then displayFoundItems
     .catch _.Error('showItemShowFromUserAndEntity')
-
-  removeUserItems: (userId)->
-    _.log userId, 'removeUserItems'
-    userItems = app.items.byOwner(userId)
-    if userItems?.length > 0 then app.items.remove userItems
 
   showSearch: -> showAddLayout 'search'
   showScan: -> showAddLayout 'scan'
@@ -125,9 +114,6 @@ showInventory = (options)->
   app.layout.main.show new InventoryLayout(options)
 
 showItemsList = (collection)-> app.layout.main.show new ItemsList { collection }
-
-itemsCountByEntity = (uri)->
-  app.items.where({entity: uri}).length
 
 showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
@@ -175,25 +161,14 @@ initializeInventoriesHandlers = (app)->
 
     'show:scanner:embedded': API.showEmbeddedScanner
 
-    'inventory:remove:user:items': (userId)->
-      # delay the action to avoid to get a ViewDestroyedError on UserLi
-      # caused by the item counter trying to update
-      setTimeout API.removeUserItems.bind(null, userId), 0
-
     'show:inventory:nearby': API.showInventoryNearby
     'show:inventory:last': API.showInventoryLast
-    'show:items': displayFoundItems
     'show:item:modal': showItemModal
 
   app.reqres.setHandlers
     'item:update': itemActions.update
     'item:destroy': itemActions.destroy
     'item:create': itemActions.create
-
-    'items:count:byEntity': itemsCountByEntity
-
-    # Aliasing
-    'get:item:model': app.Request 'items:fetchById'
-
     'item:main:user:instances': (entityUri)->
-      return app.items.personal.byEntityUri(entityUri)
+      app.request 'items:getByUserIdAndEntity', app.user.id, entityUri
+      .get 'models'

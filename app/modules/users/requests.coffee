@@ -25,13 +25,15 @@ module.exports = (app, _)->
   API =
     sendRequest: (user)-> action user, 'request', 'userRequested'
     cancelRequest: (user)-> action user, 'cancel', 'public'
-    acceptRequest: (user, showUserInvetory=true)->
+    acceptRequest: (user, showUserInventory=true)->
       action user, 'accept', 'friends'
-      if showUserInvetory then app.execute 'show:inventory:user', user
+      [ user, userId ] = normalizeUser user
+      # Refresh to get the updated data
+      app.request 'get:user:model', userId, true
+      .then -> if showUserInventory then app.execute 'show:inventory:user', user
     discardRequest: (user)-> action user, 'discard', 'public'
     unfriend: (user)->
       [ user, userId ] = normalizeUser user
-      app.execute 'inventory:remove:user:items', userId
       action user, 'unfriend', 'public'
 
   normalizeUser = (user)->

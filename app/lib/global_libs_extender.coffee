@@ -73,7 +73,8 @@ module.exports = (_)->
   WrapModelRequests Backbone.Collection, 'destroy'
 
   Backbone.Collection::findOne = -> @models[0]
-  Backbone.Collection::byId = (id)-> @_byId[id]
+  # Legacy alias
+  Backbone.Collection::byId = Backbone.Collection::get
   Backbone.Collection::byIds = (ids)-> ids.map (id)=> @_byId[id]
   Backbone.Collection::attributes = -> @toJSON()
 

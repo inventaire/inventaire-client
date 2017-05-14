@@ -20,14 +20,17 @@ events =
 handlers =
   showUsersSearchBase: (stretch)->
     @ui.userSearch.show()
-    @showFriends(stretch)
+    @showFriends stretch
 
   showFriends: (stretch=false)->
-    @usersList.show new UsersList
-      collection: app.users.filtered.friends()
-      stretch: stretch
-
-    @setFriendsHeader()
+    app.request 'fetch:friends'
+    .then =>
+      @usersList.show new UsersList
+        # Passing the global users collection so that searchUsers
+        # can add its users directly in the current collection
+        collection: app.users.filtered.friends()
+        stretch: stretch
+      @setFriendsHeader()
 
   updateUserSearch: (e)-> @searchUsers e.target.value
 
@@ -37,7 +40,8 @@ handlers =
       app.request 'users:search', query
       if query? and query isnt ''
         @setUserSearchHeader()
-      else @setFriendsHeader()
+      else
+        @setFriendsHeader()
 
   setFriendsHeader: ->
     @ui.usersListHeader.find('.header').text _.i18n('friends')
@@ -52,8 +56,8 @@ handlers =
     @searchUsers ''
     @ui.userField.val ''
 
-  callToActionIfFriendsListIsEmpty: ->
-    if app.users.friends.length is 0
+  callToActionIfFriendsListIsEmpty: (friends)->
+    if app.relations.friends.length is 0
       # 'display' settings modified here will be overriden by no_user
       # view re-rendering in case of search thus the possibility
       # to just handle changes in this direction

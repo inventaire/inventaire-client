@@ -6,8 +6,7 @@ initI18n = require '../lib/i18n'
 
 module.exports = UserCommons.extend
   isMainUser: true
-  url: ->
-    app.API.user
+  url: -> app.API.user
 
   parse: (data)->
     data.settings = @setDefaultSettings data.settings
@@ -24,6 +23,8 @@ module.exports = UserCommons.extend
 
     # user._id should only change once from undefined to defined
     @once 'change:_id', (model, id)-> app.execute 'track:user:id', id
+
+    @set 'itemsCategory', 'personal'
 
     # If the user is logged in, this will wait for her document to arrive
     # with its language attribute. Else, it will fire at next tick.

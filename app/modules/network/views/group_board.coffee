@@ -104,7 +104,8 @@ module.exports = Marionette.LayoutView.extend
     @groupMembers.show @getGroupMembersListView()
 
   showFriendsInvitor: ->
-    @groupInvite.show @getFriendsInvitorView()
+    @getFriendsInvitorView()
+    .then @groupInvite.show.bind(@groupInvite)
 
   updateRoute: ->
     app.navigateFromModel @model, 'boardPathname', { preventScrollTop: true }

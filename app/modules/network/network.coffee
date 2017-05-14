@@ -95,17 +95,14 @@ showGroupBoardFromModel = (model)->
     app.execute 'show:inventory:group', model
 
 networkCounters = ->
-  friendsRequestsCount = getFriendsRequestsCount()
+  # TODO: introduce a 'read' flag on the relation document to stop counting
+  # requests that were already seen.
+  friendsRequestsCount = app.relations.otherRequested.length
   groupsRequestsCount = getGroupsRequestsCount()
   return counters =
     friendsRequestsCount: counterUnlessZero friendsRequestsCount
     groupsRequestsCount: counterUnlessZero groupsRequestsCount
     total: counterUnlessZero(friendsRequestsCount + groupsRequestsCount)
-
-# TODO: introduce a 'read' flag on the relation document to stop counting
-# requests that were already seen.
-getFriendsRequestsCount = ->
-  app.users.otherRequested?.length or 0
 
 getGroupsRequestsCount = ->
   { groups } = app

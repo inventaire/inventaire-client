@@ -23,7 +23,7 @@ module.exports = ->
 
   addGroupData = (res, groupModel)->
     { group, users } = res
-    app.execute 'users:public:add', users
+    app.execute 'users:add', users
     groupModel ?= groups.add group
     groupModel.usersFetched = true
     return groupModel

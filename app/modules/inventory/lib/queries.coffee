@@ -1,75 +1,25 @@
+Item = require 'modules/inventory/models/item'
 Items = require 'modules/inventory/collections/items'
 error_ = require 'lib/error'
 
-mainUserItemsFetched = false
-networkItemsFetched = false
-
-fetchByIds = (requestedIds)->
-  alreadyFetchedIds = app.items.models.map _.property('id')
-  ids = _.difference requestedIds, alreadyFetchedIds
-  if ids.length is 0 then return _.preq.resolved
-
+getById = (id)->
+  ids = [ id ]
   _.preq.get app.API.items.byIds({ ids })
-  .then spreadData
-  .catch _.ErrorRethrow('fetchByIds err')
-
-alreadyFetchedUrisIndex = {}
-# Populating app.items with the desired entities items
-fetchByEntity = (uris)->
-  alreadyFetchedUris = Object.keys alreadyFetchedUrisIndex
-  missingUris = _.difference uris, alreadyFetchedUris
-  if missingUris.length is 0
-    return Promise.props _.pick(alreadyFetchedUrisIndex, uris)
-
-  promise = _.preq.get app.API.items.byEntities({ ids: missingUris })
-    .then spreadData
-    .catch _.ErrorRethrow('fetchByEntity err')
-
-  for missingUri in missingUris
-    alreadyFetchedUrisIndex = promise
-
-  return promise
-
-fetchByUserIdAndEntity = (userId, entityUri)->
-  _.preq.get app.API.items.byUserAndEntity(userId, entityUri)
-  .then spreadData
-  .catch _.ErrorRethrow('fetchByUserIdAndEntity err')
-
-# Adding the users and items to the global collections
-spreadData = (data)->
-  { users, items } = data
-  if users? then app.execute 'users:public:add', users
-  newlyAddedItemsModels = app.items.add items
-  return newlyAddedItemsModels
-
-waitForMainUserItems = null
-waitForNetworkItems = null
-
-fetchById = (id)->
-  fetchByIds [ id ]
-  .then ->
-    item = app.items.byId id
-    if item? then return item
-    else throw error_.new 'not found', 404, id
-  .catch _.ErrorRethrow('findItemById err (maybe the item was deleted or its visibility changed?)')
-
-fetchNetworkItems = ->
-  waitForNetworkItems or= app.request 'waitForNetwork'
-    .then ->
-      networkIds = app.users.friends.list.concat(app.relations.coGroupMembers)
-      # Include main user
-      networkIds.push app.user.id
-      fetchByUsers networkIds
-    .tap ->
-      mainUserItemsFetched = true
-      networkItemsFetched = true
-
-  return waitForNetworkItems
+  .then (res)->
+    { items, users } = res
+    item = items[0]
+    if item?
+      app.execute 'users:add', users
+      return new Item(item)
+    else
+      throw error_.new 'not found', 404, id
+  # Maybe the item was deleted or its visibility changed?
+  .catch _.ErrorRethrow('findItemById err')
 
 getNetworkItems = (params)->
-  app.request 'waitForNetwork'
+  app.request 'wait:for', 'users'
   .then ->
-    networkIds = app.users.friends.list.concat(app.relations.coGroupMembers)
+    networkIds = app.relations.network
     makeRequest params, 'byUsers', networkIds
 
 getUserItems = (params)->
@@ -96,10 +46,19 @@ getLastPublic = (params)->
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
   .then addUsersAndItems(collection)
 
-getByUsernameAndEntity = (username, entity)->
+getItemByQueryUrl = (queryUrl)->
   collection = new Items
-  _.preq.get app.API.items.byUsernameAndEntity(username, entity)
+  _.preq.get queryUrl
   .then addUsersAndItems(collection)
+
+getByEntities = (uris)->
+  getItemByQueryUrl app.API.items.byEntities({ ids: uris })
+
+getByUserIdAndEntity = (userId, entityUri)->
+  getItemByQueryUrl app.API.items.byUserAndEntity(userId, entityUri)
+
+getByUsernameAndEntity = (username, entityUri)->
+  getItemByQueryUrl app.API.items.byUsernameAndEntity(username, entityUri)
 
 addUsersAndItems = (collection)-> (res)->
   { items, users } = res
@@ -107,23 +66,20 @@ addUsersAndItems = (collection)-> (res)->
   unless _.isArray items then items = _.flatten _.values(items)
   unless items?.length > 0 then return collection
 
-  app.execute 'users:public:add', users
+  app.execute 'users:add', users
   collection.add items
   return collection
 
 module.exports = (app)->
   app.reqres.setHandlers
-    # Fetch: make sure the items are added to the global collections
-    #  => uses spreadData
-    'items:fetchById': fetchById
-    'items:fetchByEntity': fetchByEntity
-    'items:fetchNetworkItems': fetchNetworkItems
-    'items:fetchByUserIdAndEntity': fetchByUserIdAndEntity
-    # Get: Fetch and return the desired models
-    #  => uses addUsersAndItems
+    'items:getByEntities': getByEntities
     'items:getNearbyItems': getNearbyItems
     'items:getLastPublic': getLastPublic
     'items:getNetworkItems': getNetworkItems
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
+    'items:getByUserIdAndEntity': getByUserIdAndEntity
     'items:getByUsernameAndEntity': getByUsernameAndEntity
+
+    # Using a different naming to match reqGrab requests style
+    'get:item:model': getById

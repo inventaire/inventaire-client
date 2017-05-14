@@ -4,7 +4,8 @@ ItemsPreviewLists = require '../views/items_preview_lists'
 module.exports =
   initialize: ->
     { @standalone } = @options
-    @waitForItems = fetchAllItems @model
+    @waitForItems = getAllEntityItems(@model)
+      .then spreadItems.bind(@)
     _.extend @, entityItemsMethods
 
   onRender: ->
@@ -18,23 +19,35 @@ module.exports =
         @showNetworkItems()
       @showPublicItems()
 
-fetchAllItems = (model)->
+getAllEntityItems = (model)->
   mainUri = model.get 'uri'
   if model.hasSubentities
     # Make sure items are fetched for all sub entities as editions that aren't
     # shown (e.g. on work_layout, editions from other language than
     # the user are filtered-out by default) won't request their items
-    # Then 'items:fetchByEntity' will take care of making every request only once.
+    # Then 'items:getByEntities' will take care of making every request only once.
 
     # Redefining model.waitForSubentities so that promises depending on it
     # (cf onRender) wait for the items to return before rendering
     # (as the collection won't keep in sync with items arriving late)
     return model.waitForSubentities
-    .then -> app.request 'items:fetchByEntity', model.get('allUris')
+    .then -> app.request 'items:getByEntities', model.get('allUris')
     .catch _.Error("#{mainUri} subentities fetchPublicItems err")
 
   else
-    return app.request 'items:fetchByEntity', [ mainUri ]
+    return app.request 'items:getByEntities', [ mainUri ]
+
+spreadItems = (items)->
+  itemsByCategory =
+    personal: []
+    network: []
+    public: []
+
+  for item in items.models
+    category = item.user.get 'itemsCategory'
+    itemsByCategory[category].push item
+
+  return itemsByCategory
 
 entityItemsMethods =
   showPersonalItems: -> @showItemsPreviews 'personal'
@@ -45,10 +58,12 @@ entityItemsMethods =
   # Relies on the collection being already filled with all the items as the hereafter
   # created collections won't update on 'add' events from baseCollections
   showItemsPreviews: (category)->
-    allUris = @model.get 'allUris'
-    itemsModels = app.items[category].byEntityUris allUris
-    if itemsModels.length is 0 then return
+    @waitForItems
+    .then (itemsByCategory)=>
+      itemsModels = itemsByCategory[category]
+      if itemsModels.length is 0 then return
 
-    @["#{category}ItemsRegion"].show new ItemsPreviewLists
-      category: category
-      itemsModels: itemsModels
+      @["#{category}ItemsRegion"].show new ItemsPreviewLists {
+        category,
+        itemsModels
+      }

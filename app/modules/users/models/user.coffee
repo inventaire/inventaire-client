@@ -13,6 +13,13 @@ module.exports = UserCommons.extend
     @setInventoryStats()
     @calculateHighlightScore()
 
+    @set 'status', getStatus(@id, app.relations)
+
+    if @id in app.relations.network
+      @set 'itemsCategory', 'network'
+    else
+      @set 'itemsCategory', 'public'
+
   serializeData: ->
     attrs = @toJSON()
     attrs.cid = @cid
@@ -55,3 +62,10 @@ module.exports = UserCommons.extend
     points = itemsCount + freshnessFactor + distanceFactor + randomFactor
     # negating to get the higher scores appear first in collections
     @set 'highlightScore', (- points)
+
+getStatus = (id, relations)->
+  if id in relations.friends then 'friends'
+  else if id in relations.userRequested then 'userRequested'
+  else if id in relations.otherRequested then 'otherRequested'
+  else if id in relations.network then 'nonRelationGroupUser'
+  else 'public'

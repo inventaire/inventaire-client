@@ -8,6 +8,8 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 papaparse = require('lib/get_assets')('papaparse')
 
+candidates = null
+
 module.exports = Marionette.LayoutView.extend
   id: 'importLayout'
   template: require './templates/import'
@@ -33,7 +35,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     papaparse.prepare()
-    @candidates = app.items.candidates or= new Candidates
+    @candidates = candidates or= new Candidates
 
   onShow: ->
     # show the import queue if there were still candidates from last time

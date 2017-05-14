@@ -4,7 +4,6 @@ module.exports =
 
     _.preq.post app.API.items.base, itemData
     .then _.Log('item data after creation')
-    .then app.items.add.bind(app.items)
 
   update: (options)->
     # expects: item, attribute, value

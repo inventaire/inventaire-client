@@ -121,7 +121,7 @@ module.exports = Marionette.LayoutView.extend
     @_usersListShown = true
     @ui.friendsSection.show()
     @showUsersSearchBase()
-    @adjustHeight app.users.friends, @ui.usersList
+    @adjustHeight app.users, @ui.usersList
 
   showGroupsList: ->
     @_groupsListShown = true

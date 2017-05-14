@@ -61,7 +61,7 @@ module.exports = Positionable.extend
     @["waitFor#{Name}"] = @fetchUsers @[name], ids
 
   fetchUsers: (collection, userIds)->
-    app.request 'get:group:users:models', userIds
+    app.request 'get:users:models', userIds
     .then collection.add.bind(collection)
     .catch _.Error('fetchMembers')
 

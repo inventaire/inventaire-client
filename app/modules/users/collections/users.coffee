@@ -9,10 +9,5 @@ module.exports = Backbone.Collection.extend
 
   comparator: 'highlightScore'
 
-  filtered: (text)->
-    return @filter (user)->
-      filterExpr = new RegExp '^' + text, "i"
-      return filterExpr.test user.get('username')
-
-  byUsername: (username)->
-    @findWhere {username: username}
+  # Include cids, but that's probably still faster than doing a map on models
+  allIds: -> Object.keys app.users._byId

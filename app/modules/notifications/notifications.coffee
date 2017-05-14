@@ -29,7 +29,7 @@ module.exports =
 
 getUsersData = (notifications)->
   ids = getUsersIds notifications
-  app.request 'get:users:data', ids
+  app.request 'fetch:users:data', ids
 
 getUsersIds = (notifications)->
   ids = notifications.map (notif)-> notif.data.user

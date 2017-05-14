@@ -24,7 +24,7 @@ module.exports = Marionette.ItemView.extend
     bioText: 'textarea.bio'
 
   initialize: ->
-    @isMainUser = @model.isMainUser
+    { @isMainUser } = @model
     @listenTo @model, 'change', @render.bind(@)
     @initPlugin()
 

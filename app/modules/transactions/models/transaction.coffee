@@ -12,6 +12,7 @@ Action = require '../models/action'
 Message = require '../models/message'
 Timeline = require '../collections/timeline'
 formatSnapshotData = require '../lib/format_snapshot_data'
+{ data:transactionsData } = require 'modules/inventory/lib/transactions_data'
 
 module.exports = Backbone.NestedModel.extend
   url: -> app.API.transactions
@@ -143,7 +144,7 @@ module.exports = Backbone.NestedModel.extend
 
   getIcon: ->
     transaction = @get 'transaction'
-    return app.items.transactions.data[transaction].icon
+    return transactionsData[transaction].icon
 
   context: ->
     if @owner?
