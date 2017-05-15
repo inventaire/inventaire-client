@@ -42,7 +42,7 @@ fetchWorksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
     _.warn 'no more uris: range is empty'
     return _.preq.resolved
 
-  return app.request 'get:entities:models', range
+  return app.request 'get:entities:models', { uris: range }
 
 # EXPECT works collection, authors collection, entities models
 genre_.spreadWorksAndAuthors = (works, authors, entities)->

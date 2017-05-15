@@ -125,7 +125,7 @@ module.exports = Backbone.NestedModel.extend
 
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
     .tap @setSubEntitiesUris.bind(@)
-    .then (uris)-> app.request 'get:entities:models', uris, refresh
+    .then (uris)-> app.request 'get:entities:models', { uris, refresh }
     .then collection.add.bind(collection)
 
   setSubEntitiesUris: (uris)->

@@ -137,7 +137,8 @@ setHandlers = ->
     'get:entity:local:href': getEntityLocalHref
     'entity:exists:or:create:from:seed': existsOrCreateFromSeed
 
-getEntitiesModels = (uris, refresh, defaultType)->
+getEntitiesModels = (params)->
+  { uris, refresh, defaultType, index } = params
   _.type uris, 'array'
   _.types uris, 'strings...'
   # Make sure its a 'true' flag and not an object incidently passed
@@ -149,12 +150,14 @@ getEntitiesModels = (uris, refresh, defaultType)->
   # Do not return entities with type 'missing'.
   # This type is used to avoid re-fetching an entity already known to be missing
   # but has no interest past entitiesModelsIndex
-  .then (models)-> _.values(models).filter isntMissing
+  .then (models)->
+    if index then models
+    else _.values(models).filter isntMissing
 
-isntMissing = (model)-> model.type isnt 'missing'
+isntMissing = (model)-> model?.type isnt 'missing'
 
 getEntityModel = (uri, refresh)->
-  getEntitiesModels [ uri ], refresh
+  getEntitiesModels { uris: [ uri ], refresh }
   .then (models)->
     model = models[0]
     if model?

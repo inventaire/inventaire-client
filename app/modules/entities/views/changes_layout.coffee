@@ -37,7 +37,7 @@ module.exports = Marionette.CompositeView.extend
   showMoreUnlessAlreadyFetching: -> unless @fetchingMore then @showMore()
 
   addFromUris: (uris)->
-    app.request 'get:entities:models', uris
+    app.request 'get:entities:models', { uris }
     .then @collection.add.bind(@collection)
     .then @doneFetching.bind(@)
 

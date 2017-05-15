@@ -8,5 +8,5 @@ module.exports = (typesString, defaultTypeString)->
     return "#{title} - #{type}"
   getAuthorsModels: ->
     authorsUris = @get 'claims.wdt:P50'
-    if authorsUris? then app.request 'get:entities:models', authorsUris
+    if authorsUris? then app.request 'get:entities:models', { uris: authorsUris }
     else _.preq.resolve []
