@@ -2,6 +2,9 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 History = require './history'
+MergeSuggestions = require './merge_suggestions'
+Entities = require 'modules/entities/collections/entities'
+mergeEntities = require './lib/merge_entities'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/admin_section'
@@ -13,6 +16,7 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     history: '#history'
+    mergeSuggestion: '#merge-suggestion'
 
   ui:
     mergeWithInput: '#mergeWithField'
@@ -21,6 +25,9 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @_historyShown = false
 
+  onShow: ->
+    @showMergeSuggestions()
+
   serializeData: ->
     mergeWith: mergeWithData()
 
@@ -28,16 +35,25 @@ module.exports = Marionette.LayoutView.extend
     'click #mergeWithButton': 'merge'
     'click #historyToggler': 'toggleHistory'
 
+  showMergeSuggestions: ->
+    { pluralizedType } = @model
+    uri = @model.get 'uri'
+    _.preq.get app.API.entities.search @model.get('label'), false, true
+    .get pluralizedType
+    .then parseSearchResults(uri)
+    .then (suggestions)=>
+      collection = new Entities suggestions
+      fromEntity = @model
+      @mergeSuggestion.show new MergeSuggestions { collection, fromEntity }
+
   merge: (e)->
     behaviorsPlugin.startLoading.call @, '#mergeWithButton'
 
     fromUri = @model.get 'uri'
     toUri = @ui.mergeWithInput.val()
-    # send to merge endpoint as everything should happen server side now
-    _.preq.put app.API.entities.merge,
-      from: fromUri
-      to: toUri
-    .then showRedirectedEntity.bind(null, fromUri, toUri)
+
+    mergeEntities fromUri, toUri
+    .then app.Execute('show:entity:from:model')
     .catch error_.Complete('#mergeWithField', false)
     .catch forms_.catchAlert.bind(null, @)
 
@@ -59,8 +75,9 @@ mergeWithData = ->
     text: _.I18n 'merge'
     classes: 'light-blue bold postfix'
 
-showRedirectedEntity = (fromUri, toUri)->
-  # Get the refreshed, redirected entity
-  # thus also updating entitiesModelsIndexedByUri
-  app.request 'get:entity:model', fromUri, true
-  .then app.Execute('show:entity:from:model')
+parseSearchResults = (uri)-> (searchResults)->
+  uris = _.pluck searchResults, 'uri'
+  # Omit the current entity URI
+  uris = _.without uris, uri
+  # Search results entities miss their claims, so we need to fetch the full entities
+  return app.request 'get:entities:models', { uris }

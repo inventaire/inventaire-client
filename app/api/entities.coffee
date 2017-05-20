@@ -4,8 +4,9 @@ CustomQuery = (actionName)-> (uri, refresh)-> action actionName, { uri, refresh 
 
 module.exports =
   # GET
-  search: (search, refresh)->
-    action 'search', { search, lang: app.user.lang, refresh }
+  search: (search, refresh, fast)->
+    { lang } = app.user
+    action 'search', { search, lang, refresh, fast }
 
   searchLocal: (type, search)-> action 'search-local', { type, search }
 

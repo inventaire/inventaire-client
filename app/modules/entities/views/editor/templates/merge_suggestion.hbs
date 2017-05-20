@@ -1,0 +1,21 @@
+{{#if image.url}}
+  <img src="{{src image.url 400}}" alt='{{label}}'>
+{{/if}}
+<h5 class="label">
+  <a href="{{pathname}}" class="showEntity">{{label}}</a>
+</h5>
+<p class="uri">{{uri}}</p>
+{{#each labels}}
+  <p class="labels">
+    <span class="lang">{{@key}}: </span>
+    <span class="value">{{this}}</span>
+  </p>
+{{/each}}
+
+<div class="suggestion-claims">
+  {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}
+  {{claim claims 'wdt:P50' true}} {{!-- author --}}
+  {{#if claimsPartial}}{{partial claimsPartial this}}{{/if}}
+</div>
+
+<a class="merge dangerous-button">{{I18n 'merge'}}</a>
