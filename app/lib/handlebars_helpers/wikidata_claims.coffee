@@ -23,11 +23,13 @@ module.exports = API =
     # default to 'year' and override handlebars data object when args.length is 3
     format or= 'year'
     if claims?[prop]?[0]?
-      values = claims[prop].map (unixTime)->
-        time = new Date(unixTime)
-        switch format
-          when 'year' then return time.getUTCFullYear()
-          else return
+      values = claims[prop]
+        .map (unixTime)->
+          time = new Date(unixTime)
+          switch format
+            when 'year' then return time.getUTCFullYear()
+            else return
+        .filter isntNaN
       label = labelString prop, omitLabel
       values = _.uniq(values).join(" #{_.i18n('or')} ")
       return claimString label, values, inline
@@ -76,3 +78,4 @@ module.exports = API =
 
 dropProtocol = (url)-> url.replace /^(https?:)?\/\//, ''
 removeTailingSlash = (url)-> url.replace /\/$/, ''
+isntNaN = (value)-> not _.isNaN(value)
