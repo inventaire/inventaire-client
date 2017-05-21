@@ -15,6 +15,7 @@ entityDraftModel = require './lib/entity_draft_model'
 entitiesModelsIndex = require './lib/entities_models_index'
 createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
+WikidataEditIntro = require './views/wikidata_edit_intro'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -186,7 +187,16 @@ showEntityEdit = (params)->
   app.layout.main.show new EntityEdit(params)
   app.navigateFromModel model, 'edit'
 
-showEntityEditFromModel = (model)-> showEntityEdit { model }
+showEntityEditFromModel = (model)->
+  prefix = model.get 'prefix'
+  if prefix is 'wd' and not userHasWikidataOauthTokens()
+    showWikidataEditIntroModal model
+  else
+    showEntityEdit { model }
+
+userHasWikidataOauthTokens = -> 'wikidata' in app.user.get('oauth')
+
+showWikidataEditIntroModal = (model)-> app.layout.modal.show new WikidataEditIntro { model }
 
 handleMissingEntity = (uri)-> (err)->
   switch err.message
