@@ -46,9 +46,10 @@ module.exports = Backbone.NestedModel.extend
     # List of promises created from specialized initializers
     # to wait for before triggering @executeMetadataUpdate (see below)
     @_dataPromises = []
+
     if @wikidataId then initializeWikidataEntity.call @, attrs
-    # For the moment, among local entities, only works are editable
-    else if @type in editableTypes
+
+    if @type in editableTypes
       pathname = @get 'pathname'
       @set 'edit', "#{pathname}/edit"
 

@@ -12,3 +12,6 @@ module.exports =
   emailConfirmation: action 'email-confirmation'
   updatePassword: action 'update-password'
   # submit: defined directly in index.html form
+
+  oauth:
+    wikidata: action 'wikidata-oauth'

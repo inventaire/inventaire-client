@@ -17,9 +17,6 @@ setWikiLinks = (lang)->
       url: "https://www.wikidata.org/entity/#{@wikidataId}"
       wiki: "https://www.wikidata.org/wiki/#{@wikidataId}"
 
-  # Editions happen on Wikidata for now
-  updates.edit = updates.wikidata.wiki
-
   sitelinks = @get 'sitelinks'
   if sitelinks?
     updates.wikipedia = sitelinks_.wikipedia sitelinks, lang, @originalLang
