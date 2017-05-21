@@ -1,13 +1,13 @@
 { SafeString } = Handlebars
 
 exports.icon = (name, classes='')->
+  # overriding the second argument that could be {hash:,data:}
+  unless _.isString classes then classes = ''
   if _.isString(name)
     if name in imagesList
       src = images[name]
       return new SafeString "<img class='icon #{classes}' src='#{src}'>"
     else
-      # overriding the second argument that could be {hash:,data:}
-      unless _.isString classes then classes = ''
       return new SafeString _.icon(name, classes)
 
 images =
