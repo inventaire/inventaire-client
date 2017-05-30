@@ -1,10 +1,14 @@
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 mergeEntities = require './lib/merge_entities'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/merge_suggestion'
   className: -> "merge-suggestion #{@cid}"
+  behaviors:
+    Loading: {}
+
   serializeData: ->
     attrs = @model.toJSON()
     attrs.claimsPartial = claimsPartials[@model.type]
@@ -14,12 +18,16 @@ module.exports = Marionette.ItemView.extend
     'click .merge': 'merge'
 
   merge: ->
-    { fromEntity } = @options
-    fromUri = fromEntity.get 'uri'
-    toUri = @model.get 'uri'
+    startLoading.call @, ".#{@cid} .loading"
+    { toEntity } = @options
+    fromUri = @model.get 'uri'
+    toUri = toEntity.get 'uri'
 
     mergeEntities fromUri, toUri
-    .then app.Execute('show:entity:from:model')
+    # Simply hidding it instead of removing it from the collection so that other
+    # suggestions don't jump places, potentially leading to undesired merges
+    .then => @$el.css 'visibility', 'hidden'
+    .finally stopLoading.bind(@)
     .catch error_.Complete(".#{@cid} .merge", false)
     .catch forms_.catchAlert.bind(null, @)
 

@@ -43,8 +43,8 @@ module.exports = Marionette.LayoutView.extend
     .then parseSearchResults(uri)
     .then (suggestions)=>
       collection = new Entities suggestions
-      fromEntity = @model
-      @mergeSuggestion.show new MergeSuggestions { collection, fromEntity }
+      toEntity = @model
+      @mergeSuggestion.show new MergeSuggestions { collection, toEntity }
 
   merge: (e)->
     behaviorsPlugin.startLoading.call @, '#mergeWithButton'
