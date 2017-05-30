@@ -5,6 +5,9 @@ module.exports = Marionette.ItemView.extend
     @lazyRender = _.LazyRender @
     @once 'render', @initListeners.bind(@)
 
+    # Re-render once app.relations is populated to display network counters
+    app.request('wait:for', 'user').then @lazyRender
+
   initListeners: ->
     @listenTo app.vent,
       'route:change': @selectButtonFromRoute.bind(@)
@@ -57,7 +60,7 @@ module.exports = Marionette.ItemView.extend
       # if _.smallScreen() then _.scrollTop $('main')
 
   networkUpdates: ->
-    app.request('get:network:counters').total
+    if app.relations? then app.request('get:network:counters').total
 
   exchangesUpdates: ->
     app.request 'transactions:unread:count'

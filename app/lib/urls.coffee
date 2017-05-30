@@ -33,7 +33,7 @@ module.exports =
     bitcoin:
       hash: bitcoinHash
       url: "bitcoin:#{bitcoinHash}"
-      coinbase: subdomain 'coinbase'
+      # coinbase: subdomain 'coinbase'
       qrcode: "#{root}/img/f086157157209ee0b3a09ff7bd8eb88c79fb658d.jpg"
 
     faircoin:
