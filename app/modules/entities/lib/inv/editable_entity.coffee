@@ -27,7 +27,7 @@ module.exports =
 
   savePropertyValue: (property, oldValue, newValue)->
     _.preq.put app.API.entities.claims.update,
-      id: @id
+      uri: @get 'uri'
       property: property
       'new-value': newValue
       'old-value': oldValue
@@ -43,7 +43,7 @@ module.exports =
     reverseAction = @set.bind @, labelPath, oldValue
     rollback = _.Rollback reverseAction, 'title_editor save'
 
-    _.preq.put app.API.entities.labels.update, { @id, lang, value }
+    _.preq.put app.API.entities.labels.update, { uri: @get('uri'), lang, value }
     .catch rollback
 
   fetchHistory: ->

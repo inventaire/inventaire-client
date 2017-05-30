@@ -1,13 +1,16 @@
-{{#if customHeader}}
-  <div class="header-wrapper">
+<div class="header-wrapper">
+  {{#if customHeader}}
     <h2 class="custom-header">{{i18n customHeader}}</h2>
     {{#if progress}}
       <span class="creation-progress">({{progress.current}}/{{progress.total}})</span>
     {{/if}}
-  </div>
-{{else}}
-  <h2 class="type-label">{{claim claims 'wdt:P31' false true}}</h2>
-{{/if}}
+  {{else}}
+    <h2 class="type-label">{{claim claims 'wdt:P31' false true}}</h2>
+    {{#if wikidata}}
+      <a href="{{wikidata.wiki}}" class="wikidata-edit soft-grey-button" target="_blank">{{icon 'wikidata'}}{{i18n 'Edit on Wikidata'}}</a>
+    {{/if}}
+  {{/if}}
+</div>
 <div class="title"></div>
 <div class="claims"></div>
 <div class="admin"></div>

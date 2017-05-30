@@ -168,6 +168,10 @@ div.icon-buttons-header{
   font-weight: bold;
 }
 
+.soft-grey-button{
+  @include big-button($soft-grey);
+}
+
 .grey-button{
   @include big-button($grey);
 }

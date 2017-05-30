@@ -14,7 +14,22 @@ $entity-editor-small-thresold: 500px;
   @import 'title_editor';
   @import 'admin_section';
   .header-wrapper{
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, center, wrap);
+    margin: 1em;
+    position: relative;
+    /*Not too small screens*/
+    @media screen and (min-width: $smaller-screen) {
+      .wikidata-edit{
+        @include position(absolute, 0, 0)
+      }
+    }
+    /*Very small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      flex-direction: column;
+      .wikidata-edit{
+        order: -1;
+      }
+    }
   }
   .creation-progress{
     padding-left: 1em;

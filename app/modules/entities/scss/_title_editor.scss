@@ -9,7 +9,9 @@
     }
   }
   .entity-value-editor{
-     flex: 1 1 auto;
+    // Aligning with the language selector
+    margin-top: 0.8em;
+    flex: 1 1 auto;
     input{
       margin: 0;
     }
