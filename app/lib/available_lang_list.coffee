@@ -6,7 +6,7 @@ module.exports = (availableLangs, selectedLang)->
   .map (lang)->
     langObj = wdLang.byCode[lang]
     unless langObj?
-      error_.report "lang not found in wikidata-lang: #{lang}"
+      _.warn "lang not found in wikidata-lang: #{lang}"
       langObj = { code: lang, label: lang, native: lang }
 
     langObj = _.clone langObj
