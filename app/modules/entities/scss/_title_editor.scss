@@ -26,10 +26,28 @@
     margin-right: 0.5em;
   }
   .langSelector{
-    width: auto;
     border-color: #ddd;
   }
   .title-value{
     font-size: 1em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    flex-direction: column;
+    .title-value{
+      padding: 0.5em;
+    }
+    .property-label{
+      @include display-flex(row, flex-start, flex-start, wrap);
+      margin-right: auto;
+      margin-left: 0.3em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .entity-value-editor{
+      // Aligning with the language selector
+      margin-top: 0.8em;
+    }
   }
 }
