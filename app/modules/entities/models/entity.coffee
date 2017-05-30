@@ -133,6 +133,8 @@ module.exports = Backbone.NestedModel.extend
     .then collection.add.bind(collection)
 
   setSubEntitiesUris: (uris)->
+    if @subEntitiesUrisFilter? then uris = uris.filter @subEntitiesUrisFilter
+
     @set 'subEntitiesUris', uris
     if @childrenInverseProperty then @set "claims.#{@childrenInverseProperty}", uris
     # The list of all uris that describe an entity that is this work or a subentity,

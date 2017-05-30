@@ -65,5 +65,7 @@ typesString =
   'wd:Q49084': 'short story'
 
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
+  # Discard Wikidata editions for now has they don't integrate well
+  subEntitiesUrisFilter: (uri)-> uri.split(':')[0] isnt 'wd'
   # wait for setImage to have run
   getImageAsync: -> @waitForSubentities.then => @get 'image'
