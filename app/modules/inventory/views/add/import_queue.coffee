@@ -99,6 +99,11 @@ module.exports = Marionette.CompositeView.extend
     if @selected.length > 0
       candidate = @selected.pop()
       candidate.createItem transaction, listing
+      .catch (err)=>
+        candidate.set 'errorMessage', err.message
+        @failed or= []
+        @failed.push candidate
+        return
       .then (item)=>
         @collection.remove candidate
         # recursively trigger next import
@@ -112,6 +117,8 @@ module.exports = Marionette.CompositeView.extend
       @stopProgressUpdate()
       @toggleValidationElements()
       @updateHeadCheckbox()
+      _.log @failed, 'failed candidates imports'
+      @collection.add @failed
       # Hide the cant import message now
       # as it might sound like the import failed.
       # The section will not be empty though, thank to the addedItems message
