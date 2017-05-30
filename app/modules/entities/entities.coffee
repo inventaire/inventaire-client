@@ -194,7 +194,9 @@ showEntityEditFromModel = (model)->
   else
     showEntityEdit { model }
 
-userHasWikidataOauthTokens = -> 'wikidata' in app.user.get('oauth')
+userHasWikidataOauthTokens = ->
+  userOauth = app.user.get('oauth')
+  return userOauth? and 'wikidata' in userOauth
 
 showWikidataEditIntroModal = (model)-> app.layout.modal.show new WikidataEditIntro { model }
 
