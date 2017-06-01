@@ -26,8 +26,10 @@ module.exports =
     .catch rollback
 
   savePropertyValue: (property, oldValue, newValue)->
+    # Substitute an inv URI to the isbn URI to spare having to resolve it server-side
+    uri = @get('altUri') or @get('uri')
     _.preq.put app.API.entities.claims.update,
-      uri: @get 'uri'
+      uri: uri
       property: property
       'new-value': newValue
       'old-value': oldValue
