@@ -1,28 +1,26 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 # and server/controllers/entities/lib/properties.coffee
 
-commonsSeriesWorks =
+work =
   'wdt:P50': {} # author
+  'wdt:P577': {} # publication date
   'wdt:P136': {} # genre
+  'wdt:P179': {} # series
+  'wdt:P1545': {} # series ordinal
   'wdt:P921': {} # main subject
+  'wdt:P364': {} # original language of work
+  # 'wdt:P31: {}' # instance of (=> works aliases)
+  # 'wdt:P110': {} # illustrator
+  # 'wdt:P1476': {} # title (using P364 lang)
+  # 'wdt:P1680': {} # subtitle (using P364 lang)
   # 'wdt:P840': {} # narrative location
   # 'wdt:P674': {} # characters
 
+  # Reverse properties
+  'wdt:P747': { customLabel: 'editions' } # editions (inverse of wdt:P629)
+
 module.exports = (_)->
-  work: _.extend {}, commonsSeriesWorks,
-    # 'wdt:P31: {}' # instance of (=> works aliases)
-    'wdt:P577': {} # publication date
-    # 'wdt:P110': {} # illustrator
-    'wdt:P179': {} # series
-    'wdt:P364': {} # original language of work
-    # 'wdt:P1476': {} # title (using P364 lang)
-    # 'wdt:P1680': {} # subtitle (using P364 lang)
-    # 'wdt:P155': {} # follow
-    # 'wdt:P156': {} # is follow by
-
-    # Reverse properties
-    'wdt:P747': { customLabel: 'editions' } # editions (inverse of wdt:P629)
-
+  work: work
   edition:
     'wdt:P1476': { customLabel: 'edition title' }
     'wdt:P407': { customLabel: 'edition language' }
@@ -44,4 +42,6 @@ module.exports = (_)->
     'wdt:P570': {} # date of death
     'wdt:P737': {} # influenced by
 
-  serie: commonsSeriesWorks
+  # Using omit instead of having a common list, extended for works, so that
+  # the properties order isn't constrained by being part or not of the common properties
+  serie: _.omit work, [ 'wdt:P179', 'wdt:P1545', 'wdt:P747' ]

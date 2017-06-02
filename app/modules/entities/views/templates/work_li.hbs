@@ -12,7 +12,14 @@
   </div>
 {{/if}}
 <div class="workLiData">
-  <h4><a class="showEntity link" href="{{pathname}}">{{label}}</a></h4>
+  <h4>
+    <a class="showEntity link" href="{{pathname}}">
+      {{#if claims.wdt:P1545}}
+        <span class="ordinal">{{claims.wdt:P1545}}.</span>
+      {{/if}}
+      {{label}}
+    </a>
+  </h4>
   {{#if description}}
     <p class="clamped grey">{{{description}}}</p>
   {{/if}}
