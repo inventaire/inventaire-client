@@ -25,14 +25,12 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @_historyShown = false
 
-  onShow: ->
-    @showMergeSuggestions()
-
   serializeData: ->
     mergeWith: mergeWithData()
 
   events:
     'click #mergeWithButton': 'merge'
+    'click #showMergeSuggestions': 'showMergeSuggestions'
     'click #historyToggler': 'toggleHistory'
 
   showMergeSuggestions: ->

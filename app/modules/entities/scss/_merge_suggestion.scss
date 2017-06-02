@@ -1,4 +1,9 @@
-#merge-suggestion{}
+#merge-suggestion{
+  @include display-flex(row, center, center);
+}
+#showMergeSuggestions{
+  margin: 1em;
+}
 .inner-merge-suggestions{
   @include display-flex(row, flex-start, center, wrap);
 }

@@ -39,6 +39,7 @@
     margin: 0;
   }
 }
+
 #mergeWithButton{
   // centering the loading button vertically
   @include display-flex(row, center, center);
