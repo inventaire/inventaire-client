@@ -77,7 +77,11 @@ mergeWithData = ->
 
 parseSearchResults = (uri)-> (searchResults)->
   uris = _.pluck searchResults, 'uri'
+  prefix = uri.split(':')[0]
+  if prefix is 'wd' then uris = uris.filter isntWdUri
   # Omit the current entity URI
   uris = _.without uris, uri
   # Search results entities miss their claims, so we need to fetch the full entities
   return app.request 'get:entities:models', { uris }
+
+isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'
