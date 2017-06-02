@@ -1,9 +1,12 @@
+Item = require 'modules/inventory/models/item'
+
 module.exports =
   create: (itemData)->
     _.log itemData, 'item data before creation'
 
     _.preq.post app.API.items.base, itemData
     .then _.Log('item data after creation')
+    .then (data)-> new Item data
 
   update: (options)->
     # expects: item, attribute, value
