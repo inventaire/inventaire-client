@@ -21,10 +21,9 @@
     </a>
   </h4>
   {{#if description}}
-    <p class="clamped grey">{{{description}}}</p>
+    <p class="description clamped grey">{{{description}}}</p>
   {{/if}}
   <p>
-    {{!-- {{partial 'entities:work_claims' this}} --}}
     {{claim claims 'wdt:P50' true}}  {{!-- author --}}
   </p>
   <p class="date">

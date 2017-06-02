@@ -30,10 +30,6 @@ $serie-bg: #252525;
     max-width: 40em;
     margin-bottom: 1em;
   }
-  .description{
-    color: white;
-    text-align: left;
-  }
   &.standalone{
     .more{
       margin-bottom: 2em;
@@ -48,6 +44,10 @@ $serie-bg: #252525;
   }
   .serieInfobox{
     position: relative;
+    .description{
+      color: white;
+      text-align: left;
+    }
   }
   .parts > div{
     .fa-spin{
@@ -62,7 +62,7 @@ $serie-bg: #252525;
     }
     .workLi{
       text-align: center;
-      p:not(.date), .actions{
+      .description, .actions{
         display: none;
       }
       .date{
