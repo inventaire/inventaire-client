@@ -14,7 +14,10 @@
       <span class="series" title="{{i18n 'series'}}">{{series}}</span>
       <hr>
     {{/if}}
-    <h3 class="title">{{title}}</h3>
+    <h3 class="title">
+      {{title}}
+      {{#if rank}}<san class="rank" title="{{i18n 'rank'}}">({{rank}})</span>{{/if}}
+    </h3>
     {{#if authors}}
       <hr>
       <span class="authors" title="{{i18n 'authors'}}">{{authors}}</span>
