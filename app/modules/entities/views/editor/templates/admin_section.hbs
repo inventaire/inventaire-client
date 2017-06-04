@@ -1,14 +1,16 @@
 <h3>{{i18n 'admin section'}}</h3>
 {{!-- entity type selector --}}
 
-<h4>{{i18n 'merge with another entity'}}</h4>
-<section class="merge-section">
-  <div id="merge-suggestion">
-    <a id="showMergeSuggestions" class="light-blue-button">{{i18n 'Search possible duplicates'}}</a>
-  </div>
-  <p class="warning">{{icon 'warning'}}{{i18n 'data_loss_at_merge'}}</p>
-  {{input mergeWith}}
-</section>
+{{#if canBeMerged}}
+  <h4>{{i18n 'merge with another entity'}}</h4>
+  <section class="merge-section">
+    <div id="merge-suggestion">
+      <a id="showMergeSuggestions" class="light-blue-button">{{i18n 'Search possible duplicates'}}</a>
+    </div>
+    <p class="warning">{{icon 'warning'}}{{i18n 'data_loss_at_merge'}}</p>
+    {{input mergeWith}}
+  </section>
+{{/if}}
 
 <h4>
   <a id="historyToggler">

@@ -26,12 +26,19 @@ module.exports = Marionette.LayoutView.extend
     @_historyShown = false
 
   serializeData: ->
+    canBeMerged: @canBeMerged()
     mergeWith: mergeWithData()
 
   events:
     'click #mergeWithButton': 'merge'
     'click #showMergeSuggestions': 'showMergeSuggestions'
     'click #historyToggler': 'toggleHistory'
+
+  canBeMerged: ->
+    if @model.type isnt 'edition' then return true
+    # Editions that have no ISBN can be merged
+    if not @model.get('claims.wdt:P212')? then return true
+    return false
 
   showMergeSuggestions: ->
     { pluralizedType } = @model
