@@ -1,4 +1,4 @@
-#Inventaire-client
+# inventaire-client
 Libre collaborative resource mapper powered by open-knowledge
 
 [![Licence](https://img.shields.io/badge/licence-AGPL3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.html)
@@ -9,9 +9,18 @@ Libre collaborative resource mapper powered by open-knowledge
 
 [![inventory-en](http://profile.maxlath.eu/slides/backbone-meetup/img/inventory-georges.png)](https://inventaire.io)
 
-This repository tracks the client-side developments, while the [server-side can be found here](https://github.com/maxlath/inventaire). The server repository gathers the documentation and general issues of the project.
+This repository tracks [https://inventaire.io](inventaire.io) client-side developments, while the [server-side can be found here](https://github.com/maxlath/inventaire). The server repository gathers the documentation and general issues of the project.
 
-Both are licenced [AGPL3](http://www.gnu.org/licenses/agpl-3.0.html)
+## Summary
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [inventaire stack map](#inventaire-stack-map)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## inventaire stack map
 [![stack](https://raw.githubusercontent.com/inventaire/stack/master/snapshots/stack-from-client.png)](https://inventaire.github.io/stack/)
