@@ -18,12 +18,17 @@ This repository tracks [https://inventaire.io](inventaire.io) client-side develo
 
 
 - [inventaire stack map](#inventaire-stack-map)
+- [webapp tools](#webapp-tools)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## inventaire stack map
 [![stack](https://raw.githubusercontent.com/inventaire/stack/master/snapshots/stack-from-client.png)](https://inventaire.github.io/stack/)
+
+## webapp tools
+
+[![BrowserStack](https://raw.githubusercontent.com/inventaire/inventaire-client/master/app/assets/images/browser-stack-logo-2.jpg)](https://www.browserstack.com) offered to help us test the webapp across browsers and devices for free, as part of their support for Open Source project, thanks for that!
 
 ## License
 [AGPL](LICENSE.md)
