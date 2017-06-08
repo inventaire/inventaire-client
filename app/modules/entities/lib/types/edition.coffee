@@ -7,8 +7,10 @@ module.exports = ->
   @setClaimsBasedAttributes()
 
   uri = @get 'uri'
-  workUri = @get 'claims.wdt:P629.0'
-  unless workUri? then throw new Error('entity misses an associated work')
+  # Works is pluralized to account for composite editions
+  # cf https://github.com/inventaire/inventaire/issues/93
+  worksUris = @get 'claims.wdt:P629'
+  unless worksUris? then throw new Error('entity misses an associated work')
 
   # Editions don't have subentities so the list of all their uris,
   # including their subentities, are limited to their own uri
@@ -17,7 +19,7 @@ module.exports = ->
   # No subentities to fetch
   @waitForSubentities = _.preq.resolved
 
-  @waitForWork = @reqGrab 'get:entity:model', workUri, 'work'
+  @waitForWorks = @reqGrab 'get:entities:models', { uris: worksUris }, 'works'
   # Use tap to ignore the return values
   .tap inheritData.bind(@)
   # Got to be initialized after inheritData is run to avoid running
@@ -28,14 +30,15 @@ module.exports = ->
 
 # Editions inherit some claims from their work but not all, as it could get confusing.
 # Ex: publication date should not be inherited
-inheritedProperties = [ 'wdt:P50' ]
-
-inheritData = (work)->
-  claims = @get 'claims'
-  # Use cases: used on the edition layout to display authors
-  inheritedWorkClaims = _.pick work.get('claims'), inheritedProperties
-  @set 'claims', _.extend({}, inheritedWorkClaims, claims)
+inheritData = (works)->
+  # Use cases: used on the edition layout to display authors and series
+  setWorksClaims.call @, works, 'wdt:P50'
+  setWorksClaims.call @, works, 'wdt:P179'
   return
+
+setWorksClaims = (works, property)->
+  values = _.uniq _.flatten(works.map((work)-> work.get("claims.#{property}")))
+  @set "claims.#{property}", values
 
 startListeningForClaimsChanges = ->
   @on 'change:claims', @setClaimsBasedAttributes.bind(@)
@@ -64,3 +67,4 @@ specificMethods =
     @setLang()
     @setLabelFromTitle()
     @setPublicationTime()
+    @set 'isCompositeEdition', (@get('claims.wdt:P629')?.length > 1)

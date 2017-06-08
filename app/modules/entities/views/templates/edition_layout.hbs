@@ -26,7 +26,11 @@
   </div>
 </div>
 
-<a class="showEntity light-blue-button capitalize" href="{{work.pathname}}" title="{{work.label}}">{{I18n 'see all editions'}}</a>
+<div class="works">
+  {{#each works}}
+    <a class="showEntity light-blue-button capitalize" href="{{pathname}}" title="{{label}}">{{I18n 'see_all_work_editions' this}}</a>
+  {{/each}}
+</div>
 
 {{partial 'entities:edition_meta' this}}
 

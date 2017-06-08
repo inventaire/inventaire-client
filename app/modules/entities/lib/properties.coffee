@@ -26,7 +26,7 @@ addProp 'wdt:P747', 'fixed-entity', null, true, false
 addProp 'wdt:P364', 'entity', 'languages', true, null
 
 ## edition
-addProp 'wdt:P629', 'fixed-entity', null, false, null
+addProp 'wdt:P629', 'entity', 'works', true, false
 # title
 addProp 'wdt:P1476', 'string', null, false, null
 # image

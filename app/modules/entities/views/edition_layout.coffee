@@ -20,7 +20,7 @@ module.exports = Marionette.LayoutView.extend
     entityItems.initialize.call @
 
   onShow: ->
-    @model.waitForWork
+    @model.waitForWorks
     .then @render.bind(@)
 
     # Need to wait to know if the user has an instance of this work
@@ -31,7 +31,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     _.extend @model.toJSON(),
       standalone: @standalone
-      work: if @standalone then @model.work?.toJSON()
+      works: if @standalone then @model.works?.map (work)-> work.toJSON()
 
   # Unclear why, but @entityActions may be undefined at render
   showEntityActions: -> @entityActions?.show new EntityActions { @model }

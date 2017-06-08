@@ -58,6 +58,11 @@
   .entityActions{
     margin-top: 2em;
   }
+  .works{
+    a{
+      display: inline-block;
+    }
+  }
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
     .items-lists{

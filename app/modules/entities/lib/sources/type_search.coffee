@@ -16,7 +16,7 @@ getSearchTypeFn = (type)->
   # and return an array of results
   switch type
     # Types that have entities both locally and on Wikidata
-    when 'humans', 'series' then dualSearch type
+    when 'works', 'humans', 'series' then dualSearch type
     # Types that aren't supported locally, so that can be fetched on Wikidata only
     when 'genres', 'movements', 'publishers' then wikidataSubsetSearch type
     when 'topics' then wikidataSearch

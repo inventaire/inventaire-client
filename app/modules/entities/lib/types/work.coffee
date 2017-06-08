@@ -41,11 +41,15 @@ getEditionImageData = (model)->
     image: image
     lang: model.get 'lang'
     publicationDate: model.get 'publicationTime'
+    isCompositeEdition: model.get 'isCompositeEdition'
   }
 
 # Sorting function on probation
 BestImage = (userLang)-> (a, b)->
-  if a.lang is b.lang then latestPublication a, b
+  if a.isCompositeEdition isnt b.isCompositeEdition
+    if a.isCompositeEdition then 1
+    else -1
+  else if a.lang is b.lang then latestPublication a, b
   else if a.lang is userLang then -1
   else if b.lang is userLang then 1
   else latestPublication a, b
