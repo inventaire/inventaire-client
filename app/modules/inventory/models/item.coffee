@@ -96,7 +96,7 @@ module.exports = Filterable.extend
     attrs.picture = @getPicture()
     attrs.authors = @get 'snapshot.entity:authors'
     attrs.series = @get 'snapshot.entity:series'
-    attrs.rank = @get 'snapshot.entity:rank'
+    attrs.ordinal = @get 'snapshot.entity:ordinal'
 
     return attrs
 
