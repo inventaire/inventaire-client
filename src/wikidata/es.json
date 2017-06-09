@@ -28,5 +28,8 @@
     "P957": null,
     "P1066": "alumno de",
     "P1104": "número de páginas",
-    "P1680": "subtítulo"
+    "P1545": "orden dentro de la serie",
+    "P1680": "subtítulo",
+    "P2679": "autor del prefacio",
+    "P2680": "autor del epílogo"
 }

@@ -28,5 +28,8 @@
     "P957": null,
     "P1066": "student van",
     "P1104": "aantal pagina's",
-    "P1680": "ondertitel"
+    "P1545": "volgnummer",
+    "P1680": "ondertitel",
+    "P2679": "voorwoord door",
+    "P2680": "naschrift door"
 }

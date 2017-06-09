@@ -5,7 +5,7 @@
     "P39": "ämbete",
     "P50": "författare",
     "P58": "manusförfattare",
-    "P69": "Alma mater",
+    "P69": "alma mater",
     "P103": "modersmål",
     "P106": "sysselsättning",
     "P110": "illustratör",
@@ -23,10 +23,13 @@
     "P674": "rollfigurer",
     "P737": "influerad av",
     "P747": "upplagor",
-    "P840": "utspelar sig i",
+    "P840": "utspelar sig på plats",
     "P921": "huvudtema",
     "P957": null,
     "P1066": "student till",
     "P1104": "sidantal",
-    "P1680": "undertitel"
+    "P1545": "ordningsnummer",
+    "P1680": "undertitel",
+    "P2679": "författare till förord",
+    "P2680": "författare till efterord"
 }

@@ -28,5 +28,8 @@
     "P957": null,
     "P1066": "studente di",
     "P1104": "numero di pagine",
-    "P1680": "sottotitolo"
+    "P1545": "numero d'ordine",
+    "P1680": "sottotitolo",
+    "P2679": "autore della prefazione",
+    "P2680": "autore della postfazione"
 }

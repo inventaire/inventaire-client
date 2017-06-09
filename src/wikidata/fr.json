@@ -28,5 +28,8 @@
     "P957": "ISBN-10",
     "P1066": "élève de",
     "P1104": "nombre de pages",
-    "P1680": "sous-titre"
+    "P1545": "ordre dans la série",
+    "P1680": "sous-titre",
+    "P2679": "auteur de la préface",
+    "P2680": "auteur de la postface"
 }
