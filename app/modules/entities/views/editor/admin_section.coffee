@@ -28,6 +28,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     canBeMerged: @canBeMerged()
     mergeWith: mergeWithData()
+    isAnEdition: @model.type is 'edition'
 
   events:
     'click #mergeWithButton': 'merge'
