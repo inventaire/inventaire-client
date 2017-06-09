@@ -43,6 +43,10 @@ addProp 'wdt:P957', 'fixed-string', null, false, null
 addProp 'wdt:P407', 'entity', 'languages', true, null
 # number of pages
 addProp 'wdt:P1104', 'positive-integer', null, false, null
+# author of foreword
+addProp 'wdt:P2679', 'entity', 'humans', true, true
+# author of afterword
+addProp 'wdt:P2680', 'entity', 'humans', true, true
 
 ## human
 # date of birth
