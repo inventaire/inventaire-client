@@ -32,7 +32,12 @@
 
 #mergeWithGroup{
   max-width: 30em;
-  input{
+  margin-bottom: 1em;
+  .button{
+    width: auto;
+    padding-left: 1em;
+  }
+  input[type="text"]{
     margin-bottom: 0;
   }
   .alert-box{
