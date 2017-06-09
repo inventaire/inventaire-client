@@ -1,10 +1,18 @@
 {{#unless hidePicture}}
-  {{#if image.url}}
-    <div class="cover">
-      <img src="{{src image.url 300}}" alt="{{label}} {{i18n 'cover'}}">
+  <div class="covers">
+    <div class="main-cover">
+      <img src="{{src mainImage.url 300}}" alt="{{label}} {{i18n 'cover'}}">
       {{partial 'entities:photo_credits' image.credits}}
     </div>
-  {{/if}}
+    <div class="secondary-covers">
+      {{#each secondaryImages}}
+        <div class="secondary-cover">
+          <img src="{{src url 150}}" alt="{{label}} {{i18n 'cover'}}">
+          {{partial 'entities:photo_credits' image.credits}}
+        </div>
+      {{/each}}
+    </div>
+  </div>
 {{/unless}}
 
 <div class="data">

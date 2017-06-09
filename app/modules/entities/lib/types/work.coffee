@@ -23,16 +23,22 @@ setPublicationYear = ->
     @inPublicDomain = @publicationYear < publicDomainThresholdYear
 
 setImage = ->
-  images =_.compact @editions.map(getEditionImageData)
-  images.sort BestImage(app.user.lang)
-  currentImage = @get('image')
-  candidateImage = images[0]?.image
+  editionsImages =_.compact(@editions.map(getEditionImageData))
+    .sort bestImage
+    .map _.property('image')
+
+  workImage = @get 'image'
   # If the work is in public domain, we can expect Wikidata image to be better
   # if there is one. In any other case, prefer images from editions
   # as illustration from Wikidata for copyrighted content can be quite random.
   # Wikipedia and OpenLibrary work images follow the same rule for simplicity
-  if currentImage? and @inPublicDomain then return
-  else @set 'image', (candidateImage or currentImage)
+  if workImage? and @inPublicDomain
+    images = [ workImage ].concat editionsImages
+  else
+    images = editionsImages
+    @set 'image', (images[0] or workImage)
+
+  @set 'images', images.slice(0, 3)
 
 getEditionImageData = (model)->
   image = model.get 'image'
@@ -44,8 +50,8 @@ getEditionImageData = (model)->
     isCompositeEdition: model.get 'isCompositeEdition'
   }
 
-# Sorting function on probation
-BestImage = (userLang)-> (a, b)->
+bestImage = (a, b)->
+  { lang:userLang } = app.user
   if a.isCompositeEdition isnt b.isCompositeEdition
     if a.isCompositeEdition then 1
     else -1

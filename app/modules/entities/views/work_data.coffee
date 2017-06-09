@@ -25,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
     attrs = @setDescriptionAttributes(attrs)
     attrs.workPage = @options.workPage
     attrs.hidePicture = @hidePicture
+    setImagesSubGroups attrs
     return attrs
 
   onRender: ->
@@ -51,3 +52,9 @@ module.exports = Marionette.LayoutView.extend
 
     collection = new Backbone.Collection authors
     @authors.show new AuthorsPreviewList { collection }
+
+setImagesSubGroups = (attrs)->
+  { images } = attrs
+  unless images? then return
+  attrs.mainImage = images[0]
+  attrs.secondaryImages = images.slice(1)

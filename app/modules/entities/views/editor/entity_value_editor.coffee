@@ -33,7 +33,13 @@ module.exports = EditorCommons.extend
 
   valueEntityData: ->
     { valueEntity } = @model
-    if valueEntity? then valueEntity.toJSON()
+    if valueEntity?
+      data = valueEntity.toJSON()
+      # Do not display an image if it's not the entity's own image
+      # (e.g. if it's a work that deduced an image from one of its editions)
+      # as it might be confusing
+      unless data.claims['wdt:P18']? then delete data.image
+      return data
 
   onShow: ->
     @listenTo @model, 'grab', @onGrab.bind(@)
