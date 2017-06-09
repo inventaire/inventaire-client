@@ -47,7 +47,11 @@ startListeningForClaimsChanges = ->
   return
 
 specificMethods =
-  buildTitleAsync: -> @waitForWork.then (work)-> work.buildTitle()
+  buildTitleAsync: ->
+    title = @get 'claims.wdt:P1476.0'
+    if title then _.preq.resolve title
+    # Legacy: all editions are now expected to have a title (wdt:P1476) claim
+    else @waitForWorks.then (works)-> works.map((work)-> work.buildTitle()).join(' / ')
 
   setLang: ->
     langUri = @get 'claims.wdt:P407.0'
