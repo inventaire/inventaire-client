@@ -24,8 +24,8 @@
 
     <div class='validationButtons custom-button-group'>
       <a id="cancel" class="button grey">{{icon 'ban'}}{{i18n 'cancel'}}</a>
-      <a id="validate" class="button success">{{icon 'check'}}{{i18n "validate"}}</a>
-      <a id="validateAndAddNext" class="button secondary"
+      <a id="validate" class="button success" tabindex="0">{{icon 'check'}}{{i18n "validate"}}</a>
+      <a id="validateAndAddNext" class="button secondary" tabindex="0"
         {{#if zxing}} href="{{zxing.url}}" {{/if}}
       >
         {{icon 'plus'}}{{i18n 'validate and add another book'}}
