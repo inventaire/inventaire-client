@@ -1,6 +1,5 @@
 ResultsList = require './results_list'
 Entities = require 'modules/entities/collections/entities'
-FindByIsbn = require './find_by_isbn'
 ItemsList = require 'modules/inventory/views/items_list'
 EntityEdit = require 'modules/entities/views/editor/entity_edit'
 wd_ = require 'lib/wikimedia/wikidata'
