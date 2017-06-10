@@ -1,4 +1,4 @@
-{{#unless hidePicture}}
+{{#unless hidePicture}}{{#if mainImage.url}}
   <div class="covers">
     <div class="main-cover">
       <img src="{{src mainImage.url 300}}" alt="{{label}} {{i18n 'cover'}}">
@@ -13,7 +13,7 @@
       {{/each}}
     </div>
   </div>
-{{/unless}}
+{{/if}}{{/unless}}
 
 <div class="data">
   <p class="entity-type-label capitalized">{{claim claims 'wdt:P31' false true}}</p>
