@@ -172,3 +172,13 @@ initializeInventoriesHandlers = (app)->
     'item:main:user:instances': (entityUri)->
       app.request 'items:getByUserIdAndEntity', app.user.id, entityUri
       .get 'models'
+    'item:update:entity': (item, entity)->
+      itemActions.update
+        item: item
+        attribute: 'entity'
+        value: entity.get('uri')
+      # Let some time to the server to update the item snapshot data
+      .delay 500
+      # before requesting an updated item
+      .then -> app.request 'get:item:model', item.get('_id')
+      .then (updatedItem)-> app.execute 'show:item:show:from:model', updatedItem

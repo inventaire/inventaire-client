@@ -44,10 +44,18 @@ $entity-editor-small-thresold: 500px;
     text-align: center;
   }
   .next{
-    padding: 0.5em;
-    @include display-flex(row, center, center);
+    padding: 0.5em 0;
+    @include display-flex(row, center, center, wrap);
     a{
       margin: 0.5em;
+      white-space: nowrap;
+    }
+    /*Small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      flex-direction: column;
+      .entity-edit-cancel{
+        order: 3;
+      }
     }
   }
 }

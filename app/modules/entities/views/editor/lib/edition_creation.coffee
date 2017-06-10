@@ -16,17 +16,22 @@ module.exports =
 
   clickEvents:
     isbnButton: require './create_edition_entity_from_work'
-    withoutIsbn: (view, workModel, e)->
-      app.execute 'show:entity:create', workEditionCreationData(workModel)
+    withoutIsbn: (params)->
+      { work:workModel, itemToUpdate } = params
+      app.execute 'show:entity:create', workEditionCreationData(workModel, itemToUpdate)
+      # In case the edition list was opened in a modal
+      app.execute 'modal:close'
 
 addWithoutIsbnPath = (workModel)->
   return _.buildPath '/entity/new', workEditionCreationData(workModel)
 
-workEditionCreationData = (workModel)->
+workEditionCreationData = (workModel, itemToUpdate)->
   data =
     type: 'edition',
     claims:
       'wdt:P629': [ workModel.get('uri') ]
+
+  data.itemToUpdate = itemToUpdate
 
   { lang } = app.user
   langWdId = wdLang.byCode[lang]?.wd

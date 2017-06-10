@@ -1,5 +1,5 @@
 .edition-commons{
-  .add{
+  .add, .updateItem{
     @include tiny-button($light-blue);
     margin: 0 auto;
     text-align: center;

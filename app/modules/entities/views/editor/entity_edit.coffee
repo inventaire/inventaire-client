@@ -38,7 +38,7 @@ module.exports = Marionette.LayoutView.extend
 
     @navigationButtonsDisabled = false
 
-    { @next, @relation } = @options
+    { @next, @relation, @itemToUpdate } = @options
     @multiEdit = @next? or @relation?
     if @relation?
       @previousData = @model.get('claims')[@relation]
@@ -74,6 +74,8 @@ module.exports = Marionette.LayoutView.extend
     # Do not show the signal data error button in creation mode
     # as it wouldn't make sense
     attrs.signalDataErrorButton = not @creationMode
+    # Used when item_show attempts to 'preciseEdition' with a new edition
+    attrs.itemToUpdate = @itemToUpdate
     return attrs
 
   multiEditData: ->
@@ -94,6 +96,7 @@ module.exports = Marionette.LayoutView.extend
     'click .entity-edit-cancel': 'cancel'
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
+    'click .createAndUpdateItem': 'createAndUpdateItem'
     'click #next': 'showNextMultiEditPage'
     'click #previous': 'showPreviousMultiEditPage'
     'click #signalDataError': 'signalDataError'
@@ -113,13 +116,26 @@ module.exports = Marionette.LayoutView.extend
     if window.history.length > 1 then window.history.back()
     else app.execute 'show:entity:from:model', @model
 
-  createAndShowEntity: -> @_createAndAction 'show:entity:from:model'
-  createAndAddEntity: -> @_createAndAction 'show:entity:add:from:model'
+  createAndShowEntity: -> @_createAndAction app.Execute('show:entity:from:model')
+  createAndAddEntity: -> @_createAndAction app.Execute('show:entity:add:from:model')
+  createAndUpdateItem: ->
+    { itemToUpdate } = @
+    if itemToUpdate instanceof Backbone.Model
+      @_createAndUpdateItem itemToUpdate
+    else
+      # If the view was loaded from the URL, @itemToUpdate will be just
+      # the URL persisted attributes instead of a model object
+      app.request 'get:item:model', @itemToUpdate._id
+      .then @_createAndUpdateItem.bind(@)
 
-  _createAndAction: (command)->
+  _createAndUpdateItem: (item)->
+    action = (entity)-> app.request 'item:update:entity', { item, entity }
+    @_createAndAction action
+
+  _createAndAction: (action)->
     @createPreviousAndUpdateCurrentModel()
     .then @model.create.bind(@model)
-    .then app.Execute(command)
+    .then action
     .catch error_.Complete('.meta', false)
     .catch forms_.catchAlert.bind(null, @)
 

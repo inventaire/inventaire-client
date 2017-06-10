@@ -39,10 +39,17 @@
         {{icon 'arrow-right'}}
         {{I18n createAndShowLabel}}
       </a>
-      <a class="createAndAddEntity navigationButtons success-button" tabindex="0">
-        {{icon 'plus'}}
-        {{I18n "create and add to your inventory"}}
-      </a>
+      {{#if itemToUpdate}}
+        <a class="createAndUpdateItem navigationButtons success-button" tabindex="0">
+          {{icon 'plus'}}
+          {{I18n "create and update your item with this edition"}}
+        </a>
+      {{else}}
+        <a class="createAndAddEntity navigationButtons success-button" tabindex="0">
+          {{icon 'plus'}}
+          {{I18n "create and add to your inventory"}}
+        </a>
+      {{/if}}
     {{/if}}
   {{else}}
     <a href="{{pathname}}" class="showEntity light-blue-button" tabindex="0">

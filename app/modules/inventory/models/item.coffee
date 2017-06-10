@@ -60,6 +60,7 @@ module.exports = Filterable.extend
       entityPathname: @entityPathname
       restricted: @restricted
       userReady: @userReady
+      mainUserIsOwner: attrs.owner is app.user.id
       user: @userData()
 
     # @entity will be defined only if @grabEntity was called

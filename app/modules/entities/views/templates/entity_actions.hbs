@@ -1,4 +1,11 @@
-<a class="add" tabindex="0">
-  {{icon 'plus'}}
-  <span>{{i18n 'add to my inventory'}}</span>
-</a>
+{{#if itemToUpdate}}
+  <a class="updateItem" tabindex="0">
+    {{icon 'arrow-right'}}
+    <span>{{i18n 'select this edition'}}</span>
+  </a>
+{{else}}
+  <a class="add" tabindex="0">
+    {{icon 'plus'}}
+    <span>{{i18n 'add to my inventory'}}</span>
+  </a>
+{{/if}}

@@ -8,6 +8,8 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: 'ul'
   childView: require './edition_layout'
   emptyView: require './no_edition'
+  childViewOptions: ->
+    itemToUpdate: @options.itemToUpdate
 
   behaviors:
     Loading: {}
@@ -81,6 +83,7 @@ module.exports = Marionette.CompositeView.extend
 
   dispatchCreationEditionClickEvents: (e)->
     { id } = e.currentTarget
-    clickEvents[id]?(@, @work, e)
+    { itemToUpdate } = @options
+    clickEvents[id]?({ view: @, @work, e, itemToUpdate })
 
 LangFilter = (lang)-> (child)-> child.get('lang') is lang

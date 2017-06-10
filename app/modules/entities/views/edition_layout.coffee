@@ -34,4 +34,6 @@ module.exports = Marionette.LayoutView.extend
       works: if @standalone then @model.works?.map (work)-> work.toJSON()
 
   # Unclear why, but @entityActions may be undefined at render
-  showEntityActions: -> @entityActions?.show new EntityActions { @model }
+  showEntityActions: ->
+    { itemToUpdate } = @options
+    @entityActions?.show new EntityActions { @model, itemToUpdate }

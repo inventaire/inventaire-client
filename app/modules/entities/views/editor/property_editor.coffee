@@ -74,4 +74,4 @@ module.exports = Marionette.CompositeView.extend
 
   dispatchCreationPartialClickEvents: (e)->
     { id } = e.currentTarget
-    @customAdd.clickEvents[id]?(@, @model.entity, e)
+    @customAdd.clickEvents[id]?({ view: @, work: @model.entity, e })

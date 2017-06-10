@@ -1,5 +1,6 @@
 ItemShowData = require './item_show_data'
 AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+EditionsList = require 'modules/entities/views/editions_list'
 
 module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
@@ -39,7 +40,21 @@ module.exports = Marionette.LayoutView.extend
     collection = new Backbone.Collection authors
     @authors.show new AuthorsPreviewList { collection }
 
-  # TODO: allow to precise which edition of a work an item refers to
+  events:
+    'click .preciseEdition': 'preciseEdition'
+
+  preciseEdition: ->
+    work = @model.entity
+    unless work.type is 'work' then throw new Error('wrong entity type')
+
+    app.layout.modal.show new EditionsList
+      collection: work.editions
+      work: work
+      header: 'precise the edition'
+      itemToUpdate: @model
+
+    app.execute 'modal:open', 'large'
+
 
 getSeriePathname = (work)->
   [ uri, pathname, serieUri ] = work.gets 'uri', 'pathname', 'claims.wdt:P179.0'

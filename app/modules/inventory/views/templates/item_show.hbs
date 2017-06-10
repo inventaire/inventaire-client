@@ -13,6 +13,10 @@
     <a class="work showEntity" href="{{work.pathname}}">
       <span class="related-entity-label">{{work.label}}</span>
     </a>
+  {{else}}
+    {{#if mainUserIsOwner}}
+      <a class="preciseEdition tiny-button light-blue bold" title="{{i18n 'precise the edition'}}">{{icon 'question-circle'}}{{i18n 'which edition?'}}</a>
+    {{/if}}
   {{/if}}
 
   <div class="authors"></div>

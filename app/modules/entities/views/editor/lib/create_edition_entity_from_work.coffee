@@ -5,8 +5,9 @@ isbn_ = require 'lib/isbn'
 isLoggedIn = require './is_logged_in'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
-module.exports = (view, workModel, e)->
+module.exports = (params)->
   unless isLoggedIn() then return
+  { view, work:workModel, e } = params
 
   $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField')
   isbn = $isbnField.val()
