@@ -4,6 +4,7 @@ $work-data-property-color: #999;
   text-align: center;
   position: relative;
   background-color: $darker-grey;
+  max-width: 40em;
   h2, span, label, p{
     color: white;
   }
@@ -15,6 +16,12 @@ $work-data-property-color: #999;
   }
   a.source{
     @include text-hover($work-data-property-color);
+  }
+  .covers{
+    @include display-flex(row, center, center, wrap);
+  }
+  .main-cover, .secondary-cover{
+    margin: 0.2em;
   }
   .cover{
     flex: 0 0 auto;
@@ -47,6 +54,17 @@ $work-data-property-color: #999;
   .photo-credits{
     font-size: 0.8em;
     text-align: center;
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .covers{
+      align-self: stretch;
+      flex-direction: column;
+    }
+    .secondary-covers{
+      align-self: stretch;
+      @include display-flex(row, center, center);
+    }
   }
   /*Small screens*/
   @media screen and (max-width: 700px) {

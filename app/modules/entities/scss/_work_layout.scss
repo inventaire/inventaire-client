@@ -10,15 +10,6 @@
   .work-section{
     @include display-flex(row, center, space-around, wrap);
   }
-  .workData{
-    max-width: 40em;
-    .covers{
-      @include display-flex(row, center, center, wrap);
-    }
-    .main-cover, .secondary-cover{
-      margin: 0.2em;
-    }
-  }
   .work-instances{
     @include display-flex(column, center, space-around);
     /*Large screens*/
