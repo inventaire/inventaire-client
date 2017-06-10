@@ -1,7 +1,6 @@
 .edition-creation{
   @include display-flex(row, flex-start, flex-start, wrap);
   background-color: $darker-grey;
-  width: 100%;
   @include radius;
   padding: 0.5em 0.5em 0.5em 1em;
   #isbnGroup{

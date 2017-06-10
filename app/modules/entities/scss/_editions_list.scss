@@ -21,3 +21,17 @@
     }
   }
 }
+
+#modal{
+  .editions-list{
+    h3{
+      color: $darker-grey;
+    }
+  }
+  .editionLi, .edition-creation{
+    background-color: $off-white;
+    .itemsPreviewLists{
+      background-color: darken($light-grey, 2%);
+    }
+  }
+}

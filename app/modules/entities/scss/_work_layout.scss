@@ -34,8 +34,10 @@
 .workLayout, #modal{
   .editions-list{
     margin-top: 1em;
-    background-color: $darker-grey;
     padding: 1em;
+  }
+  .editionLi, .edition-creation{
+    margin: 2em;
   }
 }
 

@@ -10,11 +10,15 @@
     flex: 1 0 0;
   }
   .upper-part{
-    @include display-flex(row, center, space-between, wrap);
+    @include display-flex(row, center, space-between);
   }
   .claims, .actions{
     padding: 0.5em;
     margin: 0.5em;
+  }
+
+  #entityActions{
+    flex: 0 0 auto;
   }
 
   .entityActions{
