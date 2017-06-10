@@ -28,9 +28,10 @@ module.exports = Marionette.LayoutView.extend
     else @completeShow()
 
   showItemModal: (item)->
-    item.work or= @model
-    app.execute 'show:item:modal', item
-    @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
+    item.grabWorks()
+    .then =>
+      app.execute 'show:item:modal', item
+      @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
 
   completeShow: ->
     # Need to wait to know if the user has an instance of this work

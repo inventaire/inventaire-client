@@ -42,6 +42,15 @@ module.exports = Filterable.extend
     @waitForEntity or= @reqGrab 'get:entity:model', @entityUri, 'entity'
     return @waitForEntity
 
+  grabWorks: ->
+    if @waitForWorks? then return @waitForWorks
+
+    return @waitForWorks = @grabEntity()
+      .then (entity)->
+        if entity.type is 'work' then return [ entity ]
+        else return entity.waitForWorks
+      .then (works)=> @grab 'works', works
+
   setUserData: ->
     { user } = @
     @username = user.get 'username'

@@ -16,14 +16,14 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @lazyRender = _.LazyRender @
     @waitForEntity = @model.grabEntity()
-    @waitForAuthors = @model.work.getAuthorsModels()
+    @waitForAuthors = @model.waitForWorks.then getAuthorsModels
 
     @listenTo @model, 'grab', @lazyRender
 
   serializeData: ->
     attrs = @model.serializeData()
-    attrs.work = @model.work.toJSON()
-    attrs.seriePathname = getSeriePathname @model.work
+    attrs.works = @model.works?.map (work)-> work.toJSON()
+    attrs.seriePathname = getSeriePathname @model.works
     return attrs
 
   onShow: ->
@@ -44,20 +44,32 @@ module.exports = Marionette.LayoutView.extend
     'click .preciseEdition': 'preciseEdition'
 
   preciseEdition: ->
-    work = @model.entity
-    unless work.type is 'work' then throw new Error('wrong entity type')
+    { entity } = @model
+    unless entity.type is 'work' then throw new Error('wrong entity type')
 
     app.layout.modal.show new EditionsList
-      collection: work.editions
-      work: work
+      collection: entity.editions
+      work: entity
       header: 'precise the edition'
       itemToUpdate: @model
 
     app.execute 'modal:open', 'large'
 
+getAuthorsModels = (works)->
+  authorsUris = _.chain works
+    .map (work)-> work.get('claims.wdt:P50') or []
+    .flatten()
+    .uniq()
+    .value()
 
-getSeriePathname = (work)->
-  [ uri, pathname, serieUri ] = work.gets 'uri', 'pathname', 'claims.wdt:P179.0'
-  unless serieUri? then return
-  # Hacky way to get the serie entity pathname without having to request its model
-  return pathname.replace uri, serieUri
+  return app.request 'get:entities:models', { uris: authorsUris }
+
+getSeriePathname = (works)->
+  unless works? then return
+  serieUris = works.map getWorkSerieUri
+  if _.compact(serieUris).length is works.length and _.uniq(serieUris) is 1
+    [ uri, pathame ] = works[0].gets 'uri', 'pathname'
+    # Hacky way to get the serie entity pathname without having to request its model
+    return pathname.replace uri, serieUris[0]
+
+getWorkSerieUri = (work)-> work.get 'claims.wdt:P179.0'
