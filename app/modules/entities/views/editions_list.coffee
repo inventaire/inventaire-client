@@ -7,6 +7,7 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/editions_list'
   childViewContainer: 'ul'
   childView: require './edition_layout'
+  emptyView: require './no_edition'
 
   behaviors:
     Loading: {}
