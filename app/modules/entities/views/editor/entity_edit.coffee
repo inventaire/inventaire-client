@@ -129,7 +129,7 @@ module.exports = Marionette.LayoutView.extend
       .then @_createAndUpdateItem.bind(@)
 
   _createAndUpdateItem: (item)->
-    action = (entity)-> app.request 'item:update:entity', { item, entity }
+    action = (entity)-> app.request 'item:update:entity', item, entity
     @_createAndAction action
 
   _createAndAction: (action)->

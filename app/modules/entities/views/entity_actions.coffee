@@ -16,7 +16,4 @@ module.exports = Marionette.ItemView.extend
     'click .updateItem': 'updateItem'
 
   add: -> app.execute 'show:item:creation:form', { entity: @model }
-  updateItem: ->
-    app.request 'item:update:entity',
-      item: @options.itemToUpdate
-      entity: @model
+  updateItem: -> app.request 'item:update:entity', @options.itemToUpdate, @model
