@@ -9,6 +9,7 @@ module.exports = Marionette.CompositeView.extend
   childView: require './edition_layout'
 
   behaviors:
+    Loading: {}
     # Required by editionCreationParial
     AlertBox: {}
     PreventDefault: {}

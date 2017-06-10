@@ -3,6 +3,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 isbn_ = require 'lib/isbn'
 isLoggedIn = require './is_logged_in'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = (view, workModel, e)->
   unless isLoggedIn() then return
@@ -11,6 +12,8 @@ module.exports = (view, workModel, e)->
   isbn = $isbnField.val()
 
   workUri = workModel.get 'uri'
+
+  startLoading.call view, '#isbnButton'
 
   createEntities.workEdition workModel, isbn
   .catch RenameIsbnDuplicateErr(workUri, isbn)
@@ -23,6 +26,7 @@ module.exports = (view, workModel, e)->
     $isbnField.val null
   .catch error_.Complete('#isbnField')
   .catch forms_.catchAlert.bind(null, view)
+  .finally stopLoading.bind(view)
 
 RenameIsbnDuplicateErr = (workUri, isbn)-> (err)->
   if err.responseJSON?.status_verbose is 'this property value is already used'
