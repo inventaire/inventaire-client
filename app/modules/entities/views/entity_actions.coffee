@@ -10,6 +10,4 @@ module.exports = Marionette.ItemView.extend
   events:
     'click .add': 'add'
 
-  add: ->
-    if @options.onAdd? then @options.onAdd()
-    else app.execute 'show:item:creation:form', { entity: @model }
+  add: -> app.execute 'show:item:creation:form', { entity: @model }

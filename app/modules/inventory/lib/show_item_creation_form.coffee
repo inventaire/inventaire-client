@@ -1,10 +1,23 @@
 ItemCreationForm = require '../views/form/item_creation'
+EditionsList = require 'modules/entities/views/editions_list'
 
 module.exports = (params)->
   # Using the general domination of entity instead of work
   # as one might want to add an edition or a whole serie etc
   { entity, preventduplicates } = params
   unless entity? then throw new Error 'missing entity'
+
+  { type } = entity
+  unless type? then throw new Error 'missing entity type'
+
+  # It is not possible anymore to create items from works
+  if type is 'work' then return showEditionPicker entity
+
+  # Close the modal in case it was opened by showEditionPicker
+  app.execute 'modal:close'
+
+  if type isnt 'edition' then throw new Error "invalid entity type: #{type}"
+
   uri = entity.get 'uri'
 
   if preventduplicates
@@ -62,3 +75,10 @@ guessLang = (entity)->
   if labels.en? then return 'en'
   # If none of the above worked, return the first lang we find
   return Object.keys(labels)[0]
+
+showEditionPicker = (work)->
+  app.layout.modal.show new EditionsList
+    collection: work.editions
+    work: work
+    header: 'select an edition'
+  app.execute 'modal:open', 'large'
