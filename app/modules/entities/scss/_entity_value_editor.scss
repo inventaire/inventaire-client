@@ -5,6 +5,7 @@
   .img-wrapper{
     width: 50px;
     margin-right: 0.5em;
+    @include display-flex(row, center, center);
   }
   .fa-spin{
     opacity: 0.3;

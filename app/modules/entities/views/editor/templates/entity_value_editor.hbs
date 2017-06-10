@@ -10,6 +10,10 @@
           <div class="img-wrapper">
             {{#if image.url}}
               <img src='{{src image.url 48}}' alt='{{label}}'>
+            {{else}}
+              {{#each images}}
+                <img src='{{src url 48}}' alt='{{label}}'>
+              {{/each}}
             {{/if}}
           </div>
           <div>
