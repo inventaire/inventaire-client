@@ -26,6 +26,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     loggedIn: app.user.loggedIn
     urls: urls
+    needNameExplanation: app.user.lang isnt 'fr'
 
   ui:
     thanks: '#thanks'

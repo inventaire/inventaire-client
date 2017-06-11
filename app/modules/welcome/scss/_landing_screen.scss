@@ -5,7 +5,7 @@ $pitch-bg-color: rgba(white, 0.95);
 section#landingScreen{
   background-color: $welcome-bg-filter;
   @include display-flex(column, center, center);
-  .polyglotTitle{
+  .name{
     @include display-flex(column, center, center);
     h2{
       color: $title-color;
@@ -13,16 +13,21 @@ section#landingScreen{
       font-size: 10em;
       line-height: 1em;
       margin: auto;
+      position: relative;
     }
-    .toggler{
-      display: none;
+    .name-explaination{
+      font-size: 1rem;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: 1rem;
+      line-height: 1rem;
+      opacity: 0;
+      @include transition(opacity);
     }
     &:hover{
-      h2:first-child{
-        display: none;
-      }
-      .toggler{
-        display: inherit;
+      .name-explaination{
+        opacity: 0.9;
       }
     }
   }
@@ -61,7 +66,7 @@ section#landingScreen{
     }
   }
   // < compensation for Safari bad flex support
-  .polyglotTitle{
+  .name{
     margin-top: 2em;
     margin-bottom: 2em;
   }
@@ -73,11 +78,14 @@ section#landingScreen{
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .polyglotTitle{
+    .name{
       padding-top: 3em;
       padding-bottom: 2em;
       h2{
         font-size: 6em;
+      }
+      .name-explaination{
+        bottom: -1em;
       }
     }
     #loginButtons{
@@ -97,7 +105,7 @@ section#landingScreen{
     }
   }
   @media screen and (max-width: $smaller-screen) {
-    .polyglotTitle{
+    .name{
       h2{
         font-size: 3em;
       }
@@ -109,7 +117,7 @@ section#landingScreen{
     height: 85vh;
     // prevent everything from overflowing on screens with a rather small height
     min-height: 650px;
-    .polyglotTitle{
+    .name{
       flex: 4 0 auto;
     }
     .bottom{

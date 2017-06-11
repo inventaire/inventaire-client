@@ -1,7 +1,11 @@
 <section id="landingScreen" class="text-center">
-  <div class="polyglotTitle">
-    <h2 class="respect-case">{{i18n 'inventory'}}</h2>
-    <h2 class="respect-case toggler">inventaire</h2>
+  <div class="name">
+    <h2 class="respect-case">
+      inventaire
+      {{#if needNameExplanation}}
+        <span class="name-explaination">*{{i18n 'means "inventory" in French'}}</span>
+      {{/if}}
+    </h2>
   </div>
   {{!-- wrap the rest in the bottom div to push it down --}}
   <div class="bottom">
