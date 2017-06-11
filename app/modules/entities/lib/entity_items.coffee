@@ -4,8 +4,7 @@ ItemsPreviewLists = require '../views/items_preview_lists'
 module.exports =
   initialize: ->
     { @standalone } = @options
-    @waitForItems = getAllEntityItems(@model)
-      .then spreadItems.bind(@)
+    @waitForItems = getAllEntityItems(@model).then spreadItems.bind(@)
     _.extend @, entityItemsMethods
 
   onRender: ->
