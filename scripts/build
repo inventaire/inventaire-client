@@ -13,11 +13,9 @@ brunch build --production
 ./scripts/build_index
 
 echo -e '\e[0;30mgzip js and css files\e[0m'
+./scripts/set_content_hash_cache_bust
 source ./scripts/init_gzip_utils
 gzipkeepall public/json
-gzipkeepall public/css
-# Specify a 'js' extension to avoid problems with subfolders
-gzipkeepall public/js js
 gzipkeepall public/js/moment
 
 echo -e '\e[0;30mgzip index.html\e[0m'
