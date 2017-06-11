@@ -1,4 +1,14 @@
-module.exports.initialize = (app)->
+exports.import = ->
+  require('./js/modernizr.js')
+  require('./js/foundation.js')
+  require('./js/foundation.alert.js')
+  require('./js/foundation.dropdown.js')
+  require('./js/foundation.joyride.js')
+  require('./js/foundation.reveal.js')
+  require('./js/foundation.tooltip.js')
+  require('./js/foundation.topbar.js')
+
+exports.initialize = (app)->
   app.commands.setHandlers
     'foundation:reload': _.debounce foundationReload, 50
     'modal:open': modalOpen

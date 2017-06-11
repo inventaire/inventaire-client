@@ -1,4 +1,4 @@
-// Foundation by ZURB
+// Foundation v5.4.4 by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source
 // Customized imports => override in base.scss
@@ -12,18 +12,17 @@
 // functions: already imported by global components
 // @import "../bower_components/foundation/scss/normalize";
 
-@import
-  "../../../../../bower_components/foundation/scss/foundation/components/alert-boxes",
-  "../../../../../bower_components/foundation/scss/foundation/components/buttons",
-  "../../../../../bower_components/foundation/scss/foundation/components/dropdown",
-  "../../../../../bower_components/foundation/scss/foundation/components/dropdown-buttons",
-  "../../../../../bower_components/foundation/scss/foundation/components/forms",
-  "../../../../../bower_components/foundation/scss/foundation/components/joyride",
-  "../../../../../bower_components/foundation/scss/foundation/components/progress-bars",
-  "../../../../../bower_components/foundation/scss/foundation/components/reveal",
-  "../../../../../bower_components/foundation/scss/foundation/components/tooltips",
-  "../../../../../bower_components/foundation/scss/foundation/components/top-bar",
-  "../../../../../bower_components/foundation/scss/foundation/components/type";
+@import "alert-boxes";
+@import "buttons";
+@import "dropdown";
+@import "dropdown-buttons";
+@import "forms";
+@import "joyride";
+@import "progress-bars";
+@import "reveal";
+@import "tooltips";
+@import "top-bar";
+@import "type";
 
   // "../../../../../bower_components/foundation/scss/foundation/components/accordion",
   // "../../../../../bower_components/foundation/scss/foundation/components/breadcrumbs",
