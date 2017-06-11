@@ -449,5 +449,15 @@
     "edition title": "edition title",
     "edition language": "edition language",
     "precise the day and month": "precise the day and month",
-    "Are you sure you want to delete this statement?": "Are you sure you want to delete this statement?"
+    "refresh Wikidata data": "refresh Wikidata data",
+    "work": "work",
+    "precise the edition": "precise the edition",
+    "which edition?": "which edition?",
+    "select this edition": "select this edition",
+    "Edit on Wikidata": "Edit on Wikidata",
+    "Search possible duplicates": "Search possible duplicates",
+    "no suggestion found": "no suggestion found",
+    "Connect Wikidata account": "Connect Wikidata account",
+    "Learn more about Wikidata": "Learn more about Wikidata",
+    "wikidata entities can't link to inventaire entities": "wikidata entities can't link to inventaire entities"
 }
