@@ -10,7 +10,7 @@ module.exports = Notification.extend
     attrs.username = @user?.get 'username'
     attrs.picture = @user?.get 'picture'
     if @item?
-      [ title, entity ] = @item.gets 'title', 'entity'
-      attrs.pathname = "/inventory/#{attrs.username}/#{entity}"
+      [ title, pathname ] = @item.gets 'snapshot.entity:title', 'pathname'
+      attrs.pathname = pathname
       attrs.title = title
     return attrs
