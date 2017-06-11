@@ -1,5 +1,10 @@
 .transactionPreview{
   max-height: $user-box-heigth;
+  @include bg-hover(white);
+  border-bottom: 1px solid rgba($grey, 0.2);
+  &:first-child{
+    border-top: 1px solid rgba($grey, 0.2);
+  }
   .transactionBox{
     width: 1.6em;
     max-width: 1.6em;
@@ -34,11 +39,6 @@
     max-width: $user-box-heigth;
     max-height: $user-box-heigth;
     overflow: hidden;
-  }
-  @include bg-hover(white);
-  border-bottom: 1px solid rgba($grey, 0.2);
-  &:first-child{
-    border-top: 1px solid rgba($grey, 0.2);
   }
   a.showTransaction{
     @include display-flex(row, center, flex-start);
