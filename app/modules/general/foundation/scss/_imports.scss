@@ -14,7 +14,9 @@
 // Already imported by global components
 // @import "./functions";
 
+// Global
 @import "normalize";
+@import "type";
 
 // Form Alerts
 @import "alert-boxes";
@@ -33,5 +35,3 @@
 @import "reveal";
 // Top bar
 @import "top-bar";
-// Global
-@import "type";
