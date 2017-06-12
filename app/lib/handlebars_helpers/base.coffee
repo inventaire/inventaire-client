@@ -6,7 +6,7 @@ module.exports =
       require './misc'
       require './utils'
       require './partials'
-      require './wikidata_claims'
+      require './claims'
       require './user_content'
       require './images'
       require './input'
