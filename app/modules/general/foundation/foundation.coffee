@@ -5,7 +5,6 @@ exports.import = ->
   require('./js/foundation.dropdown.js')
   require('./js/foundation.joyride.js')
   require('./js/foundation.reveal.js')
-  require('./js/foundation.tooltip.js')
   require('./js/foundation.topbar.js')
 
 exports.initialize = (app)->

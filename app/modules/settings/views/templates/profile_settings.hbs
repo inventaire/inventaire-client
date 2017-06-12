@@ -7,15 +7,12 @@
 
 <hr>
 <h3 class="with-tip">{{i18n 'username'}}</h3>
-{{tip 'username_tip' 'right'}}
+<p class="note">{{i18n 'username_tip'}}</p>
 {{input usernamePicker}}
 
 <hr>
 <h3>{{i18n 'email'}}</h3>
-
-<p class="note">
-  {{i18n 'email will not be publicly displayed.'}}
-</p>
+<p class="note">{{i18n 'email will not be publicly displayed.'}}</p>
 {{input emailPicker}}
 
 <div id="confirmationEmailSent" class="hidden successMessageBox">

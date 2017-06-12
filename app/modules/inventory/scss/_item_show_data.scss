@@ -51,6 +51,14 @@
     }
   }
 }
+.indicator{
+  .fa{
+    // Making details and notes indicator take the same space
+    // so that it looks pretty much aligned
+    width: 1.4em;
+    text-align: center;
+  }
+}
 
 @import 'item_comments';
 @import 'item_transactions';

@@ -1,5 +1,8 @@
 .profileSettings{
   text-align: center;
+  h3{
+    margin-bottom: 0;
+  }
   .note{
     @include sans-serif;
     color: $grey;

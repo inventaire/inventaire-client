@@ -1,6 +1,5 @@
 behavior = (name)-> require "modules/general/views/behaviors/templates/#{name}"
 check = behavior 'success_check'
-tip = behavior 'tip'
 { SafeString } = Handlebars
 
 module.exports =
@@ -24,9 +23,3 @@ module.exports =
     switch option
       when 'check' then partial = new SafeString check(partial)
     return partial
-
-  tip: (text, position)->
-    context =
-      text: _.i18n text
-      position: position or 'rigth'
-    new SafeString tip(context)

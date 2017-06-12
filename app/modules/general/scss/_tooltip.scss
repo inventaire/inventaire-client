@@ -4,10 +4,10 @@ $tooltip-bg-color: $dark-grey;
 $tooltip-contrast-bg-color: white;
 $spike-size: 0.5em;
 
-.has-diy-tooltip{
+.has-tooltip{
   position: relative;
   // Positioning
-  .diy-tooltip-wrapper{
+  .tooltip-wrapper{
     @include position(absolute, null, null, 130%, 50%, 10);
     transform: translateX(-50%);
     visibility: hidden;
@@ -18,7 +18,7 @@ $spike-size: 0.5em;
     @include display-flex(row);
 
     // The actual tooltip box shape and what's inside
-    .diy-tooltip-content{
+    .tooltip-content{
       @include shy(0.9);
       cursor: default;
       padding: 1em;
@@ -72,7 +72,7 @@ $spike-size: 0.5em;
   }
 
   &:hover{
-    .diy-tooltip-wrapper{
+    .tooltip-wrapper{
       visibility: visible;
     }
   }
