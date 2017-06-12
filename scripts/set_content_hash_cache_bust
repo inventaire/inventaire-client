@@ -9,6 +9,7 @@ get_content_hash(){
 
 create_content_hash_copies(){
   content_hash=$(get_content_hash "$1.$2")
+  rm -f $1.*.$2* $1.*.$2.map*
   # Copy file
   cp "$1.$2" "$1.$content_hash.$2"
   # Copy associated map file
