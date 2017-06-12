@@ -14,7 +14,7 @@ module.exports = (Backbone, _, $, app, window)->
 
   i18n: require './translate'
   I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
-  icon: (name, classes='')-> "<i class='fa fa-#{name} #{classes}'></i>&nbsp;&nbsp;"
+  icon: (name, classes='')-> "<i class='fa fa-#{name} #{classes}'></i>"
 
   parseQuery: (queryString)->
     query = {}

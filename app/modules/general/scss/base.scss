@@ -1,3 +1,8 @@
+// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+@import "type";
+
 // those can't be split into several non-partial files (despite the fact that
 // it would allow better error reports than just 'base.scss failed'), as global
 // variables need to be accessible to all
@@ -18,9 +23,21 @@
 @import '../../network/scss/network';
 @import '../../map/scss/map';
 
-// foundation doesn't overwrite variables
-// but only !default to them when not defined before
-@import '../foundation/scss/imports';
+// Form Alerts
+@import "../foundation/scss/alert-boxes";
+// Dropdown dependency but shoud be removed
+@import "../foundation/scss/buttons";
+// Item Transaction/Visibility Selectors
+@import "../foundation/scss/dropdown";
+@import "../foundation/scss/dropdown-buttons";
+// Welcome Tour
+@import "../foundation/scss/joyride";
+// Import queue
+@import "../foundation/scss/progress-bars";
+// Item Show, Ask Confirmation, etc.
+@import "../foundation/scss/reveal";
+// Top bar
+@import "../foundation/scss/top-bar";
 
 // Foundation overrides
 body{

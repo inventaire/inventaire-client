@@ -156,7 +156,7 @@ div.icon-buttons-header{
   &.tiny-button{
     .fa{
       // centering
-      margin-right: -0.3em;
+      padding: 0;
     }
   }
 }
@@ -182,4 +182,16 @@ div.icon-buttons-header{
 
 .success-button{
   @include big-button($success-color);
+}
+
+
+// Taking over what was formerly handled by Foundation buttons.scss
+.button{
+  cursor: pointer;
+  font-family: "Alegreya", serif;
+  font-weight: normal;
+  line-height: normal;
+  text-align: center;
+  font-size: 1rem;
+  color: white;
 }

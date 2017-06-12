@@ -45,6 +45,7 @@ nav.top-bar {
   }
   .listWithCounter{
     @include display-flex(row, center);
+    height: 100%;
   }
 
   .counter{

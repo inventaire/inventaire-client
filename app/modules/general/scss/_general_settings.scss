@@ -18,6 +18,7 @@ $largeModalWidth: 80em;
 body{
   ul, ul li, ul li ul{
     list-style-type: none;
+    list-style-position: outside;
     // overriding Foundation settings
     margin: 0;
   }
@@ -81,6 +82,10 @@ img.icon{
   padding: 0.2rem;
 }
 
+.fa{
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
 .fa.monospaced{
   width: 1.2rem;
   text-align: center;
@@ -169,6 +174,7 @@ noscript{
 @import "pictures";
 @import "circle_pic";
 @import "input";
+@import "forms";
 @import "success_check";
 @import "custom_tabs";
 @import "custom_column";

@@ -4,12 +4,21 @@
   .inputBox{
     flex: 1 1 auto;
     min-width: 60%;
+    input{
+      height: 2.2rem;
+      padding: 0 1em;
+      margin: 0;
+    }
   }
   margin-bottom: 0.5em;
   a.button.postfix{
     // Foundation sets .postfix { z-index:2 }
     // hides topbar dropdowns when out of a Foundation grid
     z-index: 0;
+    height: 2.3rem;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    @include display-flex(row, center, center);
   }
 
   /*Small screens*/
