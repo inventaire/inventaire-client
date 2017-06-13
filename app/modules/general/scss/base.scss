@@ -23,17 +23,6 @@
 @import '../../network/scss/network';
 @import '../../map/scss/map';
 
-// Form Alerts
-@import "../foundation/scss/alert-boxes";
-// Dropdown dependency but shoud be removed
-@import "../foundation/scss/buttons";
-// Item Transaction/Visibility Selectors
-@import "../foundation/scss/dropdown";
-@import "../foundation/scss/dropdown-buttons";
-// Welcome Tour
-@import "../foundation/scss/joyride";
-// Import queue
-@import "../foundation/scss/progress-bars";
 // Item Show, Ask Confirmation, etc.
 @import "../foundation/scss/reveal";
 // Top bar

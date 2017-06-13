@@ -1,0 +1,40 @@
+/* Progress Bar */
+.progress{
+  background-color: #F6F6F6;
+  height: 1.5625rem;
+  border: 1px solid white;
+  padding: 0.125rem;
+  margin-bottom: 0.625rem;
+  .meter{
+    background: #16212C;
+    height: 100%;
+    display: block;
+  }
+  &.secondary .meter{
+    background: #FFD402;
+    height: 100%;
+    display: block;
+  }
+  &.success .meter{
+    background: #4EBA76;
+    height: 100%;
+    display: block;
+  }
+  &.alert .meter{
+    background: #f04124;
+    height: 100%;
+    display: block;
+  }
+  &.radius{
+    border-radius: 2px;
+    .meter{
+      border-radius: 1px;
+    }
+  }
+  &.round{
+    border-radius: 1000px;
+    .meter{
+      border-radius: 999px;
+    }
+  }
+}
