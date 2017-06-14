@@ -29,7 +29,7 @@
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     @include display-flex(column, center, center);
-    margin: 0.5em;
+    padding-top: 1em;
     .upper-part{
       justify-content: center;
       @include display-flex(column, center, center);
@@ -40,6 +40,7 @@
   }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
+    padding: 1em;
     margin: 2em;
   }
 }

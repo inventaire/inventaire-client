@@ -1,18 +1,19 @@
 $preview-icon-base-size: 2em;
 
 .itemsPreviewLists{
+  margin: auto;
   background-color: #f2f2f2;
   padding: 0.5em;
   margin-bottom: 0.5em;
   position: relative;
   /*Large screens*/
   @media screen and (min-width: 25em) {
-    min-width: 25em;
+    min-width: 20em;
     padding: 1em;
   }
   /*Small screens*/
   @media screen and (max-width: 25em) {
-    min-width: 90vw;
+    min-width: 70vw;
     padding: 1em 0.5em 1em 0.5em;
   }
   @include radius;

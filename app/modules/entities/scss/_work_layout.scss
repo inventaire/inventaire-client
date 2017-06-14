@@ -27,8 +27,14 @@
     margin-top: 1em;
     padding: 1em;
   }
-  .editionLi, .edition-creation{
-    margin: 2em;
+}
+
+/*Large screens*/
+@media screen and (min-width: $small-screen) {
+  .workLayout, #modal{
+    .editionLi, .edition-creation{
+      margin: 2em;
+    }
   }
 }
 

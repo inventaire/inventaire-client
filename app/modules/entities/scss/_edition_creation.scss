@@ -1,4 +1,5 @@
 .edition-creation{
+  margin-top: 1em;
   @include display-flex(row, flex-start, flex-start, wrap);
   background-color: $darker-grey;
   @include radius;
