@@ -10,14 +10,6 @@ body{
   main{
     @include display-flex(column);
   }
-  #modal{
-    max-width: $modalWidth;
-    // min-height is weirdly defined at 100vh by Foundation for small screens
-    min-height: auto;
-    &.large{
-      max-width: $largeModalWidth;
-    }
-  }
 }
 
 /*Small screens*/
@@ -27,9 +19,6 @@ body{
     // at the top of the screen
     // which would not be possible if main was smaller than the screen
     min-height: 100vh;
-  }
-  #modal{
-    padding: 0.5em;
   }
 }
 

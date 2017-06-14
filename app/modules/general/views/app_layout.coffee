@@ -4,6 +4,7 @@ showViews = require '../lib/show_views'
 IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
 initDynamicBackground = require '../lib/dynamic_background'
+initModal = require '../lib/modal'
 ConfirmationModal = require './confirmation_modal'
 
 module.exports = Marionette.LayoutView.extend
@@ -53,6 +54,7 @@ module.exports = Marionette.LayoutView.extend
 
     initIconNavHandlers.call(@)
     initDynamicBackground.call(@)
+    initModal()
     # wait for the app to be initiated before listening to resize events
     # to avoid firing a meaningless event at initialization
     app.request('waitForNetwork').then initWindowResizeEvents

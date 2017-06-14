@@ -12,9 +12,6 @@ $tooltip-bg: $darker-grey; // Foundation variable
 $input-border-color: rgba(#888, 0.8);
 $input-font-color: black;
 
-$modalWidth: 38em;
-$largeModalWidth: 80em;
-
 body{
   ul, ul li, ul li ul{
     list-style-type: none;
@@ -234,6 +231,7 @@ select{
 @import "custom_tabs";
 @import "custom_column";
 @import "errors";
+@import "modal";
 @import "joyride";
 @import "switching_button";
 @import "separator";

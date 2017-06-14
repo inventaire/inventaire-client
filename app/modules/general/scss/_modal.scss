@@ -1,0 +1,59 @@
+$modalWidth: 38em;
+$largeModalWidth: 80em;
+
+#modalWrapper{
+  background-color: rgba(#222, 0.2);
+  @include position(fixed, 0, 0, 0, 0, 1000);
+  @include display-flex(column, center, center);
+  // transition: top 0.5s ease;
+  // transition: bottom 0.5s ease;
+  &.hidden{
+    top: -100%;
+    bottom: 100%;
+  }
+}
+
+#modal{
+  position: relative;
+  @include radius;
+  background-color: white;
+  max-width: $modalWidth;
+  &.large{
+    max-width: $largeModalWidth;
+  }
+  overflow: auto;
+  .close{
+    line-height: 0;
+    font-size: 2.8em;
+    font-weight: bold;
+    @include shy(0.5);
+    @include position(absolute, 20px, 10px);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    padding: 0.5em;
+    margin-top: 50px;
+    min-width: 80vw;
+  }
+  /*Medium / Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    padding: 1.5em;
+    margin-top: 50px;
+    min-width: 35em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    min-width: 60em;
+  }
+}
+
+#modalContent{
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    padding: 1em 0;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    padding: 1em;
+  }
+}
