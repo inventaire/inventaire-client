@@ -62,7 +62,7 @@ getRemoteEntitiesModels = (uris, refresh, defaultType)->
       if _.isModel currentIndexValue
         newEntities[uri] = currentIndexValue
       else
-        newEntities[uri] = new Entity entityData, { defaultType }
+        newEntities[uri] = new Entity entityData, { defaultType, refresh }
 
     aliasRedirects newEntities, redirects
     logMissingEntities newEntities, uris
