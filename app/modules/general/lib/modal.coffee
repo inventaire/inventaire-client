@@ -12,13 +12,13 @@ module.exports = ->
 
     openModal()
 
-    setTimeout focusFirstInput, 200
+    setTimeout focusFirstTabElement, 200
     # Allow to pass a selector to which to re-focus once the modal closes
     if _.isNonEmptyString focusSelector then prepareRefocus focusSelector
 
-  focusFirstInput = ->
-    $firstInput = $modal.find('input, textarea').first().focus()
-    if $firstInput.length > 0 then $firstInput.focus()
+  focusFirstTabElement = ->
+    $firstTabElement = $modal.find('input, textarea, [tabindex="0"]').first().focus()
+    if $firstTabElement.length > 0 then $firstTabElement.focus()
     else $modalWrapper.focus()
 
   openModal = ->
