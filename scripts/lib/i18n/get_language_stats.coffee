@@ -1,19 +1,20 @@
 CONFIG = require 'config'
 __ = CONFIG.universalPath
-_ = __.require 'builders', 'utils'
 fs = require 'graceful-fs'
-{ Promise } = __.require 'lib', 'promises'
+Promise = require 'bluebird'
+{ blue, green } = require 'chalk'
+_ = require 'lodash'
 readFile = Promise.promisify fs.readFile
 parse = JSON.parse.bind JSON
 
-_.info 'emailKeys, shortKeys, fullKeys, wikidataKeys => total'
+console.log blue('emailKeys, shortKeys, fullKeys, wikidataKeys => total')
 
 getKeysNumber = (path)->
   readFile path, {encoding: 'utf-8'}
   .then parse
   .then (obj)->
     _.values obj
-    .filter _.isNonEmptyString
+    .filter (str)-> _.isString(str) and str.length > 0
     .length
   .catch (err)->
     # return 0 if the file doesn't exist
@@ -29,7 +30,7 @@ module.exports = (lang)->
   Promise.all [ emailKeys, shortKeys, fullKeys, wikidataKeys ]
   .then (res)->
     total = _.sum(res)
-    _.success "#{res} => #{total}", lang
+    console.log green(lang), "#{res} => #{total}"
     return total
 
 getTranslatedFileName = (base, lang)->
