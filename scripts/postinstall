@@ -16,6 +16,8 @@ npm run patches
 ./scripts/mv_font_awesome_fonts
 ./scripts/mv_moment_locales
 
+# languages_data are required to build
+./scripts/update_languages_stats
 # need to build once to make the public folder available
 ./node_modules/brunch/bin/brunch build
 
