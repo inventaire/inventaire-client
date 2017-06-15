@@ -34,6 +34,10 @@ module.exports = Marionette.LayoutView.extend
       @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
 
   completeShow: ->
+    # Run only once
+    if @_showWasCompleted then return
+    @_showWasCompleted = true
+
     # Need to wait to know if the user has an instance of this work
     @waitForItems.then @showEntityActions.bind(@)
 
@@ -65,7 +69,7 @@ module.exports = Marionette.LayoutView.extend
 
   onClosedItemModal: ->
     @completeShow()
-    app.navigateFromModel @model
+    app.navigateFromModel @model, null, { preventScrollTop: true }
 
   # Close the item modal when another view is shown in place of this layout
   onDestroy: -> app.execute 'modal:close'

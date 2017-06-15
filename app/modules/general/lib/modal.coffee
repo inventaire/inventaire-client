@@ -1,6 +1,7 @@
 getActionKey = require 'lib/get_action_key'
 
 module.exports = ->
+  $body = $('body')
   $modal = $('#modal')
   $modalWrapper = $('#modalWrapper')
   $closeModal = $('#modal .close')
@@ -11,24 +12,24 @@ module.exports = ->
 
     openModal()
 
-    setTimeout focusFirstInput, 600
+    setTimeout focusFirstInput, 200
     # Allow to pass a selector to which to re-focus once the modal closes
     if _.isNonEmptyString focusSelector then prepareRefocus focusSelector
 
   focusFirstInput = ->
-    $firstInput = $modal.find('input, textarea').first()
+    $firstInput = $modal.find('input, textarea').first().focus()
     if $firstInput.length > 0 then $firstInput.focus()
-    # If the modal view has no input, focus the whole modal wrapper
-    # to be able to listen to ESC key events
     else $modalWrapper.focus()
 
   openModal = ->
     if isOpened() then return
+    $body.addClass 'openedModal'
     $modalWrapper.removeClass 'hidden'
     app.vent.trigger 'modal:opened'
 
   closeModal = ->
     unless isOpened() then return
+    $body.removeClass 'openedModal'
     $modalWrapper.addClass 'hidden'
     app.vent.trigger 'modal:closed'
 
@@ -41,9 +42,11 @@ module.exports = ->
   # - when clicking the 'close' button
   $closeModal.on 'click', closeModal
   # - when clicking out of the modal
-  $modalWrapper.on 'click', (e)-> if e.target.id is 'modalWrapper' then closeModal()
+  $modalWrapper.on 'click', (e)->
+    { id } = e.target
+    if id is 'modalWrapper' or id is 'modal' then closeModal()
   # - when pressing ESC
-  $modalWrapper.on 'keydown', (e)-> if getActionKey(e) is 'esc' then closeModal()
+  $body.on 'keydown', (e)-> if getActionKey(e) is 'esc' then closeModal()
 
   app.commands.setHandlers
     'modal:open': modalOpen

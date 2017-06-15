@@ -1,10 +1,10 @@
 $modalWidth: 38em;
-$largeModalWidth: 80em;
+$largeModalWidth: 60em;
 
 #modalWrapper{
-  background-color: rgba(#222, 0.2);
-  @include position(fixed, 0, 0, 0, 0, 1000);
-  @include display-flex(column, center, center);
+  background: rgba(black, 0.55);
+  @include position(fixed, 0, 0, 0, 0, 10000);
+  overflow: auto;
   // transition: top 0.5s ease;
   // transition: bottom 0.5s ease;
   &.hidden{
@@ -13,33 +13,43 @@ $largeModalWidth: 80em;
   }
 }
 
+// Add this class to the body to make the modalWrapper scroll the only scroll
+// while the modal is opened
+body.openedModal{
+  overflow: hidden;
+}
+
 #modal{
   position: relative;
-  @include radius;
-  background-color: white;
+  margin: 0 auto;
   max-width: $modalWidth;
   &.large{
     max-width: $largeModalWidth;
   }
-  overflow: auto;
   .close{
     line-height: 0;
     font-size: 2.8em;
     font-weight: bold;
+    color: white;
     @include shy(0.5);
-    @include position(absolute, 20px, 10px);
+    @include position(absolute, 40px, 0);
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     padding: 0.5em;
-    margin-top: 50px;
     min-width: 80vw;
+    margin-top: 10px;
+    .close{
+      top: 20px;
+      right: 10px;
+      color: $grey;
+    }
   }
   /*Medium / Large screens*/
   @media screen and (min-width: $smaller-screen) {
-    padding: 1.5em;
-    margin-top: 50px;
+    padding: 2em;
     min-width: 35em;
+    margin-top: 50px;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
@@ -48,6 +58,9 @@ $largeModalWidth: 80em;
 }
 
 #modalContent{
+  @include radius;
+  background-color: white;
+  box-shadow: 3px 3px 10px 3px rgba(#222, 0.5);
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     padding: 1em 0;
