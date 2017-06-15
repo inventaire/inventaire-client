@@ -12,13 +12,8 @@
   }
   margin-bottom: 0.5em;
   a.button.postfix{
-    // Foundation sets .postfix { z-index:2 }
-    // hides topbar dropdowns when out of a Foundation grid
-    z-index: 0;
-    height: 2.3rem;
+    height: 2.2rem;
     white-space: nowrap;
-    flex: 0 0 auto;
-    @include display-flex(row, center, center);
   }
 
   /*Small screens*/
@@ -31,7 +26,10 @@
         @include radius-top;
       }
       a.button.postfix{
+        align-self: stretch;
         @include radius-bottom;
+        @include radius-top(0);
+        padding: 5em;
       }
       .alert-box{
         // Foundation sets .alert-box with negative margin-top
@@ -50,6 +48,8 @@
     }
     a.button.postfix{
       @include radius-right;
+      @include radius-left(0);
+      width: auto;
     }
   }
 }
