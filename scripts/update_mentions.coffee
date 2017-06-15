@@ -2,7 +2,13 @@
 
 CONFIG = require 'config'
 __ = CONFIG.universalPath
-_ = __.require 'builders', 'utils'
+
+# Avoid to use server-side modules, as it makes executing this script
+# depend on the server side repository having run 'npm install'
+# which might not be the case. Ex: client-only development environment
+{ omit } = require 'lodash'
+{ green, red } = require 'chalk'
+
 Promise = require './lib/bluebird'
 fs = require 'fs'
 readFile = Promise.promisify fs.readFile
@@ -39,12 +45,12 @@ readFile csvFile, { encoding: 'utf-8' }
       el.text = convertMarkdown el.text
       mentions[type] or= {}
       mentions[type][lang] or= []
-      mentions[type][lang].push _.omit(el, ['type'])
+      mentions[type][lang].push omit(el, ['type'])
 
     console.log 'mentions', mentions
 
     updatedFile = JSON.stringify mentions
 
     writeFile jsonFile, updatedFile
-    .then -> _.success 'done!'
-    .catch _.Error('build mentions')
+    .then -> console.log green('done!')
+    .catch console.error.bind(console, red('build mentions'))
