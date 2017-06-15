@@ -1,9 +1,6 @@
 // This module is already imported in #itemShowLayout{}
 // so no need to wrap everything in #itemShowData{}, it would be an overkill
 #itemShowData{
-  label{
-    opacity: 0.6;
-  }
 }
 .item-settings{
   @include display-flex(row, center, center, wrap);
@@ -36,6 +33,14 @@
 }
 .panel{
   border: 0;
+}
+
+.detailsPanel{
+  background-color: $off-white;
+  label{
+    color: $dark-grey;
+    cursor: pointer;
+  }
 }
 
 .mainUserRequested{

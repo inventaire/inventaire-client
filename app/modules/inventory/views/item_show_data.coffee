@@ -5,6 +5,7 @@ ItemComments = require './item_comments'
 ItemTransactions = require './item_transactions'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
+getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.LayoutView.extend
   id: 'itemShowData'
@@ -46,9 +47,20 @@ module.exports = Marionette.LayoutView.extend
     if app.user.loggedIn then @showTransactions()
 
   events:
-    'click a#editDetails, a#cancelDetailsEdition': 'toggleDetailsEditor'
+    'click a#editDetails': 'showDetailsEditor'
+    'click .detailsPanel': 'showDetailsEditor'
+
+    # show editor when focused and 'enter' is pressed
+    'keydown .noteBox': 'showNotesEditorFromKey'
+    'keydown .detailsPanel': 'showDetailsEditorFromKey'
+
+    'keydown #detailsEditor': 'detailsEditorKeyAction'
+    'click a#cancelDetailsEdition': 'hideDetailsEditor'
     'click a#validateDetails': 'validateDetails'
-    'click a#editNotes, a#cancelNotesEdition': 'toggleNotesEditor'
+    'click a#editNotes': 'showNotesEditor'
+    'click .noteBox': 'showNotesEditor'
+    'click a#cancelNotesEdition': 'hideNotesEditor'
+    'keydown #notesEditor': 'notesEditorKeyAction'
     'click a#validateNotes': 'validateNotes'
     'click a.requestItem': -> app.execute 'show:item:request', @model
 
@@ -58,18 +70,45 @@ module.exports = Marionette.LayoutView.extend
   itemDestroyBack: -> app.execute 'show:item:modal', @model
   afterDestroy: -> app.execute 'show:home'
 
-  toggleDetailsEditor: -> @toggleEditor('details')
-  toggleNotesEditor: -> @toggleEditor('notes')
+  showNotesEditorFromKey: (e)->  @showEditorFromKey 'notes', e,
+  showDetailsEditorFromKey: (e)-> @showEditorFromKey 'details', e,
+  showEditorFromKey: (editor, e)->
+    key = getActionKey e
+    capitalizedEditor = _.capitaliseFirstLetter editor
+    if key is 'enter' then @["show#{capitalizedEditor}Editor"]()
 
-  validateDetails: -> @validateEdit('details')
-  validateNotes: -> @validateEdit('notes')
+  showDetailsEditor: -> @showEditor 'details'
+  hideDetailsEditor: -> @hideEditor 'details'
+  detailsEditorKeyAction: (e)-> @editorKeyAction 'details', e
 
-  toggleEditor: (nameBase)->
-    $("##{nameBase}").toggle()
-    $("##{nameBase}Editor").toggle()
+  showNotesEditor: -> @showEditor 'notes'
+  hideNotesEditor: ->  @hideEditor 'notes'
+  notesEditorKeyAction: (e)-> @editorKeyAction 'notes', e
+
+  validateDetails: -> @validateEdit 'details'
+  validateNotes: -> @validateEdit 'notes'
+
+  showEditor: (nameBase)->
+    $("##{nameBase}").hide()
+    $("##{nameBase}Editor").show().find('textarea').focus()
+
+  hideEditor: (nameBase)->
+    $("##{nameBase}").show()
+    $("##{nameBase}Editor").hide()
+
+  editorKeyAction: (editor, e)->
+    key = getActionKey e
+    capitalizedEditor = _.capitaliseFirstLetter editor
+    if key is 'esc'
+      hideEditor = "hide#{capitalizedEditor}Editor"
+      @[hideEditor]()
+      e.stopPropagation()
+    else if key is 'enter' and e.ctrlKey
+      @validateEdit editor
+      e.stopPropagation()
 
   validateEdit: (nameBase)->
-    @toggleEditor(nameBase)
+    @hideEditor nameBase
     edited = $("##{nameBase}Editor textarea").val()
     if edited isnt @model.get(nameBase)
       app.request 'item:update',
