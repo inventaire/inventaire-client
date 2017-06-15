@@ -1,0 +1,13 @@
+git clone http://github.com/inventaire/inventaire
+cd inventaire
+# A short list of modules that should be installed in the server repo
+# as client scripts depend on some server repo scripts that will need those
+npm install config coffee-script lodash chalk
+git clone -b i18n https://github.com/inventaire/inventaire ./server/lib/emails/i18n/src
+git clone http://github.com/inventaire/inventaire-client client
+cd client
+npm install
+# This is required so that the brunch server find's assets such as /public/js/app.js
+# while using the public folder as root
+ln -s . public
+npm run watch --server
