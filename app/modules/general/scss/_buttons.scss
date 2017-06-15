@@ -22,6 +22,10 @@
   &.sans-serif{
     @include sans-serif;
   }
+  &.success{
+    color: white;
+    @include bg-hover($success-color)
+  }
   &.secondary{
     @include bg-hover($secondary-color)
   }

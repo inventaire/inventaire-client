@@ -58,7 +58,8 @@
     @include position(absolute, 0, 0);
     @include radius-diagonal-b;
     .fa{
-      padding: 0.4em 0.2em 0 0.5em;
+      padding: 0.5em;
+      width: auto;
       color: white;
     }
   }

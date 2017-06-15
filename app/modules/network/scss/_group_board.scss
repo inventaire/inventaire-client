@@ -67,6 +67,7 @@
     @include display-flex(row);
   }
   .action{
+    margin-right: 0.2em;
     span, .fa{
       color: white;
     }

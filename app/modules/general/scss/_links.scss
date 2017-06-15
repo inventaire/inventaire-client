@@ -1,5 +1,8 @@
 a{
   @include text-hover($primary-color, darken($primary-color, 5%));
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 @mixin underline($color:#222){

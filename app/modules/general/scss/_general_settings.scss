@@ -5,14 +5,27 @@
 @import "radius";
 @import "index";
 
-$has-tip-border-bottom: solid 0px white; // Foundation variable
-$has-tip-border-bottom-hover: solid 0px white; // Foundation variable
-$has-tip-cursor-type: inherit; // Foundation variable
-$tooltip-bg: $darker-grey; // Foundation variable
-$input-border-color: rgba(#888, 0.8);
-$input-font-color: black;
+// Foundation legacy
+html, body{
+  height: 100%;
+  font-size: 100%;
+}
+
+*, *:before, *:after{
+  box-sizing: border-box;
+}
 
 body{
+  background: #f5f5f5;
+  color: #222;
+  padding: 0;
+  margin: 0;
+  font-family: "Alegreya Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.5;
+  position: relative;
+  cursor: auto;
   ul, ul li, ul li ul{
     list-style-type: none;
     list-style-position: outside;
@@ -29,23 +42,6 @@ body{
   a{
     outline: 0;
   }
-}
-
-textarea{
-  // don't set a min-width as textarea are sometimes in a flex row
-  // with other elements (ex: transactions new_message)
-  // min-width: 100%;
-  max-width: 100%;
-  resize: none;
-  border: solid 1px #ccc;
-  &:focus{
-    box-shadow: 0 0 2px $glow;
-  }
-}
-
-img.icon{
-  max-height: 1.5em;
-  opacity: 0.8;
 }
 
 // OPACITY
@@ -69,7 +65,6 @@ img.icon{
   @extend .glowing;
 }
 
-// SIZE MIXINS
 .big{
   font-size: 5rem;
   padding: 1rem;
@@ -82,57 +77,15 @@ img.icon{
 .fa{
   padding-left: 0.2em;
   padding-right: 0.2em;
-}
-.fa.monospaced{
-  width: 1.2rem;
+  // Force monospace
+  width: 1.4em;
   text-align: center;
-}
-
-// FORMS
-$input-include-glowing-effect: false;
-$button-margin-bottom: 0rem;
-
-.alert-box{
-  margin-top: -1rem;
-  @include sans-serif;
-  font-size: 0.9em !important;
-  a:not(.close){
-    @include text-hover(white, #ccc);
-    text-decoration: underline;
-  }
-}
-.with-tip{
-  display: inline-block;
-}
-.has-tip{
-  display: inline-block;
-  .fa-question-circle{
-    margin-left: 0.2em;
-    margin-right: 0.2em;
-    font-size: 1rem;
-  }
 }
 
 // making the selector stronger to override
 // Foundation .buttons e.g.
 p.bold, span.bold, a.bold{
   font-weight: 900;
-}
-
-select{
-  // FontAwesome is needed to correctly display icons
-  font-family: 'FontAwesome', $sans-serif;
-  option{
-    // works in Firefox not Chrome
-    font-size: 1rem;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
-  }
-}
-
-input[type="password"]{
-  // forcing standard password dots
-  font-family: sans-serif !important;
 }
 
 .margin-top{
@@ -155,69 +108,6 @@ noscript{
   padding: 1em;
 }
 
-// Foundation legacy
-html, body{
-  height: 100%;
-}
-
-*, *:before, *:after{
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-html, body{
-  font-size: 100%;
-}
-
-body{
-  background: #f5f5f5;
-  color: #222;
-  padding: 0;
-  margin: 0;
-  font-family: "Alegreya Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1.5;
-  position: relative;
-  cursor: auto;
-}
-
-a:hover{
-  cursor: pointer;
-}
-
-img{
-  max-width: 100%;
-  height: auto;
-}
-
-img{
-  -ms-interpolation-mode: bicubic;
-}
-
-img{
-  display: inline-block;
-  vertical-align: middle;
-}
-
-textarea{
-  height: auto;
-  min-height: 50px;
-}
-
-select{
-  width: 100%;
-}
-
-/*Small screens*/
-@media screen and (max-width: $small-screen) {
-}
-
-/*Large screens*/
-@media screen and (min-width: $small-screen) {
-}
-
 @import "buttons";
 @import "shadow_box";
 @import "panel";
@@ -226,7 +116,9 @@ select{
 @import "pictures";
 @import "circle_pic";
 @import "input";
-@import "forms";
+@import "select";
+@import "img";
+@import "label";
 @import "success_check";
 @import "custom_tabs";
 @import "custom_column";

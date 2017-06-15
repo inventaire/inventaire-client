@@ -103,10 +103,14 @@ div.groupShow{
     @include side-buttons;
     @include display-flex(column, center, space-between);
     @include radius;
-    @include bg-hover(rgba(grey, 0.3));
     a{
       color: white;
-      padding-left: 0.3em;
+      padding: 0.3em;
+      @include bg-hover(rgba(grey, 0.3));
+      .fa{
+        width: 2em;
+        text-align: center;
+      }
     }
   }
   .actions{

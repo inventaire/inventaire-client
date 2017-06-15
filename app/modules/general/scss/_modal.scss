@@ -53,7 +53,9 @@ body.openedModal{
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    min-width: 60em;
+    .large{
+      min-width: 60em;
+    }
   }
 }
 

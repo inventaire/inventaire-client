@@ -1,12 +1,14 @@
 .alert-box{
+  @include sans-serif;
   border-style: solid;
   border-width: 1px;
   display: block;
   font-weight: normal;
   margin-bottom: 1.25rem;
+  margin-top: -1rem;
   position: relative;
   padding: 0.875rem 1.5rem 0.875rem 0.875rem;
-  font-size: 0.8125rem;
+  font-size: 0.9em;
   transition: opacity 300ms ease-out;
   background-color: #f04124;
   border-color: #de2d0f;
@@ -24,5 +26,9 @@
     &:hover, &:focus{
       opacity: 0.5;
     }
+  }
+  a:not(.close){
+    @include text-hover(white, #ccc);
+    text-decoration: underline;
   }
 }
