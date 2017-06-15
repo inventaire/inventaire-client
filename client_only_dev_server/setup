@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+echo "Generating self-signed keys"
+openssl req -x509 -sha256 -nodes -days 1095 -newkey rsa:2048 -keyout server.key -out server.crt -subj "/C=/ST=/L=/O=/OU=/CN=."
