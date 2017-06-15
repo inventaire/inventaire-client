@@ -8,7 +8,7 @@ set -e
 [ -e public/js/app.js ] && exit 0
 
 ./scripts/slim_packages.coffee
-mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json
+mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
 ./scripts/install_external_js_modules
 ./scripts/update_mentions.coffee
 
