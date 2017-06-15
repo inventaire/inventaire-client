@@ -1,25 +1,25 @@
 <div class="icon-buttons">
   {{#if deleteRight}}
-    <a class="menu" data-options="align:left" data-dropdown="{{cid}}-menu" title="{{i18n 'edit'}}" aria-autoclose="true">
+    <div class="has-dropdown" title="{{i18n 'edit'}}">
       {{#if editRight}}
         {{icon 'pencil'}}
       {{else}}
         {{icon 'times'}}
       {{/if}}
-    </a>
-    <ul id="{{cid}}-menu" class="tiny f-dropdown" data-dropdown-content>
-      {{#if editRight}}
-      <li>
-        <a class="edit">
-          {{icon 'pencil'}}{{i18n 'edit'}}
-        </a>
-      </li>
-      {{/if}}
+      <ul class="dropdown">
+        {{#if editRight}}
         <li>
-          <a class="delete">
-            {{icon 'times'}}{{i18n 'delete'}}
+          <a class="edit">
+            {{icon 'pencil'}}{{i18n 'edit'}}
           </a>
         </li>
-    </ul>
+        {{/if}}
+          <li>
+            <a class="delete">
+              {{icon 'times'}}{{i18n 'delete'}}
+            </a>
+          </li>
+      </ul>
+    </a>
   {{/if}}
 </div>

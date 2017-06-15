@@ -122,15 +122,3 @@
     }
   }
 }
-.f-dropdown{
-  // using .label2 to avoid colliding with the above .label rule
-  li.label2, li.label2:hover{
-    color: #444;
-    background-color: white;
-    cursor: default;
-  }
-  .selected{
-    background-color: #666;
-    color: white;
-  }
-}

@@ -1,33 +1,34 @@
 {{#if admin}}
   <span class="admin">{{i18n 'admin'}}</span>
 {{/if}}
+{{!-- Do not show the friends menu when not stretch as the dropdown requires place --}}
 {{#if member}}
   <span class="memberMenu">
-    <a class="member" data-options="align:left" data-dropdown="{{cid}}-menu">
+    <div class="member has-dropdown">
       {{!-- <span class="label">{{i18n 'member'}}</span> --}}
       {{icon 'chevron-down'}}
-    </a>
-    <ul id="{{cid}}-menu" class="tiny f-dropdown" data-dropdown-content>
-      <li>
-        <a class="select-2">
-          {{icon 'user'}} {{i18n 'see profile'}}</span>
-        </a>
-      </li>
-      {{#if mainUserIsAdmin}}
-        {{#unless admin}}
-          <li>
-            <a class="makeAdmin">
-              {{icon 'key'}} {{i18n 'make admin'}}</span>
-            </a>
-          </li>
-          <li>
-            <a class="kick">
-              {{icon 'ban'}} {{i18n 'remove from group'}}</span>
-            </a>
-          </li>
-        {{/unless}}
-      {{/if}}
-    </ul>
+      <ul class="dropdown">
+        <li>
+          <a class="select-2">
+            {{icon 'user'}} {{i18n 'see profile'}}</span>
+          </a>
+        </li>
+        {{#if mainUserIsAdmin}}
+          {{#unless admin}}
+            <li>
+              <a class="makeAdmin">
+                {{icon 'key'}} {{i18n 'make admin'}}</span>
+              </a>
+            </li>
+            <li>
+              <a class="kick">
+                {{icon 'ban'}} {{i18n 'remove from group'}}</span>
+              </a>
+            </li>
+          {{/unless}}
+        {{/if}}
+      </ul>
+    </div>
   </span>
 {{/if}}
 {{#if invited}}

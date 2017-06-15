@@ -70,13 +70,6 @@ $workLiMaxWidth: 45em;
       white-space: nowrap;
       text-decoration: none;
     }
-    .hasAnInstance{
-      white-space: normal;
-      font-size: 0.9em;
-      @include bg-hover(white, 0);
-      color: $grey;
-      text-align: center;
-    }
     .counter{
       text-align: center;
       padding: 0.4em 0.4em 0.4em 0.5em;

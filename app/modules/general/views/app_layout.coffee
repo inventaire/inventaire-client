@@ -32,6 +32,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     General: {}
     PreventDefault: {}
+    Dropdown: {}
 
   initialize: (e)->
     _.extend @, showViews
@@ -64,6 +65,8 @@ module.exports = Marionette.LayoutView.extend
       'top:bar:hide': @hideTopBar.bind(@)
       'lateral:buttons:show': @ui.lateralButtons.show.bind(@ui.lateralButtons)
       'lateral:buttons:hide': @ui.lateralButtons.hide.bind(@ui.lateralButtons)
+
+    $('body').on 'click', app.vent.Trigger('body:click')
 
   serializeData: ->
     topbar: @topBarData()

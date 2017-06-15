@@ -10,14 +10,6 @@
   border: $width $style $color;
 }
 
-@mixin standard-dropdown(){
-  .f-dropdown{
-    a, li, i.fa{
-      color: $dark-grey;
-    }
-  }
-}
-
 @mixin position($position, $top:null, $right:null, $bottom:null, $left:null, $z:null){
   position: $position;
   @if $top { top: $top; }

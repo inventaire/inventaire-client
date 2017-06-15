@@ -3,6 +3,7 @@ behaviors =
   AlertBox: require './alertbox'
   AutoComplete: require './autocomplete'
   AutoFocus: require './autofocus'
+  Dropdown: require './dropdown'
   Loading: require './loading'
   SuccessCheck: require './success_check'
   TogglePassword: require './toggle_password'

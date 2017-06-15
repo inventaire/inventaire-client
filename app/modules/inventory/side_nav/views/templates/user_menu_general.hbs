@@ -1,24 +1,25 @@
-{{#if friends}} 
+{{!-- Do not show the friends menu when not stretch as the dropdown requires place --}}
+{{#if friends}}
   <span class="friendMenu">
-    <a class="light-grey friend" data-options="align:top" data-dropdown="{{cid}}-menu">
+    <div class="light-grey friend has-dropdown">
       <span class="label">{{i18n 'friend'}}</span>
       {{icon 'chevron-down'}}
-    </a>
-    <ul id="{{cid}}-menu" class="tiny f-dropdown" data-dropdown-content>
-      {{!-- redundant but allow to avoid having unfriend button alone, the risk to click it on mobile is too big  --}}
-      {{#unless onUserProfile}}
+      <ul class="dropdown">
+        {{!-- redundant but allow to avoid having unfriend button alone, the risk to click it on mobile is too big  --}}
+        {{#unless onUserProfile}}
+          <li>
+            <a class="select-2">
+              {{icon 'user'}} {{i18n 'see profile'}}</span>
+            </a>
+          </li>
+        {{/unless}}
         <li>
-          <a class="select-2">
-            {{icon 'user'}} {{i18n 'see profile'}}</span>
+          <a class="unfriend action">
+            {{icon 'minus'}} {{i18n 'unfriend'}}</span>
           </a>
         </li>
-      {{/unless}}
-      <li>
-        <a class="unfriend action">
-          {{icon 'minus'}} {{i18n 'unfriend'}}</span>
-        </a>
-      </li>
-    </ul>
+      </ul>
+    </div>
   </span>
 {{/if}}
 {{#if userRequested}} 

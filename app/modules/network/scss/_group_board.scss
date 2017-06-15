@@ -43,7 +43,8 @@
         }
       }
       .inner{
-        overflow: auto;
+        // Disabled overflow to allow dropdown menus with absolute positions
+        // overflow: auto;
         padding-right: 0.4em;
       }
       .section-toggler{

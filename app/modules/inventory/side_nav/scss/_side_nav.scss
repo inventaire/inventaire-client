@@ -13,8 +13,6 @@
     a, h3{
       color: white;
     }
-    // overridding the white font-color for .f-dropdown elements
-    @include standard-dropdown;
   }
 
   $user-profile-height: 16em;
@@ -54,6 +52,11 @@
       // used to place .close at the end of the line
       // but targeting all headers to keep a consistant placing of .header
       @include display-flex(row, center, space-between);
+    }
+    .friendMenu{
+      // Hidding the menu as there isn't the place for the dropdown menu
+      // and it's not that indispensable: clicking the profile displays the same menu
+      display: none;
     }
   }
   #groupsList{

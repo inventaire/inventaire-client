@@ -1,65 +1,15 @@
 .entityActions{
   @include display-flex(column, center, center);
   margin-bottom: 1rem;
-  div.workAction{
-    .f-dropdown{
-      .fa{
-        font-size: 1.5rem;
-      }
-      span{
-        // weird, it seems, that vertical-align without padding-bottom
-        // doesnt do the job
-        vertical-align: middle;
-        padding-bottom: 0.5rem;
-      }
-    }
-  }
-  li.dropdownLegend{
-    color: $grey;
-    background-color: $light-grey;
-    padding: 1rem;
-    font-size: 1.2rem;
-    cursor: default;
-  }
-  .hasAnInstance{
-    background-color: white;
-    padding: 1em;
-    margin: 0.5em 0 0.5em 0;
-    @include radius;
-    color: $dark-grey;
-    text-align: center;
-    // egalizing with .workAction width
-    max-width: 21em;
-  }
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     flex-direction: column;
-    .custom-button-group{
-      /*Small screens*/
-      @media screen and (max-width: $very-small-screen) {
-        #addToInventory{
-          @include radius;
-          margin-top: 0.5em;
-        }
-        // hidding the dropdown menu as it was making
-        // a big ugly button on small-screens
-        .dropdown-custom{
-          display: none;
-        }
-      }
-    }
   }
   /*Large screens*/
   @media screen and (min-width: $very-small-screen) {
     .custom-button-group{
       @include display-flex(row);
-      #addToInventory{
-        @include radius-left;
-      }
-      .dropdown-custom{
-        @include radius-right;
-      }
     }
   }
 }

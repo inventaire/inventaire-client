@@ -28,15 +28,6 @@ $user-bg: #ddd;
     .userMenu{
       flex: 0 0 auto;
       @include display-flex(row, center, flex-end);
-      .action{
-        @include display-flex(row, center, center);
-      }
-      .f-dropdown{
-        a, .fa, span{
-          text-align: left !important;
-          color: $dark-grey !important;
-        }
-      }
     }
   }
   .inventoryLength{
@@ -204,11 +195,6 @@ $user-bg: #ddd;
         vertical-align: middle;
       }
     }
-    .userMenu{
-      a{
-        text-align: right;
-      }
-    }
   }
 }
 
@@ -297,27 +283,19 @@ $user-bg: #ddd;
     .userMenu{
       text-align: left;
     }
-    .friendMenu{
-      @include shy;
-    }
-    span, .fa:not(.times-circle){
+    span, {
       color: $dark-grey;
+    }
+    .fa:not(.times-circle){
+      @include text-hover($grey, $dark-grey);
     }
     .action{
       span, .fa{
         color: white;
       }
     }
-    .member, .invited{
-      opacity: 0.6;
-    }
     .inventoryLength{
       color: white;
-    }
-    .action{
-      margin-left: 0.2em;
-      margin-right: 0.2em;
-      @include radius;
     }
     .acceptRequest{
       @include tiny-button($success-color);

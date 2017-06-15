@@ -1,10 +1,10 @@
-<div class="transactionBox {{currentTransaction.id}}">
+<div class="transactionBox {{currentTransaction.id}} has-dropdown">
   {{#if restricted}}
     <a class="current itemShow">
       {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
     </a>
   {{else}}
-    <a class="current" data-dropdown="{{cid}}-transaction-menu">
+    <a class="current">
       <span class="icon">
         {{icon currentTransaction.icon}}
       </span>
@@ -13,9 +13,8 @@
         {{icon 'caret-down'}}
       </span>
     </a>
-    <ul id="{{cid}}-transaction-menu" data-options="align:right"
-    class="tiny f-dropdown" data-dropdown-content>
-      <li class="label2 capitalized">{{i18n 'available for'}}:</li>
+    <ul class="dropdown">
+      <li class="dropdown-label capitalized">{{i18n 'available for'}}:</li>
       {{#each transactions}}
         <li>
           <a id="{{id}}" class="transaction {{classes}}">
