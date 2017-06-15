@@ -1,3 +1,7 @@
+a{
+  @include text-hover($primary-color, darken($primary-color, 5%));
+}
+
 @mixin underline($color:#222){
   text-decoration: underline;
   text-decoration-color: $color;

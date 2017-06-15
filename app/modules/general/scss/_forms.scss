@@ -58,12 +58,12 @@ input[type="time"],
 input[type="url"],
 input[type="color"],
 textarea{
-  -webkit-appearance: none;
-  -webkit-border-radius: 0px;
+  appearance: none;
+  border-radius: 0px;
   background-color: #FFFFFF;
   font-family: inherit;
   border: 1px solid $input-border-color;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  // box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   color: $input-font-color;
   display: block;
   font-size: 0.875rem;
@@ -71,8 +71,6 @@ textarea{
   padding: 0.5rem;
   // height: 2.3125rem;
   width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
   &:focus{
@@ -90,13 +88,11 @@ textarea{
 
 /* Add height value for select elements to match text input height */
 select{
-  -webkit-appearance: none !important;
-  -webkit-border-radius: 0px;
+  appearance: none;
+  border-radius: 0px;
   background-color: #FAFAFA;
-  // background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+);
   background-position: 100% center;
   background-repeat: no-repeat;
-  border: 1px solid $input-border-color;
   padding: 0.5rem;
   font-size: 0.875rem;
   font-weight: normal;

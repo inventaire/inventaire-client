@@ -1,10 +1,32 @@
 .button{
+  border-style: solid;
+  border-width: 0;
+  // font-weight: 400;
+  line-height: normal;
+  margin: 0;
+  position: relative;
+  text-align: center;
+  appearance: none;
+  @include radius;
+  display: inline-block;
+  font-size: 1rem;
+  background-color: #16212C;
+  border-color: #121a23;
+  color: #fff;
+  transition: background-color .3s ease-out;
+  padding: 1rem 2rem 1.0625rem;
   font-weight: bold;
   &.soft-grey{
     @include bg-hover($soft-grey)
   }
   &.sans-serif{
     @include sans-serif;
+  }
+  &.secondary{
+    @include bg-hover($secondary-color)
+  }
+  &.alert{
+    @include bg-hover($warning-color)
   }
 }
 
