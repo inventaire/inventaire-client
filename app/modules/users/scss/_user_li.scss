@@ -224,11 +224,11 @@ $user-bg: #ddd;
     &:not(.friend){
       // avoid affecting 'a.action's in dropdown
       .userMenu > .action{
-        // centering the action icon
-        padding-left: 0.4em;
-        padding-right: 0.4em;
+        // Centering the action icon
+        height: 1.7em;
+        padding-left: 0.3em;
+        padding-right: 0.2em;
         &:not(:hover){
-          padding-right: 0;
           .label{
             display: none;
           }
