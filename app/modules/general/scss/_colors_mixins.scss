@@ -32,6 +32,14 @@
   }
 }
 
+@mixin bg-hover-lighten($bg-color, $lighten:15%){
+  background-color: $bg-color;
+  @include transition(background-color);
+  &:hover, &:focus{
+    background-color: lighten($bg-color, $lighten);
+  }
+}
+
 @mixin dangerous-action(){
   @include transition(background-color, 0.2s);
   background-color: $grey;

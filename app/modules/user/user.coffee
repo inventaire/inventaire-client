@@ -19,7 +19,6 @@ module.exports =
     require('./lib/auth')(app)
     require('./lib/user_listings')(app)
     require('./lib/user_update')(app)
-    require('./lib/user_menu_update')(app)
 
     app.commands.setHandlers
       'show:signup': API.showSignup

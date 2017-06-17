@@ -1,0 +1,32 @@
+<label>{{i18n 'settings'}}</label>
+
+<uL>
+  <li>{{iconLinkText name='user' url='/settings/profile' I18n='profile'}}</li>
+  <li>{{iconLinkText name='envelope' url='/settings/notifications' I18n='notifications'}}</li>
+  <li>{{iconLinkText classes='editLabs' name='flask' url='/settings/labs' I18n='labs'}}</li>
+</ul>
+
+<hr>
+
+<label>{{i18n 'contribute'}}</label>
+<ul>{{partial 'general:menu:contribute' urls}}</ul>
+
+<hr>
+
+<label>{{i18n 'discussions'}}</label>
+<ul>
+  <li>{{iconLinkText name='envelope' url='/#feedback' I18n='feedback'}}</li>
+  <li>{{iconLinkText name='comments' url=urls.chat I18n='chat'}}</li>
+  <li>{{iconLinkText name='twitter' url=urls.twitter text='Twitter'}}</li>
+  <li>{{iconLinkText name='facebook' url=urls.facebook text='Facebook'}}</li>
+  <li>{{iconLinkText name='pencil' url=urls.blog text='Blog'}}</li>
+</ul>
+
+<hr>
+
+<label>{{i18n 'others'}}</label>
+<ul>
+  <li>{{iconLinkText name='question' url=urls.faq I18n='help'}}</li>
+  <li>{{iconLinkText name='home' url='/welcome' I18n='welcome screen'}}</li>
+  <li><a id="signout">{{icon 'sign-out'}}{{I18n 'sign out'}}</a></li>
+</ul>

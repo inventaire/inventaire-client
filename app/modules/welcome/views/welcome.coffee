@@ -1,4 +1,3 @@
-loginPlugin = require 'modules/general/plugins/login'
 showPaginatedItems = require '../lib/show_paginated_items'
 urls = require 'lib/urls'
 Mentions = require './mentions'
@@ -11,7 +10,6 @@ module.exports = Marionette.LayoutView.extend
     mentions: '#mentions'
 
   initialize: ->
-    loginPlugin.call @
     @waitForMention = getMentionsData()
 
   events:

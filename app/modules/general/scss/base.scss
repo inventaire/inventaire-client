@@ -22,13 +22,3 @@
 @import '../../transactions/scss/transactions';
 @import '../../network/scss/network';
 @import '../../map/scss/map';
-
-@import "../foundation/scss/top-bar";
-
-// Foundation overrides
-body{
-  // when $include-html-global-classes is true
-  // Foundation sets html, body { height: 100%; } (among other things)
-  // which make a vertical scroll-bar appear
-  height: auto;
-}

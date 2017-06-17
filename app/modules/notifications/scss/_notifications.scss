@@ -1,4 +1,12 @@
-#accountMenu{
+#notifications-menu{
+  .notifications{
+    flex: 1 0 auto;
+    align-self: stretch;
+    @include display-flex(row, center, center);
+  }
+  .counter{
+    @include counter-commons;
+  }
   .notification{
     div{
       min-width: 10em;
@@ -32,10 +40,6 @@
       justify-content: center;
       color: white;
     }
-  }
-  .seeAll{
-    text-align: center;
-    font-weight: bold;
   }
 
   @import "request_li";

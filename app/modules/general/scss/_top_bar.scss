@@ -1,0 +1,92 @@
+nav#top-bar{
+  @include position(fixed, 0, 0, null, 0, 1000)
+  @include display-flex(row, center, flex-start);
+  background-color: $topbar-bg-color;
+  h1{
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2rem;
+    // /!\ Defines the top-bar height
+    padding: 0.1rem 1rem 0.1rem 0.5rem;
+  }
+  a{
+    @include text-hover(white);
+  }
+  .push-right{
+    margin-left: auto;
+  }
+  #mainUser, .menu, .language-picker, .signupRequest, .loginRequest{
+    @include serif;
+    font-weight: bold;
+    color: white;
+    align-self: stretch;
+    white-space: nowrap;
+    @include display-flex(row, center, center);
+  }
+  #mainUser, .menu, .language-picker{
+    @include bg-hover-lighten($topbar-bg-color);
+  }
+  #mainUser, .language-picker{
+    padding: 0.2em 1em;
+  }
+  #mainUser{
+    img{
+      @include radius;
+      margin-right: 0.5em;
+    }
+  }
+  .menu{
+    font-size: 1.1em;
+    width: 3em;
+  }
+  #searchGroup{
+    max-width: 30em;
+    margin: 0.2em;
+    .button{
+      width: 5em;
+    }
+  }
+  .dropdown{
+    background-color: $topbar-bg-color;
+  }
+  .signupRequest, .loginRequest{
+    padding: 0 1em;
+  }
+  .signupRequest{
+    @include bg-hover($secondary-color, 5%);
+    color: $dark-grey;
+  }
+  .loginRequest{
+    @include bg-hover($success-color, 5%);
+  }
+  &:not(.logged-in){
+    #notifications-menu{
+      display: none;
+    }
+  }
+
+  .dropdown{
+    @include radius-bottom;
+    font-weight: normal;
+    @include sans-serif;
+    &.hover{
+      @include display-flex(column);
+    }
+  }
+  .help-translate, .seeAll{
+    @include display-flex(row, center, center);
+    text-align: center;
+    flex: 1 0 auto;
+    align-self: stretch;
+    font-weight: bold;
+    @include serif;
+    @include bg-hover(#333);
+    font-size: 1.1em;
+    padding: 0.8em 1em;
+    &, span, .fa{
+      color: white !important;
+    }
+  }
+}
+
+@import 'top_bar_language_picker';

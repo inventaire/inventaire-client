@@ -16,6 +16,7 @@ module.exports =
   git: subdomain 'git'
   wiki: subdomain 'wiki'
   faq: 'https://wiki.inventaire.io/wiki/FAQ'
+  chat: 'https://wiki.inventaire.io/wiki/Communication-channels#chats'
   translate: subdomain 'translate'
   roadmap: subdomain 'roadmap'
   apiDoc: subdomain 'api'

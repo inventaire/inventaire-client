@@ -1,46 +1,42 @@
-ListWithCounter = require 'modules/general/views/menu/list_with_counter'
-seeAll = require './templates/see_all'
-seeAllData =
-  pathname: 'notifications'
-  text: 'see all'
-
-module.exports = ListWithCounter.extend
+module.exports = Marionette.CompositeView.extend
+  className: 'notifications has-dropdown'
+  template: require './templates/notifications_list'
+  childViewContainer: 'ul'
   childView: require './notification_li'
   emptyView: require './no_notification'
+  ui:
+    counter: '.counter'
+    list: 'ul'
+
   initialize: ->
     @initUpdaters()
 
-    # wait for the notifications to be added and rendered
-    app.request 'waitForNetwork'
-    .delay 1000
-    .then @updateSeeAllLink.bind(@)
+  initUpdaters: ->
+    @listenTo @collection, 'all', @updateCounter
 
-  serializeData: ->
-    icon: 'globe'
-    label: _.i18n 'notifications'
-
-  className: 'notifications has-dropdown not-click'
   events:
-    'click .listWithCounter': 'markNotificationsAsRead'
+    'click': 'markNotificationsAsRead'
     'click .seeAll': 'showAllNotification'
 
+  onRender: -> @updateCounter()
+
   markNotificationsAsRead: -> @collection.markAsRead()
+
   count: -> @collection.unread().length
+
+  updateCounter: ->
+    if @count() is 0 then @hideCounter()
+    else @showCounter()
+
+  hideCounter: -> @ui.counter.hide()
+
+  showCounter: ->
+    @ui.counter.html @count()
+    # need to override the style="display:block"
+    @ui.counter.slideDown().attr('style', '')
 
   filter: (child, index, collection)->
     if child.isUnread() then true
     else -1 < index < 5
-
-  # to be shown and hidden by Foundation with the notification list
-  # the see_all element has to be integrated to the ul.dropdown
-  updateSeeAllLink: ->
-    # it isnt clear why, but sometimes @ui.list.append throws a TypeError
-    # TypeError: this.ui.list.append is not a function'
-    # so if those conditions aren't satisfied yet, retry later
-    if @ui?.list.append? and _.isFunction @ui.list.append
-      # make sure it is added last
-      @ui.list.append seeAll(seeAllData)
-    else
-      setTimeout @updateSeeAllLink.bind(@), 3000
 
   showAllNotification: -> app.execute 'show:notifications'

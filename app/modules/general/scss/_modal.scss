@@ -62,6 +62,9 @@ body.openedModal{
 #modalContent{
   @include radius;
   background-color: white;
+  &.dark{
+    background-color: $topbar-bg-color;
+  }
   box-shadow: 3px 3px 10px 3px rgba(#222, 0.5);
   /*Small screens*/
   @media screen and (max-width: $small-screen) {

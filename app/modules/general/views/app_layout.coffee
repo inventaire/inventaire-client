@@ -1,6 +1,7 @@
 waitForCheck = require '../lib/wait_for_check'
 documentLang = require '../lib/document_lang'
 showViews = require '../lib/show_views'
+TopBar = require './top_bar'
 IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
 initDynamicBackground = require '../lib/dynamic_background'
@@ -13,9 +14,9 @@ module.exports = Marionette.LayoutView.extend
   el: '#app'
 
   regions:
+    topBar: '#topBar'
     iconNav: '#iconNav'
     main: 'main'
-    accountMenu: '#accountMenu'
     modal: '#modalContent'
     joyride: '#joyride'
 
@@ -61,27 +62,17 @@ module.exports = Marionette.LayoutView.extend
     app.request('waitForNetwork').then initWindowResizeEvents
 
     app.vent.on
-      'top:bar:show': @showTopBar.bind(@)
-      'top:bar:hide': @hideTopBar.bind(@)
       'lateral:buttons:show': @ui.lateralButtons.show.bind(@ui.lateralButtons)
       'lateral:buttons:hide': @ui.lateralButtons.hide.bind(@ui.lateralButtons)
 
     $('body').on 'click', app.vent.Trigger('body:click')
 
-  serializeData: ->
-    topbar: @topBarData()
-
   # /!\ app_layout is never 'show'n so onShow never gets fired
   # but it gets rendered
   onRender: ->
+    @topBar.show new TopBar
     # render icon and let icon handlers show or hide it
     @iconNav.show new IconNav
-
-  topBarData: ->
-    options:
-      custom_back_text: true
-      back_text: _.icon('caret-left') + ' ' + _.i18n('back')
-      is_hover: false
 
   setCurrentUsername: (username)->
     $('#currentUsername').text(username)
@@ -89,14 +80,6 @@ module.exports = Marionette.LayoutView.extend
 
   hideCurrentUsername: ->
     $('#currentUser').hide()
-
-  showTopBar: ->
-    @main.$el.removeClass 'no-topbar'
-    @ui.topBar.slideDown()
-
-  hideTopBar: ->
-    @main.$el.addClass 'no-topbar'
-    @ui.topBar.hide()
 
   askConfirmation: (options)-> @modal.show new ConfirmationModal(options)
 

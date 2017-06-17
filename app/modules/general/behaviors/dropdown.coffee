@@ -9,9 +9,19 @@ module.exports = Marionette.Behavior.extend
     $dropdown = $(e.currentTarget).find '.dropdown'
     isVisible = $dropdown.css('display') isnt 'none'
     if isVisible
-      $dropdown.hide()
+      hide $dropdown
     else
-      $dropdown.show()
-      closeOnClick = => @listenToOnce app.vent, 'body:click', $dropdown.hide.bind($dropdown)
+      show $dropdown
       # Let a delay so that the toggle click itself isn't catched by the listener
-      setTimeout closeOnClick, 100
+      setTimeout closeOnClick.bind(@, $dropdown), 100
+
+hide = ($dropdown)->
+  $dropdown.hide()
+  $dropdown.removeClass 'hover'
+
+show = ($dropdown)->
+  $dropdown.show()
+  $dropdown.addClass 'hover'
+
+closeOnClick = ($dropdown)->
+  @listenToOnce app.vent, 'body:click', hide.bind(null, $dropdown)

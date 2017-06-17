@@ -1,7 +1,6 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 messagesPlugin = require 'modules/general/plugins/messages'
 forms_ = require 'modules/general/lib/forms'
-loginPlugin = require 'modules/general/plugins/login'
 
 module.exports = Marionette.CompositeView.extend
   className: 'itemComments panel'
@@ -15,8 +14,6 @@ module.exports = Marionette.CompositeView.extend
 
   initPlugins: ->
     _.extend @, behaviorsPlugin, messagesPlugin
-    unless app.user.loggedIn
-      loginPlugin.call @
 
   events:
     'click .postComment': 'postComment'

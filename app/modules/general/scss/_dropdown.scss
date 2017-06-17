@@ -5,20 +5,21 @@
 .dropdown{
   text-align: left;
   display: none;
-  z-index: 100;
+  position: absolute;
+  z-index: 3000;
+  min-width: 10em;
+  top: 100%;
+  &:not(.dropdown-align-right){ left: 0; }
+  &.dropdown-align-right{ right: 0;  }
+  white-space: nowrap;
   background-color: $off-white;
   font-size: 0.9em;
   color: $dark-grey;
   &, a, span, .fa{
     text-align: left !important;
-    color: $dark-grey !important;
+    color: $dark-grey;
   }
   @include shy-border;
-  position: absolute;
-  min-width: 10em;
-  top: 100%;
-  left: 0;
-  white-space: nowrap;
   li{
     width: 100%;
   }
@@ -29,9 +30,7 @@
     }
   }
   a{
-    display: inline-block !important;
     padding: 0.5em;
-    width: 100%;
     @include bg-hover(white);
   }
 }

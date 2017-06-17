@@ -1,25 +1,18 @@
-<li class="has-dropdown language-picker">
-  <a class="current-lang">{{currentLanguage}}</a>
-  <ul class="dropdown">
-    <li>
-      <ul class="options">
-        {{#each languages}}
-          <li class="option">
-            <a data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}}">
-              <span class="completion" style="width:{{completion}}%"></span>
-              <span class="lang">{{native}}</span>
-              ({{i18n 'translation_completion' completion=completion}})
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    </li>
-    <li class="contribute">
-      <a href="{{translate}}" target="_blank" rel="noopener">
-        {{icon 'pencil'}}
-        <strong>{{i18n 'help translate inventaire'}}</strong>
-      </a>
-    </li>
-  </ul>
-</li>
-
+<div class="language-picker has-dropdown">
+  <span class="current-lang">{{currentLanguage}}</span>
+  {{icon 'caret-down'}}
+  <div class="dropdown dropdown-align-right">
+    <ul class="options">
+      {{#each languages}}
+        <li class="option">
+          <a data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}}">
+            <span class="completion" style="width:{{completion}}%"></span>
+            <span class="lang">{{native}}</span>
+            <span class="completion-text">({{i18n 'translation_completion' completion=completion}})</span>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+    {{iconLinkText name='pencil' url=translate I18n='help translate inventaire' linkClasses='help-translate'}}
+  </div>
+</div>

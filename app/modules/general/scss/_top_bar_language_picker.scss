@@ -1,52 +1,43 @@
 .language-picker{
+  .fa-caret-down{
+    color: #ccc;
+  }
   li.option{
-    @for $i from 1 through 20 {
-      &:nth-child(#{$i}) .completion{
-        transition: max-width 0.3s $i*0.1s ease-in;
-      }
-    }
+    @include serif;
+    display: flex;
     a{
-      display: block;
-      // width: 98%;
-      padding: 0;
+      flex: 1 0 auto;
+      padding: 0.4em 0;
       position: relative;
       z-index: 1;
-      line-height: 2.5em;
-      overflow: hidden;
-      // overriding Foundation
-      background-color: $grey !important;
-      @include transition(background-color);
+      background-color: $grey;
+      &, span{
+        color: white !important;
+      }
     }
     .completion{
-      display: block;
-      @include radius-right;
       @include position(absolute, 0, null, 0, null, -1);
       background-color: $light-blue;
-      max-width: 0;
-      @include transition(opacity);
     }
     .lang{
       font-weight: bold;
-      padding: 0 0.4em 0 0.4em;
+      padding: 0 0.5em;
+    }
+    .completion-text{
+      margin-left: auto;
+      font-weight: normal;
+      opacity: 0.8;
     }
     &:hover{
       .completion{
         opacity: 0.25;
       }
       a{
-        // overriding Foundation
-        background-color: $dark-grey !important;
+        background-color: $dark-grey;
       }
     }
     &:not(:last-child) .completion{
       border-bottom-right-radius: $global-radius;
-    }
-  }
-  &.hover, &.moved{
-    li.option{
-      .completion{
-        max-width: 100%;
-      }
     }
   }
 }

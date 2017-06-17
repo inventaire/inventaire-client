@@ -18,5 +18,7 @@ module.exports = Marionette.Behavior.extend
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'
     'click a.entity-value, a.showEntity': 'showEntity'
+    'click .signupRequest': -> app.execute 'show:signup:redirect'
+    'click .loginRequest': -> app.execute 'show:login:redirect'
 
   showEntity: showViews.showEntity

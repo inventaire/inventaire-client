@@ -2,7 +2,6 @@ exports.import = ->
   require('./js/modernizr.js')
   require('./js/foundation.js')
   require('./js/foundation.joyride.js')
-  require('./js/foundation.topbar.js')
 
 exports.initialize = (app)->
   app.commands.setHandlers

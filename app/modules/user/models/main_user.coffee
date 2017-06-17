@@ -13,7 +13,7 @@ module.exports = UserCommons.extend
     return data
 
   initialize: ->
-    @on 'change:language', @changeLang.bind(@)
+    @on 'change:language', @changeLanguage.bind(@)
     @on 'change:username', @setPathname.bind(@)
 
     # Only listening for first change (when the main user data arrive)
@@ -29,16 +29,16 @@ module.exports = UserCommons.extend
     # If the user is logged in, this will wait for her document to arrive
     # with its language attribute. Else, it will fire at next tick.
     app.request 'wait:for', 'user'
-    .then @setLang.bind(@)
+    .then @initLang.bind(@)
 
-  setLang: ->
+  initLang: ->
     @lang = solveLang @get('language')
     initI18n app, @lang
 
   # Two valid language change cases:
   # - The user isn't logged in and change the language from the top bar selector
   # - The user is logged in and change the language from her profile settings
-  changeLang: ->
+  changeLanguage: ->
     unless app.polyglot? then return
 
     lang = @get 'language'

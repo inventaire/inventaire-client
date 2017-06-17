@@ -1,0 +1,36 @@
+.settings-menu{
+  background-color: $topbar-bg-color;
+  label{
+    font-size: 1rem;
+    color: $grey;
+    padding-left: 0.5em;
+  }
+  ul{
+    width: 100%;
+    @include display-flex(row, center, space-around, wrap);
+  }
+  hr{
+    margin: 1em 0 1em 0;
+    border-color: #444;
+  }
+  li{
+    height: 5em;
+    flex: 1 0 0;
+    align-self: stretch;
+    a{
+      line-height: 1em;
+      font-weight: bold;
+      min-width: 6em;
+      @include serif;
+      padding: 0.6em 0;
+      @include display-flex(column, center, flex-start);
+      text-align: center;
+      @include text-hover(white);
+      @include bg-hover-lighten($topbar-bg-color, 5%);
+      .fa{
+        font-size: 1.6em;
+        padding-bottom: 0.4rem;
+      }
+    }
+  }
+}

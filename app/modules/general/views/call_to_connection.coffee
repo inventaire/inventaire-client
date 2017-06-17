@@ -1,4 +1,3 @@
-loginPlugin = require 'modules/general/plugins/login'
 { banner } = require('lib/urls').images
 
 module.exports = Marionette.ItemView.extend
@@ -9,8 +8,6 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     _.extend @options,
       banner: banner
-  initialize: ->
-    loginPlugin.call @
 
   events:
     # login buttons events are handled from the login plugin

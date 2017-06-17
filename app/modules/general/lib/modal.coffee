@@ -2,15 +2,19 @@ getActionKey = require 'lib/get_action_key'
 
 module.exports = ->
   $body = $('body')
-  $modal = $('#modal')
   $modalWrapper = $('#modalWrapper')
+  $modal = $('#modal')
+  $modalContent = $('#modalContent')
   $closeModal = $('#modal .close')
 
-  modalOpen = (size, focusSelector)->
+  modalOpen = (size, focusSelector, dark=false)->
     if size is 'large' then largeModal()
     else normalModal()
 
     openModal()
+
+    if dark then $modalContent.addClass 'dark'
+    else $modalContent.removeClass 'dark'
 
     setTimeout focusFirstTabElement, 200
     # Allow to pass a selector to which to re-focus once the modal closes

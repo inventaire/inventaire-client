@@ -51,7 +51,6 @@ module.exports = ->
       # initialize layout after user to get i18n data
       app.layout = new AppLayout
       require('modules/general/foundation/foundation').initialize(app)
-      app.execute 'show:user:menu:update'
 
       app.start()
 

@@ -114,6 +114,12 @@
       color: $dark-grey;
     }
   }
+  .dropdown{
+    a{
+      display: inline-block !important;
+      width: 100%;
+    }
+  }
 }
 .itemContainer{
   .transactionBox, .listingMenu{
