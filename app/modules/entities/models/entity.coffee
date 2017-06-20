@@ -169,9 +169,8 @@ module.exports = Backbone.NestedModel.extend
   getImageAsync: -> _.preq.resolve @get('image')
   getImageSrcAsync: ->
     @getImageAsync()
-    .then (imageObj)->
-      url = imageObj?.url
-      if url? then return app.API.img(url)
+    # Let app/lib/metadata/apply_transformers format the URL with app.API.img
+    .then (imageObj)-> imageObj?.url
 
   listenForGraphChanges: ->
     uri = @get 'uri'
