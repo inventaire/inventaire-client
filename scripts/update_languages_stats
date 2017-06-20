@@ -36,7 +36,7 @@ Promise.props completionData
   engKeysNum = results.en
   for lang, keysNum of results
     languagesData[lang] =
-      defaultRegions: specialCaseRegions[lang] or "#{lang}_#{lang.toUpperCase()}"
+      defaultRegion: specialCaseRegions[lang] or "#{lang}_#{lang.toUpperCase()}"
 
     completion = Math.round keysNum/engKeysNum*100
     # When keys are deleted in the English version but not yet uploaded,
