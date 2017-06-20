@@ -43,6 +43,9 @@ API =
     # User might be a user id or a username
     app.request 'resolve:to:userModel', user
     .then (userModel)-> showInventory { user, navigate }
+    .catch (err)->
+      if err.statusCode is 404 then app.execute 'show:error:missing'
+      else app.execute 'show:error:other'
 
   showGroupInventory: (id, name, navigate)->
     showInventory { group: id, navigate }
