@@ -57,7 +57,19 @@ $global-radius: 2px; // Foundation variable
   }
 }
 
-.radius-top{ @include radius-top() }
-.radius-bottom{ @include radius-bottom() }
-.radius-left{ @include radius-left() }
-.radius-right{ @include radius-right() }
+.radius-top{
+  @include radius-top;
+  @include radius-bottom(0);
+}
+.radius-bottom{
+  @include radius-bottom;
+  @include radius-top(0);
+}
+.radius-left{
+  @include radius-left;
+  @include radius-right(0);
+}
+.radius-right{
+  @include radius-right;
+  @include radius-left(0);
+}

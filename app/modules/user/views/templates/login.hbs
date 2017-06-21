@@ -5,13 +5,13 @@
       {{i18n 'username'}}<br>
       <span class="complement">({{i18n 'or email address'}})</span>
     </label>
-    <div>
+    <div class="inputGroup">
       <input type="text" id="username" name="username" class="enterClick radius">
     </div>
 
     {{partial 'user:password_input' this}}
 
-    <a id="classicLogin" class="button radius light-blue" tabindex="0">
+    <a id="classicLogin" class="button light-blue" tabindex="0">
       {{i18n 'login'}}
       <span class="loading"></span>
     </a>

@@ -1,24 +1,10 @@
 $input-border-color: rgba(#888, 0.8);
 $input-font-color: black;
 
-/* We use this to get basic styling on all basic form elements */
-input[type="text"],
-input[type="password"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="month"],
-input[type="week"],
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="tel"],
-input[type="time"],
-input[type="url"],
-input[type="color"],
-textarea{
+/* basic styling on all basic form elements: inherited from Foundation */
+input, textarea{
   appearance: none;
-  border-radius: 0px;
+  @include radius;
   background-color: white;
   font-family: inherit;
   border: 1px solid $input-border-color;
@@ -30,16 +16,17 @@ textarea{
   padding: 0.5rem;
   height: 2.3125rem;
   width: 100%;
-  box-sizing: border-box;
   transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
   &:focus{
-    box-shadow: 0 0 5px rgba(#999, 0.5);
-    border-color: rgba(#999, 0.3);
+    border-color: rgba($input-border-color, 0.5);
     outline: none;
   }
   &:disabled{
     background-color: #ddd;
     cursor: default;
+  }
+  &.has-alertbox{
+    margin-bottom: 0;
   }
 }
 
