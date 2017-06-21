@@ -16,10 +16,8 @@ Promise.onPossiblyUnhandledRejection (err)->
 
 preq = sharedLib('promises')(Promise)
 
-Ajax = (verb, hasBody, allowProxiedUrl=false)->
+Ajax = (verb, hasBody)->
   return ajax = (url, body)->
-    if allowProxiedUrl
-      if proxiedUrl(url) then url = app.API.proxy url
 
     options =
       type: verb
@@ -39,8 +37,6 @@ module.exports = _.extend preq, requestAssets,
   post: Ajax 'POST', true
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
-
-proxiedUrl = (url)-> /wikidata\.org/.test url
 
 preq.wrap = wrap = (jqPromise, context)->
   return new Promise (resolve, reject)->

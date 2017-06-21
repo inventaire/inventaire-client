@@ -10,3 +10,4 @@ module.exports = (_)->
           srlimit: limit
           format: format
           srsearch: search
+          origin: '*'

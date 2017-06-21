@@ -28,5 +28,6 @@ module.exports =
       limit: limit
       format: format
       uselang: uselang
+      origin: '*'
 
   isWikidataItemId: (id)-> /^Q[0-9]+$/.test id

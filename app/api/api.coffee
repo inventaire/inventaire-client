@@ -28,4 +28,3 @@ module.exports = (_)->
   feeds: require './feeds'
   i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
   json: (filename)-> "/public/json/#{filename}.json?DIGEST"
-  proxy: (url)-> "/api/proxy/#{url}"
