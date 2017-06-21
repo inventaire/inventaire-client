@@ -1,5 +1,5 @@
 section#social-networks, .joyride-content-wrapper #socialNetworks{
-  @include display-flex(row, flex-start, center, wrap);
+  @include display-flex(row, flex-start, space-around, wrap);
   a{
     @include display-flex(column, center, center);
     margin-top: 1em;
@@ -14,7 +14,6 @@ section#social-networks, .joyride-content-wrapper #socialNetworks{
       padding: 0;
     }
     span{
-      margin-top: -1em;
       padding: 0;
       @include serif;
       font-weight: bold;
@@ -22,17 +21,23 @@ section#social-networks, .joyride-content-wrapper #socialNetworks{
   }
 }
 
+.joyride-content-wrapper #socialNetworks{
+  a span{
+    margin-top: -1em;
+  }
+}
+
 section#social-networks{
   background-color: $darker-grey;
+  text-align: center;
+  padding: 1em;
   .fa, span{
     color: white;
   }
   a{
-    width: 10em;
+    width: 6em;
   }
   .fa{
     font-size: 2.5em;
-  }
-  span{
   }
 }
