@@ -5,7 +5,7 @@
   }
 }
 
-section#status, section#social-networks{
+section#social-networks{
   text-align: center;
   padding: 1em;
   span, p{
@@ -13,22 +13,6 @@ section#status, section#social-networks{
     .link{
       color: white;
     }
-  }
-}
-section#status{
-  @include display-flex(column, center, center);
-  background-color: $dark-grey;
-  h3.subheader{
-    color: #aaa;
-  }
-  h3.status{
-    color: white;
-    display: inline;
-    text-transform: capitalize;
-  }
-  p{
-    margin: 0.1em;
-    max-width: 600px;
   }
 }
 
