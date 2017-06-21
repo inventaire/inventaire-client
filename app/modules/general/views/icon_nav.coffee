@@ -10,6 +10,7 @@ module.exports = Marionette.ItemView.extend
 
   initListeners: ->
     @listenTo app.vent,
+      'screen:mode:change': @lazyRender
       'route:change': @selectButtonFromRoute.bind(@)
       'transactions:unread:change': @lazyRender
       'network:requests:update': @lazyRender
@@ -24,6 +25,7 @@ module.exports = Marionette.ItemView.extend
     browse: '.browse'
     map: '.map'
     exchanges: '.exchanges'
+    settings: '.settings'
 
   behaviors:
     PreventDefault: {}
@@ -31,6 +33,8 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     networkUpdates: @networkUpdates()
     exchangesUpdates: @exchangesUpdates()
+    smallScreen: _.smallScreen()
+    isLoggedIn: app.user.loggedIn
 
   onRender: ->
     @selectButtonFromRoute _.currentSection()
@@ -54,10 +58,9 @@ module.exports = Marionette.ItemView.extend
     unless _.isOpenedOutside e
       commandKey = e.currentTarget.id.split('IconButton')[0]
       app.execute commands[commandKey]
-      # Commenting-out scrolling to <main>'s top
-      # as keeping the icon_nav visible helps keeping landmarks
-      # see also app/modules/inventory/views/inventory.coffee onShow
-      # if _.smallScreen() then _.scrollTop $('main')
+      # Showing the settings doesn't trigger a route change
+      # thus the need to call selectButtonFromRoute manually
+      if commandKey is 'settings' then @selectButtonFromRoute 'settings'
 
   networkUpdates: ->
     if app.relations? then app.request('get:network:counters').total
@@ -76,9 +79,11 @@ sectionsButtonMap =
   inventory: 'browse'
   groups: 'browse'
   transactions: 'exchanges'
+  settings: 'settings'
 
 commands =
   add: 'show:add:layout'
   network: 'show:network'
   browse: 'show:inventory:general'
   exchanges: 'show:transactions'
+  settings: 'show:settings:menu'

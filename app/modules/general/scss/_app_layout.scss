@@ -15,6 +15,7 @@ body{
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
   main{
+    margin-top: $topbar-height+$horizontal-iconnav-height;
     // allow _.scrollTop to really get the top of the div
     // at the top of the screen
     // which would not be possible if main was smaller than the screen

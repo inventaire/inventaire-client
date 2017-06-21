@@ -111,7 +111,6 @@
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    margin-top: 0.2em;
     #publicList, #groupsList, #usersList, #membersList{
       max-height: 10em;
       overflow: auto;

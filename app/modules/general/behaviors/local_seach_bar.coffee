@@ -19,7 +19,7 @@ module.exports = Marionette.Behavior.extend
     @ui.localSearchField.val @view.query
 
   toggleGlobalSearchBar: (e, isInView)->
-    if isInView
+    if isInView and not _.smallScreen()
       app.vent.trigger 'search:global:hide'
     else
       # pass local search field val to the global search field

@@ -7,6 +7,12 @@
   }
   padding-top: 1em;
 
+  .custom-tabs-titles{
+    .title{
+      @include sans-serif;
+    }
+  }
+
   h3{
     text-transform: uppercase;
     font-size: 1.2em;
@@ -27,15 +33,21 @@
   @media screen and (max-width: 500px) {
     padding-top: 0;
     .custom-tabs-titles{
-      @include display-flex(column);
       a{
-        width: 100%;
-        @include radius(0);
         &.active{
-          order: 3;
+          @include transition(flex);
           background-color: #fafafa;
+          flex: 1 0 auto;
+        }
+        &:not(.active){
+          .title{
+            display: none;
+          }
         }
       }
+    }
+    .custom-tabs-content{
+      padding: 0.5em;
     }
   }
 }

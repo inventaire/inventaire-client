@@ -35,6 +35,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo app.user, 'change:picture', @lazyRender
 
   serializeData: ->
+    smallScreen: _.smallScreen()
     isLoggedIn: app.user.loggedIn
     search: searchInputData null, true
     user: app.user.toJSON()
@@ -48,8 +49,8 @@ module.exports = Marionette.LayoutView.extend
     @updateGlobalSearch _.currentSection(), _.currentRoute()
 
   onRender: ->
-    { loggedIn:isLoggedIn } = app.user
-    if isLoggedIn then @showNotifications()
+    if _.smallScreen() then return
+    if app.user.loggedIn then @showNotifications()
 
   showNotifications: ->
     @notificationsMenu.show new NotificationsList { collection: app.notifications }
@@ -64,8 +65,9 @@ module.exports = Marionette.LayoutView.extend
     unless _.isOpenedOutside e
       app.execute 'show:inventory:user', app.user
 
-  showSettingsMenu: ->
-    app.layout.modal.show new SettingsMenu
+  showSettingsMenu: (e)->
+    unless _.isOpenedOutside e
+      app.layout.modal.show new SettingsMenu
 
   search: ->
     query = @ui.searchField.val()
@@ -78,8 +80,10 @@ module.exports = Marionette.LayoutView.extend
   hideGlobalSearch: -> @ui.searchGroup.fadeOut(200)
 
   updateGlobalSearch: (section, route)->
-    if hasLocalSearch(section, route) then @hideGlobalSearch()
-    else @showGlobalSearch()
+    if hasLocalSearch(section, route) and not _.smallScreen()
+      @hideGlobalSearch()
+    else
+      @showGlobalSearch()
 
   selectLang: (e)->
     lang = e.currentTarget.attributes['data-lang'].value

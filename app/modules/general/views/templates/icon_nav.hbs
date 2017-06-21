@@ -1,3 +1,10 @@
+{{#if smallScreen}}{{#if isLoggedIn}}
+  <a id="mainUser" href="{{user.pathname}}">
+    <img src="{{src user.picture 40}}">
+    <span class="username">{{user.username}}</span>
+  </a>
+{{/if}}{{/if}}
+
 <div id="addIconButtonTop" class="positioner"></div>
 
 {{partial 'icon_with_counter'
@@ -19,13 +26,16 @@
   counter=networkUpdates
 }}
 
-{{partial 'icon_with_counter'
-  name='browse'
-  label='browse books'
-  icon='list'
-  href='/inventory'
-  title='title_browse_layout'
-}}
+{{!-- Can be ignored on small screens has the home button leads to the same place --}}
+{{#unless smallScreen}}
+  {{partial 'icon_with_counter'
+    name='browse'
+    label='browse books'
+    icon='list'
+    href='/inventory'
+    title='title_browse_layout'
+  }}
+{{/unless}}
 
 {{partial 'icon_with_counter'
   name='exchanges'
@@ -35,3 +45,14 @@
   title='title_exchanges_layout'
   counter=exchangesUpdates
 }}
+
+{{!-- Displayed in the top bar on large screens --}}
+{{#if smallScreen}}
+  {{partial 'icon_with_counter'
+    name='settings'
+    label='settings'
+    icon='cog'
+    href='/settings'
+    title='settings'
+  }}
+{{/if}}

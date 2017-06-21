@@ -8,9 +8,10 @@ clickFn = (fn)-> (e)->
 module.exports = Marionette.ItemView.extend
   className: 'settings-menu'
   template: require './templates/settings_menu'
-  onShow: -> app.execute 'modal:open', null, null, true
-
   serializeData: -> { urls }
+
+  behaviors:
+    PreventDefault: {}
 
   events:
     'click a': 'showLink'

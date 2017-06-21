@@ -24,10 +24,13 @@ $addLayoutWidth: 50em;
       margin-top: 1em;
     }
     .level-1{
-      flex-direction: column;
       .tab{
-        width: 100%;
-        max-width: 100%;
+        .fa{
+          font-size: 1.4rem;
+        }
+        .label{
+          font-size: 1rem;
+        }
       }
     }
   }

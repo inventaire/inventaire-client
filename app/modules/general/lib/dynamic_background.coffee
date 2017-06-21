@@ -4,8 +4,12 @@ module.exports = ->
   setNormalBg = @ui.bg.removeClass.bind(@ui.bg, 'cover')
 
   setBackgroundFromRoute = (section)->
-    if section in coverBgRoots then setCoverBg()
-    else setNormalBg()
+    if section in coverBgRoots
+      setCoverBg()
+    else if not _.smallScreen() and section in coverBgOnLargeScreenRoots
+      setCoverBg()
+    else
+      setNormalBg()
 
   # set background with the first route
   setBackgroundFromRoute _.currentSection()
@@ -18,7 +22,10 @@ module.exports = ->
 
 coverBgRoots = [
   'login'
-  'settings'
   'signup'
   'welcome'
+]
+
+coverBgOnLargeScreenRoots = [
+  'settings'
 ]

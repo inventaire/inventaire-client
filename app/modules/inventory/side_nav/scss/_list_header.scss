@@ -29,6 +29,9 @@
     cursor: pointer;
     .header{
       color: white;
+      @include sans-serif;
+      padding-top: 0.4em;
+      font-size: 1rem;
     }
     &:hover{
       background-color: $darker-grey;

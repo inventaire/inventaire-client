@@ -1,8 +1,9 @@
 JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 DonateMenu = require '../views/donate_menu'
 FeedbackMenu = require '../views/feedback_menu'
-# ShareMenu = require '../views/share_menu'
+SettingsMenu = require '../views/settings_menu'
 Loader = require '../views/behaviors/loader'
+# ShareMenu = require '../views/share_menu'
 
 module.exports =
   showLoader: (options={})->
@@ -18,7 +19,6 @@ module.exports =
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'
   showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
-
   showDonateMenu: -> app.layout.modal.show new DonateMenu
   showFeedbackMenu: (options)->
     # In the case of 'show:feedback:menu', a unique object is passed
@@ -27,6 +27,14 @@ module.exports =
     # options might simply be a click event object
     unless _.isOpenedOutside event
       app.layout.modal.show new FeedbackMenu(options)
+
+  showSettingsMenu: ->
+    if _.smallScreen()
+      app.layout.main.show new SettingsMenu
+    else
+      app.layout.modal.show new SettingsMenu
+      app.execute 'modal:open', null, null, true
+
   # shareLink: -> app.layout.modal.show new ShareMenu
 
 entityAction = (e, action)->

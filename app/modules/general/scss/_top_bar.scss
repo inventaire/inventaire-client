@@ -87,6 +87,41 @@ nav#top-bar{
       color: white !important;
     }
   }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    h1{
+      flex: 0 0 auto;
+      font-size: 1.1rem;
+      background-color: $light-blue;
+      @include radius;
+      width: 1.8em;
+      height: 1.8em;
+      padding: 0;
+      text-align: center;
+      margin-top: 0.5em;
+      margin-left: 0.3em;
+      margin-right: 0.4em;
+    }
+    .push-right, #currentUser, .language-picker, .menu, .username{
+      display: none !important;
+    }
+    #searchGroup{
+      margin-left: auto;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      margin-top: 0.3em;
+      &, input, .button{
+        height: 2rem;
+      }
+      input{
+        @include radius-left;
+        @include radius-right(0);
+      }
+      .button{
+        @include radius-left(0);
+      }
+    }
+  }
 }
 
 @import 'top_bar_language_picker';
