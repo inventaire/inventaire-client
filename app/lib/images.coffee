@@ -1,4 +1,3 @@
-toDataURL = require 'to-data-url'
 error_ = require 'lib/error'
 
 images_ =
@@ -8,12 +7,8 @@ images_ =
       if array.trigger? and event? then array.trigger event
 
   getUrlDataUrl: (url)->
-    if /^http/.test url then url = app.API.proxy url
-    new Promise (resolve, reject)->
-      toDataURL url,
-        callback: (err, res)->
-          if err? then reject err
-          else resolve res
+    _.preq.get app.API.images.dataUrl(url)
+    .get 'data-url'
 
   getElementDataUrl: ($el)->
     # requires the source to be on the same domain
