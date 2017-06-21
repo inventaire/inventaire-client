@@ -9,7 +9,7 @@ module.exports = Marionette.Behavior.extend
     'alert': 'showAlertBox'
     'hideAlertBox': 'hideAlertBox'
     'keydown': 'hideAlertBox'
-    'click a.close': 'hideAlertBox'
+    'click a.alert-close': 'hideAlertBox'
     'click .button': 'hideAlertBox'
 
   # alert-box will be appended to has-alertbox parent
@@ -26,9 +26,11 @@ module.exports = Marionette.Behavior.extend
 
     else $target = @ui.hasAlertbox
 
-    box = "<div class='alert hidden alert-box'>#{message}
-          <a class='close'>&times;</a>
+    box = "<div class='alert hidden alert-box'>
+          <span class='alert-message'>#{message}</span>
+          <a class='alert-close'>&#215;</a>
           </div>"
+
     $parent = $target.parent()
     # remove the previously added '.alert-box'
     $parent.find('.alert-box').remove()
