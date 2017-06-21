@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -eu
+
 # If public/js/app.js already exist, assume that it's a re-install
 # and that all the following isn't needed
 [ -e public/js/app.js ] && exit 0
