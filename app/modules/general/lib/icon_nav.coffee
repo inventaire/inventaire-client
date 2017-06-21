@@ -4,11 +4,11 @@ module.exports = ->
 
   show = ->
     $el.show()
-    $('main').removeClass 'no-icon-nav'
+    $('main').addClass 'icon-nav-shown'
 
   hide = ->
     $el.hide()
-    $('main').addClass 'no-icon-nav'
+    $('main').removeClass 'icon-nav-shown'
 
   @listenTo app.vent, 'route:change', (section)->
     if section in noIconNavRoutes then hide()

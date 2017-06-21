@@ -15,11 +15,17 @@ body{
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
   main{
-    margin-top: $topbar-height+$horizontal-iconnav-height;
+    &.icon-nav-shown{
+      margin-top: $topbar-height+$horizontal-iconnav-height;
+    }
+    &:not(.icon-nav-shown){
+      margin-top: $topbar-height;
+    }
     // allow _.scrollTop to really get the top of the div
     // at the top of the screen
     // which would not be possible if main was smaller than the screen
     min-height: 100vh;
+    margin-bottom: $smallscreen-connection-buttons-height;
   }
 }
 
@@ -31,7 +37,7 @@ body{
     // to jQuery slideDown default values: 400ms and 'swing' ease
     @include transition(margin-top, 0.4s, null, ease-in);
   }
-  main:not(.no-icon-nav){
+  main.icon-nav-shown{
     margin-left: $iconNavWidth;
   }
 }

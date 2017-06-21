@@ -121,6 +121,20 @@ nav#top-bar{
         @include radius-left(0);
       }
     }
+    // Showing signup and login button at the bottom of the screen
+    .signupRequest, .loginRequest{
+      position: fixed;
+      bottom: 0;
+      height: $smallscreen-connection-buttons-height;
+    }
+    .signupRequest{
+      left: 0;
+      right: 50vw;
+    }
+    .loginRequest{
+      left: 50vw;
+      right: 0;
+    }
   }
 }
 
