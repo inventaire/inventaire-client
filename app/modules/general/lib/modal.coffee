@@ -25,13 +25,20 @@ module.exports = ->
     if $firstTabElement.length > 0 then $firstTabElement.focus()
     else $modalWrapper.focus()
 
+  lastOpen = 0
   openModal = ->
+    lastOpen = _.now()
     if isOpened() then return
     $body.addClass 'openedModal'
     $modalWrapper.removeClass 'hidden'
     app.vent.trigger 'modal:opened'
 
   closeModal = ->
+    # Ignore closing call happening less than 200ms after the last open call:
+    # it's probably a view destroying itself and calling modal:close
+    # while an other view requiring the modal to be opened just requested it
+    if lastOpen > _.now() - 200 then return
+
     unless isOpened() then return
     $body.removeClass 'openedModal'
     $modalWrapper.addClass 'hidden'

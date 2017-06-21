@@ -9,7 +9,13 @@
 <hr>
 
 <label>{{i18n 'contribute'}}</label>
-<ul>{{partial 'general:menu:contribute' urls}}</ul>
+<ul>
+  <li>{{iconLinkText name='pencil-square-o' url=urls.wiki I18n='wiki'}}</li>
+  <li>{{iconLinkText name='trello' url=urls.roadmap I18n='vote_verb'}}</li>
+  <li>{{iconLinkText name='code' url=urls.git I18n='code_verb'}}</li>
+  <li>{{iconLinkText name='language' url=urls.translate I18n='translate'}}</li>
+  <li>{{iconLinkText name='money' url='/donate' I18n='donate'}}</li>
+</ul>
 
 <hr>
 

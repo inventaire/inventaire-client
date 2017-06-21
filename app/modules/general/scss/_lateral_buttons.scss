@@ -6,7 +6,7 @@
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    @include position(fixed, null, 0, 20em, null, 10);
+    @include position(fixed, null, 0, 10em, null, 10);
     transform: rotate(-90deg);
     transform-origin: right bottom 0;
     a{

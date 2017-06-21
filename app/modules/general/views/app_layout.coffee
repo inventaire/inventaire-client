@@ -26,7 +26,6 @@ module.exports = Marionette.LayoutView.extend
     lateralButtons: '#lateralButtons'
 
   events:
-    'click .showDonateMenu': 'showDonateMenu'
     'click .showFeedbackMenu': 'showFeedbackMenu'
     'click .showEntityEdit': 'showEntityEdit'
 
@@ -46,6 +45,7 @@ module.exports = Marionette.LayoutView.extend
       'current:username:hide': @hideCurrentUsername
       'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
       'show:feedback:menu': @showFeedbackMenu
+      'show:donate:menu': @showDonateMenu
       'show:settings:menu': @showSettingsMenu
       'ask:confirmation': @askConfirmation.bind(@)
 

@@ -32,3 +32,4 @@ hrefCommands =
   '/settings/notifications': 'show:settings:notifications'
   '/settings/labs': 'show:settings:labs'
   '/#feedback': 'show:feedback:menu'
+  '/donate': 'show:donate:menu'
