@@ -2,6 +2,7 @@ searchInputData = require './menu/search_input_data'
 NotificationsList = require 'modules/notifications/views/notifications_list'
 SettingsMenu = require './settings_menu'
 { translate } = require 'lib/urls'
+showViews = require '../lib/show_views'
 
 { languages } = require 'lib/active_languages'
 mostCompleteFirst = (a, b)-> b.completion - a.completion
@@ -57,17 +58,13 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #mainUser': 'showMainUser'
-    'click #settings-menu': 'showSettingsMenu'
+    'click #settings-menu': showViews.showSettingsMenu
     'click a#searchButton': 'search'
     'click .option a': 'selectLang'
 
   showMainUser: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:inventory:user', app.user
-
-  showSettingsMenu: (e)->
-    unless _.isOpenedOutside e
-      app.layout.modal.show new SettingsMenu
 
   search: ->
     query = @ui.searchField.val()
