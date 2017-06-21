@@ -1,21 +1,23 @@
 .button{
   border-style: solid;
   border-width: 0;
-  // font-weight: 400;
   line-height: normal;
-  margin: 0;
   position: relative;
   text-align: center;
   appearance: none;
   @include radius;
   display: inline-block;
   font-size: 1rem;
-  background-color: #16212C;
-  border-color: #121a23;
-  color: #fff;
-  transition: background-color .3s ease-out;
-  padding: 1rem 2rem 1.0625rem;
   font-weight: bold;
+  transition: background-color .3s ease-out;
+  padding: 1rem 2rem;
+  margin: 0;
+  @include serif;
+  @include bg-hover($light-blue)
+  color: white;
+  &:hover{
+    color: white;
+  }
   &.soft-grey{
     @include bg-hover($soft-grey)
   }
@@ -208,16 +210,4 @@ div.icon-buttons-header{
 
 .success-button{
   @include big-button($success-color);
-}
-
-
-// Taking over what was formerly handled by Foundation buttons.scss
-.button{
-  cursor: pointer;
-  font-family: "Alegreya", serif;
-  font-weight: normal;
-  line-height: normal;
-  text-align: center;
-  font-size: 1rem;
-  color: white;
 }

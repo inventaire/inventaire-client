@@ -1,8 +1,4 @@
 .authMenu.login{
-  .custom-cell{
-    margin-top: 2em;
-    margin-bottom: 1em;
-  }
   a#classicLogin{
     margin-top: 1em;
   }
@@ -10,12 +6,31 @@
     .complement{
       text-transform: none;
       color: $grey;
+      font-size: 0.8em;
     }
     text-transform: uppercase;
   }
   .otherOptions{
     margin-top: 1em;
     @include display-flex(row, center, space-between);
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    label{
+      .main{
+        display: block;
+      }
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    label{
+      .complement{
+        margin-left: 0.2em;
+      }
+    }
   }
 
   /*Very Small screens*/

@@ -63,8 +63,10 @@ module.exports = Marionette.LayoutView.extend
     app.request('waitForNetwork').then initWindowResizeEvents
 
     app.vent.on
-      'lateral:buttons:show': @ui.lateralButtons.show.bind(@ui.lateralButtons)
-      'lateral:buttons:hide': @ui.lateralButtons.hide.bind(@ui.lateralButtons)
+      # Use the class .hidden instead of .hide/.show methods
+      # to let media query rules override it
+      'lateral:buttons:show': => @ui.lateralButtons.removeClass 'hidden'
+      'lateral:buttons:hide': => @ui.lateralButtons.addClass 'hidden'
 
     $('body').on 'click', app.vent.Trigger('body:click')
 

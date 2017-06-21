@@ -21,11 +21,11 @@ module.exports = ->
     'background:normal': setNormalBg
 
 coverBgRoots = [
-  'login'
-  'signup'
   'welcome'
 ]
 
 coverBgOnLargeScreenRoots = [
+  'login'
+  'signup'
   'settings'
 ]

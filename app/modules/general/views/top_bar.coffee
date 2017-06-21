@@ -30,7 +30,7 @@ module.exports = Marionette.LayoutView.extend
       # heavier but cleaner than asking the concerned views to call
       # 'search:global:show' and 'search:global:hide' onShow and onDestroy
       # as re-showing the view creates an ugly hide/show/hide sequence
-      'route:change': @updateGlobalSearch.bind(@)
+      'route:change': @onRouteChange.bind(@)
 
     @listenTo app.user, 'change:username', @lazyRender
     @listenTo app.user, 'change:picture', @lazyRender
@@ -47,7 +47,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     # Needed as 'route:change' might have been triggered before
     # this view was initialized
-    @updateGlobalSearch _.currentSection(), _.currentRoute()
+    @onRouteChange _.currentSection(), _.currentRoute()
 
   onRender: ->
     if _.smallScreen() then return
@@ -55,6 +55,10 @@ module.exports = Marionette.LayoutView.extend
 
   showNotifications: ->
     @notificationsMenu.show new NotificationsList { collection: app.notifications }
+
+  onRouteChange: (section, route)->
+    @updateGlobalSearch section, route
+    @updateConnectionButtons section
 
   events:
     'click #mainUser': 'showMainUser'
@@ -81,6 +85,14 @@ module.exports = Marionette.LayoutView.extend
       @hideGlobalSearch()
     else
       @showGlobalSearch()
+
+  updateConnectionButtons: (section)->
+    if app.user.loggedIn then return
+
+    if _.smallScreen() and (section is 'signup' or section is 'login')
+      $('.connectionButton').hide()
+    else if not app.user.loggedIn
+      $('.connectionButton').show()
 
   selectLang: (e)->
     lang = e.currentTarget.attributes['data-lang'].value
