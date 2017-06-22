@@ -18,6 +18,7 @@
 .innerIconNav{
   .iconButton{
     text-align: center;
+    position: relative;
     &.count-0 > .counter, &.icon-without-counter{
       .counter{
         display: none;
@@ -28,6 +29,7 @@
     }
     .counter{
       @include counter-commons;
+      @include position(absolute, 20%, 10%)
     }
     .fa{
       color: white;
