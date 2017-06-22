@@ -5,6 +5,9 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/notifications_layout'
   childViewContainer: 'ul'
 
+  behaviors:
+    PreventDefault: {}
+
   initialize:->
     @collection = app.notifications
 
@@ -12,3 +15,10 @@ module.exports = Marionette.CompositeView.extend
     # Wait for the notifications to arrive to mark them as read
     app.request 'wait:for', 'user'
     .then @collection.markAsRead.bind(@collection)
+
+  events:
+    # 'click a[href="/settings/notifications"]': 'showNotificationsSettings'
+    'click .showNotificationsSettings': 'showNotificationsSettings'
+
+  showNotificationsSettings: (e)->
+    unless _.isOpenedOutside e then app.execute 'show:settings:notifications'

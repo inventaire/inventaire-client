@@ -1,18 +1,21 @@
 #notificationsLayout{
   width: 100%;
   padding-bottom: 2em;
+  text-align: center;
   h2{
-    text-align: center;
     @include sans-serif;
     font-size: 1.4em;
   }
   ul{
-    width: 100%;
     @include display-flex(column, center, center);
+    max-width: 40em;
+    max-height: 72vh;
+    overflow: auto;
+    margin: 0 auto;
   }
   li{
+    text-align: left;
     width: 100%;
-    max-width: 40em;
     margin: 0.1em;
     padding: 0.5em;
     @include shy-border;
@@ -21,10 +24,14 @@
       @include display-flex(row, flex-start, flex-start);
       width: 100%;
     }
+    a{
+      flex: 1 1 auto;
+      padding: 0.2em;
+    }
   }
-  a{
-    flex: 1 1 auto;
-    padding: 0.2em;
+  .showNotificationsSettings{
+    display: inline-block;
+    margin-top: 2em;
   }
   .time{
     color: $grey;
