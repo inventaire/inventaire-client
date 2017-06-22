@@ -89,6 +89,7 @@ module.exports = Marionette.LayoutView.extend
   validateNotes: -> @validateEdit 'notes'
 
   showEditor: (nameBase)->
+    unless @model.mainUserIsOwner then return
     $("##{nameBase}").hide()
     $("##{nameBase}Editor").show().find('textarea').focus()
 

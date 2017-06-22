@@ -14,6 +14,8 @@ module.exports = Filterable.extend
 
     { entity, owner } = attrs
 
+    @mainUserIsOwner = owner is app.user.id
+
     unless _.isEntityUri entity
       throw error_.new "invalid entity URI: #{entity}", attrs
 
@@ -69,7 +71,7 @@ module.exports = Filterable.extend
       entityPathname: @entityPathname
       restricted: @restricted
       userReady: @userReady
-      mainUserIsOwner: attrs.owner is app.user.id
+      mainUserIsOwner: @mainUserIsOwner
       user: @userData()
 
     # @entity will be defined only if @grabEntity was called
