@@ -23,12 +23,14 @@
         margin-bottom: 1em;
       }
       h4{
+        @include sans-serif;
+        font-size: 1em;
+        @include display-flex(row, center, center);
         .fa{
-          font-size: 0.9em;
           color: grey;
+          font-size: 1.2em;
+          margin-right: 0.5em;
         }
-        text-align: left;
-        font-size: 1.2em;
       }
       @include radius;
       background-color: #f2f2f2;
