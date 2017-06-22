@@ -28,5 +28,9 @@ module.exports = (e)->
   # or if the protocol is mailto or javascript
   if /^#|javascript:|mailto:|(?:\w+:)?\/\//.test(href) then return
 
+  # Return if the URL is an API call
+  # Ex: Wikidata Oauth, data export, etc.
+  if /^\/api\//.test(href) then return
+
   # If we haven't been stopped yet, then we prevent the default action
   e.preventDefault()
