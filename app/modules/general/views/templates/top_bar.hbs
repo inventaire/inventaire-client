@@ -8,6 +8,13 @@
 
 {{input search}}
 
+{{#unless smallScreen}}{{#if isLoggedIn}}
+  <a id="mainUser" href="{{user.pathname}}">
+    <img src="{{src user.picture 40}}">
+    {{user.username}}
+  </a>
+{{/if}}{{/unless}}
+
 {{partial 'general:menu:top_bar_language_picker' this}}
 
 {{#unless isLoggedIn}}
