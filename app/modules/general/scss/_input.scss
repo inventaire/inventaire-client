@@ -1,7 +1,11 @@
-$input-border-color: rgba(#888, 0.8);
+$input-border-color: #c4c4c4;
 $input-font-color: black;
+$input-height: 2.3rem;
 
-/* basic styling on all basic form elements: inherited from Foundation */
+input, textarea, [tabindex]:focus{
+  outline: none;
+}
+
 input, textarea{
   appearance: none;
   @include radius;
@@ -9,16 +13,12 @@ input, textarea{
   font-family: inherit;
   color: $input-font-color;
   display: block;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   margin: 0 0 1rem 0;
   padding: 0.5rem;
-  height: 2.3125rem;
+  height: $input-height;
   width: 100%;
   transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
-  &:focus{
-    border-color: rgba($input-border-color, 0.5);
-    outline: none;
-  }
   &:disabled{
     background-color: #ddd;
     cursor: default;
@@ -28,8 +28,11 @@ input, textarea{
   }
 }
 
-input[type="text"], textarea{
+input[type="text"], input[type="search"], textarea{
   border: 1px solid $input-border-color;
+  &:focus{
+    border-color: darken($input-border-color, 10%);
+  }
 }
 
 /* Adjust margin for form elements below */
@@ -138,14 +141,14 @@ textarea{
   border-style: solid;
   border-width: 1px;
   overflow: hidden;
-  font-size: 0.875rem;
-  height: 2.3125rem;
-  line-height: 2.3125rem;
+  font-size: 0.9rem;
+  height: $input-height;
+  line-height: $input-height;
   /* Adjust padding, alignment and radius if pre/post element is a button */
   &.button{
     padding: 0;
     text-align: center;
-    line-height: 2.125rem;
+    line-height: 2.1rem;
     border: none;
   }
   /* Separate postfix styles when on span or label so buttons keep their own */

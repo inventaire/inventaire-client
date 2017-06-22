@@ -1,26 +1,26 @@
 /* Add height value for select elements to match text input height */
 select{
   width: 100%;
-  height: 2.3125rem;
+  height: $input-height;
   appearance: none;
-  border-radius: 0px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   background-position: 100% center;
   background-repeat: no-repeat;
   padding: 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: normal;
   color: $input-font-color;
   line-height: normal;
+  border: 1px solid $input-border-color;
   border-radius: 0;
   // FontAwesome is needed to correctly display icons
   font-family: 'FontAwesome', $sans-serif;
   &:hover{
     background-color: #f3f3f3;
-    border-color: #999999;
+    border-color: #999;
   }
   &:disabled{
-    background-color: #DDDDDD;
+    background-color: #ddd;
     cursor: default;
   }
   option{
