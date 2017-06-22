@@ -7,8 +7,6 @@ input, textarea{
   @include radius;
   background-color: white;
   font-family: inherit;
-  border: 1px solid $input-border-color;
-  // box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   color: $input-font-color;
   display: block;
   font-size: 0.875rem;
@@ -28,6 +26,10 @@ input, textarea{
   &.has-alertbox{
     margin-bottom: 0;
   }
+}
+
+input[type="text"], textarea{
+  border: 1px solid $input-border-color;
 }
 
 /* Adjust margin for form elements below */
