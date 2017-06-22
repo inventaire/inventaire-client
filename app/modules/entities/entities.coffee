@@ -176,14 +176,6 @@ getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
 showEntityEdit = (params)->
   { model } = params
-  editPathname = model.get 'edit'
-  # If this entity edit isn't happening internaly
-  # redirect to the page where it should happen,
-  # typically on Wikidata.org
-  # editPathname might be undefined in the case of a draft entity edit
-  if editPathname? and editPathname[0] isnt '/'
-    return window.location.href = editPathname
-
   app.layout.main.show new EntityEdit(params)
   app.navigateFromModel model, 'edit'
 
