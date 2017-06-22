@@ -21,6 +21,9 @@ module.exports =
     app.commands.setHandlers
       'show:notifications': API.showNotifications
 
+    app.reqres.setHandlers
+      'notifications:unread:count': -> notifications.unreadCount()
+
     if app.user.loggedIn
       _.preq.get app.API.notifs
       .tap app.Request('waitForNetwork')

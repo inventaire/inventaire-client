@@ -26,6 +26,7 @@ module.exports = Marionette.ItemView.extend
     map: '.map'
     exchanges: '.exchanges'
     settings: '.settings'
+    notifications: '.notifications'
 
   behaviors:
     PreventDefault: {}
@@ -33,6 +34,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     networkUpdates: @networkUpdates()
     exchangesUpdates: @exchangesUpdates()
+    notificationsUpdates: @notificationsUpdates()
     smallScreen: _.smallScreen()
     isLoggedIn: app.user.loggedIn
 
@@ -61,12 +63,15 @@ module.exports = Marionette.ItemView.extend
       # Showing the settings doesn't trigger a route change
       # thus the need to call selectButtonFromRoute manually
       if commandKey is 'settings' then @selectButtonFromRoute 'settings'
+      # Update notifications count
+      if commandKey is 'notifications' then @lazyRender()
 
   networkUpdates: ->
     if app.relations? then app.request('get:network:counters').total
 
-  exchangesUpdates: ->
-    app.request 'transactions:unread:count'
+  exchangesUpdates: -> app.request 'transactions:unread:count'
+
+  notificationsUpdates: -> app.request 'notifications:unread:count'
 
 lastSection = null
 
@@ -80,6 +85,7 @@ sectionsButtonMap =
   groups: 'browse'
   transactions: 'exchanges'
   settings: 'settings'
+  notifications: 'notifications'
 
 commands =
   add: 'show:add:layout'
@@ -87,3 +93,4 @@ commands =
   browse: 'show:inventory:general'
   exchanges: 'show:transactions'
   settings: 'show:settings:menu'
+  notifications: 'show:notifications'

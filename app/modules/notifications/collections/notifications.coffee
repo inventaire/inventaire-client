@@ -4,6 +4,7 @@ error_ = require 'lib/error'
 module.exports = Backbone.Collection.extend
   comparator: (notif)-> - notif.get 'time'
   unread: -> @filter (model)-> model.get('status') is 'unread'
+  unreadCount: -> @unread().length
   markAsRead: -> @each (model)-> model.set 'status', 'read'
 
   initialize: ->

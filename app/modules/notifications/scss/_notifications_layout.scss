@@ -13,10 +13,9 @@
     max-width: 40em;
     margin: 0.1em;
     padding: 0.5em;
-    @include bg-hover(white);
     @include shy-border;
     @include radius;
-    div{
+    > div{
       @include display-flex(row, flex-start, flex-start);
       width: 100%;
     }

@@ -8,7 +8,7 @@
     @include counter-commons;
   }
   .notification{
-    div{
+    > div{
       min-width: 10em;
       min-height: 3em;
       @include display-flex(row);
@@ -25,9 +25,6 @@
         text-align: right;
         padding-top: 0.5em;
         white-space: normal;
-        .time{
-          color: $grey;
-        }
       }
     }
     &.read{
@@ -60,6 +57,37 @@
       > div{
         width: 25em;
       }
+    }
+  }
+}
+
+.notification{
+  .time{
+    color: $grey;
+  }
+}
+
+.unread-flag{
+  @include display-flex(row, center, center);
+  margin-left: 0.3em;
+  font-size: 0.8em;
+  opacity: 0.8;
+  align-self: center;
+  flex: 0 0 auto;
+  padding: 0.2em;
+  .fa{
+    color: $light-blue;
+  }
+}
+
+.notification, .transactionPreview a.showTransaction{
+  &.unread{
+    background-color: $unread-color;
+  }
+  &:not(.unread){
+    @include bg-hover(white);
+    .unread-flag{
+      display: none;
     }
   }
 }

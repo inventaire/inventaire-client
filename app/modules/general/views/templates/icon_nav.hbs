@@ -46,6 +46,17 @@
   counter=exchangesUpdates
 }}
 
+{{#if smallScreen}}
+  {{partial 'icon_with_counter'
+    name='notifications'
+    label='notifications'
+    icon='bell'
+    href='/notifications'
+    title='notifications'
+    counter=notificationsUpdates
+  }}
+{{/if}}
+
 {{!-- Displayed in the top bar on large screens --}}
 {{#if smallScreen}}
   {{partial 'icon_with_counter'

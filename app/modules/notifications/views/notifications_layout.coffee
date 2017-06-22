@@ -7,3 +7,8 @@ module.exports = Marionette.CompositeView.extend
 
   initialize:->
     @collection = app.notifications
+
+  onShow: ->
+    # Wait for the notifications to arrive to mark them as read
+    app.request 'wait:for', 'user'
+    .then @collection.markAsRead.bind(@collection)

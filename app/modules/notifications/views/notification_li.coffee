@@ -4,7 +4,10 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: ->
     status = @model.get 'status'
-    "notification #{status}"
+    # Has className is only run before first render, the status won't be updated
+    # which is fine, given that otherwise the status would directly be updated
+    # to 'read', without letting the chance to see what was previously 'unread'
+    return "notification #{status}"
 
   getTemplate: ->
     notifType = @model.get 'type'
