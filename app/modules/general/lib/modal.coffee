@@ -2,6 +2,8 @@ getActionKey = require 'lib/get_action_key'
 
 module.exports = ->
   $body = $('body')
+  $topbar = $('#top-bar')
+  $lateralButtons = $('#lateralButtons')
   $modalWrapper = $('#modalWrapper')
   $modal = $('#modal')
   $modalContent = $('#modalContent')
@@ -29,7 +31,14 @@ module.exports = ->
   openModal = ->
     lastOpen = _.now()
     if isOpened() then return
+
+    # Prevent width diff jumps
+    bodyWidthBefore = $body.width()
     $body.addClass 'openedModal'
+    bodyWidthAfter = $body.width()
+    widthDiff = bodyWidthAfter - bodyWidthBefore
+    setWidthJumpPreventingRules "#{bodyWidthBefore}px", "#{widthDiff}px"
+
     $modalWrapper.removeClass 'hidden'
     app.vent.trigger 'modal:opened'
 
@@ -40,9 +49,19 @@ module.exports = ->
     if lastOpen > _.now() - 200 then return
 
     unless isOpened() then return
+
     $body.removeClass 'openedModal'
     $modalWrapper.addClass 'hidden'
+
+    # Remove width diff jumps preventing rules
+    setWidthJumpPreventingRules '', ''
+
     app.vent.trigger 'modal:closed'
+
+  setWidthJumpPreventingRules = (maxWidth, rightOffset)->
+    $body.css 'max-width', maxWidth
+    $topbar.css 'right', rightOffset
+    $lateralButtons.css 'right', rightOffset
 
   isOpened = -> $modalWrapper.hasClass('hidden') is false
 
