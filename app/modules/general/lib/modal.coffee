@@ -10,8 +10,10 @@ module.exports = ->
   $closeModal = $('#modal .close')
 
   modalOpen = (size, focusSelector, dark=false)->
-    if size is 'large' then largeModal()
-    else normalModal()
+    switch size
+      when 'large' then largeModal()
+      when 'medium' then mediumModal()
+      else normalModal()
 
     openModal()
 
@@ -75,8 +77,9 @@ module.exports = ->
 
   isOpened = -> $modalWrapper.hasClass('hidden') is false
 
-  largeModal = -> $modal.addClass 'large'
-  normalModal = -> $modal.removeClass 'large'
+  largeModal = -> $modal.addClass('modal-large').removeClass 'modal-medium'
+  mediumModal = -> $modal.removeClass('modal-large').addClass 'modal-medium'
+  normalModal = -> $modal.removeClass('modal-large').removeClass 'modal-medium'
 
   # Close the modal:
   # - when clicking the 'close' button
