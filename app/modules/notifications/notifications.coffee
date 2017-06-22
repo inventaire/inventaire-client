@@ -1,5 +1,4 @@
 Notifications = require './collections/notifications'
-NotificationsList = require './views/notifications_list'
 NotificationsLayout = require './views/notifications_layout'
 
 module.exports =

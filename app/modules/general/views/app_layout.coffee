@@ -46,7 +46,6 @@ module.exports = Marionette.LayoutView.extend
       'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
       'show:feedback:menu': @showFeedbackMenu
       'show:donate:menu': @showDonateMenu
-      'show:settings:menu': @showSettingsMenu
       'ask:confirmation': @askConfirmation.bind(@)
 
     app.reqres.setHandlers

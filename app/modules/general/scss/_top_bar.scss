@@ -59,11 +59,6 @@ nav#top-bar{
   .loginRequest{
     @include bg-hover($success-color, 5%);
   }
-  &:not(.logged-in){
-    #notifications-menu{
-      display: none;
-    }
-  }
 
   .dropdown{
     @include radius-bottom;

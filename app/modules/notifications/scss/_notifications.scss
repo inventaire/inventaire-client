@@ -1,69 +1,39 @@
-#notifications-menu{
-  .notifications{
-    flex: 1 0 auto;
-    align-self: stretch;
-    @include display-flex(row, center, center);
+#notificationsLayout{
+  width: 100%;
+  padding-bottom: 2em;
+  h2{
+    text-align: center;
+    @include sans-serif;
+    font-size: 1.4em;
   }
-  .counter{
-    @include counter-commons;
+  ul{
+    width: 100%;
+    @include display-flex(column, center, center);
   }
-  .notification{
+  li{
+    width: 100%;
+    max-width: 40em;
+    margin: 0.1em;
+    padding: 0.5em;
+    @include shy-border;
+    @include radius;
     > div{
-      min-width: 10em;
-      min-height: 3em;
-      @include display-flex(row);
-      img{
-        margin-left: 0;
-        max-height: $user-height;
-        flex: 0 0 auto;
-      }
-      a{
-        flex: 1 1 auto;
-        background-color: $main-bg;
-        color: $dark-grey;
-        line-height: 1em;
-        text-align: right;
-        padding-top: 0.5em;
-        white-space: normal;
-      }
-    }
-    &.read{
-      a{
-        background-color: white;
-      }
-    }
-    .empty{
-      align-items: center;
-      justify-content: center;
-      color: white;
+      @include display-flex(row, flex-start, flex-start);
+      width: 100%;
     }
   }
-
-  @import "request_li";
-
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    .notification, .request{
-    }
+  a{
+    flex: 1 1 auto;
+    padding: 0.2em;
   }
-
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    ul.dropdown{
-      padding: 0.2em;
-      background-color: $dark-grey;
-    }
-    .notification{
-      > div{
-        width: 25em;
-      }
-    }
-  }
-}
-
-.notification{
   .time{
     color: $grey;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    h2{
+      margin-top: 1em;
+    }
   }
 }
 
@@ -91,5 +61,3 @@
     }
   }
 }
-
-@import 'notifications_layout';

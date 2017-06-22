@@ -1,6 +1,4 @@
 searchInputData = require './menu/search_input_data'
-NotificationsList = require 'modules/notifications/views/notifications_list'
-SettingsMenu = require './settings_menu'
 { translate } = require 'lib/urls'
 showViews = require '../lib/show_views'
 
@@ -13,8 +11,6 @@ module.exports = Marionette.LayoutView.extend
   tagName: 'nav'
   className: -> if app.user.loggedIn then 'logged-in' else ''
   template: require './templates/top_bar'
-  regions:
-    notificationsMenu: '#notifications-menu'
 
   ui:
     searchGroup: '#searchGroup'
@@ -49,20 +45,12 @@ module.exports = Marionette.LayoutView.extend
     # this view was initialized
     @onRouteChange _.currentSection(), _.currentRoute()
 
-  onRender: ->
-    if _.smallScreen() then return
-    if app.user.loggedIn then @showNotifications()
-
-  showNotifications: ->
-    @notificationsMenu.show new NotificationsList { collection: app.notifications }
-
   onRouteChange: (section, route)->
     @updateGlobalSearch section, route
     @updateConnectionButtons section
 
   events:
     'click #mainUser': 'showMainUser'
-    'click #settings-menu': showViews.showSettingsMenu
     'click a#searchButton': 'search'
     'click .option a': 'selectLang'
 

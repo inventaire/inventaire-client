@@ -3,7 +3,6 @@
   color: $primary-color;
   font-weight: bold;
   border-radius: 2px;
-  // default padding overriden in some cases, i.e. .top-bar
   padding: 0em 0.4em 0.1em 0.4em;
   &:empty{
     display: none;

@@ -10,11 +10,7 @@
 
 {{partial 'general:menu:top_bar_language_picker' this}}
 
-<div id="notifications-menu" class="menu"></div>
-
-{{#if isLoggedIn}}
-  <a id="settings-menu" class="menu">{{icon 'cog'}}</a>
-{{else}}
+{{#unless isLoggedIn}}
   <a class="connectionButton signupRequest one">{{I18n 'sign up'}}</a>
   <a class="connectionButton loginRequest two">{{I18n 'login'}}</a
-{{/if}}
+{{/unless}}

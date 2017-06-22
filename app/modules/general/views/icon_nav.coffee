@@ -60,9 +60,6 @@ module.exports = Marionette.ItemView.extend
     unless _.isOpenedOutside e
       commandKey = e.currentTarget.id.split('IconButton')[0]
       app.execute commands[commandKey]
-      # Showing the settings doesn't trigger a route change
-      # thus the need to call selectButtonFromRoute manually
-      if commandKey is 'settings' then @selectButtonFromRoute 'settings'
       # Update notifications count
       if commandKey is 'notifications' then @lazyRender()
 

@@ -1,7 +1,3 @@
-$iconButtonMinWidth: 4.5em;
-$lowerIconButtonMinWidth: 3*$iconButtonMinWidth;
-$upperIconButtonMinWidth: 4*$iconButtonMinWidth;
-
 #iconNav{
   background-color: $darker-grey;
   /*Small screens*/
@@ -21,82 +17,68 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
 
 .innerIconNav{
   .iconButton{
-    max-width: 10em;
-    padding: 0.4em 0.1em 0.4em 0.1em;
-    @include display-flex(column);
     text-align: center;
-    .icon-with-counter{
+    &.count-0 > .counter, &.icon-without-counter{
       .counter{
-        @include counter-commons;
-      }
-      &.count-0 > .counter, .counter:empty{
         display: none;
       }
-      /*Large screens*/
-      @media screen and (min-width: $small-screen) {
-        @include display-flex(row, center, center);
-        .counter{
-          margin: 0.1em -0.8em 0.2em -0.2em;
-          opacity: 1;
-        }
-      }
     }
-    .fa, .label{
-      color: white;
+    .counter:empty{
+      display: none;
+    }
+    .counter{
+      @include counter-commons;
     }
     .fa{
-      font-size: 1.5em;
+      color: white;
       text-align: center;
     }
     .counter{
       text-align: center;
-      margin-top: -1.4em;
       line-height: 1em;
-    }
-    .label{
-      line-height: 1em;
-      flex: 3 0 auto;
     }
     &:not(.selected){
-      .fa, .label{
+      .fa{
         @include transition(opacity);
         opacity: 0.6;
       }
-      &:hover{
-        .fa, .label{
+      &:hover, &:focus{
+        .fa{
           opacity: 1;
         }
       }
     }
     &.selected{
       background-color: $off-white;
-      @include inner-shadow;
+      @include inner-shadow(1px, 1px, 2px, 1px);
       @include radius;
-      .fa, .label{
+      .fa{
         color: $grey;
       }
       @include hide-counter;
     }
-    &:hover{
+    &:hover, &:focus{
       color: white;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    // margin-top: $topbar-height;
     @include display-flex(row, baseline, space-around);
     a.iconButton{
+      padding: 0.4em 0.1em 0.4em 0.1em;
       max-width: 50%;
-      min-width: $iconButtonMinWidth;
+      min-width: 4.5em;
       height: 100%;
-      // force items to take the same space
+      // Force items to take the same space
       flex: 1 1 0;
       margin-bottom: 0.2em;
+      &:first-child{ margin-left: 0.2em; }
+      &:last-child{ margin-right: 0.2em; }
       .fa{
         font-size: 1em;
       }
-      .label{
-        display: none;
+      .counter{
+        padding: 0 0.3em;
       }
     }
   }
@@ -110,31 +92,12 @@ $upperIconButtonMinWidth: 4*$iconButtonMinWidth;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    max-width: 100%;
     .iconButton{
-      margin-bottom: 1em;
-      height: 4.2em;
-      .label{
-        flex: 1 1 auto;
-        @include display-flex(column, center, center);
+      height: $iconNavWidth;
+      @include display-flex(row, center, center);
+      .fa{
+        font-size: 1.4em;
       }
     }
   }
-}
-
-// positioners are a hack to give an offset position
-// to joyride tips
-.positioner{
-  height: 1px;
-  z-index: 300;
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    display: none;
-  }
-}
-#addIconButtonTop{
-  @include position(absolute, -30px, 0, null, 0);
-}
-#networkIconButtonTop{
-  @include position(absolute, 50px, 0, null, 0);
 }
