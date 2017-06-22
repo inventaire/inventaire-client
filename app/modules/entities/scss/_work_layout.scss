@@ -31,6 +31,11 @@
 
 /*Large screens*/
 @media screen and (min-width: $small-screen) {
+  .workLayout{
+    // Added padding so that the divs with the same background color as the top-bar
+    // such as work data are disconnected from it when the scroll is at the top
+    padding: 1em;
+  }
   .workLayout, #modal{
     .editionLi, .edition-creation{
       margin: 2em;
