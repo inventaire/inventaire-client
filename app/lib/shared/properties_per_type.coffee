@@ -1,5 +1,6 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 # and server/controllers/entities/lib/properties.coffee
+# and server/lib/wikidata/whitelisted_properties.coffee
 
 work =
   'wdt:P50': {} # author
