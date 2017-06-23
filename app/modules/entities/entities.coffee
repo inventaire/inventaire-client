@@ -176,6 +176,7 @@ getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
 showEntityEdit = (params)->
   { model } = params
+  unless model.type? then throw error_.new 'invalid entity type', model
   app.layout.main.show new EntityEdit(params)
   app.navigateFromModel model, 'edit'
 

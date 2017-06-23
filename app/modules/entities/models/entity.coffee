@@ -60,7 +60,10 @@ module.exports = Backbone.NestedModel.extend
     # the proper P31 data to display correctly. Then, when fetching the entity
     # a defaultType should be passed as option.
     # For instance, parts of a serie will default have a defaultType='work'
-    unless @type then return
+    unless @type
+      # Placeholder
+      @waitForData = _.preq.resolved
+      return
 
     if @get('edit')? then _.extend @, editableEntity
 
