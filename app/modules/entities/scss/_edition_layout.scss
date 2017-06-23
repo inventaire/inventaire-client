@@ -41,6 +41,11 @@
     a{
       @include underline-on-hover($dark-grey);
     }
+    margin: 0;
+  }
+  .subtitle{
+    margin-bottom: 1em;
+    color: #444;
   }
   .inner-claims{
     position: relative;

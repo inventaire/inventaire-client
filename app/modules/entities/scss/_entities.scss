@@ -84,7 +84,6 @@
 
 .entity-title-and-edit{
   @include display-flex(row, center, center, wrap);
-  padding: 0.5em;
   h2, h3, h4, h5{
     flex: 1 0 auto;
   }

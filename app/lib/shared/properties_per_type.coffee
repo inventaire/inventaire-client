@@ -24,6 +24,7 @@ module.exports = (_)->
   edition:
     'wdt:P629': {} # edition or translation of
     'wdt:P1476': { customLabel: 'edition title' }
+    'wdt:P1680': { customLabel: 'edition subtitle' }
     'wdt:P407': { customLabel: 'edition language' }
     'wdt:P18': { customLabel: 'cover' }
     # 'wdt:P31': {} # P31: instance of (=> edition aliases?)

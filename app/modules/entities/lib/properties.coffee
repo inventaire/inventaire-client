@@ -29,6 +29,8 @@ addProp 'wdt:P364', 'entity', 'languages', true, null
 addProp 'wdt:P629', 'entity', 'works', true, false
 # title
 addProp 'wdt:P1476', 'string', null, false, null
+# subtitle
+addProp 'wdt:P1680', 'string', null, false, null
 # image
 addProp 'wdt:P18', 'image', null, false, null
 # publisher
