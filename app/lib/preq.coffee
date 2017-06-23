@@ -12,7 +12,7 @@ Promise.onPossiblyUnhandledRejection (err)->
   clue = null
   if err.message is "[object Object]"
     clue = "this is probably an error from a jQuery promise wrapped into a Bluebird one"
-  console.error err.message, err, err.context, clue
+  console.error err.message, err, err.context, clue or ''
 
 preq = sharedLib('promises')(Promise)
 
@@ -25,10 +25,12 @@ Ajax = (verb, hasBody)->
 
     if hasBody
       options.data = JSON.stringify body
-      options.headers =
-        'content-type': 'application/json'
+      # Do not set content type on cross origin requests as it triggers preflight checks
+      # cf https://stackoverflow.com/a/12320736/3324977
+      if url[0] is '/' then options.headers = { 'content-type': 'application/json' }
 
     return wrap $.ajax(options), options
+    .then parseJson
 
 requestAssets = require './request_assets'
 
@@ -43,6 +45,10 @@ preq.wrap = wrap = (jqPromise, context)->
     jqPromise
     .then resolve
     .fail (err)-> reject rewriteJqueryError(err, context)
+
+parseJson = (res)->
+  if _.isString(res) and res[0] is '{' then JSON.parse res
+  else res
 
 rewriteJqueryError = (err, context)->
   { status:statusCode, statusText, responseText, responseJSON } = err
