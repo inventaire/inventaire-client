@@ -24,7 +24,7 @@ module.exports =
       'notifications:unread:count': -> notifications.unreadCount()
 
     if app.user.loggedIn
-      _.preq.get app.API.notifs
+      _.preq.get app.API.notifications
       .tap app.Request('waitForNetwork')
       .then addNotifications
       .catch _.Error('notifications init err')

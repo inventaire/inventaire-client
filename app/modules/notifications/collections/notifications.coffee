@@ -19,7 +19,7 @@ module.exports = Backbone.Collection.extend
     _.log @toUpdate, 'notifs:update'
     ids = @toUpdate
     @toUpdate = []
-    _.preq.post app.API.notifs, {times: ids}
+    _.preq.post app.API.notifications, { times: ids }
     .fail console.warn.bind(console)
 
   addPerType: (docs)->

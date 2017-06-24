@@ -13,7 +13,7 @@ module.exports = (_)->
   transactions: endpoint('transactions', true)
   relations: endpoint('relations', true)
   user: endpoint('user', true)
-  notifs: endpoint('notifs', true)
+  notifications: endpoint('notifications', true)
   feedback: endpoint('feedback', true)
   tests: endpoint('tests', true)
   cookie: endpoint('cookie', true)
