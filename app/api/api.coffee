@@ -6,6 +6,7 @@ module.exports = (_)->
   groups: require './groups'
   items: require './items'
   entities: require './entities'
+  search: require './search'
   services: require './services'
   data: require './data'
   invitations: require './invitations'

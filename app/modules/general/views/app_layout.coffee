@@ -6,6 +6,7 @@ IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
 initDynamicBackground = require '../lib/dynamic_background'
 initModal = require '../lib/modal'
+initLiveSearch = require '../lib/live_search'
 ConfirmationModal = require './confirmation_modal'
 
 module.exports = Marionette.LayoutView.extend
@@ -18,6 +19,7 @@ module.exports = Marionette.LayoutView.extend
     iconNav: '#iconNav'
     main: 'main'
     modal: '#modalContent'
+    overlay: '#overlayContent'
     joyride: '#joyride'
 
   ui:
@@ -57,6 +59,7 @@ module.exports = Marionette.LayoutView.extend
     initIconNavHandlers.call(@)
     initDynamicBackground.call(@)
     initModal()
+    initLiveSearch()
     # wait for the app to be initiated before listening to resize events
     # to avoid firing a meaningless event at initialization
     app.request('waitForNetwork').then initWindowResizeEvents

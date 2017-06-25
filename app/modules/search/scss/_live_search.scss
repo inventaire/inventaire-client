@@ -1,0 +1,45 @@
+#live-search{
+  max-height: 60vh;
+  overflow: auto;
+  .filters{
+    @include display-flex(row, flex-end, space-around, wrap);
+  }
+  .checkbox-wrapper{
+    @include display-flex(row, center, flex-start);
+    width: auto;
+  }
+  .result{
+    padding: 0.5em 1em;
+    margin-bottom: 0.1em;
+    line-height: 1em;
+    position: relative;
+    a{
+      @include display-flex(row, center, flex-start);
+    }
+    .image, .type, .label, .description{
+      margin-right: 0.5em;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+    .description{
+      flex: 0 1 auto;
+      overflow: hidden;
+    }
+    .image{
+      width: 3em;
+    }
+    .type, .description{
+      color: grey;
+      font-size: 0.9em;
+    }
+    &.highlight{
+      background-color: #666;
+      .label{
+        color: white;
+      }
+      .type, .description{
+        color: #bbb;
+      }
+    }
+  }
+}

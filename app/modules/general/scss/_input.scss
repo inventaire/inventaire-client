@@ -35,20 +35,14 @@ input[type="text"], input[type="search"], textarea{
   }
 }
 
-/* Adjust margin for form elements below */
-input[type="file"], input[type="checkbox"], input[type="radio"], select{
-  margin: 0 0 1rem 0;
+input[type="checkbox"]{
+  margin: 0;
 }
 
-input[type="checkbox"] + label, input[type="radio"] + label{
-  display: inline-block;
-  margin-left: 0.5rem;
-  margin-right: 1rem;
-  margin-bottom: 0;
-  vertical-align: baseline;
+input[type="checkbox"] + label{
+  padding: 0.2em 0.8em;
 }
 
-/* Normalize file input width */
 input[type="file"]{
   width: 100%;
 }

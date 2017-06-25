@@ -1,6 +1,6 @@
-searchInputData = require './menu/search_input_data'
 { translate } = require 'lib/urls'
 showViews = require '../lib/show_views'
+getActionKey = require 'lib/get_action_key'
 
 { languages } = require 'lib/active_languages'
 mostCompleteFirst = (a, b)-> b.completion - a.completion
@@ -34,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     smallScreen: _.smallScreen()
     isLoggedIn: app.user.loggedIn
-    search: searchInputData null, true
+    search: searchInputData()
     user: app.user.toJSON()
     currentLanguage: languages[app.user.lang].native
     languages: languagesList
@@ -51,8 +51,12 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #mainUser': 'showMainUser'
-    'click a#searchButton': 'search'
+    # Disabled for development
+    # 'click a#searchButton': 'search'
     'click .option a': 'selectLang'
+    'focus #searchField': -> app.execute 'live:search:focus'
+    'focusout #searchField': (e)-> app.execute 'live:search:unfocus', e
+    'keydown #searchField': 'onKeyDown'
 
   showMainUser: (e)->
     unless _.isOpenedOutside e
@@ -92,7 +96,28 @@ module.exports = Marionette.LayoutView.extend
     else
       app.user.set 'language', lang
 
+  onKeyDown: (e)->
+    key = getActionKey e
+    # Prevent the cursor to move when using special keys
+    # to navigate the live_search list
+    if key in neutralizedKey then e.preventDefault()
+    app.execute 'live:search:keydown', e
+
+neutralizedKey = [ 'up', 'down' ]
+
 hasLocalSearch = (section, route)->
   if section is 'search' then return true
   if /^add\/search/.test route  then return true
   return false
+
+searchInputData = ->
+  nameBase: 'search'
+  special: true
+  field:
+    type: 'search'
+    name: 'search'
+    placeholder: _.i18n 'search a book by title, author or ISBN'
+  button:
+    icon: 'search'
+    # text: '<span class="text">' + _.I18n('search') + '</span>'
+    classes: "secondary postfix"

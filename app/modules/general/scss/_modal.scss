@@ -2,17 +2,20 @@ $modalWidth: 38em;
 $mediumModalWidth: 46em;
 $largeModalWidth: 60em;
 
-#modalWrapper{
+#modalWrapper, #overlay{
   background: rgba(black, 0.55);
-  @include position(fixed, 0, 0, 0, 0, 10000);
   overflow: auto;
-  // transition: top 0.5s ease;
-  // transition: bottom 0.5s ease;
+  @include position(fixed, 0, 0, 0, 0);
   &.hidden{
     top: -100%;
     bottom: 100%;
   }
 }
+
+#modalWrapper{ z-index: 10000; }
+
+// Below the top-bar
+#overlay{ z-index: 990; }
 
 // Add this class to the body to make the modalWrapper scroll the only scroll
 // while the modal is opened
@@ -20,7 +23,7 @@ body.openedModal{
   overflow: hidden;
 }
 
-#modal{
+#modal, #overlayContent{
   position: relative;
   margin: 0 auto;
   max-width: $modalWidth;

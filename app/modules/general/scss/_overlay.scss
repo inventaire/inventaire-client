@@ -1,0 +1,13 @@
+#overlay{
+}
+
+#overlayContent{
+  background-color: white;
+  @include radius;
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 0.1em;
+    margin-top: 60px;
+    // margin-top: $topbar-height;
+  }
+}

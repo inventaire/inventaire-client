@@ -30,6 +30,7 @@ nav#top-bar{
     padding: 0.2em 1em;
   }
   #mainUser{
+    flex: 0 0 auto;
     img{
       @include radius;
       margin-right: 0.5em;
@@ -40,8 +41,9 @@ nav#top-bar{
     width: 3em;
   }
   #searchGroup{
-    max-width: 30em;
-    margin: 0.2em;
+    max-width: 38em;
+    @include transition(max-width);
+    margin: 0.2em auto;
     .button{
       width: 5em;
     }
@@ -129,6 +131,17 @@ nav#top-bar{
     .loginRequest{
       left: 50vw;
       right: 0;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    &.searchFocused{
+      #searchGroup{
+        // max-width: 100%;
+      }
+      #mainUser, .language-picker{
+        // display: none;
+      }
     }
   }
 }
