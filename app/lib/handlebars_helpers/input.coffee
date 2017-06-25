@@ -51,7 +51,7 @@ module.exports =
       else
         data.button.text = icon
 
-    # data overriding happens here
+    rawData = data
     data =
       id: "#{name}Group"
       field: _.extend field, data.field
@@ -62,8 +62,8 @@ module.exports =
     # (which would result in a report for a missing i18n key)
     data.field.placeholder ?= _.i18n name
 
-    if data.special
-      data.special = 'autocorrect="off" autocapitalize="off"'
+    if rawData.special
+      data.special = 'autocomplete="off" autocorrect="off" autocapitalize="off"'
 
     applyOptions input(data), options
 
