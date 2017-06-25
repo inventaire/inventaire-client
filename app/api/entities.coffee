@@ -1,4 +1,4 @@
-{ base, action } = require('./endpoint')('entities')
+{ action } = require('./endpoint')('entities')
 
 CustomQuery = (actionName)-> (uri, refresh)-> action actionName, { uri, refresh }
 
