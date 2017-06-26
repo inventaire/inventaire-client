@@ -32,6 +32,7 @@
     }
     .showYearsOnly{
       @include position(absolute, null, 0, -0.6em, 0);
+      white-space: nowrap;
     }
     .edit-mode-buttons{
       // push all the buttons to the right
