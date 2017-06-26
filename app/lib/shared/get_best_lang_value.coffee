@@ -7,6 +7,8 @@ module.exports = (_)->
 
   # data: labels or descriptions
   getBestLangValue = (lang, originalLang, data)->
+    unless data then return {}
+
     order = getLangPriorityOrder lang, originalLang, data
     while order.length > 0
       nextLang = order.shift()
