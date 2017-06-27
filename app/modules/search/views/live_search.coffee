@@ -39,9 +39,9 @@ module.exports = Marionette.CompositeView.extend
     @_lastType = type
 
   search: (search)->
-    search = search.trim()
-    @_lastSearch = search
+    search = search?.trim()
     unless _.isNonEmptyString search then return
+    @_lastSearch = search
     _.preq.get app.API.search(@getTypes(), search)
     .then @addResults.bind(@)
 
