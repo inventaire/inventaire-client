@@ -66,7 +66,9 @@ module.exports = Marionette.CompositeView.extend
       @_currentHighlightIndex = newIndex
 
   showCurrentlyHighlightedResult: ->
-    @children.findByIndex(@_currentHighlightIndex)?.showResult()
+    hilightedView = @children.findByIndex @_currentHighlightIndex
+    if hilightedView then hilightedView.showResult()
+    else @triggerMethod 'enter:without:hightlighed:result'
 
   resetHighlightIndex: -> @_currentHighlightIndex = -1
 

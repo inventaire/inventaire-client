@@ -56,21 +56,24 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #mainUser': 'showMainUser'
-    # Disabled for development
-    # 'click a#searchButton': 'search'
+    'click a#searchButton': 'search'
     'click .option a': 'selectLang'
     'focus #searchField': 'showLiveSearch'
     'focusout #searchField': 'onSearchUnfocus'
     'keyup #searchField': 'onKeyUp'
     'click #overlay': 'hideSearchOnOverlayClick'
 
+  childEvents:
+    'enter:without:hightlighed:result': 'search'
+
   showMainUser: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:inventory:user', app.user
 
   search: ->
-    query = @ui.searchField.val()
-    app.execute 'search:global', query
+    search = @ui.searchField.val()
+    unless _.isNonEmptyString search then return
+    app.execute 'search:global', search
 
   showGlobalSearch: (query)->
     @ui.searchGroup.fadeIn(200)
