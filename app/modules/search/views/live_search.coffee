@@ -10,28 +10,29 @@ module.exports = Marionette.CompositeView.extend
   initialize: ->
     @collection = new Results
     @lazySearch = _.debounce @search.bind(@), 200
-    @listenTo app.vent, 'live:search:show:result',
 
   ui:
-    all: '#checkbox-all'
-    checkboxes: 'input[type="checkbox"]'
+    all: '#filter-all'
+    filters: '.searchFilter'
 
   events:
-    'change input[type="checkbox"]': 'updateCheckBoxes'
+    'click .searchFilter': 'updateFilters'
 
-  updateCheckBoxes: (e)->
-    { id, checked } = e.currentTarget
+  updateFilters: (e)->
+    { id } = e.currentTarget
+    $target = $(e.currentTarget)
+    isSelected = $target.hasClass 'selected'
     type = getTypeFromId id
     if type is @_lastType then return
-
-    if checked
-      _.toArray @ui.checkboxes
-      .forEach (el)-> if el.id isnt id then el.checked = false
+    if isSelected
+      $target.removeClass 'selected'
+      @ui.all.addClass 'selected'
+      @filter = null
+    else
+      @ui.filters.removeClass 'selected'
+      $target.addClass 'selected'
       if type is 'all' then @filter = null
       else @filter = (child)-> child.get('typeAlias') is type
-    else
-      @ui.all[0].checked = true
-      @filter = null
 
     # Refresh the search with the new filters
     @search @_lastSearch
@@ -44,7 +45,7 @@ module.exports = Marionette.CompositeView.extend
     .then @addResults.bind(@)
 
   getTypes: ->
-    name = getTypeFromId @$el.find('input:checked')[0].id
+    name = getTypeFromId @$el.find('.selected')[0].id
     return typesMap[name]
 
   addResults: (res)->
@@ -80,4 +81,4 @@ typesMap =
   user: 'users'
   group: 'groups'
 
-getTypeFromId = (id)-> id.replace 'checkbox-', ''
+getTypeFromId = (id)-> id.replace 'filter-', ''

@@ -2,10 +2,16 @@
   background-color: white;
   .filters{
     @include display-flex(row, flex-end, space-around, wrap);
+    text-align: center;
   }
-  .checkbox-wrapper{
-    @include display-flex(row, center, flex-start);
-    width: auto;
+  .searchFilter{
+    flex: 1 0 0;
+    padding: 0.5em 0.2em;
+    @include transition(background-color);
+    &:hover, &.selected{
+      background-color: $light-blue;
+      color: white;
+    }
   }
   .results{
     max-height: 60vh;

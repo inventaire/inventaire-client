@@ -1,10 +1,10 @@
 <ul class="results"></ul>
 
-<ul class="filters">
-  {{partial 'search:checkbox' name='all' label='all' checked='true'}}
-  {{partial 'search:checkbox' name='book' label='book'}}
-  {{partial 'search:checkbox' name='author' label='author'}}
-  {{partial 'search:checkbox' name='serie' label='series_singular'}}
-  {{partial 'search:checkbox' name='user' label='user'}}
-  {{partial 'search:checkbox' name='group' label='group'}}
-</ul>
+<div class="filters">
+  {{partial 'search:filter' name='all' label='all' selected='true'}}
+  {{partial 'search:filter' name='book' label='book'}}
+  {{partial 'search:filter' name='author' label='author'}}
+  {{partial 'search:filter' name='serie' label='series_singular'}}
+  {{partial 'search:filter' name='user' label='user'}}
+  {{partial 'search:filter' name='group' label='group'}}
+</div>
