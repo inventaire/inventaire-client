@@ -17,7 +17,6 @@ module.exports = Marionette.LayoutView.extend
     liveSearch: '#liveSearch'
 
   ui:
-    searchGroup: '#searchGroup'
     searchField: '#searchField'
     overlay: '#overlay'
 
@@ -58,6 +57,7 @@ module.exports = Marionette.LayoutView.extend
     'keyup #searchField': 'onKeyUp'
     'keydown #searchField': 'onKeyDown'
     'click #overlay': 'hideSearchOnOverlayClick'
+    'click .searchFilter': 'recoverSearchFocus'
 
   childEvents:
     'enter:without:hightlighed:result': 'search'
@@ -137,5 +137,9 @@ module.exports = Marionette.LayoutView.extend
         else return
     else
       view.lazySearch e.currentTarget.value
+
+  # When clicking on a live_search searchField button, the search loose the focus
+  # thus the need to recover it
+  recoverSearchFocus: -> @ui.searchField.focus()
 
 neutralizedKeys = [ 'up', 'down' ]
