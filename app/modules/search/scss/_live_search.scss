@@ -1,13 +1,15 @@
 #live-search{
   background-color: white;
-  max-height: 60vh;
-  overflow: auto;
   .filters{
     @include display-flex(row, flex-end, space-around, wrap);
   }
   .checkbox-wrapper{
     @include display-flex(row, center, flex-start);
     width: auto;
+  }
+  .results{
+    max-height: 60vh;
+    overflow: auto;
   }
   &:not(.results-0){
     .no-result{
