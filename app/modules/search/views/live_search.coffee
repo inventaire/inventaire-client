@@ -71,7 +71,9 @@ module.exports = Marionette.CompositeView.extend
     if hilightedView then hilightedView.showResult()
     else @triggerMethod 'enter:without:hightlighed:result'
 
-  resetHighlightIndex: -> @_currentHighlightIndex = -1
+  resetHighlightIndex: ->
+    @$el.find('.highlight').removeClass 'highlight'
+    @_currentHighlightIndex = -1
 
 typesMap =
   all: [ 'works', 'humans', 'series', 'users', 'groups' ]
