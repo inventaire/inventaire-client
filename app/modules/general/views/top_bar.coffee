@@ -1,6 +1,7 @@
 { translate } = require 'lib/urls'
 showViews = require '../lib/show_views'
 getActionKey = require 'lib/get_action_key'
+LiveSearch = require 'modules/search/views/live_search'
 
 { languages } = require 'lib/active_languages'
 mostCompleteFirst = (a, b)-> b.completion - a.completion
@@ -12,9 +13,13 @@ module.exports = Marionette.LayoutView.extend
   className: -> if app.user.loggedIn then 'logged-in' else ''
   template: require './templates/top_bar'
 
+  regions:
+    liveSearch: '#liveSearch'
+
   ui:
     searchGroup: '#searchGroup'
     searchField: '#searchField'
+    overlay: '#overlay'
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -27,6 +32,7 @@ module.exports = Marionette.LayoutView.extend
       # 'search:global:show' and 'search:global:hide' onShow and onDestroy
       # as re-showing the view creates an ugly hide/show/hide sequence
       'route:change': @onRouteChange.bind(@)
+      'live:search:show:result': @onSearchUnfocus.bind(@)
 
     @listenTo app.user, 'change:username', @lazyRender
     @listenTo app.user, 'change:picture', @lazyRender
@@ -34,7 +40,6 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     smallScreen: _.smallScreen()
     isLoggedIn: app.user.loggedIn
-    search: searchInputData()
     user: app.user.toJSON()
     currentLanguage: languages[app.user.lang].native
     languages: languagesList
@@ -54,9 +59,10 @@ module.exports = Marionette.LayoutView.extend
     # Disabled for development
     # 'click a#searchButton': 'search'
     'click .option a': 'selectLang'
-    'focus #searchField': -> app.execute 'live:search:focus'
-    'focusout #searchField': (e)-> app.execute 'live:search:unfocus', e
+    'focus #searchField': 'showLiveSearch'
+    'focusout #searchField': 'onSearchUnfocus'
     'keydown #searchField': 'onKeyDown'
+    'click #overlay': 'hideSearchOnOverlayClick'
 
   showMainUser: (e)->
     unless _.isOpenedOutside e
@@ -96,12 +102,48 @@ module.exports = Marionette.LayoutView.extend
     else
       app.user.set 'language', lang
 
+  showLiveSearch: ->
+    if @liveSearch.currentView? then @liveSearch.$el.show()
+    else @liveSearch.show new LiveSearch
+    @ui.overlay.removeClass 'hidden'
+    @_liveSearchIsShown = true
+
+  onSearchUnfocus: ->
+    # Unfocus only if an other element in the page got the focus,
+    # not if the focus went to another tab/window, so that when
+    # coming back, there is no style jump from re-focusing the search bar
+    if $(':focus').length is 0 then return
+    @hideLiveSearch()
+
+  hideLiveSearch: ->
+    @liveSearch.$el.hide()
+    @ui.overlay.addClass 'hidden'
+    @_liveSearchIsShown = false
+
+  hideSearchOnOverlayClick: (e)-> if e.target.id is 'overlay' then @hideLiveSearch()
+
   onKeyDown: (e)->
     key = getActionKey e
     # Prevent the cursor to move when using special keys
     # to navigate the live_search list
     if key in neutralizedKey then e.preventDefault()
-    app.execute 'live:search:keydown', e
+
+    unless @_liveSearchIsShown
+      @showLiveSearch()
+      @liveSearch.currentView.resetHighlightIndex()
+
+    view = @liveSearch.currentView
+
+    key = getActionKey e
+    if key?
+      switch key
+        when 'up' then view.highlightPrevious()
+        when 'down' then view.highlightNext()
+        when 'enter' then view.showCurrentlyHighlightedResult()
+        when 'esc' then @hideLiveSearch()
+        else return
+    else
+      view.lazySearch e.currentTarget.value
 
 neutralizedKey = [ 'up', 'down' ]
 
@@ -109,15 +151,3 @@ hasLocalSearch = (section, route)->
   if section is 'search' then return true
   if /^add\/search/.test route  then return true
   return false
-
-searchInputData = ->
-  nameBase: 'search'
-  special: true
-  field:
-    type: 'search'
-    name: 'search'
-    placeholder: _.i18n 'search a book by title, author or ISBN'
-  button:
-    icon: 'search'
-    # text: '<span class="text">' + _.I18n('search') + '</span>'
-    classes: "secondary postfix"

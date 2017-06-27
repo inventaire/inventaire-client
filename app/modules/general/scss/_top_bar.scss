@@ -41,12 +41,19 @@ nav#top-bar{
     width: 3em;
   }
   #searchGroup{
+    flex: 1 0 auto;
     max-width: 38em;
-    @include transition(max-width);
     margin: 0.2em auto;
+    margin-bottom: 0;
     .button{
       width: 5em;
     }
+  }
+  .inputBox{
+    position: relative;
+  }
+  #liveSearch{
+    @include position(absolute, 100%, 1px, null, 0);
   }
   .dropdown{
     background-color: $topbar-bg-color;
@@ -131,17 +138,6 @@ nav#top-bar{
     .loginRequest{
       left: 50vw;
       right: 0;
-    }
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    &.searchFocused{
-      #searchGroup{
-        // max-width: 100%;
-      }
-      #mainUser, .language-picker{
-        // display: none;
-      }
     }
   }
 }

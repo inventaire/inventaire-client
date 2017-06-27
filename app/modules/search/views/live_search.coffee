@@ -6,7 +6,10 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: 'ul.results'
   childView: require './result'
 
-  initialize: -> @collection = new Results
+  initialize: ->
+    @collection = new Results
+    @lazySearch = _.debounce @search.bind(@), 100
+    @listenTo app.vent, 'live:search:show:result',
 
   ui:
     all: '#checkbox-all'

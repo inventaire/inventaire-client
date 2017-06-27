@@ -6,7 +6,16 @@
 
 <span class="push-right"></span>
 
-{{input search}}
+<div id="searchGroup" class="inputGroup">
+  <div class="inputBox">
+    <input id="searchField" name="search" placeholder="{{I18n 'search anything'}}" autocomplete="off" autocorrect="off" autocapitalize="off" type="search">
+    <div id="liveSearch"></div>
+    <div id="overlay" class="hidden"></div>
+  </div>
+  <a id="searchButton" class="button secondary postfix" tabindex="0">
+    {{icon 'search'}}
+  </a>
+</div>
 
 {{#unless smallScreen}}{{#if isLoggedIn}}
   <a id="mainUser" href="{{user.pathname}}">

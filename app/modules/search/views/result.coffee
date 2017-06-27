@@ -11,7 +11,7 @@ module.exports = Marionette.ItemView.extend
   showResult: ->
     command = @model.get 'showCommand'
     app.execute command, @model.id
-    app.execute 'live:search:unfocus'
+    app.vent.trigger 'live:search:show:result'
 
   unhighlight: -> @$el.removeClass 'highlight'
   highlight: -> @$el.addClass 'highlight'

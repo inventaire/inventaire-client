@@ -14,16 +14,13 @@ $largeModalWidth: 60em;
 
 #modalWrapper{ z-index: 10000; }
 
-// Below the top-bar
-#overlay{ z-index: 990; }
-
 // Add this class to the body to make the modalWrapper scroll the only scroll
 // while the modal is opened
 body.openedModal{
   overflow: hidden;
 }
 
-#modal, #overlayContent{
+#modal{
   position: relative;
   margin: 0 auto;
   max-width: $modalWidth;
