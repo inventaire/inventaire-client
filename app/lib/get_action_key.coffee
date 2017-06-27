@@ -9,6 +9,8 @@ actionKeysMap =
   17: 'ctrl'
   18: 'alt'
   27: 'esc'
+  33: 'pageup'
+  34: 'pagedown'
   35: 'end'
   36: 'home'
   37: 'left'

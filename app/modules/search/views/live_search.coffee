@@ -18,9 +18,20 @@ module.exports = Marionette.CompositeView.extend
   events:
     'click .searchFilter': 'updateFilters'
 
-  updateFilters: (e)->
-    { id } = e.currentTarget
-    $target = $(e.currentTarget)
+  onSpecialKey: (key)->
+    switch key
+      when 'up' then @highlightPrevious()
+      when 'down' then @highlightNext()
+      when 'enter' then @showCurrentlyHighlightedResult()
+      when 'pageup' then @selectPrevFilter()
+      when 'pagedown' then @selectNextFilter()
+      else return
+
+  updateFilters: (e)-> @selectFromTarget $(e.currentTarget)
+  selectPrevFilter: -> @selectFromTarget @$el.find('.selected').prev()
+  selectNextFilter: -> @selectFromTarget @$el.find('.selected').next()
+  selectFromTarget: ($target)->
+    { id } = $target[0]
     isSelected = $target.hasClass 'selected'
     type = getTypeFromId id
     if type is @_lastType then return

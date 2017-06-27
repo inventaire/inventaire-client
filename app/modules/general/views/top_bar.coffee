@@ -125,16 +125,12 @@ module.exports = Marionette.LayoutView.extend
 
   onKeyUp: (e)->
     unless @_liveSearchIsShown then @showLiveSearch()
-    view = @liveSearch.currentView
 
+    view = @liveSearch.currentView
     key = getActionKey e
     if key?
-      switch key
-        when 'up' then view.highlightPrevious()
-        when 'down' then view.highlightNext()
-        when 'enter' then view.showCurrentlyHighlightedResult()
-        when 'esc' then @hideLiveSearch()
-        else return
+      if key is 'esc' then @hideLiveSearch()
+      else return view.onSpecialKey key
     else
       view.lazySearch e.currentTarget.value
 
@@ -142,4 +138,4 @@ module.exports = Marionette.LayoutView.extend
   # thus the need to recover it
   recoverSearchFocus: -> @ui.searchField.focus()
 
-neutralizedKeys = [ 'up', 'down' ]
+neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]
