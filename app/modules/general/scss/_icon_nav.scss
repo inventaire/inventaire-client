@@ -29,7 +29,8 @@
     }
     .counter{
       @include counter-commons;
-      @include position(absolute, 20%, 10%)
+      @include position(absolute, null, null, 50%, 50%)
+      margin-left: 0.2em;
     }
     .fa{
       color: white;
