@@ -61,6 +61,7 @@ module.exports = Marionette.LayoutView.extend
     'focus #searchField': 'showLiveSearch'
     'focusout #searchField': 'onSearchUnfocus'
     'keyup #searchField': 'onKeyUp'
+    'keydown #searchField': 'onKeyDown'
     'click #overlay': 'hideSearchOnOverlayClick'
 
   childEvents:
@@ -126,14 +127,14 @@ module.exports = Marionette.LayoutView.extend
 
   hideSearchOnOverlayClick: (e)-> if e.target.id is 'overlay' then @hideLiveSearch()
 
-  onKeyUp: (e)->
-    key = getActionKey e
+  onKeyDown: (e)->
     # Prevent the cursor to move when using special keys
     # to navigate the live_search list
-    if key in neutralizedKey then e.preventDefault()
+    key = getActionKey e
+    if key in neutralizedKeys then e.preventDefault()
 
+  onKeyUp: (e)->
     unless @_liveSearchIsShown then @showLiveSearch()
-
     view = @liveSearch.currentView
 
     key = getActionKey e
@@ -147,7 +148,7 @@ module.exports = Marionette.LayoutView.extend
     else
       view.lazySearch e.currentTarget.value
 
-neutralizedKey = [ 'up', 'down' ]
+neutralizedKeys = [ 'up', 'down' ]
 
 hasLocalSearch = (section, route)->
   if section is 'search' then return true
