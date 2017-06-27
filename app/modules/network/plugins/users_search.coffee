@@ -30,6 +30,7 @@ handlers =
         # can add its users directly in the current collection
         collection: app.users.filtered.friends()
         stretch: stretch
+        emptyViewMessage: "you aren't connected to anyone yet"
       @setFriendsHeader()
 
   updateUserSearch: (e)-> @searchUsers e.target.value
@@ -46,7 +47,8 @@ handlers =
   setFriendsHeader: ->
     @ui.usersListHeader.find('.header').text _.i18n('friends')
     @ui.usersListHeader.find('.close').hide()
-    @callToActionIfFriendsListIsEmpty()
+    # Let a moment for the everything to come in place
+    setTimeout @callToActionIfFriendsListIsEmpty.bind(@), 100
 
   setUserSearchHeader: ->
     @ui.usersListHeader.find('.header').text _.i18n('user search')
