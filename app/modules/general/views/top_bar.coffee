@@ -55,6 +55,7 @@ module.exports = Marionette.LayoutView.extend
     @updateConnectionButtons section
 
   events:
+    'click #home': 'showHome'
     'click #mainUser': 'showMainUser'
     'click a#searchButton': 'search'
     'click .option a': 'selectLang'
@@ -66,6 +67,13 @@ module.exports = Marionette.LayoutView.extend
 
   childEvents:
     'enter:without:hightlighed:result': 'search'
+
+  showHome: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:home'
+      # When the live search is visible, clicking #home might be an attempt
+      # to close it
+      @onSearchUnfocus()
 
   showMainUser: (e)->
     unless _.isOpenedOutside e

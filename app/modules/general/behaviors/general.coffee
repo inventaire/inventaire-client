@@ -12,7 +12,7 @@ module.exports = Marionette.Behavior.extend
     'keyup textarea.ctrlEnterClick': enterClick.textarea
     'keyup a.button,a.enterClick,div.enterClick,a[tabindex=0]': enterClick.button
     'click a.back': -> window.history.back()
-    'click #home, .showHome': (e)->
+    'click .showHome': (e)->
         unless _.isOpenedOutside(e) then app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
