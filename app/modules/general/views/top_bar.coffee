@@ -76,11 +76,11 @@ module.exports = Marionette.LayoutView.extend
     unless _.isNonEmptyString search then return
     app.execute 'search:global', search
 
-  showGlobalSearch: (query)->
-    @ui.searchGroup.fadeIn(200)
-    if _.isNonEmptyString(query) then @ui.searchField.val query
+  showGlobalSearch: (search)->
+    @ui.searchGroup.fadeIn 200
+    if _.isNonEmptyString(search) then @ui.searchField.val search
 
-  hideGlobalSearch: -> @ui.searchGroup.fadeOut(200)
+  hideGlobalSearch: -> @ui.searchGroup.fadeOut 200
 
   updateGlobalSearch: (section, route)->
     if hasLocalSearch(section, route) and not _.smallScreen()
