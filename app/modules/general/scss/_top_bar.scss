@@ -57,6 +57,10 @@ nav#top-bar{
   }
   #liveSearch{
     @include position(absolute, 100%, 1px, null, 0);
+    /*Smaller screens*/
+    @media screen and (max-width: $smaller-screen) {
+      @include position(fixed, $topbar-height, 0, null, 0);
+    }
   }
   .dropdown{
     background-color: $topbar-bg-color;
@@ -96,6 +100,7 @@ nav#top-bar{
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
+    padding: 0.2em;
     h1{
       flex: 0 0 auto;
       font-size: 1.1rem;
@@ -105,18 +110,20 @@ nav#top-bar{
       height: 1.8em;
       padding: 0;
       text-align: center;
-      margin-top: 0.5em;
-      margin-left: 0.3em;
+      margin-left: 0.2em;
       margin-right: 0.4em;
     }
     .push-right, #currentUser, .language-picker, .menu, .username{
       display: none !important;
     }
     #searchGroup{
-      margin-left: auto;
+      background-color: red;
+      flex: 1 1 auto;
       flex-direction: row;
       flex-wrap: nowrap;
-      margin-top: 0.3em;
+      margin-left: auto;
+      margin-top: -0.3em;
+      margin-right: 0.4em;
       &, input, .button{
         height: 2rem;
       }
