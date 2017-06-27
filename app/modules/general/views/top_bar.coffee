@@ -26,11 +26,6 @@ module.exports = Marionette.LayoutView.extend
 
     @listenTo app.vent,
       'screen:mode:change': @lazyRender
-      'search:global:show': @showGlobalSearch.bind(@)
-      'search:global:hide': @hideGlobalSearch.bind(@)
-      # heavier but cleaner than asking the concerned views to call
-      # 'search:global:show' and 'search:global:hide' onShow and onDestroy
-      # as re-showing the view creates an ugly hide/show/hide sequence
       'route:change': @onRouteChange.bind(@)
       'live:search:show:result': @onSearchUnfocus.bind(@)
 
@@ -51,7 +46,6 @@ module.exports = Marionette.LayoutView.extend
     @onRouteChange _.currentSection(), _.currentRoute()
 
   onRouteChange: (section, route)->
-    @updateGlobalSearch section, route
     @updateConnectionButtons section
 
   events:
@@ -83,18 +77,6 @@ module.exports = Marionette.LayoutView.extend
     search = @ui.searchField.val()
     unless _.isNonEmptyString search then return
     app.execute 'search:global', search
-
-  showGlobalSearch: (search)->
-    @ui.searchGroup.fadeIn 200
-    if _.isNonEmptyString(search) then @ui.searchField.val search
-
-  hideGlobalSearch: -> @ui.searchGroup.fadeOut 200
-
-  updateGlobalSearch: (section, route)->
-    if hasLocalSearch(section, route) and not _.smallScreen()
-      @hideGlobalSearch()
-    else
-      @showGlobalSearch()
 
   updateConnectionButtons: (section)->
     if app.user.loggedIn then return
@@ -157,8 +139,3 @@ module.exports = Marionette.LayoutView.extend
       view.lazySearch e.currentTarget.value
 
 neutralizedKeys = [ 'up', 'down' ]
-
-hasLocalSearch = (section, route)->
-  if section is 'search' then return true
-  if /^add\/search/.test route  then return true
-  return false
