@@ -28,7 +28,7 @@ input, textarea{
   }
 }
 
-input[type="text"], input[type="search"], textarea{
+input[type="text"], input[type="search"], input[type="password"], textarea{
   border: 1px solid $input-border-color;
   &:focus{
     border-color: darken($input-border-color, 10%);
@@ -69,15 +69,6 @@ textarea{
 .inputGroup{
   width: 100%;
   @include display-flex(row, left, flex-start);
-  .inputBox{
-    flex: 1 1 auto;
-    min-width: 60%;
-    input{
-      height: 2.2rem;
-      padding: 0 1em;
-      margin-bottom: 0;
-    }
-  }
   margin-bottom: 0.5em;
   a.button.postfix{
     height: 2.2rem;
@@ -87,23 +78,6 @@ textarea{
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
     flex-direction: column;
-    .inputBox{
-      width: 100%;
-      input{
-        margin: 0 !important;
-        @include radius-top;
-      }
-      a.button.postfix{
-        align-self: stretch;
-        @include radius-bottom;
-        @include radius-top(0);
-        padding: 5em;
-      }
-      .alert-box{
-        // Foundation sets .alert-box with negative margin-top
-        margin: 0;
-      }
-    }
     .button{
       width: 100%;
     }
@@ -119,6 +93,34 @@ textarea{
       @include radius-left(0);
       width: auto;
       padding: 0 1em;
+    }
+  }
+}
+
+.inputBox{
+  flex: 1 1 auto;
+  min-width: 60%;
+  input{
+    height: 2.2rem;
+    padding: 0 1em;
+    margin-bottom: 0;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    width: 100%;
+    input{
+      margin: 0 !important;
+      @include radius-top;
+    }
+    a.button.postfix{
+      align-self: stretch;
+      @include radius-bottom;
+      @include radius-top(0);
+      padding: 5em;
+    }
+    .alert-box{
+      // Foundation sets .alert-box with negative margin-top
+      margin: 0;
     }
   }
 }

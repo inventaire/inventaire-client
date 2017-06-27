@@ -15,7 +15,7 @@
   @include serif;
   @include bg-hover($light-blue)
   color: white;
-  &:hover{
+  &:focus, &:hover{
     color: white;
   }
   &.soft-grey{
