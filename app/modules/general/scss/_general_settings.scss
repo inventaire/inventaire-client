@@ -38,7 +38,6 @@ body{
   ul, ul li{
     list-style-type: none;
     list-style-position: outside;
-    // overriding Foundation settings
     padding: 0;
     margin: 0;
   }
@@ -55,7 +54,6 @@ body{
 }
 
 // OPACITY
-// see Foundation _visibility for media-specific classes
 .hidden{
   // DONT !important it as it seems it can't be shown then
   display: none;
@@ -92,10 +90,8 @@ body{
   text-align: center;
 }
 
-// making the selector stronger to override
-// Foundation .buttons e.g.
-p.bold, span.bold, a.bold{
-  font-weight: 900;
+.bold{
+  font-weight: bold;
 }
 
 .margin-top{
@@ -134,7 +130,6 @@ noscript{
 @import "custom_column";
 @import "errors";
 @import "modal";
-@import "joyride";
 @import "switching_button";
 @import "separator";
 @import "new_message";

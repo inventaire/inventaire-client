@@ -27,7 +27,6 @@ module.exports = Marionette.LayoutView.extend
     @_lastAddMode = app.request 'last:add:mode:get'
 
   onShow: ->
-    app.execute 'foundation:reload'
     @selectTransaction()
     @selectListing()
     @showEntityData()

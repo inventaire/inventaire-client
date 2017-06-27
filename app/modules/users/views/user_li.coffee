@@ -32,9 +32,6 @@ module.exports = Marionette.ItemView.extend
   initPlugins: ->
     relationsActions.call @
 
-  onShow: ->
-    app.execute 'foundation:reload'
-
   serializeData: ->
     # nonPrivateInventoryLength is only a concern for the main user
     # which is only shown as a UserLi in the context of a group

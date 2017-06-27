@@ -27,7 +27,6 @@ module.exports = Marionette.ItemView.extend
     itemUpdaters.call @
 
   onRender: ->
-    app.execute 'foundation:reload'
     app.execute 'uriLabel:update'
 
   events:

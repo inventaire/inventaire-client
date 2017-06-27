@@ -112,7 +112,6 @@
 @media screen and (max-width: $small-screen) {
   .entityActions{
     .button-group > li{
-      // overriding Foundation "margin 0 0.2px;" value
       margin: 0;
     }
   }

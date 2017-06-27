@@ -19,8 +19,6 @@ module.exports = Marionette.CollectionView.extend
     if textFilter
       @on 'filter:text', @setTextFilter.bind(@)
 
-  onShow: -> app.execute 'foundation:reload'
-
   setTextFilter: (text)->
     @filter = (model)-> model.matches text
     @render()

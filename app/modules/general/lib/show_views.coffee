@@ -1,4 +1,3 @@
-JoyrideWelcomeTour = require 'modules/welcome/views/joyride_welcome_tour'
 DonateMenu = require '../views/donate_menu'
 FeedbackMenu = require '../views/feedback_menu'
 Loader = require '../views/behaviors/loader'
@@ -17,7 +16,6 @@ module.exports =
 
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'
-  showJoyrideWelcomeTour: -> @joyride.show new JoyrideWelcomeTour
   showDonateMenu: -> app.layout.modal.show new DonateMenu
   showFeedbackMenu: (options)->
     # In the case of 'show:feedback:menu', a unique object is passed

@@ -18,7 +18,6 @@ module.exports = Marionette.LayoutView.extend
     iconNav: '#iconNav'
     main: 'main'
     modal: '#modalContent'
-    joyride: '#joyride'
 
   ui:
     bg: '#bg'
@@ -43,7 +42,6 @@ module.exports = Marionette.LayoutView.extend
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
       'current:username:set': @setCurrentUsername
       'current:username:hide': @hideCurrentUsername
-      'show:joyride:welcome:tour': @showJoyrideWelcomeTour.bind(@)
       'show:feedback:menu': @showFeedbackMenu
       'show:donate:menu': @showDonateMenu
       'ask:confirmation': @askConfirmation.bind(@)

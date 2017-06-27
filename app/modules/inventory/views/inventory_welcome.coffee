@@ -1,7 +1,7 @@
 NoItem = require './no_item'
 
 module.exports = Marionette.ItemView.extend
-  className: "inventoryWelcome"
+  className: 'inventoryWelcome'
   template: require './templates/inventory_welcome'
   events:
-    'click #jumpIn': -> app.execute 'show:joyride:welcome:tour'
+    'click a[href="/add"]': -> app.execute 'show:add:layout'

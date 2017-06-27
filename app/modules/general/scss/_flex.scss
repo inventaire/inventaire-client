@@ -6,8 +6,7 @@
   @if $wrap { flex-wrap: $wrap; }
 }
 
-// Get rid of Foundation before using the .row and .column classes
-// see https://github.com/inventaire/inventaire-client/issues/87
+// TODO: remove the flex prefix now that Foundation is out
 .flex-row{
   @include display-flex(row);
 }

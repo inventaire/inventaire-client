@@ -35,9 +35,6 @@ module.exports = Marionette.ItemView.extend
     'click .saveButton': 'saveEdit'
     'dblclick span.message': 'editCommentIfMobile'
 
-  onShow: ->
-    app.execute 'foundation:reload'
-
   editComment: ->
     @toggleEditMode()
     @ui.editor.focus()

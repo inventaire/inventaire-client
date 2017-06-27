@@ -1,6 +1,4 @@
 window.location.root = window.location.protocol + '//' + window.location.host
-foundation = require 'modules/general/foundation/foundation'
-foundation.import()
 
 module.exports = ->
   app = require 'app'
@@ -50,7 +48,6 @@ module.exports = ->
     $ ->
       # initialize layout after user to get i18n data
       app.layout = new AppLayout
-      require('modules/general/foundation/foundation').initialize(app)
 
       app.start()
 

@@ -1,4 +1,7 @@
-section#social-networks, .joyride-content-wrapper #socialNetworks{
+section#social-networks{
+  background-color: $darker-grey;
+  text-align: center;
+  padding: 1em;
   @include display-flex(row, flex-start, space-around, wrap);
   a{
     @include display-flex(column, center, center);
@@ -19,18 +22,6 @@ section#social-networks, .joyride-content-wrapper #socialNetworks{
       font-weight: bold;
     }
   }
-}
-
-.joyride-content-wrapper #socialNetworks{
-  a span{
-    margin-top: -1em;
-  }
-}
-
-section#social-networks{
-  background-color: $darker-grey;
-  text-align: center;
-  padding: 1em;
   .fa, span{
     color: white;
   }

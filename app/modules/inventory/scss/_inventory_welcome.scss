@@ -1,10 +1,13 @@
 .inventoryWelcome{
+  min-height: 50vh;
   flex: 1 1 auto;
   @include display-flex(column, center, center);
   text-align: center;
-  a{
+  .ideas{
+    margin: 1em;
+  }
+  .showWelcome{
     font-weight: bold;
     margin: 1em;
   }
-  min-height: 50vh;
 }

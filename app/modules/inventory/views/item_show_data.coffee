@@ -43,7 +43,6 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     # @showComments()
-    app.execute 'foundation:reload'
     if app.user.loggedIn then @showTransactions()
 
   events:

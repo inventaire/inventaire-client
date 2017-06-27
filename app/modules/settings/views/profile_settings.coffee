@@ -29,8 +29,6 @@ module.exports = Marionette.ItemView.extend
     @listenTo @model, 'change:picture', @render
     @listenTo @model, 'change:position', @render
 
-  onShow: -> app.execute 'foundation:reload'
-
   serializeData: ->
     attrs = @model.toJSON()
     return _.extend attrs,

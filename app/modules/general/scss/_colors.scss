@@ -1,7 +1,7 @@
-$primary-color: #16212C; // Foundation variable
-$secondary-color: #FFD402; // Foundation variable
-$warning-color: #E13A00; // Foundation variable
-$success-color: #4EBA76; // Foundation variable
+$primary-color: #16212C;
+$secondary-color: #FFD402;
+$warning-color: #E13A00;
+$success-color: #4EBA76;
 $light-blue: #319CC2;
 $link-blue: #3243BB;
 $dangerous-color: #ff4e4e;
@@ -19,10 +19,10 @@ $green-tree: #68B231;
 // body has a different color than main
 // to make it the background color when the DOM isnt loaded
 $main-bg: $off-white;
-$body-bg: $main-bg; // Foundation variable
+$body-bg: $main-bg;
 $contrast: #fff;
-$panel-bg: $contrast; // Foundation variable
-$body-font-color: #222; // Foundation variable
+$panel-bg: $contrast;
+$body-font-color: #222;
 $tools-active-bg: #222;
 
 // keep in sync with server/lib/emails/activity_summary/transactions_colors.coffee
