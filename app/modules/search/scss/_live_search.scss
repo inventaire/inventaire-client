@@ -9,6 +9,11 @@
     @include display-flex(row, center, flex-start);
     width: auto;
   }
+  &:not(.results-0){
+    .no-result{
+      display: none;
+    }
+  }
   .result{
     margin-bottom: 0.1em;
     line-height: 1em;
@@ -43,6 +48,10 @@
         color: #bbb;
       }
     }
+  }
+  .no-result{
+    text-align: center;
+    color: $grey;
   }
 }
 

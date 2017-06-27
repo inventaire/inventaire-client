@@ -5,6 +5,7 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/live_search'
   childViewContainer: 'ul.results'
   childView: require './result'
+  emptyView: require './no_result'
 
   initialize: ->
     @collection = new Results
@@ -49,6 +50,8 @@ module.exports = Marionette.CompositeView.extend
   addResults: (res)->
     @resetHighlightIndex()
     @collection.reset res.results
+    if res.results.length is 0 then @$el.addClass 'results-0'
+    else @$el.removeClass 'results-0'
 
   highlightNext: -> @highlightIndexChange 1
   highlightPrevious: -> @highlightIndexChange -1
