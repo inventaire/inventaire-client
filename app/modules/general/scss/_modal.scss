@@ -12,7 +12,7 @@ $largeModalWidth: 60em;
   }
 }
 
-#modalWrapper{ z-index: 10000; }
+#modalWrapper{ z-index: 20; }
 
 // Add this class to the body to make the modalWrapper scroll the only scroll
 // while the modal is opened

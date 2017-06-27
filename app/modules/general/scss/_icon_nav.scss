@@ -12,7 +12,7 @@
   }
   // - When the window is resized, an horizontal scroll may appear
   //   in which case, you don't want the icon_nav to appear behind the items
-  z-index: 1005;
+  z-index: 10;
 }
 
 .innerIconNav{

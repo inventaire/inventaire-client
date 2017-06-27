@@ -1,5 +1,5 @@
 nav#top-bar{
-  @include position(fixed, 0, 0, null, 0, 1000)
+  @include position(fixed, 0, 0, null, 0, 15)
   @include display-flex(row, center, flex-start);
   background-color: $topbar-bg-color;
   h1{
