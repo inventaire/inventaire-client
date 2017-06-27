@@ -61,7 +61,7 @@ module.exports = Marionette.LayoutView.extend
     'click .option a': 'selectLang'
     'focus #searchField': 'showLiveSearch'
     'focusout #searchField': 'onSearchUnfocus'
-    'keydown #searchField': 'onKeyDown'
+    'keyup #searchField': 'onKeyUp'
     'click #overlay': 'hideSearchOnOverlayClick'
 
   showMainUser: (e)->
@@ -105,6 +105,7 @@ module.exports = Marionette.LayoutView.extend
   showLiveSearch: ->
     if @liveSearch.currentView? then @liveSearch.$el.show()
     else @liveSearch.show new LiveSearch
+    @liveSearch.currentView.resetHighlightIndex()
     @ui.overlay.removeClass 'hidden'
     @_liveSearchIsShown = true
 
@@ -122,15 +123,13 @@ module.exports = Marionette.LayoutView.extend
 
   hideSearchOnOverlayClick: (e)-> if e.target.id is 'overlay' then @hideLiveSearch()
 
-  onKeyDown: (e)->
+  onKeyUp: (e)->
     key = getActionKey e
     # Prevent the cursor to move when using special keys
     # to navigate the live_search list
     if key in neutralizedKey then e.preventDefault()
 
-    unless @_liveSearchIsShown
-      @showLiveSearch()
-      @liveSearch.currentView.resetHighlightIndex()
+    unless @_liveSearchIsShown then @showLiveSearch()
 
     view = @liveSearch.currentView
 

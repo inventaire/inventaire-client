@@ -10,13 +10,13 @@
     width: auto;
   }
   .result{
-    padding: 0.5em 1em;
     margin-bottom: 0.1em;
     line-height: 1em;
     position: relative;
     a{
       @include display-flex(row, center, flex-start);
       color: $dark-grey;
+      padding: 0.5em 1em;
     }
     .image, .type, .label, .description{
       margin-right: 0.5em;
@@ -34,7 +34,7 @@
       color: grey;
       font-size: 0.9em;
     }
-    &.highlight{
+    &.highlight, &:hover {
       background-color: #666;
       .label{
         color: white;

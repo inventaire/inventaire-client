@@ -8,7 +8,7 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = new Results
-    @lazySearch = _.debounce @search.bind(@), 100
+    @lazySearch = _.debounce @search.bind(@), 200
     @listenTo app.vent, 'live:search:show:result',
 
   ui:
