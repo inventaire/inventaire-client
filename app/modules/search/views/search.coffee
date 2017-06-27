@@ -99,6 +99,9 @@ module.exports = Marionette.LayoutView.extend
       @_appendToAuthorEl innerText
 
   _appendToAuthorEl: (text)->
+    # The page might have change since the timeout was triggered
+    if @isDestroyed then return
+
     $("<p class='please-be-patient hidden'>#{text}</p>")
     .appendTo @authors.$el
     .slideDown()
