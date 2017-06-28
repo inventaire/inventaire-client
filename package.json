@@ -70,7 +70,6 @@
     "iconv-lite": "^0.4.15",
     "javascript-brunch": "^2.0.0",
     "lodash": "^4.6.1",
-    "ls": "^0.1.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
     "postcss-brunch": "^0.5.0",
