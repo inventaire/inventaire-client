@@ -28,5 +28,5 @@ module.exports =
     err.selector = '.alertBox'
     forms_.alert(@, err)
 
-  emptyTextarea: -> @ui.message.val('')
+  emptyTextarea: -> @render()
   recoverMessage: (message)-> @ui.message.val message
