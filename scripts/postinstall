@@ -6,7 +6,7 @@ set -eu
 # and that all the following isn't needed
 [ -e public/js/app.js ] && exit 0
 
-mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json
+mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
 ./scripts/install_external_js_modules
 ./scripts/update_mentions.coffee
 
