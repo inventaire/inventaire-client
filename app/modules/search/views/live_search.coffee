@@ -1,3 +1,13 @@
+# TODO:
+# - add 'help': indexed wiki.inventaire.io entries to give results
+#   to searches such as 'FAQ' or 'help creating group'
+# - add 'subjects': search Wikidata for entities that are used
+#   as 'main subject' (wdt:P921)
+# - add 'place': search Wikidata for entities with coordinates (wdt:P625)
+#   and display a layout with users & groups nearby, as well as books with
+#   narrative location (wdt:P840), or authors born (wdt:P19)
+#   or dead (wdt:P20) nearby
+
 Results = Backbone.Collection.extend { model: require('../models/result') }
 
 module.exports = Marionette.CompositeView.extend
