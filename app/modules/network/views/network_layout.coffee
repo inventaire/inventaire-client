@@ -16,7 +16,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     { tab } = @options
-    @tabs.show new Tabs {tab: tab}
+    @tabs.show new Tabs { tab }
     @showLayout tab
 
   updateLayout: (view, tab, originalTab)->
