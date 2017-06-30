@@ -1,6 +1,5 @@
 { base } = require('./endpoint')('search')
 
-module.exports = (types, search)->
-  _.buildPath base,
-    types: _.forceArray(types).join '|'
-    search: search
+module.exports = (types, search, lang)->
+  types = _.forceArray(types).join '|'
+  return _.buildPath base, { types, search, lang }
