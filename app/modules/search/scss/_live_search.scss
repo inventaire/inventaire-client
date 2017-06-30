@@ -7,6 +7,7 @@
   .searchFilter{
     flex: 1 0 0;
     padding: 0.5em 0.2em;
+    background-color: #f3f3f3;
     @include transition(background-color);
     &:hover, &.selected{
       background-color: $light-blue;
@@ -28,7 +29,6 @@
     a{
       @include display-flex(row, center, flex-start);
       color: $dark-grey;
-      padding: 0.5em 1em;
     }
     .image, .type, .label, .description{
       margin-right: 0.5em;
@@ -40,7 +40,11 @@
       overflow: hidden;
     }
     .image{
-      width: 3em;
+      margin-right: 0.3em;
+      width: 48px;
+      height: 48px;
+      background-size: cover;
+      background-position: center center;
     }
     .type, .description{
       color: grey;

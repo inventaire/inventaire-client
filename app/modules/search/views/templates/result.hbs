@@ -1,9 +1,5 @@
 <a href="{{pathname}}">
-  {{#if image}}
-    <img src="{{src image 32}}" class="image">
-  {{else}}
-    <span class="image"></span>
-  {{/if}}
+  <div class="image" {{#if image}}style="background-image: url({{src image 90}})"{{/if}}></div>
   <span class="type">{{type}}</span>
   <span class="label">{{label}}</span>
   <span class="description">{{description}}</span>
