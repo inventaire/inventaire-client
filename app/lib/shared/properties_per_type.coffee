@@ -1,6 +1,7 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 # and server/controllers/entities/lib/properties.coffee
 # and server/lib/wikidata/whitelisted_properties.coffee
+# and client/public/i18n/src/wikidata/properties_list.coffee
 
 work =
   'wdt:P50': {} # author
@@ -34,9 +35,10 @@ module.exports = (_)->
     'wdt:P957': {} # ISBN-10
     'wdt:P577': {} # publication date
     'wdt:P123': {} # publisher
-    'wdt:P1104': {} # number of pages
+    'wdt:P655': {} # translator
     'wdt:P2679': {} # author of foreword
     'wdt:P2680': {} # author of afterword
+    'wdt:P1104': {} # number of pages
 
   human:
     'wdt:P1412': {} # languages of expression
