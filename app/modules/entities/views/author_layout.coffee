@@ -45,12 +45,9 @@ module.exports = Marionette.LayoutView.extend
     refresh = @options.refresh is true
 
     @model.initAuthorWorks refresh
+    .then @ifViewIsIntact('showWorks')
     .then @_showWorksIfRendered.bind(@)
     .catch _.Error('author_layout fetchWorks err')
-
-  _showWorksIfRendered: ->
-    if @isRendered then @showWorks()
-    # else, let the onRender hook do it
 
   onRender: ->
     @showInfobox()

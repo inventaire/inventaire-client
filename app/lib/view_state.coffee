@@ -3,7 +3,10 @@
 # Allows to stop all actions made obsolete, particullary justified
 # when there are potentially a lot of them or costly ones
 
-# could be added to Marionette.View prototype if shown broadly useful
+# Could be added to Marionette.View prototype if shown broadly useful
+
+# See also Marionette.View::ifViewIsIntact in app/lib/global_libs_extender
+
 module.exports =
   CheckViewState: (view, label='')->
     check = (data)->

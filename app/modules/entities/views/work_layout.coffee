@@ -39,13 +39,11 @@ module.exports = Marionette.LayoutView.extend
     @_showWasCompleted = true
 
     # Need to wait to know if the user has an instance of this work
-    @waitForItems.then @showEntityActions.bind(@)
+    @waitForItems
+    .then @ifViewIsIntact('showEntityActions')
 
     @model.waitForSubentities
-    # Let the time to the collection to the edition collection to initialize,
-    # otherwise it seems to mess with the filter/render process
-    .delay 10
-    .then @showEditions.bind(@)
+    .then @ifViewIsIntact('showEditions')
 
   onRender: -> entityItems.onRender.call @
 

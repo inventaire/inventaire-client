@@ -95,6 +95,16 @@ module.exports = (_)->
 
     @filterBy 'text', (model)-> model.matches filterRegex, rawText
 
+  # Use in promise chains when the view might be about to be re-rendered
+  # and calling would thus trigger error as the method depends on regions
+  # being populated (which happens at render), typically in an onRender call.
+  # See also app/lib/view_state
+  Marionette.View::ifViewIsIntact = (methodName, args...)-> (result)=>
+    if @isRendered
+      args.push result
+      return @[methodName].apply @, args
+    # else, let the onRender hook do it
+
   # JQUERY
   # aliasing once to one to match Backbone vocabulary
   $.fn.once = $.fn.one

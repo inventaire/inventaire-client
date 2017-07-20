@@ -31,7 +31,8 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     app.execute 'uriLabel:update'
 
-    @waitForAuthors.then @showAuthorsPreviewList.bind(@)
+    @waitForAuthors
+    .then @ifViewIsIntact('showAuthorsPreviewList')
 
   events:
     'click .toggler': 'toggleDescLength'
