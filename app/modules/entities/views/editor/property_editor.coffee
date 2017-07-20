@@ -8,6 +8,7 @@ editors =
   'fixed-string': require './fixed_string_value'
   'simple-day': require './simple_day_value_editor'
   'positive-integer': require './positive_integer_value_editor'
+  'positive-integer-string': require './positive_integer_string_value_editor'
   'image': require './image_value_editor'
 
 module.exports = Marionette.CompositeView.extend

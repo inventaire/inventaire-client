@@ -19,7 +19,7 @@ addProp 'wdt:P921', 'entity', 'topics', true, false
 # serie
 addProp 'wdt:P179', 'entity', 'series', false, true
 # series ordinal
-addProp 'wdt:P1545', 'positive-integer', null, false, false
+addProp 'wdt:P1545', 'positive-integer-string', null, false, false
 # editions (inverse of wdt:P629)
 addProp 'wdt:P747', 'fixed-entity', null, true, false
 # original language of work

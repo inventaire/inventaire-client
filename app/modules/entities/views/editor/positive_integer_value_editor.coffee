@@ -29,21 +29,25 @@ module.exports = EditorCommons.extend
     # Not setting a particular selector so that any keyup event on the element triggers the event
     'keyup': 'onKeyup'
 
-  save: ->
-    inputVal = @ui.input.val()
+  valueType: 'number'
 
-    unless _.isPositiveIntegerString inputVal
-      err = error_.new 'invalid number', inputVal
+  save: ->
+    stringVal = @ui.input.val()
+
+    unless _.isPositiveIntegerString stringVal
+      err = error_.new 'invalid number', stringVal
       err.selector = inputSelector
       return forms_.alert @, err
 
-    val = parseInt inputVal
+    numberVal = parseInt stringVal
+
+    val = if @valueType is 'number' then numberVal else stringVal
 
     # Ignore if we got the same value
     if val is @model.get('value') then return @hideEditMode()
 
-    unless 1 <= val <= 100000
-      err = error_.new "number can't be higher than 100000", val
+    unless 1 <= numberVal <= 100000
+      err = error_.new "number can't be higher than 100000", numberVal
       err.selector = inputSelector
       return forms_.alert @, err
 
