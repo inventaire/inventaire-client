@@ -46,7 +46,6 @@ module.exports = Marionette.LayoutView.extend
 
     @model.initAuthorWorks refresh
     .then @ifViewIsIntact('showWorks')
-    .then @_showWorksIfRendered.bind(@)
     .catch _.Error('author_layout fetchWorks err')
 
   onRender: ->
