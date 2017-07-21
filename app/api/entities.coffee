@@ -8,7 +8,8 @@ module.exports =
     { lang } = app.user
     action 'search', { search, lang, refresh, fast }
 
-  searchLocal: (type, search)-> action 'search-local', { type, search }
+  searchType: (index, type, search)->
+    action 'search-type', { index, type, search }
 
   get: (uris, refresh)->
     uris = uris.join '|'

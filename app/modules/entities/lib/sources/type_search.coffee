@@ -1,6 +1,6 @@
 SearchResult = require 'modules/entities/models/search_result'
 wikidataSearch = require './wikidata_search'
-wikidataSubsetSearch = require './wikidata_subset_search'
+searchType = require './search_type'
 dualSearch = require './dual_search'
 languageSearch = require './language_search'
 { getEntityUri, prepareSearchResult } = require './entities_uris_results'
@@ -18,7 +18,7 @@ getSearchTypeFn = (type)->
     # Types that have entities both locally and on Wikidata
     when 'works', 'humans', 'series' then dualSearch type
     # Types that aren't supported locally, so that can be fetched on Wikidata only
-    when 'genres', 'movements', 'publishers' then wikidataSubsetSearch type
+    when 'genres', 'movements', 'publishers' then searchType.wikidata type
     when 'topics' then wikidataSearch
     when 'languages' then languageSearch
     else throw new Error("unknown type: #{type}")

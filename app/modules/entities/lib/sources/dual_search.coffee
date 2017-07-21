@@ -1,12 +1,11 @@
-WikidataSearch = require './wikidata_subset_search'
-LocalSearch = require './local_search'
+searchType = require './search_type'
 
 module.exports = (type)->
-  wdSearch = WikidataSearch type
-  localSearch = LocalSearch type
+  wdSearch = searchType.wikidata type
+  invSearch = searchType.inventaire type
   return (search)->
     Promise.all [
       wdSearch search
-      localSearch search
+      invSearch search
     ]
     .then _.flatten
