@@ -98,7 +98,7 @@ byProperty = (options)->
   { property, textValue, relationEntity, lang } = options
   lang or= app.user.lang
   switch property
-    when 'wdt:P50'
+    when 'wdt:P50', 'wdt:P655', 'wdt:P2679', 'wdt:P2680'
       return createAuthor textValue, lang
     when 'wdt:P179'
       return createSerie textValue, lang, relationEntity.get('claims.wdt:P50')
