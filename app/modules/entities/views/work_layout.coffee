@@ -8,10 +8,12 @@ module.exports = Marionette.LayoutView.extend
   regions:
     workData: '#workData'
     editionsList: '#editionsList'
-    entityActions: '#entityActions'
-    personalItemsRegion: '.personalItems'
-    networkItemsRegion: '.networkItems'
-    publicItemsRegion: '.publicItems'
+    # Prefix regions selectors with 'work' to avoid collisions with editions
+    # displayed as sub-views
+    entityActions: '.workEntityActions'
+    personalItemsRegion: '.workPersonalItems'
+    networkItemsRegion: '.workNetworkItems'
+    publicItemsRegion: '.workPublicItems'
 
   initialize: ->
     entityItems.initialize.call @

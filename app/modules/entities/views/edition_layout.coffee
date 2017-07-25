@@ -11,10 +11,12 @@ module.exports = Marionette.LayoutView.extend
     if @options.standalone then "#{base} editionLayout" else "#{base} editionLi"
 
   regions:
-    personalItemsRegion: '.personalItems'
-    networkItemsRegion: '.networkItems'
-    publicItemsRegion: '.publicItems'
-    entityActions: '#entityActions'
+    # Prefix regions selectors with 'edition' to avoid collisions with
+    # the work own regions
+    personalItemsRegion: '.editionPersonalItems'
+    networkItemsRegion: '.editionNetworkItems'
+    publicItemsRegion: '.editionPublicItems'
+    entityActions: '.editionEntityActions'
 
   initialize: ->
     entityItems.initialize.call @
