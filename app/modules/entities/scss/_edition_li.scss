@@ -5,6 +5,8 @@
   background-color: white;
   .cover{
     flex: 0 0 auto;
+    // Prevent long alt-text to take the whole width while waiting for the image
+    max-width: 10em;
   }
   > .right-part{
     flex: 1 0 0;
