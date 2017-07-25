@@ -54,6 +54,7 @@ getRemoteEntitiesModels = (uris, refresh, defaultType)->
     { entities:entitiesData, redirects } = res
 
     newEntities = {}
+    failedEntities = []
     for uri, entityData of entitiesData
       currentIndexValue = entitiesModelsIndexedByUri[uri]
       # In the case an entity was requested from two different uris (e.g. the canonical
@@ -62,10 +63,16 @@ getRemoteEntitiesModels = (uris, refresh, defaultType)->
       if _.isModel currentIndexValue
         newEntities[uri] = currentIndexValue
       else
-        newEntities[uri] = new Entity entityData, { defaultType, refresh }
+        try
+          newEntities[uri] = new Entity entityData, { defaultType, refresh }
+        catch err
+          # Known case:
+          # - when an entity misses an associated work. Ex: wd:Q26162388
+          _.warn err, "entity #{uri} failed to be initalized: ignored"
+          failedEntities.push uri
 
     aliasRedirects newEntities, redirects
-    logMissingEntities newEntities, uris
+    logMissingEntities newEntities, failedEntities, uris
 
     # Replace the entities models promises by their models:
     # saves the extra space taken by the promise object
@@ -82,8 +89,8 @@ aliasRedirects = (entities, redirects)->
     entities[from] = entities[to]
   return
 
-logMissingEntities = (newEntities, requestedUris)->
-  newEntitiesUris = Object.keys newEntities
+logMissingEntities = (newEntities, failedEntities, requestedUris)->
+  newEntitiesUris = Object.keys(newEntities).concat failedEntities
   missingUris = _.difference requestedUris, newEntitiesUris
   if missingUris.length > 0
     error_.report 'entities not found', missingUris

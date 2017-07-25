@@ -155,7 +155,8 @@ getEntitiesModels = (params)->
     if index then models
     else _.values(models).filter isntMissing
 
-isntMissing = (model)-> model?.type isnt 'missing'
+# Known case of model being undefined: when the model initialization failed
+isntMissing = (model)-> model? and model?.type isnt 'missing'
 
 getEntityModel = (uri, refresh)->
   getEntitiesModels { uris: [ uri ], refresh }

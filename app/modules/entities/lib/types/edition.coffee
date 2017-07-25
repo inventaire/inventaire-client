@@ -10,7 +10,8 @@ module.exports = ->
   # Works is pluralized to account for composite editions
   # cf https://github.com/inventaire/inventaire/issues/93
   worksUris = @get 'claims.wdt:P629'
-  unless worksUris? then throw new Error('entity misses an associated work')
+  unless worksUris?
+    throw new Error("entity #{uri} misses an associated work")
 
   # Editions don't have subentities so the list of all their uris,
   # including their subentities, are limited to their own uri
