@@ -33,8 +33,8 @@ module.exports = Marionette.CompositeView.extend
       @onceCollectionReady()
     else
       # Else, wait for the collection models to arrive
-      onceCollectionReady = _.debounce @onceCollectionReady.bind(@), 100
-      @listenTo @collection, 'add', onceCollectionReady
+      lateOnceCollectionReady = _.debounce @lateOnceCollectionReady.bind(@), 200
+      @listenTo @collection, 'add', lateOnceCollectionReady
 
   ui:
     languageSelect: 'select.languageFilter'
@@ -43,6 +43,9 @@ module.exports = Marionette.CompositeView.extend
     userLangEditions = @collection.filter(LangFilter(app.user.lang))
     # If no editions can be found in the user language, display all
     if userLangEditions.length is 0 then @filterLanguage 'all'
+
+  lateOnceCollectionReady: ->
+    @onceCollectionReady()
     # re-rendering required so that the language selector gets all the now available options
     @lazyRender()
 
