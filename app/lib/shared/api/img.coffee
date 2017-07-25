@@ -14,6 +14,10 @@ module.exports = (_, root='')->
       key = _.hashCode path
       href = _.fixedEncodeURIComponent path
       "#{root}/img/#{width}x#{height}/#{key}?href=#{href}"
+    # Assumes this is a Wikimedia Commons filename
+    else if path[0] isnt '/'
+      file = _.fixedEncodeURIComponent path
+      "https://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
     else
       path = path.replace '/img/', ''
       "#{root}/img/#{width}x#{height}/#{path}"
