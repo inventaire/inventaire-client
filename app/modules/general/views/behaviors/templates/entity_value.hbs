@@ -10,10 +10,19 @@ works, authors... not publisher or genre, yet --}}
   {{alt}}
   </a>
 {{else}}
-  <span
-    class='uriLabel entity-value'
-    resource='{{entityRemoteHref id}}'
-    data-uri='{{id}}'>
-  {{alt}}
-  </span>
+  {{#if property}}
+    <a
+      href="{{claimLocalHref property id}}"
+      class='link uriLabel entity-value'
+      data-uri='{{id}}'>
+    {{alt}}
+    </a>
+  {{else}}
+    <span
+      class='uriLabel entity-value'
+      resource='{{entityRemoteHref id}}'
+      data-uri='{{id}}'>
+    {{alt}}
+    </span>
+  {{/if}}
 {{/if}}

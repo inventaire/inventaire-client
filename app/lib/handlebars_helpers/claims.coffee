@@ -16,7 +16,7 @@ module.exports = API =
     [ claims, prop, linkify, omitLabel, inline ] = neutralizeDataObject args
     if claims?[prop]?[0]?
       label = labelString prop, omitLabel
-      values = getValuesTemplates claims[prop], linkify
+      values = getValuesTemplates claims[prop], linkify, prop
       return claimString label, values, inline
 
   timeClaim: (args...)->
@@ -76,6 +76,7 @@ module.exports = API =
       else API.entityLocalHref uri
 
   entityLocalHref: (uri)-> "/entity/#{uri}"
+  claimLocalHref: (propertyUri, entityUri)-> "/entity/#{propertyUri}-#{entityUri}"
 
   multiTypeValue: (value)->
     switch _.typeOf(value)

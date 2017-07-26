@@ -8,13 +8,13 @@ prop = (id)->
   if /^wdt:P\d+$/.test id then propertyValue { id }
   else if wdk.isWikidataPropertyId(id) then propertyValue { id: "wdt:P#{id}" }
 
-entity = (id, linkify, alt)->
+entity = (id, linkify, alt, property)->
   # Be restricting on the input to be able to use it in SafeStrings
   if wdk.isWikidataItemId(id) or _.isEntityUri(id)
     unless typeof alt is 'string' then alt = ''
     app.execute 'uriLabel:update'
     alt = escapeExpression alt
-    return entityValue { id, linkify, alt, label: alt }
+    return entityValue { id, linkify, property, alt, label: alt }
 
 module.exports =
   prop: prop
@@ -26,10 +26,10 @@ module.exports =
     if last?.hash? and last.data? then args[0...-1]
     else args
 
-  getValuesTemplates: (valueArray, linkify)->
+  getValuesTemplates: (valueArray, linkify, property)->
     # prevent any null value to sneak in
     _.compact valueArray
-    .map (id)-> entity(id, linkify).trim()
+    .map (id)-> entity(id, linkify, null, property).trim()
     .join ', '
 
   labelString: (pid, omitLabel)->
