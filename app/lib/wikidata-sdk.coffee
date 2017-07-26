@@ -31,3 +31,4 @@ module.exports =
       origin: '*'
 
   isWikidataItemId: (id)-> /^Q[0-9]+$/.test id
+  isWikidataPropertyId: (id)-> /^P[0-9]+$/.test id

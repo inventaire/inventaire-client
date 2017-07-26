@@ -1,13 +1,16 @@
 entityValue = require 'modules/general/views/behaviors/templates/entity_value'
 propertyValue = require 'modules/general/views/behaviors/templates/property_value'
 { SafeString, escapeExpression } = Handlebars
+wdk = require 'lib/wikidata-sdk'
 
 prop = (id)->
+  # Be more restrictive on the input to be able to use it in SafeStrings
   if /^wdt:P\d+$/.test id then propertyValue { id }
-  else propertyValue { id: "wdt:P#{id}" }
+  else if wdk.isWikidataPropertyId(id) then propertyValue { id: "wdt:P#{id}" }
 
 entity = (id, linkify, alt)->
-  if id?
+  # Be restricting on the input to be able to use it in SafeStrings
+  if wdk.isWikidataItemId(id) or _.isEntityUri(id)
     unless typeof alt is 'string' then alt = ''
     app.execute 'uriLabel:update'
     alt = escapeExpression alt
