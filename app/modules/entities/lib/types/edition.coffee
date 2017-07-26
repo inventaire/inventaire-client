@@ -1,4 +1,4 @@
-{ unprefixifyEntityId } = require 'lib/wikimedia/wikidata'
+{ unprefixify } = require 'lib/wikimedia/wikidata'
 wdLang = require 'wikidata-lang'
 farInTheFuture = '2100'
 
@@ -56,7 +56,7 @@ specificMethods =
 
   setLang: ->
     langUri = @get 'claims.wdt:P407.0'
-    lang = if langUri then wdLang.byWdId[unprefixifyEntityId(langUri)]?.code
+    lang = if langUri then wdLang.byWdId[unprefixify(langUri)]?.code
     @set 'lang', lang
 
   setLabelFromTitle: ->

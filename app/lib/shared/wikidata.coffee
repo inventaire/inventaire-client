@@ -4,12 +4,13 @@ wdLang = require 'wikidata-lang'
 module.exports = (promises_, _)->
   API = require('./wikidata_api')(_)
 
-  unprefixifyEntityId = (value)-> value.replace 'wd:', ''
+  # Unprefixify both entities ('item' in Wikidata lexic) and properties
+  unprefixify = (value)-> value.replace /^wdt?:/, ''
 
   return helpers =
     API: API
     isAuthor: (P106Array=[])-> _.haveAMatch Q.authors, P106Array
-    unprefixifyEntityId: unprefixifyEntityId
+    unprefixify: unprefixify
 
     getOriginalLang: (claims)->
       langClaims = _.pick claims, langProperties
@@ -17,7 +18,7 @@ module.exports = (promises_, _)->
 
       originalLangUri = _.pickOne(langClaims)?[0]
       if originalLangUri?
-        wdId = unprefixifyEntityId originalLangUri
+        wdId = unprefixify originalLangUri
         return wdLang.byWdId[wdId]?.code
 
 langProperties = [
