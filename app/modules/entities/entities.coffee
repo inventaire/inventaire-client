@@ -19,6 +19,9 @@ ActivityLayout = require './views/activity_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 MergeSuggestions = require './views/editor/merge_suggestions'
+Works = require './collections/works'
+WorksList = require './views/works_list'
+{ entity:entityValueTemplate } = require 'lib/handlebars_helpers/claims_helpers'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -43,6 +46,8 @@ module.exports =
 
 API =
   showEntity: (uri, label, params)->
+    if isClaim uri then return showClaimEntities uri, params
+
     uri = normalizeUri uri
     unless _.isExtendedEntityUri uri then return app.execute 'show:error:missing'
 
@@ -328,3 +333,36 @@ entityViewGetterByType =
   work: 'getWorkView'
   edition: 'getWorkViewFromEdition'
   genre: 'getGenreLayout'
+
+isClaim = (claim)-> /^(wdt:|invp:)/.test claim
+showClaimEntities = (claim, params)->
+  [ property, value ] = claim.split('-')
+
+  unless _.isPropertyUri property
+    error_.report 'invalid property'
+    return app.execute 'show:error:missing'
+
+  unless _.isEntityUri value
+    error_.report 'invalid value'
+    return app.execute 'show:error:missing'
+
+  # TODO: use a more strict request to get only entities from whitelisted types
+  # (and not things like films, songs, etc)
+  _.preq.get app.API.entities.reverseClaims(property, value)
+  .get 'uris'
+  .then _.Log('URIs')
+  .then (uris)->
+    collection = new Works null, { uris: uris, defaultType: 'work' }
+
+    # whitelisted properties labels are in i18n keys already, thus should not need
+    # to be fetched like what 'entityValueTemplate' is doing for the entity value
+    propertyValue = _.i18n wd_.unprefixify(property)
+    entityValue = entityValueTemplate value
+
+    app.layout.main.show new WorksList {
+      title: "#{propertyValue}: #{entityValue}"
+      customTitle: true
+      collection: collection
+      canAddOne: false
+      standalone: true
+    }

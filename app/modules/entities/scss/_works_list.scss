@@ -35,4 +35,11 @@
     font-size: 1rem;
     margin-left: 0.5em;
   }
+  &.standalone{
+    // Center horizontally
+    margin: 0 auto;
+    .header{
+      @include display-flex(row, center, center);
+    }
+  }
 }

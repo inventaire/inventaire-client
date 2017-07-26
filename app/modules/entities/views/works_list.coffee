@@ -8,7 +8,9 @@ canAddOneTypeList = [ 'serie', 'work' ]
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/works_list'
-  className: 'worksList'
+  className: ->
+    standalone = if @options.standalone then 'standalone' else ''
+    "worksList #{standalone}"
   behaviors:
     Loading: {}
     PreventDefault: {}
@@ -46,6 +48,8 @@ module.exports = Marionette.CompositeView.extend
     # First fetch
     @collection.firstFetch initialLength
 
+    if @options.canAddOne is false then return
+
     @setEntityCreationData()
 
     if @options.type in canAddOneTypeList
@@ -70,6 +74,7 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     title: @options.title
+    customTitle: @options.customTitle
     hideHeader: @options.hideHeader
     more: @more()
     canRefreshData: true

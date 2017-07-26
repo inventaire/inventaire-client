@@ -1,6 +1,6 @@
 {{#unless hideHeader}}
   <div class="header">
-    <h3>{{i18n title}}</h3>
+    <h3>{{#if customTitle}}{{{title}}}{{else}}{{i18n title}}{{/if}}</h3>
     <span class="counter">{{totalLength}}</span>
   </div>
 {{/unless}}
