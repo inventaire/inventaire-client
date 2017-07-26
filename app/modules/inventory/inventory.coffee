@@ -37,7 +37,11 @@ module.exports =
 
 API =
   showGeneralInventory: ->
-    if app.request 'require:loggedIn', 'inventory' then showInventory()
+    if app.request 'require:loggedIn', 'inventory'
+      showInventory()
+      # Give focus to the home button so that hitting tab gives focus
+      # to the search input
+      $('#home').focus()
 
   showUserInventory: (user, navigate)->
     # User might be a user id or a username
