@@ -44,9 +44,8 @@ API =
 
   showFirstTransaction: ->
     if app.request 'require:loggedIn', 'transactions'
-      @showTransactions()
-
       app.request 'wait:for', 'transactions'
+      .then @showTransactions.bind(@)
       .then findFirstTransaction
       .then (transac)->
         if transac?
