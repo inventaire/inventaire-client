@@ -18,11 +18,9 @@ module.exports = Marionette.LayoutView.extend
       'transaction:select': @showTransactionFull.bind(@)
       'transactions:welcome': @showTransactionWelcome.bind(@)
 
-  serializeData: ->
-    folders: folders
+  serializeData: -> { folders }
 
-  onShow: ->
-    @showTransactionsFolders()
+  onShow: -> @showTransactionsFolders()
 
   showTransactionsFolders: ->
     # every folder share the app.transactions collection
@@ -37,9 +35,7 @@ module.exports = Marionette.LayoutView.extend
       collection: app.transactions
 
   showTransactionFull: (transaction, nonExplicitSelection)->
-    @fullviewRegion.show new Transaction
-      model: transaction
-      nonExplicitSelection: nonExplicitSelection
+    @fullviewRegion.show new Transaction { model: transaction, nonExplicitSelection }
 
   events:
     'click label': 'toggleSection'
@@ -49,5 +45,4 @@ module.exports = Marionette.LayoutView.extend
     $(e.currentTarget).toggleClass 'toggled'
     $("##{region}").slideToggle(200)
 
-  showTransactionWelcome: ->
-    @fullviewRegion.show new TransactionsWelcome
+  showTransactionWelcome: -> @fullviewRegion.show new TransactionsWelcome
