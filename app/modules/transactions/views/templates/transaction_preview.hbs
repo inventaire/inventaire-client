@@ -21,12 +21,12 @@
       {{/if}}
     </div>
     <div class="text">
-      <span class="title">{{item.title}}</span>
+      <span class="title">{{entity.title}}</span>
       <span class="context">{{other.username}}</span>
     </div>
     <div class="item-pic">
-      {{#if image}}
-        <img src="{{src image 48}}" alt="{{item.title}}">
+      {{#if entity.image}}
+        <img src="{{src entity.image 48}}" alt="{{entity.title}}">
       {{/if}}
     </div>
   {{/if}}

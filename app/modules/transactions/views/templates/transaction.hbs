@@ -1,17 +1,17 @@
 <section>
   <div class="header">
     <div class="facts">
-      <a class="item" href="{{item.pathname}}" title="{{item.title}}">
+      <a class="item" href="{{item.pathname}}" title="{{entity.title}}">
         <div class="cover">
-          {{#if image}}
-            <img src="{{src image 100}}" alt="{{item.title}}">
+          {{#if entity.image}}
+            <img src="{{src entity.image 100}}" alt="{{entity.title}}">
           {{/if}}
         </div>
         <div class="data">
-          <h4 class="title">{{item.title}}</h4>
+          <h4 class="title">{{entity.title}}</h4>
           <div class="authors">
-            {{#if authors}}
-              {{authors}}
+            {{#if entity.authors}}
+              {{entity.authors}}
             {{else}}
               {{claim item.entityData.claims 'wdt:P50'}}
             {{/if}}
