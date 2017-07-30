@@ -29,8 +29,15 @@
     }
     .counter{
       @include counter-commons;
-      @include position(absolute, null, null, 50%, 50%)
-      margin-left: 0.2em;
+      /*Small screens*/
+      @media screen and (max-width: $small-screen) {
+        @include position(absolute, 0.2em, null, null, 60%)
+        min-height: 1.05em;
+      }
+      /*Large screens*/
+      @media screen and (min-width: $small-screen) {
+        @include position(absolute, null, 0.2em, 50%)
+      }
     }
     .fa{
       color: white;

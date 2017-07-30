@@ -3,7 +3,9 @@
   color: $primary-color;
   font-weight: bold;
   border-radius: 2px;
-  padding: 0em 0.4em 0.1em 0.4em;
+  min-width: 1.2em;
+  text-align: center;
+  padding: 0 0.2em 0.1em 0.2em;
   &:empty{
     display: none;
   }
