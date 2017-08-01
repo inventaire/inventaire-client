@@ -1,5 +1,5 @@
-module.exports = (type)-> (search)->
-  _.preq.get app.API.entities.searchType(type, search)
+module.exports = (type)-> (search, limit)->
+  _.preq.get app.API.entities.searchType(type, search, limit)
   .map formatResult
 
 formatResult = (result)->
