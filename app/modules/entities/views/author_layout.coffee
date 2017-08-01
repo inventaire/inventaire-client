@@ -1,5 +1,5 @@
 AuthorInfobox = require './author_infobox'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ startLoading } = require 'modules/general/plugins/behaviors'
 WorksList = require './works_list'
 
 module.exports = Marionette.LayoutView.extend
@@ -7,7 +7,11 @@ module.exports = Marionette.LayoutView.extend
   className: ->
     # Default to wrapped mode in non standalone mode
     secondClass = if @options.standalone then 'standalone' else 'wrapped'
-    return "authorLayout #{secondClass}"
+    return "authorLayout #{secondClass} #{@cid}"
+
+  attributes: ->
+    # Used by deduplicate_layout
+    'data-uri': @model.get('uri')
 
   behaviors:
     Loading: {}
@@ -19,14 +23,10 @@ module.exports = Marionette.LayoutView.extend
     articlesRegion: '.articles'
 
   initialize: ->
-    @initPlugins()
     @lazyRender = _.LazyRender @
     { @standalone } = @options
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
-
-  initPlugins: ->
-    _.extend @, behaviorsPlugin
 
   events:
     'click .refreshData': 'refreshData'
@@ -58,7 +58,8 @@ module.exports = Marionette.LayoutView.extend
   showWorks: ->
     # Target specifically .works .loading, so that it doesn't conflict
     # with other loaders as it been seen on genre_layout for instance
-    @startLoading '.works'
+    # Prefixing with @cid class to target only this layout
+    startLoading.call @, ".#{@cid} .works"
 
     @model.waitForWorks
     .then @_showWorks.bind(@)

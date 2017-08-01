@@ -15,6 +15,7 @@ entityDraftModel = require './lib/entity_draft_model'
 entitiesModelsIndex = require './lib/entities_models_index'
 createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
+DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 
 module.exports =
@@ -23,6 +24,7 @@ module.exports =
       appRoutes:
         'entity/new': 'showEntityCreateFromRoute'
         'entity/changes': 'showChanges'
+        'entity/deduplicate': 'showDeduplicate'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
         'entity/:uri(/:label)(/)': 'showEntity'
@@ -100,6 +102,10 @@ API =
   showChanges: ->
     app.layout.main.show new ChangesLayout
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
+
+  showDeduplicate: ->
+    app.layout.main.show new DeduplicateLayout
+    app.navigate 'entity/deduplicate', { metadata: { title: 'deduplicate' } }
 
 showEntityCreate = (params)->
   { type } = params

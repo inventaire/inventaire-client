@@ -23,10 +23,6 @@ module.exports = Marionette.ItemView.extend
     fromUri = @model.get 'uri'
     toUri = toEntity.get 'uri'
 
-    # Invert URIs if the toEntity is a Wikidata entity
-    # as we can't request Wikidata entities to merge into inv entities
-    if fromUri.split(':')[0] is 'wd' then [ fromUri, toUri ] = [ toUri, fromUri ]
-
     mergeEntities fromUri, toUri
     # Simply hidding it instead of removing it from the collection so that other
     # suggestions don't jump places, potentially leading to undesired merges

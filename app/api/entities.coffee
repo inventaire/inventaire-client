@@ -35,3 +35,4 @@ module.exports =
 
   # (ADMIN)
   merge: action 'merge'
+  duplicates: action 'duplicates'

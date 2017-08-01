@@ -1,0 +1,41 @@
+#deduplicateLayout{
+  .authors{
+    padding: 1em;
+    @include display-flex(row, baseline, center, wrap);
+    margin-bottom: 4em;
+  }
+  .authorLayout{
+    max-width: 25em;
+    margin: 0.5em;
+    max-height: 85vh;
+    overflow: auto;
+    .refreshEntityData, .addOne{
+      display: none;
+    }
+    &.selected{
+      background-color: red;
+    }
+    margin-bottom: auto;
+  }
+  .authorData{
+    max-height: 30em;
+    overflow: hidden;
+    min-width: auto;
+  }
+  .workLi{
+    .actions{
+      display: none;
+    }
+    &.selected-from{ background-color: #cf2408; }
+    &.selected-to{ background-color: $green-tree; }
+  }
+  .controls{
+    @include position(fixed, null, 0, 0, 0, 1);
+    background-color: rgba(white, 0.8);
+    @include display-flex(column, center, center);
+    padding: 0.5em;
+    .alert-box{
+      max-width: 30em;
+    }
+  }
+}
