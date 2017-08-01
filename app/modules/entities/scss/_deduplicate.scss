@@ -32,8 +32,14 @@
   .controls{
     @include position(fixed, null, 0, 0, 0, 1);
     background-color: rgba(white, 0.8);
-    @include display-flex(column, center, center);
     padding: 0.5em;
+    @include display-flex(row, center, center);
+    a{
+      margin: 0 1em;
+    }
+    .wrapper{
+      @include display-flex(column, center, center);
+    }
     .alert-box{
       max-width: 30em;
     }

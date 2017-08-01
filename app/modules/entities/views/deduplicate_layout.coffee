@@ -21,8 +21,12 @@ module.exports = Marionette.CompositeView.extend
     getNames()
     .then _.Log('NAMES')
     .then (names)=>
-      name = names.shift()
-      @getHomonymes name
+      @names = names
+      @showNextName()
+
+  showNextName: ->
+    @collection.reset()
+    @getHomonymes @names.shift()
 
   getHomonymes: (name)->
     searchHumans name, 100
@@ -38,6 +42,7 @@ module.exports = Marionette.CompositeView.extend
   events:
     'click .workLi': 'selectWork'
     'click .merge': 'mergeSelected'
+    'click .next': 'showNextName'
 
   selectWork: (e)->
     $target = $(e.currentTarget)
