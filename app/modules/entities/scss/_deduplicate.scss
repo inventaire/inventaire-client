@@ -57,4 +57,15 @@
       max-width: 30em;
     }
   }
+  // Activate URIs display
+  .uri.hidden{
+    display: block;
+  }
+}
+
+.deduplicateWorks{
+  @include display-flex(row, baseline, center, wrap);
+  .workLi{
+    max-width: 10em;
+  }
 }

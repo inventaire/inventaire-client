@@ -23,6 +23,8 @@
   {{#if description}}
     <p class="description clamped grey">{{{description}}}</p>
   {{/if}}
+  {{!-- Only show in deduplication mode --}}
+  <span class="uri hidden">{{uri}}</span>
   <p>
     {{claim claims 'wdt:P50' true}}  {{!-- author --}}
   </p>
