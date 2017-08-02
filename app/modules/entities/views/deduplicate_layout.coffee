@@ -40,11 +40,11 @@ module.exports = Marionette.CompositeView.extend
       .then @collection.add.bind(@collection)
 
   events:
-    'click .workLi': 'selectWork'
+    'click .workLi,.authorLayout': 'select'
     'click .merge': 'mergeSelected'
     'click .next': 'showNextName'
 
-  selectWork: (e)->
+  select: (e)->
     $target = $(e.currentTarget)
     uri = getTargetUri e
     $currentlySelected = $('.selected-from, .selected-to')
@@ -52,10 +52,18 @@ module.exports = Marionette.CompositeView.extend
     switch $currentlySelected.length
       when 0 then $target.addClass 'selected-from'
       when 1
-        if $target[0] isnt $currentlySelected[0] then $target.addClass 'selected-to'
+        if $target[0] isnt $currentlySelected[0]
+          if getElementType($target[0]) is getElementType($currentlySelected[0])
+            $target.addClass 'selected-to'
+          else
+            $currentlySelected.removeClass 'selected-from selected-to'
+            $target.addClass 'selected-from'
       else
         $currentlySelected.removeClass 'selected-from selected-to'
         $target.addClass 'selected-from'
+
+    # Prevent a click on a work to also trigger an event on the author
+    e.stopPropagation()
 
   mergeSelected: ->
     fromUri = getElementUri $('.selected-from')[0]
@@ -77,6 +85,7 @@ module.exports = Marionette.CompositeView.extend
 
 getElementUri = (el)-> el?.attributes['data-uri'].value
 getTargetUri = (e)-> getElementUri e.currentTarget
+getElementType = (el)-> if $(el).hasClass('authorLayout') then 'author' else 'work'
 
 asNameMatch = (name)-> (human)-> _.any _.values(human.labels), labelMatch(name)
 
@@ -101,6 +110,8 @@ hideMergedEntities = ->
     # into a redirection
     if $author.find('.workLi').length is 1 then $author.hide()
     else $from.hide()
+  else if $from.hasClass 'authorLayout'
+    $from.hide()
 
 getNames = ->
   _.preq.get app.API.entities.duplicates

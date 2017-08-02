@@ -26,9 +26,9 @@
     .actions{
       display: none;
     }
-    &.selected-from{ background-color: #cf2408; }
-    &.selected-to{ background-color: $green-tree; }
   }
+  .selected-from{ background-color: #cf2408; }
+  .selected-to{ background-color: $green-tree; }
   .controls{
     @include position(fixed, null, 0, 0, 0, 1);
     background-color: rgba(white, 0.8);
