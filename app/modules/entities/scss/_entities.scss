@@ -17,6 +17,7 @@
 @import 'author_preview';
 @import 'changes_layout';
 @import 'wikidata_edit_intro';
+@import 'deduplicate';
 
 .uri{
   color: $grey !important;
@@ -89,8 +90,23 @@
   }
   .pencil, .refreshEntityData{
     font-size: 1.4rem;
-    padding-left: 0.5em;
     @include text-hover(rgba(white, 0.5), white);
+  }
+}
+
+// Do not apply it to none standalone entities as their views might be sharing
+// the screen width and be actually smaller than $smaller-screen
+.standalone .entity-title-and-edit{
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    h2, h3, h4, h5{
+      // Compensate for the place taken by .edit-data-buttons
+      // that prevents it to be centered
+      margin-left: 3.7em;
+    }
+    .edit-data-buttons{
+      width: 6em;
+    }
   }
 }
 

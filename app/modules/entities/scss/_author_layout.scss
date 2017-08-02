@@ -24,10 +24,15 @@ $author-layout-bg: #292929;
     }
     h3, h4{
       color: white;
-    }
-    h3, h4{
       text-align: center;
       font-size: 1.4em;
+    }
+  }
+  .subheader{
+    .uri{
+      font-size: 0.9rem;
+      margin-left: 1em;
+      @include sans-serif;
     }
   }
   .loading{

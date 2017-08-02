@@ -4,7 +4,7 @@
 # but rathen onShow/onRender so that the expected DOM elements are rendered
 loading_ =
   startLoading: (options)->
-    if _.isString(options) then options = {selector: options}
+    if _.isString(options) then options = { selector: options }
     @$el.trigger 'loading', options
   stopLoading: -> @$el.trigger 'stopLoading'
 
@@ -19,13 +19,13 @@ successCheck_ =
     @$el.trigger 'fail', cb
     if label? and err? then _.error err, label
 
-successCheck_.Check = (label, cb)-> successCheck_.check.bind(@, label, cb)
-successCheck_.Fail = (label, cb)-> successCheck_.fail.bind(@, label, cb)
+successCheck_.Check = (label, cb)-> successCheck_.check.bind @, label, cb
+successCheck_.Fail = (label, cb)-> successCheck_.fail.bind @, label, cb
 
 # behaviors: AlertBox MUST be added to the view
 alert_ =
   alert: (message)->
-    console.warn(message)
+    console.warn message
     @$el.trigger 'alert', { message: _.i18n(message) }
     return
 

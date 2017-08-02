@@ -2,6 +2,10 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/work_li'
   className: 'workLi'
 
+  attributes: ->
+    # Used by deduplicate_layout
+    'data-uri': @model.get('uri')
+
   initialize: ->
     @listenTo @model, 'change', @render
     app.execute 'uriLabel:update'

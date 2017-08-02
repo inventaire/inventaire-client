@@ -8,7 +8,7 @@ module.exports =
     { lang } = app.user
     action 'search', { search, lang, refresh, fast }
 
-  searchType: (type, search)-> action 'search-type', { type, search }
+  searchType: (type, search, limit)-> action 'search-type', { type, search, limit }
 
   get: (uris, refresh)->
     uris = uris.join '|'
@@ -35,3 +35,4 @@ module.exports =
 
   # (ADMIN)
   merge: action 'merge'
+  duplicates: action 'duplicates'
