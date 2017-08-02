@@ -169,5 +169,7 @@
     "user_rss_title": "Subscribe to %{username}'s inventory RSS feed",
     "group_rss_title": "Subscribe to %{name} inventory RSS feed",
     "wikidata_edit_intro": "You requested to edit **%{label}** data which is part of [Wikidata](https://wikidata.org), the open collaborative database from which inventaire.io takes most of its information on books, authors, series, etc. Helping to improve Wikidata thus also improves inventaire, but also many other projects who use those same data!",
-    "see_all_work_editions": "see all editions of %{label}"
+    "see_all_work_editions": "see all editions of %{label}",
+    "contributions_by": "%{username}'s contributions",
+    "series_singular": "series"
 }
