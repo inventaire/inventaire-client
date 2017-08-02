@@ -58,6 +58,9 @@ module.exports = Marionette.LayoutView.extend
     'click .merge': 'mergeSelected'
 
   select: (e)->
+    # Prevent selecting when the intent was clicking on a link
+    if e.target.tagName is 'A' then return
+
     $target = $(e.currentTarget)
     uri = getTargetUri e
     $currentlySelected = $('.selected-from, .selected-to')
