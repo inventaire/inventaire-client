@@ -1,6 +1,8 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/work_li'
-  className: 'workLi'
+  className: ->
+    prefix = @model.get 'prefix'
+    "workLi entity-prefix-#{prefix}"
 
   attributes: ->
     # Used by deduplicate_layout

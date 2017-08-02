@@ -7,7 +7,8 @@ module.exports = Marionette.LayoutView.extend
   className: ->
     # Default to wrapped mode in non standalone mode
     secondClass = if @options.standalone then 'standalone' else 'wrapped'
-    return "authorLayout #{secondClass} #{@cid}"
+    prefix = @model.get 'prefix'
+    return "authorLayout #{secondClass} #{@cid} entity-prefix-#{prefix}"
 
   attributes: ->
     # Used by deduplicate_layout
