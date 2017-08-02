@@ -1,4 +1,17 @@
 #deduplicateLayout{
+  .names{
+    margin: 1em;
+    @include display-flex(row, center, center, wrap);
+    li{
+      padding: 0.3em;
+    }
+    .visited{
+      background-color: darken($light-blue, 30%);
+    }
+  }
+  .authors-loading{
+    text-align: center;
+  }
   .authors{
     padding: 1em;
     @include display-flex(row, baseline, center, wrap);

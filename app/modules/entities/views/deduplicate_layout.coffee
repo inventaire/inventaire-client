@@ -17,41 +17,50 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = new Backbone.Collection
-    @showNextName()
-
-  showNextName: ->
-    @collection.reset()
-    @getNextName()
-    .then @getHomonymes.bind(@)
-
-  getNextName: ->
-    if @names?.length > 0
-      Promise.resolve @names.shift()
-    else
-      @fetchNames()
-      .then @getNextName.bind(@)
+    @fetchNames()
 
   fetchNames: ->
     _.preq.get app.API.entities.duplicates
     .get 'names'
     .then _.Log('names')
-    .then (names)=> @names = names
+    .then (names)=>
+      @names = names
+      @render()
+
+  serializeData: -> { @names }
+
+  events:
+    'click .name': 'showName'
+    'click .workLi,.authorLayout': 'select'
+    'click .merge': 'mergeSelected'
+
+  showName: (e)->
+    name = e.currentTarget.attributes['data-key'].value
+    $(e.currentTarget).addClass 'visited'
+
+    @collection.reset()
+    startLoading.call @, '.authors-loading'
+
+    @getHomonymes name
+    .then stopLoading.bind(@)
 
   getHomonymes: (name)->
     searchHumans name, 100
     .then (humans)=>
-      uris = humans
-        .filter asNameMatch(name)
-        .map (human)-> getEntityUri(human.id or human._id)
+      # If there are many candidates, keep only those that look the closest, if any
+      if humans.length > 10
+        subset = humans.filter asNameMatch(name)
+        if subset.length > 1 then humans = subset
+
+      # If there are still many candidates, truncate the list to make it less
+      # resource intensive
+      if humans.length > 10 then humans = humans[0..10]
+
+      uris = humans.map (human)-> getEntityUri(human.id or human._id)
 
       app.request 'get:entities:models', { uris, refresh: true }
       .then _.Log('humans models')
       .then @collection.add.bind(@collection)
-
-  events:
-    'click .workLi,.authorLayout': 'select'
-    'click .merge': 'mergeSelected'
-    'click .next': 'showNextName'
 
   select: (e)->
     $target = $(e.currentTarget)
