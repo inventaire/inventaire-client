@@ -17,16 +17,25 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = new Backbone.Collection
-
-    getNames()
-    .then _.Log('NAMES')
-    .then (names)=>
-      @names = names
-      @showNextName()
+    @showNextName()
 
   showNextName: ->
     @collection.reset()
-    @getHomonymes @names.shift()
+    @getNextName()
+    .then @getHomonymes.bind(@)
+
+  getNextName: ->
+    if @names?.length > 0
+      Promise.resolve @names.shift()
+    else
+      @fetchNames()
+      .then @getNextName.bind(@)
+
+  fetchNames: ->
+    _.preq.get app.API.entities.duplicates
+    .get 'names'
+    .then _.Log('names')
+    .then (names)=> @names = names
 
   getHomonymes: (name)->
     searchHumans name, 100
@@ -112,7 +121,3 @@ hideMergedEntities = ->
     else $from.hide()
   else if $from.hasClass 'authorLayout'
     $from.hide()
-
-getNames = ->
-  _.preq.get app.API.entities.duplicates
-  .get 'names'
