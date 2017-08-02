@@ -17,7 +17,7 @@ module.exports = Marionette.LayoutView.extend
     AlertBox: {}
     Loading: {}
 
-  initialize: ->
+  onShow: ->
     { uris } = app.request 'querystring:get:full'
     if uris? then @loadFromUris uris.split('|')
     else @showDeduplicateAuthors()
