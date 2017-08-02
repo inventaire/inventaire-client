@@ -44,11 +44,7 @@ module.exports = Marionette.LayoutView.extend
       app.request 'get:entities:models', { uris }
       .then @showDeduplicateWorks.bind(@)
 
-  showDeduplicateWorks: (worksModels)->
-    worksModels.sort sortAlphabetically
-    works = new Backbone.Collection worksModels
-    @content.show new deduplicateWorks { collection: works }
-
+  showDeduplicateWorks: (works)-> @content.show new deduplicateWorks { works }
   showDeduplicateAuthors: -> @content.show new deduplicateAuthors
 
   serializeData: -> { @uris }
@@ -113,7 +109,3 @@ hideMergedEntities = ->
     else $from.hide()
   else if $from.hasClass 'authorLayout'
     $from.hide()
-
-sortAlphabetically = (a, b)->
-  if a.get('label').toLowerCase() > b.get('label').toLowerCase() then 1
-  else -1

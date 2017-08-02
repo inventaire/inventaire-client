@@ -12,10 +12,13 @@
   .authors-loading{
     text-align: center;
   }
+  .authors, .deduplicateWorks{
+    // Compensating for the place taken by the controls
+    margin-bottom: 4em;
+  }
   .authors{
     padding: 1em;
     @include display-flex(row, baseline, center, wrap);
-    margin-bottom: 4em;
   }
   .authorLayout{
     max-width: 25em;
@@ -66,7 +69,13 @@
 }
 
 .deduplicateWorks{
-  @include display-flex(row, baseline, center, wrap);
+  @include display-flex(row, baseline, center);
+  .deduplicateWorksList{
+    flex: 1 0 auto;
+    @include display-flex(row, baseline, center, wrap);
+    margin: 0.5em;
+  }
+  .wd-works{ background-color: $grey; }
   .workLi{
     // Tight but letting enough width for inv URIs to fit
     max-width: 15em;
