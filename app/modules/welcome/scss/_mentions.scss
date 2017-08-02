@@ -35,7 +35,7 @@ section#mentions{
       @include display-flex(column, center, center);
     }
   }
-  #articles{
+  #articles, #interviews{
     @include display-flex(column, center, center);
     li{
       @include display-flex(row, center, center);

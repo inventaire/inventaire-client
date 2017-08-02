@@ -15,9 +15,16 @@
   {{#each articles}}
     <li>
       <span>{{link text url 'link'}}  –  <strong>{{name}}</strong></span>
-      {{#if picture}}
-        <img src="{{src picture 48}}" alt="{{name}}">
-      {{/if}}
+      {{#if picture}}<img src="{{src picture 48}}" alt="{{name}}">{{/if}}
+    </li>
+  {{/each}}
+</ul>
+<h4>{{icon 'microphone'}} {{I18n 'interviews'}}</h4>
+<ul id="interviews">
+  {{#each audios}}
+    <li>
+      <span>{{link text url 'link'}}  –  <strong>{{name}}</strong></span>
+      {{#if picture}}<img src="{{src picture 48}}" alt="{{name}}">{{/if}}
     </li>
   {{/each}}
 </ul>
