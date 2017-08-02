@@ -37,20 +37,16 @@ module.exports = Marionette.LayoutView.extend
       alert 'case not handled yet'
 
   showDeduplicateAuthorWorks: (author)->
-    author.initAuthorWorks()
-    .then =>
-      { works } = author.works
-      works.fetchMore 100
-      .then @showDeduplicateWorks.bind(@, works)
+    author.getWorksData()
+    .then (worksData)=>
+      # Ignoring series
+      uris = worksData.works.map _.property('uri')
+      app.request 'get:entities:models', { uris }
+      .then @showDeduplicateWorks.bind(@)
 
-  showDeduplicateWorks: (works)->
-    unless works instanceof Backbone.Collection
-      works = new Backbone.Collection works
-
-    # Sorting works alphabetically
-    works.comparator = 'label'
-    works.sort()
-
+  showDeduplicateWorks: (worksModels)->
+    worksModels.sort sortAlphabetically
+    works = new Backbone.Collection worksModels
     @content.show new deduplicateWorks { collection: works }
 
   showDeduplicateAuthors: -> @content.show new deduplicateAuthors
@@ -114,3 +110,7 @@ hideMergedEntities = ->
     else $from.hide()
   else if $from.hasClass 'authorLayout'
     $from.hide()
+
+sortAlphabetically = (a, b)->
+  if a.get('label').toLowerCase() > b.get('label').toLowerCase() then 1
+  else -1

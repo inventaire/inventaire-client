@@ -24,10 +24,13 @@ specificMethods =
     refresh = @getRefresh refresh
     if not refresh and @waitForWorks? then return @waitForWorks
 
-    uri = @get 'uri'
 
-    @waitForWorks = _.preq.get app.API.entities.authorWorks(uri, refresh)
+    @waitForWorks = @getWorksData refresh
     .then @initWorksCollections.bind(@)
+
+  getWorksData: (refresh)->
+    uri = @get 'uri'
+    _.preq.get app.API.entities.authorWorks(uri, refresh)
 
   initWorksCollections: (worksData)->
     serieUris = worksData.series.map getUri
