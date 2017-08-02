@@ -58,7 +58,7 @@ module.exports = Marionette.CompositeView.extend
 
       uris = humans.map (human)-> getEntityUri(human.id or human._id)
 
-      app.request 'get:entities:models', { uris, refresh: true }
+      app.request 'get:entities:models', { uris }
       .then _.Log('humans models')
       .then @collection.add.bind(@collection)
 
