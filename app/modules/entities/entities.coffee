@@ -104,8 +104,10 @@ API =
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
   showDeduplicate: ->
-    app.layout.main.show new DeduplicateLayout
-    app.navigate 'entity/deduplicate', { metadata: { title: 'deduplicate' } }
+    if app.request 'require:loggedIn', 'entity/deduplicate'
+      app.navigate 'entity/deduplicate', { metadata: { title: 'deduplicate' } }
+      if app.request 'require:admin:rights'
+        app.layout.main.show new DeduplicateLayout
 
 showEntityCreate = (params)->
   { type } = params

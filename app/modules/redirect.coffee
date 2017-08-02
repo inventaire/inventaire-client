@@ -22,6 +22,7 @@ module.exports =
   initialize: ->
     app.reqres.setHandlers
       'require:loggedIn': requireLoggedIn
+      'require:admin:rights': requireAdminRights
 
     app.commands.setHandlers
       'show:home': API.showHome
@@ -61,6 +62,12 @@ requireLoggedIn = (route)->
     prepareLoginRedirect route
     return false
 
+requireAdminRights = ->
+  if app.user.get('admin') then return true
+  else
+    showErrorNotAdmin()
+    return false
+
 showAuthRedirect = (action, route)->
   route or= _.currentRoute()
   app.execute "show:#{action}"
@@ -85,6 +92,14 @@ showErrorMissing = ->
     icon: 'warning'
     header: _.I18n 'oops'
     message: _.i18n "this resource doesn't exist or you don't have the right to access it"
+    context: location.pathname
+
+showErrorNotAdmin = ->
+  showError
+    name: 'not_admin'
+    icon: 'warning'
+    header: _.I18n 'oops'
+    message: _.i18n "this resource requires to have admin rights to access it"
     context: location.pathname
 
 showOtherError = (err, label)->
