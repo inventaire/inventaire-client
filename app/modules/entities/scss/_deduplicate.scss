@@ -43,8 +43,16 @@
       display: none;
     }
   }
-  .selected-from{ background-color: #cf2408; }
-  .selected-to{ background-color: $green-tree; }
+  .selected-from{
+    &, div{
+      background-color: #cf2408;
+    }
+  }
+  .selected-to{
+    &, div{
+      background-color: $green-tree;
+    }
+  }
   .entity-prefix-wd{ border: 1px solid rgba(#123456, 0.5); }
   .entity-prefix-inv{ border: 1px solid $light-blue; }
   .controls{
