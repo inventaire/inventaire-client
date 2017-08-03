@@ -1,7 +1,8 @@
 <div class="content"></div>
 <div class="controls">
-  {{!-- use wrapper to bind alert boxes to their associated button --}}
-  <div class="wrapper">
+  {{!-- use wrapper to make alert box be appended below the lines of buttons --}}
+  <div class="buttons-wrapper">
+    <input type="text" name="filter" placeholder="filter">
     <a class="merge dangerous-button">{{icon 'compress'}}{{I18n 'merge'}}<span class="loading"></span></a>
   </div>
 </div>

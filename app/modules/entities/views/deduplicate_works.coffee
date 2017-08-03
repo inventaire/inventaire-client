@@ -26,6 +26,15 @@ module.exports = Marionette.LayoutView.extend
     collection = new Backbone.Collection models
     @[regionName].show new DeduplicateWorksList { collection }
 
+  setFilter: (filter)->
+    @filterSubView 'wd', filter
+    @filterSubView 'inv', filter
+
+  filterSubView: (regionName, filter)->
+    view = @[regionName].currentView
+    view.filter = filter
+    view.render()
+
 spreadWorks = (data, work)->
   prefix = work.get 'prefix'
   data[prefix].push work

@@ -52,6 +52,7 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .workLi,.authorLayout': 'select'
     'click .merge': 'mergeSelected'
+    'keydown input[name="filter"]': 'filterByText'
 
   select: (e)->
     # Prevent selecting when the intent was clicking on a link
@@ -92,8 +93,18 @@ module.exports = Marionette.LayoutView.extend
       $('.selected-from').removeClass 'selected-from'
       $('.selected-to').removeClass 'selected-to'
     .finally stopLoading.bind(@)
-    .catch error_.Complete('.merge', false)
+    .catch error_.Complete('.buttons-wrapper', false)
     .catch forms_.catchAlert.bind(null, @)
+
+  filterByText: (e)->
+    @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
+    @_lazyFilterByText e
+
+  lazyFilterByText: (e)->
+    text = e.target.value
+    if text is @_previousText then return
+    @_previousText = text
+    @content.currentView.setFilter getFilter(text)
 
 getElementUri = (el)-> el?.attributes['data-uri'].value
 getTargetUri = (e)-> getElementUri e.currentTarget
@@ -109,3 +120,11 @@ hideMergedEntities = ->
     else $from.hide()
   else if $from.hasClass 'authorLayout'
     $from.hide()
+
+getFilter = (text)->
+  if _.isNonEmptyString text
+    return (model)->
+      re = new RegExp text, 'i'
+      model.get('label').match re
+  else
+    return null

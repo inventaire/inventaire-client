@@ -59,12 +59,16 @@
     @include position(fixed, null, 0, 0, 0, 1);
     background-color: #bbb;
     padding: 0.5em;
-    @include display-flex(row, center, center);
+    @include display-flex(column, center, center);
     a{
       margin: 0 1em;
+      white-space: nowrap;
     }
-    .wrapper{
-      @include display-flex(column, center, center);
+    input{
+      margin: 0;
+    }
+    .buttons-wrapper{
+      @include display-flex(row, center, center);
     }
     .alert-box{
       max-width: 30em;

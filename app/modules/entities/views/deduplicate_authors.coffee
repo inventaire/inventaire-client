@@ -8,6 +8,9 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/deduplicate_authors'
   childViewContainer: '.authors'
   childView: require './author_layout'
+  # Lazy empty view: not really fitting the context
+  # but just showing that nothing was found
+  emptyView: require 'modules/inventory/views/no_item'
   behaviors:
     Loading: {}
 
@@ -61,6 +64,10 @@ module.exports = Marionette.CompositeView.extend
       app.request 'get:entities:models', { uris }
       .then _.Log('humans models')
       .then @collection.add.bind(@collection)
+
+  setFilter: (filter)->
+    @filter = filter
+    @render()
 
 asNameMatch = (name)-> (human)-> _.any _.values(human.labels), labelMatch(name)
 
