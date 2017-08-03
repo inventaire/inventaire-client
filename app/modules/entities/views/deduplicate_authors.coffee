@@ -13,7 +13,9 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = new Backbone.Collection
-    @fetchNames()
+    { name } = @options
+    if name? then @showName name
+    else @fetchNames()
 
   fetchNames: ->
     _.preq.get app.API.entities.duplicates
@@ -26,14 +28,18 @@ module.exports = Marionette.CompositeView.extend
   serializeData: -> { @names }
 
   events:
-    'click .name': 'showName'
+    'click .name': 'showNameFromEvent'
 
-  showName: (e)->
+  showNameFromEvent: (e)->
     name = e.currentTarget.attributes['data-key'].value
     $(e.currentTarget).addClass 'visited'
+    @showName name
 
+  showName: (name)->
     @collection.reset()
     startLoading.call @, '.authors-loading'
+
+    app.execute 'querystring:set', 'name', name
 
     @getHomonymes name
     .then stopLoading.bind(@)

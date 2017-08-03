@@ -18,9 +18,9 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   onShow: ->
-    { uris } = app.request 'querystring:get:full'
+    { uris, name } = app.request 'querystring:get:full'
     if uris? then @loadFromUris uris.split('|')
-    else @showDeduplicateAuthors()
+    else @showDeduplicateAuthors name
 
   loadFromUris: (uris)->
     app.request 'get:entities:models', { uris }
@@ -45,7 +45,7 @@ module.exports = Marionette.LayoutView.extend
       .then @showDeduplicateWorks.bind(@)
 
   showDeduplicateWorks: (works)-> @content.show new deduplicateWorks { works }
-  showDeduplicateAuthors: -> @content.show new deduplicateAuthors
+  showDeduplicateAuthors: (name)-> @content.show new deduplicateAuthors { name }
 
   serializeData: -> { @uris }
 
