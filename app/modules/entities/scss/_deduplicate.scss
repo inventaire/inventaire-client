@@ -57,7 +57,7 @@
   .entity-prefix-inv{ border: 1px solid $light-blue; }
   .controls{
     @include position(fixed, null, 0, 0, 0, 1);
-    background-color: rgba(white, 0.8);
+    background-color: #bbb;
     padding: 0.5em;
     @include display-flex(row, center, center);
     a{
