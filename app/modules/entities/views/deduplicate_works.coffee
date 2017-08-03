@@ -26,12 +26,6 @@ module.exports = Marionette.LayoutView.extend
     collection = new Backbone.Collection models
     @[regionName].show new DeduplicateWorksList { collection }
 
-    # wdModels.sort sortAlphabetically
-    # invModels.sort sortAlphabetically
-
-    # @wd.show new DeduplicateWorksList { collection: wdModels }
-    # @inv.show new DeduplicateWorksList { collection: invModels }
-
 spreadWorks = (data, work)->
   prefix = work.get 'prefix'
   data[prefix].push work
