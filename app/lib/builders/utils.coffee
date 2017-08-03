@@ -13,7 +13,7 @@ module.exports = ->
   shared_ = sharedLib('utils')(_)
   types_ = sharedLib('types')(_)
   regex_ = sharedLib 'regex'
-  tests_ = sharedLib('tests')(regex_)
+  tests_ = sharedLib('tests')(regex_, _)
 
   _.extend _, local_, shared_, types_, tests_, loggers_
 

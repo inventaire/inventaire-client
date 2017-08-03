@@ -1,4 +1,4 @@
-module.exports = (regex_)->
+module.exports = (regex_, _)->
   isCouchUuid = regex_.CouchUuid.test.bind regex_.CouchUuid
 
   bindedTest = (regexName)-> regex_[regexName].test.bind regex_[regexName]
@@ -9,6 +9,10 @@ module.exports = (regex_)->
     isLocalImg: bindedTest 'LocalImg'
     isLang: bindedTest 'Lang'
     isInvEntityId: isCouchUuid
+    isInvEntityUri: (uri)->
+      unless _.isNonEmptyString uri then return false
+      [ prefix, id ] = uri?.split ':'
+      return prefix is 'inv' and isCouchUuid(id)
     isEmail: bindedTest 'Email'
     isUserId: isCouchUuid
     isGroupId: isCouchUuid
