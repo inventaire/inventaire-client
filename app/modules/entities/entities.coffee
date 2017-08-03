@@ -110,6 +110,10 @@ API =
         app.layout.main.show new DeduplicateLayout
 
 showEntityCreate = (params)->
+  # Default to an entity of type work
+  # so that /entity/new doesn't just return an error
+  params.type or= 'work'
+
   { type } = params
   unless type in entityDraftModel.whitelistedTypes
     err = error_.new "invalid entity draft type: #{type}", params
