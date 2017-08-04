@@ -1,3 +1,4 @@
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 leven = require 'leven'
 
 DeduplicateWorksList = Marionette.CollectionView.extend
@@ -18,7 +19,12 @@ module.exports = Marionette.LayoutView.extend
     wd: '.wdWorks'
     inv: '.invWorks'
 
+  behaviors:
+    Loading: {}
+
   onShow: ->
+    startLoading.call @, '.probableDuplicates'
+
     { works } = @options
     _.log works, 'works'
     { wd:@wdModels, inv:@invModels } = works.reduce spreadWorks, { wd: [], inv: [] }
