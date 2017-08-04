@@ -21,9 +21,12 @@ module.exports = Marionette.CompositeView.extend
     else @fetchNames()
 
   fetchNames: ->
+    startLoading.call @, '.authors-loading'
+
     _.preq.get app.API.entities.duplicates
     .get 'names'
     .then _.Log('names')
+    .then stopLoading.bind(@)
     .then (names)=>
       @names = names
       @render()
