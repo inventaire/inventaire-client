@@ -69,6 +69,8 @@ module.exports = Marionette.LayoutView.extend
 
   filterSubView: (regionName, filter)->
     view = @[regionName].currentView
+    # Known case: when we are still at the 'probable duplicates' phase
+    unless view? then return
     view.filter = filter
     view.render()
 

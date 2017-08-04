@@ -91,15 +91,19 @@ module.exports = Marionette.LayoutView.extend
     startLoading.call @, '.merge'
 
     mergeEntities fromUri, toUri
-    .then =>
-      hideMergedEntities()
-      @mergedUris.push fromUri
-      $('.selected-from').removeClass 'selected-from'
-      $('.selected-to').removeClass 'selected-to'
-      @content.currentView.onMerge?()
+    .then @successfulMerge.bind(@, fromUri)
     .finally stopLoading.bind(@)
     .catch error_.Complete('.buttons-wrapper', false)
     .catch forms_.catchAlert.bind(null, @)
+
+  successfulMerge: (fromUri)->
+    hideMergedEntities()
+    @mergedUris.push fromUri
+    $('.selected-from').removeClass 'selected-from'
+    $('.selected-to').removeClass 'selected-to'
+    @content.currentView.onMerge?()
+    # Make the filter hide already merged entities
+    @setSubviewFilter ''
 
   filterByText: (e)->
     @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
@@ -109,6 +113,9 @@ module.exports = Marionette.LayoutView.extend
     text = e.target.value
     if text is @_previousText then return
     @_previousText = text
+    @setSubviewFilter text
+
+  setSubviewFilter: (text)->
     @content.currentView.setFilter getFilter(text, @mergedUris)
 
 getElementUri = (el)-> el?.attributes['data-uri'].value
