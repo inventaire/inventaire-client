@@ -4,7 +4,6 @@
 mergeEntities = require './editor/lib/merge_entities'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 deduplicateAuthors = require './deduplicate_authors'
 deduplicateWorks = require './deduplicate_works'
 
@@ -109,15 +108,14 @@ module.exports = Marionette.LayoutView.extend
     unless fromUri? then return alert "no 'from' URI"
     unless toUri? then return alert "no 'to' URI"
 
-    startLoading.call @, '.merge'
-
     mergeEntities fromUri, toUri
-    .then @successfulMerge.bind(@, fromUri)
-    .finally stopLoading.bind(@)
     .catch error_.Complete('.buttons-wrapper', false)
     .catch forms_.catchAlert.bind(null, @)
 
-  successfulMerge: (fromUri)->
+    # Optimistic UI: do not wait for the server response to move on
+    @afterMerge fromUri
+
+  afterMerge: (fromUri)->
     hideMergedEntities()
     @mergedUris.push fromUri
     $('.selected-from').removeClass 'selected-from'
