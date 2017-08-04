@@ -24,7 +24,6 @@ specificMethods =
     refresh = @getRefresh refresh
     if not refresh and @waitForWorks? then return @waitForWorks
 
-
     @waitForWorks = @getWorksData refresh
     .then @initWorksCollections.bind(@)
 
