@@ -96,6 +96,7 @@ module.exports = Marionette.LayoutView.extend
       @mergedUris.push fromUri
       $('.selected-from').removeClass 'selected-from'
       $('.selected-to').removeClass 'selected-to'
+      @content.currentView.onMerge?()
     .finally stopLoading.bind(@)
     .catch error_.Complete('.buttons-wrapper', false)
     .catch forms_.catchAlert.bind(null, @)

@@ -43,6 +43,11 @@
       display: none;
     }
   }
+  .selected-from, .selected-to{
+    .property-value, .grey, .uri, .link{
+      color: white !important;
+    }
+  }
   .selected-from{
     &, div{
       background-color: #cf2408;
@@ -84,6 +89,12 @@
     overflow: auto;
     align-self: stretch;
   }
+  .probableDuplicates{
+    .all-labels{
+      // we have more room here
+      max-height: 20em;
+    }
+  }
 }
 
 .deduplicateWorks{
@@ -93,10 +104,11 @@
     @include display-flex(row, baseline, center, wrap);
     margin: 0.5em;
   }
-  .wd-works{ background-color: $grey; }
+  .wdWorks{ background-color: $grey; }
   .workLi{
     // Tight but letting enough width for inv URIs to fit
     max-width: 15em;
     flex-direction: column;
+    margin: 0 1em;
   }
 }
