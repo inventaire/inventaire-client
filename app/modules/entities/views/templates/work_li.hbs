@@ -20,6 +20,16 @@
       {{label}}
     </a>
   </h4>
+  {{#if showAllLabels}}
+    <ul class="all-labels">
+      {{#each labels}}
+        <li class="labels">
+          <span class="lang">{{@key}}: </span>
+          <span class="value">{{this}}</span>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
   {{#if description}}
     <p class="description clamped grey">{{{description}}}</p>
   {{/if}}

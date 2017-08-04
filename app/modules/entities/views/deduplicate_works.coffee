@@ -5,6 +5,8 @@ DeduplicateWorksList = Marionette.CollectionView.extend
   # Lazy empty view: not really fitting the context
   # but just showing that nothing was found
   emptyView: require 'modules/inventory/views/no_item'
+  childViewOptions:
+    showAllLabels: true
 
 module.exports = Marionette.LayoutView.extend
   className: 'deduplicateWorks'

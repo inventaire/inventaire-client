@@ -78,6 +78,12 @@
   .uri.hidden{
     display: block;
   }
+  .all-labels{
+    background-color: #ddd;
+    max-height: 4em;
+    overflow: auto;
+    align-self: stretch;
+  }
 }
 
 .deduplicateWorks{

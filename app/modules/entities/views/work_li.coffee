@@ -30,6 +30,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = _.extend @model.toJSON(),
       counter: @counter()
+      showAllLabels: @options.showAllLabels
     if attrs.extract? then attrs.description = attrs.extract
     return attrs
 

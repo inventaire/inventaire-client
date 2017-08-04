@@ -127,8 +127,11 @@ hideMergedEntities = ->
 
 getFilter = (text, mergedUris)->
   if _.isNonEmptyString text
-    return (model)->
-      re = new RegExp text, 'i'
-      model.get('label').match(re) and model.get('uri') not in mergedUris
+    re = new RegExp text, 'i'
+    return (model)-> anyLabelMatch(model, re) and model.get('uri') not in mergedUris
   else
     return (model)-> model.get('uri') not in mergedUris
+
+anyLabelMatch = (model, re)->
+  labels = _.values(model.get('labels'))
+  return _.any labels, (label)-> label.match(re)
