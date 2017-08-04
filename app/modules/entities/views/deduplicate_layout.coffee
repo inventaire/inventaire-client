@@ -129,6 +129,7 @@ module.exports = Marionette.LayoutView.extend
   filterByText: (e)->
     @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
     @_lazyFilterByText e
+    # Prevent the event to be propagated to the general 'keydown' event
     e.stopPropagation()
 
   lazyFilterByText: (e)->
