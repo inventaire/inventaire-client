@@ -17,6 +17,9 @@ module.exports = Marionette.LayoutView.extend
     AlertBox: {}
     Loading: {}
 
+  initialize: ->
+    @mergedUris = []
+
   onShow: ->
     { uris, name } = app.request 'querystring:get:full'
     if uris? then @loadFromUris uris.split('|')
@@ -88,8 +91,9 @@ module.exports = Marionette.LayoutView.extend
     startLoading.call @, '.merge'
 
     mergeEntities fromUri, toUri
-    .then ->
+    .then =>
       hideMergedEntities()
+      @mergedUris.push fromUri
       $('.selected-from').removeClass 'selected-from'
       $('.selected-to').removeClass 'selected-to'
     .finally stopLoading.bind(@)
@@ -104,7 +108,7 @@ module.exports = Marionette.LayoutView.extend
     text = e.target.value
     if text is @_previousText then return
     @_previousText = text
-    @content.currentView.setFilter getFilter(text)
+    @content.currentView.setFilter getFilter(text, @mergedUris)
 
 getElementUri = (el)-> el?.attributes['data-uri'].value
 getTargetUri = (e)-> getElementUri e.currentTarget
@@ -121,10 +125,10 @@ hideMergedEntities = ->
   else if $from.hasClass 'authorLayout'
     $from.hide()
 
-getFilter = (text)->
+getFilter = (text, mergedUris)->
   if _.isNonEmptyString text
     return (model)->
       re = new RegExp text, 'i'
-      model.get('label').match re
+      model.get('label').match(re) and model.get('uri') not in mergedUris
   else
-    return null
+    return (model)-> model.get('uri') not in mergedUris
