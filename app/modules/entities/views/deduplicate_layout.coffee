@@ -10,9 +10,17 @@ deduplicateWorks = require './deduplicate_works'
 
 module.exports = Marionette.LayoutView.extend
   id: 'deduplicateLayout'
+  attributes:
+    # Allow the view to be focused by clicking on it, thus being able to listen
+    # for keydown events
+    tabindex: '0'
   template: require './templates/deduplicate_layout'
   regions:
     content: '.content'
+
+  ui:
+    nextButton: '.next'
+
   behaviors:
     AlertBox: {}
     Loading: {}
@@ -21,6 +29,10 @@ module.exports = Marionette.LayoutView.extend
     @mergedUris = []
 
   onShow: ->
+    # Give focus to controls so that we can listen for keydown events
+    # and that hitting tab gives focus to the filter input
+    @$el.find('.controls').focus()
+
     { uris, name } = app.request 'querystring:get:full'
     if uris? then @loadFromUris uris.split('|')
     else @showDeduplicateAuthors name
@@ -55,7 +67,12 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .workLi,.authorLayout': 'select'
     'click .merge': 'mergeSelected'
+    'click .next': 'next'
     'keydown input[name="filter"]': 'filterByText'
+    'keydown': 'triggerActionByKey'
+    'next:button:hide': -> @ui.nextButton.hide()
+    'next:button:show': -> @ui.nextButton.show()
+    'entity:select': 'selectFromUri'
 
   select: (e)->
     # Prevent selecting when the intent was clicking on a link
@@ -80,6 +97,10 @@ module.exports = Marionette.LayoutView.extend
 
     # Prevent a click on a work to also trigger an event on the author
     e.stopPropagation()
+
+  selectFromUri: (e, data, bla)->
+    { uri, direction } = data
+    $("[data-uri='#{uri}']").addClass "selected-#{direction}"
 
   mergeSelected: ->
     fromUri = getElementUri $('.selected-from')[0]
@@ -108,6 +129,7 @@ module.exports = Marionette.LayoutView.extend
   filterByText: (e)->
     @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
     @_lazyFilterByText e
+    e.stopPropagation()
 
   lazyFilterByText: (e)->
     text = e.target.value
@@ -117,6 +139,13 @@ module.exports = Marionette.LayoutView.extend
 
   setSubviewFilter: (text)->
     @content.currentView.setFilter getFilter(text, @mergedUris)
+
+  next: -> @content.currentView.next?()
+
+  triggerActionByKey: (e)->
+    switch e.key
+      when 'm' then @mergeSelected()
+      when 'n' then @next()
 
 getElementUri = (el)-> el?.attributes['data-uri'].value
 getTargetUri = (e)-> getElementUri e.currentTarget

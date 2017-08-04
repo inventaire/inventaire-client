@@ -1,8 +1,9 @@
 <div class="content"></div>
-<div class="controls">
+<div class="controls" tabindex="0">
   {{!-- use wrapper to make alert box be appended below the lines of buttons --}}
   <div class="buttons-wrapper">
     <input type="text" name="filter" placeholder="filter">
-    <a class="merge dangerous-button">{{icon 'compress'}}{{I18n 'merge'}}<span class="loading"></span></a>
+    <a class="merge dangerous-button" title="shortkey: m">{{icon 'compress'}}{{I18n 'merge'}}<span class="loading"></span></a>
+    <a class="next hidden button light-blue" title="shortkey: n">{{icon 'arrow-right'}}{{I18n 'next'}}</a>
   </div>
 </div>

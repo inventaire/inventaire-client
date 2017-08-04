@@ -31,8 +31,9 @@ module.exports = Marionette.LayoutView.extend
     nextCandidates = @candidates.shift()
     @showList 'probableDuplicates', nextCandidates, false
     [ wdModel, invModel ] = nextCandidates
-    select invModel.get('uri'), 'from'
-    select wdModel.get('uri'), 'to'
+    @$el.trigger 'entity:select', { uri: invModel.get('uri'), direction: 'from' }
+    @$el.trigger 'entity:select', { uri: wdModel.get('uri'), direction: 'to' }
+    @$el.trigger 'next:button:show'
 
   getCandidates: ->
     candidates = []
@@ -49,7 +50,9 @@ module.exports = Marionette.LayoutView.extend
 
     return candidates
 
-  onMerge: ->
+  onMerge: -> @next()
+
+  next: ->
     if @candidates.length > 0 then @showNextProbableDuplicates()
     else @showLists()
 
@@ -57,6 +60,7 @@ module.exports = Marionette.LayoutView.extend
     @probableDuplicates.empty()
     @showList 'wd', @wdModels
     @showList 'inv', @invModels
+    @$el.trigger 'next:button:hide'
 
   showList: (regionName, models, sort=true)->
     if sort then models.sort sortAlphabetically
@@ -105,7 +109,3 @@ getLowestDistance = (aLabels, bLabels)->
         lowestDistance = distance
         averageLength = ( aLabel.length + bLabel.length ) / 2
   return [ lowestDistance, averageLength ]
-
-# This is an intervention in what should be deduplicate_layout responsability
-# TODO: trigger an event to which deduplicate_layout can react on for the same effect
-select = (uri, direction)-> $("[data-uri='#{uri}']").addClass "selected-#{direction}"
