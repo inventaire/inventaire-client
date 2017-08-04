@@ -4,8 +4,8 @@
 mergeEntities = require './editor/lib/merge_entities'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
-deduplicateAuthors = require './deduplicate_authors'
-deduplicateWorks = require './deduplicate_works'
+DeduplicateAuthors = require './deduplicate_authors'
+DeduplicateWorks = require './deduplicate_works'
 
 module.exports = Marionette.LayoutView.extend
   id: 'deduplicateLayout'
@@ -58,8 +58,8 @@ module.exports = Marionette.LayoutView.extend
       app.request 'get:entities:models', { uris }
       .then @showDeduplicateWorks.bind(@)
 
-  showDeduplicateWorks: (works)-> @content.show new deduplicateWorks { works }
-  showDeduplicateAuthors: (name)-> @content.show new deduplicateAuthors { name }
+  showDeduplicateWorks: (works)-> @content.show new DeduplicateWorks { works }
+  showDeduplicateAuthors: (name)-> @content.show new DeduplicateAuthors { name }
 
   serializeData: -> { @uris }
 
