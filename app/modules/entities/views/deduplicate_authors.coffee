@@ -26,7 +26,7 @@ module.exports = Marionette.CompositeView.extend
     _.preq.get app.API.entities.duplicates
     .get 'names'
     .then _.Log('names')
-    .then stopLoading.bind(@)
+    .tap stopLoading.bind(@)
     .then (names)=>
       @names = names
       @render()
