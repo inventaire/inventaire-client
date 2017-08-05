@@ -116,6 +116,8 @@ getFormattedLabels = (model)->
     # as some titles might still have comments between parenthesis
     # ex: 'some book title (French edition)'
     .replace /(\(|\[).*$/, ''
+    # Ignore leading articles as they are a big source of false negative match
+    .replace /^(the|a|le|la|l'|der|die|das)\s/ig, ''
     .trim()
 
 getLowestDistance = (aLabels, bLabels)->
