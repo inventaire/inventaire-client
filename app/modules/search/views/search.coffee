@@ -5,7 +5,6 @@ EntityEdit = require 'modules/entities/views/editor/entity_edit'
 wd_ = require 'lib/wikimedia/wikidata'
 isbn_ = require 'lib/isbn'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-searchInputData = require 'modules/general/views/menu/search_input_data'
 { CheckViewState, catchDestroyedView } = require 'lib/view_state'
 
 # An object to cache search results from one search to the next
@@ -16,7 +15,6 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/search'
   behaviors:
     AlertBox: {}
-    LocalSeachBar: {}
     PreventDefault: {}
 
   regions:
@@ -28,7 +26,6 @@ module.exports = Marionette.LayoutView.extend
   ui:
     showFindByIsbnButton: '#showFindByIsbn'
     findByIsbnForm: '#findByIsbnForm'
-    localSearchField: '#localSearchField'
 
   initialize: (params)->
     _.extend @, behaviorsPlugin
@@ -38,7 +35,6 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     queryIsIsbn: @queryIsIsbn
-    search: searchInputData 'localSearch', true
     findByIsbn:
       nameBase: 'findIsbn'
       field:
@@ -57,9 +53,6 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @searchEntities()
-
-  updateSearchBar: ->
-    @ui.localSearchField.val @query
 
   sameAsPreviousQuery: ->
     # Verifying that the query is not the same as the last one

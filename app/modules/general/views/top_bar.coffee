@@ -133,7 +133,9 @@ module.exports = Marionette.LayoutView.extend
       if key is 'esc' then @hideLiveSearch()
       else return view.onSpecialKey key
     else
-      view.lazySearch e.currentTarget.value
+      { value } = e.currentTarget
+      view.lazySearch value
+      app.vent.trigger 'search:global:change', value
 
   # When clicking on a live_search searchField button, the search loose the focus
   # thus the need to recover it

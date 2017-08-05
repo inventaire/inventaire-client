@@ -1,11 +1,8 @@
-searchInputData = require 'modules/general/views/menu/search_input_data'
-
 module.exports = Marionette.CompositeView.extend
   id: 'addSearch'
   template: require './templates/search'
   behaviors:
     PreventDefault: {}
-    LocalSeachBar: {}
     AutoFocus: {}
 
   childViewContainer: '#history'
@@ -13,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     history: '#historyWrapper'
+    localSearchField: '#localSearchField'
 
   initialize: ->
     @collection = app.searches
@@ -20,15 +18,29 @@ module.exports = Marionette.CompositeView.extend
     # since the initial sorting
     @collection.sort()
 
+    @previousValue = ''
+    @listenTo app.vent, 'search:global:change', @updateLocalSearchBar.bind(@)
+
   onShow: ->
     if @collection.length > 0 then @ui.history.show()
     else @listenToHistory()
 
   serializeData: ->
-    search: searchInputData 'localSearch', true
+    search: searchInputData()
 
   events:
     'click .clearHistory': 'clearHistory'
+    'keyup input[type="search"]': 'focusGlobalSearchBar'
+
+  updateLocalSearchBar: (value)->
+    @ui.localSearchField.val value
+    @previousValue = value
+
+  focusGlobalSearchBar: (e)->
+    currentValue = e.currentTarget.value
+    if currentValue is @previousValue then return
+    @previousValue = currentValue
+    $('#searchField').val(currentValue).focus()
 
   clearHistory: ->
     @collection.reset()
@@ -37,3 +49,13 @@ module.exports = Marionette.CompositeView.extend
 
   listenToHistory: ->
     @listenToOnce @collection, 'add', @ui.history.show.bind(@ui.history)
+
+searchInputData = ->
+  nameBase: 'localSearch'
+  field:
+    type: 'search'
+    name: 'search'
+    placeholder: _.i18n 'search a book by title, author or ISBN'
+  button:
+    icon: 'search'
+    classes: "secondary postfix"
