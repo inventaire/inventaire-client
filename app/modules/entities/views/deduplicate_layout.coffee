@@ -26,6 +26,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @mergedUris = []
+    @_lastMergeTimestamp = 0
 
   onShow: ->
     # Give focus to controls so that we can listen for keydown events
@@ -102,6 +103,11 @@ module.exports = Marionette.LayoutView.extend
     $("[data-uri='#{uri}']").addClass "selected-#{direction}"
 
   mergeSelected: ->
+    # Prevent merging several times within one second: it is probably a mistake
+    # like the merge key being inadvertedly pressed several times
+    if Date.now() - @_lastMergeTimestamp < 1000 then return
+    @_lastMergeTimestamp = Date.now()
+
     fromUri = getElementUri $('.selected-from')[0]
     toUri = getElementUri $('.selected-to')[0]
 
