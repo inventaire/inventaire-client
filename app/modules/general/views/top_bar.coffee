@@ -74,6 +74,7 @@ module.exports = Marionette.LayoutView.extend
       app.execute 'show:inventory:user', app.user
 
   search: ->
+    @hideLiveSearch()
     search = @ui.searchField.val()
     unless _.isNonEmptyString search then return
     app.execute 'search:global', search
