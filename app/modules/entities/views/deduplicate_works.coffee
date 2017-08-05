@@ -123,8 +123,6 @@ getFormattedLabels = (model)->
 getLowestDistance = (aLabels, bLabels)->
   lowestDistance = Infinity
   averageLength = 0
-  closestA = null
-  closestB = null
   for aLabel in aLabels
     for bLabel in bLabels
       distance = leven aLabel, bLabel
