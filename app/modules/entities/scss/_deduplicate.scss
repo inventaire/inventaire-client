@@ -106,8 +106,10 @@
     margin: 0.5em;
   }
   .invWorks, .wdWorks{
-    min-width: 15em;
-    align-self: stretch;
+    &:not(:empty){
+      min-width: 15em;
+      align-self: stretch;
+    }
   }
   .wdWorks{ background-color: $grey; }
   .workLi{
