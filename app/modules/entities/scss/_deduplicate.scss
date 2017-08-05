@@ -105,6 +105,10 @@
     @include display-flex(row, baseline, center, wrap);
     margin: 0.5em;
   }
+  .invWorks, .wdWorks{
+    min-width: 15em;
+    align-self: stretch;
+  }
   .wdWorks{ background-color: $grey; }
   .workLi{
     // Tight but letting enough width for inv URIs to fit
