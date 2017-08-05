@@ -34,27 +34,37 @@ module.exports = Marionette.LayoutView.extend
     @wd.empty()
     @inv.empty()
     @candidates or= @getCandidates()
-    nextCandidates = @candidates.shift()
-    @showList 'probableDuplicates', nextCandidates, false
-    [ wdModel, invModel ] = nextCandidates
+    nextCandidate = @candidates.shift()
+    { invModel, wdModels } = nextCandidate
+    wdModel = nextCandidate.wdModels[0]
+    models = [ invModel ].concat wdModels
+    @showList 'probableDuplicates', models, false
     @$el.trigger 'entity:select', { uri: invModel.get('uri'), direction: 'from' }
     @$el.trigger 'entity:select', { uri: wdModel.get('uri'), direction: 'to' }
     @$el.trigger 'next:button:show'
 
   getCandidates: ->
-    candidates = []
+    candidates = {}
 
     @invModels.forEach (model)-> model.labels or= getFormattedLabels model
     @wdModels.forEach (model)-> model.labels or= getFormattedLabels model
 
+    # Regroup candidates by invModel
     for invModel in @invModels
+      invUri = invModel.get 'uri'
+      candidates[invUri] = { invModel, wdModels: [], closestDistance: Infinity }
       for wdModel in @wdModels
         [ distance, averageLength ] = getLowestDistance wdModel.labels, invModel.labels
         # If the distance between the closest labels is lower than 1/3 of the length
         # it's worth checking if it's a duplicate
-        if distance <= averageLength / 3 then candidates.push [ wdModel, invModel ]
+        if distance <= averageLength / 3
+          wdModel.distance = distance
+          candidates[invUri].wdModels.push wdModel
 
-    return candidates
+      # Sorting so that the first model is the closest
+      candidates[invUri].wdModels.sort (a, b)-> a.distance - b.distance
+
+    return _.values(candidates).filter (candidate)-> candidate.wdModels.length > 0
 
   onMerge: -> @next()
 
