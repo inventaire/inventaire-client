@@ -26,6 +26,8 @@
   .result{
     line-height: 1em;
     position: relative;
+    // Prevent triggering horizontal scroll because of too long content
+    overflow: hidden;
     a{
       @include display-flex(row, center, flex-start);
       color: $dark-grey;
