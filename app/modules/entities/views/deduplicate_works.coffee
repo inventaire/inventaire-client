@@ -59,6 +59,10 @@ module.exports = Marionette.LayoutView.extend
   onMerge: -> @next()
 
   next: ->
+    # Once we got to the full lists, do not re-generate lists views
+    # as you might loose the filter state
+    if @_listsShown then return
+
     if @candidates.length > 0 then @showNextProbableDuplicates()
     else @showLists()
 
@@ -67,6 +71,7 @@ module.exports = Marionette.LayoutView.extend
     @showList 'wd', @wdModels
     @showList 'inv', @invModels
     @$el.trigger 'next:button:hide'
+    @_listsShown = true
 
   showList: (regionName, models, sort=true)->
     if sort then models.sort sortAlphabetically
