@@ -1,4 +1,3 @@
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 leven = require 'leven'
 
 DeduplicateWorksList = Marionette.CollectionView.extend
@@ -15,30 +14,23 @@ module.exports = Marionette.LayoutView.extend
   className: 'deduplicateWorks'
   template: require './templates/deduplicate_works'
   regions:
-    probableDuplicates: '.probableDuplicates'
     wd: '.wdWorks'
     inv: '.invWorks'
 
-  behaviors:
-    Loading: {}
-
   onShow: ->
-    startLoading.call @, '.probableDuplicates'
-
     { works } = @options
     _.log works, 'works'
     { wd:@wdModels, inv:@invModels } = works.reduce spreadWorks, { wd: [], inv: [] }
     @showNextProbableDuplicates()
 
   showNextProbableDuplicates: ->
-    @wd.empty()
-    @inv.empty()
+    @$el.addClass 'probableDuplicatesMode'
     @candidates or= @getCandidates()
     nextCandidate = @candidates.shift()
     { invModel, wdModels } = nextCandidate
     wdModel = nextCandidate.wdModels[0]
-    models = [ invModel ].concat wdModels
-    @showList 'probableDuplicates', models, false
+    @showList 'wd', wdModels
+    @showList 'inv', [ invModel ]
     @$el.trigger 'entity:select', { uri: invModel.get('uri'), direction: 'from' }
     @$el.trigger 'entity:select', { uri: wdModel.get('uri'), direction: 'to' }
     @$el.trigger 'next:button:show'
@@ -77,7 +69,7 @@ module.exports = Marionette.LayoutView.extend
     else @showLists()
 
   showLists: ->
-    @probableDuplicates.empty()
+    @$el.removeClass 'probableDuplicatesMode'
     @showList 'wd', @wdModels
     @showList 'inv', @invModels
     @$el.trigger 'next:button:hide'
