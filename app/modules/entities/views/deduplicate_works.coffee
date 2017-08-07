@@ -31,6 +31,11 @@ module.exports = Marionette.LayoutView.extend
     wdModel = nextCandidate.wdModels[0]
     @showList 'wd', wdModels
     @showList 'inv', [ invModel ]
+    # Give the views some time to initalize before expecting them
+    # to be accessible in the DOM from their selectors
+    setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, wdModel), 200
+
+  _showNextProbableDuplicatesUpdateUi: (invModel, wdModel)->
     @$el.trigger 'entity:select', { uri: invModel.get('uri'), direction: 'from' }
     @$el.trigger 'entity:select', { uri: wdModel.get('uri'), direction: 'to' }
     @$el.trigger 'next:button:show'
