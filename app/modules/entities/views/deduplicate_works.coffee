@@ -19,27 +19,9 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     { works } = @options
-    _.log works, 'works'
-    { wd:@wdModels, inv:@invModels } = works.reduce spreadWorks, { wd: [], inv: [] }
+    { wd:@wdModels, inv:@invModels } = spreadByDomain works
+    @candidates = @getCandidates()
     @showNextProbableDuplicates()
-
-  showNextProbableDuplicates: ->
-    @$el.addClass 'probableDuplicatesMode'
-    @candidates or= @getCandidates()
-    nextCandidate = @candidates.shift()
-    unless nextCandidate? then return @next()
-    { invModel, wdModels } = nextCandidate
-    wdModel = nextCandidate.wdModels[0]
-    @showList 'wd', wdModels
-    @showList 'inv', [ invModel ]
-    # Give the views some time to initalize before expecting them
-    # to be accessible in the DOM from their selectors
-    setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, wdModel), 200
-
-  _showNextProbableDuplicatesUpdateUi: (invModel, wdModel)->
-    @$el.trigger 'entity:select', { uri: invModel.get('uri'), direction: 'from' }
-    @$el.trigger 'entity:select', { uri: wdModel.get('uri'), direction: 'to' }
-    @$el.trigger 'next:button:show'
 
   getCandidates: ->
     candidates = {}
@@ -50,19 +32,49 @@ module.exports = Marionette.LayoutView.extend
     # Regroup candidates by invModel
     for invModel in @invModels
       invUri = invModel.get 'uri'
-      candidates[invUri] = { invModel, wdModels: [], closestDistance: Infinity }
+      # invModel._alreadyPassed = true
+      candidates[invUri] = { invModel, possibleDuplicateOf: [] }
+
       for wdModel in @wdModels
-        [ distance, averageLength ] = getLowestDistance wdModel.labels, invModel.labels
-        # If the distance between the closest labels is lower than 1/3 of the length
-        # it's worth checking if it's a duplicate
-        if distance <= averageLength / 3
-          wdModel.distance = distance
-          candidates[invUri].wdModels.push wdModel
+        addCloseEntitiesToMergeCandidates invModel, candidates, wdModel
+
+      for otherInvModel in @invModels
+        # Avoid adding duplicate candidates in both directions
+        unless otherInvModel.get('uri') is invUri
+          addCloseEntitiesToMergeCandidates invModel, candidates, otherInvModel
 
       # Sorting so that the first model is the closest
-      candidates[invUri].wdModels.sort (a, b)-> a.distance - b.distance
+      candidates[invUri].possibleDuplicateOf.sort byDistance(invUri)
 
-    return _.values(candidates).filter (candidate)-> candidate.wdModels.length > 0
+    return _.values(candidates).filter hasPossibleDuplicates
+
+  showNextProbableDuplicates: ->
+    @$el.addClass 'probableDuplicatesMode'
+    nextCandidate = @candidates.shift()
+    unless nextCandidate? then return @next()
+    { invModel, possibleDuplicateOf } = nextCandidate
+
+    # Filter-out entities that where already merged
+    # @_currentFilter will be undefined on the first candidate round
+    # as no merged happened yet, thus no filter was set
+    if @_currentFilter?
+      possibleDuplicateOf = possibleDuplicateOf.filter @_currentFilter
+
+    mostProbableDuplicate = possibleDuplicateOf[0]
+    # If the candidate duplicate was filtered-out, go to the next step
+    unless mostProbableDuplicate? then @next()
+
+    { wd:wdModels, inv:invModels } = spreadByDomain possibleDuplicateOf
+    @showList 'wd', wdModels
+    @showList 'inv', [ invModel ].concat(invModels)
+    # Give the views some time to initalize before expecting them
+    # to be accessible in the DOM from their selectors
+    setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, mostProbableDuplicate), 200
+
+  _showNextProbableDuplicatesUpdateUi: (invModel, mostProbableDuplicate)->
+    @$el.trigger 'entity:select', { uri: invModel.get('uri'), direction: 'from' }
+    @$el.trigger 'entity:select', { uri: mostProbableDuplicate.get('uri'), direction: 'to' }
+    @$el.trigger 'next:button:show'
 
   onMerge: -> @next()
 
@@ -88,6 +100,7 @@ module.exports = Marionette.LayoutView.extend
     @[regionName].show new DeduplicateWorksList { collection }
 
   setFilter: (filter)->
+    @_currentFilter = filter
     @filterSubView 'wd', filter
     @filterSubView 'inv', filter
 
@@ -98,6 +111,7 @@ module.exports = Marionette.LayoutView.extend
     view.filter = filter
     view.render()
 
+spreadByDomain = (models)-> models.reduce spreadWorks, { wd: [], inv: [] }
 spreadWorks = (data, work)->
   prefix = work.get 'prefix'
   data[prefix].push work
@@ -129,3 +143,18 @@ getLowestDistance = (aLabels, bLabels)->
         lowestDistance = distance
         averageLength = ( aLabel.length + bLabel.length ) / 2
   return [ lowestDistance, averageLength ]
+
+addCloseEntitiesToMergeCandidates = (invModel, candidates, otherModel)->
+  invUri = invModel.get 'uri'
+  [ distance, averageLength ] = getLowestDistance otherModel.labels, invModel.labels
+  # If the distance between the closest labels is lower than 1/3 of the length
+  # it's worth checking if it's a duplicate
+  if distance <= averageLength / 3
+    otherModel.distances or= {}
+    otherModel.distances[invUri] = distance
+    candidates[invUri].possibleDuplicateOf.push otherModel
+
+  return
+
+hasPossibleDuplicates = (candidate)-> candidate.possibleDuplicateOf.length > 0
+byDistance = (invUri)->(a, b)-> a.distances[invUri] - b.distances[invUri]
