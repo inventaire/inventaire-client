@@ -2,8 +2,6 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 History = require './history'
-MergeSuggestions = require './merge_suggestions'
-Entities = require 'modules/entities/collections/entities'
 mergeEntities = require './lib/merge_entities'
 
 module.exports = Marionette.LayoutView.extend
@@ -42,15 +40,7 @@ module.exports = Marionette.LayoutView.extend
     return false
 
   showMergeSuggestions: ->
-    { pluralizedType } = @model
-    uri = @model.get 'uri'
-    _.preq.get app.API.entities.search @model.get('label'), false, true
-    .get pluralizedType
-    .then parseSearchResults(uri)
-    .then (suggestions)=>
-      collection = new Entities suggestions
-      toEntity = @model
-      @mergeSuggestion.show new MergeSuggestions { collection, toEntity }
+    app.execute 'show:merge:suggestions', { region: @mergeSuggestion, @model }
 
   merge: (e)->
     behaviorsPlugin.startLoading.call @, '#mergeWithButton'
@@ -80,14 +70,3 @@ mergeWithData = ->
   button:
     text: _.I18n 'merge'
     classes: 'light-blue bold postfix'
-
-parseSearchResults = (uri)-> (searchResults)->
-  uris = _.pluck searchResults, 'uri'
-  prefix = uri.split(':')[0]
-  if prefix is 'wd' then uris = uris.filter isntWdUri
-  # Omit the current entity URI
-  uris = _.without uris, uri
-  # Search results entities miss their claims, so we need to fetch the full entities
-  return app.request 'get:entities:models', { uris }
-
-isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'

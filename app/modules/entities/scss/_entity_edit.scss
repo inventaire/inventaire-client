@@ -12,7 +12,6 @@ $entity-editor-small-thresold: 500px;
   @import 'positive_integer_value_editor';
   @import 'image_value_editor';
   @import 'title_editor';
-  @import 'admin_section';
   .header-wrapper{
     @include display-flex(row, center, center, wrap);
     margin: 1em;
@@ -80,3 +79,5 @@ $entity-editor-small-thresold: 500px;
     }
   }
 }
+
+@import 'admin_section';

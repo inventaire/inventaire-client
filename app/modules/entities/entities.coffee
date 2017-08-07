@@ -17,6 +17,7 @@ createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
+MergeSuggestions = require './views/editor/merge_suggestions'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -25,6 +26,7 @@ module.exports =
         'entity/new': 'showEntityCreateFromRoute'
         'entity/changes': 'showChanges'
         'entity/deduplicate': 'showDeduplicate'
+        'entity/:uri/deduplicate(/)': 'showEntityDeduplicate'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
         'entity/:uri(/:label)(/)': 'showEntity'
@@ -109,6 +111,14 @@ API =
       if app.request 'require:admin:rights'
         app.layout.main.show new DeduplicateLayout
 
+  showEntityDeduplicate: (uri)->
+    getEntityModel uri
+    .then (entity)->
+      showMergeSuggestions
+        region: app.layout.main
+        model: entity
+        standalone: true
+
 showEntityCreate = (params)->
   # Default to an entity of type work
   # so that /entity/new doesn't just return an error
@@ -142,6 +152,7 @@ setHandlers = ->
       API.showEditEntityFromUri model.get('uri')
     'show:entity:create': showEntityCreate
     'show:work:with:item:modal': showWorkWithItemModal
+    'show:merge:suggestions': showMergeSuggestions
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
@@ -282,6 +293,29 @@ _showWorkWithItem = (item)-> (work)->
   else
     app.layout.main.show new WorkLayout { model: work, item }
     app.navigateFromModel item
+
+showMergeSuggestions = (params)->
+  { region, model } = params
+  { pluralizedType } = model
+  uri = model.get 'uri'
+  _.preq.get app.API.entities.search model.get('label'), false, true
+  .get pluralizedType
+  .then parseSearchResults(uri)
+  .then (suggestions)->
+    collection = new Entities suggestions
+    toEntity = model
+    region.show new MergeSuggestions { collection, toEntity }
+
+parseSearchResults = (uri)-> (searchResults)->
+  uris = _.pluck searchResults, 'uri'
+  prefix = uri.split(':')[0]
+  if prefix is 'wd' then uris = uris.filter isntWdUri
+  # Omit the current entity URI
+  uris = _.without uris, uri
+  # Search results entities miss their claims, so we need to fetch the full entities
+  return app.request 'get:entities:models', { uris }
+
+isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'
 
 entityViewGetterByType =
   human: 'getAuthorView'
