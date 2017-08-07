@@ -103,9 +103,9 @@ module.exports = Marionette.LayoutView.extend
     $("[data-uri='#{uri}']").addClass "selected-#{direction}"
 
   mergeSelected: ->
-    # Prevent merging several times within one second: it is probably a mistake
+    # Prevent merging several times within half a second: it is probably a mistake
     # like the merge key being inadvertedly pressed several times
-    if Date.now() - @_lastMergeTimestamp < 1000 then return
+    if Date.now() - @_lastMergeTimestamp < 500 then return
     @_lastMergeTimestamp = Date.now()
 
     fromUri = getElementUri $('.selected-from')[0]
