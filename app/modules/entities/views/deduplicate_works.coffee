@@ -27,6 +27,7 @@ module.exports = Marionette.LayoutView.extend
     @$el.addClass 'probableDuplicatesMode'
     @candidates or= @getCandidates()
     nextCandidate = @candidates.shift()
+    unless nextCandidate? then return @next()
     { invModel, wdModels } = nextCandidate
     wdModel = nextCandidate.wdModels[0]
     @showList 'wd', wdModels
