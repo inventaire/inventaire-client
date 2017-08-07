@@ -46,7 +46,7 @@ module.exports = Marionette.LayoutView.extend
       switch type
         when 'human'
           if entities.length is 1 then return @showDeduplicateAuthorWorks entities[0]
-        when 'works' then return @showDeduplicateWorks entities
+        when 'work' then return @showDeduplicateWorks entities
 
       # If we haven't returned at this point, it is a non handled case
       alert 'case not handled yet'
