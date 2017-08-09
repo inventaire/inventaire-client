@@ -19,6 +19,7 @@ module.exports =
   authorWorks: CustomQuery 'author-works'
   serieParts: CustomQuery 'serie-parts'
 
+  activity: (period)-> action 'activity', { period }
   changes: action 'changes'
   history: (id)-> action 'history', { id }
 

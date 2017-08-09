@@ -15,6 +15,7 @@ entityDraftModel = require './lib/entity_draft_model'
 entitiesModelsIndex = require './lib/entities_models_index'
 createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
+ActivityLayout = require './views/activity_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 MergeSuggestions = require './views/editor/merge_suggestions'
@@ -25,6 +26,7 @@ module.exports =
       appRoutes:
         'entity/new': 'showEntityCreateFromRoute'
         'entity/changes': 'showChanges'
+        'entity/activity': 'showActivity'
         'entity/deduplicate': 'showDeduplicate'
         'entity/:uri/deduplicate(/)': 'showEntityDeduplicate'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
@@ -105,11 +107,11 @@ API =
     app.layout.main.show new ChangesLayout
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
+  showActivity: ->
+    showViewWithAdminRights 'entity/activity', 'activity', ActivityLayout
+
   showDeduplicate: ->
-    if app.request 'require:loggedIn', 'entity/deduplicate'
-      app.navigate 'entity/deduplicate', { metadata: { title: 'deduplicate' } }
-      if app.request 'require:admin:rights'
-        app.layout.main.show new DeduplicateLayout
+    showViewWithAdminRights 'entity/deduplicate', 'deduplicate', DeduplicateLayout
 
   showEntityDeduplicate: (uri)->
     getEntityModel uri
@@ -293,6 +295,11 @@ _showWorkWithItem = (item)-> (work)->
   else
     app.layout.main.show new WorkLayout { model: work, item }
     app.navigateFromModel item
+
+showViewWithAdminRights = (path, title, View)->
+  if app.request 'require:loggedIn', path
+    app.navigate path, { metadata: { title } }
+    if app.request 'require:admin:rights' then app.layout.main.show new View
 
 showMergeSuggestions = (params)->
   { region, model } = params

@@ -67,7 +67,9 @@ module.exports = (_)->
 
   parseBooleanString: (booleanString)-> booleanString is 'true'
 
-  simpleDay: -> new Date().toISOString().split('T')[0]
+  simpleDay: (date)->
+    if date? then new Date(date).toISOString().split('T')[0]
+    else new Date().toISOString().split('T')[0]
 
   isPositiveIntegerString: (str)-> _.isString(str) and /^\d+$/.test str
 

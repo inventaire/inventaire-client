@@ -1,0 +1,23 @@
+#activityLayout{
+  @include display-flex(column, center, center);
+  section{
+    @include panel;
+    flex: 1 0 auto;
+    max-width: 50em;
+    min-width: 20em;
+  }
+  table{
+    width: 100%;
+  }
+  th{
+    text-align: left;
+    color: $grey;
+  }
+  td{
+    padding: 0 0.5em;
+    background-color: $light-grey;
+  }
+  td.contributions{
+    text-align: right;
+  }
+}
