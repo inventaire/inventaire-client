@@ -94,7 +94,7 @@ module.exports = Marionette.LayoutView.extend
     @_listsShown = true
 
   showList: (regionName, models, sort=true)->
-    if models.length is 0 then return
+    if models.length is 0 then return @[regionName].empty()
     if sort then models.sort sortAlphabetically
     collection = new Backbone.Collection models
     @[regionName].show new DeduplicateWorksList { collection }
