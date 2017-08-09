@@ -48,7 +48,6 @@ module.exports = ->
     'get:group:model': (id)->
       if _.isGroupId(id) then getGroupModel id
       else getGroupModelFromSlug id
-    'get:group:model:sync': groups.byId.bind(groups)
     'group:update:settings': groupSettingsUpdater
     'get:groups:common': getGroupsInCommon
     'get:groups:others:visited': otherVisitedGroups

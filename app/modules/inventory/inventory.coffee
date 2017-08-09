@@ -146,8 +146,8 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:group': showGroupInventory
 
     'show:inventory:group:byId': (groupId)->
-      group = app.request 'get:group:model:sync', groupId
-      showGroupInventory group
+      app.request 'get:group:model', groupId
+      .then (group)-> showGroupInventory group
 
     'show:item:creation:form': showItemCreationForm
 
