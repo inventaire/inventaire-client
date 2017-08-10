@@ -1,6 +1,10 @@
 <h3>{{i18n 'contributions_by' user}}</h3>
 <ul class="stats">
   <li>
+    <span class="stat-label">id:</span>
+    <span class="stat-value">{{user._id}}</span>
+  </li>
+  <li>
     <span class="stat-label">{{i18n 'created:'}}</span>
     <span class="stat-value">{{localTimeString user.created}}</span>
   </li>
