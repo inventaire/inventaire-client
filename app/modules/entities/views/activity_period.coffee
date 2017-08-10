@@ -1,13 +1,8 @@
-activityPeriodRow = Marionette.ItemView.extend
-  className: 'activityPeriodRow'
-  template: require './templates/activity_period_row'
-  tagName: 'tr'
-
 module.exports = Marionette.CompositeView.extend
   className: 'activityPeriod'
   template: require './templates/activity_period'
   childViewContainer: 'tbody'
-  childView: activityPeriodRow
+  childView: require './activity_period_row'
   initialize: ->
     @collection = new Backbone.Collection
     { @title, @period } = @options

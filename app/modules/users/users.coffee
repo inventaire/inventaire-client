@@ -20,6 +20,7 @@ module.exports =
 
     app.commands.setHandlers
       'show:user': app.Execute 'show:inventory:user'
+      'show:user:contributions': API.showUserContributions
 
     if app.user.loggedIn
       _.preq.get app.API.relations
