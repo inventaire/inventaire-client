@@ -6,35 +6,6 @@
     padding: 0.5em;
     margin: 0.5em 0 0.5em 0;
   }
-  .patch{
-    @include radius;
-    background-color: white;
-    margin: 0.2em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    padding: 0.5em;
-    color: $dark-grey;
-    > div{
-      display: inline-block;
-    }
-    .op{
-      width: 4em;
-    }
-    .path{
-      width: 12em;
-      color: $grey;
-    }
-  }
-  .patch-add{
-    .op{
-     color: green;
-    }
-  }
-  .patch-remove{
-    .op{
-      color: red;
-    }
-  }
   .label{
     font-weight: bold;
     // Allow to set a width

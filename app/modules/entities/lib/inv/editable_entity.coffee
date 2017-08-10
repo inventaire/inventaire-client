@@ -1,4 +1,4 @@
-Versions = require '../../collections/versions'
+Patches = require '../../collections/patches'
 
 module.exports =
   setPropertyValue: (property, oldValue, newValue)->
@@ -51,4 +51,4 @@ module.exports =
   fetchHistory: ->
     _.preq.get app.API.entities.history(@id)
     # reversing to get the last patches first
-    .then (res)=> @history = new Versions res.patches.reverse()
+    .then (res)=> @history = new Patches res.patches.reverse()

@@ -37,3 +37,5 @@ module.exports =
   # (ADMIN)
   merge: action 'merge'
   duplicates: action 'duplicates'
+  contributions: (userId, limit, offset)->
+    action 'contributions', { user: userId, limit, offset }

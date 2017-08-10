@@ -5,7 +5,7 @@ module.exports = (promises_, _)->
   API = require('./wikidata_api')(_)
 
   # Unprefixify both entities ('item' in Wikidata lexic) and properties
-  unprefixify = (value)-> value.replace /^wdt?:/, ''
+  unprefixify = (value)-> value?.replace /^wdt?:/, ''
 
   return helpers =
     API: API

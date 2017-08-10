@@ -76,6 +76,14 @@ module.exports = API =
 
   entityLocalHref: (uri)-> "/entity/#{uri}"
 
+  multiTypeValue: (value)->
+    switch _.typeOf(value)
+      when 'string'
+        if _.isEntityUri value then entity value, true
+        else value
+      when 'array' then value.map(API.multiTypeValue).join('')
+      when 'object' then JSON.stringify value
+
 dropProtocol = (url)-> url.replace /^(https?:)?\/\//, ''
 removeTailingSlash = (url)-> url.replace /\/$/, ''
 isntNaN = (value)-> not _.isNaN(value)

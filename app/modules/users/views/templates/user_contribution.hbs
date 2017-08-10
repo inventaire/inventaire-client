@@ -1,0 +1,25 @@
+<div class="header">
+  <div class="togglers">
+    <span>{{icon 'caret-right'}}</span>
+    <span class="hidden">{{icon 'caret-down'}}</span>
+  </div>
+  <span class="operation-type {{patchType}}">{{patchType}}</span>
+  <div class="entity">
+    <a class="label" href="{{entity.pathname}}">{{entity.label}}</a>
+    <span class="type">{{entity.type}}</span>
+    <span class="patch-id">{{_id}}</span>
+  </div>
+  <div class="summary">
+    {{#with summary}}
+      <span class="property" title="{{property}}">{{propertyLabel}}</span>
+      <div class="changes">
+        {{#if removed}}<p class="removed">{{removed}}</p>{{/if}}
+        {{#if added}}<p class="added">{{added}}</p>{{/if}}
+      </div>
+    {{/with}}
+  </div>
+  <span class="time">{{localTimeString timestamp}}</span>
+</div>
+<div class="operations hidden">
+  {{partial 'entities:editor:patch_operations' operations}}
+</div>

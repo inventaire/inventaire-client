@@ -1,0 +1,9 @@
+<div class="patch-operations">
+  {{#each this}}
+    <div class="patch patch-{{op}}">
+      <div class="op">{{op}}</div>
+      <div class="path" title="{{path}}">{{propertyLabel}}</div>
+      {{#if value}}<div class="value">{{{multiTypeValue value}}}</div>{{/if}}
+    </div>
+  {{/each}}
+</div>

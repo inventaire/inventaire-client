@@ -28,7 +28,6 @@ module.exports =
         'network/friends(/)': 'showFriends'
 
         # aliases
-        'users(/)': 'showSearchUsers'
         'groups(/)': 'showSearchGroups'
 
     app.addInitializer -> new Router { controller: API }

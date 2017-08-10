@@ -20,11 +20,5 @@
 </p>
 <p>
   <span class="label">patch:</span>
-  {{#each patch}}
-    <div class="patch patch-{{op}}">
-      <div class="op">{{op}}</div>
-      <div class="path" title="{{i18n property}}">{{path}}</div>
-      {{#if value}}<div class="value">{{value}}</div>{{/if}}
-    </div>
-  {{/each}}
+  {{partial 'entities:editor:patch_operations' patch}}
 </p>

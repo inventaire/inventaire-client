@@ -1,0 +1,16 @@
+<h3>{{i18n 'contributions_by' user}}</h3>
+<ul class="stats">
+  <li>
+    <span class="stat-label">{{i18n 'created:'}}</span>
+    <span class="stat-value">{{localTimeString user.created}}</span>
+  </li>
+  <li>
+    <span class="stat-label">{{i18n 'total contributions:'}}</span>
+    <span class="stat-value totalContributions"></span>
+  </li>
+</ul>
+<ul class="contributions"></ul>
+<a class="fetchMore">
+  {{icon 'chevron-down'}}{{i18n 'display more'}}
+  <span class="remaining counter"></span>
+</a>

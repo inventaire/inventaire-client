@@ -1,5 +1,15 @@
+UserContributions = require './views/user_contributions'
+
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
+    Router = Marionette.AppRouter.extend
+      appRoutes:
+        'users/:id/contributions(/)': 'showUserContributions'
+        # Aliases
+        'users/:id(/)': 'showUser'
+        'users(/)': 'showSearchUsers'
+
+    app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     app.users = require('./users_collections')(app)
@@ -25,3 +35,16 @@ module.exports =
         network: []
 
       app.execute 'waiter:resolve', 'users'
+
+API =
+  showUserContributions: (id)->
+    path = "users/#{id}/contributions"
+    if app.request 'require:loggedIn', path
+      app.request 'get:user:model', id
+      .then (user)->
+        app.navigate path, { metadata: { title: 'contributions' } }
+        if app.request 'require:admin:rights'
+          app.layout.main.show new UserContributions { user }
+
+  showUser: (id)-> app.execute 'show:inventory:user', id
+  showSearchUsers: -> app.execute 'show:users:search'
