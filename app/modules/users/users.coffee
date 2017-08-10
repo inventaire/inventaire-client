@@ -39,10 +39,11 @@ module.exports =
 
 API =
   showUserContributions: (id)->
-    path = "users/#{id}/contributions"
-    if app.request 'require:loggedIn', path
+    if app.request 'require:loggedIn', "users/#{id}/contributions"
       app.request 'get:user:model', id
       .then (user)->
+        username = user.get 'username'
+        path = "users/#{username}/contributions"
         app.navigate path, { metadata: { title: 'contributions' } }
         if app.request 'require:admin:rights'
           app.layout.main.show new UserContributions { user }
