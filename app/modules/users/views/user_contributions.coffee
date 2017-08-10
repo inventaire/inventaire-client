@@ -18,6 +18,7 @@ module.exports = Marionette.CompositeView.extend
     @fetchMore()
 
   ui:
+    fetchMore: '.fetchMore'
     totalContributions: '.totalContributions'
     remaining: '.remaining'
 
@@ -37,7 +38,8 @@ module.exports = Marionette.CompositeView.extend
       # all the sub viewstotal
       @ui.totalContributions.text total
 
-    @ui.remaining.text(total - @offset)
+    if @offset? then @ui.remaining.text(total - @offset)
+    else @ui.fetchMore.hide()
 
     @collection.add patches
 
