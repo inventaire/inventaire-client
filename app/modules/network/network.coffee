@@ -27,8 +27,10 @@ module.exports =
         # legacy redirections
         'network/friends(/)': 'showFriends'
 
+        'g(roups)/:id(/)': 'showGroupInventory'
         # aliases
-        'groups(/)': 'showSearchGroups'
+        'g(roups)(/)': 'showSearchGroups'
+        'network/groups/:id(/)': 'showGroupInventory'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -82,8 +84,8 @@ API =
       _.error err, 'get:group:model err'
       app.execute 'show:error:missing'
 
-  showGroupSearch: (name)->
-    API.showSearchGroups "q=#{name}"
+  showGroupSearch: (name)-> API.showSearchGroups "q=#{name}"
+  showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', id
 
 showGroupBoardFromModel = (model)->
   if model.mainUserIsMember()

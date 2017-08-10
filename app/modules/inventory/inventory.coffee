@@ -25,7 +25,6 @@ module.exports =
         'add/scan/embedded(/)': 'showEmbeddedScanner'
         'add/import(/)': 'showImport'
         'g(roups)/:id(/)': 'showGroupInventory'
-        'u(ser)(s)/:id': 'shortCutUser'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -99,8 +98,6 @@ API =
         app.layout.main.show new EmbeddedScanner
       else
         API.showScan()
-
-  shortCutUser: (usernameOrId)-> API.showUserInventory usernameOrId, true
 
 showAddLayout = (tab='search')-> app.layout.main.show new AddLayout { tab }
 

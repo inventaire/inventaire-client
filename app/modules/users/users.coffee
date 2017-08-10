@@ -4,10 +4,10 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'users/:id/contributions(/)': 'showUserContributions'
+        'u(sers)/:id/contributions(/)': 'showUserContributions'
         # Aliases
-        'users/:id(/)': 'showUser'
-        'users(/)': 'showSearchUsers'
+        'u(sers)/:id(/)': 'showUser'
+        'u(sers)(/)': 'showSearchUsers'
 
     app.addInitializer -> new Router { controller: API }
 
