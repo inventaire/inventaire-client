@@ -10,26 +10,26 @@ module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'network(/users)(/search)(/)':'showSearchUsers'
-        'network/users/friends(/)':'showFriends'
-        'network/users/invite(/)':'showInvite'
-        'network/users/nearby(/)':'showNearbyUsers'
+        'network(/users)(/search)(/)': 'showSearchUsers'
+        'network/users/friends(/)': 'showFriends'
+        'network/users/invite(/)': 'showInvite'
+        'network/users/nearby(/)': 'showNearbyUsers'
 
-        'network(/groups)(/search)(/)':'showSearchGroups'
-        'network/groups/user(/)':'showUserGroups'
-        'network/groups/create(/)':'showCreateGroup'
-        'network/groups/nearby(/)':'showNearbyGroups'
+        'network(/groups)(/search)(/)': 'showSearchGroups'
+        'network/groups/user(/)': 'showUserGroups'
+        'network/groups/create(/)': 'showCreateGroup'
+        'network/groups/nearby(/)': 'showNearbyGroups'
 
         'network/groups/settings/:id(/)': 'showGroupBoard'
         # Redirect to 'network/groups/user'
-        'network/groups/settings(/)':'showUserGroups'
+        'network/groups/settings(/)': 'showUserGroups'
 
         # legacy redirections
-        'network/friends(/)':'showFriends'
+        'network/friends(/)': 'showFriends'
 
         # aliases
-        'users(/)':'showSearchUsers'
-        'groups(/)':'showSearchGroups'
+        'users(/)': 'showSearchUsers'
+        'groups(/)': 'showSearchGroups'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -39,6 +39,7 @@ module.exports =
       'show:group:board': showGroupBoardFromModel
       'show:group:user': API.showUserGroups
       'show:group:create': API.showCreateGroup
+      'show:users:search': API.showSearchUsers
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
