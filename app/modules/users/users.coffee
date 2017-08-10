@@ -38,9 +38,9 @@ module.exports =
       app.execute 'waiter:resolve', 'users'
 
 API =
-  showUserContributions: (id)->
-    if app.request 'require:loggedIn', "users/#{id}/contributions"
-      app.request 'get:user:model', id
+  showUserContributions: (idOrUsername)->
+    if app.request 'require:loggedIn', "users/#{idOrUsername}/contributions"
+      app.request 'resolve:to:userModel', idOrUsername
       .then (user)->
         username = user.get 'username'
         path = "users/#{username}/contributions"
