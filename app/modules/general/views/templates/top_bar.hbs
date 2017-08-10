@@ -1,6 +1,7 @@
 <h1 class="respect-case"><a id="home" href="/">{{#if smallScreen}}inv{{else}}inventaire{{/if}}</a></h1>
 
-<div id="currentUser" class="hidden breadcrumb">
+{{!-- use force-hidden to override display: flex rule --}}
+<div id="currentUser" class="force-hidden breadcrumb">
   {{icon 'chevron-right'}} <span id="currentUsername"></span>
 </div>
 

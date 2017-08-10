@@ -7,7 +7,7 @@ nav#top-bar{
     font-weight: bold;
     line-height: 2rem;
     // /!\ Defines the top-bar height
-    padding: 0.1rem 1rem 0.1rem 0.5rem;
+    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
   }
   a#home{
     color: white;
@@ -35,6 +35,19 @@ nav#top-bar{
       @include radius;
       margin-right: 0.5em;
     }
+  }
+  #currentUser{
+    @include display-flex(row, center, center);
+    color: white;
+    font-weight: bold;
+    .fa{
+      // Aligning vertically with both the h1 and the #currentUsername
+      padding-top: 0.1em;
+    }
+  }
+  #currentUsername{
+    font-size: 1.2em;
+    padding-left: 0.4em;
   }
   .menu{
     font-size: 1.1em;

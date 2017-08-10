@@ -75,11 +75,11 @@ module.exports = Marionette.LayoutView.extend
     @iconNav.show new IconNav
 
   setCurrentUsername: (username)->
-    $('#currentUsername').text(username)
-    $('#currentUser').slideDown()
+    $('#currentUsername').text username
+    $('#currentUser').removeClass 'force-hidden'
 
   hideCurrentUsername: ->
-    $('#currentUser').hide()
+    $('#currentUser').addClass 'force-hidden'
 
   askConfirmation: (options)-> @modal.show new ConfirmationModal(options)
 
