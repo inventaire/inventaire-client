@@ -127,8 +127,6 @@ module.exports = Marionette.LayoutView.extend
     $('.selected-from').removeClass 'selected-from'
     $('.selected-to').removeClass 'selected-to'
     @content.currentView.onMerge?()
-    # Make the filter hide already merged entities
-    @setSubviewFilter ''
 
   filterByText: (e)->
     @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
