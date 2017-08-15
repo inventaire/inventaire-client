@@ -142,10 +142,13 @@ getLowestDistance = (aLabels, bLabels)->
   averageLength = 0
   for aLabel in aLabels
     for bLabel in bLabels
+      # Truncate the longest string to ignore possible concatenated subtitles
+      [ aLabel, bLabel ] = equalizeLength aLabel, bLabel
       distance = leven aLabel, bLabel
       if distance < lowestDistance
         lowestDistance = distance
-        averageLength = ( aLabel.length + bLabel.length ) / 2
+        # Strings where equalized, so they all have the same length
+        averageLength = aLabel.length
   return [ lowestDistance, averageLength ]
 
 addCloseEntitiesToMergeCandidates = (invModel, candidates, otherModel)->
@@ -162,3 +165,7 @@ addCloseEntitiesToMergeCandidates = (invModel, candidates, otherModel)->
 
 hasPossibleDuplicates = (candidate)-> candidate.possibleDuplicateOf.length > 0
 byDistance = (invUri)->(a, b)-> a.distances[invUri] - b.distances[invUri]
+equalizeLength = (a, b)->
+  if a.length > b.length then a = a.slice 0, b.length
+  else b = b.slice 0, a.length
+  return [ a, b ]
