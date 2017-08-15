@@ -17,6 +17,9 @@ module.exports = Marionette.LayoutView.extend
     wd: '.wdWorks'
     inv: '.invWorks'
 
+  initialize: ->
+    { @mergedUris } = @options
+
   onShow: ->
     { works } = @options
     { wd:@wdModels, inv:@invModels } = spreadByDomain works
@@ -61,8 +64,9 @@ module.exports = Marionette.LayoutView.extend
       possibleDuplicateOf = possibleDuplicateOf.filter @_currentFilter
 
     mostProbableDuplicate = possibleDuplicateOf[0]
+    unless mostProbableDuplicate? then return @next()
     # If the candidate duplicate was filtered-out, go to the next step
-    unless mostProbableDuplicate? then @next()
+    if mostProbableDuplicate.get('uri') in @mergedUris then return @next()
 
     { wd:wdModels, inv:invModels } = spreadByDomain possibleDuplicateOf
     @showList 'wd', wdModels

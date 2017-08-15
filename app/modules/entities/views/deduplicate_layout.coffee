@@ -59,8 +59,10 @@ module.exports = Marionette.LayoutView.extend
       app.request 'get:entities:models', { uris }
       .then @showDeduplicateWorks.bind(@)
 
-  showDeduplicateWorks: (works)-> @content.show new DeduplicateWorks { works }
-  showDeduplicateAuthors: (name)-> @content.show new DeduplicateAuthors { name }
+  showDeduplicateWorks: (works)->
+    @content.show new DeduplicateWorks { works, @mergedUris }
+  showDeduplicateAuthors: (name)->
+    @content.show new DeduplicateAuthors { name, @mergedUris }
 
   serializeData: -> { @uris }
 
@@ -127,6 +129,9 @@ module.exports = Marionette.LayoutView.extend
     $('.selected-from').removeClass 'selected-from'
     $('.selected-to').removeClass 'selected-to'
     @content.currentView.onMerge?()
+    # If @_previousText was set, re-filter using it and the updated mergeUris list
+    # otherwise just filter with the updated mergeUris list
+    @setSubviewFilter @_previousText
 
   filterByText: (e)->
     @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
