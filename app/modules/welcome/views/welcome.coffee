@@ -37,7 +37,7 @@ module.exports = Marionette.LayoutView.extend
     app.vent.trigger 'lateral:buttons:hide'
 
     @waitForMention
-    .then @showMentions.bind(@)
+    .then @ifViewIsIntact('showMentions')
 
   showPublicItems: ->
     showPaginatedItems
