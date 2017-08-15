@@ -56,6 +56,7 @@ module.exports = Marionette.LayoutView.extend
     nextCandidate = @candidates.shift()
     unless nextCandidate? then return @next()
     { invModel, possibleDuplicateOf } = nextCandidate
+    if invModel.get('uri') in @mergedUris then return @next()
 
     # Filter-out entities that where already merged
     # @_currentFilter will be undefined on the first candidate round
