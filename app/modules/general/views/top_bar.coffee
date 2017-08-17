@@ -88,6 +88,10 @@ module.exports = Marionette.LayoutView.extend
       $('.connectionButton').show()
 
   selectLang: (e)->
+    # Remove the querystring lang parameter to be sure that the picked language
+    # is the next language taken in account
+    app.execute 'querystring:set', 'lang', null
+
     lang = e.currentTarget.attributes['data-lang'].value
     if app.user.loggedIn
       app.request 'user:update',
