@@ -14,9 +14,14 @@ module.exports = Marionette.LayoutView.extend
   childEvents:
     'tabs:change': 'updateLayout'
 
+  initialize: ->
+    @waitForRelations = app.request 'wait:for', 'users'
+
   onShow: ->
     { tab } = @options
-    @tabs.show new Tabs { tab }
+    # wait for relations so that 'get:network:counters' doesn't crash
+    # if app.relations isn't defined yet
+    @waitForRelations.then @showTabs.bind(@, tab)
     @showLayout tab
 
   updateLayout: (view, tab, originalTab)->
@@ -26,6 +31,8 @@ module.exports = Marionette.LayoutView.extend
       # so that the level-2 tabs stay visible
       if originalTab in level1Tabs then _.scrollTop @tabs.$el
       else _.scrollTop @content.$el
+
+  showTabs: (tab)-> @tabs.show new Tabs { tab }
 
   showLayout: (tab)->
     tab = resolveCurrentTab tab
