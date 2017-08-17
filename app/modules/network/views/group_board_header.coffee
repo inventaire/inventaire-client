@@ -23,4 +23,4 @@ module.exports = Marionette.ItemView.extend
 
   invitorData: ->
     username = @model.findMainUserInvitor()?.get('username')
-    return {username: username}
+    return { username }

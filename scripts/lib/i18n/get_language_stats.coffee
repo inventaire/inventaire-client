@@ -10,7 +10,7 @@ parse = JSON.parse.bind JSON
 console.log blue('emailKeys, shortKeys, fullKeys, wikidataKeys => total')
 
 getKeysNumber = (path)->
-  readFile path, {encoding: 'utf-8'}
+  readFile path, { encoding: 'utf-8' }
   .then parse
   .then (obj)->
     _.values obj

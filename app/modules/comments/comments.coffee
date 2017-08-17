@@ -12,10 +12,10 @@ initComments = (model)->
   fetching = null
   # init collection unless it was already done
   unless model.comments?
-    model.comments = comments = new Comments [], {item: model}
+    model.comments = comments = new Comments [], { item: model }
     fetching = fetchComments model.id, comments
 
-  return [model.comments, fetching]
+  return [ model.comments, fetching ]
 
 fetchComments = (itemId, commentsCollection)->
   _.preq.get _.buildPath(app.API.comments, { item: itemId })

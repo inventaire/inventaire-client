@@ -65,7 +65,7 @@ module.exports = (_)->
   # helpers to simplify polymorphisms
   forceArray: (keys)->
     unless keys? then return []
-    unless _.isArray(keys) then [keys]
+    unless _.isArray(keys) then [ keys ]
     else keys
 
   forceObject: (key, value)->

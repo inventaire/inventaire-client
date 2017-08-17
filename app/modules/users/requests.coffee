@@ -40,7 +40,7 @@ module.exports = (app, _)->
     unless _.isModel(user)
       throw new Error('exepected a user Model, got', user)
 
-    if user.id? then return [user, user.id]
+    if user.id? then return [ user, user.id ]
     else throw new Error('user missing id', user)
 
   app.reqres.setHandlers

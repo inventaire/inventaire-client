@@ -8,7 +8,7 @@ ObjectMarker = (markerBuilder)->
     { lat, lng } = model.getCoords()
     html = markerBuilder model.serializeData()
     icon = customIcon html
-    marker = L.marker [lat, lng], {icon: icon}
+    marker = L.marker [ lat, lng ], { icon }
     return marker
 
 markers =

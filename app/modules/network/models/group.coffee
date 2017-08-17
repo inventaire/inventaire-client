@@ -116,7 +116,7 @@ module.exports = Positionable.extend
   mainUserIsInvited: -> app.user.id in @allInvitedIds()
 
   findMembership: (category, user)->
-    _.findWhere @get(category), {user: user.id}
+    _.findWhere @get(category), { user: user.id }
 
   findInvitation: (user)->
     @findMembership 'invited', user

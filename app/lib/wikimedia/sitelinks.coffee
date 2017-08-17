@@ -60,7 +60,7 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
     if match.length is 2 and match[1] is ''
       langCode = match[0]
       # Giving priority to 2 letters code languages
-      if langCode.length is 2 then return [value, langCode]
+      if langCode.length is 2 then return [ value, langCode ]
   return []
 
 getEpubLink = (wikisourceData)->

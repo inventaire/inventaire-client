@@ -112,10 +112,10 @@ module.exports = Marionette.LayoutView.extend
 
   showUser: (userModel)->
     @ui.two.hide()
-    @one.show new UserProfile {model: userModel}
+    @one.show new UserProfile { model: userModel }
 
   showMainUser: ->
-    @mainUser.show new UserLi {model: app.user}
+    @mainUser.show new UserLi { model: app.user }
 
   showUsersList: ->
     @_usersListShown = true

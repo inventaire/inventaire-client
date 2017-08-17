@@ -45,7 +45,7 @@ onerrorSignature = '(handled by window.onerror)'
 
 parseErrorObject = (errorMsg, url, lineNumber, columnNumber, errObj)->
   # other arguments aren't necessary as already provided by Firefox
-  # console.log {stack: errObj.stack}
+  # console.log { stack: errObj.stack }
   if errObj
     { stack, context } = errObj
     # prerender error object doesnt seem to have a stack, thus the stack?

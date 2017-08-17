@@ -138,8 +138,8 @@ module.exports = Backbone.NestedModel.extend
   requesterData: -> @requester?.serializeData() or @get('snapshot.requester')
 
   aliasUsers: (attrs)->
-    if @mainUserIsOwner then [attrs.owner, attrs.requester]
-    else [attrs.requester, attrs.owner]
+    if @mainUserIsOwner then [ attrs.owner, attrs.requester ]
+    else [ attrs.requester, attrs.owner ]
 
   otherUser: -> if @mainUserIsOwner then @requester else @owner
   otherUserSnapshot: ->
@@ -168,7 +168,7 @@ module.exports = Backbone.NestedModel.extend
     @backup()
     # redondant info:
     # might need to be refactored to deduce state from last action
-    @set {state: state}
+    @set { state }
     action = { action: state, timestamp: Date.now() }
     # keep track of the actor when it can be both
     if state in actorCanBeBoth then action.actor = @role

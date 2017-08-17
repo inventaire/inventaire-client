@@ -6,7 +6,7 @@ module.exports = (key, ctx)->
   else return val
 
 modifiers =
-  # make _.i18n('user_comment', {username: 'adamsberg'})
+  # make _.i18n('user_comment', { username: 'adamsberg' })
   # return "Commentaire d'adamsberg" instead of "Commentaire de adamsberg"
   fr: (key, val, data)->
     if data? and isShortkey key

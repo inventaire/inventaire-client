@@ -49,14 +49,14 @@ module.exports = Marionette.ItemView.extend
     { lat, lng, zoom } = coords
     map = map_.draw
       containerId: containerId
-      latLng: [lat, lng]
+      latLng: [ lat, lng ]
       zoom: zoom
       cluster: false
 
     @marker = map.addMarker
       markerType: 'circle'
       metersRadius: @getMarkerMetersRadius()
-      latLng: [lat, lng]
+      latLng: [ lat, lng ]
 
     map.on 'move', updateMarker.bind(null, @marker)
 

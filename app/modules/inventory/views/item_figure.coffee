@@ -34,7 +34,7 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     attrs = @model.serializeData()
-    attrs.date = {date: attrs.created}
+    attrs.date = { date: attrs.created }
     attrs.detailsMore = @detailsMoreData attrs.details
     attrs.details = @detailsData attrs.details
     attrs.showDistance = @options.showDistance and attrs.user?.distance?

@@ -30,7 +30,7 @@ getReverseClaims = (prop, genreModel)->
 # setting default limit to 10 to avoid loading too many authors
 # which will load all their works in return
 fetchWorksAndAuthorsEntities = (genreModel, limit=10, offset=0)->
-  _.types [genreModel, limit, offset], ['object', 'number', 'number']
+  _.types [ genreModel, limit, offset ], [ 'object', 'number', 'number' ]
   uris = _.flatten genreModel.gets('reverseClaims.wdt:P135', 'reverseClaims.wdt:P136')
   first = offset
   last = offset + limit

@@ -25,7 +25,7 @@ module.exports = Marionette.ItemView.extend
 
   showItemCreationForm: (e)->
     unless _.isOpenedOutside(e)
-      app.execute 'show:item:creation:form', {entity: @model}
+      app.execute 'show:item:creation:form', { entity: @model }
 
   serializeData: ->
     attrs = _.extend @model.toJSON(),
@@ -45,4 +45,4 @@ module.exports = Marionette.ItemView.extend
   toggleZoom: ->
     _.invertAttr @ui.cover, 'src', 'data-zoom-toggle'
     @ui.zoomButtons.toggle()
-    @$el.toggleClass 'zoom', {duration:500}
+    @$el.toggleClass 'zoom', { duration: 500 }

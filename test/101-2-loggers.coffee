@@ -9,8 +9,8 @@ describe 'Logger', ->
       done()
 
     it 'should return an object for object i nput', (done)->
-      _.log({ach: 'so'}).should.be.a.Object()
-      _.log({ya: 'klar'}, 'doh').should.be.a.Object()
+      _.log({ ach: 'so' }).should.be.a.Object()
+      _.log({ ya: 'klar' }, 'doh').should.be.a.Object()
       done()
 
   describe 'Log', ->
@@ -24,8 +24,8 @@ describe 'Logger', ->
   describe 'warn', ->
     it 'should always return undefined', (done)->
       should(_.warn('yo')).not.be.ok()
-      should(_.warn('yo', {hello: 'wat'})).not.be.ok()
-      should(_.warn({hello: 'wat'}, 'yo')).not.be.ok()
+      should(_.warn('yo', { hello: 'wat' })).not.be.ok()
+      should(_.warn({ hello: 'wat' }, 'yo')).not.be.ok()
       done()
 
   describe 'error', ->

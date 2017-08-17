@@ -2,7 +2,7 @@ module.exports = forms_ = {}
 
 forms_.pass = (options)->
   { value, tests, selector } = options
-  _.types [value, tests, selector], ['string', 'object', 'string']
+  _.types [ value, tests, selector ], [ 'string', 'object', 'string' ]
   for err, test of tests
     if test value
       forms_.throwError err, selector, value
@@ -39,7 +39,7 @@ forms_.catchAlert = (view, err)->
 forms_.alert = (view, err)->
   { selector, i18n } = err
   errMessage = err.responseJSON?.status_verbose or err.message
-  _.types [view, err, selector, errMessage], ['object', 'object', 'string', 'string']
+  _.types [ view, err, selector, errMessage ], [ 'object', 'object', 'string', 'string' ]
 
   # Avoid showing raw http error messages
   if /^\d/.test errMessage then errMessage = 'something went wrong :('

@@ -1,7 +1,7 @@
 module.exports = (_)->
   # adapted from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
   hashCode: (string)->
-    [hash, i, len] = [0, 0, string.length]
+    [ hash, i, len ] = [ 0, 0, string.length ]
     if len is 0 then return hash
 
     while i < len

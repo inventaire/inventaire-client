@@ -20,7 +20,7 @@ module.exports = map_ =
 
   updateMarker: (marker, coords)->
     { lat, lng } = coords
-    marker.setLatLng [lat, lng]
+    marker.setLatLng [ lat, lng ]
 
   showUsersOnMap: (map, users)->
     for user in _.forceArray users

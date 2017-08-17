@@ -35,7 +35,7 @@ drawMap = (params, coords)->
 
   map = map_.draw
     containerId: containerId
-    latLng: [lat, lng]
+    latLng: [ lat, lng ]
     zoom: zoom
     cluster: true
 

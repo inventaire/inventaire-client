@@ -13,7 +13,7 @@ module.exports =
     # OR expects: item, data
     # optional: selector
     { item, attribute, value, data, selector } = options
-    _.types [item, selector], ['object', 'string|undefined']
+    _.types [ item, selector ], [ 'object', 'string|undefined' ]
 
     itemAttributesBefore = _.deepClone item.toJSON()
 
@@ -34,7 +34,7 @@ module.exports =
     # MUST: selector, model with title
     # CAN: next
     { model, selector, next, back } = options
-    _.types [model, selector, next], ['object', 'string', 'function']
+    _.types [ model, selector, next ], [ 'object', 'string', 'function' ]
     title = model.get('snapshot.entity:title')
 
     action = ->

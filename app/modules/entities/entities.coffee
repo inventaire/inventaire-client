@@ -192,7 +192,7 @@ getEntityModel = (uri, refresh)->
     else
       # see getEntitiesModels "Possible reasons for missing entities"
       _.log "getEntityModel entity_not_found: #{uri}"
-      throw error_.new 'entity_not_found', [uri, models]
+      throw error_.new 'entity_not_found', [ uri, models ]
 
 createEntity = (data)->
   createInvEntity data

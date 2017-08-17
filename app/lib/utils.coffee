@@ -9,7 +9,7 @@ module.exports = (Backbone, _, $, app, window)->
 
   # async
   setCookie: (key, value)->
-    _.preq.post app.API.cookie, {key: key, value: value}
+    _.preq.post app.API.cookie, { key, value }
     .catch _.Error("setCookie: failed: #{key} - #{value}")
 
   i18n: require './translate'
@@ -104,11 +104,11 @@ module.exports = (Backbone, _, $, app, window)->
     # Polymorphism: accept jquery objects or selector strings as $el
     if _.isString then $el = $($el)
     top = $el.position().top - marginTop
-    $('html, body').animate {scrollTop: top}, duration
+    $('html, body').animate { scrollTop: top }, duration
 
   # scroll to a given height
   scrollHeight: (height, ms=500)->
-    $('html, body').animate {scrollTop: height}, ms
+    $('html, body').animate { scrollTop: height }, ms
 
   # let the view call the plugin with the view as context
   # ex: module.exports = _.BasicPlugin events, handlers

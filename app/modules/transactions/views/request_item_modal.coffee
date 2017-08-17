@@ -28,7 +28,7 @@ module.exports = Marionette.ItemView.extend
 
   userData: ->
     # user should already have been fetched
-    user = app.users.findWhere {username: @model.username}
+    user = app.users.findWhere { username: @model.username }
     return user.serializeData()
 
   suggestedText: ->
