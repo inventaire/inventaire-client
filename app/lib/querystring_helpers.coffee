@@ -11,11 +11,10 @@ module.exports = (app, _)->
       else value
 
   set = (key, value)->
-    unless value?
-      # Known issue when trying to pass a null value: it won't remove
-      # the querystring parameter as you could expect
-      # Possibly related to http://stackoverflow.com/q/15165678/3324977
-      _.warn "can't unset querystring values"
+    # Setting the value to 'null' and not just null allows to have the null value
+    # passed to the keep function (called by app.navigate), thus unsetting
+    # the desired key
+    unless value? then value = 'null'
 
     # omit the first character: '/'
     currentPath = window.location.pathname.slice(1) + window.location.search
