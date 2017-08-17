@@ -1,5 +1,6 @@
 { SafeString } = Handlebars
 images_ = require './images'
+wdLang = require 'wikidata-lang'
 
 wd_ = require 'lib/wikimedia/wikidata'
 commons_ = require 'lib/wikimedia/commons'
@@ -83,6 +84,11 @@ module.exports = API =
         else value
       when 'array' then value.map(API.multiTypeValue).join('')
       when 'object' then JSON.stringify value
+
+  entityFromLang: (lang)->
+    langEntityId = wdLang.byCode[lang]?.wd
+    if langEntityId? then new SafeString entity("wd:#{langEntityId}", false)
+    else lang
 
 dropProtocol = (url)-> url.replace /^(https?:)?\/\//, ''
 removeTailingSlash = (url)-> url.replace /\/$/, ''

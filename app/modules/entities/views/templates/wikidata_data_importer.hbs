@@ -1,0 +1,31 @@
+<a class="showOnWikidata" href="{{wdEntity.wikidata.url}}" target="_blank">
+  {{icon 'wikidata'}}
+  <div class="wd-entity-data">
+    <p class="wd-entity-label">{{wdEntity.label}}</p>
+    <p class="wd-entity-uri">{{wdEntity.uri}}</p>
+  </div>
+</a>
+
+<h3>{{i18n 'The following data is missing on the Wikidata entity, which of those should be imported to Wikidata?'}}</h3>
+
+<table><tbody>
+  {{#each labels}}
+    <tr>
+      <td><input type="checkbox" checked="true" data-type="label" data-lang="{{lang}}" data-label="{{label}}"></td>
+      <td class="type">{{i18n 'label'}}</td>
+      <td class="lang">{{entityFromLang lang}}</td>
+      <td class="label">{{label}}</td>
+    </tr>
+  {{/each}}
+  {{#each claims}}
+    <tr>
+      <td><input type="checkbox" checked="true" data-type="claim" data-property="{{property}}" data-value="{{value}}"></td>
+      <td class="type">{{i18n 'claim'}}</td>
+      <td class="property">{{i18n property}}<span class="property-uri">({{property}})</span></td>
+      <td class="value">{{{multiTypeValue value}}}</td>
+    </tr>
+  {{/each}}
+</tbody></table>
+
+<a id="mergeWithoutImport" class="button grey">{{icon 'times'}}{{I18n 'merge without importing data'}}</a>
+<a id="importData" class="button light-blue">{{icon 'check'}}{{I18n 'import'}}</a>

@@ -208,16 +208,13 @@ showEntityEdit = (params)->
 
 showEntityEditFromModel = (model)->
   prefix = model.get 'prefix'
-  if prefix is 'wd' and not userHasWikidataOauthTokens()
+  if prefix is 'wd' and not app.user.hasWikidataOauthTokens()
     showWikidataEditIntroModal model
   else
     showEntityEdit { model }
 
-userHasWikidataOauthTokens = ->
-  userOauth = app.user.get('oauth')
-  return userOauth? and 'wikidata' in userOauth
-
-showWikidataEditIntroModal = (model)-> app.layout.modal.show new WikidataEditIntro { model }
+showWikidataEditIntroModal = (model)->
+  app.layout.modal.show new WikidataEditIntro { model }
 
 handleMissingEntity = (uri)-> (err)->
   switch err.message

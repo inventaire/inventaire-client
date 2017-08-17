@@ -1,0 +1,32 @@
+.wikidata-data-importer{
+  text-align: center;
+  h3{
+    font-size: 1.4em;
+  }
+  .type, .wd-entity-uri, .property-uri{
+    color: $grey;
+  }
+  .lang{
+    text-transform: capitalize;
+  }
+  .label, .value{
+    font-weight: bold;
+  }
+  table, #importData{
+    margin: 1em;
+  }
+  td{
+    padding: 0 1em;
+    text-align: left;
+  }
+  .property-uri{
+    margin-left: 0.5em;
+  }
+  .showOnWikidata{
+    @include display-flex(row, center, center);
+    @include bg-hover(white);
+    .fa, > div{
+      margin: 1em;
+    }
+  }
+}
