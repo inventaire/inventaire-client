@@ -33,7 +33,7 @@ module.exports = EditorCommons.extend
     'keyup': 'onKeyup'
 
   save: ->
-    val = @ui.input.val()
+    val = @ui.input.val().trim()
 
     unless _.isNonEmptyString val
       err = error_.new "can't be empty", val
