@@ -50,6 +50,9 @@ getRemoteFn = (type, searchType, collection, searches)-> (input)->
       pluarlizedType = if model.type? then model.type + 's'
       # The type topics accepts any type, as any entity can be a topic
       if pluarlizedType is type or type is 'topics'
+        # Reset the collection before so that previous text search or URI results
+        # don't appear in the suggestions
+        collection.reset()
         collection.add prepareSearchResult(model)
       else
         throw error_.new "invalid entity type", 400, model
