@@ -5,7 +5,6 @@ EntityEdit = require 'modules/entities/views/editor/entity_edit'
 wd_ = require 'lib/wikimedia/wikidata'
 isbn_ = require 'lib/isbn'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ CheckViewState, catchDestroyedView } = require 'lib/view_state'
 
 # An object to cache search results from one search to the next
 cache = {}
@@ -70,10 +69,7 @@ module.exports = Marionette.LayoutView.extend
     cache = { search }
 
     _.preq.get app.API.entities.search(search, @options.refresh)
-    .then CheckViewState(@, 'search entity')
-    .then @_parseResponse.bind(@)
-    .then @displayResults.bind(@)
-    .catch catchDestroyedView
+    .then @ifViewIsIntact('showResults')
     .catch @_catchErr.bind(@)
 
     app.execute 'show:loader', { region: @authors, timeout: 120 }
@@ -98,6 +94,10 @@ module.exports = Marionette.LayoutView.extend
     $("<p class='please-be-patient hidden'>#{text}</p>")
     .appendTo @authors.$el
     .slideDown()
+
+  showResults: (res)->
+    @_parseResponse res
+    @displayResults()
 
   _parseResponse: (res)->
     cache.returned = true

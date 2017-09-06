@@ -3,7 +3,6 @@ TransactionsList = require 'modules/transactions/views/transactions_list'
 TransactionsWelcome = require './transactions_welcome'
 folders = require '../lib/folders'
 foldersNames = Object.keys folders
-{ CheckViewState, catchDestroyedView } = require 'lib/view_state'
 
 module.exports = Marionette.LayoutView.extend
   className: 'transactionsLayout'

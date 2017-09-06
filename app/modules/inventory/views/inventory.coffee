@@ -5,7 +5,6 @@ ItemsGrid = require './items_grid'
 Group = require 'modules/network/views/group'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 PositionWelcome = require 'modules/map/views/position_welcome'
-{ CheckViewState, catchDestroyedView } = require 'lib/view_state'
 itemsPerPage = require '../lib/items_per_pages'
 
 # keep in sync with _controls.scss
@@ -28,8 +27,8 @@ module.exports = Marionette.LayoutView.extend
     # the side nav, than rendering the side nav and adding users and groups
     # one by one
     app.request 'waitForNetwork'
-    .then @showSideNav.bind(@)
-    .then @showItemsListOnceData.bind(@)
+    .then @ifViewIsIntact('showSideNav')
+    .then @ifViewIsIntact('showItemsListOnceData')
 
     # Commenting-out scrolling to <main>'s top
     # as keeping the icon_nav visible helps keeping landmarks
@@ -49,9 +48,7 @@ module.exports = Marionette.LayoutView.extend
     waitForData = @options.waitForData or _.preq.resolved
 
     waitForData
-    .then CheckViewState(@, 'inventory')
-    .then @showItemsList.bind(@)
-    .catch catchDestroyedView
+    .then @ifViewIsIntact('showItemsList')
     .catch _.Error('showItemsListOnceData err')
 
   showItemsList: ->

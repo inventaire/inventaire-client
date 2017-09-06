@@ -98,7 +98,6 @@ module.exports = (_)->
   # Use in promise chains when the view might be about to be re-rendered
   # and calling would thus trigger error as the method depends on regions
   # being populated (which happens at render), typically in an onRender call.
-  # See also app/lib/view_state
   Marionette.View::ifViewIsIntact = (methodName, args...)-> (result)=>
     if @isRendered
       args.push result
