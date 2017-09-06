@@ -47,9 +47,9 @@ getRemoteFn = (type, searchType, collection, searches)-> (input)->
       # Ignore the results if the input changed
       if input isnt lastInput then return
 
-      pluarlizedType = model.type + 's'
-      _.log pluarlizedType, "entity type (expected: #{type})"
-      if pluarlizedType is type
+      pluarlizedType = if model.type? then model.type + 's'
+      # The type topics accepts any type, as any entity can be a topic
+      if pluarlizedType is type or type is 'topics'
         collection.add prepareSearchResult(model)
       else
         throw error_.new "invalid entity type", 400, model
