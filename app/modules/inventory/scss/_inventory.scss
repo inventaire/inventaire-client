@@ -36,11 +36,11 @@ $tabs-navigation-font-color: #fff;
 @media screen and (min-width: $small-screen) {
   #innerMain{
     .sideNavClones{
-      width: $sideNavWidth;
+      width: $side-nav-width;
       @include transition(width);
     }
     #shadowSideNav{
-      flex: 0 0 $sideNavWidth;
+      flex: 0 0 $side-nav-width;
     }
   }
 }

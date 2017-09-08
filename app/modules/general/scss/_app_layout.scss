@@ -1,5 +1,5 @@
-$iconNavWidth: 60px;
-$sideNavWidth: 280px;
+$icon-nav-width: 60px;
+$side-nav-width: 280px;
 
 @import "top_bar";
 @import "icon_nav";
@@ -38,7 +38,7 @@ body{
     @include transition(margin-top, 0.4s, null, ease-in);
   }
   main.icon-nav-shown{
-    margin-left: $iconNavWidth;
+    margin-left: $icon-nav-width;
   }
 }
 

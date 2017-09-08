@@ -8,7 +8,7 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     @include position(fixed, $topbar-height, null, 0);
-    width: $iconNavWidth;
+    width: $icon-nav-width;
   }
   // - When the window is resized, an horizontal scroll may appear
   //   in which case, you don't want the icon_nav to appear behind the items
@@ -103,7 +103,7 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .iconButton{
-      height: $iconNavWidth;
+      height: $icon-nav-width;
       @include display-flex(row, center, center);
       .fa{
         font-size: 1.4em;
