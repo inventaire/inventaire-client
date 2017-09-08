@@ -29,3 +29,5 @@ module.exports =
       'assert-image': assertImage
 
   nearby: (range=50)-> action 'nearby', { range }
+
+  inventoryView: action 'inventory-view'

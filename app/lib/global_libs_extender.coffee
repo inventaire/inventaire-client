@@ -104,6 +104,14 @@ module.exports = (_)->
       return @[methodName].apply @, args
     # else, let the onRender hook do it
 
+  # Give focus to a view top element, so that hitting Tab focuses
+  # the first focusable element in the view
+  # To be called from a view onShow function
+  Marionette.View::focusOnShow = ->
+    # Make sure the view can be focused
+    @$el[0].tabIndex = 0
+    @$el.focus()
+
   # JQUERY
   # aliasing once to one to match Backbone vocabulary
   $.fn.once = $.fn.one

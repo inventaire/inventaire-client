@@ -1,0 +1,24 @@
+#inventory-browser{
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin-top: $horizontal-iconnav-height;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    margin-left: $icon-nav-width;
+  }
+}
+
+#browser-controls, #browser-filters{
+  @include display-flex(row, center, flex-start);
+}
+#browser-controls{
+  background-color: #e6e6e6;
+}
+
+.control-label{
+  margin: 1em 0.5em;
+  color: $grey;
+}
+
+@import 'browser_selector';

@@ -1,0 +1,56 @@
+.browser-selector{
+  position: relative;
+  margin: 1em 0.5em;
+  min-width: 12em;
+  .options{
+    display: none;
+    background-color: white;
+    ul{
+      max-height: 40vh;
+      overflow: auto;
+    }
+  }
+  &.showOptions{
+    .options{
+      display: block;
+      @include position(absolute, 100%, 0, null, 0);
+    }
+  }
+  input[name="filter"]{
+    margin: 0.4em;
+    max-width: 94%;
+  }
+  .count{
+    color: $grey;
+    font-weight: normal;
+  }
+}
+
+.selector-button{
+  background-color: white;
+  @include bg-hover(white);
+  @include radius;
+  @include shy-border;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  color: $dark-grey;
+  @include display-flex(row, center);
+  .fa{
+    // Push the icon to the right
+    margin-left: auto;
+  }
+  .count{
+    padding-left: 0.3em;
+  }
+}
+
+.browser-selector-li{
+  &:not(:last-child){
+    border-bottom: 1px solid #ddd;
+  }
+  a{
+    padding: 0.3em 0.5em;
+    @include bg-hover(white);
+    display: block;
+  }
+}

@@ -1,0 +1,9 @@
+<a class="selector-button" tabindex="0">
+  {{i18n name}}
+  <span class="count">({{count}})</span>
+  {{icon 'caret-down'}}
+</a>
+<div class="options">
+  {{#if showFilter}}<input type="text" name="filter" placeholder="{{I18n 'filter'}}...">{{/if}}
+  <ul></ul>
+</div>

@@ -9,6 +9,7 @@ initializeSerie = require '../lib/types/serie'
 initializeWork = require '../lib/types/work'
 initializeEdition = require '../lib/types/edition'
 error_ = require 'lib/error'
+Filterable = require 'modules/general/models/filterable'
 
 # One unique Entity model to rule them all
 # but with specific initializers:
@@ -24,7 +25,7 @@ editableTypes = [ 'work', 'edition', 'human', 'serie' ]
 
 placeholdersTypes = [ 'meta', 'missing' ]
 
-module.exports = Backbone.NestedModel.extend
+module.exports = Filterable.extend
   initialize: (attrs, options)->
     @refresh = options?.refresh
     @type = attrs.type or options.defaultType
@@ -48,6 +49,7 @@ module.exports = Backbone.NestedModel.extend
     @_dataPromises = []
 
     if @wikidataId then initializeWikidataEntity.call @, attrs
+    else @set 'aliases', {}
 
     if @type in editableTypes
       pathname = @get 'pathname'
@@ -190,6 +192,11 @@ module.exports = Backbone.NestedModel.extend
     # No need to force refresh until next graph change
     @graphChanged = false
     return refresh
+
+  matchable: ->
+    { lang } = app.user
+    userLangAliases = @get("aliases.#{lang}") or []
+    return [ @get('label') ].concat userLangAliases
 
 placeholderAttributes =
   labels: {}
