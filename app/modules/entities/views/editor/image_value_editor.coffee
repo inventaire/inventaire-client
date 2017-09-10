@@ -49,7 +49,6 @@ module.exports = EditorCommons.extend
     @ui.uploadConfirmation.show()
 
   saveFromUrl: ->
-    startLoading.call @, '.save'
     url = @ui.urlInput.val()
 
     if url is @model.get('value') then return @hideEditMode()
@@ -58,6 +57,8 @@ module.exports = EditorCommons.extend
       err = error_.new 'invalid URL', url
       err.selector = urlInputSelector
       return forms_.alert @, err
+
+    startLoading.call @, '.save'
 
     _.preq.post app.API.images.convertUrl, { url }
     .get 'url'
