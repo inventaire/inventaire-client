@@ -54,18 +54,16 @@ fakeFormSubmit = (username, password)->
 passwordResetRequest = (email)->
   _.preq.post app.API.auth.resetPassword, { email }
 
-# classic login finds the redirect parameter in form#browserLogin action
 prepareLoginRedirect = (redir)->
   _.type redir, 'string'
   if redir[0] is '/' then redir = redir.slice(1)
-  # for browserid login
-  app.execute 'querystring:set', 'redirect', redir
-  # for classic login
-  [ path, querystring ] = $('#browserLogin')[0].action.split('?')
+  $browserLogin = $('#browserLogin')
+  [ path, querystring ] = $browserLogin[0].action.split('?')
   query = _.parseQuery querystring
-  # override redirect if one was already set
+  # Override redirect if one was already set
   query.redirect = redir
-  $('#browserLogin')[0].action = _.buildPath path, query
+  # Store the redirect parameter in form#browserLogin action
+  $browserLogin[0].action = _.buildPath path, query
 
 emailConfirmationRequest = ->
   _.log 'sending emailConfirmationRequest'
