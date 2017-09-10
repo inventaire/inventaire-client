@@ -76,3 +76,6 @@ module.exports = EditorCommons.extend
     .catch error_.Complete(imagePreviewSelector, false)
     .catch forms_.catchAlert.bind(null, @)
     .finally stopLoading.bind(@)
+
+  # Triggered by Ctrl+Enter (behavior inherited from editor_commons)
+  save: -> @saveFromUrl()
