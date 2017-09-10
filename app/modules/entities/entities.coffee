@@ -103,7 +103,8 @@ API =
     .catch handleMissingEntity(uri)
 
   showEntityCreateFromRoute: ->
-    showEntityCreate app.request('querystring:get:full')
+    if app.request 'require:loggedIn', 'entity/new'
+      showEntityCreate app.request('querystring:get:full')
 
   showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
   showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
