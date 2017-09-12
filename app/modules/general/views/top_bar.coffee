@@ -145,9 +145,12 @@ module.exports = Marionette.LayoutView.extend
     app.vent.trigger 'search:global:change', text
 
   setQuery: (text)->
-    @ui.searchField.val text
     @showLiveSearch()
     @searchLive text
+    @ui.searchField.focus()
+    # Set value after focusing so that the cursor appears at the end
+    # cf https://stackoverflow.com/a/8631903/3324977inv
+    @ui.searchField.val text
 
   # When clicking on a live_search searchField button, the search loose the focus
   # thus the need to recover it
