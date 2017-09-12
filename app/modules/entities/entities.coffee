@@ -343,7 +343,7 @@ showClaimEntities = (claim, params)->
     error_.report 'invalid property'
     return app.execute 'show:error:missing'
 
-  unless _.isEntityUri value
+  unless _.isExtendedEntityUri value
     error_.report 'invalid value'
     return app.execute 'show:error:missing'
 
