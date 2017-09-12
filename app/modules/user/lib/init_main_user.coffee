@@ -16,5 +16,4 @@ module.exports = (app)->
 # Known cases of session errors:
 # - when the server secret is changed
 resetSession = (err)->
-  app.user.loggedIn = false
-  app.execute 'logout'
+  app.execute 'logout', '/login'

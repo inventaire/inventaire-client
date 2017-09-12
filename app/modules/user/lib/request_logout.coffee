@@ -1,21 +1,17 @@
-module.exports = ->
-  _.preq.post(app.API.auth.logout)
-  .then logoutSuccess
-  .catch logoutError
+module.exports = (redirect)->
+  _.preq.post app.API.auth.logout
+  .then logoutSuccess(redirect)
+  .catch _.Error('logout error')
 
-logoutSuccess = (data)->
+logoutSuccess = (redirect)-> (data)->
   deleteLocalDatabases()
-  _.log "You have been successfully logged out"
-  # redirecting home so that it doesn't trigger a route requiring login
-  # thus triggering a show:login
-  window.location.href = '/'
-
-logoutError = (err)->
-  _.error err, 'logout error'
+  _.log 'You have been successfully logged out'
+  # Default to redirecting home
+  window.location.href = redirect or '/'
 
 deleteLocalDatabases = ->
-  # clearing localstorage
   debug = localStorageProxy.getItem 'debug'
+  # Clearing localstorage
   localStorageProxy.clear()
   # but keeping debug config
   localStorageProxy.setItem 'debug', debug
