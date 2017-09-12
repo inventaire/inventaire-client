@@ -13,7 +13,8 @@ module.exports = (app)->
 
   app.user.loggedIn = loggedIn
 
-resetSession = ->
+# Known cases of session errors:
+# - when the server secret is changed
+resetSession = (err)->
   app.user.loggedIn = false
-  # commented-out as it seem to be responsible for random logout, in development at least
-  # app.execute 'logout'
+  app.execute 'logout'
