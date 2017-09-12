@@ -27,6 +27,7 @@ module.exports = Marionette.LayoutView.extend
       'screen:mode:change': @lazyRender
       'route:change': @onRouteChange.bind(@)
       'live:search:show:result': @onSearchUnfocus.bind(@)
+      'live:search:query': @setQuery.bind(@)
 
     @listenTo app.user, 'change:username', @lazyRender
     @listenTo app.user, 'change:picture', @lazyRender
@@ -131,15 +132,22 @@ module.exports = Marionette.LayoutView.extend
   onKeyUp: (e)->
     unless @_liveSearchIsShown then @showLiveSearch()
 
-    view = @liveSearch.currentView
     key = getActionKey e
     if key?
       if key is 'esc' then @hideLiveSearch()
-      else return view.onSpecialKey key
+      else @liveSearch.currentView.onSpecialKey key
     else
       { value } = e.currentTarget
-      view.lazySearch value
-      app.vent.trigger 'search:global:change', value
+      @searchLive value
+
+  searchLive: (text)->
+    @liveSearch.currentView.lazySearch text
+    app.vent.trigger 'search:global:change', text
+
+  setQuery: (text)->
+    @ui.searchField.val text
+    @showLiveSearch()
+    @searchLive text
 
   # When clicking on a live_search searchField button, the search loose the focus
   # thus the need to recover it

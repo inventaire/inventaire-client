@@ -35,6 +35,9 @@ API.search = (query, refresh)->
 API.searchFromQueryString = (querystring)->
   { q, refresh } = _.parseQuery querystring
   refresh = _.parseBooleanString refresh
-  # replacing "+" added that the browser search might have added
+  # Replacing "+" added that the browser search might have added
   q = q.replace /\+/g, ' '
-  API.search q, refresh
+  # Forwarding to the top bar live search instead of directly calling API.search
+  # as the live search is way faster, and from their the full search,
+  # if needed, is one click away
+  app.vent.trigger 'live:search:query', q
