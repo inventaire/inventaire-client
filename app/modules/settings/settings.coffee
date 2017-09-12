@@ -5,7 +5,7 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'settings(/)': 'showSettingsMenu'
+        'menu(/)': 'showSettingsMenu'
         'settings(/profile)(/)': 'showProfileSettings'
         'settings/notifications(/)': 'showNotificationsSettings'
         'settings/labs(/)': 'showLabsSettings'
@@ -27,7 +27,7 @@ API =
       app.layout.modal.show new SettingsMenu options
       app.execute 'modal:open', null, null, true
 
-    app.navigate 'settings', { metadata: { title: 'settings' } }
+    app.navigate 'menu', { metadata: { title: 'menu' } }
 
   showProfileSettings: -> showSettings 'profile'
   showNotificationsSettings: -> showSettings 'notifications'
