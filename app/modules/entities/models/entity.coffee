@@ -198,6 +198,10 @@ module.exports = Filterable.extend
     userLangAliases = @get("aliases.#{lang}") or []
     return [ @get('label') ].concat userLangAliases
 
+  # Overriden by modules/entities/lib/wikidata/init_entity.coffee
+  # for Wikidata entities
+  getWikipediaExtract: -> _.preq.resolved
+
 placeholderAttributes =
   labels: {}
   aliases: {}

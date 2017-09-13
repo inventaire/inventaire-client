@@ -10,6 +10,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @waitForAuthors = @model.getAuthorsModels()
+    @model.getWikipediaExtract()
 
   modelEvents:
     # The description might be overriden by a Wikipedia extract arrive later

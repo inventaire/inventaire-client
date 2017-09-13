@@ -3,6 +3,9 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     EntitiesCommons: {}
 
+  initialize: ->
+    @model.getWikipediaExtract()
+
   modelEvents:
     # The extract might arrive later
     'change:extract': 'render'

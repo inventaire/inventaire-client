@@ -8,8 +8,7 @@ module.exports = ->
   setWikiLinks.call @, lang
   setAttributes.call @, lang
 
-  waitForExtract = setWikipediaExtract.call @
-  @_dataPromises.push waitForExtract
+  _.extend @, specificMethods
 
 setWikiLinks = (lang)->
   updates =
@@ -46,14 +45,18 @@ setAttributes = (lang)->
     # This stays the same in any case
     @set 'shortDescription', description
 
-setWikipediaExtract = ->
-  lang = @get 'wikipedia.lang'
-  title = @get 'wikipedia.title'
-  unless lang? and title? then return _.preq.resolved
+specificMethods =
+  getWikipediaExtract: ->
+    # If an extract was already fetched, we are done
+    if @get('extract')? then return _.preq.resolved
 
-  wikipedia_.extract lang, title
-  .then _setWikipediaExtractAndDescription.bind(@)
-  .catch _.Error('setWikipediaExtract err')
+    lang = @get 'wikipedia.lang'
+    title = @get 'wikipedia.title'
+    unless lang? and title? then return _.preq.resolved
+
+    wikipedia_.extract lang, title
+    .then _setWikipediaExtractAndDescription.bind(@)
+    .catch _.Error('setWikipediaExtract err')
 
 _setWikipediaExtractAndDescription = (extract)->
   if _.isNonEmptyString extract

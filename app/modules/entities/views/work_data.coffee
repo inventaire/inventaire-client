@@ -19,6 +19,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'change', @lazyRender
     @hidePicture = options.hidePicture
     @waitForAuthors = @model.getAuthorsModels()
+    @model.getWikipediaExtract()
 
   serializeData: ->
     attrs = @model.toJSON()

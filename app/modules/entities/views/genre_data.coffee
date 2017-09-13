@@ -3,3 +3,4 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/genre_data'
   initialize: ->
     @listenTo @model, 'change', @render.bind(@)
+    @model.getWikipediaExtract()
