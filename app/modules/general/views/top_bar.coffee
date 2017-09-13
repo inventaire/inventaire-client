@@ -120,6 +120,9 @@ module.exports = Marionette.LayoutView.extend
     @liveSearch.$el.hide()
     @ui.overlay.addClass 'hidden'
     @_liveSearchIsShown = false
+    if @onHideOnce?
+      @onHideOnce()
+      @onHideOnce = null
 
   hideSearchOnOverlayClick: (e)-> if e.target.id is 'overlay' then @hideLiveSearch()
 
@@ -144,13 +147,14 @@ module.exports = Marionette.LayoutView.extend
     @liveSearch.currentView.lazySearch text
     app.vent.trigger 'search:global:change', text
 
-  setQuery: (text)->
+  setQuery: (params)->
+    { search, @onHideOnce } = params
     @showLiveSearch()
-    @searchLive text
+    @searchLive search
     @ui.searchField.focus()
     # Set value after focusing so that the cursor appears at the end
     # cf https://stackoverflow.com/a/8631903/3324977inv
-    @ui.searchField.val text
+    @ui.searchField.val search
 
   # When clicking on a live_search searchField button, the search loose the focus
   # thus the need to recover it

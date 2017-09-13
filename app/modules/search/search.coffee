@@ -40,4 +40,8 @@ API.searchFromQueryString = (querystring)->
   # Forwarding to the top bar live search instead of directly calling API.search
   # as the live search is way faster, and from their the full search,
   # if needed, is one click away
-  app.vent.trigger 'live:search:query', q
+  app.vent.trigger 'live:search:query',
+    search: q
+    # Show the add layout at its search tab in the background, so that clicking
+    # out of the live search doesn't result in a blank page
+    onHideOnce: app.Execute 'show:add:layout:search'
