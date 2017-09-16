@@ -1,4 +1,5 @@
-<a title="{{uri}}" tabindex="0">
+<a {{#if uri}}title="{{uri}}"{{/if}} tabindex="0">
+  {{#if icon}}{{icon icon}}{{/if}}
   {{label}}
-  <span class="count">({{count}})</span>
+  {{#if count}}<span class="count">({{count}})</span>{{/if}}
 </a>

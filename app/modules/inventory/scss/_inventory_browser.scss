@@ -12,8 +12,12 @@
 #browser-controls, #browser-filters{
   @include display-flex(row, center, flex-start);
 }
+
 #browser-controls{
   background-color: #e6e6e6;
+  &:not(.ready){
+    display: none;
+  }
 }
 
 .control-label{

@@ -9,11 +9,27 @@ module.exports = Marionette.LayoutView.extend
     genreRegion: '#genre'
     subjectRegion: '#subject'
     languageRegion: '#language'
+    ownerRegion: '#owner'
+    transactionRegion: '#transaction'
     itemsView: '#itemsView'
 
   initialize: ->
     @lazyRender = _.LazyRender @
 
+  ui:
+    browserControls: '#browser-controls'
+
+  onShow: ->
+    @focusOnShow()
+
+    Promise.all [
+      @showEntitySelectors()
+      @showOwners()
+    ]
+    # Show the controls all at once
+    .then => @ui.browserControls.addClass 'ready'
+
+  showEntitySelectors: ->
     _.preq.get app.API.items.inventoryView
     .then @spreadData.bind(@)
 
@@ -28,19 +44,28 @@ module.exports = Marionette.LayoutView.extend
 
     app.request 'get:entities:models', { uris: allUris, index: true }
     .then (entities)=>
-      @showSelector data, entities, 'wdt:P31', types, 'type'
-      @showSelector data, entities, 'wdt:P50', authors, 'author'
-      @showSelector data, entities, 'wdt:P136', genres, 'genre'
+      @showEntitySelector data, entities, 'wdt:P31', types, 'type'
+      @showEntitySelector data, entities, 'wdt:P50', authors, 'author'
+      @showEntitySelector data, entities, 'wdt:P136', genres, 'genre'
 
-  showSelector: (data, entities, property, propertyUris, name)->
+  showEntitySelector: (data, entities, property, propertyUris, name)->
     models = _.values(_.pick(entities, propertyUris)).map addCount(data[property])
+    @showSelector name, models
+
+  showOwners: ->
+    Promise.all [
+      getPublicOwnersModels()
+      getFriendsModels()
+      getGroupsModels()
+    ]
+    .then _.flatten
+    .then @showSelector.bind(@, 'owner')
+
+  showSelector: (name, models)->
     # Using a filtered collection allows browser_selector to filter
     # options without re-rendering the whole view
     collection = new FilteredCollection(new SelectorCollection(models))
     @["#{name}Region"].show new BrowserSelector { name, collection }
-
-  onShow: ->
-    @focusOnShow()
 
 addCount = (urisData)-> (model)->
   uri = model.get 'uri'
@@ -49,3 +74,16 @@ addCount = (urisData)-> (model)->
 
 SelectorCollection = Backbone.Collection.extend
   comparator: (model)-> - model.get('count')
+
+getPublicOwnersModels = ->
+  nearby = new Backbone.Model
+    icon: 'map-marker'
+    label: _.I18n('nearby')
+  nearby.matches = (filterRegex, rawInput)-> rawInput.length is 0
+  return [ nearby ]
+
+getFriendsModels = ->
+  app.request 'fetch:friends'
+  .then _.property('models')
+
+getGroupsModels = -> app.groups.models
