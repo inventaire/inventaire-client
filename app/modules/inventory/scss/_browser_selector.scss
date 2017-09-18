@@ -8,6 +8,8 @@
     ul{
       max-height: 40vh;
       overflow: auto;
+      // Required so that children's $el.position().top be relative to the ul list
+      position: relative;
     }
   }
   &.showOptions{
@@ -27,7 +29,6 @@
 }
 
 .selector-button{
-  background-color: white;
   @include bg-hover(white);
   @include radius;
   @include shy-border;
@@ -52,5 +53,8 @@
     padding: 0.3em 0.5em;
     @include bg-hover(white);
     display: block;
+  }
+  &.selected a{
+    background-color: #ddd;
   }
 }
