@@ -100,9 +100,12 @@ module.exports = Backbone.NestedModel.extend
       uri = "isbn:#{@isbn}"
       prefix = 'isbn'
       @setAltUri()
-    else
+    else if attrs._id
       uri = "inv:#{attrs._id}"
       prefix = 'inv'
+    else
+      # Known case: entity of type meta
+      throw error_.new 'invalid entity id', 500, attrs
 
     pathname = "/entity/#{uri}"
 
