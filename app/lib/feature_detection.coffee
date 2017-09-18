@@ -34,7 +34,7 @@ testFlexSupport = ->
 
 # from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString
 ISODatePolyFill = ->
-  unless DatetoISOString?
+  unless Date::toISOString?
 
     pad = (number)->
       if number < 10 then return '0' + number
