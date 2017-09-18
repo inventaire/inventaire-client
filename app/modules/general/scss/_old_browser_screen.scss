@@ -1,0 +1,19 @@
+// Doesn't support flex
+.old-browser-screen{
+  margin: 10vh 10vw;
+  padding: 1em;
+  text-align: center;
+  background-color: white;
+  @include radius;
+  h2{
+    font-weight: bold;
+    color: $dark-grey;
+  }
+  a{
+    text-decoration: underline;
+  }
+  .bg-filter{
+    @include position(fixed, 0, 0, 0, 0, -1);
+    background-color: $welcome-bg-filter;
+  }
+}

@@ -5,11 +5,11 @@ testLocalStorage = require 'lib/local_storage'
 module.exports = ->
   ISODatePolyFill()
   sayHi()
-  testFlexSupport()
   testLocalStorage()
   testVideoInput()
   setDebugSetting()
-  return
+  # If flex isn't supported, invite to install a more modern browser
+  return testFlexSupport()
 
 sayHi = ->
   console.log """
@@ -24,13 +24,18 @@ sayHi = ->
   ------
   """
 
+# Inspired by https://gist.github.com/davidhund/b995353fdf9ce387b8a2
+# and https://stackoverflow.com/a/14389903/3324977
 testFlexSupport = ->
-  # detect CSS display:flex support in JavaScript
-  # taken from http://stackoverflow.com/questions/14386133/are-there-any-javascript-code-polyfill-available-that-enable-flexbox-2012-cs/14389903#14389903
-  detector = document.createElement 'detect'
-  detector.style.display = 'flex'
-  unless detector.style.display is 'flex'
-    console.warn 'Flex is not supported'
+  try
+    el = document.createElement 'detect'
+    # Also accept with a webkit prefix to tolerate Safari 7 and 8
+    # cf http://caniuse.com/#feat=flexbox
+    el.style.display = '-webkit-flex'
+    el.style.display = 'flex'
+    return el.style.display is 'flex' or el.style.display is '-webkit-flex'
+  catch err
+    return false
 
 # from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString
 ISODatePolyFill = ->
