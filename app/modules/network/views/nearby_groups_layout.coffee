@@ -32,7 +32,7 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     app.request 'waitForNetwork'
     # render might be called several times
-    .then @lazyInitMap.bind(@)
+    .then @ifViewIsIntact('lazyInitMap')
 
   onMovend: ->
     refreshListFilter.call @

@@ -7,7 +7,7 @@ module.exports = Marionette.ItemView.extend
   onShow: ->
     unless @model.user?
       @model.waitForUser
-      .then @render.bind(@)
+      .then @ifViewIsIntact('render')
 
   serializeData: ->
     transaction = @model.get 'transaction'

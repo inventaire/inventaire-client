@@ -19,7 +19,7 @@ module.exports = Marionette.ItemView.extend
 
     # rerender once counter data arrived
     app.request 'waitForNetwork'
-    .then @lazyRender
+    .then @ifViewIsIntact('lazyRender')
     .then @listenToRequestsCollections.bind(@)
 
   updateTabs: (e)->

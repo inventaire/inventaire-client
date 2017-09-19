@@ -23,7 +23,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @model.waitForWorks
-    .then @render.bind(@)
+    .then @ifViewIsIntact('render')
 
   onRender: ->
     entityItems.onRender.call @
