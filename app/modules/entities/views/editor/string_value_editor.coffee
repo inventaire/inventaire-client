@@ -28,7 +28,7 @@ module.exports = EditorCommons.extend
     'click .edit, .displayModeData': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
-    # 'click .delete': 'delete'
+    'click .delete': 'delete'
     # Not setting a particular selector so that any keyup event on the element triggers the event
     'keyup': 'onKeyup'
 
