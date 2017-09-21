@@ -6,8 +6,10 @@
       {{partial creationPartial creationPartialData}}
     </div>
   {{else}}
-    {{#if canAddValues}}
-      {{partial 'entities:editor:add_button'}}
-    {{/if}}
+    <div class="add-value-wrapper">
+      <a class="addValue tiny-button soft-grey {{#unless canAddValues}}hidden{{/unless}}" tabindex="0">
+        {{icon 'plus'}} {{i18n 'add'}}
+      </a>
+    </div>
   {{/if}}
 </div>
