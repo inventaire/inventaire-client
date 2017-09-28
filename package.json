@@ -23,7 +23,7 @@
     "test-build": "./scripts/test_build/run local",
     "test-build-prod": "./scripts/test_build/run prod",
     "build": "./scripts/build",
-    "patches": "../scripts/run_patches ./scripts/patches",
+    "patches": "./scripts/run_patches ./scripts/patches",
     "generate-sitemaps": "./scripts/sitemaps/generate.coffee",
     "update-i18n": "./scripts/update_i18n_all",
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee",
