@@ -18,6 +18,7 @@
     }
   }
   #isbnButton{
+    font-weight: normal;
     padding-left: 1em;
     padding-right: 1em;
     // centering vertically
@@ -29,7 +30,7 @@
   }
   #withoutIsbn{
     // Aligning with #isbnField
-    margin-top: 1.55em;
+    margin-top: 1.45em;
     font-size: 0.9em;
     padding: 0.5em;
   }

@@ -86,8 +86,9 @@ textarea{
 
   /*Large screens*/
   @media screen and (min-width: $very-small-screen) {
-    input{
+    .inputBox input{
       @include radius-left;
+      @include radius-right(0);
     }
     a.button.postfix{
       @include radius-right;
