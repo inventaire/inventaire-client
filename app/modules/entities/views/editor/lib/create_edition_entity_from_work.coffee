@@ -31,16 +31,30 @@ module.exports = (params)->
 
 RenameIsbnDuplicateErr = (workUri, isbn)-> (err)->
   if err.responseJSON?.status_verbose is 'this property value is already used'
-    reportIsbnIssue workUri, isbn
-    normalizedIsbn = isbn_.normalizeIsbn isbn
-    alreadyExist = _.i18n 'this ISBN already exist:'
-    link = "<a href='/entity/isbn:#{normalizedIsbn}' class='showEntity'>#{normalizedIsbn}</a>"
-    reported = _.i18n 'the issue was reported'
-    err.responseJSON.status_verbose = "#{alreadyExist} #{link} (#{reported})"
-    err.i18n = false
-
-  throw err
+    existingEditionUri = err.responseJSON.context.entity
+    app.request 'get:entity:model', existingEditionUri
+    .then (model)->
+      existingEditionWorksUris = model.get 'claims.wdt:P629'
+      if workUri in existingEditionWorksUris
+        formatEditionAlreadyExistOnCurrentWork err
+      else
+        reportIsbnIssue workUri, isbn
+        formatDuplicateWorkErr err
+      throw err
+  else
+    throw err
 
 reportIsbnIssue = (workUri, isbn)->
   app.request 'post:feedback',
     subject: "[Possible work duplicate] #{workUri} / #{isbn}'s work"
+
+formatEditionAlreadyExistOnCurrentWork = (err)->
+  err.responseJSON.status_verbose = 'this edition is already in the list'
+
+formatDuplicateWorkErr = (err)->
+  normalizedIsbn = isbn_.normalizeIsbn isbn
+  alreadyExist = _.i18n 'this ISBN already exist:'
+  link = "<a href='/entity/isbn:#{normalizedIsbn}' class='showEntity'>#{normalizedIsbn}</a>"
+  reported = _.i18n 'the issue was reported'
+  err.responseJSON.status_verbose = "#{alreadyExist} #{link} (#{reported})"
+  err.i18n = false
