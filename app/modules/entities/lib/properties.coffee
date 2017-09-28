@@ -63,4 +63,12 @@ addProp 'wdt:P1412', 'entity', 'languages', true, null
 addProp 'wdt:P737', 'entity', 'humans', true, true
 # movement
 addProp 'wdt:P135', 'entity', 'movements', true, false
-# genre (already added for works)
+# Twitter account
+addProp 'wdt:P2002', 'string', null, false, null
+# Facebook account
+addProp 'wdt:P2013', 'string', null, false, null
+# Instagram username
+addProp 'wdt:P2003', 'string', null, false, null
+
+## work and human
+addProp 'wdt:P856', 'string', null, false, null

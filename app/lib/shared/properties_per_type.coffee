@@ -11,6 +11,7 @@ work =
   'wdt:P1545': {} # series ordinal
   'wdt:P921': {} # main subject
   'wdt:P364': {} # original language of work
+  'wdt:P856': {} # official website
   # 'wdt:P31: {}' # instance of (=> works aliases)
   # 'wdt:P110': {} # illustrator
   # 'wdt:P1476': {} # title (using P364 lang)
@@ -46,6 +47,10 @@ module.exports = (_)->
     'wdt:P569': {} # date of birth
     'wdt:P570': {} # date of death
     'wdt:P737': {} # influenced by
+    'wdt:P856': {} # official website
+    'wdt:P2002': {} # Twitter account
+    'wdt:P2013': {} # Facebook account
+    'wdt:P2003': {} # Instagram username
 
   # Using omit instead of having a common list, extended for works, so that
   # the properties order isn't constrained by being part or not of the common properties
