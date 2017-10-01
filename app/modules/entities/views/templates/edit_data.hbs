@@ -1,19 +1,13 @@
 <div class="edit-data-buttons">
   {{#if edit}}
-    <a href="{{edit}}"
-      class="showEntityEdit pencil"
-      {{#if wikidata}}
-        title="{{i18n 'edit data on Wikidata'}}"
-      {{else}}
-        title="{{i18n 'edit data'}}"
-      {{/if}}
-      >
+    <a href="{{edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
       {{icon 'pencil'}}
     </a>
-    {{#if wikidata}}{{#unless hideRefreshButton}}
-      <a class="refreshEntityData" title="{{i18n 'refresh Wikidata data'}}">
-        {{icon 'refresh'}}
-      </a>
-    {{/unless}}{{/if}}
+    {{#if wikidata}}
+      {{iconLink 'barcode' wikidata.url i18n='see on Wikidata' classes='showOnWikidata'}}
+      {{#unless hideRefreshButton}}
+        <a class="refreshEntityData" title="{{i18n 'refresh Wikidata data'}}">{{icon 'refresh'}}</a>
+      {{/unless}}
+    {{/if}}
   {{/if}}
 </div>

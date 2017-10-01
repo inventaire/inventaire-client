@@ -22,7 +22,7 @@ imagesList = Object.keys images
 exports.iconLink = (name, url, classes)->
   title = null
   if classes? and _.isObject classes.hash
-    { i18n, i18nCtx } = classes.hash
+    { i18n, i18nCtx, classes } = classes.hash
     title = _.i18n i18n, i18nCtx
 
   icon = @icon.call null, name, classes

@@ -90,7 +90,7 @@
   h2, h3, h4, h5{
     flex: 1 0 auto;
   }
-  .pencil, .refreshEntityData{
+  .pencil, .refreshEntityData, .showOnWikidata{
     font-size: 1.4rem;
     @include text-hover(rgba(white, 0.5), white);
   }
@@ -104,10 +104,10 @@
     h2, h3, h4, h5{
       // Compensate for the place taken by .edit-data-buttons
       // that prevents it to be centered
-      margin-left: 3.7em;
+      margin-left: 4.7em;
     }
     .edit-data-buttons{
-      width: 6em;
+      width: 7em;
     }
   }
 }

@@ -31,7 +31,7 @@ $author-data-threshold: 25em;
     }
     padding-bottom: 1em;
   }
-  .fa-pencil{
+  .fa-pencil, .showOnWikidata{
     @include text-hover(#bbb, white);
   }
   .claims{
