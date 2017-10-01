@@ -116,15 +116,18 @@ module.exports = Marionette.LayoutView.extend
     if $(':focus').length is 0 then return
     @hideLiveSearch()
 
-  hideLiveSearch: ->
+  hideLiveSearch: (triggerFallbackLayout=false)->
     @liveSearch.$el.hide()
     @ui.overlay.addClass 'hidden'
     @_liveSearchIsShown = false
-    if @onHideOnce?
-      @onHideOnce()
-      @onHideOnce = null
+    # Trigger the fallback layout only in cases when no other layout
+    # is set to be displayed
+    if triggerFallbackLayout and @showFallbackLayout?
+      @showFallbackLayout()
+      @showFallbackLayout = null
 
-  hideSearchOnOverlayClick: (e)-> if e.target.id is 'overlay' then @hideLiveSearch()
+  hideSearchOnOverlayClick: (e)->
+    if e.target.id is 'overlay' then @hideLiveSearch true
 
   onKeyDown: (e)->
     # Prevent the cursor to move when using special keys
@@ -137,7 +140,7 @@ module.exports = Marionette.LayoutView.extend
 
     key = getActionKey e
     if key?
-      if key is 'esc' then @hideLiveSearch()
+      if key is 'esc' then @hideLiveSearch true
       else @liveSearch.currentView.onSpecialKey key
     else
       { value } = e.currentTarget
@@ -148,7 +151,7 @@ module.exports = Marionette.LayoutView.extend
     app.vent.trigger 'search:global:change', text
 
   setQuery: (params)->
-    { search, @onHideOnce } = params
+    { search, @showFallbackLayout } = params
     @showLiveSearch()
     @searchLive search
     @ui.searchField.focus()

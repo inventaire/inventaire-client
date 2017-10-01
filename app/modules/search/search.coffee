@@ -44,4 +44,4 @@ API.searchFromQueryString = (querystring)->
     search: q
     # Show the add layout at its search tab in the background, so that clicking
     # out of the live search doesn't result in a blank page
-    onHideOnce: app.Execute 'show:add:layout:search'
+    showFallbackLayout: app.Execute 'show:add:layout:search'
