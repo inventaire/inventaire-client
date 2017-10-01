@@ -97,6 +97,8 @@ API =
     .catch handleMissingEntity(uri)
 
   showEditEntityFromUri: (uri)->
+    app.execute 'show:loader', { region: app.layout.main }
+
     # Make sure we have the freshest data before trying to edit
     getEntityModel uri, true
     .then showEntityEditFromModel
