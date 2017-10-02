@@ -25,6 +25,8 @@ module.exports =
     typeShortlist = propertiesShortlists[type]
     if typeShortlist?
       propertiesShortlist = propertiesShortlists[type].concat claimsProperties
+      # If a serie was passed in the claims, invite to add an ordinal
+      if 'wdt:P179' in claimsProperties then propertiesShortlist.push 'wdt:P1545'
     else
       propertiesShortlist = null
 
