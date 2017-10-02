@@ -2,7 +2,13 @@ wdLang = require 'wikidata-lang'
 languages = _.values wdLang.byCode
 
 module.exports = (query)->
-  re = new RegExp query.toLowerCase()
+  query = query.toLowerCase()
+
+  # If the query matches a lang code, only return the matching language
+  codeLang = wdLang.byCode[query]
+  if codeLang? then return _.preq.resolve [ formatAsSearchResult(codeLang) ]
+
+  re = new RegExp query
   # one more reason to move to Lodash asap, this would really need lazy evaluation
   results = _.chain languages
     .filter (language)-> language.label.toLowerCase().match re
