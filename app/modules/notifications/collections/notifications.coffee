@@ -20,10 +20,11 @@ module.exports = Backbone.Collection.extend
     ids = @toUpdate
     @toUpdate = []
     _.preq.post app.API.notifications, { times: ids }
-    .fail console.warn.bind(console)
+    .catch _.Error('notification update err')
 
-  addPerType: (docs)->
-    @add _.forceArray(docs).map(createTypedModel)
+  addPerType: (docs)-> @add docs.map(createTypedModel)
+
+  beforeShow: -> Promise.all _.invoke(@models, 'beforeShow')
 
 createTypedModel = (doc)->
   { type } = doc

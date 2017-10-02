@@ -1,5 +1,6 @@
 Notifications = require './collections/notifications'
 NotificationsLayout = require './views/notifications_layout'
+notifications = new Notifications
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -10,13 +11,6 @@ module.exports =
     app.addInitializer -> new Router { controller: API }
 
   initialize: ->
-    notifications = app.notifications = new Notifications
-
-    addNotifications = (notifs)->
-      getUsersData notifs
-      .then _.Full(notifications.addPerType, notifications, notifs)
-      .catch _.Error('addNotifications')
-
     app.commands.setHandlers
       'show:notifications': API.showNotifications
 
@@ -25,22 +19,15 @@ module.exports =
 
     if app.user.loggedIn
       _.preq.get app.API.notifications
-      .tap app.Request('waitForNetwork')
-      .then addNotifications
+      .then notifications.addPerType.bind(notifications)
       .catch _.Error('notifications init err')
-
-getUsersData = (notifications)->
-  ids = getUsersIds notifications
-  app.request 'fetch:users:data', ids
-
-getUsersIds = (notifications)->
-  ids = notifications.map (notif)-> notif.data.user
-  return _.uniq ids
 
 API =
   showNotifications: ->
     if app.request 'require:loggedIn', 'notifications'
-      app.layout.main.show new NotificationsLayout
-      app.navigate 'notifications',
-        metadata:
-          title: _.i18n 'notifications'
+      app.execute 'show:loader'
+      notifications.beforeShow()
+      .then ->
+        app.layout.main.show new NotificationsLayout { collection: notifications }
+        app.navigate 'notifications',
+          metadata: { title: _.i18n('notifications') }

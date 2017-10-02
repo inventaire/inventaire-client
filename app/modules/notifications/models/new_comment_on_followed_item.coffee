@@ -1,9 +1,7 @@
 Notification = require './notification'
 
 module.exports = Notification.extend
-  initSpecific:->
-    @grabAttributeModel 'user'
-    @grabAttributeModel 'item'
+  initSpecific:-> @grabAttributesModels 'user', 'item'
 
   serializeData: ->
     attrs = @toJSON()
