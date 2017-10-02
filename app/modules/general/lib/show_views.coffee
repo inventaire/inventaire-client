@@ -6,13 +6,12 @@ Loader = require '../views/behaviors/loader'
 module.exports =
   showLoader: (options={})->
     { region, selector } = options
-    if region?
-      region.show new Loader
-    else if selector?
+    if selector?
       loader = new Loader
       $(selector).html loader.render()
     else
-      app.layout.main.show new Loader
+      region or= app.layout.main
+      region.show new Loader
 
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'

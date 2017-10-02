@@ -51,7 +51,7 @@ API =
     uri = normalizeUri uri
     unless _.isExtendedEntityUri uri then return app.execute 'show:error:missing'
 
-    app.execute 'show:loader', { region: app.layout.main }
+    app.execute 'show:loader'
 
     refresh = params?.refresh or app.request('querystring:get', 'refresh')
     if refresh then app.execute 'uriLabel:refresh'
@@ -97,7 +97,7 @@ API =
     .catch handleMissingEntity(uri)
 
   showEditEntityFromUri: (uri)->
-    app.execute 'show:loader', { region: app.layout.main }
+    app.execute 'show:loader'
 
     # Make sure we have the freshest data before trying to edit
     getEntityModel uri, true
