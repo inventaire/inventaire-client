@@ -1,4 +1,6 @@
-normalizeIsbn = (text)-> text.replace(/-/g, '').replace /\s/g, ''
+# Removing any non-alpha numeric characters, especially '-' and spaces
+normalizeIsbn = (text)-> text.replace /\W/g, ''
+
 isNormalizedIsbn = (text)-> /^(97(8|9))?\d{9}(\d|X)$/.test text
 
 module.exports = (_)->

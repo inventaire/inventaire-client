@@ -10,7 +10,7 @@ module.exports = (params)->
   { view, work:workModel, e } = params
 
   $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField')
-  isbn = $isbnField.val()
+  isbn = isbn_.normalizeIsbn $isbnField.val()
 
   workUri = workModel.get 'uri'
 
