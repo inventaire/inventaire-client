@@ -7,7 +7,7 @@ error_ = require 'lib/error'
 
 module.exports = (type)->
   collection = new Backbone.Collection [], { model: SearchResult }
-  remote = getRemoteFn type, getSearchTypeFn(type), collection, []
+  remote = getRemoteFn type, getSearchTypeFn(type), collection
   return API = { collection, remote }
 
 getSearchTypeFn = (type)->
@@ -20,15 +20,10 @@ getSearchTypeFn = (type)->
     else throw new Error("unknown type: #{type}")
 
 lastInput = null
-getRemoteFn = (type, searchType, collection, searches)-> (input)->
+getRemoteFn = (type, searchType, collection)-> (input)->
   _.log input, 'input'
+  if input is lastInput then return _.preq.resolved
   lastInput = input
-  if input in searches
-    _.log input, 'already queried'
-    # keep a consistant interface by returning only promises
-    return _.preq.resolved
-
-  searches.push input
 
   entityUri = getEntityUri input
   if entityUri?
@@ -44,20 +39,28 @@ getRemoteFn = (type, searchType, collection, searches)-> (input)->
       # Ignore errors that were catched and thus didn't return anything
       unless model? then return
 
-      # Ignore the results if the input changed
+      # (1)
       if input isnt lastInput then return
 
       pluarlizedType = if model.type? then model.type + 's'
       # The type topics accepts any type, as any entity can be a topic
+      # Known issue: languages entities aren't attributed a type by the server
+      # thus thtowing an error here even if legit, prefer 2 letters language codes
       if pluarlizedType is type or type is 'topics'
-        # Reset the collection before so that previous text search or URI results
-        # don't appear in the suggestions
-        collection.reset()
-        collection.add prepareSearchResult(model)
+        # (2)
+        collection.reset prepareSearchResult(model)
       else
         throw error_.new "invalid entity type", 400, model
 
   else
     searchType input
-    .then collection.add.bind(collection)
+    .then (results)->
+      # (1)
+      if input isnt lastInput then return
+      # (2)
+      collection.reset results
     .catch _.Error("search #{type}")
+
+# (1): Ignore the results if the input changed
+# (2): Reset the collection so that previous text search or URI results
+# don't appear in the suggestions
