@@ -25,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
     @userIsAdmin = app.user.get 'admin'
     @creationMode = @model.creating
     @requiresLabel = @model.type isnt 'edition'
+    @canBeAddedToInventory = @model.type in inventoryTypes
     @showAdminSection = @userIsAdmin and not @creationMode
 
     { waitForSubentities } = @model
@@ -76,6 +77,7 @@ module.exports = Marionette.LayoutView.extend
     attrs.signalDataErrorButton = not @creationMode
     # Used when item_show attempts to 'preciseEdition' with a new edition
     attrs.itemToUpdate = @itemToUpdate
+    attrs.canBeAddedToInventory = @canBeAddedToInventory
     return attrs
 
   multiEditData: ->
@@ -208,3 +210,5 @@ possessives =
   edition: "edition's"
   serie: "series'"
   human: "author's"
+
+inventoryTypes = [ 'work', 'edition' ]

@@ -45,10 +45,12 @@
           {{I18n "create and update your item with this edition"}}
         </a>
       {{else}}
-        <a class="createAndAddEntity navigationButtons success-button" tabindex="0">
-          {{icon 'plus'}}
-          {{I18n "create and add to your inventory"}}
-        </a>
+        {{#if canBeAddedToInventory}}
+          <a class="createAndAddEntity navigationButtons success-button" tabindex="0">
+            {{icon 'plus'}}
+            {{I18n "create and add to your inventory"}}
+          </a>
+        {{/if}}
       {{/if}}
     {{/if}}
   {{else}}
