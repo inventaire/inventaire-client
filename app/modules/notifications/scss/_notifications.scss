@@ -7,10 +7,10 @@
     font-size: 1.4em;
   }
   ul{
-    @include display-flex(column, center, center);
     max-width: 40em;
     max-height: 72vh;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin: 0 auto;
   }
   li{
