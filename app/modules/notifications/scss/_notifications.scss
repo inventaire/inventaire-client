@@ -1,6 +1,5 @@
 #notificationsLayout{
   width: 100%;
-  padding-bottom: 2em;
   text-align: center;
   h2{
     @include sans-serif;
@@ -8,10 +7,9 @@
   }
   ul{
     max-width: 40em;
-    max-height: 72vh;
     overflow-y: auto;
     overflow-x: hidden;
-    margin: 0 auto;
+    margin: 0 auto 3em auto;
   }
   li{
     text-align: left;
@@ -29,9 +27,24 @@
       padding: 0.2em;
     }
   }
+  .show-notifications-settings-wrapper{
+    @include position(fixed, null, 0, 0, 0)
+    @include display-flex(row, center, center);
+  }
   .showNotificationsSettings{
-    display: inline-block;
-    margin-top: 2em;
+    background-color: $grey;
+    color: white;
+    text-decoration-color: white;
+    flex: 1 0 auto;
+    max-width: 40em;
+    text-align: center;
+    padding: 1em;
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      @include radius-top;
+      // Hackily compensating for the icon nav to center the button
+      margin-left: $icon-nav-width + 3px;
+    }
   }
   .time{
     color: $grey;
