@@ -129,6 +129,8 @@ typesMap =
 
 getTypeFromId = (id)-> id.replace 'filter-', ''
 
+# Pre-formatting is required to set the type
+# Taking the opportunity to omit all non-required data
 formatSubject = (result)->
   id: result.id
   label: result.label
