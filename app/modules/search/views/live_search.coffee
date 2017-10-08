@@ -25,6 +25,7 @@ module.exports = Marionette.CompositeView.extend
   ui:
     all: '#filter-all'
     filters: '.searchFilter'
+    results: 'ul.results'
 
   events:
     'click .searchFilter': 'updateFilters'
@@ -105,6 +106,8 @@ module.exports = Marionette.CompositeView.extend
       previousView?.unhighlight()
       view.highlight()
       @_currentHighlightIndex = newIndex
+
+      _.innerScrollTop @ui.results, view?.$el
 
   showCurrentlyHighlightedResult: ->
     hilightedView = @children.findByIndex @_currentHighlightIndex

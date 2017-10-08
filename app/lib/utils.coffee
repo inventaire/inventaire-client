@@ -106,9 +106,20 @@ module.exports = (Backbone, _, $, app, window)->
     top = $el.position().top - marginTop
     $('html, body').animate { scrollTop: top }, duration
 
-  # scroll to a given height
+  # Scroll to a given height
   scrollHeight: (height, ms=500)->
     $('html, body').animate { scrollTop: height }, ms
+
+  # Scroll to the top of an element inside a element with a scroll,
+  # typically a list of search results partially hidden
+  innerScrollTop: ($parent, $children)->
+    if $children?.length > 0
+      selectedTop = $children.position().top
+      # Adjust scroll to the selected element
+      scrollTop = $parent.scrollTop() + selectedTop - 50
+    else
+      scrollTop = 0
+    $parent.animate { scrollTop }, { duration: 50, easing: 'swing' }
 
   # let the view call the plugin with the view as context
   # ex: module.exports = _.BasicPlugin events, handlers

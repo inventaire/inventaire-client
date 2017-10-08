@@ -1,5 +1,6 @@
 module.exports = Marionette.ItemView.extend
   className: 'result'
+  tagName: 'li'
   template: require './templates/result'
   behaviors:
     PreventDefault: {}
