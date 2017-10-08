@@ -145,6 +145,10 @@ showEntityCreate = (params)->
 setHandlers = ->
   app.commands.setHandlers
     'show:entity': API.showEntity.bind(API)
+    'show:claim:entities': (property, value)->
+      claim = "#{property}-#{value}"
+      API.showEntity claim
+      app.navigate "entity/#{claim}"
 
     'show:entity:from:model': (model, params)->
       uri = model.get('uri')

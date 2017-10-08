@@ -14,6 +14,8 @@ module.exports = Marionette.ItemView.extend
         app.execute 'show:inventory:user', @model.get('id')
       when 'groups'
         app.execute 'show:inventory:group:byId', @model.get('id')
+      when 'subjects'
+        app.execute 'show:claim:entities', 'wdt:P921', @model.get('uri')
       else
         # Other cases are all entities
         app.execute 'show:entity', @model.get('uri')

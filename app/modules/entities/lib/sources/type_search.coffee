@@ -15,7 +15,7 @@ getSearchTypeFn = (type)->
   # and return an array of results
   switch type
     when 'works', 'humans', 'series', 'genres', 'movements', 'publishers' then searchType type
-    when 'topics' then wikidataSearch
+    when 'subjects' then wikidataSearch
     when 'languages' then languageSearch
     else throw new Error("unknown type: #{type}")
 
@@ -43,10 +43,10 @@ getRemoteFn = (type, searchType, collection)-> (input)->
       if input isnt lastInput then return
 
       pluarlizedType = if model.type? then model.type + 's'
-      # The type topics accepts any type, as any entity can be a topic
+      # The type subjects accepts any type, as any entity can be a topic
       # Known issue: languages entities aren't attributed a type by the server
       # thus thtowing an error here even if legit, prefer 2 letters language codes
-      if pluarlizedType is type or type is 'topics'
+      if pluarlizedType is type or type is 'subjects'
         # (2)
         collection.reset prepareSearchResult(model)
       else

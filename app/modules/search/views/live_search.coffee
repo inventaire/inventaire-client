@@ -9,6 +9,7 @@
 #   or dead (wdt:P20) nearby
 
 Results = Backbone.Collection.extend { model: require('../models/result') }
+wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
 
 module.exports = Marionette.CompositeView.extend
   id: 'live-search'
@@ -69,17 +70,28 @@ module.exports = Marionette.CompositeView.extend
     search = search?.trim()
     unless _.isNonEmptyString search then return
     @_lastSearch = search
-    _.preq.get app.API.search(@getTypes(), search, app.user.lang)
-    .then @addResults.bind(@)
+    types = @getTypes()
+
+    # Subjects aren't indexed in the server ElasticSearch
+    # as it's not a subset of Wikidata anymore: pretty much anything
+    # on Wikidata can be considered a subject
+    if types is 'subjects'
+      wikidataSearch search, false
+      .map formatSubject
+      .then @addResults.bind(@)
+    else
+      _.preq.get app.API.search(types, search, app.user.lang)
+      .get 'results'
+      .then @addResults.bind(@)
 
   getTypes: ->
     name = getTypeFromId @$el.find('.selected')[0].id
     return typesMap[name]
 
-  addResults: (res)->
+  addResults: (results)->
     @resetHighlightIndex()
-    @collection.reset res.results
-    if res.results.length is 0 then @$el.addClass 'results-0'
+    @collection.reset results
+    if results.length is 0 then @$el.addClass 'results-0'
     else @$el.removeClass 'results-0'
 
   highlightNext: -> @highlightIndexChange 1
@@ -110,5 +122,13 @@ typesMap =
   serie: 'series'
   user: 'users'
   group: 'groups'
+  subject: 'subjects'
 
 getTypeFromId = (id)-> id.replace 'filter-', ''
+
+formatSubject = (result)->
+  id: result.id
+  label: result.label
+  description: result.description
+  uri: "wd:#{result.id}"
+  type: 'subjects'

@@ -23,3 +23,8 @@ typeFormatters =
     data.typeAlias = 'group'
     data.pathname = "/groups/#{data.id}"
     return data
+
+  subjects: (data)->
+    data.typeAlias = 'subject'
+    data.pathname = "/entity/wdt:P921-#{data.uri}"
+    return data
