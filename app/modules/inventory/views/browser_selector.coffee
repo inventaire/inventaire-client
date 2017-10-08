@@ -74,16 +74,7 @@ module.exports = Marionette.CompositeView.extend
       @$el.find('.browser-selector-li')[position]().addClass 'selected'
 
     # Adjust scroll to the selected element
-    $selected = @$el.find '.selected'
-    if $selected.length > 0
-      selectedTop = @$el.find('.selected').position().top
-      # Adjust scroll to the selected element
-      scrollTop = @ui.optionsList.scrollTop() + selectedTop - 50
-    else
-      scrollTop = 0
-    @ui.optionsList.animate({ scrollTop }, scrollOptions)
+    _.innerScrollTop @ui.optionsList, @$el.find('.selected')
 
     # Prevent arrow keys to make the screen move
     e.preventDefault()
-
-scrollOptions = { duration: 50, easing: 'swing' }
