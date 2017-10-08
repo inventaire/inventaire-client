@@ -21,6 +21,10 @@ module.exports =
     icon: 'gutenberg'
     text: gutenbergText
     url: (id)-> "#{gutenbergBase()}ebooks/#{id}"
+  'wdt:P2397':
+    icon: 'youtube'
+    text: -> ''
+    url: (channelId)-> "https://www.youtube.com/channel/#{channelId}"
 
 gutenbergBase = ->
   base = if _.smallScreen() then 'http://m.' else 'https://www.'

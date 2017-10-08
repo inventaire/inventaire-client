@@ -55,6 +55,12 @@
   .fa-link{ color: $grey; }
   .fa-twitter{ color: $twitter-color; }
   .fa-facebook{ color: $facebook-color; }
+  .fa-youtube{
+    color: white;
+    background-color: $youtube-color;
+    padding: 0.2em 0;
+    @include radius;
+  }
   padding: 0.5em 1em 0.8em 1em;
   img{
     text-align: center;

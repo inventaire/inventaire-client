@@ -1,7 +1,7 @@
 # Keep in sync with app/modules/entities/lib/properties.coffee
 # and server/controllers/entities/lib/properties.coffee
 # and server/lib/wikidata/whitelisted_properties.coffee
-# and client/public/i18n/src/wikidata/properties_list.coffee
+# and [client i18n branch] src/wikidata/properties_list.coffee
 
 work =
   'wdt:P50': {} # author
@@ -51,6 +51,7 @@ module.exports = (_)->
     'wdt:P2002': {} # Twitter account
     'wdt:P2013': {} # Facebook account
     'wdt:P2003': {} # Instagram username
+    'wdt:P2397': {} # YouTube channel ID
 
   # Using omit instead of having a common list, extended for works, so that
   # the properties order isn't constrained by being part or not of the common properties
