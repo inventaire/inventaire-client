@@ -38,8 +38,14 @@ module.exports = Marionette.CompositeView.extend
       else return
 
   updateFilters: (e)-> @selectFromTarget $(e.currentTarget)
-  selectPrevFilter: -> @selectFromTarget @$el.find('.selected').prev()
-  selectNextFilter: -> @selectFromTarget @$el.find('.selected').next()
+
+  selectPrevFilter: -> @selectByPosition 'prev', 'last'
+  selectNextFilter: -> @selectByPosition 'next', 'first'
+  selectByPosition: (relation, fallback)->
+    $target = @$el.find('.selected')[relation]()
+    if $target.length is 0 then $target = @$el.find('.filters a')[fallback]()
+    @selectFromTarget $target
+
   selectFromTarget: ($target)->
     { id } = $target[0]
     isSelected = $target.hasClass 'selected'
