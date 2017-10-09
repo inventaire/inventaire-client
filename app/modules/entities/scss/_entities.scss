@@ -1,6 +1,5 @@
 @import 'entity_actions';
 @import 'work_layout';
-@import 'work_data';
 @import 'edition_layout';
 @import 'edition_commons';
 @import 'entity_data_overview';
@@ -75,7 +74,7 @@
     margin-right: 0.4em;
   }
   a span{
-    // Overriding .workData span:not(.entity-value) selector
+    // Overriding .workInfobox span:not(.entity-value) selector
     color: white !important;
   }
 }

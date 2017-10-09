@@ -1,6 +1,6 @@
-$work-data-property-color: #999;
+$work-infobox-property-color: #999;
 
-.workData{
+.workInfobox{
   text-align: center;
   position: relative;
   background-color: $darker-grey;
@@ -15,7 +15,7 @@ $work-data-property-color: #999;
     @include link-light;
   }
   a.source{
-    @include text-hover($work-data-property-color);
+    @include text-hover($work-infobox-property-color);
   }
   .covers{
     @include display-flex(row, center, center, wrap);
@@ -97,11 +97,11 @@ $work-data-property-color: #999;
   }
 }
 
-.workData, .serieInfobox{
+.workInfobox, .serieInfobox{
   .authors{
     .section-label{
       text-align: left;
-      color: $work-data-property-color;
+      color: $work-infobox-property-color;
     }
     padding: 1em 0;
   }

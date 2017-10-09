@@ -1,4 +1,4 @@
-WorkData = require './work_data'
+WorkInfobox = require './work_infobox'
 EditionsList = require './editions_list'
 EntityActions = require './entity_actions'
 entityItems = require '../lib/entity_items'
@@ -6,7 +6,7 @@ entityItems = require '../lib/entity_items'
 module.exports = Marionette.LayoutView.extend
   template: require './templates/work_layout'
   regions:
-    workData: '#workData'
+    workInfobox: '#workInfobox'
     editionsList: '#editionsList'
     # Prefix regions selectors with 'work' to avoid collisions with editions
     # displayed as sub-views
@@ -24,7 +24,7 @@ module.exports = Marionette.LayoutView.extend
       canRefreshData: true
 
   onShow: ->
-    @showWorkData()
+    @showWorkInfobox()
 
     if @item? then @showItemModal @item
     else @completeShow()
@@ -53,8 +53,8 @@ module.exports = Marionette.LayoutView.extend
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
     'click .refreshData': 'refreshData'
 
-  showWorkData: ->
-    @workData.show new WorkData { @model, workPage: true }
+  showWorkInfobox: ->
+    @workInfobox.show new WorkInfobox { @model, workPage: true }
 
   showEntityActions: -> @entityActions.show new EntityActions { @model }
 
