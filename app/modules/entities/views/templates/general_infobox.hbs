@@ -1,0 +1,13 @@
+{{#if image.url}}
+  <div class="image-wrapper">
+    <img src="{{src image.url 300}}" alt="{{label}} cover">
+    {{partial 'entities:photo_credits' image.credits}}
+  </div>
+{{/if}}
+<div class="data">
+  <h2><a class="showEntity link" href="{{pathname}}">{{label}}</a></h2>
+  <h3 class="subheader">{{shortDescription}}</h3>
+  {{#if extract}}
+    <p class="extract">{{{extract}}}</p>
+  {{/if}}
+</div>

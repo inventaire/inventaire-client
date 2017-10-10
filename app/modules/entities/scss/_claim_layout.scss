@@ -1,0 +1,33 @@
+#claimLayout{
+  .innerInfobox{
+    background-color: $dark-grey;
+    padding: 1em;
+    margin-bottom: 1em;
+    @include display-flex(row, center, center, wrap);
+    .image-wrapper{
+      max-width: 20em;
+      text-align: center;
+    }
+    .data{
+      max-width: 40em;
+      &, h2, a.showEntity{
+        color: white;
+      }
+    }
+    .source, .photo-credits, .photo-credits a{
+      color: $grey;
+    }
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      .image-wrapper{
+        // padding: 1em;
+      }
+    }
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      .image-wrapper{
+        padding: 2em;
+      }
+    }
+  }
+}

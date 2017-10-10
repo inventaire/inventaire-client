@@ -1,5 +1,4 @@
 isbn_ = require 'lib/isbn'
-wd_ = require 'lib/wikimedia/wikidata'
 wdk = require 'lib/wikidata-sdk'
 Entity = require './models/entity'
 Entities = require './collections/entities'
@@ -16,12 +15,10 @@ entitiesModelsIndex = require './lib/entities_models_index'
 createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
 ActivityLayout = require './views/activity_layout'
+ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 MergeSuggestions = require './views/editor/merge_suggestions'
-Works = require './collections/works'
-WorksList = require './views/works_list'
-{ entity:entityValueTemplate } = require 'lib/handlebars_helpers/claims_helpers'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -353,23 +350,4 @@ showClaimEntities = (claim, params)->
     error_.report 'invalid value'
     return app.execute 'show:error:missing'
 
-  # TODO: use a more strict request to get only entities from whitelisted types
-  # (and not things like films, songs, etc)
-  _.preq.get app.API.entities.reverseClaims(property, value)
-  .get 'uris'
-  .then _.Log('URIs')
-  .then (uris)->
-    collection = new Works null, { uris: uris, defaultType: 'work' }
-
-    # whitelisted properties labels are in i18n keys already, thus should not need
-    # to be fetched like what 'entityValueTemplate' is doing for the entity value
-    propertyValue = _.i18n wd_.unprefixify(property)
-    entityValue = entityValueTemplate value
-
-    app.layout.main.show new WorksList {
-      title: "#{propertyValue}: #{entityValue}"
-      customTitle: true
-      collection: collection
-      canAddOne: false
-      standalone: true
-    }
+  app.layout.main.show new ClaimLayout { property, value }
