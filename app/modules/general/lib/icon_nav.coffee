@@ -1,5 +1,4 @@
 module.exports = ->
-
   { $el } = @iconNav
 
   show = ->
@@ -10,9 +9,12 @@ module.exports = ->
     $el.hide()
     $('main').removeClass 'icon-nav-shown'
 
-  @listenTo app.vent, 'route:change', (section)->
+  updateBySection = (section)->
     if section in noIconNavRoutes then hide()
     else show()
+
+  updateBySection _.currentSection()
+  @listenTo app.vent, 'route:change', updateBySection
 
 noIconNavRoutes = [
   'welcome'
