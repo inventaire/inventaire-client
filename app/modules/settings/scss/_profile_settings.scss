@@ -20,6 +20,7 @@
   }
   #updatePassword{
     @include radius;
+    margin-top: 1em;
   }
   div.forgotPassword{
     text-align: right;

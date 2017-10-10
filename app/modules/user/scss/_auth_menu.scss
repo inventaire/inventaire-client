@@ -21,10 +21,6 @@ $auth-menu-bg: $global-background-contrast-color;
     margin-bottom: 1em;
   }
 
-  .passwordGroup{
-    margin-bottom: 1em;
-  }
-
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .custom-cell{
