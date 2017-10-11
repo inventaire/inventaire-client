@@ -340,7 +340,7 @@ entityViewGetterByType =
 
 isClaim = (claim)-> /^(wdt:|invp:)/.test claim
 showClaimEntities = (claim, params)->
-  [ property, value ] = claim.split('-')
+  [ property, value ] = claim.split '-'
 
   unless _.isPropertyUri property
     error_.report 'invalid property'
@@ -351,3 +351,4 @@ showClaimEntities = (claim, params)->
     return app.execute 'show:error:missing'
 
   app.layout.main.show new ClaimLayout { property, value }
+  app.navigate "entity/#{claim}"
