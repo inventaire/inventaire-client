@@ -22,7 +22,12 @@ module.exports = Marionette.ItemView.extend
     username: '#username'
     password: '#password'
 
-  initialize: -> _.extend @, behaviorsPlugin
+  initialize: ->
+    _.extend @, behaviorsPlugin
+
+    redirect = app.request 'querystring:get', 'redirect'
+    if _.isNonEmptyString redirect
+      app.execute 'prepare:login:redirect', redirect
 
   onShow:-> @ui.username.focus()
 
