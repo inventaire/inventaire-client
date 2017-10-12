@@ -39,7 +39,7 @@ RenameIsbnDuplicateErr = (workUri, isbn)-> (err)->
         formatEditionAlreadyExistOnCurrentWork err
       else
         reportIsbnIssue workUri, isbn
-        formatDuplicateWorkErr err
+        formatDuplicateWorkErr err, isbn
       throw err
   else
     throw err
@@ -51,7 +51,7 @@ reportIsbnIssue = (workUri, isbn)->
 formatEditionAlreadyExistOnCurrentWork = (err)->
   err.responseJSON.status_verbose = 'this edition is already in the list'
 
-formatDuplicateWorkErr = (err)->
+formatDuplicateWorkErr = (err, isbn)->
   normalizedIsbn = isbn_.normalizeIsbn isbn
   alreadyExist = _.i18n 'this ISBN already exist:'
   link = "<a href='/entity/isbn:#{normalizedIsbn}' class='showEntity'>#{normalizedIsbn}</a>"
