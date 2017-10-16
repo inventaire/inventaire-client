@@ -43,14 +43,14 @@ module.exports =
 
 API =
   showEntity: (uri, label, params)->
-    if isClaim uri then return showClaimEntities uri, params
+    refresh = params?.refresh or app.request('querystring:get', 'refresh')
+    if isClaim uri then return showClaimEntities uri, refresh
 
     uri = normalizeUri uri
     unless _.isExtendedEntityUri uri then return app.execute 'show:error:missing'
 
     app.execute 'show:loader'
 
-    refresh = params?.refresh or app.request('querystring:get', 'refresh')
     if refresh then app.execute 'uriLabel:refresh'
 
     getEntityModel uri, refresh
@@ -339,7 +339,7 @@ entityViewGetterByType =
   genre: 'getGenreLayout'
 
 isClaim = (claim)-> /^(wdt:|invp:)/.test claim
-showClaimEntities = (claim, params)->
+showClaimEntities = (claim, refresh)->
   [ property, value ] = claim.split '-'
 
   unless _.isPropertyUri property
@@ -350,5 +350,5 @@ showClaimEntities = (claim, params)->
     error_.report 'invalid value'
     return app.execute 'show:error:missing'
 
-  app.layout.main.show new ClaimLayout { property, value }
+  app.layout.main.show new ClaimLayout { property, value, refresh }
   app.navigate "entity/#{claim}"

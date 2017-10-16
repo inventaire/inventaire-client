@@ -14,7 +14,8 @@ module.exports =
     uris = uris.join '|'
     action 'by-uris', { uris, refresh }
 
-  reverseClaims: (property, uri)-> action 'reverse-claims', { property, uri }
+  reverseClaims: (property, uri, refresh)->
+    action 'reverse-claims', { property, uri, refresh }
 
   authorWorks: CustomQuery 'author-works'
   serieParts: CustomQuery 'serie-parts'

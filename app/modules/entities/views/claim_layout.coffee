@@ -13,14 +13,14 @@ module.exports = Marionette.LayoutView.extend
     list: '.list'
 
   initialize: ->
-    { @property, @value } = @options
+    { @property, @value, @refresh } = @options
 
-    app.request 'get:entity:model', @value
+    app.request 'get:entity:model', @value, @refresh
     .then (model)=>
       @model = model
       @infobox.show new GeneralInfobox { model }
 
-    getUris @property, @value
+    getUris @property, @value, @refresh
     .then _.Log('URIS')
     .then @ifViewIsIntact('showWorks')
 
@@ -39,13 +39,14 @@ module.exports = Marionette.LayoutView.extend
       customTitle: true
       collection: collection
       canAddOne: false
-      standalone: true
+      standalone: true,
+      refresh: @refresh
     }
 
-getUris = (property, value)->
+getUris = (property, value, refresh)->
   # TODO: use a more strict request to get only entities from whitelisted types
   # (and not things like films, songs, etc)
-  _.preq.get app.API.entities.reverseClaims(property, value)
+  _.preq.get app.API.entities.reverseClaims(property, value, refresh)
   .get 'uris'
 
 infoboxes =
