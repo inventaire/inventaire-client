@@ -63,8 +63,14 @@
     }
   }
   .no-result{
+    @include bg-hover(white);
+    cursor: pointer;
     text-align: center;
     color: $grey;
+    .extended-search{
+      text-decoration: underline;
+      padding-bottom: 0.2em;
+    }
   }
 }
 

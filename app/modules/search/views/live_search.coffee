@@ -30,6 +30,10 @@ module.exports = Marionette.CompositeView.extend
   events:
     'click .searchFilter': 'updateFilters'
 
+  childEvents:
+    # Passing the result to the parent layout
+    'noresult:click': -> @triggerMethod 'enter:without:hightlighed:result'
+
   onSpecialKey: (key)->
     switch key
       when 'up' then @highlightPrevious()
