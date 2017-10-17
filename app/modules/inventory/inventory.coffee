@@ -48,7 +48,7 @@ API =
     .then (userModel)-> showInventory { user, navigate }
     .catch (err)->
       if err.statusCode is 404 then app.execute 'show:error:missing'
-      else app.execute 'show:error:other'
+      else app.execute 'show:error:other', err
 
   showGroupInventory: (id, name, navigate)->
     showInventory { group: id, navigate }

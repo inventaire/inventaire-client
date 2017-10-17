@@ -103,6 +103,7 @@ showErrorNotAdmin = ->
     context: location.pathname
 
 showOtherError = (err, label)->
+  _.type err, 'objet'
   _.error err, label
   showError
     name: 'other'
