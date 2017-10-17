@@ -7,10 +7,10 @@ module.exports = (Promise)->
   resolved = Promise.resolve()
 
   return API =
-    resolve: Promise.resolve.bind Promise
-    reject: Promise.reject.bind Promise
+    resolve: Promise.resolve
+    reject: Promise.reject
     resolved: resolved
 
     # start a promise chain after a delay
     delay: resolved.delay
-    try: Promise.try.bind Promise
+    try: Promise.try

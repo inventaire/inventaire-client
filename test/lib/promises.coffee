@@ -15,5 +15,5 @@ module.exports =
   post: (params)-> bluereq.post(params).then (res)-> res.body
 
   Promise: Promise
-  reject: Promise.reject.bind(Promise)
-  resolve: Promise.resolve.bind(Promise)
+  reject: Promise.reject
+  resolve: Promise.resolve
