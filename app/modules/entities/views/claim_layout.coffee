@@ -2,6 +2,7 @@ wd_ = require 'lib/wikimedia/wikidata'
 Works = require '../collections/works'
 WorksList = require './works_list'
 GeneralInfobox = require './general_infobox'
+entities_ = require '../lib/entities'
 
 { entity:entityValueTemplate } = require 'lib/handlebars_helpers/claims_helpers'
 
@@ -20,8 +21,7 @@ module.exports = Marionette.LayoutView.extend
       @model = model
       @infobox.show new GeneralInfobox { model }
 
-    getUris @property, @value, @refresh
-    .then _.Log('URIS')
+    entities_.getReverseClaims @property, @value, @refresh, true
     .then @ifViewIsIntact('showWorks')
 
   serializeData: ->
@@ -42,12 +42,6 @@ module.exports = Marionette.LayoutView.extend
       standalone: true,
       refresh: @refresh
     }
-
-getUris = (property, value, refresh)->
-  # TODO: use a more strict request to get only entities from whitelisted types
-  # (and not things like films, songs, etc)
-  _.preq.get app.API.entities.reverseClaims(property, value, refresh)
-  .get 'uris'
 
 infoboxes =
   work: './works_data'
