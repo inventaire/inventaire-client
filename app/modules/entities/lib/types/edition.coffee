@@ -1,6 +1,7 @@
 { unprefixify } = require 'lib/wikimedia/wikidata'
 wdLang = require 'wikidata-lang'
 farInTheFuture = '2100'
+getEntityItemsByCategories = require '../get_entity_items_by_categories'
 
 module.exports = ->
   _.extend @, specificMethods
@@ -73,3 +74,5 @@ specificMethods =
     @setLabelFromTitle()
     @setPublicationTime()
     @set 'isCompositeEdition', (@get('claims.wdt:P629')?.length > 1)
+
+  getItemsByCategories: getEntityItemsByCategories

@@ -9,8 +9,12 @@ module.exports = Marionette.ItemView.extend
     'data-uri': @model.get('uri')
 
   initialize: ->
-    @listenTo @model, 'change', @render
+    @lazyRender = _.LazyRender @
+    @listenTo @model, 'change', @lazyRender
     app.execute 'uriLabel:update'
+
+    @model.getItemsByCategories()
+    .then @lazyRender
 
   behaviors:
     PreventDefault: {}
@@ -28,19 +32,18 @@ module.exports = Marionette.ItemView.extend
       app.execute 'show:item:creation:form', { entity: @model }
 
   serializeData: ->
-    attrs = _.extend @model.toJSON(),
-      counter: @counter()
-      showAllLabels: @options.showAllLabels
+    attrs = _.extend @model.toJSON(), { showAllLabels: @options.showAllLabels }
+    count = @getNetworkItemsCount()
+    if count? then attrs.counter = { count, highlight: count > 0 }
     if attrs.extract? then attrs.description = attrs.extract
     return attrs
 
-  # TODO: recover this feature by grabbing entities items with
-  # app.request('items:getByEntities'), with a mutualized call for all the 'li'
-  counter: ->
-  #   count = app.request 'items:count:byEntity', @model.get('uri')
-  #   return counter =
-  #     count: count
-  #     highlight: count > 0
+  getNetworkItemsCount: ->
+    { itemsByCategory } = @model
+    if itemsByCategory?
+      return itemsByCategory.network.length + itemsByCategory.personal.length
+    else
+      return 0
 
   toggleZoom: ->
     _.invertAttr @ui.cover, 'src', 'data-zoom-toggle'

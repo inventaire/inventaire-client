@@ -1,5 +1,6 @@
 publicDomainThresholdYear = new Date().getFullYear() - 70
 commonsSerieWork = require './commons_serie_work'
+getEntityItemsByCategories = require '../get_entity_items_by_categories'
 
 module.exports = ->
   # Main property by which sub-entities are linked to this one: edition of
@@ -79,3 +80,4 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
   subEntitiesUrisFilter: (uri)-> uri.split(':')[0] isnt 'wd'
   # wait for setImage to have run
   getImageAsync: -> @waitForSubentities.then => @get 'image'
+  getItemsByCategories: getEntityItemsByCategories

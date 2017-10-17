@@ -3,7 +3,7 @@
 queryEndpoint = (actionName, idsLabel)-> (params)->
   { ids, limit, offset, fetchPublicItemsOnly, filter } = params
   data = {}
-  if idsLabel? then data[idsLabel] = ids.join '|'
+  if idsLabel? then data[idsLabel] = _.forceArray(ids).join '|'
   if limit? then data.limit = limit
   if offset? then data.offset = offset
   if filter? then data.filter = filter
