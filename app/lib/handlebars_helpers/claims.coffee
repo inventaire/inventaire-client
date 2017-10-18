@@ -13,10 +13,12 @@ module.exports = API =
   prop: prop
   entity: entity
   claim: (args...)->
-    [ claims, prop, linkify, omitLabel, inline ] = neutralizeDataObject args
+    # entityLink: set to true to link to the entity layout (work, author, etc),
+    # the alternative being to link to a claim_layout
+    [ claims, prop, entityLink, omitLabel, inline ] = neutralizeDataObject args
     if claims?[prop]?[0]?
       label = labelString prop, omitLabel
-      values = getValuesTemplates claims[prop], linkify, prop
+      values = getValuesTemplates claims[prop], entityLink, prop
       return claimString label, values, inline
 
   timeClaim: (args...)->
@@ -43,7 +45,7 @@ module.exports = API =
       return new SafeString "<img class='image-claim #{propClass}' src='#{src}'>"
 
   stringClaim: (args...)->
-    [ claims, prop, linkify, omitLabel, inline ] = neutralizeDataObject args
+    [ claims, prop, omitLabel, inline ] = neutralizeDataObject args
     if claims?[prop]?[0]?
       label = labelString prop, omitLabel
       values = claims[prop]?.join ', '

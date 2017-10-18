@@ -1,6 +1,6 @@
-{{!-- links are for entities having a page in Inventaire:
-works, authors... not publisher or genre, yet --}}
-{{#if linkify}}
+{{!-- entityLink: set to true to link to the entity layout (work, author, etc),
+the alternative being to link to a claim_layout --}}
+{{#if entityLink}}
   <a
     href="{{entityLocalHref id label}}"
     class='link uriLabel entity-value'
