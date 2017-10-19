@@ -41,6 +41,8 @@ addProp 'wdt:P212', 'fixed-string', null, false, null
 addProp 'wdt:P957', 'fixed-string', null, false, null
 # publisher
 addProp 'wdt:P123', 'entity', 'publishers', false, false
+# collection
+addProp 'wdt:P195', 'entity', 'collections', false, false
 # date of publication
 addProp 'wdt:P577', 'simple-day', null, false, null
 # translator

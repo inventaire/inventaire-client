@@ -14,7 +14,7 @@ getSearchTypeFn = (type)->
   # the searchType function should take a input string
   # and return an array of results
   switch type
-    when 'works', 'humans', 'series', 'genres', 'movements', 'publishers' then searchType type
+    when 'works', 'humans', 'series', 'genres', 'movements', 'publishers', 'collections' then searchType type
     when 'subjects' then wikidataSearch
     when 'languages' then languageSearch
     else throw new Error("unknown type: #{type}")
