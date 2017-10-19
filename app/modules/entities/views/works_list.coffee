@@ -22,6 +22,11 @@ module.exports = Marionette.CompositeView.extend
       when 'serie' then require './serie_layout'
       when 'work' then require './work_li'
       when 'article' then require './article_li'
+      # Types included despite not being works
+      # to make this view reusable by ./claim_layout with those types.
+      # This view should thus possibily be renamed entities_list
+      when 'edition' then require './edition_layout'
+      when 'human' then require './author_layout'
       else
         err = error_.new "unknown work type: #{type}", model
         # Weird: errors thrown here don't appear anyware
