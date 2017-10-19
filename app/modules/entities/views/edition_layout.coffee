@@ -31,7 +31,8 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     _.extend @model.toJSON(),
-      standalone: @standalone
+      standalone: @options.standalone
+      onWorkLayout: @options.onWorkLayout
       works: if @standalone then @model.works?.map (work)-> work.toJSON()
 
   showEntityActions: ->

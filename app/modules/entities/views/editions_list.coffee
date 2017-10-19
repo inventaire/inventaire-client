@@ -10,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
   emptyView: require './no_edition'
   childViewOptions: ->
     itemToUpdate: @options.itemToUpdate
+    onWorkLayout: @options.onWorkLayout
 
   behaviors:
     Loading: {}

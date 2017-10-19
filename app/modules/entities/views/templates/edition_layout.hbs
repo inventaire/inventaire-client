@@ -7,16 +7,10 @@
     </div>
     <div class="claims">
       <div class="entity-title-and-edit">
-        <h2>{{stringClaim claims 'wdt:P1476' true }}</h2> {{!-- title --}}
+        <h2 class="edition-title">{{stringClaim claims 'wdt:P1476' true }}</h2> {{!-- title --}}
         {{partial 'entities:edit_data' this}}
       </div>
-      <p class="subtitle">{{stringClaim claims 'wdt:P1680' true}}</p> {{!-- subtitle --}}
-      <div class="inner-claims">
-        <strong>{{claim claims 'wdt:P629' true}}  {{!-- edition of --}}</strong>
-        {{claim claims 'wdt:P50' true}}  {{!-- author --}}
-        {{claim claims 'wdt:P179' true}} {{!-- serie --}}
-        {{partial 'entities:edition_claims' this}}
-      </div>
+      {{partial 'entities:edition_claims' this}}
     </div>
   </div>
   <div class="instances">

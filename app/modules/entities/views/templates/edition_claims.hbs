@@ -1,29 +1,31 @@
-{{claim claims 'wdt:P2679' true false true}}  {{!-- author of foreword --}}
-{{claim claims 'wdt:P2680' true false true}}  {{!-- author of afterword --}}
-<div>
-  <span class="property-value">{{i18n 'language'}}:</span>
-  {{#each claims.wdt:P407}}
-    {{{entity this false}}}&nbsp;
-  {{/each}}
-</div>
-{{#if claims.wdt:P577}}
+<p class="edition-subtitle">{{stringClaim claims 'wdt:P1680' true}}</p> {{!-- subtitle --}}
+<div class="inner-claims">
+  {{#unless onWorkLayout}}
+    {{claim claims 'wdt:P629' true}}  {{!-- edition of --}}
+    {{claim claims 'wdt:P50' true}}  {{!-- author --}}
+    {{claim claims 'wdt:P179' true}} {{!-- serie --}}
+  {{/unless}}
+
+  {{claim claims 'wdt:P2679' true false true}}  {{!-- author of foreword --}}
+  {{claim claims 'wdt:P2680' true false true}}  {{!-- author of afterword --}}
+  <p>
+    {{claim claims 'wdt:P655'}} {{!-- translator --}}
+    {{claim claims 'wdt:P407'}} {{!-- language of work or name --}}
+    {{claim claims 'wdt:P123'}} {{!-- publisher --}}
+    {{claim claims 'wdt:P195'}} {{!-- collection --}}
+    {{timeClaim claims 'wdt:P577'}} {{!-- publication date --}}
+  </p>
+  {{!-- not so important for most users --}}
   <div>
-    {{{prop 'wdt:P577'}}}
-    {{dateYear claims.wdt:P577}}
+    {{#if claims.wdt:P212}}
+      {{{prop 'wdt:P212'}}}{{claims.wdt:P212}} {{!-- ISBN-13 --}}
+    {{else}}
+      {{#if _id}}
+        <span class="property-value">{{i18n 'inventaire id'}}:</span> {{_id}}
+      {{/if}}
+    {{/if}}
   </div>
-{{/if}}
-{{!-- not so important for most users --}}
-<div>
-  {{#if claims.wdt:P212}}
-    {{{prop 'wdt:P212'}}}
-    {{claims.wdt:P212}}
-  {{else}}
-    <span class="property-value">{{i18n 'inventaire id'}}:</span> {{_id}}
+  {{#if claims.wdt:P957}}
+    <div>{{{prop 'wdt:P957'}}}{{claims.wdt:P957}}</div> {{!-- ISBN-10 --}}
   {{/if}}
 </div>
-{{#if claims.wdt:P957}}
-  <div>
-    {{{prop 'wdt:P957'}}}
-    {{claims.wdt:P957}}
-  </div>
-{{/if}}

@@ -11,4 +11,18 @@
   .property-value{
     color: $dark-grey;
   }
+  .edition-title, .subtitle{
+    // font-weight: bold;
+  }
+  .edition-title{
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+  .subtitle{
+    @include serif;
+  }
+  .inner-claims{
+    margin-top: 0.5em,
+  }
 }

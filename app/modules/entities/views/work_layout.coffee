@@ -62,6 +62,7 @@ module.exports = Marionette.LayoutView.extend
     @editionsList.show new EditionsList
       collection: @model.editions
       work: @model
+      onWorkLayout: true
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
 
