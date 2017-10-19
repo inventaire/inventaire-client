@@ -109,6 +109,10 @@
       @include display-flex(row, center, center);
       .action{
         margin: 0 auto;
+        .fa + .label{
+          // Compensating for the icon padding
+          padding-right: 0.3em;
+        }
       }
     }
     .restricted{

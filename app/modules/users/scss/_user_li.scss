@@ -253,6 +253,12 @@ $user-bg: #ddd;
     .request{
       background-color: $light-blue;
     }
+    a.action{
+      @include display-flex(row, center, center);
+      .fa + .label{
+        padding-right: 0.3em;
+      }
+    }
   }
 }
 
