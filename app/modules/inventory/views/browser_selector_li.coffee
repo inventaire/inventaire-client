@@ -10,3 +10,8 @@ module.exports = Marionette.ItemView.extend
     uri: @model.get 'uri'
     # Only 'nearby'
     icon: @model.get 'icon'
+
+  events:
+    'click': 'select'
+
+  select: -> @triggerMethod 'select', @model

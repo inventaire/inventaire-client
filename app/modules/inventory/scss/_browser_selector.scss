@@ -26,22 +26,55 @@
     color: $grey;
     font-weight: normal;
   }
+  &[data-options="0"]{
+    .selector-button{
+      cursor: not-allowed;
+      @include bg-hover(#eee, 0%);
+      opacity: 0.5;
+    }
+  }
 }
 
 .selector-button{
-  @include bg-hover(white);
+  @include bg-hover(white, 8%);
   @include radius;
   @include shy-border;
   padding: 0.5em 1em;
   font-weight: bold;
   color: $dark-grey;
   @include display-flex(row, center);
-  .fa{
-    // Push the icon to the right
-    margin-left: auto;
-  }
   .count{
     padding-left: 0.3em;
+    margin-right: auto;
+  }
+  .selectedMode .label{
+    margin-right: auto;
+  }
+  &.active .selectedMode, &:not(.active) .defaultMode{
+    flex: 1 0 auto;
+    @include display-flex(row, center, center);
+    .fa-times{
+      margin-left: 0.2em;
+    }
+  }
+  &.active .defaultMode, &:not(.active) .selectedMode{
+    display: none;
+  }
+  &.active{
+    background-color: $light-blue;
+    &, a, .count, .fa{
+      color: white;
+    }
+    &, a, .count{
+      cursor: default;
+    }
+  }
+  .fa-times{
+    @include bg-hover($light-blue);
+    padding: 0.2em 0.1em 0.2em 0.2em;
+    margin-left: 0.1em;
+    @include radius;
+    cursor: pointer;
   }
 }
 
