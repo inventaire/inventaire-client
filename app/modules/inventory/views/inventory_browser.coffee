@@ -1,4 +1,5 @@
 BrowserSelector = require './browser_selector'
+ItemsList = require './items_list'
 
 selectorTreeKeys =
   author: 'wdt:P50'
@@ -100,7 +101,11 @@ module.exports = Marionette.LayoutView.extend
       currentView.filterOptions intersectionWorkUris
 
   displayFilteredItems: (intersectionWorkUris)->
-    # TODO: find and display corresponding items
+    itemsIds = _.flatten _.values(_.pick(@workUriItemsMap, intersectionWorkUris))
+    app.request 'items:getByIds', itemsIds
+    .then (models)=>
+      collection = new Backbone.Collection models
+      @itemsView.show new ItemsList { collection }
 
   getIntersectionWorkUris: ->
     intersectionWorkUris = null

@@ -16,6 +16,9 @@ getById = (id)->
   # Maybe the item was deleted or its visibility changed?
   .catch _.ErrorRethrow('findItemById err')
 
+# TODO: query multiple items in a single request
+getByIds = (ids)-> Promise.all ids.map(getById)
+
 getNetworkItems = (params)->
   app.request 'wait:for', 'users'
   .then ->
@@ -72,6 +75,7 @@ addUsersAndItems = (collection)-> (res)->
 
 module.exports = (app)->
   app.reqres.setHandlers
+    'items:getByIds': getByIds
     'items:getByEntities': getByEntities
     'items:getNearbyItems': getNearbyItems
     'items:getLastPublic': getLastPublic
