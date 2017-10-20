@@ -23,7 +23,12 @@ module.exports = (_)->
     else pathname
 
   matchesCount: (arrays...)-> _.intersection.apply(_, arrays).length
-  haveAMatch: (arrays...)-> _.matchesCount.apply(null, arrays) > 0
+  haveAMatch: (arrayA, arrayB)->
+    for valueA in arrayA
+      for valueB in arrayB
+        # Return true as soon as possible
+        if valueA is valueB then return true
+    return false
 
   objLength: (obj)-> Object.keys(obj)?.length
 
