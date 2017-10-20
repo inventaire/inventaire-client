@@ -15,9 +15,9 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
-        'inventory/nearby': 'showInventoryNearby'
-        'inventory/last': 'showInventoryLast'
-        'inventory/browser': 'showInventoryBrowser'
+        'inventory/nearby(/)': 'showInventoryNearby'
+        'inventory/last(/)': 'showInventoryLast'
+        'inventory/browser(/)': 'showInventoryBrowser'
         'inventory/:username(/)': 'showUserInventory'
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
