@@ -77,11 +77,17 @@ module.exports = Marionette.CompositeView.extend
 
   keyAction: (e)->
     key = getActionKey e
-    switch key
-      when 'esc' then @hideOptions()
-      when 'enter' then @clickCurrentlySelected e
-      when 'down' then @selectSibling e, 'next'
-      when 'up' then @selectSibling e, 'prev'
+
+    if @_selectedOption?
+      switch key
+        when 'esc', 'enter' then @resetOptions()
+
+    else
+      switch key
+        when 'esc' then @hideOptions()
+        when 'enter' then @clickCurrentlySelected e
+        when 'down' then @selectSibling e, 'next'
+        when 'up' then @selectSibling e, 'prev'
 
   selectSibling: (e, relation)->
     @showOptions()
@@ -117,9 +123,10 @@ module.exports = Marionette.CompositeView.extend
     @triggerMethod 'filter:select', null
     @ui.selectorButton.removeClass 'active'
     @hideOptions()
+    @collection.removeFilter 'text'
+    @updateCounter()
 
   filterOptions: (intersectionWorkUris)->
-    _.log intersectionWorkUris, 'intersectionWorkUris @ filterOptions'
     if not intersectionWorkUris? then @collection.removeFilter 'intersection'
     # Do not re-filter if this selector already has a selected option
     else if @_selectedOption? then return
