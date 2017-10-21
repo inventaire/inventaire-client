@@ -46,7 +46,10 @@ module.exports = Marionette.LayoutView.extend
 
   spreadData: (data)->
     _.log data, 'data'
-    { tree, workUriItemsMap } = data
+    { worksTree:tree, workUriItemsMap, itemsByDate } = data
+
+    @showItemsListByIds itemsByDate
+
     @tree = tree
     @workUriItemsMap = workUriItemsMap
 
@@ -61,6 +64,12 @@ module.exports = Marionette.LayoutView.extend
       @showEntitySelector tree, entities, 'wdt:P50', authors, 'author'
       @showEntitySelector tree, entities, 'wdt:P136', genres, 'genre'
       @showEntitySelector tree, entities, 'wdt:P921', subjects, 'subject'
+
+  showItemsListByIds: (itemsIds)->
+    app.request 'items:getByIds', itemsIds
+    .then (models)=>
+      collection = new Backbone.Collection models
+      @itemsView.show new ItemsList { collection }
 
   showEntitySelector: (tree, entities, property, propertyUris, name)->
     treeSection = tree[property]
@@ -102,10 +111,7 @@ module.exports = Marionette.LayoutView.extend
 
   displayFilteredItems: (intersectionWorkUris)->
     itemsIds = _.flatten _.values(_.pick(@workUriItemsMap, intersectionWorkUris))
-    app.request 'items:getByIds', itemsIds
-    .then (models)=>
-      collection = new Backbone.Collection models
-      @itemsView.show new ItemsList { collection }
+    @showItemsListByIds itemsIds
 
   getIntersectionWorkUris: ->
     intersectionWorkUris = null
