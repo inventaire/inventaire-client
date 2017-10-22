@@ -4,7 +4,7 @@ error_ = require 'lib/error'
 
 getById = (id)->
   ids = [ id ]
-  _.preq.get app.API.items.byIds({ ids })
+  _.preq.get app.API.items.byIds({ ids, includeUsers: true })
   .then (res)->
     { items, users } = res
     item = items[0]
@@ -16,8 +16,11 @@ getById = (id)->
   # Maybe the item was deleted or its visibility changed?
   .catch _.ErrorRethrow('findItemById err')
 
-# TODO: query multiple items in a single request
-getByIds = (ids)-> Promise.all ids.map(getById)
+getByIds = (ids)->
+  _.preq.get app.API.items.byIds({ ids })
+  .then (res)->
+    { items } = res
+    return items.map (item)-> new Item item
 
 getNetworkItems = (params)->
   app.request 'wait:for', 'users'

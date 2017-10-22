@@ -70,7 +70,11 @@ module.exports = (_)->
     # group image width above 500 by levels of 100px to limit generated versions
     return Math.ceil(width / 100) * 100
 
-  parseBooleanString: (booleanString)-> booleanString is 'true'
+  parseBooleanString: (booleanString, defaultVal=false)->
+    if defaultVal is false
+      booleanString is 'true'
+    else
+      booleanString isnt 'false'
 
   simpleDay: (date)->
     if date? then new Date(date).toISOString().split('T')[0]

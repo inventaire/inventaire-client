@@ -1,12 +1,13 @@
 { base, action } = require('./endpoint')('items')
 
 queryEndpoint = (actionName, idsLabel)-> (params)->
-  { ids, limit, offset, fetchPublicItemsOnly, filter } = params
+  { ids, limit, offset, fetchPublicItemsOnly, filter, includeUsers } = params
   data = {}
   if idsLabel? then data[idsLabel] = ids.join '|'
   if limit? then data.limit = limit
   if offset? then data.offset = offset
   if filter? then data.filter = filter
+  if includeUsers? then data['include-users'] = includeUsers
   return action actionName, data
 
 module.exports =
