@@ -12,11 +12,13 @@ module.exports = Marionette.CompositeView.extend
   childView: BrowserSelectorLi
 
   initialize: ->
-    @listenTo app.vent, 'body:click', @hideOptions.bind(@)
-    @listenTo app.vent, 'browser:selector:click', @hideOptions.bind(@)
+    @selectorName = @options.name
     # Prevent the filter to re-filter (thus re-rendering the collection)
     # if the first value is ''
     @_lastValue = ''
+
+    @listenTo app.vent, 'body:click', @hideOptions.bind(@)
+    @listenTo app.vent, 'browser:selector:click', @hideOptions.bind(@)
 
   ui:
     filterField: 'input[name="filter"]'
@@ -27,7 +29,7 @@ module.exports = Marionette.CompositeView.extend
     count: '.count'
 
   serializeData: ->
-    name: @options.name
+    name: @selectorName
     showFilter: @collection.length > 5
     count: @collection.length
 
@@ -113,8 +115,8 @@ module.exports = Marionette.CompositeView.extend
   selectOption: (view, model)->
     @_selectedOption = model
     @triggerMethod 'filter:select', model
-    label = "<span class='label'>#{model.get('label')}</span>"
-    @ui.selectedMode.html label + _.icon('times')
+    labelSpan = "<span class='label'>#{model.get('label')}</span>"
+    @ui.selectedMode.html labelSpan + _.icon('times')
     @hideOptions()
     @ui.selectorButton.addClass 'active'
 
@@ -132,9 +134,14 @@ module.exports = Marionette.CompositeView.extend
     else if @_selectedOption? then return
     else
       { treeSection } = @options
+      ownerSelector = @selectorName is 'owner'
+      treeKey = if ownerSelector then '_id' else 'uri'
       @collection.filterBy 'intersection', (model)->
-        uri = model.get 'uri'
-        return _.haveAMatch treeSection[uri], intersectionWorkUris
+        key = model.get treeKey
+        worksUris = treeSection[key]
+        if worksUris? then return _.haveAMatch worksUris, intersectionWorkUris
+        # Known cases without worksUris: groups, nearby users
+        else return false
 
     @updateCounter()
 

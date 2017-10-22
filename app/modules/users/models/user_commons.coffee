@@ -5,6 +5,10 @@ module.exports = Positionable.extend
     username = @get('username')
     @set 'pathname', "/inventory/#{username}"
 
+    # Set for compatibility with interfaces expecting a label
+    # such as modules/inventory/views/browser_selector
+    @set 'label', username
+
   matchable: ->
     [
       @get('username')

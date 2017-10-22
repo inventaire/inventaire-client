@@ -5,7 +5,7 @@ selectorTreeKeys =
   author: 'wdt:P50'
   genre: 'wdt:P136'
   subject: 'wdt:P921'
-  # owner: null
+  owner: 'owner'
   # type
   # language
 
@@ -33,37 +33,44 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     @focusOnShow()
 
-    Promise.all [
-      @showEntitySelectors()
-      # @showOwners()
-    ]
-    # Show the controls all at once
-    .then => @ui.browserControls.addClass 'ready'
+    waitForInventoryData = @getInventoryViewData()
+    waitForOwnersModels = @getOwnersModels()
 
-  showEntitySelectors: ->
+    waitForEntitiesSelectors = waitForInventoryData
+      .then @ifViewIsIntact('showEntitySelectors')
+
+    waitForOwnersSelector = waitForInventoryData
+      # Same as grouping both promises but resolves only to the owners models
+      .then -> waitForOwnersModels
+      .then @ifViewIsIntact('showOwners')
+
+    Promise.all [ waitForEntitiesSelectors, waitForOwnersSelector ]
+    # Show the controls all at once
+    .then @ifViewIsIntact('browserControlsReady')
+
+  browserControlsReady: -> @ui.browserControls.addClass 'ready'
+
+  getInventoryViewData: ->
     _.preq.get app.API.items.inventoryView
     .then @spreadData.bind(@)
 
   spreadData: (data)->
     _.log data, 'data'
-    { worksTree:tree, workUriItemsMap, itemsByDate } = data
-
+    { @worksTree, @workUriItemsMap, itemsByDate } = data
     @showItemsListByIds itemsByDate
 
-    @tree = tree
-    @workUriItemsMap = workUriItemsMap
-
-    authors = Object.keys tree['wdt:P50']
-    genres = Object.keys tree['wdt:P136']
-    subjects = Object.keys tree['wdt:P921']
+  showEntitySelectors: ->
+    authors = Object.keys @worksTree['wdt:P50']
+    genres = Object.keys @worksTree['wdt:P136']
+    subjects = Object.keys @worksTree['wdt:P921']
 
     allUris = _.flatten [ authors, genres, subjects ]
 
     app.request 'get:entities:models', { uris: allUris, index: true }
     .then (entities)=>
-      @showEntitySelector tree, entities, 'wdt:P50', authors, 'author'
-      @showEntitySelector tree, entities, 'wdt:P136', genres, 'genre'
-      @showEntitySelector tree, entities, 'wdt:P921', subjects, 'subject'
+      @showEntitySelector entities, 'wdt:P50', authors, 'author'
+      @showEntitySelector entities, 'wdt:P136', genres, 'genre'
+      @showEntitySelector entities, 'wdt:P921', subjects, 'subject'
 
   showItemsListByIds: (itemsIds)->
     app.request 'items:getByIds', itemsIds
@@ -71,19 +78,28 @@ module.exports = Marionette.LayoutView.extend
       collection = new Backbone.Collection models
       @itemsView.show new ItemsList { collection }
 
-  showEntitySelector: (tree, entities, property, propertyUris, name)->
-    treeSection = tree[property]
+  showEntitySelector: (entities, property, propertyUris, name)->
+    treeSection = @worksTree[property]
     models = _.values(_.pick(entities, propertyUris)).map addCount(treeSection)
     @showSelector name, models, treeSection
 
-  showOwners: ->
+  getOwnersModels: ->
     Promise.all [
       getPublicOwnersModels()
       getFriendsModels()
       getGroupsModels()
+      # Include the main user
+      app.user
     ]
     .then _.flatten
-    .then @showSelector.bind(@, 'owner')
+
+  showOwners: (models)->
+    # The tree section should map the section key (here owner ids) to work URIs
+    treeSection = {}
+    for ownerId, ownerWorksItemsMap of @worksTree.owner
+      treeSection[ownerId] = Object.keys ownerWorksItemsMap
+
+    @showSelector 'owner', models, treeSection
 
   showSelector: (name, models, treeSection)->
     # Using a filtered collection allows browser_selector to filter
@@ -95,8 +111,12 @@ module.exports = Marionette.LayoutView.extend
     selectorName = selectorView.options.name
     selectorTreeKey = selectorTreeKeys[selectorName]
     if selectedOption?
-      selectedOptionUri = selectedOption.get 'uri'
-      @filters[selectorTreeKey] = selectedOptionUri
+      if selectorName is 'owner'
+        selectedOptionKey = selectedOption.get '_id'
+      else
+        selectedOptionKey = selectedOption.get 'uri'
+
+      @filters[selectorTreeKey] = selectedOptionKey
     else
       @filters[selectorTreeKey] = null
 
@@ -110,21 +130,36 @@ module.exports = Marionette.LayoutView.extend
       currentView.filterOptions intersectionWorkUris
 
   displayFilteredItems: (intersectionWorkUris)->
-    itemsIds = _.flatten _.values(_.pick(@workUriItemsMap, intersectionWorkUris))
+    if @_currentOwnerItemsByWork?
+      worksItems = _.pick @_currentOwnerItemsByWork, intersectionWorkUris
+    else
+      worksItems = _.pick @workUriItemsMap, intersectionWorkUris
+    itemsIds = _.flatten _.values(worksItems)
     @showItemsListByIds itemsIds
 
   getIntersectionWorkUris: ->
-    intersectionWorkUris = null
-    for selectorTreeKey, selectedOption of @filters
-      if selectedOption?
-        filterWorkUris = @tree[selectorTreeKey][selectedOption]
-        _.log filterWorkUris, "#{selectorTreeKey}:#{selectedOption} workUris"
-        if intersectionWorkUris?
-          intersectionWorkUris = _.intersection intersectionWorkUris, filterWorkUris
-        else
-          intersectionWorkUris = filterWorkUris
+    subsets = []
+    for selectorTreeKey, selectedOptionKey of @filters
+      if selectedOptionKey?
+        subsets.push @getFilterWorksUris(selectorTreeKey, selectedOptionKey)
+      else
+        @resetFilterData selectorTreeKey
+
+    if subsets.length is 0 then return null
+
+    intersectionWorkUris = _.intersection subsets...
 
     return _.log intersectionWorkUris, 'intersectionWorkUris'
+
+  getFilterWorksUris: (selectorTreeKey, selectedOptionKey)->
+    if selectorTreeKey is 'owner'
+      @_currentOwnerItemsByWork = @worksTree.owner[selectedOptionKey]
+      return Object.keys @_currentOwnerItemsByWork
+    else
+      return @worksTree[selectorTreeKey][selectedOptionKey]
+
+  resetFilterData: (selectorTreeKey)->
+    if selectorTreeKey is 'owner' then @_currentOwnerItemsByWork = null
 
 addCount = (urisData)-> (model)->
   uri = model.get 'uri'
