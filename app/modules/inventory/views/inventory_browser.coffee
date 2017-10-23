@@ -56,8 +56,8 @@ module.exports = Marionette.LayoutView.extend
 
   spreadData: (data)->
     _.log data, 'data'
-    { @worksTree, @workUriItemsMap, itemsByDate } = data
-    @showItemsListByIds itemsByDate
+    { @worksTree, @workUriItemsMap, @itemsByDate } = data
+    @showItemsListByIds()
 
   showEntitySelectors: ->
     authors = Object.keys @worksTree['wdt:P50']
@@ -73,6 +73,8 @@ module.exports = Marionette.LayoutView.extend
       @showEntitySelector entities, 'wdt:P921', subjects, 'subject'
 
   showItemsListByIds: (itemsIds)->
+    # Default to showing the latest items
+    itemsIds or= @itemsByDate
     app.request 'items:getByIds', itemsIds
     .then (models)=>
       collection = new Backbone.Collection models
@@ -130,6 +132,8 @@ module.exports = Marionette.LayoutView.extend
       currentView.filterOptions intersectionWorkUris
 
   displayFilteredItems: (intersectionWorkUris)->
+    unless intersectionWorkUris? then return @showItemsListByIds()
+
     if @_currentOwnerItemsByWork?
       worksItems = _.pick @_currentOwnerItemsByWork, intersectionWorkUris
     else
