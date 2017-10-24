@@ -1,15 +1,15 @@
 getActionKey = require 'lib/get_action_key'
-BrowserSelectorLi = require './browser_selector_li'
+BrowserSelectorOptions = require './browser_selector_options'
 
-module.exports = Marionette.CompositeView.extend
+module.exports = Marionette.LayoutView.extend
   className: 'browser-selector'
   attributes: ->
     # Value used as a CSS selector: [data-options="0"]
-    'data-options': @collection.length
+    'data-options': @count()
 
   template: require './templates/browser_selector'
-  childViewContainer: 'ul'
-  childView: BrowserSelectorLi
+  regions:
+    list: '.list'
 
   initialize: ->
     @selectorName = @options.name
@@ -30,15 +30,21 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     name: @selectorName
-    showFilter: @collection.length > 5
-    count: @collection.length
+    showFilter: @count() > 5
+    count: @count()
+
+  # Overriden in subclasses
+  count: -> @collection.length
+
+  onShow: ->
+    @list.show new BrowserSelectorOptions { @collection }
 
   events:
     'keydown input[name="filter"]': 'updateFilter'
     'click .selector-button': 'toggleOptions'
     'keydown': 'keyAction'
     # Prevent that a click to focus the input triggers a 'body:click' event
-    'click': (e)-> e.stopPropagation()
+    'click input': (e)-> e.stopPropagation()
 
   childEvents:
     'select': 'selectOption'
@@ -51,7 +57,7 @@ module.exports = Marionette.CompositeView.extend
     { value } = e.target
     if value is @_lastValue then return
     @_lastValue = value
-    @collection.filterByText value
+    @collectionsAction 'filterByText', value
 
   showOptions: ->
     @$el.addClass 'showOptions'
@@ -91,18 +97,25 @@ module.exports = Marionette.CompositeView.extend
         when 'down' then @selectSibling e, 'next'
         when 'up' then @selectSibling e, 'prev'
 
+  # In the simplest case, navigable elements are all childrens of the same parent
+  # but ./browser_owners_selector has a more complex case
+  arrowNavigationSelector: '.browser-selector-li'
+
   selectSibling: (e, relation)->
     @showOptions()
+    $arrowNavigationElements = @$el.find @arrowNavigationSelector
     $selected = @$el.find '.selected'
     if $selected.length is 1
+      currentIndex = $arrowNavigationElements.index $selected
       $selected.removeClass 'selected'
-      $newlySelected = $selected[relation]()
+      newIndex = if relation is 'next' then currentIndex+1 else currentIndex-1
+      $newlySelected = $arrowNavigationElements.eq newIndex
       $newlySelected.addClass 'selected'
     else
       # If none is selected, depending of the arrow direction,
       # select the first or the last
       position = if relation is 'next' then 'first' else 'last'
-      @$el.find('.browser-selector-li')[position]().addClass 'selected'
+      @$el.find(@arrowNavigationSelector)[position]().addClass 'selected'
 
     # Adjust scroll to the selected element
     _.innerScrollTop @ui.optionsList, @$el.find('.selected')
@@ -125,27 +138,44 @@ module.exports = Marionette.CompositeView.extend
     @triggerMethod 'filter:select', null
     @ui.selectorButton.removeClass 'active'
     @hideOptions()
-    @collection.removeFilter 'text'
+    @collectionsAction 'removeFilter', 'text'
     @updateCounter()
 
+  treeKeyAttribute: 'uri'
+
   filterOptions: (intersectionWorkUris)->
-    if not intersectionWorkUris? then @collection.removeFilter 'intersection'
+    if not intersectionWorkUris? then @collectionsAction 'removeFilter', 'intersection'
     # Do not re-filter if this selector already has a selected option
     else if @_selectedOption? then return
     else
       { treeSection } = @options
-      ownerSelector = @selectorName is 'owner'
-      treeKey = if ownerSelector then '_id' else 'uri'
-      @collection.filterBy 'intersection', (model)->
-        key = model.get treeKey
-        worksUris = treeSection[key]
-        if worksUris? then return _.haveAMatch worksUris, intersectionWorkUris
-        # Known cases without worksUris: groups, nearby users
-        else return false
+      filter = @_intersectionFilter.bind @, treeSection, intersectionWorkUris
+      @collectionsAction 'filterBy', 'intersection', filter
 
     @updateCounter()
 
+  _intersectionFilter: (treeSection, intersectionWorkUris, model)->
+    if intersectionWorkUris.length is 0 then return false
+    key = model.get @treeKeyAttribute
+    worksUris = treeSection[key]
+    # Known cases without worksUris: groups, nearby users
+    unless worksUris? then return false
+
+    count = @getIntersectionCount key, worksUris, intersectionWorkUris
+    if count is 0 then return false
+
+    # Set intersectionCount so that ./browser_selector_li can re-render
+    # with an updated count
+    model.set 'intersectionCount', count
+    return true
+
+  getIntersectionCount: (key, worksUris, intersectionWorkUris)->
+    _.intersection(worksUris, intersectionWorkUris).length
+
+  # To be overriden in subclasses that need to handle several collections
+  collectionsAction: (fnName, args...)-> @collection[fnName](args...)
+
   updateCounter: ->
-    remainingCount = @collection.length
+    remainingCount = @count()
     @ui.count.text "(#{remainingCount})"
     @$el.attr 'data-options', remainingCount

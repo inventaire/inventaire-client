@@ -1,5 +1,7 @@
 BrowserSelector = require './browser_selector'
+BrowserOwnersSelector = require './browser_owners_selector'
 ItemsList = require './items_list'
+SelectorsCollection = require '../collections/selectors'
 
 selectorTreeKeys =
   author: 'wdt:P50'
@@ -12,7 +14,7 @@ selectorTreeKeys =
 selectorsNames = Object.keys selectorTreeKeys
 
 selectorsRegions = {}
-for name in selectorsNames
+selectorsNames.forEach (name)->
   selectorsRegions["#{name}Region"] = "##{name}"
 
 module.exports = Marionette.LayoutView.extend
@@ -34,14 +36,14 @@ module.exports = Marionette.LayoutView.extend
     @focusOnShow()
 
     waitForInventoryData = @getInventoryViewData()
-    waitForOwnersModels = @getOwnersModels()
+    waitForOwnersCollections = @getOwnersModels()
 
     waitForEntitiesSelectors = waitForInventoryData
       .then @ifViewIsIntact('showEntitySelectors')
 
     waitForOwnersSelector = waitForInventoryData
       # Same as grouping both promises but resolves only to the owners models
-      .then -> waitForOwnersModels
+      .then -> waitForOwnersCollections
       .then @ifViewIsIntact('showOwners')
 
     Promise.all [ waitForEntitiesSelectors, waitForOwnersSelector ]
@@ -75,10 +77,14 @@ module.exports = Marionette.LayoutView.extend
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
     itemsIds or= @itemsByDate
-    app.request 'items:getByIds', itemsIds
-    .then (models)=>
-      collection = new Backbone.Collection models
-      @itemsView.show new ItemsList { collection }
+    if itemsIds.length is 0 then @_showItemsList []
+    else
+      app.request 'items:getByIds', itemsIds
+      .then @_showItemsList.bind(@)
+
+  _showItemsList: (models)->
+    collection = new Backbone.Collection models
+    @itemsView.show new ItemsList { collection }
 
   showEntitySelector: (entities, property, propertyUris, name)->
     treeSection = @worksTree[property]
@@ -86,31 +92,32 @@ module.exports = Marionette.LayoutView.extend
     @showSelector name, models, treeSection
 
   getOwnersModels: ->
-    Promise.all [
-      getPublicOwnersModels()
-      getFriendsModels()
-      getGroupsModels()
-      # Include the main user
-      app.user
-    ]
-    .then _.flatten
+    Promise.props
+      highlighted: getSelectorsCollection [ app.user ]
+      friends: getFriendsCollection()
+      groups: getGroupsCollection()
+      # nearby: getPublicOwnersCollection()
 
-  showOwners: (models)->
+  showOwners: (collections)->
     # The tree section should map the section key (here owner ids) to work URIs
     treeSection = {}
-    for ownerId, ownerWorksItemsMap of @worksTree.owner
+    ownersWorksItemsMap = @worksTree.owner
+    for ownerId, ownerWorksItemsMap of ownersWorksItemsMap
       treeSection[ownerId] = Object.keys ownerWorksItemsMap
 
-    @showSelector 'owner', models, treeSection
+    @ownerRegion.show new BrowserOwnersSelector {
+      collections,
+      treeSection,
+      ownersWorksItemsMap
+    }
 
   showSelector: (name, models, treeSection)->
-    # Using a filtered collection allows browser_selector to filter
-    # options without re-rendering the whole view
-    collection = new FilteredCollection(new SelectorCollection(models))
+    collection = getSelectorsCollection models
     @["#{name}Region"].show new BrowserSelector { name, collection, treeSection }
 
   filterSelect: (selectorView, selectedOption)->
-    selectorName = selectorView.options.name
+    { selectorName } = selectorView
+    _.type selectorName, 'string'
     selectorTreeKey = selectorTreeKeys[selectorName]
     if selectedOption?
       if selectorName is 'owner'
@@ -133,6 +140,8 @@ module.exports = Marionette.LayoutView.extend
 
   displayFilteredItems: (intersectionWorkUris)->
     unless intersectionWorkUris? then return @showItemsListByIds()
+
+    if intersectionWorkUris.length is 0 then return @showItemsListByIds []
 
     if @_currentOwnerItemsByWork?
       worksItems = _.pick @_currentOwnerItemsByWork, intersectionWorkUris
@@ -157,7 +166,7 @@ module.exports = Marionette.LayoutView.extend
 
   getFilterWorksUris: (selectorTreeKey, selectedOptionKey)->
     if selectorTreeKey is 'owner'
-      @_currentOwnerItemsByWork = @worksTree.owner[selectedOptionKey]
+      @_currentOwnerItemsByWork = @worksTree.owner[selectedOptionKey] or {}
       return Object.keys @_currentOwnerItemsByWork
     else
       return @worksTree[selectorTreeKey][selectedOptionKey]
@@ -170,18 +179,14 @@ addCount = (urisData)-> (model)->
   model.set 'count', urisData[uri].length
   return model
 
-SelectorCollection = Backbone.Collection.extend
-  comparator: (model)-> - model.get('count')
-
-getPublicOwnersModels = ->
-  nearby = new Backbone.Model
-    icon: 'map-marker'
-    label: _.I18n('nearby')
-  nearby.matches = (filterRegex, rawInput)-> rawInput.length is 0
-  return [ nearby ]
-
-getFriendsModels = ->
+getFriendsCollection = ->
   app.request 'fetch:friends'
-  .then _.property('models')
+  .get 'models'
+  .then getSelectorsCollection
 
-getGroupsModels = -> app.groups.models
+getGroupsCollection = -> getSelectorsCollection app.groups.models
+
+getSelectorsCollection = (models)->
+  # Using a filtered collection allows browser_selector to filter
+  # options without re-rendering the whole view
+  new FilteredCollection(new SelectorsCollection(models))
