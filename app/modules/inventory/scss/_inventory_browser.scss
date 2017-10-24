@@ -15,8 +15,10 @@
 
 #browser-controls{
   background-color: #e6e6e6;
+  // Will slide down when given the class .ready
+  @include transition(transform);
   &:not(.ready){
-    display: none;
+    transform: translateY(-100%);
   }
 }
 
