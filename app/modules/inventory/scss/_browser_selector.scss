@@ -2,7 +2,6 @@
   // Selectors options should appear above the items list
   z-index: 1;
   position: relative;
-  margin: 1em 0.5em;
   min-width: 12em;
   .options{
     display: none;
@@ -15,6 +14,9 @@
     }
   }
   &.showOptions{
+    // Making sure it goes above the other selectors,
+    // despite the options aboslute positioning
+    z-index: 2;
     .options{
       display: block;
       @include position(absolute, 100%, 0, null, 0);
@@ -36,6 +38,14 @@
       @include bg-hover(#eee, 0%);
       opacity: 0.5;
     }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin: 0.5em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    margin: 1em 0.5em;
   }
 }
 

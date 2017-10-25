@@ -12,6 +12,13 @@
 #browser-controls, #browser-filters{
   @include display-flex(row, center, flex-start);
   padding: 0.3em 0 0.2em 0;
+  .selectors{
+    @include display-flex(row, center, center, wrap);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    flex-direction: column;
+  }
 }
 
 #browser-controls{
@@ -24,8 +31,11 @@
 }
 
 .control-label{
-  margin: 1em 0.5em;
   color: $grey;
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    margin: 1em 0.5em;
+  }
 }
 
 @import 'browser_selector';
