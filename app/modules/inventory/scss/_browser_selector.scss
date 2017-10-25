@@ -40,6 +40,7 @@
 }
 
 .selector-button{
+  position: relative;
   @include bg-hover(white, 8%);
   @include radius;
   @include shy-border;
@@ -61,7 +62,20 @@
       margin-left: 0.2em;
     }
   }
-  &.active .defaultMode, &:not(.active) .selectedMode{
+  .defaultMode{
+    @include transition;
+    position: relative;
+  }
+  &.active .defaultMode{
+    width: 0;
+    transform: translateY(-2em);
+    color: $grey;
+    font-weight: normal;
+    .count, .fa{
+      display: none;
+    }
+  }
+  &:not(.active) .selectedMode{
     display: none;
   }
   &.active{
