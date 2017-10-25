@@ -13,6 +13,7 @@ module.exports = Marionette.ItemView.extend
       uri: attrs.uri
       # Only 'nearby'
       icon: attrs.icon
+      image: attrs.image?.url or attrs.picture
     }
 
   events:

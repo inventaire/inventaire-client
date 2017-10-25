@@ -104,9 +104,22 @@
     border-bottom: 1px solid #ddd;
   }
   a{
-    padding: 0.3em 0.5em;
+    height: 2.5em;
+    @include display-flex(row, center);
     @include bg-hover(white);
-    display: block;
+    line-height: 1em;
+    .label{
+      margin-left: 0.2em;
+    }
+    .count{
+      margin-left: auto;
+      margin-right: 0.2em;
+    }
+  }
+  .illustration{
+    width: 2.5em;
+    height: 100%;
+    @include bg-cover;
   }
   &.selected a{
     background-color: #ddd;
