@@ -85,14 +85,19 @@ module.exports = Marionette.LayoutView.extend
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
     itemsIds or= @itemsByDate
-    if itemsIds.length is 0 then @_showItemsList []
-    else
-      app.request 'items:getByIds', itemsIds
-      .then @_showItemsList.bind(@)
+    collection = new Backbone.Collection []
 
-  _showItemsList: (models)->
-    collection = new Backbone.Collection models
-    @itemsView.show new ItemsList { collection }
+    more = -> itemsIds.length > 0
+    fetchMore = ->
+      batch = itemsIds.splice 0, 20
+      if batch.length > 0
+        app.request 'items:getByIds', batch
+        .then collection.add.bind(collection)
+
+    # Fetch a first batch before displaying
+    # so that it doesn't start by displaying 'no item here'
+    fetchMore()
+    .then => @itemsView.show new ItemsList { collection, fetchMore, more }
 
   showEntitySelector: (entities, property, propertyUris, name)->
     treeSection = @worksTree[property]

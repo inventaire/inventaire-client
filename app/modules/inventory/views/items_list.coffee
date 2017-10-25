@@ -19,6 +19,7 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     { @more, @fetchMore } = @options
+    @_fetching = false
 
     masonryPlugin.call @, '.itemsList', '.itemContainer'
 
@@ -36,9 +37,14 @@ module.exports = Marionette.CompositeView.extend
     'resize': 'lazyMasonryRefresh'
 
   infiniteScroll: ->
-    if @more()
+    if @more() and not @_fetching
+      @_fetching = true
       @startLoading()
-      @fetchMore().then @stopLoading.bind(@)
+      @fetchMore()
+      .then @stopLoading.bind(@)
+      # Give the time for the DOM to update
+      .delay 200
+      .finally => @_fetching = false
 
   startLoading: -> behaviorsPlugin.startLoading.call @, '.fetchMore'
   stopLoading: -> behaviorsPlugin.stopLoading.call @, '.fetchMore'
