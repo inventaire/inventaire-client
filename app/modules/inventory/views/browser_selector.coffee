@@ -164,9 +164,12 @@ module.exports = Marionette.LayoutView.extend
     count = @getIntersectionCount key, worksUris, intersectionWorkUris
     if count is 0 then return false
 
+    # /!\ Side effect
     # Set intersectionCount so that ./browser_selector_li can re-render
-    # with an updated count
-    model.set 'intersectionCount', count
+    # with an updated count. Do no set as an attribute, as this would
+    # trigger a change event, which could (in some cases?) re-trigger a re-filter,
+    # and thus an infinite loop.
+    model._intersectionCount = count
     return true
 
   getIntersectionCount: (key, worksUris, intersectionWorkUris)->
