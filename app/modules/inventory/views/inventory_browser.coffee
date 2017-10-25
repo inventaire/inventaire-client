@@ -2,6 +2,7 @@ BrowserSelector = require './browser_selector'
 BrowserOwnersSelector = require './browser_owners_selector'
 ItemsList = require './items_list'
 SelectorsCollection = require '../collections/selectors'
+Filterable = require 'modules/general/models/filterable'
 
 selectorTreeKeys =
   author: 'wdt:P50'
@@ -67,9 +68,16 @@ module.exports = Marionette.LayoutView.extend
     subjects = Object.keys @worksTree['wdt:P921']
 
     allUris = _.flatten [ authors, genres, subjects ]
+    # The 'unknown' attribute is used to list works that have no value
+    # for one of those selector properties
+    # Removing the 'unknown' URI is here required as 'get:entities:models'
+    # won't know how to resolve it
+    allUris = _.without allUris, 'unknown'
 
     app.request 'get:entities:models', { uris: allUris, index: true }
     .then (entities)=>
+      # Re-adding the 'unknown' entity placeholder
+      entities.unknown = getUnknownModel()
       @showEntitySelector entities, 'wdt:P50', authors, 'author'
       @showEntitySelector entities, 'wdt:P136', genres, 'genre'
       @showEntitySelector entities, 'wdt:P921', subjects, 'subject'
@@ -190,3 +198,13 @@ getSelectorsCollection = (models)->
   # Using a filtered collection allows browser_selector to filter
   # options without re-rendering the whole view
   new FilteredCollection(new SelectorsCollection(models))
+
+unknownModel = null
+getUnknownModel = ->
+  # Creating the model only once requested
+  # as _.i18n can't be called straight away at initialization
+  unknownModel or= new Filterable
+    uri: 'unknown'
+    label: _.i18n('unknown')
+    matchable: -> [ 'unknown', _.i18n('unknown') ]
+  return unknownModel
