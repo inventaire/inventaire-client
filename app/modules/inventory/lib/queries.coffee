@@ -36,15 +36,15 @@ makeRequest = (params, endpoint, ids, filter)->
   # Use tap to return the server response instead of the collection
   .tap addUsersAndItems(collection)
 
-getNearbyItems = ->
-  collection = new Items
-  _.preq.get app.API.items.nearby()
-  .then addUsersAndItems(collection)
+getNearbyItems = (params)->
+  { collection, limit, offset } = params
+  _.preq.get app.API.items.nearby(limit, offset)
+  .tap addUsersAndItems(collection)
 
 getLastPublic = (params)->
   { collection, limit, offset, assertImage } = params
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
-  .then addUsersAndItems(collection)
+  .tap addUsersAndItems(collection)
 
 getItemByQueryUrl = (queryUrl)->
   collection = new Items

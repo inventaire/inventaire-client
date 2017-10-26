@@ -160,17 +160,18 @@ module.exports = Marionette.LayoutView.extend
       showDistance: true
     .catch _.Error('showLastPublicItems err')
 
+  showItemsNearby: ->
+    showPaginatedItems
+      request: 'items:getNearbyItems'
+      region: @itemsView
+      limit: itemsPerPage 5
+      allowMore: true
+      showDistance: true
+    .catch _.Error('showItemsNearby')
+
   # showControls: ->
   #   unless _.smallScreen gridMinWidth
   #     @controls.show new Controls
-
-  showItemsNearby: ->
-    app.request 'items:getNearbyItems'
-    .then (items)=>
-      @itemsView.show new ItemsList
-        collection: items
-        showDistance: true
-    .catch _.Error('showItemsNearby')
 
   showPositionWelcome: ->
     @itemsView.show new PositionWelcome

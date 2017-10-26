@@ -28,4 +28,4 @@ module.exports =
       offset: offset
       'assert-image': assertImage
 
-  nearby: (range=50)-> action 'nearby', { range }
+  nearby: (limit, offset, range=50)-> action 'nearby', { limit, offset, range }
