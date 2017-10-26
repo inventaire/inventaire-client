@@ -1,6 +1,6 @@
 error_ = require 'lib/error'
 Entity = require '../models/entity'
-{ get:entitiesGet } = app.API.entities
+{ getManyByUris } = app.API.entities
 
 # In-memory cache for all entities used during a session.
 # It's ok to attach it to window for inspection purpose
@@ -49,7 +49,7 @@ populateIndexWithMissingEntitiesModelsPromises = (uris, refresh, defaultType)->
   return
 
 getRemoteEntitiesModels = (uris, refresh, defaultType)->
-  _.preq.get entitiesGet(uris, refresh)
+  _.preq.post getManyByUris(refresh), { uris }
   .then (res)->
     { entities:entitiesData, redirects } = res
 

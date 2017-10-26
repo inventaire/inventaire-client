@@ -10,9 +10,8 @@ module.exports =
 
   searchType: (type, search, limit)-> action 'search-type', { type, search, limit }
 
-  get: (uris, refresh)->
-    uris = uris.join '|'
-    action 'by-uris', { uris, refresh }
+  # Get many by POSTing URIs in the body
+  getManyByUris: (refresh)-> action 'by-uris', { refresh }
 
   reverseClaims: (property, uri, refresh, sort)->
     action 'reverse-claims', { property, uri, refresh, sort }
