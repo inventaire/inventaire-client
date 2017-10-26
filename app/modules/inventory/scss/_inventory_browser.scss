@@ -1,13 +1,4 @@
-#inventory-browser{
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    margin-top: $horizontal-iconnav-height;
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    margin-left: $icon-nav-width;
-  }
-}
+#inventory-browser{}
 
 #browser-controls, #browser-filters{
   @include display-flex(row, center, flex-start);
@@ -38,4 +29,5 @@
   }
 }
 
+@import 'filter_preview';
 @import 'browser_selector';

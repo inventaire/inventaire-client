@@ -40,11 +40,11 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $very-small-screen) {
     margin: 0.5em;
   }
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (min-width: $very-small-screen) {
     margin: 1em 0.5em;
   }
 }
@@ -78,7 +78,14 @@
   }
   &.active .defaultMode{
     width: 0;
-    transform: translateY(-2em);
+    /*Large screens*/
+    @media screen and (min-width: $very-small-screen) {
+      transform: translateY(-2em);
+    }
+    /*Small screens*/
+    @media screen and (max-width: $very-small-screen) {
+      transform: translateX(-4em);
+    }
     color: $grey;
     font-weight: normal;
     .count, .fa{

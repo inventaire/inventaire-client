@@ -1,0 +1,90 @@
+#filterPreview{
+  width: 100%;
+  background-color: $dark-grey;
+  // Required to cast the shadow
+  // cf https://stackoverflow.com/a/27484301/3324977
+  position: relative;
+  &, h2, h3{
+    color: white;
+  }
+  h3{
+    font-size: 1.2em;
+    color: $grey;
+  }
+}
+
+$inner-filter-preview-height: 15em;
+
+#inner-filter-preview{
+  display: block;
+  // Needs to be set explicitly so that the transition can work
+  // cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions
+  height: $inner-filter-preview-height;
+  @include transition(height);
+  // Let the time to the DOM to update to avoid showing jumping divs
+  transition-delay: 0.2s;
+  overflow: hidden;
+  &:not(.shown){
+    height: 0;
+  }
+  // Use a wrapper to be able to #inner-filter-preview to be in display: block
+  // to handle the transitions
+  .general-wrapper{
+    @include display-flex(row, center, flex-start);
+  }
+  .handler{
+    &:not(.shown){
+      display: none;
+    }
+    height: $inner-filter-preview-height;
+    width: 2em;
+    background-color: #f7f7f7;
+    color: $dark-grey;
+    @include display-flex(row, center, center);
+    box-shadow: -1px 1px 2px 2px rgba(black, 0.5) inset;
+    box-shadow: 1px -1px 2px 2px rgba(black, 0.5);
+    .label{
+      transform: rotate(-90deg);
+      display: block;
+    }
+  }
+  .preview-wrapper{
+    display: block;
+    @include transition(width);
+    background-color: $dark-grey;
+    width: 95%;
+    height: $inner-filter-preview-height;
+    &:not(.active){
+      width: 0;
+    }
+  }
+  .preview-region{
+    @include display-flex(column, flex-start, flex-start);
+    max-height: $inner-filter-preview-height;
+  }
+  .generalInfobox{
+    max-height: $inner-filter-preview-height;
+    @include display-flex(row, center, center);
+  }
+  .image-wrapper{
+    @include bg-cover;
+    height: $inner-filter-preview-height;
+    width: $inner-filter-preview-height;
+  }
+  .source{
+    display: none;
+  }
+  .data{
+    padding: 1em;
+    max-height: $inner-filter-preview-height;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .image-wrapper{
+      max-width: 5em;
+    }
+    .data{
+      padding: 0.5em;
+    }
+  }
+}
