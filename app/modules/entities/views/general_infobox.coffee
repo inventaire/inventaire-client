@@ -1,16 +1,23 @@
 module.exports = Marionette.ItemView.extend
-  className: 'innerInfobox'
+  className: 'generalInfobox'
   template: require './templates/general_infobox'
   behaviors:
     EntitiesCommons: {}
 
   initialize: ->
-    @model.getWikipediaExtract()
+    # Also accept user models that will miss a getWikipediaExtract method
+    @model.getWikipediaExtract?()
+    { @small } = @options
 
   modelEvents:
     # The extract might arrive later
     'change:extract': 'render'
 
   serializeData: ->
-    _.extend @model.toJSON(),
+    attrs = @model.toJSON()
+    # Also accept user models
+    attrs.extract or= attrs.bio
+    attrs.image or= { url: attrs.picture }
+    _.extend attrs,
       standalone: @options.standalone
+      small: @small

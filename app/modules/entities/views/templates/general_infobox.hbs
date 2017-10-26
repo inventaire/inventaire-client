@@ -1,8 +1,14 @@
 {{#if image.url}}
-  <div class="image-wrapper">
-    <img src="{{src image.url 300}}" alt="{{label}} cover">
-    {{partial 'entities:photo_credits' image.credits}}
-  </div>
+  <a class="showEntity img-link" href="{{pathname}}">
+    {{#if small}}
+      <div class="image-wrapper has-background-image" style="background-image: url({{src image.url 300}})"></div>
+    {{else}}
+      <div class="image-wrapper" style="background-image: url({{src image.url 300}})"></div>
+        <img src="{{src image.url 300}}" alt="{{label}} cover">
+        {{partial 'entities:photo_credits' image.credits}}
+      </div>
+    {{/if}}
+  </a>
 {{/if}}
 <div class="data">
   <h2><a class="showEntity link" href="{{pathname}}">{{label}}</a></h2>

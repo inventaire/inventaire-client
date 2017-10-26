@@ -3,6 +3,7 @@ BrowserOwnersSelector = require './browser_owners_selector'
 ItemsList = require './items_list'
 SelectorsCollection = require '../collections/selectors'
 Filterable = require 'modules/general/models/filterable'
+FilterPreview = require './filter_preview'
 
 selectorTreeKeys =
   author: 'wdt:P50'
@@ -21,7 +22,9 @@ selectorsNames.forEach (name)->
 module.exports = Marionette.LayoutView.extend
   id: 'inventory-browser'
   template: require './templates/inventory_browser'
-  regions: _.extend selectorsRegions, { itemsView: '#itemsView' }
+  regions: _.extend selectorsRegions,
+    filterPreview: '#filterPreview'
+    itemsView: '#itemsView'
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -50,6 +53,8 @@ module.exports = Marionette.LayoutView.extend
     Promise.all [ waitForEntitiesSelectors, waitForOwnersSelector ]
     # Show the controls all at once
     .then @ifViewIsIntact('browserControlsReady')
+
+    @filterPreview.show new FilterPreview
 
   browserControlsReady: -> @ui.browserControls.addClass 'ready'
 
@@ -145,6 +150,7 @@ module.exports = Marionette.LayoutView.extend
     intersectionWorkUris = @getIntersectionWorkUris()
     @filterSelectors intersectionWorkUris
     @displayFilteredItems intersectionWorkUris
+    @filterPreview.currentView.updatePreview selectorName, selectedOption
 
   filterSelectors: (intersectionWorkUris)->
     for selectorName in selectorsNames
@@ -212,4 +218,7 @@ getUnknownModel = ->
     uri: 'unknown'
     label: _.i18n('unknown')
     matchable: -> [ 'unknown', _.i18n('unknown') ]
+
+  unknownModel.isUnknown = true
+
   return unknownModel

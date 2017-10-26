@@ -1,4 +1,4 @@
-.authorInfobox, .serieInfobox{
+.authorInfobox, .serieInfobox, .generalInfobox{
   h2{
     font-size: 1.6em;
   }
@@ -15,7 +15,6 @@
   }
   .extract{
     text-align: left;
-    padding: 1em;
     &:empty{
       padding: 0;
       height: 0;
@@ -30,6 +29,12 @@
     // thus the need to add a white background for contrast
     background-color: white;
     @include radius;
+  }
+}
+
+.authorInfobox, .serieInfobox{
+  .extract{
+    padding: 1em;
   }
   .wdt-P109{
     margin-top: 1em;
