@@ -14,6 +14,10 @@ module.exports = Positionable.extend
     @setInferredAttributes()
     @calculateHighlightScore()
 
+    # Set for compatibility with interfaces expecting a label
+    # such as modules/inventory/views/browser_selector
+    @set 'label', @get('name')
+
     # keep internal lists updated
     @on 'list:change', @recalculateAllLists.bind(@)
     # updated collections once the debounced recalculateAllLists is done

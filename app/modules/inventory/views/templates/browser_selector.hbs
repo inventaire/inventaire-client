@@ -1,0 +1,12 @@
+<a class="selector-button" tabindex="0">
+  <div class="defaultMode">
+    <span class="label">{{I18n name}}</span>
+    <span class="count">({{count}})</span>
+    {{icon 'caret-down'}}
+  </div>
+  <div class="selectedMode"></div>
+</a>
+<div class="options">
+  {{#if showFilter}}<input type="text" name="filter" placeholder="{{I18n 'filter'}}...">{{/if}}
+  <div class="list"></div>
+</div>

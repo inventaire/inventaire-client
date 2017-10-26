@@ -6,7 +6,7 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'notifications': 'showNotifications'
+        'notifications(/)': 'showNotifications'
 
     app.addInitializer -> new Router { controller: API }
 

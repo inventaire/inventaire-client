@@ -10,11 +10,11 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         '(home)': 'showHome'
-        'welcome': 'showWelcome'
-        'about': 'showWelcome'
-        'donate': 'showDonate'
-        'feedback': 'showFeedback'
-        'me': 'showMainUser'
+        'welcome(/)': 'showWelcome'
+        'about(/)': 'showWelcome'
+        'donate(/)': 'showDonate'
+        'feedback(/)': 'showFeedback'
+        'me(/)': 'showMainUser'
         '*route': 'notFound'
 
     app.addInitializer -> new Router { controller: API }

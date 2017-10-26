@@ -23,7 +23,12 @@ module.exports = (_)->
     else pathname
 
   matchesCount: (arrays...)-> _.intersection.apply(_, arrays).length
-  haveAMatch: (arrays...)-> _.matchesCount.apply(null, arrays) > 0
+  haveAMatch: (arrayA, arrayB)->
+    for valueA in arrayA
+      for valueB in arrayB
+        # Return true as soon as possible
+        if valueA is valueB then return true
+    return false
 
   objLength: (obj)-> Object.keys(obj)?.length
 
@@ -65,7 +70,11 @@ module.exports = (_)->
     # group image width above 500 by levels of 100px to limit generated versions
     return Math.ceil(width / 100) * 100
 
-  parseBooleanString: (booleanString)-> booleanString is 'true'
+  parseBooleanString: (booleanString, defaultVal=false)->
+    if defaultVal is false
+      booleanString is 'true'
+    else
+      booleanString isnt 'false'
 
   simpleDay: (date)->
     if date? then new Date(date).toISOString().split('T')[0]

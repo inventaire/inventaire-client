@@ -3,7 +3,11 @@ Positionable = require 'modules/general/models/positionable'
 module.exports = Positionable.extend
   setPathname: ->
     username = @get('username')
-    @set 'pathname', "/inventory/#{username}"
+    @set
+      pathname: "/inventory/#{username}"
+      # Set for compatibility with interfaces expecting a label
+      # such as modules/inventory/views/browser_selector
+      label: username
 
   matchable: ->
     [

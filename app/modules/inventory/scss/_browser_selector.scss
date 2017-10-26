@@ -1,0 +1,175 @@
+.browser-selector{
+  // Selectors options should appear above the items list
+  z-index: 1;
+  position: relative;
+  min-width: 12em;
+  .options{
+    display: none;
+    background-color: white;
+    ul{
+      max-height: 40vh;
+      overflow: auto;
+      // Required so that children's $el.position().top be relative to the ul list
+      position: relative;
+    }
+  }
+  &.showOptions{
+    // Making sure it goes above the other selectors,
+    // despite the options aboslute positioning
+    z-index: 2;
+    .options{
+      display: block;
+      @include position(absolute, 100%, 0, null, 0);
+      background-color: #bbb;
+      @include radius-bottom;
+    }
+  }
+  input[name="filter"]{
+    margin: 0.4em;
+    max-width: 94%;
+  }
+  .count{
+    color: $grey;
+    font-weight: normal;
+  }
+  &[data-options="0"]{
+    .selector-button{
+      cursor: not-allowed;
+      @include bg-hover(#eee, 0%);
+      opacity: 0.5;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin: 0.5em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    margin: 1em 0.5em;
+  }
+}
+
+.selector-button{
+  position: relative;
+  @include bg-hover(white, 8%);
+  @include radius;
+  @include shy-border;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  color: $dark-grey;
+  @include display-flex(row, center);
+  .count{
+    padding-left: 0.3em;
+    margin-right: auto;
+  }
+  .selectedMode .label{
+    margin-right: auto;
+  }
+  &.active .selectedMode, &:not(.active) .defaultMode{
+    flex: 1 0 auto;
+    @include display-flex(row, center, center);
+    .fa-times{
+      margin-left: 0.2em;
+    }
+  }
+  .defaultMode{
+    @include transition;
+    position: relative;
+  }
+  &.active .defaultMode{
+    width: 0;
+    transform: translateY(-2em);
+    color: $grey;
+    font-weight: normal;
+    .count, .fa{
+      display: none;
+    }
+  }
+  &:not(.active) .selectedMode{
+    display: none;
+  }
+  &.active{
+    background-color: $light-blue;
+    &:focus .fa-times{
+      background-color: darken($light-blue, 15%);
+    }
+    &, a, .count, .fa{
+      color: white;
+    }
+    &, a, .count{
+      cursor: default;
+    }
+  }
+  .fa-times{
+    @include bg-hover($light-blue);
+    padding: 0.2em 0.1em 0.2em 0.2em;
+    margin-left: 0.1em;
+    @include radius;
+    cursor: pointer;
+  }
+}
+
+.browser-selector-li{
+  &:not(:last-child){
+    border-bottom: 1px solid #ddd;
+  }
+  a{
+    height: 2.5em;
+    @include display-flex(row, center);
+    @include bg-hover(white);
+    line-height: 1em;
+    .label{
+      margin-left: 0.2em;
+    }
+    .count{
+      margin-left: auto;
+      margin-right: 0.2em;
+    }
+  }
+  .illustration{
+    width: 2.5em;
+    height: 100%;
+    @include bg-cover;
+  }
+  &.selected a{
+    background-color: #ddd;
+  }
+}
+
+.browser-selector:not(.browser-owner-selector){
+  .options ul{
+    margin: 0.4em;
+    @include radius-bottom;
+  }
+}
+
+$blue-grey: #909099;
+
+.browser-owner-selector{
+  .toggler{
+    margin-top: 0.4em;
+    @include display-flex(row, center, center);
+    @include bg-hover($blue-grey);
+    &.selected{
+      background-color: darken($blue-grey, 15%);
+    }
+    padding: 0.2em 0.2em;
+    height: 2em;
+    color: white;
+    .label{
+      margin-left: 0.2em;
+      // Centering vertically
+      margin-top: 0.2em;
+    }
+    &.toggled .fa-caret-down{
+      transform: rotate(-90deg);
+    }
+  }
+  .fa-caret-down{
+    margin-left: auto;
+  }
+  .sections{
+    margin: 0.4em;
+    @include radius-bottom;
+  }
+}

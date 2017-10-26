@@ -4,7 +4,7 @@ error_ = require 'lib/error'
 
 getById = (id)->
   ids = [ id ]
-  _.preq.get app.API.items.byIds({ ids })
+  _.preq.get app.API.items.byIds({ ids, includeUsers: true })
   .then (res)->
     { items, users } = res
     item = items[0]
@@ -15,6 +15,12 @@ getById = (id)->
       throw error_.new 'not found', 404, id
   # Maybe the item was deleted or its visibility changed?
   .catch _.ErrorRethrow('findItemById err')
+
+getByIds = (ids)->
+  _.preq.get app.API.items.byIds({ ids })
+  .then (res)->
+    { items } = res
+    return items.map (item)-> new Item item
 
 getNetworkItems = (params)->
   app.request 'wait:for', 'users'
@@ -72,6 +78,7 @@ addUsersAndItems = (collection)-> (res)->
 
 module.exports = (app)->
   app.reqres.setHandlers
+    'items:getByIds': getByIds
     'items:getByEntities': getByEntities
     'items:getNearbyItems': getNearbyItems
     'items:getLastPublic': getLastPublic

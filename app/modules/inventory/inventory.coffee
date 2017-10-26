@@ -1,6 +1,7 @@
 ItemShow = require './views/item_show'
 initQueries = require './lib/queries'
 InventoryLayout = require './views/inventory'
+InventoryBrowser = require './views/inventory_browser'
 AddLayout = require './views/add/add_layout'
 EmbeddedScanner = require './views/add/embedded_scanner'
 initLayout = require './lib/layout'
@@ -14,8 +15,9 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
-        'inventory/nearby': 'showInventoryNearby'
-        'inventory/last': 'showInventoryLast'
+        'inventory/nearby(/)': 'showInventoryNearby'
+        'inventory/last(/)': 'showInventoryLast'
+        'inventory/browser(/)': 'showInventoryBrowser'
         'inventory/:username(/)': 'showUserInventory'
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
@@ -98,6 +100,10 @@ API =
         app.layout.main.show new EmbeddedScanner
       else
         API.showScan()
+
+  showInventoryBrowser: ->
+    if app.request 'require:loggedIn', 'inventory/browser'
+      app.layout.main.show new InventoryBrowser
 
 showAddLayout = (tab='search')-> app.layout.main.show new AddLayout { tab }
 

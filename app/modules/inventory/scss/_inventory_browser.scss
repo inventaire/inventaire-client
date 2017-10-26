@@ -1,0 +1,41 @@
+#inventory-browser{
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin-top: $horizontal-iconnav-height;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    margin-left: $icon-nav-width;
+  }
+}
+
+#browser-controls, #browser-filters{
+  @include display-flex(row, center, flex-start);
+  padding: 0.3em 0 0.2em 0;
+  .selectors{
+    @include display-flex(row, center, center, wrap);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    flex-direction: column;
+  }
+}
+
+#browser-controls{
+  background-color: #e6e6e6;
+  // Will slide down when given the class .ready
+  @include transition(transform);
+  &:not(.ready){
+    transform: translateY(-100%);
+  }
+}
+
+.control-label{
+  color: $grey;
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    margin: 1em 0.5em;
+  }
+}
+
+@import 'browser_selector';

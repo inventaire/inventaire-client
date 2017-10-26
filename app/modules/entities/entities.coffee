@@ -24,17 +24,17 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'entity/new': 'showEntityCreateFromRoute'
-        'entity/changes': 'showChanges'
-        'entity/activity': 'showActivity'
-        'entity/deduplicate': 'showDeduplicate'
+        'entity/new(/)': 'showEntityCreateFromRoute'
+        'entity/changes(/)': 'showChanges'
+        'entity/activity(/)': 'showActivity'
+        'entity/deduplicate(/)': 'showDeduplicate'
         'entity/:uri/deduplicate(/)': 'showEntityDeduplicate'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
         'entity/:uri(/:label)(/)': 'showEntity'
-        'wd/:qid': 'showWdEntity'
-        'isbn/:isbn': 'showIsbnEntity'
-        'inv/:id': 'showInvEntity'
+        'wd/:qid(/)': 'showWdEntity'
+        'isbn/:isbn(/)': 'showIsbnEntity'
+        'inv/:id(/)': 'showInvEntity'
 
     app.addInitializer -> new Router { controller: API }
 

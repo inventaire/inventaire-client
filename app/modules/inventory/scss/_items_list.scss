@@ -4,6 +4,12 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
 .itemsListWrapper{
   @include display-flex(column, center, center);
   flex: 1 1 auto;
+  .fetchMore{
+    // Give it a forced height and width so that it can trigger inview events
+    height: 2em;
+    width: 2em;
+    margin: 1em;
+  }
 }
 .itemsList{
   // required to avoid itemsLists to overlapse when empty

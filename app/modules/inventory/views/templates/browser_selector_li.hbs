@@ -1,0 +1,7 @@
+<a {{#if uri}}title="{{uri}}"{{/if}}>
+  <div class="illustration" {{#if image}}style="background-image: url({{src image 48}})"{{/if}}>
+    {{#if icon}}{{icon icon}}{{/if}}
+  </div>
+  <span class="label">{{label}}</span>
+  <span class="count">{{#if count}}({{count}}){{/if}}</span>
+</a>
