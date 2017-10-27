@@ -23,4 +23,5 @@ module.exports =
   Username: /^\w{2,20}$/
   EntityUri: /^(wd:Q\d+|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
   PropertyUri: /^(wdt|invp):P\d+$/
-  SimpleDay: /^-?\d{1,4}(-\d{2}-\d{2})?$/
+  # A year can't start by a 0
+  SimpleDay: /^-?([1-9]{1}[0-9]{0,3}|0)(-\d{2}-\d{2})?$/
