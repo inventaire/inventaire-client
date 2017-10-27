@@ -217,8 +217,8 @@ getUnknownModel = ->
   unknownModel or= new Filterable
     uri: 'unknown'
     label: _.i18n('unknown')
-    matchable: -> [ 'unknown', _.i18n('unknown') ]
 
   unknownModel.isUnknown = true
+  unknownModel.matchable = -> [ 'unknown', _.i18n('unknown') ]
 
   return unknownModel
