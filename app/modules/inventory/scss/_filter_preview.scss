@@ -52,7 +52,7 @@ $inner-filter-preview-height: 15em;
     display: block;
     @include transition(width);
     background-color: $dark-grey;
-    width: 95%;
+    width: 100%;
     height: $inner-filter-preview-height;
     &:not(.active){
       width: 0;
@@ -68,6 +68,9 @@ $inner-filter-preview-height: 15em;
   }
   .image-wrapper{
     @include bg-cover;
+    // Giving priority to the images top
+    // as humans portraits might otherwise be truncated
+    background-position: top center;
     height: $inner-filter-preview-height;
     width: $inner-filter-preview-height;
   }
