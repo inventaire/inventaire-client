@@ -16,14 +16,18 @@ addProp 'wdt:P50', 'entity', 'humans', true, true
 addProp 'wdt:P136', 'entity', 'genres', true, false
 # main subject
 addProp 'wdt:P921', 'entity', 'subjects', true, false
+# original language of work
+addProp 'wdt:P364', 'entity', 'languages', true, null
 # serie
 addProp 'wdt:P179', 'entity', 'series', false, true
 # series ordinal
 addProp 'wdt:P1545', 'positive-integer-string', null, false, false
+# based on
+addProp 'wdt:P144', 'entity', 'works', true, false
+# inspired by
+addProp 'wdt:P941', 'entity', 'works', true, false
 # editions (inverse of wdt:P629)
 addProp 'wdt:P747', 'fixed-entity', null, true, false
-# original language of work
-addProp 'wdt:P364', 'entity', 'languages', true, null
 
 ## edition
 addProp 'wdt:P629', 'entity', 'works', true, false
@@ -53,6 +57,8 @@ addProp 'wdt:P2679', 'entity', 'humans', true, true
 addProp 'wdt:P2680', 'entity', 'humans', true, true
 # number of pages
 addProp 'wdt:P1104', 'positive-integer', null, false, null
+# number of volumes
+addProp 'wdt:P2635', 'positive-integer', null, false, null
 
 ## human
 # date of birth

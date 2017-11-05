@@ -10,6 +10,8 @@ work =
   'wdt:P179': {} # series
   'wdt:P1545': {} # series ordinal
   'wdt:P921': {} # main subject
+  'wdt:P144': {} # based on
+  'wdt:P941': {} # inspired by
   'wdt:P364': {} # original language of work
   'wdt:P856': {} # official website
   # 'wdt:P31: {}' # instance of (=> works aliases)
@@ -40,6 +42,7 @@ module.exports = (_)->
     'wdt:P2679': {} # author of foreword
     'wdt:P2680': {} # author of afterword
     'wdt:P1104': {} # number of pages
+    'wdt:P2635': {} # number of volumes
 
   human:
     'wdt:P1412': {} # languages of expression
