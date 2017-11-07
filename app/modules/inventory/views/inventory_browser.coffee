@@ -95,9 +95,10 @@ module.exports = Marionette.LayoutView.extend
     more = -> itemsIds.length > 0
     fetchMore = ->
       batch = itemsIds.splice 0, 20
-      if batch.length > 0
-        app.request 'items:getByIds', batch
-        .then collection.add.bind(collection)
+      if batch.length is 0 then return Promise.resolve()
+
+      app.request 'items:getByIds', batch
+      .then collection.add.bind(collection)
 
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'
