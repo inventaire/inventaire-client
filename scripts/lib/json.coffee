@@ -33,6 +33,4 @@ write = (path, data)->
   json = JSON.stringify data, null, 4
   return fs.writeFileAsync path, json
 
-module.exports =
-  read: read
-  write: write
+module.exports = { read, write }

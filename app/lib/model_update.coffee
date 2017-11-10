@@ -76,5 +76,4 @@ rollbackUpdate = (options, err)->
   err = if selector? then error_.complete(selector, err) else err
   throw err
 
-module.exports =
-  Updater: Updater
+module.exports = { Updater }

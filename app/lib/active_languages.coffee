@@ -10,7 +10,6 @@ for lang, obj of languages
   obj.native = formatLabel wdLang.byCode[lang].native
   regionify[lang] = obj.defaultRegion
 
-module.exports =
-  languages: languages
-  langs: Object.keys languages
-  regionify: regionify
+langs = Object.keys languages
+
+module.exports = { languages, langs, regionify }

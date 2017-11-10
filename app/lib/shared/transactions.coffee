@@ -42,7 +42,4 @@ module.exports = (_)->
   isActive = (transacData)-> findNextActions(transacData)?
   isArchived = (transacData)-> not isActive(transacData)
 
-  module.exports =
-    findNextActions: findNextActions
-    isActive: isActive
-    isArchived: isArchived
+  module.exports = { findNextActions, isActive, isArchived }
