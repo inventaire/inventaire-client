@@ -25,6 +25,12 @@ module.exports =
     icon: 'youtube'
     text: -> ''
     url: (channelId)-> "https://www.youtube.com/channel/#{channelId}"
+  'wdt:P4033':
+    icon: 'mastodon'
+    text: _.identity
+    url: (address)->
+      [ username, domain ] = address.split '@'
+      return "https://#{domain}/@#{username}"
 
 gutenbergBase = ->
   base = if _.smallScreen() then 'http://m.' else 'https://www.'

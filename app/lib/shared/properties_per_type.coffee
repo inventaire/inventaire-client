@@ -55,6 +55,7 @@ module.exports = (_)->
     'wdt:P2013': {} # Facebook account
     'wdt:P2003': {} # Instagram username
     'wdt:P2397': {} # YouTube channel ID
+    'wdt:P4033': {} # Mastodon address
 
   # Using omit instead of having a common list, extended for works, so that
   # the properties order isn't constrained by being part or not of the common properties

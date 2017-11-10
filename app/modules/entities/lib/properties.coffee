@@ -79,6 +79,8 @@ addProp 'wdt:P2013', 'string', null, false, null
 addProp 'wdt:P2003', 'string', null, false, null
 # YouTube channel ID
 addProp 'wdt:P2397', 'string', null, false, null
+# Mastodon address
+addProp 'wdt:P4033', 'string', null, false, null
 
 ## work and human
 addProp 'wdt:P856', 'string', null, false, null
