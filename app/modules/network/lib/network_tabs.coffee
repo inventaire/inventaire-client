@@ -1,7 +1,3 @@
-# defaults needs to be change in the network router too
-usersTabsDefault = 'searchUsers'
-groupsTabsDefault = 'searchGroups'
-
 usersTabs =
   searchUsers:
     name: 'searchUsers'
@@ -65,10 +61,19 @@ addPath = (category, categoryData)->
 addPath 'users', usersTabs
 addPath 'groups', groupsTabs
 
+defaultToSearch =
+  users: -> app.relations.network.length is 0
+  groups: -> app.groups.length is 0
+
+getDefaultTab =
+  general: -> getDefaultTab.users()
+  users: -> if defaultToSearch.users() then 'searchUsers' else 'friends'
+  groups: -> if defaultToSearch.groups() then 'searchGroups' else 'userGroups'
+
 resolveCurrentTab = (tab)->
   switch tab
-    when 'users' then usersTabsDefault
-    when 'groups' then groupsTabsDefault
+    when 'users' then getDefaultTab.users()
+    when 'groups' then getDefaultTab.groups()
     else tab
 
 tabsData =
@@ -82,6 +87,7 @@ module.exports = {
   groupsTabs,
   resolveCurrentTab,
   getNameFromId: (id)-> id.replace 'Tab', ''
-  defaultTab: usersTabsDefault
+  defaultToSearch,
+  getDefaultTab,
   level1Tabs: [ 'users', 'groups' ]
 }

@@ -3,19 +3,21 @@ NetworkLayout = require './views/network_layout'
 GroupBoard =  require './views/group_board'
 initGroupHelpers = require './lib/group_helpers'
 { tabsData } = require './lib/network_tabs'
-{ defaultTab } = require './lib/network_tabs'
+{ getDefaultTab, defaultToSearch } = require './lib/network_tabs'
 fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
+        'network(/users)(/)': 'showFirstUsersLayout'
         'network(/users)(/search)(/)': 'showSearchUsers'
         'network/users/friends(/)': 'showFriends'
         'network/users/invite(/)': 'showInvite'
         'network/users/nearby(/)': 'showNearbyUsers'
 
-        'network(/groups)(/search)(/)': 'showSearchGroups'
+        'network/groups(/)': 'showFirstGroupLayout'
+        'network/groups/search(/)': 'showSearchGroups'
         'network/groups/user(/)': 'showUserGroups'
         'network/groups/create(/)': 'showCreateGroup'
         'network/groups/nearby(/)': 'showNearbyGroups'
@@ -60,18 +62,31 @@ initRequestsCollectionsEvent = ->
     .then -> app.vent.trigger 'network:requests:update'
 
 API =
+  showFirstUsersLayout: ->
+    app.request 'wait:for', 'users'
+    .then ->
+      if defaultToSearch.users() then API.showSearchUsers()
+      else API.showFriends()
+
   # qs stands for query string
   showSearchUsers: (qs)-> API.showNetworkLayout 'searchUsers', qs
   showFriends: -> API.showNetworkLayout 'friends'
   showInvite: -> API.showNetworkLayout 'invite'
   showNearbyUsers: (qs)-> API.showNetworkLayout 'nearbyUsers', qs
 
+  showFirstGroupLayout: ->
+    app.request 'wait:for', 'groups'
+    .then ->
+      if defaultToSearch.groups() then API.showSearchGroups()
+      else API.showUserGroups()
+
   showSearchGroups: (qs)-> API.showNetworkLayout 'searchGroups', qs
   showUserGroups: -> API.showNetworkLayout 'userGroups'
   showCreateGroup: -> API.showNetworkLayout 'createGroup'
   showNearbyGroups: (qs)-> API.showNetworkLayout 'nearbyGroups', qs
 
-  showNetworkLayout: (tab=defaultTab, qs)->
+  showNetworkLayout: (tab, qs)->
+    tab or= getDefaultTab.general()
     { path } = tabsData.all[tab]
     query = if _.isNonEmptyString qs then _.parseQuery qs else {}
     if app.request 'require:loggedIn', _.buildPath(path, query)
