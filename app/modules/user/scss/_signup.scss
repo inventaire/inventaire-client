@@ -2,11 +2,8 @@
   h2{
     margin-bottom: 0.8em;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    #classicSignup{
-      // separate the display password and signup buttons
-      margin-top: 1.6em;
-    }
+  #classicSignup{
+    // separate the display password and signup buttons
+    margin-top: 1.6em;
   }
 }
