@@ -1,6 +1,8 @@
 groupPlugin = require '../plugins/group'
 GroupBoardHeader = require './group_board_header'
 GroupSettings = require './group_settings'
+UsersSearchLayout = require '../views/users_search_layout'
+UsersList = require 'modules/users/views/users_list'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_board'
@@ -57,29 +59,24 @@ module.exports = Marionette.LayoutView.extend
     $el = @ui[uiLabel]
     $parent = $el.parent()
     $el.slideToggle()
-    $parent.find('.fa-caret-down').toggleClass 'toggled'
+    $parent.find('.fa-caret-right').toggleClass 'toggled'
     if $el.visible() then _.scrollTop $parent
 
   onRender: ->
     @model.beforeShow()
     .then =>
       @showHeader()
-      @showMembers()
       @showJoinRequests()
+      @showMembers()
       if @model.mainUserIsMember()
         @initSettings()
-        @showFriendsInvitor()
-
-  onShow: ->
-    @listenToOnce @model.requested, 'add', @showJoinRequests.bind(@)
+        @showMembersInvitor()
 
   initSettings: ->
     if @standalone and @model.mainUserIsAdmin()
       @showSettings()
       @listenTo @model, 'change:slug', @updateRoute.bind(@)
     else
-      # begin with group_settings closed
-      @toggleUi 'groupSettings'
       @_settingsShownOnce = false
 
   toggleSettings: ->
@@ -95,17 +92,35 @@ module.exports = Marionette.LayoutView.extend
 
   showJoinRequests: ->
     if @model.requested.length > 0 and @model.mainUserIsAdmin()
-      @groupRequests.show @getJoinRequestsView()
+      @_showJoinRequests()
       @ui.groupRequestsSection.show()
+      @toggleUi 'groupRequests'
     else
       @ui.groupRequestsSection.hide()
 
-  showMembers: ->
-    @groupMembers.show @getGroupMembersListView()
+  _showJoinRequests: ->
+    @groupRequests.show new UsersList
+      collection: @model.requested
+      groupContext: true
+      group: @model
+      emptyViewMessage: 'no more pending requests'
 
-  showFriendsInvitor: ->
-    @getFriendsInvitorView()
-    .then @groupInvite.show.bind(@groupInvite)
+  showMembers: ->
+    @groupMembers.show new UsersList
+      collection: @model.members
+      groupContext: true
+      group: @model
+
+  showMembersInvitor: ->
+    group = @model
+    @groupInvite.show new UsersSearchLayout
+      stretch: false
+      updateRoute: false
+      groupContext: true
+      group: group
+      emptyViewMessage: 'no user found'
+      filter: (user, index, collection)->
+        group.userStatus(user) isnt 'member'
 
   updateRoute: ->
     app.navigateFromModel @model, 'boardPathname', { preventScrollTop: true }
@@ -114,7 +129,6 @@ sectionsData =
   settings:
     label: 'settings'
     icon: 'cog'
-    # iconClasses: 'toggled'
   requests:
     label: 'requests waiting your approval'
     icon: 'inbox'
@@ -122,5 +136,5 @@ sectionsData =
     label: 'members'
     icon: 'users'
   invite:
-    label: 'invite friends'
-    icon: 'envelope'
+    label: 'invite new members'
+    icon: 'plus'

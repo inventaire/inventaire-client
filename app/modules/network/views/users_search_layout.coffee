@@ -17,6 +17,9 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @collection = app.users.filtered.resetFilters()
     @initSearch()
+    { @stretch, @updateRoute } = @options
+    @stretch ?= true
+    @updateRoute ?= true
 
   serializeData: ->
     usersSearch:
@@ -26,9 +29,14 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @lastQuery = ''
-    @usersList.show new UsersList
-      collection: @collection
-      stretch: true
+    @usersList.show new UsersList {
+      @collection,
+      @stretch,
+      groupContext: @options.groupContext,
+      group: @options.group
+      emptyViewMessage: @options.emptyViewMessage
+      filter: @options.filter
+    }
 
     # start with .noUser hidden
     # will eventually be re-shown by empty results later
@@ -38,12 +46,12 @@ module.exports = Marionette.LayoutView.extend
     behaviorsPlugin.startLoading.call @, '#usersList'
 
   initSearch: ->
-    { q } = @options.query
+    q = @options.query?.q
     if _.isNonEmptyString q then @searchUser q
 
   searchUserFromEvent: (e)->
     query = e.target.value
-    updateRoute query
+    if @updateRoute then updateRoute query
     @searchUser query
 
   searchUser: (query)->
