@@ -51,8 +51,7 @@ module.exports = Marionette.ItemView.extend
 
     subTabsData[name].active = true
 
-    data = _.extend counters,
-      subTabsData: subTabsData
+    data = _.extend counters, { subTabsData }
 
     data[parent] = true
 

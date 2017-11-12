@@ -71,14 +71,17 @@ resolveCurrentTab = (tab)->
     when 'groups' then groupsTabsDefault
     else tab
 
-module.exports =
-  tabsData:
-    all: _.extend {}, usersTabs, groupsTabs
-    users: usersTabs
-    groups: groupsTabs
-  usersTabs: usersTabs
-  groupsTabs: groupsTabs
-  resolveCurrentTab: resolveCurrentTab
+tabsData =
+  all: _.extend {}, usersTabs, groupsTabs
+  users: usersTabs
+  groups: groupsTabs
+
+module.exports = {
+  tabsData,
+  usersTabs,
+  groupsTabs,
+  resolveCurrentTab,
   getNameFromId: (id)-> id.replace 'Tab', ''
   defaultTab: usersTabsDefault
-  level1Tabs: ['users', 'groups']
+  level1Tabs: [ 'users', 'groups' ]
+}
