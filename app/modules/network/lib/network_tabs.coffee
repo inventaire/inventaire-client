@@ -17,7 +17,7 @@ usersTabs =
     section: 'invite'
     title: 'invite'
     icon: 'envelope'
-    layout: 'invite_friends'
+    layout: 'invite_by_email'
   nearbyUsers:
     name: 'nearbyUsers'
     section: 'nearby'

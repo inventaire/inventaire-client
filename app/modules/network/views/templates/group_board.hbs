@@ -9,6 +9,9 @@
   <section id="groupInvite" {{#unless status_member}}class="hidden"{{/unless}}>
     {{partial 'network:group_board_section' sections.invite}}
   </section>
+  <section id="groupEmailInvite" {{#unless status_member}}class="hidden"{{/unless}}>
+    {{partial 'network:group_board_section' sections.email}}
+  </section>
   {{#if mainUserIsMember}}
     <section id="groupSettings">
       {{partial 'network:group_board_section' sections.settings}}

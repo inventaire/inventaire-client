@@ -45,6 +45,14 @@
           max-height: 10em;
         }
       }
+      #inviteByEmail{
+        margin: 0;
+        padding: 0.5em;
+        background-color: $light-grey;
+        label{
+          display: none;
+        }
+      }
       .inner{
         // Disabled overflow to allow dropdown menus with absolute positions
         // overflow: auto;

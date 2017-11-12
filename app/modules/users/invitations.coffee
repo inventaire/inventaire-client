@@ -1,7 +1,6 @@
 module.exports = (app, _)->
-
   app.reqres.setHandlers
-    'invitations:by:emails': (emails, message)->
-      _.preq.post app.API.invitations.byEmails,
-        emails: emails
-        message: message
+    # If a groupId is passed, this is a group invitation
+    # else it's a friend request
+    'invitations:by:emails': (emails, message, group)->
+      _.preq.post app.API.invitations.byEmails, { emails, message, group }

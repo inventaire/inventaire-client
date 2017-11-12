@@ -1,4 +1,4 @@
-#inviteFriends{
+#inviteByEmail{
   width: 100%;
   background-color: $contrast;
   margin: 1em 0;
@@ -36,7 +36,7 @@
   .usersAlreadyThere{
     padding-top: 1.2em;
     padding-bottom: 1.2em;
-    h3{
+    p{
       padding-bottom: 0.6em;
     }
   }

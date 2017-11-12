@@ -3,6 +3,7 @@ GroupBoardHeader = require './group_board_header'
 GroupSettings = require './group_settings'
 UsersSearchLayout = require '../views/users_search_layout'
 UsersList = require 'modules/users/views/users_list'
+InviteByEmail = require './invite_by_email'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_board'
@@ -27,12 +28,14 @@ module.exports = Marionette.LayoutView.extend
     groupRequests: '#groupRequests > .inner'
     groupMembers: '#groupMembers > .inner'
     groupInvite: '#groupInvite > .inner'
+    groupEmailInvite: '#groupEmailInvite > .inner'
 
   ui:
     groupSettings: '#groupSettings > .inner'
     groupRequests: '#groupRequests > .inner'
     groupMembers: '#groupMembers > .inner'
     groupInvite: '#groupInvite > .inner'
+    groupEmailInvite: '#groupEmailInvite > .inner'
     groupRequestsSection: '#groupRequests'
 
   serializeData:->
@@ -71,6 +74,7 @@ module.exports = Marionette.LayoutView.extend
       if @model.mainUserIsMember()
         @initSettings()
         @showMembersInvitor()
+        @showMembersEmailInvitor()
 
   initSettings: ->
     if @standalone and @model.mainUserIsAdmin()
@@ -122,6 +126,9 @@ module.exports = Marionette.LayoutView.extend
       filter: (user, index, collection)->
         group.userStatus(user) isnt 'member'
 
+  showMembersEmailInvitor: ->
+    @groupEmailInvite.show new InviteByEmail { group: @model }
+
   updateRoute: ->
     app.navigateFromModel @model, 'boardPathname', { preventScrollTop: true }
 
@@ -138,3 +145,6 @@ sectionsData =
   invite:
     label: 'invite new members'
     icon: 'plus'
+  email:
+    label: 'invite by email'
+    icon: 'envelope'
