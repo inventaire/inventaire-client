@@ -38,10 +38,11 @@ module.exports = Marionette.LayoutView.extend
 
   # CLASSIC
   validClassicSignup: ->
+    @startLoading '#classicSignup'
+
     @verifyClassicUsername()
     .then @verifyEmail.bind(@)
     .then @verifyPassword.bind(@)
-    .then @startLoading.bind(@, '#classicSignup')
     .then @sendClassicSignupRequest.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
