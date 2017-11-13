@@ -13,6 +13,9 @@
     a, h3{
       color: white;
     }
+    .dropdown a{
+      color: $dark-grey;
+    }
   }
 
   $user-profile-height: 16em;
