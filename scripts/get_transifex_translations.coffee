@@ -57,8 +57,10 @@ fetchTranslation = (resource, lang, enVersion)->
       if key? then translations[key] = val
       else console.warn yellow('key not found: ignoring'), strObj
 
+    orderedTranslations = reOrderKeys translations
+
     pathBase = projects[resource].path
-    json_.write "#{pathBase}#{lang}.json", translations
+    json_.write "#{pathBase}#{lang}.json", orderedTranslations
     .then (res)->
       console.log green('saved'), resource, lang
       if res? then console.log res
@@ -82,6 +84,14 @@ getEnVersion = (resource)->
 formatValue = (val)->
   # two backslash and a point
   return val.replace '\u005c\u005c.', '.'
+
+reOrderKeys = (langObj)->
+  orderedObj = {}
+  Object.keys langObj
+  # sort alphabetically
+  .sort (a, b)-> a.localeCompare b
+  .forEach (key)-> orderedObj[key] = langObj[key]
+  return orderedObj
 
 resources.forEach (resource)->
   getEnVersion resource
