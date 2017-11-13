@@ -15,8 +15,14 @@ module.exports = (app, lang)->
   else
     missingKey = _.noop
 
-  missingKeyWarn = (key)->
-    console.warn "Missing translation for key: \"#{key}\""
+  missingKeyWarn = (warning)->
+    console.warn warning
+
+    # Warning pattern: "Missing translation for key: \"#{key}\""
+    key = warning
+      .replace 'Missing translation for key: "', ''
+      .replace /"$/, ''
+
     missingKey key
     unless key? then console.trace()
 
