@@ -1,7 +1,3 @@
-# defaults needs to be change in the network router too
-usersTabsDefault = 'searchUsers'
-groupsTabsDefault = 'searchGroups'
-
 usersTabs =
   searchUsers:
     name: 'searchUsers'
@@ -21,7 +17,7 @@ usersTabs =
     section: 'invite'
     title: 'invite'
     icon: 'envelope'
-    layout: 'invite_friends'
+    layout: 'invite_by_email'
   nearbyUsers:
     name: 'nearbyUsers'
     section: 'nearby'
@@ -65,20 +61,33 @@ addPath = (category, categoryData)->
 addPath 'users', usersTabs
 addPath 'groups', groupsTabs
 
+defaultToSearch =
+  users: -> app.relations.network.length is 0
+  groups: -> app.groups.length is 0
+
+getDefaultTab =
+  general: -> getDefaultTab.users()
+  users: -> if defaultToSearch.users() then 'searchUsers' else 'friends'
+  groups: -> if defaultToSearch.groups() then 'searchGroups' else 'userGroups'
+
 resolveCurrentTab = (tab)->
   switch tab
-    when 'users' then usersTabsDefault
-    when 'groups' then groupsTabsDefault
+    when 'users' then getDefaultTab.users()
+    when 'groups' then getDefaultTab.groups()
     else tab
 
-module.exports =
-  tabsData:
-    all: _.extend {}, usersTabs, groupsTabs
-    users: usersTabs
-    groups: groupsTabs
-  usersTabs: usersTabs
-  groupsTabs: groupsTabs
-  resolveCurrentTab: resolveCurrentTab
+tabsData =
+  all: _.extend {}, usersTabs, groupsTabs
+  users: usersTabs
+  groups: groupsTabs
+
+module.exports = {
+  tabsData,
+  usersTabs,
+  groupsTabs,
+  resolveCurrentTab,
   getNameFromId: (id)-> id.replace 'Tab', ''
-  defaultTab: usersTabsDefault
-  level1Tabs: ['users', 'groups']
+  defaultToSearch,
+  getDefaultTab,
+  level1Tabs: [ 'users', 'groups' ]
+}

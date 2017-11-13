@@ -4,10 +4,6 @@
   margin-bottom: 1em;
   &.standalone{
     @include custom-column(40em);
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      padding-top: 1em;
-    }
   }
   .header, .body{
     background-color: white;
@@ -39,9 +35,22 @@
           max-height: 20em;
         }
       }
-      &#groupInvite, #groupRequests{
+      &#groupInvite{
+        #usersSearchLayout{
+          background-color: $light-grey;
+        }
+      }
+      #groupRequests{
         .inner{
           max-height: 10em;
+        }
+      }
+      #inviteByEmail{
+        margin: 0;
+        padding: 0.5em;
+        background-color: $light-grey;
+        label{
+          display: none;
         }
       }
       .inner{
@@ -53,15 +62,18 @@
       .section-toggler{
         padding: 0.4em;
         @include display-flex(row);
+        h4{
+          margin: 0;
+        }
       }
-      .fa-caret-down{
+      .fa-caret-right{
         margin-left: auto;
         @include display-flex(row, center, center);
         margin-top: -0.2em;
         font-size: 1.5em;
         opacity: 0.5;
         &.toggled{
-          transform: rotate(-90deg);
+          transform: rotate(90deg);
         }
       }
     }

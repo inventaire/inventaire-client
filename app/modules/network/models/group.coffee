@@ -165,13 +165,22 @@ module.exports = Positionable.extend
 
   # Should only rely on data available without having to fetch users models
   calculateHighlightScore: ->
-    adminFactor = if @mainUserIsAdmin() then 20 else 0
-    membersFactor = @membersCount()
-    randomFactor = Math.random() * 20
-    ageInDays = _.daysAgo @get('created')
-    # Highlight the group in its early days
-    ageFactor = 50 / (1 + ageInDays)
-    total = adminFactor + membersFactor + randomFactor + ageFactor
+    if @mainUserIsInvited()
+      # Highlight groups to which the main user is invited but haven't answered
+      total = Infinity
+    else
+      if @mainUserIsAdmin()
+        # Increase visibility if requests are pending approval
+        adminFactor = 20 + 50 * @get('requested').length
+      else
+        adminFactor = 0
+      membersFactor = @membersCount()
+      randomFactor = Math.random() * 20
+      ageInDays = _.daysAgo @get('created')
+      # Highlight the group in its early days
+      ageFactor = 50 / (1 + ageInDays)
+      total = adminFactor + membersFactor + randomFactor + ageFactor
+
     # Inverting to get the highest scores first
     @set 'highlightScore', -total
 

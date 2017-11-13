@@ -22,6 +22,10 @@
   @include shy-border;
   li{
     width: 100%;
+    a{
+      display: block;
+      width: 100%;
+    }
   }
   .selected{
     background-color: #666;

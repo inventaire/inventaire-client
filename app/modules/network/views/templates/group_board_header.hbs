@@ -19,10 +19,14 @@
     {{icon 'lock'}}
   </span>
 {{/if}}
-<a href="{{pathname}}" class="link showGroup">{{i18n 'go to the group inventory'}}</a>
+
 <div class="bottom">
   {{#if invitor.username}}
     <span class="invitor">{{i18n 'group_invitor' invitor}}</span>
   {{/if}}
   {{partial 'network:group_actions' this}}
 </div>
+
+<a href="{{pathname}}" class="showGroup
+  {{#if mainUserIsMember}}tiny-button light-blue{{else}}link{{/if}}"
+>{{i18n 'go to the group inventory'}}</a>

@@ -1,4 +1,3 @@
-UsersList = require 'modules/users/views/users_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 
 events =
@@ -17,32 +16,6 @@ handlers =
   showGroupBoard: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:group:board', @model
-
-  getGroupMembersListView: ->
-    new UsersList
-      collection: @model.members
-      groupContext: true
-      group: @model
-
-  getFriendsInvitorView: ->
-    app.request 'fetch:friends'
-    .then =>
-      group = @model
-      return new UsersList
-        collection: app.users.friends
-        groupContext: true
-        group: group
-        emptyViewMessage: 'no friends to invite'
-        filter: (child, index, collection)->
-          # in the context of the usersList view
-          group.userStatus(child) isnt 'member'
-
-  getJoinRequestsView: ->
-    new UsersList
-      collection: @model.requested
-      groupContext: true
-      group: @model
-      emptyViewMessage: 'no more pending requests'
 
   acceptInvitation: -> @model.acceptInvitation()
   declineInvitation: -> @model.declineInvitation()

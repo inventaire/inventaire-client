@@ -95,9 +95,11 @@ module.exports =
     # by letting newCategory undefined
     if newCategory? then @push newCategory, membership
 
-    if user.isMainUser then app.vent.trigger 'group:main:user:move'
-
     @triggeredListChange()
+
+    # Trigger after the lists where updated
+    # so that groups filtered collections can correctly re-filter
+    if user.isMainUser then app.vent.trigger 'group:main:user:move'
 
   triggeredListChange: ->
     # avoid using an event name starting by "change:"
