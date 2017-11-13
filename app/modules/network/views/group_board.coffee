@@ -14,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @standalone } = @options
     @initPlugin()
+    @listenTo @model, 'action:accept', @render.bind(@)
     @listenTo @model, 'action:leave', @render.bind(@)
 
   initPlugin: ->
@@ -58,12 +59,12 @@ module.exports = Marionette.LayoutView.extend
 
   # acting on ui objects and not a region.$el as a region
   # doesn't have a $el before being shown
-  toggleUi: (uiLabel)->
+  toggleUi: (uiLabel, scroll=true)->
     $el = @ui[uiLabel]
     $parent = $el.parent()
     $el.slideToggle()
     $parent.find('.fa-caret-right').toggleClass 'toggled'
-    if $el.visible() then _.scrollTop $parent
+    if scroll and $el.visible() then _.scrollTop $parent, null, 20
 
   onRender: ->
     @model.beforeShow()
@@ -98,7 +99,7 @@ module.exports = Marionette.LayoutView.extend
     if @model.requested.length > 0 and @model.mainUserIsAdmin()
       @_showJoinRequests()
       @ui.groupRequestsSection.show()
-      @toggleUi 'groupRequests'
+      @toggleUi 'groupRequests', false
     else
       @ui.groupRequestsSection.hide()
 
