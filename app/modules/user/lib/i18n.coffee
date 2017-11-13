@@ -10,21 +10,25 @@ uriLabel = require 'lib/uri_label/uri_label'
 # Convention: 'lang' always stands for ISO 639-1 two letters language codes
 # (like 'en', 'fr', etc.)
 module.exports = (app, lang)->
-  setLanguage lang
-
   if window.env is 'dev'
     missingKey = require './i18n_missing_key'
   else
     missingKey = _.noop
 
+  missingKeyWarn = (key)->
+    console.warn "Missing translation for key: \"#{key}\""
+    missingKey key
+    unless key? then console.trace()
+
+  setLanguage lang, missingKeyWarn
+
   app.commands.setHandlers
-    # called from a customized polyglot.js
-    'i18n:missing:key': missingKey
     'uriLabel:update': updateUrilabel
     'uriLabel:refresh': uriLabel.refreshData
 
-setLanguage = (lang)->
-  app.polyglot = new Polyglot
+setLanguage = (lang, missingKeyWarn)->
+  app.polyglot = new Polyglot { warn: missingKeyWarn }
+  _.i18n = sharedLib('translate')(lang, app.polyglot)
   app.vent.trigger 'uriLabel:update'
   return requestI18nFile app.polyglot, lang
 

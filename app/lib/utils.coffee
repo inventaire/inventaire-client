@@ -12,7 +12,8 @@ module.exports = (Backbone, _, $, app, window)->
     _.preq.post app.API.cookie, { key, value }
     .catch _.Error("setCookie: failed: #{key} - #{value}")
 
-  i18n: require './translate'
+  # Will be overriden in modules/user/lib/i18n.coffee as soon as possible
+  i18n: _.identity
   I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
   icon: (name, classes='')-> "<i class='fa fa-#{name} #{classes}'></i>"
 

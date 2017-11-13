@@ -1,3 +1,0 @@
-bower_components/polyglot/lib/polyglot.js
-this.warn('Missing translation for key: \"'+key+'\"');
-app.execute('i18n:missing:key', key); if (key == null){console.trace()};

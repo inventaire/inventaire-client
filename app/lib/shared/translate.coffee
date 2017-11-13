@@ -1,16 +1,20 @@
-module.exports = (key, ctx)->
-  { currentLocale:lang } = app.polyglot
-  val = app.polyglot.t key, ctx
+module.exports = (lang, polyglot)->
+  modifier = if modifiers[lang]? then modifiers[lang]
 
-  if lang in hasModifiers then return modifiers[lang](key, val, ctx)
-  else return val
+  return (key, ctx)->
+    val = polyglot.t key, ctx
+    if modifier? then return modifier polyglot, key, val, ctx
+    else return val
+
+isShortkey = (key)-> /_/.test key
+vowels = 'aeiouy'
 
 modifiers =
   # make _.i18n('user_comment', { username: 'adamsberg' })
   # return "Commentaire d'adamsberg" instead of "Commentaire de adamsberg"
-  fr: (key, val, data)->
+  fr: (polyglot, key, val, data)->
     if data? and isShortkey key
-      k = app.polyglot.phrases[key]
+      k = polyglot.phrases[key]
       { username } = data
       if username?
         firstLetter = username[0].toLowerCase()
@@ -20,8 +24,3 @@ modifiers =
             return val.replace re, "$1'$2#{username}"
 
     return val
-
-hasModifiers = Object.keys(modifiers)
-
-isShortkey = (key)-> /_/.test key
-vowels = 'aeiouy'
