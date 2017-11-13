@@ -12,12 +12,15 @@ read = (path, createIfMissing=true)->
   # and we don't have it
   absolutePath = if path[0] is '/' then path else cwd + path.replace(/^./, '')
 
-  Promise.try -> require(absolutePath)
+  # Not using require as it caches the files
+  # while ./get_wikidata_archive_or_create might have refreshed them
+  fs.readFileAsync absolutePath, { encoding: 'utf-8' }
+  .then (file)-> JSON.parse file
   .catch (err)->
-    if err.code is 'MODULE_NOT_FOUND' and createIfMissing
+    if err.code is 'ENOENT' and createIfMissing
       console.log yellow("file not found: #{path}. Creating: {}")
-      fs.writeFile path, '{}'
-      return {}
+      fs.writeFileAsync path, '{}'
+      .then -> return {}
     else
       throw err
 

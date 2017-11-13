@@ -1,3 +1,6 @@
+# To update the properties of a language, delete its file
+# in the src/wikidata/archive directory and run update-i18n
+
 Promise = require '../bluebird'
 __ = require '../paths'
 json_  = require '../json'
@@ -8,8 +11,14 @@ activeLangs = require('./langs').active
 
 module.exports = (lang)->
   path = __.src.wikidataArchive lang
-  if path then return json_.read path
+  # Do not create if missing so that we can catch the error
+  # and request the properties
+  json_.read path, false
+  .catch (err)->
+    if err.code is 'ENOENT' then fetchWikidataProperties lang
+    else throw err
 
+fetchWikidataProperties = (lang)->
   # fetch Wikidata properties only for active languages
   # to limit to number of requests at a time
   unless lang in activeLangs
