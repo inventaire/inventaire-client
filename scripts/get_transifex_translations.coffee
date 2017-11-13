@@ -5,30 +5,22 @@ _ = __.require 'builders', 'utils'
 translatedLangs = require('./lib/i18n/langs').translated
 { green, yellow, green, red } = require 'chalk'
 
-# For Live projects, Transifex doesn't pass the original key
-# just a hash of the content and the source_string -_-
-# cf http://docs.transifex.com/api/translation_strings/
-# Thus, all resources where moved to non-hash keys
-
 projects =
   fullkey:
     name: 'inventaire'
     path: './public/i18n/src/fullkey/transifex/'
     en: __.path 'i18nClientSrc', 'fullkey/en.json'
     enArchive: './public/i18n/src/fullkey/archive/en.json'
-    hashKey: false
   shortkey:
     name: 'inventaire'
     path: './public/i18n/src/shortkey/transifex/'
     en: __.path 'i18nClientSrc', 'shortkey/en.json'
     enArchive: './public/i18n/src/shortkey/archive/en.json'
-    hashKey: false
   emails:
     name: 'inventaire'
     path: '../server/lib/emails/i18n/src/transifex/'
     en: __.path 'i18nSrc', 'en.json'
     enArchive: '../server/lib/emails/i18n/src/archive/en.json'
-    hashKey: false
 
 resources = Object.keys projects
 
@@ -42,15 +34,10 @@ fetchTranslation = (resource, lang, enVersion)->
   unless lang in translatedLangs
     throw new Error "#{lang} isnt in the translated lang"
 
-  { name:project, hashKey, en:enPath } = projects[resource]
+  { name:project } = projects[resource]
 
-  if hashKey
-    enObj = require enPath
-    invertedEnObj = _.invert enObj
-    getKey = (obj)-> invertedEnObj[obj.source_string]
-  else
-    # replacing '\\.\\.\\.' by '...'
-    getKey = (obj)-> obj.key.replace /\\./g, '.'
+  # replacing '\\.\\.\\.' by '...'
+  getKey = (obj)-> obj.key.replace /\\./g, '.'
 
   unless project?
     throw new Error "project couldnt be found for resource #{resource}"
