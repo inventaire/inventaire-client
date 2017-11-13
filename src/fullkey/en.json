@@ -477,5 +477,19 @@
     "total contributions:": "total contributions:",
     "The following data is missing on the Wikidata entity, which of those should be imported to Wikidata?": "The following data is missing on the Wikidata entity, which of those should be imported to Wikidata?",
     "merge without importing data": "merge without importing data",
-    "create and go to the series' page": "create and go to the series' page"
+    "create and go to the series' page": "create and go to the series' page",
+    "create and go to the edition's page": "create and go to the edition's page",
+    "type": "type",
+    "genre": "genre",
+    "this edition is already in the list": "this edition is already in the list",
+    "invalid property value": "invalid property value",
+    "see on Wikidata": "see on Wikidata",
+    "make an extended search": "make an extended search",
+    "unknown": "unknown",
+    "partial": "partial",
+    "partners": "partners",
+    "Look who was already there!": "Look who was already there!",
+    "invitation sent": "invitation sent",
+    "invite new members": "invite new members",
+    "invite by email": "invite by email"
 }
