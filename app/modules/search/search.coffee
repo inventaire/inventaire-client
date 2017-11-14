@@ -27,10 +27,7 @@ API.search = (query, refresh)->
     app.execute 'show:add:layout:search'
     return
 
-  # If the query text is a URI, show the associated entity page
-  # as it doesn't make sense to search for an entity we have already found
-  uri = findUri query
-  if uri? then return app.execute 'show:entity', uri, null, { refresh }
+  if showEntityPageIfUri(query, refresh) then return
 
   # Else, show the normal search layout
   app.layout.main.show new SearchLayout { query, refresh }
@@ -44,6 +41,9 @@ API.searchFromQueryString = (querystring)->
   refresh = _.parseBooleanString refresh
   # Replacing "+" added that the browser search might have added
   q = q.replace /\+/g, ' '
+
+  if showEntityPageIfUri(q, refresh) then return
+
   # Forwarding to the top bar live search instead of directly calling API.search
   # as the live search is way faster, and from their the full search,
   # if needed, is one click away
@@ -52,3 +52,13 @@ API.searchFromQueryString = (querystring)->
     # Show the add layout at its search tab in the background, so that clicking
     # out of the live search doesn't result in a blank page
     showFallbackLayout: app.Execute 'show:add:layout:search'
+
+showEntityPageIfUri = (query, refresh)->
+  # If the query text is a URI, show the associated entity page
+  # as it doesn't make sense to search for an entity we have already found
+  uri = findUri query
+  if uri?
+    app.execute 'show:entity', uri, null, { refresh }
+    return true
+  else
+    return false
