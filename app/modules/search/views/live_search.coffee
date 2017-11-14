@@ -10,6 +10,9 @@
 
 Results = Backbone.Collection.extend { model: require('../models/result') }
 wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
+wdk = require 'lib/wikidata-sdk'
+isbn_ = require 'lib/isbn'
+spinner = _.icon 'circle-o-notch', 'fa-spin'
 
 module.exports = Marionette.CompositeView.extend
   id: 'live-search'
@@ -75,6 +78,10 @@ module.exports = Marionette.CompositeView.extend
     search = search?.trim()
     unless _.isNonEmptyString search then return
     @_lastSearch = search
+
+    uri = findUri search
+    if uri? then return @getResultFromUri uri
+
     types = @getTypes()
 
     # Subjects aren't indexed in the server ElasticSearch
@@ -88,6 +95,20 @@ module.exports = Marionette.CompositeView.extend
       _.preq.get app.API.search(types, search, app.user.lang)
       .get 'results'
       .then @addResults.bind(@)
+
+  getResultFromUri: (uri)->
+    _.log uri, 'uri found'
+    @showLoadingSpinner()
+
+    app.request 'get:entity:model', uri
+    .catch (err)->
+      if err.message is 'entity_not_found' then return []
+      else throw err
+    .finally @stopLoadingSpinner.bind(@)
+    .then (entity)=> @addResults [ formatEntity(entity) ]
+
+  showLoadingSpinner: -> @ui.results.addClass('loading').html spinner
+  stopLoadingSpinner: -> @ui.results.removeClass('loading').html ''
 
   getTypes: ->
     name = getTypeFromId @$el.find('.selected')[0].id
@@ -141,3 +162,17 @@ formatSubject = (result)->
   description: result.description
   uri: "wd:#{result.id}"
   type: 'subjects'
+
+formatEntity = (entity)->
+  data = entity.toJSON()
+  data.image = data.image.url
+  # Return a model to prevent having it re-formatted
+  # as a Result model, which works from a result object, not an entity
+  return new Backbone.Model data
+
+findUri = (text)->
+  if _.isEntityUri text then return text
+  if wdk.isWikidataItemId(text) then return 'wd:' + text
+  if _.isInvEntityId(text) then return 'inv:' + text
+  if isbn_.looksLikeAnIsbn(text) then return 'isbn:' + isbn_.normalizeIsbn(text)
+  return
