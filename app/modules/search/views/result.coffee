@@ -5,6 +5,12 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    # Prefer the alias type name to show 'author' instead of 'human'
+    attrs.type = attrs.typeAlias or attrs.type
+    return attrs
+
   events:
     'click a': 'showResultFromEvent'
 
