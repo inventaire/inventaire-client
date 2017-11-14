@@ -17,6 +17,11 @@
   .results{
     max-height: 60vh;
     overflow: auto;
+    &.loading{
+      @include display-flex(row, center, center);
+      height: 2.5em;
+      background-color: $light-grey;
+    }
   }
   &:not(.results-0){
     .no-result{

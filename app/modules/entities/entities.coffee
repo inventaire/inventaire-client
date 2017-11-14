@@ -60,6 +60,12 @@ API =
     .tap app.navigateFromModel
     .then @getEntityViewByType.bind(@, refresh)
     .then app.layout.main.show.bind(app.layout.main)
+    .catch (err)->
+      # Redirect unknown entity types to their subject pages
+      if err.message is 'unknown entity type'
+        return showClaimEntities "wdt:P921-#{uri}"
+      else
+        throw err
     .catch handleMissingEntity(uri)
 
   getEntityViewByType: (refresh, entity)->
