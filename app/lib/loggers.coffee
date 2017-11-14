@@ -27,8 +27,9 @@ module.exports = (_, csle)->
 
   error = (err, label)->
     unless err instanceof Error
+      errData = err
       err = new Error('invalid error object')
-      err.context = err
+      err.context = errData
       # Non-standard convention: 599 = client implementation error
       err.statusCode = 599
       reportError err
