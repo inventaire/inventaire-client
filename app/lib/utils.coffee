@@ -74,12 +74,13 @@ module.exports = (Backbone, _, $, app, window)->
         error_.report "can't open anchor outside: href is missing"
       return false
 
+    openInNewWindow = e.shiftKey
     # Anchor with a href are opened out of the current window when the ctrlKey is
     # pressed, or the metaKey (Command) in case its a Mac
-    openOutsideByKey = if isMac then e.metaKey else e.ctrlKey
+    openInNewTabByKey = if isMac then e.metaKey else e.ctrlKey
     # Known case of missing currentTarget: leaflet formatted events
     openOutsideByTarget = e.currentTarget?.target is '_blank'
-    return openOutsideByKey or openOutsideByTarget
+    return openInNewTabByKey or openInNewWindow or openOutsideByTarget
 
   noop: ->
 
