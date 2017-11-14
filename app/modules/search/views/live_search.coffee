@@ -10,8 +10,7 @@
 
 Results = Backbone.Collection.extend { model: require('../models/result') }
 wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
-wdk = require 'lib/wikidata-sdk'
-isbn_ = require 'lib/isbn'
+findUri = require '../lib/find_uri'
 spinner = _.icon 'circle-o-notch', 'fa-spin'
 
 module.exports = Marionette.CompositeView.extend
@@ -169,10 +168,3 @@ formatEntity = (entity)->
   # Return a model to prevent having it re-formatted
   # as a Result model, which works from a result object, not an entity
   return new Backbone.Model data
-
-findUri = (text)->
-  if _.isEntityUri text then return text
-  if wdk.isWikidataItemId(text) then return 'wd:' + text
-  if _.isInvEntityId(text) then return 'inv:' + text
-  if isbn_.looksLikeAnIsbn(text) then return 'isbn:' + isbn_.normalizeIsbn(text)
-  return

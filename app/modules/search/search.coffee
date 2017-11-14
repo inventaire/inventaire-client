@@ -1,6 +1,7 @@
 Searches = require './collections/searches'
 SearchLayout = require './views/search'
 error_ = require 'lib/error'
+findUri = require './lib/find_uri'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -26,6 +27,12 @@ API.search = (query, refresh)->
     app.execute 'show:add:layout:search'
     return
 
+  # If the query text is a URI, show the associated entity page
+  # as it doesn't make sense to search for an entity we have already found
+  uri = findUri query
+  if uri? then return app.execute 'show:entity', uri, null, { refresh }
+
+  # Else, show the normal search layout
   app.layout.main.show new SearchLayout { query, refresh }
 
   encodedQuery = _.fixedEncodeURIComponent query
