@@ -11,13 +11,10 @@
   </div>
   <div class="data">
     {{#if series}}
-      <span class="series" title="{{i18n 'series'}}">{{series}}</span>
+      <span class="series" title="{{i18n 'series'}}">{{series}} {{#if ordinal}}- {{ordinal}}{{/if}}</span>
       <hr>
     {{/if}}
-    <h3 class="title">
-      {{title}}
-      {{#if ordinal}} - <span class="ordinal" title="{{i18n 'ordinal'}}">({{ordinal}})</span>{{/if}}
-    </h3>
+    <h3 class="title">{{title}}</h3>
     {{#if authors}}
       <hr>
       <span class="authors" title="{{i18n 'authors'}}">{{authors}}</span>
