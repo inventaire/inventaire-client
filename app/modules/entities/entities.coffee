@@ -357,4 +357,3 @@ showClaimEntities = (claim, refresh)->
     return app.execute 'show:error:missing'
 
   app.layout.main.show new ClaimLayout { property, value, refresh }
-  app.navigate "entity/#{claim}"

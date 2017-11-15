@@ -20,6 +20,9 @@ module.exports = Marionette.LayoutView.extend
     .then (model)=>
       @model = model
       @infobox.show new GeneralInfobox { model }
+      # Use the URI from the returned entity as it might have been redirected
+      finalClaim = @property + '-' + model.get('uri')
+      app.navigate "entity/#{finalClaim}"
 
     entities_.getReverseClaims @property, @value, @refresh, true
     .then @ifViewIsIntact('showWorks')
