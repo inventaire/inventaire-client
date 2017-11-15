@@ -24,6 +24,7 @@ module.exports = (_)->
 
   matchesCount: (arrays...)-> _.intersection.apply(_, arrays).length
   haveAMatch: (arrayA, arrayB)->
+    unless _.isArray(arrayA) and _.isArray(arrayB) then return false
     for valueA in arrayA
       for valueB in arrayB
         # Return true as soon as possible
