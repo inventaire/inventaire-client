@@ -122,7 +122,12 @@
       background-color: #4E4E4E;
     }
   }
+  .position{
+    @include display-flex(row, center, center);
+    width: 100%;
+  }
   .distance{
-    text-align: center;
+    color: $grey;
+    margin-left: auto;
   }
 }

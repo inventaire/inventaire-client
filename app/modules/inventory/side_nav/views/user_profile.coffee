@@ -10,6 +10,7 @@ module.exports = Marionette.ItemView.extend
     'click a#changePicture': 'changePicture'
     'click a.showGroup': 'showGroup'
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
+    'click .showUserOnMap': 'showUserOnMap'
 
   behaviors:
     AlertBox: {}
@@ -41,6 +42,7 @@ module.exports = Marionette.ItemView.extend
       visitedGroups: @visitedGroupsData()
       distance: @model.distanceFromMainUser
       rss: @model.getRss()
+      positionUrl: @getPositionUrl()
 
   onShow: ->
     @makeRoom()
@@ -101,6 +103,17 @@ module.exports = Marionette.ItemView.extend
     unless _.isOpenedOutside e
       groupId = e.currentTarget.attributes['data-id'].value
       app.execute 'show:inventory:group:byId', groupId
+
+  getPositionUrl: ->
+    unless @model.distanceFromMainUser? then return
+    [ lat, lng ] = @model.get 'position'
+    return _.buildPath '/network/users/nearby', { lat, lng }
+
+  showUserOnMap: (e)->
+    if _.isOpenedOutside(e) then return
+    unless @model.distanceFromMainUser? then return
+    [ lat, lng ] = @model.get 'position'
+    app.execute 'show:users:nearby', { lat, lng }
 
 parseGroupData = (group)->
   id: group.id
