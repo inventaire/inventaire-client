@@ -101,9 +101,6 @@ module.exports = UserCommons.extend
     @destroy()
     .then -> app.execute 'logout'
 
-  # maintain the API parity with other user models
-  distanceFromMainUser: -> null
-
   hasWikidataOauthTokens: ->
     oauthList = @get 'oauth'
     return oauthList? and 'wikidata' in oauthList
