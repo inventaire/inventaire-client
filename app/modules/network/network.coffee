@@ -43,6 +43,7 @@ module.exports =
       'show:group:user': API.showUserGroups
       'show:group:create': API.showCreateGroup
       'show:users:search': API.showSearchUsers
+      'show:users:nearby': API.showNearbyUsers
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
@@ -88,7 +89,12 @@ API =
   showNetworkLayout: (tab, qs)->
     tab or= getDefaultTab.general()
     { path } = tabsData.all[tab]
-    query = if _.isNonEmptyString qs then _.parseQuery qs else {}
+
+    if _.isNonEmptyString(qs) then query = _.parseQuery qs
+    # Allow to directly pass a query object instead of a query string
+    else if _.isPlainObject(qs) then query = qs
+    else query = {}
+
     if app.request 'require:loggedIn', _.buildPath(path, query)
       app.layout.main.show new NetworkLayout { tab, query }
 

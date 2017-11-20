@@ -64,7 +64,8 @@ module.exports = Marionette.ItemView.extend
     @listenTo app.vent, 'network:requests:update', @lazyRender
 
   updateMetadata: ->
-    { path, title } = @currentTabData
+    { path, title, selfUpdatesRoute } = @currentTabData
     title = _.I18n title
     network = _.I18n 'network'
-    app.navigate path, { metadata: { title: "#{title} - #{network}" } }
+    unless selfUpdatesRoute
+      app.navigate path, { metadata: { title: "#{title} - #{network}" } }

@@ -32,14 +32,17 @@
         <span>{{inventoryLength}}</span>
       </li>
     {{/if}}
-    <li class="distance">
+    <li class="position">
       {{#if mainUser}}
         <span>{{icon 'map-marker'}}{{i18n 'position'}}</span>
         <a id="showPositionPicker" class="edit">{{i18n 'edit'}}</a>
       {{else}}
         {{#if distance}}
-        <span>{{icon 'map-marker'}}{{i18n 'distance from you'}}</span>
-        <span>{{distance}} km</span>
+          <a href="{{positionUrl}}" class="showUserOnMap link">
+            {{icon 'map-marker'}}
+            <span class="link">{{i18n 'see on the map'}}</span>
+          </a>
+          <span class="distance">{{i18n 'distance:'}} {{distance}} km</span>
         {{/if}}
       {{/if}}
     </li>

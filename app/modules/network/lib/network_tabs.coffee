@@ -24,6 +24,7 @@ usersTabs =
     title: 'nearby'
     icon: 'map-marker'
     layout: 'nearby_users_layout'
+    selfUpdatesRoute: true
 
 groupsTabs =
   searchGroups:
@@ -51,6 +52,7 @@ groupsTabs =
     title: 'nearby'
     icon: 'map-marker'
     layout: 'nearby_groups_layout'
+    selfUpdatesRoute: true
 
 addPath = (category, categoryData)->
   for key, obj of categoryData

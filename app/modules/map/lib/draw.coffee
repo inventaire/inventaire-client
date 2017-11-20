@@ -18,7 +18,7 @@ module.exports = (params)->
 
 initWithCluster = (map)->
   cluster = L.markerClusterGroup()
-  cluster._objectIds = []
+  cluster._knownObjectIds = {}
   map.addLayer cluster
   map.addMarker = AddMarkerToCluster cluster
   return
@@ -37,14 +37,14 @@ AddMarkerToCluster = (cluster)->
   addMarkerToCluster = (params)->
     { objectId } = params
 
-    if objectId in cluster._objectIds
+    if cluster._knownObjectIds[objectId]
       _.log objectId, 'not re-adding known object'
       return
 
     marker = buildMarker params
     cluster.addLayer marker
 
-    cluster._objectIds.push objectId
+    cluster._knownObjectIds[objectId] = true
     _.log objectId, 'added unknown object'
 
     return marker

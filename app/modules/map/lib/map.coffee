@@ -48,6 +48,11 @@ module.exports = map_ =
     return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
 
   showUserOnMap: (map, user)->
+    # Substitude the main user model to the one created from user document
+    # so that updates on the main user model are correctly displayed,
+    # and to avoid to display duplicates
+    if user.id is app.user.id then user = app.user
+
     if user.hasPosition()
       marker = map.addMarker
         objectId: user.cid
@@ -58,6 +63,9 @@ module.exports = map_ =
       # which allows here to not re-add the event listerner
       if marker?
         marker.on 'click', showUserInventory.bind(null, user)
+        # Expose the main user marker to make it easier to update
+        # on user position change
+        if user is app.user then map.mainUserMarker = marker
 
 showGroupOnMap = (map, group)->
   if group.hasPosition()

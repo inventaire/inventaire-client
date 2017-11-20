@@ -50,7 +50,10 @@ module.exports = Marionette.LayoutView.extend
 
   updateUsersMarkers: ->
     showUsersOnMap @map, @collection.models
-    @mainUserMarker = showUserOnMap @map, app.user
+    # Always load the main user marker, so that if it changes position,
+    # it can be updated to eventually be shown in the current map frame
+    showUserOnMap @map, app.user
+    { @mainUserMarker } = @map
 
   initList: ->
     @list.show new UsersList

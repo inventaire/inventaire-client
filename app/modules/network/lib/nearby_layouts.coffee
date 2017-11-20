@@ -41,9 +41,7 @@ drawMap = (params, coords)->
 
   showObjects map
 
-  # update the path after the tabs lazyrendered and updated the path
-  fn = updateRoute.bind null, path, lat, lng, zoom
-  setTimeout fn, 500
+  updateRoute path, lat, lng, zoom
 
   _.type map, 'object'
   return map
