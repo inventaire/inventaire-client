@@ -52,6 +52,11 @@ getLastPublic = (params)->
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
   .tap addUsersAndItems(collection)
 
+getRecentPublic = (params)->
+  { collection, limit, lang, assertImage } = params
+  _.preq.get app.API.items.recentPublic(limit, lang, assertImage)
+  .tap addUsersAndItems(collection)
+
 getItemByQueryUrl = (queryUrl)->
   collection = new Items
   _.preq.get queryUrl
@@ -82,6 +87,7 @@ module.exports = (app)->
     'items:getByEntities': getByEntities
     'items:getNearbyItems': getNearbyItems
     'items:getLastPublic': getLastPublic
+    'items:getRecentPublic': getRecentPublic
     'items:getNetworkItems': getNetworkItems
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
