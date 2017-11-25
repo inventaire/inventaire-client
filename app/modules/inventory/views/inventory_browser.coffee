@@ -2,8 +2,9 @@ BrowserSelector = require './browser_selector'
 BrowserOwnersSelector = require './browser_owners_selector'
 ItemsList = require './items_list'
 SelectorsCollection = require '../collections/selectors'
-Filterable = require 'modules/general/models/filterable'
 FilterPreview = require './filter_preview'
+getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
+getUnknownModel = require '../lib/browser/get_unknown_model'
 
 selectorTreeKeys =
   author: 'wdt:P50'
@@ -141,7 +142,7 @@ module.exports = Marionette.LayoutView.extend
     selectedOptionKey = getSelectedOptionKey selectedOption, selectorName
     @filters[selectorTreeKey] = selectedOptionKey
 
-    intersectionWorkUris = @getIntersectionWorkUris()
+    intersectionWorkUris = getIntersectionWorkUris @worksTree, @filters
     @filterSelectors intersectionWorkUris
     @displayFilteredItems intersectionWorkUris
     @filterPreview.currentView.updatePreview selectorName, selectedOption
@@ -162,30 +163,6 @@ module.exports = Marionette.LayoutView.extend
       worksItems = _.pick @workUriItemsMap, intersectionWorkUris
     itemsIds = _.flatten _.values(worksItems)
     @showItemsListByIds itemsIds
-
-  getIntersectionWorkUris: ->
-    subsets = []
-    for selectorTreeKey, selectedOptionKey of @filters
-      if selectedOptionKey?
-        subsets.push @getFilterWorksUris(selectorTreeKey, selectedOptionKey)
-      else
-        @resetFilterData selectorTreeKey
-
-    if subsets.length is 0 then return null
-
-    intersectionWorkUris = _.intersection subsets...
-
-    return _.log intersectionWorkUris, 'intersectionWorkUris'
-
-  getFilterWorksUris: (selectorTreeKey, selectedOptionKey)->
-    if selectorTreeKey is 'owner'
-      @_currentOwnerItemsByWork = @worksTree.owner[selectedOptionKey] or {}
-      return Object.keys @_currentOwnerItemsByWork
-    else
-      return @worksTree[selectorTreeKey][selectedOptionKey]
-
-  resetFilterData: (selectorTreeKey)->
-    if selectorTreeKey is 'owner' then @_currentOwnerItemsByWork = null
 
 getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null
@@ -208,16 +185,3 @@ getSelectorsCollection = (models)->
   # Using a filtered collection allows browser_selector to filter
   # options without re-rendering the whole view
   new FilteredCollection(new SelectorsCollection(models))
-
-unknownModel = null
-getUnknownModel = ->
-  # Creating the model only once requested
-  # as _.i18n can't be called straight away at initialization
-  unknownModel or= new Filterable
-    uri: 'unknown'
-    label: _.i18n('unknown')
-
-  unknownModel.isUnknown = true
-  unknownModel.matchable = -> [ 'unknown', _.i18n('unknown') ]
-
-  return unknownModel
