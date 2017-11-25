@@ -9,8 +9,9 @@ module.exports = Marionette.CompositeView.extend
   childView: require './comment'
 
   initialize: ->
-    [@collection, @fetching] = app.request 'comments:init', @model
+    [ @collection, @fetching ] = app.request 'comments:init', @model
     @initPlugins()
+    @lazyRender = _.LazyRender @
 
   initPlugins: ->
     _.extend @, behaviorsPlugin, messagesPlugin

@@ -1,9 +1,19 @@
 .timeline{
-  padding-left: 1.2em;
-  padding-right: 1em;
   margin-bottom: 1em;
   @import './action';
   @import './message';
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    padding-left: 0.4em;
+    padding-right: 0.2em;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $very-small-screen) {
+    padding-left: 1.2em;
+    padding-right: 1em;
+  }
 }
 
 $timeline-bar-color: #bbb;

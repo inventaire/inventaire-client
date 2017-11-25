@@ -1,12 +1,13 @@
 .message{
   @include display-flex(row);
+  // Somehow required to make .message-text long words wrap
+  overflow: hidden;
   .avatar{
     flex: 0 0 36px;
     &:not(.sameUser){
-      margin-top: 0.8em;
+      margin-top: 0.3em;
       @extend .event-icon;
     }
-    overflow: hidden;
   }
   .rest{
     @include radius;
@@ -15,30 +16,36 @@
     padding: 0.5em;
     padding-left: 1em;
     flex: 1 1 auto;
-    span{
-      display: block;
-    }
-    &:not(.sameUser){
-      margin-top: 1em;
-    }
-  }
-  .time{
-    opacity: 0.5;
-  }
-  /*Small screens*/
-  @media screen and (max-width: 600px) {
-    .rest{
-      @include display-flex(column);
-    }
+    @include display-flex(row);
     .time{
-      margin-left: auto;
-      order: 2;
+      opacity: 0.5;
     }
-  }
-  /*Large screens*/
-  @media screen and (min-width: 600px) {
-    .time{
-      float: right;
+    .message-text{
+      @include text-wrap;
+      overflow: hidden;
+      max-width: 100%;
+    }
+    /*Small screens*/
+    @media screen and (max-width: $very-small-screen) {
+      flex-direction: column;
+      .message-text{
+        padding-bottom: 0.5em;
+        order: 2;
+      }
+      .time{
+        text-align: center;
+        order: 1;
+      }
+    }
+    /*Large screens*/
+    @media screen and (min-width: $very-small-screen) {
+      .message-text{
+      }
+      .time{
+        margin-left: auto;
+        padding-left: 0.5em;
+        text-align: right;
+      }
     }
   }
 }
