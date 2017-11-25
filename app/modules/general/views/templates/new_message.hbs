@@ -9,6 +9,9 @@
   <div class="alertBox"></div>
   <div class="bottom">
     {{partial 'ctrl_enter_click_tip'}}
-    <a class="tiny-success-button sendMessage" tabindex="0">{{i18n 'send'}}</a>
+    {{!-- data-forget=message specifies that on click, the BackupForm behavior
+    should clear its cache of the message, preventing it to re-appear
+    on the next re-render --}}
+    <a class="tiny-success-button sendMessage" tabindex="0" data-forget="message">{{i18n 'send'}}</a>
   </div>
 </form>
