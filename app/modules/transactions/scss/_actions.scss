@@ -22,9 +22,11 @@
     .action{
       width: 100%;
       max-width: 20em;
-      white-space: nowrap;
       padding: 0.5em;
       margin: 0.5em;
+      &:not(.waiting){
+        white-space: nowrap;
+      }
     }
   }
   /*Large screens*/

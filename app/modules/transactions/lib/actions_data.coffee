@@ -1,3 +1,5 @@
+waiting = (text)-> { waiting: true, classes: 'waiting', text }
+
 module.exports = ->
   'accept/decline':
     [
@@ -6,6 +8,6 @@ module.exports = ->
     ]
   'confirm': [ { classes: 'confirm', text: 'confirm_reception' } ]
   'returned': [ { classes: 'returned', text: 'confirm_returned' } ]
-  'waiting:accepted': [ { classes: 'waiting', text: 'waiting_accepted' } ]
-  'waiting:confirmed': [ { classes: 'waiting', text: 'waiting_confirmation' } ]
-  'waiting:returned': [ { classes: 'waiting', text: 'waiting_return_confirmation' } ]
+  'waiting:accepted': [ waiting('waiting_accepted') ]
+  'waiting:confirmed': [ waiting('waiting_confirmation') ]
+  'waiting:returned': [ waiting('waiting_return_confirmation') ]
