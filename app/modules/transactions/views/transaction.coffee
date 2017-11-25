@@ -49,6 +49,9 @@ module.exports = Marionette.CompositeView.extend
     'click .item': 'showItem'
     'click .owner': 'showOwner'
     'click .cancel': 'cancel'
+    # Those anchors being generated within the i18n shortkeys flow
+    # that's the best selector we can get
+    'click .info a[href^="/items/"]': 'showItem'
 
   sendMessage: ->
     @postMessage 'transaction:post:message', @model.timeline
