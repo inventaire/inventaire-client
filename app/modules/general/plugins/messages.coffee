@@ -6,9 +6,9 @@ forms_ = require 'modules/general/lib/forms'
 module.exports =
   postMessage: (posterReqRes, collection, maxLength)->
     message = @ui.message.val()
-    return  unless @validMessageLength(message, maxLength)
+    unless @validMessageLength(message, maxLength) then return
 
-    id = @model.id
+    { id } = @model
 
     app.request posterReqRes, id, message, collection
     .catch @postMessageFail.bind(@, message)

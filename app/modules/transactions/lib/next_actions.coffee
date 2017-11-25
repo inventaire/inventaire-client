@@ -5,10 +5,9 @@ actionsData = require './actions_data'
 getNextActionsData = (transaction)->
   nextActions = proxyFindNextActions transaction
   data = actionsData()[nextActions]
-  if data?
-    data = addTransactionInfo data, transaction
-    grabOtherUsername transaction, data
-  else return
+  unless data? then return
+  data = addTransactionInfo data, transaction
+  grabOtherUsername transaction, data
 
 proxyFindNextActions = (transaction)->
   findNextActions sharedLibAdapter(transaction)

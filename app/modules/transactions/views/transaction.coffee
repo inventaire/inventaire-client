@@ -68,11 +68,11 @@ module.exports = Marionette.CompositeView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   showItem: (e)->
-    unless _.isOpenedOutside(e)
+    unless _.isOpenedOutside e
       app.execute 'show:item:show:from:model', @model.item
 
   showOwner: (e)->
-    unless _.isOpenedOutside(e)
+    unless _.isOpenedOutside e
       app.execute 'show:inventory:user', @model.owner
 
   cancel: ->
