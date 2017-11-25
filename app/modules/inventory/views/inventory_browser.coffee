@@ -138,15 +138,8 @@ module.exports = Marionette.LayoutView.extend
     { selectorName } = selectorView
     _.type selectorName, 'string'
     selectorTreeKey = selectorTreeKeys[selectorName]
-    if selectedOption?
-      if selectorName is 'owner'
-        selectedOptionKey = selectedOption.get '_id'
-      else
-        selectedOptionKey = selectedOption.get 'uri'
-
-      @filters[selectorTreeKey] = selectedOptionKey
-    else
-      @filters[selectorTreeKey] = null
+    selectedOptionKey = getSelectedOptionKey selectedOption, selectorName
+    @filters[selectorTreeKey] = selectedOptionKey
 
     intersectionWorkUris = @getIntersectionWorkUris()
     @filterSelectors intersectionWorkUris
@@ -193,6 +186,11 @@ module.exports = Marionette.LayoutView.extend
 
   resetFilterData: (selectorTreeKey)->
     if selectorTreeKey is 'owner' then @_currentOwnerItemsByWork = null
+
+getSelectedOptionKey = (selectedOption, selectorName)->
+  unless selectedOption? then return null
+  if selectorName is 'owner' then return selectedOption.get '_id'
+  return selectedOption.get 'uri'
 
 addCount = (urisData)-> (model)->
   uri = model.get 'uri'
