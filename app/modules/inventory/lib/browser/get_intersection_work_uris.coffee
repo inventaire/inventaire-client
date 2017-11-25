@@ -2,12 +2,12 @@ currentOwnerItemsByWork = null
 
 module.exports = (worksTree, filters)->
   subsets = []
-  for selectorTreeKey, selectedOptionKey of filters
+  for selectorName, selectedOptionKey of filters
     if selectedOptionKey?
-      uris = getFilterWorksUris worksTree, selectorTreeKey, selectedOptionKey
+      uris = getFilterWorksUris worksTree, selectorName, selectedOptionKey
       subsets.push uris
     else
-      resetFilterData selectorTreeKey
+      resetFilterData selectorName
 
   if subsets.length is 0 then return null
 
@@ -15,12 +15,12 @@ module.exports = (worksTree, filters)->
 
   return intersectionWorkUris
 
-getFilterWorksUris = (worksTree, selectorTreeKey, selectedOptionKey)->
-  if selectorTreeKey is 'owner'
+getFilterWorksUris = (worksTree, selectorName, selectedOptionKey)->
+  if selectorName is 'owner'
     currentOwnerItemsByWork = worksTree.owner[selectedOptionKey] or {}
     return Object.keys currentOwnerItemsByWork
   else
-    return worksTree[selectorTreeKey][selectedOptionKey]
+    return worksTree[selectorName][selectedOptionKey]
 
-resetFilterData = (selectorTreeKey)->
-  if selectorTreeKey is 'owner' then currentOwnerItemsByWork = null
+resetFilterData = (selectorName)->
+  if selectorName is 'owner' then currentOwnerItemsByWork = null

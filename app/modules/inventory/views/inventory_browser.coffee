@@ -6,16 +6,7 @@ FilterPreview = require './filter_preview'
 getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
 getUnknownModel = require '../lib/browser/get_unknown_model'
 
-selectorTreeKeys =
-  author: 'wdt:P50'
-  genre: 'wdt:P136'
-  subject: 'wdt:P921'
-  owner: 'owner'
-  # type
-  # language
-
-selectorsNames = Object.keys selectorTreeKeys
-
+selectorsNames = [ 'author', 'genre', 'subject', 'owner' ]
 selectorsRegions = {}
 selectorsNames.forEach (name)->
   selectorsRegions["#{name}Region"] = "##{name}"
@@ -69,9 +60,9 @@ module.exports = Marionette.LayoutView.extend
     @showItemsListByIds()
 
   showEntitySelectors: ->
-    authors = Object.keys @worksTree['wdt:P50']
-    genres = Object.keys @worksTree['wdt:P136']
-    subjects = Object.keys @worksTree['wdt:P921']
+    authors = Object.keys @worksTree.author
+    genres = Object.keys @worksTree.genre
+    subjects = Object.keys @worksTree.subject
 
     allUris = _.flatten [ authors, genres, subjects ]
     # The 'unknown' attribute is used to list works that have no value
@@ -84,9 +75,9 @@ module.exports = Marionette.LayoutView.extend
     .then (entities)=>
       # Re-adding the 'unknown' entity placeholder
       entities.unknown = getUnknownModel()
-      @showEntitySelector entities, 'wdt:P50', authors, 'author'
-      @showEntitySelector entities, 'wdt:P136', genres, 'genre'
-      @showEntitySelector entities, 'wdt:P921', subjects, 'subject'
+      @showEntitySelector entities, authors, 'author'
+      @showEntitySelector entities, genres, 'genre'
+      @showEntitySelector entities, subjects, 'subject'
 
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
@@ -106,8 +97,8 @@ module.exports = Marionette.LayoutView.extend
     fetchMore()
     .then => @itemsView.show new ItemsList { collection, fetchMore, more }
 
-  showEntitySelector: (entities, property, propertyUris, name)->
-    treeSection = @worksTree[property]
+  showEntitySelector: (entities, propertyUris, name)->
+    treeSection = @worksTree[name]
     models = _.values(_.pick(entities, propertyUris)).map addCount(treeSection)
     @showSelector name, models, treeSection
 
@@ -138,9 +129,8 @@ module.exports = Marionette.LayoutView.extend
   filterSelect: (selectorView, selectedOption)->
     { selectorName } = selectorView
     _.type selectorName, 'string'
-    selectorTreeKey = selectorTreeKeys[selectorName]
     selectedOptionKey = getSelectedOptionKey selectedOption, selectorName
-    @filters[selectorTreeKey] = selectedOptionKey
+    @filters[selectorName] = selectedOptionKey
 
     intersectionWorkUris = getIntersectionWorkUris @worksTree, @filters
     @filterSelectors intersectionWorkUris
