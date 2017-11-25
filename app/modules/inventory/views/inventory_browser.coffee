@@ -26,7 +26,7 @@ module.exports = Marionette.LayoutView.extend
     browserControls: '#browser-controls'
 
   childEvents:
-    'filter:select': 'filterSelect'
+    'filter:select': 'onFilterSelect'
 
   onShow: ->
     @focusOnShow()
@@ -126,7 +126,7 @@ module.exports = Marionette.LayoutView.extend
     collection = getSelectorsCollection models
     @["#{name}Region"].show new BrowserSelector { name, collection, treeSection }
 
-  filterSelect: (selectorView, selectedOption)->
+  onFilterSelect: (selectorView, selectedOption)->
     { selectorName } = selectorView
     _.type selectorName, 'string'
     selectedOptionKey = getSelectedOptionKey selectedOption, selectorName
