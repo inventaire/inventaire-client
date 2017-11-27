@@ -124,10 +124,8 @@ $workLiMaxWidth: 45em;
       flex: 1 1 auto;
       position: relative;
       .ordinal{
-        position: absolute;
-        left: 0;
         font-size: 0.9em;
-        padding-left: 1em;
+        padding-right: 1em;
       }
     }
     .actions{
