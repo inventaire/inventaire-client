@@ -115,8 +115,8 @@ module.exports = Marionette.LayoutView.extend
     return canCancelCase1 or canCancelCase2
 
   cancel: ->
-    if window.history.length > 1 then window.history.back()
-    else app.execute 'show:entity:from:model', @model
+    fallback = => app.execute 'show:entity:from:model', @model
+    app.execute 'history:back', { fallback }
 
   createAndShowEntity: -> @_createAndAction app.Execute('show:entity:from:model')
   createAndAddEntity: -> @_createAndAction app.Execute('show:entity:add:from:model')

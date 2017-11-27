@@ -62,11 +62,7 @@ module.exports = ->
     if navigateOnClose
       # If opening the modal trigged a route change
       # closing it should bring back to the previous history state.
-      { route, title } = navigateOnClose
-      # Unless their was no previous state, in which case we should simply
-      # go the the home view to avoid showing a blank screen (as <main> will be empty)
-      if route is _.currentRoute() then app.execute 'show:home'
-      else app.navigate route, { metadata: { title } }
+      app.execute 'history:back'
 
     app.vent.trigger 'modal:closed'
 

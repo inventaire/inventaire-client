@@ -19,12 +19,7 @@ API =
     if _.smallScreen()
       app.layout.main.show new SettingsMenu
     else
-      options =
-        navigateOnClose:
-          route: _.currentRoute()
-          title: document.title
-
-      app.layout.modal.show new SettingsMenu options
+      app.layout.modal.show new SettingsMenu { navigateOnClose: true }
       app.execute 'modal:open', null, null, true
 
     app.navigate 'menu', { metadata: { title: 'menu' } }

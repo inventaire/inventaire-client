@@ -15,7 +15,10 @@ module.exports =
 
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'
-  showDonateMenu: -> app.layout.modal.show new DonateMenu
+  showDonateMenu: ->
+    app.layout.modal.show new DonateMenu { navigateOnClose: true }
+    app.navigate 'donate'
+
   showFeedbackMenu: (options)->
     # In the case of 'show:feedback:menu', a unique object is passed
     # in which the event object is passed either directly
@@ -23,7 +26,10 @@ module.exports =
     event = options?.event or options
     # options might simply be a click event object
     unless _.isOpenedOutside event
+      options or= {}
+      options.navigateOnClose = true
       app.layout.modal.show new FeedbackMenu(options)
+      app.navigate 'feedback'
 
   # shareLink: -> app.layout.modal.show new ShareMenu
 

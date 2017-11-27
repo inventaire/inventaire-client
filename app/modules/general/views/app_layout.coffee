@@ -45,6 +45,10 @@ module.exports = Marionette.LayoutView.extend
       'show:feedback:menu': @showFeedbackMenu
       'show:donate:menu': @showDonateMenu
       'ask:confirmation': @askConfirmation.bind(@)
+      'history:back': (options)->
+        # Go back only if going back means staying in the app
+        if Backbone.history.last.length > 0 then window.history.back()
+        else options?.fallback?()
 
     app.reqres.setHandlers
       'waitForCheck': waitForCheck
