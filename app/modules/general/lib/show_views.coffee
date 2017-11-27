@@ -18,8 +18,9 @@ module.exports =
   showDonateMenu: -> app.layout.modal.show new DonateMenu
   showFeedbackMenu: (options)->
     # In the case of 'show:feedback:menu', a unique object is passed
-    # in which the event object is passed as the value for the key 'event'
-    event = options.event or options
+    # in which the event object is passed either directly
+    # or as the value for the key 'event'
+    event = options?.event or options
     # options might simply be a click event object
     unless _.isOpenedOutside event
       app.layout.modal.show new FeedbackMenu(options)
