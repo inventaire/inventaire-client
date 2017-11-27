@@ -28,7 +28,7 @@ input, textarea{
   }
 }
 
-input[type="text"], input[type="search"], input[type="password"], textarea{
+input[type="text"], input[type="search"], input[type="password"], input[type="email"], textarea{
   border: 1px solid $input-border-color;
   &:focus{
     border-color: darken($input-border-color, 10%);
