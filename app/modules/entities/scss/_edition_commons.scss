@@ -19,6 +19,12 @@
     margin: 0;
     padding: 0;
   }
+  .editionEntityActions{
+    flex: 0 0 auto;
+    a{
+      text-wrap: nowrap;
+    }
+  }
   .subtitle{
     @include serif;
   }

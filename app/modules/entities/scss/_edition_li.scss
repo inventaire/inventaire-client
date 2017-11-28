@@ -10,17 +10,17 @@
   }
   > .right-part{
     flex: 1 0 0;
+    overflow: hidden;
   }
   .upper-part{
-    @include display-flex(row, center, space-between);
+    // Wrap in case the edition title makes the row overflow
+    // Known case: /entity/wd:Q3314295
+    @include display-flex(row, center, center, wrap);
   }
   .claims, .actions{
     padding: 0.5em;
     margin: 0.5em;
-  }
-
-  .editionEntityActions{
-    flex: 0 0 auto;
+    margin-left: auto;
   }
 
   .entityActions{
