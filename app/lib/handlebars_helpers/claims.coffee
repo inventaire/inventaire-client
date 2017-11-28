@@ -1,4 +1,4 @@
-{ SafeString } = Handlebars
+{ SafeString, escapeExpression } = Handlebars
 images_ = require './images'
 wdLang = require 'wikidata-lang'
 
@@ -48,7 +48,7 @@ module.exports = API =
     [ claims, prop, omitLabel, inline ] = neutralizeDataObject args
     if claims?[prop]?[0]?
       label = labelString prop, omitLabel
-      values = claims[prop]?.join ', '
+      values = escapeExpression claims[prop]?.join(', ')
       return claimString label, values, inline
 
   urlClaim: (args...)->
@@ -66,7 +66,8 @@ module.exports = API =
     if firstPlatformId?
       platform = platforms_[prop]
       icon = images_.icon platform.icon
-      text = icon + '<span>' + platform.text(firstPlatformId) + '</span>'
+      escapedText = escapeExpression platform.text(firstPlatformId)
+      text = icon + '<span>' + escapedText + '</span>'
       url = platform.url firstPlatformId
       values = linkify_ text, url, 'link social-network'
       return claimString '', values
