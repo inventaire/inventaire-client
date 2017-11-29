@@ -60,7 +60,9 @@ module.exports = Marionette.LayoutView.extend
       .then @showDeduplicateWorks.bind(@)
 
   showDeduplicateWorks: (works)->
+    works = works.filter (entity)-> entity.type is 'work'
     @content.show new DeduplicateWorks { works, @mergedUris }
+
   showDeduplicateAuthors: (name)->
     @content.show new DeduplicateAuthors { name, @mergedUris }
 
