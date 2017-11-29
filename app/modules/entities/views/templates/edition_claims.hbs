@@ -1,14 +1,13 @@
 <p class="edition-subtitle">{{stringClaim claims 'wdt:P1680' true}}</p> {{!-- subtitle --}}
 <div class="inner-claims">
-  {{#unless onWorkLayout}}
-    {{claim claims 'wdt:P629' true}}  {{!-- edition of --}}
-    {{claim claims 'wdt:P50' true}}  {{!-- author --}}
-    {{claim claims 'wdt:P179' true}} {{!-- serie --}}
-  {{/unless}}
-
-  {{claim claims 'wdt:P2679' true false true}}  {{!-- author of foreword --}}
-  {{claim claims 'wdt:P2680' true false true}}  {{!-- author of afterword --}}
   <p>
+    {{#unless onWorkLayout}}
+      {{claim claims 'wdt:P629' true}}  {{!-- edition of --}}
+      {{claim claims 'wdt:P50' true}}  {{!-- author --}}
+      {{claim claims 'wdt:P179' true}} {{!-- serie --}}
+    {{/unless}}
+    {{claim claims 'wdt:P2679' true}}  {{!-- author of foreword --}}
+    {{claim claims 'wdt:P2680' true}}  {{!-- author of afterword --}}
     {{claim claims 'wdt:P655'}} {{!-- translator --}}
     {{claim claims 'wdt:P407'}} {{!-- edition language --}}
     {{claim claims 'wdt:P123'}} {{!-- publisher --}}
