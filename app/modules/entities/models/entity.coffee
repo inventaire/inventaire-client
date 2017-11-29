@@ -138,7 +138,11 @@ module.exports = Filterable.extend
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
     .tap @setSubEntitiesUris.bind(@)
     .then (uris)-> app.request 'get:entities:models', { uris, refresh }
+    .then @beforeSubEntitiesAdd.bind(@)
     .then collection.add.bind(collection)
+
+  # Override in sub-types
+  beforeSubEntitiesAdd: _.identity
 
   setSubEntitiesUris: (uris)->
     if @subEntitiesUrisFilter? then uris = uris.filter @subEntitiesUrisFilter
