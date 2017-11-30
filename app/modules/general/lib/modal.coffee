@@ -44,7 +44,7 @@ module.exports = ->
     $modalWrapper.removeClass 'hidden'
     app.vent.trigger 'modal:opened'
 
-  closeModal = ->
+  closeModal = (goBack)->
     # Ignore closing call happening less than 200ms after the last open call:
     # it's probably a view destroying itself and calling modal:close
     # while an other view requiring the modal to be opened just requested it
@@ -59,7 +59,10 @@ module.exports = ->
     setWidthJumpPreventingRules '', ''
 
     navigateOnClose = app.layout.modal.currentView?.options.navigateOnClose
-    if navigateOnClose
+
+    # goBack is true only when additionnaly to closing the modal
+    # no new layout is shown in the main layout: it thus make sense to go back
+    if navigateOnClose and goBack
       # If opening the modal trigged a route change
       # closing it should bring back to the previous history state.
       app.execute 'history:back'

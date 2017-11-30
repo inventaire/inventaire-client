@@ -20,16 +20,17 @@ module.exports = Marionette.ItemView.extend
   showLink: (e)->
     unless _.isOpenedOutside e
       href = e.currentTarget.href.replace location.origin, ''
-      app.execute hrefCommands[href], e
-      app.execute 'modal:close'
+      { command, goBack } = hrefParams[href]
+      app.execute command, e
+      app.execute 'modal:close', goBack
 
   signout: ->
     app.execute 'modal:close'
     app.execute 'logout'
 
-hrefCommands =
-  '/settings/profile': 'show:settings:profile'
-  '/settings/notifications': 'show:settings:notifications'
-  '/settings/labs': 'show:settings:labs'
-  '/feedback': 'show:feedback:menu'
-  '/donate': 'show:donate:menu'
+hrefParams =
+  '/settings/profile': { command: 'show:settings:profile' }
+  '/settings/notifications': { command: 'show:settings:notifications' }
+  '/settings/labs': { command: 'show:settings:labs' }
+  '/feedback': { command: 'show:feedback:menu', goBack: true }
+  '/donate': { command: 'show:donate:menu', goBack: true }
