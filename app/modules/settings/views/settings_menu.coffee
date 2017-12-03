@@ -15,20 +15,18 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click a': 'showLink'
-    'click #signout': 'signout'
 
   showLink: (e)->
+    if e.currentTarget.id is 'signout' then return app.execute 'logout'
+
     unless _.isOpenedOutside e
       href = e.currentTarget.href.replace location.origin, ''
       { command, goBack } = hrefParams[href]
       app.execute command, e
       app.execute 'modal:close', goBack
 
-  signout: ->
-    app.execute 'modal:close'
-    app.execute 'logout'
-
 hrefParams =
+  '/welcome': { command: 'show:welcome' }
   '/settings/profile': { command: 'show:settings:profile' }
   '/settings/notifications': { command: 'show:settings:notifications' }
   '/settings/labs': { command: 'show:settings:labs' }
