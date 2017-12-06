@@ -343,6 +343,8 @@ entityViewGetterByType =
   work: 'getWorkView'
   edition: 'getWorkViewFromEdition'
   genre: 'getGenreLayout'
+  # the GenreLayout also fetches movements
+  movement: 'getGenreLayout'
 
 isClaim = (claim)-> /^(wdt:|invp:)/.test claim
 showClaimEntities = (claim, refresh)->
