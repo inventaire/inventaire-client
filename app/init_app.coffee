@@ -14,9 +14,7 @@ module.exports = ->
   require('lib/handlebars_helpers/base').initialize(app.API)
   require('lib/global_libs_extender')(_)
   require('lib/global_helpers')(app, _)
-
-  # setting reqres to trigger methods on data:ready events
-  require('lib/data/state')()
+  require('lib/data/waiters')()
 
   # initialize all the modules and their routes before app.start()
   # the first routes initialized have the lowest priority

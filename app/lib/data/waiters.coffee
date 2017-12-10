@@ -1,3 +1,7 @@
+# Some data (as little as possible) is fetched at every page load,
+# this module handles returning promises on request corresponding
+# to those global data elements being ready
+
 waitersNames = [
   'user'
   'users'
