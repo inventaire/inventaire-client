@@ -1,0 +1,34 @@
+#flashMessage{
+  background-color: $success-color;
+  @include radius(3px);
+  padding: 0.8em 1em;
+  margin: 1em;
+  color: white;
+  @include display-flex(row, center, center);
+  .close{
+    color: white;
+    margin-left: auto;
+    font-size: 2rem;
+  }
+
+  @include position(fixed, -5em, 0, null, null, 100);
+  @include transition(top);
+  &.active{
+    background-color: $warning-color;
+    top: 0;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    left: 0;
+    &.active{
+      top: auto;
+      bottom: 0;
+    }
+  }
+}

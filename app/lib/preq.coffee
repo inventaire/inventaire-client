@@ -57,6 +57,9 @@ rewriteJqueryError = (err, context)->
     messageWithContext = "#{statusCode}: #{statusText} - #{responseText} - #{url}"
     # We need a clean message in case this is to be displayed as an alert
     message = responseJSON?.status_verbose or messageWithContext
+  else if statusCode is 0
+    app.execute 'flash:message:show:network:error'
+    message = 'network error'
   else
     # cf http://stackoverflow.com/a/6186905
     # Known case: request blocked by CORS headers
