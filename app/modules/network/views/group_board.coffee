@@ -68,14 +68,16 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     @model.beforeShow()
-    .then =>
-      @showHeader()
-      @showJoinRequests()
-      @showMembers()
-      if @model.mainUserIsMember()
-        @initSettings()
-        @showMembersInvitor()
-        @showMembersEmailInvitor()
+    .then @ifViewIsIntact('_showBoard')
+
+  _showBoard: ->
+    @showHeader()
+    @showJoinRequests()
+    @showMembers()
+    if @model.mainUserIsMember()
+      @initSettings()
+      @showMembersInvitor()
+      @showMembersEmailInvitor()
 
   initSettings: ->
     if @standalone and @model.mainUserIsAdmin()
