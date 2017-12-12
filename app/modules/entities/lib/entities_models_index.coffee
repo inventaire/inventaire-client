@@ -1,6 +1,6 @@
 error_ = require 'lib/error'
 Entity = require '../models/entity'
-{ getManyByUris } = app.API.entities
+{ getByUris, getManyByUris } = app.API.entities
 
 # In-memory cache for all entities used during a session.
 # It's ok to attach it to window for inspection purpose
@@ -49,7 +49,15 @@ populateIndexWithMissingEntitiesModelsPromises = (uris, refresh, defaultType)->
   return
 
 getRemoteEntitiesModels = (uris, refresh, defaultType)->
-  _.preq.post getManyByUris(refresh), { uris }
+  if uris.length < 50
+    # Prefer to use get when not fetching that many entities
+    # - to make server log the requested URIs
+    promise = _.preq.get getByUris(uris, refresh)
+  else
+    # Use the POST endpoint when using a GET might hit some URI length limits
+    promise = _.preq.post getManyByUris(refresh), { uris }
+
+  promise
   .then (res)->
     { entities:entitiesData, redirects } = res
 

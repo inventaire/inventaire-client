@@ -10,6 +10,10 @@ module.exports =
 
   searchType: (type, search, limit)-> action 'search-type', { type, search, limit }
 
+  getByUris: (uris, refresh)->
+    uris = _.forceArray(uris).join '|'
+    action 'by-uris', { uris, refresh }
+
   # Get many by POSTing URIs in the body
   getManyByUris: (refresh)-> action 'by-uris', { refresh }
 
