@@ -1,18 +1,31 @@
-<h3>1/ {{i18n 'upload your collection from another website'}}</h3>
-<section>
-  <ul class="importers">
-    {{#each importers}}
-      <li>
-        <p>
-          {{link label this.link}}
-          <span class="format">( .{{format}} )</span>
-        </p>
-        <input id="{{id}}" type="file" accept="{{accept}}" />
-      </li>
-    {{/each}}
-  </ul>
-  <p class="warning"></p>
-</section>
+<div id="importersWrapper">
+  <h3>1/ {{i18n 'upload your collection from another website'}}</h3>
+  <section>
+    <ul class="importers">
+      {{#each importers}}
+        <li>
+          <p>
+            {{link label this.link}}
+            <span class="format">( .{{format}} )</span>
+          </p>
+          <input id="{{id}}" type="file" accept="{{accept}}" />
+        </li>
+      {{/each}}
+    </ul>
+    <p class="warning"></p>
+  </section>
+</div>
+
+{{partial 'horizontal_separator' 'or'}}
+
+<div id="isbnsImporterWrapper">
+  <h3>1/ {{i18n 'import from a list of ISBNs'}}</h3>
+  <div id="isbnsImporter">
+    <textarea placeholder="{{i18n 'paste your list containing ISBNs here'}}"></textarea>
+    <p id="isbnsImporterStatus"></p>
+    <p class="warning hidden">{{i18n 'This may take a while, please be patient'}}</p>
+  </div>
+</div>
 
 <span class="loading-queue"></span>
 <div id="queue"></div>

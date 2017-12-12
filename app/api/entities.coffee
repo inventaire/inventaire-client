@@ -10,9 +10,10 @@ module.exports =
 
   searchType: (type, search, limit)-> action 'search-type', { type, search, limit }
 
-  getByUris: (uris, refresh)->
+  getByUris: (uris, refresh, relatives)->
     uris = _.forceArray(uris).join '|'
-    action 'by-uris', { uris, refresh }
+    if relatives? then relatives = _.forceArray(relatives).join '|'
+    action 'by-uris', { uris, refresh, relatives }
 
   # Get many by POSTing URIs in the body
   getManyByUris: (refresh)-> action 'by-uris', { refresh }
