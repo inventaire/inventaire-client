@@ -101,6 +101,7 @@
     "non_monetary_donations": null,
     "notes_placeholder": "endast du vill se detta",
     "num_books": null,
+    "old_browser_message": null,
     "on_website": null,
     "on_wikipedia": "%{label} på Wikipedia",
     "open_source_credits": null,

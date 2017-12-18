@@ -172,5 +172,6 @@
     "contributions_by": "%{username}'s contributions",
     "series_singular": "series",
     "old_browser_message": "Hello, thank you for your interest in Inventaire!<br>Unfortunately, **your browser seems too old to support this webapp**.<br>Could you [install a more modern browser](https://www.mozilla.org/firefox)?",
-    "project_contributors_credits": "all the wonderful people<br>[improving the data](https://wiki.inventaire.io/wiki/Data), here or on [Wikidata](https://wikidata.org),<br>[designing the project's future](https://roadmap.inventaire.io),<br>[contributing code or technical insights](http://git.inventaire.io),<br>[enriching the Wiki](https://wiki.inventaire.io),<br>[helping translating](https://translate.inventaire.io)<br>**A big thank you to all of you who are making this project grow everyday!**"
+    "project_contributors_credits": "all the wonderful people<br>[improving the data](https://wiki.inventaire.io/wiki/Data), here or on [Wikidata](https://wikidata.org),<br>[designing the project's future](https://roadmap.inventaire.io),<br>[contributing code or technical insights](http://git.inventaire.io),<br>[enriching the Wiki](https://wiki.inventaire.io),<br>[helping translating](https://translate.inventaire.io)<br>**A big thank you to all of you who are making this project grow everyday!**",
+    "offline_help": "the server can't be reached: please retry whatever you where doing once back online"
 }

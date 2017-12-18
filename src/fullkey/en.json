@@ -239,7 +239,6 @@
     "news": "news",
     "send invitations": "send invitations",
     "emails separated by a comma": "emails separated by a comma",
-    "Look who was already there! Friend request sent": "Look who was already there! Friend request sent",
     "cancel friend request": "cancel friend request",
     "send friend request": "send friend request",
     "couldn't parse emails": "couldn't parse emails",
@@ -338,7 +337,6 @@
     "totally randomly-selected messages from the people of the Internet": "totally randomly-selected messages from the people of the Internet",
     "download ebook": "download ebook",
     "make a one-time or recurrent donation": "make a one-time or recurrent donation",
-    "Europe": "Europe",
     "scan": "scan",
     "import": "import",
     "download": "download",
@@ -383,7 +381,6 @@
     "the identifier near the book's barcode": "the identifier near the book's barcode",
     "use the barcode scanner": "use the barcode scanner",
     "add a book to the database": "add a book to the database",
-    "matching works in your network": "matching works in your network",
     "works": "works",
     "series": "series",
     "in your friends' and groups' inventories": "in your friends' and groups' inventories",
@@ -492,5 +489,11 @@
     "invitation sent": "invitation sent",
     "invite new members": "invite new members",
     "invite by email": "invite by email",
-    "friend request sent": "friend request sent"
+    "friend request sent": "friend request sent",
+    "see on the map": "see on the map",
+    "filters": "filters",
+    "filter": "filter",
+    "no user found": "no user found",
+    "you are offline": "you are offline",
+    "requires an activated camera": "requires an activated camera"
 }
