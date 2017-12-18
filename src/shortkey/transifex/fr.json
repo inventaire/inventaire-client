@@ -101,6 +101,7 @@
     "non_monetary_donations": "Le moyen le plus important et le plus simple pour faire grandir inventaire.io est de nous **aider à faire connaître le projet** :  [invitez vos amis à partager leur inventaire](/network/users/invite), partagez le projet dans tous les recoins de l'Internet, écrivez un article de blog ou un tutoriel sur le sujet... soyez créatif !<br> Mais il y a aussi d'[autres moyens de contribuer](https://trello.com/c/VIkw1d8q) (en)",
     "notes_placeholder": "vous seul verrez ces notes",
     "num_books": "%{smart_count} livre |||| %{smart_count} livres",
+    "offline_help": null,
     "old_browser_message": "Hello, merci pour votre intéret pour inventaire !<br>Malheureusement, **votre navigateur semble trop âgé pour pouvoir afficher cette application web correctement**.<br>Vous est-il possible d'[installer un navigateur plus moderne](https://www.mozilla.org/firefox) ?",
     "on_website": "sur %{name}",
     "on_wikipedia": "%{label} sur Wikipédia",

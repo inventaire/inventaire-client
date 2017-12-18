@@ -101,6 +101,7 @@
     "non_monetary_donations": "De grootste en makkelijkste bijdrage die je kan leveren is **het nieuws helpen verspreiden** over dit project: [nodig je vrienden uit om hun inventaris te delen](/network/users/invite), deel het project met het hele internet, schrijf een blogpost of een tutorial...wees creatief!<br>Maar er zijn ook [andere manieren om bij te dragen](https://trello.com/c/VIkw1d8q)",
     "notes_placeholder": "enkel jij zal dit zien",
     "num_books": "%{smart_count} boek |||| %{smart_count} boeken",
+    "offline_help": null,
     "old_browser_message": null,
     "on_website": "over %{name}",
     "on_wikipedia": "%{label} op Wikipedia",

@@ -101,6 +101,7 @@
     "non_monetary_donations": "Yapabileceğiniz en büyük ve en basit katkı bu projeyle ilgili haberler ** yaymamıza yardımcı olmaktır **: [arkadaşlarınızı envanterlerini paylaşmaya davet edin](/network/users/invite), projeyi tüm İnternet'te paylaşın, bir blog yazısı yazın ya da onunla ilgili bir öğretici yazın... yaratıcı olun!<br>Ve ayrıca [katkıda bulunmanın diğer yolları](https://trello.com/c/VIkw1d8q)",
     "notes_placeholder": "sadece görebilirsin",
     "num_books": "%{smart_count} kitap |||| %{smart_count} kitap",
+    "offline_help": null,
     "old_browser_message": null,
     "on_website": "%{name} üzerinde",
     "on_wikipedia": "Vikipedi'de %{label}",

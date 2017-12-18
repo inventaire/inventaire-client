@@ -101,6 +101,7 @@
     "non_monetary_donations": "Det største og simpleste du kan gøre for at bidrage er at **hjælpe os med at sprede rygtet** om projektet: [invitér dine venner til at dele deres beholdning](/network/users/invite), dele projektet udover hele Internettet, skrive et bloginlæg eller en tutorial om det.. bare vær kreativ! Men der er også [andre måder at bidrage](https://trello.com/c/VIkw1d8q)",
     "notes_placeholder": "kun du vil se det",
     "num_books": "%{smart_count} bog |||| %{smart_count} bøger",
+    "offline_help": null,
     "old_browser_message": "Halløjsa, og tak for din intersse for Inventaire! Desværre ser **din browser ud til at være for gammel til at understøtte denne webapplikation**. Kan du  [installere en moderne browser](https://www.mozilla.org/firefox)?",
     "on_website": "på %{name}",
     "on_wikipedia": "%{label} på Wikipedia",

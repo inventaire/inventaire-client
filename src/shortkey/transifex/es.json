@@ -101,6 +101,7 @@
     "non_monetary_donations": "La más grande, y al mismo tiempo simple contribución que puede hacer es la de **ayudar a diseminar la novedad** sobre este proyecto:  [invite a sus amigos a compartir su inventario](/network/users/invite), comparta el proyecto a través de la internet, escriba una entrada en un blog o haga un tutorial sobre él... ¡sea creativo!<br>Pero hay también [otras formas de contribuir](https://trello.com/c/VIkw1d8q)",
     "notes_placeholder": "sólo usted verá esto",
     "num_books": "%{smart_count} libro |||| %{smart_count} libros",
+    "offline_help": null,
     "old_browser_message": null,
     "on_website": "en %{name}",
     "on_wikipedia": "%{label} en Wikipedia",

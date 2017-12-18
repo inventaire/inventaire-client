@@ -101,6 +101,7 @@
     "non_monetary_donations": "Der größte und einfachste Beitrag, den du leisten kannst –\n**Hilf uns das Projekt bekannt zu machen**: [lade deine Freunde ein](/network/users/invite), verbreite das Projekt überall im Internet, schreib einen Blog-Post oder ein Tutorial… sei kreativ!<br>Aber es gibt auch [andere Wege beizutragen](https://trello.com/c/VIkw1d8q)",
     "notes_placeholder": "nur Du wirst das sehen können",
     "num_books": "%{smart_count} Buch |||| %{smart_count} Bücher",
+    "offline_help": null,
     "old_browser_message": null,
     "on_website": "auf %{name}",
     "on_wikipedia": "%{label} in Wikipedia",
