@@ -32,16 +32,20 @@ module.exports = ->
 
   # Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
   setUserId = (id)->
-    if _.isUserId id
-      piwikInitPromise
-      .then -> unless piwikDisabled then tracker.setUserId id
+    unless _.isUserId(id) then return
+
+    piwikInitPromise
+    .then -> unless piwikDisabled then tracker.setUserId id
 
   trackPageView = (title)->
-    unless piwikDisabled
-      piwikInitPromise
-      .then ->
-        tracker.setCustomUrl location.href
-        tracker.trackPageView title
+    if piwikDisabled then return
+
+    piwikInitPromise
+    .then ->
+      # piwikDisabled might have been toggled after a failed initialization
+      if piwikDisabled then return
+      tracker.setCustomUrl location.href
+      tracker.trackPageView title
 
   app.commands.setHandlers
     'track:user:id': setUserId
