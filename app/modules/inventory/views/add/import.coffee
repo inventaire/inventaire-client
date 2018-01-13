@@ -112,6 +112,8 @@ module.exports = Marionette.LayoutView.extend
 
   _displayImportButton: ->
     text = @ui.isbnsImporterTextarea.val()
+    unless _.isNonEmptyString(text) then return
+
     isbnsData = extractIsbns text
     _.log isbnsData, 'isbns'
 
