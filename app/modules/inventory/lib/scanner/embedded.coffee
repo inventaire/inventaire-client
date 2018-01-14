@@ -30,10 +30,7 @@ startScanning = (beforeStart)->
     Quagga.init getOptions(constraints), (err)->
       if cancelled then return
       if err
-        # TODO: verify that this is a standard message
-        if err.message is 'The operation is insecure.'
-          err.reason = 'permission_denied'
-
+        err.reason = 'permission_denied'
         return reject err
 
       beforeStart()
