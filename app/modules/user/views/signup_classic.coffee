@@ -29,7 +29,6 @@ module.exports = Marionette.LayoutView.extend
     # plus, it will presumably be verified next by click #validClassicSignup
     # 'blur #password': 'earlyVerifyPassword'
     'click #classicSignup': 'validClassicSignup'
-    'click #suggestion': 'replaceEmail'
 
   onShow:-> @ui.classicUsername.focus()
 
@@ -47,25 +46,14 @@ module.exports = Marionette.LayoutView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   verifyClassicUsername: -> @verifyUsername 'classicUsername'
+
   verifyEmail: ->
     email = @ui.email.val()
     email_.pass email, '#email'
     email_.verifyAvailability email, "#email"
-    .then email_.verifyExistance.bind(email_, email, '#email')
-    .then @showSuggestion.bind(@)
-
-  showSuggestion: (suggestion)->
-    if suggestion?
-      @ui.suggestion.text suggestion
-      @ui.suggestionGroup.fadeIn()
-      @suggestion = suggestion
-    else _.log 'no suggestion'
-
-  replaceEmail: ->
-    @ui.email.val @suggestion
-    @ui.suggestionGroup.fadeOut()
 
   verifyPassword: -> password_.pass @ui.password.val(), '#finalAlertbox'
+
   sendClassicSignupRequest: ->
     app.request 'signup:classic',
       username: @ui.classicUsername.val()

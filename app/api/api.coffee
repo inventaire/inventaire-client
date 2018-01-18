@@ -7,7 +7,6 @@ module.exports = (_)->
   items: require './items'
   entities: require './entities'
   search: require './search'
-  services: require './services'
   data: require './data'
   invitations: require './invitations'
   comments: endpoint('comments', true)
