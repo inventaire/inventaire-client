@@ -13,8 +13,13 @@ module.exports = Marionette.ItemView.extend
     @listenTo @model, 'change', @lazyRender
     app.execute 'uriLabel:update'
 
-    @model.getItemsByCategories()
-    .then @lazyRender
+    { @showAllLabels, @showActions } = @options
+    @showActions ?= true
+
+    if @showActions
+      # Required by @getNetworkItemsCount
+      @model.getItemsByCategories()
+      .then @lazyRender
 
   behaviors:
     PreventDefault: {}
@@ -32,7 +37,7 @@ module.exports = Marionette.ItemView.extend
       app.execute 'show:item:creation:form', { entity: @model }
 
   serializeData: ->
-    attrs = _.extend @model.toJSON(), { showAllLabels: @options.showAllLabels }
+    attrs = _.extend @model.toJSON(), { @showAllLabels, @showActions }
     count = @getNetworkItemsCount()
     if count? then attrs.counter = { count, highlight: count > 0 }
     if attrs.extract? then attrs.description = attrs.extract

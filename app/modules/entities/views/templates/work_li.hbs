@@ -43,19 +43,21 @@
   </p>
 </div>
 
-<div class='actions'>
-  <a class='showEntity' href="{{pathname}}">
-    {{icon 'chevron-right'}}
-    {{i18n 'more details'}}
-  </a>
-  <a class='addToInventory' href="{{pathname}}/add" rel="nofollow">
-    {{icon 'plus'}}
-    {{i18n 'add to my inventory'}}
-  </a>
-  <div class="counters">
-    <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}">
-      <span class="count">{{counter.count}}</span>
+{{#if showActions}}
+  <div class='actions'>
+    <a class='showEntity' href="{{pathname}}">
+      {{icon 'chevron-right'}}
+      {{i18n 'more details'}}
     </a>
-    {{i18n 'network_counter_label'}}
+    <a class='addToInventory' href="{{pathname}}/add" rel="nofollow">
+      {{icon 'plus'}}
+      {{i18n 'add to my inventory'}}
+    </a>
+    <div class="counters">
+      <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}">
+        <span class="count">{{counter.count}}</span>
+      </a>
+      {{i18n 'network_counter_label'}}
+    </div>
   </div>
-</div>
+{{/if}}

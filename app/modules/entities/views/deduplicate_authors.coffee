@@ -14,6 +14,9 @@ module.exports = Marionette.CompositeView.extend
   behaviors:
     Loading: {}
 
+  childViewOptions:
+    showActions: false
+
   initialize: ->
     @collection = new Backbone.Collection
     { name } = @options

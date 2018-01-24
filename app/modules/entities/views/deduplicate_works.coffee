@@ -9,6 +9,7 @@ DeduplicateWorksList = Marionette.CollectionView.extend
   emptyView: require 'modules/inventory/views/no_item'
   childViewOptions:
     showAllLabels: true
+    showActions: false
 
 module.exports = Marionette.LayoutView.extend
   className: 'deduplicateWorks'

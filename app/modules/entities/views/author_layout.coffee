@@ -93,6 +93,7 @@ module.exports = Marionette.LayoutView.extend
       title: type
       type: dropThePlural type
       initialLength: initialLength
+      showActions: @options.showActions
 
   refreshData: -> app.execute 'show:entity:refresh', @model
 
