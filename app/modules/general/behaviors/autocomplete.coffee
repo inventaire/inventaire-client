@@ -112,7 +112,6 @@ module.exports = Marionette.Behavior.extend
   fillQuery: (suggestion)->
     @ui.autocomplete
     .val suggestion.get('label')
-    # .attr 'data-autocomplete-value', suggestion.get('uri')
 
     @view.onAutoCompleteSelect?(suggestion)
     @_suggestionSelected = true
@@ -124,7 +123,6 @@ module.exports = Marionette.Behavior.extend
     @hideDropdown()
 
   removeCurrentViewValue: ->
-    # @ui.autocomplete.attr 'data-autocomplete-value', null
     @view.onAutoCompleteUnselect?()
     @_suggestionSelected = false
 

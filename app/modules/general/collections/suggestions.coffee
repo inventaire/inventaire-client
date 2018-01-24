@@ -67,6 +67,8 @@ suggestionMethods =
   removeHighlight: (index)-> @highlightEvent 'highlight:remove', index
   highlightEvent: (eventName, index)->
     model = @at index
+    # Known case: the collection just got reset
+    unless model? then return
     model.trigger eventName, model
     # events required by app/modules/general/behaviors/autocomplete.coffee
     @trigger eventName, model
