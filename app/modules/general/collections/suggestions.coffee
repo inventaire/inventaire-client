@@ -30,7 +30,8 @@ suggestionMethods =
   fetchNewSuggestions: (query)->
     query = query.trim().replace /\s{2,}/g, ' '
     @index = -1
-    @filterByText query
+
+    # Will reset the collection once results models arrived
     @remote query
     .catch @trigger.bind(@, 'error')
 
