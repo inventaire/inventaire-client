@@ -86,8 +86,6 @@ module.exports = Marionette.Behavior.extend
     # actions conditional to suggestions state
     unless @suggestions.isEmpty()
       switch actionKey
-        when 'right'
-          if isSelectionEnd(e) then @suggestions.trigger 'select:from:key'
         when 'enter' then @suggestions.trigger 'select:from:key'
         when 'down' then @suggestions.trigger 'highlight:next'
         when 'up' then @suggestions.trigger 'highlight:previous'
@@ -114,7 +112,6 @@ module.exports = Marionette.Behavior.extend
   fillQuery: (suggestion)->
     @ui.autocomplete
     .val suggestion.get('label')
-    # .attr 'data-autocomplete-value', suggestion.get('uri')
 
     @view.onAutoCompleteSelect?(suggestion)
     @_suggestionSelected = true
@@ -126,7 +123,6 @@ module.exports = Marionette.Behavior.extend
     @hideDropdown()
 
   removeCurrentViewValue: ->
-    # @ui.autocomplete.attr 'data-autocomplete-value', null
     @view.onAutoCompleteUnselect?()
     @_suggestionSelected = false
 

@@ -30,7 +30,8 @@ suggestionMethods =
   fetchNewSuggestions: (query)->
     query = query.trim().replace /\s{2,}/g, ' '
     @index = -1
-    @filterByText query
+
+    # Will reset the collection once results models arrived
     @remote query
     .catch @trigger.bind(@, 'error')
 
@@ -66,6 +67,8 @@ suggestionMethods =
   removeHighlight: (index)-> @highlightEvent 'highlight:remove', index
   highlightEvent: (eventName, index)->
     model = @at index
+    # Known case: the collection just got reset
+    unless model? then return
     model.trigger eventName, model
     # events required by app/modules/general/behaviors/autocomplete.coffee
     @trigger eventName, model

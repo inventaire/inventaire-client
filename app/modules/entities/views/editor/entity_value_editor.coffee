@@ -84,7 +84,8 @@ module.exports = EditorCommons.extend
   # An event to tell every other value editor of the same property
   # that this view passes in edit mode and thus that other view in edit mode
   # should toggle to display mode
-  triggerEditEvent: -> app.vent.trigger 'entity:value:editor:edit', @property, @cid
+  triggerEditEvent: ->
+    app.vent.trigger 'entity:value:editor:edit', @property, @cid
 
   preventMultiEdit: (property, viewCid)->
     if @editMode and property is @property and @cid isnt viewCid
