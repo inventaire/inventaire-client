@@ -15,6 +15,7 @@ describe 'preq', ->
       preq.resolved.then.should.be.a.Function()
       preq.resolved.catch.should.be.a.Function()
       preq.resolved.then -> done()
+      return
 
     # the immutability requirement was removed for compatibility
     # with the global cancellable promises setting

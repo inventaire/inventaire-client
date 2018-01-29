@@ -44,6 +44,7 @@ describe 'Logger', ->
       Promise.reject new Error('damned 1')
       .catch _.Error('catching!')
       .then -> done()
+      return
 
   describe 'ErrorRethrow', ->
     it 'should return an error logger that rethrows errors', (done)->
@@ -52,3 +53,4 @@ describe 'Logger', ->
       .catch -> done()
       # should(_.ErrorRethrow('yo label')('yo')).not.be.ok()
       # should(_.ErrorRethrow('yo label')({hello: 'wat'})).not.be.ok()
+      return
