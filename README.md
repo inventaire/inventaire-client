@@ -1,11 +1,14 @@
 # Inventaire-client
 Libre collaborative resource mapper powered by open-knowledge
 
-[![Licence](https://img.shields.io/badge/licence-AGPL3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.html)
-[![RoadMap](https://img.shields.io/badge/roadmap-contributive-blue.svg)](https://trello.com/b/0lKcsZDj/inventaire-roadmap)
-[![dependencies](https://david-dm.org/inventaire/inventaire-client.svg)](https://david-dm.org/inventaire/inventaire-client)
-[![Code Climate](https://codeclimate.com/github/inventaire/inventaire-client/badges/gpa.svg)](https://codeclimate.com/github/inventaire/inventaire-client)
-[![Join the chat at https://gitter.im/inventaire/inventaire](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/inventaire/inventaire)
+[![License](https://img.shields.io/badge/license-AGPL3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.html)
+[![Node](https://img.shields.io/badge/node->=v4-brightgreen.svg)](http://nodejs.org)
+[![Code Climate](https://codeclimate.com/github/inventaire/inventaire/badges/gpa.svg)](https://codeclimate.com/github/inventaire/inventaire)<br>
+<br>
+[![chat](https://img.shields.io/badge/chat-%23inventaire-ffd402.svg)](https://riot.im/app/#/room/#freenode_#inventaire:matrix.org)
+[![general wiki](https://img.shields.io/badge/wiki-general-319cc2.svg)](https://wiki.inventaire.io)
+[![technical wiki](https://img.shields.io/badge/wiki-technical-222222.svg)](http://github.com/inventaire/inventaire/wiki/)
+[![roadmap](https://img.shields.io/badge/roadmap-contributive-4eba76.svg)](http://roadmap.inventaire.io)
 
 This repository tracks [inventaire.io](https://inventaire.io) client-side developments, while the [server-side can be found here](https://github.com/maxlath/inventaire). The server repository gathers the documentation and general issues of the project.
 
