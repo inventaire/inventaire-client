@@ -33,9 +33,9 @@ module.exports = Marionette.LayoutView.extend
     # and that hitting tab gives focus to the filter input
     @$el.find('.controls').focus()
 
-    { uris, name } = app.request 'querystring:get:full'
-    if uris? then @loadFromUris uris.split('|')
-    else @showDeduplicateAuthors name
+    uris = @options.uris or app.request('querystring:get', 'uris')?.split('|')
+    if uris? then @loadFromUris uris
+    else @showDeduplicateAuthors app.request('querystring:get', 'name')
 
   loadFromUris: (uris)->
     app.request 'get:entities:models', { uris }

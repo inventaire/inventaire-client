@@ -51,7 +51,6 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
-    'click .refreshData': 'refreshData'
 
   showWorkInfobox: ->
     @workInfobox.show new WorkInfobox { @model, workPage: true }
@@ -65,8 +64,6 @@ module.exports = Marionette.LayoutView.extend
       onWorkLayout: true
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
-
-  refreshData: -> app.execute 'show:entity:refresh', @model
 
   onClosedItemModal: ->
     @completeShow()

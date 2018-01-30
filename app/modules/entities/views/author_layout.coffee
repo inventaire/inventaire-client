@@ -30,7 +30,6 @@ module.exports = Marionette.LayoutView.extend
     @$el.once 'inview', @fetchWorks.bind(@)
 
   events:
-    'click .refreshData': 'refreshData'
     'click .unwrap': 'unwrap'
 
   serializeData: ->
@@ -94,7 +93,5 @@ module.exports = Marionette.LayoutView.extend
       type: dropThePlural type
       initialLength: initialLength
       showActions: @options.showActions
-
-  refreshData: -> app.execute 'show:entity:refresh', @model
 
 dropThePlural = (type)-> type.replace /s$/, ''

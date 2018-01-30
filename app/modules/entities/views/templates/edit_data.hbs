@@ -4,10 +4,14 @@
       {{icon 'pencil'}}
     </a>
     {{#if wikidata}}
-      {{iconLink 'barcode' wikidata.url i18n='see on Wikidata' classes='showOnWikidata'}}
+      {{iconLink 'barcode' wikidata.url i18n='see on Wikidata' linkClasses='showOnWikidata'}}
       {{#unless hideRefreshButton}}
         <a class="refreshEntityData" title="{{i18n 'refresh Wikidata data'}}">{{icon 'refresh'}}</a>
       {{/unless}}
     {{/if}}
+  {{/if}}
+  {{#if showDeduplicateEntityButtons}}
+    <a class="deduplicateEntity" title="{{i18n 'deduplicate entity'}}">{{icon 'th'}}</a>
+    <a class="deduplicateSubEntities" title="{{i18n 'deduplicate sub-entities'}}">{{icon 'compress'}}</a>
   {{/if}}
 </div>

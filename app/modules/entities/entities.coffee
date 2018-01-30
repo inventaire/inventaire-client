@@ -119,10 +119,21 @@ API =
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
   showActivity: ->
-    showViewWithAdminRights 'entity/activity', 'activity', ActivityLayout
+    showViewWithAdminRights
+      path: 'entity/activity'
+      title: 'activity'
+      View: ActivityLayout
 
-  showDeduplicate: ->
-    showViewWithAdminRights 'entity/deduplicate', 'deduplicate', DeduplicateLayout
+  showDeduplicate: (uris)->
+    uris = _.forceArray uris
+    showViewWithAdminRights
+      path: 'entity/deduplicate'
+      title: 'deduplicate'
+      View: DeduplicateLayout
+      viewOptions: { uris }
+      # Assume that if uris are passed, navigate was already done
+      # to avoid double navigation
+      navigate: not uris?
 
   showEntityDeduplicate: (uri)->
     getEntityModel uri
@@ -160,6 +171,16 @@ setHandlers = ->
 
     'show:entity:refresh': (model)->
       app.execute 'show:entity:from:model', model, { refresh: true }
+
+    'show:deduplicate:entity': (model)->
+      API.showEntityDeduplicate model.get('uri')
+      pathname = model.get('pathname') + '/deduplicate'
+      app.navigate pathname
+
+    'show:deduplicate:sub:entities': (model)->
+      API.showDeduplicate model.get('uri')
+      pathname = '/entity/deduplicate?uris=' + model.get('uri')
+      app.navigate pathname
 
     'show:entity:add': API.showAddEntity.bind API
     'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')
@@ -309,10 +330,13 @@ _showWorkWithItem = (item)-> (work)->
     app.layout.main.show new WorkLayout { model: work, item }
     app.navigateFromModel item
 
-showViewWithAdminRights = (path, title, View)->
+showViewWithAdminRights = (params)->
+  { path, title, View, viewOptions, navigate } = params
+  navigate ?= true
   if app.request 'require:loggedIn', path
-    app.navigate path, { metadata: { title } }
-    if app.request 'require:admin:rights' then app.layout.main.show new View
+    if navigate then app.navigate path, { metadata: { title } }
+    if app.request 'require:admin:rights'
+      app.layout.main.show new View(viewOptions)
 
 showMergeSuggestions = (params)->
   { region, model } = params

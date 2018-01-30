@@ -96,9 +96,12 @@
   h2, h3, h4, h5{
     flex: 1 0 auto;
   }
-  .pencil, .refreshEntityData, .showOnWikidata{
+  .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities{
     font-size: 1.4rem;
     @include text-hover(rgba(white, 0.5), white);
+    .fa{
+      width: 1.6em;
+    }
   }
 }
 
@@ -111,9 +114,6 @@
       // Compensate for the place taken by .edit-data-buttons
       // that prevents it to be centered
       margin-left: 4.7em;
-    }
-    .edit-data-buttons{
-      width: 7em;
     }
   }
 }
