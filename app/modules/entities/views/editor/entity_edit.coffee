@@ -22,11 +22,10 @@ module.exports = Marionette.LayoutView.extend
     navigationButtons: '.navigationButtons'
 
   initialize: ->
-    @userIsAdmin = app.user.get 'admin'
     @creationMode = @model.creating
     @requiresLabel = @model.type isnt 'edition'
     @canBeAddedToInventory = @model.type in inventoryTypes
-    @showAdminSection = @userIsAdmin and not @creationMode
+    @showAdminSection = app.user.isAdmin and not @creationMode
 
     { waitForSubentities } = @model
     # Some entity type don't automatically fetch their subentities

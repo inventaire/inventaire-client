@@ -27,13 +27,14 @@ module.exports = UserCommons.extend
     @set 'itemsCategory', 'personal'
 
     # If the user is logged in, this will wait for her document to arrive
-    # with its language attribute. Else, it will fire at next tick.
+    # Else, it will fire at next tick.
     app.request 'wait:for', 'user'
-    .then @initLang.bind(@)
+    .then @lateInitialize.bind(@)
 
-  initLang: ->
+  lateInitialize: ->
     @lang = solveLang @get('language')
     initI18n app, @lang
+    @isAdmin = @get('admin') is true
 
   # Two valid language change cases:
   # - The user isn't logged in and change the language from the top bar selector
