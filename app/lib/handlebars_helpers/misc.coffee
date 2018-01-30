@@ -77,10 +77,6 @@ module.exports =
     _.log this, 'hb debug this'
     return JSON.stringify arguments[0]
 
-  simpleDay: (time)->
-    if /^-?\d{1,4}$/.test(time) then time
-    else new Date(time).toISOString().split('T')[0]
-
   localTimeString: (time)-> new Date(time).toLocaleString()
   timeFromNow: (time)-> moment(time).fromNow()
 
