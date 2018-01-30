@@ -105,19 +105,6 @@
   }
 }
 
-// Do not apply it to none standalone entities as their views might be sharing
-// the screen width and be actually smaller than $smaller-screen
-.standalone .entity-title-and-edit{
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    h2, h3, h4, h5{
-      // Compensate for the place taken by .edit-data-buttons
-      // that prevents it to be centered
-      margin-left: 4.7em;
-    }
-  }
-}
-
 .workLayout, .editionLi{
   .add{
     @include tiny-button($light-blue);
