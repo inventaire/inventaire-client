@@ -34,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
     @$el.find('.controls').focus()
 
     uris = @options.uris or app.request('querystring:get', 'uris')?.split('|')
-    if uris? then @loadFromUris uris
+    if _.isNonEmptyArray uris then @loadFromUris uris
     else @showDeduplicateAuthors app.request('querystring:get', 'name')
 
   loadFromUris: (uris)->

@@ -124,7 +124,9 @@ API =
       title: 'activity'
       View: ActivityLayout
 
-  showDeduplicate: (uris)->
+  showDeduplicate: (params = {})->
+    # Using an object interface, as the router might pass querystrings
+    { uris } = params
     uris = _.forceArray uris
     showViewWithAdminRights
       path: 'entity/deduplicate'
@@ -178,7 +180,7 @@ setHandlers = ->
       app.navigate pathname
 
     'show:deduplicate:sub:entities': (model)->
-      API.showDeduplicate model.get('uri')
+      API.showDeduplicate { uri: model.get('uri') }
       pathname = '/entity/deduplicate?uris=' + model.get('uri')
       app.navigate pathname
 
