@@ -2,7 +2,7 @@ module.exports =
   search: (base, text)->
     _.buildPath base,
       action: 'search'
-      search: text
+      search: encodeURIComponent text
 
   searchByPosition: (base, bbox)->
     return _.buildPath base,
