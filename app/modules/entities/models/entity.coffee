@@ -89,29 +89,19 @@ module.exports = Filterable.extend
       error_.report 'entity without claims', attrs
       attrs.claims = {}
 
-    @wikidataId = attrs.claims['invp:P1']?[0]
+    { uri } = attrs
+    [ prefix, id ] = uri.split ':'
+
+    @wikidataId = if prefix is 'wd' then id
     isbn13h = attrs.claims['wdt:P212']?[0]
     # Using de-hyphenated ISBNs for URIs
     if isbn13h? then @isbn = isbn_.normalizeIsbn isbn13h
 
-    if @wikidataId
-      uri = "wd:#{@wikidataId}"
-      prefix = 'wd'
-      @setAltUri()
-    else if @isbn
-      uri = "isbn:#{@isbn}"
-      prefix = 'isbn'
-      @setAltUri()
-    else if attrs._id
-      uri = "inv:#{attrs._id}"
-      prefix = 'inv'
-    else
-      # Known case: entity of type meta
-      throw error_.new 'invalid entity id', 500, attrs
+    if prefix isnt 'inv' then @setInvAltUri()
 
     pathname = "/entity/#{uri}"
 
-    @set { uri, prefix, pathname }
+    @set { prefix, pathname }
     @setFavoriteLabel attrs
 
   # Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'
@@ -120,7 +110,7 @@ module.exports = Filterable.extend
     label = getBestLangValue(app.user.lang, @originalLang, attrs.labels).value
     @set 'label', label
 
-  setAltUri: ->
+  setInvAltUri: ->
     invId = @get '_id'
     if invId? then @set 'altUri', "inv:#{invId}"
 
