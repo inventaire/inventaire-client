@@ -3,12 +3,8 @@ module.exports = Backbone.NestedModel.extend
     @on 'change:status', @update
 
   beforeShow: ->
-    if @_beforeShowAlreadyCalled then return
-    @_beforeShowAlreadyCalled = true
-    @initSpecific()
-
-  # to override in inherinting models
-  initSpecific: ->
+    @_waitForInit or= @initSpecific()
+    return @_waitForInit
 
   update: ->
     @collection.updateStatus @get('time')
