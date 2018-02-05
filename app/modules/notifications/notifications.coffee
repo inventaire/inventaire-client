@@ -1,6 +1,7 @@
 Notifications = require './collections/notifications'
 NotificationsLayout = require './views/notifications_layout'
 notifications = new Notifications
+waitForNotifications = null
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -18,15 +19,19 @@ module.exports =
       'notifications:unread:count': -> notifications.unreadCount()
 
     if app.user.loggedIn
-      _.preq.get app.API.notifications
-      .then notifications.addPerType.bind(notifications)
-      .catch _.Error('notifications init err')
+      waitForNotifications = _.preq.get app.API.notifications
+        .then notifications.addPerType.bind(notifications)
+        .catch _.Error('notifications init err')
 
 API =
   showNotifications: ->
     if app.request 'require:loggedIn', 'notifications'
       app.execute 'show:loader'
-      notifications.beforeShow()
+      # Make sure that the notifications arrived before calling 'beforeShow'
+      # as it will only trigger 'beforeShow' on the notifications models
+      # presently in the collection
+      waitForNotifications
+      .then -> notifications.beforeShow()
       .then ->
         app.layout.main.show new NotificationsLayout { collection: notifications }
         app.navigate 'notifications',
