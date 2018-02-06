@@ -52,13 +52,6 @@ module.exports = (_, csle)->
     if userError
       return csle.warn "[#{err.statusCode}][#{label}] #{err.message}]"
 
-    stackLines = err.stack.split('\n')
-    report = [ err.message, stackLines ]
-
-    if err.context? then report.push err.context
-
-    report.push label
-
     # No need to report server error back to the server
     unless serverError then reportError err
 
