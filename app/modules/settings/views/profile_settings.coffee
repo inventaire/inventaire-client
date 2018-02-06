@@ -194,7 +194,7 @@ module.exports = Marionette.ItemView.extend
     args = { username: @model.get('username') }
     app.execute 'ask:confirmation',
       confirmationText: _.i18n('delete_account_confirmation', args)
-      warningText: _.i18n 'delete_account_warning'
+      warningText: _.i18n 'cant_undo_warning'
       action: @model.deleteAccount.bind(@model)
       selector: '#usernameGroup'
       formAction: sendDeletionFeedback

@@ -44,7 +44,7 @@ module.exports =
 
     app.execute 'ask:confirmation',
       confirmationText: _.i18n 'destroy_item_text', { title }
-      warningText: _.i18n "this action can't be undone"
+      warningText: _.i18n 'cant_undo_warning'
       action: action
       back: back
 
