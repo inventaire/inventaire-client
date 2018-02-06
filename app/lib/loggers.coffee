@@ -4,7 +4,7 @@
 module.exports = (_, csle)->
   csle or= window.console
 
-  log = (obj, label, stack)->
+  log = (obj, label)->
     # customizing console.log
     # unfortunatly, it makes the console loose the trace
     # of the real line and file the _.log function was called from
@@ -15,13 +15,9 @@ module.exports = (_, csle)->
     else
       # logging arguments as arrays for readability
       if _.isArguments obj then obj = _.toArray obj
-      csle.log "===== #{label} =====" if label?
+      if label? then csle.log "===== #{label} ====="
       csle.log obj
-      csle.log "-----" if label?
-
-    # Log a stack trace if stack option is true.
-    # Testing console.trace? as not all browsers have this function
-    if stack then console.trace?()
+      if label? then csle.log '-----'
 
     return obj
 
@@ -51,13 +47,6 @@ module.exports = (_, csle)->
     # of not reporting the error to the server
     if userError
       return csle.warn "[#{err.statusCode}][#{label}] #{err.message}]"
-
-    stackLines = err.stack.split('\n')
-    report = [ err.message, stackLines ]
-
-    if err.context? then report.push err.context
-
-    report.push label
 
     # No need to report server error back to the server
     unless serverError then reportError err

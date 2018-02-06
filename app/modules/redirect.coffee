@@ -44,7 +44,7 @@ API =
     else app.execute 'show:welcome'
 
   notFound: (route)->
-    _.log route, 'route:notFound', true
+    _.log route, 'route:notFound'
     app.execute 'show:error:missing'
 
   showWelcome: ->
