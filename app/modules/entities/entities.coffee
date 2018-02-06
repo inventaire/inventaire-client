@@ -180,7 +180,7 @@ setHandlers = ->
       app.navigate pathname
 
     'show:deduplicate:sub:entities': (model)->
-      API.showDeduplicate { uri: model.get('uri') }
+      API.showDeduplicate { uris: [ model.get('uri') ] }
       pathname = '/entity/deduplicate?uris=' + model.get('uri')
       app.navigate pathname
 
