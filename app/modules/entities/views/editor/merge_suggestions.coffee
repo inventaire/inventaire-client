@@ -3,3 +3,4 @@ module.exports = Marionette.CollectionView.extend
   childView: require './merge_suggestion'
   childViewOptions: ->
     toEntity: @options.toEntity
+  emptyView: require 'modules/inventory/views/no_item'

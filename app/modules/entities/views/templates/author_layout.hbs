@@ -6,4 +6,15 @@
     <div class='articles'></div>
   </div>
 </div>
+
+{{#if userIsAdmin}}
+  <div class="admin">
+    <h3>{{i18n 'homonymes'}}</h3>
+    <div class='homonymes'></div>
+  </div>
+{{else}}
+  {{!-- just adding regions containers so that the layout view doesn't crash --}}
+  <div class='homonymes'></div>
+{{/if}}
+
 {{#if standalone}}{{partial 'welcome:embedded_welcome'}}{{/if}}

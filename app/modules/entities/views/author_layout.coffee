@@ -22,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
     seriesRegion: '.series'
     worksRegion: '.works'
     articlesRegion: '.articles'
+    homonymesRegion: '.homonymes'
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -38,6 +39,7 @@ module.exports = Marionette.LayoutView.extend
       canRefreshData: true
       # having an epub download button on an author isn't really interesting
       hideWikisourceEpub: true
+      userIsAdmin: app.user.isAdmin
 
   fetchWorks: ->
     @worksShouldBeShown = true
@@ -51,6 +53,7 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showInfobox()
     if @worksShouldBeShown then @showWorks()
+    if app.user.isAdmin and @standalone then @showHomonymes()
 
   showInfobox: ->
     @infoboxRegion.show new AuthorInfobox { @model, @standalone }
@@ -93,5 +96,8 @@ module.exports = Marionette.LayoutView.extend
       type: dropThePlural type
       initialLength: initialLength
       showActions: @options.showActions
+
+  showHomonymes: ->
+    app.execute 'show:merge:suggestions', { @model, region: @homonymesRegion }
 
 dropThePlural = (type)-> type.replace /s$/, ''

@@ -22,6 +22,8 @@ $author-layout-bg: #292929;
     .header{
       @include display-flex(row, center, center);
     }
+  }
+  .series, .works, .articles, .admin{
     h3, h4{
       color: white;
       text-align: center;
@@ -55,6 +57,12 @@ $author-layout-bg: #292929;
     .unwrap{
       display: none;
     }
+  }
+  .admin{
+    margin: 2em;
+    background-color: $dark-grey;
+    @include radius;
+    padding: 1em;
   }
 }
 

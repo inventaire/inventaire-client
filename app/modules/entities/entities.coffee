@@ -28,7 +28,6 @@ module.exports =
         'entity/changes(/)': 'showChanges'
         'entity/activity(/)': 'showActivity'
         'entity/deduplicate(/)': 'showDeduplicate'
-        'entity/:uri/deduplicate(/)': 'showEntityDeduplicate'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
         'entity/:uri(/:label)(/)': 'showEntity'
@@ -137,14 +136,6 @@ API =
       # to avoid double navigation
       navigate: not uris?
 
-  showEntityDeduplicate: (uri)->
-    getEntityModel uri
-    .then (entity)->
-      showMergeSuggestions
-        region: app.layout.main
-        model: entity
-        standalone: true
-
 showEntityCreate = (params)->
   # Default to an entity of type work
   # so that /entity/new doesn't just return an error
@@ -173,11 +164,6 @@ setHandlers = ->
 
     'show:entity:refresh': (model)->
       app.execute 'show:entity:from:model', model, { refresh: true }
-
-    'show:deduplicate:entity': (model)->
-      API.showEntityDeduplicate model.get('uri')
-      pathname = model.get('pathname') + '/deduplicate'
-      app.navigate pathname
 
     'show:deduplicate:sub:entities': (model)->
       API.showDeduplicate { uris: [ model.get('uri') ] }
