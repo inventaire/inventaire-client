@@ -4,21 +4,19 @@
     {{partial 'entities:photo_credits' image.credits}}
   </div>
 {{/if}}
-<div class="authorData text-center">
-  <div class="entity-title-and-edit">
-    <h3>
+<div class="authorData text-center entity-data-box">
+  <h3>
     {{#if standalone}}
       {{label}}
     {{else}}
       <a class="showEntity link" href="{{pathname}}">{{label}}</a>
     {{/if}}
-    </h3>
-    {{partial 'entities:edit_data' this}}
-  </div>
+  </h3>
   <h4 class="subheader">{{shortDescription}}</h4>
   {{!-- Only show in deduplication mode --}}
   <span class="uri hidden">{{uri}}</span>
   {{partial 'entities:author_claims' this}}
   <p class="extract">{{{extract}}}</p>
+  {{#if standalone}}{{partial 'entities:edit_data' this}}{{/if}}
 </div>
 <a class="unwrap">{{icon 'chevron-down'}}</a>

@@ -12,7 +12,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs = @setDescriptionAttributes(attrs)
-    attrs.workPage = @options.workPage
+    attrs.standalone = @options.standalone
     attrs.hidePicture = @hidePicture
     return attrs
 

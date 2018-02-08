@@ -3,8 +3,10 @@ $work-infobox-property-color: #999;
 .workInfobox{
   text-align: center;
   position: relative;
-  background-color: $darker-grey;
   max-width: 40em;
+  .entity-data-box{
+    max-width: 60em;
+  }
   h2, span, label, p{
     color: white;
   }
@@ -45,7 +47,7 @@ $work-infobox-property-color: #999;
     @include radius;
     margin: 0 auto;
     position: relative;
-    padding: 1em;
+    padding: 0 1em;
     span:not(.entity-value), .property-value{
       color: #999;
       margin-right: 0.5em;

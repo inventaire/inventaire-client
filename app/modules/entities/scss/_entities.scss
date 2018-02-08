@@ -49,6 +49,7 @@
 }
 
 .wiki-attributes{
+  margin-top: 0.5em;
   p.claims{
     text-align: left;
   }
@@ -61,7 +62,6 @@
     padding: 0.2em 0;
     @include radius;
   }
-  padding: 0.5em 1em 0.8em 1em;
   img{
     text-align: center;
   }
@@ -91,11 +91,19 @@
   font-size: 1.4em;
 }
 
-.entity-title-and-edit{
-  @include display-flex(row, center, center, wrap);
-  h2, h3, h4, h5{
-    flex: 1 0 auto;
+.entity-data-box{
+  position: relative;
+  padding: 1em 1em 0.1em 1em;
+  .edit-data-buttons{
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      @include position(absolute, 0.2em, 0.2em);
+    }
   }
+}
+
+.edit-data-buttons{
+  @include display-flex(row, center, center);
   .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities{
     font-size: 1.4rem;
     @include text-hover(rgba(white, 0.5), white);

@@ -53,7 +53,7 @@ module.exports = Marionette.LayoutView.extend
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
 
   showWorkInfobox: ->
-    @workInfobox.show new WorkInfobox { @model, workPage: true }
+    @workInfobox.show new WorkInfobox { @model, standalone: true }
 
   showEntityActions: -> @entityActions.show new EntityActions { @model }
 

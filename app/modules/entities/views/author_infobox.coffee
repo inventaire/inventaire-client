@@ -5,4 +5,5 @@ module.exports = GeneralInfobox.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs.showDeduplicateEntityButtons = app.user.isAdmin and @options.standalone
+    attrs.standalone = @options.standalone
     return attrs

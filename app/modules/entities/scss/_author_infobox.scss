@@ -21,7 +21,6 @@ $author-data-threshold: 25em;
   }
   .photo-credits{
     margin: 0 auto;
-    margin-bottom: 1em;
     font-size: 0.8em;
     color: white;
     max-width: 20em;
@@ -29,7 +28,6 @@ $author-data-threshold: 25em;
     .link{
       color: white;
     }
-    padding-bottom: 1em;
   }
   .fa-pencil, .showOnWikidata{
     @include text-hover(#bbb, white);

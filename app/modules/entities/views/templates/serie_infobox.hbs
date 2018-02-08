@@ -1,16 +1,17 @@
 {{#if image.url}}
   <div class="cover">
-      <img src="{{src image.url 300}}" alt="{{label}}">
-      {{partial 'entities:photo_credits' image.credits}}
+    <img src="{{src image.url 300}}" alt="{{label}}">
+    {{partial 'entities:photo_credits' image.credits}}
   </div>
 {{/if}}
-<div class="entity-title-and-edit">
+<div class="entity-data-box">
   {{#if standalone}}
-    <h2 class="title">{{label}}{{partial 'entities:edit_data' this}}</h2>
+    <h2 class="title">{{label}}</h2>
   {{else}}
     <h3 class="title"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
   {{/if}}
+  <p class="description">{{{description}}}</p>
+  <div class="authors"></div>
+  <div class="claims-wrapper">{{partial 'entities:work_claims' this}}</div>
+  {{#if standalone}}{{partial 'entities:edit_data' this}}{{/if}}
 </div>
-<p class="description">{{{description}}}</p>
-<div class="authors"></div>
-<div class="claims-wrapper">{{partial 'entities:work_claims' this}}</div>

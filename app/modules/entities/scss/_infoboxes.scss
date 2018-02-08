@@ -30,11 +30,27 @@
     background-color: white;
     @include radius;
   }
+  .description, .extract{
+    text-align: left;
+  }
+}
+
+// Excluding the edition layout
+.authorInfobox, .serieInfobox, .workInfobox{
+  .entity-data-box{
+    background-color: $darker-grey;
+  }
+}
+
+.entity-data-box{
+  max-width: 60em;
+  padding: 0.5em 1em;
+  @include radius;
 }
 
 .authorInfobox, .serieInfobox{
   .extract{
-    padding: 1em;
+    padding: 1em 0;
   }
   .wdt-P109{
     margin-top: 1em;
