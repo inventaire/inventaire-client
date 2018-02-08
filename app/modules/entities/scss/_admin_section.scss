@@ -14,6 +14,12 @@
     background-color: $darker-grey;
     padding: 0.5em;
     @include radius;
+    a{
+      @include text-hover(white, #ccc);
+      .fa{
+        margin-right: 0.5em;
+      }
+    }
   }
   section{
     &:not(:last-child){

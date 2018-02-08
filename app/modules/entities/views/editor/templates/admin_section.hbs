@@ -14,11 +14,17 @@
   </section>
 {{/if}}
 
-<h4>
-  <a id="historyToggler">
-    {{icon 'chevron-down'}}
-    {{icon 'chevron-up' 'hidden'}}
-    {{I18n 'history'}}
-  </a>
-</h4>
+
+{{#if isWikidataEntity}}
+  <h4>{{iconLinkText name='external-link' url=wikidataEntityHistoryHref I18n='see history on Wikidata'}}</h4>
+{{else}}
+  <h4>
+    <a id="historyToggler">
+      {{icon 'chevron-down'}}
+      {{icon 'chevron-up' 'hidden'}}
+      {{I18n 'history'}}
+    </a>
+  </h4>
+{{/if}}
+
 <section id="history"></section>

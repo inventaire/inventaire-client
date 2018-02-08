@@ -2,6 +2,7 @@ sitelinks_ = require 'lib/wikimedia/sitelinks'
 wikipedia_ = require 'lib/wikimedia/wikipedia'
 getBestLangValue = sharedLib('get_best_lang_value')(_)
 { escapeExpression } = Handlebars
+wdHost = 'https://www.wikidata.org'
 
 module.exports = ->
   { lang } = app.user
@@ -13,8 +14,9 @@ module.exports = ->
 setWikiLinks = (lang)->
   updates =
     wikidata:
-      url: "https://www.wikidata.org/entity/#{@wikidataId}"
-      wiki: "https://www.wikidata.org/wiki/#{@wikidataId}"
+      url: "#{wdHost}/entity/#{@wikidataId}"
+      wiki: "#{wdHost}/wiki/#{@wikidataId}"
+      history: "#{wdHost}/w/index.php?title=#{@wikidataId}&action=history"
 
   sitelinks = @get 'sitelinks'
   if sitelinks?
