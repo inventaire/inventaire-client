@@ -14,6 +14,7 @@ behaviors =
   Toggler: require './toggler'
   DeepLinks: require './deep_links'
   Tooltip: require './tooltip'
+  ClampedExtract: require './clamped_extract'
   EntitiesCommons: require './entities_commons'
 
 module.exports =

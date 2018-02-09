@@ -3,6 +3,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/general_infobox'
   behaviors:
     EntitiesCommons: {}
+    ClampedExtract: {}
 
   initialize: ->
     # Also accept user models that will miss a getWikipediaExtract method

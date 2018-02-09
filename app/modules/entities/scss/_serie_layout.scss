@@ -28,6 +28,8 @@ $serie-bg: #252525;
   .serieInfobox, .description, .claims-wrapper{
     margin: 0 auto;
     max-width: 40em;
+  }
+  .serieInfobox, .claims-wrapper{
     margin-bottom: 1em;
   }
   &.standalone{
@@ -44,10 +46,6 @@ $serie-bg: #252525;
   }
   .serieInfobox{
     position: relative;
-    .description{
-      color: white;
-      text-align: left;
-    }
   }
   .parts > div{
     .fa-spin{

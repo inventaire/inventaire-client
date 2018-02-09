@@ -10,8 +10,10 @@
   {{else}}
     <h3 class="title"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
   {{/if}}
-  <p class="description">{{{description}}}</p>
+  {{#if standalone}}{{partial 'entities:clamped_extract' this}}{{/if}}
   <div class="authors"></div>
-  <div class="claims-wrapper">{{partial 'entities:work_claims' this}}</div>
-  {{#if standalone}}{{partial 'entities:edit_data' this}}{{/if}}
+  {{#if standalone}}
+    <div class="claims-wrapper">{{partial 'entities:work_claims' this}}</div>
+    {{partial 'entities:edit_data' this}}
+  {{/if}}
 </div>

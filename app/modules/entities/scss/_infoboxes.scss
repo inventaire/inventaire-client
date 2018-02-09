@@ -30,15 +30,24 @@
     background-color: white;
     @include radius;
   }
-  .description, .extract{
-    text-align: left;
-  }
 }
 
 // Excluding the edition layout
 .authorInfobox, .serieInfobox, .workInfobox{
   .entity-data-box{
     background-color: $darker-grey;
+  }
+  .extract{
+    color: white;
+    text-align: left;
+    margin-bottom: 0em;
+    padding-bottom: 0em;
+  }
+  .toggler{
+    font-size: 1.6em;
+    .fa{
+      color: white;
+    }
   }
 }
 

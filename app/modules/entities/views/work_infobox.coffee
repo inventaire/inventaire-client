@@ -1,4 +1,5 @@
 AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+clampedExtract = require '../lib/clamped_extract'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/work_infobox'
@@ -6,13 +7,10 @@ module.exports = Marionette.LayoutView.extend
   regions:
     authors: '.authors'
 
-  ui:
-    description: '.description'
-    togglers: '.toggler i'
-
   behaviors:
     PreventDefault: {}
     EntitiesCommons: {}
+    ClampedExtract: {}
 
   initialize: (options)->
     @lazyRender = _.LazyRender @
@@ -23,7 +21,7 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     attrs = @model.toJSON()
-    attrs = @setDescriptionAttributes(attrs)
+    clampedExtract.setAttributes attrs
     attrs.standalone = @options.standalone
     attrs.hidePicture = @hidePicture
     setImagesSubGroups attrs
@@ -34,20 +32,6 @@ module.exports = Marionette.LayoutView.extend
 
     @waitForAuthors
     .then @ifViewIsIntact('showAuthorsPreviewList')
-
-  events:
-    'click .toggler': 'toggleDescLength'
-
-  toggleDescLength: ->
-    @ui.description.toggleClass 'clamped'
-    @ui.togglers.toggleClass 'hidden'
-
-  setDescriptionAttributes: (attrs)->
-    if attrs.extract? then attrs.description = attrs.extract
-    if attrs.description?
-      attrs.descOverflow = attrs.description.length > 600
-
-    return attrs
 
   showAuthorsPreviewList: (authors)->
     if authors.length is 0 then return

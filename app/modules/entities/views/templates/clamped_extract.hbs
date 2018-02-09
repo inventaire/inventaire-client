@@ -1,0 +1,9 @@
+<p class="extract {{#if extractOverflow}}clamped{{/if}}">
+  {{{extract}}}
+</p>
+{{#if extractOverflow}}
+  <a class='toggler'>
+    {{icon 'chevron-down'}}
+    {{icon 'chevron-up' 'hidden'}}
+  </a>
+{{/if}}

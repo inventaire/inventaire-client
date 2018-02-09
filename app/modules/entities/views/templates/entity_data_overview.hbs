@@ -7,14 +7,5 @@
 <div class="data">
   <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
   <p class="uri">{{uri}}</p>
-
-  <p class="description {{#if descOverflow}}clamped{{/if}}">
-    {{{description}}}
-  </p>
-  {{#if descOverflow}}
-    <a class='toggler'>
-      {{icon 'chevron-down'}}
-      {{icon 'chevron-up' 'hidden'}}
-    </a>
-  {{/if}}
+  {{partial 'entities:clamped_extract' this}}
 </div>

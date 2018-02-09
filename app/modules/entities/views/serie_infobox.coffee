@@ -1,9 +1,11 @@
 AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+clampedExtract = require '../lib/clamped_extract'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/serie_infobox'
   behaviors:
     EntitiesCommons: {}
+    ClampedExtract: {}
 
   regions:
     authors: '.authors'
@@ -16,7 +18,11 @@ module.exports = Marionette.LayoutView.extend
     # The description might be overriden by a Wikipedia extract arrive later
     'change:description': 'render'
 
-  serializeData: -> _.extend @model.toJSON(), { standalone: @options.standalone }
+  serializeData: ->
+    attrs = @model.toJSON()
+    clampedExtract.setAttributes attrs
+    attrs.standalone = @options.standalone
+    return attrs
 
   onRender: ->
     @waitForAuthors.then @showAuthorsPreviewList.bind(@)
