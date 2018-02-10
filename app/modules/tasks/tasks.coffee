@@ -8,9 +8,5 @@ module.exports =
 
     app.addInitializer -> new Router { controller: API }
 
-  initialize: ->
-
-
-API =
-  showTasks: ->
+API = showTasks: ->
     app.layout.main.show new TasksLayout

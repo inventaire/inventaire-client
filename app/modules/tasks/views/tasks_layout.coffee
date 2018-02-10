@@ -1,24 +1,24 @@
-TaskSuspect = require './task_suspect'
+Tasks = Backbone.Collection.extend
+  model: require '../models/task'
+
+TasksView = Marionette.CollectionView.extend
+  childView: require './task'
 
 module.exports = Marionette.LayoutView.extend
   id: 'tasksLayout'
   template: require './templates/tasks_layout'
 
   regions:
-    suspect: '#suspect'
-    suggestions: '#suggestions'
-    nav: '#nav'
+    tasks: '#tasks'
 
-  onShow: ->
+  initialize: ->
+    @collection = new Tasks
+    @getTasks()
+
+  getTasks: ->
     _.preq.get app.API.tasks.byScore
     .get 'tasks'
-    .then _.Log('tasks')
-    .then (tasks)=>
-      @tasks = tasks
-      task = tasks[0]
-      { suspectUri } = task
+    .then @collection.add.bind(@collection)
 
-      app.request 'get:entity:model', suspectUri
-      .then (entity)=>
-        view = new TaskSuspect { model: entity }
-        @suspect.show view
+  onShow: ->
+    @tasks.show new TasksView({ collection: @collection })
