@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
     { @standalone } = @options
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
+    @displayHomonymes = app.user.isAdmin and @standalone
 
   events:
     'click .unwrap': 'unwrap'
@@ -39,7 +40,7 @@ module.exports = Marionette.LayoutView.extend
       canRefreshData: true
       # having an epub download button on an author isn't really interesting
       hideWikisourceEpub: true
-      userIsAdmin: app.user.isAdmin
+      displayHomonymes: @displayHomonymes
 
   fetchWorks: ->
     @worksShouldBeShown = true
@@ -53,7 +54,7 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showInfobox()
     if @worksShouldBeShown then @showWorks()
-    if app.user.isAdmin and @standalone then @showHomonymes()
+    if @displayHomonymes then @showHomonymes()
 
   showInfobox: ->
     @infoboxRegion.show new AuthorInfobox { @model, @standalone }
