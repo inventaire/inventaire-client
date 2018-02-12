@@ -14,7 +14,7 @@ $author-layout-bg: #292929;
   .serieLayout:not(.standalone){
     background-color: $darker-grey;
   }
-  .series, .works, .articles{
+  .series, .works, .articles:not(:empty){
     // required to center .loading
     @include display-flex(row, center, center);
     margin-top: 1em;
@@ -67,8 +67,6 @@ $author-layout-bg: #292929;
 }
 
 .innerAuthorLi{
-  padding-top: 1em;
-  padding-bottom: 1em;
   @include display-flex(column);
   .workLi{
     margin: auto;
