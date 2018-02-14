@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -eu
+
 ############ ENV ###############
 # Avoid to rely on globally installed packages to ease installation
 alias cleancss=node_modules/.bin/cleancss
@@ -11,19 +13,31 @@ pubimages=public/images
 vendor=vendor/js
 
 uglifyInPlace(){
-  # 2>&1: redirect stderr to stdin to be able to pipe it
-  # grep -v WARN: avoid showing warnings
-  uglifyjs $1 -c -m -o $1 2>&1 |grep -v WARN
+  uglifyjs $1 --compress --mangle --output $1
 }
 
-# keep versions in sync with app/api/assets.coffee
-quagga_base=quagga-0.11.5
+resetAndAddToBundle(){
+  cat $1 | grep -v '//# sourceMappingURL' > $2
+}
+
+addToBundle(){
+  echo ';\n' >> $2
+  cat $1 | grep -v '//# sourceMappingURL' >> $2
+}
+
+# Keep versions in sync with app/api/assets.coffee
+quagga_isbn_base=quagga-0.11.5-isbn-0.1.8-bundle
 cropper_base=cropper-2.3.0
-leaflet_base=leaflet-bundle-1.0.2
+leaflet_base=leaflet-bundle-1.3.1
 papaparse_base=papaparse-4.1.2
 piwik_base=piwik-3.0.1
 
+
+
 ############ INSTALLATIONS ###############
+
+
+### Piwik ###
 # Following Piwik versions for script versioning
 curl -sk https://piwik.allmende.io/piwik.js > ${pubjs}/${piwik_base}.js
 cp ${pubjs}/${piwik_base}.js ${pubjs}/${piwik_base}.min.js
@@ -32,13 +46,24 @@ uglifyInPlace ${pubjs}/${piwik_base}.min.js
 gzip -9kf "${pubjs}/${piwik_base}.min.js"
 echo -e '\e[0;32mdone downloading:\e[0m piwik'
 
-# Non-minified version is used in development
-quagga=node_modules/quagga/dist
-cp ${quagga}/quagga.js ${pubjs}/${quagga_base}.js
-cp ${quagga}/quagga.min.js ${pubjs}/${quagga_base}.min.js
-gzip -9kf "${pubjs}/${quagga_base}.min.js"
-echo -e '\e[0;32mdone copying:\e[0m' quagga
 
+### Bundling quagga & isbn2 ###
+quagga=node_modules/quagga/dist
+isbn2=node_modules/isbn2
+# Non-minified version is used in development
+# Quagga: omit the source map lines as it doesn't work in the bundle
+resetAndAddToBundle ${quagga}/quagga.js ${pubjs}/${quagga_isbn_base}.js
+addToBundle ${isbn2}/isbn.js ${pubjs}/${quagga_isbn_base}.js
+
+resetAndAddToBundle ${quagga}/quagga.min.js ${pubjs}/${quagga_isbn_base}.min.js
+addToBundle ${isbn2}/isbn.js ${pubjs}/${quagga_isbn_base}.min.js
+
+uglifyInPlace ${pubjs}/${quagga_isbn_base}.min.js
+gzip -9kf "${pubjs}/${quagga_isbn_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m quagga and isbn2'
+
+
+### Cropper ###
 cropper=node_modules/cropper/dist
 cp ${cropper}/cropper.css ${pubcss}/${cropper_base}.css
 cleancss ${pubcss}/${cropper_base}.css > ${pubcss}/${cropper_base}.min.css
@@ -47,33 +72,34 @@ cp ${cropper}/cropper.js ${pubjs}/${cropper_base}.js
 cp ${cropper}/cropper.min.js ${pubjs}/${cropper_base}.min.js
 uglifyInPlace ${pubjs}/${cropper_base}.min.js
 gzip -9kf "${pubjs}/${cropper_base}.min.js"
-echo -e '\e[0;32mdone copying:\e[0m' cropper
+echo -e '\e[0;32mdone copying:\e[0m cropper'
 
-# Bundling leaflet and leaflet.markercluster in the same js and css files
+
+### Bundling leaflet & leaflet.markercluster ###
 leaflet=node_modules/leaflet/dist
-cat ${leaflet}/leaflet.css > ${pubcss}/${leaflet_base}.css
-cat ${leaflet}/leaflet-src.js > ${pubjs}/${leaflet_base}.js
-cat ${leaflet}/leaflet.js > ${pubjs}/${leaflet_base}.min.js
+resetAndAddToBundle ${leaflet}/leaflet.css ${pubcss}/${leaflet_base}.css
+resetAndAddToBundle ${leaflet}/leaflet-src.js ${pubjs}/${leaflet_base}.js
+resetAndAddToBundle ${leaflet}/leaflet.js ${pubjs}/${leaflet_base}.min.js
 
 mkdir -p ${pubimages}/map
 cp ${leaflet}/images/* ${pubimages}/map
 
 leafletmc=node_modules/leaflet.markercluster/dist
-cat ${leafletmc}/MarkerCluster.css >> ${pubcss}/${leaflet_base}.css
-cat ${leafletmc}/MarkerCluster.Default.css >> ${pubcss}/${leaflet_base}.css
+addToBundle ${leafletmc}/MarkerCluster.css ${pubcss}/${leaflet_base}.css
+addToBundle ${leafletmc}/MarkerCluster.Default.css ${pubcss}/${leaflet_base}.css
 
-echo '\n' >> ${pubjs}/${leaflet_base}.js
-cat ${leafletmc}/leaflet.markercluster-src.js >> ${pubjs}/${leaflet_base}.js
-# Line break separator required between non-minified JS files
-cat ${leafletmc}/leaflet.markercluster.js >> ${pubjs}/${leaflet_base}.min.js
+addToBundle ${leafletmc}/leaflet.markercluster-src.js ${pubjs}/${leaflet_base}.js
+addToBundle ${leafletmc}/leaflet.markercluster.js ${pubjs}/${leaflet_base}.min.js
 
 cleancss ${pubcss}/${leaflet_base}.css > ${pubcss}/${leaflet_base}.min.css
 gzip -9kf "${pubcss}/${leaflet_base}.min.css"
 # Re-minifying to remove comments
 uglifyInPlace ${pubjs}/${leaflet_base}.min.js
 gzip -9kf "${pubjs}/${leaflet_base}.min.js"
-echo -e '\e[0;32mdone copying:\e[0m' leaflet and leaflet.markercluster
+echo -e '\e[0;32mdone copying:\e[0m leaflet and leaflet.markercluster'
 
+
+### papaparse ###
 cp node_modules/papaparse/papaparse.js ${pubjs}/${papaparse_base}.js
 cp node_modules/papaparse/papaparse.min.js ${pubjs}/${papaparse_base}.min.js
 # Re-minifying to remove comments
