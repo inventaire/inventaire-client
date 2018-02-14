@@ -12,15 +12,42 @@
   .loading{
     color: white;
   }
-  .failing{
+  .statusMessage{
+    @include position(fixed, -100%, 2.5em, null, 2.5em);
+    @include transition;
+    background-color: rgba(white, 0.8);
+    @include radius;
+    padding: 0.4em 0.2em;
+    &.shown{
+      top: 1em;
+    }
+    &[data-type="success"]{
+      background-color: rgba($success-color, 0.8);
+      color: white;
+    }
+    &[data-type="support"], &[data-type="warning"]{
+      background-color: rgba($dark-grey, 0.8);
+      color: white;
+    }
+  }
+  .bottom{
     @include position(fixed, null, 0, 0, 0);
-    background-color: rgba($dark-grey, 0.8);
-    color: white;
-    padding: 0.5em;
   }
-  .close{
-    @include position(fixed, 0, 0);
-    @include text-hover(white);
-    font-size: 2em;
+}
+
+#validateScan{
+  &:not(.hidden){
+    display: block;
   }
+  margin: 1em auto;
+  max-width: 10em;
+  &.flash{
+    @include flash($success-color);
+  }
+}
+
+#closeScan{
+  @include position(fixed, 0, 0);
+  @include text-hover(white);
+  font-size: 2em;
 }

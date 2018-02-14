@@ -1,5 +1,11 @@
 <div class="container">
   <span class="loading"></span>
 </div>
-<span class="failing hidden">{{icon 'support'}}{{i18n 'failing_scan_tip'}}</span>
-<a class="close">{{icon 'times'}}</a>
+<div class="statusMessage"></div>
+<div class="bottom">
+  <a id="validateScan" class="success-button hidden">
+    {{I18n 'validate'}}
+    <span class="counter"></span>
+  </a>
+</div>
+<a id="closeScan">{{icon 'times'}}</a>

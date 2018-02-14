@@ -1,22 +1,24 @@
 drawCanvas = require './draw_canvas'
 isbn_ = require 'lib/isbn'
 
-{ prepare, get:getQuagga } = require('lib/get_assets')('quagga')
+{ prepare, get:getQuaggaIsbnBundle } = require('lib/get_assets')('quaggaIsbn')
 
 module.exports =
   # pre-fetch quagga when the scanner is probably about to be used
   # to be ready to start scanning faster
   prepare: prepare
-  scan: (beforeStart)->
-    beforeStart or= _.noop
+  scan: (params)->
+    { beforeScannerStart, addIsbn } = params
+    beforeScannerStart or= _.noop
 
-    getQuagga()
-    .then startScanning.bind(null, beforeStart)
-    .then _.Log('embedded scanner isbn')
-    .then (isbn)-> app.execute 'show:entity:add', "isbn:#{isbn}"
+    getQuaggaIsbnBundle()
+    .then startScanning.bind(null, beforeScannerStart, addIsbn)
     .catch _.ErrorRethrow('embedded scanner err')
 
-startScanning = (beforeStart)->
+startScanning = (beforeScannerStart, addIsbn)->
+  # Using a promise to get a friendly way to pass errors
+  # but this promise will never resolve, and will be terminated,
+  # if everything goes well, by a cancel event
   new Promise (resolve, reject, onCancel)->
     constraints = getConstraints()
     _.log 'starting quagga initialization'
@@ -33,18 +35,21 @@ startScanning = (beforeStart)->
         err.reason = 'permission_denied'
         return reject err
 
-      beforeStart()
+      beforeScannerStart()
       _.log 'quagga initialization finished. Starting'
       Quagga.start()
 
       Quagga.onProcessed drawCanvas()
 
       Quagga.onDetected (result)->
-        _.log result, 'result'
+        # TODO: ignore scans happening less than 200ms after a known valid case
+        # to increase chances of rejecting invalid scans that occure
+        # once in a while
         candidate = result.codeResult.code
-        if isbn_.looksLikeAnIsbn candidate
-          Quagga.stop()
-          resolve result.codeResult.code
+        # window.ISBN is the isbn2 module, fetched by getQuaggaIsbnBundle
+        # If the candidate code can't be parsed, it's not a valid ISBN
+        if window.ISBN.parse(candidate)?
+          addIsbn result.codeResult.code
         else
           _.log candidate, 'discarded result. continuing to try'
 
