@@ -41,17 +41,7 @@ startScanning = (beforeScannerStart, addIsbn)->
 
       Quagga.onProcessed drawCanvas()
 
-      Quagga.onDetected (result)->
-        # TODO: ignore scans happening less than 200ms after a known valid case
-        # to increase chances of rejecting invalid scans that occure
-        # once in a while
-        candidate = result.codeResult.code
-        # window.ISBN is the isbn2 module, fetched by getQuaggaIsbnBundle
-        # If the candidate code can't be parsed, it's not a valid ISBN
-        if window.ISBN.parse(candidate)?
-          addIsbn result.codeResult.code
-        else
-          _.log candidate, 'discarded result. continuing to try'
+      Quagga.onDetected onDetected(addIsbn, 0, null)
 
 # see doc: https://github.com/serratus/quaggaJS#configuration
 getOptions = (constraints)->
@@ -83,3 +73,25 @@ baseOptions =
   decoder:
     readers: [ 'ean_reader' ]
     multiple: false
+
+onDetected = (addIsbn, lastIsbnScanTime, lastIsbn)-> (result)->
+  candidate = result.codeResult.code
+  # window.ISBN is the isbn2 module, fetched by getQuaggaIsbnBundle
+  # If the candidate code can't be parsed, it's not a valid ISBN
+  unless window.ISBN.parse(candidate)?
+    return _.log candidate, 'discarded result: invalid ISBN'
+
+  now = Date.now()
+  timeSinceLastIsbnScan = now - lastIsbnScanTime
+  lastIsbnScanTime = now
+
+  if candidate is lastIsbn then return
+
+  # Too close in time since last valid result to be true:
+  # (scanning 2 different barcodes in less than 2 seconds is a performance)
+  # it's probably a scan error, which happens from time to time,
+  # especially with bad light
+  if timeSinceLastIsbnScan < 500
+    return _.log candidate, 'discarded result: too close in time'
+
+  addIsbn candidate
