@@ -35,6 +35,28 @@
   }
 }
 
+#shadowVideoBox{
+  @include position(fixed, 50%, null, null, 50%);
+  height: 480px;
+  width: 640px;
+  margin-top: -240px;
+  margin-left: -320px;
+  opacity: 0.5;
+}
+
+#shadowAreaBox{
+  position: absolute;
+  top: 30%;
+  right: 15%;
+  left: 15%;
+  bottom: 30%;
+  .fa-barcode{
+    font-size: 220px;
+    color: rgba(grey, 0.5);
+    transform: scale(1.5, 1);
+  }
+}
+
 #validateScan{
   &:not(.hidden){
     display: block;

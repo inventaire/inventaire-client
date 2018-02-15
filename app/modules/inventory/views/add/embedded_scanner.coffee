@@ -9,6 +9,7 @@ module.exports = Marionette.ItemView.extend
 
   ui:
     statusMessage: '.statusMessage'
+    shadowAreaBox: '#shadowAreaBox'
     validate: '#validateScan'
     counter: '.counter'
     failing: '.failing'
@@ -23,16 +24,28 @@ module.exports = Marionette.ItemView.extend
     # to give the permission to access the camera
     behaviorsPlugin.startLoading.call @, { timeout: 'none' }
 
-    # TODO: display a tip on how to position the scanner on the barcode
-
-    # Only start the timeout before showing the failing scan tip once the scanner
-    # started and not when it might still be waiting for Quagga download
-    beforeScannerStart = @initFailingScanTip.bind @
-
     @batch = []
 
-    @scanner = embedded_.scan { beforeScannerStart, addIsbn: @addIsbn.bind(@) }
+    @scanner = embedded_.scan
+        beforeScannerStart: @beforeScannerStart.bind @
+        addIsbn: @addIsbn.bind @
       .catch @permissionDenied.bind(@)
+
+  beforeScannerStart: ->
+    @ui.shadowAreaBox.removeClass 'hidden'
+
+    @showStatusMessage
+      type: 'tip'
+      message: _.I18n "make the book's barcode fit in the box"
+      # displayDelay: 1000
+      displayTime: 29*1000
+
+    @showStatusMessage
+      message: _.I18n 'failing_scan_tip'
+      type: 'support'
+      displayDelay: 30*1000
+      displayCondition: => @batch.length is 0
+      displayTime: 30*1000
 
   addIsbn: (isbn)->
     @_lastIsbn = isbn
@@ -48,12 +61,12 @@ module.exports = Marionette.ItemView.extend
       type: 'success'
       displayTime: 2000
 
-    # Synchronize with the status message
-    # setTimeout @updateCounter.bind(@), 300
     @updateCounter()
 
     if @batch.length is 1
       @ui.validate.removeClass 'hidden'
+      # The shadow barcode shouldn't be needed anymore
+      @ui.shadowAreaBox.addClass 'hidden'
       @initMultiBarcodeTip()
 
   precachingEntityData: (isbn)->
@@ -80,20 +93,12 @@ module.exports = Marionette.ItemView.extend
         type: 'warning'
         displayTime: 2000
 
-  initFailingScanTip: ->
-    @showStatusMessage
-      message: _.I18n 'failing_scan_tip'
-      type: 'support'
-      displayDelay: 30*1000
-      displayCondition: => @batch.length is 0
-      displayTime: 30*1000
-
   initMultiBarcodeTip: ->
     @showStatusMessage
       message: _.I18n 'multi_barcode_scan_tip'
       type: 'tip'
       # Show the tip once the success message is over
-      displayDelay: 3000
+      displayDelay: 2000
       # Do not display if already several ISBNs were scanned
       displayCondition: => @batch.length is 1
       displayTime: 5000
