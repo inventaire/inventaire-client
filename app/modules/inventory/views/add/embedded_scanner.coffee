@@ -21,8 +21,8 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     app.execute 'last:add:mode:set', 'scan:embedded'
-    # removing the timeout on the loader as it depend on the time the user takes
-    # to give the permission to access the camera
+    # Removing the timeout on the loader as it depend on the time
+    # the user takes to give the permission to access the camera
     behaviorsPlugin.startLoading.call @, { timeout: 'none' }
 
     @batch = []
@@ -64,7 +64,7 @@ module.exports = Marionette.ItemView.extend
     @showStatusMessage
       message: _.i18n('added:') + ' ' + isbn
       type: 'success'
-      displayTime: 2000
+      displayTime: 4000
 
     @updateCounter()
 
@@ -154,6 +154,8 @@ module.exports = Marionette.ItemView.extend
   permissionDenied: (err)->
     if err.reason is 'permission_denied'
       _.log 'permission denied: closing scanner'
+    else
+      _.error err, 'scan error'
 
     # In any case, close
     @close()
