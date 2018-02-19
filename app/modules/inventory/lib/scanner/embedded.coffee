@@ -8,14 +8,14 @@ module.exports =
   # to be ready to start scanning faster
   prepare: prepare
   scan: (params)->
-    { beforeScannerStart, addIsbn } = params
+    { beforeScannerStart, actions } = params
     beforeScannerStart or= _.noop
 
     getQuaggaIsbnBundle()
-    .then startScanning.bind(null, beforeScannerStart, addIsbn)
-    .catch _.ErrorRethrow('embedded scanner err')
+    .then startScanning.bind(null, beforeScannerStart, actions)
+    # Not catching the error to let the view handle where we should go next
 
-startScanning = (beforeScannerStart, addIsbn)->
+startScanning = (beforeScannerStart, actions)->
   # Using a promise to get a friendly way to pass errors
   # but this promise will never resolve, and will be terminated,
   # if everything goes well, by a cancel event
@@ -41,7 +41,7 @@ startScanning = (beforeScannerStart, addIsbn)->
 
       Quagga.onProcessed drawCanvas()
 
-      Quagga.onDetected onDetected(addIsbn, 0, null)
+      Quagga.onDetected onDetected(actions)
 
 # see doc: https://github.com/serratus/quaggaJS#configuration
 getOptions = (constraints)->
@@ -74,24 +74,47 @@ baseOptions =
     readers: [ 'ean_reader' ]
     multiple: false
 
-onDetected = (addIsbn, lastIsbnScanTime, lastIsbn)-> (result)->
-  candidate = result.codeResult.code
-  # window.ISBN is the isbn2 module, fetched by getQuaggaIsbnBundle
-  # If the candidate code can't be parsed, it's not a valid ISBN
-  unless window.ISBN.parse(candidate)?
-    return _.log candidate, 'discarded result: invalid ISBN'
+onDetected = (actions)->
+  lastIsbnScanTime = 0
+  lastIsbn = null
 
-  now = Date.now()
-  timeSinceLastIsbnScan = now - lastIsbnScanTime
-  lastIsbnScanTime = now
+  lastInvalidIsbn = null
+  identicalInvalidIsbnCount = 0
 
-  if candidate is lastIsbn then return
+  return (result)->
+    candidate = result.codeResult.code
+    # window.ISBN is the isbn2 module, fetched by getQuaggaIsbnBundle
+    # If the candidate code can't be parsed, it's not a valid ISBN
+    if window.ISBN.parse(candidate)?
+      invalidIsbnCount = 0
+    else
+      if candidate is lastInvalidIsbn
+        identicalInvalidIsbnCount++
+      else
+        lastInvalidIsbn = candidate
+        identicalInvalidIsbnCount = 0
+      # Waiting for 3 successive scans before showing a warning
+      # to be sure it's not just an error from the scanner
+      # Known case: some books have an ISBN but the barcode EAN
+      # isn't based on it
+      if identicalInvalidIsbnCount is 3
+        actions.showInvalidIsbnWarning candidate
+        # Reset count to show the same warning in 3 scans again
+        identicalInvalidIsbnCount = 0
 
-  # Too close in time since last valid result to be true:
-  # (scanning 2 different barcodes in less than 2 seconds is a performance)
-  # it's probably a scan error, which happens from time to time,
-  # especially with bad light
-  if timeSinceLastIsbnScan < 500
-    return _.log candidate, 'discarded result: too close in time'
+      return _.log candidate, 'discarded result: invalid ISBN'
 
-  addIsbn candidate
+    now = Date.now()
+    timeSinceLastIsbnScan = now - lastIsbnScanTime
+    lastIsbnScanTime = now
+
+    if candidate is lastIsbn then return
+
+    # Too close in time since last valid result to be true:
+    # (scanning 2 different barcodes in less than 2 seconds is a performance)
+    # it's probably a scan error, which happens from time to time,
+    # especially with bad light
+    if timeSinceLastIsbnScan < 500
+      return _.log candidate, 'discarded result: too close in time'
+
+    actions.addIsbn candidate

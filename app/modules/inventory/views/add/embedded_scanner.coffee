@@ -30,7 +30,9 @@ module.exports = Marionette.ItemView.extend
 
     @scanner = embedded_.scan
         beforeScannerStart: @beforeScannerStart.bind @
-        addIsbn: @addIsbn.bind @
+        actions:
+          addIsbn: @addIsbn.bind @
+          showInvalidIsbnWarning: @showInvalidIsbnWarning.bind @
       .catch @permissionDenied.bind(@)
 
   beforeScannerStart: ->
@@ -46,7 +48,8 @@ module.exports = Marionette.ItemView.extend
       message: _.I18n 'failing_scan_tip'
       type: 'support'
       displayDelay: 30*1000
-      displayCondition: => @batch.length is 0
+      # Display only if no ISBN, valid or not, was detected
+      displayCondition: => @batch.length is 0 and not @invalidIsbnDetected
       displayTime: 30*1000
 
   addIsbn: (isbn)->
@@ -136,6 +139,12 @@ module.exports = Marionette.ItemView.extend
 
     if displayDelay? then setTimeout showMessage, displayDelay
     else showMessage()
+
+  showInvalidIsbnWarning: (invalidIsbn)->
+    @showStatusMessage
+      message: _.i18n('invalid ISBN') + ': ' + invalidIsbn
+      type: 'warning'
+      displayTime: 5000
 
   updateCounter: (count)->
     @ui.totalCounter.text "(#{@batch.length})"
