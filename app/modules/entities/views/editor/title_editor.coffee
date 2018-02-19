@@ -3,6 +3,7 @@ getBestLangValue = sharedLib('get_best_lang_value')(_)
 availableLangList = require 'lib/available_lang_list'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+{ langs:activeLangs } = require 'lib/active_languages'
 
 module.exports = EditorCommons.extend
   template: require './templates/title_editor'
@@ -26,7 +27,7 @@ module.exports = EditorCommons.extend
       editMode: @editMode
       value: value
       disableDelete: true
-      availableLangs: @getAvailableLangs lang
+      langs: getLangsData lang, @model.get('labels')
     }
 
   getValue: ->
@@ -35,12 +36,6 @@ module.exports = EditorCommons.extend
       return { value, lang: @requestedLang }
     else
       getBestLangValue @lang, null, @model.get('labels')
-
-  getAvailableLangs: (selectedLang)->
-    availableLangs = Object.keys @model.get('labels')
-    { lang:userLang } = app.user
-    unless userLang in availableLangs then availableLangs.push userLang
-    return availableLangList availableLangs, selectedLang
 
   onShow: ->
     @listenTo @model, 'change:labels', @lazyRender
@@ -89,3 +84,11 @@ module.exports = EditorCommons.extend
         @lazyRender()
         # Wait for the view to have re-rendered to show the alert
         setTimeout forms_.catchAlert.bind(null, @, err), 400
+
+getLangsData = (selectedLang, labels)->
+  availableLangs = Object.keys labels
+  highPriorityLangs = [ app.user.lang, 'en' ]
+  allLangs = _.uniq availableLangs.concat(highPriorityLangs, activeLangs)
+  # No distinction is made between available langs and others
+  # as we can't style the <option> element anyway
+  return availableLangList allLangs, selectedLang

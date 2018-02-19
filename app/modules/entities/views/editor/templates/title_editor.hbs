@@ -1,7 +1,7 @@
 <div class="property-label">
   <span class="title">{{I18n 'title'}}</span>
   <select class="langSelector" name="language-selector">
-    {{#each availableLangs}}
+    {{#each langs}}
       <option value="{{code}}" {{#if selected}}selected{{/if}}>{{native}}</option>
     {{/each}}
   </select>
