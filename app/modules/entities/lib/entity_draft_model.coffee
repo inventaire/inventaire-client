@@ -13,7 +13,7 @@ propertiesShortlists =
 
 module.exports =
   create: (options)->
-    { type, label, claims, next } = options
+    { type, label, claims, next, relation } = options
 
     # TODO: allow to select specific type at creation
     defaultP31 = typeDefaultP31[type]
@@ -42,6 +42,8 @@ module.exports =
     _.extend model,
       type: type
       creating: true
+      # The property that links this entity to another entity being created
+      relation: relation
       propertiesShortlist: propertiesShortlist
       setPropertyValue: editableEntity.setPropertyValue
       savePropertyValue: _.preq.resolve

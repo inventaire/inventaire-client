@@ -16,8 +16,18 @@ module.exports = (entityModel)->
 
   for prop, typeCustomPropData of typeProps
     propData = properties[prop]
+    # Unless a custom label is set, pass the property id to the _.i18n function
     propData.propertyLabel = typeCustomPropData.customLabel or prop
-    propertiesCollection.add getPropertyModel(entityModel, propData)
+    propertyModel = getPropertyModel entityModel, propData
+
+    # If the entity is being created in relation to another entity that entity
+    # should be presented as fixed, as it would be quite a mess otherwise
+    if entityModel.creating and entityModel.relation is prop
+      propertyModel.set
+        editorType: 'fixed-entity'
+        multivalue: false
+
+    propertiesCollection.add propertyModel
 
   return propertiesCollection
 
