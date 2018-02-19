@@ -81,10 +81,11 @@ module.exports = Marionette.LayoutView.extend
 
   multiEditData: ->
     data = {}
-    { header, next, relation } = @options
+    { fromIsbn, next, relation } = @options
     previous = @model.get('claims')[relation]
-    if next? or previous?
-      data.customHeader = customHeaders[header]
+    if (next? or previous?) and fromIsbn?
+      data.header = _.i18n 'can you tell us more about this work and this particular edition?'
+      data.headerContext = 'ISBN: ' + fromIsbn
     if next?
       data.next = next
       data.progress = { current: 1, total: 2 }
@@ -175,7 +176,7 @@ module.exports = Marionette.LayoutView.extend
     @navigateMultiEdit previous
 
   navigateMultiEdit: (data)->
-    data.header = @options.header
+    data.fromIsbn = @options.fromIsbn
     app.execute 'show:entity:create', data
 
   createPreviousAndUpdateCurrentModel: ->
@@ -200,9 +201,6 @@ serializeDraftModel = (model, relation)->
   # Omit the relation property to avoid conflict/cyclic references
   if relation? then claims = _.omit claims, relation
   return { type, claims, label, relation }
-
-customHeaders =
-  'new-work-and-edition': 'can you tell us more about this work and this particular edition?'
 
 possessives =
   work: "book's"

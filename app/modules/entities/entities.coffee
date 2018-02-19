@@ -262,7 +262,7 @@ showEntityCreateFromIsbn = (isbn)->
 
     # Start by requesting the creation of a work entity
     showEntityCreate
-      header: 'new-work-and-edition'
+      fromIsbn: isbn
       type: 'work'
       # on which will be based an edition entity
       next:
