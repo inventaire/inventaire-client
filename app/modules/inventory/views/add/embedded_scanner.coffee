@@ -11,7 +11,8 @@ module.exports = Marionette.ItemView.extend
     statusMessage: '.statusMessage'
     shadowAreaBox: '#shadowAreaBox'
     validate: '#validateScan'
-    counter: '.counter'
+    totalCounter: '#totalCounter'
+    notFoundCounter: '#notFoundCounter'
     failing: '.failing'
 
   events:
@@ -25,6 +26,7 @@ module.exports = Marionette.ItemView.extend
     behaviorsPlugin.startLoading.call @, { timeout: 'none' }
 
     @batch = []
+    @notFound = []
 
     @scanner = embedded_.scan
         beforeScannerStart: @beforeScannerStart.bind @
@@ -74,7 +76,16 @@ module.exports = Marionette.ItemView.extend
     # to possibly fetch dataseeds, while we will only need the data later.
     # If successful, the entities will be pre-cached
     app.request 'get:entity:model', "isbn:#{isbn}"
+    .catch (err)=>
+      if err.message.match('entity_not_found') then @updateNotFoundCounter isbn
+      else throw err
     .catch _.Error('isbn batch pre-cache err')
+
+  updateNotFoundCounter: (isbn)->
+    @notFound.push isbn
+    notFoundCount = @notFound.length
+    if notFoundCount is 1 then @ui.notFoundCounter.parent().removeClass 'hidden'
+    @ui.notFoundCounter.text notFoundCount
 
   showDuplicateIsbnWarning: (isbn)->
     now = Date.now()
@@ -127,7 +138,7 @@ module.exports = Marionette.ItemView.extend
     else showMessage()
 
   updateCounter: (count)->
-    @ui.counter.text "(#{@batch.length})"
+    @ui.totalCounter.text "(#{@batch.length})"
     @ui.validate.addClass 'flash'
     setTimeout @ui.validate.removeClass.bind(@ui.validate, 'flash'), 1000
 

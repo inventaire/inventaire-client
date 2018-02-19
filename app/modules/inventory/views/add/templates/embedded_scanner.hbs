@@ -10,7 +10,12 @@
 <div class="bottom">
   <a id="validateScan" class="success-button hidden">
     {{I18n 'validate'}}
-    <span class="counter"></span>
+    <span id="totalCounter"></span>
   </a>
+  <div class="notFound hidden">
+    {{icon 'warning'}}
+    {{i18n 'Editions needing additional information:'}}
+    <span id="notFoundCounter"></span>
+  </div>
 </div>
 <a id="closeScan">{{icon 'times'}}</a>

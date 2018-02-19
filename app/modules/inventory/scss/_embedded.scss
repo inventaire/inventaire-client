@@ -33,6 +33,17 @@
   .bottom{
     @include position(fixed, null, 0, 0, 0);
   }
+  .notFound{
+    background-color: rgba($dark-grey, 0.8);
+    color: white;
+    .fa-warning{
+      margin-right: 0.5em;
+    }
+    padding: 0.5em;
+  }
+  #notFoundCounter{
+    margin-left: 0.5em;
+  }
 }
 
 #shadowVideoBox{
