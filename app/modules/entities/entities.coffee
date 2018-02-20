@@ -7,7 +7,8 @@ SerieLayout = require './views/serie_layout'
 WorkLayout = require './views/work_layout'
 EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
-GenreLayout = require './views/genre_layout'
+MultiEntityEdit = require './views/editor/multi_entity_edit'
+GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
 entityDraftModel = require './lib/entity_draft_model'
@@ -228,7 +229,8 @@ getEntityLocalHref = (uri)-> "/entity/#{uri}"
 showEntityEdit = (params)->
   { model } = params
   unless model.type? then throw error_.new 'invalid entity type', model
-  app.layout.main.show new EntityEdit(params)
+  View = if params.next? or params.previous? then MultiEntityEdit else EntityEdit
+  app.layout.main.show new View(params)
   app.navigateFromModel model, 'edit'
 
 showEntityEditFromModel = (model)->

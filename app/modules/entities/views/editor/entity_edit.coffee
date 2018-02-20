@@ -1,10 +1,9 @@
 TitleEditor = require './title_editor'
 PropertiesEditor = require './properties_editor'
-propertiesCollection = require 'modules/entities/lib/editor/properties_collection'
+propertiesCollection = require '../../lib/editor/properties_collection'
 AdminSection = require './admin_section'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
-entityDraftModel = require 'modules/entities/lib/entity_draft_model'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
@@ -38,11 +37,6 @@ module.exports = Marionette.LayoutView.extend
 
     @navigationButtonsDisabled = false
 
-    { @next, @relation, @itemToUpdate } = @options
-    @multiEdit = @next? or @relation?
-    if @relation?
-      @previousData = @model.get('claims')[@relation]
-
   initPropertiesCollections: -> @properties = propertiesCollection @model
 
   onShow: ->
@@ -64,7 +58,7 @@ module.exports = Marionette.LayoutView.extend
       propertiesShortlist: @model.propertiesShortlist
 
   serializeData: ->
-    attrs = _.extend @model.toJSON(), @multiEditData()
+    attrs = @model.toJSON()
     attrs.creationMode = @creationMode
     typePossessive = possessives[attrs.type]
     attrs.createAndShowLabel = "create and go to the #{typePossessive} page"
@@ -79,47 +73,29 @@ module.exports = Marionette.LayoutView.extend
     attrs.canBeAddedToInventory = @canBeAddedToInventory
     return attrs
 
-  multiEditData: ->
-    data = {}
-    { fromIsbn, next, relation } = @options
-    previous = @model.get('claims')[relation]
-    if (next? or previous?) and fromIsbn?
-      data.header = _.i18n 'can you tell us more about this work and this particular edition?'
-      data.headerContext = 'ISBN: ' + fromIsbn
-    if next?
-      data.next = next
-      data.progress = { current: 1, total: 2 }
-    if previous?
-      data.previous = previous
-      data.progress = { current: 2, total: 2 }
-    return data
-
   events:
     'click .entity-edit-cancel': 'cancel'
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
     'click .createAndUpdateItem': 'createAndUpdateItem'
-    'click #next': 'showNextMultiEditPage'
-    'click #previous': 'showPreviousMultiEditPage'
     'click #signalDataError': 'signalDataError'
 
-  # Criteria:
-  # - Don't display a cancel button if we don't know where to redirect
-  # - In the case of an entity being created, showing the entity page would fail
-  # - Never display a cancel button when creating in mutliEdit mode as it means
-  #   an entity wasn't found and redirected here, which means hitting a
-  #   redirection loop
   canCancel: ->
-    canCancelCase1 = @model.creating and not @multiEdit and window.history.length > 1
-    canCancelCase2 = not @model.creating
-    return canCancelCase1 or canCancelCase2
+    # In the case of an entity being created, showing the entity page would fail
+    unless @model.creating then return true
+    # Don't display a cancel button if we don't know whre to redirect
+    return Backbone.history.last.length > 0
 
   cancel: ->
     fallback = => app.execute 'show:entity:from:model', @model
     app.execute 'history:back', { fallback }
 
-  createAndShowEntity: -> @_createAndAction app.Execute('show:entity:from:model')
-  createAndAddEntity: -> @_createAndAction app.Execute('show:entity:add:from:model')
+  createAndShowEntity: ->
+    @_createAndAction app.Execute('show:entity:from:model')
+
+  createAndAddEntity: ->
+    @_createAndAction app.Execute('show:entity:add:from:model')
+
   createAndUpdateItem: ->
     { itemToUpdate } = @
     if itemToUpdate instanceof Backbone.Model
@@ -135,11 +111,14 @@ module.exports = Marionette.LayoutView.extend
     @_createAndAction action
 
   _createAndAction: (action)->
-    @createPreviousAndUpdateCurrentModel()
+    @beforeCreate()
     .then @model.create.bind(@model)
     .then action
     .catch error_.Complete('.meta', false)
     .catch forms_.catchAlert.bind(null, @)
+
+  # Override in sub views
+  beforeCreate: -> _.preq.resolved
 
   signalDataError: (e)->
     uri = @model.get 'uri'
@@ -160,47 +139,6 @@ module.exports = Marionette.LayoutView.extend
       if @navigationButtonsDisabled
         @ui.navigationButtons.fadeIn()
         @navigationButtonsDisabled = false
-
-  showNextMultiEditPage: ->
-    { next } = @options
-    { relation, labelTransfer } = next
-    draftModel = serializeDraftModel @model
-    next.claims[relation] = draftModel
-    if labelTransfer? then next.claims[labelTransfer] = [ draftModel.label ]
-    @navigateMultiEdit next
-
-  showPreviousMultiEditPage: ->
-    { relation } = @options
-    previous = @model.get('claims')[relation]
-    previous.next = serializeDraftModel @model, relation
-    @navigateMultiEdit previous
-
-  navigateMultiEdit: (data)->
-    data.fromIsbn = @options.fromIsbn
-    app.execute 'show:entity:create', data
-
-  createPreviousAndUpdateCurrentModel: ->
-    unless @previousData? then return _.preq.resolved
-    @createPrevious()
-    .then (previousEntityModel)=>
-      claims = @model.get 'claims'
-      # Replace the draft data object by the uri
-      claims[@relation] = [ previousEntityModel.get('uri') ]
-      @model.set 'claims', claims
-
-  createPrevious: ->
-    draftModel = entityDraftModel.create @previousData
-    return draftModel.create()
-
-# Matching entityDraftModel.create interface to allow to re-create the draft model
-# from the URL
-serializeDraftModel = (model, relation)->
-  { labels, claims } = model.pick 'labels', 'claims'
-  label = _.values(labels)[0]
-  { type } = model
-  # Omit the relation property to avoid conflict/cyclic references
-  if relation? then claims = _.omit claims, relation
-  return { type, claims, label, relation }
 
 possessives =
   work: "book's"

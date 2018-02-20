@@ -36,7 +36,7 @@ module.exports =
       creating: true
       # The property that links this entity to another entity being created
       relation: relation
-      propertiesShortlist: getPropertiesShortlist type, claims, relation
+      propertiesShortlist: getPropertiesShortlist type, claims
       setPropertyValue: editableEntity.setPropertyValue
       savePropertyValue: _.preq.resolve
       setLabel: editableEntity.setLabel
@@ -54,18 +54,18 @@ module.exports =
 
   whitelistedTypes: Object.keys typeDefaultP31
 
-getPropertiesShortlist = (type, claims, relation)->
+getPropertiesShortlist = (type, claims)->
   typeShortlist = propertiesShortlists[type]
   unless typeShortlist? then return null
 
-  claimsProperties = Object.keys(claims).filter nonFixedEditor(relation)
+  claimsProperties = Object.keys(claims).filter nonFixedEditor
   propertiesShortlist = propertiesShortlists[type].concat claimsProperties
   # If a serie was passed in the claims, invite to add an ordinal
   if 'wdt:P179' in claimsProperties then propertiesShortlist.push 'wdt:P1545'
 
   return propertiesShortlist
 
-nonFixedEditor = (relation)-> (prop)->
+nonFixedEditor = (prop)->
   # Testing properties[prop] existance as some properties don't
   # have an editor. Ex: wdt:P31
   editorType = properties[prop]?.editorType
@@ -73,9 +73,5 @@ nonFixedEditor = (relation)-> (prop)->
 
   # Filter-out fixed editor: 'fixed-entity', 'fixed-string'
   if editorType.split('-')[0] is 'fixed' then return false
-
-  # Also filter-out relation claim as it will later be overriden
-  # as a fixed-entity by ./editor/properties_collection.coffee
-  if prop is relation then return false
 
   return true
