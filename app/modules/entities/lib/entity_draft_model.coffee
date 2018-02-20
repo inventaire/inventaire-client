@@ -1,5 +1,6 @@
 editableEntity = require './inv/editable_entity'
 createEntities = require './create_entities'
+properties = require './properties'
 
 typeDefaultP31 =
   work: 'wd:Q571'
@@ -9,7 +10,7 @@ typeDefaultP31 =
 propertiesShortlists =
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
-  edition: [ 'wdt:P407', 'wdt:P1476', 'wdt:P577' ]
+  edition: [ 'wdt:P18', 'wdt:P407', 'wdt:P1476', 'wdt:P577' ]
 
 module.exports =
   create: (options)->
@@ -21,15 +22,6 @@ module.exports =
       throw new Error "unknown type: #{type}"
 
     claims or= {}
-    claimsProperties = Object.keys claims
-    typeShortlist = propertiesShortlists[type]
-    if typeShortlist?
-      propertiesShortlist = propertiesShortlists[type].concat claimsProperties
-      # If a serie was passed in the claims, invite to add an ordinal
-      if 'wdt:P179' in claimsProperties then propertiesShortlist.push 'wdt:P1545'
-    else
-      propertiesShortlist = null
-
     claims['wdt:P31'] = [ defaultP31 ]
 
     labels = {}
@@ -44,7 +36,7 @@ module.exports =
       creating: true
       # The property that links this entity to another entity being created
       relation: relation
-      propertiesShortlist: propertiesShortlist
+      propertiesShortlist: getPropertiesShortlist type, claims, relation
       setPropertyValue: editableEntity.setPropertyValue
       savePropertyValue: _.preq.resolve
       setLabel: editableEntity.setLabel
@@ -61,3 +53,29 @@ module.exports =
     return model
 
   whitelistedTypes: Object.keys typeDefaultP31
+
+getPropertiesShortlist = (type, claims, relation)->
+  typeShortlist = propertiesShortlists[type]
+  unless typeShortlist? then return null
+
+  claimsProperties = Object.keys(claims).filter nonFixedEditor(relation)
+  propertiesShortlist = propertiesShortlists[type].concat claimsProperties
+  # If a serie was passed in the claims, invite to add an ordinal
+  if 'wdt:P179' in claimsProperties then propertiesShortlist.push 'wdt:P1545'
+
+  return propertiesShortlist
+
+nonFixedEditor = (relation)-> (prop)->
+  # Testing properties[prop] existance as some properties don't
+  # have an editor. Ex: wdt:P31
+  editorType = properties[prop]?.editorType
+  unless editorType then return false
+
+  # Filter-out fixed editor: 'fixed-entity', 'fixed-string'
+  if editorType.split('-')[0] is 'fixed' then return false
+
+  # Also filter-out relation claim as it will later be overriden
+  # as a fixed-entity by ./editor/properties_collection.coffee
+  if prop is relation then return false
+
+  return true
