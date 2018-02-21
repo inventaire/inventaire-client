@@ -1,0 +1,36 @@
+isbn_ = require 'lib/isbn'
+getBestLangValue = sharedLib('get_best_lang_value')(_)
+wd_ = require 'lib/wikimedia/wikidata'
+
+module.exports = (entities, isbnsIndex)->
+  newCandidates = []
+  for uri, entity of entities
+    if entity.type is 'edition'
+      { claims } = entity
+      # Match the attributes expected by
+      # modules/inventory/views/add/templates/candidate_row.hbs
+      entity.title = claims['wdt:P1476'][0]
+      entity.authors = getEditionAuthors entity, entities
+      _.log entity.authors, 'entity.authors'
+      normalizedIsbn13 = isbn_.normalizeIsbn claims['wdt:P212'][0]
+      normalizedIsbn10 = isbn_.normalizeIsbn claims['wdt:P957'][0]
+      isbnData = isbnsIndex[normalizedIsbn13] or isbnsIndex[normalizedIsbn10]
+      # Use the input ISBN to allow the user to find it back in her list
+      entity.isbn = isbnData.raw
+      newCandidates.push entity
+
+  return newCandidates
+
+getEditionAuthors = (edition, entities)->
+  editionLang = wd_.getOriginalLang edition.claims
+
+  worksUris = edition.claims['wdt:P629']
+  works = _.values _.pick(entities, worksUris)
+
+  authorsUris = _.flatten works.map(getWorkAuthors)
+  authors = _.values _.pick(entities, authorsUris)
+  return authors
+    .map (author)-> getBestLangValue(editionLang, null, author.labels).value
+    .join ', '
+
+getWorkAuthors = (work)-> work.claims['wdt:P50']
