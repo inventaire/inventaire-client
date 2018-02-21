@@ -54,9 +54,18 @@ module.exports = EntityEdit.extend
     @createPrevious()
     .then (previousEntityModel)=>
       claims = @model.get 'claims'
+      relationUri = previousEntityModel.get 'uri'
       # Replace the draft data object by the uri
-      claims[@relation] = [ previousEntityModel.get('uri') ]
+      claims[@relation] = [ relationUri ]
       @model.set 'claims', claims
+      # Invalidate the cache so that next time it is requested
+      # it will find the entity about to be created
+      # Ex: in case of a work and an edition being created, invalidating
+      # the cache of the work will force it to re-query its edition,
+      # hopefully once the edition about to be created is made available
+      # by the database
+      app.execute 'invalidate:entities:cache', relationUri
+      return
 
   createPrevious: ->
     draftModel = entityDraftModel.create @previous

@@ -12,7 +12,7 @@ Entity = require '../models/entity'
 # The only known duplicate request remaining is when an entity is requested from
 # an alias uri and then re-requested from its canonical uri before the first entity
 # returned.
-window.entitiesModelsIndexedByUri = entitiesModelsIndexedByUri = {}
+entitiesModelsIndexedByUri = {}
 
 exports.get = (params)->
   { uris, refresh, defaultType } = params
@@ -112,3 +112,5 @@ exports.add = (entityData)->
   { uri } = entityData
   unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}", entityData
   return addModel new Entity(entityData)
+
+exports.invalidate = (uri)-> delete entitiesModelsIndexedByUri[uri]

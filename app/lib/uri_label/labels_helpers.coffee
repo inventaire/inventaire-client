@@ -16,3 +16,5 @@ module.exports =
   getKnownUris: -> Object.keys labels
 
   resetLabels: -> labels = {}
+
+  invalidateLabel: (uri)-> delete labels[uri]

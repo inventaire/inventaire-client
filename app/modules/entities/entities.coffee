@@ -20,6 +20,7 @@ ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 MergeSuggestions = require './views/editor/merge_suggestions'
+{ invalidateLabel } = require 'lib/uri_label/labels_helpers'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -181,6 +182,7 @@ setHandlers = ->
     'show:entity:create': showEntityCreate
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': showMergeSuggestions
+    'invalidate:entities:cache': invalidateEntitiesCache
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
@@ -374,3 +376,10 @@ showClaimEntities = (claim, refresh)->
     return app.execute 'show:error:missing'
 
   app.layout.main.show new ClaimLayout { property, value, refresh }
+
+invalidateEntitiesCache = (uris)->
+  _.forceArray uris
+  .forEach (uri)->
+    unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}"
+    entitiesModelsIndex.invalidate uri
+    invalidateLabel uri
