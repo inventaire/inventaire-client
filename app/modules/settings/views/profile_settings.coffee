@@ -5,6 +5,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 wdLang = require 'wikidata-lang'
+error_ = require 'lib/error'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/profile_settings'
@@ -157,7 +158,8 @@ module.exports = Marionette.ItemView.extend
     .then @startLoading.bind(@, '#updatePassword')
     .then @confirmCurrentPassword.bind(@, currentPassword)
     .then @updateUserPassword.bind(@, currentPassword, newPassword)
-    .then @passwordSuccessCheck.bind(@)
+    .then @ifViewIsIntact('passwordSuccessCheck')
+    .catch @ifViewIsIntact('passwordFail')
     .catch forms_.catchAlert.bind(null, @)
     .finally @stopLoading.bind(@)
 
@@ -165,7 +167,7 @@ module.exports = Marionette.ItemView.extend
     app.request 'password:confirmation', currentPassword
     .catch (err)->
       if err.statusCode is 401
-        err = new Error('wrong password')
+        err = error_.new 'wrong password', 400
         err.selector = '#currentPasswordAlert'
         throw err
       else throw err
@@ -173,12 +175,13 @@ module.exports = Marionette.ItemView.extend
   updateUserPassword: (currentPassword, newPassword)->
     app.request 'password:update', currentPassword, newPassword
 
-  passwordSuccessCheck: (password)->
+  passwordSuccessCheck: ->
     @ui.passwords.val('')
     @ui.passwordUpdater.trigger('check')
 
-  passwordFail: (password)->
+  passwordFail: (err)->
     @ui.passwordUpdater.trigger('fail')
+    throw err
 
   # LANGUAGE
   changeLanguage: (e)->
