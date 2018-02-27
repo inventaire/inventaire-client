@@ -75,15 +75,15 @@ describe 'Regex', ->
       SimpleDay.test('-2-03-03').should.be.true()
       done()
 
-    it 'should reject a year and month without a day', (done)->
-      SimpleDay.test('1972-01').should.be.false()
-      SimpleDay.test('-1972-01').should.be.false()
-      SimpleDay.test('972-02').should.be.false()
-      SimpleDay.test('-972-02').should.be.false()
-      SimpleDay.test('72-03').should.be.false()
-      SimpleDay.test('-72-03').should.be.false()
-      SimpleDay.test('2-03').should.be.false()
-      SimpleDay.test('-2-03').should.be.false()
+    it 'should accept a year and month without a day', (done)->
+      SimpleDay.test('1972-01').should.be.true()
+      SimpleDay.test('-1972-01').should.be.true()
+      SimpleDay.test('972-02').should.be.true()
+      SimpleDay.test('-972-02').should.be.true()
+      SimpleDay.test('72-03').should.be.true()
+      SimpleDay.test('-72-03').should.be.true()
+      SimpleDay.test('2-03').should.be.true()
+      SimpleDay.test('-2-03').should.be.true()
       done()
 
     it 'should reject non-padded months or day', (done)->

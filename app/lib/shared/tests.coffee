@@ -25,7 +25,19 @@ module.exports = (regex_, _)->
       # Ex: twitter:Bouletcorp -> wd:Q1524522
       return _.isNonEmptyString(prefix) and _.isNonEmptyString(id)
     isPropertyUri: bindedTest 'PropertyUri'
-    isSimpleDay: bindedTest 'SimpleDay'
+    isSimpleDay: (str)->
+      isValidDate = false
+      try
+        # This line will throw if the date is invalid
+        # Ex: '2018-03-32' or '2018-02-30'
+        isoDate = (new Date(str)).toISOString()
+        # Keep only the passed precision
+        truncatedIsoDate = isoDate.slice(0, str.length)
+        isValidDate = truncatedIsoDate is str
+      catch err
+        isValidDate = false
+
+      return isValidDate and regex_.SimpleDay.test(str)
 
   tests.isExtendedUrl = (str)-> tests.isUrl(str) or tests.isIpfsPath(str)
 
