@@ -1,1 +1,33 @@
-#tasksLayout{}
+#tasksLayout{
+  padding: 1em;
+  #task{
+    @include display-flex(row, top, left);
+  }
+  #header{
+    @include display-flex(row, center, left);
+  }
+  #collect{
+    margin: 1em;
+  }
+  #label{
+    margin: 1em;
+    padding: 1em;
+    background-color: white;
+    @include display-flex(column, left, top);
+  }
+  #scores{
+    margin: 1em;
+    padding: 1em;
+    background-color: white;
+    @include display-flex(column, left, top);
+  }
+  .score{
+    padding: 1em;
+    @include display-flex(row, center, right);
+  }
+  #nav{
+    margin: 1em;
+    padding: 1em;
+    @include display-flex(column, strech, top);
+  }
+}

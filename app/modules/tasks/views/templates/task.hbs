@@ -1,5 +1,35 @@
-<h3>Type {{type}}</h3>
-<p>Uri {{suggestionUri}}</p>
-<h3>susp label: {{suspect.label}}</h3>
-<h3>sug label: {{suggestion.label}}</h3>
+<div id='task'>
+  <div id='label'>
+    <div id='suspect-label'>
+      <h3>{{suspect.label}}</h3>
+      <a class='uri' href=''>{{suspect.uri}}</a>
+    </div>
+    <div id='suggestion-label'>
+      <h3> {{suggestion.label}} </h3>
+      <a class='uri' href=''>{{suggestion.uri}}</a>
+      <p class='description' href=''>{{suggestion.description}}</p>
+    </div>
+  </div>
+
+  <div id='scores'>
+    <h3>Scores</h3>
+    <div id='lexical' class='score'>
+      <h3>{{elasticScore}}</h3>
+      <p>Lexical </p>
+    </div>
+    <div id='lexical' class='score'>
+      <h3>{{relationScore}}</h3>
+      <p>Homonyms</p>
+    </div>
+    <div id='encyclopedia' class='score'>
+      {{#if hasEncyclopediaOccurence}}
+        <p>{{icon 'wikipedia'}} Occurence !</p>
+      {{/if}}
+    </div>
+  </div>
+
+  <div id='nav'>
+    <a class='merge dangerous-button'>{{I18n 'merge'}}</a>
+    <a class='dismiss dangerous-button'>{{I18n 'dismiss'}}</a>
+  </div>
 </div>

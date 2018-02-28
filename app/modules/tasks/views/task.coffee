@@ -13,11 +13,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .merge': 'merge'
+    'click #dismiss': ''
 
   merge: ->
-    mergeEntities @suspectUri, @suggestionUri
-    .then updateTask
-
-  updateTask: ->
-    taskId = @task._id
-    _.preq.put app.API.tasks.base
+    mergeEntities @model.get('suggestionUri'), @model.get('suspectUri')
