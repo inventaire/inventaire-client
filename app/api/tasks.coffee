@@ -1,4 +1,6 @@
-{ action } = require('./endpoint')('tasks')
+{ action, base } = require('./endpoint')('tasks')
 
 module.exports =
+  base: base
   byScore: action 'by-score'
+  collect: action 'collect-entities'
