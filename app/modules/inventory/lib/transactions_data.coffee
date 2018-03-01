@@ -11,7 +11,7 @@ factory = ->
     id: 'lending'
     icon: 'refresh'
     label: 'lending'
-    labelShort: "I can lend it"
+    labelShort: 'I can lend it'
     labelPersonalized: 'lending_personalized_strong'
     unicodeIcon:'&#xf021;'
   selling:

@@ -13,7 +13,7 @@ module.exports = Marionette.Behavior.extend
     'keyup a.button,a.enterClick,div.enterClick,a[tabindex=0]': enterClick.button
     'click a.back': -> window.history.back()
     'click .showHome': (e)->
-        unless _.isOpenedOutside(e) then app.execute 'show:home'
+      unless _.isOpenedOutside(e) then app.execute 'show:home'
     'click .showWelcome': -> app.execute 'show:welcome'
     'click .showLogin': -> app.execute 'show:login'
     'click .showInventory': -> app.execute 'show:inventory'

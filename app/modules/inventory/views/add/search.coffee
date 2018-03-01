@@ -58,4 +58,4 @@ searchInputData = ->
     placeholder: _.i18n 'search a book by title, author or ISBN'
   button:
     icon: 'search'
-    classes: "secondary postfix"
+    classes: 'secondary postfix'

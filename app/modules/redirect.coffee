@@ -99,7 +99,7 @@ showErrorNotAdmin = ->
     name: 'not_admin'
     icon: 'warning'
     header: _.I18n 'oops'
-    message: _.i18n "this resource requires to have admin rights to access it"
+    message: _.i18n 'this resource requires to have admin rights to access it'
     context: location.pathname
 
 showOtherError = (err, label)->

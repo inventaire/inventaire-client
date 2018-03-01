@@ -4,7 +4,7 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   template: require './templates/user_li'
   className: ->
-    classes = "userLi"
+    classes = 'userLi'
     status = @model.get('status') or 'noStatus'
     stretch = if @options.stretch then 'stretch' else ''
     groupContext = if @options.groupContext then 'group-context' else ''

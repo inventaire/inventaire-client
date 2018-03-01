@@ -4,7 +4,7 @@ module.exports =
     placeholder: 'help other users to understand what this group is about'
     value: description
 
-  searchability: (active=true)->
+  searchability: (active = true)->
     id: 'searchabilityToggler'
     checked: active
     label: 'appear in search results'

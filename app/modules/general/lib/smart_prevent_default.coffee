@@ -21,7 +21,7 @@ module.exports = (e)->
   if e.currentTarget?
     $link = $(e.currentTarget)
     # Get the href; stop processing if there isn't one
-    href = $link.attr("href")
+    href = $link.attr 'href'
     unless href then return
 
   # Return if the URL is absolute (thus with ://)

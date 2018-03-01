@@ -17,7 +17,7 @@ module.exports = paths =
   dist: (lang)-> "#{@distRoot}/#{lang}.json"
 
 PathBuilder = (activeList, srcKey, filenameBuilder)->
-  return pathBuilder = (lang, force=false)->
+  return pathBuilder = (lang, force = false)->
     filename = filenameBuilder lang
     if lang in activeList or force then paths.src[srcKey](filename)
     else null

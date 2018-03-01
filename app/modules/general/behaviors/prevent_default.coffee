@@ -1,5 +1,6 @@
 # GENERAL RULE
-# adding PreventDefault behavior is needed when a click event is catched by an event listener before app_layout preventDefault catchs it
+# adding PreventDefault behavior is needed when a click event
+# is catched by an event listener before app_layout preventDefault catchs it
 
 module.exports = Marionette.Behavior.extend
   events:

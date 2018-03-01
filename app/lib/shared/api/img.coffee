@@ -1,7 +1,7 @@
 # Allowing a root parameter to let the server pass its host value
 # in email templates
-module.exports = (_, root='')->
-  return img = (path, width=1600, height=1600)->
+module.exports = (_, root = '')->
+  return img = (path, width = 1600, height = 1600)->
     unless _.isNonEmptyString path then return
 
     # Converting IPFS paths to an HTTP(S) gateway url

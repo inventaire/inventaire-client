@@ -1,3 +1,1 @@
-sharedPath = 'lib/shared/'
-
-module.exports = (name)-> require "#{sharedPath}#{name}"
+module.exports = (name)-> require "lib/shared/#{name}"

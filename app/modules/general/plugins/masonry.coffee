@@ -3,7 +3,7 @@
 # to keep in sync with _items_list.scss $itemContainerBaseWidth variable
 itemWidth = 230
 
-module.exports = (containerSelector, itemSelector, minWidth=500)->
+module.exports = (containerSelector, itemSelector, minWidth = 500)->
   # MUST be called with the View it extends as context
   unless _.isView(@)
     throw new Error('should be called with a view as context')

@@ -78,7 +78,7 @@ module.exports = (_)->
   Backbone.Collection::byIds = (ids)-> ids.map (id)=> @_byId[id]
   Backbone.Collection::attributes = -> @toJSON()
 
-  FilteredCollection::filterByText = (text, reset=true)->
+  FilteredCollection::filterByText = (text, reset = true)->
     if reset then @resetFilters()
 
     # Not completly raw, we are not barbarians

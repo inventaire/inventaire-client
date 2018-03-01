@@ -7,7 +7,7 @@ module.exports = map_ =
   draw: require './draw'
   getCurrentPosition: getCurrentPosition
 
-  updateRoute: (root, lat, lng, zoom=defaultZoom)->
+  updateRoute: (root, lat, lng, zoom = defaultZoom)->
     # Keep only defined parameters in the route
     # Allow to pass a custom root to let it be used in multiple modules
     route = _.buildPath root, { lat, lng, zoom }

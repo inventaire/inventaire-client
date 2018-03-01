@@ -3,7 +3,7 @@ callback = _.buildPath "#{window.location.root}/entity/isbn:{CODE}/add",
   SCAN_FORMATS: 'UPC_A,EAN_13'
   raw: '{RAWCODE}'
 
-url = _.buildPath "zxing://scan/", { ret: _.fixedEncodeURIComponent(callback) }
+url = _.buildPath 'zxing://scan/', { ret: _.fixedEncodeURIComponent(callback) }
 
 module.exports =
   url: url

@@ -52,6 +52,6 @@ module.exports = Marionette.ItemView.extend
       # and thus the rendered link would be clickable but incomplete
       # Let a space before the ... so that it wont be taken as the end
       # of a link
-      return _.cutBeforeWord(details, detailsLimit) + " ..."
+      return _.cutBeforeWord(details, detailsLimit) + ' ...'
     else
       return details

@@ -16,7 +16,7 @@ images_ =
     # can be overpassed by using a proxy: see {{proxySrc}}
     return $el.toDataURL()
 
-  resizeDataUrl: (dataURL, maxSize, outputQuality=1)->
+  resizeDataUrl: (dataURL, maxSize, outputQuality = 1)->
     new Promise (resolve, reject)->
       data = { original: {}, resized: {} }
       image = new Image()
@@ -45,7 +45,7 @@ images_ =
     if _.isDataUrl data then window.dataURLtoBlob data
     else throw new Error 'expected a dataURL'
 
-  upload: (blobsData, ipfs=false)->
+  upload: (blobsData, ipfs = false)->
     blobsData = _.forceArray blobsData
     formData = new FormData()
 

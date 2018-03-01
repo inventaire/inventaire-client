@@ -59,7 +59,7 @@ module.exports = Marionette.LayoutView.extend
 
   # acting on ui objects and not a region.$el as a region
   # doesn't have a $el before being shown
-  toggleUi: (uiLabel, scroll=true)->
+  toggleUi: (uiLabel, scroll = true)->
     $el = @ui[uiLabel]
     $parent = $el.parent()
     $el.slideToggle()

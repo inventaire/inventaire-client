@@ -79,7 +79,7 @@ getEnVersion = (resource)->
       json_.read projects[resource].en
       json_.read projects[resource].enArchive
   ]
-  .spread (current, archive={})-> _.extend {}, archive, current
+  .spread (current, archive = {})-> _.extend {}, archive, current
 
 formatValue = (val)->
   # two backslash and a point

@@ -30,8 +30,11 @@ module.exports = (_)->
     else test = args.length is types.length
 
     unless test
-      if minArgsLength? then err = "expected between #{minArgsLength} and #{types.length} arguments, got #{args.length}: #{args}"
-      else err = "expected #{types.length} arguments, got #{args.length}: #{args}"
+      if minArgsLength?
+        err = "expected between #{minArgsLength} and #{types.length} arguments ," +
+          "got #{args.length}: #{args}"
+      else
+        err = "expected #{types.length} arguments, got #{args.length}: #{args}"
       console.log args
       err = new Error err
       err.context = arguments

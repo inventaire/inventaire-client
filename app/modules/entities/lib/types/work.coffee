@@ -26,7 +26,7 @@ setPublicationYear = ->
     @inPublicDomain = @publicationYear < publicDomainThresholdYear
 
 setImage = ->
-  editionsImages =_.compact(@editions.map(getEditionImageData))
+  editionsImages = _.compact @editions.map(getEditionImageData)
     .sort bestImage
     .map _.property('image')
 

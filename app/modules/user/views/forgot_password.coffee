@@ -60,7 +60,7 @@ verifyKnownEmail = (email)->
   # re-using verifyAvailability but with the opposite expectaction:
   # if it throws an error, the email is known and that's the desired result here
   # thus the error is catched
-  email_.verifyAvailability(email, "#emailField")
+  email_.verifyAvailability(email, '#emailField')
   .then unknownEmail
   .catch (err)->
     if err.statusCode is 400 then 'known email'

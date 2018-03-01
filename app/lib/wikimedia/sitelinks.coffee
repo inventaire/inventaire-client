@@ -49,7 +49,8 @@ getBestWikiProjectInfo = (params)->
 
   return
 
-getWikiProjectTitle = (sitelinks, projectBaseName, lang)-> sitelinks["#{lang}#{projectBaseName}"]
+getWikiProjectTitle = (sitelinks, projectBaseName, lang)->
+  sitelinks["#{lang}#{projectBaseName}"]
 
 pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
   for projectName, value of sitelinks
@@ -61,8 +62,12 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
       langCode = match[0]
       # Giving priority to 2 letters code languages
       if langCode.length is 2 then return [ value, langCode ]
+
   return []
 
 getEpubLink = (wikisourceData)->
   { title, lang } = wikisourceData
-  return "http://wsexport.wmflabs.org/tool/book.php?lang=#{lang}&format=epub&page=#{title}"
+  _.buildPath 'http://wsexport.wmflabs.org/tool/book.php',
+    lang: lang
+    format: 'epub'
+    page: title

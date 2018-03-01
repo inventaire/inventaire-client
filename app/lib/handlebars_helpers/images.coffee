@@ -1,6 +1,6 @@
 { SafeString } = Handlebars
 
-exports.icon = (name, classes='')->
+exports.icon = (name, classes = '')->
   # overriding the second argument that could be {hash:,data:}
   unless _.isString classes then classes = ''
   if _.isString(name)

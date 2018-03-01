@@ -17,7 +17,7 @@ module.exports =
     # empty textarea
     @lazyRender()
 
-  validMessageLength: (message, maxLength=5000)->
+  validMessageLength: (message, maxLength = 5000)->
     if message.length is 0 then return false
     if message.length > maxLength
       err = new Error "can't be longer than #{maxLength} characters"

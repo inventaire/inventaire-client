@@ -61,7 +61,7 @@ module.exports = UserCommons.extend
     randomFactor = Math.random() * 50
     points = itemsCount + freshnessFactor + distanceFactor + randomFactor
     # negating to get the higher scores appear first in collections
-    @set 'highlightScore', (- points)
+    @set 'highlightScore', -points
 
 getStatus = (id, relations)->
   if id in relations.friends then 'friends'

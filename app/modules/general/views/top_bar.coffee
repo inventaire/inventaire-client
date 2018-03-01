@@ -116,7 +116,7 @@ module.exports = Marionette.LayoutView.extend
     if $(':focus').length is 0 then return
     @hideLiveSearch()
 
-  hideLiveSearch: (triggerFallbackLayout=false)->
+  hideLiveSearch: (triggerFallbackLayout = false)->
     @liveSearch.$el.hide()
     @ui.overlay.addClass 'hidden'
     @_liveSearchIsShown = false

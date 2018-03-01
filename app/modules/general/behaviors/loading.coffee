@@ -4,7 +4,7 @@ module.exports = Marionette.Behavior.extend
     'stopLoading': 'hideSpinningLoader'
     'somethingWentWrong': 'somethingWentWrong'
 
-  showSpinningLoader: (e, params={})->
+  showSpinningLoader: (e, params = {})->
     { selector, message, timeout } = params
     @$target = @getTarget selector
     # _.log @$target, '@$target'
@@ -21,12 +21,12 @@ module.exports = Marionette.Behavior.extend
       cb = @somethingWentWrong.bind @, null, params
       setTimeout cb, timeout * 1000
 
-  hideSpinningLoader: (e, params={})->
+  hideSpinningLoader: (e, params = {})->
     @$target or= @getTarget params.selector
     @$target.empty()
     @hidden = true
 
-  somethingWentWrong: (e, params={})->
+  somethingWentWrong: (e, params = {})->
     unless @hidden
       @$target or= @getTarget params.selector
 

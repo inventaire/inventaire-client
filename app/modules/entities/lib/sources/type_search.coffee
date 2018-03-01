@@ -50,7 +50,7 @@ getRemoteFn = (type, searchType, collection)-> (input)->
         # (2)
         collection.reset prepareSearchResult(model)
       else
-        throw error_.new "invalid entity type", 400, model
+        throw error_.new 'invalid entity type', 400, model
 
   else
     searchType input

@@ -109,7 +109,7 @@ module.exports = Marionette.ItemView.extend
     email = @ui.email.val()
     _.preq.try @testEmail.bind(@, email)
     .then @startLoading.bind(@, '#emailButton')
-    .then email_.verifyAvailability.bind(null, email, "#emailField")
+    .then email_.verifyAvailability.bind(null, email, '#emailField')
     .then @sendEmailRequest.bind(@, email)
     .then @showConfirmationEmailSuccessMessage.bind(@)
     .catch forms_.catchAlert.bind(null, @)

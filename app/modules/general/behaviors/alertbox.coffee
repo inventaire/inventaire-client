@@ -3,7 +3,7 @@ error_ = require 'lib/error'
 
 module.exports = Marionette.Behavior.extend
   ui:
-    hasAlertbox: ".has-alertbox"
+    hasAlertbox: '.has-alertbox'
 
   events:
     'alert': 'showAlertBox'

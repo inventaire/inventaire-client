@@ -23,12 +23,12 @@ module.exports =
   byUsernameAndEntity: (username, uri)->
     action 'by-user-and-entity', { username, uri }
 
-  lastPublic: (limit=15, offset=0, assertImage)->
+  lastPublic: (limit = 15, offset = 0, assertImage)->
     action 'last-public', { limit, offset, 'assert-image': assertImage }
 
-  recentPublic: (limit=15, lang, assertImage)->
+  recentPublic: (limit = 15, lang, assertImage)->
     action 'recent-public', { limit, lang, 'assert-image': assertImage }
 
-  nearby: (limit, offset, range=50)-> action 'nearby', { limit, offset, range }
+  nearby: (limit, offset, range = 50)-> action 'nearby', { limit, offset, range }
 
   inventoryView: action 'inventory-view'

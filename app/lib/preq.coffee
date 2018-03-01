@@ -10,8 +10,8 @@ Promise.onPossiblyUnhandledRejection (err)->
   reportError err
 
   clue = null
-  if err.message is "[object Object]"
-    clue = "this is probably an error from a jQuery promise wrapped into a Bluebird one"
+  if err.message is '[object Object]'
+    clue = 'this is probably an error from a jQuery promise wrapped into a Bluebird one'
   console.error err.message, err, err.context, clue or ''
 
 preq = sharedLib('promises')(Promise)

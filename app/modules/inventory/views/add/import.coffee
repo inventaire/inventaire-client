@@ -75,7 +75,7 @@ module.exports = Marionette.LayoutView.extend
     .catch _.ErrorRethrow('parsing error')
     # add the selector to the rejected error
     # so that it can be catched by catchAlert
-    .catch error_.Complete(".warning")
+    .catch error_.Complete('.warning')
     .then _.Log('parsed')
     .then @candidates.add.bind(@candidates)
     .tap => behaviorsPlugin.stopLoading.call @, '.loading-queue'

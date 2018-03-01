@@ -65,7 +65,7 @@ module.exports = Marionette.LayoutView.extend
 
   showMentions: (data)->
     @triggerMethod 'child:view:ready'
-    @mentions.show new Mentions({data: data})
+    @mentions.show new Mentions { data }
 
 # no need to fetch mentions data more than once per session
 mentionsData = null

@@ -42,11 +42,11 @@ module.exports = Marionette.ItemView.extend
     # as the .selected class is added and removed
     # while the ui object is not being updated
     @ui.img.cropper
-      aspectRatio: 1/1
+      aspectRatio: 1 / 1
       minCropBoxWidth: 300
       minCropBoxHeight: 300
 
-  getCroppedDataUrl: (outputQuality=1)->
+  getCroppedDataUrl: (outputQuality = 1)->
     data = @ui.img.cropper 'getData'
     canvas = @ui.img.cropper 'getCroppedCanvas'
     data.dataUrl = canvas.toDataURL 'image/jpeg', outputQuality

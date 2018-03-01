@@ -3,7 +3,7 @@ module.exports = (_)->
     wikidata:
       base: 'https://www.wikidata.org/w/api.php'
       # keeping a different search
-      search: (search, limit='25', format='json')->
+      search: (search, limit = '25', format = 'json')->
         _.buildPath API.wikidata.base,
           action: 'query'
           list: 'search'

@@ -25,7 +25,7 @@ module.exports = Marionette.CompositeView.extend
     @rest = uris
     @showMore()
 
-  showMore: (batchLength=10)->
+  showMore: (batchLength = 10)->
     @fetchingMore = true
     # Don't fetch more and keep fetchingMore to true to prevent further requests
     if @rest.length is 0 then return
