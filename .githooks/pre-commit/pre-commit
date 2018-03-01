@@ -1,2 +1,6 @@
-# Not linting before commit as its messing with brunch.
+#!/usr/bin/env zsh
+
+echo -e "\e[0;30mstarting to lint...\e[0m" &&
+npm run lint-staged &&
+echo -e "\e[0;30mstarting to test...\e[0m" &&
 export CONSOLE=silent; export NODE_ENV=tests; npm test > /dev/null
