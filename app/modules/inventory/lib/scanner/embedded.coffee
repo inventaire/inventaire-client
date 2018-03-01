@@ -81,4 +81,3 @@ baseOptions =
   decoder:
     readers: [ 'ean_reader' ]
     multiple: false
-

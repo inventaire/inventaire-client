@@ -199,7 +199,7 @@ module.exports = Marionette.LayoutView.extend
       Name = _.capitaliseFirstLetter name
       @["show#{Name}List"]()
       @ui["#{name}Toggler"].toggle()
-    @["_#{name}ListShown"] = !shown
+    @["_#{name}ListShown"] = not shown
 
   toggleUserSearch: ->
     if @_usersListShown then @ui.userSearch.toggle()

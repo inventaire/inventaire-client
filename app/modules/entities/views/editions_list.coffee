@@ -47,7 +47,8 @@ module.exports = Marionette.CompositeView.extend
 
   lateOnceCollectionReady: ->
     @onceCollectionReady()
-    # re-rendering required so that the language selector gets all the now available options
+    # re-rendering required so that the language selector
+    # gets all the now available options
     @lazyRender()
 
   getAvailableLangs: ->

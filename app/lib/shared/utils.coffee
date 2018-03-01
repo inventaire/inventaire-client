@@ -13,14 +13,18 @@ module.exports = (_)->
 
   buildPath: (pathname, queryObj, escape)->
     queryObj = removeUndefined queryObj
-    if queryObj? and not _.isEmpty queryObj
-      queryString = ''
-      for k,v of queryObj
-        if escape then v = dropSpecialCharacters v
-        if _.isObject v then v = escapeQueryStringValue JSON.stringify(v)
-        queryString += "&#{k}=#{v}"
-      return pathname + '?' + queryString[1..-1]
-    else pathname
+    if not queryObj? or _.isEmpty(queryObj) then return pathname
+
+    queryString = ''
+
+    for key, value of queryObj
+      if escape
+        value = dropSpecialCharacters value
+      if _.isObject value
+        value = escapeQueryStringValue JSON.stringify(value)
+      queryString += "&#{key}=#{value}"
+
+    return pathname + '?' + queryString[1..-1]
 
   matchesCount: (arrays...)-> _.intersection.apply(_, arrays).length
   haveAMatch: (arrayA, arrayB)->
@@ -71,7 +75,7 @@ module.exports = (_)->
     # group image width above 500 by levels of 100px to limit generated versions
     return Math.ceil(width / 100) * 100
 
-  parseBooleanString: (booleanString, defaultVal=false)->
+  parseBooleanString: (booleanString, defaultVal = false)->
     if defaultVal is false
       booleanString is 'true'
     else
@@ -87,8 +91,8 @@ encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 removeUndefined = (obj)->
   newObj = {}
-  for k,v of obj
-    if v? then newObj[k] = v
+  for key, value of obj
+    if value? then newObj[key] = value
   return newObj
 
 dropSpecialCharacters = (str)->

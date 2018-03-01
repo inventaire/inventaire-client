@@ -1,6 +1,7 @@
 module.exports = ->
-  # if localStorage isnt supported (or more probably, blocked), replace it by a global object:
-  # data won't be persisted from one session to the other, but who's fault is that
+  # if localStorage isnt supported (or more probably, blocked),
+  # replace it by a global object: data won't be persisted
+  # from one session to the other, but who's fault is that
   try
     window.localStorage.setItem 'localStorage-support', true
     localStorageProxy = localStorage

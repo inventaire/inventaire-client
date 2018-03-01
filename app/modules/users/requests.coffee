@@ -25,7 +25,7 @@ module.exports = (app, _)->
   API =
     sendRequest: (user)-> action user, 'request', 'userRequested'
     cancelRequest: (user)-> action user, 'cancel', 'public'
-    acceptRequest: (user, showUserInventory=true)->
+    acceptRequest: (user, showUserInventory = true)->
       action user, 'accept', 'friends'
       [ user, userId ] = normalizeUser user
       # Refresh to get the updated data

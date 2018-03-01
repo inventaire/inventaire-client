@@ -50,7 +50,7 @@ module.exports = Marionette.LayoutView.extend
   verifyEmail: ->
     email = @ui.email.val()
     email_.pass email, '#email'
-    email_.verifyAvailability email, "#email"
+    email_.verifyAvailability email, '#email'
 
   verifyPassword: -> password_.pass @ui.password.val(), '#finalAlertbox'
 

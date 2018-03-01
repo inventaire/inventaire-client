@@ -103,7 +103,7 @@ byProperty = (options)->
     when 'wdt:P179'
       return createSerie textValue, lang, relationEntity.get('claims.wdt:P50')
     else
-      message = "no entity creation function associated to this property"
+      message = 'no entity creation function associated to this property'
       throw error_.new message, arguments
 
 createEntity = (labels, claims)->

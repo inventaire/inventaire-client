@@ -1,4 +1,4 @@
-module.exports = (html, className='')->
+module.exports = (html, className = '')->
   L.divIcon
     className: "map-icon #{className}"
     html: html

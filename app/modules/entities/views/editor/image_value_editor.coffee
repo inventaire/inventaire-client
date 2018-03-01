@@ -34,7 +34,8 @@ module.exports = EditorCommons.extend
     'click .cancel': 'hideEditMode'
     'click .save': 'saveFromUrl'
     'click .delete': 'delete'
-    # Not setting a particular selector so that any keyup event on taezaehe element triggers the event
+    # Not setting a particular selector so that
+    # any keyup event on taezaehe element triggers the event
     'keyup': 'onKeyup'
     'change input[type=file]': 'getImageUrl'
     'click .validate-upload': 'uploadFileAndSave'

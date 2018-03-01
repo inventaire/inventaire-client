@@ -19,6 +19,6 @@ module.exports = ->
     'last:add:mode:get': parsedGet.bind null, 'lastAddMode'
     'last:transaction:get': parsedGet.bind null, 'lastTransaction'
     'last:listing:get': ->
-        lastListing = parsedGet 'lastListing'
-        # Legacy support for friends listing
-        if lastListing is 'friends' then 'network' else lastListing
+      lastListing = parsedGet 'lastListing'
+      # Legacy support for friends listing
+      if lastListing is 'friends' then 'network' else lastListing

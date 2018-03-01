@@ -32,9 +32,9 @@ getEnvContext = ->
     if id? and username?
       userData = "user: #{id} (#{username})"
     else
-      userData = "user logged in but error happened before data arrived"
+      userData = 'user logged in but error happened before data arrived'
   else
-    userData = "user: not logged user"
+    userData = 'user: not logged user'
 
   envContext = [
     userData
@@ -52,7 +52,7 @@ sendOnlineReport = ->
 
 # Send a POST requests every 30 secondes to notify the server that we are online,
 # useful for maintainance operations.
-setInterval sendOnlineReport, 30*1000
+setInterval sendOnlineReport, 30 * 1000
 
 # (1): Using jQuery promise instead of preq to be able to report errors
 # happening before preq is initialized

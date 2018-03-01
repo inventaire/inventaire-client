@@ -9,6 +9,8 @@ module.exports =
     rad = Math.PI / 180
     lat1 = latlng1.lat * rad
     lat2 = latlng2.lat * rad
-    a = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos((latlng2.lng - latlng1.lng) * rad)
+    a = Math.sin(lat1) * Math.sin(lat2) +
+      Math.cos(lat1) * Math.cos(lat2) *
+      Math.cos((latlng2.lng - latlng1.lng) * rad)
 
     return radius * Math.acos(Math.min(a, 1))

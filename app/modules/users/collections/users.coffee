@@ -1,5 +1,5 @@
 module.exports = Backbone.Collection.extend
-  model: require "../models/user"
+  model: require '../models/user'
   url: -> app.API.users.friends
 
   initialize: ->

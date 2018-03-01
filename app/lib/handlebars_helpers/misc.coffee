@@ -74,7 +74,6 @@ module.exports =
 
   debug: ->
     _.log arguments, 'hb debug arguments'
-    _.log this, 'hb debug this'
     return JSON.stringify arguments[0]
 
   localTimeString: (time)-> new Date(time).toLocaleString()

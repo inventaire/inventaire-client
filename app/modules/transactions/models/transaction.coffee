@@ -207,4 +207,4 @@ module.exports = Backbone.NestedModel.extend
     [ state, transaction ] = @gets 'state', 'transaction'
     return state in cancellableStates[transaction][@role]
 
-actorCanBeBoth = ['cancelled']
+actorCanBeBoth = [ 'cancelled' ]

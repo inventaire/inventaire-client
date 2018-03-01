@@ -22,7 +22,7 @@ module.exports = Marionette.ItemView.extend
 
     # Only start the timeout before showing the failing scan tip once the scanner
     # started and not when it might still be waiting for Quagga download
-    beforeScannerStart = => setTimeout @showFailingScanTip.bind(@), 30*1000
+    beforeScannerStart = => setTimeout @showFailingScanTip.bind(@), 30 * 1000
     @scanner = embedded_.scan(beforeScannerStart).catch @permissionDenied.bind(@)
 
   showFailingScanTip: -> unless @isDestroyed then @ui.failing.fadeIn()

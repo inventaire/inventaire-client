@@ -15,7 +15,7 @@ currentPosition = ->
 
     options =
       # The timeout option doesn't seem to have any effect
-      timeout: 10*1000
+      timeout: 10 * 1000
 
     navigator.geolocation.getCurrentPosition resolve, formattedReject, options
 
@@ -32,7 +32,7 @@ returnPlaceholderCoords = (err)->
 
 module.exports = (containerId)->
   currentPosition()
-  .timeout 10*1000
+  .timeout 10 * 1000
   .then normalizeCoords
   .then _.Log('current position')
   .catch returnPlaceholderCoords

@@ -11,7 +11,7 @@ App = Marionette.Application.extend
     @vent.Trigger = BindedPartialBuilder @vent, 'trigger'
     @once 'start', onceStart
 
-    navigateFromModel = (model, pathAttribute='pathname', options={})->
+    navigateFromModel = (model, pathAttribute = 'pathname', options = {})->
       # Polymorphism
       if _.isObject pathAttribute
         options = pathAttribute
@@ -28,7 +28,7 @@ App = Marionette.Application.extend
     # having to bind it again
     @navigateFromModel = navigateFromModel.bind @
 
-  navigate: (route, options={})->
+  navigate: (route, options = {})->
     # Update metadata before testing if the route changed
     # so that a call from a router action would trigger a metadata update
     # but not affect the history (due to the early return hereafter)

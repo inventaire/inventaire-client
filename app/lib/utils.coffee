@@ -1,4 +1,4 @@
-oneDay = 24*60*60*1000
+oneDay = 24 * 60 * 60 * 1000
 error_ = requireProxy 'lib/error'
 
 module.exports = (Backbone, _, $, app, window)->
@@ -15,7 +15,7 @@ module.exports = (Backbone, _, $, app, window)->
   # Will be overriden in modules/user/lib/i18n.coffee as soon as possible
   i18n: _.identity
   I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
-  icon: (name, classes='')-> "<i class='fa fa-#{name} #{classes}'></i>"
+  icon: (name, classes = '')-> "<i class='fa fa-#{name} #{classes}'></i>"
 
   parseQuery: (queryString)->
     query = {}
@@ -51,7 +51,7 @@ module.exports = (Backbone, _, $, app, window)->
   screenWidth: -> $(window).width()
   screenHeight: -> $(window).height()
   # keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
-  smallScreen: (ceil=1000)-> _.screenWidth() < ceil
+  smallScreen: (ceil = 1000)-> _.screenWidth() < ceil
 
   deepExtend: $.extend.bind($, yes)
   deepClone: (obj)->
@@ -62,7 +62,7 @@ module.exports = (Backbone, _, $, app, window)->
     if str is '' then return ''
     str[0].toUpperCase() + str[1..-1]
 
-  isOpenedOutside: (e, ignoreMissingHref=false)->
+  isOpenedOutside: (e, ignoreMissingHref = false)->
     unless e?.ctrlKey?
       error_.report 'non-event object was passed to isOpenedOutside'
       # Better breaking an open outside behavior than not responding
@@ -102,14 +102,14 @@ module.exports = (Backbone, _, $, app, window)->
 
   # Scroll to the top of an $el
   # Increase marginTop to scroll to a point before the element top
-  scrollTop: ($el, duration=500, marginTop=0)->
+  scrollTop: ($el, duration = 500, marginTop = 0)->
     # Polymorphism: accept jquery objects or selector strings as $el
     if _.isString then $el = $($el)
     top = $el.position().top - marginTop
     $('html, body').animate { scrollTop: top }, duration
 
   # Scroll to a given height
-  scrollHeight: (height, ms=500)->
+  scrollHeight: (height, ms = 500)->
     $('html, body').animate { scrollTop: height }, ms
 
   # Scroll to the top of an element inside a element with a scroll,
@@ -141,7 +141,7 @@ module.exports = (Backbone, _, $, app, window)->
     shortenedText = text[0..limit]
     return shortenedText.replace /\s\w+$/, ''
 
-  LazyRender: (view, timespan=200, attachFocusHandler)->
+  LazyRender: (view, timespan = 200, attachFocusHandler)->
     cautiousRender = (focusSelector)->
       unless view.isDestroyed
         view.render()

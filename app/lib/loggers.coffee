@@ -83,14 +83,14 @@ module.exports = (_, csle)->
     warn: warn
     spy: spy
 
-    logAllEvents: (obj, prefix='logAllEvents')->
+    logAllEvents: (obj, prefix = 'logAllEvents')->
       obj.on 'all', (event)->
         csle.log "[#{prefix}:#{event}]"
         csle.log arguments
         csle.log '---'
 
     logArgs: (args)->
-      csle.log "[arguments]"
+      csle.log '[arguments]'
       csle.log args
       csle.log '---'
 

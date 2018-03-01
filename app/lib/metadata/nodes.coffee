@@ -1,6 +1,6 @@
 metaNodes =
   title: [
-    { selector: 'title', attribute: 'text'},
+    { selector: 'title', attribute: 'text' },
     { selector: "[property='og:title']" },
     { selector: "[name='twitter:title']" }
   ]

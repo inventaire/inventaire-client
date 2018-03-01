@@ -186,7 +186,7 @@ module.exports = Positionable.extend
 
   boostHighlightScore: ->
     highestScore = @collection.models[0].get 'highlightScore'
-    @set 'highlightScore', highestScore*2
+    @set 'highlightScore', highestScore * 2
     @collection.sort()
 
 userItemsCount = (user)->

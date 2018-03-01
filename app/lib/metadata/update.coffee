@@ -7,10 +7,10 @@ window.prerenderReady = false
 metadataUpdateDone = -> window.prerenderReady = true
 # Stop waiting if it takes more than 30 secondes: addresses cases
 # where metadataUpdateDone would not have been called
-setTimeout metadataUpdateDone, 30*1000
+setTimeout metadataUpdateDone, 30 * 1000
 
 lastRoute = null
-module.exports = (route, metadataPromise={})->
+module.exports = (route, metadataPromise = {})->
   # There should be no need to re-update metadata when the route stays the same
   if lastRoute is route then return
 

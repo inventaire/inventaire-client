@@ -1,5 +1,5 @@
 module.exports =
-  get: (ids, format='index', refresh)->
+  get: (ids, format = 'index', refresh)->
     ids = _.forceArray ids
 
     if ids.length is 0

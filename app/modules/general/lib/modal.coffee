@@ -9,7 +9,7 @@ module.exports = ->
   $modalContent = $('#modalContent')
   $closeModal = $('#modal .close')
 
-  modalOpen = (size, focusSelector, dark=false)->
+  modalOpen = (size, focusSelector, dark = false)->
     switch size
       when 'large' then largeModal()
       when 'medium' then mediumModal()

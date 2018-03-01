@@ -2,10 +2,10 @@ module.exports =
   # Init once Leaflet was fetched
   init: ->
     L.Icon.Default.imagePath = '/public/images/map'
-  tileUrl: "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}"
+  tileUrl: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
   settings:
     attribution: """
-      Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,
+      Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors,
       <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
       Imagery © <a href="http://mapbox.com">Mapbox</a>"""
     minZoom: 2

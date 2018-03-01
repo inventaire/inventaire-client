@@ -13,7 +13,7 @@ module.exports = Backbone.NestedModel.extend
     dbVersionNumber = parseInt @id.split(':')[1]
     # The first version is an empty document with only the basic attributes:
     # doesn't really count as a version
-    @set 'versionNumber', dbVersionNumber-1
+    @set 'versionNumber', dbVersionNumber - 1
 
     @mergeTestAndRemoveOperations()
     @setOperationsData()

@@ -30,7 +30,8 @@ module.exports = EditorCommons.extend
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'click .delete': 'delete'
-    # Not setting a particular selector so that any keyup event on the element triggers the event
+    # Not setting a particular selector so that
+    # any keyup event on the element triggers the event
     'keyup': 'onKeyup'
     'click .showMonthsAndDays': 'displayMonthsAndDays'
     'click .showYearsOnly': 'displayYearsOnly'
@@ -52,8 +53,9 @@ module.exports = EditorCommons.extend
   displayMonthsAndDays: ->
     @changeDisplayedUnits true, 'monthPicker'
     recoverDefaultFocusTarget = => @focusTarget = 'yearPicker'
-    # Change the focus target to years once this as been re-rendered focusing on months
-    # so that it focuses on years at next re-render
+    # Change the focus target to years once this as been
+    # re-rendered focusing on months so that it focuses
+    # on years at next re-render
     setTimeout recoverDefaultFocusTarget, 500
   displayYearsOnly: -> @changeDisplayedUnits false, 'yearPicker'
   changeDisplayedUnits: (showMonthsAndDays, focusTarget)->

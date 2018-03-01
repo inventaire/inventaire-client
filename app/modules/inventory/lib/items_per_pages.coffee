@@ -2,7 +2,7 @@ sideNavWidth = 280
 itemWidth = 200 + 50 #margins
 itemHeight = 350 #more or less
 
-module.exports = (margin=5)->
+module.exports = (margin = 5)->
   return howManyItemsToFillTheScreen() + margin
 
 howManyItemsToFillTheScreen = ->

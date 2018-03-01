@@ -1,4 +1,4 @@
-module.exports = (metadata={})-> _.extend defaultMetadata(), metadata
+module.exports = (metadata = {})-> _.extend defaultMetadata(), metadata
 
 defaultMetadata = ->
   title: 'Inventaire - ' + _.i18n 'your friends and communities are your best library'

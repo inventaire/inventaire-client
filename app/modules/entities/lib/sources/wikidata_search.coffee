@@ -1,6 +1,6 @@
 wdk = require 'lib/wikidata-sdk'
 
-module.exports = (query, format=true)->
+module.exports = (query, format = true)->
   # Uses wbsearchentities despite its lack of inter-languages support
   # because it returns hits labels, descriptions and aliases
   # while action=query&list=search&srsearch returns only hits ids

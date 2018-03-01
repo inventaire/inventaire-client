@@ -108,7 +108,7 @@ module.exports = Marionette.LayoutView.extend
     if $selected.length is 1
       currentIndex = $arrowNavigationElements.index $selected
       $selected.removeClass 'selected'
-      newIndex = if relation is 'next' then currentIndex+1 else currentIndex-1
+      newIndex = if relation is 'next' then currentIndex + 1 else currentIndex - 1
       $newlySelected = $arrowNavigationElements.eq newIndex
       $newlySelected.addClass 'selected'
     else

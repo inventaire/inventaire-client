@@ -110,4 +110,4 @@ unreadCount = ->
 
   transac
   .map _.property('unreadUpdate')
-  .reduce (a, b)-> if _.isNumber(b) then a+b else a
+  .reduce (a, b)-> if _.isNumber(b) then a + b else a

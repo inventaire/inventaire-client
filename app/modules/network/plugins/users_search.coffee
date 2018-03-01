@@ -22,7 +22,7 @@ handlers =
     @ui.userSearch.show()
     @showFriends stretch
 
-  showFriends: (stretch=false)->
+  showFriends: (stretch = false)->
     app.request 'fetch:friends'
     .then =>
       @usersList.show new UsersList

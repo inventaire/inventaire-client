@@ -11,7 +11,7 @@ module.exports = Backbone.Collection.extend
 
     return model
 
-  comparator: (model)-> - model.get('timestamp')
+  comparator: (model)-> -model.get('timestamp')
 
   initialize: ->
     data = localStorageProxy.getItem 'searches'

@@ -5,7 +5,7 @@ _ = require 'lodash'
 cwd = process.cwd()
 { yellow } = require 'chalk'
 
-read = (path, createIfMissing=true)->
+read = (path, createIfMissing = true)->
   unless path? then return Promise.resolve {}
 
   # using the absolutePath as require would need a file relative path otherwise
