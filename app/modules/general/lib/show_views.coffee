@@ -1,10 +1,9 @@
 DonateMenu = require '../views/donate_menu'
 FeedbackMenu = require '../views/feedback_menu'
 Loader = require '../views/behaviors/loader'
-# ShareMenu = require '../views/share_menu'
 
 module.exports =
-  showLoader: (options={})->
+  showLoader: (options = {})->
     { region, selector } = options
     if selector?
       loader = new Loader
@@ -30,8 +29,6 @@ module.exports =
       options.navigateOnClose = true
       app.layout.modal.show new FeedbackMenu(options)
       app.navigate 'feedback'
-
-  # shareLink: -> app.layout.modal.show new ShareMenu
 
 entityAction = (e, action)->
   href = e.currentTarget.href
