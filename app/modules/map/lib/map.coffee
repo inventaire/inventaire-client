@@ -19,6 +19,7 @@ module.exports = map_ =
     map_.updateRoute root, lat, lng, _zoom
 
   updateMarker: (marker, coords)->
+    unless coords?.lat? then return marker.remove()
     { lat, lng } = coords
     marker.setLatLng [ lat, lng ]
 
