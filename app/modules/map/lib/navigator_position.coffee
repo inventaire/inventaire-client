@@ -10,7 +10,6 @@ currentPosition = ->
     # getCurrentPosition throws PositionError s that aren't instanceof Error
     # thus the need to create a new error from it
     formattedReject = (err)->
-      _.error err, 'currentPosition err'
       reject new Error(err.message or 'getCurrentPosition error')
 
     options =
