@@ -77,7 +77,7 @@ module.exports = Marionette.ItemView.extend
     name = @ui.editNameField.val()
     if name?
       _.preq.try groups_.validateName.bind(@, name, '#editNameField')
-      .then _.Full(@_updateGroup, @, 'name', name, '#editNameField')
+      .then => @_updateGroup 'name', name, '#editNameField'
       .catch forms_.catchAlert.bind(null, @)
 
   _updateGroup: (attribute, value, selector)->
@@ -129,7 +129,7 @@ module.exports = Marionette.ItemView.extend
     description = @ui.description.val()
     if description?
       _.preq.try groups_.validateDescription.bind(@, description, '#description')
-      .then _.Full(@_updateGroup, @, 'description', description, '#description')
+      .then => @_updateGroup 'description', description, '#description'
       .catch forms_.catchAlert.bind(null, @)
 
   leaveGroup: ->

@@ -182,7 +182,7 @@ module.exports = Backbone.NestedModel.extend
       action: 'update-state'
     # apply side effects only once the server confirmed
     # to avoid having to handle reverting the item if it fails
-    .then _.Full(applySideEffects, null, @, state)
+    .then => applySideEffects @, state
     .catch @_updateFail.bind(@, actionModel)
 
   _updateFail: (actionModel, err)->

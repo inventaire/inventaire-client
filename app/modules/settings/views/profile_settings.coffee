@@ -71,7 +71,7 @@ module.exports = Marionette.ItemView.extend
       # which it will be given usernames concurrency is case insensitive
       if @usernameCaseChange username then return
       else return username_.verifyUsername username, '#usernameField'
-    .then _.Full(@confirmUsernameChange, @, username)
+    .then => @confirmUsernameChange username
     .catch forms_.catchAlert.bind(null, @)
 
   usernameCaseChange: (username)->
