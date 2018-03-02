@@ -11,7 +11,7 @@ _ = require 'lodash'
 
 __ =
   src:
-    root: "./public/i18n/src"
+    root: './public/i18n/src'
     fullkey: (path)-> "#{@root}/fullkey/#{path}.json"
     shortkey: (path)-> "#{@root}/shortkey/#{path}.json"
     wikidata: (path)-> "#{@root}/wikidata/#{path}.json"
@@ -38,9 +38,9 @@ json_  =
 json_.read __.src.fullkey('fr')
 .then (obj)->
   result = {}
-  for k,v of obj
+  for key, value of obj
     # french key is the english value too
-    result[k] = k
+    result[key] = key
   return result
 .then (res)->
   # write english fullkey

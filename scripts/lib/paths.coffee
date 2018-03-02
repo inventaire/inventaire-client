@@ -9,11 +9,11 @@ _ = require 'lodash'
 
 module.exports = paths =
   src:
-    root: "./public/i18n/src"
+    root: './public/i18n/src'
     fk: (path)-> "#{@root}/fullkey/#{path}"
     sk: (path)-> "#{@root}/shortkey/#{path}"
     wd: (path)-> "#{@root}/wikidata/#{path}"
-  distRoot: "./public/i18n/dist"
+  distRoot: './public/i18n/dist'
   dist: (lang)-> "#{@distRoot}/#{lang}.json"
 
 PathBuilder = (activeList, srcKey, filenameBuilder)->

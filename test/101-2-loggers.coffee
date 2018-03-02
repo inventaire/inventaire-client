@@ -17,8 +17,8 @@ describe 'Logger', ->
     it 'should return _.log with a binded-label', (done)->
       waitingLog = _.Log('hallo')
       waitingLog.should.be.a.Function()
-      waitingLog({hey: "azegzagazere"})
-      waitingLog({hey: "there"}).should.be.an.Object()
+      waitingLog({ hey: 'azegzagazere' })
+      waitingLog({ hey: 'there' }).should.be.an.Object()
       done()
 
   describe 'warn', ->

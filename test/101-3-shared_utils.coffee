@@ -7,18 +7,18 @@ _.extend _, shared_
 describe 'Shared Utils', ->
   describe 'buildPath', ->
     it 'should return a string with parameters', (done)->
-      path = _.buildPath '/api', {action: 'man'}
+      path = _.buildPath '/api', { action: 'man' }
       path.should.be.a.String()
       path.should.equal '/api?action=man'
       done()
 
     it 'should not add empty parameters', (done)->
-      path = _.buildPath '/api', {action: 'man', boudu: null}
+      path = _.buildPath '/api', { action: 'man', boudu: null }
       path.should.equal '/api?action=man'
       done()
 
     it 'should stringify object value', (done)->
-      path = _.buildPath '/api', {action: 'man', data: { a: ['abc', 2]}}
+      path = _.buildPath '/api', { action: 'man', data: { a: [ 'abc', 2 ] } }
       path.should.equal '/api?action=man&data={"a":["abc",2]}'
       done()
 
@@ -29,14 +29,14 @@ describe 'Shared Utils', ->
       done()
 
   describe 'Full', ->
-    it "should return a function", (done)->
+    it 'should return a function', (done)->
       cb = -> console.log arguments
       fn = _.Full(cb, null, 1, 2, 3, 'whatever')
       fn.should.be.a.Function()
       done()
 
-    it "should not accept other argumens", (done)->
-      sum = (args...)-> return args.reduce (a, b)-> a+b
+    it 'should not accept other arguments', (done)->
+      sum = (args...)-> return args.reduce (a, b)-> a + b
       fn = _.Full(sum, null, 1, 2, 3)
       fn(4, 5, 6, 7, 8).should.equal 6
       fn(4568).should.equal 6
