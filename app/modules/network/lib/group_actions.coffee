@@ -79,6 +79,7 @@ module.exports =
 
   _postActionHooks: (action)->
     @trigger "action:#{action}"
+    app.vent.trigger 'network:requests:update'
 
   revertMove: (user, previousCategory, newCategory, err)->
     @moveMembership user, newCategory, previousCategory
