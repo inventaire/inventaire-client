@@ -1,37 +1,35 @@
 module.exports = (app, _)->
-  server =
-    request: (userId)-> @base 'request', userId
-    cancel: (userId)-> @base 'cancel', userId
-    accept: (userId)-> @base 'accept', userId
-    discard: (userId)-> @base 'discard', userId
-    unfriend: (userId)-> @base 'unfriend', userId
-    base: (action, userId)->
-      _.preq.post app.API.relations,
-        action: action
-        user: userId
-
   action = (user, action, newStatus, label)->
     [ user, userId ] = normalizeUser user
     currentStatus = user.get 'status'
     user.set 'status', newStatus
-    server[action](userId)
-    .catch Rewind(user, currentStatus, 'action err')
 
-  Rewind = (user, currentStatus, label)->
-    handler = (err)->
-      user.set 'status', currentStatus
-      _.error err, 'action'
+    _.preq.post app.API.relations, { action, user: userId }
+    .catch rewind(user, currentStatus, 'action err')
+
+  rewind = (user, currentStatus, label)-> (err)->
+    user.set 'status', currentStatus
+    _.error err, 'action'
+
+  refreshNotificationsCounter = ->
+    app.request 'refresh:relations'
+    .then -> app.vent.trigger 'network:requests:update'
 
   API =
     sendRequest: (user)-> action user, 'request', 'userRequested'
     cancelRequest: (user)-> action user, 'cancel', 'public'
     acceptRequest: (user, showUserInventory = true)->
       action user, 'accept', 'friends'
+      .then refreshNotificationsCounter
+
       [ user, userId ] = normalizeUser user
       # Refresh to get the updated data
       app.request 'get:user:model', userId, true
       .then -> if showUserInventory then app.execute 'show:inventory:user', user
-    discardRequest: (user)-> action user, 'discard', 'public'
+    discardRequest: (user)->
+      action user, 'discard', 'public'
+      .then refreshNotificationsCounter
+
     unfriend: (user)->
       [ user, userId ] = normalizeUser user
       action user, 'unfriend', 'public'

@@ -18,24 +18,16 @@ module.exports =
     require('./requests')(app, _)
     require('./invitations')(app, _)
 
+    initRelations()
+
     app.commands.setHandlers
       'show:user': app.Execute 'show:inventory:user'
       'show:user:contributions': API.showUserContributions
 
-    if app.user.loggedIn
-      _.preq.get app.API.relations
-      .then (relations)->
-        app.relations = relations
-        app.execute 'waiter:resolve', 'users'
-      .catch _.Error('relations init err')
-    else
-      app.relations =
-        friends: []
-        userRequested: []
-        otherRequested: []
-        network: []
-
-      app.execute 'waiter:resolve', 'users'
+    app.reqres.setHandlers
+      # Refreshing relations can be useful
+      # to refresh notifications counters that depend on app.relations
+      'refresh:relations': initRelations
 
 API =
   showUserContributions: (idOrUsername)->
@@ -50,3 +42,19 @@ API =
 
   showUser: (id)-> app.execute 'show:inventory:user', id
   showSearchUsers: -> app.execute 'show:users:search'
+
+initRelations = ->
+  if app.user.loggedIn
+    _.preq.get app.API.relations
+    .then _.Log('relations')
+    .then (relations)->
+      app.relations = relations
+      app.execute 'waiter:resolve', 'users'
+    .catch _.Error('relations init err')
+  else
+    app.relations =
+      friends: []
+      userRequested: []
+      otherRequested: []
+      network: []
+    app.execute 'waiter:resolve', 'users'
