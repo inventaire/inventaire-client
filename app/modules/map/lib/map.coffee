@@ -63,7 +63,6 @@ module.exports = map_ =
       # map.addMarker will return undefined if the marker was already added
       # which allows here to not re-add the event listerner
       if marker?
-        marker.on 'click', showUserInventory.bind(null, user)
         # Expose the main user marker to make it easier to update
         # on user position change
         if user is app.user then map.mainUserMarker = marker
@@ -74,18 +73,3 @@ showGroupOnMap = (map, group)->
       objectId: group.cid
       model: group
       markerType: 'group'
-
-showUserInventory = (user, e)->
-  e = formatLeafletEvent e
-  smartPreventDefault e
-  unless _.isOpenedOutside e
-    app.execute 'show:inventory:user', user
-
-# extend the event object returned to keep the API entries we need
-# http://leafletjs.com/reference.html#event-objects
-formatLeafletEvent = (e)->
-  e.which = e.originalEvent.which
-  e.preventDefault = e.originalEvent.preventDefault.bind(e.originalEvent)
-  e.ctrlKey = e.originalEvent.ctrlKey
-  e.metaKey = e.originalEvent.metaKey
-  return e

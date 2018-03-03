@@ -13,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
+    'click .userIcon a': 'showUser'
 
   initMap: ->
     initMap
@@ -54,6 +55,11 @@ module.exports = Marionette.LayoutView.extend
     # it can be updated to eventually be shown in the current map frame
     showUserOnMap @map, app.user
     { @mainUserMarker } = @map
+
+  showUser: (e)->
+    unless _.isOpenedOutside e
+      id = e.currentTarget.attributes['data-user-id'].value
+      app.execute 'show:inventory:user', id
 
   initList: ->
     @list.show new UsersList
