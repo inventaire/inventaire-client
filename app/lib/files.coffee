@@ -1,4 +1,4 @@
-coffqtestEncodingErrors = require './encoding_errors'
+testEncodingErrors = require './encoding_errors'
 
 readFile = (mode, file, encoding, verifyEncoding)->
   reader = new FileReader()

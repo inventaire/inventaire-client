@@ -31,7 +31,9 @@ module.exports = Backbone.NestedModel.extend
     dataUrl = @get 'originalDataUrl'
     images_.resizeDataUrl dataUrl, maxSize
     .then @set.bind(@)
-    .catch _.Error('resize')
+    .catch (err)=>
+      if err.message is 'invalid image' then @collection.invalidImage @, err
+      else throw err
 
   select: -> @set 'selected', true
 

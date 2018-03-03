@@ -29,6 +29,7 @@ module.exports = Marionette.CompositeView.extend
     cropper.prepare()
     collectionData = pictures.map getImgData.bind(null, @options.crop)
     @collection = new Imgs collectionData
+    @listenTo @collection, 'invalid:image', @onInvalidImage.bind(@)
 
   serializeData: ->
     urlInput: @urlInputData()
@@ -100,6 +101,9 @@ module.exports = Marionette.CompositeView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   getFilesPictures: (e)->
+    # Hide any remaing alert box
+    @$el.trigger 'hideAlertBox'
+
     files_.parseFileEventAsDataURL e
     .then _.Log('filesDataUrl')
     .map @_addToPictures.bind(@)
@@ -116,6 +120,10 @@ module.exports = Marionette.CompositeView.extend
       dataUrl: dataUrl
       selected: true
       crop: @options.crop
+
+  onInvalidImage: (err)->
+    err.selector = '#fileField'
+    forms_.alert @, err
 
   close: -> app.execute 'modal:close'
 

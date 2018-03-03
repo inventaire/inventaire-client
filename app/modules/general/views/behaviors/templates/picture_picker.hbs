@@ -7,7 +7,7 @@
     modal:open but a user directly wanting to close the modal will be prevented
     from doing so by preventUnwantedModalClose --}}
     <h5>{{icon 'upload'}}{{i18n 'from a file'}}</h5>
-    <input type="file" accept="image/*" {{#if allowMultiple}}multiple{{/if}} />
+    <input id="fileField" type="file" accept="image/x-png,image/gif,image/jpeg" {{#if allowMultiple}}multiple{{/if}} />
   </div>
 </section>
 <section id="image-importer">

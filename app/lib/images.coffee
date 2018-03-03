@@ -33,7 +33,8 @@ images_ =
         data.dataUrl = canvas.toDataURL 'image/jpeg', outputQuality
         resolve data
 
-      image.onerror = reject
+      # This exact message is expected by the Img model
+      image.onerror = (e)-> reject new Error('invalid image')
 
       image.src = dataURL
 
