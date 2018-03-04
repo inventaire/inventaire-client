@@ -100,6 +100,7 @@ API =
 
   showEditEntityFromUri: (uri)->
     app.execute 'show:loader'
+    uri = normalizeUri uri
 
     # Make sure we have the freshest data before trying to edit
     getEntityModel uri, true
