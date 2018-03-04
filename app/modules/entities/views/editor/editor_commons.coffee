@@ -19,8 +19,8 @@ module.exports = Marionette.ItemView.extend
         if e.ctrlKey then @save()
 
   initEditModeState: ->
-    # If the model's value is null, start in edit mode
-    @editMode = if @model.get('value')? then false else true
+    # If the value is null, start in edit mode
+    @editMode = not @model.get('value')?
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -46,6 +46,7 @@ module.exports = Marionette.ItemView.extend
 
   toggleEditMode: (bool)->
     @editMode = bool
+    @onToggleEditMode?()
     @lazyRender()
 
   delete: ->

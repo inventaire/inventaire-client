@@ -1,7 +1,18 @@
 .simple-day-value-editor{
-  .showMonthsAndDays, .showYearsOnly{
-    @include link-underline-on-hover($grey, darken($grey, 10%));
-    font-size: 0.9em;
+  label{
+    color: $grey;
+  }
+  select{
+    // Do no let the noValueI18n dictate the width
+    max-width: 5em;
+  }
+  .addUnit{
+    margin-top: 1.2em;
+    padding: 0.2em 0.4em;
+    @include radius;
+    background-color: $grey;
+    color: white;
+    @include shy(0.6);
   }
   /*Large screens*/
   @media screen and (min-width: $entity-editor-small-thresold) {
@@ -23,17 +34,6 @@
     .picker-wrapper-year{
       margin-left: 4em;
     }
-    .months-and-days-pickers-wrapper{
-      @include display-flex(column);
-      position: relative;
-    }
-    .months-and-days-pickers{
-      @include display-flex(row, center, flex-start);
-    }
-    .showYearsOnly{
-      @include position(absolute, null, 0, -0.6em, 0);
-      white-space: nowrap;
-    }
     .edit-mode-buttons{
       // push all the buttons to the right
       margin-left: auto;
@@ -50,9 +50,6 @@
       width: 100%;
       // let room for .unit-toggler-wrapper in position:absolute
       padding-bottom: 2em;
-    }
-    .months-and-days-pickers{
-      @include display-flex(row);
     }
     .picker-wrapper{
       text-align: center;
