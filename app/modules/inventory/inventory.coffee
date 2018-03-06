@@ -105,7 +105,9 @@ API =
     if app.request 'require:loggedIn', 'inventory/browser'
       app.layout.main.show new InventoryBrowser
 
-showAddLayout = (tab = 'search')-> app.layout.main.show new AddLayout { tab }
+showAddLayout = (tab = 'search', options = {})->
+  options.tab = tab
+  app.layout.main.show new AddLayout options
 
 displayFoundItems = (items)->
   # Accept either an items collection or an array of items models
@@ -166,6 +168,9 @@ initializeInventoriesHandlers = (app)->
       lastSearch = app.searches.findLastSearch()
       if lastSearch? then lastSearch.show()
       else API.showSearch()
+
+    'show:add:layout:import:isbns': (isbnsBatch)->
+      showAddLayout 'import', { isbnsBatch }
 
     'show:scan': API.showScan
 

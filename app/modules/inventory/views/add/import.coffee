@@ -40,19 +40,26 @@ module.exports = Marionette.LayoutView.extend
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
     'click #addedItems': 'showMainUserInventory'
-    'keyup #isbnsImporter textarea': 'displayImportButton'
+    'click #findIsbns': 'displayImportButton'
 
   childEvents:
     'import:done': 'onImportDone'
 
   initialize: ->
-    papaparse.prepare()
+    { @isbnsBatch } = @options
+    # No need to fetch papaparse if we know we will go straight
+    # to the ISBN importer
+    unless @isbnsBatch? then papaparse.prepare()
     @candidates = candidates or= new Candidates
 
   onShow: ->
     # show the import queue if there were still candidates from last time
     @showImportQueueUnlessEmpty()
     @listenTo @candidates, 'reset', @hideImportQueueIfEmpty.bind(@)
+
+    if @isbnsBatch?
+      @ui.isbnsImporterTextarea.val @isbnsBatch.join('\n')
+      @$el.find('#findIsbns').trigger 'click'
 
   serializeData: ->
     importers: importers
@@ -109,15 +116,10 @@ module.exports = Marionette.LayoutView.extend
       app.execute 'show:inventory:main:user'
 
   displayImportButton: ->
-    @lazyDisplayImportButton or= _.debounce @_displayImportButton.bind(@), 500
-    @lazyDisplayImportButton()
-
-  _displayImportButton: ->
     text = @ui.isbnsImporterTextarea.val()
     unless _.isNonEmptyString(text) then return
 
     isbnsData = extractIsbns text
-    _.log isbnsData, 'isbns'
 
     if isbnsData.length is 0 then return
 

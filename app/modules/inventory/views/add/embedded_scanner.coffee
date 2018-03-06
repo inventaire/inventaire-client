@@ -28,12 +28,13 @@ module.exports = Marionette.ItemView.extend
     @batch = []
     @notFound = []
 
-    @scanner = embedded_.scan
-        beforeScannerStart: @beforeScannerStart.bind @
-        actions:
-          addIsbn: @addIsbn.bind @
-          showInvalidIsbnWarning: @showInvalidIsbnWarning.bind @
-      .catch @permissionDenied.bind(@)
+    scanOptions =
+      beforeScannerStart: @beforeScannerStart.bind @
+      actions:
+        addIsbn: @addIsbn.bind @
+        showInvalidIsbnWarning: @showInvalidIsbnWarning.bind @
+
+    @scanner = embedded_.scan(scanOptions).catch @permissionDenied.bind(@)
 
   beforeScannerStart: ->
     @ui.shadowAreaBox.removeClass 'hidden'
@@ -42,15 +43,15 @@ module.exports = Marionette.ItemView.extend
       type: 'tip'
       message: _.I18n "make the book's barcode fit in the box"
       # displayDelay: 1000
-      displayTime: 29*1000
+      displayTime: 29 * 1000
 
     @showStatusMessage
       message: _.I18n 'failing_scan_tip'
       type: 'support'
-      displayDelay: 30*1000
+      displayDelay: 30 * 1000
       # Display only if no ISBN, valid or not, was detected
       displayCondition: => @batch.length is 0 and not @invalidIsbnDetected
-      displayTime: 30*1000
+      displayTime: 30 * 1000
 
   addIsbn: (isbn)->
     @_lastIsbn = isbn
@@ -160,8 +161,7 @@ module.exports = Marionette.ItemView.extend
     # In any case, close
     @close()
 
-  # TODO: Pass to the ISBN importer
-  validate: -> alert @batch
+  validate: -> app.execute 'show:add:layout:import:isbns', @batch
 
   close: ->
     # come back to the previous view
