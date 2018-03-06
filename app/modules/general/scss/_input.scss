@@ -53,6 +53,11 @@ input[type="password"]{
   font-family: sans-serif !important;
 }
 
+input:disabled{
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 textarea{
   height: auto;
   min-height: 50px;

@@ -1,0 +1,14 @@
+<div class="row">
+  <label for="title">{{i18n 'title'}}</label>
+  <span class="required">*</span>
+</div>
+<input type="text" name="title">
+
+<div class="row">
+  <label for="authors">{{i18n 'authors'}}</label>
+  <span class="tip">({{i18n 'separated by a comma'}})</span>
+</div>
+<input type="text" name="authors">
+
+<a class="validateInfo success-button hidden">{{I18n 'validate'}}</a>
+<a class="disabledValidateInfo success-button" title="{{i18n 'a title is required'}}">{{I18n 'validate'}}</a>

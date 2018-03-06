@@ -1,6 +1,15 @@
 module.exports = Backbone.Model.extend
-  initialize: ->
-    @set 'selected', true
+  initialize: (attrs)->
+    if not attrs.title?
+      @set 'needInfo', true
+    else
+      @set 'selected', true
+
+    @on 'change', @updateState.bind(@)
+
+  updateState: ->
+    needInfo = not _.isNonEmptyString(@get('title'))
+    @set 'needInfo', needInfo
 
   createItem: (transaction, listing)->
     app.request 'entity:exists:or:create:from:seed', @toJSON()

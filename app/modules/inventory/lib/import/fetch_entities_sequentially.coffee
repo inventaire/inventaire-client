@@ -20,8 +20,9 @@ module.exports = (isbnsData)->
     .then (res)->
       _.extend commonRes.entities, res.entities
       _.extend commonRes.redirects, res.redirects
-      res.notFound?.forEach (notFoundData)->
-        isbnData = isbnsIndex[notFoundData.isbn]
+      res.notFound?.forEach (uri)->
+        isbn = uri.split(':')[1]
+        isbnData = isbnsIndex[isbn]
         commonRes.notFound.push isbnData
     .then fetchBatchesRecursively
 
@@ -30,4 +31,4 @@ module.exports = (isbnsData)->
 
 # Fetch the works associated to the editions, and those works authors
 # to get access to the authors labels
-relatives = [ 'wdt:P629', 'wdt:P50', ]
+relatives = [ 'wdt:P629', 'wdt:P50' ]

@@ -1,3 +1,5 @@
+CandidateInfo = require './candidate_info'
+
 module.exports = Marionette.ItemView.extend
   tagName: 'tr'
   template: require './templates/candidate_row'
@@ -6,6 +8,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'change input': 'updateSelected'
+    'click .addInfo': 'addInfo'
 
   modelEvents:
     'change:selected': 'updateCheckbox'
@@ -20,3 +23,17 @@ module.exports = Marionette.ItemView.extend
     @updatedFromView = true
     @model.set 'selected', checked
     @trigger 'checkbox:change'
+
+  addInfo: ->
+    showCandidateInfo @model.get('isbn')
+    .then (data)=>
+      { title, authors } = data
+      @model.set data
+      @render()
+    .catch (err)->
+      if err.message is 'modal closed' then return
+      else throw err
+
+showCandidateInfo = (isbn)->
+  return new Promise (resolve, reject)->
+    app.layout.modal.show new CandidateInfo { resolve, reject, isbn }

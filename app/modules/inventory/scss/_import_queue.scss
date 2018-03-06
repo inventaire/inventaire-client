@@ -20,6 +20,9 @@
   .settings{
     text-align: left;
   }
+  .checkbox-cell{
+    padding: 0 0.5em;
+  }
   label{
     margin-top: 0.5em;
     margin-bottom: 0;
@@ -52,6 +55,36 @@
     span{
       @include underline;
     }
+  }
+}
+
+.candidate-info{
+  @include display-flex(column, center, center);
+  .row{
+    @include display-flex(row);
+    margin-right: auto;
+  }
+  label{
+    margin-right: auto;
+    font-size: 1rem;
+    padding-right: 0.4em;
+  }
+  .tip{
+    color: $grey;
+    font-size: 0.9rem;
+    // Aligning with the label
+    padding-top: 0.05em;
+  }
+  .required{
+    color: red;
+  }
+  .validateInfo, .disabledValidateInfo{
+    margin: 0 auto;
+    padding: 1em;
+  }
+  .disabledValidateInfo{
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
 

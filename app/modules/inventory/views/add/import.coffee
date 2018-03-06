@@ -134,6 +134,8 @@ module.exports = Marionette.LayoutView.extend
   displayResults: (data)->
     { results, isbnsIndex } = data
     newCandidates = getCandidatesFromEntitiesDocs results.entities, isbnsIndex
-    _.log newCandidates, 'newCandidates'
     candidates.add newCandidates
+    candidates.add results.notFound.map(getRawIsbn)
     @showImportQueueUnlessEmpty()
+
+getRawIsbn = (isbnData)-> { isbn: isbnData.raw }
