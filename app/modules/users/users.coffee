@@ -46,7 +46,6 @@ API =
 initRelations = ->
   if app.user.loggedIn
     _.preq.get app.API.relations
-    .then _.Log('relations')
     .then (relations)->
       app.relations = relations
       app.execute 'waiter:resolve', 'users'
