@@ -193,3 +193,9 @@ describe 'Types utils', ->
       a.should.be.an.Array()
       a.length.should.equal 0
       done()
+
+    it 'should return an empty array for an empty string', (done)->
+      a = _.forceArray ''
+      a.should.be.an.Array()
+      a.length.should.equal 0
+      done()
