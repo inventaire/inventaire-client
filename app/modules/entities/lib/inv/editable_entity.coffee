@@ -17,7 +17,9 @@ module.exports =
 
     # in cases of a new value, index is last index + 1 = propArray.length
     index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
-    @set "#{propArrayPath}.#{index}", newValue
+    propArray[index] = newValue
+    # Compact propArray to remove deleted values
+    @set propArrayPath, _.compact(propArray)
 
     reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
     rollback = _.Rollback reverseAction, 'editable_entity setPropertyValue'
