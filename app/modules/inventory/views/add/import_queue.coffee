@@ -13,11 +13,12 @@ module.exports = Marionette.CompositeView.extend
     headCheckbox: 'thead input'
     validationElements: '.validation > div'
     validateButton: '#validate'
-    cantValidateMessage: '.import span'
+    disabledValidateButton: '#disabledValidate'
     transaction: '#transaction'
     listing: '#listing'
     meter: '.meter'
     fraction: '.fraction'
+    lastSteps: '#lastSteps'
 
   behaviors:
     ItemCreationSelect:
@@ -80,8 +81,16 @@ module.exports = Marionette.CompositeView.extend
     .prop 'indeterminate', indeterminate
 
   onSelectionChange: (selectedCount)->
-    if selectedCount is 0 then @showCantValidateMessage()
-    else @showValidateButton()
+    if selectedCount is 0
+      # Use 'force-hidden' as the class 'button' would otherwise overrides
+      # the 'display' attribute
+      @ui.validateButton.addClass 'force-hidden'
+      @ui.disabledValidateButton.removeClass 'force-hidden'
+      @ui.lastSteps.addClass 'disabled'
+    else
+      @ui.disabledValidateButton.addClass 'force-hidden'
+      @ui.validateButton.removeClass 'force-hidden'
+      @ui.lastSteps.removeClass 'disabled'
 
   validate: ->
     @toggleValidationElements()
@@ -128,14 +137,6 @@ module.exports = Marionette.CompositeView.extend
       @ui.cantValidateMessage.hide()
       # triggering events on the parent via childEvents
       @triggerMethod 'import:done'
-
-  showValidateButton: ->
-    @ui.validateButton.show()
-    @ui.cantValidateMessage.hide()
-
-  showCantValidateMessage: ->
-    @ui.validateButton.hide()
-    @ui.cantValidateMessage.show()
 
   toggleValidationElements: ->
     @ui.validationElements.toggleClass 'force-hidden'

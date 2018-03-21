@@ -34,7 +34,6 @@ module.exports = Marionette.LayoutView.extend
     isbnsImporterWrapper: '#isbnsImporterWrapper'
     separator: '.separator'
     importersWrapper: '#importersWrapper'
-    isbnsImporterStatus: '#isbnsImporterStatus'
 
   events:
     'change input[type=file]': 'getFile'
@@ -73,7 +72,8 @@ module.exports = Marionette.LayoutView.extend
       if not @queue.hasView()
         @queue.show new ImportQueue { collection: @candidates }
 
-      _.scrollTop @queue.$el
+      # Run once @ui.importersWrapper is done sliding up
+      setTimeout _.scrollTop.bind(null, @queue.$el), 500
 
   hideImportQueueIfEmpty: ->
     if @candidates.length is 0 then @queue.$el.slideUp()
@@ -99,7 +99,6 @@ module.exports = Marionette.LayoutView.extend
     .then @candidates.add.bind(@candidates)
     .tap => behaviorsPlugin.stopLoading.call @, '.loading-queue'
     .then @showImportQueueUnlessEmpty.bind(@)
-    # .then @scrollToQueue.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
   # passing the event to the AlertBox behavior
@@ -124,8 +123,7 @@ module.exports = Marionette.LayoutView.extend
     if isbnsData.length is 0 then return
 
     @ui.separator.hide()
-    @ui.importersWrapper.hide()
-    @ui.isbnsImporterStatus.text _.i18n('ISBNs found:') + ' ' + isbnsData.length
+    @ui.importersWrapper.slideUp()
     @ui.importersWrapper.find('.warning').show()
 
     fetchEntitiesSequentially isbnsData

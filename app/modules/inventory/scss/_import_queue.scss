@@ -48,7 +48,16 @@
   .validation{
     margin-bottom: 1em;
   }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .addInfo{
+      // Display block so that the button doesn't get split into multi-lines
+      display: block;
+      margin: 0.2em;
+    }
+  }
 }
+
 #emptyQueue{
   @include shy(0.6);
   &:hover{
@@ -84,6 +93,14 @@
   }
   .disabledValidateInfo{
     cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+#lastSteps{
+  @include transition(opacity);
+  opacity: 1;
+  &.disabled{
     opacity: 0.5;
   }
 }

@@ -19,31 +19,31 @@
   </p>
 </section>
 
-<h3>3/ {{I18n 'select the settings to apply to the selected books'}}</h3>
-<section class="settings">
-  <label for="transaction">{{i18n 'transaction'}}</label>
-  <div id="transaction" class="select-button-group">
-    {{partial 'inventory:form:button_group' transactions}}
-  </div>
-  <label>{{i18n 'visibility'}}</label>
-  <div id="listing" class="select-button-group">
-    {{partial 'inventory:form:button_group' listings}}
-  </div>
-</section>
+<div id="lastSteps" class="disabled">
+  <h3>3/ {{I18n 'select the settings to apply to the selected books'}}</h3>
+  <section class="settings">
+    <label for="transaction">{{i18n 'transaction'}}</label>
+    <div id="transaction" class="select-button-group">
+      {{partial 'inventory:form:button_group' transactions}}
+    </div>
+    <label>{{i18n 'visibility'}}</label>
+    <div id="listing" class="select-button-group">
+      {{partial 'inventory:form:button_group' listings}}
+    </div>
+  </section>
 
-<h3>4/ {{I18n 'import this batch'}}</h3>
-<div class="validation">
-  <div class="import">
-    <a id="validate" class="button success radius">{{i18n 'import'}}</a>
-    <span class="cant-import hidden">
-      {{i18n "no book selected"}}
-    </span>
-  </div>
-  {{!-- using force-hidden to override Foundation display setting --}}
-  <div class="progress round success force-hidden">
-    <span class="meter" style="width:0%">
-      <p class="fraction"></p>
-      {{icon 'circle-o-notch' 'fa-spin loader'}}
-    </span>
+  <h3>4/ {{I18n 'import this batch'}}</h3>
+  <div class="validation">
+    <div class="import">
+      <a id="validate" class="button success radius force-hidden">{{I18n 'import the selection'}}</a>
+      <a id="disabledValidate" class="button success radius disabled" title="{{i18n 'no book selected'}}">{{I18n 'import the selection'}}</a>
+    </div>
+    {{!-- using force-hidden to override Foundation display setting --}}
+    <div class="progress round success force-hidden">
+      <span class="meter" style="width:0%">
+        <p class="fraction"></p>
+        {{icon 'circle-o-notch' 'fa-spin loader'}}
+      </span>
+    </div>
   </div>
 </div>

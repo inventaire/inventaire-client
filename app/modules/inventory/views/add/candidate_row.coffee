@@ -6,6 +6,12 @@ module.exports = Marionette.ItemView.extend
   ui:
     checkbox: 'input'
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    # Display the ISBN as it was input rather than the formatted version
+    attrs.isbn = attrs.rawIsbn or attrs.isbn
+    return attrs
+
   events:
     'change input': 'updateSelected'
     'click .addInfo': 'addInfo'
@@ -28,7 +34,8 @@ module.exports = Marionette.ItemView.extend
     showCandidateInfo @model.get('isbn')
     .then (data)=>
       { title, authors } = data
-      @model.set data
+      @model.set { title, authors, selected: true }
+      @trigger 'checkbox:change'
       @render()
     .catch (err)->
       if err.message is 'modal closed' then return
