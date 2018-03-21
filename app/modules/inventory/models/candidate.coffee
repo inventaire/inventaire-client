@@ -1,4 +1,6 @@
 module.exports = Backbone.Model.extend
+  # Use the normalized ISBN as id to deduplicate entries
+  idAttribute: 'isbn'
   initialize: (attrs)->
     if not attrs.title?
       @set 'needInfo', true

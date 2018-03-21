@@ -134,8 +134,17 @@ module.exports = Marionette.LayoutView.extend
   displayResults: (data)->
     { results, isbnsIndex } = data
     newCandidates = getCandidatesFromEntitiesDocs results.entities, isbnsIndex
-    candidates.add newCandidates
-    candidates.add results.notFound.map(getRawIsbn)
+    notFoundCandidates = results.notFound.map getRawIsbn
+    # Make sure to display candidates in the order they where input
+    # to help the user fill the missing information
+    reorderCandidates = newCandidates
+      .concat notFoundCandidates
+      .sort byIndex(isbnsIndex)
+
+    candidates.add reorderCandidates, { merge: true }
     @showImportQueueUnlessEmpty()
 
-getRawIsbn = (isbnData)-> { isbn: isbnData.raw }
+getRawIsbn = (isbnData)-> { isbn: isbnData.normalized, rawIsbn: isbnData.raw }
+
+byIndex = (isbnsIndex)-> (a, b)->
+  isbnsIndex[a.isbn].index - isbnsIndex[b.isbn].index

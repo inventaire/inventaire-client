@@ -1,8 +1,9 @@
 # Fetching sequentially to lower stress on the different APIs
 module.exports = (isbnsData)->
   isbnsIndex = {}
-  isbnsData.forEach (isbnData)->
+  isbnsData.forEach (isbnData, index)->
     isbnData.rawUri = "isbn:#{isbnData.normalized}"
+    isbnData.index = index
     isbnsIndex[isbnData.normalized] = isbnData
 
   uris = _.pluck isbnsData, 'rawUri'
