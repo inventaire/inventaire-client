@@ -16,7 +16,8 @@ module.exports = (entities, isbnsIndex)->
       normalizedIsbn10 = isbn_.normalizeIsbn claims['wdt:P957'][0]
       isbnData = isbnsIndex[normalizedIsbn13] or isbnsIndex[normalizedIsbn10]
       # Use the input ISBN to allow the user to find it back in her list
-      entity.isbn = isbnData.raw
+      entity.rawIsbn = isbnData.rawIsbn
+      entity.normalizedIsbn = isbnData.normalizedIsbn
       newCandidates.push entity
 
   return newCandidates

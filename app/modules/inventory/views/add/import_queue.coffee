@@ -150,6 +150,3 @@ module.exports = Marionette.CompositeView.extend
     percent = (added / @total) * 100
     @ui.meter.css 'width', "#{percent}%"
     @ui.fraction.text "#{added} / #{@total}"
-
-convertSelectedToNumber = (model)-> if isSelected(model) then 1 else 0
-isSelected = (model)-> model.get 'selected'

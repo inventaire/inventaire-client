@@ -6,12 +6,6 @@ module.exports = Marionette.ItemView.extend
   ui:
     checkbox: 'input'
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    # Display the ISBN as it was input rather than the formatted version
-    attrs.isbn = attrs.rawIsbn or attrs.isbn
-    return attrs
-
   events:
     'change input': 'updateSelected'
     'click .addInfo': 'addInfo'
@@ -20,7 +14,7 @@ module.exports = Marionette.ItemView.extend
     'change:selected': 'updateCheckbox'
 
   updateCheckbox: (model, value)->
-    unless @model.get('isValid') then return
+    if @model.get('isInvalid') then return
     # prevent updating the view if the change was due to the view change itself
     if @updatedFromView then @updatedFromView = false
     else @ui.checkbox.prop 'checked', value

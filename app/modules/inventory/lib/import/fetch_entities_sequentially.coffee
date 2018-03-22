@@ -12,13 +12,12 @@ module.exports = (isbnsData)->
 
   isbnsData.forEach (isbnData, index)->
     isbnData.index = index
-    isbnsIndex[isbnData.normalized] = isbnData
-    if isbnData.isValid
-      isbnData.uri = "isbn:#{isbnData.normalized}"
-      uris.push isbnData.uri
-    else
+    isbnsIndex[isbnData.normalizedIsbn] = isbnData
+    if isbnData.isInvalid
       commonRes.invalidIsbn.push isbnData
-
+    else
+      isbnData.uri = "isbn:#{isbnData.normalizedIsbn}"
+      uris.push isbnData.uri
 
   fetchBatchesRecursively = ->
     batch = uris.splice 0, 9
