@@ -1,17 +1,18 @@
 drawCanvas = require './draw_canvas'
 isbn_ = require 'lib/isbn'
 
-{ prepare, get:getQuaggaIsbnBundle } = require('lib/get_assets')('quaggaIsbn')
+{ prepare:prepareQuagga, get:getQuagga } = require('lib/get_assets')('quagga')
+{ prepare:prepareIsbn2, get:getIsbn2 } = require('lib/get_assets')('isbn2')
 
 module.exports =
-  # pre-fetch quagga when the scanner is probably about to be used
+  # pre-fetch assets when the scanner is probably about to be used
   # to be ready to start scanning faster
-  prepare: prepare
+  prepare: -> Promise.all [ prepareQuagga(), prepareIsbn2() ]
   scan: (params)->
     { beforeScannerStart, actions } = params
     beforeScannerStart or= _.noop
 
-    getQuaggaIsbnBundle()
+    Promise.all [ getQuagga(), getIsbn2() ]
     .then startScanning.bind(null, beforeScannerStart, actions)
     # Not catching the error to let the view handle where we should go next
 
@@ -83,7 +84,7 @@ onDetected = (actions)->
 
   return (result)->
     candidate = result.codeResult.code
-    # window.ISBN is the isbn2 module, fetched by getQuaggaIsbnBundle
+    # window.ISBN is the object created by the isbn2 module
     # If the candidate code can't be parsed, it's not a valid ISBN
     if window.ISBN.parse(candidate)?
       invalidIsbnCount = 0

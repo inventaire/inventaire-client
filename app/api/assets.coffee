@@ -9,20 +9,22 @@ getEnvPath = (type, pathBase)-> ()->
   return "#{path}.#{type}"
 
 # Keep versions in sync with scripts/install_external_js_modules
-quaggaIsbnBaseName = 'quagga-0.11.5-isbn-0.1.8-bundle'
-cropperBaseName = 'cropper-2.3.0'
-leafletBaseName = 'leaflet-bundle-1.3.1'
-papaparseBaseName = 'papaparse-4.1.2'
-piwikBaseName = 'piwik-3.0.1'
+quaggaBase = 'quagga-0.11.5'
+isbn2Base = 'isbn2-0.1.8'
+papaparseBase = 'papaparse-4.1.2'
+cropperBase = 'cropper-2.3.0'
+leafletBase = 'leaflet-bundle-1.3.1'
+piwikBase = 'piwik-3.0.1'
 
 module.exports =
   scripts:
     moment: (lang)-> "#{folders.js}/moment/#{lang}.js?DIGEST"
-    quaggaIsbn: getEnvPath 'js', quaggaIsbnBaseName
-    cropper: getEnvPath 'js', cropperBaseName
-    leaflet: getEnvPath 'js', leafletBaseName
-    papaparse: getEnvPath 'js', papaparseBaseName
-    piwik: getEnvPath 'js', piwikBaseName
+    quagga: getEnvPath 'js', quaggaBase
+    isbn2: getEnvPath 'js', isbn2Base
+    papaparse: getEnvPath 'js', papaparseBase
+    cropper: getEnvPath 'js', cropperBase
+    leaflet: getEnvPath 'js', leafletBase
+    piwik: getEnvPath 'js', piwikBase
   stylesheets:
-    cropper: getEnvPath 'css', cropperBaseName
-    leaflet: getEnvPath 'css', leafletBaseName
+    cropper: getEnvPath 'css', cropperBase
+    leaflet: getEnvPath 'css', leafletBase

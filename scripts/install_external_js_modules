@@ -26,41 +26,41 @@ addToBundle(){
 }
 
 # Keep versions in sync with app/api/assets.coffee
-quagga_isbn_base=quagga-0.11.5-isbn-0.1.8-bundle
+quagga_base=quagga-0.11.5
+isbn_base=isbn2-0.1.8
+papaparse_base=papaparse-4.1.2
 cropper_base=cropper-2.3.0
 leaflet_base=leaflet-bundle-1.3.1
-papaparse_base=papaparse-4.1.2
 piwik_base=piwik-3.0.1
 
 
 
 ############ INSTALLATIONS ###############
 
-
-### Piwik ###
-# Following Piwik versions for script versioning
-curl -sk https://piwik.allmende.io/piwik.js > ${pubjs}/${piwik_base}.js
-cp ${pubjs}/${piwik_base}.js ${pubjs}/${piwik_base}.min.js
-# Re-minifying to remove comments
-uglifyInPlace ${pubjs}/${piwik_base}.min.js
-gzip -9kf "${pubjs}/${piwik_base}.min.js"
-echo -e '\e[0;32mdone downloading:\e[0m piwik'
-
-
-### Bundling quagga & isbn2 ###
+### Quagga ###
 quagga=node_modules/quagga/dist
+cp ${quagga}/quagga.js ${pubjs}/${quagga_base}.js
+cp ${quagga}/quagga.min.js ${pubjs}/${quagga_base}.min.js
+gzip -9kf "${pubjs}/${quagga_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' quagga
+
+
+### isbn2 ###
 isbn2=node_modules/isbn2
-# Non-minified version is used in development
-# Quagga: omit the source map lines as it doesn't work in the bundle
-resetAndAddToBundle ${quagga}/quagga.js ${pubjs}/${quagga_isbn_base}.js
-addToBundle ${isbn2}/isbn.js ${pubjs}/${quagga_isbn_base}.js
+cp ${isbn2}/isbn.js ${pubjs}/${isbn_base}.js
+cp ${isbn2}/isbn.js ${pubjs}/${isbn_base}.min.js
+uglifyInPlace ${pubjs}/${isbn_base}.min.js
+gzip -9kf "${pubjs}/${isbn_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' isbn2
 
-resetAndAddToBundle ${quagga}/quagga.min.js ${pubjs}/${quagga_isbn_base}.min.js
-addToBundle ${isbn2}/isbn.js ${pubjs}/${quagga_isbn_base}.min.js
 
-uglifyInPlace ${pubjs}/${quagga_isbn_base}.min.js
-gzip -9kf "${pubjs}/${quagga_isbn_base}.min.js"
-echo -e '\e[0;32mdone copying:\e[0m quagga and isbn2'
+### papaparse ###
+cp node_modules/papaparse/papaparse.js ${pubjs}/${papaparse_base}.js
+cp node_modules/papaparse/papaparse.min.js ${pubjs}/${papaparse_base}.min.js
+# Re-minifying to remove comments
+uglifyInPlace ${pubjs}/${papaparse_base}.min.js
+gzip -9kf "${pubjs}/${papaparse_base}.min.js"
+echo -e '\e[0;32mdone copying:\e[0m' papaparse
 
 
 ### Cropper ###
@@ -99,10 +99,11 @@ gzip -9kf "${pubjs}/${leaflet_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m leaflet and leaflet.markercluster'
 
 
-### papaparse ###
-cp node_modules/papaparse/papaparse.js ${pubjs}/${papaparse_base}.js
-cp node_modules/papaparse/papaparse.min.js ${pubjs}/${papaparse_base}.min.js
+### Piwik ###
+# Following Piwik versions for script versioning
+curl -sk https://piwik.allmende.io/piwik.js > ${pubjs}/${piwik_base}.js
+cp ${pubjs}/${piwik_base}.js ${pubjs}/${piwik_base}.min.js
 # Re-minifying to remove comments
-uglifyInPlace ${pubjs}/${papaparse_base}.min.js ${pubjs}/${papaparse_base}.min.js
-gzip -9kf "${pubjs}/${papaparse_base}.min.js"
-echo -e '\e[0;32mdone copying:\e[0m' papaparse
+uglifyInPlace ${pubjs}/${piwik_base}.min.js
+gzip -9kf "${pubjs}/${piwik_base}.min.js"
+echo -e '\e[0;32mdone downloading:\e[0m piwik'
