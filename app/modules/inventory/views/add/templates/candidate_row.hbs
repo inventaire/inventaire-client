@@ -1,15 +1,23 @@
 <td class="checkbox-cell">
-  <input type="checkbox"
-    {{#if selected}}checked{{/if}} {{#if needInfo}}disabled{{/if}}
-  >
+  {{#if isValid}}
+    <input type="checkbox"
+      {{#if selected}}checked{{/if}} {{#if needInfo}}disabled{{/if}}
+    >
+  {{else}}
+    <input type="checkbox" title="{{i18n 'invalid ISBN'}}" disabled>
+  {{/if}}
 </td>
 <td>{{title}}</td>
 <td>{{authors}}</td>
 <td>{{isbn}}</td>
 <td>
-  {{#if needInfo}}
-    <a class="addInfo tiny-warning-button">{{i18n 'need more information'}}</a>
+  {{#if isValid}}
+    {{#if needInfo}}
+      <a class="addInfo tiny-warning-button">{{i18n 'need more information'}}</a>
+    {{else}}
+      {{errorMessage}}
+    {{/if}}
   {{else}}
-    {{errorMessage}}
+    <span class="invalid-isbn">{{i18n 'invalid ISBN'}}</span>
   {{/if}}
 </td>

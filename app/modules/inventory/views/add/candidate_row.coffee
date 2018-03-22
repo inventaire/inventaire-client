@@ -20,6 +20,7 @@ module.exports = Marionette.ItemView.extend
     'change:selected': 'updateCheckbox'
 
   updateCheckbox: (model, value)->
+    unless @model.get('isValid') then return
     # prevent updating the view if the change was due to the view change itself
     if @updatedFromView then @updatedFromView = false
     else @ui.checkbox.prop 'checked', value

@@ -8,8 +8,13 @@ module.exports = (text)->
   .filter firstOccurence({})
 
 getIsbnData = (rawIsbn)->
-  raw: rawIsbn
-  normalized: isbn_.normalizeIsbn rawIsbn
+  normalized = isbn_.normalizeIsbn rawIsbn
+  data =
+    raw: rawIsbn
+    normalized: normalized
+    # the window.ISBN lib is made available by the isbn2 asset that
+    # should have be fetched by app/modules/inventory/views/add/import
+    isValid: window.ISBN.parse(normalized)?
 
 firstOccurence = (isbnRoots)-> (isbnData)->
   { normalized:isbn } = isbnData

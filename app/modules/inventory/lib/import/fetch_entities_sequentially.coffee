@@ -1,21 +1,28 @@
 # Fetching sequentially to lower stress on the different APIs
 module.exports = (isbnsData)->
   isbnsIndex = {}
-  isbnsData.forEach (isbnData, index)->
-    isbnData.rawUri = "isbn:#{isbnData.normalized}"
-    isbnData.index = index
-    isbnsIndex[isbnData.normalized] = isbnData
-
-  uris = _.pluck isbnsData, 'rawUri'
 
   commonRes =
     entities: {}
     redirects: {}
     notFound: []
+    invalidIsbn: []
+
+  uris = []
+
+  isbnsData.forEach (isbnData, index)->
+    isbnData.index = index
+    isbnsIndex[isbnData.normalized] = isbnData
+    if isbnData.isValid
+      isbnData.uri = "isbn:#{isbnData.normalized}"
+      uris.push isbnData.uri
+    else
+      commonRes.invalidIsbn.push isbnData
+
 
   fetchBatchesRecursively = ->
     batch = uris.splice 0, 9
-    if batch.length is 0 then return
+    if batch.length is 0 then return _.preq.resolve commonRes
 
     _.preq.get app.API.entities.getByUris(batch, false, relatives)
     .then (res)->

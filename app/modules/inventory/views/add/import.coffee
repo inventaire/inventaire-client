@@ -7,6 +7,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 papaparse = require('lib/get_assets')('papaparse')
+isbn2 = require('lib/get_assets')('isbn2')
 
 importLib = '../../lib/import'
 fetchEntitiesSequentially = require "#{importLib}/fetch_entities_sequentially"
@@ -39,16 +40,19 @@ module.exports = Marionette.LayoutView.extend
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
     'click #addedItems': 'showMainUserInventory'
-    'click #findIsbns': 'displayImportButton'
+    'click #findIsbns': 'findIsbns'
 
   childEvents:
     'import:done': 'onImportDone'
 
   initialize: ->
     { @isbnsBatch } = @options
+
+    isbn2.prepare()
     # No need to fetch papaparse if we know we will go straight
     # to the ISBN importer
     unless @isbnsBatch? then papaparse.prepare()
+
     @candidates = candidates or= new Candidates
 
   onShow: ->
@@ -114,35 +118,42 @@ module.exports = Marionette.LayoutView.extend
     unless _.isOpenedOutside e
       app.execute 'show:inventory:main:user'
 
-  displayImportButton: ->
+  findIsbns: ->
     text = @ui.isbnsImporterTextarea.val()
     unless _.isNonEmptyString(text) then return
 
-    isbnsData = extractIsbns text
+    isbn2.get()
+    .then =>
+      # window.ISBN should now be initalized
+      isbnsData = extractIsbns text
 
-    if isbnsData.length is 0 then return
+      if isbnsData.length is 0 then return
 
-    @ui.separator.hide()
-    @ui.importersWrapper.slideUp()
-    @ui.importersWrapper.find('.warning').show()
+      @ui.separator.hide()
+      @ui.importersWrapper.slideUp 400
+      @ui.importersWrapper.find('.warning').show()
 
-    fetchEntitiesSequentially isbnsData
-    .then @displayResults.bind(@)
+      fetchEntitiesSequentially isbnsData
+      .then @displayResults.bind(@)
 
   displayResults: (data)->
     { results, isbnsIndex } = data
     newCandidates = getCandidatesFromEntitiesDocs results.entities, isbnsIndex
-    notFoundCandidates = results.notFound.map getRawIsbn
+    notFoundCandidates = results.notFound.map serializeIsbnData
+    invalidCandidates = results.invalidIsbn.map serializeIsbnData
     # Make sure to display candidates in the order they where input
     # to help the user fill the missing information
     reorderCandidates = newCandidates
-      .concat notFoundCandidates
+      .concat notFoundCandidates, invalidCandidates
       .sort byIndex(isbnsIndex)
 
     candidates.add reorderCandidates, { merge: true }
     @showImportQueueUnlessEmpty()
 
-getRawIsbn = (isbnData)-> { isbn: isbnData.normalized, rawIsbn: isbnData.raw }
+serializeIsbnData = (isbnData)->
+  isbn: isbnData.normalized
+  rawIsbn: isbnData.raw
+  isValid: isbnData.isValid
 
 byIndex = (isbnsIndex)-> (a, b)->
   isbnsIndex[a.isbn].index - isbnsIndex[b.isbn].index

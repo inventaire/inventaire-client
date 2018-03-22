@@ -48,6 +48,9 @@
   .validation{
     margin-bottom: 1em;
   }
+  .invalid-isbn{
+    color: red;
+  }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     .addInfo{

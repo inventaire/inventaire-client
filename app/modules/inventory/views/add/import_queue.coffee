@@ -43,15 +43,12 @@ module.exports = Marionette.CompositeView.extend
     else @unselectAll()
 
   selectAll: ->
-    @changeAll true
-    @onSelectionChange @collection.length
+    @collection.setAllSelectedTo true
+    @onSelectionChange @collection.getSelectedCount()
 
   unselectAll: ->
-    @changeAll false
+    @collection.setAllSelectedTo false
     @onSelectionChange 0
-
-  changeAll: (bool)->
-    @collection.forEach (model)-> model.set 'selected', bool
 
   emptyQueue: ->
     @collection.reset()
@@ -63,7 +60,7 @@ module.exports = Marionette.CompositeView.extend
     'add': 'lazyUpdateHeadCheckbox'
 
   updateHeadCheckbox: ->
-    selectedCount = _.sum @collection.map(convertSelectedToNumber)
+    selectedCount = @collection.getSelectedCount()
     if selectedCount is 0
       @applyCheckState false, false
     else if selectedCount is @collection.length
@@ -94,7 +91,7 @@ module.exports = Marionette.CompositeView.extend
 
   validate: ->
     @toggleValidationElements()
-    @selected = @collection.filter isSelected
+    @selected = @collection.getSelected()
     @total = @selected.length
     transaction = getSelectorData @, 'transaction'
     listing = getSelectorData @, 'listing'
