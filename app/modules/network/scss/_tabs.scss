@@ -14,7 +14,8 @@
     .tab{
       font-size: 1.2em;
       height: 4em;
-      @include custom-button($darker-grey, white, 0);
+      @include bg-hover($darker-grey);
+      @include text-hover(white);
       flex: 1 1 0;
       padding: 0 0.5em 0 0.5em;
       @include display-flex(row, center, center);
@@ -25,7 +26,7 @@
       }
       &.active{
         @include hide-counter;
-        background-color: white;
+        @include bg-hover(white, 0%);
         color: $grey;
         font-weight: bold;
         .fa{
