@@ -17,10 +17,11 @@
     /*Medium to Large screens*/
     @media screen and (min-width: $smaller-screen) {
       @include display-flex(row, center, space-between);
+      padding: 0 1em;
     }
     /*Small screens*/
     @media screen and (max-width: $smaller-screen) {
-      padding: 0.5em;
+      padding: 0.5em 1em;
     }
     p{
       width: 11em;

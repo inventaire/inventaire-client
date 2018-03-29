@@ -1,23 +1,17 @@
 <h3>2/ {{I18n 'select the books you want to add'}}</h3>
-<section>
-  <table>
-    <thead>
-      <tr>
-        <th class="selected checkbox-cell"><input type="checkbox" checked></th>
-        <th class="title">{{i18n 'title'}}</th>
-        <th class="authors">{{i18n 'authors'}}</th>
-        <th class="isbn">ISBN</th>
-        <th class="error-message">{{i18n 'status'}}</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <p class="bottom">
-    <a id="emptyQueue">
-      {{icon 'trash'}}<span>{{i18n 'empty the queue'}}</span>
-    </a>
-  </p>
-</section>
+<div id="queue-header">
+  <span class="checkbox-placeholder"></span>
+  <span class="label">{{I18n 'title'}}</span>
+  <span class="label">{{I18n 'authors'}}</span>
+  <span class="label">{{i18n 'ISBN'}}</span>
+  <span class="label">{{I18n 'status'}}</span>
+</div>
+<ul id="candidatesQueue"></ul>
+<p id="queue-nav">
+  <a id="selectAll">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>
+  <a id="unselectAll">{{icon 'square'}}<span>{{i18n 'unselect all'}}</span></a>
+  <a id="emptyQueue">{{icon 'trash'}}<span>{{i18n 'empty the queue'}}</span></a>
+</p>
 
 <div id="lastSteps" class="disabled">
   <h3>3/ {{I18n 'select the settings to apply to the selected books'}}</h3>

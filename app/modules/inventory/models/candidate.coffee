@@ -9,9 +9,11 @@ module.exports = Backbone.Model.extend
     else
       @set 'selected', true
 
-    @on 'change', @updateState.bind(@)
+    @on 'change:title', @updateInfoState.bind(@)
 
-  updateState: ->
+  canBeSelected: -> not @get('isInvalid') and not @get('needInfo')
+
+  updateInfoState: ->
     needInfo = not _.isNonEmptyString(@get('title'))
     @set 'needInfo', needInfo
 

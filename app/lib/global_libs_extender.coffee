@@ -112,6 +112,10 @@ module.exports = (_)->
     @$el[0].tabIndex = 0
     @$el.focus()
 
+  Marionette.View::updateClassName = ->
+    # Use in 'onRender' hooks to update the view el classes on re-render
+    @$el[0].className = @className()
+
   # JQUERY
   # aliasing once to one to match Backbone vocabulary
   $.fn.once = $.fn.one

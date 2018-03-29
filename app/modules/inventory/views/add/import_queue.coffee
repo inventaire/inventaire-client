@@ -6,7 +6,7 @@ forms_ = require 'modules/general/lib/forms'
 module.exports = Marionette.CompositeView.extend
   className: 'import-queue'
   template: require './templates/import_queue'
-  childViewContainer: 'tbody'
+  childViewContainer: '#candidatesQueue'
   childView: require './candidate_row'
 
   ui:
@@ -32,62 +32,45 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'change th.selected input': 'toggleAll'
+    'click #selectAll': 'selectAll'
+    'click #unselectAll': 'unselectAll'
     'click #emptyQueue': 'emptyQueue'
     'click #validate': 'validate'
 
   initialize: ->
-    @lazyUpdateHeadCheckbox = _.debounce @updateHeadCheckbox.bind(@), 200
+    @lazyUpdateLastStep = _.debounce @updateLastStep.bind(@), 200
 
-  toggleAll: (e)->
-    if e.currentTarget.checked then @selectAll()
-    else @unselectAll()
+  onShow: ->
+    @lazyUpdateLastStep()
 
   selectAll: ->
     @collection.setAllSelectedTo true
-    @onSelectionChange @collection.getSelectedCount()
+    @updateLastStep()
 
   unselectAll: ->
     @collection.setAllSelectedTo false
-    @onSelectionChange 0
+    @updateLastStep()
 
   emptyQueue: ->
     @collection.reset()
 
   childEvents:
-    'checkbox:change': 'lazyUpdateHeadCheckbox'
+    'selection:changed': 'lazyUpdateLastStep'
 
   collectionEvents:
-    'add': 'lazyUpdateHeadCheckbox'
+    'add': 'lazyUpdateLastStep'
 
-  updateHeadCheckbox: ->
-    selectedCount = @collection.getSelectedCount()
-    if selectedCount is 0
-      @applyCheckState false, false
-    else if selectedCount is @collection.length
-      @applyCheckState true, false
+  updateLastStep: ->
+    if @collection.selectionIsntEmpty()
+      @ui.disabledValidateButton.addClass 'force-hidden'
+      @ui.validateButton.removeClass 'force-hidden'
+      @ui.lastSteps.removeClass 'disabled'
     else
-      @applyCheckState false, true
-
-    @onSelectionChange selectedCount
-
-  applyCheckState: (checked, indeterminate)->
-    @ui.headCheckbox
-    .prop 'checked', checked
-    # it seems that setting indeterminate to false is required
-    # once it was set to true to make the checked state visible
-    .prop 'indeterminate', indeterminate
-
-  onSelectionChange: (selectedCount)->
-    if selectedCount is 0
       # Use 'force-hidden' as the class 'button' would otherwise overrides
       # the 'display' attribute
       @ui.validateButton.addClass 'force-hidden'
       @ui.disabledValidateButton.removeClass 'force-hidden'
       @ui.lastSteps.addClass 'disabled'
-    else
-      @ui.disabledValidateButton.addClass 'force-hidden'
-      @ui.validateButton.removeClass 'force-hidden'
-      @ui.lastSteps.removeClass 'disabled'
 
   validate: ->
     @toggleValidationElements()
@@ -95,9 +78,6 @@ module.exports = Marionette.CompositeView.extend
     @total = @selected.length
     transaction = getSelectorData @, 'transaction'
     listing = getSelectorData @, 'listing'
-    _.log @selected, '@selected'
-    _.log transaction, 'transaction'
-    _.log listing, 'listing'
     @chainedImport transaction, listing
     @startProgressUpdate()
 
@@ -122,14 +102,14 @@ module.exports = Marionette.CompositeView.extend
       _.log 'done importing!'
       @stopProgressUpdate()
       @toggleValidationElements()
-      @updateHeadCheckbox()
+      @updateLastStep()
       _.log @failed, 'failed candidates imports'
       @collection.add @failed
       # Hide the cant import message now
       # as it might sound like the import failed.
       # The section will not be empty though, thank to the addedItems message
       # on the import layout.
-      # Has to happen after updateHeadCheckbox as it will trigger
+      # Has to happen after updateLastStep as it will trigger
       # onSelectionChange, which in turn could show cantValidateMessage
       @ui.cantValidateMessage.hide()
       # triggering events on the parent via childEvents

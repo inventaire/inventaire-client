@@ -6,5 +6,7 @@ module.exports = Backbone.Collection.extend
       # Do not set selected=true for invalid ISBNs candidates
       unless model.get('isInvalid') then model.set 'selected', bool
 
-  getSelected: -> @filter (model)-> model.get('selected')
-  getSelectedCount: -> @getSelected().length
+  getSelected: -> @filter modelIsSelected
+  selectionIsntEmpty: -> @any modelIsSelected
+
+modelIsSelected = (model)-> model.get('selected')

@@ -1,0 +1,50 @@
+.candidate-row{
+  background-color: #fefefe;
+  @include radius(4px);
+  @include shy-border;
+  margin-bottom: 0.2em;
+  @include display-flex(row, center, center);
+  .checkbox-cell{
+    padding: 1em;
+  }
+  .data{
+    flex: 1 0 auto;
+    @include display-flex(row, center, null, wrap);
+    > div{
+      padding: 0 1em;
+      flex: 1 0 0;
+      @include display-flex(row, center, flex-start);
+    }
+    .status{
+      justify-content: center;
+    }
+    .label{
+      color: $grey;
+    }
+    /*Small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      flex-direction: column;
+      padding: 0.5em 0;
+
+    }
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      .label{
+        display: none;
+      }
+    }
+  }
+  &.can-be-selected{
+    cursor: pointer;
+  }
+  &:not(.can-be-selected){
+    cursor: not-allowed;
+  }
+  &.selected{
+    background-color: rgba($success-color, 0.3);
+  }
+  &.invalid{
+    background-color: #ddd;
+    opacity: 0.8;
+  }
+}

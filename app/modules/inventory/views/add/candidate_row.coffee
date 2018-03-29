@@ -1,40 +1,54 @@
 CandidateInfo = require './candidate_info'
 
 module.exports = Marionette.ItemView.extend
-  tagName: 'tr'
+  tagName: 'li'
   template: require './templates/candidate_row'
+  className: ->
+    base = 'candidate-row'
+    if @model.get('isInvalid') then base += ' invalid'
+    else if not @model.get('needInfo')
+      base += ' can-be-selected'
+      if @model.get('selected') then base += ' selected'
+    return base
+
+  onRender: ->
+    @updateClassName()
+    @trigger 'selection:changed'
+
   ui:
     checkbox: 'input'
 
   events:
     'change input': 'updateSelected'
+    'click': 'select'
     'click .addInfo': 'addInfo'
 
   modelEvents:
-    'change:selected': 'updateCheckbox'
-
-  updateCheckbox: (model, value)->
-    if @model.get('isInvalid') then return
-    # prevent updating the view if the change was due to the view change itself
-    if @updatedFromView then @updatedFromView = false
-    else @ui.checkbox.prop 'checked', value
+    'change:selected': 'render'
 
   updateSelected: (e)->
     { checked } = e.currentTarget
-    @updatedFromView = true
     @model.set 'selected', checked
-    @trigger 'checkbox:change'
+    # stopPropagation to avoid triggering the general 'click' event
+    e.stopPropagation()
 
-  addInfo: ->
+  select: (e)->
+    unless @model.canBeSelected() then return
+    currentSelectedMode = @model.get 'selected'
+    # Let the model events listener update the checkbox
+    @model.set 'selected', not currentSelectedMode
+
+  addInfo: (e)->
     showCandidateInfo @model.get('isbn')
     .then (data)=>
       { title, authors } = data
       @model.set { title, authors, selected: true }
-      @trigger 'checkbox:change'
-      @render()
     .catch (err)->
       if err.message is 'modal closed' then return
       else throw err
+
+    # stopPropagation to avoid triggering the general 'click' event
+    e.stopPropagation()
 
 showCandidateInfo = (isbn)->
   return new Promise (resolve, reject)->

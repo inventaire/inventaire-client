@@ -1,27 +1,8 @@
 .import-queue{
-  table{
-    width: 100%;
-    th{
-      background-color: #ddd;
-      input[type="checkbox"]{
-        margin-top: 0.5em;
-        margin-bottom: 0;
-      }
-    }
-    tr{
-      &:not(:last-child){
-        border-bottom: 1px solid #bbb;
-      }
-    }
-    .selected{
-      width: 1.8em;
-    }
-  }
+  margin-top: 3em;
   .settings{
     text-align: left;
-  }
-  .checkbox-cell{
-    padding: 0 0.5em;
+    padding: 0 1em;
   }
   label{
     margin-top: 0.5em;
@@ -37,10 +18,6 @@
   }
   section{
     position: relative;
-  }
-  .bottom{
-    padding-top: 0.5em;
-    margin-bottom: -0.8em;
   }
   .alert-box{
     margin-top: 1em;
@@ -61,46 +38,39 @@
   }
 }
 
-#emptyQueue{
-  @include shy(0.6);
-  &:hover{
-    span{
-      @include underline;
-    }
+#queue-header{
+  @include display-flex(row, center, center);
+  .checkbox-placeholder{
+    // Empirically take as much space as candidate rows checkboxes
+    width: 3.1em;
+    height: 1em;
+  }
+  .label{
+    flex: 1 0 0;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    display: none;
   }
 }
 
-.candidate-info{
-  @include display-flex(column, center, center);
-  .row{
-    @include display-flex(row);
-    margin-right: auto;
-  }
-  label{
-    margin-right: auto;
-    font-size: 1rem;
-    padding-right: 0.4em;
-  }
-  .tip{
-    color: $grey;
-    font-size: 0.9rem;
-    // Aligning with the label
-    padding-top: 0.05em;
-  }
-  .required{
-    color: red;
-  }
-  .validateInfo, .disabledValidateInfo{
-    margin: 0 auto;
-    padding: 1em;
-  }
-  .disabledValidateInfo{
-    cursor: not-allowed;
-    opacity: 0.5;
+
+#queue-nav{
+  @include display-flex(row, center, center, wrap);
+  margin-bottom: 0.2em;
+  a{
+    flex: 1 0 0;
+    padding: 0.5em;
+    word-wrap: break-word;
+    min-width: 10em;
+    @include bg-hover(#dedede);
+    &:first-child{ @include radius-left; }
+    &:last-child{ @include radius-right; }
   }
 }
 
 #lastSteps{
+  margin-top: 3em;
   @include transition(opacity);
   opacity: 1;
   &.disabled{
@@ -124,3 +94,6 @@
     color: white;
   }
 }
+
+@import 'candidate_row';
+@import 'candidate_info';
