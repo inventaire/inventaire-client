@@ -42,21 +42,22 @@ module.exports = Marionette.ItemView.extend
     # required by the invitations by email users list
     attrs.showEmail = @options.showEmail
     attrs.stretch = @options.stretch
-    if @groupContext then @attachGroupsAttributes attrs
-    else attrs
+    if @groupContext then @customizeGroupsAttributes attrs
+    return attrs
 
-  attachGroupsAttributes: (attrs)->
+  customizeGroupsAttributes: (attrs)->
     attrs.groupContext = true
 
     groupStatus = @group.userStatus @model
     attrs[groupStatus] = true
 
     userId = @model.id
-    if @group.userIsAdmin(userId) then attrs.admin = true
+
+    # Override the general user.admin attribute to display an admin status
+    # only for group admins
+    attrs.admin = @group.userIsAdmin userId
 
     attrs.mainUserIsAdmin = @group.mainUserIsAdmin()
-
-    return attrs
 
   selectUser: (e)->
     unless _.isOpenedOutside(e)
