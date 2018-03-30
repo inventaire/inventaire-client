@@ -13,6 +13,10 @@ module.exports = UserCommons.extend
     @setInventoryStats()
     @calculateHighlightScore()
 
+    app.request 'wait:for', 'relations'
+    .then @initRelation.bind(@)
+
+  initRelation: ->
     @set 'status', getStatus(@id, app.relations)
 
     if @id in app.relations.network
