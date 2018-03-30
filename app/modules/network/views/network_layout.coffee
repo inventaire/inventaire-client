@@ -15,7 +15,7 @@ module.exports = Marionette.LayoutView.extend
     'tabs:change': 'updateLayout'
 
   initialize: ->
-    @waitForRelations = app.request 'wait:for', 'users'
+    @waitForRelations = app.request 'wait:for', 'relations'
 
   onShow: ->
     { tab } = @options

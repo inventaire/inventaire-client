@@ -6,7 +6,7 @@ module.exports = Marionette.ItemView.extend
     @once 'render', @initListeners.bind(@)
 
     # Re-render once app.relations is populated to display network counters
-    app.request('wait:for', 'user').then @lazyRender
+    app.request('wait:for', 'relations').then @lazyRender
 
   initListeners: ->
     @listenTo app.vent,

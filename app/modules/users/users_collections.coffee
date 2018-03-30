@@ -15,7 +15,7 @@ module.exports = (app)->
     if fetched[category] then return waiters[category]
 
     fetched[category] = true
-    waiters[category] = app.request 'wait:for', 'users'
+    waiters[category] = app.request 'wait:for', 'relations'
       .then -> app.request 'get:users:models', app.relations[category]
       .then (models)->
         users[category] = new Users models

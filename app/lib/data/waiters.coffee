@@ -4,7 +4,7 @@
 
 waitersNames = [
   'user'
-  'users'
+  'relations'
   'groups'
   'transactions'
   'i18n'
@@ -30,7 +30,7 @@ module.exports = ->
   _waitForNetwork = ->
     return Promise.all [
       waitersPromises.user
-      waitersPromises.users
+      waitersPromises.relations
       waitersPromises.groups
     ]
 

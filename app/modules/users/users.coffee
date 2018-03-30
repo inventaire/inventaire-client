@@ -48,7 +48,7 @@ initRelations = ->
     _.preq.get app.API.relations
     .then (relations)->
       app.relations = relations
-      app.execute 'waiter:resolve', 'users'
+      app.execute 'waiter:resolve', 'relations'
     .catch _.Error('relations init err')
   else
     app.relations =
@@ -56,4 +56,4 @@ initRelations = ->
       userRequested: []
       otherRequested: []
       network: []
-    app.execute 'waiter:resolve', 'users'
+    app.execute 'waiter:resolve', 'relations'

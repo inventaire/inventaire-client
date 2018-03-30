@@ -23,7 +23,7 @@ getByIds = (ids)->
     return items.map (item)-> new Item item
 
 getNetworkItems = (params)->
-  app.request 'wait:for', 'users'
+  app.request 'wait:for', 'relations'
   .then ->
     networkIds = app.relations.network
     makeRequest params, 'byUsers', networkIds

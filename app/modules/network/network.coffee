@@ -64,7 +64,7 @@ initRequestsCollectionsEvent = ->
 
 API =
   showFirstUsersLayout: ->
-    app.request 'wait:for', 'users'
+    app.request 'wait:for', 'relations'
     .then ->
       if defaultToSearch.users() then API.showSearchUsers()
       else API.showFriends()
