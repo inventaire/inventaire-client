@@ -68,7 +68,7 @@ API =
     app.execute 'show:loader'
 
     app.request 'get:item:model', id
-    .then showItemShowFromModel
+    .then showWorkWithItemModal
     .catch (err)->
       if err.statusCode is 404 then app.execute 'show:error:missing'
       else _.error err, 'showItemFromId'
@@ -119,7 +119,7 @@ displayFoundItems = (items)->
   switch items.length
     when 0 then app.execute 'show:error:missing'
     # redirect to the item
-    when 1 then showItemShowFromModel items.models[0]
+    when 1 then showWorkWithItemModal items.models[0]
     else showItemsList items
 
 showInventory = (options)->
@@ -131,7 +131,7 @@ showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
   app.navigateFromModel group
 
-showItemShowFromModel = (model)->
+showWorkWithItemModal = (model)->
   app.execute 'show:work:with:item:modal', model
 
 showItemModal = (model)->
@@ -156,7 +156,7 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:creation:form': showItemCreationForm
 
-    'show:item:show:from:model': showItemShowFromModel
+    'show:item': showWorkWithItemModal
 
     'show:add:layout': showAddLayout
     # equivalent to the previous one as long as search is the default tab
@@ -196,4 +196,4 @@ initializeInventoriesHandlers = (app)->
       .delay 500
       # before requesting an updated item
       .then -> app.request 'get:item:model', item.get('_id')
-      .then (updatedItem)-> app.execute 'show:item:show:from:model', updatedItem
+      .then (updatedItem)-> app.execute 'show:item', updatedItem

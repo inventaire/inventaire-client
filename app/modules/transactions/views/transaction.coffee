@@ -69,7 +69,7 @@ module.exports = Marionette.CompositeView.extend
 
   showItem: (e)->
     unless _.isOpenedOutside e
-      app.execute 'show:item:show:from:model', @model.item
+      app.execute 'show:item', @model.item
 
   showOwner: (e)->
     unless _.isOpenedOutside e

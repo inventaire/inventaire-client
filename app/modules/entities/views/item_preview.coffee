@@ -21,4 +21,4 @@ module.exports = Marionette.ItemView.extend
 
   showItem: (e)->
     unless _.isOpenedOutside e
-      app.execute 'show:item:show:from:model', @model
+      app.execute 'show:item', @model

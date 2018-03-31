@@ -1,7 +1,7 @@
 handlers =
   itemShow: (e)->
     unless _.isOpenedOutside e
-      app.execute 'show:item:show:from:model', @model
+      app.execute 'show:item', @model
 
   showUser: (e)->
     unless _.isOpenedOutside e
