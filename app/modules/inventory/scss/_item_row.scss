@@ -1,0 +1,30 @@
+// See also ./_candidate_row.scss
+
+.item-row, .items-rows-header{
+  .title, .authors{
+    flex: 1 0 0;
+    margin: 0 0.5em;
+    text-align: left;
+  }
+  .image-wrapper, .image-placeholder{
+    width: 3em;
+  }
+  .isbn{
+    width: 7em;
+    color: $grey;
+  }
+  .action{
+    min-width: 5em;
+  }
+}
+
+.items-rows-header{
+  font-weight: bold;
+  color: $grey;
+}
+
+.item-row{
+  .image-wrapper{
+    height: 3em;
+  }
+}

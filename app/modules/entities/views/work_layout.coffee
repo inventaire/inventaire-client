@@ -30,10 +30,8 @@ module.exports = Marionette.LayoutView.extend
     else @completeShow()
 
   showItemModal: (item)->
-    item.grabWorks()
-    .then =>
-      app.execute 'show:item:modal', item
-      @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
+    app.execute 'show:item:modal', item
+    @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
 
   completeShow: ->
     # Run only once

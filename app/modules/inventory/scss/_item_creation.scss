@@ -1,10 +1,4 @@
 .itemCreation, .import-queue{
-  .button{
-    font-weight: bold;
-    // padding adapted to avoid wrapping in German
-    padding: 0.8em 1.45em 1em 1.45em;
-    white-space: nowrap;
-  }
   #giving{ @include selected-button-color($giving-color); }
   #lending{ @include selected-button-color($lending-color); }
   #selling{ @include selected-button-color($selling-color); }
@@ -54,9 +48,5 @@
         margin-left: 1rem;
       }
     }
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
   }
 }

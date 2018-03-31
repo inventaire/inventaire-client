@@ -24,12 +24,12 @@
   <div class="status">
     {{#if isInvalid}}
       <span class="invalid-isbn">{{i18n 'invalid ISBN'}}</span>
-    {{else}}
-      {{#if needInfo}}
-        <a class="addInfo tiny-warning-button">{{i18n 'need more information'}}</a>
-      {{else}}
-        {{errorMessage}}
-      {{/if}}
+    {{/if}}
+    {{#if needInfo}}
+      <a class="addInfo tiny-warning-button">{{i18n 'need more information'}}</a>
+    {{/if}}
+    {{#if errorMessage}}
+      <span class="error-message">{{errorMessage}}</span>
     {{/if}}
   </div>
 </div>

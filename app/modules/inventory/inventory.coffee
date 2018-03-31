@@ -135,7 +135,8 @@ showWorkWithItemModal = (model)->
   app.execute 'show:work:with:item:modal', model
 
 showItemModal = (model)->
-  app.layout.modal.show new ItemShow { model }
+  model.grabWorks()
+  .then -> app.layout.modal.show new ItemShow { model }
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers

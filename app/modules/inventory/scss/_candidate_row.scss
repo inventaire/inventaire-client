@@ -1,9 +1,12 @@
-.candidate-row{
+.candidate-row, .item-row{
   background-color: #fefefe;
   @include radius(4px);
   @include shy-border;
   margin-bottom: 0.2em;
   @include display-flex(row, center, center);
+}
+
+.candidate-row{
   .checkbox-cell{
     padding: 1em;
   }
@@ -46,5 +49,16 @@
   &.invalid{
     background-color: #ddd;
     opacity: 0.8;
+  }
+  .invalid-isbn, .error-message{
+    color: red;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .addInfo{
+      // Display block so that the button doesn't get split into multi-lines
+      display: block;
+      margin: 0.2em;
+    }
   }
 }

@@ -25,17 +25,6 @@
   .validation{
     margin-bottom: 1em;
   }
-  .invalid-isbn{
-    color: red;
-  }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .addInfo{
-      // Display block so that the button doesn't get split into multi-lines
-      display: block;
-      margin: 0.2em;
-    }
-  }
 }
 
 #queue-header{
@@ -95,5 +84,10 @@
   }
 }
 
+.items-rows-header{
+  @include display-flex(row);
+}
+
 @import 'candidate_row';
+@import 'item_row';
 @import 'candidate_info';

@@ -29,7 +29,6 @@ module.exports = Marionette.LayoutView.extend
     queue: '#queue'
 
   ui:
-    addedItems: '#addedItems'
     isbnsImporter: '#isbnsImporter'
     isbnsImporterTextarea: '#isbnsImporter textarea'
     isbnsImporterWrapper: '#isbnsImporterWrapper'
@@ -39,7 +38,6 @@ module.exports = Marionette.LayoutView.extend
   events:
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
-    'click #addedItems': 'showMainUserInventory'
     'click #findIsbns': 'findIsbns'
 
   childEvents:
@@ -60,6 +58,10 @@ module.exports = Marionette.LayoutView.extend
     @showImportQueueUnlessEmpty()
     @listenTo @candidates, 'reset', @hideImportQueueIfEmpty.bind(@)
 
+    # Accept ISBNs from the URL to ease development
+    isbns = app.request('querystring:get', 'isbns')?.split('|')
+    @isbnsBatch or= isbns
+
     if @isbnsBatch?
       @ui.isbnsImporterTextarea.val @isbnsBatch.join('\n')
       @$el.find('#findIsbns').trigger 'click'
@@ -74,7 +76,7 @@ module.exports = Marionette.LayoutView.extend
       # by hideImportQueueIfEmpty
       @queue.$el.slideDown()
       if not @queue.hasView()
-        @queue.show new ImportQueue { collection: @candidates }
+        @queue.show new ImportQueue { @candidates }
 
       # Run once @ui.importersWrapper is done sliding up
       setTimeout _.scrollTop.bind(null, @queue.$el), 500
@@ -111,12 +113,6 @@ module.exports = Marionette.LayoutView.extend
   onImportDone: ->
     @hideImportQueueIfEmpty()
     @$el.trigger 'check'
-    # show the message once import_queue success check is over
-    setTimeout @ui.addedItems.fadeIn.bind(@ui.addedItems), 700
-
-  showMainUserInventory: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:inventory:main:user'
 
   findIsbns: ->
     text = @ui.isbnsImporterTextarea.val()

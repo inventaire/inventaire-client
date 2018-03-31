@@ -3,15 +3,25 @@ ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = Marionette.CompositeView.extend
+CandidatesQueue = Marionette.CollectionView.extend
+  childView: require './candidate_row'
+  childEvents:
+    'selection:changed': -> @triggerMethod 'selection:changed'
+
+ItemsList = Marionette.CollectionView.extend
+  childView: require './item_row'
+
+module.exports = Marionette.LayoutView.extend
   className: 'import-queue'
   template: require './templates/import_queue'
-  childViewContainer: '#candidatesQueue'
-  childView: require './candidate_row'
+
+  regions:
+    candidatesQueue: '#candidatesQueue'
+    itemsList: '#itemsList'
 
   ui:
     headCheckbox: 'thead input'
-    validationElements: '.validation > div'
+    validationElements: '.import, .progress'
     validateButton: '#validate'
     disabledValidateButton: '#disabledValidate'
     transaction: '#transaction'
@@ -19,6 +29,7 @@ module.exports = Marionette.CompositeView.extend
     meter: '.meter'
     fraction: '.fraction'
     lastSteps: '#lastSteps'
+    addedBooks: '#addedBooks'
 
   behaviors:
     ItemCreationSelect:
@@ -38,21 +49,25 @@ module.exports = Marionette.CompositeView.extend
     'click #validate': 'validate'
 
   initialize: ->
+    { @candidates } = @options
+    @items = new Backbone.Collection
     @lazyUpdateLastStep = _.debounce @updateLastStep.bind(@), 200
 
   onShow: ->
+    @candidatesQueue.show new CandidatesQueue { collection: @candidates }
+    @itemsList.show new ItemsList { collection: @items }
     @lazyUpdateLastStep()
 
   selectAll: ->
-    @collection.setAllSelectedTo true
+    @candidates.setAllSelectedTo true
     @updateLastStep()
 
   unselectAll: ->
-    @collection.setAllSelectedTo false
+    @candidates.setAllSelectedTo false
     @updateLastStep()
 
   emptyQueue: ->
-    @collection.reset()
+    @candidates.reset()
 
   childEvents:
     'selection:changed': 'lazyUpdateLastStep'
@@ -61,7 +76,7 @@ module.exports = Marionette.CompositeView.extend
     'add': 'lazyUpdateLastStep'
 
   updateLastStep: ->
-    if @collection.selectionIsntEmpty()
+    if @candidates.selectionIsntEmpty()
       @ui.disabledValidateButton.addClass 'force-hidden'
       @ui.validateButton.removeClass 'force-hidden'
       @ui.lastSteps.removeClass 'disabled'
@@ -74,46 +89,54 @@ module.exports = Marionette.CompositeView.extend
 
   validate: ->
     @toggleValidationElements()
-    @selected = @collection.getSelected()
+
+    @selected = @candidates.getSelected()
     @total = @selected.length
+
     transaction = getSelectorData @, 'transaction'
     listing = getSelectorData @, 'listing'
+
     @chainedImport transaction, listing
     @startProgressUpdate()
 
   chainedImport: (transaction, listing)->
-    if @selected.length > 0
-      candidate = @selected.pop()
-      candidate.createItem transaction, listing
-      .catch (err)=>
-        candidate.set 'errorMessage', err.message
-        @failed or= []
-        @failed.push candidate
-        return
-      .then (item)=>
-        @collection.remove candidate
-        # recursively trigger next import
-        @chainedImport transaction, listing
+    if @selected.length is 0
+      setTimeout @doneImporting.bind(@), 2000
+      return
 
-      .catch error_.Complete('.validation')
-      .catch forms_.catchAlert.bind(null, @)
+    candidate = @selected.pop()
+    candidate.createItem transaction, listing
+    .catch (err)=>
+      candidate.set 'errorMessage', err.message
+      @failed or= []
+      @failed.push candidate
+      return
+    .then (item)=>
+      @candidates.remove candidate
+      if @items.length is 0
+        setTimeout @showAddedBooks.bind(@), 3000
+      @items.add item
+      # recursively trigger next import
+      @chainedImport transaction, listing
 
-    else
-      _.log 'done importing!'
-      @stopProgressUpdate()
-      @toggleValidationElements()
-      @updateLastStep()
+    .catch error_.Complete('.validation')
+    .catch forms_.catchAlert.bind(null, @)
+
+  doneImporting: ->
+    _.log 'done importing!'
+    @stopProgressUpdate()
+    @toggleValidationElements()
+    @updateLastStep()
+    if @failed?.length > 0
       _.log @failed, 'failed candidates imports'
-      @collection.add @failed
-      # Hide the cant import message now
-      # as it might sound like the import failed.
-      # The section will not be empty though, thank to the addedItems message
-      # on the import layout.
-      # Has to happen after updateLastStep as it will trigger
-      # onSelectionChange, which in turn could show cantValidateMessage
-      @ui.cantValidateMessage.hide()
-      # triggering events on the parent via childEvents
-      @triggerMethod 'import:done'
+      @candidates.add @failed
+      @failed = []
+    # triggering events on the parent via childEvents
+    @triggerMethod 'import:done'
+
+  showAddedBooks: ->
+    @ui.addedBooks.fadeIn()
+    setTimeout _.scrollTop.bind(null, @ui.addedBooks), 600
 
   toggleValidationElements: ->
     @ui.validationElements.toggleClass 'force-hidden'
