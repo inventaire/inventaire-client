@@ -20,8 +20,11 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'change input': 'updateSelected'
-    'click': 'select'
     'click .addInfo': 'addInfo'
+    'click .remove': 'remov'
+    # General click event: use stopPropagation to avoid triggering it
+    # from other click event handlers
+    'click': 'select'
 
   modelEvents:
     'change:selected': 'render'
@@ -29,7 +32,6 @@ module.exports = Marionette.ItemView.extend
   updateSelected: (e)->
     { checked } = e.currentTarget
     @model.set 'selected', checked
-    # stopPropagation to avoid triggering the general 'click' event
     e.stopPropagation()
 
   select: (e)->
@@ -47,7 +49,11 @@ module.exports = Marionette.ItemView.extend
       if err.message is 'modal closed' then return
       else throw err
 
-    # stopPropagation to avoid triggering the general 'click' event
+    e.stopPropagation()
+
+  # Avoid overriding Backbone.View::remove
+  remov: (e)->
+    @model.collection.remove @model
     e.stopPropagation()
 
 showCandidateInfo = (isbn)->

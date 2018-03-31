@@ -53,6 +53,10 @@
   .invalid-isbn, .error-message{
     color: red;
   }
+  .remove{
+    margin-right: 0.5em;
+    padding: 0.5em;
+  }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     .addInfo{

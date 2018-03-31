@@ -27,7 +27,7 @@
   }
 }
 
-#queue-header{
+#candidates-queue-header{
   @include display-flex(row, center, center);
   .checkbox-placeholder{
     // Empirically take as much space as candidate rows checkboxes
@@ -37,14 +37,16 @@
   .label{
     flex: 1 0 0;
   }
+  .action-placeholder{
+    width: 3em;
+  }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     display: none;
   }
 }
 
-
-#queue-nav{
+#candidates-queue-nav{
   @include display-flex(row, center, center, wrap);
   margin-bottom: 0.2em;
   a{
