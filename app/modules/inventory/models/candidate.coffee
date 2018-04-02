@@ -1,7 +1,15 @@
+isbn_ = require 'lib/isbn'
+
 module.exports = Backbone.Model.extend
   # Use the normalized ISBN as id to deduplicate entries
   idAttribute: 'isbn'
   initialize: (attrs)->
+    if attrs.isbn?
+      unless attrs.rawIsbn?
+        @set 'rawIsbn', attrs.isbn
+      unless attrs.normalizedIsbn?
+        @set 'normalizedIsbn', isbn_.normalizeIsbn(attrs.isbn)
+
     if attrs.isInvalid then return
 
     if not attrs.title?
