@@ -56,7 +56,6 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     # show the import queue if there were still candidates from last time
     @showImportQueueUnlessEmpty()
-    @listenTo @candidates, 'reset', @hideImportQueueIfEmpty.bind(@)
 
     # Accept ISBNs from the URL to ease development
     isbns = app.request('querystring:get', 'isbns')?.split('|')
@@ -72,17 +71,11 @@ module.exports = Marionette.LayoutView.extend
 
   showImportQueueUnlessEmpty: ->
     if @candidates.length > 0
-      # slide down in case @queue.$el was previously hidden
-      # by hideImportQueueIfEmpty
-      @queue.$el.slideDown()
       if not @queue.hasView()
         @queue.show new ImportQueue { @candidates }
 
       # Run once @ui.importersWrapper is done sliding up
       setTimeout _.scrollTop.bind(null, @queue.$el), 500
-
-  hideImportQueueIfEmpty: ->
-    if @candidates.length is 0 then @queue.$el.slideUp()
 
   getFile: (e)->
     behaviorsPlugin.startLoading.call @, '.loading-queue'
@@ -111,7 +104,6 @@ module.exports = Marionette.LayoutView.extend
   hideAlertBox: -> @$el.trigger 'hideAlertBox'
 
   onImportDone: ->
-    @hideImportQueueIfEmpty()
     @$el.trigger 'check'
 
   findIsbns: ->

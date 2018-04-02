@@ -100,9 +100,7 @@ module.exports = Marionette.LayoutView.extend
     @startProgressUpdate()
 
   chainedImport: (transaction, listing)->
-    if @selected.length is 0
-      setTimeout @doneImporting.bind(@), 2000
-      return
+    if @selected.length is 0 then return @doneImporting()
 
     candidate = @selected.pop()
     candidate.createItem transaction, listing
@@ -113,8 +111,7 @@ module.exports = Marionette.LayoutView.extend
       return
     .then (item)=>
       @candidates.remove candidate
-      if @items.length is 0
-        setTimeout @showAddedBooks.bind(@), 3000
+      if @items.length is 0 then setTimeout @showAddedBooks.bind(@), 1000
       @items.add item
       # recursively trigger next import
       @chainedImport transaction, listing
