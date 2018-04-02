@@ -1,11 +1,13 @@
 module.exports = Backbone.Collection.extend
   model: require '../models/candidate'
 
-  setAllSelectedTo: (bool)->
-    @each (model)->
-      if model.canBeSelected() then model.set 'selected', bool
+  setAllSelectedTo: (bool)-> @each setSelected(bool)
 
-  getSelected: -> @filter modelIsSelected
-  selectionIsntEmpty: -> @any modelIsSelected
+  getSelected: -> @filter isSelected
 
-modelIsSelected = (model)-> model.get('selected')
+  selectionIsntEmpty: -> @any isSelected
+
+isSelected = (model)-> model.get('selected')
+
+setSelected = (bool)-> (model)->
+  if model.canBeSelected() then model.set 'selected', bool

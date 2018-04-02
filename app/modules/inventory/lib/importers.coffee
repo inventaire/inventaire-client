@@ -47,5 +47,5 @@ format = (id, obj)->
   obj.accept = accept[obj.format]
   return obj
 
-for k, v of importers
-  exports[k] = format k, v
+for name, params of importers
+  exports[name] = format name, params
