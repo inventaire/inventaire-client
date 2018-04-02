@@ -135,10 +135,14 @@ module.exports = Marionette.LayoutView.extend
   displayResults: (data)->
     { results, isbnsIndex } = data
     newCandidates = getCandidatesFromEntitiesDocs results.entities, isbnsIndex
-    # Make sure to display candidates in the order they where input
-    # to help the user fill the missing information
+
+    alreadyAddedIsbns = candidates.pluck 'normalizedIsbn'
+
     reorderCandidates = newCandidates
       .concat results.notFound, results.invalidIsbn
+      .filter (candidate)-> candidate.normalizedIsbn not in alreadyAddedIsbns
+      # Make sure to display candidates in the order they where input
+      # to help the user fill the missing information
       .sort byIndex(isbnsIndex)
 
     candidates.add reorderCandidates, { merge: true }
