@@ -23,6 +23,10 @@ module.exports = (isbnsData)->
 
   total = uris.length
 
+  updateProgression = ->
+    done = total - uris.length
+    app.vent.trigger 'progression:ISBNs', { done, total }
+
   fetchOneByOne = ->
     nextUri = uris.pop()
     unless nextUri? then return
@@ -32,6 +36,7 @@ module.exports = (isbnsData)->
       _.extend commonRes.entities, res.entities
       _.extend commonRes.redirects, res.redirects
       res.notFound?.forEach pushNotFound(isbnsIndex, commonRes)
+    .tap updateProgression
     # Log errors without throwing to prevent crashing the whole chain
     .catch _.Error('fetchOneByOne err')
     .then fetchOneByOne

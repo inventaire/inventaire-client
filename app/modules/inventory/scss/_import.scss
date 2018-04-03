@@ -44,6 +44,14 @@
     .format{
       margin-left: 0.5em;
     }
+    .loading{
+      @include display-flex(row, center, center);
+      // Prevents that the spinner moves up and down
+      line-height: 0;
+      .progression{
+        margin-right: 0.5em;
+      }
+    }
     &:not(:last-child){
       border-bottom: 1px solid #bbb;
     }

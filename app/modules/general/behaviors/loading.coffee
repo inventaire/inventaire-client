@@ -5,7 +5,7 @@ module.exports = Marionette.Behavior.extend
     'somethingWentWrong': 'somethingWentWrong'
 
   showSpinningLoader: (e, params = {})->
-    { selector, message, timeout } = params
+    { selector, message, timeout, progressionEventName } = params
     @$target = @getTarget selector
     # _.log @$target, '@$target'
 
@@ -20,6 +20,10 @@ module.exports = Marionette.Behavior.extend
     unless timeout is 'none'
       cb = @somethingWentWrong.bind @, null, params
       setTimeout cb, timeout * 1000
+
+    if progressionEventName?
+      lazyUpdateProgression = _.debounce updateProgression.bind(@, body), 500
+      @listenTo app.vent, progressionEventName, lazyUpdateProgression
 
   hideSpinningLoader: (e, params = {})->
     @$target or= @getTarget params.selector
@@ -46,3 +50,8 @@ module.exports = Marionette.Behavior.extend
       if $targetAlt.length is 1 then $targetAlt else $target
     else
       @$el.find '.loading'
+
+updateProgression = (body, data)->
+  if @hidden then return
+  counter = "#{data.done}/#{data.total}"
+  @$target.html "<span class='progression'>#{counter}</span> #{body}"

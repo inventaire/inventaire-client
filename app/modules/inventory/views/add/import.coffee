@@ -77,7 +77,11 @@ module.exports = Marionette.LayoutView.extend
     { name, parse, encoding } = importers[source]
 
     selector = "##{name}-li .loading"
-    behaviorsPlugin.startLoading.call @, { selector, timeout: 'none' }
+
+    behaviorsPlugin.startLoading.call @,
+      selector: selector
+      timeout: 'none'
+      progressionEventName: if name is 'ISBNs' then 'progression:ISBNs'
 
     Promise.all [
       files_.parseFileEventAsText e, true, encoding
