@@ -7,9 +7,6 @@
   section{
     margin-top: 0;
   }
-  .warning:not(:empty){
-    margin-top: 1em;
-  }
 }
 
 .importers{
@@ -60,6 +57,9 @@
 
 #isbnsImporter{
   @include display-flex(column);
+  .loading{
+    margin-bottom: 1em;
+  }
   #findIsbns{
     margin: auto;
     margin-bottom: 1em;

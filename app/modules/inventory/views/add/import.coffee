@@ -29,7 +29,6 @@ module.exports = Marionette.LayoutView.extend
     isbnsImporter: '#isbnsImporter'
     isbnsImporterTextarea: '#isbnsImporter textarea'
     isbnsImporterWrapper: '#isbnsImporterWrapper'
-    separator: '.separator'
     importersWrapper: '#importersWrapper'
 
   events:
@@ -113,10 +112,15 @@ module.exports = Marionette.LayoutView.extend
     text = @ui.isbnsImporterTextarea.val()
     unless _.isNonEmptyString(text) then return
 
+    selector = '#isbnsImporterWrapper .loading'
+
+    behaviorsPlugin.startLoading.call @,
+      selector: selector
+      timeout: 'none'
+      progressionEventName: 'progression:ISBNs'
+
     extractIsbnsAndFetchData text
     .then candidates.addNewCandidates.bind(candidates)
     .then =>
-      @ui.separator.hide()
-      @ui.importersWrapper.slideUp 400
-      @ui.importersWrapper.find('#importersWrapper .warning').show()
+      behaviorsPlugin.stopLoading.call @, selector
       @showImportQueueUnlessEmpty()

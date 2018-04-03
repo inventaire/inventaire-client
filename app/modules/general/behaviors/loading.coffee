@@ -22,7 +22,11 @@ module.exports = Marionette.Behavior.extend
       setTimeout cb, timeout * 1000
 
     if progressionEventName?
-      lazyUpdateProgression = _.debounce updateProgression.bind(@, body), 500
+      if @_alreadyListingForProgressionEvent then return
+      @_alreadyListingForProgressionEvent = true
+
+      fn = updateProgression.bind @, body
+      lazyUpdateProgression = _.debounce fn, 500, true
       @listenTo app.vent, progressionEventName, lazyUpdateProgression
 
   hideSpinningLoader: (e, params = {})->
