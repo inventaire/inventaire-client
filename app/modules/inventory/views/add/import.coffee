@@ -8,6 +8,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 papaparse = require('lib/get_assets')('papaparse')
 isbn2 = require('lib/get_assets')('isbn2')
+commonParser = require '../../lib/parsers/common'
 extractIsbnsAndFetchData = require '../../lib/import/extract_isbns_and_fetch_data'
 
 candidates = null
@@ -87,6 +88,7 @@ module.exports = Marionette.LayoutView.extend
     .spread _.Log('uploaded file')
     .tap dataValidator.bind(null, source)
     .then parse
+    .map commonParser
     .catch _.ErrorRethrow('parsing error')
     # add the selector to the rejected error
     # so that it can be catched by catchAlert

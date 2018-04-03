@@ -2,8 +2,6 @@
 # - add an entry to the importers object hereafter
 # - add a parser to the ./parsers folder
 
-extractIsbnsAndFetchData = require './import/extract_isbns_and_fetch_data'
-
 csvParser = (source)-> (data)->
   data = data.trim()
   results = window.Papa.parse data, { header: true }
@@ -42,7 +40,9 @@ importers =
   ISBNs:
     format: 'all'
     help: 'any_isbn_text_file'
-    parse: extractIsbnsAndFetchData
+    # Require only on demande to avoid requiring it during other importers tests
+    # and thus having to adapt its dependencies to the test environment
+    parse: (data)-> require('./import/extract_isbns_and_fetch_data')(data)
 
 accept =
   csv: 'text/csv'

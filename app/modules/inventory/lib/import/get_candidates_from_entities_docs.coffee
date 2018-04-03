@@ -31,8 +31,8 @@ getEditionAuthors = (edition, entities)->
 
   authorsUris = _.flatten works.map(getWorkAuthors)
   authors = _.values _.pick(entities, authorsUris)
+
   return authors
-    .map (author)-> getBestLangValue(editionLang, null, author.labels).value
-    .join ', '
+  .map (author)-> getBestLangValue(editionLang, null, author.labels).value
 
 getWorkAuthors = (work)-> work.claims['wdt:P50']
