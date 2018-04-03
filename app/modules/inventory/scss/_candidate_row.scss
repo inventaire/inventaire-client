@@ -11,7 +11,8 @@
     padding: 1em;
   }
   .data{
-    flex: 1 0 auto;
+    text-align: left;
+    flex: 1 0 0;
     @include display-flex(row, center, null, wrap);
     > div{
       padding: 0 1em;

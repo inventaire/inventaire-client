@@ -3,12 +3,24 @@
   <section>
     <ul class="importers">
       {{#each importers}}
-        <li>
-          <p>
-            {{link label this.link}}
-            <span class="format">( .{{format}} )</span>
-          </p>
-          <input id="{{id}}" type="file" accept="{{accept}}" />
+        <li id="{{name}}-li">
+          <div>
+            <p>
+              {{#if this.link}}
+                {{link label this.link}}
+              {{else}}
+                <span title="{{i18n title}}">{{capitalize label}}</span>
+              {{/if}}
+              {{#unless hideFormat}}
+                <span class="format">( .{{format}} )</span>
+              {{/unless}}
+            </p>
+            {{#if help}}
+              <p class="help">{{{I18n help}}}</p>
+            {{/if}}
+          </div>
+          <input id="{{name}}" type="file" accept="{{accept}}" />
+          <span class="loading"></span>
         </li>
       {{/each}}
     </ul>

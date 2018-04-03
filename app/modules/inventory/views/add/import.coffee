@@ -8,11 +8,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 papaparse = require('lib/get_assets')('papaparse')
 isbn2 = require('lib/get_assets')('isbn2')
-
-importLib = '../../lib/import'
-fetchEntitiesSequentially = require "#{importLib}/fetch_entities_sequentially"
-extractIsbns = require "#{importLib}/extract_isbns"
-getCandidatesFromEntitiesDocs = require "#{importLib}/get_candidates_from_entities_docs"
+extractIsbnsAndFetchData = require '../../lib/import/extract_isbns_and_fetch_data'
 
 candidates = null
 
@@ -51,7 +47,7 @@ module.exports = Marionette.LayoutView.extend
     # to the ISBN importer
     unless @isbnsBatch? then papaparse.prepare()
 
-    @candidates = candidates or= new Candidates
+    candidates or= new Candidates
 
   onShow: ->
     # show the import queue if there were still candidates from last time
@@ -65,26 +61,27 @@ module.exports = Marionette.LayoutView.extend
       @ui.isbnsImporterTextarea.val @isbnsBatch.join('\n')
       @$el.find('#findIsbns').trigger 'click'
 
-  serializeData: ->
-    importers: importers
-    inventory: app.user.get('pathname')
+  serializeData: -> { importers }
 
   showImportQueueUnlessEmpty: ->
-    if @candidates.length > 0
+    if candidates.length > 0
       if not @queue.hasView()
-        @queue.show new ImportQueue { @candidates }
+        @queue.show new ImportQueue { candidates }
 
       # Run once @ui.importersWrapper is done sliding up
       setTimeout _.scrollTop.bind(null, @queue.$el), 500
 
   getFile: (e)->
-    behaviorsPlugin.startLoading.call @, '.loading-queue'
     source = e.currentTarget.id
-    { parse, encoding } = importers[source]
+    { name, parse, encoding } = importers[source]
+
+    selector = "##{name}-li .loading"
+    behaviorsPlugin.startLoading.call @, { selector, timeout: 'none' }
 
     Promise.all [
       files_.parseFileEventAsText e, true, encoding
       papaparse.get()
+      isbn2.get()
     ]
     # We only need the result from the file
     .spread _.Log('uploaded file')
@@ -93,10 +90,10 @@ module.exports = Marionette.LayoutView.extend
     .catch _.ErrorRethrow('parsing error')
     # add the selector to the rejected error
     # so that it can be catched by catchAlert
-    .catch error_.Complete('.warning')
+    .catch error_.Complete('#importersWrapper .warning')
     .then _.Log('parsed')
-    .then @candidates.add.bind(@candidates)
-    .tap => behaviorsPlugin.stopLoading.call @, '.loading-queue'
+    .then candidates.addNewCandidates.bind(candidates)
+    .tap => behaviorsPlugin.stopLoading.call @, selector
     .then @showImportQueueUnlessEmpty.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
@@ -110,35 +107,10 @@ module.exports = Marionette.LayoutView.extend
     text = @ui.isbnsImporterTextarea.val()
     unless _.isNonEmptyString(text) then return
 
-    isbn2.get()
+    extractIsbnsAndFetchData text
+    .then candidates.addNewCandidates.bind(candidates)
     .then =>
-      # window.ISBN should now be initalized
-      isbnsData = extractIsbns text
-
-      if isbnsData.length is 0 then return
-
       @ui.separator.hide()
       @ui.importersWrapper.slideUp 400
-      @ui.importersWrapper.find('.warning').show()
-
-      fetchEntitiesSequentially isbnsData
-      .then @displayResults.bind(@)
-
-  displayResults: (data)->
-    { results, isbnsIndex } = data
-    newCandidates = getCandidatesFromEntitiesDocs results.entities, isbnsIndex
-
-    alreadyAddedIsbns = candidates.pluck 'normalizedIsbn'
-
-    reorderCandidates = newCandidates
-      .concat results.notFound, results.invalidIsbn
-      .filter (candidate)-> candidate.normalizedIsbn not in alreadyAddedIsbns
-      # Make sure to display candidates in the order they where input
-      # to help the user fill the missing information
-      .sort byIndex(isbnsIndex)
-
-    candidates.add reorderCandidates, { merge: true }
-    @showImportQueueUnlessEmpty()
-
-byIndex = (isbnsIndex)-> (a, b)->
-  isbnsIndex[a.normalizedIsbn].index - isbnsIndex[b.normalizedIsbn].index
+      @ui.importersWrapper.find('#importersWrapper .warning').show()
+      @showImportQueueUnlessEmpty()

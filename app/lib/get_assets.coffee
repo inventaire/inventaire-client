@@ -1,7 +1,11 @@
 # An API to get scripts that weren't bundled into vendor.js
 # Names are expected to match app/api/scripts.coffee keys
 
+cache = {}
+
 module.exports = (name, onScriptReady)->
+  if cache[name]? then return cache[name]
+
   promise = null
   alreadyPrepared = false
   onScriptReady or= _.identity
@@ -27,7 +31,7 @@ module.exports = (name, onScriptReady)->
 
     return promise
 
-  return API =
+  return cache[name] =
     # Pre-fetch the script when the script is probably about to be used
     # to be ready to start using it faster
     prepare: ->

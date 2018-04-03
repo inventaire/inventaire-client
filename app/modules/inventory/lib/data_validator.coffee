@@ -24,3 +24,5 @@ isValid =
     # Testing only an extract to avoid passing a super long doc to the regexp.
     # Make sure to choose a specificKey that would appear in this extract
     return re.test data[0..1000]
+
+  all: -> true
