@@ -1,7 +1,7 @@
 should = require 'should'
 __ = require '../root'
 _ = require './utils_builder'
-isbn_ = sharedLib('isbn')(_)
+isbn_ = sharedLib 'isbn'
 importers = __.require 'modules', 'inventory/lib/importers'
 fs = require 'fs'
 window.Papa = require 'papaparse'
