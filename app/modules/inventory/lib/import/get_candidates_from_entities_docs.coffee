@@ -11,7 +11,6 @@ module.exports = (entities, isbnsIndex)->
       # modules/inventory/views/add/templates/candidate_row.hbs
       entity.title = claims['wdt:P1476'][0]
       entity.authors = getEditionAuthors entity, entities
-      _.log entity.authors, 'entity.authors'
       normalizedIsbn13 = isbn_.normalizeIsbn claims['wdt:P212'][0]
       normalizedIsbn10 = isbn_.normalizeIsbn claims['wdt:P957'][0]
       isbnData = isbnsIndex[normalizedIsbn13] or isbnsIndex[normalizedIsbn10]
