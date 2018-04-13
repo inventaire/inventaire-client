@@ -294,6 +294,7 @@ normalizeUri = (uri)->
 
 # Create from the seed data we have, if the entity isn't known yet
 existsOrCreateFromSeed = (data)->
+  data.isbn or= data.normalizedIsbn
   _.preq.post app.API.entities.existsOrCreateFromSeed, data
   # Add the possibly newly created edition entity to the local index
   # and get it's model
