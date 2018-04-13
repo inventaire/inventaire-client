@@ -1,4 +1,4 @@
-<div id="importersWrapper">
+<div id="importersWrapper" {{#if hideImporters}}class="hidden"{{/if}}>
   <h3>1/ {{I18n 'upload your collection from another website'}}</h3>
   <section>
     <ul class="importers">
@@ -28,7 +28,7 @@
   </section>
 </div>
 
-{{partial 'horizontal_separator' 'or'}}
+{{#unless hideImporters}}{{partial 'horizontal_separator' 'or'}}{{/unless}}
 
 <div id="isbnsImporterWrapper">
   <h3>1/ {{I18n 'import from a list of ISBNs'}}</h3>

@@ -45,7 +45,8 @@ module.exports = Marionette.LayoutView.extend
     isbn2.prepare()
     # No need to fetch papaparse if we know we will go straight
     # to the ISBN importer
-    unless @isbnsBatch? then papaparse.prepare()
+    if @isbnsBatch? then @hideImporters = true
+    else papaparse.prepare()
 
     candidates or= new Candidates
 
@@ -61,7 +62,9 @@ module.exports = Marionette.LayoutView.extend
       @ui.isbnsImporterTextarea.val @isbnsBatch.join('\n')
       @$el.find('#findIsbns').trigger 'click'
 
-  serializeData: -> { importers }
+  serializeData: ->
+    importers: importers
+    hideImporters: @hideImporters
 
   showImportQueueUnlessEmpty: ->
     if candidates.length > 0
