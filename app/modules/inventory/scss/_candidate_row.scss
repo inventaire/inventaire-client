@@ -38,10 +38,10 @@
       }
     }
   }
-  &.can-be-selected{
+  &.can-be-selected, &.need-info{
     cursor: pointer;
   }
-  &:not(.can-be-selected){
+  &:not(.can-be-selected):not(.need-info){
     cursor: not-allowed;
   }
   &.selected{
@@ -53,6 +53,9 @@
   }
   .invalid-isbn, .error-message{
     color: red;
+  }
+  .addInfo{
+    text-align: center;
   }
   .remove{
     margin-right: 0.5em;

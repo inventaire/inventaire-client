@@ -6,7 +6,9 @@ module.exports = Marionette.ItemView.extend
   className: ->
     base = 'candidate-row'
     if @model.get('isInvalid') then base += ' invalid'
-    else if not @model.get('needInfo')
+    else if @model.get('needInfo')
+      base += ' need-info'
+    else
       base += ' can-be-selected'
       if @model.get('selected') then base += ' selected'
     return base
@@ -35,10 +37,11 @@ module.exports = Marionette.ItemView.extend
     e.stopPropagation()
 
   select: (e)->
-    unless @model.canBeSelected() then return
-    currentSelectedMode = @model.get 'selected'
-    # Let the model events listener update the checkbox
-    @model.set 'selected', not currentSelectedMode
+    if @model.canBeSelected()
+      currentSelectedMode = @model.get 'selected'
+      # Let the model events listener update the checkbox
+      @model.set 'selected', not currentSelectedMode
+    else if @model.get('needInfo') then @addInfo()
 
   addInfo: (e)->
     showCandidateInfo @model.get('isbn')
