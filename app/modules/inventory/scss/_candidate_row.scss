@@ -44,6 +44,11 @@
   &:not(.can-be-selected):not(.need-info){
     cursor: not-allowed;
   }
+  &.need-info{
+    input[type='checkbox']{
+      visibility: hidden;
+    }
+  }
   &.selected{
     background-color: rgba($success-color, 0.3);
   }
@@ -67,6 +72,20 @@
       // Display block so that the button doesn't get split into multi-lines
       display: block;
       margin: 0.2em;
+    }
+    // Largely inspired by https://stackoverflow.com/a/16312173/3324977
+    // to make the checkbox bigger
+    input[type='checkbox']{
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 5px;
+      border: 2px solid #555;
+      cursor: pointer;
+    }
+    input[type='checkbox']:checked{
+      background: #abd;
     }
   }
 }
