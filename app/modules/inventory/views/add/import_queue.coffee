@@ -51,7 +51,7 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @candidates } = @options
     @items = new Backbone.Collection
-    @lazyUpdateLastStep = _.debounce @updateLastStep.bind(@), 200
+    @lazyUpdateLastStep = _.debounce @updateLastStep.bind(@), 50
 
   onShow: ->
     @candidatesQueue.show new CandidatesQueue { collection: @candidates }

@@ -50,22 +50,23 @@
   @include display-flex(row, center, center, wrap);
   margin-bottom: 0.2em;
   a{
+    margin: 0.1em;
     flex: 1 0 0;
     padding: 0.5em;
     word-wrap: break-word;
     min-width: 10em;
     @include bg-hover(#dedede);
-    &:first-child{ @include radius-left; }
-    &:last-child{ @include radius-right; }
+    @include radius;
   }
 }
 
 #lastSteps{
   margin-top: 3em;
-  @include transition(opacity);
+  @include transition(visibility);
   opacity: 1;
   &.disabled{
-    opacity: 0.5;
+    // Not using 'display: none' to avoid scroll jumps
+    visibility: hidden;
   }
 }
 

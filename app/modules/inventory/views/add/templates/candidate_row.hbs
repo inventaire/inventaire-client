@@ -10,11 +10,11 @@
 </div>
 <div class="data">
   <div>
-    <span class="label">{{i18n 'title'}}:</span>
+    {{#if title}}<span class="label">{{i18n 'title'}}:</span>{{/if}}
     <span class="value">{{title}}</span>
   </div>
   <div>
-    <span class="label">{{i18n 'authors'}}:</span>
+    {{#if authors}}<span class="label">{{i18n 'authors'}}:</span>{{/if}}
     <span class="value">{{authors}}</span>
   </div>
   <div class="isbn-data">
