@@ -1,22 +1,9 @@
 {{#if editMode}}
   <div class="edit-mode">
     <div class="unit-pickers has-alertbox">
-      {{partial 'entities:editor:time_unit_picker' unitName='year' unitList=years}}
-      {{#if showMonthsAndDays}}
-        <div class="months-and-days-pickers-wrapper">
-          <div class="months-and-days-pickers">
-            {{partial 'entities:editor:time_unit_picker' unitName='month' unitList=months}}
-            {{partial 'entities:editor:time_unit_picker' unitName='day' unitList=days}}
-          </div>
-          <div class="unit-toggler-wrapper">
-            <a class="showYearsOnly">- {{i18n 'precise the year only'}}</a>
-          </div>
-        </div>
-      {{else}}
-        <div class="unit-toggler-wrapper">
-          <a class="showMonthsAndDays">+ {{i18n 'precise the day and month'}}</a>
-        </div>
-      {{/if}}
+      {{partial 'entities:editor:time_unit_picker' yearData}}
+      {{partial 'entities:editor:time_unit_picker' monthData}}
+      {{partial 'entities:editor:time_unit_picker' dayData}}
     </div>
     {{partial 'entities:editor:edit_mode_buttons' this}}
   </div>

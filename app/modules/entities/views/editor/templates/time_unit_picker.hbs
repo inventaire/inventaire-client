@@ -1,10 +1,12 @@
-{{#with hash}}
-  <div class="picker-wrapper picker-wrapper-{{unitName}}">
-    <label for="{{unitName}}Picker">{{I18n unitName}}</label>
-    <select id="{{unitName}}Picker" name="{{unitName}}Picker">
-      {{#each unitList}}
+<div class="picker-wrapper picker-wrapper-{{name}}">
+  {{#if value}}
+    <label for="{{name}}Picker">{{I18n name}}</label>
+    <select id="{{name}}Picker" name="{{name}}Picker">
+      {{#each possibleValues}}
         <option value="{{num}}" {{#if selected}}selected{{/if}}>{{num}}</option>
       {{/each}}
     </select>
-  </div>
-{{/with}}
+  {{else}}
+    <a class="addUnit" data-name="{{name}}" tabindex="0">+ {{i18n name}}</a>
+  {{/if}}
+</div>

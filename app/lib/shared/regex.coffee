@@ -24,4 +24,4 @@ module.exports =
   EntityUri: /^(wd:Q\d+|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
   PropertyUri: /^(wdt|invp):P\d+$/
   # A year can't start by a 0
-  SimpleDay: /^-?([1-9]{1}[0-9]{0,3}|0)(-\d{2}-\d{2})?$/
+  SimpleDay: /^-?([1-9]{1}[0-9]{0,3}|0)(-\d{2})?(-\d{2})?$/
