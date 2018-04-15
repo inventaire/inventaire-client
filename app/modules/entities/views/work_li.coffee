@@ -25,12 +25,12 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
 
   ui:
-    zoomButtons: '.zoom-button .buttons span'
+    zoomButtons: '.zoom-buttons span'
     cover: 'img'
 
   events:
     'click a.addToInventory': 'showItemCreationForm'
-    'click a.zoom-button': 'toggleZoom'
+    'click .zoom-buttons': 'toggleZoom'
 
   showItemCreationForm: (e)->
     unless _.isOpenedOutside(e)
@@ -50,7 +50,9 @@ module.exports = Marionette.ItemView.extend
     else
       return 0
 
-  toggleZoom: ->
+  toggleZoom: (e)->
     _.invertAttr @ui.cover, 'src', 'data-zoom-toggle'
     @ui.zoomButtons.toggle()
     @$el.toggleClass 'zoom', { duration: 500 }
+    e.stopPropagation()
+    e.preventDefault()
