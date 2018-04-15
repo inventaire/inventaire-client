@@ -1,13 +1,13 @@
 {{#if image.url}}
   <div class="workCover">
-    <a class="showEntity link" href="{{pathname}}">
+    <a class="showEntity" href="{{pathname}}">
       <img src="{{src image.url 200 400}}"
       data-zoom-toggle="{{src image.url 500 1000}}"
       alt='{{label}} cover'>
-      <span class="buttons">
+      <div class="zoom-buttons">
         <span>{{icon 'search-plus'}}</span>
         <span class="hidden">{{icon 'search-minus'}}</span>
-      </span>
+      </div>
     </a>
   </div>
 {{/if}}

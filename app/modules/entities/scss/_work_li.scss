@@ -29,8 +29,8 @@ $workLiMaxWidth: 45em;
       max-width: auto;
     }
   }
-  .zoom-button{
-    .buttons{
+  .showEntity{
+    .zoom-buttons{
       @include position(absolute, 0, 0);
       opacity: 0.2;
       @include transition(opacity);
@@ -39,7 +39,7 @@ $workLiMaxWidth: 45em;
       color: #eee;
     }
     &:hover{
-      .buttons{
+      .zoom-buttons{
         opacity: 1;
       }
     }
