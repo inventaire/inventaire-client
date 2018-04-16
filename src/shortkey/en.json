@@ -152,7 +152,7 @@
     "use_zxing_application": "use an external scanner application",
     "external_scanner_intro": "if you have difficulties using the internal barcode scanner, you can use an external application compatible with the Zxing protocol instead:",
     "failing_scan_tip": "if the scanner has difficulties to find the codebar, it might be that the light isn't adequate or that the camera isn't good enough",
-    "multi_barcode_scan_tip": "You can scan more barcodes before validating to add several at once",
+    "multi_barcode_scan_tip": "You can scan more barcodes before validating to add several books at once",
     "translation_completion": "%{completion}% complete",
     "switch_to_lang": "switch language to %{language}",
     "title_network_layout": "friends & groups",
