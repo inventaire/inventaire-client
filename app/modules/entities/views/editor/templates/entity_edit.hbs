@@ -1,6 +1,7 @@
 <div class="header-wrapper">
-  {{#if customHeader}}
-    <h2 class="custom-header">{{i18n customHeader}}</h2>
+  {{#if header}}
+    <p class="header-context">{{headerContext}}</p>
+    <h2>{{header}}</h2>
     {{#if progress}}
       <span class="creation-progress">({{progress.current}}/{{progress.total}})</span>
     {{/if}}

@@ -201,6 +201,8 @@ module.exports = (Backbone, _, $, app, window)->
 
   sum: (array)-> array.reduce add, 0
 
+  trim: (str)-> str.trim()
+
   isPlainObject: (obj)-> _.typeOf(obj) is 'object'
 
 add = (a, b)-> a + b

@@ -42,3 +42,15 @@
     white-space: pre;
   }
 }
+
+@mixin flash($color){
+  animation-name: flash-lighten;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+  @keyframes flash-lighten {
+    0% { opacity: $color; }
+    50% { background-color: lighten($color, 20%); }
+    100% { opacity: $color; }
+  }
+}

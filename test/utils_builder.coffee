@@ -21,16 +21,17 @@ if process.env.CONSOLE is 'silent'
 else
   csle = console
 
-loggers_ = __.require('lib', 'loggers')(_, csle)
-types_ = sharedLib('types')(_)
-_.extend _, loggers_, types_
-
 # no need to require jquery
 # just faking what needs to be accessible to let tests pass
 global.$ =
   extend: ->
   get: ->
   post: ->
+
+loggers_ = __.require('lib', 'loggers')(_, csle)
+types_ = sharedLib('types')(_)
+sharedUtils = sharedLib('utils')(_)
+_.extend _, loggers_, types_, sharedUtils
 
 localLib = __.require('lib', 'utils')(Backbone, _, $, app, window)
 

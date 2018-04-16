@@ -1,24 +1,45 @@
-<h3>1/ {{i18n 'upload your collection from another website'}}</h3>
-<section>
-  <ul class="importers">
-    {{#each importers}}
-      <li>
-        <p>
-          {{link label this.link}}
-          <span class="format">( .{{format}} )</span>
-        </p>
-        <input id="{{id}}" type="file" accept="{{accept}}" />
-      </li>
-    {{/each}}
-  </ul>
-  <p class="warning"></p>
-</section>
+<div id="importersWrapper" {{#if hideImporters}}class="hidden"{{/if}}>
+  <h3>1/ {{I18n 'upload your collection from another website'}}</h3>
+  <section>
+    <ul class="importers">
+      {{#each importers}}
+        <li id="{{name}}-li">
+          <div>
+            <p>
+              {{#if this.link}}
+                {{link label this.link}}
+              {{else}}
+                <span title="{{i18n title}}">{{capitalize label}}</span>
+              {{/if}}
+              {{#unless hideFormat}}
+                <span class="format">( .{{format}} )</span>
+              {{/unless}}
+            </p>
+            {{#if help}}
+              <p class="help">{{{I18n help}}}</p>
+            {{/if}}
+          </div>
+          <input id="{{name}}" type="file" accept="{{accept}}" />
+          <div class="loading"></div>
+        </li>
+      {{/each}}
+    </ul>
+    <p class="warning"></p>
+  </section>
+</div>
+
+{{#unless hideImporters}}{{partial 'horizontal_separator' 'or'}}{{/unless}}
+
+<div id="isbnsImporterWrapper">
+  <h3>1/ {{I18n 'import from a list of ISBNs'}}</h3>
+  <div id="isbnsImporter">
+    <textarea placeholder="{{i18n 'paste your list containing ISBNs here'}}"></textarea>
+    <div class="loading"></div>
+    <a id="findIsbns" class="success-button">{{i18n 'find ISBNs'}}</a>
+  </div>
+</div>
 
 <span class="loading-queue"></span>
 <div id="queue"></div>
 
 <p class="check"></p>
-
-<a id="addedItems" href="{{inventory}}" class="light-blue-button hidden">
-  {{i18n 'go to your inventory to see the imported books'}}
-</a>

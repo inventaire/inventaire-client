@@ -5,6 +5,7 @@ error_ = require 'lib/error'
 
 App = Marionette.Application.extend
   initialize: ->
+    Backbone.history.last = []
     require('modules/general/behaviors/base').initialize()
     @Execute = BindedPartialBuilder @, 'execute'
     @Request = BindedPartialBuilder @, 'request'
@@ -51,7 +52,6 @@ App = Marionette.Application.extend
 
     @vent.trigger 'route:change', _.routeSection(route), route
     route = @request 'querystring:keep', route
-    Backbone.history.last or= []
     Backbone.history.last.unshift route
     Backbone.history.navigate route, options
     unless options.preventScrollTop then scrollToPageTop()

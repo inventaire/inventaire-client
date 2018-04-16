@@ -39,6 +39,7 @@ module.exports = (_)->
 
   expired: (timestamp, ttl)-> Date.now() - timestamp > ttl
 
+  isNonNull: (obj)-> obj?
   isNonEmptyString: (str)-> _.isString(str) and str.length > 0
   isNonEmptyArray: (array)-> _.isArray(array) and array.length > 0
   isNonEmptyPlainObject: (obj)->

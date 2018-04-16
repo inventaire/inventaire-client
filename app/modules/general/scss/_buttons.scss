@@ -34,6 +34,12 @@
   &.alert{
     @include bg-hover($warning-color)
   }
+  &.disabled{
+    cursor: not-allowed;
+    &:hover{
+      background-color: auto;
+    }
+  }
 }
 
 $default-button-margin: 0.1em;
@@ -98,6 +104,10 @@ $default-button-padding: 1em;
 
 .tiny-success-button{
   @include tiny-button($success-color);
+}
+
+.tiny-warning-button{
+  @include tiny-button($warning-color);
 }
 
 // text-with-padding buttons

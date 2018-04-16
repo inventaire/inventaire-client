@@ -3,21 +3,33 @@ ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 
-module.exports = Marionette.CompositeView.extend
+CandidatesQueue = Marionette.CollectionView.extend
+  childView: require './candidate_row'
+  childEvents:
+    'selection:changed': -> @triggerMethod 'selection:changed'
+
+ItemsList = Marionette.CollectionView.extend
+  childView: require './item_row'
+
+module.exports = Marionette.LayoutView.extend
   className: 'import-queue'
   template: require './templates/import_queue'
-  childViewContainer: 'tbody'
-  childView: require './candidate_row'
+
+  regions:
+    candidatesQueue: '#candidatesQueue'
+    itemsList: '#itemsList'
 
   ui:
     headCheckbox: 'thead input'
-    validationElements: '.validation > div'
+    validationElements: '.import, .progress'
     validateButton: '#validate'
-    cantValidateMessage: '.import span'
+    disabledValidateButton: '#disabledValidate'
     transaction: '#transaction'
     listing: '#listing'
     meter: '.meter'
     fraction: '.fraction'
+    lastSteps: '#lastSteps'
+    addedBooks: '#addedBooks'
 
   behaviors:
     ItemCreationSelect:
@@ -31,111 +43,97 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'change th.selected input': 'toggleAll'
+    'click #selectAll': 'selectAll'
+    'click #unselectAll': 'unselectAll'
     'click #emptyQueue': 'emptyQueue'
     'click #validate': 'validate'
 
   initialize: ->
-    @lazyUpdateHeadCheckbox = _.debounce @updateHeadCheckbox.bind(@), 200
+    { @candidates } = @options
+    @items = new Backbone.Collection
+    @lazyUpdateLastStep = _.debounce @updateLastStep.bind(@), 50
 
-  toggleAll: (e)->
-    if e.currentTarget.checked then @selectAll()
-    else @unselectAll()
+  onShow: ->
+    @candidatesQueue.show new CandidatesQueue { collection: @candidates }
+    @itemsList.show new ItemsList { collection: @items }
+    @lazyUpdateLastStep()
 
   selectAll: ->
-    @changeAll true
-    @onSelectionChange @collection.length
+    @candidates.setAllSelectedTo true
+    @updateLastStep()
 
   unselectAll: ->
-    @changeAll false
-    @onSelectionChange 0
-
-  changeAll: (bool)->
-    @collection.forEach (model)-> model.set 'selected', bool
+    @candidates.setAllSelectedTo false
+    @updateLastStep()
 
   emptyQueue: ->
-    @collection.reset()
+    @candidates.reset()
 
   childEvents:
-    'checkbox:change': 'lazyUpdateHeadCheckbox'
+    'selection:changed': 'lazyUpdateLastStep'
 
   collectionEvents:
-    'add': 'lazyUpdateHeadCheckbox'
+    'add': 'lazyUpdateLastStep'
 
-  updateHeadCheckbox: ->
-    selectedCount = _.sum @collection.map(convertSelectedToNumber)
-    if selectedCount is 0
-      @applyCheckState false, false
-    else if selectedCount is @collection.length
-      @applyCheckState true, false
+  updateLastStep: ->
+    if @candidates.selectionIsntEmpty()
+      @ui.disabledValidateButton.addClass 'force-hidden'
+      @ui.validateButton.removeClass 'force-hidden'
+      @ui.lastSteps.removeClass 'disabled'
     else
-      @applyCheckState false, true
-
-    @onSelectionChange selectedCount
-
-  applyCheckState: (checked, indeterminate)->
-    @ui.headCheckbox
-    .prop 'checked', checked
-    # it seems that setting indeterminate to false is required
-    # once it was set to true to make the checked state visible
-    .prop 'indeterminate', indeterminate
-
-  onSelectionChange: (selectedCount)->
-    if selectedCount is 0 then @showCantValidateMessage()
-    else @showValidateButton()
+      # Use 'force-hidden' as the class 'button' would otherwise overrides
+      # the 'display' attribute
+      @ui.validateButton.addClass 'force-hidden'
+      @ui.disabledValidateButton.removeClass 'force-hidden'
+      @ui.lastSteps.addClass 'disabled'
 
   validate: ->
     @toggleValidationElements()
-    @selected = @collection.filter isSelected
+
+    @selected = @candidates.getSelected()
     @total = @selected.length
+
     transaction = getSelectorData @, 'transaction'
     listing = getSelectorData @, 'listing'
-    _.log @selected, '@selected'
-    _.log transaction, 'transaction'
-    _.log listing, 'listing'
+
     @chainedImport transaction, listing
     @startProgressUpdate()
 
   chainedImport: (transaction, listing)->
-    if @selected.length > 0
-      candidate = @selected.pop()
-      candidate.createItem transaction, listing
-      .catch (err)=>
-        candidate.set 'errorMessage', err.message
-        @failed or= []
-        @failed.push candidate
-        return
-      .then (item)=>
-        @collection.remove candidate
-        # recursively trigger next import
-        @chainedImport transaction, listing
+    if @selected.length is 0 then return @doneImporting()
 
-      .catch error_.Complete('.validation')
-      .catch forms_.catchAlert.bind(null, @)
+    candidate = @selected.pop()
+    candidate.createItem transaction, listing
+    .catch (err)=>
+      candidate.set 'errorMessage', err.message
+      @failed or= []
+      @failed.push candidate
+      return
+    .then (item)=>
+      @candidates.remove candidate
+      if @items.length is 0 then setTimeout @showAddedBooks.bind(@), 1000
+      @items.add item
+      # recursively trigger next import
+      @chainedImport transaction, listing
 
-    else
-      _.log 'done importing!'
-      @stopProgressUpdate()
-      @toggleValidationElements()
-      @updateHeadCheckbox()
+    .catch error_.Complete('.validation')
+    .catch forms_.catchAlert.bind(null, @)
+
+  doneImporting: ->
+    _.log 'done importing!'
+    @stopProgressUpdate()
+    @toggleValidationElements()
+    @updateLastStep()
+    if @failed?.length > 0
       _.log @failed, 'failed candidates imports'
-      @collection.add @failed
-      # Hide the cant import message now
-      # as it might sound like the import failed.
-      # The section will not be empty though, thank to the addedItems message
-      # on the import layout.
-      # Has to happen after updateHeadCheckbox as it will trigger
-      # onSelectionChange, which in turn could show cantValidateMessage
-      @ui.cantValidateMessage.hide()
-      # triggering events on the parent via childEvents
-      @triggerMethod 'import:done'
+      @candidates.add @failed
+      @failed = []
+    # triggering events on the parent via childEvents
+    @triggerMethod 'import:done'
 
-  showValidateButton: ->
-    @ui.validateButton.show()
-    @ui.cantValidateMessage.hide()
-
-  showCantValidateMessage: ->
-    @ui.validateButton.hide()
-    @ui.cantValidateMessage.show()
+  showAddedBooks: ->
+    @ui.addedBooks.fadeIn()
+    setTimeout _.scrollTop.bind(null, @ui.addedBooks), 600
 
   toggleValidationElements: ->
     @ui.validationElements.toggleClass 'force-hidden'
@@ -152,6 +150,3 @@ module.exports = Marionette.CompositeView.extend
     percent = (added / @total) * 100
     @ui.meter.css 'width', "#{percent}%"
     @ui.fraction.text "#{added} / #{@total}"
-
-convertSelectedToNumber = (model)-> if isSelected(model) then 1 else 0
-isSelected = (model)-> model.get 'selected'

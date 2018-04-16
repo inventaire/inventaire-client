@@ -16,8 +16,10 @@ module.exports = (entityModel)->
 
   for prop, typeCustomPropData of typeProps
     propData = properties[prop]
+    # Unless a custom label is set, pass the property id to the _.i18n function
     propData.propertyLabel = typeCustomPropData.customLabel or prop
-    propertiesCollection.add getPropertyModel(entityModel, propData)
+    propertyModel = getPropertyModel entityModel, propData
+    propertiesCollection.add propertyModel
 
   return propertiesCollection
 

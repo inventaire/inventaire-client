@@ -19,7 +19,7 @@ module.exports = Backbone.Model.extend
 
       if regex_.EntityUri.test value
         @reqGrab 'get:entity:model', value, 'valueEntity'
-      else if _.isObject(value) and value.claims? and editorType is 'fixed-entity'
+      else if _.isObject(value) and value.claims?
         # Allow to pass an entity draft as an object of the form:
         # { labels: {}, claims: {} }
         # so that its creation is still pending, waiting for confirmation

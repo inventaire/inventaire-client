@@ -3,6 +3,9 @@ $scan-contrast: #f5f5f5;
 .scan{
   max-width: 30em;
   margin: auto;
+  section{
+    padding: 1em;
+  }
   .button{
     margin-top: 1em;
     margin-bottom: 1em;

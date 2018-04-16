@@ -95,7 +95,13 @@ module.exports = (_, csle)->
       csle.log '---'
 
     logServer: (obj, label)->
-      $.post app.API.tests, { obj, label }
+      # Using jQuery promise instead of preq to be able to report errors
+      # happening before preq is initialized
+      $.post
+        url: app.API.tests
+        # jquery defaults to x-www-form-urlencoded
+        headers: { 'content-type': 'application/json' }
+        data: JSON.stringify { obj, label }
       return obj
 
   proxied =

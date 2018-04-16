@@ -2,7 +2,7 @@
 # - add an entry to the importers object hereafter
 # - add a parser to the ./parsers folder
 
-csvParser = (source, data)->
+csvParser = (source)-> (data)->
   data = data.trim()
   results = window.Papa.parse data, { header: true }
   if results.errors.length > 0 then _.error results.errors, 'csv parser errors'
@@ -16,7 +16,7 @@ importers =
     format: 'csv'
     first20Characters: 'Book Id,Title,Author'
     link: 'https://www.goodreads.com/review/import'
-    parse: csvParser.bind(null, 'good_reads')
+    parse: csvParser 'good_reads'
 
   libraryThing:
     format: 'json'
@@ -35,17 +35,26 @@ importers =
     # making it hard to arbitrate
     disableValidation: true
     link: 'http://www.babelio.com/export.php'
-    parse: csvParser.bind(null, 'babelio')
+    parse: csvParser 'babelio'
+
+  ISBNs:
+    format: 'all'
+    help: 'any_isbn_text_file'
+    # Require only on demande to avoid requiring it during other importers tests
+    # and thus having to adapt its dependencies to the test environment
+    parse: (data)-> require('./import/extract_isbns_and_fetch_data')(data)
 
 accept =
   csv: 'text/csv'
   json: 'application/json'
+  all: '*/*'
 
-format = (id, obj)->
-  obj.id = id
-  obj.label = _.capitaliseFirstLetter id
+prepareImporter = (name, obj)->
+  obj.name = name
+  obj.label = _.capitaliseFirstLetter name
   obj.accept = accept[obj.format]
+  if obj.format is 'all' then obj.hideFormat = true
   return obj
 
-for k, v of importers
-  exports[k] = format k, v
+for name, params of importers
+  exports[name] = prepareImporter name, params

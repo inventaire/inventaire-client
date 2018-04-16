@@ -1,49 +1,55 @@
-<h3>2/ {{i18n 'select the books you want to add'}}</h3>
-<section>
-  <table>
-    <thead>
-      <tr>
-        <th class="selected"><input type="checkbox" checked></th>
-        <th class="title">{{i18n 'title'}}</th>
-        <th class="authors">{{i18n 'authors'}}</th>
-        <th class="isbn">ISBN</th>
-        <th class="error-message">{{i18n 'status'}}</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <p class="bottom">
-    <a id="emptyQueue">
-      {{icon 'trash'}}<span>{{i18n 'empty the queue'}}</span>
-    </a>
-  </p>
-</section>
+<h3>2/ {{I18n 'select the books you want to add'}}</h3>
+<div id="candidates-queue-header">
+  <span class="checkbox-placeholder"></span>
+  <span class="label">{{I18n 'title'}}</span>
+  <span class="label">{{I18n 'authors'}}</span>
+  <span class="label">ISBN</span>
+  <span class="label">{{I18n 'status'}}</span>
+  <span class="action-placeholder"></span>
+</div>
+<ul id="candidatesQueue"></ul>
+<p id="candidates-queue-nav">
+  <a id="selectAll">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>
+  <a id="unselectAll">{{icon 'square'}}<span>{{i18n 'unselect all'}}</span></a>
+  <a id="emptyQueue">{{icon 'trash'}}<span>{{i18n 'empty the queue'}}</span></a>
+</p>
 
-<h3>3/ {{i18n 'select the settings to apply to the selected books'}}</h3>
-<section class="settings">
-  <label for="transaction">{{i18n 'transaction'}}</label>
-  <div id="transaction" class="select-button-group">
-    {{partial 'inventory:form:button_group' transactions}}
-  </div>
-  <label>{{i18n 'visibility'}}</label>
-  <div id="listing" class="select-button-group">
-    {{partial 'inventory:form:button_group' listings}}
-  </div>
-</section>
+<div id="lastSteps" class="disabled">
+  <h3>3/ {{I18n 'select the settings to apply to the selected books'}}</h3>
+  <section class="settings">
+    <label for="transaction">{{i18n 'transaction'}}</label>
+    <div id="transaction" class="select-button-group">
+      {{partial 'inventory:form:button_group' transactions}}
+    </div>
+    <label>{{i18n 'visibility'}}</label>
+    <div id="listing" class="select-button-group">
+      {{partial 'inventory:form:button_group' listings}}
+    </div>
+  </section>
 
-<h3>4/ {{i18n 'import this batch'}}</h3>
-<div class="validation">
-  <div class="import">
-    <a id="validate" class="button success radius">{{i18n 'import'}}</a>
-    <span class="cant-import hidden">
-      {{i18n "no book selected"}}
-    </span>
-  </div>
-  {{!-- using force-hidden to override Foundation display setting --}}
-  <div class="progress round success force-hidden">
-    <span class="meter" style="width:0%">
-      <p class="fraction"></p>
-      {{icon 'circle-o-notch' 'fa-spin loader'}}
-    </span>
+  <h3>4/ {{I18n 'import this batch'}}</h3>
+  <div class="validation">
+    <div class="import">
+      <a id="validate" class="button success radius force-hidden">{{I18n 'import the selection'}}</a>
+      <a id="disabledValidate" class="button success radius disabled" title="{{i18n 'no book selected'}}">{{I18n 'import the selection'}}</a>
+    </div>
+    {{!-- using force-hidden to override Foundation display setting --}}
+    <div class="progress round success force-hidden">
+      <span class="meter" style="width:0%">
+        <p class="fraction"></p>
+        {{icon 'circle-o-notch' 'fa-spin loader'}}
+      </span>
+    </div>
   </div>
 </div>
+
+<div id="addedBooks" class="hidden">
+  <h3>{{i18n 'books successfully added to your inventory'}}</h3>
+  <div class="items-rows-header">
+    <span class="image-placeholder"></span>
+    <span class="title">{{I18n 'title'}}</span>
+    <span class="authors">{{I18n 'authors'}}</span>
+    <span class="isbn">ISBN</span>
+    <span class="action"></span>
+  </div>
+<ul id="itemsList"></ul>

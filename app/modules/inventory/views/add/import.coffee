@@ -7,6 +7,9 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 papaparse = require('lib/get_assets')('papaparse')
+isbn2 = require('lib/get_assets')('isbn2')
+commonParser = require '../../lib/parsers/common'
+extractIsbnsAndFetchData = require '../../lib/import/extract_isbns_and_fetch_data'
 
 candidates = null
 
@@ -23,75 +26,104 @@ module.exports = Marionette.LayoutView.extend
     queue: '#queue'
 
   ui:
-    addedItems: '#addedItems'
+    isbnsImporter: '#isbnsImporter'
+    isbnsImporterTextarea: '#isbnsImporter textarea'
+    isbnsImporterWrapper: '#isbnsImporterWrapper'
+    importersWrapper: '#importersWrapper'
 
   events:
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
-    'click #addedItems': 'showMainUserInventory'
+    'click #findIsbns': 'findIsbns'
 
   childEvents:
     'import:done': 'onImportDone'
 
   initialize: ->
-    papaparse.prepare()
-    @candidates = candidates or= new Candidates
+    { @isbnsBatch } = @options
+
+    isbn2.prepare()
+    # No need to fetch papaparse if we know we will go straight
+    # to the ISBN importer
+    if @isbnsBatch? then @hideImporters = true
+    else papaparse.prepare()
+
+    candidates or= new Candidates
 
   onShow: ->
     # show the import queue if there were still candidates from last time
     @showImportQueueUnlessEmpty()
-    @listenTo @candidates, 'reset', @hideImportQueueIfEmpty.bind(@)
+
+    # Accept ISBNs from the URL to ease development
+    isbns = app.request('querystring:get', 'isbns')?.split('|')
+    @isbnsBatch or= isbns
+
+    if @isbnsBatch?
+      @ui.isbnsImporterTextarea.val @isbnsBatch.join('\n')
+      @$el.find('#findIsbns').trigger 'click'
 
   serializeData: ->
     importers: importers
-    inventory: app.user.get('pathname')
+    hideImporters: @hideImporters
 
   showImportQueueUnlessEmpty: ->
-    if @candidates.length > 0
-      # slide down in case @queue.$el was previously hidden
-      # by hideImportQueueIfEmpty
-      @queue.$el.slideDown()
+    if candidates.length > 0
       if not @queue.hasView()
-        @queue.show new ImportQueue { collection: @candidates }
+        @queue.show new ImportQueue { candidates }
 
-      _.scrollTop @queue.$el
-
-  hideImportQueueIfEmpty: ->
-    if @candidates.length is 0 then @queue.$el.slideUp()
+      # Run once @ui.importersWrapper is done sliding up
+      setTimeout _.scrollTop.bind(null, @queue.$el), 500
 
   getFile: (e)->
-    behaviorsPlugin.startLoading.call @, '.loading-queue'
     source = e.currentTarget.id
-    { parse, encoding } = importers[source]
+    { name, parse, encoding } = importers[source]
+
+    selector = "##{name}-li .loading"
+
+    behaviorsPlugin.startLoading.call @,
+      selector: selector
+      timeout: 'none'
+      progressionEventName: if name is 'ISBNs' then 'progression:ISBNs'
 
     Promise.all [
       files_.parseFileEventAsText e, true, encoding
       papaparse.get()
+      isbn2.get()
     ]
     # We only need the result from the file
     .spread _.Log('uploaded file')
     .tap dataValidator.bind(null, source)
     .then parse
+    .map commonParser
     .catch _.ErrorRethrow('parsing error')
     # add the selector to the rejected error
     # so that it can be catched by catchAlert
-    .catch error_.Complete('.warning')
+    .catch error_.Complete('#importersWrapper .warning')
     .then _.Log('parsed')
-    .then @candidates.add.bind(@candidates)
-    .tap => behaviorsPlugin.stopLoading.call @, '.loading-queue'
+    .then candidates.addNewCandidates.bind(candidates)
+    .tap => behaviorsPlugin.stopLoading.call @, selector
     .then @showImportQueueUnlessEmpty.bind(@)
-    # .then @scrollToQueue.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
   # passing the event to the AlertBox behavior
   hideAlertBox: -> @$el.trigger 'hideAlertBox'
 
   onImportDone: ->
-    @hideImportQueueIfEmpty()
     @$el.trigger 'check'
-    # show the message once import_queue success check is over
-    setTimeout @ui.addedItems.fadeIn.bind(@ui.addedItems), 700
 
-  showMainUserInventory: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:inventory:main:user'
+  findIsbns: ->
+    text = @ui.isbnsImporterTextarea.val()
+    unless _.isNonEmptyString(text) then return
+
+    selector = '#isbnsImporterWrapper .loading'
+
+    behaviorsPlugin.startLoading.call @,
+      selector: selector
+      timeout: 'none'
+      progressionEventName: 'progression:ISBNs'
+
+    extractIsbnsAndFetchData text
+    .then candidates.addNewCandidates.bind(candidates)
+    .then =>
+      behaviorsPlugin.stopLoading.call @, selector
+      @showImportQueueUnlessEmpty()

@@ -30,9 +30,11 @@ $entity-editor-small-thresold: 500px;
       }
     }
   }
+  .header-context, .creation-progress{
+    color: $grey;
+  }
   .creation-progress{
     padding-left: 1em;
-    color: $grey;
     font-size: 1em;
     margin-top: 0.3em;
   }

@@ -25,14 +25,14 @@ getElements = -> document.querySelectorAll selector
 gatherRequiredUris = -> [].map.call getElements(), getUris
 
 display = ->
+  # This runs only after i18n initialization so, app.user.lang should have been set
+  { lang } = app.user
   # new elements might have appeared since gatherRequiredUris
   # was fired, and they could possibly have known uri, thus the interest
   # of re-querying elements
   for el in getElements()
     uri = getUris el
     if uri?
-      # This runs only after i18n initialization so, app.user.lang should have been set
-      { lang } = app.user
       unless lang? then throw new Error "lang isn't set"
       label = getLabel uri, lang
       if label?

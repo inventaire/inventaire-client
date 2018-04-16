@@ -1,24 +1,8 @@
 .import-queue{
-  table{
-    width: 100%;
-    th{
-      background-color: #ddd;
-      input[type="checkbox"]{
-        margin-top: 0.5em;
-        margin-bottom: 0;
-      }
-    }
-    tr{
-      &:not(:last-child){
-        border-bottom: 1px solid #bbb;
-      }
-    }
-    .selected{
-      width: 1.8em;
-    }
-  }
+  margin-top: 3em;
   .settings{
     text-align: left;
+    padding: 0 1em;
   }
   label{
     margin-top: 0.5em;
@@ -35,10 +19,6 @@
   section{
     position: relative;
   }
-  .bottom{
-    padding-top: 0.5em;
-    margin-bottom: -0.8em;
-  }
   .alert-box{
     margin-top: 1em;
   }
@@ -46,12 +26,47 @@
     margin-bottom: 1em;
   }
 }
-#emptyQueue{
-  @include shy(0.6);
-  &:hover{
-    span{
-      @include underline;
-    }
+
+#candidates-queue-header{
+  @include display-flex(row, center, center);
+  .checkbox-placeholder{
+    // Empirically take as much space as candidate rows checkboxes
+    width: 3.1em;
+    height: 1em;
+  }
+  .label{
+    flex: 1 0 0;
+  }
+  .action-placeholder{
+    width: 3em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    display: none;
+  }
+}
+
+#candidates-queue-nav{
+  @include display-flex(row, center, center, wrap);
+  margin-bottom: 0.2em;
+  a{
+    margin: 0.1em;
+    flex: 1 0 0;
+    padding: 0.5em;
+    word-wrap: break-word;
+    min-width: 10em;
+    @include bg-hover(#dedede);
+    @include radius;
+  }
+}
+
+#lastSteps{
+  margin-top: 3em;
+  @include transition(visibility);
+  opacity: 1;
+  &.disabled{
+    // Not using 'display: none' to avoid scroll jumps
+    visibility: hidden;
   }
 }
 
@@ -71,3 +86,11 @@
     color: white;
   }
 }
+
+.items-rows-header{
+  @include display-flex(row);
+}
+
+@import 'candidate_row';
+@import 'item_row';
+@import 'candidate_info';

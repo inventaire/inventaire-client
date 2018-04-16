@@ -132,5 +132,7 @@ module.exports = Marionette.LayoutView.extend
     _.log 'item creation cancelled: destroying item'
     @model.destroy()
     .then _.Log('item destroyed')
-    .then -> window.history.back()
+    .then ->
+      if Backbone.history.last.length > 0 then window.history.back()
+      else app.execute 'show:home'
     .catch @_catchAlert.bind(@)

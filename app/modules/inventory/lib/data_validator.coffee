@@ -8,7 +8,9 @@ module.exports = (source, data)->
   unless isValid[format](source, data)
     message = _.i18n 'data_mismatch', { source: label }
     # avoid attaching the whole file as context as it might be pretty heavy
-    throw error_.new message, data[0..100]
+    err = error_.new message, data[0..100]
+    err.i18n = false
+    throw err
 
 isValid =
   csv: (source, data)->
@@ -24,3 +26,5 @@ isValid =
     # Testing only an extract to avoid passing a super long doc to the regexp.
     # Make sure to choose a specificKey that would appear in this extract
     return re.test data[0..1000]
+
+  all: -> true

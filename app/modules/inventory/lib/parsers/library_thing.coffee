@@ -1,18 +1,24 @@
+decodeHtmlEntities = require './decode_html_entities'
+
 module.exports = (obj)->
-  return data =
-    isbn: getIsbn obj
-    title: obj.title
-    authors: getAuthorsString obj
-    publicationDate: obj.date
-    numberOfPages: obj.pages
+  isbn: getIsbn obj
+  # Sometimes, titles and authors contains HTML entities
+  # that need to be cleaned up
+  # Ex: the title of https://www.librarything.com/work/347034/details/154577403
+  # is exported as "Ty&ouml;p&auml;iv&auml;kirjat"
+  title: decodeHtmlEntities obj.title
+  authors: getAuthorsString obj
+  publicationDate: obj.date
+  numberOfPages: obj.pages
 
 getAuthorsString = (obj)->
-  { primaryauthor, authors } = obj
-  if primaryauthor then return primaryauthor
-  if _.isArray(authors) and authors.length > 0
-    return authors
-      .map _.property('fl')
-      .join ' ,'
+  { authors } = obj
+  unless _.isArray(authors) and authors.length > 0 then return
+
+  return authors
+  .map _.property('fl')
+  .filter _.isNonNull
+  .map decodeHtmlEntities
 
 getIsbn = (obj)->
   { isbn, ean, originalisbn } = obj

@@ -7,7 +7,8 @@ SerieLayout = require './views/serie_layout'
 WorkLayout = require './views/work_layout'
 EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
-GenreLayout = require './views/genre_layout'
+MultiEntityEdit = require './views/editor/multi_entity_edit'
+GenreLayout= require './views/genre_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
 entityDraftModel = require './lib/entity_draft_model'
@@ -19,6 +20,7 @@ ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 MergeSuggestions = require './views/editor/merge_suggestions'
+{ invalidateLabel } = require 'lib/uri_label/labels_helpers'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -180,6 +182,7 @@ setHandlers = ->
     'show:entity:create': showEntityCreate
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': showMergeSuggestions
+    'invalidate:entities:cache': invalidateEntitiesCache
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
@@ -228,7 +231,8 @@ getEntityLocalHref = (uri)-> "/entity/#{uri}"
 showEntityEdit = (params)->
   { model } = params
   unless model.type? then throw error_.new 'invalid entity type', model
-  app.layout.main.show new EntityEdit(params)
+  View = if params.next? or params.previous? then MultiEntityEdit else EntityEdit
+  app.layout.main.show new View(params)
   app.navigateFromModel model, 'edit'
 
 showEntityEditFromModel = (model)->
@@ -262,7 +266,7 @@ showEntityCreateFromIsbn = (isbn)->
 
     # Start by requesting the creation of a work entity
     showEntityCreate
-      header: 'new-work-and-edition'
+      fromIsbn: isbn
       type: 'work'
       # on which will be based an edition entity
       next:
@@ -290,6 +294,7 @@ normalizeUri = (uri)->
 
 # Create from the seed data we have, if the entity isn't known yet
 existsOrCreateFromSeed = (data)->
+  data.isbn or= data.normalizedIsbn
   _.preq.post app.API.entities.existsOrCreateFromSeed, data
   # Add the possibly newly created edition entity to the local index
   # and get it's model
@@ -372,3 +377,10 @@ showClaimEntities = (claim, refresh)->
     return app.execute 'show:error:missing'
 
   app.layout.main.show new ClaimLayout { property, value, refresh }
+
+invalidateEntitiesCache = (uris)->
+  _.forceArray uris
+  .forEach (uri)->
+    unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}"
+    entitiesModelsIndex.invalidate uri
+    invalidateLabel uri

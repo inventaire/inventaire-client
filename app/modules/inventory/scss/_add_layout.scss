@@ -6,7 +6,6 @@ $addLayoutWidth: 50em;
     background-color: #fefefe;
     @include radius(4px);
     @include shy-border;
-    padding: 1em;
   }
   text-align: center;
   h3{
