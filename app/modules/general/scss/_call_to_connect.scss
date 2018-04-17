@@ -1,10 +1,13 @@
 .connect{
   text-align: center;
+  p{
+    font-size: 1.2em;
+  }
 }
 .callToConnection{
   color: orange;
-  font-size: 1.4em;
   padding: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .login-buttons a{
