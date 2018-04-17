@@ -6,6 +6,7 @@
   }
   .searchFilter{
     flex: 1 0 0;
+    min-width: 4em;
     padding: 0.5em 0.2em;
     background-color: #f3f3f3;
     @include transition(background-color);

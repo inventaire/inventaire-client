@@ -26,7 +26,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo app.vent,
       'screen:mode:change': @lazyRender
       'route:change': @onRouteChange.bind(@)
-      'live:search:show:result': @onSearchUnfocus.bind(@)
+      'live:search:show:result': @hideLiveSearch.bind(@)
       'live:search:query': @setQuery.bind(@)
 
     @listenTo app.user, 'change:username', @lazyRender
@@ -54,11 +54,10 @@ module.exports = Marionette.LayoutView.extend
     'click a#searchButton': 'search'
     'click .option a': 'selectLang'
     'focus #searchField': 'showLiveSearch'
-    'focusout #searchField': 'onSearchUnfocus'
     'keyup #searchField': 'onKeyUp'
     'keydown #searchField': 'onKeyDown'
-    'click #overlay': 'hideSearchOnOverlayClick'
     'click .searchFilter': 'recoverSearchFocus'
+    'click': 'updateLiveSearch'
 
   childEvents:
     'enter:without:hightlighed:result': 'search'
@@ -66,19 +65,16 @@ module.exports = Marionette.LayoutView.extend
   showHome: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:home'
-      # When the live search is visible, clicking #home might be an attempt
-      # to close it
-      @onSearchUnfocus()
 
   showMainUser: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:inventory:user', app.user
 
   search: ->
-    @hideLiveSearch()
     search = @ui.searchField.val()
     unless _.isNonEmptyString search then return
     app.execute 'search:global', search
+    @hideLiveSearch()
 
   updateConnectionButtons: (section)->
     if app.user.loggedIn then return
@@ -109,14 +105,10 @@ module.exports = Marionette.LayoutView.extend
     @ui.overlay.removeClass 'hidden'
     @_liveSearchIsShown = true
 
-  onSearchUnfocus: ->
-    # Unfocus only if an other element in the page got the focus,
-    # not if the focus went to another tab/window, so that when
-    # coming back, there is no style jump from re-focusing the search bar
-    if $(':focus').length is 0 then return
-    @hideLiveSearch()
+  hideLiveSearch: (triggerFallbackLayout)->
+    # Discard non-boolean flags
+    triggerFallbackLayout = triggerFallbackLayout is true
 
-  hideLiveSearch: (triggerFallbackLayout = false)->
     @liveSearch.$el.hide()
     @ui.overlay.addClass 'hidden'
     @_liveSearchIsShown = false
@@ -126,8 +118,11 @@ module.exports = Marionette.LayoutView.extend
       @showFallbackLayout()
       @showFallbackLayout = null
 
-  hideSearchOnOverlayClick: (e)->
-    if e.target.id is 'overlay' then @hideLiveSearch true
+  updateLiveSearch: (e)->
+    # Make clicks on anything but the search group hide the live search
+    { target } = e
+    if target.id is 'overlay' or $(target).parents('#searchGroup').length is 0
+      @hideLiveSearch true
 
   onKeyDown: (e)->
     # Prevent the cursor to move when using special keys
