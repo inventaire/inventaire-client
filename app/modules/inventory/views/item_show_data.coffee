@@ -66,7 +66,9 @@ module.exports = Marionette.LayoutView.extend
   serializeData: -> @model.serializeData()
 
   # itemDestroy is in item_updaters
-  itemDestroyBack: -> app.execute 'show:item:modal', @model
+  itemDestroyBack: ->
+    if @model.isDestroyed then return
+    else app.execute 'show:item:modal', @model
 
   showNotesEditorFromKey: (e)->  @showEditorFromKey 'notes', e,
   showDetailsEditorFromKey: (e)-> @showEditorFromKey 'details', e,

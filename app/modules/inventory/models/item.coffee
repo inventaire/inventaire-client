@@ -142,6 +142,7 @@ module.exports = Filterable.extend
       # this might make possible to use the default Backbone behavior
       rev: @get('_rev')
     return _.preq.delete url
+    .tap => @isDestroyed = true
 
   # to be called by a view onShow:
   # updates the document with the item data
