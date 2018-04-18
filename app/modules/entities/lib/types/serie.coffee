@@ -34,5 +34,11 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
     if firstPartWithPublicationDate?
       @set 'publicationStart', getPublicationDate(firstPartWithPublicationDate)
 
+  # Placeholder for cases when a series was formerly identified as a work
+  # and got editions or items linking to it, assuming it is a work
+  getItemsByCategories: ->
+    app.execute 'report:entity:type:issue', { model: @, expectedType: 'work' }
+    return Promise.resolve { personal: [], network: [], public: [] }
+
 getUri = _.property 'uri'
 getPublicationDate = (model)-> model.get 'claims.wdt:P577.0'

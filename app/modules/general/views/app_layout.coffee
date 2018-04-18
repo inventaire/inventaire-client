@@ -102,4 +102,6 @@ initWindowResizeEvents = ->
   $(window).resize resize
 
 # params = { subject, message, unknownUser }
-postFeedback = (params)-> _.preq.post app.API.feedback, params
+postFeedback = (params)->
+  _.log params, 'posting feedback'
+  _.preq.post app.API.feedback, params

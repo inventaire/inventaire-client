@@ -183,6 +183,7 @@ setHandlers = ->
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': showMergeSuggestions
     'invalidate:entities:cache': invalidateEntitiesCache
+    'report:entity:type:issue': reportTypeIssue
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
@@ -384,3 +385,14 @@ invalidateEntitiesCache = (uris)->
     unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}"
     entitiesModelsIndex.invalidate uri
     invalidateLabel uri
+
+reportTypeIssue = (params)->
+  { expectedType, model } = params
+  [ uri, realType ] = model.gets 'uri', 'type'
+  if uri in reportedTypeIssueUris then return
+  reportedTypeIssueUris.push uri
+
+  subject = "[Entity type] #{uri}: expected #{expectedType}, got #{realType}"
+  app.request 'post:feedback', { subject }
+
+reportedTypeIssueUris = []
