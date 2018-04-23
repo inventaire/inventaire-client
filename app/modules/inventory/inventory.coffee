@@ -106,8 +106,9 @@ API =
       app.layout.main.show new InventoryBrowser
 
 showAddLayout = (tab = 'search', options = {})->
-  options.tab = tab
-  app.layout.main.show new AddLayout options
+  if app.request 'require:loggedIn', "add/#{tab}"
+    options.tab = tab
+    app.layout.main.show new AddLayout options
 
 displayFoundItems = (items)->
   # Accept either an items collection or an array of items models
