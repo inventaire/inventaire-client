@@ -155,8 +155,9 @@ module.exports = Backbone.NestedModel.extend
       transaction = @get 'transaction'
       if @mainUserIsOwner then _.i18n "main_user_#{transaction}"
       else
-        _.i18n "other_user_#{transaction}",
-          username: @owner?.get('username')
+        [ username, pathname ] = @owner.gets 'username', 'pathname'
+        link = "<a href='#{pathname}'>#{username}</a>"
+        return _.i18n "other_user_#{transaction}", { username: link }
 
   accepted: -> @updateState 'accepted'
   declined: -> @updateState 'declined'

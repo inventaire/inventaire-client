@@ -41,12 +41,11 @@ module.exports = Backbone.Model.extend
       _.i18n "#{user}_user_#{@action}", { username: @otherUsername(withLink) }
 
   otherUsername: (withLink)->
+    otherUser = @transaction?.otherUser()
     # injecting an html anchor instead of just a username string
-    if @transaction?.otherUser()?
-      username = @transaction.otherUser()?.get 'username'
-      if withLink
-        href = @transaction.otherUser()?.get 'pathname'
-        return "<a href='#{href}' class='username'>#{username}</a>"
+    if otherUser?
+      [ username, pathname ] = otherUser.gets 'username', 'pathname'
+      if withLink then "<a href='#{pathname}' class='username'>#{username}</a>"
       else username
 
 actorCanBeBoth = ['cancelled']
