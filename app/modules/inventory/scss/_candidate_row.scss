@@ -19,22 +19,29 @@
       flex: 1 0 0;
       @include display-flex(row, center, flex-start);
     }
-    .status{
-      justify-content: center;
-    }
     .label{
       color: $grey;
+      margin-right: 0.5em;
     }
     /*Small screens*/
     @media screen and (max-width: $smaller-screen) {
       flex-direction: column;
       padding: 0.5em 0;
-
+      display: block;
+      > div{
+        @include display-flex(row, center, flex-start, wrap);
+        &:empty{
+          display: none;
+        }
+      }
     }
     /*Large screens*/
     @media screen and (min-width: $smaller-screen) {
       .label{
         display: none;
+      }
+      > div{
+        justify-content: center;
       }
     }
   }
@@ -65,6 +72,8 @@
   .remove{
     margin-right: 0.5em;
     padding: 0.5em;
+    // Needed to make sure it gets the room it needs on Chrome
+    display: block;
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
@@ -72,20 +81,6 @@
       // Display block so that the button doesn't get split into multi-lines
       display: block;
       margin: 0.2em;
-    }
-    // Largely inspired by https://stackoverflow.com/a/16312173/3324977
-    // to make the checkbox bigger
-    input[type='checkbox']{
-      appearance: none;
-      width: 30px;
-      height: 30px;
-      background: white;
-      border-radius: 5px;
-      border: 2px solid #555;
-      cursor: pointer;
-    }
-    input[type='checkbox']:checked{
-      background: #abd;
     }
   }
 }

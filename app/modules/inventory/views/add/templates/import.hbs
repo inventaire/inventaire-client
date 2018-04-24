@@ -1,31 +1,29 @@
 <div id="importersWrapper" {{#if hideImporters}}class="hidden"{{/if}}>
   <h3>1/ {{I18n 'upload your collection from another website'}}</h3>
-  <section>
-    <ul class="importers">
-      {{#each importers}}
-        <li id="{{name}}-li">
-          <div>
-            <p>
-              {{#if this.link}}
-                {{link label this.link}}
-              {{else}}
-                <span title="{{i18n title}}">{{capitalize label}}</span>
-              {{/if}}
-              {{#unless hideFormat}}
-                <span class="format">( .{{format}} )</span>
-              {{/unless}}
-            </p>
-            {{#if help}}
-              <p class="help">{{{I18n help}}}</p>
+  <ul class="importers">
+    {{#each importers}}
+      <li id="{{name}}-li">
+        <div class="importer-data">
+          <p class="data">
+            {{#if this.link}}
+              {{link label this.link 'name'}}
+            {{else}}
+              <span class="name" title="{{i18n title}}">{{capitalize label}}</span>
             {{/if}}
-          </div>
-          <input id="{{name}}" type="file" accept="{{accept}}" />
-          <div class="loading"></div>
-        </li>
-      {{/each}}
-    </ul>
-    <p class="warning"></p>
-  </section>
+            {{#unless hideFormat}}
+              <span class="format">( .{{format}} )</span>
+            {{/unless}}
+          </p>
+          {{#if help}}
+            <p class="help">{{{I18n help}}}</p>
+          {{/if}}
+        </div>
+        <input id="{{name}}" type="file" accept="{{accept}}" />
+        <div class="loading"></div>
+      </li>
+    {{/each}}
+  </ul>
+  <p class="warning"></p>
 </div>
 
 {{#unless hideImporters}}{{partial 'horizontal_separator' 'or'}}{{/unless}}

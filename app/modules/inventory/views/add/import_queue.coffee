@@ -4,6 +4,7 @@ error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 
 CandidatesQueue = Marionette.CollectionView.extend
+  tagName: 'ul'
   childView: require './candidate_row'
   childEvents:
     'selection:changed': -> @triggerMethod 'selection:changed'

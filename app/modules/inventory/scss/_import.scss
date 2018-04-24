@@ -4,42 +4,27 @@
     padding-left: 0.2em;
     font-weight: bold;
   }
-  section{
-    margin-top: 0;
-  }
 }
 
 .importers{
   li{
-    /*Medium to Large screens*/
-    @media screen and (min-width: $smaller-screen) {
-      @include display-flex(row, center, space-between);
-      padding: 0 1em;
-    }
-    /*Small screens*/
-    @media screen and (max-width: $smaller-screen) {
-      padding: 0.5em 1em;
-    }
-    p{
-      width: 11em;
-      font-size: 1em;
-      font-weight: bold;
-      text-align: left;
-      padding: 0;
-      margin: 0;
-      white-space: nowrap;
-      line-height: 1em;
+    margin: 0.5em 0;
+    padding: 0.5em;
+    background-color: #fefefe;
+    .importer-data{
+      @include display-flex(row, center, flex-start, wrap);
     }
     a{
       @include text-hover(#000088, #0000ee);
+    }
+    .name{
+      margin: 1em;
+      font-weight: bold;
     }
     .format, .help{
       padding: 0;
       color: #888;
       font-size: 0.9em;
-    }
-    .format{
-      margin-left: 0.5em;
     }
     .loading{
       @include display-flex(row, center, center);
@@ -48,9 +33,6 @@
       .progression{
         margin-right: 0.5em;
       }
-    }
-    &:not(:last-child){
-      border-bottom: 1px solid #bbb;
     }
   }
 }

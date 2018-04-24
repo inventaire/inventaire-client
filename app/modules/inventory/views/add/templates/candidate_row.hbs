@@ -10,27 +10,31 @@
 </div>
 <div class="data">
   <div>
-    {{#if title}}<span class="label">{{i18n 'title'}}:</span>{{/if}}
-    <span class="value">{{title}}</span>
+    {{~#if title~}}
+      <span class="label">{{i18n 'title'}}:</span>
+      <span class="value">{{title}}</span>
+    {{~/if~}}
   </div>
   <div>
-    {{#if authors}}<span class="label">{{i18n 'authors'}}:</span>{{/if}}
-    <span class="value">{{authors}}</span>
+    {{~#if authors~}}
+      <span class="label">{{i18n 'authors'}}:</span>
+      <span class="value">{{join authors}}</span>
+    {{~/if~}}
   </div>
   <div class="isbn-data">
     <span class="label">ISBN:</span>
     <span class="value">{{rawIsbn}}</span>
   </div>
   <div class="status">
-    {{#if isInvalid}}
+    {{~#if isInvalid~}}
       <span class="invalid-isbn">{{i18n 'invalid ISBN'}}</span>
-    {{/if}}
-    {{#if needInfo}}
+    {{~/if~}}
+    {{~#if needInfo~}}
       <a class="addInfo tiny-warning-button">{{i18n 'need more information'}}</a>
-    {{/if}}
-    {{#if errorMessage}}
+    {{~/if~}}
+    {{~#if errorMessage~}}
       <span class="error-message">{{errorMessage}}</span>
-    {{/if}}
+    {{~/if~}}
   </div>
 </div>
 <div class="action">
