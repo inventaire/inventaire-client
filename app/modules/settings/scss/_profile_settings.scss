@@ -1,7 +1,7 @@
 .profileSettings{
   text-align: center;
   h3{
-    margin-bottom: 0;
+    margin-bottom: 0.2em;
   }
   .note{
     @include sans-serif;
@@ -74,4 +74,8 @@
 .deleteAccount{
   text-align: center;
   padding: 1em;
+}
+
+.danger-zone{
+  color: $danger-color;
 }

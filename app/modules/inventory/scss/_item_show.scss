@@ -50,7 +50,7 @@
     &:hover{
       @include tiny-button-padding;
       border-radius: $global-radius;
-      background-color: $dangerous-color;
+      background-color: $danger-color;
       padding: 0.2em 0.4em 0.2em 0.6em;
       color: white;
       .fa{
