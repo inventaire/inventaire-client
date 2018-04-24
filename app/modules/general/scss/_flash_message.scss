@@ -11,7 +11,7 @@
     font-size: 2rem;
   }
 
-  @include position(fixed, -5em, 0, null, null, 100);
+  @include position(fixed, -10em, 0, null, null, 100);
   @include transition(top);
   &.active{
     background-color: $warning-color;
