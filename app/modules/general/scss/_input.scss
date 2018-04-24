@@ -7,7 +7,6 @@ input, textarea, [tabindex]:focus{
 }
 
 input, textarea{
-  appearance: none;
   @include radius;
   background-color: white;
   font-family: inherit;
