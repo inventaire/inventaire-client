@@ -81,6 +81,9 @@
   .request-actions{
     @include display-flex(row);
   }
+  span.status{
+    color: $grey;
+  }
   .action{
     margin-right: 0.2em;
     span, .fa{

@@ -42,6 +42,8 @@
       <a class="refuseRequest action" title="{{i18n "discard user's request to join the group"}}">{{icon 'ban'}}<span class="label">{{i18n 'refuse'}}</span>
       </a>
     </div>
+  {{else}}
+    <span class="status">{{i18n 'waiting for admin validation'}}</span>
   {{/if}}
 {{/if}}
 {{#if none}}
