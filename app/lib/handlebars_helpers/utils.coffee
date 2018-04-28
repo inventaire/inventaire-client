@@ -3,7 +3,7 @@
 
 module.exports =
   join: (array, separator)->
-    unless array? then return ''
+    unless _.isNonEmptyArray array then return array
     unless _.isString(separator) then separator = ', '
     return array.join separator
 
