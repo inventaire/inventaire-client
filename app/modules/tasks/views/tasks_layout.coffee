@@ -22,10 +22,3 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @tasks.show new TasksView({ collection: @collection })
-
-  events:
-    'click #collect': 'collect'
-
-  collect: ->
-    _.preq.post app.API.tasks.collect
-
