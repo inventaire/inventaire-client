@@ -19,8 +19,8 @@ gzipkeepall public/json
 gzipkeepall public/js/moment
 
 echo -e '\e[0;30mgzip index.html\e[0m'
-gzip -9kf public/index.html
+gzip --best < public/index.html > public/index.html.gz
 echo -e '\e[0;30mgzip robots.txt\e[0m'
-gzip -9kf public/robots.txt
+gzip --best < public/robots.txt > public/robots.txt.gz
 
 ./scripts/weight_watcher

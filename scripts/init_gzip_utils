@@ -6,5 +6,8 @@ export gzipkeepall(){
   # delete all the .gz files
   # to avoid catching them in the * on the for loop selector
   rm -f $1/*${gzext} && echo "deleted $1/*${gzext}"
-  for f in $1/*${ext}; do gzip -9kf $f; done;
+  # gzip and keep original files (compatible gzip 1.5)
+  for f in $1/*${ext};
+    do gzip --best < $f > "${f}.gz";
+  done;
 }

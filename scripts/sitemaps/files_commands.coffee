@@ -15,7 +15,7 @@ module.exports =
     exec("rm #{folder}/*").stderr.pipe stderr
     console.log grey('removed old files')
   gzipFiles: ->
-    exec("for f in #{folder}/*; do gzip -9 < $f > $f.gz; done").stderr.pipe stderr
+    exec("for f in #{folder}/*; do gzip --best < $f > $f.gz; done").stderr.pipe stderr
     console.log green('gzipping files')
   generateMainSitemap: ->
     cp "#{__dirname}/main.xml", "#{folder}/main.xml"

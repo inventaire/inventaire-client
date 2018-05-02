@@ -4,7 +4,7 @@ CWD=$PWD
 cp ./bower_components/font-awesome/fonts/* app/assets/fonts/
 cd app/assets/fonts/
 # compress all (F|f)ont-(A|a)wesome fonts
-gzip -9 *wesome*
+gzip --best *wesome*
 cd $CWD
 # add a non gziped copy for development
 cp ./bower_components/font-awesome/fonts/* app/assets/fonts/

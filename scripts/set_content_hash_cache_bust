@@ -15,7 +15,8 @@ create_content_hash_copies(){
   # Copy associated map file
   cp "$1.$2.map" "$1.$content_hash.$2.map"
   # Gzip those new files
-  gzip -9fk "$1.$content_hash.$2" "$1.$content_hash.$2.map"
+  gzip --best --force < "$1.$content_hash.$2" > "$1.$content_hash.$2.gz"
+  gzip --best --force < "$1.$content_hash.$2.map" > "$1.$content_hash.$2.map.gz"
   # Update index.html with the new file paths
   sed -i "s@$1.$2@$1.$content_hash.$2@" public/index.html
 }

@@ -8,7 +8,7 @@ mkdir -p $publicMoment
 cp $bowerMoment/* $publicMoment
 cd $publicMoment
 
-gzip -9 *.js
+gzip --best *.js
 cd $CWD
 
 # add a non gziped copy for development
