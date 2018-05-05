@@ -8,17 +8,21 @@ get_content_hash(){
 }
 
 create_content_hash_copies(){
-  content_hash=$(get_content_hash "$1.$2")
-  rm -f $1.*.$2* $1.*.$2.map*
+  root_path=$1
+  extension=$2
+  content_hash=$(get_content_hash "${root_path}.${extension}")
+  rm -f "${root_path}.*.${extension}*" "${root_path}.*.${extension}.map*"
   # Copy file
-  cp "$1.$2" "$1.$content_hash.$2"
+  cp "${root_path}.${extension}" "${root_path}.${content_hash}.${extension}"
   # Copy associated map file
-  cp "$1.$2.map" "$1.$content_hash.$2.map"
+  cp "${root_path}.${extension}.map" "${root_path}.${content_hash}.${extension}.map"
   # Gzip those new files
-  gzip --best --force < "$1.$content_hash.$2" > "$1.$content_hash.$2.gz"
-  gzip --best --force < "$1.$content_hash.$2.map" > "$1.$content_hash.$2.map.gz"
+  gzip --best --force < "${root_path}.${content_hash}.${extension}" > "${root_path}.${content_hash}.${extension}.gz"
+  gzip --best --force < "${root_path}.${content_hash}.${extension}.map" > "${root_path}.${content_hash}.${extension}.map.gz"
+  # Gzip the file without content hash to make it easy to access to ./weight_watcher
+  gzip --best --force < "${root_path}.${extension}" > "${root_path}.${extension}.gz"
   # Update index.html with the new file paths
-  sed -i "s@$1.$2@$1.$content_hash.$2@" public/index.html
+  sed -i "s@${root_path}.${extension}@${root_path}.${content_hash}.${extension}@" public/index.html
 }
 
 create_content_hash_copies public/js/app js
