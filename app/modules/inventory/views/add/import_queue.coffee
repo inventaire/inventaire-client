@@ -10,6 +10,7 @@ CandidatesQueue = Marionette.CollectionView.extend
     'selection:changed': -> @triggerMethod 'selection:changed'
 
 ItemsList = Marionette.CollectionView.extend
+  tagName: 'ul'
   childView: require './item_row'
 
 module.exports = Marionette.LayoutView.extend
@@ -29,6 +30,7 @@ module.exports = Marionette.LayoutView.extend
     listing: '#listing'
     meter: '.meter'
     fraction: '.fraction'
+    step2: '#step2'
     lastSteps: '#lastSteps'
     addedBooks: '#addedBooks'
 
@@ -52,41 +54,46 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @candidates } = @options
     @items = new Backbone.Collection
-    @lazyUpdateLastStep = _.debounce @updateLastStep.bind(@), 50
+    @lazyUpdateSteps = _.debounce @updateSteps.bind(@), 50
 
   onShow: ->
     @candidatesQueue.show new CandidatesQueue { collection: @candidates }
     @itemsList.show new ItemsList { collection: @items }
-    @lazyUpdateLastStep()
+    @lazyUpdateSteps()
 
   selectAll: ->
     @candidates.setAllSelectedTo true
-    @updateLastStep()
+    @updateSteps()
 
   unselectAll: ->
     @candidates.setAllSelectedTo false
-    @updateLastStep()
+    @updateSteps()
 
   emptyQueue: ->
     @candidates.reset()
 
   childEvents:
-    'selection:changed': 'lazyUpdateLastStep'
+    'selection:changed': 'lazyUpdateSteps'
 
   collectionEvents:
-    'add': 'lazyUpdateLastStep'
+    'add': 'lazyUpdateSteps'
 
-  updateLastStep: ->
+  updateSteps: ->
     if @candidates.selectionIsntEmpty()
       @ui.disabledValidateButton.addClass 'force-hidden'
       @ui.validateButton.removeClass 'force-hidden'
-      @ui.lastSteps.removeClass 'disabled'
+      @ui.lastSteps.removeClass 'force-hidden'
     else
       # Use 'force-hidden' as the class 'button' would otherwise overrides
       # the 'display' attribute
       @ui.validateButton.addClass 'force-hidden'
       @ui.disabledValidateButton.removeClass 'force-hidden'
-      @ui.lastSteps.addClass 'disabled'
+      @ui.lastSteps.addClass 'force-hidden'
+
+    if @candidates.length is 0
+      @ui.step2.addClass 'force-hidden'
+    else
+      @ui.step2.removeClass 'force-hidden'
 
   validate: ->
     @toggleValidationElements()
@@ -124,7 +131,7 @@ module.exports = Marionette.LayoutView.extend
     _.log 'done importing!'
     @stopProgressUpdate()
     @toggleValidationElements()
-    @updateLastStep()
+    @updateSteps()
     if @failed?.length > 0
       _.log @failed, 'failed candidates imports'
       @candidates.add @failed

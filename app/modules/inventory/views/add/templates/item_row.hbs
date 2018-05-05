@@ -1,9 +1,20 @@
 <div class="image-wrapper">
-  {{#if picture}}<img src="{{src picture 48}}" alt="{{title}}">{{/if}}
+  {{~#if picture~}}<img src="{{src picture 128}}" alt="{{title}}">{{~/if~}}
 </div>
-<div class="title">{{title}}</div>
-<div class="authors">{{authors}}</div>
-<div class="isbn">{{isbn}}</div>
-<div class="action">
-  <a href="{{pathname}}" class="showItem tiny-button light-blue">{{i18n 'display'}}</a>
+<div class="data-wrapper">
+  <div class="title">
+    <span class="label">{{i18n 'title'}}:</span>
+    {{title}}
+  </div>
+  <div class="authors">
+    <span class="label">{{i18n 'authors'}}:</span>
+    {{authors}}
+  </div>
+  <div class="isbn">
+    <span class="label">{{i18n 'isbn'}}:</span>
+    <span>{{isbn}}</span>
+  </div>
+  <div class="action">
+    <a href="{{pathname}}" class="showItem tiny-button light-blue">{{i18n 'display'}}</a>
+  </div>
 </div>

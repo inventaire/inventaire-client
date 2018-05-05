@@ -1,30 +1,83 @@
 // See also ./_candidate_row.scss
 
-.item-row, .items-rows-header{
-  .title, .authors{
-    flex: 1 0 0;
-    margin: 0 0.5em;
+/*Small screens*/
+@media screen and (max-width: $small-screen) {
+  .item-row{
+    margin: 0.2em;
+    padding: 0.5em;
+    flex-direction: column;
+    @include display-flex(row);
     text-align: left;
+    .image-wrapper{
+      flex: 0 0 auto;
+      align-self: stretch;
+      @include display-flex(column, null, center);
+      margin-right: 0.5em;
+      &:empty{
+        display: none;
+      }
+    }
+    .data-wrapper{
+      flex: 1 1 auto;
+    }
+    .label{
+      color: $grey;
+    }
+    .isbn{
+      text-align: left;
+    }
+    .action{
+      height: 3em;
+      @include display-flex(row);
+      a{
+        margin: 0.5em auto;
+        padding: 0.2em 1em;
+      }
+    }
+  }
+  .items-rows-header{
+    display: none;
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $smaller-screen) {
+  .item-row, .items-rows-header{
+    margin: 0 0.5em;
+    .title, .authors{
+      flex: 1 0 0;
+      text-align: left;
+    }
+    .isbn{
+      width: 7em;
+      color: $grey;
+    }
+    .action{
+      min-width: 5em;
+      margin: 0 1em;
+    }
+  }
+  .items-rows-header{
+    font-weight: bold;
+    color: $grey;
   }
   .image-wrapper, .image-placeholder{
     width: 3em;
+    margin-right: 0.5em;
   }
-  .isbn{
-    width: 7em;
-    color: $grey;
-  }
-  .action{
-    min-width: 5em;
-  }
-}
-
-.items-rows-header{
-  font-weight: bold;
-  color: $grey;
-}
-
-.item-row{
   .image-wrapper{
-    height: 3em;
+    min-height: 3em;
+  }
+  .data-wrapper{
+    @include display-flex(row, center, center);
+    flex: 1 0 0;
+  }
+  .item-row{
+    > div{
+      justify-content: center;
+    }
+    .label{
+      display: none;
+    }
   }
 }

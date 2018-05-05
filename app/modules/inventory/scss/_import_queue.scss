@@ -25,6 +25,14 @@
   .validation{
     margin-bottom: 1em;
   }
+
+  .items-rows-header{
+    @include display-flex(row);
+  }
+
+  @import 'candidate_row';
+  @import 'item_row';
+  @import 'candidate_info';
 }
 
 #candidates-queue-header{
@@ -64,10 +72,6 @@
   margin-top: 3em;
   @include transition(visibility);
   opacity: 1;
-  &.disabled{
-    // Not using 'display: none' to avoid scroll jumps
-    visibility: hidden;
-  }
 }
 
 .progress{
@@ -87,10 +91,6 @@
   }
 }
 
-.items-rows-header{
-  @include display-flex(row);
+#addedBooks{
+  margin-top: 1em;
 }
-
-@import 'candidate_row';
-@import 'item_row';
-@import 'candidate_info';

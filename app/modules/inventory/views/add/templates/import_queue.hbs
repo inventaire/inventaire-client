@@ -1,18 +1,20 @@
-<h3>2/ {{I18n 'select the books you want to add'}}</h3>
-<div id="candidates-queue-header">
-  <span class="checkbox-placeholder"></span>
-  <span class="label">{{I18n 'title'}}</span>
-  <span class="label">{{I18n 'authors'}}</span>
-  <span class="label">ISBN</span>
-  <span class="label">{{I18n 'status'}}</span>
-  <span class="action-placeholder"></span>
+<div id="step2">
+  <h3>2/ {{I18n 'select the books you want to add'}}</h3>
+  <div id="candidates-queue-header">
+    <span class="checkbox-placeholder"></span>
+    <span class="label">{{I18n 'title'}}</span>
+    <span class="label">{{I18n 'authors'}}</span>
+    <span class="label">ISBN</span>
+    <span class="label">{{I18n 'status'}}</span>
+    <span class="action-placeholder"></span>
+  </div>
+  <div id="candidatesQueue"></div>
+  <p id="candidates-queue-nav">
+    <a id="selectAll">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>
+    <a id="unselectAll">{{icon 'square'}}<span>{{i18n 'unselect all'}}</span></a>
+    <a id="emptyQueue">{{icon 'trash'}}<span>{{i18n 'empty the queue'}}</span></a>
+  </p>
 </div>
-<div id="candidatesQueue"></div>
-<p id="candidates-queue-nav">
-  <a id="selectAll">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>
-  <a id="unselectAll">{{icon 'square'}}<span>{{i18n 'unselect all'}}</span></a>
-  <a id="emptyQueue">{{icon 'trash'}}<span>{{i18n 'empty the queue'}}</span></a>
-</p>
 
 <div id="lastSteps" class="disabled">
   <h3>3/ {{I18n 'select the settings to apply to the selected books'}}</h3>
@@ -50,6 +52,10 @@
     <span class="title">{{I18n 'title'}}</span>
     <span class="authors">{{I18n 'authors'}}</span>
     <span class="isbn">ISBN</span>
-    <span class="action"></span>
+    <span class="action">
+      {{!-- Copying the action button to hold the same space as in item rows --}}
+      <a class="tiny-button invisible">{{i18n 'display'}}</a>
+    </span>
   </div>
-<ul id="itemsList"></ul>
+  <div id="itemsList"></div>
+</div>
