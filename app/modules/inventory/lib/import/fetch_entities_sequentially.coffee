@@ -12,11 +12,11 @@ module.exports = (isbnsData)->
 
   isbnsData.forEach (isbnData, index)->
     isbnData.index = index
-    isbnsIndex[isbnData.normalizedIsbn] = isbnData
+    isbnsIndex[isbnData.isbn13] = isbnData
     if isbnData.isInvalid
       commonRes.invalidIsbn.push isbnData
     else
-      isbnData.uri = "isbn:#{isbnData.normalizedIsbn}"
+      isbnData.uri = "isbn:#{isbnData.isbn13}"
       uris.push isbnData.uri
 
   if uris.length is 0 then return _.preq.resolve commonRes
@@ -61,6 +61,6 @@ module.exports = (isbnsData)->
 relatives = [ 'wdt:P629', 'wdt:P50' ]
 
 pushNotFound = (isbnsIndex, commonRes)-> (uri)->
-  isbn = uri.split(':')[1]
-  isbnData = isbnsIndex[isbn]
+  isbn13 = uri.split(':')[1]
+  isbnData = isbnsIndex[isbn13]
   commonRes.notFound.push isbnData

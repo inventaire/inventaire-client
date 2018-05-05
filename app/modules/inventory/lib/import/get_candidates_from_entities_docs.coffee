@@ -17,7 +17,7 @@ module.exports = (entities, isbnsIndex)->
       # Use the input ISBN to allow the user to find it back in her list
       entity.rawIsbn = isbnData.rawIsbn
       # 'isbn' will be needed by the existsOrCreateFromSeed endpoint
-      entity.isbn = entity.normalizedIsbn = isbnData.normalizedIsbn
+      entity.isbn = entity.normalizedIsbn = normalizedIsbn13
       newCandidates.push entity
 
   return newCandidates
