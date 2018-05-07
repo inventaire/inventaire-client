@@ -32,15 +32,14 @@ specificMethods =
     _.preq.get app.API.entities.authorWorks(uri, refresh)
 
   initWorksCollections: (worksData)->
-    serieUris = worksData.series.map getUri
-    isntSeriePart = IsntSeriePart(serieUris)
+    seriesUris = worksData.series.map getUri
     # Filter-out works that are part of a serie and will be displayed
     # in the serie layout
-    worksUris = worksData.works.filter(isntSeriePart).map getUri
-    articlesUris = worksData.articles.filter(isntSeriePart).map getUri
+    worksUris = getWorksUris worksData.works, seriesUris
+    articlesUris = getWorksUris worksData.articles, seriesUris
 
     @works =
-      series: new Works null, { uris: serieUris, defaultType: 'serie' }
+      series: new Works null, { uris: seriesUris, defaultType: 'serie' }
       works: new Works null, { uris: worksUris, defaultType: 'work' }
       articles: new Works null, { uris: articlesUris, defaultType: 'article' }
 
@@ -48,4 +47,7 @@ specificMethods =
 
 getUri = _.property 'uri'
 
-IsntSeriePart = (seriesUris)-> (workData)-> workData.serie not in seriesUris
+getWorksUris = (works, seriesUris)->
+  works
+  .filter (workData)-> workData.serie not in seriesUris
+  .map getUri
