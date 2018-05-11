@@ -10,19 +10,10 @@ the alternative being to link to a claim_layout --}}
   {{alt}}
   </a>
 {{else}}
-  {{#if property}}
-    <a
-      href="{{claimLocalHref property id}}"
-      class='link uriLabel entity-value'
-      data-uri='{{id}}'>
-    {{alt}}
-    </a>
-  {{else}}
-    <span
-      class='uriLabel entity-value'
-      resource='{{entityRemoteHref id}}'
-      data-uri='{{id}}'>
-    {{alt}}
-    </span>
-  {{/if}}
+  <span
+    class='uriLabel entity-value'
+    resource='{{entityRemoteHref id}}'
+    data-uri='{{id}}'>
+  {{alt}}
+  </span>
 {{/if}}
