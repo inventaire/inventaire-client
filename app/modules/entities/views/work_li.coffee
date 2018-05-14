@@ -2,7 +2,9 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/work_li'
   className: ->
     prefix = @model.get 'prefix'
-    "workLi entity-prefix-#{prefix}"
+    @wrap ?= @options.wrap
+    wrap = if @wrap then 'wrapped wrappable' else ''
+    "workLi entity-prefix-#{prefix} #{wrap}"
 
   attributes: ->
     # Used by deduplicate_layout
@@ -13,7 +15,7 @@ module.exports = Marionette.ItemView.extend
     @listenTo @model, 'change', @lazyRender
     app.execute 'uriLabel:update'
 
-    { @showAllLabels, @showActions } = @options
+    { @showAllLabels, @showActions, @wrap } = @options
     @showActions ?= true
 
     if @showActions
@@ -31,13 +33,17 @@ module.exports = Marionette.ItemView.extend
   events:
     'click a.addToInventory': 'showItemCreationForm'
     'click .zoom-buttons': 'toggleZoom'
+    'click': 'toggleWrap'
+
+  onRender: ->
+    @updateClassName()
 
   showItemCreationForm: (e)->
     unless _.isOpenedOutside(e)
       app.execute 'show:item:creation:form', { entity: @model }
 
   serializeData: ->
-    attrs = _.extend @model.toJSON(), { @showAllLabels, @showActions }
+    attrs = _.extend @model.toJSON(), { @showAllLabels, @showActions, @wrap }
     count = @getNetworkItemsCount()
     if count? then attrs.counter = { count, highlight: count > 0 }
     if attrs.extract? then attrs.description = attrs.extract
@@ -56,3 +62,13 @@ module.exports = Marionette.ItemView.extend
     @$el.toggleClass 'zoom', { duration: 500 }
     e.stopPropagation()
     e.preventDefault()
+
+  toggleWrap: (e)->
+    if @$el.hasClass 'wrapped'
+      @wrap = false
+      @$el.removeClass 'wrapped'
+      @$el.addClass 'unwrapped'
+    else if @$el.hasClass 'unwrapped'
+      @wrap = true
+      @$el.removeClass 'unwrapped'
+      @$el.addClass 'wrapped'

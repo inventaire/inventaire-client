@@ -1,33 +1,32 @@
 #tasksLayout{
   padding: 1em;
-  #task{
-    @include display-flex(row, top, left);
+  position: relative;
+  .controls{
+    @include position(fixed, null, 0, 0, 0, 1);
+    @include display-flex(row, center, center);
+    background-color: #ddd;
+    .button{
+      margin: 0.5em;
+    }
   }
-  #header{
-    @include display-flex(row, center, left);
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .controls{
+      .button{
+        text-align: center;
+        padding: 1em 0.5em;
+        flex: 1 0 0;
+      }
+    }
   }
-  #collect{
-    margin: 1em;
-  }
-  #label{
-    margin: 1em;
-    padding: 1em;
-    background-color: white;
-    @include display-flex(column, left, top);
-  }
-  #scores{
-    margin: 1em;
-    padding: 1em;
-    background-color: white;
-    @include display-flex(column, left, top);
-  }
-  .score{
-    padding: 1em;
-    @include display-flex(row, center, right);
-  }
-  #nav{
-    margin: 1em;
-    padding: 1em;
-    @include display-flex(column, strech, top);
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .controls{
+      padding: 0.5em;
+    }
   }
 }
+
+@import 'current_task';

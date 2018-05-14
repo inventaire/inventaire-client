@@ -1,0 +1,81 @@
+#currentTask{
+  .authorData, .subentities > div{
+    margin: 0;
+  }
+  .worksList .addOne, .workLi .actions, .photo-credits{
+    display: none;
+  }
+
+  .match-data{
+    .fa-arrow-right{
+      font-size: 2em;
+      color: grey;
+      display: block;
+    }
+    padding: 1em;
+    p{
+      padding: 0.2em 0.5em;
+      margin: 0;
+      display: block;
+    }
+    .label{
+      color: $grey;
+    }
+  }
+
+  .good, .match-found{
+    background-color: $success-color;
+    font-weight: bold;
+    color: white;
+    padding: 0 0.2em;
+  }
+
+  .no-match-found{
+    color: $light-grey;
+  }
+
+  .controls{
+    @include position(fixed, null, 0, 0, 0, 1);
+    @include display-flex(row, center, center);
+    background-color: #ddd;
+    .button{
+      margin: 0.5em;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .match-data{
+      .fa-arrow-right{
+        display: block;
+        margin: 0 auto;
+        padding: 1em 0;
+        transform: rotate(90deg);
+      }
+    }
+    .controls{
+      .button{
+        text-align: center;
+        padding: 1em 0.5em;
+        flex: 1 0 0;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .entities{
+      @include display-flex(row, flex-start, center);
+      // Let room for the task controls
+      padding-bottom: 5em;
+    }
+    .match-data{
+      .fa-arrow-right{
+        margin: 1em auto;
+      }
+    }
+    .controls{
+      padding: 0.5em;
+    }
+  }
+}

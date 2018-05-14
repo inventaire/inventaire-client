@@ -4,7 +4,7 @@ $workLiMaxWidth: 45em;
   margin: 0 auto;
   max-width: $workLiMaxWidth;
   background-color: $contrast;
-  &:not(:first-child){
+  &:not(:first-child):not(.wrappable){
     margin-top: 1em;
   }
   @include radius;
@@ -14,7 +14,7 @@ $workLiMaxWidth: 45em;
 .workLi{
   text-align: left;
   @include display-flex(row, center, space-around);
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   .workCover{
     position: relative;
     max-width: 10em;
@@ -91,6 +91,11 @@ $workLiMaxWidth: 45em;
   .source{
     display: none;
   }
+  .unwrap, .rewrap{
+    display: none;
+    padding: 0.5em;
+    color: $grey;
+  }
 }
 
 /*Small screens*/
@@ -145,5 +150,31 @@ $workLiMaxWidth: 45em;
         margin-left: 0;
       }
     }
+  }
+}
+
+.workLi.wrapped{
+  cursor: pointer;
+  .unwrap{
+    display: block !important;
+  }
+  .workCover{
+    min-width: auto;
+    margin: 0;
+    .fa{
+      display: none;
+    }
+  }
+  img{
+    max-height: 3em;
+  }
+  .description, .claims, .date, .actions{
+    display: none;
+  }
+}
+
+.workLi.unwrapped{
+  .rewrap{
+    display: block !important;
   }
 }

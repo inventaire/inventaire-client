@@ -35,7 +35,7 @@
   {{/if}}
   {{!-- Only show in deduplication mode --}}
   <span class="uri hidden">{{uri}}</span>
-  <p>
+  <p class="claims">
     {{claim claims 'wdt:P50' true}}  {{!-- author --}}
   </p>
   <p class="date">
@@ -61,3 +61,6 @@
     </div>
   </div>
 {{/if}}
+
+<a class="unwrap">{{icon 'chevron-down'}}</a>
+<a class="rewrap">{{icon 'chevron-up'}}</a>

@@ -1,4 +1,7 @@
-<div id="header">
-  <h2>{{i18n 'best tasks'}}</h2>
+<div id="currentTask"></div>
+<div id="relativeTasks"></div>
+<div class="controls">
+  <a class="dismiss button grey" tabindex="0">{{icon 'times'}}{{I18n 'dismiss'}}</a>
+  <a class="merge success-button" title="shortkey: m" tabindex="0">{{icon 'compress'}}{{I18n 'merge'}}<span class="loading"></span></a>
+  <a class="next button light-blue" title="shortkey: n" tabindex="0">{{icon 'arrow-right'}}{{I18n 'next'}}</a>
 </div>
-<div id="tasks"></div>

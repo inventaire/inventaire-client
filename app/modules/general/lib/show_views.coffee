@@ -40,3 +40,4 @@ entityAction = (e, action)->
     # Any href arriving here should be of the form /entity/:uri(/:label)(/edit)
     [ uri ] = href.split('/entity/')[1].split '/'
     app.execute action, uri
+    e.stopPropagation()

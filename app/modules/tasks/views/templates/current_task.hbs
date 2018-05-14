@@ -1,0 +1,30 @@
+<div class="entities">
+  <div id="suspect"></div>
+  <div class="match-data">
+    {{icon 'arrow-right'}}
+    {{#if hasEncyclopediaOccurence}}
+      <p class="match-found" title="{{i18n 'encyclopedia_occurence_help'}}">
+        {{i18n 'a work matched an other data source'}}
+      </p>
+    {{else}}
+      <p class="no-match-found">
+        {{i18n 'no match found in other data source'}}
+      </p>
+    {{/if}}
+    <p class="lexical-score">
+      <span class="label">{{i18n 'lexical score'}}:</span>
+      <span class="score {{#if goodLexicalScore}}good{{/if}}">
+        {{lexicalScore}}
+      </span>
+    </p>
+    <p class="relation-score">
+      {{#if hasHomonyms}}
+        <span>{{i18n 'homonyms_count' homonymsCount=homonymsCount}}</span>
+      {{else}}
+        <span class="good">{{i18n 'has no homonym'}}</span>
+      {{/if}}
+    </p>
+  </div>
+  <div id="suggestion"></div>
+</div>
+<div id="otherSuggestions"></div>

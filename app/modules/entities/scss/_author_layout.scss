@@ -14,13 +14,15 @@ $author-layout-bg: #292929;
   .serieLayout:not(.standalone){
     background-color: $darker-grey;
   }
-  .series, .works, .articles:not(:empty){
-    // required to center .loading
-    @include display-flex(row, center, center);
-    margin-top: 1em;
-    margin-bottom: 1em;
-    .header{
+  .series, .works, .articles{
+    &:not(:empty){
+      // required to center .loading
       @include display-flex(row, center, center);
+      margin-top: 1em;
+      margin-bottom: 1em;
+      .header{
+        @include display-flex(row, center, center);
+      }
     }
   }
   .series, .works, .articles{
@@ -62,7 +64,7 @@ $author-layout-bg: #292929;
 
 .innerAuthorLi{
   @include display-flex(column);
-  .workLi{
+  .workLi:not(.wrappable){
     margin: auto;
     margin-bottom: 1em;
   }
@@ -76,7 +78,7 @@ $author-layout-bg: #292929;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .workLi:first-child{
+    .workLi:first-child:not(.wrappable){
       margin-top: 1em;
     }
   }
