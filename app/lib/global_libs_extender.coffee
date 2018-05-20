@@ -120,6 +120,8 @@ module.exports = (_)->
   # aliasing once to one to match Backbone vocabulary
   $.fn.once = $.fn.one
 
+  Marionette.View::displayError = (err)-> app.execute 'show:error:other', err
+
 triggerChange = (model, attr, value)->
   model.trigger 'change', model, attr, value
   model.trigger "change:#{attr}", model, value

@@ -26,6 +26,7 @@ module.exports = Marionette.LayoutView.extend
 
     entities_.getReverseClaims @property, @value, @refresh, true
     .then @ifViewIsIntact('showWorks')
+    .catch @displayError
 
   serializeData: ->
 
