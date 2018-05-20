@@ -23,7 +23,7 @@ $author-layout-bg: #292929;
       @include display-flex(row, center, center);
     }
   }
-  .series, .works, .articles, .admin{
+  .series, .works, .articles{
     h3, h4{
       color: white;
       text-align: center;
@@ -57,12 +57,6 @@ $author-layout-bg: #292929;
     .unwrap{
       display: none;
     }
-  }
-  .admin{
-    margin: 2em;
-    background-color: $dark-grey;
-    @include radius;
-    padding: 1em;
   }
 }
 
@@ -142,6 +136,20 @@ $author-layout-bg: #292929;
       flex-direction: column;
     }
     .unwrap{
+      font-size: 1.4em;
+    }
+  }
+}
+
+.authorLayout, .workLayout{
+  .admin{
+    margin: 2em;
+    background-color: $darker-grey;
+    @include radius;
+    padding: 1em;
+    h3, h4{
+      color: white;
+      text-align: center;
       font-size: 1.4em;
     }
   }

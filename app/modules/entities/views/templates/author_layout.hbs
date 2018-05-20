@@ -7,14 +7,6 @@
   </div>
 </div>
 
-{{#if displayHomonymes}}
-  <div class="admin">
-    <h3>{{i18n 'homonymes'}}</h3>
-    <div class='homonymes'></div>
-  </div>
-{{else}}
-  {{!-- just adding regions containers so that the layout view doesn't crash --}}
-  <div class='homonymes'></div>
-{{/if}}
+{{partial 'entities:homonyms' this}}
 
 {{#if standalone}}{{partial 'welcome:embedded_welcome'}}{{/if}}

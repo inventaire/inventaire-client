@@ -22,14 +22,14 @@ module.exports = Marionette.LayoutView.extend
     seriesRegion: '.series'
     worksRegion: '.works'
     articlesRegion: '.articles'
-    homonymesRegion: '.homonymes'
+    homonymsRegion: '.homonyms'
 
   initialize: ->
     @lazyRender = _.LazyRender @
     { @standalone } = @options
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
-    @displayHomonymes = app.user.isAdmin and @standalone
+    @displayHomonyms = app.user.isAdmin and @standalone
 
   events:
     'click .unwrap': 'unwrap'
@@ -40,7 +40,7 @@ module.exports = Marionette.LayoutView.extend
       canRefreshData: true
       # having an epub download button on an author isn't really interesting
       hideWikisourceEpub: true
-      displayHomonymes: @displayHomonymes
+      displayHomonyms: @displayHomonyms
 
   fetchWorks: ->
     @worksShouldBeShown = true
@@ -54,7 +54,7 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showInfobox()
     if @worksShouldBeShown then @showWorks()
-    if @displayHomonymes then @showHomonymes()
+    if @displayHomonyms then @showHomonyms()
 
   showInfobox: ->
     @infoboxRegion.show new AuthorInfobox { @model, @standalone }
@@ -98,7 +98,7 @@ module.exports = Marionette.LayoutView.extend
       initialLength: initialLength
       showActions: @options.showActions
 
-  showHomonymes: ->
-    app.execute 'show:merge:suggestions', { @model, region: @homonymesRegion }
+  showHomonyms: ->
+    app.execute 'show:merge:suggestions', { @model, region: @homonymsRegion }
 
 dropThePlural = (type)-> type.replace /s$/, ''
