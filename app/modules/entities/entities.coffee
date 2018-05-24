@@ -56,7 +56,9 @@ API =
 
     getEntityModel uri, refresh
     .then (entity)->
-      if entity.type? then return entity
+      if entity.get('_meta_type') is 'removed:placeholder'
+        throw error_.new 'removed placeholder', 400, { entity }
+      else if entity.type? then return entity
       else throw error_.new 'unknown entity type', 400, entity
     .tap app.navigateFromModel
     .then @getEntityViewByType.bind(@, refresh)

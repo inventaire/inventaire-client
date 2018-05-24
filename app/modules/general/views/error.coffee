@@ -4,7 +4,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     PreventDefault: {}
 
-  serializeData: -> return @options
+  serializeData: -> @options
 
   events:
     'click .button': 'buttonAction'
