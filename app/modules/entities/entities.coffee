@@ -395,6 +395,6 @@ reportTypeIssue = (params)->
   reportedTypeIssueUris.push uri
 
   subject = "[Entity type] #{uri}: expected #{expectedType}, got #{realType}"
-  app.request 'post:feedback', { subject }
+  app.request 'post:feedback', { subject, uris: [ uri ] }
 
 reportedTypeIssueUris = []
