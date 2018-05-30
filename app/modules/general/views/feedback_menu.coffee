@@ -47,6 +47,7 @@ module.exports = Marionette.ItemView.extend
   postFeedback: ->
     app.request 'post:feedback',
       subject: @ui.subject.val()
+      uris: @options.uris
       message: @ui.message.val()
       unknownUser: @ui.unknownUser.val()
 

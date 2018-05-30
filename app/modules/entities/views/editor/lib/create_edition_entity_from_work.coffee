@@ -47,6 +47,7 @@ RenameIsbnDuplicateErr = (workUri, isbn)-> (err)->
 reportIsbnIssue = (workUri, isbn)->
   app.request 'post:feedback',
     subject: "[Possible work duplicate] #{workUri} / #{isbn}'s work"
+    uris: [ workUri, "isbn:#{isbn}" ]
 
 formatEditionAlreadyExistOnCurrentWork = (err)->
   err.responseJSON.status_verbose = 'this edition is already in the list'

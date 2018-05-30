@@ -125,6 +125,7 @@ module.exports = Marionette.LayoutView.extend
     subject = _.I18n  'data error'
     app.execute 'show:feedback:menu',
       subject: "[#{uri}][#{subject}] "
+      uris: [ uri ]
       event: e
 
   # Hiding navigation buttons when a label is required but no label is set yet
