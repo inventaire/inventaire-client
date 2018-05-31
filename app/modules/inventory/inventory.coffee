@@ -48,9 +48,7 @@ API =
     # User might be a user id or a username
     app.request 'resolve:to:userModel', user
     .then (userModel)-> showInventory { user, navigate }
-    .catch (err)->
-      if err.statusCode is 404 then app.execute 'show:error:missing'
-      else app.execute 'show:error:other', err
+    .catch app.Execute('show:error')
 
   showGroupInventory: (id, name, navigate)->
     showInventory { group: id, navigate }
@@ -69,9 +67,7 @@ API =
 
     app.request 'get:item:model', id
     .then showWorkWithItemModal
-    .catch (err)->
-      if err.statusCode is 404 then app.execute 'show:error:missing'
-      else _.error err, 'showItemFromId'
+    .catch (err)-> app.execute 'show:error', err, 'showItemFromId'
 
   showUserItemsByEntity: (username, uri, label)->
     unless _.isUsername(username) and _.isEntityUri(uri)
@@ -155,6 +151,7 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:group:byId': (groupId)->
       app.request 'get:group:model', groupId
       .then (group)-> showGroupInventory group
+      .catch app.Execute('show:error')
 
     'show:item:creation:form': showItemCreationForm
 

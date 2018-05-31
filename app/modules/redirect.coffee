@@ -27,6 +27,7 @@ module.exports =
     app.commands.setHandlers
       'show:home': API.showHome
       'show:welcome': API.showWelcome
+      'show:error': showErrorByStatus
       'show:error:missing': showErrorMissing
       'show:error:other': showOtherError
       'show:offline:error': showOfflineError
@@ -85,6 +86,10 @@ noRedirectionRequired = [
 
 showSignupRedirect = showAuthRedirect.bind null, 'signup'
 showLoginRedirect = showAuthRedirect.bind null, 'login'
+
+showErrorByStatus = (err, label)->
+  if err.statusCode is 404 then showErrorMissing()
+  else showOtherError err, label
 
 showErrorMissing = ->
   showError
