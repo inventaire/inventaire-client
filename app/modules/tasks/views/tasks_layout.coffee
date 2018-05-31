@@ -1,6 +1,7 @@
 getNextTask = require '../lib/get_next_task'
 CurrentTask = require './current_task'
 Task = require '../models/task'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   id: 'tasksLayout'
@@ -14,8 +15,10 @@ module.exports = Marionette.LayoutView.extend
     currentTask: '#currentTask'
     relativeTasks: '#relativeTasks'
 
-  onShow: ->
+  behaviors:
+    Loading: {}
 
+  onShow: ->
     { taskId } = @options
     if taskId? then @showTask getTaskById(taskId)
     else @showNextTask()
@@ -41,12 +44,12 @@ module.exports = Marionette.LayoutView.extend
     'click .next': 'showNextTask'
     'keydown': 'triggerActionByKey'
 
-  dismiss: ->
-    @currentTaskModel.dismiss()
-    .then @showNextTask.bind(@)
-
-  merge: ->
-    @currentTaskModel.merge()
+  dismiss: -> @action 'dismiss'
+  merge: -> @action 'merge'
+  action: (actionName)->
+    startLoading.call @, ".#{actionName}"
+    @currentTaskModel[actionName]()
+    .tap stopLoading.bind @
     .then @showNextTask.bind(@)
 
   triggerActionByKey: (e)->
