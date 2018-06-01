@@ -69,13 +69,3 @@
     font-weight: bold;
   }
 }
-
-.relative-task{
-  @include display-flex(column);
-  td{
-    background-color: rgba(white, 0.4);
-  }
-  table{
-    margin-top: auto;
-  }
-}

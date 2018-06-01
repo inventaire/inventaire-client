@@ -1,10 +1,16 @@
-<div class="relative-suggestion">
-  {{#with suggestion}}
-    <strong>{{label}}</strong>
-    <div>
-      <img src="{{src image.url 100}}" alt="{{label}} cover">
-    </div>
-    <p class="uri">{{uri}}</p>
-  {{/with}}
+<div class="left">
+  {{#if suggestion.image.url}}
+    <img src="{{src suggestion.image.url 100}}" alt="{{label}}">
+  {{/if}}
 </div>
-{{partial 'tasks:task_scores' this}}
+<div class="right">
+  <div class="relative-suggestion">
+    {{#with suggestion}}
+      <strong>{{label}}</strong>
+      {{partial 'entities:birth_death_dates' claims}}
+      <p class="description">{{description}}</p>
+      <p class="uri">{{uri}}</p>
+    {{/with}}
+  </div>
+  {{partial 'tasks:task_scores' this}}
+</div>
