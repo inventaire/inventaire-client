@@ -13,34 +13,10 @@
       display: block;
     }
     padding: 1em;
-    p{
-      padding: 0.2em 0.5em;
-      margin: 0;
-      display: block;
-    }
-    .label{
-      color: $grey;
-    }
   }
 
-  .good, .match-found{
-    background-color: $success-color;
-    font-weight: bold;
-    color: white;
-    padding: 0 0.2em;
-  }
-
-  .no-match-found{
-    color: $light-grey;
-  }
-
-  .controls{
-    @include position(fixed, null, 0, 0, 0, 1);
-    @include display-flex(row, center, center);
-    background-color: #ddd;
-    .button{
-      margin: 0.5em;
-    }
+  td{
+    background-color: rgba(white, 0.8);
   }
 
   /*Small screens*/
@@ -53,13 +29,6 @@
         transform: rotate(90deg);
       }
     }
-    .controls{
-      .button{
-        text-align: center;
-        padding: 1em 0.5em;
-        flex: 1 0 0;
-      }
-    }
   }
 
   /*Large screens*/
@@ -67,15 +36,41 @@
     .entities{
       @include display-flex(row, flex-start, center);
       // Let room for the task controls
-      padding-bottom: 5em;
+      padding-bottom: 20em;
     }
     .match-data{
       .fa-arrow-right{
         margin: 1em auto;
       }
     }
-    .controls{
-      padding: 0.5em;
-    }
+  }
+}
+
+#currentTask, .relative-task{
+  td{
+    max-width: 10em;
+    padding: 0 0.4em;
+  }
+  .yes, .no{
+    font-weight: bold;
+  }
+  .yes{
+    color: $success-color;
+  }
+  .no{
+    color: grey;
+  }
+  .global-score{
+    font-weight: bold;
+  }
+}
+
+.relative-task{
+  @include display-flex(column);
+  td{
+    background-color: rgba(white, 0.4);
+  }
+  table{
+    margin-top: auto;
   }
 }

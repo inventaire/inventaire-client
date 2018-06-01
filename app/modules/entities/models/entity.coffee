@@ -2,6 +2,7 @@ wd_ = require 'lib/wikimedia/wikidata'
 isbn_ = require 'lib/isbn'
 entities_ = require '../lib/entities'
 initializeWikidataEntity = require '../lib/wikidata/init_entity'
+initializeInvEntity = require '../lib/inv/init_entity'
 editableEntity = require '../lib/inv/editable_entity'
 getBestLangValue = sharedLib('get_best_lang_value')(_)
 initializeAuthor = require '../lib/types/author'
@@ -49,7 +50,7 @@ module.exports = Filterable.extend
     @_dataPromises = []
 
     if @wikidataId then initializeWikidataEntity.call @, attrs
-    else @set 'aliases', {}
+    else initializeInvEntity.call @, attrs
 
     if @type in editableTypes
       pathname = @get 'pathname'

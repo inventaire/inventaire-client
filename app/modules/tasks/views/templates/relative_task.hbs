@@ -1,0 +1,10 @@
+<div class="relative-suggestion">
+  {{#with suggestion}}
+    <strong>{{label}}</strong>
+    <div>
+      <img src="{{src image.url 100}}" alt="{{label}} cover">
+    </div>
+    <p class="uri">{{uri}}</p>
+  {{/with}}
+</div>
+{{partial 'tasks:task_scores' this}}

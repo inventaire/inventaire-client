@@ -1,13 +1,19 @@
 <div id="currentTask"></div>
-<div id="relativeTasks"></div>
-<div class="controls">
-  <a class="dismiss button grey" tabindex="0">
-      {{icon 'times'}}{{I18n 'dismiss'}}<span class="loading"></span>
-  </a>
-  <a class="merge success-button" title="shortkey: m" tabindex="0">
-    {{icon 'compress'}}{{I18n 'merge'}}<span class="loading"></span>
-  </a>
-  <a class="next button light-blue" title="shortkey: n" tabindex="0">
-    {{icon 'arrow-right'}}{{I18n 'next'}}
-  </a>
+<div class="bottom-bar">
+  <div class="controls">
+    <a class="dismiss button grey" tabindex="0">
+        {{icon 'times'}}{{I18n 'dismiss'}}<span class="loading"></span>
+    </a>
+    <a class="merge success-button" title="shortkey: m" tabindex="0">
+      {{icon 'compress'}}{{I18n 'merge'}}<span class="loading"></span>
+    </a>
+    <a class="next button light-blue" title="shortkey: n" tabindex="0">
+      {{icon 'arrow-right'}}{{I18n 'next'}}<span class="loading"></span>
+    </a>
+    <a class="toggle-relatives">
+      <div class="homonymsCount"></div>
+      {{icon 'chevron-down'}}
+    </a>
+  </div>
+  <div id="relativeTasks"></div>
 </div>

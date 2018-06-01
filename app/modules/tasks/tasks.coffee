@@ -8,7 +8,11 @@ module.exports =
 
     app.addInitializer -> new Router { controller: API }
 
+  initialize: ->
+    app.commands.setHandlers
+      'show:task': API.showTask
+
 API =
-  showTask: (taskId)->
+  showTask: (task)->
     if app.request 'require:loggedIn', 'tasks'
-      app.layout.main.show new TasksLayout { taskId }
+      app.layout.main.show new TasksLayout { task }

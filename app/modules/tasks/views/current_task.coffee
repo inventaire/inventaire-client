@@ -7,8 +7,6 @@ module.exports = Marionette.LayoutView.extend
       suspect: @model.suspect?.toJSON()
       suggestion: @model.suggestion?.toJSON()
       goodLexicalScore: @model.get('lexicalScore') > 10
-      hasHomonyms: @model.get('relationScore') < 1
-      homonymsCount: 1 / @model.get('relationScore')
 
   regions:
     suspect: '#suspect'
