@@ -13,7 +13,9 @@
     {{/if}}
   </h3>
   <h4 class="subheader">{{shortDescription}}</h4>
-  {{!-- Only show in deduplication mode --}}
+  {{!-- hidden class overriden by --}}
+  {{!-- modules/entities/scss/_deduplicate.scss --}}
+  {{!-- modules/tasks/scss/_current_task.scss --}}
   <span class="uri hidden">{{uri}}</span>
   {{#if standalone}}
     {{partial 'entities:author_claims' this}}
