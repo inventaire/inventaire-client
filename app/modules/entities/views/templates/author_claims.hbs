@@ -2,13 +2,13 @@
   {{partial 'entities:birth_death_dates' claims}}
   {{imageClaim claims 'wdt:P109'}} {{!-- signature --}}
   <p class="claims">
-    {{claim claims 'wdt:P135'}} {{!-- movement --}}
-    {{claim claims 'wdt:P136'}} {{!-- genre --}}
+    {{claim claims 'wdt:P135' true}} {{!-- movement --}}
+    {{claim claims 'wdt:P136' true}} {{!-- genre --}}
     {{claim claims 'wdt:P27'}} {{!-- country of citizenship --}}
     {{claim claims 'wdt:P103'}} {{!-- native language --}}
-    {{claim claims 'wdt:P69'}} {{!-- educated at --}}
+    {{claim claims 'wdt:P69' true}} {{!-- educated at --}}
     {{claim claims 'wdt:P106'}} {{!-- occupation --}}
-    {{claim claims 'wdt:P166'}} {{!-- award received --}}
+    {{claim claims 'wdt:P166' true}} {{!-- award received --}}
     {{claim claims 'wdt:P39'}} {{!-- position held --}}
     {{claim claims 'wdt:P1066' true}} {{!-- student of --}}
     {{claim claims 'wdt:P737' true}} {{!-- influence by --}}
