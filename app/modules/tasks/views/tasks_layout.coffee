@@ -78,7 +78,7 @@ module.exports = Marionette.LayoutView.extend
     @showNextTask()
     .tap stopLoading.bind @
 
-    e.stopPropagation()
+    e?.stopPropagation()
 
   triggerActionByKey: (e)->
     # Prevent interpretting browser shortkeys such as Alt+D or Ctrl+R
