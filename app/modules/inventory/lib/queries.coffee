@@ -68,9 +68,6 @@ getByEntities = (uris)->
 getByUserIdAndEntity = (userId, entityUri)->
   getItemByQueryUrl app.API.items.byUserAndEntity(userId, entityUri)
 
-getByUsernameAndEntity = (username, entityUri)->
-  getItemByQueryUrl app.API.items.byUsernameAndEntity(username, entityUri)
-
 addUsersAndItems = (collection)-> (res)->
   { items, users } = res
   # Also accepts items indexed by listings: user, network, public
@@ -92,7 +89,6 @@ module.exports = (app)->
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
     'items:getByUserIdAndEntity': getByUserIdAndEntity
-    'items:getByUsernameAndEntity': getByUsernameAndEntity
 
     # Using a different naming to match reqGrab requests style
     'get:item:model': getById

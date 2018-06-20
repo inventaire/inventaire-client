@@ -60,6 +60,10 @@ module.exports = (app)->
           if userModel? then return userModel
           else throw error_.new 'user model not found', 404, user
 
+    getUserIdFromUsername: (username)->
+      getUserModelFromUsername username
+      .then (userModel)-> userModel.get '_id'
+
   getUserModelFromUsername = (username)->
     if username is app.user.get('username')
       return _.preq.resolve app.user
@@ -86,6 +90,7 @@ module.exports = (app)->
     'fetch:users:data': async.fetchUsersData
     'resolve:to:userModel': async.resolveToUserModel
     'get:userModel:from:userId': sync.getUserModelFromUserId
+    'get:userId:from:username': async.getUserIdFromUsername
     'users:search': searchByText
     'users:search:byPosition': searchByPosition
     'user:add': addUser

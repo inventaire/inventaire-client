@@ -78,7 +78,8 @@ API =
     app.execute 'show:loader'
     app.navigate "/inventory/#{username}/#{uri}", { metadata: { title } }
 
-    app.request 'items:getByUsernameAndEntity', username, uri
+    app.request 'get:userId:from:username', username
+    .then (userId)-> app.request 'items:getByUserIdAndEntity', userId, uri
     .then displayFoundItems
     .catch _.Error('showItemShowFromUserAndEntity')
 
