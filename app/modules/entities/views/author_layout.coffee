@@ -6,7 +6,9 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/author_layout'
   className: ->
     # Default to wrapped mode in non standalone mode
-    secondClass = if @options.standalone then 'standalone' else 'wrapped'
+    secondClass = ''
+    if @options.standalone then secondClass = 'standalone'
+    else if not @options.noAuthorWrap then secondClass = 'wrapped'
     prefix = @model.get 'prefix'
     return "authorLayout #{secondClass} #{@cid} entity-prefix-#{prefix}"
 
@@ -75,12 +77,14 @@ module.exports = Marionette.LayoutView.extend
     # Always starting wrapped on small screens
     if not _.smallScreen(600) and total > 0 then @unwrap()
 
-    @showWorkCollection 'works'
+    { initialWorksListLength } = @options
+    initialWorksListLength or= if @standalone then 10 else 5
+
+    @showWorkCollection 'works', initialWorksListLength
 
     seriesCount = @model.works.series.totalLength
     if seriesCount > 0 or @standalone
-      initialLength = if @standalone then 10 else 5
-      @showWorkCollection 'series', initialLength
+      @showWorkCollection 'series', initialWorksListLength
       # If the author has no series, move the series block down
       if seriesCount is 0 then @seriesRegion.$el.css 'order', 2
 
@@ -97,6 +101,7 @@ module.exports = Marionette.LayoutView.extend
       type: dropThePlural type
       initialLength: initialLength
       showActions: @options.showActions
+      wrapWorks: @options.wrapWorks
 
   showHomonyms: ->
     app.execute 'show:merge:suggestions', { @model, region: @homonymsRegion }

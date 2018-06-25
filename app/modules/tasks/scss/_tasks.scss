@@ -1,0 +1,112 @@
+#tasksLayout{
+  padding: 1em;
+  position: relative;
+  .controls{
+    @include display-flex(row, center, center);
+    background-color: #ddd;
+    .button{
+      margin: 0.5em;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .controls{
+      .button{
+        text-align: center;
+        padding: 1em 0.5em;
+        flex: 1 0 0;
+      }
+    }
+    .toggle-relatives{
+      display: none;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .bottom-bar{
+      @include position(fixed, null, 0, 0, $icon-nav-width, 1);
+    }
+    .controls{
+      padding: 0.5em;
+      position: relative;
+      cursor: pointer;
+    }
+    .toggle-relatives{
+      position: absolute;
+      @include position(fixed, null, 1em, null, null);
+      @include display-flex(row, center, center);
+      font-size: 1.2em;
+      .homonymsCount{
+        background-color: grey;
+        @include radius;
+        padding: 0 0.4em;
+        &[data-risk="none"]{
+          background-color: $success-color;
+          color: white;
+        }
+        &[data-risk="medium"]{
+          background-color: $yellow;
+        }
+        &[data-risk="high"]{
+          background-color: $danger-color;
+          color: white;
+        }
+      }
+      .fa{
+        margin-left: 1em;
+        @include transition(transform);
+        &.toggled{
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+}
+
+.inner-relative-tasks{
+  @include display-flex(row);
+  overflow: auto;
+  background-color: $grey;
+  &:not(:empty){
+    padding: 0.5em;
+  }
+}
+
+.relative-task{
+  @include display-flex(row);
+  cursor: pointer;
+  background-color: $light-grey;
+  padding: 1em;
+  @include radius;
+  margin-right: 1em;
+  flex: 1 0 auto;
+  max-width: 20em;
+  .description, .birth-death-dates{
+    color: #555;
+    font-size: 0.9em;
+    max-height: 3em;
+    overflow: hidden;
+  }
+  &.good-candidate{
+    background-color: $success-color;
+  }
+  &:not(.good-candidate){
+    @include shy(0.5);
+  }
+  .left{
+    margin-right: 0.5em;
+  }
+  .right{
+    @include display-flex(column);
+  }
+  td{
+    background-color: rgba(white, 0.4);
+  }
+  table{
+    margin-top: auto;
+  }
+}
+
+@import 'current_task';

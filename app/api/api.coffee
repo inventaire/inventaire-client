@@ -9,6 +9,7 @@ module.exports = (_)->
   search: require './search'
   data: require './data'
   invitations: require './invitations'
+  tasks: require './tasks'
   comments: endpoint('comments', true)
   transactions: endpoint('transactions', true)
   relations: endpoint('relations', true)

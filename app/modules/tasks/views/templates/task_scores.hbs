@@ -1,0 +1,20 @@
+<table>
+  <tr class="global-score">
+    <td>{{i18n 'global score'}}</td>
+    <td>{{globalScore}}</td>
+  </tr>
+  <tr class="has-match">
+    <td>{{i18n 'match confirmed by another data source'}}</td>
+    <td>
+      {{#if hasEncyclopediaOccurence}}
+        <span class="yes">{{i18n 'yes'}}</span>
+      {{else}}
+        <span class="no">{{i18n 'no'}}</span>
+      {{/if}}
+    </td>
+  </tr>
+  <tr class="lexical-score">
+    <td>{{i18n 'lexical score'}}</td>
+    <td>{{lexicalScore}}</td>
+  </tr>
+</table>

@@ -29,15 +29,19 @@ module.exports = (Backbone, _, $, app, window)->
   piped: (data)-> _.forceArray(data).join '|'
 
   inspect: (obj, label)->
+    if _.isArguments obj then obj = _.toArray obj
     # remove after using as it keeps reference of the inspected object
     # making the garbage collection impossible
-    if label? then _.log obj, "#{label} added to window.current for inspection"
-    if window.current?
-      window.previous or= []
-      window.previous.unshift(window.current)
+    if label?
+      _.log obj, "#{label} added to window['#{label}'] for inspection"
+      window[label] = obj
+    else
+      if window.current?
+        window.previous or= []
+        window.previous.unshift(window.current)
+      window.current = obj
 
-    if _.isArguments obj then obj = _.toArray obj
-    return window.current = obj
+    return obj
 
   lastRouteMatch: (regex)->
     if Backbone.history.last?[1]?

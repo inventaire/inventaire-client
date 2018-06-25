@@ -32,6 +32,7 @@ module.exports = ->
   app.module 'Network', require 'modules/network/network'
   app.module 'Notifications', require 'modules/notifications/notifications'
   app.module 'Settings', require 'modules/settings/settings'
+  app.module 'Tasks', require 'modules/tasks/tasks'
   require('modules/map/map')()
   require('modules/comments/comments')()
 

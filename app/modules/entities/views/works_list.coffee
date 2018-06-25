@@ -37,6 +37,7 @@ module.exports = Marionette.CompositeView.extend
   childViewOptions: (model, index)->
     refresh: @options.refresh
     showActions: @options.showActions
+    wrap: @options.wrapWorks
 
   ui:
     counter: '.counter'
