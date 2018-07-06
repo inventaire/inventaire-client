@@ -37,6 +37,8 @@ showGroupPositionPicker = (group, focusSelector)->
 
 # returns a promise that should resolve with the selected coordinates
 promptGroupPositionPicker = ->
-  new Promise (resolve, reject)->
-    try showPositionPicker { resolve, type: 'group' }
-    catch err then reject err
+  getLeaflet()
+  .then ->
+    new Promise (resolve, reject)->
+      try showPositionPicker { resolve, type: 'group' }
+      catch err then reject err
