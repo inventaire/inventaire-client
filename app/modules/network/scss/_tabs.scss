@@ -23,6 +23,9 @@
       .fa{
         display: block;
         font-size: 1.5em;
+        &.fa-barcode{
+          margin-right: 0.4em;
+        }
       }
       &.active{
         @include hide-counter;

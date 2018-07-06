@@ -12,7 +12,6 @@ mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./
 
 bower install
 
-./scripts/mv_font_awesome_fonts
 ./scripts/mv_moment_locales
 
 # languages_data are required to build

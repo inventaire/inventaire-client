@@ -10,6 +10,7 @@ module.exports =
     email: 'hello@inventaire.io'
     mailto: 'mailto:hello@inventaire.io'
   blog: subdomain 'blog'
+  mastodon: 'http://mamot.fr/@inventaire'
   twitter: 'https://twitter.com/inventaire_io'
   facebook: 'https://facebook.com/inventaire.io'
   git: subdomain 'git'

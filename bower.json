@@ -27,7 +27,6 @@
     "blueimp-canvas-to-blob": "^3.1.0",
     "df-visible": "jquery-visible#~1.2.0",
     "fastclick": ">=0.6.11",
-    "font-awesome": "~4.4.0",
     "imagesloaded": "~3.1.8",
     "jquery.cookie": "~1.4.0",
     "jquery.inview": "jquery.inview#~1.0.0",

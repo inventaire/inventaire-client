@@ -107,3 +107,8 @@ cp ${pubjs}/${piwik_base}.js ${pubjs}/${piwik_base}.min.js
 uglifyInPlace ${pubjs}/${piwik_base}.min.js
 gzip --best < "${pubjs}/${piwik_base}.min.js" > "${pubjs}/${piwik_base}.min.js"
 echo -e '\e[0;32mdone downloading:\e[0m piwik'
+
+### ForkAwesome ###
+cp ./node_modules/fork-awesome/css/fork-awesome.css ./vendor/css
+cp ./node_modules/fork-awesome/fonts/* app/assets/fonts/
+echo -e '\e[0;32mdone copying:\e[0m' fork-awesome

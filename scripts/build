@@ -12,11 +12,12 @@ echo -e '\e[0;30mbrunch build --production\e[0m'
 brunch build --production
 ./scripts/build_index
 
-echo -e '\e[0;30mgzip js and css files\e[0m'
+echo -e '\e[0;30mgzip js, css, and font files\e[0m'
 ./scripts/set_content_hash_cache_bust
 source ./scripts/init_gzip_utils
 gzipkeepall public/json
 gzipkeepall public/js/moment
+gzipkeepall public/fonts
 
 echo -e '\e[0;30mgzip index.html\e[0m'
 gzip --best < public/index.html > public/index.html.gz

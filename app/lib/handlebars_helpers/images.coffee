@@ -16,7 +16,6 @@ images =
   wikisource: '/public/images/wikisource-64.png'
   'barcode-scanner': '/public/images/barcode-scanner-64.png'
   gutenberg: '/public/images/gutenberg.png'
-  mastodon: '/public/images/mastodon.svg'
 
 imagesList = Object.keys images
 

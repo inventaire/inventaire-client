@@ -13,8 +13,8 @@ select{
   line-height: normal;
   border: 1px solid $input-border-color;
   border-radius: 0;
-  // FontAwesome is needed to correctly display icons
-  font-family: 'FontAwesome', $sans-serif;
+  // ForkAwesome is needed to correctly display icons
+  font-family: 'ForkAwesome', $sans-serif;
   &:hover{
     background-color: #f3f3f3;
     border-color: #999;
