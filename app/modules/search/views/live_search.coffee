@@ -1,4 +1,6 @@
 # TODO:
+# - prevent triggering deep search on enter
+# - hint to input ISBNs directly, maybe in the alternatives sections
 # - add 'help': indexed wiki.inventaire.io entries to give results
 #   to searches such as 'FAQ' or 'help creating group'
 # - add 'subjects': search Wikidata for entities that are used
@@ -32,10 +34,12 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .searchFilter': 'updateFilters'
+    'click .deepSearch': 'showDeepSearch'
+    'click .createEntity': 'showEntityCreate'
 
   childEvents:
     # Passing the result to the parent layout
-    'noresult:click': -> @triggerMethod 'enter:without:hightlighed:result'
+    'noresult:click': -> @triggerMethod 'show:deep:search'
 
   onSpecialKey: (key)->
     switch key
@@ -156,11 +160,17 @@ module.exports = Marionette.CompositeView.extend
   showCurrentlyHighlightedResult: ->
     hilightedView = @children.findByIndex @_currentHighlightIndex
     if hilightedView then hilightedView.showResult()
-    else @triggerMethod 'enter:without:hightlighed:result'
+    else @triggerMethod 'show:deep:search'
 
   resetHighlightIndex: ->
     @$el.find('.highlight').removeClass 'highlight'
     @_currentHighlightIndex = -1
+
+  showDeepSearch: -> @triggerMethod 'show:deep:search'
+
+  showEntityCreate: ->
+    @triggerMethod 'hide:live:search'
+    app.execute 'show:entity:create', { label: @_lastSearch }
 
 typesMap =
   all: [ 'works', 'humans', 'series', 'users', 'groups' ]

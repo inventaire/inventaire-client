@@ -60,7 +60,8 @@ module.exports = Marionette.LayoutView.extend
     'click': 'updateLiveSearch'
 
   childEvents:
-    'enter:without:hightlighed:result': 'search'
+    'hide:live:search': 'hideLiveSearch'
+    'show:deep:search': 'showDeepSearch'
 
   showHome: (e)->
     unless _.isOpenedOutside e
@@ -70,7 +71,7 @@ module.exports = Marionette.LayoutView.extend
     unless _.isOpenedOutside e
       app.execute 'show:inventory:user', app.user
 
-  search: ->
+  showDeepSearch: ->
     search = @ui.searchField.val()
     unless _.isNonEmptyString search then return
     app.execute 'search:global', search
