@@ -78,6 +78,28 @@
       padding-bottom: 0.2em;
     }
   }
+  .alternatives{
+    padding: 0.2em 0.5em;
+    display: none;
+    &.shown{
+      @include display-flex(row, center, center, wrap);
+    }
+    .label{
+      color: $grey;
+    }
+  }
+  .propositions{
+    flex: 1 0 auto;
+    @include display-flex(row, center, center);
+    a{
+      @include display-flex(row, center, center);
+      padding: 0.2em 0.5em;
+      margin: 0.2em;
+      min-width: 7em;
+      text-align: center;
+      @include tiny-button-color($grey, white);
+    }
+  }
 }
 
 // The top-bar gives it a positive z-index, and it sould be displayed just below

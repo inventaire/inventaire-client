@@ -28,6 +28,7 @@ module.exports = Marionette.CompositeView.extend
     all: '#filter-all'
     filters: '.searchFilter'
     results: 'ul.results'
+    alternatives: '.alternatives'
 
   events:
     'click .searchFilter': 'updateFilters'
@@ -75,7 +76,12 @@ module.exports = Marionette.CompositeView.extend
 
   search: (search)->
     search = search?.trim()
-    unless _.isNonEmptyString search then return
+
+    unless _.isNonEmptyString search
+      @hideAlternatives()
+      @resetResults()
+      return
+
     @_lastSearch = search
 
     uri = findUri search
@@ -89,11 +95,25 @@ module.exports = Marionette.CompositeView.extend
     if types is 'subjects'
       wikidataSearch search, false
       .map formatSubject
-      .then @addResults.bind(@)
+      .then @resetResults.bind(@)
     else
       _.preq.get app.API.search(types, search, app.user.lang)
       .get 'results'
-      .then @addResults.bind(@)
+      .then @resetResults.bind(@)
+
+    @_waitingForAlternatives = true
+    setTimeout @showAlternatives.bind(@, search), 2000
+
+  showAlternatives: (search)->
+    unless search is @_lastSearch then return
+    unless @_waitingForAlternatives then return
+
+    @ui.alternatives.addClass 'shown'
+    @_waitingForAlternatives = false
+
+  hideAlternatives: ->
+    @_waitingForAlternatives = false
+    @ui.alternatives.removeClass 'shown'
 
   getResultFromUri: (uri)->
     _.log uri, 'uri found'
@@ -104,7 +124,7 @@ module.exports = Marionette.CompositeView.extend
       if err.message is 'entity_not_found' then return []
       else throw err
     .finally @stopLoadingSpinner.bind(@)
-    .then (entity)=> @addResults [ formatEntity(entity) ]
+    .then (entity)=> @resetResults [ formatEntity(entity) ]
 
   showLoadingSpinner: -> @ui.results.addClass('loading').html spinner
   stopLoadingSpinner: -> @ui.results.removeClass('loading').html ''
@@ -113,10 +133,10 @@ module.exports = Marionette.CompositeView.extend
     name = getTypeFromId @$el.find('.selected')[0].id
     return typesMap[name]
 
-  addResults: (results)->
+  resetResults: (results)->
     @resetHighlightIndex()
     @collection.reset results
-    if results.length is 0 then @$el.addClass 'results-0'
+    if results? and results.length is 0 then @$el.addClass 'results-0'
     else @$el.removeClass 'results-0'
 
   highlightNext: -> @highlightIndexChange 1

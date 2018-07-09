@@ -9,3 +9,11 @@
   {{partial 'search:filter' name='group' label='group'}}
   {{partial 'search:filter' name='subject' label='subject'}}
 </div>
+
+<div class="alternatives">
+  <span class="label">{{i18n "Can't find what you are searching?"}}</span>
+  <div class="propositions">
+    <a>{{icon 'search'}}{{I18n 'search deeper'}}</a>
+    <a class="create">{{icon 'plus'}}{{I18n 'create'}}</a>
+  </div>
+</div>
