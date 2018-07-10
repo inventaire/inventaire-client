@@ -160,7 +160,6 @@ module.exports = Marionette.CompositeView.extend
   showCurrentlyHighlightedResult: ->
     hilightedView = @children.findByIndex @_currentHighlightIndex
     if hilightedView then hilightedView.showResult()
-    else @triggerMethod 'show:deep:search'
 
   resetHighlightIndex: ->
     @$el.find('.highlight').removeClass 'highlight'
