@@ -73,6 +73,12 @@ module.exports = Marionette.CompositeView.extend
     @search @_lastSearch
     @_lastType = type
 
+    @updateAlternatives type
+
+  updateAlternatives: (type)->
+    if type in filtersWithAlternatives then @showAlternatives()
+    else @hideAlternatives()
+
   search: (search)->
     search = search?.trim()
 
@@ -104,6 +110,7 @@ module.exports = Marionette.CompositeView.extend
     setTimeout @showAlternatives.bind(@, search), 2000
 
   showAlternatives: (search)->
+    unless _.isNonEmptyString search then return
     unless search is @_lastSearch then return
     unless @_waitingForAlternatives then return
 
@@ -174,6 +181,8 @@ typesMap =
   user: 'users'
   group: 'groups'
   subject: 'subjects'
+
+filtersWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
 
 getTypeFromId = (id)-> id.replace 'filter-', ''
 
