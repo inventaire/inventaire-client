@@ -37,10 +37,6 @@ module.exports = Marionette.CompositeView.extend
     'click .deepSearch': 'showDeepSearch'
     'click .createEntity': 'showEntityCreate'
 
-  childEvents:
-    # Passing the result to the parent layout
-    'noresult:click': -> @triggerMethod 'show:deep:search'
-
   onSpecialKey: (key)->
     switch key
       when 'up' then @highlightPrevious()
