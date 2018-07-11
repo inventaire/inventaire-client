@@ -1,9 +1,10 @@
 #live-search{
+  flex: 1 0 auto;
   .results, .filters{
     background-color: white;
   }
   .filters{
-    @include display-flex(row, flex-end, space-around, wrap);
+    @include display-flex(row, flex-end, space-around);
     text-align: center;
   }
   .searchFilter{
@@ -18,7 +19,6 @@
     }
   }
   .results{
-    max-height: 60vh;
     overflow: auto;
     &.loading{
       @include display-flex(row, center, center);
@@ -129,8 +129,43 @@
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
+    .alternatives{
+      .label{
+        color: $dark-grey;
+      }
+      background-color: white;
+    }
     .shortcuts{
       display: none;
+    }
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    height: 100%;
+    @include display-flex(column);
+    .filters{
+      overflow: auto;
+      @include display-flex(row, center, flex-start);
+      flex: 0 0 auto;
+    }
+    .searchFilter{
+      flex: 1 0 auto;
+    }
+    .propositions{
+      justify-content: center;
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .alternatives .label{
+      display: none;
+    }
+  }
+
+  /*Medium to Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .results{
+      max-height: 60vh;
     }
   }
 }
