@@ -1,5 +1,4 @@
 # TODO:
-# - prevent triggering deep search on enter
 # - hint to input ISBNs directly, maybe in the alternatives sections
 # - add 'help': indexed wiki.inventaire.io entries to give results
 #   to searches such as 'FAQ' or 'help creating group'
