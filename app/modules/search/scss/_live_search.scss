@@ -1,5 +1,7 @@
 #live-search{
-  background-color: white;
+  .results, .filters{
+    background-color: white;
+  }
   .filters{
     @include display-flex(row, flex-end, space-around, wrap);
     text-align: center;
@@ -85,19 +87,53 @@
       @include display-flex(row, center, center, wrap);
     }
     .label{
-      color: $grey;
+      color: white;
     }
   }
   .propositions{
     flex: 1 0 auto;
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, flex-end);
     a{
       @include display-flex(row, center, center);
       padding: 0.2em 0.5em;
       margin: 0.2em;
       min-width: 7em;
       text-align: center;
-      @include tiny-button-color($grey, white);
+      @include tiny-button-color($dark-grey, white);
+    }
+  }
+  .shortcuts{
+    @include position(fixed, $topbar-height, 0);
+    background-color: rgba($dark-grey, 0.6);
+    @include radius;
+    margin: 2em 1.5em;
+    color: white;
+    @include display-flex(column);
+    li{
+      margin: 0.5em;
+      @include display-flex(row, center, flex-start);
+      .key{
+        @include display-flex(row, center, flex-start);
+        background-color: #555;
+        padding: 0.2em;
+        @include radius;
+        width: 5em;
+        margin-right: 0.5em;
+        font-weight: bold;
+      }
+      .symbol{
+        width: 1em;
+        font-size: 1.2em;
+        text-align: center;
+        margin-left: 0.2em;
+        margin-right: 0.4em;
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .shortcuts{
+      display: none;
     }
   }
 }
