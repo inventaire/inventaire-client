@@ -79,9 +79,11 @@
   }
   .alternatives{
     padding: 0.2em 0.5em;
-    display: none;
+    opacity: 0;
+    @include transition(opacity, 0.3s);
     &.shown{
       @include display-flex(row, center, center, wrap);
+      opacity: 1;
     }
     .label{
       color: white;
@@ -106,6 +108,11 @@
     margin: 2em 1.5em;
     color: white;
     @include display-flex(column);
+    opacity: 0;
+    @include transition(opacity);
+    &.shown{
+      opacity: 1;
+    }
     li{
       margin: 0.5em;
       @include display-flex(row, center, flex-start);

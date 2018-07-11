@@ -30,6 +30,7 @@ module.exports = Marionette.CompositeView.extend
     filters: '.searchFilter'
     results: 'ul.results'
     alternatives: '.alternatives'
+    shortcuts: '.shortcuts'
 
   events:
     'click .searchFilter': 'updateFilters'
@@ -107,7 +108,7 @@ module.exports = Marionette.CompositeView.extend
       .then @resetResults.bind(@)
 
     @_waitingForAlternatives = true
-    setTimeout @showAlternatives.bind(@, search), 2000
+    @setTimeout @showAlternatives.bind(@, search), 2000
 
   showAlternatives: (search)->
     unless _.isNonEmptyString search then return
@@ -120,6 +121,8 @@ module.exports = Marionette.CompositeView.extend
   hideAlternatives: ->
     @_waitingForAlternatives = false
     @ui.alternatives.removeClass 'shown'
+
+  showShortcuts: -> @ui.shortcuts.addClass 'shown'
 
   getResultFromUri: (uri)->
     _.log uri, 'uri found'
@@ -142,8 +145,11 @@ module.exports = Marionette.CompositeView.extend
   resetResults: (results)->
     @resetHighlightIndex()
     @collection.reset results
-    if results? and results.length is 0 then @$el.addClass 'results-0'
-    else @$el.removeClass 'results-0'
+    if results? and results.length is 0
+      @$el.addClass 'results-0'
+    else
+      @$el.removeClass 'results-0'
+      @setTimeout @showShortcuts.bind(@), 1000
 
   highlightNext: -> @highlightIndexChange 1
   highlightPrevious: -> @highlightIndexChange -1
