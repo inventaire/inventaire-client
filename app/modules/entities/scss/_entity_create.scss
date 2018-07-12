@@ -1,53 +1,26 @@
-.entityCreate{
-  .needed{
-    font-size: 1rem;
-  }
-  .entityCreateForm{
-    @include display-flex(row);
-
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
-      flex-direction: column;
-      .pics{
-        padding: 1em;
-        align-self: center;
-      }
-    }
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      .fields{
-        flex: 3 1 auto;
-      }
-      .pics{
-        flex: 1 1 auto;
-        white-space: nowrap;
-        @include display-flex(column, center, center);
-        padding: 2.6em 2em 2em 2em;
-        .pictures{
-          text-align: center;
-          img{
-            max-width: 20em;
-            max-height: 20em;
-            padding: 1em;
-          }
-        }
-      }
-    }
-  }
-  .entityCreationActions{
-    @include display-flex(row, center, flex-start, wrap);
-  }
-  &.standalone{
-    @include custom-column(50em);
-    margin: 1em;
-    form{
-      margin: 1em;
-      background-color: white;
-      @include radius;
+#entityCreate{
+  .typePicker{
+    text-align: center;
+    @include display-flex(row, center, center);
+    a{
+      @include big-button($grey);
       padding: 1em;
+      margin: 0.1em;
+      flex: 1 0 auto;
+      &.selected{
+        @include bg-hover(white, 0%);
+        color: $dark-grey;
+      }
     }
-    h3{
-      text-align: center;
+  }
+  .header-wrapper{
+    display: none !important;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .typePicker{
+      max-width: 30em;
+      margin: 1em auto;
     }
   }
 }

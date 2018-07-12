@@ -72,7 +72,8 @@ nav#top-bar{
     @include position(absolute, 100%, 1px, null, 0);
     /*Smaller screens*/
     @media screen and (max-width: $smaller-screen) {
-      @include position(fixed, $topbar-height, 0, null, 0);
+      @include position(fixed, $topbar-height, 0, 0, 0);
+      @include display-flex(column);
     }
   }
   .dropdown{

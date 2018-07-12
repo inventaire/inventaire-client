@@ -3,11 +3,13 @@ createEntities = require './create_entities'
 properties = require './properties'
 
 typeDefaultP31 =
+  human: 'wd:Q5'
   work: 'wd:Q571'
   serie: 'wd:Q277759'
   edition: 'wd:Q3331189'
 
 propertiesShortlists =
+  human: [ 'wdt:P1412' ]
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
   edition: [ 'wdt:P18', 'wdt:P407', 'wdt:P1476', 'wdt:P577' ]

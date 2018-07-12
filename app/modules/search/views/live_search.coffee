@@ -1,4 +1,5 @@
 # TODO:
+# - hint to input ISBNs directly, maybe in the alternatives sections
 # - add 'help': indexed wiki.inventaire.io entries to give results
 #   to searches such as 'FAQ' or 'help creating group'
 # - add 'subjects': search Wikidata for entities that are used
@@ -28,13 +29,13 @@ module.exports = Marionette.CompositeView.extend
     all: '#filter-all'
     filters: '.searchFilter'
     results: 'ul.results'
+    alternatives: '.alternatives'
+    shortcuts: '.shortcuts'
 
   events:
     'click .searchFilter': 'updateFilters'
-
-  childEvents:
-    # Passing the result to the parent layout
-    'noresult:click': -> @triggerMethod 'enter:without:hightlighed:result'
+    'click .deepSearch': 'showDeepSearch'
+    'click .createEntity': 'showEntityCreate'
 
   onSpecialKey: (key)->
     switch key
@@ -73,9 +74,20 @@ module.exports = Marionette.CompositeView.extend
     @search @_lastSearch
     @_lastType = type
 
+    @updateAlternatives type
+
+  updateAlternatives: (type)->
+    if type in filtersWithAlternatives then @showAlternatives()
+    else @hideAlternatives()
+
   search: (search)->
     search = search?.trim()
-    unless _.isNonEmptyString search then return
+
+    unless _.isNonEmptyString search
+      @hideAlternatives()
+      @resetResults()
+      return
+
     @_lastSearch = search
 
     uri = findUri search
@@ -89,11 +101,28 @@ module.exports = Marionette.CompositeView.extend
     if types is 'subjects'
       wikidataSearch search, false
       .map formatSubject
-      .then @addResults.bind(@)
+      .then @resetResults.bind(@)
     else
       _.preq.get app.API.search(types, search, app.user.lang)
       .get 'results'
-      .then @addResults.bind(@)
+      .then @resetResults.bind(@)
+
+    @_waitingForAlternatives = true
+    @setTimeout @showAlternatives.bind(@, search), 2000
+
+  showAlternatives: (search)->
+    unless _.isNonEmptyString search then return
+    unless search is @_lastSearch then return
+    unless @_waitingForAlternatives then return
+
+    @ui.alternatives.addClass 'shown'
+    @_waitingForAlternatives = false
+
+  hideAlternatives: ->
+    @_waitingForAlternatives = false
+    @ui.alternatives.removeClass 'shown'
+
+  showShortcuts: -> @ui.shortcuts.addClass 'shown'
 
   getResultFromUri: (uri)->
     _.log uri, 'uri found'
@@ -104,7 +133,7 @@ module.exports = Marionette.CompositeView.extend
       if err.message is 'entity_not_found' then return []
       else throw err
     .finally @stopLoadingSpinner.bind(@)
-    .then (entity)=> @addResults [ formatEntity(entity) ]
+    .then (entity)=> @resetResults [ formatEntity(entity) ]
 
   showLoadingSpinner: -> @ui.results.addClass('loading').html spinner
   stopLoadingSpinner: -> @ui.results.removeClass('loading').html ''
@@ -113,11 +142,14 @@ module.exports = Marionette.CompositeView.extend
     name = getTypeFromId @$el.find('.selected')[0].id
     return typesMap[name]
 
-  addResults: (results)->
+  resetResults: (results)->
     @resetHighlightIndex()
     @collection.reset results
-    if results.length is 0 then @$el.addClass 'results-0'
-    else @$el.removeClass 'results-0'
+    if results? and results.length is 0
+      @$el.addClass 'results-0'
+    else
+      @$el.removeClass 'results-0'
+      @setTimeout @showShortcuts.bind(@), 1000
 
   highlightNext: -> @highlightIndexChange 1
   highlightPrevious: -> @highlightIndexChange -1
@@ -136,11 +168,16 @@ module.exports = Marionette.CompositeView.extend
   showCurrentlyHighlightedResult: ->
     hilightedView = @children.findByIndex @_currentHighlightIndex
     if hilightedView then hilightedView.showResult()
-    else @triggerMethod 'enter:without:hightlighed:result'
 
   resetHighlightIndex: ->
     @$el.find('.highlight').removeClass 'highlight'
     @_currentHighlightIndex = -1
+
+  showDeepSearch: -> @triggerMethod 'show:deep:search'
+
+  showEntityCreate: ->
+    @triggerMethod 'hide:live:search'
+    app.execute 'show:entity:create', { label: @_lastSearch }
 
 typesMap =
   all: [ 'works', 'humans', 'series', 'users', 'groups' ]
@@ -150,6 +187,8 @@ typesMap =
   user: 'users'
   group: 'groups'
   subject: 'subjects'
+
+filtersWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
 
 getTypeFromId = (id)-> id.replace 'filter-', ''
 

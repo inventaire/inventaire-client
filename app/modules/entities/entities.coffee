@@ -7,6 +7,7 @@ SerieLayout = require './views/serie_layout'
 WorkLayout = require './views/work_layout'
 EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
+EntityCreate = require './views/editor/entity_create'
 MultiEntityEdit = require './views/editor/multi_entity_edit'
 GenreLayout = require './views/genre_layout'
 error_ = require 'lib/error'
@@ -142,17 +143,16 @@ API =
       navigate: not uris?
 
 showEntityCreate = (params)->
-  # Default to an entity of type work
-  # so that /entity/new doesn't just return an error
-  params.type or= 'work'
-
   { type } = params
-  unless type in entityDraftModel.whitelistedTypes
+  if type? and type not in entityDraftModel.whitelistedTypes
     err = error_.new "invalid entity draft type: #{type}", params
     return app.execute 'show:error:other', err
 
-  params.model = entityDraftModel.create params
-  showEntityEdit params
+  if type?
+    params.model = entityDraftModel.create params
+    showEntityEdit params
+  else
+    app.layout.main.show new EntityCreate(params)
 
 setHandlers = ->
   app.commands.setHandlers
@@ -181,6 +181,7 @@ setHandlers = ->
     'show:entity:edit:from:model': (model)->
       # Uses API.showEditEntityFromUri the fetch fresh entity data
       API.showEditEntityFromUri model.get('uri')
+    'show:entity:edit:from:params': showEntityEdit
     'show:entity:create': showEntityCreate
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': showMergeSuggestions
@@ -232,10 +233,11 @@ createEntity = (data)->
 getEntityLocalHref = (uri)-> "/entity/#{uri}"
 
 showEntityEdit = (params)->
-  { model } = params
+  { model, region } = params
   unless model.type? then throw error_.new 'invalid entity type', model
   View = if params.next? or params.previous? then MultiEntityEdit else EntityEdit
-  app.layout.main.show new View(params)
+  region or= app.layout.main
+  region.show new View(params)
   app.navigateFromModel model, 'edit'
 
 showEntityEditFromModel = (model)->

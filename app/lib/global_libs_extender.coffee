@@ -104,6 +104,10 @@ module.exports = (_)->
       return @[methodName].apply @, args
     # else, let the onRender hook do it
 
+  Marionette.View::setTimeout = (fn, timeout)->
+    runUnlessViewIsDestroyed = => unless @isDestroyed then fn()
+    setTimeout runUnlessViewIsDestroyed, timeout
+
   # Give focus to a view top element, so that hitting Tab focuses
   # the first focusable element in the view
   # To be called from a view onShow function
