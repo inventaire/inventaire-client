@@ -14,7 +14,7 @@ $serie-bg: #252525;
       color: #888;
     }
   }
-  .claims{
+  .serieInfobox .claims{
     // Not applying a background as it would require to not be visible
     // when the empty but would also required padding, which would always
     // make it visible. Applying the padding to the spans doesn't work either
