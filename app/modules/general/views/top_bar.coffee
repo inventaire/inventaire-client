@@ -102,6 +102,7 @@ module.exports = Marionette.LayoutView.extend
   showLiveSearch: ->
     if @liveSearch.currentView? then @liveSearch.$el.show()
     else @liveSearch.show new LiveSearch
+    @liveSearch.$el.addClass 'shown'
     @liveSearch.currentView.resetHighlightIndex()
     @ui.overlay.removeClass 'hidden'
     @_liveSearchIsShown = true
@@ -111,6 +112,7 @@ module.exports = Marionette.LayoutView.extend
     triggerFallbackLayout = triggerFallbackLayout is true
 
     @liveSearch.$el.hide()
+    @liveSearch.$el.removeClass 'shown'
     @ui.overlay.addClass 'hidden'
     @_liveSearchIsShown = false
     # Trigger the fallback layout only in cases when no other layout

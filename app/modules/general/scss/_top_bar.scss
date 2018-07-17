@@ -75,6 +75,10 @@ nav#top-bar{
       @include position(fixed, $topbar-height, 0, 0, 0);
       @include display-flex(column);
     }
+    &:not(.shown){
+      top: -100vh;
+      bottom: 100vh;
+    }
   }
   .dropdown{
     background-color: $topbar-bg-color;
