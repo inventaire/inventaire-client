@@ -3,14 +3,17 @@
 module.exports =
   listingsData: ->
     listings = app.user.listings()
-    listings.private.classes = 'active'
+    lastListing = app.request 'last:listing:get'
+    activeListing = listings[lastListing] or listings.private
+    activeListing.classes = 'active'
     return listings
 
   transactionsData: ->
     transactions = transactionsDataFactory()
-    _.extend transactions.inventorying,
-      label: 'just_inventorize_it'
-      classes: 'active'
+    transactions.inventorying.label = 'just_inventorize_it'
+    lastTransaction = app.request 'last:transaction:get'
+    activeTransaction = transactions[lastTransaction] or transactions.inventorying
+    activeTransaction.classes = 'active'
     return transactions
 
   # assume that the view has a ui like so

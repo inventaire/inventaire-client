@@ -75,12 +75,10 @@ module.exports = Marionette.LayoutView.extend
   # TODO: update the UI for update errors
   updateTransaction: ->
     transaction = getSelectorData @, 'transaction'
-    app.execute 'last:transaction:set', transaction
     @updateItem { transaction }
 
   updateListing: ->
     listing = getSelectorData @, 'listing'
-    app.execute 'last:listing:set', listing
     @updateItem { listing }
 
   updateDetails: -> @updateTextAttribute 'details'
