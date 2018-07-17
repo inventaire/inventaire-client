@@ -67,7 +67,7 @@ module.exports = Marionette.LayoutView.extend
 
   # itemDestroy is in item_updaters
   itemDestroyBack: ->
-    if @model.isDestroyed then return
+    if @model.isDestroyed then app.execute 'modal:close'
     else app.execute 'show:item:modal', @model
 
   showNotesEditorFromKey: (e)->  @showEditorFromKey 'notes', e,
