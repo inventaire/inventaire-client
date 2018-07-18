@@ -1,6 +1,7 @@
 editableEntity = require './inv/editable_entity'
 createEntities = require './create_entities'
 properties = require './properties'
+Entity = require '../models/entity'
 
 typeDefaultP31 =
   human: 'wd:Q5'
@@ -32,6 +33,7 @@ module.exports =
       labels[app.user.lang] = label
 
     model = new Backbone.NestedModel { type, labels, claims }
+    Entity::setFavoriteLabel.call model, model.toJSON()
 
     _.extend model,
       type: type

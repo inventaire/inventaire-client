@@ -24,6 +24,8 @@ module.exports = Backbone.Collection.extend
     .then @add.bind(@)
     .catch rollback
 
+  fetchAll: -> @fetchMore @remainingUris.length
+
   firstFetch: (amount)->
     unless @_firstFetchDone
       @_firstFetchDone = true

@@ -13,32 +13,35 @@ typesString =
   'wd:Q21198342': 'manga series'
 
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
-  initSerieParts: (refresh)->
+  initSerieParts: (options)->
+    { refresh, fetchAll } = options
     refresh = @getRefresh refresh
     if not refresh and @waitForParts? then return @waitForParts
 
     uri = @get 'uri'
 
     @waitForParts = _.preq.get app.API.entities.serieParts(uri, refresh)
-    .then @initPartsCollections.bind(@, refresh)
-    .then @importDataFromParts.bind(@)
-
-  initPartsCollections: (refresh, res)->
-    @parts = new Works null,
-      uris: res.parts.map getUri
-      defaultType: 'work'
-      refresh: refresh
-
-  importDataFromParts: ->
-    firstPartWithPublicationDate = @parts.find getPublicationDate
-    if firstPartWithPublicationDate?
-      @set 'publicationStart', getPublicationDate(firstPartWithPublicationDate)
+    .then initPartsCollections.bind(@, refresh, fetchAll)
+    .then importDataFromParts.bind(@)
 
   # Placeholder for cases when a series was formerly identified as a work
   # and got editions or items linking to it, assuming it is a work
   getItemsByCategories: ->
     app.execute 'report:entity:type:issue', { model: @, expectedType: 'work' }
     return Promise.resolve { personal: [], network: [], public: [] }
+
+initPartsCollections = (refresh, fetchAll, res)->
+  @parts = new Works null,
+    uris: res.parts.map getUri
+    defaultType: 'work'
+    refresh: refresh
+
+  if fetchAll then return @parts.fetchAll()
+
+importDataFromParts = ->
+  firstPartWithPublicationDate = @parts.find getPublicationDate
+  if firstPartWithPublicationDate?
+    @set 'publicationStart', getPublicationDate(firstPartWithPublicationDate)
 
 getUri = _.property 'uri'
 getPublicationDate = (model)-> model.get 'claims.wdt:P577.0'

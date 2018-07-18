@@ -1,0 +1,74 @@
+#serieCleanup{
+  .controls{
+    @include display-flex(row, center, space-around);
+    background-color: $light-grey;
+    padding: 1em;
+  }
+  .control{
+    @include display-flex(row, center, center);
+    label{
+      white-space: nowrap;
+      margin-right: 1em;
+    }
+  }
+  #partsNumber{
+    max-width: 10em;
+  }
+  h2{
+    font-size: 1.2em;
+    margin-right: 1em;
+  }
+  .section-label{
+    font-size: 1.1em;
+    // line-height: 1em;
+    padding: 0.5em 0 0 1em;
+  }
+  #save{
+    margin-left: auto;
+    font-weight: bold;
+  }
+}
+
+#withOrdinal, #withoutOrdinal, #conflicts{}
+#withoutOrdinal{
+  background-color: #ccc;
+}
+#conflicts{
+  background-color: #aaa;
+}
+
+.serie-cleanup-works{
+  // background-color: blue;
+  .worksContainer{
+    // background-color: purple;
+    @include display-flex(row, baseline, flex-start, wrap);
+  }
+}
+
+.serie-cleanup-work{
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 15em;
+  background-color: $light-grey;
+  @include radius;
+  &.placeholder{
+    background-color: #ddd;
+  }
+  .ordinal{
+    font-size: 1.2em;
+    color: $grey;
+    font-weight: bold;
+    @include serif;
+    padding-right: 1em;
+  }
+  ul{
+    @include display-flex(column, center, center);
+  }
+}
+
+.serie-cleanup-edition{
+  padding: 0 0.2em;
+  margin: 0.2em 0;
+  background-color: white;
+  @include display-flex(row, center, center);
+}
