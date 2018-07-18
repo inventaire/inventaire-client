@@ -1,6 +1,7 @@
 entityDraftModel = require '../lib/entity_draft_model'
 serieCleanupWorks = require  './serie_cleanup_works'
 StringPositiveInteger = /^[1-9](\d+)?$/
+Works = Backbone.Collection.extend { comparator: 'ordinal' }
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
@@ -12,13 +13,11 @@ module.exports = Marionette.LayoutView.extend
     withOrdinalRegion: '#withOrdinal'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
-    resetData.call @
-
-    # @model.initSerieParts { refresh: true, fetchAll: true }
-    @model.initSerieParts { refresh: false, fetchAll: true }
-    .then spreadParts.bind(@)
-    .then @lazyRender
+    @withOrdinal = new Works
+    @withoutOrdinal = new Works
+    @conflicts = new Works
+    @maxOrdinal = 0
+    @spreadParts()
 
   serializeData: ->
     partsLength = @withOrdinal.length
@@ -32,54 +31,69 @@ module.exports = Marionette.LayoutView.extend
   onRender: ->
     @showWorkList 'conflicts', 'parts with ordinal conflicts'
     @showWorkList 'withoutOrdinal', 'parts without ordinal'
-    @showWorkList 'withOrdinal', 'parts with ordinal'
+    @showWorkList 'withOrdinal', 'parts with ordinal', true
 
   showWorkList: (name, label, alwaysShow)->
     if not alwaysShow and @[name].length is 0 then return
-    collection = new Backbone.Collection @[name]
+    collection = @[name]
     @["#{name}Region"].show new serieCleanupWorks { name, label, collection }
 
-resetData = ->
-  @withOrdinal = []
-  @withoutOrdinal = []
-  @conflicts = []
-  @maxOrdinal = 0
+  spreadParts: ->
+    @model.parts.forEach @spreadPart.bind(@)
+    @maxOrdinalFromExistingParts = @maxOrdinal
+    @fillGaps 1, @maxOrdinal
 
-spreadParts = ->
-  resetData.call @
-  @model.parts.forEach spreadPart.bind(@)
-  fillGaps @model, @withOrdinal
+  spreadPart: (part)->
+    ordinal = part.get 'claims.wdt:P1545.0'
 
-spreadPart = (part)->
-  ordinal = part.get 'claims.wdt:P1545.0'
+    unless StringPositiveInteger.test ordinal
+      @withoutOrdinal.add part
+      return
 
-  unless StringPositiveInteger.test ordinal
-    @withoutOrdinal.push part
+    ordinalInt = parseInt ordinal
+    if ordinalInt > @maxOrdinal then @maxOrdinal = ordinalInt
+
+    part.set 'ordinal', ordinalInt
+
+    currentOrdinalValue = @withOrdinal[ordinalInt]
+    if currentOrdinalValue? then @conflicts.add part
+    else @withOrdinal.add part
+
+  fillGaps: (start, end)->
+    if start >= end then return
+    existingOrdinals = @withOrdinal.map (model)-> model.get('ordinal')
+    for i in [ start..end ]
+      unless i in existingOrdinals then @withOrdinal.add @getPlaceholder(i)
     return
 
-  ordinalInt = parseInt ordinal
-  if ordinalInt > @maxOrdinal then @maxOrdinal = ordinalInt
+  getPlaceholder: (index)->
+    serieUri = @model.get 'uri'
+    serieLabel = @model.get 'label'
+    label = "#{serieLabel} - #{index}"
+    claims =
+      'wdt:179': [ serieUri ]
+      'wdt:P1545': [ "#{index}" ]
+    model = entityDraftModel.create { type: 'work', label, claims }
+    model.set 'ordinal', index
+    model.set 'placeholder', true
+    return model
 
-  currentOrdinalValue = @withOrdinal[ordinalInt]
-  if currentOrdinalValue? then @conflicts.push part
-  else @withOrdinal[ordinalInt] = part
+  events:
+    'change #partsNumber': 'updatePartsNumber'
 
-fillGaps = (serie, withOrdinal)->
-  for part, index in withOrdinal
-    fillGap serie, withOrdinal, index
+  updatePartsNumber: (e)->
+    { value } = e.currentTarget
+    num = parseInt value
+    if num is @maxOrdinal then return
+    if num > @maxOrdinal
+      @fillGaps @maxOrdinal, num
+      @maxOrdinal = num
+    else
+      @removePlaceholdersAbove num
 
-fillGap = (serie, withOrdinal, index)->
-  if index is 0 then return
-  withOrdinal[index] ?= getPlaceholder serie, index
-  withOrdinal[index].set 'ordinal', index
-
-getPlaceholder = (serie, index)->
-  serieUri = serie.get 'uri'
-  serieLabel = serie.get 'label'
-  label = "#{serieLabel} - #{index}"
-  claims =
-    'wdt:179': [ serieUri ]
-    'wdt:P1545': [ "#{index}" ]
-  model = entityDraftModel.create { type: 'work', label, claims }
-  model.set 'placeholder', true
-  return model
+  removePlaceholdersAbove: (num)->
+    toRemove = []
+    @withOrdinal.forEach (model)->
+      if model.get('placeholder') and model.get('ordinal') > num
+        toRemove.push model
+    @withOrdinal.remove toRemove

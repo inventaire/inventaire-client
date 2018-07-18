@@ -418,4 +418,6 @@ showEntityCleanupFromModel = (entity)->
     app.execute 'show:error', err
     return
 
-  app.layout.main.show new SerieCleanup { model: entity }
+  # entity.initSerieParts { refresh: true, fetchAll: true }
+  entity.initSerieParts { refresh: false, fetchAll: true }
+  .then -> app.layout.main.show new SerieCleanup { model: entity }
