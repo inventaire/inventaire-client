@@ -38,9 +38,7 @@
 }
 
 .serie-cleanup-works{
-  // background-color: blue;
   .worksContainer{
-    // background-color: purple;
     @include display-flex(row, baseline, flex-start, wrap);
   }
 }
@@ -51,8 +49,15 @@
   width: 15em;
   background-color: $light-grey;
   @include radius;
+  .head{
+    @include display-flex(row, baseline);
+  }
   &.placeholder{
     background-color: #ddd;
+  }
+  .ordinalSelector{
+    max-width: 4em;
+    margin-right: 0.5em;
   }
   .ordinal{
     font-size: 1.2em;
@@ -63,6 +68,10 @@
   }
   ul{
     @include display-flex(column, center, center);
+  }
+  .showEntityEdit{
+    margin-left: auto;
+    @include shy;
   }
 }
 

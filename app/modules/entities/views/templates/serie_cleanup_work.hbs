@@ -1,3 +1,17 @@
-{{#if ordinal}}<span class="ordinal">{{ordinal}}</span>{{/if}}
-<span class="label">{{label}}</span>
+<div class="head">
+  {{#if ordinal}}
+    <span class="ordinal">{{ordinal}}</span>
+  {{else}}
+    <select class="ordinalSelector">
+      <option value="">--</option>
+      {{#each possibleOrdinals}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+  {{/if}}
+  <span class="label">{{label}}</span>
+  <a href="{{edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
+    {{icon 'pencil'}}
+  </a>
+</div>
 <ul class="editionsContainer"></ul>

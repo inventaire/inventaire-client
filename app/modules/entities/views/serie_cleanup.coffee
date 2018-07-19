@@ -18,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
     @conflicts = new Works
     @maxOrdinal = 0
     @spreadParts()
+    @initEventListeners()
 
   serializeData: ->
     partsLength = @withOrdinal.length
@@ -29,19 +30,55 @@ module.exports = Marionette.LayoutView.extend
     }
 
   onRender: ->
-    @showWorkList 'conflicts', 'parts with ordinal conflicts'
-    @showWorkList 'withoutOrdinal', 'parts without ordinal'
-    @showWorkList 'withOrdinal', 'parts with ordinal', true
+    placeholdersOrdinals = @getPlaceholdersOrdinals()
 
-  showWorkList: (name, label, alwaysShow)->
+    @showWorkList
+      name: 'conflicts'
+      label: 'parts with ordinal conflicts'
+      possibleOrdinals: placeholdersOrdinals
+
+    @showWorkList
+      name: 'withoutOrdinal'
+      label: 'parts without ordinal'
+      possibleOrdinals: placeholdersOrdinals
+
+    @showWorkList
+      name: 'withOrdinal'
+      label: 'parts with ordinal'
+      alwaysShow: true
+
+  showWorkList: (options)->
+    { name, label, alwaysShow, possibleOrdinals } = options
     if not alwaysShow and @[name].length is 0 then return
     collection = @[name]
-    @["#{name}Region"].show new serieCleanupWorks { name, label, collection }
+    options = { name, label, collection, possibleOrdinals }
+    @["#{name}Region"].show new serieCleanupWorks(options)
 
   spreadParts: ->
     @model.parts.forEach @spreadPart.bind(@)
-    @maxOrdinalFromExistingParts = @maxOrdinal
     @fillGaps 1, @maxOrdinal
+
+  initEventListeners: ->
+    @withoutOrdinal.on 'change:claims.wdt:P1545', @moveModelOnOrdinalChange.bind(@)
+
+  moveModelOnOrdinalChange: (model, value)->
+    unless _.isNonEmptyArray value then return
+    [ ordinal ] = value
+    unless StringPositiveInteger.test ordinal then return
+
+    ordinalInt = parseInt ordinal
+    model.set 'ordinal', ordinalInt
+
+    @removePlaceholder ordinalInt
+
+    @withoutOrdinal.remove model
+    @withOrdinal.add model
+    if @withoutOrdinal.length is 0 then @withoutOrdinalRegion.$el.hide()
+
+  removePlaceholder: (ordinalInt)->
+    existingModel = @withOrdinal.findWhere { ordinal: ordinalInt }
+    if existingModel? and existingModel.get('isPlaceholder')
+      @withOrdinal.remove existingModel
 
   spreadPart: (part)->
     ordinal = part.get 'claims.wdt:P1545.0'
@@ -75,8 +112,13 @@ module.exports = Marionette.LayoutView.extend
       'wdt:P1545': [ "#{index}" ]
     model = entityDraftModel.create { type: 'work', label, claims }
     model.set 'ordinal', index
-    model.set 'placeholder', true
+    model.set 'isPlaceholder', true
     return model
+
+  getPlaceholdersOrdinals: ->
+    @withOrdinal
+    .filter (model)-> model.get('isPlaceholder')
+    .map  (model)-> model.get('ordinal')
 
   events:
     'change #partsNumber': 'updatePartsNumber'
@@ -94,6 +136,6 @@ module.exports = Marionette.LayoutView.extend
   removePlaceholdersAbove: (num)->
     toRemove = []
     @withOrdinal.forEach (model)->
-      if model.get('placeholder') and model.get('ordinal') > num
+      if model.get('isPlaceholder') and model.get('ordinal') > num
         toRemove.push model
     @withOrdinal.remove toRemove

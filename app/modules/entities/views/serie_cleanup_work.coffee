@@ -11,3 +11,14 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = @model.editions
+
+  serializeData: ->
+    _.extend @model.toJSON(),
+      possibleOrdinals: @options.possibleOrdinals
+
+  events:
+    'change .ordinalSelector': 'updateOrdinal'
+
+  updateOrdinal: (e)->
+    { value } = e.currentTarget
+    @model.setPropertyValue 'wdt:P1545', null, value
