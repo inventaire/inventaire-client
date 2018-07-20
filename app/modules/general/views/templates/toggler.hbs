@@ -1,7 +1,7 @@
 {{!-- source & credits: http://callmenick.com/post/css-toggle-switch-examples --}}
 {{!-- Works with the Toggler behavior --}}
 <div class="toggler-wrapper {{#if inverted}}inverted{{/if}}">
-  <span class="capitalized">{{i18n label}}</span>
+  <span class="toggler-text-label capitalized">{{i18n label}}</span>
   <div class="toggler">
     <input id="{{id}}" class="toggler-input" type="checkbox" {{#if checked}}checked="true"{{/if}}>
     <label for="{{id}}" class="toggler-label" tabindex="0"></label>

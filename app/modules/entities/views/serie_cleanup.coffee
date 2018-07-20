@@ -5,12 +5,16 @@ Works = Backbone.Collection.extend { comparator: 'ordinal' }
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
+  className: 'hideEditions'
   template: require './templates/serie_cleanup'
 
   regions:
     conflictsRegion: '#conflicts'
     withoutOrdinalRegion: '#withoutOrdinal'
     withOrdinalRegion: '#withOrdinal'
+
+  behaviors:
+    Toggler: {}
 
   initialize: ->
     @withOrdinal = new Works
@@ -26,7 +30,10 @@ module.exports = Marionette.LayoutView.extend
     return {
       serie: @model.toJSON()
       partsNumberPickerRange: [ @maxOrdinal..partsLength + 10 ]
-      partsLengthRange: [ 1..partsLength ]
+      editionsToggler:
+        id: 'editionsToggler'
+        checked: false
+        label: 'show editions'
     }
 
   onRender: ->
@@ -122,6 +129,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'change #partsNumber': 'updatePartsNumber'
+    'change .toggler-input': 'toggleEditions'
 
   updatePartsNumber: (e)->
     { value } = e.currentTarget
@@ -139,3 +147,8 @@ module.exports = Marionette.LayoutView.extend
       if model.get('isPlaceholder') and model.get('ordinal') > num
         toRemove.push model
     @withOrdinal.remove toRemove
+
+  toggleEditions: (e)->
+    { checked } = e.currentTarget
+    if checked then @$el.removeClass 'hideEditions'
+    else @$el.addClass 'hideEditions'

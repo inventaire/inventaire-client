@@ -3,12 +3,19 @@
     @include display-flex(row, center, space-around);
     background-color: $light-grey;
     padding: 1em;
+    .pipe{
+      margin: 0 1em;
+      color: #bbb;
+    }
   }
   .control{
     @include display-flex(row, center, center);
-    label{
+    label, .toggler-text-label{
       white-space: nowrap;
       margin-right: 1em;
+    }
+    .toggler-text-label{
+      @include label-style;
     }
   }
   #partsNumber{
@@ -26,6 +33,11 @@
   #save{
     margin-left: auto;
     font-weight: bold;
+  }
+  &.hideEditions{
+    .editionsContainer{
+      display: none;
+    }
   }
 }
 
@@ -66,13 +78,15 @@
     @include serif;
     padding-right: 1em;
   }
-  ul{
-    @include display-flex(column, center, center);
-  }
   .showEntityEdit{
     margin-left: auto;
     @include shy;
   }
+}
+
+.editionsContainer{
+  max-height: 20em;
+  overflow: auto;
 }
 
 .serie-cleanup-edition{
@@ -80,4 +94,8 @@
   margin: 0.2em 0;
   background-color: white;
   @include display-flex(row, center, center);
+  img{
+    flex: 0 0 auto;
+    margin-right: 0.2em;
+  }
 }
