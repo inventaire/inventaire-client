@@ -65,7 +65,11 @@
     @include display-flex(row, baseline);
   }
   &.placeholder{
-    background-color: #ddd;
+    @include bg-hover(#bbb);
+    cursor: pointer;
+    .pencil{
+      display: none;
+    }
   }
   .ordinalSelector{
     max-width: 4em;

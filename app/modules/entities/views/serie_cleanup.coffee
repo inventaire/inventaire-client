@@ -115,7 +115,7 @@ module.exports = Marionette.LayoutView.extend
     serieLabel = @model.get 'label'
     label = "#{serieLabel} - #{index}"
     claims =
-      'wdt:179': [ serieUri ]
+      'wdt:P179': [ serieUri ]
       'wdt:P1545': [ "#{index}" ]
     model = entityDraftModel.create { type: 'work', label, claims }
     model.set 'ordinal', index
