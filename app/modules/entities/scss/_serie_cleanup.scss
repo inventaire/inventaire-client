@@ -81,6 +81,15 @@
     margin-left: auto;
     @include shy;
   }
+  .creation-call{
+    background-color: #666;
+    color: white;
+    @include radius;
+    padding: 0 0.4em;
+    margin-left: auto;
+    min-width: 5em;
+    text-align: center;
+  }
 }
 
 .editionsContainer{

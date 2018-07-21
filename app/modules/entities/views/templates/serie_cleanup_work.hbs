@@ -10,12 +10,19 @@
     </select>
   {{/if}}
   <span class="label">{{label}}</span>
-  <a href="{{edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
-    {{icon 'pencil'}}
-  </a>
+  {{#if isPlaceholder}}
+    <span class="creation-call">{{i18n 'create'}}</span>
+  {{else}}
+      <a href="{{edit}}" class="showEntityEdit pencil"
+        title="{{i18n 'edit data'}}">
+        {{icon 'pencil'}}
+      </a>
+  {{/if}}
 </div>
 <ul class="editionsContainer"></ul>
-<div class="placeholderEditor hidden enterClickWrapper">
-  <input type="text" class="placeholderLabel enterClick" value="{{label}}">
-  <a class="create tiny-success-button enterClickTarget">{{I18n 'create'}}</a>
-</div>
+{{#if isPlaceholder}}
+  <div class="placeholderEditor hidden enterClickWrapper">
+    <input type="text" class="placeholderLabel enterClick" value="{{label}}">
+    <a class="create tiny-success-button enterClickTarget">{{I18n 'create'}}</a>
+  </div>
+{{/if}}
