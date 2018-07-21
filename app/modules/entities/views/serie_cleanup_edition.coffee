@@ -56,5 +56,18 @@ module.exports = Marionette.CompositeView.extend
 
   validateWorkChange: ->
     uri = @ui.workPickerSelect.val()
-    if _.isEntityUri(uri) and uri isnt @workUri
-      @model.setPropertyValue 'wdt:P629', @workUri, uri
+    unless _.isEntityUri(uri) and uri isnt @workUri then return
+
+    newWork = @options.worksWithOrdinal.findWhere { uri }
+    edition = @model
+    currentWorkEditions = edition.collection
+    currentWorkEditions.remove edition
+    newWork.editions.add edition
+
+    rollback = (err)->
+      currentWorkEditions.add edition
+      newWork.editions.remove edition
+      throw err
+
+    @model.setPropertyValue 'wdt:P629', @workUri, uri
+    .catch rollback

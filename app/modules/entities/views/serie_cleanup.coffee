@@ -63,7 +63,14 @@ module.exports = Marionette.LayoutView.extend
     { name, label, alwaysShow, possibleOrdinals } = options
     if not alwaysShow and @[name].length is 0 then return
     collection = @[name]
-    options = { name, label, collection, possibleOrdinals, @getWorksWithOrdinalList }
+    options = {
+      name,
+      label,
+      collection,
+      possibleOrdinals,
+      @getWorksWithOrdinalList,
+      worksWithOrdinal: @withOrdinal
+    }
     @["#{name}Region"].show new serieCleanupWorks(options)
 
   spreadParts: ->

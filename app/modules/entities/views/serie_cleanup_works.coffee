@@ -13,4 +13,5 @@ module.exports = Marionette.CompositeView.extend
 
   childViewOptions: ->
     possibleOrdinals: @options.possibleOrdinals
+    worksWithOrdinal: @options.worksWithOrdinal
     getWorksWithOrdinalList: @options.getWorksWithOrdinalList
