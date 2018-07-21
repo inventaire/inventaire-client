@@ -36,7 +36,6 @@
   }
 }
 
-#withOrdinal, #withoutOrdinal, #conflicts{}
 #withoutOrdinal{
   background-color: #ccc;
 }
@@ -50,91 +49,5 @@
   }
 }
 
-.serie-cleanup-work{
-  margin: 0.5em;
-  padding: 0.5em;
-  width: 22em;
-  background-color: $light-grey;
-  @include radius;
-  .head{
-    @include display-flex(row, baseline);
-  }
-  &.placeholder{
-    @include bg-hover(#bbb);
-    cursor: pointer;
-    .pencil{
-      display: none;
-    }
-  }
-  .ordinalSelector{
-    max-width: 4em;
-    margin-right: 0.5em;
-  }
-  .ordinal{
-    font-size: 1.2em;
-    color: $grey;
-    font-weight: bold;
-    @include serif;
-    padding-right: 1em;
-  }
-  .showEntityEdit{
-    margin-left: auto;
-    @include shy;
-  }
-  .creation-call{
-    background-color: #666;
-    color: white;
-    @include radius;
-    padding: 0 0.4em;
-    margin-left: auto;
-    min-width: 5em;
-    text-align: center;
-  }
-}
-
-.editionsContainer{
-  max-height: 20em;
-  overflow: auto;
-}
-
-.serie-cleanup-edition{
-  padding: 0 0.2em;
-  margin: 0.2em 0;
-  background-color: white;
-  @include display-flex(row, center, center);
-  .left{
-    flex: 0 0 auto;
-    margin-right: 0.2em;
-  }
-  .right{
-    flex: 1 0 0;
-    margin: 0.5em;
-  }
-  .top{
-    @include display-flex(row);
-  }
-  .changeWork{
-    // @include display-flex(row, baseline, flex-start);
-    display: block;
-    margin-top: 1em;
-    .fa{
-      font-size: 0.9em;
-    }
-    color: $grey;
-    &.unavailable{
-      cursor: not-allowed;
-    }
-    &:not(.unavailable){
-      @include text-hover($grey);
-    }
-  }
-  .workPicker{
-    margin: 0.5em 0;
-    &:not(.hidden){
-      @include display-flex(column, center, center);
-    }
-  }
-  .validate{
-    margin-top: 0.3em;
-  }
-}
+@import 'serie_cleanup_work';
+@import 'serie_cleanup_edition';
