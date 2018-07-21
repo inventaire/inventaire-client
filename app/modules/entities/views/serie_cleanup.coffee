@@ -15,6 +15,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     Toggler: {}
+    ImgZoomIn: {}
 
   initialize: ->
     @withOrdinal = new Works

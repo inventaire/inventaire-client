@@ -16,6 +16,7 @@ behaviors =
   Tooltip: require './tooltip'
   ClampedExtract: require './clamped_extract'
   EntitiesCommons: require './entities_commons'
+  ImgZoomIn: require './img_zoom_in'
 
 module.exports =
   initialize: ->
