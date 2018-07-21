@@ -1,7 +1,36 @@
 {{#if image.url}}
-  <img src="{{src image.url 120}}" class="img-zoom-in">
+  <div class="left">
+    <img src="{{src image.url 120}}" class="img-zoom-in">
+  </div>
 {{/if}}
-<div>
-  <span class="label">{{label}}</span>
+<div class="right">
+  <div class="top">
+    <span class="label">{{label}}</span>
+    <a href="{{edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
+      {{icon 'pencil'}}
+    </a>
+  </div>
   <span class="uri">{{uri}}</span>
+  <a
+    {{#if worksList}}
+      class="changeWork"
+    {{else}}
+      class="changeWork unavailable"
+      title="{{i18n "work picker isn't available: there are still works without ordinal or with an ordinal in conflict"}}"
+    {{/if}}
+  >
+    {{icon 'arrows'}}
+    {{i18n "change edition's work"}}
+  </a>
+  {{#if worksList}}
+    <div class="workPicker hidden">
+      <select class="workPickerSelect">
+        <option>--</option>
+        {{#each worksList}}
+          <option value="{{uri}}">{{richLabel}}</option>
+        {{/each}}
+      </select>
+      <a class="validate tiny-success-button invisible">{{I18n 'validate'}}</a>
+    </div>
+  {{/if}}
 </div>

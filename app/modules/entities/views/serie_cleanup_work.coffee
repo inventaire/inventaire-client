@@ -14,6 +14,13 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: '.editionsContainer'
   childView: require './serie_cleanup_edition'
 
+  childViewOptions: ->
+    getWorksWithOrdinalList: @options.getWorksWithOrdinalList
+
+  # Filter-out composite editions as it would be a mess to handle the work picker
+  # with several existing work claims
+  filter: (child)-> child.get('claims.wdt:P629')?.length is 1
+
   ui:
     head: '.head'
     placeholderEditor: '.placeholderEditor'

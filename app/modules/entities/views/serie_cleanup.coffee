@@ -13,6 +13,9 @@ module.exports = Marionette.LayoutView.extend
     withoutOrdinalRegion: '#withoutOrdinal'
     withOrdinalRegion: '#withOrdinal'
 
+  ui:
+    editionsToggler: '.toggler-label'
+
   behaviors:
     Toggler: {}
     ImgZoomIn: {}
@@ -24,6 +27,7 @@ module.exports = Marionette.LayoutView.extend
     @maxOrdinal = 0
     @spreadParts()
     @initEventListeners()
+    @getWorksWithOrdinalList = getWorksWithOrdinalList.bind @
 
   serializeData: ->
     partsLength = @withOrdinal.length
@@ -33,7 +37,7 @@ module.exports = Marionette.LayoutView.extend
       partsNumberPickerRange: [ @maxOrdinal..partsLength + 10 ]
       editionsToggler:
         id: 'editionsToggler'
-        checked: false
+        checked: @showEditions
         label: 'show editions'
     }
 
@@ -59,7 +63,7 @@ module.exports = Marionette.LayoutView.extend
     { name, label, alwaysShow, possibleOrdinals } = options
     if not alwaysShow and @[name].length is 0 then return
     collection = @[name]
-    options = { name, label, collection, possibleOrdinals }
+    options = { name, label, collection, possibleOrdinals, @getWorksWithOrdinalList }
     @["#{name}Region"].show new serieCleanupWorks(options)
 
   spreadParts: ->
@@ -67,7 +71,7 @@ module.exports = Marionette.LayoutView.extend
     @fillGaps 1, @maxOrdinal
 
   initEventListeners: ->
-    @withoutOrdinal.on 'change:claims.wdt:P1545', @moveModelOnOrdinalChange.bind(@)
+    @listenTo @withoutOrdinal, 'change:claims.wdt:P1545', @moveModelOnOrdinalChange.bind(@)
 
   moveModelOnOrdinalChange: (model, value)->
     unless _.isNonEmptyArray value then return
@@ -81,7 +85,11 @@ module.exports = Marionette.LayoutView.extend
 
     @withoutOrdinal.remove model
     @withOrdinal.add model
-    if @withoutOrdinal.length is 0 then @withoutOrdinalRegion.$el.hide()
+
+    # Re-render to update editions works pickers
+    @render()
+    if @withoutOrdinal.length is 0 and not @showEditions and not@editionsTogglerChanged
+      @ui.editionsToggler.addClass 'glowing'
 
   removePlaceholder: (ordinalInt)->
     existingModel = @withOrdinal.findWhere { ordinal: ordinalInt }
@@ -151,5 +159,20 @@ module.exports = Marionette.LayoutView.extend
 
   toggleEditions: (e)->
     { checked } = e.currentTarget
-    if checked then @$el.removeClass 'hideEditions'
-    else @$el.addClass 'hideEditions'
+    if checked
+      @$el.removeClass 'hideEditions'
+      @showEditions = true
+    else
+      @$el.addClass 'hideEditions'
+      @showEditions = false
+    @editionsTogglerChanged = true
+    @ui.editionsToggler.removeClass 'glowing'
+
+getWorksWithOrdinalList = ->
+  if @withoutOrdinal.length + @conflicts.length isnt 0 then return
+
+  @withOrdinal
+  .filter (model)-> not model.get('isPlaceholder')
+  .map (model)->
+    [ oridinal, label, uri ] = model.gets 'ordinal', 'label', 'uri'
+    return { richLabel: "#{oridinal}. - #{label}", uri }
