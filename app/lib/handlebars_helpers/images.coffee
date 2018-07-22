@@ -11,7 +11,6 @@ exports.icon = (name, classes = '')->
       return new SafeString _.icon(name, classes)
 
 images =
-  wikipedia: '/public/images/wikipedia-64.png'
   wikidata: '/public/images/wikidata.svg'
   wikisource: '/public/images/wikisource-64.png'
   'barcode-scanner': '/public/images/barcode-scanner-64.png'
@@ -21,10 +20,9 @@ imagesList = Object.keys images
 
 exports.iconLink = (name, url, classes)->
   linkClasses = ''
-  title = null
   if classes? and _.isObject classes.hash
-    { i18n, i18nCtx, classes, linkClasses } = classes.hash
-    title = _.i18n i18n, i18nCtx
+    { title, i18n, i18nCtx, classes, linkClasses } = classes.hash
+    title ?= _.i18n i18n, i18nCtx
 
   icon = @icon.call null, name, classes
   return @link.call @, icon, url, linkClasses, title
