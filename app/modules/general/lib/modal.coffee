@@ -90,9 +90,14 @@ module.exports = ->
   # - when pressing ESC
   $body.on 'keydown', (e)-> if getActionKey(e) is 'esc' then closeModal()
 
+  modalHtml = (html)->
+    $modalContent.html html
+    modalOpen()
+
   app.commands.setHandlers
     'modal:open': modalOpen
     'modal:close': closeModal
+    'modal:html': modalHtml
 
 prepareRefocus = (focusSelector)->
   _.log focusSelector, 'preparing re-focus'

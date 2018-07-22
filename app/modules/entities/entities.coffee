@@ -4,6 +4,7 @@ Entity = require './models/entity'
 Entities = require './collections/entities'
 AuthorLayout = require './views/author_layout'
 SerieLayout = require './views/serie_layout'
+SerieCleanup = require './views/serie_cleanup'
 WorkLayout = require './views/work_layout'
 EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
@@ -33,6 +34,7 @@ module.exports =
         'entity/deduplicate(/)': 'showDeduplicate'
         'entity/:uri(/:label)/add(/)': 'showAddEntity'
         'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
+        'entity/:uri(/:label)/cleanup(/)': 'showEntityCleanup'
         'entity/:uri(/:label)(/)': 'showEntity'
         'wd/:qid(/)': 'showWdEntity'
         'isbn/:isbn(/)': 'showIsbnEntity'
@@ -141,6 +143,15 @@ API =
       # Assume that if uris are passed, navigate was already done
       # to avoid double navigation
       navigate: not uris?
+
+  showEntityCleanup: (uri)->
+    if app.request 'require:loggedIn', "entity/#{uri}/cleanup"
+      app.execute 'show:loader'
+      uri = normalizeUri uri
+
+      getEntityModel uri, true
+      .then showEntityCleanupFromModel
+      .catch handleMissingEntity(uri)
 
 showEntityCreate = (params)->
   { type } = params
@@ -400,3 +411,13 @@ reportTypeIssue = (params)->
   app.request 'post:feedback', { subject, uris: [ uri ] }
 
 reportedTypeIssueUris = []
+
+showEntityCleanupFromModel = (entity)->
+  if entity.type isnt 'serie'
+    err = error_.new "cleanup isn't available for entity type #{type}", 400
+    app.execute 'show:error', err
+    return
+
+  # entity.initSerieParts { refresh: true, fetchAll: true }
+  entity.initSerieParts { refresh: false, fetchAll: true }
+  .then -> app.layout.main.show new SerieCleanup { model: entity }

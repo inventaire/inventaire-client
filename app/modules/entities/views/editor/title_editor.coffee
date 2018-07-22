@@ -1,9 +1,8 @@
 EditorCommons = require './editor_commons'
 getBestLangValue = sharedLib('get_best_lang_value')(_)
-availableLangList = require 'lib/available_lang_list'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
-{ langs:activeLangs } = require 'lib/active_languages'
+getLangsData = require 'modules/entities/lib/editor/get_langs_data'
 
 module.exports = EditorCommons.extend
   template: require './templates/title_editor'
@@ -84,11 +83,3 @@ module.exports = EditorCommons.extend
         @lazyRender()
         # Wait for the view to have re-rendered to show the alert
         setTimeout forms_.catchAlert.bind(null, @, err), 400
-
-getLangsData = (selectedLang, labels)->
-  availableLangs = Object.keys labels
-  highPriorityLangs = [ app.user.lang, 'en' ]
-  allLangs = _.uniq availableLangs.concat(highPriorityLangs, activeLangs)
-  # No distinction is made between available langs and others
-  # as we can't style the <option> element anyway
-  return availableLangList allLangs, selectedLang

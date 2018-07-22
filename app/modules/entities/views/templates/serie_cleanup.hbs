@@ -1,0 +1,33 @@
+<div class="controls">
+  <h2><a href="{{serie.pathname}}" class="showEntity">{{serie.label}}</a></h2>
+
+  <a href="{{serie.edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
+    {{icon 'pencil'}}
+  </a>
+
+  {{#if serie.wikipedia}}
+    <a href="{{serie.wikipedia.url}}"></a>
+    {{iconLink 'wikipedia-w' serie.wikipedia.url title='Wikipedia'}}
+  {{/if}}
+
+  <span class="pipe">&#124;</span>
+
+  <div class="control">
+    <label for="partsNumber">{{i18n 'number of parts'}}</label>
+    <select id="partsNumber">
+      {{#each partsNumberPickerRange}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <span class="pipe">&#124;</span>
+
+  <div class="control">
+    {{partial 'toggler' editionsToggler}}
+  </div>
+</div>
+
+<div id="conflicts"></div>
+<div id="withoutOrdinal"></div>
+<div id="withOrdinal"></div>

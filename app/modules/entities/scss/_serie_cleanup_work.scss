@@ -1,0 +1,55 @@
+.serie-cleanup-work{
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 22em;
+  background-color: $light-grey;
+  @include radius;
+  .head{
+    @include display-flex(row, baseline);
+  }
+  &.placeholder{
+    @include bg-hover(#bbb);
+    cursor: pointer;
+    .pencil{
+      display: none;
+    }
+  }
+  .ordinalSelector{
+    max-width: 4em;
+    margin-right: 0.5em;
+  }
+  .ordinal{
+    font-size: 1.2em;
+    color: $grey;
+    font-weight: bold;
+    @include serif;
+    padding-right: 1em;
+  }
+  .showEntityEdit{
+    margin-left: auto;
+  }
+  .creation-call{
+    background-color: #666;
+    color: white;
+    @include radius;
+    padding: 0 0.4em;
+    margin-left: auto;
+    min-width: 5em;
+    text-align: center;
+  }
+  .editionsContainer{
+    max-height: 20em;
+    overflow: auto;
+  }
+  .placeholder-label-editor{
+    @include display-flex(row, baseline, center);
+    margin-bottom: 0.5em;
+    select{
+      width: 6em;
+      padding: 0.1em;
+    }
+    input{
+      margin: 0;
+    }
+  }
+}

@@ -122,17 +122,14 @@ small{
 ul, ol, dl{
   font-size: 1rem;
   line-height: 1.6;
-  margin-bottom: 1.25rem;
   list-style-position: outside;
   font-family: inherit;
 }
 
 ul{
-  margin-left: 1.1rem;
   &.no-bullet{
     margin-left: 0;
     li ul, li ol{
-      margin-left: 1.25rem;
       margin-bottom: 0;
       list-style: none;
     }
@@ -141,7 +138,6 @@ ul{
 
 /* Unordered Lists */
 ul li ul, ul li ol{
-  margin-left: 1.25rem;
   margin-bottom: 0;
 }
 
@@ -169,6 +165,6 @@ ul li ul, ul li ol{
   }
 }
 
-.text-center {
+.text-center{
   text-align: center !important;
 }

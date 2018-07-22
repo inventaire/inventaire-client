@@ -1,0 +1,5 @@
+<select class="langSelector" name="language-selector">
+  {{#each this}}
+    <option value="{{code}}" {{#if selected}}selected{{/if}}>{{native}}</option>
+  {{/each}}
+</select>

@@ -33,6 +33,8 @@ module.exports = (app, lang)->
     'uriLabel:update': updateUrilabel
     'uriLabel:refresh': uriLabel.refreshData
 
+  initLocalLang lang
+
 setLanguage = (lang, missingKeyWarn)->
   app.polyglot = new Polyglot { warn: missingKeyWarn }
   _.i18n = sharedLib('translate')(lang, app.polyglot)
@@ -55,3 +57,9 @@ updatePolyglot = (polyglot, lang, res)->
 updateUrilabel = ->
   { lang } = app.user
   uriLabel.update lang
+
+initLocalLang = (lang)->
+  lastLocalLang = lang
+  app.vent.on 'lang:local:change', (value)-> lastLocalLang = value
+  app.reqres.setHandlers
+    'lang:local:get': -> lastLocalLang

@@ -1,0 +1,31 @@
+<div class="head">
+  {{#if ordinal}}
+    <span class="ordinal">{{ordinal}}</span>
+  {{else}}
+    <select class="ordinalSelector glowing">
+      <option value="">--</option>
+      {{#each possibleOrdinals}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+  {{/if}}
+  <span class="label">{{label}}</span>
+  {{#if isPlaceholder}}
+    <span class="creation-call">{{i18n 'create'}}</span>
+  {{else}}
+      <a href="{{edit}}" class="showEntityEdit pencil"
+        title="{{i18n 'edit data'}}">
+        {{icon 'pencil'}}
+      </a>
+  {{/if}}
+</div>
+<ul class="editionsContainer"></ul>
+{{#if isPlaceholder}}
+  <div class="placeholderEditor hidden enterClickWrapper">
+    <div class="placeholder-label-editor">
+      {{partial 'entities:editor:language_selector' langs}}
+      <input type="text" class="placeholderLabel enterClick" value="{{label}}">
+    </div>
+    <a class="create tiny-success-button enterClickTarget">{{I18n 'create'}}</a>
+  </div>
+{{/if}}

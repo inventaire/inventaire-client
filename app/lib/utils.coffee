@@ -209,6 +209,12 @@ module.exports = (Backbone, _, $, app, window)->
 
   isPlainObject: (obj)-> _.typeOf(obj) is 'object'
 
+  focusInput: ($el)->
+    $el.focus()
+    value = $el[0]?.value
+    unless value? then return
+    $el[0].setSelectionRange 0, value.length
+
 add = (a, b)-> a + b
 
 objectWalker = (subObject, property)-> subObject?[property]

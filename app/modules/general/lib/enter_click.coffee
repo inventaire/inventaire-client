@@ -1,8 +1,8 @@
 module.exports =
   input: (e)->
     if e.keyCode is 13 and $(e.currentTarget).val().length > 0
-      row = $(e.currentTarget).parents('form, .inputGroup')[0]
-      clickTarget $(row).find('.button, .tiny-button, .saveButton')
+      row = $(e.currentTarget).parents('form, .inputGroup, .enterClickWrapper')[0]
+      clickTarget $(row).find('.button, .tiny-button, .saveButton, .enterClickTarget')
 
   # Required:
   # textarea.ctrlEnterClick

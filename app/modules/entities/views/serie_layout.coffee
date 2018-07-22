@@ -31,7 +31,7 @@ module.exports = Marionette.LayoutView.extend
   fetchParts: ->
     behaviorsPlugin.startLoading.call @, ".#{@cid}"
 
-    @model.initSerieParts @refresh
+    @model.initSerieParts { @refresh }
     .then @showParts.bind(@)
 
   showParts: ->

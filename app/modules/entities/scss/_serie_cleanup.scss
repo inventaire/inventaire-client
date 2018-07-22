@@ -1,0 +1,60 @@
+#serieCleanup{
+  .controls{
+    @include display-flex(row, center, flex-start);
+    background-color: $light-grey;
+    padding: 1em;
+    .pipe{
+      margin: 0 1em;
+      color: #bbb;
+    }
+  }
+  .control{
+    @include display-flex(row, center, center);
+    label, .toggler-text-label{
+      white-space: nowrap;
+      margin-right: 1em;
+    }
+    .toggler-text-label{
+      @include label-style;
+    }
+  }
+  #partsNumber{
+    max-width: 10em;
+  }
+  h2{
+    font-size: 1.2em;
+    display: flex;
+    margin-right: 1em;
+    a{
+      @include text-hover($dark-grey);
+    }
+  }
+  .section-label{
+    font-size: 1.1em;
+    padding: 0.5em 0 0 1em;
+  }
+  &.hideEditions{
+    .editionsContainer{
+      display: none;
+    }
+  }
+  .showEntityEdit{
+    @include shy;
+  }
+}
+
+#withoutOrdinal{
+  background-color: #ccc;
+}
+#conflicts{
+  background-color: #aaa;
+}
+
+.serie-cleanup-works{
+  .worksContainer{
+    @include display-flex(row, baseline, flex-start, wrap);
+  }
+}
+
+@import 'serie_cleanup_work';
+@import 'serie_cleanup_edition';
