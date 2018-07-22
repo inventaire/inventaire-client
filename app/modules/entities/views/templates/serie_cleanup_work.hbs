@@ -22,7 +22,10 @@
 <ul class="editionsContainer"></ul>
 {{#if isPlaceholder}}
   <div class="placeholderEditor hidden enterClickWrapper">
-    <input type="text" class="placeholderLabel enterClick" value="{{label}}">
+    <div class="placeholder-label-editor">
+      {{partial 'entities:editor:language_selector' langs}}
+      <input type="text" class="placeholderLabel enterClick" value="{{label}}">
+    </div>
     <a class="create tiny-success-button enterClickTarget">{{I18n 'create'}}</a>
   </div>
 {{/if}}

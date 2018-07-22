@@ -42,4 +42,15 @@
     max-height: 20em;
     overflow: auto;
   }
+  .placeholder-label-editor{
+    @include display-flex(row, baseline, center);
+    margin-bottom: 0.5em;
+    select{
+      width: 6em;
+      padding: 0.1em;
+    }
+    input{
+      margin: 0;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 getActionKey = require 'lib/get_action_key'
+getLangsData = require 'modules/entities/lib/editor/get_langs_data'
 
 module.exports = Marionette.CompositeView.extend
   tagName: 'li'
@@ -30,19 +31,25 @@ module.exports = Marionette.CompositeView.extend
     head: '.head'
     placeholderEditor: '.placeholderEditor'
     placeholderLabelEditor: '.placeholderEditor input'
+    langSelector: '.langSelector'
 
   initialize: ->
     @collection = @model.editions
+    lazyLangSelectorUpdate = _.debounce @onOtherLangSelectorChange.bind(@), 500
+    @listenTo app.vent, 'lang:local:change', lazyLangSelectorUpdate
 
   serializeData: ->
+    lang = app.request 'lang:local:get'
     _.extend @model.toJSON(),
       possibleOrdinals: @options.possibleOrdinals
+      langs: getLangsData lang, @model.get('labels')
 
   events:
     'change .ordinalSelector': 'updateOrdinal'
     'click .create': 'create'
     'click': 'showPlaceholderEditor'
     'keydown': 'onKeydown'
+    'change .langSelector': 'propagateLangChange'
 
   updateOrdinal: (e)->
     { value } = e.currentTarget
@@ -64,8 +71,10 @@ module.exports = Marionette.CompositeView.extend
     @$el.focus()
 
   create: ->
+    unless @model.get('isPlaceholder') then return
+    lang = @ui.langSelector.val()
     label = @ui.placeholderLabelEditor.val()
-    @model.setLabel app.user.lang, label
+    @model.setLabel lang, label
     @model.create()
     .then @replaceModel.bind(@)
 
@@ -79,3 +88,10 @@ module.exports = Marionette.CompositeView.extend
     switch key
       when 'enter' then @showPlaceholderEditor()
       when 'esc' then @hidePlaceholderEditor()
+
+  propagateLangChange: (e)->
+    { value } = e.currentTarget
+    app.vent.trigger 'lang:local:change', value
+
+  onOtherLangSelectorChange: (value)->
+    if @ui.placeholderEditor.hasClass 'hidden' then @ui.langSelector.val value
