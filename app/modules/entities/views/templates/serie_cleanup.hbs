@@ -1,5 +1,11 @@
 <div class="controls">
-  <h2>{{serie.label}}</h2>
+  <h2><a href="{{serie.pathname}}" class="showEntity">{{serie.label}}</a></h2>
+
+  <a href="{{serie.edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
+    {{icon 'pencil'}}
+  </a>
+
+  <span class="pipe">&#124;</span>
 
   <div class="control">
     <label for="partsNumber">{{i18n 'number of parts'}}</label>

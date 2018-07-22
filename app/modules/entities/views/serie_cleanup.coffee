@@ -95,8 +95,10 @@ module.exports = Marionette.LayoutView.extend
 
     # Re-render to update editions works pickers
     @render()
-    if @withoutOrdinal.length is 0 and not @showEditions and not@editionsTogglerChanged
-      @ui.editionsToggler.addClass 'glowing'
+
+    if @withoutOrdinal.length is 0
+      unless @showEditions or @editionsTogglerChanged
+        @ui.editionsToggler.addClass 'glowing'
 
   removePlaceholder: (ordinalInt)->
     existingModel = @withOrdinal.findWhere { ordinal: ordinalInt }
