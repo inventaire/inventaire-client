@@ -3,9 +3,6 @@ getLangsData = require 'modules/entities/lib/editor/get_langs_data'
 
 module.exports = Marionette.CompositeView.extend
   tagName: 'li'
-  attributes:
-    tabindex: '0'
-
   template: require './templates/serie_cleanup_work'
   className: ->
     classes = 'serie-cleanup-work'
@@ -43,6 +40,9 @@ module.exports = Marionette.CompositeView.extend
     _.extend @model.toJSON(),
       possibleOrdinals: @options.possibleOrdinals
       langs: getLangsData lang, @model.get('labels')
+
+  onRender: ->
+    if @model.get('isPlaceholder') then @$el.attr 'tabindex', 0
 
   events:
     'change .ordinalSelector': 'updateOrdinal'
