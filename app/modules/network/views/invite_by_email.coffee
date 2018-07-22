@@ -100,7 +100,7 @@ module.exports = Marionette.LayoutView.extend
       @ui.usersAlreadyThere.slideDown()
 
     # waiting for everything to be well rendered
-    setTimeout _.scrollTop.bind(null, @ui.invitations), 250, 100
+    @setTimeout _.scrollTop.bind(null, @ui.invitations), 250, 100
 
   toggleMessage: ->
     @ui.addMessage.hide()

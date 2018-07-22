@@ -19,7 +19,7 @@ module.exports = Marionette.Behavior.extend
     timeout or= 30
     unless timeout is 'none'
       cb = @somethingWentWrong.bind @, null, params
-      setTimeout cb, timeout * 1000
+      @view.setTimeout cb, timeout * 1000
 
     if progressionEventName?
       if @_alreadyListingForProgressionEvent then return

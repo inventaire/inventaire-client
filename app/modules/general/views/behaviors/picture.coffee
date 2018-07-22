@@ -35,7 +35,7 @@ module.exports = Marionette.ItemView.extend
   onRender: ->
     if @model.get('crop')
       if @ready and @model.get 'selected'
-        setTimeout @initCropper.bind(@), 200
+        @setTimeout @initCropper.bind(@), 200
 
   initCropper: ->
     # don't use a ui object to get the img

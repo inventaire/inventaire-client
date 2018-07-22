@@ -75,7 +75,7 @@ module.exports = Marionette.LayoutView.extend
     @showList 'inv', [ invModel ].concat(invModels)
     # Give the views some time to initalize before expecting them
     # to be accessible in the DOM from their selectors
-    setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, mostProbableDuplicate), 200
+    @setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, mostProbableDuplicate), 200
 
   _showNextProbableDuplicatesUpdateUi: (invModel, mostProbableDuplicate)->
     @$el.trigger 'entity:select',

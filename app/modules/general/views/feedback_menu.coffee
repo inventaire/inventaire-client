@@ -60,9 +60,9 @@ module.exports = Marionette.ItemView.extend
     if @standalone
       # simply hide the confirmation so that the user can still send a new feedback
       # and get a new confirmation for it
-      setTimeout @hideConfirmation.bind(@), 5000
+      @setTimeout @hideConfirmation.bind(@), 5000
     else
-      setTimeout app.Execute('modal:close'), 2000
+      @setTimeout app.Execute('modal:close'), 2000
 
   postFailed: ->
     @stopLoading '#sendFeedback'

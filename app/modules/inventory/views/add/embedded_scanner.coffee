@@ -136,9 +136,9 @@ module.exports = Marionette.ItemView.extend
         if @isDestroyed or @_lastMessage isnt message then return
         @ui.statusMessage.removeClass 'shown'
 
-      setTimeout hideMessage, displayTime
+      @setTimeout hideMessage, displayTime
 
-    if displayDelay? then setTimeout showMessage, displayDelay
+    if displayDelay? then @setTimeout showMessage, displayDelay
     else showMessage()
 
   showInvalidIsbnWarning: (invalidIsbn)->
@@ -150,7 +150,7 @@ module.exports = Marionette.ItemView.extend
   updateCounter: (count)->
     @ui.totalCounter.text "(#{@batch.length})"
     @ui.validate.addClass 'flash'
-    setTimeout @ui.validate.removeClass.bind(@ui.validate, 'flash'), 1000
+    @setTimeout @ui.validate.removeClass.bind(@ui.validate, 'flash'), 1000
 
   permissionDenied: (err)->
     if err.reason is 'permission_denied'

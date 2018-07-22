@@ -82,4 +82,4 @@ module.exports = EditorCommons.extend
         @editMode = true
         @lazyRender()
         # Wait for the view to have re-rendered to show the alert
-        setTimeout forms_.catchAlert.bind(null, @, err), 400
+        @setTimeout forms_.catchAlert.bind(null, @, err), 400

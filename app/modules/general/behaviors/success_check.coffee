@@ -32,4 +32,4 @@ module.exports = Marionette.Behavior.extend
       $check.slideUp()
       cb() if cb?
 
-    setTimeout afterTimeout, 600
+    @view.setTimeout afterTimeout, 600

@@ -72,7 +72,7 @@ module.exports = Marionette.LayoutView.extend
         @queue.show new ImportQueue { candidates }
 
       # Run once @ui.importersWrapper is done sliding up
-      setTimeout _.scrollTop.bind(null, @queue.$el), 500
+      @setTimeout _.scrollTop.bind(null, @queue.$el), 500
 
   getFile: (e)->
     source = e.currentTarget.id

@@ -32,7 +32,7 @@ module.exports = Marionette.LayoutView.extend
     itemUpdaters.call(@)
 
   onShow: ->
-    setTimeout @preserveMinHeight.bind(@), 200
+    @setTimeout @preserveMinHeight.bind(@), 200
 
   # Allows to re-render without provoking a scroll jump because the view
   # suddenly takes less room vertically

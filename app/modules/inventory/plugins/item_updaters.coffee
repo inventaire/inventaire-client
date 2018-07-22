@@ -25,7 +25,7 @@ module.exports = ->
       .catch (err)=>
         err.selector = @alertBoxTarget
         # Let the time to the view to re-render after the model rolled back
-        setTimeout forms_.catchAlert.bind(null, @, err), 500
+        @setTimeout forms_.catchAlert.bind(null, @, err), 500
 
     itemDestroy: ->
       afterDestroy = @afterDestroy?.bind(@) or cb = -> console.log 'item deleted'

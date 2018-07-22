@@ -13,7 +13,7 @@ module.exports = Marionette.Behavior.extend
     else
       show $dropdown
       # Let a delay so that the toggle click itself isn't catched by the listener
-      setTimeout closeOnClick.bind(@, $dropdown), 100
+      @view.setTimeout closeOnClick.bind(@, $dropdown), 100
 
 hide = ($dropdown)->
   $dropdown.hide()

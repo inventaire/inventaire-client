@@ -9,7 +9,7 @@ module.exports = Marionette.ItemView.extend
   selectIfInEditMode: ->
     if @editMode
       # somehow seems to need a delay
-      setTimeout @select.bind(@), 100
+      @setTimeout @select.bind(@), 100
 
   onKeyup: (e)->
     key = getActionKey e
@@ -79,7 +79,7 @@ module.exports = Marionette.ItemView.extend
     alert = => forms_.catchAlert @, err
     # Let the time to the changes and rollbacks to trigger lazy re-render
     # before trying to show the alert message
-    setTimeout alert, 500
+    @setTimeout alert, 500
 
   # Focus an element on render
   # Requires to set a focusTarget and the corresponding UI element's name
@@ -90,4 +90,4 @@ module.exports = Marionette.ItemView.extend
         if $el[0].tagName is 'INPUT' then $el.select()
         else $el.focus()
       # Somehow required to let the time to thing to get in place
-      setTimeout focus, 200
+      @setTimeout focus, 200

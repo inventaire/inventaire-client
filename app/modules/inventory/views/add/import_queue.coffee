@@ -119,7 +119,7 @@ module.exports = Marionette.LayoutView.extend
       return
     .then (item)=>
       @candidates.remove candidate
-      if @items.length is 0 then setTimeout @showAddedBooks.bind(@), 1000
+      if @items.length is 0 then @setTimeout @showAddedBooks.bind(@), 1000
       @items.add item
       # recursively trigger next import
       @chainedImport transaction, listing
@@ -141,7 +141,7 @@ module.exports = Marionette.LayoutView.extend
 
   showAddedBooks: ->
     @ui.addedBooks.fadeIn()
-    setTimeout _.scrollTop.bind(null, @ui.addedBooks), 600
+    @setTimeout _.scrollTop.bind(null, @ui.addedBooks), 600
 
   toggleValidationElements: ->
     @ui.validationElements.toggleClass 'force-hidden'

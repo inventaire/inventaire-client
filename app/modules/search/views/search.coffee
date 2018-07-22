@@ -73,12 +73,12 @@ module.exports = Marionette.LayoutView.extend
     .catch @_catchErr.bind(@)
 
     app.execute 'show:loader', { region: @authors, timeout: 120 }
-    setTimeout @_pleaseBePatient.bind(@), 6000
+    @setTimeout @_pleaseBePatient.bind(@), 6000
 
   _pleaseBePatient: ->
     unless cache.returned
       @_appendToAuthorEl _.i18n('slow_search_message')
-      setTimeout @_pleaseBeVeryPatient.bind(@), 10000
+      @setTimeout @_pleaseBeVeryPatient.bind(@), 10000
 
   _pleaseBeVeryPatient: ->
     unless cache.returned

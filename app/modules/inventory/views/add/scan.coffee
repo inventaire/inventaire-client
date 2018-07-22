@@ -35,7 +35,7 @@ module.exports = Marionette.ItemView.extend
     zxingLocalSetting.set checked
     # wait for the end of the toggle animation
     # keep in sync with app/modules/general/scss/_toggler.scss
-    setTimeout @render.bind(@), 400
+    @setTimeout @render.bind(@), 400
 
 prepareEmbeddedScanner = (useZxing)->
   useZxing ?= zxingLocalSetting.get()

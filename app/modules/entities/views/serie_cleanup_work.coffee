@@ -62,7 +62,7 @@ module.exports = Marionette.CompositeView.extend
     @ui.placeholderEditor.removeClass 'hidden'
     @$el.attr 'tabindex', null
     # Wait to avoid the enter event to be propagated as an enterClick to 'create'
-    setTimeout _.focusInput.bind(null, @ui.placeholderLabelEditor), 100
+    @setTimeout _.focusInput.bind(null, @ui.placeholderLabelEditor), 100
 
   hidePlaceholderEditor: ->
     @ui.head.removeClass 'force-hidden'
