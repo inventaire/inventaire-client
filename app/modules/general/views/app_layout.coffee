@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .showFeedbackMenu': 'showFeedbackMenu'
     'click .showEntityEdit': 'showEntityEdit'
+    'click .showEntityCleanup': 'showEntityCleanup'
 
   behaviors:
     General: {}

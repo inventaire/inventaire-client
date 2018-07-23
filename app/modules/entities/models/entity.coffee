@@ -55,6 +55,7 @@ module.exports = Filterable.extend
     if @type in editableTypes
       pathname = @get 'pathname'
       @set 'edit', "#{pathname}/edit"
+      @set 'cleanup', "#{pathname}/cleanup"
 
     # If the entity isn't of any known type, it was probably fetched
     # for its label, there is thus no need to go further on initialization

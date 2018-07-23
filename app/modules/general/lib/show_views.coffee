@@ -14,6 +14,7 @@ module.exports =
 
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'
+  showEntityCleanup: (e)-> entityAction e, 'show:entity:cleanup'
   showDonateMenu: ->
     app.layout.modal.show new DonateMenu { navigateOnClose: true }
     app.navigate 'donate'

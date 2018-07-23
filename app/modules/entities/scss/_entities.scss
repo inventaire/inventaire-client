@@ -105,7 +105,7 @@
 
 .edit-data-buttons{
   @include display-flex(row, center, center);
-  .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities{
+  .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities, .showEntityCleanup{
     font-size: 1.4rem;
     @include text-hover(rgba(white, 0.5), white);
     .fa{
