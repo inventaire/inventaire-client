@@ -28,13 +28,14 @@ module.exports = Marionette.LayoutView.extend
     @spreadParts()
     @initEventListeners()
     @getWorksWithOrdinalList = getWorksWithOrdinalList.bind @
+    @getPlaceholdersOrdinals = getPlaceholdersOrdinals.bind @
 
   serializeData: ->
     partsLength = @withOrdinal.length
 
     return {
       serie: @model.toJSON()
-      partsNumberPickerRange: [ @maxOrdinal..partsLength + 10 ]
+      partsNumberPickerRange: [ @maxOrdinal..partsLength + 50 ]
       editionsToggler:
         id: 'editionsToggler'
         checked: @showEditions
@@ -42,17 +43,15 @@ module.exports = Marionette.LayoutView.extend
     }
 
   onRender: ->
-    placeholdersOrdinals = @getPlaceholdersOrdinals()
-
     @showWorkList
       name: 'conflicts'
       label: 'parts with ordinal conflicts'
-      possibleOrdinals: placeholdersOrdinals
+      showPossibleOrdinals: true
 
     @showWorkList
       name: 'withoutOrdinal'
       label: 'parts without ordinal'
-      possibleOrdinals: placeholdersOrdinals
+      showPossibleOrdinals: true
 
     @showWorkList
       name: 'withOrdinal'
@@ -60,15 +59,16 @@ module.exports = Marionette.LayoutView.extend
       alwaysShow: true
 
   showWorkList: (options)->
-    { name, label, alwaysShow, possibleOrdinals } = options
+    { name, label, alwaysShow, showPossibleOrdinals } = options
     if not alwaysShow and @[name].length is 0 then return
     collection = @[name]
     options = {
       name,
       label,
       collection,
-      possibleOrdinals,
       @getWorksWithOrdinalList,
+      showPossibleOrdinals,
+      @getPlaceholdersOrdinals,
       worksWithOrdinal: @withOrdinal
     }
     @["#{name}Region"].show new serieCleanupWorks(options)
@@ -140,11 +140,6 @@ module.exports = Marionette.LayoutView.extend
     model.set 'isPlaceholder', true
     return model
 
-  getPlaceholdersOrdinals: ->
-    @withOrdinal
-    .filter (model)-> model.get('isPlaceholder')
-    .map  (model)-> model.get('ordinal')
-
   events:
     'change #partsNumber': 'updatePartsNumber'
     'change .toggler-input': 'toggleEditions'
@@ -153,11 +148,10 @@ module.exports = Marionette.LayoutView.extend
     { value } = e.currentTarget
     num = parseInt value
     if num is @maxOrdinal then return
-    if num > @maxOrdinal
-      @fillGaps @maxOrdinal, num
-      @maxOrdinal = num
-    else
-      @removePlaceholdersAbove num
+    if num > @maxOrdinal then @fillGaps @maxOrdinal, num
+    else @removePlaceholdersAbove num
+    @maxOrdinal = num
+    app.vent.trigger 'serie:cleanup:parts:change'
 
   removePlaceholdersAbove: (num)->
     toRemove = []
@@ -185,3 +179,8 @@ getWorksWithOrdinalList = ->
   .map (model)->
     [ oridinal, label, uri ] = model.gets 'ordinal', 'label', 'uri'
     return { richLabel: "#{oridinal}. - #{label}", uri }
+
+getPlaceholdersOrdinals = ->
+  @withOrdinal
+  .filter (model)-> model.get('isPlaceholder')
+  .map  (model)-> model.get('ordinal')

@@ -31,15 +31,19 @@ module.exports = Marionette.CompositeView.extend
     langSelector: '.langSelector'
 
   initialize: ->
+    @lazyRender = _.LazyRender @, 100
     @collection = @model.editions
     lazyLangSelectorUpdate = _.debounce @onOtherLangSelectorChange.bind(@), 500
     @listenTo app.vent, 'lang:local:change', lazyLangSelectorUpdate
+    @listenTo app.vent, 'serie:cleanup:parts:change', @lazyRender
 
   serializeData: ->
-    lang = app.request 'lang:local:get'
-    _.extend @model.toJSON(),
-      possibleOrdinals: @options.possibleOrdinals
-      langs: getLangsData lang, @model.get('labels')
+    data = @model.toJSON()
+    localLang = app.request 'lang:local:get'
+    data.langs = getLangsData localLang, @model.get('labels')
+    if @options.showPossibleOrdinals
+      data.possibleOrdinals = @options.getPlaceholdersOrdinals()
+    return data
 
   onRender: ->
     if @model.get('isPlaceholder') then @$el.attr 'tabindex', 0
