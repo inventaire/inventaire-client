@@ -14,19 +14,24 @@
   .top{
     @include display-flex(row);
   }
-  .changeWork{
-    // @include display-flex(row, baseline, flex-start);
+  .actions{
+    margin-top: 0.5em;
+    padding: 0.5em;
+    background-color: #eee;
+    @include radius;
+  }
+  .changeWork, .copyWorkLabel{
     display: block;
-    margin-top: 1em;
+    margin-top: 0.5em;
     .fa{
       font-size: 0.9em;
     }
-    color: $grey;
     &.unavailable{
       cursor: not-allowed;
+      color: $grey;
     }
     &:not(.unavailable){
-      @include text-hover($grey);
+      @include text-hover(#333);
     }
   }
   .workPicker{
