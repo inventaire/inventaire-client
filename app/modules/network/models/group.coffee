@@ -60,7 +60,7 @@ module.exports = Positionable.extend
     # while keeping the same object to avoid breaking references
     @[name] or= new Backbone.Collection
     @[name].remove @[name].models
-    Name = _.capitaliseFirstLetter name
+    Name = _.capitalise name
     ids = @["all#{Name}Ids"]()
     @["waitFor#{Name}"] = @fetchUsers @[name], ids
 

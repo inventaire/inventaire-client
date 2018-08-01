@@ -79,7 +79,7 @@ module.exports = Filterable.extend
       attrs.entityData = @entity.toJSON()
       { type } = @entity
       attrs.entityType = type
-      Type = _.capitaliseFirstLetter type
+      Type = _.capitalise type
       attrs["entityIs#{Type}"] = true
 
     attrs.cid = @cid

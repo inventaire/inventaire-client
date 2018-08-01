@@ -74,7 +74,7 @@ module.exports = Marionette.LayoutView.extend
   showDetailsEditorFromKey: (e)-> @showEditorFromKey 'details', e,
   showEditorFromKey: (editor, e)->
     key = getActionKey e
-    capitalizedEditor = _.capitaliseFirstLetter editor
+    capitalizedEditor = _.capitalise editor
     if key is 'enter' then @["show#{capitalizedEditor}Editor"]()
 
   showDetailsEditor: -> @showEditor 'details'
@@ -99,7 +99,7 @@ module.exports = Marionette.LayoutView.extend
 
   editorKeyAction: (editor, e)->
     key = getActionKey e
-    capitalizedEditor = _.capitaliseFirstLetter editor
+    capitalizedEditor = _.capitalise editor
     if key is 'esc'
       hideEditor = "hide#{capitalizedEditor}Editor"
       @[hideEditor]()

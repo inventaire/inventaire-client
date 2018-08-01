@@ -15,7 +15,7 @@ module.exports = ->
     return cache[name] = ids
 
   for name, categories of aggregates
-    Name = _.capitaliseFirstLetter name
+    Name = _.capitalise name
     # ex: @allMembersIds
     @["all#{Name}Ids"] = all.bind @, name, categories
 
