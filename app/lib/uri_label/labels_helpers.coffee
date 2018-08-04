@@ -1,5 +1,6 @@
-labels = {}
 { formatLabel } = require 'lib/wikimedia/wikidata'
+labels = {}
+previouslyMissing = {}
 
 module.exports =
   getLabel: (uri, lang)->
@@ -17,4 +18,13 @@ module.exports =
 
   resetLabels: -> labels = {}
 
-  invalidateLabel: (uri)-> delete labels[uri]
+  invalidateLabel: (uri)->
+    delete labels[uri]
+    delete previouslyMissing[uri]
+
+  addPreviouslyMissingUris: (uris)->
+    for uri in uris
+      previouslyMissing[uri] = true
+    return
+
+  wasntPrevisoulyMissing: (uri)-> not previouslyMissing[uri]

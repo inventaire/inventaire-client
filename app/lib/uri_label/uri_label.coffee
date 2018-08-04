@@ -9,10 +9,10 @@
 # keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
 className = 'uriLabel'
 selector = ".#{className}"
-attribute = 'data-uri'
+attribute = 'data-label-uri'
 
 wd_ = require 'lib/wikimedia/wikidata'
-{ getLabel, setLabel, getKnownUris, resetLabels } = require './labels_helpers'
+{ getLabel, setLabel, getKnownUris, resetLabels, addPreviouslyMissingUris, wasntPrevisoulyMissing } = require './labels_helpers'
 
 { get:getEntitiesModels } = require 'modules/entities/lib/entities_models_index'
 
@@ -68,18 +68,15 @@ setEntityOriginalLang = (uri, claims, labels)->
   if originalValue? then setLabel uri, 'original', originalValue
   return
 
-previouslyMissing = []
 getMissingEntities = (uris)->
   missingUris = _.difference uris, getKnownUris()
   # Avoid refetching URIs: either the data is about to arrive
   # or the data is missing (in case of failing connection to Wikidata for instance)
   # and it would keep requesting it if not filtered-out
   urisToFetch = missingUris.filter wasntPrevisoulyMissing
-  previouslyMissing = missingUris
+  addPreviouslyMissingUris missingUris
   if urisToFetch.length > 0 then return getEntities urisToFetch
   else return _.preq.resolved
-
-wasntPrevisoulyMissing = (uri)-> uri not in previouslyMissing
 
 update = ->
   uris = gatherRequiredUris()
