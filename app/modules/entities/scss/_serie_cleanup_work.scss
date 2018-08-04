@@ -37,9 +37,10 @@
     min-width: 5em;
     text-align: center;
   }
-  .editionsContainer{
+  .authorsContainer, .editionsContainer{
     max-height: 20em;
     overflow: auto;
+    margin: 1em 0;
   }
   .placeholder-label-editor{
     @include display-flex(row, baseline, center);
@@ -51,5 +52,18 @@
     input{
       margin: 0;
     }
+  }
+}
+
+.serie-cleanup-author{
+  padding: 0.5em;
+  @include radius;
+  margin: 0.2em 0;
+  &:not(.suggestion){
+    background-color: white;
+  }
+  &.suggestion{
+    @include bg-hover(#bbb);
+    cursor: pointer;
   }
 }

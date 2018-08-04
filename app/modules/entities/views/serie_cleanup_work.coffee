@@ -1,7 +1,9 @@
 getActionKey = require 'lib/get_action_key'
 getLangsData = require 'modules/entities/lib/editor/get_langs_data'
+SerieCleanupAuthors = require './serie_cleanup_authors'
+SerieCleanupEditions = require './serie_cleanup_editions'
 
-module.exports = Marionette.CompositeView.extend
+module.exports = Marionette.LayoutView.extend
   tagName: 'li'
   template: require './templates/serie_cleanup_work'
   className: ->
@@ -9,20 +11,9 @@ module.exports = Marionette.CompositeView.extend
     if @model.get('isPlaceholder') then classes += ' placeholder'
     return classes
 
-  childViewContainer: '.editionsContainer'
-  childView: require './serie_cleanup_edition'
-
-  childViewOptions: ->
-    getWorksWithOrdinalList: @options.getWorksWithOrdinalList
-    worksWithOrdinal: @options.worksWithOrdinal
-
-  # Keeping a consistent sorting function so that rolling back an edition
-  # puts it back at the same spot
-  viewComparator: 'label'
-
-  # Filter-out composite editions as it would be a mess to handle the work picker
-  # with several existing work claims
-  filter: (child)-> child.get('claims.wdt:P629')?.length is 1
+  regions:
+    authorsContainer: '.authorsContainer'
+    editionsContainer: '.editionsContainer'
 
   ui:
     head: '.head'
@@ -32,10 +23,11 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @, 100
-    @collection = @model.editions
     lazyLangSelectorUpdate = _.debounce @onOtherLangSelectorChange.bind(@), 500
     @listenTo app.vent, 'lang:local:change', lazyLangSelectorUpdate
     @listenTo app.vent, 'serie:cleanup:parts:change', @lazyRender
+
+    { @allAuthorsUris } = @options
 
   serializeData: ->
     data = @model.toJSON()
@@ -46,7 +38,22 @@ module.exports = Marionette.CompositeView.extend
     return data
 
   onRender: ->
-    if @model.get('isPlaceholder') then @$el.attr 'tabindex', 0
+    if @model.get 'isPlaceholder'
+      @$el.attr 'tabindex', 0
+      return
+
+    { currentAuthorsUris, authorsSuggestionsUris } = @spreadAuthors()
+
+    @authorsContainer.show new SerieCleanupAuthors {
+      work: @model
+      currentAuthorsUris,
+      authorsSuggestionsUris
+    }
+
+    @editionsContainer.show new SerieCleanupEditions
+      collection: @model.editions
+      getWorksWithOrdinalList: @options.getWorksWithOrdinalList
+      worksWithOrdinal: @options.worksWithOrdinal
 
   events:
     'change .ordinalSelector': 'updateOrdinal'
@@ -99,3 +106,8 @@ module.exports = Marionette.CompositeView.extend
 
   onOtherLangSelectorChange: (value)->
     if @ui.placeholderEditor.hasClass 'hidden' then @ui.langSelector.val value
+
+  spreadAuthors: ->
+    currentAuthorsUris = @model.get('claims.wdt:P50') or []
+    authorsSuggestionsUris = _.difference @allAuthorsUris, currentAuthorsUris
+    return { currentAuthorsUris, authorsSuggestionsUris }
