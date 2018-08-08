@@ -13,9 +13,8 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @, 100
-    @workUri = @model.get 'claims.wdt:P629.0'
     @editionLang = @model.get 'lang'
-
+    @workUri = @model.get 'claims.wdt:P629.0'
     @getWorksLabel()
 
   serializeData: ->
@@ -67,15 +66,19 @@ module.exports = Marionette.CompositeView.extend
     newWork = @options.worksWithOrdinal.findWhere { uri }
     edition = @model
     currentWorkEditions = edition.collection
-    currentWorkEditions.remove edition
-    newWork.editions.add edition
 
     rollback = (err)->
       currentWorkEditions.add edition
       newWork.editions.remove edition
       throw err
 
-    @model.setPropertyValue 'wdt:P629', @workUri, uri
+    edition.setPropertyValue 'wdt:P629', @workUri, uri
+    .then ->
+      # Moving the edition after the property is set is required to make sure
+      # that the new edition view is initialized with the right work model and thus
+      # with the right workLabel
+      currentWorkEditions.remove edition
+      newWork.editions.add edition
     .catch rollback
 
   getWorksLabel: ->

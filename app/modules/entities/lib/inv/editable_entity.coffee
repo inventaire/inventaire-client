@@ -41,6 +41,9 @@ module.exports =
     if property in propertiesUsedByRelations then @invalidateRelationsCache()
 
     return @savePropertyValue property, oldValue, newValue
+    # Triggering the event is required as Backbone.NestedModel would trigger
+    # 'add' and 'remove' events
+    .then => @trigger 'change:claims', property, oldValue, newValue
     .catch rollback
 
   savePropertyValue: (property, oldValue, newValue)->
