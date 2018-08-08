@@ -420,4 +420,6 @@ showEntityCleanupFromModel = (entity)->
     return
 
   entity.initSerieParts { refresh: true, fetchAll: true }
-  .then -> app.layout.main.show new SerieCleanup { model: entity }
+  .then ->
+    app.layout.main.show new SerieCleanup { model: entity }
+    app.navigateFromModel entity, 'cleanup'
