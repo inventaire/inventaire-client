@@ -10,7 +10,10 @@
       {{/unless}}
     {{/if}}
   {{/if}}
-  {{#if showDeduplicateEntityButtons}}
+  {{#if showDeduplicateEntityButton}}
     <a class="deduplicateSubEntities" title="{{i18n 'deduplicate sub-entities'}}">{{icon 'compress'}}</a>
+  {{/if}}
+  {{#if showCleanupButton}}
+    {{iconLink 'arrows' cleanup classes='showEntityCleanup' i18n='cleanup entity'}}
   {{/if}}
 </div>

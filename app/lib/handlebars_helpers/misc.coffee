@@ -16,9 +16,9 @@ module.exports =
     if _.isObject context?.hash then context = context.hash
     return _.i18n key, context
 
-  I18n: (args...)-> _.capitaliseFirstLetter @i18n.apply(@, args)
+  I18n: (args...)-> _.capitalise @i18n.apply(@, args)
 
-  capitalize: (str)-> _.capitaliseFirstLetter str
+  capitalize: (str)-> _.capitalise str
 
   link: (text, url, classes, title)->
     # Polymorphism: accept arguments as hash key/value pairs
@@ -52,7 +52,7 @@ module.exports =
     @link text, url
 
   I18nLink: (text, url, context)->
-    text = _.capitaliseFirstLetter _.i18n(text, context)
+    text = _.capitalise _.i18n(text, context)
     @link text, url
 
   limit: (text, limit)->

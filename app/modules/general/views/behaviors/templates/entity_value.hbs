@@ -6,14 +6,14 @@ the alternative being to link to a claim_layout --}}
     class='link uriLabel entity-value'
     {{!-- keeping the resource attribute for SEO (?)--}}
     resource='{{entityRemoteHref id}}'
-    data-uri='{{id}}'>
+    data-label-uri='{{id}}'>
   {{alt}}
   </a>
 {{else}}
   <span
     class='uriLabel entity-value'
     resource='{{entityRemoteHref id}}'
-    data-uri='{{id}}'>
+    data-label-uri='{{id}}'>
   {{alt}}
   </span>
 {{/if}}

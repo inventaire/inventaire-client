@@ -196,7 +196,7 @@ module.exports = Marionette.LayoutView.extend
     else
       # showing the view will override display:none rules
       # we just miss the slide effect then
-      Name = _.capitaliseFirstLetter name
+      Name = _.capitalise name
       @["show#{Name}List"]()
       @ui["#{name}Toggler"].toggle()
     @["_#{name}ListShown"] = not shown

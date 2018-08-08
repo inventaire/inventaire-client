@@ -51,7 +51,7 @@ accept =
 
 prepareImporter = (name, obj)->
   obj.name = name
-  obj.label = _.capitaliseFirstLetter name
+  obj.label = _.capitalise name
   obj.accept = accept[obj.format]
   if obj.format is 'all' then obj.hideFormat = true
   return obj

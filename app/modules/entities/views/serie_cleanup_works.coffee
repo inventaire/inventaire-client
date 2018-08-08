@@ -11,7 +11,4 @@ module.exports = Marionette.CompositeView.extend
     ordinal = child.get 'ordinal'
     return ordinal? and ordinal isnt 0
 
-  childViewOptions: ->
-    possibleOrdinals: @options.possibleOrdinals
-    worksWithOrdinal: @options.worksWithOrdinal
-    getWorksWithOrdinalList: @options.getWorksWithOrdinalList
+  childViewOptions: -> @options

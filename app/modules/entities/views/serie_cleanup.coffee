@@ -1,11 +1,11 @@
 entityDraftModel = require '../lib/entity_draft_model'
-serieCleanupWorks = require  './serie_cleanup_works'
+SerieCleanupWorks = require  './serie_cleanup_works'
 StringPositiveInteger = /^[1-9](\d+)?$/
 Works = Backbone.Collection.extend { comparator: 'ordinal' }
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
-  className: 'hideEditions'
+  className: 'hideAuthors hideEditions'
   template: require './templates/serie_cleanup'
 
   regions:
@@ -14,7 +14,8 @@ module.exports = Marionette.LayoutView.extend
     withOrdinalRegion: '#withOrdinal'
 
   ui:
-    editionsToggler: '.toggler-label'
+    authorsToggler: '.toggler-label[for="toggleAuthors"]'
+    editionsToggler: '.toggler-label[for="toggleEditions"]'
 
   behaviors:
     Toggler: {}
@@ -25,16 +26,22 @@ module.exports = Marionette.LayoutView.extend
     @withoutOrdinal = new Works
     @conflicts = new Works
     @maxOrdinal = 0
+    @allAuthorsUris = @getAuthorsUris()
     @spreadParts()
     @initEventListeners()
     @getWorksWithOrdinalList = getWorksWithOrdinalList.bind @
+    @getPlaceholdersOrdinals = getPlaceholdersOrdinals.bind @
 
   serializeData: ->
     partsLength = @withOrdinal.length
 
     return {
       serie: @model.toJSON()
-      partsNumberPickerRange: [ @maxOrdinal..partsLength + 10 ]
+      partsNumberPickerRange: [ @maxOrdinal..partsLength + 50 ]
+      authorsToggler:
+        id: 'authorsToggler'
+        checked: @showAuthors
+        label: 'show authors'
       editionsToggler:
         id: 'editionsToggler'
         checked: @showEditions
@@ -42,17 +49,15 @@ module.exports = Marionette.LayoutView.extend
     }
 
   onRender: ->
-    placeholdersOrdinals = @getPlaceholdersOrdinals()
-
     @showWorkList
       name: 'conflicts'
       label: 'parts with ordinal conflicts'
-      possibleOrdinals: placeholdersOrdinals
+      showPossibleOrdinals: true
 
     @showWorkList
       name: 'withoutOrdinal'
       label: 'parts without ordinal'
-      possibleOrdinals: placeholdersOrdinals
+      showPossibleOrdinals: true
 
     @showWorkList
       name: 'withOrdinal'
@@ -60,18 +65,24 @@ module.exports = Marionette.LayoutView.extend
       alwaysShow: true
 
   showWorkList: (options)->
-    { name, label, alwaysShow, possibleOrdinals } = options
+    { name, label, alwaysShow, showPossibleOrdinals } = options
     if not alwaysShow and @[name].length is 0 then return
     collection = @[name]
     options = {
       name,
       label,
       collection,
-      possibleOrdinals,
       @getWorksWithOrdinalList,
-      worksWithOrdinal: @withOrdinal
+      showPossibleOrdinals,
+      @getPlaceholdersOrdinals,
+      worksWithOrdinal: @withOrdinal,
+      @allAuthorsUris
     }
-    @["#{name}Region"].show new serieCleanupWorks(options)
+    @["#{name}Region"].show new SerieCleanupWorks(options)
+
+  getAuthorsUris: ->
+    allAuthorsUris = getAuthors(@model).concat @model.parts.map(getAuthors)...
+    return _.uniq _.compact(allAuthorsUris)
 
   spreadParts: ->
     @model.parts.forEach @spreadPart.bind(@)
@@ -140,24 +151,19 @@ module.exports = Marionette.LayoutView.extend
     model.set 'isPlaceholder', true
     return model
 
-  getPlaceholdersOrdinals: ->
-    @withOrdinal
-    .filter (model)-> model.get('isPlaceholder')
-    .map  (model)-> model.get('ordinal')
-
   events:
     'change #partsNumber': 'updatePartsNumber'
-    'change .toggler-input': 'toggleEditions'
+    'change #authorsToggler': 'toggleAuthors'
+    'change #editionsToggler': 'toggleEditions'
 
   updatePartsNumber: (e)->
     { value } = e.currentTarget
     num = parseInt value
     if num is @maxOrdinal then return
-    if num > @maxOrdinal
-      @fillGaps @maxOrdinal, num
-      @maxOrdinal = num
-    else
-      @removePlaceholdersAbove num
+    if num > @maxOrdinal then @fillGaps @maxOrdinal, num
+    else @removePlaceholdersAbove num
+    @maxOrdinal = num
+    app.vent.trigger 'serie:cleanup:parts:change'
 
   removePlaceholdersAbove: (num)->
     toRemove = []
@@ -166,16 +172,24 @@ module.exports = Marionette.LayoutView.extend
         toRemove.push model
     @withOrdinal.remove toRemove
 
+  toggleAuthors: (e)->
+    @toggle 'authors', e
+
   toggleEditions: (e)->
-    { checked } = e.currentTarget
-    if checked
-      @$el.removeClass 'hideEditions'
-      @showEditions = true
-    else
-      @$el.addClass 'hideEditions'
-      @showEditions = false
-    @editionsTogglerChanged = true
+    @toggle 'editions', e
     @ui.editionsToggler.removeClass 'glowing'
+
+  toggle: (name, e)->
+    { checked } = e.currentTarget
+    capitalizedName = _.capitalise name
+    className = "hide#{capitalizedName}"
+    if checked
+      @$el.removeClass className
+      @["show#{capitalizedName}"] = true
+    else
+      @$el.addClass className
+      @["show#{capitalizedName}"] = false
+    @["#{name}TogglerChanged"] = true
 
 getWorksWithOrdinalList = ->
   if @withoutOrdinal.length + @conflicts.length isnt 0 then return
@@ -185,3 +199,10 @@ getWorksWithOrdinalList = ->
   .map (model)->
     [ oridinal, label, uri ] = model.gets 'ordinal', 'label', 'uri'
     return { richLabel: "#{oridinal}. - #{label}", uri }
+
+getPlaceholdersOrdinals = ->
+  @withOrdinal
+  .filter (model)-> model.get('isPlaceholder')
+  .map  (model)-> model.get('ordinal')
+
+getAuthors = (model)-> model.get('claims.wdt:P50') or []

@@ -14,7 +14,7 @@ module.exports = (Backbone, _, $, app, window)->
 
   # Will be overriden in modules/user/lib/i18n.coffee as soon as possible
   i18n: _.identity
-  I18n: (args...)-> _.capitaliseFirstLetter _.i18n.apply(_, args)
+  I18n: (args...)-> _.capitalise _.i18n.apply(_, args)
   icon: (name, classes = '')-> "<i class='fa fa-#{name} #{classes}'></i>"
 
   parseQuery: (queryString)->
@@ -62,7 +62,7 @@ module.exports = (Backbone, _, $, app, window)->
     _.type obj, 'object'
     return JSON.parse JSON.stringify(obj)
 
-  capitaliseFirstLetter: (str)->
+  capitalise: (str)->
     if str is '' then return ''
     str[0].toUpperCase() + str[1..-1]
 

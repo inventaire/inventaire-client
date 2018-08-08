@@ -12,17 +12,22 @@ module.exports = Marionette.CompositeView.extend
     workPickerValidate: '.validate'
 
   initialize: ->
+    @lazyRender = _.LazyRender @, 100
+    @editionLang = @model.get 'lang'
     @workUri = @model.get 'claims.wdt:P629.0'
+    @getWorksLabel()
 
   serializeData: ->
     _.extend @model.toJSON(),
       worksList: @getWorksList()
+      workLabel: @workLabel
 
   events:
     'click .changeWork': 'changeWork'
     'change .workPickerSelect': 'onSelectChange'
     'click .validate': 'validateWorkChange'
     'keydown .workPickerSelect': 'onKeydown'
+    'click .copyWorkLabel': 'copyWorkLabel'
 
   changeWork: (e)->
     if $(e.currentTarget).hasClass 'unavailable' then return
@@ -61,13 +66,37 @@ module.exports = Marionette.CompositeView.extend
     newWork = @options.worksWithOrdinal.findWhere { uri }
     edition = @model
     currentWorkEditions = edition.collection
-    currentWorkEditions.remove edition
-    newWork.editions.add edition
 
     rollback = (err)->
       currentWorkEditions.add edition
       newWork.editions.remove edition
       throw err
 
-    @model.setPropertyValue 'wdt:P629', @workUri, uri
+    edition.setPropertyValue 'wdt:P629', @workUri, uri
+    .then ->
+      # Moving the edition after the property is set is required to make sure
+      # that the new edition view is initialized with the right work model and thus
+      # with the right workLabel
+      currentWorkEditions.remove edition
+      newWork.editions.add edition
     .catch rollback
+
+  getWorksLabel: ->
+    unless @editionLang? then return
+
+    @model.waitForWorks
+    .then (works)=>
+      if works.length isnt 1 then return
+      work = works[0]
+      workLabel = work.get "labels.#{@editionLang}"
+      if workLabel? and workLabel isnt @model.get('label')
+        @workLabel = workLabel
+        @lazyRender()
+
+  copyWorkLabel: ->
+    unless @workLabel? then return
+    currentTitle = @model.get 'claims.wdt:P1476.0'
+    @model.setPropertyValue 'wdt:P1476', currentTitle, @workLabel
+    @model.setLabelFromTitle()
+    @workLabel = null
+    @lazyRender()

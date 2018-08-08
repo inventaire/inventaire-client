@@ -33,6 +33,11 @@
     font-size: 1.1em;
     padding: 0.5em 0 0 1em;
   }
+  &.hideAuthors{
+    .authorsContainer{
+      display: none;
+    }
+  }
   &.hideEditions{
     .editionsContainer{
       display: none;

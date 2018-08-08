@@ -194,6 +194,7 @@ setHandlers = ->
       API.showEditEntityFromUri model.get('uri')
     'show:entity:edit:from:params': showEntityEdit
     'show:entity:create': showEntityCreate
+    'show:entity:cleanup': API.showEntityCleanup
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': showMergeSuggestions
     'invalidate:entities:cache': invalidateEntitiesCache
@@ -418,6 +419,5 @@ showEntityCleanupFromModel = (entity)->
     app.execute 'show:error', err
     return
 
-  # entity.initSerieParts { refresh: true, fetchAll: true }
-  entity.initSerieParts { refresh: false, fetchAll: true }
+  entity.initSerieParts { refresh: true, fetchAll: true }
   .then -> app.layout.main.show new SerieCleanup { model: entity }

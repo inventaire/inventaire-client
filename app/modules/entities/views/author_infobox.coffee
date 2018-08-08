@@ -5,7 +5,7 @@ module.exports = GeneralInfobox.extend
   template: require './templates/author_infobox'
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.showDeduplicateEntityButtons = app.user.isAdmin and @options.standalone
+    attrs.showDeduplicateEntityButton = app.user.isAdmin and @options.standalone
     clampedExtract.setAttributes attrs
     attrs.standalone = @options.standalone
     return attrs

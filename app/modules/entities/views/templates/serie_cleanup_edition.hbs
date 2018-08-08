@@ -11,26 +11,35 @@
     </a>
   </div>
   <span class="uri">{{uri}}</span>
-  <a
+  <div class="actions">
+    <a
+      {{#if worksList}}
+        class="changeWork"
+      {{else}}
+        class="changeWork unavailable"
+        title="{{i18n "work picker isn't available: there are still works without ordinal or with an ordinal in conflict"}}"
+      {{/if}}
+    >
+      {{icon 'arrows'}}
+      <span>{{i18n "change edition's work"}}</span>
+    </a>
     {{#if worksList}}
-      class="changeWork"
-    {{else}}
-      class="changeWork unavailable"
-      title="{{i18n "work picker isn't available: there are still works without ordinal or with an ordinal in conflict"}}"
+      <div class="workPicker hidden">
+        <select class="workPickerSelect">
+          <option>--</option>
+          {{#each worksList}}
+            <option value="{{uri}}">{{richLabel}}</option>
+          {{/each}}
+        </select>
+        <a class="validate tiny-success-button invisible">{{I18n 'validate'}}</a>
+      </div>
     {{/if}}
-  >
-    {{icon 'arrows'}}
-    {{i18n "change edition's work"}}
-  </a>
-  {{#if worksList}}
-    <div class="workPicker hidden">
-      <select class="workPickerSelect">
-        <option>--</option>
-        {{#each worksList}}
-          <option value="{{uri}}">{{richLabel}}</option>
-        {{/each}}
-      </select>
-      <a class="validate tiny-success-button invisible">{{I18n 'validate'}}</a>
-    </div>
-  {{/if}}
+
+    {{#if workLabel}}
+      <a class="copyWorkLabel" title="{{i18n 'the edition new title would be:'}} {{workLabel}}">
+        {{icon 'copy'}}
+        <span>{{i18n 'copy work label'}}</span>
+      </a>
+    {{/if}}
+  </div>
 </div>
