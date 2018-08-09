@@ -16,12 +16,11 @@ API =
 
   postMessage: (transactionId, message, timeline)->
     messegeData =
+      action: 'message'
       transaction: transactionId
       message: message
 
-    mesModel = addMessageToTimeline(messegeData, timeline)
-
-    messegeData.action = 'new-message'
+    mesModel = addMessageToTimeline messegeData, timeline
 
     _.preq.post app.API.transactions, messegeData
     .then poster_.UpdateModelIdRev(mesModel)
