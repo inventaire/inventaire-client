@@ -6,12 +6,12 @@ module.exports =
 
   # Required:
   # textarea.ctrlEnterClick
-  # a.sendMessage, a.postComment
+  # a.sendMessage
   textarea: (e)->
     if e.keyCode is 13 and e.ctrlKey
       $el = $(e.currentTarget)
       if $el.val().length > 0
-        clickTarget $el.parents('form').first().find '.sendMessage, .postComment'
+        clickTarget $el.parents('form').first().find '.sendMessage'
 
   button: (e)->
     if e.keyCode is 13 then $(e.currentTarget).trigger 'click'

@@ -1,7 +1,6 @@
 # Motivation for having a view separated from ItemShow:
 # - no need to reload the image on re-render (like when details are saved)
 
-ItemComments = require './item_comments'
 ItemTransactions = require './item_transactions'
 itemActions = require '../plugins/item_actions'
 itemUpdaters = require '../plugins/item_updaters'
@@ -12,7 +11,6 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/item_show_data'
   regions:
     transactionsRegion: '#transactions'
-    # commentsRegion: '#comments'
 
   behaviors:
     ElasticTextarea: {}
@@ -42,7 +40,6 @@ module.exports = Marionette.LayoutView.extend
     @$el.parent().css 'min-height', minHeight
 
   onRender: ->
-    # @showComments()
     if app.user.loggedIn then @showTransactions()
 
   events:
@@ -117,8 +114,6 @@ module.exports = Marionette.LayoutView.extend
         attribute: nameBase
         value: edited
         selector: "##{nameBase}Editor"
-
-  # showComments:-> @commentsRegion.show new ItemComments { @model }
 
   showTransactions: ->
     @transactions ?= app.request 'get:transactions:ongoing:byItemId', @model.id

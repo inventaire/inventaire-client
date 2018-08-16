@@ -27,17 +27,12 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .friendAcceptedRequest': 'showUserProfile'
-    'click .newCommentOnFollowedItem': 'showItem'
     # includes: .userMadeAdmin .groupUpdate
     'click .groupNotification': 'showGroupBoard'
 
   showUserProfile: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:user', @model.user
-
-  showItem: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:item', @model.item
 
   showGroupBoard: (e)->
     unless _.isOpenedOutside e

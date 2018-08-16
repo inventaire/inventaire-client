@@ -34,7 +34,6 @@ module.exports = ->
   app.module 'Settings', require 'modules/settings/settings'
   app.module 'Tasks', require 'modules/tasks/tasks'
   require('modules/map/map')()
-  require('modules/comments/comments')()
 
   AppLayout = require 'modules/general/views/app_layout'
 

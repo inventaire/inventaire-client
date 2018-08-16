@@ -22,7 +22,11 @@ module.exports = Backbone.Collection.extend
     _.preq.post app.API.notifications, { times: ids }
     .catch _.Error('notification update err')
 
-  addPerType: (docs)-> @add docs.map(createTypedModel)
+  addPerType: (docs)->
+    models = docs
+      .filter (doc)-> doc.type not in deprecatedTypes
+      .map createTypedModel
+    @add models
 
   beforeShow: -> Promise.all _.invoke(@models, 'beforeShow')
 
@@ -33,3 +37,5 @@ createTypedModel = (doc)->
     throw error_.new 'unknown notification type', doc
 
   return new Model(doc)
+
+deprecatedTypes = [ 'newCommentOnFollowedItem' ]
