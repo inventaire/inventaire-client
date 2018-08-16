@@ -3,11 +3,15 @@ error_ = require 'lib/error'
 mergeEntities = require './lib/merge_entities'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
-module.exports = Marionette.ItemView.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/merge_suggestion'
   className: -> "merge-suggestion #{@cid}"
   behaviors:
     Loading: {}
+
+  regions:
+    series: '.seriesList'
+    works: '.worksList'
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -16,6 +20,22 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click .merge': 'merge'
+
+  onShow: ->
+    if @model.get('type') isnt 'human' then return
+    @model.initAuthorWorks()
+    .then @ifViewIsIntact('showWorks')
+
+  showWorks: ->
+    @showSubentities 'series', @model.works.series
+    @showSubentities 'works', @model.works.works
+
+  showSubentities: (name, collection)->
+    if collection.totalLength is 0 then return
+    collection.fetchAll()
+    .then =>
+      @$el.find(".#{name}Label").show()
+      @[name].show new SubentitiesList { collection }
 
   merge: ->
     startLoading.call @, ".#{@cid} .loading"
@@ -36,3 +56,13 @@ claimsPartials =
   edition: 'entities:edition_claims'
   work: 'entities:work_claims'
   serie: 'entities:work_claims'
+
+Subentity = Marionette.ItemView.extend
+  className: 'subentity'
+  template: require './templates/merge_suggestion_subentity'
+  attributes: ->
+    title: @model.get('uri')
+
+SubentitiesList = Marionette.CollectionView.extend
+  className: 'subentities-list'
+  childView: Subentity

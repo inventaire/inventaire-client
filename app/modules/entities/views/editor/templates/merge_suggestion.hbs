@@ -5,12 +5,6 @@
   <a href="{{pathname}}" class="showEntity">{{label}}</a>
 </h5>
 <p class="uri">{{uri}}</p>
-{{#each labels}}
-  <p class="labels">
-    <span class="lang">{{@key}}: </span>
-    <span class="value">{{this}}</span>
-  </p>
-{{/each}}
 
 <div class="suggestion-claims">
   {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}
@@ -18,4 +12,15 @@
   {{#if claimsPartial}}{{partial claimsPartial this}}{{/if}}
 </div>
 
-<a class="merge dangerous-button">{{I18n 'merge'}}<span class="loading"></span></a>
+<div class="all-subentities">
+  <h6 class="seriesLabel subentities-label">{{i18n 'series'}}</h6>
+  <div class="seriesList"></div>
+
+  <h6 class="worksLabel subentities-label">{{i18n 'works'}}</h6>
+  <div class="worksList"></div>
+</div>
+
+<a class="merge tiny-button dangerous">
+  {{icon 'compress'}}{{I18n 'merge'}}
+  <span class="loading"></span>
+</a>
