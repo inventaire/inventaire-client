@@ -61,11 +61,11 @@ module.exports = Marionette.LayoutView.extend
 
   dismiss: (e)->
     @action 'dismiss'
-    e.stopPropagation()
+    e?.stopPropagation()
 
   merge: (e)->
     @action 'merge'
-    e.stopPropagation()
+    e?.stopPropagation()
 
   action: (actionName)->
     startLoading.call @, ".#{actionName}"
