@@ -33,9 +33,11 @@ module.exports = Marionette.LayoutView.extend
   showSubentities: (name, collection)->
     if collection.totalLength is 0 then return
     collection.fetchAll()
-    .then =>
-      @$el.find(".#{name}Label").show()
-      @[name].show new SubentitiesList { collection }
+    .then @ifViewIsIntact('_showSubentities', name, collection)
+
+  _showSubentities: (name, collection)->
+    @$el.find(".#{name}Label").show()
+    @[name].show new SubentitiesList { collection }
 
   merge: ->
     startLoading.call @, ".#{@cid} .loading"
