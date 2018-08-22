@@ -65,14 +65,16 @@ module.exports = (app)->
       .then (userModel)-> userModel.get '_id'
 
   getUserModelFromUsername = (username)->
-    if username is app.user.get('username')
+    username = username.toLowerCase()
+    if username is app.user.get('username').toLowerCase()
       return _.preq.resolve app.user
 
-    userModel = app.users.findWhere { username }
+    userModel = app.users.find (model)->
+      model.get('username').toLowerCase() is username
     if userModel? then return _.preq.resolve userModel
-    else
-      usersData.byUsername username
-      .then addUser
+
+    usersData.byUsername username
+    .then addUser
 
   addUsers = (users)->
     users = _.forceArray users
