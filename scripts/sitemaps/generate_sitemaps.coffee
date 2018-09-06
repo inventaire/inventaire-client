@@ -2,19 +2,16 @@ breq = require 'bluereq'
 _ = require 'lodash'
 writeSitemap = require './write_sitemap'
 Promise = require '../lib/bluebird'
-{ folder, autolists } = require './config'
+{ folder } = require './config'
 { green, blue } = require 'chalk'
 wdk = require 'wikidata-sdk'
+queries = require './queries'
 
-module.exports = -> Promise.all Object.keys(autolists).map(getPromise(autolists))
+module.exports = -> Promise.all Object.keys(queries).map(generateFilesFromQuery)
 
-getPromise = (autolists)-> (name)->
-  [ P, Q ] = autolists[name]
-  return generateFilesFromClaim name, P, Q
-
-generateFilesFromClaim = (name, P, Q)->
-  url = wdk.getReverseClaims P, Q, { limit: 1000000 }
-  breq.get url
+generateFilesFromQuery = (name)->
+  console.log green("#{name} query"), queries[name]
+  breq.get queries[name]
   .get 'body'
   .then wdk.simplifySparqlResults
   .then getParts(name)
@@ -23,14 +20,12 @@ generateFilesFromClaim = (name, P, Q)->
 getParts = (name)-> (items)->
   parts = []
   index = 0
+
   while items.length > 0
     # override items
     [ part, items ] = [ items[0..49999], items[50000..-1] ]
     index += 1
-    parts.push
-      name: name
-      items: part
-      index: index
+    parts.push { name, items: part, index }
 
   console.log green("got #{index} parts")
   return parts
