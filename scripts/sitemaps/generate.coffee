@@ -10,7 +10,6 @@ rmFiles()
 generateMainSitemap()
 
 generateSitemaps()
-.then generateMainSitemap
 .then generateIndex
 .then gzipFiles
 .catch (err)-> console.log red('global err'), err.stack

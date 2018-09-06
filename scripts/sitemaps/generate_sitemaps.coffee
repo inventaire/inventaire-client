@@ -2,26 +2,25 @@ breq = require 'bluereq'
 _ = require 'lodash'
 writeSitemap = require './write_sitemap'
 Promise = require '../lib/bluebird'
-{ folder, wdQuery, autolists } = require './config'
+{ folder, autolists } = require './config'
 { green, blue } = require 'chalk'
+wdk = require 'wikidata-sdk'
 
-module.exports = ->
-  promises = []
-  for name, tupple of autolists
-    promises.push generateFilesFromClaim name, tupple
+module.exports = -> Promise.all Object.keys(autolists).map(getPromise(autolists))
 
-  return Promise.all promises
+getPromise = (autolists)-> (name)->
+  [ P, Q ] = autolists[name]
+  return generateFilesFromClaim name, P, Q
 
-generateFilesFromClaim = (name, tupple)->
-  [ P, Q ] = tupple
-  url = wdQuery P, Q
-  console.log blue('wdQuery url'), url
+generateFilesFromClaim = (name, P, Q)->
+  url = wdk.getReverseClaims P, Q, { limit: 1000000 }
   breq.get url
-  .then _.property('body.entities')
-  .then getParts.bind(null, name)
+  .get 'body'
+  .then wdk.simplifySparqlResults
+  .then getParts(name)
   .map generateFile
 
-getParts = (name, items)->
+getParts = (name)-> (items)->
   parts = []
   index = 0
   while items.length > 0
@@ -44,6 +43,6 @@ generateFile = (part)->
 wrapUrls = require './wrap_urls'
 
 buildUrlNode = (id)->
-  "<url><loc>https://inventaire.io/entity/wd:Q#{id}</loc></url>"
+  "<url><loc>https://inventaire.io/entity/wd:#{id}</loc></url>"
 
 getFilePath = (name, index)-> "#{folder}/#{name}-#{index}.xml"
