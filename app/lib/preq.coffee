@@ -4,15 +4,8 @@ Promise::fail = Promise::caught
 Promise::always = Promise::finally
 
 Promise.onPossiblyUnhandledRejection (err)->
-  { lineNumber, columnNumber } = err
-  pointer = if lineNumber? then "#{lineNumber}:#{columnNumber}" else ''
-  err.message = "[PossiblyUnhandledError] #{err.name}: #{err.message} #{pointer}"
+  console.error err.stack
   reportError err
-
-  clue = null
-  if err.message is '[object Object]'
-    clue = 'this is probably an error from a jQuery promise wrapped into a Bluebird one'
-  console.error err.message, err, err.context, clue or ''
 
 preq = sharedLib('promises')(Promise)
 
