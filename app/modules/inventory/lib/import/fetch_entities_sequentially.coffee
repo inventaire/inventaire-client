@@ -12,14 +12,15 @@ module.exports = (isbnsData)->
 
   isbnsData.forEach (isbnData, index)->
     isbnData.index = index
-    isbnsIndex[isbnData.isbn13] = isbnData
+    key = isbnData.isbn13 or isbnData.rawIsbn
+    isbnsIndex[key] = isbnData
     if isbnData.isInvalid
       commonRes.invalidIsbn.push isbnData
     else
       isbnData.uri = "isbn:#{isbnData.isbn13}"
       uris.push isbnData.uri
 
-  if uris.length is 0 then return _.preq.resolve commonRes
+  if uris.length is 0 then return _.preq.resolve { results: commonRes, isbnsIndex }
 
   total = uris.length
 
