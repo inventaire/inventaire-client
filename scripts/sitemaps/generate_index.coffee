@@ -2,9 +2,8 @@ _ = require 'lodash'
 writeSitemap = require './write_sitemap'
 fs = require 'fs'
 
-{ publicPath, folder, main, index } = require './config'
-list = [ main ]
-exclude = [ main, index ]
+{ publicPath, folder, index } = require './config'
+exclude = [ index ]
 
 module.exports = ->
   path = "#{folder}/#{index}"
@@ -15,11 +14,7 @@ generate = ->
 
 getList = ->
   fs.readdirSync folder
-  .forEach (file)->
-    unless file in exclude
-      list.push file
-
-  return list
+  .filter (file)-> file not in exclude
 
 buildSitemapNode = (filename)->
   url = "https://inventaire.io/#{publicPath}/#{filename}"
