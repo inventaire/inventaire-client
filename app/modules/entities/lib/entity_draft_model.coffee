@@ -41,9 +41,11 @@ module.exports =
       # The property that links this entity to another entity being created
       relation: relation
       propertiesShortlist: getPropertiesShortlist type, claims
-      setPropertyValue: editableEntity.setPropertyValue
+      setPropertyValue: editableEntity.setPropertyValue.bind model
       savePropertyValue: _.preq.resolve
-      setLabel: editableEntity.setLabel
+      setLabel: editableEntity.setLabel.bind model
+      # Required by editableEntity.setPropertyValue
+      invalidateRelationsCache: _.noop
       saveLabel: _.preq.resolve
       create: -> createEntities.create @get('labels'), @get('claims')
       waitForSubentities: _.preq.resolved
