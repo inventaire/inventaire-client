@@ -15,8 +15,6 @@
   }
 }
 
-.newMessage, .newComment{
-  .bottom{
-    @include display-flex(row, center, flex-end);
-  }
+.newMessage .bottom{
+  @include display-flex(row, center, flex-end);
 }

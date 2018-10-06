@@ -47,6 +47,7 @@ module.exports = Marionette.ItemView.extend
       action: 'request'
       item: @model.id
       message: @ui.message.val()
+    .get 'transaction'
 
 addTransaction = (transaction)->
   app.request 'transactions:add', transaction

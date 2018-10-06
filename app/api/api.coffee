@@ -10,7 +10,6 @@ module.exports = (_)->
   data: require './data'
   invitations: require './invitations'
   tasks: require './tasks'
-  comments: endpoint('comments', true)
   transactions: endpoint('transactions', true)
   relations: endpoint('relations', true)
   user: endpoint('user', true)

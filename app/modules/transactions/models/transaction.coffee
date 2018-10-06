@@ -96,6 +96,7 @@ module.exports = Backbone.NestedModel.extend
       transaction: @id
 
     _.preq.get url
+    .get 'messages'
     .then @addMessagesToTimeline.bind(@)
 
   addMessagesToTimeline: (messages)->

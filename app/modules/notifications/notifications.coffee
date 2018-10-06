@@ -20,6 +20,7 @@ module.exports =
 
     if app.user.loggedIn
       waitForNotifications = _.preq.get app.API.notifications
+        .get 'notifications'
         .then notifications.addPerType.bind(notifications)
         .catch _.Error('notifications init err')
 
