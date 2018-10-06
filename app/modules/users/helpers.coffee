@@ -66,7 +66,7 @@ module.exports = (app)->
 
   getUserModelFromUsername = (username)->
     username = username.toLowerCase()
-    if username is app.user.get('username').toLowerCase()
+    if app.user.loggedIn and username is app.user.get('username').toLowerCase()
       return _.preq.resolve app.user
 
     userModel = app.users.find (model)->
