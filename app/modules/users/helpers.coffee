@@ -70,7 +70,8 @@ module.exports = (app)->
       return _.preq.resolve app.user
 
     userModel = app.users.find (model)->
-      model.get('username').toLowerCase() is username
+      model.get('username').toLowerCase() is username.toLowerCase()
+
     if userModel? then return _.preq.resolve userModel
 
     usersData.byUsername username

@@ -20,9 +20,6 @@ module.exports =
   byUserAndEntity: (user, uri)->
     action 'by-user-and-entity', { user, uri }
 
-  byUsernameAndEntity: (username, uri)->
-    action 'by-user-and-entity', { username, uri }
-
   lastPublic: (limit = 15, offset = 0, assertImage)->
     action 'last-public', { limit, offset, 'assert-image': assertImage }
 
