@@ -6,9 +6,12 @@ module.exports =
   # GET
   search: (search, refresh, fast)->
     { lang } = app.user
+    search = encodeURIComponent search
     action 'search', { search, lang, refresh, fast }
 
-  searchType: (type, search, limit)-> action 'search-type', { type, search, limit }
+  searchType: (type, search, limit)->
+    search = encodeURIComponent search
+    action 'search-type', { type, search, limit }
 
   getByUris: (uris, refresh, relatives)->
     uris = _.forceArray(uris).join '|'
