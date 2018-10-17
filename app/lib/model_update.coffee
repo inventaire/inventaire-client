@@ -73,7 +73,7 @@ rollbackUpdate = (options, err)->
   else
     _.warn previousValue, "couldn't reverse update: previousValue not found"
 
-  err = if selector? then error_.complete(selector, err) else err
+  err = if selector? then error_.complete(err, selector) else err
   throw err
 
 module.exports = { Updater }

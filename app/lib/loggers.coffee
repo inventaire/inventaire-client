@@ -51,7 +51,7 @@ module.exports = (_, csle)->
     # No need to report server error back to the server
     unless serverError then reportError err
 
-    csle.error err, err.context
+    csle.error err.stack, err.context
 
   # providing a custom warn as it might be used
   # by methods shared with the server

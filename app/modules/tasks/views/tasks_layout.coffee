@@ -3,6 +3,7 @@ CurrentTask = require './current_task'
 RelativeTasks = require './relative_tasks'
 Task = require '../models/task'
 error_ = require 'lib/error'
+forms_ = require 'modules/general/lib/forms'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
@@ -22,6 +23,7 @@ module.exports = Marionette.LayoutView.extend
     relativesToggler: '.toggle-relatives .fa-chevron-down'
 
   behaviors:
+    AlertBox: {}
     Loading: {}
 
   onShow: ->
@@ -30,14 +32,16 @@ module.exports = Marionette.LayoutView.extend
     else if task? then @showFromId task
     else @showNextTask()
 
-  showFromId: (taskId)-> @showTask getTaskById(taskId)
-
   showNextTask: -> @showTask getNextTask()
 
   showTask: (taskModelPromise)->
     taskModelPromise
-    .tap (model)-> model.waitForData
-    .then (model)=>
+    .then @showFromModel.bind(@)
+    .catch app.Execute('show:error')
+
+  showFromModel: (model)->
+    model.waitForData
+    .then =>
       @currentTaskModel = model
       @currentTask.show new CurrentTask { model }
       @relativeTasks.show new RelativeTasks
@@ -47,6 +51,8 @@ module.exports = Marionette.LayoutView.extend
       app.navigateFromModel model
       @focusOnControls()
     .catch app.Execute('show:error')
+
+  showFromId: (id)-> @showTask getTaskById(id)
 
   focusOnControls: ->
     # Take focus so that we can listen for keydown events
@@ -68,10 +74,15 @@ module.exports = Marionette.LayoutView.extend
     e?.stopPropagation()
 
   action: (actionName)->
-    startLoading.call @, ".#{actionName}"
     @currentTaskModel[actionName]()
-    .tap stopLoading.bind @
-    .then @showNextTask.bind(@)
+    .catch @handleActionError.bind(@, @currentTaskModel)
+
+    @showNextTask()
+
+  handleActionError: (actionTaskModel, err)->
+    error_.complete err, '.alertWrapper', false
+    forms_.catchAlert @, err
+    @showFromModel actionTaskModel
 
   showNextTaskFromButton: (e)->
     startLoading.call @, '.next'
