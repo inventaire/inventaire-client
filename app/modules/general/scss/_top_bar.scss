@@ -55,18 +55,15 @@ nav#top-bar{
   }
   #searchGroup{
     flex: 1 0 auto;
-    max-width: 38em;
+    max-width: 40em;
     margin: 0 auto;
     margin-bottom: 0;
-    .button{
-      width: 5em;
-      .fa{
-        color: $dark-grey;
-      }
-    }
   }
   .inputBox{
     position: relative;
+    input{
+      @include radius;
+    }
   }
   #liveSearch{
     @include position(absolute, 100%, 1px, null, 0);
