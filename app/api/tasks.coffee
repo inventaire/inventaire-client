@@ -3,5 +3,5 @@
 module.exports =
   byIds: (ids)-> action 'by-ids', { ids }
   byScore: (limit, offset)-> action 'by-score', { limit, offset }
-  bySuspectUri: (uri)-> action 'by-suspect-uri', { uri }
+  bySuspectUris: (uris)-> action 'by-suspect-uris', { uris }
   update: action 'update'
