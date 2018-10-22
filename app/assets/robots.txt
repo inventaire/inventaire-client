@@ -1,5 +1,8 @@
-User-agent: Googlebot
-# block pages to add an entity
-Disallow: /*/add$
+User-agent: *
+Disallow: /search
+Disallow: /entity/new
+Disallow: /entity/*/add$
+Disallow: /network/*?*
+Disallow: /tasks
 
 Sitemap: https://inventaire.io/public/sitemaps/sitemapindex.xml
