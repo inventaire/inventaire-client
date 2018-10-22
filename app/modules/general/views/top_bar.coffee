@@ -111,6 +111,8 @@ module.exports = Marionette.LayoutView.extend
     # Discard non-boolean flags
     triggerFallbackLayout = triggerFallbackLayout is true
 
+    unless @liveSearch.$el? then return
+
     @liveSearch.$el.hide()
     @liveSearch.$el.removeClass 'shown'
     @ui.overlay.addClass 'hidden'

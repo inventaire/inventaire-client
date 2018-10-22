@@ -13,6 +13,7 @@ Results = Backbone.Collection.extend { model: require('../models/result') }
 wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
 findUri = require '../lib/find_uri'
 spinner = _.icon 'circle-o-notch', 'fa-spin'
+error_ = require 'lib/error'
 
 module.exports = Marionette.CompositeView.extend
   id: 'live-search'
@@ -130,7 +131,7 @@ module.exports = Marionette.CompositeView.extend
 
     app.request 'get:entity:model', uri
     .catch (err)->
-      if err.message is 'entity_not_found' then return []
+      if err.message is 'entity_not_found' then return
       else throw err
     .finally @stopLoadingSpinner.bind(@)
     .then (entity)=> @resetResults [ formatEntity(entity) ]
@@ -202,6 +203,10 @@ formatSubject = (result)->
   type: 'subjects'
 
 formatEntity = (entity)->
+  unless entity?.toJSON?
+    error_.report 'cant format invalid entity', { entity }
+    return
+
   data = entity.toJSON()
   data.image = data.image.url
   # Return a model to prevent having it re-formatted
