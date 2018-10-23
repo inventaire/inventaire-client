@@ -10,8 +10,6 @@ module.exports = (params)->
   .then (entities)->
     if entities.length is 0 then return
     collection = new Entities entities
-    # collection.comparator = (entity)-> -entity.tasks[uri].get('globalScore')
-    # collection.sort()
     region.show new MergeSuggestions { collection, toEntity: model }
 
 getMergeSuggestions = (uri)->
