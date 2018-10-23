@@ -34,9 +34,8 @@ module.exports = Backbone.Model.extend
   updateMetadata: ->
     type = @get('type') or 'task'
     names = @suspect?.get('label') + ' / ' + @suggestion?.get('label')
-    return {
-      title: "[#{_.i18n(type)}] #{names}"
-    }
+    title = "[#{_.i18n(type)}] #{names}"
+    return { title }
 
   dismiss: ->
     _.preq.put app.API.tasks.update,

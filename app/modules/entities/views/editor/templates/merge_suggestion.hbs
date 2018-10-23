@@ -6,6 +6,12 @@
 </h5>
 <p class="uri">{{uri}}</p>
 
+<div class="task-data">
+  <a class="showTask" href="{{task.pathname}}" title="{{i18n 'show task'}}">
+    {{partial 'tasks:task_scores' task}}
+  </a>
+</div>
+
 <div class="suggestion-claims">
   {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}
   {{claim claims 'wdt:P50' true}} {{!-- author --}}
@@ -20,9 +26,6 @@
   <div class="worksList"></div>
 </div>
 
-<div class="task-data">
-  {{partial 'tasks:task_scores' task}}
-</div>
 
 <a class="merge tiny-button dangerous">
   {{icon 'compress'}}{{I18n 'merge'}}
