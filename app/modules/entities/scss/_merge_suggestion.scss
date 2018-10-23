@@ -36,15 +36,23 @@
     margin: 0;
     padding: 0;
   }
-  .subentity{
+  .subentity .showEntity{
     background-color: #ddd;
     @include radius;
     @include display-flex(row, center, flex-start);
     overflow: hidden;
+    margin: 0.5em 0;
+    img{
+      max-width: 3em;
+    }
     .label{
       color: #444;
       flex: 1 0 auto;
       margin: 0.2em 0.5em;
+      text-align: left;
+    }
+    .uri{
+      margin-right: 0.5em;
     }
   }
   .merge{
