@@ -8,17 +8,24 @@ module.exports = Marionette.LayoutView.extend
   className: -> "merge-suggestion #{@cid}"
   behaviors:
     Loading: {}
+    PreventDefault: {}
 
   regions:
     series: '.seriesList'
     works: '.worksList'
 
+  initialize: ->
+    toEntityUri = @options.toEntity.get('uri')
+    @taskModel = @model.tasks[toEntityUri]
+
   serializeData: ->
     attrs = @model.toJSON()
+    attrs.task = @taskModel.toJSON()
     attrs.claimsPartial = claimsPartials[@model.type]
     return attrs
 
   events:
+    'click .showTask': 'showTask'
     'click .merge': 'merge'
 
   onShow: ->
@@ -38,6 +45,10 @@ module.exports = Marionette.LayoutView.extend
   _showSubentities: (name, collection)->
     @$el.find(".#{name}Label").show()
     @[name].show new SubentitiesList { collection }
+
+  showTask: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:task', @taskModel.id
 
   merge: ->
     startLoading.call @, ".#{@cid} .loading"

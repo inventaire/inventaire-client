@@ -1,7 +1,6 @@
 isbn_ = require 'lib/isbn'
 wdk = require 'lib/wikidata-sdk'
 Entity = require './models/entity'
-Entities = require './collections/entities'
 AuthorLayout = require './views/author_layout'
 SerieLayout = require './views/serie_layout'
 SerieCleanup = require './views/serie_cleanup'
@@ -21,7 +20,6 @@ ActivityLayout = require './views/activity_layout'
 ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
-MergeSuggestions = require './views/editor/merge_suggestions'
 { invalidateLabel } = require 'lib/uri_label/labels_helpers'
 
 module.exports =
@@ -196,7 +194,7 @@ setHandlers = ->
     'show:entity:create': showEntityCreate
     'show:entity:cleanup': API.showEntityCleanup
     'show:work:with:item:modal': showWorkWithItemModal
-    'show:merge:suggestions': showMergeSuggestions
+    'show:merge:suggestions': require './lib/show_merge_suggestions'
     'invalidate:entities:cache': invalidateEntitiesCache
     'report:entity:type:issue': reportTypeIssue
 
@@ -348,18 +346,6 @@ showViewWithAdminRights = (params)->
     if navigate then app.navigate path, { metadata: { title } }
     if app.request 'require:admin:rights'
       app.layout.main.show new View(viewOptions)
-
-showMergeSuggestions = (params)->
-  { region, model } = params
-  { pluralizedType } = model
-  uri = model.get 'uri'
-  _.preq.get app.API.entities.search model.get('label'), false, true
-  .get pluralizedType
-  .then parseSearchResults(uri)
-  .then (suggestions)->
-    collection = new Entities suggestions
-    toEntity = model
-    region.show new MergeSuggestions { collection, toEntity }
 
 parseSearchResults = (uri)-> (searchResults)->
   uris = _.pluck searchResults, 'uri'

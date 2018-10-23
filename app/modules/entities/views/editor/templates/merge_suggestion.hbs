@@ -1,10 +1,16 @@
 {{#if image.url}}
-  <img src="{{src image.url 400}}" alt='{{label}}'>
+  <img src="{{src image.url 200}}" alt='{{label}}'>
 {{/if}}
 <h5 class="label">
   <a href="{{pathname}}" class="showEntity">{{label}}</a>
 </h5>
 <p class="uri">{{uri}}</p>
+
+<div class="task-data">
+  <a class="showTask" href="{{task.pathname}}" title="{{i18n 'show task'}}">
+    {{partial 'tasks:task_scores' task}}
+  </a>
+</div>
 
 <div class="suggestion-claims">
   {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}
@@ -19,6 +25,7 @@
   <h6 class="worksLabel subentities-label">{{i18n 'works'}}</h6>
   <div class="worksList"></div>
 </div>
+
 
 <a class="merge tiny-button dangerous">
   {{icon 'compress'}}{{I18n 'merge'}}

@@ -51,10 +51,11 @@
   }
 }
 
-#currentTask, .relative-task{
+#currentTask, .relative-task, .merge-suggestion .task-data{
   td{
-    max-width: 10em;
     padding: 0 0.4em;
+    &:first-child{ text-align: left; }
+    &:last-child{ text-align: right; }
   }
   .yes, .no{
     font-weight: bold;
@@ -67,5 +68,11 @@
   }
   .global-score{
     font-weight: bold;
+  }
+}
+
+#currentTask, .relative-task{
+  td{
+    max-width: 10em;
   }
 }

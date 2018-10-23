@@ -2,7 +2,6 @@ WorkInfobox = require './work_infobox'
 EditionsList = require './editions_list'
 EntityActions = require './entity_actions'
 entityItems = require '../lib/entity_items'
-{ showHomonyms } = require('./author_layout').prototype
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/work_layout'
@@ -15,17 +14,14 @@ module.exports = Marionette.LayoutView.extend
     personalItemsRegion: '.workPersonalItems'
     networkItemsRegion: '.workNetworkItems'
     publicItemsRegion: '.workPublicItems'
-    homonymsRegion: '.homonyms'
 
   initialize: ->
     entityItems.initialize.call @
     { @item } = @options
-    @displayHomonyms = app.user.isAdmin
 
   serializeData: ->
     _.extend @model.toJSON(),
       canRefreshData: true
-      displayHomonyms: @displayHomonyms
 
   onShow: ->
     @showWorkInfobox()
@@ -51,7 +47,6 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     entityItems.onRender.call @
-    if @displayHomonyms then showHomonyms.call @
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'

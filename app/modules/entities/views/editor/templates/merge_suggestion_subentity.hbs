@@ -1,2 +1,7 @@
-<span class="label">{{label}}</span>
-<span class="uri">{{uri}}</span>
+<a href="{{pathname}}" class="showEntity">
+  {{#if image.url}}
+    <div><img src="{{src image.url 64}}" alt="{{label}} {{i18n 'cover'}}"></div>
+  {{/if}}
+  <span class="label">{{label}}</span>
+  <span class="uri">{{uri}}</span>
+</a>
