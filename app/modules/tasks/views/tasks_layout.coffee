@@ -40,7 +40,7 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
-    model.waitForData
+    model.grabAuthors()
     .then =>
       @currentTaskModel = model
       @currentTask.show new CurrentTask { model }

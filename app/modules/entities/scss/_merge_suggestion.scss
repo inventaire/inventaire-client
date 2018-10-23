@@ -50,10 +50,17 @@
   .merge{
     text-align: center;
     padding: 0.5em;
+    display: block;
+    margin: 1em auto 0 auto;
   }
   .loading{
     font-size: 0.9em !important;
     margin: 0;
     padding: 0;
+  }
+  .task-data{
+    td{
+      background-color: #eee;
+    }
   }
 }

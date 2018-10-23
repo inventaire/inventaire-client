@@ -11,6 +11,7 @@ specificMethods =
     uri = @get 'uri'
     _.preq.get app.API.tasks.bySuspectUris(uri)
     .then (res)=>
-      @mergeSuggestions = new Tasks(res.tasks[uri])
+      tasks = res.tasks[uri]
+      @mergeSuggestions = new Tasks(tasks)
       @mergeSuggestions.sort()
       return @mergeSuggestions
