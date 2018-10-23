@@ -31,9 +31,6 @@ module.exports = Filterable.extend
     @refresh = options?.refresh
     @type = attrs.type or options.defaultType
 
-    if @type?
-      @pluralizedType = @type + 's'
-
     if @type in placeholdersTypes
       # Set placeholder attributes so that the logic hereafter doesn't crash
       _.extend attrs, placeholderAttributes

@@ -4,8 +4,9 @@ Task = require 'modules/tasks/models/task'
 
 module.exports = (params)->
   { region, model } = params
-  { pluralizedType } = model
+
   uri = model.get 'uri'
+
   getMergeSuggestions uri
   .then (entities)->
     if entities.length is 0 then return

@@ -1,0 +1,9 @@
+{{#if displayMergeSuggestions}}
+  <div class="admin">
+    <h3>{{icon 'compress'}}{{I18n 'merge suggestions'}}</h3>
+    <div class='mergeSuggestions'></div>
+  </div>
+{{else}}
+  {{!-- just adding regions containers so that the layout view doesn't crash --}}
+  <div class='mergeSuggestions'></div>
+{{/if}}
