@@ -4,7 +4,7 @@
       {{icon 'pencil'}}
     </a>
     {{#if wikidata}}
-      {{iconLink 'barcode' wikidata.url i18n='see on Wikidata' linkClasses='showOnWikidata'}}
+      {{iconLink 'wikidata' wikidata.url i18n='see on Wikidata' linkClasses='showOnWikidata'}}
       {{#unless hideRefreshButton}}
         <a class="refreshEntityData" title="{{i18n 'refresh Wikidata data'}}">{{icon 'refresh'}}</a>
       {{/unless}}

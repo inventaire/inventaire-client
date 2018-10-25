@@ -11,7 +11,6 @@ exports.icon = (name, classes = '')->
       return new SafeString _.icon(name, classes)
 
 images =
-  wikidata: '/public/images/wikidata.svg'
   wikisource: '/public/images/wikisource-64.png'
   'barcode-scanner': '/public/images/barcode-scanner-64.png'
   gutenberg: '/public/images/gutenberg.png'
