@@ -73,7 +73,7 @@ module.exports = EditorCommons.extend
 
     startLoading.call @, '.validate-upload'
 
-    images_.getIpfsPathFromDataUrl dataUrl
+    images_.getImageHashFromDataUrl dataUrl
     .then @_save.bind(@)
     .catch error_.Complete(imagePreviewSelector, false)
     .catch forms_.catchAlert.bind(null, @)

@@ -11,7 +11,7 @@ urlPattern = '^(https?:\\/\\/)'+ # protocol
 
 module.exports =
   Url: new RegExp urlPattern , 'i'
-  IpfsPath: /\/ipfs\/\w{46}/
+  ImageHash: /[0-9a-f]{40}/
   # minimanlist email regex
   # cf http://davidcel.is/blog/2012/09/06/stop-validating-email-addresses-with-regex/
   Email: /.+@.+\..+/i

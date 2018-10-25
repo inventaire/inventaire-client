@@ -46,7 +46,7 @@ images_ =
     if _.isDataUrl data then window.dataURLtoBlob data
     else throw new Error 'expected a dataURL'
 
-  upload: (blobsData, ipfs = false)->
+  upload: (blobsData, hash = false)->
     blobsData = _.forceArray blobsData
     formData = new FormData()
 
@@ -69,11 +69,11 @@ images_ =
       request.onerror = reject
       request.ontimeout = reject
 
-      request.open 'POST', app.API.images.upload(ipfs)
+      request.open 'POST', app.API.images.upload(hash)
       request.responseType = 'json'
       request.send formData
 
-  getIpfsPathFromDataUrl: (dataUrl)->
+  getImageHashFromDataUrl: (dataUrl)->
     unless _.isDataUrl dataUrl then throw error_.new 'invalid image', dataUrl
     return images_.upload { blob: images_.dataUrlToBlob(dataUrl) }, true
     .then (res)-> _.values(res)[0]

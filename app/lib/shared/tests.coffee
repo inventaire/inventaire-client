@@ -5,7 +5,7 @@ module.exports = (regex_, _)->
 
   tests =
     isUrl: bindedTest 'Url'
-    isIpfsPath: bindedTest 'IpfsPath'
+    isImageHash: bindedTest 'ImageHash'
     isLocalImg: bindedTest 'LocalImg'
     isLang: bindedTest 'Lang'
     isInvEntityId: isCouchUuid
@@ -39,6 +39,6 @@ module.exports = (regex_, _)->
 
       return isValidDate and regex_.SimpleDay.test(str)
 
-  tests.isExtendedUrl = (str)-> tests.isUrl(str) or tests.isIpfsPath(str)
+  tests.isExtendedUrl = (str)-> tests.isUrl(str) or tests.isImageHash(str)
 
   return tests

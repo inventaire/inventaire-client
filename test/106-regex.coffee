@@ -2,7 +2,7 @@ should = require 'should'
 
 sharedLib = require './shared_lib'
 
-{ EntityUri, SimpleDay, Url, IpfsPath } = sharedLib 'regex'
+{ EntityUri, SimpleDay, Url, ImageHash } = sharedLib 'regex'
 
 describe 'Regex', ->
   describe 'EntityUri', ->
@@ -117,12 +117,11 @@ describe 'Regex', ->
       Url.test('/ipfs/Qme9GJd1UR3xDL4qofTvngBfV4kZpwzXD8VNVbg97d3qag').should.be.false()
       done()
 
-  describe 'IpfsPath', ->
-    it 'should return true on valid IPFS path', (done)->
-      IpfsPath.test('/ipfs/Qme9GJd1UR3xDL4qofTvngBfV4kZpwzXD8VNVbg97d3qag').should.be.true()
-      IpfsPath.test('/ipfs/notqmbutstillvalidTvngBfV4kZpwzXD8VNVbg97d3qag').should.be.true()
+  describe 'ImageHash', ->
+    it 'should return true on valid image hash', (done)->
+      ImageHash.test('ffd1a4dd8eec14d994ccf4a3bd372fb29fbe29f7').should.be.true()
       done()
 
-    it 'should return false on invalid IPFS path', (done)->
-      IpfsPath.test('Qme9GJd1UR3xDL4qofTvngBfV4kZpwzXD8VNVbg97d3qag').should.be.false()
+    it 'should return false on invalid image hash', (done)->
+      ImageHash.test('ffd1a4dd8eec14d994ccf4a3bd372fb29fbe29f').should.be.false()
       done()
