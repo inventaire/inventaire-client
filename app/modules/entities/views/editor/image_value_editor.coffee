@@ -62,19 +62,26 @@ module.exports = EditorCommons.extend
     startLoading.call @, '.save'
 
     _.preq.post app.API.images.convertUrl, { url }
-    .get 'url'
-    .then @_save.bind(@)
+    .then (res)=>
+      if res.converted
+        @_bareSave res.url
+      else
+        # If dataseed is disabled, fallback to downloading the file at the URL
+        images_.getUrlDataUrl url
+        .then @uploadDataUrl.bind(@)
     .catch error_.Complete(urlInputSelector, false)
     .catch forms_.catchAlert.bind(null, @)
     .finally stopLoading.bind(@)
 
   uploadFileAndSave: ->
     dataUrl = @ui.imagePreview.find('img')[0]?.src
+    @uploadDataUrl dataUrl
 
+  uploadDataUrl: (dataUrl)->
     startLoading.call @, '.validate-upload'
 
     images_.getImageHashFromDataUrl 'entities', dataUrl
-    .then @_save.bind(@)
+    .then @_bareSave.bind(@)
     .catch error_.Complete(imagePreviewSelector, false)
     .catch forms_.catchAlert.bind(null, @)
     .finally stopLoading.bind(@)

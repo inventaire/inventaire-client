@@ -60,16 +60,26 @@ module.exports = Marionette.ItemView.extend
   # save: ->
 
   _save: (newValue)->
-    promise = @model.saveValue newValue
+    @_bareSave newValue
     # target only this view
     .catch error_.Complete(".#{@cid} .has-alertbox")
     .catch @_catchAlert.bind(@)
+
+  _bareSave: (newValue)->
+    promise = @model.saveValue newValue
 
     # Should be triggered after @model.saveValue so that a defined value
     # doesn't appear null for @hideEditMode
     @hideEditMode()
 
     return promise
+    .catch (err)=>
+      # Re-display the edit mode to show the alert
+      @showEditMode()
+      Promise.resolve()
+      # Throw the error after the view lazy re-rendered
+      .delay 250
+      .then -> throw err
 
   _catchAlert: (err)->
     # Making sure that we are in edit mode as it might have re-rendered
