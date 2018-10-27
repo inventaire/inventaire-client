@@ -4,9 +4,17 @@ module.exports = (_, root = '')->
   return img = (path, width = 1600, height = 1600)->
     unless _.isNonEmptyString path then return
 
-    # Converting image hashes to a full URL
+    if path.startsWith '/ipfs/'
+      console.warn 'outdated img path', path
+      return
+
     if _.isImageHash path
-      "#{root}/img/#{width}x#{height}/#{path}"
+      "#{root}/img/entities/#{width}x#{height}/#{path}"
+
+    # Converting image hashes to a full URL
+    else if _.isLocalImg path
+      [ container, filename ] = path.split('/').slice(2)
+      "#{root}/img/#{container}/#{width}x#{height}/#{filename}"
 
     else if /^http/.test path
       key = _.hashCode path

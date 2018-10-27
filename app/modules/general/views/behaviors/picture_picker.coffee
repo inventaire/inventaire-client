@@ -77,9 +77,7 @@ module.exports = Marionette.CompositeView.extend
 
   getFinalUrls: ->
     selectedModels = @collection.models.filter isSelectedModel
-    _.log selectedModels, 'selected models'
     selectedModels = selectedModels.slice 0, @limit
-    _.log selectedModels, 'sliced models'
     Promise.all _.invoke(selectedModels, 'getFinalUrl')
 
   _saveAndClose: (urls)->

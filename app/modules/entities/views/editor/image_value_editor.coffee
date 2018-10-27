@@ -73,7 +73,7 @@ module.exports = EditorCommons.extend
 
     startLoading.call @, '.validate-upload'
 
-    images_.getImageHashFromDataUrl dataUrl
+    images_.getImageHashFromDataUrl 'entities', dataUrl
     .then @_save.bind(@)
     .catch error_.Complete(imagePreviewSelector, false)
     .catch forms_.catchAlert.bind(null, @)

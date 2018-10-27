@@ -1,5 +1,6 @@
 images_ = require 'lib/images'
 { maxSize } = CONFIG.images
+container = 'users'
 
 # named Img and not Image to avoid overwritting window.Image
 module.exports = Backbone.NestedModel.extend
@@ -67,7 +68,7 @@ module.exports = Backbone.NestedModel.extend
     originalUrl = @get('url')
     if originalUrl? and not @imageHasChanged() then return _.preq.resolve originalUrl
 
-    images_.upload
+    images_.upload container,
       blob: images_.dataUrlToBlob @getFinalDataUrl()
       id: @cid
     .get @cid
