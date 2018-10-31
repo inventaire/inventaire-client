@@ -93,8 +93,8 @@ module.exports = Marionette.ItemView.extend
   _savePicture: (pictures)->
     picture = pictures[0]
     _.log picture, 'picture'
-    unless _.isLocalImg picture
-      message = 'couldnt save picture: requires a local image url'
+    unless _.isUserImg picture
+      message = 'couldnt save picture: requires a local user image url'
       throw error_.new message, pictures
 
     @updateSettings

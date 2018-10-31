@@ -19,7 +19,7 @@ module.exports = (_, root = '')->
     else if /^http/.test path
       key = _.hashCode path
       href = _.fixedEncodeURIComponent path
-      "#{root}/img/#{width}x#{height}/#{key}?href=#{href}"
+      "#{root}/img/remote/#{width}x#{height}/#{key}?href=#{href}"
 
     else if _.isEntityUri path
       _.buildPath "#{root}/api/entities",

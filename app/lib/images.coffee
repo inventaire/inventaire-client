@@ -78,7 +78,7 @@ images_ =
     return images_.upload container, { blob: images_.dataUrlToBlob(dataUrl) }, true
     .then (res)-> _.values(res)[0].split('/').slice(-1)[0]
 
-  getNonResizedUrl: (url)-> url.replace /\/img\/\d+x\d+\//, '/img/'
+  getNonResizedUrl: (url)-> url.replace /\/img\/users\/\d+x\d+\//, '/img/'
 
 getResizedDimensions = (width, height, maxSize)->
   if width > height
