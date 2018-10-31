@@ -8,11 +8,8 @@ module.exports = (_, root = '')->
       console.warn 'outdated img path', path
       return
 
-    if _.isImageHash path
-      "#{root}/img/entities/#{width}x#{height}/#{path}"
-
     # Converting image hashes to a full URL
-    else if _.isLocalImg path
+    if _.isLocalImg path
       [ container, filename ] = path.split('/').slice(2)
       "#{root}/img/#{container}/#{width}x#{height}/#{filename}"
 
