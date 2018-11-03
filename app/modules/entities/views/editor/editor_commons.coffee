@@ -66,7 +66,10 @@ module.exports = Marionette.ItemView.extend
     .catch @_catchAlert.bind(@)
 
   _bareSave: (newValue)->
+    uri = @model.entity.get('uri')
+
     promise = @model.saveValue newValue
+      .catch enrichError(uri)
 
     # Should be triggered after @model.saveValue so that a defined value
     # doesn't appear null for @hideEditMode
@@ -101,3 +104,23 @@ module.exports = Marionette.ItemView.extend
         else $el.focus()
       # Somehow required to let the time to thing to get in place
       @setTimeout focus, 200
+
+enrichError = (uri)-> (err)->
+  if err.responseJSON?.status_verbose is 'this property value is already used'
+    { entity: duplicateUri } = err.responseJSON.context
+    reportPossibleDuplicate uri, duplicateUri
+    formatDuplicateErr err, uri, duplicateUri
+
+  throw err
+
+reportPossibleDuplicate = (uri, duplicateUri)->
+  app.request 'post:feedback',
+    subject: "[Possible duplicate] #{uri} / #{duplicateUri}"
+    uris: [ uri, duplicateUri ]
+
+formatDuplicateErr = (err, uri, duplicateUri)->
+  alreadyExist = _.i18n 'this value is already used'
+  link = "<a href='/entity/#{duplicateUri}' class='showEntity'>#{duplicateUri}</a>"
+  reported = _.i18n 'the issue was reported'
+  err.responseJSON.status_verbose = "#{alreadyExist}: #{link} (#{reported})"
+  err.i18n = false

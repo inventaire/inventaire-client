@@ -25,7 +25,7 @@ module.exports = error_ =
   # newWithSelector: use forms_.throwError instead
 
   complete: (err, selector, i18n)->
-    err.i18n = i18n isnt false
+    err.i18n ?= i18n isnt false
     err.selector = selector
     return err
 

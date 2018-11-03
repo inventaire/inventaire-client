@@ -17,7 +17,7 @@ module.exports = (params)->
   startLoading.call view, '#isbnButton'
 
   createEntities.workEdition workModel, isbn
-  .catch RenameIsbnDuplicateErr(workUri, isbn)
+  .catch renameIsbnDuplicateErr(workUri, isbn)
   .then (editionModel)->
     # Special case of property_values collection
     if view.collection.addByValue?
@@ -29,19 +29,18 @@ module.exports = (params)->
   .catch forms_.catchAlert.bind(null, view)
   .finally stopLoading.bind(view)
 
-RenameIsbnDuplicateErr = (workUri, isbn)-> (err)->
-  if err.responseJSON?.status_verbose is 'this property value is already used'
-    existingEditionUri = err.responseJSON.context.entity
-    app.request 'get:entity:model', existingEditionUri
-    .then (model)->
-      existingEditionWorksUris = model.get 'claims.wdt:P629'
-      if workUri in existingEditionWorksUris
-        formatEditionAlreadyExistOnCurrentWork err
-      else
-        reportIsbnIssue workUri, isbn
-        formatDuplicateWorkErr err, isbn
-      throw err
-  else
+renameIsbnDuplicateErr = (workUri, isbn)-> (err)->
+  if err.responseJSON?.status_verbose isnt 'this property value is already used' then throw err
+
+  existingEditionUri = err.responseJSON.context.entity
+  app.request 'get:entity:model', existingEditionUri
+  .then (model)->
+    existingEditionWorksUris = model.get 'claims.wdt:P629'
+    if workUri in existingEditionWorksUris
+      formatEditionAlreadyExistOnCurrentWork err
+    else
+      reportIsbnIssue workUri, isbn
+      formatDuplicateWorkErr err, isbn
     throw err
 
 reportIsbnIssue = (workUri, isbn)->
