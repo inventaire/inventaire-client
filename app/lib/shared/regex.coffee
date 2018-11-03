@@ -19,6 +19,7 @@ module.exports =
   CouchUuid: /^[0-9a-f]{32}$/
   Lang: /^\w{2}$/
   LocalImg: /^\/img\/(users|entities)\/[0-9a-f]{40}$/
+  AssetImg: /^\/img\/assets\/\w/
   UserImg: /^\/img\/users\/[0-9a-f]{40}$/
   # all 1 letter strings are reserved for the application
   Username: /^\w{2,20}$/

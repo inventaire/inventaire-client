@@ -9,7 +9,7 @@ module.exports = (_, root = '')->
       return
 
     # Converting image hashes to a full URL
-    if _.isLocalImg path
+    if _.isLocalImg(path) or _.isAssetImg(path)
       [ container, filename ] = path.split('/').slice(2)
       "#{root}/img/#{container}/#{width}x#{height}/#{filename}"
 

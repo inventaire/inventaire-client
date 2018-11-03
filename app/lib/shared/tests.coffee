@@ -7,6 +7,7 @@ module.exports = (regex_, _)->
     isUrl: bindedTest 'Url'
     isImageHash: bindedTest 'ImageHash'
     isLocalImg: bindedTest 'LocalImg'
+    isAssetImg: bindedTest 'AssetImg'
     isUserImg: bindedTest 'UserImg'
     isLang: bindedTest 'Lang'
     isInvEntityId: isCouchUuid
