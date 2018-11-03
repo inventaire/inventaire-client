@@ -4,24 +4,19 @@
   transition: background 0.5s ease;
 }
 
-@mixin multidef-bg-cover($url, $hd:null){
+@mixin multidef-bg-cover($filename, $hd:null){
   @include bg-cover;
   /*Small screens*/
   @media screen and (max-width: 500px) {
-    // using the full host url as the images src references in css
-    // are expected to be in the production object storage container
-    background-image: url('https://inventaire.io/img/500x500/' + $url);
+    background-image: url('/img/assets/500x500/' + $filename);
   }
   /*Large screens*/
   @media screen and (min-width: 500px) {
-    background-image: url('https://inventaire.io/img/1000x1000/' + $url);
+    background-image: url('/img/assets/1000x1000/' + $filename);
   }
   @if $hd {
     @media screen and (min-width: 1300px) {
-      // 1600 is the current max size
-      // using /img/1600x1600/ would be equivalent to using just /img/
-      // but the first is cached by Nginx while the later reaches Express every time
-      background-image: url('https://inventaire.io/img/1600x1600/' + $url);
+      background-image: url('/img/assets/' + $filename);
     }
   }
 }
@@ -35,7 +30,7 @@
 #bg.cover, #embedded-welcome{
   // cover background added for whitelisted routes
   // photo attribution in credits.hbs: Brittany Stevens
-  @include multidef-bg-cover('f3c063914d81996e3d262201d1e71c5e38212948.jpg', 'hd');
+  @include multidef-bg-cover('brittanystevens.jpg', 'hd');
 }
 
 $global-background-contrast-color: rgba($light-grey, 0.98);
