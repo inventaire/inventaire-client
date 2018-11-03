@@ -3,20 +3,25 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     { lang } = app.user
     data = {}
-    for k, v of @options.data
-      data[k] = tailorForLang v, lang
+    _.log @options.data, '@options.data'
+    for category, listsByLang of @options.data
+      data[category] = tailorForLang(listsByLang, lang).map format
     return _.log data, 'data'
 
-tailorForLang = (data, lang)->
+tailorForLang = (listsByLang, lang)->
   # first the user lang
-  orderedData = data[lang] or []
+  orderedData = listsByLang[lang] or []
   # then English
   if lang isnt 'en'
-    if data.en? then orderedData = orderedData.concat data.en
+    if listsByLang.en? then orderedData = orderedData.concat listsByLang.en
   # then other langs
-  for k, v of data
-    unless k is lang or k is 'en'
-      orderedData = orderedData.concat data[k]
+  for lang, list of listsByLang
+    unless lang is lang or lang is 'en'
+      orderedData = orderedData.concat list
 
   # return only the first 6 elements
   return orderedData[0..5]
+
+format = (entry)->
+  if entry.picture? then entry.picture = "/img/assets/#{entry.picture}"
+  return entry

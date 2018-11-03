@@ -1,6 +1,6 @@
 { action } = require('./endpoint')('images')
 
 module.exports =
-  upload: (ipfs)-> action 'upload', { ipfs }
+  upload: (container, hash)-> action 'upload', { container, hash }
   convertUrl: action 'convert-url'
   dataUrl: (url)-> action 'data-url', { url: encodeURIComponent(url) }

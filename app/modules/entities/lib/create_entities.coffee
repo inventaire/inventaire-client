@@ -70,7 +70,7 @@ createWorkEdition = (workEntity, isbn)->
       'wdt:P1476': [ title ]
 
     if isbnData.image?
-      claims['wdt:P18'] = [ isbnData.image ]
+      claims['invp:P2'] = [ isbnData.image ]
 
     return createEntity {}, claims
     .then (editionEntity)->

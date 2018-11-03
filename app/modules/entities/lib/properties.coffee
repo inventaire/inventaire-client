@@ -36,7 +36,7 @@ addProp 'wdt:P1476', 'string', null, false, null
 # subtitle
 addProp 'wdt:P1680', 'string', null, false, null
 # image
-addProp 'wdt:P18', 'image', null, false, null
+addProp 'invp:P2', 'image', null, false, null
 # language
 addProp 'wdt:P407', 'entity', 'languages', true, null
 # isbn 13

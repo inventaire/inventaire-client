@@ -46,7 +46,7 @@ images_ =
     if _.isDataUrl data then window.dataURLtoBlob data
     else throw new Error 'expected a dataURL'
 
-  upload: (blobsData, ipfs = false)->
+  upload: (container, blobsData, hash = false)->
     blobsData = _.forceArray blobsData
     formData = new FormData()
 
@@ -69,16 +69,16 @@ images_ =
       request.onerror = reject
       request.ontimeout = reject
 
-      request.open 'POST', app.API.images.upload(ipfs)
+      request.open 'POST', app.API.images.upload(container, hash)
       request.responseType = 'json'
       request.send formData
 
-  getIpfsPathFromDataUrl: (dataUrl)->
+  getImageHashFromDataUrl: (container, dataUrl)->
     unless _.isDataUrl dataUrl then throw error_.new 'invalid image', dataUrl
-    return images_.upload { blob: images_.dataUrlToBlob(dataUrl) }, true
-    .then (res)-> _.values(res)[0]
+    return images_.upload container, { blob: images_.dataUrlToBlob(dataUrl) }, true
+    .then (res)-> _.values(res)[0].split('/').slice(-1)[0]
 
-  getNonResizedUrl: (url)-> url.replace /\/img\/\d+x\d+\//, '/img/'
+  getNonResizedUrl: (url)-> url.replace /\/img\/users\/\d+x\d+\//, '/img/'
 
 getResizedDimensions = (width, height, maxSize)->
   if width > height

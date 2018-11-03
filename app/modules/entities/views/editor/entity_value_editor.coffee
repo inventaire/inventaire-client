@@ -38,7 +38,7 @@ module.exports = EditorCommons.extend
       # Do not display an image if it's not the entity's own image
       # (e.g. if it's a work that deduced an image from one of its editions)
       # as it might be confusing
-      unless data.claims['wdt:P18']? then delete data.image
+      unless data.claims['invp:P2']? then delete data.image
       return data
 
   onShow: ->

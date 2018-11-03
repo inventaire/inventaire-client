@@ -2,7 +2,7 @@ Patches = require '../../collections/patches'
 properties = require '../properties'
 propertiesUsedByRelations = [
   # Series and works use editions covers as illustrations
-  'wdt:P18'
+  'invp:P2'
   # Editions list are structured by lang
   'wdt:P407'
   # Works may infer their label from their editions title

@@ -4,16 +4,19 @@ module.exports = (_, root = '')->
   return img = (path, width = 1600, height = 1600)->
     unless _.isNonEmptyString path then return
 
-    # Converting IPFS paths to an HTTP(S) gateway url
-    # Letting the hash length rough: it seem to always be 46
-    # but no spec could be found to confirm it won't change
-    if /^\/ipfs\/\w{30,60}$/.test path
-      path = "https://ipfs.io#{path}"
+    if path.startsWith '/ipfs/'
+      console.warn 'outdated img path', path
+      return
 
-    if /^http/.test path
+    # Converting image hashes to a full URL
+    if _.isLocalImg(path) or _.isAssetImg(path)
+      [ container, filename ] = path.split('/').slice(2)
+      "#{root}/img/#{container}/#{width}x#{height}/#{filename}"
+
+    else if /^http/.test path
       key = _.hashCode path
       href = _.fixedEncodeURIComponent path
-      "#{root}/img/#{width}x#{height}/#{key}?href=#{href}"
+      "#{root}/img/remote/#{width}x#{height}/#{key}?href=#{href}"
 
     else if _.isEntityUri path
       _.buildPath "#{root}/api/entities",
