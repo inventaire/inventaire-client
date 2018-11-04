@@ -3,10 +3,9 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     { lang } = app.user
     data = {}
-    _.log @options.data, '@options.data'
     for category, listsByLang of @options.data
       data[category] = tailorForLang(listsByLang, lang).map format
-    return _.log data, 'data'
+    return data
 
 tailorForLang = (listsByLang, lang)->
   # first the user lang
