@@ -29,8 +29,8 @@ module.exports = Marionette.ItemView.extend
 
     _.preq.try -> password_.pass password, '#finalAlertbox'
     .then @startLoading.bind(@, '#updatePassword')
-    .then @updateUserPassword.bind(@, password)
-    .then @passwordSuccessCheck.bind(@)
+    .then @ifViewIsIntact('updateUserPassword', password)
+    .then @ifViewIsIntact('passwordSuccessCheck')
     .catch forms_.catchAlert.bind(null, @)
     .finally @stopLoading.bind(@)
 
