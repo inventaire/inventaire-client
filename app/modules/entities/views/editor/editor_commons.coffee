@@ -2,6 +2,7 @@ isLoggedIn = require './lib/is_logged_in'
 getActionKey = require 'lib/get_action_key'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+properties = require 'modules/entities/lib/properties'
 
 module.exports = Marionette.ItemView.extend
   # @cid class required by _save error_.Complete
@@ -25,6 +26,9 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs.editMode = @editMode
+    { property, value } = attrs
+    if value? and properties[property].editorType is 'image'
+      attrs.imageUrl = "/img/entities/#{value}"
     return attrs
 
   showEditMode: (e)->
