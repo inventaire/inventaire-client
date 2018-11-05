@@ -168,6 +168,9 @@ module.exports = Marionette.LayoutView.extend
     return { ok: true }
 
   moveToWikidata: ->
+    unless app.user.hasWikidataOauthTokens()
+      return app.execute 'show:wikidata:edit:intro:modal', @model
+
     uri = @model.get('uri')
     moveToWikidata uri
     # This should now redirect us to the new Wikidata edit page

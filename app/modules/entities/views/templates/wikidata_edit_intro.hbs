@@ -2,9 +2,17 @@
   {{icon 'wikidata-colored'}}
   <h3>Wikidata</h3>
 </div>
-<p class="edit-intro">{{{i18n 'wikidata_edit_intro' introData}}}</p>
+<p class="edit-intro">
+  {{#if wikidata}}
+    {{{i18n 'wikidata_edit_intro' introData}}}
+  {{else}}
+    {{{i18n 'wikidata_move_intro' introData}}}
+  {{/if}}
+</p>
 <div class="actions">
-  <a href="{{wikidata.wiki}}" target="_blank" class="button grey">{{icon 'pencil'}}{{i18n 'Edit on Wikidata'}}</a>
+  {{#if wikidata}}
+    <a href="{{wikidata.wiki}}" target="_blank" class="button grey">{{icon 'pencil'}}{{i18n 'Edit on Wikidata'}}</a>
+  {{/if}}
   {{#if isLoggedIn}}
     <a href="{{wikidataOauth}}" class="button success">{{icon 'plug'}}{{i18n 'Connect Wikidata account'}}</a>
   {{else}}
