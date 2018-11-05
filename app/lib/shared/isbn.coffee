@@ -1,5 +1,10 @@
 # Removing any non-alpha numeric characters, especially '-' and spaces
-normalizeIsbn = (text)-> text.replace /\W/g, ''
+normalizeIsbn = (text)->
+  text
+  # Remove hypens
+  .replace /\W/g, ''
+  # Make sure any 'x' is an X
+  .toUpperCase()
 
 isNormalizedIsbn = (text)-> /^(97(8|9))?\d{9}(\d|X)$/.test text
 

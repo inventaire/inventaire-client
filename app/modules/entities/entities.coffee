@@ -197,6 +197,7 @@ setHandlers = ->
     'show:merge:suggestions': require './lib/show_merge_suggestions'
     'invalidate:entities:cache': invalidateEntitiesCache
     'report:entity:type:issue': reportTypeIssue
+    'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
 
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
