@@ -149,7 +149,9 @@ module.exports = Marionette.LayoutView.extend
 
   moveToWikidataData: ->
     uri = @model.get 'uri'
-    if isWikidataUri uri then return
+
+    # An entity being created on Inventaire won't have a URI at this point
+    if not uri? or isWikidataUri(uri) then return
 
     type = @model.get 'type'
     if type is 'edition'
