@@ -3,8 +3,9 @@ testLocalStorage = require 'lib/local_storage'
 { wiki, roadmap, git } = require 'lib/urls'
 
 module.exports = ->
-  ISODatePolyFill()
   sayHi()
+  ISODatePolyFill()
+  startsWithPolyFill()
   testFlexSupport()
   testLocalStorage()
   testVideoInput()
@@ -49,6 +50,13 @@ ISODatePolyFill = ->
         ':' + pad( @getUTCSeconds() ) +
         '.' + (@getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
         'Z'
+
+# Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#Polyfill
+startsWithPolyFill = ->
+  unless String::startsWith?
+    String::startsWith = (search, pos) ->
+      start = if not pos or pos < 0 then 0 else +pos
+      @substr(start, search.length) is search
 
 setDebugSetting = ->
   persistantDebug = localStorageBool.get 'debug'
