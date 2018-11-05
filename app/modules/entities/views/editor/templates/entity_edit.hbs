@@ -8,7 +8,17 @@
   {{else}}
     <h2 class="type-label">{{claim claims 'wdt:P31' false true}}</h2>
     {{#if wikidata}}
-      <a href="{{wikidata.wiki}}" class="wikidata-edit soft-grey-button" target="_blank">{{icon 'wikidata'}}{{i18n 'Edit on Wikidata'}}</a>
+      <a href="{{wikidata.wiki}}" class="wikidata-edit soft-grey-button" target="_blank">{{icon 'wikidata-colored'}}{{I18n 'edit on Wikidata'}}</a>
+    {{else}}
+      {{#if isAdmin}}
+        {{#with moveToWikidata}}
+          {{#if ok}}
+            <a id="moveToWikidata" class="soft-grey-button">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
+          {{else}}
+            <a class="wikidata-move-disabled soft-grey-button" title="{{reason}}">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
+          {{/if}}
+        {{/with}}
+      {{/if}}
     {{/if}}
   {{/if}}
 </div>

@@ -47,3 +47,4 @@ module.exports =
   duplicates: action 'duplicates'
   contributions: (userId, limit, offset)->
     action 'contributions', { user: userId, limit, offset }
+  moveToWikidata: action 'move-to-wikidata'

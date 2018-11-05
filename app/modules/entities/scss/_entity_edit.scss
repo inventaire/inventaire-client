@@ -18,16 +18,23 @@ $entity-editor-small-thresold: 500px;
     position: relative;
     /*Not too small screens*/
     @media screen and (min-width: $smaller-screen) {
-      .wikidata-edit{
+      .wikidata-edit, #moveToWikidata, .wikidata-move-disabled{
         @include position(absolute, 0, 0)
       }
     }
     /*Very small screens*/
     @media screen and (max-width: $smaller-screen) {
       flex-direction: column;
-      .wikidata-edit{
+      .wikidata-edit, #moveToWikidata{
         order: -1;
       }
+      .wikidata-move-disabled{
+        display: none;
+      }
+    }
+    .wikidata-move-disabled{
+      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
   .header-context, .creation-progress{

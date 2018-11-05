@@ -4,6 +4,9 @@ propertiesCollection = require '../../lib/editor/properties_collection'
 AdminSection = require './admin_section'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+properties = require 'modules/entities/lib/properties'
+{ unprefixify } = require 'lib/wikimedia/wikidata'
+moveToWikidata = require './lib/move_to_wikidata'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
@@ -65,6 +68,8 @@ module.exports = Marionette.LayoutView.extend
     attrs.returnLabel = "return to the #{typePossessive} page"
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
+    attrs.isAdmin = app.user.isAdmin
+    attrs.moveToWikidata = @moveToWikidataData()
     # Do not show the signal data error button in creation mode
     # as it wouldn't make sense
     attrs.signalDataErrorButton = not @creationMode
@@ -79,6 +84,7 @@ module.exports = Marionette.LayoutView.extend
     'click .createAndAddEntity': 'createAndAddEntity'
     'click .createAndUpdateItem': 'createAndUpdateItem'
     'click #signalDataError': 'signalDataError'
+    'click #moveToWikidata': 'moveToWikidata'
 
   canCancel: ->
     # In the case of an entity being created, showing the entity page would fail
@@ -140,6 +146,34 @@ module.exports = Marionette.LayoutView.extend
       if @navigationButtonsDisabled
         @ui.navigationButtons.fadeIn()
         @navigationButtonsDisabled = false
+
+  moveToWikidataData: ->
+    uri = @model.get 'uri'
+    if isWikidataUri uri then return
+
+    type = @model.get 'type'
+    if type is 'edition'
+      reason = _.i18n "editions can't be moved to Wikidata for the moment"
+      return { ok: false, reason }
+
+    for property, values of @model.get('claims')
+      # Known case where properties[property] is undefined: wdt:P31
+      if properties[property]?.editorType is 'entity'
+        for value in values
+          unless isWikidataUri value
+            message = _.i18n "some values aren't Wikidata entities:"
+            reason = "#{message} #{_.i18n(unprefixify(property))}"
+            return { ok: false, reason }
+
+    return { ok: true }
+
+  moveToWikidata: ->
+    uri = @model.get('uri')
+    moveToWikidata uri
+    # This should now redirect us to the new Wikidata edit page
+    .then -> app.execute 'show:entity:edit', uri
+
+isWikidataUri = (uri)-> uri.split(':')[0] is 'wd'
 
 possessives =
   work: "book's"
