@@ -26,7 +26,8 @@ module.exports = Marionette.LayoutView.extend
     return attrs
 
   onRender: ->
-    @waitForAuthors.then @showAuthorsPreviewList.bind(@)
+    @waitForAuthors
+    .then @ifViewIsIntact('showAuthorsPreviewList')
 
   showAuthorsPreviewList: (authors)->
     if authors.length is 0 then return

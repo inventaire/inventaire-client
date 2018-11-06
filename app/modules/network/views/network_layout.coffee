@@ -21,7 +21,9 @@ module.exports = Marionette.LayoutView.extend
     { tab } = @options
     # wait for relations so that 'get:network:counters' doesn't crash
     # if app.relations isn't defined yet
-    @waitForRelations.then @showTabs.bind(@, tab)
+    @waitForRelations
+    .then @ifViewIsIntact('showTabs', tab)
+
     @showLayout tab
 
   updateLayout: (view, tab, originalTab)->

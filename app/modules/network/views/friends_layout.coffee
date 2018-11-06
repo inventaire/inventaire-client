@@ -43,7 +43,9 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('showTabFriends')
 
   showFriends: ->
-    @waitForOtherRequested.then @showFriendsRequests.bind(@)
+    @waitForOtherRequested
+    .then @ifViewIsIntact('showFriendsRequests')
+
     @showFriendsFilter()
     @showFriendsLists()
 

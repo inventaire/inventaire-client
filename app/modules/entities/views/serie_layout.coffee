@@ -32,7 +32,7 @@ module.exports = Marionette.LayoutView.extend
     behaviorsPlugin.startLoading.call @, ".#{@cid}"
 
     @model.initSerieParts { @refresh }
-    .then @showParts.bind(@)
+    .then @ifViewIsIntact('showParts')
 
   showParts: ->
     behaviorsPlugin.stopLoading.call @, ".#{@cid}"
