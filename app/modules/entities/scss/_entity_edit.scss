@@ -32,6 +32,12 @@ $entity-editor-small-thresold: 500px;
         display: none;
       }
     }
+    .wikidata-edit{
+      @include big-button($wikidata-green);
+    }
+    #moveToWikidata, .wikidata-move-disabled{
+      @include big-button($wikidata-blue);
+    }
     .wikidata-move-disabled{
       cursor: not-allowed;
       opacity: 0.5;
