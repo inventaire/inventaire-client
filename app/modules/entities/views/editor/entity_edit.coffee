@@ -7,13 +7,15 @@ error_ = require 'lib/error'
 properties = require 'modules/entities/lib/properties'
 { unprefixify } = require 'lib/wikimedia/wikidata'
 moveToWikidata = require './lib/move_to_wikidata'
+{ startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
   template: require './templates/entity_edit'
   behaviors:
-    PreventDefault: {}
     AlertBox: {}
+    Loading: {}
+    PreventDefault: {}
 
   regions:
     title: '.title'
@@ -172,6 +174,8 @@ module.exports = Marionette.LayoutView.extend
   moveToWikidata: ->
     unless app.user.hasWikidataOauthTokens()
       return app.execute 'show:wikidata:edit:intro:modal', @model
+
+    startLoading.call @, '#moveToWikidata'
 
     uri = @model.get('uri')
     moveToWikidata uri
