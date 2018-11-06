@@ -177,6 +177,8 @@ module.exports = Marionette.LayoutView.extend
     moveToWikidata uri
     # This should now redirect us to the new Wikidata edit page
     .then -> app.execute 'show:entity:edit', uri
+    .catch error_.Complete('#moveToWikidata', false)
+    .catch forms_.catchAlert.bind(null, @)
 
 isWikidataUri = (uri)-> uri.split(':')[0] is 'wd'
 
