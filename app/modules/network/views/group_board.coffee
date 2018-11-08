@@ -13,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { @standalone } = @options
+    @_alreadyShownSection = {}
     @initPlugin()
     @listenTo @model, 'action:accept', @render.bind(@)
     @listenTo @model, 'action:leave', @render.bind(@)
@@ -53,18 +54,31 @@ module.exports = Marionette.LayoutView.extend
 
   toggleSection: (e)->
     section = e.currentTarget.parentElement.attributes.id.value
-
-    if section is 'groupSettings' then @toggleSettings()
-    else @toggleUi section
+    @toggleUi section
 
   # acting on ui objects and not a region.$el as a region
   # doesn't have a $el before being shown
   toggleUi: (uiLabel, scroll = true)->
+    if not @_alreadyShownSection[uiLabel] and @onFirstToggle[uiLabel]?
+      fnName = @onFirstToggle[uiLabel]
+      @[fnName]()
+      @_alreadyShownSection = true
+
+    @_toggleUi uiLabel
+
+  _toggleUi: (uiLabel)->
     $el = @ui[uiLabel]
     $parent = $el.parent()
     $el.slideToggle()
     $parent.find('.fa-caret-right').toggleClass 'toggled'
     if scroll and $el.visible() then _.scrollTop $parent, null, 20
+
+  onFirstToggle:
+    groupSettings: 'showSettings'
+    groupMembers: 'showMembers'
+    groupRequests: 'showJoinRequests'
+    groupInvite: 'showMembersInvitor'
+    groupEmailInvite: 'showMembersEmailInvitor'
 
   onRender: ->
     @model.beforeShow()
@@ -72,40 +86,24 @@ module.exports = Marionette.LayoutView.extend
 
   _showBoard: ->
     @showHeader()
-    @showJoinRequests()
-    @showMembers()
-    if @model.mainUserIsMember()
-      @initSettings()
-      @showMembersInvitor()
-      @showMembersEmailInvitor()
+    @prepareJoinRequests()
+    if @model.mainUserIsMember() then @initSettings()
 
   initSettings: ->
     if @standalone and @model.mainUserIsAdmin()
-      @showSettings()
       @listenTo @model, 'change:slug', @updateRoute.bind(@)
-    else
-      @_settingsShownOnce = false
-
-  toggleSettings: ->
-    if @_settingsShownOnce
-      @toggleUi 'groupSettings'
-    else
-      @showSettings()
-      @toggleUi 'groupSettings'
 
   showSettings: ->
-    @_settingsShownOnce = true
     @groupSettings.show new GroupSettings { @model }
 
-  showJoinRequests: ->
+  prepareJoinRequests: ->
     if @model.requested.length > 0 and @model.mainUserIsAdmin()
-      @_showJoinRequests()
       @ui.groupRequestsSection.show()
       @toggleUi 'groupRequests', false
     else
       @ui.groupRequestsSection.hide()
 
-  _showJoinRequests: ->
+  showJoinRequests: ->
     @groupRequests.show new UsersList
       collection: @model.requested
       groupContext: true
