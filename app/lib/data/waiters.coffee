@@ -17,9 +17,7 @@ initWaiter = (name)->
   promise = new Promise (resolve, reject)->
     # Store the resolve and reject functions to call
     # them from waiter:resolve and waiter:reject commands
-    pendingWaiters[name] =
-      resolve: resolve
-      reject: reject
+    pendingWaiters[name] = { resolve, reject }
 
   waitersPromises[name] = promise
 
