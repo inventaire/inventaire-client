@@ -4,6 +4,7 @@ subdomain = (sub)-> "http://#{sub}.inventaire.io"
 image = (name)-> "/img/assets/#{name}.jpg"
 
 module.exports =
+  host: 'https://inventaire.io'
   contact:
     email: 'hello@inventaire.io'
     mailto: 'mailto:hello@inventaire.io'
