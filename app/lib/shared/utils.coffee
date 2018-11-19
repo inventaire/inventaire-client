@@ -1,4 +1,7 @@
 module.exports = (_)->
+  # Underscore / Lodash 4 compatibility aliasing
+  all: _.all or _.every
+
   # adapted from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
   hashCode: (string)->
     [ hash, i, len ] = [ 0, 0, string.length ]
