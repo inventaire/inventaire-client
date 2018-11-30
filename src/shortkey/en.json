@@ -40,7 +40,6 @@
     "visible_by": "visible by %{label}",
     "comment_delete_confirmation": "Are you sure you want to delete this comment?",
     "cant_undo_warning": "this action can't be undone",
-    "new_comment_on_followed_item": "**%{username}** commented on **%{title}**",
     "other_user_lending": "**%{username}** can lend it",
     "other_user_giving": "**%{username}** is giving it",
     "main_user_lending": "you are lending it",
@@ -167,12 +166,14 @@
     "while_you_are_there_1": "which is stronger, the hippopotamus or the elephant?",
     "user_rss_title": "Subscribe to %{username}'s inventory RSS feed",
     "group_rss_title": "Subscribe to %{name} inventory RSS feed",
-    "wikidata_edit_intro": "You requested to edit **%{label}** data which is part of [Wikidata](https://wikidata.org), the open collaborative database from which inventaire.io takes most of its information on books, authors, series, etc. Helping to improve Wikidata thus also improves inventaire, but also many other projects who use those same data!",
+    "wikidata_edit_intro": "You requested to edit **%{label}** data which is part of [Wikidata](https://wikidata.org), the open collaborative database from which inventaire.io takes most of its information on books, authors, series, etc. Helping to improve Wikidata thus also improves Inventaire, but also many other projects using those same data!",
+    "wikidata_move_intro": "You requested to move **%{label}** data to [Wikidata](https://wikidata.org), the open collaborative database from which inventaire.io takes most of its information on books, authors, series, etc. That's awesome! It means that in addition to helping to improve Inventaire, you would now be contributing to improving Wikidata and the many other projects using its data!",
     "see_all_work_editions": "see all editions of %{label}",
     "contributions_by": "%{username}'s contributions",
     "series_singular": "series",
     "old_browser_message": "Hello, thank you for your interest in Inventaire!<br>Unfortunately, **your browser seems too old to support this webapp**.<br>Could you [install a more modern browser](https://www.mozilla.org/firefox)?",
     "project_contributors_credits": "all the wonderful people<br>[improving the data](https://wiki.inventaire.io/wiki/Data), here or on [Wikidata](https://wikidata.org),<br>[designing the project's future](https://roadmap.inventaire.io),<br>[contributing code or technical insights](http://git.inventaire.io),<br>[enriching the Wiki](https://wiki.inventaire.io),<br>[helping translating](https://translate.inventaire.io)<br>**A big thank you to all of you who are making this project grow everyday!**",
     "offline_help": "the server can't be reached: please retry whatever you where doing once back online",
-    "any_isbn_text_file": "any text file containing [ISBN](https://en.wikipedia.org/wiki/ISBN)s"
+    "any_isbn_text_file": "any text file containing [ISBN](https://en.wikipedia.org/wiki/ISBN)s",
+    "homonyms_count": "%{smart_count} homonym |||| %{smart_count} homonyms"
 }
