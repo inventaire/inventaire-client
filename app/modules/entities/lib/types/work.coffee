@@ -66,9 +66,10 @@ bestImage = (a, b)->
 latestPublication = (a, b)-> b.publicationTime - a.publicationTime
 
 setEbooksData = ->
+  hasInternetArchivePage = @get('claims.wdt:P724.0')?
   hasGutenbergPage = @get('claims.wdt:P2034.0')?
   hasWikisourcePage = @get('wikisource.url')?
-  @set 'hasEbooks', (hasGutenbergPage or hasWikisourcePage)
+  @set 'hasEbooks', (hasInternetArchivePage or hasGutenbergPage or hasWikisourcePage)
   @set 'gutenbergProperty', 'wdt:P2034'
 
 typesString =

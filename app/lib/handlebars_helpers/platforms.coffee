@@ -1,6 +1,10 @@
 gutenbergText = (id)-> _.i18n 'on_website', { name: 'Gutenberg.org' }
 
 module.exports =
+  'wdt:P724':
+    icon: 'archive-org'
+    text: ->  _.i18n 'on_website', { name: 'Internet Archive' }
+    url: (id)-> "https://archive.org/details/#{id}"
   'wdt:P1938':
     icon: 'gutenberg'
     text: gutenbergText

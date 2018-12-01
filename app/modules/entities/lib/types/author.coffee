@@ -14,9 +14,10 @@ module.exports = ->
   _.extend @, specificMethods
 
 setEbooksData = ->
+  hasInternetArchivePage = @get('claims.wdt:P724.0')?
   hasGutenbergPage = @get('claims.wdt:P1938.0')?
   hasWikisourcePage = @get('wikisource.url')?
-  @set 'hasEbooks', (hasGutenbergPage or hasWikisourcePage)
+  @set 'hasEbooks', (hasInternetArchivePage or hasGutenbergPage or hasWikisourcePage)
   @set 'gutenbergProperty', 'wdt:P1938'
 
 specificMethods =
