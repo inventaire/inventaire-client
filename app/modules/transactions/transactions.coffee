@@ -19,8 +19,8 @@ module.exports =
 
     app.commands.setHandlers
       'show:item:request': API.showItemRequestModal
-      'show:transactions': navigate.showTransactions
-      'show:transaction': navigate.showTransaction
+      'show:transactions': API.showTransactions
+      'show:transaction': API.showTransaction
 
     app.reqres.setHandlers
       'last:transaction:id': -> lastTransactionId
@@ -71,15 +71,8 @@ API =
     if app.request 'require:loggedIn', model.pathname
       app.layout.modal.show new RequestItemModal { model }
 
-  updateLastTransactionId: (transac)-> lastTransactionId = transac.id
-
-navigate =
-  showTransactions: ->
-    API.showFirstTransaction()
-    app.navigate 'transactions'
-  showTransaction: (id)->
-    API.showTransaction(id)
-    app.navigate "transactions/#{id}"
+  updateLastTransactionId: (transac)->
+    lastTransactionId = transac.id
 
 triggerTransactionSelect = (id)->
   transaction = app.request 'get:transaction:byId', id
@@ -87,13 +80,9 @@ triggerTransactionSelect = (id)->
     app.vent.trigger 'transaction:select', transaction
   else app.execute 'show:error:missing'
 
-updateTransactionRoute = (transaction, nonExplicitSelection)->
-  { id } = transaction
-  # if it was a nonExplicitSelection, it was just /transactions
-  # which led to the first transaction being selected
-  # thus the need to replace to route to avoid a loop
-  if nonExplicitSelection then app.navigateReplace "transactions/#{id}"
-  else app.navigate "transactions/#{id}"
+updateTransactionRoute = (transaction)->
+  transaction.beforeShow()
+  app.navigateFromModel transaction
 
 findFirstTransaction = ->
   firstTransac = null

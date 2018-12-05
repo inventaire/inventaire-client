@@ -17,7 +17,7 @@ module.exports = (route, metadataPromise = {})->
   # metadataPromise can be a promise or a simple object
   Promise.resolve metadataPromise
   .then (metadata)->
-    metadata.url = '/' + route
+    metadata.url or= (if route[0] is '/' then route else "/#{route}")
     return metadata
   .then applyDefaults
   .then updateMetadata

@@ -32,7 +32,7 @@ module.exports = Backbone.NestedModel.extend
     if @_beforeShowCalledOnce then return
     @_beforeShowCalledOnce = true
 
-    @grabLinkedModels()
+    @waitForData = @grabLinkedModels()
     @buildTimeline()
     @fetchMessages()
     # provide views with a flag on actions data state
@@ -208,5 +208,18 @@ module.exports = Backbone.NestedModel.extend
   isCancellable: ->
     [ state, transaction ] = @gets 'state', 'transaction'
     return state in cancellableStates[transaction][@role]
+
+  updateMetadata: ->
+    @waitForData
+    .then =>
+      title: @getTitle()
+      image: @itemData().picture
+      url: @get 'pathname'
+
+  getTitle: ->
+    username = @otherUser().get('username')
+    base = _.i18n 'transaction_with', { username }
+    { title } = @itemData()
+    return "[#{base}] #{title}"
 
 actorCanBeBoth = [ 'cancelled' ]
