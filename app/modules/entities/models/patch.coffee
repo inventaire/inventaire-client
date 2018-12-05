@@ -41,7 +41,7 @@ module.exports = Backbone.NestedModel.extend
         op.property = op.path
           .replace /^\/claims\//, ''
           .replace /\/\d+$/, ''
-        op.propertyLabel = _.i18n unprefixify(op.property)
+        op.propertyLabel = getPropertyLabel op.property
       if op.path.startsWith '/labels/'
         lang = _.last op.path.split('/')
         op.propertyLabel = "label #{lang}"
@@ -95,5 +95,4 @@ module.exports = Backbone.NestedModel.extend
 
 isOpType = (type)-> (opType)-> opType is type
 
-getPropertyLabel = (property)->
-  _.i18n unprefixify(property)
+getPropertyLabel = (property)-> _.i18n unprefixify(property)
