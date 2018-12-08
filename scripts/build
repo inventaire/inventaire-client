@@ -1,12 +1,10 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # Exit on error (cf http://jvns.ca/blog/2017/03/26/bash-quirks/)
 set -e
 
 echo -e '\e[0;30mupdating i18n\e[0m'
 ./scripts/build_i18n
-# should run before brunch build
-./scripts/update_languages_stats
 
 echo -e '\e[0;30mbrunch build --production\e[0m'
 brunch build --production
@@ -14,10 +12,12 @@ brunch build --production
 
 echo -e '\e[0;30mgzip js, css, and font files\e[0m'
 ./scripts/set_content_hash_cache_bust
-source ./scripts/init_gzip_utils
-gzipkeepall public/json
-gzipkeepall public/js/moment
-gzipkeepall public/fonts
+
+rm -f public/json/*.gz
+gzip --best --keep public/json/*.json
+
+rm -f public/fonts/*.gz
+gzip --best --keep public/fonts/*
 
 echo -e '\e[0;30mgzip index.html\e[0m'
 gzip --best < public/index.html > public/index.html.gz
