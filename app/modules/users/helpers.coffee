@@ -78,8 +78,7 @@ module.exports = (app)->
     .then addUser
 
   addUsers = (users)->
-    users = _.forceArray users
-    allUsersIds = users.map _.property('_id')
+    users = _.forceArray(users).filter isntMainUser
     # Set merge=true so that updates arriving here aren't just ignored
     return app.users.add users, { merge: true }
 
@@ -102,3 +101,5 @@ module.exports = (app)->
     'users:add': addUsers
 
   return
+
+isntMainUser = (user)-> user._id isnt app.user.id
