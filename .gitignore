@@ -38,5 +38,5 @@ app/modules/welcome/lib/mentions.coffee
 scripts/assets/weight_history
 casper
 scripts/local
-app/lib/languages_data.coffee
-
+app/lib/languages_data.js
+inventaire-i18n

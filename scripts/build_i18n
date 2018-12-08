@@ -1,10 +1,22 @@
-#!/usr/bin/env zsh
-echo -e '\e[0;30mupdate_i18n_all\e[0m'
-./scripts/update_i18n_all
+#!/usr/bin/env bash
 
-echo -e '\e[0;30mgzip all i18n files\e[0m'
-source ./scripts/init_gzip_utils
-gzipkeepall public/i18n/dist
+# Keep 'inventaire-i18n' as the directory name to make this directory easy to ignore
+# in gitignore or text editor exclude patterns
 
-# preparing updated i18n source files for transifex
-transifexify public/i18n/src/{short,full}key/en.json
+[ -e inventaire-i18n ] && {
+  cd inventaire-i18n
+  # Update dist files
+  git fetch origin dist
+  git checkout origin/dist
+  git checkout -B  dist
+  cd ..
+} || {
+  git clone https://github.com/inventaire/inventaire-i18n.git --branch dist
+}
+
+mkdir -p ./public/i18n/dist
+echo "copying dist files"
+cp inventaire-i18n/dist/client/* ./public/i18n
+
+echo "copying languages_data.json"
+cp inventaire-i18n/dist/languages_data.js ./app/lib
