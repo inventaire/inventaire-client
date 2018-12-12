@@ -19,7 +19,7 @@ module.exports =
 
     app.commands.setHandlers
       'show:item:request': API.showItemRequestModal
-      'show:transactions': API.showTransactions
+      'show:transactions': API.showFirstTransaction
       'show:transaction': API.showTransaction
 
     app.reqres.setHandlers
@@ -38,14 +38,10 @@ module.exports =
     initHelpers()
 
 API =
-  showTransactions: ->
-    if app.request 'require:loggedIn', 'transactions'
-      app.layout.main.show new TransactionsLayout
-
   showFirstTransaction: ->
     if app.request 'require:loggedIn', 'transactions'
       app.request 'wait:for', 'transactions'
-      .then @showTransactions.bind(@)
+      .then showTransactionsLayout
       .then findFirstTransaction
       .then (transac)->
         if transac?
@@ -62,7 +58,7 @@ API =
   showTransaction: (id)->
     if app.request 'require:loggedIn', "transactions/#{id}"
       lastTransactionId = id
-      @showTransactions()
+      showTransactionsLayout()
 
       app.request 'wait:for', 'transactions'
       .then triggerTransactionSelect.bind(null, id)
@@ -73,6 +69,8 @@ API =
 
   updateLastTransactionId: (transac)->
     lastTransactionId = transac.id
+
+showTransactionsLayout = -> app.layout.main.show new TransactionsLayout
 
 triggerTransactionSelect = (id)->
   transaction = app.request 'get:transaction:byId', id
