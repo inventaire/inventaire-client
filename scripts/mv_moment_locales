@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 CWD=$PWD
 bowerMoment=./bower_components/moment/locale

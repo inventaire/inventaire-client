@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 PUBLIC=$(pwd)/public
 
 # partials used to keep pieces of code not useful for development out of the index

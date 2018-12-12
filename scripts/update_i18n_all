@@ -1,3 +1,0 @@
-#!/usr/bin/env zsh
-./scripts/select_wikidata_properties.coffee
-./scripts/generate_lang_json.coffee all

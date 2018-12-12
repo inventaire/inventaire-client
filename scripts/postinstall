@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 set -eu
 
@@ -12,16 +12,9 @@ mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./
 
 bower install
 
+./scripts/build_i18n
+
 ./scripts/mv_moment_locales
 
-# languages_data are required to build
-./scripts/update_languages_stats
 # need to build once to make the public folder available
 ./node_modules/brunch/bin/brunch build
-
-git clone -b i18n https://github.com/inventaire/inventaire-client.git ./public/i18n
-
-# The `coffee` executable is already made accessible to this present script
-# (cf http://www.2ality.com/2016/01/locally-installed-npm-executables.html)
-# but not nested scripts, thus the need to use `npm run`
-npm run update-i18n
