@@ -2,16 +2,6 @@ oneDay = 24 * 60 * 60 * 1000
 error_ = requireProxy 'lib/error'
 
 module.exports = (Backbone, _, $, app, window)->
-  # sync
-  getCookie: (key)->
-    value = $.cookie key
-    return parseCookieValue value
-
-  # async
-  setCookie: (key, value)->
-    _.preq.post app.API.cookie, { key, value }
-    .catch _.Error("setCookie: failed: #{key} - #{value}")
-
   # Will be overriden in modules/user/lib/i18n.coffee as soon as possible
   i18n: _.identity
   I18n: (args...)-> _.capitalise _.i18n.apply(_, args)
@@ -297,12 +287,6 @@ escapeQueryStringValue = (str)-> str.replace /\?/g, '%3F'
 add = (a, b)-> a + b
 
 objectWalker = (subObject, property)-> subObject?[property]
-
-parseCookieValue = (value)->
-  switch value
-    when 'true' then true
-    when 'false' then false
-    else value
 
 # Polyfill if needed
 Date.now or= -> new Date().getTime()
