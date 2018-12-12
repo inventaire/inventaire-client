@@ -1,7 +1,7 @@
 # This is tailored for handlebars, for other uses, use app.API.img directly.
 # Keep in sync with server/lib/emails/handlebars_helpers
 module.exports =
-  src: (path, width, height)->
+  imgSrc: (path, width, height)->
     if _.isDataUrl path then return path
 
     width = getImgDimension width, 1600

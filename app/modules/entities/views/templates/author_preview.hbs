@@ -1,6 +1,6 @@
 <a href="{{pathname}}" title="{{label}}">
   {{!-- using an image larger that what is displayed so that background cover scale up doesn't make the image pixelized --}}
-  <div class="image" style="background-image: url({{src image.url 90}})"></div>
+  <div class="image" style="background-image: url({{imgSrc image.url 90}})"></div>
   <div class="summary-data">
     <span class="name">{{label}}</span>
     {{partial 'entities:birth_death_dates' claims}}

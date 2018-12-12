@@ -1,7 +1,7 @@
 <div class="one">
   <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
     {{#if snapshot.entity:image}}
-      <img class="entity-image" src="{{src snapshot.entity:image 400}}">
+      <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
     {{/if}}
     <span class="title">{{snapshot.entity:title}}</span><br>
     {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}

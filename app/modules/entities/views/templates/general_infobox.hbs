@@ -1,10 +1,10 @@
 {{#if image.url}}
   <a class="showEntity img-link" href="{{pathname}}">
     {{#if small}}
-      <div class="image-wrapper has-background-image" style="background-image: url({{src image.url 300}})"></div>
+      <div class="image-wrapper has-background-image" style="background-image: url({{imgSrc image.url 300}})"></div>
     {{else}}
       <div class="image-wrapper">
-        <img src="{{src image.url 300}}" alt="{{label}} cover">
+        <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
         {{partial 'entities:photo_credits' image.credits}}
       </div>
     {{/if}}

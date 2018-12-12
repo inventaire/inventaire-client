@@ -1,6 +1,6 @@
 {{#if image.url}}
   <div class="image-wrapper">
-    <img src="{{src image.url 300}}" alt="{{label}} cover">
+    <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
     {{partial 'entities:photo_credits' image.credits}}
   </div>
 {{/if}}

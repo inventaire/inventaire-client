@@ -2,7 +2,7 @@
 <ul id="tweets">
   {{#each tweets}}
     <li>
-      <img src="{{src picture 48}}" alt="{{name}}">
+      <img src="{{imgSrc picture 48}}" alt="{{name}}">
       <span>
         {{icon 'quote-left'}}{{{text}}}{{icon 'quote-right'}}
         {{i18nLink 'tweet_by' url this}}
@@ -15,7 +15,7 @@
   {{#each articles}}
     <li>
       <span>{{link text url 'link'}}  –  <strong>{{name}}</strong></span>
-      {{#if picture}}<img src="{{src picture 48}}" alt="{{name}}">{{/if}}
+      {{#if picture}}<img src="{{imgSrc picture 48}}" alt="{{name}}">{{/if}}
     </li>
   {{/each}}
 </ul>
@@ -24,14 +24,14 @@
   {{#each audios}}
     <li>
       <span>{{link text url 'link'}}  –  <strong>{{name}}</strong></span>
-      {{#if picture}}<img src="{{src picture 48}}" alt="{{name}}">{{/if}}
+      {{#if picture}}<img src="{{imgSrc picture 48}}" alt="{{name}}">{{/if}}
     </li>
   {{/each}}
 </ul>
 <h4>{{icon 'video-camera'}} {{I18n 'videos'}}</h4>
 <ul id="videos">
   {{#each videos}}
-    <li style="background-image:url({{src picture 400}})">
+    <li style="background-image:url({{imgSrc picture 400}})">
       <a href="{{url}}" target='_blank' rel="noopener">
         <div class="grey-filter">
           {{icon 'play-circle'}}

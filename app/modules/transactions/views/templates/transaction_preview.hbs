@@ -8,7 +8,7 @@
   {{#if onItem}}
     <div class="profile-pic">
       {{#if requester.picture}}
-        <img src="{{src requester.picture 48}}" alt="{{requester.username}}">
+        <img src="{{imgSrc requester.picture 48}}" alt="{{requester.username}}">
       {{/if}}
     </div>
     <div class="text">
@@ -17,7 +17,7 @@
   {{else}}
     <div class="profile-pic">
       {{#if other.picture}}
-        <img src="{{src other.picture 48}}" alt="{{other.username}}">
+        <img src="{{imgSrc other.picture 48}}" alt="{{other.username}}">
       {{/if}}
     </div>
     <div class="text">
@@ -26,7 +26,7 @@
     </div>
     <div class="item-pic">
       {{#if entity.image}}
-        <img src="{{src entity.image 48}}" alt="{{entity.title}}">
+        <img src="{{imgSrc entity.image 48}}" alt="{{entity.title}}">
       {{/if}}
     </div>
   {{/if}}

@@ -1,13 +1,13 @@
 {{#unless hidePicture}}{{#if mainImage.url}}
   <div class="covers">
     <div class="main-cover">
-      <img src="{{src mainImage.url 300}}" alt="{{label}} {{i18n 'cover'}}">
+      <img src="{{imgSrc mainImage.url 300}}" alt="{{label}} {{i18n 'cover'}}">
       {{partial 'entities:photo_credits' image.credits}}
     </div>
     <div class="secondary-covers">
       {{#each secondaryImages}}
         <div class="secondary-cover">
-          <img src="{{src url 150}}" alt="{{label}} {{i18n 'cover'}}">
+          <img src="{{imgSrc url 150}}" alt="{{label}} {{i18n 'cover'}}">
           {{partial 'entities:photo_credits' image.credits}}
         </div>
       {{/each}}
