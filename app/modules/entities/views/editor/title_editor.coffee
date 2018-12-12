@@ -1,5 +1,5 @@
 EditorCommons = require './editor_commons'
-getBestLangValue = sharedLib('get_best_lang_value')(_)
+getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 getLangsData = require 'modules/entities/lib/editor/get_langs_data'

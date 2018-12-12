@@ -11,7 +11,7 @@ module.exports = ->
 
   configPromise = require('./get_config')()
 
-  require('lib/handlebars_helpers/base').initialize(app.API)
+  require('lib/handlebars_helpers/init')()
   require('lib/global_libs_extender')(_)
   require('lib/global_helpers')(app, _)
   require('lib/data/waiters')()

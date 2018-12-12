@@ -1,6 +1,6 @@
 isbn_ = require 'lib/isbn'
-getBestLangValue = sharedLib('get_best_lang_value')(_)
-wd_ = require 'lib/wikimedia/wikidata'
+getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
+getOriginalLang = require 'modules/entities/lib/get_original_lang'
 
 module.exports = (entities, isbnsIndex)->
   newCandidates = []
@@ -23,7 +23,7 @@ module.exports = (entities, isbnsIndex)->
   return newCandidates
 
 getEditionAuthors = (edition, entities)->
-  editionLang = wd_.getOriginalLang edition.claims
+  editionLang = getOriginalLang edition.claims
 
   worksUris = edition.claims['wdt:P629']
   works = _.values _.pick(entities, worksUris)

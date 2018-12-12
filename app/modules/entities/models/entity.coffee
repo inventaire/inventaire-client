@@ -1,10 +1,10 @@
-wd_ = require 'lib/wikimedia/wikidata'
 isbn_ = require 'lib/isbn'
 entities_ = require '../lib/entities'
 initializeWikidataEntity = require '../lib/wikidata/init_entity'
 initializeInvEntity = require '../lib/inv/init_entity'
 editableEntity = require '../lib/inv/editable_entity'
-getBestLangValue = sharedLib('get_best_lang_value')(_)
+getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
+getOriginalLang = require 'modules/entities/lib/get_original_lang'
 initializeAuthor = require '../lib/types/author'
 initializeSerie = require '../lib/types/serie'
 initializeWork = require '../lib/types/work'
@@ -108,7 +108,7 @@ module.exports = Filterable.extend
 
   # Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'
   setFavoriteLabel: (attrs)->
-    @originalLang = wd_.getOriginalLang attrs.claims
+    @originalLang = getOriginalLang attrs.claims
     label = getBestLangValue(app.user.lang, @originalLang, attrs.labels).value
     @set 'label', label
 

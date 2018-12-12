@@ -37,7 +37,7 @@ module.exports = (app, lang)->
 
 setLanguage = (lang, missingKeyWarn)->
   app.polyglot = new Polyglot { warn: missingKeyWarn }
-  _.i18n = sharedLib('translate')(lang, app.polyglot)
+  _.i18n = require('./translate')(lang, app.polyglot)
   app.vent.trigger 'uriLabel:update'
   return requestI18nFile app.polyglot, lang
 

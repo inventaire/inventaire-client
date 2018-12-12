@@ -1,4 +1,4 @@
-regex_ = sharedLib 'regex'
+regex_ = require 'lib/regex'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 error_ = require 'lib/error'
 

@@ -7,7 +7,7 @@ Promise.onPossiblyUnhandledRejection (err)->
   console.error err.stack
   reportError err
 
-preq = sharedLib('promises')(Promise)
+preq = require './promises'
 
 Ajax = (verb, hasBody)->
   return ajax = (url, body)->

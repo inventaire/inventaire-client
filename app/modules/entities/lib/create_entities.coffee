@@ -4,7 +4,7 @@ isbn_ = require 'lib/isbn'
 createInvEntity = require './inv/create_inv_entity'
 { addModel:addEntityModel } = require 'modules/entities/lib/entities_models_index'
 graphRelationsProperties = require './graph_relations_properties'
-wd_ = require 'lib/wikimedia/wikidata'
+getOriginalLang = require 'modules/entities/lib/get_original_lang'
 
 createAuthor = (name, lang)->
   _.types arguments, 'strings...'
@@ -85,7 +85,7 @@ getTitleFromWork = (workEntity, editionLang)->
   inUserLang = workEntity.get "labels.#{app.user.lang}"
   if inUserLang? then return inUserLang
 
-  originalLang = wd_.getOriginalLang workEntity.get('claims')
+  originalLang = getOriginalLang workEntity.get('claims')
   inWorkOriginalLang = workEntity.get "labels.#{originalLang}"
   if inWorkOriginalLang? then return inWorkOriginalLang
 

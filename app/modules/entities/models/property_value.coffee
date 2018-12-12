@@ -1,5 +1,5 @@
 properties = require 'modules/entities/lib/properties'
-regex_ = sharedLib 'regex'
+regex_ = require 'lib/regex'
 error_ = require 'lib/error'
 entityDraftModel = require '../lib/entity_draft_model'
 

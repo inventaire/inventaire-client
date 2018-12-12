@@ -26,8 +26,14 @@ changeOwnerIfOneWay = (transaction, item)->
       transaction: 'inventorying'
       listing: 'private'
 
-actions =
-  setItemBusyness: setItemBusyness
-  changeOwnerIfOneWay: changeOwnerIfOneWay
+# Keep in sync server/controllers/transactions/lib/side_effects
 
-sideEffects = sharedLib('transaction_side_effects')(actions, _)
+setItemToBusy =  _.partial setItemBusyness, true
+setItemToNotBusy = _.partial setItemBusyness, false
+
+sideEffets =
+  accepted: setItemToBusy
+  declined: _.noop
+  confirmed: changeOwnerIfOneWay
+  returned: setItemToNotBusy
+  cancelled: setItemToNotBusy

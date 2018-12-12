@@ -4,7 +4,7 @@ _ = require './utils_builder'
 
 describe 'Utils', ->
   describe 'cutBeforeWord', ->
-    text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+    text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
     result = _.cutBeforeWord text, 24
     it 'should return a string shorter or egal to the limit', (done)->
       (result.length <= 24 ).should.equal true
@@ -48,7 +48,7 @@ describe 'Utils', ->
     it "should forgive and forget the '?' before queries", (done)->
       queries.goodToo[0].should.equal '?'
       queryObj = _.parseQuery(queries.goodToo)
-      for k,v of queryObj
+      for k, v of queryObj
         k[0].should.not.equal '?'
       _.isEqual(_.parseQuery(queries.goodToo), _.parseQuery(queries.good)).should.be.true
       done()
@@ -65,5 +65,28 @@ describe 'Utils', ->
 
     it 'should parse and decode encoded JSON strings', (done)->
       queryObj = _.parseQuery queries.goodWithEncodedObject
-      queryObj.should.deepEqual { action: 'man', data: {'wdt:P50': ['wd:Q535']} }
+      queryObj.should.deepEqual { action: 'man', data: { 'wdt:P50': [ 'wd:Q535' ] } }
+      done()
+
+  describe 'buildPath', ->
+    it 'should return a string with parameters', (done)->
+      path = _.buildPath '/api', { action: 'man' }
+      path.should.be.a.String()
+      path.should.equal '/api?action=man'
+      done()
+
+    it 'should not add empty parameters', (done)->
+      path = _.buildPath '/api', { action: 'man', boudu: null }
+      path.should.equal '/api?action=man'
+      done()
+
+    it 'should stringify object value', (done)->
+      path = _.buildPath '/api', { action: 'man', data: { a: [ 'abc', 2 ] } }
+      path.should.equal '/api?action=man&data={"a":["abc",2]}'
+      done()
+
+    it 'should URI encode object values problematic query string characters', (done)->
+      data = { a: 'some string with ?!MM%** problematic characters' }
+      path = _.buildPath '/api', { data }
+      path.should.equal '/api?data={"a":"some string with %3F!MM%** problematic characters"}'
       done()

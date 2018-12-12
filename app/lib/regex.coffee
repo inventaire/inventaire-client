@@ -1,3 +1,5 @@
+# Keep in sync with server/lib/regex
+
 # adapted from http://stackoverflow.com/a/14582229/3324977
 urlPattern = '^(https?:\\/\\/)'+ # protocol
   '(\\w+:\\w+@)?'+ # auth?

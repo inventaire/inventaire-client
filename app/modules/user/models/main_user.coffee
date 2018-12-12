@@ -1,6 +1,6 @@
 UserCommons = require 'modules/users/models/user_commons'
 solveLang = require '../lib/solve_lang'
-notificationsList = sharedLib 'notifications_settings_list'
+notificationsList = require 'modules/settings/lib/notifications_settings_list'
 initI18n = require '../lib/i18n'
 { location } = window
 

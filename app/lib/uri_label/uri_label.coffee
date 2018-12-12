@@ -12,6 +12,7 @@ selector = ".#{className}"
 attribute = 'data-label-uri'
 
 wd_ = require 'lib/wikimedia/wikidata'
+getOriginalLang = require 'modules/entities/lib/get_original_lang'
 { getLabel, setLabel, getKnownUris, resetLabels, addPreviouslyMissingUris, wasntPrevisoulyMissing } = require './labels_helpers'
 
 { get:getEntitiesModels } = require 'modules/entities/lib/entities_models_index'
@@ -63,7 +64,7 @@ addEntitiesLabels = (entitiesModels)->
   return
 
 setEntityOriginalLang = (uri, claims, labels)->
-  originalLang = wd_.getOriginalLang claims
+  originalLang = getOriginalLang claims
   originalValue = labels[originalLang]
   if originalValue? then setLabel uri, 'original', originalValue
   return

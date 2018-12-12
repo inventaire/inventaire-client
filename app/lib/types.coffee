@@ -1,4 +1,4 @@
-module.exports = (_)->
+module.exports =
   type: (obj, type)->
     trueType = _.typeOf obj
     if trueType in type.split('|') then return obj
