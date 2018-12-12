@@ -4,6 +4,7 @@ GroupSettings = require './group_settings'
 UsersSearchLayout = require '../views/users_search_layout'
 UsersList = require 'modules/users/views/users_list'
 InviteByEmail = require './invite_by_email'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_board'
@@ -71,7 +72,7 @@ module.exports = Marionette.LayoutView.extend
     $parent = $el.parent()
     $el.slideToggle()
     $parent.find('.fa-caret-right').toggleClass 'toggled'
-    if scroll and $el.visible() then _.scrollTop $parent, null, 20
+    if scroll and $el.visible() then screen_.scrollTop $parent, null, 20
 
   onFirstToggle:
     groupSettings: 'showSettings'

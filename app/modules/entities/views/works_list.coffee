@@ -1,6 +1,7 @@
 spinner = _.icon 'circle-o-notch', 'fa-spin'
 error_ = require 'lib/error'
 canAddOneTypeList = [ 'serie', 'work' ]
+{ buildPath } = require 'lib/location'
 
 # TODO:
 # - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -75,7 +76,7 @@ module.exports = Marionette.CompositeView.extend
     if parentType is 'serie'
       claims['wdt:P50'] = parentModel.get 'claims.wdt:P50'
 
-    href = _.buildPath '/entity/new', { type, claims }
+    href = buildPath '/entity/new', { type, claims }
 
     @_entityCreationData = { type, claims, href }
 

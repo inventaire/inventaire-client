@@ -4,6 +4,7 @@ CallToConnection = require 'modules/general/views/call_to_connection'
 initQuerystringActions = require 'modules/general/lib/querystring_actions'
 DonateMenu = require 'modules/general/views/donate_menu'
 FeedbackMenu = require 'modules/general/views/feedback_menu'
+{ currentRoute } = require 'lib/location'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -70,7 +71,7 @@ requireAdminRights = ->
     return false
 
 showAuthRedirect = (action, route)->
-  route or= _.currentRoute()
+  route or= currentRoute()
   app.execute "show:#{action}"
   if route not in noRedirectionRequired
     prepareLoginRedirect route

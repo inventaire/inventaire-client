@@ -2,6 +2,7 @@ UsersList = require 'modules/users/views/users_list'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/invite_by_email'
@@ -100,7 +101,7 @@ module.exports = Marionette.LayoutView.extend
       @ui.usersAlreadyThere.slideDown()
 
     # waiting for everything to be well rendered
-    @setTimeout _.scrollTop.bind(null, @ui.invitations), 250, 100
+    @setTimeout screen_.scrollTop.bind(null, @ui.invitations), 250, 100
 
   toggleMessage: ->
     @ui.addMessage.hide()

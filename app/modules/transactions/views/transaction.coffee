@@ -2,6 +2,7 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 messagesPlugin = require 'modules/general/plugins/messages'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/transaction'
@@ -25,8 +26,8 @@ module.exports = Marionette.CompositeView.extend
 
   onShow: ->
     @model.markAsRead()
-    if _.smallScreen() and not @options.nonExplicitSelection
-      _.scrollTop @$el
+    if screen_.isSmall() and not @options.nonExplicitSelection
+      screen_.scrollTop @$el
 
   modelEvents:
     'grab': 'lazyRender'

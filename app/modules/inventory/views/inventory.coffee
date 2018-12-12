@@ -6,6 +6,7 @@ Group = require 'modules/network/views/group'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 PositionWelcome = require 'modules/map/views/position_welcome'
 itemsPerPage = require '../lib/items_per_pages'
+screen_ = require 'lib/screen'
 
 # keep in sync with _controls.scss
 gridMinWidth = 750
@@ -33,9 +34,9 @@ module.exports = Marionette.LayoutView.extend
     # Commenting-out scrolling to <main>'s top
     # as keeping the icon_nav visible helps keeping landmarks
     # see also app/modules/general/views/icon_nav.coffee showLayout
-    # if _.smallScreen()
-    #   if @options.user? then _.scrollTop '#sideNav'
-    #   else _.scrollTop '#itemsView'
+    # if screen_.isSmall()
+    #   if @options.user? then screen_.scrollTop '#sideNav'
+    #   else screen_.scrollTop '#itemsView'
 
   showSideNav: ->
     @sideNav.show new SideNav
@@ -171,7 +172,7 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('showItemsNearby')
 
   # showControls: ->
-  #   unless _.smallScreen gridMinWidth
+  #   unless screen_.isSmall gridMinWidth
   #     @controls.show new Controls
 
   showPositionWelcome: ->
@@ -181,7 +182,7 @@ prepareUserItemsList = (user)-> app.vent.trigger 'sidenav:show:user', user
 
 prepareGroupItemsList = (group)->
   app.vent.trigger 'sidenav:show:group', group
-  unless _.smallScreen()
+  unless screen_.isSmall()
     @header.show new Group
       model: group
       highlighted: true

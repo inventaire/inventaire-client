@@ -1,4 +1,5 @@
 requestLogout = require './request_logout'
+{ parseQuery, buildPath } = require 'lib/location'
 
 module.exports = ->
   app.reqres.setHandlers
@@ -59,11 +60,11 @@ prepareLoginRedirect = (redir)->
   if redir[0] is '/' then redir = redir.slice(1)
   $browserLogin = $('#browserLogin')
   [ path, querystring ] = $browserLogin[0].action.split('?')
-  query = _.parseQuery querystring
+  query = parseQuery querystring
   # Override redirect if one was already set
   query.redirect = redir
   # Store the redirect parameter in form#browserLogin action
-  $browserLogin[0].action = _.buildPath path, query
+  $browserLogin[0].action = buildPath path, query
 
 emailConfirmationRequest = ->
   _.log 'sending emailConfirmationRequest'

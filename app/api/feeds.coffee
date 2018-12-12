@@ -1,4 +1,5 @@
 { root } = window.location
+{ buildPath } = require 'lib/location'
 endpointBase = require('./endpoint')('feeds', true)
 # Always using the absolute path so that links are treated as external links,
 # thus getting target='_blank' attributes, and the associated click behaviors
@@ -12,4 +13,4 @@ module.exports = (key, id)->
     query.requester = app.user.id
     query.token = app.user.get 'readToken'
 
-  return _.buildPath endpoint, query
+  return buildPath endpoint, query

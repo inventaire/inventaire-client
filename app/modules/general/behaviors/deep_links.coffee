@@ -1,3 +1,4 @@
+screen_ = require 'lib/screen'
 # Keep in sync with app/modules/general/scss/_topbar.scss
 topbarHeight = 45
 
@@ -28,5 +29,5 @@ module.exports = Marionette.Behavior.extend
     if hash isnt ''
       $target = @$el.find hash
       if $target.length > 0
-        _.scrollTop $target, @scrollDuration, @marginTop
+        screen_.scrollTop $target, @scrollDuration, @marginTop
         @alreadyScrolled = true

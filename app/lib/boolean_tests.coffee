@@ -33,3 +33,7 @@ module.exports = tests =
   isNonEmptyPlainObject: (obj)->
     _.isPlainObject(obj) and Object.keys(obj).length > 0
   isPositiveIntegerString: (str)-> _.isString(str) and /^\d+$/.test str
+  isPlainObject: (obj)-> _.typeOf(obj) is 'object'
+  isModel: (obj)-> obj instanceof Backbone.Model
+  isView: (obj)-> obj instanceof Backbone.View
+  isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'

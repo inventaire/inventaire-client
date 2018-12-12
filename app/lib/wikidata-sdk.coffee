@@ -1,6 +1,8 @@
 # A tree-shaked version of wikidata-sdk 4.0.6 to fit the client's exact needs
 # https://github.com/maxlath/wikidata-sdk
 
+{ buildPath } = require 'lib/location'
+
 # Simplistic implementation to filter-out arrays
 isPlainObject = (obj)->
   unless obj? then return false
@@ -21,7 +23,7 @@ module.exports =
     limit or= '20'
     format or= 'json'
 
-    return _.buildPath 'https://www.wikidata.org/w/api.php',
+    return buildPath 'https://www.wikidata.org/w/api.php',
       action: 'wbsearchentities'
       search: search
       language: language

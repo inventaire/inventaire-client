@@ -1,4 +1,5 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ BasicPlugin } = require 'lib/plugins'
 
 events =
   # general actions
@@ -60,4 +61,4 @@ handlers =
     actionFn = @group.kick.bind @group, @model
     confirmAction.call @, 'group_kick', actionFn
 
-module.exports = _.BasicPlugin events, handlers
+module.exports = BasicPlugin events, handlers

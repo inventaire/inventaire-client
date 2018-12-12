@@ -1,5 +1,6 @@
 { moment } = window
 { SafeString } = Handlebars
+{ parseQuery } = requireProxy 'lib/location'
 wdPropPrefix = 'wdt:'
 
 module.exports =
@@ -36,7 +37,7 @@ module.exports =
         text = ''
       else
         # Expect i18nArgs to be a string formatted as a querystring
-        i18nArgs = _.parseQuery i18nArgs
+        i18nArgs = parseQuery i18nArgs
         text = _.i18n i18n, i18nArgs
 
     link = @linkify text, url, classes, title

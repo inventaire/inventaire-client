@@ -1,3 +1,5 @@
+{ buildPath } = require 'lib/location'
+
 # Keep in sync with server/lib/emails/app_api
 module.exports = (path, width = 1600, height = 1600)->
   unless _.isNonEmptyString path then return
@@ -17,7 +19,7 @@ module.exports = (path, width = 1600, height = 1600)->
     "/img/remote/#{width}x#{height}/#{key}?href=#{href}"
 
   else if _.isEntityUri path
-    _.buildPath '/api/entities',
+    buildPath '/api/entities',
       action: 'images'
       uris: path
       redirect: true

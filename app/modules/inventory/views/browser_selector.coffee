@@ -1,5 +1,6 @@
 getActionKey = require 'lib/get_action_key'
 BrowserSelectorOptions = require './browser_selector_options'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   className: 'browser-selector'
@@ -118,7 +119,7 @@ module.exports = Marionette.LayoutView.extend
       @$el.find(@arrowNavigationSelector)[position]().addClass 'selected'
 
     # Adjust scroll to the selected element
-    _.innerScrollTop @ui.optionsList, @$el.find('.selected')
+    screen_.innerScrollTop @ui.optionsList, @$el.find('.selected')
 
     # Prevent arrow keys to make the screen move
     e.preventDefault()

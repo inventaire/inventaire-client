@@ -7,6 +7,7 @@
 { getNextActionsData, isArchived } = require '../lib/next_actions'
 cancellableStates = require '../lib/cancellable_states'
 applySideEffects = require '../lib/apply_side_effects'
+{ buildPath } = require 'lib/location'
 
 Action = require '../models/action'
 Message = require '../models/message'
@@ -91,7 +92,7 @@ module.exports = Backbone.NestedModel.extend
     return @timeline.add action
 
   fetchMessages: ->
-    url = _.buildPath app.API.transactions,
+    url = buildPath app.API.transactions,
       action: 'get-messages'
       transaction: @id
 

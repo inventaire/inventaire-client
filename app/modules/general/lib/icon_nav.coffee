@@ -1,3 +1,5 @@
+{ currentSection } = require 'lib/location'
+
 module.exports = ->
   { $el } = @iconNav
 
@@ -13,7 +15,7 @@ module.exports = ->
     if section in noIconNavRoutes then hide()
     else show()
 
-  updateBySection _.currentSection()
+  updateBySection currentSection()
   @listenTo app.vent, 'route:change', updateBySection
 
 noIconNavRoutes = [
