@@ -19,7 +19,15 @@ module.exports =
 
   I18n: (args...)-> _.capitalise @i18n.apply(@, args)
 
-  capitalize: (str)-> _.capitalise str
+  linkify: require './linkify'
+
+  i18nLink: (text, url, context)->
+    text = _.i18n text, context
+    @link text, url
+
+  I18nLink: (text, url, context)->
+    text = _.capitalise _.i18n(text, context)
+    @link text, url
 
   link: (text, url, classes, title)->
     # Polymorphism: accept arguments as hash key/value pairs
@@ -48,13 +56,7 @@ module.exports =
     else
       return new SafeString link
 
-  i18nLink: (text, url, context)->
-    text = _.i18n text, context
-    @link text, url
-
-  I18nLink: (text, url, context)->
-    text = _.capitalise _.i18n(text, context)
-    @link text, url
+  capitalize: (str)-> _.capitalise str
 
   limit: (text, limit)->
     return ''  unless text?
@@ -62,23 +64,10 @@ module.exports =
     if text.length > limit then t += '[...]'
     new SafeString t
 
-  ifvalue: (attr, value)->
-    if value? then "#{attr}=#{value}"
-    else return
-
-  inlineOptions: (options)->
-    str = ''
-    str += "#{k}:#{v}; "  for k, v of options
-    return str
-
-  linkify: require './linkify'
-
   debug: ->
     _.log arguments, 'hb debug arguments'
     return JSON.stringify arguments[0]
 
   localTimeString: (time)-> new Date(time).toLocaleString()
-  timeFromNow: (time)-> moment(time).fromNow()
 
-  # Tailored for arrays of YYYY-MM-DD date format and returns just the year: YYYY
-  dateYear: (dateArray)-> dateArray[0]?.split('-')[0]
+  timeFromNow: (time)-> moment(time).fromNow()
