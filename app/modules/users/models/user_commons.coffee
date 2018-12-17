@@ -1,4 +1,5 @@
 Positionable = require 'modules/general/models/positionable'
+error_ = require 'lib/error'
 
 module.exports = Positionable.extend
   setPathname: ->
@@ -45,6 +46,10 @@ module.exports = Positionable.extend
     @set 'itemsLastAdded', lastAdd
 
   getRss: -> app.API.feeds 'user', @id
+
+  checkSpecialStatus: ->
+    if @get 'special'
+      throw error_.new "this layout isn't available for special users", 400, { user: @ }
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection

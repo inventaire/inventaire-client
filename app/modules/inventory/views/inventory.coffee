@@ -96,6 +96,7 @@ module.exports = Marionette.LayoutView.extend
     fallback = null
 
     if user?
+      user.checkSpecialStatus()
       prepareUserItemsList user
       eventName = user.get 'username'
       app.navigateFromModel user
