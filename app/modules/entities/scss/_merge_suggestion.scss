@@ -19,7 +19,7 @@
   }
   .suggestion-claims{
     text-align: left;
-    margin: 1em 0;
+    margin-bottom: 1em;
     .wiki-attributes, .claims{
       padding: 0;
       margin: 0;
@@ -28,7 +28,6 @@
   .all-subentities{
     max-height: 12em;
     overflow: auto;
-    margin-bottom: 1.5em;
   }
   .subentities-label{
     display: none;
@@ -70,5 +69,6 @@
     td{
       background-color: #eee;
     }
+    margin-bottom: 1em;
   }
 }

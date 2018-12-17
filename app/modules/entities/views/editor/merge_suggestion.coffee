@@ -16,11 +16,11 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     toEntityUri = @options.toEntity.get('uri')
-    @taskModel = @model.tasks[toEntityUri]
+    @taskModel = @model.tasks?[toEntityUri]
 
   serializeData: ->
     attrs = @model.toJSON()
-    attrs.task = @taskModel.toJSON()
+    attrs.task = @taskModel?.toJSON()
     attrs.claimsPartial = claimsPartials[@model.type]
     return attrs
 

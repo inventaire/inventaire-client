@@ -6,11 +6,13 @@
 </h5>
 <p class="uri">{{uri}}</p>
 
-<div class="task-data">
-  <a class="showTask" href="{{task.pathname}}" title="{{i18n 'show task'}}">
-    {{partial 'tasks:task_scores' task}}
-  </a>
-</div>
+{{#if task}}
+  <div class="task-data">
+    <a class="showTask" href="{{task.pathname}}" title="{{i18n 'show task'}}">
+      {{partial 'tasks:task_scores' task}}
+    </a>
+  </div>
+{{/if}}
 
 <div class="suggestion-claims">
   {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}

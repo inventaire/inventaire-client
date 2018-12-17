@@ -5,15 +5,21 @@ Task = require 'modules/tasks/models/task'
 module.exports = (params)->
   { region, model } = params
 
-  uri = model.get 'uri'
-
-  getMergeSuggestions uri
+  getMergeSuggestions model
   .then (entities)->
     if entities.length is 0 then return
     collection = new Entities entities
     region.show new MergeSuggestions { collection, toEntity: model }
 
-getMergeSuggestions = (uri)->
+getMergeSuggestions = (model)->
+  getTasksByUri model.get('uri')
+  .then (tasksEntitiesData)->
+    tasksEntitiesUris = _.pluck tasksEntitiesData, 'uri'
+    getHomonyms model, tasksEntitiesUris
+    # returning a mix of raw objects and models
+    .then (homonymEntities)-> tasksEntitiesData.concat(homonymEntities)
+
+getTasksByUri = (uri)->
   [ action, relation ] = getMergeSuggestionsParams uri
   _.preq.get app.API.tasks[action](uri)
   .then (res)->
@@ -38,3 +44,21 @@ addTasksToEntities = (uri, tasks, relation)-> (entities)->
   entities.sort (a, b)-> b.tasks[uri].get('globalScore') - a.tasks[uri].get('globalScore')
 
   return entities
+
+getHomonyms = (model, tasksEntitiesUris)->
+  [ uri, label ] = model.gets 'uri', 'label'
+  { pluralizedType } = model
+  _.preq.get app.API.entities.search(label, false, true)
+  .get pluralizedType
+  .then parseSearchResults(uri, tasksEntitiesUris)
+
+parseSearchResults = (uri, tasksEntitiesUris)-> (searchResults)->
+  uris = _.pluck searchResults, 'uri'
+  prefix = uri.split(':')[0]
+  if prefix is 'wd' then uris = uris.filter isntWdUri
+  # Omit the current entity URI and the entities for which a task was found
+  uris = _.without uris, uri, tasksEntitiesUris...
+  # Search results entities miss their claims, so we need to fetch the full entities
+  return app.request 'get:entities:models', { uris }
+
+isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'
