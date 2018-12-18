@@ -9,7 +9,7 @@ module.exports = (text)->
     # window.ISBN should now be initalized
     isbnsData = extractIsbns text
 
-    if isbnsData.length is 0 then return
+    if isbnsData.length is 0 then return []
 
     fetchEntitiesSequentially isbnsData
     .then parseResults

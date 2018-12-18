@@ -128,3 +128,5 @@ module.exports = Marionette.LayoutView.extend
     .then =>
       behaviorsPlugin.stopLoading.call @, selector
       @showImportQueueUnlessEmpty()
+    .catch error_.Complete('#isbnsImporterWrapper .warning')
+    .catch forms_.catchAlert.bind(null, @)

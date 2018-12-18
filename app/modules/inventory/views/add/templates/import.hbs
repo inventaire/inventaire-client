@@ -23,7 +23,7 @@
       </li>
     {{/each}}
   </ul>
-  <p class="warning"></p>
+  <div><span class="warning"></span></div>
 </div>
 
 {{#unless hideImporters}}{{partial 'horizontal_separator' 'or'}}{{/unless}}
@@ -32,6 +32,7 @@
   <h3>1/ {{I18n 'import from a list of ISBNs'}}</h3>
   <div id="isbnsImporter">
     <textarea placeholder="{{i18n 'paste your list containing ISBNs here'}}"></textarea>
+    <div><span class="warning"></span></div>
     <div class="loading"></div>
     <a id="findIsbns" class="success-button">{{i18n 'find ISBNs'}}</a>
   </div>
