@@ -22,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
     PreventDefault: {}
     SuccessCheck: {}
+    ElasticTextarea: {}
 
   regions:
     queue: '#queue'
