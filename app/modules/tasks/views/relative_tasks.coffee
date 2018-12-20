@@ -12,8 +12,7 @@ RelativeTask = Marionette.ItemView.extend
   initialize: ->
     @lazyRender = _.LazyRender @
 
-    @model.waitForData
-    .then @lazyRender
+    @model.waitForData?.then @lazyRender
 
   serializeData: -> @model.serializeData()
 
