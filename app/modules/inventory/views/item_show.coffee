@@ -50,7 +50,7 @@ module.exports = Marionette.LayoutView.extend
     app.layout.modal.show new EditionsList
       collection: entity.editions
       work: entity
-      header: 'precise the edition'
+      header: 'specify the edition'
       itemToUpdate: @model
 
     app.execute 'modal:open', 'large'
