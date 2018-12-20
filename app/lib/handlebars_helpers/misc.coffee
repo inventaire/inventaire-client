@@ -68,6 +68,6 @@ module.exports =
     _.log arguments, 'hb debug arguments'
     return JSON.stringify arguments[0]
 
-  localTimeString: (time)-> new Date(time).toLocaleString()
+  localTimeString: (time)-> if time? then new Date(time).toLocaleString()
 
-  timeFromNow: (time)-> moment(time).fromNow()
+  timeFromNow: (time)-> if time? then moment(time).fromNow()
