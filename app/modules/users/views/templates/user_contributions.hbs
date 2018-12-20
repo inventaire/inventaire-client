@@ -4,10 +4,12 @@
     <span class="stat-label">id:</span>
     <span class="stat-value">{{user._id}}</span>
   </li>
-  <li>
-    <span class="stat-label">{{i18n 'created:'}}</span>
-    <span class="stat-value">{{localTimeString user.created}}</span>
-  </li>
+  {{#unless user.special}}
+    <li>
+      <span class="stat-label">{{i18n 'created:'}}</span>
+      <span class="stat-value">{{localTimeString user.created}}</span>
+    </li>
+  {{/unless}}
   <li>
     <span class="stat-label">{{i18n 'total contributions:'}}</span>
     <span class="stat-value totalContributions"></span>

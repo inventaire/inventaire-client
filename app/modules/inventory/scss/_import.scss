@@ -42,6 +42,19 @@
   .loading{
     margin-bottom: 1em;
   }
+  .textarea-wrapper{
+    position: relative;
+    padding-right: 2.2em;
+    #emptyIsbns{
+      position: absolute;
+      padding: 0.2em;
+      @include bg-hover($grey);
+      top: 0;
+      right: 0;
+      @include radius;
+      color: white;
+    }
+  }
   #findIsbns{
     margin: auto;
     margin-bottom: 1em;

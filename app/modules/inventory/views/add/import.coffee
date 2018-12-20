@@ -22,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
     PreventDefault: {}
     SuccessCheck: {}
+    ElasticTextarea: {}
 
   regions:
     queue: '#queue'
@@ -36,6 +37,7 @@ module.exports = Marionette.LayoutView.extend
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
     'click #findIsbns': 'findIsbns'
+    'click #emptyIsbns': 'emptyIsbns'
 
   childEvents:
     'import:done': 'onImportDone'
@@ -125,6 +127,14 @@ module.exports = Marionette.LayoutView.extend
 
     extractIsbnsAndFetchData text
     .then candidates.addNewCandidates.bind(candidates)
-    .then =>
+    .then (addedCandidates)=>
       behaviorsPlugin.stopLoading.call @, selector
-      @showImportQueueUnlessEmpty()
+      if addedCandidates.length > 0 then @showImportQueueUnlessEmpty()
+      else throw error_.new 'no ISBN found', 400
+    .catch error_.Complete('#isbnsImporterWrapper .warning')
+    .catch forms_.catchAlert.bind(null, @)
+
+  emptyIsbns: ->
+    @ui.isbnsImporterTextarea.val ''
+    @$el.trigger 'elastic:textarea:update'
+    @hideAlertBox()

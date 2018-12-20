@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 module.exports = Backbone.Collection.extend
   model: require '../models/candidate'
 
@@ -10,7 +12,8 @@ module.exports = Backbone.Collection.extend
   addNewCandidates: (newCandidates)->
     alreadyAddedIsbns = @pluck 'normalizedIsbn'
     remainingCandidates = newCandidates.filter isNewCandidate(alreadyAddedIsbns)
-    return @add remainingCandidates
+    if remainingCandidates.length > 0 then return @add remainingCandidates
+    else return []
 
 isSelected = (model)-> model.get('selected')
 
