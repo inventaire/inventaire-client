@@ -2,6 +2,7 @@ BindedPartialBuilder = require 'lib/binded_partial_builder'
 updateMetadata = require 'lib/metadata/update'
 initialUrlNavigateAlreadyCalled = false
 error_ = require 'lib/error'
+{ routeSection, currentRoute } = require 'lib/location'
 
 App = Marionette.Application.extend
   initialize: ->
@@ -36,21 +37,21 @@ App = Marionette.Application.extend
     updateMetadata route, options.metadata
     # Easing code mutualization by firing app.navigate, even when the module
     # simply reacted to the requested URL
-    if route is _.currentRoute()
+    if route is currentRoute()
       # Trigger a route event for the first URL, so that views listening
       # on the route:change event can update accordingly
       unless initialUrlNavigateAlreadyCalled
-        @vent.trigger 'route:change', _.routeSection(route), route
+        @vent.trigger 'route:change', routeSection(route), route
         initialUrlNavigateAlreadyCalled = true
       return
 
     # a starting slash would be corrected by the Backbone.Router
-    # but _.routeSection relies on the route not starting by a slash.
+    # but routeSection relies on the route not starting by a slash.
     # it can't just thrown an error as pathnames commonly require to start
     # by a slash to avoid being interpreted as relative pathnames
     route = route.replace /^\//, ''
 
-    @vent.trigger 'route:change', _.routeSection(route), route
+    @vent.trigger 'route:change', routeSection(route), route
     route = @request 'querystring:keep', route
     Backbone.history.last.unshift route
     Backbone.history.navigate route, options
@@ -75,8 +76,8 @@ onceStart = ->
   Backbone.history.on 'route', onPreviousRoute
 
 onPreviousRoute = ->
-  route = _.currentRoute()
-  app.vent.trigger 'route:change', _.routeSection(route), route
+  route = currentRoute()
+  app.vent.trigger 'route:change', routeSection(route), route
 
 module.exports = new App()
 

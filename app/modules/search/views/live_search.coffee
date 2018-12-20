@@ -14,6 +14,7 @@ wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
 findUri = require '../lib/find_uri'
 spinner = _.icon 'circle-o-notch', 'fa-spin'
 error_ = require 'lib/error'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.CompositeView.extend
   id: 'live-search'
@@ -164,7 +165,7 @@ module.exports = Marionette.CompositeView.extend
       view.highlight()
       @_currentHighlightIndex = newIndex
 
-      _.innerScrollTop @ui.results, view?.$el
+      screen_.innerScrollTop @ui.results, view?.$el
 
   showCurrentlyHighlightedResult: ->
     hilightedView = @children.findByIndex @_currentHighlightIndex

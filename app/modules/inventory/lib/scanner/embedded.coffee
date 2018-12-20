@@ -1,5 +1,6 @@
 drawCanvas = require './draw_canvas'
 isbn_ = require 'lib/isbn'
+screen_ = require 'lib/screen'
 
 { prepare:prepareQuagga, get:getQuagga } = require('lib/get_assets')('quagga')
 { prepare:prepareIsbn2, get:getIsbn2 } = require('lib/get_assets')('isbn2')
@@ -51,7 +52,7 @@ getOptions = (constraints)->
   return baseOptions
 
 getConstraints = ->
-  minDimension = _.min [ _.screenWidth(), _.screenHeight() ]
+  minDimension = _.min [ screen_.width(), screen_.height() ]
   if minDimension > 720 then { width: 1280, height: 720 }
   else { width: 640, height: 480 }
 

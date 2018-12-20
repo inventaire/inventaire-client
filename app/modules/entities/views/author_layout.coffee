@@ -1,6 +1,7 @@
 AuthorInfobox = require './author_infobox'
 { startLoading } = require 'modules/general/plugins/behaviors'
 WorksList = require './works_list'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/author_layout'
@@ -75,7 +76,7 @@ module.exports = Marionette.LayoutView.extend
     total = works.totalLength + series.totalLength + articles.totalLength
 
     # Always starting wrapped on small screens
-    if not _.smallScreen(600) and total > 0 then @unwrap()
+    if not screen_.isSmall(600) and total > 0 then @unwrap()
 
     { initialWorksListLength } = @options
     initialWorksListLength or= if @standalone then 10 else 5

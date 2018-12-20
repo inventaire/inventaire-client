@@ -1,7 +1,7 @@
 should = require 'should'
 __ = require '../root'
 _ = require './utils_builder'
-isbn_ = sharedLib 'isbn'
+{ looksLikeAnIsbn } = __.require 'lib', 'isbn'
 importers = __.require 'modules', 'inventory/lib/importers'
 fs = require 'fs'
 window.Papa = require 'papaparse'
@@ -30,7 +30,7 @@ describe 'Importers', ->
         for doc in parsed
           doc.should.be.a.Object()
           doc.title.should.be.a.String()
-          isbn_.looksLikeAnIsbn(doc.isbn).should.be.ok()
+          looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.Array()
           if doc.details then doc.details.should.be.a.String()
         done()
@@ -52,7 +52,7 @@ describe 'Importers', ->
         for doc in parsed
           doc.should.be.a.Object()
           doc.title.should.be.a.String()
-          isbn_.looksLikeAnIsbn(doc.isbn).should.be.ok()
+          looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.Array()
           if doc.notes then doc.notes.should.be.a.String()
         done()

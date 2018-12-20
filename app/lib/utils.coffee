@@ -2,31 +2,10 @@ oneDay = 24 * 60 * 60 * 1000
 error_ = requireProxy 'lib/error'
 
 module.exports = (Backbone, _, $, app, window)->
-  # sync
-  getCookie: (key)->
-    value = $.cookie key
-    return parseCookieValue value
-
-  # async
-  setCookie: (key, value)->
-    _.preq.post app.API.cookie, { key, value }
-    .catch _.Error("setCookie: failed: #{key} - #{value}")
-
   # Will be overriden in modules/user/lib/i18n.coffee as soon as possible
   i18n: _.identity
   I18n: (args...)-> _.capitalise _.i18n.apply(_, args)
   icon: (name, classes = '')-> "<i class='fa fa-#{name} #{classes}'></i>"
-
-  parseQuery: (queryString)->
-    query = {}
-    if queryString?
-      queryString
-      .replace /^\?/, ''
-      .split '&'
-      .forEach ParseKeysValues(query)
-    return query
-
-  piped: (data)-> _.forceArray(data).join '|'
 
   inspect: (obj, label)->
     if _.isArguments obj then obj = _.toArray obj
@@ -43,21 +22,8 @@ module.exports = (Backbone, _, $, app, window)->
 
     return obj
 
-  lastRouteMatch: (regex)->
-    if Backbone.history.last?[1]?
-      last = Backbone.history.last[1]
-      return regex.test(last)
-    else false
-
-  isntEmpty: (array)-> not _.isEmpty(array)
-
-  # /!\ window.screen.width is the screen's width not the current window width
-  screenWidth: -> $(window).width()
-  screenHeight: -> $(window).height()
-  # keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
-  smallScreen: (ceil = 1000)-> _.screenWidth() < ceil
-
   deepExtend: $.extend.bind($, yes)
+
   deepClone: (obj)->
     _.type obj, 'object'
     return JSON.parse JSON.stringify(obj)
@@ -85,61 +51,6 @@ module.exports = (Backbone, _, $, app, window)->
     # Known case of missing currentTarget: leaflet formatted events
     openOutsideByTarget = e.currentTarget?.target is '_blank'
     return openInNewTabByKey or openInNewWindow or openOutsideByTarget
-
-  noop: ->
-
-  currentRoute: -> location.pathname.slice(1)
-  setQuerystring: (url, key, value)->
-    [ href, qs ] = url.split '?'
-    qsObj = _.parseQuery qs
-    # override the previous key/value
-    qsObj[key] = value
-    return _.buildPath href, qsObj
-
-  # calling a section the first part of the route matching to a module
-  # ex: for '/inventory/bla/bla', the section is 'inventory'
-  routeSection: (route)->
-    # split on the first non-alphabetical character
-    route.split(/[^\w]/)[0]
-
-  currentSection: -> _.routeSection _.currentRoute()
-
-  # Scroll to the top of an $el
-  # Increase marginTop to scroll to a point before the element top
-  scrollTop: ($el, duration = 500, marginTop = 0)->
-    # Polymorphism: accept jquery objects or selector strings as $el
-    if _.isString then $el = $($el)
-    top = $el.position().top - marginTop
-    $('html, body').animate { scrollTop: top }, duration
-
-  # Scroll to a given height
-  scrollHeight: (height, ms = 500)->
-    $('html, body').animate { scrollTop: height }, ms
-
-  # Scroll to the top of an element inside a element with a scroll,
-  # typically a list of search results partially hidden
-  innerScrollTop: ($parent, $children)->
-    if $children?.length > 0
-      selectedTop = $children.position().top
-      # Adjust scroll to the selected element
-      scrollTop = $parent.scrollTop() + selectedTop - 50
-    else
-      scrollTop = 0
-    $parent.animate { scrollTop }, { duration: 50, easing: 'swing' }
-
-  # let the view call the plugin with the view as context
-  # ex: module.exports = _.BasicPlugin events, handlers
-  BasicPlugin: (events, handlers)->
-    _.partial _.basicPlugin, events, handlers
-
-  # expected to be passed a view as context, an events object
-  # and the associated handlers
-  # ex: _.basicPlugin.call @, events, handlers
-  basicPlugin: (events, handlers)->
-    @events or= {}
-    _.extend @events, events
-    _.extend @, handlers
-    return
 
   cutBeforeWord: (text, limit)->
     shortenedText = text[0..limit]
@@ -178,36 +89,14 @@ module.exports = (Backbone, _, $, app, window)->
       reverseAction()
       throw err
 
-  # Tests (compeling app/lib/shared/tests for the client needs)
-  isModel: (obj)-> obj instanceof Backbone.Model
-  isView: (obj)-> obj instanceof Backbone.View
-  isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
-
-  allValues: (obj)-> _.flatten _.values(obj)
-
-  # Functions mimicking Lodash
-
   # Get the value from an object using a string
   # (equivalent to lodash deep 'get' function).
+  # mimicking Lodash#get
   get: (obj, prop)-> prop.split('.').reduce objectWalker, obj
-
-  # adapted from lodash implementation
-  values: (obj)->
-    index = -1
-    props = Object.keys obj
-    length = props.length
-    result = Array length
-
-    while ++index < length
-      result[index] = obj[props[index]]
-
-    return result
 
   sum: (array)-> array.reduce add, 0
 
   trim: (str)-> str.trim()
-
-  isPlainObject: (obj)-> _.typeOf(obj) is 'object'
 
   focusInput: ($el)->
     $el.focus()
@@ -215,34 +104,61 @@ module.exports = (Backbone, _, $, app, window)->
     unless value? then return
     $el[0].setSelectionRange 0, value.length
 
+  # adapted from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+  hashCode: (string)->
+    [ hash, i, len ] = [ 0, 0, string.length ]
+    if len is 0 then return hash
+
+    while i < len
+      chr = string.charCodeAt(i)
+      hash = ((hash << 5) - hash) + chr
+      hash |= 0 # Convert to 32bit integer
+      i++
+    Math.abs hash
+
+  haveAMatch: (arrayA, arrayB)->
+    unless _.isArray(arrayA) and _.isArray(arrayB) then return false
+    for valueA in arrayA
+      for valueB in arrayB
+        # Return true as soon as possible
+        if valueA is valueB then return true
+    return false
+
+  objLength: (obj)-> Object.keys(obj)?.length
+
+  expired: (timestamp, ttl)-> Date.now() - timestamp > ttl
+
+  shortLang: (lang)-> lang?[0..1]
+
+  # encodeURIComponent ignores !, ', (, ), and *
+  # cf https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent#Description
+  fixedEncodeURIComponent: (str)->
+    encodeURIComponent(str).replace /[!'()*]/g, encodeCharacter
+
+  pickOne: (obj)->
+    key = Object.keys(obj)[0]
+    if key? then return obj[key]
+
+  isDataUrl: (str)-> /^data:image/.test str
+
+  parseBooleanString: (booleanString, defaultVal = false)->
+    if defaultVal is false
+      booleanString is 'true'
+    else
+      booleanString isnt 'false'
+
+  simpleDay: (date)->
+    if date? then new Date(date).toISOString().split('T')[0]
+    else new Date().toISOString().split('T')[0]
+
+encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
+
 add = (a, b)-> a + b
 
 objectWalker = (subObject, property)-> subObject?[property]
 
-parseCookieValue = (value)->
-  switch value
-    when 'true' then true
-    when 'false' then false
-    else value
-
 # Polyfill if needed
-Date.now or= -> new Date().getTime()
+Date.now ?= -> new Date().getTime()
 
 # source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
 isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
-
-ParseKeysValues = (queryObj)-> (param)->
-  pairs = param.split '='
-  [ key, value ] = pairs
-  if key?.length > 0 and value?
-    # Try to parse the value, allowing JSON strings values
-    # like data={%22wdt:P50%22:[%22wd:Q535%22]}
-    value = permissiveJsonParse decodeURIComponent(value)
-    # If a number string was parsed into a number, make it a string again
-    # so that the output stays predictible
-    if _.isNumber value then value = value.toString()
-    queryObj[key] = value
-
-permissiveJsonParse = (input)->
-  try JSON.parse input
-  catch err then input

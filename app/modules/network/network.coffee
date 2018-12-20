@@ -5,6 +5,7 @@ initGroupHelpers = require './lib/group_helpers'
 { tabsData } = require './lib/network_tabs'
 { getDefaultTab, defaultToSearch } = require './lib/network_tabs'
 fetchData = require 'lib/data/fetch'
+{ parseQuery, buildPath } = require 'lib/location'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _)->
@@ -90,12 +91,12 @@ API =
     tab or= getDefaultTab.general()
     { path } = tabsData.all[tab]
 
-    if _.isNonEmptyString(qs) then query = _.parseQuery qs
+    if _.isNonEmptyString(qs) then query = parseQuery qs
     # Allow to directly pass a query object instead of a query string
     else if _.isPlainObject(qs) then query = qs
     else query = {}
 
-    if app.request 'require:loggedIn', _.buildPath(path, query)
+    if app.request 'require:loggedIn', buildPath(path, query)
       app.layout.main.show new NetworkLayout { tab, query }
 
   showGroupBoard: (slug)->

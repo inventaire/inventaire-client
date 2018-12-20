@@ -1,4 +1,4 @@
-{ findNextActions, isArchived } = sharedLib('transactions')(_)
+{ findNextActions, isArchived } = require './transactions'
 infoPartials = require './info_partials'
 actionsData = require './actions_data'
 
@@ -9,6 +9,7 @@ getNextActionsData = (transaction)->
   data = addTransactionInfo data, transaction
   grabOtherUsername transaction, data
 
+# TODO: remove the adapter now that the lib isn't shared with the server anymore
 proxyFindNextActions = (transaction)->
   findNextActions sharedLibAdapter(transaction)
 

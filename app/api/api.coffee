@@ -23,7 +23,7 @@ module.exports = (_)->
   images: require './images'
   # /img: endpoint serving images, handled by Nginx in production
   # thus not behing the /api root
-  img: sharedLib('api/img')(_)
+  img: require './img'
   assets: require './assets'
   feeds: require './feeds'
   i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"

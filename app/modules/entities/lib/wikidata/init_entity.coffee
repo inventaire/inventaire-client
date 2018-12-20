@@ -1,6 +1,6 @@
 sitelinks_ = require 'lib/wikimedia/sitelinks'
 wikipedia_ = require 'lib/wikimedia/wikipedia'
-getBestLangValue = sharedLib('get_best_lang_value')(_)
+getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 { escapeExpression } = Handlebars
 wdHost = 'https://www.wikidata.org'
 

@@ -2,6 +2,7 @@
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
+screen_ = require 'lib/screen'
 
 CandidatesQueue = Marionette.CollectionView.extend
   tagName: 'ul'
@@ -141,7 +142,7 @@ module.exports = Marionette.LayoutView.extend
 
   showAddedBooks: ->
     @ui.addedBooks.fadeIn()
-    @setTimeout _.scrollTop.bind(null, @ui.addedBooks), 600
+    @setTimeout screen_.scrollTop.bind(null, @ui.addedBooks), 600
 
   toggleValidationElements: ->
     @ui.validationElements.toggleClass 'force-hidden'

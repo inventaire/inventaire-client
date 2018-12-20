@@ -5,6 +5,7 @@ GroupsList = require 'modules/network/views/groups_list'
 Group = require 'modules/network/views/group'
 UsersSearch = require 'modules/network/plugins/users_search'
 headersData = require '../lib/headers'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   id: 'innerNav'
@@ -64,7 +65,7 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     _.extend headersData,
-      smallScreen: _.smallScreen()
+      smallScreen: screen_.isSmall()
 
   showBase: (active)->
     @_listReady = false
@@ -90,7 +91,7 @@ module.exports = Marionette.LayoutView.extend
     switch active
       when 'last', 'nearby' then @ui[active].addClass 'active'
 
-    if _.smallScreen()
+    if screen_.isSmall()
       app.request 'wait:for', 'user'
       .then @initBaseSmallScreen.bind(@)
       .then =>
@@ -146,7 +147,7 @@ module.exports = Marionette.LayoutView.extend
   showGroup: (groupModel)->
     @_membersListShown = false
     @_currentGroup = groupModel
-    if _.smallScreen()
+    if screen_.isSmall()
       @one.show new Group
         model: groupModel
         highlighted: true
@@ -183,7 +184,7 @@ module.exports = Marionette.LayoutView.extend
   toggleListHeader: (e)->
     # checking @_listReady as we don't want the toggler to be toggled
     # before lists are ready as it would be out of sync
-    if @_listReady and _.smallScreen()
+    if @_listReady and screen_.isSmall()
       { id } = e.currentTarget
       name = id.replace 'ListHeader', ''
       if name is 'users' then @toggleUserSearch()

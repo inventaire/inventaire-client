@@ -1,5 +1,6 @@
 # dependencies: behaviorsPlugin, paginationPlugin
 
+screen_ = require 'lib/screen'
 # to keep in sync with _items_list.scss $itemContainerBaseWidth variable
 itemWidth = 230
 
@@ -19,7 +20,7 @@ module.exports = (containerSelector, itemSelector, minWidth = 500)->
     itemsPerLine = $itemsList.width() / itemWidth
     tooFewItems = @collection.length < itemsPerLine
 
-    unless _.smallScreen(minWidth) or tooFewItems
+    unless screen_.isSmall(minWidth) or tooFewItems
       _.log 'masonry:reinit'
       positionBefore = window.scrollY
       container = document.querySelector containerSelector
@@ -31,7 +32,7 @@ module.exports = (containerSelector, itemSelector, minWidth = 500)->
         isAnimated: true
         gutter: 5
 
-      _.scrollHeight positionBefore, 0
+      screen_.scrollHeight positionBefore, 0
       $(containerSelector).css 'opacity', 1
 
   refresh = ->

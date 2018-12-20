@@ -1,4 +1,4 @@
-notificationsList = sharedLib 'notifications_settings_list'
+notificationsList = require '../lib/notifications_settings_list'
 getPeriodicityDays = require '../lib/periodicity_days'
 defaultPeriodicity = 20
 

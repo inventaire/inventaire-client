@@ -1,3 +1,6 @@
+screen_ = require 'lib/screen'
+{ currentSection } = require 'lib/location'
+
 module.exports = Marionette.ItemView.extend
   template: require './templates/icon_nav'
   className: 'innerIconNav'
@@ -35,11 +38,11 @@ module.exports = Marionette.ItemView.extend
     networkUpdates: @networkUpdates()
     exchangesUpdates: @exchangesUpdates()
     notificationsUpdates: @notificationsUpdates()
-    smallScreen: _.smallScreen()
+    smallScreen: screen_.isSmall()
     isLoggedIn: app.user.loggedIn
 
   onRender: ->
-    @selectButtonFromRoute _.currentSection()
+    @selectButtonFromRoute currentSection()
 
   selectButtonFromRoute: (section)->
     if _.isNonEmptyString(section) and section isnt lastSection

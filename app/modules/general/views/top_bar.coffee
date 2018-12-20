@@ -2,6 +2,8 @@
 showViews = require '../lib/show_views'
 getActionKey = require 'lib/get_action_key'
 LiveSearch = require 'modules/search/views/live_search'
+screen_ = require 'lib/screen'
+{ currentRoute, currentSection } = require 'lib/location'
 
 { languages } = require 'lib/active_languages'
 mostCompleteFirst = (a, b)-> b.completion - a.completion
@@ -33,7 +35,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo app.user, 'change:picture', @lazyRender
 
   serializeData: ->
-    smallScreen: _.smallScreen()
+    smallScreen: screen_.isSmall()
     isLoggedIn: app.user.loggedIn
     user: app.user.toJSON()
     currentLanguage: languages[app.user.lang].native
@@ -43,7 +45,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     # Needed as 'route:change' might have been triggered before
     # this view was initialized
-    @onRouteChange _.currentSection(), _.currentRoute()
+    @onRouteChange currentSection(), currentRoute()
 
   onRouteChange: (section, route)->
     @updateConnectionButtons section
@@ -80,7 +82,7 @@ module.exports = Marionette.LayoutView.extend
   updateConnectionButtons: (section)->
     if app.user.loggedIn then return
 
-    if _.smallScreen() and (section is 'signup' or section is 'login')
+    if screen_.isSmall() and (section is 'signup' or section is 'login')
       $('.connectionButton').hide()
     else if not app.user.loggedIn
       $('.connectionButton').show()

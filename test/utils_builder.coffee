@@ -12,8 +12,6 @@ global.Promise = require 'bluebird'
 global.navigator =
   platform: 'None in particular'
 
-sharedLib = require './shared_lib'
-
 global._ = _ = require 'underscore'
 
 if process.env.CONSOLE is 'silent'
@@ -29,10 +27,10 @@ global.$ =
   post: ->
 
 loggers_ = __.require('lib', 'loggers')(_, csle)
-types_ = sharedLib('types')(_)
-sharedUtils = sharedLib('utils')(_)
-_.extend _, loggers_, types_, sharedUtils
+types_ = __.require 'lib', 'types'
+booleanTests_ = __.require 'lib', 'boolean_tests'
+_.extend _, loggers_, types_
 
-localLib = __.require('lib', 'utils')(Backbone, _, $, app, window)
+localUtils = __.require('lib', 'utils')(Backbone, _, $, app, window)
 
-module.exports = _.extend _, localLib
+module.exports = _.extend _, localUtils, booleanTests_

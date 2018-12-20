@@ -1,8 +1,6 @@
 should = require 'should'
-
-sharedLib = require './shared_lib'
-
-{ EntityUri, SimpleDay, Url, ImageHash } = sharedLib 'regex'
+__ = require '../root'
+{ EntityUri, SimpleDay, ImageHash } = __.require 'lib', 'regex'
 
 describe 'Regex', ->
   describe 'EntityUri', ->
@@ -89,32 +87,6 @@ describe 'Regex', ->
     it 'should reject non-padded months or day', (done)->
       SimpleDay.test('1972-1-01').should.be.false()
       SimpleDay.test('1972-02-2').should.be.false()
-      done()
-
-  describe 'Url', ->
-    it 'should return true on valid urls', (done)->
-      Url.test('http://yo.fr').should.be.true()
-      Url.test('https://yo.fr').should.be.true()
-      Url.test('https://yo.yo.fr').should.be.true()
-      Url.test('https://y_o.yo.fr').should.be.true()
-      Url.test('https://y-o.yo.fr').should.be.true()
-      Url.test('https://hello:pwd@y-o.yo.holidays:3006').should.be.true()
-      Url.test('https://hello:pwd@y-o.yo.holidays:3006/glou_-bi?q=boulga#yolo').should.be.true()
-      done()
-
-    it 'should return false on invalid urls', (done)->
-      Url.test('nop').should.be.false()
-      Url.test('yo.fr').should.be.false()
-      Url.test('htp://yo.fr').should.be.false()
-      Url.test('http//yo.fr').should.be.false()
-      Url.test('https//yo.fr').should.be.false()
-      Url.test('http:/yo.fr').should.be.false()
-      Url.test('http:/yo.fr').should.be.false()
-      Url.test('http://yo-.yo.fr').should.be.false()
-      Url.test('http://yo_.yo.fr').should.be.false()
-      Url.test('http://_yo.yo.fr').should.be.false()
-      Url.test('http://yo._yo.fr').should.be.false()
-      Url.test('/ipfs/Qme9GJd1UR3xDL4qofTvngBfV4kZpwzXD8VNVbg97d3qag').should.be.false()
       done()
 
   describe 'ImageHash', ->

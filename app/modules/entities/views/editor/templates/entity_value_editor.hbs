@@ -9,10 +9,10 @@
         {{#with valueEntity}}
           <div class="img-wrapper">
             {{#if image.url}}
-              <img src='{{src image.url 48}}' alt='{{label}}'>
+              <img src='{{imgSrc image.url 48}}' alt='{{label}}'>
             {{else}}
               {{#each images}}
-                <img src='{{src url 48}}' alt='{{label}}'>
+                <img src='{{imgSrc url 48}}' alt='{{label}}'>
               {{/each}}
             {{/if}}
           </div>

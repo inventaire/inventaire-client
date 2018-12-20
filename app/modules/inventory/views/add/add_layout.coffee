@@ -1,4 +1,5 @@
 tabsData = require 'modules/inventory/lib/add_layout_tabs'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/add_layout'
@@ -53,4 +54,4 @@ module.exports = Marionette.LayoutView.extend
   changeTab: (e)->
     tab = e.currentTarget.id.split('Tab')[0]
     @showTabView tab
-    if _.smallScreen() then _.scrollTop @content.$el
+    if screen_.isSmall() then screen_.scrollTop @content.$el

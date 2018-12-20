@@ -2,6 +2,7 @@ Filterable = require 'modules/general/models/filterable'
 error_ = require 'lib/error'
 saveOmitAttributes = require 'lib/save_omit_attributes'
 { factory:transactionsDataFactory } = require '../lib/transactions_data'
+{ buildPath } = require 'lib/location'
 
 module.exports = Filterable.extend
   url: -> app.API.items.base
@@ -136,7 +137,7 @@ module.exports = Filterable.extend
   destroy: ->
     # reproduce the behavior from the default Bacbkone::destroy
     @trigger 'destroy', @, @collection
-    url = _.buildPath @url(),
+    url = buildPath @url(),
       id: @id
       # TODO: rev isn't required anymore
       # this might make possible to use the default Backbone behavior

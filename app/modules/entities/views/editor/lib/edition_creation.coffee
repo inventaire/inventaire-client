@@ -1,4 +1,5 @@
 wdLang = require 'wikidata-lang'
+{ buildPath } = require 'lib/location'
 
 module.exports =
   partial: 'edition_creation'
@@ -23,7 +24,7 @@ module.exports =
       app.execute 'modal:close'
 
 addWithoutIsbnPath = (workModel)->
-  return _.buildPath '/entity/new', workEditionCreationData(workModel)
+  return buildPath '/entity/new', workEditionCreationData(workModel)
 
 workEditionCreationData = (workModel, itemToUpdate)->
   data =

@@ -1,4 +1,5 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ BasicPlugin } = require 'lib/plugins'
 
 events =
   'click .showGroup': 'showGroup'
@@ -28,4 +29,4 @@ handlers =
     @model.cancelRequest()
     .catch behaviorsPlugin.Fail.call(@, 'cancelRequest')
 
-module.exports = _.BasicPlugin events, handlers
+module.exports = BasicPlugin events, handlers

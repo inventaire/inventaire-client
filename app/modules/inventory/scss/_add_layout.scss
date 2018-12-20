@@ -37,7 +37,7 @@ $addLayoutWidth: 50em;
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .custom-tabs-content{
-      // allow _.scrollTop to really get the top of the div
+      // allow screen_.scrollTop to really get the top of the div
       // at the top of the screen
       min-height: 100vh
     }

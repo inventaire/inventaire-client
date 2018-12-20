@@ -8,6 +8,7 @@ initDynamicBackground = require '../lib/dynamic_background'
 initModal = require '../lib/modal'
 initFlashMessage = require '../lib/flash_message'
 ConfirmationModal = require './confirmation_modal'
+screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/app_layout'
@@ -92,9 +93,9 @@ module.exports = Marionette.LayoutView.extend
   askConfirmation: (options)-> @modal.show new ConfirmationModal(options)
 
 initWindowResizeEvents = ->
-  previousScreenMode = _.smallScreen()
+  previousScreenMode = screen_.isSmall()
   resizeEnd = ->
-    newScreenMode = _.smallScreen()
+    newScreenMode = screen_.isSmall()
     if newScreenMode isnt previousScreenMode
       previousScreenMode = newScreenMode
       app.vent.trigger 'screen:mode:change'

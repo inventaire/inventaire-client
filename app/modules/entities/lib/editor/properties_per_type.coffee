@@ -1,8 +1,10 @@
-# Keep in sync with app/modules/entities/lib/properties.coffee
-# and server/controllers/entities/lib/properties.coffee
-# and server/lib/wikidata/whitelisted_properties.coffee
-# and [client i18n branch] src/wikidata/properties_list.coffee
+# Keep in sync with app/modules/entities/lib/properties
+# and server/controllers/entities/lib/properties/properties
+# and server/controllers/entities/lib/properties/properties_per_type
+# and server/lib/wikidata/whitelisted_properties
+# and inventaire-i18n/original/wikidata.properties_list
 
+# The order is meaningful:
 work =
   'wdt:P50': {} # author
   'wdt:P577': {} # publication date
@@ -24,7 +26,7 @@ work =
   # Reverse properties
   'wdt:P747': { customLabel: 'editions' } # editions (inverse of wdt:P629)
 
-module.exports = (_)->
+module.exports =
   work: work
   edition:
     'wdt:P1476': { customLabel: 'edition title' }

@@ -6,6 +6,7 @@ Candidates = require '../../collections/candidates'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
+screen_ = require 'lib/screen'
 papaparse = require('lib/get_assets')('papaparse')
 isbn2 = require('lib/get_assets')('isbn2')
 commonParser = require '../../lib/parsers/common'
@@ -72,7 +73,7 @@ module.exports = Marionette.LayoutView.extend
         @queue.show new ImportQueue { candidates }
 
       # Run once @ui.importersWrapper is done sliding up
-      @setTimeout _.scrollTop.bind(null, @queue.$el), 500
+      @setTimeout screen_.scrollTop.bind(null, @queue.$el), 500
 
   getFile: (e)->
     source = e.currentTarget.id

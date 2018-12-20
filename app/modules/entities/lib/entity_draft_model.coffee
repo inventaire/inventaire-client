@@ -2,6 +2,7 @@ editableEntity = require './inv/editable_entity'
 createEntities = require './create_entities'
 properties = require './properties'
 Entity = require '../models/entity'
+{ buildPath } = require 'lib/location'
 
 typeDefaultP31 =
   human: 'wd:Q5'
@@ -54,7 +55,7 @@ module.exports =
       updateMetadata: -> { title: label or _.I18n('new entity') }
 
     # Attributes required by app.navigateFromModel
-    model.set 'edit', _.buildPath('/entity/new', options)
+    model.set 'edit', buildPath('/entity/new', options)
 
     return model
 

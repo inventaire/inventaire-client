@@ -1,5 +1,6 @@
 forms_ = require 'modules/general/lib/forms'
 relationsActions = require 'modules/users/plugins/relations_actions'
+{ buildPath } = require 'lib/location'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/user_profile'
@@ -107,7 +108,7 @@ module.exports = Marionette.ItemView.extend
   getPositionUrl: ->
     unless @model.distanceFromMainUser? then return
     [ lat, lng ] = @model.get 'position'
-    return _.buildPath '/network/users/nearby', { lat, lng }
+    return buildPath '/network/users/nearby', { lat, lng }
 
   showUserOnMap: (e)->
     if _.isOpenedOutside(e) then return

@@ -22,7 +22,7 @@ body{
     &:not(.icon-nav-shown){
       margin-top: $topbar-height;
     }
-    // allow _.scrollTop to really get the top of the div
+    // allow screen_.scrollTop to really get the top of the div
     // at the top of the screen
     // which would not be possible if main was smaller than the screen
     min-height: 100vh;

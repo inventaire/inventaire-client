@@ -9,13 +9,11 @@ module.exports = ->
   # client-specific utils
   local_ = require('lib/utils')(Backbone, _, $, app, window)
   loggers_ = require('lib/loggers')(_, csle)
-  # utils shared between the server and the client
-  shared_ = sharedLib('utils')(_)
-  types_ = sharedLib('types')(_)
-  regex_ = sharedLib 'regex'
-  tests_ = sharedLib('tests')(regex_, _)
+  types_ = require 'lib/types'
+  regex_ = require 'lib/regex'
+  booleanTests_ = require 'lib/boolean_tests'
 
-  _.extend _, local_, shared_, types_, tests_, loggers_
+  _.extend _, local_, types_, booleanTests_, loggers_
 
   # http requests handler returning promises
   _.preq = require 'lib/preq'

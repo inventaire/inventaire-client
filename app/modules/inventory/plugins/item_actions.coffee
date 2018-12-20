@@ -1,3 +1,5 @@
+{ BasicPlugin } = require 'lib/plugins'
+
 handlers =
   itemShow: (e)->
     unless _.isOpenedOutside e
@@ -18,4 +20,4 @@ events =
   'click a.userShow': 'showUser'
   'click a.mainUserRequested': 'showTransaction'
 
-module.exports = _.BasicPlugin events, handlers
+module.exports = BasicPlugin events, handlers

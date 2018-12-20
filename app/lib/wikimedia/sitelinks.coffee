@@ -1,7 +1,8 @@
-# lang: the user's lang
-# original lang: the entity's original lang
+{ buildPath } = require 'lib/location'
 
 module.exports =
+  # lang: the user's lang
+  # original lang: the entity's original lang
   wikipedia: (sitelinks, lang, originalLang)->
     # Wikimedia Commons is confusingly using a sitelink key that makes it look like
     # a Wikipedia sitelink - commonswiki - thus the need to omit it before proceeding
@@ -67,7 +68,7 @@ pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
 
 getEpubLink = (wikisourceData)->
   { title, lang } = wikisourceData
-  _.buildPath 'http://wsexport.wmflabs.org/tool/book.php',
+  buildPath 'http://wsexport.wmflabs.org/tool/book.php',
     lang: lang
     format: 'epub'
     page: title

@@ -1,40 +1,31 @@
-{ SafeString } = Handlebars
+# This is tailored for handlebars, for other uses, use app.API.img directly.
+# Keep in sync with server/lib/emails/handlebars_helpers
+module.exports =
+  imgSrc: (path, width, height)->
+    if _.isDataUrl path then return path
 
-exports.icon = (name, classes = '')->
-  # overriding the second argument that could be {hash:,data:}
-  unless _.isString classes then classes = ''
-  if _.isString(name)
-    if name in imagesList
-      src = images[name]
-      return new SafeString "<img class='icon #{classes}' src='#{src}'>"
-    else
-      return new SafeString _.icon(name, classes)
+    width = getImgDimension width, 1600
+    width = bestImageWidth width
+    height = getImgDimension height, width
+    path = onePictureOnly path
 
-images =
-  'wikidata-colored': '/public/images/wikidata.svg'
-  wikisource: '/public/images/wikisource-64.png'
-  'barcode-scanner': '/public/images/barcode-scanner-64.png'
-  gutenberg: '/public/images/gutenberg.png'
+    unless path? then return ''
 
-imagesList = Object.keys images
+    return app.API.img path, width, height
 
-exports.iconLink = (name, url, classes)->
-  linkClasses = ''
-  if classes? and _.isObject classes.hash
-    { title, i18n, i18nCtx, classes, linkClasses } = classes.hash
-    title ?= _.i18n i18n, i18nCtx
+onePictureOnly = (arg)->
+  if _.isArray(arg) then return arg[0] else arg
 
-  icon = @icon.call null, name, classes
-  return @link.call @, icon, url, linkClasses, title
+getImgDimension = (dimension, defaultValue)->
+  if _.isNumber dimension then return dimension
+  else defaultValue
 
-exports.iconLinkText = (name, url, text, classes)->
-  linkClasses = ''
-  if _.isObject name.hash
-    { name, url, classes, linkClasses, text, i18n, I18n, i18nArgs } = name.hash
-    # Expect i18nArgs to be a string formatted as a querystring
-    i18nArgs = _.parseQuery i18nArgs
-    if I18n? then text = _.I18n I18n, i18nArgs
-    else if i18n? then text = _.i18n i18n, i18nArgs
+bestImageWidth = (width)->
+  # under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
+  # while still grouping on the initially requested width
+  if width < 500 then return width
 
-  icon = @icon.call null, name, classes
-  return @link.call @, "#{icon}<span>#{text}</span>", url, linkClasses
+  # if in a browser, use the screen width as a max value
+  if screen?.width then width = Math.min width, screen.width
+  # group image width above 500 by levels of 100px to limit generated versions
+  return Math.ceil(width / 100) * 100

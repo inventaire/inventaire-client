@@ -1,11 +1,8 @@
 { SafeString, escapeExpression } = Handlebars
-images_ = require './images'
+icons_ = require './icons'
 wdLang = require 'wikidata-lang'
-
-wd_ = require 'lib/wikimedia/wikidata'
 commons_ = require 'lib/wikimedia/commons'
 linkify_ = require './linkify'
-images_ = require './images'
 platforms_ = require './platforms'
 { prop, entity, neutralizeDataObject, getValuesTemplates, labelString, claimString } = require './claims_helpers'
 
@@ -55,7 +52,7 @@ module.exports = API =
     [ claims, prop ] = neutralizeDataObject args
     firstUrl = claims?[prop]?[0]
     if firstUrl?
-      label = images_.icon 'link'
+      label = icons_.icon 'link'
       cleanedUrl = removeTailingSlash dropProtocol(firstUrl)
       values = linkify_ cleanedUrl, firstUrl, 'link website'
       return claimString label, values
@@ -65,7 +62,7 @@ module.exports = API =
     firstPlatformId = claims?[prop]?[0]
     if firstPlatformId?
       platform = platforms_[prop]
-      icon = images_.icon platform.icon
+      icon = icons_.icon platform.icon
       escapedText = escapeExpression platform.text(firstPlatformId)
       text = icon + '<span>' + escapedText + '</span>'
       url = platform.url firstPlatformId

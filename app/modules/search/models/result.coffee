@@ -1,4 +1,4 @@
-getBestLangValue = sharedLib('get_best_lang_value')(_)
+getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 
 module.exports = Backbone.Model.extend
   initialize: (data)->

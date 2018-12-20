@@ -1,5 +1,6 @@
 SettingsMenu = require './views/settings_menu'
 SettingsLayout = require './views/settings'
+screen_ = require 'lib/screen'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -16,7 +17,7 @@ module.exports =
 
 API =
   showSettingsMenu: ->
-    if _.smallScreen()
+    if screen_.isSmall()
       app.layout.main.show new SettingsMenu
     else
       app.layout.modal.show new SettingsMenu { navigateOnClose: true }

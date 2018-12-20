@@ -21,7 +21,7 @@ module.exports =
   apiDoc: subdomain 'api'
   images:
     # not passing an absolute url so that it can be easily digested
-    # by the {{src}} helper as a local image url
+    # by the {{imgSrc}} helper as a local image url
     # /!\ implies that the current server has it in its object storage container
     banner: image 'banner'
     # images in CC-BY or CC-BY-SA

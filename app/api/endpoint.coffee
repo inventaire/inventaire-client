@@ -1,3 +1,5 @@
+{ buildPath } = require 'lib/location'
+
 # build the endpoints routes
 module.exports = (name, getBaseOnly)->
   base = "/api/#{name}"
@@ -19,7 +21,7 @@ Action = (base)-> (actionName, attribute, value)->
   # Using extend instead of simply defining action on query
   # so that action appears on top of other attributes in the object
   # and thus, comes first in the generated URL
-  return _.buildPath base, _.extend({ action: actionName }, query)
+  return buildPath base, _.extend({ action: actionName }, query)
 
 # Pass an action name and an attribute, get a partial function
 ActionPartial = (actionFn)-> (actionName, attribute)-> (value)->

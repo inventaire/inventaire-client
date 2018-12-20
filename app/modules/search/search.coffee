@@ -2,6 +2,7 @@ Searches = require './collections/searches'
 SearchLayout = require './views/search'
 error_ = require 'lib/error'
 findUri = require './lib/find_uri'
+{ parseQuery } = require 'lib/location'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -37,7 +38,7 @@ API.search = (query, refresh)->
     metadata: { title: "#{query} - " +  _.I18n('search') }
 
 API.searchFromQueryString = (querystring)->
-  { q, refresh } = _.parseQuery querystring
+  { q, refresh } = parseQuery querystring
   refresh = _.parseBooleanString refresh
   # Replacing "+" added that the browser search might have added
   q = q.replace /\+/g, ' '

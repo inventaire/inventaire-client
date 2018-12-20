@@ -1,3 +1,5 @@
+screen_ = require 'lib/screen'
+
 gutenbergText = (id)-> _.i18n 'on_website', { name: 'Gutenberg.org' }
 
 module.exports =
@@ -37,5 +39,5 @@ module.exports =
       return "https://#{domain}/@#{username}"
 
 gutenbergBase = ->
-  base = if _.smallScreen() then 'http://m.' else 'https://www.'
+  base = if screen_.isSmall() then 'http://m.' else 'https://www.'
   return "#{base}gutenberg.org/"
