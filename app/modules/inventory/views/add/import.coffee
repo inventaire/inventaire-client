@@ -127,9 +127,10 @@ module.exports = Marionette.LayoutView.extend
 
     extractIsbnsAndFetchData text
     .then candidates.addNewCandidates.bind(candidates)
-    .then =>
+    .then (addedCandidates)=>
       behaviorsPlugin.stopLoading.call @, selector
-      @showImportQueueUnlessEmpty()
+      if addedCandidates.length > 0 then @showImportQueueUnlessEmpty()
+      else throw error_.new 'no ISBN found', 400
     .catch error_.Complete('#isbnsImporterWrapper .warning')
     .catch forms_.catchAlert.bind(null, @)
 

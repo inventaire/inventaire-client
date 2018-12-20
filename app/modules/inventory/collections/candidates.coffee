@@ -13,7 +13,7 @@ module.exports = Backbone.Collection.extend
     alreadyAddedIsbns = @pluck 'normalizedIsbn'
     remainingCandidates = newCandidates.filter isNewCandidate(alreadyAddedIsbns)
     if remainingCandidates.length > 0 then return @add remainingCandidates
-    else throw error_.new('no new candidate could be found', 400)
+    else return []
 
 isSelected = (model)-> model.get('selected')
 
