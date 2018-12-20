@@ -137,3 +137,4 @@ module.exports = Marionette.LayoutView.extend
   emptyIsbns: ->
     @ui.isbnsImporterTextarea.val ''
     @$el.trigger 'elastic:textarea:update'
+    @hideAlertBox()
