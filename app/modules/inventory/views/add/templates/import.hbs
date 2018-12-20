@@ -31,7 +31,10 @@
 <div id="isbnsImporterWrapper">
   <h3>1/ {{I18n 'import from a list of ISBNs'}}</h3>
   <div id="isbnsImporter">
-    <textarea placeholder="{{i18n 'paste your list containing ISBNs here'}}"></textarea>
+    <div class="textarea-wrapper">
+      <textarea placeholder="{{i18n 'paste your list containing ISBNs here'}}"></textarea>
+      <a id="emptyIsbns" title="{{i18n 'clear'}}">{{icon 'trash-o'}}</a>
+    </div>
     <div><span class="warning"></span></div>
     <div class="loading"></div>
     <a id="findIsbns" class="success-button">{{i18n 'find ISBNs'}}</a>

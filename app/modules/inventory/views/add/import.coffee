@@ -36,6 +36,7 @@ module.exports = Marionette.LayoutView.extend
     'change input[type=file]': 'getFile'
     'click input': 'hideAlertBox'
     'click #findIsbns': 'findIsbns'
+    'click #emptyIsbns': 'emptyIsbns'
 
   childEvents:
     'import:done': 'onImportDone'
@@ -130,3 +131,7 @@ module.exports = Marionette.LayoutView.extend
       @showImportQueueUnlessEmpty()
     .catch error_.Complete('#isbnsImporterWrapper .warning')
     .catch forms_.catchAlert.bind(null, @)
+
+  emptyIsbns: ->
+    @ui.isbnsImporterTextarea.val ''
+    @$el.trigger 'elastic:textarea:update'
