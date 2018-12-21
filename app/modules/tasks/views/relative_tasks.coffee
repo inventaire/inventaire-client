@@ -1,4 +1,5 @@
 RelativeTask = Marionette.ItemView.extend
+  tagName: 'a'
   className: ->
     classes = 'relative-task'
     # if @model.get('hasEncyclopediaOccurence') then classes += ' good-candidate'
@@ -6,6 +7,7 @@ RelativeTask = Marionette.ItemView.extend
     return classes
 
   attributes: ->
+    href: @model.get 'pathname'
     'data-task-id': @model.id
 
   template: require './templates/relative_task'
@@ -19,8 +21,10 @@ RelativeTask = Marionette.ItemView.extend
   events:
     'click': 'select'
 
-  select: ->
-    app.execute 'show:task', @model
+  select: (e)->
+    unless _.isOpenedOutside e
+      app.execute 'show:task', @model
+      e.preventDefault()
 
 module.exports = Marionette.CollectionView.extend
   className: 'inner-relative-tasks'
