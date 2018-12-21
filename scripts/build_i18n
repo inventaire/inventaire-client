@@ -14,7 +14,7 @@
   git clone https://github.com/inventaire/inventaire-i18n.git --branch dist
 }
 
-mkdir -p ./public/i18n/dist
+mkdir -p ./public/i18n
 echo "copying dist files"
 cp inventaire-i18n/dist/client/* ./public/i18n
 

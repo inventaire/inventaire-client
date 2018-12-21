@@ -26,5 +26,5 @@ module.exports = (_)->
   img: require './img'
   assets: require './assets'
   feeds: require './feeds'
-  i18nStrings: (lang)-> "/public/i18n/dist/#{lang}.json?DIGEST"
+  i18nStrings: (lang)-> "/public/i18n/#{lang}.json?DIGEST"
   json: (filename)-> "/public/json/#{filename}.json?DIGEST"
