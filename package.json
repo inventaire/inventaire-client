@@ -27,7 +27,8 @@
     "generate-sitemaps": "./scripts/sitemaps/generate.coffee",
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee",
     "test-pages-changes": "./scripts/changes/test_pages_changes",
-    "update-toc": "doctoc README.md"
+    "update-toc": "doctoc README.md",
+    "update-i18n": "./scripts/update_i18n"
   },
   "dependencies": {
     "bluebird": "^3.4.0",

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Assumes inventaire/inventaire-i18n is installed or symboly linked from the project root
+cd ./inventaire-i18n
+npm run build-client
+
+cd ..
+mkdir -p ./public/i18n
+echo "copying i18n files"
+cp inventaire-i18n/dist/client/* ./public/i18n
