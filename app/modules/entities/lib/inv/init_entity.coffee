@@ -6,12 +6,13 @@ module.exports = ->
 
 specificMethods =
   fetchMergeSuggestions: ->
-    if @mergeSuggestions? then return _.preq.resolve @mergeSuggestions
+    if @mergeSuggestionsPromise? then return @mergeSuggestionsPromise
 
     uri = @get 'uri'
-    _.preq.get app.API.tasks.bySuspectUris(uri)
-    .then (res)=>
-      tasks = res.tasks[uri]
-      @mergeSuggestions = new Tasks(tasks)
-      @mergeSuggestions.sort()
-      return @mergeSuggestions
+
+    @mergeSuggestionsPromise = _.preq.get app.API.tasks.bySuspectUris(uri)
+      .then (res)=>
+        tasks = res.tasks[uri]
+        @mergeSuggestions = new Tasks(tasks)
+        @mergeSuggestions.sort()
+        return @mergeSuggestions
