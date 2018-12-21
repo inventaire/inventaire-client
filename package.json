@@ -13,22 +13,22 @@
     "node": ">= 6.4"
   },
   "scripts": {
-    "postinstall": "./scripts/postinstall",
-    "start": "brunch watch",
-    "watch": "brunch watch",
+    "build": "./scripts/build",
+    "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee",
+    "generate-sitemaps": "./scripts/sitemaps/generate.coffee",
     "lint": "coffeelint -f ./config/coffeelint.json --color always app test scripts",
     "lint-staged": "../scripts/lint-staged",
+    "patches": "./scripts/run_patches ./scripts/patches",
+    "postinstall": "./scripts/postinstall",
+    "start": "brunch watch",
     "test": "mocha --compilers coffee:coffee-script/register --exit --no-deprecation",
-    "test-watch": "mocha --compilers coffee:coffee-script/register --watch --exit --no-deprecation",
     "test-build": "./scripts/test_build/run local",
     "test-build-prod": "./scripts/test_build/run prod",
-    "build": "./scripts/build",
-    "patches": "./scripts/run_patches ./scripts/patches",
-    "generate-sitemaps": "./scripts/sitemaps/generate.coffee",
-    "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee",
     "test-pages-changes": "./scripts/changes/test_pages_changes",
+    "test-watch": "mocha --compilers coffee:coffee-script/register --watch --exit --no-deprecation",
+    "update-i18n": "./scripts/update_i18n",
     "update-toc": "doctoc README.md",
-    "update-i18n": "./scripts/update_i18n"
+    "watch": "brunch watch"
   },
   "dependencies": {
     "bluebird": "^3.4.0",
