@@ -2,6 +2,10 @@
   .fa-caret-down{
     color: #ccc;
   }
+  .options{
+    overflow-y: auto;
+    max-height: 50vh;
+  }
   li.option{
     @include serif;
     display: flex;
