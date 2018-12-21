@@ -22,7 +22,7 @@ module.exports = Marionette.LayoutView.extend
     attrs = @model.toJSON()
     clampedExtract.setAttributes attrs
     attrs.standalone = @options.standalone
-    attrs.showCleanupButton = true
+    attrs.showCleanupButton = app.user.isAdmin
     return attrs
 
   onRender: ->
