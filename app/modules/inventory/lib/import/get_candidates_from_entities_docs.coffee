@@ -11,13 +11,17 @@ module.exports = (entities, isbnsIndex)->
       # modules/inventory/views/add/templates/candidate_row.hbs
       entity.title = claims['wdt:P1476'][0]
       entity.authors = getEditionAuthors entity, entities
-      normalizedIsbn13 = isbn_.normalizeIsbn claims['wdt:P212'][0]
-      normalizedIsbn10 = isbn_.normalizeIsbn claims['wdt:P957'][0]
-      isbnData = isbnsIndex[normalizedIsbn13] or isbnsIndex[normalizedIsbn10]
+      rawIsbn13 = claims['wdt:P212']?[0]
+      rawIsbn10 = claims['wdt:P957']?[0]
+      normalizedIsbn13 = if rawIsbn13? then isbn_.normalizeIsbn rawIsbn13
+      normalizedIsbn10 = if rawIsbn10? then isbn_.normalizeIsbn rawIsbn10
+      if normalizedIsbn13? then isbnData = isbnsIndex[normalizedIsbn13]
+      else if normalizedIsbn10? then isbnData = isbnsIndex[normalizedIsbn10]
+      else isbnData = {}
       # Use the input ISBN to allow the user to find it back in her list
       entity.rawIsbn = isbnData.rawIsbn
       # 'isbn' will be needed by the existsOrCreateFromSeed endpoint
-      entity.isbn = entity.normalizedIsbn = normalizedIsbn13
+      entity.isbn = entity.normalizedIsbn = normalizedIsbn13 or normalizedIsbn10
       newCandidates.push entity
 
   return newCandidates
