@@ -32,7 +32,7 @@
     .entities{
       @include display-flex(row, flex-start, center);
       // Let room for the task controls
-      padding-bottom: 20em;
+      padding-bottom: 5em;
     }
   }
 }
