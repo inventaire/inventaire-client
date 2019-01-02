@@ -14,4 +14,4 @@ module.exports = ->
     backlog.push tasks...
     return nextTaskModel()
 
-nextTaskModel = -> new Task backlog.pop()
+nextTaskModel = -> new Task backlog.shift()
