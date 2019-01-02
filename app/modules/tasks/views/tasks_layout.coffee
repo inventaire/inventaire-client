@@ -61,23 +61,30 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .dismiss': 'dismiss'
     'click .merge': 'merge'
+    'click .mergeAndDeduplicate': 'mergeAndDeduplicate'
     'click .next': 'showNextTaskFromButton'
     'click .controls': 'toggleRelatives'
     'keydown': 'triggerActionByKey'
 
   dismiss: (e)->
     @action 'dismiss'
+    @showNextTask()
     e?.stopPropagation()
 
   merge: (e)->
     @action 'merge'
+    @showNextTask()
     e?.stopPropagation()
 
-  action: (actionName)->
+  mergeAndDeduplicate: (e)->
+    @action 'merge', false
+    .then => app.execute 'show:deduplicate:sub:entities', @currentTaskModel.suggestion
+
+    e?.stopPropagation()
+
+  action: (actionName, showNextTask = true)->
     @currentTaskModel[actionName]()
     .catch @handleActionError.bind(@, @currentTaskModel)
-
-    @showNextTask()
 
   handleActionError: (actionTaskModel, err)->
     error_.complete err, '.alertWrapper', false
