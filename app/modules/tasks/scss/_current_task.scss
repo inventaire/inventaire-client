@@ -27,10 +27,6 @@
     padding: 1em;
   }
 
-  td{
-    background-color: rgba(white, 0.8);
-  }
-
   // Activate URIs display
   .uri.hidden{
     display: block;
@@ -63,28 +59,17 @@
   }
 }
 
-#currentTask, .relative-task, .merge-suggestion .task-data{
-  td{
-    padding: 0 0.4em;
-    &:first-child{ text-align: left; }
-    &:last-child{ text-align: right; }
+.task-scores{
+  .sources-links{
+    max-height: 5em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #eee;
+    padding: 0.2em;
+    white-space: nowrap;
   }
-  .yes, .no{
+  .sources-count:not(.count-0){
+    color: green;
     font-weight: bold;
-  }
-  .yes{
-    color: $success-color;
-  }
-  .no{
-    color: grey;
-  }
-  .global-score{
-    font-weight: bold;
-  }
-}
-
-#currentTask, .relative-task{
-  td{
-    max-width: 10em;
   }
 }

@@ -12,6 +12,8 @@ module.exports = Backbone.Model.extend
     _.extend @toJSON(),
       suspect: @suspect?.toJSON()
       suggestion: @suggestion?.toJSON()
+      sources: @getSources()
+      sourcesCount: @get('externalSourcesOccurrences').length
 
   grabAuthors: ->
     if @waitForAuthors? then return @waitForAuthors
@@ -53,3 +55,10 @@ module.exports = Backbone.Model.extend
     score += @get('lexicalScore')
     score += @get('relationScore') * 10
     @set 'globalScore', Math.trunc(score * 100) / 100
+
+  getSources: ->
+    @get 'externalSourcesOccurrences'
+    .map (source)->
+      { url, matchedTitles } = source
+      sourceTitle = 'Matched titles: ' + matchedTitles.join(', ')
+      return { url, sourceTitle }

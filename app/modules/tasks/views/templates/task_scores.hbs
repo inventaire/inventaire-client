@@ -1,20 +1,18 @@
-<table>
-  <tr class="global-score">
-    <td>{{i18n 'global match score'}}</td>
-    <td>{{globalScore}}</td>
-  </tr>
-  <tr class="has-match">
-    <td>{{i18n 'match confirmed by another data source'}}</td>
-    <td>
-      {{#if hasEncyclopediaOccurence}}
-        <span class="yes">{{i18n 'yes'}}</span>
-      {{else}}
-        <span class="no">{{i18n 'no'}}</span>
-      {{/if}}
-    </td>
-  </tr>
-  <tr class="lexical-score">
-    <td>{{i18n 'lexical score'}}</td>
-    <td>{{lexicalScore}}</td>
-  </tr>
-</table>
+<ul class="task-scores">
+  <li>
+    <strong>{{i18n 'global match score'}}:</strong>
+    {{globalScore}}
+  </li>
+  <li>
+    <strong>{{i18n 'sources'}}:</strong>
+    <span class="sources-count count-{{sourcesCount}}">{{sourcesCount}}</span>
+    {{#if showSourcesLinks}}
+      <ul class="sources-links">
+        {{#each sources}}
+          <li>{{link text=url url=url title=sourceTitle classes='link'}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </li>
+  <li><strong>{{i18n 'lexical score'}}:</strong> {{lexicalScore}}</li>
+</ul>
