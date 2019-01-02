@@ -90,7 +90,7 @@
     overflow: hidden;
   }
   &.good-candidate{
-    background-color: $success-color;
+    background-color: lighten($success-color, 10%);
   }
   &:not(.good-candidate){
     @include shy(0.5);
