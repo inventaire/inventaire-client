@@ -48,7 +48,8 @@ module.exports = Backbone.Model.extend
 
   calculateGlobalScore: ->
     score = 0
-    if @get('hasEncyclopediaOccurence') then score += 80
+    externalSourcesOccurrencesCount = @get('externalSourcesOccurrences').length
+    score += 80 * externalSourcesOccurrencesCount
     score += @get('lexicalScore')
     score += @get('relationScore') * 10
     @set 'globalScore', Math.trunc(score * 100) / 100
