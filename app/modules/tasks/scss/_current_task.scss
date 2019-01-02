@@ -18,30 +18,13 @@
     }
   }
 
-  .match-data{
-    .fa-arrow-right{
-      font-size: 2em;
-      color: grey;
-      display: block;
-    }
-    padding: 1em;
+  .task-scores{
+    padding: 0 1em;
   }
 
   // Activate URIs display
   .uri.hidden{
     display: block;
-  }
-
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    .match-data{
-      .fa-arrow-right{
-        display: block;
-        margin: 0 auto;
-        padding: 1em 0;
-        transform: rotate(90deg);
-      }
-    }
   }
 
   /*Large screens*/
@@ -51,22 +34,23 @@
       // Let room for the task controls
       padding-bottom: 20em;
     }
-    .match-data{
-      .fa-arrow-right{
-        margin: 1em auto;
-      }
-    }
   }
 }
 
 .task-scores{
+  > li{
+    margin-bottom: 0.5em;
+  }
   .sources-links{
-    max-height: 5em;
+    max-height: 8em;
     overflow-y: auto;
     overflow-x: hidden;
     background-color: #eee;
     padding: 0.2em;
     white-space: nowrap;
+    a{
+      color: #444;
+    }
   }
   .sources-count:not(.count-0){
     color: green;
