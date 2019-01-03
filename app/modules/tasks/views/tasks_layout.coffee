@@ -113,7 +113,7 @@ module.exports = Marionette.LayoutView.extend
           @showRelativeFromIndex parseInt(e.key) - 1
 
   toggleRelatives: ->
-    @relativeTasks.$el.slideToggle()
+    @$el.toggleClass 'wrapped-controls'
     @ui.relativesToggler.toggleClass 'toggled'
 
   showRelativeFromIndex: (index)->

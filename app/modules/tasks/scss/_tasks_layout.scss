@@ -4,8 +4,21 @@
   .controls{
     @include display-flex(row, center, center);
     background-color: #ddd;
-    .button{
-      margin: 0.5em;
+    .button, .success-button{
+      margin: 0 0.5em;
+    }
+  }
+
+  #relativeTasks{
+    // max-height required to make the transition smooth,
+    // set with an arbitrary large height in order to be ignored in this state
+    max-height: 100em;
+    @include transition(max-height);
+  }
+
+  &.wrapped-controls{
+    #relativeTasks{
+      max-height: 0;
     }
   }
 

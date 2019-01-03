@@ -26,14 +26,20 @@
   .uri.hidden{
     display: block;
   }
+}
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+/*Large screens*/
+@media screen and (min-width: $small-screen) {
+  // Adapt padding to let room for the task controls
+  #currentTask{
+    padding-bottom: 20em;
+    @include transition(padding-bottom);
     .entities{
       @include display-flex(row, flex-start, center);
-      // Let room for the task controls
-      padding-bottom: 5em;
     }
+  }
+  .wrapped-controls #currentTask{
+    padding-bottom: 5em;
   }
 }
 
