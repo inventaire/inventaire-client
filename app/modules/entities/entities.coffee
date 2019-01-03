@@ -179,10 +179,15 @@ setHandlers = ->
     'show:entity:refresh': (model)->
       app.execute 'show:entity:from:model', model, { refresh: true }
 
-    'show:deduplicate:sub:entities': (model)->
-      API.showDeduplicate { uris: [ model.get('uri') ] }
-      pathname = '/entity/deduplicate?uris=' + model.get('uri')
-      app.navigate pathname
+    'show:deduplicate:sub:entities': (model, options = {})->
+      { openInNewTab } = options
+      uri = model.get 'uri'
+      pathname = '/entity/deduplicate?uris=' + uri
+      if openInNewTab
+        window.open pathname, '_blank'
+      else
+        API.showDeduplicate { uris: [ uri ] }
+        app.navigate pathname
 
     'show:entity:add': API.showAddEntity.bind API
     'show:entity:add:from:model': (model)-> API.showAddEntity model.get('uri')

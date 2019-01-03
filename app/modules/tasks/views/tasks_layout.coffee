@@ -77,12 +77,16 @@ module.exports = Marionette.LayoutView.extend
     e?.stopPropagation()
 
   mergeAndDeduplicate: (e)->
-    @action 'merge', false
-    .then => app.execute 'show:deduplicate:sub:entities', @currentTaskModel.suggestion
+    { suggestion } = @currentTaskModel
 
+    @action 'merge'
+    .delay 100
+    .then -> app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
+
+    @showNextTask()
     e?.stopPropagation()
 
-  action: (actionName, showNextTask = true)->
+  action: (actionName)->
     @currentTaskModel[actionName]()
     .catch @handleActionError.bind(@, @currentTaskModel)
 
