@@ -110,6 +110,7 @@ module.exports = Marionette.LayoutView.extend
     switch e.key
       when 'd' then @dismiss()
       when 'm' then @merge()
+      when 'w' then @mergeAndDeduplicate()
       when 'n' then @showNextTaskFromButton()
       when 'r' then @toggleRelatives()
       else
