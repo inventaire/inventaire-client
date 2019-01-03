@@ -40,6 +40,11 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
+    state = model.get 'state'
+    if state?
+      err = error_.new 'this task has already been treated', 400, { model, state }
+      return app.execute 'show:error:other', err, 'tasks_layout showFromModel'
+
     model.grabAuthors()
     .then =>
       @currentTaskModel = model
