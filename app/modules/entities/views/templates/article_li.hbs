@@ -18,10 +18,10 @@
   </h4>
 
   {{#if description}}
-    <p class="grey">{{{description}}}</p>
+    <p class="description grey">{{{description}}}</p>
   {{/if}}
 
-  <p>
+  <p class="claims">
     {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}
     {{joinAuthors claims.wdt:P2093}}  {{!-- short author name --}}
   </p>

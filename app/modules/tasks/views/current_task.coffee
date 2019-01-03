@@ -3,10 +3,8 @@ AuthorLayout = require 'modules/entities/views/author_layout'
 module.exports = Marionette.LayoutView.extend
   template: require './templates/current_task'
   serializeData: ->
-    _.extend @model.toJSON(),
-      suspect: @model.suspect?.toJSON()
-      suggestion: @model.suggestion?.toJSON()
-      goodLexicalScore: @model.get('lexicalScore') > 10
+    _.extend @model.serializeData(),
+      showSourcesLinks: true
 
   regions:
     suspect: '#suspect'

@@ -40,6 +40,11 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
+    state = model.get 'state'
+    if state?
+      err = error_.new 'this task has already been treated', 400, { model, state }
+      return app.execute 'show:error:other', err, 'tasks_layout showFromModel'
+
     model.grabAuthors()
     .then =>
       @currentTaskModel = model
@@ -61,23 +66,34 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .dismiss': 'dismiss'
     'click .merge': 'merge'
+    'click .mergeAndDeduplicate': 'mergeAndDeduplicate'
     'click .next': 'showNextTaskFromButton'
     'click .controls': 'toggleRelatives'
     'keydown': 'triggerActionByKey'
 
   dismiss: (e)->
     @action 'dismiss'
+    @showNextTask()
     e?.stopPropagation()
 
   merge: (e)->
     @action 'merge'
+    @showNextTask()
+    e?.stopPropagation()
+
+  mergeAndDeduplicate: (e)->
+    { suggestion } = @currentTaskModel
+
+    @action 'merge'
+    .delay 100
+    .then -> app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
+
+    @showNextTask()
     e?.stopPropagation()
 
   action: (actionName)->
     @currentTaskModel[actionName]()
     .catch @handleActionError.bind(@, @currentTaskModel)
-
-    @showNextTask()
 
   handleActionError: (actionTaskModel, err)->
     error_.complete err, '.alertWrapper', false
@@ -99,6 +115,7 @@ module.exports = Marionette.LayoutView.extend
     switch e.key
       when 'd' then @dismiss()
       when 'm' then @merge()
+      when 'w' then @mergeAndDeduplicate()
       when 'n' then @showNextTaskFromButton()
       when 'r' then @toggleRelatives()
       else
@@ -106,7 +123,7 @@ module.exports = Marionette.LayoutView.extend
           @showRelativeFromIndex parseInt(e.key) - 1
 
   toggleRelatives: ->
-    @relativeTasks.$el.slideToggle()
+    @$el.toggleClass 'wrapped-controls'
     @ui.relativesToggler.toggleClass 'toggled'
 
   showRelativeFromIndex: (index)->

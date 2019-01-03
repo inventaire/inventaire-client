@@ -33,20 +33,21 @@ module.exports =
     # Polymorphism: accept arguments as hash key/value pairs
     # ex: {{link i18n='see_on_website' i18nArgs='website=wikidata.org' url=wikidata.url classes='link'}}
     if _.isObject text.hash
-      { i18n, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash
+      { text, i18n, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash
 
       if titleAttrKey?
         titleArgs = {}
         titleArgs[titleAttrKey] = titleAttrValue
         title = _.i18n title, titleArgs
 
-      # A flag to build a complex <a> tag but with more tags between the anchor tags
-      if simpleOpenedAnchor
-        text = ''
-      else
-        # Expect i18nArgs to be a string formatted as a querystring
-        i18nArgs = parseQuery i18nArgs
-        text = _.i18n i18n, i18nArgs
+      unless text?
+        # A flag to build a complex <a> tag but with more tags between the anchor tags
+        if simpleOpenedAnchor
+          text = ''
+        else
+          # Expect i18nArgs to be a string formatted as a querystring
+          i18nArgs = parseQuery i18nArgs
+          text = _.i18n i18n, i18nArgs
 
     link = @linkify text, url, classes, title
 
