@@ -10,6 +10,8 @@ DeduplicateWorksList = Marionette.CollectionView.extend
   childViewOptions:
     showAllLabels: true
     showActions: false
+    # Re-rendering loses candidates selections
+    preventRerender: true
 
 module.exports = Marionette.LayoutView.extend
   className: 'deduplicateWorks'

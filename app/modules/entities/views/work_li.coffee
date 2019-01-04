@@ -11,13 +11,18 @@ module.exports = Marionette.ItemView.extend
     'data-uri': @model.get('uri')
 
   initialize: ->
-    @lazyRender = _.LazyRender @
-    @listenTo @model, 'change', @lazyRender
     app.execute 'uriLabel:update'
 
-    { @showAllLabels, @showActions, @wrap } = @options
+    { @showAllLabels, @showActions, @wrap, preventRerender } = @options
     @showActions ?= true
+    preventRerender ?= false
 
+    # Allow to disable re-render for views that are used as part of layouts that store state
+    # in the DOM - such as ./deduplicate_layout - so that this state isn't lost
+    if preventRerender then return
+
+    @lazyRender = _.LazyRender @
+    @listenTo @model, 'change', @lazyRender
     if @showActions
       # Required by @getNetworkItemsCount
       @model.getItemsByCategories()
