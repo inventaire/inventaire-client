@@ -50,10 +50,10 @@ module.exports = Marionette.CompositeView.extend
 
     app.execute 'querystring:set', 'name', name
 
-    @gethomonyms name
+    @getHomonyms name
     .then stopLoading.bind(@)
 
-  gethomonyms: (name)->
+  getHomonyms: (name)->
     searchHumans name, 100
     .then (humans)=>
       # If there are many candidates, keep only those that look the closest, if any
