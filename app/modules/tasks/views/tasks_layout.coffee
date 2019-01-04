@@ -32,7 +32,11 @@ module.exports = Marionette.LayoutView.extend
     else if task? then @showFromId task
     else @showNextTask()
 
-  showNextTask: -> @showTask getNextTask()
+  showNextTask: (params = {})->
+    { spinner } = params
+    if spinner? then startLoading.call @, spinner
+    @showTask getNextTask()
+    .tap => if spinner? then stopLoading.call(@, spinner)
 
   showTask: (taskModelPromise)->
     taskModelPromise
@@ -89,12 +93,12 @@ module.exports = Marionette.LayoutView.extend
 
   dismiss: (e)->
     @action 'dismiss'
-    @showNextTask()
+    @showNextTask { spinner: '.dismiss' }
     e?.stopPropagation()
 
   merge: (e)->
     @action 'merge'
-    @showNextTask()
+    @showNextTask { spinner: '.merge' }
     e?.stopPropagation()
 
   mergeAndDeduplicate: (e)->
@@ -104,7 +108,7 @@ module.exports = Marionette.LayoutView.extend
     .delay 100
     .then -> app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
 
-    @showNextTask()
+    @showNextTask { spinner: '.mergeAndDeduplicate' }
     e?.stopPropagation()
 
   action: (actionName)->
@@ -117,10 +121,7 @@ module.exports = Marionette.LayoutView.extend
     @showFromModel actionTaskModel
 
   showNextTaskFromButton: (e)->
-    startLoading.call @, '.next'
-    @showNextTask()
-    .tap stopLoading.bind @
-
+    @showNextTask { spinner: '.next' }
     e?.stopPropagation()
 
   triggerActionByKey: (e)->

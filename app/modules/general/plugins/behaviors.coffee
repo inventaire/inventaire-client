@@ -3,10 +3,13 @@
 # startLoading / stopLoading MUST NOT be called at view initialization
 # but rathen onShow/onRender so that the expected DOM elements are rendered
 loading_ =
-  startLoading: (options)->
-    if _.isString(options) then options = { selector: options }
-    @$el.trigger 'loading', options
-  stopLoading: -> @$el.trigger 'stopLoading'
+  startLoading: (params)->
+    if _.isString(params) then params = { selector: params }
+    @$el.trigger 'loading', params
+
+  stopLoading: (params)->
+    if _.isString(params) then params = { selector: params }
+    @$el.trigger 'stopLoading', params
 
 # behaviors: SuccessCheck MUST be added to the view
 # elements required in the view: .checkWrapper > .check
