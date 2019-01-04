@@ -36,7 +36,8 @@ module.exports = Marionette.LayoutView.extend
   showNextTask: (params = {})->
     { spinner } = params
     if spinner? then startLoading.call @, spinner
-    @showTask getNextTask({ previousTasks })
+    offset = app.request 'querystring:get', 'offset'
+    @showTask getNextTask({ previousTasks, offset })
     .tap => if spinner? then stopLoading.call(@, spinner)
 
   showTask: (taskModelPromise)->
