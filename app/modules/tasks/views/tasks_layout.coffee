@@ -5,6 +5,7 @@ Task = require '../models/task'
 error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+previousTasks = []
 
 module.exports = Marionette.LayoutView.extend
   id: 'tasksLayout'
@@ -35,7 +36,7 @@ module.exports = Marionette.LayoutView.extend
   showNextTask: (params = {})->
     { spinner } = params
     if spinner? then startLoading.call @, spinner
-    @showTask getNextTask()
+    @showTask getNextTask({ previousTasks })
     .tap => if spinner? then stopLoading.call(@, spinner)
 
   showTask: (taskModelPromise)->
@@ -49,6 +50,8 @@ module.exports = Marionette.LayoutView.extend
     if state?
       err = error_.new 'this task has already been treated', 400, { model, state }
       return app.execute 'show:error:other', err, 'tasks_layout showFromModel'
+
+    previousTasks.push model.get('_id')
 
     @_grabSuspectPromise = model.grabSuspect()
 
