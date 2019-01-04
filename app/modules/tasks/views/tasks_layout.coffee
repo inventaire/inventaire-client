@@ -32,7 +32,11 @@ module.exports = Marionette.LayoutView.extend
     else if task? then @showFromId task
     else @showNextTask()
 
-  showNextTask: -> @showTask getNextTask()
+  showNextTask: (params = {})->
+    { spinner } = params
+    if spinner? then startLoading.call @, spinner
+    @showTask getNextTask()
+    .tap => if spinner? then stopLoading.call(@, spinner)
 
   showTask: (taskModelPromise)->
     taskModelPromise
@@ -40,22 +44,38 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
+    @currentTaskModel = model
     state = model.get 'state'
     if state?
       err = error_.new 'this task has already been treated', 400, { model, state }
       return app.execute 'show:error:other', err, 'tasks_layout showFromModel'
 
-    model.grabAuthors()
+    @_grabSuspectPromise = model.grabSuspect()
+
+    Promise.all [
+      @showCurrentTask model
+      @showRelativeTasks model
+    ]
+    .catch app.Execute('show:error')
+
+  showCurrentTask: (model)->
+    Promise.all [
+      @_grabSuspectPromise
+      model.grabSuggestion()
+    ]
     .then =>
-      @currentTaskModel = model
       @currentTask.show new CurrentTask { model }
+      app.navigateFromModel model
+      @focusOnControls()
+
+  showRelativeTasks: (model)->
+    @_grabSuspectPromise
+    .then model.getOtherSuggestions.bind(model)
+    .then =>
       @relativeTasks.show new RelativeTasks
         collection: model.suspect.mergeSuggestions
         currentTaskModel: model
       @updateRelativesCount model
-      app.navigateFromModel model
-      @focusOnControls()
-    .catch app.Execute('show:error')
 
   showFromId: (id)-> @showTask getTaskById(id)
 
@@ -73,12 +93,12 @@ module.exports = Marionette.LayoutView.extend
 
   dismiss: (e)->
     @action 'dismiss'
-    @showNextTask()
+    @showNextTask { spinner: '.dismiss' }
     e?.stopPropagation()
 
   merge: (e)->
     @action 'merge'
-    @showNextTask()
+    @showNextTask { spinner: '.merge' }
     e?.stopPropagation()
 
   mergeAndDeduplicate: (e)->
@@ -88,7 +108,7 @@ module.exports = Marionette.LayoutView.extend
     .delay 100
     .then -> app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
 
-    @showNextTask()
+    @showNextTask { spinner: '.mergeAndDeduplicate' }
     e?.stopPropagation()
 
   action: (actionName)->
@@ -101,10 +121,7 @@ module.exports = Marionette.LayoutView.extend
     @showFromModel actionTaskModel
 
   showNextTaskFromButton: (e)->
-    startLoading.call @, '.next'
-    @showNextTask()
-    .tap stopLoading.bind @
-
+    @showNextTask { spinner: '.next' }
     e?.stopPropagation()
 
   triggerActionByKey: (e)->
