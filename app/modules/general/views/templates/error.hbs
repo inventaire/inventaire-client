@@ -6,7 +6,7 @@
       </h2>
     {{/if}}
     <p>{{message}}</p>
-    {{#if context}}<p class="context">{{context}}</p>{{/if}}
+    {{#if context}}<pre class="context">{{stringify context}}</pre>{{/if}}
     {{#if redirection}}
       <div class="redirection">
         <p>{{redirection.legend}}</p>

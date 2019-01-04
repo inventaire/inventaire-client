@@ -5,7 +5,7 @@
   @include display-flex(column, center, center);
   .errorBox{
     background-color: $global-background-contrast-color;
-    max-width: 30em;
+    max-width: 50em;
     margin: 1em;
     @include radius;
     .button{
@@ -16,7 +16,10 @@
       opacity: 0.8;
       @include radius;
       padding: 1em;
-      margin: 1em 0 1em 0;
+      margin: 1em 0;
+      text-align: left;
+      font-size: 0.8em;
+      overflow: auto;
     }
   }
 

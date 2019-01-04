@@ -116,6 +116,7 @@ showOtherError = (err, label)->
     icon: 'bolt'
     header: _.I18n 'error'
     message: err.message
+    context: err.context
 
 showOfflineError = ->
   showError

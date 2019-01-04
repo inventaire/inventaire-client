@@ -72,3 +72,7 @@ module.exports =
   localTimeString: (time)-> if time? then new Date(time).toLocaleString()
 
   timeFromNow: (time)-> if time? then moment(time).fromNow()
+
+  stringify: (obj)->
+    if _.isString obj then obj
+    else JSON.stringify obj, null, 2
