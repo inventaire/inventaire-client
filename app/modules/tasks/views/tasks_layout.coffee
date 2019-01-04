@@ -40,22 +40,38 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
+    @currentTaskModel = model
     state = model.get 'state'
     if state?
       err = error_.new 'this task has already been treated', 400, { model, state }
       return app.execute 'show:error:other', err, 'tasks_layout showFromModel'
 
-    model.grabAuthors()
+    @_grabSuspectPromise = model.grabSuspect()
+
+    Promise.all [
+      @showCurrentTask model
+      @showRelativeTasks model
+    ]
+    .catch app.Execute('show:error')
+
+  showCurrentTask: (model)->
+    Promise.all [
+      @_grabSuspectPromise
+      model.grabSuggestion()
+    ]
     .then =>
-      @currentTaskModel = model
       @currentTask.show new CurrentTask { model }
+      app.navigateFromModel model
+      @focusOnControls()
+
+  showRelativeTasks: (model)->
+    @_grabSuspectPromise
+    .then model.getOtherSuggestions.bind(model)
+    .then =>
       @relativeTasks.show new RelativeTasks
         collection: model.suspect.mergeSuggestions
         currentTaskModel: model
       @updateRelativesCount model
-      app.navigateFromModel model
-      @focusOnControls()
-    .catch app.Execute('show:error')
 
   showFromId: (id)-> @showTask getTaskById(id)
 

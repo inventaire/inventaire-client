@@ -14,7 +14,7 @@ RelativeTask = Marionette.ItemView.extend
   initialize: ->
     @lazyRender = _.LazyRender @
 
-    @model.grabAuthors()
+    @model.grabSuggestion()
     .then @lazyRender
 
   serializeData: -> @model.serializeData()

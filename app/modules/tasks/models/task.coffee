@@ -15,23 +15,17 @@ module.exports = Backbone.Model.extend
       sources: @getSources()
       sourcesCount: @get('externalSourcesOccurrences').length
 
-  grabAuthors: ->
-    if @waitForAuthors? then return @waitForAuthors
+  grabAuthor: (name)->
+    uri = @get "#{name}Uri"
+    @reqGrab 'get:entity:model', uri, name
+    .then (model)-> model.initAuthorWorks()
 
-    suspectUri = @get 'suspectUri'
-    suggestionUri = @get 'suggestionUri'
+  grabSuspect: -> @grabAuthor 'suspect'
 
-    @waitForAuthors = Promise.all [
-      @grabAuthor(suspectUri, 'suspect').then @getOtherSuggestions.bind(@)
-      @grabAuthor suggestionUri, 'suggestion'
-    ]
+  grabSuggestion: -> @grabAuthor 'suggestion'
 
   getOtherSuggestions: ->
     @suspect.fetchMergeSuggestions()
-
-  grabAuthor: (uri, name)->
-    @reqGrab 'get:entity:model', uri, name
-    .then (model)-> model.initAuthorWorks()
 
   updateMetadata: ->
     type = @get('type') or 'task'
