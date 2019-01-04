@@ -37,6 +37,8 @@ module.exports = (_)->
     return attributes.map @get.bind(@)
 
   Backbone.Model::reqGrab = (request, id, name)->
+    if @[name]? then return Promise.resolve @[name]
+
     app.request request, id
     .then @grab.bind(@, name)
     .catch _.ErrorRethrow("reqGrab #{request} #{id} #{name}")
