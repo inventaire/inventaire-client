@@ -180,7 +180,7 @@ module.exports = Backbone.NestedModel.extend
     userStatus = @otherUser().get 'status'
 
     _.preq.put app.API.transactions,
-      id: @id
+      transaction: @id
       state: state
       action: 'update-state'
     # apply side effects only once the server confirmed
