@@ -2,14 +2,14 @@
   <a href="{{user.pathname}}" class="userShow">
     <img class="profilePic" src="{{imgSrc user.picture 48}}">
   </a>
-  <a class="itemShow">
+  <a class="itemShow" href="{{pathname}}">
     <div class="transactionBox {{currentTransaction.id}}">
       {{icon currentTransaction.icon}}
     </div>
   </a>
 </div>
 <div class="labelBox {{currentTransaction.id}}">
-  <a class="itemShow label">
+  <a class="itemShow label" href="{{pathname}}">
     {{{i18n currentTransaction.labelPersonalized user}}}
   </a>
   {{#if showDistance}}
