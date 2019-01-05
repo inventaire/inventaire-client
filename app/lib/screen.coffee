@@ -19,7 +19,7 @@ module.exports = screen_ =
 
   # Scroll to the top of an element inside a element with a scroll,
   # typically a list of search results partially hidden
-  innerTop: ($parent, $children)->
+  innerScrollTop: ($parent, $children)->
     if $children?.length > 0
       selectedTop = $children.position().top
       # Adjust scroll to the selected element
