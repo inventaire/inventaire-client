@@ -58,6 +58,7 @@ API =
   showMainUser: -> app.execute 'show:inventory:main:user'
 
 requireLoggedIn = (route)->
+  _.type route, 'string'
   if app.user.loggedIn then return true
   else
     app.execute 'show:login'

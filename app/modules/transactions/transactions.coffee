@@ -64,7 +64,7 @@ API =
       .then triggerTransactionSelect.bind(null, id)
 
   showItemRequestModal: (model)->
-    if app.request 'require:loggedIn', model.pathname
+    if app.request 'require:loggedIn', model.get('pathname')
       app.layout.modal.show new RequestItemModal { model }
 
   updateLastTransactionId: (transac)->
