@@ -30,13 +30,10 @@ module.exports =
         'entity/changes(/)': 'showChanges'
         'entity/activity(/)': 'showActivity'
         'entity/deduplicate(/)': 'showDeduplicate'
-        'entity/:uri(/:label)/add(/)': 'showAddEntity'
-        'entity/:uri(/:label)/edit(/)': 'showEditEntityFromUri'
-        'entity/:uri(/:label)/cleanup(/)': 'showEntityCleanup'
-        'entity/:uri(/:label)(/)': 'showEntity'
-        'wd/:qid(/)': 'showWdEntity'
-        'isbn/:isbn(/)': 'showIsbnEntity'
-        'inv/:id(/)': 'showInvEntity'
+        'entity/:uri/add(/)': 'showAddEntity'
+        'entity/:uri/edit(/)': 'showEditEntityFromUri'
+        'entity/:uri/cleanup(/)': 'showEntityCleanup'
+        'entity/:uri(/)': 'showEntity'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -44,7 +41,7 @@ module.exports =
     setHandlers()
 
 API =
-  showEntity: (uri, label, params)->
+  showEntity: (uri, params)->
     refresh = params?.refresh or app.request('querystring:get', 'refresh')
     if isClaim uri then return showClaimEntities uri, refresh
 
@@ -116,9 +113,6 @@ API =
     if app.request 'require:loggedIn', 'entity/new'
       showEntityCreate app.request('querystring:get:full')
 
-  showWdEntity: (qid)-> API.showEntity "wd:#{qid}"
-  showIsbnEntity: (isbn)-> API.showEntity "isbn:#{isbn}"
-  showInvEntity: (id)-> API.showEntity "inv:#{id}"
   showChanges: ->
     app.layout.main.show new ChangesLayout
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
@@ -173,7 +167,7 @@ setHandlers = ->
 
     'show:entity:from:model': (model, params)->
       uri = model.get('uri')
-      if uri? then app.execute 'show:entity', uri, null, params
+      if uri? then app.execute 'show:entity', uri, params
       else throw new Error "couldn't show:entity:from:model"
 
     'show:entity:refresh': (model)->

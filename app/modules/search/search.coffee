@@ -59,7 +59,7 @@ showEntityPageIfUri = (query, refresh)->
   # as it doesn't make sense to search for an entity we have already found
   uri = findUri query
   if uri?
-    app.execute 'show:entity', uri, null, { refresh }
+    app.execute 'show:entity', uri, { refresh }
     return true
   else
     return false
