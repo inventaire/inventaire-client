@@ -25,7 +25,7 @@
   <p class="uri">{{uri}}</p>
   {{partial 'entities:clamped_extract' this}}
   <div class="attributes">
-    <div class="authors"></div>
+    {{partial 'entities:authors_preview_lists'}}
     {{partial 'entities:work_claims' this}}
   </div>
   {{#if standalone}}{{partial 'entities:edit_data' this}}{{/if}}

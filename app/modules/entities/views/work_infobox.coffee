@@ -1,4 +1,4 @@
-AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+showAllAuthorsPreviewLists = require 'modules/entities/lib/show_all_authors_preview_lists'
 clampedExtract = require '../lib/clamped_extract'
 
 module.exports = Marionette.LayoutView.extend
@@ -6,6 +6,9 @@ module.exports = Marionette.LayoutView.extend
   className: 'workInfobox flex-column-center-center'
   regions:
     authors: '.authors'
+    scenarists: '.scenarists'
+    illustrators: '.illustrators'
+    colorists: '.colorists'
 
   behaviors:
     PreventDefault: {}
@@ -16,7 +19,7 @@ module.exports = Marionette.LayoutView.extend
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
     @hidePicture = options.hidePicture
-    @waitForAuthors = @model.getAuthorsModels()
+    @waitForAuthors = @model.getExtendedAuthorsModels()
     @model.getWikipediaExtract()
 
   serializeData: ->
@@ -31,13 +34,7 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'uriLabel:update'
 
     @waitForAuthors
-    .then @ifViewIsIntact('showAuthorsPreviewList')
-
-  showAuthorsPreviewList: (authors)->
-    if authors.length is 0 then return
-
-    collection = new Backbone.Collection authors
-    @authors.show new AuthorsPreviewList { collection }
+    .then @ifViewIsIntact(showAllAuthorsPreviewLists)
 
 setImagesSubGroups = (attrs)->
   { images } = attrs

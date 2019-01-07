@@ -1,4 +1,4 @@
-AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+showAllAuthorsPreviewLists = require 'modules/entities/lib/show_all_authors_preview_lists'
 clampedExtract = require '../lib/clamped_extract'
 
 module.exports = Marionette.LayoutView.extend
@@ -9,9 +9,12 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     authors: '.authors'
+    scenarists: '.scenarists'
+    illustrators: '.illustrators'
+    colorists: '.colorists'
 
   initialize: ->
-    @waitForAuthors = @model.getAuthorsModels()
+    @waitForAuthors = @model.getExtendedAuthorsModels()
     @model.getWikipediaExtract()
 
   modelEvents:
@@ -27,10 +30,4 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     @waitForAuthors
-    .then @ifViewIsIntact('showAuthorsPreviewList')
-
-  showAuthorsPreviewList: (authors)->
-    if authors.length is 0 then return
-
-    collection = new Backbone.Collection authors
-    @authors.show new AuthorsPreviewList { collection }
+    .then @ifViewIsIntact(showAllAuthorsPreviewLists)
