@@ -21,6 +21,7 @@ ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 { invalidateLabel } = require 'lib/uri_label/labels_helpers'
+History = require './views/editor/history'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -33,6 +34,7 @@ module.exports =
         'entity/:uri/add(/)': 'showAddEntity'
         'entity/:uri/edit(/)': 'showEditEntityFromUri'
         'entity/:uri/cleanup(/)': 'showEntityCleanup'
+        'entity/:uri/history(/)': 'showEntityHistory'
         'entity/:uri(/)': 'showEntity'
 
     app.addInitializer -> new Router { controller: API }
@@ -92,6 +94,7 @@ API =
   getGenreLayout: (model, refresh)-> new GenreLayout { model, refresh }
 
   showAddEntity: (uri)->
+    uri = normalizeUri uri
     getEntityModel uri
     .then (entity)->
       app.execute 'show:item:creation:form',
@@ -144,6 +147,20 @@ API =
       getEntityModel uri, true
       .then showEntityCleanupFromModel
       .catch handleMissingEntity(uri)
+
+  showEntityHistory: (uri)->
+    unless app.request 'require:loggedIn', "entity/#{uri}/history" then return
+    unless app.request 'require:admin:rights' then return
+
+    uri = normalizeUri uri
+
+    getEntityModel uri
+    .then (model)->
+      model.fetchHistory()
+      .then ->
+        app.layout.main.show new History { model, standalone: true }
+        app.navigateFromModel model, 'history'
+    .catch app.Execute('show:error')
 
 showEntityCreate = (params)->
   { type } = params
