@@ -41,7 +41,7 @@
     "leven": "^2.1.0",
     "papaparse": "^4.1.2",
     "quagga": "^0.12.1",
-    "wikidata-lang": "^2.0.5"
+    "wikidata-lang": "^2.0.8"
   },
   "devDependencies": {
     "after-brunch": "0.0.5",
