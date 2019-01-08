@@ -11,7 +11,7 @@
     <h3 class="title"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
   {{/if}}
   {{#if standalone}}{{partial 'entities:clamped_extract' this}}{{/if}}
-  <div class="authors"></div>
+  {{partial 'entities:authors_preview_lists'}}
   {{#if standalone}}
     <div class="claims-wrapper">{{partial 'entities:work_claims' this}}</div>
     {{partial 'entities:edit_data' this}}

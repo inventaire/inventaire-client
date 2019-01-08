@@ -100,11 +100,14 @@ module.exports = (_)->
   # Use in promise chains when the view might be about to be re-rendered
   # and calling would thus trigger error as the method depends on regions
   # being populated (which happens at render), typically in an onRender call.
-  Marionette.View::ifViewIsIntact = (methodName, args...)-> (result)=>
-    if @isRendered
-      args.push result
-      return @[methodName].apply @, args
-    # else, let the onRender hook do it
+  Marionette.View::ifViewIsIntact = (fn, args...)-> (result)=>
+    # Pass if the view was destroyed or let the onRender hook re-call the function
+    unless @isRendered then return
+
+    args.push result
+    # Accept a method name in place of a function
+    if _.isString fn then fn = @[fn]
+    return fn.apply @, args
 
   Marionette.View::setTimeout = (fn, timeout)->
     runUnlessViewIsDestroyed = => unless @isDestroyed then fn()

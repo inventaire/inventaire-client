@@ -1,4 +1,14 @@
-#history{
+.entity-history{
+  &.standalone{
+    max-width: 50em;
+    margin: 0 auto;
+    /*Medium and Large screens*/
+    @media screen and (min-width: $very-small-screen) {
+      .version{
+        min-width: 40em;
+      }
+    }
+  }
   color: white;
   .version{
     background-color: $darker-grey;

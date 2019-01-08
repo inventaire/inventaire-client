@@ -43,7 +43,6 @@ $work-infobox-property-color: #999;
     @include radius;
     margin: 0 auto;
     position: relative;
-    padding: 0 1em;
     span:not(.entity-value), .property-value{
       color: #999;
       margin-right: 0.5em;
@@ -77,9 +76,6 @@ $work-infobox-property-color: #999;
     .attributes{
       min-width: 20em;
     }
-    .authors{
-      padding: 1em;
-    }
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
@@ -96,15 +92,17 @@ $work-infobox-property-color: #999;
 }
 
 .workInfobox, .serieInfobox{
-  .authors{
+  .author-preview-list{
     .section-label{
       text-align: left;
       color: $work-infobox-property-color;
     }
-    padding: 1em 0;
   }
-  .author-preview a{
-    max-width: 20em;
+}
+
+.authors-preview-lists{
+  @include display-flex(row, null, space-between, wrap);
+  .author-preview-list a{
     @include bg-hover($dark-grey);
     .name{
       color: white;
@@ -112,6 +110,34 @@ $work-infobox-property-color: #999;
     }
     .birth-death-dates{
       color: $grey;
+    }
+  }
+  > div{
+    @include display-flex(row, null, null, wrap);
+  }
+  .author-preview-list{
+    margin-bottom: 0.5em;
+    ul{
+      @include display-flex(row, null, space-around, wrap);
+      li{
+        margin: 0.3em 0;
+      }
+    }
+  }
+  .attributes{
+    min-width: 20em;
+  }
+    /*Small screens*/
+  @media screen and (max-width: 600px) {
+    .author-preview-list ul li{
+      min-width: 60%;
+      flex: 1 0 auto;
+    }
+  }
+  /*Medium to Large screens*/
+  @media screen and (min-width: 600px) {
+    .author-preview-list ul li{
+      width: 18.5em;
     }
   }
 }

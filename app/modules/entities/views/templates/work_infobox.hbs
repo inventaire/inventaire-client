@@ -16,7 +16,6 @@
 {{/if}}{{/unless}}
 
 <div class="entity-data-box">
-  <p class="entity-type-label capitalized">{{claim claims 'wdt:P31' false true}}</p>
   {{#if standalone}}
     <h2>{{label}}</h2>
   {{else}}
@@ -25,7 +24,7 @@
   <p class="uri">{{uri}}</p>
   {{partial 'entities:clamped_extract' this}}
   <div class="attributes">
-    <div class="authors"></div>
+    {{partial 'entities:authors_preview_lists'}}
     {{partial 'entities:work_claims' this}}
   </div>
   {{#if standalone}}{{partial 'entities:edit_data' this}}{{/if}}

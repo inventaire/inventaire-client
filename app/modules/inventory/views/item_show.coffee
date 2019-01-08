@@ -57,7 +57,7 @@ module.exports = Marionette.LayoutView.extend
 
 getAuthorsModels = (works)->
   authorsUris = _.chain works
-    .map (work)-> work.get('claims.wdt:P50') or []
+    .map (work)-> work.getExtendedAuthorsUris()
     .flatten()
     .uniq()
     .value()
