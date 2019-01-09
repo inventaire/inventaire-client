@@ -8,13 +8,13 @@ module.exports = ->
       # (or is that standard?)
       errObj =
         message: errorMsg
-        context: _.toArray arguments
+        context: errObj.context or _.toArray(arguments)
         stack: ''
 
     if errObj.hasBeenLogged then return
     errObj.hasBeenLogged = true
 
-    console.error errObj
+    console.error errObj, errObj.context
 
     # Avoid using utils that might not have been defined yet
     args = [].slice.call(arguments, 0)
