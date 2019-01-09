@@ -1,13 +1,13 @@
 #live-search{
   flex: 1 0 auto;
-  .results, .filters{
+  .results, .sections{
     background-color: white;
   }
-  .filters{
+  .sections{
     @include display-flex(row, flex-end, space-around);
     text-align: center;
   }
-  .searchFilter{
+  .searchSection{
     flex: 1 0 0;
     min-width: 4em;
     padding: 0.5em 0.2em;
@@ -150,12 +150,12 @@
   @media screen and (max-width: $smaller-screen) {
     height: 100%;
     @include display-flex(column);
-    .filters{
+    .sections{
       overflow: auto;
       @include display-flex(row, center, flex-start);
       flex: 0 0 auto;
     }
-    .searchFilter{
+    .searchSection{
       flex: 1 0 auto;
     }
     .propositions{

@@ -45,11 +45,14 @@ API.searchFromQueryString = (querystring)->
 
   if showEntityPageIfUri(q, refresh) then return
 
+  [ q, section ] = findSearchSection q
+
   # Forwarding to the top bar live search instead of directly calling API.search
   # as the live search is way faster, and from their the full search,
   # if needed, is one click away
   app.vent.trigger 'live:search:query',
     search: q
+    section: section
     # Show the add layout at its search tab in the background, so that clicking
     # out of the live search doesn't result in a blank page
     showFallbackLayout: app.Execute 'show:add:layout:search'
@@ -63,3 +66,31 @@ showEntityPageIfUri = (query, refresh)->
     return true
   else
     return false
+
+sectionSearchPattern = /(s|section):(\w+)/
+
+findSearchSection = (q)->
+  sectionMatch = q.match(sectionSearchPattern)?[2]
+  unless sectionMatch? then return [ q, 'all' ]
+
+  q = q.replace(sectionSearchPattern, '').trim()
+
+  # Work around the conflict with series of the 's' key
+  if sectionMatch.match /^subjects?$/ then return [ q, 'subjects' ]
+
+  firstLetter = sectionMatch[0]
+  section = sections[firstLetter] or 'all'
+  return [ q, section ]
+
+sections =
+  b: 'book'
+  # 'w' for work
+  w: 'book'
+  a: 'author'
+  # 'h' for human
+  h: 'author'
+  s: 'serie'
+  u: 'user'
+  g: 'group'
+  # 't' for topic (as series already use the 's')
+  t: 'subject'

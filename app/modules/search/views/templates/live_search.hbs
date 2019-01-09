@@ -1,13 +1,11 @@
 <ul class="results"></ul>
 
-<div class="filters">
-  {{partial 'search:filter' name='all' label='all' selected='true'}}
-  {{partial 'search:filter' name='book' label='book'}}
-  {{partial 'search:filter' name='author' label='author'}}
-  {{partial 'search:filter' name='serie' label='series_singular'}}
-  {{partial 'search:filter' name='user' label='user'}}
-  {{partial 'search:filter' name='group' label='group'}}
-  {{partial 'search:filter' name='subject' label='subject'}}
+<div class="sections">
+  {{#each sections}}
+    <a id="section-{{@key}}" class="searchSection {{#if selected}}selected{{/if}}">
+      {{I18n label}}
+    </a>
+  {{/each}}
 </div>
 
 <div class="alternatives">

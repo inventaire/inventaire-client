@@ -101,9 +101,9 @@ module.exports = Marionette.LayoutView.extend
     else
       app.user.set 'language', lang
 
-  showLiveSearch: ->
+  showLiveSearch: (params = {})->
     if @liveSearch.currentView? then @liveSearch.$el.show()
-    else @liveSearch.show new LiveSearch
+    else @liveSearch.show new LiveSearch(params)
     @liveSearch.$el.addClass 'shown'
     @liveSearch.currentView.resetHighlightIndex()
     @ui.overlay.removeClass 'hidden'
@@ -153,8 +153,8 @@ module.exports = Marionette.LayoutView.extend
     app.vent.trigger 'search:global:change', text
 
   setQuery: (params)->
-    { search, @showFallbackLayout } = params
-    @showLiveSearch()
+    { search, @showFallbackLayout, section } = params
+    @showLiveSearch { section }
     @searchLive search
     @ui.searchField.focus()
     # Set value after focusing so that the cursor appears at the end

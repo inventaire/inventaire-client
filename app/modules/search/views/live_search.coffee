@@ -26,16 +26,23 @@ module.exports = Marionette.CompositeView.extend
   initialize: ->
     @collection = new Results
     @lazySearch = _.debounce @search.bind(@), 200
+    { section: @selectedSectionName } = @options
 
   ui:
-    all: '#filter-all'
-    filters: '.searchFilter'
+    all: '#section-all'
+    sections: '.searchSection'
     results: 'ul.results'
     alternatives: '.alternatives'
     shortcuts: '.shortcuts'
 
+  serializeData: ->
+    sections = sectionsData()
+    selectedSectionName = if sections[@selectedSectionName]? then @selectedSectionName else 'all'
+    sections[selectedSectionName].selected = true
+    return { sections }
+
   events:
-    'click .searchFilter': 'updateFilters'
+    'click .searchSection': 'updateSections'
     'click .deepSearch': 'showDeepSearch'
     'click .createEntity': 'showEntityCreate'
 
@@ -44,17 +51,17 @@ module.exports = Marionette.CompositeView.extend
       when 'up' then @highlightPrevious()
       when 'down' then @highlightNext()
       when 'enter' then @showCurrentlyHighlightedResult()
-      when 'pageup' then @selectPrevFilter()
-      when 'pagedown' then @selectNextFilter()
+      when 'pageup' then @selectPrevSection()
+      when 'pagedown' then @selectNextSection()
       else return
 
-  updateFilters: (e)-> @selectFromTarget $(e.currentTarget)
+  updateSections: (e)-> @selectFromTarget $(e.currentTarget)
 
-  selectPrevFilter: -> @selectByPosition 'prev', 'last'
-  selectNextFilter: -> @selectByPosition 'next', 'first'
+  selectPrevSection: -> @selectByPosition 'prev', 'last'
+  selectNextSection: -> @selectByPosition 'next', 'first'
   selectByPosition: (relation, fallback)->
     $target = @$el.find('.selected')[relation]()
-    if $target.length is 0 then $target = @$el.find('.filters a')[fallback]()
+    if $target.length is 0 then $target = @$el.find('.sections a')[fallback]()
     @selectFromTarget $target
 
   selectFromTarget: ($target)->
@@ -65,21 +72,21 @@ module.exports = Marionette.CompositeView.extend
     if isSelected
       $target.removeClass 'selected'
       @ui.all.addClass 'selected'
-      @filter = null
+      @section = null
     else
-      @ui.filters.removeClass 'selected'
+      @ui.sections.removeClass 'selected'
       $target.addClass 'selected'
-      if type is 'all' then @filter = null
-      else @filter = (child)-> child.get('typeAlias') is type
+      if type is 'all' then @section = null
+      else @section = (child)-> child.get('typeAlias') is type
 
-    # Refresh the search with the new filters
+    # Refresh the search with the new sections
     @search @_lastSearch
     @_lastType = type
 
     @updateAlternatives type
 
   updateAlternatives: (type)->
-    if type in filtersWithAlternatives then @showAlternatives()
+    if type in sectionsWithAlternatives then @showAlternatives()
     else @hideAlternatives()
 
   search: (search)->
@@ -142,7 +149,7 @@ module.exports = Marionette.CompositeView.extend
 
   getTypes: ->
     name = getTypeFromId @$el.find('.selected')[0].id
-    return typesMap[name]
+    return sectionToTypes[name]
 
   resetResults: (results)->
     @resetHighlightIndex()
@@ -181,7 +188,7 @@ module.exports = Marionette.CompositeView.extend
     @triggerMethod 'hide:live:search'
     app.execute 'show:entity:create', { label: @_lastSearch }
 
-typesMap =
+sectionToTypes =
   all: [ 'works', 'humans', 'series', 'users', 'groups' ]
   book: 'works'
   author: 'humans'
@@ -190,9 +197,9 @@ typesMap =
   group: 'groups'
   subject: 'subjects'
 
-filtersWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
+sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
 
-getTypeFromId = (id)-> id.replace 'filter-', ''
+getTypeFromId = (id)-> id.replace 'section-', ''
 
 # Pre-formatting is required to set the type
 # Taking the opportunity to omit all non-required data
@@ -213,3 +220,12 @@ formatEntity = (entity)->
   # Return a model to prevent having it re-formatted
   # as a Result model, which works from a result object, not an entity
   return new Backbone.Model data
+
+sectionsData = ->
+  all: { label: 'all' }
+  book: { label: 'book' }
+  author: { label: 'author' }
+  serie: { label: 'series_singular' }
+  user: { label: 'user' }
+  group: { label: 'group' }
+  subject: { label: 'subject' }
