@@ -18,7 +18,7 @@ module.exports = Backbone.Model.extend
     if value? and editorType in haveValueEntity
 
       if regex_.EntityUri.test value
-        @reqGrab 'get:entity:model', value, 'valueEntity'
+        @reqGrab 'get:entity:model', value, 'valueEntity', true
       else if _.isObject(value) and value.claims?
         # Allow to pass an entity draft as an object of the form:
         # { labels: {}, claims: {} }

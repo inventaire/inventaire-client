@@ -36,8 +36,8 @@ module.exports = (_)->
       throw new Error 'gets expects attributes as different arguments'
     return attributes.map @get.bind(@)
 
-  Backbone.Model::reqGrab = (request, id, name)->
-    if @[name]? then return Promise.resolve @[name]
+  Backbone.Model::reqGrab = (request, id, name, refresh)->
+    if not refresh and @[name]? then return Promise.resolve @[name]
 
     app.request request, id
     .then @grab.bind(@, name)
