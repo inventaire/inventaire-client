@@ -1,8 +1,17 @@
+# Display a tip when a work label or an edition title contains the label of their serie
+# to invite to remove the serie label part
 module.exports =
-  initEditionTitleTip: ->
-    unless @model.get('property') is 'wdt:P1476' then return
-    unless @model.entity.get('type') is 'edition' then return
-    @model.entity.waitForWorks?.then _initStep2.bind(@)
+  initWorkLabelsTip: (work)-> setSerieData.call @, work
+
+  initEditionTitleTip: (edition)->
+    # Only support cases where there is only 1 known work to keep things simple for now
+    unless edition.get('claims.wdt:P629')?.length is 1 then return
+
+    edition.waitForWorks
+    .then =>
+      editionLang = @model.entity.get('originalLang')
+      work = editions.works[0]
+      setSerieData.call @, work, editionLang
 
   tipOnKeyup: (e)->
     displayTipIfMatch.call @, e.target.value
@@ -37,22 +46,15 @@ hideSerieLabelTip = ->
   unless @editMode then return
   @ui.tip.fadeOut()
 
-_initStep2 = ->
-  # Only support cases where there is only 1 known work to keep things simple for now
-  unless @model.entity.get('claims.wdt:P629')?.length is 1 then return
-  # Series claims copied from work by the model
+setSerieData = (work, editionLang)->
+  seriesUris = work.get 'claims.wdt:P179'
   # Only support cases where there is only 1 known serie to keep things simple for now
-  unless @model.entity.get('claims.wdt:P179')?.length is 1 then return
+  unless seriesUris?.length is 1 then return
 
-  seriesUri = @model.entity.get 'claims.wdt:P179.0'
-  app.request 'get:entity:model', seriesUri
+  app.request 'get:entity:model', seriesUris[0]
   .then (serie)=>
     serieLang = serie.get 'originalLang'
-    langs = getLangsOfInterest.call @, serieLang
+    workLang = work.get 'originalLang'
+    langs = _.uniq _.compact([ app.user.lang, editionLang, workLang, serieLang ])
     @_serieLabels = _.values _.pick(serie.get('labels'), langs)
     @_serieEditorPathname = serie.get 'edit'
-
-getLangsOfInterest = (serieLang)->
-  editionLang = @model.entity.get('originalLang')
-  workLang = @model.entity.works[0].get('originalLang')
-  return _.uniq _.compact([ app.user.lang, editionLang, workLang, serieLang ])

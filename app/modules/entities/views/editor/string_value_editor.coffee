@@ -2,7 +2,7 @@ EditorCommons = require './editor_commons'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 inputSelector = '.string-value-input'
-{ initEditionTitleTip, tipOnKeyup, tipOnRender } = require './lib/string_value_editor_edition_title_tip'
+{ initEditionTitleTip, tipOnKeyup, tipOnRender } = require './lib/title_tip'
 
 module.exports = EditorCommons.extend
   mainClassName: 'string-value-editor'
@@ -16,7 +16,7 @@ module.exports = EditorCommons.extend
     @lazyRender = _.LazyRender @
     @focusTarget = 'input'
     @initEditModeState()
-    initEditionTitleTip.call @
+    initEditionTitleTip.call @, @model.entity
 
   serializeData: ->
     attrs = @model.toJSON()

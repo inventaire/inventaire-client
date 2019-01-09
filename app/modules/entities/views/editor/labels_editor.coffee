@@ -3,6 +3,7 @@ getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 getLangsData = require 'modules/entities/lib/editor/get_langs_data'
+{ initWorkLabelsTip, tipOnKeyup, tipOnRender } = require './lib/title_tip'
 
 module.exports = EditorCommons.extend
   template: require './templates/labels_editor'
@@ -12,6 +13,7 @@ module.exports = EditorCommons.extend
     { @lang } = app.user
     @editMode = if @creating then true else false
     @lazyRender = _.LazyRender @
+    initWorkLabelsTip.call @, @model
 
   behaviors:
     AlertBox: {}
@@ -19,6 +21,7 @@ module.exports = EditorCommons.extend
   ui:
     input: 'input'
     langSelector: '.langSelector'
+    tip: '.tip'
 
   serializeData: ->
     { value, lang } = @getValue()
@@ -39,7 +42,9 @@ module.exports = EditorCommons.extend
   onShow: ->
     @listenTo @model, 'change:labels', @lazyRender
 
-  onRender: -> @selectIfInEditMode()
+  onRender: ->
+    @selectIfInEditMode()
+    tipOnRender.call @
 
   select: -> @ui.input.select()
 
@@ -47,7 +52,7 @@ module.exports = EditorCommons.extend
     'click .edit, .label-value': 'showEditMode'
     'click .save': 'save'
     'click .cancel': 'hideEditMode'
-    'keyup input': 'onKeyup'
+    'keyup input': 'onKeyupCustom'
     'change .langSelector': 'changeLabelLang'
 
   changeLabelLang: (e)->
@@ -83,3 +88,7 @@ module.exports = EditorCommons.extend
         @lazyRender()
         # Wait for the view to have re-rendered to show the alert
         @setTimeout forms_.catchAlert.bind(null, @, err), 400
+
+  onKeyupCustom: (e)->
+    @onKeyup e
+    tipOnKeyup.call @, e

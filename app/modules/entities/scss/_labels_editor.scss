@@ -3,7 +3,9 @@
   @include display-flex(row, center, center);
   padding: 0.8em 1em 0.8em 1em;
   .input-wrapper{
-     flex: 1 1 auto;
+    // Required by .tip
+    position: relative;
+    flex: 1 1 auto;
     .alert-box{
       margin: 0;
     }

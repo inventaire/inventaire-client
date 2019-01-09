@@ -15,12 +15,6 @@
     .alert-box{
       margin-top: 0;
     }
-    .tip{
-      position: absolute;
-      padding-top: 0.1em;
-      padding-left: 1em;
-      color: $grey;
-    }
   }
   /*Small screens*/
   @media screen and (max-width: $entity-editor-small-thresold) {
@@ -31,6 +25,15 @@
         margin: 0 auto;
       }
     }
+  }
+}
+
+.input-editor, .input-wrapper{
+  .tip{
+    position: absolute;
+    padding-top: 0.1em;
+    padding-left: 1em;
+    color: $grey;
   }
 }
 
