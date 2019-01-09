@@ -102,13 +102,19 @@ module.exports = Marionette.ItemView.extend
   # Focus an element on render
   # Requires to set a focusTarget and the corresponding UI element's name
   focusOnRender: ->
-    if @editMode
-      focus = =>
-        $el = @ui[@focusTarget]
-        if $el[0].tagName is 'INPUT' then $el.select()
-        else $el.focus()
-      # Somehow required to let the time to thing to get in place
-      @setTimeout focus, 200
+    unless @editMode then return
+
+    focus = =>
+      $el = @ui[@focusTarget]
+      # Debug: run the linter to see if a view defines its ui elements twice
+      unless $el
+        uis = Object.keys @ui
+        throw error_.new "@ui[@focusTarget] isn't defined", { uis, selector: @focusTarget }
+      if $el[0].tagName is 'INPUT' then $el.select()
+      else $el.focus()
+
+    # Somehow required to let the time to thing to get in place
+    @setTimeout focus, 200
 
 enrichError = (uri)-> (err)->
   if err.responseJSON?.status_verbose is 'this property value is already used'
