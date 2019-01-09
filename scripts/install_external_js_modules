@@ -3,9 +3,8 @@
 set -eu
 
 ############ ENV ###############
-# Avoid to rely on globally installed packages to ease installation
-alias cleancss=node_modules/.bin/cleancss
-alias uglifyjs=node_modules/uglify-js/bin/uglifyjs
+# Make local packages executables accessible
+PATH=$PATH:$(pwd)/node_modules/.bin
 
 pubjs=public/js
 pubcss=public/css
@@ -21,7 +20,8 @@ resetAndAddToBundle(){
 }
 
 addToBundle(){
-  echo ';\n' >> $2
+  echo ';' >> $2
+  echo '' >> $2
   cat $1 | grep -v '//# sourceMappingURL' >> $2
 }
 
