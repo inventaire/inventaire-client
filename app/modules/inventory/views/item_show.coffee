@@ -1,6 +1,6 @@
 ItemShowData = require './item_show_data'
-AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
 EditionsList = require 'modules/entities/views/editions_list'
+showAllAuthorsPreviewLists = require 'modules/entities/lib/show_all_authors_preview_lists'
 
 module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
@@ -8,6 +8,9 @@ module.exports = Marionette.LayoutView.extend
   regions:
     itemData: '#itemData'
     authors: '.authors'
+    scenarists: '.scenarists'
+    illustrators: '.illustrators'
+    colorists: '.colorists'
 
   behaviors:
     General: {}
@@ -31,14 +34,9 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     @showItemData()
-    @waitForAuthors.then @showAuthorsPreviewList.bind(@)
+    @waitForAuthors.then showAllAuthorsPreviewLists.bind(@)
 
   showItemData: -> @itemData.show new ItemShowData { @model }
-  showAuthorsPreviewList: (authors)->
-    if authors.length is 0 then return
-
-    collection = new Backbone.Collection authors
-    @authors.show new AuthorsPreviewList { collection }
 
   events:
     'click .preciseEdition': 'preciseEdition'
@@ -56,13 +54,9 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'modal:open', 'large'
 
 getAuthorsModels = (works)->
-  authorsUris = _.chain works
-    .map (work)-> work.getExtendedAuthorsUris()
-    .flatten()
-    .uniq()
-    .value()
-
-  return app.request 'get:entities:models', { uris: authorsUris }
+  Promise.all works
+  .map (work)-> work.getExtendedAuthorsModels()
+  .reduce aggregateAuthorsPerProperty, {}
 
 getSeriePathname = (works)->
   unless works? then return
@@ -73,3 +67,9 @@ getSeriePathname = (works)->
     return pathname.replace uri, serieUris[0]
 
 getWorkSerieUri = (work)-> work.get 'claims.wdt:P179.0'
+
+aggregateAuthorsPerProperty = (authorsPerProperty, workAuthors)->
+  for property, authors of workAuthors
+    authorsPerProperty[property] ?= []
+    authorsPerProperty[property].push authors...
+  return authorsPerProperty
