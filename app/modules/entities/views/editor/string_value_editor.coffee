@@ -2,18 +2,21 @@ EditorCommons = require './editor_commons'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 inputSelector = '.string-value-input'
+{ initEditionTitleTip, tipOnKeyup, tipOnRender } = require './lib/string_value_editor_edition_title_tip'
 
 module.exports = EditorCommons.extend
   mainClassName: 'string-value-editor'
   template: require './templates/string_value_editor'
 
   ui:
-    input: inputSelector
+    input: 'input'
+    tip: '.tip'
 
   initialize: ->
     @lazyRender = _.LazyRender @
     @focusTarget = 'input'
     @initEditModeState()
+    initEditionTitleTip.call @
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -23,6 +26,7 @@ module.exports = EditorCommons.extend
 
   onRender: ->
     @focusOnRender()
+    tipOnRender.call @
 
   events:
     'click .edit, .displayModeData': 'showEditMode'
@@ -31,7 +35,7 @@ module.exports = EditorCommons.extend
     'click .delete': 'delete'
     # Not setting a particular selector so that
     # any keyup event on the element triggers the event
-    'keyup': 'onKeyup'
+    'keyup': 'onKeyupCustom'
 
   save: ->
     val = @ui.input.val().trim()
@@ -45,3 +49,7 @@ module.exports = EditorCommons.extend
     if val is @model.get('value') then return @hideEditMode()
 
     @_save val
+
+  onKeyupCustom: (e)->
+    @onKeyup e
+    tipOnKeyup.call @, e

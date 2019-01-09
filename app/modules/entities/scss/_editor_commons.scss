@@ -8,11 +8,18 @@
   width: 100%;
   .inputBox{
     width: 100%;
+    position: relative;
     input{
       margin-bottom: 0;
     }
     .alert-box{
       margin-top: 0;
+    }
+    .tip{
+      position: absolute;
+      padding-top: 0.1em;
+      padding-left: 1em;
+      color: $grey;
     }
   }
   /*Small screens*/
