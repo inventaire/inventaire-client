@@ -1,12 +1,12 @@
-<section class="workLayout">
-  <div class="work-section">
-    <div id="workInfobox"></div>
-    <div class="work-instances">
-      {{partial 'entities:items_lists' prefix='work'}}
-      <div class="workEntityActions"></div>
-    </div>
+<div class="work-section">
+  <div id="workInfobox"></div>
+  <div class="work-instances">
+    {{partial 'entities:items_lists' prefix='work'}}
+    <div class="workEntityActions"></div>
   </div>
-  <div id="editionsList"></div>
-</section>
+</div>
+<div id="editionsList"></div>
+
+{{partial 'entities:merge_suggestions_layout_section' this}}
 
 {{partial 'welcome:embedded_welcome'}}

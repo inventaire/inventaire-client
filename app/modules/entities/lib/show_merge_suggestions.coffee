@@ -7,7 +7,6 @@ module.exports = (params)->
 
   getMergeSuggestions model
   .then (entities)->
-    if entities.length is 0 then return
     collection = new Entities entities
     region.show new MergeSuggestions { collection, toEntity: model }
 

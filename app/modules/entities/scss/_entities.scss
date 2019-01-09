@@ -114,7 +114,7 @@
   }
 }
 
-.workLayout, .editionLi{
+#workLayout, .editionLi{
   .add{
     @include tiny-button($light-blue);
     margin: 0 auto;

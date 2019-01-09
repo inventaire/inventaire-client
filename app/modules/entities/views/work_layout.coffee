@@ -4,6 +4,7 @@ EntityActions = require './entity_actions'
 entityItems = require '../lib/entity_items'
 
 module.exports = Marionette.LayoutView.extend
+  id: 'workLayout'
   template: require './templates/work_layout'
   regions:
     workInfobox: '#workInfobox'
@@ -14,14 +15,17 @@ module.exports = Marionette.LayoutView.extend
     personalItemsRegion: '.workPersonalItems'
     networkItemsRegion: '.workNetworkItems'
     publicItemsRegion: '.workPublicItems'
+    mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
     entityItems.initialize.call @
     { @item } = @options
+    @displayMergeSuggestions = app.user.isAdmin
 
   serializeData: ->
     _.extend @model.toJSON(),
       canRefreshData: true
+      displayMergeSuggestions: @displayMergeSuggestions
 
   onShow: ->
     @showWorkInfobox()
@@ -47,6 +51,7 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     entityItems.onRender.call @
+    if @displayMergeSuggestions then @showMergeSuggestions()
 
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
@@ -70,3 +75,6 @@ module.exports = Marionette.LayoutView.extend
 
   # Close the item modal when another view is shown in place of this layout
   onDestroy: -> app.execute 'modal:close'
+
+  showMergeSuggestions: ->
+    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }
