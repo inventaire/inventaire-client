@@ -5,8 +5,8 @@ error_ = require 'lib/error'
 getLangsData = require 'modules/entities/lib/editor/get_langs_data'
 
 module.exports = EditorCommons.extend
-  template: require './templates/title_editor'
-  mainClassName: 'title-editor'
+  template: require './templates/labels_editor'
+  mainClassName: 'labels-editor'
   initialize: ->
     { @creating } = @model
     { @lang } = app.user
@@ -44,7 +44,7 @@ module.exports = EditorCommons.extend
   select: -> @ui.input.select()
 
   events:
-    'click .edit, .title-value': 'showEditMode'
+    'click .edit, .label-value': 'showEditMode'
     'click .save': 'save'
     'click .cancel': 'hideEditMode'
     'keyup input': 'onKeyup'

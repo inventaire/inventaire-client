@@ -11,7 +11,7 @@ $entity-editor-small-thresold: 500px;
   @import 'simple_day_value_editor';
   @import 'positive_integer_value_editor';
   @import 'image_value_editor';
-  @import 'title_editor';
+  @import 'labels_editor';
   .header-wrapper{
     @include display-flex(row, center, center, wrap);
     margin: 1em;

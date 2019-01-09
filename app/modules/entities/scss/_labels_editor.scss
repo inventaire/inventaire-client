@@ -1,5 +1,5 @@
 // see also ./_property_editor.scss
-.title-editor{
+.labels-editor{
   @include display-flex(row, center, center);
   padding: 0.8em 1em 0.8em 1em;
   .input-wrapper{
@@ -28,13 +28,13 @@
   .langSelector{
     border-color: #ddd;
   }
-  .title-value{
+  .label-value{
     font-size: 1em;
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     flex-direction: column;
-    .title-value{
+    .label-value{
       padding: 0.5em;
     }
     .property-label{

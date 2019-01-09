@@ -1,4 +1,4 @@
-TitleEditor = require './title_editor'
+LabelsEditor = require './labels_editor'
 PropertiesEditor = require './properties_editor'
 propertiesCollection = require '../../lib/editor/properties_collection'
 AdminSection = require './admin_section'
@@ -46,7 +46,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     if @requiresLabel
-      @title.show new TitleEditor { @model }
+      @title.show new LabelsEditor { @model }
 
     if @showAdminSection
       @admin.show new AdminSection { @model }
