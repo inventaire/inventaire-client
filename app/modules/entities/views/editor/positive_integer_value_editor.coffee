@@ -1,9 +1,9 @@
-EditorCommons = require './editor_commons'
+ClaimsEditorCommons = require './claims_editor_commons'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 inputSelector = '.positive-integer-picker'
 
-module.exports = EditorCommons.extend
+module.exports = ClaimsEditorCommons.extend
   mainClassName: 'positive-integer-value-editor'
   template: require './templates/positive_integer_value_editor'
 

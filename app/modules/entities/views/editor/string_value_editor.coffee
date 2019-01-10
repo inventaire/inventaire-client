@@ -1,10 +1,10 @@
-EditorCommons = require './editor_commons'
+ClaimsEditorCommons = require './claims_editor_commons'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 inputSelector = '.string-value-input'
 { initEditionTitleTip, tipOnKeyup, tipOnRender } = require './lib/title_tip'
 
-module.exports = EditorCommons.extend
+module.exports = ClaimsEditorCommons.extend
   mainClassName: 'string-value-editor'
   template: require './templates/string_value_editor'
 

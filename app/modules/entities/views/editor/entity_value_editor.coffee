@@ -1,7 +1,7 @@
-EditorCommons = require './editor_commons'
+ClaimsEditorCommons = require './claims_editor_commons'
 createEntities = require 'modules/entities/lib/create_entities'
 
-module.exports = EditorCommons.extend
+module.exports = ClaimsEditorCommons.extend
   mainClassName: 'entity-value-editor'
   template: require './templates/entity_value_editor'
   behaviors:

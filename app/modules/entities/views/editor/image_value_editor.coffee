@@ -1,4 +1,4 @@
-EditorCommons = require './editor_commons'
+ClaimsEditorCommons = require './claims_editor_commons'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 files_ = require 'lib/files'
@@ -8,7 +8,7 @@ images_ = require 'lib/images'
 urlInputSelector = '.imageUrl'
 imagePreviewSelector = '.image-preview'
 
-module.exports = EditorCommons.extend
+module.exports = ClaimsEditorCommons.extend
   mainClassName: 'image-value-editor'
   template: require './templates/image_value_editor'
 

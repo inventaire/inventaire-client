@@ -1,8 +1,8 @@
-EditorCommons = require './editor_commons'
+ClaimsEditorCommons = require './claims_editor_commons'
 error_ = require 'lib/error'
 noValueI18n = null
 
-module.exports = EditorCommons.extend
+module.exports = ClaimsEditorCommons.extend
   mainClassName: 'simple-day-value-editor'
   template: require './templates/simple_day_value_editor'
   behaviors:
