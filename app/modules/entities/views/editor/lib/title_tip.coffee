@@ -1,7 +1,7 @@
 # Display a tip when a work label or an edition title contains the label of their serie
 # to invite to remove the serie label part
 module.exports =
-  initWorkLabelsTip: (work)-> setSerieData.call @, work
+  initWorkLabelsTip: (work)-> setWorkAndSerieData.call @, work
 
   initEditionTitleTip: (edition)->
     # Only support cases where there is only 1 known work to keep things simple for now
@@ -11,7 +11,7 @@ module.exports =
     .then =>
       editionLang = @model.entity.get('originalLang')
       work = editions.works[0]
-      setSerieData.call @, work, editionLang
+      setWorkAndSerieData.call @, work, editionLang
 
   tipOnKeyup: (e)->
     displayTipIfMatch.call @, e.target.value
@@ -22,31 +22,46 @@ module.exports =
 displayTipIfMatch = (value)->
   unless @_serieLabels? and @editMode then return
 
-  if matchesSerieLabels value, @_serieLabels
-    showSerieLabelTip.call @
+  matchingSerieLabel = findMatchingSerieLabel value, @_serieLabels
+
+
+  if matchingSerieLabel?
+    showSerieLabelTip.call @, matchingSerieLabel
   else
     hideSerieLabelTip.call @
 
-matchesSerieLabels = (value, serieLabels)->
-  value = value.toLowerCase().trim()
-  for label in serieLabels
-    if value.match label.toLowerCase()
-      # Display the tip if the serie label is used in addition to another title.
-      # If it's just the serie label, plus possibly a volume number, the tip isn't helpful
-      if value.length > label.length + 5 then return true
-  return false
+volumePattern = /\s*(v|vol|volume|t|tome)?\.?\s*(\d+)?$/
 
-showSerieLabelTip = ->
+# Display the tip if the serie label is used in addition to another title.
+# If it's just the serie label, plus possibly a volume number, the tip isn't helpful
+findMatchingSerieLabel = (value, serieLabels)->
+  value = value
+    .toLowerCase()
+    # Ignore volume information to determine if there is a match with the serie label
+    .replace volumePattern, ''
+    .trim()
+
+  for label in serieLabels
+    # Start with the serie label, followed by a separator
+    # and some title of at least 5 characters
+    re = new RegExp "^#{label}\\s?(:|-|,).{5}", 'i'
+    if re.test(value) then return label
+
+  return
+
+showSerieLabelTip = (matchingSerieLabel)->
   unless @editMode then return
-  html = _.i18n 'title_matches_serie_label_tip', { pathname: @_serieEditorPathname }
-  @ui.tip.html html
+  tip = _.i18n 'title_matches_serie_label_tip', { pathname: @_serieEditorPathname }
+  serieHref = "href=\"#{@_serieEditorPathname}\""
+  tip = tip.replace serieHref, "#{serieHref} title=\"#{matchingSerieLabel}\""
+  @ui.tip.html tip
   @ui.tip.fadeIn()
 
 hideSerieLabelTip = ->
   unless @editMode then return
   @ui.tip.fadeOut()
 
-setSerieData = (work, editionLang)->
+setWorkAndSerieData = (work, editionLang)->
   seriesUris = work.get 'claims.wdt:P179'
   # Only support cases where there is only 1 known serie to keep things simple for now
   unless seriesUris?.length is 1 then return
