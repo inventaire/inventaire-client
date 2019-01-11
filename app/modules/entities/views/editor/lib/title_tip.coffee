@@ -3,7 +3,8 @@
 module.exports =
   initWorkLabelsTip: (work)-> setWorkAndSerieData.call @, work
 
-  initEditionTitleTip: (edition)->
+  initEditionTitleTip: (edition, property)->
+    if property isnt 'wdt:P1476' then return
     # Only support cases where there is only 1 known work to keep things simple for now
     unless edition.get('claims.wdt:P629')?.length is 1 then return
 

@@ -16,7 +16,7 @@ module.exports = ClaimsEditorCommons.extend
     @lazyRender = _.LazyRender @
     @focusTarget = 'input'
     @initEditModeState()
-    initEditionTitleTip.call @, @model.entity
+    initEditionTitleTip.call @, @model.entity, @model.get('property')
 
   serializeData: ->
     attrs = @model.toJSON()
