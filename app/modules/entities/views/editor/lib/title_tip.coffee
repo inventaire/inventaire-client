@@ -11,7 +11,7 @@ module.exports =
     edition.waitForWorks
     .then =>
       editionLang = @model.entity.get('originalLang')
-      work = editions.works[0]
+      work = edition.works[0]
       setWorkAndSerieData.call @, work, editionLang
 
   tipOnKeyup: (e)->
