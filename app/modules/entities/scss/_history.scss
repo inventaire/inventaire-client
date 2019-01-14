@@ -1,5 +1,13 @@
 .entity-history{
   &.standalone{
+    .header{
+      text-align: center;
+      strong{
+        color: $grey;
+        font-size: 1.2em;
+      }
+      margin: 2em;
+    }
     max-width: 50em;
     margin: 0 auto;
     /*Medium and Large screens*/

@@ -12,35 +12,13 @@ $entity-editor-small-thresold: 500px;
   @import 'positive_integer_value_editor';
   @import 'image_value_editor';
   @import 'labels_editor';
+  @import 'entity_edit_menu';
   .header-wrapper{
     @include display-flex(row, center, center, wrap);
     margin: 1em;
     position: relative;
-    /*Not too small screens*/
-    @media screen and (min-width: $smaller-screen) {
-      .wikidata-edit, #moveToWikidata, .wikidata-move-disabled{
-        @include position(absolute, 0, 0)
-      }
-    }
-    /*Very small screens*/
-    @media screen and (max-width: $smaller-screen) {
-      flex-direction: column;
-      .wikidata-edit, #moveToWikidata{
-        order: -1;
-      }
-      .wikidata-move-disabled{
-        display: none;
-      }
-    }
-    .wikidata-edit{
-      @include big-button($wikidata-green);
-    }
-    #moveToWikidata, .wikidata-move-disabled{
-      @include big-button($wikidata-blue);
-    }
-    .wikidata-move-disabled{
-      cursor: not-allowed;
-      opacity: 0.5;
+    .type-label{
+      flex: 1 0 auto;
     }
   }
   .header-context, .creation-progress{

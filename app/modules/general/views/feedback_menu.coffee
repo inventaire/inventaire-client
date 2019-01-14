@@ -22,6 +22,7 @@ module.exports = Marionette.ItemView.extend
     loggedIn: app.user.loggedIn
     user: app.user.toJSON()
     contact: contact
+    minimal: @options.minimal
     subject: @options.subject
     standalone: @standalone
 
@@ -53,8 +54,6 @@ module.exports = Marionette.ItemView.extend
 
   confirm: ->
     @stopLoading '#sendFeedback'
-    @ui.subject.val null
-    @ui.message.val null
     @ui.confirmation.slideDown()
 
     if @standalone
@@ -62,7 +61,7 @@ module.exports = Marionette.ItemView.extend
       # and get a new confirmation for it
       @setTimeout @hideConfirmation.bind(@), 5000
     else
-      @setTimeout app.Execute('modal:close'), 2000
+      @setTimeout app.Execute('modal:close'), 1500
 
   postFailed: ->
     @stopLoading '#sendFeedback'

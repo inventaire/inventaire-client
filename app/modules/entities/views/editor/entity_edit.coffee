@@ -72,9 +72,6 @@ module.exports = Marionette.LayoutView.extend
     attrs.canCancel = @canCancel()
     attrs.isAdmin = app.user.isAdmin
     attrs.moveToWikidata = @moveToWikidataData()
-    # Do not show the signal data error button in creation mode
-    # as it wouldn't make sense
-    attrs.signalDataErrorButton = not @creationMode
     # Used when item_show attempts to 'preciseEdition' with a new edition
     attrs.itemToUpdate = @itemToUpdate
     attrs.canBeAddedToInventory = @canBeAddedToInventory
@@ -85,8 +82,10 @@ module.exports = Marionette.LayoutView.extend
     'click .createAndShowEntity': 'createAndShowEntity'
     'click .createAndAddEntity': 'createAndAddEntity'
     'click .createAndUpdateItem': 'createAndUpdateItem'
-    'click #signalDataError': 'signalDataError'
     'click #moveToWikidata': 'moveToWikidata'
+    'click .suggestMerge': 'suggestMerge'
+    'click .reportError': 'reportError'
+    'click .suggestDeletion': 'suggestDeletion'
 
   canCancel: ->
     # In the case of an entity being created, showing the entity page would fail
@@ -127,14 +126,6 @@ module.exports = Marionette.LayoutView.extend
 
   # Override in sub views
   beforeCreate: -> _.preq.resolved
-
-  signalDataError: (e)->
-    uri = @model.get 'uri'
-    subject = _.I18n  'data error'
-    app.execute 'show:feedback:menu',
-      subject: "[#{uri}][#{subject}] "
-      uris: [ uri ]
-      event: e
 
   # Hiding navigation buttons when a label is required but no label is set yet
   # to invite the user to edit and save the label, or cancel.
@@ -183,6 +174,33 @@ module.exports = Marionette.LayoutView.extend
     .then -> app.execute 'show:entity:edit', uri
     .catch error_.Complete('#moveToWikidata', false)
     .catch forms_.catchAlert.bind(null, @)
+
+  suggestMerge: (e)->
+    uri = @model.get 'uri'
+    subject = _.I18n  'suggest merge'
+    app.execute 'show:feedback:menu',
+      minimal: true
+      subject: "[#{uri}][#{subject}] "
+      uris: [ uri ]
+      event: e
+
+  reportError: (e)->
+    uri = @model.get 'uri'
+    subject = _.I18n  'data error'
+    app.execute 'show:feedback:menu',
+      minimal: true
+      subject: "[#{uri}][#{subject}] "
+      uris: [ uri ]
+      event: e
+
+  suggestDeletion: (e)->
+    uri = @model.get 'uri'
+    subject = _.I18n  'suggest deletion'
+    app.execute 'show:feedback:menu',
+      minimal: true
+      subject: "[#{uri}][#{subject}] "
+      uris: [ uri ]
+      event: e
 
 isWikidataUri = (uri)-> uri.split(':')[0] is 'wd'
 

@@ -7,17 +7,9 @@
     {{/if}}
   {{else}}
     <h2 class="type-label">{{claim claims 'wdt:P31' false true}}</h2>
-    {{#if wikidata}}
-      <a href="{{wikidata.wiki}}" class="wikidata-edit" target="_blank">{{icon 'wikidata-colored'}}{{I18n 'edit on Wikidata'}}</a>
-    {{else}}
-      {{#with moveToWikidata}}
-        {{#if ok}}
-          <a id="moveToWikidata" title="{{I18n 'this entity is ready to be imported to Wikidata'}}">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
-        {{else}}
-          <a class="wikidata-move-disabled" title="{{capitalize reason}}">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
-        {{/if}}
-      {{/with}}
-    {{/if}}
+    {{#unless creating}}
+      {{partial 'entities:editor:edit_menu' this}}
+    {{/unless}}
   {{/if}}
 </div>
 <div class="title"></div>

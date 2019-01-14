@@ -1,0 +1,18 @@
+.entity-edit-menu{
+  padding: 0.5em;
+  margin: 0;
+  .fa-cog{
+    font-size: 1.6em;
+  }
+  .dropdown li{
+    min-width: 15em;
+    .fa{
+      margin-right: 0.5em;
+      font-size: 1em;
+    }
+  }
+  .wikidata-move-disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

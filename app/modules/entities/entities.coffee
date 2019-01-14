@@ -209,6 +209,7 @@ setHandlers = ->
     'show:entity:edit:from:params': showEntityEdit
     'show:entity:create': showEntityCreate
     'show:entity:cleanup': API.showEntityCleanup
+    'show:entity:history': API.showEntityHistory
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': require './lib/show_merge_suggestions'
     'invalidate:entities:cache': invalidateEntitiesCache

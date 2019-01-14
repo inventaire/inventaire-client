@@ -1,20 +1,24 @@
 {{#if standalone}}<div>{{/if}}
+{{#unless minimal}}
+  <h3>{{i18n 'feedback_title'}}</h3>
+  <p>{{i18n 'feedback_intro'}}</p>
+{{/unless}}
 
-<h3>{{i18n 'feedback_title'}}</h3>
-<p>{{i18n 'feedback_intro'}}</p>
 <form>
-  <div class="from">
-    {{#if loggedIn}}
-      <label>{{i18n 'from:'}}</label>
-      <span class="username">{{user.username}}</span>
-    {{else}}
-      <input type="email" name="email" class="radius unknownUser" placeholder="{{i18n 'from'}}...">
-    {{/if}}
+  {{#unless minimal}}
+    <div class="from">
+      {{#if loggedIn}}
+        <label>{{i18n 'from:'}}</label>
+        <span class="username">{{user.username}}</span>
+      {{else}}
+        <input type="email" name="email" class="radius unknownUser" placeholder="{{i18n 'from'}}...">
+      {{/if}}
     </div>
-  <div class="to">
-    <label>{{i18n 'to:'}}</label>
-    <span class="email">{{contact.email}}</span>
-  </div>
+    <div class="to">
+      <label>{{i18n 'to:'}}</label>
+      <span class="email">{{contact.email}}</span>
+    </div>
+  {{/unless}}
 
   <input type="text" id="subject" name="subject" placeholder="{{i18n 'subject'}}..." class="radius" value="{{subject}}">
   <textarea id="message" name="feedback" placeholder="{{i18n 'your message'}}..."></textarea>
@@ -28,13 +32,18 @@
 <div class="checkWrapper">
   <span class="check"></span>
 </div>
+
 <p id="confirmation" class="hidden">
   {{icon 'check'}}
-  {{i18n 'Thank you for your message! Coming back to you shortly'}}
+  {{#unless minimal}}
+    {{i18n 'Thank you for your message! Coming back to you shortly'}}
+  {{/unless}}
 </p>
-<div id="getInvolved">
-  <h5>{{{i18n 'get_involved'}}}</h5>
-  <p>{{{i18n 'contribution_ideas'}}}</p>
-</div>
+{{#unless minimal}}
+  <div id="getInvolved">
+    <h5>{{{i18n 'get_involved'}}}</h5>
+    <p>{{{i18n 'contribution_ideas'}}}</p>
+  </div>
+{{/unless}}
 
 {{#if standalone}}</div>{{/if}}

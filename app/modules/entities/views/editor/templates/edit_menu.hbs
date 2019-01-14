@@ -1,0 +1,36 @@
+<div class="entity-edit-menu has-dropdown">
+  {{icon 'cog'}}
+  <ul class="dropdown dropdown-align-right">
+    <li>
+      {{#if wikidata}}
+        <a href="{{wikidata.wiki}}" class="wikidata-edit" target="_blank">
+          {{icon 'wikidata'}} {{I18n 'edit on Wikidata'}}
+        </a>
+      {{else}}
+        {{#with moveToWikidata}}
+          {{#if ok}}
+            <a id="moveToWikidata" title="{{I18n 'this entity is ready to be imported to Wikidata'}}">
+              {{icon 'wikidata'}} {{I18n 'move to Wikidata'}}
+            </a>
+          {{else}}
+            <a class="wikidata-move-disabled" title="{{capitalize reason}}">
+              {{icon 'wikidata'}} {{I18n 'move to Wikidata'}}
+            </a>
+          {{/if}}
+        {{/with}}
+      {{/if}}
+    </li>
+    {{#unless wikidata}}
+      {{#if isAdmin}}
+        <li>
+          <a class="showEntityHistory" href="{{history}}">
+            {{icon 'history'}} {{I18n 'history'}}
+          </a>
+        </li>
+      {{/if}}
+      <li><a class="suggestMerge">{{icon 'compress'}} {{I18n 'suggest merge'}}</a></li>
+      <li><a class="reportError">{{icon 'flag'}} {{I18n 'report an error'}}</a></li>
+      <li><a class="suggestDeletion">{{icon 'trash'}} {{I18n 'suggest deletion'}}</a></li>
+    {{/unless}}
+  </ul>
+</div>
