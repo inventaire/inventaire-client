@@ -143,7 +143,7 @@
   }
 }
 
-.browser-selector:not(.browser-owner-selector){
+.browser-selector{
   .options ul{
     margin: 0.4em;
     @include radius-bottom;
@@ -151,32 +151,3 @@
 }
 
 $blue-grey: #909099;
-
-.browser-owner-selector{
-  .toggler{
-    margin-top: 0.4em;
-    @include display-flex(row, center, center);
-    @include bg-hover($blue-grey);
-    &.selected{
-      background-color: darken($blue-grey, 15%);
-    }
-    padding: 0.2em 0.2em;
-    height: 2em;
-    color: white;
-    .label{
-      margin-left: 0.2em;
-      // Centering vertically
-      margin-top: 0.2em;
-    }
-    &.toggled .fa-caret-down{
-      transform: rotate(-90deg);
-    }
-  }
-  .fa-caret-down{
-    margin-left: auto;
-  }
-  .sections{
-    margin: 0.4em;
-    @include radius-bottom;
-  }
-}

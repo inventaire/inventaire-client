@@ -1,12 +1,11 @@
 BrowserSelector = require './browser_selector'
-BrowserOwnersSelector = require './browser_owners_selector'
 ItemsList = require './items_list'
 SelectorsCollection = require '../collections/selectors'
 FilterPreview = require './filter_preview'
 getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
 getUnknownModel = require '../lib/browser/get_unknown_model'
 
-selectorsNames = [ 'author', 'genre', 'subject', 'owner' ]
+selectorsNames = [ 'author', 'genre', 'subject' ]
 selectorsRegions = {}
 selectorsNames.forEach (name)->
   selectorsRegions["#{name}Region"] = "##{name}"
@@ -32,17 +31,11 @@ module.exports = Marionette.LayoutView.extend
     @focusOnShow()
 
     waitForInventoryData = @getInventoryViewData()
-    waitForOwnersCollections = @getOwnersModels()
 
     waitForEntitiesSelectors = waitForInventoryData
       .then @ifViewIsIntact('showEntitySelectors')
 
-    waitForOwnersSelector = waitForInventoryData
-      # Same as grouping both promises but resolves only to the owners models
-      .then -> waitForOwnersCollections
-      .then @ifViewIsIntact('showOwners')
-
-    Promise.all [ waitForEntitiesSelectors, waitForOwnersSelector ]
+    waitForEntitiesSelectors
     # Show the controls all at once
     .then @ifViewIsIntact('browserControlsReady')
 
@@ -102,26 +95,6 @@ module.exports = Marionette.LayoutView.extend
     models = _.values(_.pick(entities, propertyUris)).map addCount(treeSection)
     @showSelector name, models, treeSection
 
-  getOwnersModels: ->
-    Promise.props
-      highlighted: getSelectorsCollection [ app.user ]
-      friends: getFriendsCollection()
-      groups: getGroupsCollection()
-      # nearby: getPublicOwnersCollection()
-
-  showOwners: (collections)->
-    # The tree section should map the section key (here owner ids) to work URIs
-    treeSection = {}
-    ownersWorksItemsMap = @worksTree.owner
-    for ownerId, ownerWorksItemsMap of ownersWorksItemsMap
-      treeSection[ownerId] = Object.keys ownerWorksItemsMap
-
-    @ownerRegion.show new BrowserOwnersSelector {
-      collections,
-      treeSection,
-      ownersWorksItemsMap
-    }
-
   showSelector: (name, models, treeSection)->
     collection = getSelectorsCollection models
     @["#{name}Region"].show new BrowserSelector { name, collection, treeSection }
@@ -147,16 +120,12 @@ module.exports = Marionette.LayoutView.extend
 
     if intersectionWorkUris.length is 0 then return @showItemsListByIds []
 
-    if @_currentOwnerItemsByWork?
-      worksItems = _.pick @_currentOwnerItemsByWork, intersectionWorkUris
-    else
-      worksItems = _.pick @workUriItemsMap, intersectionWorkUris
+    worksItems = _.pick @workUriItemsMap, intersectionWorkUris
     itemsIds = _.flatten _.values(worksItems)
     @showItemsListByIds itemsIds
 
 getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null
-  if selectorName is 'owner' then return selectedOption.get '_id'
   return selectedOption.get 'uri'
 
 addCount = (urisData)-> (model)->
