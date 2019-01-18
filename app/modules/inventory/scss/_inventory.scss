@@ -1,58 +1,10 @@
+#inventory{
+  padding: 0.5em;
+  background-color: white;
+}
+
+@import "inventory_nav";
 @import "item_creation";
-
-$tabs-navigation-active-bg-color: $tools-active-bg;
-$tabs-navigation-bg-color: lighten($tools-active-bg, 20%);
-$tabs-navigation-font-color: #fff;
-
-#innerMain{
-  // needed by Chrome (at least) to expand items on the whole page
-  width: 100%;
-  @include display-flex(row);
-  // sideNavClones #sideNav and #shadowSideNav
-  // have the same behavior but the later
-  // without the fixed position so that
-  // it pushes other divs under the flex constraints
-  .sideNavClones{}
-  #inventoryView{
-    @include display-flex(column);
-    flex: 1 1 auto;
-    #itemsView{
-      @include display-flex(row);
-      flex: 1 1 auto;
-      // make sure #controls won't hide anything
-      margin-bottom: 4em;
-    }
-  }
-}
-
-.position-welcome{
-  section#position-picker{
-    text-align: center;
-    padding: 1em;
-  }
-}
-
-/*Large screens*/
-@media screen and (min-width: $small-screen) {
-  #innerMain{
-    .sideNavClones{
-      width: $side-nav-width;
-      @include transition(width);
-    }
-    #shadowSideNav{
-      flex: 0 0 $side-nav-width;
-    }
-  }
-}
-
-/*Small screens*/
-@media screen and (max-width: $small-screen) {
-  #innerMain{
-    flex-direction: column;
-    .sideNavClones{}
-  }
-}
-
 @import "items_list";
 @import "item_show";
 @import "item_boxes";

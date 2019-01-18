@@ -1,7 +1,10 @@
-#inventory-browser{}
+#inventory-browser{
+  padding: 0 0.5em;
+}
 
 #browser-controls, #browser-filters{
   @include display-flex(row, center, flex-start);
+  @include radius;
   padding: 0.3em 0 0.2em 0;
   .selectors{
     @include display-flex(row, center, center, wrap);
@@ -14,10 +17,10 @@
 
 #browser-controls{
   background-color: #e6e6e6;
-  // Will slide down when given the class .ready
-  @include transition(transform);
+  @include transition(opacity);
+  opacity: 1;
   &:not(.ready){
-    transform: translateY(-100%);
+    opacity: 0;
   }
 }
 

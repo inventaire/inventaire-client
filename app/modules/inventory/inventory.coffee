@@ -122,6 +122,7 @@ displayFoundItems = (items)->
 
 showInventory = (options)->
   app.layout.main.show new InventoryLayout(options)
+  app.navigate 'inventory'
 
 showItemsList = (collection)-> app.layout.main.show new ItemsList { collection }
 

@@ -44,7 +44,8 @@ module.exports = Marionette.LayoutView.extend
   browserControlsReady: -> @ui.browserControls.addClass 'ready'
 
   getInventoryViewData: ->
-    _.preq.get app.API.items.inventoryView
+    { user } = @options
+    _.preq.get app.API.items.inventoryView({ user: user.id })
     .then @spreadData.bind(@)
 
   spreadData: (data)->
