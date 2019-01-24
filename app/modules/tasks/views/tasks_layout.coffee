@@ -100,11 +100,12 @@ module.exports = Marionette.LayoutView.extend
     e?.stopPropagation()
 
   merge: (e)->
+    @showNextTask { spinner: '.merge' }
+
     @action 'merge'
     .delay 100
     .then openDeduplicationLayoutIfDone.bind(null, @currentTaskModel)
 
-    @showNextTask { spinner: '.merge' }
     e?.stopPropagation()
 
   action: (actionName)->
@@ -117,8 +118,8 @@ module.exports = Marionette.LayoutView.extend
     @showFromModel actionTaskModel
 
   showNextTaskFromButton: (e)->
-    openDeduplicationLayoutIfDone @currentTaskModel
     @showNextTask { spinner: '.next' }
+    openDeduplicationLayoutIfDone @currentTaskModel
     e?.stopPropagation()
 
   triggerActionByKey: (e)->
