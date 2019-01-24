@@ -27,6 +27,7 @@ module.exports = (groups)->
 
   searchByPosition = (bbox)->
     _.preq.get app.API.groups.searchByPosition(bbox)
+    .get 'groups'
     .then _.Log('groups by position')
     .then addGroupsUnlessHere
 
