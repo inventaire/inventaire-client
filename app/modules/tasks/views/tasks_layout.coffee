@@ -37,7 +37,7 @@ module.exports = Marionette.LayoutView.extend
     { spinner } = params
     if spinner? then startLoading.call @, spinner
     offset = app.request 'querystring:get', 'offset'
-    @showTask getNextTask({ previousTasks, offset })
+    @showTask getNextTask({ previousTasks, offset, lastTaskModel: @currentTaskModel })
     .tap => if spinner? then stopLoading.call(@, spinner)
 
   showTask: (taskModelPromise)->
@@ -90,7 +90,6 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .dismiss': 'dismiss'
     'click .merge': 'merge'
-    'click .mergeAndDeduplicate': 'mergeAndDeduplicate'
     'click .next': 'showNextTaskFromButton'
     'click .controls': 'toggleRelatives'
     'keydown': 'triggerActionByKey'
@@ -102,17 +101,10 @@ module.exports = Marionette.LayoutView.extend
 
   merge: (e)->
     @action 'merge'
-    @showNextTask { spinner: '.merge' }
-    e?.stopPropagation()
-
-  mergeAndDeduplicate: (e)->
-    { suggestion } = @currentTaskModel
-
-    @action 'merge'
     .delay 100
-    .then -> app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
+    .then openDeduplicationLayoutIfDone.bind(null, @currentTaskModel)
 
-    @showNextTask { spinner: '.mergeAndDeduplicate' }
+    @showNextTask { spinner: '.merge' }
     e?.stopPropagation()
 
   action: (actionName)->
@@ -125,6 +117,7 @@ module.exports = Marionette.LayoutView.extend
     @showFromModel actionTaskModel
 
   showNextTaskFromButton: (e)->
+    openDeduplicationLayoutIfDone @currentTaskModel
     @showNextTask { spinner: '.next' }
     e?.stopPropagation()
 
@@ -180,3 +173,8 @@ getTaskById = (id)->
     task = tasks[0]
     if task? then new Task task
     else throw error_.new 'not found', 404, { id }
+
+openDeduplicationLayoutIfDone = (taskModel)->
+  { suggestion, remainingAuthorTasksCount } = taskModel
+  if remainingAuthorTasksCount is 0
+    app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
