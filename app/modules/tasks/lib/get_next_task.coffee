@@ -29,6 +29,7 @@ getNextTaskBySuggestionUri = (params)->
   .filter removePreviousTasks(previousTasks)
   .then (tasks)->
     suggestionUrisFetched.push suggestionUri
+    if tasks.length is 0 then return getNextTaskByScore params
     return updateBacklogAndGetNextTask tasks, 'byAuthor'
 
 getNextTaskByScore = (params)->
