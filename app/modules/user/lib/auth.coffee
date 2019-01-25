@@ -19,16 +19,16 @@ requestClassicSignup = (options)->
   _.preq.post app.API.auth.signup, options
   # not submitting email as there is no need for it
   # to be remembered by browsers
-  .then fakeFormSubmit.bind(null, username, password)
+  .then formSubmit.bind(null, username, password)
 
 passwordConfirmation = (currentPassword)->
   # using the login route to verify the password validity
   username = app.user.get('username')
-  classicLogin(username, currentPassword)
+  classicLogin username, currentPassword
 
 requestClassicLogin = (username, password)->
-  classicLogin(username, password)
-  .then fakeFormSubmit.bind(null, username, password)
+  classicLogin username, password
+  .then formSubmit.bind(null, username, password)
 
 classicLogin = (username, password)->
   _.preq.post app.API.auth.login, { username, password }
@@ -40,9 +40,9 @@ passwordUpdate = (currentPassword, newPassword, selector)->
     'new-password': newPassword
   # updating the browser password
   .then -> if selector? then $(selector).trigger('check')
-  .then fakeFormSubmit.bind(null, username, newPassword)
+  .then formSubmit.bind(null, username, newPassword)
 
-fakeFormSubmit = (username, password)->
+formSubmit = (username, password)->
   # Make the request as a good old html form not JS-generated
   # so that password managers can catch it and store its values.
   # Relies on form#browserLogin being in index.html from the start.

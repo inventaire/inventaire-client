@@ -2,11 +2,12 @@
 # given app_layout can't catch modal events
 moveCaretToEnd = require 'modules/general/lib/move_caret_to_end'
 enterClick = require 'modules/general/lib/enter_click'
+preventFormSubmit = require 'modules/general/lib/prevent_form_submit'
 showViews = require '../lib/show_views'
 
 module.exports = Marionette.Behavior.extend
   events:
-    'submit form': (e)-> e.preventDefault()
+    'submit form': preventFormSubmit
     'focus textarea': moveCaretToEnd
     'keyup input.enterClick': enterClick.input
     'keyup textarea.ctrlEnterClick': enterClick.textarea
