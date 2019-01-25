@@ -8,10 +8,11 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'signup(/)':'showSignup'
-        'login(/)':'showLogin'
-        'login/forgot-password(/)':'showForgotPassword'
-        'login/reset-password(/)':'showResetPassword'
+        'signup(/)': 'showSignup'
+        'login(/)': 'showLogin'
+        'login/forgot-password(/)': 'showForgotPassword'
+        'login/reset-password(/)': 'showResetPassword'
+        'logout(/)': 'logout'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -50,6 +51,8 @@ API =
         metadata: { title: _.I18n('reset password') }
     else
       app.execute 'show:forgot:password'
+
+  logout: -> app.execute 'logout'
 
 redirected = (command)->
   unless navigator.cookieEnabled
