@@ -44,4 +44,6 @@ module.exports = Marionette.LayoutView.extend
     $(e.currentTarget).toggleClass 'toggled'
     $("##{region}").slideToggle(200)
 
-  showTransactionWelcome: -> @fullviewRegion.show new TransactionsWelcome
+  showTransactionWelcome: ->
+    @fullviewRegion.show new TransactionsWelcome
+    app.navigate 'transactions'
