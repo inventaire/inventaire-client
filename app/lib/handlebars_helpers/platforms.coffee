@@ -37,6 +37,10 @@ module.exports =
     url: (address)->
       [ username, domain ] = address.split '@'
       return "https://#{domain}/@#{username}"
+  'wdt:P4258':
+    icon: 'gallica'
+    text: ->  _.i18n 'on_website', { name: 'Gallica' }
+    url: (id)-> "https://gallica.bnf.fr/ark:/12148/#{id}"
 
 gutenbergBase = ->
   base = if screen_.isSmall() then 'http://m.' else 'https://www.'
