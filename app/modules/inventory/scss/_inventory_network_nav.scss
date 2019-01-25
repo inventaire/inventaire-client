@@ -1,0 +1,45 @@
+$nav-avatar-size: 5em;
+
+#inventoryNetworkNav{
+  .list-wrapper{
+    margin: 1em 0.5em;
+    padding: 0.5em;
+    @include radius;
+    background-color: $inventory-nav-grey;
+  }
+  .list-label{
+    color: $dark-grey;
+    margin-bottom: 0.5em;
+  }
+  ul{
+    @include display-flex(row, null, flex-start, wrap);
+  }
+  li{
+    height: $nav-avatar-size;
+    flex: 0 0 $nav-avatar-size;
+    @include radius;
+    margin: 0.5em 0.2em;
+    .info{
+      padding: 0 0.2em;
+    }
+    position: relative;
+  }
+  a{
+    display: block;
+    height: $nav-avatar-size;
+    width: $nav-avatar-size;
+    background-size: cover;
+    background-position: center center;
+    @include radius;
+  }
+  .info{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    height: 1.6em;
+    background-color: white;
+    padding-left: 0.2em;
+  }
+}

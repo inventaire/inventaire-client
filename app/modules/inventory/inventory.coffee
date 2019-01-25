@@ -15,6 +15,8 @@ module.exports =
     Router = Marionette.AppRouter.extend
       appRoutes:
         'inventory(/)': 'showGeneralInventory'
+        'inventory/network(/)': 'showNetworkInventory'
+        'inventory/public(/)': 'showPublicInventory'
         'inventory/nearby(/)': 'showInventoryNearby'
         'inventory/last(/)': 'showInventoryLast'
         'inventory/browser(/)': 'showInventoryBrowser'
@@ -43,6 +45,12 @@ API =
       # Give focus to the home button so that hitting tab gives focus
       # to the search input
       $('#home').focus()
+
+  showNetworkInventory: ->
+    showInventory { section: 'network' }
+
+  showPublicInventory: ->
+    showInventory { section: 'public' }
 
   showUserInventory: (user, navigate)->
     # User might be a user id or a username
@@ -121,8 +129,9 @@ displayFoundItems = (items)->
     else showItemsList items
 
 showInventory = (options)->
+  { section } = options
   app.layout.main.show new InventoryLayout(options)
-  app.navigate 'inventory'
+  if section? then app.navigate "inventory/#{section}"
 
 showItemsList = (collection)-> app.layout.main.show new ItemsList { collection }
 

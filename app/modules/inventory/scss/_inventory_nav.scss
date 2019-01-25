@@ -19,31 +19,9 @@
         margin: 0 0.5em;
       }
     }
-    &.tab-selected-user .user, &.tab-selected-network .network, &.tab-selected-public .public{
+    &.tab-selected-user #userTab, &.tab-selected-network #networkTab, &.tab-selected-public #publicTab{
       @include bg-hover(#eee, 0);
       color: $dark-grey;
-    }
-  }
-
-  #controls{
-    @include display-flex(row, center, flex-start);
-    margin: 1em 0.5em;
-    padding: 0 0.5em;
-    @include radius;
-    background-color: #e6e6e6;
-    height: 3em;
-    a{
-      &:not(:first-child){
-        margin-left: 0.5em;
-      }
-      img{
-        @include radius;
-      }
-    }
-    .display-option{
-      padding: 0.2em 0.4em;
-      @include radius;
-      background-color: white;
     }
   }
 }

@@ -3,7 +3,12 @@
   background-color: white;
 }
 
+$inventory-nav-grey: #e6e6e6;
+
 @import "inventory_nav";
+@import "inventory_user_nav";
+@import "inventory_network_nav";
+@import "inventory_public_nav";
 @import "item_creation";
 @import "items_list";
 @import "item_show";

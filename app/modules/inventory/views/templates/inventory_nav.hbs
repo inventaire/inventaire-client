@@ -1,20 +1,14 @@
-<div id="tabs" class="tab-selected-{{selectedTab}}">
-  <a class="user" href="{{user.pathname}}">
+<div id="tabs" class="tab-selected-{{section}}">
+  <a id="userTab" href="{{user.pathname}}">
     <img src="{{imgSrc user.picture 40}}">
     {{user.username}}
   </a>
-  <a class="network">
+  <a id="networkTab" href="/inventory/network">
     {{icon 'users'}}
     {{i18n 'friends & groups'}}
   </a>
-  <a class="public">
+  <a id="publicTab" href="/inventory/public">
     {{icon 'map-marker'}}
     {{i18n 'public'}}
   </a>
-</div>
-
-<div id="controls">
-  <a id="displayCascade" class="display-option">{{icon 'th-large'}}</a>
-  <a id="displayList" class="display-option">{{icon 'list'}}</a>
-  <a id="addToInventory" class="tiny-button light-blue" href="/add">{{icon 'plus'}} {{I18n 'add'}}</a>
 </div>
