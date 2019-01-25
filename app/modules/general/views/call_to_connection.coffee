@@ -2,8 +2,6 @@
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/call_to_connection'
-  behaviors:
-    General: {}
   onShow: -> app.execute 'modal:open'
   serializeData: ->
     _.extend @options,
