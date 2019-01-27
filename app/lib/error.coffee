@@ -39,7 +39,8 @@ module.exports = error_ =
     return Promise.reject err
 
   # Log and report formatted errors to the server, without throwing
-  report: (message, context)->
+  report: (message, context = {})->
+    context.location = location.href
     # Non-standard convention: 599 = client implementation error
     err = formatError message, 599, context
     _.error err, message
