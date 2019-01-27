@@ -41,7 +41,7 @@ module.exports = Marionette.LayoutView.extend
     @list.show new BrowserSelectorOptions { @collection }
 
   events:
-    'keydown input[name="filter"]': 'updateFilter'
+    'keydown input[name="filter"]': 'lazyUpdateFilter'
     'click .selector-button': 'toggleOptions'
     'keydown': 'keyAction'
     # Prevent that a click to focus the input triggers a 'body:click' event
@@ -50,11 +50,8 @@ module.exports = Marionette.LayoutView.extend
   childEvents:
     'select': 'selectOption'
 
+  lazyUpdateFilter: _.lazyMethod 'updateFilter', 150
   updateFilter: (e)->
-    @lazyUpdateFilter or= _.debounce @_updateFilter.bind(@), 150
-    @lazyUpdateFilter e
-
-  _updateFilter: (e)->
     { value } = e.target
     if value is @_lastValue then return
     @_lastValue = value

@@ -75,7 +75,7 @@ module.exports = Marionette.LayoutView.extend
     'click .workLi,.authorLayout': 'select'
     'click .merge': 'mergeSelected'
     'click .next': 'next'
-    'keydown input[name="filter"]': 'filterByText'
+    'keydown input[name="filter"]': 'lazyFilterByText'
     'keydown': 'triggerActionByKey'
     'next:button:hide': -> @ui.nextButton.hide()
     'next:button:show': -> @ui.nextButton.show()
@@ -138,13 +138,13 @@ module.exports = Marionette.LayoutView.extend
     # otherwise just filter with the updated mergeUris list
     @setSubviewFilter @_previousText
 
-  filterByText: (e)->
-    @_lazyFilterByText or= _.debounce @lazyFilterByText.bind(@), 200
+  lazyFilterByText: (e)->
+    @_lazyFilterByText or= _.debounce @filterByText.bind(@), 200
     @_lazyFilterByText e
     # Prevent the event to be propagated to the general 'keydown' event
     e.stopPropagation()
 
-  lazyFilterByText: (e)->
+  filterByText: (e)->
     text = e.target.value
     if text is @_previousText then return
     @_previousText = text
