@@ -19,6 +19,14 @@ module.exports = (typesString, defaultTypeString)->
     if uris?.length > 0 then app.request 'get:entities:models', { uris }
     else _.preq.resolve []
 
+  getExtendedAuthorsUris: ->
+    _.chain authorProperties
+    .map (property)=> @get "claims.#{property}"
+    .compact()
+    .flatten()
+    .uniq()
+    .value()
+
 authorProperties = [
   'wdt:P50'
   'wdt:P58'

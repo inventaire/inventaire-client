@@ -95,5 +95,28 @@
   }
 }
 
+.parts-suggestions-wrapper{
+  background-color: $dark-grey;
+  margin-top: 2em;
+  h3{
+    color: white;
+  }
+}
+
+#partsSuggestions{
+  ul{
+    @include display-flex(row, null, null, wrap);
+  }
+}
+
+.serie-cleanup-part-suggestion a{
+  display: block;
+  @include radius;
+  padding: 1em;
+  margin: 1em;
+  @include bg-hover(#ddd);
+  text-align: center
+}
+
 @import 'serie_cleanup_work';
 @import 'serie_cleanup_edition';

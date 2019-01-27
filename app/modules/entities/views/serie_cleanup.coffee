@@ -1,5 +1,6 @@
 entityDraftModel = require '../lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
+PartsSuggestions = require  './serie_cleanup_part_suggestion'
 StringPositiveInteger = /^[1-9](\d+)?$/
 Works = Backbone.Collection.extend { comparator: 'ordinal' }
 { startLoading } = require 'modules/general/plugins/behaviors'
@@ -13,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
     conflictsRegion: '#conflicts'
     withoutOrdinalRegion: '#withoutOrdinal'
     withOrdinalRegion: '#withOrdinal'
+    partsSuggestionsRegion: '#partsSuggestions'
 
   ui:
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
@@ -74,6 +76,8 @@ module.exports = Marionette.LayoutView.extend
       alwaysShow: true
 
     @updatePlaceholderCreationButton()
+
+    @showPartsSuggestions()
 
   showWorkList: (options)->
     { name, label, alwaysShow, showPossibleOrdinals } = options
@@ -243,6 +247,20 @@ module.exports = Marionette.LayoutView.extend
       @_placeholderCreationOngoing = false
       @updatePlaceholderCreationButton()
 
+  showPartsSuggestions: ->
+    Promise.all @getAuthorsUris()
+    .map (authorUri)-> _.preq.get app.API.entities.authorWorks(authorUri)
+    .map (results)-> _.map results.works.filter(hasNoSerie), 'uri'
+    .then _.flatten
+    .then (uris)-> app.request 'get:entities:models', { uris }
+    .then @_showPartsSuggestions.bind(@)
+
+  _showPartsSuggestions: (works)->
+    collection = new Backbone.Collection works
+    addToSerie = @spreadPart.bind @
+    serieUri = @model.get 'uri'
+    @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serieUri })
+
 getWorksWithOrdinalList = ->
   if @withoutOrdinal.length + @conflicts.length isnt 0 then return
 
@@ -259,4 +277,6 @@ getPlaceholdersOrdinals = ->
 
 isPlaceholder = (model)-> model.get('isPlaceholder') is true
 
-getAuthors = (model)-> model.get('claims.wdt:P50') or []
+getAuthors = (model)-> model.getExtendedAuthorsUris()
+
+hasNoSerie = (work)-> not work.serie?
