@@ -26,6 +26,10 @@ module.exports = Marionette.LayoutView.extend
     @withoutOrdinal = new Works
     @conflicts = new Works
     @maxOrdinal = 0
+    @partsNumber = null
+    @titleKey = "{#{_.i18n('title')}}"
+    @numberKey = "{#{_.i18n('number')}}"
+    @titlePattern = "#{@titleKey} - #{_.I18n('volume')} #{@numberKey}"
     @allAuthorsUris = @getAuthorsUris()
     @spreadParts()
     @initEventListeners()
@@ -46,6 +50,7 @@ module.exports = Marionette.LayoutView.extend
         id: 'editionsToggler'
         checked: @showEditions
         label: 'show editions'
+      titlePattern: @titlePattern
     }
 
   onRender: ->
@@ -135,14 +140,14 @@ module.exports = Marionette.LayoutView.extend
   fillGaps: (start, end)->
     if start >= end then return
     existingOrdinals = @withOrdinal.map (model)-> model.get('ordinal')
+    if start is 0 then start = 1
     for i in [ start..end ]
       unless i in existingOrdinals then @withOrdinal.add @getPlaceholder(i)
     return
 
   getPlaceholder: (index)->
     serieUri = @model.get 'uri'
-    serieLabel = @model.get 'label'
-    label = "#{serieLabel} - #{index}"
+    label = @getPlaceholderTitle index
     claims =
       'wdt:P179': [ serieUri ]
       'wdt:P1545': [ "#{index}" ]
@@ -151,25 +156,33 @@ module.exports = Marionette.LayoutView.extend
     model.set 'isPlaceholder', true
     return model
 
+  getPlaceholderTitle: (index)->
+    serieLabel = @model.get 'label'
+    @titlePattern
+    .replace @titleKey, serieLabel
+    .replace @numberKey, index
+
   events:
     'change #partsNumber': 'updatePartsNumber'
     'change #authorsToggler': 'toggleAuthors'
     'change #editionsToggler': 'toggleEditions'
+    'keyup #titlePattern': 'lazyUpdateTitlePattern'
 
   updatePartsNumber: (e)->
     { value } = e.currentTarget
-    num = parseInt value
-    if num is @maxOrdinal then return
-    if num > @maxOrdinal then @fillGaps @maxOrdinal, num
-    else @removePlaceholdersAbove num
-    @maxOrdinal = num
+    @partsNumber = parseInt value
+    @updatePlaceholders()
+
+  updatePlaceholders: ->
+    if @partsNumber is @maxOrdinal then return
+    if @partsNumber > @maxOrdinal then @fillGaps @maxOrdinal, @partsNumber
+    else @removePlaceholdersAbove @partsNumber
+    @maxOrdinal = @partsNumber
     app.vent.trigger 'serie:cleanup:parts:change'
 
   removePlaceholdersAbove: (num)->
-    toRemove = []
-    @withOrdinal.forEach (model)->
-      if model.get('isPlaceholder') and model.get('ordinal') > num
-        toRemove.push model
+    toRemove = @withOrdinal.filter (model)->
+      model.get('isPlaceholder') and model.get('ordinal') > num
     @withOrdinal.remove toRemove
 
   toggleAuthors: (e)->
@@ -191,6 +204,13 @@ module.exports = Marionette.LayoutView.extend
       @["show#{capitalizedName}"] = false
     @["#{name}TogglerChanged"] = true
 
+  lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000
+  updateTitlePattern: (e)->
+    @titlePattern = e.currentTarget.value
+    placeholders = @withOrdinal.filter isPlaceholder
+    @withOrdinal.remove placeholders
+    @fillGaps 0, @partsNumber
+
 getWorksWithOrdinalList = ->
   if @withoutOrdinal.length + @conflicts.length isnt 0 then return
 
@@ -202,7 +222,9 @@ getWorksWithOrdinalList = ->
 
 getPlaceholdersOrdinals = ->
   @withOrdinal
-  .filter (model)-> model.get('isPlaceholder')
-  .map  (model)-> model.get('ordinal')
+  .filter isPlaceholder
+  .map (model)-> model.get('ordinal')
+
+isPlaceholder = (model)-> model.get('isPlaceholder') is true
 
 getAuthors = (model)-> model.get('claims.wdt:P50') or []

@@ -6,7 +6,7 @@
   </a>
 
   {{#if serie.wikipedia}}
-    <a href="{{serie.wikipedia.url}}"></a>
+    <a class="wikipedia" href="{{serie.wikipedia.url}}"></a>
     {{iconLink 'wikipedia-w' serie.wikipedia.url title='Wikipedia'}}
   {{/if}}
 
@@ -31,6 +31,13 @@
 
   <div class="control">
     {{partial 'toggler' editionsToggler}}
+  </div>
+
+  <span class="pipe">&#124;</span>
+
+  <div class="control">
+    <label for="titlePattern">{{i18n 'title pattern'}}</label>
+    <input id="titlePattern" name="pattern" value="{{titlePattern}}">
   </div>
 </div>
 
