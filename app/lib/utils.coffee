@@ -33,15 +33,17 @@ module.exports = (Backbone, _, $, app, window)->
     str[0].toUpperCase() + str[1..-1]
 
   isOpenedOutside: (e, ignoreMissingHref = false)->
+    if e.currentTarget? then { id, href, className } = e.currentTarget
+
     unless e?.ctrlKey?
-      error_.report 'non-event object was passed to isOpenedOutside'
+      error_.report 'non-event object was passed to isOpenedOutside', { id, href, className }
       # Better breaking an open outside behavior than not responding
       # to the event at all
       return false
 
-    unless _.isNonEmptyString e.currentTarget?.href
+    unless _.isNonEmptyString href
       unless ignoreMissingHref
-        error_.report "can't open anchor outside: href is missing"
+        error_.report "can't open anchor outside: href is missing", { id, href, className }
       return false
 
     openInNewWindow = e.shiftKey
