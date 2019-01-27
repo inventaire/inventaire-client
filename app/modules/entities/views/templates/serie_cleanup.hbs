@@ -1,16 +1,16 @@
 <div class="controls">
-  <h2><a href="{{serie.pathname}}" class="showEntity">{{serie.label}}</a></h2>
+  <div class="header">
+    <h2><a href="{{serie.pathname}}" class="showEntity">{{serie.label}}</a></h2>
 
-  <a href="{{serie.edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
-    {{icon 'pencil'}}
-  </a>
+    <a href="{{serie.edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
+      {{icon 'pencil'}}
+    </a>
 
-  {{#if serie.wikipedia}}
-    <a class="wikipedia" href="{{serie.wikipedia.url}}"></a>
-    {{iconLink 'wikipedia-w' serie.wikipedia.url title='Wikipedia'}}
-  {{/if}}
-
-  <span class="pipe">&#124;</span>
+    {{#if serie.wikipedia}}
+      <a class="wikipedia" href="{{serie.wikipedia.url}}"></a>
+      {{iconLink 'wikipedia-w' serie.wikipedia.url title='Wikipedia'}}
+    {{/if}}
+  </div>
 
   <div class="control">
     <label for="partsNumber">{{i18n 'number of parts'}}</label>
@@ -21,24 +21,25 @@
     </select>
   </div>
 
-  <span class="pipe">&#124;</span>
-
   <div class="control">
     {{partial 'toggler' authorsToggler}}
   </div>
-
-  <span class="pipe">&#124;</span>
 
   <div class="control">
     {{partial 'toggler' editionsToggler}}
   </div>
 
-  <span class="pipe">&#124;</span>
-
   <div class="control">
     <label for="titlePattern">{{i18n 'title pattern'}}</label>
     <input id="titlePattern" name="pattern" value="{{titlePattern}}">
   </div>
+
+  <a id="createPlaceholders" class="tiny-button light-blue {{#unless placeholderCounter}}hidden{{/unless}}">
+    {{i18n 'Create all placeholders'}}
+    <span class="counter">({{placeholderCounter}})</span>
+    <span class="loading"></span>
+  </a>
+
 </div>
 
 <div id="conflicts"></div>

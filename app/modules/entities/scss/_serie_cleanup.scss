@@ -1,6 +1,9 @@
 #serieCleanup{
+  .header{
+    @include display-flex(row);
+  }
   .controls{
-    @include display-flex(row, baseline, flex-start);
+    @include display-flex(row, center, flex-start);
     background-color: $light-grey;
     h2, .pencil, .wikipedia{
       align-self: center;
@@ -13,6 +16,12 @@
       color: #bbb;
       align-self: center;
     }
+    a{
+      align-self: center;
+    }
+  }
+  .header, .control, .tiny-button{
+    margin: 0 1em;
   }
   .control{
     padding: 1em;

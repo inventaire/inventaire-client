@@ -2,6 +2,7 @@ entityDraftModel = require '../lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
 StringPositiveInteger = /^[1-9](\d+)?$/
 Works = Backbone.Collection.extend { comparator: 'ordinal' }
+{ startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
@@ -16,17 +17,19 @@ module.exports = Marionette.LayoutView.extend
   ui:
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
     editionsToggler: '.toggler-label[for="toggleEditions"]'
+    createPlaceholdersButton: '#createPlaceholders'
 
   behaviors:
     Toggler: {}
     ImgZoomIn: {}
+    Loading: {}
 
   initialize: ->
     @withOrdinal = new Works
     @withoutOrdinal = new Works
     @conflicts = new Works
     @maxOrdinal = 0
-    @partsNumber = null
+    @placeholderCounter = 0
     @titleKey = "{#{_.i18n('title')}}"
     @numberKey = "{#{_.i18n('number')}}"
     @titlePattern = "#{@titleKey} - #{_.I18n('volume')} #{@numberKey}"
@@ -51,6 +54,7 @@ module.exports = Marionette.LayoutView.extend
         checked: @showEditions
         label: 'show editions'
       titlePattern: @titlePattern
+      placeholderCounter: @placeholderCounter
     }
 
   onRender: ->
@@ -68,6 +72,8 @@ module.exports = Marionette.LayoutView.extend
       name: 'withOrdinal'
       label: 'parts with ordinal'
       alwaysShow: true
+
+    @updatePlaceholderCreationButton()
 
   showWorkList: (options)->
     { name, label, alwaysShow, showPossibleOrdinals } = options
@@ -167,18 +173,17 @@ module.exports = Marionette.LayoutView.extend
     'change #authorsToggler': 'toggleAuthors'
     'change #editionsToggler': 'toggleEditions'
     'keyup #titlePattern': 'lazyUpdateTitlePattern'
+    'click #createPlaceholders': 'createPlaceholders'
 
   updatePartsNumber: (e)->
     { value } = e.currentTarget
     @partsNumber = parseInt value
-    @updatePlaceholders()
-
-  updatePlaceholders: ->
     if @partsNumber is @maxOrdinal then return
     if @partsNumber > @maxOrdinal then @fillGaps @maxOrdinal, @partsNumber
     else @removePlaceholdersAbove @partsNumber
     @maxOrdinal = @partsNumber
     app.vent.trigger 'serie:cleanup:parts:change'
+    @updatePlaceholderCreationButton()
 
   removePlaceholdersAbove: (num)->
     toRemove = @withOrdinal.filter (model)->
@@ -210,6 +215,33 @@ module.exports = Marionette.LayoutView.extend
     placeholders = @withOrdinal.filter isPlaceholder
     @withOrdinal.remove placeholders
     @fillGaps 0, @partsNumber
+
+  updatePlaceholderCreationButton: ->
+    placeholders = @withOrdinal.filter isPlaceholder
+    @placeholderCounter = placeholders.length
+    if @placeholderCounter > 0
+      @ui.createPlaceholdersButton.find('.counter').text "(#{@placeholderCounter})"
+      @ui.createPlaceholdersButton.removeClass 'hidden'
+    else
+      @ui.createPlaceholdersButton.addClass 'hidden'
+
+  createPlaceholders: ->
+    if @_placeholderCreationOngoing then return
+    @_placeholderCreationOngoing = true
+
+    views = _.values @withOrdinalRegion.currentView.children._views
+    startLoading.call @, { selector: '#createPlaceholders', timeout: 300 }
+
+    createSequentially = ->
+      nextView = views.shift()
+      unless nextView? then return
+      nextView.create()
+      .then createSequentially
+
+    createSequentially()
+    .then =>
+      @_placeholderCreationOngoing = false
+      @updatePlaceholderCreationButton()
 
 getWorksWithOrdinalList = ->
   if @withoutOrdinal.length + @conflicts.length isnt 0 then return
