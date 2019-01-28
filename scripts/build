@@ -25,7 +25,7 @@ echo -e '\e[0;30mgzip robots.txt\e[0m'
 gzip --best < public/robots.txt > public/robots.txt.gz
 
 # Run once every now and then
-[ "${RANDOM:0:1}" = 1 ] && {
+[ "${RANDOM:0:1}" = 9 ] && {
   echo -e '\e[0;30mgenerate sitemaps\e[0m'
   npm run generate-sitemaps
 }
