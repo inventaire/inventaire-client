@@ -109,13 +109,20 @@
   }
 }
 
-.serie-cleanup-part-suggestion a{
-  display: block;
+.serie-cleanup-part-suggestion{
   @include radius;
   padding: 1em;
   margin: 1em;
-  @include bg-hover(#ddd);
-  text-align: center
+  background-color: #eee;
+  text-align: center;
+  @include display-flex(column);
+  .claims{
+    margin-bottom: auto;
+  }
+  .add.tiny-button{
+    display: block;
+    margin-top: auto;
+  }
 }
 
 @import 'serie_cleanup_work';

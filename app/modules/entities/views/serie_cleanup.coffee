@@ -248,12 +248,28 @@ module.exports = Marionette.LayoutView.extend
       @updatePlaceholderCreationButton()
 
   showPartsSuggestions: ->
+    Promise.all [
+      @getAuthorsWorks()
+      @searchMatchWorks()
+    ]
+    .then _.flatten
+    .then _.uniq
+    .then (uris)-> app.request 'get:entities:models', { uris }
+    .then @_showPartsSuggestions.bind(@)
+
+  getAuthorsWorks: ->
     Promise.all @getAuthorsUris()
     .map (authorUri)-> _.preq.get app.API.entities.authorWorks(authorUri)
     .map (results)-> _.map results.works.filter(hasNoSerie), 'uri'
     .then _.flatten
-    .then (uris)-> app.request 'get:entities:models', { uris }
-    .then @_showPartsSuggestions.bind(@)
+
+  searchMatchWorks: ->
+    serieLabel = @model.get 'label'
+    partsUris = @model.parts.allUris
+    _.preq.get app.API.entities.searchType('works', serieLabel, 50)
+    .get 'results'
+    .filter (result)-> result._score > 0.5 and result.uri not in partsUris
+    .map _.property('uri')
 
   _showPartsSuggestions: (works)->
     collection = new Backbone.Collection works

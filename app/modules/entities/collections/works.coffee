@@ -1,7 +1,7 @@
 module.exports = Backbone.Collection.extend
   initialize: (models, options)->
     # At the begining, all URIs are unfetched URIs
-    @remainingUris = options.uris
+    @remainingUris = @allUris = options.uris
     unless @remainingUris? then throw new Error 'expected uris'
     @totalLength = options.uris.length
     @fetchedUris = []
