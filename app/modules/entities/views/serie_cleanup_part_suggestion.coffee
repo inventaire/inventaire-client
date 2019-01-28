@@ -2,8 +2,12 @@ PartSuggestion = Marionette.ItemView.extend
   tagName: 'li'
   className: 'serie-cleanup-part-suggestion'
   template: require './templates/serie_cleanup_part_suggestion'
+  initialize: ->
+    @listenTo @model, 'change:image', @render.bind(@)
+
   events:
     'click .add': 'add'
+
   add: ->
     @model.setPropertyValue 'wdt:P179', null, @options.serieUri
     @options.addToSerie @model
