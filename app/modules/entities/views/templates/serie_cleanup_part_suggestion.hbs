@@ -1,0 +1,10 @@
+<a class="showEntity" href="{{pathname}}">
+  {{#if image.url}}<img src="{{imgSrc image.url 100}}" alt="{{label}}">{{/if}}
+  {{label}}
+</a>
+<p class="uri">{{uri}}</p>
+<p class="claims">
+  {{claim claims 'wdt:P50' true}}
+  {{claim claims 'wdt:P179' true}}
+</p>
+<a class="add tiny-button light-grey">{{icon 'plus'}} {{I18n 'add to the serie'}}</a>

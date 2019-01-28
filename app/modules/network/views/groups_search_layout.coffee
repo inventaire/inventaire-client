@@ -56,10 +56,7 @@ module.exports = Marionette.LayoutView.extend
     @lastSearch = text
     @lazySearchByText text
 
-  lazySearchByText: (text)->
-    @_lazySearchByText or= _.debounce @searchByText.bind(@), 100
-    @_lazySearchByText text
-
+  lazySearchByText: _.lazyMethod 'searchByText', 100
   searchByText: (text)->
     @_searchByText text
     .catch error_.Complete('#groupSearch', false)

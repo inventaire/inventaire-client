@@ -70,6 +70,11 @@ module.exports = (Backbone, _, $, app, window)->
 
     return _.debounce cautiousRender, timespan
 
+  lazyMethod: (methodName, delay = 200)-> (args...)->
+    lazyMethodName = "_lazy_#{methodName}"
+    @[lazyMethodName] ?= _.debounce @[methodName].bind(@), delay
+    @[lazyMethodName].apply @, args
+
   invertAttr: ($target, a, b)->
     aVal = $target.attr a
     bVal = $target.attr b

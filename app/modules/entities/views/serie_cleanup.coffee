@@ -1,7 +1,12 @@
 entityDraftModel = require '../lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
+PartsSuggestions = require  './serie_cleanup_part_suggestion'
 StringPositiveInteger = /^[1-9](\d+)?$/
+{ startLoading } = require 'modules/general/plugins/behaviors'
+leven = require 'leven'
 Works = Backbone.Collection.extend { comparator: 'ordinal' }
+descendingPertinanceScore = (work)-> - work.get('pertinanceScore')
+Suggestions = Backbone.Collection.extend { comparator: descendingPertinanceScore }
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
@@ -12,20 +17,27 @@ module.exports = Marionette.LayoutView.extend
     conflictsRegion: '#conflicts'
     withoutOrdinalRegion: '#withoutOrdinal'
     withOrdinalRegion: '#withOrdinal'
+    partsSuggestionsRegion: '#partsSuggestions'
 
   ui:
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
     editionsToggler: '.toggler-label[for="toggleEditions"]'
+    createPlaceholdersButton: '#createPlaceholders'
 
   behaviors:
     Toggler: {}
     ImgZoomIn: {}
+    Loading: {}
 
   initialize: ->
     @withOrdinal = new Works
     @withoutOrdinal = new Works
     @conflicts = new Works
     @maxOrdinal = 0
+    @placeholderCounter = 0
+    @titleKey = "{#{_.i18n('title')}}"
+    @numberKey = "{#{_.i18n('number')}}"
+    @titlePattern = "#{@titleKey} - #{_.I18n('volume')} #{@numberKey}"
     @allAuthorsUris = @getAuthorsUris()
     @spreadParts()
     @initEventListeners()
@@ -46,6 +58,8 @@ module.exports = Marionette.LayoutView.extend
         id: 'editionsToggler'
         checked: @showEditions
         label: 'show editions'
+      titlePattern: @titlePattern
+      placeholderCounter: @placeholderCounter
     }
 
   onRender: ->
@@ -63,6 +77,10 @@ module.exports = Marionette.LayoutView.extend
       name: 'withOrdinal'
       label: 'parts with ordinal'
       alwaysShow: true
+
+    @updatePlaceholderCreationButton()
+
+    @showPartsSuggestions()
 
   showWorkList: (options)->
     { name, label, alwaysShow, showPossibleOrdinals } = options
@@ -135,14 +153,14 @@ module.exports = Marionette.LayoutView.extend
   fillGaps: (start, end)->
     if start >= end then return
     existingOrdinals = @withOrdinal.map (model)-> model.get('ordinal')
+    if start is 0 then start = 1
     for i in [ start..end ]
       unless i in existingOrdinals then @withOrdinal.add @getPlaceholder(i)
     return
 
   getPlaceholder: (index)->
     serieUri = @model.get 'uri'
-    serieLabel = @model.get 'label'
-    label = "#{serieLabel} - #{index}"
+    label = @getPlaceholderTitle index
     claims =
       'wdt:P179': [ serieUri ]
       'wdt:P1545': [ "#{index}" ]
@@ -151,25 +169,32 @@ module.exports = Marionette.LayoutView.extend
     model.set 'isPlaceholder', true
     return model
 
+  getPlaceholderTitle: (index)->
+    serieLabel = @model.get 'label'
+    @titlePattern
+    .replace @titleKey, serieLabel
+    .replace @numberKey, index
+
   events:
     'change #partsNumber': 'updatePartsNumber'
     'change #authorsToggler': 'toggleAuthors'
     'change #editionsToggler': 'toggleEditions'
+    'keyup #titlePattern': 'lazyUpdateTitlePattern'
+    'click #createPlaceholders': 'createPlaceholders'
 
   updatePartsNumber: (e)->
     { value } = e.currentTarget
-    num = parseInt value
-    if num is @maxOrdinal then return
-    if num > @maxOrdinal then @fillGaps @maxOrdinal, num
-    else @removePlaceholdersAbove num
-    @maxOrdinal = num
+    @partsNumber = parseInt value
+    if @partsNumber is @maxOrdinal then return
+    if @partsNumber > @maxOrdinal then @fillGaps @maxOrdinal, @partsNumber
+    else @removePlaceholdersAbove @partsNumber
+    @maxOrdinal = @partsNumber
     app.vent.trigger 'serie:cleanup:parts:change'
+    @updatePlaceholderCreationButton()
 
   removePlaceholdersAbove: (num)->
-    toRemove = []
-    @withOrdinal.forEach (model)->
-      if model.get('isPlaceholder') and model.get('ordinal') > num
-        toRemove.push model
+    toRemove = @withOrdinal.filter (model)->
+      model.get('isPlaceholder') and model.get('ordinal') > num
     @withOrdinal.remove toRemove
 
   toggleAuthors: (e)->
@@ -191,6 +216,71 @@ module.exports = Marionette.LayoutView.extend
       @["show#{capitalizedName}"] = false
     @["#{name}TogglerChanged"] = true
 
+  lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000
+  updateTitlePattern: (e)->
+    @titlePattern = e.currentTarget.value
+    placeholders = @withOrdinal.filter isPlaceholder
+    @withOrdinal.remove placeholders
+    @fillGaps 0, @partsNumber
+
+  updatePlaceholderCreationButton: ->
+    placeholders = @withOrdinal.filter isPlaceholder
+    @placeholderCounter = placeholders.length
+    if @placeholderCounter > 0
+      @ui.createPlaceholdersButton.find('.counter').text "(#{@placeholderCounter})"
+      @ui.createPlaceholdersButton.removeClass 'hidden'
+    else
+      @ui.createPlaceholdersButton.addClass 'hidden'
+
+  createPlaceholders: ->
+    if @_placeholderCreationOngoing then return
+    @_placeholderCreationOngoing = true
+
+    views = _.values @withOrdinalRegion.currentView.children._views
+    startLoading.call @, { selector: '#createPlaceholders', timeout: 300 }
+
+    createSequentially = ->
+      nextView = views.shift()
+      unless nextView? then return
+      nextView.create()
+      .then createSequentially
+
+    createSequentially()
+    .then =>
+      @_placeholderCreationOngoing = false
+      @updatePlaceholderCreationButton()
+
+  showPartsSuggestions: ->
+    Promise.all [
+      @getAuthorsWorks()
+      @searchMatchWorks()
+    ]
+    .then _.flatten
+    .then _.uniq
+    .then (uris)-> app.request 'get:entities:models', { uris }
+    .map addPertinanceScore(@model)
+    .then @_showPartsSuggestions.bind(@)
+
+  getAuthorsWorks: ->
+    Promise.all @getAuthorsUris()
+    .map (authorUri)-> _.preq.get app.API.entities.authorWorks(authorUri)
+    .map (results)-> _.map results.works.filter(hasNoSerie), 'uri'
+    .then _.flatten
+
+  searchMatchWorks: ->
+    serieLabel = @model.get 'label'
+    partsUris = @model.parts.allUris
+    _.preq.get app.API.entities.searchType('works', serieLabel, 50)
+    .get 'results'
+    .filter (result)-> result._score > 0.5 and result.uri not in partsUris
+    .map _.property('uri')
+
+  _showPartsSuggestions: (works)->
+    collection = new Suggestions works
+    addToSerie = @spreadPart.bind @
+    serieUri = @model.get 'uri'
+    @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serieUri })
+
 getWorksWithOrdinalList = ->
   if @withoutOrdinal.length + @conflicts.length isnt 0 then return
 
@@ -202,7 +292,32 @@ getWorksWithOrdinalList = ->
 
 getPlaceholdersOrdinals = ->
   @withOrdinal
-  .filter (model)-> model.get('isPlaceholder')
-  .map  (model)-> model.get('ordinal')
+  .filter isPlaceholder
+  .map (model)-> model.get('ordinal')
 
-getAuthors = (model)-> model.get('claims.wdt:P50') or []
+isPlaceholder = (model)-> model.get('isPlaceholder') is true
+
+getAuthors = (model)-> model.getExtendedAuthorsUris()
+
+hasNoSerie = (work)-> not work.serie?
+
+addPertinanceScore = (serie)-> (work)->
+  authorsScore = getAuthorsIntersectionLength(serie, work) * 10
+  smallestLabelDistance = getSmallestLabelDistance serie, work
+  pertinanceScore = authorsScore - smallestLabelDistance
+  work.set { pertinanceScore, smallestLabelDistance, authorsScore }
+  return work
+
+getAuthorsIntersectionLength = (serie, work)->
+  workAuthorsUris = work.getExtendedAuthorsUris()
+  serieAuthorsUris = serie.getExtendedAuthorsUris()
+  intersection = _.intersection workAuthorsUris, serieAuthorsUris
+  return intersection.length
+
+getSmallestLabelDistance = (serie, work)->
+  serieLabels = _.values serie.get('labels')
+  workLabels = _.values work.get('labels')
+  labelsScores = serieLabels.map (serieLabel)-> workLabels.map distance(serieLabel)
+  return _.min _.flatten(labelsScores)
+
+distance = (a)-> (b)-> leven a, b

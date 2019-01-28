@@ -59,14 +59,13 @@ getAuthorsModels = (works)->
   .reduce aggregateAuthorsPerProperty, {}
 
 getSeriePathname = (works)->
-  unless works? then return
-  serieUris = works.map getWorkSerieUri
-  if _.compact(serieUris).length is works.length and _.uniq(serieUris) is 1
-    [ uri, pathame ] = works[0].gets 'uri', 'pathname'
+  unless works?.length is 1 then return
+  work = works[0]
+  seriesUris = work.get 'claims.wdt:P179'
+  if seriesUris.length is 1
+    [ uri, pathname ] = work.gets 'uri', 'pathname'
     # Hacky way to get the serie entity pathname without having to request its model
-    return pathname.replace uri, serieUris[0]
-
-getWorkSerieUri = (work)-> work.get 'claims.wdt:P179.0'
+    return pathname.replace uri, seriesUris[0]
 
 aggregateAuthorsPerProperty = (authorsPerProperty, workAuthors)->
   for property, authors of workAuthors
