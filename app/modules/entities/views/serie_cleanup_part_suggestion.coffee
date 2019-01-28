@@ -1,9 +1,17 @@
 PartSuggestion = Marionette.ItemView.extend
   tagName: 'li'
-  className: 'serie-cleanup-part-suggestion'
+  className: ->
+    className = 'serie-cleanup-part-suggestion'
+    if @model.get('labelMatch') then className += ' label-match'
+    if @model.get('authorMatch') then className += ' author-match'
+    return className
+
   template: require './templates/serie_cleanup_part_suggestion'
   initialize: ->
     @listenTo @model, 'change:image', @render.bind(@)
+
+  onRender: ->
+    @updateClassName()
 
   events:
     'click .add': 'add'

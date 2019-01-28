@@ -116,6 +116,16 @@
   background-color: #eee;
   text-align: center;
   @include display-flex(column);
+  &.label-match{
+    background-color: #00bbbb;
+    a.showEntity, p.uri{
+      color: white !important;
+    }
+  }
+  &.author-match{}
+  &.author-match.label-match{
+    background-color: #00bb00;
+  }
   .claims{
     margin-bottom: auto;
   }

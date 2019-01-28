@@ -262,6 +262,7 @@ module.exports = Marionette.LayoutView.extend
     .then _.uniq
     .then (uris)-> app.request 'get:entities:models', { uris }
     .map addPertinanceScore(@model)
+    .filter (work)-> work.get('authorMatch') or work.get('labelMatch')
     .then @_showPartsSuggestions.bind(@)
 
   getAuthorsWorks: ->
@@ -307,7 +308,9 @@ addPertinanceScore = (serie)-> (work)->
   authorsScore = getAuthorsIntersectionLength(serie, work) * 10
   smallestLabelDistance = getSmallestLabelDistance serie, work
   pertinanceScore = authorsScore - smallestLabelDistance
-  work.set { pertinanceScore, smallestLabelDistance, authorsScore }
+  authorMatch = authorsScore > 0
+  labelMatch = smallestLabelDistance < 5
+  work.set { pertinanceScore, labelMatch, authorMatch }
   return work
 
 getAuthorsIntersectionLength = (serie, work)->
