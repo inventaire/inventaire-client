@@ -2,6 +2,7 @@ entityDraftModel = require '../lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
 PartsSuggestions = require  './serie_cleanup_part_suggestion'
 StringPositiveInteger = /^[1-9](\d+)?$/
+searchWorks = require('modules/entities/lib/sources/search_type')('works')
 { startLoading } = require 'modules/general/plugins/behaviors'
 leven = require 'leven'
 Works = Backbone.Collection.extend { comparator: 'ordinal' }
@@ -270,8 +271,7 @@ module.exports = Marionette.LayoutView.extend
   searchMatchWorks: ->
     serieLabel = @model.get 'label'
     partsUris = @model.parts.allUris
-    _.preq.get app.API.entities.searchType('works', serieLabel, 50)
-    .get 'results'
+    searchWorks serieLabel, 50
     .filter (result)-> result._score > 0.5 and result.uri not in partsUris
     .map _.property('uri')
 
