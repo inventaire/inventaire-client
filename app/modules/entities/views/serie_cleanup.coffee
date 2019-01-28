@@ -2,8 +2,11 @@ entityDraftModel = require '../lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
 PartsSuggestions = require  './serie_cleanup_part_suggestion'
 StringPositiveInteger = /^[1-9](\d+)?$/
-Works = Backbone.Collection.extend { comparator: 'ordinal' }
 { startLoading } = require 'modules/general/plugins/behaviors'
+leven = require 'leven'
+Works = Backbone.Collection.extend { comparator: 'ordinal' }
+descendingPertinanceScore = (work)-> - work.get('pertinanceScore')
+Suggestions = Backbone.Collection.extend { comparator: descendingPertinanceScore }
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
@@ -255,6 +258,7 @@ module.exports = Marionette.LayoutView.extend
     .then _.flatten
     .then _.uniq
     .then (uris)-> app.request 'get:entities:models', { uris }
+    .map addPertinanceScore(@model)
     .then @_showPartsSuggestions.bind(@)
 
   getAuthorsWorks: ->
@@ -272,7 +276,7 @@ module.exports = Marionette.LayoutView.extend
     .map _.property('uri')
 
   _showPartsSuggestions: (works)->
-    collection = new Backbone.Collection works
+    collection = new Suggestions works
     addToSerie = @spreadPart.bind @
     serieUri = @model.get 'uri'
     @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serieUri })
@@ -296,3 +300,24 @@ isPlaceholder = (model)-> model.get('isPlaceholder') is true
 getAuthors = (model)-> model.getExtendedAuthorsUris()
 
 hasNoSerie = (work)-> not work.serie?
+
+addPertinanceScore = (serie)-> (work)->
+  authorsScore = getAuthorsIntersectionLength(serie, work) * 10
+  smallestLabelDistance = getSmallestLabelDistance serie, work
+  pertinanceScore = authorsScore - smallestLabelDistance
+  work.set { pertinanceScore, smallestLabelDistance, authorsScore }
+  return work
+
+getAuthorsIntersectionLength = (serie, work)->
+  workAuthorsUris = work.getExtendedAuthorsUris()
+  serieAuthorsUris = serie.getExtendedAuthorsUris()
+  intersection = _.intersection workAuthorsUris, serieAuthorsUris
+  return intersection.length
+
+getSmallestLabelDistance = (serie, work)->
+  serieLabels = _.values serie.get('labels')
+  workLabels = _.values work.get('labels')
+  labelsScores = serieLabels.map (serieLabel)-> workLabels.map distance(serieLabel)
+  return _.min _.flatten(labelsScores)
+
+distance = (a)-> (b)-> leven a, b
