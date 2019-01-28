@@ -57,6 +57,4 @@ updateBacklogAndGetNextTask = (tasks, backlogName)->
 nextTaskModel = (backlogName)->
   backlog = backlogs[backlogName]
   model = new Task backlog.shift()
-  if backlogName is 'byAuthor'
-    model.remainingAuthorTasksCount = backlog.length
   return model

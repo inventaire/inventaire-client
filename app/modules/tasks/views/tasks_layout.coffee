@@ -6,6 +6,7 @@ error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 previousTasks = []
+waitingForMerge = null
 
 module.exports = Marionette.LayoutView.extend
   id: 'tasksLayout'
@@ -46,7 +47,10 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
+    @previousTask = @currentTaskModel
     @currentTaskModel = model
+    openDeduplicationLayoutIfDone @previousTask, @currentTaskModel
+
     state = model.get 'state'
     if state?
       err = error_.new 'this task has already been treated', 400, { model, state }
@@ -100,12 +104,8 @@ module.exports = Marionette.LayoutView.extend
     e?.stopPropagation()
 
   merge: (e)->
+    waitingForMerge = @action 'merge'
     @showNextTask { spinner: '.merge' }
-
-    @action 'merge'
-    .delay 100
-    .then openDeduplicationLayoutIfDone.bind(null, @currentTaskModel)
-
     e?.stopPropagation()
 
   action: (actionName)->
@@ -119,7 +119,6 @@ module.exports = Marionette.LayoutView.extend
 
   showNextTaskFromButton: (e)->
     @showNextTask { spinner: '.next' }
-    openDeduplicationLayoutIfDone @currentTaskModel
     e?.stopPropagation()
 
   triggerActionByKey: (e)->
@@ -175,7 +174,20 @@ getTaskById = (id)->
     if task? then new Task task
     else throw error_.new 'not found', 404, { id }
 
-openDeduplicationLayoutIfDone = (taskModel)->
-  { suggestion, remainingAuthorTasksCount } = taskModel
-  if remainingAuthorTasksCount is 0
+openDeduplicationLayoutIfDone = (previousTask, currentTaskModel)->
+  unless previousTask? then return
+
+  previousSuggestionUri = previousTask.get 'suggestionUri'
+  currentSuggestionUri = currentTaskModel.get 'suggestionUri'
+  if previousSuggestionUri is currentSuggestionUri then return
+
+  { suggestion } = previousTask
+  showDeduplication = ->
     app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
+
+  if waitingForMerge?
+    waitingForMerge
+    .delay 100
+    .then showDeduplication
+  else
+    setTimeout showDeduplication, 100
