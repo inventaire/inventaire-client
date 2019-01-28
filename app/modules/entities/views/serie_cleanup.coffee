@@ -73,6 +73,8 @@ module.exports = Marionette.LayoutView.extend
       name: 'withoutOrdinal'
       label: 'parts without ordinal'
       showPossibleOrdinals: true
+      # Always show so that added suggested parts can join this list
+      alwaysShow: true
 
     @showWorkList
       name: 'withOrdinal'
