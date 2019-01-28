@@ -261,6 +261,9 @@ module.exports = Marionette.LayoutView.extend
     .then _.flatten
     .then _.uniq
     .then (uris)-> app.request 'get:entities:models', { uris }
+    # Confirm the type, as the search might have failed to unindex a serie that use
+    # to be considered a work
+    .filter isWork
     .map addPertinanceScore(@model)
     .filter (work)-> work.get('authorMatch') or work.get('labelMatch')
     .then @_showPartsSuggestions.bind(@)
@@ -274,7 +277,7 @@ module.exports = Marionette.LayoutView.extend
   searchMatchWorks: ->
     serieLabel = @model.get 'label'
     partsUris = @model.parts.allUris
-    searchWorks serieLabel, 50
+    searchWorks serieLabel, 20
     .filter (result)-> result._score > 0.5 and result.uri not in partsUris
     .map _.property('uri')
 
@@ -303,6 +306,7 @@ isPlaceholder = (model)-> model.get('isPlaceholder') is true
 getAuthors = (model)-> model.getExtendedAuthorsUris()
 
 hasNoSerie = (work)-> not work.serie?
+isWork = (work)-> work.get('type') is 'work'
 
 addPertinanceScore = (serie)-> (work)->
   authorsScore = getAuthorsIntersectionLength(serie, work) * 10
