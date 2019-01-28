@@ -26,13 +26,7 @@
     .fa{
       font-size: 0.9em;
     }
-    &.unavailable{
-      cursor: not-allowed;
-      color: $grey;
-    }
-    &:not(.unavailable){
-      @include text-hover(#333);
-    }
+    @include text-hover(#333);
   }
   .workPicker{
     margin: 0.5em 0;

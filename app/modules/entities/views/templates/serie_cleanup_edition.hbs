@@ -12,14 +12,7 @@
   </div>
   <span class="uri">{{uri}}</span>
   <div class="actions">
-    <a
-      {{#if worksList}}
-        class="changeWork"
-      {{else}}
-        class="changeWork unavailable"
-        title="{{i18n "work picker isn't available: there are still works without ordinal or with an ordinal in conflict"}}"
-      {{/if}}
-    >
+    <a class="changeWork">
       {{icon 'arrows'}}
       <span>{{i18n "change edition's work"}}</span>
     </a>

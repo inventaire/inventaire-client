@@ -291,8 +291,6 @@ module.exports = Marionette.LayoutView.extend
     @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serieUri })
 
 getWorksWithOrdinalList = ->
-  if @withoutOrdinal.length + @conflicts.length isnt 0 then return
-
   @withOrdinal
   .filter (model)-> not model.get('isPlaceholder')
   .map (model)->

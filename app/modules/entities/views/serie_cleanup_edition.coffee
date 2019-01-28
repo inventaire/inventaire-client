@@ -23,15 +23,11 @@ module.exports = Marionette.CompositeView.extend
       workLabel: @workLabel
 
   events:
-    'click .changeWork': 'changeWork'
+    'click .changeWork': 'showWorkPicker'
     'change .workPickerSelect': 'onSelectChange'
     'click .validate': 'validateWorkChange'
     'keydown .workPickerSelect': 'onKeydown'
     'click .copyWorkLabel': 'copyWorkLabel'
-
-  changeWork: (e)->
-    if $(e.currentTarget).hasClass 'unavailable' then return
-    @showWorkPicker()
 
   getWorksList: ->
     worksWithOrdinal = @options.getWorksWithOrdinalList()
