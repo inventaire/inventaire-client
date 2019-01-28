@@ -62,7 +62,7 @@ getSeriePathname = (works)->
   unless works?.length is 1 then return
   work = works[0]
   seriesUris = work.get 'claims.wdt:P179'
-  if seriesUris.length is 1
+  if seriesUris?.length is 1
     [ uri, pathname ] = work.gets 'uri', 'pathname'
     # Hacky way to get the serie entity pathname without having to request its model
     return pathname.replace uri, seriesUris[0]
