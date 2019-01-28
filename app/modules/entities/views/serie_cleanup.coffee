@@ -107,7 +107,7 @@ module.exports = Marionette.LayoutView.extend
 
   spreadParts: ->
     @model.parts.forEach @spreadPart.bind(@)
-    @fillGaps 1, @maxOrdinal
+    @fillGaps()
 
   initEventListeners: ->
     @listenTo @withoutOrdinal, 'change:claims.wdt:P1545', @moveModelOnOrdinalChange.bind(@)
@@ -153,13 +153,16 @@ module.exports = Marionette.LayoutView.extend
     if currentOrdinalValue? then @conflicts.add part
     else @withOrdinal.add part
 
-  fillGaps: (start, end)->
-    if start >= end then return
+  fillGaps: ->
     existingOrdinals = @withOrdinal.map (model)-> model.get('ordinal')
-    if start is 0 then start = 1
-    for i in [ start..end ]
-      unless i in existingOrdinals then @withOrdinal.add @getPlaceholder(i)
-    return
+    @partsNumber ?= 0
+    lastOrdinal = _.last existingOrdinals
+    end = _.max [ @partsNumber, lastOrdinal ]
+    if end < 1 then return
+    newPlaceholders = []
+    for i in [ 1..end ]
+      unless i in existingOrdinals then newPlaceholders.push @getPlaceholder(i)
+    @withOrdinal.add newPlaceholders
 
   getPlaceholder: (index)->
     serieUri = @model.get 'uri'
@@ -189,7 +192,7 @@ module.exports = Marionette.LayoutView.extend
     { value } = e.currentTarget
     @partsNumber = parseInt value
     if @partsNumber is @maxOrdinal then return
-    if @partsNumber > @maxOrdinal then @fillGaps @maxOrdinal, @partsNumber
+    if @partsNumber > @maxOrdinal then @fillGaps()
     else @removePlaceholdersAbove @partsNumber
     @maxOrdinal = @partsNumber
     app.vent.trigger 'serie:cleanup:parts:change'
@@ -224,7 +227,7 @@ module.exports = Marionette.LayoutView.extend
     @titlePattern = e.currentTarget.value
     placeholders = @withOrdinal.filter isPlaceholder
     @withOrdinal.remove placeholders
-    @fillGaps 0, @partsNumber
+    @fillGaps()
 
   updatePlaceholderCreationButton: ->
     placeholders = @withOrdinal.filter isPlaceholder
