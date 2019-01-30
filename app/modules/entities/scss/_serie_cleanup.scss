@@ -133,7 +133,8 @@
   .claims{
     margin-bottom: auto;
   }
-  .add.tiny-button{
+  .add{
+    @extend .tiny-button;
     display: block;
     margin-top: auto;
   }

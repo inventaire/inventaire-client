@@ -287,8 +287,8 @@ module.exports = Marionette.LayoutView.extend
   _showPartsSuggestions: (works)->
     collection = new Suggestions works
     addToSerie = @spreadPart.bind @
-    serieUri = @model.get 'uri'
-    @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serieUri })
+    serie = @model
+    @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serie })
 
 getWorksWithOrdinalList = ->
   @withOrdinal

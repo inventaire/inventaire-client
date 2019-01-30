@@ -96,7 +96,10 @@ module.exports = Filterable.extend
     { uri } = attrs
     [ prefix, id ] = uri.split ':'
 
-    @wikidataId = if prefix is 'wd' then id
+    if prefix is 'wd'
+      @wikidataId = id
+      @set 'isWikidataEntity', true
+
     isbn13h = attrs.claims['wdt:P212']?[0]
     # Using de-hyphenated ISBNs for URIs
     if isbn13h? then @isbn = isbn_.normalizeIsbn isbn13h

@@ -27,8 +27,8 @@ module.exports = Marionette.LayoutView.extend
     canBeMerged: @canBeMerged()
     mergeWith: mergeWithData()
     isAnEdition: @model.type is 'edition'
-    isWikidataEntity: @model.get('wikidata')?
-    wikidataEntityHistoryHref: @model.get('wikidata.history')
+    isWikidataEntity: @model.get 'isWikidataEntity'
+    wikidataEntityHistoryHref: @model.get 'wikidata.history'
 
   events:
     'click #mergeWithButton': 'merge'

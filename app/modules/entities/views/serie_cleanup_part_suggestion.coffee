@@ -13,11 +13,17 @@ PartSuggestion = Marionette.ItemView.extend
   onRender: ->
     @updateClassName()
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    if attrs.isWikidataEntity and not @options.serie.get('isWikidataEntity')
+      attrs.serieNeedsToBeMovedToWikidata = true
+    return attrs
+
   events:
-    'click .add': 'add'
+    'click a.add': 'add'
 
   add: ->
-    @model.setPropertyValue 'wdt:P179', null, @options.serieUri
+    @model.setPropertyValue 'wdt:P179', null, @options.serie.get('uri')
     @options.addToSerie @model
     @options.collection.remove @model
 
