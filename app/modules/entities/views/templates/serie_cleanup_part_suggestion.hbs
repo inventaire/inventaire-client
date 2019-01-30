@@ -1,7 +1,7 @@
-<a class="showEntity" href="{{pathname}}">
+<div>
   {{#if image.url}}<img src="{{imgSrc image.url 100}}" alt="{{label}}">{{/if}}
-  {{label}}
-</a>
+</div>
+<a class="showEntity link" href="{{pathname}}">{{label}}</a>
 <p class="uri">{{uri}}</p>
 <p class="claims">
   {{claim claims 'wdt:P50' true}}
