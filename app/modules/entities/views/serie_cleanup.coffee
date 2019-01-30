@@ -330,4 +330,8 @@ getSmallestLabelDistance = (serie, work)->
   labelsScores = serieLabels.map (serieLabel)-> workLabels.map distance(serieLabel)
   return _.min _.flatten(labelsScores)
 
-distance = (a)-> (b)-> leven a, b
+distance = (serieLabel)-> (workLabel)->
+  if workLabel.match new RegExp(serieLabel, 'i') then return 0
+  rawDistance = leven serieLabel, workLabel
+  truncatedDistance = leven serieLabel, workLabel.slice(0, serieLabel.length)
+  return _.min [ rawDistance, truncatedDistance ]
