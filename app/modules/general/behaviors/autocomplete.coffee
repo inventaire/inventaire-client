@@ -89,8 +89,8 @@ module.exports = Marionette.Behavior.extend
         when 'enter' then @suggestions.trigger 'select:from:key'
         when 'down' then @suggestions.trigger 'highlight:next'
         when 'up' then @suggestions.trigger 'highlight:previous'
-        when 'home' then @suggestions.trigger 'highlight:first'
-        when 'end' then @suggestions.trigger 'highlight:last'
+        # when 'home' then @suggestions.trigger 'highlight:first'
+        # when 'end' then @suggestions.trigger 'highlight:last'
 
   showDropdown: ->
     @visible = true
