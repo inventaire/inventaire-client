@@ -263,10 +263,10 @@ module.exports = Marionette.LayoutView.extend
     ]
     .then _.flatten
     .then _.uniq
-    .then (uris)-> app.request 'get:entities:models', { uris }
+    .then (uris)-> app.request 'get:entities:models', { uris, refresh: true }
     # Confirm the type, as the search might have failed to unindex a serie that use
     # to be considered a work
-    .filter isWork
+    .filter isWorkWithoutSerie
     .map addPertinanceScore(@model)
     .filter (work)-> work.get('authorMatch') or work.get('labelMatch')
     .then @_showPartsSuggestions.bind(@)
@@ -307,7 +307,7 @@ isPlaceholder = (model)-> model.get('isPlaceholder') is true
 getAuthors = (model)-> model.getExtendedAuthorsUris()
 
 hasNoSerie = (work)-> not work.serie?
-isWork = (work)-> work.get('type') is 'work'
+isWorkWithoutSerie = (work)-> work.get('type') is 'work' and not work.get('wdt:P179')?
 
 addPertinanceScore = (serie)-> (work)->
   authorsScore = getAuthorsIntersectionLength(serie, work) * 10
