@@ -1,11 +1,7 @@
 ItemShow = require './views/item_show'
 initQueries = require './lib/queries'
 InventoryLayout = require './views/inventory'
-InventoryBrowser = require './views/inventory_browser'
-AddLayout = require './views/add/add_layout'
-EmbeddedScanner = require './views/add/embedded_scanner'
 initLayout = require './lib/layout'
-initAddHelpers = require './lib/add_helpers'
 ItemsList = require './views/items_list'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
@@ -24,10 +20,6 @@ module.exports =
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
         'items(/)': 'showGeneralInventory'
-        'add(/search)(/)': 'showSearch'
-        'add/scan(/)': 'showScan'
-        'add/scan/embedded(/)': 'showEmbeddedScanner'
-        'add/import(/)': 'showImport'
         'g(roups)/:id(/)': 'showGroupInventory'
 
     app.addInitializer -> new Router { controller: API }
@@ -35,7 +27,6 @@ module.exports =
   initialize: ->
     initQueries app
     initializeInventoriesHandlers app
-    initAddHelpers()
     initLayout app
 
 API =
@@ -91,29 +82,6 @@ API =
     .then displayFoundItems
     .catch _.Error('showItemShowFromUserAndEntity')
 
-  showSearch: -> showAddLayout 'search'
-  showScan: -> showAddLayout 'scan'
-  showImport: -> showAddLayout 'import'
-
-  showEmbeddedScanner: ->
-    if app.request 'require:loggedIn', 'add/scan/embedded'
-      if window.hasVideoInput
-        # navigate before triggering the view itself has
-        # special behaviors on route change
-        app.navigate 'add/scan/embedded'
-        # showing in main so that requesting another layout destroy this view
-        app.layout.main.show new EmbeddedScanner
-      else
-        API.showScan()
-
-  showInventoryBrowser: ->
-    if app.request 'require:loggedIn', 'inventory/browser'
-      app.layout.main.show new InventoryBrowser
-
-showAddLayout = (tab = 'search', options = {})->
-  if app.request 'require:loggedIn', "add/#{tab}"
-    options.tab = tab
-    app.layout.main.show new AddLayout options
 
 displayFoundItems = (items)->
   # Accept either an items collection or an array of items models
@@ -167,18 +135,6 @@ initializeInventoriesHandlers = (app)->
     'show:item:creation:form': showItemCreationForm
 
     'show:item': showWorkWithItemModal
-
-    'show:add:layout': showAddLayout
-    # equivalent to the previous one as long as search is the default tab
-    # but more explicit
-    'show:add:layout:search': API.showSearch
-
-    'show:add:layout:import:isbns': (isbnsBatch)->
-      showAddLayout 'import', { isbnsBatch }
-
-    'show:scan': API.showScan
-
-    'show:scanner:embedded': API.showEmbeddedScanner
 
     'show:inventory:nearby': API.showInventoryNearby
     'show:inventory:last': API.showInventoryLast
