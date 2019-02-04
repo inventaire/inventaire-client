@@ -1,17 +1,18 @@
 $nav-avatar-size: 5em;
 
 #inventoryNetworkNav{
+  @include display-flex(row, null, null, wrap);
   .list-wrapper{
     margin: 1em 0.5em;
-    padding: 0.5em;
-    @include radius;
-    background-color: $inventory-nav-grey;
   }
   .list-label{
     color: $dark-grey;
     margin-bottom: 0.5em;
   }
   ul{
+    padding: 0.3em 0.5em;
+    @include radius;
+    background-color: #f0f0f0;
     @include display-flex(row, null, flex-start, wrap);
   }
   li{

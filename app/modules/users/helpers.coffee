@@ -47,18 +47,18 @@ module.exports = (app)->
     resolveToUserModel: (user)->
       # 'user' is either the user model, a user id, or a username
       if _.isModel(user) then return Promise.resolve user
-      else
-        if _.isUserId user
-          userId = user
-          promise = app.request 'get:user:model', userId
-        else
-          username = user
-          promise = getUserModelFromUsername username
 
-        promise
-        .then (userModel)->
-          if userModel? then return userModel
-          else throw error_.new 'user model not found', 404, user
+      if _.isUserId user
+        userId = user
+        promise = app.request 'get:user:model', userId
+      else
+        username = user
+        promise = getUserModelFromUsername username
+
+      promise
+      .then (userModel)->
+        if userModel? then return userModel
+        else throw error_.new 'user model not found', 404, user
 
     getUserIdFromUsername: (username)->
       getUserModelFromUsername username

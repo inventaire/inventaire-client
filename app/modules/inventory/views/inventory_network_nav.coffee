@@ -21,14 +21,21 @@ module.exports = Marionette.LayoutView.extend
     @groupsList.show new List { collection: app.groups }
 
 ListEl = Marionette.ItemView.extend
-  initialize: -> console.log 'hello', @model
   tagName: 'li'
   template: require './templates/inventory_network_nav_list_li'
   serializeData: ->
     attrs = @model.serializeData()
     attrs.isGroup = attrs.type is 'group'
-    _.log attrs, "data #{attrs.type}"
     return attrs
+
+  events:
+    'click a': 'select'
+
+  select: (e)->
+    if _.isOpenedOutside e then return
+    type = if @model.get('type') is 'group' then 'group' else 'user'
+    app.vent.trigger "inventory:show:#{type}", @model
+    e.preventDefault()
 
 List = Marionette.CollectionView.extend
   tagName: 'ul'

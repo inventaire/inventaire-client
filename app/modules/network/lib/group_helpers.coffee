@@ -3,7 +3,7 @@
 module.exports = ->
   { groups } = app
 
-  getGroupModel = (id)->
+  getGroupModelById = (id)->
     group = groups.byId id
     unless group? then return getGroupPublicData id
 
@@ -44,13 +44,25 @@ module.exports = ->
       mainUserIsntMember = not group.mainUserIsMember()
       return mainUserIsntMember and group.userStatus(user) is 'member'
 
+  getGroupModel = (id)->
+    if _.isGroupId(id) then getGroupModelById id
+    else getGroupModelFromSlug id
+
+  resolveToGroupModel = (group)->
+    # 'group' is either the group model, a group id, or a group slug
+    if _.isModel(group) then return Promise.resolve group
+
+    getGroupModel group
+    .then (groupModel)->
+      if groupModel? then return groupModel
+      else throw error_.new 'group model not found', 404, { group }
+
   app.reqres.setHandlers
-    'get:group:model': (id)->
-      if _.isGroupId(id) then getGroupModel id
-      else getGroupModelFromSlug id
+    'get:group:model': getGroupModel
     'group:update:settings': groupSettingsUpdater
     'get:groups:common': getGroupsInCommon
     'get:groups:others:visited': otherVisitedGroups
+    'resolve:to:groupModel': resolveToGroupModel
 
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'

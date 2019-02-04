@@ -14,5 +14,5 @@ module.exports = Marionette.ItemView.extend
   selectTab: (e)->
     if _.isOpenedOutside e then return
     section = e.currentTarget.id.replace 'Tab', ''
-    app.execute 'show:inventory', { section }
+    app.execute 'show:inventory:section', section
     e.preventDefault()

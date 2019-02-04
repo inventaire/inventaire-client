@@ -17,15 +17,34 @@ module.exports = Marionette.LayoutView.extend
     itemsList: '#itemsList'
 
   initialize: ->
-    { @section } = @options
+    { @user, @group } = @options
+
+    @listenTo app.vent, 'inventory:show:user', @showUserInventory.bind(@)
+    @listenTo app.vent, 'inventory:show:group', @showGroupInventory.bind(@)
 
   onShow: ->
-    @inventoryNav.show new InventoryNav { @section }
-    SectionNav = navs[@section]
+    if @user? then @showUserInventory @user
+    else if @group? then @showGroupInventory @group
+    else @showNav @options.section
+
+  showUserInventory: (user)->
+    app.request 'resolve:to:userModel', user
+    .then (userModel)=>
+      section = userModel.get 'itemsCategory'
+      if section is 'personal' then section = 'user'
+      @showNav section
+      @itemsList.show new InventoryBrowser { user: userModel }
+      app.navigateFromModel userModel
+
+  showGroupInventory: (group)->
+    app.request 'resolve:to:groupModel', group
+    .then (groupModel)=>
+      # TODO: adapt to case when the main user isn't in the shown group
+      @showNav 'network'
+      @itemsList.show new InventoryBrowser { group: groupModel }
+      app.navigateFromModel groupModel
+
+  showNav: (section)->
+    @inventoryNav.show new InventoryNav { section }
+    SectionNav = navs[section]
     @sectionNav.show new SectionNav
-
-    if @section is 'user'
-      @itemsList.show new InventoryBrowser { user: app.user }
-
-    # else if @section is 'network'
-      # @itemsList.show new InventoryBrowser { user: app.user }

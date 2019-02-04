@@ -15,7 +15,6 @@ module.exports =
         'inventory/public(/)': 'showPublicInventory'
         'inventory/nearby(/)': 'showInventoryNearby'
         'inventory/last(/)': 'showInventoryLast'
-        'inventory/browser(/)': 'showInventoryBrowser'
         'inventory/:username(/)': 'showUserInventory'
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
@@ -32,25 +31,24 @@ module.exports =
 API =
   showGeneralInventory: ->
     if app.request 'require:loggedIn', 'inventory'
-      showInventory()
+      API.showUserInventory app.user
       # Give focus to the home button so that hitting tab gives focus
       # to the search input
       $('#home').focus()
 
   showNetworkInventory: ->
     showInventory { section: 'network' }
+    app.navigate 'inventory/network'
 
   showPublicInventory: ->
     showInventory { section: 'public' }
+    app.navigate 'inventory/public'
 
-  showUserInventory: (user, navigate)->
-    # User might be a user id or a username
-    app.request 'resolve:to:userModel', user
-    .then (userModel)-> showInventory { user, navigate }
-    .catch app.Execute('show:error')
+  showUserInventory: (user)->
+    showInventory { user }
 
-  showGroupInventory: (id, name, navigate)->
-    showInventory { group: id, navigate }
+  showGroupInventory: (id, name)->
+    showInventory { group: id }
 
   showInventoryNearby: ->
     if app.request 'require:loggedIn', 'inventory/nearby'
@@ -96,10 +94,8 @@ displayFoundItems = (items)->
     when 1 then showWorkWithItemModal items.models[0]
     else showItemsList items
 
-showInventory = (options)->
-  { section } = options
+showInventory = (options = {})->
   app.layout.main.show new InventoryLayout(options)
-  if section? then app.navigate "inventory/#{section}"
 
 showItemsList = (collection)-> app.layout.main.show new ItemsList { collection }
 
@@ -114,8 +110,17 @@ showItemModal = (model)->
   model.grabWorks()
   .then -> app.layout.modal.show new ItemShow { model }
 
+
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
+    'show:inventory': showInventory
+    'show:inventory:section': (section)->
+      switch section
+        when 'user' then API.showUserInventory app.user
+        when 'network' then API.showNetworkInventory()
+        when 'public' then API.showPublicInventory()
+        else throw error_.new 'unknown section', 400, { section }
+
     'show:inventory:general': API.showGeneralInventory
 
     # user can be either a username or a user model
