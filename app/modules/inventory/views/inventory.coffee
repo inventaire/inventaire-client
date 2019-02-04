@@ -39,8 +39,8 @@ module.exports = Marionette.LayoutView.extend
   showGroupInventory: (group)->
     app.request 'resolve:to:groupModel', group
     .then (groupModel)=>
-      # TODO: adapt to case when the main user isn't in the shown group
-      @showNav 'network'
+      section = if groupModel.mainUserIsMember() then 'network' else 'public'
+      @showNav section
       @itemsList.show new InventoryBrowser { group: groupModel }
       app.navigateFromModel groupModel
 
