@@ -1,25 +1,23 @@
 Items = require 'modules/inventory/collections/items'
 ItemsCascade = require 'modules/inventory/views/items_cascade'
-nop = -> false
 
 module.exports = (params)->
-  { region, allowMore, ItemsListView, showDistance } = params
+  { region, allowMore, showDistance } = params
   params.collection = collection = new Items
-  ItemsListView or= ItemsCascade
 
   # Use an object to store the flag so that it can be modified
   # by functions the object is passed to
   params.moreData = moreData = { status: true }
-  more = -> moreData.status
+  hasMore = -> moreData.status
   fetchMore = FetchMore params
 
   fetchMore()
   .then ->
-    region.show new ItemsListView
+    region.show new ItemsCascade
       collection: collection
       # if not allowMore, let ItemsList set the default values
       fetchMore: if allowMore then fetchMore
-      more: if allowMore then more else nop
+      hasMore: if allowMore then hasMore
       showDistance: showDistance
 
 FetchMore = (params)->

@@ -81,7 +81,7 @@ module.exports = Marionette.LayoutView.extend
     itemsIds or= @itemsByDate
     collection = new Backbone.Collection []
 
-    more = -> itemsIds.length > 0
+    hasMore = -> itemsIds.length > 0
     fetchMore = ->
       batch = itemsIds.splice 0, 20
       if batch.length is 0 then return Promise.resolve()
@@ -92,7 +92,7 @@ module.exports = Marionette.LayoutView.extend
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'
     fetchMore()
-    .then => @itemsView.show new ItemsCascade { collection, fetchMore, more, @display }
+    .then => @itemsView.show new ItemsCascade { collection, fetchMore, hasMore, @display }
 
   showEntitySelector: (entities, propertyUris, name)->
     treeSection = @worksTree[name]

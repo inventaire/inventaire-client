@@ -1,5 +1,6 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 masonryPlugin = require 'modules/general/plugins/masonry'
+alwaysFalse = -> false
 
 module.exports = Marionette.CompositeView.extend
   className: 'itemsCascadeWrapper'
@@ -17,7 +18,8 @@ module.exports = Marionette.CompositeView.extend
     showDistance: @options.showDistance
 
   initialize: ->
-    { @more, @fetchMore } = @options
+    { @hasMore, @fetchMore } = @options
+    @hasMore or= alwaysFalse
     @_fetching = false
 
     masonryPlugin.call @, '.itemsCascade', '.itemContainer'
@@ -36,7 +38,7 @@ module.exports = Marionette.CompositeView.extend
     'resize': 'lazyMasonryRefresh'
 
   infiniteScroll: ->
-    if @_fetching or not @more() then return
+    if @_fetching or not @hasMore() then return
     @_fetching = true
     @startLoading()
 
