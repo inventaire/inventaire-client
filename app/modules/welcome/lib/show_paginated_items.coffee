@@ -1,11 +1,11 @@
 Items = require 'modules/inventory/collections/items'
-ItemsList = require 'modules/inventory/views/items_list'
+ItemsCascade = require 'modules/inventory/views/items_cascade'
 nop = -> false
 
 module.exports = (params)->
   { region, allowMore, ItemsListView, showDistance } = params
   params.collection = collection = new Items
-  ItemsListView or= ItemsList
+  ItemsListView or= ItemsCascade
 
   # Use an object to store the flag so that it can be modified
   # by functions the object is passed to

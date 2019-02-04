@@ -1,5 +1,5 @@
 BrowserSelector = require './browser_selector'
-ItemsList = require './items_list'
+ItemsCascade = require './items_cascade'
 SelectorsCollection = require '../collections/selectors'
 FilterPreview = require './filter_preview'
 getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
@@ -92,7 +92,7 @@ module.exports = Marionette.LayoutView.extend
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'
     fetchMore()
-    .then => @itemsView.show new ItemsList { collection, fetchMore, more }
+    .then => @itemsView.show new ItemsCascade { collection, fetchMore, more, @display }
 
   showEntitySelector: (entities, propertyUris, name)->
     treeSection = @worksTree[name]

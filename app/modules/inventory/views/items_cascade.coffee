@@ -1,18 +1,17 @@
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 masonryPlugin = require 'modules/general/plugins/masonry'
-itemsPerPage = require 'modules/inventory/lib/items_per_pages'
 
 module.exports = Marionette.CompositeView.extend
-  className: 'itemsListWrapper'
-  template: require './templates/items_list'
-  childViewContainer: '.itemsList'
-  childView: require './item_figure'
+  className: 'itemsCascadeWrapper'
+  template: require './templates/items_cascade'
+  childViewContainer: '.itemsCascade'
+  childView: require './item_card'
   emptyView: require './no_item'
   behaviors:
     Loading: {}
 
   ui:
-    itemsList: '.itemsList'
+    itemsCascade: '.itemsCascade'
 
   childViewOptions: ->
     showDistance: @options.showDistance
@@ -21,7 +20,7 @@ module.exports = Marionette.CompositeView.extend
     { @more, @fetchMore } = @options
     @_fetching = false
 
-    masonryPlugin.call @, '.itemsList', '.itemContainer'
+    masonryPlugin.call @, '.itemsCascade', '.itemContainer'
 
   serializeData: ->
     header: @options.header
@@ -37,14 +36,15 @@ module.exports = Marionette.CompositeView.extend
     'resize': 'lazyMasonryRefresh'
 
   infiniteScroll: ->
-    if @more() and not @_fetching
-      @_fetching = true
-      @startLoading()
-      @fetchMore()
-      .then @stopLoading.bind(@)
-      # Give the time for the DOM to update
-      .delay 200
-      .finally => @_fetching = false
+    if @_fetching or not @more() then return
+    @_fetching = true
+    @startLoading()
+
+    @fetchMore()
+    .then @stopLoading.bind(@)
+    # Give the time for the DOM to update
+    .delay 200
+    .finally => @_fetching = false
 
   startLoading: -> behaviorsPlugin.startLoading.call @, '.fetchMore'
   stopLoading: -> behaviorsPlugin.stopLoading.call @, '.fetchMore'

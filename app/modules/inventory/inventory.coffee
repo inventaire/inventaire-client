@@ -2,7 +2,7 @@ ItemShow = require './views/item_show'
 initQueries = require './lib/queries'
 InventoryLayout = require './views/inventory'
 initLayout = require './lib/layout'
-ItemsList = require './views/items_list'
+ItemsCascade = require './views/items_cascade'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
 
@@ -97,7 +97,7 @@ displayFoundItems = (items)->
 showInventory = (options = {})->
   app.layout.main.show new InventoryLayout(options)
 
-showItemsList = (collection)-> app.layout.main.show new ItemsList { collection }
+showItemsList = (collection)-> app.layout.main.show new ItemsCascade { collection }
 
 showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
