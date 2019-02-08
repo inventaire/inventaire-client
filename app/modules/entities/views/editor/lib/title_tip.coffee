@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 # Display a tip when a work label or an edition title contains the label of their serie
 # to invite to remove the serie label part
 module.exports =
@@ -7,6 +9,10 @@ module.exports =
     if property isnt 'wdt:P1476' then return
     # Only support cases where there is only 1 known work to keep things simple for now
     unless edition.get('claims.wdt:P629')?.length is 1 then return
+
+    unless edition.waitForWorks?
+      uri = edition.get 'uri'
+      return error_.report "edition.waitForWorks isn't defined", { uri, property }
 
     edition.waitForWorks
     .then =>
