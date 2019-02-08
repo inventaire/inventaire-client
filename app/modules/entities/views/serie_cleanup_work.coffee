@@ -86,7 +86,7 @@ module.exports = Marionette.LayoutView.extend
     unless @model.get('isPlaceholder') then return Promise.resolve()
     lang = @ui.langSelector.val()
     label = @ui.placeholderLabelEditor.val()
-    @model.setLabel lang, label
+    @model.resetLabels lang, label
     @model.create()
     .then @replaceModel.bind(@)
 

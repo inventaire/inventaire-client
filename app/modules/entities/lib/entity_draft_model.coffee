@@ -45,6 +45,9 @@ module.exports =
       setPropertyValue: editableEntity.setPropertyValue.bind model
       savePropertyValue: _.preq.resolve
       setLabel: editableEntity.setLabel.bind model
+      resetLabels: (lang, value)->
+        @set 'labels', {}
+        @setLabel lang, value
       # Required by editableEntity.setPropertyValue
       invalidateRelationsCache: _.noop
       saveLabel: _.preq.resolve
