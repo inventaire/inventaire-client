@@ -15,23 +15,23 @@ API =
   getTransaction: (id)-> app.transactions.byId id
 
   postMessage: (transactionId, message, timeline)->
-    messegeData =
+    messageData =
       action: 'message'
       transaction: transactionId
       message: message
 
-    mesModel = addMessageToTimeline messegeData, timeline
+    mesModel = addMessageToTimeline messageData, timeline
 
-    _.preq.post app.API.transactions, messegeData
+    _.preq.post app.API.transactions, messageData
     .then poster_.UpdateModelIdRev(mesModel)
     .catch poster_.Rewind(mesModel, timeline)
     .catch _.Error('postMessage')
 
-addMessageToTimeline = (messegeData, timeline)->
-  _.extend messegeData,
+addMessageToTimeline = (messageData, timeline)->
+  fullMessageData = _.extend {}, messageData,
     user: app.user.id
     created: Date.now()
-  mesModel = new Message messegeData
+  mesModel = new Message fullMessageData
   timeline.add mesModel
   return mesModel
 
