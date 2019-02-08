@@ -274,7 +274,7 @@ module.exports = Marionette.LayoutView.extend
   getAuthorsWorks: ->
     Promise.all @getAuthorsUris()
     .map (authorUri)-> _.preq.get app.API.entities.authorWorks(authorUri)
-    .map (results)-> _.map results.works.filter(hasNoSerie), 'uri'
+    .map (results)-> _.pluck results.works.filter(hasNoSerie), 'uri'
     .then _.flatten
 
   searchMatchWorks: ->
