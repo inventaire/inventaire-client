@@ -1,7 +1,7 @@
 $itemContainerBaseWidth: 230px;
 $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
 
-.itemsCascadeWrapper{
+.items-cascade-wrapper{
   @include display-flex(column, center, center);
   flex: 1 1 auto;
   .fetchMore{
@@ -11,6 +11,7 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
     margin: 1em;
   }
 }
+
 .itemsCascade{
   // required to avoid itemsLists to overlapse when empty
   // !important to override Masonry's style="height:0px"
