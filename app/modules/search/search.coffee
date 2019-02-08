@@ -67,16 +67,13 @@ showEntityPageIfUri = (query, refresh)->
   else
     return false
 
-sectionSearchPattern = /(s|section):(\w+)/
+sectionSearchPattern = /^!([blwahsugt])\s+/
 
 findSearchSection = (q)->
-  sectionMatch = q.match(sectionSearchPattern)?[2]
+  sectionMatch = q.match(sectionSearchPattern)?[1]
   unless sectionMatch? then return [ q, 'all' ]
 
   q = q.replace(sectionSearchPattern, '').trim()
-
-  # Work around the conflict with series of the 's' key
-  if sectionMatch.match /^subjects?$/ then return [ q, 'subjects' ]
 
   firstLetter = sectionMatch[0]
   section = sections[firstLetter] or 'all'
@@ -84,6 +81,8 @@ findSearchSection = (q)->
 
 sections =
   b: 'book'
+  # 'l' for livre, libro, liber
+  l: 'book'
   # 'w' for work
   w: 'book'
   a: 'author'
