@@ -1,0 +1,77 @@
+.items-table{
+  .item-row{
+    background-color: #fefefe;
+    @include radius(4px);
+    @include shy-border;
+    margin-bottom: 0.2em;
+    @include display-flex(row, center, center);
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .item-row{
+      margin: 0.2em;
+      padding: 0.5em;
+      flex-direction: column;
+      @include display-flex(row);
+      text-align: left;
+      .image-wrapper{
+        flex: 0 0 auto;
+        align-self: stretch;
+        @include display-flex(column, null, center);
+        margin-right: 0.5em;
+        &:empty{
+          display: none;
+        }
+      }
+      .data-wrapper{
+        flex: 1 1 auto;
+      }
+      .label{
+        color: $grey;
+      }
+      .isbn{
+        text-align: left;
+      }
+      .action{
+        height: 3em;
+        @include display-flex(row);
+        a{
+          margin: 0.5em auto;
+          padding: 0.2em 1em;
+        }
+      }
+    }
+    .items-rows-header{
+      display: none;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .item-row{
+      margin: 0 0.5em;
+      .title, .authors{
+        flex: 1 0 0;
+        text-align: left;
+      }
+    }
+    .image-wrapper{
+      width: 3em;
+      margin-right: 0.5em;
+      min-height: 3em;
+    }
+    .data-wrapper{
+      @include display-flex(row, center, center);
+      flex: 1 0 0;
+    }
+    .item-row{
+      > div{
+        justify-content: center;
+      }
+      .label{
+        display: none;
+      }
+    }
+  }
+}

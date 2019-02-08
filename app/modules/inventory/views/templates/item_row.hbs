@@ -1,18 +1,13 @@
-<td class="title itemShow">
-  <a class="link itemShow">{{title}}</a>
-</td>
-<td class="authors">
-  {{#if entityData.claims.wdt:P50}}
-    {{claim entityData.claims 'wdt:P50' true true}}
-  {{else}}
+<div class="image-wrapper">
+  {{~#if picture~}}<img src="{{imgSrc picture 128}}" alt="{{title}}">{{~/if~}}
+</div>
+<div class="data-wrapper">
+  <div class="title">
+    <span class="label">{{i18n 'title'}}:</span>
+    {{title}}
+  </div>
+  <div class="authors">
+    <span class="label">{{i18n 'authors'}}:</span>
     {{authors}}
-  {{/if}}
-</td>
-<td class="user">
-  <a class="user link serif" href="{{user.pathname}}">
-    <img src="{{imgSrc user.picture 16}}">
-    {{user.username}}
-  </a>
-</td>
-<td>{{i18n transaction}}</td>
-<td>{{timeFromNow created}}</td>
+  </div>
+</div>

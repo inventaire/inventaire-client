@@ -1,5 +1,6 @@
 BrowserSelector = require './browser_selector'
 ItemsCascade = require './items_cascade'
+ItemsTable = require './items_table'
 SelectorsCollection = require '../collections/selectors'
 FilterPreview = require './filter_preview'
 getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
@@ -21,11 +22,22 @@ module.exports = Marionette.LayoutView.extend
     @lazyRender = _.LazyRender @
     @filters = {}
 
+    @display = localStorageProxy.getItem('inventory:display') or 'cascade'
+
   ui:
-    browserControls: '#browser-controls'
+    browserControls: '#browserControls'
+    displayControls: '#displayControls'
+
+  events:
+    'click #displayControls a': 'selectDisplay'
 
   childEvents:
     'filter:select': 'onFilterSelect'
+
+  serializeData: ->
+    data = {}
+    data[@display] = true
+    return data
 
   onShow: ->
     @focusOnShow()
@@ -52,7 +64,6 @@ module.exports = Marionette.LayoutView.extend
     .then @spreadData.bind(@)
 
   spreadData: (data)->
-    _.log data, 'data'
     { @worksTree, @workUriItemsMap, @itemsByDate } = data
     @showItemsListByIds()
 
@@ -89,10 +100,16 @@ module.exports = Marionette.LayoutView.extend
       app.request 'items:getByIds', batch
       .then collection.add.bind(collection)
 
+    @itemsViewParams = { collection, fetchMore, hasMore }
+
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'
     fetchMore()
-    .then => @itemsView.show new ItemsCascade { collection, fetchMore, hasMore, @display }
+    .then @showItemsByDisplayMode.bind(@)
+
+  showItemsByDisplayMode: ->
+    ItemsList = if @display is 'table' then ItemsTable else ItemsCascade
+    @itemsView.show new ItemsList @itemsViewParams
 
   showEntitySelector: (entities, propertyUris, name)->
     treeSection = @worksTree[name]
@@ -127,6 +144,15 @@ module.exports = Marionette.LayoutView.extend
     worksItems = _.pick @workUriItemsMap, intersectionWorkUris
     itemsIds = _.flatten _.values(worksItems)
     @showItemsListByIds itemsIds
+
+  selectDisplay: (e)->
+    display = e.currentTarget.id
+    if display is @display then return
+    @display = display
+    localStorageProxy.setItem 'inventory:display', display
+    @ui.displayControls.find('.selected').removeClass 'selected'
+    $(e.currentTarget).addClass 'selected'
+    @showItemsByDisplayMode()
 
 getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null

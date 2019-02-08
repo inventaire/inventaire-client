@@ -1,36 +1,67 @@
 #inventory-browser{
   padding: 0 0.5em;
-}
-
-#browser-controls, #browser-filters{
-  @include display-flex(row, center, flex-start);
-  @include radius;
-  padding: 0.3em 0 0.2em 0;
-  .selectors{
-    @include display-flex(row, center, center, wrap);
+  #browserControls, #browser-filters{
+    @include display-flex(row, center, flex-start);
+    @include radius;
+    padding: 0.3em 0 0.2em 0;
+    .selectors{
+      @include display-flex(row, center, center, wrap);
+    }
+    /*Small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      flex-direction: column;
+    }
   }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    flex-direction: column;
-  }
-}
 
-#browser-controls{
-  background-color: $inventory-nav-grey;
-  @include transition(opacity);
-  opacity: 1;
-  &:not(.ready){
-    opacity: 0;
+  #browserControls{
+    background-color: $inventory-nav-grey;
+    @include transition(opacity);
+    opacity: 1;
+    margin: 0.8em 0 1em 0;
+    &:not(.ready){
+      opacity: 0;
+    }
   }
-}
 
-.control-label{
-  color: $grey;
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  #displayControls{
+    @include display-flex(row, center, flex-start);
     margin: 1em 0.5em;
+    margin-left: auto;
+    padding: 0 0.5em;
+    @include radius;
+    a{
+      &:not(:first-child){
+        margin-left: 0.5em;
+      }
+      img{
+        @include radius;
+      }
+      padding: 0.2em 0.4em;
+      @include radius;
+      &.selected{
+        background-color: white;
+        cursor: default;
+      }
+      &:not(.selected){
+        color: white;
+        @include bg-hover-lighten($dark-grey);
+      }
+    }
   }
+
+  #addToInventory{
+    margin: 0 1em;
+  }
+
+  .control-label{
+    color: $grey;
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      margin: 1em 0.5em;
+    }
+  }
+
+  @import 'filter_preview';
+  @import 'browser_selector';
 }
 
-@import 'filter_preview';
-@import 'browser_selector';
