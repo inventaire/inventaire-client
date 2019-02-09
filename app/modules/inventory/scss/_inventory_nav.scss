@@ -7,7 +7,7 @@
       flex: 1 0 0;
       @include bg-hover-lighten($dark-grey);
       color: white;
-      // height: 3em;
+      font-weight: bold;
       padding: 0.5em;
       align-self: stretch;
       @include display-flex(row, center, center);

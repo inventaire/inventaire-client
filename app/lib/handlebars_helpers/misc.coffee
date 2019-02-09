@@ -20,6 +20,12 @@ module.exports =
 
   I18n: (args...)-> _.capitalise @i18n.apply(@, args)
 
+  I18nStartCase: (args...)->
+    @i18n.apply @, args
+    .split ' '
+    .map _.capitalise
+    .join ' '
+
   linkify: require './linkify'
 
   i18nLink: (text, url, context)->
