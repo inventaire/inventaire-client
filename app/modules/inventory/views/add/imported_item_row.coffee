@@ -12,5 +12,4 @@ module.exports = Marionette.ItemView.extend
     'click .showItem': 'showItem'
 
   showItem: ->
-    app.execute 'show:item:modal', @model
-    @listenToOnce app.vent, 'route:change', app.Execute('modal:close')
+    app.execute 'show:item', @model

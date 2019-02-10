@@ -5,6 +5,7 @@ initLayout = require './lib/layout'
 ItemsCascade = require './views/items_cascade'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
+{ currentRoute } = require 'lib/location'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -60,10 +61,9 @@ API =
 
   showItemFromId: (id)->
     unless _.isItemId id then return app.execute 'show:error:missing'
-    app.execute 'show:loader'
 
     app.request 'get:item:model', id
-    .then showWorkWithItemModal
+    .then app.Execute('show:item')
     .catch (err)-> app.execute 'show:error', err, 'showItemFromId'
 
   showUserItemsByEntity: (username, uri, label)->
@@ -91,7 +91,7 @@ displayFoundItems = (items)->
   switch items.length
     when 0 then app.execute 'show:error:missing'
     # redirect to the item
-    when 1 then showWorkWithItemModal items.models[0]
+    when 1 then showItemModal items.models[0]
     else showItemsList items
 
 showInventory = (options = {})->
@@ -103,13 +103,25 @@ showGroupInventory = (group)->
   API.showGroupInventory group.id, group.get('name'), true
   app.navigateFromModel group
 
-showWorkWithItemModal = (model)->
-  app.execute 'show:work:with:item:modal', model
-
 showItemModal = (model)->
+  previousRoute = currentRoute()
+  # Do not scroll top as the modal might be displayed down at the level
+  # where the item show event was triggered
+  app.navigateFromModel model, { preventScrollTop: true }
+  newRoute = currentRoute()
+
+  navigateAfterModal = ->
+    if currentRoute() isnt newRoute then return
+    if previousRoute is newRoute
+      return app.execute 'show:inventory:user', model.get('owner')
+    app.navigate previousRoute, { preventScrollTop: true }
+
+  # Let the time to other callbacks to call a navigation before testing if the route
+  # should be recovered
+  app.vent.once 'modal:closed', -> setTimeout navigateAfterModal, 10
+
   model.grabWorks()
   .then -> app.layout.modal.show new ItemShow { model }
-
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
@@ -139,11 +151,10 @@ initializeInventoriesHandlers = (app)->
 
     'show:item:creation:form': showItemCreationForm
 
-    'show:item': showWorkWithItemModal
+    'show:item': showItemModal
 
     'show:inventory:nearby': API.showInventoryNearby
     'show:inventory:last': API.showInventoryLast
-    'show:item:modal': showItemModal
 
   app.reqres.setHandlers
     'item:update': itemActions.update

@@ -189,7 +189,6 @@ setHandlers = ->
     'show:entity:edit:from:params': showEntityEdit
     'show:entity:create': showEntityCreate
     'show:entity:cleanup': API.showEntityCleanup
-    'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': require './lib/show_merge_suggestions'
     'report:entity:type:issue': reportTypeIssue
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
@@ -305,30 +304,6 @@ existsOrCreateFromSeed = (data)->
   # Add the possibly newly created edition entity to the local index
   # and get it's model
   .then entitiesModelsIndex.add
-
-showWorkWithItemModal = (item)->
-  getWorkEntity item.get('entity')
-  .then _showWorkWithItem(item)
-
-getWorkEntity = (uri)->
-  getEntityModel uri
-  .then (entity)->
-    if entity.type is 'work'
-      return entity
-    else
-      workUri = entity.get 'claims.wdt:P629.0'
-      return getEntityModel workUri
-
-_showWorkWithItem = (item)-> (work)->
-  { currentView } = app.layout.main
-  if currentView instanceof WorkLayout and currentView.model is work
-    currentView.showItemModal item
-    # Do not scroll top as the modal might be displayed down at the level
-    # where the item show event was triggered
-    app.navigateFromModel item, { preventScrollTop: true }
-  else
-    app.layout.main.show new WorkLayout { model: work, item }
-    app.navigateFromModel item
 
 showViewWithAdminRights = (params)->
   { path, title, View, viewOptions, navigate } = params
