@@ -1,9 +1,4 @@
-$itemContainerBaseWidth: 230px;
-$multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
-
-.items-cascade-wrapper{
-  @include display-flex(column, center, center);
-  flex: 1 1 auto;
+.items-cascade-wrapper, .items-table{
   .fetchMore{
     // Give it a forced height and width so that it can trigger inview events
     height: 2em;
@@ -12,39 +7,5 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
   }
 }
 
-.itemsCascade{
-  // required to avoid itemsLists to overlapse when empty
-  // !important to override Masonry's style="height:0px"
-  // ex: entity_show
-  min-height: 10em !important;
-  /*Small screens*/
-  @media screen and (max-width: $multicolumnsThreshold) {
-    @include display-flex(column, center, center);
-  }
-
-  /*Large screens MASONRY */
-  @media screen and (min-width: $multicolumnsThreshold) {
-    // required by Masonry to center elements in conjunction with isFitWidth: true
-    // see http://desandro.github.io/masonry/demos/centered.html
-    margin: 0 auto;
-  }
-}
-
-// itemContainer positioning item-settings
-// for itemContainer internal, see item_container
-.itemContainer{
-  width: $itemContainerBaseWidth;
-  margin: 5px;
-  float: left;
-  /*Small screens*/
-  @media screen and (max-width: $multicolumnsThreshold) {
-      width: 94vw;
-      max-width: 300px;
-    }
-
-  /*Large screens*/
-  @media screen and (min-width: $multicolumnsThreshold) {
-  }
-}
-
-@import "item_container";
+@import "items_cascade";
+@import "items_table";
