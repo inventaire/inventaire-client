@@ -26,10 +26,19 @@ module.exports = Filterable.extend
 
     @entityPathname = app.request 'get:entity:local:href', @entityUri
 
-    @userReady = false
+    @initUser owner
 
-    @waitForUser = @reqGrab 'get:user:model', owner, 'user'
-      .then @setUserData.bind(@)
+  initUser: (owner)->
+    # Check the main user early, so that we can access authorized data directly on first render
+    if @mainUserIsOwner
+      @user = app.user
+      @userReady = true
+      @waitForUser = Promise.resolve()
+      @setUserData()
+    else
+      @userReady = false
+      @waitForUser = @reqGrab 'get:user:model', owner, 'user'
+        .then @setUserData.bind(@)
 
   # Checking that attributes privacy is as expected
   testPrivateAttributes: ->
