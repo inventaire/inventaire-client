@@ -158,6 +158,9 @@ module.exports = (Backbone, _, $, app, window)->
     if date? then new Date(date).toISOString().split('T')[0]
     else new Date().toISOString().split('T')[0]
 
+  # Missing in Underscore v1.6.0
+  noop: ->
+
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 
 add = (a, b)-> a + b
