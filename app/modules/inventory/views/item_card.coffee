@@ -6,7 +6,7 @@ module.exports = Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
     busy = if @model.get('busy') then 'busy' else ''
-    return "itemContainer #{busy}"
+    return "itemCard #{busy}"
   template: require './templates/item_card'
   behaviors:
     PreventDefault: {}

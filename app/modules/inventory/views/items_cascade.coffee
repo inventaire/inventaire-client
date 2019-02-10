@@ -17,7 +17,7 @@ module.exports = InfiniteScrollItemsList.extend
   initialize: ->
     @initInfiniteScroll()
 
-    masonryPlugin.call @, '.itemsCascade', '.itemContainer'
+    masonryPlugin.call @, '.itemsCascade', '.itemCard'
 
   serializeData: ->
     header: @options.header

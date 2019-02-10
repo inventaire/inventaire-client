@@ -1,5 +1,5 @@
-$itemContainerBaseWidth: 230px;
-$multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
+$itemCardBaseWidth: 230px;
+$multicolumnsThreshold: $itemCardBaseWidth * 2 + 50px;
 
 .items-cascade-wrapper{
   @include display-flex(column, center, center);
@@ -28,10 +28,10 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
     // see http://desandro.github.io/masonry/demos/centered.html
     margin: 0 auto;
   }
-  // itemContainer positioning item-settings
-  // for itemContainer internal, see item_container
-  .itemContainer{
-    width: $itemContainerBaseWidth;
+  // itemCard positioning item-settings
+  // for itemCard internal, see item_card
+  .itemCard{
+    width: $itemCardBaseWidth;
     margin: 5px;
     float: left;
     /*Small screens*/
@@ -46,4 +46,4 @@ $multicolumnsThreshold: $itemContainerBaseWidth * 2 + 50px;
   }
 }
 
-@import "item_container";
+@import "item_card";
