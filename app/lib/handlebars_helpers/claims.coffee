@@ -37,7 +37,7 @@ module.exports = API =
   imageClaim: (claims, prop, omitLabel, inline, data)->
     if claims?[prop]?[0]?
       file = claims[prop][0]
-      src = commons_.smallThumb file, 200
+      src = commons_.thumbnail file, 200
       propClass = prop.replace ':', '-'
       return new SafeString "<img class='image-claim #{propClass}' src='#{src}'>"
 

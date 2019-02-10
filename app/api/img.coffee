@@ -1,4 +1,5 @@
 { buildPath } = require 'lib/location'
+commons_ = require 'lib/wikimedia/commons'
 
 # Keep in sync with server/lib/emails/app_api
 module.exports = (path, width = 1600, height = 1600)->
@@ -11,15 +12,20 @@ module.exports = (path, width = 1600, height = 1600)->
   # Converting image hashes to a full URL
   if _.isLocalImg(path) or _.isAssetImg(path)
     [ container, filename ] = path.split('/').slice(2)
-    "/img/#{container}/#{width}x#{height}/#{filename}"
+    return "/img/#{container}/#{width}x#{height}/#{filename}"
 
-  else if /^http/.test path
+  # The server may return images path on upload.wikimedia.org
+  if path.startsWith 'https://upload.wikimedia.org'
+    file = path.split('/').slice(-1)[0]
+    return commons_.thumbnail file, width
+
+  if path.startsWith 'http'
     key = _.hashCode path
     href = _.fixedEncodeURIComponent path
-    "/img/remote/#{width}x#{height}/#{key}?href=#{href}"
+    return "/img/remote/#{width}x#{height}/#{key}?href=#{href}"
 
-  else if _.isEntityUri path
-    buildPath '/api/entities',
+  if _.isEntityUri path
+    return buildPath '/api/entities',
       action: 'images'
       uris: path
       redirect: true
@@ -27,10 +33,7 @@ module.exports = (path, width = 1600, height = 1600)->
       height: height
 
   # Assumes this is a Wikimedia Commons filename
-  else if path[0] isnt '/'
-    file = _.fixedEncodeURIComponent path
-    "https://commons.wikimedia.org/w/thumb.php?width=#{width}&f=#{file}"
+  if path[0] isnt '/' then return commons_.thumbnail file, width
 
-  else
-    path = path.replace '/img/', ''
-    "/img/#{width}x#{height}/#{path}"
+  path = path.replace '/img/', ''
+  return "/img/#{width}x#{height}/#{path}"
