@@ -10,9 +10,9 @@ CandidatesQueue = Marionette.CollectionView.extend
   childEvents:
     'selection:changed': -> @triggerMethod 'selection:changed'
 
-ItemsList = Marionette.CollectionView.extend
+ImportedItemsList = Marionette.CollectionView.extend
   tagName: 'ul'
-  childView: require './item_row'
+  childView: require './imported_item_row'
 
 module.exports = Marionette.LayoutView.extend
   className: 'import-queue'
@@ -59,7 +59,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @candidatesQueue.show new CandidatesQueue { collection: @candidates }
-    @itemsList.show new ItemsList { collection: @items }
+    @itemsList.show new ImportedItemsList { collection: @items }
     @lazyUpdateSteps()
 
   selectAll: ->
