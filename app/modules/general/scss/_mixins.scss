@@ -19,15 +19,6 @@
   @if $z { z-index: $z; }
 }
 
-// a minority of supporting browsers.
-// not using a polyfill for now as it can be concidered
-// to be just a progressive enhancement.
-@mixin sticky($top){
-  position: -webkit-sticky; // required for Safari
-  position: sticky;
-  top: $top;
-}
-
 // just bundling both existing syntax
 // cf https://developer.mozilla.org/en-US/docs/Web/CSS/word-wrap
 @mixin text-wrap($setting:break-word){

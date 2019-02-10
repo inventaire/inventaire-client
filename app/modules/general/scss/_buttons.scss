@@ -42,6 +42,21 @@
   }
 }
 
+button{
+  border-style: none;
+  border-width: 0;
+  padding: 0.2em 0.6em;
+  margin: 0;
+  @include sans-serif;
+  font-weight: bold;
+  appearance: none;
+  display: inline-block;
+  background-color: inherit;
+  cursor: pointer;
+  outline: 0;
+  @include radius;
+}
+
 $default-button-margin: 0.1em;
 $default-button-padding: 1em;
 
@@ -54,7 +69,7 @@ $default-button-padding: 1em;
 }
 
 @mixin tiny-button-padding(){
-  padding: 0.2em 0.6em 0.2em 0.6em;
+  padding: 0.2em 0.6em;
 }
 
 // A mixin for selectors already affected by .tiny-button

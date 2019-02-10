@@ -4,3 +4,10 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/item_row'
 
   serializeData: -> @model.serializeData()
+
+  events:
+    'click .showItem': 'showItem'
+
+  showItem: (e)->
+    if _.isOpenedOutside e then return
+    else app.execute 'show:item', @model

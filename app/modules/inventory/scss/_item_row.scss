@@ -1,0 +1,92 @@
+@mixin box-color($color, $white-text:1){
+  background-color: $color;
+  @if $white-text { @include white-text; }
+}
+
+.item-row{
+  position: relative;
+  background-color: #fefefe;
+  @include radius(4px);
+  @include shy-border;
+  margin-bottom: 0.2em;
+  @include display-flex(row, center, center);
+  .body, .modes{
+    @include display-flex(row, center, center);
+    flex: 1 0 0;
+  }
+  .transaction, .listing{
+    @include radius;
+    height: 2em;
+    width: 2em;
+    @include display-flex(row, center, center);
+  }
+  .transaction{
+    margin-left: 1em;
+    &.giving{ @include box-color($giving-color); }
+    &.lending{ @include box-color($lending-color); }
+    &.selling{ @include box-color($selling-color); }
+    &.inventorying{ @include box-color($inventorying-color); }
+  }
+  .listing{
+    &.private{ @include box-color($private-color); }
+    &.network{ @include box-color($network-color); }
+    &.public{ @include box-color($public-color, null); }
+  }
+  input[type="checkbox"]{
+    margin: 1em;
+  }
+  .showItem{
+    @include display-flex(row, center, flex-start);
+    @include bg-hover(white, 5%);
+    flex: 1 0 auto;
+    align-self: stretch;
+  }
+  .authors{
+    color: $grey;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    margin-bottom: 1em;
+    margin: 1em 0;
+    padding: 0.5em 0;
+    .body{
+      flex-direction: column;
+    }
+    .showItem{
+      flex-direction: column;
+    }
+    .modes{
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .info{
+      overflow: hidden;
+    }
+    .image-wrapper{
+      min-height: 1.4em;
+      // width: 5em;
+      background-color: red;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $very-small-screen) {
+    .info{
+      flex: 1 0 auto;
+      text-align: left;
+    }
+    .image-wrapper{
+      width: 3em;
+      margin-right: 0.5em;
+      min-height: 3em;
+    }
+    .modes{
+      flex: 0 0 auto;
+    }
+    .transaction, .listing{
+      margin-right: 1em;
+    }
+  }
+}

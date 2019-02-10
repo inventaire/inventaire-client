@@ -90,6 +90,7 @@ module.exports = Marionette.LayoutView.extend
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
     itemsIds or= @itemsByDate
+    allItemsIds = _.clone itemsIds
     collection = new Backbone.Collection []
 
     hasMore = -> itemsIds.length > 0
@@ -100,7 +101,7 @@ module.exports = Marionette.LayoutView.extend
       app.request 'items:getByIds', batch
       .then collection.add.bind(collection)
 
-    @itemsViewParams = { collection, fetchMore, hasMore }
+    @itemsViewParams = { collection, fetchMore, hasMore, allItemsIds }
 
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'

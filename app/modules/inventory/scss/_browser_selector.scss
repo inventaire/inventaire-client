@@ -28,10 +28,6 @@
     margin: 0.4em;
     max-width: 94%;
   }
-  .count{
-    color: $grey;
-    font-weight: normal;
-  }
   &[data-options="0"]{
     .selector-button{
       cursor: not-allowed;
@@ -58,10 +54,6 @@
   font-weight: bold;
   color: $dark-grey;
   @include display-flex(row, center);
-  .count{
-    padding-left: 0.3em;
-    margin-right: auto;
-  }
   .selectedMode .label{
     margin-right: auto;
   }

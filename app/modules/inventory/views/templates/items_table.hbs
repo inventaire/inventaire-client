@@ -1,4 +1,23 @@
-<ul></ul>
+<div id="table-header">
+  <button id="selectAll">
+    {{icon 'check-square'}}
+    {{I18n 'select all'}}
+    <span class="count">({{itemsCount}})</span>
+  </button>
+  <button id="unselectAll">{{icon 'square'}}<span>{{I18n 'unselect all'}}</span></button>
+  <div id="selectTransaction" class="has-dropdown">
+    <p class="selector-label">{{I18n 'transaction'}} {{icon 'caret-down'}}</p>
+    <ul class="dropdown">
+      <li class="dropdown-label capitalized">{{i18n 'available for'}}:</li>
+      {{#each transactions}}
+        <li><a id="{{id}}" class="transaction-option">{{icon icon}} {{i18n label}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<ul id="itemsRows"></ul>
+
 <div class="fetchMore">
   <span class="loading"></span>
 </div>

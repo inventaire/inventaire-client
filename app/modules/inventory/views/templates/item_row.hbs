@@ -1,13 +1,27 @@
-<div class="image-wrapper">
-  {{~#if picture~}}<img src="{{imgSrc picture 128}}" alt="{{title}}">{{~/if~}}
-</div>
-<div class="data-wrapper">
-  <div class="title">
-    <span class="label">{{i18n 'title'}}:</span>
-    {{title}}
-  </div>
-  <div class="authors">
-    <span class="label">{{i18n 'authors'}}:</span>
-    {{authors}}
+<input type="checkbox" name="select" data-id="{{_id}}">
+
+<div class="body">
+  <a class="showItem" href="{{pathname}}">
+    <div class="image-wrapper">
+      {{~#if picture~}}<img src="{{imgSrc picture 128}}" alt="{{title}}">{{~/if~}}
+    </div>
+    <div class="info">
+      <p class="title">{{title}}</p>
+      <p class="authors">{{authors}}</p>
+    </div>
+  </a>
+
+  <div class="modes">
+    <div class="transaction {{currentTransaction.id}}" title="{{i18n currentTransaction.label}}">
+      {{icon currentTransaction.icon}}
+    </div>
+
+    {{#if currentListing}}
+      <div class="listing {{currentListing.id}}" title="{{i18n currentListing.label}}">
+        {{icon currentListing.icon}}
+      </div>
+    {{else}}
+      <div class="listing"></div>
+    {{/if}}
   </div>
 </div>

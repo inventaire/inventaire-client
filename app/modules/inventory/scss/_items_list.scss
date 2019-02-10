@@ -1,9 +1,10 @@
 .items-cascade-wrapper, .items-table{
   .fetchMore{
     // Give it a forced height and width so that it can trigger inview events
-    height: 2em;
-    width: 2em;
+    height: 1em;
+    width: 1em;
     margin: 1em;
+    margin: auto;
   }
 }
 

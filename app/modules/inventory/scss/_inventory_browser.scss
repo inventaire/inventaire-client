@@ -1,7 +1,6 @@
 #inventory-browser{
-  padding: 0 0.5em;
   #browserControls, #browser-filters{
-    @include display-flex(row, center, flex-start);
+    @include display-flex(row, center, center, wrap);
     @include radius;
     padding: 0.3em 0 0.2em 0;
     .selectors{
@@ -9,7 +8,10 @@
     }
     /*Small screens*/
     @media screen and (max-width: $smaller-screen) {
-      flex-direction: column;
+    }
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      padding: 0 0.5em;
     }
   }
 
@@ -26,7 +28,6 @@
   #displayControls{
     @include display-flex(row, center, flex-start);
     margin: 1em 0.5em;
-    margin-left: auto;
     padding: 0 0.5em;
     @include radius;
     a{
@@ -46,6 +47,10 @@
         color: white;
         @include bg-hover-lighten($dark-grey);
       }
+    }
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      margin-left: auto;
     }
   }
 

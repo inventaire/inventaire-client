@@ -1,6 +1,6 @@
 #inventoryNav{
   #tabs{
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, center, wrap);
     margin: 0.5em;
     @include radius-horizontal-group;
     a{
@@ -20,8 +20,14 @@
       }
     }
     &.tab-selected-user #userTab, &.tab-selected-network #networkTab, &.tab-selected-public #publicTab{
-      @include bg-hover(#eee, 0);
+      @include bg-hover($inventory-nav-grey, 0);
       color: $dark-grey;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    a{
+      height: 3em;
     }
   }
 }

@@ -1,9 +1,21 @@
 #inventory{
-  padding: 0.5em;
   background-color: white;
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    padding: 0.5em;
+  }
 }
 
-$inventory-nav-grey: #e6e6e6;
+.selector-button, button{
+  .count{
+    color: $grey;
+    font-weight: normal;
+    padding-left: 0.3em;
+    margin-right: auto;
+  }
+}
+
+$inventory-nav-grey: #eee;
 
 @import "inventory_nav";
 @import "inventory_user_nav";
