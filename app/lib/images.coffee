@@ -1,4 +1,5 @@
 error_ = require 'lib/error'
+dataURLtoBlob = require 'blueimp-canvas-to-blob'
 
 images_ =
   addDataUrlToArray: (file, array, event)->
@@ -38,12 +39,8 @@ images_ =
 
       image.src = dataURL
 
-  canvasToBlob: (canvas)->
-    if _.isCanvas canvas then canvas.toBlob()
-    else throw new Error 'expected a canvas'
-
   dataUrlToBlob: (data)->
-    if _.isDataUrl data then window.dataURLtoBlob data
+    if _.isDataUrl data then dataURLtoBlob data
     else throw new Error 'expected a dataURL'
 
   upload: (container, blobsData, hash = false)->

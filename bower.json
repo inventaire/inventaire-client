@@ -23,7 +23,6 @@
     "backbone-filtered-collection": "~0.4.0",
     "backbone-nested-model": "backbone-nested-afeld#~2.0.4",
     "backbone.marionette": "marionette#2.4.1",
-    "blueimp-canvas-to-blob": "^3.1.0",
     "df-visible": "jquery-visible#~1.2.0",
     "fastclick": ">=0.6.11",
     "imagesloaded": "~3.1.8",

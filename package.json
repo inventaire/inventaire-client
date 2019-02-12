@@ -33,6 +33,7 @@
   "dependencies": {
     "autosize": "^4.0.2",
     "bluebird": "^3.5.3",
+    "blueimp-canvas-to-blob": "^3.14.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
     "fork-awesome": "^1.1.5",
