@@ -16,7 +16,6 @@ module.exports = (_)->
   notifications: endpoint('notifications', true)
   feedback: endpoint('feedback', true)
   tests: endpoint('tests', true)
-  cookie: endpoint('cookie', true)
   i18n: endpoint('i18n', true)
   config: endpoint('config', true)
   # /api/images: API controllers handling images uploading, resizing, etc

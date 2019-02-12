@@ -1,5 +1,5 @@
 { langs:activeLangs } = require 'lib/active_languages'
-cookie_ = require 'lib/cookie'
+cookie_ = require 'js-cookie'
 
 module.exports = (userLanguage)->
   # querystring parameters > other settings sources

@@ -1,10 +1,10 @@
 fetchData = require 'lib/data/fetch'
 MainUser = require '../models/main_user'
-cookie_ = require 'lib/cookie'
+cookie_ = require 'js-cookie'
 
 module.exports = (app)->
   # the cookie is deleted on logout
-  loggedIn = cookie_.get('loggedIn')?
+  loggedIn = _.parseBooleanString cookie_.get('loggedIn')
 
   fetchData
     name: 'user'
