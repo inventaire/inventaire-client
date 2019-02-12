@@ -52,13 +52,15 @@ module.exports =
       invalidateRelationsCache: _.noop
       saveLabel: _.preq.resolve
       create: -> createEntities.create @get('labels'), @get('claims')
-      waitForSubentities: _.preq.resolved
+      fetchSubEntities: Entity::fetchSubEntities
 
       # Methods required by app.navigateFromModel
       updateMetadata: -> { title: label or _.I18n('new entity') }
 
     # Attributes required by app.navigateFromModel
     model.set 'edit', buildPath('/entity/new', options)
+
+    Entity::typeSpecificInit.call model
 
     return model
 

@@ -78,15 +78,18 @@ module.exports = Filterable.extend
     # /!\ Legacy: to be harmonized/merged with @subentities
     @set 'reverseClaims', {}
 
+    @typeSpecificInit()
+
+    if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
+    else @waitForData = Promise.all @_dataPromises
+
+  typeSpecificInit: ->
     switch @type
       when 'human' then initializeAuthor.call @
       when 'serie' then initializeSerie.call @
       when 'work' then initializeWork.call @
       when 'edition' then initializeEdition.call @
       when 'article' then null
-
-    if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
-    else @waitForData = Promise.all @_dataPromises
 
   setCommonAttributes: (attrs)->
     unless attrs.claims?
@@ -122,10 +125,12 @@ module.exports = Filterable.extend
     if invId? then @set 'altUri', "inv:#{invId}"
 
   fetchSubEntities: (refresh)->
-    if not refresh and @waitForSubentities?
-      return @waitForSubentities
+    if not refresh and @waitForSubentities? then return @waitForSubentities
 
     collection = @[@subentitiesName] = new Backbone.Collection
+
+    # A draft entity can't already have subentities
+    if @creating then return @waitForSubentities = _.preq.resolved
 
     uri = @get 'uri'
     prop = @childrenClaimProperty

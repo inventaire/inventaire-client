@@ -69,6 +69,9 @@ specificMethods =
 # Editions inherit some claims from their work but not all, as it could get confusing.
 # Ex: publication date should not be inherited
 inheritData = (works)->
+  # Do not set inherited claims when creating, as they would be sent as part of the claims
+  # of the new entity, and rejected
+  if @creating then return
   # Use cases: used on the edition layout to display authors and series
   setWorksClaims.call @, works, 'wdt:P50'
   setWorksClaims.call @, works, 'wdt:P179'
