@@ -37,6 +37,7 @@ module.exports = (containerSelector, itemSelector, minWidth = 500)->
       $(containerSelector).css 'opacity', 1
 
   refresh = ->
+    require 'imagesloaded'
     # wait for images to be loaded
     $(containerSelector).imagesLoaded initMasonry.bind(@)
 

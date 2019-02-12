@@ -1,5 +1,5 @@
 error_ = require 'lib/error'
-require('jquery-visible')
+require 'jquery-visible'
 
 module.exports = (_)->
   #changing the default attribute to fit CouchDB
