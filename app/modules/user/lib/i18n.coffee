@@ -4,9 +4,9 @@
 # strings were fetched, but it's so much simpler to handle, and less verbose as
 # we don't need to clutter every layout with events listeners like
 # @listenTo app.user, 'change:language', @render
-
 fetchMomentLocale = require './fetch_moment_local'
 uriLabel = require 'lib/uri_label/uri_label'
+Polyglot = require 'node-polyglot'
 
 # Convention: 'lang' always stands for ISO 639-1 two letters language codes
 # (like 'en', 'fr', etc.)
