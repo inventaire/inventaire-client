@@ -1,5 +1,6 @@
 # dependencies: behaviorsPlugin, paginationPlugin
 
+Masonry = require 'masonry-layout'
 screen_ = require 'lib/screen'
 # to keep in sync with _items_list.scss $itemContainerBaseWidth variable
 itemWidth = 230
