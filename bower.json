@@ -31,7 +31,6 @@
     "jquery.inview": "jquery.inview#~1.0.0",
     "masonry": "~3.3.2",
     "moment": "~2.10.6",
-    "bluebird": "~3.4.0",
     "polyglot": "^1.0.0",
     "normalize-css": "^7.0.0"
   },
