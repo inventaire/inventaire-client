@@ -1,5 +1,7 @@
 module.exports =
   input: (e)->
+    # TODO: fix case where Firefox sends 'Process' (keyCode 229) keys instead of 'Enter'
+    #       (or just wait for Firefox to fix it's own mess)
     if e.keyCode is 13 and $(e.currentTarget).val().length > 0
       row = $(e.currentTarget).parents('form, .inputGroup, .enterClickWrapper')[0]
       clickTarget $(row).find('.button, .tiny-button, .saveButton, .enterClickTarget')
