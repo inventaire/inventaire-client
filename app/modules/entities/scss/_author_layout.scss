@@ -13,6 +13,9 @@ $author-layout-bg: #292929;
   // Precising :not(.standalone) to override the selector
   .serieLayout:not(.standalone){
     background-color: $darker-grey;
+    .author-preview{
+      max-width: 17em;
+    }
   }
   .series, .works, .articles{
     &:not(:empty){

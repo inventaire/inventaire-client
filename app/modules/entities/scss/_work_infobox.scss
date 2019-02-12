@@ -129,14 +129,14 @@ $work-infobox-property-color: #999;
   }
     /*Small screens*/
   @media screen and (max-width: 600px) {
-    .author-preview-list ul li{
+    .author-preview{
       min-width: 60%;
       flex: 1 0 auto;
     }
   }
   /*Medium to Large screens*/
   @media screen and (min-width: 600px) {
-    .author-preview-list ul li{
+    .author-preview{
       width: 18.5em;
     }
   }
