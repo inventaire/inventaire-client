@@ -1,3 +1,5 @@
+autosize = require 'autosize'
+
 module.exports = Marionette.Behavior.extend
   ui:
     textarea: 'textarea'
@@ -6,7 +8,7 @@ module.exports = Marionette.Behavior.extend
     'elastic:textarea:update': 'update'
 
   onRender: ->
-    window.autosize @ui.textarea
+    autosize @ui.textarea
 
   update: ->
-    window.autosize.update @ui.textarea
+    autosize.update @ui.textarea

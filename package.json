@@ -31,6 +31,7 @@
     "watch": "brunch watch"
   },
   "dependencies": {
+    "autosize": "^4.0.2",
     "bluebird": "^3.4.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
