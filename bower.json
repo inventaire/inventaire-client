@@ -24,7 +24,6 @@
     "backbone-nested-model": "backbone-nested-afeld#~2.0.4",
     "backbone.marionette": "marionette#2.4.1",
     "jquery.inview": "jquery.inview#~1.0.0",
-    "moment": "~2.10.6",
     "polyglot": "^1.0.0",
     "normalize-css": "^7.0.0"
   },
