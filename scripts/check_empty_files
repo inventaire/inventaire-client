@@ -22,5 +22,5 @@ ls -lh public/js/* |
   # add a colorful label using sed ugly color syntax
   # see http://www.bramschoenmakers.nl/en/node/511.html (Update bottom note)
   sed -e 's/^/\x1b[31mempty file:\x1b[0m/' |
-  sed -e 's/$/\x1b[30m should be fixed by reinstalling scripts by running scripts \x1b[36minstall_external_js_modules \x1b[0m /'
+  sed -e 's/$/\x1b[30m should be fixed by reinstalling scripts by running scripts \x1b[36minstall_external_modules \x1b[0m /'
 

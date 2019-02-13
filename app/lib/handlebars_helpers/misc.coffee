@@ -1,4 +1,4 @@
-{ moment } = window
+moment = require 'moment'
 { SafeString } = Handlebars
 { parseQuery } = requireProxy 'lib/location'
 wdPropPrefix = 'wdt:'

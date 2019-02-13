@@ -1,5 +1,6 @@
 # dependencies: behaviorsPlugin, paginationPlugin
 
+Masonry = require 'masonry-layout'
 screen_ = require 'lib/screen'
 # to keep in sync with _items_list.scss $itemContainerBaseWidth variable
 itemWidth = 230
@@ -36,6 +37,7 @@ module.exports = (containerSelector, itemSelector, minWidth = 500)->
       $(containerSelector).css 'opacity', 1
 
   refresh = ->
+    require 'imagesloaded'
     # wait for images to be loaded
     $(containerSelector).imagesLoaded initMasonry.bind(@)
 

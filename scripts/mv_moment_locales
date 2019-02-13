@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
+set -eu
+
 CWD=$PWD
-bowerMoment=./bower_components/moment/locale
-publicMoment=./public/js/moment
-mkdir -p $publicMoment
+moment_local_folder=./node_modules/moment/locale
+public_moment_folder=./public/js/moment
+mkdir -p $public_moment_folder
 
-cp $bowerMoment/* $publicMoment
-cd $publicMoment
+cp $moment_local_folder/* $public_moment_folder
+cd $public_moment_folder
 
-gzip --best *.js
+gzip --best --force *.js
 cd $CWD
 
 # add a non gziped copy for development
-cp $bowerMoment/* $publicMoment
+cp -f $moment_local_folder/* $public_moment_folder

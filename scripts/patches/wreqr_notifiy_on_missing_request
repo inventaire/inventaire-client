@@ -1,3 +1,0 @@
-bower_components/backbone.wreqr/lib/backbone.wreqr.js
-return this.getHandler(name).apply(this, _.rest(arguments));
-} else { console.warn('Request handler not found: ' + name)

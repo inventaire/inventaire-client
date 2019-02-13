@@ -37,6 +37,10 @@ piwik_base=piwik-3.0.1
 
 ############ INSTALLATIONS ###############
 
+### normalize.css ###
+cp ./node_modules/normalize.css/normalize.css ./vendor/css
+echo -e '\e[0;32mdone copying:\e[0m' normalize.css
+
 ### Quagga ###
 quagga=node_modules/quagga/dist
 cp ${quagga}/quagga.js ${pubjs}/${quagga_base}.js

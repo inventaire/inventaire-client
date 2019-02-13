@@ -1,4 +1,5 @@
-{ moment } = window
+# Needs to be defined globally so that the fetched script can access it
+window.moment = require 'moment'
 
 module.exports = (lang)->
   validLang = pickMomentLang lang

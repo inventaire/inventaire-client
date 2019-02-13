@@ -8,7 +8,7 @@ getEnvPath = (type, pathBase)-> ()->
   if window.env isnt 'dev' then path += '.min'
   return "#{path}.#{type}"
 
-# Keep versions in sync with scripts/install_external_js_modules
+# Keep versions in sync with scripts/install_external_modules
 quaggaBase = 'quagga-0.11.5'
 isbn2Base = 'isbn2-0.1.8'
 papaparseBase = 'papaparse-4.1.2'

@@ -1,8 +1,8 @@
 UserCommons = require 'modules/users/models/user_commons'
 solveLang = require '../lib/solve_lang'
-cookie_ = require 'lib/cookie'
 notificationsList = require 'modules/settings/lib/notifications_settings_list'
 initI18n = require '../lib/i18n'
+cookie_ = require 'js-cookie'
 { location } = window
 
 module.exports = UserCommons.extend
@@ -64,7 +64,7 @@ module.exports = UserCommons.extend
     else
       # the language setting is persisted as a cookie instead
       cookie_.set 'lang', lang
-      .then reload
+      reload()
 
   setDefaultSettings: (settings)->
     { notifications } = settings

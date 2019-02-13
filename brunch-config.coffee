@@ -7,22 +7,12 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'js/vendor.js': /^(vendor\/js|bower_components|node_modules)/
+        'js/vendor.js': /^(vendor\/js|node_modules)/
         'js/app.js': /^app/
-      order:
-        before: [
-          "bower_components/jquery/dist/jquery.js"
-          "bower_components/underscore/underscore.js"
-          "bower_components/backbone/backbone.js"
-        ],
-        after: [
-          "bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"
-          "vendor/*"
-        ]
 
     stylesheets:
       joinTo:
-        'css/vendor.css': /^(vendor\/css|bower_components)/
+        'css/vendor.css': /^vendor\/css/
         'css/app.css': /^app/
 
     templates:
@@ -43,6 +33,6 @@ exports.config =
         autoReload:
           enabled: false
         postcss:
-            processors: [
-              require('autoprefixer')(['> 1%', 'last 3 versions']),
-            ]
+          processors: [
+            require('autoprefixer')(['> 1%', 'last 3 versions']),
+          ]
