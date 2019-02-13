@@ -1,5 +1,3 @@
-window.Promise = require 'bluebird'
-
 # roughtly addressing the general case
 if location.hostname.match /^(localhost|192\.168)/ then window.env = 'dev'
 else window.env = 'prod'

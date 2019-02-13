@@ -57,11 +57,6 @@ App = Marionette.Application.extend
     Backbone.history.navigate route, options
     unless options.preventScrollTop then scrollToPageTop()
 
-  goTo: (route, options)->
-    options or= {}
-    options.trigger = true
-    Backbone.history.navigate(route, options)
-
   navigateReplace: (route, options)->
     options or= {}
     options.replace = true

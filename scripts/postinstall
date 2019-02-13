@@ -10,8 +10,6 @@ mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./
 ./scripts/install_external_modules
 ./scripts/update_mentions.coffee
 
-bower install
-
 ./scripts/build_i18n
 
 ./scripts/mv_moment_locales
