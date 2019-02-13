@@ -6,7 +6,7 @@ module.exports = (query)->
 
   # If the query matches a lang code, only return the matching language
   codeLang = wdLang.byCode[query]
-  if codeLang? then return _.preq.resolve [ formatAsSearchResult(codeLang) ]
+  if codeLang? then return Promise.resolve [ formatAsSearchResult(codeLang) ]
 
   re = new RegExp query, 'i'
   # one more reason to move to Lodash asap, this would really need lazy evaluation
@@ -19,7 +19,7 @@ module.exports = (query)->
     .map formatAsSearchResult
     .value()
 
-  _.preq.resolve results
+  Promise.resolve results
 
 formatAsSearchResult = (result)->
   if result._formatted then return result

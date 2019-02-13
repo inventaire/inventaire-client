@@ -38,7 +38,6 @@
     "backbone.babysitter": "git+https://github.com/maxlath/backbone.babysitter.git#master",
     "backbone.marionette": "git+https://github.com/maxlath/backbone.marionette.git#master",
     "backbone.wreqr": "git+https://github.com/maxlath/backbone.wreqr.git#master",
-    "bluebird": "^3.5.3",
     "blueimp-canvas-to-blob": "^3.14.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
@@ -57,6 +56,7 @@
     "node-polyglot": "^2.3.0",
     "normalize.css": "^8.0.1",
     "papaparse": "^4.1.2",
+    "promise-polyfill": "^8.1.0",
     "quagga": "^0.12.1",
     "underscore": "^1.8.3",
     "wikidata-lang": "^2.0.8"

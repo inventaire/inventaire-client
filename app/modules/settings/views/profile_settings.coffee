@@ -64,7 +64,7 @@ module.exports = Marionette.ItemView.extend
   # USERNAME
   updateUsername: ->
     username = @ui.username.val()
-    _.preq.try @testUsername.bind(@, username)
+    Promise.try @testUsername.bind(@, username)
     .then =>
       # if the username update is just a change in case
       # it should be rejected because the username is already taken
@@ -107,7 +107,7 @@ module.exports = Marionette.ItemView.extend
 
   updateEmail: ->
     email = @ui.email.val()
-    _.preq.try @testEmail.bind(@, email)
+    Promise.try @testEmail.bind(@, email)
     .then @startLoading.bind(@, '#emailButton')
     .then email_.verifyAvailability.bind(null, email, '#emailField')
     .then @sendEmailRequest.bind(@, email)
@@ -153,7 +153,7 @@ module.exports = Marionette.ItemView.extend
     currentPassword = @ui.currentPassword.val()
     newPassword = @ui.newPassword.val()
 
-    _.preq.try -> password_.pass currentPassword, '#currentPasswordAlert'
+    Promise.try -> password_.pass currentPassword, '#currentPasswordAlert'
     .then -> password_.pass newPassword, '#newPasswordAlert'
     .then @startLoading.bind(@, '#updatePassword')
     .then @confirmCurrentPassword.bind(@, currentPassword)

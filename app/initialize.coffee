@@ -1,4 +1,4 @@
-window.Promise = require 'bluebird'
+window.Promise = require 'lib/promises'
 
 window.$ = window.jQuery = require 'jquery'
 require 'jquery-visible'

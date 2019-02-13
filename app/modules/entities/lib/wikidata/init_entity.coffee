@@ -50,11 +50,11 @@ setAttributes = (lang)->
 specificMethods =
   getWikipediaExtract: ->
     # If an extract was already fetched, we are done
-    if @get('extract')? then return _.preq.resolved
+    if @get('extract')? then return Promise.resolved
 
     lang = @get 'wikipedia.lang'
     title = @get 'wikipedia.title'
-    unless lang? and title? then return _.preq.resolved
+    unless lang? and title? then return Promise.resolved
 
     wikipedia_.extract lang, title
     .then _setWikipediaExtractAndDescription.bind(@)

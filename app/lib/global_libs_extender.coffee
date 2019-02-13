@@ -64,7 +64,7 @@ module.exports = (_)->
       # Backbone classes have some inconsistent APIs
       # like Model::delete that can return 'false' instead of a jQuery promise
       if result.then? then _.preq.wrap result, arguments
-      else _.preq.resolve result
+      else Promise.resolve result
 
     ClassObj.prototype[fnName] = wrappedFn
 

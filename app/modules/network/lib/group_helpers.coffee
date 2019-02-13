@@ -9,7 +9,7 @@ module.exports = ->
 
     # the group model might have arrived from a simple search
     # thus without fetching its users
-    if group.usersFetched then _.preq.resolve group
+    if group.usersFetched then Promise.resolve group
     else getGroupPublicData null, group
 
   getGroupPublicData = (id, groupModel)->

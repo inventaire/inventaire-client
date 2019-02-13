@@ -71,7 +71,7 @@ module.exports = Marionette.ItemView.extend
 
     @position = newCoords
 
-    _.preq.try @options.resolve.bind(null, newCoords, selector)
+    Promise.try @options.resolve.bind(null, newCoords, selector)
     .then stopLoading.bind(@)
     .then Check.call(@, '_updatePosition', @close.bind(@))
     .catch error_.Complete('.alertBox')

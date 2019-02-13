@@ -229,7 +229,7 @@ getEntitiesModels = (params)->
   # Make sure its a 'true' flag and not an object incidently passed
   refresh = refresh is true
 
-  if uris.length is 0 then return _.preq.resolve []
+  if uris.length is 0 then return Promise.resolve []
 
   entitiesModelsIndex.get { uris, refresh, defaultType }
   # Do not return entities with type 'missing'.

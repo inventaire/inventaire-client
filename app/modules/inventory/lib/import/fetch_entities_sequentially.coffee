@@ -20,7 +20,7 @@ module.exports = (isbnsData)->
       isbnData.uri = "isbn:#{isbnData.isbn13}"
       uris.push isbnData.uri
 
-  if uris.length is 0 then return _.preq.resolve { results: commonRes, isbnsIndex }
+  if uris.length is 0 then return Promise.resolve { results: commonRes, isbnsIndex }
 
   total = uris.length
 

@@ -13,7 +13,7 @@ module.exports = (app)->
 
   async =
     fetchUsersData: (ids)->
-      unless ids.length > 0 then return _.preq.resolve []
+      unless ids.length > 0 then return Promise.resolve []
 
       missingIds = _.difference ids, app.users.allIds()
 
@@ -21,10 +21,10 @@ module.exports = (app)->
       .then addUsers
 
     getUserModel: (id, refresh)->
-      if id is app.user.id then return _.preq.resolve app.user
+      if id is app.user.id then return Promise.resolve app.user
 
       model = app.users.byId id
-      if model? and not refresh then _.preq.resolve model
+      if model? and not refresh then Promise.resolve model
       else
         usersData.get id, 'collection'
         .then addUser
@@ -38,7 +38,7 @@ module.exports = (app)->
         else missingUsersIds.push id
 
       if missingUsersIds.length is 0
-        _.preq.resolve foundUsersModels
+        Promise.resolve foundUsersModels
       else
         usersData.get missingUsersIds, 'collection'
         .then addUsers
@@ -46,7 +46,7 @@ module.exports = (app)->
 
     resolveToUserModel: (user)->
       # 'user' is either the user model, a user id, or a username
-      if _.isModel(user) then return _.preq.resolve user
+      if _.isModel(user) then return Promise.resolve user
       else
         if _.isUserId user
           userId = user
@@ -67,12 +67,12 @@ module.exports = (app)->
   getUserModelFromUsername = (username)->
     username = username.toLowerCase()
     if app.user.loggedIn and username is app.user.get('username').toLowerCase()
-      return _.preq.resolve app.user
+      return Promise.resolve app.user
 
     userModel = app.users.find (model)->
       model.get('username').toLowerCase() is username.toLowerCase()
 
-    if userModel? then return _.preq.resolve userModel
+    if userModel? then return Promise.resolve userModel
 
     usersData.byUsername username
     .then addUser

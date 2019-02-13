@@ -2,7 +2,6 @@
 { get } = require 'bluereq'
 _ = require 'lodash'
 { green, grey, red } = require 'chalk'
-Promise = require '../lib/bluebird'
 
 root = require('./get_root')()
 # you should have an instance of prerender listening on port 3000

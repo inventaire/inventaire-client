@@ -12,7 +12,7 @@ fetchWorksAndAuthorsUris = (genreModel)->
   reverseClaims = genreModel.get 'reverseClaims'
   if reverseClaims?
     { 'wdt:P135':P135, 'wdt:P136':P136 } = reverseClaims
-    if P135? or P136? then return _.preq.resolved
+    if P135? or P136? then return Promise.resolved
 
   Promise.all [
     getReverseClaims('wdt:P135', genreModel) #mouvement
@@ -40,7 +40,7 @@ fetchWorksAndAuthorsEntities = (genreModel, limit = 10, offset = 0)->
 
   unless range.length > 0
     _.warn 'no more uris: range is empty'
-    return _.preq.resolved
+    return Promise.resolved
 
   return app.request 'get:entities:models', { uris: range }
 

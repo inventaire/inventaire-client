@@ -66,7 +66,7 @@ module.exports = Backbone.NestedModel.extend
     # testing the original url existance as it imageHasChanged alone
     # wouldn't detect that a new image from file
     originalUrl = @get('url')
-    if originalUrl? and not @imageHasChanged() then return _.preq.resolve originalUrl
+    if originalUrl? and not @imageHasChanged() then return Promise.resolve originalUrl
 
     images_.upload container,
       blob: images_.dataUrlToBlob @getFinalDataUrl()

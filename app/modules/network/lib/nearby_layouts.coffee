@@ -20,11 +20,11 @@ initMap = (params)->
 solvePosition = (coords)->
   # priority is given to passed parameters
   { lat, lng, zoom } = coords
-  if lat? and lng? then return _.preq.resolve coords
+  if lat? and lng? then return Promise.resolve coords
 
   # then to the user saved position
   { user } = app
-  if user.hasPosition() then return _.preq.resolve user.getCoords()
+  if user.hasPosition() then return Promise.resolve user.getCoords()
 
   # finally a request for the user position is issued
   map_.getCurrentPosition containerId

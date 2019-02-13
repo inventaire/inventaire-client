@@ -8,7 +8,7 @@ global.window =
   # for when window is undefined
   location: {}
 global.document = {}
-global.Promise = require 'bluebird'
+global.Promise = __.require 'lib', 'promises'
 global.navigator =
   platform: 'None in particular'
 

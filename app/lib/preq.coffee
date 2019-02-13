@@ -1,14 +1,5 @@
 { reportError } = requireProxy 'lib/reports'
 
-Promise::fail = Promise::caught
-Promise::always = Promise::finally
-
-Promise.onPossiblyUnhandledRejection (err)->
-  console.error err.stack
-  reportError err
-
-preq = require './promises'
-
 Ajax = (verb, hasBody)->
   return ajax = (url, body)->
 
@@ -25,13 +16,15 @@ Ajax = (verb, hasBody)->
     return wrap $.ajax(options), options
     .then parseJson
 
-requestAssets = require './request_assets'
-
-module.exports = _.extend preq, requestAssets,
+preq =
   get: Ajax 'GET', false, true
   post: Ajax 'POST', true
   put: Ajax 'PUT', true
   delete: Ajax 'DELETE', false
+
+requestAssets = require './request_assets'
+
+module.exports = _.extend preq, requestAssets,
 
 preq.wrap = wrap = (jqPromise, context)->
   return new Promise (resolve, reject)->

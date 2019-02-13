@@ -3,7 +3,7 @@ module.exports =
     ids = _.forceArray ids
 
     if ids.length is 0
-      promise = _.preq.resolve {}
+      promise = Promise.resolve {}
     else
       promise = getUsersByIds ids
 
@@ -13,7 +13,7 @@ module.exports =
 
   search: (text)->
     # catches case with ''
-    if _.isEmpty(text) then return _.preq.resolve []
+    if _.isEmpty(text) then return Promise.resolve []
 
     _.preq.get app.API.users.search(text)
     .get 'users'

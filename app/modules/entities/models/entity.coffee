@@ -68,7 +68,7 @@ module.exports = Filterable.extend
     # For instance, parts of a serie will default have a defaultType='work'
     unless @type
       # Placeholder
-      @waitForData = _.preq.resolved
+      @waitForData = Promise.resolved
       return
 
     if @get('edit')? then _.extend @, editableEntity
@@ -80,7 +80,7 @@ module.exports = Filterable.extend
 
     @typeSpecificInit()
 
-    if @_dataPromises.length is 0 then @waitForData = _.preq.resolved
+    if @_dataPromises.length is 0 then @waitForData = Promise.resolved
     else @waitForData = Promise.all @_dataPromises
 
   typeSpecificInit: ->
@@ -130,7 +130,7 @@ module.exports = Filterable.extend
     collection = @[@subentitiesName] = new Backbone.Collection
 
     # A draft entity can't already have subentities
-    if @creating then return @waitForSubentities = _.preq.resolved
+    if @creating then return @waitForSubentities = Promise.resolved
 
     uri = @get 'uri'
     prop = @childrenClaimProperty
@@ -179,8 +179,8 @@ module.exports = Filterable.extend
 
   # Override in with type-specific methods
   buildTitle: -> @get 'label'
-  buildTitleAsync: -> _.preq.resolve @buildTitle()
-  getImageAsync: -> _.preq.resolve @get('image')
+  buildTitleAsync: -> Promise.resolve @buildTitle()
+  getImageAsync: -> Promise.resolve @get('image')
   getImageSrcAsync: ->
     @getImageAsync()
     # Let app/lib/metadata/apply_transformers format the URL with app.API.img
@@ -206,7 +206,7 @@ module.exports = Filterable.extend
 
   # Overriden by modules/entities/lib/wikidata/init_entity.coffee
   # for Wikidata entities
-  getWikipediaExtract: -> _.preq.resolved
+  getWikipediaExtract: -> Promise.resolved
 
 placeholderAttributes =
   labels: {}

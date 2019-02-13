@@ -17,7 +17,7 @@ module.exports = (typesString, defaultTypeString)->
   getModelsFromClaims: (property)->
     uris = @get "claims.#{property}"
     if uris?.length > 0 then app.request 'get:entities:models', { uris }
-    else _.preq.resolve []
+    else Promise.resolve []
 
   getExtendedAuthorsUris: ->
     _.chain authorProperties

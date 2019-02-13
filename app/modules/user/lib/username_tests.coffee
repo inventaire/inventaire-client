@@ -14,7 +14,7 @@ module.exports = username_ =
       throw err
 
 username_.verifyUsername = (username, selector)->
-  _.preq.try username_.pass.bind(null, username, selector)
+  Promise.try username_.pass.bind(null, username, selector)
   .then username_.verifyAvailability.bind(null, username, selector)
 
 usernameTests =

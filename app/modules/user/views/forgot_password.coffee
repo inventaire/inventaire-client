@@ -41,7 +41,7 @@ module.exports = Marionette.ItemView.extend
 
   sendEmail: ->
     email = @ui.email.val()
-    _.preq.try -> email_.pass email, '#emailField'
+    Promise.try -> email_.pass email, '#emailField'
     .then @startLoading.bind(@, '#emailButton')
     .then verifyKnownEmail.bind(null, email)
     .then @sendResetPasswordLink.bind(@, email)

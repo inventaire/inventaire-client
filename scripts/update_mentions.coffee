@@ -9,17 +9,17 @@ __ = CONFIG.universalPath
 { omit } = require 'lodash'
 { green, red } = require 'chalk'
 
-Promise = require './lib/bluebird'
 fs = require 'fs'
-readFile = Promise.promisify fs.readFile
-writeFile = Promise.promisify fs.writeFile
+{ promisify } = require 'util'
+readFile = promisify fs.readFile
+writeFile = promisify fs.writeFile
 
 linkify = __.require 'client', 'app/lib/handlebars_helpers/linkify'
 convertMarkdown = __.require('i18nSrc', 'lib/convert_markdown')(linkify)
 
 { Converter }  = require 'csvtojson'
 converter = new Converter {}
-convertFromString = Promise.promisify converter.fromString.bind(converter)
+convertFromString = promisify converter.fromString.bind(converter)
 
 csvFile = __.path 'client', 'scripts/assets/mentions.csv'
 jsonFile = __.path 'client', 'public/json/mentions.json'
