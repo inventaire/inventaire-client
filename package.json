@@ -37,6 +37,7 @@
     "backbone-nested": "^2.0.4",
     "backbone.babysitter": "git+https://github.com/maxlath/backbone.babysitter.git#master",
     "backbone.marionette": "git+https://github.com/maxlath/backbone.marionette.git#master",
+    "backbone.wreqr": "git+https://github.com/maxlath/backbone.wreqr.git#master",
     "bluebird": "^3.5.3",
     "blueimp-canvas-to-blob": "^3.14.0",
     "cropper": "^2.3.0",

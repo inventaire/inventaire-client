@@ -8,6 +8,8 @@ window._ = require 'underscore'
 
 window.Backbone = require 'backbone'
 Backbone.$ = $
+Backbone.Wreqr = require 'backbone.wreqr'
+require 'backbone.babysitter'
 window.Marionette = require 'backbone.marionette'
 window.FilteredCollection = require 'backbone-filtered-collection'
 require 'backbone-nested'
