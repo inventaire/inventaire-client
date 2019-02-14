@@ -17,10 +17,10 @@ create_content_hash_copies(){
   # Copy associated map file
   cp "${root_path}.${extension}.map" "${root_path}.${content_hash}.${extension}.map"
   # Gzip those new files
-  gzip --best --force < "${root_path}.${content_hash}.${extension}" > "${root_path}.${content_hash}.${extension}.gz"
-  gzip --best --force < "${root_path}.${content_hash}.${extension}.map" > "${root_path}.${content_hash}.${extension}.map.gz"
+  gzip --best --force --keep "${root_path}.${content_hash}.${extension}"
+  gzip --best --force --keep "${root_path}.${content_hash}.${extension}.map"
   # Gzip the file without content hash to make it easy to access to ./weight_watcher
-  gzip --best --force < "${root_path}.${extension}" > "${root_path}.${extension}.gz"
+  gzip --best --force --keep "${root_path}.${extension}"
   # Update index.html with the new file paths
   sed -i "s@${root_path}.${extension}@${root_path}.${content_hash}.${extension}@" public/index.html
 }

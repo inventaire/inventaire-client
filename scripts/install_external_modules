@@ -45,7 +45,7 @@ echo -e '\e[0;32mdone copying:\e[0m' normalize.css
 quagga=node_modules/quagga/dist
 cp ${quagga}/quagga.js ${pubjs}/${quagga_base}.js
 cp ${quagga}/quagga.min.js ${pubjs}/${quagga_base}.min.js
-gzip --best --keep "${pubjs}/${quagga_base}.min.js"
+gzip -9kf "${pubjs}/${quagga_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m' quagga
 
 
@@ -54,7 +54,7 @@ isbn2=node_modules/isbn2
 cp ${isbn2}/isbn.js ${pubjs}/${isbn_base}.js
 cp ${isbn2}/isbn.js ${pubjs}/${isbn_base}.min.js
 uglifyInPlace ${pubjs}/${isbn_base}.min.js
-gzip --best --keep "${pubjs}/${isbn_base}.min.js"
+gzip -9kf "${pubjs}/${isbn_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m' isbn2
 
 
@@ -63,7 +63,7 @@ cp node_modules/papaparse/papaparse.js ${pubjs}/${papaparse_base}.js
 cp node_modules/papaparse/papaparse.min.js ${pubjs}/${papaparse_base}.min.js
 # Re-minifying to remove comments
 uglifyInPlace ${pubjs}/${papaparse_base}.min.js
-gzip --best --keep "${pubjs}/${papaparse_base}.min.js"
+gzip -9kf "${pubjs}/${papaparse_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m' papaparse
 
 
@@ -71,11 +71,11 @@ echo -e '\e[0;32mdone copying:\e[0m' papaparse
 cropper=node_modules/cropper/dist
 cp ${cropper}/cropper.css ${pubcss}/${cropper_base}.css
 cleancss ${pubcss}/${cropper_base}.css > ${pubcss}/${cropper_base}.min.css
-gzip --best --keep "${pubcss}/${cropper_base}.min.css"
+gzip -9kf "${pubcss}/${cropper_base}.min.css"
 cp ${cropper}/cropper.js ${pubjs}/${cropper_base}.js
 cp ${cropper}/cropper.min.js ${pubjs}/${cropper_base}.min.js
 uglifyInPlace ${pubjs}/${cropper_base}.min.js
-gzip --best --keep "${pubjs}/${cropper_base}.min.js"
+gzip -9kf "${pubjs}/${cropper_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m cropper'
 
 
@@ -96,10 +96,10 @@ addToBundle ${leafletmc}/leaflet.markercluster-src.js ${pubjs}/${leaflet_base}.j
 addToBundle ${leafletmc}/leaflet.markercluster.js ${pubjs}/${leaflet_base}.min.js
 
 cleancss ${pubcss}/${leaflet_base}.css > ${pubcss}/${leaflet_base}.min.css
-gzip --best --keep "${pubcss}/${leaflet_base}.min.css"
+gzip -9kf "${pubcss}/${leaflet_base}.min.css"
 # Re-minifying to remove comments
 uglifyInPlace ${pubjs}/${leaflet_base}.min.js
-gzip --best --keep "${pubjs}/${leaflet_base}.min.js"
+gzip -9kf "${pubjs}/${leaflet_base}.min.js"
 echo -e '\e[0;32mdone copying:\e[0m leaflet and leaflet.markercluster'
 
 
@@ -109,7 +109,7 @@ curl -sk https://piwik.allmende.io/piwik.js > ${pubjs}/${piwik_base}.js
 cp ${pubjs}/${piwik_base}.js ${pubjs}/${piwik_base}.min.js
 # Re-minifying to remove comments
 uglifyInPlace ${pubjs}/${piwik_base}.min.js
-gzip --best --keep "${pubjs}/${piwik_base}.min.js"
+gzip -9kf "${pubjs}/${piwik_base}.min.js"
 echo -e '\e[0;32mdone downloading:\e[0m piwik'
 
 ### ForkAwesome ###

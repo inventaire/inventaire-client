@@ -14,15 +14,15 @@ echo -e '\e[0;30mgzip js, css, and font files\e[0m'
 ./scripts/set_content_hash_cache_bust
 
 rm -f public/json/*.gz
-gzip --best --keep public/json/*.json
+gzip -9kf public/json/*.json
 
 rm -f public/fonts/*.gz
-gzip --best --keep public/fonts/*
+gzip -9kf public/fonts/*
 
 echo -e '\e[0;30mgzip index.html\e[0m'
-gzip --best < public/index.html > public/index.html.gz
+gzip -9kf public/index.html
 echo -e '\e[0;30mgzip robots.txt\e[0m'
-gzip --best < public/robots.txt > public/robots.txt.gz
+gzip -9kf public/robots.txt
 
 # Run once every now and then
 [ "${RANDOM:0:1}" = 9 ] && {
