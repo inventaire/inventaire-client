@@ -1,7 +1,6 @@
 breq = require 'bluereq'
 _ = require 'lodash'
 writeSitemap = require './write_sitemap'
-Promise = require '../lib/bluebird'
 { folder } = require './config'
 { green, blue } = require 'chalk'
 wdk = require 'wikidata-sdk'

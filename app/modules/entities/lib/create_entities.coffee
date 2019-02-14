@@ -19,7 +19,7 @@ createAuthors = (authorsNames, lang)->
   if authorsNames?.length > 0
     return Promise.all authorsNames.map (name)-> createAuthor name, lang
   else
-    return _.preq.resolve []
+    return Promise.resolve []
 
 # Droping the 's' in 'series' to mark the difference with the plural form
 createSerie = (name, lang, wdtP50)->

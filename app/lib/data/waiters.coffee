@@ -40,12 +40,15 @@ module.exports = ->
     'waiter:resolve': resolve
     'waiter:reject': reject
 
-  check = ->
-    for key, promise of waitersPromises
-      if promise.isPending()
-        _.warn "#{key} data waiter is still pending"
+  # TODO: re-implement the check without promise.isPending
+  # as it was part of Bluebird, which was replaced by a lighter implementation
 
-  setTimeout check, 5000
+  # check = ->
+  #   for key, promise of waitersPromises
+      # if promise.isPending()
+      #   _.warn "#{key} data waiter is still pending"
+
+  # setTimeout check, 5000
 
 resolve = (name, args...)->
   waiter = getWaiter name

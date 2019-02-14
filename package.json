@@ -1,13 +1,11 @@
 {
-  "author": "maxlath",
   "name": "inventaire-client",
   "description": "a libre collaborative resources mapper powered by open-knowledge (client-side)",
-  "version": "2.1.0",
   "license": "AGPL-3.0",
   "homepage": "https://inventaire.io",
   "repository": {
     "type": "git",
-    "url": "http://github.com/maxlath/inventaire-client"
+    "url": "http://github.com/inventaire/inventaire-client"
   },
   "engines": {
     "node": ">= 6.4"
@@ -35,10 +33,9 @@
     "backbone": "1.1.2",
     "backbone-filtered-collection": "^0.4.0",
     "backbone-nested": "^2.0.4",
-    "backbone.babysitter": "git+https://github.com/maxlath/backbone.babysitter.git#master",
-    "backbone.marionette": "git+https://github.com/maxlath/backbone.marionette.git#master",
-    "backbone.wreqr": "git+https://github.com/maxlath/backbone.wreqr.git#master",
-    "bluebird": "^3.5.3",
+    "backbone.babysitter": "git+https://github.com/inventaire/backbone.babysitter.git#master",
+    "backbone.marionette": "git+https://github.com/inventaire/backbone.marionette.git#master",
+    "backbone.wreqr": "git+https://github.com/inventaire/backbone.wreqr.git#master",
     "blueimp-canvas-to-blob": "^3.14.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
@@ -53,10 +50,10 @@
     "leaflet.markercluster": "^1.3.0",
     "leven": "^2.1.0",
     "masonry-layout": "^4.2.2",
-    "moment": "^2.24.0",
     "node-polyglot": "^2.3.0",
     "normalize.css": "^8.0.1",
     "papaparse": "^4.1.2",
+    "promise-polyfill": "^8.1.0",
     "quagga": "^0.12.1",
     "underscore": "^1.8.3",
     "wikidata-lang": "^2.0.8"

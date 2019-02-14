@@ -12,7 +12,7 @@ module.exports = ->
   @set 'allUris', [ @get('uri') ]
 
   # No subentities to fetch
-  @waitForSubentities = _.preq.resolved
+  @waitForSubentities = Promise.resolved
 
   @initWorksRelations()
 
@@ -21,7 +21,7 @@ module.exports = ->
 specificMethods =
   buildTitleAsync: ->
     title = @get 'claims.wdt:P1476.0'
-    if title then _.preq.resolve title
+    if title then Promise.resolve title
     # Legacy: all editions are now expected to have a title (wdt:P1476) claim
     else @waitForWorks.then (works)-> works.map((work)-> work.buildTitle()).join(' / ')
 
@@ -83,6 +83,6 @@ setWorksClaims = (works, property)->
 
 startListeningForClaimsChanges = ->
   @on 'change:claims', @onClaimsChange.bind(@)
-  # Do no return the event listener return value as it makes Bluebird crash
+  # Do no return the event listener return value as it was making Bluebird crash
   # (at least when passed to a .then)
   return

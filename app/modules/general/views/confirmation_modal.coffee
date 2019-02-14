@@ -32,7 +32,7 @@ module.exports = Marionette.ItemView.extend
 
   yes: ->
     { action, selector } = @options
-    _.preq.try @executeFormAction.bind(@)
+    Promise.try @executeFormAction.bind(@)
     .then action
     .then @success.bind(@)
     .catch @error.bind(@)

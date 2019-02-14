@@ -4,7 +4,6 @@
 # strings were fetched, but it's so much simpler to handle, and less verbose as
 # we don't need to clutter every layout with events listeners like
 # @listenTo app.user, 'change:language', @render
-fetchMomentLocale = require './fetch_moment_local'
 uriLabel = require 'lib/uri_label/uri_label'
 Polyglot = require 'node-polyglot'
 
@@ -42,9 +41,6 @@ setLanguage = (lang, missingKeyWarn)->
   return requestI18nFile app.polyglot, lang
 
 requestI18nFile = (polyglot, lang)->
-  # If possible, let the whole lang as fetchMomentLocale as its own lang resolver
-  fetchMomentLocale lang
-
   _.preq.get app.API.i18nStrings(lang)
   .then updatePolyglot.bind(null, polyglot, lang)
   .catch _.ErrorRethrow("i18n: failed to get the i18n file for #{lang}")

@@ -27,7 +27,7 @@ module.exports = Marionette.ItemView.extend
   updatePassword: ->
     password = @ui.password.val()
 
-    _.preq.try -> password_.pass password, '#finalAlertbox'
+    Promise.try -> password_.pass password, '#finalAlertbox'
     .then @startLoading.bind(@, '#updatePassword')
     .then @ifViewIsIntact('updateUserPassword', password)
     .then @ifViewIsIntact('passwordSuccessCheck')

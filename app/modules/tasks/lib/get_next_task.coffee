@@ -13,7 +13,7 @@ module.exports = (params = {})->
   { lastTaskModel } = params
 
   if lastTaskModel?
-    if backlogs.byAuthor.length isnt 0 then return _.preq.resolve nextTaskModel('byAuthor')
+    if backlogs.byAuthor.length isnt 0 then return Promise.resolve nextTaskModel('byAuthor')
     suggestionUri = lastTaskModel.get 'suggestionUri'
     unless suggestionUri in suggestionUrisFetched then return getNextTaskBySuggestionUri params
 
@@ -33,7 +33,7 @@ getNextTaskBySuggestionUri = (params)->
     return updateBacklogAndGetNextTask tasks, 'byAuthor'
 
 getNextTaskByScore = (params)->
-  if backlogs.byScore.length isnt 0 then return _.preq.resolve nextTaskModel('byScore')
+  if backlogs.byScore.length isnt 0 then return Promise.resolve nextTaskModel('byScore')
   { offset, previousTasks } = params
 
   # If an offset isn't specified, use a random offset between 0 and 500

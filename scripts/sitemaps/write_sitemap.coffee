@@ -1,6 +1,6 @@
 fs = require 'fs'
-Promise = require '../lib/bluebird'
-writeFile = Promise.promisify fs.writeFile
+{ promisify } = require 'util'
+writeFile = promisify fs.writeFile
 { grey, red, green } = require 'chalk'
 
 module.exports = (path, content)->

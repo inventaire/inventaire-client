@@ -30,7 +30,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     { task } = @options
-    if _.isModel task then @showTask _.preq.resolve(task)
+    if _.isModel task then @showTask Promise.resolve(task)
     else if task? then @showFromId task
     else @showNextTask()
 

@@ -76,7 +76,7 @@ module.exports = Marionette.ItemView.extend
   editName:->
     name = @ui.editNameField.val()
     if name?
-      _.preq.try groups_.validateName.bind(@, name, '#editNameField')
+      Promise.try groups_.validateName.bind(@, name, '#editNameField')
       .then => @_updateGroup 'name', name, '#editNameField'
       .catch forms_.catchAlert.bind(null, @)
 
@@ -128,7 +128,7 @@ module.exports = Marionette.ItemView.extend
     @_saveCancelShown = false
     description = @ui.description.val()
     if description?
-      _.preq.try groups_.validateDescription.bind(@, description, '#description')
+      Promise.try groups_.validateDescription.bind(@, description, '#description')
       .then => @_updateGroup 'description', description, '#description'
       .catch forms_.catchAlert.bind(null, @)
 

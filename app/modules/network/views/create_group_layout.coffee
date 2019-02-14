@@ -65,7 +65,7 @@ module.exports = Marionette.LayoutView.extend
 
     _.log data, 'group data'
 
-    _.preq.try groups_.validateName.bind(@, name, '#nameField')
+    Promise.try groups_.validateName.bind(@, name, '#nameField')
     .then groups_.validateDescription.bind(@, description, '#description')
     .then groups_.createGroup.bind(null, data)
     .then app.Execute('show:group:board')

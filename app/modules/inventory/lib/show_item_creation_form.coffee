@@ -23,7 +23,7 @@ module.exports = (params)->
   if preventduplicates
     waiter = app.request 'item:main:user:instances', uri
   else
-    waiter = _.preq.resolved
+    waiter = Promise.resolved
 
   waiter
   .then (existingInstances)->

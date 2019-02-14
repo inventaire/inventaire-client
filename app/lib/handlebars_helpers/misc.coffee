@@ -1,6 +1,6 @@
-moment = require 'moment'
 { SafeString } = Handlebars
 { parseQuery } = requireProxy 'lib/location'
+timeFromNow = requireProxy 'lib/time_from_now'
 wdPropPrefix = 'wdt:'
 
 module.exports =
@@ -71,7 +71,10 @@ module.exports =
 
   localTimeString: (time)-> if time? then new Date(time).toLocaleString()
 
-  timeFromNow: (time)-> if time? then moment(time).fromNow()
+  timeFromNow: (time)->
+    unless time? then return
+    { key, amount } = timeFromNow time
+    return _.i18n key, { smart_count: amount }
 
   stringify: (obj)->
     if _.isString obj then obj

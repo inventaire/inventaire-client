@@ -170,10 +170,8 @@ module.exports = Marionette.ItemView.extend
     window.history.back()
 
   onDestroy: ->
-    # Cancelling the promise to let the opportunity to Quagga to stop properly
-    # and avoid having a promise unfulfilled.
-    # Has no effect if the promise is already fulfilled
-    @scanner.cancel()
+    # TODO: cancel the promise
+    # (was implemented but removed when Bluebird was removed)
 
 iconPerType =
   success: 'check'

@@ -70,5 +70,5 @@ module.exports = Marionette.LayoutView.extend
 # no need to fetch mentions data more than once per session
 mentionsData = null
 getMentionsData = ->
-  if mentionsData? then _.preq.resolve mentionsData
+  if mentionsData? then Promise.resolve mentionsData
   else _.preq.get app.API.json('mentions')

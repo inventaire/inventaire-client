@@ -11,5 +11,5 @@
 </div>
 <div class="rest {{#if sameUser}}sameUser{{/if}}">
   <p class="message-text">{{userContent message}}</p>
-  <p class="time">{{timeFromNow created}}</p>
+  <p class="time" title="{{localTimeString created}}">{{timeFromNow created}}</p>
 </div>
