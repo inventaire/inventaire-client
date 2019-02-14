@@ -12,7 +12,5 @@ mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./
 
 ./scripts/build_i18n
 
-./scripts/mv_moment_locales
-
 # need to build once to make the public folder available
 ./node_modules/brunch/bin/brunch build

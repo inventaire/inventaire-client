@@ -18,7 +18,6 @@ piwikBase = 'piwik-3.0.1'
 
 module.exports =
   scripts:
-    moment: (lang)-> "#{folders.js}/moment/#{lang}.js?DIGEST"
     quagga: getEnvPath 'js', quaggaBase
     isbn2: getEnvPath 'js', isbn2Base
     papaparse: getEnvPath 'js', papaparseBase
