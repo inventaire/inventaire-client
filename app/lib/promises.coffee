@@ -1,5 +1,7 @@
 window.Promise or= require 'promise-polyfill'
 
+methods = {}
+
 # Mimicking Bluebird utils
 Promise.try = (fn)->
   Promise.resolve()
@@ -20,7 +22,7 @@ Promise.props = (obj)->
       resultObj[key] = valRes
     return resultObj
 
-Promise::spread = (fn)-> @then (res)=> fn.apply @, res
+methods.spread = (fn)-> @then (res)=> fn.apply @, res
 
 arrayMethod = (methodName, canReturnPromises)-> (args...)->
   @then (res)->
@@ -31,25 +33,25 @@ arrayMethod = (methodName, canReturnPromises)-> (args...)->
       if canReturnPromises then return Promise.all finalRes
       else return finalRes
 
-Promise::filter = arrayMethod 'filter'
-Promise::map = arrayMethod 'map', true
-Promise::reduce = arrayMethod 'reduce'
+methods.filter = arrayMethod 'filter'
+methods.map = arrayMethod 'map', true
+methods.reduce = arrayMethod 'reduce'
 
-Promise::get = (attribute)-> @then (res)-> res[attribute]
+methods.get = (attribute)-> @then (res)-> res[attribute]
 
-Promise::tap = (fn)->
+methods.tap = (fn)->
   @then (res)->
     Promise.try -> fn res
     .then -> res
 
-Promise::delay = (ms)->
+methods.delay = (ms)->
   promise = @
   return new Promise (resolve, reject)->
     promise
     .then (res)-> setTimeout resolve.bind(null, res), ms
     .catch reject
 
-Promise::timeout = (ms)->
+methods.timeout = (ms)->
   promise = @
   return new Promise (resolve, reject)->
     fulfilled = false
@@ -74,6 +76,10 @@ Promise::timeout = (ms)->
       if expired then return
       fulfilled = true
       reject err
+
+for name, fn of methods
+  # Make the new methods non-enumerable
+  Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
 
 # Used has a way to create only one resolved promise to start promise chains.
 # This may register as a premature micro-optimization

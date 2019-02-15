@@ -8,6 +8,12 @@ undesiredRes = (done)-> (res)->
   console.warn('undesired res', res)
 
 describe 'promises', ->
+  it 'should not have additional enumerable keys', (done)->
+    promise = Promise.resolve()
+    for key, value of promise
+      throw new Error "undesired enumerable key: #{key}"
+    done()
+
   describe 'try', ->
     it 'should be a function', (done)->
       Promise.try.should.be.a.Function()
