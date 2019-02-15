@@ -7,7 +7,7 @@ undesiredRes = (done)-> (res)->
   done new Error('.then was not expected to be called')
   console.warn('undesired res', res)
 
-describe 'promises utils', ->
+describe 'promises', ->
   describe 'try', ->
     it 'should be a function', (done)->
       Promise.try.should.be.a.Function()
@@ -235,3 +235,88 @@ describe 'promises utils', ->
       Promise.resolved.wat = 'yo'
       should(Promise.resolved.wat).not.be.ok()
       done()
+
+  describe 'filter', ->
+    it 'should be a function', (done)->
+      Promise::filter.should.be.a.Function()
+      done()
+
+    it 'should filter results', (done)->
+      Promise.resolve [ 1, 2 ]
+      .filter (num)-> num > 1
+      .then (res)->
+        res.should.deepEqual [ 2 ]
+        done()
+      .catch done
+
+      return
+
+    it 'should pass errors', (done)->
+      Promise.all [
+        Promise.resolve 123
+        Promise.reject new Error('hello')
+      ]
+      .filter undesiredRes(done)
+      .catch (err)->
+        err.message.should.equal 'hello'
+        done()
+      .catch done
+
+      return
+
+  describe 'map', ->
+    it 'should be a function', (done)->
+      Promise::map.should.be.a.Function()
+      done()
+
+    it 'should map results', (done)->
+      Promise.resolve [ 1, 2 ]
+      .map (num)-> num * 2
+      .then (res)->
+        res.should.deepEqual [ 2, 4 ]
+        done()
+      .catch done
+
+      return
+
+    it 'should pass errors', (done)->
+      Promise.all [
+        Promise.resolve 123
+        Promise.reject new Error('hello')
+      ]
+      .map undesiredRes(done)
+      .catch (err)->
+        err.message.should.equal 'hello'
+        done()
+      .catch done
+
+      return
+
+  describe 'reduce', ->
+    it 'should be a function', (done)->
+      Promise::reduce.should.be.a.Function()
+      done()
+
+    it 'should reduce results', (done)->
+      sum = (a, b)-> a + b
+      Promise.resolve [ 1, 2 ]
+      .reduce sum, 5
+      .then (res)->
+        res.should.equal 8
+        done()
+      .catch done
+
+      return
+
+    it 'should pass errors', (done)->
+      Promise.all [
+        Promise.resolve 123
+        Promise.reject new Error('hello')
+      ]
+      .reduce undesiredRes(done)
+      .catch (err)->
+        err.message.should.equal 'hello'
+        done()
+      .catch done
+
+      return

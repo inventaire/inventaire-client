@@ -22,6 +22,12 @@ Promise.props = (obj)->
 
 Promise::spread = (fn)-> @then (res)=> fn.apply @, res
 
+Promise::filter = (fn)-> @then (res)-> res.filter fn
+
+Promise::map = (fn)-> @then (res)-> res.map fn
+
+Promise::reduce = (fn, initialValue)-> @then (res)-> res.reduce fn, initialValue
+
 Promise::get = (attribute)-> @then (res)-> res[attribute]
 
 Promise::tap = (fn)->
