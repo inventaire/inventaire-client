@@ -33,7 +33,7 @@ module.exports = (path, width = 1600, height = 1600)->
       height: height
 
   # Assumes this is a Wikimedia Commons filename
-  if path[0] isnt '/' then return commons_.thumbnail file, width
+  if path[0] isnt '/' then return commons_.thumbnail path, width
 
   path = path.replace '/img/', ''
   return "/img/#{width}x#{height}/#{path}"
