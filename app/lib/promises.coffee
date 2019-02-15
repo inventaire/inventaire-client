@@ -22,11 +22,18 @@ Promise.props = (obj)->
 
 Promise::spread = (fn)-> @then (res)=> fn.apply @, res
 
-Promise::filter = (fn)-> @then (res)-> res.filter fn
+arrayMethod = (methodName, canReturnPromises)-> (args...)->
+  @then (res)->
+    _.type res, 'array'
+    Promise.all res
+    .then (resolvedRes)->
+      finalRes = resolvedRes[methodName].apply resolvedRes, args
+      if canReturnPromises then return Promise.all finalRes
+      else return finalRes
 
-Promise::map = (fn)-> @then (res)-> res.map fn
-
-Promise::reduce = (fn, initialValue)-> @then (res)-> res.reduce fn, initialValue
+Promise::filter = arrayMethod 'filter'
+Promise::map = arrayMethod 'map', true
+Promise::reduce = arrayMethod 'reduce'
 
 Promise::get = (attribute)-> @then (res)-> res[attribute]
 

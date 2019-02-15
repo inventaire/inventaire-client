@@ -1,5 +1,5 @@
 global.window = global
-global._ = require 'underscore'
+_ = require './utils_builder'
 require 'should'
 __ = require '../root'
 promisesUtils = __.require 'lib', 'promises'
@@ -242,10 +242,28 @@ describe 'promises', ->
       done()
 
     it 'should filter results', (done)->
-      Promise.resolve [ 1, 2 ]
+      Promise.all [
+        1
+        2
+        Promise.resolve 3
+      ]
       .filter (num)-> num > 1
       .then (res)->
-        res.should.deepEqual [ 2 ]
+        res.should.deepEqual [ 2, 3 ]
+        done()
+      .catch done
+
+      return
+
+    it 'should filter results from an array containing promises', (done)->
+      Promise.resolve [
+        1
+        2
+        Promise.resolve 3
+      ]
+      .filter (num)-> num > 1
+      .then (res)->
+        res.should.deepEqual [ 2, 3 ]
         done()
       .catch done
 
@@ -270,17 +288,45 @@ describe 'promises', ->
       done()
 
     it 'should map results', (done)->
-      Promise.resolve [ 1, 2 ]
+      Promise.all [
+        1
+        2
+        Promise.resolve 3
+      ]
       .map (num)-> num * 2
       .then (res)->
-        res.should.deepEqual [ 2, 4 ]
+        res.should.deepEqual [ 2, 4, 6 ]
+        done()
+      .catch done
+
+      return
+
+    it 'should map results from an array containing promises', (done)->
+      Promise.resolve [
+        1
+        2
+        Promise.resolve 3
+      ]
+      .map (num)-> num * 2
+      .then (res)->
+        res.should.deepEqual [ 2, 4, 6 ]
+        done()
+      .catch done
+
+      return
+
+    it 'should map return resolved values', (done)->
+      Promise.resolve [ 1, 2, 3 ]
+      .map (num)-> Promise.resolve num * 2
+      .then (res)->
+        res.should.deepEqual [ 2, 4, 6 ]
         done()
       .catch done
 
       return
 
     it 'should pass errors', (done)->
-      Promise.all [
+      Promise.resolve [
         Promise.resolve 123
         Promise.reject new Error('hello')
       ]
@@ -299,10 +345,29 @@ describe 'promises', ->
 
     it 'should reduce results', (done)->
       sum = (a, b)-> a + b
-      Promise.resolve [ 1, 2 ]
+      Promise.resolve [
+        1
+        2
+        Promise.resolve 3
+      ]
       .reduce sum, 5
       .then (res)->
-        res.should.equal 8
+        res.should.equal 11
+        done()
+      .catch done
+
+      return
+
+    it 'should reduce results from an array containing promises', (done)->
+      sum = (a, b)-> a + b
+      Promise.all [
+        1
+        2
+        Promise.resolve 3
+      ]
+      .reduce sum, 5
+      .then (res)->
+        res.should.equal 11
         done()
       .catch done
 
