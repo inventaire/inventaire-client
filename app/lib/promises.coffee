@@ -87,6 +87,8 @@ for name, fn of methods
 Promise.resolved = Promise.resolve()
 if Object.freeze? then Object.freeze Promise.resolved
 
+Promise.getResolved = -> Promise.resolved
+
 module.exports = Promise
 
 # Isn't defined in test environment

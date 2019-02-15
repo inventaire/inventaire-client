@@ -43,14 +43,14 @@ module.exports =
       relation: relation
       propertiesShortlist: getPropertiesShortlist type, claims
       setPropertyValue: editableEntity.setPropertyValue.bind model
-      savePropertyValue: Promise.resolve
+      savePropertyValue: Promise.getResolved
       setLabel: editableEntity.setLabel.bind model
       resetLabels: (lang, value)->
         @set 'labels', {}
         @setLabel lang, value
       # Required by editableEntity.setPropertyValue
       invalidateRelationsCache: _.noop
-      saveLabel: Promise.resolve
+      saveLabel: Promise.getResolved
       create: -> createEntities.create @get('labels'), @get('claims')
       fetchSubEntities: Entity::fetchSubEntities
 
