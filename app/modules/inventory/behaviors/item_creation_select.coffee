@@ -4,8 +4,8 @@ module.exports = Marionette.Behavior.extend
 
   updateSelector: (e)->
     $el = $(e.currentTarget)
-    $el.siblings().removeClass 'active'
-    $el.addClass 'active'
+    $el.siblings().removeClass 'selected'
+    $el.addClass 'selected'
     section = $el.parent()[0].id
     value = $el[0].id
     app.execute "last:#{section}:set", value
