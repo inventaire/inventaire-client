@@ -5,15 +5,27 @@
     <span class="count">({{itemsCount}})</span>
   </button>
   <button id="unselectAll">{{icon 'square'}}<span>{{I18n 'unselect all'}}</span></button>
+
   <div id="selectTransaction" class="has-dropdown">
     <p class="selector-label">{{I18n 'transaction'}} {{icon 'caret-down'}}</p>
     <ul class="dropdown">
-      <li class="dropdown-label capitalized">{{i18n 'available for'}}:</li>
+      <li class="dropdown-label capitalized">{{I18n 'available for'}}:</li>
       {{#each transactions}}
-        <li><a id="{{id}}" class="transaction-option">{{icon icon}} {{i18n label}}</a></li>
+        <li><a id="{{id}}" class="transaction-option">{{icon icon}} {{I18n label}}</a></li>
       {{/each}}
     </ul>
   </div>
+
+  <div id="selectListing" class="has-dropdown">
+    <p class="selector-label">{{I18n 'listing'}} {{icon 'caret-down'}}</p>
+    <ul class="dropdown">
+      <li class="dropdown-label capitalized">{{I18n 'visible by'}}:</li>
+      {{#each listings}}
+        <li><a id="{{id}}" class="listing-option">{{icon icon}} {{I18n label}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+
 </div>
 
 <ul id="itemsRows"></ul>

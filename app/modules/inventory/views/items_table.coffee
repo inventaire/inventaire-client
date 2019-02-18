@@ -19,12 +19,14 @@ module.exports = InfiniteScrollItemsList.extend
   serializeData: ->
     itemsCount: @allItemsIds.length
     transactions: transactionsData
+    listings: app.user.listings()
 
   events:
     'inview .fetchMore': 'infiniteScroll'
     'click #selectAll': 'selectAll'
     'click #unselectAll': 'unselectAll'
     'click .transaction-option': 'setTransaction'
+    'click .listing-option': 'setListing'
     'change input[name="select"]': 'selectOne'
 
   selectAll: ->
@@ -45,14 +47,16 @@ module.exports = InfiniteScrollItemsList.extend
       if id not in @selectedIds then return
       else @selectedIds = _.without @selectedIds, id
 
-  setTransaction: (e)->
-    { id: transaction } = e.currentTarget
-    app.request 'items:update',
-      # Pass a mix of the selected views' models and the remaining ids from non-displayed
-      # items so that items:update can set values on models and trigger item rows re-render
-      items: @getSelectedModelsAndIds()
-      attribute: 'transaction'
-      value: transaction
+  setTransaction: (e)-> @updateItems e, 'transaction'
+
+  setListing: (e)-> @updateItems e, 'listing'
+
+  updateItems: (e, attribute)->
+    value = e.currentTarget.id
+    # Pass a mix of the selected views' models and the remaining ids from non-displayed
+    # items so that items:update can set values on models and trigger item rows re-render
+    items = @getSelectedModelsAndIds()
+    app.request 'items:update', { items, attribute, value }
 
   getSelectedModelsAndIds: ->
     { selectedIds } = @
