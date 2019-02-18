@@ -8,15 +8,13 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     _.extend @model.serializeData(),
-      checked: @checked
+      checked: @getCheckedStatus()
 
   events:
     'click .showItem': 'showItem'
-    'change input[name="select"]': 'select'
 
   showItem: (e)->
     if _.isOpenedOutside e then return
     else app.execute 'show:item', @model
 
-  select: (e)->
-    { @checked } = e.currentTarget
+  getCheckedStatus: -> @model.id in @options.getSelectedIds?()

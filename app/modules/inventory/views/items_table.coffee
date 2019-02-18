@@ -15,6 +15,9 @@ module.exports = InfiniteScrollItemsList.extend
     @initInfiniteScroll()
     { @allItemsIds } = @options
     @selectedIds = []
+    @getSelectedIds = => @selectedIds
+
+  childViewOptions: -> { @getSelectedIds }
 
   serializeData: ->
     itemsCount: @allItemsIds.length
