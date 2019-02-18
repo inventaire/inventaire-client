@@ -34,6 +34,8 @@ module.exports = (params)->
       app.execute 'show:items:from:models', existingInstances
       return
 
+    params.existingInstances = existingInstances
+
     app.layout.main.show new ItemCreationForm params
     app.navigate pathname
 

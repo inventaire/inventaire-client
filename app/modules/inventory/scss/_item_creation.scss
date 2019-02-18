@@ -38,7 +38,23 @@
       margin-bottom: 0.5em;
       @include radius;
     }
-
+  }
+  .item-row{
+    input{
+      display: none;
+    }
+  }
+  #existingInstancesWarning{
+    color: red;
+    padding: 1em;
+    > p{
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+  }
+  #existingInstances{
+    max-height: 8em;
+    overflow: auto;
   }
 
   /*Small screens*/

@@ -19,7 +19,6 @@
   .dropdown-label{
     margin-left: 0.5em;
   }
-  @import 'item_row';
 
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
@@ -43,3 +42,5 @@
     }
   }
 }
+
+@import 'item_row';

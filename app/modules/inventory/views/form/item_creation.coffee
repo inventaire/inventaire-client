@@ -5,11 +5,17 @@ ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
+ItemsList = Marionette.CollectionView.extend
+  childView: require 'modules/inventory/views/item_row'
+
 module.exports = Marionette.LayoutView.extend
   template: require './templates/item_creation'
   className: 'addEntity'
+
   regions:
+    existingInstancesRegion: '#existingInstances'
     entityRegion: '#entity'
+
   behaviors:
     ElasticTextarea: {}
     ItemCreationSelect:
@@ -23,9 +29,14 @@ module.exports = Marionette.LayoutView.extend
     notes: '#notes'
 
   initialize: ->
-    { @entity } = @options
+    { @entity, @existingInstances } = @options
     @initItemData()
     @_lastAddMode = app.request 'last:add:mode:get'
+
+    if @existingInstances?
+      @waitForExistingInstances = Promise.resolve @existingInstances
+    else
+      @waitForExistingInstances = app.request 'item:main:user:instances', @entity.get('uri')
 
   initItemData: ->
     { entity, transaction } = @options
@@ -40,9 +51,6 @@ module.exports = Marionette.LayoutView.extend
 
     unless @itemData.entity? then throw error_.new 'missing uri', @itemData
 
-  onShow: ->
-    @showEntityData()
-
   serializeData: ->
     title = @entity.get 'label'
 
@@ -56,6 +64,10 @@ module.exports = Marionette.LayoutView.extend
 
     return attrs
 
+  onShow: ->
+    @showEntityData()
+    @showExistingInstances()
+
   events:
     'click #transaction': 'updateTransaction'
     'click #listing': 'updateListing'
@@ -65,6 +77,14 @@ module.exports = Marionette.LayoutView.extend
 
   showEntityData: ->
     @entityRegion.show new EntityDataOverview { model: @entity }
+
+  showExistingInstances: ->
+    @waitForExistingInstances
+    .then (existingInstances)=>
+      if existingInstances.length is 0 then return
+      collection = new Backbone.Collection existingInstances
+      @$el.find('#existingInstancesWarning').show()
+      @existingInstancesRegion.show new ItemsList { collection }
 
   # TODO: update the UI for update errors
   updateTransaction: ->
