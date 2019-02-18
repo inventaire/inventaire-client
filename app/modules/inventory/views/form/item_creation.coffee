@@ -33,10 +33,7 @@ module.exports = Marionette.LayoutView.extend
     @initItemData()
     @_lastAddMode = app.request 'last:add:mode:get'
 
-    if @existingInstances?
-      @waitForExistingInstances = Promise.resolve @existingInstances
-    else
-      @waitForExistingInstances = app.request 'item:main:user:instances', @entity.get('uri')
+    @waitForExistingInstances = app.request 'item:main:user:instances', @entity.get('uri')
 
   initItemData: ->
     { entity, transaction } = @options

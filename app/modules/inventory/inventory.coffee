@@ -77,11 +77,10 @@ API =
 
     app.request 'get:userId:from:username', username
     .then (userId)-> app.request 'items:getByUserIdAndEntity', userId, uri
-    .then displayFoundItems
+    .then showItemsFromModels
     .catch _.Error('showItemShowFromUserAndEntity')
 
-
-displayFoundItems = (items)->
+showItemsFromModels = (items)->
   # Accept either an items collection or an array of items models
   if _.isArray items then items = new Backbone.Collection items
 
