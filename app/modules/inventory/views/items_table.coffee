@@ -9,7 +9,9 @@ module.exports = InfiniteScrollItemsList.extend
   childViewContainer: '#itemsRows'
 
   ui:
-    selectTransaction: '#selectTransaction'
+    selectAll: '#selectAll'
+    unselectAll: '#unselectAll'
+    selectors: '.selector'
 
   initialize: ->
     @initInfiniteScroll()
@@ -34,21 +36,38 @@ module.exports = InfiniteScrollItemsList.extend
 
   selectAll: ->
     @$el.find('input:checkbox').prop 'checked', true
-    @selectedIds = _.clone @allItemsIds
+    @updateSelectedIds _.clone(@allItemsIds)
 
   unselectAll: ->
     @$el.find('input:checkbox').prop 'checked', false
-    @selectedIds = []
+    @updateSelectedIds []
 
   selectOne: (e)->
     { checked } = e.currentTarget
     id = e.currentTarget.attributes['data-id'].value
     if checked
       if id in @selectedIds then return
-      else @selectedIds.push id
+      else @addSelectedId id
     else
       if id not in @selectedIds then return
-      else @selectedIds = _.without @selectedIds, id
+      else @removeSelectedId id
+
+  updateSelectedIds: (list)->
+    @selectedIds = list
+    if list.length is 0
+      @ui.unselectAll.addClass 'disabled'
+      @ui.selectors.addClass 'disabled'
+    else
+      @ui.unselectAll.removeClass 'disabled'
+      @ui.selectors.removeClass 'disabled'
+
+  addSelectedId: (id)->
+    @selectedIds.push id
+    @updateSelectedIds @selectedIds
+
+  removeSelectedId: (id)->
+    @selectedIds = _.without @selectedIds, id
+    @updateSelectedIds @selectedIds
 
   setTransaction: (e)-> @updateItems e, 'transaction'
 

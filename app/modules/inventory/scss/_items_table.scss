@@ -20,6 +20,11 @@
     margin-left: 0.5em;
   }
 
+  .disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     #table-header{
