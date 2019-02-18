@@ -5,11 +5,6 @@ saveOmitAttributes = require 'lib/save_omit_attributes'
 { buildPath } = require 'lib/location'
 
 module.exports = Filterable.extend
-  url: -> app.API.items.base
-
-  validate: (attrs, options)->
-    unless attrs.owner? then return 'an owner must be provided'
-
   initialize: (attrs, options)->
     @testPrivateAttributes()
 

@@ -24,7 +24,10 @@ module.exports =
       _.type attribute, 'string'
       item.set attribute, value
 
-    item.save()
+    _.preq.put app.API.items.update,
+      ids: [ item.id ]
+      attribute: attribute
+      value: value
     .tap ->
       { listing:previousListing } = itemAttributesBefore
       app.user.trigger 'items:change', previousListing, item.get('listing')
@@ -38,8 +41,10 @@ module.exports =
     title = model.get('snapshot.entity:title')
 
     action = ->
-      model.destroy()
-      .tap -> app.user.trigger 'items:change', model.get('listing'), null
+      _.preq.delete app.API.items.delete(model.get('_id'))
+      .tap ->
+        app.user.trigger 'items:change', model.get('listing'), null
+        model.isDestroyed = true
       .then next
 
     app.execute 'ask:confirmation',

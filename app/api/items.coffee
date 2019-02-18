@@ -1,4 +1,5 @@
 { base, action } = require('./endpoint')('items')
+{ buildPath } = require 'lib/location'
 
 queryEndpoint = (actionName, idsLabel)-> (params)->
   { ids, limit, offset, fetchPublicItemsOnly, filter, includeUsers } = params
@@ -12,6 +13,8 @@ queryEndpoint = (actionName, idsLabel)-> (params)->
 
 module.exports =
   base: base
+  update: action 'bulk-update'
+  delete: (id)-> buildPath base, { id }
 
   byIds: queryEndpoint 'by-ids', 'ids'
   byUsers: queryEndpoint 'by-users', 'users'
