@@ -1,5 +1,3 @@
-{ reportError } = requireProxy 'lib/reports'
-
 Ajax = (verb, hasBody)->
   return ajax = (url, body)->
 

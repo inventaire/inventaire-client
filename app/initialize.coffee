@@ -1,3 +1,6 @@
+# used to allow monkey patching in tests
+window.requireProxy = (path)-> require path
+
 window.Promise = require 'lib/promises'
 
 window.$ = window.jQuery = require 'jquery'
@@ -15,8 +18,6 @@ window.FilteredCollection = require 'backbone-filtered-collection'
 require 'backbone-nested'
 
 envConfig = require('lib/env_config')()
-# used to allow monkey patching in tests
-window.requireProxy = (path)-> require path
 
 require('lib/feature_detection')()
 # Init handler error before the app so that it can catch any error happenig there

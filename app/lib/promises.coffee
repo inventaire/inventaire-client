@@ -1,4 +1,5 @@
 window.Promise or= require 'promise-polyfill'
+{ reportError } = requireProxy 'lib/reports'
 
 methods = {}
 
