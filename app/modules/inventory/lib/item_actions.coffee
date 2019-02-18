@@ -9,29 +9,23 @@ module.exports =
     .then (data)-> new Item data
 
   update: (options)->
-    # expects: item, attribute, value
-    # OR expects: item, data
+    # expects: items (models or ids), attribute, value
     # optional: selector
-    { item, attribute, value, data, selector } = options
-    _.types [ item, selector ], [ 'object', 'string|undefined' ]
+    { items, attribute, value, selector } = options
+    _.type items, 'array'
+    _.type attribute, 'string'
+    if selector? then _.type selector, 'string'
 
-    itemAttributesBefore = _.deepClone item.toJSON()
-
-    if data?
-      _.type data, 'object'
-      item.set data
-    else
-      _.type attribute, 'string'
+    items.forEach (item)->
+      if _.isString item then return
+      item._backup = item.toJSON()
       item.set attribute, value
 
-    _.preq.put app.API.items.update,
-      ids: [ item.id ]
-      attribute: attribute
-      value: value
-    .tap ->
-      { listing:previousListing } = itemAttributesBefore
-      app.user.trigger 'items:change', previousListing, item.get('listing')
-    .catch rollbackUpdate(item, itemAttributesBefore)
+    ids = items.map (item)-> if _.isString item then item else item.id
+
+    _.preq.put app.API.items.update, { ids, attribute, value }
+    .tap propagateChange(items, attribute)
+    .catch rollbackUpdate(items)
 
   destroy: (options)->
     # MUST: model with title
@@ -53,6 +47,20 @@ module.exports =
       action: action
       back: back
 
-rollbackUpdate = (item, itemAttributesBefore)-> (err)->
-  item.set itemAttributesBefore
+propagateChange = (items, attribute)-> ->
+  items.forEach (item)->
+    # TODO: update counters for non-model items too
+    if _.isString item then return
+    if attribute is 'listing'
+      { listing: previousListing } = item._backup
+      newListing = item.get 'listing'
+      if newListing is previousListing then return
+      app.user.trigger 'items:change', previousListing, newListing
+    delete item._backup
+
+rollbackUpdate = (items)-> (err)->
+  items.forEach (item)->
+    if _.isString item then return
+    item.set item._backup
+    delete item._backup
   throw err

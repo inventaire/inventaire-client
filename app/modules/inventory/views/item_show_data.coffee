@@ -110,8 +110,8 @@ module.exports = Marionette.LayoutView.extend
     @hideEditor nameBase
     edited = $("##{nameBase}Editor textarea").val()
     if edited isnt @model.get(nameBase)
-      app.request 'item:update',
-        item: @model
+      app.request 'items:update',
+        items: [ @model ]
         attribute: nameBase
         value: edited
         selector: "##{nameBase}Editor"

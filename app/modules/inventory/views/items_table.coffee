@@ -47,4 +47,20 @@ module.exports = InfiniteScrollItemsList.extend
 
   setTransaction: (e)->
     { id: transaction } = e.currentTarget
-    alert { transaction, @selectedIds }
+    app.request 'items:update',
+      # Pass a mix of the selected views' models and the remaining ids from non-displayed
+      # items so that items:update can set values on models and trigger item rows re-render
+      items: @getSelectedModelsAndIds()
+      attribute: 'transaction'
+      value: transaction
+
+  getSelectedModelsAndIds: ->
+    { selectedIds } = @
+
+    selectedModels = @children
+      .filter (view)-> view.model.id in selectedIds
+      .map _.property('model')
+
+    modelsIds = _.pluck selectedModels, 'id'
+    otherIds = _.difference selectedIds, modelsIds
+    return selectedModels.concat otherIds

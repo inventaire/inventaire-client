@@ -156,7 +156,7 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:last': API.showInventoryLast
 
   app.reqres.setHandlers
-    'item:update': itemActions.update
+    'items:update': itemActions.update
     'item:destroy': itemActions.destroy
     'item:create': itemActions.create
     'item:main:user:instances': (entityUri)->

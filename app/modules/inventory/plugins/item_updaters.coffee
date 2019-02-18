@@ -18,8 +18,8 @@ module.exports = ->
       unless attribute? and value?
         return error_.reject 'invalid item update', arguments
 
-      app.request 'item:update',
-        item: @model
+      app.request 'items:update',
+        items: [ @model ]
         attribute: attribute
         value: value
       .catch (err)=>
