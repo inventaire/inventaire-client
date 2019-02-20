@@ -21,31 +21,38 @@ module.exports =
       item._backup = item.toJSON()
       item.set attribute, value
 
-    ids = items.map (item)-> if _.isString item then item else item.id
+    ids = items.map getIdFromModelOrId
 
     _.preq.put app.API.items.update, { ids, attribute, value }
     .tap propagateChange(items, attribute)
     .catch rollbackUpdate(items)
 
-  destroy: (options)->
-    # MUST: model with title
-    # CAN: next
-    { model, next, back } = options
-    _.types [ model, next ], [ 'object', 'function' ]
-    title = model.get('snapshot.entity:title')
+  delete: (options)->
+    { items, next, back } = options
+    _.types [ items, next ], [ 'array', 'function' ]
+
+    ids = items.map getIdFromModelOrId
 
     action = ->
-      _.preq.delete app.API.items.delete(model.get('_id'))
+      _.preq.post app.API.items.deleteByIds, { ids }
       .tap ->
-        app.user.trigger 'items:change', model.get('listing'), null
-        model.isDestroyed = true
+        items.forEach (item)->
+          if _.isString item then return
+          app.user.trigger 'items:change', item.get('listing'), null
+          item.isDestroyed = true
       .then next
 
-    app.execute 'ask:confirmation',
-      confirmationText: _.i18n 'delete_item_confirmation', { title }
-      warningText: _.i18n 'cant_undo_warning'
-      action: action
-      back: back
+    if items.length is 1 and items[0] instanceof Backbone.Model
+      title = items[0].get 'snapshot.entity:title'
+      confirmationText = _.i18n 'delete_item_confirmation', { title }
+    else
+      confirmationText = _.i18n 'delete_items_confirmation', { amount: ids.length }
+
+    warningText = _.i18n 'cant_undo_warning'
+
+    app.execute 'ask:confirmation', { confirmationText, warningText, action, back }
+
+getIdFromModelOrId = (item)-> if _.isString item then item else item.id
 
 propagateChange = (items, attribute)-> ->
   items.forEach (item)->

@@ -11,7 +11,7 @@ module.exports = InfiniteScrollItemsList.extend
   ui:
     selectAll: '#selectAll'
     unselectAll: '#unselectAll'
-    selectors: '.selector'
+    updators: '.selector, .delete'
 
   initialize: ->
     @initInfiniteScroll()
@@ -33,6 +33,7 @@ module.exports = InfiniteScrollItemsList.extend
     'click .transaction-option': 'setTransaction'
     'click .listing-option': 'setListing'
     'change input[name="select"]': 'selectOne'
+    'click .delete': 'deleteItems'
 
   selectAll: ->
     @$el.find('input:checkbox').prop 'checked', true
@@ -47,26 +48,26 @@ module.exports = InfiniteScrollItemsList.extend
     id = e.currentTarget.attributes['data-id'].value
     if checked
       if id in @selectedIds then return
-      else @addSelectedId id
+      else @addSelectedIds id
     else
       if id not in @selectedIds then return
-      else @removeSelectedId id
+      else @removeSelectedIds id
 
   updateSelectedIds: (list)->
     @selectedIds = list
     if list.length is 0
       @ui.unselectAll.addClass 'disabled'
-      @ui.selectors.addClass 'disabled'
+      @ui.updators.addClass 'disabled'
     else
       @ui.unselectAll.removeClass 'disabled'
-      @ui.selectors.removeClass 'disabled'
+      @ui.updators.removeClass 'disabled'
 
-  addSelectedId: (id)->
-    @selectedIds.push id
+  addSelectedIds: (ids...)->
+    @selectedIds.push ids...
     @updateSelectedIds @selectedIds
 
-  removeSelectedId: (id)->
-    @selectedIds = _.without @selectedIds, id
+  removeSelectedIds: (ids...)->
+    @selectedIds = _.without @selectedIds, ids...
     @updateSelectedIds @selectedIds
 
   setTransaction: (e)-> @updateItems e, 'transaction'
@@ -75,11 +76,25 @@ module.exports = InfiniteScrollItemsList.extend
 
   updateItems: (e, attribute)->
     value = e.currentTarget.id
-    # Pass a mix of the selected views' models and the remaining ids from non-displayed
-    # items so that items:update can set values on models and trigger item rows re-render
-    items = @getSelectedModelsAndIds()
-    app.request 'items:update', { items, attribute, value }
+    { selectedModelsAndIds } = @getSelectedModelsAndIds()
+    app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
 
+  # TODO:
+  # - prevent re-desplaying deleted items in inventory browser filtered lists
+  deleteItems: ->
+    { selectedModelsAndIds, selectedModels, selectedIds } = @getSelectedModelsAndIds()
+
+    afterDestroy = =>
+      @collection.remove selectedModels
+      @removeSelectedIds selectedIds...
+
+    app.request 'items:delete',
+      items: selectedModelsAndIds
+      next: afterDestroy
+
+  # Get a mix of the selected views' models and the remaining ids from non-displayed
+  # items so that items:update or items:delete can set values on models
+  # trigger item rows updates
   getSelectedModelsAndIds: ->
     { selectedIds } = @
 
@@ -89,4 +104,5 @@ module.exports = InfiniteScrollItemsList.extend
 
     modelsIds = _.pluck selectedModels, 'id'
     otherIds = _.difference selectedIds, modelsIds
-    return selectedModels.concat otherIds
+    selectedModelsAndIds = selectedModels.concat otherIds
+    return { selectedModelsAndIds, selectedModels, selectedIds }

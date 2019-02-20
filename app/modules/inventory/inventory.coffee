@@ -157,7 +157,7 @@ initializeInventoriesHandlers = (app)->
 
   app.reqres.setHandlers
     'items:update': itemActions.update
-    'item:destroy': itemActions.destroy
+    'items:delete': itemActions.delete
     'item:create': itemActions.create
     'item:main:user:instances': (entityUri)->
       app.request 'items:getByUserIdAndEntity', app.user.id, entityUri

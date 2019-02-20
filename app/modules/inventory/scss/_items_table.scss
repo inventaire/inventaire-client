@@ -15,6 +15,10 @@
       @include bg-hover(white);
       font-weight: bold;
     }
+    button.remove:hover{
+      background-color: $danger-color;
+      color: white;
+    }
   }
   .dropdown-label{
     margin-left: 0.5em;
