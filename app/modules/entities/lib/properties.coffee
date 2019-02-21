@@ -84,3 +84,22 @@ addProp 'wdt:P4033', 'string', null, false, null
 
 ## work and human
 addProp 'wdt:P856', 'string', null, false, null
+
+## publisher
+# country
+addProp 'wdt:P17', 'entity', 'countries', false, null
+# founded by
+addProp 'wdt:P112', 'entity', 'humans', false, null
+# owned by
+addProp 'wdt:P127', 'entity', 'humans', false, null
+# headquarters location
+addProp 'wdt:P159', 'entity', 'countries', false, null
+# Commons category
+addProp 'wdt:P373', 'string', null, false, null
+# inception
+addProp 'wdt:P571', 'simple-day', 'inception', false, null
+# dissolution
+addProp 'wdt:P576', 'simple-day', 'inception', false, null
+# ISBN publisher
+addProp 'wdt:P3035', 'string', null, false, null
+

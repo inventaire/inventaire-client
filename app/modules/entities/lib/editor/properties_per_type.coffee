@@ -62,3 +62,12 @@ module.exports =
   # Using omit instead of having a common list, extended for works, so that
   # the properties order isn't constrained by being part or not of the common properties
   serie: _.omit work, [ 'wdt:P179', 'wdt:P1545', 'wdt:P747' ]
+
+  publisher:
+    'wdt:P17': {} # country
+    'wdt:P112': {} # founded by
+    'wdt:P127': {} # owned by
+    'wdt:P571': {} # inception
+    'wdt:P856': {} # official website
+    'wdt:P3035': {} # ISBN publisher
+

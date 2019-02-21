@@ -24,6 +24,7 @@ module.exports =
       app.execute 'modal:close'
 
 addWithoutIsbnPath = (workModel)->
+  unless workModel then return {}
   return buildPath '/entity/new', workEditionCreationData(workModel)
 
 workEditionCreationData = (workModel, itemToUpdate)->

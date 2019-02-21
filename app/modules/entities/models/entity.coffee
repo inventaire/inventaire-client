@@ -9,6 +9,7 @@ initializeAuthor = require '../lib/types/author'
 initializeSerie = require '../lib/types/serie'
 initializeWork = require '../lib/types/work'
 initializeEdition = require '../lib/types/edition'
+initializePublisher = require '../lib/types/publisher'
 error_ = require 'lib/error'
 Filterable = require 'modules/general/models/filterable'
 
@@ -22,7 +23,7 @@ Filterable = require 'modules/general/models/filterable'
 #   - Edition
 
 # Progressively extending the whitelist of editable types
-editableTypes = [ 'work', 'edition', 'human', 'serie' ]
+editableTypes = [ 'work', 'edition', 'human', 'serie', 'publisher' ]
 
 placeholdersTypes = [ 'meta', 'missing' ]
 
@@ -89,6 +90,7 @@ module.exports = Filterable.extend
       when 'serie' then initializeSerie.call @
       when 'work' then initializeWork.call @
       when 'edition' then initializeEdition.call @
+      when 'publisher' then initializePublisher.call @
       when 'article' then null
 
   setCommonAttributes: (attrs)->

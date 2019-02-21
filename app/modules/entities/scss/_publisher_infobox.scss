@@ -1,0 +1,32 @@
+$publisher-data-threshold: 25em;
+
+.publisherInfobox{
+  background-color: $darker-grey;
+  margin: 0 auto;
+  max-width: 60em;
+  .fa-pencil, .showOnWikidata{
+    @include text-hover(#bbb, white);
+  }
+  .claims{
+    .link{
+      @include text-hover(white, #bbb);
+    }
+  }
+}
+.publisherData{
+  position: relative;
+  background-color: $darker-grey;
+  @include radius;
+  padding: 1em;
+  margin-bottom: 1em;
+  color: white;
+  /*Small screens*/
+  @media screen and (max-width: $publisher-data-threshold) {
+    // Give some room to a.edit .fa-pencil
+    min-width: 90vw
+  }
+  /*Medium and Large screens*/
+  @media screen and (min-width: $publisher-data-threshold) {
+    min-width: $publisher-data-threshold;
+  }
+}

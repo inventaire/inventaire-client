@@ -10,4 +10,7 @@
   </div>
 {{/if}}
 <ul></ul>
-{{partial 'entities:editor:edition_creation' editionCreationData}}
+{{! publisher editions list work is undefined }}
+{{#if hasWork}}
+  {{partial 'entities:editor:edition_creation' editionCreationData}}
+{{/if}}

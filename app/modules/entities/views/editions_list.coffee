@@ -60,6 +60,7 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     hasEditions: @collection.length > 0
+    hasWork: @work?
     availableLanguages: @getAvailableLanguages @selectedLang
     editionCreationData: partialData @work
     header: @options.header or 'editions'

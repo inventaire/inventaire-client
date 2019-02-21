@@ -1,0 +1,53 @@
+$publisher-layout-bg: #292929;
+
+.publisherLayout{
+  background-color: $publisher-layout-bg;
+  // allow to have no margin when there is only one .publisherLayout
+  &:not(:first-child){
+    margin-top: 1em;
+  }
+  .subentities{
+    flex: 1 1 auto;
+    @include display-flex(column);
+  }
+  .subheader{
+    .uri{
+      font-size: 0.9rem;
+      margin-left: 1em;
+      @include sans-serif;
+    }
+  }
+  .loading{
+    text-align: center;
+    color: $contrast;
+    font-size: 2em;
+    padding: 1em;
+  }
+  @import './publisher_infobox';
+  &:not(.wrapped){
+    .unwrap{
+      display: none;
+    }
+  }
+}
+.innerPublisherLi{
+  @include display-flex(column);
+  .editionLi:not(.wrappable){
+    margin: auto;
+    margin-bottom: 1em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .editions {
+      margin-left: 0.2em;
+      margin-right: 0.2em;
+      flex: 1 1 auto;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .editionLi:first-child:not(.wrappable){
+      margin-top: 1em;
+    }
+  }
+}

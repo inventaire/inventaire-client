@@ -1,0 +1,11 @@
+<div class="publisherData text-center entity-data-box">
+  <h3 class="showEntity">{{label}}</h3>
+  <h4 class="subheader">{{shortDescription}}</h4>
+  {{!-- hidden class overriden by --}}
+  {{!-- modules/entities/scss/_deduplicate.scss --}}
+  {{!-- modules/tasks/scss/_current_task.scss --}}
+  <span class="uri hidden">{{uri}}</span>
+  {{partial 'entities:publisher_claims' this}}
+  {{partial 'entities:clamped_extract' this}}
+  {{partial 'entities:edit_data' this}}
+</div>
