@@ -94,7 +94,9 @@ module.exports = Marionette.LayoutView.extend
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
     itemsIds or= @itemsByDate
-    allItemsIds = _.clone itemsIds
+    # - Clone to avoid sharing the same object
+    # - Deduplicate as editions with several P629 values might have generated duplicates
+    allItemsIds = _.uniq itemsIds
     collection = new Backbone.Collection []
 
     hasMore = -> itemsIds.length > 0
