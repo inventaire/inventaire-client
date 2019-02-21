@@ -11,6 +11,18 @@
 {{input usernamePicker}}
 
 <hr>
+<h3>{{i18n 'geolocation'}}</h3>
+<p class="position-status">
+  {{#if hasPosition}}
+    {{i18n "you have a position set"}}<br>
+    <span class="coordinates">{{position.lat}}, {{position.lng}}</span>
+  {{else}}
+    {{i18n "your position isn't set yet"}}
+  {{/if}}
+</p>
+{{partial 'map:position_picker_button'}}
+
+<hr>
 <h3>{{i18n 'email'}}</h3>
 <p class="note">{{i18n 'email will not be publicly displayed.'}}</p>
 {{input emailPicker}}
@@ -34,18 +46,6 @@
 
 <hr>
 {{partial 'settings:password_update_input' this 'check'}}
-
-<hr>
-<h3>{{i18n 'geolocation'}}</h3>
-<p class="position-status">
-  {{#if hasPosition}}
-    {{i18n "you have a position set"}}<br>
-    <span class="coordinates">{{position.lat}}, {{position.lng}}</span>
-  {{else}}
-    {{i18n "your position isn't set yet"}}
-  {{/if}}
-</p>
-{{partial 'map:position_picker_button'}}
 
 <hr>
 <h3 class="danger-zone">{{i18n 'danger zone'}}</h3>
