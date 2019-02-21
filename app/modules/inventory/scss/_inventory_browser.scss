@@ -31,14 +31,16 @@
     padding: 0 0.5em;
     @include radius;
     a{
+      @include radius;
+      height: 2em;
+      width: 2em;
+      @include display-flex(row, center, center);
       &:not(:first-child){
         margin-left: 0.5em;
       }
       img{
         @include radius;
       }
-      padding: 0.2em 0.4em;
-      @include radius;
       &.selected{
         background-color: white;
         cursor: default;
