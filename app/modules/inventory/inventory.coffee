@@ -1,6 +1,6 @@
 ItemShow = require './views/item_show'
 initQueries = require './lib/queries'
-InventoryLayout = require './views/inventory'
+InventoryLayout = require './views/inventory_layout'
 initLayout = require './lib/layout'
 ItemsCascade = require './views/items_cascade'
 showItemCreationForm = require './lib/show_item_creation_form'
