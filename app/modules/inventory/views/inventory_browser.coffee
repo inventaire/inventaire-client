@@ -26,6 +26,7 @@ module.exports = Marionette.LayoutView.extend
     @filters = {}
 
     @display = localStorageProxy.getItem('inventory:display') or 'cascade'
+    @isMainUser = @options.user?.isMainUser
 
   ui:
     browserControls: '#browserControls'
@@ -41,6 +42,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     data = {}
     data[@display] = true
+    data.isMainUser = @isMainUser
     return data
 
   onShow: ->
@@ -107,7 +109,7 @@ module.exports = Marionette.LayoutView.extend
       app.request 'items:getByIds', batch
       .then collection.add.bind(collection)
 
-    @itemsViewParams = { collection, fetchMore, hasMore, allItemsIds }
+    @itemsViewParams = { collection, fetchMore, hasMore, allItemsIds, @isMainUser }
 
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'

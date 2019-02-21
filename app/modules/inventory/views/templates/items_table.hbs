@@ -1,4 +1,4 @@
-<div id="table-header">
+<div id="table-header" class="{{#unless isMainUser}}hidden{{/unless}}">
   <button id="selectAll">
     {{icon 'check-square-o'}}
     {{I18n 'select all'}}
@@ -30,7 +30,6 @@
     <span>{{I18n 'delete'}}</span>
     {{icon 'trash-o'}}
   </button>
-
 </div>
 
 <ul id="itemsRows"></ul>

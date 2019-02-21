@@ -1,4 +1,6 @@
-<input type="checkbox" name="select" data-id="{{_id}}" {{#if checked}}checked{{/if}}>
+{{#if isMainUser}}
+  <input type="checkbox" name="select" data-id="{{_id}}" {{#if checked}}checked{{/if}}>
+{{/if}}
 
 <div class="body">
   <a class="showItem" href="{{pathname}}">
@@ -16,12 +18,10 @@
       {{icon currentTransaction.icon}}
     </div>
 
-    {{#if currentListing}}
+    {{#if isMainUser}}
       <div class="listing {{currentListing.id}}" title="{{i18n currentListing.label}}">
         {{icon currentListing.icon}}
       </div>
-    {{else}}
-      <div class="listing"></div>
     {{/if}}
   </div>
 </div>

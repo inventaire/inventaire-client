@@ -15,16 +15,17 @@ module.exports = InfiniteScrollItemsList.extend
 
   initialize: ->
     @initInfiniteScroll()
-    { @allItemsIds } = @options
+    { @allItemsIds, @isMainUser } = @options
     @selectedIds = []
     @getSelectedIds = => @selectedIds
 
-  childViewOptions: -> { @getSelectedIds }
+  childViewOptions: -> { @getSelectedIds, @isMainUser }
 
   serializeData: ->
     itemsCount: @allItemsIds.length
     transactions: transactionsData
     listings: app.user.listings()
+    isMainUser: @isMainUser
 
   events:
     'inview .fetchMore': 'infiniteScroll'

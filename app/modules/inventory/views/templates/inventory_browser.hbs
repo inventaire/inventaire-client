@@ -12,6 +12,8 @@
     <a id="cascade" class="{{#if cascade}}selected{{/if}}">{{icon 'th-large'}}</a>
     <a id="table" class="{{#if table}}selected{{/if}}">{{icon 'align-justify'}}</a>
   </div>
-  <a id="addToInventory" class="tiny-button light-blue" href="/add">{{icon 'plus'}} {{I18n 'add books'}}</a>
+  {{#if isMainUser}}
+    <a id="addToInventory" class="tiny-button light-blue" href="/add">{{icon 'plus'}} {{I18n 'add books'}}</a>
+  {{/if}}
 </div>
 <div id="itemsView"></div>

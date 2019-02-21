@@ -1,7 +1,7 @@
 .items-table{
   position: relative;
   background-color: $inventory-nav-grey;
-  #table-header{
+  #table-header:not(.hidden){
     @include display-flex(row);
     padding: 0.5em;
     background-color: $inventory-nav-grey;
