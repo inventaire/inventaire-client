@@ -18,6 +18,9 @@ module.exports = Marionette.LayoutView.extend
     filterPreview: '#filterPreview'
     itemsView: '#itemsView'
 
+  behaviors:
+    PreventDefault: {}
+
   initialize: ->
     @lazyRender = _.LazyRender @
     @filters = {}
@@ -30,6 +33,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #displayControls a': 'selectDisplay'
+    'click #addToInventory': 'addToInventory'
 
   childEvents:
     'filter:select': 'onFilterSelect'
@@ -154,6 +158,10 @@ module.exports = Marionette.LayoutView.extend
     @ui.displayControls.find('.selected').removeClass 'selected'
     $(e.currentTarget).addClass 'selected'
     @showItemsByDisplayMode()
+
+  addToInventory: (e)->
+    if _.isOpenedOutside e then return
+    app.execute 'show:add:layout'
 
 getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null
