@@ -23,6 +23,7 @@ module.exports = Marionette.ItemView.extend
     passwords: '.password'
     passwordUpdater: '#passwordUpdater'
     languagePicker: '#languagePicker'
+    bioTextarea: '#bio'
 
   initialize: ->
     _.extend @, behaviorsPlugin
@@ -55,6 +56,7 @@ module.exports = Marionette.ItemView.extend
     'click a#emailButton': 'updateEmail'
     'click a#emailConfirmationRequest': 'emailConfirmationRequest'
     'change select#languagePicker': 'changeLanguage'
+    'click #saveBio': 'saveBio'
     'click a#updatePassword': 'updatePassword'
     'click #forgotPassword': -> app.execute 'show:forgot:password'
     'click #deleteAccount': 'askDeleteAccountConfirmation'
@@ -182,6 +184,15 @@ module.exports = Marionette.ItemView.extend
     @ui.passwordUpdater.trigger('fail')
     throw err
 
+  # BIO
+  saveBio: ->
+    bio = @ui.bioTextarea.val()
+
+    Promise.try validateBio.bind(null, bio)
+    .then updateUserBio.bind(null, bio)
+    .catch error_.Complete('#bio')
+    .catch forms_.catchAlert.bind(null, @)
+
   # LANGUAGE
   changeLanguage: (e)->
     app.request 'user:update',
@@ -192,6 +203,7 @@ module.exports = Marionette.ItemView.extend
   # PICTURE
   changePicture: require 'modules/user/lib/change_user_picture'
 
+  # DELETE ACCOUNT
   askDeleteAccountConfirmation: ->
     args = { username: @model.get('username') }
     app.execute 'ask:confirmation',
@@ -204,6 +216,16 @@ module.exports = Marionette.ItemView.extend
       formPlaceholder: "our love wasn't possible because"
       yes: 'delete your account'
       no: 'cancel'
+
+validateBio = (bio)->
+  if bio.length > 1000
+    throw error_.new "the bio can't be longer than 1000 characters", { length: bio.length }
+
+updateUserBio = (bio)->
+  app.request 'user:update',
+    attribute: 'bio'
+    value: bio
+    selector: '#bio'
 
 sendDeletionFeedback = (message)->
   _.preq.post app.API.feedback,

@@ -2,13 +2,23 @@
 {{partial 'general:behaviors:change_picture' this}}
 
 <hr>
-<h3>{{i18n 'language'}}</h3>
-{{partial 'user:language_picker' this 'check'}}
+<h3 class="with-tip">{{i18n 'username'}}</h3>
+<p class="note">{{I18n 'username_tip'}}</p>
+{{input usernamePicker}}
 
 <hr>
-<h3 class="with-tip">{{i18n 'username'}}</h3>
-<p class="note">{{i18n 'username_tip'}}</p>
-{{input usernamePicker}}
+
+<h3 class="with-tip">{{i18n 'bio'}}</h3>
+<p class="note">{{I18n 'a few words on you?'}}</p>
+<div class="bio-wrapper checkWrapper ctrlEnterClickWrapper">
+  <textarea name="bio" id="bio" class="ctrlEnterClick">{{bio}}</textarea>
+  <button id="saveBio" class="save tiny-success-button">{{icon 'check'}}{{I18n 'save'}}</button>
+  <span class="check"></span>
+</div>
+
+<hr>
+<h3>{{i18n 'language'}}</h3>
+{{partial 'user:language_picker' this 'check'}}
 
 <hr>
 <h3>{{i18n 'geolocation'}}</h3>
@@ -24,7 +34,7 @@
 
 <hr>
 <h3>{{i18n 'email'}}</h3>
-<p class="note">{{i18n 'email will not be publicly displayed.'}}</p>
+<p class="note">{{I18n 'email will not be publicly displayed.'}}</p>
 {{input emailPicker}}
 
 <div id="confirmationEmailSent" class="hidden successMessageBox">

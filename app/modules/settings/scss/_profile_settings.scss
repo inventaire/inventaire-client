@@ -71,6 +71,17 @@
   max-width: 20em;
 }
 
+.bio-wrapper{
+  button{
+    max-width: 10em;
+    margin: 0 auto;
+  }
+}
+
+#saveBio{
+  margin-bottom: 1em;
+}
+
 .deleteAccount{
   text-align: center;
   padding: 1em;
