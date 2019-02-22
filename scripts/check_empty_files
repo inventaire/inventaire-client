@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # It happens that brunch writes empty files
 # (see https://github.com/brunch/brunch/issues/1219 )
