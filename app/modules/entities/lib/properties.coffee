@@ -44,7 +44,7 @@ addProp 'wdt:P212', 'fixed-string', null, false, null
 # isbn 10
 addProp 'wdt:P957', 'fixed-string', null, false, null
 # publisher
-addProp 'wdt:P123', 'entity', 'publishers', false, false
+addProp 'wdt:P123', 'entity', 'publishers', false, true
 # collection
 addProp 'wdt:P195', 'entity', 'collections', false, false
 # date of publication

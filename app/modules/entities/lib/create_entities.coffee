@@ -78,6 +78,14 @@ createWorkEdition = (workEntity, isbn)->
       workEntity.push 'claims.wdt:P747', editionEntity.get('uri')
       return editionEntity
 
+createPublisher = (name, lang)->
+  _.types arguments, 'strings...'
+  labels = {}
+  labels[lang] = name
+  # instance of (P31) -> publisher (Q2085381)
+  claims = { 'wdt:P31': [ 'wd:Q2085381' ] }
+  return createEntity labels, claims
+
 getTitleFromWork = (workEntity, editionLang)->
   inEditionLang = workEntity.get "labels.#{editionLang}"
   if inEditionLang? then return inEditionLang
@@ -102,6 +110,8 @@ byProperty = (options)->
       return createAuthor textValue, lang
     when 'wdt:P179'
       return createSerie textValue, lang, relationEntity.get('claims.wdt:P50')
+    when 'wdt:P123'
+      return createPublisher textValue, lang
     else
       message = 'no entity creation function associated to this property'
       throw error_.new message, arguments
