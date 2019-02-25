@@ -11,7 +11,40 @@ $publisher-data-threshold: 25em;
     .link{
       @include text-hover(white, #bbb);
     }
+  },
+  .image-wrapper{
+    @include display-flex(column);
+    text-align: center;
+    img{
+      margin: 0 auto;
+      // Required by Edge that would maximize the image width otherwise
+      // Keep in sync with app/modules/entities/views/templates/publisherj_infobox.hbs
+      max-width: 300px;
+      /*Small screens*/
+      @media screen and (max-width: 300px) {
+        max-width: 95vw;
+      }
+    }
   }
+  .photo-credits{
+    margin: 0 auto;
+    font-size: 0.8em;
+    color: white;
+    max-width: 20em;
+    @include shy(0.4);
+    .link{
+      color: white;
+    }
+  }
+  .fa-pencil, .showOnWikidata{
+    @include text-hover(#bbb, white);
+  }
+  .claims{
+    .link{
+      @include text-hover(white, #bbb);
+    }
+  }
+
 }
 .publisherData{
   position: relative;

@@ -6,6 +6,11 @@ $publisher-layout-bg: #292929;
   &:not(:first-child){
     margin-top: 1em;
   }
+  h3{
+    text-align: center;
+    color: white;
+    margin: 0;
+  }
   .subentities{
     flex: 1 1 auto;
     @include display-flex(column);

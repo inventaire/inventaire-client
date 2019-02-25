@@ -1,3 +1,9 @@
+{{#if image.url}}
+  <div class="image-wrapper">
+    <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
+    {{partial 'entities:photo_credits' image.credits}}
+  </div>
+{{/if}}
 <div class="publisherData text-center entity-data-box">
   <h3 class="showEntity">{{label}}</h3>
   <h4 class="subheader">{{shortDescription}}</h4>
