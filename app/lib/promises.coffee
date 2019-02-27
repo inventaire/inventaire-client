@@ -45,6 +45,15 @@ methods.tap = (fn)->
     Promise.try -> fn res
     .then -> res
 
+methods.finally = (fn)->
+  @
+  .then (res)->
+    Promise.try -> fn()
+    .then -> res
+  .catch (err)->
+    Promise.try -> fn()
+    .then -> throw err
+
 methods.delay = (ms)->
   promise = @
   return new Promise (resolve, reject)->
@@ -79,8 +88,11 @@ methods.timeout = (ms)->
       reject err
 
 for name, fn of methods
-  # Make the new methods non-enumerable
-  Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
+  # Some of those functions might already be implemented
+  # - finally
+  unless Promise.prototype[name]?
+    # Make the new methods non-enumerable
+    Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
 
 # Used has a way to create only one resolved promise to start promise chains.
 # This may register as a premature micro-optimization
