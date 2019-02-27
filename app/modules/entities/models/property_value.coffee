@@ -33,7 +33,7 @@ module.exports = Backbone.Model.extend
     _.log oldValue, 'oldValue'
     _.log newValue, 'newValue'
 
-    if newValue is oldValue then return Promise.resolved
+    if newValue is oldValue then return Promise.resolve()
 
     property = @get 'property'
 

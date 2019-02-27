@@ -22,7 +22,7 @@ getSearchTypeFn = (type)->
 lastInput = null
 getRemoteFn = (type, searchType, collection)-> (input)->
   _.log input, 'input'
-  if input is lastInput then return Promise.resolved
+  if input is lastInput then return Promise.resolve()
   lastInput = input
 
   entityUri = getEntityUri input

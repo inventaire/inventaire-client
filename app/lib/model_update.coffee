@@ -24,7 +24,7 @@ Updater = (fixedOptions)->
 
     if bothInexistant or _.isEqual(value, previousValue)
       _.log options, 'the model is already up-to-date'
-      promise = Promise.resolved
+      promise = Promise.resolve()
     else
       model.set attribute, value
 

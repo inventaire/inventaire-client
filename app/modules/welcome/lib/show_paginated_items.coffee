@@ -31,7 +31,7 @@ FetchMore = (params)->
   busy = false
   fetchMore = ->
     done = moreData.total? and collection.length >= moreData.total
-    if busy or done then return Promise.resolved
+    if busy or done then return Promise.resolve()
 
     busy = true
     params.offset = collection.length

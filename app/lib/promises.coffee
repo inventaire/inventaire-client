@@ -98,13 +98,7 @@ for name, fn of methods
     # Make the new methods non-enumerable
     Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
 
-# Used has a way to create only one resolved promise to start promise chains.
-# This may register as a premature micro-optimization
-# cf http://stackoverflow.com/q/40683818/3324977
-Promise.resolved = Promise.resolve()
-if Object.freeze? then Object.freeze Promise.resolved
-
-Promise.getResolved = -> Promise.resolved
+Promise.getResolved = -> Promise.resolve()
 
 module.exports = Promise
 

@@ -12,7 +12,7 @@ module.exports = ->
   @set 'allUris', [ @get('uri') ]
 
   # No subentities to fetch
-  @waitForSubentities = Promise.resolved
+  @waitForSubentities = Promise.resolve()
 
   @initWorksRelations()
 

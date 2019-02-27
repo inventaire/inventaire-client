@@ -12,7 +12,7 @@ propertiesUsedByRelations = [
 module.exports =
   setPropertyValue: (property, oldValue, newValue)->
     _.log arguments, 'setPropertyValue args'
-    if oldValue is newValue then return Promise.resolved
+    if oldValue is newValue then return Promise.resolve()
 
     propArrayPath = "claims.#{property}"
     propArray = @get propArrayPath

@@ -41,7 +41,7 @@ module.exports = Marionette.LayoutView.extend
   showTabView: (tab)->
     View = require "./#{tab}"
     tabKey = "#{tab}Tab"
-    wait = tabsData[tab].wait or Promise.resolved
+    wait = tabsData[tab].wait or Promise.resolve()
 
     wait
     .then =>
