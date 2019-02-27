@@ -46,11 +46,15 @@ methods.tap = (fn)->
     .then -> res
 
 methods.finally = (fn)->
+  alreadyCalled = false
   @
   .then (res)->
-    Promise.try -> fn()
+    Promise.try ->
+      alreadyCalled = true
+      return fn()
     .then -> res
   .catch (err)->
+    if alreadyCalled then throw err
     Promise.try -> fn()
     .then -> throw err
 

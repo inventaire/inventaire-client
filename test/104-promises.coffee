@@ -276,18 +276,19 @@ describe 'promises', ->
 
       return
 
-  describe 'resolved', ->
-    it 'should be a resolved promise', (done)->
-      Promise.resolved.should.be.an.Object()
-      Promise.resolved.then.should.be.a.Function()
-      Promise.resolved.catch.should.be.a.Function()
-      Promise.resolved.then -> done()
-      return
+    it 'should be called only once', (done)->
+      counter = 0
+      Promise.resolve()
+      .finally ->
+        counter++
+        throw new Error('foo')
+      .catch (err)->
+        err.message.should.equal 'foo'
+        counter.should.equal 1
+        done()
+      .catch done
 
-    it 'should not be modifiable', (done)->
-      Promise.resolved.wat = 'yo'
-      should(Promise.resolved.wat).not.be.ok()
-      done()
+      return
 
   describe 'filter', ->
     it 'should be a function', (done)->
