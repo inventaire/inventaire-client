@@ -35,7 +35,7 @@ module.exports = Marionette.LayoutView.extend
     # Some entity type don't automatically fetch their subentities
     # even for the editor, as sub entites are displayed on the entities' page
     # already
-    waitForSubentities or= Promise.resolved
+    waitForSubentities or= Promise.resolve()
 
     @waitForPropCollection = waitForSubentities
       .then @initPropertiesCollections.bind(@)
@@ -126,7 +126,7 @@ module.exports = Marionette.LayoutView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   # Override in sub views
-  beforeCreate: -> Promise.resolved
+  beforeCreate: -> Promise.resolve()
 
   signalDataError: (e)->
     uri = @model.get 'uri'

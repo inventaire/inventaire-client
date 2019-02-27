@@ -14,7 +14,7 @@ module.exports = (options)->
   if condition
     fetchPromise = collection.fetch fetchOptions
   else
-    fetchPromise = Promise.resolved
+    fetchPromise = Promise.resolve()
 
   fetchPromise
   .timeout 10000

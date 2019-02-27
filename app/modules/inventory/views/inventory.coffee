@@ -46,7 +46,7 @@ module.exports = Marionette.LayoutView.extend
     # waitForUserData to avoid having displaying a user profile without
     # knowing the main user
 
-    waitForData = @options.waitForData or Promise.resolved
+    waitForData = @options.waitForData or Promise.resolve()
 
     waitForData
     .then @ifViewIsIntact('showItemsList')

@@ -77,7 +77,7 @@ getMissingEntities = (uris)->
   urisToFetch = missingUris.filter wasntPrevisoulyMissing
   addPreviouslyMissingUris missingUris
   if urisToFetch.length > 0 then return getEntities urisToFetch
-  else return Promise.resolved
+  else return Promise.resolve()
 
 update = ->
   uris = gatherRequiredUris()

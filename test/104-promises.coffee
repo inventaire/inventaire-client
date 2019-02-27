@@ -229,18 +229,66 @@ describe 'promises', ->
 
       return
 
-  describe 'resolved', ->
-    it 'should be a resolved promise', (done)->
-      Promise.resolved.should.be.an.Object()
-      Promise.resolved.then.should.be.a.Function()
-      Promise.resolved.catch.should.be.a.Function()
-      Promise.resolved.then -> done()
+  describe 'finally', ->
+    it 'should be a function', (done)->
+      Promise::finally.should.be.a.Function()
+      done()
+
+    it 'should not be provided any argument after a resolved promise', (done)->
+      Promise.resolve()
+      .finally (args...)->
+        args.should.deepEqual []
+        done()
+      .catch done
+
       return
 
-    it 'should not be modifiable', (done)->
-      Promise.resolved.wat = 'yo'
-      should(Promise.resolved.wat).not.be.ok()
-      done()
+    it 'should not be provided any argument after a rejected promise', (done)->
+      called = false
+      Promise.reject new Error('foo')
+      .finally (args...)->
+        called = true
+        args.should.deepEqual []
+      .catch (err)->
+        called.should.be.true()
+        done()
+      .catch done
+
+      return
+
+    it 'should pass the resolved value', (done)->
+      Promise.resolve 123
+      .finally -> 456
+      .then (res)->
+        res.should.equal 123
+        done()
+      .catch done
+
+      return
+
+    it 'should pass the rejected error', (done)->
+      Promise.reject new Error('foo')
+      .finally -> 456
+      .catch (err)->
+        err.message.should.equal 'foo'
+        done()
+      .catch done
+
+      return
+
+    it 'should be called only once', (done)->
+      counter = 0
+      Promise.resolve()
+      .finally ->
+        counter++
+        throw new Error('foo')
+      .catch (err)->
+        err.message.should.equal 'foo'
+        counter.should.equal 1
+        done()
+      .catch done
+
+      return
 
   describe 'filter', ->
     it 'should be a function', (done)->

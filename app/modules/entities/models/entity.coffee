@@ -68,7 +68,7 @@ module.exports = Filterable.extend
     # For instance, parts of a serie will default have a defaultType='work'
     unless @type
       # Placeholder
-      @waitForData = Promise.resolved
+      @waitForData = Promise.resolve()
       return
 
     if @get('edit')? then _.extend @, editableEntity
@@ -80,7 +80,7 @@ module.exports = Filterable.extend
 
     @typeSpecificInit()
 
-    if @_dataPromises.length is 0 then @waitForData = Promise.resolved
+    if @_dataPromises.length is 0 then @waitForData = Promise.resolve()
     else @waitForData = Promise.all @_dataPromises
 
   typeSpecificInit: ->
@@ -130,7 +130,7 @@ module.exports = Filterable.extend
     collection = @[@subentitiesName] = new Backbone.Collection
 
     # A draft entity can't already have subentities
-    if @creating then return @waitForSubentities = Promise.resolved
+    if @creating then return @waitForSubentities = Promise.resolve()
 
     uri = @get 'uri'
     prop = @childrenClaimProperty
@@ -206,7 +206,7 @@ module.exports = Filterable.extend
 
   # Overriden by modules/entities/lib/wikidata/init_entity.coffee
   # for Wikidata entities
-  getWikipediaExtract: -> Promise.resolved
+  getWikipediaExtract: -> Promise.resolve()
 
 placeholderAttributes =
   labels: {}
