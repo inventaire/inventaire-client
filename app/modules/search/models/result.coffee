@@ -2,7 +2,11 @@ getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 
 module.exports = Backbone.Model.extend
   initialize: (data)->
-    @set typeFormatters[data.type](data)
+    # Track TypeErrors where typeFormatters[data.type] isn't a function
+    try @set typeFormatters[data.type](data)
+    catch err
+      err.context = data
+      throw err
 
 entityFormatter = (type, typeAlias)-> (data)->
   data.typeAlias = typeAlias or type
