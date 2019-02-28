@@ -1,6 +1,6 @@
 should = require 'should'
 __ = require '../root'
-{ EntityUri, SimpleDay, ImageHash } = __.require 'lib', 'regex'
+{ EntityUri, SimpleDay, ImageHash, Email } = __.require 'lib', 'regex'
 
 describe 'Regex', ->
   describe 'EntityUri', ->
@@ -96,4 +96,14 @@ describe 'Regex', ->
 
     it 'should return false on invalid image hash', (done)->
       ImageHash.test('ffd1a4dd8eec14d994ccf4a3bd372fb29fbe29f').should.be.false()
+      done()
+
+  describe 'Email', ->
+    it 'should return true on valid email', (done)->
+      Email.test('f@y.fr').should.be.true()
+      Email.test('foo+bar@yolo.buzz.ninja').should.be.true()
+      done()
+
+    it 'should return false on invalid email', (done)->
+      Email.test('foo@@bar.fr').should.be.false()
       done()

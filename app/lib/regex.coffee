@@ -16,7 +16,7 @@ module.exports =
   ImageHash: /^[0-9a-f]{40}$/
   # minimanlist email regex
   # cf http://davidcel.is/blog/2012/09/06/stop-validating-email-addresses-with-regex/
-  Email: /.+@.+\..+/i
+  Email: /^[^@]+@[^@]+\.[^@]+$/
   Uuid: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
   CouchUuid: /^[0-9a-f]{32}$/
   Lang: /^\w{2}$/
