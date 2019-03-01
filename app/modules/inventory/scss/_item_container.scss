@@ -34,8 +34,12 @@
       }
     }
   }
+  .subtitle{
+    font-size: 1rem;
+    color: $grey;
+  }
   hr{
-    margin: 0.3em auto 0.1em auto;
+    margin: 0.2em auto;
     max-width: 1em;
   }
   @include display-flex(column, center);

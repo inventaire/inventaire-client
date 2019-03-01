@@ -4,6 +4,7 @@
       <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
     {{/if}}
     <span class="title">{{snapshot.entity:title}}</span><br>
+    <span class="subtitle">{{snapshot.entity:subtitle}}</span><br>
     {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}
       <span class="identifier">ISBN: {{entityData.claims.wdt:P212}}</span>
     {{/if}}{{/if}}
