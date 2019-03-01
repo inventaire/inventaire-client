@@ -3,9 +3,7 @@
   @include display-flex(row, flex-start, flex-start, wrap);
   background-color: $darker-grey;
   @include radius;
-  padding: 0.5em 0.5em 0.5em 1em;
   #isbnGroup{
-    max-width: 15em;
     input{
       margin: 0;
       @include radius-left;
@@ -22,14 +20,33 @@
     white-space: nowrap;
     @include display-flex(row, center, center);
   }
-  .from-isbn{
-    margin-right: 0.5em;
-  }
   #withoutIsbn{
-    // Aligning with #isbnField
-    margin-top: 1.45em;
     font-size: 0.9em;
     padding: 0.5em;
     @include display-flex(row, center, center);
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    padding: 1em;
+    flex-direction: column;
+    align-items: stretch;
+    #withoutIsbn{
+      margin-top: 1em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    padding: 0.5em 0.5em 0.5em 1em;
+    .from-isbn{
+      margin-right: 0.5em;
+    }
+    #isbnGroup{
+      max-width: 15em;
+    }
+    #withoutIsbn{
+      // Aligning with #isbnField
+      margin-top: 1.45em;
+    }
   }
 }
