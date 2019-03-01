@@ -55,9 +55,14 @@ specificMethods =
     # Works is pluralized to account for composite editions
     # cf https://github.com/inventaire/inventaire/issues/93
     worksUris = @get 'claims.wdt:P629'
+
     unless worksUris?
-      uri = @get 'uri'
-      throw new Error("entity #{uri} misses an associated work")
+      unless @creating
+        uri = @get 'uri'
+        error_.report 'edition entity misses associated works', { uri }
+      @works = []
+      startListeningForClaimsChanges.call @
+      return Promise.resolve()
 
     @waitForWorks = @reqGrab 'get:entities:models', { uris: worksUris }, 'works'
     # Use tap to ignore the return values
