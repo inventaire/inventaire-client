@@ -8,10 +8,6 @@
     // Prevent long alt-text to take the whole width while waiting for the image
     max-width: 10em;
   }
-  > .right-part{
-    flex: 1 0 0;
-    overflow: hidden;
-  }
   .upper-part{
     // Wrap in case the edition title makes the row overflow
     // Known case: /entity/wd:Q3314295
@@ -32,6 +28,7 @@
   @media screen and (max-width: $smaller-screen) {
     @include display-flex(column, center, center);
     padding-top: 1em;
+    margin-bottom: 1em;
     .upper-part{
       justify-content: center;
       @include display-flex(column, center, center);
@@ -44,5 +41,9 @@
   @media screen and (min-width: $smaller-screen) {
     padding: 1em;
     margin: 2em;
+    > .right-part{
+      flex: 1 0 0;
+      overflow: hidden;
+    }
   }
 }
