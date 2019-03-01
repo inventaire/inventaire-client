@@ -18,5 +18,9 @@ module.exports = Marionette.LayoutView.extend
 
   showGroupsLists: ->
     @groupList.show new GroupsList
-      collection: app.groups
+      collection: getCollection @options.tab
       mode: 'board'
+
+getCollection = (tab)->
+  if tab is 'userGroups' then app.groups.mainUserMember
+  else app.groups
