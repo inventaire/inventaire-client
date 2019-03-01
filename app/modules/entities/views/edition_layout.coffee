@@ -26,8 +26,7 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('render')
 
   onRender: ->
-    entityItems.onRender.call @
-    @showEntityActions()
+    @lazyShowItems()
 
   serializeData: ->
     _.extend @model.toJSON(),

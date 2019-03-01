@@ -5,18 +5,20 @@ module.exports =
   initialize: ->
     { @standalone } = @options
     @waitForItems = @model.getItemsByCategories()
+    @lazyShowItems = _.debounce showItemsPreviewLists.bind(@), 100
+
     _.extend @, entityItemsMethods
 
-  onRender: ->
-    @waitForItems
-    .then =>
-      # Happens when app/modules/entities/views/editions_list.coffee
-      # are displayed within work_layout and thus re-redered on filter
-      if @isDestroyed then return
-      if app.user.loggedIn
-        @showPersonalItems()
-        @showNetworkItems()
-      @showPublicItems()
+showItemsPreviewLists = ->
+  @waitForItems
+  .then =>
+    # Happens when app/modules/entities/views/editions_list.coffee
+    # are displayed within work_layout and thus re-redered on filter
+    if @isDestroyed then return
+    if app.user.loggedIn
+      @showPersonalItems()
+      @showNetworkItems()
+    @showPublicItems()
 
 entityItemsMethods =
   showPersonalItems: -> @showItemsPreviews 'personal'
