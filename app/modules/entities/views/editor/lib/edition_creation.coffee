@@ -11,7 +11,7 @@ module.exports =
         dotdotdot: ''
       button:
         icon: 'plus'
-        text: 'add'
+        text: _.i18n 'add'
         classes: 'grey postfix sans-serif'
     addWithoutIsbnPath: addWithoutIsbnPath workModel
 

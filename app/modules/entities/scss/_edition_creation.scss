@@ -19,11 +19,8 @@
   }
   #isbnButton{
     font-weight: normal;
-    padding-left: 1em;
-    padding-right: 1em;
-    // centering vertically
-    padding-top: 0.1em;
     white-space: nowrap;
+    @include display-flex(row, center, center);
   }
   .from-isbn{
     margin-right: 0.5em;
@@ -33,5 +30,6 @@
     margin-top: 1.45em;
     font-size: 0.9em;
     padding: 0.5em;
+    @include display-flex(row, center, center);
   }
 }
