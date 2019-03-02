@@ -1,0 +1,63 @@
+// Inspired by https://loading.io/css/ .lds-dual-ring
+@mixin loader-commons(){
+  display: inline-block;
+  align-self: center;
+  &:after{
+    content: " ";
+    display: block;
+    width: 1.2em;
+    height: 1.2em;
+    margin: 1px;
+    border-radius: 50%;
+    animation: ring-loader 1.2s linear infinite;
+  }
+}
+
+@keyframes ring-loader{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+.small-loader{
+  @include loader-commons;
+  &:after{
+    border: 2px solid;
+    // Let other borders color inherit the text color value
+    // cf https://www.w3.org/TR/css-color-3/#currentcolor
+    border-left-color: transparent;
+  }
+}
+
+.centered-loader{
+  width: 100%;
+  height: 100%;
+  @include display-flex(row, center, center);
+  &.align-start{
+    justify-content: flex-start;
+  }
+}
+
+// /!\ .loading shouldn't be added to non-empty elements
+// as it would make them flex
+.loading:not(:empty){
+  @include display-flex(row, center, center);
+  padding: 0.2em;
+}
+
+.full-screen-loader{
+  @include position(fixed, 0, 0, 0, 0);
+  @include display-flex(row, center, center);
+  > div{
+    transform: translateY(-50%);
+    @include loader-commons;
+    &:after{
+      border: 8px solid;
+      border-color: $dark-grey $light-blue $yellow transparent;
+      font-size: 5em;
+    }
+  }
+}

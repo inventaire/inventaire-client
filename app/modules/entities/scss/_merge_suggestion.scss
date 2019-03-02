@@ -1,3 +1,9 @@
+.mergeSuggestions{
+  .small-loader{
+    color: white;
+  }
+}
+
 #merge-suggestion{
   @include display-flex(row, center, center);
 }

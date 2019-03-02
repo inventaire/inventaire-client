@@ -21,10 +21,8 @@
       .counter{
         background-color: $grey;
         color: white;
-        &.spinning{
-          // centering
-          padding-top: 0.3em;
-          padding-left: 0.5em;
+        .small-loader{
+          padding: 0.2em 0;
         }
       }
     }

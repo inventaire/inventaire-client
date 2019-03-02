@@ -7,8 +7,8 @@
     margin-right: 0.5em;
     @include display-flex(row, center, center);
   }
-  .fa-spin{
-    opacity: 0.3;
+  .centered-loader{
+    opacity: 0.5;
     margin-left: 2em;
   }
   .identifier{

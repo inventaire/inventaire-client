@@ -12,7 +12,7 @@
 Results = Backbone.Collection.extend { model: require('../models/result') }
 wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
 findUri = require '../lib/find_uri'
-spinner = _.icon 'circle-o-notch', 'fa-spin'
+spinner = '<div class="small-loader"></div>'
 error_ = require 'lib/error'
 screen_ = require 'lib/screen'
 

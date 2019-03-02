@@ -5,6 +5,7 @@ EntityEdit = require 'modules/entities/views/editor/entity_edit'
 wd_ = require 'lib/wikimedia/wikidata'
 isbn_ = require 'lib/isbn'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ startLoading } = require 'modules/general/plugins/behaviors'
 
 # An object to cache search results from one search to the next
 cache = {}
@@ -15,6 +16,7 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     AlertBox: {}
     PreventDefault: {}
+    Loading: {}
 
   regions:
     authors: '#authors'
@@ -72,7 +74,7 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('showResults')
     .catch @_catchErr.bind(@)
 
-    app.execute 'show:loader', { region: @authors, timeout: 120 }
+    @startLoading '#authors', { timeout: 120 }
     @setTimeout @_pleaseBePatient.bind(@), 6000
 
   _pleaseBePatient: ->

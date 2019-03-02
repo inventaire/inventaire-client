@@ -28,7 +28,6 @@ module.exports = Marionette.LayoutView.extend
     mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     { @standalone } = @options
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
@@ -54,10 +53,10 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('showWorks')
     .catch _.Error('author_layout fetchWorks err')
 
-  onRender: ->
+  onShow: ->
     @showInfobox()
     if @worksShouldBeShown then @showWorks()
-    if @displayMergeSuggestions then @showMergeSuggestions()
+    if @displayMergeSuggestions then @setTimeout @showMergeSuggestions.bind(@), 100
 
   showInfobox: ->
     @infoboxRegion.show new AuthorInfobox { @model, @standalone }

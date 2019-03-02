@@ -71,20 +71,19 @@ module.exports = ClaimsEditorCommons.extend
         .then @uploadDataUrl.bind(@)
     .catch error_.Complete(urlInputSelector, false)
     .catch forms_.catchAlert.bind(null, @)
-    .finally stopLoading.bind(@)
+    .finally stopLoading.bind(@, '.save')
 
   uploadFileAndSave: ->
+    startLoading.call @, '.validate-upload'
     dataUrl = @ui.imagePreview.find('img')[0]?.src
     @uploadDataUrl dataUrl
-
-  uploadDataUrl: (dataUrl)->
-    startLoading.call @, '.validate-upload'
-
-    images_.getImageHashFromDataUrl 'entities', dataUrl
-    .then @_bareSave.bind(@)
     .catch error_.Complete(imagePreviewSelector, false)
     .catch forms_.catchAlert.bind(null, @)
-    .finally stopLoading.bind(@)
+    .finally stopLoading.bind(@, '.validate-upload')
+
+  uploadDataUrl: (dataUrl)->
+    images_.getImageHashFromDataUrl 'entities', dataUrl
+    .then @_bareSave.bind(@)
 
   # Triggered by Ctrl+Enter (behavior inherited from editor_commons)
   save: -> @saveFromUrl()

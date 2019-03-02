@@ -22,7 +22,6 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     AlertBox: {}
-    Loading: {}
 
   initialize: ->
     @mergedUris = []

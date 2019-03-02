@@ -1,4 +1,4 @@
-spinner = _.icon 'circle-o-notch', 'fa-spin'
+loader = require 'modules/general/views/templates/loader'
 error_ = require 'lib/error'
 canAddOneTypeList = [ 'serie', 'work' ]
 { buildPath } = require 'lib/location'
@@ -98,7 +98,6 @@ module.exports = Marionette.CompositeView.extend
 
     @collection.fetchMore @batchLength
     .then =>
-      @ui.moreCounter.removeClass 'spinning'
       if @more()
         @ui.moreCounter.text @more()
       else
@@ -106,9 +105,7 @@ module.exports = Marionette.CompositeView.extend
         @ui.addOne.removeClass 'hidden'
 
   startMoreLoading: ->
-    @ui.moreCounter
-    .addClass 'spinning'
-    .html spinner
+    @ui.moreCounter.html loader()
 
   addOne: (e)->
     unless _.isOpenedOutside e

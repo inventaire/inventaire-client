@@ -47,6 +47,8 @@
 }
 .save{
   @include tiny-button-color($success-color);
+  // Required to keep the loader aligned
+  @include display-flex(row, center, center);
 }
 .edit-mode-buttons{
   @include display-flex(row);

@@ -3,7 +3,6 @@
 @import "links";
 @import "case";
 @import "radius";
-@import "index";
 
 $topbar-bg-color: $darker-grey;
 $topbar-height: 46px;
@@ -107,17 +106,11 @@ body{
   max-width: 100%;
 }
 
-.generic-loader{
-  width: 100%;
-  height: 100%;
-  @include display-flex(row, center, center);
-  padding: 2em;
-}
-
 noscript{
   padding: 1em;
 }
 
+@import "loader";
 @import "buttons";
 @import "shadow_box";
 @import "panel";

@@ -9,12 +9,14 @@ module.exports = Marionette.Behavior.extend
     @$target = @getTarget selector
     # _.log @$target, '@$target'
 
-    body = _.icon 'circle-o-notch', 'fa-spin'
+    body = '<div class="small-loader"></div>'
     if message?
       mes = params.message
       body += "<p class='grey'>#{mes}</p>"
 
     @$target.html body
+    # Elements to hide when loading should share the same parent as the .loading element
+    @$target.parent().find('.hide-on-loading').hide()
 
     timeout or= 30
     unless timeout is 'none'
@@ -32,6 +34,7 @@ module.exports = Marionette.Behavior.extend
   hideSpinningLoader: (e, params = {})->
     @$target or= @getTarget params.selector
     @$target.empty()
+    @$target.parent().find('.hide-on-loading').show()
     @hidden = true
 
   somethingWentWrong: (e, params = {})->

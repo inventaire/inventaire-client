@@ -1,16 +1,10 @@
 DonateMenu = require '../views/donate_menu'
 FeedbackMenu = require '../views/feedback_menu'
-Loader = require '../views/behaviors/loader'
 
 module.exports =
   showLoader: (options = {})->
-    { region, selector } = options
-    if selector?
-      loader = new Loader
-      $(selector).html loader.render()
-    else
-      region or= app.layout.main
-      region.show new Loader
+    loader = '<div class="full-screen-loader"><div></div></div>'
+    $(app.layout.main.el).html loader
 
   showEntity: (e)-> entityAction e, 'show:entity'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'

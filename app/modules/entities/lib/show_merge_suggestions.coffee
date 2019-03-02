@@ -1,9 +1,11 @@
 Entities = require '../collections/entities'
 MergeSuggestions = require '../views/editor/merge_suggestions'
 Task = require 'modules/tasks/models/task'
+loader = require 'modules/general/views/templates/loader'
 
 module.exports = (params)->
   { region, model } = params
+  $(region.el).html loader()
 
   getMergeSuggestions model
   .then (entities)->
