@@ -1,11 +1,16 @@
 <a href="{{pathname}}">
-  {{icon 'search'}}
-  <div class="query">
-    {{query}}
-  </div>
   <div class="pics">
     {{#each pictures}}
-      <img src="{{imgSrc this 96}}" alt="{{query}}">
+      <img src="{{imgSrc this 96}}" alt="{{label}}">
     {{/each}}
   </div>
+  {{#if uri}}
+    <div class="info">
+      <p class="label">{{label}}</p>
+      <p class="uri">{{uri}}</p>
+    </div>
+  {{else}}
+    {{icon 'search'}}
+    <span class="query">{{query}}</span>
+  {{/if}}
 </a>

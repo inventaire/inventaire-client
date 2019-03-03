@@ -12,10 +12,15 @@ module.exports = Backbone.Model.extend
 
   serializeData: ->
     data = @toJSON()
-    { query } = data
-    data.pathname = "search?q=#{query}"
+    { query, uri } = data
+    data.pathname = if uri then "/entity/#{uri}" else "/search?q=#{query}"
+    data.pictures = _.forceArray data.pictures
+    data.label or= query
     return data
 
   updateTimestamp: -> @set 'timestamp', Date.now()
 
-  show: -> app.execute 'search:global', @get('query')
+  show: ->
+    [ uri, query ] = @gets 'uri', 'query'
+    if uri? then app.execute 'show:entity', uri
+    else app.execute 'search:global', query

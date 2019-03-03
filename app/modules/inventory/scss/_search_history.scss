@@ -1,0 +1,47 @@
+#historyWrapper{
+  margin-top: 2em;
+}
+#history{
+  $base: 6em;
+  margin: 0 auto;
+  max-width: 30em;
+  .previous-search{
+    a{
+      @include display-flex(row, center);
+      @include panel;
+      @include bg-hover(white, 4%);
+    }
+    margin-bottom: 1em;
+    .fa{
+      opacity: 0.5;
+    }
+    .query, .info{
+      margin: 0 auto;
+      flex: 1 1 auto;
+      padding-right: 0.5em;
+      font-size: 1.1em;
+    }
+    .pics{
+      max-height: $base;
+      max-width: $base*3;
+      overflow: hidden;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .previous-search{
+      a{
+        flex-flow: column-reverse;
+      }
+      img{
+        max-height: 5em;
+      }
+      .pics{
+        padding-top: 1em;
+      }
+    }
+  }
+}
+.clearHistory{
+  @include shy;
+}

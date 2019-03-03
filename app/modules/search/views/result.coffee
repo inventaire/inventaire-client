@@ -18,16 +18,21 @@ module.exports = Marionette.ItemView.extend
 
   showResultFromEvent: (e)-> unless _.isOpenedOutside e then @showResult()
   showResult: ->
-    switch @model.get('type')
+    { id, uri, label, type, image } = @model.toJSON()
+    switch type
       when 'users'
-        app.execute 'show:inventory:user', @model.get('id')
+        app.execute 'show:inventory:user', id
       when 'groups'
-        app.execute 'show:inventory:group:byId', @model.get('id')
+        app.execute 'show:inventory:group:byId', id
       when 'subjects'
-        app.execute 'show:claim:entities', 'wdt:P921', @model.get('uri')
+        app.execute 'show:claim:entities', 'wdt:P921', uri
       else
         # Other cases are all entities
-        app.execute 'show:entity', @model.get('uri')
+        app.execute 'show:entity', uri
+
+    if uri?
+      pictures = _.forceArray(image).map urlifyImageHash.bind(null, type)
+      app.request 'search:history:add', { uri, label, type, pictures }
 
     app.vent.trigger 'live:search:show:result'
 

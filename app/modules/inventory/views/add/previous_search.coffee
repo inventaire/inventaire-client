@@ -1,6 +1,7 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/previous_search'
   tagName: 'li'
+  className: 'previous-search'
   behaviors:
     PreventDefault: {}
 

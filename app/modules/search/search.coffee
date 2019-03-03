@@ -1,4 +1,4 @@
-Searches = require './collections/searches'
+SearchResultsHistory = require './collections/search_results_history'
 SearchLayout = require './views/search'
 error_ = require 'lib/error'
 findUri = require './lib/find_uri'
@@ -13,14 +13,14 @@ module.exports =
     app.addInitializer -> new Router { controller: API }
 
   initialize: ->
+    app.searchResultsHistory = new SearchResultsHistory
+
     app.commands.setHandlers
       'search:global': API.search
 
     app.reqres.setHandlers
       'search:entities': API.searchEntities
-
-    # keep an history of searches
-    app.searches = new Searches
+      'search:history:add': (data)-> app.searchResultsHistory.addNonExisting data
 
 API = {}
 API.search = (query, refresh)->

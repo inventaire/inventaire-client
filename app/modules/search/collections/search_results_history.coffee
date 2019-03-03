@@ -2,8 +2,8 @@ module.exports = Backbone.Collection.extend
   model: require '../models/search'
   # deduplicating searches
   addNonExisting: (data)->
-    { query } = data
-    model = @where({ query })[0]
+    { query, uri } = data
+    model = if query then @where({ query })[0] else @where({ uri })[0]
 
     # create the model if not existing
     if model? then model.updateTimestamp()
@@ -28,7 +28,7 @@ module.exports = Backbone.Collection.extend
 
   save: ->
     # Remove duplicates
-    searches = _.uniq @toJSON(), (search)-> search.query.trim().toLowerCase()
+    searches = _.uniq @toJSON(), (search)-> search.uri or search.query.trim().toLowerCase()
     # keep only track of the 10 last searches
     data = JSON.stringify searches[0..10]
     localStorageProxy.setItem 'searches', data

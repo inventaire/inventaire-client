@@ -13,7 +13,7 @@ module.exports = Marionette.CompositeView.extend
     localSearchField: '#localSearchField'
 
   initialize: ->
-    @collection = app.searches
+    @collection = app.searchResultsHistory
     # re-sorting as some timestamps might have be updated
     # since the initial sorting
     @collection.sort()

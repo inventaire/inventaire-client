@@ -104,7 +104,7 @@ module.exports = Marionette.LayoutView.extend
 
   addNext: ->
     switch @_lastAddMode
-      when 'search' then app.execute 'show:add:layout:search:last'
+      when 'search' then app.execute 'show:add:layout:search'
       when 'scan:embedded' then app.execute 'show:scanner:embedded'
       # If _lastAddMode is scan:zxing, the scanner should have been opened
       # by the click on the <a href=zxing.url>, which should open a new window
