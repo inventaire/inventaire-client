@@ -2,6 +2,7 @@
   // Avoid to have a height jump when passing in edit mode
   min-height: 300px;
   .edit-mode{
+    max-width: 100%;
     flex: 1 0 auto;
     // @include display-flex(column, flex-start);
     // Push it up
