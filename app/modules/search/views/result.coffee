@@ -9,6 +9,8 @@ module.exports = Marionette.ItemView.extend
     attrs = @model.toJSON()
     # Prefer the alias type name to show 'author' instead of 'human'
     attrs.type = attrs.typeAlias or attrs.type
+    if _.isArray attrs.image then attrs.image = attrs.image[0]
+    attrs.image = urlifyImageHash attrs.type, attrs.image
     return attrs
 
   events:
@@ -31,3 +33,13 @@ module.exports = Marionette.ItemView.extend
 
   unhighlight: -> @$el.removeClass 'highlight'
   highlight: -> @$el.addClass 'highlight'
+
+urlifyImageHash = (type, hash)->
+  nonEntityContainer = nonEntityContainersPerType[type]
+  container = nonEntityContainer or 'entities'
+  if _.isImageHash hash then "/img/#{container}/#{hash}"
+  else hash
+
+nonEntityContainersPerType =
+  users: 'users'
+  groups: 'users'

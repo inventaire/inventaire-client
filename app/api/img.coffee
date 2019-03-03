@@ -32,6 +32,11 @@ module.exports = (path, width = 1600, height = 1600)->
       width: width
       height: height
 
+  if _.isImageHash path
+    console.warn 'image hash without container', path
+    console.trace()
+    return
+
   # Assumes this is a Wikimedia Commons filename
   if path[0] isnt '/' then return commons_.thumbnail path, width
 
