@@ -111,6 +111,17 @@ $preview-icon-base-size: 2em;
       margin-right: auto;
     }
   }
+  &.emptyLists{
+    opacity: 0.6;
+    .items-lists-per-transactions{
+      display: none;
+    }
+  }
+  &.compact{
+    &.emptyLists{
+      @include display-flex(row, center, space-between);
+    }
+  }
 }
 .items-lists-per-transactions{
   // add a hint of padding to prevent the "show/hide details" links
@@ -139,4 +150,21 @@ $preview-icon-base-size: 2em;
   img{
     @include radius;
   }
+}
+
+.items-lists-loader{
+  color: #bbb;
+  @include display-flex(row, center, center);
+  .small-loader{
+    padding: 0.3em;
+  }
+  label{
+    flex: 1 0 auto;
+    white-space: nowrap;
+  }
+}
+
+.empty-list{
+  padding: 0 0.5em;
+  color: lighten($grey, 15%);
 }

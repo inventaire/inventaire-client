@@ -86,7 +86,8 @@ API =
   getSerieView: (model, refresh)->
     new SerieLayout { model, refresh, standalone: true }
 
-  getWorkView: (model, refresh)-> new WorkLayout { model, refresh }
+  # WorkLayout is only used in standalone mode, but the flag is required by ./lib/entity_items
+  getWorkView: (model, refresh)-> new WorkLayout { model, refresh, standalone: true }
 
   getWorkViewFromEdition: (model, refresh)->
     new EditionLayout { model, refresh, standalone: true }
