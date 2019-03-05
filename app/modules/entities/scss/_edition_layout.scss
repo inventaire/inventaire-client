@@ -1,47 +1,23 @@
 .editionLayout{
-  @include display-flex(column, center, center);
-  .row-wrap{
-    width: 100%;
-    @include display-flex(row, center, space-around, wrap);
+  .edition-data-wrapper{
+    margin: 0 auto;
     background-color: white;
     padding: 1em;
-    max-width: 80em;
+    max-width: 60em;
   }
   .edition-data{
-    margin: 0;
-    @include display-flex(row, center, space-around, wrap);
-    > div{
-      margin-left: 1em;
-      margin-right: 1em;
-    }
-    h3 a{
-      @include link-light;
-    }
-    .property-value{
-      color: #cfcfcf;
-    }
-    .data{
-      position: relative;
-      padding: 1.5em;
-      /*Large screens*/
-      @media screen and (min-width: 20em) {
-        min-width: 20em;
-      }
-    }
+    @include display-flex(row, null, flex-start, wrap);
   }
-  .instances{
-    @include display-flex(column, center, center);
+  .entity-data-box{
+    h2{
+      line-height: 1rem;
+    }
+    margin: 1em 0;
+    // Give room to .edit-data-buttons which are positioned absolutely
+    padding-right: 3em;
   }
   .cover{
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  h2{
-    text-align: center;
-    a{
-      @include underline-on-hover($dark-grey);
-    }
-    margin: 0;
+    margin: 1em;
   }
   .subtitle{
     margin-bottom: 1em;
@@ -60,13 +36,8 @@
   .showEntity{
     margin-top: 2em;
   }
-  .entityActions{
-    margin-top: 2em;
-  }
-  .works{
-    a{
-      display: inline-block;
-    }
+  .works a{
+    display: inline-block;
   }
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {

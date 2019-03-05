@@ -1,6 +1,5 @@
 .entityActions{
   @include display-flex(column, center, center);
-  margin-bottom: 1rem;
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {

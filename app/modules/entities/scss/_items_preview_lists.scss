@@ -18,7 +18,7 @@ $preview-icon-base-size: 2em;
   }
   @include radius;
   .header{
-    color: $grey;
+    color: $dark-grey;
   }
   .showDetails, .hideDetails{
     @include underline;
@@ -113,13 +113,9 @@ $preview-icon-base-size: 2em;
   }
   &.emptyLists{
     opacity: 0.6;
+    @include display-flex(row, center, space-between);
     .items-lists-per-transactions{
       display: none;
-    }
-  }
-  &.compact{
-    &.emptyLists{
-      @include display-flex(row, center, space-between);
     }
   }
 }

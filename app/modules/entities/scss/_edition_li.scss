@@ -1,9 +1,11 @@
 .editionLi, .editionWrapper{
-  @include display-flex(row);
   @include radius;
-  margin: auto;
   background-color: white;
+  .info{
+    @include display-flex(row);
+  }
   .cover{
+    margin: 0.5em;
     flex: 0 0 auto;
     // Prevent long alt-text to take the whole width while waiting for the image
     max-width: 10em;
@@ -17,11 +19,6 @@
     padding: 0.5em;
     margin: 0.5em;
     margin-left: auto;
-  }
-
-  .entityActions{
-    margin-left: 1em;
-    margin-right: 1em;
   }
 
   /*Small screens*/

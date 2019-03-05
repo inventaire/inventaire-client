@@ -1,21 +1,25 @@
-<div class="cover">
-  {{#if image.url}}
-    <a class="showEntity" href="{{pathname}}" title="{{label}}">
-      <img src="{{imgSrc image.url 150}}" alt="{{label}}">
-    </a>
-  {{/if}}
-</div>
-<div class="right-part">
-  <div class="upper-part">
-    <div class="claims">
+<div class="info">
+  <div class="cover">
+    {{#if image.url}}
       <a class="showEntity" href="{{pathname}}" title="{{label}}">
-        <h4 class="edition-title">{{label}}</h4>
+        <img src="{{imgSrc image.url 150}}" alt="{{label}}">
       </a>
-      <div class="inner-claims">
-        {{partial 'entities:edition_claims' this}}
+    {{/if}}
+  </div>
+  <div class="right-part">
+    <div class="upper-part">
+      <div class="claims">
+        <a class="showEntity" href="{{pathname}}" title="{{label}}">
+          <h4 class="edition-title">{{label}}</h4>
+        </a>
+        <div class="inner-claims">
+          {{partial 'entities:edition_claims' this}}
+        </div>
       </div>
     </div>
-    <div class="editionEntityActions"></div>
   </div>
+</div>
+<div class="items">
   {{partial 'entities:items_lists' prefix='edition'}}
 </div>
+<div class="editionEntityActions"></div>
