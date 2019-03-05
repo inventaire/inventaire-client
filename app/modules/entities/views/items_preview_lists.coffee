@@ -2,7 +2,12 @@ ItemsPreviewList = require './items_preview_list'
 screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
-  className: 'itemsPreviewLists'
+  className: ->
+    className = 'itemsPreviewLists'
+    if @options.compact then className += ' compact'
+    if @options.itemsModels.length is 0 then className += ' emptyLists'
+    return className
+
   template: require './templates/items_preview_lists'
 
   regions:
@@ -15,14 +20,18 @@ module.exports = Marionette.LayoutView.extend
     detailsTogglers: '.detailsTogglers a'
 
   initialize: ->
-    { @category, itemsModels } = @options
-    if itemsModels.length is 0 then return
-    @collections = spreadByTransactions itemsModels
+    { @category, itemsModels, @compact } = @options
+    if itemsModels.length is 0
+      @emptyList = true
+    else
+      @collections = spreadByTransactions itemsModels
 
   serializeData: ->
     header: headers[@category]
+    emptyList: @emptyList
 
-  onShow: -> @showItemsPreviewLists false
+  onShow: ->
+    unless @emptyList then @showItemsPreviewLists false
 
   events:
     'click .showDetails': 'showDetails'

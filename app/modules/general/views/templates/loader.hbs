@@ -1,3 +1,7 @@
-<div class="centered-loader {{#if hash.align}}align-{{hash.align}}{{/if}}">
+{{#if hash.inline}}
   <div class="small-loader"></div>
-</div>
+{{else}}
+  <div class="centered-loader {{#if hash.align}}align-{{hash.align}}{{/if}}">
+    <div class="small-loader"></div>
+  </div>
+{{/if}}

@@ -50,7 +50,7 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('showEditions')
 
   onRender: ->
-    entityItems.onRender.call @
+    @lazyShowItems()
     if @displayMergeSuggestions then @showMergeSuggestions()
 
   events:

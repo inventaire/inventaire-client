@@ -7,8 +7,9 @@ module.exports = Marionette.LayoutView.extend
     else require './templates/edition_li'
   tagName: -> if @options.standalone then 'div' else 'li'
   className: ->
-    base = 'edition-commons'
-    if @options.standalone then "#{base} editionLayout" else "#{base} editionLi"
+    className = 'edition-commons'
+    className += if @options.standalone then ' editionLayout' else ' editionLi'
+    return className
 
   regions:
     # Prefix regions selectors with 'edition' to avoid collisions with
@@ -26,8 +27,7 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('render')
 
   onRender: ->
-    entityItems.onRender.call @
-    @showEntityActions()
+    @lazyShowItems()
 
   serializeData: ->
     _.extend @model.toJSON(),

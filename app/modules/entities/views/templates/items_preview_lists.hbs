@@ -5,7 +5,11 @@
   <div class="selling"></div>
   <div class="inventorying"></div>
 </div>
-<div class="detailsTogglers">
-  <a class="showDetails">{{i18n 'show details'}}</a>
-  <a class="hideDetails hidden">{{i18n 'hide details'}}</a>
-</div>
+{{#if emptyList}}
+  <div class="empty-list">{{i18n 'nothing here'}}</div>
+{{else}}
+  <div class="detailsTogglers">
+    <a class="showDetails">{{i18n 'show details'}}</a>
+    <a class="hideDetails hidden">{{i18n 'hide details'}}</a>
+  </div>
+{{/if}}

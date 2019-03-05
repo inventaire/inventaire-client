@@ -6,7 +6,9 @@
   }
   .items-lists{
     padding: 0.5em;
-    text-align: center;
+    .items-lists-per-transactions{
+      text-align: center;
+    }
   }
   .property-value{
     color: $dark-grey;
