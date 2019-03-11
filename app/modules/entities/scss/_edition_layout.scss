@@ -2,16 +2,12 @@
   .edition-data-wrapper{
     margin: 0 auto;
     background-color: white;
-    padding: 1em;
     max-width: 60em;
   }
   .edition-data{
-    @include display-flex(row, null, flex-start, wrap);
+    @include display-flex(row, null, flex-start);
   }
   .entity-data-box{
-    h2{
-      line-height: 1rem;
-    }
     margin: 1em 0;
     // Give room to .edit-data-buttons which are positioned absolutely
     padding-right: 3em;
@@ -41,13 +37,35 @@
   }
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
+    .edition-data{
+      flex-direction: column;
+      align-items: center;
+      h2{
+        text-align: center;
+      }
+    }
+    .entity-data-box{
+      position: relative;
+      .edit-data-buttons{
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
     .items-lists{
       width: 100%;
-      margin: 1em;
+    }
+    .meta{
+      .uri{
+        display: none;
+      }
     }
   }
   /*Medium and Large screens*/
   @media screen and (min-width: $very-small-screen) {
+    .edition-data-wrapper{
+      padding: 1em;
+    }
     .claims, .itemsPreviewLists{
       min-width: 20em;
     }
