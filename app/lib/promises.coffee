@@ -1,4 +1,5 @@
 window.Promise or= require 'promise-polyfill'
+require('./promise_rejection_events_polyfill')()
 { reportError } = requireProxy 'lib/reports'
 
 methods = {}
@@ -106,6 +107,6 @@ module.exports = Promise
 if window.addEventListener?
   # see http://2ality.com/2016/04/unhandled-rejections.html
   window.addEventListener 'unhandledrejection', (event)->
-    console.error 'PossiblyUnhandledRejection', event
+    console.error 'PossiblyUnhandledRejection', event.reason
     err = new Error "PossiblyUnhandledRejection: #{event.reason}"
     reportError err
