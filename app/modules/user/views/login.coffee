@@ -2,6 +2,7 @@ username_ = require 'modules/user/lib/username_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+prepareRedirect = require '../lib/prepare_redirect'
 
 module.exports = Marionette.ItemView.extend
   className: 'authMenu login'
@@ -24,15 +25,14 @@ module.exports = Marionette.ItemView.extend
 
   initialize: ->
     _.extend @, behaviorsPlugin
+    @formAction = prepareRedirect.call @
 
-    redirect = app.request 'querystring:get', 'redirect'
-    if _.isNonEmptyString redirect
-      app.execute 'prepare:login:redirect', redirect
-
-  onShow:-> @ui.username.focus()
+  onShow:->
+    @ui.username.focus()
 
   serializeData: ->
     passwordLabel: 'password'
+    formAction: @formAction
 
   classicLoginAttempt:->
     Promise.try @verifyUsername.bind(@)

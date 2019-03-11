@@ -61,8 +61,8 @@ requireLoggedIn = (route)->
   _.type route, 'string'
   if app.user.loggedIn then return true
   else
-    app.execute 'show:login'
-    prepareLoginRedirect route
+    redirect = getRedirectedRoute route
+    app.execute 'show:login', { redirect }
     return false
 
 requireAdminRights = ->
@@ -72,15 +72,13 @@ requireAdminRights = ->
     return false
 
 showAuthRedirect = (action, route)->
-  route or= currentRoute()
-  app.execute "show:#{action}"
-  if route not in noRedirectionRequired
-    prepareLoginRedirect route
+  redirect = getRedirectedRoute route
+  app.execute "show:#{action}", { redirect }
 
-prepareLoginRedirect = (route)->
-  # the route shouldn't have the first '/'. ex: inventory/georges
-  route = route.replace /^\//, ''
-  app.execute 'prepare:login:redirect', route
+getRedirectedRoute = (route)->
+  route or= currentRoute()
+  if route in noRedirectionRequired then return
+  return route
 
 noRedirectionRequired = [
   'welcome'

@@ -11,7 +11,6 @@ module.exports = ->
     'email:confirmation:request': emailConfirmationRequest
 
   app.commands.setHandlers
-    'prepare:login:redirect': prepareLoginRedirect
     'logout': requestLogout
 
 requestClassicSignup = (options)->
@@ -54,17 +53,6 @@ formSubmit = (username, password)->
 
 passwordResetRequest = (email)->
   _.preq.post app.API.auth.resetPassword, { email }
-
-prepareLoginRedirect = (redir)->
-  _.type redir, 'string'
-  if redir[0] is '/' then redir = redir.slice(1)
-  $browserLogin = $('#browserLogin')
-  [ path, querystring ] = $browserLogin[0].action.split('?')
-  query = parseQuery querystring
-  # Override redirect if one was already set
-  query.redirect = redir
-  # Store the redirect parameter in form#browserLogin action
-  $browserLogin[0].action = buildPath path, query
 
 emailConfirmationRequest = ->
   _.log 'sending emailConfirmationRequest'

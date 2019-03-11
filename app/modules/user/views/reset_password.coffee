@@ -1,6 +1,7 @@
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
+prepareRedirect = require '../lib/prepare_redirect'
 
 module.exports = Marionette.ItemView.extend
   className: 'authMenu login'
@@ -14,7 +15,9 @@ module.exports = Marionette.ItemView.extend
   ui:
     password: '#password'
 
-  initialize: -> _.extend @, behaviorsPlugin
+  initialize: ->
+    _.extend @, behaviorsPlugin
+    @formAction = prepareRedirect.call @, 'home'
 
   events:
     'click #updatePassword': 'updatePassword'
@@ -23,6 +26,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     passwordLabel: 'new password'
     username: app.user.get('username')
+    formAction: @formAction
 
   updatePassword: ->
     password = @ui.password.val()
@@ -35,7 +39,6 @@ module.exports = Marionette.ItemView.extend
     .finally @stopLoading.bind(@)
 
   updateUserPassword: (password)->
-    app.execute 'prepare:login:redirect', 'home'
     # Setting currentPassword to null makes it be an empty string on server
     # thus the preference for undefined
     app.request 'password:update', undefined, password, '#password'
