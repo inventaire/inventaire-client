@@ -5,8 +5,8 @@
   &:after{
     content: " ";
     display: block;
-    width: 1.2em;
-    height: 1.2em;
+    width: 1em;
+    height: 1em;
     margin: 1px;
     border-radius: 50%;
     animation: ring-loader 1.2s linear infinite;
@@ -44,8 +44,13 @@
 // /!\ .loading shouldn't be added to non-empty elements
 // as it would make them flex
 .loading:not(:empty){
-  @include display-flex(row, center, center);
+  @include display-inline-flex(row, center, center);
   padding: 0.2em;
+  .small-loader.adjust-vertical-alignment{
+    &:after{
+      margin-bottom: -0.2em;
+    }
+  }
 }
 
 .full-screen-loader{

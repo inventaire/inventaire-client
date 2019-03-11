@@ -14,9 +14,15 @@ module.exports = Marionette.Behavior.extend
       mes = params.message
       body += "<p class='grey'>#{mes}</p>"
 
+    $parent = @$target.parent()
+
+    # If the container is flex, no need to adjust to get the loader centered
+    if $parent.css('display') isnt 'flex'
+      body = body.replace 'small-loader', 'small-loader adjust-vertical-alignment'
+
     @$target.html body
     # Elements to hide when loading should share the same parent as the .loading element
-    @$target.parent().find('.hide-on-loading').hide()
+    $parent.find('.hide-on-loading').hide()
 
     timeout or= 30
     unless timeout is 'none'
