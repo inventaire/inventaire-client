@@ -8,7 +8,7 @@ module.exports = ->
       # (or is that standard?)
       errObj =
         message: errorMsg
-        context: errObj.context or _.toArray(arguments)
+        context: _.toArray arguments
         stack: ''
 
     if errObj.hasBeenLogged then return
