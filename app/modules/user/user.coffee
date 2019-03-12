@@ -27,21 +27,21 @@ module.exports =
       'show:forgot:password': API.showForgotPassword
 
 
-showAuth = (name, View)-> (options)->
+showAuth = (name, label, View)-> (options)->
   unless navigator.cookieEnabled
     return app.execute 'show:error:cookieRequired', "show:#{name}"
 
   if app.user.loggedIn then return app.execute 'show:home'
 
   app.layout.main.show new View options
-  app.navigate name, { metadata: { title: _.I18n(name) } }
+  app.navigate name, { metadata: { title: _.I18n(label) } }
 
 # beware that app.layout is undefined when User.define is fired
 # app.layout should thus appear only in callbacks
 API =
-  showSignup: showAuth 'signup', SignupClassic
+  showSignup: showAuth 'signup', 'sign up', SignupClassic
 
-  showLogin: showAuth 'login', Login
+  showLogin: showAuth 'login', 'login', Login
 
   showForgotPassword: (options)->
     app.layout.main.show new ForgotPassword options
