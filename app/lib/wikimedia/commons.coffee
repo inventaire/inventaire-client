@@ -9,4 +9,4 @@ module.exports =
     file = file.replace /^\d+px-/, ''
     "https://commons.wikimedia.org/wiki/Special:FilePath/#{file}?width=#{width}"
 
-alreadyEncoded = (file)-> file.match(/%\d+/)?
+alreadyEncoded = (file)-> file.match(/%[0-9A-F]/)?
