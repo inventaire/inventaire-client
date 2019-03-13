@@ -5,6 +5,7 @@ initQuerystringActions = require 'modules/general/lib/querystring_actions'
 DonateMenu = require 'modules/general/views/donate_menu'
 FeedbackMenu = require 'modules/general/views/feedback_menu'
 { currentRoute } = require 'lib/location'
+updateMetadataNodeType = require 'lib/metadata/update_node_type'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -98,6 +99,7 @@ showErrorMissing = ->
     header: _.I18n 'oops'
     message: _.i18n "this resource doesn't exist or you don't have the right to access it"
     context: location.pathname
+    statusCode: 404
 
 showErrorNotAdmin = ->
   showError
@@ -106,6 +108,7 @@ showErrorNotAdmin = ->
     header: _.I18n 'oops'
     message: _.i18n 'this resource requires to have admin rights to access it'
     context: location.pathname
+    statusCode: 403
 
 showOtherError = (err, label)->
   _.type err, 'object'
@@ -116,6 +119,7 @@ showOtherError = (err, label)->
     header: _.I18n 'error'
     message: err.message
     context: err.context
+    statusCode: err.statusCode
 
 showOfflineError = ->
   showError
@@ -138,6 +142,8 @@ showErrorCookieRequired = (command)->
 
 showError = (options)->
   app.layout.main.show new ErrorView options
+  if options.statusCode?
+    updateMetadataNodeType 'prerender-status-code', options.statusCode
   # When the logic leading to the error didn't trigger a new 'navigate' action,
   # hitting 'Back' would bring back two pages before, so we can pass a navigate
   # option to prevent it

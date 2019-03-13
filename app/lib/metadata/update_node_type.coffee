@@ -9,7 +9,7 @@ module.exports = (key, value, noCompletion)->
   previousValue[key] = value
 
   unless key in possibleFields
-    return _.error [ key, value ], 'invalid metadata data'
+    return _.warn [ key, value ], 'invalid metadata data'
 
   unless value?
     _.warn "missing metadata value: #{key}"

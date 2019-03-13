@@ -19,6 +19,9 @@ metaNodes =
   rss: [
     { selector: "[type='application/atom+xml']", attribute: 'href' }
   ]
+  'prerender-status-code': [
+    { selector: "[name='prerender-status-code']" }
+  ]
 
 possibleFields = Object.keys metaNodes
 module.exports = { metaNodes, possibleFields }
