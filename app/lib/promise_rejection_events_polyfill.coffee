@@ -43,5 +43,8 @@ patchedPromise::catch = (reject)->
   OriginalPromise::catch.call @, setHandledAndReject.call(@, reject)
 
 module.exports = ->
-  if typeof PromiseRejectionEvent is 'undefined'
+  # Do not activate it in production as the patching isn't perfect:
+  # chains of promises aren't all set as handled, despite a handler catching the error,
+  # which results in error reports for errors that were actually handled
+  if window.env is 'dev' and typeof PromiseRejectionEvent is 'undefined'
     window.Promise = patchedPromise
