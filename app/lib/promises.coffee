@@ -107,6 +107,6 @@ module.exports = Promise
 if window.addEventListener?
   # see http://2ality.com/2016/04/unhandled-rejections.html
   window.addEventListener 'unhandledrejection', (event)->
-    console.error 'PossiblyUnhandledRejection', event.reason
-    err = new Error "PossiblyUnhandledRejection: #{event.reason}"
+    err = event.reason
+    console.error 'PossiblyUnhandledRejection', err, err.context
     reportError err
