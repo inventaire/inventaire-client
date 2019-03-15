@@ -26,4 +26,4 @@ updateNodeContent = (value, el)->
   { selector, attribute } = el
   attribute or= 'content'
 
-  document.querySelector(selector)[attribute] = value
+  document.querySelector(selector)?[attribute] = value
