@@ -6,6 +6,7 @@ window._paq or= []
 { _paq, env } = window
 
 module.exports = ->
+  if window.navigator.userAgent.match(/Prerender/)? then return
   { piwik } = app.config
   # - radically prevents recording development actions
   # - reduces the load on the real tracker server
