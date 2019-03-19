@@ -51,7 +51,7 @@ module.exports = Marionette.LayoutView.extend
       app.execute 'show:task', @taskModel.id
 
   merge: ->
-    startLoading.call @, ".#{@cid} .loading"
+    startLoading.call @
     { toEntity } = @options
     fromUri = @model.get 'uri'
     toUri = toEntity.get 'uri'
