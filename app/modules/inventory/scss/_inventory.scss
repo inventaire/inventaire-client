@@ -19,11 +19,11 @@ $inventory-nav-grey: #eee;
 
 @import "inventory_nav";
 @import "inventory_user_nav";
+@import "user_profile";
 @import "inventory_network_nav";
 @import "inventory_public_nav";
 @import "item_creation";
 @import "item_show";
-@import "../side_nav/scss/side_nav";
 @import "inventory_welcome";
 @import "item_boxes";
 @import "items_list";

@@ -1,7 +1,9 @@
 <figure class="changePicture">
   {{#if picture}}
   <img src="{{imgSrc picture 250 250}}"
-    alt="{{title}} {{i18n 'cover'}}" class="{{changePicture.classes}}">
+    {{#if title}}alt="{{title}} {{i18n 'cover'}}"{{/if}}
+    {{#if username}}alt="{{i18n 'profile pic'}}"{{/if}}
+    class="{{changePicture.classes}}">
   {{/if}}
 
   {{#unless restricted}}

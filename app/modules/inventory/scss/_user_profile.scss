@@ -1,0 +1,95 @@
+.userProfile{
+  background-color: #eee;
+  @include display-flex(row);
+  margin: 0.5em;
+  .avatar{
+    background-color: #eee;
+    height: 10em;
+    width: 10em;
+  }
+  .info{
+    flex: 1 0 auto;
+    padding: 0.5em;
+    position: relative;
+  }
+  .header{
+    @include display-flex(row);
+  }
+  .username{
+    @include sans-serif;
+    flex: 1 0 auto;
+    margin: 0;
+  }
+  .profile-buttons{
+    flex: 0 0 auto;
+    a{
+      font-size: 1.4em;
+      @include text-hover-darken($grey);
+    }
+  }
+  .data{
+    li{
+      margin-bottom: 0.5em;
+    }
+  }
+  .bio-wrapper{
+    @include radius;
+    padding: 1em;
+    background-color: #ddd;
+    max-height: 7em;
+    max-width: 50em;
+    overflow: auto;
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      max-height: 15em;
+    }
+  }
+  .userMenu{
+    margin: 0.5em;
+    .action{
+      @include display-flex(row, center, center);
+      .fa{
+        font-size: 1em;
+      }
+      .label{
+        // centering
+        margin-top: 0.1em;
+      }
+      &:not(.friend){
+        @include radius;
+      }
+    }
+    .friend{
+      .fa-chevron-down{
+        margin-left: 0.5em;
+      }
+    }
+  }
+  .userMenuWrapper{
+    // width: 100%;
+    .userMenu{
+      @include display-flex(row, center, center);
+      .action{
+        margin: 0 auto;
+        .fa + .label{
+          // Compensating for the icon padding
+          padding-right: 0.3em;
+        }
+      }
+    }
+    .restricted{
+      color: white;
+      padding: 1em;
+      text-align: center;
+      background-color: #4E4E4E;
+    }
+  }
+  // .position{
+  //   @include display-flex(row, center, center);
+  //   width: 100%;
+  // }
+  // .distance{
+  //   color: $grey;
+  //   margin-left: auto;
+  // }
+}

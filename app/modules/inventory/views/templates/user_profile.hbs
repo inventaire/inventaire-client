@@ -1,0 +1,53 @@
+<div class="avatar-wrapper">
+  <img class="avatar" src="{{imgSrc picture 150 150 true}}" alt="{{username}} avatar">
+</div>
+
+<div class="info">
+
+  <div class="header">
+    <h2 class="username respect-case">{{username}}</h2>
+
+    <div class="profile-buttons">
+      {{#if mainUser}}
+        <a class="edit" href="/settings/profile" title="{{i18n 'edit profile'}}">{{icon 'pencil'}}</a>
+      {{/if}}
+      {{#if canUnselect}}
+        <a class="unselect" title="{{i18n 'unselect'}}">{{icon 'times'}}</a>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="userMenuWrapper">
+    {{partial 'inventory:user_menu' this}}
+  </div>
+
+  <ul class="data">
+    {{#if inventoryLength}}
+      <li class="inventoryLength">
+        <span>{{icon 'book'}}{{i18n 'books'}}</span>
+        <span>{{inventoryLength}}</span>
+      </li>
+    {{/if}}
+
+    <li class="position">
+      {{#if mainUser}}
+        {{!-- <span>{{icon 'map-marker'}}{{i18n 'position'}}</span> --}}
+        {{!-- <a id="showPositionPicker" class="edit">{{i18n 'edit'}}</a> --}}
+      {{else}}
+        {{#if distance}}
+          <a href="{{positionUrl}}" class="showUserOnMap link">
+            {{icon 'map-marker'}}
+            <span class="link">{{i18n 'see on the map'}}</span>
+          </a>
+          <span class="distance">{{i18n 'distance:'}} {{distance}} km</span>
+        {{/if}}
+      {{/if}}
+    </li>
+
+    <li class="bio-wrapper">
+      {{userContent bio}}
+    </li>
+
+  </ul>
+
+</div>

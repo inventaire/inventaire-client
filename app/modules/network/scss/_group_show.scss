@@ -100,7 +100,7 @@ div.groupShow{
 div.groupShow{
   @include position(relative);
   .iconButtons{
-    @include side-buttons;
+    @include position(absolute, 3px, 3px);
     @include display-flex(column, center, space-between);
     @include radius;
     a{
