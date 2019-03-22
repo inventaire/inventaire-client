@@ -1,12 +1,5 @@
 <h1 class="respect-case"><a id="home" href="/">{{#if smallScreen}}inv{{else}}inventaire{{/if}}</a></h1>
 
-{{!-- use force-hidden to override display: flex rule --}}
-<div id="currentUser" class="force-hidden breadcrumb">
-  {{icon 'chevron-right'}} <span id="currentUsername"></span>
-</div>
-
-<span class="push-right"></span>
-
 <div id="searchGroup" class="inputGroup">
   <div class="inputBox">
     <input id="searchField" name="search" placeholder="{{I18n 'search'}}" autocomplete="off" autocorrect="off" autocapitalize="off" type="search">

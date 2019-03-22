@@ -44,8 +44,6 @@ module.exports = Marionette.LayoutView.extend
     app.commands.setHandlers
       'show:loader': @showLoader
       'main:fadeIn': -> app.layout.main.$el.hide().fadeIn(200)
-      'current:username:set': @setCurrentUsername
-      'current:username:hide': @hideCurrentUsername
       'show:feedback:menu': @showFeedbackMenu
       'show:donate:menu': @showDonateMenu
       'ask:confirmation': @askConfirmation.bind(@)
@@ -82,13 +80,6 @@ module.exports = Marionette.LayoutView.extend
     @topBar.show new TopBar
     # render icon and let icon handlers show or hide it
     @iconNav.show new IconNav
-
-  setCurrentUsername: (username)->
-    $('#currentUsername').text username
-    $('#currentUser').removeClass 'force-hidden'
-
-  hideCurrentUsername: ->
-    $('#currentUser').addClass 'force-hidden'
 
   askConfirmation: (options)-> @modal.show new ConfirmationModal(options)
 

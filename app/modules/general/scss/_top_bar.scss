@@ -12,9 +12,6 @@ nav#top-bar{
   a#home{
     color: white;
   }
-  .push-right{
-    margin-left: auto;
-  }
   #mainUser, .menu, .language-picker, .signupRequest, .loginRequest{
     @include serif;
     font-weight: bold;
@@ -35,19 +32,6 @@ nav#top-bar{
       @include radius;
       margin-right: 0.5em;
     }
-  }
-  #currentUser{
-    @include display-flex(row, center, center);
-    color: white;
-    font-weight: bold;
-    .fa{
-      // Aligning vertically with both the h1 and the #currentUsername
-      padding-top: 0.1em;
-    }
-  }
-  #currentUsername{
-    font-size: 1.2em;
-    padding-left: 0.4em;
   }
   .menu{
     font-size: 1.1em;
@@ -128,7 +112,7 @@ nav#top-bar{
       margin-left: 0.2em;
       margin-right: 0.4em;
     }
-    .push-right, #currentUser, .language-picker, .menu, .username{
+    .language-picker, .menu, .username{
       display: none !important;
     }
     #searchGroup{

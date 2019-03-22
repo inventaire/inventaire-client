@@ -23,14 +23,6 @@ module.exports = Marionette.ItemView.extend
     SuccessCheck: {}
     Unselect: {}
 
-  onShow: ->
-    if @options.highlighted
-      app.execute 'current:username:set', @model.get('name')
-
-  onDestroy: ->
-    if @options.highlighted
-      app.execute 'current:username:hide'
-
   serializeData:->
     _.extend @model.serializeData(),
       highlighted: @options.highlighted

@@ -47,7 +47,6 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     @makeRoom()
-    @updateBreadCrumb()
 
     # take care of destroying this view even on events out of this
     # view scope (ex: clicking the home button)
@@ -59,15 +58,9 @@ module.exports = Marionette.ItemView.extend
 
   onDestroy: ->
     @giveRoomBack()
-    @notifyBreadCrumb()
 
   makeRoom: -> $('#one').addClass 'notEmpty'
   giveRoomBack: -> $('#one').removeClass 'notEmpty'
-
-  updateBreadCrumb: ->
-    app.execute 'current:username:set', @model.get('username')
-  notifyBreadCrumb: ->
-    app.execute 'current:username:hide'
 
   editBio: -> @ui.bio.toggle()
   cancelBio: -> @ui.bio.toggle()
