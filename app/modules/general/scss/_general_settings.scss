@@ -106,6 +106,17 @@ body{
   max-width: 100%;
 }
 
+.layout-type-label{
+  display: none;
+  text-align: center;
+  margin-bottom: 0.5em;
+  font-weight: normal;
+  color: #8c8d90;
+}
+.standalone > .layout-type-label{
+  display: inherit;
+}
+
 noscript{
   padding: 1em;
 }

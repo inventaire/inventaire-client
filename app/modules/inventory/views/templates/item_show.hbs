@@ -1,40 +1,48 @@
-<div class="one">
-  <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
-    {{#if snapshot.entity:image}}
-      <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
-    {{/if}}
-    <span class="title">{{snapshot.entity:title}}</span><br>
-    <span class="subtitle">{{snapshot.entity:subtitle}}</span><br>
-    {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}
-      <span class="identifier">ISBN: {{entityData.claims.wdt:P212}}</span>
-    {{/if}}{{/if}}
-  </a>
-  {{#if entityIsEdition}}
-    <span class="section-label">
-    {{#if entityData.isCompositeEdition}}{{I18n 'works'}}{{else}}{{I18n 'work'}}{{/if}}
-    </span>
-    {{#each works}}
-      <a class="work showEntity" href="{{pathname}}">
-        <span class="related-entity-label">{{label}}</span>
-      </a>
-    {{/each}}
-  {{else}}
-    {{#if mainUserIsOwner}}
-      <a class="preciseEdition tiny-button light-blue bold" title="{{i18n 'precise the edition'}}">{{icon 'question-circle'}}{{i18n 'which edition?'}}</a>
-    {{/if}}
-  {{/if}}
+<h3 class="layout-type-label">{{I18n 'book'}}</h3>
 
-  <div class="authors "></div>
-  <div class="scenarists"></div>
-  <div class="illustrators"></div>
-  <div class="colorists "></div>
-  {{#if snapshot.entity:series}}{{#if seriePathname}}
-    <p class="series-preview">
-      <span class="section-label">{{I18n 'wdt:P179'}}</span>
-      <a class="showEntity" href="{{seriePathname}}">
-        <span class="related-entity-label">{{snapshot.entity:series}}</span>
-      </a>
-    </p>
-  {{/if}}{{/if}}
+<div class="wrapper">
+  <div class="one">
+
+    <span class="section-label">{{I18n 'edition'}}</span>
+    <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
+      {{#if snapshot.entity:image}}
+        <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
+      {{/if}}
+      <span class="title">{{snapshot.entity:title}}</span><br>
+      <span class="subtitle">{{snapshot.entity:subtitle}}</span><br>
+      {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}
+        <span class="identifier">ISBN: {{entityData.claims.wdt:P212}}</span>
+      {{/if}}{{/if}}
+    </a>
+
+    {{#if entityIsEdition}}
+      <span class="section-label">
+      {{#if entityData.isCompositeEdition}}{{I18n 'works'}}{{else}}{{I18n 'work'}}{{/if}}
+      </span>
+      {{#each works}}
+        <a class="work showEntity" href="{{pathname}}">
+          <span class="related-entity-label">{{label}}</span>
+        </a>
+      {{/each}}
+    {{else}}
+      {{#if mainUserIsOwner}}
+        <a class="preciseEdition tiny-button light-blue bold" title="{{i18n 'precise the edition'}}">{{icon 'question-circle'}}{{i18n 'which edition?'}}</a>
+      {{/if}}
+    {{/if}}
+
+    <div class="authors"></div>
+    <div class="scenarists"></div>
+    <div class="illustrators"></div>
+    <div class="colorists "></div>
+    {{#if snapshot.entity:series}}{{#if seriePathname}}
+      <p class="series-preview">
+        <span class="section-label">{{I18n 'wdt:P179'}}</span>
+        <a class="showEntity" href="{{seriePathname}}">
+          <span class="related-entity-label">{{snapshot.entity:series}}</span>
+        </a>
+      </p>
+    {{/if}}{{/if}}
+  </div>
+
+  <div id="itemData" class="two"></div>
 </div>
-<div id="itemData" class="two"></div>

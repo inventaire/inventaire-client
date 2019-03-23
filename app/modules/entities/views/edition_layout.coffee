@@ -8,7 +8,7 @@ module.exports = Marionette.LayoutView.extend
   tagName: -> if @options.standalone then 'div' else 'li'
   className: ->
     className = 'edition-commons'
-    className += if @options.standalone then ' editionLayout' else ' editionLi'
+    className += if @options.standalone then ' editionLayout standalone' else ' editionLi'
     return className
 
   regions:

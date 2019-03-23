@@ -4,6 +4,7 @@ showAllAuthorsPreviewLists = require 'modules/entities/lib/show_all_authors_prev
 
 module.exports = Marionette.LayoutView.extend
   id: 'itemShowLayout'
+  className: 'standalone'
   template: require './templates/item_show'
   regions:
     itemData: '#itemData'

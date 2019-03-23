@@ -85,13 +85,6 @@
   color: $grey;
 }
 
-.entity-type-label{
-  font-weight: bold;
-  @include serif;
-  opacity: 0.3;
-  font-size: 1.4em;
-}
-
 .entity-data-box{
   position: relative;
   padding: 1em 1em 0.1em 1em;

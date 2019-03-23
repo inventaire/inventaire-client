@@ -1,6 +1,10 @@
 #workLayout{
   background-color: $dark-grey;
   padding-bottom: 1em;
+  .layout-type-label{
+    color: #bbb;
+    margin: 0;
+  }
   .work-section{
     @include display-flex(row, center, space-around, wrap);
   }

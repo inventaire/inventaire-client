@@ -5,6 +5,7 @@ entityItems = require '../lib/entity_items'
 
 module.exports = Marionette.LayoutView.extend
   id: 'workLayout'
+  className: 'standalone'
   template: require './templates/work_layout'
   regions:
     workInfobox: '#workInfobox'

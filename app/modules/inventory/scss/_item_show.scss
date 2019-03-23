@@ -1,5 +1,5 @@
 #itemShowLayout{
-  padding: 1em;
+  padding: 0 1em 1em 1em;
   position: relative;
   .one{
   }
@@ -67,7 +67,9 @@
 
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
-    @include display-flex(column, stretch, center);
+    .wrapper{
+      @include display-flex(column, stretch, center);
+    }
     .one{
       margin-bottom: 1em;
     }
@@ -79,7 +81,9 @@
   }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
-    @include display-flex(row, flex-start, center);
+    .wrapper{
+      @include display-flex(row, flex-start, center);
+    }
     .one{
       flex: 1 0 0;
       max-width: 15em;
