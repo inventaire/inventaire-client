@@ -18,6 +18,9 @@
   &:focus, &:hover{
     color: white;
   }
+  &.grey{
+    @include bg-hover($grey);
+  }
   &.soft-grey{
     @include bg-hover($soft-grey)
   }
