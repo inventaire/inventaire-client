@@ -21,7 +21,6 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
     SuccessCheck: {}
-    Unselect: {}
 
   serializeData:->
     _.extend @model.serializeData(),

@@ -1,6 +1,4 @@
 InventoryNav = require './inventory_nav'
-InventoryUserNav =
-InventoryNetworkNav = require './inventory_network_nav'
 InventoryBrowser = require './inventory_browser'
 
 navs =
@@ -9,7 +7,7 @@ navs =
   public: require './inventory_public_nav'
 
 module.exports = Marionette.LayoutView.extend
-  id: 'inventory'
+  id: 'inventoryLayout'
   template: require './templates/inventory'
   regions:
     inventoryNav: '#inventoryNav'
@@ -19,8 +17,10 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @user, @group } = @options
 
-    @listenTo app.vent, 'inventory:show:user', @showUserInventory.bind(@)
-    @listenTo app.vent, 'inventory:show:group', @showGroupInventory.bind(@)
+  childEvents:
+    select: (e, type, model)->
+      @showInventoryBrowser type, model
+      app.navigateFromModel model
 
   onShow: ->
     if @user? then @showUserInventory @user
@@ -32,19 +32,22 @@ module.exports = Marionette.LayoutView.extend
     .then (userModel)=>
       section = userModel.get 'itemsCategory'
       if section is 'personal' then section = 'user'
-      @showNav section
-      @itemsList.show new InventoryBrowser { user: userModel }
+      @showNav section, { user: userModel }
+      @showInventoryBrowser 'user', userModel
       app.navigateFromModel userModel
 
   showGroupInventory: (group)->
     app.request 'resolve:to:groupModel', group
     .then (groupModel)=>
       section = if groupModel.mainUserIsMember() then 'network' else 'public'
-      @showNav section
-      @itemsList.show new InventoryBrowser { group: groupModel }
+      @showNav section, { group: groupModel }
+      @showInventoryBrowser 'group', groupModel
       app.navigateFromModel groupModel
 
-  showNav: (section)->
+  showNav: (section, sectionNavOptions)->
     @inventoryNav.show new InventoryNav { section }
     SectionNav = navs[section]
-    @sectionNav.show new SectionNav
+    @sectionNav.show new SectionNav sectionNavOptions
+
+  showInventoryBrowser: (type, model)->
+    @itemsList.show new InventoryBrowser { "#{type}": model }

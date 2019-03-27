@@ -5,6 +5,7 @@ SelectorsCollection = require '../collections/selectors'
 FilterPreview = require './filter_preview'
 getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
 getUnknownModel = require '../lib/browser/get_unknown_model'
+error_ = require 'lib/error'
 
 selectorsNames = [ 'author', 'genre', 'subject' ]
 selectorsRegions = {}
@@ -63,6 +64,8 @@ module.exports = Marionette.LayoutView.extend
 
   getInventoryViewData: ->
     { user, group } = @options
+    unless user? or group?
+      throw error_.new 'missing user or group', @options
 
     params = if user? then { user: user.id } else { group: group.id }
 

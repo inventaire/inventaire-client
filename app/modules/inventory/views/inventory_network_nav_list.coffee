@@ -12,7 +12,7 @@ ListEl = Marionette.ItemView.extend
   select: (e)->
     if _.isOpenedOutside e then return
     type = if @model.get('type') is 'group' then 'group' else 'user'
-    app.vent.trigger "inventory:show:#{type}", @model
+    @triggerMethod 'select', type, @model
     e.preventDefault()
 
 module.exports = Marionette.CollectionView.extend

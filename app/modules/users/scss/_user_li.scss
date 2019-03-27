@@ -237,38 +237,13 @@ $user-bg: #ddd;
   }
 }
 
-.userLi:not(.friends) .right-box, .userProfile{
+.userLi .right-box, .userProfile{
   .userMenu{
     @include display-flex(row, center, center);
     white-space: nowrap;
-    .cancel{
-      background-color: $grey;
-    }
-    .accept{
-      background-color: $success-color;
-    }
-    .discard{
-      background-color: $grey;
-    }
-    .request{
-      background-color: $light-blue;
-    }
-    a.action{
-      @include display-flex(row, center, center);
-      .fa + .label{
-        padding-right: 0.3em;
-      }
-    }
-  }
-}
-
-// removing exceptions carefully before testing other cases
-// => needs a cleanup
-.userLi:not(.friends):not(.group-context) .right-box{
-  .userMenu{
     margin-right: 0.2em;
-    a.action{
-      padding: 0 0.3em 0 0.3em;
+    .action{
+      @include display-flex(row, center, center);
     }
   }
 }

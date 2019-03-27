@@ -9,45 +9,38 @@
 
     <div class="profile-buttons">
       {{#if mainUser}}
-        <a class="edit" href="/settings/profile" title="{{i18n 'edit profile'}}">{{icon 'pencil'}}</a>
-      {{/if}}
-      {{#if canUnselect}}
-        <a class="unselect" title="{{i18n 'unselect'}}">{{icon 'times'}}</a>
-      {{/if}}
-    </div>
-  </div>
-
-  <div class="userMenuWrapper">
-    {{partial 'inventory:user_menu' this}}
-  </div>
-
-  <ul class="data">
-    {{#if inventoryLength}}
-      <li class="inventoryLength">
-        <span>{{icon 'book'}}{{i18n 'books'}}</span>
-        <span>{{inventoryLength}}</span>
-      </li>
-    {{/if}}
-
-    <li class="position">
-      {{#if mainUser}}
         {{!-- <span>{{icon 'map-marker'}}{{i18n 'position'}}</span> --}}
         {{!-- <a id="showPositionPicker" class="edit">{{i18n 'edit'}}</a> --}}
       {{else}}
         {{#if distance}}
-          <a href="{{positionUrl}}" class="showUserOnMap link">
+          <a href="{{positionUrl}}" class="showUserOnMap tiny-button light-blue">
             {{icon 'map-marker'}}
-            <span class="link">{{i18n 'see on the map'}}</span>
+            <span class="label">{{i18n 'km_away_from_you' distance=distance}}</span>
           </a>
-          <span class="distance">{{i18n 'distance:'}} {{distance}} km</span>
         {{/if}}
       {{/if}}
+      {{#if mainUser}}
+        <a class="edit action tiny-button light-blue" href="/settings/profile">
+          {{icon 'pencil'}}
+          {{I18n 'edit profile'}}
+        </a>
+      {{else}}
+        {{partial 'inventory:user_menu' this}}
+      {{/if}}
+    </div>
+  </div>
+
+  <ul class="data">
+    <li class="inventoryLength">
+      <span>{{icon 'book'}}{{i18n 'books'}}</span>
+      <span class="count">{{inventoryLength}}</span>
     </li>
 
-    <li class="bio-wrapper">
-      {{userContent bio}}
-    </li>
-
+    {{#if bio}}
+      <li class="bio-wrapper">{{userContent bio}}</li>
+    {{else}}
+      <li class="bio-wrapper empty">{{i18n "this user didn't add a presentation"}}</li>
+    {{/if}}
   </ul>
 
 </div>

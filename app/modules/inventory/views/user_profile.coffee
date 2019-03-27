@@ -28,13 +28,11 @@ module.exports = Marionette.ItemView.extend
     _.extend @model.serializeData(nonPrivate),
       onUserProfile: true
       loggedIn: app.user.loggedIn
+      positionUrl: @getPositionUrl()
+      distance: @model.distanceFromMainUser
       # commonGroups: @commonGroupsData()
       # visitedGroups: @visitedGroupsData()
-      distance: @model.distanceFromMainUser
-      rss: @model.getRss()
-      positionUrl: @getPositionUrl()
-      # unselecting would lead to /inventory and thus to a connexion page when not logged in
-      canUnselect: app.user.loggedIn and not @isMainUser
+      # rss: @model.getRss()
 
   editProfile: (e)->
     if _.isOpenedOutside e then return
