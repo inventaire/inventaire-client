@@ -10,4 +10,5 @@ module.exports = Marionette.ItemView.extend
   events:
     'click a': 'showSearch'
 
-  showSearch: -> @model.show()
+  showSearch: (e)->
+    unless _.isOpenedOutside e then @model.show()
