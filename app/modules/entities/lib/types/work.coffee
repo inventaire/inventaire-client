@@ -17,7 +17,7 @@ module.exports = ->
 
   setPublicationYear.call @
   setEbooksData.call @
-  @waitForSubentities.then setImage.bind(@)
+  @waitForSubentities = @waitForSubentities.then setImage.bind(@)
 
 setPublicationYear = ->
   publicationDate = @get 'claims.wdt:P577.0'

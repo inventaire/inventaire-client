@@ -18,13 +18,22 @@ module.exports = Marionette.LayoutView.extend
     networkItemsRegion: '.editionNetworkItems'
     publicItemsRegion: '.editionPublicItems'
     entityActions: '.editionEntityActions'
+    works: '.works'
 
   initialize: ->
     entityItems.initialize.call @
+    { @standalone } = @options
 
   onShow: ->
+    unless @standalone then return
+
     @model.waitForWorks
-    .then @ifViewIsIntact('render')
+    .map (work)-> work.waitForSubentities
+    .then @ifViewIsIntact('showWorks')
+
+  showWorks: ->
+    collection = new Backbone.Collection @model.works
+    @works.show new EditionWorks { collection }
 
   onRender: ->
     @lazyShowItems()
@@ -32,10 +41,18 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     _.extend @model.toJSON(),
-      standalone: @options.standalone
+      standalone: @standalone
       onWorkLayout: @options.onWorkLayout
       works: if @standalone then @model.works?.map (work)-> work.toJSON()
 
   showEntityActions: ->
     { itemToUpdate } = @options
     @entityActions.show new EntityActions { @model, itemToUpdate }
+
+EditionWork = Marionette.ItemView.extend
+  className: 'edition-work'
+  template: require './templates/edition_work'
+
+EditionWorks = Marionette.CollectionView.extend
+  className: 'edition-works'
+  childView: EditionWork

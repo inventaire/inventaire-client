@@ -32,11 +32,26 @@
   .showEntityEdit.pencil{
     @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
   }
-  .showEntity{
-    margin-top: 2em;
+  .edition-works{
+    @include display-flex(row, baseline, center, wrap);
   }
-  .works a{
-    display: inline-block;
+  .edition-work{
+    text-align: center;
+    width: 25em;
+    @include display-flex(column, center, center);
+    @include radius;
+    @include bg-hover($dark-grey);
+    margin: 1em;
+    padding: 1em;
+    span{
+      color: white;
+    }
+    .editions-covers{
+      @include display-flex(row, center, center);
+      .cover{
+        margin: 0.5em;
+      }
+    }
   }
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
@@ -62,6 +77,11 @@
       .uri{
         display: none;
       }
+    }
+    .edition-work{
+      width: auto;
+      padding: 0.5em;
+      margin: 0.2em 0;
     }
   }
   /*Medium and Large screens*/
