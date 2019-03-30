@@ -14,9 +14,11 @@
   </a>
 
   <div class="modes">
-    <div class="transaction {{currentTransaction.id}}" title="{{i18n currentTransaction.label}}">
-      {{icon currentTransaction.icon}}
-    </div>
+    {{#unless isPrivate}}
+      <div class="transaction {{currentTransaction.id}}" title="{{i18n currentTransaction.label}}">
+        {{icon currentTransaction.icon}}
+      </div>
+    {{/unless}}
 
     {{#if isMainUser}}
       <div class="listing {{currentListing.id}}" title="{{i18n currentListing.label}}">

@@ -79,6 +79,7 @@ module.exports = Filterable.extend
       userReady: @userReady
       mainUserIsOwner: @mainUserIsOwner
       user: @userData()
+      isPrivate: attrs.listing is 'private'
 
     # @entity will be defined only if @grabEntity was called
     if @entity?
