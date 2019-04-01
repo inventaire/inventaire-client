@@ -21,7 +21,18 @@
     opacity: 1;
     margin: 0.8em 0 1em 0;
     &:not(.ready){
-      opacity: 0;
+      #browser-filters, #displayControls, #addToInventory{
+        display: none;
+      }
+      .centered-loader{
+        padding: 1em;
+        color: $grey;
+      }
+    }
+    &.ready{
+      .centered-loader{
+        display: none;
+      }
     }
   }
 
