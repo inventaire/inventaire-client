@@ -1,10 +1,11 @@
 { showUsersOnMap, showUserOnMap, showGroupsOnMap, getBbox } = require 'modules/map/lib/map'
 { solvePosition, drawMap } = require 'modules/network/lib/nearby_layouts'
 { currentRoute } = require 'lib/location'
-User = require 'modules/users/models/user'
-Group = require 'modules/network/models/group'
+Users = require 'modules/users/collections/users'
+Groups = require 'modules/network/collections/groups'
+InventoryCommonNav = require 'modules/inventory/views/inventory_common_nav'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = InventoryCommonNav.extend
   id: 'inventoryPublicNav'
   template: require './templates/inventory_public_nav'
 
@@ -28,16 +29,19 @@ module.exports = Marionette.LayoutView.extend
     @showGroupsByPosition map, bbox
 
   showUsersByPosition: (map, bbox)->
-    getByPosition 'users', User, bbox
-    .then (models)->
-      showUsersOnMap map, models
+    getByPosition 'users', Users, bbox
+    .then (collection)=>
+      showUsersOnMap map, collection.models
       showUserOnMap map, app.user
+      @showList @usersList, collection
 
   showGroupsByPosition: (map, bbox)->
-    getByPosition 'groups', Group, bbox
-    .then (models)-> showGroupsOnMap map, models
+    getByPosition 'groups', Groups, bbox
+    .then (collection)=>
+      showGroupsOnMap map, collection.models
+      @showList @groupsList, collection
 
-getByPosition = (name, Model, bbox)->
+getByPosition = (name, Collection, bbox)->
   _.preq.get app.API[name].searchByPosition(bbox)
   .get name
-  .map (data)-> new Model data
+  .then (data)-> new Collection data

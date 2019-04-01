@@ -1,6 +1,6 @@
 $nav-avatar-size: 5em;
 
-#inventoryNetworkNav{
+#inventoryNetworkNav, #inventoryPublicNav{
   .lists{
     @include display-flex(row, null, null, wrap);
   }
