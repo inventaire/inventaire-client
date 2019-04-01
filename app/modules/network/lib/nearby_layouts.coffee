@@ -17,7 +17,7 @@ initMap = (params)->
   .spread drawMap.bind(null, params)
   .then initEventListners.bind(null, params)
 
-solvePosition = (coords)->
+solvePosition = (coords = {})->
   # priority is given to passed parameters
   { lat, lng, zoom } = coords
   if lat? and lng? then return Promise.resolve coords
@@ -62,3 +62,5 @@ module.exports =
     @map = map
   refreshListFilter: ->
     @collection.filterBy 'geobox', BoundFilter(@map)
+  solvePosition: solvePosition
+  drawMap: drawMap
