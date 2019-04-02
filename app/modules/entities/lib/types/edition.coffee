@@ -2,6 +2,7 @@
 wdLang = require 'wikidata-lang'
 farInTheFuture = '2100'
 getEntityItemsByCategories = require '../get_entity_items_by_categories'
+error_ = require 'lib/error'
 
 module.exports = ->
   _.extend @, specificMethods
