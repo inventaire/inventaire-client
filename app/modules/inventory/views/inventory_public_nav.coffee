@@ -17,7 +17,7 @@ module.exports = InventoryCommonNav.extend
     @showMap()
 
   showMap: ->
-    path = currentRoute()
+    path = 'inventory/public'
     Promise.all [ solvePosition(), @waitForAssets ]
     .spread (coords)=>
       showObjects = @showUsersAndGroupsNearby.bind @
