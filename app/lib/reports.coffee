@@ -22,7 +22,7 @@ module.exports =
       url: '/api/reports?action=error-report'
       # jquery defaults to x-www-form-urlencoded
       headers: { 'content-type': 'application/json' }
-      data: JSON.stringify data
+      data: stringifyData data
 
 getEnvContext = ->
   envContext = []
@@ -56,3 +56,11 @@ setInterval sendOnlineReport, 30 * 1000
 
 # (1): Using jQuery promise instead of preq to be able to report errors
 # happening before preq is initialized
+
+stringifyData = (data)->
+  try
+    return JSON.stringify data
+  catch err
+    # Typically a 'cyclic object value' error
+    data.context = "context couldn't be attached: #{err.message}"
+    return JSON.stringify data
