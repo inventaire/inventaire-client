@@ -68,10 +68,9 @@ module.exports = EditorCommons.extend
   save: ->
     lang = @ui.langSelector.val()
     value = @ui.input.val()
-    errSelector = ".#{@cid} .has-alertbox"
 
     unless _.isNonEmptyString value
-      return forms_.bundleAlert @, "this value can't be empty", errSelector
+      return forms_.bundleAlert @, "this value can't be empty"
 
     @editMode = false
 

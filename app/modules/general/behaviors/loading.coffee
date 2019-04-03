@@ -7,7 +7,8 @@ module.exports = Marionette.Behavior.extend
   showSpinningLoader: (e, params = {})->
     { selector, message, timeout, progressionEventName } = params
     @$target = @getTarget selector
-    # _.log @$target, '@$target'
+
+    if @$target.length isnt 1 then return _.warn @$target, 'loading: failed to find single target'
 
     body = '<div class="small-loader"></div>'
     if message?
@@ -37,11 +38,14 @@ module.exports = Marionette.Behavior.extend
       lazyUpdateProgression = _.debounce fn, 500, true
       @listenTo app.vent, progressionEventName, lazyUpdateProgression
 
+    e.stopPropagation()
+
   hideSpinningLoader: (e, params = {})->
     @$target or= @getTarget params.selector
     @$target.empty()
     @$target.parent().find('.hide-on-loading').show()
     @hidden = true
+    e.stopPropagation()
 
   somethingWentWrong: (e, params = {})->
     unless @hidden
@@ -51,6 +55,7 @@ module.exports = Marionette.Behavior.extend
       body = _.icon('bolt') + "<p> #{oups}</p>"
 
       @$target.html body
+    e?.stopPropagation()
 
   # Priority:
   # - #{selector} .loading

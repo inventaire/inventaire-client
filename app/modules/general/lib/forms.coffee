@@ -28,23 +28,21 @@ forms_.earlyVerify = (view, e, verificator)->
 forms_.catchAlert = (view, err)->
   # Avoid to display an alert on a simple duplicated request
   if err.statusCode is 429 then return _.warn err, 'duplicated request'
-  if err.selector?
-    view.$el.trigger 'stopLoading'
-    forms_.alert(view, err)
-    _.error err, 'err passed to catchAlert'
-  else
-    view.$el.trigger 'somethingWentWrong'
-    _.error err, 'error catched by forms_.catchAlert but the error object miss a selector'
+  view.$el.trigger 'stopLoading'
+  forms_.alert view, err
+  _.error err, 'err passed to catchAlert'
 
 forms_.alert = (view, err)->
   { selector, i18n } = err
   errMessage = err.responseJSON?.status_verbose or err.message
-  _.types [ view, err, selector, errMessage ], [ 'object', 'object', 'string', 'string' ]
+  _.types [ view, err, selector, errMessage ], [ 'object', 'object', 'string|undefined', 'string' ]
 
   # Avoid showing raw http error messages
   if /^\d/.test errMessage then errMessage = 'something went wrong :('
 
-  _.log errMessage, "alert message on #{selector}"
+  logLabel = 'alert message'
+  if selector? then logLabel += "on #{selector}"
+  _.log { errMessage, view }, logLabel
 
   # Allow to pass a false flag to prevent the use of _.i18n
   # thus preventing to get it added to the list of strings to translate

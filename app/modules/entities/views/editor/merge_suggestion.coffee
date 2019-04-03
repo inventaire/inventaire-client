@@ -5,8 +5,9 @@ mergeEntities = require './lib/merge_entities'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/merge_suggestion'
-  className: -> "merge-suggestion #{@cid}"
+  className: 'merge-suggestion'
   behaviors:
+    AlertBox: {}
     Loading: {}
     PreventDefault: {}
 
@@ -61,7 +62,7 @@ module.exports = Marionette.LayoutView.extend
     # suggestions don't jump places, potentially leading to undesired merges
     .then => @$el.css 'visibility', 'hidden'
     .finally stopLoading.bind(@)
-    .catch error_.Complete(".#{@cid} .merge", false)
+    .catch error_.Complete('.merge', false)
     .catch forms_.catchAlert.bind(null, @)
 
 claimsPartials =

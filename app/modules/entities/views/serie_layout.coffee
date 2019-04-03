@@ -1,12 +1,12 @@
 SerieInfobox = require './serie_infobox'
 WorksList = require './works_list'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/serie_layout'
   className: ->
     standalone = if @options.standalone then 'standalone' else ''
-    return "serieLayout #{standalone} #{@cid}"
+    return "serieLayout #{standalone}"
 
   regions:
     infobox: '.serieInfobox'
@@ -29,13 +29,13 @@ module.exports = Marionette.LayoutView.extend
     @infobox.show new SerieInfobox { @model, @standalone }
 
   fetchParts: ->
-    behaviorsPlugin.startLoading.call @, ".#{@cid}"
+    startLoading.call @
 
     @model.initSerieParts { @refresh }
     .then @ifViewIsIntact('showParts')
 
   showParts: ->
-    behaviorsPlugin.stopLoading.call @, ".#{@cid}"
+    stopLoading.call @
 
     @parts.show new WorksList
       parentModel: @model

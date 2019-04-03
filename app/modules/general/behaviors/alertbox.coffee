@@ -22,9 +22,12 @@ module.exports = Marionette.Behavior.extend
 
     if selector?
       unless /\.|#/.test selector then error_.report 'invalid selector', selector
-      $target = $(selector)
+      $target = @$el.find selector
 
-    else $target = @ui.hasAlertbox
+    else
+      $target = @ui.hasAlertbox
+
+    if $target.length isnt 1 then return _.warn $target, 'alertbox: failed to find single target'
 
     box = "<div class='alert hidden alert-box'>
           <span class='alert-message'>#{message}</span>
@@ -38,6 +41,8 @@ module.exports = Marionette.Behavior.extend
     $parent.find('.alert-box').slideDown(500)
     @_showAlertTimestamp = Date.now()
 
+    e.stopPropagation()
+
   hideAlertBox: (e)->
     key = getActionKey e
     # Do not close the alert box on 'Ctrl' or 'Shift' especially,
@@ -50,3 +55,5 @@ module.exports = Marionette.Behavior.extend
     if @_showAlertTimestamp? and not _.expired(@_showAlertTimestamp, 1000) then return
 
     @$el.find('.alert-box').hide()
+
+    e.stopPropagation()

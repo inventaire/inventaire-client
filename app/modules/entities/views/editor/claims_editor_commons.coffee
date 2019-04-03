@@ -38,8 +38,6 @@ module.exports = EditorCommons.extend
 
   _save: (newValue)->
     @_bareSave newValue
-    # target only this view
-    .catch error_.Complete(".#{@cid} .has-alertbox")
     .catch @_catchAlert.bind(@)
 
   _bareSave: (newValue)->

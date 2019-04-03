@@ -84,8 +84,6 @@ module.exports = Filterable.extend
       Type = _.capitalise type
       attrs["entityIs#{Type}"] = true
 
-    attrs.cid = @cid
-
     { transaction } = attrs
     transacs = transactionsDataFactory()
     attrs.currentTransaction = transacs[transaction]

@@ -3,8 +3,7 @@ getActionKey = require 'lib/get_action_key'
 error_ = require 'lib/error'
 
 module.exports = Marionette.ItemView.extend
-  # @cid class required by _save error_.Complete
-  className: -> "value-editor-commons #{@mainClassName} #{@cid}"
+  className: -> "value-editor-commons #{@mainClassName}"
   selectIfInEditMode: ->
     if @editMode
       # somehow seems to need a delay

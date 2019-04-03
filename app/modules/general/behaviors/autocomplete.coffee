@@ -118,7 +118,6 @@ module.exports = Marionette.Behavior.extend
 
   # Complete the query using the selected suggestion.
   completeQuery: (suggestion)->
-    _.log suggestion, 'completeQuery'
     @fillQuery suggestion
     @hideDropdown()
 
@@ -127,9 +126,7 @@ module.exports = Marionette.Behavior.extend
     @_suggestionSelected = false
 
   showAlertBox: (err)->
-    @view.$el.trigger 'alert',
-      message: err.message
-      selector: ".#{@view.cid} .has-alertbox"
+    @view.$el.trigger 'alert', { message: err.message }
 
   # Clean up
   onDestroy: -> @collectionView.destroy()

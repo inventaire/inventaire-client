@@ -5,9 +5,8 @@ detailsLimit = 150
 module.exports = Marionette.ItemView.extend
   tagName: 'figure'
   className: ->
-    @uniqueSelector = ".#{@cid}"
     busy = if @model.get('busy') then 'busy' else ''
-    "itemContainer #{@cid} #{busy}"
+    return "itemContainer #{busy}"
   template: require './templates/item_figure'
   behaviors:
     PreventDefault: {}
@@ -18,7 +17,7 @@ module.exports = Marionette.ItemView.extend
     @lazyRender = _.LazyRender @, 400
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'user:ready', @lazyRender
-    @alertBoxTarget = "#{@uniqueSelector} .details"
+    @alertBoxTarget = '.details'
     # Should not be required
     # @listenTo @model, 'grab:entity', @lazyRender
 

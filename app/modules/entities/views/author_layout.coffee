@@ -11,7 +11,7 @@ module.exports = Marionette.LayoutView.extend
     if @options.standalone then secondClass = 'standalone'
     else if not @options.noAuthorWrap then secondClass = 'wrapped'
     prefix = @model.get 'prefix'
-    return "authorLayout #{secondClass} #{@cid} entity-prefix-#{prefix}"
+    return "authorLayout #{secondClass} entity-prefix-#{prefix}"
 
   attributes: ->
     # Used by deduplicate_layout
@@ -64,8 +64,7 @@ module.exports = Marionette.LayoutView.extend
   showWorks: ->
     # Target specifically .works .loading, so that it doesn't conflict
     # with other loaders as it been seen on genre_layout for instance
-    # Prefixing with @cid class to target only this layout
-    startLoading.call @, ".#{@cid} .works"
+    startLoading.call @, '.works'
 
     @model.waitForWorks
     .then @_showWorks.bind(@)
