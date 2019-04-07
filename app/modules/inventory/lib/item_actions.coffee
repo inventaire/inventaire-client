@@ -31,10 +31,10 @@ module.exports =
     .catch rollbackUpdate(item, itemAttributesBefore)
 
   destroy: (options)->
-    # MUST: selector, model with title
+    # MUST: model with title
     # CAN: next
-    { model, selector, next, back } = options
-    _.types [ model, selector, next ], [ 'object', 'string', 'function' ]
+    { model, next, back } = options
+    _.types [ model, next ], [ 'object', 'function' ]
     title = model.get('snapshot.entity:title')
 
     action = ->

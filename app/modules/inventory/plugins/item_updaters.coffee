@@ -32,7 +32,6 @@ module.exports = ->
       itemDestroyBack = @itemDestroyBack?.bind(@)
       app.request 'item:destroy',
         model: @model
-        selector: @uniqueSelector
         next: afterDestroy
         back: itemDestroyBack
 
