@@ -1,4 +1,4 @@
-{ SafeString } = Handlebars
+{ SafeString, escapeExpression } = Handlebars
 { parseQuery } = requireProxy 'lib/location'
 timeFromNow = requireProxy 'lib/time_from_now'
 wdPropPrefix = 'wdt:'
@@ -14,7 +14,8 @@ module.exports =
     if key[0..3] is wdPropPrefix then key = key.replace wdPropPrefix, ''
     # Allow to pass context through Handlebars hash object
     # ex: {{{i18n 'email_invitation_sent' email=this}}}
-    if _.isObject context?.hash then context = context.hash
+    # Use this mode for unsafe context values to get it escaped
+    if _.isObject context?.hash then context = escapeValues context.hash
     return _.i18n key, context
 
   I18n: (args...)-> _.capitalise @i18n.apply(@, args)
@@ -79,3 +80,8 @@ module.exports =
   stringify: (obj)->
     if _.isString obj then obj
     else JSON.stringify obj, null, 2
+
+escapeValues = (obj)->
+  for key, value of obj
+    obj[key] = escapeExpression value
+  return obj
