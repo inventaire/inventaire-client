@@ -82,9 +82,9 @@ module.exports = API =
     switch _.typeOf(value)
       when 'string'
         if _.isEntityUri value then entity value, true
-        else value
+        else escapeExpression value
       when 'array' then value.map(API.multiTypeValue).join('')
-      when 'object' then JSON.stringify value
+      when 'object' then escapeExpression JSON.stringify(value)
 
   entityFromLang: (lang)->
     langEntityId = wdLang.byCode[lang]?.wd

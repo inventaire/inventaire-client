@@ -93,7 +93,7 @@ module.exports = Marionette.ItemView.extend
     app.execute 'ask:confirmation',
       confirmationText: _.i18n('username_change_confirmation', args)
       # no need to show the warning if it's just a case change
-      warningText: _.i18n('username_change_warning')  unless usernameCaseChange
+      warningText: unless usernameCaseChange then _.i18n 'username_change_warning'
       action: action
       selector: '#usernameGroup'
 

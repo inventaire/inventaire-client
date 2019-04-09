@@ -7,7 +7,6 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     attrs.isLoggedIn = app.user.loggedIn
-    attrs.introData = { label: attrs.label }
     attrs.wikidataOauth = app.API.auth.oauth.wikidata + "&redirect=#{attrs.edit}"
     attrs.wikidataIntro = 'https://www.wikidata.org/wiki/Wikidata:Introduction'
     return attrs
