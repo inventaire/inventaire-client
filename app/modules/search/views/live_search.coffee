@@ -25,7 +25,7 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = new Results
-    @lazySearch = _.debounce @search.bind(@), 200
+    @lazySearch = _.debounce @search.bind(@), 500
     { section: @selectedSectionName } = @options
 
   ui:
