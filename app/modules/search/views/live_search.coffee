@@ -2,8 +2,6 @@
 # - hint to input ISBNs directly, maybe in the alternatives sections
 # - add 'help': indexed wiki.inventaire.io entries to give results
 #   to searches such as 'FAQ' or 'help creating group'
-# - add 'subjects': search Wikidata for entities that are used
-#   as 'main subject' (wdt:P921)
 # - add 'place': search Wikidata for entities with coordinates (wdt:P625)
 #   and display a layout with users & groups nearby, as well as books with
 #   narrative location (wdt:P840), or authors born (wdt:P19)
@@ -12,9 +10,9 @@
 Results = Backbone.Collection.extend { model: require('../models/result') }
 wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
 findUri = require '../lib/find_uri'
-spinner = '<div class="small-loader"></div>'
 error_ = require 'lib/error'
 screen_ = require 'lib/screen'
+searchBatchLength = 10
 
 module.exports = Marionette.CompositeView.extend
   id: 'live-search'
@@ -27,13 +25,16 @@ module.exports = Marionette.CompositeView.extend
     @collection = new Results
     @lazySearch = _.debounce @search.bind(@), 500
     { section: @selectedSectionName } = @options
+    @_searchOffset = 0
 
   ui:
     all: '#section-all'
     sections: '.searchSection'
+    resultsWrapper: '.resultsWrapper'
     results: 'ul.results'
     alternatives: '.alternatives'
     shortcuts: '.shortcuts'
+    loader: '.loaderWrapper'
 
   serializeData: ->
     sections = sectionsData()
@@ -45,6 +46,10 @@ module.exports = Marionette.CompositeView.extend
     'click .searchSection': 'updateSections'
     'click .deepSearch': 'showDeepSearch'
     'click .createEntity': 'showEntityCreate'
+
+  onShow: ->
+    # Doesn't work if set in events for some reason
+    @ui.resultsWrapper.on 'scroll', @onResultsScroll.bind(@)
 
   onSpecialKey: (key)->
     switch key
@@ -91,33 +96,41 @@ module.exports = Marionette.CompositeView.extend
 
   search: (search)->
     search = search?.trim()
-
-    unless _.isNonEmptyString search
-      @hideAlternatives()
-      @resetResults()
-      return
-
     @_lastSearch = search
+    @_searchOffset = 0
+
+    # Start by hiding previous results to limit confusion and scroll up
+    @resetResults()
+
+    unless _.isNonEmptyString search then return @hideAlternatives()
 
     uri = findUri search
     if uri? then return @getResultFromUri uri
 
-    types = @getTypes()
+    @_search search
+    .then @resetResults.bind(@)
 
+    @_waitingForAlternatives = true
+    @setTimeout @showAlternatives.bind(@, search), 2000
+
+  _search: (search)->
+    types = @getTypes()
+    @showLoadingSpinner()
     # Subjects aren't indexed in the server ElasticSearch
     # as it's not a subset of Wikidata anymore: pretty much anything
     # on Wikidata can be considered a subject
     if types is 'subjects'
-      wikidataSearch search, false
+      wikidataSearch search, false, searchBatchLength, @_searchOffset
       .map formatSubject
-      .then @resetResults.bind(@)
     else
-      _.preq.get app.API.search(types, search, app.user.lang)
+      # Increasing search limit instead of offset, as search pages aren't stable:
+      # results popularity might have change the results order between two requests,
+      # thus the need to re-fetch from offset 0 but increasing the page length, and adding only
+      # the results that weren't returned in the previous query, whatever there place
+      # in the newly returned results
+      searchLimit = searchBatchLength + @_searchOffset
+      _.preq.get app.API.search(types, search, searchLimit)
       .get 'results'
-      .then @resetResults.bind(@)
-
-    @_waitingForAlternatives = true
-    @setTimeout @showAlternatives.bind(@, search), 2000
 
   showAlternatives: (search)->
     unless _.isNonEmptyString search then return
@@ -144,8 +157,8 @@ module.exports = Marionette.CompositeView.extend
     .finally @stopLoadingSpinner.bind(@)
     .then (entity)=> @resetResults [ formatEntity(entity) ]
 
-  showLoadingSpinner: -> @ui.results.addClass('loading').html spinner
-  stopLoadingSpinner: -> @ui.results.removeClass('loading').html ''
+  showLoadingSpinner: -> @ui.loader.html '<div class="small-loader"></div>'
+  stopLoadingSpinner: -> @ui.loader.html ''
 
   getTypes: ->
     name = getTypeFromId @$el.find('.selected')[0].id
@@ -166,6 +179,7 @@ module.exports = Marionette.CompositeView.extend
     else
       @$el.removeClass 'results-0'
       @setTimeout @showShortcuts.bind(@), 1000
+    @stopLoadingSpinner()
 
   highlightNext: -> @highlightIndexChange 1
   highlightPrevious: -> @highlightIndexChange -1
@@ -194,6 +208,22 @@ module.exports = Marionette.CompositeView.extend
   showEntityCreate: ->
     @triggerMethod 'hide:live:search'
     app.execute 'show:entity:create', { label: @_lastSearch }
+
+  onResultsScroll: (e)->
+    visibleHeight = @ui.resultsWrapper.height()
+    { scrollHeight, scrollTop } = e.currentTarget
+    scrollBottom = scrollTop + visibleHeight
+    if scrollBottom is scrollHeight then @loadMore()
+
+  loadMore: ->
+    @_searchOffset += searchBatchLength
+    @_search @_lastSearch
+    .then @addNewResults.bind(@)
+
+  addNewResults: (results)->
+    currentResultsUri = @collection.map (model)-> model.get('uri')
+    newResults = results.filter (result)-> result.uri not in currentResultsUri
+    @collection.add newResults
 
 sectionToTypes =
   all: [ 'works', 'humans', 'series', 'users', 'groups' ]
