@@ -24,7 +24,7 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     @collection = new Results
-    @lazySearch = _.debounce @search.bind(@), 500
+    @_lazySearch = _.debounce @search.bind(@), 500
     { section: @selectedSectionName } = @options
     @_searchOffset = 0
 
@@ -85,9 +85,10 @@ module.exports = Marionette.CompositeView.extend
       if type is 'all' then @section = null
       else @section = (child)-> child.get('typeAlias') is type
 
-    # Refresh the search with the new sections
-    @search @_lastSearch
+    @_searchOffset = 0
     @_lastType = type
+    # Refresh the search with the new sections
+    if @_lastSearch? and @_lastSearch isnt '' then @lazySearch @_lastSearch
 
     @updateAlternatives type
 
@@ -100,9 +101,6 @@ module.exports = Marionette.CompositeView.extend
     @_lastSearch = search
     @_lastSearchId = ++searchCount
     @_searchOffset = 0
-
-    # Start by hiding previous results to limit confusion and scroll up
-    @resetResults()
 
     unless _.isNonEmptyString search then return @hideAlternatives()
 
@@ -117,7 +115,6 @@ module.exports = Marionette.CompositeView.extend
 
   _search: (search)->
     types = @getTypes()
-    @showLoadingSpinner()
     # Subjects aren't indexed in the server ElasticSearch
     # as it's not a subset of Wikidata anymore: pretty much anything
     # on Wikidata can be considered a subject
@@ -133,6 +130,12 @@ module.exports = Marionette.CompositeView.extend
       searchLimit = searchBatchLength + @_searchOffset
       _.preq.get app.API.search(types, search, searchLimit)
       .get 'results'
+
+  lazySearch: (search)->
+    if search.length > 0 then @showLoadingSpinner()
+    # Hide previous results to limit confusion and scroll up
+    @resetResults()
+    @_lazySearch search
 
   showAlternatives: (search)->
     unless _.isNonEmptyString search then return
@@ -159,7 +162,10 @@ module.exports = Marionette.CompositeView.extend
     .finally @stopLoadingSpinner.bind(@)
     .then (entity)=> @resetResults searchId, [ formatEntity(entity) ]
 
-  showLoadingSpinner: -> @ui.loader.html '<div class="small-loader"></div>'
+  showLoadingSpinner: ->
+    @ui.loader.html '<div class="small-loader"></div>'
+    @$el.removeClass 'results-0'
+
   stopLoadingSpinner: -> @ui.loader.html ''
 
   getTypes: ->
@@ -170,6 +176,12 @@ module.exports = Marionette.CompositeView.extend
     # Ignore results from any search that isn't the latest search
     if searchId? and searchId isnt @_lastSearchId then return
     @resetHighlightIndex()
+    if results? then @stopLoadingSpinner()
+    if results? and results.length is 0
+      @$el.addClass 'results-0'
+    else
+      @$el.removeClass 'results-0'
+      @setTimeout @showShortcuts.bind(@), 1000
 
     # Track TypeErrors where Result model 'initialize' crashes
     try @collection.reset results
@@ -177,13 +189,6 @@ module.exports = Marionette.CompositeView.extend
       err.context ?= {}
       err.context.results = results
       throw err
-
-    if results? and results.length is 0
-      @$el.addClass 'results-0'
-    else
-      @$el.removeClass 'results-0'
-      @setTimeout @showShortcuts.bind(@), 1000
-    @stopLoadingSpinner()
 
   highlightNext: -> @highlightIndexChange 1
   highlightPrevious: -> @highlightIndexChange -1
@@ -220,6 +225,7 @@ module.exports = Marionette.CompositeView.extend
     if scrollBottom is scrollHeight then @loadMore()
 
   loadMore: ->
+    @showLoadingSpinner()
     @_searchOffset += searchBatchLength
     @_search @_lastSearch
     .then @addNewResults.bind(@)
