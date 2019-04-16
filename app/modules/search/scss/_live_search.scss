@@ -28,7 +28,7 @@
       background-color: $light-grey;
     }
   }
-  &:not(.results-0){
+  &:not(.no-results){
     .no-result{
       display: none;
     }

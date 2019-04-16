@@ -164,7 +164,7 @@ module.exports = Marionette.CompositeView.extend
 
   showLoadingSpinner: ->
     @ui.loader.html '<div class="small-loader"></div>'
-    @$el.removeClass 'results-0'
+    @$el.removeClass 'no-results'
 
   stopLoadingSpinner: -> @ui.loader.html ''
 
@@ -178,9 +178,9 @@ module.exports = Marionette.CompositeView.extend
     @resetHighlightIndex()
     if results? then @stopLoadingSpinner()
     if results? and results.length is 0
-      @$el.addClass 'results-0'
+      @$el.addClass 'no-results'
     else
-      @$el.removeClass 'results-0'
+      @$el.removeClass 'no-results'
       @setTimeout @showShortcuts.bind(@), 1000
 
     # Track TypeErrors where Result model 'initialize' crashes
