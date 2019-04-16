@@ -13,6 +13,7 @@ findUri = require '../lib/find_uri'
 error_ = require 'lib/error'
 screen_ = require 'lib/screen'
 searchBatchLength = 10
+searchCount = 0
 
 module.exports = Marionette.CompositeView.extend
   id: 'live-search'
@@ -97,6 +98,7 @@ module.exports = Marionette.CompositeView.extend
   search: (search)->
     search = search?.trim()
     @_lastSearch = search
+    @_lastSearchId = ++searchCount
     @_searchOffset = 0
 
     # Start by hiding previous results to limit confusion and scroll up
@@ -105,10 +107,10 @@ module.exports = Marionette.CompositeView.extend
     unless _.isNonEmptyString search then return @hideAlternatives()
 
     uri = findUri search
-    if uri? then return @getResultFromUri uri
+    if uri? then return @getResultFromUri uri, @_lastSearchId
 
     @_search search
-    .then @resetResults.bind(@)
+    .then @resetResults.bind(@, @_lastSearchId)
 
     @_waitingForAlternatives = true
     @setTimeout @showAlternatives.bind(@, search), 2000
@@ -146,7 +148,7 @@ module.exports = Marionette.CompositeView.extend
 
   showShortcuts: -> @ui.shortcuts.addClass 'shown'
 
-  getResultFromUri: (uri)->
+  getResultFromUri: (uri, searchId)->
     _.log uri, 'uri found'
     @showLoadingSpinner()
 
@@ -155,7 +157,7 @@ module.exports = Marionette.CompositeView.extend
       if err.message is 'entity_not_found' then return
       else throw err
     .finally @stopLoadingSpinner.bind(@)
-    .then (entity)=> @resetResults [ formatEntity(entity) ]
+    .then (entity)=> @resetResults searchId, [ formatEntity(entity) ]
 
   showLoadingSpinner: -> @ui.loader.html '<div class="small-loader"></div>'
   stopLoadingSpinner: -> @ui.loader.html ''
@@ -164,7 +166,9 @@ module.exports = Marionette.CompositeView.extend
     name = getTypeFromId @$el.find('.selected')[0].id
     return sectionToTypes[name]
 
-  resetResults: (results)->
+  resetResults: (searchId, results)->
+    # Ignore results from any search that isn't the latest search
+    if searchId? and searchId isnt @_lastSearchId then return
     @resetHighlightIndex()
 
     # Track TypeErrors where Result model 'initialize' crashes
