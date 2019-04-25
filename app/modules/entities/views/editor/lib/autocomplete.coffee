@@ -4,14 +4,14 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
 
 getActionKey = require 'lib/get_action_key'
-getSuggestionsCollection = require './get_suggestions_collection'
+Suggestions = require 'modules/entities/collections/suggestions'
 AutocompleteSuggestions = require '../autocomplete_suggestions'
 
 module.exports =
   initialize: ->
-    prop = @options.model.get 'property'
+    property = @options.model.get 'property'
     # TODO: init @suggestions only if needed
-    @suggestions = getSuggestionsCollection prop
+    @suggestions = new Suggestions [], { property }
     @lazyUpdateQuery = _.debounce updateQuery.bind(@), 400
 
     @listenTo @suggestions, 'selected:value', completeQuery.bind(@)
