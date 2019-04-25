@@ -68,7 +68,7 @@ module.exports = ClaimsEditorCommons.extend
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'click .delete': 'delete'
-    'keyup input': 'onKeyup'
+    'keyup input': 'onKeyUp'
 
   # this is a jQuery select, not an autocomplete one
   select: -> @ui.autocomplete.select()

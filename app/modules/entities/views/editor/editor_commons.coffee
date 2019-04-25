@@ -9,7 +9,7 @@ module.exports = Marionette.ItemView.extend
       # somehow seems to need a delay
       @setTimeout @select.bind(@), 100
 
-  onKeyup: (e)->
+  onKeyUp: (e)->
     key = getActionKey e
     switch key
       when 'esc' then @hideEditMode()

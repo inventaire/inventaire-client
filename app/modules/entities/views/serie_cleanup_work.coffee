@@ -60,7 +60,7 @@ module.exports = Marionette.LayoutView.extend
     'change .ordinalSelector': 'updateOrdinal'
     'click .create': 'create'
     'click': 'showPlaceholderEditor'
-    'keydown': 'onKeydown'
+    'keydown': 'onKeyDown'
     'change .langSelector': 'propagateLangChange'
 
   updateOrdinal: (e)->
@@ -95,7 +95,7 @@ module.exports = Marionette.LayoutView.extend
     @model.collection.add newModel
     @model.collection.remove @model
 
-  onKeydown: (e)->
+  onKeyDown: (e)->
     key = getActionKey e
     switch key
       when 'enter' then @showPlaceholderEditor()

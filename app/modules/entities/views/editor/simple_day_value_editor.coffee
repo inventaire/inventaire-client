@@ -36,7 +36,7 @@ module.exports = ClaimsEditorCommons.extend
     'click .delete': 'delete'
     # Not setting a particular selector so that
     # any keyup event on the element triggers the event
-    'keyup': 'onKeyup'
+    'keyup': 'onKeyUp'
     'click .addUnit': 'addUnit'
     'change select': 'updateSelectors'
 
