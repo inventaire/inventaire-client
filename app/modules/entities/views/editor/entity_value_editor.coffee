@@ -22,7 +22,6 @@ module.exports = ClaimsEditorCommons.extend
     @allowEntityCreation = @model.get 'allowEntityCreation'
     @initEditModeState()
     @lazyRender = _.LazyRender @
-    autocomplete.initialize.call @
 
   lazyRenderIfDisplayMode: -> if not @editMode then @lazyRender()
 

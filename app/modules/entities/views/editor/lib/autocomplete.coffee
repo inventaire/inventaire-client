@@ -8,17 +8,8 @@ Suggestions = require 'modules/entities/collections/suggestions'
 AutocompleteSuggestions = require '../autocomplete_suggestions'
 
 module.exports =
-  initialize: ->
-    property = @options.model.get 'property'
-    # TODO: init @suggestions only if needed
-    @suggestions = new Suggestions [], { property }
-    @lazyUpdateQuery = _.debounce updateQuery.bind(@), 400
-
-    @listenTo @suggestions, 'selected:value', completeQuery.bind(@)
-    @listenTo @suggestions, 'highlight', fillQuery.bind(@)
-    @listenTo @suggestions, 'error', showAlertBox.bind(@)
-
   onRender: ->
+    unless @suggestions? then initializeAutocomplete.call @
     @suggestionsRegion.show new AutocompleteSuggestions { collection: @suggestions }
 
   onKeyDown: (e)->
@@ -50,6 +41,15 @@ module.exports =
   hideDropdown: ->
     @suggestionsRegion.$el.hide()
     @ui.input.focus()
+
+initializeAutocomplete = ->
+  property = @options.model.get 'property'
+  @suggestions = new Suggestions [], { property }
+  @lazyUpdateQuery = _.debounce updateQuery.bind(@), 400
+
+  @listenTo @suggestions, 'selected:value', completeQuery.bind(@)
+  @listenTo @suggestions, 'highlight', fillQuery.bind(@)
+  @listenTo @suggestions, 'error', showAlertBox.bind(@)
 
 # Complete the query using the selected suggestion.
 completeQuery = (suggestion)->
