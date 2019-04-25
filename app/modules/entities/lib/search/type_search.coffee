@@ -6,8 +6,6 @@ languageSearch = require './language_search'
 error_ = require 'lib/error'
 
 module.exports = (type, input)->
-  _.log { type, input }, 'type search input'
-
   entityUri = getEntityUri input
 
   if entityUri? then searchByEntityUri entityUri

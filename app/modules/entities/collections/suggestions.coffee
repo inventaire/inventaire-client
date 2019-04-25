@@ -1,6 +1,6 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
 
-typeSearch = require 'modules/entities/lib/sources/type_search'
+typeSearch = require 'modules/entities/lib/search/type_search'
 properties = require 'modules/entities/lib/properties'
 
 module.exports = Backbone.Collection.extend

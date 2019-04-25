@@ -8,7 +8,7 @@
 #   or dead (wdt:P20) nearby
 
 Results = Backbone.Collection.extend { model: require('../models/result') }
-wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
+wikidataSearch = require 'modules/entities/lib/search/wikidata_search'
 findUri = require '../lib/find_uri'
 error_ = require 'lib/error'
 screen_ = require 'lib/screen'
