@@ -2,7 +2,8 @@ isLoggedIn = require './lib/is_logged_in'
 getActionKey = require 'lib/get_action_key'
 error_ = require 'lib/error'
 
-module.exports = Marionette.ItemView.extend
+# This needs to be a LayoutView so that view classes extending this one can have regions
+module.exports = Marionette.LayoutView.extend
   className: -> "value-editor-commons #{@mainClassName}"
   selectIfInEditMode: ->
     if @editMode

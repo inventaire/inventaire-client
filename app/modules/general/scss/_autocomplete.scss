@@ -1,8 +1,8 @@
-.ac-container{
+.autocomplete-container{
   position: relative;
 }
-.ac-suggestions{
-  // positioning .ac-suggestions just under .ac-container
+.autocomplete-suggestions{
+  // positioning .autocomplete-suggestions just under .autocomplete-container
   @include position(absolute, 95%)
   z-index: 1;
   width: 100%;
@@ -21,10 +21,10 @@
     color: #333;
   }
 }
-.ac-suggestion .select, .ac-no-suggestion{
+.autocomplete-suggestion .select, .autocomplete-no-suggestion{
   padding: 0 0.4em 0 0.4em;
 }
-.ac-suggestion{
+.autocomplete-suggestion{
   @include bg-hover(white);
   &.active{
     background-color: #ddd;
@@ -43,7 +43,7 @@
     float: right;
   }
 }
-.ac-no-suggestion{
+.autocomplete-no-suggestion{
   text-align: center;
   a{
     color: #666;

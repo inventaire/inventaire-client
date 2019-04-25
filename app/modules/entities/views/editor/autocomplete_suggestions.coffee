@@ -4,11 +4,11 @@
 listHeight = 170
 
 module.exports = Marionette.CompositeView.extend
-  template: require './templates/suggestions'
-  className: 'ac-suggestions hidden'
+  template: require './templates/autocomplete_suggestions'
+  className: 'autocomplete-suggestions'
   childViewContainer: 'ul'
-  childView: require './suggestion'
-  emptyView: require './no_suggestion'
+  childView: require './autocomplete_suggestion'
+  emptyView: require './autocomplete_no_suggestion'
   ui:
     list: 'ul'
 
