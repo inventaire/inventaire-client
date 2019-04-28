@@ -1,19 +1,12 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
 
-typeSearch = require 'modules/entities/lib/search/type_search'
-properties = require 'modules/entities/lib/properties'
-
 module.exports = Backbone.Collection.extend
   initialize: (data, options)->
     { property } = options
-    { @searchType } = properties[property]
     @lastInput = null
 
     @index = -1
 
-    # Using the filtered collection as the behavior event bus
-    # but never the original collection as it is shared between all views
-    @on 'find', @fetchNewSuggestions
     @on 'highlight:next', @highlightNext
     @on 'highlight:previous', @highlightPrevious
     @on 'highlight:first', @highlightFirst
@@ -22,23 +15,6 @@ module.exports = Backbone.Collection.extend
     @on 'select:from:click', @selectFromClick
 
   model: require 'modules/entities/models/search_result'
-
-  # Get suggestions based on the current input
-  fetchNewSuggestions: (input)->
-    input = input.trim().replace /\s{2,}/g, ' '
-    if input is @lastInput then return Promise.resolve()
-
-    @index = -1
-    @lastInput = input
-
-    typeSearch @searchType, input
-    .then (results)=>
-      # Ignore the results if the input changed
-      if input isnt @lastInput then return
-      # Reset the collection so that previous text search or URI results
-      # don't appear in the suggestions
-      @reset results
-    .catch @trigger.bind(@, 'error')
 
   # Select first suggestion unless the suggestion list
   # has been navigated then select at the current index.

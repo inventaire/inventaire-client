@@ -1,15 +1,15 @@
 SearchResult = require 'modules/entities/models/search_result'
-wikidataSearch = require './wikidata_search'
+wikidataSearch = require('./wikidata_search')(true)
 searchType = require './search_type'
 languageSearch = require './language_search'
 { getEntityUri, prepareSearchResult } = require './entities_uris_results'
 error_ = require 'lib/error'
 
-module.exports = (type, input)->
+module.exports = (type, input, limit, offset)->
   entityUri = getEntityUri input
 
   if entityUri? then searchByEntityUri entityUri
-  else getSearchTypeFn(type)(input)
+  else getSearchTypeFn(type)(input, limit, offset)
 
 searchByEntityUri = (uri)->
   _.log entityUri, 'entity uri'

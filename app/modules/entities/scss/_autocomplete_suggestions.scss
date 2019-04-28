@@ -9,8 +9,8 @@
   background-color: white;
   @include shy-border(0.9);
   @include radius-bottom;
-  ul{
-    // keep in sync with app/modules/general/views/behaviors/suggestions.coffee
+  .resultsWrapper{
+    // keep in sync with modules/entities/views/editor/autocomplete_suggestions.coffee
     max-height: 170px;
     overflow: auto;
   }
@@ -19,6 +19,14 @@
     text-align: center;
     @include bg-hover(#eaeaea);
     color: #333;
+  }
+  .loaderWrapper{
+    @include display-flex(row, center, center);
+    border-top: 1px solid #eee;
+  }
+  .small-loader{
+    margin: 0.5em;
+    color: $grey;
   }
 }
 .autocomplete-suggestion .select, .autocomplete-no-suggestion{

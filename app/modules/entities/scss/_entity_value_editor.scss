@@ -54,6 +54,8 @@
   .alert-box{
     position: absolute;
     top: 100%;
+    // Display the alert-box over suggestions
+    z-index: 1;
   }
   .identifier{
     @include transition(opacity);
@@ -65,3 +67,5 @@
     }
   }
 }
+
+@import 'autocomplete_suggestions';

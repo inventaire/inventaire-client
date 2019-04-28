@@ -6,6 +6,10 @@
 getActionKey = require 'lib/get_action_key'
 Suggestions = require 'modules/entities/collections/suggestions'
 AutocompleteSuggestions = require '../autocomplete_suggestions'
+properties = require 'modules/entities/lib/properties'
+typeSearch = require 'modules/entities/lib/search/type_search'
+forms_ = require 'modules/general/lib/forms'
+searchBatchLength = 10
 
 module.exports =
   onRender: ->
@@ -36,7 +40,7 @@ module.exports =
         keyAction.call @, actionKey, e
       else
         showDropdown.call @
-        @lazyUpdateQuery value
+        @lazySearch value
 
   hideDropdown: ->
     @suggestionsRegion.$el.hide()
@@ -44,24 +48,64 @@ module.exports =
 
 initializeAutocomplete = ->
   property = @options.model.get 'property'
+  { @searchType } = properties[property]
   @suggestions = new Suggestions [], { property }
-  @lazyUpdateQuery = _.debounce updateQuery.bind(@), 400
+  @lazySearch = _.debounce search.bind(@), 400
 
   @listenTo @suggestions, 'selected:value', completeQuery.bind(@)
   @listenTo @suggestions, 'highlight', fillQuery.bind(@)
   @listenTo @suggestions, 'error', showAlertBox.bind(@)
+  @listenTo @suggestions, 'load:more', loadMore.bind(@)
 
 # Complete the query using the selected suggestion.
 completeQuery = (suggestion)->
   fillQuery.call @, suggestion
   @hideDropdown()
 
-# Update suggestions list, never directly call this use @lazyUpdateQuery
-# which is a debounced alias.
-updateQuery = (query)->
+search = (input)->
   # remove the value passed to the view as the input changed
   removeCurrentViewValue.call @
-  @suggestions.trigger 'find', query
+
+  input = input.trim().replace /\s{2,}/g, ' '
+  if input is @lastInput then return Promise.resolve()
+
+  @suggestions.index = -1
+  @lastInput = input
+  @_searchOffset = 0
+
+  _search.call @, input
+  .then (results)=>
+    @_lastResultsLength = results.length
+    if results? and results.length is 0
+      @suggestionsRegion.currentView.$el.addClass 'no-results'
+    else
+      @suggestionsRegion.currentView.$el.removeClass 'no-results'
+    @suggestions.reset results
+  .catch forms_.catchAlert.bind(null, @)
+
+_search = (input)->
+  typeSearch @searchType, input, searchBatchLength, @_searchOffset
+  .then (results)=>
+    # Ignore the results if the input changed
+    if input isnt @lastInput then return
+    return results
+
+loadMore = ->
+  # Do not try to fetch more results if the last batch was incomplete
+  if @_lastResultsLength < searchBatchLength then return stopLoadingSpinner.call @
+
+  showLoadingSpinner.call @
+  @_searchOffset += searchBatchLength
+  _search.call @, @lastInput
+  .then (results)=>
+    currentResultsUri = @suggestions.map (model)-> model.get('uri')
+    newResults = results.filter (result)-> result.uri not in currentResultsUri
+    @_lastResultsLength = newResults.length
+    if newResults.length > 0 then @suggestions.add newResults
+  .catch forms_.catchAlert.bind(null, @)
+
+showLoadingSpinner = -> @suggestionsRegion.currentView.showLoadingSpinner()
+stopLoadingSpinner = -> @suggestionsRegion.currentView.stopLoadingSpinner()
 
 removeCurrentViewValue = ->
   @onAutoCompleteUnselect()
