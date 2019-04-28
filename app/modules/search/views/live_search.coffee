@@ -216,7 +216,7 @@ formatEntity = (entity)->
     return
 
   data = entity.toJSON()
-  data.image = data.image.url
+  data.image = data.image?.url
   # Return a model to prevent having it re-formatted
   # as a Result model, which works from a result object, not an entity
   return new Backbone.Model data
