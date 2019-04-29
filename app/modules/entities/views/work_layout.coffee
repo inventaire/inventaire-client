@@ -25,7 +25,6 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: ->
     _.extend @model.toJSON(),
-      canRefreshData: true
       displayMergeSuggestions: @displayMergeSuggestions
 
   onShow: ->

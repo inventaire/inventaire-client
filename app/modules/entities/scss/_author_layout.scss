@@ -1,6 +1,6 @@
 $author-layout-bg: #292929;
 
-.authorLayout{
+.authorLayout, .publisherLayout{
   background-color: $author-layout-bg;
   // allow to have no margin when there is only one .authorLayout
   &:not(:first-child){
@@ -65,7 +65,7 @@ $author-layout-bg: #292929;
   }
 }
 
-.innerAuthorLi{
+.innerAuthorLi, .innerPublisherLi{
   @include display-flex(column);
   .workLi:not(.wrappable){
     margin: auto;

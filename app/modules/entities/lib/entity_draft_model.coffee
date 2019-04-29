@@ -14,7 +14,7 @@ propertiesShortlists =
   human: [ 'wdt:P1412' ]
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
-  edition: [ 'invp:P2', 'wdt:P407', 'wdt:P1476', 'wdt:P577' ]
+  edition: [ 'invp:P2', 'wdt:P407', 'wdt:P1476', 'wdt:P1680', 'wdt:P577', 'wdt:P123' ]
 
 module.exports =
   create: (options)->

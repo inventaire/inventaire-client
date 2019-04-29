@@ -85,7 +85,6 @@ module.exports = Marionette.CompositeView.extend
     customTitle: @options.customTitle
     hideHeader: @options.hideHeader
     more: @more()
-    canRefreshData: true
     totalLength: @collection.totalLength
     addOne: @addOneData
 
