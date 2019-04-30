@@ -44,7 +44,7 @@ addProp 'wdt:P212', 'fixed-string', null, false, null
 # isbn 10
 addProp 'wdt:P957', 'fixed-string', null, false, null
 # publisher
-addProp 'wdt:P123', 'entity', 'publishers', false, false
+addProp 'wdt:P123', 'entity', 'publishers', false, true
 # collection
 addProp 'wdt:P195', 'entity', 'collections', false, false
 # date of publication
@@ -84,3 +84,17 @@ addProp 'wdt:P4033', 'string', null, false, null
 
 ## work and human
 addProp 'wdt:P856', 'string', null, false, null
+
+## publisher
+# founded by
+addProp 'wdt:P112', 'entity', 'humans', false, null
+# owned by
+addProp 'wdt:P127', 'entity', 'humans', false, null
+# Commons category
+addProp 'wdt:P373', 'string', null, false, null
+# inception
+addProp 'wdt:P571', 'simple-day', 'inception', false, null
+# dissolution
+addProp 'wdt:P576', 'simple-day', 'inception', false, null
+# ISBN publisher
+addProp 'wdt:P3035', 'string', null, false, null

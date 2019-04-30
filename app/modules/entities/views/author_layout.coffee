@@ -39,7 +39,6 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     _.extend @model.toJSON(),
       standalone: @standalone
-      canRefreshData: true
       # having an epub download button on an author isn't really interesting
       hideWikisourceEpub: true
       displayMergeSuggestions: @displayMergeSuggestions

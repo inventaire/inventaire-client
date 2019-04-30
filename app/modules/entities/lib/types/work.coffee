@@ -1,5 +1,6 @@
 publicDomainThresholdYear = new Date().getFullYear() - 70
 commonsSerieWork = require './commons_serie_work'
+filterOutWdEditions = require '../filter_out_wd_editions'
 getEntityItemsByCategories = require '../get_entity_items_by_categories'
 
 module.exports = ->
@@ -79,16 +80,7 @@ typesString =
   'wd:Q49084': 'short story'
 
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
-  # Discard Wikidata editions for now has they don't integrate well
-  subEntitiesUrisFilter: (uri)-> uri.split(':')[0] isnt 'wd'
   # wait for setImage to have run
   getImageAsync: -> @waitForSubentities.then => @get 'image'
   getItemsByCategories: getEntityItemsByCategories
-  beforeSubEntitiesAdd: (entities)->
-    # Filter-out Wikidata editions
-    # as their support is currently lacking:
-    # - works and editions are still quite mixed in Wikidaa
-    # - Wikidata editions might not have the claims expected of an edition
-    #   which might cause errors such as the impossibility to create an item
-    #   from this edition
-    return entities.filter (entity)-> not entity.wikidataId
+  beforeSubEntitiesAdd: filterOutWdEditions

@@ -10,6 +10,7 @@ EntityEdit = require './views/editor/entity_edit'
 EntityCreate = require './views/editor/entity_create'
 MultiEntityEdit = require './views/editor/multi_entity_edit'
 GenreLayout = require './views/genre_layout'
+PublisherLayout = require './views/publisher_layout'
 error_ = require 'lib/error'
 createEntities = require './lib/create_entities'
 entityDraftModel = require './lib/entity_draft_model'
@@ -93,6 +94,8 @@ API =
     new EditionLayout { model, refresh, standalone: true }
 
   getGenreLayout: (model, refresh)-> new GenreLayout { model, refresh }
+
+  getPublisherLayout: (model, refresh)-> new PublisherLayout { model, refresh }
 
   showAddEntity: (uri)->
     uri = normalizeUri uri
@@ -382,6 +385,7 @@ entityViewGetterByType =
   work: 'getWorkView'
   edition: 'getEditionView'
   genre: 'getGenreLayout'
+  publisher: 'getPublisherLayout'
   # the GenreLayout also fetches movements
   movement: 'getGenreLayout'
 

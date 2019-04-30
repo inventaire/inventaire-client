@@ -1,6 +1,6 @@
 $author-data-threshold: 25em;
 
-.authorInfobox{
+.authorInfobox, .publisherInfobox{
   margin: 0 auto;
   max-width: 60em;
   // center the image
@@ -38,7 +38,7 @@ $author-data-threshold: 25em;
     }
   }
 }
-.authorData{
+.authorData, .publisherData{
   position: relative;
   background-color: $darker-grey;
   @include radius;

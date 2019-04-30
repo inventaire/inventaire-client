@@ -2,6 +2,7 @@ entityValue = require 'modules/general/views/behaviors/templates/entity_value'
 propertyValue = require 'modules/general/views/behaviors/templates/property_value'
 { SafeString, escapeExpression } = Handlebars
 wdk = require 'lib/wikidata-sdk'
+error_ = require 'lib/error'
 
 prop = (id)->
   # Be more restrictive on the input to be able to use it in SafeStrings
@@ -10,11 +11,13 @@ prop = (id)->
 
 entity = (id, entityLink, alt, property)->
   # Be restricting on the input to be able to use it in SafeStrings
-  if wdk.isWikidataItemId(id) or _.isEntityUri(id)
-    unless typeof alt is 'string' then alt = ''
-    app.execute 'uriLabel:update'
-    alt = escapeExpression alt
-    return entityValue { id, entityLink, property, alt, label: alt }
+  unless wdk.isWikidataItemId(id) or _.isEntityUri(id)
+    throw error_.new 'invalid entity id', 500, { id }
+
+  unless typeof alt is 'string' then alt = ''
+  app.execute 'uriLabel:update'
+  alt = escapeExpression alt
+  return entityValue { id, entityLink, property, alt, label: alt }
 
 module.exports =
   prop: prop
