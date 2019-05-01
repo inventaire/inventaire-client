@@ -3,7 +3,12 @@
 <div class="wrapper">
   <div class="one">
 
-    <span class="section-label">{{I18n 'edition'}}</span>
+    {{#if entityIsEdition}}
+      <span class="section-label">{{I18n 'edition'}}</span>
+    {{else}}
+      <span class="section-label">{{I18n 'work'}}</span>
+    {{/if}}
+
     <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
       {{#if snapshot.entity:image}}
         <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
@@ -26,7 +31,7 @@
       {{/each}}
     {{else}}
       {{#if mainUserIsOwner}}
-        <a class="preciseEdition tiny-button light-blue bold" title="{{i18n 'precise the edition'}}">{{icon 'question-circle'}}{{i18n 'which edition?'}}</a>
+        <a class="preciseEdition tiny-button light-blue bold" title="{{I18n 'precise the edition'}}">{{icon 'question-circle'}}{{i18n 'which edition?'}}</a>
       {{/if}}
     {{/if}}
 
