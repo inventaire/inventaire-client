@@ -13,7 +13,6 @@
 # NPM packages folder.
 node_modules/
 npm-debug.log*
-bower_components/
 
 # Brunch folder for temporary files.
 tmp/
@@ -40,3 +39,4 @@ casper
 scripts/local
 app/lib/languages_data.js
 inventaire-i18n
+issues
