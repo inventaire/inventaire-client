@@ -5,7 +5,7 @@ module.exports = Backbone.Model.extend
     # Track TypeErrors where typeFormatters[data.type] isn't a function
     try @set typeFormatters[data.type](data)
     catch err
-      err.context = data
+      err.context = { data }
       throw err
 
 entityFormatter = (type, typeAlias)-> (data)->

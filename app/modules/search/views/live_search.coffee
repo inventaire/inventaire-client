@@ -153,7 +153,14 @@ module.exports = Marionette.CompositeView.extend
 
   resetResults: (results)->
     @resetHighlightIndex()
-    @collection.reset results
+
+    # Track TypeErrors where Result model 'initialize' crashes
+    try @collection.reset results
+    catch err
+      err.context ?= {}
+      err.context.results = results
+      throw err
+
     if results? and results.length is 0
       @$el.addClass 'results-0'
     else
