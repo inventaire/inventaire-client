@@ -86,10 +86,8 @@
     font-weight: bold;
     color: white;
   }
-  .loader{
-    position: absolute;
-    top: 0.2em;
-    right: 0.2em;
+  .centered-loader{
+    @include position(absolute, 0, 0, 0, 0);
     color: white;
   }
 }
