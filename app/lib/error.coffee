@@ -43,5 +43,5 @@ module.exports = error_ =
     context.location = location.href
     # Non-standard convention: 599 = client implementation error
     err = formatError message, 599, context
-    _.error err, message
+    _.error err, "[reported error (not thrown)] #{message}"
     return
