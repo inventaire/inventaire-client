@@ -33,7 +33,7 @@ module.exports = Marionette.CompositeView.extend
     'click .clearHistory': 'clearHistory'
     # As the search input is synchronized with the top bar input
     # let that one handle the search
-    'click #localSearchButton': -> app.layout.topBar.currentView.search()
+    'click #localSearchButton': 'focusGlobalSearchBar'
 
   updateLocalSearchBar: (value)->
     @ui.localSearchField.val value
