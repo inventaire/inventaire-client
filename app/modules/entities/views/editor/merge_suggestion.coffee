@@ -45,7 +45,7 @@ module.exports = Marionette.LayoutView.extend
 
   _showSubentities: (name, collection)->
     @$el.find(".#{name}Label").show()
-    @[name].show new SubentitiesList { collection }
+    @[name].show new SubentitiesList { collection, entity: @model }
 
   showTask: (e)->
     unless _.isOpenedOutside e
@@ -77,6 +77,14 @@ Subentity = Marionette.ItemView.extend
   attributes: ->
     title: @model.get('uri')
 
+  serializeData: ->
+    attrs = @model.toJSON()
+    authorUri = @options.entity.get 'uri'
+    attrs.claims['wdt:P50'] = _.without attrs.claims['wdt:P50'], authorUri
+    return attrs
+
 SubentitiesList = Marionette.CollectionView.extend
   className: 'subentities-list'
   childView: Subentity
+  childViewOptions: ->
+    entity: @options.entity

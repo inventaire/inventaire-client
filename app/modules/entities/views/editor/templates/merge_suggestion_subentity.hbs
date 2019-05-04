@@ -2,6 +2,13 @@
   {{#if image.url}}
     <div><img src="{{imgSrc image.url 64}}" alt="{{label}} {{i18n 'cover'}}"></div>
   {{/if}}
-  <span class="label">{{label}}</span>
-  <span class="uri">{{uri}}</span>
+  <div>
+    <div class="row">
+      <span class="label">{{label}}</span>
+      <span class="uri">{{uri}}</span>
+    </div>
+    <div class="claims">
+      {{claim claims 'wdt:P50'}}
+    </div>
+  </div>
 </a>

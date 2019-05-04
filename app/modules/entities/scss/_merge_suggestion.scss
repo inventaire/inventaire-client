@@ -47,6 +47,13 @@
     @include display-flex(row, center, flex-start);
     overflow: hidden;
     margin: 0.5em 0;
+    .claims{
+      text-align: left;
+      margin: 0 0.5em;
+      .entity-value{
+        color: $grey;
+      }
+    }
     img{
       max-width: 3em;
     }
