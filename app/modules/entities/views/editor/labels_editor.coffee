@@ -80,7 +80,6 @@ module.exports = EditorCommons.extend
       # re-render will be triggered by change:labels event listener
       @model.setLabel lang, value
       .then @lazyRender.bind(@)
-      .catch error_.Complete(errSelector)
       .catch (err)=>
         # Bring back the edit mode
         @editMode = true
