@@ -58,12 +58,13 @@ specificMethods =
     worksUris = @get 'claims.wdt:P629'
 
     unless worksUris?
-      unless @creating
+      if @creating
+        @works = []
+        startListeningForClaimsChanges.call @
+        return @waitForWorks = Promise.resolve()
+      else
         uri = @get 'uri'
-        error_.report 'edition entity misses associated works', { uri }
-      @works = []
-      startListeningForClaimsChanges.call @
-      return Promise.resolve()
+        throw error_.new 'edition entity misses associated works (wdt:P629)', { uri }
 
     @waitForWorks = @reqGrab 'get:entities:models', { uris: worksUris }, 'works'
     # Use tap to ignore the return values
