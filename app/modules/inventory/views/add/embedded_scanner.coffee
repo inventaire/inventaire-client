@@ -30,9 +30,10 @@ module.exports = Marionette.ItemView.extend
 
     scanOptions =
       beforeScannerStart: @beforeScannerStart.bind @
-      actions:
+      onDetectedActions:
         addIsbn: @addIsbn.bind @
         showInvalidIsbnWarning: @showInvalidIsbnWarning.bind @
+      setStopScannerCallback: @setStopScannerCallback.bind @
 
     @scanner = embedded_.scan(scanOptions).catch @permissionDenied.bind(@)
 
@@ -169,9 +170,9 @@ module.exports = Marionette.ItemView.extend
     # in app.layout.main too
     window.history.back()
 
-  onDestroy: ->
-    # TODO: cancel the promise
-    # (was implemented but removed when Bluebird was removed)
+  setStopScannerCallback: (fn)-> @stopScanner = fn
+
+  onDestroy: -> @stopScanner?()
 
 iconPerType =
   success: 'check'

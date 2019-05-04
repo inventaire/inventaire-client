@@ -52,7 +52,7 @@ module.exports = Marionette.ItemView.extend
       if err.message is 'modal closed' then return
       else throw err
 
-    e.stopPropagation()
+    e?.stopPropagation()
 
   # Avoid overriding Backbone.View::remove
   remov: (e)->

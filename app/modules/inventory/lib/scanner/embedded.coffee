@@ -10,26 +10,26 @@ module.exports =
   # to be ready to start scanning faster
   prepare: -> Promise.all [ prepareQuagga(), prepareIsbn2() ]
   scan: (params)->
-    { beforeScannerStart, actions } = params
-    beforeScannerStart or= _.noop
-
     Promise.all [ getQuagga(), getIsbn2() ]
-    .then startScanning.bind(null, beforeScannerStart, actions)
-    # Not catching the error to let the view handle where we should go next
+    .then startScanning.bind(null, params)
+    .catch _.ErrorRethrow('embedded scanner err')
 
-startScanning = (beforeScannerStart, actions)->
+startScanning = (params)->
+  { beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
   # Using a promise to get a friendly way to pass errors
   # but this promise will never resolve, and will be terminated,
   # if everything goes well, by a cancel event
-  new Promise (resolve, reject, onCancel)->
+  return new Promise (resolve, reject)->
     constraints = getConstraints()
     _.log 'starting quagga initialization'
 
     cancelled = false
-    onCancel ->
-      _.log 'cancelled promise: stopping quagga'
+    stopScanner = ->
+      _.log 'stopping quagga'
       cancelled = true
       Quagga.stop()
+
+    setStopScannerCallback stopScanner
 
     Quagga.init getOptions(constraints), (err)->
       if cancelled then return
@@ -37,13 +37,13 @@ startScanning = (beforeScannerStart, actions)->
         err.reason = 'permission_denied'
         return reject err
 
-      beforeScannerStart()
+      beforeScannerStart?()
       _.log 'quagga initialization finished. Starting'
       Quagga.start()
 
       Quagga.onProcessed drawCanvas()
 
-      Quagga.onDetected onDetected(actions)
+      Quagga.onDetected onDetected(onDetectedActions)
 
 # see doc: https://github.com/serratus/quaggaJS#configuration
 getOptions = (constraints)->
@@ -76,7 +76,8 @@ baseOptions =
     readers: [ 'ean_reader' ]
     multiple: false
 
-onDetected = (actions)->
+onDetected = (onDetectedActions)->
+  { showInvalidIsbnWarning, addIsbn } = onDetectedActions
   lastIsbnScanTime = 0
   lastIsbn = null
 
@@ -100,7 +101,7 @@ onDetected = (actions)->
       # Known case: some books have an ISBN but the barcode EAN
       # isn't based on it
       if identicalInvalidIsbnCount is 3
-        actions.showInvalidIsbnWarning candidate
+        showInvalidIsbnWarning candidate
         # Reset count to show the same warning in 3 scans again
         identicalInvalidIsbnCount = 0
 
@@ -119,4 +120,4 @@ onDetected = (actions)->
     if timeSinceLastIsbnScan < 500
       return _.log candidate, 'discarded result: too close in time'
 
-    actions.addIsbn candidate
+    addIsbn candidate
