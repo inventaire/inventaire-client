@@ -5,11 +5,11 @@
       {{i18n 'email_confirmation_success'}}
     </p>
     {{#if loggedIn}}
-      <a class="button dark-grey radius showHome">
+      <a href="/inventory" class="button dark-grey radius showHome">
         {{i18n 'back to your inventory'}}
       </a>
     {{else}}
-      <a class="button dark-grey radius showLogin">
+      <a href="/login" class="button dark-grey radius showLogin">
         {{i18n 'login to your inventory'}}
       </a>
     {{/if}}
@@ -28,7 +28,7 @@
       <p class="offline">
         {{i18n 'email_confirmation_offline_error'}}
       </p>
-      <a class="button dark-grey radius showLoginRedirectSettings">
+      <a href="/login?redirect=settings/profile" class="button dark-grey radius showLoginRedirectSettings">
         {{i18n 'login'}}
       </a>
     {{/if}}
