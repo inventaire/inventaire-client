@@ -4,10 +4,10 @@
   }
   .options{
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 50vh;
   }
   li.option{
-    @include serif;
     display: flex;
     a{
       flex: 1 0 auto;

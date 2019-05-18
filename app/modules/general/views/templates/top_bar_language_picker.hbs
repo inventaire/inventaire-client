@@ -5,10 +5,10 @@
     <ul class="options">
       {{#each languages}}
         <li class="option">
-          <a data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}}">
+          <a data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}} ({{i18n 'translation_completion' completion=completion}})">
             <span class="completion" style="width:{{completion}}%"></span>
             <span class="lang">{{native}}</span>
-            <span class="completion-text">({{i18n 'translation_completion' completion=completion}})</span>
+            <span class="completion-text">({{completion}}%)</span>
           </a>
         </li>
       {{/each}}
