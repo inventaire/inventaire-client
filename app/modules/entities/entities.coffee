@@ -91,7 +91,8 @@ API =
   getWorkView: (model, refresh)-> new WorkLayout { model, refresh, standalone: true }
 
   getEditionView: (model, refresh)->
-    new EditionLayout { model, refresh, standalone: true }
+    model.waitForWorks
+    .then -> new EditionLayout { model, refresh, standalone: true }
 
   getGenreLayout: (model, refresh)-> new GenreLayout { model, refresh }
 
