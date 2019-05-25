@@ -4,6 +4,9 @@
     {{#unless onWorkLayout}}
       {{claim claims 'wdt:P629' true}}  {{!-- edition of --}}
       {{claim claims 'wdt:P50' true}}  {{!-- author --}}
+      {{claim claims 'wdt:P58' true}} {{!-- scenarist --}}
+      {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
+      {{claim claims 'wdt:P6338' true}} {{!-- colorist --}}
       {{claim claims 'wdt:P179' true}} {{!-- serie --}}
     {{/unless}}
     {{claim claims 'wdt:P2679' true}}  {{!-- author of foreword --}}

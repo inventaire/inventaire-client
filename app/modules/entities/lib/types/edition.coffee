@@ -81,12 +81,20 @@ inheritData = (works)->
   if @creating then return
   # Use cases: used on the edition layout to display authors and series
   setWorksClaims.call @, works, 'wdt:P50'
+  setWorksClaims.call @, works, 'wdt:P58'
+  setWorksClaims.call @, works, 'wdt:P110'
+  setWorksClaims.call @, works, 'wdt:P6338'
   setWorksClaims.call @, works, 'wdt:P179'
   return
 
 setWorksClaims = (works, property)->
-  values = _.uniq _.flatten(works.map((work)-> work.get("claims.#{property}")))
-  @set "claims.#{property}", values
+  values = _.chain works
+    .map (work)-> work.get "claims.#{property}"
+    .flatten()
+    .compact()
+    .uniq()
+    .value()
+  if values.length > 0 then @set "claims.#{property}", values
 
 startListeningForClaimsChanges = ->
   @on 'change:claims', @onClaimsChange.bind(@)
