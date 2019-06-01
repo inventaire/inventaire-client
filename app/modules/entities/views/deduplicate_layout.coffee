@@ -106,7 +106,9 @@ module.exports = Marionette.LayoutView.extend
 
   selectFromUri: (e, data, bla)->
     { uri, direction } = data
-    $("[data-uri='#{uri}']").addClass "selected-#{direction}"
+    selectorClassName = "selected-#{direction}"
+    $(".#{selectorClassName}").removeClass selectorClassName
+    $("[data-uri='#{uri}']").addClass selectorClassName
 
   mergeSelected: ->
     # Prevent merging several times within half a second: it is probably a mistake

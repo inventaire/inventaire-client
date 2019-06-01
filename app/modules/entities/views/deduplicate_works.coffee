@@ -82,15 +82,17 @@ module.exports = Marionette.LayoutView.extend
     @setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, mostProbableDuplicate), 200
 
   _showNextProbableDuplicatesUpdateUi: (invModel, mostProbableDuplicate)->
+    @selectCandidates invModel, mostProbableDuplicate
+    @$el.trigger 'next:button:show'
+
+  selectCandidates: (from, to)->
     @$el.trigger 'entity:select',
-      uri: invModel.get 'uri'
+      uri: from.get 'uri'
       direction: 'from'
 
     @$el.trigger 'entity:select',
-      uri: mostProbableDuplicate.get 'uri'
+      uri: to.get 'uri'
       direction: 'to'
-
-    @$el.trigger 'next:button:show'
 
   onMerge: -> @next()
 
@@ -119,6 +121,13 @@ module.exports = Marionette.LayoutView.extend
     @_currentFilter = filter
     @filterSubView 'wd', filter
     @filterSubView 'inv', filter
+
+    wdChildren = @wd.currentView.children
+    invChildren = @inv.currentView.children
+    if wdChildren.length is 1 and invChildren.length is 1
+      wdModel = _.values(wdChildren._views)[0].model
+      invModel = _.values(invChildren._views)[0].model
+      @selectCandidates invModel, wdModel
 
   filterSubView: (regionName, filter)->
     view = @[regionName].currentView
