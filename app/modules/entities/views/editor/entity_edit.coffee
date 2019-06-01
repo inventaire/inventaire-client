@@ -8,6 +8,7 @@ properties = require 'modules/entities/lib/properties'
 { unprefixify } = require 'lib/wikimedia/wikidata'
 moveToWikidata = require './lib/move_to_wikidata'
 { startLoading } = require 'modules/general/plugins/behaviors'
+error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
