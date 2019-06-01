@@ -1,4 +1,4 @@
-leven = require 'leven'
+getWorksMergeCandidates = require '../lib/get_works_merge_candidates'
 
 DeduplicateWorksList = Marionette.CollectionView.extend
   className: 'deduplicateWorksList'
@@ -25,34 +25,9 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     { works } = @options
-    { wd:@wdModels, inv:@invModels } = spreadByDomain works
-    @candidates = @getCandidates()
+    { wd: @wdModels, inv: @invModels } = spreadByDomain works
+    @candidates = getWorksMergeCandidates @invModels, @wdModels
     @showNextProbableDuplicates()
-
-  getCandidates: ->
-    candidates = {}
-
-    @invModels.forEach (model)-> model.labels or= getFormattedLabels model
-    @wdModels.forEach (model)-> model.labels or= getFormattedLabels model
-
-    # Regroup candidates by invModel
-    for invModel in @invModels
-      invUri = invModel.get 'uri'
-      # invModel._alreadyPassed = true
-      candidates[invUri] = { invModel, possibleDuplicateOf: [] }
-
-      for wdModel in @wdModels
-        addCloseEntitiesToMergeCandidates invModel, candidates, wdModel
-
-      for otherInvModel in @invModels
-        # Avoid adding duplicate candidates in both directions
-        unless otherInvModel.get('uri') is invUri
-          addCloseEntitiesToMergeCandidates invModel, candidates, otherInvModel
-
-      # Sorting so that the first model is the closest
-      candidates[invUri].possibleDuplicateOf.sort byDistance(invUri)
-
-    return _.values(candidates).filter hasPossibleDuplicates
 
   showNextProbableDuplicates: ->
     @$el.addClass 'probableDuplicatesMode'
@@ -80,15 +55,17 @@ module.exports = Marionette.LayoutView.extend
     @setTimeout @_showNextProbableDuplicatesUpdateUi.bind(@, invModel, mostProbableDuplicate), 200
 
   _showNextProbableDuplicatesUpdateUi: (invModel, mostProbableDuplicate)->
+    @selectCandidates invModel, mostProbableDuplicate
+    @$el.trigger 'next:button:show'
+
+  selectCandidates: (from, to)->
     @$el.trigger 'entity:select',
-      uri: invModel.get 'uri'
+      uri: from.get 'uri'
       direction: 'from'
 
     @$el.trigger 'entity:select',
-      uri: mostProbableDuplicate.get 'uri'
+      uri: to.get 'uri'
       direction: 'to'
-
-    @$el.trigger 'next:button:show'
 
   onMerge: -> @next()
 
@@ -118,6 +95,13 @@ module.exports = Marionette.LayoutView.extend
     @filterSubView 'wd', filter
     @filterSubView 'inv', filter
 
+    wdChildren = @wd.currentView.children
+    invChildren = @inv.currentView.children
+    if wdChildren.length is 1 and invChildren.length is 1
+      wdModel = _.values(wdChildren._views)[0].model
+      invModel = _.values(invChildren._views)[0].model
+      @selectCandidates invModel, wdModel
+
   filterSubView: (regionName, filter)->
     view = @[regionName].currentView
     # Known case: when we are still at the 'probable duplicates' phase
@@ -126,6 +110,7 @@ module.exports = Marionette.LayoutView.extend
     view.render()
 
 spreadByDomain = (models)-> models.reduce spreadWorks, { wd: [], inv: [] }
+
 spreadWorks = (data, work)->
   prefix = work.get 'prefix'
   data[prefix].push work
@@ -134,48 +119,3 @@ spreadWorks = (data, work)->
 sortAlphabetically = (a, b)->
   if a.get('label').toLowerCase() > b.get('label').toLowerCase() then 1
   else -1
-
-getFormattedLabels = (model)->
-  _.values model.get('labels')
-  .map (label)->
-    label.toLowerCase()
-    # Remove anything after a '(' or a '['
-    # as some titles might still have comments between parenthesis
-    # ex: 'some book title (French edition)'
-    .replace /(\(|\[).*$/, ''
-    # Ignore leading articles as they are a big source of false negative match
-    .replace /^(the|a|le|la|l'|der|die|das)\s/ig, ''
-    .trim()
-
-getLowestDistance = (aLabels, bLabels)->
-  lowestDistance = Infinity
-  averageLength = 0
-  for aLabel in aLabels
-    for bLabel in bLabels
-      # Truncate the longest string to ignore possible concatenated subtitles
-      [ aLabel, bLabel ] = equalizeLength aLabel, bLabel
-      distance = leven aLabel, bLabel
-      if distance < lowestDistance
-        lowestDistance = distance
-        # Strings where equalized, so they all have the same length
-        averageLength = aLabel.length
-  return [ lowestDistance, averageLength ]
-
-addCloseEntitiesToMergeCandidates = (invModel, candidates, otherModel)->
-  invUri = invModel.get 'uri'
-  [ distance, averageLength ] = getLowestDistance otherModel.labels, invModel.labels
-  # If the distance between the closest labels is lower than 1/3 of the length
-  # it's worth checking if it's a duplicate
-  if distance <= averageLength / 3
-    otherModel.distances or= {}
-    otherModel.distances[invUri] = distance
-    candidates[invUri].possibleDuplicateOf.push otherModel
-
-  return
-
-hasPossibleDuplicates = (candidate)-> candidate.possibleDuplicateOf.length > 0
-byDistance = (invUri)->(a, b)-> a.distances[invUri] - b.distances[invUri]
-equalizeLength = (a, b)->
-  if a.length > b.length then a = a.slice 0, b.length
-  else b = b.slice 0, a.length
-  return [ a, b ]
