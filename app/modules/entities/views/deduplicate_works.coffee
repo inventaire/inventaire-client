@@ -32,8 +32,8 @@ module.exports = Marionette.LayoutView.extend
   getCandidates: ->
     candidates = {}
 
-    @invModels.forEach (model)-> model.labels or= getFormattedLabels model
-    @wdModels.forEach (model)-> model.labels or= getFormattedLabels model
+    @invModels.forEach addLabelsParts
+    @wdModels.forEach addLabelsParts
 
     # Regroup candidates by invModel
     for invModel in @invModels
@@ -49,10 +49,12 @@ module.exports = Marionette.LayoutView.extend
         unless otherInvModel.get('uri') is invUri
           addCloseEntitiesToMergeCandidates invModel, candidates, otherInvModel
 
+    return _.values candidates
+    .filter hasPossibleDuplicates
+    .map (candidate)->
       # Sorting so that the first model is the closest
-      candidates[invUri].possibleDuplicateOf.sort byDistance(invUri)
-
-    return _.values(candidates).filter hasPossibleDuplicates
+      candidate.possibleDuplicateOf.sort byMatchLength(invUri)
+      return candidate
 
   showNextProbableDuplicates: ->
     @$el.addClass 'probableDuplicatesMode'
@@ -135,6 +137,8 @@ sortAlphabetically = (a, b)->
   if a.get('label').toLowerCase() > b.get('label').toLowerCase() then 1
   else -1
 
+addLabelsParts =  (model)-> model._labelsParts or= getLabelsParts getFormattedLabels(model)
+
 getFormattedLabels = (model)->
   _.values model.get('labels')
   .map (label)->
@@ -147,35 +151,51 @@ getFormattedLabels = (model)->
     .replace /^(the|a|le|la|l'|der|die|das)\s/ig, ''
     .trim()
 
-getLowestDistance = (aLabels, bLabels)->
-  lowestDistance = Infinity
-  averageLength = 0
-  for aLabel in aLabels
-    for bLabel in bLabels
-      # Truncate the longest string to ignore possible concatenated subtitles
-      [ aLabel, bLabel ] = equalizeLength aLabel, bLabel
-      distance = leven aLabel, bLabel
-      if distance < lowestDistance
-        lowestDistance = distance
-        # Strings where equalized, so they all have the same length
-        averageLength = aLabel.length
-  return [ lowestDistance, averageLength ]
+
+getLabelsParts = (labels)->
+  parts = labels.map (label)->
+    label
+    .split titleSeparator
+    # Filter-out parts that are just the serie name and the volume number
+    .filter isntVolumeNumber
+  return _.uniq _.flatten(parts)
+
+titleSeparator = /\s*[-,:]\s+/
+volumePattern = /(vol|volume|t|tome)\s\d+$/
+isntVolumeNumber = (part)-> not volumePattern.test(part)
 
 addCloseEntitiesToMergeCandidates = (invModel, candidates, otherModel)->
   invUri = invModel.get 'uri'
-  [ distance, averageLength ] = getLowestDistance otherModel.labels, invModel.labels
-  # If the distance between the closest labels is lower than 1/3 of the length
-  # it's worth checking if it's a duplicate
-  if distance <= averageLength / 3
-    otherModel.distances or= {}
-    otherModel.distances[invUri] = distance
+  partsA = invModel._labelsParts
+  partsB = otherModel._labelsParts
+  bestMatchScore = getBestMatchScore partsA, partsB
+  if bestMatchScore > 0
+    otherModel.bestMatchScore or= {}
+    otherModel.bestMatchScore[invUri] = bestMatchScore
     candidates[invUri].possibleDuplicateOf.push otherModel
 
   return
 
-hasPossibleDuplicates = (candidate)-> candidate.possibleDuplicateOf.length > 0
-byDistance = (invUri)->(a, b)-> a.distances[invUri] - b.distances[invUri]
-equalizeLength = (a, b)->
-  if a.length > b.length then a = a.slice 0, b.length
-  else b = b.slice 0, a.length
-  return [ a, b ]
+getBestMatchScore = (aLabelsParts, bLabelsParts)->
+  bestMatchScore = 0
+
+  for aPart in aLabelsParts
+    for bPart in bLabelsParts
+      [ shortest, longest ] = getShortestAndLongest aPart.length, bPart.length
+      # Do not compare parts that are very different in length
+      if longest - shortest < 5
+        distance = leven aPart, bPart
+        if distance < 5
+          matchScore = longest - distance
+          if matchScore > bestMatchScore then bestMatchScore = matchScore
+
+  return bestMatchScore
+
+getShortestAndLongest = (a, b)-> if a > b then [ b, a ] else [ a, b ]
+
+hasPossibleDuplicates = (candidate)->
+  possibleCandidatesCount = candidate.possibleDuplicateOf.length
+  # Also ignore when there are too many candidates
+  return possibleCandidatesCount > 0 and possibleCandidatesCount < 10
+
+byMatchLength = (invUri)->(a, b)-> b.bestMatchScore[invUri] - a.bestMatchScore[invUri]
