@@ -76,10 +76,11 @@ getBestMatchScore = (aLabelsParts, bLabelsParts)->
       # Do not compare parts that are very different in length
       if longest - shortest < 5
         distance = leven aPart, bPart
-        if distance < 5
-          matchScore = longest - distance
-          if matchScore > data.bestMatchScore
-            data = { aPart, bPart, bestMatchScore: matchScore, distance }
+        matchScore = longest - distance
+        matchRatio = matchScore / longest
+        matchRatio = Math.round(matchRatio * 100) / 100
+        if distance < 5 and matchRatio > 0.6 and matchScore > data.bestMatchScore
+          data = { aPart, bPart, bestMatchScore: matchScore, matchRatio, distance }
 
   return data
 
