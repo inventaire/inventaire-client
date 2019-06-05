@@ -4,13 +4,13 @@ Task = require 'modules/tasks/models/task'
 loader = require 'modules/general/views/templates/loader'
 
 module.exports = (params)->
-  { region, model } = params
+  { region, model, standalone } = params
   $(region.el).html loader()
 
   getMergeSuggestions model
   .then (entities)->
     collection = new Entities entities
-    region.show new MergeSuggestions { collection, toEntity: model }
+    region.show new MergeSuggestions { collection, model, standalone }
 
 getMergeSuggestions = (model)->
   getTasksByUri model.get('uri')

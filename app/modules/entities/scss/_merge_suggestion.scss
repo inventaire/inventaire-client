@@ -10,6 +10,13 @@
 #showMergeSuggestions{
   margin: 1em;
 }
+
+.outer-merge-suggestions.standalone{
+  padding: 1em;
+  h2{
+    text-align: center;
+  }
+}
 .inner-merge-suggestions{
   @include display-flex(row, flex-start, center, wrap);
 }

@@ -35,6 +35,7 @@ module.exports =
         'entity/:uri/add(/)': 'showAddEntity'
         'entity/:uri/edit(/)': 'showEditEntityFromUri'
         'entity/:uri/cleanup(/)': 'showEntityCleanup'
+        'entity/:uri/deduplicate(/)': 'showEntityDeduplicate'
         'entity/:uri/history(/)': 'showEntityHistory'
         'entity/:uri(/)': 'showEntity'
 
@@ -152,6 +153,14 @@ API =
       getEntityModel uri, true
       .then showEntityCleanupFromModel
       .catch handleMissingEntity(uri)
+
+  showEntityDeduplicate: (uri)->
+    unless app.request 'require:loggedIn', "entity/#{uri}/deduplicate" then return
+    unless app.request 'require:admin:rights' then return
+
+    getEntityModel uri, true
+    .then (model)->
+      app.execute 'show:merge:suggestions', { model, region: app.layout.main, standalone: true }
 
   showEntityHistory: (uri)->
     unless app.request 'require:loggedIn', "entity/#{uri}/history" then return
