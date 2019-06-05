@@ -3,7 +3,7 @@ module.exports =
     trueType = _.typeOf obj
     if trueType in type.split('|') then return obj
     else
-      err = new Error "TypeError: expected #{type}, got #{obj} (#{trueType})"
+      err = new Error "TypeError: expected #{type}, got #{JSON.stringify(obj)} (#{trueType})"
       err.context = arguments
       throw err
 
