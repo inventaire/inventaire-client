@@ -6,19 +6,18 @@ languageSearch = require './language_search'
 error_ = require 'lib/error'
 
 module.exports = (type, input, limit, offset)->
-  entityUri = getEntityUri input
+  uri = getEntityUri input
 
-  if entityUri? then searchByEntityUri entityUri
+  if uri? then searchByEntityUri uri, type
   else getSearchTypeFn(type)(input, limit, offset)
 
-searchByEntityUri = (uri)->
-  _.log entityUri, 'entity uri'
+searchByEntityUri = (uri, type)->
   # As entering the entity URI triggers an entity request,
   # it might - in case of cache miss - make the server ask the search engine to
   # index that entity, so that it can be found by typing free text
   # instead of a URI next time
   # Refresh=true
-  app.request 'get:entity:model', entityUri, true
+  app.request 'get:entity:model', uri, true
   .catch _.Error('get entity err')
   .then (model)->
     # Ignore errors that were catched and thus didn't return anything
