@@ -1,10 +1,10 @@
 wdk = require 'lib/wikidata-sdk'
 
-module.exports = (query, format = true)->
+module.exports = (search, format = true, limit = 10, offset)->
   # Uses wbsearchentities despite its lack of inter-languages support
   # because it returns hits labels, descriptions and aliases
   # while action=query&list=search&srsearch returns only hits ids
-  _.preq.get wdk.searchEntities(query, app.user.lang, 10)
+  _.preq.get wdk.searchEntities({ search, limit, offset })
   .get 'search'
   .filter filterOutSpecialPages
   .then (results)->

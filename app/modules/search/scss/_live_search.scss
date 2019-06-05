@@ -1,6 +1,6 @@
 #live-search{
   flex: 1 0 auto;
-  .results, .sections{
+  .resultsWrapper, .sections{
     background-color: white;
   }
   .sections{
@@ -18,15 +18,17 @@
       color: white;
     }
   }
-  .results{
+  .resultsWrapper{
     overflow: auto;
+  }
+  .results{
     &.loading{
       @include display-flex(row, center, center);
       height: 2.5em;
       background-color: $light-grey;
     }
   }
-  &:not(.results-0){
+  &:not(.no-results){
     .no-result{
       display: none;
     }
@@ -76,6 +78,13 @@
     text-align: center;
     color: $grey;
     padding: 1em;
+  }
+  .loaderWrapper{
+    @include display-flex(row, center, center);
+  }
+  .small-loader{
+    margin: 1em;
+    color: $grey;
   }
   .alternatives{
     padding: 0.2em 0.5em;
@@ -171,7 +180,7 @@
 
   /*Medium to Large screens*/
   @media screen and (min-width: $smaller-screen) {
-    .results{
+    .resultsWrapper{
       max-height: 60vh;
     }
   }
