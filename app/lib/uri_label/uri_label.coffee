@@ -112,12 +112,3 @@ debouncedUpdate = _.debounce update, 200
 module.exports =
   update: debouncedUpdate
   refreshData: refreshData
-
-# share access to those labels with external modules
-wd_.getLabel = (uris, lang)->
-  # Make sure the uris were queried
-  # TODO: work around the debounce to make sure the entities returned
-  getEntities uris
-  .then ->
-    labels = _.forceArray(uris).map (uri)-> getLabel uri, lang
-    return _.compact(labels).join ', '
