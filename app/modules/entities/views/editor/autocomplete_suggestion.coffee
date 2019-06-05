@@ -2,8 +2,8 @@
 
 module.exports = Marionette.ItemView.extend
   tagName: 'li'
-  className: 'ac-suggestion'
-  template: require './templates/suggestion'
+  className: 'autocomplete-suggestion'
+  template: require './templates/autocomplete_suggestion'
 
   events:
     'click .select': 'select'

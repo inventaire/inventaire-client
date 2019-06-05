@@ -1,6 +1,11 @@
 {{#if editMode}}
   <div class="editMode">
-    {{partial 'entities:editor:edit_mode' this}}
+    <div class="input-wrapper">
+      <input type="text" value="{{value}}" class="has-alertbox" autocomplete="off" spellcheck="off" dir=" auto">
+      <p class="tip"></p>
+      <div class="suggestionsContainer hidden"></div>
+    </div>
+    {{partial 'entities:editor:edit_mode_buttons' this}}
   </div>
 {{else}}
   <div class="displayModeData enterClick" tabindex="0">

@@ -1,23 +1,12 @@
 # Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
 
-module.exports = (source)->
-  { collection, remote } = source
-  # FilteredCollection don't have an extend method
-  # and do weird things when `call`ed with Backbone.Collection.extend
-  # so here is a custom extension
-  suggestions = new FilteredCollection collection
-  _.extend suggestions, suggestionMethods
-  suggestions.init collection, remote
-  return suggestions
+module.exports = Backbone.Collection.extend
+  initialize: (data, options)->
+    { property } = options
+    @lastInput = null
 
-suggestionMethods =
-  init: (collection, remote)->
     @index = -1
-    @remote = remote
 
-    # Using the filtered collection as the behavior event bus
-    # but never the original collection as it is shared between all views
-    @on 'find', @fetchNewSuggestions
     @on 'highlight:next', @highlightNext
     @on 'highlight:previous', @highlightPrevious
     @on 'highlight:first', @highlightFirst
@@ -25,15 +14,7 @@ suggestionMethods =
     @on 'select:from:key', @selectFromKey
     @on 'select:from:click', @selectFromClick
 
-  # Get suggestions based on the current input. Either query
-  # the api or filter the dataset.
-  fetchNewSuggestions: (query)->
-    query = query.trim().replace /\s{2,}/g, ' '
-    @index = -1
-
-    # Will reset the collection once results models arrived
-    @remote query
-    .catch @trigger.bind(@, 'error')
+  model: require 'modules/entities/models/search_result'
 
   # Select first suggestion unless the suggestion list
   # has been navigated then select at the current index.
@@ -70,5 +51,5 @@ suggestionMethods =
     # Known case: the collection just got reset
     unless model? then return
     model.trigger eventName, model
-    # events required by app/modules/general/behaviors/autocomplete.coffee
+    # events required by modules/entities/views/editor/lib/autocomplete.coffee
     @trigger eventName, model

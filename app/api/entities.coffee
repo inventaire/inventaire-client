@@ -9,10 +9,6 @@ module.exports =
     search = encodeURIComponent search
     action 'search', { search, lang, refresh, fast }
 
-  searchType: (type, search, limit)->
-    search = encodeURIComponent search
-    action 'search-type', { type, search, limit }
-
   getByUris: (uris, refresh, relatives)->
     uris = _.forceArray(uris).join '|'
     if relatives? then relatives = _.forceArray(relatives).join '|'

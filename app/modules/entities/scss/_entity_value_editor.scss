@@ -48,20 +48,14 @@
     }
   }
   .input-wrapper{
+    position: relative;
     flex: 1 1 auto;
   }
-  .ac-container{
-    position: relative;
-    input{
-      margin: 0;
-    }
-    .alert-box{
-      @include position(absolute, 2.6em, 0, null, 0, 2)
-      margin-top: 0;
-    }
-  }
-  .ac-container + .tiny-button{
-    margin-left: 0.5em;
+  .alert-box{
+    position: absolute;
+    top: 100%;
+    // Display the alert-box over suggestions
+    z-index: 1;
   }
   .identifier{
     @include transition(opacity);
@@ -73,3 +67,5 @@
     }
   }
 }
+
+@import 'autocomplete_suggestions';

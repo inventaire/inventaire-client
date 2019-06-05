@@ -1,6 +1,6 @@
 wdk = require 'lib/wikidata-sdk'
 
-module.exports = (search, format = true, limit = 10, offset)->
+module.exports = (format = true)-> (search, limit = 10, offset)->
   # Uses wbsearchentities despite its lack of inter-languages support
   # because it returns hits labels, descriptions and aliases
   # while action=query&list=search&srsearch returns only hits ids
@@ -10,7 +10,6 @@ module.exports = (search, format = true, limit = 10, offset)->
   .then (results)->
     if format then results.map formatAsSearchResult
     else results
-  .then _.Log('wikidata search parsed results')
 
 # This is a hacky way to filter out special pages without having to request claims
 specialPagesDescriptionPattern = /(Wikim(e|é)dia|Wikip(e|é)dia)/

@@ -8,7 +8,7 @@
 #   or dead (wdt:P20) nearby
 
 Results = Backbone.Collection.extend { model: require('../models/result') }
-wikidataSearch = require 'modules/entities/lib/sources/wikidata_search'
+wikidataSearch = require('modules/entities/lib/search/wikidata_search')(false)
 findUri = require '../lib/find_uri'
 error_ = require 'lib/error'
 screen_ = require 'lib/screen'
@@ -119,7 +119,7 @@ module.exports = Marionette.CompositeView.extend
     # as it's not a subset of Wikidata anymore: pretty much anything
     # on Wikidata can be considered a subject
     if types is 'subjects'
-      wikidataSearch search, false, searchBatchLength, @_searchOffset
+      wikidataSearch search, searchBatchLength, @_searchOffset
       .map formatSubject
     else
       # Increasing search limit instead of offset, as search pages aren't stable:

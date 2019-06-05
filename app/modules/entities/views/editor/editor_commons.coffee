@@ -2,14 +2,15 @@ isLoggedIn = require './lib/is_logged_in'
 getActionKey = require 'lib/get_action_key'
 error_ = require 'lib/error'
 
-module.exports = Marionette.ItemView.extend
+# This needs to be a LayoutView so that view classes extending this one can have regions
+module.exports = Marionette.LayoutView.extend
   className: -> "value-editor-commons #{@mainClassName}"
   selectIfInEditMode: ->
     if @editMode
       # somehow seems to need a delay
       @setTimeout @select.bind(@), 100
 
-  onKeyup: (e)->
+  onKeyUp: (e)->
     key = getActionKey e
     switch key
       when 'esc' then @hideEditMode()

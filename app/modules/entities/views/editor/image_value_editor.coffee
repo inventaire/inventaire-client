@@ -36,7 +36,7 @@ module.exports = ClaimsEditorCommons.extend
     'click .delete': 'delete'
     # Not setting a particular selector so that
     # any keyup event on taezaehe element triggers the event
-    'keyup': 'onKeyup'
+    'keyup': 'onKeyUp'
     'change input[type=file]': 'getImageUrl'
     'click .validate-upload': 'uploadFileAndSave'
 

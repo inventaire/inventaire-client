@@ -1,18 +1,21 @@
 ClaimsEditorCommons = require './claims_editor_commons'
 createEntities = require 'modules/entities/lib/create_entities'
+autocomplete = require 'modules/entities/views/editor/lib/autocomplete'
 
 module.exports = ClaimsEditorCommons.extend
   mainClassName: 'entity-value-editor'
   template: require './templates/entity_value_editor'
   behaviors:
     AlertBox: {}
-    AutoComplete: {}
     Tooltip: {}
     PreventDefault: {}
 
   ui:
-    autocomplete: 'input'
+    input: 'input'
     save: '.save'
+
+  regions:
+    suggestionsRegion: '.suggestionsContainer'
 
   initialize: ->
     @property = @model.get 'property'
@@ -48,7 +51,7 @@ module.exports = ClaimsEditorCommons.extend
 
     if @editMode
       @triggerEditEvent()
-      @ui.autocomplete.focus()
+      @ui.input.focus()
 
   onGrab: ->
     if @model.valueEntity?
@@ -61,17 +64,29 @@ module.exports = ClaimsEditorCommons.extend
 
   onRender: ->
     @selectIfInEditMode()
-    if @editMode then @updateSaveState()
+    if @editMode
+      @updateSaveState()
+      autocomplete.onRender.call @
 
   events:
     'click .edit, .displayModeData': 'showEditMode'
     'click .cancel': 'hideEditMode'
     'click .save': 'save'
     'click .delete': 'delete'
-    'keyup input': 'onKeyup'
+    'click .close': 'hideDropdown'
+    'keyup input': 'onKeyUp'
+
+  onKeyUp: (e)->
+    ClaimsEditorCommons::onKeyUp.call @, e
+    if @editMode then autocomplete.onKeyUp.call @, e
+
+  onKeyDown: (e)->
+    if @editMode then autocomplete.onKeyDown.call @, e
+
+  hideDropdown: autocomplete.hideDropdown
 
   # this is a jQuery select, not an autocomplete one
-  select: -> @ui.autocomplete.select()
+  select: -> @ui.input.select()
 
   onAutoCompleteSelect: (suggestion)->
     @suggestion = suggestion
@@ -101,7 +116,7 @@ module.exports = ClaimsEditorCommons.extend
     if @suggestion? then return @_save uri
     else
       if @allowEntityCreation
-        textValue = @ui.autocomplete.val()
+        textValue = @ui.input.val()
         relationEntity = @options.model.entity
         createEntities.byProperty { @property, textValue, relationEntity }
         .then _.Log('created entity')

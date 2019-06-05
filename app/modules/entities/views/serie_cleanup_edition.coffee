@@ -26,7 +26,7 @@ module.exports = Marionette.CompositeView.extend
     'click .changeWork': 'showWorkPicker'
     'change .workPickerSelect': 'onSelectChange'
     'click .validate': 'validateWorkChange'
-    'keydown .workPickerSelect': 'onKeydown'
+    'keydown .workPickerSelect': 'onKeyDown'
     'click .copyWorkLabel': 'copyWorkLabel'
 
   getWorksList: ->
@@ -34,7 +34,7 @@ module.exports = Marionette.CompositeView.extend
     unless worksWithOrdinal? then return
     return worksWithOrdinal.filter (work)=> work.uri isnt @workUri
 
-  onKeydown: (e)->
+  onKeyDown: (e)->
     key = getActionKey e
     switch key
       when 'esc' then @hideWorkPicker()

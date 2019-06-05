@@ -1,7 +1,6 @@
 behaviors =
   General: require './general'
   AlertBox: require './alertbox'
-  AutoComplete: require './autocomplete'
   AutoFocus: require './autofocus'
   Dropdown: require './dropdown'
   Loading: require './loading'

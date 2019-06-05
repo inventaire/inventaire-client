@@ -88,5 +88,5 @@ module.exports = EditorCommons.extend
         @setTimeout forms_.catchAlert.bind(null, @, err), 400
 
   onKeyupCustom: (e)->
-    @onKeyup e
+    @onKeyUp e
     tipOnKeyup.call @, e

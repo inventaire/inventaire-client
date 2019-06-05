@@ -1,5 +1,5 @@
-searchType = require '../lib/sources/search_type'
-{ getEntityUri } = require '../lib/sources/entities_uris_results'
+searchType = require '../lib/search/search_type'
+{ getEntityUri } = require '../lib/search/entities_uris_results'
 searchHumans = searchType 'humans'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 

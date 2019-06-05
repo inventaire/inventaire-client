@@ -51,5 +51,5 @@ module.exports = ClaimsEditorCommons.extend
     @_save val
 
   onKeyupCustom: (e)->
-    @onKeyup e
+    @onKeyUp e
     tipOnKeyup.call @, e
