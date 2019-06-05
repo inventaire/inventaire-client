@@ -63,6 +63,7 @@ completeQuery = (suggestion)->
   @hideDropdown()
 
 search = (input)->
+  showLoadingSpinner.call @
   # remove the value passed to the view as the input changed
   removeCurrentViewValue.call @
 
@@ -81,6 +82,7 @@ search = (input)->
     else
       @suggestionsRegion.currentView.$el.removeClass 'no-results'
     @suggestions.reset results
+    stopLoadingSpinner.call @
   .catch forms_.catchAlert.bind(null, @)
 
 _search = (input)->
@@ -94,7 +96,7 @@ loadMore = ->
   # Do not try to fetch more results if the last batch was incomplete
   if @_lastResultsLength < searchBatchLength then return stopLoadingSpinner.call @
 
-  showLoadingSpinner.call @
+  showLoadingSpinner.call @, false
   @_searchOffset += searchBatchLength
   _search.call @, @lastInput
   .then (results)=>
@@ -102,10 +104,16 @@ loadMore = ->
     newResults = results.filter (result)-> result.uri not in currentResultsUri
     @_lastResultsLength = newResults.length
     if newResults.length > 0 then @suggestions.add newResults
+    stopLoadingSpinner.call @, false
   .catch forms_.catchAlert.bind(null, @)
 
-showLoadingSpinner = -> @suggestionsRegion.currentView.showLoadingSpinner()
-stopLoadingSpinner = -> @suggestionsRegion.currentView.stopLoadingSpinner()
+showLoadingSpinner = (toggleResults = true)->
+  @suggestionsRegion.currentView.showLoadingSpinner()
+  if toggleResults then @$el.find('.results').hide()
+
+stopLoadingSpinner = (toggleResults = true)->
+  @suggestionsRegion.currentView.stopLoadingSpinner()
+  if toggleResults then @$el.find('.results').show()
 
 removeCurrentViewValue = ->
   @onAutoCompleteUnselect()
