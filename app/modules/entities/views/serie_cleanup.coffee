@@ -307,7 +307,7 @@ isPlaceholder = (model)-> model.get('isPlaceholder') is true
 getAuthors = (model)-> model.getExtendedAuthorsUris()
 
 hasNoSerie = (work)-> not work.serie?
-isWorkWithoutSerie = (work)-> work.get('type') is 'work' and not work.get('wdt:P179')?
+isWorkWithoutSerie = (work)-> work.get('type') is 'work' and not work.get('claims.wdt:P179')?
 
 addPertinanceScore = (serie)-> (work)->
   authorsScore = getAuthorsIntersectionLength(serie, work) * 10
