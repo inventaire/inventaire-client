@@ -164,7 +164,11 @@ keyAction = (actionKey, e)->
   unless @suggestions.isEmpty()
     switch actionKey
       when 'enter' then @suggestions.trigger 'select:from:key'
-      when 'down' then @suggestions.trigger 'highlight:next'
-      when 'up' then @suggestions.trigger 'highlight:previous'
+      when 'down'
+        @showDropdown()
+        @suggestions.trigger 'highlight:next'
+      when 'up'
+        @showDropdown()
+        @suggestions.trigger 'highlight:previous'
       # when 'home' then @suggestions.trigger 'highlight:first'
       # when 'end' then @suggestions.trigger 'highlight:last'
