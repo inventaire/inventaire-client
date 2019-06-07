@@ -10,11 +10,17 @@ properties = require 'modules/entities/lib/properties'
 typeSearch = require 'modules/entities/lib/search/type_search'
 forms_ = require 'modules/general/lib/forms'
 searchBatchLength = 10
+types_ = require 'lib/types'
 
 module.exports =
   onRender: ->
     unless @suggestions? then initializeAutocomplete.call @
     @suggestionsRegion.show new AutocompleteSuggestions { collection: @suggestions }
+
+  setDefaultSuggestions: (results)->
+    unless results? then return
+    @_defaultSuggestions = results
+    if @suggestions.length is 0 and not @_loading then showDefaultSuggestions.call @
 
   onKeyDown: (e)->
     key = getActionKey e
@@ -31,16 +37,21 @@ module.exports =
     e.stopPropagation()
 
     value = @ui.input.val()
-    if value.length is 0
-      @hideDropdown()
-    else
-      actionKey = getActionKey e
 
-      if actionKey?
-        keyAction.call @, actionKey, e
-      else
-        showDropdown.call @
-        @lazySearch value
+    actionKey = getActionKey e
+
+    if actionKey?
+      keyAction.call @, actionKey, e
+    else if value.length is 0
+      showDefaultSuggestions.call @
+    else if value isnt @_lastValue
+      @showDropdown()
+      @lazySearch value
+
+    @_lastValue = value
+
+  showDropdown: ->
+    @suggestionsRegion.$el.show()
 
   hideDropdown: ->
     @suggestionsRegion.$el.hide()
@@ -56,6 +67,13 @@ initializeAutocomplete = ->
   @listenTo @suggestions, 'highlight', fillQuery.bind(@)
   @listenTo @suggestions, 'error', showAlertBox.bind(@)
   @listenTo @suggestions, 'load:more', loadMore.bind(@)
+
+showDefaultSuggestions = (reset)->
+  if @_defaultSuggestions? and @_defaultSuggestions.length > 0
+    @suggestions.reset @_defaultSuggestions
+    @showDropdown()
+  else
+    @hideDropdown()
 
 # Complete the query using the selected suggestion.
 completeQuery = (suggestion)->
@@ -110,10 +128,12 @@ loadMore = ->
 showLoadingSpinner = (toggleResults = true)->
   @suggestionsRegion.currentView.showLoadingSpinner()
   if toggleResults then @$el.find('.results').hide()
+  @_loading = true
 
 stopLoadingSpinner = (toggleResults = true)->
   @suggestionsRegion.currentView.stopLoadingSpinner()
   if toggleResults then @$el.find('.results').show()
+  @_loading = false
 
 removeCurrentViewValue = ->
   @onAutoCompleteUnselect()
@@ -148,6 +168,3 @@ keyAction = (actionKey, e)->
       when 'up' then @suggestions.trigger 'highlight:previous'
       # when 'home' then @suggestions.trigger 'highlight:first'
       # when 'end' then @suggestions.trigger 'highlight:last'
-
-showDropdown = ->
-  @suggestionsRegion.$el.show()

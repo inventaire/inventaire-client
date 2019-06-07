@@ -13,14 +13,21 @@ typesString =
   'wd:Q21198342': 'manga series'
 
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
+  fetchPartsData: (options = {})->
+    { refresh } = options
+    if not refresh and @waitForPartsData? then return @waitForPartsData
+
+    uri = @get 'uri'
+
+    @waitForPartsData = _.preq.get app.API.entities.serieParts(uri, refresh)
+    .then (res)=> @partsData = res.parts
+
   initSerieParts: (options)->
     { refresh, fetchAll } = options
     refresh = @getRefresh refresh
     if not refresh and @waitForParts? then return @waitForParts
 
-    uri = @get 'uri'
-
-    @waitForParts = _.preq.get app.API.entities.serieParts(uri, refresh)
+    @fetchPartsData { refresh }
     .then initPartsCollections.bind(@, refresh, fetchAll)
     .then importDataFromParts.bind(@)
 
@@ -30,9 +37,9 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
     app.execute 'report:entity:type:issue', { model: @, expectedType: 'work' }
     return Promise.resolve { personal: [], network: [], public: [] }
 
-initPartsCollections = (refresh, fetchAll, res)->
+initPartsCollections = (refresh, fetchAll, partsData)->
   @parts = new Works null,
-    uris: res.parts.map getUri
+    uris: partsData.map getUri
     defaultType: 'work'
     refresh: refresh
 
