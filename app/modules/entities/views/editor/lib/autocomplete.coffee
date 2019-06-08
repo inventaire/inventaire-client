@@ -7,26 +7,15 @@ getActionKey = require 'lib/get_action_key'
 Suggestions = require 'modules/entities/collections/suggestions'
 AutocompleteSuggestions = require '../autocomplete_suggestions'
 properties = require 'modules/entities/lib/properties'
-typeSearch = require 'modules/entities/lib/search/type_search'
-forms_ = require 'modules/general/lib/forms'
 batchLength = 10
-types_ = require 'lib/types'
-{ prepareSearchResult } = require 'modules/entities/lib/search/entities_uris_results'
+{ addDefaultSuggestionsUris, addNextDefaultSuggestionsBatch, showDefaultSuggestions } = require './suggestions/default_suggestions'
+{ search, loadMoreFromSearch } = require './suggestions/search_suggestions'
 
 module.exports =
   onRender: ->
     unless @suggestions? then initializeAutocomplete.call @
     @suggestionsRegion.show new AutocompleteSuggestions { collection: @suggestions }
-
-  setDefaultSuggestions: (uris)->
-    unless uris? then return
-    @_showingDefaultSuggestions = true
-    @_remainingDefaultSuggestionsUris = uris
-    @_defaultSuggestions = []
-
-    addNextDefaultSuggestionsBatch.call @
-    .then =>
-      if @_showingDefaultSuggestions then showDefaultSuggestions.call @
+    addDefaultSuggestionsUris.call @
 
   onKeyDown: (e)->
     key = getActionKey e
@@ -65,6 +54,14 @@ module.exports =
     @suggestionsRegion.$el.hide()
     @ui.input.focus()
 
+  showLoadingSpinner: (toggleResults = true)->
+    @suggestionsRegion.currentView.showLoadingSpinner()
+    if toggleResults then @$el.find('.results').hide()
+
+  stopLoadingSpinner: (toggleResults = true)->
+    @suggestionsRegion.currentView.stopLoadingSpinner()
+    if toggleResults then @$el.find('.results').show()
+
 initializeAutocomplete = ->
   property = @options.model.get 'property'
   { @searchType } = properties[property]
@@ -76,92 +73,22 @@ initializeAutocomplete = ->
   @listenTo @suggestions, 'error', showAlertBox.bind(@)
   @listenTo @suggestions, 'load:more', loadMore.bind(@)
 
-showDefaultSuggestions = ->
-  if @_defaultSuggestions? and @_defaultSuggestions.length > 0
-    @suggestions.reset @_defaultSuggestions
-    @showDropdown()
-  else
-    @hideDropdown()
-
 # Complete the query using the selected suggestion.
 completeQuery = (suggestion)->
   fillQuery.call @, suggestion
   @hideDropdown()
 
-search = (input)->
-  showLoadingSpinner.call @
-  # remove the value passed to the view as the input changed
-  removeCurrentViewValue.call @
-
-  input = input.trim().replace /\s{2,}/g, ' '
-  if input is @lastInput then return Promise.resolve()
-
-  @suggestions.index = -1
-  @lastInput = input
-  @_searchOffset = 0
-
-  _search.call @, input
-  .then (results)=>
-    @_lastResultsLength = results.length
-    if results? and results.length is 0
-      @suggestionsRegion.currentView.$el.addClass 'no-results'
-    else
-      @suggestionsRegion.currentView.$el.removeClass 'no-results'
-    @suggestions.reset results
-    stopLoadingSpinner.call @
-  .catch forms_.catchAlert.bind(null, @)
-
-_search = (input)->
-  typeSearch @searchType, input, batchLength, @_searchOffset
-  .then (results)=>
-    # Ignore the results if the input changed
-    if input isnt @lastInput then return
-    return results
-
-loadMore = ->
-  if @_showingDefaultSuggestions then addNextDefaultSuggestionsBatch.call @
-  else loadMoreFromSearch.call @
-
-loadMoreFromSearch = ->
-  # Do not try to fetch more results if the last batch was incomplete
-  if @_lastResultsLength < batchLength then return stopLoadingSpinner.call @
-
-  showLoadingSpinner.call @, false
-  @_searchOffset += batchLength
-  _search.call @, @lastInput
-  .then (results)=>
-    currentResultsUri = @suggestions.map (model)-> model.get('uri')
-    newResults = results.filter (result)-> result.uri not in currentResultsUri
-    @_lastResultsLength = newResults.length
-    if newResults.length > 0 then @suggestions.add newResults
-    stopLoadingSpinner.call @, false
-  .catch forms_.catchAlert.bind(null, @)
-
-showLoadingSpinner = (toggleResults = true)->
-  @suggestionsRegion.currentView.showLoadingSpinner()
-  if toggleResults then @$el.find('.results').hide()
-
-stopLoadingSpinner = (toggleResults = true)->
-  @suggestionsRegion.currentView.stopLoadingSpinner()
-  if toggleResults then @$el.find('.results').show()
-
-removeCurrentViewValue = ->
-  @onAutoCompleteUnselect()
-
 # Complete the query using the highlighted or the clicked suggestion.
 fillQuery = (suggestion)->
-  @ui.input
-  .val suggestion.get('label')
-
+  @ui.input.val suggestion.get('label')
   @onAutoCompleteSelect suggestion
+
+loadMore = ->
+  if @_showingDefaultSuggestions then addNextDefaultSuggestionsBatch.call @, false
+  else loadMoreFromSearch.call @
 
 showAlertBox = (err)->
   @$el.trigger 'alert', { message: err.message }
-
-# Check to see if the cursor is at the end of the query string.
-isSelectionEnd = (e)->
-  { value, selectionEnd } = e.target
-  return value.length is selectionEnd
 
 keyAction = (actionKey, e)->
   # actions happening in any case
@@ -180,16 +107,3 @@ keyAction = (actionKey, e)->
         @suggestions.trigger 'highlight:previous'
       # when 'home' then @suggestions.trigger 'highlight:first'
       # when 'end' then @suggestions.trigger 'highlight:last'
-
-addNextDefaultSuggestionsBatch = ->
-  uris = @_remainingDefaultSuggestionsUris
-  if uris.length is 0 then return Promise.resolve()
-
-  nextBatch = uris.slice 0, batchLength
-  @_remainingDefaultSuggestionsUris = uris.slice batchLength
-
-  app.request 'get:entities:models', { uris: nextBatch }
-  .map prepareSearchResult
-  .then (results)=>
-    @_defaultSuggestions.push results...
-    @suggestions.add results

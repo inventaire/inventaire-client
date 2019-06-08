@@ -1,7 +1,6 @@
 ClaimsEditorCommons = require './claims_editor_commons'
 createEntities = require 'modules/entities/lib/create_entities'
 autocomplete = require 'modules/entities/views/editor/lib/autocomplete'
-getSuggestionsPerProperties = require 'modules/entities/views/editor/lib/get_suggestions_per_properties'
 
 module.exports = ClaimsEditorCommons.extend
   mainClassName: 'entity-value-editor'
@@ -69,11 +68,6 @@ module.exports = ClaimsEditorCommons.extend
     if @editMode
       @updateSaveState()
       autocomplete.onRender.call @
-      @addDefaultSuggestions()
-
-  addDefaultSuggestions: ->
-    getSuggestionsPerProperties @property, @model
-    .then autocomplete.setDefaultSuggestions.bind(@)
 
   events:
     'click .edit, .displayModeData': 'showEditMode'
@@ -92,6 +86,8 @@ module.exports = ClaimsEditorCommons.extend
 
   showDropdown: autocomplete.showDropdown
   hideDropdown: autocomplete.hideDropdown
+  showLoadingSpinner: autocomplete.showLoadingSpinner
+  stopLoadingSpinner: autocomplete.stopLoadingSpinner
 
   # this is a jQuery select, not an autocomplete one
   select: -> @ui.input.select()
