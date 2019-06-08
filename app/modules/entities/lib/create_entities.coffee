@@ -21,32 +21,16 @@ createAuthors = (authorsNames, lang)->
   else
     return Promise.resolve []
 
-# Droping the 's' in 'series' to mark the difference with the plural form
-createSerie = (name, lang, wdtP50)->
-  _.types arguments, [ 'string', 'string', 'array|undefined' ]
+createWorkOrSerie = (wdtP31)-> (name, lang, wdtP50)->
+  _.types arguments, [ 'string', 'string', 'array|undefined' ], 2
   labels = {}
   labels[lang] = name
-  # instance of (P31) -> book series (Q277759)
-  claims = { 'wdt:P31': [ 'wd:Q277759' ] }
+  claims = { 'wdt:P31': [ wdtP31] }
   if _.isNonEmptyArray wdtP50 then claims['wdt:P50'] = wdtP50
   return createEntity labels, claims
 
-createBook = (title, authors, authorsNames, lang)->
-  _.types arguments, ['string', 'array', 'array|null', 'string']
-
-  labels = {}
-  labels[lang] = title
-
-  createAuthors authorsNames, lang
-  .then (createdAuthors)->
-    createdAuthorsUris = createdAuthors.map _.property('id')
-    claims =
-      # instance of (P31) -> book (Q571)
-      # TODO: support other work P31 values
-      'wdt:P31': ['wd:Q571']
-      P50: authors.concat createdAuthorsUris
-
-    return createEntity labels, claims
+createSerie = createWorkOrSerie 'wd:Q277759'
+createWork = createWorkOrSerie 'wd:Q571'
 
 createWorkEdition = (workEntity, isbn)->
   _.types arguments, ['object', 'string']
@@ -108,6 +92,8 @@ byProperty = (options)->
   switch property
     when 'wdt:P50', 'wdt:P655', 'wdt:P2679', 'wdt:P2680'
       return createAuthor textValue, lang
+    when 'wdt:P629'
+      return createWork textValue, lang
     when 'wdt:P179'
       return createSerie textValue, lang, relationEntity.get('claims.wdt:P50')
     when 'wdt:P123'
@@ -136,7 +122,5 @@ triggerEntityGraphChangesEvents = (claims)-> ()->
 
 module.exports =
   create: createEntity
-  book: createBook
   workEdition: createWorkEdition
-  author: createAuthor
   byProperty: byProperty
