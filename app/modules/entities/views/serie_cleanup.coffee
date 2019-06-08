@@ -45,6 +45,7 @@ module.exports = Marionette.LayoutView.extend
     @titlePattern = "#{@titleKey} - #{_.I18n('volume')} #{@numberKey}"
     @allAuthorsUris = @getAuthorsUris()
     @spreadParts()
+    @lazyUpdatePlaceholderCreationButton = _.debounce @updatePlaceholderCreationButton.bind(@), 200
     @initEventListeners()
     @getWorksWithOrdinalList = getWorksWithOrdinalList.bind @
     @getPlaceholdersOrdinals = getPlaceholdersOrdinals.bind @
@@ -91,7 +92,7 @@ module.exports = Marionette.LayoutView.extend
 
     @showIsolatedEditions()
 
-    @updatePlaceholderCreationButton()
+    @lazyUpdatePlaceholderCreationButton()
 
     @showPartsSuggestions()
 
@@ -121,6 +122,7 @@ module.exports = Marionette.LayoutView.extend
 
   initEventListeners: ->
     @listenTo @withoutOrdinal, 'change:claims.wdt:P1545', @moveModelOnOrdinalChange.bind(@)
+    @listenTo @withOrdinal, 'change', @lazyUpdatePlaceholderCreationButton.bind(@)
 
   moveModelOnOrdinalChange: (model, value)->
     unless _.isNonEmptyArray value then return
@@ -266,7 +268,7 @@ module.exports = Marionette.LayoutView.extend
     createSequentially()
     .then =>
       @_placeholderCreationOngoing = false
-      @updatePlaceholderCreationButton()
+      @lazyUpdatePlaceholderCreationButton()
 
   showPartsSuggestions: ->
     Promise.all [
