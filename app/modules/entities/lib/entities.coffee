@@ -1,4 +1,4 @@
 module.exports =
-  getReverseClaims: (property, uri, refresh, sort)->
-    _.preq.get app.API.entities.reverseClaims(property, uri, refresh, sort)
+  getReverseClaims: (property, value, refresh, sort)->
+    _.preq.get app.API.entities.reverseClaims(property, value, refresh, sort)
     .get 'uris'

@@ -1,5 +1,6 @@
 suggestionsPerProperties =
   'wdt:P50': require './suggestions/wdt_P50'
+  'wdt:P123': require './suggestions/wdt_P123'
   'wdt:P629': require './suggestions/wdt_P629'
 
 module.exports = (property, model)->
