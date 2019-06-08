@@ -7,14 +7,38 @@ module.exports = (entity, index, propertyValuesCount)->
 
   app.request 'get:entities:models', { uris: worksUris }
   .then (works)->
-    worksSeriesData = getSeriesData works
-    seriesUris = _.uniq _.pluck(worksSeriesData, 'serie')
-    if seriesUris.length isnt 1 then return
-    serieUri = seriesUris[0]
-    lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
+    data = works.reduce aggregate, { authors: [], series: [] }
+    commonAuthors = _.intersection data.authors...
+    commonSeries = _.intersection data.series...
 
-    app.request 'get:entity:model', serieUri
-    .then getOtherSerieWorks(worksUris, lastOrdinal)
+    if commonSeries.length is 1
+      return getSuggestionsFromSerie commonSeries[0], works, worksUris
+
+    if commonAuthors.length is 1
+      return getSuggestionsFromAuthor commonAuthors[0], works, worksUris
+
+aggregate = (data, work)->
+  uri = work.get 'uri'
+  authors = work.getExtendedAuthorsUris()
+  series = work.get 'claims.wdt:P179'
+  data.authors.push authors
+  data.series.push series
+  return data
+
+getSuggestionsFromSerie = (serieUri, works, worksUris)->
+  worksSeriesData = getSeriesData works
+  lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
+
+  app.request 'get:entity:model', serieUri
+  .then getOtherSerieWorks(worksUris, lastOrdinal)
+
+getSuggestionsFromAuthor = (authorUri, works, worksUris)->
+  app.request 'get:entity:model', authorUri
+  .then (author)-> author.fetchWorksData()
+  .get 'works'
+  .then (authorWorksData)->
+    _.pluck authorWorksData, 'uri'
+    .filter (uri)-> uri not in worksUris
 
 getSeriesData = (works)->
   works

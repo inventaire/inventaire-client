@@ -20,7 +20,7 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
     uri = @get 'uri'
 
     @waitForPartsData = _.preq.get app.API.entities.serieParts(uri, refresh)
-    .then (res)=> @partsData = res.parts
+      .then (res)=> @partsData = res.parts
 
   initSerieParts: (options)->
     { refresh, fetchAll } = options

@@ -54,7 +54,7 @@ module.exports = Marionette.LayoutView.extend
       alert 'case not handled yet'
 
   showDeduplicateAuthorWorks: (author)->
-    author.getWorksData()
+    author.fetchWorksData()
     .then (worksData)=>
       # Ignoring series
       uris = worksData.works.map _.property('uri')
