@@ -67,12 +67,12 @@
     font-size: 1.1em;
     padding: 0.5em 0 0 1em;
   }
-  &.hideAuthors{
+  &:not(.showAuthors){
     .authorsContainer{
       display: none;
     }
   }
-  &.hideEditions{
+  &:not(.showEditions){
     .editionsContainer{
       display: none;
     }
@@ -92,6 +92,11 @@
 .serie-cleanup-works{
   .worksContainer{
     @include display-flex(row, baseline, flex-start, wrap);
+  }
+}
+.displayLarge{
+  .worksContainer{
+    justify-content: center;
   }
 }
 

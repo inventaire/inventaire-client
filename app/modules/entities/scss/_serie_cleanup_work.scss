@@ -67,3 +67,12 @@
     cursor: pointer;
   }
 }
+
+.displayLarge{
+  .serie-cleanup-work{
+    width: 20em;
+  }
+  .authorsContainer, .editionsContainer{
+    max-height: 60em;
+  }
+}

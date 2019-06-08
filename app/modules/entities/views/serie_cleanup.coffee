@@ -13,7 +13,6 @@ Suggestions = Backbone.Collection.extend { comparator: descendingPertinanceScore
 
 module.exports = Marionette.LayoutView.extend
   id: 'serieCleanup'
-  className: 'hideAuthors hideEditions'
   template: require './templates/serie_cleanup'
 
   regions:
@@ -26,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
   ui:
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
     editionsToggler: '.toggler-label[for="toggleEditions"]'
+    sizeToggler: '.toggler-label[for="sizeToggler"]'
     createPlaceholdersButton: '#createPlaceholders'
     isolatedEditionsWrapper: '#isolatedEditionsWrapper'
 
@@ -63,6 +63,10 @@ module.exports = Marionette.LayoutView.extend
         id: 'editionsToggler'
         checked: @showEditions
         label: 'show editions'
+      sizeToggler:
+        id: 'sizeToggler'
+        checked: @displayLarge
+        label: 'large mode'
       titlePattern: @titlePattern
       placeholderCounter: @placeholderCounter
     }
@@ -191,6 +195,7 @@ module.exports = Marionette.LayoutView.extend
     'change #partsNumber': 'updatePartsNumber'
     'change #authorsToggler': 'toggleAuthors'
     'change #editionsToggler': 'toggleEditions'
+    'change #sizeToggler': 'toggleSize'
     'keyup #titlePattern': 'lazyUpdateTitlePattern'
     'click #createPlaceholders': 'createPlaceholders'
 
@@ -210,22 +215,23 @@ module.exports = Marionette.LayoutView.extend
     @withOrdinal.remove toRemove
 
   toggleAuthors: (e)->
-    @toggle 'authors', e
+    @toggle 'authors', 'showAuthors', e
 
   toggleEditions: (e)->
-    @toggle 'editions', e
+    @toggle 'editions', 'showEditions', e
     @ui.editionsToggler.removeClass 'glowing'
 
-  toggle: (name, e)->
+  toggleSize: (e)->
+    @toggle 'size', 'displayLarge', e
+
+  toggle: (name, actionName, e)->
     { checked } = e.currentTarget
-    capitalizedName = _.capitalise name
-    className = "hide#{capitalizedName}"
     if checked
-      @$el.removeClass className
-      @["show#{capitalizedName}"] = true
+      @$el.addClass actionName
+      @[actionName] = true
     else
-      @$el.addClass className
-      @["show#{capitalizedName}"] = false
+      @$el.removeClass actionName
+      @[actionName] = false
     @["#{name}TogglerChanged"] = true
 
   lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000
