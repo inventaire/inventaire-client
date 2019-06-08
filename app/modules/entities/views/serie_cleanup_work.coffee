@@ -43,14 +43,20 @@ module.exports = Marionette.LayoutView.extend
       @$el.attr 'tabindex', 0
       return
 
-    { currentAuthorsUris, authorsSuggestionsUris } = @spreadAuthors()
+    @showWorkAuthors()
 
+    @model.fetchSubEntities()
+    .then @ifViewIsIntact('showWorkEditions')
+
+  showWorkAuthors: ->
+    { currentAuthorsUris, authorsSuggestionsUris } = @spreadAuthors()
     @authorsContainer.show new SerieCleanupAuthors {
       work: @model
       currentAuthorsUris,
       authorsSuggestionsUris
     }
 
+  showWorkEditions: ->
     @editionsContainer.show new SerieCleanupEditions
       collection: @model.editions
       getWorksWithOrdinalList: @options.getWorksWithOrdinalList

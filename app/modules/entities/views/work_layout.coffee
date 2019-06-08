@@ -46,7 +46,7 @@ module.exports = Marionette.LayoutView.extend
     @waitForItems
     .then @ifViewIsIntact('showEntityActions')
 
-    @model.waitForSubentities
+    @model.fetchSubEntities()
     .then @ifViewIsIntact('showEditions')
 
   onRender: ->

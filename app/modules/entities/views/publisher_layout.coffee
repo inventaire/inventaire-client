@@ -9,10 +9,11 @@ module.exports = Marionette.LayoutView.extend
     editionsList: '#editionsList'
 
   initialize: ->
+    { @refresh } = @options
     @displayMergeSuggestions = app.user.isAdmin
 
   onShow: ->
-    @model.waitForSubentities
+    @model.fetchSubEntities @refresh
     .then @ifViewIsIntact('showEditions')
 
   onRender: ->

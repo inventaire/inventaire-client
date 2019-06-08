@@ -30,7 +30,7 @@ addProp 'wdt:P941', 'entity', 'works', true, false
 addProp 'wdt:P747', 'fixed-entity', null, true, false
 
 ## edition
-addProp 'wdt:P629', 'entity', 'works', true, false
+addProp 'wdt:P629', 'entity', 'works', true, true
 # title
 addProp 'wdt:P1476', 'string', null, false, null
 # subtitle

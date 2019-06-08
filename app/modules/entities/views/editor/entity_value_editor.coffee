@@ -13,6 +13,7 @@ module.exports = ClaimsEditorCommons.extend
   ui:
     input: 'input'
     save: '.save'
+    selectedSuggestionStatus: '.selectedSuggestionStatus'
 
   regions:
     suggestionsRegion: '.suggestionsContainer'
@@ -83,7 +84,10 @@ module.exports = ClaimsEditorCommons.extend
   onKeyDown: (e)->
     if @editMode then autocomplete.onKeyDown.call @, e
 
+  showDropdown: autocomplete.showDropdown
   hideDropdown: autocomplete.hideDropdown
+  showLoadingSpinner: autocomplete.showLoadingSpinner
+  stopLoadingSpinner: autocomplete.stopLoadingSpinner
 
   # this is a jQuery select, not an autocomplete one
   select: -> @ui.input.select()
@@ -123,6 +127,26 @@ module.exports = ClaimsEditorCommons.extend
         .then (entity)=> @_save entity.get('uri')
 
   updateSaveState: ->
-    unless @allowEntityCreation
-      if @suggestion? then @ui.save.removeClass 'disabled'
-      else @ui.save.addClass 'disabled'
+    value = @ui.input.val()
+
+    if value is ''
+      @ui.save.addClass 'disabled'
+    else if @allowEntityCreation or @suggestion?
+      @ui.save.removeClass 'disabled'
+    else
+      @ui.save.addClass 'disabled'
+
+    if value is ''
+      @ui.selectedSuggestionStatus.text ''
+    else if @suggestion?
+      @ui.selectedSuggestionStatus.text @suggestion.get('uri')
+    else if @allowEntityCreation
+      type = createdEntityType[@searchType]
+      @ui.selectedSuggestionStatus.text _.i18n("saving would create a new #{type}")
+
+# Types that have a allowEntityCreation flag
+createdEntityType =
+  works: 'work'
+  humans: 'author'
+  series: 'serie'
+  publishers: 'publisher'

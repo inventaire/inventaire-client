@@ -46,13 +46,14 @@ module.exports = Marionette.LayoutView.extend
     { entity } = @model
     unless entity.type is 'work' then throw new Error('wrong entity type')
 
-    app.layout.modal.show new EditionsList
-      collection: entity.editions
-      work: entity
-      header: 'specify the edition'
-      itemToUpdate: @model
-
-    app.execute 'modal:open', 'large'
+    entity.fetchSubEntities()
+    .then ->
+      app.layout.modal.show new EditionsList
+        collection: entity.editions
+        work: entity
+        header: 'specify the edition'
+        itemToUpdate: @model
+      app.execute 'modal:open', 'large'
 
 getAuthorsModels = (works)->
   Promise.all works

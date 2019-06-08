@@ -6,11 +6,6 @@ module.exports = ->
 
   setEbooksData.call @
 
-  # Fetching the author's works is optional, currently only triggered
-  # by the author_layout, thus the definition of waitForSubentities
-  # as a resolved promise
-  @waitForSubentities = Promise.resolve()
-
   _.extend @, specificMethods
 
 setEbooksData = ->
@@ -21,16 +16,17 @@ setEbooksData = ->
   @set 'gutenbergProperty', 'wdt:P1938'
 
 specificMethods =
+  fetchWorksData: (refresh)->
+    if not refresh and @waitForWorksData? then return @waitForWorksData
+    uri = @get 'uri'
+    @waitForWorksData = _.preq.get app.API.entities.authorWorks(uri, refresh)
+
   initAuthorWorks: (refresh)->
     refresh = @getRefresh refresh
     if not refresh and @waitForWorks? then return @waitForWorks
 
-    @waitForWorks = @getWorksData refresh
-    .then @initWorksCollections.bind(@)
-
-  getWorksData: (refresh)->
-    uri = @get 'uri'
-    _.preq.get app.API.entities.authorWorks(uri, refresh)
+    @waitForWorks = @fetchWorksData refresh
+      .then @initWorksCollections.bind(@)
 
   initWorksCollections: (worksData)->
     seriesUris = worksData.series.map getUri

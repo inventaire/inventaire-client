@@ -12,9 +12,6 @@ module.exports = ->
   # including their subentities, are limited to their own uri
   @set 'allUris', [ @get('uri') ]
 
-  # No subentities to fetch
-  @waitForSubentities = Promise.resolve()
-
   @initWorksRelations()
 
   return

@@ -32,14 +32,12 @@ module.exports = Marionette.LayoutView.extend
     @canBeAddedToInventory = @model.type in inventoryTypes
     @showAdminSection = app.user.isAdmin and not @creationMode
 
-    { waitForSubentities } = @model
-    # Some entity type don't automatically fetch their subentities
-    # even for the editor, as sub entites are displayed on the entities' page
-    # already
-    waitForSubentities or= Promise.resolve()
-
-    @waitForPropCollection = waitForSubentities
-      .then @initPropertiesCollections.bind(@)
+    if @model.subEntitiesInverseProperty?
+      @waitForPropCollection = @model.fetchSubEntities()
+        .then @initPropertiesCollections.bind(@)
+    else
+      @initPropertiesCollections()
+      @waitForPropCollection = Promise.resolve()
 
     @navigationButtonsDisabled = false
 

@@ -8,7 +8,7 @@ getAllEntityUris = (model)->
   # shown (e.g. on work_layout, editions from other language than
   # the user are filtered-out by default) won't request their items
   # Then 'items:getByEntities' will take care of making every request only once.
-  return model.waitForSubentities
+  return model.fetchSubEntities()
   .then -> model.get 'allUris'
 
 spreadItems = (uris)-> (items)->
