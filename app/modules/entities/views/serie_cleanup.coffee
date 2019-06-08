@@ -1,9 +1,11 @@
 entityDraftModel = require '../lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
+SerieCleanupEditions = require './serie_cleanup_editions'
 PartsSuggestions = require  './serie_cleanup_part_suggestion'
 StringPositiveInteger = /^[1-9](\d+)?$/
 searchWorks = require('modules/entities/lib/search/search_type')('works')
 { startLoading } = require 'modules/general/plugins/behaviors'
+{ getReverseClaims } = require 'modules/entities/lib/entities'
 leven = require 'leven'
 Works = Backbone.Collection.extend { comparator: 'ordinal' }
 descendingPertinanceScore = (work)-> - work.get('pertinanceScore')
@@ -16,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     conflictsRegion: '#conflicts'
+    isolatedEditionsRegion: '#isolatedEditions'
     withoutOrdinalRegion: '#withoutOrdinal'
     withOrdinalRegion: '#withOrdinal'
     partsSuggestionsRegion: '#partsSuggestions'
@@ -24,6 +27,7 @@ module.exports = Marionette.LayoutView.extend
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
     editionsToggler: '.toggler-label[for="toggleEditions"]'
     createPlaceholdersButton: '#createPlaceholders'
+    isolatedEditionsWrapper: '#isolatedEditionsWrapper'
 
   behaviors:
     Toggler: {}
@@ -80,6 +84,8 @@ module.exports = Marionette.LayoutView.extend
       name: 'withOrdinal'
       label: 'parts with ordinal'
       alwaysShow: true
+
+    @showIsolatedEditions()
 
     @updatePlaceholderCreationButton()
 
@@ -289,6 +295,24 @@ module.exports = Marionette.LayoutView.extend
     addToSerie = @spreadPart.bind @
     serie = @model
     @partsSuggestionsRegion.show new PartsSuggestions({ collection, addToSerie, serie })
+
+  showIsolatedEditions: ->
+    getReverseClaims 'wdt:P629', @model.get('uri'), true
+    .then (uris)=>
+      if uris.length is 0 then return
+      @ui.isolatedEditionsWrapper.removeClass 'hidden'
+      app.request 'get:entities:models', { uris }
+      .then (editions)=>
+        collection = new Backbone.Collection editions
+        @isolatedEditionsRegion.show new SerieCleanupEditions {
+          collection,
+          @getWorksWithOrdinalList,
+          worksWithOrdinal: @withOrdinal
+        }
+        @listenTo collection, 'remove', @hideIsolatedEditionsWhenEmpty.bind(@)
+
+  hideIsolatedEditionsWhenEmpty: (removedEdition, collection)->
+    if collection.length is 0 then @ui.isolatedEditionsWrapper.addClass 'hidden'
 
 getWorksWithOrdinalList = ->
   @withOrdinal

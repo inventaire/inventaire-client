@@ -140,5 +140,17 @@
   }
 }
 
+#isolatedEditionsWrapper{
+  background-color: lighten(red, 15%);
+}
+
+#isolatedEditions{
+  padding: 0.5em;
+  .serie-cleanup-edition{
+    @include radius;
+    width: 20em;
+  }
+}
+
 @import 'serie_cleanup_work';
 @import 'serie_cleanup_edition';
