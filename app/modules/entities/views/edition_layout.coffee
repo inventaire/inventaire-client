@@ -28,7 +28,7 @@ module.exports = Marionette.LayoutView.extend
     unless @standalone then return
 
     @model.waitForWorks
-    .map (work)-> work.waitForSubentities
+    .map (work)-> work.fetchSubEntities()
     .then @ifViewIsIntact('showWorks')
 
   showWorks: ->

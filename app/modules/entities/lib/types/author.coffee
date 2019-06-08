@@ -6,11 +6,6 @@ module.exports = ->
 
   setEbooksData.call @
 
-  # Fetching the author's works is optional, currently only triggered
-  # by the author_layout, thus the definition of waitForSubentities
-  # as a resolved promise
-  @waitForSubentities = Promise.resolve()
-
   _.extend @, specificMethods
 
 setEbooksData = ->

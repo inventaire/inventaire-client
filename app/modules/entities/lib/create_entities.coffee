@@ -58,7 +58,8 @@ createWorkEdition = (workEntity, isbn)->
 
     return createEntity {}, claims
     .then (editionEntity)->
-      workEntity.editions.add editionEntity
+      # If work editions have been fetched, add it to the list
+      workEntity.editions?.add editionEntity
       workEntity.push 'claims.wdt:P747', editionEntity.get('uri')
       return editionEntity
 

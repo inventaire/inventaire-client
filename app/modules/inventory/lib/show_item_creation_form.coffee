@@ -77,8 +77,10 @@ guessLang = (entity)->
   return Object.keys(labels)[0]
 
 showEditionPicker = (work)->
-  app.layout.modal.show new EditionsList
-    collection: work.editions
-    work: work
-    header: 'select an edition'
-  app.execute 'modal:open', 'large'
+  work.fetchSubEntities()
+  .then ->
+    app.layout.modal.show new EditionsList
+      collection: work.editions
+      work: work
+      header: 'select an edition'
+    app.execute 'modal:open', 'large'

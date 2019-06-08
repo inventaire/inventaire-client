@@ -7,18 +7,15 @@ module.exports = ->
   # Main property by which sub-entities are linked to this one: edition of
   @childrenClaimProperty = 'wdt:P629'
   # inverse property: edition(s)
-  @childrenInverseProperty = 'wdt:P747'
+  @subEntitiesInverseProperty = 'wdt:P747'
 
   @subentitiesName = 'editions'
   # extend before fetching sub entities to have access
   # to the custom @beforeSubEntitiesAdd
   _.extend @, specificMethods
 
-  @fetchSubEntities @refresh
-
   setPublicationYear.call @
   setEbooksData.call @
-  @waitForSubentities = @waitForSubentities.then setImage.bind(@)
 
 setPublicationYear = ->
   publicationDate = @get 'claims.wdt:P577.0'
@@ -81,6 +78,7 @@ typesString =
 
 specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
   # wait for setImage to have run
-  getImageAsync: -> @waitForSubentities.then => @get 'image'
+  getImageAsync: -> @fetchSubEntities().then => @get 'image'
   getItemsByCategories: getEntityItemsByCategories
   beforeSubEntitiesAdd: filterOutWdEditions
+  afterSubEntitiesAdd: setImage

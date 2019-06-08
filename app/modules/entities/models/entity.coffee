@@ -129,6 +129,10 @@ module.exports = Filterable.extend
   fetchSubEntities: (refresh)->
     if not refresh and @waitForSubentities? then return @waitForSubentities
 
+    unless @subentitiesName?
+      @waitForSubentities = Promise.resolve()
+      return @waitForSubentities
+
     collection = @[@subentitiesName] = new Backbone.Collection
 
     # A draft entity can't already have subentities
@@ -140,17 +144,19 @@ module.exports = Filterable.extend
     @hasSubentities = true
 
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
-    .tap @setSubEntitiesUris.bind(@)
-    .then (uris)-> app.request 'get:entities:models', { uris, refresh }
-    .then @beforeSubEntitiesAdd.bind(@)
-    .then collection.add.bind(collection)
+      .tap @setSubEntitiesUris.bind(@)
+      .then (uris)-> app.request 'get:entities:models', { uris, refresh }
+      .then @beforeSubEntitiesAdd.bind(@)
+      .then collection.add.bind(collection)
+      .tap @afterSubEntitiesAdd.bind(@)
 
   # Override in sub-types
   beforeSubEntitiesAdd: _.identity
+  afterSubEntitiesAdd: _.noop
 
   setSubEntitiesUris: (uris)->
     @set 'subEntitiesUris', uris
-    if @childrenInverseProperty then @set "claims.#{@childrenInverseProperty}", uris
+    if @subEntitiesInverseProperty then @set "claims.#{@subEntitiesInverseProperty}", uris
     # The list of all uris that describe an entity that is this work or a subentity,
     # that is, an edition of this work
     @set 'allUris', [ @get('uri') ].concat(uris)
