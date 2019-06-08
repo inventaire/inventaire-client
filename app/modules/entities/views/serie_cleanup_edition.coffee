@@ -6,8 +6,6 @@ module.exports = Marionette.CompositeView.extend
   template: require './templates/serie_cleanup_edition'
 
   ui:
-    changeWork: '.changeWork'
-    workPicker: '.workPicker'
     workPickerSelect: '.workPickerSelect'
     workPickerValidate: '.validate'
 
@@ -16,11 +14,12 @@ module.exports = Marionette.CompositeView.extend
     @editionLang = @model.get 'lang'
     @workUri = @model.get 'claims.wdt:P629.0'
     @getWorksLabel()
+    @_showWorkPicker = false
 
   serializeData: ->
     _.extend @model.toJSON(),
-      worksList: @getWorksList()
       workLabel: @workLabel
+      worksList: if @_showWorkPicker then @getWorksList()
 
   events:
     'click .changeWork': 'showWorkPicker'
@@ -41,14 +40,22 @@ module.exports = Marionette.CompositeView.extend
       when 'enter' then @validateWorkChange()
 
   showWorkPicker: ->
-    @ui.changeWork.hide()
-    @ui.workPicker.removeClass 'hidden'
-    @ui.workPickerSelect.focus()
+    @_showWorkPicker = true
+    @lazyRender()
 
   hideWorkPicker: ->
-    @ui.changeWork.show()
-    @ui.workPicker.addClass 'hidden'
-    @ui.changeWork.focus()
+    @_showWorkPicker = false
+    @lazyRender()
+
+  onRender: ->
+    if @_showWorkPicker
+      @ui.workPickerSelect.focus()
+      @startListingForChanges()
+
+  startListingForChanges: ->
+    if @_listingForChanges then return
+    @_listingForChanges = true
+    @listenTo @options.worksWithOrdinal, 'update', @lazyRender
 
   onSelectChange: ->
     uri = @ui.workPickerSelect.val()

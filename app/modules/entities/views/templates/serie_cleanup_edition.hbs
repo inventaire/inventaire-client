@@ -12,12 +12,8 @@
   </div>
   <span class="uri">{{uri}}</span>
   <div class="actions">
-    <a class="changeWork">
-      {{icon 'arrows'}}
-      <span>{{i18n "change edition's work"}}</span>
-    </a>
     {{#if worksList}}
-      <div class="workPicker hidden">
+      <div class="workPicker">
         <select class="workPickerSelect">
           <option>--</option>
           {{#each worksList}}
@@ -26,6 +22,11 @@
         </select>
         <a class="validate tiny-success-button invisible">{{I18n 'validate'}}</a>
       </div>
+    {{else}}
+      <a class="changeWork">
+        {{icon 'arrows'}}
+        <span>{{i18n "change edition's work"}}</span>
+      </a>
     {{/if}}
 
     {{#if workLabel}}

@@ -7,7 +7,10 @@ searchWorks = require('modules/entities/lib/search/search_type')('works')
 { startLoading } = require 'modules/general/plugins/behaviors'
 { getReverseClaims } = require 'modules/entities/lib/entities'
 leven = require 'leven'
-Works = Backbone.Collection.extend { comparator: 'ordinal' }
+Works = Backbone.Collection.extend
+  comparator: 'ordinal'
+  initialize: -> @triggerUpdateEvents()
+
 descendingPertinanceScore = (work)-> - work.get('pertinanceScore')
 Suggestions = Backbone.Collection.extend { comparator: descendingPertinanceScore }
 
@@ -45,7 +48,6 @@ module.exports = Marionette.LayoutView.extend
     @titlePattern = "#{@titleKey} - #{_.I18n('volume')} #{@numberKey}"
     @allAuthorsUris = @getAuthorsUris()
     @spreadParts()
-    @lazyUpdatePlaceholderCreationButton = _.debounce @updatePlaceholderCreationButton.bind(@), 200
     @initEventListeners()
     @getWorksWithOrdinalList = getWorksWithOrdinalList.bind @
     @getPlaceholdersOrdinals = getPlaceholdersOrdinals.bind @
@@ -92,7 +94,7 @@ module.exports = Marionette.LayoutView.extend
 
     @showIsolatedEditions()
 
-    @lazyUpdatePlaceholderCreationButton()
+    @updatePlaceholderCreationButton()
 
     @showPartsSuggestions()
 
@@ -122,7 +124,7 @@ module.exports = Marionette.LayoutView.extend
 
   initEventListeners: ->
     @listenTo @withoutOrdinal, 'change:claims.wdt:P1545', @moveModelOnOrdinalChange.bind(@)
-    @listenTo @withOrdinal, 'change', @lazyUpdatePlaceholderCreationButton.bind(@)
+    @listenTo @withOrdinal, 'update', @updatePlaceholderCreationButton.bind(@)
 
   moveModelOnOrdinalChange: (model, value)->
     unless _.isNonEmptyArray value then return
@@ -268,7 +270,7 @@ module.exports = Marionette.LayoutView.extend
     createSequentially()
     .then =>
       @_placeholderCreationOngoing = false
-      @lazyUpdatePlaceholderCreationButton()
+      @updatePlaceholderCreationButton()
 
   showPartsSuggestions: ->
     Promise.all [

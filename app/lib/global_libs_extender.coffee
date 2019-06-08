@@ -97,6 +97,15 @@ module.exports = (_)->
 
     @filterBy 'text', (model)-> model.matches filterRegex, rawText
 
+  # The 'update' event will be added when updating to Backbone >= 1.2.0
+  # but meanwhile we got to do without it
+  # See https://backbonejs.org/#Changelog
+  Backbone.Collection::triggerUpdateEvents = ->
+    lazyTriggerUpdate = _.debounce triggerUpdate.bind(@), 200
+    @on 'change', lazyTriggerUpdate
+
+  triggerUpdate = (args...)-> @trigger 'update', args...
+
   # Use in promise chains when the view might be about to be re-rendered
   # and calling would thus trigger error as the method depends on regions
   # being populated (which happens at render), typically in an onRender call.
