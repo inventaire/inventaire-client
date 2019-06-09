@@ -1,44 +1,46 @@
 <div class="controls">
-  <div class="header">
-    <h2><a href="{{serie.pathname}}" class="showEntity">{{serie.label}}</a></h2>
+  <div class="controls-section">
+    <div class="header">
+      <h2><a href="{{serie.pathname}}" class="showEntity">{{serie.label}}</a></h2>
 
-    <a href="{{serie.edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
-      {{icon 'pencil'}}
+      <a href="{{serie.edit}}" class="showEntityEdit pencil" title="{{i18n 'edit data'}}">
+        {{icon 'pencil'}}
+      </a>
+
+      {{#if serie.wikipedia}}
+        <a class="wikipedia" href="{{serie.wikipedia.url}}"></a>
+        {{iconLink 'wikipedia-w' serie.wikipedia.url title='Wikipedia'}}
+      {{/if}}
+    </div>
+
+    <div class="togglers">
+      {{partial 'toggler' authorsToggler}}
+      {{partial 'toggler' editionsToggler}}
+      {{partial 'toggler' sizeToggler}}
+    </div>
+  </div>
+
+  <div class="controls-section">
+    <div class="control">
+      <label for="partsNumber">{{i18n 'number of parts'}}</label>
+      <select id="partsNumber">
+        {{#each partsNumberPickerRange}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="control">
+      <label for="titlePattern">{{i18n 'title pattern'}}</label>
+      <input id="titlePattern" name="pattern" value="{{titlePattern}}">
+    </div>
+
+    <a id="createPlaceholders" class="tiny-button light-blue {{#unless placeholderCounter}}hidden{{/unless}}">
+      {{I18n 'create all the missing parts'}}
+      <span class="counter">({{placeholderCounter}})</span>
+      <span class="loading"></span>
     </a>
-
-    {{#if serie.wikipedia}}
-      <a class="wikipedia" href="{{serie.wikipedia.url}}"></a>
-      {{iconLink 'wikipedia-w' serie.wikipedia.url title='Wikipedia'}}
-    {{/if}}
   </div>
-
-  <div class="togglers">
-    {{partial 'toggler' authorsToggler}}
-    {{partial 'toggler' editionsToggler}}
-    {{partial 'toggler' sizeToggler}}
-  </div>
-</div>
-
-<div class="controls">
-  <div class="control">
-    <label for="partsNumber">{{i18n 'number of parts'}}</label>
-    <select id="partsNumber">
-      {{#each partsNumberPickerRange}}
-        <option value="{{this}}">{{this}}</option>
-      {{/each}}
-    </select>
-  </div>
-
-  <div class="control">
-    <label for="titlePattern">{{i18n 'title pattern'}}</label>
-    <input id="titlePattern" name="pattern" value="{{titlePattern}}">
-  </div>
-
-  <a id="createPlaceholders" class="tiny-button light-blue {{#unless placeholderCounter}}hidden{{/unless}}">
-    {{I18n 'create all the missing parts'}}
-    <span class="counter">({{placeholderCounter}})</span>
-    <span class="loading"></span>
-  </a>
 </div>
 
 <div id="worksInConflicts"></div>
