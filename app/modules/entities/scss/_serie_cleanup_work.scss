@@ -28,6 +28,12 @@
   .showEntityEdit{
     margin-left: auto;
   }
+  .workPicker{
+    margin: 1em 0 0.5em 0;
+    .validate:not(.hidden){
+      display: block;
+    }
+  }
   .creation-call{
     background-color: #666;
     color: white;

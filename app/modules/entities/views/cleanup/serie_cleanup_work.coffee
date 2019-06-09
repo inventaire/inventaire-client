@@ -2,6 +2,7 @@ getActionKey = require 'lib/get_action_key'
 getLangsData = require 'modules/entities/lib/editor/get_langs_data'
 SerieCleanupAuthors = require './serie_cleanup_authors'
 SerieCleanupEditions = require './serie_cleanup_editions'
+WorkPicker = require './work_picker'
 
 module.exports = Marionette.LayoutView.extend
   tagName: 'li'
@@ -12,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
     return classes
 
   regions:
+    mergeWorkPicker: '.mergeWorkPicker'
     authorsContainer: '.authorsContainer'
     editionsContainer: '.editionsContainer'
 
@@ -49,6 +51,24 @@ module.exports = Marionette.LayoutView.extend
     @model.fetchSubEntities()
     .then @ifViewIsIntact('showWorkEditions')
 
+  toggleMergeWorkPicker: ->
+    if @mergeWorkPicker.currentView?
+      @mergeWorkPicker.currentView.$el.toggle()
+    else
+      @mergeWorkPicker.show new WorkPicker {
+        @model,
+        @worksWithOrdinal,
+        @worksWithoutOrdinal,
+        _showWorkPicker: true
+        workUri: @model.get('uri'),
+        afterMerge: @afterMerge
+      }
+
+  afterMerge: (work)->
+    @worksWithOrdinal.remove @model
+    @worksWithoutOrdinal.remove @model
+    work.editions.add @model.editions.models
+
   showWorkAuthors: ->
     { currentAuthorsUris, authorsSuggestionsUris } = @spreadAuthors()
     @authorsContainer.show new SerieCleanupAuthors {
@@ -70,6 +90,7 @@ module.exports = Marionette.LayoutView.extend
     'click': 'showPlaceholderEditor'
     'keydown': 'onKeyDown'
     'change .langSelector': 'propagateLangChange'
+    'click .toggleMergeWorkPicker': 'toggleMergeWorkPicker'
 
   updateOrdinal: (e)->
     { value } = e.currentTarget

@@ -9,16 +9,21 @@
       {{/each}}
     </select>
   {{/if}}
-  <span class="label">{{label}}</span>
   {{#if isPlaceholder}}
+    <span class="label">{{label}}</span>
     <span class="creation-call">{{i18n 'create'}}</span>
   {{else}}
-      <a href="{{edit}}" class="showEntityEdit pencil"
-        title="{{i18n 'edit data'}}">
-        {{icon 'pencil'}}
-      </a>
+    <a class="showEntity link" href="{{pathname}}">{{label}}</a>
+    <a href="{{edit}}" class="showEntityEdit pencil"
+      title="{{i18n 'edit data'}}">
+      {{icon 'pencil'}}
+    </a>
+    <a class="toggleMergeWorkPicker" title="{{i18n 'merge'}}">
+      {{icon 'compress'}}
+    </a>
   {{/if}}
 </div>
+<div class="mergeWorkPicker"></div>
 <div class="authorsContainer"></div>
 <div class="editionsContainer"></div>
 {{#if isPlaceholder}}

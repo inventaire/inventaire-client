@@ -1,9 +1,16 @@
-<div class="workPicker">
-  <select class="workPickerSelect">
-    <option>--</option>
-    {{#each worksList}}
-      <option value="{{uri}}">{{richLabel}}</option>
-    {{/each}}
-  </select>
-  <a class="validate tiny-success-button hidden">{{I18n workPickerValidateLabel}}</a>
-</div>
+{{#if worksList}}
+  <div class="workPicker">
+    <select class="workPickerSelect">
+      <option>--</option>
+      {{#each worksList}}
+        <option value="{{uri}}">{{richLabel}}</option>
+      {{/each}}
+    </select>
+    <a class="validate tiny-success-button hidden">{{I18n workPicker.validateLabel}}</a>
+  </div>
+{{else}}
+  <a class="showWorkPicker">
+    {{icon workPicker.buttonIcon}}
+    <span>{{i18n workPicker.buttonLabel}}</span>
+  </a>
+{{/if}}

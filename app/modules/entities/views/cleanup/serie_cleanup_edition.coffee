@@ -15,7 +15,10 @@ module.exports = WorkPicker.extend
     _.extend @model.toJSON(),
       workLabel: @workLabel
       worksList: if @_showWorkPicker then @getWorksList()
-      workPickerValidateLabel: 'validate'
+      workPicker:
+        buttonIcon: 'arrows'
+        buttonLabel: "change edition's work"
+        validateLabel: 'validate'
 
   events: _.extend {}, WorkPicker::events,
     'click .copyWorkLabel': 'copyWorkLabel'

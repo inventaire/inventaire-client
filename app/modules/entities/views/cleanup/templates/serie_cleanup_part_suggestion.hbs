@@ -17,12 +17,5 @@
 </div>
 
 {{#unless workPickerDisabled}}
-  {{#if worksList}}
-    {{partial 'entities:cleanup:work_picker' this}}
-  {{else}}
-    <a class="showWorkPicker">
-      {{icon 'compress'}}
-      <span>{{i18n 'merge'}}</span>
-    </a>
-  {{/if}}
+  {{partial 'entities:cleanup:work_picker' this}}
 {{/unless}}
