@@ -103,7 +103,7 @@ initWindowResizeEvents = ->
   resize = _.debounce resizeEnd, 150
   $(window).resize resize
 
-# params = { subject, message, unknownUser }
+# params = { subject, message, uris, context, unknownUser }
 postFeedback = (params)->
   params.location = document.location.pathname + document.location.search
   _.log params, 'posting feedback'

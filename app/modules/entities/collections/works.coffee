@@ -38,8 +38,10 @@ module.exports = Backbone.Collection.extend
 filterOutInvalidWorks = (works)-> works.filter filterOutAndRerportInvalidWork
 
 filterOutAndRerportInvalidWork = (work)->
-  if work.type is 'work' or work.type is 'serie'
+  if work.type in validWorkTypes
     return true
   else
-    app.execute 'report:entity:type:issue', { model: work, expectedType: 'work' }
+    app.execute 'report:entity:type:issue', { model: work, expectedType: 'work', context: module.id }
     return false
+
+validWorkTypes = [ 'work', 'serie', 'article' ]

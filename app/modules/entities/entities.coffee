@@ -415,13 +415,13 @@ showClaimEntities = (claim, refresh)->
   app.layout.main.show new ClaimLayout { property, value, refresh }
 
 reportTypeIssue = (params)->
-  { expectedType, model } = params
+  { expectedType, model, context } = params
   [ uri, realType ] = model.gets 'uri', 'type'
   if uri in reportedTypeIssueUris then return
   reportedTypeIssueUris.push uri
 
   subject = "[Entity type] #{uri}: expected #{expectedType}, got #{realType}"
-  app.request 'post:feedback', { subject, uris: [ uri ] }
+  app.request 'post:feedback', { subject, uris: [ uri ], context }
 
 reportedTypeIssueUris = []
 
