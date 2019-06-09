@@ -1,6 +1,6 @@
 getActionKey = require 'lib/get_action_key'
 
-module.exports = Marionette.CompositeView.extend
+module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: 'serie-cleanup-edition'
   template: require './templates/serie_cleanup_edition'
@@ -10,7 +10,7 @@ module.exports = Marionette.CompositeView.extend
     workPickerValidate: '.validate'
 
   initialize: ->
-    { @worksWithOrdinal } = @options
+    { @worksWithOrdinal, @worksWithoutOrdinal } = @options
     @lazyRender = _.LazyRender @, 100
     @editionLang = @model.get 'lang'
     @workUri = @model.get 'claims.wdt:P629.0'
@@ -30,9 +30,9 @@ module.exports = Marionette.CompositeView.extend
     'click .copyWorkLabel': 'copyWorkLabel'
 
   getWorksList: ->
-    nonPlaceholderWorksWithOrdinal = @worksWithOrdinal.serializeNonPlaceholderWorks()
-    unless nonPlaceholderWorksWithOrdinal? then return
-    return nonPlaceholderWorksWithOrdinal.filter (work)=> work.uri isnt @workUri
+    @worksWithOrdinal.serializeNonPlaceholderWorks()
+    .concat @worksWithoutOrdinal.serializeNonPlaceholderWorks()
+    .filter (work)=> work.uri isnt @workUri
 
   onKeyDown: (e)->
     key = getActionKey e
@@ -57,6 +57,7 @@ module.exports = Marionette.CompositeView.extend
     if @_listingForChanges then return
     @_listingForChanges = true
     @listenTo @worksWithOrdinal, 'update', @lazyRender
+    @listenTo @worksWithoutOrdinal, 'update', @lazyRender
 
   onSelectChange: ->
     uri = @ui.workPickerSelect.val()
@@ -67,7 +68,7 @@ module.exports = Marionette.CompositeView.extend
     uri = @ui.workPickerSelect.val()
     unless _.isEntityUri(uri) and uri isnt @workUri then return
 
-    newWork = @worksWithOrdinal.findWhere { uri }
+    newWork = @findWorkByUri uri
     edition = @model
     currentWorkEditions = edition.collection
 
@@ -84,6 +85,12 @@ module.exports = Marionette.CompositeView.extend
       currentWorkEditions.remove edition
       newWork.editions.add edition
     .catch rollback
+
+  findWorkByUri: (uri)->
+    work = @worksWithOrdinal.findWhere { uri }
+    if work? then return work
+    work = @worksWithoutOrdinal.findWhere { uri }
+    if work? then return work
 
   getWorksLabel: ->
     unless @editionLang? then return

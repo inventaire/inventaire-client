@@ -95,16 +95,15 @@ module.exports = Marionette.LayoutView.extend
   showWorkList: (options)->
     { name, label, alwaysShow, showPossibleOrdinals } = options
     if not alwaysShow and @[name].length is 0 then return
-    collection = @[name]
-    options = {
+    @["#{name}Region"].show new SerieCleanupWorks {
       name,
       label,
-      collection,
+      collection: @[name],
       showPossibleOrdinals,
       @worksWithOrdinal,
+      @worksWithoutOrdinal,
       @allAuthorsUris
     }
-    @["#{name}Region"].show new SerieCleanupWorks(options)
 
   initEventListeners: ->
     @listenTo @worksWithoutOrdinal, 'change:claims.wdt:P1545', moveModelOnOrdinalChange.bind(@)
@@ -180,7 +179,11 @@ module.exports = Marionette.LayoutView.extend
       if editions.length is 0 then return
       @ui.isolatedEditionsWrapper.removeClass 'hidden'
       collection = new Backbone.Collection editions
-      @isolatedEditionsRegion.show new SerieCleanupEditions { collection, @worksWithOrdinal }
+      @isolatedEditionsRegion.show new SerieCleanupEditions {
+        collection,
+        @worksWithOrdinal,
+        @worksWithoutOrdinal
+      }
       @listenTo collection, 'remove', @hideIsolatedEditionsWhenEmpty.bind(@)
 
   hideIsolatedEditionsWhenEmpty: (removedEdition, collection)->

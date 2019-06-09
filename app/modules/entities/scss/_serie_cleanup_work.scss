@@ -40,6 +40,8 @@
   .authorsContainer, .editionsContainer{
     max-height: 20em;
     overflow: auto;
+  }
+  .authorsContainer, .editionsContainer ul:not(:empty){
     margin: 1em 0;
   }
   .placeholder-label-editor{

@@ -3,6 +3,7 @@ module.exports = Marionette.CollectionView.extend
   childView: require './serie_cleanup_edition'
   childViewOptions: ->
     worksWithOrdinal: @options.worksWithOrdinal
+    worksWithoutOrdinal: @options.worksWithoutOrdinal
   # Keeping a consistent sorting function so that rolling back an edition
   # puts it back at the same spot
   viewComparator: 'label'
