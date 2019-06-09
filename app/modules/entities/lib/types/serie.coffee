@@ -22,7 +22,7 @@ specificMethods = _.extend {}, commonsSerieWork,
     refresh = @getRefresh refresh
     if not refresh and @waitForParts? then return @waitForParts
 
-    @fetchPartsData { refresh }
+    @fetchPartsData refresh
     .then initPartsCollections.bind(@, refresh, fetchAll)
     .then importDataFromParts.bind(@)
 
