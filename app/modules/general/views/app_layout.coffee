@@ -105,5 +105,6 @@ initWindowResizeEvents = ->
 
 # params = { subject, message, unknownUser }
 postFeedback = (params)->
+  params.location = document.location.pathname + document.location.search
   _.log params, 'posting feedback'
   _.preq.post app.API.feedback, params
