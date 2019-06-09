@@ -1,6 +1,7 @@
 error_ = require 'lib/error'
 Entity = require '../models/entity'
 { getByUris, getManyByUris } = app.API.entities
+{ invalidateLabel } = require 'lib/uri_label/labels_helpers'
 
 # In-memory cache for all entities used during a session.
 # It's ok to attach it to window for inspection purpose
@@ -106,4 +107,16 @@ exports.add = (entityData)->
   unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}", entityData
   return addModel new Entity(entityData)
 
-exports.invalidate = (uri)-> delete entitiesModelsIndexedByUri[uri]
+sanitizeUris = (uris)-> _.uniq _.compact(_.forceArray(uris))
+
+invalidateCache = (uri)->
+  delete entitiesModelsIndexedByUri[uri]
+  invalidateLabel uri
+
+# Softer than invalidateCache: simply setting a flag to be taken into account
+# by Entity::fetchSubEntities on next call
+invalidateGraph = (uri)-> entitiesModelsIndexedByUri[uri].graphChanged = true
+
+app.commands.setHandlers
+  'invalidate:entities:graph': (uris)-> sanitizeUris(uris).forEach invalidateGraph
+  'invalidate:entities:cache': (uris)-> sanitizeUris(uris).forEach invalidateCache

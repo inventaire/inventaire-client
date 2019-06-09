@@ -64,7 +64,7 @@ module.exports = EntityEdit.extend
       # the cache of the work will force it to re-query its edition,
       # hopefully once the edition about to be created is made available
       # by the database
-      app.execute 'invalidate:entities:cache', relationUri
+      app.execute 'invalidate:entities:graph', relationUri
       return
 
   createPrevious: ->

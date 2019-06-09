@@ -114,10 +114,9 @@ createEntity = (labels, claims)->
 triggerEntityGraphChangesEvents = (claims)-> ()->
   for prop, values of claims
     if prop in graphRelationsProperties
-      for value in values
-        # Signal to the entity that it was affected by another entity's change
-        # so that it refreshes it's graph data next time
-        app.vent.trigger "entity:graph:change:#{value}"
+      # Signal to the entity that it was affected by another entity's change
+      # so that it refreshes it's graph data next time
+      app.execute 'invalidate:entities:graph', values
 
   return
 

@@ -44,8 +44,6 @@ module.exports = Filterable.extend
     # Keep label updated
     @on 'change:labels', => @setFavoriteLabel @toJSON()
 
-    @listenForGraphChanges()
-
     # List of promises created from specialized initializers
     # to wait for before triggering @executeMetadataUpdate (see below)
     @_dataPromises = []
@@ -193,13 +191,6 @@ module.exports = Filterable.extend
     # Let app/lib/metadata/apply_transformers format the URL with app.API.img
     .then (imageObj)-> imageObj?.url
 
-  listenForGraphChanges: ->
-    uri = @get 'uri'
-    # Set a refresh token so that next time we need to access the entity's graph
-    # we request a refreshed version
-    @listenTo app.vent, "entity:graph:change:#{uri}", @setRefreshToken.bind(@)
-
-  setRefreshToken: -> @graphChanged = true
   getRefresh: (refresh)->
     refresh = refresh or @graphChanged
     # No need to force refresh until next graph change

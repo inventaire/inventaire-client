@@ -20,7 +20,6 @@ ActivityLayout = require './views/activity_layout'
 ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
-{ invalidateLabel } = require 'lib/uri_label/labels_helpers'
 History = require './views/editor/history'
 
 module.exports =
@@ -224,7 +223,6 @@ setHandlers = ->
     'show:entity:cleanup': API.showEntityCleanup
     'show:work:with:item:modal': showWorkWithItemModal
     'show:merge:suggestions': require './lib/show_merge_suggestions'
-    'invalidate:entities:cache': invalidateEntitiesCache
     'report:entity:type:issue': reportTypeIssue
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
 
@@ -411,13 +409,6 @@ showClaimEntities = (claim, refresh)->
     return app.execute 'show:error:missing'
 
   app.layout.main.show new ClaimLayout { property, value, refresh }
-
-invalidateEntitiesCache = (uris)->
-  _.forceArray uris
-  .forEach (uri)->
-    unless _.isEntityUri uri then throw error_.new "invalid uri: #{uri}"
-    entitiesModelsIndex.invalidate uri
-    invalidateLabel uri
 
 reportTypeIssue = (params)->
   { expectedType, model } = params

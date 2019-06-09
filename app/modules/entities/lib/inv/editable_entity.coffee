@@ -34,9 +34,7 @@ module.exports =
     rollback = _.Rollback reverseAction, 'editable_entity setPropertyValue'
 
     if properties[property].editorType is 'entity'
-      # Invalidate entities that might need to update their graph data
-      # following this change
-      app.execute 'invalidate:entities:cache', _.compact([ oldValue, newValue ])
+      app.execute 'invalidate:entities:graph', [ oldValue, newValue ]
 
     if property in propertiesUsedByRelations then @invalidateRelationsCache()
 
