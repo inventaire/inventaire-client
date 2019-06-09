@@ -117,7 +117,7 @@ triggerEntityGraphChangesEvents = (claims)-> ()->
       for value in values
         # Signal to the entity that it was affected by another entity's change
         # so that it refreshes it's graph data next time
-        if _.isEntityUri(value) then app.vent.trigger "entity:graph:change:#{value}"
+        app.vent.trigger "entity:graph:change:#{value}"
 
   return
 

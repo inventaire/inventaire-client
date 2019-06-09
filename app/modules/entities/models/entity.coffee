@@ -127,6 +127,7 @@ module.exports = Filterable.extend
     if invId? then @set 'altUri', "inv:#{invId}"
 
   fetchSubEntities: (refresh)->
+    refresh = @getRefresh refresh
     if not refresh and @waitForSubentities? then return @waitForSubentities
 
     unless @subentitiesName?
