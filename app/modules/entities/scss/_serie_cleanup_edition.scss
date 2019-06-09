@@ -23,7 +23,7 @@
     background-color: #eee;
     @include radius;
   }
-  .changeWork, .copyWorkLabel{
+  .showWorkPicker, .copyWorkLabel{
     display: block;
     margin-top: 0.5em;
     .fa{

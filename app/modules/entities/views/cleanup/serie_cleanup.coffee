@@ -171,7 +171,13 @@ module.exports = Marionette.LayoutView.extend
     addToSerie = spreadPart.bind @
     getPartsSuggestions serie
     .then (collection)=>
-      @partsSuggestionsRegion.show new PartsSuggestions { collection, addToSerie, serie }
+      @partsSuggestionsRegion.show new PartsSuggestions {
+        collection,
+        addToSerie,
+        serie,
+        @worksWithOrdinal,
+        @worksWithoutOrdinal
+      }
 
   showIsolatedEditions: ->
     getIsolatedEditions @model.get('uri')

@@ -1,74 +1,28 @@
-getActionKey = require 'lib/get_action_key'
+WorkPicker = require './work_picker'
 
-module.exports = Marionette.ItemView.extend
+module.exports = WorkPicker.extend
   tagName: 'li'
   className: 'serie-cleanup-edition'
   template: require './templates/serie_cleanup_edition'
 
-  ui:
-    workPickerSelect: '.workPickerSelect'
-    workPickerValidate: '.validate'
-
   initialize: ->
-    { @worksWithOrdinal, @worksWithoutOrdinal } = @options
-    @lazyRender = _.LazyRender @, 100
+    WorkPicker::initialize.call @
     @editionLang = @model.get 'lang'
     @workUri = @model.get 'claims.wdt:P629.0'
     @getWorksLabel()
-    @_showWorkPicker = false
 
   serializeData: ->
     _.extend @model.toJSON(),
       workLabel: @workLabel
       worksList: if @_showWorkPicker then @getWorksList()
+      workPickerValidateLabel: 'validate'
 
-  events:
-    'click .changeWork': 'showWorkPicker'
-    'change .workPickerSelect': 'onSelectChange'
-    'click .validate': 'validateWorkChange'
-    'keydown .workPickerSelect': 'onKeyDown'
+  events: _.extend {}, WorkPicker::events,
     'click .copyWorkLabel': 'copyWorkLabel'
 
-  getWorksList: ->
-    @worksWithOrdinal.serializeNonPlaceholderWorks()
-    .concat @worksWithoutOrdinal.serializeNonPlaceholderWorks()
-    .filter (work)=> work.uri isnt @workUri
+  onWorkSelected: (newWork)->
+    if newWork.get('uri') is @workUri then return
 
-  onKeyDown: (e)->
-    key = getActionKey e
-    switch key
-      when 'esc' then @hideWorkPicker()
-      when 'enter' then @validateWorkChange()
-
-  showWorkPicker: ->
-    @_showWorkPicker = true
-    @lazyRender()
-
-  hideWorkPicker: ->
-    @_showWorkPicker = false
-    @lazyRender()
-
-  onRender: ->
-    if @_showWorkPicker
-      @ui.workPickerSelect.focus()
-      @startListingForChanges()
-
-  startListingForChanges: ->
-    if @_listingForChanges then return
-    @_listingForChanges = true
-    @listenTo @worksWithOrdinal, 'update', @lazyRender
-    @listenTo @worksWithoutOrdinal, 'update', @lazyRender
-
-  onSelectChange: ->
-    uri = @ui.workPickerSelect.val()
-    if _.isEntityUri uri then @ui.workPickerValidate.removeClass 'invisible'
-    else @ui.workPickerValidate.addClass 'invisible'
-
-  validateWorkChange: ->
-    uri = @ui.workPickerSelect.val()
-    unless _.isEntityUri(uri) and uri isnt @workUri then return
-
-    newWork = @findWorkByUri uri
     edition = @model
     currentWorkEditions = edition.collection
 
@@ -85,12 +39,6 @@ module.exports = Marionette.ItemView.extend
       currentWorkEditions.remove edition
       newWork.editions.add edition
     .catch rollback
-
-  findWorkByUri: (uri)->
-    work = @worksWithOrdinal.findWhere { uri }
-    if work? then return work
-    work = @worksWithoutOrdinal.findWhere { uri }
-    if work? then return work
 
   getWorksLabel: ->
     unless @editionLang? then return

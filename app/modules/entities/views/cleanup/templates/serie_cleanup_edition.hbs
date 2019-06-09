@@ -13,17 +13,9 @@
   <span class="uri">{{uri}}</span>
   <div class="actions">
     {{#if worksList}}
-      <div class="workPicker">
-        <select class="workPickerSelect">
-          <option>--</option>
-          {{#each worksList}}
-            <option value="{{uri}}">{{richLabel}}</option>
-          {{/each}}
-        </select>
-        <a class="validate tiny-success-button invisible">{{I18n 'validate'}}</a>
-      </div>
+      {{partial 'entities:cleanup:work_picker' this}}
     {{else}}
-      <a class="changeWork">
+      <a class="showWorkPicker">
         {{icon 'arrows'}}
         <span>{{i18n "change edition's work"}}</span>
       </a>
