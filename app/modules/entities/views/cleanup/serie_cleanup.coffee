@@ -1,4 +1,4 @@
-entityDraftModel = require '../lib/entity_draft_model'
+entityDraftModel = require 'modules/entities/lib/entity_draft_model'
 SerieCleanupWorks = require  './serie_cleanup_works'
 SerieCleanupEditions = require './serie_cleanup_editions'
 PartsSuggestions = require  './serie_cleanup_part_suggestion'
