@@ -5,6 +5,7 @@ AuthorLayout = require './views/author_layout'
 SerieLayout = require './views/serie_layout'
 SerieCleanup = require './views/cleanup/serie_cleanup'
 WorkLayout = require './views/work_layout'
+ArticleLi = require './views/article_li'
 EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
 EntityCreate = require './views/editor/entity_create'
@@ -85,6 +86,8 @@ API =
 
   getSerieView: (model, refresh)->
     new SerieLayout { model, refresh, standalone: true }
+
+  getArticleView: (model)-> new ArticleLi { model }
 
   # WorkLayout is only used in standalone mode, but the flag is required by ./lib/entity_items
   getWorkView: (model, refresh)-> new WorkLayout { model, refresh, standalone: true }
@@ -393,6 +396,7 @@ entityViewGetterByType =
   edition: 'getEditionView'
   genre: 'getGenreLayout'
   publisher: 'getPublisherLayout'
+  article: 'getArticleView'
   # the GenreLayout also fetches movements
   movement: 'getGenreLayout'
 
