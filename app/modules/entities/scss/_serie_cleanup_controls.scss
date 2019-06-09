@@ -13,7 +13,7 @@
     margin: 0 0.5em;
   }
   .header{
-    @include display-flex(row);
+    @include display-flex(row, center, center, wrap);
   }
 }
 
