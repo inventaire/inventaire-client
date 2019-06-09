@@ -1,7 +1,7 @@
 entityDraftModel = require 'modules/entities/lib/entity_draft_model'
 
 module.exports = ->
-  existingOrdinals = @withOrdinal.map (model)-> model.get('ordinal')
+  existingOrdinals = @worksWithOrdinal.map (model)-> model.get('ordinal')
   @partsNumber ?= 0
   lastOrdinal = _.last existingOrdinals
   end = _.max [ @partsNumber, lastOrdinal ]
@@ -9,7 +9,7 @@ module.exports = ->
   newPlaceholders = []
   for i in [ 1..end ]
     unless i in existingOrdinals then newPlaceholders.push getPlaceholder.call(@, i)
-  @withOrdinal.add newPlaceholders
+  @worksWithOrdinal.add newPlaceholders
 
 getPlaceholder = (index)->
   serieUri = @model.get 'uri'

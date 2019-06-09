@@ -2,7 +2,7 @@ module.exports = (part)->
   ordinal = part.get 'claims.wdt:P1545.0'
 
   unless _.isPositiveIntegerString ordinal
-    @withoutOrdinal.add part
+    @worksWithoutOrdinal.add part
     return
 
   ordinalInt = parseInt ordinal
@@ -10,6 +10,6 @@ module.exports = (part)->
 
   part.set 'ordinal', ordinalInt
 
-  currentOrdinalValue = @withOrdinal[ordinalInt]
-  if currentOrdinalValue? then @conflicts.add part
-  else @withOrdinal.add part
+  currentOrdinalValue = @worksWithOrdinal[ordinalInt]
+  if currentOrdinalValue? then @worksInConflicts.add part
+  else @worksWithOrdinal.add part

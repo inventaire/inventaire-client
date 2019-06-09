@@ -14,10 +14,10 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/serie_cleanup'
 
   regions:
-    conflictsRegion: '#conflicts'
+    worksInConflictsRegion: '#worksInConflicts'
     isolatedEditionsRegion: '#isolatedEditions'
-    withoutOrdinalRegion: '#withoutOrdinal'
-    withOrdinalRegion: '#withOrdinal'
+    worksWithoutOrdinalRegion: '#worksWithoutOrdinal'
+    worksWithOrdinalRegion: '#worksWithOrdinal'
     partsSuggestionsRegion: '#partsSuggestions'
 
   ui:
@@ -33,9 +33,9 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   initialize: ->
-    @withOrdinal = new CleanupWorks
-    @withoutOrdinal = new CleanupWorks
-    @conflicts = new CleanupWorks
+    @worksWithOrdinal = new CleanupWorks
+    @worksWithoutOrdinal = new CleanupWorks
+    @worksInConflicts = new CleanupWorks
     @maxOrdinal = 0
     @placeholderCounter = 0
     @titleKey = "{#{_.i18n('title')}}"
@@ -47,7 +47,7 @@ module.exports = Marionette.LayoutView.extend
     @initEventListeners()
 
   serializeData: ->
-    partsLength = @withOrdinal.length
+    partsLength = @worksWithOrdinal.length
 
     return {
       serie: @model.toJSON()
@@ -70,19 +70,19 @@ module.exports = Marionette.LayoutView.extend
 
   onRender: ->
     @showWorkList
-      name: 'conflicts'
+      name: 'worksInConflicts'
       label: 'parts with ordinal conflicts'
       showPossibleOrdinals: true
 
     @showWorkList
-      name: 'withoutOrdinal'
+      name: 'worksWithoutOrdinal'
       label: 'parts without ordinal'
       showPossibleOrdinals: true
       # Always show so that added suggested parts can join this list
       alwaysShow: true
 
     @showWorkList
-      name: 'withOrdinal'
+      name: 'worksWithOrdinal'
       label: 'parts with ordinal'
       alwaysShow: true
 
@@ -101,14 +101,14 @@ module.exports = Marionette.LayoutView.extend
       label,
       collection,
       showPossibleOrdinals,
-      worksWithOrdinal: @withOrdinal,
+      @worksWithOrdinal,
       @allAuthorsUris
     }
     @["#{name}Region"].show new SerieCleanupWorks(options)
 
   initEventListeners: ->
-    @listenTo @withoutOrdinal, 'change:claims.wdt:P1545', moveModelOnOrdinalChange.bind(@)
-    @listenTo @withOrdinal, 'update', @updatePlaceholderCreationButton.bind(@)
+    @listenTo @worksWithoutOrdinal, 'change:claims.wdt:P1545', moveModelOnOrdinalChange.bind(@)
+    @listenTo @worksWithOrdinal, 'update', @updatePlaceholderCreationButton.bind(@)
 
   events:
     'change #partsNumber': 'updatePartsNumber'
@@ -154,12 +154,12 @@ module.exports = Marionette.LayoutView.extend
   lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000
   updateTitlePattern: (e)->
     @titlePattern = e.currentTarget.value
-    placeholders = @withOrdinal.filter isPlaceholder
-    @withOrdinal.remove placeholders
+    placeholders = @worksWithOrdinal.filter isPlaceholder
+    @worksWithOrdinal.remove placeholders
     fillGaps.call @
 
   updatePlaceholderCreationButton: ->
-    placeholders = @withOrdinal.filter isPlaceholder
+    placeholders = @worksWithOrdinal.filter isPlaceholder
     @placeholderCounter = placeholders.length
     if @placeholderCounter > 0
       @ui.createPlaceholdersButton.find('.counter').text "(#{@placeholderCounter})"
@@ -180,10 +180,7 @@ module.exports = Marionette.LayoutView.extend
       if editions.length is 0 then return
       @ui.isolatedEditionsWrapper.removeClass 'hidden'
       collection = new Backbone.Collection editions
-      @isolatedEditionsRegion.show new SerieCleanupEditions {
-        collection,
-        worksWithOrdinal: @withOrdinal
-      }
+      @isolatedEditionsRegion.show new SerieCleanupEditions { collection, @worksWithOrdinal }
       @listenTo collection, 'remove', @hideIsolatedEditionsWhenEmpty.bind(@)
 
   hideIsolatedEditionsWhenEmpty: (removedEdition, collection)->

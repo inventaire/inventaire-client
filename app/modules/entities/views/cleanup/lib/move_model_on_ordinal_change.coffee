@@ -8,13 +8,13 @@ module.exports = (model, value)->
 
   @removePlaceholder ordinalInt
 
-  @withoutOrdinal.remove model
-  @withOrdinal.add model
+  @worksWithoutOrdinal.remove model
+  @worksWithOrdinal.add model
 
   # Re-render to update editions works pickers
   @render()
 
-  if @withoutOrdinal.length isnt 0 then return
+  if @worksWithoutOrdinal.length isnt 0 then return
   if @showEditions or @editionsTogglerChanged then return
 
   @ui.editionsToggler.addClass 'glowing'

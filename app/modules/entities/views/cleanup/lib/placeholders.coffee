@@ -4,7 +4,7 @@ createPlaceholders = ->
   if @_placeholderCreationOngoing then return
   @_placeholderCreationOngoing = true
 
-  views = _.values @withOrdinalRegion.currentView.children._views
+  views = _.values @worksWithOrdinalRegion.currentView.children._views
   startLoading.call @, { selector: '#createPlaceholders', timeout: 300 }
 
   createSequentially = ->
@@ -19,13 +19,13 @@ createPlaceholders = ->
     @updatePlaceholderCreationButton()
 
 removePlaceholder = (ordinalInt)->
-  existingModel = @withOrdinal.findWhere { ordinal: ordinalInt }
+  existingModel = @worksWithOrdinal.findWhere { ordinal: ordinalInt }
   if existingModel? and existingModel.get('isPlaceholder')
-    @withOrdinal.remove existingModel
+    @worksWithOrdinal.remove existingModel
 
 removePlaceholdersAbove = (num)->
-  toRemove = @withOrdinal.filter (model)->
+  toRemove = @worksWithOrdinal.filter (model)->
     model.get('isPlaceholder') and model.get('ordinal') > num
-  @withOrdinal.remove toRemove
+  @worksWithOrdinal.remove toRemove
 
 module.exports = { createPlaceholders, removePlaceholder, removePlaceholdersAbove }

@@ -58,9 +58,8 @@ module.exports = Marionette.LayoutView.extend
     }
 
   showWorkEditions: ->
-    @editionsContainer.show new SerieCleanupEditions
-      collection: @model.editions
-      worksWithOrdinal: @worksWithOrdinal
+    collection = @model.editions
+    @editionsContainer.show new SerieCleanupEditions { collection, @worksWithOrdinal }
 
   events:
     'change .ordinalSelector': 'updateOrdinal'
