@@ -1,60 +1,4 @@
 #serieCleanup{
-  .header{
-    @include display-flex(row);
-  }
-  .controls{
-    @include display-flex(row, center, flex-start);
-    background-color: $light-grey;
-    h2, .pencil, .wikipedia{
-      align-self: center;
-    }
-    h2{
-      margin: 1em;
-    }
-    .pipe{
-      margin: 0 1em;
-      color: #bbb;
-      align-self: center;
-    }
-    a{
-      align-self: center;
-    }
-  }
-  .header, .control, .tiny-button{
-    margin: 0 1em;
-  }
-  .control{
-    padding: 1em;
-    text-align: center;
-    @include display-flex(column, baseline, center);
-    .toggler-wrapper{
-      @include display-flex(column, center, space-between);
-    }
-    label, .toggler-text-label{
-      text-align: center;
-      white-space: nowrap;
-      margin-bottom: 0;
-      align-self: stretch;
-    }
-    .toggler-text-label{
-      @include label-style;
-      margin-bottom: 0.2em;
-    }
-    .toggler label{
-      padding: 0;
-      margin: 0;
-    }
-  }
-  #partsNumber{
-    max-width: 10em;
-  }
-  #titlePattern{
-    margin: 0;
-    max-width: 15em;
-    @include radius;
-    border: 0;
-    text-align: center;
-  }
   h2{
     font-size: 1.2em;
     display: flex;
@@ -80,6 +24,7 @@
   .showEntityEdit{
     @include shy;
   }
+  @import 'serie_cleanup_controls';
 }
 
 #worksWithoutOrdinal{

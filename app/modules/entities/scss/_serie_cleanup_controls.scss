@@ -1,0 +1,86 @@
+.controls{
+  background-color: $light-grey;
+  &:nth-child(1){
+    background-color: darken($light-grey, 3%);
+  }
+  h2, .pencil, .wikipedia{
+    align-self: center;
+  }
+  h2{
+    margin: 1em;
+  }
+  .header, .control, .tiny-button{
+    margin: 0 0.5em;
+  }
+  .header{
+    @include display-flex(row);
+  }
+}
+
+#partsNumber{
+  max-width: 10em;
+}
+
+#titlePattern{
+  margin: 0;
+  max-width: 15em;
+  @include radius;
+  border: 0;
+  text-align: center;
+}
+
+#createPlaceholders{
+  margin-top: 1.3em;
+}
+
+.control, .togglers{
+  padding: 0.5em;
+  text-align: center;
+  @include display-flex(column, baseline, center);
+  label, .toggler-text-label{
+    text-align: center;
+    white-space: nowrap;
+    margin-bottom: 0;
+    align-self: stretch;
+  }
+}
+
+.togglers{
+  @include display-flex(row, center, flex-start, wrap);
+}
+
+.toggler-wrapper{
+  margin: 0.5em;
+  @include display-flex(column, center, space-between);
+}
+.toggler-text-label{
+  @include label-style;
+  margin-bottom: 0.2em;
+}
+.toggler label{
+  padding: 0;
+  margin: 0;
+}
+
+/*Small screens*/
+@media screen and (max-width: $small-screen) {
+  .controls{
+    @include display-flex(row, center, center, wrap);
+  }
+  .toggler-wrapper{
+    width: 8em;
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $small-screen) {
+  .controls{
+    @include display-flex(row, center, flex-start);
+    &:nth-child(2){
+      justify-content: flex-end;
+    }
+  }
+  .togglers{
+    margin-left: auto;
+  }
+}

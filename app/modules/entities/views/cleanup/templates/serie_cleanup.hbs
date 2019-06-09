@@ -12,6 +12,14 @@
     {{/if}}
   </div>
 
+  <div class="togglers">
+    {{partial 'toggler' authorsToggler}}
+    {{partial 'toggler' editionsToggler}}
+    {{partial 'toggler' sizeToggler}}
+  </div>
+</div>
+
+<div class="controls">
   <div class="control">
     <label for="partsNumber">{{i18n 'number of parts'}}</label>
     <select id="partsNumber">
@@ -22,28 +30,15 @@
   </div>
 
   <div class="control">
-    {{partial 'toggler' authorsToggler}}
-  </div>
-
-  <div class="control">
-    {{partial 'toggler' editionsToggler}}
-  </div>
-
-  <div class="control">
-    {{partial 'toggler' sizeToggler}}
-  </div>
-
-  <div class="control">
     <label for="titlePattern">{{i18n 'title pattern'}}</label>
     <input id="titlePattern" name="pattern" value="{{titlePattern}}">
   </div>
 
   <a id="createPlaceholders" class="tiny-button light-blue {{#unless placeholderCounter}}hidden{{/unless}}">
-    {{I18n 'create all the missing entities'}}
+    {{I18n 'create all the missing parts'}}
     <span class="counter">({{placeholderCounter}})</span>
     <span class="loading"></span>
   </a>
-
 </div>
 
 <div id="worksInConflicts"></div>
