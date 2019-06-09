@@ -21,7 +21,8 @@ module.exports = WorkPicker.extend
     'click .copyWorkLabel': 'copyWorkLabel'
 
   onWorkSelected: (newWork)->
-    if newWork.get('uri') is @workUri then return
+    uri = newWork.get 'uri'
+    if uri is @workUri then return
 
     edition = @model
     currentWorkEditions = edition.collection
