@@ -10,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
     workPickerValidate: '.validate'
 
   initialize: ->
+    { @worksWithOrdinal } = @options
     @lazyRender = _.LazyRender @, 100
     @editionLang = @model.get 'lang'
     @workUri = @model.get 'claims.wdt:P629.0'
@@ -29,9 +30,9 @@ module.exports = Marionette.CompositeView.extend
     'click .copyWorkLabel': 'copyWorkLabel'
 
   getWorksList: ->
-    worksWithOrdinal = @options.getWorksWithOrdinalList()
-    unless worksWithOrdinal? then return
-    return worksWithOrdinal.filter (work)=> work.uri isnt @workUri
+    nonPlaceholderWorksWithOrdinal = @worksWithOrdinal.serializeNonPlaceholderWorks()
+    unless nonPlaceholderWorksWithOrdinal? then return
+    return nonPlaceholderWorksWithOrdinal.filter (work)=> work.uri isnt @workUri
 
   onKeyDown: (e)->
     key = getActionKey e
@@ -55,7 +56,7 @@ module.exports = Marionette.CompositeView.extend
   startListingForChanges: ->
     if @_listingForChanges then return
     @_listingForChanges = true
-    @listenTo @options.worksWithOrdinal, 'update', @lazyRender
+    @listenTo @worksWithOrdinal, 'update', @lazyRender
 
   onSelectChange: ->
     uri = @ui.workPickerSelect.val()
@@ -66,7 +67,7 @@ module.exports = Marionette.CompositeView.extend
     uri = @ui.workPickerSelect.val()
     unless _.isEntityUri(uri) and uri isnt @workUri then return
 
-    newWork = @options.worksWithOrdinal.findWhere { uri }
+    newWork = @worksWithOrdinal.findWhere { uri }
     edition = @model
     currentWorkEditions = edition.collection
 

@@ -32,7 +32,7 @@ module.exports = tests =
   isNonEmptyArray: (array)-> _.isArray(array) and array.length > 0
   isNonEmptyPlainObject: (obj)->
     _.isPlainObject(obj) and Object.keys(obj).length > 0
-  isPositiveIntegerString: (str)-> _.isString(str) and /^\d+$/.test str
+  isPositiveIntegerString: (str)-> _.isString(str) and /^[1-9]\d*$/.test str
   isPlainObject: (obj)-> _.typeOf(obj) is 'object'
   isModel: (obj)-> obj instanceof Backbone.Model
   isView: (obj)-> obj instanceof Backbone.View
