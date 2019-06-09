@@ -43,8 +43,6 @@ module.exports = Marionette.LayoutView.extend
     uri = e.currentTarget.attributes['data-uri'].value
     model = @authorsSuggestionsCollection.findWhere { uri }
 
-    _.log model, 'model'
-
     @authorsSuggestionsCollection.remove model
     @currentAuthorsCollection.add model
 

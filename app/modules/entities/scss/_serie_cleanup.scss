@@ -1,60 +1,4 @@
 #serieCleanup{
-  .header{
-    @include display-flex(row);
-  }
-  .controls{
-    @include display-flex(row, center, flex-start);
-    background-color: $light-grey;
-    h2, .pencil, .wikipedia{
-      align-self: center;
-    }
-    h2{
-      margin: 1em;
-    }
-    .pipe{
-      margin: 0 1em;
-      color: #bbb;
-      align-self: center;
-    }
-    a{
-      align-self: center;
-    }
-  }
-  .header, .control, .tiny-button{
-    margin: 0 1em;
-  }
-  .control{
-    padding: 1em;
-    text-align: center;
-    @include display-flex(column, baseline, center);
-    .toggler-wrapper{
-      @include display-flex(column, center, space-between);
-    }
-    label, .toggler-text-label{
-      text-align: center;
-      white-space: nowrap;
-      margin-bottom: 0;
-      align-self: stretch;
-    }
-    .toggler-text-label{
-      @include label-style;
-      margin-bottom: 0.2em;
-    }
-    .toggler label{
-      padding: 0;
-      margin: 0;
-    }
-  }
-  #partsNumber{
-    max-width: 10em;
-  }
-  #titlePattern{
-    margin: 0;
-    max-width: 15em;
-    @include radius;
-    border: 0;
-    text-align: center;
-  }
   h2{
     font-size: 1.2em;
     display: flex;
@@ -67,12 +11,12 @@
     font-size: 1.1em;
     padding: 0.5em 0 0 1em;
   }
-  &.hideAuthors{
+  &:not(.showAuthors){
     .authorsContainer{
       display: none;
     }
   }
-  &.hideEditions{
+  &:not(.showEditions){
     .editionsContainer{
       display: none;
     }
@@ -80,12 +24,13 @@
   .showEntityEdit{
     @include shy;
   }
+  @import 'serie_cleanup_controls';
 }
 
-#withoutOrdinal{
+#worksWithoutOrdinal{
   background-color: #ccc;
 }
-#conflicts{
+#worksInConflicts{
   background-color: #aaa;
 }
 
@@ -94,51 +39,24 @@
     @include display-flex(row, baseline, flex-start, wrap);
   }
 }
-
-.parts-suggestions-wrapper{
-  background-color: $dark-grey;
-  padding-bottom: 0.2em;
-  h3{
-    color: white;
+.displayLarge{
+  .worksContainer{
+    justify-content: center;
   }
 }
 
-#partsSuggestions{
-  ul{
-    @include display-flex(row, null, null, wrap);
-  }
+#isolatedEditionsWrapper{
+  background-color: lighten(red, 15%);
 }
 
-.serie-cleanup-part-suggestion{
-  @include radius;
-  padding: 1em;
-  margin: 1em;
-  background-color: #eee;
-  text-align: center;
-  max-width: 18em;
-  @include display-flex(column);
-  &.label-match{
-    background-color: #00bbbb;
-    a.showEntity, p.uri{
-      color: white !important;
-    }
-  }
-  &.author-match{}
-  &.author-match.label-match{
-    background-color: #00bb00;
-  }
-  img{
-    cursor: zoom-in;
-  }
-  .claims{
-    margin-bottom: auto;
-  }
-  .add{
-    @extend .tiny-button;
-    display: block;
-    margin-top: auto;
+#isolatedEditions{
+  padding: 0.5em;
+  .serie-cleanup-edition{
+    @include radius;
+    width: 20em;
   }
 }
 
 @import 'serie_cleanup_work';
 @import 'serie_cleanup_edition';
+@import 'serie_cleanup_parts_suggestions';

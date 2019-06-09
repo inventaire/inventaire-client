@@ -1,65 +1,28 @@
-getActionKey = require 'lib/get_action_key'
+WorkPicker = require './work_picker'
 
-module.exports = Marionette.CompositeView.extend
+module.exports = WorkPicker.extend
   tagName: 'li'
   className: 'serie-cleanup-edition'
   template: require './templates/serie_cleanup_edition'
 
-  ui:
-    changeWork: '.changeWork'
-    workPicker: '.workPicker'
-    workPickerSelect: '.workPickerSelect'
-    workPickerValidate: '.validate'
-
   initialize: ->
-    @lazyRender = _.LazyRender @, 100
+    WorkPicker::initialize.call @
     @editionLang = @model.get 'lang'
     @workUri = @model.get 'claims.wdt:P629.0'
     @getWorksLabel()
 
   serializeData: ->
     _.extend @model.toJSON(),
-      worksList: @getWorksList()
       workLabel: @workLabel
+      worksList: if @_showWorkPicker then @getWorksList()
+      workPickerValidateLabel: 'validate'
 
-  events:
-    'click .changeWork': 'showWorkPicker'
-    'change .workPickerSelect': 'onSelectChange'
-    'click .validate': 'validateWorkChange'
-    'keydown .workPickerSelect': 'onKeyDown'
+  events: _.extend {}, WorkPicker::events,
     'click .copyWorkLabel': 'copyWorkLabel'
 
-  getWorksList: ->
-    worksWithOrdinal = @options.getWorksWithOrdinalList()
-    unless worksWithOrdinal? then return
-    return worksWithOrdinal.filter (work)=> work.uri isnt @workUri
+  onWorkSelected: (newWork)->
+    if newWork.get('uri') is @workUri then return
 
-  onKeyDown: (e)->
-    key = getActionKey e
-    switch key
-      when 'esc' then @hideWorkPicker()
-      when 'enter' then @validateWorkChange()
-
-  showWorkPicker: ->
-    @ui.changeWork.hide()
-    @ui.workPicker.removeClass 'hidden'
-    @ui.workPickerSelect.focus()
-
-  hideWorkPicker: ->
-    @ui.changeWork.show()
-    @ui.workPicker.addClass 'hidden'
-    @ui.changeWork.focus()
-
-  onSelectChange: ->
-    uri = @ui.workPickerSelect.val()
-    if _.isEntityUri uri then @ui.workPickerValidate.removeClass 'invisible'
-    else @ui.workPickerValidate.addClass 'invisible'
-
-  validateWorkChange: ->
-    uri = @ui.workPickerSelect.val()
-    unless _.isEntityUri(uri) and uri isnt @workUri then return
-
-    newWork = @options.worksWithOrdinal.findWhere { uri }
     edition = @model
     currentWorkEditions = edition.collection
 

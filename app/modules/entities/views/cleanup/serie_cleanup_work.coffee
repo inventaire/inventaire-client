@@ -22,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
     langSelector: '.langSelector'
 
   initialize: ->
+    { @worksWithOrdinal, @worksWithoutOrdinal } = @options
     @lazyRender = _.LazyRender @, 100
     lazyLangSelectorUpdate = _.debounce @onOtherLangSelectorChange.bind(@), 500
     @listenTo app.vent, 'lang:local:change', lazyLangSelectorUpdate
@@ -35,7 +36,7 @@ module.exports = Marionette.LayoutView.extend
     localLang = app.request 'lang:local:get'
     data.langs = getLangsData localLang, @model.get('labels')
     if @options.showPossibleOrdinals
-      data.possibleOrdinals = @options.getPlaceholdersOrdinals()
+      data.possibleOrdinals = @worksWithOrdinal.getPlaceholdersOrdinals()
     return data
 
   onRender: ->
@@ -57,10 +58,11 @@ module.exports = Marionette.LayoutView.extend
     }
 
   showWorkEditions: ->
-    @editionsContainer.show new SerieCleanupEditions
-      collection: @model.editions
-      getWorksWithOrdinalList: @options.getWorksWithOrdinalList
-      worksWithOrdinal: @options.worksWithOrdinal
+    @editionsContainer.show new SerieCleanupEditions {
+      collection: @model.editions,
+      @worksWithOrdinal,
+      @worksWithoutOrdinal
+    }
 
   events:
     'change .ordinalSelector': 'updateOrdinal'

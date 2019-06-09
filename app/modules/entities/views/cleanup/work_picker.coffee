@@ -1,0 +1,67 @@
+getActionKey = require 'lib/get_action_key'
+
+module.exports = Marionette.ItemView.extend
+  initialize: ->
+    if @workPickerDisabled then return
+    { @worksWithOrdinal, @worksWithoutOrdinal } = @options
+    @lazyRender = _.LazyRender @, 100
+    @_showWorkPicker = false
+
+  onRender: ->
+    if @workPickerDisabled then return
+    if @_showWorkPicker
+      @ui.workPickerSelect.focus()
+      @startListingForChanges()
+
+  startListingForChanges: ->
+    if @_listingForChanges then return
+    @_listingForChanges = true
+    @listenTo @worksWithOrdinal, 'update', @lazyRender
+    @listenTo @worksWithoutOrdinal, 'update', @lazyRender
+
+  ui:
+    workPickerSelect: '.workPickerSelect'
+    workPickerValidate: '.validate'
+
+  events:
+    'click .showWorkPicker': 'showWorkPicker'
+    'change .workPickerSelect': 'onSelectChange'
+    'click .validate': 'selectWork'
+    'keydown .workPickerSelect': 'onKeyDown'
+
+  onKeyDown: (e)->
+    key = getActionKey e
+    switch key
+      when 'esc' then @hideWorkPicker()
+      when 'enter' then @selectWork()
+
+  selectWork: ->
+    uri = @ui.workPickerSelect.val()
+    unless _.isEntityUri(uri) then return
+    work = @findWorkByUri uri
+    unless work? then return
+    @onWorkSelected work
+
+  showWorkPicker: ->
+    @_showWorkPicker = true
+    @lazyRender()
+
+  hideWorkPicker: ->
+    @_showWorkPicker = false
+    @lazyRender()
+
+  onSelectChange: ->
+    uri = @ui.workPickerSelect.val()
+    if _.isEntityUri uri then @ui.workPickerValidate.removeClass 'hidden'
+    else @ui.workPickerValidate.addClass 'hidden'
+
+  getWorksList: ->
+    @worksWithOrdinal.serializeNonPlaceholderWorks()
+    .concat @worksWithoutOrdinal.serializeNonPlaceholderWorks()
+    .filter (work)=> work.uri isnt @workUri
+
+  findWorkByUri: (uri)->
+    work = @worksWithOrdinal.findWhere { uri }
+    if work? then return work
+    work = @worksWithoutOrdinal.findWhere { uri }
+    if work? then return work

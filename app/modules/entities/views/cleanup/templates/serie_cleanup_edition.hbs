@@ -1,6 +1,6 @@
 {{#if image.url}}
   <div class="left">
-    <img src="{{imgSrc image.url 120}}" class="img-zoom-in">
+    <img src="{{imgSrc image.url 500}}" class="img-zoom-in">
   </div>
 {{/if}}
 <div class="right">
@@ -12,20 +12,13 @@
   </div>
   <span class="uri">{{uri}}</span>
   <div class="actions">
-    <a class="changeWork">
-      {{icon 'arrows'}}
-      <span>{{i18n "change edition's work"}}</span>
-    </a>
     {{#if worksList}}
-      <div class="workPicker hidden">
-        <select class="workPickerSelect">
-          <option>--</option>
-          {{#each worksList}}
-            <option value="{{uri}}">{{richLabel}}</option>
-          {{/each}}
-        </select>
-        <a class="validate tiny-success-button invisible">{{I18n 'validate'}}</a>
-      </div>
+      {{partial 'entities:cleanup:work_picker' this}}
+    {{else}}
+      <a class="showWorkPicker">
+        {{icon 'arrows'}}
+        <span>{{i18n "change edition's work"}}</span>
+      </a>
     {{/if}}
 
     {{#if workLabel}}

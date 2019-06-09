@@ -46,7 +46,7 @@ p{
 }
 
 /* Default header styles */
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6, .pseudo-element-header:before{
   font-family: "Alegreya", serif;
   font-weight: normal;
   font-style: normal;

@@ -6,6 +6,9 @@
   .left{
     flex: 0 0 auto;
     margin-right: 0.2em;
+    .img-zoom-in{
+      max-width: 7.5em;
+    }
   }
   .right{
     flex: 1 0 0;
@@ -20,7 +23,7 @@
     background-color: #eee;
     @include radius;
   }
-  .changeWork, .copyWorkLabel{
+  .showWorkPicker, .copyWorkLabel{
     display: block;
     margin-top: 0.5em;
     .fa{
@@ -36,5 +39,14 @@
   }
   .validate{
     margin-top: 0.3em;
+  }
+}
+
+.displayLarge{
+  .serie-cleanup-edition{
+    flex-direction: column;
+    .img-zoom-in{
+      max-width: 30em;
+    }
   }
 }

@@ -37,6 +37,10 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
     app.execute 'report:entity:type:issue', { model: @, expectedType: 'work' }
     return Promise.resolve { personal: [], network: [], public: [] }
 
+  getAllAuthorsUris: ->
+    allAuthorsUris = getAuthors(@).concat @parts.map(getAuthors)...
+    return _.uniq _.compact(allAuthorsUris)
+
 initPartsCollections = (refresh, fetchAll, partsData)->
   @parts = new Works null,
     uris: partsData.map getUri
@@ -52,3 +56,4 @@ importDataFromParts = ->
 
 getUri = _.property 'uri'
 getPublicationDate = (model)-> model.get 'claims.wdt:P577.0'
+getAuthors = (model)-> model.getExtendedAuthorsUris()
