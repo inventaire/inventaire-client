@@ -56,6 +56,7 @@ module.exports =
 
       # Methods required by app.navigateFromModel
       updateMetadata: -> { title: label or _.I18n('new entity') }
+      getRefresh: _.identity
 
     # Attributes required by app.navigateFromModel
     model.set 'edit', buildPath('/entity/new', options)
