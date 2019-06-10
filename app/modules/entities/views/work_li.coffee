@@ -22,7 +22,11 @@ module.exports = Marionette.ItemView.extend
     if preventRerender then return
 
     @lazyRender = _.LazyRender @
-    @listenTo @model, 'change', @lazyRender
+
+    if @model.usesImagesFromSubEntities
+      @model.fetchSubEntities()
+      @listenTo @model, 'change:image', @lazyRender
+
     if @showActions
       # Required by @getNetworkItemsCount
       @model.getItemsByCategories()

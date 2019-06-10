@@ -55,11 +55,13 @@ module.exports = ClaimsEditorCommons.extend
       @ui.input.focus()
 
   onGrab: ->
-    if @model.valueEntity?
-      @listenToOnce @model.valueEntity, 'change:image', @lazyRenderIfDisplayMode.bind(@)
+    { valueEntity } = @model
+    if valueEntity?
+      if valueEntity.usesImagesFromSubEntities then valueEntity.fetchSubEntities()
+      @listenToOnce valueEntity, 'change:image', @lazyRenderIfDisplayMode.bind(@)
       # init suggestion with the current value entity so that
       # saving without any change is equivalent to re-selecting the current value
-      @suggestion or= @model.valueEntity
+      @suggestion or= valueEntity
 
     @lazyRender()
 

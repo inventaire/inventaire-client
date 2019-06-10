@@ -9,6 +9,8 @@ module.exports = ->
   # inverse property: edition(s)
   @subEntitiesInverseProperty = 'wdt:P747'
 
+  @usesImagesFromSubEntities = true
+
   @subentitiesName = 'editions'
   # extend before fetching sub entities to have access
   # to the custom @beforeSubEntitiesAdd
