@@ -21,7 +21,7 @@
       display: none;
     }
   }
-  .showEntityEdit{
+  .showEntityEdit, .toggleMergeWorkPicker{
     @include shy;
   }
   @import 'serie_cleanup_controls';

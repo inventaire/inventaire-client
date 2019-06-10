@@ -1,8 +1,6 @@
-.controls{
+.controls-section{
+  flex: 1 0 auto;
   background-color: $light-grey;
-  &:nth-child(1){
-    background-color: darken($light-grey, 3%);
-  }
   h2, .pencil, .wikipedia{
     align-self: center;
   }
@@ -13,7 +11,7 @@
     margin: 0 0.5em;
   }
   .header{
-    @include display-flex(row);
+    @include display-flex(row, center, center, wrap);
   }
 }
 
@@ -64,7 +62,7 @@
 
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
-  .controls{
+  .controls-section{
     @include display-flex(row, center, center, wrap);
   }
   .toggler-wrapper{
@@ -75,6 +73,9 @@
 /*Large screens*/
 @media screen and (min-width: $small-screen) {
   .controls{
+    @include display-flex(row, null, null, wrap);
+  }
+  .controls-section{
     @include display-flex(row, center, flex-start);
     &:nth-child(2){
       justify-content: flex-end;

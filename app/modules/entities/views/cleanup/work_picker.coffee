@@ -1,16 +1,27 @@
 getActionKey = require 'lib/get_action_key'
+mergeEntities = require 'modules/entities/views/editor/lib/merge_entities'
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 module.exports = Marionette.ItemView.extend
+  template: require './templates/work_picker'
+
+  ui:
+    workPickerSelect: '.workPickerSelect'
+    workPickerValidate: '.validate'
+
   initialize: ->
     if @workPickerDisabled then return
-    { @worksWithOrdinal, @worksWithoutOrdinal } = @options
+    { @worksWithOrdinal, @worksWithoutOrdinal, @_showWorkPicker } = @options
+    @workUri ?= @options.workUri
+    @afterMerge ?= @options.afterMerge
     @lazyRender = _.LazyRender @, 100
-    @_showWorkPicker = false
+    @_showWorkPicker ?= false
 
   onRender: ->
     if @workPickerDisabled then return
     if @_showWorkPicker
-      @ui.workPickerSelect.focus()
+      @setTimeout @ui.workPickerSelect.focus.bind(@ui.workPickerSelect), 100
       @startListingForChanges()
 
   startListingForChanges: ->
@@ -19,9 +30,8 @@ module.exports = Marionette.ItemView.extend
     @listenTo @worksWithOrdinal, 'update', @lazyRender
     @listenTo @worksWithoutOrdinal, 'update', @lazyRender
 
-  ui:
-    workPickerSelect: '.workPickerSelect'
-    workPickerValidate: '.validate'
+  behaviors:
+    AlertBox: {}
 
   events:
     'click .showWorkPicker': 'showWorkPicker'
@@ -65,3 +75,22 @@ module.exports = Marionette.ItemView.extend
     if work? then return work
     work = @worksWithoutOrdinal.findWhere { uri }
     if work? then return work
+
+  # Defaults: assume it as a work model that needs to be merged
+  # Override the following methods for different behaviors
+  serializeData: ->
+    worksList: @getWorksList()
+    workPicker:
+      buttonIcon: 'compress'
+      buttonLabel: 'merge'
+      validateLabel: 'merge'
+
+  onWorkSelected: (work)->
+    fromUri = @model.get 'uri'
+    toUri = work.get 'uri'
+
+    @model.fetchSubEntities()
+    .then -> mergeEntities fromUri, toUri
+    .then @afterMerge.bind(@, work)
+    .catch error_.Complete('.workPicker', false)
+    .catch forms_.catchAlert.bind(null, @)

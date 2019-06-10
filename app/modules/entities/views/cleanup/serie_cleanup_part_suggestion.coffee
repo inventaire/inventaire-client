@@ -11,9 +11,6 @@ PartSuggestion = WorkPicker.extend
     if @model.get('authorMatch') then className += ' author-match'
     return className
 
-  behaviors:
-    AlertBox: {}
-
   template: require './templates/serie_cleanup_part_suggestion'
   initialize: ->
     @isWikidataEntity = @workPickerDisabled = @model.get 'isWikidataEntity'
@@ -31,8 +28,15 @@ PartSuggestion = WorkPicker.extend
       unless @options.serie.get('isWikidataEntity') then attrs.serieNeedsToBeMovedToWikidata = true
     else
       if @_showWorkPicker then attrs.worksList = @getWorksList()
-      attrs.workPickerValidateLabel = 'merge'
+      attrs.workPicker =
+        buttonIcon: 'compress'
+        buttonLabel: 'merge'
+        validateLabel: 'merge'
     return attrs
+
+  afterMerge: (work)->
+    @model.collection.remove @model
+    work.editions.add @model.editions.models
 
   events: _.extend {}, WorkPicker::events,
     'click a.add': 'add'
@@ -41,18 +45,6 @@ PartSuggestion = WorkPicker.extend
     @model.setPropertyValue 'wdt:P179', null, @options.serie.get('uri')
     @options.addToSerie @model
     @options.collection.remove @model
-
-  onWorkSelected: (work)->
-    fromUri = @model.get 'uri'
-    toUri = work.get 'uri'
-
-    @model.fetchSubEntities()
-    .then -> mergeEntities fromUri, toUri
-    .then =>
-      @model.collection.remove @model
-      work.editions.add @model.editions.models
-    .catch error_.Complete('.workPicker', false)
-    .catch forms_.catchAlert.bind(null, @)
 
 module.exports = Marionette.CollectionView.extend
   tagName: 'ul'

@@ -51,7 +51,7 @@ module.exports = Marionette.LayoutView.extend
 
     return {
       serie: @model.toJSON()
-      partsNumberPickerRange: [ @maxOrdinal..partsLength + 50 ]
+      partsNumberPickerRange: [ @maxOrdinal..partsLength + 100 ]
       authorsToggler:
         id: 'authorsToggler'
         checked: @showAuthors

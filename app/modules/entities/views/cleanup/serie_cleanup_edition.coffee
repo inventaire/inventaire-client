@@ -15,13 +15,17 @@ module.exports = WorkPicker.extend
     _.extend @model.toJSON(),
       workLabel: @workLabel
       worksList: if @_showWorkPicker then @getWorksList()
-      workPickerValidateLabel: 'validate'
+      workPicker:
+        buttonIcon: 'arrows'
+        buttonLabel: "change edition's work"
+        validateLabel: 'validate'
 
   events: _.extend {}, WorkPicker::events,
     'click .copyWorkLabel': 'copyWorkLabel'
 
   onWorkSelected: (newWork)->
-    if newWork.get('uri') is @workUri then return
+    uri = newWork.get 'uri'
+    if uri is @workUri then return
 
     edition = @model
     currentWorkEditions = edition.collection
