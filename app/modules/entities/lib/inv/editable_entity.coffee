@@ -1,5 +1,7 @@
 Patches = require '../../collections/patches'
 properties = require '../properties'
+error_ = require 'lib/error'
+
 propertiesUsedByRelations = [
   # Series and works use editions covers as illustrations
   'invp:P2'
