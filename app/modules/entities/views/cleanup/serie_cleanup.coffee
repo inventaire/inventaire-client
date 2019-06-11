@@ -125,6 +125,7 @@ module.exports = Marionette.LayoutView.extend
     else @removePlaceholdersAbove @partsNumber
     @maxOrdinal = @partsNumber
     app.vent.trigger 'serie:cleanup:parts:change'
+    @updatePlaceholderCreationButton()
 
   createPlaceholders: createPlaceholders
   removePlaceholder: removePlaceholder
