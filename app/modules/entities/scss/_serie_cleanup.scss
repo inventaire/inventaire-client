@@ -51,7 +51,11 @@
 
 #isolatedEditions{
   padding: 0.5em;
+  ul{
+    @include display-flex(row, flex-start, null, wrap);
+  }
   .serie-cleanup-edition{
+    margin: 0.5em;
     @include radius;
     width: 20em;
   }
