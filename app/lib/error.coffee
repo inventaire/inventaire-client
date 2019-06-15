@@ -40,6 +40,7 @@ module.exports = error_ =
 
   # Log and report formatted errors to the server, without throwing
   report: (message, context = {})->
+    context = _.deepClone context
     context.location = location.href
     # Non-standard convention: 599 = client implementation error
     err = formatError message, 599, context

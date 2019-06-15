@@ -29,7 +29,7 @@ module.exports = Marionette.CompositeView.extend
       when 'edition' then require './edition_layout'
       when 'human' then require './author_layout'
       else
-        err = error_.new "unknown work type: #{type}", model
+        err = error_.new "unknown entity type: #{type}", model
         # Weird: errors thrown here don't appear anyware
         # where are those silently catched?!?
         console.error 'entities_list getChildView err', err, model
