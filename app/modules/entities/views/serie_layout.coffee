@@ -1,5 +1,5 @@
 SerieInfobox = require './serie_infobox'
-WorksList = require './works_list'
+EntitiesList = require './entities_list'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
@@ -37,7 +37,7 @@ module.exports = Marionette.LayoutView.extend
   showParts: ->
     stopLoading.call @
 
-    @parts.show new WorksList
+    @parts.show new EntitiesList
       parentModel: @model
       collection: @model.parts
       title: 'works'

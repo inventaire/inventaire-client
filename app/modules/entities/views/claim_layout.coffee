@@ -1,6 +1,6 @@
 wd_ = require 'lib/wikimedia/wikidata'
-Works = require '../collections/works'
-WorksList = require './works_list'
+PaginatedEntities = require '../collections/paginated_entities'
+EntitiesList = require './entities_list'
 GeneralInfobox = require './general_infobox'
 entities_ = require '../lib/entities'
 
@@ -25,20 +25,18 @@ module.exports = Marionette.LayoutView.extend
       app.navigate "entity/#{finalClaim}"
 
     entities_.getReverseClaims @property, @value, @refresh, true
-    .then @ifViewIsIntact('showWorks')
+    .then @ifViewIsIntact('showEntities')
     .catch @displayError
 
-  serializeData: ->
-
-  showWorks: (uris)->
-    collection = new Works null, { uris, defaultType: 'work' }
+  showEntities: (uris)->
+    collection = new PaginatedEntities null, { uris, defaultType: 'work' }
 
     # whitelisted properties labels are in i18n keys already, thus should not need
     # to be fetched like what 'entityValueTemplate' is doing for the entity value
     propertyValue = _.i18n wd_.unprefixify(@property)
     entityValue = entityValueTemplate @value
 
-    @list.show new WorksList {
+    @list.show new EntitiesList {
       title: "#{propertyValue}: #{entityValue}"
       customTitle: true
       collection: collection
@@ -46,8 +44,3 @@ module.exports = Marionette.LayoutView.extend
       standalone: true,
       refresh: @refresh
     }
-
-infoboxes =
-  work: './works_data'
-  human: './author_infobox'
-  serie: './serie_infobox'

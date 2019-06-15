@@ -1,4 +1,4 @@
-Works = require '../../collections/works'
+PaginatedWorks = require '../../collections/paginated_works'
 commonsSerieWork = require './commons_serie_work'
 
 module.exports = ->
@@ -42,7 +42,7 @@ specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
     return _.uniq _.compact(allAuthorsUris)
 
 initPartsCollections = (refresh, fetchAll, partsData)->
-  @parts = new Works null,
+  @parts = new PaginatedWorks null,
     uris: partsData.map getUri
     defaultType: 'work'
     refresh: refresh

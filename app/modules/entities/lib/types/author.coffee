@@ -1,4 +1,4 @@
-Works = require '../../collections/works'
+PaginatedWorks = require '../../collections/paginated_works'
 
 module.exports = ->
   # Main property by which sub-entities are linked to this one
@@ -36,9 +36,9 @@ specificMethods =
     articlesUris = getWorksUris worksData.articles, seriesUris
 
     @works =
-      series: new Works null, { uris: seriesUris, defaultType: 'serie' }
-      works: new Works null, { uris: worksUris, defaultType: 'work' }
-      articles: new Works null, { uris: articlesUris, defaultType: 'article' }
+      series: new PaginatedWorks null, { uris: seriesUris, defaultType: 'serie' }
+      works: new PaginatedWorks null, { uris: worksUris, defaultType: 'work' }
+      articles: new PaginatedWorks null, { uris: articlesUris, defaultType: 'article' }
 
   buildTitle: -> _.i18n 'books_by_author', { author: @get('label') }
 

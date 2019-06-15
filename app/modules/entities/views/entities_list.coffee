@@ -8,10 +8,10 @@ canAddOneTypeList = [ 'serie', 'work' ]
 # - hide seris parts when displayed as sub-series
 
 module.exports = Marionette.CompositeView.extend
-  template: require './templates/works_list'
+  template: require './templates/entities_list'
   className: ->
     standalone = if @options.standalone then 'standalone' else ''
-    "worksList #{standalone}"
+    return "entitiesList #{standalone}"
   behaviors:
     Loading: {}
     PreventDefault: {}
@@ -32,7 +32,7 @@ module.exports = Marionette.CompositeView.extend
         err = error_.new "unknown work type: #{type}", model
         # Weird: errors thrown here don't appear anyware
         # where are those silently catched?!?
-        console.error 'works_list getChildView err', err, model
+        console.error 'entities_list getChildView err', err, model
         throw err
 
   childViewOptions: (model, index)->

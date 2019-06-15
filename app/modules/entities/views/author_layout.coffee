@@ -1,6 +1,6 @@
 AuthorInfobox = require './author_infobox'
 { startLoading } = require 'modules/general/plugins/behaviors'
-WorksList = require './works_list'
+EntitiesList = require './entities_list'
 screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend
@@ -92,7 +92,7 @@ module.exports = Marionette.LayoutView.extend
   unwrap: -> @$el.removeClass 'wrapped'
 
   showWorkCollection: (type, initialLength)->
-    @["#{type}Region"].show new WorksList
+    @["#{type}Region"].show new EntitiesList
       parentModel: @model
       collection: @model.works[type]
       title: type
