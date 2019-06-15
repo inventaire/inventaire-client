@@ -28,6 +28,7 @@ module.exports = Marionette.CompositeView.extend
       # This view should thus possibily be renamed entities_list
       when 'edition' then require './edition_layout'
       when 'human' then require './author_layout'
+      when 'publisher' then require './publisher_layout'
       else
         err = error_.new "unknown entity type: #{type}", model
         # Weird: errors thrown here don't appear anyware

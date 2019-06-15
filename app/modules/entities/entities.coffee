@@ -98,7 +98,7 @@ API =
 
   getGenreLayout: (model, refresh)-> new GenreLayout { model, refresh }
 
-  getPublisherLayout: (model, refresh)-> new PublisherLayout { model, refresh }
+  getPublisherLayout: (model, refresh)-> new PublisherLayout { model, refresh, standalone: true }
 
   showAddEntity: (uri)->
     uri = normalizeUri uri
