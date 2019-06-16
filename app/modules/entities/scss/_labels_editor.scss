@@ -10,13 +10,9 @@
       margin: 0;
     }
   }
-  .entity-value-editor{
-    // Aligning with the language selector
-    margin-top: 0.8em;
+  .label-editor{
+    @include display-flex(row, center, flex-end);
     flex: 1 1 auto;
-    input{
-      margin: 0;
-    }
   }
   .tiny-button{
     white-space: nowrap;
@@ -34,22 +30,30 @@
     font-size: 1em;
   }
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    flex-direction: column;
+  @media screen and (max-width: $entity-editor-small-thresold) {
+    @include display-flex(column, stretch, center);
+    .property-label{
+      @include display-flex(row, flex-start, flex-start, wrap);
+    }
+    .label-editor{
+      @include display-flex(column, stretch, space-between);
+    }
     .label-value{
       padding: 0.5em;
     }
-    .property-label{
-      @include display-flex(row, flex-start, flex-start, wrap);
-      margin-right: auto;
-      margin-left: 0.3em;
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: 300px) {
+    .label-editor{
+      margin: 0;
+      padding: 0;
     }
   }
   /*Large screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .entity-value-editor{
+  @media screen and (min-width: $entity-editor-small-thresold) {
+    .label-editor{
       // Aligning with the language selector
-      margin-top: 0.8em;
+      margin-top: 1.6em;
     }
   }
 }

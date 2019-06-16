@@ -42,7 +42,6 @@
   }
   input{
     height: auto;
-    padding: 0.6em 0.5em 1.5em 0.5em;
   }
   .selectedSuggestionStatus{
     color: $grey;
@@ -62,7 +61,7 @@
   @include display-flex(row, center, center);
 }
 .edit-mode-buttons{
-  @include display-flex(row);
+  @include display-flex(row, center, center);
   flex: 0 0 auto;
   margin-top: auto;
   margin-bottom: auto;
@@ -108,7 +107,6 @@
 /*Small screens*/
 @media screen and (max-width: $entity-editor-small-thresold) {
   .edit-mode-buttons{
-    @include display-flex(row, center, center);
     .tiny-button{
       margin-left: 0.2em;
       margin-right: 0.2em;

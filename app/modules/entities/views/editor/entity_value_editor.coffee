@@ -68,7 +68,7 @@ module.exports = ClaimsEditorCommons.extend
   onRender: ->
     @selectIfInEditMode()
     if @editMode
-      @updateSaveState()
+      @updateInputState()
       autocomplete.onRender.call @
 
   events:
@@ -82,6 +82,7 @@ module.exports = ClaimsEditorCommons.extend
   onKeyUp: (e)->
     ClaimsEditorCommons::onKeyUp.call @, e
     if @editMode then autocomplete.onKeyUp.call @, e
+    @updateInputState()
 
   onKeyDown: (e)->
     if @editMode then autocomplete.onKeyDown.call @, e
@@ -96,11 +97,11 @@ module.exports = ClaimsEditorCommons.extend
 
   onAutoCompleteSelect: (suggestion)->
     @suggestion = suggestion
-    @updateSaveState()
+    @updateInputState()
 
   onAutoCompleteUnselect: ->
     @suggestion = null
-    @updateSaveState()
+    @updateInputState()
 
   # An event to tell every other value editor of the same property
   # that this view passes in edit mode and thus that other view in edit mode
@@ -128,7 +129,7 @@ module.exports = ClaimsEditorCommons.extend
         .then _.Log('created entity')
         .then (entity)=> @_save entity.get('uri')
 
-  updateSaveState: ->
+  updateInputState: ->
     value = @ui.input.val()
 
     if value is ''
@@ -140,11 +141,14 @@ module.exports = ClaimsEditorCommons.extend
 
     if value is ''
       @ui.selectedSuggestionStatus.text ''
+      @ui.input.removeClass 'large'
     else if @suggestion?
       @ui.selectedSuggestionStatus.text @suggestion.get('uri')
+      @ui.input.addClass 'large'
     else if @allowEntityCreation
       type = createdEntityType[@searchType]
       @ui.selectedSuggestionStatus.text _.i18n("saving would create a new #{type}")
+      @ui.input.addClass 'large'
 
 # Types that have a allowEntityCreation flag
 createdEntityType =

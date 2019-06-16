@@ -4,9 +4,6 @@
   .property-label{
     font-weight: bold;
     flex: 0 0 auto;
-    // Using a fixed width to align all properties and values
-    width: 10em;
-    padding: 0.5em;
   }
   .values-wrapper{
     width: 100%;
@@ -19,8 +16,11 @@
     color: white;
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $entity-editor-small-thresold) {
     flex-direction: column;
+    .property-label{
+      margin-bottom: 0.5em;
+    }
   }
   /*Large screens*/
   @media screen and (min-width: $entity-editor-small-thresold) {
@@ -30,6 +30,9 @@
     .property-label{
       // vertically aligning with the first property value
       margin-top: 0.2em;
+      padding: 0.5em;
+      // Using a fixed width to align all properties and values
+      width: 10em;
     }
   }
 }
