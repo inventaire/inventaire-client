@@ -1,10 +1,11 @@
-AuthorInfobox = require './author_infobox'
+TypedEntityLayout = require './typed_entity_layout'
 { startLoading } = require 'modules/general/plugins/behaviors'
 EntitiesList = require './entities_list'
 screen_ = require 'lib/screen'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = TypedEntityLayout.extend
   template: require './templates/author_layout'
+  Infobox: require './author_infobox'
   className: ->
     # Default to wrapped mode in non standalone mode
     secondClass = ''
@@ -28,16 +29,12 @@ module.exports = Marionette.LayoutView.extend
     mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
-    { @standalone, @displayMergeSuggestions } = @options
+    TypedEntityLayout::initialize.call @
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
 
   events:
     'click .unwrap': 'unwrap'
-
-  serializeData: ->
-    standalone: @standalone
-    displayMergeSuggestions: @displayMergeSuggestions
 
   fetchWorks: ->
     @worksShouldBeShown = true
@@ -48,13 +45,9 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('showWorks')
     .catch _.Error('author_layout fetchWorks err')
 
-  onShow: ->
-    @showInfobox()
+  onRender: ->
+    TypedEntityLayout::onRender.call @
     if @worksShouldBeShown then @showWorks()
-    if @displayMergeSuggestions then @setTimeout @showMergeSuggestions.bind(@), 100
-
-  showInfobox: ->
-    @infoboxRegion.show new AuthorInfobox { @model, @standalone }
 
   showWorks: ->
     startLoading.call @, '.works'
@@ -93,8 +86,5 @@ module.exports = Marionette.LayoutView.extend
       initialLength: initialLength
       showActions: @options.showActions
       wrapWorks: @options.wrapWorks
-
-  showMergeSuggestions: ->
-    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }
 
 dropThePlural = (type)-> type.replace /s$/, ''

@@ -1,15 +1,14 @@
-SerieInfobox = require './serie_infobox'
+TypedEntityLayout = require './typed_entity_layout'
 EntitiesList = require './entities_list'
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = TypedEntityLayout.extend
   template: require './templates/serie_layout'
-  className: ->
-    standalone = if @options.standalone then 'standalone' else ''
-    return "serieLayout #{standalone}"
+  Infobox: require './serie_infobox'
+  baseClassName: 'serieLayout'
 
   regions:
-    infobox: '.serieInfobox'
+    infoboxRegion: '.serieInfobox'
     parts: '.parts'
     mergeSuggestionsRegion: '.mergeSuggestions'
 
@@ -17,20 +16,9 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   initialize: ->
-    { @refresh, @standalone, @displayMergeSuggestions } = @options
+    TypedEntityLayout::initialize.call @
     # Trigger fetchParts only once the author is in view
     @$el.once 'inview', @fetchParts.bind(@)
-
-  serializeData: ->
-    standalone: @standalone
-    displayMergeSuggestions: @displayMergeSuggestions
-
-  onRender: ->
-    @showInfobox()
-    if @displayMergeSuggestions then @showMergeSuggestions()
-
-  showInfobox: ->
-    @infobox.show new SerieInfobox { @model, @standalone }
 
   fetchParts: ->
     startLoading.call @
@@ -48,6 +36,3 @@ module.exports = Marionette.LayoutView.extend
       type: 'work'
       hideHeader: true
       refresh: @refresh
-
-  showMergeSuggestions: ->
-    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }

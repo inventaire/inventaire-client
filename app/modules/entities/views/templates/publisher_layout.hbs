@@ -2,4 +2,4 @@
 <div class='publisherInfobox'></div>
 <div id="editionsList"></div>
 {{partial 'entities:merge_suggestions_layout_section' this}}
-{{partial 'welcome:embedded_welcome'}}
+{{#if standalone}}{{partial 'welcome:embedded_welcome'}}{{/if}}

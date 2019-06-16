@@ -1,14 +1,14 @@
-WorkInfobox = require './work_infobox'
+TypedEntityLayout = require './typed_entity_layout'
 EditionsList = require './editions_list'
 EntityActions = require './entity_actions'
 entityItems = require '../lib/entity_items'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = TypedEntityLayout.extend
   id: 'workLayout'
-  className: 'standalone'
+  Infobox: require './work_infobox'
   template: require './templates/work_layout'
   regions:
-    workInfobox: '#workInfobox'
+    infoboxRegion: '#workInfobox'
     editionsList: '#editionsList'
     # Prefix regions selectors with 'work' to avoid collisions with editions
     # displayed as sub-views
@@ -19,17 +19,17 @@ module.exports = Marionette.LayoutView.extend
     mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
+    TypedEntityLayout::initialize.call @
+    { @item } = @options
     entityItems.initialize.call @
-    { @item, @displayMergeSuggestions } = @options
-
-  serializeData: ->
-    displayMergeSuggestions: @displayMergeSuggestions
 
   onShow: ->
-    @showWorkInfobox()
-
     if @item? then @showItemModal @item
     else @completeShow()
+
+  onRender: ->
+    TypedEntityLayout::onRender.call @
+    @lazyShowItems()
 
   showItemModal: (item)->
     app.execute 'show:item:modal', item
@@ -47,15 +47,8 @@ module.exports = Marionette.LayoutView.extend
     @model.fetchSubEntities()
     .then @ifViewIsIntact('showEditions')
 
-  onRender: ->
-    @lazyShowItems()
-    if @displayMergeSuggestions then @showMergeSuggestions()
-
   events:
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
-
-  showWorkInfobox: ->
-    @workInfobox.show new WorkInfobox { @model, standalone: true }
 
   showEntityActions: -> @entityActions.show new EntityActions { @model }
 
@@ -73,6 +66,3 @@ module.exports = Marionette.LayoutView.extend
 
   # Close the item modal when another view is shown in place of this layout
   onDestroy: -> app.execute 'modal:close'
-
-  showMergeSuggestions: ->
-    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }

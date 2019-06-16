@@ -1,17 +1,15 @@
-PublisherInfobox = require './publisher_infobox'
+TypedEntityLayout = require './typed_entity_layout'
 EditionsList = require './editions_list'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = TypedEntityLayout.extend
   id: 'publisherLayout'
   className: 'standalone'
   template: require './templates/publisher_layout'
+  Infobox: require './publisher_infobox'
   regions:
     infoboxRegion: '.publisherInfobox'
     editionsList: '#editionsList'
     mergeSuggestionsRegion: '.mergeSuggestions'
-
-  initialize: ->
-    { @refresh, @standalone, @displayMergeSuggestions } = @options
 
   onShow: ->
     unless @standalone? then return
@@ -19,18 +17,5 @@ module.exports = Marionette.LayoutView.extend
     @model.fetchSubEntities @refresh
     .then @ifViewIsIntact('showEditions')
 
-  onRender: ->
-    @showInfobox()
-    if @displayMergeSuggestions then @showMergeSuggestions()
-
-  serializeData: ->
-    displayMergeSuggestions: @displayMergeSuggestions
-
-  showInfobox: ->
-    @infoboxRegion.show new PublisherInfobox { @model, @standalone }
-
   showEditions: ->
     @editionsList.show new EditionsList { collection: @model.editions }
-
-  showMergeSuggestions: ->
-    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }
