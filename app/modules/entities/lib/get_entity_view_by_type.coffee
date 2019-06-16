@@ -7,15 +7,17 @@ entityViewByType =
 
 EditionLayout = require '../views/edition_layout'
 ClaimLayout = require '../views/claim_layout'
+standalone = true
 
 getEntityViewByType = (model, refresh)->
   { type } = model
+  displayMergeSuggestions = app.user.isAdmin
 
   getter = entityViewSpecialGetterByType[type]
   if getter? then return getter model, refresh
 
   View = entityViewByType[type]
-  if View? then return new View { model, refresh, standalone: true }
+  if View? then return new View { model, refresh, standalone, displayMergeSuggestions }
 
   { defaultClaimProperty: property } = model
   value = model.get 'uri'
@@ -23,7 +25,7 @@ getEntityViewByType = (model, refresh)->
 
 getEditionView = (model, refresh)->
   model.waitForWorks
-  .then -> new EditionLayout { model, refresh, standalone: true }
+  .then -> new EditionLayout { model, refresh, standalone }
 
 entityViewSpecialGetterByType =
   edition: getEditionView

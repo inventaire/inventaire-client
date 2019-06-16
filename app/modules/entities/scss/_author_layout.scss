@@ -1,6 +1,6 @@
 $author-layout-bg: #292929;
 
-.authorLayout, .publisherLayout{
+.authorLayout, #publisherLayout{
   background-color: $author-layout-bg;
   // allow to have no margin when there is only one .authorLayout
   &:not(:first-child){
@@ -146,7 +146,7 @@ $author-layout-bg: #292929;
   }
 }
 
-.authorLayout, #workLayout{
+.authorLayout, #workLayout, .serieLayout, #publisherLayout{
   .admin{
     margin: 2em;
     background-color: $darker-grey;

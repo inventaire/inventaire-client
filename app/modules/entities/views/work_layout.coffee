@@ -20,12 +20,10 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     entityItems.initialize.call @
-    { @item } = @options
-    @displayMergeSuggestions = app.user.isAdmin
+    { @item, @displayMergeSuggestions } = @options
 
   serializeData: ->
-    _.extend @model.toJSON(),
-      displayMergeSuggestions: @displayMergeSuggestions
+    displayMergeSuggestions: @displayMergeSuggestions
 
   onShow: ->
     @showWorkInfobox()

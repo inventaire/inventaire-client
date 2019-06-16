@@ -2,6 +2,9 @@ Entities = require '../collections/entities'
 MergeSuggestions = require '../views/editor/merge_suggestions'
 Task = require 'modules/tasks/models/task'
 loader = require 'modules/general/views/templates/loader'
+entitiesTypesWithTasks = [
+  'humans'
+]
 
 module.exports = (params)->
   { region, model, standalone } = params
@@ -13,14 +16,18 @@ module.exports = (params)->
     region.show new MergeSuggestions { collection, model, standalone }
 
 getMergeSuggestions = (model)->
-  getTasksByUri model.get('uri')
+  getTasksByUri model
   .then (tasksEntitiesData)->
     tasksEntitiesUris = _.pluck tasksEntitiesData, 'uri'
     getHomonyms model, tasksEntitiesUris
     # returning a mix of raw objects and models
     .then (homonymEntities)-> tasksEntitiesData.concat(homonymEntities)
 
-getTasksByUri = (uri)->
+getTasksByUri = (model)->
+  unless model.get('type') in entitiesTypesWithTasks
+    return Promise.resolve []
+
+  uri = model.get 'uri'
   [ action, relation ] = getMergeSuggestionsParams uri
   _.preq.get app.API.tasks[action](uri)
   .then (res)->
@@ -49,8 +56,8 @@ addTasksToEntities = (uri, tasks, relation)-> (entities)->
 getHomonyms = (model, tasksEntitiesUris)->
   [ uri, label ] = model.gets 'uri', 'label'
   { pluralizedType } = model
-  _.preq.get app.API.entities.search(label, false, true)
-  .get pluralizedType
+  _.preq.get app.API.search(pluralizedType, label, 20)
+  .get 'results'
   .then parseSearchResults(uri, tasksEntitiesUris)
 
 parseSearchResults = (uri, tasksEntitiesUris)-> (searchResults)->

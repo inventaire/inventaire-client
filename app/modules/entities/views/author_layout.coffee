@@ -28,20 +28,16 @@ module.exports = Marionette.LayoutView.extend
     mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
-    { @standalone } = @options
+    { @standalone, @displayMergeSuggestions } = @options
     # Trigger fetchWorks only once the author is in view
     @$el.once 'inview', @fetchWorks.bind(@)
-    @displayMergeSuggestions = app.user.isAdmin and @standalone
 
   events:
     'click .unwrap': 'unwrap'
 
   serializeData: ->
-    _.extend @model.toJSON(),
-      standalone: @standalone
-      # having an epub download button on an author isn't really interesting
-      hideWikisourceEpub: true
-      displayMergeSuggestions: @displayMergeSuggestions
+    standalone: @standalone
+    displayMergeSuggestions: @displayMergeSuggestions
 
   fetchWorks: ->
     @worksShouldBeShown = true

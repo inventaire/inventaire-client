@@ -11,19 +11,23 @@ module.exports = Marionette.LayoutView.extend
   regions:
     infobox: '.serieInfobox'
     parts: '.parts'
+    mergeSuggestionsRegion: '.mergeSuggestions'
 
   behaviors:
     Loading: {}
 
   initialize: ->
-    { @standalone, @refresh } = @options
+    { @refresh, @standalone, @displayMergeSuggestions } = @options
     # Trigger fetchParts only once the author is in view
     @$el.once 'inview', @fetchParts.bind(@)
 
-  serializeData: -> _.extend @model.toJSON(), { @standalone }
+  serializeData: ->
+    standalone: @standalone
+    displayMergeSuggestions: @displayMergeSuggestions
 
   onRender: ->
     @showInfobox()
+    if @displayMergeSuggestions then @showMergeSuggestions()
 
   showInfobox: ->
     @infobox.show new SerieInfobox { @model, @standalone }
@@ -44,3 +48,6 @@ module.exports = Marionette.LayoutView.extend
       type: 'work'
       hideHeader: true
       refresh: @refresh
+
+  showMergeSuggestions: ->
+    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }
