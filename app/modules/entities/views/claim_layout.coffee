@@ -4,7 +4,7 @@ EntitiesList = require './entities_list'
 GeneralInfobox = require './general_infobox'
 entities_ = require '../lib/entities'
 
-{ entity:entityValueTemplate } = require 'lib/handlebars_helpers/claims_helpers'
+{ entity: entityValueTemplate } = require 'lib/handlebars_helpers/claims_helpers'
 
 module.exports = Marionette.LayoutView.extend
   id: 'claimLayout'
@@ -16,17 +16,23 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @property, @value, @refresh } = @options
 
-    app.request 'get:entity:model', @value, @refresh
-    .then (model)=>
-      @model = model
-      @infobox.show new GeneralInfobox { model }
-      # Use the URI from the returned entity as it might have been redirected
-      finalClaim = @property + '-' + model.get('uri')
-      app.navigate "entity/#{finalClaim}"
+    @waitForModel = app.request 'get:entity:model', @value, @refresh
+      .then (model)=> @model = model
+
+  onShow: ->
+    @waitForModel
+    .then @ifViewIsIntact('showInfobox')
+    .catch @displayError
 
     entities_.getReverseClaims @property, @value, @refresh, true
     .then @ifViewIsIntact('showEntities')
     .catch @displayError
+
+  showInfobox: ->
+    @infobox.show new GeneralInfobox { @model }
+    # Use the URI from the returned entity as it might have been redirected
+    finalClaim = @property + '-' + @model.get('uri')
+    app.navigate "entity/#{finalClaim}"
 
   showEntities: (uris)->
     collection = new PaginatedEntities null, { uris, defaultType: 'work' }

@@ -2,18 +2,18 @@
 the alternative being to link to a claim_layout --}}
 {{#if entityLink}}
   <a
-    href="{{entityLocalHref id label}}"
+    href="{{pathname}}"
     class='link uriLabel entity-value'
     {{!-- keeping the resource attribute for SEO (?)--}}
-    resource='{{entityRemoteHref id}}'
-    data-label-uri='{{id}}'>
+    resource='{{entityRemoteHref uri}}'
+    data-label-uri='{{uri}}'>
   {{alt}}
   </a>
 {{else}}
   <span
     class='uriLabel entity-value'
-    resource='{{entityRemoteHref id}}'
-    data-label-uri='{{id}}'>
+    resource='{{entityRemoteHref uri}}'
+    data-label-uri='{{uri}}'>
   {{alt}}
   </span>
 {{/if}}

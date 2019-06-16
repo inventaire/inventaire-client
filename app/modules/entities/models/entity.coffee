@@ -5,13 +5,15 @@ initializeInvEntity = require '../lib/inv/init_entity'
 editableEntity = require '../lib/inv/editable_entity'
 getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 getOriginalLang = require 'modules/entities/lib/get_original_lang'
-initializeAuthor = require '../lib/types/author'
-initializeSerie = require '../lib/types/serie'
-initializeWork = require '../lib/types/work'
-initializeEdition = require '../lib/types/edition'
-initializePublisher = require '../lib/types/publisher'
 error_ = require 'lib/error'
 Filterable = require 'modules/general/models/filterable'
+
+specialInitializersByType =
+  human: require '../lib/types/author'
+  serie: require '../lib/types/serie'
+  work: require '../lib/types/work'
+  edition: require '../lib/types/edition'
+  publisher: require '../lib/types/publisher'
 
 # One unique Entity model to rule them all
 # but with specific initializers:
@@ -83,20 +85,15 @@ module.exports = Filterable.extend
     else @waitForData = Promise.all @_dataPromises
 
   typeSpecificInit: ->
-    switch @type
-      when 'human' then initializeAuthor.call @
-      when 'serie' then initializeSerie.call @
-      when 'work' then initializeWork.call @
-      when 'edition' then initializeEdition.call @
-      when 'publisher' then initializePublisher.call @
-      when 'article' then null
+    specialInitializer = specialInitializersByType[@type]
+    if specialInitializer? then specialInitializer.call @
 
   setCommonAttributes: (attrs)->
     unless attrs.claims?
       error_.report 'entity without claims', attrs
       attrs.claims = {}
 
-    { uri } = attrs
+    { uri, type } = attrs
     [ prefix, id ] = uri.split ':'
 
     if prefix is 'wd'
@@ -109,9 +106,15 @@ module.exports = Filterable.extend
 
     if prefix isnt 'inv' then @setInvAltUri()
 
-    pathname = "/entity/#{uri}"
+    type ?= 'subject'
+    @defaultClaimProperty = defaultClaimPropertyByType[type]
 
-    @set { prefix, pathname }
+    if @defaultClaimProperty?
+      pathname = "/entity/#{@defaultClaimProperty}-#{uri}"
+    else
+      pathname = "/entity/#{uri}"
+
+    @set { type, prefix, pathname }
     @setFavoriteLabel attrs
 
   # Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'
@@ -212,3 +215,8 @@ placeholderAttributes =
   descriptions: {}
   claims: {}
   sitelinks: {}
+
+defaultClaimPropertyByType =
+  movement: 'wdt:P135'
+  genre: 'wdt:P136'
+  subject: 'wdt:P921'

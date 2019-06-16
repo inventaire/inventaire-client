@@ -61,8 +61,6 @@ module.exports = Marionette.LayoutView.extend
     @infoboxRegion.show new AuthorInfobox { @model, @standalone }
 
   showWorks: ->
-    # Target specifically .works .loading, so that it doesn't conflict
-    # with other loaders as it been seen on genre_layout for instance
     startLoading.call @, '.works'
 
     @model.waitForWorks
@@ -75,8 +73,7 @@ module.exports = Marionette.LayoutView.extend
     # Always starting wrapped on small screens
     if not screen_.isSmall(600) and total > 0 then @unwrap()
 
-    { initialWorksListLength } = @options
-    initialWorksListLength or= if @standalone then 10 else 5
+    initialWorksListLength = if @standalone then 10 else 5
 
     @showWorkCollection 'works', initialWorksListLength
 

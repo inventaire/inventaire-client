@@ -1,18 +1,12 @@
 isbn_ = require 'lib/isbn'
 wdk = require 'lib/wikidata-sdk'
+error_ = require 'lib/error'
 Entity = require './models/entity'
-AuthorLayout = require './views/author_layout'
-SerieLayout = require './views/serie_layout'
 SerieCleanup = require './views/cleanup/serie_cleanup'
 WorkLayout = require './views/work_layout'
-ArticleLi = require './views/article_li'
-EditionLayout = require './views/edition_layout'
 EntityEdit = require './views/editor/entity_edit'
 EntityCreate = require './views/editor/entity_create'
 MultiEntityEdit = require './views/editor/multi_entity_edit'
-GenreLayout = require './views/genre_layout'
-PublisherLayout = require './views/publisher_layout'
-error_ = require 'lib/error'
 entityDraftModel = require './lib/entity_draft_model'
 entitiesModelsIndex = require './lib/entities_models_index'
 createInvEntity = require './lib/inv/create_inv_entity'
@@ -22,6 +16,7 @@ ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 History = require './views/editor/history'
+getEntityViewByType = require './lib/get_entity_view_by_type'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -59,46 +54,13 @@ API =
     .then (entity)->
       if entity.get('_meta_type') is 'removed:placeholder'
         throw error_.new 'removed placeholder', 400, { entity }
-      else if entity.type? then return entity
-      else throw error_.new 'unknown entity type', 400, entity
-    .tap app.navigateFromModel
-    .then @getEntityViewByType.bind(@, refresh)
-    .then app.layout.main.show.bind(app.layout.main)
-    .catch (err)->
-      # Redirect unknown entity types to their subject pages
-      if err.message is 'unknown entity type'
-        return showClaimEntities "wdt:P921-#{uri}"
-      else
-        throw err
+
+      getEntityViewByType entity, refresh
+      .then (view)->
+        app.layout.main.show view
+        app.navigateFromModel entity
+
     .catch handleMissingEntity(uri)
-
-  getEntityViewByType: (refresh, entity)->
-    getter = entityViewGetterByType[entity.type]
-    if getter? then @[getter](entity, refresh)
-    else throw error_.new 'invalid entity type', entity
-
-  getAuthorView: (entity, refresh)->
-    new AuthorLayout
-      model: entity
-      standalone: true
-      initialLength: 20
-      refresh: refresh
-
-  getSerieView: (model, refresh)->
-    new SerieLayout { model, refresh, standalone: true }
-
-  getArticleView: (model)-> new ArticleLi { model }
-
-  # WorkLayout is only used in standalone mode, but the flag is required by ./lib/entity_items
-  getWorkView: (model, refresh)-> new WorkLayout { model, refresh, standalone: true }
-
-  getEditionView: (model, refresh)->
-    model.waitForWorks
-    .then -> new EditionLayout { model, refresh, standalone: true }
-
-  getGenreLayout: (model, refresh)-> new GenreLayout { model, refresh }
-
-  getPublisherLayout: (model, refresh)-> new PublisherLayout { model, refresh, standalone: true }
 
   showAddEntity: (uri)->
     uri = normalizeUri uri
@@ -388,17 +350,6 @@ parseSearchResults = (uri)-> (searchResults)->
   return app.request 'get:entities:models', { uris }
 
 isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'
-
-entityViewGetterByType =
-  human: 'getAuthorView'
-  serie: 'getSerieView'
-  work: 'getWorkView'
-  edition: 'getEditionView'
-  genre: 'getGenreLayout'
-  publisher: 'getPublisherLayout'
-  article: 'getArticleView'
-  # the GenreLayout also fetches movements
-  movement: 'getGenreLayout'
 
 isClaim = (claim)-> /^(wdt:|invp:)/.test claim
 showClaimEntities = (claim, refresh)->

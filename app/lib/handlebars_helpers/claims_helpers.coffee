@@ -4,20 +4,33 @@ propertyValue = require 'modules/general/views/behaviors/templates/property_valu
 wdk = require 'lib/wikidata-sdk'
 error_ = require 'lib/error'
 
-prop = (id)->
+prop = (uri)->
   # Be more restrictive on the input to be able to use it in SafeStrings
-  if /^wdt:P\d+$/.test id then propertyValue { id }
-  else if wdk.isWikidataPropertyId(id) then propertyValue { id: "wdt:P#{id}" }
+  if /^wdt:P\d+$/.test uri then propertyValue { uri }
+  else if wdk.isWikidataPropertyId(uri) then propertyValue { uri: "wdt:#{uri}" }
 
-entity = (id, entityLink, alt, property)->
+entity = (uri, entityLink, alt, property)->
   # Be restricting on the input to be able to use it in SafeStrings
-  unless wdk.isWikidataItemId(id) or _.isEntityUri(id)
-    throw error_.new 'invalid entity id', 500, { id }
+  unless wdk.isWikidataItemId(uri) or _.isEntityUri(uri)
+    throw error_.new 'invalid entity uri', 500, { uri }
 
   unless typeof alt is 'string' then alt = ''
   app.execute 'uriLabel:update'
   alt = escapeExpression alt
-  return entityValue { id, entityLink, property, alt, label: alt }
+
+  if property in propertyWithSpecialLayout
+    pathname = "/entity/#{uri}"
+  else
+    pathname = "/entity/#{property}-#{uri}"
+
+  return entityValue { uri, pathname, entityLink, alt, label: alt }
+
+propertyWithSpecialLayout = [
+  'wdt:P50' # author
+  'wdt:P179' # serie
+  'wdt:P629' # work
+  'wdt:P123' # publisher
+]
 
 module.exports =
   prop: prop
@@ -32,7 +45,7 @@ module.exports =
   getValuesTemplates: (valueArray, entityLink, property)->
     # prevent any null value to sneak in
     _.compact valueArray
-    .map (id)-> entity(id, entityLink, null, property).trim()
+    .map (uri)-> entity(uri, entityLink, null, property).trim()
     .join ', '
 
   labelString: (pid, omitLabel)->
