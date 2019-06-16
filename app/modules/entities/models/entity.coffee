@@ -172,7 +172,7 @@ module.exports = Filterable.extend
 
   executeMetadataUpdate: ->
     return Promise.props
-      title: @buildTitleAsync()
+      title: @buildTitle()
       description: @findBestDescription()?[0..500]
       image: @getImageSrcAsync()
       url: @get 'pathname'
@@ -186,8 +186,13 @@ module.exports = Filterable.extend
     else return description or extract
 
   # Override in with type-specific methods
-  buildTitle: -> @get 'label'
-  buildTitleAsync: -> Promise.resolve @buildTitle()
+  buildTitle: ->
+    label = @get 'label'
+    type = @get 'type'
+    P31 = @get 'claims.wdt:P31.0'
+    typeLabel = _.I18n(typesString[P31] or type)
+    return "#{label} - #{typeLabel}"
+
   getImageAsync: -> Promise.resolve @get('image')
   getImageSrcAsync: ->
     @getImageAsync()
@@ -220,3 +225,15 @@ defaultClaimPropertyByType =
   movement: 'wdt:P135'
   genre: 'wdt:P136'
   subject: 'wdt:P921'
+
+typesString =
+  'wd:Q5': 'author'
+  # works
+  'wd:Q571': 'book'
+  'wd:Q1004': 'comic book'
+  'wd:Q8274': 'manga'
+  'wd:Q49084': 'short story'
+  # series
+  'wd:Q277759': 'book series'
+  'wd:Q14406742': 'comic book series'
+  'wd:Q21198342': 'manga series'

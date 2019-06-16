@@ -72,13 +72,7 @@ setEbooksData = ->
   @set 'hasEbooks', (hasInternetArchivePage or hasGutenbergPage or hasWikisourcePage)
   @set 'gutenbergProperty', 'wdt:P2034'
 
-typesString =
-  'wd:Q571': 'book'
-  'wd:Q1004': 'comic book'
-  'wd:Q8274': 'manga'
-  'wd:Q49084': 'short story'
-
-specificMethods = _.extend {}, commonsSerieWork(typesString, 'book'),
+specificMethods = _.extend {}, commonsSerieWork,
   # wait for setImage to have run
   getImageAsync: -> @fetchSubEntities().then => @get 'image'
   getItemsByCategories: getEntityItemsByCategories

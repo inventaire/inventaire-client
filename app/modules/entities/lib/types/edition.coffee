@@ -17,12 +17,6 @@ module.exports = ->
   return
 
 specificMethods =
-  buildTitleAsync: ->
-    title = @get 'claims.wdt:P1476.0'
-    if title then Promise.resolve title
-    # Legacy: all editions are now expected to have a title (wdt:P1476) claim
-    else @waitForWorks.then (works)-> works.map((work)-> work.buildTitle()).join(' / ')
-
   setLang: ->
     langUri = @get 'claims.wdt:P407.0'
     lang = if langUri then wdLang.byWdId[unprefixify(langUri)]?.code

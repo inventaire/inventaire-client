@@ -7,12 +7,7 @@ module.exports = ->
 
   _.extend @, specificMethods
 
-typesString =
-  'wd:Q277759': 'book series'
-  'wd:Q14406742': 'comic book series'
-  'wd:Q21198342': 'manga series'
-
-specificMethods = _.extend {}, commonsSerieWork(typesString, 'series'),
+specificMethods = _.extend {}, commonsSerieWork,
   fetchPartsData: (options = {})->
     { refresh } = options
     if not refresh and @waitForPartsData? then return @waitForPartsData
