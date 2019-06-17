@@ -7,9 +7,9 @@ module.exports = Marionette.Behavior.extend
 
   events:
     'alert': 'showAlertBox'
-    'hideAlertBox': 'hideAlertBox'
+    'hideAlertBox': 'hideAlertBoxOnly'
+    'click a.alert-close': 'hideAlertBoxOnly'
     'keydown': 'hideAlertBox'
-    'click a.alert-close': 'hideAlertBox'
     'click .button': 'hideAlertBox'
 
   # alert-box will be appended to has-alertbox parent
@@ -43,6 +43,10 @@ module.exports = Marionette.Behavior.extend
 
     e.stopPropagation()
 
+  hideAlertBoxOnly: (e)->
+    @hideAlertBox e
+    e.stopPropagation()
+
   hideAlertBox: (e)->
     key = getActionKey e
     # Do not close the alert box on 'Ctrl' or 'Shift' especially,
@@ -56,4 +60,6 @@ module.exports = Marionette.Behavior.extend
 
     @$el.find('.alert-box').hide()
 
-    e.stopPropagation()
+    # NB: Do not call 'e.stopPropagation()' as events such as 'click .button' might
+    # need to propagate to other event listeners
+    # Known case: modules/inventory/views/form/item_creation 'click #transaction'
