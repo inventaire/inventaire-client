@@ -29,3 +29,5 @@ module.exports =
   nearby: (limit, offset, range = 50)-> action 'nearby', { limit, offset, range }
 
   inventoryView: action 'inventory-view'
+
+  deleteByIds: action 'delete-by-ids'

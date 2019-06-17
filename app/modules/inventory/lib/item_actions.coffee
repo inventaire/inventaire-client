@@ -43,7 +43,7 @@ module.exports =
       .then next
 
     app.execute 'ask:confirmation',
-      confirmationText: _.i18n 'destroy_item_text', { title }
+      confirmationText: _.i18n 'delete_item_confirmation', { title }
       warningText: _.i18n 'cant_undo_warning'
       action: action
       back: back

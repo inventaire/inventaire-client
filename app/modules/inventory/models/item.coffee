@@ -136,12 +136,7 @@ module.exports = Filterable.extend
   destroy: ->
     # reproduce the behavior from the default Bacbkone::destroy
     @trigger 'destroy', @, @collection
-    url = buildPath @url(),
-      id: @id
-      # TODO: rev isn't required anymore
-      # this might make possible to use the default Backbone behavior
-      rev: @get('_rev')
-    return _.preq.delete url
+    _.preq.post app.API.items.deleteByIds, { ids: [ @id ] }
     .tap => @isDestroyed = true
 
   # to be called by a view onShow:
