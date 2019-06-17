@@ -32,19 +32,9 @@ module.exports =
     e.stopPropagation()
 
     value = @ui.input.val()
-
     actionKey = getActionKey e
 
-    if actionKey?
-      keyAction.call @, actionKey, e
-    else if value.length is 0
-      showDefaultSuggestions.call @
-      @_showingDefaultSuggestions = true
-    else if value isnt @_lastValue
-      @showDropdown()
-      @lazySearch value
-      @_showingDefaultSuggestions = false
-
+    updateOnKey.call @, value, actionKey
     @_lastValue = value
 
   showDropdown: ->
@@ -90,20 +80,41 @@ loadMore = ->
 showAlertBox = (err)->
   @$el.trigger 'alert', { message: err.message }
 
-keyAction = (actionKey, e)->
+updateOnKey = (value, actionKey)->
+  if actionKey?
+    actionMade = keyAction.call @, actionKey
+    if actionMade isnt false then return
+
+  if value.length is 0
+    showDefaultSuggestions.call @
+    @_showingDefaultSuggestions = true
+  else if value isnt @_lastValue
+    @showDropdown()
+    @lazySearch value
+    @_showingDefaultSuggestions = false
+
+keyAction = (actionKey)->
   # actions happening in any case
   switch actionKey
-    when 'esc' then return @hideDropdown()
+    when 'esc'
+      @hideDropdown()
+      return true
 
   # actions conditional to suggestions state
   unless @suggestions.isEmpty()
     switch actionKey
-      when 'enter' then @suggestions.trigger 'select:from:key'
+      when 'enter'
+        @suggestions.trigger 'select:from:key'
+        return true
       when 'down'
         @showDropdown()
         @suggestions.trigger 'highlight:next'
+        return true
       when 'up'
         @showDropdown()
         @suggestions.trigger 'highlight:previous'
+        return true
       # when 'home' then @suggestions.trigger 'highlight:first'
       # when 'end' then @suggestions.trigger 'highlight:last'
+
+  return false

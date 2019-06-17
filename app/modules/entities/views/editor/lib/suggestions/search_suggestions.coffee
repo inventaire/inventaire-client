@@ -23,7 +23,9 @@ search = (input)->
       @suggestionsRegion.currentView.$el.removeClass 'no-results'
     @suggestions.reset results
     @stopLoadingSpinner()
-  .catch forms_.catchAlert.bind(null, @)
+  .catch (err)=>
+    @hideDropdown()
+    forms_.catchAlert @, err
 
 _search = (input)->
   typeSearch @searchType, input, batchLength, @_searchOffset
