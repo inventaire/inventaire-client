@@ -130,6 +130,7 @@ module.exports = ClaimsEditorCommons.extend
         .then (entity)=> @_save entity.get('uri')
 
   updateInputState: ->
+    unless @editMode then return
     value = @ui.input.val()
 
     if value is ''
