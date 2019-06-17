@@ -6,7 +6,7 @@ module.exports = Marionette.CompositeView.extend
   className: 'editions-list'
   template: require './templates/editions_list'
   childViewContainer: 'ul'
-  childView: require './edition_layout'
+  childView: require './edition_li'
   emptyView: require './no_edition'
   childViewOptions: ->
     itemToUpdate: @options.itemToUpdate
