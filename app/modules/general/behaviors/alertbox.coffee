@@ -2,9 +2,6 @@ getActionKey = require 'lib/get_action_key'
 error_ = require 'lib/error'
 
 module.exports = Marionette.Behavior.extend
-  ui:
-    hasAlertbox: '.has-alertbox'
-
   events:
     'alert': 'showAlertBox'
     'hideAlertBox': 'hideAlertBoxOnly'
@@ -20,14 +17,13 @@ module.exports = Marionette.Behavior.extend
       _.error params, 'couldnt display the alertbox with those params'
       return
 
-    if selector?
-      unless /\.|#/.test selector then error_.report 'invalid selector', selector
-      $target = @$el.find selector
+    selector or= '.has-alertbox'
 
-    else
-      $target = @ui.hasAlertbox
+    unless /\.|#/.test selector then error_.report 'invalid selector', selector
+    $target = @$el.find selector
 
-    if $target.length isnt 1 then return _.warn $target, 'alertbox: failed to find single target'
+    if $target.length isnt 1
+      return _.warn $target, 'alertbox: failed to find single target'
 
     box = "<div class='alert hidden alert-box'>
           <span class='alert-message'>#{message}</span>
