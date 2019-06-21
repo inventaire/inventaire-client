@@ -2,5 +2,8 @@
 
 <div class="serieInfobox"></div>
 <div class="parts"><span class="loading"></span></div>
-{{partial 'entities:merge_suggestions_layout_section' this}}
-{{#if standalone}}{{partial 'welcome:embedded_welcome'}}{{/if}}
+
+{{#if standalone}}
+  {{partial 'entities:merge_suggestions_layout_section' this}}
+  {{partial 'welcome:embedded_welcome'}}
+{{/if}}

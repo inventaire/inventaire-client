@@ -1,5 +1,7 @@
 <h3 class="layout-type-label">{{I18n 'publisher'}}</h3>
 <div class='publisherInfobox'></div>
 <div id="editionsList"></div>
-{{partial 'entities:merge_suggestions_layout_section' this}}
-{{#if standalone}}{{partial 'welcome:embedded_welcome'}}{{/if}}
+{{#if standalone}}
+  {{partial 'entities:merge_suggestions_layout_section' this}}
+  {{partial 'welcome:embedded_welcome'}}
+{{/if}}
