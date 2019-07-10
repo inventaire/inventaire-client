@@ -26,9 +26,13 @@ module.exports = Backbone.Model.extend
     @set 'needInfo', needInfo
 
   createItem: (transaction, listing)->
-    app.request 'entity:exists:or:create:from:seed', @toJSON()
+    @getEntityModel()
     .then (editionEntityModel)->
       return app.request 'item:create',
         entity: editionEntityModel.get 'uri'
         transaction: transaction
         listing: listing
+
+  getEntityModel: ->
+    if @get('uri')? then Promise.resolve @
+    else app.request 'entity:exists:or:create:from:seed', @toJSON()
