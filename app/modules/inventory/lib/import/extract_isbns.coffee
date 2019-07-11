@@ -2,7 +2,10 @@ isbn_ = require 'lib/isbn'
 isbnPattern = /(97(8|9))?[\d\-]{9,13}([\dX])/g
 
 module.exports = (text)->
-  text.match isbnPattern
+  isbns = text.match isbnPattern
+  unless isbns? then return []
+
+  isbns
   .map getIsbnData
   .filter (obj)-> isbn_.isNormalizedIsbn(obj.normalizedIsbn)
   .filter firstOccurence({})
