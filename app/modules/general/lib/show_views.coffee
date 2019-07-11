@@ -17,13 +17,15 @@ module.exports =
     # In the case of 'show:feedback:menu', a unique object is passed
     # in which the event object is passed either directly
     # or as the value for the key 'event'
+    # but options might also be a click event object
     event = options?.event or options
-    # options might simply be a click event object
-    unless _.isOpenedOutside event
+    # Known case of missing href: #signalDataError anchors won't have an href
+    ignoreMissingHref = true
+    unless _.isOpenedOutside event, ignoreMissingHref
       options or= {}
-      options.navigateOnClose = true
+      # Do not navigate as that's a  mess to go back then
+      # and handle the feedback modals with or without dedicated pathnames
       app.layout.modal.show new FeedbackMenu(options)
-      app.navigate 'feedback'
 
 entityAction = (e, action)->
   href = e.currentTarget.href
