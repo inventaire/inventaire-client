@@ -14,6 +14,7 @@ module.exports = Marionette.LayoutView.extend
     { @refresh, @standalone, @displayMergeSuggestions } = @options
 
   serializeData: ->
+    standalone: @standalone
     displayMergeSuggestions: @displayMergeSuggestions
 
   onRender: ->
