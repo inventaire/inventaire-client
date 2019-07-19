@@ -73,25 +73,27 @@ module.exports = Marionette.LayoutView.extend
     capitalizedEditor = _.capitalise editor
     if key is 'enter' then @["show#{capitalizedEditor}Editor"]()
 
-  showDetailsEditor: -> @showEditor 'details'
-  hideDetailsEditor: -> @hideEditor 'details'
+  showDetailsEditor: (e)-> @showEditor 'details', e
+  hideDetailsEditor: (e)-> @hideEditor 'details', e
   detailsEditorKeyAction: (e)-> @editorKeyAction 'details', e
 
-  showNotesEditor: -> @showEditor 'notes'
-  hideNotesEditor: ->  @hideEditor 'notes'
+  showNotesEditor: (e)-> @showEditor 'notes', e
+  hideNotesEditor: (e)->  @hideEditor 'notes', e
   notesEditorKeyAction: (e)-> @editorKeyAction 'notes', e
 
   validateDetails: -> @validateEdit 'details'
   validateNotes: -> @validateEdit 'notes'
 
-  showEditor: (nameBase)->
+  showEditor: (nameBase, e)->
     unless @model.mainUserIsOwner then return
     $("##{nameBase}").hide()
     $("##{nameBase}Editor").show().find('textarea').focus()
+    e?.stopPropagation()
 
-  hideEditor: (nameBase)->
+  hideEditor: (nameBase, e)->
     $("##{nameBase}").show()
     $("##{nameBase}Editor").hide()
+    e?.stopPropagation()
 
   editorKeyAction: (editor, e)->
     key = getActionKey e
