@@ -133,10 +133,12 @@ API =
 
     getEntityModel uri
     .then (model)->
-      model.fetchHistory()
+      model.fetchHistory uri
       .then ->
-        app.layout.main.show new History { model, standalone: true }
-        app.navigateFromModel model, 'history'
+        app.layout.main.show new History { model, standalone: true, uri }
+        if uri is model.get('uri') then app.navigateFromModel model, 'history'
+        # Case where we got a redirected uri
+        else app.navigate "entity/#{uri}/history"
     .catch app.Execute('show:error')
 
 showEntityCreate = (params)->

@@ -70,8 +70,9 @@ module.exports =
     _.preq.put app.API.entities.labels.update, { uri: @get('uri'), lang, value }
     .catch rollback
 
-  fetchHistory: ->
-    _.preq.get app.API.entities.history(@id)
+  fetchHistory: (uri)->
+    id = @id or uri.split(':')[1]
+    _.preq.get app.API.entities.history(id)
     # reversing to get the last patches first
     .then (res)=> @history = new Patches res.patches.reverse()
 

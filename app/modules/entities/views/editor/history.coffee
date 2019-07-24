@@ -7,10 +7,12 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: '.inner-history'
   childView: require './version'
   initialize: ->
-    { @model } = @options
+    { @model, uri } = @options
     if @model then @collection = @model.history
+    @redirectUri = if uri isnt @model.get('uri') then uri
 
   serializeData: ->
     attrs = @model?.toJSON() or {}
     _.extend attrs,
       standalone: @options.standalone
+      label: if @redirectUri? then @redirectUri else attrs.label

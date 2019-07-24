@@ -37,14 +37,24 @@ module.exports = Backbone.NestedModel.extend
     operations = @get 'operations'
 
     for op in operations
-      if op.path.startsWith '/claims/'
+      if op.path is '/claims'
+        op.propertyLabel = 'claims'
+
+      else if op.path is '/labels'
+        op.propertyLabel = 'labels'
+
+      else if op.path.startsWith '/claims/'
         op.property = op.path
           .replace /^\/claims\//, ''
           .replace /\/\d+$/, ''
         op.propertyLabel = getPropertyLabel op.property
-      if op.path.startsWith '/labels/'
+
+      else if op.path.startsWith '/labels/'
         lang = _.last op.path.split('/')
         op.propertyLabel = "label #{lang}"
+
+      else if op.path.startsWith '/redirect'
+        op.propertyLabel = 'redirect'
 
     @set 'operations', operations
 
