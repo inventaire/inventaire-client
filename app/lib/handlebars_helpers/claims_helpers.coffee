@@ -18,7 +18,7 @@ entity = (uri, entityLink, alt, property)->
   app.execute 'uriLabel:update'
   alt = escapeExpression alt
 
-  if property in propertyWithSpecialLayout
+  if not property? or property in propertyWithSpecialLayout
     pathname = "/entity/#{uri}"
   else
     pathname = "/entity/#{property}-#{uri}"
