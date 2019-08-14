@@ -223,8 +223,9 @@ module.exports = Marionette.CompositeView.extend
   showDeepSearch: -> @triggerMethod 'show:deep:search'
 
   showEntityCreate: ->
+    type = sectionToTypes[@_lastType]
     @triggerMethod 'hide:live:search'
-    app.execute 'show:entity:create', { label: @_lastSearch }
+    app.execute 'show:entity:create', { label: @_lastSearch, type }
 
   onResultsScroll: (e)->
     visibleHeight = @ui.resultsWrapper.height()

@@ -142,6 +142,8 @@ API =
     .catch app.Execute('show:error')
 
 showEntityCreate = (params)->
+  # Drop possible type pluralization
+  params.type = params.type?.replace /s$/, ''
   { type } = params
   if type? and type not in entityDraftModel.whitelistedTypes
     err = error_.new "invalid entity draft type: #{type}", params
