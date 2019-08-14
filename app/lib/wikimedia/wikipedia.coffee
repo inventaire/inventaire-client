@@ -5,11 +5,13 @@ module.exports =
     _.preq.get app.API.data.wikipediaExtract(lang, title)
     .then (data)->
       { extract, url } = data
+      lang = url?.match(/^https:\/\/([\w-]+).wik/)?[1]
       # Escaping as extracts are user-generated external content
       # that will be displayed as {{{SafeStrings}}} in views as
       # they are enriched with HTML by sourcedExtract hereafter
       extract = escapeExpression extract
-      return sourcedExtract extract, url
+      extract = sourcedExtract extract, url
+      return { extract, lang }
     .catch _.ErrorRethrow('wikipediaExtract err')
 
 # Add a link to the full wikipedia article at the end of the extract

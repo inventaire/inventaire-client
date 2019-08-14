@@ -60,9 +60,14 @@ specificMethods =
     .then _setWikipediaExtractAndDescription.bind(@)
     .catch _.Error('setWikipediaExtract err')
 
-_setWikipediaExtractAndDescription = (extract)->
+_setWikipediaExtractAndDescription = (extractData)->
+  { extract, lang } = extractData
   if _.isNonEmptyString extract
+    extractDirection = if lang in rtlLang then 'rtl' else 'ltr'
+    @set 'extractDirection', extractDirection
     @set 'extract', extract
     description = @get('description') or ''
     if extract.length > description.length
       @set 'description', extract
+
+rtlLang = [ 'ar', 'he' ]

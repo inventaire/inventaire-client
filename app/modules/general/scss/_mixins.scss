@@ -54,3 +54,12 @@
     100% { opacity: $color; }
   }
 }
+
+@mixin text-align-start(){
+  &:not([dir="rtl"]){
+    text-align: left;
+  }
+  &[dir="rtl"]{
+    text-align: right;
+  }
+}

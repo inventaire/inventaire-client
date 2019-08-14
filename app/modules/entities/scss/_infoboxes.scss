@@ -14,7 +14,7 @@
     height: 0;
   }
   .extract{
-    text-align: left;
+    @include text-align-start;
     &:empty{
       padding: 0;
       height: 0;
@@ -39,7 +39,7 @@
   }
   .extract{
     color: white;
-    text-align: left;
+    @include text-align-start;
     margin-bottom: 0em;
     padding-bottom: 0em;
   }
