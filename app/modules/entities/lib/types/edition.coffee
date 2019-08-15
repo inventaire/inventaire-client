@@ -64,6 +64,9 @@ specificMethods =
     # several times at initialization
     .tap startListeningForClaimsChanges.bind(@)
 
+  # Editions don't have subentities
+  fetchSubEntities: -> Promise.resolve()
+
 # Editions inherit some claims from their work but not all, as it could get confusing.
 # Ex: publication date should not be inherited
 inheritData = (works)->

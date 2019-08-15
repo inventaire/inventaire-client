@@ -1,9 +1,6 @@
 error_ = require 'lib/error'
 
 getAllEntityUris = (model)->
-  mainUri = model.get 'uri'
-  unless model.hasSubentities then return Promise.resolve [ mainUri ]
-
   # Make sure items are fetched for all sub entities as editions that aren't
   # shown (e.g. on work_layout, editions from other language than
   # the user are filtered-out by default) won't request their items

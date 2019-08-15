@@ -143,8 +143,6 @@ module.exports = Filterable.extend
     uri = @get 'uri'
     prop = @childrenClaimProperty
 
-    @hasSubentities = true
-
     @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
       .tap @setSubEntitiesUris.bind(@)
       .then (uris)-> app.request 'get:entities:models', { uris, refresh }
