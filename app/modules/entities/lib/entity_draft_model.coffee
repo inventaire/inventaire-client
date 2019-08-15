@@ -53,7 +53,10 @@ module.exports =
       # Required by editableEntity.setPropertyValue
       invalidateRelationsCache: _.noop
       saveLabel: Promise.getResolved
-      create: -> createEntities.create @get('labels'), @get('claims')
+      create: ->
+        createEntities.create
+          labels: @get 'labels'
+          claims: @get 'claims'
       fetchSubEntities: Entity::fetchSubEntities
 
       # Methods required by app.navigateFromModel

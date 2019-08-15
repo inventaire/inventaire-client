@@ -121,13 +121,17 @@ module.exports = ClaimsEditorCommons.extend
     if uri is @model.get('value') then return @hideEditMode()
 
     if @suggestion? then return @_save uri
-    else
-      if @allowEntityCreation
-        textValue = @ui.input.val()
-        relationEntity = @options.model.entity
-        createEntities.byProperty { @property, textValue, relationEntity }
-        .then _.Log('created entity')
-        .then (entity)=> @_save entity.get('uri')
+
+    unless @allowEntityCreation then return
+
+    name = @ui.input.val()
+    relationEntity = @options.model.entity
+    # Assumes that the user has Wikidata Oauth setup as they are on the editor for a Wikidata entity
+    createOnWikidata = @model.entity.get 'isWikidataEntity'
+
+    createEntities.byProperty { @property, name, relationEntity, createOnWikidata }
+    .then _.Log('created entity')
+    .then (entity)=> @_save entity.get('uri')
 
   updateInputState: ->
     unless @editMode then return

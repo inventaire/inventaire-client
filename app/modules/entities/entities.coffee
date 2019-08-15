@@ -9,7 +9,6 @@ EntityCreate = require './views/editor/entity_create'
 MultiEntityEdit = require './views/editor/multi_entity_edit'
 entityDraftModel = require './lib/entity_draft_model'
 entitiesModelsIndex = require './lib/entities_models_index'
-createInvEntity = require './lib/inv/create_inv_entity'
 ChangesLayout = require './views/changes_layout'
 ActivityLayout = require './views/activity_layout'
 ClaimLayout = require './views/claim_layout'
@@ -198,7 +197,6 @@ setHandlers = ->
   app.reqres.setHandlers
     'get:entity:model': getEntityModel
     'get:entities:models': getEntitiesModels
-    'create:entity': createEntity
     'get:entity:local:href': getEntityLocalHref
     'entity:exists:or:create:from:seed': existsOrCreateFromSeed
 
@@ -232,10 +230,6 @@ getEntityModel = (uri, refresh)->
       # see getEntitiesModels "Possible reasons for missing entities"
       _.log "getEntityModel entity_not_found: #{uri}"
       throw error_.new 'entity_not_found', [ uri, models ]
-
-createEntity = (data)->
-  createInvEntity data
-  .then entitiesModelsIndex.add
 
 getEntityLocalHref = (uri)-> "/entity/#{uri}"
 

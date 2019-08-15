@@ -23,7 +23,7 @@ module.exports = (params)->
     if view.collection.addByValue?
       view.collection.addByValue editionModel.get('uri')
     # In other cases, the model being added to the work edition collection
-    # by createEntities.workEdition is engouh
+    # by createEntities.workEdition is enough
     $isbnField.val null
   .catch error_.Complete('#isbnField')
   .catch forms_.catchAlert.bind(null, view)
