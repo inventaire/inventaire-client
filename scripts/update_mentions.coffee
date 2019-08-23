@@ -14,8 +14,7 @@ fs = require 'fs'
 readFile = promisify fs.readFile
 writeFile = promisify fs.writeFile
 
-linkify = __.require 'client', 'app/lib/handlebars_helpers/linkify'
-convertMarkdown = __.require('i18nSrc', 'lib/convert_markdown')(linkify)
+convertMarkdown = require './lib/convert_markdown'
 
 { Converter }  = require 'csvtojson'
 converter = new Converter {}
