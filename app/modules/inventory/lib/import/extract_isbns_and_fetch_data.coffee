@@ -24,5 +24,15 @@ parseResults = (data)->
     # to help the user fill the missing information
     .sort byIndex(isbnsIndex)
 
-byIndex = (isbnsIndex)-> (a, b)->
-  isbnsIndex[a.normalizedIsbn].index - isbnsIndex[b.normalizedIsbn].index
+byIndex = (isbnsIndex)-> (a, b)-> getIndex(isbnsIndex, a) - getIndex(isbnsIndex, b)
+
+getIndex = (isbnsIndex, candidate)->
+  isbnData = isbnsIndex[candidate.normalizedIsbn]
+  if isbnData?
+    console.log 'found', isbnData
+    return isbnData.index
+  else
+    alert 'not found'
+    # Tracking down 'TypeError: Unable to get property \'index\' of undefined or null reference'
+    error_.report 'isbn data not found', { isbnsIndex, candidate }
+    return Infinity
