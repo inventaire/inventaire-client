@@ -10,7 +10,10 @@ module.exports = -> Promise.all Object.keys(queries).map(generateFilesFromQuery)
 
 generateFilesFromQuery = (name)->
   console.log green("#{name} query"), queries[name]
-  breq.get queries[name]
+  breq.get
+    url: queries[name]
+    headers:
+      'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)'
   .get 'body'
   .then wdk.simplifySparqlResults
   .then getParts(name)
