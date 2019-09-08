@@ -12,9 +12,10 @@ module.exports = (isbnsData)->
 
   isbnsData.forEach (isbnData, index)->
     isbnData.index = index
+    isbnsIndex[isbnData.isbn13] = isbnData
     # Invalid ISBNs won't have an isbn13 set, but there is always a normalized ISBN
-    key = isbnData.isbn13 or isbnData.normalizedIsbn
-    isbnsIndex[key] = isbnData
+    # so we re-index it
+    isbnsIndex[isbnData.normalizedIsbn] = isbnData
     if isbnData.isInvalid
       commonRes.invalidIsbn.push isbnData
     else
