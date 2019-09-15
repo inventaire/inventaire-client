@@ -56,7 +56,7 @@ addTasksToEntities = (uri, tasks, relation)-> (entities)->
 getHomonyms = (model, tasksEntitiesUris)->
   [ uri, label ] = model.gets 'uri', 'label'
   { pluralizedType } = model
-  _.preq.get app.API.search(pluralizedType, label, 20)
+  _.preq.get app.API.search(pluralizedType, label, 100)
   .get 'results'
   .then parseSearchResults(uri, tasksEntitiesUris)
 

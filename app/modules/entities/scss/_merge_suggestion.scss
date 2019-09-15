@@ -21,6 +21,7 @@
   @include display-flex(row, flex-start, center, wrap);
 }
 .merge-suggestion{
+  position: relative;
   background-color: white;
   @include radius;
   margin: 1em;
@@ -90,5 +91,23 @@
       background-color: #eee;
     }
     margin-bottom: 1em;
+  }
+
+  input[type="checkbox"]{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.2em;
+    margin: 0.5em;
+    background-color: red;
+    height: 1em;
+    width: 1em;
+  }
+}
+
+.merge-suggestions-controls{
+  @include display-flex(row, center, center);
+  .tiny-button{
+    margin: 0.5em;
   }
 }
