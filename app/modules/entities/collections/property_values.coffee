@@ -1,5 +1,7 @@
+PropertyValueModel = require '../models/property_value'
+
 module.exports = Backbone.Collection.extend
-  model: require '../models/property_value'
+  model: PropertyValueModel
   initialize: (models, options)->
     { @entity, @property, @allowEntityCreation } = options
 
@@ -14,9 +16,13 @@ module.exports = Backbone.Collection.extend
     @addByValue null
 
   addByValue: (value)->
-    model = @add
+    # Create the model before adding it to the collection to be able
+    # to attach the entity before any view runs its initialize function
+    # as they might depend on model.entity being set
+    model = new PropertyValueModel
       value: value
       property: @property
       allowEntityCreation: @allowEntityCreation
     model.entity = @entity
+    @add model
     return model

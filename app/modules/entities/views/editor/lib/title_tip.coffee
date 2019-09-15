@@ -27,7 +27,6 @@ displayTipIfMatch = (value)->
 
   matchingSerieLabel = findMatchingSerieLabel value, @_serieLabels
 
-
   if matchingSerieLabel?
     showSerieLabelTip.call @, matchingSerieLabel
   else
