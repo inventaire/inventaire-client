@@ -1,10 +1,12 @@
 {{#if standalone}}
   <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a> - {{I18n 'merge suggestions'}}</h2>
 {{/if}}
-<div class="merge-suggestions-controls">
-  <a class="selectAll tiny-button light-grey">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>
-  <a class="unselectAll tiny-button light-grey">{{icon 'square'}}<span>{{i18n 'unselect all'}}</span></a>
-  <a class="mergeSelectedSuggestions tiny-button light-grey">{{icon 'compress'}} {{i18n 'merge selected suggestions'}}</a>
-  <div class="counter">{{count}}</div>
-</div>
+{{#if hasManySuggestions}}
+  <div class="merge-suggestions-controls">
+    <a class="selectAll tiny-button light-grey">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>
+    <a class="unselectAll tiny-button light-grey">{{icon 'square'}}<span>{{i18n 'unselect all'}}</span></a>
+    <a class="mergeSelectedSuggestions tiny-button light-grey">{{icon 'compress'}} {{i18n 'merge selected suggestions'}}</a>
+    <div class="counter">{{count}}</div>
+  </div>
+{{/if}}
 <div class="inner-merge-suggestions"></div>

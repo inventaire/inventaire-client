@@ -21,12 +21,14 @@ module.exports = Marionette.LayoutView.extend
 
     @isExactMatch = haveLabelMatch @model, @options.toEntity
     @isSelected = @isExactMatch
+    { @showCheckbox } = @options
 
   serializeData: ->
     attrs = @model.toJSON()
     attrs.task = @taskModel?.serializeData()
     attrs.claimsPartial = claimsPartials[@model.type]
     attrs.isExactMatch = @isExactMatch
+    attrs.showCheckbox = @showCheckbox
     return attrs
 
   events:
@@ -57,6 +59,9 @@ module.exports = Marionette.LayoutView.extend
       app.execute 'show:task', @taskModel.id
 
   merge: ->
+    if @_mergedAlreadyTriggered then return Promise.resolve()
+    @_mergedAlreadyTriggered = true
+
     startLoading.call @
     { toEntity } = @options
     fromUri = @model.get 'uri'

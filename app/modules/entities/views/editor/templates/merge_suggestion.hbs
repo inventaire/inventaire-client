@@ -1,4 +1,6 @@
-<input type="checkbox" name="selected" {{#if isExactMatch}}checked{{/if}}>
+{{#if showCheckbox}}
+  <input type="checkbox" name="selected" {{#if isExactMatch}}checked{{/if}}>
+{{/if}}
 
 {{#if image.url}}
   <img src="{{imgSrc image.url 200}}" alt='{{label}}'>

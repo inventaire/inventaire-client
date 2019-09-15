@@ -6,12 +6,18 @@ module.exports = Marionette.CompositeView.extend
     return className
   childViewContainer: '.inner-merge-suggestions'
   childView: require './merge_suggestion'
+  initialize: ->
+    @hasManySuggestions = @collection.length > 3
+
   childViewOptions: ->
     toEntity: @model
+    showCheckbox: @hasManySuggestions
+
   emptyView: require 'modules/search/views/no_result'
   serializeData: ->
     attrs = @model.toJSON()
     attrs.standalone = @options.standalone
+    attrs.hasManySuggestions = @hasManySuggestions
     return attrs
 
   events:
