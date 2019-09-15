@@ -90,7 +90,7 @@ module.exports = Filterable.extend
 
   setCommonAttributes: (attrs)->
     unless attrs.claims?
-      error_.report 'entity without claims', attrs
+      error_.report 'entity without claims', { attrs }
       attrs.claims = {}
 
     { uri, type } = attrs

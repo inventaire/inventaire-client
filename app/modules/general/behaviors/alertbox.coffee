@@ -19,7 +19,7 @@ module.exports = Marionette.Behavior.extend
 
     selector or= '.has-alertbox'
 
-    unless /\.|#/.test selector then error_.report 'invalid selector', selector
+    unless /\.|#/.test selector then error_.report 'invalid selector', { selector }
     $target = @$el.find selector
 
     if $target.length isnt 1

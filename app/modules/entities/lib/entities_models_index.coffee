@@ -95,7 +95,7 @@ logMissingEntities = (newEntities, requestedUris)->
   newEntitiesUris = Object.keys newEntities
   missingUris = _.difference requestedUris, newEntitiesUris
   if missingUris.length > 0
-    error_.report 'entities not found', missingUris
+    error_.report 'entities not found', { missingUris }
 
 # Used when an entity is created locally and needs to be added to the index
 exports.addModel = addModel = (entityModel)->
