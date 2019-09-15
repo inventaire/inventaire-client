@@ -65,8 +65,11 @@ parseSearchResults = (uri, tasksEntitiesUris)-> (searchResults)->
   prefix = uri.split(':')[0]
   if prefix is 'wd' then uris = uris.filter isntWdUri
   # Omit the current entity URI and the entities for which a task was found
-  uris = _.without uris, uri, tasksEntitiesUris...
+  urisToOmit = [ uri ].concat tasksEntitiesUris
+  uris = _.without uris, urisToOmit...
   # Search results entities miss their claims, so we need to fetch the full entities
   return app.request 'get:entities:models', { uris }
+  # Re-filter out uris to omit as a redirection might have brought it back
+  .then (entities)-> entities.filter (entity)-> entity.get('uri') not in urisToOmit
 
 isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'
