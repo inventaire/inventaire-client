@@ -16,8 +16,8 @@ search = (input)->
 
   _search.call @, input
   .then (results)=>
-    @_lastResultsLength = results.length
     if results? and results.length is 0
+      @_lastResultsLength = results.length
       @suggestionsRegion.currentView.$el.addClass 'no-results'
     else
       @suggestionsRegion.currentView.$el.removeClass 'no-results'
