@@ -31,6 +31,10 @@
   .label{
     margin: 0;
   }
+  .description{
+    color: $grey;
+    @include text-align-start;
+  }
   .suggestion-claims{
     text-align: left;
     margin-bottom: 1em;

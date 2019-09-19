@@ -61,7 +61,7 @@ module.exports =
   capitalize: (str)-> _.capitalise str
 
   limit: (text, limit)->
-    return ''  unless text?
+    unless text? then return ''
     t = text[0..limit]
     if text.length > limit then t += '[...]'
     new SafeString t
