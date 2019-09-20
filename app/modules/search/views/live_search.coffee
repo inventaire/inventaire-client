@@ -11,6 +11,7 @@ Results = Backbone.Collection.extend { model: require('../models/result') }
 wikidataSearch = require('modules/entities/lib/search/wikidata_search')(false)
 findUri = require '../lib/find_uri'
 error_ = require 'lib/error'
+{ looksLikeAnIsbn, normalizeIsbn } = require 'lib/isbn'
 screen_ = require 'lib/screen'
 searchBatchLength = 10
 searchCount = 0
@@ -105,7 +106,7 @@ module.exports = Marionette.CompositeView.extend
     unless _.isNonEmptyString search then return @hideAlternatives()
 
     uri = findUri search
-    if uri? then return @getResultFromUri uri, @_lastSearchId
+    if uri? then return @getResultFromUri uri, @_lastSearchId, @_lastSearch
 
     @_search search
     .then @resetResults.bind(@, @_lastSearchId)
@@ -151,16 +152,19 @@ module.exports = Marionette.CompositeView.extend
 
   showShortcuts: -> @ui.shortcuts.addClass 'shown'
 
-  getResultFromUri: (uri, searchId)->
+  getResultFromUri: (uri, searchId, rawSearch)->
     _.log uri, 'uri found'
     @showLoadingSpinner()
 
     app.request 'get:entity:model', uri
-    .catch (err)->
-      if err.message is 'entity_not_found' then return
-      else throw err
-    .finally @stopLoadingSpinner.bind(@)
     .then (entity)=> @resetResults searchId, [ formatEntity(entity) ]
+    .catch (err)=>
+      if err.message is 'entity_not_found'
+        @_waitingForAlternatives = true
+        @showAlternatives rawSearch
+      else
+        throw err
+    .finally @stopLoadingSpinner.bind(@)
 
   showLoadingSpinner: ->
     @ui.loader.html '<div class="small-loader"></div>'
@@ -223,9 +227,14 @@ module.exports = Marionette.CompositeView.extend
   showDeepSearch: -> @triggerMethod 'show:deep:search'
 
   showEntityCreate: ->
-    type = sectionToTypes[@_lastType]
     @triggerMethod 'hide:live:search'
-    app.execute 'show:entity:create', { label: @_lastSearch, type }
+    if looksLikeAnIsbn @_lastSearch
+      # If the edition entity for this ISBN really doesn't exist
+      # it will redirect to the ISBN edition creation form
+      app.execute 'show:entity', @_lastSearch
+    else
+      type = sectionToTypes[@_lastType]
+      app.execute 'show:entity:create', { label: @_lastSearch, type }
 
   onResultsScroll: (e)->
     visibleHeight = @ui.resultsWrapper.height()
