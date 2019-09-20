@@ -74,7 +74,6 @@ getRemoteEntitiesModels = (uris, refresh, defaultType)->
         newEntities[uri] = new Entity entityData, { defaultType, refresh }
 
     aliasRedirects newEntities, redirects
-    logMissingEntities newEntities, uris
 
     # Replace the entities models promises by their models:
     # saves the extra space taken by the promise object
@@ -90,12 +89,6 @@ aliasRedirects = (entities, redirects)->
   for from, to of redirects
     entities[from] = entities[to]
   return
-
-logMissingEntities = (newEntities, requestedUris)->
-  newEntitiesUris = Object.keys newEntities
-  missingUris = _.difference requestedUris, newEntitiesUris
-  if missingUris.length > 0
-    error_.report 'entities not found', { missingUris }
 
 # Used when an entity is created locally and needs to be added to the index
 exports.addModel = addModel = (entityModel)->
