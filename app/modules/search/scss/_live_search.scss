@@ -87,7 +87,7 @@
     color: $grey;
   }
   .alternatives{
-    padding: 0.2em 0.5em;
+    padding: 0.2em;
     opacity: 0;
     @include transition(opacity, 0.3s);
     &.shown{
@@ -103,8 +103,8 @@
     @include display-flex(row, center, flex-end);
     a{
       @include display-flex(row, center, center);
-      padding: 0.2em 0.5em;
-      margin: 0.2em;
+      padding: 0.2em 0;
+      margin: 0.2em 0;
       min-width: 7em;
       text-align: center;
       @include tiny-button-color($dark-grey, white);

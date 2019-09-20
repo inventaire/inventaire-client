@@ -4,11 +4,6 @@ CustomQuery = (actionName)-> (uri, refresh)-> action actionName, { uri, refresh 
 
 module.exports =
   # GET
-  search: (search, refresh, fast)->
-    { lang } = app.user
-    search = encodeURIComponent search
-    action 'search', { search, lang, refresh, fast }
-
   getByUris: (uris, refresh, relatives)->
     uris = _.forceArray(uris).join '|'
     if relatives? then relatives = _.forceArray(relatives).join '|'

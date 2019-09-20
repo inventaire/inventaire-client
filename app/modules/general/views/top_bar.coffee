@@ -63,7 +63,6 @@ module.exports = Marionette.LayoutView.extend
 
   childEvents:
     'hide:live:search': 'hideLiveSearch'
-    'show:deep:search': 'showDeepSearch'
 
   showHome: (e)->
     unless _.isOpenedOutside e
@@ -72,12 +71,6 @@ module.exports = Marionette.LayoutView.extend
   showMainUser: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:inventory:user', app.user
-
-  showDeepSearch: ->
-    search = @ui.searchField.val()
-    unless _.isNonEmptyString search then return
-    app.execute 'search:global', search
-    @hideLiveSearch()
 
   updateConnectionButtons: (section)->
     if app.user.loggedIn then return

@@ -46,7 +46,6 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .searchSection': 'updateSections'
-    'click .deepSearch': 'showDeepSearch'
     'click .createEntity': 'showEntityCreate'
 
   onShow: ->
@@ -223,8 +222,6 @@ module.exports = Marionette.CompositeView.extend
   resetHighlightIndex: ->
     @$el.find('.highlight').removeClass 'highlight'
     @_currentHighlightIndex = -1
-
-  showDeepSearch: -> @triggerMethod 'show:deep:search'
 
   showEntityCreate: ->
     @triggerMethod 'hide:live:search'

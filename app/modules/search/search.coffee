@@ -1,5 +1,4 @@
 SearchResultsHistory = require './collections/search_results_history'
-SearchLayout = require './views/search'
 error_ = require 'lib/error'
 findUri = require './lib/find_uri'
 { parseQuery } = require 'lib/location'
@@ -23,19 +22,8 @@ module.exports =
       'search:history:add': (data)-> app.searchResultsHistory.addNonExisting data
 
 API = {}
-API.search = (query, refresh)->
-  unless _.isNonEmptyString query
-    app.execute 'show:add:layout:search'
-    return
-
-  if showEntityPageIfUri(query, refresh) then return
-
-  # Else, show the normal search layout
-  app.layout.main.show new SearchLayout { query, refresh }
-
-  encodedQuery = _.fixedEncodeURIComponent query
-  app.navigate "search?q=#{encodedQuery}",
-    metadata: { title: "#{query} - " +  _.I18n('search') }
+API.search = (search, section, showFallbackLayout)->
+  app.vent.trigger 'live:search:query', { search, section, showFallbackLayout }
 
 API.searchFromQueryString = (querystring)->
   { q, refresh } = parseQuery querystring
@@ -47,15 +35,11 @@ API.searchFromQueryString = (querystring)->
 
   [ q, section ] = findSearchSection q
 
-  # Forwarding to the top bar live search instead of directly calling API.search
-  # as the live search is way faster, and from their the full search,
-  # if needed, is one click away
-  app.vent.trigger 'live:search:query',
-    search: q
-    section: section
-    # Show the add layout at its search tab in the background, so that clicking
-    # out of the live search doesn't result in a blank page
-    showFallbackLayout: app.Execute 'show:add:layout:search'
+  # Show the add layout at its search tab in the background, so that clicking
+  # out of the live search doesn't result in a blank page
+  showFallbackLayout = app.Execute 'show:add:layout:search'
+
+  API.search q, section, showFallbackLayout
 
 showEntityPageIfUri = (query, refresh)->
   # If the query text is a URI, show the associated entity page
