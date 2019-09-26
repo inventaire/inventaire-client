@@ -1,8 +1,8 @@
-<div class="friendAcceptedRequest">
+<a class="friendAcceptedRequest notification-link" href="{{pathname}}">
   <img src="{{imgSrc picture 48}}">
-  <a href="{{pathname}}">
+  <div class="info">
     <span>{{{i18n 'friend_accepted_request' this}}}</span><br>
     <span class="time">{{timeFromNow time}}</span>
-  </a>
+  </div>
   {{partial 'notifications:unread_flag'}}
-</div>
+</a>

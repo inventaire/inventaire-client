@@ -13,18 +13,17 @@
   }
   li{
     text-align: left;
-    width: 100%;
     margin: 0.1em;
     padding: 0.5em;
     @include shy-border;
     @include radius;
-    > div{
+    .notification-link{
       @include display-flex(row, flex-start, flex-start);
       width: 100%;
-    }
-    a{
-      flex: 1 1 auto;
-      padding: 0.2em;
+      .info{
+        flex: 1 1 auto;
+        padding: 0.2em;
+      }
     }
   }
   .show-notifications-settings-wrapper{

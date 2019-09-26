@@ -1,8 +1,8 @@
-<div class="groupNotification {{type}}">
+<a class="groupNotification notification-link {{type}}" href="{{pathname}}">
   <img src="{{imgSrc picture 48}}">
-  <a href="{{pathname}}">
+  <div class="info">
     <span>{{{i18n text this}}}</span><br>
     <span class="time">{{timeFromNow time}}</span>
-  </a>
+  </div>
   {{partial 'notifications:unread_flag'}}
-</div>
+</a>
