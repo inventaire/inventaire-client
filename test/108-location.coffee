@@ -20,7 +20,6 @@ describe 'location utils', ->
       parseQuery(queries.uncompleteButGood).should.be.an.Object()
       parseQuery().should.be.an.Object()
       parseQuery(null).should.be.an.Object()
-      _.log parseQuery(queries.goodToo), queries.goodToo
       done()
 
     it "should forgive and forget the '?' before queries", (done)->

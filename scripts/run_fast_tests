@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -eu
+ls test/*coffee -1 | grep -v slow | xargs mocha --compilers coffee:coffee-script/register --exit --no-deprecation
