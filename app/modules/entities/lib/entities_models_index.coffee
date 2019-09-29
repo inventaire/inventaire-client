@@ -108,7 +108,9 @@ invalidateCache = (uri)->
 
 # Softer than invalidateCache: simply setting a flag to be taken into account
 # by Entity::fetchSubEntities on next call
-invalidateGraph = (uri)-> entitiesModelsIndexedByUri[uri].graphChanged = true
+invalidateGraph = (uri)->
+  if entitiesModelsIndexedByUri[uri]? then entitiesModelsIndexedByUri[uri].graphChanged = true
+  else _.warn uri, "entity not found in cache: can't invalidate cache"
 
 app.commands.setHandlers
   'invalidate:entities:graph': (uris)-> sanitizeUris(uris).forEach invalidateGraph
