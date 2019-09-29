@@ -7,7 +7,7 @@ module.exports = Marionette.CompositeView.extend
   childViewContainer: '.inner-merge-suggestions'
   childView: require './merge_suggestion'
   initialize: ->
-    @hasManySuggestions = @collection.length > 3
+    @hasManySuggestions = @collection.length > 1
 
   childViewOptions: ->
     toEntity: @model
@@ -32,7 +32,7 @@ module.exports = Marionette.CompositeView.extend
     .forEach (el)-> el.checked = bool
 
   mergeSelectedSuggestions: ->
-    selectedViews = Object.values(@children._views).filter (child)-> child.isSelected
+    selectedViews = Object.values(@children._views).filter (child)-> child.isSelected()
 
     mergeSequentially = ->
       nextSelectedView = selectedViews.shift()

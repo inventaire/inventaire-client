@@ -20,7 +20,6 @@ module.exports = Marionette.LayoutView.extend
     @taskModel = @model.tasks?[toEntityUri]
 
     @isExactMatch = haveLabelMatch @model, @options.toEntity
-    @isSelected = @isExactMatch
     { @showCheckbox } = @options
 
   serializeData: ->
@@ -34,7 +33,6 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .showTask': 'showTask'
     'click .merge': 'merge'
-    'change input[type="checkbox"]': 'updateSelectedState'
 
   onShow: ->
     if @model.get('type') isnt 'human' then return
@@ -75,8 +73,7 @@ module.exports = Marionette.LayoutView.extend
     .catch error_.Complete('.merge', false)
     .catch forms_.catchAlert.bind(null, @)
 
-  updateSelectedState: (e)->
-    @isSelected = e.currentTarget.checked
+  isSelected: -> @$el.find('input[type="checkbox"]').prop('checked')
 
 haveLabelMatch = (suggestion, toEntity)->
   _.haveAMatch getNormalizedLabels(suggestion), getNormalizedLabels(toEntity)
