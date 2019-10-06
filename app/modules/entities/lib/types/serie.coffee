@@ -29,7 +29,10 @@ specificMethods = _.extend {}, commonsSerieWork,
   # Placeholder for cases when a series was formerly identified as a work
   # and got editions or items linking to it, assuming it is a work
   getItemsByCategories: ->
-    app.execute 'report:entity:type:issue', { model: @, expectedType: 'work', context: module.id }
+    app.execute 'report:entity:type:issue',
+      model: @
+      expectedType: 'work'
+      context: { module: module.id }
     return Promise.resolve { personal: [], network: [], public: [] }
 
   getAllAuthorsUris: ->
@@ -41,6 +44,9 @@ initPartsCollections = (refresh, fetchAll, partsData)->
     uris: partsData.map getUri
     defaultType: 'work'
     refresh: refresh
+    parentContext:
+      entityType: 'serie'
+      entityUri: @get 'uri'
 
   if fetchAll then return @parts.fetchAll()
 

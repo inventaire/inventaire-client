@@ -7,7 +7,7 @@ module.exports = Entities.extend
     unless @remainingUris? then throw new Error 'expected uris'
     @totalLength = options.uris.length
     @fetchedUris = []
-    { @refresh, @defaultType } = options
+    { @refresh, @defaultType, @parentContext } = options
     @typesWhitelist ?= options.typesWhitelist
 
   fetchMore: (amount)->
@@ -41,6 +41,11 @@ module.exports = Entities.extend
   filterOutUndesiredTypes: (entity)->
     if not @typesWhitelist? or entity.type in @typesWhitelist then return true
     else
-      data = { model: entity, expectedType: @typesWhitelist, context: module.id }
-      app.execute 'report:entity:type:issue', data
+      app.execute 'report:entity:type:issue',
+        model: entity
+        expectedType: @typesWhitelist
+        context:
+          module: module.id
+          allUris: JSON.stringify @allUris
+          parentContext: if @parentContext? then JSON.stringify @parentContext
       return false
