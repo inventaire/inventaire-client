@@ -12,8 +12,8 @@ module.exports =
   # Get many by POSTing URIs in the body
   getManyByUris: (refresh)-> action 'by-uris', { refresh }
 
-  reverseClaims: (property, uri, refresh, sort)->
-    action 'reverse-claims', { property, uri, refresh, sort }
+  reverseClaims: (property, value, refresh, sort)->
+    action 'reverse-claims', { property, value, refresh, sort }
 
   authorWorks: CustomQuery 'author-works'
   serieParts: CustomQuery 'serie-parts'
