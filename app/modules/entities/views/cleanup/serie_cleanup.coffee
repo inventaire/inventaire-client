@@ -24,7 +24,7 @@ module.exports = Marionette.LayoutView.extend
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
     editionsToggler: '.toggler-label[for="toggleEditions"]'
     descriptionsToggler: '.toggler-label[for="toggleDescriptions"]'
-    sizeToggler: '.toggler-label[for="sizeToggler"]'
+    largeToggler: '.toggler-label[for="largeToggler"]'
     createPlaceholdersButton: '#createPlaceholders'
     isolatedEditionsWrapper: '#isolatedEditionsWrapper'
 
@@ -46,6 +46,7 @@ module.exports = Marionette.LayoutView.extend
     @model.parts.forEach spreadPart.bind(@)
     fillGaps.call @
     @initEventListeners()
+    @_states = app.request 'querystring:get:all'
 
   serializeData: ->
     partsLength = @worksWithOrdinal.length
@@ -55,19 +56,19 @@ module.exports = Marionette.LayoutView.extend
       partsNumberPickerRange: [ @maxOrdinal..partsLength + 100 ]
       authorsToggler:
         id: 'authorsToggler'
-        checked: @showAuthors
+        checked: @_states['authors']
         label: 'show authors'
       editionsToggler:
         id: 'editionsToggler'
-        checked: @showEditions
+        checked: @_states['editions']
         label: 'show editions'
       descriptionsToggler:
         id: 'descriptionsToggler'
-        checked: @showDescriptions
+        checked: @_states['descriptions']
         label: 'show descriptions'
-      sizeToggler:
-        id: 'sizeToggler'
-        checked: @displayLarge
+      largeToggler:
+        id: 'largeToggler'
+        checked: @_states['large']
         label: 'large mode'
       titlePattern: @titlePattern
       placeholderCounter: @placeholderCounter
@@ -119,7 +120,7 @@ module.exports = Marionette.LayoutView.extend
     'change #authorsToggler': 'toggleAuthors'
     'change #editionsToggler': 'toggleEditions'
     'change #descriptionsToggler': 'toggleDescriptions'
-    'change #sizeToggler': 'toggleSize'
+    'change #largeToggler': 'toggleLarge'
     'keyup #titlePattern': 'lazyUpdateTitlePattern'
     'click #createPlaceholders': 'createPlaceholders'
 
@@ -138,26 +139,25 @@ module.exports = Marionette.LayoutView.extend
   removePlaceholdersAbove: removePlaceholdersAbove
 
   toggleAuthors: (e)->
-    @toggle 'authors', 'showAuthors', e
+    @toggle 'authors', e
 
   toggleEditions: (e)->
-    @toggle 'editions', 'showEditions', e
+    @toggle 'editions', e
     @ui.editionsToggler.removeClass 'glowing'
 
   toggleDescriptions: (e)->
-    @toggle 'descriptions', 'showDescriptions', e
+    @toggle 'descriptions', e
 
-  toggleSize: (e)->
-    @toggle 'size', 'displayLarge', e
+  toggleLarge: (e)->
+    @toggle 'large', e
 
-  toggle: (name, actionName, e)->
+  toggle: (name, e)->
     { checked } = e.currentTarget
-    if checked
-      @$el.addClass actionName
-      @[actionName] = true
-    else
-      @$el.removeClass actionName
-      @[actionName] = false
+    className = 'show' + _.capitalise(name)
+    if checked then @$el.addClass className
+    else @$el.removeClass className
+    @_states[name] = checked
+    app.execute 'querystring:set', name, checked
     @["#{name}TogglerChanged"] = true
 
   lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000

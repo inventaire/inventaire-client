@@ -4,7 +4,7 @@ allowPersistantQuery = require './allow_persistant_query'
 module.exports = (app, _)->
   app.reqres.setHandlers
     'querystring:get': get
-    'querystring:get:full': getQuery
+    'querystring:get:all': getQuery
     'querystring:keep': keep
 
   app.commands.setHandlers

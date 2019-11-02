@@ -12,3 +12,9 @@ module.exports =
   debug: alwaysKeep
   lang: alwaysKeep
   redirect: redirectTest
+
+  # cleanup layout flags
+  authors: alwaysKeep
+  editions: alwaysKeep
+  descriptions: alwaysKeep
+  large: alwaysKeep
