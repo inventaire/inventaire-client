@@ -46,7 +46,12 @@ module.exports = Marionette.LayoutView.extend
     @model.parts.forEach spreadPart.bind(@)
     fillGaps.call @
     @initEventListeners()
+
     @_states = app.request 'querystring:get:all'
+    @setStateClass 'authors'
+    @setStateClass 'editions'
+    @setStateClass 'descriptions'
+    @setStateClass 'large'
 
   serializeData: ->
     partsLength = @worksWithOrdinal.length
@@ -153,12 +158,16 @@ module.exports = Marionette.LayoutView.extend
 
   toggle: (name, e)->
     { checked } = e.currentTarget
+    @_states[name] = checked
+    @setStateClass name
+    app.execute 'querystring:set', name, checked
+    @["#{name}TogglerChanged"] = true
+
+  setStateClass: (name)->
+    checked = @_states[name]
     className = 'show' + _.capitalise(name)
     if checked then @$el.addClass className
     else @$el.removeClass className
-    @_states[name] = checked
-    app.execute 'querystring:set', name, checked
-    @["#{name}TogglerChanged"] = true
 
   lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000
   updateTitlePattern: (e)->

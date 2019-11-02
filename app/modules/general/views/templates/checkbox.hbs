@@ -1,0 +1,5 @@
+{{!-- Keep the same classes as ./toggler to ease the transition from one to the other --}}
+<div class="checkbox-wrapper {{#if inverted}}inverted{{/if}}">
+  <input id="{{id}}" class="checkbox-input" type="checkbox" {{#if checked}}checked="true"{{/if}}>
+  <label for="{{id}}" class="checkbox-label" tabindex="0">{{i18n label}}</label>
+</div>
