@@ -5,7 +5,7 @@
   background-color: $light-grey;
   @include radius;
   .head{
-    @include display-flex(row, baseline);
+    @include display-flex(row, center);
   }
   &.placeholder{
     @include bg-hover(#bbb);
@@ -24,6 +24,15 @@
     font-weight: bold;
     @include serif;
     padding-right: 1em;
+  }
+  .showEntity{
+    .label, .description{
+      display: block;
+      line-height: 1.3em;
+    }
+    .description{
+      color: $grey;
+    }
   }
   .showEntityEdit{
     margin-left: auto;

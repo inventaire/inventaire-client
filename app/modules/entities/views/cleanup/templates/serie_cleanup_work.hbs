@@ -13,7 +13,10 @@
     <span class="label">{{label}}</span>
     <span class="creation-call">{{i18n 'create'}}</span>
   {{else}}
-    <a class="showEntity link" href="{{pathname}}">{{label}}</a>
+    <a class="showEntity link" href="{{pathname}}">
+      <span class="label">{{label}}</span>
+      <span class="description">{{description}}</span>
+    </a>
     <a href="{{edit}}" class="showEntityEdit pencil"
       title="{{i18n 'edit data'}}">
       {{icon 'pencil'}}
