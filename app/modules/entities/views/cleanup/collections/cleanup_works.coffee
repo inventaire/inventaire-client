@@ -10,8 +10,8 @@ module.exports = Backbone.Collection.extend
       if richLabel.length > 50 then richLabel = richLabel.substring(0, 50) + '...'
       return { richLabel, uri }
 
-  getPlaceholdersOrdinals: ->
-    @filter isPlaceholder
+  getNonPlaceholdersOrdinals: ->
+    @filter isntPlaceholder
     .map (model)-> model.get('ordinal')
 
 isPlaceholder = (model)-> model.get('isPlaceholder') is true

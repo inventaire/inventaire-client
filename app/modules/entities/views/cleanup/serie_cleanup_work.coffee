@@ -38,7 +38,8 @@ module.exports = Marionette.LayoutView.extend
     localLang = app.request 'lang:local:get'
     data.langs = getLangsData localLang, @model.get('labels')
     if @options.showPossibleOrdinals
-      data.possibleOrdinals = @worksWithOrdinal.getPlaceholdersOrdinals()
+      nonPlaceholdersOrdinals = @worksWithOrdinal.getNonPlaceholdersOrdinals()
+      data.possibleOrdinals = getPossibleOrdinals nonPlaceholdersOrdinals
     return data
 
   onRender: ->
@@ -141,3 +142,8 @@ module.exports = Marionette.LayoutView.extend
     currentAuthorsUris = @model.get('claims.wdt:P50') or []
     authorsSuggestionsUris = _.difference @allAuthorsUris, currentAuthorsUris
     return { currentAuthorsUris, authorsSuggestionsUris }
+
+getPossibleOrdinals = (nonPlaceholdersOrdinals)->
+  maxOrdinal = nonPlaceholdersOrdinals.slice(-1)[0] or -1
+  return _.range 0, (maxOrdinal + 10)
+    .filter (num)-> num not in nonPlaceholdersOrdinals
