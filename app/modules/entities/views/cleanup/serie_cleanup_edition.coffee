@@ -1,4 +1,6 @@
 WorkPicker = require './work_picker'
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 module.exports = WorkPicker.extend
   tagName: 'li'
@@ -59,7 +61,11 @@ module.exports = WorkPicker.extend
   copyWorkLabel: ->
     unless @workLabel? then return
     currentTitle = @model.get 'claims.wdt:P1476.0'
+
     @model.setPropertyValue 'wdt:P1476', currentTitle, @workLabel
+    .catch error_.Complete('.actions', false)
+    .catch forms_.catchAlert.bind(null, @)
+
     @model.setLabelFromTitle()
     @workLabel = null
     @lazyRender()
