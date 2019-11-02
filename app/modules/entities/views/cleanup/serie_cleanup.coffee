@@ -23,6 +23,7 @@ module.exports = Marionette.LayoutView.extend
   ui:
     authorsToggler: '.toggler-label[for="toggleAuthors"]'
     editionsToggler: '.toggler-label[for="toggleEditions"]'
+    descriptionsToggler: '.toggler-label[for="toggleDescriptions"]'
     sizeToggler: '.toggler-label[for="sizeToggler"]'
     createPlaceholdersButton: '#createPlaceholders'
     isolatedEditionsWrapper: '#isolatedEditionsWrapper'
@@ -60,6 +61,10 @@ module.exports = Marionette.LayoutView.extend
         id: 'editionsToggler'
         checked: @showEditions
         label: 'show editions'
+      descriptionsToggler:
+        id: 'descriptionsToggler'
+        checked: @showDescriptions
+        label: 'show descriptions'
       sizeToggler:
         id: 'sizeToggler'
         checked: @displayLarge
@@ -113,6 +118,7 @@ module.exports = Marionette.LayoutView.extend
     'change #partsNumber': 'updatePartsNumber'
     'change #authorsToggler': 'toggleAuthors'
     'change #editionsToggler': 'toggleEditions'
+    'change #descriptionsToggler': 'toggleDescriptions'
     'change #sizeToggler': 'toggleSize'
     'keyup #titlePattern': 'lazyUpdateTitlePattern'
     'click #createPlaceholders': 'createPlaceholders'
@@ -137,6 +143,9 @@ module.exports = Marionette.LayoutView.extend
   toggleEditions: (e)->
     @toggle 'editions', 'showEditions', e
     @ui.editionsToggler.removeClass 'glowing'
+
+  toggleDescriptions: (e)->
+    @toggle 'descriptions', 'showDescriptions', e
 
   toggleSize: (e)->
     @toggle 'size', 'displayLarge', e

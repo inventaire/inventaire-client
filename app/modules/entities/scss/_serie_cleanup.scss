@@ -21,6 +21,11 @@
       display: none;
     }
   }
+  &:not(.showDescriptions){
+    .description{
+      display: none;
+    }
+  }
   .showEntityEdit, .toggleMergeWorkPicker{
     @include shy;
   }
