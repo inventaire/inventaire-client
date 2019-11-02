@@ -198,7 +198,7 @@ module.exports = Filterable.extend
     .then (imageObj)-> imageObj?.url
 
   getRefresh: (refresh)->
-    refresh = refresh or @graphChanged
+    refresh = refresh or @refresh or @graphChanged
     # No need to force refresh until next graph change
     @graphChanged = false
     return refresh
