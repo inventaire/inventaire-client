@@ -2,6 +2,9 @@ getActionKey = require 'lib/get_action_key'
 error_ = require 'lib/error'
 
 module.exports = Marionette.Behavior.extend
+  # used by assertViewHasBehavior
+  name: 'AlertBox'
+
   events:
     'alert': 'showAlertBox'
     'hideAlertBox': 'hideAlertBoxOnly'

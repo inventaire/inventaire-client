@@ -1,3 +1,5 @@
+error_ = require 'lib/error'
+
 module.exports = forms_ = {}
 
 forms_.pass = (options)->
@@ -28,6 +30,7 @@ forms_.earlyVerify = (view, e, verificator)->
 forms_.catchAlert = (view, err)->
   # Avoid to display an alert on a simple duplicated request
   if err.statusCode is 429 then return _.warn err, 'duplicated request'
+  assertViewHasBehavior view, 'AlertBox'
   view.$el.trigger 'stopLoading'
   forms_.alert view, err
   _.error err, 'err passed to catchAlert'
@@ -70,3 +73,8 @@ forms_.throwError = (message, selector, context...)->
   # Non-standard convention: 499 = client user error
   err.statusCode = 499
   throw err
+
+assertViewHasBehavior = (view, name)->
+  for behavior in view._behaviors
+    if behavior.__proto__.name is name then return
+  throw error_.new "view misses behavior: #{name}", 500
