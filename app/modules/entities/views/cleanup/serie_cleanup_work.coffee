@@ -3,6 +3,8 @@ getLangsData = require 'modules/entities/lib/editor/get_langs_data'
 SerieCleanupAuthors = require './serie_cleanup_authors'
 SerieCleanupEditions = require './serie_cleanup_editions'
 WorkPicker = require './work_picker'
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
   tagName: 'li'
@@ -22,6 +24,9 @@ module.exports = Marionette.LayoutView.extend
     placeholderEditor: '.placeholderEditor'
     placeholderLabelEditor: '.placeholderEditor input'
     langSelector: '.langSelector'
+
+  behaviors:
+    AlertBox: {}
 
   initialize: ->
     { @worksWithOrdinal, @worksWithoutOrdinal } = @options
@@ -96,6 +101,8 @@ module.exports = Marionette.LayoutView.extend
   updateOrdinal: (e)->
     { value } = e.currentTarget
     @model.setPropertyValue 'wdt:P1545', null, value
+    .catch error_.Complete('.head', false)
+    .catch forms_.catchAlert.bind(null, @)
 
   showPlaceholderEditor: ->
     unless @model.get('isPlaceholder') then return
