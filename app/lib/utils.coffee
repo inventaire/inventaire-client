@@ -60,7 +60,7 @@ module.exports = (Backbone, _, $, app, window)->
 
   LazyRender: (view, timespan = 200, attachFocusHandler)->
     cautiousRender = (focusSelector)->
-      unless view.isDestroyed
+      unless view.isDestroyed or view._preventRerender
         view.render()
         if _.isString focusSelector then view.$el.find(focusSelector).focus()
 

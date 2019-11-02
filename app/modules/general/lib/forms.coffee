@@ -35,6 +35,16 @@ forms_.catchAlert = (view, err)->
   forms_.alert view, err
   _.error err, 'err passed to catchAlert'
 
+  # Prevent the view to be re-rendered as that would hide the alert
+  alertId = _.uniqueId()
+  view._preventRerender = true
+  view._lastAlertId = alertId
+  setTimeout removePreventRerenderFlag(view, alertId), 2000
+
+removePreventRerenderFlag = (view, alertId)-> ()->
+  if view._lastAlertId isnt alertId then return
+  view._preventRerender = false
+
 forms_.alert = (view, err)->
   { selector, i18n } = err
   errMessage = err.responseJSON?.status_verbose or err.message
