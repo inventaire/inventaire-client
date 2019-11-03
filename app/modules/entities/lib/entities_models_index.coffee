@@ -56,7 +56,7 @@ getRemoteEntitiesModels = (uris, refresh, defaultType)->
     promise = _.preq.get getByUris(uris, refresh)
   else
     # Use the POST endpoint when using a GET might hit some URI length limits
-    promise = _.preq.post getManyByUris(refresh), { uris }
+    promise = _.preq.post getManyByUris, { uris, refresh }
 
   promise
   .then (res)->

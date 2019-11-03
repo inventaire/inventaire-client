@@ -10,7 +10,7 @@ module.exports =
     action 'by-uris', { uris, refresh, relatives }
 
   # Get many by POSTing URIs in the body
-  getManyByUris: (refresh)-> action 'by-uris', { refresh }
+  getManyByUris: action 'by-uris'
 
   reverseClaims: (property, value, refresh, sort)->
     action 'reverse-claims', { property, value, refresh, sort }
