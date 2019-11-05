@@ -1,5 +1,3 @@
-error_ = require 'lib/error'
-
 module.exports = Backbone.Collection.extend
   model: require '../models/candidate'
 

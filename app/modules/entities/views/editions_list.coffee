@@ -1,5 +1,4 @@
 { partialData, clickEvents } = require './editor/lib/edition_creation'
-error_ = require 'lib/error'
 availableLangList = require 'lib/available_lang_list'
 
 module.exports = Marionette.CompositeView.extend

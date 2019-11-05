@@ -1,5 +1,6 @@
 ItemCreationForm = require '../views/form/item_creation'
 EditionsList = require 'modules/entities/views/editions_list'
+error_ = require 'lib/error'
 
 module.exports = (params)->
   # Using the general domination of entity instead of work

@@ -1,5 +1,3 @@
-error_ = require 'lib/error'
-
 # Display a tip when a work label or an edition title contains the label of their serie
 # to invite to remove the serie label part
 module.exports =

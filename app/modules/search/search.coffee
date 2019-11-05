@@ -1,5 +1,4 @@
 SearchResultsHistory = require './collections/search_results_history'
-error_ = require 'lib/error'
 findUri = require './lib/find_uri'
 { parseQuery } = require 'lib/location'
 

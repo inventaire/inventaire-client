@@ -1,5 +1,4 @@
 wdLang = require 'wikidata-lang'
-error_ = require 'lib/error'
 
 module.exports = (availableLangs, selectedLang)->
   availableLangs

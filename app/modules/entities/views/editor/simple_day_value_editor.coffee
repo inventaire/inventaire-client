@@ -1,5 +1,4 @@
 ClaimsEditorCommons = require './claims_editor_commons'
-error_ = require 'lib/error'
 noValueI18n = null
 
 module.exports = ClaimsEditorCommons.extend

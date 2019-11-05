@@ -5,7 +5,6 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 { languages: activeLanguages } = require 'lib/active_languages'
-error_ = require 'lib/error'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/profile_settings'

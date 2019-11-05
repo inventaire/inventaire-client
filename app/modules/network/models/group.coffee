@@ -1,4 +1,3 @@
-error_ = require 'lib/error'
 # defining all and _recalculateAll methods
 aggregateUsersIds = require '../lib/aggregate_users_ids'
 groupActions = require '../lib/group_actions'

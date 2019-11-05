@@ -2,7 +2,6 @@ EntityDataOverview = require 'modules/entities/views/entity_data_overview'
 zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
-error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.LayoutView.extend

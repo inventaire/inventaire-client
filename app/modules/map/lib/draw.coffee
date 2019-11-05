@@ -1,6 +1,5 @@
 { tileUrl, settings, defaultZoom } = require './config'
 buildMarker = require './build_marker'
-error_ = require 'lib/error'
 
 module.exports = (params)->
   { containerId, latLng, zoom, cluster } = params

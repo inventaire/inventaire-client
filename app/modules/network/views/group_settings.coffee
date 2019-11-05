@@ -5,7 +5,6 @@ error_ = require 'lib/error'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 groupFormData = require '../lib/group_form_data'
 getActionKey = require 'lib/get_action_key'
-error_ = require 'lib/error'
 { ui:groupUrlUi, events:groupUrlEvents, LazyUpdateUrl } = require '../lib/group_url'
 
 module.exports = Marionette.ItemView.extend

@@ -1,6 +1,5 @@
 EditorCommons = require './editor_commons'
 forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
 properties = require 'modules/entities/lib/properties'
 
 # Methods that can't be on editor_commons because ./labels_editor is structured differently:

@@ -1,7 +1,5 @@
 WorkPicker = require './work_picker'
 mergeEntities = require 'modules/entities/views/editor/lib/merge_entities'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
 
 PartSuggestion = WorkPicker.extend
   tagName: 'li'
