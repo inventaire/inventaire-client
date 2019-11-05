@@ -5,7 +5,7 @@ canAddOneTypeList = [ 'serie', 'work' ]
 
 # TODO:
 # - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
-# - hide seris parts when displayed as sub-series
+# - hide series parts when displayed as sub-series
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/entities_list'
