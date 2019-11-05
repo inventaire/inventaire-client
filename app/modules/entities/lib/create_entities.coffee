@@ -65,7 +65,7 @@ byProperty = (options)->
   claims = { 'wdt:P31': [ wdtP31 ] }
 
   if property is 'wdt:P179'
-    claims['wdt:P50'] = [ relationEntity.get('claims.wdt:P50') ]
+    claims['wdt:P50'] = relationEntity.get 'claims.wdt:P50'
 
   return createAndGetEntity { labels, claims, createOnWikidata }
 
