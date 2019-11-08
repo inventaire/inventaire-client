@@ -3,7 +3,7 @@ MergeSuggestions = require '../views/editor/merge_suggestions'
 Task = require 'modules/tasks/models/task'
 loader = require 'modules/general/views/templates/loader'
 entitiesTypesWithTasks = [
-  'humans'
+  'human'
 ]
 
 module.exports = (params)->
