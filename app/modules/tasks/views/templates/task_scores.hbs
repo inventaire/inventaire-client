@@ -9,7 +9,12 @@
     {{#if showSourcesLinks}}
       <ul class="sources-links">
         {{#each sources}}
-          <li>{{link text=url url=url title=sourceTitle classes='link'}}</li>
+          {{#if url}}
+            <li>{{link text=url url=url title=sourceTitle classes='link'}}</li>
+          {{/if}}
+          {{#if uri}}
+            <li>{{{entity uri true null null sourceTitle}}} <span class="uri">({{uri}})</span></li>
+          {{/if}}
         {{/each}}
       </ul>
     {{/if}}

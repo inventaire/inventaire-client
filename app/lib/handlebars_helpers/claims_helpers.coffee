@@ -9,7 +9,7 @@ prop = (uri)->
   if /^wdt:P\d+$/.test uri then propertyValue { uri }
   else if wdk.isWikidataPropertyId(uri) then propertyValue { uri: "wdt:#{uri}" }
 
-entity = (uri, entityLink, alt, property)->
+entity = (uri, entityLink, alt, property, title)->
   # Be restricting on the input to be able to use it in SafeStrings
   unless wdk.isWikidataItemId(uri) or _.isEntityUri(uri)
     throw error_.new 'invalid entity uri', 500, { uri }
@@ -23,7 +23,7 @@ entity = (uri, entityLink, alt, property)->
   else
     pathname = "/entity/#{property}-#{uri}"
 
-  return entityValue { uri, pathname, entityLink, alt, label: alt }
+  return entityValue { uri, pathname, entityLink, alt, label: alt, title }
 
 propertyWithSpecialLayout = [
   'wdt:P50' # author

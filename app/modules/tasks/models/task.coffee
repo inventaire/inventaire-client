@@ -60,6 +60,7 @@ module.exports = Backbone.Model.extend
   getSources: ->
     @get 'externalSourcesOccurrences'
     .map (source)->
-      { url, matchedTitles } = source
+      { url, uri, matchedTitles } = source
       sourceTitle = 'Matched titles: ' + matchedTitles.join(', ')
-      return { url, sourceTitle }
+      if url then return { url, sourceTitle }
+      if uri then return { uri, sourceTitle }

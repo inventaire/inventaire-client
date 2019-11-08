@@ -6,6 +6,7 @@ the alternative being to link to a claim_layout --}}
     class='link uriLabel entity-value'
     {{!-- keeping the resource attribute for SEO (?)--}}
     resource='{{entityRemoteHref uri}}'
+    {{#if title}}title="{{title}}"{{/if}}
     data-label-uri='{{uri}}'>
   {{alt}}
   </a>
