@@ -1,5 +1,6 @@
 InventoryNav = require './inventory_nav'
 InventoryBrowser = require './inventory_browser'
+showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 
 navs =
   user: require './inventory_user_nav'
@@ -25,7 +26,10 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     if @user? then @showUserInventory @user
     else if @group? then @showGroupInventory @group
-    else @showNav @options.section
+    else
+      { section } = @options
+      @showNav section
+      @showSectionLastItems section
 
   showUserInventory: (user)->
     app.request 'resolve:to:userModel', user
@@ -51,3 +55,14 @@ module.exports = Marionette.LayoutView.extend
 
   showInventoryBrowser: (type, model)->
     @itemsList.show new InventoryBrowser { "#{type}": model }
+
+  showSectionLastItems: (section)->
+    showPaginatedItems
+      request: sectionRequest[section]
+      region: @itemsList
+      limit: 20
+      allowMore: true
+
+sectionRequest =
+  network: 'items:getNetworkItems'
+  public: 'items:getNearbyItems'
