@@ -37,28 +37,15 @@
   }
 
   #displayControls{
-    @include display-flex(row, center, flex-start);
-    margin: 1em 0.5em;
-    padding: 0 0.5em;
-    @include radius;
-    a{
-      @include radius;
-      height: 2em;
-      width: 2em;
-      @include display-flex(row, center, center);
-      &:not(:first-child){
-        margin-left: 0.5em;
+    .current{
+      padding: 0.2em 0.5em;
+      @include display-flex(row, center, flex-start);
+      background-color: white;
+      > div:not(.shown){
+        display: none;
       }
-      img{
-        @include radius;
-      }
-      &.selected{
-        background-color: white;
-        cursor: default;
-      }
-      &:not(.selected){
-        color: white;
-        @include bg-hover-lighten($dark-grey);
+      .label{
+        padding: 0 0.5em;
       }
     }
     /*Large screens*/

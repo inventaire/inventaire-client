@@ -31,10 +31,10 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     browserControls: '#browserControls'
-    displayControls: '#displayControls'
+    currentDisplayOption: '#displayControls .current div'
 
   events:
-    'click #displayControls a': 'selectDisplay'
+    'click #displayOptions a': 'selectDisplay'
     'click #addToInventory': 'addToInventory'
 
   childEvents:
@@ -43,6 +43,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     data = {}
     data[@display] = true
+    data.displayMode = @display
     data.isMainUser = @isMainUser
     return data
 
@@ -162,8 +163,7 @@ module.exports = Marionette.LayoutView.extend
     if display is @display then return
     @display = display
     localStorageProxy.setItem 'inventory:display', display
-    @ui.displayControls.find('.selected').removeClass 'selected'
-    $(e.currentTarget).addClass 'selected'
+    @ui.currentDisplayOption.toggleClass('shown')
     @showItemsByDisplayMode()
 
   addToInventory: (e)->
