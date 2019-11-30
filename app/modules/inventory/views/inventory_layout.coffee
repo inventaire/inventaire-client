@@ -17,6 +17,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { @user, @group } = @options
+    @listenTo app.vent, 'inventory:select:member', @showMemberInventory.bind(@)
 
   childEvents:
     select: (e, type, model)->
@@ -47,6 +48,10 @@ module.exports = Marionette.LayoutView.extend
       @showNav section, { group: groupModel }
       @showInventoryBrowser 'group', groupModel
       app.navigateFromModel groupModel
+
+  showMemberInventory: (member)->
+    app.request 'resolve:to:userModel', member
+    .then (memberModel)=> @showInventoryBrowser 'user', memberModel
 
   showNav: (section, sectionNavOptions)->
     @inventoryNav.show new InventoryNav { section }

@@ -1,0 +1,57 @@
+.groupProfile{
+  background-color: #bbb;
+  @include display-flex(row, flex-start, center, wrap);
+  .header{
+    flex: 1;
+    max-width: 30em;
+    position: relative;
+    .iconButtons{
+      @include position(absolute, 3px, 3px);
+      @include display-flex(column, center, space-between);
+      @include radius;
+      a{
+        color: white;
+        padding: 0.3em;
+        @include bg-hover(rgba(grey, 0.3));
+        .fa{
+          width: 2em;
+          text-align: center;
+        }
+      }
+    }
+    .actions{
+      padding-top: 1em;
+    }
+    .iconButtons{
+      font-size: 1.4em;
+    }
+    .name{
+      padding: 1em;
+    }
+    .cover{
+      height: 18em;
+      min-height: 33vh;
+    }
+    .description{
+      max-height: 8em;
+    }
+    .actions{
+      margin-bottom: 1em;
+    }
+  }
+
+  #membersList{
+    ul{
+      @include display-flex(column, null, flex-start, wrap);
+      max-height: 20em;
+      overflow: auto;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .header, #membersList{
+      flex: 1;
+    }
+  }
+}

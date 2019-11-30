@@ -179,13 +179,6 @@ addCount = (urisData)-> (model)->
   model.set 'count', urisData[uri].length
   return model
 
-getFriendsCollection = ->
-  app.request 'fetch:friends'
-  .get 'models'
-  .then getSelectorsCollection
-
-getGroupsCollection = -> getSelectorsCollection app.groups.models
-
 getSelectorsCollection = (models)->
   # Using a filtered collection allows browser_selector to filter
   # options without re-rendering the whole view

@@ -1,0 +1,14 @@
+.groupLi{
+  .showGroup{
+    width: 100%;
+    @include display-flex(row, center, flex-start);
+    .name{
+      margin-left: 0.4em;
+      max-width: 80%;
+      overflow: hidden;
+    }
+  }
+  .actions{
+    @include display-flex(column);
+  }
+}

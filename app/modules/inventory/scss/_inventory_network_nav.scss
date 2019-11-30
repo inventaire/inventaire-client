@@ -6,21 +6,16 @@ $nav-avatar-size: 5em;
   }
   .list-wrapper{
     margin: 1em 0.5em;
-    .info{
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: hidden;
-      height: 1.6em;
-      background-color: white;
-      padding-left: 0.2em;
-    }
+  }
+  .list-label{
+    color: $dark-grey;
+    margin-bottom: 0.5em;
+  }
+
+  #usersList, #groupsList, #membersList{
     ul{
       padding: 0.3em 0.5em;
       @include radius;
-      background-color: #f0f0f0;
-      @include display-flex(row, null, flex-start, wrap);
     }
     li{
       height: $nav-avatar-size;
@@ -40,9 +35,21 @@ $nav-avatar-size: 5em;
       background-position: center center;
       @include radius;
     }
+    .info{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      height: 1.6em;
+      background-color: white;
+      padding-left: 0.2em;
+    }
   }
-  .list-label{
-    color: $dark-grey;
-    margin-bottom: 0.5em;
+  #usersList, #groupsList{
+    ul{
+      background-color: #f0f0f0;
+      @include display-flex(row, null, flex-start, wrap);
+    }
   }
 }

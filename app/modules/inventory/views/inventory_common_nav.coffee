@@ -1,5 +1,5 @@
 UserProfile = require 'modules/inventory/views/user_profile'
-GroupProfile = require 'modules/network/views/group'
+GroupProfile = require 'modules/network/views/group_profile'
 List = require 'modules/inventory/views/inventory_network_nav_list'
 
 module.exports = Marionette.LayoutView.extend

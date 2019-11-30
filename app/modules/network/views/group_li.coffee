@@ -1,13 +1,9 @@
 groupPlugin = require '../plugins/group'
 
 module.exports = Marionette.ItemView.extend
-  getTemplate: ->
-    if @options.highlighted then require './templates/group_show'
-    else require './templates/group'
-  className: ->
-    if @options.highlighted then 'groupShow'
-    else 'group'
-  tagName: -> if @options.highlighted then 'div' else 'li'
+  template: require './templates/group_li'
+  className: 'groupLi'
+  tagName: 'li'
   initialize: ->
     @initPlugin()
     @lazyRender = _.LazyRender @
@@ -21,8 +17,3 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
     SuccessCheck: {}
-
-  serializeData:->
-    _.extend @model.serializeData(),
-      highlighted: @options.highlighted
-      rss: @model.getRss()
