@@ -1,42 +1,7 @@
-$coverTextBg: rgba($dark-grey, 0.5);
-
-.groupLi, .groupProfile{
-  @include display-flex(column, center, center);
-  color: white;
-  .groupPic{
-    height: $user-height;
-    width: $user-height;
-    overflow: hidden;
-  }
-  .joinRequest, .requested, .cancelRequest{
-    margin-top: 1em;
-  }
-  .requested{
-    text-align: center;
-    opacity: 0.8;
-  }
-  .cover{
-    @include bg-cover;
-    width: 100%;
-    @include display-flex(column, center, center);
-    height: 9em;
-    overflow: hidden;
-  }
-  .description{
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    max-height: 5em;
-    overflow: auto;
-    background-color: $coverTextBg;
-    .content-link{
-      @include text-hover(#ddd);
-      text-decoration: underline;
-    }
-  }
-}
+$coverTextBg: rgba($dark-grey, 0.9);
 
 .groupLi, .groupProfile, .group-board-header{
-  .cover .name{
+  .group-cover-picture .name{
     text-align: center;
     font-size: 1.5em;
     @include text-wrap;
@@ -44,7 +9,7 @@ $coverTextBg: rgba($dark-grey, 0.5);
   }
 }
 .groupLi, .groupProfile{
-  .cover .name{
+  .group-cover-picture .name{
     max-height: 3em;
   }
 }
@@ -56,13 +21,5 @@ $coverTextBg: rgba($dark-grey, 0.5);
     font-size: 1.6em;
     font-weight: bold;
     @include serif;
-    @include shy-text-border;
-  }
-  .stats{
-    padding: 0.5em;
-    width: 100%;
-    @include display-flex(row, center, space-between);
-    color: white;
-    background-color: $coverTextBg;
   }
 }

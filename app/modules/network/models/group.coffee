@@ -29,12 +29,19 @@ module.exports = Positionable.extend
   setInferredAttributes: ->
     slug = @get 'slug'
     canonical = pathname = "/groups/#{slug}"
+
     @set
       canonical: canonical
       pathname: pathname
       boardPathname: "/network/groups/settings/#{slug}"
       # non-persisted category used for convinience on client-side
       tmp: []
+
+    picture = @get 'picture'
+    unless picture?
+      @set
+        picture: defaultCover
+        pictureFilterColor: getFilterColor @get('name')
 
   beforeShow:->
     # All the actions to run once before showing any view displaying
@@ -83,9 +90,9 @@ module.exports = Positionable.extend
   serializeData: ->
     attrs = @toJSON()
     status = @mainUserStatus()
-    # not using status alone as that would override users lists:
+
+    # Not using status alone as that would override users lists:
     # requested, invited etc
-    attrs.picture or= defaultCover
     attrs["status_#{status}"] = true
 
     if attrs.position?
@@ -191,3 +198,18 @@ module.exports = Positionable.extend
 userItemsCount = (user)->
   nonPrivate = true
   user.inventoryLength(nonPrivate) or 0
+
+# Inspired by https://www.schemecolor.com/rainbow-pastels-color-scheme.php
+colorFilters = [
+  '#ffb7b2'
+  '#ffdac1'
+  '#e2f0cb'
+  '#b5ead7'
+  '#c7ceea'
+  '#a0eaff'
+]
+
+getFilterColor = (name)->
+  # Pick one of the colors based on the group name length
+  index = name.length % colorFilters.length
+  return colorFilters[index]

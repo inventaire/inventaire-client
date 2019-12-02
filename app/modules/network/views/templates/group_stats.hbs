@@ -1,11 +1,6 @@
 <ul class="stats">
-  <li class="membersCount count">{{i18n 'members:'}} {{membersCount}}</li>
   {{#if itemsCount}}
     <li class="booksCount count">{{i18n 'books:'}} {{itemsCount}}</li>
   {{/if}}
-  {{#if rss}}
-    <li class="feed">
-      {{iconLink 'rss' rss i18n='group_rss_title' i18nCtx=this}}
-    </li>
-  {{/if}}
+  <li class="membersCount count">{{i18n 'members:'}} {{membersCount}}</li>
 </ul>

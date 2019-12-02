@@ -1,24 +1,28 @@
-<div class="header">
-  <div class="iconButtons">
-    {{#if mainUserIsMember}}
-      <a class="showGroupBoard" href="{{boardPathname}}"
-      title="{{i18n 'settings'}}">{{icon 'cog'}}</a>
+<div class="section-one">
+  <div class="cover-header">
+    {{#if picture}}
+      <div class="group-cover-picture" style="background-image: url('{{imgSrc picture 1600}}')"></div>
     {{/if}}
-  </div>
-  <div
-  {{#if picture}}
-    class="cover"
-    style="background-image: url('{{imgSrc picture 1600}}')"
-  {{/if}}
-  >
-    <span class="name">{{name}}</span>
-    {{#if description}}
-      <p class="description">{{userContent description}}</p>
+    {{#if pictureFilterColor}}
+      <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
     {{/if}}
-    {{partial 'network:group_stats' this}}
+    <div class="info">
+      <span class="name">{{name}}</span>
+      {{#if description}}
+        <p class="description">{{userContent description}}</p>
+      {{/if}}
+    </div>
+    <div class="iconButtons">
+      {{#if mainUserIsMember}}
+        <a class="showGroupBoard" href="{{boardPathname}}"
+        title="{{i18n 'settings'}}">{{icon 'cog'}}</a>
+      {{/if}}
+    </div>
   </div>
-
-  {{partial 'network:group_actions' this}}
+  {{partial 'network:group_stats' this}}
 </div>
 
-<div id="membersList"></div>
+<div class="section-two">
+  <div id="membersList"></div>
+  {{partial 'network:group_actions' this}}
+</div>

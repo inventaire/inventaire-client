@@ -112,8 +112,9 @@ API =
 showGroupBoardFromModel = (model)->
   if model.mainUserIsMember()
     model.beforeShow()
-    app.layout.main.show new GroupBoard { model, standalone: true }
-    app.navigateFromModel model, 'boardPathname'
+    .then ->
+      app.layout.main.show new GroupBoard { model, standalone: true }
+      app.navigateFromModel model, 'boardPathname'
   else
     # if the user isnt a member, redirect to the group inventory
     app.execute 'show:inventory:group', model

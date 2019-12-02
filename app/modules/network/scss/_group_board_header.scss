@@ -20,7 +20,7 @@
     padding: 0.2em;
     overflow: hidden;
   }
-  .cover{
+  .group-cover-picture{
     @include display-flex(column, center, center);
     @include radius-top;
     @include inner-shadow;
@@ -72,5 +72,17 @@
   }
   .not-searchable{
     background-color: $dark-grey;
+  }
+
+  .stats{
+    padding: 0.5em;
+    width: 100%;
+    align-self: stretch;
+    @include display-flex(row, center, space-between);
+    color: white;
+    background-color: $coverTextBg;
+    .booksCount{
+      margin-left: auto;
+    }
   }
 }

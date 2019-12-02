@@ -1,4 +1,4 @@
-<a href="{{pathname}}" style="background-image: url({{imgSrc picture 100}})">
+<a href="{{pathname}}">
   <div class="info">
     {{#if isGroup}}
       <strong>{{name}}</strong>
@@ -6,4 +6,8 @@
       <strong>{{username}}</strong>
     {{/if}}
   </div>
+  {{#if pictureFilterColor}}
+    <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
+  {{/if}}
+  <div class="cover" style="background-image: url({{imgSrc picture 100}})"></div>
 </a>

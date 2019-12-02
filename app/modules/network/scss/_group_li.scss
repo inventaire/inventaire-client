@@ -1,4 +1,11 @@
 .groupLi{
+  @include display-flex(column, center, center);
+  color: white;
+  .groupPic{
+    height: $user-height;
+    width: $user-height;
+    overflow: hidden;
+  }
   .showGroup{
     width: 100%;
     @include display-flex(row, center, flex-start);

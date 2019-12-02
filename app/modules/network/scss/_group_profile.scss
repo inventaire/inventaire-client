@@ -1,36 +1,59 @@
 .groupProfile{
-  background-color: #bbb;
   @include display-flex(row, flex-start, center, wrap);
-  .header{
-    flex: 1;
-    max-width: 30em;
+  color: white;
+  background-color: #bbb;
+  .section-one{
+    flex: 1 0 auto;
+  }
+  .cover-header{
+    @include display-flex(column, center, center);
+    height: 18em;
     position: relative;
     .iconButtons{
       @include position(absolute, 3px, 3px);
       @include display-flex(column, center, space-between);
       @include radius;
+      font-size: 1.4em;
       a{
         color: white;
         padding: 0.3em;
-        @include bg-hover(rgba(grey, 0.3));
+        @include bg-hover($coverTextBg);
         .fa{
           width: 2em;
           text-align: center;
         }
       }
     }
+    .info{
+      // Somehow needed to make it appear above group-cover-picture and picture-color-filter
+      position: relative;
+      align-self: stretch;
+      @include display-flex(column, center, center);
+      color: white;
+      .fa{
+        color: white;
+      }
+      flex: 1;
+      .name{
+        padding: 0.5em 1em;
+        @include radius;
+        color: white;
+        background-color: rgba($dark-grey, 0.9);
+      }
+    }
     .actions{
       padding-top: 1em;
     }
-    .iconButtons{
-      font-size: 1.4em;
+    .picture-color-filter{
+      @include position(absolute, 0, 0, 0, 0);
+      opacity: 0.6;
     }
-    .name{
-      padding: 1em;
-    }
-    .cover{
-      height: 18em;
-      min-height: 33vh;
+    .group-cover-picture{
+      @include position(absolute, 0, 0, 0, 0);
+      @include bg-cover;
+      width: 100%;
+      @include display-flex(column, center, center);
+      overflow: hidden;
     }
     .description{
       max-height: 8em;
@@ -39,10 +62,36 @@
       margin-bottom: 1em;
     }
   }
+  .section-two{
+    flex: 2 0 0;
+  }
+  .stats{
+    padding: 0.5em;
+    background-color: $grey;
+    @include display-flex(row, center, space-between);
+  }
+  .joinRequest, .requested, .cancelRequest{
+    margin-top: 1em;
+  }
+  .requested{
+    text-align: center;
+    opacity: 0.8;
+  }
+  .description{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    max-height: 5em;
+    overflow: auto;
+    background-color: $coverTextBg;
+    .content-link{
+      @include text-hover(#ddd);
+      text-decoration: underline;
+    }
+  }
 
   #membersList{
     ul{
-      @include display-flex(column, null, flex-start, wrap);
+      justify-content: flex-end;
       max-height: 20em;
       overflow: auto;
     }
@@ -50,7 +99,7 @@
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    .header, #membersList{
+    .cover-header, #membersList{
       flex: 1;
     }
   }

@@ -43,6 +43,7 @@ module.exports = Marionette.LayoutView.extend
 
   showGroupInventory: (group)->
     app.request 'resolve:to:groupModel', group
+    .tap (groupModel)-> groupModel.beforeShow()
     .then (groupModel)=>
       section = if groupModel.mainUserIsMember() then 'network' else 'public'
       @showNav section, { group: groupModel }

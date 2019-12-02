@@ -14,42 +14,47 @@ $nav-avatar-size: 5em;
 
   #usersList, #groupsList, #membersList{
     ul{
-      padding: 0.3em 0.5em;
-      @include radius;
+      padding: 0.3em;
+      @include display-flex(row, flex-start, null, wrap);
     }
     li{
-      height: $nav-avatar-size;
-      flex: 0 0 $nav-avatar-size;
-      @include radius;
-      margin: 0.5em 0.2em;
-      .info{
-        padding: 0 0.2em;
-      }
       position: relative;
+      height: $nav-avatar-size;
+      width: $nav-avatar-size;
+      flex: 0 0 $nav-avatar-size;
+      margin: 0.2em;
+      @include radius;
     }
     a{
+      position: relative;
       display: block;
       height: $nav-avatar-size;
       width: $nav-avatar-size;
-      background-size: cover;
-      background-position: center center;
       @include radius;
     }
+    .cover, .picture-color-filter{
+      background-size: cover;
+      background-position: center center;
+      @include position(absolute, 0, 0, 0, 0);
+    }
+    .picture-color-filter{
+      z-index: 1;
+      opacity: 0.6;
+    }
     .info{
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      z-index: 2;
+      @include position(absolute, null, 0, 0, 0);
       overflow: hidden;
       height: 1.6em;
       background-color: white;
-      padding-left: 0.2em;
+      padding: 0 0.2em;
     }
   }
   #usersList, #groupsList{
     ul{
+      @include radius;
       background-color: #f0f0f0;
-      @include display-flex(row, null, flex-start, wrap);
+      justify-content: flex-start;
     }
   }
 }
