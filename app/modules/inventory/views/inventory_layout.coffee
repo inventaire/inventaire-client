@@ -1,5 +1,6 @@
 InventoryNav = require './inventory_nav'
 InventoryBrowser = require './inventory_browser'
+UserProfile = require 'modules/inventory/views/user_profile'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 
 navs =
@@ -9,10 +10,11 @@ navs =
 
 module.exports = Marionette.LayoutView.extend
   id: 'inventoryLayout'
-  template: require './templates/inventory'
+  template: require './templates/inventory_layout'
   regions:
     inventoryNav: '#inventoryNav'
     sectionNav: '#sectionNav'
+    sectionSubNav: '#sectionSubNav'
     itemsList: '#itemsList'
 
   initialize: ->
@@ -52,7 +54,9 @@ module.exports = Marionette.LayoutView.extend
 
   showMemberInventory: (member)->
     app.request 'resolve:to:userModel', member
-    .then (memberModel)=> @showInventoryBrowser 'user', memberModel
+    .then (memberModel)=>
+      @sectionSubNav.show new UserProfile { model: memberModel }
+      @showInventoryBrowser 'user', memberModel
 
   showNav: (section, sectionNavOptions)->
     @inventoryNav.show new InventoryNav { section }
