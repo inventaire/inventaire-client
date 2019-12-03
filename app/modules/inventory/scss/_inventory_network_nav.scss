@@ -25,12 +25,17 @@ $nav-avatar-size: 5em;
       margin: 0.2em;
       @include radius;
     }
-    a{
+    .nav-list-element{
       position: relative;
       display: block;
       height: $nav-avatar-size;
       width: $nav-avatar-size;
       @include radius;
+      &:hover{
+        .items-count{
+          opacity: 1;
+        }
+      }
     }
     .picture, .picture-color-filter{
       background-size: cover;
@@ -39,6 +44,18 @@ $nav-avatar-size: 5em;
     }
     .picture-color-filter{
       opacity: 0.6;
+    }
+    .items-count{
+      @include position(absolute, 0, 0);
+      background-color: white;
+      height: 1.15em;
+      min-width: 1em;
+      text-align: center;
+      line-height: 1em;
+      padding: 0 0.2em 0.2em 0.2em;
+      border-bottom-left-radius: $global-radius;
+      opacity: 0.8;
+      @include transition;
     }
     .info{
       @include position(absolute, null, 0, 0, 0);
