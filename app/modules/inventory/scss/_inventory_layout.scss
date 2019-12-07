@@ -1,5 +1,12 @@
 #inventoryLayout{
   background-color: white;
+  // Set a minimun height so that when a filter is picked and only a few items
+  // are displayed as a result, the view doesn't jump up
+  min-height: 100vh;
+  #itemsList{
+    min-height: 100vh;
+  }
+
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     padding: 0.5em;
@@ -17,11 +24,14 @@
 
 $inventory-nav-grey: #eee;
 
-@import "inventory_nav";
-@import "inventory_user_nav";
-@import "user_profile";
-@import "inventory_network_nav";
-@import "inventory_public_nav";
+#inventoryLayout{
+  @import "inventory_nav";
+  @import "user_profile";
+  @import "inventory_nav_lists";
+  @import "inventory_network_nav";
+  @import "inventory_public_nav";
+}
+
 @import "item_creation";
 @import "item_show";
 @import "inventory_welcome";

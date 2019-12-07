@@ -1,7 +1,4 @@
 #inventory-browser{
-  // Set a minimun height so that when a filter is picked and only a few items
-  // are displayed as a result, the view doesn't jump up
-  min-height: 100vh;
   #browserControls, #browser-filters{
     @include display-flex(row, center, center, wrap);
     @include radius;

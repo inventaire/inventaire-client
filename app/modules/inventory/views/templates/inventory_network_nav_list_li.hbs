@@ -3,9 +3,10 @@
   {{#if pictureFilterColor}}
     <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
   {{/if}}
-  {{#if itemsCount}}
+  {{!-- Not showing itemsCount for group as that would be inconsistent depending on if beforeShow was called --}}
+  {{#unless isGroup}}{{#if itemsCount}}
     <div class="items-count">{{itemsCount}}</div>
-  {{/if}}
+  {{/if}}{{/unless}}
   <div class="info">
     {{#if isGroup}}
       <strong>{{name}}</strong>

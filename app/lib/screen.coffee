@@ -7,11 +7,21 @@ module.exports = screen_ =
 
   # Scroll to the top of an $el
   # Increase marginTop to scroll to a point before the element top
-  scrollTop: ($el, duration = 500, marginTop = 0)->
+  scrollTop: ($el, duration, marginTop, delay)->
+    if _.isObject($el) and not ($el instanceof $)
+      { $el, duration, marginTop, delay } = $el
+
     # Polymorphism: accept jquery objects or selector strings as $el
-    if _.isString then $el = $($el)
-    top = $el.position().top - marginTop
-    $('html, body').animate { scrollTop: top }, duration
+    if _.isString $el then $el = $($el)
+
+    duration ?= 500
+    marginTop ?= 0
+    delay ?= 100
+
+    scroll = ->
+      top = $el.position().top - marginTop
+      $('html, body').animate { scrollTop: top }, duration
+    setTimeout scroll, delay
 
   # Scroll to a given height
   scrollHeight: (height, ms = 500)->

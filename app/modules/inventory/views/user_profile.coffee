@@ -2,6 +2,7 @@ forms_ = require 'modules/general/lib/forms'
 relationsActions = require 'modules/users/plugins/relations_actions'
 { buildPath } = require 'lib/location'
 
+# TODO: add a 'close' button to allow to unfocus a user in group context
 module.exports = Marionette.ItemView.extend
   className: 'userProfile'
   template: require './templates/user_profile'

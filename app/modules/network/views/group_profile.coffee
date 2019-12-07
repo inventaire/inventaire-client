@@ -31,8 +31,8 @@ module.exports = Marionette.LayoutView.extend
     @model.beforeShow()
     .then @ifViewIsIntact('showMembers')
 
-  showMembers: -> @membersList.show new List { collection: @model.members }
+  showMembers: -> @membersList.show new List { collection: @model.members, context: 'group' }
 
   childEvents:
     select: (e, type, model)->
-      app.vent.trigger 'inventory:select:member', model
+      app.vent.trigger 'inventory:select', 'member', model

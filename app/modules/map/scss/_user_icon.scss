@@ -30,6 +30,12 @@ $arrowHeight: 10px;
   background-color: $lighter-grey;
   box-shadow: 10px 10px 10px rgba(black, 0.5);
 }
+
+.img-wrapper{
+  // Required to be able to position .picture-color-filter
+  position: relative;
+}
+
 .objectIcon:after{
   top: 100%;
   left: 50%;

@@ -3,3 +3,10 @@
 @import 'group_profile';
 @import 'group_li';
 @import 'group_actions';
+
+.picture-color-filter{
+  background-size: cover;
+  background-position: center center;
+  @include position(absolute, 0, 0, 0, 0);
+  opacity: 0.3;
+}

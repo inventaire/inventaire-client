@@ -1,5 +1,3 @@
-$nav-avatar-size: 5em;
-
 #inventoryNetworkNav, #inventoryPublicNav{
   .lists{
     @include display-flex(row, null, null, wrap);
@@ -10,66 +8,5 @@ $nav-avatar-size: 5em;
   .list-label{
     color: $dark-grey;
     margin-bottom: 0.5em;
-  }
-
-  #usersList, #groupsList, #membersList{
-    ul{
-      padding: 0.3em;
-      @include display-flex(row, flex-start, null, wrap);
-    }
-    li{
-      position: relative;
-      height: $nav-avatar-size;
-      width: $nav-avatar-size;
-      flex: 0 0 $nav-avatar-size;
-      margin: 0.2em;
-      @include radius;
-    }
-    .nav-list-element{
-      position: relative;
-      display: block;
-      height: $nav-avatar-size;
-      width: $nav-avatar-size;
-      @include radius;
-      &:hover{
-        .items-count{
-          opacity: 1;
-        }
-      }
-    }
-    .picture, .picture-color-filter{
-      background-size: cover;
-      background-position: center center;
-      @include position(absolute, 0, 0, 0, 0);
-    }
-    .picture-color-filter{
-      opacity: 0.3;
-    }
-    .items-count{
-      @include position(absolute, 0, 0);
-      background-color: white;
-      height: 1.15em;
-      min-width: 1em;
-      text-align: center;
-      line-height: 1em;
-      padding: 0 0.2em 0.2em 0.2em;
-      border-bottom-left-radius: $global-radius;
-      opacity: 0.8;
-      @include transition;
-    }
-    .info{
-      @include position(absolute, null, 0, 0, 0);
-      overflow: hidden;
-      height: 1.6em;
-      background-color: white;
-      padding: 0 0.2em;
-    }
-  }
-  #usersList, #groupsList{
-    ul{
-      @include radius;
-      background-color: #f0f0f0;
-      justify-content: flex-start;
-    }
   }
 }

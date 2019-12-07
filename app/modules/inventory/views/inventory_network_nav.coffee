@@ -10,5 +10,3 @@ module.exports = InventoryCommonNav.extend
 
     app.request 'wait:for', 'groups'
     .then => @showList @groupsList, app.groups
-
-    @initProfile()
