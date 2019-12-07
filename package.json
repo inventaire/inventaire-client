@@ -15,7 +15,7 @@
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.coffee",
     "generate-sitemaps": "./scripts/sitemaps/generate.coffee",
     "lint": "coffeelint -f ./config/coffeelint.json --color always app test scripts",
-    "lint-staged": "../scripts/lint-staged",
+    "lint-staged": "./scripts/lint_staged",
     "patches": "./scripts/run_patches ./scripts/patches",
     "postinstall": "./scripts/postinstall",
     "start": "brunch watch",
