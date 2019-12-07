@@ -41,7 +41,7 @@ module.exports = Positionable.extend
     unless picture?
       @set
         picture: defaultCover
-        pictureFilterColor: getFilterColor @get('name')
+        pictureFilterColor: getFilterColor @id
 
   beforeShow:->
     # All the actions to run once before showing any view displaying
@@ -199,17 +199,26 @@ userItemsCount = (user)->
   nonPrivate = true
   user.inventoryLength(nonPrivate) or 0
 
-# Inspired by https://www.schemecolor.com/rainbow-pastels-color-scheme.php
+# Inspired by https://www.materialpalette.com/colors
 colorFilters = [
-  '#ffb7b2'
-  '#ffdac1'
-  '#e2f0cb'
-  '#b5ead7'
-  '#c7ceea'
-  '#a0eaff'
+  '#009688'
+  '#00bcd4'
+  '#03a9f4'
+  '#2196f3'
+  '#3f51b5'
+  '#4caf50'
+  '#607d8b'
+  '#673ab7'
+  '#795548'
+  '#8bc34a'
+  '#9c27b0'
+  '#9e9e9e'
+  '#cddc39'
+  '#e91e63'
 ]
 
-getFilterColor = (name)->
-  # Pick one of the colors based on the group name length
-  index = name.length % colorFilters.length
+getFilterColor = (groupId)->
+  someStableGroupNumber = parseInt(groupId.slice(-2), 16)
+  # Pick one of the colors based on the group slug length
+  index = someStableGroupNumber % colorFilters.length
   return colorFilters[index]

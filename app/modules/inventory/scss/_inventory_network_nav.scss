@@ -43,7 +43,7 @@ $nav-avatar-size: 5em;
       @include position(absolute, 0, 0, 0, 0);
     }
     .picture-color-filter{
-      opacity: 0.6;
+      opacity: 0.3;
     }
     .items-count{
       @include position(absolute, 0, 0);
