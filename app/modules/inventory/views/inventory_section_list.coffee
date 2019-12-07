@@ -1,6 +1,6 @@
 ListEl = Marionette.ItemView.extend
   tagName: 'li'
-  template: require './templates/inventory_network_nav_list_li'
+  template: require './templates/inventory_section_list_li'
 
   initialize: ->
     { @context } = @options

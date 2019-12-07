@@ -1,6 +1,9 @@
 groupPlugin = require '../plugins/group'
-List = require 'modules/inventory/views/inventory_network_nav_list'
+SectionList = require 'modules/inventory/views/inventory_section_list'
 
+# TODO:
+# - polish group membership actions
+# - display admin notifications
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_profile'
   className: 'groupProfile'
@@ -31,7 +34,8 @@ module.exports = Marionette.LayoutView.extend
     @model.beforeShow()
     .then @ifViewIsIntact('showMembers')
 
-  showMembers: -> @membersList.show new List { collection: @model.members, context: 'group' }
+  showMembers: ->
+    @membersList.show new SectionList { collection: @model.members, context: 'group' }
 
   childEvents:
     select: (e, type, model)->

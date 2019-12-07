@@ -3,7 +3,8 @@ $nav-avatar-size: 5em;
 #usersList, #groupsList, #membersList{
   ul{
     padding: 0.3em;
-    @include display-flex(row, flex-start, null, wrap);
+    @include display-flex(row, center, center, wrap);
+    margin: 0 auto;
   }
   li{
     position: relative;
@@ -53,10 +54,18 @@ $nav-avatar-size: 5em;
     padding: 0 0.2em;
   }
 }
+
 #usersList, #groupsList{
   ul{
     @include radius;
     background-color: #f0f0f0;
-    justify-content: flex-start;
+  }
+}
+
+#membersList{
+  ul{
+    justify-content: flex-end;
+    max-height: 20em;
+    overflow: auto;
   }
 }

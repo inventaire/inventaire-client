@@ -27,9 +27,8 @@ $inventory-nav-grey: #eee;
 #inventoryLayout{
   @import "inventory_nav";
   @import "user_profile";
+  @import "inventory_section_navs";
   @import "inventory_nav_lists";
-  @import "inventory_network_nav";
-  @import "inventory_public_nav";
 }
 
 @import "item_creation";

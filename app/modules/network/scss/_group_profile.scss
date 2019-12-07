@@ -1,6 +1,6 @@
 .groupProfile{
   color: white;
-  background-color: #bbb;
+  background-color: #eee;
   .section-one{
     flex: 1 0 auto;
   }
@@ -86,14 +86,6 @@
     .content-link{
       @include text-hover(#ddd);
       text-decoration: underline;
-    }
-  }
-
-  #membersList{
-    ul{
-      justify-content: flex-end;
-      max-height: 20em;
-      overflow: auto;
     }
   }
 
