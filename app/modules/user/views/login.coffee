@@ -42,8 +42,8 @@ module.exports = Marionette.ItemView.extend
 
   verifyUsername: (username)->
     username = @ui.username.val()
-    unless _.isEmail(username)
-      username_.pass username, '#username'
+    if _.isEmail(username) then return
+    else username_.pass username, '#username'
 
   earlyVerifyUsername: (e)->
     forms_.earlyVerify @, e, @verifyUsername.bind(@)
@@ -54,15 +54,14 @@ module.exports = Marionette.ItemView.extend
   classicLogin:->
     username = @ui.username.val()
     password = @ui.password.val()
+    @startLoading '#classicLogin'
     app.request 'login:classic', username, password
     .catch @loginError.bind(@)
-
-    @startLoading '#classicLogin'
 
   loginError: (err)->
     @stopLoading()
     if err.statusCode is 401 then @alert @getErrMessage()
-    else _.error err, 'classic login err'
+    else throw err
 
   getErrMessage: ->
     username = @ui.username.val()
