@@ -34,6 +34,7 @@ module.exports = ->
   app.module 'Notifications', require 'modules/notifications/notifications'
   app.module 'Settings', require 'modules/settings/settings'
   app.module 'Tasks', require 'modules/tasks/tasks'
+  app.module 'Shelves', require 'modules/shelves/shelves'
   require('modules/map/map')()
 
   AppLayout = require 'modules/general/views/app_layout'
