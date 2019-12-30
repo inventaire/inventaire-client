@@ -8,7 +8,7 @@
     "url": "http://github.com/inventaire/inventaire-client"
   },
   "engines": {
-    "node": ">= 6.4"
+    "node": ">= 12.14.0"
   },
   "scripts": {
     "build": "./scripts/build",
@@ -85,7 +85,7 @@
     "lodash": "^4.17.10",
     "mocha": "^5.0.0",
     "postcss-brunch": "^0.5.0",
-    "sass-brunch": "^2.10.4",
+    "sass-brunch": "git+https://github.com/brunch/sass-brunch.git#b21b27f",
     "should": "^13.2.1",
     "sinon": "^1.17.3",
     "uglify-js": "^3.3.9",
