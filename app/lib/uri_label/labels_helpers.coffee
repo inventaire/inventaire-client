@@ -1,4 +1,3 @@
-{ formatLabel } = require 'lib/wikimedia/wikidata'
 labels = {}
 previouslyMissing = {}
 
@@ -9,7 +8,6 @@ module.exports =
       return data[lang] or data.en or data.original or _.pickOne(data)
 
   setLabel: (uri, lang, label)->
-    label = formatLabel label
     labels[uri] or= {}
     labels[uri][lang] = label
     return label
