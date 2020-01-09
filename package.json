@@ -67,7 +67,7 @@
     "browserify": "^11.2.0",
     "brunch": "^2.10.17",
     "chalk": "^1.1.3",
-    "clean-css": "^3.4.28",
+    "clean-css": "^4.1.11",
     "clean-css-brunch": "^2.10.0",
     "coffee-script": "^1.12.2",
     "coffee-script-brunch": "^2.1.0",
