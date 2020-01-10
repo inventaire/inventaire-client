@@ -1,10 +1,12 @@
 #itemShowLayout{
-  padding: 0 1em 1em 1em;
+  padding: 0 1em;
   position: relative;
   .one{
   }
   .two{
-    max-width: 30em;
+    margin: 0;
+    max-width: 36em;
+    min-height: 350px;
   }
   a.edition, a.work, .author-preview a, .series-preview a{
     margin: 0.2em 0;
@@ -40,9 +42,9 @@
     font-weight: bold;
   }
   .remove-button{
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    float: right;
+    margin: 1em 0;
+    padding: 0.2em 1em;
     @include shy(0.9);
     .fa{
       font-size: 1.1em;
@@ -51,10 +53,10 @@
       @include tiny-button-padding;
       border-radius: $global-radius;
       background-color: $danger-color;
-      padding: 0.2em 0.4em 0.2em 0.6em;
+      padding: 0.2em 1em;
       color: white;
-      .fa{
-        padding-left: 0.2em;
+      span{
+        padding-left: 0.4em;
       }
     }
   }

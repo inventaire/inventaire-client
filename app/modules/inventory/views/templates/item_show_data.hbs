@@ -14,12 +14,12 @@
       {{/unless}}
       {{partial 'inventory:item_visibility_box' this}}
     </div>
+    {{partial 'inventory:item_note' this}}
+    {{partial 'inventory:item_details' this}}
     <a class="remove remove-button shy-label dark-grey">
       <span>{{I18n 'delete'}}</span>
       {{icon 'trash-o'}}
     </a>
-    {{partial 'inventory:item_note' this}}
-    {{partial 'inventory:item_details' this}}
   {{/if}}
 {{/if}}
 <div id="transactions"></div>
