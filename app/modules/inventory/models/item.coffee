@@ -202,3 +202,22 @@ module.exports = Filterable.extend
   getCoords: -> @user?.getCoords()
 
   hasPosition: -> @user?.has('position')
+
+  addShelf: (shelfId)->
+    unless @get 'shelves' then @set 'shelves', []
+    shelvesIds = @get 'shelves'
+    if shelfId in shelvesIds then return
+    shelvesIds.push shelfId
+    return _.preq.post app.API.shelves.addItems, { id: shelfId, items: [ @get '_id' ] }
+
+  deleteShelf: (shelfId)->
+    shelvesIds = @get 'shelves'
+    if shelfId not in shelvesIds then return
+    shelvesIds = _.without shelvesIds, shelfId
+    @set 'shelves', shelvesIds
+    return _.preq.post app.API.shelves.deleteItems, { id: shelfId, items: [ @get '_id' ] }
+
+  isInShelf: (shelfId)->
+    shelvesIds = @get 'shelves'
+    unless shelvesIds then return false
+    return shelfId in shelvesIds

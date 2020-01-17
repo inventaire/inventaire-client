@@ -3,14 +3,14 @@
 
 ItemTransactions = require './item_transactions'
 getActionKey = require 'lib/get_action_key'
-itemViewsCommons = require '../lib/items_views_commons'
-ItemLayout = Marionette.LayoutView.extend itemViewsCommons
+ItemShelves = require './item_shelves'
 
 module.exports = ItemLayout.extend
   id: 'itemShowData'
   template: require './templates/item_show_data'
   regions:
     transactionsRegion: '#transactions'
+    shelvesSelector: '#shelvesSelector'
 
   behaviors:
     ElasticTextarea: {}
@@ -22,7 +22,8 @@ module.exports = ItemLayout.extend
     @alertBoxTarget = '.leftBox .panel'
 
   modelEvents:
-    'change': 'lazyRender'
+    'change:notes': 'lazyRender'
+    'change:details': 'lazyRender'
 
   onRender: ->
     if app.user.loggedIn then @showTransactions()
@@ -52,8 +53,12 @@ module.exports = ItemLayout.extend
     'keydown #notesEditor': 'notesEditorKeyAction'
     'click a#validateNotes': 'validateNotes'
     'click a.requestItem': -> app.execute 'show:item:request', @model
+    'click .shelvesPanel': -> @showShelves()
 
-  serializeData: -> @model.serializeData()
+  serializeData: ->
+    attrs = @model.serializeData()
+    _.extend attrs,
+      shelves: @model.get('bookshelves')
 
   itemDestroyBack: ->
     if @model.isDestroyed then app.execute 'modal:close'
@@ -113,6 +118,17 @@ module.exports = ItemLayout.extend
     @transactions ?= app.request 'get:transactions:ongoing:byItemId', @model.id
     Promise.all _.invoke(@transactions.models, 'beforeShow')
     .then @ifViewIsIntact('_showTransactions')
+
+  showShelves: ->
+    _.preq.get app.API.shelves.byOwners(app.user.id)
+    .get 'bookshelves'
+    .then (shelvesObj) =>
+      shelves = _.values shelvesObj
+      @shelves = new Backbone.Collection shelves
+    .then @ifViewIsIntact('_showShelves')
+
+  _showShelves: ->
+    @shelvesSelector.show new ItemShelves { collection: @shelves, item: @model }
 
   _showTransactions: ->
     @transactionsRegion.show new ItemTransactions { collection: @transactions }

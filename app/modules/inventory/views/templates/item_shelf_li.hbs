@@ -1,0 +1,8 @@
+<a class="shelfSelector">
+  {{#if isItemInShelf}}
+    {{icon 'check-square'}}
+  {{else}}
+    {{icon 'square'}}
+  {{/if}}
+</a>
+<a class="link" href="/shelves/{{_id}}">{{capitalize name}}</a>

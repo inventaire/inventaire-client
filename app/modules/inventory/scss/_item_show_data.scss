@@ -62,6 +62,16 @@
     }
   }
 }
+
+.shelvesPanel{
+  background: $off-white;
+  padding: 1em;
+  #shelvesSelector ul li{
+    padding: 0.25em 0.5em;
+  }
+}
+
+
 .indicator{
   .fa{
     // Making details and notes indicator take the same space

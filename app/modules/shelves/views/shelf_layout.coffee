@@ -18,16 +18,17 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showFromModel: (model)->
-    { items } = model.attributes
-    collection = new Items items
+    itemsId = model.get 'items'
 
-    more = -> items.length > 0
+    collection = new Items()
+
+    more = -> itemsId.length > 0
     fetchMore = ->
-      batch = items.splice(0, 20).map _.property('_id')
+      batch = itemsId.splice(0, 20)
       if batch.length > 0
         app.request 'items:getByIds', batch
         .then collection.add.bind(collection)
-
+    fetchMore()
     @shelf.show new ShelfView { model }
     @itemsList.show new ItemsList { collection, more, fetchMore }
 
