@@ -1,4 +1,4 @@
-{ action } = require('./endpoint')('bookshelves')
+{ action } = require('./endpoint')('shelves')
 
 module.exports =
   byId: (id)-> action 'by-ids', { ids: id, 'with-items': true }

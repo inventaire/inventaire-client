@@ -34,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
 
 getById = (id)->
   _.preq.get app.API.shelves.byIds(id)
-  .get 'bookshelves'
+  .get 'shelves'
   .then (shelves)->
     shelf = Object.values(shelves)[0]
     if shelf? then new ShelfModel shelf

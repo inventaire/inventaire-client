@@ -58,7 +58,7 @@ module.exports = ItemLayout.extend
   serializeData: ->
     attrs = @model.serializeData()
     _.extend attrs,
-      shelves: @model.get('bookshelves')
+      shelves: @model.get('shelves')
 
   itemDestroyBack: ->
     if @model.isDestroyed then app.execute 'modal:close'
@@ -121,7 +121,7 @@ module.exports = ItemLayout.extend
 
   showShelves: ->
     _.preq.get app.API.shelves.byOwners(app.user.id)
-    .get 'bookshelves'
+    .get 'shelves'
     .then (shelvesObj) =>
       shelves = _.values shelvesObj
       @shelves = new Backbone.Collection shelves
