@@ -43,6 +43,7 @@ module.exports = Marionette.ItemView.extend
     # while the ui object is not being updated
     @ui.img.cropper
       aspectRatio: 1 / 1
+      autoCropArea: 1
       minCropBoxWidth: 300
       minCropBoxHeight: 300
 
