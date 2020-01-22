@@ -1,5 +1,5 @@
-groupPlugin = require '../plugins/group'
-SectionList = require 'modules/inventory/views/inventory_section_list'
+groupPlugin = require 'modules/network/plugins/group'
+SectionList = require './inventory_section_list'
 
 # TODO:
 # - polish group membership actions

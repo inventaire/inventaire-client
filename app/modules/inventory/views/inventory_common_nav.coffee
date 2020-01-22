@@ -1,6 +1,6 @@
-UserProfile = require 'modules/inventory/views/user_profile'
-GroupProfile = require 'modules/network/views/group_profile'
-SectionList = require 'modules/inventory/views/inventory_section_list'
+UserProfile = require './user_profile'
+GroupProfile = require './group_profile'
+SectionList = require './inventory_section_list'
 screen_ = require 'lib/screen'
 
 module.exports = Marionette.LayoutView.extend

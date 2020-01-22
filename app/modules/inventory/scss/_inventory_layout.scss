@@ -22,11 +22,13 @@
   }
 }
 
+
 $inventory-nav-grey: #eee;
 
 #inventoryLayout{
   @import "inventory_nav";
   @import "user_profile";
+  @import 'group_profile';
   @import "inventory_section_navs";
   @import "inventory_nav_lists";
 }

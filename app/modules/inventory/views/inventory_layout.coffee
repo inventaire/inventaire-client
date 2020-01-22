@@ -1,7 +1,7 @@
 InventoryNav = require './inventory_nav'
 InventoryBrowser = require './inventory_browser'
-UserProfile = require 'modules/inventory/views/user_profile'
-GroupProfile = require 'modules/network/views/group_profile'
+UserProfile = require './user_profile'
+GroupProfile = require './group_profile'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 screen_ = require 'lib/screen'
 
