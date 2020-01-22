@@ -2,7 +2,6 @@ groupPlugin = require 'modules/network/plugins/group'
 SectionList = require './inventory_section_list'
 
 # TODO:
-# - polish group membership actions
 # - display admin notifications
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_profile'

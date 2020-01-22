@@ -1,7 +1,7 @@
 #inventoryNav{
   #tabs{
     @include display-flex(row, center, center, wrap);
-    margin: 0.5em;
+    margin-bottom: 0.5em;
     @include radius-horizontal-group;
     a{
       flex: 1 0 0;
@@ -24,6 +24,7 @@
       color: $dark-grey;
     }
   }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     a{

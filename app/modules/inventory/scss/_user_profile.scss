@@ -1,7 +1,7 @@
 .userProfile{
   background-color: #eee;
   @include display-flex(row);
-  margin: 0.5em;
+  margin: 0.5em 0;
   .avatar{
     background-color: #eee;
     height: 10em;

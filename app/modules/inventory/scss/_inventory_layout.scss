@@ -7,6 +7,11 @@
     min-height: 100vh;
   }
 
+  .list-label{
+    color: $dark-grey;
+    margin-bottom: 0.5em;
+  }
+
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     padding: 0.5em;

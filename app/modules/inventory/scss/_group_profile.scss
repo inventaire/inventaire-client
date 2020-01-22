@@ -97,12 +97,28 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     @include display-flex(row, flex-start, center, wrap);
-    flex-wrap: nowrap;
+    h3{
+      text-align: right;
+      margin-right: 1em;
+    }
     .section-one{
       flex: 1 0 20em;
     }
     .section-two{
       flex: 5 0 0;
+      .list-label{
+        text-align: right;
+        margin: 0.5em 1em;
+      }
+    }
+    .section-three{
+      // Force to go on a new row
+      min-width: 90%;
+      @include display-flex(column, center, center);
+      margin: 1em;
+      .restrictions{
+        margin-top: 1em;
+      }
     }
   }
 
