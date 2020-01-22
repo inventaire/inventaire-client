@@ -3,7 +3,7 @@
   @include shy-border-vertical-group;
   margin-bottom: 1em;
   &.standalone{
-    @include custom-column(40em);
+    @include central-column(40em);
   }
   .header, .body{
     background-color: white;

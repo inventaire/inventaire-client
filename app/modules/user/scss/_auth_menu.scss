@@ -31,7 +31,7 @@ $auth-menu-bg: $global-background-contrast-color;
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    @include custom-column(25em);
+    @include central-column(25em);
     min-height: 80vh;
     .custom-cell{
       background-color: $auth-menu-bg;

@@ -2,7 +2,7 @@
 $networkLayoutVerticalTabCeil: 700px;
 
 #networkLayout{
-  @include custom-column(42em);
+  @include central-column(42em);
   > .fa{
     margin-top: 1em;
     font-size: 1.5em;

@@ -1,7 +1,7 @@
 #settings{
   background-color: #e0e0e0;
-  .custom-column{
-    @include custom-column(42em);
+  .central-column{
+    @include central-column(42em);
   }
   .custom-tabs-content{
     background-color: white;
