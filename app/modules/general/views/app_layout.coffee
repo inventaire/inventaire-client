@@ -4,7 +4,6 @@ showViews = require '../lib/show_views'
 TopBar = require './top_bar'
 IconNav = require './icon_nav'
 initIconNavHandlers = require '../lib/icon_nav'
-initDynamicBackground = require '../lib/dynamic_background'
 initModal = require '../lib/modal'
 initFlashMessage = require '../lib/flash_message'
 ConfirmationModal = require './confirmation_modal'
@@ -59,7 +58,6 @@ module.exports = Marionette.LayoutView.extend
     documentLang @$el, app.user.lang
 
     initIconNavHandlers.call @
-    initDynamicBackground.call @
     initModal()
     initFlashMessage.call @
     # wait for the app to be initiated before listening to resize events
