@@ -44,7 +44,7 @@ module.exports = Marionette.LayoutView.extend
       @showInventoryNav section
       @showSectionNav section, 'user', userModel
       app.navigateFromModel userModel
-      # Do not scroll when showing the main user inventory
+      # Do not scroll when showing the main user's inventory
       # to keep the other nav elements visible
       if section isnt 'user' then scrollToSection @userProfile
     .catch app.Execute('show:error')
