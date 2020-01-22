@@ -8,6 +8,7 @@ module.exports =
       appRoutes:
         'menu(/)': 'showSettingsMenu'
         'settings(/profile)(/)': 'showProfileSettings'
+        'settings/account(/)': 'showAccountSettings'
         'settings/notifications(/)': 'showNotificationsSettings'
         'settings/labs(/)': 'showLabsSettings'
 
@@ -26,6 +27,7 @@ API =
     app.navigate 'menu', { metadata: { title: 'menu' } }
 
   showProfileSettings: -> showSettings 'profile'
+  showAccountSettings: -> showSettings 'account'
   showNotificationsSettings: -> showSettings 'notifications'
   showLabsSettings: -> showSettings 'labs'
 
@@ -37,5 +39,6 @@ setHandlers = ->
   app.commands.setHandlers
     'show:settings:menu': API.showSettingsMenu
     'show:settings:profile': API.showProfileSettings
+    'show:settings:account': API.showAccountSettings
     'show:settings:notifications': API.showNotificationsSettings
     'show:settings:labs': API.showLabsSettings

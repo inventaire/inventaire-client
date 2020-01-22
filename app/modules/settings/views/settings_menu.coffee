@@ -28,6 +28,7 @@ module.exports = Marionette.ItemView.extend
 hrefParams =
   '/welcome': { command: 'show:welcome' }
   '/settings/profile': { command: 'show:settings:profile' }
+  '/settings/account': { command: 'show:settings:account' }
   '/settings/notifications': { command: 'show:settings:notifications' }
   '/settings/labs': { command: 'show:settings:labs' }
   '/feedback': { command: 'show:feedback:menu', goBack: true }

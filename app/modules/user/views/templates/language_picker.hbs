@@ -1,5 +1,5 @@
 <select id="languagePicker" name="language">
   {{#each languages}}
-    <option value="{{code}}" {{#if selected}}selected{{/if}}>{{lang}} - {{native}}</option>
+    <option value="{{lang}}" {{#if selected}}selected{{/if}}>{{lang}} - {{native}}</option>
   {{/each}}
 </select>
