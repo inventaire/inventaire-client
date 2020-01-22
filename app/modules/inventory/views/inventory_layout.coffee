@@ -47,6 +47,7 @@ module.exports = Marionette.LayoutView.extend
       # Do not scroll when showing the main user inventory
       # to keep the other nav elements visible
       if section isnt 'user' then scrollToSection @userProfile
+    .catch app.Execute('show:error')
 
   startFromGroup: (group)->
     app.request 'resolve:to:groupModel', group
@@ -58,6 +59,7 @@ module.exports = Marionette.LayoutView.extend
       @showGroupProfile groupModel
       app.navigateFromModel groupModel
       scrollToSection @groupProfile
+    .catch app.Execute('show:error')
 
   showUserInventory: (userModel)->
     @showInventoryBrowser 'user', userModel
