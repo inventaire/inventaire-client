@@ -3,8 +3,8 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 { host, protocol } = window.location
 
 module.exports = Marionette.ItemView.extend
-  template: require './templates/labs_settings'
-  className: 'labsSettings'
+  template: require './templates/data_settings'
+  className: 'dataSettings'
   behaviors:
     AlertBox: {}
     SuccessCheck: {}

@@ -10,7 +10,9 @@ module.exports =
         'settings(/profile)(/)': 'showProfileSettings'
         'settings/account(/)': 'showAccountSettings'
         'settings/notifications(/)': 'showNotificationsSettings'
-        'settings/labs(/)': 'showLabsSettings'
+        'settings/data(/)': 'showDataSettings'
+        # Legacy
+        'settings/labs(/)': 'showDataSettings'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -29,7 +31,7 @@ API =
   showProfileSettings: -> showSettings 'profile'
   showAccountSettings: -> showSettings 'account'
   showNotificationsSettings: -> showSettings 'notifications'
-  showLabsSettings: -> showSettings 'labs'
+  showDataSettings: -> showSettings 'data'
 
 showSettings = (tab)->
   if app.request 'require:loggedIn', "settings/#{tab}"
@@ -41,4 +43,4 @@ setHandlers = ->
     'show:settings:profile': API.showProfileSettings
     'show:settings:account': API.showAccountSettings
     'show:settings:notifications': API.showNotificationsSettings
-    'show:settings:labs': API.showLabsSettings
+    'show:settings:data': API.showDataSettings

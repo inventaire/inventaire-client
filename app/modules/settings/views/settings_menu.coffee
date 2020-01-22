@@ -30,6 +30,6 @@ hrefParams =
   '/settings/profile': { command: 'show:settings:profile' }
   '/settings/account': { command: 'show:settings:account' }
   '/settings/notifications': { command: 'show:settings:notifications' }
-  '/settings/labs': { command: 'show:settings:labs' }
+  '/settings/data': { command: 'show:settings:data' }
   '/feedback': { command: 'show:feedback:menu', goBack: true }
   '/donate': { command: 'show:donate:menu', goBack: true }
