@@ -1,9 +1,8 @@
-$networkLayoutWidth: 40em;
 // keep in sync with app/modules/network/views/network_layout.coffee
 $networkLayoutVerticalTabCeil: 700px;
 
 #networkLayout{
-  @include custom-column($networkLayoutWidth);
+  @include custom-column(42em);
   > .fa{
     margin-top: 1em;
     font-size: 1.5em;
@@ -27,7 +26,7 @@ $networkLayoutVerticalTabCeil: 700px;
   .custom-tabs-content{
     margin: 0;
     padding: 0;
-    background-color: $main-bg;
+    background-color: $off-white;
     > section{
       label{
         text-align: left;
