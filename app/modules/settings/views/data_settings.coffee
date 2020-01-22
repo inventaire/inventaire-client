@@ -18,5 +18,5 @@ module.exports = Marionette.ItemView.extend
       apiDoc: apiDoc
       inventoryEndpoint: "/api/items?action=by-users&users=#{app.user.id}&limit=100000"
       userEndpoint: '/api/user'
-      curlBase: "$ curl #{protocol}//#{username}:yourpassword@#{host}"
+      curlBase: "$ curl #{protocol}//#{username.toLowerCase()}:yourpassword@#{host}"
     }
