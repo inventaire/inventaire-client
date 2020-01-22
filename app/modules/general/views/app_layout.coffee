@@ -21,7 +21,6 @@ module.exports = Marionette.LayoutView.extend
     modal: '#modalContent'
 
   ui:
-    bg: '#bg'
     topBar: '#topBar'
     lateralButtons: '#lateralButtons'
     flashMessage: '#flashMessage'
