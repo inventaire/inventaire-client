@@ -30,7 +30,7 @@ module.exports = Marionette.LayoutView.extend
       highlighted: @options.highlighted
       rss: @model.getRss()
 
-  onShow: ->
+  onRender: ->
     @model.beforeShow()
     .then @ifViewIsIntact('showMembers')
 
