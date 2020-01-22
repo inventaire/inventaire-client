@@ -24,6 +24,9 @@
   &.soft-grey{
     @include bg-hover($soft-grey)
   }
+  &.dark-grey{
+    @include bg-hover($dark-grey)
+  }
   &.sans-serif{
     @include sans-serif;
   }
@@ -66,7 +69,9 @@ $default-button-padding: 1em;
 @mixin custom-button($bg-color, $color: white, $margin: $default-button-margin, $padding:$default-button-padding, $darken:15%){
   @include text-hover($color);
   padding: $padding;
-  margin: $margin;
+  &:not(.postfix){
+    margin: $margin;
+  }
   // include last to keep the transition effect
   @include bg-hover($bg-color, $darken);
 }
@@ -226,6 +231,10 @@ div.icon-buttons-header{
 
 .soft-grey-button{
   @include big-button($soft-grey);
+}
+
+.dark-grey-button{
+  @include big-button($dark-grey);
 }
 
 .grey-button{

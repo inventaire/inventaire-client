@@ -1,11 +1,11 @@
 .accountSettings{
-  .alertMessageBox, .successMessageBox{
+  #notValidEmail, #confirmationEmailSent{
     color: white;
     text-align: center;
     margin-bottom: 1em;
   }
 
-  .alertMessageBox{
+  #notValidEmail{
     span, .a{
       @include radius;
       display: block;
@@ -14,18 +14,20 @@
       width: 100%;
       background-color: $warning-color;
       padding: 0.5em;
-      margin-bottom: 0.5em;
+      margin: 2em 0;
     }
   }
 
-  .successMessageBox{
+  #confirmationEmailSent{
     @include radius;
     .fa{
       font-size: 2em;
+      margin: 0 auto;
       display: block;
     }
     background-color: $success-color;
     padding: 0.5em;
+    margin-top: 2em;
   }
 
   #passwordUpdater{
@@ -58,6 +60,8 @@
 .deleteAccount{
   text-align: center;
   padding: 1em;
+  margin: 2em 0;
+  display: inline-block;
 }
 
 .danger-zone{

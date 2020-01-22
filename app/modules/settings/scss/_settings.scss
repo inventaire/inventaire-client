@@ -1,5 +1,13 @@
 #settings{
   background-color: #e0e0e0;
+  .button, .dark-grey-button{
+    @include sans-serif;
+    &.postfix{
+      font-size: 1rem;
+      // Centering vertically
+      line-height: 2.3rem;
+    }
+  }
   .central-column{
     @include central-column(42em);
   }
@@ -15,6 +23,7 @@
     }
     a.active{
       background-color: white;
+      font-weight: bold;
     }
   }
 

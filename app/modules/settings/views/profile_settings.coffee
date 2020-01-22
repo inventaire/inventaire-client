@@ -24,6 +24,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     return _.extend attrs,
+      userPathname: app.user.get('pathname')
       usernamePicker: @usernamePickerData()
       changePicture:
         classes: 'max-large-profilePic'
@@ -43,6 +44,7 @@ module.exports = Marionette.ItemView.extend
     'click a#usernameButton': 'updateUsername'
     'click #saveBio': 'saveBio'
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
+    'click .done': 'showMainUserInventory'
 
   # USERNAME
   updateUsername: ->
@@ -97,6 +99,10 @@ module.exports = Marionette.ItemView.extend
 
   # PICTURE
   changePicture: require 'modules/user/lib/change_user_picture'
+
+  # DONE
+  showMainUserInventory: (e)->
+    unless _.isOpenedOutside e then app.execute 'show:inventory:main:user'
 
 validateBio = (bio)->
   if bio.length > 1000

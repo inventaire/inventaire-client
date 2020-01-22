@@ -9,7 +9,7 @@
   <p class="note">{{I18n 'a few words on you?'}}</p>
   <div class="bio-wrapper checkWrapper ctrlEnterClickWrapper">
     <textarea name="bio" id="bio" class="ctrlEnterClick">{{bio}}</textarea>
-    <button id="saveBio" class="save tiny-success-button">{{icon 'check'}}{{I18n 'save'}}</button>
+    <button id="saveBio" class="save light-blue-button">{{I18n 'save presentation'}}</button>
     <span class="check"></span>
   </div>
 </section>
@@ -19,7 +19,7 @@
   {{partial 'general:behaviors:change_picture' this}}
 </section>
 
-<section>
+<section class="geolocation">
   <h3>{{i18n 'geolocation'}}</h3>
   <p class="position-status">
     {{#if hasPosition}}
@@ -31,3 +31,5 @@
   </p>
   {{partial 'map:position_picker_button'}}
 </section>
+
+{{iconLinkText name='check' url=userPathname linkClasses="done success-button" I18n='done'}}

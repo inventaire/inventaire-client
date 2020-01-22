@@ -7,12 +7,12 @@
   {{/if}}
 
   {{#unless restricted}}
-    <a id="changePicture" class="button" tabindex="0">
+    <a id="changePicture" class="button light-blue" tabindex="0">
       {{icon 'camera'}}
       {{#if picture}}
-        {{i18n 'change picture'}}
+        {{I18n 'change picture'}}
       {{else}}
-        {{i18n 'add a picture'}}
+        {{I18n 'add a picture'}}
       {{/if}}
       <span class="loading"></span>
     </a>

@@ -18,6 +18,6 @@ pickerData = (model, attribute)->
     value: model.get attribute
   button:
     text: _.i18n "change #{attribute}"
-    classes: 'grey postfix'
+    classes: 'light-blue-button postfix'
 
 module.exports = { testAttribute, pickerData }

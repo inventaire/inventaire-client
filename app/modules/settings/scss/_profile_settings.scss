@@ -12,12 +12,13 @@
 }
 
 .profileSettings{
-  .position-status{
-    margin-bottom: 1em;
+  section.geolocation{
+    @include display-flex(column, center, center);
   }
-  .coordinates{
-    color: grey;
-    font-size: 0.8em;
+  .position-status{
+    margin: 1em 0;
+    padding: 1em;
+    background-color: inherit;
   }
   .bio-wrapper{
     button{
@@ -25,8 +26,8 @@
       margin: 0 auto;
     }
   }
-
-  #saveBio{
-    margin-bottom: 1em;
+  .done{
+    margin: 2rem 0;
+    display: inline-block;
   }
 }
