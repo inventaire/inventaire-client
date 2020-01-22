@@ -23,7 +23,7 @@ module.exports = Marionette.ItemView.extend
       when 'users'
         app.execute 'show:inventory:user', id
       when 'groups'
-        app.execute 'show:inventory:group:byId', id
+        app.execute 'show:inventory:group:byId', { groupId: id }
       when 'subjects'
         app.execute 'show:claim:entities', 'wdt:P921', uri
       else

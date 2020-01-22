@@ -48,7 +48,7 @@ module.exports = Marionette.LayoutView.extend
   showGroup: (e)->
     unless _.isOpenedOutside e
       id = e.currentTarget.attributes['data-group-id'].value
-      app.execute 'show:inventory:group:byId', id
+      app.execute 'show:inventory:group:byId', { groupId: id }
 
   initList: ->
     @list.show new GroupsList

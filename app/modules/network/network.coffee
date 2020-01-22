@@ -107,7 +107,7 @@ API =
       app.execute 'show:error:missing'
 
   showGroupSearch: (name)-> API.showSearchGroups "q=#{name}"
-  showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', id
+  showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', { groupId: id, standalone: true }
 
 showGroupBoardFromModel = (model)->
   if model.mainUserIsMember()

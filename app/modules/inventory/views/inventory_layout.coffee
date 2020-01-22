@@ -20,7 +20,7 @@ module.exports = Marionette.LayoutView.extend
     itemsList: '#itemsList'
 
   initialize: ->
-    { @user, @group } = @options
+    { @user, @group, @standalone } = @options
     @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
 
   onShow: ->
@@ -82,9 +82,11 @@ module.exports = Marionette.LayoutView.extend
   showUserProfile: (userModel)-> @userProfile.show new UserProfile { model: userModel }
 
   showInventoryNav: (section)->
+    section = if not @standalone or section is 'user' then section
     @inventoryNav.show new InventoryNav { section }
 
   showSectionNav: (section, type, model)->
+    if @standalone then return
     SectionNav = navs[section]
     unless SectionNav? then return
     options = if type? and model? then { "#{type}": model } else {}

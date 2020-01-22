@@ -16,7 +16,7 @@ module.exports =
         'inventory/public(/)': 'showPublicInventory'
         'inventory/nearby(/)': 'showInventoryNearby'
         'inventory/last(/)': 'showInventoryLast'
-        'inventory/:username(/)': 'showUserInventory'
+        'inventory/:username(/)': 'showUserInventoryFromUrl'
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
         'items(/)': 'showGeneralInventory'
@@ -48,8 +48,11 @@ API =
   showUserInventory: (user)->
     showInventory { user }
 
-  showGroupInventory: (id, name)->
-    showInventory { group: id }
+  showUserInventoryFromUrl: (username)->
+    showInventory { user: username, standalone: true }
+
+  showGroupInventory: (group, standalone)->
+    showInventory { group, standalone }
 
   showInventoryNearby: ->
     if app.request 'require:loggedIn', 'inventory/nearby'
@@ -98,10 +101,6 @@ showInventory = (options = {})->
 
 showItemsList = (collection)-> app.layout.main.show new ItemsCascade { collection }
 
-showGroupInventory = (group)->
-  API.showGroupInventory group.id, group.get('name'), true
-  app.navigateFromModel group
-
 showItemModal = (model)->
   previousRoute = currentRoute()
   # Do not scroll top as the modal might be displayed down at the level
@@ -141,11 +140,12 @@ initializeInventoriesHandlers = (app)->
     'show:inventory:main:user': ->
       API.showUserInventory app.user, true
 
-    'show:inventory:group': showGroupInventory
+    'show:inventory:group': API.showGroupInventory
 
-    'show:inventory:group:byId': (groupId)->
+    'show:inventory:group:byId': (params)->
+      { groupId, standalone } = params
       app.request 'get:group:model', groupId
-      .then (group)-> showGroupInventory group
+      .then (group)-> API.showGroupInventory group, standalone
       .catch app.Execute('show:error')
 
     'show:item:creation:form': showItemCreationForm

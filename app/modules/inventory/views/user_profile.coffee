@@ -50,7 +50,7 @@ module.exports = Marionette.ItemView.extend
   # showGroup: (e)->
   #   unless _.isOpenedOutside e
   #     groupId = e.currentTarget.attributes['data-id'].value
-  #     app.execute 'show:inventory:group:byId', groupId
+  #     app.execute 'show:inventory:group:byId', { groupId }
 
   getPositionUrl: ->
     unless @model.distanceFromMainUser? then return
