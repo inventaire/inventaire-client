@@ -64,8 +64,8 @@ input.toggler-input:checked ~ span.toggler-warning {
 }
 
 input.toggler-input + label.toggler-label:focus:before {
-  background-color: lighten($toggler-unselected-color, 10%);
+  @include glow(lighten($toggler-unselected-color, 10%));
 }
 input.toggler-input:checked + label.toggler-label:focus:before {
-  background-color: lighten($toggler-selected-color, 10%);
+  @include glow(lighten($toggler-selected-color, 10%));
 }

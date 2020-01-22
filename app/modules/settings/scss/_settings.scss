@@ -1,8 +1,9 @@
 #settings{
   .custom-column{
-    @include custom-column(38em);
+    @include custom-column(42em);
   }
   .custom-tabs-content{
+    background-color: white;
     width: 100%;
   }
   padding-top: 1em;
@@ -11,19 +12,28 @@
     .title{
       @include sans-serif;
     }
+    a.active{
+      background-color: white;
+    }
+  }
+
+  section{
+    margin: 1em 0;
+    padding: 2em 1em;
+    @include radius;
+    background-color: #f4f4f4;
   }
 
   h3{
     text-transform: uppercase;
     font-size: 1.2em;
     @include sans-serif;
-    &:not(.first){
-      margin-top: 1em;
-    }
   }
+
   .button{
     font-weight: bold;
   }
+
   .custom-tabs-titles a:not(.active){
     color: white;
     @include bg-hover($dark-grey);
@@ -48,6 +58,16 @@
     }
     .custom-tabs-content{
       padding: 0.5em;
+    }
+    section{
+      padding: 1em 0;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (max-width: 500px) {
+    section{
+      padding: 2em 1em;
     }
   }
 }

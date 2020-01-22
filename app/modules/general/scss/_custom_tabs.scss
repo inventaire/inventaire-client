@@ -8,6 +8,7 @@ $customTabMaxWidth: 40em;
   @media screen and (max-width: $small-screen) {
     width: 100%;
   }
+
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     width: $customTabMaxWidth;
@@ -20,6 +21,8 @@ $customTabMaxWidth: 40em;
   @include display-flex(row, flex-start);
   a{
     padding: 1em;
+    flex: 1;
+    text-align: center;
     &.active{
       color: $dark-grey;
       background-color: $active-custom-tab-bg;

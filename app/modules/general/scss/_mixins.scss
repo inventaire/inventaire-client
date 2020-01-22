@@ -54,3 +54,9 @@
     text-align: right;
   }
 }
+
+@mixin glow($glow-color:$glow){
+  border: 0.1em solid rgba(86, 180, 239, 0.6);
+  box-shadow: 0 0.2em 0.5em $glow-color;
+  transition: all 0.5s ease;
+}
