@@ -82,11 +82,12 @@ module.exports = Marionette.LayoutView.extend
   showUserProfile: (userModel)-> @userProfile.show new UserProfile { model: userModel }
 
   showInventoryNav: (section)->
+    unless app.user.loggedIn then return
     section = if not @standalone or section is 'user' then section
     @inventoryNav.show new InventoryNav { section }
 
   showSectionNav: (section, type, model)->
-    if @standalone then return
+    if @standalone or not app.user.loggedIn then return
     SectionNav = navs[section]
     unless SectionNav? then return
     options = if type? and model? then { "#{type}": model } else {}
