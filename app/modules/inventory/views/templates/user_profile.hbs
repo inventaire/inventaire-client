@@ -8,17 +8,14 @@
     <h2 class="username respect-case">{{username}}</h2>
 
     <div class="profile-buttons">
-      {{#if mainUser}}
-        {{!-- <span>{{icon 'map-marker'}}{{i18n 'position'}}</span> --}}
-        {{!-- <a id="showPositionPicker" class="edit">{{i18n 'edit'}}</a> --}}
-      {{else}}
+      {{#unless mainUser}}
         {{#if distance}}
           <a href="{{positionUrl}}" class="showUserOnMap tiny-button light-blue">
             {{icon 'map-marker'}}
             <span class="label">{{i18n 'km_away_from_you' distance=distance}}</span>
           </a>
         {{/if}}
-      {{/if}}
+      {{/unless}}
       {{#if mainUser}}
         <a class="edit action tiny-button light-blue" href="/settings/profile">
           {{icon 'pencil'}}
