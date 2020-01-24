@@ -90,12 +90,14 @@ module.exports = Marionette.LayoutView.extend
     allUris = _.without allUris, 'unknown'
 
     app.request 'get:entities:models', { uris: allUris, index: true }
-    .then (entities)=>
-      # Re-adding the 'unknown' entity placeholder
-      entities.unknown = getUnknownModel()
-      @showEntitySelector entities, authors, 'author'
-      @showEntitySelector entities, genres, 'genre'
-      @showEntitySelector entities, subjects, 'subject'
+    .then @ifViewIsIntact('_showEntitySelectors', authors, genres, subjects)
+
+  _showEntitySelectors: (authors, genres, subjects, entities)->
+    # Re-adding the 'unknown' entity placeholder
+    entities.unknown = getUnknownModel()
+    @showEntitySelector entities, authors, 'author'
+    @showEntitySelector entities, genres, 'genre'
+    @showEntitySelector entities, subjects, 'subject'
 
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
