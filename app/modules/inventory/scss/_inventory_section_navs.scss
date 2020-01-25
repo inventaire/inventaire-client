@@ -11,7 +11,7 @@
   .map-lists-wrapper{
     display: flex;
   }
-  #map{
+  #mapContainer{
     margin: 0.5em 0.7em;
     z-index: 0;
   }
@@ -20,7 +20,7 @@
     .map-lists-wrapper{
       flex-direction: column;
     }
-    #map{
+    #mapContainer{
       height: 20em;
       .leaflet-control-attribution{
         display: none;
@@ -34,7 +34,7 @@
         flex: 1 0 0;
       }
     }
-    #map{
+    #mapContainer{
       height: 70vh;
     }
   }

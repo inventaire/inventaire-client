@@ -1,6 +1,6 @@
 map_ = require 'modules/map/lib/map'
 { updateRoute, updateRouteFromEvent, BoundFilter } = map_
-containerId = 'map'
+containerId = 'mapContainer'
 containerSelector = '#' + containerId
 { startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
