@@ -159,6 +159,16 @@ $default-button-padding: 1em;
     }
   }
 }
+.deleteButton{
+  @include shy;
+  &:hover{
+    color: $soft-red;
+    span{
+      @include transition(display);
+      display: inherit;
+    }
+  }
+}
 .indicator{
   opacity: 0.6;
   cursor: default;
