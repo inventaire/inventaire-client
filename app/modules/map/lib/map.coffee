@@ -3,6 +3,7 @@ getCurrentPosition = require './navigator_position'
 smartPreventDefault = require 'modules/general/lib/smart_prevent_default'
 leafletLite = require './leaflet_lite'
 { buildPath } = require 'lib/location'
+error_ = require 'lib/error'
 
 module.exports = map_ =
   draw: require './draw'
@@ -23,6 +24,11 @@ module.exports = map_ =
     unless coords?.lat? then return marker.remove()
     { lat, lng } = coords
     marker.setLatLng [ lat, lng ]
+
+  showOnMap: (typeName, map, models)->
+    if typeName is 'users' then map_.showUsersOnMap map, models
+    else if typeName is 'groups' then map_.showGroupsOnMap map, models
+    else throw error_.new('invalid type', { typeName, map, models })
 
   showUsersOnMap: (map, users)->
     for user in _.forceArray users

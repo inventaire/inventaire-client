@@ -55,12 +55,19 @@ initEventListners = (params, map)->
 
 module.exports =
   initMap: initMap
+
   regions:
     list: '#list'
+
   grabMap: (map)->
     _.type map, 'object'
+    _.type map.getBounds, 'function'
     @map = map
-  refreshListFilter: ->
-    @collection.filterBy 'geobox', BoundFilter(@map)
+
+  refreshListFilter: (collection)->
+    collection = collection || @collection
+    collection.filterBy 'geobox', BoundFilter(@map)
+
   solvePosition: solvePosition
+
   drawMap: drawMap

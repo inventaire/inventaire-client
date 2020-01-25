@@ -1,5 +1,5 @@
-{ showUsersOnMap, showUserOnMap, showGroupsOnMap, getBbox } = require 'modules/map/lib/map'
-{ solvePosition, drawMap } = require 'modules/network/lib/nearby_layouts'
+{ showOnMap, getBbox } = require 'modules/map/lib/map'
+{ initMap, grabMap, refreshListFilter } = require 'modules/network/lib/nearby_layouts'
 { currentRoute } = require 'lib/location'
 Users = require 'modules/users/collections/users'
 Groups = require 'modules/network/collections/groups'
@@ -10,38 +10,39 @@ module.exports = InventoryCommonNav.extend
   template: require './templates/inventory_public_nav'
 
   initialize: ->
-    @collection = new Backbone.Collection
-    @waitForAssets = app.request 'map:before'
+    @users = new FilteredCollection(new Users)
+    @groups = new FilteredCollection(new Groups)
 
   onShow: ->
-    @showMap()
+    @initMap()
+    @showList @usersList, @users
+    @showList @groupsList, @groups
 
-  showMap: ->
-    path = 'inventory/public'
-    Promise.all [ solvePosition(), @waitForAssets ]
-    .spread (coords)=>
-      showObjects = @showUsersAndGroupsNearby.bind @
-      drawMap { showObjects, path }, coords
+  initMap: ->
+    initMap
+      view: @
+      query: @options.query
+      path: 'inventory/public'
+      showObjects: @fetchAndShowUsersAndGroupsOnMap.bind(@)
+      onMoveend: @onMovend.bind(@)
+    .then grabMap.bind(@)
+    .catch _.Error('initMap')
 
-  showUsersAndGroupsNearby: (map)->
+  fetchAndShowUsersAndGroupsOnMap: (map)->
     bbox = getBbox map
-    @showUsersByPosition map, bbox
-    @showGroupsByPosition map, bbox
+    @showByPosition 'users', bbox
+    @showByPosition 'groups', bbox
 
-  showUsersByPosition: (map, bbox)->
-    getByPosition 'users', Users, bbox
-    .then (collection)=>
-      showUsersOnMap map, collection.models
-      showUserOnMap map, app.user
-      @showList @usersList, collection
+  showByPosition: (name, bbox)->
+    getByPosition @[name]._superset, name, bbox
+    .then => showOnMap name, @map, @[name].models
 
-  showGroupsByPosition: (map, bbox)->
-    getByPosition 'groups', Groups, bbox
-    .then (collection)=>
-      showGroupsOnMap map, collection.models
-      @showList @groupsList, collection
+  onMovend: ->
+    refreshListFilter.call @, @users, @map
+    refreshListFilter.call @, @groups, @map
+    @fetchAndShowUsersAndGroupsOnMap @map
 
-getByPosition = (name, Collection, bbox)->
+getByPosition = (collection, name, bbox)->
   _.preq.get app.API[name].searchByPosition(bbox)
   .get name
-  .then (data)-> new Collection data
+  .then collection.add.bind(collection)

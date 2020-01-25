@@ -2,7 +2,6 @@ $nav-avatar-size: 5em;
 
 #usersList, #groupsList, #membersList{
   ul{
-    padding: 0.3em;
     @include display-flex(row, center, center, wrap);
     margin: 0 auto;
   }
