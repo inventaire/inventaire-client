@@ -1,15 +1,16 @@
 { defaultZoom } = require './config'
 getCurrentPosition = require './navigator_position'
+{ truncateDecimals } = require './geo'
 smartPreventDefault = require 'modules/general/lib/smart_prevent_default'
-leafletLite = require './leaflet_lite'
 { buildPath } = require 'lib/location'
 error_ = require 'lib/error'
 
 module.exports = map_ =
   draw: require './draw'
-  getCurrentPosition: getCurrentPosition
 
   updateRoute: (root, lat, lng, zoom = defaultZoom)->
+    lat = truncateDecimals lat
+    lng = truncateDecimals lng
     # Keep only defined parameters in the route
     # Allow to pass a custom root to let it be used in multiple modules
     route = buildPath root, { lat, lng, zoom }
@@ -44,12 +45,6 @@ module.exports = map_ =
       unless model.hasPosition() then return false
       point = model.getLatLng()
       return bounds.contains point
-
-  # a, b MUST be { lat, lng } coords objects
-  distanceBetween: (a, b)->
-    _.types arguments, 'objects...'
-    # return the distance in kilometers
-    return leafletLite.distance(a, b) / 1000
 
   getBbox: (map)->
     { _southWest, _northEast } = map.getBounds()

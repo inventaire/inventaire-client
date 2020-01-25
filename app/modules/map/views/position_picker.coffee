@@ -1,4 +1,5 @@
 map_ = require '../lib/map'
+getPositionFromNavigator = require 'modules/map/lib/navigator_position'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 { startLoading, stopLoading, Check } = require 'modules/general/plugins/behaviors'
@@ -40,7 +41,7 @@ module.exports = Marionette.ItemView.extend
   initMap: ->
     if @hasPosition then @_initMap @position
     else
-      map_.getCurrentPosition containerId
+      getPositionFromNavigator containerId
       .then @_initMap.bind(@)
 
     @$el.find('#validatePosition').focus()

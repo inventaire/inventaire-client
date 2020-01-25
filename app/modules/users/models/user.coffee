@@ -1,5 +1,5 @@
 UserCommons = require './user_commons'
-map_ = require 'modules/map/lib/map'
+{ distanceBetween } = require 'modules/map/lib/geo'
 
 module.exports = UserCommons.extend
   isMainUser: false
@@ -44,7 +44,7 @@ module.exports = UserCommons.extend
 
     a = app.user.getCoords()
     b = @getCoords()
-    distance = @kmDistanceFormMainUser = map_.distanceBetween a, b
+    distance = @kmDistanceFormMainUser = distanceBetween a, b
     # Under 20km, return a ~100m precision to signal the fact that location
     # aren't precise to the meter or anything close to it
     # Above, return a ~1km precision

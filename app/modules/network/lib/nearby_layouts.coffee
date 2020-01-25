@@ -1,4 +1,5 @@
 map_ = require 'modules/map/lib/map'
+getPositionFromNavigator = require 'modules/map/lib/navigator_position'
 { updateRoute, updateRouteFromEvent, BoundFilter } = map_
 containerId = 'mapContainer'
 containerSelector = '#' + containerId
@@ -27,7 +28,7 @@ solvePosition = (coords = {})->
   if user.hasPosition() then return Promise.resolve user.getCoords()
 
   # finally a request for the user position is issued
-  map_.getCurrentPosition containerId
+  return getPositionFromNavigator containerId
 
 drawMap = (params, coords)->
   { lat, lng, zoom } = coords
