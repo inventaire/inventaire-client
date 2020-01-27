@@ -38,12 +38,14 @@ API =
       $('#home').focus()
 
   showNetworkInventory: ->
-    showInventory { section: 'network' }
-    app.navigate 'inventory/network'
+    if app.request 'require:loggedIn', 'inventory/network'
+      showInventory { section: 'network' }
+      app.navigate 'inventory/network'
 
   showPublicInventory: ->
-    showInventory { section: 'public' }
-    app.navigate 'inventory/public'
+    if app.request 'require:loggedIn', 'inventory/network'
+      showInventory { section: 'public' }
+      app.navigate 'inventory/public'
 
   showUserInventory: (user)->
     showInventory { user }
