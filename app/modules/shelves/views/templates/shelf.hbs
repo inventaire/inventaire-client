@@ -1,5 +1,31 @@
 <div class="shelfData text-center">
   <h4 class="subheader">{{I18n 'shelf'}}</h4>
-  <h3 class="showShelf">{{name}}</h3>
-  <p class="subheader">{{description}}</p>
+  <div id="infoBox">
+    <div id="titleBox">
+      <h3 class="showShelf">{{name}}</h3>
+        {{#if editable}}
+          <a class="showShelfEdit pencil" title="{{i18n 'edit shelf'}}">
+            {{icon 'pencil'}}
+          </a>
+        {{/if}}
+      </div>
+      <p class="subheader">{{description}}</p>
+      <span id='listing' title="{{i18n listingData.label}}">{{icon listingData.icon}} {{i18n listingData.label}}</span>
+    </div>
+  </div>
+  <div class='hidden shelfEditorWrapper'>
+    <div id="shelfEditor">
+      <div id="shelfEditorContent">
+        <textarea id="shelfName">{{name}}</textarea>
+        <textarea id="shelfDesc">{{description}}</textarea>
+        <div class="has-dropdown">
+          <span class="visibilityButton tiny-button">{{icon icon}} {{i18n listingData.label}}</span>
+          {{partial 'shelves:shelf_visibility_box' this}}
+        </div>
+        <div class="button-group-right">
+          <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
+          <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
+        </div>
+    </div>
+  </div>
 </div>

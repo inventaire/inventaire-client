@@ -1,12 +1,36 @@
 .shelf{
   background-color: $darker-grey;
 }
-
 .shelfData{
   padding: 1em 10em;
   margin-bottom: 1em;
 }
-
 .shelfData h3,.shelfData p{
   color: white;
+}
+#titleBox{
+  @include display-flex(row, center, center)
+  .pencil{
+    font-size: 1.4rem;
+    @include text-hover(rgba(white, 0.5), white);
+    .fa{
+      width: 1.6em;
+    }
+  }
+}
+#listing{
+  color: $light-grey
+}
+.shelfEditorWrapper{
+}
+#shelfEditorContent{
+  width: 600px;
+  margin-bottom: 2em;
+  @media screen and (max-width: $small-screen) {
+    width: 100%;
+    padding: 0 1em;
+  }
+}
+#shelfEditor{
+  @include display-flex(column, center, center)
 }

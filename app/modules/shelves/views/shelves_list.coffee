@@ -27,7 +27,7 @@ ShelfLi = Marionette.ItemView.extend
     description = $("##{shelfId}Desc").val()
     listing = 'private'
     _.preq.post app.API.shelves.update, { id:shelfId, name, description, listing }
-    .catch _.Error('shelf creation error')
+    .catch _.Error('shelf update error')
 
   deleteShelf: (e)->
     id = @model.get('_id')
