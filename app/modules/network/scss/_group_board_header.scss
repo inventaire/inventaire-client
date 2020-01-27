@@ -4,50 +4,34 @@
   // required to position {,not-}searchable
   position: relative;
   .cover-link{
+    @include display-flex(column, center, center);
+    // required to position background
+    position: relative;
+    min-height: 8em;
     width: 100%;
     font-size: 1.6em;
+    .picture-color-filter{
+      @include position(absolute, 0, 0, 0, 0);
+      opacity: 0.6;
+    }
+    .group-cover-picture{
+      @include position(absolute, 0, 0, 0, 0);
+      @include bg-cover;
+      width: 100%;
+      @include display-flex(column, center, center);
+      overflow: hidden;
+    }
   }
   .name{
+    // Get over background image and collor-filter
+    position: relative;
     padding-top: 1em;
     padding-bottom: 0.8em;
   }
-  .description:not(:empty){
-    background-color: rgba(grey, 0.6);
-    color: white;
-    font-size: 0.8em;
-    line-height: 1em;
-    max-height: 3.2em;
-    padding: 0.2em;
-    overflow: hidden;
-  }
-  .group-cover-picture{
-    @include display-flex(column, center, center);
-    @include radius-top;
-    @include inner-shadow;
-    .link{
-      font-size: 0.7em;
-      color: white;
-      @include shy-text-border;
-      align-self: flex-end;
-      margin-right: 0.2em;
-      opacity: 0.5;
-      @include transition(opacity);
-    }
-    &:hover{
-      .link{
-        opacity: 1;
-      }
-      @include inner-shadow(20px, 20px, 10px, 10px, rgba(black, 0.2));
-    }
-    @include bg-cover;
-    // bg image is added dynamically from group_board template
-  }
   .showGroup.link, .showGroup.tiny-button{
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin: 1em 0;
   }
   .bottom{
-    padding: 1em 0 1em 0;
     @include display-flex(column, center, center);
     .invitor{
       font-weight: bold;
@@ -72,17 +56,5 @@
   }
   .not-searchable{
     background-color: $dark-grey;
-  }
-
-  .stats{
-    padding: 0.5em;
-    width: 100%;
-    align-self: stretch;
-    @include display-flex(row, center, space-between);
-    color: white;
-    background-color: $coverTextBg;
-    .booksCount{
-      margin-left: auto;
-    }
   }
 }

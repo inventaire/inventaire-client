@@ -1,14 +1,11 @@
 <a href="{{pathname}}" class="cover-link showGroup">
-  <div
   {{#if picture}}
-    class="group-cover-picture"
-    style="background-image: url('{{imgSrc picture 540}}')"
+    <div class="group-cover-picture" style="background-image: url('{{imgSrc picture 540}}')"></div>
   {{/if}}
-  >
-    <span class="name">{{name}}</span>
-    <span class="description">{{description}}</span>
-    {{partial 'network:group_stats' this}}
-  </div>
+  {{#if pictureFilterColor}}
+    <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
+  {{/if}}
+  <span class="name">{{name}}</span>
 </a>
 {{#if searchable}}
   <span class="searchable" title="{{i18n 'this group appears in search results'}}">

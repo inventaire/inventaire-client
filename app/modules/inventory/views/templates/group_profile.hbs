@@ -19,7 +19,12 @@
       {{/if}}
     </div>
   </div>
-  {{partial 'network:group_stats' this}}
+  <ul class="stats">
+    {{#if itemsCount}}
+      <li class="booksCount count">{{i18n 'books:'}} {{itemsCount}}</li>
+    {{/if}}
+    <li class="membersCount count">{{i18n 'members:'}} {{membersCount}}</li>
+  </ul>
 </div>
 
 <div class="section-two">
