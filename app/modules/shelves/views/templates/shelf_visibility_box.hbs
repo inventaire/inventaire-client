@@ -1,0 +1,10 @@
+<ul class="dropdown">
+  <li class="dropdown-label">{{i18n 'Who can see it?'}}</li>
+  {{#each listings}}
+    <li>
+      <a id="{{id}}" class="listing {{classes}}">
+        {{icon icon}} {{i18n label}}
+      </a>
+    </li>
+  {{/each}}
+</ul>

@@ -1,10 +1,13 @@
-<div class="shelfLi">
-  <span class="shelfLiName">{{name}}</span>
-  <span class="shelfLiDesc">{{description}}</span>
-  <div class="shelfLiButtons icon-buttons-header">
-    <a class="editButton" title="{{i18n label}}">{{icon icon}}</a>
-    <a href="/shelves/{{_id}}" class="editButton" title="{{i18n 'edit shelf'}}">{{icon 'pencil'}}</a>
-    <a class="deleteButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}</a>
+<div id="{{_id}}" class="shelfLi">
+  <a href="/shelves/{{_id}}" class="shelfLiName">{{name}}</a>
+  <a href="/shelves/{{_id}}" class="shelfLiDesc">{{description}}</a>
+  <div class="liButtons icon-buttons-header">
+    <span class="liButton" title="{{i18n label}}">{{icon icon}}</span>
+    <a class="editButton liButton" title="{{i18n 'edit shelf'}}">{{icon 'pencil'}}</a>
+    <a class="deleteButton liButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}</a>
   </div>
+</div>
+<div id="{{_id}}Editor" class='hidden shelfEditorWrapper'>
+  {{partial 'shelves:shelf_editor' this}}
 </div>
 <hr>

@@ -1,4 +1,10 @@
 <div class="shelvesTitle text-center">
   <h4 class="subheader">{{I18n 'shelves'}}</h4>
 </div>
+<div class="right">
+  <a id="addShelf" class="tiny-button">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
+</div>
+<div id="newShelfEditorWrapper" class='hidden shelfEditorWrapper'>
+  {{partial 'shelves:shelf_editor' this}}
+</div>
 <div class="shelves"></div>

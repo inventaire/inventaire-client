@@ -1,6 +1,43 @@
 .shelvesTitle{
   margin: 1em
 }
+.right{
+  text-align: right;
+}
+.shelfEditor{
+  @include display-flex(row);
+  margin: 1em;
+  .shelfName, .shelfDesc{
+    height:3em;
+    padding: 0 1em;
+    min-height: 2em;
+    margin: 0
+  }
+  .shelfName{
+    margin: 0 1em 0 0;
+    flex: 5 0 0;
+  }
+  .shelfDesc{
+    flex: 10 0 0;
+  }
+}
+#newShelfEditorWrapper{
+  margin: 1em
+}
+.has-dropdown{
+  line-height: 0;
+}
+.button-group-right{
+  @include display-flex(row);
+  flex: 1 0 0;
+  margin-left: 1em;
+
+}
+.button{
+  padding: 0.2em;
+  margin: 0 0.1em;
+  line-height: normal
+}
 .shelfLi{
   @include display-flex(row);
   cursor: pointer;
@@ -16,11 +53,18 @@
   flex: 10 0 0;
   color: $grey;
 }
-.shelfLiButtons{
+.liButtons{
   @include display-flex(row);
   flex: 1 0 0;
-
+  margin-right: 1.25em;
+}
+.liButton{
+  margin-left: 0.6em;
 }
 .shelves{
-  margin: 0 1em;
+  margin: 1em;
+}
+#addShelf{
+  margin: 2em;
+  padding: 0.5em;
 }
