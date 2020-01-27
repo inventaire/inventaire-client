@@ -1,11 +1,17 @@
 <div class="lists">
   <div class="list-wrapper">
-    <p class="list-label">{{I18n 'friends'}}</p>
+    <div class="list-label-wrapper">
+      <p class="list-label">{{I18n 'friends'}}</p>
+      <a class="showUsersMenu tiny-button light-blue" href="/network/users">{{icon 'plus'}} {{i18n 'add friend'}}</a>
+    </div>
     <div id="usersList"></div>
   </div>
 
   <div class="list-wrapper">
-    <p class="list-label">{{I18n 'groups'}}</p>
+    <div class="list-label-wrapper">
+      <p class="list-label">{{I18n 'groups'}}</p>
+      <a class="showGroupsMenu tiny-button light-blue" href="/network/groups">{{icon 'plus'}} {{i18n 'add group'}}</a>
+    </div>
     <div id="groupsList"></div>
   </div>
 </div>

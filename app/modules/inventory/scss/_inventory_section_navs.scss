@@ -1,9 +1,26 @@
 #inventoryNetworkNav, #inventoryPublicNav{
   .lists{
     @include display-flex(row);
+    margin: 1em 0;
   }
   .list-wrapper{
-    margin: 1em 0.5em;
+    padding: 1em;
+    margin-bottom: auto;
+    background-color: $light-grey;
+    @include radius;
+    &:not(:first-child){
+      margin-left: 0.5em;
+    }
+  }
+}
+
+#inventoryNetworkNav{
+  .list-label-wrapper{
+    @include display-flex(row, flex-end, space-between);
+    padding: 0.5em 0;
+  }
+  .list-label{
+    margin-bottom: 0;
   }
 }
 

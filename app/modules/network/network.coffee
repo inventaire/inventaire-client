@@ -40,9 +40,11 @@ module.exports =
   initialize: ->
     app.commands.setHandlers
       'show:network': API.showNetworkLayout
-      'show:group:board': showGroupBoardFromModel
+      'show:groups:menu': API.showFirstGroupLayout
+      'show:users:menu': API.showFirstUsersLayout
       'show:group:user': API.showUserGroups
       'show:group:create': API.showCreateGroup
+      'show:group:board': showGroupBoardFromModel
       'show:users:search': API.showSearchUsers
       'show:users:nearby': API.showNearbyUsers
 
