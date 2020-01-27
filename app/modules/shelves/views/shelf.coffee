@@ -1,4 +1,5 @@
 { listingsData } = require 'modules/inventory/lib/item_creation'
+getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.LayoutView.extend
   class:'shelfLayout'
@@ -11,6 +12,7 @@ module.exports = Marionette.LayoutView.extend
     'click .showShelfEdit': 'showEditor'
     'click a.cancelShelfEdition': 'hideEditor'
     'click #validateShelf': 'updateShelf'
+    'keydown #shelfEditor': 'shelfEditorKeyAction'
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -43,3 +45,11 @@ module.exports = Marionette.LayoutView.extend
     _.preq.post app.API.shelves.update, { id:shelfId, name, description, listing }
     .catch _.Error('shelf update error')
 
+  shelfEditorKeyAction: (e)->
+    key = getActionKey e
+    if key is 'esc'
+      @hideEditor()
+      e.stopPropagation()
+    else if key is 'enter' and e.ctrlKey
+      @updateShelf()
+      e.stopPropagation()
