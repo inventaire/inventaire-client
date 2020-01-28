@@ -91,7 +91,23 @@
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    @include display-flex(column, flex-start, center);
+    @include display-flex(column, stretch, center);
+    .stats{
+      display: none;
+    }
+    .section-two{
+      padding: 1em;
+    }
+    .section-three{
+      .actions{
+        justify-content: center;
+      }
+    }
+    #membersList{
+      ul{
+        justify-content: flex-start;
+      }
+    }
   }
 
   /*Large screens*/
