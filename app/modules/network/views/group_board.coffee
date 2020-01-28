@@ -17,7 +17,7 @@ module.exports = Marionette.LayoutView.extend
     @_alreadyShownSection = {}
     @initPlugin()
     @listenTo @model, 'action:accept', @render.bind(@)
-    @listenTo @model, 'action:leave', @render.bind(@)
+    @listenTo @model, 'action:leave', @onLeave.bind(@)
 
   initPlugin: ->
     groupPlugin.call @
@@ -127,6 +127,8 @@ module.exports = Marionette.LayoutView.extend
       emptyViewMessage: 'no user found'
       filter: (user, index, collection)->
         group.userStatus(user) isnt 'member'
+
+  onLeave: -> app.execute 'show:inventory:group', @model, true
 
   showMembersEmailInvitor: ->
     @groupEmailInvite.show new InviteByEmail { group: @model }
