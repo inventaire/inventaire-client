@@ -33,6 +33,8 @@ module.exports = (Backbone, _, $, app, window)->
     str[0].toUpperCase() + str[1..-1]
 
   isOpenedOutside: (e, ignoreMissingHref = false)->
+    unless e? then return false
+
     if e.currentTarget? then { id, href, className } = e.currentTarget
 
     unless e?.ctrlKey?
