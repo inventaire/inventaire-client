@@ -14,45 +14,5 @@
   }
 }
 
-#inventoryNetworkNav{
-  .list-label-wrapper{
-    @include display-flex(row, flex-end, space-between);
-    padding: 0.5em 0;
-  }
-  .list-label{
-    margin-bottom: 0;
-  }
-}
-
-#inventoryPublicNav{
-  .map-lists-wrapper{
-    display: flex;
-  }
-  #mapContainer{
-    margin: 0.5em 0.7em;
-    z-index: 0;
-  }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .map-lists-wrapper{
-      flex-direction: column;
-    }
-    #mapContainer{
-      height: 20em;
-      .leaflet-control-attribution{
-        display: none;
-      }
-    }
-  }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    .map-lists-wrapper{
-      > div{
-        flex: 1 0 0;
-      }
-    }
-    #mapContainer{
-      height: 70vh;
-    }
-  }
-}
+@import "inventory_network_nav";
+@import "inventory_public_nav";

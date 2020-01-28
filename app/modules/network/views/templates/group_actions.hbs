@@ -1,14 +1,14 @@
 <div class="actions">
   {{#if status_invited}}
-    <a class="accept">{{i18n 'accept invitation'}}</a>
-    <a class="decline">{{i18n 'decline'}}</a>
+    <a class="accept">{{I18n 'accept invitation'}}</a>
+    <a class="decline">{{I18n 'decline'}}</a>
   {{/if}}
   {{#if status_requested}}
     <div>
       <p class="requested">
         {{I18n 'you requested to join is waiting for approval'}}
       </p>
-      <a class="cancelRequest">{{i18n 'cancel request'}}</a>
+      <a class="cancelRequest">{{I18n 'cancel request'}}</a>
       <span class="check"></span>
     </div>
   {{/if}}

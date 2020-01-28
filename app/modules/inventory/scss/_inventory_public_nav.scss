@@ -1,0 +1,35 @@
+#inventoryPublicNav{
+  .map-lists-wrapper{
+    display: flex;
+    &:not(.mainUserHasPosition){
+      display: none;
+    }
+  }
+  #mapContainer{
+    margin: 0.5em 0.7em;
+    z-index: 0;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .map-lists-wrapper{
+      flex-direction: column;
+    }
+    #mapContainer{
+      height: 20em;
+      .leaflet-control-attribution{
+        display: none;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .map-lists-wrapper{
+      > div{
+        flex: 1 0 0;
+      }
+    }
+    #mapContainer{
+      height: 70vh;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.position-required{
+  @include display-flex(column, center, center);
+  margin-top: 2em;
+  > .fa-map-marker{
+    font-size: 5em;
+    color: $grey;
+  }
+  .requesting-position{
+    font-size: 1.2em;
+  }
+  .tip{
+    color: $grey;
+  }
+  a{
+    margin: 1em;
+  }
+}
