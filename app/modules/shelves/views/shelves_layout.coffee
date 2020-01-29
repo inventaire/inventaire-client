@@ -1,8 +1,10 @@
+Shelves = require '../collections/shelves'
 ShelfModel = require '../models/shelf'
 ShelvesView = require './shelves_list'
 error_ = require 'lib/error'
 getActionKey = require 'lib/get_action_key'
 { listingsData } = require 'modules/inventory/lib/item_creation'
+{ promisify } = require 'util'
 
 module.exports = Marionette.LayoutView.extend
   id: 'shelvesLayout'
@@ -11,6 +13,7 @@ module.exports = Marionette.LayoutView.extend
     shelves: '.shelves'
 
   events:
+    'click .shelfLiInfo': 'showShelf'
     'click #addShelf': 'showNewShelfEditor'
     'click a.cancelShelfEdition': 'hideNewShelfEditor'
     'keydown .shelfEditor': 'shelfEditorKeyAction'
@@ -22,12 +25,21 @@ module.exports = Marionette.LayoutView.extend
       icon: 'globe'
 
   onShow: ->
-    getByOwner()
+    { username } = @options
+    getUserId username
+    .then getByOwner
     .then @showFromModel.bind(@)
     .catch app.Execute('show:error')
 
-  updateShelfVisibility: ->
-    listingsData
+  updateListing: (e)->
+    if e.currentTarget? then { id: listing } = e.currentTarget
+    @listingData = listingsData()[listing]
+    @render()
+    @showNewShelfEditor()
+
+  showShelf: (e)->
+    { id:shelf } = e.currentTarget
+    app.execute 'show:shelf', shelf
 
   showFromModel: (models)->
     collection = new Backbone.Collection models
@@ -63,8 +75,12 @@ module.exports = Marionette.LayoutView.extend
     _.preq.post app.API.shelves.create, { name, description, listing }
     .catch _.Error('shelf creation error')
 
-getByOwner = ->
-  _.preq.get app.API.shelves.byOwners(app.user.id)
+getUserId = (username) ->
+  unless username then return Promise.resolve app.user.id
+  app.request 'get:userId:from:username', username
+
+getByOwner = (userId) ->
+  _.preq.get app.API.shelves.byOwners userId
   .get 'shelves'
   .then (shelves)->
     shelf = Object.values(shelves).map (shelf)->

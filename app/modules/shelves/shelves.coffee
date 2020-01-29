@@ -5,8 +5,8 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'shelves(/)': 'showShelves'
-        'shelves(/)(:id)(/)': 'showShelf'
+        'shelves(/)(:username)(/)': 'showShelves'
+        'shelf/(:id)(/)': 'showShelf'
 
     app.addInitializer -> new Router { controller: API }
 
@@ -20,7 +20,7 @@ API =
     if app.request 'require:loggedIn', 'shelves'
       app.layout.main.show new ShelfLayout { shelf }
 
-  showShelves: ->
+  showShelves: (username) ->
     if app.request 'require:loggedIn', 'shelves'
-      app.layout.main.show new ShelvesLayout
+      app.layout.main.show new ShelvesLayout { username }
 
