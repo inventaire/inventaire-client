@@ -1,27 +1,39 @@
-{ listingsData } = require 'modules/inventory/lib/item_creation'
+{ listingsData: listingsDataFn } = require 'modules/inventory/lib/item_creation'
 getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.LayoutView.extend
   class:'shelfLayout'
   template: require './templates/shelf'
+  behaviors:
+    BackupForm: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @
+    @listenTo @model, 'change', @render.bind(@)
 
   events:
     'click .showShelfEdit': 'showEditor'
     'click a.cancelShelfEdition': 'hideEditor'
     'click #validateShelf': 'updateShelf'
     'keydown #shelfEditor': 'shelfEditorKeyAction'
+    'click .listingChoice': 'updateListing'
 
   serializeData: ->
+    listing = @model.get('listing')
+    listingsData = listingsDataFn()
     attrs = @model.toJSON()
-    attrs.listingData = listingsData()[@model.get('listing')]
-    attrs.editable = @isEditable()
-    return attrs
+    _.extend attrs,
+      listingsData: listingsData
+      listingData: listingsData[listing]
+      editable: @isEditable()
 
   regions:
     shelf: '.shelf'
+
+  updateListing: (e)->
+    if e.currentTarget? then { id:listing } = e.currentTarget
+    @model.set('listing', listing)
+    @showEditor()
 
   isEditable: ->
     return @model.get('owner') is app.user.id
@@ -41,8 +53,11 @@ module.exports = Marionette.LayoutView.extend
     @hideEditor()
     name = $("#shelfName").val()
     description = $("#shelfDesc").val()
-    listing = 'private'
+    listing = @model.get('listing')
     _.preq.post app.API.shelves.update, { id:shelfId, name, description, listing }
+    # add wrapper
+    # .get 'shelves'
+    .then (updatedShelf) => @model.set(updatedShelf)
     .catch _.Error('shelf update error')
 
   shelfEditorKeyAction: (e)->

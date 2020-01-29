@@ -1,8 +1,8 @@
-<ul class="dropdown">
+<ul class="dropdown visibilityBox">
   <li class="dropdown-label">{{i18n 'Who can see it?'}}</li>
-  {{#each listings}}
+  {{#each listingsData}}
     <li>
-      <a id="{{id}}" class="listing {{classes}}">
+      <a id="{{id}}" class="listingChoice {{classes}}">
         {{icon icon}} {{i18n label}}
       </a>
     </li>

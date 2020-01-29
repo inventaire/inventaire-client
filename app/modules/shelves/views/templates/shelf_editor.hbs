@@ -3,10 +3,10 @@
   <textarea id="{{_id}}Desc" class="shelfDesc" placeholder='({{i18n 'new shelf description placeholder'}})'>{{description}}</textarea>
   <div class="button-group-right">
     <div class="has-dropdown">
-      <span class="visibilityButton button">{{icon icon}}</span>
+      <span name="listingData" id="{{_id}}" class="visibilityButton button">{{icon listingData.icon}}</span>
       {{partial 'shelves:shelf_visibility_box' this}}
     </div>
     <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
-    <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
+    <a title="{{I18n 'validate'}}" class="updateShelf button validateButton">{{icon 'check'}}</a>
   </div>
 </div>

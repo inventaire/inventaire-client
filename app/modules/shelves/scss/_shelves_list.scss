@@ -40,23 +40,26 @@
 }
 .shelfLi{
   @include display-flex(row);
-  cursor: pointer;
+}
+.shelfLiInfo{
+  flex: 15 0 0;
+  @include display-flex(row);
   height: 1.3em;
   overflow: hidden;
-}
-.shelfLiName{
-  flex: 5 0 0;
-  padding: 0 1em;
-  margin: 0 1em;
-}
-.shelfLiDesc{
-  flex: 10 0 0;
-  color: $grey;
 }
 .liButtons{
   @include display-flex(row);
   flex: 1 0 0;
   margin-right: 1.25em;
+}
+.shelfLiName{
+  flex: 1 0 0;
+  padding: 0 1em;
+  margin: 0 1em;
+}
+.shelfLiDesc{
+  flex: 2 0 0;
+  color: $grey;
 }
 .liButton{
   margin-left: 0.6em;

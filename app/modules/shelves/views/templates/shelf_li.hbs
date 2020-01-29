@@ -1,8 +1,10 @@
 <div id="{{_id}}" class="shelfLi">
-  <a href="/shelves/{{_id}}" class="shelfLiName">{{name}}</a>
-  <a href="/shelves/{{_id}}" class="shelfLiDesc">{{description}}</a>
+  <div class="shelfLiInfo">
+    <a href="/shelf/{{_id}}" class="shelfLiName">{{name}}</a>
+    <a href="/shelf/{{_id}}" class="shelfLiDesc">{{description}}</a>
+  </div>
   <div class="liButtons icon-buttons-header">
-    <span class="liButton" title="{{i18n label}}">{{icon icon}}</span>
+    <span class="liButton" title="{{i18n label}}">{{icon listingData.icon}}</span>
     <a class="editButton liButton" title="{{i18n 'edit shelf'}}">{{icon 'pencil'}}</a>
     <a class="deleteButton liButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}</a>
   </div>

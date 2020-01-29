@@ -12,17 +12,25 @@ module.exports = Marionette.LayoutView.extend
   regions:
     shelves: '.shelves'
 
+  behaviors:
+    BackupForm: {}
+
+  initialize: ->
+    @listingData = listingsData()['private']
+
   events:
     'click .shelfLiInfo': 'showShelf'
     'click #addShelf': 'showNewShelfEditor'
     'click a.cancelShelfEdition': 'hideNewShelfEditor'
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a#validateShelf': 'createShelf'
-    'click li.listing': 'updateShelfVisibility'
+    'click a#createShelf': 'createShelf'
+    'click .listingChoice': 'updateListing'
 
   serializeData: ->
-      listings: listingsData()
-      icon: 'globe'
+    listingsData: listingsData()
+    #Default listing for a new shelf
+    listingData: @listingData
+    _id: 'newShelf'
 
   onShow: ->
     { username } = @options
@@ -42,13 +50,13 @@ module.exports = Marionette.LayoutView.extend
     app.execute 'show:shelf', shelf
 
   showFromModel: (models)->
-    collection = new Backbone.Collection models
-    @shelves.show new ShelvesView { collection }
+    @collection = new Shelves models
+    @shelves.show new ShelvesView { @collection }
 
   showNewShelfEditor: (e)->
     $("#addShelf").hide()
     # Wrapper necessary to "display: none"
-    # separatly from "display: flex" the editor
+    # separately from "display: flex" of the editor
     $("#newShelfEditorWrapper").show().find('textarea').focus()
     e?.stopPropagation()
 
@@ -68,11 +76,16 @@ module.exports = Marionette.LayoutView.extend
 
   createShelf: ->
     @hideNewShelfEditor()
-    name = $(".shelfName").val()
-    description = $(".shelfDesc").val()
+    name = $("#newName").val()
+    description = $("#newDesc").val()
     if !name && !description then return
-    listing = 'private'
-    _.preq.post app.API.shelves.create, { name, description, listing }
+    _.preq.post app.API.shelves.create, { name, description, listing: @listingData.id }
+    # TODO: put server res in a wrapper
+    .then (newShelf)=>
+      newShelfModel = new ShelfModel newShelf
+      @collection.add newShelfModel
+      $("#newName").val('')
+      $("#newDesc").val('')
     .catch _.Error('shelf creation error')
 
 getUserId = (username) ->
@@ -82,7 +95,4 @@ getUserId = (username) ->
 getByOwner = (userId) ->
   _.preq.get app.API.shelves.byOwners userId
   .get 'shelves'
-  .then (shelves)->
-    shelf = Object.values(shelves).map (shelf)->
-      if shelf? then new ShelfModel shelf
-      else throw error_.new 'not found', 404, { id }
+  .then (shelves)-> Object.values(shelves)

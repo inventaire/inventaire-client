@@ -24,7 +24,6 @@ exports.config =
     afterBrunch: [
       './scripts/check_empty_files'
     ]
-
   overrides:
     production:
       sourceMaps: true

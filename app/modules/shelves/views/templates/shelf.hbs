@@ -18,8 +18,8 @@
       <div id="shelfEditorContent">
         <textarea id="shelfName">{{name}}</textarea>
         <textarea id="shelfDesc">{{description}}</textarea>
-        <div class="has-dropdown">
-          <span class="visibilityButton tiny-button">{{icon icon}} {{i18n listingData.label}}</span>
+        <div id="newShelfListing" class="has-dropdown">
+          <span class="visibilityButton tiny-button">{{icon listingData.icon}} {{i18n listingData.label}}</span>
           {{partial 'shelves:shelf_visibility_box' this}}
         </div>
         <div class="button-group-right">

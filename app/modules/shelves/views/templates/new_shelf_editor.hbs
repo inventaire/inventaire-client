@@ -1,0 +1,12 @@
+<div class="shelfEditor">
+  <textarea id="newName" class="shelfName" placeholder='({{i18n 'new shelf name placeholder'}})'></textarea>
+  <textarea id="newDesc" class="shelfDesc" placeholder='({{i18n 'new shelf description placeholder'}})'></textarea>
+  <div class="button-group-right">
+    <div class="has-dropdown">
+      <span id="newListingData" class="visibilityButton button">{{icon listingData.icon}}</span>
+      {{partial 'shelves:shelf_visibility_box' this}}
+    </div>
+    <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
+    <a id="createShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
+  </div>
+</div>
