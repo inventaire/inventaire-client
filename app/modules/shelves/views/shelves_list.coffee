@@ -1,14 +1,17 @@
+ConfirmationModal = require 'modules/general/views/confirmation_modal'
 { listingsData:listingsDataFn } = require 'modules/inventory/lib/item_creation'
 
 ShelfLi = Marionette.ItemView.extend
   tagName: 'li'
   template: require './templates/shelf_li'
+  regions:
+    modal: '#modalContent'
 
   events:
     'click .editButton': 'showUpdateShelfEditor'
     'click a.cancelShelfEdition': 'hideShelfEditor'
     'click a.updateShelf': 'updateShelf'
-    'click .deleteButton': 'deleteShelf'
+    'click .deleteButton': 'askDeleteShelf'
     'click .listingChoice': 'updateListing'
 
   initialize: ->
@@ -57,7 +60,14 @@ ShelfLi = Marionette.ItemView.extend
     .then (updatedShelf) => @model.set(updatedShelf)
     .catch _.Error('shelf update error')
 
-  deleteShelf: (e)->
+  askDeleteShelf: ->
+    app.execute('ask:confirmation',
+      confirmationText: _.i18n 'delete shelf confirmation'
+      warningText: _.i18n 'warning shelf delete'
+      action: @deleteShelf()
+    )
+
+  deleteShelf:  ->
     id = @model.get '_id'
     _.preq.post app.API.shelves.delete, { ids:id }
     .then => @model.collection.remove @model
