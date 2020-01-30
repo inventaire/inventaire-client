@@ -2,7 +2,7 @@
 
 # regex inspired by https://gist.github.com/efeminella/2034192
 link = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]+)/gim
-protocolText = '<a href="$1" class="content-link" target="_blank" rel="noopener nofollow">$1</a>'
+protocolText = '<a href="$1" class="content-link" target="_blank" rel="nofollow, noopener">$1</a>'
 
 module.exports =
   userContent: (text)->
