@@ -30,8 +30,8 @@ ShelfLi = Marionette.ItemView.extend
   showUpdateShelfEditor: (e)->
     shelfId = @model.get '_id'
     $("##{shelfId}").hide()
-    $(".shelfName").val(@model.get('name'))
-    $(".shelfDesc").val(@model.get('description'))
+    $("##{shelfId}Name").val(@model.get('name'))
+    $("##{shelfId}Desc").val(@model.get('description'))
     $("##{shelfId}Editor").show().find('textarea').focus()
     e?.stopPropagation()
 
