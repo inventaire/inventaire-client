@@ -3,7 +3,7 @@ testLocalStorage = require 'lib/local_storage'
 { wiki, roadmap, git } = require 'lib/urls'
 
 module.exports = ->
-  sayHi()
+  if window.env is 'prod' then sayHi()
   ISODatePolyFill()
   startsWithPolyFill()
   testFlexSupport()
