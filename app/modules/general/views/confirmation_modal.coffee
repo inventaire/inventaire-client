@@ -11,9 +11,11 @@ module.exports = Marionette.ItemView.extend
   ui:
     no: '#no'
     yes: '#yes'
+    altAction: '#altAction'
 
   serializeData: ->
     data = @options
+    data.altAction or= 'altAction'
     data.yes or= 'yes'
     data.no or= 'no'
     data.yesButtonClass or= 'alert'
@@ -23,6 +25,7 @@ module.exports = Marionette.ItemView.extend
   events:
     'click a#yes': 'yes'
     'click a#no': 'close'
+    'click a#altAction': 'altAction'
     'keydown': 'changeButton'
     'click a#back': 'back'
 
@@ -33,7 +36,14 @@ module.exports = Marionette.ItemView.extend
 
   yes: ->
     { action, selector } = @options
-    Promise.try @executeFormAction.bind(@)
+    @confirming(action, selector)
+
+  altAction: ->
+    { altAction, selector } = @options
+    @confirming(altAction, selector)
+
+  confirming: (action, selector) ->
+    Promise.try @executeAction.bind(@)
     .then action
     .then @success.bind(@)
     .catch @error.bind(@)
@@ -56,7 +66,7 @@ module.exports = Marionette.ItemView.extend
     if selector? then $(selector).trigger('stopLoading')
     else _.warn 'confirmation modal: no selector was provided'
 
-  executeFormAction: ->
+  executeAction: ->
     { formAction } = @options
     if formAction?
       formContent = @$el.find('#confirmationForm').val()

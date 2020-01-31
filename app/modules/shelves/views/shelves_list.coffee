@@ -62,15 +62,19 @@ ShelfLi = Marionette.ItemView.extend
 
   askDeleteShelf: ->
     app.execute('ask:confirmation',
-      confirmationText: _.i18n 'delete shelf confirmation'
+      confirmationText: _.i18n 'delete shelf confirmation', { name: @model.get('name') }
       warningText: _.i18n 'warning shelf delete'
-      action: @deleteShelf()
+      action: @deleteShelf(@model)
+      altAction: @deleteShelf(@model, true)
+      altActionText: _.i18n 'yes and delete shelf items too'
     )
 
-  deleteShelf:  ->
-    id = @model.get '_id'
-    _.preq.post app.API.shelves.delete, { ids:id }
-    .then => @model.collection.remove @model
+  deleteShelf: (model, withItems) -> ->
+    id = model.get '_id'
+    params = { ids: id }
+    if withItems then params = _.extend({'with-items': true}, params)
+    _.preq.post app.API.shelves.delete, params
+    .then => model.collection.remove model
     .then _.Log('shelf destroyed')
     .catch _.Error('shelf delete error')
 
