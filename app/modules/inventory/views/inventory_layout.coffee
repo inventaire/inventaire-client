@@ -97,6 +97,8 @@ module.exports = Marionette.LayoutView.extend
     @itemsList.show new InventoryBrowser { "#{type}": model }
 
   showSectionLastItems: (section)->
+    if section is 'public' and not app.user.get('position') then return
+
     showPaginatedItems
       request: sectionRequest[section]
       region: @itemsList
