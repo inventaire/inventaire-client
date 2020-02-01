@@ -65,6 +65,15 @@
   .section-two{
     flex: 2 0 auto;
   }
+  .showGroupBoard{
+    position: relative;
+    .counter{
+      @include counter-commons;
+      @include position(absolute, 2px, 2px);
+      font-size: 1rem;
+      line-height: 1.1rem;
+    }
+  }
   .stats{
     padding: 0.5em;
     background-color: $grey;

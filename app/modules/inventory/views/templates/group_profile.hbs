@@ -14,8 +14,10 @@
     </div>
     <div class="iconButtons">
       {{#if mainUserIsMember}}
-        <a class="showGroupBoard" href="{{boardPathname}}"
-        title="{{i18n 'settings'}}">{{icon 'cog'}}</a>
+        <a class="showGroupBoard" href="{{boardPathname}}" title="{{i18n 'settings'}}">
+          {{icon 'cog'}}
+          {{#if requestsCount}}<span class="counter">{{requestsCount}}</span>{{/if}}
+        </a>
       {{/if}}
     </div>
   </div>

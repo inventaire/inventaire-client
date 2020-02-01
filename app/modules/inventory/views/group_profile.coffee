@@ -1,8 +1,6 @@
 groupPlugin = require 'modules/network/plugins/group'
 SectionList = require './inventory_section_list'
 
-# TODO:
-# - display admin notifications
 module.exports = Marionette.LayoutView.extend
   template: require './templates/group_profile'
   className: 'groupProfile'
@@ -28,6 +26,7 @@ module.exports = Marionette.LayoutView.extend
     _.extend @model.serializeData(),
       highlighted: @options.highlighted
       rss: @model.getRss()
+      requestsCount: @model.get('requested').length
 
   onRender: ->
     @model.beforeShow()
