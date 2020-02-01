@@ -1,39 +1,41 @@
-<div class="section-one">
-  <div class="cover-header">
-    {{#if picture}}
-      <div class="group-cover-picture" style="background-image: url('{{imgSrc picture 1600}}')"></div>
-    {{/if}}
-    {{#if pictureFilterColor}}
-      <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
-    {{/if}}
-    <div class="info">
-      <span class="name">{{name}}</span>
-      {{#if description}}
-        <p class="description">{{userContent description}}</p>
+<div class="group-profile-header">
+  <div class="section-one">
+    <div class="cover-header">
+      {{#if picture}}
+        <div class="group-cover-picture" style="background-image: url('{{imgSrc picture 1600}}')"></div>
       {{/if}}
-    </div>
-    <div class="iconButtons">
-      {{#if mainUserIsMember}}
-        <a class="showGroupBoard" href="{{boardPathname}}" title="{{i18n 'settings'}}">
-          {{icon 'cog'}}
-          {{#if requestsCount}}<span class="counter">{{requestsCount}}</span>{{/if}}
-        </a>
+      {{#if pictureFilterColor}}
+        <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
       {{/if}}
+      <div class="info">
+        <span class="name">{{name}}</span>
+        {{#if description}}
+          <p class="description">{{userContent description}}</p>
+        {{/if}}
+      </div>
+      <div class="iconButtons">
+        {{#if mainUserIsMember}}
+          <a class="showGroupBoard" href="{{boardPathname}}" title="{{i18n 'settings'}}">
+            {{icon 'cog'}}
+            {{#if requestsCount}}<span class="counter">{{requestsCount}}</span>{{/if}}
+          </a>
+        {{/if}}
+      </div>
     </div>
+    <ul class="stats">
+      {{#if itemsCount}}
+        <li class="booksCount count">{{i18n 'books:'}} {{itemsCount}}</li>
+      {{/if}}
+      <li class="membersCount count">{{i18n 'members:'}} {{membersCount}}</li>
+    </ul>
   </div>
-  <ul class="stats">
-    {{#if itemsCount}}
-      <li class="booksCount count">{{i18n 'books:'}} {{itemsCount}}</li>
-    {{/if}}
-    <li class="membersCount count">{{i18n 'members:'}} {{membersCount}}</li>
-  </ul>
+
+  <div class="section-two">
+    <p class="list-label">{{I18n 'members'}}</p>
+    <div id="membersList"></div>
+  </div>
 </div>
 
-<div class="section-two">
-  <p class="list-label">{{I18n 'members'}}</p>
-  <div id="membersList"></div>
-</div>
-
-<div class="section-three">
+<div class="group-actions">
   {{partial 'network:group_actions' this}}
 </div>

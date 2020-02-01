@@ -121,13 +121,16 @@
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    @include display-flex(row, flex-start, center, wrap);
     h3{
       text-align: right;
       margin-right: 1em;
     }
+    .group-profile-header{
+      @include display-flex(row, flex-start, space-between, wrap);
+    }
     .section-one{
       flex: 1 0 20em;
+      max-width: 30em;
     }
     .section-two{
       flex: 5 0 0;
@@ -136,9 +139,7 @@
         margin: 0.5em 1em;
       }
     }
-    .section-three{
-      // Force to go on a new row
-      min-width: 90%;
+    .group-actions{
       @include display-flex(column, center, center);
       margin: 1em;
       .restrictions{
