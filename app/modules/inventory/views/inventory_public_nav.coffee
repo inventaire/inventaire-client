@@ -24,6 +24,8 @@ module.exports = InventoryCommonNav.extend
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
+    'click .userIcon a': 'showUser'
+    'click .groupIcon a': 'showGroup'
 
   serializeData: ->
     mainUserHasPosition: app.user.get('position')?
@@ -63,6 +65,18 @@ module.exports = InventoryCommonNav.extend
     refreshListFilter.call @, @users, @map
     refreshListFilter.call @, @groups, @map
     @fetchAndShowUsersAndGroupsOnMap @map
+
+  showUser: (e)->
+    if _.isOpenedOutside e then return
+    userId = e.currentTarget.attributes['data-user-id'].value
+    app.request 'resolve:to:userModel', userId
+    .then (user)-> app.vent.trigger 'inventory:select', 'user', user
+
+  showGroup: (e)->
+    if _.isOpenedOutside e then return
+    groupId = e.currentTarget.attributes['data-group-id'].value
+    app.request 'resolve:to:groupModel', groupId
+    .then (group)-> app.vent.trigger 'inventory:select', 'group', group
 
 getByPosition = (collection, name, bbox)->
   _.preq.get app.API[name].searchByPosition(bbox)
