@@ -81,4 +81,11 @@ module.exports = InventoryCommonNav.extend
 getByPosition = (collection, name, bbox)->
   _.preq.get app.API[name].searchByPosition(bbox)
   .get name
-  .then collection.add.bind(collection)
+  .then (docs)->
+    filter = filters[name]
+    if filter? then docs = docs.filter filter
+    return collection.add docs
+
+filters =
+  # Filter-out main user
+  users: (doc)-> doc._id isnt app.user.id
