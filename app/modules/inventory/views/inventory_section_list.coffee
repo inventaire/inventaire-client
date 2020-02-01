@@ -9,6 +9,7 @@ ListEl = Marionette.ItemView.extend
     attrs = @model.serializeData()
     attrs.isGroup = attrs.type is 'group'
     attrs.isGroupAdmin = @isGroupAdmin()
+    attrs.hasItemsCount = attrs.itemsCount?
     return attrs
 
   events:
