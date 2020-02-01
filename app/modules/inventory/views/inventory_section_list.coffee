@@ -3,15 +3,18 @@ ListEl = Marionette.ItemView.extend
   template: require './templates/inventory_section_list_li'
 
   initialize: ->
-    { @context } = @options
+    { @context, @group } = @options
 
   serializeData: ->
     attrs = @model.serializeData()
     attrs.isGroup = attrs.type is 'group'
+    attrs.isGroupAdmin = @isGroupAdmin()
     return attrs
 
   events:
     'click a': 'selectInventory'
+
+  isGroupAdmin: -> @context is 'group' and @group.allAdminsIds().includes(@model.id)
 
   selectInventory: (e)->
     if _.isOpenedOutside e then return
@@ -25,3 +28,4 @@ module.exports = Marionette.CollectionView.extend
   childView: ListEl
   childViewOptions: ->
     context: @options.context
+    group: @options.group

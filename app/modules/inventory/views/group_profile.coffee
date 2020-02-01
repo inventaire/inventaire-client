@@ -34,7 +34,7 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('showMembers')
 
   showMembers: ->
-    @membersList.show new SectionList { collection: @model.members, context: 'group' }
+    @membersList.show new SectionList { collection: @model.members, context: 'group', group: @model }
 
   childEvents:
     select: (e, type, model)->
