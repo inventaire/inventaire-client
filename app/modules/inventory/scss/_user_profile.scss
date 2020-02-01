@@ -56,4 +56,37 @@
       max-height: 15em;
     }
   }
+
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    @include display-flex(column, center, center);
+    .avatar{
+      margin-top: 1em;
+    }
+    .info{
+      .header{
+        flex-direction: column;
+      }
+    }
+    .username{
+      text-align: center;
+    }
+    .profile-buttons{
+      margin: 1em;
+      flex-direction: column;
+    }
+    .showUserOnMap{
+      margin-bottom: 1em;
+    }
+    .data{
+      align-items: center;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    #mapContainer{
+      display: none;
+    }
+  }
 }

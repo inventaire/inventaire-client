@@ -14,6 +14,16 @@
     @include display-flex(row, center, center);
     flex: 1 0 0;
   }
+  .modes{
+    > div{
+      margin-left: 0.2em;
+    }
+  }
+  .info{
+  }
+  .authors{
+    color: $grey;
+  }
   .transaction, .listing{
     @include radius;
     height: 2em;
@@ -38,20 +48,20 @@
   .showItem{
     @include display-flex(row, center, flex-start);
     @include bg-hover(white, 5%);
-    flex: 1 0 auto;
-    align-self: stretch;
-  }
-  .authors{
-    color: $grey;
+    flex: 1 0 0;
+    // overflow: hidden;
   }
 
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $smaller-screen) {
     margin-bottom: 1em;
-    margin: 1em 0;
-    padding: 0.5em 0;
+    margin: 0.5em 0;
+    padding: 0.2em;
     .body{
       flex-direction: column;
+    }
+    .info{
+      flex: 1 0 auto;
     }
     .showItem{
       flex-direction: column;
@@ -60,9 +70,6 @@
       position: absolute;
       top: 0;
       right: 0;
-    }
-    .info{
-      overflow: hidden;
     }
     .image-wrapper{
       min-height: 1.4em;

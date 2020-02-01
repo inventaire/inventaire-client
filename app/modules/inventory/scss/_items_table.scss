@@ -3,7 +3,6 @@
   background-color: $inventory-nav-grey;
   #table-header:not(.hidden){
     @include display-flex(row);
-    padding: 0.5em;
     background-color: $inventory-nav-grey;
     // Required for unclear reasons to allow .dropdown divs to appear
     // above .item-row elements
@@ -30,16 +29,18 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    #table-header{
+  @media screen and (min-width: $small-screen) {
+    #table-header:not(.hidden){
       position: sticky;
       top: $topbar-height;
+      padding: 0.5em;
     }
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    #table-header{
+  @media screen and (max-width: $small-screen) {
+    #table-header:not(.hidden){
+      overflow: auto;
       flex-direction: column;
       align-items: stretch;
       > button, > div{

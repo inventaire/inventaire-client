@@ -2,7 +2,6 @@
   #tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;
-    @include radius-horizontal-group;
     a{
       flex: 1 0 0;
       @include bg-hover-lighten($dark-grey);
@@ -12,11 +11,7 @@
       align-self: stretch;
       @include display-flex(row, center, center);
       .fa{
-        margin-right: 0.5em;
         font-size: 1.4em;
-      }
-      img{
-        margin: 0 0.5em;
       }
     }
     &.tab-selected-user #userTab, &.tab-selected-network #networkTab, &.tab-selected-public #publicTab{
@@ -25,10 +20,33 @@
     }
   }
 
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    #tabs{
+      @include radius-horizontal-group;
+    }
+    img{
+      margin: 0 0.5em;
+    }
+    .fa{
+      margin-right: 0.5em;
+    }
+  }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
+    #tabs{
+      margin-top: 0.5em;
+    }
     a{
       height: 3em;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .label{
+      display: none;
     }
   }
 }

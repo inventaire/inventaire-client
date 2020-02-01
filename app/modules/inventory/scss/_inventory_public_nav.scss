@@ -13,6 +13,9 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
+    .lists{
+      flex-direction: column;
+    }
     .map-lists-wrapper{
       flex-direction: column;
     }

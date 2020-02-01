@@ -66,6 +66,22 @@
     }
   }
 
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    #browserControls{
+      flex-direction: column;
+    }
+    #addToInventory{
+      margin: 1em;
+    }
+    #browser-filters{
+      flex-direction: column;
+      .selectors{
+        flex-direction: column;
+      }
+    }
+  }
+
   @import 'filter_preview';
   @import 'browser_selector';
 }
