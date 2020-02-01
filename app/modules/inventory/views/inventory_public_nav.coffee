@@ -41,6 +41,7 @@ module.exports = InventoryCommonNav.extend
       path: 'inventory/public'
       showObjects: @fetchAndShowUsersAndGroupsOnMap.bind(@)
       onMoveend: @onMovend.bind(@)
+      updateRoute: false
     .then grabMap.bind(@)
     .catch _.Error('initMap')
 

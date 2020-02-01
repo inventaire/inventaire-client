@@ -8,6 +8,9 @@ containerSelector = '#' + containerId
 initMap = (params)->
   { view, query } = params
 
+  # Do not redefine the updateRoute variable: access from params object
+  params.updateRoute ?= true
+
   startLoading.call view, containerSelector
 
   Promise.all [
@@ -42,7 +45,7 @@ drawMap = (params, coords)->
 
   showObjects map
 
-  updateRoute path, lat, lng, zoom
+  if params.updateRoute then updateRoute path, lat, lng, zoom
 
   _.type map, 'object'
   return map
@@ -50,8 +53,13 @@ drawMap = (params, coords)->
 initEventListners = (params, map)->
   _.type map, 'object'
   { path, onMoveend } = params
-  map.on 'moveend', updateRouteFromEvent.bind(null, path)
+
+  if params.updateRoute
+    _.type path, 'string'
+    map.on 'moveend', updateRouteFromEvent.bind(null, path)
+
   map.on 'moveend', onMoveend
+
   return map
 
 module.exports =
