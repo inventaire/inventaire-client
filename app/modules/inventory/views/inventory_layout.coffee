@@ -115,11 +115,12 @@ module.exports = Marionette.LayoutView.extend
         @userProfile.empty()
         @showGroupInventory model
         scrollToSection @groupProfile
-      app.navigateFromModel model
     else if type is 'member'
       @showUserProfile model
       @showMemberInventory model
       scrollToSection @userProfile
+
+    app.navigateFromModel model
 
 sectionRequest =
   network: 'items:getNetworkItems'
