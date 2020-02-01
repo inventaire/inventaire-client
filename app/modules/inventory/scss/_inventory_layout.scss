@@ -3,6 +3,11 @@
   // Set a minimun height so that when a filter is picked and only a few items
   // are displayed as a result, the view doesn't jump up
   min-height: 100vh;
+
+  #sectionNav{
+    margin-bottom: 1em;
+  }
+
   #itemsList{
     min-height: 100vh;
   }

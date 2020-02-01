@@ -1,7 +1,6 @@
 #inventoryNetworkNav, #inventoryPublicNav{
   .lists{
     @include display-flex(row);
-    margin: 1em 0;
   }
   .list-wrapper{
     padding: 1em;
