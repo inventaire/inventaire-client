@@ -41,6 +41,8 @@ module.exports = InventoryCommonNav.extend
     .catch _.Error('initMap')
 
   fetchAndShowUsersAndGroupsOnMap: (map)->
+    displayedElementsCount = @users.length + @groups.length
+    if map._zoom < 10 and displayedElementsCount > 20 then return
     bbox = getBbox map
     @showByPosition 'users', bbox
     @showByPosition 'groups', bbox
