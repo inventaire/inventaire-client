@@ -1,12 +1,18 @@
 <div class="map-lists-wrapper {{#if mainUserHasPosition}}mainUserHasPosition{{/if}}">
   <div class="lists">
     <div class="list-wrapper">
-      <p class="list-label">{{I18n 'users'}}</p>
+      <div class="list-header">
+        <p class="list-label">{{I18n 'users'}}</p>
+        <div class="usersLoading"></div>
+      </div>
       <div id="usersList"></div>
     </div>
 
     <div class="list-wrapper">
-      <p class="list-label">{{I18n 'groups'}}</p>
+      <div class="list-header">
+        <p class="list-label">{{I18n 'groups'}}</p>
+        <div class="groupsLoading"></div>
+      </div>
       <div id="groupsList"></div>
     </div>
   </div>

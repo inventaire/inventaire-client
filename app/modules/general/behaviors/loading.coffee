@@ -6,22 +6,23 @@ module.exports = Marionette.Behavior.extend
 
   showSpinningLoader: (e, params = {})->
     { selector, message, timeout, progressionEventName } = params
-    @$target = @getTarget selector
+    @_targets ?= {}
+    @_targets[selector] = $target = @getTarget selector
 
-    if @$target.length isnt 1 then return _.warn @$target, 'loading: failed to find single target'
+    if $target.length isnt 1 then return _.warn $target, 'loading: failed to find single target'
 
     body = '<div class="small-loader"></div>'
     if message?
       mes = params.message
       body += "<p class='grey'>#{mes}</p>"
 
-    $parent = @$target.parent()
+    $parent = $target.parent()
 
     # If the container is flex, no need to adjust to get the loader centered
     if $parent.css('display') isnt 'flex'
       body = body.replace 'small-loader', 'small-loader adjust-vertical-alignment'
 
-    @$target.html body
+    $target.html body
     # Elements to hide when loading should share the same parent as the .loading element
     $parent.find('.hide-on-loading').hide()
 
@@ -34,27 +35,32 @@ module.exports = Marionette.Behavior.extend
       if @_alreadyListingForProgressionEvent then return
       @_alreadyListingForProgressionEvent = true
 
-      fn = updateProgression.bind @, body
+      fn = updateProgression.bind @, body, $target
       lazyUpdateProgression = _.debounce fn, 500, true
       @listenTo app.vent, progressionEventName, lazyUpdateProgression
 
     e.stopPropagation()
 
   hideSpinningLoader: (e, params = {})->
-    @$target or= @getTarget params.selector
-    @$target.empty()
-    @$target.parent().find('.hide-on-loading').show()
+    { selector } = params
+    @_targets[selector] or= @getTarget selector
+    $target = @_targets[selector]
+    $target.empty()
+    $target.parent().find('.hide-on-loading').show()
     @hidden = true
     e.stopPropagation()
 
   somethingWentWrong: (e, params = {})->
     unless @hidden
-      @$target or= @getTarget params.selector
+      { selector } = params
+      @_targets[selector] or= @getTarget selector
+      $target = @_targets[selector]
 
       oups = _.I18n 'something went wrong :('
       body = _.icon('bolt') + "<p> #{oups}</p>"
 
-      @$target.html body
+      $target.html body
+
     e?.stopPropagation()
 
   # Priority:
@@ -69,7 +75,7 @@ module.exports = Marionette.Behavior.extend
     else
       @$el.find '.loading'
 
-updateProgression = (body, data)->
+updateProgression = (body, $target, data)->
   if @hidden then return
   counter = "#{data.done}/#{data.total}"
-  @$target.html "<span class='progression'>#{counter}</span> #{body}"
+  $target.html "<span class='progression'>#{counter}</span> #{body}"

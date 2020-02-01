@@ -7,6 +7,9 @@
   }
   #mapContainer{
     z-index: 0;
+    // Centering loader
+    @include display-flex(row, center, center);
+    background-color: $off-white;
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {

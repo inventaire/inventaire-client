@@ -4,6 +4,7 @@
 Users = require 'modules/users/collections/users'
 Groups = require 'modules/network/collections/groups'
 InventoryCommonNav = require 'modules/inventory/views/inventory_common_nav'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = InventoryCommonNav.extend
   id: 'inventoryPublicNav'
@@ -17,6 +18,9 @@ module.exports = InventoryCommonNav.extend
     # so that 'nearby' request aren't done while the server
     # is still editing the user's position and might thus return a 400
     @listenTo app.user, 'confirmed:position', @lazyRender
+
+  behaviors:
+    Loading: {}
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
@@ -48,8 +52,11 @@ module.exports = InventoryCommonNav.extend
     @showByPosition 'groups', bbox
 
   showByPosition: (name, bbox)->
+    startLoading.call @, ".#{name}Loading"
     getByPosition @[name]._superset, name, bbox
-    .then => showOnMap name, @map, @[name].models
+    .then =>
+      showOnMap name, @map, @[name].models
+      stopLoading.call @, ".#{name}Loading"
 
   onMovend: ->
     refreshListFilter.call @, @users, @map
