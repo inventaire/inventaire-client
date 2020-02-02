@@ -2,14 +2,14 @@
   background-color: $darker-grey;
 }
 .shelfData{
-  padding: 1em 10em;
+  padding: 1em 10%;
   margin-bottom: 1em;
 }
 .shelfData h3,.shelfData p{
   color: white;
 }
 #titleBox{
-  @include display-flex(row, center, center)
+  @include display-flex(row, top, center)
   .pencil{
     font-size: 1.4rem;
     @include text-hover(rgba(white, 0.5), white);
@@ -33,4 +33,7 @@
 }
 #shelfEditor{
   @include display-flex(column, center, center)
+}
+.subheader{
+  width: 100%
 }
