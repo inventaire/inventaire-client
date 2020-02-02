@@ -1,4 +1,7 @@
-<div class="filter-wrapper">
-  {{icon 'search'}}
-  <input id="{{id}}" type="text" placeholder="{{i18n placeholder}}..." value="{{value}}">
+{{!-- A super wrapper is required to be able to easily apply padding, despite the positon: absolute --}}
+<div class="filter-wrapper-wrapper">
+  <div class="filter-wrapper">
+    {{icon 'search'}}
+    <input id="{{id}}" type="text" placeholder="{{i18n placeholder}}..." value="{{value}}">
+  </div>
 </div>
