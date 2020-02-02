@@ -1,23 +1,23 @@
 {{#if friends}}
   <a class="unfriend action tiny-button" title="{{I18n 'unfriend'}}">
-    {{icon 'minus'}}<span class="label"> {{i18n 'unfriend'}}</span>
+    {{icon 'minus'}}<span class="label"> {{I18n 'unfriend'}}</span>
   </a>
 {{/if}}
 {{#if userRequested}}
   <a class="cancel action tiny-button" title="{{I18n 'cancel friend request'}}">
-    {{icon 'ban'}}<span class="label"> {{i18n 'cancel request'}}</span>
+    {{icon 'ban'}}<span class="label"> {{I18n 'cancel request'}}</span>
   </a>
 {{/if}}
 {{#if otherRequested}}
   <a class="accept action tiny-button light-blue" title="{{I18n 'accept friend request'}}">
-    {{icon 'check'}}<span class="label"> {{i18n 'confirm'}}</span>
+    {{icon 'check'}}<span class="label"> {{I18n 'confirm'}}</span>
   </a>
   <a class="discard action tiny-button" title="{{I18n 'discard friend request'}}">
-    {{icon 'minus'}}<span class="label"> {{i18n 'decline'}}</span>
+    {{icon 'minus'}}<span class="label"> {{I18n 'decline'}}</span>
   </a>
 {{/if}}
 {{#if public}}
   <a class="request action tiny-button light-blue" title="{{I18n 'send friend request'}}">
-    {{icon 'plus'}}<span class="label"> {{i18n 'add friend'}}</span>
+    {{icon 'plus'}}<span class="label"> {{I18n 'add friend'}}</span>
   </a>
 {{/if}}
