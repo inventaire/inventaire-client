@@ -9,8 +9,10 @@ module.exports = Marionette.ItemView.extend
   className: 'profileSettings'
   behaviors:
     AlertBox: {}
-    SuccessCheck: {}
+    ElasticTextarea: {}
     Loading: {}
+    SuccessCheck: {}
+    PreventDefault: {}
 
   ui:
     username: '#usernameField'
