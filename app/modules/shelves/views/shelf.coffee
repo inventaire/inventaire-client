@@ -40,6 +40,7 @@ module.exports = Marionette.LayoutView.extend
 
   showEditor: (e)->
     $("#infoBox").hide()
+    $("#showShelfEdit").hide()
     $(".shelfEditorWrapper").show().find('textarea').focus()
     e?.stopPropagation()
 

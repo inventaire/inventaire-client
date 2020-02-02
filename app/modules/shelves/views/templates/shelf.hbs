@@ -14,19 +14,20 @@
       {{icon listingData.icon}} {{i18n listingData.label}}
     </span>
   </div>
-  <div class='hidden shelfEditorWrapper'>
-    <div id="shelfEditor">
-      <div id="shelfEditorContent">
-        <textarea id="shelfName">{{name}}</textarea>
-        <textarea id="shelfDesc">{{description}}</textarea>
-        <div id="newShelfListing" class="has-dropdown">
-          <span class="visibilityButton tiny-button">{{icon listingData.icon}} {{i18n listingData.label}}</span>
-          {{partial 'shelves:shelf_visibility_box' this}}
-        </div>
-        <div class="button-group-right">
-          <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
-          <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
-        </div>
+</div>
+<div class='hidden shelfEditorWrapper'>
+  <div id="shelfEditor">
+    <div id="shelfEditorContent">
+      <textarea id="shelfName">{{name}}</textarea>
+      <textarea id="shelfDesc">{{description}}</textarea>
+      <div id="newShelfListing" class="has-dropdown">
+        <span class="visibilityButton tiny-button">{{icon listingData.icon}} {{i18n listingData.label}}</span>
+        {{partial 'shelves:shelf_visibility_box' this}}
+      </div>
+      <div class="button-group-right">
+        <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
+        <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
+      </div>
     </div>
   </div>
 </div>

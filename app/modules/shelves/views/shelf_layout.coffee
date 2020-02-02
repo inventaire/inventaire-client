@@ -1,7 +1,9 @@
 ShelfModel = require '../models/shelf'
 ShelfView = require './shelf'
+ShelfItems = require './shelf_items'
 Items = require 'modules/inventory/collections/items'
-ItemsList = require 'modules/inventory/views/items_list'
+InventoryBrowser = require 'modules/inventory/views/inventory_browser'
+
 error_ = require 'lib/error'
 
 module.exports = Marionette.LayoutView.extend
@@ -10,27 +12,18 @@ module.exports = Marionette.LayoutView.extend
   regions:
     shelf: '.shelf'
     itemsList: '.itemsList'
+    itemsEditor: '.itemsEditor'
 
   onShow: ->
     { shelf: shelfId } = @options
     getById(shelfId)
-    .then @showFromModel.bind(@)
+    .then (shelf)=>
+      @shelf.show new ShelfView { model: shelf }
+      @itemsList.show new InventoryBrowser { shelf }
     .catch app.Execute('show:error')
 
-  showFromModel: (model)->
-    itemsId = model.get 'items'
-
-    collection = new Items()
-
-    more = -> itemsId.length > 0
-    fetchMore = ->
-      batch = itemsId.splice(0, 20)
-      if batch.length > 0
-        app.request 'items:getByIds', batch
-        .then collection.add.bind(collection)
-    fetchMore()
-    @shelf.show new ShelfView { model }
-    @itemsList.show new ItemsList { collection, more, fetchMore }
+  events:
+    'click #editItems': 'showItemsEditor'
 
 getById = (id)->
   _.preq.get app.API.shelves.byIds(id)

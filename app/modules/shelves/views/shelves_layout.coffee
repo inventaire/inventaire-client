@@ -80,7 +80,7 @@ module.exports = Marionette.LayoutView.extend
     description = $("#newDesc").val()
     if !name && !description then return
     _.preq.post app.API.shelves.create, { name, description, listing: @listingData.id }
-    # TODO: put server res in a wrapper
+    .get('shelf')
     .then (newShelf)=>
       newShelfModel = new ShelfModel newShelf
       @collection.add newShelfModel
