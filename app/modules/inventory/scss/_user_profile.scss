@@ -44,7 +44,6 @@
     @include radius;
     padding: 1em;
     background-color: #ddd;
-    max-height: 7em;
     max-width: 50em;
     overflow: auto;
     &.empty{

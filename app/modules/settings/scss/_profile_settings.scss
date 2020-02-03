@@ -26,6 +26,24 @@
       margin: 0 auto;
     }
   }
+  #bio{
+    margin-bottom: 0;
+  }
+  .bioLimit{
+    color: $grey;
+    margin: 0 0.2em 0.5em 0;
+    .good, .exceeded{
+      display: flex;
+      justify-content: flex-end;
+    }
+    .exceeded{
+      color: red;
+    }
+    .counter{
+      min-width: 2em;
+      text-align: right;
+    }
+  }
   .done{
     margin: 2rem 0;
     display: inline-block;
