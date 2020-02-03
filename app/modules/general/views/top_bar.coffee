@@ -104,7 +104,7 @@ module.exports = Marionette.LayoutView.extend
 
   hideLiveSearch: (triggerFallbackLayout)->
     # Discard non-boolean flags
-    triggerFallbackLayout = triggerFallbackLayout is true
+    triggerFallbackLayout = triggerFallbackLayout is true and currentRoute() is 'search'
 
     unless @liveSearch.$el? then return
 
