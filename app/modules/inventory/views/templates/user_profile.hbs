@@ -36,7 +36,9 @@
     {{#if bio}}
       <li class="bio-wrapper">{{userContent bio}}</li>
     {{else}}
-      <li class="bio-wrapper empty">{{i18n "this user didn't add a presentation"}}</li>
+      {{#unless mainUser}}
+        <li class="bio-wrapper empty">{{i18n "this user didn't add a presentation"}}</li>
+      {{/unless}}
     {{/if}}
   </ul>
 
