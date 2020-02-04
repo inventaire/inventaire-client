@@ -102,11 +102,12 @@ API =
       app.layout.main.show new NetworkLayout { tab, query }
 
   showGroupBoard: (slug)->
-    app.request 'get:group:model', slug
-    .then showGroupBoardFromModel
-    .catch (err)->
-      _.error err, 'get:group:model err'
-      app.execute 'show:error:missing'
+    if app.request 'require:loggedIn', "network/groups/settings/#{slug}"
+      app.request 'get:group:model', slug
+      .then showGroupBoardFromModel
+      .catch (err)->
+        _.error err, 'get:group:model err'
+        app.execute 'show:error:missing'
 
   showGroupSearch: (name)-> API.showSearchGroups "q=#{name}"
   showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', { groupId: id, standalone: true }
