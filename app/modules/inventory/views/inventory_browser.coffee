@@ -48,8 +48,6 @@ module.exports = Marionette.LayoutView.extend
     return data
 
   onShow: ->
-    @focusOnShow()
-
     waitForInventoryData = @getInventoryViewData()
 
     waitForEntitiesSelectors = waitForInventoryData
