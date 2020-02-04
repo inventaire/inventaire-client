@@ -119,8 +119,8 @@ showGroupBoardFromModel = (model)->
       app.layout.main.show new GroupBoard { model, standalone: true }
       app.navigateFromModel model, 'boardPathname'
   else
-    # if the user isnt a member, redirect to the group inventory
-    app.execute 'show:inventory:group', model
+    # If the user isnt a member, redirect to the standalone group inventory
+    app.execute 'show:inventory:group', model, true
 
 networkCounters = ->
   # TODO: introduce a 'read' flag on the relation document to stop counting
