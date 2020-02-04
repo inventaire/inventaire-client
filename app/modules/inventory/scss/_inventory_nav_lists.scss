@@ -72,10 +72,12 @@ $nav-avatar-size: 5em;
   }
 }
 
-#membersList{
-  ul{
-    justify-content: flex-end;
-    max-height: 20em;
-    overflow: auto;
-  }
+.list-label{
+  color: $dark-grey;
+  margin-bottom: 0.5em;
+}
+
+.list-label-wrapper{
+  @include display-flex(row, flex-end, space-between);
+  padding: 0.5em 0;
 }

@@ -112,11 +112,12 @@ API =
   showGroupSearch: (name)-> API.showSearchGroups "q=#{name}"
   showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', { groupId: id, standalone: true }
 
-showGroupBoardFromModel = (model)->
+showGroupBoardFromModel = (model, options = {})->
   if model.mainUserIsMember()
     model.beforeShow()
     .then ->
-      app.layout.main.show new GroupBoard { model, standalone: true }
+      { openedSections } = options
+      app.layout.main.show new GroupBoard { model, standalone: true, openedSections }
       app.navigateFromModel model, 'boardPathname'
   else
     # If the user isnt a member, redirect to the standalone group inventory

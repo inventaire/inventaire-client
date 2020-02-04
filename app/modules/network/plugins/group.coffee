@@ -4,6 +4,8 @@ behaviorsPlugin = require 'modules/general/plugins/behaviors'
 events =
   'click .showGroup': 'showGroup'
   'click .showGroupBoard': 'showGroupBoard'
+  'click .showGroupSettings': 'showGroupSettings'
+  'click .showMembersMenu': 'showMembersMenu'
   'click .accept': 'acceptInvitation'
   'click .decline': 'declineInvitation'
   'click .joinRequest': 'joinRequest'
@@ -11,12 +13,20 @@ events =
 
 handlers =
   showGroup: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:inventory:group', @model
+    if _.isOpenedOutside e then return
+    else app.execute 'show:inventory:group', @model
 
   showGroupBoard: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:group:board', @model
+    if _.isOpenedOutside e then return
+    else app.execute 'show:group:board', @model
+
+  showGroupSettings: (e)->
+    if _.isOpenedOutside e then return
+    else app.execute 'show:group:board', @model, { openedSections: [ 'groupSettings' ] }
+
+  showMembersMenu: (e)->
+    if _.isOpenedOutside e then return
+    else app.execute 'show:group:board', @model, { openedSections: [ 'groupInvite', 'groupEmailInvite' ] }
 
   acceptInvitation: -> @model.acceptInvitation()
   declineInvitation: -> @model.declineInvitation()

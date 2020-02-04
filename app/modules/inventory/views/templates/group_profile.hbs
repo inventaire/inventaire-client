@@ -12,7 +12,7 @@
       </div>
       <div class="iconButtons">
         {{#if mainUserIsMember}}
-          <a class="showGroupBoard" href="{{boardPathname}}" title="{{i18n 'settings'}}">
+          <a class="showGroupSettings" href="{{boardPathname}}" title="{{i18n 'settings'}}">
             {{icon 'cog'}}
             {{#if requestsCount}}<span class="counter">{{requestsCount}}</span>{{/if}}
           </a>
@@ -25,7 +25,12 @@
   </div>
 
   <div class="section-two">
-    <p class="list-label">{{I18n 'members'}}</p>
+    <div class="list-label-wrapper">
+      <p class="list-label">{{I18n 'members'}}</p>
+      {{#if mainUserIsMember}}
+        <a class="showMembersMenu tiny-button light-blue" href="{{boardPathname}}">{{icon 'plus'}} {{i18n 'invite'}}</a>
+      {{/if}}
+    </div>
     <div id="membersList"></div>
   </div>
 </div>

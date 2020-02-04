@@ -13,7 +13,7 @@ module.exports = Marionette.LayoutView.extend
     return "groupBoard #{standalone}"
 
   initialize: ->
-    { @standalone } = @options
+    { @standalone, @openedSections } = @options
     @_alreadyShownSection = {}
     @initPlugin()
     @listenTo @model, 'action:accept', @render.bind(@)
@@ -49,6 +49,10 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .section-toggler': 'toggleSection'
     'click .joinRequest': 'requestToJoin'
+
+  onShow: ->
+    if @openedSections?
+      @openedSections.forEach @toggleUi.bind(@)
 
   showHeader: ->
     @header.show new GroupBoardHeader { @model }
@@ -138,7 +142,7 @@ module.exports = Marionette.LayoutView.extend
 
 sectionsData =
   settings:
-    label: 'settings'
+    label: 'group settings'
     icon: 'cog'
   requests:
     label: 'requests waiting your approval'

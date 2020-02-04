@@ -81,6 +81,15 @@
     padding: 0.5em;
     overflow: auto;
   }
+  .showMembersMenu{
+    margin: 0 1em;
+  }
+  #membersList{
+    ul{
+      max-height: 20em;
+      overflow: auto;
+    }
+  }
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
@@ -100,6 +109,10 @@
       ul{
         justify-content: flex-start;
       }
+    }
+    .description{
+      max-height: 10em;
+      padding: 0.5em;
     }
   }
 
@@ -130,13 +143,10 @@
         margin-top: 1em;
       }
     }
-  }
-
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    .description{
-      max-height: 10em;
-      padding: 0.5em;
+    #membersList{
+      ul{
+        margin-left: 0.8em;
+      }
     }
   }
 

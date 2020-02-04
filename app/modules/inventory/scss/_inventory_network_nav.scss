@@ -1,8 +1,4 @@
 #inventoryNetworkNav{
-  .list-label-wrapper{
-    @include display-flex(row, flex-end, space-between);
-    padding: 0.5em 0;
-  }
   .list-label{
     margin-bottom: 0;
   }
