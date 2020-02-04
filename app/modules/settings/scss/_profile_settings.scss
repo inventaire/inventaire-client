@@ -49,3 +49,15 @@
     display: inline-block;
   }
 }
+
+.bioLimit, .descriptionLimit{
+  color: $grey;
+  margin: 0 0.2em 0.5em 0;
+  .good, .exceeded{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .exceeded{
+    color: red;
+  }
+}

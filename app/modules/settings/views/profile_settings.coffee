@@ -3,6 +3,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 { testAttribute, pickerData } = require '../lib/helpers'
+{ updateLimit } = require 'lib/textarea_limit'
 
 module.exports = Marionette.ItemView.extend
   template: require './templates/profile_settings'
@@ -23,7 +24,7 @@ module.exports = Marionette.ItemView.extend
     _.extend @, behaviorsPlugin
     @listenTo @model, 'change:picture', @render
     @listenTo @model, 'change:position', @render
-    @lazyBioUpdate = _.debounce @updateBioLimit.bind(@), 200
+    @lazyBioUpdate = _.debounce updateLimit.bind(@, 'bioTextarea', 'bioLimit', 1000), 200
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -35,7 +36,7 @@ module.exports = Marionette.ItemView.extend
       hasPosition: @model.hasPosition()
       position: @model.getCoords()
 
-  onRender: -> @updateBioLimit()
+  onRender: -> @lazyBioUpdate()
 
   usernamePickerData: -> pickerData @model, 'username'
 
@@ -49,7 +50,7 @@ module.exports = Marionette.ItemView.extend
     'click a#changePicture': 'changePicture'
     'click a#usernameButton': 'updateUsername'
     'click #saveBio': 'saveBio'
-    'keydown textarea#bio': (e)-> @lazyBioUpdate e
+    'keydown textarea#bio': -> @lazyBioUpdate()
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
     'click .done': 'showMainUserInventory'
 
@@ -103,14 +104,6 @@ module.exports = Marionette.ItemView.extend
     .then updateUserBio.bind(null, bio)
     .catch error_.Complete('#bio')
     .catch forms_.catchAlert.bind(null, @)
-
-  updateBioLimit: ->
-    currentLength = @ui.bioTextarea.val().length
-    remaingCharacters = 1000 - currentLength
-    counter = "<span class='counter'>#{remaingCharacters}</span>"
-    text = "#{_.i18n('remaing characters:')} #{counter}"
-    className = if remaingCharacters < 0 then 'exceeded' else 'good'
-    @ui.bioLimit.html "<p class='#{className}'>#{text}</p>"
 
   # PICTURE
   changePicture: require 'modules/user/lib/change_user_picture'
