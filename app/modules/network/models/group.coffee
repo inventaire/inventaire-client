@@ -85,8 +85,6 @@ module.exports = Positionable.extend
     if @mainUserIsAdmin() then @get('requested').length
     else 0
 
-  itemsCount: -> if @members? then _.sum @members.map(userItemsCount)
-
   serializeData: ->
     attrs = @toJSON()
     status = @mainUserStatus()
@@ -104,8 +102,6 @@ module.exports = Positionable.extend
     mainUserIsMember = @mainUserIsMember()
 
     _.extend attrs,
-      membersCount: @membersCount()
-      itemsCount: @itemsCount()
       mainUserIsAdmin: @mainUserIsAdmin()
       mainUserIsMember: mainUserIsMember
       hasPosition: @hasPosition()
@@ -194,10 +190,6 @@ module.exports = Positionable.extend
     highestScore = @collection.models[0].get 'highlightScore'
     @set 'highlightScore', highestScore * 2
     @collection.sort()
-
-userItemsCount = (user)->
-  nonPrivate = true
-  user.inventoryLength(nonPrivate) or 0
 
 # Inspired by https://www.materialpalette.com/colors
 colorFilters = [

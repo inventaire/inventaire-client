@@ -1,5 +1,4 @@
 .groupProfile{
-  color: white;
   background-color: #eee;
   .section-one{
     flex: 1 0 auto;
@@ -55,9 +54,6 @@
       @include display-flex(column, center, center);
       overflow: hidden;
     }
-    .description{
-      max-height: 8em;
-    }
     .actions{
       margin-bottom: 1em;
     }
@@ -74,11 +70,6 @@
       line-height: 1.1rem;
     }
   }
-  .stats{
-    padding: 0.5em;
-    background-color: $grey;
-    @include display-flex(row, center, space-between);
-  }
   .joinRequest, .requested, .cancelRequest{
     margin-top: 1em;
   }
@@ -87,15 +78,8 @@
     opacity: 0.8;
   }
   .description{
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    max-height: 5em;
+    padding: 0.5em;
     overflow: auto;
-    background-color: $coverTextBg;
-    .content-link{
-      @include text-hover(#ddd);
-      text-decoration: underline;
-    }
   }
 
   /*Small screens*/
@@ -126,11 +110,11 @@
       margin-right: 1em;
     }
     .group-profile-header{
-      @include display-flex(row, flex-start, space-between, wrap);
+      @include display-flex(row, flex-start, space-between);
     }
     .section-one{
       flex: 1 0 20em;
-      max-width: 30em;
+      max-width: 50%;
     }
     .section-two{
       flex: 5 0 0;
@@ -145,6 +129,14 @@
       .restrictions{
         margin-top: 1em;
       }
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .description{
+      max-height: 10em;
+      padding: 0.5em;
     }
   }
 
