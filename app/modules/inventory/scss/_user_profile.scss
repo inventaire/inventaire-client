@@ -42,8 +42,7 @@
   }
   .bio-wrapper{
     @include radius;
-    padding: 1em;
-    background-color: #ddd;
+    padding: 1em 0.2em;
     max-width: 50em;
     overflow: auto;
     &.empty{
