@@ -3,7 +3,6 @@ getActionKey = require 'lib/get_action_key'
 module.exports = ->
   $body = $('body')
   $topbar = $('#top-bar')
-  $lateralButtons = $('#lateralButtons')
   $modalWrapper = $('#modalWrapper')
   $modal = $('#modal')
   $modalContent = $('#modalContent')
@@ -72,7 +71,6 @@ module.exports = ->
   setWidthJumpPreventingRules = (maxWidth, rightOffset)->
     $body.css 'max-width', maxWidth
     $topbar.css 'right', rightOffset
-    $lateralButtons.css 'right', rightOffset
 
   isOpened = -> $modalWrapper.hasClass('hidden') is false
 

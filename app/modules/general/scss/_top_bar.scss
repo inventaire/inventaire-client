@@ -12,7 +12,7 @@ nav#top-bar{
   a#home{
     color: white;
   }
-  #mainUser, .menu, .language-picker, .signupRequest, .loginRequest{
+  .language-picker, .global-menu, .signupRequest, .loginRequest{
     @include serif;
     font-weight: bold;
     color: white;
@@ -20,22 +20,18 @@ nav#top-bar{
     white-space: nowrap;
     @include display-flex(row, center, center);
   }
-  #mainUser, .menu, .language-picker{
-    @include bg-hover-lighten($topbar-bg-color);
-  }
-  #mainUser, .language-picker{
-    padding: 0.2em 1em;
-  }
-  #mainUser{
-    flex: 0 0 auto;
-    img{
-      @include radius;
-      margin-right: 0.5em;
-    }
-  }
-  .menu{
+  .help-translate, .global-menu a{
+    @include display-flex(row, center, flex-start);
+    flex: 1 0 auto;
+    align-self: stretch;
+    font-weight: bold;
+    @include serif;
+    @include bg-hover(#333);
     font-size: 1.1em;
-    width: 3em;
+    padding: 0.8em 1em;
+    span, .fa{
+      color: white;
+    }
   }
   #searchGroup{
     flex: 1 0 auto;
@@ -51,18 +47,35 @@ nav#top-bar{
   }
   #liveSearch{
     @include position(absolute, 100%, 1px, null, 0);
-    /*Smaller screens*/
-    @media screen and (max-width: $smaller-screen) {
-      @include position(fixed, $topbar-height, 0, 0, 0);
-      @include display-flex(column);
-    }
     &:not(.shown){
       top: -100vh;
       bottom: 100vh;
     }
   }
+  .language-picker, .global-menu{
+    @include bg-hover-lighten($topbar-bg-color);
+    padding: 0.2em 1em;
+    .fa-caret-down{
+      color: #ccc;
+    }
+  }
+  .global-menu{
+    padding: 0 0.5em;
+    img{
+      @include radius;
+    }
+  }
   .dropdown{
     background-color: $topbar-bg-color;
+    @include radius-bottom;
+    font-weight: normal;
+    @include sans-serif;
+    .fa{
+      margin-right: 0.5em;
+    }
+    &.hover{
+      @include display-flex(column);
+    }
   }
   .signupRequest, .loginRequest{
     padding: 0 1em;
@@ -73,30 +86,9 @@ nav#top-bar{
   }
   .loginRequest{
     @include bg-hover($success-color, 5%);
+    color: white;
   }
 
-  .dropdown{
-    @include radius-bottom;
-    font-weight: normal;
-    @include sans-serif;
-    &.hover{
-      @include display-flex(column);
-    }
-  }
-  .help-translate, .seeAll{
-    @include display-flex(row, center, center);
-    text-align: center;
-    flex: 1 0 auto;
-    align-self: stretch;
-    font-weight: bold;
-    @include serif;
-    @include bg-hover(#333);
-    font-size: 1.1em;
-    padding: 0.8em 1em;
-    &, span, .fa{
-      color: white !important;
-    }
-  }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     padding: 0.2em;
@@ -112,7 +104,7 @@ nav#top-bar{
       margin-left: 0.2em;
       margin-right: 0.4em;
     }
-    .language-picker, .menu, .username{
+    .language-picker{
       display: none !important;
     }
     #searchGroup{
@@ -132,6 +124,10 @@ nav#top-bar{
       .button{
         @include radius-left(0);
       }
+    }
+    #liveSearch{
+      @include position(fixed, $topbar-height, 0, 0, 0);
+      @include display-flex(column);
     }
     // Showing signup and login button at the bottom of the screen
     .signupRequest, .loginRequest{

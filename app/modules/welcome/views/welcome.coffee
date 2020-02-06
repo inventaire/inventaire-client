@@ -34,7 +34,6 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @showPublicItems()
-    app.vent.trigger 'lateral:buttons:hide'
 
     @waitForMention
     .then @ifViewIsIntact('showMentions')
@@ -51,9 +50,6 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('hidePublicItems err')
 
     @triggerMethod 'child:view:ready'
-
-  onDestroy: ->
-    app.vent.trigger 'lateral:buttons:show'
 
   hidePublicItems: (err)->
     $('#lastPublicBooks').hide()

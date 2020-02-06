@@ -22,11 +22,9 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     topBar: '#topBar'
-    lateralButtons: '#lateralButtons'
     flashMessage: '#flashMessage'
 
   events:
-    'click .showFeedbackMenu': 'showFeedbackMenu'
     'click .showEntityEdit': 'showEntityEdit'
     'click .showEntityCleanup': 'showEntityCleanup'
 
@@ -62,12 +60,6 @@ module.exports = Marionette.LayoutView.extend
     # wait for the app to be initiated before listening to resize events
     # to avoid firing a meaningless event at initialization
     app.request('waitForNetwork').then initWindowResizeEvents
-
-    app.vent.on
-      # Use the class .hidden instead of .hide/.show methods
-      # to let media query rules override it
-      'lateral:buttons:show': => @ui.lateralButtons.removeClass 'hidden'
-      'lateral:buttons:hide': => @ui.lateralButtons.addClass 'hidden'
 
     $('body').on 'click', app.vent.Trigger('body:click')
 

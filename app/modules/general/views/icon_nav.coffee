@@ -92,5 +92,5 @@ commands =
   network: 'show:network'
   browse: 'show:inventory:general'
   exchanges: 'show:transactions'
-  settings: 'show:settings:menu'
+  settings: 'show:settings'
   notifications: 'show:notifications'
