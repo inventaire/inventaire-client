@@ -1,5 +1,5 @@
 #inventory-browser{
-  #browserControls, #browser-filters{
+  #browserControls, #browserFilters{
     @include display-flex(row, center, center, wrap);
     @include radius;
     .selectors{
@@ -21,16 +21,19 @@
     opacity: 1;
     margin: 0.8em 0 1em 0;
     &:not(.ready){
-      #browser-filters, #displayControls{
+      #browserFilters{
+        flex: 1 0 0;
+      }
+      .control-label, .selectors{
         display: none;
       }
-      .centered-loader{
+      .small-loader{
         padding: 1em;
         color: $grey;
       }
     }
     &.ready{
-      .centered-loader{
+      .small-loader{
         display: none;
       }
     }
@@ -67,11 +70,14 @@
     #browserControls{
       flex-direction: column;
     }
-    #browser-filters{
+    #browserFilters{
       flex-direction: column;
       .selectors{
         flex-direction: column;
       }
+    }
+    #displayControls{
+      margin: 1em;
     }
   }
 

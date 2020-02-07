@@ -26,7 +26,7 @@ module.exports = Marionette.Behavior.extend
     # Elements to hide when loading should share the same parent as the .loading element
     $parent.find('.hide-on-loading').hide()
 
-    timeout or= 30
+    timeout or= 60
     unless timeout is 'none'
       cb = @somethingWentWrong.bind @, null, params
       @view.setTimeout cb, timeout * 1000

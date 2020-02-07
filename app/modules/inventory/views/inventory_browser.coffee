@@ -6,6 +6,7 @@ FilterPreview = require './filter_preview'
 getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
 getUnknownModel = require '../lib/browser/get_unknown_model'
 error_ = require 'lib/error'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 selectorsNames = [ 'author', 'genre', 'subject' ]
 selectorsRegions = {}
@@ -21,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     PreventDefault: {}
+    Loading: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -47,7 +49,10 @@ module.exports = Marionette.LayoutView.extend
     return data
 
   onShow: ->
+    startLoading.call @, '#browserFilters'
     waitForInventoryData = @getInventoryViewData()
+      # Pass itemsIds=null to use the default value
+      .then @ifViewIsIntact('showItemsListByIds', null)
 
     waitForEntitiesSelectors = waitForInventoryData
       .then @ifViewIsIntact('showEntitySelectors')
@@ -58,7 +63,9 @@ module.exports = Marionette.LayoutView.extend
 
     @filterPreview.show new FilterPreview
 
-  browserControlsReady: -> @ui.browserControls.addClass 'ready'
+  browserControlsReady: ->
+    @ui.browserControls.addClass 'ready'
+    stopLoading.call @, '#browserFilters'
 
   getInventoryViewData: ->
     { user, group } = @options
@@ -72,7 +79,6 @@ module.exports = Marionette.LayoutView.extend
 
   spreadData: (data)->
     { @worksTree, @workUriItemsMap, @itemsByDate } = data
-    @showItemsListByIds()
 
   showEntitySelectors: ->
     authors = Object.keys @worksTree.author
@@ -121,6 +127,7 @@ module.exports = Marionette.LayoutView.extend
 
   showItemsByDisplayMode: ->
     ItemsList = if @display is 'table' then ItemsTable else ItemsCascade
+    @_lastShownDisplay = @display
     @itemsView.show new ItemsList @itemsViewParams
 
   showEntitySelector: (entities, propertyUris, name)->
@@ -163,7 +170,11 @@ module.exports = Marionette.LayoutView.extend
     @display = display
     localStorageProxy.setItem 'inventory:display', display
     @ui.currentDisplayOption.toggleClass('shown')
-    @showItemsByDisplayMode()
+
+    # If @_lastShownDisplay isn't defined, the inventory data probably didn't arrive yet
+    # and the items were not shown yet
+    if @_lastShownDisplay? and @_lastShownDisplay isnt display
+      @showItemsByDisplayMode()
 
 getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null
