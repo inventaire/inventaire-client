@@ -25,7 +25,6 @@
     flex: 0 0 auto;
     .action{
       @include display-flex(row, center, center);
-      margin: 0 0.5em;
     }
   }
   .data{
@@ -49,9 +48,12 @@
       color: $grey;
       font-style: italic;
     }
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
-      max-height: 15em;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .action{
+      margin: 0 0.5em;
     }
   }
 
@@ -78,6 +80,12 @@
     }
     .data{
       align-items: center;
+    }
+    .bio-wrapper{
+      max-height: 10em;
+    }
+    .action{
+      margin: 0.5em 0;
     }
   }
 

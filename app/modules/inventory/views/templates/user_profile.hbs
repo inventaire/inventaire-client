@@ -8,20 +8,19 @@
     <h2 class="username respect-case">{{username}}</h2>
 
     <div class="profile-buttons">
-      {{#unless mainUser}}
+      {{#if mainUser}}
+        <a class="editProfile action tiny-button light-blue" href="/settings/profile">
+          {{icon 'pencil'}}
+          {{I18n 'edit profile'}}
+        </a>
+        <a class="addItems action tiny-button light-blue" href="/add">{{icon 'plus'}} {{I18n 'add books'}}</a>
+      {{else}}
         {{#if distance}}
           <a href="{{positionUrl}}" class="showUserOnMap tiny-button light-blue">
             {{icon 'map-marker'}}
             <span class="label">{{i18n 'km_away_from_you' distance=distance}}</span>
           </a>
         {{/if}}
-      {{/unless}}
-      {{#if mainUser}}
-        <a class="edit action tiny-button light-blue" href="/settings/profile">
-          {{icon 'pencil'}}
-          {{I18n 'edit profile'}}
-        </a>
-      {{else}}
         {{partial 'inventory:user_menu' this}}
       {{/if}}
     </div>

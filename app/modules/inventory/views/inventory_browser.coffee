@@ -35,7 +35,6 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #displayOptions a': 'selectDisplay'
-    'click #addToInventory': 'addToInventory'
 
   childEvents:
     'filter:select': 'onFilterSelect'
@@ -165,10 +164,6 @@ module.exports = Marionette.LayoutView.extend
     localStorageProxy.setItem 'inventory:display', display
     @ui.currentDisplayOption.toggleClass('shown')
     @showItemsByDisplayMode()
-
-  addToInventory: (e)->
-    if _.isOpenedOutside e then return
-    app.execute 'show:add:layout'
 
 getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null

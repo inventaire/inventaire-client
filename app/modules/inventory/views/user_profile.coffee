@@ -7,7 +7,8 @@ module.exports = Marionette.ItemView.extend
   className: 'userProfile'
   template: require './templates/user_profile'
   events:
-    'click .edit': 'editProfile'
+    'click .editProfile': _.clickCommand 'show:settings:profile'
+    'click .addItems': _.clickCommand 'show:add:layout'
     'click .showUserOnMap': 'showUserOnMap'
 
   behaviors:
@@ -29,10 +30,6 @@ module.exports = Marionette.ItemView.extend
       loggedIn: app.user.loggedIn
       positionUrl: @getPositionUrl()
       distance: @model.distanceFromMainUser
-
-  editProfile: (e)->
-    if _.isOpenedOutside e then return
-    app.execute 'show:settings:profile'
 
   getPositionUrl: ->
     unless @model.distanceFromMainUser? then return

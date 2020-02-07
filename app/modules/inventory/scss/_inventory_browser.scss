@@ -21,7 +21,7 @@
     opacity: 1;
     margin: 0.8em 0 1em 0;
     &:not(.ready){
-      #browser-filters, #displayControls, #addToInventory{
+      #browser-filters, #displayControls{
         display: none;
       }
       .centered-loader{
@@ -54,10 +54,6 @@
     }
   }
 
-  #addToInventory{
-    margin: 0 1em;
-  }
-
   .control-label{
     color: $grey;
     /*Large screens*/
@@ -70,9 +66,6 @@
   @media screen and (max-width: $smaller-screen) {
     #browserControls{
       flex-direction: column;
-    }
-    #addToInventory{
-      margin: 1em;
     }
     #browser-filters{
       flex-direction: column;
