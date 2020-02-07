@@ -26,11 +26,14 @@ nav#top-bar{
     align-self: stretch;
     font-weight: bold;
     @include serif;
-    @include bg-hover(#333);
+    @include bg-hover-lighten($topbar-bg-color);
     font-size: 1.1em;
     padding: 0.8em 1em;
-    span, .fa{
+    span{
       color: white;
+    }
+    .fa{
+      color: #aaa;
     }
   }
   #searchGroup{
