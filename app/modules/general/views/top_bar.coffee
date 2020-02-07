@@ -51,7 +51,7 @@ module.exports = Marionette.LayoutView.extend
     @updateConnectionButtons section
 
   events:
-    'click #home': 'showHome'
+    'click #home': _.clickCommand 'show:home'
 
     'focus #searchField': 'showLiveSearch'
     'keyup #searchField': 'onKeyUp'
@@ -61,29 +61,15 @@ module.exports = Marionette.LayoutView.extend
     'click a#searchButton': 'search'
 
     'click .language-picker .option a': 'selectLang'
-    'click .showSettings': 'showSettings'
-    'click .showInfo': 'showInfo'
-    'click .showFeedbackMenu': 'showFeedbackMenu'
+
+    'click .showMainUser': _.clickCommand 'show:inventory:main:user'
+    'click .showSettings': _.clickCommand 'show:settings'
+    'click .showInfo': _.clickCommand 'show:welcome'
+    'click .showFeedbackMenu': _.clickCommand 'show:feedback:menu'
     'click .logout': 'logout'
 
   childEvents:
     'hide:live:search': 'hideLiveSearch'
-
-  showHome: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:home'
-
-  showSettings: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:settings'
-
-  showInfo: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:welcome'
-
-  showFeedbackMenu: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:feedback:menu'
 
   logout: -> app.execute 'logout'
 

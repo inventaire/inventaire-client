@@ -71,6 +71,13 @@ nav#top-bar{
     font-weight: normal;
     @include sans-serif;
     .fa{
+      margin-right: 0.5rem;
+      @include display-flex(row, center, center);
+    }
+    img{
+      height: 1.2em;
+      width: 1.2em;
+      margin-left: 0.2em;
       margin-right: 0.5em;
     }
     &.hover{

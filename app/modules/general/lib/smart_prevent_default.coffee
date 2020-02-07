@@ -12,7 +12,7 @@ module.exports = (e)->
   # Prevent the normal handler to also fire:
   # `unless _.isOpenedOutside(e) then handler()
   # Ignore missing href though, as this behavior is applied to some anchors
-  # purposedly without anchor.Ex: visibility dropdown menus
+  # purposedly without href. Ex: visibility dropdown menus
   if _.isOpenedOutside(e, true) then return
 
   # If there is no href on current target, then the default

@@ -1,7 +1,11 @@
 <div class="global-menu has-dropdown">
-  <img src="{{imgSrc user.picture 32}}">
+  <img src="{{imgSrc user.picture 32}}" alt="{{i18n 'profile pic'}}">
   {{icon 'caret-down'}}
   <div class="dropdown dropdown-align-right">
+    <a class="showMainUser" href="{{user.pathname}}">
+      <img src="{{imgSrc user.picture 32}}" alt="{{i18n 'profile pic'}}">
+      <span class="label">{{I18n 'inventory'}}</span>
+    </a>
     {{iconLinkText name='cog' url='/settings' I18n='settings' linkClasses='showSettings'}}
     {{iconLinkText name='info-circle' url='/welcome' I18n='info' linkClasses='showInfo'}}
     {{iconLinkText name='comments' url='/feedback' I18n='feedback' linkClasses='showFeedbackMenu'}}

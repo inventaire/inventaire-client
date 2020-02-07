@@ -32,6 +32,10 @@ module.exports = (Backbone, _, $, app, window)->
     if str is '' then return ''
     str[0].toUpperCase() + str[1..-1]
 
+  clickCommand: (command)-> (e)->
+    if _.isOpenedOutside e then return
+    else app.execute command
+
   isOpenedOutside: (e, ignoreMissingHref = false)->
     unless e? then return false
 
@@ -43,9 +47,8 @@ module.exports = (Backbone, _, $, app, window)->
       # to the event at all
       return false
 
-    unless _.isNonEmptyString href
-      unless ignoreMissingHref
-        error_.report "can't open anchor outside: href is missing", { id, href, className }
+    unless _.isNonEmptyString(href) or ignoreMissingHref
+      error_.report "can't open anchor outside: href is missing", { id, href, className }
       return false
 
     openInNewWindow = e.shiftKey
