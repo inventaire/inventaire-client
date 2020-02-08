@@ -41,8 +41,6 @@
     /*Large screens*/
     @media screen and (min-width: $small-screen) {
       @include radius-top;
-      // Hackily compensating for the icon nav to center the button
-      margin-left: $icon-nav-width + 3px;
     }
   }
   .time{

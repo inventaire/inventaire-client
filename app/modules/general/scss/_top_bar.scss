@@ -55,8 +55,10 @@ nav#top-bar{
       bottom: 100vh;
     }
   }
-  .language-picker, .global-menu{
+  .iconButton, .language-picker, .global-menu{
     @include bg-hover-lighten($topbar-bg-color);
+  }
+  .language-picker, .global-menu{
     padding: 0.2em 1em;
     .fa-caret-down{
       color: #ccc;
@@ -157,3 +159,4 @@ nav#top-bar{
 }
 
 @import 'top_bar_language_picker';
+@import 'news_buttons';

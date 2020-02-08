@@ -2,8 +2,6 @@ waitForCheck = require '../lib/wait_for_check'
 documentLang = require '../lib/document_lang'
 showViews = require '../lib/show_views'
 TopBar = require './top_bar'
-IconNav = require './icon_nav'
-initIconNavHandlers = require '../lib/icon_nav'
 initModal = require '../lib/modal'
 initFlashMessage = require '../lib/flash_message'
 ConfirmationModal = require './confirmation_modal'
@@ -16,7 +14,6 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     topBar: '#topBar'
-    iconNav: '#iconNav'
     main: 'main'
     modal: '#modalContent'
 
@@ -54,7 +51,6 @@ module.exports = Marionette.LayoutView.extend
 
     documentLang @$el, app.user.lang
 
-    initIconNavHandlers.call @
     initModal()
     initFlashMessage.call @
     # wait for the app to be initiated before listening to resize events
@@ -67,8 +63,6 @@ module.exports = Marionette.LayoutView.extend
   # but it gets rendered
   onRender: ->
     @topBar.show new TopBar
-    # render icon and let icon handlers show or hide it
-    @iconNav.show new IconNav
 
   askConfirmation: (options)-> @modal.show new ConfirmationModal(options)
 

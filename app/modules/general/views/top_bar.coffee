@@ -2,6 +2,7 @@
 showViews = require '../lib/show_views'
 getActionKey = require 'lib/get_action_key'
 LiveSearch = require 'modules/search/views/live_search'
+NewsButtons = require './news_buttons'
 screen_ = require 'lib/screen'
 { currentRoute, currentSection } = require 'lib/location'
 
@@ -17,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     liveSearch: '#liveSearch'
+    newsButtons: '#newsButtons'
 
   ui:
     searchField: '#searchField'
@@ -31,7 +33,6 @@ module.exports = Marionette.LayoutView.extend
       'live:search:show:result': @hideLiveSearch.bind(@)
       'live:search:query': @setQuery.bind(@)
 
-    @listenTo app.user, 'change:username', @lazyRender
     @listenTo app.user, 'change:picture', @lazyRender
 
   serializeData: ->
@@ -46,6 +47,11 @@ module.exports = Marionette.LayoutView.extend
     # Needed as 'route:change' might have been triggered before
     # this view was initialized
     @onRouteChange currentSection(), currentRoute()
+
+  onRender: ->
+    # Use a child view for those buttons to be able to re-render them independenly
+    # without disrupting the LiveSearch state
+    @newsButtons.show new NewsButtons
 
   onRouteChange: (section, route)->
     @updateConnectionButtons section

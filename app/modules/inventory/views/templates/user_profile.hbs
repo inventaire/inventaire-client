@@ -13,7 +13,9 @@
           {{icon 'pencil'}}
           {{I18n 'edit profile'}}
         </a>
-        <a class="addItems action tiny-button light-blue" href="/add">{{icon 'plus'}} {{I18n 'add books'}}</a>
+        <a class="addItems action tiny-button light-blue" href="/add" title="{{I18n 'title_add_layout'}}">
+          {{icon 'plus'}} {{I18n 'add books'}}
+        </a>
       {{else}}
         {{#if distance}}
           <a href="{{positionUrl}}" class="showUserOnMap tiny-button light-blue">

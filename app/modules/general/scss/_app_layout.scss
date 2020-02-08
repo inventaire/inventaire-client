@@ -1,26 +1,14 @@
-$icon-nav-width: 60px;
-$side-nav-width: 280px;
-
 @import "top_bar";
-@import "icon_nav";
 @import "flash_message";
 
-body{
-  #topBar{}
-  main{
-    @include display-flex(column);
-  }
+main{
+  @include display-flex(column);
 }
 
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
   main{
-    &.icon-nav-shown{
-      margin-top: $topbar-height+$horizontal-iconnav-height;
-    }
-    &:not(.icon-nav-shown){
-      margin-top: $topbar-height;
-    }
+    margin-top: $topbar-height;
     // allow screen_.scrollTop to really get the top of the div
     // at the top of the screen
     // which would not be possible if main was smaller than the screen
@@ -37,9 +25,4 @@ body{
     // to jQuery slideDown default values: 400ms and 'swing' ease
     @include transition(margin-top, 0.4s, null, ease-in);
   }
-  main.icon-nav-shown{
-    margin-left: $icon-nav-width;
-  }
 }
-
-// see _inventory.scss for #innerMain and .sideNavClones

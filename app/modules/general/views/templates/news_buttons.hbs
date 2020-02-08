@@ -1,0 +1,32 @@
+{{partial 'icon_with_counter'
+  name='exchanges'
+  label='exchanges'
+  icon='exchange'
+  href='/transactions'
+  title='title_exchanges_layout'
+  counter=exchangesUpdates
+}}
+
+{{partial 'icon_with_counter'
+  name='notifications'
+  label='notifications'
+  icon='bell'
+  href='/notifications'
+  title='notifications'
+  counter=notificationsUpdates
+}}
+
+<div class="global-menu has-dropdown">
+  <img src="{{imgSrc user.picture 32}}" alt="{{i18n 'profile pic'}}">
+  {{icon 'caret-down'}}
+  <div class="dropdown dropdown-align-right">
+    <a class="showMainUser" href="{{user.pathname}}">
+      <img src="{{imgSrc user.picture 32}}" alt="{{i18n 'profile pic'}}">
+      <span class="label">{{I18n 'inventory'}}</span>
+    </a>
+    {{iconLinkText name='cog' url='/settings' I18n='settings' linkClasses='showSettings'}}
+    {{iconLinkText name='info-circle' url='/welcome' I18n='info' linkClasses='showInfo'}}
+    {{iconLinkText name='comments' url='/feedback' I18n='feedback' linkClasses='showFeedbackMenu'}}
+    {{iconLinkText name='sign-out' url='/logout' I18n='logout' linkClasses='logout'}}
+  </div>
+</div>
