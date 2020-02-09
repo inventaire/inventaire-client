@@ -28,7 +28,7 @@ addTransactionInfo = (data, transaction)->
     return action
 
 grabOtherUsername = (transaction, actions)->
-  username = transaction.otherUserSnapshot()?.username
+  username = transaction.otherUser()?.get('username')
   actions.map (action)-> _.extend {}, action, { username }
 
 module.exports =

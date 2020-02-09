@@ -144,9 +144,6 @@ module.exports = Backbone.NestedModel.extend
     else [ attrs.requester, attrs.owner ]
 
   otherUser: -> if @mainUserIsOwner then @requester else @owner
-  otherUserSnapshot: ->
-    other = if @mainUserIsOwner then 'requester' else 'owner'
-    return @get("snapshot.#{other}")
 
   getIcon: ->
     transaction = @get 'transaction'
