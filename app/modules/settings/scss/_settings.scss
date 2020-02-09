@@ -53,18 +53,15 @@
   @media screen and (max-width: 500px) {
     padding-top: 0;
     .custom-tabs-titles{
-      a{
-        &.active{
-          @include transition(flex);
-          background-color: #fafafa;
-          flex: 1 0 auto;
-        }
-        &:not(.active){
-          .title{
-            display: none;
-          }
-        }
+      .active{
+        background-color: #fafafa;
       }
+      .title{
+        display: none;
+      }
+    }
+    .layout-title{
+      text-align: center;
     }
     .custom-tabs-content{
       padding: 0.5em;
@@ -76,6 +73,10 @@
 
   /*Large screens*/
   @media screen and (min-width: 500px) {
+    .layout-title{
+      // shown on the tab
+      display: none;
+    }
     section{
       padding: 2em 1em;
       margin: 1.5em 0;
