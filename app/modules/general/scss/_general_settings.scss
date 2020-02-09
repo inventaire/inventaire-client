@@ -13,6 +13,9 @@ html, body{
 }
 html{
   height: 100%;
+  // Prevent jumping scrollbar, the simple/classic way
+  // Cf https://css-tricks.com/elegant-fix-jumping-scrollbar-issue/
+  overflow-y: scroll;
 }
 
 // Foundation had this, and now everything relies on it:
