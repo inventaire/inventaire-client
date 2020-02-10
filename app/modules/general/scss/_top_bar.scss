@@ -32,7 +32,7 @@ nav#top-bar{
     @include bg-hover-lighten($topbar-bg-color);
     font-size: 1.1em;
     padding: 0.8em 1em;
-    span{
+    span:not(.counter){
       color: white;
     }
     .fa{
