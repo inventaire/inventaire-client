@@ -14,10 +14,10 @@
       @include radius;
       font-size: 1.4em;
       a{
-        color: white;
         padding: 0.3em;
         @include bg-hover($coverTextBg);
         .fa{
+          color: white;
           width: 2em;
           text-align: center;
         }
@@ -61,7 +61,7 @@
   .section-two{
     flex: 2 0 auto;
   }
-  .showGroupBoard{
+  .showGroupSettings{
     position: relative;
     .counter{
       @include counter-commons;
