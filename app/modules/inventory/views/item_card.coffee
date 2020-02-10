@@ -54,3 +54,5 @@ module.exports = Marionette.ItemView.extend
       return _.cutBeforeWord(details, detailsLimit) + ' ...'
     else
       return details
+
+  afterDestroy: -> @model.collection.remove @model
