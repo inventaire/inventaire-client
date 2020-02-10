@@ -20,6 +20,7 @@ module.exports = Marionette.ItemView.extend
     smallScreen: screen_.isSmall()
     exchangesUpdates: app.request 'transactions:unread:count'
     notificationsUpdates: app.request 'notifications:unread:count'
+    username: app.user.get 'username'
     userPicture: app.user.get 'picture'
     userPathname: app.user.get 'pathname'
 
