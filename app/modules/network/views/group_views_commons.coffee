@@ -1,17 +1,14 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ BasicPlugin } = require 'lib/plugins'
+groupViewsCommons =
+  events:
+    'click .showGroup': 'showGroup'
+    'click .showGroupBoard': 'showGroupBoard'
+    'click .showGroupSettings': 'showGroupSettings'
+    'click .showMembersMenu': 'showMembersMenu'
+    'click .accept': 'acceptInvitation'
+    'click .decline': 'declineInvitation'
+    'click .joinRequest': 'joinRequest'
+    'click .cancelRequest': 'cancelRequest'
 
-events =
-  'click .showGroup': 'showGroup'
-  'click .showGroupBoard': 'showGroupBoard'
-  'click .showGroupSettings': 'showGroupSettings'
-  'click .showMembersMenu': 'showMembersMenu'
-  'click .accept': 'acceptInvitation'
-  'click .decline': 'declineInvitation'
-  'click .joinRequest': 'joinRequest'
-  'click .cancelRequest': 'cancelRequest'
-
-handlers =
   showGroup: (e)->
     if _.isOpenedOutside e then return
     else app.execute 'show:inventory:group', @model
@@ -39,4 +36,6 @@ handlers =
     @model.cancelRequest()
     .catch behaviorsPlugin.Fail.call(@, 'cancelRequest')
 
-module.exports = BasicPlugin events, handlers
+module.exports =
+  GroupLayoutView: Marionette.LayoutView.extend groupViewsCommons
+  GroupItemView: Marionette.ItemView.extend groupViewsCommons

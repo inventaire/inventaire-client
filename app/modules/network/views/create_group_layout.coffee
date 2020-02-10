@@ -2,13 +2,13 @@
 # invite friends
 # invite by email
 
+{ GroupLayoutView } = require './group_views_commons'
 forms_ = require 'modules/general/lib/forms'
 groups_ = require '../lib/groups'
-groupPlugin = require '../plugins/group'
 groupFormData = require '../lib/group_form_data'
 { ui:groupUrlUi, events:groupUrlEvents, LazyUpdateUrl } = require '../lib/group_url'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = GroupLayoutView.extend
   id: 'createGroupLayout'
   template: require './templates/create_group_layout'
   tagName: 'form'
@@ -27,14 +27,10 @@ module.exports = Marionette.LayoutView.extend
     searchabilityWarning: '.searchability .warning'
 
   initialize: ->
-    @initPlugin()
     @_lazyUpdateUrl = LazyUpdateUrl @
 
   # Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl: -> @_lazyUpdateUrl()
-
-  initPlugin: ->
-    groupPlugin.call @
 
   events: _.extend {}, groupUrlEvents,
     'click #createGroup': 'createGroup'

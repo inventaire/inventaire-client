@@ -1,7 +1,7 @@
-groupPlugin = require 'modules/network/plugins/group'
 SectionList = require './inventory_section_list'
+{ GroupLayoutView } = require 'modules/network/views/group_views_commons'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = GroupLayoutView.extend
   template: require './templates/group_profile'
   className: 'groupProfile'
 
@@ -9,14 +9,10 @@ module.exports = Marionette.LayoutView.extend
     membersList: '#membersList'
 
   initialize: ->
-    @initPlugin()
     @lazyRender = _.LazyRender @
     # using lazyRender instead of render allow to wait for group.mainUserStatus
     # to be ready (i.e. not to return 'none')
     @listenTo @model, 'change', @lazyRender
-
-  initPlugin: ->
-    groupPlugin.call @
 
   behaviors:
     PreventDefault: {}

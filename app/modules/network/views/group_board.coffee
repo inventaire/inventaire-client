@@ -1,4 +1,4 @@
-groupPlugin = require '../plugins/group'
+{ GroupLayoutView } = require './group_views_commons'
 GroupBoardHeader = require './group_board_header'
 GroupSettings = require './group_settings'
 UsersSearchLayout = require '../views/users_search_layout'
@@ -6,7 +6,7 @@ UsersList = require 'modules/users/views/users_list'
 InviteByEmail = require './invite_by_email'
 screen_ = require 'lib/screen'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = GroupLayoutView.extend
   template: require './templates/group_board'
   className: ->
     standalone = if @options.standalone then 'standalone' else ''
@@ -15,12 +15,8 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @standalone, @openedSections } = @options
     @_alreadyShownSection = {}
-    @initPlugin()
     @listenTo @model, 'action:accept', @render.bind(@)
     @listenTo @model, 'action:leave', @onLeave.bind(@)
-
-  initPlugin: ->
-    groupPlugin.call @
 
   behaviors:
     PreventDefault: {}
@@ -46,9 +42,8 @@ module.exports = Marionette.LayoutView.extend
     attrs.sections = sectionsData
     return attrs
 
-  events:
+  events: _.extend {}, GroupLayoutView::events,
     'click .section-toggler': 'toggleSection'
-    'click .joinRequest': 'requestToJoin'
 
   onShow: ->
     if @openedSections?
