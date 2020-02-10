@@ -39,5 +39,4 @@ module.exports = Marionette.ItemView.extend
   showUserOnMap: (e)->
     if _.isOpenedOutside(e) then return
     unless @model.distanceFromMainUser? then return
-    [ lat, lng ] = @model.get 'position'
-    app.execute 'show:users:nearby', { lat, lng }
+    app.execute 'show:models:on:map', [ @model, app.user ]

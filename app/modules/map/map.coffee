@@ -1,11 +1,13 @@
 onScriptReady = require('./lib/config').init
 { get:getLeaflet } = require('lib/get_assets')('leaflet', onScriptReady)
 PositionPicker = require './views/position_picker'
+SimpleMap = require './views/simple_map'
 
 module.exports = ->
   app.commands.setHandlers
     'show:position:picker:main:user': showMainUserPositionPicker
     'show:position:picker:group': showGroupPositionPicker
+    'show:models:on:map': showModelsOnMap
 
   app.reqres.setHandlers
     'prompt:group:position:picker': promptGroupPositionPicker
@@ -42,3 +44,7 @@ promptGroupPositionPicker = ->
     new Promise (resolve, reject)->
       try showPositionPicker { resolve, type: 'group' }
       catch err then reject err
+
+showModelsOnMap = (models)->
+  getLeaflet()
+  .then -> app.layout.modal.show new SimpleMap({ models })

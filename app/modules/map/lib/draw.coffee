@@ -2,10 +2,14 @@
 buildMarker = require './build_marker'
 
 module.exports = (params)->
-  { containerId, latLng, zoom, cluster } = params
+  { containerId, latLng, zoom, bounds, cluster } = params
   zoom or= defaultZoom
 
-  map = L.map(containerId).setView latLng, zoom
+  if latLng?
+    map = L.map(containerId).setView(latLng, zoom)
+  else
+    map = L.map(containerId).fitBounds bounds
+
   L.tileLayer(tileUrl, settings).addTo map
 
   if _.isMobile then map.scrollWheelZoom.disable()
