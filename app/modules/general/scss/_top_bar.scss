@@ -49,6 +49,15 @@ nav#top-bar{
     position: relative;
     input{
       @include radius;
+      // Let room for .closeSearch
+      padding-right: 2em;
+    }
+    .closeSearch{
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.5rem;
+      @include text-hover($grey, $dark-grey);
     }
   }
   #liveSearch{

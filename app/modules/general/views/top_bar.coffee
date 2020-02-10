@@ -23,6 +23,7 @@ module.exports = Marionette.LayoutView.extend
   ui:
     searchField: '#searchField'
     overlay: '#overlay'
+    closeSearch: '.closeSearch'
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -66,7 +67,7 @@ module.exports = Marionette.LayoutView.extend
     'keydown #searchField': 'onKeyDown'
     'click .searchFilter': 'recoverSearchFocus'
     'click': 'updateLiveSearch'
-    'click a#searchButton': 'search'
+    'click .closeSearch': 'closeSearch'
 
     'click .language-picker .option a': 'selectLang'
 
@@ -101,6 +102,7 @@ module.exports = Marionette.LayoutView.extend
     @liveSearch.$el.addClass 'shown'
     @liveSearch.currentView.resetHighlightIndex()
     @ui.overlay.removeClass 'hidden'
+    @ui.closeSearch.removeClass 'hidden'
     @_liveSearchIsShown = true
 
   hideLiveSearch: (triggerFallbackLayout)->
@@ -112,6 +114,7 @@ module.exports = Marionette.LayoutView.extend
     @liveSearch.$el.hide()
     @liveSearch.$el.removeClass 'shown'
     @ui.overlay.addClass 'hidden'
+    @ui.closeSearch.addClass 'hidden'
     @_liveSearchIsShown = false
     # Trigger the fallback layout only in cases when no other layout
     # is set to be displayed
@@ -158,5 +161,9 @@ module.exports = Marionette.LayoutView.extend
   # When clicking on a live_search searchField button, the search loose the focus
   # thus the need to recover it
   recoverSearchFocus: -> @ui.searchField.focus()
+
+  closeSearch: ->
+    @ui.searchField.val ''
+    @hideLiveSearch()
 
 neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]
