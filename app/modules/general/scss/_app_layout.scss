@@ -2,27 +2,13 @@
 @import "flash_message";
 
 main{
-  @include display-flex(column);
-}
-
-/*Small screens*/
-@media screen and (max-width: $small-screen) {
-  main{
-    margin-top: $topbar-height;
-    // allow screen_.scrollTop to really get the top of the div
-    // at the top of the screen
-    // which would not be possible if main was smaller than the screen
+  margin-top: $topbar-height;
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    // Allow screen_.scrollTop to really get the top of the div
+    // at the top of the screen, which would not be possible
+    // if main was smaller than the screen
     min-height: 100vh;
     margin-bottom: $smallscreen-connection-buttons-height;
-  }
-}
-
-/*Large screens*/
-@media screen and (min-width: $small-screen) {
-  main:not(.no-topbar){
-    margin-top: $topbar-height;
-    // trying to make the transition as close as possible
-    // to jQuery slideDown default values: 400ms and 'swing' ease
-    @include transition(margin-top, 0.4s, null, ease-in);
   }
 }

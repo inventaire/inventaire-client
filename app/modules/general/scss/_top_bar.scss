@@ -1,4 +1,5 @@
 nav#top-bar{
+  // Use position:fixed to make the top-bar stick to the screen top
   @include position(fixed, 0, 0, null, 0, 15)
   @include display-flex(row, center, flex-start);
   background-color: $topbar-bg-color;
@@ -94,6 +95,14 @@ nav#top-bar{
   .loginRequest{
     @include bg-hover($success-color, 5%);
     color: white;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .signupRequest{
+      // Push away the .language-picker
+      margin-left: 1em;
+    }
   }
 
   /*Small screens*/
