@@ -48,7 +48,9 @@ module.exports = Marionette.LayoutView.extend
     data.isMainUser = @isMainUser
     return data
 
-  onShow: ->
+  onShow: -> @initBrowser()
+
+  initBrowser: ->
     startLoading.call @, '#browserFilters'
     waitForInventoryData = @getInventoryViewData()
       # Pass itemsIds=null to use the default value
@@ -118,7 +120,15 @@ module.exports = Marionette.LayoutView.extend
       app.request 'items:getByIds', batch
       .then collection.add.bind(collection)
 
-    @itemsViewParams = { collection, fetchMore, hasMore, allItemsIds, @isMainUser }
+    @itemsViewParams = {
+      collection,
+      fetchMore,
+      hasMore,
+      allItemsIds,
+      @isMainUser,
+      # Regenerate the whole view to re-request the data without the deleted items
+      afterItemsDelete: @initBrowser.bind(@)
+    }
 
     # Fetch a first batch before displaying
     # so that it doesn't start by displaying 'no item here'

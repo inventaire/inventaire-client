@@ -80,18 +80,12 @@ module.exports = InfiniteScrollItemsList.extend
     { selectedModelsAndIds } = @getSelectedModelsAndIds()
     app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
 
-  # TODO:
-  # - prevent re-desplaying deleted items in inventory browser filtered lists
   deleteItems: ->
     { selectedModelsAndIds, selectedModels, selectedIds } = @getSelectedModelsAndIds()
 
-    afterDestroy = =>
-      @collection.remove selectedModels
-      @removeSelectedIds selectedIds...
-
     app.request 'items:delete',
       items: selectedModelsAndIds
-      next: afterDestroy
+      next: @options.afterItemsDelete
 
   # Get a mix of the selected views' models and the remaining ids from non-displayed
   # items so that items:update or items:delete can set values on models
