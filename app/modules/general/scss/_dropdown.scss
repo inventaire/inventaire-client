@@ -15,7 +15,7 @@
   background-color: $off-white;
   font-size: 0.9em;
   color: $dark-grey;
-  &, a, span, .fa{
+  &, a, span:not(.counter), .fa{
     text-align: left !important;
     color: $dark-grey;
   }

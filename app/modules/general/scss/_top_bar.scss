@@ -16,9 +16,11 @@ nav#top-bar{
     @include serif;
     font-weight: bold;
     color: white;
-    align-self: stretch;
     white-space: nowrap;
     @include display-flex(row, center, center);
+  }
+  .language-picker, .signupRequest, .loginRequest{
+    align-self: stretch;
   }
   .help-translate, .global-menu a{
     @include display-flex(row, center, flex-start);
@@ -59,15 +61,8 @@ nav#top-bar{
     @include bg-hover-lighten($topbar-bg-color);
   }
   .language-picker, .global-menu{
-    padding: 0.2em 1em;
     .fa-caret-down{
       color: #ccc;
-    }
-  }
-  .global-menu{
-    padding: 0 0.5em;
-    img{
-      @include radius;
     }
   }
   .dropdown{
@@ -125,16 +120,8 @@ nav#top-bar{
       flex-wrap: nowrap;
       margin-left: auto;
       margin-top: -0.3em;
-      margin-right: 0.4em;
-      &, input, .button{
+      &, input{
         height: 2rem;
-      }
-      input{
-        @include radius-left;
-        @include radius-right(0);
-      }
-      .button{
-        @include radius-left(0);
       }
     }
     #liveSearch{
@@ -159,4 +146,4 @@ nav#top-bar{
 }
 
 @import 'top_bar_language_picker';
-@import 'news_buttons';
+@import 'top_bar_buttons';

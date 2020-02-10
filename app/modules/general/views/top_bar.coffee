@@ -2,7 +2,7 @@
 showViews = require '../lib/show_views'
 getActionKey = require 'lib/get_action_key'
 LiveSearch = require 'modules/search/views/live_search'
-NewsButtons = require './news_buttons'
+TopBarButtons = require './top_bar_buttons'
 screen_ = require 'lib/screen'
 { currentRoute, currentSection } = require 'lib/location'
 
@@ -18,7 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     liveSearch: '#liveSearch'
-    newsButtons: '#newsButtons'
+    topBarButtons: '#topBarButtons'
 
   ui:
     searchField: '#searchField'
@@ -38,7 +38,6 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     smallScreen: screen_.isSmall()
     isLoggedIn: app.user.loggedIn
-    user: app.user.toJSON()
     currentLanguage: languages[app.user.lang].native
     languages: languagesList
     translate: translate
@@ -49,9 +48,12 @@ module.exports = Marionette.LayoutView.extend
     @onRouteChange currentSection(), currentRoute()
 
   onRender: ->
+    if app.user.loggedIn then @showTopBarButtons()
+
+  showTopBarButtons: ->
     # Use a child view for those buttons to be able to re-render them independenly
     # without disrupting the LiveSearch state
-    @newsButtons.show new NewsButtons
+    @topBarButtons.show new TopBarButtons
 
   onRouteChange: (section, route)->
     @updateConnectionButtons section
@@ -68,16 +70,8 @@ module.exports = Marionette.LayoutView.extend
 
     'click .language-picker .option a': 'selectLang'
 
-    'click .showMainUser': _.clickCommand 'show:inventory:main:user'
-    'click .showSettings': _.clickCommand 'show:settings'
-    'click .showInfo': _.clickCommand 'show:welcome'
-    'click .showFeedbackMenu': _.clickCommand 'show:feedback:menu'
-    'click .logout': 'logout'
-
   childEvents:
     'hide:live:search': 'hideLiveSearch'
-
-  logout: -> app.execute 'logout'
 
   updateConnectionButtons: (section)->
     if app.user.loggedIn then return

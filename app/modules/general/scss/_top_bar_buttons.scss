@@ -1,0 +1,81 @@
+#topBarButtons{
+  align-self: stretch;
+}
+
+.innerTopBarButtons{
+  height: 100%;
+  @include display-flex(row, center, center);
+}
+
+.global-menu{
+  img{
+    @include radius;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    // Hackly center vertically to be aligned with search bar
+    margin-top: 0.2em;
+    padding: 0.2em 0;
+    margin-left: 0.1em;
+    align-self: stretch;
+    max-height: 2em;
+    .fa-bars{
+      font-size: 1.5rem;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    align-self: stretch;
+    padding: 0 0.5em;
+  }
+}
+
+.iconButton{
+  @include display-flex(row, center, center);
+  align-self: stretch;
+  text-align: center;
+  &.count-0 > .counter, &.icon-without-counter{
+    .counter{
+      display: none;
+    }
+  }
+  .counter:empty{
+    display: none;
+  }
+  .counter{
+    @include counter-commons;
+  }
+  .counter{
+    text-align: center;
+    line-height: 1em;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .label{
+      margin-right: 1em;
+    }
+    .counter{
+      margin-left: auto;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    width: 3em;
+    padding: 0 0.5em;
+    position: relative;
+    .label{
+      display: none;
+    }
+    .fa{
+      color: white;
+      text-align: center;
+      font-size: 1.4em;
+    }
+    .counter{
+      @include position(absolute, 0.2em, 0.2em)
+    }
+  }
+}
