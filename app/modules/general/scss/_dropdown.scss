@@ -9,8 +9,12 @@
   z-index: 30;
   min-width: 10em;
   top: 100%;
-  &:not(.dropdown-align-right){ left: 0; }
-  &.dropdown-align-right{ right: 0;  }
+  &:not(.dropdown-align-right){
+    left: 0;
+  }
+  &.dropdown-align-right{
+    right: 0;
+  }
   white-space: nowrap;
   background-color: $off-white;
   font-size: 0.9em;

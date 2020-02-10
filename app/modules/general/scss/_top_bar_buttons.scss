@@ -29,6 +29,21 @@
     align-self: stretch;
     padding: 0 0.5em;
   }
+
+  .dropdown{
+    // Stick to the screen right side
+    right: -0.5em;
+    /*Very Small screens*/
+    @media screen and (max-width: $very-small-screen) {
+      // Going over 100vw to cover the whole screen
+      min-width: 102vw;
+    }
+
+    /*Not Very Small screens*/
+    @media screen and (min-width: $very-small-screen) {
+      min-width: 15em;
+    }
+  }
 }
 
 .iconButton{
