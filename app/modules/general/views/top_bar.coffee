@@ -43,13 +43,11 @@ module.exports = Marionette.LayoutView.extend
     languages: languagesList
     translate: translate
 
-  onShow: ->
+  onRender: ->
+    if app.user.loggedIn then @showTopBarButtons()
     # Needed as 'route:change' might have been triggered before
     # this view was initialized
     @onRouteChange currentSection(), currentRoute()
-
-  onRender: ->
-    if app.user.loggedIn then @showTopBarButtons()
 
   showTopBarButtons: ->
     # Use a child view for those buttons to be able to re-render them independenly
