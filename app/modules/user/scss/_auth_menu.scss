@@ -22,7 +22,7 @@ $auth-menu-bg: $global-background-contrast-color;
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $smaller-screen) {
     .custom-cell{
       padding: 1em;
       text-align: center;
@@ -30,7 +30,7 @@ $auth-menu-bg: $global-background-contrast-color;
   }
 
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (min-width: $smaller-screen) {
     @include central-column(25em);
     min-height: 80vh;
     .custom-cell{
