@@ -1,4 +1,5 @@
 { buildPath } = require 'lib/location'
+{ truncateDecimals } = require 'modules/map/lib/geo.coffee'
 
 module.exports =
   search: (base, text)->
@@ -11,4 +12,4 @@ module.exports =
       action: 'search-by-position'
       # don't let buildPath do the bbox stringification
       # as it would uses a simple bbox.toString() and lose the []
-      bbox: JSON.stringify bbox
+      bbox: JSON.stringify bbox.map(truncateDecimals)
