@@ -2,11 +2,11 @@
 # - no need to reload the image on re-render (like when details are saved)
 
 ItemTransactions = require './item_transactions'
-itemActions = require '../plugins/item_actions'
-itemUpdaters = require '../plugins/item_updaters'
 getActionKey = require 'lib/get_action_key'
+itemViewsCommons = require '../lib/items_views_commons'
+ItemLayout = Marionette.LayoutView.extend itemViewsCommons
 
-module.exports = Marionette.LayoutView.extend
+module.exports = ItemLayout.extend
   id: 'itemShowData'
   template: require './templates/item_show_data'
   regions:
@@ -18,15 +18,10 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @lazyRender = _.LazyRender @
-    @initPlugins()
     # The alertbox is appended to the target's parent, which might have
     # historical reasons but seems a bit dumb now
     @alertBoxTarget = '.leftBox .panel'
     @listenTo @model, 'change', @lazyRender
-
-  initPlugins: ->
-    itemActions.call(@)
-    itemUpdaters.call(@)
 
   onShow: ->
     @setTimeout @preserveMinHeight.bind(@), 200
@@ -42,6 +37,14 @@ module.exports = Marionette.LayoutView.extend
     if app.user.loggedIn then @showTransactions()
 
   events:
+    'click a.transaction': 'updateTransaction'
+    'click a.listing': 'updateListing'
+    'click a.remove': 'itemDestroy'
+    'click a.itemShow': 'itemShow'
+    'click a.user': 'showUser'
+    'click a.showUser': 'showUser'
+    'click a.mainUserRequested': 'showTransaction'
+
     'click a#editDetails': 'showDetailsEditor'
     'click .detailsPanel': 'showDetailsEditor'
 
@@ -61,7 +64,6 @@ module.exports = Marionette.LayoutView.extend
 
   serializeData: -> @model.serializeData()
 
-  # itemDestroy is in item_updaters
   itemDestroyBack: ->
     if @model.isDestroyed then app.execute 'modal:close'
     else app.execute 'show:item', @model

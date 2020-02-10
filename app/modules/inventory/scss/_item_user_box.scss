@@ -17,7 +17,7 @@ a.user{
   height: $user-box-heigth;
   background-color: $off-white;
   @include display-flex(row, center, flex-start);
-  .userShow{
+  .showUser{
     flex: 0 0 $user-box-heigth;
     .profilePic{
       height: $user-box-heigth;

@@ -1,8 +1,8 @@
-itemActions = require '../plugins/item_actions'
-itemUpdaters = require '../plugins/item_updaters'
 detailsLimit = 150
+itemViewsCommons = require '../lib/items_views_commons'
+ItemItemView = Marionette.ItemView.extend itemViewsCommons
 
-module.exports = Marionette.ItemView.extend
+module.exports = ItemItemView.extend
   tagName: 'figure'
   className: ->
     busy = if @model.get('busy') then 'busy' else ''
@@ -13,7 +13,6 @@ module.exports = Marionette.ItemView.extend
     AlertBox: {}
 
   initialize: ->
-    @initPlugins()
     @lazyRender = _.LazyRender @, 400
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'user:ready', @lazyRender
@@ -21,14 +20,15 @@ module.exports = Marionette.ItemView.extend
     # Should not be required
     # @listenTo @model, 'grab:entity', @lazyRender
 
-  initPlugins: ->
-    itemActions.call @
-    itemUpdaters.call @
-
   onRender: ->
     app.execute 'uriLabel:update'
 
   events:
+    'click a.transaction': 'updateTransaction'
+    'click a.listing': 'updateListing'
+    'click a.remove': 'itemDestroy'
+    'click a.itemShow': 'itemShow'
+    'click a.user': 'showUser'
     'click a.requestItem': -> app.execute 'show:item:request', @model
 
   serializeData: ->
