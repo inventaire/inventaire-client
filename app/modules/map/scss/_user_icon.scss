@@ -60,14 +60,19 @@ $arrowHeight: 10px;
   .username{
     margin-top: -0.5em;
   }
-  #showPositionPicker{
+  #showPositionPicker, .items-count{
     position: absolute;
     top: 0;
     right: 0;
+  }
+  #showPositionPicker{
     font-size: 1.5rem;
     color: white;
     @include bg-hover($light-blue);
     @include radius;
+  }
+  .items-count{
+    @include sans-serif;
   }
 }
 

@@ -33,29 +33,6 @@ $nav-avatar-size: 5em;
   .picture-color-filter{
     opacity: 0.35;
   }
-  .items-count, .group-admin-badge{
-    position: absolute;
-    background-color: white;
-    height: 1.15em;
-    min-width: 1em;
-    opacity: 0.8;
-  }
-  .items-count{
-    top: 0;
-    right: 0;
-    text-align: center;
-    line-height: 1em;
-    padding: 0 0.2em 0.2em 0.2em;
-    border-bottom-left-radius: $global-radius;
-    @include transition;
-  }
-  .group-admin-badge{
-    top: 0;
-    left: 0;
-    // Somehow centers the icon vertically
-    line-height: 0;
-    border-bottom-right-radius: $global-radius;
-  }
   .info{
     @include position(absolute, null, 0, 0, 0);
     overflow: hidden;
@@ -80,4 +57,28 @@ $nav-avatar-size: 5em;
 .list-label-wrapper{
   @include display-flex(row, flex-end, space-between);
   padding: 0.5em 0;
+}
+
+.items-count, .group-admin-badge{
+  position: absolute;
+  background-color: white;
+  height: 1.15em;
+  min-width: 1em;
+  opacity: 0.8;
+}
+.items-count{
+  top: 0;
+  right: 0;
+  text-align: center;
+  line-height: 1em;
+  padding: 0 0.2em 0.2em 0.2em;
+  border-bottom-left-radius: $global-radius;
+  @include transition;
+}
+.group-admin-badge{
+  top: 0;
+  left: 0;
+  // Somehow centers the icon vertically
+  line-height: 0;
+  border-bottom-right-radius: $global-radius;
 }
