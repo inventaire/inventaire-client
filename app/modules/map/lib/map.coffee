@@ -31,6 +31,7 @@ module.exports = map_ =
     else if typeName is 'groups' then map_.showGroupsOnMap map, models
     else throw error_.new('invalid type', { typeName, map, models })
 
+  # Same as the above function, but guesses model type
   showModelsOnMap: (map, models)->
     for model in _.forceArray models
       if model.get('username')?

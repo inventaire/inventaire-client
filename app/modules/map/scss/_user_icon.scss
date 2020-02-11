@@ -52,25 +52,30 @@ $arrowHeight: 10px;
   margin-left: -10px;
 }
 
-// By default, the icon has it's coordinates for top-left point
-// margins hereafter compensate to make the icon point at its true position
-// Additional pixels are the result of empirical tests
 .userIcon{
+  // (1)
   margin-top: -$userIconHeight - $arrowHeight ;
   margin-left: -$userIconWidth/2 +4px;
-}
-.groupIcon{
-  margin-top: -$groupIconHeight - $arrowHeight +4px;
-  margin-left: -$groupIconWidth/2 +4px;
-}
-
-.userIcon{
+  position: relative;
   .username{
     margin-top: -0.5em;
   }
+  #showPositionPicker{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.5rem;
+    color: white;
+    @include bg-hover($light-blue);
+    @include radius;
+  }
 }
+
 .groupIcon{
-  // forcing the height to prevent .fa-group to increase the height
+  // (1)
+  margin-top: -$groupIconHeight - $arrowHeight +4px;
+  margin-left: -$groupIconWidth/2 +4px;
+  // Forcing the height to prevent .fa-group to increase the height
   // which, given its absolute position, might be a conflict with leaflet rules
   height: $groupIconHeight;
   .fa-group{
@@ -87,3 +92,7 @@ $arrowHeight: 10px;
     white-space: nowrap;
   }
 }
+
+// (1) - By default, the icon has it's coordinates for top-left point
+//       margins hereafter compensate to make the icon point at its true position
+//       Additional pixels are the result of empirical tests

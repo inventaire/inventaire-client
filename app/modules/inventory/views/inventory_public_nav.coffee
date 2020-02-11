@@ -1,4 +1,4 @@
-{ showOnMap, getBbox } = require 'modules/map/lib/map'
+{ showOnMap, showUserOnMap, getBbox } = require 'modules/map/lib/map'
 { initMap, grabMap, refreshListFilter } = require 'modules/network/lib/nearby_layouts'
 { currentRoute } = require 'lib/location'
 Users = require 'modules/users/collections/users'
@@ -51,6 +51,7 @@ module.exports = InventoryCommonNav.extend
     displayedElementsCount = @users.length + @groups.length
     if map._zoom < 10 and displayedElementsCount > 20 then return
     bbox = getBbox map
+    showUserOnMap map, app.user
     @showByPosition 'users', bbox
     @showByPosition 'groups', bbox
 
