@@ -20,7 +20,8 @@ module.exports = (params)->
   return map
 
 initWithCluster = (map)->
-  cluster = L.markerClusterGroup()
+  # See options https://github.com/Leaflet/Leaflet.markercluster#options
+  cluster = L.markerClusterGroup { disableClusteringAtZoom: 18 }
   cluster._knownObjectIds = {}
   map.addLayer cluster
   map.addMarker = addMarkerToCluster cluster
