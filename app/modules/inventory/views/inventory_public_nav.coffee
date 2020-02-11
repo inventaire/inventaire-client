@@ -24,8 +24,8 @@ module.exports = InventoryCommonNav.extend
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
-    'click .userIcon a': 'showUser'
-    'click .groupIcon a': 'showGroup'
+    'click .userMarker a': 'showUser'
+    'click .groupMarker a': 'showGroup'
 
   serializeData: ->
     mainUserHasPosition: app.user.get('position')?

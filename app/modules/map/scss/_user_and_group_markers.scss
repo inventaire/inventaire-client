@@ -1,12 +1,12 @@
-$userIconHeight: 60px;
-$userIconWidth: 64px;
-$groupIconWidth: 100px;
-$groupIconHeight: 88px;
+$userMarkerHeight: 60px;
+$userMarkerWidth: 64px;
+$groupMarkerWidth: 100px;
+$groupMarkerHeight: 88px;
 $arrowHeight: 10px;
 
-.objectIcon{
-  min-height: $userIconHeight;
-  min-width:  $userIconWidth;
+.objectMarker{
+  min-height: $userMarkerHeight;
+  min-width:  $userMarkerWidth;
   text-align: center;
   @include bg-hover(white, 10%);
   @include radius;
@@ -25,7 +25,7 @@ $arrowHeight: 10px;
 }
 
 // adapted from http://cssarrowplease.com
-.objectIcon{
+.objectMarker{
   position: relative;
   background-color: $lighter-grey;
   box-shadow: 10px 10px 10px rgba(black, 0.5);
@@ -36,7 +36,7 @@ $arrowHeight: 10px;
   position: relative;
 }
 
-.objectIcon:after{
+.objectMarker:after{
   top: 100%;
   left: 50%;
   content: " ";
@@ -52,10 +52,10 @@ $arrowHeight: 10px;
   margin-left: -10px;
 }
 
-.userIcon{
+.userMarker{
   // (1)
-  margin-top: -$userIconHeight - $arrowHeight ;
-  margin-left: -$userIconWidth/2 +4px;
+  margin-top: -$userMarkerHeight - $arrowHeight ;
+  margin-left: -$userMarkerWidth/2 +4px;
   position: relative;
   .username{
     margin-top: -0.5em;
@@ -76,13 +76,13 @@ $arrowHeight: 10px;
   }
 }
 
-.groupIcon{
+.groupMarker{
   // (1)
-  margin-top: -$groupIconHeight - $arrowHeight +4px;
-  margin-left: -$groupIconWidth/2 +4px;
+  margin-top: -$groupMarkerHeight - $arrowHeight +4px;
+  margin-left: -$groupMarkerWidth/2 +4px;
   // Forcing the height to prevent .fa-group to increase the height
   // which, given its absolute position, might be a conflict with leaflet rules
-  height: $groupIconHeight;
+  height: $groupMarkerHeight;
   .fa-group{
     @include position(absolute, 0, 0);
     background-color: $lighter-grey;
@@ -91,7 +91,7 @@ $arrowHeight: 10px;
     color: $dark-grey;
     border-bottom-left-radius: $global-radius;
   }
-  min-width: $groupIconWidth;
+  min-width: $groupMarkerWidth;
   .name{
     // @include position(absolute, null, 0.2em, 0, 0.2em);
     white-space: nowrap;

@@ -13,7 +13,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #showPositionPicker': -> app.execute 'show:position:picker:main:user'
-    'click .userIcon a': 'showUser'
+    'click .userMarker a': 'showUser'
 
   initMap: ->
     initMap

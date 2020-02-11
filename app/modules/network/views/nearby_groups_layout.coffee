@@ -12,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   events:
-    'click .groupIcon a': 'showGroup'
+    'click .groupMarker a': 'showGroup'
 
   initMap: ->
     @collection or= app.groups.filtered.resetFilters()
