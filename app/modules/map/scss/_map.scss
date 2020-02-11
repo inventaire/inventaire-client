@@ -23,3 +23,9 @@
     padding: 0.5em;
   }
 }
+
+#simpleMap{
+  .items-count, .members-count, #showPositionPicker{
+    display: none;
+  }
+}

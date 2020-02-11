@@ -105,6 +105,7 @@ module.exports = Positionable.extend
       mainUserIsAdmin: @mainUserIsAdmin()
       mainUserIsMember: mainUserIsMember
       hasPosition: @hasPosition()
+      membersCount: @membersCount()
 
   userStatus: (user)->
     { id } = user

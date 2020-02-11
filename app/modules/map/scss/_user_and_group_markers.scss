@@ -5,9 +5,13 @@ $groupMarkerHeight: 88px;
 $arrowHeight: 10px;
 
 .objectMarker{
+  // Override .leaflet-container font-size:12px
+  font-size: 1rem;
+  color: $dark-grey;
   min-height: $userMarkerHeight;
   min-width:  $userMarkerWidth;
   text-align: center;
+  @include sans-serif;
   @include bg-hover(white, 10%);
   @include radius;
   @include shy-border;
@@ -16,19 +20,13 @@ $arrowHeight: 10px;
   }
   .label{
     @include serif;
-    text-align: center;
-    font-size: 1em;
+    font-size: 0.9rem;
+    color: $dark-grey;
+    font-weight: bold;
     overflow: hidden;
     @include shy-text-border(rgba(white, 0.5));
     line-height: 1em;
   }
-}
-
-// adapted from http://cssarrowplease.com
-.objectMarker{
-  position: relative;
-  background-color: $lighter-grey;
-  box-shadow: 10px 10px 10px rgba(black, 0.5);
 }
 
 .img-wrapper{
@@ -36,6 +34,13 @@ $arrowHeight: 10px;
   position: relative;
 }
 
+// Drawing the marker triangle
+// adapted from http://cssarrowplease.com
+.objectMarker{
+  position: relative;
+  background-color: $lighter-grey;
+  box-shadow: 10px 10px 10px rgba(black, 0.5);
+}
 .objectMarker:after{
   top: 100%;
   left: 50%;
@@ -71,9 +76,6 @@ $arrowHeight: 10px;
     @include bg-hover($light-blue);
     @include radius;
   }
-  .items-count{
-    @include sans-serif;
-  }
 }
 
 .groupMarker{
@@ -83,14 +85,6 @@ $arrowHeight: 10px;
   // Forcing the height to prevent .fa-group to increase the height
   // which, given its absolute position, might be a conflict with leaflet rules
   height: $groupMarkerHeight;
-  .fa-group{
-    @include position(absolute, 0, 0);
-    background-color: $lighter-grey;
-    padding: 0.2em;
-    font-size: 1.2em;
-    color: $dark-grey;
-    border-bottom-left-radius: $global-radius;
-  }
   min-width: $groupMarkerWidth;
   .name{
     // @include position(absolute, null, 0.2em, 0, 0.2em);

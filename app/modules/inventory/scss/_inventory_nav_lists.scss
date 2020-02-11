@@ -18,9 +18,12 @@ $nav-avatar-size: 5em;
     display: block;
     height: $nav-avatar-size;
     width: $nav-avatar-size;
+    .items-count, .members-count{
+      opacity: 0.6;
+    }
     @include radius;
     &:hover{
-      .items-count{
+      .items-count, .members-count{
         opacity: 1;
       }
     }
@@ -59,19 +62,18 @@ $nav-avatar-size: 5em;
   padding: 0.5em 0;
 }
 
-.items-count, .group-admin-badge{
+.items-count, .group-admin-badge, .members-count{
   position: absolute;
   background-color: white;
-  height: 1.15em;
+  color: $dark-grey;
+  line-height: 0;
   min-width: 1em;
-  opacity: 0.8;
 }
-.items-count{
+.items-count, .members-count{
   top: 0;
   right: 0;
   text-align: center;
-  line-height: 1em;
-  padding: 0 0.2em 0.2em 0.2em;
+  padding: 0.2em 0;
   border-bottom-left-radius: $global-radius;
   @include transition;
 }

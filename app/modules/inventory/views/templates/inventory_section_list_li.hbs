@@ -5,10 +5,13 @@
     <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
   {{/if}}
 
-  {{!-- Not showing itemsCount for group as that would be inconsistent depending on if beforeShow was called --}}
-  {{#unless isGroup}}{{#if hasItemsCount}}
-    <div class="items-count" title="{{i18n 'num_books' smart_count=itemsCount}}">{{itemsCount}}</div>
-  {{/if}}{{/unless}}
+  {{#if isGroup}}
+    <div class="members-count">{{icon 'group'}} {{membersCount}}</div>
+  {{else}}
+    {{#if hasItemsCount}}
+      <div class="items-count" title="{{i18n 'num_books' smart_count=itemsCount}}">{{icon 'book'}} {{itemsCount}}</div>
+    {{/if}}
+  {{/if}}
 
   {{#if isGroupAdmin}}
     <div class="group-admin-badge" title="{{I18n 'group admin'}}">{{icon 'cog'}}</div>
