@@ -87,11 +87,11 @@ module.exports = Marionette.ItemView.extend
 
 typeStrings =
   user:
-    title: 'select your position'
+    title: 'edit your position'
     context: 'position_privacy_context'
     tip: 'position_privacy_tip'
   group:
-    title: "select the group's position"
+    title: "edit the group's position"
     context: 'group_position_context'
     # tip: 'position_privacy_tip'
 
