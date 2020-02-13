@@ -40,13 +40,18 @@
     }
   }
   .item-row{
+    padding: 0.5em;
     input{
       display: none;
+    }
+    .showItem{
+      overflow: hidden;
+      margin-right: 1em;
     }
   }
   #existingInstancesWarning{
     color: red;
-    padding: 1em;
+    padding: 1em 0;
     > p{
       font-weight: bold;
       margin-bottom: 0.5em;
