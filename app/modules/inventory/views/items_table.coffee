@@ -87,6 +87,8 @@ module.exports = InfiniteScrollItemsList.extend
     app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
 
   deleteItems: ->
+    if @selectedIds.length is 0 then return
+
     { selectedModelsAndIds, selectedModels, selectedIds } = @getSelectedModelsAndIds()
 
     app.request 'items:delete',
