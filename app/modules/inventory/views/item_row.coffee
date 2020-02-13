@@ -4,7 +4,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/item_row'
 
   initialize: ->
-    { @isMainUser } = @options
+    { @isMainUser, @getSelectedIds } = @options
     @listenTo @model, 'change', @render.bind(@)
 
   serializeData: ->
@@ -19,4 +19,6 @@ module.exports = Marionette.ItemView.extend
     if _.isOpenedOutside e then return
     else app.execute 'show:item', @model
 
-  getCheckedStatus: -> @model.id in @options.getSelectedIds?()
+  getCheckedStatus: ->
+    if @getSelectedIds? then return @model.id in @getSelectedIds()
+    else return false
