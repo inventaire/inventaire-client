@@ -13,7 +13,7 @@ module.exports = ItemItemView.extend
     AlertBox: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @, 400
+    @lazyRender = _.LazyRender @, 200
     @listenTo @model, 'change', @lazyRender
     @listenTo @model, 'user:ready', @lazyRender
     @alertBoxTarget = '.details'
