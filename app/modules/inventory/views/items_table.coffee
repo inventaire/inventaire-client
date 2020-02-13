@@ -56,12 +56,18 @@ module.exports = InfiniteScrollItemsList.extend
 
   updateSelectedIds: (list)->
     @selectedIds = list
+
     if list.length is 0
       @ui.unselectAll.addClass 'disabled'
       @ui.updators.addClass 'disabled'
     else
       @ui.unselectAll.removeClass 'disabled'
       @ui.updators.removeClass 'disabled'
+
+    if list.length is @itemsIds.length
+      @ui.selectAll.addClass 'disabled'
+    else
+      @ui.selectAll.removeClass 'disabled'
 
   addSelectedIds: (ids...)->
     @selectedIds.push ids...
