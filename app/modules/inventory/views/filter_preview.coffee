@@ -22,7 +22,6 @@ module.exports = Marionette.LayoutView.extend
     'click .handler': 'highlightHandlerRegion'
 
   updatePreview: (name, model)->
-    _.log arguments, 'updatePreview'
     if not model? or model.isUnknown then return @removePreview name
 
     region = @[name]
