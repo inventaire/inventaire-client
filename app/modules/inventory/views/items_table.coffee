@@ -15,14 +15,14 @@ module.exports = InfiniteScrollItemsList.extend
 
   initialize: ->
     @initInfiniteScroll()
-    { @allItemsIds, @isMainUser } = @options
+    { @itemsIds, @isMainUser } = @options
     @selectedIds = []
     @getSelectedIds = => @selectedIds
 
   childViewOptions: -> { @getSelectedIds, @isMainUser }
 
   serializeData: ->
-    itemsCount: @allItemsIds.length
+    itemsCount: @itemsIds.length
     transactions: transactionsData
     listings: app.user.listings()
     isMainUser: @isMainUser
@@ -38,7 +38,7 @@ module.exports = InfiniteScrollItemsList.extend
 
   selectAll: ->
     @$el.find('input:checkbox').prop 'checked', true
-    @updateSelectedIds _.clone(@allItemsIds)
+    @updateSelectedIds _.clone(@itemsIds)
 
   unselectAll: ->
     @$el.find('input:checkbox').prop 'checked', false

@@ -107,14 +107,15 @@ module.exports = Marionette.LayoutView.extend
   showItemsListByIds: (itemsIds)->
     # Default to showing the latest items
     itemsIds or= @itemsByDate
-    # - Clone to avoid sharing the same object
     # - Deduplicate as editions with several P629 values might have generated duplicates
-    allItemsIds = _.uniq itemsIds
+    # - Clone to avoid modifying @itemsByDate
+    itemsIds = _.uniq itemsIds
     collection = new Backbone.Collection []
 
-    hasMore = -> itemsIds.length > 0
+    remainingItems = _.clone itemsIds
+    hasMore = -> remainingItems.length > 0
     fetchMore = ->
-      batch = itemsIds.splice 0, 20
+      batch = remainingItems.splice 0, 20
       if batch.length is 0 then return Promise.resolve()
 
       app.request 'items:getByIds', batch
@@ -124,7 +125,7 @@ module.exports = Marionette.LayoutView.extend
       collection,
       fetchMore,
       hasMore,
-      allItemsIds,
+      itemsIds,
       @isMainUser,
       # Regenerate the whole view to re-request the data without the deleted items
       afterItemsDelete: @initBrowser.bind(@)
