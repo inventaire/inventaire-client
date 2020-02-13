@@ -13,13 +13,17 @@ module.exports = Marionette.ItemView.extend
       'transactions:unread:change': @lazyRender
       'network:requests:update': @lazyRender
 
-    # Re-render once app.relations is populated to display network counters
-    app.request('wait:for', 'relations').then @lazyRender
+    # Re-render once relations and groups are populated to display network counters
+    Promise.all [
+      app.request 'wait:for', 'relations'
+      app.request 'wait:for', 'groups'
+    ]
+    .then @lazyRender
 
   serializeData: ->
     smallScreen: screen_.isSmall()
     exchangesUpdates: app.request 'transactions:unread:count'
-    notificationsUpdates: app.request 'notifications:unread:count'
+    notificationsUpdates: @getNotificationsCount()
     username: app.user.get 'username'
     userPicture: app.user.get 'picture'
     userPathname: app.user.get 'pathname'
@@ -33,3 +37,8 @@ module.exports = Marionette.ItemView.extend
     'click .showInfo': _.clickCommand 'show:welcome'
     'click .showFeedbackMenu': _.clickCommand 'show:feedback:menu'
     'click .logout': -> app.execute 'logout'
+
+  getNotificationsCount: ->
+    unreadNotifications = app.request 'notifications:unread:count'
+    networkRequestsCount = app.request 'get:network:invitations:count'
+    return unreadNotifications + networkRequestsCount

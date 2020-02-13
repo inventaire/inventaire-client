@@ -1,21 +1,34 @@
 .groupLi{
-  @include display-flex(column, center, center);
-  color: white;
-  .groupPic{
-    height: $user-height;
-    width: $user-height;
-    overflow: hidden;
+  @include display-flex(row, center, space-between);
+  background-color: white;
+  padding: 0.5em;
+  @include radius;
+  .group-cover-picture{
+    @include bg-cover;
+    height: 5em;
+    width: 5em;
+    flex: 0 0 auto;
   }
   .showGroup{
-    width: 100%;
-    @include display-flex(row, center, flex-start);
-    .name{
-      margin-left: 0.4em;
-      max-width: 80%;
-      overflow: hidden;
+    font-weight: bold;
+    @include display-flex(row, flex-start, flex-start);
+    overflow: hidden;
+    flex: 1 0 0;
+    max-height: 5em;
+    margin-right: 0.5em;
+    .info{
+      text-align: left;
+      padding: 0.5em;
+    }
+    .description{
+      color: $grey;
     }
   }
   .actions{
-    @include display-flex(column);
+    @include display-flex(row);
+    flex: 0 0 auto;
+    a{
+      margin-right: 0.1em;
+    }
   }
 }

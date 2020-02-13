@@ -47,13 +47,13 @@ API =
       showInventory { section: 'public' }
       app.navigate 'inventory/public'
 
-  showUserInventory: (user)->
-    showInventory { user }
+  showUserInventory: (user, standalone)->
+    showInventory { user, standalone }
 
   showUserInventoryFromUrl: (username)->
     showInventory { user: username, standalone: true }
 
-  showGroupInventory: (group, standalone)->
+  showGroupInventory: (group, standalone = true)->
     showInventory { group, standalone }
 
   showInventoryNearby: ->

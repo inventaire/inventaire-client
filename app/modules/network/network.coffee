@@ -50,6 +50,7 @@ module.exports =
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
+      'get:network:invitations:count': getNetworkNotificationsCount
 
     fetchData
       name: 'groups'
@@ -142,3 +143,8 @@ getGroupsRequestsCount = ->
 counterUnlessZero = (count)->
   if count is 0 then return
   else return count
+
+getNetworkNotificationsCount = ->
+  friendsRequestsCount = app.relations.otherRequested.length
+  mainUserInvitationsCount = app.groups.mainUserInvited.length
+  return friendsRequestsCount + mainUserInvitationsCount

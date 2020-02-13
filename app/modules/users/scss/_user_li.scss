@@ -3,6 +3,9 @@ $stretch-user-height: 5em;
 
 $user-bg: #ddd;
 .userLi{
+  background-color: white;
+  padding: 0.5em;
+  @include radius;
   color: $light-grey;
   img{
     margin-left: 0;

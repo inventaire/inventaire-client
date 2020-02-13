@@ -1,4 +1,11 @@
 <a href="{{pathname}}" class="showGroup">
-  <img src="{{imgSrc picture 48}}" alt="{{name}}" class="groupPic">
-  <span class="name">{{name}}</span>
+  <div class="group-cover-picture" style="background-image: url('{{imgSrc picture 100}}')"></div>
+  <div class="info">
+    <span class="name">{{name}}</span>
+    <p class="description">{{description}}</p>
+  </div>
 </a>
+<div class="actions">
+  <a class="accept tiny-button light-blue">{{icon 'check'}} {{I18n 'accept invitation'}}</a>
+  <a class="decline tiny-button">{{icon 'minus'}} {{I18n 'decline'}}</a>
+</div>
