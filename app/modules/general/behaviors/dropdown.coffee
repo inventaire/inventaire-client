@@ -6,11 +6,13 @@ module.exports = Marionette.Behavior.extend
     'click .has-dropdown': 'toggleDropdown'
 
   toggleDropdown: (e)->
-    $dropdown = $(e.currentTarget).find '.dropdown'
+    $hasDropdown = $(e.currentTarget)
+    isDisabled = $hasDropdown.hasClass 'disabled'
+    $dropdown = $hasDropdown.find '.dropdown'
     isVisible = $dropdown.css('display') isnt 'none'
     if isVisible
       hide $dropdown
-    else
+    else if not isDisabled
       show $dropdown
       # Let a delay so that the toggle click itself isn't catched by the listener
       @view.setTimeout closeOnClick.bind(@, $dropdown), 100
