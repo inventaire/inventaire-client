@@ -2,26 +2,26 @@
   <div class="list-wrapper">
     <div class="list-label-wrapper">
       <p class="list-label">{{I18n 'friends'}}</p>
-      <a class="showUsersMenu">{{icon 'plus'}} {{i18n 'add friend'}}</a>
-      <div class="buttons userMenu force-hidden">
-        {{iconLinkText name='envelope' url='/network/users/invite' I18n='invite' linkClasses='inviteByEmail'}}
-        {{iconLinkText name='search' url='/search?type=user' I18n='search user' linkClasses='searchUser'}}
-        {{iconLinkText name='map-marker' url='/inventory/public?filter=users' I18n='find on map' linkClasses='showUsersNearby'}}
-      </div>
     </div>
     <div id="usersList"></div>
+    <a class="showUsersMenu">{{icon 'plus'}} {{i18n 'add friend'}}</a>
+    <div class="buttons userMenu force-hidden">
+      {{iconLinkText name='envelope' url='/network/users/invite' I18n='invite' linkClasses='inviteByEmail'}}
+      {{iconLinkText name='search' url='/search?type=user' I18n='search user' linkClasses='searchUser'}}
+      {{iconLinkText name='map-marker' url='/inventory/public?filter=users' I18n='find on map' linkClasses='showUsersNearby'}}
+    </div>
   </div>
 
   <div class="list-wrapper">
     <div class="list-label-wrapper">
       <p class="list-label">{{I18n 'groups'}}</p>
-      <a class="showGroupsMenu">{{icon 'plus'}} {{i18n 'add group'}}</a>
-      <div class="buttons groupMenu force-hidden">
-        {{iconLinkText name='plus' url='/network/groups/create' I18n='create' linkClasses='createGroup'}}
-        {{iconLinkText name='search' url='/search?type=user' I18n='search group' linkClasses='searchGroup'}}
-        {{iconLinkText name='map-marker' url='/inventory/public?filter=groups' I18n='find on map' linkClasses='showGroupsNearby'}}
-      </div>
     </div>
     <div id="groupsList"></div>
+    <a class="showGroupsMenu">{{icon 'plus'}} {{i18n 'add group'}}</a>
+    <div class="buttons groupMenu force-hidden">
+      {{iconLinkText name='plus' url='/network/groups/create' I18n='create' linkClasses='createGroup'}}
+      {{iconLinkText name='search' url='/search?type=user' I18n='search group' linkClasses='searchGroup'}}
+      {{iconLinkText name='map-marker' url='/inventory/public?filter=groups' I18n='find on map' linkClasses='showGroupsNearby'}}
+    </div>
   </div>
 </div>
