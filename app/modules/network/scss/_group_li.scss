@@ -11,14 +11,13 @@
   }
   .showGroup{
     font-weight: bold;
-    @include display-flex(row, flex-start, flex-start);
     overflow: hidden;
-    flex: 1 0 0;
-    max-height: 5em;
-    margin-right: 0.5em;
     .info{
       text-align: left;
       padding: 0.5em;
+    }
+    .name{
+      font-weight: bold;
     }
     .description{
       color: $grey;
@@ -29,6 +28,30 @@
     flex: 0 0 auto;
     a{
       margin-right: 0.1em;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    flex-direction: column;
+    .showGroup{
+      @include display-flex(column, center, center);
+    }
+    .name{
+      text-align: center;
+    }
+    .description{
+      max-height: 3em;
+      overflow: hidden;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .showGroup{
+      @include display-flex(row, flex-start, flex-start);
+      flex: 1 0 0;
+      max-height: 5em;
+      margin-right: 0.5em;
     }
   }
 }
