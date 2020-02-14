@@ -87,6 +87,8 @@ $default-button-padding: 1em;
   @if $color {
     @include text-hover($color);
   }
+  // Override text-hover transition:color, which was overriding bg-hover transition:background-color
+  transition-property: color, background-color;
 }
 
 @mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){

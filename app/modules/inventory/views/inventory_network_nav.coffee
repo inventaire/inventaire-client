@@ -7,6 +7,11 @@ module.exports = InventoryCommonNav.extend
   behaviors:
     PreventDefault: {}
 
+  ui:
+    showUsersMenu: '.showUsersMenu'
+    userMenu: '.userMenu'
+    groupMenu: '.groupMenu'
+
   onShow: ->
     app.request 'fetch:friends'
     .then (collection)=> @showList @usersList, collection
@@ -17,9 +22,13 @@ module.exports = InventoryCommonNav.extend
   events:
     'click .showUsersMenu': 'showUsersMenu'
     'click .showGroupsMenu': 'showGroupsMenu'
+    'click .inviteByEmail': _.clickCommand 'show:invite:friend:by:email'
+    'click .searchUser': _.clickCommand 'show:user:search'
+    'click .showInventoryPublic': _.clickCommand 'show:inventory:public'
 
-  showUsersMenu: (e)->
-    unless _.isOpenedOutside e then app.execute 'show:users:menu'
+  showUsersMenu: ->
+    @ui.showUsersMenu.hide()
+    @ui.userMenu.removeClass 'force-hidden'
 
   showGroupsMenu: (e)->
     unless _.isOpenedOutside e then app.execute 'show:groups:menu'

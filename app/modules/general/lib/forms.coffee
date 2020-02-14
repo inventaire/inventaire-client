@@ -31,7 +31,8 @@ forms_.catchAlert = (view, err)->
   # Avoid to display an alert on a simple duplicated request
   if err.statusCode is 429 then return _.warn err, 'duplicated request'
   assertViewHasBehavior view, 'AlertBox'
-  view.$el.trigger 'stopLoading'
+  { selector } = err
+  view.$el.trigger 'stopLoading', { selector }
   forms_.alert view, err
   _.error err, 'err passed to catchAlert'
 

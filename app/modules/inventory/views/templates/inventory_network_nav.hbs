@@ -2,7 +2,12 @@
   <div class="list-wrapper">
     <div class="list-label-wrapper">
       <p class="list-label">{{I18n 'friends'}}</p>
-      <a class="showUsersMenu tiny-button light-blue" href="/network/users">{{icon 'plus'}} {{i18n 'add friend'}}</a>
+      <a class="showUsersMenu">{{icon 'plus'}} {{i18n 'add friend'}}</a>
+      <div class="userMenu force-hidden">
+        {{iconLinkText name='envelope' url='/network/users/invite' I18n='invite' linkClasses='inviteByEmail'}}
+        {{iconLinkText name='search' url='/search?type=user' I18n='search user' linkClasses='searchUser'}}
+        {{iconLinkText name='map-marker' url='/inventory/public' I18n='find on map' linkClasses='showInventoryPublic'}}
+      </div>
     </div>
     <div id="usersList"></div>
   </div>
@@ -10,7 +15,7 @@
   <div class="list-wrapper">
     <div class="list-label-wrapper">
       <p class="list-label">{{I18n 'groups'}}</p>
-      <a class="showGroupsMenu tiny-button light-blue" href="/network/groups">{{icon 'plus'}} {{i18n 'add group'}}</a>
+      <a class="showGroupsMenu" href="/network/groups">{{icon 'plus'}} {{i18n 'add group'}}</a>
     </div>
     <div id="groupsList"></div>
   </div>

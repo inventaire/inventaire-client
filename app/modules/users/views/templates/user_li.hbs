@@ -7,9 +7,9 @@
 <div class="right-box">
   <a class="select" href="{{pathname}}" title="{{username}}">
     <div class="top">
-      <span class="username serif">{{username}}</span>
+      <span class="username">{{username}}</span>
       {{#if showEmail}}
-        <span class="email">{{email}}</span>
+        <span class="email">({{email}})</span>
       {{/if}}
       {{#unless groupContext}}
         {{#if inventoryLength}}

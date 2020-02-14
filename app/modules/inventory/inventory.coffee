@@ -133,6 +133,8 @@ initializeInventoriesHandlers = (app)->
         when 'public' then API.showPublicInventory()
         else throw error_.new 'unknown section', 400, { section }
 
+    'show:inventory:public': API.showPublicInventory
+
     'show:inventory:general': API.showGeneralInventory
 
     # user can be either a username or a user model

@@ -43,6 +43,8 @@ module.exports = Marionette.Behavior.extend
 
   hideSpinningLoader: (e, params = {})->
     { selector } = params
+    unless @_targets? then console.warn('hideSpinningLoader called before showSpinningLoader')
+    @_targets ?= {}
     @_targets[selector] or= @getTarget selector
     $target = @_targets[selector]
     $target.empty()

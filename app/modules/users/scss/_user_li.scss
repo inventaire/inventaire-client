@@ -28,6 +28,10 @@ $user-bg: #ddd;
     .username{
       margin-left: 0.3em;
     }
+    .email{
+      margin-left: 0.3em;
+      margin-right: auto;
+    }
     .userMenu{
       flex: 0 0 auto;
       @include display-flex(row, center, flex-end);

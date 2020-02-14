@@ -6,6 +6,7 @@ initGroupHelpers = require './lib/group_helpers'
 { getDefaultTab, defaultToSearch } = require './lib/network_tabs'
 fetchData = require 'lib/data/fetch'
 { parseQuery, buildPath } = require 'lib/location'
+InviteByEmail = require 'modules/network/views/invite_by_email'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _)->
@@ -47,6 +48,7 @@ module.exports =
       'show:group:board': showGroupBoardFromModel
       'show:users:search': API.showSearchUsers
       'show:users:nearby': API.showNearbyUsers
+      'show:invite:friend:by:email': API.showInviteFriendByEmail
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
@@ -112,6 +114,9 @@ API =
 
   showGroupSearch: (name)-> API.showSearchGroups "q=#{name}"
   showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', { groupId: id, standalone: true }
+
+  showInviteFriendByEmail: ->
+    app.layout.modal.show new InviteByEmail
 
 showGroupBoardFromModel = (model, options = {})->
   if model.mainUserIsMember()
