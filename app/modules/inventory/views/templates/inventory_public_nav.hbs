@@ -1,6 +1,6 @@
 <div class="map-lists-wrapper {{#if mainUserHasPosition}}mainUserHasPosition{{/if}}">
   <div class="lists">
-    <div class="list-wrapper">
+    <div class="list-wrapper {{#if hideUsers}}hidden{{/if}}">
       <div class="list-header">
         <p class="list-label">{{I18n 'users'}}</p>
         <div class="usersLoading"></div>
@@ -8,7 +8,7 @@
       <div id="usersList"></div>
     </div>
 
-    <div class="list-wrapper">
+    <div class="list-wrapper {{#if hideGroups}}hidden{{/if}}">
       <div class="list-header">
         <p class="list-label">{{I18n 'groups'}}</p>
         <div class="groupsLoading"></div>

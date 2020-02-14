@@ -29,13 +29,21 @@ module.exports = GroupLayoutView.extend
   initialize: ->
     @_lazyUpdateUrl = LazyUpdateUrl @
 
+  onShow: -> app.execute 'modal:open', 'medium'
+
   # Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl: -> @_lazyUpdateUrl()
 
   events: _.extend {}, groupUrlEvents,
     'click #createGroup': 'createGroup'
     'change #searchabilityToggler': 'toggleSearchabilityWarning'
-    'click #showPositionPicker': 'showPositionPicker'
+    # Can't be used as the create_group_layout is already in a modal itself
+    # 'click #showPositionPicker': 'showPositionPicker'
+
+  # showPositionPicker: ->
+  #   app.request 'prompt:group:position:picker'
+  #   .then (position)=> @position = position
+  #   .catch _.Error('showPositionPicker')
 
   serializeData: ->
     description: groupFormData.description()
@@ -43,11 +51,6 @@ module.exports = GroupLayoutView.extend
 
   toggleSearchabilityWarning: ->
     @ui.searchabilityWarning.slideToggle()
-
-  showPositionPicker: ->
-    app.request 'prompt:group:position:picker'
-    .then (position)=> @position = position
-    .catch _.Error('showPositionPicker')
 
   createGroup: (e)->
     name = @ui.nameField.val()
@@ -57,12 +60,14 @@ module.exports = GroupLayoutView.extend
       name: name
       description: description
       searchable: @ui.searchabilityToggler[0].checked
-      position: @position
+      # position: @position
 
     _.log data, 'group data'
 
     Promise.try groups_.validateName.bind(@, name, '#nameField')
     .then groups_.validateDescription.bind(@, description, '#description')
     .then groups_.createGroup.bind(null, data)
-    .then app.Execute('show:group:board')
+    .then (model)->
+      app.execute 'show:group:board', model
+      app.execute 'modal:close'
     .catch forms_.catchAlert.bind(null, @)

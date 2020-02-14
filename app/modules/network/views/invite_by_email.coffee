@@ -34,7 +34,8 @@ module.exports = Marionette.LayoutView.extend
     { @group } = @options
     @groupId = @group?.id
 
-  onShow: -> app.execute 'modal:open', 'medium'
+  onShow: ->
+    unless @group? then app.execute 'modal:open', 'medium'
 
   onRender: ->
     @usersAlreadyThereRegion.show new UsersList
@@ -45,6 +46,7 @@ module.exports = Marionette.LayoutView.extend
       group: @group
 
   serializeData: ->
+    groupContext: @group?
     rawEmails: @rawEmails
     message: @message
     emailsInvited: @emailsInvited

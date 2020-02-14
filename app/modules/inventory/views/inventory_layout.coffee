@@ -29,10 +29,10 @@ module.exports = Marionette.LayoutView.extend
     else if @group?
       @startFromGroup @group
     else
-      { section } = @options
+      { section, filter } = @options
       @showInventoryNav section
       @showSectionNav section
-      @showSectionLastItems section
+      unless filter? then @showSectionLastItems section
 
   startFromUser: (user)->
     app.request 'resolve:to:userModel', user
@@ -91,6 +91,7 @@ module.exports = Marionette.LayoutView.extend
     SectionNav = navs[section]
     unless SectionNav? then return
     options = if type? and model? then { "#{type}": model } else {}
+    options.filter = @options.filter
     @sectionNav.show new SectionNav options
 
   showInventoryBrowser: (type, model)->

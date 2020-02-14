@@ -3,18 +3,18 @@
     margin-bottom: 0;
     margin-right: auto;
   }
-  .showUsersMenu, .showGroupsMenu, .userMenu a{
+  .showUsersMenu, .showGroupsMenu, .buttons a{
     @include tiny-button($light-blue);
   }
   .showUsersMenu, .showGroupsMenu{
     margin-left: 1em;
   }
-  .userMenu{
+  .buttons{
     @include display-flex(row, center, flex-end);
   }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
-    .userMenu{
+    .buttons{
       a{
         margin-left: 1em;
       }
@@ -22,7 +22,7 @@
   }
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
-    .userMenu{
+    .buttons{
       flex-direction: column;
       a{
         margin: 0.5em;

@@ -9,11 +9,11 @@ module.exports =
 
   showGroupSettings: (e)->
     if _.isOpenedOutside e then return
-    else app.execute 'show:group:board', @model, { openedSections: [ 'groupSettings' ] }
+    else app.execute 'show:group:board', @model, { openedSection: 'groupSettings' }
 
   showMembersMenu: (e)->
     if _.isOpenedOutside e then return
-    else app.execute 'show:group:board', @model, { openedSections: [ 'groupInvite', 'groupEmailInvite' ] }
+    else app.execute 'show:group:board', @model, { openedSection: 'groupInvite' }
 
   acceptInvitation: -> @model.acceptInvitation()
   declineInvitation: -> @model.declineInvitation()

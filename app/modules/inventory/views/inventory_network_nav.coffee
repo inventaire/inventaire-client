@@ -9,6 +9,7 @@ module.exports = InventoryCommonNav.extend
 
   ui:
     showUsersMenu: '.showUsersMenu'
+    showGroupsMenu: '.showGroupsMenu'
     userMenu: '.userMenu'
     groupMenu: '.groupMenu'
 
@@ -22,13 +23,19 @@ module.exports = InventoryCommonNav.extend
   events:
     'click .showUsersMenu': 'showUsersMenu'
     'click .showGroupsMenu': 'showGroupsMenu'
+
     'click .inviteByEmail': _.clickCommand 'show:invite:friend:by:email'
     'click .searchUser': _.clickCommand 'show:user:search'
-    'click .showInventoryPublic': _.clickCommand 'show:inventory:public'
+    'click .showUsersNearby': _.clickCommand 'show:users:nearby'
+
+    'click .searchGroup': _.clickCommand 'show:group:search'
+    'click .createGroup': _.clickCommand 'create:group'
+    'click .showGroupsNearby': _.clickCommand 'show:groups:nearby'
 
   showUsersMenu: ->
     @ui.showUsersMenu.hide()
     @ui.userMenu.removeClass 'force-hidden'
 
   showGroupsMenu: (e)->
-    unless _.isOpenedOutside e then app.execute 'show:groups:menu'
+    @ui.showGroupsMenu.hide()
+    @ui.groupMenu.removeClass 'force-hidden'

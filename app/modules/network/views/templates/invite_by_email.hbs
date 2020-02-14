@@ -1,4 +1,6 @@
-<h3>{{icon 'envelope'}} {{I18n 'invite friends by email'}}</h3>
+{{#unless groupContext}}
+  <h3>{{icon 'envelope'}} {{I18n 'invite friends by email'}}</h3>
+{{/unless}}
 
 <form>
   <label for="invitations">{{I18n 'email address'}}</label>

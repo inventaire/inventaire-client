@@ -13,7 +13,12 @@ module.exports = GroupLayoutView.extend
     return "groupBoard #{standalone}"
 
   initialize: ->
-    { @standalone, @openedSections } = @options
+    { @standalone, @openedSection } = @options
+
+    # Join requests will be showned instead
+    if @openedSection is 'groupSettings' and @model.mainUserIsAdmin() and @model.get('requested').length > 0
+      @openedSection = null
+
     @_alreadyShownSection = {}
     @listenTo @model, 'action:accept', @render.bind(@)
     @listenTo @model, 'action:leave', @onLeave.bind(@)
@@ -46,8 +51,7 @@ module.exports = GroupLayoutView.extend
     'click .section-toggler': 'toggleSection'
 
   onShow: ->
-    if @openedSections?
-      @openedSections.forEach @toggleUi.bind(@)
+    if @openedSection? then @toggleUi @openedSection
 
   showHeader: ->
     @header.show new GroupBoardHeader { @model }

@@ -5,7 +5,7 @@ initLayout = require './lib/layout'
 ItemsCascade = require './views/items_cascade'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
-{ currentRoute } = require 'lib/location'
+{ parseQuery, currentRoute, buildPath } = require 'lib/location'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -42,10 +42,14 @@ API =
       showInventory { section: 'network' }
       app.navigate 'inventory/network'
 
-  showPublicInventory: ->
-    if app.request 'require:loggedIn', 'inventory/network'
-      showInventory { section: 'public' }
-      app.navigate 'inventory/public'
+  showPublicInventory: (options = {})->
+    if _.isString options then options = parseQuery options
+    { filter } = options
+    url = buildPath 'inventory/public', { filter }
+
+    if app.request 'require:loggedIn', url
+      showInventory { section: 'public', filter }
+      app.navigate url
 
   showUserInventory: (user, standalone)->
     showInventory { user, standalone }
@@ -133,9 +137,8 @@ initializeInventoriesHandlers = (app)->
         when 'public' then API.showPublicInventory()
         else throw error_.new 'unknown section', 400, { section }
 
-    'show:inventory:public': API.showPublicInventory
-
-    'show:inventory:general': API.showGeneralInventory
+    'show:users:nearby': -> API.showPublicInventory { filter: 'users' }
+    'show:groups:nearby': -> API.showPublicInventory { filter: 'groups' }
 
     # user can be either a username or a user model
     'show:inventory:user': (user)->

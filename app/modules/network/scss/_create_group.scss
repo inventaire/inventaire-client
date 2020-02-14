@@ -1,15 +1,15 @@
 #createGroupLayout{
-  margin-top: 1em;
-  padding: 1em;
-  background-color: white;
+  @include display-flex(column, stretch, center);
+  h3{
+    text-align: center;
+  }
   label{
     color: black;
     text-align: left;
     font-size: 1em;
   }
-  flex: 1 1 auto;
-  a#createGroup{
-    margin-top: 1em;
+  #createGroup{
+    margin: 1em auto;
   }
   .showGroup{
     @include tiny-button($success-color);

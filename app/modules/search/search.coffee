@@ -16,6 +16,7 @@ module.exports =
     app.commands.setHandlers
       'search:global': API.search
       'show:user:search': -> API.search '', 'user'
+      'show:group:search': -> API.search '', 'group'
 
     app.reqres.setHandlers
       'search:entities': API.searchEntities

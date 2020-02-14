@@ -11,8 +11,15 @@ module.exports = InventoryCommonNav.extend
   template: require './templates/inventory_public_nav'
 
   initialize: ->
+    { @filter } = @options
+
+    if @filter?
+      if @filter is 'users' then @hideGroups = true
+      else if @filter is 'groups' then @hideUsers = true
+
     @users = new FilteredCollection(new Users)
     @groups = new FilteredCollection(new Groups)
+
     @lazyRender = _.LazyRender @
     # Listen for the server confirmation instead of simply the change
     # so that 'nearby' request aren't done while the server
@@ -29,12 +36,14 @@ module.exports = InventoryCommonNav.extend
 
   serializeData: ->
     mainUserHasPosition: app.user.get('position')?
+    hideUsers: @hideUsers
+    hideGroups: @hideGroups
 
   onRender: ->
     if app.user.get('position')?
       @initMap()
-      @showList @usersList, @users
-      @showList @groupsList, @groups
+      unless @hideUsers then @showList @usersList, @users
+      unless @hideGroups then @showList @groupsList, @groups
 
   initMap: ->
     initMap
@@ -51,9 +60,13 @@ module.exports = InventoryCommonNav.extend
     displayedElementsCount = @users.length + @groups.length
     if map._zoom < 10 and displayedElementsCount > 20 then return
     bbox = getBbox map
-    showUserOnMap map, app.user
-    @showByPosition 'users', bbox
-    @showByPosition 'groups', bbox
+
+    unless @hideUsers
+      showUserOnMap map, app.user
+      @showByPosition 'users', bbox
+
+    unless @hideGroups
+      @showByPosition 'groups', bbox
 
   showByPosition: (name, bbox)->
     startLoading.call @, ".#{name}Loading"
@@ -63,8 +76,8 @@ module.exports = InventoryCommonNav.extend
       stopLoading.call @, ".#{name}Loading"
 
   onMovend: ->
-    refreshListFilter.call @, @users, @map
-    refreshListFilter.call @, @groups, @map
+    unless @hideUsers then refreshListFilter.call @, @users, @map
+    unless @hideGroups then refreshListFilter.call @, @groups, @map
     @fetchAndShowUsersAndGroupsOnMap @map
 
   showUser: (e)->

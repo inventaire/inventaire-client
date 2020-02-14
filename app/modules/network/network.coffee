@@ -6,7 +6,8 @@ initGroupHelpers = require './lib/group_helpers'
 { getDefaultTab, defaultToSearch } = require './lib/network_tabs'
 fetchData = require 'lib/data/fetch'
 { parseQuery, buildPath } = require 'lib/location'
-InviteByEmail = require 'modules/network/views/invite_by_email'
+InviteByEmail = require './views/invite_by_email'
+CreateGroupLayout = require './views/create_group_layout'
 
 module.exports =
   define: (Redirect, app, Backbone, Marionette, $, _)->
@@ -49,6 +50,7 @@ module.exports =
       'show:users:search': API.showSearchUsers
       'show:users:nearby': API.showNearbyUsers
       'show:invite:friend:by:email': API.showInviteFriendByEmail
+      'create:group': API.showCreateGroupLayout
 
     app.reqres.setHandlers
       'get:network:counters': networkCounters
@@ -115,15 +117,15 @@ API =
   showGroupSearch: (name)-> API.showSearchGroups "q=#{name}"
   showGroupInventory: (id)-> app.execute 'show:inventory:group:byId', { groupId: id, standalone: true }
 
-  showInviteFriendByEmail: ->
-    app.layout.modal.show new InviteByEmail
+  showInviteFriendByEmail: -> app.layout.modal.show new InviteByEmail
+  showCreateGroupLayout: -> app.layout.modal.show new CreateGroupLayout
 
 showGroupBoardFromModel = (model, options = {})->
   if model.mainUserIsMember()
     model.beforeShow()
     .then ->
-      { openedSections } = options
-      app.layout.main.show new GroupBoard { model, standalone: true, openedSections }
+      { openedSection } = options
+      app.layout.main.show new GroupBoard { model, standalone: true, openedSection }
       app.navigateFromModel model, 'boardPathname'
   else
     # If the user isnt a member, redirect to the standalone group inventory
