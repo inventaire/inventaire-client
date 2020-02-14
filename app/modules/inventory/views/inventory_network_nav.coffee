@@ -15,7 +15,7 @@ module.exports = InventoryCommonNav.extend
 
   onShow: ->
     app.request 'fetch:friends'
-    .then (collection)=> @showList @usersList, collection
+    .then => @showList @usersList, app.users.filtered.friends()
 
     app.request 'wait:for', 'groups'
     .then => @showList @groupsList, app.groups
