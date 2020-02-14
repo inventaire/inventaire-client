@@ -150,7 +150,7 @@ module.exports = Marionette.ItemView.extend
         app.groups.remove group
         # And change page as staying on the same page would just display
         # the group as empty but accepting a join request
-        app.execute 'show:group:user'
+        app.execute 'show:inventory:network'
       .catch _.ErrorRethrow('destroyGroup action err')
 
     @_leaveGroup 'destroy_group_confirmation', 'cant_undo_warning', action

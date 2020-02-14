@@ -25,10 +25,10 @@ module.exports = InventoryCommonNav.extend
     'click .showGroupsMenu': 'showGroupsMenu'
 
     'click .inviteByEmail': _.clickCommand 'show:invite:friend:by:email'
-    'click .searchUser': _.clickCommand 'show:user:search'
+    'click .searchUsers': _.clickCommand 'show:users:search'
     'click .showUsersNearby': _.clickCommand 'show:users:nearby'
 
-    'click .searchGroup': _.clickCommand 'show:group:search'
+    'click .searchGroups': _.clickCommand 'show:groups:search'
     'click .createGroup': _.clickCommand 'create:group'
     'click .showGroupsNearby': _.clickCommand 'show:groups:nearby'
 

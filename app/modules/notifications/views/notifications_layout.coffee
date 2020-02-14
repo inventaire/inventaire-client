@@ -1,5 +1,5 @@
 UsersList = require 'modules/users/views/users_list'
-GroupList = require 'modules/network/views/groups_list'
+GroupsList = require 'modules/network/views/groups_list'
 
 NotificationsList = Marionette.CollectionView.extend
   tagName: 'ul'
@@ -59,7 +59,7 @@ module.exports = Marionette.LayoutView.extend
   showGroupsInvitations: ->
     if app.groups.mainUserInvited.length > 0
       @ui.groupsInvitationsSection.removeClass 'hidden'
-      @groupsInvitationsList.show new GroupList { collection: app.groups.mainUserInvited }
+      @groupsInvitationsList.show new GroupsList { collection: app.groups.mainUserInvited }
 
   showNotificationsList: ->
     @notificationsList.show new NotificationsList { collection: @notifications }

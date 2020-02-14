@@ -122,6 +122,8 @@ module.exports = GroupLayoutView.extend
 
   showMembersInvitor: ->
     group = @model
+    # TODO: replace UsersSearchLayout by a user list fed with search results
+    # that aren't added to the deprecated global users collections
     @groupInvite.show new UsersSearchLayout
       stretch: false
       updateRoute: false

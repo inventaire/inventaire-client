@@ -1,6 +1,5 @@
 UsersList = require 'modules/users/views/users_list'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-updateRoute = require('../lib/update_query_route')('users', 'searchUsers')
+{ startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   id: 'usersSearchLayout'
@@ -17,9 +16,6 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @collection = app.users.filtered.resetFilters()
     @initSearch()
-    { @stretch, @updateRoute } = @options
-    @stretch ?= true
-    @updateRoute ?= true
 
   serializeData: ->
     usersSearch:
@@ -31,7 +27,6 @@ module.exports = Marionette.LayoutView.extend
     @lastQuery = ''
     @usersList.show new UsersList {
       @collection,
-      @stretch,
       groupContext: @options.groupContext,
       group: @options.group
       emptyViewMessage: @options.emptyViewMessage
@@ -43,7 +38,7 @@ module.exports = Marionette.LayoutView.extend
     $('.noUser').hide()
 
   onRender: ->
-    behaviorsPlugin.startLoading.call @, '#usersList'
+    startLoading.call @, '#usersList'
 
   initSearch: ->
     q = @options.query?.q
@@ -51,7 +46,6 @@ module.exports = Marionette.LayoutView.extend
 
   searchUserFromEvent: (e)->
     query = e.target.value
-    if @updateRoute then updateRoute query
     @searchUser query
 
   searchUser: (query)->

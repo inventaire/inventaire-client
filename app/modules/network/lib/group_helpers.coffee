@@ -33,17 +33,6 @@ module.exports = ->
     action: 'update-settings'
     modelIdLabel: 'group'
 
-  getGroupsInCommon = (user)->
-    return groups.filter (group)->
-      return group.mainUserIsMember() and group.userStatus(user) is 'member'
-
-  # returns the groups the main user visited in this session
-  # but isnt a member of
-  otherVisitedGroups = (user)->
-    return groups.filter (group)->
-      mainUserIsntMember = not group.mainUserIsMember()
-      return mainUserIsntMember and group.userStatus(user) is 'member'
-
   getGroupModel = (id)->
     if _.isGroupId(id) then getGroupModelById id
     else getGroupModelFromSlug id
@@ -60,23 +49,10 @@ module.exports = ->
   app.reqres.setHandlers
     'get:group:model': getGroupModel
     'group:update:settings': groupSettingsUpdater
-    'get:groups:common': getGroupsInCommon
-    'get:groups:others:visited': otherVisitedGroups
     'resolve:to:groupModel': resolveToGroupModel
 
   initGroupFilteredCollection groups, 'mainUserMember'
   initGroupFilteredCollection groups, 'mainUserInvited'
-
-  groups.filtered = require('./groups_search')(groups)
-
-  app.reqres.setHandlers
-    'groups:last': ->
-      _.preq.get app.API.groups.last
-      .get 'groups'
-
-    'groups:search': (text)->
-      _.preq.get app.API.groups.search(text)
-      .get 'groups'
 
 initGroupFilteredCollection = (groups, name)->
   filtered = groups[name] = new FilteredCollection groups

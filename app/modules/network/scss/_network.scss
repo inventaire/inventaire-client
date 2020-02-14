@@ -1,7 +1,10 @@
+@import 'invite_by_email';
 @import 'group_commons';
-@import 'network_layout';
 @import 'group_li';
 @import 'group_actions';
+@import 'group_board';
+@import 'group_board_header';
+@import 'create_group';
 
 .picture-color-filter{
   background-size: cover;

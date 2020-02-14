@@ -137,6 +137,9 @@ initializeInventoriesHandlers = (app)->
         when 'public' then API.showPublicInventory()
         else throw error_.new 'unknown section', 400, { section }
 
+    'show:inventory:network': API.showNetworkInventory
+    'show:inventory:public': API.showPublicInventory
+
     'show:users:nearby': -> API.showPublicInventory { filter: 'users' }
     'show:groups:nearby': -> API.showPublicInventory { filter: 'groups' }
 

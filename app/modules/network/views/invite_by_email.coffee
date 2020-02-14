@@ -75,6 +75,8 @@ module.exports = Marionette.LayoutView.extend
     users.forEach @_addUser.bind(@)
 
   _addUser: (user)->
+    # TODO: get user model without adding it to global collections
+    # that aren't used anywhere anymore
     userModel = app.request 'user:add', user
     # in cases the public was already there
     # the previous model will be kept and the email lost

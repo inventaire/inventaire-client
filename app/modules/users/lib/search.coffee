@@ -16,16 +16,10 @@ module.exports = (app)->
       app.users.queried.push text
       return app.users.filtered.filterByText text
 
-  searchByPosition = (bbox)->
-    usersData.searchByPosition bbox
-    .then addUsersUnlessHere
-
   addUsersUnlessHere = (users)->
     # Need to waitForNetwork as isntAlreadyHere can't
     # do it's job if user relations data haven't return yet
     app.request 'waitForNetwork'
     .then -> app.execute 'users:add', users
 
-  return API =
-    searchByText: searchByText
-    searchByPosition: searchByPosition
+  return { searchByText }

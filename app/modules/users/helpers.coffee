@@ -12,14 +12,6 @@ module.exports = (app)->
       else return
 
   async =
-    fetchUsersData: (ids)->
-      unless ids.length > 0 then return Promise.resolve []
-
-      missingIds = _.difference ids, app.users.allIds()
-
-      usersData.get missingIds, 'collection'
-      .then addUsers
-
     getUserModel: (id, refresh)->
       if id is app.user.id then return Promise.resolve app.user
 
@@ -84,17 +76,15 @@ module.exports = (app)->
 
   addUser = (users)-> addUsers(users)[0]
 
-  { searchByText, searchByPosition } = require('./lib/search')(app)
+  { searchByText } = require('./lib/search')(app)
 
   app.reqres.setHandlers
     'get:user:model': async.getUserModel
     'get:users:models': async.getUsersModels
-    'fetch:users:data': async.fetchUsersData
     'resolve:to:userModel': async.resolveToUserModel
     'get:userModel:from:userId': sync.getUserModelFromUserId
     'get:userId:from:username': async.getUserIdFromUsername
     'users:search': searchByText
-    'users:search:byPosition': searchByPosition
     'user:add': addUser
 
   app.commands.setHandlers

@@ -2,7 +2,6 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
 module.exports =
-
   createGroup: (data)->
     { name, description, searchable, position } = data
     { groups } = app
