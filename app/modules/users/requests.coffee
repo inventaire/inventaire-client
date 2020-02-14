@@ -10,6 +10,7 @@ module.exports = (app, _)->
   rewind = (user, currentStatus, label)-> (err)->
     user.set 'status', currentStatus
     _.error err, 'action'
+    throw err
 
   refreshNotificationsCounter = ->
     app.request 'refresh:relations'
