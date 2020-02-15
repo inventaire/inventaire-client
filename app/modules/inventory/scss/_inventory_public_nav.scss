@@ -29,6 +29,14 @@
   }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
+    .position-required{
+      > .fa-map-marker{
+        margin-top: 2rem;
+      }
+      #showPositionPicker{
+        margin-top: 4em;
+      }
+    }
     .map-lists-wrapper{
       > div{
         flex: 1 0 0;
