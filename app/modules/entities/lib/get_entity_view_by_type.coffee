@@ -21,6 +21,7 @@ getEntityViewByType = (model, refresh)->
 
   { defaultClaimProperty: property } = model
   value = model.get 'uri'
+  property or= 'wdt:P921'
   return new ClaimLayout { property, value, refresh }
 
 getEditionView = (model, refresh)->
