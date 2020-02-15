@@ -30,6 +30,3 @@ module.exports = Marionette.CollectionView.extend
   childViewOptions: ->
     context: @options.context
     group: @options.group
-  emptyView: require 'modules/inventory/views/no_item'
-  emptyViewOptions:
-    showIcon: false
