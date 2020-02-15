@@ -11,22 +11,7 @@
   .central-column{
     @include central-column(42em);
   }
-  .custom-tabs-content{
-    background-color: white;
-    width: 100%;
-  }
   padding-top: 1em;
-
-  .custom-tabs-titles{
-    .title{
-      @include sans-serif;
-    }
-    a.active{
-      background-color: white;
-      font-weight: bold;
-    }
-  }
-
   section{
     margin: 1em 0;
     padding: 2em 1em;
@@ -44,28 +29,12 @@
     font-weight: bold;
   }
 
-  .custom-tabs-titles a:not(.active){
-    color: white;
-    @include bg-hover($dark-grey);
-  }
-
   /*Small screens*/
   @media screen and (max-width: 500px) {
     padding-top: 0;
-    .custom-tabs-titles{
-      .active{
-        background-color: #fafafa;
-      }
-      .title{
-        display: none;
-      }
-    }
     .layout-title{
       text-align: center;
       @include sans-serif;
-    }
-    .custom-tabs-content{
-      padding: 0.5em;
     }
     section{
       padding: 1em 0;
