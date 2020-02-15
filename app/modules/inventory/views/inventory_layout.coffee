@@ -62,7 +62,14 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showUserInventory: (userModel)->
-    @showInventoryBrowser 'user', userModel
+    if userModel is app.user and userModel.get('itemsCount') is 0
+      @showInventoryWelcome()
+    else
+      @showInventoryBrowser 'user', userModel
+
+  showInventoryWelcome: ->
+    InventoryWelcome = require './inventory_welcome'
+    @itemsList.show new InventoryWelcome
 
   showGroupInventory: (groupModel)->
     groupModel.beforeShow()

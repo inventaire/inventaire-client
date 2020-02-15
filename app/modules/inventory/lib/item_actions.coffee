@@ -6,7 +6,10 @@ module.exports =
 
     _.preq.post app.API.items.base, itemData
     .then _.Log('item data after creation')
-    .then (data)-> new Item data
+    .then (data)->
+      model = new Item data
+      app.user.trigger 'items:change', null, model.get('listing')
+      return model
 
   update: (options)->
     # expects: items (models or ids), attribute, value
@@ -24,7 +27,7 @@ module.exports =
     ids = items.map getIdFromModelOrId
 
     _.preq.put app.API.items.update, { ids, attribute, value }
-    .tap propagateChange(items, attribute)
+    .tap propagateItemsChanges(items, attribute)
     .catch rollbackUpdate(items)
 
   delete: (options)->
@@ -54,7 +57,7 @@ module.exports =
 
 getIdFromModelOrId = (item)-> if _.isString item then item else item.id
 
-propagateChange = (items, attribute)-> ->
+propagateItemsChanges = (items, attribute)-> ->
   items.forEach (item)->
     # TODO: update counters for non-model items too
     if _.isString item then return

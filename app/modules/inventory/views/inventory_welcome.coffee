@@ -5,10 +5,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/inventory_welcome'
 
   events:
-    'click a[href="/add"]': 'showAddLayout'
+    'click a[href="/add"]': _.clickCommand 'show:add:layout:search'
 
   behaviors:
     PreventDefault: {}
-
-  showAddLayout: (e)->
-    unless _.isOpenedOutside e then app.execute 'show:add:layout:search'
