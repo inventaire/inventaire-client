@@ -1,18 +1,24 @@
-itemActions = require '../plugins/item_actions'
-
 module.exports = Marionette.ItemView.extend
-  tagName: 'tr'
+  tagName: 'li'
+  className: 'item-row'
   template: require './templates/item_row'
-  behaviors:
-    PreventDefault: {}
 
   initialize: ->
-    @initPlugins()
+    { @isMainUser, @getSelectedIds } = @options
+    @listenTo @model, 'change', @render.bind(@)
 
-  initPlugins: ->
-    itemActions.call @
+  serializeData: ->
+    _.extend @model.serializeData(),
+      checked: @getCheckedStatus()
+      isMainUser: @isMainUser
 
-  serializeData: -> @model.serializeData()
+  events:
+    'click .showItem': 'showItem'
 
-  onRender: ->
-    app.execute 'uriLabel:update'
+  showItem: (e)->
+    if _.isOpenedOutside e then return
+    else app.execute 'show:item', @model
+
+  getCheckedStatus: ->
+    if @getSelectedIds? then return @model.id in @getSelectedIds()
+    else return false

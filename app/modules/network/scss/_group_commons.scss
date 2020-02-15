@@ -1,0 +1,25 @@
+$coverTextBg: rgba($dark-grey, 0.9);
+
+.groupLi, .groupProfile, .group-board-header{
+  .group-cover-picture .name{
+    text-align: center;
+    font-size: 1.5em;
+    @include text-wrap;
+    max-width: 100%;
+  }
+}
+.groupLi, .groupProfile{
+  .group-cover-picture .name{
+    max-height: 3em;
+  }
+}
+
+.group-board-header, .groupProfile{
+  .name{
+    color: white;
+    margin: auto;
+    font-size: 1.6em;
+    font-weight: bold;
+    @include serif;
+  }
+}

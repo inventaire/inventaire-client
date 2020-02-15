@@ -1,17 +1,11 @@
-groupPlugin = require '../plugins/group'
+{ GroupItemView } = require './group_views_commons'
 
-module.exports = Marionette.ItemView.extend
+module.exports = GroupItemView.extend
   template: require './templates/group_board_header'
   className: 'group-board-header'
   initialize: ->
-    @initPlugin()
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @lazyRender
-
-    # TODO: recover users items counters from user.snapshot.items:count data
-
-  initPlugin: ->
-    groupPlugin.call @
 
   behaviors:
     PreventDefault: {}

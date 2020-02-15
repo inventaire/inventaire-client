@@ -1,5 +1,16 @@
-<h2>{{i18n 'notifications'}}</h2>
-<ul></ul>
-<div class="show-notifications-settings-wrapper">
-  {{iconLinkText name='envelope' url='/settings/notifications' I18n='email notifications settings' linkClasses='link showNotificationsSettings'}}
-</div>
+<section class="friendsRequests hidden">
+  <h3>{{i18n 'pending friends requests'}}</h3>
+  <div id="friendsRequestsList"></div>
+</section>
+
+<section class="groupsInvitations hidden">
+  <h3>{{i18n 'pending groups invitations'}}</h3>
+  <div id="groupsInvitationsList"></div>
+</section>
+
+<section class="notifications">
+  <h3>{{i18n 'notifications'}}</h3>
+  <div id="notificationsList"></div>
+
+  {{iconLinkText name='envelope' url='/settings/notifications' I18n='email notifications settings' linkClasses='showNotificationsSettings button dark-grey'}}
+</section>

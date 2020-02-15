@@ -3,6 +3,7 @@
   padding-bottom: 2em;
   width: 100%;
   @include display-flex(column, center, center);
+  @include multidef-bg-cover('brittanystevens.jpg', 'hd');
   div{
     @include radius;
     text-align: center;

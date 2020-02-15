@@ -31,8 +31,12 @@ module.exports = Marionette.ItemView.extend
 
   showTransaction: (e)->
     unless _.isOpenedOutside(e)
-      if @options.onItem then app.execute 'show:transaction', @model.id
-      else app.vent.trigger 'transaction:select', @model
+      if @options.onItem
+        app.execute 'show:transaction', @model.id
+        # Required to close the ItemShow modal if one was open
+        app.execute 'modal:close'
+      else
+        app.vent.trigger 'transaction:select', @model
 
   autoSelect: (transac)->
     if transac is @model then @$el.addClass 'selected'

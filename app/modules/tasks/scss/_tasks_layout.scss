@@ -39,7 +39,7 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .bottom-bar{
-      @include position(fixed, null, 0, 0, $icon-nav-width, 1);
+      @include position(fixed, null, 0, 0, 0, 1);
     }
     .controls{
       padding: 0.5em;

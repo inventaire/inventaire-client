@@ -1,55 +1,38 @@
-<h3 class="first">{{i18n 'profile pic'}}</h3>
-{{partial 'general:behaviors:change_picture' this}}
+<h2 class="layout-title">{{I18n 'profile'}}</h2>
 
-<hr>
-<h3>{{i18n 'language'}}</h3>
-{{partial 'user:language_picker' this 'check'}}
+<section>
+  <h3 class="with-tip">{{i18n 'username'}}</h3>
+  <p class="note">{{I18n 'username_tip'}}</p>
+  {{input usernamePicker}}
+</section>
 
-<hr>
-<h3 class="with-tip">{{i18n 'username'}}</h3>
-<p class="note">{{i18n 'username_tip'}}</p>
-{{input usernamePicker}}
-
-<hr>
-<h3>{{i18n 'email'}}</h3>
-<p class="note">{{i18n 'email will not be publicly displayed.'}}</p>
-{{input emailPicker}}
-
-<div id="confirmationEmailSent" class="hidden successMessageBox">
-  {{icon 'check'}}
-  {{{i18n 'new_confirmation_email'}}}
-</div>
-
-{{#unless validEmail}}
-  <div id="notValidEmail" class="alertMessageBox">
-    <span class="alert">
-      {{icon 'warning'}}
-      {{{i18n 'email_wasnt_verified'}}}
-    </span>
-    <a id="emailConfirmationRequest" class="button dark-grey radius">
-      {{i18n 'email_confirmation_error_button'}}
-    </a>
+<section>
+  <h3 class="with-tip">{{i18n 'presentation'}}</h3>
+  <p class="note">{{I18n 'a few words on you?'}}</p>
+  <div class="bio-wrapper checkWrapper ctrlEnterClickWrapper">
+    <textarea name="bio" id="bio" class="ctrlEnterClick">{{bio}}</textarea>
+    <div class="bioLimit"></div>
+    <button id="saveBio" class="save light-blue-button">{{I18n 'save presentation'}}</button>
+    <span class="check"></span>
   </div>
-{{/unless}}
+</section>
 
-<hr>
-{{partial 'settings:password_update_input' this 'check'}}
+<section>
+  <h3 class="first">{{i18n 'profile pic'}}</h3>
+  {{partial 'general:behaviors:change_picture' this}}
+</section>
 
-<hr>
-<h3>{{i18n 'geolocation'}}</h3>
-<p class="position-status">
-  {{#if hasPosition}}
-    {{i18n "you have a position set"}}<br>
-    <span class="coordinates">{{position.lat}}, {{position.lng}}</span>
-  {{else}}
-    {{i18n "your position isn't set yet"}}
-  {{/if}}
-</p>
-{{partial 'map:position_picker_button'}}
+<section class="geolocation">
+  <h3>{{i18n 'geolocation'}}</h3>
+  <p class="position-status">
+    {{#if hasPosition}}
+      {{i18n "you have a position set"}}<br>
+      <span class="coordinates">{{position.lat}}, {{position.lng}}</span>
+    {{else}}
+      {{i18n "your position isn't set yet"}}
+    {{/if}}
+  </p>
+  {{partial 'map:position_picker_button'}}
+</section>
 
-<hr>
-<h3 class="danger-zone">{{i18n 'danger zone'}}</h3>
-
-<div class="deleteAccount">
-  <a id="deleteAccount" class="dangerous-button">{{I18n 'delete your account'}}</a>
-</div>
+{{iconLinkText name='check' url=userPathname linkClasses="done success-button" I18n='done'}}

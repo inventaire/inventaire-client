@@ -1,30 +1,22 @@
 #inviteByEmail{
-  width: 100%;
-  background-color: $contrast;
-  margin: 1em 0;
-  padding: 2em 1em 1em 1em;
+  h3{
+    text-align: center;
+  }
+  form{
+    @include display-flex(column, stretch, center);
+  }
+  textarea{
+    margin: 0;
+  }
+  .invitations, .message{
+    margin-bottom: 1em;
+  }
+  #sendInvitations{
+    align-self: center;
+  }
   label{
     text-align: left;
     font-size: 1em;
-  }
-  .invitations{
-    textarea{
-      margin: 0;
-    }
-  }
-  .message{
-    text-align: right;
-    padding-bottom: 1em;
-    a{
-      @include text-hover($dark-grey);
-      @include underline(rgba($dark-grey, 0.5));
-    }
-    textarea{
-      margin-top: 1em;
-    }
-    &.has-message a, &:not(.has-message) textarea{
-      display: none;
-    }
   }
   .email-sent{
     @include display-flex(row, center, center, wrap);

@@ -1,7 +1,8 @@
 views =
   profile: require './profile_settings'
+  account: require './account_settings'
   notifications: require './notifications_settings'
-  labs: require './labs_settings'
+  data: require './data_settings'
 
 module.exports = Marionette.LayoutView.extend
   id: 'settings'
@@ -12,8 +13,9 @@ module.exports = Marionette.LayoutView.extend
   ui:
     tabsTitles: '.custom-tabs-titles'
     profileTitle: '#profile'
+    accountTitle: '#account'
     notificationsTitle: '#notifications'
-    labsTitle: '#labs'
+    dataTitle: '#data'
 
   onShow: ->
     app.request 'wait:for', 'user'
@@ -21,8 +23,9 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #profile': 'showProfileSettings'
+    'click #account': 'showAccountSettings'
     'click #notifications': 'showNotificationsSettings'
-    'click #labs': 'showLabsSettings'
+    'click #data': 'showDataSettings'
 
   showTab: (tab)->
     View = views[tab]
@@ -44,5 +47,6 @@ module.exports = Marionette.LayoutView.extend
     @ui[tab].addClass 'active'
 
   showProfileSettings: -> @showTab 'profile'
+  showAccountSettings: -> @showTab 'account'
   showNotificationsSettings: -> @showTab 'notifications'
-  showLabsSettings: -> @showTab 'labs'
+  showDataSettings: -> @showTab 'data'

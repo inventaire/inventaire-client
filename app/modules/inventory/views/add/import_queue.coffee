@@ -10,9 +10,9 @@ CandidatesQueue = Marionette.CollectionView.extend
   childEvents:
     'selection:changed': -> @triggerMethod 'selection:changed'
 
-ItemsList = Marionette.CollectionView.extend
+ImportedItemsList = Marionette.CollectionView.extend
   tagName: 'ul'
-  childView: require './item_row'
+  childView: require './imported_item_row'
 
 module.exports = Marionette.LayoutView.extend
   className: 'import-queue'
@@ -59,7 +59,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     @candidatesQueue.show new CandidatesQueue { collection: @candidates }
-    @itemsList.show new ItemsList { collection: @items }
+    @itemsList.show new ImportedItemsList { collection: @items }
     @lazyUpdateSteps()
 
   selectAll: ->
@@ -106,7 +106,7 @@ module.exports = Marionette.LayoutView.extend
     listing = getSelectorData @, 'listing'
 
     @chainedImport transaction, listing
-    @startProgressUpdate()
+    @planProgressUpdate()
 
   chainedImport: (transaction, listing)->
     if @selected.length is 0 then return @doneImporting()
@@ -147,11 +147,14 @@ module.exports = Marionette.LayoutView.extend
   toggleValidationElements: ->
     @ui.validationElements.toggleClass 'force-hidden'
 
-  startProgressUpdate: ->
-    @intervalId = setInterval @updateProgress.bind(@), 1000
+  planProgressUpdate: ->
+    # Using a recursive timeout instead of an interval
+    # to avoid trying to update after a failed attempt
+    # Typically occurring when the view as been destroyed
+    @timeoutId = setTimeout @updateProgress.bind(@), 1000
 
   stopProgressUpdate: ->
-    clearInterval @intervalId
+    clearTimeout @timeoutId
 
   updateProgress: ->
     remaining = @selected.length
@@ -159,3 +162,6 @@ module.exports = Marionette.LayoutView.extend
     percent = (added / @total) * 100
     @ui.meter.css 'width', "#{percent}%"
     @ui.fraction.text "#{added} / #{@total}"
+    @planProgressUpdate()
+
+  onDestroy: -> @stopProgressUpdate()

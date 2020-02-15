@@ -40,7 +40,7 @@ module.exports = Marionette.ItemView.extend
     nonPrivateInventoryLength = true
     attrs = @model.serializeData nonPrivateInventoryLength
     # required by the invitations by email users list
-    attrs.showEmail = @options.showEmail
+    attrs.showEmail = @options.showEmail and attrs.email?
     attrs.stretch = @options.stretch
     if @groupContext then @customizeGroupsAttributes attrs
     return attrs

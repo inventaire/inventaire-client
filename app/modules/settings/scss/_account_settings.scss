@@ -1,0 +1,69 @@
+.accountSettings{
+  #notValidEmail, #confirmationEmailSent{
+    color: white;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  #notValidEmail{
+    span, .a{
+      @include radius;
+      display: block;
+    }
+    .alert{
+      width: 100%;
+      background-color: $warning-color;
+      padding: 0.5em;
+      margin: 2em 0;
+    }
+  }
+
+  #confirmationEmailSent{
+    @include radius;
+    .fa{
+      font-size: 2em;
+      margin: 0 auto;
+      display: block;
+    }
+    background-color: $success-color;
+    padding: 0.5em;
+    margin-top: 2em;
+  }
+
+  #passwordUpdater{
+    max-width: 20em;
+    input[name=username]{
+      display: none;
+    }
+  }
+  #passwordUpdater{
+    margin: auto;
+  }
+  #updatePassword{
+    @include radius;
+    margin-top: 1em;
+  }
+  div.forgotPassword{
+    text-align: right;
+    a{
+      // color: $grey;
+      font-size: 0.9em;
+      margin-top: -1em;
+    }
+  }
+}
+
+#languagePicker{
+  max-width: 20em;
+}
+
+.deleteAccount{
+  text-align: center;
+  padding: 1em;
+  margin: 2em 0;
+  display: inline-block;
+}
+
+.danger-zone{
+  color: $danger-color;
+}

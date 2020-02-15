@@ -2,7 +2,6 @@ SignupClassic = require './views/signup_classic'
 Login = require './views/login'
 ForgotPassword = require './views/forgot_password'
 ResetPassword = require './views/reset_password'
-fetchData = require 'lib/data/fetch'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->

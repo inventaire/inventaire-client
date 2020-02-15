@@ -1,0 +1,159 @@
+.groupProfile{
+  background-color: #eee;
+  .section-one{
+    flex: 1 0 auto;
+  }
+  .cover-header{
+    max-width: 100%;
+    @include display-flex(column, center, center);
+    height: 18em;
+    position: relative;
+    .iconButtons{
+      @include position(absolute, 3px, 3px);
+      @include display-flex(column, center, space-between);
+      @include radius;
+      font-size: 1.4em;
+      a{
+        padding: 0.3em;
+        @include bg-hover($coverTextBg);
+        .fa{
+          color: white;
+          width: 2em;
+          text-align: center;
+        }
+      }
+    }
+    .info{
+      // Somehow needed to make it appear above group-cover-picture and picture-color-filter
+      position: relative;
+      align-self: stretch;
+      @include display-flex(column, center, center);
+      color: white;
+      .fa{
+        color: white;
+      }
+      flex: 1;
+      .name{
+        padding: 0.5em 1em;
+        @include radius;
+        color: white;
+        background-color: rgba($dark-grey, 0.9);
+      }
+    }
+    .actions{
+      padding-top: 1em;
+    }
+    .picture-color-filter{
+      @include position(absolute, 0, 0, 0, 0);
+      opacity: 0.6;
+    }
+    .group-cover-picture{
+      @include position(absolute, 0, 0, 0, 0);
+      @include bg-cover;
+      width: 100%;
+      @include display-flex(column, center, center);
+      overflow: hidden;
+    }
+    .actions{
+      margin-bottom: 1em;
+    }
+  }
+  .section-two{
+    flex: 2 0 auto;
+  }
+  .showGroupSettings{
+    position: relative;
+    .counter{
+      @include counter-commons;
+      @include position(absolute, 2px, 2px);
+      font-size: 1rem;
+      line-height: 1.1rem;
+    }
+  }
+  .joinRequest, .requested, .cancelRequest{
+    margin-top: 1em;
+  }
+  .requested{
+    text-align: center;
+    opacity: 0.8;
+  }
+  .description{
+    padding: 0.5em;
+    overflow: auto;
+  }
+  .showMembersMenu{
+    margin: 0 1em;
+  }
+  #membersList{
+    ul{
+      max-height: 20em;
+      overflow: auto;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    @include display-flex(column, stretch, center);
+    .stats{
+      display: none;
+    }
+    .section-two{
+      padding: 1em;
+    }
+    .section-three{
+      .actions{
+        justify-content: center;
+      }
+    }
+    #membersList{
+      ul{
+        justify-content: flex-start;
+      }
+    }
+    .description{
+      max-height: 10em;
+      padding: 0.5em;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    h3{
+      text-align: right;
+      margin-right: 1em;
+    }
+    .group-profile-header{
+      @include display-flex(row, flex-start, space-between);
+    }
+    .section-one{
+      flex: 1 0 20em;
+      max-width: 50%;
+    }
+    .section-two{
+      flex: 5 0 0;
+      .list-label{
+        text-align: right;
+        margin: 0.5em 1em;
+      }
+    }
+    .group-actions{
+      @include display-flex(column, center, center);
+      margin: 1em;
+      .restrictions{
+        margin-top: 1em;
+      }
+    }
+    #membersList{
+      ul{
+        margin-left: 0.8em;
+      }
+    }
+  }
+
+  /*Very Large screens*/
+  @media screen and (min-width: 1200px) {
+    .section-two{
+      max-width: 70vw;
+    }
+  }
+}

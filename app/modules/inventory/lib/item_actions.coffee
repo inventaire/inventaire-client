@@ -6,48 +6,71 @@ module.exports =
 
     _.preq.post app.API.items.base, itemData
     .then _.Log('item data after creation')
-    .then (data)-> new Item data
+    .then (data)->
+      model = new Item data
+      app.user.trigger 'items:change', null, model.get('listing')
+      return model
 
   update: (options)->
-    # expects: item, attribute, value
-    # OR expects: item, data
+    # expects: items (models or ids), attribute, value
     # optional: selector
-    { item, attribute, value, data, selector } = options
-    _.types [ item, selector ], [ 'object', 'string|undefined' ]
+    { items, attribute, value, selector } = options
+    _.type items, 'array'
+    _.type attribute, 'string'
+    if selector? then _.type selector, 'string'
 
-    itemAttributesBefore = _.deepClone item.toJSON()
-
-    if data?
-      _.type data, 'object'
-      item.set data
-    else
-      _.type attribute, 'string'
+    items.forEach (item)->
+      if _.isString item then return
+      item._backup = item.toJSON()
       item.set attribute, value
 
-    item.save()
-    .tap ->
-      { listing:previousListing } = itemAttributesBefore
-      app.user.trigger 'items:change', previousListing, item.get('listing')
-    .catch rollbackUpdate(item, itemAttributesBefore)
+    ids = items.map getIdFromModelOrId
 
-  destroy: (options)->
-    # MUST: model with title
-    # CAN: next
-    { model, next, back } = options
-    _.types [ model, next ], [ 'object', 'function' ]
-    title = model.get('snapshot.entity:title')
+    _.preq.put app.API.items.update, { ids, attribute, value }
+    .tap propagateItemsChanges(items, attribute)
+    .catch rollbackUpdate(items)
+
+  delete: (options)->
+    { items, next, back } = options
+    _.types [ items, next ], [ 'array', 'function' ]
+
+    ids = items.map getIdFromModelOrId
 
     action = ->
-      model.destroy()
-      .tap -> app.user.trigger 'items:change', model.get('listing'), null
+      _.preq.post app.API.items.deleteByIds, { ids }
+      .tap ->
+        items.forEach (item)->
+          if _.isString item then return
+          app.user.trigger 'items:change', item.get('listing'), null
+          item.isDestroyed = true
       .then next
 
-    app.execute 'ask:confirmation',
-      confirmationText: _.i18n 'delete_item_confirmation', { title }
-      warningText: _.i18n 'cant_undo_warning'
-      action: action
-      back: back
+    if items.length is 1 and items[0] instanceof Backbone.Model
+      title = items[0].get 'snapshot.entity:title'
+      confirmationText = _.i18n 'delete_item_confirmation', { title }
+    else
+      confirmationText = _.i18n 'delete_items_confirmation', { amount: ids.length }
 
-rollbackUpdate = (item, itemAttributesBefore)-> (err)->
-  item.set itemAttributesBefore
+    warningText = _.i18n 'cant_undo_warning'
+
+    app.execute 'ask:confirmation', { confirmationText, warningText, action, back }
+
+getIdFromModelOrId = (item)-> if _.isString item then item else item.id
+
+propagateItemsChanges = (items, attribute)-> ->
+  items.forEach (item)->
+    # TODO: update counters for non-model items too
+    if _.isString item then return
+    if attribute is 'listing'
+      { listing: previousListing } = item._backup
+      newListing = item.get 'listing'
+      if newListing is previousListing then return
+      app.user.trigger 'items:change', previousListing, newListing
+    delete item._backup
+
+rollbackUpdate = (items)-> (err)->
+  items.forEach (item)->
+    if _.isString item then return
+    item.set item._backup
+    delete item._backup
   throw err

@@ -2,10 +2,14 @@
 buildMarker = require './build_marker'
 
 module.exports = (params)->
-  { containerId, latLng, zoom, cluster } = params
+  { containerId, latLng, zoom, bounds, cluster } = params
   zoom or= defaultZoom
 
-  map = L.map(containerId).setView latLng, zoom
+  if latLng?
+    map = L.map(containerId).setView(latLng, zoom)
+  else
+    map = L.map(containerId).fitBounds bounds
+
   L.tileLayer(tileUrl, settings).addTo map
 
   if _.isMobile then map.scrollWheelZoom.disable()
@@ -16,34 +20,33 @@ module.exports = (params)->
   return map
 
 initWithCluster = (map)->
+  # See options https://github.com/Leaflet/Leaflet.markercluster#options
   cluster = L.markerClusterGroup()
   cluster._knownObjectIds = {}
   map.addLayer cluster
-  map.addMarker = AddMarkerToCluster cluster
+  map.addMarker = addMarkerToCluster cluster
   return
 
 initWithoutCluster = (map)->
-  map.addMarker = AddMarkerToMap map
+  map.addMarker = addMarkerToMap map
   return
 
-AddMarkerToMap = (map)->
-  addMarkerToMap = (params)->
-    marker = buildMarker params
-    marker.addTo map
-    return marker
+addMarkerToMap = (map)-> (params)->
+  marker = buildMarker params
+  marker.addTo map
+  return marker
 
-AddMarkerToCluster = (cluster)->
-  addMarkerToCluster = (params)->
-    { objectId } = params
+addMarkerToCluster = (cluster)-> (params)->
+  { objectId } = params
 
-    if cluster._knownObjectIds[objectId]
-      _.log objectId, 'not re-adding known object'
-      return
+  if cluster._knownObjectIds[objectId]
+    _.log objectId, 'not re-adding known object'
+    return
 
-    marker = buildMarker params
-    cluster.addLayer marker
+  marker = buildMarker params
+  cluster.addLayer marker
 
-    cluster._knownObjectIds[objectId] = true
-    _.log objectId, 'added unknown object'
+  cluster._knownObjectIds[objectId] = true
+  _.log objectId, 'added unknown object'
 
-    return marker
+  return marker

@@ -1,6 +1,11 @@
-<div class="userIcon objectIcon">
+<div class="userMarker objectMarker">
   <a href="{{pathname}}" data-user-id="{{_id}}" title="{{username}} - {{I18n 'user'}}">
     <img src="{{imgSrc picture 60}}">
     <p class="username label">{{username}}</p>
   </a>
+  {{#if mainUser}}
+    <a id="showPositionPicker">{{icon 'pencil'}}</a>
+  {{else}}
+    <div class="items-count" title="{{i18n 'num_books' smart_count=itemsCount}}">{{icon 'book'}} {{itemsCount}}</div>
+  {{/if}}
 </div>

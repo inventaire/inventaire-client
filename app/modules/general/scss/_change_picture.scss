@@ -7,8 +7,8 @@
 #changePicture{
   display: block;
   @include sans-serif;
-  @include bg-hover($dark-grey, 5%);
   @include radius-bottom;
+  @include radius-top(0);
 }
 /*Large screens*/
 @media screen and (min-width: $small-screen) {

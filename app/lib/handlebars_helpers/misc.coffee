@@ -20,6 +20,12 @@ module.exports =
 
   I18n: (args...)-> _.capitalise @i18n.apply(@, args)
 
+  I18nStartCase: (args...)->
+    @i18n.apply @, args
+    .split ' '
+    .map _.capitalise
+    .join ' '
+
   linkify: require './linkify'
 
   i18nLink: (text, url, context)->
@@ -30,6 +36,7 @@ module.exports =
     text = _.capitalise _.i18n(text, context)
     @link text, url
 
+  # See also: iconLinkText
   link: (text, url, classes, title)->
     # Polymorphism: accept arguments as hash key/value pairs
     # ex: {{link i18n='see_on_website' i18nArgs='website=wikidata.org' url=wikidata.url classes='link'}}

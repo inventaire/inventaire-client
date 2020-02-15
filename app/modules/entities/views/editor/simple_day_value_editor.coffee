@@ -4,8 +4,6 @@ noValueI18n = null
 module.exports = ClaimsEditorCommons.extend
   mainClassName: 'simple-day-value-editor'
   template: require './templates/simple_day_value_editor'
-  behaviors:
-    AlertBox: {}
 
   initialize: ->
     @lazyRender = _.LazyRender @

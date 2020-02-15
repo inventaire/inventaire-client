@@ -3,7 +3,7 @@
   @include shy-border-vertical-group;
   margin-bottom: 1em;
   &.standalone{
-    @include custom-column(40em);
+    @include central-column(40em);
   }
   .header, .body{
     background-color: white;
@@ -49,9 +49,6 @@
         margin: 0;
         padding: 0.5em;
         background-color: $light-grey;
-        label{
-          display: none;
-        }
       }
       .inner{
         // Disabled overflow to allow dropdown menus with absolute positions

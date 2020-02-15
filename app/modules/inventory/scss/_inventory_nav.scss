@@ -1,0 +1,53 @@
+#inventoryNav{
+  #tabs{
+    @include display-flex(row, center, center, wrap);
+    margin-bottom: 0.5em;
+    a{
+      flex: 1 0 auto;
+      @include bg-hover-lighten($dark-grey);
+      color: white;
+      font-weight: bold;
+      padding: 0.5em;
+      align-self: stretch;
+      @include display-flex(row, center, center);
+    }
+    .avatar, .fa{
+      margin: 0 0.5em;
+    }
+    .avatar{
+      height: 2.5em;
+    }
+    .fa{
+      font-size: 1.4em;
+    }
+    &.tab-selected-user #userTab, &.tab-selected-network #networkTab, &.tab-selected-public #publicTab{
+      @include bg-hover($inventory-nav-grey, 0);
+      color: $dark-grey;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    #tabs{
+      @include radius-horizontal-group;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    #tabs{
+      margin-top: 0.5em;
+    }
+    a{
+      height: 3em;
+      flex-direction: column;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (max-width: 500px) {
+    .label{
+      display: none;
+    }
+  }
+}

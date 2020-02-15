@@ -1,6 +1,6 @@
-@mixin custom-column($max-width: 50em){
+@mixin central-column($max-width: 50em){
   @include display-flex(column, center, center);
-  > div, > form{
+  > section, > div, > form{
     width: 100%;
     max-width: $max-width;
   }
@@ -11,6 +11,6 @@
   }
 }
 
-.custom-column{
-  @include custom-column;
+.central-column{
+  @include central-column;
 }

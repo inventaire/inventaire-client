@@ -1,0 +1,86 @@
+$nav-avatar-size: 5em;
+
+#usersList, #groupsList, #membersList{
+  ul{
+    @include display-flex(row, center, flex-start, wrap);
+    margin: 0 auto;
+  }
+  li{
+    position: relative;
+    height: $nav-avatar-size;
+    width: $nav-avatar-size;
+    flex: 0 0 $nav-avatar-size;
+    margin: 0.2em;
+    @include radius;
+  }
+  .nav-list-element{
+    position: relative;
+    display: block;
+    height: $nav-avatar-size;
+    width: $nav-avatar-size;
+    .items-count, .members-count{
+      opacity: 0.6;
+    }
+    @include radius;
+    &:hover{
+      .items-count, .members-count{
+        opacity: 1;
+      }
+    }
+  }
+  .picture, .picture-color-filter{
+    background-size: cover;
+    background-position: center center;
+    @include position(absolute, 0, 0, 0, 0);
+  }
+  .picture-color-filter{
+    opacity: 0.35;
+  }
+  .info{
+    @include position(absolute, null, 0, 0, 0);
+    overflow: hidden;
+    height: 1.6em;
+    background-color: white;
+    padding: 0 0.2em;
+  }
+}
+
+#usersList, #groupsList{
+  ul{
+    @include radius;
+    background-color: #f0f0f0;
+  }
+}
+
+.list-label{
+  color: $dark-grey;
+  margin-bottom: 0.5em;
+}
+
+.list-label-wrapper{
+  @include display-flex(row, flex-end, space-between);
+  padding: 0.5em 0;
+}
+
+.items-count, .group-admin-badge, .members-count{
+  position: absolute;
+  background-color: white;
+  color: $dark-grey;
+  line-height: 0;
+  min-width: 1em;
+}
+.items-count, .members-count{
+  top: 0;
+  right: 0;
+  text-align: center;
+  padding: 0.2em 0;
+  border-bottom-left-radius: $global-radius;
+  @include transition;
+}
+.group-admin-badge{
+  top: 0;
+  left: 0;
+  // Somehow centers the icon vertically
+  line-height: 0;
+  border-bottom-right-radius: $global-radius;
+}

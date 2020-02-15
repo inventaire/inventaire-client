@@ -15,6 +15,12 @@
 
 $welcome-bg-filter: rgba(#123456, 0.5);
 
+#background-cover{
+  @include position(fixed, 0, 0, 0, 0, -10);
+  // Photo attribution in credits.hbs: Brittany Stevens
+  @include multidef-bg-cover('brittanystevens.jpg', 'hd');
+}
+
 @import "landing_screen";
 @import "last_public_books";
 @import "mission";

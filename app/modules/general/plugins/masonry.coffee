@@ -2,7 +2,7 @@
 
 Masonry = require 'masonry-layout'
 screen_ = require 'lib/screen'
-# to keep in sync with _items_list.scss $itemContainerBaseWidth variable
+# to keep in sync with _items_list.scss $itemCardBaseWidth variable
 itemWidth = 230
 
 module.exports = (containerSelector, itemSelector, minWidth = 500)->
@@ -11,18 +11,17 @@ module.exports = (containerSelector, itemSelector, minWidth = 500)->
     throw new Error('should be called with a view as context')
 
   initMasonry = ->
-    $itemsList = $('.itemsList')
+    $itemsCascade = $('.itemsCascade')
 
     # It often happen that after triggering a masonry view
     # the user triggered an other view so that when images are ready
     # there is no more masonry to do, thus this check
-    if $itemsList.length is 0 then return
+    if $itemsCascade.length is 0 then return
 
-    itemsPerLine = $itemsList.width() / itemWidth
+    itemsPerLine = $itemsCascade.width() / itemWidth
     tooFewItems = @collection.length < itemsPerLine
 
     unless screen_.isSmall(minWidth) or tooFewItems
-      _.log 'masonry:reinit'
       positionBefore = window.scrollY
       container = document.querySelector containerSelector
       $(containerSelector).css 'opacity', 0

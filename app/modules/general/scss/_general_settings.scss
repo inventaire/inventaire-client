@@ -6,7 +6,6 @@
 
 $topbar-bg-color: $darker-grey;
 $topbar-height: 46px;
-$horizontal-iconnav-height: 40px;
 $smallscreen-connection-buttons-height: 40px;
 
 html, body{
@@ -14,6 +13,9 @@ html, body{
 }
 html{
   height: 100%;
+  // Prevent jumping scrollbar, the simple/classic way
+  // Cf https://css-tricks.com/elegant-fix-jumping-scrollbar-issue/
+  overflow-y: scroll;
 }
 
 // Foundation had this, and now everything relies on it:
@@ -24,7 +26,7 @@ html{
 
 body{
   height: auto;
-  background: $light-grey;
+  background-color: $body-bg;
   color: #222;
   padding: 0;
   margin: 0;
@@ -47,7 +49,7 @@ body{
     margin: 0;
     padding: 0;
   }
-  a{
+  a, button{
     outline: 0;
   }
 }
@@ -66,14 +68,8 @@ body{
   visibility: hidden;
 }
 
-.glowing{
-  border: 0.1em solid rgba(86, 180, 239, 0.6);
-  box-shadow: 0 0.2em 0.5em $glow;
-  transition: all 0.5s ease;
-}
-
-.focus{
-  @extend .glowing;
+.glowing, .focus{
+  @include glow;
 }
 
 .big{
@@ -157,4 +153,3 @@ noscript{
 @import "alert_box";
 @import "progress_bars";
 @import "dropdown";
-@import "settings_menu";

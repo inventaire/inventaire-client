@@ -4,7 +4,7 @@
   min-height: 80vh;
   @include display-flex(column, center, center);
   .errorBox{
-    background-color: $global-background-contrast-color;
+    background-color: white;
     max-width: 50em;
     margin: 1em;
     @include radius;
@@ -12,7 +12,7 @@
       font-weight: bold;
     }
     .context{
-      background-color: white;
+      background-color: $light-grey;
       opacity: 0.8;
       @include radius;
       padding: 1em;

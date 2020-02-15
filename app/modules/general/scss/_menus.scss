@@ -1,7 +1,7 @@
 .donate-menu, .feedback-menu{
   text-align: center;
   &.standalone{
-    @include custom-column(40em);
+    @include central-column(40em);
     > div{
       background-color: white;
       padding: 1em;

@@ -9,13 +9,17 @@
   z-index: 30;
   min-width: 10em;
   top: 100%;
-  &:not(.dropdown-align-right){ left: 0; }
-  &.dropdown-align-right{ right: 0;  }
+  &:not(.dropdown-align-right){
+    left: 0;
+  }
+  &.dropdown-align-right{
+    right: 0;
+  }
   white-space: nowrap;
   background-color: $off-white;
   font-size: 0.9em;
   color: $dark-grey;
-  &, a, span, .fa{
+  &, a, span:not(.counter), .fa{
     text-align: left !important;
     color: $dark-grey;
   }

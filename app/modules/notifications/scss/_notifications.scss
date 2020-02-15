@@ -1,16 +1,22 @@
 #notificationsLayout{
-  width: 100%;
+  @include central-column(50em);
   text-align: center;
-  h2{
-    @include sans-serif;
-    font-size: 1.4em;
+
+  section{
+    background-color: #eee;
+    margin: 1em 0;
+    padding: 1em;
+    @include radius;
   }
-  ul{
-    max-width: 40em;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin: 0 auto 3em auto;
+
+  .time{
+    color: $grey;
   }
+}
+
+#notificationsList{
+  max-height: 20em;
+  overflow: auto;
   li{
     text-align: left;
     margin: 0.1em;
@@ -24,34 +30,6 @@
         flex: 1 1 auto;
         padding: 0.2em;
       }
-    }
-  }
-  .show-notifications-settings-wrapper{
-    @include position(fixed, null, 0, 0, 0)
-    @include display-flex(row, center, center);
-  }
-  .showNotificationsSettings{
-    background-color: $grey;
-    color: white;
-    text-decoration-color: white;
-    flex: 1 0 auto;
-    max-width: 40em;
-    text-align: center;
-    padding: 1em;
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      @include radius-top;
-      // Hackily compensating for the icon nav to center the button
-      margin-left: $icon-nav-width + 3px;
-    }
-  }
-  .time{
-    color: $grey;
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    h2{
-      margin-top: 1em;
     }
   }
 }
@@ -78,5 +56,12 @@
     .unread-flag{
       display: none;
     }
+  }
+}
+
+.showNotificationsSettings{
+  margin-top: 1em;
+  .fa{
+    margin-right: 0.5em;
   }
 }

@@ -27,6 +27,5 @@ module.exports = (app)->
   app.reqres.setHandlers
     'fetch:friends': fetcher 'friends', true
     'fetch:otherRequested': fetcher 'otherRequested'
-    # 'fetch:userRequested': fetcher 'userRequested'
 
   return users

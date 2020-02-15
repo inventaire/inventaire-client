@@ -1,0 +1,98 @@
+.userProfile{
+  background-color: #eee;
+  @include display-flex(row);
+  margin: 0.5em 0;
+  .avatar{
+    background-color: #eee;
+    height: 10em;
+    width: 10em;
+  }
+  .info{
+    flex: 1 0 0;
+    padding: 0.5em;
+    position: relative;
+  }
+  .header{
+    @include display-flex(row);
+  }
+  .username{
+    @include sans-serif;
+    flex: 1 0 auto;
+    margin: 0;
+  }
+  .profile-buttons{
+    @include display-flex(row, center, center);
+    flex: 0 0 auto;
+    .action{
+      @include display-flex(row, center, center);
+    }
+  }
+  .data{
+    color: #666;
+    li{
+      margin-bottom: 0.5em;
+    }
+    @include display-flex(column, flex-start);
+  }
+  .inventoryLength{
+    .count{
+      padding-left: 0.5em;
+    }
+  }
+  .bio-wrapper{
+    @include radius;
+    padding: 1em 0.2em;
+    max-width: 50em;
+    overflow: auto;
+    &.empty{
+      color: $grey;
+      font-style: italic;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .action{
+      margin: 0 0.5em;
+    }
+  }
+
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    @include display-flex(column, center, center);
+    .avatar{
+      margin-top: 1em;
+    }
+    .info{
+      .header{
+        flex-direction: column;
+      }
+    }
+    .username{
+      text-align: center;
+    }
+    .profile-buttons{
+      margin: 1em;
+      flex-direction: column;
+    }
+    .showUserOnMap{
+      margin-bottom: 1em;
+    }
+    .data{
+      align-items: center;
+    }
+    .bio-wrapper{
+      max-height: 10em;
+    }
+    .action{
+      margin: 0.5em 0;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    #mapContainer{
+      display: none;
+    }
+  }
+}

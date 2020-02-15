@@ -2,6 +2,7 @@
 showViews = require '../lib/show_views'
 getActionKey = require 'lib/get_action_key'
 LiveSearch = require 'modules/search/views/live_search'
+TopBarButtons = require './top_bar_buttons'
 screen_ = require 'lib/screen'
 { currentRoute, currentSection } = require 'lib/location'
 
@@ -17,10 +18,12 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     liveSearch: '#liveSearch'
+    topBarButtons: '#topBarButtons'
 
   ui:
     searchField: '#searchField'
     overlay: '#overlay'
+    closeSearch: '.closeSearch'
 
   initialize: ->
     @lazyRender = _.LazyRender @
@@ -31,46 +34,43 @@ module.exports = Marionette.LayoutView.extend
       'live:search:show:result': @hideLiveSearch.bind(@)
       'live:search:query': @setQuery.bind(@)
 
-    @listenTo app.user, 'change:username', @lazyRender
     @listenTo app.user, 'change:picture', @lazyRender
 
   serializeData: ->
     smallScreen: screen_.isSmall()
     isLoggedIn: app.user.loggedIn
-    user: app.user.toJSON()
     currentLanguage: languages[app.user.lang].native
     languages: languagesList
     translate: translate
 
-  onShow: ->
+  onRender: ->
+    if app.user.loggedIn then @showTopBarButtons()
     # Needed as 'route:change' might have been triggered before
     # this view was initialized
     @onRouteChange currentSection(), currentRoute()
+
+  showTopBarButtons: ->
+    # Use a child view for those buttons to be able to re-render them independenly
+    # without disrupting the LiveSearch state
+    @topBarButtons.show new TopBarButtons
 
   onRouteChange: (section, route)->
     @updateConnectionButtons section
 
   events:
-    'click #home': 'showHome'
-    'click #mainUser': 'showMainUser'
-    'click a#searchButton': 'search'
-    'click .option a': 'selectLang'
+    'click #home': _.clickCommand 'show:home'
+
     'focus #searchField': 'showLiveSearch'
     'keyup #searchField': 'onKeyUp'
     'keydown #searchField': 'onKeyDown'
     'click .searchFilter': 'recoverSearchFocus'
     'click': 'updateLiveSearch'
+    'click .closeSearch': 'closeSearch'
+
+    'click .language-picker .option a': 'selectLang'
 
   childEvents:
     'hide:live:search': 'hideLiveSearch'
-
-  showHome: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:home'
-
-  showMainUser: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:inventory:user', app.user
 
   updateConnectionButtons: (section)->
     if app.user.loggedIn then return
@@ -100,6 +100,7 @@ module.exports = Marionette.LayoutView.extend
     @liveSearch.$el.addClass 'shown'
     @liveSearch.currentView.resetHighlightIndex()
     @ui.overlay.removeClass 'hidden'
+    @ui.closeSearch.removeClass 'hidden'
     @_liveSearchIsShown = true
 
   hideLiveSearch: (triggerFallbackLayout)->
@@ -111,6 +112,7 @@ module.exports = Marionette.LayoutView.extend
     @liveSearch.$el.hide()
     @liveSearch.$el.removeClass 'shown'
     @ui.overlay.addClass 'hidden'
+    @ui.closeSearch.addClass 'hidden'
     @_liveSearchIsShown = false
     # Trigger the fallback layout only in cases when no other layout
     # is set to be displayed
@@ -157,5 +159,9 @@ module.exports = Marionette.LayoutView.extend
   # When clicking on a live_search searchField button, the search loose the focus
   # thus the need to recover it
   recoverSearchFocus: -> @ui.searchField.focus()
+
+  closeSearch: ->
+    @ui.searchField.val ''
+    @hideLiveSearch()
 
 neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]

@@ -1,4 +1,5 @@
 { base, action } = require('./endpoint')('items')
+{ buildPath } = require 'lib/location'
 
 queryEndpoint = (actionName, idsLabel)-> (params)->
   { ids, limit, offset, fetchPublicItemsOnly, filter, includeUsers } = params
@@ -12,6 +13,8 @@ queryEndpoint = (actionName, idsLabel)-> (params)->
 
 module.exports =
   base: base
+  update: action 'bulk-update'
+  deleteByIds: action 'delete-by-ids'
 
   byIds: queryEndpoint 'by-ids', 'ids'
   byUsers: queryEndpoint 'by-users', 'users'
@@ -28,6 +31,6 @@ module.exports =
 
   nearby: (limit, offset, range = 50)-> action 'nearby', { limit, offset, range }
 
-  inventoryView: action 'inventory-view'
+  inventoryView: (params)-> action 'inventory-view', params
 
   deleteByIds: action 'delete-by-ids'

@@ -4,6 +4,11 @@
     padding-left: 0.2em;
     font-weight: bold;
   }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    margin: 0 0.5em;
+  }
 }
 
 .importers{

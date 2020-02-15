@@ -4,6 +4,13 @@
 # (see https://github.com/brunch/brunch/issues/1219 )
 # thus it is convenient to be warned if any file is empty after compilation
 
+running_brunch_instances=$(ps aux | /bin/grep ".bin/brunch watch" | /bin/grep -v "/bin/grep" | wc -l)
+
+if [[ "$running_brunch_instances" > "1" ]] ; then
+  echo -e "\x1b[31mit looks like ${running_brunch_instances} instances of brunch are running!\x1b[0m"
+  exit 1
+fi
+
 ls -lh app/**/* |
   # log any file that would have a file space of 0
   egrep " 0 " |
@@ -23,4 +30,3 @@ ls -lh public/js/* |
   # see http://www.bramschoenmakers.nl/en/node/511.html (Update bottom note)
   sed -e 's/^/\x1b[31mempty file:\x1b[0m/' |
   sed -e 's/$/\x1b[30m should be fixed by reinstalling scripts by running scripts \x1b[36minstall_external_modules \x1b[0m /'
-

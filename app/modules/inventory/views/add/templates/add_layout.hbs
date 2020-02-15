@@ -1,16 +1,11 @@
-{{#unless loggedIn}}<div class="fog"></div>{{/unless}}
-
-<div class="custom-tabs-titles">
-  <div class="tabs">
-    <div class="level-1">
-      {{#each tabs}}
-        <a id="{{id}}" href="{{href}}" class="tab" title="{{i18n title}}">
-          {{icon this.icon}}
-          <span class="label">{{I18n label}}</span>
-        </a>
-      {{/each}}
-    </div>
-  </div>
+<div class="custom-tabs">
+  <ul class="custom-tabs-titles">
+    {{#each tabs}}
+      <a id="{{id}}" href="{{href}}" class="tab" title="{{i18n title}}">
+        {{icon this.icon}}
+        <span class="title">{{I18n label}}</span>
+      </a>
+    {{/each}}
+  </ul>
+  <div class="custom-tabs-content"></div>
 </div>
-
-<div class="custom-tabs-content"></div>

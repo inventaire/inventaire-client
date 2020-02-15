@@ -1,5 +1,11 @@
-<div class='itemCreation custom-column'>
+<div class='itemCreation central-column'>
   <div id="entity"></div>
+
+  <div id="existingInstancesWarning" class="hidden">
+    <p>{{icon 'warning'}} {{i18n 'You already have this book in your inventory:'}}</p>
+    <div id="existingInstances"></div>
+  </div>
+
   <div class="panel">
     <label for="transaction">{{i18n "I have it and it's available for:"}}</label>
     <div id="transaction" class="select-button-group">
@@ -23,12 +29,12 @@
     </div>
 
     <div class='validationButtons custom-button-group'>
-      <a id="cancel" class="button grey">{{icon 'ban'}}{{i18n 'cancel'}}</a>
-      <a id="validate" class="button success" tabindex="0">{{icon 'check'}}{{i18n "validate"}}</a>
+      <a id="cancel" class="button grey">{{icon 'ban'}}{{I18n 'cancel'}}</a>
+      <a id="validate" class="button success" tabindex="0">{{icon 'check'}}{{I18n "validate"}}</a>
       <a id="validateAndAddNext" class="button secondary" tabindex="0"
         {{#if zxing}} href="{{zxing.url}}" {{/if}}
       >
-        {{icon 'plus'}}{{i18n 'validate and add another book'}}
+        {{icon 'plus'}}{{I18n 'validate and add another book'}}
       </a>
     </div>
   </div>

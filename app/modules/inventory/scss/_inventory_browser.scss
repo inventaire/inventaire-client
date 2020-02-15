@@ -1,33 +1,87 @@
-#inventory-browser{}
-
-#browser-controls, #browser-filters{
-  @include display-flex(row, center, flex-start);
-  padding: 0.3em 0 0.2em 0;
-  .selectors{
+#inventory-browser{
+  #browserControls, #browserFilters{
     @include display-flex(row, center, center, wrap);
+    @include radius;
+    .selectors{
+      @include display-flex(row, center, center, wrap);
+    }
+    /*Small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      padding: 0.3em 0 0.2em 0;
+    }
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      padding: 0.2em 0.5em;
+    }
   }
+
+  #browserControls{
+    background-color: $inventory-nav-grey;
+    @include transition(opacity);
+    opacity: 1;
+    margin: 0.8em 0 1em 0;
+    &:not(.ready){
+      #browserFilters{
+        flex: 1 0 0;
+      }
+      .control-label, .selectors{
+        display: none;
+      }
+      .small-loader{
+        padding: 1em;
+        color: $grey;
+      }
+    }
+    &.ready{
+      .small-loader{
+        display: none;
+      }
+    }
+  }
+
+  #displayControls{
+    .current{
+      padding: 0.2em 0.5em;
+      @include display-flex(row, center, flex-start);
+      background-color: white;
+      > div:not(.shown){
+        display: none;
+      }
+      .label{
+        padding: 0 0.5em;
+      }
+    }
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      margin-left: auto;
+    }
+  }
+
+  .control-label{
+    color: $grey;
+    /*Large screens*/
+    @media screen and (min-width: $smaller-screen) {
+      margin: 1em 0.5em;
+    }
+  }
+
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
-    flex-direction: column;
+    #browserControls{
+      flex-direction: column;
+    }
+    #browserFilters{
+      flex-direction: column;
+      .selectors{
+        flex-direction: column;
+      }
+    }
+    #displayControls{
+      margin: 1em;
+    }
   }
+
+  @import 'filter_preview';
+  @import 'browser_selector';
 }
 
-#browser-controls{
-  background-color: #e6e6e6;
-  // Will slide down when given the class .ready
-  @include transition(transform);
-  &:not(.ready){
-    transform: translateY(-100%);
-  }
-}
-
-.control-label{
-  color: $grey;
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    margin: 1em 0.5em;
-  }
-}
-
-@import 'filter_preview';
-@import 'browser_selector';

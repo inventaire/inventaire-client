@@ -1,0 +1,39 @@
+<div id="table-header" class="{{#unless isMainUser}}hidden{{/unless}}">
+  <button id="selectAll">
+    {{icon 'check-square-o'}}
+    {{I18n 'select all'}}
+    <span class="count">({{itemsCount}})</span>
+  </button>
+  <button id="unselectAll" class="disabled">{{icon 'square-o'}}<span>{{I18n 'unselect all'}}</span></button>
+
+  <div id="selectTransaction" class="has-dropdown selector disabled">
+    <p class="selector-label">{{I18n 'transaction'}} {{icon 'caret-down'}}</p>
+    <ul class="dropdown">
+      <li class="dropdown-label capitalized">{{I18n 'available for'}}:</li>
+      {{#each transactions}}
+        <li><a id="{{id}}" class="transaction-option">{{icon icon}} {{I18n label}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <div id="selectListing" class="has-dropdown selector disabled">
+    <p class="selector-label">{{I18n 'listing'}} {{icon 'caret-down'}}</p>
+    <ul class="dropdown">
+      <li class="dropdown-label capitalized">{{I18n 'visible by'}}:</li>
+      {{#each listings}}
+        <li><a id="{{id}}" class="listing-option">{{icon icon}} {{I18n label}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <button class="delete disabled">
+    <span>{{I18n 'delete'}}</span>
+    {{icon 'trash-o'}}
+  </button>
+</div>
+
+<ul id="itemsRows"></ul>
+
+<div class="fetchMore">
+  <span class="loading"></span>
+</div>

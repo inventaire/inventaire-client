@@ -18,11 +18,9 @@ $light-blue: #319cc2;
 $link-blue: #3243bb;
 $danger-color: #ff4e4e;
 
-// body has a different color than main
-// to make it the background color when the DOM isnt loaded
-$main-bg: $off-white;
-$body-bg: $main-bg;
+$body-bg: $off-white;
 $contrast: #fff;
+$global-background-contrast-color: rgba($light-grey, 0.98);
 $panel-bg: $contrast;
 $body-font-color: #222;
 $tools-active-bg: #222;

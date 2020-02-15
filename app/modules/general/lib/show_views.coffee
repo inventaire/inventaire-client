@@ -6,7 +6,10 @@ module.exports =
     loader = '<div class="full-screen-loader"><div></div></div>'
     $(app.layout.main.el).html loader
 
-  showEntity: (e)-> entityAction e, 'show:entity'
+  showEntity: (e)->
+    entityAction e, 'show:entity'
+    # Required to close the ItemShow modal if one was open
+    app.execute 'modal:close'
   showEntityEdit: (e)-> entityAction e, 'show:entity:edit'
   showEntityCleanup: (e)-> entityAction e, 'show:entity:cleanup'
   showDonateMenu: ->

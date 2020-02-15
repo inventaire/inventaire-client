@@ -2,18 +2,17 @@ userMarker = require '../views/templates/user_marker'
 groupMarker = require '../views/templates/group_marker'
 customIcon = require './custom_icon'
 
-ObjectMarker = (markerBuilder)->
-  objectMarker = (params)->
-    { model } = params
-    { lat, lng } = model.getCoords()
-    html = markerBuilder model.serializeData()
-    icon = customIcon html
-    marker = L.marker [ lat, lng ], { icon }
-    return marker
+objectMarker = (markerBuilder)-> (params)->
+  { model } = params
+  { lat, lng } = model.getCoords()
+  html = markerBuilder model.serializeData()
+  icon = customIcon html
+  marker = L.marker [ lat, lng ], { icon }
+  return marker
 
 markers =
-  user: ObjectMarker userMarker
-  group: ObjectMarker groupMarker
+  user: objectMarker userMarker
+  group: objectMarker groupMarker
   circle: (params)->
     { latLng, metersRadius } = params
     metersRadius ?= 200

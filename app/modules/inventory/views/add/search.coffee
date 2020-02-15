@@ -18,7 +18,6 @@ module.exports = Marionette.CompositeView.extend
     # since the initial sorting
     @collection.sort()
 
-    @previousValue = ''
     @listenTo app.vent, 'search:global:change', @updateLocalSearchBar.bind(@)
 
   onShow: ->
@@ -37,12 +36,11 @@ module.exports = Marionette.CompositeView.extend
 
   updateLocalSearchBar: (value)->
     @ui.localSearchField.val value
-    @previousValue = value
 
   focusGlobalSearchBar: (e)->
     currentValue = e.currentTarget.value
-    if currentValue is @previousValue then return
-    @previousValue = currentValue
+    # Always update the search field as a closeSearch action
+    # might have removed the previous input
     $('#searchField').val(currentValue).focus()
 
   clearHistory: ->

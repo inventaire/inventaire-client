@@ -1,4 +1,3 @@
-$user-box-heigth: 3em;
 $username-color: #333;
 a.user{
   width: 100%;
@@ -16,9 +15,9 @@ a.user{
   width: 100%;
   overflow: hidden;
   height: $user-box-heigth;
-  background-color: $main-bg;
+  background-color: $off-white;
   @include display-flex(row, center, flex-start);
-  .userShow{
+  .showUser{
     flex: 0 0 $user-box-heigth;
     .profilePic{
       height: $user-box-heigth;

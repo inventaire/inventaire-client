@@ -1,3 +1,5 @@
+<h3>{{I18n 'create a new group'}}</h3>
+
 <label for="nameField">{{I18n 'group name'}}</label>
 <div class="inputContainer">
   <input id="nameField" class="groupNameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}">
@@ -10,8 +12,9 @@
 
 {{partial 'network:searchability' searchability}}
 
-{{partial 'network:group_position_setting'}}
+{{!-- Can't be showned in a modal as the create_group_layout is in a modal itself >< --}}
+{{!-- {{partial 'network:group_position_setting'}} --}}
 
-<a id="createGroup" class="button light-blue bold radius" tabindex="0">
+<a id="createGroup" class="button light-blue" tabindex="0">
   {{icon 'plus'}} {{I18n 'create group'}}
 </a>

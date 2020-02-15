@@ -13,7 +13,6 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     invitations: '#invitations'
-    addMessage: '#addMessage'
     message: '#message'
     output: '#output'
     usersAlreadyThere: '.usersAlreadyThere'
@@ -26,7 +25,6 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #sendInvitations': 'sendInvitations'
-    'click #addMessage': 'toggleMessage'
 
   initialize: ->
     @emailsInvited = []
@@ -36,14 +34,19 @@ module.exports = Marionette.LayoutView.extend
     { @group } = @options
     @groupId = @group?.id
 
+  onShow: ->
+    unless @group? then app.execute 'modal:open', 'medium'
+
   onRender: ->
     @usersAlreadyThereRegion.show new UsersList
       collection: @usersAlreadyThere
       stretch: false
+      showEmail: true
       groupContext: @group?
       group: @group
 
   serializeData: ->
+    groupContext: @group?
     rawEmails: @rawEmails
     message: @message
     emailsInvited: @emailsInvited
@@ -64,7 +67,7 @@ module.exports = Marionette.LayoutView.extend
     .then @_spreadUsers.bind(@)
     .then @_showResults.bind(@)
     .catch forms_.catchAlert.bind(null, @)
-    .catch behaviorsPlugin.Fail.call @, 'invitations err'
+    .catch behaviorsPlugin.Fail.call(@, 'invitations err')
 
   _spreadUsers: (data)->
     { users, emails } = data
@@ -72,6 +75,8 @@ module.exports = Marionette.LayoutView.extend
     users.forEach @_addUser.bind(@)
 
   _addUser: (user)->
+    # TODO: get user model without adding it to global collections
+    # that aren't used anywhere anymore
     userModel = app.request 'user:add', user
     # in cases the public was already there
     # the previous model will be kept and the email lost
@@ -99,10 +104,3 @@ module.exports = Marionette.LayoutView.extend
     @render()
     if @usersAlreadyThere.length > 0
       @ui.usersAlreadyThere.slideDown()
-
-    # waiting for everything to be well rendered
-    @setTimeout screen_.scrollTop.bind(null, @ui.invitations), 250, 100
-
-  toggleMessage: ->
-    @ui.addMessage.hide()
-    @ui.message.slideDown()

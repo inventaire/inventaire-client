@@ -1,0 +1,40 @@
+#inventoryNetworkNav, #inventoryPublicNav{
+  .lists{
+    @include display-flex(row);
+  }
+  .list-wrapper{
+    padding: 1em;
+    margin-bottom: auto;
+    background-color: $light-grey;
+    @include radius;
+  }
+  .list-header{
+    @include display-flex(row, center, space-between);
+  }
+  .usersLoading, .groupsLoading{
+    margin-left: 1em;
+    opacity: 0.6;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .lists{
+      flex-direction: column;
+    }
+    .map-lists-wrapper{
+      flex-direction: column;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .list-wrapper{
+      &:not(:first-child){
+        margin-left: 0.5em;
+      }
+    }
+  }
+}
+
+@import "inventory_network_nav";
+@import "inventory_public_nav";

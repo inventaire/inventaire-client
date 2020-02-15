@@ -1,0 +1,27 @@
+<a class="nav-list-element" href="{{pathname}}">
+  <div class="picture" style="background-image: url({{imgSrc picture 100}})"></div>
+
+  {{#if pictureFilterColor}}
+    <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
+  {{/if}}
+
+  {{#if isGroup}}
+    <div class="members-count">{{icon 'group'}} {{membersCount}}</div>
+  {{else}}
+    {{#if hasItemsCount}}
+      <div class="items-count" title="{{i18n 'num_books' smart_count=itemsCount}}">{{icon 'book'}} {{itemsCount}}</div>
+    {{/if}}
+  {{/if}}
+
+  {{#if isGroupAdmin}}
+    <div class="group-admin-badge" title="{{I18n 'group admin'}}">{{icon 'cog'}}</div>
+  {{/if}}
+
+  <div class="info">
+    {{#if isGroup}}
+      <strong>{{name}}</strong>
+    {{else}}
+      <strong>{{username}}</strong>
+    {{/if}}
+  </div>
+</a>

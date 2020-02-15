@@ -1,0 +1,56 @@
+.items-table{
+  position: relative;
+  background-color: $inventory-nav-grey;
+  #table-header:not(.hidden){
+    @include display-flex(row);
+    background-color: $inventory-nav-grey;
+    // Required for unclear reasons to allow .dropdown divs to appear
+    // above .item-row elements
+    z-index: 1;
+    button, .selector-label{
+      padding: 0.5em 1em;
+      margin: 0 0.5em;
+      text-align: center;
+      @include bg-hover(white);
+      font-weight: bold;
+    }
+    button.remove:hover{
+      background-color: $danger-color;
+      color: white;
+    }
+  }
+  .dropdown-label{
+    margin-left: 0.5em;
+  }
+
+  .disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    #table-header:not(.hidden){
+      position: sticky;
+      top: $topbar-height;
+      padding: 0.5em;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    #table-header:not(.hidden){
+      overflow: auto;
+      flex-direction: column;
+      align-items: stretch;
+      > button, > div{
+        margin: 0.5em 0;
+      }
+      .selector-label{
+        margin: 0;
+      }
+    }
+  }
+}
+
+@import 'item_row';

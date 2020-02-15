@@ -1,4 +1,4 @@
-.profileSettings{
+.profileSettings, .accountSettings{
   text-align: center;
   h3{
     margin-bottom: 0.2em;
@@ -9,73 +9,55 @@
     padding: 0;
     margin: 0;
   }
-  #passwordUpdater{
-    max-width: 20em;
-    input[name=username]{
-      display: none;
-    }
-  }
-  #passwordUpdater{
-    margin: auto;
-  }
-  #updatePassword{
-    @include radius;
-    margin-top: 1em;
-  }
-  div.forgotPassword{
-    text-align: right;
-    a{
-      // color: $grey;
-      font-size: 0.9em;
-      margin-top: -1em;
-    }
-  }
-  .alertMessageBox, .successMessageBox{
-    color: white;
-    // font-weight: bold;
-    text-align: center;
-    margin-bottom: 1em;
-  }
+}
 
-  .alertMessageBox{
-    span, .a{
-      @include radius;
-      display: block;
-    }
-    .alert{
-      width: 100%;
-      background-color: $warning-color;
-      padding: 0.5em;
-      margin-bottom: 0.5em;
-    }
-  }
-  .successMessageBox{
-    @include radius;
-    .fa{
-      font-size: 2em;
-      display: block;
-    }
-    background-color: $success-color;
-    padding: 0.5em;
+.profileSettings{
+  section.geolocation{
+    @include display-flex(column, center, center);
   }
   .position-status{
-    margin-bottom: 1em;
+    margin: 1em 0;
+    padding: 1em;
+    background-color: inherit;
   }
-  .coordinates{
-    color: grey;
-    font-size: 0.8em;
+  .bio-wrapper{
+    button{
+      max-width: 10em;
+      margin: 0 auto;
+    }
+  }
+  #bio{
+    margin-bottom: 0;
+  }
+  .bioLimit{
+    color: $grey;
+    margin: 0 0.2em 0.5em 0;
+    .good, .exceeded{
+      display: flex;
+      justify-content: flex-end;
+    }
+    .exceeded{
+      color: red;
+    }
+    .counter{
+      min-width: 2em;
+      text-align: right;
+    }
+  }
+  .done{
+    margin: 2rem 0;
+    display: inline-block;
   }
 }
 
-#languagePicker{
-  max-width: 20em;
-}
-
-.deleteAccount{
-  text-align: center;
-  padding: 1em;
-}
-
-.danger-zone{
-  color: $danger-color;
+.bioLimit, .descriptionLimit{
+  color: $grey;
+  margin: 0 0.2em 0.5em 0;
+  .good, .exceeded{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .exceeded{
+    color: red;
+  }
 }

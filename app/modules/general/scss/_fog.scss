@@ -1,14 +1,10 @@
-// bring a fog layer on the whole screen
-.fog{
-  background-color: rgba($dark-grey, 0.4);
-  // placed under the top bar and the icon nav
-  @include position(fixed, 0, 0, 0, 0, 10);
-}
-// bring a fog layer to a smaller area
+// Bring a fog layer to a smaller area
 // requires a container to have a position set
 // (usually position: relative;)
 .local-fog{
-  @extend .fog;
+  background-color: rgba($dark-grey, 0.4);
+  // placed under the top bar and the icon nav
+  @include position(fixed, 0, 0, 0, 0, 10);
   position: absolute;
   @include display-flex(column, center, center);
 }

@@ -133,6 +133,7 @@ module.exports = Marionette.CompositeView.extend
 
   lazySearch: (search)->
     if search.length > 0 then @showLoadingSpinner()
+    else @stopLoadingSpinner()
     # Hide previous results to limit confusion and scroll up
     @resetResults()
     @_lazySearch search

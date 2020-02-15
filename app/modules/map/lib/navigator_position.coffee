@@ -1,4 +1,5 @@
 errIcon = _.icon 'bolt'
+{ truncateDecimals } = require './geo'
 
 # doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 currentPosition = ->
@@ -20,13 +21,13 @@ currentPosition = ->
 
 normalizeCoords = (position)->
   { latitude, longitude } = position.coords
-  return { lat: latitude, lng: longitude }
+  return { lat: truncateDecimals(latitude), lng: truncateDecimals(longitude) }
 
 returnPlaceholderCoords = (err)->
   _.warn err, "couldn't obtain user's position: returning placeholder coordinates"
   return coords =
-    lat: 46.232464793934994
-    lng: 6.045017838478088
+    lat: 46.2324
+    lng: 6.0450
     zoom: 3
 
 module.exports = (containerId)->

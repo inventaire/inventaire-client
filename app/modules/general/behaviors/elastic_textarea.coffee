@@ -7,8 +7,9 @@ module.exports = Marionette.Behavior.extend
   events:
     'elastic:textarea:update': 'update'
 
-  onRender: ->
-    autosize @ui.textarea
+  # Init somehow needs to be run on the next tick to be effective
+  onRender: -> setTimeout @init.bind(@), 0
 
-  update: ->
-    autosize.update @ui.textarea
+  init: -> autosize @ui.textarea
+
+  update: -> autosize.update @ui.textarea

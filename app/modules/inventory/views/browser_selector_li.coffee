@@ -17,6 +17,6 @@ module.exports = Marionette.ItemView.extend
     }
 
   events:
-    'click': 'select'
+    'click': 'selectOption'
 
-  select: -> @triggerMethod 'select', @model
+  selectOption: -> @triggerMethod 'selectOption', @model

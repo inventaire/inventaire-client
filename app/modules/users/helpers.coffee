@@ -12,14 +12,6 @@ module.exports = (app)->
       else return
 
   async =
-    fetchUsersData: (ids)->
-      unless ids.length > 0 then return Promise.resolve []
-
-      missingIds = _.difference ids, app.users.allIds()
-
-      usersData.get missingIds, 'collection'
-      .then addUsers
-
     getUserModel: (id, refresh)->
       if id is app.user.id then return Promise.resolve app.user
 
@@ -47,18 +39,18 @@ module.exports = (app)->
     resolveToUserModel: (user)->
       # 'user' is either the user model, a user id, or a username
       if _.isModel(user) then return Promise.resolve user
-      else
-        if _.isUserId user
-          userId = user
-          promise = app.request 'get:user:model', userId
-        else
-          username = user
-          promise = getUserModelFromUsername username
 
-        promise
-        .then (userModel)->
-          if userModel? then return userModel
-          else throw error_.new 'user model not found', 404, user
+      if _.isUserId user
+        userId = user
+        promise = app.request 'get:user:model', userId
+      else
+        username = user
+        promise = getUserModelFromUsername username
+
+      promise
+      .then (userModel)->
+        if userModel? then return userModel
+        else throw error_.new 'user model not found', 404, user
 
     getUserIdFromUsername: (username)->
       getUserModelFromUsername username
@@ -84,17 +76,15 @@ module.exports = (app)->
 
   addUser = (users)-> addUsers(users)[0]
 
-  { searchByText, searchByPosition } = require('./lib/search')(app)
+  { searchByText } = require('./lib/search')(app)
 
   app.reqres.setHandlers
     'get:user:model': async.getUserModel
     'get:users:models': async.getUsersModels
-    'fetch:users:data': async.fetchUsersData
     'resolve:to:userModel': async.resolveToUserModel
     'get:userModel:from:userId': sync.getUserModelFromUserId
     'get:userId:from:username': async.getUserIdFromUsername
     'users:search': searchByText
-    'users:search:byPosition': searchByPosition
     'user:add': addUser
 
   app.commands.setHandlers

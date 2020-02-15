@@ -1,0 +1,97 @@
+$userMarkerHeight: 60px;
+$userMarkerWidth: 64px;
+$groupMarkerWidth: 100px;
+$groupMarkerHeight: 88px;
+$arrowHeight: 10px;
+
+.objectMarker{
+  // Override .leaflet-container font-size:12px
+  font-size: 1rem;
+  color: $dark-grey;
+  min-height: $userMarkerHeight;
+  min-width:  $userMarkerWidth;
+  text-align: center;
+  @include sans-serif;
+  @include bg-hover(white, 10%);
+  @include radius;
+  @include shy-border;
+  img{
+    @include radius;
+  }
+  .label{
+    @include serif;
+    font-size: 0.9rem;
+    color: $dark-grey;
+    font-weight: bold;
+    overflow: hidden;
+    @include shy-text-border(rgba(white, 0.5));
+    line-height: 1em;
+  }
+}
+
+.img-wrapper{
+  // Required to be able to position .picture-color-filter
+  position: relative;
+}
+
+// Drawing the marker triangle
+// adapted from http://cssarrowplease.com
+.objectMarker{
+  position: relative;
+  background-color: $lighter-grey;
+  box-shadow: 10px 10px 10px rgba(black, 0.5);
+}
+.objectMarker:after{
+  top: 100%;
+  left: 50%;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border: solid transparent;
+  border-top-color: $lighter-grey;
+  // 11px makes it 1px too wide on the right
+  // but it prevent the little bug occuring with 10px
+  border-width: 11px;
+  margin-left: -10px;
+}
+
+.userMarker{
+  // (1)
+  margin-top: -$userMarkerHeight - $arrowHeight ;
+  margin-left: -$userMarkerWidth/2 +4px;
+  position: relative;
+  .username{
+    margin-top: -0.5em;
+  }
+  #showPositionPicker, .items-count{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  #showPositionPicker{
+    font-size: 1.5rem;
+    color: white;
+    @include bg-hover($light-blue);
+    @include radius;
+  }
+}
+
+.groupMarker{
+  // (1)
+  margin-top: -$groupMarkerHeight - $arrowHeight +4px;
+  margin-left: -$groupMarkerWidth/2 +4px;
+  // Forcing the height to prevent .fa-group to increase the height
+  // which, given its absolute position, might be a conflict with leaflet rules
+  height: $groupMarkerHeight;
+  min-width: $groupMarkerWidth;
+  .name{
+    // @include position(absolute, null, 0.2em, 0, 0.2em);
+    white-space: nowrap;
+  }
+}
+
+// (1) - By default, the icon has it's coordinates for top-left point
+//       margins hereafter compensate to make the icon point at its true position
+//       Additional pixels are the result of empirical tests

@@ -1,6 +1,6 @@
-@import "./position_welcome";
+@import "./position_required";
 @import "./position_picker";
-@import "./user_icon";
+@import "./user_and_group_markers";
 
 .map-container{
   min-height: 60vh;
@@ -21,5 +21,11 @@
   .fa{
     font-size: 2em;
     padding: 0.5em;
+  }
+}
+
+#simpleMap{
+  .items-count, .members-count, #showPositionPicker{
+    display: none;
   }
 }

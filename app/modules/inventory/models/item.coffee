@@ -5,11 +5,6 @@ saveOmitAttributes = require 'lib/save_omit_attributes'
 { buildPath } = require 'lib/location'
 
 module.exports = Filterable.extend
-  url: -> app.API.items.base
-
-  validate: (attrs, options)->
-    unless attrs.owner? then return 'an owner must be provided'
-
   initialize: (attrs, options)->
     @testPrivateAttributes()
 
@@ -26,10 +21,19 @@ module.exports = Filterable.extend
 
     @entityPathname = app.request 'get:entity:local:href', @entityUri
 
-    @userReady = false
+    @initUser owner
 
-    @waitForUser = @reqGrab 'get:user:model', owner, 'user'
-      .then @setUserData.bind(@)
+  initUser: (owner)->
+    # Check the main user early, so that we can access authorized data directly on first render
+    if @mainUserIsOwner
+      @user = app.user
+      @userReady = true
+      @waitForUser = Promise.resolve()
+      @setUserData()
+    else
+      @userReady = false
+      @waitForUser = @reqGrab 'get:user:model', owner, 'user'
+        .then @setUserData.bind(@)
 
   # Checking that attributes privacy is as expected
   testPrivateAttributes: ->
@@ -75,6 +79,7 @@ module.exports = Filterable.extend
       userReady: @userReady
       mainUserIsOwner: @mainUserIsOwner
       user: @userData()
+      isPrivate: attrs.listing is 'private'
 
     # @entity will be defined only if @grabEntity was called
     if @entity?

@@ -20,17 +20,3 @@
     }
   }
 }
-
-#bg{
-  @include position(fixed, 0, 0, 0, 0, -10);
-  background-color: $main-bg;
-  transition: background 0.5s ease;
-}
-
-#bg.cover, #embedded-welcome{
-  // cover background added for whitelisted routes
-  // photo attribution in credits.hbs: Brittany Stevens
-  @include multidef-bg-cover('brittanystevens.jpg', 'hd');
-}
-
-$global-background-contrast-color: rgba($light-grey, 0.98);

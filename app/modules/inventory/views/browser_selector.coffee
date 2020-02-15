@@ -48,7 +48,7 @@ module.exports = Marionette.LayoutView.extend
     'click input': (e)-> e.stopPropagation()
 
   childEvents:
-    'select': 'selectOption'
+    'selectOption': 'selectOption'
 
   lazyUpdateFilter: _.lazyMethod 'updateFilter', 150
   updateFilter: (e)->

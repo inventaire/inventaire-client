@@ -18,11 +18,7 @@ module.exports =
     app.reqres.setHandlers
       'notifications:unread:count': -> notifications.unreadCount()
 
-    if app.user.loggedIn
-      waitForNotifications = _.preq.get app.API.notifications
-        .get 'notifications'
-        .then notifications.addPerType.bind(notifications)
-        .catch _.Error('notifications init err')
+    waitForNotifications = getNotificationsData()
 
 API =
   showNotifications: ->
@@ -34,6 +30,14 @@ API =
       waitForNotifications
       .then -> notifications.beforeShow()
       .then ->
-        app.layout.main.show new NotificationsLayout { collection: notifications }
+        app.layout.main.show new NotificationsLayout { notifications }
         app.navigate 'notifications',
           metadata: { title: _.i18n('notifications') }
+
+getNotificationsData = ->
+  unless app.user.loggedIn then return Promise.resolve()
+
+  _.preq.get app.API.notifications
+  .get 'notifications'
+  .then notifications.addPerType.bind(notifications)
+  .catch _.ErrorRethrow('notifications init err')

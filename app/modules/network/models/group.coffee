@@ -29,12 +29,19 @@ module.exports = Positionable.extend
   setInferredAttributes: ->
     slug = @get 'slug'
     canonical = pathname = "/groups/#{slug}"
+
     @set
       canonical: canonical
       pathname: pathname
-      boardPathname: "/network/groups/settings/#{slug}"
+      boardPathname: "/groups/#{slug}/settings"
       # non-persisted category used for convinience on client-side
       tmp: []
+
+    picture = @get 'picture'
+    unless picture?
+      @set
+        picture: defaultCover
+        pictureFilterColor: getFilterColor @id
 
   beforeShow:->
     # All the actions to run once before showing any view displaying
@@ -78,14 +85,12 @@ module.exports = Positionable.extend
     if @mainUserIsAdmin() then @get('requested').length
     else 0
 
-  itemsCount: -> if @members? then _.sum @members.map(userItemsCount)
-
   serializeData: ->
     attrs = @toJSON()
     status = @mainUserStatus()
-    # not using status alone as that would override users lists:
+
+    # Not using status alone as that would override users lists:
     # requested, invited etc
-    attrs.picture or= defaultCover
     attrs["status_#{status}"] = true
 
     if attrs.position?
@@ -97,11 +102,10 @@ module.exports = Positionable.extend
     mainUserIsMember = @mainUserIsMember()
 
     _.extend attrs,
-      membersCount: @membersCount()
-      itemsCount: @itemsCount()
       mainUserIsAdmin: @mainUserIsAdmin()
       mainUserIsMember: mainUserIsMember
       hasPosition: @hasPosition()
+      membersCount: @membersCount()
 
   userStatus: (user)->
     { id } = user
@@ -188,6 +192,26 @@ module.exports = Positionable.extend
     @set 'highlightScore', highestScore * 2
     @collection.sort()
 
-userItemsCount = (user)->
-  nonPrivate = true
-  user.inventoryLength(nonPrivate) or 0
+# Inspired by https://www.materialpalette.com/colors
+colorFilters = [
+  '#009688'
+  '#00bcd4'
+  '#03a9f4'
+  '#2196f3'
+  '#3f51b5'
+  '#4caf50'
+  '#607d8b'
+  '#673ab7'
+  '#795548'
+  '#8bc34a'
+  '#9c27b0'
+  '#9e9e9e'
+  '#cddc39'
+  '#e91e63'
+]
+
+getFilterColor = (groupId)->
+  someStableGroupNumber = parseInt(groupId.slice(-2), 16)
+  # Pick one of the colors based on the group slug length
+  index = someStableGroupNumber % colorFilters.length
+  return colorFilters[index]

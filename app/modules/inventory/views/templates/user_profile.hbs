@@ -1,0 +1,42 @@
+<div class="avatar-wrapper">
+  <img class="avatar" src="{{imgSrc picture 150 150 true}}" alt="{{username}} avatar">
+</div>
+
+<div class="info">
+
+  <div class="header">
+    <h2 class="username respect-case">{{username}}</h2>
+
+    <div class="profile-buttons">
+      {{#if mainUser}}
+        <a class="editProfile action tiny-button light-blue" href="/settings/profile">
+          {{icon 'pencil'}}
+          {{I18n 'edit profile'}}
+        </a>
+        <a class="addItems action tiny-button light-blue" href="/add" title="{{I18n 'title_add_layout'}}">
+          {{icon 'plus'}} {{I18n 'add books'}}
+        </a>
+      {{else}}
+        {{#if distance}}
+          <a href="{{positionUrl}}" class="showUserOnMap tiny-button light-blue">
+            {{icon 'map-marker'}}
+            <span class="label">{{i18n 'km_away_from_you' distance=distance}}</span>
+          </a>
+        {{/if}}
+        {{partial 'inventory:user_menu' this}}
+      {{/if}}
+    </div>
+  </div>
+
+  <ul class="data">
+    <li class="inventoryLength">
+      <span>{{icon 'book'}}{{i18n 'books'}}</span>
+      <span class="count">{{inventoryLength}}</span>
+    </li>
+
+    {{#if bio}}
+      <li class="bio-wrapper">{{userContent bio}}</li>
+    {{/if}}
+  </ul>
+
+</div>

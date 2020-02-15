@@ -43,7 +43,7 @@ module.exports =
 
 API =
   showHome: ->
-    if app.user.loggedIn then app.execute 'show:inventory:general'
+    if app.user.loggedIn then app.execute 'show:inventory:main:user'
     else app.execute 'show:welcome'
 
   notFound: (route)->

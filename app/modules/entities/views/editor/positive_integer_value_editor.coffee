@@ -7,9 +7,6 @@ module.exports = ClaimsEditorCommons.extend
   mainClassName: 'positive-integer-value-editor'
   template: require './templates/positive_integer_value_editor'
 
-  behaviors:
-    AlertBox: {}
-
   ui:
     input: inputSelector
 

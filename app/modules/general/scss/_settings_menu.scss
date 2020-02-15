@@ -9,13 +9,7 @@
     width: 100%;
     @include display-flex(row, center, space-around, wrap);
     li{
-      min-width: 30%;
-    }
-    /*Small screens*/
-    @media screen and (max-width: $very-small-screen) {
-      li{
-        min-width: 7em;
-      }
+      min-width: 5em;
     }
   }
   hr{

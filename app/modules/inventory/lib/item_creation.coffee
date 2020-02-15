@@ -1,19 +1,17 @@
 { factory:transactionsDataFactory } = require './transactions_data'
 
 module.exports =
-  listingsData: ->
+  listingsData: (itemListing)->
     listings = app.user.listings()
-    lastListing = app.request 'last:listing:get'
-    activeListing = listings[lastListing] or listings.private
-    activeListing.classes = 'active'
+    selectedListing = listings[itemListing] or listings.private
+    selectedListing.classes = 'selected'
     return listings
 
-  transactionsData: ->
+  transactionsData: (itemTransaction)->
     transactions = transactionsDataFactory()
     transactions.inventorying.label = 'just_inventorize_it'
-    lastTransaction = app.request 'last:transaction:get'
-    activeTransaction = transactions[lastTransaction] or transactions.inventorying
-    activeTransaction.classes = 'active'
+    selectedTransaction = transactions[itemTransaction] or transactions.inventorying
+    selectedTransaction.classes = 'selected'
     return transactions
 
   # assume that the view has a ui like so
@@ -21,4 +19,4 @@ module.exports =
   #   transaction: '#transaction'
   #   listing: '#listing'
   getSelectorData: (view, attr)->
-    view.ui[attr].find('.active').attr 'id'
+    view.ui[attr].find('.selected').attr 'id'

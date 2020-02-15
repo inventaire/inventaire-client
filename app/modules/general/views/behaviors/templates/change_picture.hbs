@@ -1,16 +1,18 @@
 <figure class="changePicture">
   {{#if picture}}
   <img src="{{imgSrc picture 250 250}}"
-    alt="{{title}} {{i18n 'cover'}}" class="{{changePicture.classes}}">
+    {{#if title}}alt="{{title}} {{i18n 'cover'}}"{{/if}}
+    {{#if username}}alt="{{i18n 'profile pic'}}"{{/if}}
+    class="{{changePicture.classes}}">
   {{/if}}
 
   {{#unless restricted}}
-    <a id="changePicture" class="button" tabindex="0">
+    <a id="changePicture" class="button light-blue" tabindex="0">
       {{icon 'camera'}}
       {{#if picture}}
-        {{i18n 'change picture'}}
+        {{I18n 'change picture'}}
       {{else}}
-        {{i18n 'add a picture'}}
+        {{I18n 'add a picture'}}
       {{/if}}
       <span class="loading"></span>
     </a>

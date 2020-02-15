@@ -122,14 +122,6 @@ module.exports = (_)->
     runUnlessViewIsDestroyed = => unless @isDestroyed then fn()
     setTimeout runUnlessViewIsDestroyed, timeout
 
-  # Give focus to a view top element, so that hitting Tab focuses
-  # the first focusable element in the view
-  # To be called from a view onShow function
-  Marionette.View::focusOnShow = ->
-    # Make sure the view can be focused
-    @$el[0].tabIndex = 0
-    @$el.focus()
-
   Marionette.View::updateClassName = ->
     # Use in 'onRender' hooks to update the view el classes on re-render
     @$el[0].className = @className()

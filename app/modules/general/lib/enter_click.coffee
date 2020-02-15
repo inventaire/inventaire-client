@@ -13,7 +13,7 @@ module.exports =
     if e.keyCode is 13 and e.ctrlKey
       $el = $(e.currentTarget)
       if $el.val().length > 0
-        clickTarget $el.parents('form').first().find '.sendMessage'
+        clickTarget $el.parents('form, .ctrlEnterClickWrapper').first().find '.sendMessage, .save'
 
   button: (e)->
     if e.keyCode is 13 then $(e.currentTarget).trigger 'click'

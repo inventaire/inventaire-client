@@ -11,6 +11,7 @@ module.exports = Marionette.CollectionView.extend
   emptyViewOptions: ->
     message: @options.emptyViewMessage
     link: @options.emptyViewLink
+    showEmail: @options.showEmail
 
   initialize: ->
     { filter, textFilter } = @options

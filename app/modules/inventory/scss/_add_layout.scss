@@ -1,36 +1,39 @@
 $addLayoutWidth: 50em;
 
 #addLayout{
-  flex: 1 1 auto;
-  section{
-    background-color: #fefefe;
-    @include radius(4px);
-    @include shy-border;
-  }
+  @include central-column(42em);
   text-align: center;
+  .custom-tabs{
+    .fa{
+      margin-right: 0.5em;
+    }
+  }
+  .custom-tabs-content{
+    // Take the same color as the global background to let internal
+    // layout sections have their own contrasting background
+    background-color: $body-bg;
+  }
   h3{
+    text-align: center;
     @include sans-serif;
     color: $dark-grey;
     font-size: 1.2em;
   }
-  section:not(.inner){
-    margin-top: 2em;
-    margin-bottom: 2em;
+  section{
+    @include display-flex(column, stretch, center);
+    background-color: #fefefe;
+    @include radius(4px);
+    @include shy-border;
+    &:not(.inner){
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
   }
+
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
-    h2{
+    h3{
       margin-top: 1em;
-    }
-    .level-1{
-      .tab{
-        .fa{
-          font-size: 1.4rem;
-        }
-        .label{
-          font-size: 1rem;
-        }
-      }
     }
   }
 

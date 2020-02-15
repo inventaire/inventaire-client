@@ -1,57 +1,60 @@
 #settings{
-  .custom-column{
-    @include custom-column(38em);
+  background-color: #e0e0e0;
+  .button, .dark-grey-button{
+    @include sans-serif;
+    &.postfix{
+      font-size: 1rem;
+      // Centering vertically
+      line-height: 2.3rem;
+    }
   }
-  .custom-tabs-content{
-    width: 100%;
+  .central-column{
+    @include central-column(42em);
   }
   padding-top: 1em;
-
-  .custom-tabs-titles{
-    .title{
-      @include sans-serif;
-    }
+  section{
+    margin: 1em 0;
+    padding: 2em 1em;
+    @include radius;
+    background-color: #f4f4f4;
   }
 
   h3{
     text-transform: uppercase;
     font-size: 1.2em;
     @include sans-serif;
-    &:not(.first){
-      margin-top: 1em;
-    }
   }
+
   .button{
     font-weight: bold;
-  }
-  .custom-tabs-titles a:not(.active){
-    color: white;
-    @include bg-hover($dark-grey);
   }
 
   /*Small screens*/
   @media screen and (max-width: 500px) {
     padding-top: 0;
-    .custom-tabs-titles{
-      a{
-        &.active{
-          @include transition(flex);
-          background-color: #fafafa;
-          flex: 1 0 auto;
-        }
-        &:not(.active){
-          .title{
-            display: none;
-          }
-        }
-      }
+    .layout-title{
+      text-align: center;
+      @include sans-serif;
     }
-    .custom-tabs-content{
-      padding: 0.5em;
+    section{
+      padding: 1em 0;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: 500px) {
+    .layout-title{
+      // shown on the tab
+      display: none;
+    }
+    section{
+      padding: 2em 1em;
+      margin: 1.5em 0;
     }
   }
 }
 
 @import 'profile_settings';
+@import 'account_settings';
 @import 'notifications_settings';
-@import 'labs_settings';
+@import 'data_settings';

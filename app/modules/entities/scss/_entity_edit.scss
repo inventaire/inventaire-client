@@ -2,7 +2,7 @@ $edit-button-grey: $soft-grey;
 $entity-editor-small-thresold: 700px;
 
 #entityEdit{
-  @include custom-column(50em);
+  @include central-column(50em);
   @import 'properties_editor';
   @import 'property_editor';
   @import 'entity_value_editor';

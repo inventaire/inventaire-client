@@ -20,26 +20,18 @@ module.exports = TypedEntityLayout.extend
 
   initialize: ->
     TypedEntityLayout::initialize.call @
-    { @item } = @options
     entityItems.initialize.call @
-
-  onShow: ->
-    if @item? then @showItemModal @item
-    else @completeShow()
+    @displayMergeSuggestions = app.user.isAdmin
 
   onRender: ->
     TypedEntityLayout::onRender.call @
     @lazyShowItems()
 
-  showItemModal: (item)->
-    app.execute 'show:item:modal', item
-    @listenToOnce app.vent, 'modal:closed', @onClosedItemModal.bind(@)
+  serializeData: ->
+    _.extend @model.toJSON(),
+      displayMergeSuggestions: @displayMergeSuggestions
 
-  completeShow: ->
-    # Run only once
-    if @_showWasCompleted then return
-    @_showWasCompleted = true
-
+  onShow: ->
     # Need to wait to know if the user has an instance of this work
     @waitForItems
     .then @ifViewIsIntact('showEntityActions')
@@ -60,9 +52,5 @@ module.exports = TypedEntityLayout.extend
 
   toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
 
-  onClosedItemModal: ->
-    @completeShow()
-    app.navigateFromModel @model, null, { preventScrollTop: true }
-
-  # Close the item modal when another view is shown in place of this layout
-  onDestroy: -> app.execute 'modal:close'
+  showMergeSuggestions: ->
+    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }

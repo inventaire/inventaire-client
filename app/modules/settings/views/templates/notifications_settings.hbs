@@ -1,15 +1,16 @@
-<div class="global">
+<h2 class="layout-title">{{I18n 'notifications'}}</h2>
+
+<section class="global">
   <h3 class="first">{{i18n 'global'}}</h3>
   {{partial 'toggler' global}}
   <p class="warning {{#if showWarning}}shown{{/if}}">
     {{icon 'warning'}} {{i18n warning}}
   </p>
-  <hr>
-</div>
+</section>
 
 <div class="rest">
   <div class="rest-fog local-fog {{#if showWarning}}shown{{/if}}"></div>
-  <div class="news">
+  <section class="news">
     <h3>{{i18n 'news'}}</h3>
     {{partial 'toggler' inventories_activity_summary}}
     <div class="summary-periodicity checkWrapper">
@@ -24,26 +25,24 @@
       </div>
       <span class="check"></span>
     </div>
-  </div>
-  <div class="friends">
+  </section>
+  <section class="friends">
     <h3>{{i18n 'friends'}}</h3>
     {{partial 'settings:email_me_when'}}
     {{partial 'toggler' friendship_request}}
     <hr>
     {{partial 'toggler' friend_accepted_request}}
-    <hr>
-  </div>
+  </section>
 
-  <div class="groups">
+  <section class="groups">
     <h3>{{i18n 'groups'}}</h3>
     {{partial 'settings:email_me_when'}}
     {{partial 'toggler' group_invite}}
     <hr>
     {{partial 'toggler' group_acceptRequest}}
-    <hr>
-  </div>
+  </section>
 
-  <div class="exchanges">
+  <section class="exchanges">
     <h3>{{i18n 'exchanges'}}</h3>
     {{partial 'settings:email_me_when'}}
     {{partial 'toggler' your_item_was_requested}}
@@ -51,7 +50,6 @@
     {{partial 'toggler' update_on_your_item}}
     <hr>
     {{partial 'toggler' update_on_item_you_requested}}
-    <hr>
-  </div>
+  </section>
 
 </div>

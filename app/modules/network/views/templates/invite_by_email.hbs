@@ -1,23 +1,31 @@
+{{#unless groupContext}}
+  <h3>{{icon 'envelope'}} {{I18n 'invite friends by email'}}</h3>
+{{/unless}}
+
 <form>
-  <label for="invitations">{{icon 'envelope'}}{{I18n 'by email address'}}</label>
+  <label for="invitations">{{I18n 'email address'}}</label>
   {{!-- wrapper required for to append an alert box --}}
   <div class="invitations">
     <textarea id="invitations" name="invitations" placeholder="{{i18n 'emails separated by a comma'}}">{{rawEmails}}</textarea>
   </div>
+
+  <label for="message">{{i18n 'personalized message'}}</label>
   <div class="message {{#if message}}has-message{{/if}}">
-    <a id="addMessage">{{i18n 'add a personalized message'}}</a>
-    <textarea id="message" name="message" placeholder="{{i18n 'personalized message'}}...">{{message}}</textarea>
+    <textarea id="message" name="message" placeholder="({{i18n 'optional'}})">{{message}}</textarea>
   </div>
+
   <a id="sendInvitations" class="button light-blue bold radius">{{i18n 'send invitations'}}
     {{partial 'general:behaviors:success_check' ''}}
   </a>
 </form>
+
 <div class="output">
   {{#each emailsInvited}}
     {{!-- emails are escaped during validation --}}
     <p class="email-sent">{{{i18n 'email_invitation_sent' email=this}}} {{icon 'check-circle'}}</p>
   {{/each}}
 </div>
+
 <div class="usersAlreadyThere hidden">
   <p>{{i18n 'Look who was already there!'}} {{I18n alreadyThereAction}}</p>
   <div id="usersAlreadyThere"></div>

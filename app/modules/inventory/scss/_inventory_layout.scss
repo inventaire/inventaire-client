@@ -1,0 +1,47 @@
+#inventoryLayout{
+  background-color: white;
+  // Set a minimun height so that when a filter is picked and only a few items
+  // are displayed as a result, the view doesn't jump up
+  min-height: 100vh;
+
+  #sectionNav{
+    margin-bottom: 1em;
+  }
+
+  #itemsList{
+    min-height: 100vh;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 0.5em;
+  }
+}
+
+.selector-button, button{
+  .count{
+    color: $grey;
+    font-weight: normal;
+    padding-left: 0.3em;
+    margin-right: auto;
+  }
+}
+
+
+$inventory-nav-grey: #eee;
+
+#inventoryLayout{
+  @import "inventory_nav";
+  @import "user_profile";
+  @import 'group_profile';
+  @import "inventory_section_navs";
+  @import "inventory_nav_lists";
+}
+
+@import "item_creation";
+@import "item_show";
+@import "inventory_welcome";
+@import "item_boxes";
+@import "items_list";
+@import "add_layout";
+@import "inventory_browser";

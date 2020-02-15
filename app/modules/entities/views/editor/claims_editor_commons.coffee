@@ -6,6 +6,9 @@ properties = require 'modules/entities/lib/properties'
 # while property values are having an ad-hoc model created, labels just use their entity's
 # label
 module.exports = EditorCommons.extend
+  behaviors:
+    AlertBox: {}
+
   initEditModeState: ->
     # If the value is null, start in edit mode
     @editMode = not @model.get('value')?

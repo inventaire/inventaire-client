@@ -171,12 +171,6 @@
       justify-content: center;
     }
   }
-  /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .alternatives .label{
-      display: none;
-    }
-  }
 
   /*Medium to Large screens*/
   @media screen and (min-width: $smaller-screen) {

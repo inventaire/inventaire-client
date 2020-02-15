@@ -58,8 +58,9 @@ module.exports = UserCommons.extend
     reload = -> location.href = reloadHref
 
     if @loggedIn
-      # wait for the server confirmation as we keep the language setting
+      # Wait for the server confirmation as we keep the language setting
       # in the user's document
+      # This event is triggered by app/lib/model_update.coffee
       @once 'confirmed:language', reload
     else
       # the language setting is persisted as a cookie instead

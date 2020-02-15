@@ -27,6 +27,7 @@ module.exports = ->
   app.module 'Users', require 'modules/users/users'
   app.module 'Entities', require 'modules/entities/entities'
   app.module 'Search', require 'modules/search/search'
+  app.module 'Add', require 'modules/inventory/add'
   app.module 'Inventory', require 'modules/inventory/inventory'
   app.module 'Transactions', require 'modules/transactions/transactions'
   app.module 'Network', require 'modules/network/network'

@@ -1,4 +1,4 @@
-groupPlugin = require '../plugins/group'
+{ GroupLayoutView } = require './group_views_commons'
 GroupBoardHeader = require './group_board_header'
 GroupSettings = require './group_settings'
 UsersSearchLayout = require '../views/users_search_layout'
@@ -6,21 +6,22 @@ UsersList = require 'modules/users/views/users_list'
 InviteByEmail = require './invite_by_email'
 screen_ = require 'lib/screen'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = GroupLayoutView.extend
   template: require './templates/group_board'
   className: ->
     standalone = if @options.standalone then 'standalone' else ''
     return "groupBoard #{standalone}"
 
   initialize: ->
-    { @standalone } = @options
-    @_alreadyShownSection = {}
-    @initPlugin()
-    @listenTo @model, 'action:accept', @render.bind(@)
-    @listenTo @model, 'action:leave', @render.bind(@)
+    { @standalone, @openedSection } = @options
 
-  initPlugin: ->
-    groupPlugin.call @
+    # Join requests will be showned instead
+    if @openedSection is 'groupSettings' and @model.mainUserIsAdmin() and @model.get('requested').length > 0
+      @openedSection = null
+
+    @_alreadyShownSection = {}
+    @listenTo @model, 'action:accept', @render.bind(@)
+    @listenTo @model, 'action:leave', @onLeave.bind(@)
 
   behaviors:
     PreventDefault: {}
@@ -46,9 +47,11 @@ module.exports = Marionette.LayoutView.extend
     attrs.sections = sectionsData
     return attrs
 
-  events:
+  events: _.extend {}, GroupLayoutView::events,
     'click .section-toggler': 'toggleSection'
-    'click .joinRequest': 'requestToJoin'
+
+  onShow: ->
+    if @openedSection? then @toggleUi @openedSection
 
   showHeader: ->
     @header.show new GroupBoardHeader { @model }
@@ -119,6 +122,8 @@ module.exports = Marionette.LayoutView.extend
 
   showMembersInvitor: ->
     group = @model
+    # TODO: replace UsersSearchLayout by a user list fed with search results
+    # that aren't added to the deprecated global users collections
     @groupInvite.show new UsersSearchLayout
       stretch: false
       updateRoute: false
@@ -128,6 +133,8 @@ module.exports = Marionette.LayoutView.extend
       filter: (user, index, collection)->
         group.userStatus(user) isnt 'member'
 
+  onLeave: -> app.execute 'show:inventory:group', @model, true
+
   showMembersEmailInvitor: ->
     @groupEmailInvite.show new InviteByEmail { group: @model }
 
@@ -136,7 +143,7 @@ module.exports = Marionette.LayoutView.extend
 
 sectionsData =
   settings:
-    label: 'settings'
+    label: 'group settings'
     icon: 'cog'
   requests:
     label: 'requests waiting your approval'

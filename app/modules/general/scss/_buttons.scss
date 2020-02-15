@@ -18,8 +18,14 @@
   &:focus, &:hover{
     color: white;
   }
+  &.grey{
+    @include bg-hover($grey);
+  }
   &.soft-grey{
     @include bg-hover($soft-grey)
+  }
+  &.dark-grey{
+    @include bg-hover($dark-grey)
   }
   &.sans-serif{
     @include sans-serif;
@@ -42,19 +48,36 @@
   }
 }
 
+button{
+  border-style: none;
+  border-width: 0;
+  padding: 0.2em 0.6em;
+  margin: 0;
+  @include sans-serif;
+  font-weight: bold;
+  appearance: none;
+  display: inline-block;
+  background-color: inherit;
+  cursor: pointer;
+  outline: 0;
+  @include radius;
+}
+
 $default-button-margin: 0.1em;
 $default-button-padding: 1em;
 
 @mixin custom-button($bg-color, $color: white, $margin: $default-button-margin, $padding:$default-button-padding, $darken:15%){
   @include text-hover($color);
   padding: $padding;
-  margin: $margin;
+  &:not(.postfix){
+    margin: $margin;
+  }
   // include last to keep the transition effect
   @include bg-hover($bg-color, $darken);
 }
 
 @mixin tiny-button-padding(){
-  padding: 0.2em 0.6em 0.2em 0.6em;
+  padding: 0.2em 0.6em;
 }
 
 // A mixin for selectors already affected by .tiny-button
@@ -64,6 +87,8 @@ $default-button-padding: 1em;
   @if $color {
     @include text-hover($color);
   }
+  // Override text-hover transition:color, which was overriding bg-hover transition:background-color
+  transition-property: color, background-color;
 }
 
 @mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
@@ -208,6 +233,10 @@ div.icon-buttons-header{
 
 .soft-grey-button{
   @include big-button($soft-grey);
+}
+
+.dark-grey-button{
+  @include big-button($dark-grey);
 }
 
 .grey-button{

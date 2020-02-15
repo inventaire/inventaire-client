@@ -1,3 +1,5 @@
+$user-box-heigth: 3em;
+
 @mixin white-text{
   color: white;
   a.current{
@@ -57,7 +59,7 @@
   @import 'item_listing_box';
 }
 
-.itemContainer, .mixedBox, .transactionPreview{
+.itemCard, .mixedBox, .transactionPreview{
   .transactionBox, .listingMenu{
     .current{
       width: 100%;
@@ -77,7 +79,7 @@
 // (1): defining a custom box-color mixin
 // for the different needs:
 // in #itemShowLayout, only the .icon should have a color background
-// in .itemContainer and .mixedBox, the label being hidden, the color background
+// in .itemCard and .mixedBox, the label being hidden, the color background
 // should cover the whole box
 
 @import 'item_request_box';

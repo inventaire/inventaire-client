@@ -5,6 +5,7 @@ error_ = require 'lib/error'
 PicturePicker = require 'modules/general/views/behaviors/picture_picker'
 groupFormData = require '../lib/group_form_data'
 getActionKey = require 'lib/get_action_key'
+{ updateLimit } = require 'lib/textarea_limit'
 { ui:groupUrlUi, events:groupUrlEvents, LazyUpdateUrl } = require '../lib/group_url'
 
 module.exports = Marionette.ItemView.extend
@@ -20,6 +21,9 @@ module.exports = Marionette.ItemView.extend
   initialize: ->
     @lazyRender = _.LazyRender @, 200, true
     @_lazyUpdateUrl = LazyUpdateUrl @
+    @lazyDescriptionUpdate = _.debounce updateLimit.bind(@, 'description', 'descriptionLimit', 5000), 200
+
+  onRender: -> @lazyDescriptionUpdate()
 
   # Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl: -> @_lazyUpdateUrl()
@@ -46,6 +50,7 @@ module.exports = Marionette.ItemView.extend
   ui: _.extend {}, groupUrlUi,
     editNameField: '#editNameField'
     description: '#description'
+    descriptionLimit: '.descriptionLimit'
     saveCancel: '.saveCancel'
     searchabilityWarning: '.searchability .warning'
 
@@ -59,6 +64,7 @@ module.exports = Marionette.ItemView.extend
     'click a.leave': 'leaveGroup'
     'click a.destroy': 'destroyGroup'
     'click #showPositionPicker': 'showPositionPicker'
+    'keydown textarea#description': -> @lazyDescriptionUpdate()
 
   onShow: ->
     @listenTo @model, 'change:picture', @LazyRenderFocus('#changePicture')
@@ -144,7 +150,7 @@ module.exports = Marionette.ItemView.extend
         app.groups.remove group
         # And change page as staying on the same page would just display
         # the group as empty but accepting a join request
-        app.execute 'show:group:user'
+        app.execute 'show:inventory:network'
       .catch _.ErrorRethrow('destroyGroup action err')
 
     @_leaveGroup 'destroy_group_confirmation', 'cant_undo_warning', action

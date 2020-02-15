@@ -85,7 +85,8 @@ $work-infobox-property-color: #999;
     .cover{
       padding-top: 2em;
       img{
-        @include sticky($topbar-height + 10px);
+        position: sticky;
+        top: $topbar-height + 10px;
       }
     }
   }

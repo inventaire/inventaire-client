@@ -1,18 +1,29 @@
-<td class="title itemShow">
-  <a class="link itemShow">{{title}}</a>
-</td>
-<td class="authors">
-  {{#if entityData.claims.wdt:P50}}
-    {{claim entityData.claims 'wdt:P50' true true}}
-  {{else}}
-    {{authors}}
-  {{/if}}
-</td>
-<td class="user">
-  <a class="user link serif" href="{{user.pathname}}">
-    <img src="{{imgSrc user.picture 16}}">
-    {{user.username}}
+{{#if isMainUser}}
+  <input type="checkbox" name="select" data-id="{{_id}}" {{#if checked}}checked{{/if}}>
+{{/if}}
+
+<div class="body">
+  <a class="showItem" href="{{pathname}}">
+    <div class="image-wrapper">
+      {{~#if picture~}}<img src="{{imgSrc picture 128}}" alt="{{title}}">{{~/if~}}
+    </div>
+    <div class="info">
+      <p class="title">{{title}}</p>
+      <p class="authors">{{authors}}</p>
+    </div>
   </a>
-</td>
-<td>{{i18n transaction}}</td>
-<td>{{timeFromNow created}}</td>
+
+  <div class="modes">
+    {{#unless isPrivate}}
+      <div class="transaction {{currentTransaction.id}}" title="{{i18n currentTransaction.label}}">
+        {{icon currentTransaction.icon}}
+      </div>
+    {{/unless}}
+
+    {{#if isMainUser}}
+      <div class="listing {{currentListing.id}}" title="{{i18n currentListing.label}}">
+        {{icon currentListing.icon}}
+      </div>
+    {{/if}}
+  </div>
+</div>

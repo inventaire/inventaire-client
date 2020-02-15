@@ -15,6 +15,8 @@ module.exports =
 
     app.commands.setHandlers
       'search:global': API.search
+      'show:users:search': -> API.search '', 'user'
+      'show:groups:search': -> API.search '', 'group'
 
     app.reqres.setHandlers
       'search:entities': API.searchEntities
@@ -25,14 +27,16 @@ API.search = (search, section, showFallbackLayout)->
   app.vent.trigger 'live:search:query', { search, section, showFallbackLayout }
 
 API.searchFromQueryString = (querystring)->
-  { q, refresh } = parseQuery querystring
+  { q, type, refresh } = parseQuery querystring
   refresh = _.parseBooleanString refresh
+  q ?= ''
   # Replacing "+" added that the browser search might have added
   q = q.replace /\+/g, ' '
 
   if showEntityPageIfUri(q, refresh) then return
 
-  [ q, section ] = findSearchSection q
+  if type? then section = type
+  else [ q, section ] = findSearchSection q
 
   # Show the add layout at its search tab in the background, so that clicking
   # out of the live search doesn't result in a blank page
