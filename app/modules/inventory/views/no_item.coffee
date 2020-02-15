@@ -5,3 +5,4 @@ module.exports = Marionette.ItemView.extend
   onShow: -> @$el.fadeIn()
   serializeData: ->
     showIcon: @options.showIcon isnt false
+    message: @options.message or 'nothing here'
