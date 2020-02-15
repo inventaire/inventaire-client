@@ -83,6 +83,6 @@ showGroupBoardFromModel = (model, options = {})->
 getNetworkNotificationsCount = ->
   # TODO: introduce a 'read' flag on the relation document to stop counting
   # requests that were already seen.
-  friendsRequestsCount = app.relations.otherRequested.length
-  mainUserInvitationsCount = app.groups.mainUserInvited.length
+  friendsRequestsCount = app.relations?.otherRequested.length or 0
+  mainUserInvitationsCount = app.groups?.mainUserInvited.length or 0
   return friendsRequestsCount + mainUserInvitationsCount
