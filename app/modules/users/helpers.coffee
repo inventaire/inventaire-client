@@ -38,7 +38,9 @@ module.exports = (app)->
 
     resolveToUserModel: (user)->
       # 'user' is either the user model, a user id, or a username
-      if _.isModel(user) then return Promise.resolve user
+      if _.isModel user
+        if user.get('username')? then return Promise.resolve user
+        else throw error_.new 'not a user model', 500, { user }
 
       if _.isUserId user
         userId = user

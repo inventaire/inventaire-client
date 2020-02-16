@@ -8,7 +8,7 @@ module.exports =
 
   showUser: (e)->
     unless _.isOpenedOutside e
-      app.execute 'show:user', @model
+      app.execute 'show:user', @model.user
       # Required to close the ItemShow modal if one was open
       app.execute 'modal:close'
 

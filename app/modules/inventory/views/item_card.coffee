@@ -29,6 +29,7 @@ module.exports = ItemItemView.extend
     'click a.remove': 'itemDestroy'
     'click a.itemShow': 'itemShow'
     'click a.user': 'showUser'
+    'click a.showUser': 'showUser'
     'click a.requestItem': -> app.execute 'show:item:request', @model
 
   serializeData: ->
