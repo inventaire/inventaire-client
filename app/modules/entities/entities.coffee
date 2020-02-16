@@ -139,12 +139,12 @@ API =
 showEntityCreate = (params)->
   # Drop possible type pluralization
   params.type = params.type?.replace /s$/, ''
-  { type } = params
-  if type? and type not in entityDraftModel.whitelistedTypes
-    err = error_.new "invalid entity draft type: #{type}", params
-    return app.execute 'show:error:other', err
 
-  if type?
+  # Known case: when clicking 'create' while live search section is 'subject'
+  if params.type not in entityDraftModel.whitelistedTypes
+    params.type = null
+
+  if params.type?
     params.model = entityDraftModel.create params
     showEntityEdit params
   else
