@@ -3,7 +3,6 @@
     @include display-flex(row);
   }
   .list-wrapper{
-    padding: 1em;
     margin-bottom: auto;
     background-color: $light-grey;
     @include radius;
@@ -24,11 +23,15 @@
     .map-lists-wrapper{
       flex-direction: column;
     }
+    .list-wrapper{
+      padding: 0.5em;
+    }
   }
 
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     .list-wrapper{
+      padding: 1em;
       &:not(:first-child){
         margin-left: 0.5em;
       }

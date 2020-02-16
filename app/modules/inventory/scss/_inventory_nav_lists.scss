@@ -43,6 +43,12 @@ $nav-avatar-size: 5em;
     background-color: white;
     padding: 0 0.2em;
   }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    ul{
+      justify-content: center;
+    }
+  }
 }
 
 #usersList, #groupsList{
