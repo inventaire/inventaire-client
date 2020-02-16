@@ -91,6 +91,28 @@
     margin-right: 0.5em;
     opacity: 0.5;
   }
+  .userLi{
+    .userMenu{
+      text-align: left;
+    }
+    span, {
+      color: $dark-grey;
+    }
+    .fa:not(.times-circle){
+      @include text-hover($grey, $dark-grey);
+    }
+    .action{
+      span, .fa{
+        color: white;
+      }
+    }
+    .acceptRequest{
+      @include tiny-button($success-color);
+    }
+    .refuseRequest{
+      @include tiny-button($grey);
+    }
+  }
 }
 
 @import "group_settings";

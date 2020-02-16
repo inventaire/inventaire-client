@@ -37,16 +37,6 @@ $user-bg: #ddd;
       @include display-flex(row, center, flex-end);
     }
   }
-  .inventoryLength{
-    opacity: 0.4;
-    background-color: $darker-grey;
-    border-radius: $global-radius;
-    padding: 0 0.4em 0.1em 0.4em;
-    margin-left: auto;
-    margin-right: 0.2em;
-    min-width: 1.6em;
-    text-align: center;
-  }
   .action{
     @include radius;
   }
@@ -57,11 +47,6 @@ $user-bg: #ddd;
   .invite{
     @include tiny-button($light-blue);
     white-space: nowrap;
-  }
-  &:not(.stretch){
-    .inventoryLength.long{
-      display: none;
-    }
   }
   &.stretch{
     margin: 0.5em 0 0.5em 0;
@@ -96,25 +81,12 @@ $user-bg: #ddd;
       .top{
         position: relative;
         @include display-flex(row, center, flex-start);
-        .inventoryLength{
-          /*Small screens*/
-          @media screen and (max-width: 250px) {
-            display: none;
-          }
-        }
       }
       .user-menu{
         @include position(absolute, 0, 0, 0, null, 1);
       }
     }
     &.stretch{
-      .username{
-        // forcing .inventoryLength to go to the next line
-        display: block;
-      }
-      .inventoryLength.short{
-        display: none;
-      }
       .userMenu{
         align-self: center;
         margin-bottom: 1em;
@@ -154,10 +126,7 @@ $user-bg: #ddd;
       // min-height: $user-height;
     }
     .userMenu{
-      // only push on left if inventoryLength isnt already pushing
-      &:nth-child(2){
-        margin-left: auto;
-      }
+      margin-left: auto;
     }
     &:not(.stretch){
       .top{
@@ -165,9 +134,6 @@ $user-bg: #ddd;
       }
     }
     &.stretch{
-      .inventoryLength.short{
-        display: none;
-      }
       .select{
         min-height: $stretch-user-height;
         @include display-flex(column);
@@ -184,10 +150,6 @@ $user-bg: #ddd;
     .details{
       // limiting .bio.user-content expansion
       max-width: 27em;
-    }
-    .inventoryLength{
-      @include display-flex(row, center, center);
-      flex: 0 0 auto;
     }
   }
 }
@@ -259,34 +221,6 @@ $user-bg: #ddd;
       .right-box{
         max-width: 230px;
       }
-    }
-  }
-}
-
-#networkLayout, .groupBoard{
-  .userLi{
-    .userMenu{
-      text-align: left;
-    }
-    span, {
-      color: $dark-grey;
-    }
-    .fa:not(.times-circle){
-      @include text-hover($grey, $dark-grey);
-    }
-    .action{
-      span, .fa{
-        color: white;
-      }
-    }
-    .inventoryLength{
-      color: white;
-    }
-    .acceptRequest{
-      @include tiny-button($success-color);
-    }
-    .refuseRequest{
-      @include tiny-button($grey);
     }
   }
 }

@@ -11,13 +11,6 @@
       {{#if showEmail}}
         <span class="email">({{email}})</span>
       {{/if}}
-      {{#unless groupContext}}
-        {{#if inventoryLength}}
-          {{!-- one of the two is hidden from css depending on the situation --}}
-          <span class="inventoryLength short serif">{{inventoryLength}}</span>
-          <span class="inventoryLength long serif">{{i18n 'num_books' inventoryLength}}</span>
-        {{/if}}
-      {{/unless}}
     </div>
     {{#if stretch}}
       {{#if bio}}
