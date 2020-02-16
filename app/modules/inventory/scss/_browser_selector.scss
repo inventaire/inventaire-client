@@ -109,6 +109,7 @@
 }
 
 .browser-selector-li{
+  overflow: hidden;
   &:not(:last-child){
     border-bottom: 1px solid #ddd;
   }
@@ -119,6 +120,8 @@
     line-height: 1em;
     .label{
       margin-left: 0.2em;
+      // Needed for long words such as books with Vergangenheitsbewältigung (wd:Q679615) as subject
+      overflow-wrap: anywhere;
     }
     .count{
       margin-left: auto;
