@@ -90,7 +90,7 @@ module.exports = Marionette.LayoutView.extend
   canCancel: ->
     # In the case of an entity being created, showing the entity page would fail
     unless @model.creating then return true
-    # Don't display a cancel button if we don't know whre to redirect
+    # Don't display a cancel button if we don't know where to redirect
     return Backbone.history.last.length > 0
 
   cancel: ->
