@@ -3,7 +3,9 @@
   <div class="{{hash.prefix}}NetworkItems"></div>
   <div class="{{hash.prefix}}PublicItems"></div>
 </div>
-<div class="items-lists-loader">
-  {{partial 'loader' inline=true}}
-  <span class="label">{{i18n 'fetching available books...'}}</span>
-</div>
+{{#unless hash.disabled}}
+  <div class="items-lists-loader">
+    {{partial 'loader' inline=true}}
+    <span class="label">{{i18n 'fetching available books...'}}</span>
+  </div>
+{{/unless}}

@@ -14,16 +14,17 @@ module.exports = Marionette.LayoutView.extend
     entityActions: '.editionEntityActions'
 
   initialize: ->
-    entityItems.initialize.call @
+    { @itemToUpdate } = @options
+    unless @itemToUpdate? then entityItems.initialize.call @
 
   onRender: ->
-    @lazyShowItems()
+    unless @itemToUpdate? then @lazyShowItems()
     @showEntityActions()
 
   serializeData: ->
     _.extend @model.toJSON(),
+      itemUpdateContext: @itemToUpdate?
       onWorkLayout: @options.onWorkLayout
 
   showEntityActions: ->
-    { itemToUpdate } = @options
-    @entityActions.show new EntityActions { @model, itemToUpdate }
+    @entityActions.show new EntityActions { @model, @itemToUpdate }

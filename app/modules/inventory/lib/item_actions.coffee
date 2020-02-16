@@ -14,7 +14,8 @@ module.exports =
   update: (options)->
     # expects: items (models or ids), attribute, value
     # optional: selector
-    { items, attribute, value, selector } = options
+    { item, items, attribute, value, selector } = options
+    if not items? and item? then items = [ item ]
     _.type items, 'array'
     _.type attribute, 'string'
     if selector? then _.type selector, 'string'

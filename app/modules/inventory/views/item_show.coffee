@@ -47,7 +47,7 @@ module.exports = Marionette.LayoutView.extend
     unless entity.type is 'work' then throw new Error('wrong entity type')
 
     entity.fetchSubEntities()
-    .then ->
+    .then =>
       app.layout.modal.show new EditionsList
         collection: entity.editions
         work: entity
