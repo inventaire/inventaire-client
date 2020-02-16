@@ -112,6 +112,7 @@ module.exports = Marionette.LayoutView.extend
       region: @itemsList
       limit: 20
       allowMore: true
+      showDistance: section is 'public'
 
   showSelectedInventory: (type, model)->
     if type is 'user' or type is 'group'
