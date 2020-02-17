@@ -12,18 +12,27 @@ module.exports = Marionette.LayoutView.extend
   regions:
     shelf: '.shelf'
     itemsList: '.itemsList'
-    itemsEditor: '.itemsEditor'
 
   onShow: ->
     { shelf: shelfId } = @options
-    getById(shelfId)
-    .then (shelf)=>
+    Promise.all([ getById(shelfId), @getItemsData(shelfId) ])
+    .spread (shelf, itemsData)=>
+      _.extend itemsData, { type: shelf }
+
+      user = {}
+      if app.user.id is shelf.get('owner')
+        user.isMainUser = true
+
       @shelf.show new ShelfView { model: shelf }
-      @itemsList.show new InventoryBrowser { shelf }
+      @itemsList.show new InventoryBrowser { itemsData, shelf, user }
     .catch app.Execute('show:error')
 
   events:
     'click #editItems': 'showItemsEditor'
+
+  getItemsData: (shelfId) ->
+    if shelfId? then params = { shelf: shelfId }
+    _.preq.get app.API.items.inventoryView(params)
 
 getById = (id)->
   _.preq.get app.API.shelves.byIds(id)

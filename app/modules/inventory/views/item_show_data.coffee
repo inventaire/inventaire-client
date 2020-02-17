@@ -4,6 +4,8 @@
 ItemTransactions = require './item_transactions'
 getActionKey = require 'lib/get_action_key'
 ItemShelves = require './item_shelves'
+itemViewsCommons = require '../lib/items_views_commons'
+ItemLayout = Marionette.LayoutView.extend itemViewsCommons
 
 module.exports = ItemLayout.extend
   id: 'itemShowData'
