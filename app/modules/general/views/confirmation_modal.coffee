@@ -16,6 +16,7 @@ module.exports = Marionette.ItemView.extend
     data = @options
     data.yes or= 'yes'
     data.no or= 'no'
+    data.yesButtonClass or= 'alert'
     data.canGoBack = @options.back?
     return data
 

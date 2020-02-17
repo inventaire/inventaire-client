@@ -84,7 +84,16 @@ module.exports = InfiniteScrollItemsList.extend
   updateItems: (e, attribute)->
     value = e.currentTarget.id
     { selectedModelsAndIds } = @getSelectedModelsAndIds()
-    app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
+    action = -> app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
+    editedItemsCount = selectedModelsAndIds.length
+
+    if selectedModelsAndIds.length is 1
+      action()
+    else
+      app.execute 'ask:confirmation',
+        confirmationText: _.I18n 'confirmation_items_edit', { count: editedItemsCount }
+        yesButtonClass: 'success'
+        action: action
 
   deleteItems: ->
     if @selectedIds.length is 0 then return
