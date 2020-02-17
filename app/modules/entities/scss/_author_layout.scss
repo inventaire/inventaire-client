@@ -148,10 +148,9 @@ $author-layout-bg: #292929;
 
 .authorLayout, #workLayout, .serieLayout, #publisherLayout{
   .admin{
-    margin: 2em;
     background-color: $darker-grey;
     @include radius;
-    padding: 1em;
+    padding: 2em;
     h3, h4{
       color: white;
       text-align: center;
