@@ -28,7 +28,7 @@ module.exports = Marionette.LayoutView.extend
     @filters = {}
 
     @display = localStorageProxy.getItem('inventory:display') or 'cascade'
-    @isMainUser = @options.user?.isMainUser
+    @isMainUser = @options.model?.isMainUser
     @groupContext = @options.group?
 
   ui:
@@ -52,9 +52,9 @@ module.exports = Marionette.LayoutView.extend
 
   initBrowser: ->
     startLoading.call @, { selector: '#browserFilters', timeout: 180 }
-    waitForInventoryData = @getInventoryViewData()
-      # Pass itemsIds=null to use the default value
-      .then @ifViewIsIntact('showItemsListByIds', null)
+    { itemsData } = @options
+    @spreadData itemsData
+    waitForInventoryData = @showItemsListByIds(@itemsByDate)
 
     waitForEntitiesSelectors = waitForInventoryData
       .then @ifViewIsIntact('showEntitySelectors')
@@ -68,16 +68,6 @@ module.exports = Marionette.LayoutView.extend
   browserControlsReady: ->
     @ui.browserControls.addClass 'ready'
     stopLoading.call @, '#browserFilters'
-
-  getInventoryViewData: ->
-    { user, group } = @options
-    unless user? or group?
-      throw error_.new 'missing user or group', @options
-
-    params = if user? then { user: user.id } else { group: group.id }
-
-    _.preq.get app.API.items.inventoryView(params)
-    .then @spreadData.bind(@)
 
   spreadData: (data)->
     { @worksTree, @workUriItemsMap, @itemsByDate } = data

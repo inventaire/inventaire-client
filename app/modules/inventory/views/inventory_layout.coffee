@@ -102,7 +102,12 @@ module.exports = Marionette.LayoutView.extend
     @sectionNav.show new SectionNav options
 
   showInventoryBrowser: (type, model)->
-    @itemsList.show new InventoryBrowser { "#{type}": model }
+    modelId = model.get('_id')
+    params = { "#{type}": modelId }
+
+    _.preq.get app.API.items.inventoryView(params)
+    .then (itemsData)=>
+      @itemsList.show new InventoryBrowser { itemsData, model }
 
   showSectionLastItems: (section)->
     if section is 'public' and not app.user.get('position') then return
