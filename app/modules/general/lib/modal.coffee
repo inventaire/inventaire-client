@@ -1,4 +1,5 @@
 getActionKey = require 'lib/get_action_key'
+screen_ = require 'lib/screen'
 
 module.exports = ->
   $body = $('body')
@@ -19,13 +20,19 @@ module.exports = ->
     if dark then $modalContent.addClass 'dark'
     else $modalContent.removeClass 'dark'
 
-    setTimeout focusFirstTabElement, 200
-    # Allow to pass a selector to which to re-focus once the modal closes
-    if _.isNonEmptyString focusSelector then prepareRefocus focusSelector
+    # Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
+    # but not for touch only devices
+    if _.isMobile or screen_.isSmall(800)
+      return
+    else
+      setTimeout focusFirstTabElement, 200
+      # Allow to pass a selector to which to re-focus once the modal closes
+      if _.isNonEmptyString focusSelector then prepareRefocus focusSelector
 
   focusFirstTabElement = ->
     $firstTabElement = $modal.find('input, textarea, [tabindex="0"]').first().focus()
-    if $firstTabElement.length > 0 then $firstTabElement.focus()
+    # Do not focus if the element is not visible as that makes the scroll jump
+    if $firstTabElement.length > 0 and $firstTabElement.visible() then $firstTabElement.focus()
     else $modalWrapper.focus()
 
   lastOpen = 0
@@ -100,5 +107,7 @@ module.exports = ->
 prepareRefocus = (focusSelector)->
   _.log focusSelector, 'preparing re-focus'
   app.vent.once 'modal:closed', ->
-    $(focusSelector).focus()
+    $el = $(focusSelector)
+    # Do not focus if the element is not visible as that makes the scroll jump
+    if $el.visible() then $(focusSelector).focus()
     _.log focusSelector, 're-focusing'
