@@ -57,7 +57,7 @@ module.exports = Marionette.LayoutView.extend
       transactions: transactionsData @itemData.transaction
       header: _.i18n 'add_item_text', { title }
 
-    if @_lastAddMode is 'scan:zxing' then data.zxing = zxing
+    if @_lastAddMode is 'scan:zxing' then attrs.zxing = zxing
 
     return attrs
 
