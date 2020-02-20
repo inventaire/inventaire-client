@@ -51,12 +51,13 @@ ShelfLi = Marionette.ItemView.extend
     @showUpdateShelfEditor()
 
   updateShelf: (e)->
-    id = @model.get '_id'
+    shelf = @model.get '_id'
     @hideShelfEditor()
-    name = $("##{id}Name").val()
-    description = $("##{id}Desc").val()
+    name = $("##{shelf}Name").val()
+    description = $("##{shelf}Desc").val()
     listing = @listingData.id
-    _.preq.post app.API.shelves.update, { id, name, description, listing }
+    _.preq.post app.API.shelves.update, { shelf, name, description, listing }
+    .get('shelf')
     .then (updatedShelf) => @model.set(updatedShelf)
     .catch _.Error('shelf update error')
 

@@ -55,9 +55,8 @@ module.exports = Marionette.LayoutView.extend
     name = $("#shelfName").val()
     description = $("#shelfDesc").val()
     listing = @model.get('listing')
-    _.preq.post app.API.shelves.update, { id:shelfId, name, description, listing }
-    # add wrapper
-    # .get 'shelves'
+    _.preq.post app.API.shelves.update, { shelf:shelfId, name, description, listing }
+    .get 'shelf'
     .then (updatedShelf) => @model.set(updatedShelf)
     .catch _.Error('shelf update error')
 
