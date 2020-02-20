@@ -10,6 +10,9 @@
 .global-menu{
   img{
     @include radius;
+    // Hard-coding the height and width is required so that color square svg can be properly sized
+    height: 2em;
+    width: 2em;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
