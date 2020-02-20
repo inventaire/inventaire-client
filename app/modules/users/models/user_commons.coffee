@@ -1,6 +1,6 @@
 Positionable = require 'modules/general/models/positionable'
 error_ = require 'lib/error'
-{ getColorSquareDataUri } = require 'lib/images'
+{ getColorSquareDataUriFromModelId } = require 'lib/images'
 
 module.exports = Positionable.extend
   setPathname: ->
@@ -55,8 +55,7 @@ module.exports = Positionable.extend
   setDefaultPicture: ->
     if @get('picture')? then return
     id = @get('_id')
-    colorHash = if id? then id.slice(-6) else 'ff0000'
-    @set 'picture', getColorSquareDataUri(colorHash)
+    @set 'picture', getColorSquareDataUriFromModelId(id)
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection

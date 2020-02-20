@@ -43,10 +43,6 @@
     .actions{
       padding-top: 1em;
     }
-    .picture-color-filter{
-      @include position(absolute, 0, 0, 0, 0);
-      opacity: 0.6;
-    }
     .group-cover-picture{
       @include position(absolute, 0, 0, 0, 0);
       @include bg-cover;

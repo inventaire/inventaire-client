@@ -28,13 +28,10 @@ $nav-avatar-size: 5em;
       }
     }
   }
-  .picture, .picture-color-filter{
+  .picture{
     background-size: cover;
     background-position: center center;
     @include position(absolute, 0, 0, 0, 0);
-  }
-  .picture-color-filter{
-    opacity: 0.35;
   }
   .info{
     @include position(absolute, null, 0, 0, 0);

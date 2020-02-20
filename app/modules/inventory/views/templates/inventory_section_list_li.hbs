@@ -1,10 +1,6 @@
 <a class="nav-list-element" href="{{pathname}}">
   <div class="picture" style="background-image: url({{imgSrc picture 100}})"></div>
 
-  {{#if pictureFilterColor}}
-    <div class="picture-color-filter" style="background-color: {{pictureFilterColor}}"></div>
-  {{/if}}
-
   {{#if isGroup}}
     <div class="members-count">{{icon 'group'}} {{membersCount}}</div>
   {{else}}
