@@ -6,7 +6,7 @@ module.exports = (fromUri, toUri)->
   # as we can't request Wikidata entities to merge into inv entities
   if fromUri.split(':')[0] is 'wd' then [ fromUri, toUri ] = [ toUri, fromUri ]
 
-  # Show the Wikidata data importer only if the user has already set her Wikidata tokens
+  # Show the Wikidata data importer only if the user has already set their Wikidata tokens
   # Otherwise, just merge the entity without importing the data
   if toUri.split(':')[0] is 'wd' and app.user.hasWikidataOauthTokens()
     importEntityDataToWikidata fromUri, toUri

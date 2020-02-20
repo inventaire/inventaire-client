@@ -27,7 +27,7 @@ module.exports = UserCommons.extend
 
     @set 'itemsCategory', 'personal'
 
-    # If the user is logged in, this will wait for her document to arrive
+    # If the user is logged in, this will wait for their document to arrive
     # Else, it will fire at next tick.
     app.request 'wait:for', 'user'
     .then @lateInitialize.bind(@)
@@ -39,7 +39,7 @@ module.exports = UserCommons.extend
 
   # Two valid language change cases:
   # - The user isn't logged in and change the language from the top bar selector
-  # - The user is logged in and change the language from her profile settings
+  # - The user is logged in and change the language from their profile settings
   changeLanguage: ->
     unless app.polyglot? then return
 

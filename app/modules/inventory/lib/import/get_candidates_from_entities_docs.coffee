@@ -18,7 +18,7 @@ module.exports = (entities, isbnsIndex)->
       if normalizedIsbn13? then isbnData = isbnsIndex[normalizedIsbn13]
       else if normalizedIsbn10? then isbnData = isbnsIndex[normalizedIsbn10]
       else isbnData = {}
-      # Use the input ISBN to allow the user to find it back in her list
+      # Use the input ISBN to allow the user to find it back in their list
       entity.rawIsbn = isbnData.rawIsbn
       # 'isbn' will be needed by the existsOrCreateFromSeed endpoint
       entity.isbn = entity.normalizedIsbn = normalizedIsbn13 or normalizedIsbn10
