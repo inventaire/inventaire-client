@@ -77,6 +77,12 @@ images_ =
 
   getNonResizedUrl: (url)-> url.replace /\/img\/users\/\d+x\d+\//, '/img/'
 
+  getColorSquareDataUri: (colorHash = 'ff0000')->
+    # Using the base64 version and not the utf8, as it gets problematic
+    # when used as background-image '<div style="background-image: url({{imgSrc picture 100}})"'
+    base64Hash = btoa("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path d='M0,0h1v1H0' fill='##{colorHash}'/></svg>")
+    return "data:image/svg+xml;base64,#{base64Hash}"
+
 getResizedDimensions = (width, height, maxSize)->
   if width > height
     if width > maxSize

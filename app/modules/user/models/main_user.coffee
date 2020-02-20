@@ -36,6 +36,7 @@ module.exports = UserCommons.extend
     @lang = solveLang @get('language')
     initI18n app, @lang
     @isAdmin = @get('admin') is true
+    @setDefaultPicture()
 
   # Two valid language change cases:
   # - The user isn't logged in and change the language from the top bar selector
