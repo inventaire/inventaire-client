@@ -16,6 +16,7 @@ module.exports = UserCommons.extend
   initialize: ->
     @on 'change:language', @changeLanguage.bind(@)
     @on 'change:username', @setPathname.bind(@)
+    @on 'change:picture', @setDefaultPicture.bind(@)
 
     # Only listening for first change (when the main user data arrive)
     # as next changes happening in deep objects won't trigger this event anyway
