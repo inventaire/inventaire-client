@@ -20,7 +20,10 @@
   @media screen and (min-width: $smaller-screen) {
     .typePicker{
       max-width: 30em;
-      margin: 1em auto;
+      margin: 0 auto;
+      // Using vertical padding instead of vertical margin
+      // as the margin behaves weirdly: for some reason, it overlapses with the topbar
+      padding: 1em 0;
     }
   }
 }

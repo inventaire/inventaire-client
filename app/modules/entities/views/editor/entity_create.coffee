@@ -14,7 +14,8 @@ module.exports = Marionette.LayoutView.extend
     'click .typePicker a': 'updateTypePickerFromClick'
 
   onShow: ->
-    @selectType 'work'
+    type = @options.type or 'work'
+    @selectType type
 
   selectType: (type)->
     @showTypedEntityEdit type

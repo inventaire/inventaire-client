@@ -144,7 +144,7 @@ showEntityCreate = (params)->
   if params.type not in entityDraftModel.whitelistedTypes
     params.type = null
 
-  if params.type?
+  if params.type? and not params.allowToChangeType
     params.model = entityDraftModel.create params
     showEntityEdit params
   else

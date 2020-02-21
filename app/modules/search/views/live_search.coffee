@@ -228,7 +228,7 @@ module.exports = Marionette.CompositeView.extend
     else
       section = @_lastType or @selectedSectionName
       type = sectionToTypes[section]
-      app.execute 'show:entity:create', { label: @_lastSearch, type }
+      app.execute 'show:entity:create', { label: @_lastSearch, type, allowToChangeType: true }
 
   onResultsScroll: (e)->
     visibleHeight = @ui.resultsWrapper.height()
