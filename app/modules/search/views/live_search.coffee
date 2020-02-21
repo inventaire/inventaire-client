@@ -72,18 +72,13 @@ module.exports = Marionette.CompositeView.extend
 
   selectFromTarget: ($target)->
     { id } = $target[0]
-    isSelected = $target.hasClass 'selected'
     type = getTypeFromId id
     if type is @_lastType then return
-    if isSelected
-      $target.removeClass 'selected'
-      @ui.all.addClass 'selected'
-      @section = null
-    else
-      @ui.sections.removeClass 'selected'
-      $target.addClass 'selected'
-      if type is 'all' then @section = null
-      else @section = (child)-> child.get('typeAlias') is type
+
+    @ui.sections.removeClass 'selected'
+    $target.addClass 'selected'
+    if type is 'all' then @section = null
+    else @section = (child)-> child.get('typeAlias') is type
 
     @_searchOffset = 0
     @_lastType = type
