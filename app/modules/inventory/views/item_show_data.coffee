@@ -23,16 +23,6 @@ module.exports = ItemLayout.extend
     @alertBoxTarget = '.leftBox .panel'
     @listenTo @model, 'change', @lazyRender
 
-  onShow: ->
-    @setTimeout @preserveMinHeight.bind(@), 200
-
-  # Allows to re-render without provoking a scroll jump because the view
-  # suddenly takes less room vertically
-  preserveMinHeight: ->
-    # Add a margin to take in account details and notes form mode height
-    minHeight = @$el.parent().height() + 30
-    @$el.parent().css 'min-height', minHeight
-
   onRender: ->
     if app.user.loggedIn then @showTransactions()
 
