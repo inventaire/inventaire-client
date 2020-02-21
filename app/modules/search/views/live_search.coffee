@@ -226,7 +226,8 @@ module.exports = Marionette.CompositeView.extend
       # it will redirect to the ISBN edition creation form
       app.execute 'show:entity', @_lastSearch
     else
-      type = sectionToTypes[@_lastType]
+      section = @_lastType or @selectedSectionName
+      type = sectionToTypes[section]
       app.execute 'show:entity:create', { label: @_lastSearch, type }
 
   onResultsScroll: (e)->
