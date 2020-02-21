@@ -41,9 +41,11 @@
 
   #displayControls{
     .current{
-      padding: 0.2em 0.5em;
+      padding: 0.5em;
+      margin-right: 0.5em;
       @include display-flex(row, center, flex-start);
       background-color: white;
+      @include shy-border;
       > div:not(.shown){
         display: none;
       }
