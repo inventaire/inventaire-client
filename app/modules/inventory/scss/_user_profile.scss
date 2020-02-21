@@ -9,7 +9,7 @@
   }
   .info{
     flex: 1 0 0;
-    padding: 0.5em;
+    padding: 0.8em 1em;
     position: relative;
   }
   .header{
@@ -22,6 +22,9 @@
   }
   .profile-buttons{
     @include display-flex(row, center, center);
+    a {
+      margin: 0 0 1em 1em;
+    }
     flex: 0 0 auto;
     .action{
       @include display-flex(row, center, center);
@@ -41,7 +44,7 @@
   }
   .bio-wrapper{
     @include radius;
-    padding: 1em 0.2em;
+    padding: 0 0.5em 1em 0;
     max-width: 50em;
     overflow: auto;
     &.empty{
