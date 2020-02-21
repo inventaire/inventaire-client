@@ -43,27 +43,19 @@
     .current{
       padding: 0.5em;
       margin-right: 0.5em;
-      margin-bottom: 1em;
       @include display-flex(row, center, flex-start);
       background-color: white;
+      @include shy-border;
       > div:not(.shown){
         display: none;
       }
       .label{
         padding: 0 0.5em;
       }
-      /*Large screens*/
-      @media screen and (min-width: $small-screen) {
-        margin-bottom: 0;
-      }
-      @media screen and (max-width: $smaller-screen) {
-        margin-bottom: 0;
-      }
     }
     /*Large screens*/
     @media screen and (min-width: $smaller-screen) {
       margin-left: auto;
-      margin-bottom: 0;
     }
   }
 
