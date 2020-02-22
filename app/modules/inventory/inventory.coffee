@@ -17,10 +17,12 @@ module.exports =
         'inventory/nearby(/)': 'showInventoryNearby'
         'inventory/last(/)': 'showInventoryLast'
         'inventory/:username(/)': 'showUserInventoryFromUrl'
+        # 'title' is a legacy parameter
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity'
         'items/:id(/)': 'showItemFromId'
         'items(/)': 'showGeneralInventory'
-        'g(roups)/:id(/)': 'showGroupInventory'
+        # 'name' is a legacy parameter
+        'g(roups)/:id(/:name)(/)': 'showGroupInventory'
 
     app.addInitializer -> new Router { controller: API }
 
