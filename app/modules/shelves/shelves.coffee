@@ -1,5 +1,5 @@
-ShelfLayout = require './views/shelf_layout'
 ShelvesLayout = require './views/shelves_layout'
+InventoryLayout = require '../inventory/views/inventory_layout'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -18,7 +18,7 @@ module.exports =
 API =
   showShelf: (shelf)->
     if app.request 'require:loggedIn', 'shelves'
-      app.layout.main.show new ShelfLayout { shelf }
+      app.layout.main.show new InventoryLayout { shelf, user: app.user }
 
   showShelves: (username) ->
     if app.request 'require:loggedIn', 'shelves'

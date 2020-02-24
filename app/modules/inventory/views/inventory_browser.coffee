@@ -28,7 +28,7 @@ module.exports = Marionette.LayoutView.extend
     @filters = {}
 
     @display = localStorageProxy.getItem('inventory:display') or 'cascade'
-    @isMainUser = @options.model?.isMainUser
+    @isMainUser = @options.isMainUser
     @groupContext = @options.group?
 
   ui:

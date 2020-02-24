@@ -12,7 +12,6 @@ ShelfItemLi = Marionette.ItemView.extend
     @model.set('isItemInShelf', @model.isInShelf @shelf)
 
   itemSelector: ->
-    console.log("##### 15 ##",@model)
     if @model.isInShelf @shelf
       @model.deleteShelf @shelf
     else
