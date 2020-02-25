@@ -4,6 +4,7 @@ error_ = require 'lib/error'
 
 module.exports = ->
   app.layout.modal.show new PicturePicker
+    context: 'user'
     pictures: app.user.get 'picture'
     save: savePicture
     delete: deletePicture
