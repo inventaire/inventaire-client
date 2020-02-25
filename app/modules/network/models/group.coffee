@@ -4,6 +4,7 @@ groupActions = require '../lib/group_actions'
 defaultCover = require('lib/urls').images.brittanystevens
 { escapeExpression } = Handlebars
 Positionable = require 'modules/general/models/positionable'
+{ getColorSquareDataUriFromModelId } = require 'lib/images'
 
 module.exports = Positionable.extend
   url: app.API.groups.base
@@ -37,11 +38,8 @@ module.exports = Positionable.extend
       # non-persisted category used for convinience on client-side
       tmp: []
 
-    picture = @get 'picture'
-    unless picture?
-      @set
-        picture: defaultCover
-        pictureFilterColor: getFilterColor @id
+    unless @get('picture')?
+      @set 'picture', getColorSquareDataUriFromModelId @get('_id')
 
   beforeShow:->
     # All the actions to run once before showing any view displaying
@@ -191,27 +189,3 @@ module.exports = Positionable.extend
     highestScore = @collection.models[0].get 'highlightScore'
     @set 'highlightScore', highestScore * 2
     @collection.sort()
-
-# Inspired by https://www.materialpalette.com/colors
-colorFilters = [
-  '#009688'
-  '#00bcd4'
-  '#03a9f4'
-  '#2196f3'
-  '#3f51b5'
-  '#4caf50'
-  '#607d8b'
-  '#673ab7'
-  '#795548'
-  '#8bc34a'
-  '#9c27b0'
-  '#9e9e9e'
-  '#cddc39'
-  '#e91e63'
-]
-
-getFilterColor = (groupId)->
-  someStableGroupNumber = parseInt(groupId.slice(-2), 16)
-  # Pick one of the colors based on the group slug length
-  index = someStableGroupNumber % colorFilters.length
-  return colorFilters[index]

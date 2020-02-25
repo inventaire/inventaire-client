@@ -5,10 +5,3 @@
 @import 'group_board';
 @import 'group_board_header';
 @import 'create_group';
-
-.picture-color-filter{
-  background-size: cover;
-  background-position: center center;
-  @include position(absolute, 0, 0, 0, 0);
-  opacity: 0.3;
-}

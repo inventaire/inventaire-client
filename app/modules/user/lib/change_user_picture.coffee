@@ -6,8 +6,11 @@ module.exports = ->
   app.layout.modal.show new PicturePicker
     pictures: app.user.get 'picture'
     save: savePicture
+    delete: deletePicture
     crop: true
     limit: 1
+
+selector = '.changePicture .loading'
 
 savePicture = (pictures)->
   picture = pictures[0]
@@ -19,4 +22,10 @@ savePicture = (pictures)->
   app.request 'user:update',
     attribute: 'picture'
     value: picture
-    selector: '.changePicture .loading'
+    selector: selector
+
+deletePicture = ->
+  app.request 'user:update',
+    attribute: 'picture'
+    value: null
+    selector: selector

@@ -10,10 +10,6 @@
     min-height: 8em;
     width: 100%;
     font-size: 1.6em;
-    .picture-color-filter{
-      @include position(absolute, 0, 0, 0, 0);
-      opacity: 0.6;
-    }
     .group-cover-picture{
       @include position(absolute, 0, 0, 0, 0);
       @include bg-cover;

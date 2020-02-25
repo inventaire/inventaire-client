@@ -15,6 +15,10 @@
   <div id="availablePictures"></div>
 </section>
 <section id="validation">
- {{partial 'validation_buttons'}}
+  <div class="button-group">
+    <a id="cancel" class="button grey" tabindex="0">{{icon 'ban'}} {{I18n 'cancel'}}</a>
+    <a id="delete" class="button alert" tabindex="0">{{icon 'trash'}} {{I18n 'delete'}}</a>
+    <a id="validate" class="button success" tabindex="0">{{icon 'check'}} {{I18n 'validate'}} <span class='loading'></span></a>
+  </div>
   <span class='alertBox'></span>
 </section>

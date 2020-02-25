@@ -5,6 +5,7 @@ module.exports = UserCommons.extend
   isMainUser: false
   initialize: ->
     @setPathname()
+    @setDefaultPicture()
 
     if @hasPosition()
       @listenTo app.user, 'change:position', @calculateDistance.bind(@)

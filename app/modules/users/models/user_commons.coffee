@@ -1,9 +1,11 @@
 Positionable = require 'modules/general/models/positionable'
 error_ = require 'lib/error'
+{ getColorSquareDataUriFromModelId } = require 'lib/images'
+{ defaultAvatar } = require('lib/urls').images
 
 module.exports = Positionable.extend
   setPathname: ->
-    username = @get('username')
+    username = @get 'username'
     @set
       pathname: "/inventory/#{username}"
       # Set for compatibility with interfaces expecting a label
@@ -50,6 +52,9 @@ module.exports = Positionable.extend
   checkSpecialStatus: ->
     if @get 'special'
       throw error_.new "this layout isn't available for special users", 400, { user: @ }
+
+  setDefaultPicture: ->
+    unless @get('picture')? then @set 'picture', defaultAvatar
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection

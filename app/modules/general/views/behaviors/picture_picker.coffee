@@ -52,14 +52,19 @@ module.exports = Marionette.CompositeView.extend
     urlInput: '#urlField'
 
   events:
-    'click #validate': 'validate'
     'click #cancel': 'close'
+    'click #delete': 'delete'
+    'click #validate': 'validate'
     'change input[type=file]': 'getFilesPictures'
     'click #urlButton': 'fetchUrlPicture'
     'keyup input[type=file]': 'preventUnwantedModalClose'
 
   selectFirst: ->
     @collection.models[0]?.select()
+
+  delete: ->
+    @options.delete()
+    @close()
 
   validate: ->
     behaviorsPlugin.startLoading.call @,

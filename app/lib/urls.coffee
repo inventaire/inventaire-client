@@ -1,7 +1,7 @@
 faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
 
 subdomain = (sub)-> "http://#{sub}.inventaire.io"
-image = (name)-> "/img/assets/#{name}.jpg"
+image = (filename)-> "/img/assets/#{filename}"
 
 module.exports =
   host: 'https://inventaire.io'
@@ -23,11 +23,12 @@ module.exports =
     # not passing an absolute url so that it can be easily digested
     # by the {{imgSrc}} helper as a local image url
     # /!\ implies that the current server has it in its object storage container
-    banner: image 'banner'
+    banner: image 'banner.jpg'
     # images in CC-BY or CC-BY-SA
     # see app/modules/welcome/views/templates/credits.hbs for originals
-    bokeh: image 'bokeh'
-    brittanystevens: image 'brittanystevens'
+    bokeh: image 'bokeh.jpg'
+    brittanystevens: image 'brittanystevens.jpg'
+    defaultAvatar: image 'default_avatar'
   donate:
     faircoin:
       hash: faircoinHash
