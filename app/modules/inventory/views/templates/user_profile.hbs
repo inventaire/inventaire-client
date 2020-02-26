@@ -33,10 +33,14 @@
       <span>{{icon 'book'}}{{i18n 'books'}}</span>
       <span class="count">{{inventoryLength}}</span>
     </li>
-
-    {{#if bio}}
-      <li class="bio-wrapper">{{userContent bio}}</li>
-    {{/if}}
+    <li class="shelvesLength">
+      <span>{{icon 'server'}}{{i18n 'shelves'}}</span>
+      <span class="count">{{shelvesCount}}</span>
+    </li>
   </ul>
+
+  {{#if bio}}
+    <span class="bio-wrapper">{{userContent bio}}</span>
+  {{/if}}
 
 </div>

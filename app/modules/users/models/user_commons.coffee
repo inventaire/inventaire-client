@@ -44,11 +44,13 @@ module.exports = Positionable.extend
       data = _.values(snapshot).reduce aggregateScoreData, data
 
     { itemsCount, lastAdd } = data
-
     # Setting those as model attributes
     # so that updating them trigger a model 'change' event
     @set 'itemsCount', itemsCount
     @set 'itemsLastAdded', lastAdd
+    countShelves(@get '_id')
+    .then (shelvesCount)=>
+      @set 'shelvesCount', shelvesCount
 
   getRss: -> app.API.feeds 'user', @id
 
@@ -58,6 +60,11 @@ module.exports = Positionable.extend
 
   setDefaultPicture: ->
     unless @get('picture')? then @set 'picture', defaultAvatar
+
+countShelves = (userId)->
+  _.preq.get app.API.shelves.byOwners userId
+  .get 'shelves'
+  .then (shelves)-> Object.keys(shelves).length
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection

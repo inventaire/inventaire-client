@@ -31,20 +31,22 @@
     }
   }
   .data{
+    @include display-flex(row, flex-start);
     color: #666;
+    margin-bottom: 0.5em;
     li{
-      margin-bottom: 0.5em;
+      margin-right: 1em;
     }
-    @include display-flex(column, flex-start);
   }
-  .inventoryLength{
+  .inventoryLength, .shelvesLength{
     .count{
       padding-left: 0.5em;
     }
   }
   .bio-wrapper{
     @include radius;
-    padding: 0 0.5em 1em 0;
+    padding: 1em 0.2em;
+    margin-bottom: 2em;
     max-width: 50em;
     overflow: auto;
     &.empty{
@@ -75,13 +77,17 @@
       text-align: center;
     }
     .profile-buttons{
-      margin: 1em;
+      margin-bottom: 0.5em;
       flex-direction: column;
     }
     .showUserOnMap{
       margin-bottom: 1em;
     }
     .data{
+      li {
+        margin: 0 0 0.5em 0;
+      }
+      flex-direction: column;
       align-items: center;
     }
     .bio-wrapper{
