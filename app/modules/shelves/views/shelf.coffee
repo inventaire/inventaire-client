@@ -12,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo @model, 'change', @render.bind(@)
 
   events:
-    'click .showShelfEdit': 'showEditor'
+    'click #showShelfEdit': 'showEditor'
     'click a.cancelShelfEdition': 'hideEditor'
     'click #validateShelf': 'updateShelf'
     'keydown #shelfEditor': 'shelfEditorKeyAction'
@@ -41,10 +41,13 @@ module.exports = Marionette.LayoutView.extend
   showEditor: (e)->
     $("#infoBox").hide()
     $("#showShelfEdit").hide()
+    $(".editorButtonsWrapper").show()
     $(".shelfEditorWrapper").show().find('textarea').focus()
     e?.stopPropagation()
 
   hideEditor: (e)->
+    $("#showShelfEdit").show()
+    $(".editorButtonsWrapper").hide()
     $(".shelfEditorWrapper").hide()
     $("#infoBox").show()
     e?.stopPropagation()
@@ -52,8 +55,8 @@ module.exports = Marionette.LayoutView.extend
   updateShelf: (e)->
     shelfId = @model.get('_id')
     @hideEditor()
-    name = $("#shelfName").val()
-    description = $("#shelfDesc").val()
+    name = $("#shelfNameEditor").val()
+    description = $("#shelfDescEditor").val()
     listing = @model.get('listing')
     _.preq.post app.API.shelves.update, { shelf:shelfId, name, description, listing }
     .get 'shelf'

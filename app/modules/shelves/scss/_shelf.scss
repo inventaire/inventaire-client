@@ -1,39 +1,46 @@
-.shelf{
-  background-color: $darker-grey;
+#shelfInfo{
+  background-color: $light-grey;
 }
 .shelfData{
-  padding: 1em 10%;
-  margin-bottom: 1em;
+  padding: 0.7em 1em 1em 1em;
 }
-.shelfData h3,.shelfData p{
-  color: white;
-}
-#titleBox{
-  @include display-flex(row, top, center)
-  .pencil{
-    font-size: 1.4rem;
-    @include text-hover(rgba(white, 0.5), white);
-    .fa{
-      width: 1.6em;
-    }
+#infoBoxTitleBar{
+  @include display-flex(row, top, center);
+  .editorButtons {
+    @include display-flex(row, center, center);
   }
-}
-#listing{
-  color: $light-grey
-}
-.shelfEditorWrapper{
+  .tiny-button {
+    // ugly override
+    width: 8em;
+    height: 1.8em;
+  }
 }
 #shelfEditorContent{
-  width: 600px;
-  margin-bottom: 2em;
-  @media screen and (max-width: $small-screen) {
-    width: 100%;
-    padding: 0 1em;
-  }
+  width: 100%;
 }
 #shelfEditor{
   @include display-flex(column, center, center)
 }
 .subheader{
   width: 100%
+}
+/*Smaller screens*/
+@media screen and (max-width: $smaller-screen) {
+  #infoBoxTitleBar {
+    @include display-flex(column, center, center);
+    .tiny-button { width: auto }
+  }
+  .subheader{
+    text-align: center;
+    width: 100%;
+  }
+  #shelfEditorContent {
+    margin-top: 1em;
+  }
+  #newShelfListing, #infoBox {
+    text-align: center;
+  }
+  .button-group-right {
+    margin-left: 0
+  }
 }
