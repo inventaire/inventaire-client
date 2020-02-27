@@ -1,10 +1,12 @@
-<div class="shelvesTitle text-center">
-  <h4 class="subheader">{{I18n 'shelves'}}</h4>
+<div class="shelvesWrapper">
+  <div class="shelvesTitle">
+    <h4 class="subheader">{{I18n 'shelves'}}</h4>
+      <a id="addShelf" class="action tiny-button light-blue">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
+  </div>
+  <div class="right">
+  </div>
+  <div id="newShelfEditorWrapper" class='hidden'>
+    {{partial 'shelves:new_shelf_editor' this}}
+  </div>
+  <div class="shelves"></div>
 </div>
-<div class="right">
-  <a id="addShelf" class="tiny-button">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
-</div>
-<div id="newShelfEditorWrapper" class='hidden shelfEditorWrapper'>
-  {{partial 'shelves:new_shelf_editor' this}}
-</div>
-<div class="shelves"></div>

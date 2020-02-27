@@ -3,6 +3,7 @@ InventoryBrowser = require './inventory_browser'
 UserProfile = require './user_profile'
 GroupProfile = require './group_profile'
 ShelfView = require '../../shelves/views/shelf'
+ShelvesLayout = require '../../shelves/views/shelves_layout'
 { getById } = require '../../shelves/lib/shelf'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 screen_ = require 'lib/screen'
@@ -19,12 +20,15 @@ module.exports = Marionette.LayoutView.extend
     sectionNav: '#sectionNav'
     groupProfile: '#groupProfile'
     userProfile: '#userProfile'
+    shelvesList: '#shelvesList'
     shelfInfo: '#shelfInfo'
     itemsList: '#itemsList'
 
   initialize: ->
     { @user, @group, @shelf, @standalone } = @options
     @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
+    app.commands.setHandlers
+      'show:shelves:list': @showShelves.bind(@)
 
   onShow: ->
     if @user?
@@ -74,6 +78,10 @@ module.exports = Marionette.LayoutView.extend
       @shelfInfo.show new ShelfView { model: shelf }
       @itemsList.show new InventoryBrowser { itemsData, isMainUser }
       app.navigateFromModel shelf
+
+  showShelves: ()->
+    username = @user
+    @shelvesList.show new ShelvesLayout { username }
 
   showUserInventory: (userModel)->
     if userModel is app.user and userModel.get('itemsCount') is 0

@@ -1,12 +1,19 @@
+.shelvesWrapper{
+  background-color: $light-grey;
+  padding: 0.7em 1em 1em 1em;
+  margin: 0.7em 0 0 0;
+}
 .shelvesTitle{
-  margin: 1em
+  @include display-flex(row, center, space-between);
+  .editorButtons {
+    @include display-flex(row, center, center);
+  }
 }
 .right{
   text-align: right;
 }
 .shelfEditor{
   @include display-flex(row);
-  margin: 1em;
   .shelfName, .shelfDesc{
     height:3em;
     padding: 0 1em;
@@ -20,9 +27,6 @@
   .shelfDesc{
     flex: 10 0 0;
   }
-}
-#newShelfEditorWrapper{
-  margin: 1em
 }
 .has-dropdown{
   line-height: 0;
@@ -50,12 +54,10 @@
 .liButtons{
   @include display-flex(row);
   flex: 1 0 0;
-  margin-right: 1.25em;
 }
 .shelfLiName{
   flex: 1 0 0;
-  padding: 0 1em;
-  margin: 0 1em;
+  margin-right: 1em;
 }
 .shelfLiDesc{
   flex: 2 0 0;
@@ -64,10 +66,6 @@
 .liButton{
   margin-left: 0.6em;
 }
-.shelves{
-  margin: 1em;
-}
-#addShelf{
-  margin: 2em;
-  padding: 0.5em;
+.shelves li {
+  margin: 1em 0
 }

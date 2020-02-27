@@ -3,7 +3,6 @@
 </div>
 
 <div class="info">
-
   <div class="header">
     <h2 class="username respect-case">{{username}}</h2>
 
@@ -33,7 +32,7 @@
       <span>{{icon 'book'}}{{i18n 'books'}}</span>
       <span class="count">{{inventoryLength}}</span>
     </li>
-    <li class="shelvesLength">
+    <li id="showShelvesList" class="shelvesLength">
       <span>{{icon 'server'}}{{i18n 'shelves'}}</span>
       <span class="count">{{shelvesCount}}</span>
     </li>
@@ -42,5 +41,4 @@
   {{#if bio}}
     <span class="bio-wrapper">{{userContent bio}}</span>
   {{/if}}
-
 </div>

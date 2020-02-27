@@ -3,16 +3,12 @@
 }
 .shelfData{
   padding: 0.7em 1em 1em 1em;
+  margin: 0.7em 0 0 0;
 }
 #infoBoxTitleBar{
-  @include display-flex(row, top, center);
+  @include display-flex(row, center, space-between);
   .editorButtons {
     @include display-flex(row, center, center);
-  }
-  .tiny-button {
-    // ugly override
-    width: 8em;
-    height: 1.8em;
   }
 }
 #shelfEditorContent{
@@ -20,9 +16,6 @@
 }
 #shelfEditor{
   @include display-flex(column, center, center)
-}
-.subheader{
-  width: 100%
 }
 /*Smaller screens*/
 @media screen and (max-width: $smaller-screen) {

@@ -4,10 +4,8 @@ ShelvesView = require './shelves_list'
 error_ = require 'lib/error'
 getActionKey = require 'lib/get_action_key'
 { listingsData } = require 'modules/inventory/lib/item_creation'
-{ promisify } = require 'util'
 
 module.exports = Marionette.LayoutView.extend
-  id: 'shelvesLayout'
   template: require './templates/shelves_layout'
   regions:
     shelves: '.shelves'
