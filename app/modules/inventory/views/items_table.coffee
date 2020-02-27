@@ -11,7 +11,8 @@ module.exports = InfiniteScrollItemsList.extend
   ui:
     selectAll: '#selectAll'
     unselectAll: '#unselectAll'
-    updators: '.selector, .delete'
+    updators: '.selector'
+    deleteUpdators: '.delete'
 
   initialize: ->
     @initInfiniteScroll()
@@ -58,16 +59,18 @@ module.exports = InfiniteScrollItemsList.extend
     @selectedIds = list
 
     if list.length is 0
-      @ui.unselectAll.addClass 'disabled'
-      @ui.updators.addClass 'disabled'
+      @ui.unselectAll.addClass 'hidden'
+      @ui.updators.addClass 'hidden'
+      @ui.deleteUpdators.addClass 'hidden'
     else
-      @ui.unselectAll.removeClass 'disabled'
-      @ui.updators.removeClass 'disabled'
+      @ui.unselectAll.removeClass 'hidden'
+      @ui.updators.removeClass 'hidden'
+      @ui.deleteUpdators.removeClass 'hidden'
 
     if list.length is @itemsIds.length
-      @ui.selectAll.addClass 'disabled'
+      @ui.selectAll.addClass 'hidden'
     else
-      @ui.selectAll.removeClass 'disabled'
+      @ui.selectAll.removeClass 'hidden'
 
   addSelectedIds: (ids...)->
     @selectedIds.push ids...

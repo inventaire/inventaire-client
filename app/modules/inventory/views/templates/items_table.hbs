@@ -4,9 +4,9 @@
     {{I18n 'select all'}}
     <span class="count">({{itemsCount}})</span>
   </button>
-  <button id="unselectAll" class="disabled">{{icon 'square-o'}}<span>{{I18n 'unselect all'}}</span></button>
+  <button id="unselectAll" class="hidden">{{icon 'square-o'}}<span>{{I18n 'unselect all'}}</span></button>
 
-  <div id="selectTransaction" class="has-dropdown selector disabled">
+  <div id="selectTransaction" class="has-dropdown selector hidden">
     <p class="selector-label">{{I18n 'transaction'}} {{icon 'caret-down'}}</p>
     <ul class="dropdown">
       <li class="dropdown-label capitalized">{{I18n 'available for'}}:</li>
@@ -16,7 +16,7 @@
     </ul>
   </div>
 
-  <div id="selectListing" class="has-dropdown selector disabled">
+  <div id="selectListing" class="has-dropdown selector hidden">
     <p class="selector-label">{{I18n 'listing'}} {{icon 'caret-down'}}</p>
     <ul class="dropdown">
       <li class="dropdown-label capitalized">{{I18n 'visible by'}}:</li>
@@ -26,7 +26,7 @@
     </ul>
   </div>
 
-  <button class="delete disabled">
+  <button class="delete hidden">
     <span>{{I18n 'delete'}}</span>
     {{icon 'trash-o'}}
   </button>

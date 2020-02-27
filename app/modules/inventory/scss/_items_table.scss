@@ -14,6 +14,10 @@
       @include bg-hover(white);
       font-weight: bold;
     }
+    button{
+      // Make buttons be of same height as .selector-label p elements
+      line-height: 1.6em;
+    }
     button.remove:hover{
       background-color: $danger-color;
       color: white;
