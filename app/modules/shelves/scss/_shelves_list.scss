@@ -4,6 +4,7 @@
   margin: 0.7em 0 0 0;
 }
 .shelvesTitle{
+  padding-left: 0.5em;
   @include display-flex(row, center, space-between);
   .editorButtons {
     @include display-flex(row, center, center);
@@ -21,21 +22,20 @@
     margin: 0
   }
   .shelfName{
-    margin: 0 1em 0 0;
+    margin-right: 1em;
     flex: 5 0 0;
   }
   .shelfDesc{
     flex: 10 0 0;
   }
-}
-.has-dropdown{
-  line-height: 0;
-}
-.button-group-right{
-  @include display-flex(row);
-  flex: 1 0 0;
-  margin-left: 1em;
-
+  .button-group-right{
+    @include display-flex(row);
+    margin-left: 1em;
+  }
+  .listingIconEditor{
+    @include display-flex(row, center);
+    margin-right: 1em;
+  }
 }
 .button{
   padding: 0.2em;
@@ -44,27 +44,31 @@
 }
 .shelfLi{
   @include display-flex(row);
-}
-.shelfLiInfo{
-  flex: 15 0 0;
-  @include display-flex(row);
   height: 1.3em;
-  overflow: hidden;
-}
-.liButtons{
-  @include display-flex(row);
-  flex: 1 0 0;
-}
-.shelfLiName{
-  flex: 1 0 0;
-  margin-right: 1em;
-}
-.shelfLiDesc{
-  flex: 2 0 0;
-  color: $grey;
-}
-.liButton{
-  margin-left: 0.6em;
+  .shelfLiInfo{
+    margin-left: 0.3em;
+    overflow: hidden;
+    flex: 20 0 0;
+    @include display-flex(row);
+    .listingIcon{
+      margin-right: 1em;
+    }
+    .shelfLiName{
+      margin-right: 1em;
+    }
+    .shelfLiDesc{
+      margin-right: 1em;
+      color: $grey;
+    }
+  }
+  .liButtons{
+    @include display-flex(row);
+    margin-right: 0.3em;
+    flex: 1 0 0;
+    .liButton{
+      margin-left: 0.6em;
+    }
+  }
 }
 .shelves li {
   margin: 1em 0

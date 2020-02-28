@@ -17,6 +17,9 @@
 #shelfEditor{
   @include display-flex(column, center, center)
 }
+#titleBox{
+  overflow: hidden
+}
 /*Smaller screens*/
 @media screen and (max-width: $smaller-screen) {
   #infoBoxTitleBar {
