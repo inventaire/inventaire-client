@@ -80,8 +80,11 @@ module.exports = Marionette.LayoutView.extend
       app.navigateFromModel shelf
 
   showShelves: ()->
-    username = @user
-    @shelvesList.show new ShelvesLayout { username }
+    app.request 'resolve:to:userModel', @user
+    .then (userModel)=>
+      username = userModel.get('username')
+      @shelvesList.show new ShelvesLayout { username }
+    .catch app.Execute('show:error')
 
   showUserInventory: (userModel)->
     if userModel is app.user and userModel.get('itemsCount') is 0
