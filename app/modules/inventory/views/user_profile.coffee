@@ -43,5 +43,5 @@ module.exports = Marionette.ItemView.extend
     app.execute 'show:models:on:map', [ @model, app.user ]
 
   showShelvesList: (e)->
-    if _.isOpenedOutside(e) then return
+    app.navigateFromModel @model, { preventScrollTop: true }
     app.execute 'show:shelves:list'
