@@ -44,4 +44,4 @@ module.exports = Marionette.ItemView.extend
 
   showShelvesList: (e)->
     app.navigateFromModel @model, { preventScrollTop: true }
-    app.execute 'show:shelves:list'
+    app.execute 'show:shelves:list', @model

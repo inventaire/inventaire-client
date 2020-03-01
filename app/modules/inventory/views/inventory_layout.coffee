@@ -79,8 +79,8 @@ module.exports = Marionette.LayoutView.extend
       @itemsList.show new InventoryBrowser { itemsData, isMainUser }
       app.navigateFromModel shelf
 
-  showShelves: ()->
-    app.request 'resolve:to:userModel', @user
+  showShelves: (user)->
+    app.request 'resolve:to:userModel', user
     .then (userModel)=>
       username = userModel.get('username')
       @shelvesList.show new ShelvesLayout { username }
