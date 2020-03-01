@@ -1,5 +1,6 @@
 ShelvesLayout = require './views/shelves_layout'
 InventoryLayout = require '../inventory/views/inventory_layout'
+{ getById } = require './lib/shelf'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -16,9 +17,12 @@ module.exports =
       'show:shelves': API.showShelves
 
 API =
-  showShelf: (shelf)->
-    if app.request 'require:loggedIn', 'shelves'
-      app.layout.main.show new InventoryLayout { shelf, user: app.user }
+  showShelf: (shelfId)->
+    Promise.try -> getById(shelfId)
+    .then (shelf)->
+      user = shelf.get('owner')
+      if app.request 'require:loggedIn', 'shelves'
+        app.layout.main.show new InventoryLayout { shelf, user }
 
   showShelves: (username) ->
     if app.request 'require:loggedIn', 'shelves'

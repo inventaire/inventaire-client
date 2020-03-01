@@ -71,9 +71,9 @@ module.exports = Marionette.LayoutView.extend
       scrollToSection @groupProfile
     .catch app.Execute('show:error')
 
-  showShelf: (shelfId)->
-    Promise.all([ getById(shelfId), getItemsData('shelf', shelfId) ])
-    .spread (shelf, itemsData)=>
+  showShelf: (shelf)->
+    getItemsData('shelf', shelf.id)
+    .then (itemsData)=>
       isMainUser = app.user.id is shelf.get('owner')
       @shelfInfo.show new ShelfView { model: shelf }
       @itemsList.show new InventoryBrowser { itemsData, isMainUser }

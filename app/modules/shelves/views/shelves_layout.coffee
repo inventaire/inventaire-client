@@ -17,7 +17,7 @@ module.exports = Marionette.LayoutView.extend
     @listingData = listingsData()['private']
 
   events:
-    'click .shelfLiInfo': 'showShelf'
+    'click .shelfLi': 'showShelf'
     'click #addShelf': 'showNewShelfEditor'
     'click a.cancelShelfEdition': 'hideNewShelfEditor'
     'keydown .shelfEditor': 'shelfEditorKeyAction'
