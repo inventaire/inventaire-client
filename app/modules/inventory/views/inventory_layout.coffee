@@ -83,6 +83,7 @@ module.exports = Marionette.LayoutView.extend
     app.request 'resolve:to:userModel', user
     .then (userModel)=>
       username = userModel.get('username')
+      if wrapperExists() then return $('.shelvesWrapper').show()
       @shelvesList.show new ShelvesLayout { username }
     .catch app.Execute('show:error')
 
@@ -171,3 +172,6 @@ sectionRequest =
 
 scrollToSection = (region)->
   screen_.scrollTop { $el: region.$el, marginTop: 10, delay: 100 }
+
+wrapperExists = ->
+  $('.shelvesWrapper').length > 0

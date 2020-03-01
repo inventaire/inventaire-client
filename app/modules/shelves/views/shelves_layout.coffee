@@ -23,6 +23,7 @@ module.exports = Marionette.LayoutView.extend
     'keydown .shelfEditor': 'shelfEditorKeyAction'
     'click a#createShelf': 'createShelf'
     'click .listingChoice': 'updateListing'
+    'click #closeShelves': 'closeShelvesList'
 
   serializeData: ->
     listingsData: listingsData()
@@ -85,6 +86,9 @@ module.exports = Marionette.LayoutView.extend
       $("#newName").val('')
       $("#newDesc").val('')
     .catch _.Error('shelf creation error')
+
+  closeShelvesList: ->
+    $('.shelvesWrapper').hide()
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

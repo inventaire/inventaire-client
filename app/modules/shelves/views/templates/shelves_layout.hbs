@@ -1,9 +1,10 @@
 <div class="shelvesWrapper">
   <div class="shelvesTitle">
     <p class="subheader">{{I18n 'shelves'}}</p>
+    <div>
       <a id="addShelf" class="action tiny-button light-blue">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
-  </div>
-  <div class="right">
+      <a id="closeShelves" class="">{{icon 'close'}}</a>
+    </div>
   </div>
   <div id="newShelfEditorWrapper" class='hidden'>
     {{partial 'shelves:new_shelf_editor' this}}
