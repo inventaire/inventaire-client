@@ -78,6 +78,7 @@ module.exports = Marionette.LayoutView.extend
       @shelfInfo.show new ShelfView { model: shelf }
       @itemsList.show new InventoryBrowser { itemsData, isMainUser }
       app.navigateFromModel shelf
+      scrollToSection @shelfInfo
 
   showShelves: (user)->
     app.request 'resolve:to:userModel', user

@@ -1,21 +1,22 @@
-#shelfInfo{
-  background-color: $light-grey;
-}
 .shelfData{
   padding: 0.7em 1em 1em 1em;
   margin: 0.7em 0 0 0;
-}
-#infoBoxTitleBar{
-  @include display-flex(row, center, space-between);
-  .editorButtons {
-    @include display-flex(row, center, center);
+  #infoBoxTitleBar{
+    @include display-flex(row, center, space-between);
   }
-}
-#shelfEditorContent{
-  width: 100%;
 }
 #shelfEditor{
   @include display-flex(column, center, center)
+  #shelfEditorContent{
+    width: 100%;
+  }
+  .editorButtons {
+    @include display-flex(row, center, center);
+  }
+  .button{
+    padding: 0.2em;
+    margin: 0 0.1em;
+  }
 }
 #titleBox{
   overflow: hidden
