@@ -24,6 +24,10 @@
         {{/if}}
         {{partial 'inventory:user_menu' this}}
       {{/if}}
+      <a class="showShelvesList action tiny-button light-blue" href="{{username}}/shelves">
+        {{icon 'eye'}}
+        {{I18n 'shelves'}}
+      </a>
     </div>
   </div>
 
@@ -32,7 +36,7 @@
       <span>{{icon 'book'}}{{i18n 'books'}}</span>
       <span class="count">{{inventoryLength}}</span>
     </li>
-    <li id="showShelvesList" class="shelvesLength">
+    <li class="showShelvesList" class="shelvesLength">
       <span>{{icon 'server'}}{{i18n 'shelves'}}</span>
       <span class="count">{{shelvesCount}}</span>
     </li>

@@ -10,7 +10,7 @@ module.exports = Marionette.ItemView.extend
     'click .editProfile': _.clickCommand 'show:settings:profile'
     'click .addItems': _.clickCommand 'show:add:layout'
     'click .showUserOnMap': 'showUserOnMap'
-    'click #showShelvesList': 'showShelvesList'
+    'click .showShelvesList': 'showShelvesList'
 
   behaviors:
     PreventDefault: {}
