@@ -1,6 +1,7 @@
 Shelves = require '../collections/shelves'
 ShelfModel = require '../models/shelf'
 ShelvesView = require './shelves_list'
+NewShelfEditor = require './new_shelf_editor'
 error_ = require 'lib/error'
 getActionKey = require 'lib/get_action_key'
 { listingsData } = require 'modules/inventory/lib/item_creation'
@@ -9,27 +10,15 @@ module.exports = Marionette.LayoutView.extend
   template: require './templates/shelves_layout'
   regions:
     shelves: '.shelves'
+    newShelfEditorWrapper: '#newShelfEditorWrapper'
 
   behaviors:
     BackupForm: {}
 
-  initialize: ->
-    @listingData = listingsData()['private']
-
   events:
     'click .shelfLi': 'showShelf'
     'click #addShelf': 'showNewShelfEditor'
-    'click a.cancelShelfEdition': 'hideNewShelfEditor'
-    'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a#createShelf': 'createShelf'
-    'click .listingChoice': 'updateListing'
     'click #closeShelves': 'closeShelvesList'
-
-  serializeData: ->
-    listingsData: listingsData()
-    #Default listing for a new shelf
-    listingData: @listingData
-    _id: 'newShelf'
 
   onShow: ->
     { username } = @options
@@ -37,12 +26,6 @@ module.exports = Marionette.LayoutView.extend
     .then getByOwner
     .then @showFromModel.bind(@)
     .catch app.Execute('show:error')
-
-  updateListing: (e)->
-    if e.currentTarget? then { id: listing } = e.currentTarget
-    @listingData = listingsData()[listing]
-    @render()
-    @showNewShelfEditor()
 
   showShelf: (e)->
     { id:shelf } = e.currentTarget
@@ -54,38 +37,8 @@ module.exports = Marionette.LayoutView.extend
 
   showNewShelfEditor: (e)->
     $("#addShelf").hide()
-    # Wrapper necessary to "display: none"
-    # separately from "display: flex" of the editor
-    $("#newShelfEditorWrapper").show().find('textarea').focus()
+    @newShelfEditorWrapper.show new NewShelfEditor { @collection }
     e?.stopPropagation()
-
-  hideNewShelfEditor: (e)->
-    $("#newShelfEditorWrapper").hide()
-    $("#addShelf").show()
-    e?.stopPropagation()
-
-  shelfEditorKeyAction: (e)->
-    key = getActionKey e
-    if key is 'esc'
-      @hideNewShelfEditor()
-      e.stopPropagation()
-    else if key is 'enter' and e.ctrlKey
-      @createShelf()
-      e.stopPropagation()
-
-  createShelf: ->
-    @hideNewShelfEditor()
-    name = $("#newName").val()
-    description = $("#newDesc").val()
-    if !name && !description then return
-    _.preq.post app.API.shelves.create, { name, description, listing: @listingData.id }
-    .get('shelf')
-    .then (newShelf)=>
-      newShelfModel = new ShelfModel newShelf
-      @collection.add newShelfModel
-      $("#newName").val('')
-      $("#newDesc").val('')
-    .catch _.Error('shelf creation error')
 
   closeShelvesList: ->
     $('.shelvesWrapper').hide()
