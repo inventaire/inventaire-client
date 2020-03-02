@@ -6,12 +6,6 @@
         {{icon 'pencil'}}
         {{I18n 'edit shelf'}}
       </a>
-      <div class="hidden editorButtonsWrapper">
-        <div class="editorButtons">
-          <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
-          <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
-        </div>
-      </div>
     {{/if}}
   </div>
   <div id="infoBox">
@@ -28,9 +22,15 @@
       <div id="shelfEditorContent">
         <textarea id="shelfNameEditor">{{name}}</textarea>
         <textarea id="shelfDescEditor">{{description}}</textarea>
-        <div id="newShelfListing" class="has-dropdown">
-          <span class="visibilityButton tiny-button">{{icon listingData.icon}} {{i18n listingData.label}}</span>
-          {{partial 'shelves:shelf_visibility_box' this}}
+        <div class="editorButtonsWrapper">
+          <div id="newShelfListing" class="has-dropdown">
+            <span class="visibilityButton tiny-button">{{icon listingData.icon}} {{i18n listingData.label}}</span>
+            {{partial 'shelves:shelf_visibility_box' this}}
+          </div>
+            <div class="editorButtons">
+            <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
+            <a class="cancelShelfEdition cancelButton button" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
+          </div>
         </div>
       </div>
     </div>

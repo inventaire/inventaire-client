@@ -4,40 +4,43 @@
   #infoBoxTitleBar{
     @include display-flex(row, center, space-between);
   }
-}
-#shelfEditor{
-  @include display-flex(column, center, center)
-  #shelfEditorContent{
-    width: 100%;
-  }
-  .editorButtons {
-    @include display-flex(row, center, center);
-  }
   .button{
     padding: 0.2em;
-    margin: 0 0.1em;
+    margin-left: 1em;
   }
-}
-#titleBox{
-  overflow: hidden
-}
-/*Smaller screens*/
-@media screen and (max-width: $smaller-screen) {
-  #infoBoxTitleBar {
-    @include display-flex(column, center, center);
-    .tiny-button { width: auto }
+  #shelfEditor{
+    @include display-flex(column, center, center)
+    #shelfEditorContent{
+      width: 100%;
+    }
+    .editorButtons{
+      @include display-flex(row, center, center);
+    }
+    .editorButtonsWrapper{
+      @include display-flex(row, center, space-between);
+    }
   }
-  .subheader{
-    text-align: center;
-    width: 100%;
+  #titleBox{
+    overflow: hidden
   }
-  #shelfEditorContent {
-    margin-top: 1em;
-  }
-  #newShelfListing, #infoBox {
-    text-align: center;
-  }
-  .button-group-right {
-    margin-left: 0
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    #infoBoxTitleBar {
+      @include display-flex(column, center, center);
+      .tiny-button { width: auto }
+    }
+    .subheader{
+      text-align: center;
+      width: 100%;
+    }
+    #shelfEditorContent {
+      margin-top: 1em;
+    }
+    #newShelfListing, #infoBox {
+      text-align: center;
+    }
+    .button-group-right {
+      margin-left: 0
+    }
   }
 }
