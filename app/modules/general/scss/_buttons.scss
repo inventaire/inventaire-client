@@ -227,7 +227,6 @@ div.icon-buttons-header{
 @mixin big-button($color){
   @include custom-button($color);
   @include radius;
-  @include serif;
   font-weight: bold;
 }
 
