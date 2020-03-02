@@ -10,7 +10,7 @@ getActionKey = require 'lib/get_action_key'
 module.exports = Marionette.CompositeView.extend
   className: ->
     { limit } = @options
-    "picture-picker limit-#{limit}"
+    return "picture-picker limit-#{limit}"
 
   template: require './templates/picture_picker'
   childViewContainer: '#availablePictures'
@@ -24,6 +24,7 @@ module.exports = Marionette.CompositeView.extend
     PreventDefault: {}
 
   initialize: ->
+    { @context } = @options
     @limit = @options.limit or 1
     pictures = _.forceArray @options.pictures
     cropper.prepare()
@@ -33,6 +34,7 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     urlInput: @urlInputData()
+    userContext: @context is 'user'
 
   urlInputData: ->
     nameBase: 'url'
@@ -55,8 +57,9 @@ module.exports = Marionette.CompositeView.extend
     'click #cancel': 'close'
     'click #delete': 'delete'
     'click #validate': 'validate'
-    'change input[type=file]': 'getFilesPictures'
     'click #urlButton': 'fetchUrlPicture'
+    'click .fetchGravatar': 'fetchGravatar'
+    'change input[type=file]': 'getFilesPictures'
     'keyup input[type=file]': 'preventUnwantedModalClose'
 
   selectFirst: ->
@@ -89,7 +92,7 @@ module.exports = Marionette.CompositeView.extend
     if urls.length > 0 then @options.save urls
     @close()
 
-  fetchUrlPicture: (e)->
+  fetchUrlPicture: ->
     url = @ui.urlInput.val()
 
     # use the full definition image:
@@ -100,6 +103,14 @@ module.exports = Marionette.CompositeView.extend
     Promise.try validateUrlInput.bind(null, url)
     .then images_.getUrlDataUrl.bind(null, url)
     .then @_addToPictures.bind(@)
+    .catch error_.Complete('#urlField')
+    .catch forms_.catchAlert.bind(null, @)
+
+  fetchGravatar: ->
+    images_.getUserGravatarUrl()
+    .then (url)=>
+      @ui.urlInput.val url
+      @fetchUrlPicture()
     .catch error_.Complete('#urlField')
     .catch forms_.catchAlert.bind(null, @)
 

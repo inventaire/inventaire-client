@@ -3,6 +3,15 @@
   <div class="box">
     <h5>{{icon 'link'}}{{i18n 'from a URL'}}</h5>
     {{input urlInput}}
+
+    {{#if userContext}}
+      <div class="loadFrom">
+        <span class="label">{{I18n 'import from:'}}</span>
+        <a class="fetchGravatar tiny-button">Gravatar</a>
+      </div>
+    {{/if}}
+
+
     {{!-- putting the file upload second as it will get the focus on
     modal:open but a user directly wanting to close the modal will be prevented
     from doing so by preventUnwantedModalClose --}}

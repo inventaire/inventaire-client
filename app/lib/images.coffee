@@ -11,6 +11,10 @@ images_ =
     _.preq.get app.API.images.dataUrl(url)
     .get 'data-url'
 
+  getUserGravatarUrl: ->
+    _.preq.get app.API.images.gravatar
+    .get 'url'
+
   getElementDataUrl: ($el)->
     # requires the source to be on the same domain
     # or served with appropriate CORS headers.
