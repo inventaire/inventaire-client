@@ -22,7 +22,7 @@
   }
   .profile-buttons{
     @include display-flex(row, center, center);
-    a {
+    a{
       margin: 0 0 1em 1em;
     }
     flex: 0 0 auto;

@@ -50,7 +50,6 @@
     @include display-flex(row, center, flex-start);
     @include bg-hover(white, 5%);
     flex: 1 0 0;
-    // overflow: hidden;
   }
 
   /*Small screens*/

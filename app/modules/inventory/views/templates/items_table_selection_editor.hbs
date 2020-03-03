@@ -1,0 +1,26 @@
+<h3>{{{I18n 'editing_selected_items' smart_count=selectedIdsCount}}}</h3>
+
+<div id="selectTransaction" class="has-dropdown selector">
+  <p class="selector-label">{{I18n 'transaction'}} {{icon 'caret-down'}}</p>
+  <ul class="dropdown">
+    <li class="dropdown-label capitalized">{{I18n 'available for'}}:</li>
+    {{#each transactions}}
+      <li><a id="{{id}}" class="transaction-option">{{icon icon}} {{I18n label}}</a></li>
+    {{/each}}
+  </ul>
+</div>
+
+<div id="selectListing" class="has-dropdown selector">
+  <p class="selector-label">{{I18n 'listing'}} {{icon 'caret-down'}}</p>
+  <ul class="dropdown">
+    <li class="dropdown-label capitalized">{{I18n 'visible by'}}:</li>
+    {{#each listings}}
+      <li><a id="{{id}}" class="listing-option">{{icon icon}} {{I18n label}}</a></li>
+    {{/each}}
+  </ul>
+</div>
+
+<button class="delete">
+  {{icon 'trash-o'}}
+  <span>{{I18n 'delete'}}</span>
+</button>
