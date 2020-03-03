@@ -103,11 +103,8 @@ module.exports = Marionette.LayoutView.extend
 
   showInventoryBrowser: (type, model)->
     modelId = model.get('_id')
-    params = { "#{type}": modelId }
-
-    _.preq.get app.API.items.inventoryView(params)
-    .then (itemsData)=>
-      @itemsList.show new InventoryBrowser { itemsData, model }
+    getItemsDataPromise = getItemsData(type, modelId)
+    @itemsList.show new InventoryBrowser { getItemsDataPromise, model }
 
   showSectionLastItems: (section)->
     if section is 'public' and not app.user.get('position') then return
@@ -137,6 +134,10 @@ module.exports = Marionette.LayoutView.extend
       scrollToSection @userProfile
 
     app.navigateFromModel model
+
+getItemsData = (type, modelId)->
+  params = { "#{type}": modelId }
+  _.preq.get app.API.items.inventoryView(params)
 
 sectionRequest =
   network: 'items:getNetworkItems'
