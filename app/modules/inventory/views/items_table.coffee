@@ -1,5 +1,5 @@
 InfiniteScrollItemsList = require './infinite_scroll_items_list'
-{ data: transactionsData } = require '../lib/transactions_data'
+ItemsTableSelectionEditor = require './items_table_selection_editor'
 
 module.exports = InfiniteScrollItemsList.extend
   className: 'items-table'
@@ -11,8 +11,8 @@ module.exports = InfiniteScrollItemsList.extend
   ui:
     selectAll: '#selectAll'
     unselectAll: '#unselectAll'
-    updators: '.selector'
-    deleteUpdators: '.delete'
+    editSelection: '#editSelection'
+    selectionCounter: '.selectionCounter'
 
   initialize: ->
     @initInfiniteScroll()
@@ -24,18 +24,14 @@ module.exports = InfiniteScrollItemsList.extend
 
   serializeData: ->
     itemsCount: @itemsIds.length
-    transactions: transactionsData
-    listings: app.user.listings()
     isMainUser: @isMainUser
 
   events:
     'inview .fetchMore': 'infiniteScroll'
     'click #selectAll': 'selectAll'
     'click #unselectAll': 'unselectAll'
-    'click .transaction-option': 'setTransaction'
-    'click .listing-option': 'setListing'
+    'click #editSelection': 'showSelectionEditor'
     'change input[name="select"]': 'selectOne'
-    'click .delete': 'deleteItems'
 
   selectAll: ->
     @$el.find('input:checkbox').prop 'checked', true
@@ -60,12 +56,11 @@ module.exports = InfiniteScrollItemsList.extend
 
     if list.length is 0
       @ui.unselectAll.addClass 'hidden'
-      @ui.updators.addClass 'hidden'
-      @ui.deleteUpdators.addClass 'hidden'
+      @ui.editSelection.addClass 'hidden'
     else
       @ui.unselectAll.removeClass 'hidden'
-      @ui.updators.removeClass 'hidden'
-      @ui.deleteUpdators.removeClass 'hidden'
+      @ui.editSelection.removeClass 'hidden'
+      @ui.selectionCounter.text "(#{list.length})"
 
     if list.length is @itemsIds.length
       @ui.selectAll.addClass 'hidden'
@@ -79,33 +74,6 @@ module.exports = InfiniteScrollItemsList.extend
   removeSelectedIds: (ids...)->
     @selectedIds = _.without @selectedIds, ids...
     @updateSelectedIds @selectedIds
-
-  setTransaction: (e)-> @updateItems e, 'transaction'
-
-  setListing: (e)-> @updateItems e, 'listing'
-
-  updateItems: (e, attribute)->
-    value = e.currentTarget.id
-    { selectedModelsAndIds } = @getSelectedModelsAndIds()
-    action = -> app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
-    editedItemsCount = selectedModelsAndIds.length
-
-    if selectedModelsAndIds.length is 1
-      action()
-    else
-      app.execute 'ask:confirmation',
-        confirmationText: _.I18n 'confirmation_items_edit', { count: editedItemsCount }
-        yesButtonClass: 'success'
-        action: action
-
-  deleteItems: ->
-    if @selectedIds.length is 0 then return
-
-    { selectedModelsAndIds, selectedModels, selectedIds } = @getSelectedModelsAndIds()
-
-    app.request 'items:delete',
-      items: selectedModelsAndIds
-      next: @options.afterItemsDelete
 
   # Get a mix of the selected views' models and the remaining ids from non-displayed
   # items so that items:update or items:delete can set values on models
@@ -121,3 +89,9 @@ module.exports = InfiniteScrollItemsList.extend
     otherIds = _.difference selectedIds, modelsIds
     selectedModelsAndIds = selectedModels.concat otherIds
     return { selectedModelsAndIds, selectedModels, selectedIds }
+
+  showSelectionEditor: ->
+    app.layout.modal.show new ItemsTableSelectionEditor
+      selectedIds: @selectedIds
+      getSelectedModelsAndIds: @getSelectedModelsAndIds.bind(@)
+      afterItemsDelete: @options.afterItemsDelete

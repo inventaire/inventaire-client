@@ -1,0 +1,46 @@
+.items-table-selection-editor{
+  @include display-flex(column, center, center);
+  #selectTransaction, #selectListing, .delete{
+    @include radius;
+  }
+  #selectTransaction, #selectListing{
+    @include bg-hover(#eee);
+  }
+  .delete{
+    @include dangerous-action;
+  }
+  .selector-label{
+    text-align: center;
+    font-weight: bold;
+  }
+  .dropdown-label, .dropdown li{
+    font-size: 1rem;
+  }
+  .dropdown-label{
+    padding: 0.5em;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    #selectTransaction, #selectListing, .delete, .dropdown{
+      min-width: 12rem;
+    }
+    #selectTransaction, #selectListing, .delete{
+      padding: 1em;
+      margin: 1em;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    #selectTransaction, #selectListing, .delete{
+      align-self: stretch;
+    }
+    .dropdown{
+      width: 100%;
+    }
+    #selectTransaction, #selectListing, .delete{
+      padding: 0.5em;
+      margin: 1em 0.5em;
+    }
+  }
+}

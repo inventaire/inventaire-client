@@ -1,61 +1,69 @@
 .items-table{
   position: relative;
   background-color: $inventory-nav-grey;
-  #table-header:not(.hidden){
+  #table-actions:not(.hidden){
     @include display-flex(row);
     background-color: $inventory-nav-grey;
+    position: sticky;
+    bottom: 0;
     // Required for unclear reasons to allow .dropdown divs to appear
     // above .item-row elements
     z-index: 1;
-    button, .selector-label{
-      padding: 0.5em 1em;
-      margin: 0 0.5em;
-      text-align: center;
-      @include bg-hover(white);
-      font-weight: bold;
-    }
     button{
-      // Make buttons be of same height as .selector-label p elements
+      text-align: center;
+      font-weight: bold;
       line-height: 1.6em;
     }
-    button.remove:hover{
-      background-color: $danger-color;
-      color: white;
+    #selectAll, #unselectAll{
+      @include bg-hover(white);
+    }
+    #editSelection{
+      @include bg-hover($light-blue);
+      &, .count{
+        color: white;
+      }
     }
   }
+
   .dropdown-label{
     margin-left: 0.5em;
   }
 
-  .disabled{
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    #table-header:not(.hidden){
-      position: sticky;
-      top: $topbar-height;
+  /*Medium and Large screens*/
+  @media screen and (min-width: 800px) {
+    #table-actions:not(.hidden){
       padding: 0.5em;
+    }
+    button{
+      padding: 0.5em 1em;
+      margin: 0 0.5em;
     }
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    #table-header:not(.hidden){
-      overflow: auto;
-      flex-direction: column;
+  @media screen and (max-width: 800px) {
+    #table-actions:not(.hidden){
+      @include shy-border;
       align-items: stretch;
+      flex-wrap: wrap;
+    }
+    #selectAll, #unselectAll, #editSelection{
+      @include radius(0);
       padding: 0.5em 0;
-      > button, > div{
-        margin: 0.5em 0;
-      }
-      .selector-label{
-        margin: 0;
-      }
+    }
+    #selectAll, #unselectAll{
+      // Prefer to `width: 50%` to prevent horizontal scroll
+      flex: 1 0 40%;
+    }
+    #editSelection{
+      // Prefer to `width: 100%` to prevent horizontal scroll
+      flex: 1 0 80%;
+    }
+    #selectAll .count{
+      display: none;
     }
   }
 }
 
 @import 'item_row';
+@import 'items_table_selection_editor';
