@@ -16,7 +16,6 @@ module.exports = Marionette.LayoutView.extend
     BackupForm: {}
 
   events:
-    'click .shelfLi': 'showShelf'
     'click #addShelf': 'showNewShelfEditor'
     'click #closeShelves': 'closeShelvesList'
 
@@ -26,10 +25,6 @@ module.exports = Marionette.LayoutView.extend
     .then getByOwner
     .then @showFromModel.bind(@)
     .catch app.Execute('show:error')
-
-  showShelf: (e)->
-    { id:shelf } = e.currentTarget
-    app.execute 'show:shelf', shelf
 
   showFromModel: (models)->
     @collection = new Shelves models

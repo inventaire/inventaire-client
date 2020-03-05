@@ -8,6 +8,7 @@ ShelfLi = Marionette.ItemView.extend
     modal: '#modalContent'
 
   events:
+    'click .shelfLiInfo': 'showShelf'
     'click .editButton': 'showUpdateShelfEditor'
     'click a.cancelShelfEdition': 'hideShelfEditor'
     'click a.updateShelf': 'updateShelf'

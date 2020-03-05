@@ -8,7 +8,7 @@ module.exports =
     action 'by-ids', { ids, 'with-items': true }
   byOwners: (id)-> action 'by-owners', { 'owners': id }
   addItems: action 'add-items'
-  deleteItems: action 'delete-items'
+  removeItems: action 'remove-items'
   create: action 'create'
   update: action 'update'
   delete: action 'delete'

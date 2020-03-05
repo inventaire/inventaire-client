@@ -215,7 +215,7 @@ module.exports = Filterable.extend
     if shelfId not in shelvesIds then return
     shelvesIds = _.without shelvesIds, shelfId
     @set 'shelves', shelvesIds
-    return _.preq.post app.API.shelves.deleteItems, { id: shelfId, items: [ @get '_id' ] }
+    return _.preq.post app.API.shelves.removeItems, { id: shelfId, items: [ @get '_id' ] }
 
   isInShelf: (shelfId)->
     shelvesIds = @get 'shelves'
