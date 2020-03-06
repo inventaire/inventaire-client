@@ -4,13 +4,17 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/item_row'
 
   initialize: ->
-    { @isMainUser, @getSelectedIds } = @options
-    @listenTo @model, 'change', @render.bind(@)
+    { @getSelectedIds, @isMainUser, @groupContext } = @options
+    @listenTo @model, 'change', @lazyRender.bind(@)
+
+    unless @model.userReady
+      @model.waitForUser.then @lazyRender.bind(@)
 
   serializeData: ->
     _.extend @model.serializeData(),
       checked: @getCheckedStatus()
       isMainUser: @isMainUser
+      groupContext: @groupContext
 
   events:
     'click .showItem': 'showItem'
