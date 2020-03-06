@@ -1,13 +1,16 @@
 #addSearch{
-  section{
-    padding: 1em;
-    margin-bottom: 1em;
-  }
   @import 'search_history';
+  section{
+    padding-top: 1em;
+  }
 }
 
-.please-be-patient{
-  margin: 1em auto;
-  max-width: 32em;
-  color: #444;
+.search-buttons{
+  @include display-flex(row, center, center, wrap);
+}
+
+.search-button{
+  @extend .tiny-button;
+  @extend .light-blue;
+  margin: 1em;
 }
