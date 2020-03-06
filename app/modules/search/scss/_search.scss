@@ -1,18 +1,1 @@
-#localSearchGroup, #findIsbnGroup{
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  max-width: 30em;
-  margin: 0 auto;
-  input{
-    @include shy-border(0.4);
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    margin-top: 1.5em;
-    .button{
-      max-width: 6em;
-    }
-  }
-}
-
 @import 'live_search';
