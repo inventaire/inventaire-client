@@ -65,6 +65,7 @@ module.exports = Marionette.LayoutView.extend
     'click .searchFilter': 'recoverSearchFocus'
     'click': 'updateLiveSearch'
     'click .closeSearch': 'closeSearch'
+    'click #live-search': 'closeSearchOnOverlayClick'
 
     'click .language-picker .option a': 'selectLang'
 
@@ -164,5 +165,13 @@ module.exports = Marionette.LayoutView.extend
   closeSearch: ->
     @ui.searchField.val ''
     @hideLiveSearch()
+
+  # If the click event is directly on the live search element
+  # that means that it was outside the search results or sections
+  # and should be interpreted as a close request
+  # This can be the case on small screens as #live-search takes all the height
+  # and thus clicks on #overlay won't be detected
+  closeSearchOnOverlayClick: (e)->
+    if e.target.id is 'live-search' then @closeSearch()
 
 neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]
