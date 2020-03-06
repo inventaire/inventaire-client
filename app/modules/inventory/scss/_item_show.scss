@@ -8,11 +8,11 @@
     max-width: 36em;
     min-height: 350px;
   }
-  a.edition, a.work, .author-preview a, .series-preview a{
+  .edition, .work, .author-preview a, .series-preview a{
     margin: 0.2em 0;
     @include bg-hover(#f3f3f3);
   }
-  a.edition, a.work{
+  .edition, .work{
     @include display-flex(column, center, center);
     margin-bottom: 2em;
   }

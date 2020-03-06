@@ -9,25 +9,29 @@
       <span class="section-label">{{I18n 'work'}}</span>
     {{/if}}
 
-    <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
+    <p class="{{entityType}}">
       {{#if snapshot.entity:image}}
+        <a class="showEntity" href="{{entityData.pathname}}">
+
         <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
+        </a>
+
       {{/if}}
-      <span class="title">{{snapshot.entity:title}}</span><br>
-      <span class="subtitle">{{snapshot.entity:subtitle}}</span><br>
+      <a class="showEntity title" href="{{entityData.pathname}}">{{snapshot.entity:title}}</a><br>
+      <a class="showEntity subtitle">{{snapshot.entity:subtitle}}</a><br>
       {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}
-        <span class="identifier">ISBN: {{entityData.claims.wdt:P212}}</span>
+        <a class="showEntity identifier">ISBN: {{entityData.claims.wdt:P212}}</a>
       {{/if}}{{/if}}
-    </a>
+    <p>
 
     {{#if entityIsEdition}}
       <span class="section-label">
       {{#if entityData.isCompositeEdition}}{{I18n 'works'}}{{else}}{{I18n 'work'}}{{/if}}
       </span>
       {{#each works}}
-        <a class="work showEntity" href="{{pathname}}">
-          <span class="related-entity-label">{{label}}</span>
-        </a>
+        <p class="work">
+          <a class="related-entity-label showEntity" href="{{pathname}}">{{label}}</a>
+        </p>
       {{/each}}
     {{else}}
       {{#if mainUserIsOwner}}
