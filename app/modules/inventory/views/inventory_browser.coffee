@@ -53,7 +53,6 @@ module.exports = Marionette.LayoutView.extend
   initBrowser: ->
     startLoading.call @, { selector: '#browserFilters', timeout: 180 }
     { itemsDataPromise } = @options
-    @spreadData itemsData
     waitForInventoryData = itemsDataPromise
       .then @ifViewIsIntact('spreadData')
       .then @ifViewIsIntact('showItemsListByIds', null)

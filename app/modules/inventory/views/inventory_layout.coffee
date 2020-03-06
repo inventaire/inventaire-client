@@ -103,8 +103,8 @@ module.exports = Marionette.LayoutView.extend
 
   showInventoryBrowser: (type, model)->
     modelId = model.get('_id')
-    getItemsDataPromise = getItemsData(type, modelId)
-    @itemsList.show new InventoryBrowser { getItemsDataPromise, model }
+    itemsDataPromise = getItemsData(type, modelId)
+    @itemsList.show new InventoryBrowser { itemsDataPromise, model }
 
   showSectionLastItems: (section)->
     if section is 'public' and not app.user.get('position') then return
