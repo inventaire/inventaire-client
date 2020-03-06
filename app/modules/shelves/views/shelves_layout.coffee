@@ -15,6 +15,10 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     BackupForm: {}
 
+  initialize: ->
+    app.commands.setHandlers
+      'reset:new:shelf': @resetNewShelfEditor
+
   events:
     'click #addShelf': 'showNewShelfEditor'
     'click #closeShelves': 'closeShelvesList'
@@ -32,8 +36,12 @@ module.exports = Marionette.LayoutView.extend
 
   showNewShelfEditor: (e)->
     $("#addShelf").hide()
+    $('#newShelfEditorWrapper').show()
     @newShelfEditorWrapper.show new NewShelfEditor { @collection }
-    e?.stopPropagation()
+
+  resetNewShelfEditor: (e)->
+    $("#newShelfEditorWrapper").hide()
+    $("#addShelf").show()
 
   closeShelvesList: ->
     $('.shelvesWrapper').hide()

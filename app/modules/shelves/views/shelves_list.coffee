@@ -28,8 +28,7 @@ ShelfLi = Marionette.ItemView.extend
       listingData: @listingData
 
   showShelf: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:shelf', @model.get('_id')
+    app.execute 'show:shelf', @model.get('_id')
 
   showUpdateShelfEditor: (e)->
     shelfId = @model.get '_id'

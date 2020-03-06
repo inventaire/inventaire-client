@@ -33,18 +33,13 @@ module.exports = Marionette.LayoutView.extend
     key = getActionKey e
     if key is 'esc'
       @hideNewShelfEditor()
-      e.stopPropagation()
     else if key is 'enter' and e.ctrlKey
       @createShelf()
-      e.stopPropagation()
 
-  hideNewShelfEditor: (e)->
-    $("#newShelfEditorWrapper").hide()
-    $("#addShelf").show()
-    e?.stopPropagation()
+  hideNewShelfEditor: ->
+    app.execute 'reset:new:shelf'
 
   createShelf: ->
-    @hideNewShelfEditor()
     name = $("#newName").val()
     description = $("#newDesc").val()
     if !name && !description then return
@@ -55,6 +50,7 @@ module.exports = Marionette.LayoutView.extend
       @collection.add newShelfModel
       $("#newName").val('')
       $("#newDesc").val('')
+      @hideNewShelfEditor()
     .catch _.Error('shelf creation error')
 
 getUserId = (username) ->
