@@ -72,13 +72,12 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showShelf: (shelf)->
-    getItemsData('shelf', shelf.id)
-    .then (itemsData)=>
-      isMainUser = app.user.id is shelf.get('owner')
-      @shelfInfo.show new ShelfView { model: shelf }
-      @itemsList.show new InventoryBrowser { itemsData, isMainUser }
-      app.navigateFromModel shelf
-      scrollToSection @shelfInfo
+    itemsDataPromise = getItemsData('shelf', shelf.id)
+    isMainUser = app.user.id is shelf.get('owner')
+    @shelfInfo.show new ShelfView { model: shelf }
+    @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
+    app.navigateFromModel shelf
+    scrollToSection @shelfInfo
 
   showShelves: (user)->
     app.request 'resolve:to:userModel', user
