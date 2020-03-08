@@ -23,6 +23,7 @@ module.exports = UserCommons.extend
     # as next changes happening in deep objects won't trigger this event anyway
     @once 'change:snapshot', @setAllInventoryStats.bind(@)
     @on 'items:change', @updateItemsCounters.bind(@)
+    @on 'shelves:change', @updateShelvesCounter.bind(@)
 
     # user._id should only change once from undefined to defined
     @once 'change:_id', (model, id)-> app.execute 'track:user:id', id
@@ -98,6 +99,13 @@ module.exports = UserCommons.extend
     if previousListing? then snapshot[previousListing]['items:count'] -= 1
     if newListing? then snapshot[newListing]['items:count'] += 1
     @set 'snapshot', snapshot
+    @setAllInventoryStats()
+
+  updateShelvesCounter: (action)->
+    shelvesCount = @get 'shelvesCount'
+    if action is 'addShelf' then shelvesCount += 1
+    if action is 'removeShelf' then shelvesCount -= 1
+    @set 'shelvesCount', shelvesCount
     @setAllInventoryStats()
 
   setAllInventoryStats: ->

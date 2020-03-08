@@ -1,6 +1,4 @@
 ShelfModel = require '../models/shelf'
-
-error_ = require 'lib/error'
 getActionKey = require 'lib/get_action_key'
 { listingsData } = require 'modules/inventory/lib/item_creation'
 
@@ -14,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
     @collection = @options.collection
 
   events:
-    'click a.cancelShelfEdition': 'afterEdition'
+    'click a.cancelShelfEdition': 'closeModal'
     'keydown .shelfEditor': 'shelfEditorKeyAction'
     'click a#createShelf': 'createShelf'
     'click .listingChoice': 'updateListing'
@@ -34,13 +32,11 @@ module.exports = Marionette.LayoutView.extend
   shelfEditorKeyAction: (e)->
     key = getActionKey e
     if key is 'esc'
-      @afterEdition()
+      @closeModal()
     else if key is 'enter' and e.ctrlKey
       @createShelf()
 
-  afterEdition: ->
-    app.execute 'reset:new:shelf'
-    app.execute 'modal:close'
+  closeModal: -> app.execute 'modal:close'
 
   createShelf: ->
     name = $('#newName').val()
@@ -48,13 +44,14 @@ module.exports = Marionette.LayoutView.extend
     if not name and not description then return
     _.preq.post app.API.shelves.create, { name, description, listing: @listingData.id }
     .get('shelf')
-    .then (newShelf)=>
-      newShelfModel = new ShelfModel newShelf
-      @collection.add newShelfModel
-      $('#newName').val('')
-      $('#newDesc').val('')
-      @afterEdition()
+    .then afterCreate(@collection)
     .catch _.Error('shelf creation error')
+
+afterCreate = (collection) -> (newShelf) ->
+  newShelfModel = new ShelfModel newShelf
+  collection.add newShelfModel
+  app.user.trigger 'shelves:change', 'addShelf'
+  app.execute 'modal:close'
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

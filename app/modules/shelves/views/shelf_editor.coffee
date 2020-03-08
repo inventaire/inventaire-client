@@ -67,5 +67,7 @@ module.exports = Marionette.LayoutView.extend
     if withItems then params = _.extend({ 'with-items': true }, params)
     _.preq.post app.API.shelves.delete, params
     .then _.Log('shelf destroyed')
-    .then -> app.execute 'show:inventory:main:user'
+    .then ->
+      app.execute 'show:inventory:main:user'
+      app.user.trigger 'shelves:change', 'removeShelf'
     .catch _.Error('shelf delete error')
