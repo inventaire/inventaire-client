@@ -17,22 +17,4 @@
       {{icon listingData.icon}} {{i18n listingData.label}}
     </span>
   </div>
-  <div class='hidden shelfEditorWrapper'>
-    <div id="shelfEditor">
-      <div id="shelfEditorContent">
-        <textarea id="shelfNameEditor">{{name}}</textarea>
-        <textarea id="shelfDescEditor">{{description}}</textarea>
-        <div class="editorButtonsWrapper">
-          <div id="newShelfListing" class="has-dropdown">
-            <span class="visibilityButton tiny-button">{{icon listingData.icon}} {{i18n listingData.label}}</span>
-            {{partial 'shelves:shelf_visibility_box' this}}
-          </div>
-            <div class="editorButtons">
-            <a id="validateShelf" title="{{I18n 'validate'}}" class="button validateButton">{{icon 'check'}}</a>
-            <a class="cancelShelfEdition cancelButton button" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

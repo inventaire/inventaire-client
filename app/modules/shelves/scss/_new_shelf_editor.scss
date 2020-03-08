@@ -1,5 +1,4 @@
 .shelfEditor{
-  @include display-flex(row);
   .shelfName, .shelfDesc{
     height: 3em;
     padding: 0 1em;

@@ -1,14 +1,15 @@
 <div class="shelfEditor">
+  <h4 class="subheader">{{i18n 'shelf'}}</h4>
+  <textarea id="shelfNameEditor" placeholder='({{i18n 'new shelf name placeholder'}})'>{{name}}</textarea>
+  <textarea id="shelfDescEditor" placeholder='({{i18n 'new shelf description placeholder'}})'>{{description}}</textarea>
   <div class="listingIconEditor">
     <div class="has-dropdown">
       <span name="listingData" id="{{_id}}" class="visibilityButton button">{{icon listingData.icon}}</span>
       {{partial 'shelves:shelf_visibility_box' this}}
     </div>
   </div>
-  <textarea id="{{_id}}Name" class="shelfName" placeholder='({{i18n 'new shelf name placeholder'}})'>{{name}}</textarea>
-  <textarea id="{{_id}}Desc" class="shelfDesc" placeholder='({{i18n 'new shelf description placeholder'}})'>{{description}}</textarea>
   <div class="button-group-right">
-    <a class="cancelShelfEdition button cancelButton" title="{{I18n 'cancel'}}">{{icon 'times'}}</a>
-    <a title="{{I18n 'validate'}}" class="updateShelf button validateButton">{{icon 'check'}}</a>
+    <a class="deleteButton liButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}</a>
+    <a class="updateShelf button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}</a>
   </div>
 </div>

@@ -8,18 +8,6 @@
     padding: 0.2em;
     margin-left: 1em;
   }
-  #shelfEditor{
-    @include display-flex(column, center, center)
-    #shelfEditorContent{
-      width: 100%;
-    }
-    .editorButtons{
-      @include display-flex(row, center, center);
-    }
-    .editorButtonsWrapper{
-      @include display-flex(row, center, space-between);
-    }
-  }
   #titleBox{
     overflow: hidden
   }
@@ -32,9 +20,6 @@
     .subheader{
       text-align: center;
       width: 100%;
-    }
-    #shelfEditorContent {
-      margin-top: 1em;
     }
     #newShelfListing, #infoBox {
       text-align: center;

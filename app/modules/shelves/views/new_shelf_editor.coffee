@@ -14,7 +14,7 @@ module.exports = Marionette.LayoutView.extend
     @collection = @options.collection
 
   events:
-    'click a.cancelShelfEdition': 'hideNewShelfEditor'
+    'click a.cancelShelfEdition': 'afterEdition'
     'keydown .shelfEditor': 'shelfEditorKeyAction'
     'click a#createShelf': 'createShelf'
     'click .listingChoice': 'updateListing'
@@ -24,6 +24,8 @@ module.exports = Marionette.LayoutView.extend
     #Default listing for a new shelf
     listingData: @listingData
 
+  onShow: -> app.execute 'modal:open'
+
   updateListing: (e)->
     if e.currentTarget? then { id: listing } = e.currentTarget
     @listingData = listingsData()[listing]
@@ -32,25 +34,26 @@ module.exports = Marionette.LayoutView.extend
   shelfEditorKeyAction: (e)->
     key = getActionKey e
     if key is 'esc'
-      @hideNewShelfEditor()
+      @afterEdition()
     else if key is 'enter' and e.ctrlKey
       @createShelf()
 
-  hideNewShelfEditor: ->
+  afterEdition: ->
     app.execute 'reset:new:shelf'
+    app.execute 'modal:close'
 
   createShelf: ->
-    name = $("#newName").val()
-    description = $("#newDesc").val()
-    if !name && !description then return
+    name = $('#newName').val()
+    description = $('#newDesc').val()
+    if not name and not description then return
     _.preq.post app.API.shelves.create, { name, description, listing: @listingData.id }
     .get('shelf')
     .then (newShelf)=>
       newShelfModel = new ShelfModel newShelf
       @collection.add newShelfModel
-      $("#newName").val('')
-      $("#newDesc").val('')
-      @hideNewShelfEditor()
+      $('#newName').val('')
+      $('#newDesc').val('')
+      @afterEdition()
     .catch _.Error('shelf creation error')
 
 getUserId = (username) ->

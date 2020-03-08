@@ -1,10 +1,5 @@
 Shelves = require '../collections/shelves'
-ShelfModel = require '../models/shelf'
-ShelvesView = require './shelves_list'
 NewShelfEditor = require './new_shelf_editor'
-error_ = require 'lib/error'
-getActionKey = require 'lib/get_action_key'
-{ listingsData } = require 'modules/inventory/lib/item_creation'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelves_layout'
@@ -14,10 +9,6 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     BackupForm: {}
-
-  initialize: ->
-    app.commands.setHandlers
-      'reset:new:shelf': @resetNewShelfEditor
 
   events:
     'click #addShelf': 'showNewShelfEditor'
@@ -35,13 +26,9 @@ module.exports = Marionette.LayoutView.extend
     @shelves.show new ShelvesView { @collection }
 
   showNewShelfEditor: (e)->
-    $("#addShelf").hide()
+    $('#addShelf').hide()
     $('#newShelfEditorWrapper').show()
-    @newShelfEditorWrapper.show new NewShelfEditor { @collection }
-
-  resetNewShelfEditor: (e)->
-    $("#newShelfEditorWrapper").hide()
-    $("#addShelf").show()
+    app.layout.modal.show new NewShelfEditor { @collection }
 
   closeShelvesList: ->
     $('.shelvesWrapper').hide()
