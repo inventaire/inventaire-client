@@ -12,7 +12,6 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #addShelf': 'showNewShelfEditor'
-    'click #closeShelves': 'closeShelvesList'
 
   onShow: ->
     { username } = @options
@@ -29,9 +28,6 @@ module.exports = Marionette.LayoutView.extend
     $('#addShelf').hide()
     $('#newShelfEditorWrapper').show()
     app.layout.modal.show new NewShelfEditor { @collection }
-
-  closeShelvesList: ->
-    $('.shelvesWrapper').hide()
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

@@ -10,7 +10,6 @@ module.exports = Marionette.ItemView.extend
     'click .editProfile': _.clickCommand 'show:settings:profile'
     'click .addItems': _.clickCommand 'show:add:layout'
     'click .showUserOnMap': 'showUserOnMap'
-    'click .showShelvesList': 'showShelvesList'
 
   behaviors:
     PreventDefault: {}
@@ -41,7 +40,3 @@ module.exports = Marionette.ItemView.extend
     if _.isOpenedOutside(e) then return
     unless @model.distanceFromMainUser? then return
     app.execute 'show:models:on:map', [ @model, app.user ]
-
-  showShelvesList: (e)->
-    app.navigateFromModel @model, { preventScrollTop: true }
-    app.execute 'show:shelves:list', @model

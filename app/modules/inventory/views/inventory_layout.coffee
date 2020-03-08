@@ -27,12 +27,12 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     { @user, @group, @shelf, @standalone } = @options
     @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
-    app.commands.setHandlers
-      'show:shelves:list': @showShelves.bind(@)
 
   onShow: ->
     if @user?
       @startFromUser @user, @shelf
+      @showShelves @user
+
     else if @group?
       @startFromGroup @group
     else
