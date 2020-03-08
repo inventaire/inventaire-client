@@ -1,11 +1,9 @@
 Shelves = require '../collections/shelves'
 NewShelfEditor = require './new_shelf_editor'
+InventoryCommonNav = require 'modules/inventory/views/inventory_common_nav'
 
-module.exports = Marionette.LayoutView.extend
+module.exports = InventoryCommonNav.extend
   template: require './templates/shelves_layout'
-  regions:
-    shelves: '.shelves'
-    newShelfEditorWrapper: '#newShelfEditorWrapper'
 
   behaviors:
     BackupForm: {}
@@ -22,11 +20,9 @@ module.exports = Marionette.LayoutView.extend
 
   showFromModel: (models)->
     @collection = new Shelves models
-    @shelves.show new ShelvesView { @collection }
+    @showList @shelvesList, @collection
 
   showNewShelfEditor: (e)->
-    $('#addShelf').hide()
-    $('#newShelfEditorWrapper').show()
     app.layout.modal.show new NewShelfEditor { @collection }
 
 getUserId = (username) ->

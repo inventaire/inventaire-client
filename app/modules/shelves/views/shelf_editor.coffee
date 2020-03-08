@@ -2,7 +2,7 @@
 getActionKey = require 'lib/get_action_key'
 
 module.exports = Marionette.LayoutView.extend
-  class:'shelfEditor'
+  class:'ShelfEditor'
   template: require './templates/shelf_editor'
 
   events:

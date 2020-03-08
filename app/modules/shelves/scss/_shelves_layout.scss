@@ -1,13 +1,15 @@
 .shelvesWrapper{
   background-color: $light-grey;
-  padding: 0.7em 1em 1em 1em;
+  padding: 0.7em 1em;
   margin: 0.7em 0 0 0;
   .shelvesTitle{
-    padding-bottom: 0.7em;
     @include display-flex(row, center, space-between);
     .editorButtons {
       @include display-flex(row, center, center);
     }
+  }
+  #shelvesList{
+    padding-top: 1em;
   }
   #addShelf{
     padding: 0.3em 0.6em;

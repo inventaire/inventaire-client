@@ -7,5 +7,6 @@ module.exports = Marionette.LayoutView.extend
   regions:
     usersList: '#usersList'
     groupsList: '#groupsList'
+    shelvesList: '#shelvesList'
 
   showList: (region, collection)-> region.show new SectionList { collection }

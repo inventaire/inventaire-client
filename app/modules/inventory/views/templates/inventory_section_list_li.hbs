@@ -14,7 +14,9 @@
   {{/if}}
 
   <div class="info">
-    {{#if isGroup}}
+    {{#if isShelf}}
+      {{name}}
+    {{else if isGroup}}
       <strong>{{name}}</strong>
     {{else}}
       <strong>{{username}}</strong>

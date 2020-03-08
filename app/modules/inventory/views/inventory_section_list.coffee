@@ -19,7 +19,7 @@ ListEl = Marionette.ItemView.extend
 
   selectInventory: (e)->
     if _.isOpenedOutside e then return
-    type = if @model.get('type') is 'group' then 'group' else 'user'
+    type = @model.get('type') or 'user'
     if type is 'user' and @context is 'group' then type = 'member'
     app.vent.trigger 'inventory:select', type, @model
     e.preventDefault()
