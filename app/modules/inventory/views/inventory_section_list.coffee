@@ -4,12 +4,14 @@ ListEl = Marionette.ItemView.extend
 
   initialize: ->
     { @context, @group } = @options
+    @lazyRender = _.LazyRender @
+    if @model.get('hasItemsCount')
+      @model.itemsCount = @model.waitForItemsCount.then @lazyRender
 
   serializeData: ->
     attrs = @model.serializeData()
     attrs.isGroup = attrs.type is 'group'
     attrs.isGroupAdmin = @isGroupAdmin()
-    attrs.hasItemsCount = attrs.itemsCount?
     return attrs
 
   events:

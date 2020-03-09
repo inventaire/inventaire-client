@@ -160,6 +160,8 @@ module.exports = Marionette.LayoutView.extend
       @showMemberInventory model
       scrollToSection @userProfile
     else if type is 'shelf'
+      user = model.get 'owner'
+      @showShelves user
       @showShelf model
 
     app.navigateFromModel model
