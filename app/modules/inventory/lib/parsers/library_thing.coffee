@@ -8,8 +8,8 @@ module.exports = (obj)->
   # is exported as "Ty&ouml;p&auml;iv&auml;kirjat"
   title: decodeHtmlEntities obj.title
   authors: getAuthorsString obj
-  publicationDate: obj.date
-  numberOfPages: if obj.pages? then parseInt obj.pages
+  publicationDate: if _.isDateString(obj.date) then obj.date
+  numberOfPages: if _.isPositiveIntegerString(obj.pages) then parseInt obj.pages
 
 getAuthorsString = (obj)->
   { authors } = obj
