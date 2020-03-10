@@ -5,6 +5,6 @@ module.exports = (obj)->
   details: obj['My Review']
   publisher: obj.Publisher
   publicationDate: obj['Year Published']
-  numberOfPages: obj['Number of Pages']
+  numberOfPages: if obj['Number of Pages']? then parseInt obj['Number of Pages']
 
 cleanIsbn = (isbn)-> isbn?.replace /("|=)/g, ''

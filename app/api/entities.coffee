@@ -24,7 +24,7 @@ module.exports =
 
   # POST
   create: action 'create'
-  existsOrCreateFromSeed: action 'exists-or-create-from-seed'
+  resolve: action 'resolve'
 
   # PUT
   claims:

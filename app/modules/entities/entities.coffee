@@ -296,12 +296,14 @@ normalizeUri = (uri)->
   return "#{prefix}:#{id}"
 
 # Create from the seed data we have, if the entity isn't known yet
-existsOrCreateFromSeed = (data)->
-  data.isbn or= data.normalizedIsbn
-  _.preq.post app.API.entities.existsOrCreateFromSeed, data
+existsOrCreateFromSeed = (entry)->
+  _.preq.post app.API.entities.resolve, { entries: [ entry ], update: true, create: true }
   # Add the possibly newly created edition entity to the local index
   # and get it's model
-  .then entitiesModelsIndex.add
+  .get 'entries'
+  .then (entries)->
+    { uri } = entries[0].edition
+    return getEntityModel uri, true
 
 showViewWithAdminRights = (params)->
   { path, title, View, viewOptions, navigate } = params

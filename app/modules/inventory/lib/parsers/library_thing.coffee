@@ -9,7 +9,7 @@ module.exports = (obj)->
   title: decodeHtmlEntities obj.title
   authors: getAuthorsString obj
   publicationDate: obj.date
-  numberOfPages: obj.pages
+  numberOfPages: if obj.pages? then parseInt obj.pages
 
 getAuthorsString = (obj)->
   { authors } = obj

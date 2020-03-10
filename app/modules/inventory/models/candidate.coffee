@@ -34,5 +34,27 @@ module.exports = Backbone.Model.extend
         listing: listing
 
   getEntityModel: ->
-    if @get('uri')? then Promise.resolve @
-    else app.request 'entity:exists:or:create:from:seed', @toJSON()
+    # Always return a promise
+    Promise.try =>
+      if @get('uri')? then return @
+      entry = @serializeResolverEntry()
+      return app.request 'entity:exists:or:create:from:seed', entry
+
+  serializeResolverEntry: ->
+    data = @toJSON()
+    { isbn, title, lang, authors: authorsNames, normalizedIsbn, publicationDate, numberOfPages } = data
+
+    edition =
+      isbn: isbn or normalizedIsbn
+      claims:
+        'wdt:P1476': [ title ]
+
+    if publicationDate? then edition.claims['wdt:P577'] = publicationDate
+    if numberOfPages? then edition.claims['wdt:P1104'] = numberOfPages
+
+    authors = _.forceArray(authorsNames).map (name)->
+      labelLang = lang or app.user.lang
+      labels = { "#{labelLang}": name }
+      return { labels }
+
+    return { edition, authors }
