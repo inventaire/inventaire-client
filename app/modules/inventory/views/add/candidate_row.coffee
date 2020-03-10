@@ -13,6 +13,9 @@ module.exports = Marionette.ItemView.extend
       if @model.get('selected') then base += ' selected'
     return base
 
+  onShow: ->
+    @listenTo @model, 'change', @lazyRender
+
   onRender: ->
     @updateClassName()
     @trigger 'selection:changed'
@@ -28,15 +31,15 @@ module.exports = Marionette.ItemView.extend
     # from other click event handlers
     'click': 'select'
 
-  modelEvents:
-    'change:selected': 'render'
-
   updateSelected: (e)->
     { checked } = e.currentTarget
     @model.set 'selected', checked
     e.stopPropagation()
 
   select: (e)->
+    # Do not interpret click on anchors such as .existing-instances links as a select
+    if e.target.tagName is 'A' then return
+
     if @model.canBeSelected()
       currentSelectedMode = @model.get 'selected'
       # Let the model events listener update the checkbox

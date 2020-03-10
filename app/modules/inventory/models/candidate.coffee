@@ -10,12 +10,13 @@ module.exports = Backbone.Model.extend
       unless attrs.normalizedIsbn?
         @set 'normalizedIsbn', isbn_.normalizeIsbn(attrs.isbn)
 
+    if not @get('uri') and @get('normalizedIsbn')?
+      @set 'uri', "isbn:#{@get('normalizedIsbn')}"
+
     if attrs.isInvalid then return
 
-    if not attrs.title?
-      @set 'needInfo', true
-    else
-      @set 'selected', true
+    @findExistingInstances()
+    .then @setStatusData.bind(@)
 
     @on 'change:title', @updateInfoState.bind(@)
 
@@ -24,6 +25,25 @@ module.exports = Backbone.Model.extend
   updateInfoState: ->
     needInfo = not _.isNonEmptyString(@get('title'))
     @set 'needInfo', needInfo
+
+  findExistingInstances: ->
+    uri = @get 'uri'
+    unless uri? then return Promise.resolve()
+
+    app.request 'item:main:user:instances', uri
+    .then (existingInstances)=> @set 'existingInstances', existingInstances
+
+  setStatusData: ->
+    existingInstances = @get 'existingInstances'
+    if existingInstances?.length > 0
+      @set 'existingInstancesCount', existingInstances.length
+      uri = @get 'uri'
+      username = app.user.get 'username'
+      @set 'existingInstancesPathname', "/inventory/#{username}/#{uri}"
+    else if not @get('title')?
+      @set 'needInfo', true
+    else
+      @set 'selected', true
 
   createItem: (transaction, listing)->
     @getEntityModel()
@@ -36,7 +56,8 @@ module.exports = Backbone.Model.extend
   getEntityModel: ->
     # Always return a promise
     Promise.try =>
-      if @get('uri')? then return @
+      # Duck typing an entity model
+      if @get('claims')? then return @
       entry = @serializeResolverEntry()
       return app.request 'entity:exists:or:create:from:seed', entry
 

@@ -1,7 +1,7 @@
-$addLayoutWidth: 50em;
+$addLayoutWidth: 70em;
 
 #addLayout{
-  @include central-column(42em);
+  @include central-column($addLayoutWidth);
   text-align: center;
   .tab{
     .fa{
