@@ -10,22 +10,25 @@ $arrowHeight: 10px;
   color: $dark-grey;
   min-height: $userMarkerHeight;
   min-width:  $userMarkerWidth;
-  text-align: center;
-  @include sans-serif;
   @include bg-hover(white, 10%);
   @include radius;
   @include shy-border;
-  img{
-    @include radius;
-  }
-  .label{
-    @include serif;
-    font-size: 0.9rem;
+  position: relative;
+  .username, .name{
+    white-space: nowrap;
+    @include position(absolute, null, 0, 0, 0, 1);
+    @include sans-serif;
     color: $dark-grey;
     font-weight: bold;
     overflow: hidden;
-    @include shy-text-border(rgba(white, 0.5));
+    background-color: white;
     line-height: 1em;
+    padding: 0.2em;
+  }
+  .picture{
+    background-size: cover;
+    background-position: center center;
+    @include position(absolute, 0, 0, 0, 0, 0);
   }
 }
 
@@ -33,9 +36,10 @@ $arrowHeight: 10px;
 // adapted from http://cssarrowplease.com
 .objectMarker{
   position: relative;
-  background-color: $lighter-grey;
+  background-color: white;
   box-shadow: 10px 10px 10px rgba(black, 0.5);
 }
+
 .objectMarker:after{
   top: 100%;
   left: 50%;
@@ -45,7 +49,7 @@ $arrowHeight: 10px;
   position: absolute;
   pointer-events: none;
   border: solid transparent;
-  border-top-color: $lighter-grey;
+  border-top-color: white;
   // 11px makes it 1px too wide on the right
   // but it prevent the little bug occuring with 10px
   border-width: 11px;
@@ -57,9 +61,6 @@ $arrowHeight: 10px;
   margin-top: -$userMarkerHeight - $arrowHeight ;
   margin-left: -$userMarkerWidth/2 +4px;
   position: relative;
-  .username{
-    margin-top: -0.5em;
-  }
   #showPositionPicker, .items-count{
     position: absolute;
     top: 0;
@@ -81,10 +82,6 @@ $arrowHeight: 10px;
   // which, given its absolute position, might be a conflict with leaflet rules
   height: $groupMarkerHeight;
   min-width: $groupMarkerWidth;
-  .name{
-    // @include position(absolute, null, 0.2em, 0, 0.2em);
-    white-space: nowrap;
-  }
 }
 
 // (1) - By default, the icon has it's coordinates for top-left point
