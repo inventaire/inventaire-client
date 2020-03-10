@@ -1,6 +1,6 @@
 module.exports = Marionette.ItemView.extend
   tagName: 'li'
-  className: 'item-row'
+  className: 'imported-item-row'
   template: require './templates/imported_item_row'
   serializeData: ->
     attrs = @model.serializeData()

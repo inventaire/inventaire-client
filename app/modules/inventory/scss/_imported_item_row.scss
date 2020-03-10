@@ -2,7 +2,7 @@
 
 /*Small screens*/
 @media screen and (max-width: $small-screen) {
-  .item-row{
+  .imported-item-row{
     margin: 0.2em;
     padding: 0.5em;
     flex-direction: column;
@@ -35,15 +35,15 @@
       }
     }
   }
-  .items-rows-header{
+  .imported-items-rows-header{
     display: none;
   }
 }
 
 /*Large screens*/
 @media screen and (min-width: $smaller-screen) {
-  .item-row, .items-rows-header{
-    margin: 0 0.5em;
+  .imported-item-row, .imported-items-rows-header{
+    margin: 0.5em 0;
     .title, .authors{
       flex: 1 0 0;
       text-align: left;
@@ -57,7 +57,7 @@
       margin: 0 1em;
     }
   }
-  .items-rows-header{
+  .imported-items-rows-header{
     font-weight: bold;
     color: $grey;
   }
@@ -72,7 +72,7 @@
     @include display-flex(row, center, center);
     flex: 1 0 0;
   }
-  .item-row{
+  .imported-item-row{
     > div{
       justify-content: center;
     }
