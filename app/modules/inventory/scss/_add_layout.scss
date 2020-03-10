@@ -3,7 +3,7 @@ $addLayoutWidth: 50em;
 #addLayout{
   @include central-column(42em);
   text-align: center;
-  .custom-tabs{
+  .tab{
     .fa{
       margin-right: 0.5em;
     }
