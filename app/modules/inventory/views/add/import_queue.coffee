@@ -117,9 +117,11 @@ module.exports = Marionette.LayoutView.extend
       candidate.set 'errorMessage', err.message
       @failed or= []
       @failed.push candidate
+      _.error err, 'chainedImport err'
       return
     .then (item)=>
       @candidates.remove candidate
+      # Show the added books on the first successful import, so when @items is still empty
       if @items.length is 0 then @setTimeout @showAddedBooks.bind(@), 1000
       @items.add item
       # recursively trigger next import
