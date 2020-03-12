@@ -1,31 +1,68 @@
-.shelfData{
-  padding: 0.7em 1em 1em 1em;
+.shelfBox{
   margin: 0.7em 0 0 0;
-  #infoBoxTitleBar{
-    @include display-flex(row, center, space-between);
+  @include display-flex(row);
+  .picture{
+    // # Fake until picture for shelf is implemented
+    width: 160px;
+    height: 160px;
   }
-  .button{
-    padding: 0.2em;
-    margin-left: 1em;
+  #infoBox{
+    // # Fake until picture for shelf is implemented
+    width: 90%;
+
+    padding: 1em;
+    #titleBar{
+      @include display-flex(row, top, space-between);
+      #shelfName{
+        margin-top: 0
+      }
+      .button{
+        padding: 0.2em;
+      }
+    }
+    #titleBox{
+      overflow: hidden
+    }
+    #showShelfEdit{
+      margin-left:auto
+    }
   }
-  #titleBox{
-    overflow: hidden
+  .data{
+    @include display-flex(row, flex-start);
+    color: #666;
+    margin-bottom: 0.5em;
+    li{
+      margin-right: 1em;
+    }
   }
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
-    #infoBoxTitleBar {
+  .count{
+    padding-left: 0.5em;
+  }
+}
+/*Smaller screens*/
+@media screen and (max-width: $smaller-screen) {
+  .shelfBox{
+    @include display-flex(column, center, center);
+    .picture{
+      margin-top: 1em
+    }
+    #infoBox #titleBar{
       @include display-flex(column, center, center);
-      .tiny-button { width: auto }
+      margin-bottom: 0.7em;
+    }
+    .subheader, #newShelfListing, #infoBox{
+      text-align: center;
     }
     .subheader{
-      text-align: center;
-      width: 100%;
     }
-    #newShelfListing, #infoBox {
-      text-align: center;
+    .button-group-right{
+      margin-left: 0;
     }
-    .button-group-right {
-      margin-left: 0
+    .data{
+      @include display-flex(column, center, center);
+      li{
+        margin: 0.2em;
+      }
     }
   }
 }

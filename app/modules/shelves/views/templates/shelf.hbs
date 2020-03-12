@@ -1,20 +1,26 @@
-<div class="shelfData">
-  <div id="infoBoxTitleBar">
-    <p class="shelfHeader subheader">{{I18n 'shelf'}}</p>
-    {{#if editable}}
-      <a id="showShelfEdit" class="action tiny-button light-blue">
-        {{icon 'pencil'}}
-        {{I18n 'edit shelf'}}
-      </a>
-    {{/if}}
-  </div>
+<div class="shelfBox">
+  <div class="picture" style="background-image: url({{imgSrc picture 160}})"></div>
   <div id="infoBox">
-    <div id="titleBox">
-      <h3 class="showShelf">{{name}}</h3>
+    <div id="titleBar">
+      <h3 id="shelfName">{{name}}</h3>
+      {{#if editable}}
+        <span>
+          <a id="showShelfEdit" class="action tiny-button light-blue">
+            {{icon 'pencil'}}
+            {{I18n 'edit shelf'}}
+          </a>
+        </span>
+      {{/if}}
     </div>
+    <ul class="data">
+      <li>
+        <span>{{icon 'book'}}{{i18n 'books'}}</span>
+        <span class="count">{{itemsCount}}</span>
+      </li>
+      <li id='listing' title="{{i18n label}}">
+        {{icon icon}} {{i18n label}}
+      </li>
+    </ul>
     <p class="subheader">{{description}}</p>
-    <span id='listing' title="{{i18n listingData.label}}">
-      {{icon listingData.icon}} {{i18n listingData.label}}
-    </span>
   </div>
 </div>
