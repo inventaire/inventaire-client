@@ -4,9 +4,8 @@ ListEl = Marionette.ItemView.extend
 
   initialize: ->
     { @context, @group } = @options
-    @lazyRender = _.LazyRender @
     if @model.get('hasItemsCount')
-      @model.itemsCount = @model.waitForItemsCount.then @lazyRender
+      @model.waitForItemsCount.then @lazyRender.bind(@)
 
   serializeData: ->
     attrs = @model.serializeData()
@@ -14,10 +13,18 @@ ListEl = Marionette.ItemView.extend
     attrs.isGroupAdmin = @isGroupAdmin()
     return attrs
 
+  onShow: ->
+    @listenTo app.vent,
+      'refresh:shelves:list': (shelfId)-> @refreshItemsCount(shelfId)
+
   events:
     'click a': 'selectInventory'
 
   isGroupAdmin: -> @context is 'group' and @model.id in @group.allAdminsIds()
+
+  refreshItemsCount: (shelfId)->
+    if @model.get('_id') is shelfId
+      @model.setItemsCount().then @lazyRender
 
   selectInventory: (e)->
     if _.isOpenedOutside e then return

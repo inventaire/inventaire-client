@@ -209,6 +209,7 @@ module.exports = Filterable.extend
     if shelfId in shelvesIds then return
     shelvesIds.push shelfId
     return _.preq.post app.API.shelves.addItems, { id: shelfId, items: [ @get '_id' ] }
+    .then -> app.vent.trigger('refresh:shelves:list', shelfId)
 
   deleteShelf: (shelfId)->
     shelvesIds = @get 'shelves'
@@ -216,6 +217,7 @@ module.exports = Filterable.extend
     shelvesIds = _.without shelvesIds, shelfId
     @set 'shelves', shelvesIds
     return _.preq.post app.API.shelves.removeItems, { id: shelfId, items: [ @get '_id' ] }
+    .then -> app.vent.trigger('refresh:shelves:list', shelfId)
 
   isInShelf: (shelfId)->
     shelvesIds = @get 'shelves'
