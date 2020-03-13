@@ -1,17 +1,13 @@
 .shelvesWrapper{
   background-color: $light-grey;
   padding: 1em;
-  margin: 0.7em 0 0 0;
-  @include display-flex(row, top, space-between);
-  #addShelf{
-    padding: 0.3em 0.6em;
+  @include display-flex(row, top);
+  .subheader{
+    padding-right: 1em;
   }
 }
 @media screen and (max-width: $smaller-screen) {
   .shelvesWrapper{
     @include display-flex(column, center, center);
-    #addShelf{
-      margin-top: 0.5em;
-    }
   }
 }

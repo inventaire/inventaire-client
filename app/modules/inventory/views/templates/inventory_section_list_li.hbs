@@ -1,24 +1,34 @@
-<a class="nav-list-element" href="{{pathname}}">
-  <div class="picture" style="background-image: url({{imgSrc picture 100}})"></div>
-  {{#if isGroup}}
-    <div class="members-count">{{icon 'group'}} {{membersCount}}</div>
-  {{else}}
-    {{#if hasItemsCount}}
-      <div class="items-count" title="{{i18n 'num_books' smart_count=itemsCount}}">{{icon 'book'}} {{itemsCount}}</div>
-    {{/if}}
-  {{/if}}
-
-  {{#if isGroupAdmin}}
-    <div class="group-admin-badge" title="{{I18n 'group admin'}}">{{icon 'cog'}}</div>
-  {{/if}}
-
-  <div class="info">
-    {{#if isShelf}}
-      {{name}}
-    {{else if isGroup}}
-      <strong>{{name}}</strong>
+{{#if newPlaceholder}}
+  <span id="addShelf" class="placeholder nav-list-element">
+    <div class="picture"></div>
+    <div class="info" id='placeholderInfo'>
+      {{icon 'plus'}}
+      {{I18n 'add'}}
+    </div>
+  </span>
+{{else}}
+  <a class="nav-list-element" href="{{pathname}}">
+    <div class="picture" style="background-image: url({{imgSrc picture 100}})"></div>
+    {{#if isGroup}}
+      <div class="members-count">{{icon 'group'}} {{membersCount}}</div>
     {{else}}
-      <strong>{{username}}</strong>
+      {{#if hasItemsCount}}
+        <div class="items-count" title="{{i18n 'num_books' smart_count=itemsCount}}">{{icon 'book'}} {{itemsCount}}</div>
+      {{/if}}
     {{/if}}
-  </div>
-</a>
+
+    {{#if isGroupAdmin}}
+      <div class="group-admin-badge" title="{{I18n 'group admin'}}">{{icon 'cog'}}</div>
+    {{/if}}
+
+    <div class="info">
+      {{#if isShelf}}
+        {{name}}
+      {{else if isGroup}}
+        <strong>{{name}}</strong>
+      {{else}}
+        <strong>{{username}}</strong>
+      {{/if}}
+    </div>
+  </a>
+{{/if}}

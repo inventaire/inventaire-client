@@ -23,6 +23,7 @@ module.exports = Backbone.Model.extend
       isShelf: true
 
   setItemsCount: ->
+    if @get('newPlaceholder') then return Promise.resolve()
     _.preq.get app.API.shelves.byIds @get('_id')
     .get 'shelves'
     .then (res)=>
