@@ -20,6 +20,10 @@ module.exports = InventoryCommonNav.extend
     .catch app.Execute('show:error')
 
   showFromModel: (models)->
+    shelvesWrapper = @$el.find('.shelvesWrapper')
+    shelvesWrapper.hide()
+    unless models.length > 0 then return
+    shelvesWrapper.show()
     @collection = new Shelves models
     @showList @shelvesList, @collection
 
