@@ -74,7 +74,17 @@ getInstancesCount = (userId, uris)->
   # Known case: when /add/import gets to import very large collections
   # The alternative would be to convert the endpoint to a POST verb to pass those uris in a body
   urisBatches = _.chunk _.uniq(uris).sort(), 50
-  Promise.all urisBatches.map(getInstancesCountBatch(userId))
+
+  responses = []
+  getBatchesSequentially = ->
+    batch = urisBatches.pop()
+    unless batch? then return responses
+    getInstancesCountBatch userId, batch
+    .then (res)->
+      responses.push res
+      return getBatchesSequentially()
+
+  getBatchesSequentially()
   .then countInstances
 
 getInstancesCountBatch = (userId)-> (uris)->
