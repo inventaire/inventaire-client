@@ -65,8 +65,18 @@ getItemByQueryUrl = (queryUrl)->
 getByEntities = (uris)->
   getItemByQueryUrl app.API.items.byEntities({ ids: uris })
 
-getByUserIdAndEntities = (userId, entityUri)->
-  getItemByQueryUrl app.API.items.byUserAndEntities(userId, entityUri)
+getByUserIdAndEntities = (userId, uris)->
+  getItemByQueryUrl app.API.items.byUserAndEntities(userId, uris)
+
+getInstancesCount = (userId, uris)->
+  _.preq.get app.API.items.byUserAndEntities(userId, uris)
+  .then (res)->
+    counts = {}
+    res.items.forEach (item)->
+      uri = item.entity
+      counts[uri] ?= 0
+      counts[uri]++
+    return counts
 
 addItemsAndUsers = (collection)-> (res)->
   { items, users } = res
@@ -89,6 +99,7 @@ module.exports = (app)->
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
     'items:getByUserIdAndEntities': getByUserIdAndEntities
+    'items:getInstancesCount': getInstancesCount
 
     # Using a different naming to match reqGrab requests style
     'get:item:model': getById

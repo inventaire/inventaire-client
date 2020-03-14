@@ -15,8 +15,7 @@ module.exports = Backbone.Model.extend
 
     if attrs.isInvalid then return
 
-    @findExistingInstances()
-    .then @setStatusData.bind(@)
+    @setStatusData()
 
     @on 'change:title', @updateInfoState.bind(@)
 
@@ -26,17 +25,9 @@ module.exports = Backbone.Model.extend
     needInfo = not _.isNonEmptyString(@get('title'))
     @set 'needInfo', needInfo
 
-  findExistingInstances: ->
-    uri = @get 'uri'
-    unless uri? then return Promise.resolve()
-
-    app.request 'item:main:user:instances', uri
-    .then (existingInstances)=> @set 'existingInstances', existingInstances
-
   setStatusData: ->
-    existingInstances = @get 'existingInstances'
-    if existingInstances?.length > 0
-      @set 'existingInstancesCount', existingInstances.length
+    existingInstancesCount = @get 'existingInstancesCount'
+    if existingInstancesCount? and existingInstancesCount > 0
       uri = @get 'uri'
       username = app.user.get 'username'
       @set 'existingInstancesPathname', "/inventory/#{username}/#{uri}"

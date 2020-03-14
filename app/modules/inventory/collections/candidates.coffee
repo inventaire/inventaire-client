@@ -1,3 +1,5 @@
+{ looksLikeAnIsbn, normalizeIsbn } = require 'lib/isbn'
+
 module.exports = Backbone.Collection.extend
   model: require '../models/candidate'
 
@@ -10,8 +12,9 @@ module.exports = Backbone.Collection.extend
   addNewCandidates: (newCandidates)->
     alreadyAddedIsbns = @pluck 'normalizedIsbn'
     remainingCandidates = newCandidates.filter isNewCandidate(alreadyAddedIsbns)
-    if remainingCandidates.length > 0 then return @add remainingCandidates
-    else return []
+    if remainingCandidates.length is 0 then return Promise.resolve []
+    addExistingInstancesCounts remainingCandidates
+    .then @add.bind(@)
 
 isSelected = (model)-> model.get('selected')
 
@@ -21,3 +24,25 @@ setSelected = (bool)-> (model)->
 isNewCandidate = (alreadyAddedIsbns)-> (candidateData)->
   unless candidateData.title? or candidateData.normalizedIsbn? then return false
   return candidateData.normalizedIsbn not in alreadyAddedIsbns
+
+addExistingInstancesCounts = (candidates)->
+  uris = _.compact candidates.map(getUri)
+  app.request 'items:getInstancesCount', app.user.id, uris
+  .then addCounts(candidates)
+
+getUri = (candidate)->
+  { isbn } = candidate
+  normalizedIsbn = normalizeIsbn isbn
+  candidate.normalizedIsbn = normalizedIsbn
+  if looksLikeAnIsbn normalizedIsbn
+    candidate.uri = "isbn:#{normalizedIsbn}"
+    return candidate.uri
+
+addCounts = (candidates)-> (counts)->
+  candidates.forEach (candidate)->
+    { uri } = candidate
+    unless uri? then return
+    count = counts[uri]
+    if count? then candidate.existingInstancesCount = count
+
+  return candidates
