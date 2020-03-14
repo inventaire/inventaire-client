@@ -20,8 +20,9 @@ module.exports =
   byUsers: queryEndpoint 'by-users', 'users'
   byEntities: queryEndpoint 'by-entities', 'uris'
 
-  byUserAndEntity: (user, uri)->
-    action 'by-user-and-entity', { user, uri }
+  byUserAndEntities: (user, uris)->
+    uris = _.forceArray(uris).join('|')
+    action 'by-user-and-entities', { user, uris }
 
   lastPublic: (limit = 15, offset = 0, assertImage)->
     action 'last-public', { limit, offset, 'assert-image': assertImage }

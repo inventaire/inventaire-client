@@ -87,7 +87,7 @@ API =
     app.navigate "/inventory/#{username}/#{uri}", { metadata: { title } }
 
     app.request 'get:userId:from:username', username
-    .then (userId)-> app.request 'items:getByUserIdAndEntity', userId, uri
+    .then (userId)-> app.request 'items:getByUserIdAndEntities', userId, uri
     .then showItemsFromModels
     .catch _.Error('showItemShowFromUserAndEntity')
 
@@ -172,7 +172,7 @@ initializeInventoriesHandlers = (app)->
     'items:delete': itemActions.delete
     'item:create': itemActions.create
     'item:main:user:instances': (entityUri)->
-      app.request 'items:getByUserIdAndEntity', app.user.id, entityUri
+      app.request 'items:getByUserIdAndEntities', app.user.id, entityUri
       .get 'models'
     'item:update:entity': (item, entity)->
       itemActions.update

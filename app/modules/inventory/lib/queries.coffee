@@ -40,41 +40,41 @@ makeRequest = (params, endpoint, ids, filter)->
   { collection, limit, offset } = params
   _.preq.get app.API.items[endpoint]({ ids, limit, offset, filter })
   # Use tap to return the server response instead of the collection
-  .tap addUsersAndItems(collection)
+  .tap addItemsAndUsers(collection)
 
 getNearbyItems = (params)->
   { collection, limit, offset } = params
   _.preq.get app.API.items.nearby(limit, offset)
-  .tap addUsersAndItems(collection)
+  .tap addItemsAndUsers(collection)
 
 getLastPublic = (params)->
   { collection, limit, offset, assertImage } = params
   _.preq.get app.API.items.lastPublic(limit, offset, assertImage)
-  .tap addUsersAndItems(collection)
+  .tap addItemsAndUsers(collection)
 
 getRecentPublic = (params)->
   { collection, limit, lang, assertImage } = params
   _.preq.get app.API.items.recentPublic(limit, lang, assertImage)
-  .tap addUsersAndItems(collection)
+  .tap addItemsAndUsers(collection)
 
 getItemByQueryUrl = (queryUrl)->
   collection = new Items
   _.preq.get queryUrl
-  .then addUsersAndItems(collection)
+  .then addItemsAndUsers(collection)
 
 getByEntities = (uris)->
   getItemByQueryUrl app.API.items.byEntities({ ids: uris })
 
-getByUserIdAndEntity = (userId, entityUri)->
-  getItemByQueryUrl app.API.items.byUserAndEntity(userId, entityUri)
+getByUserIdAndEntities = (userId, entityUri)->
+  getItemByQueryUrl app.API.items.byUserAndEntities(userId, entityUri)
 
-addUsersAndItems = (collection)-> (res)->
+addItemsAndUsers = (collection)-> (res)->
   { items, users } = res
   # Also accepts items indexed by listings: user, network, public
   unless _.isArray items then items = _.flatten _.values(items)
   unless items?.length > 0 then return collection
 
-  app.execute 'users:add', users
+  if users? then app.execute 'users:add', users
   collection.add items
   return collection
 
@@ -88,7 +88,7 @@ module.exports = (app)->
     'items:getNetworkItems': getNetworkItems
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
-    'items:getByUserIdAndEntity': getByUserIdAndEntity
+    'items:getByUserIdAndEntities': getByUserIdAndEntities
 
     # Using a different naming to match reqGrab requests style
     'get:item:model': getById
