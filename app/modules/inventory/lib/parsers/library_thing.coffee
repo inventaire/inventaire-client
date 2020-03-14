@@ -10,6 +10,7 @@ module.exports = (obj)->
   authors: getAuthorsString obj
   publicationDate: if _.isDateString(obj.date) then obj.date
   numberOfPages: if _.isPositiveIntegerString(obj.pages) then parseInt obj.pages
+  libraryThingWorkId: obj.workcode
 
 getAuthorsString = (obj)->
   { authors } = obj

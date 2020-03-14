@@ -63,19 +63,24 @@ module.exports = Backbone.Model.extend
 
   serializeResolverEntry: ->
     data = @toJSON()
-    { isbn, title, lang, authors: authorsNames, normalizedIsbn, publicationDate, numberOfPages } = data
+    { isbn, title, lang, authors: authorsNames, normalizedIsbn } = data
 
     edition =
       isbn: isbn or normalizedIsbn
       claims:
         'wdt:P1476': [ title ]
 
-    if publicationDate? then edition.claims['wdt:P577'] = publicationDate
-    if numberOfPages? then edition.claims['wdt:P1104'] = numberOfPages
+    work = { claims: {} }
+
+    if data.publicationDate? then edition.claims['wdt:P577'] = data.publicationDate
+    if data.numberOfPages? then edition.claims['wdt:P1104'] = data.numberOfPages
+    if data.goodReadsEditionId? then edition.claims['wdt:P2969'] = data.goodReadsEditionId
+
+    if data.libraryThingWorkId? then work.claims['wdt:P1085'] = data.libraryThingWorkId
 
     authors = _.forceArray(authorsNames).map (name)->
       labelLang = lang or app.user.lang
       labels = { "#{labelLang}": name }
       return { labels }
 
-    return { edition, authors }
+    return { edition, works: [ work ], authors }

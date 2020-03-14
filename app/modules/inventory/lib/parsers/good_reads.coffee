@@ -6,5 +6,7 @@ module.exports = (obj)->
   publisher: obj.Publisher
   publicationDate: if _.isDateString(obj['Year Published']) then obj['Year Published']
   numberOfPages: if _.isPositiveIntegerString(obj['Number of Pages']) then parseInt obj['Number of Pages']
+  # See https://www.goodreads.com/api/index#book.id_to_work_id
+  goodReadsEditionId: obj['Book Id']
 
 cleanIsbn = (isbn)-> isbn?.replace /("|=)/g, ''
