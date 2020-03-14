@@ -94,10 +94,9 @@ module.exports = Marionette.LayoutView.extend
       isbn2.get()
     ]
     # We only need the result from the file
-    .spread _.Log('uploaded file')
-    .tap dataValidator.bind(null, source)
-    .then parse
-    .map commonParser
+    .spread (data)->
+      dataValidator source, data
+      return parse(data).map commonParser
     .catch _.ErrorRethrow('parsing error')
     # add the selector to the rejected error
     # so that it can be catched by catchAlert
