@@ -1,5 +1,6 @@
 Item = require 'modules/inventory/models/item'
 Items = require 'modules/inventory/collections/items'
+getInstancesCount = require './get_instances_count'
 error_ = require 'lib/error'
 
 getById = (id)->
@@ -67,37 +68,6 @@ getByEntities = (uris)->
 
 getByUserIdAndEntities = (userId, uris)->
   getItemByQueryUrl app.API.items.byUserAndEntities(userId, uris)
-
-getInstancesCount = (userId, uris)->
-  # Split in batches for cases where there might be too many uris
-  # to put in a URL querystring without risking to reach URL character limit
-  # Known case: when /add/import gets to import very large collections
-  # The alternative would be to convert the endpoint to a POST verb to pass those uris in a body
-  urisBatches = _.chunk _.uniq(uris).sort(), 50
-
-  responses = []
-  getBatchesSequentially = ->
-    batch = urisBatches.pop()
-    unless batch? then return responses
-    getInstancesCountBatch userId, batch
-    .then (res)->
-      responses.push res
-      return getBatchesSequentially()
-
-  getBatchesSequentially()
-  .then countInstances
-
-getInstancesCountBatch = (userId)-> (uris)->
-  _.preq.get app.API.items.byUserAndEntities(userId, uris)
-
-countInstances = (responses)->
-  counts = {}
-  for res in responses
-    for item in res.items
-      uri = item.entity
-      counts[uri] ?= 0
-      counts[uri]++
-  return counts
 
 addItemsAndUsers = (collection)-> (res)->
   { items, users } = res
