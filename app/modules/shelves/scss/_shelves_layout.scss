@@ -6,6 +6,7 @@
     padding-right: 1em;
   }
 }
+/*Smaller screens*/
 @media screen and (max-width: $smaller-screen) {
   .shelvesWrapper{
     @include display-flex(column, center, center);

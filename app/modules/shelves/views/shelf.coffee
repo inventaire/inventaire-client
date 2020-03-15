@@ -8,8 +8,6 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     @lazyRender = _.LazyRender @
     @listenTo @model, 'change', @render.bind(@)
-    app.commands.setHandlers
-      'show:shelf:editor': @showEditor.bind(@)
 
   events:
     'click #showShelfEdit': 'showEditor'

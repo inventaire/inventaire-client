@@ -1,15 +1,21 @@
 <div class="shelfEditor">
-  <h4 class="subheader">{{i18n 'shelf'}}</h4>
-  <textarea id="shelfNameEditor" placeholder='({{i18n 'new shelf name placeholder'}})'>{{name}}</textarea>
-  <textarea id="shelfDescEditor" placeholder='({{i18n 'new shelf description placeholder'}})'>{{description}}</textarea>
-  <div class="listingIconEditor">
-    <div class="has-dropdown">
-      <span name="listingData" id="{{_id}}" class="visibilityButton button">{{icon listingData.icon}}</span>
-      {{partial 'shelves:shelf_visibility_box' this}}
-    </div>
+  <h3 class="subheader">{{i18n 'shelf'}}</h3>
+  <div class="inputBox">
+    <input type="text" id="shelfNameEditor" class="input-wrapper" placeholder="{{i18n 'shelf name'}}" value="{{name}}">
+  </div>
+  <div class="inputBox">
+    <textarea type="text" id="shelfDescEditor" placeholder="{{i18n 'shelf description'}}" value="{{description}}"></textarea>
+  </div>
+  <div class="has-dropdown">
+    <span name="listingData" class="tiny-button">{{icon listingData.icon}}{{listingData.label}}</span>
+    {{partial 'shelves:shelf_visibility_box' this}}
   </div>
   <div class="button-group-right">
-    <a class="deleteButton liButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}</a>
-    <a class="updateShelf button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}</a>
+    {{#if _id}}
+      <a class="deleteButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete'}}</a>
+      <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'update shelf'}}</a>
+    {{else}}
+      <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'create shelf'}}</a>
+    {{/if}}
   </div>
 </div>

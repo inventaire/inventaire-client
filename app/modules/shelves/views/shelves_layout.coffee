@@ -37,8 +37,8 @@ addNewPlaceholder = (username)-> (models)->
 
 placeholderModel =
   newPlaceholder: true
-  listing: "private"
-  _id: "newPlaceholder"
+  listing: 'private'
+  _id: 'newPlaceholder'
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

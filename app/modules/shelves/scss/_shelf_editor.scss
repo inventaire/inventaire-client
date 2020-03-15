@@ -1,0 +1,26 @@
+.shelfEditor{
+  input, textarea{
+    margin: 1em 0;
+  }
+  .subheader{
+    text-align: center;
+  }
+  .button-group-right{
+    @include display-flex(row);
+    margin-left: 1em;
+  }
+  .has-dropdown{
+    .fa{
+      margin-right:0.2em;
+    }
+  }
+  .deleteButton{
+    margin-right: 1em;
+  }
+}
+/*Smaller screens*/
+@media screen and (max-width: $smaller-screen) {
+  .shelfEditor{
+    margin: 0 1em;
+  }
+}
