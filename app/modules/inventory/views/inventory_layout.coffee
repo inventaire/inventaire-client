@@ -148,6 +148,7 @@ module.exports = Marionette.LayoutView.extend
         @showUserInventory model
         @showUserProfile model
         @groupProfile.empty()
+        @showShelves model
         scrollToSection @userProfile
       else
         @showGroupProfile model
