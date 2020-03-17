@@ -55,6 +55,9 @@
   &:not(.can-be-selected):not(.need-info){
     cursor: not-allowed;
   }
+  span{
+    cursor: text;
+  }
   &.need-info{
     input[type='checkbox']{
       visibility: hidden;
