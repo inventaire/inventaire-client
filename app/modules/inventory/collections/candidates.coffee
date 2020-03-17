@@ -31,8 +31,8 @@ addExistingInstancesCounts = (candidates)->
   .then addCounts(candidates)
 
 getUri = (candidate)->
-  { isbn } = candidate
-  normalizedIsbn = normalizeIsbn isbn
+  { isbn, normalizedIsbn } = candidate
+  normalizedIsbn ?= normalizeIsbn isbn
   candidate.normalizedIsbn = normalizedIsbn
   if looksLikeAnIsbn normalizedIsbn
     candidate.uri = "isbn:#{normalizedIsbn}"
