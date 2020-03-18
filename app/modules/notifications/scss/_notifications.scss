@@ -28,7 +28,7 @@
       width: 100%;
       .info{
         flex: 1 1 auto;
-        padding: 0.2em;
+        padding: 0 0.5em;
       }
     }
   }
@@ -58,6 +58,14 @@
     }
   }
 }
+.notification{
+  img{
+    max-height: 3em;
+    max-width: 3em;
+    @include radius;
+  }
+}
+
 
 .showNotificationsSettings{
   margin-top: 1em;
