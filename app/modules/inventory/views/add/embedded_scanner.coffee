@@ -149,6 +149,8 @@ module.exports = Marionette.ItemView.extend
       displayTime: 5000
 
   updateCounter: (count)->
+    # Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
+    if @isDestroyed then return
     @ui.totalCounter.text "(#{@batch.length})"
     @ui.validate.addClass 'flash'
     @setTimeout @ui.validate.removeClass.bind(@ui.validate, 'flash'), 1000
