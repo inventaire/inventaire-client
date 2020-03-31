@@ -1,5 +1,4 @@
 applyTransformers = require './apply_transformers'
-applyDefaults = require './apply_defaults'
 updateNodeType = require './update_node_type'
 # Make prerender wait before assuming everything is ready
 # see https://prerender.io/documentation/best-practices
@@ -26,3 +25,16 @@ module.exports = (route, metadataPromise = {})->
 updateMetadata = (metadata)->
   for key, value of metadata
     updateNodeType key, value
+
+applyDefaults = (metadata)->
+  unless metadata?.title? then return defaultMetadata()
+  # image and rss can keep the default value, but description should be empty if no specific description can be found
+  # to avoid just spamming with the default description
+  metadata.description ?= ''
+  return metadata
+
+defaultMetadata = ->
+  title: 'Inventaire - ' + _.i18n 'your friends and communities are your best library'
+  description: _.I18n 'make the inventory of your books and mutualize with your friends and communities into an infinite library!'
+  image: 'https://inventaire.io/public/images/inventaire-books.jpg'
+  rss: 'http://blog.inventaire.io/rss'
