@@ -5,9 +5,12 @@ PUBLIC=$(pwd)/public
 ./scripts/add_index_partials.coffee
 echo 'partials added'
 
-# taking two steps for minifications as no way could be found to minify it in place
-html-minifier $PUBLIC/index.html --collapse-whitespace --remove-comments --minify-js > ./minified-index.html
-mv ./minified-index.html $PUBLIC/index.html
+# Remove comments (assumes that there are no multilines comments)
+sed -iE '/^\s*<!--/d' $PUBLIC/index.html
+# Remove indentation spaces
+sed -iE 's/^\s*//' $PUBLIC/index.html
+# Remove empty lines
+sed -iE '/^$/d' $PUBLIC/index.html
 echo 'index.html minified'
 
 ./scripts/add_jsonld_actions.coffee
