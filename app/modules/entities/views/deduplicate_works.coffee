@@ -95,9 +95,10 @@ module.exports = Marionette.LayoutView.extend
     @filterSubView 'wd', filter
     @filterSubView 'inv', filter
 
-    wdChildren = @wd.currentView.children
-    invChildren = @inv.currentView.children
-    if wdChildren.length is 1 and invChildren.length is 1
+    # @showList might have emptied the view
+    wdChildren = @wd.currentView?.children
+    invChildren = @inv.currentView?.children
+    if wdChildren?.length is 1 and invChildren?.length is 1
       wdModel = _.values(wdChildren._views)[0].model
       invModel = _.values(invChildren._views)[0].model
       @selectCandidates invModel, wdModel
