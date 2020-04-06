@@ -143,7 +143,7 @@ module.exports = Marionette.LayoutView.extend
 
   showEntitySelector: (entities, propertyUris, name)->
     treeSection = @worksTree[name]
-    models = _.values(_.pick(entities, propertyUris)).map addCount(treeSection)
+    models = _.values(_.pick(entities, propertyUris)).map addCount(treeSection, name)
     @showSelector name, models, treeSection
 
   showSelector: (name, models, treeSection)->
@@ -191,9 +191,15 @@ getSelectedOptionKey = (selectedOption, selectorName)->
   unless selectedOption? then return null
   return selectedOption.get 'uri'
 
-addCount = (urisData)-> (model)->
+addCount = (urisData, name)-> (model)->
   uri = model.get 'uri'
-  model.set 'count', urisData[uri].length
+  uris = urisData[uri]
+  if uris?
+    model.set 'count', uris.length
+  else
+    # Known case: a Wikidata redirection that wasn't properly propagated
+    error_.report 'missing section data', { name, uri }
+    model.set 'count', 0
   return model
 
 getSelectorsCollection = (models)->
