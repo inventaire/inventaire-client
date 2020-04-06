@@ -19,7 +19,7 @@ deduplicateAndJoinAuthors = (authors)->
   .filter isFirstOccurence(authors)
   .join ', '
 
-containsNoComma = (str)-> not /,/.test(str)
+containsNoComma = (str)-> str? and not /,/.test(str)
 
 isFirstOccurence = (array)-> (str, index)->
   noramlizedStr = normalize str
