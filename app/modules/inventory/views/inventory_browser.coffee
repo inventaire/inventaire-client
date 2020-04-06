@@ -51,7 +51,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: -> @initBrowser()
 
   initBrowser: ->
-    startLoading.call @, '#browserFilters'
+    startLoading.call @, { selector: '#browserFilters', timeout: 180 }
     waitForInventoryData = @getInventoryViewData()
       # Pass itemsIds=null to use the default value
       .then @ifViewIsIntact('showItemsListByIds', null)
