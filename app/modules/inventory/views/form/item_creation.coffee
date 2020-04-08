@@ -1,4 +1,5 @@
 EntityDataOverview = require 'modules/entities/views/entity_data_overview'
+NewItemShelves = require '../new_item_shelves'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 forms_ = require 'modules/general/lib/forms'
@@ -14,6 +15,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     existingEntityItemsRegion: '#existingEntityItems'
     entityRegion: '#entity'
+    shelves: '#shelves'
 
   behaviors:
     ElasticTextarea: {}
@@ -61,6 +63,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     @showEntityData()
     @showExistingInstances()
+    @showShelves()
 
   events:
     'click #transaction': 'updateTransaction'
@@ -79,6 +82,17 @@ module.exports = Marionette.LayoutView.extend
       collection = new Backbone.Collection existingEntityItems
       @$el.find('#existingEntityItemsWarning').show()
       @existingEntityItemsRegion.show new ItemsList { collection }
+
+  showShelves: ->
+    _.preq.get app.API.shelves.byOwners(app.user.id)
+    .get 'shelves'
+    .then (shelvesObj) =>
+      shelves = _.values shelvesObj
+      @shelvesCollection = new Backbone.Collection shelves
+    .then @ifViewIsIntact('_showShelves')
+
+  _showShelves: ->
+    @shelves.show new NewItemShelves { collection: @shelvesCollection, item: @itemData }
 
   # TODO: update the UI for update errors
   updateTransaction: ->

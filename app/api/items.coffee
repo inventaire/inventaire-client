@@ -14,7 +14,6 @@ queryEndpoint = (actionName, idsLabel)-> (params)->
 module.exports =
   base: base
   update: action 'bulk-update'
-  deleteByIds: action 'delete-by-ids'
 
   byIds: queryEndpoint 'by-ids', 'ids'
   byUsers: queryEndpoint 'by-users', 'users'

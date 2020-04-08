@@ -15,6 +15,10 @@
     <div id="listing" class="select-button-group">
       {{partial 'inventory:form:button_group' listings}}
     </div>
+    <label for="shelves">{{i18n 'Add it to some shelves'}}</label>
+    <div id="shelves">
+      {{partial 'inventory:item_shelves' this}}
+    </div>
 
     <label for="details">{{i18n 'details'}}</label>
     <textarea id='details' class='error radius' placeholder="{{i18n "details_placeholder"}}"></textarea>
