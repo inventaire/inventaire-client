@@ -64,7 +64,10 @@ deleteShelf = (model, withItems) -> ->
   if withItems then params = _.extend({ 'with-items': true }, params)
   _.preq.post app.API.shelves.delete, params
   .then _.Log('shelf destroyed')
-  .then ->
+  .then (res)->
     app.execute 'show:inventory:main:user'
     app.user.trigger 'shelves:change', 'removeShelf'
+    items = res.items
+    items.forEach (item)->
+      if item.listing then app.user.trigger 'items:change', item.listing, null
   .catch _.Error('shelf delete error')
