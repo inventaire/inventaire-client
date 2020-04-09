@@ -10,6 +10,9 @@
     <span name="listingData" class="tiny-button">{{icon listingData.icon}}{{listingData.label}}</span>
     {{partial 'shelves:shelf_visibility_box' this}}
   </div>
+  <div id="shelfEditorMessage" class="panel">
+    {{icon 'info'}}{{i18n 'shelf editor message'}}
+  </div>
   <div class="button-group-right">
     {{#if _id}}
       <a class="deleteButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete'}}</a>
