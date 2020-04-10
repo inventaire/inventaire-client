@@ -1,6 +1,9 @@
 .items-table-selection-editor{
   @include display-flex(column, center, center);
-  #selectTransaction, #selectListing, .delete{
+  #selectTransaction, #selectListing, #selectShelves, .delete, .dropdown{
+    padding: 0 1em;
+    width: 100%;
+    min-width: 12rem;
     @include radius;
   }
   #selectTransaction, #selectListing{

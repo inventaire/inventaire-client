@@ -17,6 +17,7 @@ API =
   showShelf: (shelfId)->
     Promise.try -> getById(shelfId)
     .then (shelf)->
-      user = shelf.get('owner')
+      owner = shelf.get('owner')
       if app.request 'require:loggedIn', 'shelves'
-        app.layout.main.show new InventoryLayout { shelf, user }
+        # Passing shelf to display items and owner for user profile info
+        app.layout.main.show new InventoryLayout { shelf, user: owner }

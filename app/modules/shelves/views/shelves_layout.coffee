@@ -31,6 +31,7 @@ module.exports = InventoryCommonNav.extend
     app.layout.modal.show new NewShelfEditor { @collection }
 
 addNewPlaceholder = (username)-> (models)->
+  # build a fake shelf model to pass to Shelves collection
   loggedInUsername = app.user.get('username')
   if loggedInUsername is username
     models.unshift placeholderModel

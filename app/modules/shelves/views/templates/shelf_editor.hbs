@@ -4,11 +4,20 @@
     <input type="text" id="shelfNameEditor" class="input-wrapper" placeholder="{{i18n 'shelf name'}}" value="{{name}}">
   </div>
   <div class="inputBox">
-    <textarea type="text" id="shelfDescEditor" placeholder="{{i18n 'shelf description'}}" value="{{description}}"></textarea>
+    <textarea type="text" id="shelfDescEditor" placeholder="{{i18n 'shelf description'}}">{{description}}</textarea>
   </div>
   <div class="has-dropdown">
     <span name="listingData" class="tiny-button">{{icon listingData.icon}}{{listingData.label}}</span>
-    {{partial 'shelves:shelf_visibility_box' this}}
+    <ul class="dropdown visibilityBox">
+      <li class="dropdown-label">{{i18n 'Who can see it?'}}</li>
+      {{#each listingsData}}
+        <li>
+          <a id="{{id}}" class="listingChoice {{classes}}">
+            {{icon icon}} {{i18n label}}
+          </a>
+        </li>
+      {{/each}}
+    </ul>
   </div>
   <div id="shelfEditorMessage" class="panel">
     {{icon 'info'}}{{i18n 'shelf editor message'}}
