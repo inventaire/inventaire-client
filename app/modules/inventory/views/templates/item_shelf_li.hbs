@@ -1,8 +1,15 @@
-<a class="shelfSelector">
-  {{#if isItemInShelf}}
-    {{icon 'check-square'}}
-  {{else}}
-    {{icon 'square'}}
-  {{/if}}
-</a>
-<a id="{{_id}}" class="link shelfLink" href="/shelves/{{_id}}">{{capitalize name}}</a>
+<div class="shelfSelector">
+  <span>
+    {{#if isItemInShelf}}
+      {{icon 'check-square'}}
+    {{else}}
+      {{icon 'square'}}
+    {{/if}}
+    <a class="link">
+      {{capitalize name}}
+    </a>
+  </span>
+  <a id="{{_id}}" class="shelfLink" href="/shelves/{{_id}}">
+    {{icon 'link'}}
+  </a>
+</div>

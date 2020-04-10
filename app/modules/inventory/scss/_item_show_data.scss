@@ -67,7 +67,11 @@
   background: $off-white;
   padding: 1em;
   #shelvesSelector ul li{
-    padding: 0.25em 0.5em;
+    padding: 0.5em 0;
+  }
+  .shelfSelector {
+    @include bg-hover($off-white);
+    @include display-flex(row, center, space-between);
   }
 }
 

@@ -22,6 +22,7 @@ ItemShelfLi = Marionette.ItemView.extend
 
   showShelf: (e)->
     { id:shelf } = e.currentTarget
+    app.execute 'modal:close'
     app.execute 'show:shelf', shelf
 
 module.exports = Marionette.CollectionView.extend
