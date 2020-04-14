@@ -26,7 +26,7 @@ module.exports =
     shelfActionReq id, itemsIds, 'addItems'
     model.set 'isInShelf', true
 
-  showShelvesByOwner: ()->
+  getShelvesByOwner: ()->
     _.preq.get app.API.shelves.byOwners(app.user.id)
     .get 'shelves'
     .then (shelvesObj) -> _.values shelvesObj

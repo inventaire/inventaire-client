@@ -4,6 +4,7 @@
 ItemTransactions = require './item_transactions'
 getActionKey = require 'lib/get_action_key'
 ItemShelves = require './item_shelves'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 itemViewsCommons = require '../lib/items_views_commons'
 ItemLayout = Marionette.LayoutView.extend itemViewsCommons
 
@@ -122,11 +123,8 @@ module.exports = ItemLayout.extend
     .then @ifViewIsIntact('_showTransactions')
 
   showShelves: ->
-    _.preq.get app.API.shelves.byOwners(app.user.id)
-    .get 'shelves'
-    .then (shelvesObj) =>
-      shelves = _.values shelvesObj
-      @shelves = new Backbone.Collection shelves
+    getShelvesByOwner()
+    .then (shelves) => @shelves = new Backbone.Collection shelves
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: ->

@@ -1,6 +1,7 @@
 EntityDataOverview = require 'modules/entities/views/entity_data_overview'
 NewItemShelves = require '../new_item_shelves'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
@@ -84,11 +85,8 @@ module.exports = Marionette.LayoutView.extend
       @existingEntityItemsRegion.show new ItemsList { collection }
 
   showShelves: ->
-    _.preq.get app.API.shelves.byOwners(app.user.id)
-    .get 'shelves'
-    .then (shelvesObj) =>
-      shelves = _.values shelvesObj
-      @shelvesCollection = new Backbone.Collection shelves
+    getShelvesByOwner()
+    .then (shelves) => @shelvesCollection = new Backbone.Collection shelves
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: ->

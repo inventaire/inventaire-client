@@ -1,5 +1,5 @@
 { data: transactionsData } = require '../lib/transactions_data'
-{ showShelvesByOwner } = require 'modules/shelves/lib/shelf'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 ItemsShelves = require './items_shelves'
 
 module.exports = Marionette.LayoutView.extend
@@ -49,7 +49,7 @@ module.exports = Marionette.LayoutView.extend
     @options.afterItemsDelete()
 
   showShelves: ->
-    showShelvesByOwner()
+    getShelvesByOwner()
     .then (shelves) => @shelves = new Backbone.Collection shelves
     .then @ifViewIsIntact('_showShelves')
 
