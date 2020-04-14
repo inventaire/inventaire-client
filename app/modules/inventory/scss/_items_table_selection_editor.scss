@@ -6,15 +6,28 @@
     min-width: 12rem;
     @include radius;
   }
-  #selectTransaction, #selectListing{
+  #selectTransaction, #selectListing, #selectShelves{
     @include bg-hover(#eee);
   }
   .delete{
     @include dangerous-action;
+    margin-top: 2em;
+    padding: 0.7em;
   }
   .selector-label{
     text-align: center;
     font-weight: bold;
+  }
+  #selectShelves{
+    margin-top: 1em;
+    padding: 1em;
+  }
+  .shelvesSelector{
+    background-color: $light-grey;
+    width: 100%;
+    ul{
+      margin: 1em
+    }
   }
   .dropdown-label, .dropdown li{
     font-size: 1rem;
@@ -25,25 +38,22 @@
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    #selectTransaction, #selectListing, .delete, .dropdown{
-      min-width: 12rem;
-    }
-    #selectTransaction, #selectListing, .delete{
+    #selectTransaction, #selectListing{
       padding: 1em;
-      margin: 1em;
+      margin: 1em 0;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    #selectTransaction, #selectListing, .delete{
+    #selectTransaction, #selectListing, #selectShelves, .delete{
       align-self: stretch;
     }
-    .dropdown{
-      width: 100%;
-    }
-    #selectTransaction, #selectListing, .delete{
+    #selectTransaction, #selectListing, #selectShelves{
       padding: 0.5em;
-      margin: 1em 0.5em;
+      margin: 1em 0;
+    }
+    #selectShelves{
+      margin-bottom: 0;
     }
   }
 }

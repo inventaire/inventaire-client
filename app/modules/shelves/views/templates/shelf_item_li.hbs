@@ -1,10 +1,10 @@
-{{#if isItemInShelf}}
+{{#if isInShelf}}
   <div class='itemLi selected'>
 {{else}}
   <div class='itemLi'>
 {{/if}}
   <a class="itemSelector">
-    {{#if isItemInShelf}}
+    {{#if isInShelf}}
       {{icon 'check-square'}}
     {{else}}
       {{icon 'square'}}

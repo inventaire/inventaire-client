@@ -1,3 +1,4 @@
+{ addItems, removeItems } = require 'modules/shelves/lib/shelf'
 NoShelfView = require './no_shelf'
 
 ItemShelfLi = Marionette.ItemView.extend
@@ -10,15 +11,15 @@ ItemShelfLi = Marionette.ItemView.extend
 
   initialize: ->
     { @item } = @options
-    @model.set 'isItemInShelf', @item.isInShelf(@model.id)
+    @model.set 'isInShelf', @item.isInShelf(@model.id)
 
   shelfSelector: ->
-    { @item } = @options
     { id } = @model
     if @item.isInShelf id
-      @item.deleteShelf id
+      removeItems(@model, [ @item ])
     else
-      @item.addShelf id
+      addItems(@model, [ @item ])
+    @render()
 
   showShelf: (e)->
     { id:shelf } = e.currentTarget

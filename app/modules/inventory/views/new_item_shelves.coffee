@@ -8,18 +8,18 @@ NewItemShelfLi = Marionette.ItemView.extend
     'click .shelfSelector': 'shelfSelector'
 
   initialize: ->
+    @model.set 'isInShelf', false
+
+  shelfSelector: ->
     { @item } = @options
     { @shelves } = @item
     { @id } = @model
-    @model.set 'isItemInShelf', false
-
-  shelfSelector: ->
-    if @model.get 'isItemInShelf'
+    if @model.get 'isInShelf'
       @shelves = _.without @shelves, @id
-      @model.set 'isItemInShelf', false
+      @model.set 'isInShelf', false
     else
       @shelves.push @id
-      @model.set 'isItemInShelf', true
+      @model.set 'isInShelf', true
     @render()
 
 module.exports = Marionette.CollectionView.extend
