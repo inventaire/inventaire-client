@@ -1,6 +1,4 @@
-ShelfModel = require '../models/shelf'
-
 module.exports = Backbone.Collection.extend
-  model: ShelfModel
+  model: require '../models/shelf'
   url: -> app.API.shelves.base
   comparator: (shelf)-> -shelf.get('created')

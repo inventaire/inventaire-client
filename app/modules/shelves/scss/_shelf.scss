@@ -14,10 +14,13 @@
     #titleBar{
       @include display-flex(row, top, space-between);
       #shelfName{
-        margin-top: 0
+        // make button unbreakable
+        flex: 2 0 0;
+        padding-right: 1em
       }
-      .button{
-        padding: 0.2em;
+      #showShelfEdit{
+        padding-top: 0.4em;
+        padding-bottom: 0.4em;
       }
     }
     #titleBox{
@@ -50,10 +53,8 @@
       @include display-flex(column, center, center);
       margin-bottom: 0.7em;
     }
-    .subheader, #newShelfListing, #infoBox{
+    #infoBox{
       text-align: center;
-    }
-    .subheader{
     }
     .button-group-right{
       margin-left: 0;
@@ -61,7 +62,7 @@
     .data{
       @include display-flex(column, center, center);
       li{
-        margin: 0.2em;
+        margin: 0.2em 0;
       }
     }
   }

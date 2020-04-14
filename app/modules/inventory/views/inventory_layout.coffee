@@ -31,7 +31,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     if @user?
       @startFromUser @user, @shelf
-      @showShelves @user
+      @showUserShelves @user
 
     else if @group?
       @startFromGroup @group
@@ -78,8 +78,8 @@ module.exports = Marionette.LayoutView.extend
     @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
     app.navigateFromModel shelf, { preventScrollTop: true }
 
-  showShelves: (user)->
-    app.request 'resolve:to:userModel', user
+  showUserShelves: (userIdOrUsername)->
+    app.request 'resolve:to:userModel', userIdOrUsername
     .then (userModel)=>
       username = userModel.get('username')
       if wrapperExists() then return $('.shelvesWrapper').show()
@@ -148,7 +148,7 @@ module.exports = Marionette.LayoutView.extend
         @showUserInventory model
         @showUserProfile model
         @groupProfile.empty()
-        @showShelves model
+        @showUserShelves model
         scrollToSection @userProfile
       else
         @showGroupProfile model
@@ -161,7 +161,7 @@ module.exports = Marionette.LayoutView.extend
       scrollToSection @userProfile
     else if type is 'shelf'
       user = model.get 'owner'
-      @showShelves user
+      @showUserShelves user
       @showShelf model
 
     app.navigateFromModel model

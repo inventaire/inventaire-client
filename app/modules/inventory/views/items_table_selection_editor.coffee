@@ -55,4 +55,7 @@ module.exports = Marionette.LayoutView.extend
 
   _showShelves: ->
     { selectedModels } = @getSelectedModelsAndIds()
-    @shelvesSelector.show new ItemsShelves { collection: @shelves, items: selectedModels }
+    @shelvesSelector.show new ItemsShelves {
+      collection: @shelves,
+      items: selectedModels
+    }

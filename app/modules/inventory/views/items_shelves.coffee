@@ -7,7 +7,6 @@ ItemsShelfLi = Marionette.ItemView.extend
 
   events:
     'click .shelfSelector': 'shelfSelector'
-    'click .shelfLink': 'showShelf'
 
   initialize: ->
     # isInShelf is used by the multi used template item_shelf_li
