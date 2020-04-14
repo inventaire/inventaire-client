@@ -7,7 +7,6 @@ ItemShelfLi = Marionette.ItemView.extend
 
   events:
     'click .shelfSelector': 'shelfSelector'
-    'click .shelfLink': 'showShelf'
 
   initialize: ->
     { @item } = @options
@@ -20,11 +19,6 @@ ItemShelfLi = Marionette.ItemView.extend
     else
       addItems(@model, [ @item ])
     @render()
-
-  showShelf: (e)->
-    { id:shelf } = e.currentTarget
-    app.execute 'modal:close'
-    app.execute 'show:shelf', shelf
 
 module.exports = Marionette.CollectionView.extend
   tagName: 'ul'
