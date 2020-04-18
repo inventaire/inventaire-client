@@ -15,18 +15,16 @@ ListEl = Marionette.ItemView.extend
 
   onShow: ->
     @listenTo app.vent,
-      'refresh:shelves:list': (shelfId, action)-> @refreshItemsCount(shelfId, action)
+      'refresh:shelves:items': @refreshItemsCount
 
   events:
     'click a': 'selectInventory'
 
   isGroupAdmin: -> @context is 'group' and @model.id in @group.allAdminsIds()
 
-  refreshItemsCount: (shelfId, action)->
+  refreshItemsCount: (shelfId, itemsCount)->
     if @model.get('_id') is shelfId
-      count = @model.get 'itemsCount'
-      if action is 'add' then count += 1 else count -= 1
-      @model.set 'itemsCount', count
+      @model.set 'itemsCount', itemsCount
       @lazyRender()
 
   selectInventory: (e)->
