@@ -36,7 +36,7 @@ shelfActionReq = (id, itemsIds, action)->
   .then getShelf
   .then (shelf)->
     itemsCount = shelf.items.length
-    app.vent.trigger('refresh:shelves:items', id, itemsCount)
+    app.vent.trigger 'refresh:shelves:items', id, itemsCount
   .catch app.Execute('show:error')
 
 getShelf = (res)->

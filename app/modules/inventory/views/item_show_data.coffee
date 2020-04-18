@@ -122,6 +122,9 @@ module.exports = ItemLayout.extend
     Promise.all _.invoke(@transactions.models, 'beforeShow')
     .then @ifViewIsIntact('_showTransactions')
 
+  _showTransactions: ->
+    @transactionsRegion.show new ItemTransactions { collection: @transactions }
+
   showShelves: ->
     getShelvesByOwner()
     .then (shelves) => @shelves = new Backbone.Collection shelves
@@ -129,9 +132,6 @@ module.exports = ItemLayout.extend
 
   _showShelves: ->
     @shelvesSelector.show new ItemShelves { collection: @shelves, item: @model }
-
-  _showTransactions: ->
-    @transactionsRegion.show new ItemTransactions { collection: @transactions }
 
   afterDestroy: ->
     app.execute 'show:inventory:main:user'

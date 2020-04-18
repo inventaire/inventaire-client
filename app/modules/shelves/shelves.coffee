@@ -14,10 +14,12 @@ module.exports =
       'show:shelf': API.showShelf
 
 API =
-  showShelf: (shelfId)->
-    Promise.try -> getById(shelfId)
-    .then (shelf)->
-      owner = shelf.get('owner')
-      if app.request 'require:loggedIn', 'shelves'
-        # Passing shelf to display items and owner for user profile info
-        app.layout.main.show new InventoryLayout { shelf, user: owner }
+  showShelf: (shelfId, shelf)->
+      Promise.try -> if shelfId then getById(shelfId) else shelf
+      .then showShelfInventoryLayout
+
+showShelfInventoryLayout = (shelf)->
+  owner = shelf.get('owner')
+  if app.request 'require:loggedIn', 'shelves'
+    # Passing shelf to display items and passing owner for user profile info
+    app.layout.main.show new InventoryLayout { shelf, user: owner }
