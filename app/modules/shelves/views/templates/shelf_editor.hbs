@@ -7,12 +7,12 @@
     <textarea type="text" id="shelfDescEditor" placeholder="{{i18n 'shelf description'}}">{{description}}</textarea>
   </div>
   <div class="has-dropdown">
-    <span name="listingData" class="tiny-button">{{icon listingData.icon}}{{listingData.label}}</span>
+    <span name="selected" class="tiny-button">{{icon selected.icon}}{{selected.label}}</span>
     <ul class="dropdown visibilityBox">
       <li class="dropdown-label">{{i18n 'Who can see it?'}}</li>
-      {{#each listingsData}}
+      {{#each listings}}
         <li>
-          <a id="{{id}}" class="listingChoice {{classes}}">
+          <a id="{{id}}" class="listingChoice">
             {{icon icon}} {{i18n label}}
           </a>
         </li>

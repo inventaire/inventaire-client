@@ -34,3 +34,5 @@ module.exports = Backbone.Model.extend
     name: @get 'name'
     description: @get 'description'
     url: @get 'pathname'
+    icon: @get 'icons'
+    label: @get 'label'

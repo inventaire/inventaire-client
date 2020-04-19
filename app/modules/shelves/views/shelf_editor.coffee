@@ -1,4 +1,4 @@
-{ listingsData: listingsDataFn } = require 'modules/inventory/lib/item_creation'
+{ listingsData } = require 'modules/inventory/lib/item_creation'
 getActionKey = require 'lib/get_action_key'
 { deleteShelf } = require 'modules/shelves/lib/shelf'
 { updateShelf } = require 'modules/shelves/lib/shelf'
@@ -13,20 +13,24 @@ module.exports = Marionette.LayoutView.extend
     'click .listingChoice': 'updateListing'
     'click .deleteButton': 'askDeleteShelf'
 
-  serializeData: ->
+  initialize: ->
     listing = @model.get('listing')
-    listingsData = listingsDataFn()
+    listings = listingsData()
+    @model.set('selected', listings[listing])
+
+  serializeData: ->
+    listings = listingsData()
     attrs = @model.toJSON()
     _.extend attrs,
-      listingsData: listingsData
-      listingData: listingsData[listing]
-      picture: @model.get('picture')
+      listings: listings
+      selected: @model.get('selected')
 
   onShow: -> app.execute 'modal:open'
 
   updateListing: (e)->
-    if e.currentTarget? then { id:listing } = e.currentTarget
-    @model.set('listing', listing)
+    if e.currentTarget? then { id } = e.currentTarget
+    listings = listingsData()
+    @model.set('selected', listings[id])
     @render()
 
   closeModal: (e)-> app.execute 'modal:close'
@@ -42,10 +46,17 @@ module.exports = Marionette.LayoutView.extend
     shelfId = @model.get('_id')
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor').val()
-    listing = @model.get('listing')
-    updateShelf  { shelf:shelfId, name, description, listing }
+    selected = @model.get('selected')
+    updateShelf {
+      shelf: shelfId,
+      name,
+      description,
+      listing: selected.id
+    }
     .then (updatedShelf) =>
       @model.set(updatedShelf)
+      @model.set('icon', selected.icon)
+      @model.set('label', selected.label)
       @closeModal()
     .catch _.Error('shelf update error')
 
