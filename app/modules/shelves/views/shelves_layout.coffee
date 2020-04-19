@@ -1,4 +1,5 @@
 Shelves = require '../collections/shelves'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 NewShelfEditor = require './new_shelf_editor'
 InventoryCommonNav = require 'modules/inventory/views/inventory_common_nav'
 
@@ -14,7 +15,7 @@ module.exports = InventoryCommonNav.extend
   onShow: ->
     { username } = @options
     getUserId username
-    .then getByOwner
+    .then getShelvesByOwner
     .tap addNewPlaceholder(username)
     .then @showFromModel.bind(@)
     .catch app.Execute('show:error')
@@ -41,8 +42,3 @@ placeholderModel =
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id
   app.request 'get:userId:from:username', username
-
-getByOwner = (userId) ->
-  _.preq.get app.API.shelves.byOwners userId
-  .get 'shelves'
-  .then (shelves)-> Object.values(shelves)

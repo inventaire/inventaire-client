@@ -1,5 +1,7 @@
 { listingsData: listingsDataFn } = require 'modules/inventory/lib/item_creation'
 getActionKey = require 'lib/get_action_key'
+{ deleteShelf } = require 'modules/shelves/lib/shelf'
+{ updateShelf } = require 'modules/shelves/lib/shelf'
 
 module.exports = Marionette.LayoutView.extend
   class:'ShelfEditor'
@@ -7,7 +9,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a.validateButton': 'updateShelf'
+    'click a.validateButton': 'updateShelfAction'
     'click .listingChoice': 'updateListing'
     'click .deleteButton': 'askDeleteShelf'
 
@@ -34,15 +36,14 @@ module.exports = Marionette.LayoutView.extend
     if key is 'esc'
       @closeModal()
     else if key is 'enter' and e.ctrlKey
-      @updateShelf()
+      @updateShelfAction()
 
-  updateShelf: (e)->
+  updateShelfAction: (e)->
     shelfId = @model.get('_id')
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor').val()
     listing = @model.get('listing')
-    _.preq.post app.API.shelves.update, { shelf:shelfId, name, description, listing }
-    .get 'shelf'
+    updateShelf  { shelf:shelfId, name, description, listing }
     .then (updatedShelf) =>
       @model.set(updatedShelf)
       @closeModal()
@@ -52,16 +53,16 @@ module.exports = Marionette.LayoutView.extend
     app.execute('ask:confirmation',
       confirmationText: _.i18n 'delete shelf confirmation', { name: @model.get('name') }
       warningText: _.i18n 'warning shelf delete'
-      action: deleteShelf(@model)
-      altAction: deleteShelf(@model, true)
+      action: deleteShelfAction(@model)
+      altAction: deleteShelfAction(@model, true)
       altActionText: _.i18n 'yes and delete shelf items too'
     )
 
-deleteShelf = (model, withItems) -> ->
+deleteShelfAction = (model, withItems) -> ->
   id = model.get '_id'
   params = { ids: id }
   if withItems then params = _.extend({ 'with-items': true }, params)
-  _.preq.post app.API.shelves.delete, params
+  deleteShelf params
   .then _.Log('shelf destroyed')
   .then afterShelfDelete
   .catch _.Error('shelf delete error')

@@ -1,5 +1,6 @@
 listings_ = require 'modules/user/lib/user_listings.coffee'
 { getColorSquareDataUriFromModelId } = require 'lib/images'
+{ getById } = require '../lib/shelf'
 
 module.exports = Backbone.Model.extend
   initialize: (attrs)->
@@ -24,10 +25,8 @@ module.exports = Backbone.Model.extend
 
   setItemsCount: ->
     if @get('newPlaceholder') then return Promise.resolve()
-    _.preq.get app.API.shelves.byIds @get('_id')
-    .get 'shelves'
-    .then (res)=>
-      shelf = Object.values(res)[0]
+    getById(@get('_id'))
+    .then (shelf)=>
       count = shelf.items.length
       @set 'itemsCount', count
 

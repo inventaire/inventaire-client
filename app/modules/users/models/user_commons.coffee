@@ -1,3 +1,4 @@
+{ countShelves } = require 'modules/shelves/lib/shelf'
 Positionable = require 'modules/general/models/positionable'
 error_ = require 'lib/error'
 { getColorSquareDataUriFromModelId } = require 'lib/images'
@@ -60,11 +61,6 @@ module.exports = Positionable.extend
 
   setDefaultPicture: ->
     unless @get('picture')? then @set 'picture', defaultAvatar
-
-countShelves = (userId)->
-  _.preq.get app.API.shelves.byOwners userId
-  .get 'shelves'
-  .then (shelves)-> Object.keys(shelves).length
 
 aggregateScoreData = (data, snapshotSection)->
   { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection

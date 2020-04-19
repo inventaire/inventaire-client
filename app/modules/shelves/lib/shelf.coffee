@@ -1,14 +1,20 @@
-ShelfModel = require '../models/shelf'
-
 error_ = require 'lib/error'
 
-module.exports =
+module.exports = shelf_ =
   getById: (id)->
     _.preq.get app.API.shelves.byIds(id)
     .then getShelf
-    .then (shelf)->
-      if shelf? then new ShelfModel shelf
-      else throw error_.new 'not found', 404, { id }
+
+  createShelf: (params)->
+    _.preq.post app.API.shelves.create, params
+    .get('shelf')
+
+  updateShelf: (params)->
+    _.preq.post app.API.shelves.update, params
+    .get 'shelf'
+
+  deleteShelf: (params)->
+    _.preq.post app.API.shelves.delete, params
 
   removeItems: (model, items)->
     { id } = model
@@ -26,10 +32,16 @@ module.exports =
     shelfActionReq id, itemsIds, 'addItems'
     model.set 'isInShelf', true
 
-  getShelvesByOwner: ()->
-    _.preq.get app.API.shelves.byOwners(app.user.id)
+  getShelvesByOwner: (userId)->
+    unless userId then userId = app.user.id
+    _.preq.get app.API.shelves.byOwners(userId)
     .get 'shelves'
     .then (shelvesObj) -> _.values shelvesObj
+
+  countShelves: (userId)->
+    _.preq.get app.API.shelves.byOwners(userId)
+    .get 'shelves'
+    .then (shelves)-> Object.keys(shelves).length
 
 shelfActionReq = (id, itemsIds, action)->
   _.preq.post app.API.shelves[action], { id, items: itemsIds }

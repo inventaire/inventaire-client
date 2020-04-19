@@ -1,6 +1,7 @@
 ShelfModel = require '../models/shelf'
 getActionKey = require 'lib/get_action_key'
 { listingsData } = require 'modules/inventory/lib/item_creation'
+{ createShelf } = require 'modules/shelves/lib/shelf'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelf_editor'
@@ -41,8 +42,7 @@ module.exports = Marionette.LayoutView.extend
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor ').val()
     if not name and not description then return
-    _.preq.post app.API.shelves.create, { name, description, listing: @listing.id }
-    .get('shelf')
+    createShelf { name, description, listing: @listing.id }
     .then afterCreate(@collection)
     .catch _.Error('shelf creation error')
 
