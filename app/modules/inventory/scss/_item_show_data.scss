@@ -71,10 +71,9 @@
   }
   .shelfSelector {
     @include bg-hover($off-white);
-    @include display-flex(row, center, space-between);
+    cursor: pointer;
   }
 }
-
 
 .indicator{
   .fa{
