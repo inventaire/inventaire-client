@@ -76,7 +76,7 @@ module.exports = Marionette.LayoutView.extend
     isMainUser = app.user.id is shelf.get('owner')
     @shelfInfo.show new ShelfView { model: shelf }
     @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
-    app.navigateFromModel shelf, { preventScrollTop: true }
+    scrollToSection @shelfInfo
 
   showUserShelves: (userIdOrUsername)->
     app.request 'resolve:to:userModel', userIdOrUsername
