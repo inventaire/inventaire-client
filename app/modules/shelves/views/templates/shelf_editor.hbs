@@ -1,5 +1,9 @@
 <div class="shelfEditor">
-  <h3 class="subheader">{{i18n 'shelf'}}</h3>
+  {{#if _id}}
+    <h3 class="subheader">{{i18n 'edit shelf'}}</h3>
+  {{else}}
+    <h3 class="subheader">{{i18n 'new shelf'}}</h3>
+  {{/if}}
   <div class="inputBox">
     <input type="text" id="shelfNameEditor" class="input-wrapper" placeholder="{{i18n 'shelf name'}}" value="{{name}}">
   </div>
@@ -24,8 +28,8 @@
   </div>
   <div class="button-group-right">
     {{#if _id}}
-      <a class="deleteButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete'}}</a>
-      <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'update shelf'}}</a>
+      <a class="deleteButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete shelf'}}</a>
+      <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'validate'}}</a>
     {{else}}
       <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'create shelf'}}</a>
     {{/if}}
