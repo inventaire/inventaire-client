@@ -5,8 +5,8 @@
   .subheader{
     text-align: center;
   }
-  .button-group-right{
-    @include display-flex(row);
+  .actionButtons{
+    @include display-flex(row, center, right);
     margin-left: 1em;
   }
   .has-dropdown{
@@ -17,10 +17,14 @@
   .deleteButton{
     margin-right: 1em;
   }
-}
-/*Smaller screens*/
-@media screen and (max-width: $smaller-screen) {
-  .shelfEditor{
-    margin: 0 1em;
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    @include display-flex(column, center, center);
+    .actionButtons{
+      @include display-flex(column, center, center);
+      .deleteButton{
+        margin-bottom: 1em;
+      }
+    }
   }
 }

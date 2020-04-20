@@ -1,14 +1,15 @@
 .shelvesWrapper{
   background-color: $light-grey;
-  padding: 1em;
   @include display-flex(row, top);
+  padding: 1em;
   .subheader{
-    padding-right: 1em;
+    padding: 0 1em 0 0;
   }
-}
-/*Smaller screens*/
-@media screen and (max-width: $smaller-screen) {
-  .shelvesWrapper{
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
     @include display-flex(column, center, center);
+    .subheader{
+      padding: 0;
+    }
   }
 }

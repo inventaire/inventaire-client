@@ -16,7 +16,6 @@
       #shelfName{
         // make button unbreakable
         flex: 2 0 0;
-        padding-right: 1em
       }
       #showShelfEdit{
         padding-top: 0.4em;
@@ -41,10 +40,8 @@
   .count{
     padding-left: 0.5em;
   }
-}
-/*Smaller screens*/
-@media screen and (max-width: $smaller-screen) {
-  .shelfBox{
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
     @include display-flex(column, center, center);
     .picture{
       margin-top: 1em
@@ -55,9 +52,6 @@
     }
     #infoBox{
       text-align: center;
-    }
-    .button-group-right{
-      margin-left: 0;
     }
     .data{
       @include display-flex(column, center, center);
