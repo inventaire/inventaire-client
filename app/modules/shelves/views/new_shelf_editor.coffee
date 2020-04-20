@@ -10,7 +10,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     #Default listing
-    @listing = listingsData()['private']
+    @selected = listingsData()['private']
     @collection = @options.collection
 
   events:
@@ -19,14 +19,14 @@ module.exports = Marionette.LayoutView.extend
     'click .listingChoice': 'updateListing'
 
   serializeData: ->
-    listingsData: listingsData()
-    listingData: @listing
+    listings: listingsData()
+    selected: @selected
 
   onShow: -> app.execute 'modal:open'
 
   updateListing: (e)->
     if e.currentTarget? then { id: listing } = e.currentTarget
-    @listing = listingsData()[listing]
+    @selected = listingsData()[listing]
     @render()
 
   shelfEditorKeyAction: (e)->
@@ -42,7 +42,7 @@ module.exports = Marionette.LayoutView.extend
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor ').val()
     if not name and not description then return
-    createShelf { name, description, listing: @listing.id }
+    createShelf { name, description, listing: @selected.id }
     .then afterCreate(@collection)
     .catch _.Error('shelf creation error')
 
@@ -50,4 +50,5 @@ afterCreate = (collection) -> (newShelf) ->
   newShelfModel = new ShelfModel newShelf
   collection.add newShelfModel
   app.user.trigger 'shelves:change', 'addShelf'
+  app.execute 'show:shelf', null, newShelf
   app.execute 'modal:close'
