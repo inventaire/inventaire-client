@@ -1,16 +1,25 @@
 Shelves = require '../collections/shelves'
 { getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 NewShelfEditor = require './new_shelf_editor'
-InventoryCommonNav = require 'modules/inventory/views/inventory_common_nav'
+ShelvesList = require './shelves_list'
 
-module.exports = InventoryCommonNav.extend
+module.exports = Marionette.LayoutView.extend
   template: require './templates/shelves_layout'
+
+  regions:
+    shelvesList: '#shelvesList'
 
   behaviors:
     BackupForm: {}
 
   events:
     'click #addShelf': 'showNewShelfEditor'
+
+  serializeData: ->
+    inventoryUsername = @options.username
+    currentUserName = app.user.get('username')
+    if inventoryUsername is currentUserName
+      editable: true
 
   onShow: ->
     { username } = @options
@@ -22,9 +31,9 @@ module.exports = InventoryCommonNav.extend
   showFromModel: (models)->
     unless models.length > 0 then return
     @collection = new Shelves models
-    @showList @shelvesList, @collection
+    @shelvesList.show new ShelvesList { @collection }
 
-  showNewShelfEditor: (e)->
+  showNewShelfEditor: ()->
     app.layout.modal.show new NewShelfEditor { @collection }
 
 getUserId = (username) ->

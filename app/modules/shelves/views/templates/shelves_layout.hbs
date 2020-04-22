@@ -1,4 +1,11 @@
 <div class="shelvesWrapper">
-  <p class="subheader">{{I18n 'shelves'}}</p>
+  <div class="shelvesHeader">
+    <p class="subheader">{{I18n 'shelves'}}</p>
+    {{#if editable }}
+      <div>
+        <a id="addShelf" class="action tiny-button light-blue">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
+      </div>
+    {{/if}}
+  </div>
   <div id="shelvesList"></div>
 </div>

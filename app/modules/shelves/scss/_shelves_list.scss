@@ -1,0 +1,47 @@
+#shelvesList{
+  .shelfRow{
+    @include display-flex(row, center, space-between);
+    @include shy-border;
+    cursor: pointer;
+    .shelfLeft{
+      @include display-flex(row, center);
+      overflow: hidden;
+      line-height: 1.2em;
+      .picture{
+        min-width: 48px;
+        height: 48px;
+      }
+      .shelfText{
+        padding: 0.5em;
+        @include display-flex(column);
+        .name{
+          margin-right: 1em;
+        }
+        .desc{
+          margin-right: 1em;
+          color: $grey;
+        }
+      }
+    }
+    .shelfRight{
+      @include display-flex(row);
+      padding-right: 1em;
+      // based on .listing in _item_row.scss
+      .listing{
+        @include radius;
+        height: 2em;
+        width: 2em;
+        @include display-flex(row, center, center);
+        &.private{ @include box-color($private-color); }
+        &.network{ @include box-color($network-color); }
+        &.public{ @include box-color($public-color, null); }
+      }
+    }
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .shelfRow .shelfRight{
+      padding-right: 0.2em;
+    }
+  }
+}

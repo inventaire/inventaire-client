@@ -16,11 +16,11 @@ module.exports =
 
 API =
   showShelf: (shelfId, shelf)->
-      Promise.try -> if shelfId then getById(shelfId) else shelf
-      .then (shelf)->
-        if shelf? then new ShelfModel shelf
-        else throw error_.new 'not found', 404, { shelfId }
-      .then showShelfInventoryLayout
+    Promise.try -> if shelfId then getById(shelfId) else shelf
+    .then (shelf)->
+      if shelf? then new ShelfModel shelf
+      else throw error_.new 'not found', 404, { shelfId }
+    .then showShelfInventoryLayout
 
 showShelfInventoryLayout = (shelf)->
   owner = shelf.get('owner')
