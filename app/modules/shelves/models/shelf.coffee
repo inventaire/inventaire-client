@@ -11,24 +11,8 @@ module.exports = Backbone.Model.extend
     @set 'icon', listingKeys.icon
     @set 'label', listingKeys.label
     @set 'type', 'shelf'
-    @set 'hasItemsCount', true
     unless @get('picture')?
       @set 'picture', getColorSquareDataUriFromModelId @get('_id')
-
-    @waitForItemsCount = @setItemsCount()
-
-  serializeData: ->
-    attrs = @toJSON()
-
-    _.extend attrs,
-      isShelf: true
-
-  setItemsCount: ->
-    if @get('newPlaceholder') then return Promise.resolve()
-    getById(@get('_id'))
-    .then (shelf)=>
-      count = shelf.items.length
-      @set 'itemsCount', count
 
   updateMetadata: ->
     name: @get 'name'

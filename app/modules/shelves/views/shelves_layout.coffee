@@ -16,7 +16,6 @@ module.exports = InventoryCommonNav.extend
     { username } = @options
     getUserId username
     .then getShelvesByOwner
-    .tap addNewPlaceholder(username)
     .then @showFromModel.bind(@)
     .catch app.Execute('show:error')
 
@@ -27,17 +26,6 @@ module.exports = InventoryCommonNav.extend
 
   showNewShelfEditor: (e)->
     app.layout.modal.show new NewShelfEditor { @collection }
-
-addNewPlaceholder = (username)-> (models)->
-  # build a fake shelf model to pass to Shelves collection
-  loggedInUsername = app.user.get('username')
-  if loggedInUsername is username
-    models.unshift placeholderModel
-
-placeholderModel =
-  newPlaceholder: true
-  listing: 'private'
-  _id: 'newPlaceholder'
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

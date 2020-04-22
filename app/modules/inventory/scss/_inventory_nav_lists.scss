@@ -1,6 +1,6 @@
 $nav-avatar-size: 5em;
 
-#shelvesList, #usersList, #groupsList, #membersList{
+#usersList, #groupsList, #membersList{
   ul{
     @include display-flex(row, center, flex-start, wrap);
     margin: 0 auto;

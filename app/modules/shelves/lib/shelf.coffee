@@ -46,9 +46,6 @@ module.exports = shelf_ =
 shelfActionReq = (id, itemsIds, action)->
   _.preq.post app.API.shelves[action], { id, items: itemsIds }
   .then getShelf
-  .then (shelf)->
-    itemsCount = shelf.items.length
-    app.vent.trigger 'refresh:shelves:items', id, itemsCount
   .catch app.Execute('show:error')
 
 getShelf = (res)->

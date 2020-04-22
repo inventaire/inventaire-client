@@ -13,19 +13,10 @@ ListEl = Marionette.ItemView.extend
     attrs.isGroupAdmin = @isGroupAdmin()
     return attrs
 
-  onShow: ->
-    @listenTo app.vent,
-      'refresh:shelves:items': @refreshItemsCount
-
   events:
     'click a': 'selectInventory'
 
   isGroupAdmin: -> @context is 'group' and @model.id in @group.allAdminsIds()
-
-  refreshItemsCount: (shelfId, itemsCount)->
-    if @model.get('_id') is shelfId
-      @model.set 'itemsCount', itemsCount
-      @lazyRender()
 
   selectInventory: (e)->
     if _.isOpenedOutside e then return
