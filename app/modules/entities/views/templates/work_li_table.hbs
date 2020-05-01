@@ -1,0 +1,53 @@
+<div class="workLiTableLeft showEntity">
+  {{#if image.url}}
+    <div class="workCover">
+      <a class="showEntity" href="{{pathname}}">
+        <img src="{{imgSrc image.url 100 200}}" alt='{{label}} cover'>
+      </a>
+    </div>
+  {{/if}}
+  <div class="workLiDataTable">
+    <h4>
+      <a class="showEntity link" href="{{pathname}}">
+        {{#if claims.wdt:P1545}}
+          <span class="ordinal">{{claims.wdt:P1545}}.</span>
+        {{/if}}
+        {{label}}
+      </a>
+    </h4>
+    {{#if showAllLabels}}
+      <ul class="all-labels">
+        {{#each labels}}
+          <li class="labels">
+            <span class="lang">{{@key}}: </span>
+            <span class="value">{{this}}</span>
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+    {{#if description}}
+      <p class="description clamped grey">{{{description}}}</p>
+    {{/if}}
+    {{!-- Only show in deduplication mode --}}
+    <span class="uri hidden">{{uri}}</span>
+    <p class="claims">
+      {{claim claims 'wdt:P50' true}} {{!-- author --}}
+      {{claim claims 'wdt:P58' true}} {{!-- scenarist --}}
+      {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
+      {{claim claims 'wdt:P6338' true}} {{!-- colorist --}}
+    </p>
+    <p class="date">
+      {{timeClaim claims 'wdt:P577' 'year' true}} {{!-- time of publication --}}
+    </p>
+  </div>
+</div>
+{{#if showActions}}
+  <div class='actions'>
+    <a class='addToInventory' href="{{pathname}}/add" rel="nofollow" title="{{i18n 'add to my inventory'}}">
+      {{icon 'plus'}}
+    </a>
+      <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}" title="{{i18n 'network_counter_label'}}">
+        <span class="count">{{counter.count}}</span>
+      </a>
+  </div>
+{{/if}}

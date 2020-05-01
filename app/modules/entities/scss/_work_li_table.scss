@@ -1,0 +1,62 @@
+.workLiTable, .articleLiTable{
+  margin: 0 auto;
+  max-width: 100%;
+  background-color: $contrast;
+  @include shy-border;
+}
+
+.workLiTable{
+  text-align: left;
+  @include display-flex(row, center, space-between);
+  .workLiTableLeft{
+    margin: 0.5em;
+    @include display-flex(row, left, space-between);
+    .claims a{
+      color: $grey;
+    }
+    .workCover{
+      @include display-flex(row, center);
+      width: 3em;
+      margin-right: 0.5em;
+      min-height: 3em;
+      min-width: 3em;
+    }
+    .workLiDataTable{
+      @include display-flex(column);
+      h4{
+        font-size: 1em;
+        margin: 0;
+        text-align: left;
+      }
+      .date{
+        margin: 0;
+        padding: 0;
+        line-height: 1.3em;
+      }
+    }
+  }
+  .actions{
+    @include display-flex(row, center, center);
+    .counter{
+      margin: 0 1em;
+      @include bg-hover($light-grey);
+      @include radius;
+      color: $dark-grey;
+      &.highlight{
+        @include bg-hover($secondary-color);
+        color: $dark-grey;
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: 45em) {
+    .actions{
+      @include display-flex(column, left, center);
+      margin-right: 0.5em;
+      .counter{
+        margin: 0.5em 0;
+      }
+    }
+  }
+}
+
