@@ -21,7 +21,7 @@ $customTabMaxWidth: 40em;
   width: 100%;
   @include display-flex(row, flex-start);
   a{
-    padding: 1em;
+    padding: 1em 0.5em;
     flex: 1;
     text-align: center;
     &.active{

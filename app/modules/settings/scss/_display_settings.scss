@@ -1,0 +1,20 @@
+.displaySettings{
+  .selector{
+    padding: 0.5em;
+    margin-right: 0.5em;
+    @include display-flex(row, center, flex-start);
+    background-color: white;
+    @include shy-border;
+    div {
+      padding-left: 0.5em;
+    }
+    > div:not(.shown){
+      display: none;
+    }
+  }
+  li{
+    padding: 0.5em;
+    margin-right: 0.5em;
+    background-color: white;
+  }
+}

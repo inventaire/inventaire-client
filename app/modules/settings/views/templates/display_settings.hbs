@@ -1,0 +1,18 @@
+<h2 class="layout-title">{{I18n 'display'}}</h2>
+
+<section class="entities">
+  <h3>{{i18n 'works'}} / {{i18n 'series'}} / {{i18n 'authors'}} {{i18n 'lists'}}</h3>
+  <a class="selector">
+    <span class="label">{{I18n 'current display'}} : </span>
+    <div class="{{#if entitiesCascade}}shown{{/if}}">{{icon 'th-large'}} {{I18n 'cascade'}}</div>
+    <div class="{{#if entitiesTable}}shown{{/if}}">{{icon 'align-justify'}} {{I18n 'table'}}</div>
+  </a>
+  <ul id="entitiesDisplayOptions">
+    <li displayType="entitiesDisplay" id="entitiesCascade">
+      <a>{{icon 'th-large'}} {{I18n 'select cascade display'}}</a>
+    </li>
+    <li displayType="entitiesDisplay" id="entitiesTable">
+      <a>{{icon 'align-justify'}} {{I18n 'select table display'}}</a>
+    </li>
+  </ul>
+</section>
