@@ -16,3 +16,20 @@
     </li>
   </ul>
 </section>
+
+<section class="inventory">
+  <h3>{{i18n 'inventory lists'}}</h3>
+  <a class="selector">
+    <span class="label">{{I18n 'current display'}} : </span>
+    <div class="{{#if inventoryCascade}}shown{{/if}}">{{icon 'th-large'}} {{I18n 'cascade'}}</div>
+    <div class="{{#if inventoryTable}}shown{{/if}}">{{icon 'align-justify'}} {{I18n 'table'}}</div>
+  </a>
+  <ul id="inventoryDisplayOptions">
+    <li displayType="inventoryDisplay" id="inventoryCascade">
+      <a>{{icon 'th-large'}} {{I18n 'select cascade display'}}</a>
+    </li>
+    <li displayType="inventoryDisplay" id="inventoryTable">
+      <a>{{icon 'align-justify'}} {{I18n 'select table display'}}</a>
+    </li>
+  </ul>
+</section>
