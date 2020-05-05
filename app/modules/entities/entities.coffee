@@ -237,6 +237,8 @@ showEntityEdit = (params)->
   app.navigateFromModel model, 'edit'
 
 showEntityEditFromModel = (model)->
+  unless app.request 'require:loggedIn', model.get('edit') then return
+
   prefix = model.get 'prefix'
   if prefix is 'wd' and not app.user.hasWikidataOauthTokens()
     showWikidataEditIntroModal model
