@@ -3,13 +3,24 @@
 <section>
   <h3>{{i18n 'data exports'}}</h3>
 
-  <h4>{{icon 'download'}} {{i18n 'download'}} (JSON)</h4>
+  <h4>{{icon 'download'}} {{i18n 'download'}}</h4>
   <ul class="downloads">
     <li>
-      <a href="{{inventoryEndpoint}}" target="_blank" class="link">{{i18n 'inventory'}}</a>
-    </li>
-    <li>
-      <a href="{{userEndpoint}}" target="_blank" class="link">{{i18n 'user'}}</a>
+      <h5>CSV</h5>
+        <ul>
+          <li>
+            <a href="/api/items?action=export&format=csv" download="inventory.csv" class="link">{{i18n 'inventory'}}</a>
+          </li>
+        </ul>
+      <h5>JSON</h5>
+      <ul>
+        <li>
+          <a href="{{inventoryJsonEndpoint}}" download="inventory.json" class="link">{{i18n 'inventory'}}</a>
+        </li>
+        <li>
+          <a href="{{userJsonEndpoint}}" download="profile.json" class="link">{{i18n 'user'}}</a>
+        </li>
+      </ul>
     </li>
   </ul>
 
@@ -19,11 +30,11 @@
   <ul class="api">
     <li>
       <span class="header">{{i18n 'books'}}</span>
-      <p class="code">{{curlBase}}{{inventoryEndpoint}}</p>
+      <p class="code">{{curlBase}}{{inventoryJsonEndpoint}}</p>
     </li>
     <li>
       <span class="header">{{i18n 'user'}}</span>
-      <p class="code">{{curlBase}}{{userEndpoint}}</p>
+      <p class="code">{{curlBase}}{{userJsonEndpoint}}</p>
     </li>
   </ul>
 </section>
