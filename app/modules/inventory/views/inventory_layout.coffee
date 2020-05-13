@@ -82,7 +82,6 @@ module.exports = Marionette.LayoutView.extend
     app.request 'resolve:to:userModel', userIdOrUsername
     .then (userModel)=>
       username = userModel.get('username')
-      if wrapperExists() then return $('.shelvesWrapper').show()
       @shelvesList.show new ShelvesLayout { username }
     .catch app.Execute('show:error')
 
@@ -153,11 +152,14 @@ module.exports = Marionette.LayoutView.extend
       else
         @showGroupProfile model
         @userProfile.empty()
+        @shelfInfo.empty()
+        @shelvesList.empty()
         @showGroupInventory model
         scrollToSection @groupProfile
     else if type is 'member'
       @showUserProfile model
       @showMemberInventory model
+      @showUserShelves model
       scrollToSection @userProfile
     else if type is 'shelf'
       user = model.get 'owner'
@@ -176,6 +178,3 @@ sectionRequest =
 
 scrollToSection = (region)->
   screen_.scrollTop { $el: region.$el, marginTop: 10, delay: 100 }
-
-wrapperExists = ->
-  $('.shelvesWrapper').length > 0
