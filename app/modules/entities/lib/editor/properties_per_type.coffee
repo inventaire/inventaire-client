@@ -7,19 +7,19 @@
 # The order is meaningful:
 work =
   'wdt:P50': {} # author
-  'wdt:P577': {} # publication date
   'wdt:P136': {} # genre
+  'wdt:P921': {} # main subject
+  'wdt:P407': { customLabel: 'original language' } # original language of work
+  'wdt:P577': { customLabel: 'first publication date' } # publication date
   'wdt:P179': {} # series
   'wdt:P1545': {} # series ordinal
-  'wdt:P921': {} # main subject
   'wdt:P144': {} # based on
   'wdt:P941': {} # inspired by
-  'wdt:P364': {} # original language of work
   'wdt:P856': {} # official website
   # 'wdt:P31: {}' # instance of (=> works aliases)
   # 'wdt:P110': {} # illustrator
-  # 'wdt:P1476': {} # title (using P364 lang)
-  # 'wdt:P1680': {} # subtitle (using P364 lang)
+  # 'wdt:P1476': {} # title (using P407 lang)
+  # 'wdt:P1680': {} # subtitle (using P407 lang)
   # 'wdt:P840': {} # narrative location
   # 'wdt:P674': {} # characters
 

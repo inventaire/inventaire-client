@@ -17,7 +17,7 @@ addProp 'wdt:P136', 'entity', 'genres', true, false
 # main subject
 addProp 'wdt:P921', 'entity', 'subjects', true, false
 # original language of work
-addProp 'wdt:P364', 'entity', 'languages', true, null
+addProp 'wdt:P407', 'entity', 'languages', true, null
 # serie
 addProp 'wdt:P179', 'entity', 'series', false, true
 # series ordinal

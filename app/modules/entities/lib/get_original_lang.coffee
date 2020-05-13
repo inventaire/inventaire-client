@@ -6,8 +6,6 @@ langProperties = [
   'wdt:P407' # language of work
   'wdt:P1412' # languages spoken, written or signed
   'wdt:P2439' # language (general)
-  # About to be merged into wdt:P407
-  'wdt:P364' # original language of work
 ]
 
 module.exports = (claims)->
