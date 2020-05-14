@@ -28,6 +28,9 @@ module.exports = Marionette.LayoutView.extend
     { @user, @group, @shelf, @standalone } = @options
     @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
 
+  childEvents:
+    'unselect:shelf': 'unselectShelf'
+
   onShow: ->
     if @user?
       @startFromUser @user, @shelf
@@ -72,7 +75,7 @@ module.exports = Marionette.LayoutView.extend
     .catch app.Execute('show:error')
 
   showShelf: (shelf)->
-    itemsDataPromise = getItemsData('shelf', shelf.id)
+    itemsDataPromise = getItemsData('shelf', shelf)
     isMainUser = app.user.id is shelf.get('owner')
     @shelfInfo.show new ShelfView { model: shelf }
     @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
@@ -126,8 +129,7 @@ module.exports = Marionette.LayoutView.extend
     @sectionNav.show new SectionNav options
 
   showInventoryBrowser: (type, model)->
-    modelId = model.get('_id')
-    itemsDataPromise = getItemsData(type, modelId)
+    itemsDataPromise = getItemsData(type, model)
     isMainUser = model?.isMainUser
     @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
 
@@ -141,9 +143,18 @@ module.exports = Marionette.LayoutView.extend
       allowMore: true
       showDistance: section is 'public'
 
+  unselectShelf: (shelfView)->
+    @shelfInfo.empty()
+    unless @_lastShownType or @_lastShownUser
+      ownerId = shelfView.model.get('owner')
+      return app.execute 'show:inventory:user', ownerId
+    @showInventoryBrowser @_lastShownType, @_lastShownUser
+
   showSelectedInventory: (type, model)->
     if type is 'user' or type is 'group'
       if type is 'user'
+        @_lastShownType = type
+        @_lastShownUser = model
         @showUserInventory model
         @showUserProfile model
         @groupProfile.empty()
@@ -157,6 +168,8 @@ module.exports = Marionette.LayoutView.extend
         @showGroupInventory model
         scrollToSection @groupProfile
     else if type is 'member'
+      @_lastShownType = type
+      @_lastShownUser = model
       @showUserProfile model
       @showMemberInventory model
       @showUserShelves model
@@ -168,7 +181,8 @@ module.exports = Marionette.LayoutView.extend
 
     app.navigateFromModel model
 
-getItemsData = (type, modelId)->
+getItemsData = (type, model)->
+  modelId = model.get('_id')
   params = { "#{type}": modelId }
   _.preq.get app.API.items.inventoryView(params)
 

@@ -11,6 +11,8 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #showShelfEdit': 'showEditor'
+    'click #unselectShelf': 'unselectShelf'
+
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -19,6 +21,10 @@ module.exports = Marionette.LayoutView.extend
 
   regions:
     shelf: '.shelf'
+
+  unselectShelf: ->
+    ownerId = @model.get('owner')
+    @triggerMethod 'unselect:shelf'
 
   isEditable: ->
     return @model.get('owner') is app.user.id

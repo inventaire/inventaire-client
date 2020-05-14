@@ -9,17 +9,21 @@
   #infoBox{
     // # Fake until picture for shelf is implemented
     width: 90%;
-
     padding: 1em;
+
     #titleBar{
       @include display-flex(row, top, space-between);
       #shelfName{
         // make button unbreakable
         flex: 2 0 0;
       }
-      #showShelfEdit{
-        padding-top: 0.4em;
-        padding-bottom: 0.4em;
+      #shelfActions{
+        a {
+          margin-bottom: 1em;
+          margin-left: 1em;
+          padding-top: 0.4em;
+          padding-bottom: 0.4em;
+        }
       }
     }
     #titleBox{

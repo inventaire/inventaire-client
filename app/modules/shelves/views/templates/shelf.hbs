@@ -3,14 +3,15 @@
   <div id="infoBox">
     <div id="titleBar">
       <h3 id="shelfName">{{name}}</h3>
-      {{#if editable}}
-        <span>
+      <div id="shelfActions">
+        {{#if editable}}
           <a id="showShelfEdit" class="action tiny-button light-blue">
             {{icon 'pencil'}}
             {{I18n 'edit shelf'}}
           </a>
-        </span>
-      {{/if}}
+        {{/if}}
+          <a id="unselectShelf" class="action tiny-button light-blue">{{I18n 'unselect shelf'}}</a>
+      </div>
     </div>
     <ul class="data">
       <li>
