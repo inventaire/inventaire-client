@@ -1,8 +1,10 @@
 #shelvesList{
+  @include transition(padding, 0.1s);
   .shelfRow{
     @include display-flex(row, center, space-between);
-    @include shy-border;
     cursor: pointer;
+    height: 50px;
+    @include bg-hover($light-grey)
     .shelfLeft{
       @include display-flex(row, center);
       overflow: hidden;

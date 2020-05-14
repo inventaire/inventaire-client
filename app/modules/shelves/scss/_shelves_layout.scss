@@ -1,15 +1,33 @@
 .shelvesWrapper{
   background-color: $light-grey;
   .shelvesHeader{
-    padding: 1em;
-    @include display-flex(row, center, space-between);
-    #addShelf{
-      padding-top: 0.4em;
-      padding-bottom: 0.4em;
+    @include display-flex(row, top, space-between);
+    // balance the cross fold icon on the right
+    padding: 1em 1em 1em 3.5em;
+    .foldShelves, .unfoldShelves{
+      font-size: 1.5rem;
+      @include text-hover($grey, $dark-grey);
+      .fa{
+        padding-right: 0.1em;
+      }
+    }
+    .shelvesSubheader{
+      flex: 1 0 0;
+      padding-right: 0.8em;
+      a{
+        padding-top: 0.4em;
+        padding-bottom: 0.4em;
+      }
+      @include display-flex(row, center, space-between);
+
     }
     /*Smaller screens*/
     @media screen and (max-width: $smaller-screen) {
-      @include display-flex(column, center);
+      padding-right: 0.5em;
+      .shelvesSubheader{
+        @include display-flex(column, center);
+        margin-bottom: 0.4em;
+      }
     }
   }
 }

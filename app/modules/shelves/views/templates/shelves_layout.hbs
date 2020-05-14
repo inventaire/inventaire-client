@@ -1,11 +1,17 @@
 <div class="shelvesWrapper">
   <div class="shelvesHeader">
-    <p class="subheader">{{I18n 'shelves'}}</p>
-    {{#if editable }}
-      <div>
-        <a id="addShelf" class="action tiny-button light-blue">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
-      </div>
-    {{/if}}
+    <div class="shelvesSubheader">
+      <p class="subheader">{{I18n 'shelves'}}</p>
+      {{#if editable }}
+        <div>
+          <a id="addShelf" class="action tiny-button light-blue">{{icon 'plus'}}{{I18n 'add new shelf'}}</a>
+        </div>
+      {{/if}}
+    </div>
+    <div>
+      <a id="hideShelves" title="{{I18n 'hide shelves'}}" class="foldShelves">{{icon 'times'}}</a>
+      <a id="showShelves" title="{{I18n 'show shelves'}}" class="unfoldShelves">{{icon 'caret-down'}}</a>
+    </div>
   </div>
   <div id="shelvesList"></div>
 </div>

@@ -14,6 +14,8 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #addShelf': 'showNewShelfEditor'
+    'click #hideShelves': 'hideShelves'
+    'click #showShelves': 'showShelves'
 
   serializeData: ->
     inventoryUsername = @options.username
@@ -21,16 +23,35 @@ module.exports = Marionette.LayoutView.extend
     if inventoryUsername is currentUserName
       editable: true
 
+  ui:
+    shelvesList: '#shelvesList'
+    addShelf: '#addShelf'
+    hideShelves: '#hideShelves'
+    showShelves: '#showShelves'
+
   onShow: ->
     { username } = @options
     getUserId username
     .then getShelvesByOwner
     .then @showFromModel.bind(@)
     .catch app.Execute('show:error')
+    @ui.showShelves.hide()
 
-  showFromModel: (models)->
-    unless models.length > 0 then return
-    @collection = new Shelves models
+  hideShelves: ->
+    @ui.shelvesList.hide()
+    @ui.addShelf.hide()
+    @ui.showShelves.show()
+    @ui.hideShelves.hide()
+
+  showShelves: ->
+    @ui.shelvesList.show()
+    @ui.addShelf.show()
+    @ui.hideShelves.show()
+    @ui.showShelves.hide()
+
+  showFromModel: (docs)->
+    unless docs.length > 0 then return
+    @collection = new Shelves docs
     @shelvesList.show new ShelvesList { @collection }
 
   showNewShelfEditor: ()->
