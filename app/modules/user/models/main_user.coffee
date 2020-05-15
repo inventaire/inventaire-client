@@ -10,6 +10,7 @@ module.exports = UserCommons.extend
   url: -> app.API.user
 
   parse: (data)->
+    if data.type is 'deletedUser' then return app.execute 'logout'
     data.settings = @setDefaultSettings data.settings
     return data
 

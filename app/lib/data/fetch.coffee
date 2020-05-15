@@ -4,15 +4,17 @@
 # - firing waiter:resolve / waiter:reject waiter based on the result
 
 module.exports = (options)->
-  { name, collection, Collection, condition, fetchOptions } = options
+  { name, Collection, Model, condition, fetchOptions } = options
 
-  unless collection?
-    app[name] = collection = new Collection
+  if Collection?
+    app[name] = new Collection
+  else
+    app[name] = new Model
 
   condition ?= true
 
   if condition
-    fetchPromise = collection.fetch fetchOptions
+    fetchPromise = app[name].fetch fetchOptions
   else
     fetchPromise = Promise.resolve()
 
