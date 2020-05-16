@@ -1,11 +1,13 @@
 ShelfModel = require '../models/shelf'
 getActionKey = require 'lib/get_action_key'
+forms_ = require 'modules/general/lib/forms'
 { listingsData } = require 'modules/inventory/lib/item_creation'
 { createShelf } = require 'modules/shelves/lib/shelf'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelf_editor'
   behaviors:
+    AlertBox: {}
     BackupForm: {}
 
   initialize: ->
@@ -41,10 +43,10 @@ module.exports = Marionette.LayoutView.extend
   createShelf: ->
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor ').val()
-    if not name and not description then return
+    if description is '' then description = null
     createShelf { name, description, listing: @selected.id }
     .then afterCreate(@collection)
-    .catch _.Error('shelf creation error')
+    .catch forms_.catchAlert.bind(null, @)
 
 afterCreate = (collection) -> (newShelf) ->
   newShelfModel = new ShelfModel newShelf

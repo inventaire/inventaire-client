@@ -1,4 +1,5 @@
 { listingsData } = require 'modules/inventory/lib/item_creation'
+forms_ = require 'modules/general/lib/forms'
 getActionKey = require 'lib/get_action_key'
 { deleteShelf } = require 'modules/shelves/lib/shelf'
 { updateShelf } = require 'modules/shelves/lib/shelf'
@@ -6,6 +7,9 @@ getActionKey = require 'lib/get_action_key'
 module.exports = Marionette.LayoutView.extend
   class: 'ShelfEditor'
   template: require './templates/shelf_editor'
+
+  behaviors:
+    AlertBox: {}
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
@@ -46,6 +50,7 @@ module.exports = Marionette.LayoutView.extend
     shelfId = @model.get('_id')
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor').val()
+    if description is '' then description = null
     selected = @model.get('selected')
     updateShelf {
       shelf: shelfId,
@@ -58,7 +63,7 @@ module.exports = Marionette.LayoutView.extend
       @model.set('icon', selected.icon)
       @model.set('label', selected.label)
       @closeModal()
-    .catch _.Error('shelf update error')
+    .catch forms_.catchAlert.bind(null, @)
 
   askDeleteShelf: ->
     app.execute('ask:confirmation',
