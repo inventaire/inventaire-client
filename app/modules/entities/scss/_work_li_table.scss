@@ -6,10 +6,11 @@
 }
 
 .workLiTable{
+  max-width: 45em;
   text-align: left;
   @include display-flex(row, center, space-between);
   .workLiTableLeft{
-    margin: 0.5em;
+    cursor: pointer;
     @include display-flex(row, left, space-between);
     .claims a{
       color: $grey;
@@ -23,8 +24,10 @@
     }
     .workLiDataTable{
       @include display-flex(column);
+      margin: 0.2em 0;
       h4{
-        font-size: 1em;
+        line-height: 1;
+        font-size: 1.2em;
         margin: 0;
         text-align: left;
       }
