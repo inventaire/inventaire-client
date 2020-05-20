@@ -42,6 +42,7 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     navigationButtons: '.navigationButtons'
+    P31Selection: '#P31Selection'
 
   events:
     'click .entity-edit-cancel': 'cancel'
@@ -49,7 +50,8 @@ module.exports = Marionette.LayoutView.extend
     'click .createAndAddEntity': 'createAndAddEntity'
     'click .createAndUpdateItem': 'createAndUpdateItem'
     'click #signalDataError': 'signalDataError'
-    'click #moveToWikidata': 'moveToWikidata'
+    'click #moveToWikidata': 'startMovingToWikidata'
+    'click #P31Options a': 'selectP31'
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -165,14 +167,25 @@ module.exports = Marionette.LayoutView.extend
 
     return { ok: true }
 
-  moveToWikidata: ->
+  startMovingToWikidata: ->
     unless app.user.hasWikidataOauthTokens()
       return app.execute 'show:wikidata:edit:intro:modal', @model
+    @displayP31Selection()
 
+  displayP31Selection: ->
+    @ui.P31Selection.show()
+
+  selectP31: (e)->
+    P31value = e.currentTarget.id
+    currentP31Value = @model.get('claims')["wdt:P31"][0]
+    if P31value is currentP31Value then P31value = null
+    @moveToWikidata(P31value)
+
+  moveToWikidata: (asP31value) ->
     startLoading.call @, '#moveToWikidata'
 
     uri = @model.get('uri')
-    moveToWikidata uri
+    moveToWikidata(uri, asP31value)
     # This should now redirect us to the new Wikidata edit page
     .then -> app.execute 'show:entity:edit', uri
     .catch error_.Complete('#moveToWikidata', false)

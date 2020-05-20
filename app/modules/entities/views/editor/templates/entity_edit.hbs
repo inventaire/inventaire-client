@@ -12,7 +12,15 @@
     {{else}}
       {{#with moveToWikidata}}
         {{#if ok}}
-          <a id="moveToWikidata" title="{{I18n 'this entity is ready to be imported to Wikidata'}}">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
+          <div id="moveToWikidata" class="has-dropdown">
+            <a id="P31Selection" title="{{I18n 'this entity is ready to be imported to Wikidata'}}">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
+            <ul id="P31Options" class="dropdown">
+              <p class="selector-label">{{I18n 'push entity as:'}}</p>
+              <li><a id="wd:Q571">{{I18n 'book'}} (Q571)</a></li>
+              <li><a id="wd:Q47461344">{{I18n 'written work'}} (Q47461344)</a></li>
+              <li><a id="wd:Q1004">{{I18n 'comic book'}} (Q1004)</a></li>
+            </ul>
+          </div>
         {{else}}
           <a class="wikidata-move-disabled" title="{{capitalize reason}}">{{icon 'wikidata-colored'}}{{I18n 'move to Wikidata'}}</a>
         {{/if}}

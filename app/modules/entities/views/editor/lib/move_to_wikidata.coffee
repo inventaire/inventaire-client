@@ -1,5 +1,5 @@
-module.exports = (invEntityUri)->
-  _.preq.put app.API.entities.moveToWikidata, { uri: invEntityUri }
+module.exports = (invEntityUri, asP31value)->
+  _.preq.put app.API.entities.moveToWikidata, { uri: invEntityUri, asP31value }
   .then _.Log('RES')
   .then ->
     # Get the refreshed, redirected entity
