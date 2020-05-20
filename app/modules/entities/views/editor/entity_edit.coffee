@@ -13,18 +13,15 @@ error_ = require 'lib/error'
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
   template: require './templates/entity_edit'
-  behaviors:
-    AlertBox: {}
-    Loading: {}
-    PreventDefault: {}
-
   regions:
     title: '.title'
     claims: '.claims'
     admin: '.admin'
 
-  ui:
-    navigationButtons: '.navigationButtons'
+  behaviors:
+    AlertBox: {}
+    Loading: {}
+    PreventDefault: {}
 
   initialize: ->
     @creationMode = @model.creating
@@ -43,23 +40,16 @@ module.exports = Marionette.LayoutView.extend
 
   initPropertiesCollections: -> @properties = propertiesCollection @model
 
-  onShow: ->
-    if @requiresLabel
-      @title.show new LabelsEditor { @model }
+  ui:
+    navigationButtons: '.navigationButtons'
 
-    if @showAdminSection
-      @admin.show new AdminSection { @model }
-
-    @waitForPropCollection
-    .then @showPropertiesEditor.bind(@)
-
-    @listenTo @model, 'change', @updateNavigationButtons.bind(@)
-    @updateNavigationButtons()
-
-  showPropertiesEditor: ->
-    @claims.show new PropertiesEditor
-      collection: @properties
-      propertiesShortlist: @model.propertiesShortlist
+  events:
+    'click .entity-edit-cancel': 'cancel'
+    'click .createAndShowEntity': 'createAndShowEntity'
+    'click .createAndAddEntity': 'createAndAddEntity'
+    'click .createAndUpdateItem': 'createAndUpdateItem'
+    'click #signalDataError': 'signalDataError'
+    'click #moveToWikidata': 'moveToWikidata'
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -79,13 +69,18 @@ module.exports = Marionette.LayoutView.extend
     attrs.canBeAddedToInventory = @canBeAddedToInventory
     return attrs
 
-  events:
-    'click .entity-edit-cancel': 'cancel'
-    'click .createAndShowEntity': 'createAndShowEntity'
-    'click .createAndAddEntity': 'createAndAddEntity'
-    'click .createAndUpdateItem': 'createAndUpdateItem'
-    'click #signalDataError': 'signalDataError'
-    'click #moveToWikidata': 'moveToWikidata'
+  onShow: ->
+    if @requiresLabel then @title.show new LabelsEditor { @model }
+    if @showAdminSection then @admin.show new AdminSection { @model }
+    @waitForPropCollection
+    .then @showPropertiesEditor.bind(@)
+    @listenTo @model, 'change', @updateNavigationButtons.bind(@)
+    @updateNavigationButtons()
+
+  showPropertiesEditor: ->
+    @claims.show new PropertiesEditor
+      collection: @properties
+      propertiesShortlist: @model.propertiesShortlist
 
   canCancel: ->
     # In the case of an entity being created, showing the entity page would fail
