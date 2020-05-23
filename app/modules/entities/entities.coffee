@@ -262,23 +262,41 @@ handleMissingEntity = (uri)-> (err)->
 showEntityCreateFromIsbn = (isbn)->
   _.preq.get app.API.data.isbn(isbn)
   .then (isbnData)->
-    { isbn13h, groupLangUri } = isbnData
-    claims = { 'wdt:P212': [ isbn13h ] }
-    # TODO: try to deduce publisher from ISBN publisher section
-    if _.isEntityUri groupLangUri then claims['wdt:P407'] = [ groupLangUri ]
+    { isbn13h, groupLangUri, title, authors, image, groupLang } = isbnData
+    works =
+      labels:
+        "#{groupLang}": title
 
-    # Start by requesting the creation of a work entity
-    showEntityCreate
-      fromIsbn: isbn
-      type: 'work'
-      # on which will be based an edition entity
-      next:
-        # The work entity should be used as 'edition of' value
-        relation: 'wdt:P629'
-        # The work label should be used as edition title suggestion
-        labelTransfer: 'wdt:P1476'
-        type: 'edition'
-        claims: claims
+    entry =
+      edition:
+        claims:
+          'wdt:P212': isbn13h
+          'wdt:P1476': title
+          'invp:P2': image
+      works: [ works ]
+      authors: authors.map (author)-> { labels: { "#{groupLang}": author } }
+
+    console.log 'entry', entry
+
+    _.preq.post app.API.entities.resolve, { entries: [ entry ] }
+    .then (res)-> alert res
+
+    # claims = { 'wdt:P212': [ isbn13h ] }
+    # # TODO: try to deduce publisher from ISBN publisher section
+    # if _.isEntityUri groupLangUri then claims['wdt:P407'] = [ groupLangUri ]
+
+    # # Start by requesting the creation of a work entity
+    # showEntityCreate
+    #   fromIsbn: isbn
+    #   type: 'work'
+    #   # on which will be based an edition entity
+    #   next:
+    #     # The work entity should be used as 'edition of' value
+    #     relation: 'wdt:P629'
+    #     # The work label should be used as edition title suggestion
+    #     labelTransfer: 'wdt:P1476'
+    #     type: 'edition'
+    #     claims: claims
 
   # Known case: when passed an invalid ISBN
   .catch (err)-> app.execute 'show:error:other', err, 'showEntityCreateFromIsbn'
