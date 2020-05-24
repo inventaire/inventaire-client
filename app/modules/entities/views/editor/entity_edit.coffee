@@ -6,7 +6,7 @@ forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 properties = require 'modules/entities/lib/properties'
 { unprefixify } = require 'lib/wikimedia/wikidata'
-moveToWikidata = require './lib/move_to_wikidata'
+MoveToWikidataOptions = require './move_to_wikidata_options'
 { startLoading } = require 'modules/general/plugins/behaviors'
 error_ = require 'lib/error'
 
@@ -28,21 +28,19 @@ module.exports = Marionette.LayoutView.extend
     @requiresLabel = @model.type isnt 'edition'
     @canBeAddedToInventory = @model.type in inventoryTypes
     @showAdminSection = app.user.isAdmin and not @creationMode
-
     if @model.subEntitiesInverseProperty?
       @waitForPropCollection = @model.fetchSubEntities()
         .then @initPropertiesCollections.bind(@)
     else
       @initPropertiesCollections()
       @waitForPropCollection = Promise.resolve()
-
     @navigationButtonsDisabled = false
 
   initPropertiesCollections: -> @properties = propertiesCollection @model
 
   ui:
     navigationButtons: '.navigationButtons'
-    P31Selection: '#P31Selection'
+    P31Options: '#P31Options'
 
   events:
     'click .entity-edit-cancel': 'cancel'
@@ -50,8 +48,7 @@ module.exports = Marionette.LayoutView.extend
     'click .createAndAddEntity': 'createAndAddEntity'
     'click .createAndUpdateItem': 'createAndUpdateItem'
     'click #signalDataError': 'signalDataError'
-    'click #moveToWikidata': 'startMovingToWikidata'
-    'click #P31Options a': 'selectP31'
+    'click #moveToWikidata': 'showMoveToWikidataOptions'
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -62,7 +59,7 @@ module.exports = Marionette.LayoutView.extend
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
     attrs.isAdmin = app.user.isAdmin
-    attrs.moveToWikidata = @moveToWikidataData()
+    attrs.moveToWikidata = @isMovable()
     # Do not show the signal data error button in creation mode
     # as it wouldn't make sense
     attrs.signalDataErrorButton = not @creationMode
@@ -145,7 +142,7 @@ module.exports = Marionette.LayoutView.extend
         @ui.navigationButtons.fadeIn()
         @navigationButtonsDisabled = false
 
-  moveToWikidataData: ->
+  isMovable: ->
     uri = @model.get 'uri'
 
     # An entity being created on Inventaire won't have a URI at this point
@@ -167,29 +164,12 @@ module.exports = Marionette.LayoutView.extend
 
     return { ok: true }
 
-  startMovingToWikidata: ->
+  showMoveToWikidataOptions: (e)->
     unless app.user.hasWikidataOauthTokens()
       return app.execute 'show:wikidata:edit:intro:modal', @model
-    @displayP31Selection()
-
-  displayP31Selection: ->
-    @ui.P31Selection.show()
-
-  selectP31: (e)->
-    P31value = e.currentTarget.id
-    currentP31Value = @model.get('claims')["wdt:P31"][0]
-    if P31value is currentP31Value then P31value = null
-    @moveToWikidata(P31value)
-
-  moveToWikidata: (asP31value) ->
-    startLoading.call @, '#moveToWikidata'
-
-    uri = @model.get('uri')
-    moveToWikidata(uri, asP31value)
-    # This should now redirect us to the new Wikidata edit page
-    .then -> app.execute 'show:entity:edit', uri
-    .catch error_.Complete('#moveToWikidata', false)
-    .catch forms_.catchAlert.bind(null, @)
+    _.preq.get(app.API.data.aliases(@model.pluralizedType, app.user.lang))
+    .then (aliases) =>
+      return app.layout.modal.show new MoveToWikidataOptions { aliases,  @model }
 
 isWikidataUri = (uri)-> uri.split(':')[0] is 'wd'
 

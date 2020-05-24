@@ -1,0 +1,10 @@
+<h3>{{icon 'wikidata-colored'}} {{I18n 'moving options'}}</h3>
+<h4>{{I18n 'moving as an instance of'}}</h4>
+<select id="P31Options">
+  {{#each aliases}}
+    <option>
+      <a id="{{uri}}">{{label}} ({{id}})</a>
+    </option>
+  {{/each}}
+</select>
+<a id="validateMoveToWikidata" class="success-button">{{I18n 'move to Wikidata'}}</a>

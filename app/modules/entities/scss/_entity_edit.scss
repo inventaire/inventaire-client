@@ -32,9 +32,6 @@ $entity-editor-small-thresold: 700px;
         display: none;
       }
     }
-    #P31Options{
-     @include position(absolute, 4em, 0)
-    }
     .wikidata-edit{
       @include big-button($wikidata-green);
     }
