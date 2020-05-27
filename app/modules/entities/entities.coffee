@@ -10,6 +10,7 @@ MultiEntityEdit = require './views/editor/multi_entity_edit'
 entityDraftModel = require './lib/entity_draft_model'
 entitiesModelsIndex = require './lib/entities_models_index'
 ChangesLayout = require './views/changes_layout'
+ContributiveEntityBuilder = require './views/contributive_builder/contributive_entity_builder'
 ActivityLayout = require './views/activity_layout'
 ClaimLayout = require './views/claim_layout'
 DeduplicateLayout = require './views/deduplicate_layout'
@@ -279,7 +280,10 @@ showEntityCreateFromIsbn = (isbn)->
     console.log 'entry', entry
 
     _.preq.post app.API.entities.resolve, { entries: [ entry ] }
-    .then (res)-> alert res
+    .then (res)->
+      resolvedEntry = res.entries[0].authors
+
+      app.layout.main.show new ContributiveEntityBuilder { resolvedEntry }
 
     # claims = { 'wdt:P212': [ isbn13h ] }
     # # TODO: try to deduce publisher from ISBN publisher section
