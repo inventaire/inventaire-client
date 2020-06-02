@@ -1,13 +1,13 @@
 @font-face {
  font-family: 'Alegreya';
  font-weight: normal;
- src: url(/public/fonts/Alegreya-Regular.ttf);
+ src: url(/public/fonts/Alegreya-Regular.woff);
 }
 
 @font-face {
  font-family: 'Alegreya';
  font-weight: bold;
- src: url(/public/fonts/Alegreya-Bold.ttf);
+ src: url(/public/fonts/Alegreya-Bold.woff);
 }
 
 /* for cyrillic text */
@@ -20,26 +20,14 @@
 @font-face {
  font-family: 'Alegreya Sans';
  font-weight: normal;
- src: url(/public/fonts/AlegreyaSans-Regular.ttf);
+ src: url(/public/fonts/AlegreyaSans-Regular.woff);
 }
 
 @font-face {
  font-family: 'Alegreya Sans';
  font-weight: bold;
- src: url(/public/fonts/AlegreyaSans-Bold.ttf);
+ src: url(/public/fonts/AlegreyaSans-Bold.woff);
 }
-
-// @font-face {
-//  font-family: 'Montserrat';
-//  font-weight: normal;
-//  src: url(../fonts/Montserrat-Regular.ttf);
-// }
-
-// @font-face {
-//  font-family: 'Montserrat';
-//  font-weight: bold;
-//  src: url(../fonts/Montserrat-Bold.ttf);
-// }
 
 $serif: 'Alegreya';
 $sans-serif: 'Alegreya Sans';
