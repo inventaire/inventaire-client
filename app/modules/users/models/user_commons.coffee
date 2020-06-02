@@ -24,6 +24,8 @@ module.exports = Positionable.extend
     image: @get 'picture'
     url: @get 'pathname'
     rss: @getRss()
+    'og:type': 'profile'
+    'twitter:card': 'summary'
 
   getDescription: ->
     bio = @get('bio')
