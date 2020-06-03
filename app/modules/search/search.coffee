@@ -1,6 +1,7 @@
 SearchResultsHistory = require './collections/search_results_history'
 findUri = require './lib/find_uri'
 { parseQuery } = require 'lib/location'
+{ setPrerenderStatusCode } = require 'lib/metadata/update'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -24,6 +25,8 @@ module.exports =
 
 API = {}
 API.search = (search, section, showFallbackLayout)->
+  # Prevent indexation of search pages, by making them appear as duplicates of the home
+  setPrerenderStatusCode 302, ''
   app.vent.trigger 'live:search:query', { search, section, showFallbackLayout }
 
 API.searchFromQueryString = (querystring)->

@@ -174,6 +174,7 @@ module.exports = Filterable.extend
       description: @findBestDescription()?[0..500]
       image: @getImageSrcAsync()
       url: @get 'pathname'
+      smallCardType: true
 
   findBestDescription: ->
     # So far, only Wikidata entities get extracts

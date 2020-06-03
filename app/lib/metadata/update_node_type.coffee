@@ -1,5 +1,6 @@
 applyTransformers = require './apply_transformers'
 { metaNodes, possibleFields } = require './nodes'
+head = document.querySelector('head')
 
 previousValue = {}
 
@@ -25,5 +26,4 @@ module.exports = (key, value, noCompletion)->
 updateNodeContent = (value, el)->
   { selector, attribute } = el
   attribute or= 'content'
-
-  document.querySelector(selector)?[attribute] = value
+  head.querySelector(selector)?[attribute] = value

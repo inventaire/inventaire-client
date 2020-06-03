@@ -24,6 +24,9 @@ module.exports = Positionable.extend
     image: @get 'picture'
     url: @get 'pathname'
     rss: @getRss()
+    # Prevent having a big user picture as card
+    # see https://github.com/inventaire/inventaire/issues/402
+    smallCardType: true
 
   getDescription: ->
     bio = @get('bio')
