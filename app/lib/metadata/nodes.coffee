@@ -17,7 +17,7 @@ metaNodes =
     { selector: '[rel="canonical"]', attribute: 'href' }
   ]
   rss: [
-    { selector: '[type="application/atom+xml"]', attribute: 'href' }
+    { selector: '[type="application/rss+xml"]', attribute: 'href' }
   ]
   'prerender-status-code': [
     { selector: '[name="prerender-status-code"]' }
