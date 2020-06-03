@@ -10,7 +10,7 @@
     </li>
   {{/each}}
 </ul>
-<h4>{{icon 'newspaper-o'}} {{I18n 'articles'}}</h4>
+{{#if articles}}<h4>{{icon 'newspaper-o'}} {{I18n 'articles'}}</h4>{{/if}}
 <ul id="articles">
   {{#each articles}}
     <li>
@@ -19,7 +19,7 @@
     </li>
   {{/each}}
 </ul>
-<h4>{{icon 'microphone'}} {{I18n 'interviews'}}</h4>
+{{#if audios}}<h4>{{icon 'microphone'}} {{I18n 'interviews'}}</h4>{{/if}}
 <ul id="interviews">
   {{#each audios}}
     <li>
@@ -28,7 +28,7 @@
     </li>
   {{/each}}
 </ul>
-<h4>{{icon 'video-camera'}} {{I18n 'videos'}}</h4>
+{{#if videos}}<h4>{{icon 'video-camera'}} {{I18n 'videos'}}</h4>{{/if}}
 <ul id="videos">
   {{#each videos}}
     <li style="background-image:url({{imgSrc picture 400}})">
