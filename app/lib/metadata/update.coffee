@@ -22,13 +22,11 @@ metadataUpdateDone = -> window.prerenderReady = true
 # Stop waiting if it takes more than 20 secondes: addresses cases
 # where metadataUpdateDone would not have been called
 setTimeout metadataUpdateDone, 20 * 1000
+isPrerenderSession = window.navigator.userAgent.match('Prerender')?
 
 lastRoute = null
 updateRouteMetadata = (route, metadataPromise = {})->
-  # There is no known use case where further updating document meta is needed
-  if prerenderReady then return
-
-  route = route.replace(/^\//, '')
+  route = route.replace /^\//, ''
   # There should be no need to re-update metadata when the route stays the same
   if lastRoute is route then return
 
@@ -69,7 +67,7 @@ updateMetadata = (metadata)->
   return
 
 setPrerenderMeta = (statusCode = 500, route)->
-  if prerenderReady then return
+  if not isPrerenderSession or prerenderReady then return
 
   prerenderMeta = "<meta name='prerender-status-code' content='#{statusCode}'>"
   if statusCode is 302 and route?
