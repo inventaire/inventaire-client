@@ -1,8 +1,15 @@
 # Metadata update is coupled to the needs of:
-# - prerender (https://github.com/inventaire/prerender), which itself aims to serve search engines, and other crawlers
-# - opengraph (https://ogp.me)
-# - twitter cards (https://developer.twitter.com/cards)
+# - Prerender (https://github.com/inventaire/prerender), which itself aims to serve:
+#   - search engines need status codes and redirection locations
+#   - social media need metadata in different formats to show link previews:
+#     - opengraph (https://ogp.me)
+#     - twitter cards (https://developer.twitter.com/cards)
+#   - other crawlers
 # - browsers RSS feed detection
+#
+# For all the needs covered by Prerender, only the first update matters,
+# but further updates might be needed for in browser metadata access,
+# such as RSS feed detections
 
 applyTransformers = require './apply_transformers'
 updateNodeType = require './update_node_type'
