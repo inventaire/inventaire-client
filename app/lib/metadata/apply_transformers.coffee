@@ -9,6 +9,8 @@ transformers =
   title: (value, noCompletion)->
     if noCompletion then value else "#{value} - Inventaire"
   url: (canonical)-> host + canonical
-  image: (url)-> absolutePath app.API.img(url)
+  image: (url)->
+    if url.match(/\d+x\d+/) then return absolutePath url
+    else absolutePath app.API.img(url)
 
 withTransformers = Object.keys transformers
