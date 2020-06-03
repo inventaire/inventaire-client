@@ -77,8 +77,8 @@ setPrerenderMeta = (statusCode = 500, route)->
 
   $('head').append prerenderMeta
 
-setStatusCode = (statusCode, route)->
+setPrerenderStatusCode = (statusCode, route)->
   setPrerenderMeta statusCode, route
   metadataUpdateDone()
 
-module.exports = { updateRouteMetadata, setStatusCode }
+module.exports = { updateRouteMetadata, setPrerenderStatusCode }

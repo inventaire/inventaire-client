@@ -6,7 +6,7 @@ DonateMenu = require 'modules/general/views/donate_menu'
 FeedbackMenu = require 'modules/general/views/feedback_menu'
 { currentRoute } = require 'lib/location'
 updateMetadataNodeType = require 'lib/metadata/update_node_type'
-{ setStatusCode } = require 'lib/metadata/update'
+{ setPrerenderStatusCode } = require 'lib/metadata/update'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -60,6 +60,7 @@ API =
   showMainUser: -> app.execute 'show:inventory:main:user'
 
 requireLoggedIn = (route)->
+  setPrerenderStatusCode 401
   _.type route, 'string'
   if app.user.loggedIn then return true
   else
@@ -68,6 +69,7 @@ requireLoggedIn = (route)->
     return false
 
 requireAdminRights = ->
+  setPrerenderStatusCode 401
   if app.user.get('admin') then return true
   else
     showErrorNotAdmin()
@@ -143,7 +145,7 @@ showErrorCookieRequired = (command)->
 
 showError = (options)->
   app.layout.main.show new ErrorView options
-  setStatusCode options.statusCode
+  setPrerenderStatusCode options.statusCode
   # When the logic leading to the error didn't trigger a new 'navigate' action,
   # hitting 'Back' would bring back two pages before, so we can pass a navigate
   # option to prevent it
