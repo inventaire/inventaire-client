@@ -4,9 +4,10 @@
 # expected to be a global variable by piwik.js
 window._paq or= []
 { _paq, env } = window
+isPrerenderSession = window.navigator.userAgent.match('Prerender')?
 
 module.exports = ->
-  if window.navigator.userAgent.match(/Prerender/)? then return
+  if isPrerenderSession then return
   { piwik } = app.config
   # - radically prevents recording development actions
   # - reduces the load on the real tracker server
@@ -28,7 +29,7 @@ module.exports = ->
     .then -> tracker = Piwik.getAsyncTracker()
     .catch (err)->
       # Known case: ublock origin
-      _.warn 'Fetching Piwik failed (Could be because of a tracker blocker)'
+      _.warn 'Fetching Piwik failed (Could be because of a tracker blocker)', err.message
       piwikDisabled = true
 
   # Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript

@@ -14,7 +14,7 @@ isbn2Base = 'isbn2-0.1.8-bust-1'
 papaparseBase = 'papaparse-4.1.2-bust-1'
 cropperBase = 'cropper-2.3.0-bust-1'
 leafletBase = 'leaflet-bundle-1.3.1-bust-1'
-piwikBase = 'piwik-3.0.1-bust-1'
+piwikBase = 'piwik-3.13.5'
 
 module.exports =
   scripts:
