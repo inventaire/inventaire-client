@@ -9,16 +9,15 @@ module.exports =
     email: 'hello@inventaire.io'
     mailto: 'mailto:hello@inventaire.io'
   blog: subdomain 'blog'
-  mastodon: 'http://mamot.fr/@inventaire'
-  twitter: 'https://twitter.com/inventaire_io'
-  facebook: 'https://facebook.com/inventaire.io'
   git: subdomain 'git'
   wiki: subdomain 'wiki'
   faq: 'https://wiki.inventaire.io/wiki/FAQ'
+  communicationChannels: 'https://wiki.inventaire.io/wiki/Communication-channels'
   chat: 'https://wiki.inventaire.io/wiki/Communication-channels#chats'
   translate: subdomain 'translate'
   roadmap: subdomain 'roadmap'
   apiDoc: subdomain 'api'
+  dataHome: subdomain 'data'
   images:
     # not passing an absolute url so that it can be easily digested
     # by the {{imgSrc}} helper as a local image url

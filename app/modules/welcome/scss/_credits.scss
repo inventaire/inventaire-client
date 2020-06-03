@@ -4,8 +4,9 @@
     @include link-light;
   }
 }
+
 #credits{
-  background-color: darken($darker-grey, 10%);
+  background-color: #010101;
   h3, h4{
     font-weight: bold;
   }
@@ -49,14 +50,5 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     padding: 2em;
-  }
-}
-
-#legals{
-  background-color: black;
-  padding: 0.5em;
-  h4{
-    color: white;
-    font-weight: bold;
   }
 }
