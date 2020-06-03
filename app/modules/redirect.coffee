@@ -6,6 +6,7 @@ DonateMenu = require 'modules/general/views/donate_menu'
 FeedbackMenu = require 'modules/general/views/feedback_menu'
 { currentRoute } = require 'lib/location'
 updateMetadataNodeType = require 'lib/metadata/update_node_type'
+{ setStatusCode } = require 'lib/metadata/update'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -142,8 +143,7 @@ showErrorCookieRequired = (command)->
 
 showError = (options)->
   app.layout.main.show new ErrorView options
-  if options.statusCode?
-    updateMetadataNodeType 'prerender-status-code', options.statusCode
+  setStatusCode options.statusCode
   # When the logic leading to the error didn't trigger a new 'navigate' action,
   # hitting 'Back' would bring back two pages before, so we can pass a navigate
   # option to prevent it

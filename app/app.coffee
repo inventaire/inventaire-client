@@ -1,5 +1,5 @@
 BindedPartialBuilder = require 'lib/binded_partial_builder'
-updateMetadata = require 'lib/metadata/update'
+{ updateRouteMetadata } = require 'lib/metadata/update'
 initialUrlNavigateAlreadyCalled = false
 error_ = require 'lib/error'
 { routeSection, currentRoute } = require 'lib/location'
@@ -34,7 +34,7 @@ App = Marionette.Application.extend
     # Update metadata before testing if the route changed
     # so that a call from a router action would trigger a metadata update
     # but not affect the history (due to the early return hereafter)
-    updateMetadata route, options.metadata
+    updateRouteMetadata route, options.metadata
     # Easing code mutualization by firing app.navigate, even when the module
     # simply reacted to the requested URL
     if route is currentRoute()
