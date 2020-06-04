@@ -35,7 +35,6 @@ module.exports = Marionette.LayoutView.extend
     if @user?
       @startFromUser @user, @shelf
       @showUserShelves @user
-
     else if @group?
       @startFromGroup @group
     else
@@ -180,7 +179,7 @@ module.exports = Marionette.LayoutView.extend
       @showUserShelves user
       @showShelf model
 
-    app.navigateFromModel model
+    app.navigateFromModel model, { preventScrollTop: true }
 
 getItemsData = (type, model)->
   modelId = model.get('_id')
