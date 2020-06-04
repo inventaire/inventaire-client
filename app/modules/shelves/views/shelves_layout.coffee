@@ -31,10 +31,12 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     { username } = @options
-    getUserId username
-    .then getShelvesByOwner
-    .then @showFromModel.bind(@)
-    .catch app.Execute('show:error')
+
+    @waitForList = getUserId username
+      .then getShelvesByOwner
+      .then @ifViewIsIntact('showFromModel')
+      .catch app.Execute('show:error')
+
     @ui.showShelves.hide()
 
   hideShelves: ->
