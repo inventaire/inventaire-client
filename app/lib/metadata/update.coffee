@@ -1,11 +1,13 @@
 # Metadata update is coupled to the needs of:
+# - Browsers:
+#   - document title update (which is important for the browser history)
+#   - RSS feed detection
 # - Prerender (https://github.com/inventaire/prerender), which itself aims to serve:
 #   - search engines need status codes and redirection locations
 #   - social media need metadata in different formats to show link previews:
 #     - opengraph (https://ogp.me)
 #     - twitter cards (https://developer.twitter.com/cards)
 #   - other crawlers
-# - browsers RSS feed detection
 #
 # For all the needs covered by Prerender, only the first update matters,
 # but further updates might be needed for in browser metadata access,
