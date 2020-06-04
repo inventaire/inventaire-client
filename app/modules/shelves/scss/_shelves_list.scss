@@ -1,11 +1,11 @@
 #shelvesList{
   @include transition(padding, 0.1s);
-  .shelfRow{
+  .shelf-row{
     @include display-flex(row, center, space-between);
     cursor: pointer;
     height: 50px;
     @include bg-hover($light-grey)
-    .shelfLeft{
+    .shelf-left{
       @include display-flex(row, center);
       overflow: hidden;
       line-height: 1.2em;
@@ -13,7 +13,7 @@
         min-width: 48px;
         height: 48px;
       }
-      .shelfText{
+      .shelf-text{
         padding: 0.5em;
         @include display-flex(column);
         .name{
@@ -25,7 +25,7 @@
         }
       }
     }
-    .shelfRight{
+    .shelf-right{
       @include display-flex(row);
       padding-right: 1em;
       // based on .listing in _item_row.scss
@@ -42,7 +42,7 @@
   }
   /*Smaller screens*/
   @media screen and (max-width: $smaller-screen) {
-    .shelfRow .shelfRight{
+    .shelf-row .shelf-right{
       padding-right: 0.2em;
     }
   }
