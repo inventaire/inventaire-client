@@ -16,6 +16,10 @@ module.exports = Marionette.LayoutView.extend
     'click #addShelf': 'showNewShelfEditor'
     'click #hideShelves': 'hideShelves'
     'click #showShelves': 'showShelves'
+    'click #shelvesHeader': 'toggleShelves'
+
+  initialize: ->
+    @_shelvesShown = true
 
   serializeData: ->
     inventoryUsername = @options.username
@@ -39,25 +43,34 @@ module.exports = Marionette.LayoutView.extend
 
     @ui.showShelves.hide()
 
-  hideShelves: ->
+  hideShelves: (e)->
     @ui.shelvesList.hide()
     @ui.addShelf.hide()
     @ui.showShelves.show()
     @ui.hideShelves.hide()
+    e.stopPropagation()
+    @_shelvesShown = false
 
-  showShelves: ->
+  showShelves: (e)->
     @ui.shelvesList.show()
     @ui.addShelf.show()
     @ui.hideShelves.show()
     @ui.showShelves.hide()
+    e.stopPropagation()
+    @_shelvesShown = true
+
+  toggleShelves: (e)->
+    if @_shelvesShown then @hideShelves(e)
+    else @showShelves(e)
 
   showFromModel: (docs)->
     unless docs.length > 0 then return
     @collection = new Shelves docs
     @shelvesList.show new ShelvesList { @collection }
 
-  showNewShelfEditor: ()->
+  showNewShelfEditor: (e)->
     app.layout.modal.show new NewShelfEditor { @collection }
+    e.stopPropagation()
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

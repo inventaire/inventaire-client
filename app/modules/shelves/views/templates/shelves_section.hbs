@@ -1,6 +1,6 @@
-<div class="shelvesWrapper">
-  <div class="shelvesHeader">
-    <div class="shelvesSubheader">
+<div class="shelves-wrapper">
+  <div id="shelvesHeader">
+    <div class="shelves-subheader">
       <p class="subheader">{{I18n 'shelves'}}</p>
       {{#if editable }}
         <div>
@@ -9,8 +9,8 @@
       {{/if}}
     </div>
     <div>
-      <a id="hideShelves" title="{{I18n 'hide shelves'}}" class="foldShelves">{{icon 'times'}}</a>
-      <a id="showShelves" title="{{I18n 'show shelves'}}" class="unfoldShelves">{{icon 'caret-down'}}</a>
+      <a id="showShelves" title="{{I18n 'show shelves'}}">{{icon 'chevron-down'}}</a>
+      <a id="hideShelves" title="{{I18n 'hide shelves'}}">{{icon 'close'}}</a>
     </div>
   </div>
   <div id="shelvesList"></div>

@@ -1,33 +1,34 @@
-.shelvesWrapper{
+.shelves-wrapper{
   background-color: $light-grey;
-  .shelvesHeader{
-    @include display-flex(row, top, space-between);
-    // balance the cross fold icon on the right
-    padding: 1em 1em 1em 3.5em;
-    .foldShelves, .unfoldShelves{
-      font-size: 1.5rem;
-      @include text-hover($grey, $dark-grey);
-      .fa{
-        padding-right: 0.1em;
-      }
-    }
-    .shelvesSubheader{
-      flex: 1 0 0;
-      padding-right: 0.8em;
-      a{
-        padding-top: 0.4em;
-        padding-bottom: 0.4em;
-      }
-      @include display-flex(row, center, space-between);
+}
 
+#shelvesHeader{
+  cursor: pointer;
+  @include display-flex(row, top, space-between);
+  // balance the cross fold icon on the right
+  padding: 1em 1em 1em 3.5em;
+  #showShelves, #hideShelves{
+    font-size: 1.5rem;
+    @include text-hover($grey, $dark-grey);
+    .fa{
+      padding-right: 0.1em;
     }
-    /*Smaller screens*/
-    @media screen and (max-width: $smaller-screen) {
-      padding-right: 0.5em;
-      .shelvesSubheader{
-        @include display-flex(column, center);
-        margin-bottom: 0.4em;
-      }
+  }
+  .shelves-subheader{
+    flex: 1 0 0;
+    padding-right: 0.8em;
+    a{
+      padding-top: 0.4em;
+      padding-bottom: 0.4em;
+    }
+    @include display-flex(row, center, space-between);
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    padding-right: 0.5em;
+    .shelves-subheader{
+      @include display-flex(column, center);
+      margin-bottom: 0.4em;
     }
   }
 }
