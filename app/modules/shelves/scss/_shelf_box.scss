@@ -62,3 +62,8 @@
     }
   }
 }
+
+#unselectShelf{
+  font-size: 1.5rem;
+  @include text-hover($grey, $dark-grey);
+}
