@@ -7,7 +7,7 @@ module.exports = Backbone.Model.extend
     shelfListing = @get('listing')
     listingKeys = listings_(app)[shelfListing]
 
-    @set 'pathname', "/shelf/#{attrs._id}"
+    @set 'pathname', "/shelves/#{attrs._id}"
     @set 'icon', listingKeys.icon
     @set 'label', listingKeys.label
     @set 'type', 'shelf'

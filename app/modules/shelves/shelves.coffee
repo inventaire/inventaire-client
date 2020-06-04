@@ -6,6 +6,8 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
+        'shelves/(:id)(/)': 'showShelf'
+        # Redirection
         'shelf/(:id)(/)': 'showShelf'
 
     app.addInitializer -> new Router { controller: API }
@@ -27,3 +29,4 @@ showShelfInventoryLayout = (shelf)->
   if app.request 'require:loggedIn', 'shelves'
     # Passing shelf to display items and passing owner for user profile info
     app.layout.main.show new InventoryLayout { shelf, user: owner }
+    app.navigateFromModel shelf
