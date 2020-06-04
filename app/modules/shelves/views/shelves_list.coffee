@@ -6,9 +6,9 @@ ListEl = Marionette.ItemView.extend
     PreventDefault: {}
 
   events:
-    'click a': 'selectInventory'
+    'click a': 'selectShelf'
 
-  selectInventory: (e)->
+  selectShelf: (e)->
     if _.isOpenedOutside e then return
     type = @model.get('type')
     app.vent.trigger 'inventory:select', type, @model

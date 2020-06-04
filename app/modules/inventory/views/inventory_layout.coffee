@@ -46,6 +46,8 @@ module.exports = Marionette.LayoutView.extend
   startFromUser: (user, shelf)->
     app.request 'resolve:to:userModel', user
     .then (userModel)=>
+      @_lastShownType = 'user'
+      @_lastShownUser = userModel
       if shelf
         @showShelf shelf
       else
@@ -80,9 +82,10 @@ module.exports = Marionette.LayoutView.extend
     @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
     @waitForShelvesList.then => scrollToSection @shelfInfo
 
-  showUserShelves: (userIdOrUsername)->
-    @waitForShelvesList = app.request 'resolve:to:userModel', userIdOrUsername
+  showUserShelves: (userIdOrModel)->
+    @waitForShelvesList = app.request 'resolve:to:userModel', userIdOrModel
       .then (userModel)=>
+        if @shelvesList.currentView? and userModel is @_lastShownUser then return
         username = userModel.get('username')
         @shelvesList.show new ShelvesSection { username }
         return @shelvesList.currentView.waitForList
@@ -144,11 +147,10 @@ module.exports = Marionette.LayoutView.extend
       showDistance: section is 'public'
 
   unselectShelf: (shelfView)->
-    @shelfInfo.empty()
-    unless @_lastShownType or @_lastShownUser
-      ownerId = shelfView.model.get('owner')
-      return app.execute 'show:inventory:user', ownerId
     @showInventoryBrowser @_lastShownType, @_lastShownUser
+    scrollToSection @userProfile
+    @shelfInfo.empty()
+    app.navigateFromModel @_lastShownUser, { preventScrollTop: true }
 
   showSelectedInventory: (type, model)->
     if type is 'user' or type is 'group'
@@ -175,8 +177,8 @@ module.exports = Marionette.LayoutView.extend
       @showUserShelves model
       scrollToSection @userProfile
     else if type is 'shelf'
-      user = model.get 'owner'
-      @showUserShelves user
+      userId = model.get 'owner'
+      @showUserShelves userId
       @showShelf model
 
     app.navigateFromModel model, { preventScrollTop: true }
