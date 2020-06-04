@@ -3,7 +3,7 @@ InventoryBrowser = require './inventory_browser'
 UserProfile = require './user_profile'
 GroupProfile = require './group_profile'
 ShelfView = require '../../shelves/views/shelf'
-ShelvesLayout = require '../../shelves/views/shelves_layout'
+ShelvesSection = require '../../shelves/views/shelves_section'
 { getById } = require '../../shelves/lib/shelf'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 screen_ = require 'lib/screen'
@@ -85,7 +85,7 @@ module.exports = Marionette.LayoutView.extend
     @waitForShelvesList = app.request 'resolve:to:userModel', userIdOrUsername
       .then (userModel)=>
         username = userModel.get('username')
-        @shelvesList.show new ShelvesLayout { username }
+        @shelvesList.show new ShelvesSection { username }
         return @shelvesList.currentView.waitForList
       .catch app.Execute('show:error')
 

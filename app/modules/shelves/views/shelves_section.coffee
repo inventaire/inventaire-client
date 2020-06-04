@@ -4,7 +4,7 @@ NewShelfEditor = require './new_shelf_editor'
 ShelvesList = require './shelves_list'
 
 module.exports = Marionette.LayoutView.extend
-  template: require './templates/shelves_layout'
+  template: require './templates/shelves_section'
 
   regions:
     shelvesList: '#shelvesList'
