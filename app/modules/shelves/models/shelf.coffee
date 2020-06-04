@@ -1,22 +1,24 @@
-listings_ = require 'modules/user/lib/user_listings.coffee'
 { getColorSquareDataUriFromModelId } = require 'lib/images'
 { getById } = require '../lib/shelf'
 
 module.exports = Backbone.Model.extend
   initialize: (attrs)->
     shelfListing = @get('listing')
-    listingKeys = listings_(app)[shelfListing]
+    listingKeys = app.user.listings.data[shelfListing]
 
-    @set 'pathname', "/shelves/#{attrs._id}"
-    @set 'icon', listingKeys.icon
-    @set 'label', listingKeys.label
-    @set 'type', 'shelf'
+    @set
+      pathname: "/shelves/#{attrs._id}"
+      icon: listingKeys.icon
+      label: listingKeys.label
+      type: 'shelf'
+
     unless @get('picture')?
       @set 'picture', getColorSquareDataUriFromModelId @get('_id')
 
   updateMetadata: ->
-    name: @get 'name'
+    title: @get 'name'
     description: @get 'description'
+    image: @get 'picture'
     url: @get 'pathname'
-    icon: @get 'icons'
-    label: @get 'label'
+    # TODO: implement shelves RSS feeds server-side
+    # rss: @getRss()
