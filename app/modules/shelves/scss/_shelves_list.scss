@@ -3,15 +3,16 @@
   .shelf-row{
     @include display-flex(row, center, space-between);
     cursor: pointer;
-    height: 50px;
+    height: 3em;
+    margin: 0.1em 0;
     @include bg-hover($light-grey)
     .shelf-left{
       @include display-flex(row, center);
       overflow: hidden;
       line-height: 1.2em;
       .picture{
-        min-width: 48px;
-        height: 48px;
+        min-width: 3em;
+        height: 3em;
       }
       .shelf-text{
         padding: 0.5em;

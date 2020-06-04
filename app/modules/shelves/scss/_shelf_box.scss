@@ -2,12 +2,12 @@
   margin: 0.7em 0 0 0;
   @include display-flex(row);
   .picture{
-    // # Fake until picture for shelf is implemented
-    width: 160px;
-    height: 160px;
+    // Fake until picture for shelf is implemented
+    width: 10em;
+    height: 10em;
   }
   #shelf-info-box{
-    // # Fake until picture for shelf is implemented
+    // Fake until picture for shelf is implemented
     width: 90%;
     padding: 1em;
 
