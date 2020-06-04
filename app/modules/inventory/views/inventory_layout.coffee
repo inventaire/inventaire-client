@@ -2,7 +2,7 @@ InventoryNav = require './inventory_nav'
 InventoryBrowser = require './inventory_browser'
 UserProfile = require './user_profile'
 GroupProfile = require './group_profile'
-ShelfView = require '../../shelves/views/shelf'
+ShelfBox = require '../../shelves/views/shelf_box'
 ShelvesSection = require '../../shelves/views/shelves_section'
 { getById } = require '../../shelves/lib/shelf'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
@@ -76,7 +76,7 @@ module.exports = Marionette.LayoutView.extend
   showShelf: (shelf)->
     itemsDataPromise = getItemsData('shelf', shelf)
     isMainUser = app.user.id is shelf.get('owner')
-    @shelfInfo.show new ShelfView { model: shelf }
+    @shelfInfo.show new ShelfBox { model: shelf }
     @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
     @waitForShelvesList.then => scrollToSection @shelfInfo
 

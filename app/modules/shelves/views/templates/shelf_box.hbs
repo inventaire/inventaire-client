@@ -1,0 +1,25 @@
+<div class="picture" style="background-image: url({{imgSrc picture 160}})"></div>
+<div id="shelf-info-box">
+  <div id="shelf-title-bar">
+    <h3 id="shelf-name">{{name}}</h3>
+    <div id="shelf-actions">
+      {{#if editable}}
+        <a id="showShelfEdit" class="action tiny-button light-blue">
+          {{icon 'pencil'}}
+          {{I18n 'edit shelf'}}
+        </a>
+      {{/if}}
+      <a id="unselectShelf" class="action tiny-button light-blue">{{I18n 'unselect shelf'}}</a>
+    </div>
+  </div>
+  <ul class="data">
+    <li>
+      <span>{{icon 'book'}}{{i18n 'books'}}</span>
+      <span class="count">{{itemsCount}}</span>
+    </li>
+    <li id='listing' title="{{i18n label}}">
+      {{icon icon}} {{i18n label}}
+    </li>
+  </ul>
+  <p>{{description}}</p>
+</div>

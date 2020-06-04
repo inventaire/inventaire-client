@@ -6,18 +6,18 @@
     width: 160px;
     height: 160px;
   }
-  #infoBox{
+  #shelf-info-box{
     // # Fake until picture for shelf is implemented
     width: 90%;
     padding: 1em;
 
-    #titleBar{
+    #shelf-title-bar{
       @include display-flex(row, top, space-between);
-      #shelfName{
+      #shelf-name{
         // make button unbreakable
         flex: 2 0 0;
       }
-      #shelfActions{
+      #shelf-actions{
         a {
           margin-bottom: 1em;
           margin-left: 1em;
@@ -25,9 +25,6 @@
           padding-bottom: 0.4em;
         }
       }
-    }
-    #titleBox{
-      overflow: hidden
     }
     #showShelfEdit{
       margin-left:auto
@@ -50,11 +47,11 @@
     .picture{
       margin-top: 1em
     }
-    #infoBox #titleBar{
+    #shelf-title-bar{
       @include display-flex(column, center, center);
       margin-bottom: 0.7em;
     }
-    #infoBox{
+    #shelf-info-box{
       text-align: center;
     }
     .data{
