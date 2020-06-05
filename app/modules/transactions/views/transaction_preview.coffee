@@ -5,7 +5,6 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @listenTo app.vent, 'transaction:select', @autoSelect.bind(@)
     # Required by @requestContext
     @model.buildTimeline()

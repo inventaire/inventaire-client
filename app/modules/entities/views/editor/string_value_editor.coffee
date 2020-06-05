@@ -13,7 +13,6 @@ module.exports = ClaimsEditorCommons.extend
     tip: '.tip'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @focusTarget = 'input'
     @initEditModeState()
     initEditionTitleTip.call @, @model.entity, @model.get('property')

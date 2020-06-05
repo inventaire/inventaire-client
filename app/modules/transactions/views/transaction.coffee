@@ -14,7 +14,6 @@ module.exports = Marionette.CompositeView.extend
     BackupForm: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @collection = @model.timeline
     @initPlugins()
     @model.beforeShow()

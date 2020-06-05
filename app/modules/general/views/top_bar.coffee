@@ -26,15 +26,14 @@ module.exports = Marionette.LayoutView.extend
     closeSearch: '.closeSearch'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
 
     @listenTo app.vent,
-      'screen:mode:change': @lazyRender
+      'screen:mode:change': @lazyRender.bind(@)
       'route:change': @onRouteChange.bind(@)
       'live:search:show:result': @hideLiveSearch.bind(@)
       'live:search:query': @setQuery.bind(@)
 
-    @listenTo app.user, 'change:picture', @lazyRender
+    @listenTo app.user, 'change:picture', @lazyRender.bind(@)
 
   serializeData: ->
     smallScreen: screen_.isSmall()

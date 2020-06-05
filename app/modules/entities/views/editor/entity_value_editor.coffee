@@ -22,7 +22,6 @@ module.exports = ClaimsEditorCommons.extend
     @property = @model.get 'property'
     @allowEntityCreation = @model.get 'allowEntityCreation'
     @initEditModeState()
-    @lazyRender = _.LazyRender @
 
   lazyRenderIfDisplayMode: -> if not @editMode then @lazyRender()
 
@@ -45,9 +44,11 @@ module.exports = ClaimsEditorCommons.extend
       unless data.claims['invp:P2']? then delete data.image
       return data
 
+  modelEvents:
+    'grab': 'onGrab'
+    'change:value': 'lazyRender'
+
   onShow: ->
-    @listenTo @model, 'grab', @onGrab.bind(@)
-    @listenTo @model, 'change:value', @lazyRender
     @listenTo app.vent, 'entity:value:editor:edit', @preventMultiEdit.bind(@)
 
     if @editMode

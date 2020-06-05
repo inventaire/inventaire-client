@@ -6,7 +6,6 @@ module.exports = ClaimsEditorCommons.extend
   template: require './templates/simple_day_value_editor'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @initEditModeState()
     @focusTarget = 'yearPicker'
     [ year, month, day ] = simpleDayParts @model.get 'value'

@@ -18,8 +18,6 @@ module.exports = Marionette.CompositeView.extend
     PreventDefault: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @, 50
-
     { @work } = @options
 
     # Start with user lang as default if there are editions in that language

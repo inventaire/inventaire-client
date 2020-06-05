@@ -16,11 +16,12 @@ module.exports = Marionette.LayoutView.extend
     ClampedExtract: {}
 
   initialize: (options)->
-    @lazyRender = _.LazyRender @
-    @listenTo @model, 'change', @lazyRender
     @hidePicture = options.hidePicture
     @waitForAuthors = @model.getExtendedAuthorsModels()
     @model.getWikipediaExtract()
+
+  modelEvents:
+    'change': 'lazyRender'
 
   serializeData: ->
     attrs = @model.toJSON()

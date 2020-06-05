@@ -20,11 +20,10 @@ module.exports = InventoryCommonNav.extend
     @users = new FilteredCollection(new Users)
     @groups = new FilteredCollection(new Groups)
 
-    @lazyRender = _.LazyRender @
     # Listen for the server confirmation instead of simply the change
     # so that 'nearby' request aren't done while the server
     # is still editing the user's position and might thus return a 400
-    @listenTo app.user, 'confirmed:position', @lazyRender
+    @listenTo app.user, 'confirmed:position', @lazyRender.bind(@)
 
   behaviors:
     Loading: {}

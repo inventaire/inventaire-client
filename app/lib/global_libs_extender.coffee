@@ -132,6 +132,14 @@ module.exports = (_)->
 
   Marionette.View::displayError = (err)-> app.execute 'show:error:other', err
 
+  Marionette.View::lazyRender = (focusSelector)->
+    unless @render? then throw new Error('lazyRender called without view as context')
+
+    unless @_lazyRender?
+      delay = @lazyRenderDelay or 100
+      @_lazyRender = LazyRender @, delay
+    @_lazyRender focusSelector
+
 triggerChange = (model, attr, value)->
   model.trigger 'change', model, attr, value
   model.trigger "change:#{attr}", model, value
@@ -142,3 +150,11 @@ specialRegexCharacters = '()[]$^\\'
   .join ''
 
 specialRegexCharactersRegex = new RegExp "([#{specialRegexCharacters}])", 'g'
+
+LazyRender = (view, timespan = 200)->
+  cautiousRender = (focusSelector)->
+    if view.isRendered and not (view.isDestroyed or view._preventRerender)
+      view.render()
+      if _.isString focusSelector then view.$el.find(focusSelector).focus()
+
+  return _.debounce cautiousRender, timespan

@@ -1,7 +1,6 @@
 forms_ = require 'modules/general/lib/forms'
 
 # @ui.message MUST be defined
-# @lazyRender MUST be defined
 # poster MUST expect its arguments to be: id, message, collection
 # the id being the id of the object the message will be attached to
 module.exports =

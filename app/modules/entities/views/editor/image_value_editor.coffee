@@ -22,7 +22,6 @@ module.exports = ClaimsEditorCommons.extend
     imagePreview: imagePreviewSelector
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @initEditModeState()
     @focusTarget = 'urlInput'
 

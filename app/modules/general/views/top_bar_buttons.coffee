@@ -6,19 +6,18 @@ module.exports = Marionette.ItemView.extend
   className: 'innerTopBarButtons'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
 
     @listenTo app.vent,
-      'screen:mode:change': @lazyRender
-      'transactions:unread:change': @lazyRender
-      'network:requests:update': @lazyRender
+      'screen:mode:change': @lazyRender.bind(@)
+      'transactions:unread:change': @lazyRender.bind(@)
+      'network:requests:update': @lazyRender.bind(@)
 
     # Re-render once relations and groups are populated to display network counters
     Promise.all [
       app.request 'wait:for', 'relations'
       app.request 'wait:for', 'groups'
     ]
-    .then @lazyRender
+    .then @lazyRender.bind(@)
 
   serializeData: ->
     smallScreen: screen_.isSmall()

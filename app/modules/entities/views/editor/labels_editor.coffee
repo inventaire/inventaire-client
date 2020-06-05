@@ -11,7 +11,6 @@ module.exports = EditorCommons.extend
     { @creating } = @model
     { @lang } = app.user
     @editMode = if @creating then true else false
-    @lazyRender = _.LazyRender @
     initWorkLabelsTip.call @, @model
 
   behaviors:
@@ -38,8 +37,8 @@ module.exports = EditorCommons.extend
     else
       getBestLangValue @lang, null, @model.get('labels')
 
-  onShow: ->
-    @listenTo @model, 'change:labels', @lazyRender
+  modelEvents:
+    'change:labels': 'lazyRender'
 
   onRender: ->
     @selectIfInEditMode()

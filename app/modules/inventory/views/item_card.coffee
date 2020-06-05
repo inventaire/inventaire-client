@@ -13,12 +13,11 @@ module.exports = ItemItemView.extend
     AlertBox: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @, 200
-    @listenTo @model, 'change', @lazyRender
-    @listenTo @model, 'user:ready', @lazyRender
     @alertBoxTarget = '.details'
-    # Should not be required
-    # @listenTo @model, 'grab:entity', @lazyRender
+
+  modelEvents:
+    'change': 'lazyRender'
+    'user:ready': 'lazyRender'
 
   onRender: ->
     app.execute 'uriLabel:update'

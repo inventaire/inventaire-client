@@ -24,10 +24,11 @@ module.exports = Marionette.ItemView.extend
     @groupContext = @options.groupContext
 
     @initPlugins()
-    @lazyRender = _.LazyRender @, 200
-    @listenTo @model, 'change', @lazyRender
-    @listenTo @model, 'group:user:change', @lazyRender
-    @listenTo app.vent, "inventory:#{@model.id}:change", @lazyRender
+    @listenTo app.vent, "inventory:#{@model.id}:change", @lazyRender.bind(@)
+
+  modelEvents:
+    'change': 'lazyRender'
+    'group:user:change': 'lazyRender'
 
   initPlugins: ->
     relationsActions.call @

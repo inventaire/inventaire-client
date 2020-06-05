@@ -25,7 +25,6 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @filters = {}
 
     @display = localStorageProxy.getItem('inventory:display') or 'cascade'

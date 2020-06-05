@@ -7,9 +7,8 @@ module.exports = Marionette.ItemView.extend
     operations: '.operations'
     togglers: '.togglers span'
 
-  initialize: ->
-    @lazyRender = _.LazyRender @
-    @listenTo @model, 'grab', @lazyRender
+  modelEvents:
+    'grab': 'lazyRender'
 
   serializeData: -> @model.serializeData()
 

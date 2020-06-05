@@ -3,7 +3,6 @@ module.exports = Marionette.ItemView.extend
   className: 'fixed-entity-value fixed-value value-editor-commons'
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @draftValueEntity = @model.valueEntity?.creating
 
   serializeData: ->

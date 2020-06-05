@@ -30,11 +30,10 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { @worksWithOrdinal, @worksWithoutOrdinal } = @options
-    @lazyRender = _.LazyRender @, 100
     lazyLangSelectorUpdate = _.debounce @onOtherLangSelectorChange.bind(@), 500
     @listenTo app.vent, 'lang:local:change', lazyLangSelectorUpdate
     # This is required to update works ordinal selectors
-    @listenTo app.vent, 'serie:cleanup:parts:change', @lazyRender
+    @listenTo app.vent, 'serie:cleanup:parts:change', @lazyRender.bind(@)
 
     { @allAuthorsUris } = @options
 

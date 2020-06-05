@@ -17,11 +17,12 @@ module.exports = ItemLayout.extend
     AlertBox: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     # The alertbox is appended to the target's parent, which might have
     # historical reasons but seems a bit dumb now
     @alertBoxTarget = '.leftBox .panel'
-    @listenTo @model, 'change', @lazyRender
+
+  modelEvents:
+    'change': 'lazyRender'
 
   onRender: ->
     if app.user.loggedIn then @showTransactions()

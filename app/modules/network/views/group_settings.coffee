@@ -19,7 +19,6 @@ module.exports = Marionette.ItemView.extend
     Toggler: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @, 200, true
     @_lazyUpdateUrl = LazyUpdateUrl @
     @lazyDescriptionUpdate = _.debounce updateLimit.bind(@, 'description', 'descriptionLimit', 5000), 200
 
@@ -66,17 +65,21 @@ module.exports = Marionette.ItemView.extend
     'click #showPositionPicker': 'showPositionPicker'
     'keydown textarea#description': -> @lazyDescriptionUpdate()
 
+  modelEvents:
+    # re-render to unlock the possibility to leave the group
+    # if a new admin was selected
+    'list:change:after': 'lazyRender'
+    # Prevent having to listen for 'change:searchable' among others
+    # aas it will be out-of-date only in case of a rollback
+    'rollback': 'lazyRender'
+
   onShow: ->
     @listenTo @model, 'change:picture', @LazyRenderFocus('#changePicture')
     # re-render after a position was selected to display
     # the new geolocation status
     @listenTo @model, 'change:position', @LazyRenderFocus('#showPositionPicker')
-    # re-render to unlock the possibility to leave the group
-    # if a new admin was selected
-    @listenTo @model, 'list:change:after', @lazyRender
-    # Prevent having to listen for 'change:searchable' among others
-    # aas it will be out-of-date only in case of a rollback
-    @listenTo @model, 'rollback', @lazyRender
+
+  LazyRenderFocus: (focusSelector)-> @lazyRender.bind @, focusSelector
 
   editName:->
     name = @ui.editNameField.val()

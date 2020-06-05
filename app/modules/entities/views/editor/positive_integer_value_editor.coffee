@@ -11,7 +11,6 @@ module.exports = ClaimsEditorCommons.extend
     input: inputSelector
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @initEditModeState()
     @focusTarget = 'input'
 

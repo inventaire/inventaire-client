@@ -18,10 +18,9 @@ module.exports = Marionette.ItemView.extend
   behaviors:
     PreventDefault: {}
 
-  initialize: ->
-    @lazyRender = _.LazyRender @
-    @listenTo @model, 'change', @lazyRender
-    @listenTo @model, 'grab', @lazyRender
+  modelEvents:
+    'change': 'lazyRender'
+    'grab': 'lazyRender'
 
   serializeData: -> @model.serializeData()
 

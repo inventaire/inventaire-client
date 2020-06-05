@@ -8,11 +8,10 @@ module.exports = GroupLayoutView.extend
   regions:
     membersList: '#membersList'
 
-  initialize: ->
-    @lazyRender = _.LazyRender @
+  modelEvents:
     # using lazyRender instead of render allow to wait for group.mainUserStatus
     # to be ready (i.e. not to return 'none')
-    @listenTo @model, 'change', @lazyRender
+    'change': 'lazyRender'
 
   behaviors:
     PreventDefault: {}

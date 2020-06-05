@@ -15,7 +15,6 @@ module.exports = Marionette.ItemView.extend
     { @worksWithOrdinal, @worksWithoutOrdinal, @_showWorkPicker } = @options
     @workUri ?= @options.workUri
     @afterMerge ?= @options.afterMerge
-    @lazyRender = _.LazyRender @, 100
     @_showWorkPicker ?= false
 
   onRender: ->
@@ -27,8 +26,8 @@ module.exports = Marionette.ItemView.extend
   startListingForChanges: ->
     if @_listingForChanges then return
     @_listingForChanges = true
-    @listenTo @worksWithOrdinal, 'update', @lazyRender
-    @listenTo @worksWithoutOrdinal, 'update', @lazyRender
+    @listenTo @worksWithOrdinal, 'update', @lazyRender.bind(@)
+    @listenTo @worksWithoutOrdinal, 'update', @lazyRender.bind(@)
 
   behaviors:
     AlertBox: {}

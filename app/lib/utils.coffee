@@ -63,18 +63,6 @@ module.exports = (Backbone, _, $, app, window)->
     shortenedText = text[0..limit]
     return shortenedText.replace /\s\w+$/, ''
 
-  LazyRender: (view, timespan = 200, attachFocusHandler)->
-    cautiousRender = (focusSelector)->
-      unless view.isDestroyed or view._preventRerender
-        view.render()
-        if _.isString focusSelector then view.$el.find(focusSelector).focus()
-
-    if attachFocusHandler
-      view.LazyRenderFocus = (focusSelector)->
-        return fn = -> view.lazyRender focusSelector
-
-    return _.debounce cautiousRender, timespan
-
   lazyMethod: (methodName, delay = 200)-> (args...)->
     lazyMethodName = "_lazy_#{methodName}"
     @[lazyMethodName] ?= _.debounce @[methodName].bind(@), delay

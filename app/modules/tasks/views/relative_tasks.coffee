@@ -12,10 +12,9 @@ RelativeTask = Marionette.ItemView.extend
 
   template: require './templates/relative_task'
   initialize: ->
-    @lazyRender = _.LazyRender @
 
     @model.grabSuggestion()
-    .then @lazyRender
+    .then @lazyRender.bind(@)
 
   serializeData: -> @model.serializeData()
 

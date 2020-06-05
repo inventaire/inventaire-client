@@ -18,11 +18,11 @@ module.exports = Marionette.LayoutView.extend
     PreventDefault: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @
     @waitForEntity = @model.grabEntity()
     @waitForAuthors = @model.waitForWorks.then getAuthorsModels
 
-    @listenTo @model, 'grab', @lazyRender
+  modelEvents:
+    'grab': 'lazyRender'
 
   serializeData: ->
     attrs = @model.serializeData()

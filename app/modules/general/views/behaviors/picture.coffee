@@ -8,13 +8,10 @@ module.exports = Marionette.ItemView.extend
     Loading: {}
 
   initialize: ->
-    @lazyRender = _.LazyRender @
-    @listenTo @model, 'change:selected', @lazyRender
-
     cropper.get()
     .then => @model.waitForReady
     .then => @ready = true
-    .then @lazyRender
+    .then @lazyRender.bind(@)
 
     # the model depends on the view to get the croppedDataUrl
     # so it must have a reference to it
@@ -24,6 +21,9 @@ module.exports = Marionette.ItemView.extend
     _.extend @model.toJSON(),
       classes: @getClasses()
       ready: @ready
+
+  modelEvents:
+    'change:selected': 'lazyRender'
 
   ui:
     figure: 'figure'

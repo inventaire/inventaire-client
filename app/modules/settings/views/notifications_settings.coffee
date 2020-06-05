@@ -6,8 +6,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/notifications_settings'
   className: 'notificationsSettings'
   initialize: ->
-    @lazyRender = _.LazyRender @
-    @listenTo app.user, 'rollback', @lazyRender
+    @listenTo app.user, 'rollback', @lazyRender.bind(@)
 
   behaviors:
     # autofocus doesn't really seem to work here :/

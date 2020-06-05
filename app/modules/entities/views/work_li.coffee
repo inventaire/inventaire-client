@@ -21,16 +21,15 @@ module.exports = Marionette.ItemView.extend
     # in the DOM - such as ./deduplicate_layout - so that this state isn't lost
     if preventRerender then return
 
-    @lazyRender = _.LazyRender @
 
     if @model.usesImagesFromSubEntities
       @model.fetchSubEntities()
-      @listenTo @model, 'change:image', @lazyRender
+      @listenTo @model, 'change:image', @lazyRender.bind(@)
 
     if @showActions
       # Required by @getNetworkItemsCount
       @model.getItemsByCategories()
-      .then @lazyRender
+      .then @lazyRender.bind(@)
 
   behaviors:
     PreventDefault: {}
