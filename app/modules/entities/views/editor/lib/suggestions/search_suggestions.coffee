@@ -3,12 +3,13 @@ forms_ = require 'modules/general/lib/forms'
 batchLength = 10
 
 search = (input)->
-  @showLoadingSpinner()
   # remove the value passed to the view as the input changed
   removeCurrentViewValue.call @
 
   input = input.trim().replace /\s{2,}/g, ' '
   if input is @lastInput then return Promise.resolve()
+
+  @showLoadingSpinner()
 
   @suggestions.index = -1
   @lastInput = input
