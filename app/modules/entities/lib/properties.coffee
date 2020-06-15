@@ -31,10 +31,6 @@ addProp 'wdt:P747', 'fixed-entity', null, true, false
 
 ## edition
 addProp 'wdt:P629', 'entity', 'works', true, true
-# title
-addProp 'wdt:P1476', 'string', null, false, null
-# subtitle
-addProp 'wdt:P1680', 'string', null, false, null
 # image
 addProp 'invp:P2', 'image', null, false, null
 # language
@@ -43,10 +39,8 @@ addProp 'wdt:P407', 'entity', 'languages', true, null
 addProp 'wdt:P212', 'fixed-string', null, false, null
 # isbn 10
 addProp 'wdt:P957', 'fixed-string', null, false, null
-# publisher
-addProp 'wdt:P123', 'entity', 'publishers', false, true
 # collection
-addProp 'wdt:P195', 'entity', 'collections', false, false
+addProp 'wdt:P195', 'entity', 'collections', false, true
 # date of publication
 addProp 'wdt:P577', 'simple-day', null, false, null
 # translator
@@ -59,6 +53,16 @@ addProp 'wdt:P2680', 'entity', 'humans', true, true
 addProp 'wdt:P1104', 'positive-integer', null, false, null
 # number of volumes
 addProp 'wdt:P2635', 'positive-integer', null, false, null
+
+## edition and collection
+# editor
+addProp 'wdt:P98', 'entity', 'humans', true, true
+# publisher
+addProp 'wdt:P123', 'entity', 'publishers', true, true
+# title
+addProp 'wdt:P1476', 'string', null, false, null
+# subtitle
+addProp 'wdt:P1680', 'string', null, false, null
 
 ## human
 # date of birth
@@ -82,9 +86,6 @@ addProp 'wdt:P2397', 'string', null, false, null
 # Mastodon address
 addProp 'wdt:P4033', 'string', null, false, null
 
-## work and human
-addProp 'wdt:P856', 'string', null, false, null
-
 ## publisher
 # founded by
 addProp 'wdt:P112', 'entity', 'humans', false, null
@@ -98,3 +99,7 @@ addProp 'wdt:P571', 'simple-day', 'inception', false, null
 addProp 'wdt:P576', 'simple-day', 'inception', false, null
 # ISBN publisher
 addProp 'wdt:P3035', 'string', null, false, null
+
+## all
+# official website
+addProp 'wdt:P856', 'string', null, false, null

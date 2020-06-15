@@ -190,5 +190,6 @@ possessives =
   serie: "series'"
   human: "author's"
   publisher: "publisher's"
+  collection: "collection's"
 
 inventoryTypes = [ 'work', 'edition' ]

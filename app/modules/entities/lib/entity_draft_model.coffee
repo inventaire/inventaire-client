@@ -10,13 +10,15 @@ typeDefaultP31 =
   serie: 'wd:Q277759'
   edition: 'wd:Q3331189'
   publisher: 'wd:Q2085381'
+  collection: 'wd:Q20655472'
 
 propertiesShortlists =
   human: [ 'wdt:P1412' ]
   work: [ 'wdt:P50' ]
   serie: [ 'wdt:P50' ]
   edition: [ 'invp:P2', 'wdt:P407', 'wdt:P1476', 'wdt:P1680', 'wdt:P577', 'wdt:P123' ]
-  publisher: [ 'wdt:P856' ]
+  publisher: [ 'wdt:P856', 'wdt:P112', 'wdt:P571', 'wdt:P576' ]
+  collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P98', 'wdt:P856' ]
 
 module.exports =
   create: (options)->
