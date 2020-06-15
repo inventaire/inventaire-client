@@ -72,6 +72,11 @@ $entity-editor-small-thresold: 800px;
       }
     }
   }
+  .missingDataMessage{
+    background-color: #ddd;
+    padding: 1em;
+    @include radius;
+  }
 }
 
 .identifier{
