@@ -1,17 +1,9 @@
 { SafeString, escapeExpression } = Handlebars
 { parseQuery } = requireProxy 'lib/location'
 timeFromNow = requireProxy 'lib/time_from_now'
-wdPropPrefix = 'wdt:'
 
 module.exports =
   i18n: (key, context)->
-    # This function might be called before the tempates data arrived
-    # returning '' early prevents to display undefined and make polyglot worry
-    unless key? then return ''
-    # easying the transition to a property system with prefixes
-    # TODO: format i18n wikidata source files to include prefixes
-    # and get rid of this hack
-    if key[0..3] is wdPropPrefix then key = key.replace wdPropPrefix, ''
     # Allow to pass context through Handlebars hash object
     # ex: {{{i18n 'email_invitation_sent' email=this}}}
     # Use this mode for unsafe context values to get it escaped
