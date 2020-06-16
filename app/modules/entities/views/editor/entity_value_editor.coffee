@@ -162,3 +162,4 @@ createdEntityType =
   humans: 'author'
   series: 'serie'
   publishers: 'publisher'
+  collections: 'collection'

@@ -80,5 +80,5 @@ module.exports =
     'wdt:P1476': { customLabel: 'title' }
     'wdt:P1680': {} # subtitle
     'wdt:P123': {} # publisher
-    'wdt:P98': { customLabel: 'editor'}
+    'wdt:P98': { customLabel: 'collection editor'}
     'wdt:P856': {} # official website

@@ -1,3 +1,9 @@
+# One unique Entity model to rule them all
+# but with specific initializers:
+# - By source:
+#   - Wikidata entities have specific initializers related to Wikimedia sitelinks
+# - By type: see specialInitializersByType
+
 isbn_ = require 'lib/isbn'
 entities_ = require '../lib/entities'
 initializeWikidataEntity = require '../lib/wikidata/init_entity'
@@ -14,18 +20,9 @@ specialInitializersByType =
   work: require '../lib/types/work'
   edition: require '../lib/types/edition'
   publisher: require '../lib/types/publisher'
+  collection: require '../lib/types/collection'
 
-# One unique Entity model to rule them all
-# but with specific initializers:
-# - By source:
-#   - Wikidata entities have specific initializers related to Wikimedia sitelinks
-# - By type:
-#   - Human (presumably an author)
-#   - Work
-#   - Edition
-
-# Progressively extending the allowlist of editable types
-editableTypes = [ 'work', 'edition', 'human', 'serie', 'publisher' ]
+editableTypes = Object.keys specialInitializersByType
 
 placeholdersTypes = [ 'meta', 'missing' ]
 

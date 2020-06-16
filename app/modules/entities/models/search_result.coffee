@@ -10,9 +10,9 @@ module.exports = Filterable.extend
   initialize: ->
     { lang } = app.user
 
-    [ labels, descriptions ] = @gets 'labels', 'descriptions'
+    [ label, labels, descriptions ] = @gets 'label', 'labels', 'descriptions'
 
-    if labels?
+    if not label? and labels?
       @set 'label', getBestLangValue(lang, null, labels).value
 
     if descriptions?

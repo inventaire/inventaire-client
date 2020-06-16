@@ -1,0 +1,7 @@
+<h3 class="layout-type-label">{{I18n 'collection'}}</h3>
+<div class='collectionInfobox'></div>
+<div id="editionsList"></div>
+{{#if standalone}}
+  {{partial 'entities:merge_suggestions_layout_section' this}}
+  {{partial 'welcome:embedded_welcome'}}
+{{/if}}
