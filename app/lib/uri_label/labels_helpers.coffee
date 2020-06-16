@@ -2,15 +2,9 @@ labels = {}
 previouslyMissing = {}
 
 module.exports =
-  getLabel: (uri, lang)->
-    data = labels[uri]
-    if data?
-      return data[lang] or data.en or data.original or _.pickOne(data)
+  getLabel: (uri)-> labels[uri]
 
-  setLabel: (uri, lang, label)->
-    labels[uri] or= {}
-    labels[uri][lang] = label
-    return label
+  setLabel: (uri, label)-> labels[uri] = label
 
   getKnownUris: -> Object.keys labels
 

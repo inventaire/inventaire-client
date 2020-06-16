@@ -26,16 +26,13 @@ getElements = -> document.querySelectorAll selector
 gatherRequiredUris = -> [].map.call getElements(), getUris
 
 display = ->
-  # This runs only after i18n initialization so, app.user.lang should have been set
-  { lang } = app.user
   # new elements might have appeared since gatherRequiredUris
   # was fired, and they could possibly have known uri, thus the interest
   # of re-querying elements
   for el in getElements()
     uri = getUris el
     if uri?
-      unless lang? then throw new Error "lang isn't set"
-      label = getLabel uri, lang
+      label = getLabel uri
       if label?
         el.textContent = label
         # remove the class so that it doesn't re-appear in the next queries
@@ -55,18 +52,7 @@ getEntities = (uris)->
 
 addEntitiesLabels = (entitiesModels)->
   for uri, entityModel of entitiesModels
-    [ labels, claims ] = entityModel.gets 'labels', 'claims'
-
-    setEntityOriginalLang uri, claims, labels
-    for lang, label of labels
-      setLabel uri, lang, label
-
-  return
-
-setEntityOriginalLang = (uri, claims, labels)->
-  originalLang = getOriginalLang claims
-  originalValue = labels[originalLang]
-  if originalValue? then setLabel uri, 'original', originalValue
+    setLabel uri, entityModel.get('label')
   return
 
 getMissingEntities = (uris)->
