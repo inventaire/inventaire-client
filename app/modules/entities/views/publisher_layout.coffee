@@ -18,4 +18,4 @@ module.exports = TypedEntityLayout.extend
     .then @ifViewIsIntact('showEditions')
 
   showEditions: ->
-    @editionsList.show new EditionsList { collection: @model.editions }
+    @editionsList.show new EditionsList { collection: @model.editions, sortByLang: false }
