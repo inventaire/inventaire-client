@@ -25,5 +25,11 @@ module.exports = (_)->
   img: require './img'
   assets: require './assets'
   feeds: require './feeds'
-  i18nStrings: (lang)-> "/public/i18n/#{lang}.json?DIGEST"
-  json: (filename)-> "/public/json/#{filename}.json?DIGEST"
+  i18nStrings: (lang)-> "/public/i18n/#{lang}.json?DIGEST#{getBuster()}"
+  json: (filename)-> "/public/json/#{filename}.json?DIGEST#{getBuster()}"
+
+# Hacky way to never accept cached version in development,
+# while, in production, 'git-digest-brunch' will take care of
+# replacing DIGEST with the last git commit hash
+# (the DIGEST keyword needs to be in a URL to be replaced)
+getBuster = -> if window.env is 'dev' then Date.now() else ''
