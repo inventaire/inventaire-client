@@ -1,6 +1,7 @@
 <div class='wiki-attributes'>
   <p class="claims">
     {{!-- TODO: make series be highlighted like authors --}}
+    {{claim claims 'wdt:P361' true}} {{!-- part of --}}
     {{claim claims 'wdt:P179' true}} {{!-- serie --}}
     {{stringClaim claims 'wdt:P1545'}} {{!-- serie ordinal --}}
     {{stringClaim claims 'wdt:P1476'}} {{!-- original title --}}
