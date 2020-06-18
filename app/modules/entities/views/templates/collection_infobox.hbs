@@ -5,13 +5,12 @@
   </div>
 {{/if}}
 <div class="collectionData text-center entity-data-box">
-  <h3 class="showEntity">{{label}}</h3>
+  {{#if standalone}}
+    <h2>{{label}}</h2>
+  {{else}}
+    <h3><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
+  {{/if}}
   <h4 class="subheader">{{shortDescription}}</h4>
-  {{!-- hidden class overriden by --}}
-  {{!-- modules/entities/scss/_deduplicate.scss --}}
-  {{!-- modules/tasks/scss/_current_task.scss --}}
-  <span class="uri hidden">{{uri}}</span>
-
   <div class='wiki-attributes'>
     <p class="claims">
       {{stringClaim claims 'wdt:P1680'}}  {{!-- subtitle --}}

@@ -1,5 +1,6 @@
 TypedEntityLayout = require './typed_entity_layout'
 EditionsList = require './editions_list'
+EntitiesList = require './entities_list'
 
 module.exports = TypedEntityLayout.extend
   id: 'publisherLayout'
@@ -8,14 +9,35 @@ module.exports = TypedEntityLayout.extend
   Infobox: require './publisher_infobox'
   regions:
     infoboxRegion: '.publisherInfobox'
+    collectionsList: '#collectionsList'
     editionsList: '#editionsList'
     mergeSuggestionsRegion: '.mergeSuggestions'
 
+  initialize: ->
+    @model.initPublisherPublications()
+
   onShow: ->
-    unless @standalone? then return
+    @model.waitForPublications
+    .then @ifViewIsIntact('showPublications')
 
-    @model.fetchSubEntities @refresh
-    .then @ifViewIsIntact('showEditions')
+  showPublications: ->
+    @showCollections()
+    @showIsolatedEditions()
 
-  showEditions: ->
-    @editionsList.show new EditionsList { collection: @model.editions, sortByLang: false }
+  showCollections: ->
+    @collectionsList.show new EntitiesList
+      parentModel: @model
+      collection: @model.publisherCollections
+      title: 'collections'
+      type: 'collection'
+      showActions: true
+      compactMode: true
+
+  showIsolatedEditions: ->
+    @editionsList.show new EntitiesList
+      parentModel: @model
+      collection: @model.isolatedEditions
+      title: 'editions'
+      type: 'edition'
+      showActions: true
+      compactMode: true

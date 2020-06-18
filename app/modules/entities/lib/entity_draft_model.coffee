@@ -60,6 +60,7 @@ module.exports =
           labels: @get 'labels'
           claims: @get 'claims'
       fetchSubEntities: Entity::fetchSubEntities
+      fetchSubEntitiesUris: Entity::fetchSubEntitiesUris
 
       # Methods required by app.navigateFromModel
       updateMetadata: -> { title: label or _.I18n('new entity') }

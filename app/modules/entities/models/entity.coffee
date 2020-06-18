@@ -132,18 +132,29 @@ module.exports = Filterable.extend
 
     collection = @[@subentitiesName] = new Backbone.Collection
 
+    uri = @get 'uri'
+    prop = @childrenClaimProperty
+
+    @waitForSubentities = @fetchSubEntitiesUris()
+      .then (uris)-> app.request 'get:entities:models', { uris, refresh }
+      .then @beforeSubEntitiesAdd.bind(@)
+      .then collection.add.bind(collection)
+      .tap @afterSubEntitiesAdd.bind(@)
+
+  fetchSubEntitiesUris: (refresh)->
+    refresh = @getRefresh refresh
+    if not refresh and @waitForSubentitiesUris? then return @waitForSubentitiesUris
+
     # A draft entity can't already have subentities
     if @creating then return @waitForSubentities = Promise.resolve()
 
     uri = @get 'uri'
     prop = @childrenClaimProperty
 
-    @waitForSubentities = entities_.getReverseClaims prop, uri, refresh
-      .tap @setSubEntitiesUris.bind(@)
-      .then (uris)-> app.request 'get:entities:models', { uris, refresh }
-      .then @beforeSubEntitiesAdd.bind(@)
-      .then collection.add.bind(collection)
-      .tap @afterSubEntitiesAdd.bind(@)
+    @waitForSubentitiesUris = entities_.getReverseClaims prop, uri, refresh
+      .then (uris)=>
+        @setSubEntitiesUris uris
+        return uris
 
   # Override in sub-types
   beforeSubEntitiesAdd: _.identity

@@ -77,7 +77,7 @@ module.exports =
     'wdt:P3035': {} # ISBN publisher
 
   collection:
-    'wdt:P1476': { customLabel: 'title' }
+    'wdt:P1476': { customLabel: 'collection title' }
     'wdt:P1680': {} # subtitle
     'wdt:P123': {} # publisher
     'wdt:P98': { customLabel: 'collection editor'}

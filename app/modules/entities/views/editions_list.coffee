@@ -10,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
   childViewOptions: ->
     itemToUpdate: @options.itemToUpdate
     onWorkLayout: @options.onWorkLayout
+    compactMode: @options.compactMode
 
   behaviors:
     Loading: {}
@@ -62,7 +63,8 @@ module.exports = Marionette.CompositeView.extend
     sortByLang: @sortByLang
     availableLanguages: @getAvailableLanguages @selectedLang
     editionCreationData: partialData @work
-    header: @options.header or 'editions'
+    # @options.header can be 'false', thus the existance test
+    header: if @options.header? then @options.header else 'editions'
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'

@@ -1,6 +1,6 @@
 loader = require 'modules/general/views/templates/loader'
 error_ = require 'lib/error'
-canAddOneTypeList = [ 'serie', 'work' ]
+canAddOneTypeList = [ 'serie', 'work', 'edition', 'collection' ]
 { buildPath } = require 'lib/location'
 
 # TODO:
@@ -17,6 +17,8 @@ module.exports = Marionette.CompositeView.extend
     PreventDefault: {}
 
   childViewContainer: '.container'
+  tagName: -> if @options.type is 'edition' then 'ul' else 'div'
+
   getChildView: (model)->
     { type } = model
     switch type
@@ -26,9 +28,10 @@ module.exports = Marionette.CompositeView.extend
       # Types included despite not being works
       # to make this view reusable by ./claim_layout with those types.
       # This view should thus possibily be renamed entities_list
-      when 'edition' then require './edition_layout'
+      when 'edition' then require './edition_li'
       when 'human' then require './author_layout'
       when 'publisher' then require './publisher_layout'
+      when 'collection' then require './collection_layout'
       else
         err = error_.new "unknown entity type: #{type}", model
         # Weird: errors thrown here don't appear anyware
@@ -40,6 +43,7 @@ module.exports = Marionette.CompositeView.extend
     refresh: @options.refresh
     showActions: @options.showActions
     wrap: @options.wrapWorks
+    compactMode: @options.compactMode
 
   ui:
     counter: '.counter'
@@ -76,6 +80,9 @@ module.exports = Marionette.CompositeView.extend
 
     if parentType is 'serie'
       claims['wdt:P50'] = parentModel.get 'claims.wdt:P50'
+
+    else if parentType is 'collection'
+      claims['wdt:P123'] = parentModel.get 'claims.wdt:P123'
 
     href = buildPath '/entity/new', { type, claims }
 
@@ -120,3 +127,8 @@ addOneLabels =
     serie: 'add a serie from this author'
   serie:
     work: 'add a work to this serie'
+  publisher:
+    edition: 'add an edition from this publisher'
+    collection: 'add a collection from this publisher'
+  collection:
+    edition: 'add an edition to this collection'
