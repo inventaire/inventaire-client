@@ -12,9 +12,9 @@
       <span class="counter">{{more}}</span>
     </a>
   {{/if}}
-  {{#if addOne}}
-    <a href="{{addOne.href}}" class="addOne {{#if more}}hidden{{/if}}">
-      {{icon 'plus'}}{{i18n addOne.label}}
+  {{#if addOneLabel}}
+    <a class="addOne {{#if more}}hidden{{/if}}">
+      {{icon 'plus'}}{{i18n addOneLabel}}
     </a>
   {{/if}}
 </div>

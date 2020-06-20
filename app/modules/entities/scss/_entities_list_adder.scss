@@ -1,0 +1,50 @@
+#entitiesListAdder{
+  @include display-flex(column, center, center);
+  h3{
+    text-align: center;
+  }
+  .parent-label{
+    color: $grey;
+  }
+  .context{
+    margin-bottom: 1em;
+  }
+  .create{
+    margin: 1em;
+  }
+}
+
+.entities-list-element-candidate{
+  @include display-flex(row, center, center);
+  margin: 0.5em 0;
+  .showEntity{
+    flex: 1;
+    @include display-flex(row);
+    margin: 0.5em;
+    color: $dark-grey;
+  }
+  .image{
+    margin-right: 0.3em;
+  }
+  .label, .description{
+    margin-right: 0.5em;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  .label{
+    font-size: 1.1rem;
+  }
+  .info{
+    flex: 1;
+    @include display-flex(column, flex-start, flex-start);
+    padding: 1em;
+  }
+  .description{
+    flex: 0 1 auto;
+    overflow: hidden;
+    color: $grey;
+  }
+  .added{
+    color: $grey;
+  }
+}

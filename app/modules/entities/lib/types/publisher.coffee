@@ -1,5 +1,4 @@
 filterOutWdEditions = require '../filter_out_wd_editions'
-PaginatedEntities = require '../../collections/paginated_entities'
 
 module.exports = ->
   @childrenClaimProperty = 'wdt:P123'
@@ -23,13 +22,10 @@ specificMethods =
 
   initPublicationsCollections: (publicationsData)->
     { collections, editions } = publicationsData
-    collectionsUris = _.pluck(collections, 'uri')
+    @publisherCollectionsUris = _.pluck(collections, 'uri')
 
-    isolatedEditions = editions.filter isntInAKnownCollection(collectionsUris)
-    isolatedEditionsUris = _.pluck isolatedEditions, 'uri'
-
-    @publisherCollections = new PaginatedEntities null, { uris: collectionsUris, defaultType: 'collection' }
-    @isolatedEditions = new PaginatedEntities null, { uris: isolatedEditionsUris, defaultType: 'edition' }
+    isolatedEditions = editions.filter isntInAKnownCollection(@publisherCollectionsUris)
+    @isolatedEditionsUris = _.pluck isolatedEditions, 'uri'
 
 isntInAKnownCollection = (collectionsUris)-> (edition)->
   unless edition.collection? then return true

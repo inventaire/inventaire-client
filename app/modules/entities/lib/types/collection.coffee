@@ -17,3 +17,10 @@ specificMethods =
 
   onClaimsChange: (property, oldValue, newValue)->
     @setClaimsBasedAttributes()
+
+  getChildrenCandidatesUris: ->
+    publishersUris = @get 'claims.wdt:P123'
+    app.request 'get:entities:models', { uris: publishersUris }
+    .then (models)->
+      Promise.all _.invoke(models, 'initPublisherPublications')
+      .then -> _.flatten _.pluck(models, 'isolatedEditionsUris')

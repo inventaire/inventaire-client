@@ -1,7 +1,8 @@
 loader = require 'modules/general/views/templates/loader'
 error_ = require 'lib/error'
 canAddOneTypeList = [ 'serie', 'work', 'edition', 'collection' ]
-{ buildPath } = require 'lib/location'
+EntitiesListAdder = require './entities_list_adder'
+{ currentRoute } = require 'lib/location'
 
 # TODO:
 # - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -52,41 +53,14 @@ module.exports = Marionette.CompositeView.extend
     moreCounter: '.displayMore .counter'
 
   initialize: ->
+    { @parentModel } = @options
     initialLength = @options.initialLength or 5
     @batchLength = @options.batchLength or 15
 
     @fetchMore = @collection.fetchMore.bind @collection
     @more = @collection.more.bind @collection
 
-    # First fetch
     @collection.firstFetch initialLength
-
-    if @options.canAddOne is false then return
-
-    @setEntityCreationData()
-
-    if @options.type in canAddOneTypeList
-      @addOneData =
-        label: addOneLabels[@options.parentModel.type][@options.type]
-        href: @_entityCreationData.href
-
-  setEntityCreationData: ->
-    { type, parentModel } = @options
-    { type:parentType } =  parentModel
-
-    claims = {}
-    prop = parentModel.childrenClaimProperty
-    claims[prop] = [ parentModel.get('uri') ]
-
-    if parentType is 'serie'
-      claims['wdt:P50'] = parentModel.get 'claims.wdt:P50'
-
-    else if parentType is 'collection'
-      claims['wdt:P123'] = parentModel.get 'claims.wdt:P123'
-
-    href = buildPath '/entity/new', { type, claims }
-
-    @_entityCreationData = { type, claims, href }
 
   serializeData: ->
     title: @options.title
@@ -94,7 +68,7 @@ module.exports = Marionette.CompositeView.extend
     hideHeader: @options.hideHeader
     more: @more()
     totalLength: @collection.totalLength
-    addOne: @addOneData
+    addOneLabel: addOneLabels[@parentModel.type][@options.type]
 
   events:
     'click a.displayMore': 'displayMore'
@@ -114,10 +88,11 @@ module.exports = Marionette.CompositeView.extend
   startMoreLoading: ->
     @ui.moreCounter.html loader()
 
-  addOne: (e)->
-    unless _.isOpenedOutside e
-      { type, claims } = @_entityCreationData
-      app.execute 'show:entity:create', { type, claims }
+  addOne: ->
+    unless app.request 'require:loggedIn', currentRoute() then return
+    { type, parentModel } = @options
+    header = addOneLabels[@parentModel.type][@options.type]
+    app.layout.modal.show new EntitiesListAdder { header, type, parentModel, listCollection: @collection }
 
 addOneLabels =
   # parent model type

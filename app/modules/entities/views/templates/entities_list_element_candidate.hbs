@@ -1,0 +1,24 @@
+<a href="{{pathname}}" class="showEntity">
+  {{#if image.url}}
+    <img src="{{imgSrc image.url 200}}" alt="{{label}}">
+  {{/if}}
+  <div class="info">
+    <span class="label">{{label}}</span>
+    <span class="description">{{description}}</span>
+    <div class="claims">
+      {{claim claims 'wdt:P50'}}  {{!-- author --}}
+      {{claim claims 'wdt:P58'}} {{!-- scenarist --}}
+      {{claim claims 'wdt:P110'}} {{!-- illustrator --}}
+      {{claim claims 'wdt:P6338'}} {{!-- colorist --}}
+      {{claim claims 'wdt:P123'}} {{!-- publisher --}}
+      {{claim claims 'wdt:P195'}} {{!-- collection --}}
+      {{timeClaim claims 'wdt:P577'}} {{!-- publication date --}}
+      {{claim claims 'wdt:P407'}} {{!-- edition language --}}
+    </div>
+  </div>
+</a>
+
+<div class="status">
+  <a class="tiny-button light-blue add">{{icon 'plus'}} {{i18n 'add'}}</a>
+  <span class="added hidden">{{icon 'check'}} {{i18n 'added'}}</span>
+</div>
