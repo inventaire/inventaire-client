@@ -12,19 +12,36 @@
   .create{
     margin: 1em;
   }
+  .no-suggestion{
+    color: $grey;
+  }
+}
+
+.entitiesListElementCandidates{
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .entities-list-element-candidate{
+  background-color: #f3f3f3;
+  padding: 0.5em;
+  @include radius;
   @include display-flex(row, center, center);
+  flex: 1 1 0;
   margin: 0.5em 0;
   .showEntity{
-    flex: 1;
-    @include display-flex(row);
+    @include display-flex(row, center, center);
     margin: 0.5em;
     color: $dark-grey;
   }
-  .image{
+  .info{
+    overflow: hidden;
+    padding: 0.5em;
+    max-width: 25em;
+  }
+  .image-wrapper{
     margin-right: 0.3em;
+    max-width: 10em;
   }
   .label, .description{
     margin-right: 0.5em;
@@ -34,17 +51,40 @@
   .label{
     font-size: 1.1rem;
   }
-  .info{
-    flex: 1;
-    @include display-flex(column, flex-start, flex-start);
-    padding: 1em;
-  }
   .description{
-    flex: 0 1 auto;
-    overflow: hidden;
     color: $grey;
+  }
+  .claims{
+    flex: 1 0 0;
+    overflow: hidden;
+  }
+  .add, .added{
+    white-space: nowrap;
+    flex: 0 0 auto;
   }
   .added{
     color: $grey;
+  }
+}
+
+#searchCandidates{
+  max-width: 20em;
+}
+
+
+/*Very Small screens*/
+@media screen and (max-width: $very-small-screen) {
+  .entities-list-element-candidate{
+    @include display-flex(column, center, center);
+  }
+  .showEntity{
+    @include display-flex(column, center, center);
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $very-small-screen) {
+  .status{
+    margin-left: auto;
   }
 }

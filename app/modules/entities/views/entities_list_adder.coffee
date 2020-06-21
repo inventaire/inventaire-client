@@ -1,5 +1,9 @@
 { buildPath } = require 'lib/location'
 EntitiesListElementCandidate = require './entities_list_element_candidate'
+typeSearch = require 'modules/entities/lib/search/type_search'
+cantTypeSearch = [
+  'edition'
+]
 
 module.exports = Marionette.CompositeView.extend
   id: 'entitiesListAdder'
@@ -9,9 +13,11 @@ module.exports = Marionette.CompositeView.extend
   childViewOptions: ->
     parentModel: @options.parentModel
     listCollection: @options.listCollection
+  emptyView: require 'modules/entities/views/editor/autocomplete_no_suggestion'
 
   initialize: ->
     { @type, @parentModel } = @options
+    @cantTypeSearch = @type in cantTypeSearch
     @setEntityCreationData()
     @collection = new Backbone.Collection()
     @addCandidates()
@@ -20,11 +26,13 @@ module.exports = Marionette.CompositeView.extend
     parent: @parentModel.toJSON()
     header: @options.header
     createPath: @createPath
+    cantTypeSearch: @cantTypeSearch
 
   onShow: -> app.execute 'modal:open'
 
   events:
     'click .create': 'create'
+    'keydown #searchCandidates': 'lazySearch'
 
   setEntityCreationData: ->
     { parentModel } = @
@@ -45,13 +53,36 @@ module.exports = Marionette.CompositeView.extend
     @createPath = href
     @_entityCreationData = { @type, claims }
 
+  lazySearch: (e)->
+    @_lazySearch ?= _.debounce @search.bind(@), 200
+    @_lazySearch(e)
+
+  search: (e)->
+    { value: input } = e.currentTarget
+
+    if input is '' and @_lastInput?
+      @_lastInput = null
+      @addCandidates()
+
+    @_lastInput = input
+    typeSearch @type, input
+    .then (results)=>
+      # Ignore the results if the input changed
+      if input isnt @_lastInput then return
+      uris = _.pluck results, 'uri'
+      return @resetFromUris uris
+
   addCandidates: ->
     unless @parentModel.getChildrenCandidatesUris? then return
 
-    @parentModel.getChildrenCandidatesUris()
-    .then _.Log('childrenCandidatesUris')
-    .then (uris)-> app.request 'get:entities:models', { uris }
-    .then @collection.add.bind(@collection)
+    @_waitForParentModelChildrenCandidatesUris ?= @parentModel.getChildrenCandidatesUris()
+
+    @_waitForParentModelChildrenCandidatesUris
+    .then @resetFromUris.bind(@)
+
+  resetFromUris: (uris)->
+    app.request 'get:entities:models', { uris }
+    .then @collection.reset.bind(@collection)
 
   create: (e)->
     if _.isOpenedOutside e then return

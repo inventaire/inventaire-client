@@ -68,7 +68,7 @@ module.exports = Marionette.CompositeView.extend
     hideHeader: @options.hideHeader
     more: @more()
     totalLength: @collection.totalLength
-    addOneLabel: addOneLabels[@parentModel.type][@options.type]
+    addOneLabel: addOneLabels[@parentModel?.type]?[@options.type]
 
   events:
     'click a.displayMore': 'displayMore'
@@ -91,7 +91,7 @@ module.exports = Marionette.CompositeView.extend
   addOne: ->
     unless app.request 'require:loggedIn', currentRoute() then return
     { type, parentModel } = @options
-    header = addOneLabels[@parentModel.type][@options.type]
+    header = addOneLabels[@parentModel.type][type]
     app.layout.modal.show new EntitiesListAdder { header, type, parentModel, listCollection: @collection }
 
 addOneLabels =

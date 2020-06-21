@@ -1,10 +1,12 @@
 <a href="{{pathname}}" class="showEntity">
   {{#if image.url}}
-    <img src="{{imgSrc image.url 200}}" alt="{{label}}">
+    <div class="image-wrapper">
+      <img src="{{imgSrc image.url 200}}" alt="{{label}}">
+    </div>
   {{/if}}
   <div class="info">
-    <span class="label">{{label}}</span>
-    <span class="description">{{description}}</span>
+    <p class="label">{{label}}</p>
+    <p class="description">{{description}}</p>
     <div class="claims">
       {{claim claims 'wdt:P50'}}  {{!-- author --}}
       {{claim claims 'wdt:P58'}} {{!-- scenarist --}}

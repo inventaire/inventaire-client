@@ -1,4 +1,5 @@
 module.exports = Marionette.ItemView.extend
+  tagName: 'li'
   className: 'entities-list-element-candidate'
   template: require './templates/entities_list_element_candidate'
   events:
