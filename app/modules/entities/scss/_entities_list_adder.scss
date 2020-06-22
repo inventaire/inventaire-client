@@ -9,11 +9,15 @@
   .context{
     margin-bottom: 1em;
   }
-  .create{
-    margin: 1em;
-  }
   .no-suggestion{
     color: $grey;
+  }
+  .buttons{
+    margin: 1em;
+    @include display-flex(row, center, center);
+    a{
+      margin: 1em;
+    }
   }
 }
 

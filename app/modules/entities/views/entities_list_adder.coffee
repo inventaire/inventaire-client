@@ -32,6 +32,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .create': 'create'
+    'click .done': _.clickCommand 'modal:close'
     'keydown #searchCandidates': 'lazySearch'
 
   setEntityCreationData: ->
