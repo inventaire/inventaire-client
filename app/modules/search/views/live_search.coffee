@@ -92,8 +92,8 @@ module.exports = Marionette.CompositeView.extend
 
     @updateAlternatives type
 
-  updateAlternatives: (type)->
-    if type in sectionsWithAlternatives then @showAlternatives()
+  updateAlternatives: (search)->
+    if @_lastType in sectionsWithAlternatives then @showAlternatives(search)
     else @hideAlternatives()
 
   search: (search)->
@@ -111,7 +111,7 @@ module.exports = Marionette.CompositeView.extend
     .then @resetResults.bind(@, @_lastSearchId)
 
     @_waitingForAlternatives = true
-    @setTimeout @showAlternatives.bind(@, search), 2000
+    @setTimeout @updateAlternatives.bind(@, search), 2000
 
   _search: (search)->
     types = @getTypes()
@@ -267,7 +267,7 @@ sectionToTypes =
   user: 'users'
   group: 'groups'
 
-sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
+sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
 
 getTypeFromId = (id)-> id.replace 'section-', ''
 
@@ -296,8 +296,8 @@ sectionsData = ->
   book: { label: 'book' }
   author: { label: 'author' }
   serie: { label: 'series_singular' }
+  user: { label: 'user' }
+  group: { label: 'group' }
   publisher: { label: 'publisher' }
   collection: { label: 'collection' }
   subject: { label: 'subject' }
-  user: { label: 'user' }
-  group: { label: 'group' }
