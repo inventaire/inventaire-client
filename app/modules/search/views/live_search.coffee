@@ -40,8 +40,10 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     sections = sectionsData()
-    selectedSectionName = if sections[@selectedSectionName]? then @selectedSectionName else 'all'
-    sections[selectedSectionName].selected = true
+    unless sections[@selectedSectionName]?
+      _.warn { sections, @selectedSectionName }, 'unknown search section'
+      @selectedSectionName = 'all'
+    sections[@selectedSectionName].selected = true
     return { sections }
 
   events:
@@ -255,13 +257,15 @@ module.exports = Marionette.CompositeView.extend
     @collection.add newResults
 
 sectionToTypes =
-  all: [ 'works', 'humans', 'series', 'users', 'groups' ]
+  all: [ 'works', 'humans', 'series', 'publishers', 'collections', 'users', 'groups' ]
   book: 'works'
   author: 'humans'
   serie: 'series'
+  collection: 'collections'
+  publisher: 'publishers'
+  subject: 'subjects'
   user: 'users'
   group: 'groups'
-  subject: 'subjects'
 
 sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
 
@@ -292,6 +296,8 @@ sectionsData = ->
   book: { label: 'book' }
   author: { label: 'author' }
   serie: { label: 'series_singular' }
+  publisher: { label: 'publisher' }
+  collection: { label: 'collection' }
+  subject: { label: 'subject' }
   user: { label: 'user' }
   group: { label: 'group' }
-  subject: { label: 'subject' }
