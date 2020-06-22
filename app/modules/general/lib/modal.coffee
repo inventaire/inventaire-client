@@ -75,6 +75,10 @@ module.exports = ->
 
     app.vent.trigger 'modal:closed'
 
+  exitModal = ->
+    app.layout.modal.currentView?.onModalExit?()
+    closeModal()
+
   setWidthJumpPreventingRules = (maxWidth, rightOffset)->
     $body.css 'max-width', maxWidth
     $topbar.css 'right', rightOffset
@@ -87,13 +91,13 @@ module.exports = ->
 
   # Close the modal:
   # - when clicking the 'close' button
-  $closeModal.on 'click', closeModal
+  $closeModal.on 'click', exitModal
   # - when clicking out of the modal
   $modalWrapper.on 'click', (e)->
     { id } = e.target
-    if id is 'modalWrapper' or id is 'modal' then closeModal()
+    if id is 'modalWrapper' or id is 'modal' then exitModal()
   # - when pressing ESC
-  $body.on 'keydown', (e)-> if getActionKey(e) is 'esc' then closeModal()
+  $body.on 'keydown', (e)-> if getActionKey(e) is 'esc' then exitModal()
 
   modalHtml = (html)->
     $modalContent.html html

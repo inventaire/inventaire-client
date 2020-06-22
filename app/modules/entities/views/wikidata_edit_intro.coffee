@@ -18,3 +18,5 @@ module.exports = Marionette.ItemView.extend
     # No need to call show:login:redirect as it is called by the General behavior
     # on app_layout(?)
     app.execute 'modal:close'
+
+  onModalExit: -> app.execute 'show:entity', @model.get('uri')
