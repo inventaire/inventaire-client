@@ -67,6 +67,7 @@ module.exports = Marionette.CompositeView.extend
 
   search: (e)->
     { value: input } = e.currentTarget
+    input = input.trim()
 
     if input is ''
       if @_lastInput?
@@ -76,21 +77,26 @@ module.exports = Marionette.CompositeView.extend
         return
 
     @_lastInput = input
+    @searchByType input
+
+  searchByType: (input, initialCandidatesSearch)->
     typeSearch @type, input
     .then (results)=>
       # Ignore the results if the input changed
-      if input isnt @_lastInput then return
+      if input isnt @_lastInput and not initialCandidatesSearch then return
       uris = _.pluck results, 'uri'
       return @resetFromUris uris
 
   addCandidates: ->
-    unless @parentModel.getChildrenCandidatesUris? then return
-
-    @$el.addClass 'fetching'
-    @_waitForParentModelChildrenCandidatesUris ?= @parentModel.getChildrenCandidatesUris()
-
-    @_waitForParentModelChildrenCandidatesUris
-    .then @resetFromUris.bind(@)
+    if @parentModel.getChildrenCandidatesUris?
+      @$el.addClass 'fetching'
+      @_waitForParentModelChildrenCandidatesUris ?= @parentModel.getChildrenCandidatesUris()
+      @_waitForParentModelChildrenCandidatesUris.then @resetFromUris.bind(@)
+    else
+      label = @parentModel.get('label')
+      @$el.addClass 'fetching'
+      @_findCandidatesFromLabelSearch = true
+      @searchByType label, true
 
   resetFromUris: (uris)->
     @$el.removeClass 'fetching'

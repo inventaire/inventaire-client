@@ -11,7 +11,11 @@ module.exports = Marionette.ItemView.extend
     @alreadyAdded = currentPropertyClaims? and @parentUri in currentPropertyClaims
 
   serializeData: ->
-    _.extend @model.toJSON(),
+    attrs = @model.toJSON()
+    { type } = attrs
+    if type? then attrs[type] = true
+    attrs.description ?= _.i18n type
+    _.extend attrs,
       alreadyAdded: @alreadyAdded
 
   events:

@@ -12,10 +12,17 @@
       {{claim claims 'wdt:P58'}} {{!-- scenarist --}}
       {{claim claims 'wdt:P110'}} {{!-- illustrator --}}
       {{claim claims 'wdt:P6338'}} {{!-- colorist --}}
-      {{claim claims 'wdt:P123'}} {{!-- publisher --}}
-      {{claim claims 'wdt:P195'}} {{!-- collection --}}
+      {{#if edition}}
+        {{claim claims 'wdt:P123'}} {{!-- publisher --}}
+        {{claim claims 'wdt:P195'}} {{!-- collection --}}
+        {{claim claims 'wdt:P98'}} {{!-- editor --}}
+      {{/if}}
+      {{#if collection}}
+        {{claim claims 'wdt:P123'}} {{!-- publisher --}}
+        {{claim claims 'wdt:P98'}} {{!-- editor --}}
+      {{/if}}
       {{timeClaim claims 'wdt:P577'}} {{!-- publication date --}}
-      {{claim claims 'wdt:P407'}} {{!-- edition language --}}
+      {{claim claims 'wdt:P407'}} {{!-- language --}}
     </div>
   </div>
 </a>

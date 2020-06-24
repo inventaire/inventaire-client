@@ -1,6 +1,5 @@
 loader = require 'modules/general/views/templates/loader'
 error_ = require 'lib/error'
-canAddOneTypeList = [ 'serie', 'work', 'edition', 'collection' ]
 EntitiesListAdder = require './entities_list_adder'
 { currentRoute } = require 'lib/location'
 
@@ -54,6 +53,7 @@ module.exports = Marionette.CompositeView.extend
 
   initialize: ->
     { @parentModel } = @options
+    @childrenClaimProperty = @options.childrenClaimProperty or @parentModel.childrenClaimProperty
     initialLength = @options.initialLength or 5
     @batchLength = @options.batchLength or 15
 
@@ -62,13 +62,17 @@ module.exports = Marionette.CompositeView.extend
 
     @collection.firstFetch initialLength
 
+    parentType = @parentModel.type
+    childrenType = @options.type
+    @addOneLabel = getAddLabel(parentType, childrenType, @childrenClaimProperty)
+
   serializeData: ->
     title: @options.title
     customTitle: @options.customTitle
     hideHeader: @options.hideHeader
     more: @more()
     totalLength: @collection.totalLength
-    addOneLabel: addOneLabels[@parentModel?.type]?[@options.type]
+    addOneLabel: @addOneLabel
 
   events:
     'click a.displayMore': 'displayMore'
@@ -91,10 +95,12 @@ module.exports = Marionette.CompositeView.extend
   addOne: (e)->
     unless app.request 'require:loggedIn', currentRoute() then return
     { type, parentModel } = @options
-    header = addOneLabels[@parentModel.type][type]
-    app.layout.modal.show new EntitiesListAdder { header, type, parentModel, listCollection: @collection }
+    app.layout.modal.show new EntitiesListAdder { header: @addOneLabel, type, parentModel, listCollection: @collection }
     # Prevent nested entities list to trigger that same event on the parent list
     e.stopPropagation()
+
+getAddLabel = (parentType, childrenType, property)->
+  addOneLabels[parentType]?[childrenType] or addOneLabels[property]?[childrenType]
 
 addOneLabels =
   # parent model type
@@ -109,3 +115,7 @@ addOneLabels =
     collection: 'add a collection from this publisher'
   collection:
     edition: 'add an edition to this collection'
+
+  # parent-children relation property
+  'wdt:P921':
+    work: 'add a work with this subject'
