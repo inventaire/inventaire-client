@@ -83,7 +83,7 @@ module.exports = Marionette.CompositeView.extend
     @searchByType input
 
   searchByType: (input, initialCandidatesSearch)->
-    typeSearch @type, input
+    typeSearch @type, input, 50
     .then (results)=>
       # Ignore the results if the input changed
       if input isnt @_lastInput and not initialCandidatesSearch then return
@@ -99,6 +99,8 @@ module.exports = Marionette.CompositeView.extend
       label = @parentModel.get('label')
       @$el.addClass 'fetching'
       @_findCandidatesFromLabelSearch = true
+      # TODO: filter-out results that are likely bad suggestions
+      # such as an author's books, when we are looking for books *about* (wdt:P921) that author
       @searchByType label, true
 
   resetFromUris: (uris)->
