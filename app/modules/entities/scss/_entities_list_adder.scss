@@ -17,6 +17,18 @@
     @include display-flex(row, center, center);
     a{
       margin: 1em;
+      text-align: center;
+      min-width: 6em;
+    }
+  }
+  &.fetching{
+    .no-suggestion{
+      display: none;
+    }
+  }
+  &:not(.fetching){
+    .centered-loader{
+      display: none;
     }
   }
 }

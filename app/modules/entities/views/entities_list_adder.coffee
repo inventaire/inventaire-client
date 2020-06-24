@@ -1,6 +1,7 @@
 { buildPath } = require 'lib/location'
 EntitiesListElementCandidate = require './entities_list_element_candidate'
 typeSearch = require 'modules/entities/lib/search/type_search'
+PaginatedEntities = require 'modules/entities/collections/paginated_entities'
 cantTypeSearch = [
   'edition'
 ]
@@ -15,11 +16,14 @@ module.exports = Marionette.CompositeView.extend
     listCollection: @options.listCollection
   emptyView: require 'modules/entities/views/editor/autocomplete_no_suggestion'
 
+  ui:
+    candidates: '.entitiesListElementCandidates'
+
   initialize: ->
     { @type, @parentModel } = @options
     @cantTypeSearch = @type in cantTypeSearch
     @setEntityCreationData()
-    @collection = new Backbone.Collection()
+    @collection = new PaginatedEntities null, { uris: [] }
     @addCandidates()
 
   serializeData: ->
@@ -28,11 +32,14 @@ module.exports = Marionette.CompositeView.extend
     createPath: @createPath
     cantTypeSearch: @cantTypeSearch
 
-  onShow: -> app.execute 'modal:open'
+  onShow: ->
+    app.execute 'modal:open'
+    # Doesn't work if set in events for some reason
+    @ui.candidates.on 'scroll', @onScroll.bind(@)
 
   events:
     'click .create': 'create'
-    'click .done': _.clickCommand 'modal:close'
+    'click .done': -> app.execute 'modal:close'
     'keydown #searchCandidates': 'lazySearch'
 
   setEntityCreationData: ->
@@ -76,14 +83,21 @@ module.exports = Marionette.CompositeView.extend
   addCandidates: ->
     unless @parentModel.getChildrenCandidatesUris? then return
 
+    @$el.addClass 'fetching'
     @_waitForParentModelChildrenCandidatesUris ?= @parentModel.getChildrenCandidatesUris()
 
     @_waitForParentModelChildrenCandidatesUris
     .then @resetFromUris.bind(@)
 
   resetFromUris: (uris)->
-    app.request 'get:entities:models', { uris }
-    .then @collection.reset.bind(@collection)
+    @$el.removeClass 'fetching'
+    @collection.resetFromUris uris
+
+  onScroll: (e)->
+    visibleHeight = @ui.candidates.height()
+    { scrollHeight, scrollTop } = e.currentTarget
+    scrollBottom = scrollTop + visibleHeight
+    if scrollBottom is scrollHeight then @collection.fetchMore()
 
   create: (e)->
     if _.isOpenedOutside e then return
