@@ -2,21 +2,26 @@ module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: 'entities-list-element-candidate'
   template: require './templates/entities_list_element_candidate'
+
+  initialize: ->
+    { parentModel, @listCollection } = @options
+    { @childrenClaimProperty } = parentModel
+    @parentUri = parentModel.get('uri')
+    currentPropertyClaims = @model.get("claims.#{@childrenClaimProperty}")
+    @alreadyAdded = currentPropertyClaims? and @parentUri in currentPropertyClaims
+
+  serializeData: ->
+    _.extend @model.toJSON(),
+      alreadyAdded: @alreadyAdded
+
   events:
     'click .add': 'add'
 
   add: ->
-    { parentModel, listCollection } = @options
-
-    listCollection.add @model
-
-    { childrenClaimProperty } = parentModel
-    uri = parentModel.get('uri')
-
+    @listCollection.add @model
     @updateStatus()
-
-    @model.setPropertyValue childrenClaimProperty, null, uri
-    .then -> app.execute 'invalidate:entities:graph', uri
+    @model.setPropertyValue @childrenClaimProperty, null, @parentUri
+    .then => app.execute 'invalidate:entities:graph', @parentUri
 
   updateStatus: ->
     # Use classes instead of a re-render to prevent blinking {{claim}} labels

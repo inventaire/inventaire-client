@@ -21,6 +21,6 @@
 </a>
 
 <div class="status">
-  <a class="tiny-button light-blue add">{{icon 'plus'}} {{i18n 'add'}}</a>
-  <span class="added hidden">{{icon 'check'}} {{i18n 'added'}}</span>
+  <a class="tiny-button light-blue add {{#if alreadyAdded}}hidden{{/if}}">{{icon 'plus'}} {{i18n 'add'}}</a>
+  <span class="added {{#unless alreadyAdded}}hidden{{/unless}}">{{icon 'check'}} {{i18n 'added'}}</span>
 </div>
