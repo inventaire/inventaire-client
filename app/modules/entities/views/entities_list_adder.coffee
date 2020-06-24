@@ -68,9 +68,12 @@ module.exports = Marionette.CompositeView.extend
   search: (e)->
     { value: input } = e.currentTarget
 
-    if input is '' and @_lastInput?
-      @_lastInput = null
-      @addCandidates()
+    if input is ''
+      if @_lastInput?
+        @_lastInput = null
+        @addCandidates()
+      else
+        return
 
     @_lastInput = input
     typeSearch @type, input
