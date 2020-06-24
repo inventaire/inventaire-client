@@ -74,6 +74,9 @@
     flex: 1 0 0;
     overflow: hidden;
   }
+  .status{
+    @include display-flex(column);
+  }
   .add, .added{
     white-space: nowrap;
     flex: 0 0 auto;

@@ -1,3 +1,5 @@
+forms_ = require 'modules/general/lib/forms'
+
 module.exports = Marionette.ItemView.extend
   tagName: 'li'
   className: 'entities-list-element-candidate'
@@ -8,7 +10,10 @@ module.exports = Marionette.ItemView.extend
     { @childrenClaimProperty } = parentModel
     @parentUri = parentModel.get('uri')
     currentPropertyClaims = @model.get("claims.#{@childrenClaimProperty}")
-    @alreadyAdded = currentPropertyClaims? and @parentUri in currentPropertyClaims
+    @alreadyAdded = @isAlreadyAdded()
+
+  behaviors:
+    AlertBox: {}
 
   serializeData: ->
     attrs = @model.toJSON()
@@ -23,11 +28,23 @@ module.exports = Marionette.ItemView.extend
 
   add: ->
     @listCollection.add @model
-    @updateStatus()
     @model.setPropertyValue @childrenClaimProperty, null, @parentUri
-    .then => app.execute 'invalidate:entities:graph', @parentUri
+    .then =>
+      @updateStatus()
+      app.execute 'invalidate:entities:graph', @parentUri
+    .catch forms_.catchAlert.bind(null, @)
 
   updateStatus: ->
-    # Use classes instead of a re-render to prevent blinking {{claim}} labels
-    @$el.find('.add').addClass 'hidden'
-    @$el.find('.added').removeClass 'hidden'
+    if @isAlreadyAdded()
+      # Use classes instead of a re-render to prevent blinking {{claim}} labels
+      @$el.find('.add').addClass 'hidden'
+      @$el.find('.added').removeClass 'hidden'
+    else
+      # Use classes instead of a re-render to prevent blinking {{claim}} labels
+      @$el.find('.add').removeClass 'hidden'
+      @$el.find('.added').addClass 'hidden'
+
+  isAlreadyAdded: ->
+    currentPropertyClaims = @model.get "claims.#{@childrenClaimProperty}"
+    @alreadyAdded = currentPropertyClaims? and @parentUri in currentPropertyClaims
+    return @alreadyAdded

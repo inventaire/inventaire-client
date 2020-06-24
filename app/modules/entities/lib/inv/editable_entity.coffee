@@ -13,38 +13,40 @@ propertiesUsedByRelations = [
 
 module.exports =
   setPropertyValue: (property, oldValue, newValue)->
-    _.log arguments, 'setPropertyValue args'
-    if oldValue is newValue then return Promise.resolve()
+    Promise.try =>
+      _.log { property, oldValue, newValue }, 'setPropertyValue args'
+      _.type property, 'string'
+      if oldValue is newValue then return
 
-    propArrayPath = "claims.#{property}"
-    propArray = @get propArrayPath
-    unless propArray?
-      propArray = []
-      @set propArrayPath, []
+      propArrayPath = "claims.#{property}"
+      propArray = @get propArrayPath
+      unless propArray?
+        propArray = []
+        @set propArrayPath, []
 
-    # let pass null oldValue, it will create a claim
-    if oldValue? and oldValue not in propArray
-      return error_.reject 'unknown property value', arguments
+      # let pass null oldValue, it will create a claim
+      if oldValue? and oldValue not in propArray
+        throw error_.new 'unknown property value', { property, oldValue, newValue }
 
-    # in cases of a new value, index is last index + 1 = propArray.length
-    index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
-    propArray[index] = newValue
-    # Compact propArray to remove deleted values
-    @set propArrayPath, _.compact(propArray)
+      # in cases of a new value, index is last index + 1 = propArray.length
+      index = if oldValue? then propArray.indexOf(oldValue) else propArray.length
+      propArray[index] = newValue
+      # Compact propArray to remove deleted values
+      @set propArrayPath, _.compact(propArray)
 
-    reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
-    rollback = _.Rollback reverseAction, 'editable_entity setPropertyValue'
+      reverseAction = @set.bind @, "#{propArrayPath}.#{index}", oldValue
+      rollback = _.Rollback reverseAction, 'editable_entity setPropertyValue'
 
-    if properties[property].editorType is 'entity'
-      app.execute 'invalidate:entities:graph', [ oldValue, newValue ]
+      if properties[property].editorType is 'entity'
+        app.execute 'invalidate:entities:graph', [ oldValue, newValue ]
 
-    if property in propertiesUsedByRelations then @invalidateRelationsCache()
+      if property in propertiesUsedByRelations then @invalidateRelationsCache()
 
-    return @savePropertyValue property, oldValue, newValue
-    # Triggering the event is required as Backbone.NestedModel would trigger
-    # 'add' and 'remove' events
-    .then => @trigger 'change:claims', property, oldValue, newValue
-    .catch rollback
+      return @savePropertyValue property, oldValue, newValue
+      # Triggering the event is required as Backbone.NestedModel would trigger
+      # 'add' and 'remove' events
+      .then => @trigger 'change:claims', property, oldValue, newValue
+      .catch rollback
 
   savePropertyValue: (property, oldValue, newValue)->
     # Substitute an inv URI to the isbn URI to spare having to resolve it server-side
