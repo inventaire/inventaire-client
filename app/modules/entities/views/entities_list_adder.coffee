@@ -14,13 +14,16 @@ module.exports = Marionette.CompositeView.extend
   childViewOptions: ->
     parentModel: @options.parentModel
     listCollection: @options.listCollection
+    childrenClaimProperty: @options.childrenClaimProperty
+
   emptyView: require 'modules/entities/views/editor/autocomplete_no_suggestion'
 
   ui:
     candidates: '.entitiesListElementCandidates'
 
   initialize: ->
-    { @type, @parentModel } = @options
+    { @type, @parentModel, @childrenClaimProperty } = @options
+    @childrenClaimProperty or= @parentModel.childrenClaimProperty
     @cantTypeSearch = @type in cantTypeSearch
     @setEntityCreationData()
     @collection = new PaginatedEntities null, { uris: [] }
@@ -47,7 +50,7 @@ module.exports = Marionette.CompositeView.extend
     { type: parentType } = parentModel
 
     claims = {}
-    prop = parentModel.childrenClaimProperty
+    prop = @childrenClaimProperty
     claims[prop] = [ parentModel.get('uri') ]
 
     if parentType is 'serie'

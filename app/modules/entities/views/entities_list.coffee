@@ -95,7 +95,13 @@ module.exports = Marionette.CompositeView.extend
   addOne: (e)->
     unless app.request 'require:loggedIn', currentRoute() then return
     { type, parentModel } = @options
-    app.layout.modal.show new EntitiesListAdder { header: @addOneLabel, type, parentModel, listCollection: @collection }
+    app.layout.modal.show new EntitiesListAdder {
+      header: @addOneLabel,
+      type,
+      @childrenClaimProperty
+      parentModel,
+      listCollection: @collection,
+    }
     # Prevent nested entities list to trigger that same event on the parent list
     e.stopPropagation()
 

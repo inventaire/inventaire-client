@@ -6,8 +6,7 @@ module.exports = Marionette.ItemView.extend
   template: require './templates/entities_list_element_candidate'
 
   initialize: ->
-    { parentModel, @listCollection } = @options
-    { @childrenClaimProperty } = parentModel
+    { parentModel, @listCollection, @childrenClaimProperty } = @options
     @parentUri = parentModel.get('uri')
     currentPropertyClaims = @model.get("claims.#{@childrenClaimProperty}")
     @alreadyAdded = @isAlreadyAdded()
