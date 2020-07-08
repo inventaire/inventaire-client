@@ -10,6 +10,7 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     AlertBox: {}
+    BackupForm: {}
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
