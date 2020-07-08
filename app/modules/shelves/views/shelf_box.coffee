@@ -19,6 +19,7 @@ module.exports = Marionette.ItemView.extend
   serializeData: ->
     attrs = @model.toJSON()
     _.extend attrs,
+      isEditable: @isEditable
 
   unselectShelf: ->
     ownerId = @model.get('owner')
