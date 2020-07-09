@@ -21,16 +21,16 @@ module.exports = shelf_ =
     itemsIds = items.map (item)->
       item.removeShelf id
       item.get('_id')
-    shelfActionReq id, itemsIds, 'removeItems'
     model.set 'isInShelf', false
+    return shelfActionReq id, itemsIds, 'removeItems'
 
   addItems: (model, items)->
     { id } = model
     itemsIds = items.map (item)->
       item.addShelf id
       item.get('_id')
-    shelfActionReq id, itemsIds, 'addItems'
     model.set 'isInShelf', true
+    return shelfActionReq id, itemsIds, 'addItems'
 
   getShelvesByOwner: (userId)->
     unless userId then userId = app.user.id
@@ -46,7 +46,6 @@ module.exports = shelf_ =
 shelfActionReq = (id, itemsIds, action)->
   _.preq.post app.API.shelves[action], { id, items: itemsIds }
   .then getShelf
-  .catch app.Execute('show:error')
 
 getShelf = (res)->
   shelvesObj = res.shelves
