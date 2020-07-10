@@ -1,35 +1,9 @@
 {{#if hasVideoInput}}
   <section class="inner">
-    <a class="button radius bold secondary"
-    {{#if useZxing.checked}}
-      id="zxingScanner" href="{{zxing.url}}"
-    {{else}}
-      id="embeddedScanner"
-    {{/if}}
-    >
+    <a id="embeddedScanner" class="button radius bold secondary">
       {{icon 'barcode'}}{{I18n 'scan a barcode'}}
     </a>
-    <div class="setting">
-      {{partial 'toggler' useZxing}}
-    </div>
   </section>
-
-  <section class="inner alternative">
-    <h4>{{i18n 'external scanner'}}</h4>
-    <p>{{I18n 'external_scanner_intro'}}</p>
-    <ul class="apps">
-      {{#each zxing.apps}}
-        <li class="platform">
-          <h5>{{icon @key}} {{capitalize @key}}</h5>
-          <hr>
-          <ul>
-            {{#each this}}
-              <li class="app">{{iconLinkText icon url name}}</li>
-            {{/each}}
-          </ul>
-        </li>
-      {{/each}}
-    </ul>
 {{else}}
   <section class="inner">
     <h3>{{i18n 'add_by_barcode_scan'}}</h3>

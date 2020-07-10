@@ -1,5 +1,4 @@
 EntityDataOverview = require 'modules/entities/views/entity_data_overview'
-zxing = require 'modules/inventory/lib/scanner/zxing'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 forms_ = require 'modules/general/lib/forms'
@@ -57,8 +56,6 @@ module.exports = Marionette.LayoutView.extend
       transactions: transactionsData @itemData.transaction
       header: _.i18n 'add_item_text', { title }
 
-    if @_lastAddMode is 'scan:zxing' then attrs.zxing = zxing
-
     return attrs
 
   onShow: ->
@@ -113,11 +110,8 @@ module.exports = Marionette.LayoutView.extend
     switch @_lastAddMode
       when 'search' then app.execute 'show:add:layout:search'
       when 'scan:embedded' then app.execute 'show:scanner:embedded'
-      # If _lastAddMode is scan:zxing, the scanner should have been opened
-      # by the click on the <a href=zxing.url>, which should open a new window
-      # 'scan' is here as legacy
-      when 'scan', 'scan:zxing' then return
       else
+        # Known case: 'scan:zxing'
         _.warn @_lastAddMode, 'unknown or obsolete add mode'
         app.execute 'show:add:layout'
 

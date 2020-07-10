@@ -8,7 +8,7 @@ parsedGet = (key)->
 
 module.exports = ->
   app.commands.setHandlers
-    # 'search' or 'scan:embedded' or 'scan:zxing'
+    # 'search' or 'scan:embedded'
     'last:add:mode:set': set.bind null, 'lastAddMode'
     # 'inventorying', 'giving', 'lending', 'selling'
     'last:transaction:set': set.bind null, 'lastTransaction'
