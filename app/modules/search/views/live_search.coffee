@@ -61,22 +61,25 @@ module.exports = Marionette.CompositeView.extend
       when 'pagedown' then @selectNextSection()
       else return
 
-  updateSections: (e)-> @selectFromTarget $(e.currentTarget)
+  updateSections: (e)-> @selectTypeFromTarget $(e.currentTarget)
 
   selectPrevSection: -> @selectByPosition 'prev', 'last'
   selectNextSection: -> @selectByPosition 'next', 'first'
   selectByPosition: (relation, fallback)->
     $target = @$el.find('.selected')[relation]()
     if $target.length is 0 then $target = @$el.find('.sections a')[fallback]()
-    @selectFromTarget $target
+    @selectTypeFromTarget $target
 
-  selectFromTarget: ($target)->
+  selectTypeFromTarget: ($target)->
     { id } = $target[0]
     type = getTypeFromId id
+    @selectType type
+
+  selectType: (type)->
     if type is @_lastType then return
 
     @ui.sections.removeClass 'selected'
-    $target.addClass 'selected'
+    @ui.sections.filter("#section-#{type}").addClass 'selected'
     if type is 'all' then @section = null
     else @section = (child)-> child.get('typeAlias') is type
 

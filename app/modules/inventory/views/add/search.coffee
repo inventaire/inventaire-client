@@ -10,7 +10,6 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     history: '#historyWrapper'
-    localSearchField: '#localSearchField'
 
   initialize: ->
     @collection = app.searchResultsHistory
@@ -18,30 +17,17 @@ module.exports = Marionette.CompositeView.extend
     # since the initial sorting
     @collection.sort()
 
-    @listenTo app.vent, 'search:global:change', @updateLocalSearchBar.bind(@)
-
   onShow: ->
     if @collection.length > 0 then @ui.history.show()
     else @listenToHistory()
 
-  serializeData: ->
-    search: searchInputData()
-
   events:
-    'keyup input[type="search"]': 'focusGlobalSearchBar'
     'click .clearHistory': 'clearHistory'
-    # As the search input is synchronized with the top bar input
-    # let that one handle the search
-    'click #localSearchButton': 'focusGlobalSearchBar'
+    'click .search-button': 'showTypeSearch'
 
-  updateLocalSearchBar: (value)->
-    @ui.localSearchField.val value
-
-  focusGlobalSearchBar: (e)->
-    currentValue = e.currentTarget.value
-    # Always update the search field as a closeSearch action
-    # might have removed the previous input
-    $('#searchField').val(currentValue).focus()
+  showTypeSearch: (e)->
+    type = e.currentTarget.href.split('type=')[1]
+    app.execute 'search:global', '', type
 
   clearHistory: ->
     @collection.reset()
@@ -50,13 +36,3 @@ module.exports = Marionette.CompositeView.extend
 
   listenToHistory: ->
     @listenToOnce @collection, 'add', @ui.history.show.bind(@ui.history)
-
-searchInputData = ->
-  nameBase: 'localSearch'
-  field:
-    type: 'search'
-    name: 'search'
-    placeholder: _.i18n 'search a book by title, author or ISBN'
-  button:
-    icon: 'search'
-    classes: 'secondary postfix'

@@ -1,6 +1,23 @@
 <section class="inner">
-  <h3>{{i18n 'add_by_search'}}</h3>
-  {{input search}}
+  <h3>{{i18n 'search by'}}</h3>
+  <div class="search-buttons">
+    <a href="/search?type=book" class="search-button">
+      {{icon 'search'}}
+      {{I18n 'book'}}
+    </a>
+    <a href="/search?type=author" class="search-button">
+      {{icon 'search'}}
+      {{I18n 'author'}}
+    </a>
+    <a href="/search?type=serie" class="search-button">
+      {{icon 'search'}}
+      {{I18n 'series_singular'}}
+    </a>
+    <a href="/search?type=subject" class="search-button">
+      {{icon 'search'}}
+      {{I18n 'subject'}}
+    </a>
+  </div>
 </section>
 
 <div id="historyWrapper" class="hidden">
