@@ -2,8 +2,8 @@ username_ = require 'modules/user/lib/username_tests'
 email_ = require 'modules/user/lib/email_tests'
 password_ = require 'modules/user/lib/password_tests'
 forms_ = require 'modules/general/lib/forms'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
 prepareRedirect = require '../lib/prepare_redirect'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   className: 'authMenu signup'
@@ -21,7 +21,6 @@ module.exports = Marionette.LayoutView.extend
     password: '#password'
 
   initialize: ->
-    _.extend @, behaviorsPlugin
     @formAction = prepareRedirect.call @
 
   events:
@@ -42,13 +41,14 @@ module.exports = Marionette.LayoutView.extend
 
   # CLASSIC
   validClassicSignup: ->
-    @startLoading '#classicSignup'
+    startLoading.call @, '#classicSignup'
 
     @verifyClassicUsername()
     .then @verifyEmail.bind(@)
     .then @verifyPassword.bind(@)
     .then @sendClassicSignupRequest.bind(@)
     .catch forms_.catchAlert.bind(null, @)
+    .finally stopLoading.bind(@)
 
   verifyClassicUsername: -> @verifyUsername 'classicUsername'
 
