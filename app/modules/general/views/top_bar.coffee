@@ -94,7 +94,9 @@ module.exports = Marionette.LayoutView.extend
       app.user.set 'language', lang
 
   showLiveSearch: (params = {})->
-    if @liveSearch.currentView? then @liveSearch.$el.show()
+    # If a section is specified, reinitialize the search view
+    # to take that section request into account
+    if @liveSearch.currentView? and not params.section? then @liveSearch.$el.show()
     else @liveSearch.show new LiveSearch(params)
     @liveSearch.$el.addClass 'shown'
     @liveSearch.currentView.resetHighlightIndex()
