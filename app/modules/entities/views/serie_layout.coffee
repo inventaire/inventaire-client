@@ -31,7 +31,7 @@ module.exports = TypedEntityLayout.extend
 
     @parts.show new EntitiesList
       parentModel: @model
-      collection: @model.parts
+      collection: @model.partsWithoutSuperparts
       title: 'works'
       type: 'work'
       hideHeader: true

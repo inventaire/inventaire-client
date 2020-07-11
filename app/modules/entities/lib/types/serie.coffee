@@ -22,7 +22,7 @@ specificMethods = _.extend {}, commonsSerieWork,
     refresh = @getRefresh refresh
     if not refresh and @waitForParts? then return @waitForParts
 
-    @fetchPartsData { refresh }
+    @fetchPartsData refresh
     .then initPartsCollections.bind(@, refresh, fetchAll)
     .then importDataFromParts.bind(@)
 
@@ -40,8 +40,17 @@ specificMethods = _.extend {}, commonsSerieWork,
     return _.uniq _.compact(allAuthorsUris)
 
 initPartsCollections = (refresh, fetchAll, partsData)->
+  allsPartsUris = _.pluck partsData, 'uri'
+  partsWithoutSuperparts = partsData.filter hasNoKnownSuperpart(allsPartsUris)
+  partsWithoutSuperpartsUris = _.pluck partsWithoutSuperparts, 'uri'
+
   @parts = new PaginatedWorks null,
-    uris: partsData.map getUri
+    uris: allsPartsUris
+    defaultType: 'work'
+    refresh: refresh
+
+  @partsWithoutSuperparts = new PaginatedWorks null,
+    uris: partsWithoutSuperpartsUris
     defaultType: 'work'
     refresh: refresh
     parentContext:
@@ -50,11 +59,14 @@ initPartsCollections = (refresh, fetchAll, partsData)->
 
   if fetchAll then return @parts.fetchAll()
 
+hasNoKnownSuperpart = (allsPartsUris)-> (part)->
+  unless part.superpart? then return true
+  return part.superpart not in allsPartsUris
+
 importDataFromParts = ->
   firstPartWithPublicationDate = @parts.find getPublicationDate
   if firstPartWithPublicationDate?
     @set 'publicationStart', getPublicationDate(firstPartWithPublicationDate)
 
-getUri = _.property 'uri'
 getPublicationDate = (model)-> model.get 'claims.wdt:P577.0'
 getAuthors = (model)-> model.getExtendedAuthorsUris()
