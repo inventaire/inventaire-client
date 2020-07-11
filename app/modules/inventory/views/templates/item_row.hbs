@@ -11,7 +11,12 @@
       <p class="title">{{title}}</p>
       <p class="authors">{{authors}}</p>
     </div>
+    <div class="details" title="{{details}}">{{details}}</div>
   </a>
+
+  {{#if groupContext}}
+    <img class="avatar" src="{{imgSrc user.picture 32}}" alt="{{user.username}}" title="{{user.username}}">
+  {{/if}}
 
   <div class="modes">
     {{#unless isPrivate}}

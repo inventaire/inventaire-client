@@ -20,10 +20,23 @@
       margin-left: 0.2em;
     }
   }
-  .info{
-  }
   .authors{
     color: $grey;
+  }
+  .info{
+    flex: 1 0 auto;
+  }
+  .details{
+    &:not(:empty){
+      background-color: #eee;
+      padding: 0 0.2em;
+      overflow: hidden;
+      @include radius;
+    }
+  }
+  .avatar{
+    margin: 0 0.2em;
+    @include radius;
   }
   .transaction, .listing{
     @include radius;
@@ -63,7 +76,11 @@
     }
     .info{
       align-self: stretch;
-      flex: 1 0 auto;
+      text-align: center;
+    }
+    .details{
+      max-height: 5em;
+      margin: 0.5em;
     }
     .modes{
       flex-direction: column;
@@ -76,8 +93,11 @@
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     .info{
-      flex: 1 0 auto;
       text-align: left;
+    }
+    .details{
+      max-height: 3em;
+      max-width: 50%;
     }
     .image-wrapper{
       width: 3em;

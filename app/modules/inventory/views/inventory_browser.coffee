@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
 
     @display = localStorageProxy.getItem('inventory:display') or 'cascade'
     @isMainUser = @options.user?.isMainUser
+    @groupContext = @options.group?
 
   ui:
     browserControls: '#browserControls'
@@ -126,6 +127,7 @@ module.exports = Marionette.LayoutView.extend
       hasMore,
       itemsIds,
       @isMainUser,
+      @groupContext,
       # Regenerate the whole view to re-request the data without the deleted items
       afterItemsDelete: @initBrowser.bind(@)
     }
