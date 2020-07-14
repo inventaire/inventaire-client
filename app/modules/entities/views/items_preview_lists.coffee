@@ -74,3 +74,5 @@ headers =
   personal: 'in your inventory'
   network: "in your friends' and groups' inventories"
   public: 'public'
+  nearbyPublic: 'nearby'
+  otherPublic: 'elsewhere'

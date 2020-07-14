@@ -17,7 +17,12 @@ showItemsPreviewLists = ->
       # TODO: replace network by only friends and groups,
       # moving non-confirmed friends to public items
       showItemsPreviews.call @, itemsByCategory, 'network'
-    showItemsPreviews.call @, itemsByCategory, 'public'
+    if itemsByCategory.nearbyPublic?
+      showItemsPreviews.call @, itemsByCategory, 'nearbyPublic'
+      showItemsPreviews.call @, itemsByCategory, 'otherPublic'
+    else
+      showItemsPreviews.call @, itemsByCategory, 'public'
+
     @$el.find('.items-lists-loader').hide()
 
 showItemsPreviews = (itemsByCategory, category)->

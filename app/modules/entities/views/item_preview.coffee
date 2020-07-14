@@ -14,6 +14,7 @@ module.exports = Marionette.ItemView.extend
     _.extend @model.serializeData(),
       showDetails: @options.showDetails
       title: buildTitle @model.user, transaction
+      distanceFromMainUser: @model.user.distanceFromMainUser
 
   events:
     'click .showItem': 'showItem'
