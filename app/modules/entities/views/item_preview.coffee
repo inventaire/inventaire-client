@@ -11,10 +11,10 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     transaction = @model.get 'transaction'
-    username = @model.user?.get 'username'
     _.extend @model.serializeData(),
       showDetails: @options.showDetails
-      title: if username? then _.i18n("#{transaction}_personalized", { username })
+      title: buildTitle @model.user, transaction
+      distanceFromMainUser: @model.user.distanceFromMainUser
 
   events:
     'click .showItem': 'showItem'
@@ -22,3 +22,12 @@ module.exports = Marionette.ItemView.extend
   showItem: (e)->
     unless _.isOpenedOutside e
       app.execute 'show:item', @model
+
+
+buildTitle = (user, transaction)->
+  unless user? then return
+  username = user.get 'username'
+  title = _.i18n "#{transaction}_personalized", { username }
+  if user.distanceFromMainUser?
+    title += " (#{_.i18n('km_away', { distance: user.distanceFromMainUser })})"
+  return title

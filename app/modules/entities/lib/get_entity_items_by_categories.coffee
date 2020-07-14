@@ -22,6 +22,17 @@ spreadItems = (uris)-> (items)->
     category = item.user.get 'itemsCategory'
     itemsByCategories[category].push item
 
+  for category, categoryItems of itemsByCategories
+    categoryItems.sort byDistance
+
+  if app.user.has('position') and itemsByCategories.public.length > 0
+    nearestPublicItem = itemsByCategories.public[0]
+    nearestPublicItemDistance = getItemDistance nearestPublicItem
+    nearbyKmPerimeter = getPerimeter nearestPublicItemDistance
+    [ nearbyPublic, otherPublic ] = _.partition itemsByCategories.public, isNearby(nearbyKmPerimeter)
+    itemsByCategories.nearbyPublic = nearbyPublic
+    itemsByCategories.otherPublic = otherPublic
+
   return itemsByCategories
 
 module.exports = ->
@@ -32,3 +43,13 @@ module.exports = ->
     app.request 'items:getByEntities', uris
     .then spreadItems(uris)
   .tap (itemsByCategory)=> @itemsByCategory = itemsByCategory
+
+byDistance = (itemA, itemB)-> getItemDistance(itemA) - getItemDistance(itemB)
+
+isNearby = (nearbyKmPerimeter)-> (item)-> nearbyKmPerimeter > getItemDistance(item)
+
+getItemDistance = (item)-> item.user?.kmDistanceFormMainUser or Infinity
+
+getPerimeter = (nearestPublicItemDistance)->
+  if nearestPublicItemDistance < 50 then Math.max (nearestPublicItemDistance * 2), 10
+  else 100

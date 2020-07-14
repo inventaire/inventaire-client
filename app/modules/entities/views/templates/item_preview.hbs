@@ -4,8 +4,7 @@
     <div class="right-part">
       <p class="username">{{user.username}}</p>
       {{#if details}}<p class="details">{{details}}</p>{{/if}}
-      {{!-- {{#unless restricted}}{{#if notes}}<p class="notes">{{notes}}</p>{{/if}}{{/unless}}
-      <div class="request-box">{{partial 'inventory:item_request_box' this}}</div> --}}
+      <p class="distance">{{i18n 'km_away' distance=distanceFromMainUser}}</p>
     </div>
   </a>
 {{else}}

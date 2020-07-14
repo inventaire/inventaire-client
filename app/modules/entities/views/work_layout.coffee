@@ -16,6 +16,8 @@ module.exports = TypedEntityLayout.extend
     personalItemsRegion: '.workPersonalItems'
     networkItemsRegion: '.workNetworkItems'
     publicItemsRegion: '.workPublicItems'
+    nearbyPublicItemsRegion: '.workNearbyPublicItems'
+    otherPublicItemsRegion: '.workOtherPublicItems'
     mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
