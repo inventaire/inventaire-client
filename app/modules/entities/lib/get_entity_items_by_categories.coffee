@@ -22,6 +22,9 @@ spreadItems = (uris)-> (items)->
     category = item.user.get 'itemsCategory'
     itemsByCategories[category].push item
 
+  for category, categoryItems of itemsByCategories
+    categoryItems.sort byDistance
+
   return itemsByCategories
 
 module.exports = ->
@@ -32,3 +35,8 @@ module.exports = ->
     app.request 'items:getByEntities', uris
     .then spreadItems(uris)
   .tap (itemsByCategory)=> @itemsByCategory = itemsByCategory
+
+byDistance = (itemA, itemB)->
+  a = itemA.user?.kmDistanceFormMainUser or Infinity
+  b = itemB.user?.kmDistanceFormMainUser or Infinity
+  return a - b
