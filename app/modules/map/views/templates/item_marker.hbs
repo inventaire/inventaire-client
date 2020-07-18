@@ -1,0 +1,13 @@
+<div class="itemMarker objectMarker">
+  <a class="showItem" href="{{pathname}}" data-item-id="{{_id}}" title="{{title}}">
+    {{#if picture}}<img src="{{imgSrc picture 64}}" alt="{{title}}">{{/if}}
+    <div class="right">
+      <img src="{{imgSrc user.picture 64}}" alt="{{user.username}}">
+
+    </div>
+    <div class="icon-wrapper">
+      {{icon transaction transaction}}
+    </div>
+    <p class="username">{{user.username}}</p>
+  </a>
+</div>

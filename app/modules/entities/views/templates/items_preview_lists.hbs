@@ -1,7 +1,12 @@
-<h3 class="header">
-  {{icon header.icon}}
-  <span>{{I18n header.label}}</span>
-</h3>
+<div class="header">
+  <h3>
+    {{icon header.icon}}
+    <span class="label">{{I18n header.label}}</span>
+  </h3>
+  {{#unless emptyList}}
+    <a class="showOnMap tiny-button soft-grey">{{icon 'map-marker'}}{{I18n 'show on map'}}</a>
+  {{/unless}}
+</div>
 <div class="items-lists-per-transactions">
   <div class="giving"></div>
   <div class="lending"></div>

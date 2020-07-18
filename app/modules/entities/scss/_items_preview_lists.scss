@@ -1,7 +1,12 @@
 .items-lists{
+  max-width: 50em;
+  margin: auto;
   .personal{
     .itemsPreviewLists{
       background-color: #eeeeee;
+    }
+    .showOnMap{
+      display: none;
     }
   }
   .network{
@@ -82,13 +87,11 @@
   /*Large screens*/
   @media screen and (min-width: 25em) {
     min-width: 20em;
-    padding: 1em;
   }
 
   /*Small screens*/
   @media screen and (max-width: 25em) {
     min-width: 70vw;
-    padding: 1em 0.5em 1em 0.5em;
   }
 }
 

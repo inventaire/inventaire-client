@@ -29,4 +29,4 @@ showItemsPreviews = (itemsByCategory, category)->
   itemsModels = itemsByCategory[category]
   compact = not @options.standalone
   # if compact and itemsModels.length is 0 then return
-  @["#{category}ItemsRegion"].show new ItemsPreviewLists { category, itemsModels, compact }
+  @["#{category}ItemsRegion"].show new ItemsPreviewLists { category, itemsModels, compact, @displayItemsCovers }

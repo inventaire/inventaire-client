@@ -197,3 +197,5 @@ module.exports = Filterable.extend
     @set key, value
     # Trigger it
     @_lazySave()
+
+  getCoords: -> @user?.getCoords()

@@ -9,9 +9,11 @@ module.exports = Marionette.ItemView.extend
 
   serializeData: ->
     transaction = @model.get 'transaction'
-    _.extend @model.serializeData(),
+    attrs = @model.serializeData()
+    _.extend attrs,
       title: buildTitle @model.user, transaction
       distanceFromMainUser: @model.user.distanceFromMainUser
+      displayCover: @options.displayItemsCovers and attrs.picture?
 
   events:
     'click .showItem': 'showItem'

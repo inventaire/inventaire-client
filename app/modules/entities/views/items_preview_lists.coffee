@@ -27,12 +27,22 @@ module.exports = Marionette.LayoutView.extend
     header: headers[@category]
     emptyList: @emptyList
 
+  events:
+    'click .showOnMap': 'showOnMap'
+
   onShow: ->
     unless @emptyList then @showItemsPreviewLists()
 
   showItemsPreviewLists: ->
     for transaction, collection of @collections
-      @["#{transaction}Region"].show new ItemsPreviewList { transaction, collection }
+      @["#{transaction}Region"].show new ItemsPreviewList { transaction, collection, @displayItemsCovers }
+
+  showOnMap: ->
+    unless @_itemsPositionsSet
+      @itemsModels.forEach (model)-> model.position = model.user?.get('position')
+      @_itemsPositionsSet = true
+    # Add the main user to the list to make sure the map shows their position
+    app.execute 'show:models:on:map', @itemsModels.concat([ app.user ])
 
 spreadByTransactions = (itemsModels)->
   collections = {}

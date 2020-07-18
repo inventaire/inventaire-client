@@ -21,6 +21,7 @@ module.exports = TypedEntityLayout.extend
     mergeSuggestionsRegion: '.mergeSuggestions'
 
   initialize: ->
+    @displayItemsCovers = true
     TypedEntityLayout::initialize.call @
     entityItems.initialize.call @
     @displayMergeSuggestions = app.user.isAdmin

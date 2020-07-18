@@ -1,9 +1,9 @@
-@import "./position_required";
-@import "./position_picker";
-@import "./user_and_group_markers";
+@import './position_required';
+@import './position_picker';
+@import './objects_markers';
 
 .map-container{
-  min-height: 60vh;
+  min-height: 80vh;
   width: 100%;
   z-index: 10;
 }
