@@ -199,3 +199,5 @@ module.exports = Filterable.extend
     @_lazySave()
 
   getCoords: -> @user?.getCoords()
+
+  hasPosition: -> @user?.has('position')

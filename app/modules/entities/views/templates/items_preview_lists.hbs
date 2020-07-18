@@ -3,9 +3,9 @@
     {{icon header.icon}}
     <span class="label">{{I18n header.label}}</span>
   </h3>
-  {{#unless emptyList}}
+  {{#if canShowOnMap}}
     <a class="showOnMap tiny-button soft-grey">{{icon 'map-marker'}}{{I18n 'show on map'}}</a>
-  {{/unless}}
+  {{/if}}
 </div>
 <div class="items-lists-per-transactions">
   <div class="giving"></div>

@@ -18,6 +18,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     { @category, @itemsModels, @compact, @displayItemsCovers } = @options
+    @itemsWithPositionCount = @itemsModels?.filter((item)-> item.hasPosition()).length or 0
     if @itemsModels?.length > 0
       @collections = spreadByTransactions @itemsModels
     else
@@ -26,6 +27,7 @@ module.exports = Marionette.LayoutView.extend
   serializeData: ->
     header: headers[@category]
     emptyList: @emptyList
+    canShowOnMap: not @emptyList and @itemsWithPositionCount > 0
 
   events:
     'click .showOnMap': 'showOnMap'
