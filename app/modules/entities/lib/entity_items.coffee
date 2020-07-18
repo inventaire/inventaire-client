@@ -17,7 +17,7 @@ showItemsPreviewLists = ->
       # TODO: replace network by only friends and groups,
       # moving non-confirmed friends to public items
       showItemsPreviews.call @, itemsByCategory, 'network'
-    if itemsByCategory.nearbyPublic?
+    if app.user.has 'position'
       showItemsPreviews.call @, itemsByCategory, 'nearbyPublic'
       showItemsPreviews.call @, itemsByCategory, 'otherPublic'
     else

@@ -5,14 +5,11 @@ module.exports = Marionette.ItemView.extend
     PreventDefault: {}
 
   onShow: ->
-    unless @model.user?
-      @model.waitForUser
-      .then @ifViewIsIntact('render')
+    unless @model.user? then @model.waitForUser.then @lazyRender.bind(@)
 
   serializeData: ->
     transaction = @model.get 'transaction'
     _.extend @model.serializeData(),
-      showDetails: @options.showDetails
       title: buildTitle @model.user, transaction
       distanceFromMainUser: @model.user.distanceFromMainUser
 
@@ -20,9 +17,8 @@ module.exports = Marionette.ItemView.extend
     'click .showItem': 'showItem'
 
   showItem: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:item', @model
-
+    if _.isOpenedOutside e then return
+    app.execute 'show:item', @model
 
 buildTitle = (user, transaction)->
   unless user? then return

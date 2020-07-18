@@ -1,116 +1,51 @@
-$preview-icon-base-size: 2em;
+.items-lists{
+  .personal{
+    .itemsPreviewLists{
+      background-color: #eeeeee;
+    }
+  }
+  .network{
+    .itemsPreviewLists{
+      background-color: #f4f4f4;
+    }
+  }
+  .nearby{
+    .itemsPreviewLists{
+      background-color: #f8f8f8;
+    }
+  }
+  .other, .public{
+    .itemsPreviewLists{
+      background-color: #fcfcfc;
+    }
+  }
+}
 
 .itemsPreviewLists{
-  margin: auto;
-  background-color: #f2f2f2;
   padding: 0.5em;
   margin-bottom: 0.5em;
-  position: relative;
-  /*Large screens*/
-  @media screen and (min-width: 25em) {
-    min-width: 20em;
-    padding: 1em;
-  }
-  /*Small screens*/
-  @media screen and (max-width: 25em) {
-    min-width: 70vw;
-    padding: 1em 0.5em 1em 0.5em;
-  }
   @include radius;
   .header{
-    color: $dark-grey;
-  }
-  .showDetails, .hideDetails{
-    @include underline;
-    @include shy;
-    position: absolute;
-  }
-  .showDetails{
-    right: 5px;
-    bottom: 1px;
-  }
-  .hideDetails{
-    right: 22px;
-    bottom: 27px;
-  }
-  &:not(.show-details){
-    .items-lists-per-transactions{
-      @include display-flex(row, center, flex-start, wrap);
-    }
-    .itemsPreviewList{
-      @include display-flex(row, center, flex-start);
-    }
-    .transaction-icon, .item-preview{
-      flex: 0 0 $preview-icon-base-size;
-      margin-right: 0.1em;
-      margin-bottom: 0.1em;
-    }
-    .transaction-icon{
-      .fa{
-        // centering
-        padding-left: 0.3em;
-        margin: 0 auto;
+    @include display-flex(row, center, space-between);
+    h3{
+      margin-bottom: 0;
+      @include sans-serif;
+      font-size: 1rem;
+      .fa, .label{
+        color: $dark-grey;
+      }
+      .label{
+        margin-right: auto;
       }
     }
-    .items-preview{
-      margin-right: $preview-icon-base-size;
-    }
   }
-  &.show-details{
-    background-color: white;
-    .items-lists-per-transactions{
-      @include display-flex(column, center, center);
-      > div{
-        width: 100%;
-      }
-    }
+
+  &:not(.emptyLists){
     .header{
-      font-weight: bold;
-    }
-    .itemsPreviewList{
-      margin-top: 1em;
-      @include display-flex(column, center, center);
-      background-color: #eee;
-    }
-    .transaction-icon{
-      min-width: 10em;
-      justify-content: center;
-    }
-    .items-preview{
-      padding: 0.5em 1em 0.5em 1em;
-      display: block;
-      width: 100%;
-    }
-    .item-preview{
-      padding: 1em;
-      .showItem{
-        @include display-flex(row, center, flex-start);
-        @include bg-hover(white);
-        margin-bottom: 0.5em;
-        width: 100%;
-      }
-      img{
-        align-self: flex-start;
-        flex: 0 0 auto;
-      }
-      .right-part{
-        text-align: left;
-        flex: 1 0 0;
-        margin-left: 0.5em;
-        .details{
-          // Just pulling details slightly up so that a one-line text would make
-          // the box have the same height as the user profile pic
-          margin-top: -0.2em;
-        }
-        .notes{
-          padding-top: 0.2em;
-          color: white;
-          background-color: $darker-grey;
-        }
-      }
-      margin-right: auto;
+      margin-bottom: 0.5em;
     }
   }
+
   &.emptyLists{
     opacity: 0.6;
     @include display-flex(row, center, space-between);
@@ -118,49 +53,44 @@ $preview-icon-base-size: 2em;
       display: none;
     }
   }
-}
-.items-lists-per-transactions{
-  // add a hint of padding to prevent the "show/hide details" links
-  // (which have a position: absolute) to overlap
-  padding-bottom: 0.3em;
-}
-// Here after are the rules applying to both with
-// and without .show-details set on .itemsPreviewLists
-.itemsPreviewList{
-  margin-bottom: 0.5em;
-}
-.transaction-icon{
-  @include display-flex(row, center, flex-start);
-  width: $preview-icon-base-size;
-  height: $preview-icon-base-size;
-  color: white;
-  @include radius;
-  &.giving{ background-color: $giving-color; }
-  &.lending{ background-color: $lending-color; }
-  &.selling{ background-color: $selling-color; }
-  &.inventorying{ background-color: $inventorying-color; }
-  margin: auto;
-}
+  .items-lists-loader{
+    text-align: center;
+    color: #bbb;
+    @include display-flex(row, center, center);
+    .small-loader{
+      padding: 0.3em;
+    }
+    label{
+      flex: 1 0 auto;
+      white-space: nowrap;
+    }
+  }
 
-.item-preview{
-  img{
-    @include radius;
+  .items-lists-per-transactions{
+    // add a hint of padding to prevent the "show/hide details" links
+    // (which have a position: absolute) to overlap
+    padding-bottom: 0.3em;
+    max-height: 15em;
+    overflow-y: auto;
+  }
+
+  .empty-list{
+    padding: 0 0.5em;
+    color: lighten($grey, 15%);
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: 25em) {
+    min-width: 20em;
+    padding: 1em;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: 25em) {
+    min-width: 70vw;
+    padding: 1em 0.5em 1em 0.5em;
   }
 }
 
-.items-lists-loader{
-  color: #bbb;
-  @include display-flex(row, center, center);
-  .small-loader{
-    padding: 0.3em;
-  }
-  label{
-    flex: 1 0 auto;
-    white-space: nowrap;
-  }
-}
 
-.empty-list{
-  padding: 0 0.5em;
-  color: lighten($grey, 15%);
-}
+@import 'items_preview_list';

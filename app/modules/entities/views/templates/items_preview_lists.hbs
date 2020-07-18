@@ -1,4 +1,7 @@
-<span class="header">{{I18n header}}</span>
+<h3 class="header">
+  {{icon header.icon}}
+  <span>{{I18n header.label}}</span>
+</h3>
 <div class="items-lists-per-transactions">
   <div class="giving"></div>
   <div class="lending"></div>
@@ -7,9 +10,4 @@
 </div>
 {{#if emptyList}}
   <div class="empty-list">{{i18n 'nothing here'}}</div>
-{{else}}
-  <div class="detailsTogglers">
-    <a class="showDetails">{{i18n 'show details'}}</a>
-    <a class="hideDetails hidden">{{i18n 'hide details'}}</a>
-  </div>
 {{/if}}

@@ -1,14 +1,11 @@
-{{#if showDetails}}
-  <a class="showItem" href="{{pathname}}" title="{{title}}">
-    <img src="{{imgSrc user.picture 48}}" alt="{{user.username}}">
-    <div class="right-part">
-      <p class="username">{{user.username}}</p>
-      {{#if details}}<p class="details">{{details}}</p>{{/if}}
+<a class="showItem" href="{{pathname}}" title="{{title}}">
+  {{#if picture}}<img src="{{imgSrc picture 64}}" alt="{{title}}">{{/if}}
+  <img src="{{imgSrc user.picture 64}}" alt="{{user.username}}">
+  <div class="user-info">
+    <p class="username">{{user.username}}</p>
+    {{#if distanceFromMainUser}}
       <p class="distance">{{i18n 'km_away' distance=distanceFromMainUser}}</p>
-    </div>
-  </a>
-{{else}}
-  <a class="showItem" href="{{pathname}}" title="{{title}}">
-    <img src="{{imgSrc user.picture 32}}" alt="{{user.username}}">
-  </a>
-{{/if}}
+    {{/if}}
+  </div>
+  <p class="details">{{details}}</p>
+</a>

@@ -9,10 +9,6 @@ module.exports = Marionette.CompositeView.extend
   initialize: ->
     { @transaction } = @options
 
-  childViewOptions: ->
-    showDetails: @options.showDetails
-
   serializeData: ->
     transaction: @transaction
     icon: transactionsData[@transaction].icon
-    showDetails: @options.showDetails
