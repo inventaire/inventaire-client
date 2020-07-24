@@ -11,6 +11,8 @@ module.exports = Marionette.LayoutView.extend
     personalItemsRegion: '.editionPersonalItems'
     networkItemsRegion: '.editionNetworkItems'
     publicItemsRegion: '.editionPublicItems'
+    nearbyPublicItemsRegion: '.editionNearbyPublicItems'
+    otherPublicItemsRegion: '.editionOtherPublicItems'
     entityActions: '.editionEntityActions'
 
   initialize: ->
