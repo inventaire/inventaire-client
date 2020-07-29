@@ -204,13 +204,13 @@ module.exports = Filterable.extend
   hasPosition: -> @user?.has('position')
 
   addShelf: (shelfId)->
-    unless @get 'shelves' then @set 'shelves', []
-    shelvesIds = @get 'shelves'
+    shelvesIds = @get('shelves') or []
     if shelfId in shelvesIds then return
     shelvesIds.push shelfId
+    @set 'shelves', shelvesIds
 
   removeShelf: (shelfId)->
-    shelvesIds = @get 'shelves'
+    shelvesIds = @get('shelves') or []
     if shelfId not in shelvesIds then return
     shelvesIds = _.without shelvesIds, shelfId
     @set 'shelves', shelvesIds

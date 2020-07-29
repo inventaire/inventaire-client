@@ -4,11 +4,14 @@
     <h3 id="shelf-name">{{name}}</h3>
     <div id="shelf-actions">
       {{#if isEditable}}
-        <a id="showShelfEdit" class="action tiny-button light-blue">
+        <a id="showShelfEdit" class="tiny-button light-blue">
           {{icon 'pencil'}}
           {{I18n 'edit shelf'}}
         </a>
       {{/if}}
+      <a class="addItems tiny-button light-blue" title="{{I18n 'add books to this shelf'}}">
+        {{icon 'plus'}} {{I18n 'add books'}}
+      </a>
       <a id="unselectShelf" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
     </div>
   </div>

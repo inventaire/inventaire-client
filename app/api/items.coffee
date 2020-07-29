@@ -34,3 +34,7 @@ module.exports =
   inventoryView: (params)-> action 'inventory-view', params
 
   deleteByIds: action 'delete-by-ids'
+
+  search: (user, search)->
+    search = encodeURIComponent(search)
+    action 'search', { user, search }

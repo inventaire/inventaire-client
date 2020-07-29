@@ -1,6 +1,8 @@
 { listingsData: listingsDataFn } = require 'modules/inventory/lib/item_creation'
 getActionKey = require 'lib/get_action_key'
 ShelfEditor = require './shelf_editor'
+ShelfItemsAdder = require './shelf_items_adder'
+Items = require 'modules/inventory/collections/items'
 
 module.exports = Marionette.ItemView.extend
   className: 'shelfBox'
@@ -12,6 +14,7 @@ module.exports = Marionette.ItemView.extend
   events:
     'click #showShelfEdit': 'showEditor'
     'click #unselectShelf': 'unselectShelf'
+    'click .addItems': 'addItems'
 
   modelEvents:
     'change': 'lazyRender'
@@ -27,3 +30,6 @@ module.exports = Marionette.ItemView.extend
 
   showEditor: (e)->
     app.layout.modal.show new ShelfEditor { @model }
+
+  addItems: ->
+    app.layout.modal.show new ShelfItemsAdder { @model }

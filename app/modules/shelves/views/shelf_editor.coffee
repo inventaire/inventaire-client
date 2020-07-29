@@ -5,7 +5,6 @@ getActionKey = require 'lib/get_action_key'
 { updateShelf } = require 'modules/shelves/lib/shelf'
 
 module.exports = Marionette.LayoutView.extend
-  class: 'ShelfEditor'
   template: require './templates/shelf_editor'
 
   behaviors:

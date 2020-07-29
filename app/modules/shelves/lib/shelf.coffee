@@ -18,6 +18,7 @@ module.exports = shelf_ =
 
   removeItems: (model, items)->
     { id } = model
+    items = _.forceArray items
     itemsIds = items.map (item)->
       item.removeShelf id
       item.get('_id')
@@ -26,6 +27,7 @@ module.exports = shelf_ =
 
   addItems: (model, items)->
     { id } = model
+    items = _.forceArray items
     itemsIds = items.map (item)->
       item.addShelf id
       item.get('_id')
