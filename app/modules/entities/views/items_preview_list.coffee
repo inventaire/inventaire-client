@@ -2,12 +2,16 @@
 
 module.exports = Marionette.CompositeView.extend
   template: require './templates/items_preview_list'
+  className: ->
+    className = 'itemsPreviewList'
+    if @options.compact then className += ' compact'
+    return className
+
   childViewContainer: '.items-preview'
   childView: require './item_preview'
-  className: 'itemsPreviewList'
-
   childViewOptions: ->
     displayItemsCovers: @options.displayItemsCovers
+    compact: @options.compact
 
   initialize: ->
     { @transaction } = @options

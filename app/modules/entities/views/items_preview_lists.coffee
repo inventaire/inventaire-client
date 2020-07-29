@@ -37,7 +37,12 @@ module.exports = Marionette.LayoutView.extend
 
   showItemsPreviewLists: ->
     for transaction, collection of @collections
-      @["#{transaction}Region"].show new ItemsPreviewList { transaction, collection, @displayItemsCovers }
+      @["#{transaction}Region"].show new ItemsPreviewList {
+        transaction,
+        collection,
+        @displayItemsCovers,
+        @compact
+      }
 
   showOnMap: ->
     unless @_itemsPositionsSet

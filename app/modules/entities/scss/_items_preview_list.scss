@@ -1,11 +1,29 @@
 $preview-icon-base-size: 2em;
 
 .itemsPreviewList{
-  margin-bottom: 0.5em;
+  &:not(.compact){
+    margin-bottom: 0.5em;
+    .transaction-box{
+      min-width: 8em;
+    }
+    .items-preview{
+      flex: 1;
+    }
+  }
+  &.compact{
+    margin-right: 0.5em;
+    .transaction-box{
+      .label{
+        display: none;
+      }
+    }
+    .items-preview{
+      @include display-flex(row, center, flex-start, wrap);
+    }
+  }
   .transaction-box{
     align-self: flex-start;
     @include display-flex(row, center, flex-start);
-    min-width: 8em;
     height: $preview-icon-base-size;
     color: white;
     font-weight: bold;
@@ -23,18 +41,16 @@ $preview-icon-base-size: 2em;
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     @include display-flex(row, stretch, flex-start);
-    .transaction-box{
-      margin-right: 0.5em;
+    &:not(.compact){
+      .transaction-box{
+        margin-right: 0.5em;
+      }
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     @include display-flex(column, center, flex-start);
   }
-}
-
-.items-preview{
-  flex: 1;
 }
 
 @import 'item_preview';

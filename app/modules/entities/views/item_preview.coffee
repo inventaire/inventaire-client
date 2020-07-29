@@ -1,6 +1,10 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/item_preview'
-  className: 'item-preview'
+  className: ->
+    className = 'item-preview'
+    if @options.compact then className += ' compact'
+    return className
+
   behaviors:
     PreventDefault: {}
 
@@ -13,6 +17,7 @@ module.exports = Marionette.ItemView.extend
     _.extend attrs,
       title: buildTitle @model.user, transaction
       distanceFromMainUser: @model.user.distanceFromMainUser
+      compact: @options.compact
       displayCover: @options.displayItemsCovers and attrs.picture?
 
   events:
