@@ -17,7 +17,7 @@ showItemsPreviewLists = ->
       # TODO: replace network by only friends and groups,
       # moving non-confirmed friends to public items
       showItemsPreviews.call @, itemsByCategory, 'network'
-    if itemsByCategory.nearbyPublic?
+    if app.user.has 'position'
       showItemsPreviews.call @, itemsByCategory, 'nearbyPublic'
       showItemsPreviews.call @, itemsByCategory, 'otherPublic'
     else
@@ -28,5 +28,9 @@ showItemsPreviewLists = ->
 showItemsPreviews = (itemsByCategory, category)->
   itemsModels = itemsByCategory[category]
   compact = not @options.standalone
-  # if compact and itemsModels.length is 0 then return
-  @["#{category}ItemsRegion"].show new ItemsPreviewLists { category, itemsModels, compact }
+  @["#{category}ItemsRegion"].show new ItemsPreviewLists {
+    category,
+    itemsModels,
+    compact,
+    @displayItemsCovers
+  }

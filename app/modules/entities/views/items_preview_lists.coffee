@@ -5,7 +5,7 @@ module.exports = Marionette.LayoutView.extend
   className: ->
     className = 'itemsPreviewLists'
     if @options.compact then className += ' compact'
-    if @options.itemsModels.length is 0 then className += ' emptyLists'
+    unless @options.itemsModels?.length > 0 then className += ' emptyLists'
     return className
 
   template: require './templates/items_preview_lists'
@@ -16,50 +16,40 @@ module.exports = Marionette.LayoutView.extend
     sellingRegion: '.selling'
     inventoryingRegion: '.inventorying'
 
-  ui:
-    detailsTogglers: '.detailsTogglers a'
-
   initialize: ->
-    { @category, itemsModels, @compact } = @options
-    if itemsModels.length is 0
-      @emptyList = true
+    { @category, @itemsModels, @compact, @displayItemsCovers } = @options
+    @itemsWithPositionCount = @itemsModels?.filter((item)-> item.hasPosition()).length or 0
+    if @itemsModels?.length > 0
+      @collections = spreadByTransactions @itemsModels
     else
-      @collections = spreadByTransactions itemsModels
+      @emptyList = true
 
   serializeData: ->
     header: headers[@category]
     emptyList: @emptyList
-
-  onShow: ->
-    unless @emptyList then @showItemsPreviewLists false
+    canShowOnMap: not @emptyList and @itemsWithPositionCount > 0
 
   events:
-    'click .showDetails': 'showDetails'
-    'click .hideDetails': 'hideDetails'
+    'click .showOnMap': 'showOnMap'
 
-  # Re-rendering all the children view might be sub-optimal
-  # but I couldn't figure-out how to pass them an event properly
-  # and everything would have to be re-drawn anyway
-  showDetails: ->
-    @showItemsPreviewLists true
-    @ui.detailsTogglers.toggleClass 'hidden'
+  onShow: ->
+    unless @emptyList then @showItemsPreviewLists()
 
-  hideDetails: ->
-    @showItemsPreviewLists false
-    @ui.detailsTogglers.toggleClass 'hidden'
-    # Scroll back at the top to avoid jumping
-    # somewhere at the middle of what stands below
-    screen_.scrollTop @$el, 0
-
-  showItemsPreviewLists: (showDetails)->
-    if showDetails then @$el.addClass 'show-details'
-    else @$el.removeClass 'show-details'
-
+  showItemsPreviewLists: ->
     for transaction, collection of @collections
-      @["#{transaction}Region"].show new ItemsPreviewList
-        transaction: transaction
-        collection: collection
-        showDetails: showDetails
+      @["#{transaction}Region"].show new ItemsPreviewList {
+        transaction,
+        collection,
+        @displayItemsCovers,
+        @compact
+      }
+
+  showOnMap: ->
+    unless @_itemsPositionsSet
+      @itemsModels.forEach (model)-> model.position = model.user?.get('position')
+      @_itemsPositionsSet = true
+    # Add the main user to the list to make sure the map shows their position
+    app.execute 'show:models:on:map', @itemsModels.concat([ app.user ])
 
 spreadByTransactions = (itemsModels)->
   collections = {}
@@ -71,8 +61,18 @@ spreadByTransactions = (itemsModels)->
   return collections
 
 headers =
-  personal: 'in your inventory'
-  network: "in your friends' and groups' inventories"
-  public: 'public'
-  nearbyPublic: 'nearby'
-  otherPublic: 'elsewhere'
+  personal:
+    label: 'in your inventory'
+    icon: 'user'
+  network:
+    label: "in your friends' and groups' inventories"
+    icon: 'users'
+  public:
+    label: 'public'
+    icon: 'globe'
+  nearbyPublic:
+    label: 'nearby'
+    icon: 'map-marker'
+  otherPublic:
+    label: 'elsewhere'
+    icon: 'globe'

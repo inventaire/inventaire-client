@@ -1,15 +1,13 @@
-$userMarkerHeight: 60px;
-$userMarkerWidth: 64px;
-$groupMarkerWidth: 100px;
-$groupMarkerHeight: 88px;
-$arrowHeight: 10px;
+$userMarkerHeight: 3.75em;
+$userMarkerWidth: 4em;
+$groupMarkerWidth: 6.25em;
+$groupMarkerHeight: 5.5em;
+$arrowHeight: 0.62em;
 
 .objectMarker{
   // Override .leaflet-container font-size:12px
   font-size: 1rem;
   color: $dark-grey;
-  min-height: $userMarkerHeight;
-  min-width:  $userMarkerWidth;
   @include bg-hover(white, 10%);
   @include radius;
   @include shy-border;
@@ -52,14 +50,19 @@ $arrowHeight: 10px;
   border-top-color: white;
   // 11px makes it 1px too wide on the right
   // but it prevent the little bug occuring with 10px
-  border-width: 11px;
-  margin-left: -10px;
+  border-width: 0.68em;
+  margin-left: -0.62em;
+}
+
+.userMarker, .groupMarker{
+  min-height: $userMarkerHeight;
+  min-width:  $userMarkerWidth;
 }
 
 .userMarker{
   // (1)
   margin-top: -$userMarkerHeight - $arrowHeight ;
-  margin-left: -$userMarkerWidth/2 +4px;
+  margin-left: -$userMarkerWidth/2 + 0.25em;
   position: relative;
   #showPositionPicker, .items-count{
     position: absolute;
@@ -76,8 +79,8 @@ $arrowHeight: 10px;
 
 .groupMarker{
   // (1)
-  margin-top: -$groupMarkerHeight - $arrowHeight +4px;
-  margin-left: -$groupMarkerWidth/2 +4px;
+  margin-top: -$groupMarkerHeight - $arrowHeight + 0.25em;
+  margin-left: -$groupMarkerWidth/2 + 0.25em;
   // Forcing the height to prevent .fa-group to increase the height
   // which, given its absolute position, might be a conflict with leaflet rules
   height: $groupMarkerHeight;
@@ -87,3 +90,34 @@ $arrowHeight: 10px;
 // (1) - By default, the icon has it's coordinates for top-left point
 //       margins hereafter compensate to make the icon point at its true position
 //       Additional pixels are the result of empirical tests
+
+.itemMarker{
+  min-height: 5.5em;
+  min-width:  7em;
+  .showItem{
+    position: relatives;
+    @include display-flex(row);
+    img{
+      min-width: 3em;
+    }
+    .right{
+      // @include display-flex(column);
+    }
+    .icon-wrapper{
+      position: absolute;
+      bottom: -1px;
+      right: -2px;
+      z-index: 2;
+      .fa{
+        border-top-left-radius: $global-radius;
+        border-bottom-right-radius: $global-radius;
+        padding: 0.2em 0.3em;
+        font-size: 1.3em;
+      }
+    }
+  }
+  .giving{ @include box-color($giving-color); }
+  .lending{ @include box-color($lending-color); }
+  .selling{ @include box-color($selling-color); }
+  .inventorying{ @include box-color($inventorying-color); }
+}

@@ -1,0 +1,35 @@
+.item-preview{
+  &:not(.compact){
+    margin-bottom: 0.2em;
+    .showItem{
+      @include bg-hover(white, 10%);
+      @include display-flex(row, center, flex-start);
+      padding: 0.2em 0.5em;
+      @include radius;
+    }
+    img{
+      @include radius;
+      margin-right: 0.3em;
+      flex: 0 0 auto;
+      max-height: 2.5em;
+    }
+    .user-info{
+      min-width: 5em;
+      flex: 0 0 auto;
+    }
+    .details{
+      max-height: 2.5em;
+      flex: 1 0 0;
+      overflow: hidden;
+      line-height: 1.2em;
+    }
+    .distance{
+      color: $grey;
+    }
+  }
+  &.compact{
+    background-color: red;
+    @include radius;
+    margin: 0 0.1em;
+  }
+}

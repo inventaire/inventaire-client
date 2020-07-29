@@ -16,8 +16,9 @@ module.exports = Marionette.LayoutView.extend
     works: '.works'
 
   initialize: ->
-    entityItems.initialize.call @
     @standalone = true
+    @displayItemsCovers = false
+    entityItems.initialize.call @
 
   onShow: ->
     @model.waitForWorks

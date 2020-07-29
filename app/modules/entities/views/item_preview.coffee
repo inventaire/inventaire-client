@@ -1,28 +1,31 @@
 module.exports = Marionette.ItemView.extend
   template: require './templates/item_preview'
-  className: 'item-preview'
+  className: ->
+    className = 'item-preview'
+    if @options.compact then className += ' compact'
+    return className
+
   behaviors:
     PreventDefault: {}
 
   onShow: ->
-    unless @model.user?
-      @model.waitForUser
-      .then @ifViewIsIntact('render')
+    unless @model.user? then @model.waitForUser.then @lazyRender.bind(@)
 
   serializeData: ->
     transaction = @model.get 'transaction'
-    _.extend @model.serializeData(),
-      showDetails: @options.showDetails
+    attrs = @model.serializeData()
+    _.extend attrs,
       title: buildTitle @model.user, transaction
       distanceFromMainUser: @model.user.distanceFromMainUser
+      compact: @options.compact
+      displayCover: @options.displayItemsCovers and attrs.picture?
 
   events:
     'click .showItem': 'showItem'
 
   showItem: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:item', @model
-
+    if _.isOpenedOutside e then return
+    app.execute 'show:item', @model
 
 buildTitle = (user, transaction)->
   unless user? then return

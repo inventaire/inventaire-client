@@ -1,5 +1,6 @@
 userMarker = require '../views/templates/user_marker'
 groupMarker = require '../views/templates/group_marker'
+itemMarker = require '../views/templates/item_marker'
 customIcon = require './custom_icon'
 
 objectMarker = (markerBuilder)-> (params)->
@@ -13,6 +14,7 @@ objectMarker = (markerBuilder)-> (params)->
 markers =
   user: objectMarker userMarker
   group: objectMarker groupMarker
+  item: objectMarker itemMarker
   circle: (params)->
     { latLng, metersRadius } = params
     metersRadius ?= 200

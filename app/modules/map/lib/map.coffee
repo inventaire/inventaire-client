@@ -34,10 +34,10 @@ module.exports = map_ =
   # Same as the above function, but guesses model type
   showModelsOnMap: (map, models)->
     for model in _.forceArray models
-      if model.get('username')?
-        map_.showUserOnMap map, model
-      else
-        showGroupOnMap map, model
+      switch model.get('type')
+        when 'user' then map_.showUserOnMap map, model
+        when 'group' then showGroupOnMap map, model
+        else showItemOnMap map, model
 
   showUsersOnMap: (map, users)->
     for user in _.forceArray users
@@ -83,3 +83,10 @@ showGroupOnMap = (map, group)->
       objectId: group.cid
       model: group
       markerType: 'group'
+
+showItemOnMap = (map, item)->
+  if item.position?
+    map.addMarker
+      objectId: item.cid
+      model: item
+      markerType: 'item'

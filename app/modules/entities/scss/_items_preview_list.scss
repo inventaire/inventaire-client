@@ -1,0 +1,56 @@
+$preview-icon-base-size: 2em;
+
+.itemsPreviewList{
+  &:not(.compact){
+    margin-bottom: 0.5em;
+    .transaction-box{
+      min-width: 8em;
+    }
+    .items-preview{
+      flex: 1;
+    }
+  }
+  &.compact{
+    margin-right: 0.5em;
+    .transaction-box{
+      .label{
+        display: none;
+      }
+    }
+    .items-preview{
+      @include display-flex(row, center, flex-start, wrap);
+    }
+  }
+  .transaction-box{
+    align-self: flex-start;
+    @include display-flex(row, center, flex-start);
+    height: $preview-icon-base-size;
+    color: white;
+    font-weight: bold;
+    @include radius;
+    &.giving{ background-color: $giving-color; }
+    &.lending{ background-color: $lending-color; }
+    &.selling{ background-color: $selling-color; }
+    &.inventorying{ background-color: $inventorying-color; }
+    .fa{
+      // centering
+      padding-left: 0.3em;
+      margin: 0 0.3em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    @include display-flex(row, stretch, flex-start);
+    &:not(.compact){
+      .transaction-box{
+        margin-right: 0.5em;
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    @include display-flex(column, center, flex-start);
+  }
+}
+
+@import 'item_preview';

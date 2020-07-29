@@ -23,4 +23,4 @@ module.exports = Marionette.ItemView.extend
 
     map_.showModelsOnMap map, @models
 
-getPosition = (model)-> model.get('position')
+getPosition = (model)-> model.get('position') or model.position

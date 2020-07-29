@@ -1,11 +1,18 @@
 oneDay = 24 * 60 * 60 * 1000
 error_ = requireProxy 'lib/error'
+iconAliases =
+  giving: 'heart'
+  lending: 'refresh'
+  selling: 'money'
+  inventorying: 'cube'
 
 module.exports = (Backbone, _, $, app, window)->
   # Will be overriden in modules/user/lib/i18n.coffee as soon as possible
   i18n: _.identity
   I18n: (args...)-> _.capitalise _.i18n.apply(_, args)
-  icon: (name, classes = '')-> "<i class='fa fa-#{name} #{classes}'></i>"
+  icon: (name, classes = '')->
+    name = iconAliases[name] or name
+    return "<i class='fa fa-#{name} #{classes}'></i>"
 
   inspect: (obj, label)->
     if _.isArguments obj then obj = _.toArray obj
