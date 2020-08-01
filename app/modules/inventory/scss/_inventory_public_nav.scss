@@ -5,12 +5,14 @@
       display: none;
     }
   }
+
   #mapContainer{
     z-index: 0;
     // Centering loader
     @include display-flex(row, center, center);
     background-color: $off-white;
   }
+
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     .lists{
@@ -27,6 +29,7 @@
       }
     }
   }
+
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     .position-required{
@@ -44,7 +47,7 @@
     }
     #mapContainer{
       margin-left: 0.6em;
-      height: 70vh;
+      height: $map-large-screen-heigth;
     }
   }
 }
