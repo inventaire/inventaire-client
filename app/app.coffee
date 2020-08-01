@@ -71,6 +71,11 @@ onceStart = ->
   Backbone.history.on 'route', onPreviousRoute
 
 onPreviousRoute = ->
+  # Close the modal if it was open
+  # If a modal is actually displayed in the previous route, it should
+  # be reopen by the view being reshown
+  app.execute 'modal:close'
+
   route = currentRoute()
   app.vent.trigger 'route:change', routeSection(route), route
 
