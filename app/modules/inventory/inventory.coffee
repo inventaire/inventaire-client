@@ -163,6 +163,7 @@ initializeInventoriesHandlers = (app)->
     'show:item:creation:form': showItemCreationForm
 
     'show:item': showItemModal
+    'show:item:byId': API.showItemFromId
 
     'show:inventory:nearby': API.showInventoryNearby
     'show:inventory:last': API.showInventoryLast
