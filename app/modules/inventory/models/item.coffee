@@ -73,6 +73,7 @@ module.exports = Filterable.extend
 
     _.extend attrs,
       title: @get('snapshot.entity:title')
+      personalizedTitle: @findBestTitle()
       subtitle: @get('snapshot.entity:subtitle')
       entityPathname: @entityPathname
       restricted: @restricted
