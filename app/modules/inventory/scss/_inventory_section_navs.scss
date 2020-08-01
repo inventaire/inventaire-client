@@ -25,6 +25,10 @@
     }
     .list-wrapper{
       padding: 0.5em;
+      ul{
+        max-height: 15em;
+        overflow-y: auto;
+      }
     }
   }
 
@@ -32,6 +36,10 @@
   @media screen and (min-width: $smaller-screen) {
     .list-wrapper{
       padding: 1em;
+      ul{
+        max-height: 40vh;
+        overflow-y: auto;
+      }
       &:not(:first-child){
         margin-left: 0.5em;
       }

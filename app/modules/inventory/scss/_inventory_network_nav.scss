@@ -13,12 +13,10 @@
     @include tiny-button($light-blue);
   }
   .showUsersMenu, .showGroupsMenu{
-    margin-top: 1em;
     align-self: center;
   }
   .buttons{
     @include display-flex(row, center, center, wrap);
-    margin-top: 1em;
     flex: 0 0 auto;
     white-space: nowrap;
   }
@@ -29,7 +27,7 @@
     }
     .buttons{
       a{
-        margin: 0.5em;
+        margin: 0 0.5em;
       }
     }
   }
@@ -56,7 +54,7 @@
     }
   }
 
-  /*Small screens*/
+  /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
     .buttons{
       flex-direction: column;
