@@ -73,8 +73,11 @@ module.exports = (app)->
 
   addUsers = (users)->
     users = _.forceArray(users).filter isntMainUser
-    # Set merge=true so that updates arriving here aren't just ignored
-    return app.users.add users, { merge: true }
+    # Do not set { merge: true } as that could overwrite some attributes
+    # set at initialization
+    # Ex: if picture=null, setting merge=true would reset the default avatar to null
+    # The cost is that we might miss some user doc updates
+    return app.users.add users
 
   addUser = (users)-> addUsers(users)[0]
 
