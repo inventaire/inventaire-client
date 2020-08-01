@@ -1,7 +1,9 @@
 $userMarkerHeight: 3.75em;
 $userMarkerWidth: 4em;
-$groupMarkerWidth: 6.25em;
 $groupMarkerHeight: 5.5em;
+$groupMarkerWidth: 6.25em;
+$itemMarkerHeight: 5.375em;
+$itemMarkerWidth: 6.875em;
 $arrowHeight: 0.62em;
 
 .objectMarker{
@@ -87,11 +89,10 @@ $arrowHeight: 0.62em;
   min-width: $groupMarkerWidth;
 }
 
-// (1) - By default, the icon has it's coordinates for top-left point
-//       margins hereafter compensate to make the icon point at its true position
-//       Additional pixels are the result of empirical tests
-
 .itemMarker{
+  // (1)
+  margin-top: -$itemMarkerHeight - $arrowHeight + 0.25em;
+  margin-left: -$itemMarkerWidth/2 + 0.25em;
   min-height: 5.5em;
   min-width:  7em;
   .showItem{
@@ -121,3 +122,7 @@ $arrowHeight: 0.62em;
   .selling{ @include box-color($selling-color); }
   .inventorying{ @include box-color($inventorying-color); }
 }
+
+// (1) - By default, the icon has it's coordinates for top-left point
+//       margins hereafter compensate to make the icon point at its true position
+//       Additional pixels are the result of empirical tests
