@@ -7,16 +7,21 @@
 # NB: in case this removes the last entry in a file, you might end up having to manually
 # remove the last entry's comma, as JSON doesn't like that extra comma.
 
+log_grey(){ echo -e "\e[0;30m$@\e[0m" ; }
+log_red(){ echo -e "\e[0;31m$@\e[0m" ; }
+
 find_and_delete(){
   file_path=$1
   cat "$file_path" | \
     jq -r 'keys | .[]' | \
     while read -r line; do
       grep "$line" public/js/app.js scripts/assets/missing_i18n_strings_ignorelist > /dev/null || {
+        log_grey "not found in app.js or ignorelist: $line"
         # Rulling-out computed strings such as 'saving would create a new ${type}'
         grep "$line" /tmp/client_patches_history > /dev/null && {
-          echo "deleted: $line"
-          sed -i "/$line/d" "$file_path"
+          log_red "deleted: $line"
+        } || {
+          log_grey "not found in history, assuming it's a computed string: $line"
         }
       }
     done
@@ -24,4 +29,3 @@ find_and_delete(){
 
 find_and_delete inventaire-i18n/original/fullkey.en.json
 find_and_delete inventaire-i18n/original/shortkey.en.json
-

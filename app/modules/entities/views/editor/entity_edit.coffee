@@ -186,7 +186,7 @@ module.exports = Marionette.LayoutView.extend
 isWikidataUri = (uri)-> uri.split(':')[0] is 'wd'
 
 possessives =
-  work: "book's"
+  work: "work's"
   edition: "edition's"
   serie: "series'"
   human: "author's"
