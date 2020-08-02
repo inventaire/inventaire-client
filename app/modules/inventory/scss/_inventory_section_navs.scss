@@ -40,7 +40,13 @@ $map-large-screen-heigth: 70vh;
       min-width: 14em;
       padding: 1em;
       ul{
-        max-height: $map-large-screen-heigth;
+        // <ul> are the elements that needs to have a scroll
+        // but it's a child of .list-wrapper which is the one
+        // that should have the same height as the map container
+        // .list-wrapper height = <ul> height + ~4em
+        // Here, 70vh correspond to $map-large-screen-heigth
+        // but it seems we can't use scss variable within a css calc function
+        max-height: calc(70vh - 4em);
         overflow-y: auto;
       }
       &:not(:first-child){
