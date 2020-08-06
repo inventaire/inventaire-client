@@ -27,7 +27,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .create': 'create'
-    'click .done': -> app.execute 'modal:close'
+    'click .done': 'onDone'
     'keydown #searchCandidates': 'lazySearch'
 
   lazySearch: (e)->
@@ -79,3 +79,12 @@ module.exports = Marionette.CompositeView.extend
     if @_lastMode is 'last'
       @offset += @limit
       @suggestLastItems()
+
+  # Known limitation: this function will only be called when the user clicks
+  # the 'done' button, not when closing the modal by clicking the 'close' or
+  # clicking outside the modal; meaning that in those case, the shelf inventory
+  # won't be refreshed
+  onDone: ->
+    # Refresh the shelf data
+    app.vent.trigger 'inventory:select', 'shelf', @model
+    app.execute 'modal:close'
