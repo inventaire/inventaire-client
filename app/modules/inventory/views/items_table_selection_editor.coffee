@@ -51,12 +51,11 @@ module.exports = Marionette.LayoutView.extend
 
   showShelves: ->
     getShelvesByOwner()
-    .then (shelves) => @shelves = new Backbone.Collection shelves
     .then @ifViewIsIntact('_showShelves')
 
-  _showShelves: ->
+  _showShelves: (shelves)->
     { selectedModels } = @getSelectedModelsAndIds()
-    @shelvesSelector.show new ItemsShelves {
-      collection: @shelves,
+    shelvesCollection = new Backbone.Collection shelves
+    @shelvesSelector.show new ItemsShelves
+      collection: shelvesCollection
       items: selectedModels
-    }

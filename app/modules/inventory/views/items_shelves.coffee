@@ -9,12 +9,11 @@ ItemsShelfLi = Marionette.ItemView.extend
     'click .shelfSelector': 'shelfSelector'
 
   initialize: ->
-    # isInShelf is used by the multi used template item_shelf_li
-    # here it express if all selected items are in the shelf
-    @model.set 'isInShelf', false
     { @items } = @options
     @itemsInShelf = @items.filter (item)=> item.isInShelf(@model.id)
-    if @areAllItemsInShelf() then @model.set 'isInShelf', true
+    # isInShelf is used by the multi used template item_shelf_li
+    # here it express if all selected items are in the shelf
+    @model.set 'isInShelf', @areAllItemsInShelf()
 
   shelfSelector: ->
     if @model.get 'isInShelf'
