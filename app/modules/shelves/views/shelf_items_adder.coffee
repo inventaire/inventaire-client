@@ -27,6 +27,7 @@ module.exports = Marionette.CompositeView.extend
 
   events:
     'click .create': 'create'
+    'click .addNewItems': 'addNewItems'
     'click .done': 'onDone'
     'keydown #searchCandidates': 'lazySearch'
 
@@ -79,6 +80,13 @@ module.exports = Marionette.CompositeView.extend
     if @_lastMode is 'last'
       @offset += @limit
       @suggestLastItems()
+
+  addNewItems: (e)->
+    shelfId = @model.id
+    app.execute 'last:shelves:set', [ shelfId ]
+    if _.isOpenedOutside e then return
+    app.execute 'modal:close'
+    app.execute 'show:add:layout'
 
   # Known limitation: this function will only be called when the user clicks
   # the 'done' button, not when closing the modal by clicking the 'close' or
