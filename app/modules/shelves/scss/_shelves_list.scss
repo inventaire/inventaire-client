@@ -17,14 +17,13 @@
       .shelf-text{
         max-height: 3em;
         overflow: hidden;
-        padding: 0.5em;
-        @include display-flex(column);
-        .name{
-          margin-right: 1em;
-        }
+        padding: 0.2em 0.4em;
+        margin-right: 1em;
+        @include display-flex(column, flex-start, center);
         .desc{
-          margin-right: 1em;
           color: $grey;
+          max-height: 1.4em;
+          overflow: hidden;
         }
       }
     }
