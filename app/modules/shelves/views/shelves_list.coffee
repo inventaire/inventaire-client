@@ -8,6 +8,9 @@ ListEl = Marionette.ItemView.extend
   events:
     'click a': 'selectShelf'
 
+  modelEvents:
+    'change': 'lazyRender'
+
   selectShelf: (e)->
     if _.isOpenedOutside e then return
     type = @model.get('type')
