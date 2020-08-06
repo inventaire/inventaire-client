@@ -10,6 +10,7 @@ module.exports = Marionette.LayoutView.extend
     'click .listing-option': 'setListing'
     'click #selectShelves': 'showShelves'
     'click .delete': 'deleteItems'
+    'click .done': -> app.execute 'modal:close'
 
   regions:
     'shelvesSelector': '.shelvesSelector'

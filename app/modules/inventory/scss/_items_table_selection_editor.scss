@@ -1,6 +1,6 @@
 .items-table-selection-editor{
   @include display-flex(column, center, center);
-  #selectTransaction, #selectListing, #selectShelves, .delete, .dropdown{
+  #selectTransaction, #selectListing, #selectShelves, .dropdown{
     padding: 0 1em;
     width: 100%;
     min-width: 12rem;
@@ -8,11 +8,6 @@
   }
   #selectTransaction, #selectListing, #selectShelves{
     @include bg-hover(#eee);
-  }
-  .delete{
-    @include dangerous-action;
-    margin-top: 2em;
-    padding: 0.7em;
   }
   .selector-label{
     text-align: center;
@@ -37,6 +32,18 @@
   }
   .dropdown-label{
     padding: 0.5em;
+  }
+  .buttons{
+    @include display-flex(row, center, center);
+    align-self: stretch;
+    margin-top: 2em;
+  }
+  .delete, .done{
+    padding: 0.7em;
+    flex: 1;
+  }
+  .delete{
+    @include dangerous-action;
   }
 
   /*Large screens*/
