@@ -44,6 +44,7 @@ module.exports = Marionette.LayoutView.extend
       entity: entity.get 'uri'
       transaction: guessTransaction transaction
       listing: app.request 'last:listing:get'
+      shelves: app.request('last:shelves:get') or []
 
     # We need to specify a lang for work entities
     if entity.type is 'work' then @itemData.lang = guessLang entity
@@ -86,11 +87,13 @@ module.exports = Marionette.LayoutView.extend
 
   showShelves: ->
     getShelvesByOwner()
-    .then (shelves) => @shelvesCollection = new Backbone.Collection shelves
     .then @ifViewIsIntact('_showShelves')
 
-  _showShelves: ->
-    @shelves.show new NewItemShelves { collection: @shelvesCollection, item: @itemData }
+  _showShelves: (shelves)->
+    shelvesCollection = new Backbone.Collection shelves
+    @shelves.show new NewItemShelves
+      collection: shelvesCollection
+      item: @itemData
 
   # TODO: update the UI for update errors
   updateTransaction: ->
@@ -113,6 +116,8 @@ module.exports = Marionette.LayoutView.extend
     # the value of 'transaction' and 'listing' were updated on selectors clicks
     @itemData.details = @ui.details.val()
     @itemData.notes = @ui.notes.val()
+
+    app.execute 'last:shelves:set', @itemData.shelves
 
     app.request 'item:create', @itemData
     .catch error_.Complete('.panel')
