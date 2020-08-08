@@ -38,14 +38,7 @@ setAttributes = (lang)->
     @set 'label', label
 
   description = getBestLangValue(lang, @originalLang, @get('descriptions')).value
-  if description?
-    # This may be overriden by a Wikipedia extract
-    # Escaping as description are user-generated external content
-    # that will be displayed as {{{SafeStrings}}} in views as
-    # they may be enriched with HTML (see app/lib/wikimedia/wikipedia)
-    @set 'description', escapeExpression(description)
-    # This stays the same in any case
-    @set 'shortDescription', description
+  if description? then @set 'description', description
 
 specificMethods =
   getWikipediaExtract: ->
@@ -66,8 +59,5 @@ _setWikipediaExtractAndDescription = (extractData)->
     extractDirection = if lang in rtlLang then 'rtl' else 'ltr'
     @set 'extractDirection', extractDirection
     @set 'extract', extract
-    description = @get('description') or ''
-    if extract.length > description.length
-      @set 'description', extract
 
 rtlLang = [ 'ar', 'he' ]
