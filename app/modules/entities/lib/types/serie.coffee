@@ -10,10 +10,10 @@ module.exports = ->
 specificMethods = _.extend {}, commonsSerieWork,
   fetchPartsData: (options = {})->
     { refresh } = options
+    refresh = @getRefresh refresh
     if not refresh and @waitForPartsData? then return @waitForPartsData
 
     uri = @get 'uri'
-
     @waitForPartsData = _.preq.get app.API.entities.serieParts(uri, refresh)
       .then (res)=> @partsData = res.parts
 
@@ -22,7 +22,7 @@ specificMethods = _.extend {}, commonsSerieWork,
     refresh = @getRefresh refresh
     if not refresh and @waitForParts? then return @waitForParts
 
-    @fetchPartsData refresh
+    @fetchPartsData { refresh }
     .then initPartsCollections.bind(@, refresh, fetchAll)
     .then importDataFromParts.bind(@)
 
