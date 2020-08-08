@@ -14,6 +14,10 @@ module.exports = UserCommons.extend
     @setInventoryStats()
     @calculateHighlightScore()
 
+    # A type attribute is required by some views
+    # that switch on type to pick a template for instance
+    @set 'type', 'user'
+
     app.request 'wait:for', 'relations'
     .then @initRelation.bind(@)
 
