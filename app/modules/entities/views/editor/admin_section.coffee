@@ -57,7 +57,7 @@ module.exports = Marionette.LayoutView.extend
 
   showHistory: ->
     @model.fetchHistory()
-    .then => @history.show new History { collection: @model.history }
+    .then => @history.show new History { @model }
 
   toggleHistory: ->
     unless @history.hasView() then @showHistory()
