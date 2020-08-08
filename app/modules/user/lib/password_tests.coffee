@@ -8,8 +8,5 @@ module.exports =
       selector: selector
 
 passwordTests =
-  'password should be 8 characters minimum' : (password)->
-    password.length < 8
-
-  'password should be 60 characters maximum' : (password)->
-    password.length > 60
+  'password should be 8 characters minimum' : (password)-> password.length < 8
+  'password should be 5000 characters maximum' : (password)-> password.length > 5000
