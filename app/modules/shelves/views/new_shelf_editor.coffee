@@ -52,5 +52,5 @@ afterCreate = (collection) -> (newShelf) ->
   newShelfModel = new ShelfModel newShelf
   collection.add newShelfModel
   app.user.trigger 'shelves:change', 'addShelf'
-  app.execute 'show:shelf', null, newShelf
+  app.execute 'show:shelf', newShelf
   app.execute 'modal:close'

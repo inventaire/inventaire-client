@@ -6,25 +6,34 @@ module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
     Router = Marionette.AppRouter.extend
       appRoutes:
-        'shelves/(:id)(/)': 'showShelf'
+        'shelves(/)(:id)(/)': 'showShelfFromId'
         # Redirection
-        'shelf/(:id)(/)': 'showShelf'
+        'shelf(/)(:id)(/)': 'showShelfFromId'
 
     app.addInitializer -> new Router { controller: API }
 
   initialize: ->
     app.commands.setHandlers
-      'show:shelf': API.showShelf
+      'show:shelf': showShelf
 
 API =
-  showShelf: (shelfId, shelf)->
-    Promise.try -> if shelfId then getById(shelfId) else shelf
-    .then (shelf)->
-      if shelf? then new ShelfModel shelf
-      else throw error_.new 'not found', 404, { shelfId }
-    .then showShelfInventoryLayout
+  showShelfFromId: (shelfId)->
+    unless shelfId? then return app.execute 'show:inventory:main:user'
 
-showShelfInventoryLayout = (shelf)->
+    getById(shelfId)
+    .then (shelf)->
+      if shelf?
+        model = new ShelfModel shelf
+        showShelfFromModel model
+      else
+        throw error_.new 'not found', 404, { shelfId }
+    .catch app.Execute('show:error')
+
+showShelf = (shelf)->
+  if _.isShelfId shelf then API.showShelfFromId shelf
+  else showShelfFromModel shelf
+
+showShelfFromModel = (shelf)->
   owner = shelf.get('owner')
   if app.request 'require:loggedIn', 'shelves'
     # Passing shelf to display items and passing owner for user profile info
