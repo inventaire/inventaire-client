@@ -55,7 +55,7 @@ forms_.alert = (view, err)->
   if not err.richMessage? and /^\d/.test errMessage then errMessage = 'something went wrong :('
 
   logLabel = 'alert message'
-  if selector? then logLabel += "on #{selector}"
+  if selector? then logLabel += " on #{selector}"
   _.log { errMessage, view }, logLabel
 
   # Allow to pass a false flag to prevent the use of _.i18n

@@ -1,10 +1,13 @@
 getActionKey = require 'lib/get_action_key'
+error_ = require 'lib/error'
+forms_ = require 'modules/general/lib/forms'
 
 module.exports = Marionette.ItemView.extend
   className: 'confirmationModal'
   template: require './templates/confirmation_modal'
   behaviors:
     SuccessCheck: {}
+    AlertBox: {}
     ElasticTextarea: {}
     General: {}
 
@@ -42,7 +45,7 @@ module.exports = Marionette.ItemView.extend
     { altAction, selector } = @options
     @confirming(altAction, selector)
 
-  confirming: (action, selector) ->
+  confirming: (action, selector)->
     Promise.try @executeAction.bind(@)
     .then action
     .then @success.bind(@)
@@ -55,8 +58,9 @@ module.exports = Marionette.ItemView.extend
 
   error: (err)->
     _.error err, 'confirmation action err'
-    @$el.trigger 'fail', @close.bind(@)
-    return err
+    @$el.trigger 'fail'
+    error_.complete err, '.check', false
+    forms_.catchAlert @, err
 
   close: ->
     if @options.back? then @options.back()
