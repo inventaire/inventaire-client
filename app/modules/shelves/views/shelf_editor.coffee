@@ -1,8 +1,7 @@
 { listingsData } = require 'modules/inventory/lib/item_creation'
 forms_ = require 'modules/general/lib/forms'
 getActionKey = require 'lib/get_action_key'
-{ deleteShelf } = require 'modules/shelves/lib/shelf'
-{ updateShelf } = require 'modules/shelves/lib/shelf'
+{ deleteShelf, updateShelf } = require 'modules/shelves/lib/shelf'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelf_editor'
@@ -66,13 +65,12 @@ module.exports = Marionette.LayoutView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   askDeleteShelf: ->
-    app.execute('ask:confirmation',
-      confirmationText: _.i18n 'delete shelf confirmation', { name: @model.get('name') }
-      warningText: _.i18n 'warning shelf delete'
+    app.execute 'ask:confirmation',
+      confirmationText: _.i18n 'delete_shelf_confirmation', { name: @model.get('name') }
+      warningText: _.i18n 'cant_undo_warning'
       action: deleteShelfAction(@model)
       altAction: deleteShelfAction(@model, true)
       altActionText: _.i18n 'yes and delete shelf items too'
-    )
 
 deleteShelfAction = (model, withItems) -> ->
   id = model.get '_id'
@@ -83,7 +81,7 @@ deleteShelfAction = (model, withItems) -> ->
   .then afterShelfDelete
   .catch _.ErrorRethrow('shelf delete error')
 
-afterShelfDelete = (res) ->
+afterShelfDelete = (res)->
   { items } = res
   app.execute 'show:inventory:main:user'
   app.user.trigger 'shelves:change', 'removeShelf'
