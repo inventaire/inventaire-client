@@ -81,7 +81,7 @@ deleteShelfAction = (model, withItems) -> ->
   deleteShelf params
   .then _.Log('shelf destroyed')
   .then afterShelfDelete
-  .catch _.Error('shelf delete error')
+  .catch _.ErrorRethrow('shelf delete error')
 
 afterShelfDelete = (res) ->
   { items } = res
