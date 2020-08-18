@@ -3,7 +3,7 @@
 }
 .autocomplete-suggestions{
   // positioning .autocomplete-suggestions just under .autocomplete-container
-  @include position(absolute, 95%)
+  @include position(relative, 95%)
   z-index: 1;
   width: 100%;
   background-color: white;
