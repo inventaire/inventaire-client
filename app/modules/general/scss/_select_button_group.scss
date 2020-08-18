@@ -1,7 +1,7 @@
 @mixin selected-button-color($color, $text-color:white){
   &.selected, &.active, &:hover{
-    color: $text-color;
-    background-color: darken($color, 5%);
+    i { color: $color; }
+    background-color: darken($grey, 10%);
   }
 }
 
