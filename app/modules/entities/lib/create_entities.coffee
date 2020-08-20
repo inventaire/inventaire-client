@@ -77,7 +77,7 @@ subjectEntityP31ByProperty =
   # serie
   'wdt:P179': 'wd:Q277759'
   # work
-  'wdt:P629': 'wd:Q571'
+  'wdt:P629': 'wd:Q47461344'
   'wdt:P655': 'wd:Q5'
   'wdt:P2679': 'wd:Q5'
   'wdt:P2680': 'wd:Q5'

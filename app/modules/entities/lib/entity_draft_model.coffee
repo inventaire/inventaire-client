@@ -6,7 +6,7 @@ Entity = require '../models/entity'
 
 typeDefaultP31 =
   human: 'wd:Q5'
-  work: 'wd:Q571'
+  work: 'wd:Q47461344'
   serie: 'wd:Q277759'
   edition: 'wd:Q3331189'
   publisher: 'wd:Q2085381'

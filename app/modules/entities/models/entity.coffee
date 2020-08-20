@@ -229,6 +229,7 @@ typesString =
   'wd:Q5': 'author'
   # works
   'wd:Q571': 'book'
+  'wd:Q47461344': 'book'
   'wd:Q1004': 'comic book'
   'wd:Q8274': 'manga'
   'wd:Q49084': 'short story'
