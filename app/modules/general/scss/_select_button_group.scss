@@ -24,8 +24,6 @@
     flex-direction: column;
     .button{
       outline: 0.1em solid $contrast;
-      &:first-child { outline-top: none; }
-      &:last-child { outline-bottom: none; }
     }
   }
 
@@ -34,8 +32,6 @@
     @include radius-horizontal-group;
     .button{
       outline: 0.1em solid $contrast;
-      &:first-child { outline-left: none; }
-      &:last-child { outline-right: none; }
     }
   }
 }
