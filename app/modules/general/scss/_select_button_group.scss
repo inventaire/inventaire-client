@@ -1,7 +1,15 @@
 @mixin selected-button-color($color, $text-color:white){
+  color: $dark-grey;
+  background-color: #eee;
+  margin: 0.2em;
+  border: 2px solid $light-grey;
+  border-radius: 5px;
+  @include sans-serif;
+  font-weight: normal;
   &.selected, &.active, &:hover{
-    i { color: $color; }
-    background-color: darken($grey, 10%);
+    background-color: white;
+    border-color: $color;
+    i{ color: $color; }
   }
 }
 
@@ -13,9 +21,8 @@
     .fa{
       font-size: 1rem
     }
-    color: white;
-    background-color: $grey;
-    @include selected-button-color($light-blue);
+    color: $dark-grey;
+    background-color: white;
   }
 
   /*Small screens*/

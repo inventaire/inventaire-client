@@ -4,7 +4,16 @@
   #selling{ @include selected-button-color($selling-color); }
   #inventorying{ @include selected-button-color($inventorying-color); }
 
-  #private, #network, #public { @include selected-button-color($light-grey); }
+  #private{ @include selected-button-color($private-color, $private-color-text); }
+  #network{ @include selected-button-color($network-color, $network-color-text); }
+  #public{
+    @include selected-button-color($public-color, $public-color-text);
+    &.selected, &.active, &:hover{
+      i{
+        color: $dark-grey;
+      }
+    }
+  }
 }
 
 .itemCreation{
