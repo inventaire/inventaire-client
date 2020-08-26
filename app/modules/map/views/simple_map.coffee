@@ -22,7 +22,7 @@ module.exports = Marionette.ItemView.extend
     map = map_.draw
       containerId: containerId
       bounds: bounds
-      cluster: false
+      cluster: @models.length > 2
 
     map_.showModelsOnMap map, @models
 
