@@ -30,6 +30,10 @@ propertyWithSpecialLayout = [
   'wdt:P179' # serie
   'wdt:P629' # work
   'wdt:P123' # publisher
+  'wdt:P155' # preceded by (work)
+  'wdt:P156' # followed by (work)
+  'wdt:P737' # influenced by (human)
+  'wdt:P1066' # student of (human)
 ]
 
 module.exports =
