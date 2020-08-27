@@ -1,4 +1,11 @@
 leven = require 'leven'
+# Arbitrary acceptable Levenshtein distance between 2 strings
+# to consider it a match. Typically useful to match names despite
+# - diacritics: 'René Goscinny' should match 'Rene Goscinny'
+# - initials: 'Jean V. Jean' should match 'Jean Jean' within a single work array of authors
+# That isn't a very sophisticated matching, but should be a good enough
+# first barrier to duplicated authors
+maxLevenshteinDistance = 3
 
 module.exports = (data)->
   { isbn, authors } = data
@@ -25,7 +32,7 @@ containsNoComma = (str)-> str? and not /,/.test(str)
 isFirstOccurence = (array)-> (str, index)->
   noramlizedStr = normalize str
   for previousStr in array[0...index]
-    if leven(noramlizedStr, normalize(previousStr)) < 3 then return false
+    if leven(noramlizedStr, normalize(previousStr)) < maxLevenshteinDistance then return false
   return true
 
 normalize = (str)->
