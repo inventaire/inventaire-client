@@ -32,9 +32,9 @@
     {{~#if needInfo~}}
       <a class="addInfo tiny-warning-button">{{i18n 'need more information'}}</a>
     {{~/if~}}
-    {{~#if existingInstancesCount~}}
-      <span class="existing-instances">
-        {{{I18n 'item_existing_instances' count=existingInstancesCount pathname=existingInstancesPathname}}}
+    {{~#if existingEntityItemsCount~}}
+      <span class="existing-entity-items">
+        {{{I18n 'existing_entity_items' count=existingEntityItemsCount pathname=existingEntityItemsPathname}}}
       </span>
     {{~/if~}}
     {{~#if errorMessage~}}

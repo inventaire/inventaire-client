@@ -26,11 +26,11 @@ module.exports = Backbone.Model.extend
     @set 'needInfo', needInfo
 
   setStatusData: ->
-    existingInstancesCount = @get 'existingInstancesCount'
-    if existingInstancesCount? and existingInstancesCount > 0
+    existingEntityItemsCount = @get 'existingEntityItemsCount'
+    if existingEntityItemsCount? and existingEntityItemsCount > 0
       uri = @get 'uri'
       username = app.user.get 'username'
-      @set 'existingInstancesPathname', "/inventory/#{username}/#{uri}"
+      @set 'existingEntityItemsPathname', "/inventory/#{username}/#{uri}"
     else if not @get('title')?
       @set 'needInfo', true
     else

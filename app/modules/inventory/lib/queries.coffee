@@ -1,6 +1,6 @@
 Item = require 'modules/inventory/models/item'
 Items = require 'modules/inventory/collections/items'
-getInstancesCount = require './get_instances_count'
+getEntitiesItemsCount = require './get_entities_items_count'
 error_ = require 'lib/error'
 
 getById = (id)->
@@ -90,7 +90,7 @@ module.exports = (app)->
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
     'items:getByUserIdAndEntities': getByUserIdAndEntities
-    'items:getInstancesCount': getInstancesCount
+    'items:getEntitiesItemsCount': getEntitiesItemsCount
 
     # Using a different naming to match reqGrab requests style
     'get:item:model': getById

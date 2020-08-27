@@ -12,7 +12,7 @@ module.exports = Marionette.LayoutView.extend
   className: 'addEntity'
 
   regions:
-    existingInstancesRegion: '#existingInstances'
+    existingEntityItemsRegion: '#existingEntityItems'
     entityRegion: '#entity'
 
   behaviors:
@@ -28,11 +28,11 @@ module.exports = Marionette.LayoutView.extend
     notes: '#notes'
 
   initialize: ->
-    { @entity, @existingInstances } = @options
+    { @entity, @existingEntityItems } = @options
     @initItemData()
     @_lastAddMode = app.request 'last:add:mode:get'
 
-    @waitForExistingInstances = app.request 'item:main:user:instances', @entity.get('uri')
+    @waitForExistingInstances = app.request 'item:main:user:entity:items', @entity.get('uri')
 
   initItemData: ->
     { entity, transaction } = @options
@@ -74,11 +74,11 @@ module.exports = Marionette.LayoutView.extend
 
   showExistingInstances: ->
     @waitForExistingInstances
-    .then (existingInstances)=>
-      if existingInstances.length is 0 then return
-      collection = new Backbone.Collection existingInstances
-      @$el.find('#existingInstancesWarning').show()
-      @existingInstancesRegion.show new ItemsList { collection }
+    .then (existingEntityItems)=>
+      if existingEntityItems.length is 0 then return
+      collection = new Backbone.Collection existingEntityItems
+      @$el.find('#existingEntityItemsWarning').show()
+      @existingEntityItemsRegion.show new ItemsList { collection }
 
   # TODO: update the UI for update errors
   updateTransaction: ->

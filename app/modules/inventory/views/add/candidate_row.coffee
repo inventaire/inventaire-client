@@ -38,7 +38,7 @@ module.exports = Marionette.ItemView.extend
 
   select: (e)->
     { tagName } = e.target
-    # Do not interpret click on anchors such as .existing-instances links as a select
+    # Do not interpret click on anchors such as .existing-entity-items links as a select
     # Do not interpret click on spans as a select as that prevents selecting text
     if tagName is 'A' or tagName is 'SPAN' then return
 

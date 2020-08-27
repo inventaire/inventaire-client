@@ -8,7 +8,7 @@
   .work-section{
     @include display-flex(row, center, space-around, wrap);
   }
-  .work-instances{
+  .work-items{
     @include display-flex(column, center, space-around);
     /*Large screens*/
     @media screen and (min-width: $small-screen) {

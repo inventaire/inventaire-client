@@ -182,7 +182,7 @@ initializeInventoriesHandlers = (app)->
     'items:update': itemActions.update
     'items:delete': itemActions.delete
     'item:create': itemActions.create
-    'item:main:user:instances': (entityUri)->
+    'item:main:user:entity:items': (entityUri)->
       app.request 'items:getByUserIdAndEntities', app.user.id, entityUri
       .get 'models'
     'item:update:entity': (item, entity)->

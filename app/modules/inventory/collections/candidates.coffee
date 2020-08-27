@@ -13,7 +13,7 @@ module.exports = Backbone.Collection.extend
     alreadyAddedIsbns = @pluck 'normalizedIsbn'
     remainingCandidates = newCandidates.filter isNewCandidate(alreadyAddedIsbns)
     if remainingCandidates.length is 0 then return Promise.resolve []
-    addExistingInstancesCounts remainingCandidates
+    addExistingEntityItemsCounts remainingCandidates
     .then @add.bind(@)
 
 isSelected = (model)-> model.get('selected')
@@ -25,9 +25,9 @@ isNewCandidate = (alreadyAddedIsbns)-> (candidateData)->
   unless candidateData.title? or candidateData.normalizedIsbn? then return false
   return candidateData.normalizedIsbn not in alreadyAddedIsbns
 
-addExistingInstancesCounts = (candidates)->
+addExistingEntityItemsCounts = (candidates)->
   uris = _.compact candidates.map(getUri)
-  app.request 'items:getInstancesCount', app.user.id, uris
+  app.request 'items:getEntitiesItemsCount', app.user.id, uris
   .then addCounts(candidates)
 
 getUri = (candidate)->
@@ -43,6 +43,6 @@ addCounts = (candidates)-> (counts)->
     { uri } = candidate
     unless uri? then return
     count = counts[uri]
-    if count? then candidate.existingInstancesCount = count
+    if count? then candidate.existingEntityItemsCount = count
 
   return candidates

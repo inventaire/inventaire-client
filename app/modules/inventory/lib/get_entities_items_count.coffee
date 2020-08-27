@@ -12,16 +12,16 @@ module.exports = (userId, uris)->
   getBatchesSequentially = ->
     nextBatch = urisBatches.pop()
     unless nextBatch? then return counts
-    getInstancesCountBatch userId, nextBatch
-    .then (res)-> countInstances counts, res
+    getEntityItemsCountBatch userId, nextBatch
+    .then (res)-> countEntitiesItems counts, res
     .then getBatchesSequentially
 
   getBatchesSequentially()
 
-getInstancesCountBatch = (userId, uris)->
+getEntityItemsCountBatch = (userId, uris)->
   _.preq.get app.API.items.byUserAndEntities(userId, uris)
 
-countInstances = (counts, res)->
+countEntitiesItems = (counts, res)->
   for item in res.items
     uri = item.entity
     counts[uri] ?= 0
