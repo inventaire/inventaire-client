@@ -108,12 +108,7 @@ showItemsFromModels = (items)->
       showItemModal item, fallback
     else showItemsList items
 
-showInventory = (options)->
-  { user, group, section } = options
-  unless user? or group? or section?
-    throw error_.new 'missing user or group or section', 500, options
-
-  app.layout.main.show new InventoryLayout(options)
+showInventory = (options)-> app.layout.main.show new InventoryLayout(options)
 
 showItemsList = (collection)-> app.layout.main.show new ItemsCascade { collection }
 
