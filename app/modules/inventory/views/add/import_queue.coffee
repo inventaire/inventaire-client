@@ -117,11 +117,16 @@ module.exports = Marionette.LayoutView.extend
       candidate.set 'errorMessage', err.message
       @failed or= []
       @failed.push candidate
+      _.error err, 'chainedImport err'
       return
     .then (item)=>
       @candidates.remove candidate
-      if @items.length is 0 then @setTimeout @showAddedBooks.bind(@), 1000
-      @items.add item
+      if item?
+        @items.add item
+        # Show the added books on the first successful import
+        unless @_shownAddedBooks
+          @_shownAddedBooks = true
+          @setTimeout @showAddedBooks.bind(@), 1000
       # recursively trigger next import
       @chainedImport transaction, listing
 

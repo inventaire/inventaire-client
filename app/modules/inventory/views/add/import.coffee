@@ -3,7 +3,7 @@ importers = require '../../lib/importers'
 dataValidator = require '../../lib/data_validator'
 ImportQueue = require './import_queue'
 Candidates = require '../../collections/candidates'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 screen_ = require 'lib/screen'
@@ -83,7 +83,7 @@ module.exports = Marionette.LayoutView.extend
 
     selector = "##{name}-li .loading"
 
-    behaviorsPlugin.startLoading.call @,
+    startLoading.call @,
       selector: selector
       timeout: 'none'
       progressionEventName: if name is 'ISBNs' then 'progression:ISBNs'
@@ -94,17 +94,16 @@ module.exports = Marionette.LayoutView.extend
       isbn2.get()
     ]
     # We only need the result from the file
-    .spread _.Log('uploaded file')
-    .tap dataValidator.bind(null, source)
-    .then parse
-    .map commonParser
+    .spread (data)->
+      dataValidator source, data
+      return parse(data).map commonParser
     .catch _.ErrorRethrow('parsing error')
     # add the selector to the rejected error
     # so that it can be catched by catchAlert
     .catch error_.Complete('#importersWrapper .warning')
     .then _.Log('parsed')
     .then candidates.addNewCandidates.bind(candidates)
-    .tap => behaviorsPlugin.stopLoading.call @, selector
+    .tap => stopLoading.call @, selector
     .then @showImportQueueUnlessEmpty.bind(@)
     .catch forms_.catchAlert.bind(null, @)
 
@@ -120,7 +119,7 @@ module.exports = Marionette.LayoutView.extend
 
     selector = '#isbnsImporterWrapper .loading'
 
-    behaviorsPlugin.startLoading.call @,
+    startLoading.call @,
       selector: selector
       timeout: 'none'
       progressionEventName: 'progression:ISBNs'
@@ -128,7 +127,7 @@ module.exports = Marionette.LayoutView.extend
     extractIsbnsAndFetchData text
     .then candidates.addNewCandidates.bind(candidates)
     .then (addedCandidates)=>
-      behaviorsPlugin.stopLoading.call @, selector
+      stopLoading.call @, selector
       if addedCandidates.length > 0 then @showImportQueueUnlessEmpty()
       else throw error_.new 'no ISBN found', 400
     .catch error_.Complete('#isbnsImporterWrapper .warning')

@@ -1,5 +1,6 @@
 Item = require 'modules/inventory/models/item'
 Items = require 'modules/inventory/collections/items'
+getEntitiesItemsCount = require './get_entities_items_count'
 error_ = require 'lib/error'
 
 getById = (id)->
@@ -65,8 +66,8 @@ getItemByQueryUrl = (queryUrl)->
 getByEntities = (uris)->
   getItemByQueryUrl app.API.items.byEntities({ ids: uris })
 
-getByUserIdAndEntities = (userId, entityUri)->
-  getItemByQueryUrl app.API.items.byUserAndEntities(userId, entityUri)
+getByUserIdAndEntities = (userId, uris)->
+  getItemByQueryUrl app.API.items.byUserAndEntities(userId, uris)
 
 addItemsAndUsers = (collection)-> (res)->
   { items, users } = res
@@ -89,6 +90,7 @@ module.exports = (app)->
     'items:getUserItems': getUserItems
     'items:getGroupItems': getGroupItems
     'items:getByUserIdAndEntities': getByUserIdAndEntities
+    'items:getEntitiesItemsCount': getEntitiesItemsCount
 
     # Using a different naming to match reqGrab requests style
     'get:item:model': getById

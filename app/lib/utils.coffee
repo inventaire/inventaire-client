@@ -158,8 +158,19 @@ module.exports = (Backbone, _, $, app, window)->
     if date? then new Date(date).toISOString().split('T')[0]
     else new Date().toISOString().split('T')[0]
 
-  # Missing in Underscore v1.6.0
-  noop: ->
+  isDateString: (dateString)->
+    unless dateString? and typeof dateString is 'string' then return false
+    return /^-?\d{4}(-\d{2})?(-\d{2})?$/.test dateString
+
+  # Missing in Underscore v1.8.3
+  chunk: (array, size)->
+    # Do not mutate inital array
+    array = array.slice(0)
+    chunks = []
+    while array.length > 0
+      chunks.push(array.splice(0, size))
+    return chunks
+
 
 encodeCharacter = (c)-> '%' + c.charCodeAt(0).toString(16)
 

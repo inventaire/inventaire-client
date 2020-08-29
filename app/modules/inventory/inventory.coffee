@@ -6,6 +6,7 @@ ItemsCascade = require './views/items_cascade'
 showItemCreationForm = require './lib/show_item_creation_form'
 itemActions = require './lib/item_actions'
 { parseQuery, currentRoute, buildPath } = require 'lib/location'
+error_ = require 'lib/error'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -101,15 +102,17 @@ showItemsFromModels = (items)->
   switch items.length
     when 0 then app.execute 'show:error:missing'
     # redirect to the item
-    when 1 then showItemModal items.models[0]
+    when 1
+      item = items.models[0]
+      fallback = -> API.showUserInventory item.get('owner'), true
+      showItemModal item, fallback
     else showItemsList items
 
-showInventory = (options = {})->
-  app.layout.main.show new InventoryLayout(options)
+showInventory = (options)-> app.layout.main.show new InventoryLayout(options)
 
 showItemsList = (collection)-> app.layout.main.show new ItemsCascade { collection }
 
-showItemModal = (model)->
+showItemModal = (model, fallback)->
   previousRoute = currentRoute()
   # Do not scroll top as the modal might be displayed down at the level
   # where the item show event was triggered
@@ -122,9 +125,11 @@ showItemModal = (model)->
       return app.execute 'show:inventory:user', model.get('owner')
     app.navigate previousRoute, { preventScrollTop: true }
 
+  fallback or= navigateAfterModal
+
   # Let the time to other callbacks to call a navigation before testing if the route
   # should be recovered
-  app.vent.once 'modal:closed', -> setTimeout navigateAfterModal, 10
+  app.vent.once 'modal:closed', -> setTimeout fallback, 10
 
   model.grabWorks()
   .then -> app.layout.modal.show new ItemShow { model }
@@ -172,7 +177,7 @@ initializeInventoriesHandlers = (app)->
     'items:update': itemActions.update
     'items:delete': itemActions.delete
     'item:create': itemActions.create
-    'item:main:user:instances': (entityUri)->
+    'item:main:user:entity:items': (entityUri)->
       app.request 'items:getByUserIdAndEntities', app.user.id, entityUri
       .get 'models'
     'item:update:entity': (item, entity)->

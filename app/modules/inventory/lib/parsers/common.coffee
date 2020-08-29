@@ -1,3 +1,12 @@
+leven = require 'leven'
+# Arbitrary acceptable Levenshtein distance between 2 strings
+# to consider it a match. Typically useful to match names despite
+# - diacritics: 'René Goscinny' should match 'Rene Goscinny'
+# - initials: 'Jean V. Jean' should match 'Jean Jean' within a single work array of authors
+# That isn't a very sophisticated matching, but should be a good enough
+# first barrier to duplicated authors
+maxLevenshteinDistance = 3
+
 module.exports = (data)->
   { isbn, authors } = data
   # the window.ISBN lib is made available by the isbn2 asset that
@@ -7,28 +16,29 @@ module.exports = (data)->
     delete data.isbn
 
   if authors?
-    data.authors = deduplicateAndJoinAuthors authors
+    data.authors = deduplicateAuthors authors
 
   return data
 
-deduplicateAndJoinAuthors = (authors)->
+deduplicateAuthors = (authors)->
   return authors
   # Prevent names containing comma to pass as they will later be interpretted
   # as several names
   .filter containsNoComma
   .filter isFirstOccurence(authors)
-  .join ', '
 
 containsNoComma = (str)-> str? and not /,/.test(str)
 
 isFirstOccurence = (array)-> (str, index)->
   noramlizedStr = normalize str
   for previousStr in array[0...index]
-    if noramlizedStr is normalize(previousStr) then return false
+    if leven(noramlizedStr, normalize(previousStr)) < maxLevenshteinDistance then return false
   return true
 
 normalize = (str)->
   str
+  .trim()
+  .normalize()
   .toLowerCase()
   # Remove standalone initials
   .replace /\s\w{1}\.?\s/, ' '

@@ -19,6 +19,10 @@
       flex: 1 0 0;
       @include display-flex(row, center, flex-start);
     }
+    .isbn-data{
+      // Matching .isbn-header
+      max-width: 8em;
+    }
     .label{
       color: $grey;
       margin-right: 0.5em;
@@ -51,6 +55,9 @@
   &:not(.can-be-selected):not(.need-info){
     cursor: not-allowed;
   }
+  span{
+    cursor: text;
+  }
   &.need-info{
     input[type='checkbox']{
       visibility: hidden;
@@ -65,6 +72,11 @@
   }
   .invalid-isbn, .error-message{
     color: red;
+  }
+  .existing-entity-items .link{
+    color: red;
+    text-decoration-color: red;
+    font-weight: bold;
   }
   .addInfo{
     text-align: center;

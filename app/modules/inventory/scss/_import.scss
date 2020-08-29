@@ -44,6 +44,9 @@
 
 #isbnsImporter{
   @include display-flex(column);
+  textarea{
+    min-height: 6em;
+  }
   .loading{
     margin-bottom: 1em;
   }
