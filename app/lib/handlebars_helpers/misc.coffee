@@ -69,7 +69,7 @@ module.exports =
     _.log arguments, 'hb debug arguments'
     return JSON.stringify arguments[0]
 
-  localTimeString: (time)-> if time? then new Date(time).toLocaleString()
+  localTimeString: (time)-> if time? then new Date(time).toLocaleString(app.user.lang)
 
   timeFromNow: (time)->
     unless time? then return

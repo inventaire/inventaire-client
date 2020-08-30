@@ -54,7 +54,7 @@ module.exports = UserCommons.extend
     # aren't precise to the meter or anything close to it
     # Above, return a ~1km precision
     precision = if distance > 20 then 0 else 1
-    @distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString()
+    @distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString(app.user.lang)
     return
 
   calculateHighlightScore: ->
