@@ -297,7 +297,7 @@ normalizeUri = (uri)->
 
 # Create from the seed data we have, if the entity isn't known yet
 existsOrCreateFromSeed = (entry)->
-  _.preq.post app.API.entities.resolve, { entries: [ entry ], update: true, create: true }
+  _.preq.post app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true }
   # Add the possibly newly created edition entity to the local index
   # and get it's model
   .get 'entries'
