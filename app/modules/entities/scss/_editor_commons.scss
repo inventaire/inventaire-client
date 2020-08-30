@@ -1,6 +1,9 @@
 .value-editor-commons{
   @include display-flex(row, center, flex-start);
-  padding: 0.5em;
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 0.5em;
+  }
 }
 
 .input-editor{
@@ -48,7 +51,7 @@
     color: $grey;
     position: absolute;
     font-size: 0.8em;
-    bottom: 0.2em;
+    top: 2.2em;
     right: 0.5em;
   }
 }
