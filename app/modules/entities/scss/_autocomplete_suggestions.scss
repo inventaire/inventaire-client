@@ -2,9 +2,20 @@
   position: relative;
 }
 .autocomplete-suggestions{
-  // positioning .autocomplete-suggestions just under .autocomplete-container
-  @include position(relative, 95%)
-  z-index: 1;
+  /*Medium and Large screens*/
+  @media screen and (min-width: $entity-editor-small-thresold) {
+    // On large screen, there is room to display the action buttons on the side,
+    // so we can position the suggestion with position=absolute to avoid
+    // having the rest of the page jump when we display or hide suggestions
+    @include position(absolute, 95%);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $entity-editor-small-thresold) {
+    // Make top border overlap with the input border
+    // to avoid having a 2px border
+    margin-top: -1px;
+    margin-bottom: 0.5em;
+  }
   width: 100%;
   background-color: white;
   @include shy-border(0.9);
