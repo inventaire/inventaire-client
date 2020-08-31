@@ -90,7 +90,7 @@ updateOnKey = (value, actionKey)->
     showDefaultSuggestions.call @
     @_showingDefaultSuggestions = true
   else if value isnt @_lastValue
-    refreshSuggestions.bind(@)(value)
+    refreshSuggestions.call @, value
     @_showingDefaultSuggestions = false
 
 refreshSuggestions = (value)->
@@ -103,12 +103,7 @@ refreshSuggestions = (value)->
     @lazySearch value
 
 filterSuggestions = (suggestions, value)->
-  suggestions.filter (entity)->
-    if entity.get('label').match(value) then return true
-    if entity.get('description').match(value) then return true
-    for lang, langAliases of entity.get('entity')
-      for alias in langAliases
-        if alias.match value then return true
+  suggestions.filter (entity)-> entity.matches(value)
 
 keyAction = (actionKey)->
   # actions happening in any case
