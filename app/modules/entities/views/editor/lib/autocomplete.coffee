@@ -14,8 +14,9 @@ notSearchableProps = [ 'wdt:P31' ]
 
 module.exports =
   onRender: ->
+    @isNonSearchableProp = @property in notSearchableProps
     unless @suggestions? then initializeAutocomplete.call @
-    @suggestionsRegion.show new AutocompleteSuggestions { collection: @suggestions }
+    @suggestionsRegion.show new AutocompleteSuggestions { collection: @suggestions, @isNonSearchableProp }
     addDefaultSuggestionsUris.call @
 
   onKeyDown: (e)->
@@ -95,7 +96,7 @@ updateOnKey = (value, actionKey)->
 
 refreshSuggestions = (value)->
   @showDropdown()
-  if @property in notSearchableProps
+  if @isNonSearchableProp
     matchedSuggestions = filterSuggestions(@_defaultSuggestions, value)
     if matchedSuggestions? and matchedSuggestions.length > 0
       @suggestions.reset matchedSuggestions
