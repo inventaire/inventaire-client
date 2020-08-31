@@ -6,6 +6,7 @@
 
 # The order is meaningful:
 work =
+  'wdt:P31': {} # instance of
   'wdt:P50': {} # author
   'wdt:P136': {} # genre
   'wdt:P921': {} # main subject
@@ -16,7 +17,6 @@ work =
   'wdt:P144': {} # based on
   'wdt:P941': {} # inspired by
   'wdt:P856': {} # official website
-  'wdt:P31': {} # instance of (=> works aliases)
   # 'wdt:P110': {} # illustrator
   # 'wdt:P1476': {} # title (using P407 lang)
   # 'wdt:P1680': {} # subtitle (using P407 lang)
