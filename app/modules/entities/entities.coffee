@@ -78,7 +78,9 @@ API =
 
   showEntityCreateFromRoute: ->
     if app.request 'require:loggedIn', 'entity/new'
-      showEntityCreate app.request('querystring:get:all')
+      params = app.request 'querystring:get:all'
+      params.allowToChangeType ?= true
+      showEntityCreate params
 
   showChanges: ->
     app.layout.main.show new ChangesLayout
