@@ -8,7 +8,7 @@ module.exports = Entities.extend
     @totalLength = options.uris.length
     @fetchedUris = []
     { @refresh, @defaultType, @parentContext } = options
-    @typesWhitelist ?= options.typesWhitelist
+    @typesAllowlist ?= options.typesAllowlist
 
   fetchMore: (amount)->
     urisToFetch = _.difference @remainingUris[0...amount], @fetchedUris
@@ -39,11 +39,11 @@ module.exports = Entities.extend
   more: -> @remainingUris.length
 
   filterOutUndesiredTypes: (entity)->
-    if not @typesWhitelist? or entity.type in @typesWhitelist then return true
+    if not @typesAllowlist? or entity.type in @typesAllowlist then return true
     else
       app.execute 'report:entity:type:issue',
         model: entity
-        expectedType: @typesWhitelist
+        expectedType: @typesAllowlist
         context:
           module: module.id
           allUris: JSON.stringify @allUris
