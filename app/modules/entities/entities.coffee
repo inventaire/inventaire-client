@@ -143,7 +143,7 @@ showEntityCreate = (params)->
   params.type = params.type?.replace /s$/, ''
 
   # Known case: when clicking 'create' while live search section is 'subject'
-  if params.type not in entityDraftModel.whitelistedTypes
+  if params.type not in entityDraftModel.allowlistedTypes
     params.type = null
 
   if params.type? and not params.allowToChangeType

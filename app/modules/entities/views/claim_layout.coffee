@@ -37,7 +37,7 @@ module.exports = Marionette.LayoutView.extend
   showEntities: (uris)->
     collection = new PaginatedEntities null, { uris, defaultType: 'work' }
 
-    # whitelisted properties labels are in i18n keys already, thus should not need
+    # allowlisted properties labels are in i18n keys already, thus should not need
     # to be fetched like what 'entityValueTemplate' is doing for the entity value
     propertyValue = _.i18n wd_.unprefixify(@property)
     entityValue = entityValueTemplate @value

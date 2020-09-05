@@ -70,7 +70,7 @@ module.exports =
 
     return model
 
-  whitelistedTypes: Object.keys typeDefaultP31
+  allowlistedTypes: Object.keys typeDefaultP31
 
 getPropertiesShortlist = (type, claims)->
   typeShortlist = propertiesShortlists[type]

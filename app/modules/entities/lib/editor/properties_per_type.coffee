@@ -1,7 +1,7 @@
 # Keep in sync with app/modules/entities/lib/properties
 # and server/controllers/entities/lib/properties/properties
 # and server/controllers/entities/lib/properties/properties_per_type
-# and server/lib/wikidata/whitelisted_properties
+# and server/lib/wikidata/allowlisted_properties
 # and inventaire-i18n/original/wikidata.properties_list
 
 # The order is meaningful:

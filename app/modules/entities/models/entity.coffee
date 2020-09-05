@@ -24,7 +24,7 @@ specialInitializersByType =
 #   - Work
 #   - Edition
 
-# Progressively extending the whitelist of editable types
+# Progressively extending the allowlist of editable types
 editableTypes = [ 'work', 'edition', 'human', 'serie', 'publisher' ]
 
 placeholdersTypes = [ 'meta', 'missing' ]
