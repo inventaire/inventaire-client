@@ -5,7 +5,8 @@ module.exports = (entity)->
   if cache[type]?
     Promise.resolve cache[type]
   else
-    _.preq.get(app.API.data.aliases(type))
-    .then (values)->
-      cache[type] = values
-      return values
+    _.preq.get(app.API.data.entityTypeAliases(type))
+    .then (res)->
+      aliases = res['entity-type-aliases']
+      cache[type] = aliases
+      return aliases
