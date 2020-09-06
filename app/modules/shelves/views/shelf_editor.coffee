@@ -58,10 +58,13 @@ module.exports = Marionette.LayoutView.extend
       description,
       listing: selected.id
     }
+    .catch (err)->
+      if err.message is 'nothing to update' then return
+      else throw err
     .then (updatedShelf) =>
-      @model.set(updatedShelf)
-      @model.set('icon', selected.icon)
-      @model.set('label', selected.label)
+      @model.set updatedShelf
+      @model.set 'icon', selected.icon
+      @model.set 'label', selected.label
       @closeModal()
     .catch forms_.catchAlert.bind(null, @)
 
