@@ -3,12 +3,15 @@ getActionKey = require 'lib/get_action_key'
 forms_ = require 'modules/general/lib/forms'
 { listingsData } = require 'modules/inventory/lib/item_creation'
 { createShelf } = require 'modules/shelves/lib/shelf'
+{ startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelf_editor'
   behaviors:
     AlertBox: {}
     BackupForm: {}
+    ElasticTextarea: {}
+    Loading: {}
 
   initialize: ->
     #Default listing
@@ -17,10 +20,11 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a.validateButton': 'createShelf'
+    'click a.validate': 'createShelf'
     'click .listingChoice': 'updateListing'
 
   serializeData: ->
+    isNewShelf: true
     listings: listingsData()
     selected: @selected
 
@@ -44,6 +48,7 @@ module.exports = Marionette.LayoutView.extend
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor ').val()
     if description is '' then description = null
+    startLoading.call @, '.validate .loading'
     createShelf { name, description, listing: @selected.id }
     .then afterCreate(@collection)
     .catch forms_.catchAlert.bind(null, @)
@@ -52,5 +57,5 @@ afterCreate = (collection) -> (newShelf) ->
   newShelfModel = new ShelfModel newShelf
   collection.add newShelfModel
   app.user.trigger 'shelves:change', 'addShelf'
-  app.execute 'show:shelf', newShelf
+  app.execute 'show:shelf', newShelfModel
   app.execute 'modal:close'

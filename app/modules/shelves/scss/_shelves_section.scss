@@ -7,6 +7,10 @@
   @include display-flex(row, top, space-between);
   // balance the cross fold icon on the right
   padding: 1em 1em 1em 3.5em;
+  .subheader{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
   #showShelves, #hideShelves{
     font-size: 1.5rem;
     @include text-hover($grey, $dark-grey);

@@ -2,6 +2,7 @@
 forms_ = require 'modules/general/lib/forms'
 getActionKey = require 'lib/get_action_key'
 { deleteShelf, updateShelf } = require 'modules/shelves/lib/shelf'
+{ startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelf_editor'
@@ -10,6 +11,7 @@ module.exports = Marionette.LayoutView.extend
     AlertBox: {}
     BackupForm: {}
     ElasticTextarea: {}
+    Loading: {}
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
@@ -26,6 +28,7 @@ module.exports = Marionette.LayoutView.extend
     listings = listingsData()
     attrs = @model.toJSON()
     _.extend attrs,
+      isNewShelf: false
       listings: listings
       selected: @model.get('selected')
 
@@ -52,6 +55,7 @@ module.exports = Marionette.LayoutView.extend
     description = $('#shelfDescEditor').val()
     if description is '' then description = null
     selected = @model.get('selected')
+    startLoading.call @, '.validate .loading'
     updateShelf {
       shelf: shelfId,
       name,
