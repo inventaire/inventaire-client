@@ -12,7 +12,6 @@ input, textarea{
   font-family: inherit;
   color: $input-font-color;
   display: block;
-  font-size: 0.9rem;
   margin: 0 0 1rem 0;
   padding: 0.5rem;
   height: $input-height;
@@ -25,6 +24,10 @@ input, textarea{
   &.has-alertbox{
     margin-bottom: 0;
   }
+}
+
+textarea{
+  line-height: 1.6rem;
 }
 
 input[type="text"], input[type="search"], input[type="password"], input[type="email"], textarea{
@@ -110,7 +113,7 @@ textarea{
   min-width: 60%;
   input{
     height: 2.2rem;
-    padding: 0 1em;
+    padding: 0 0.5em;
     margin-bottom: 0;
   }
   /*Small screens*/
