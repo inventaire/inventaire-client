@@ -5,34 +5,34 @@
     <h3 class="subheader">{{i18n 'new shelf'}}</h3>
   {{/if}}
   <div class="inputBox">
-    <input type="text" id="shelfNameEditor" class="input-wrapper" placeholder="{{i18n 'shelf name'}}" value="{{name}}">
+    <label for="shelfNameEditor">{{i18n 'shelf name'}}</label>
+    <input type="text" id="shelfNameEditor" class="input-wrapper" value="{{name}}">
   </div>
   <div class="inputBox">
-    <textarea type="text" id="shelfDescEditor" placeholder="{{i18n 'shelf description'}}">{{description}}</textarea>
+    <label for="sheldDescEditor">{{i18n 'shelf description'}}</label>
+    <textarea type="text" id="shelfDescEditor">{{description}}</textarea>
   </div>
-  <div class="has-dropdown">
-    <span name="selected" class="tiny-button">{{icon selected.icon}}{{selected.label}}</span>
+  <div class="visibility-wrapper has-dropdown">
+    <label for="visibilityBox">{{i18n 'visibility'}}</label>
+    <span name="selected" class="tiny-button">{{icon selected.icon}}{{I18n selected.label}}</span>
     <ul class="dropdown visibilityBox">
       <li class="dropdown-label">{{i18n 'Who can see it?'}}</li>
       {{#each listings}}
         <li>
           <a id="{{id}}" class="listingChoice">
-            {{icon icon}} {{i18n label}}
+            {{icon icon}} {{I18n label}}
           </a>
         </li>
       {{/each}}
     </ul>
   </div>
-  <div id="shelfEditorMessage" class="panel">
-    {{icon 'info'}}{{i18n 'shelf editor message'}}
-  </div>
   <div class="has-alertbox"></div>
-  <div class="actionButtons">
+  <div class="buttons">
     {{#if _id}}
-      <a class="deleteButton" title="{{i18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete shelf'}}</a>
-      <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'validate'}}</a>
+      <a class="delete" title="{{I18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete shelf'}}</a>
+      <a class="validate success-button" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'validate'}}</a>
     {{else}}
-      <a class="button validateButton" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'create shelf'}}</a>
+      <a class="validate success-button" title="{{I18n 'validate'}}" >{{icon 'check'}}{{I18n 'create shelf'}}</a>
     {{/if}}
   </div>
 </div>

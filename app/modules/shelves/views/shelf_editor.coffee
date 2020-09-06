@@ -9,12 +9,13 @@ module.exports = Marionette.LayoutView.extend
   behaviors:
     AlertBox: {}
     BackupForm: {}
+    ElasticTextarea: {}
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a.validateButton': 'updateShelfAction'
+    'click a.validate': 'updateShelfAction'
     'click .listingChoice': 'updateListing'
-    'click .deleteButton': 'askDeleteShelf'
+    'click .delete': 'askDeleteShelf'
 
   initialize: ->
     listing = @model.get('listing')

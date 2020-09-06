@@ -1,7 +1,7 @@
 .items-table-selection-editor{
   @include display-flex(column, center, center);
   #selectTransaction, #selectListing, #selectShelves, .dropdown{
-    padding: 0 1em;
+    padding: 0.5em 1em;
     width: 100%;
     min-width: 12rem;
     @include radius;
