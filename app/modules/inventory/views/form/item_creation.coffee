@@ -106,7 +106,12 @@ module.exports = Marionette.LayoutView.extend
 
   validateSimple: ->
     @createItem()
-    .then -> app.execute 'show:inventory:main:user'
+    .then ->
+      lastShelves = app.request 'last:shelves:get'
+      if lastShelves? and lastShelves.length is 1
+        app.execute 'show:shelf', lastShelves[0]
+      else
+        app.execute 'show:inventory:main:user'
 
   validateAndAddNext: ->
     @createItem()
