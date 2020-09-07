@@ -14,8 +14,8 @@ module.exports = Marionette.LayoutView.extend
     Loading: {}
 
   initialize: ->
-    #Default listing
-    @selected = listingsData()['private']
+    lastListing = app.request('last:listing:get') or 'private'
+    @selected = listingsData()[lastListing]
     @collection = @options.collection
 
   events:
