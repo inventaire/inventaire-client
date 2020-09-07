@@ -90,10 +90,11 @@ deleteShelfAction = (model, withItems) -> ->
   .catch _.ErrorRethrow('shelf delete error')
 
 afterShelfDelete = (res)->
-  { items } = res
   app.execute 'show:inventory:main:user'
   app.user.trigger 'shelves:change', 'removeShelf'
-  items.forEach (item)->
-    { listing } = item
-    if listing
-      app.user.trigger 'items:change', listing, null
+  { items } = res
+  if items?
+    items.forEach (item)->
+      { listing } = item
+      if listing
+        app.user.trigger 'items:change', listing, null
