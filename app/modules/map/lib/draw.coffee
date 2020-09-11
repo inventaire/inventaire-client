@@ -3,12 +3,18 @@ buildMarker = require './build_marker'
 
 module.exports = (params)->
   { containerId, latLng, zoom, bounds, cluster } = params
+  bounds = _.compact bounds
+
+  if bounds.length is 1
+    latLng = bounds[0]
+    zoom = 5
+
   zoom or= defaultZoom
 
-  if latLng?
-    map = L.map(containerId).setView(latLng, zoom)
-  else
-    map = L.map(containerId).fitBounds bounds
+  map = L.map containerId
+
+  if latLng? then map.setView latLng, zoom
+  else map.fitBounds bounds
 
   L.tileLayer(tileUrl, settings).addTo map
 
