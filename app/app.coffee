@@ -31,6 +31,9 @@ App = Marionette.Application.extend
     @navigateFromModel = navigateFromModel.bind @
 
   navigate: (route, options = {})->
+    # Close the modal if it was open
+    # If the next view just opened the modal, this will be ignored
+    app.execute 'modal:close'
     # Update metadata before testing if the route changed
     # so that a call from a router action would trigger a metadata update
     # but not affect the history (due to the early return hereafter)
