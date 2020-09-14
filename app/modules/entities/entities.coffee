@@ -87,16 +87,17 @@ API =
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
   showActivity: ->
-    showViewWithAdminRights
+    showViewByAccessLevel
       path: 'entity/activity'
       title: 'activity'
       View: ActivityLayout
+      accessLevel: 'admin'
 
   showDeduplicate: (params = {})->
     # Using an object interface, as the router might pass querystrings
     { uris } = params
     uris = _.forceArray uris
-    showViewWithAdminRights
+    showViewByAccessLevel
       path: 'entity/deduplicate'
       title: 'deduplicate'
       View: DeduplicateLayout
@@ -104,6 +105,7 @@ API =
       # Assume that if uris are passed, navigate was already done
       # to avoid double navigation
       navigate: not uris?
+      accessLevel: 'dataadmin'
 
   showEntityCleanup: (uri)->
     if app.request 'require:loggedIn', "entity/#{uri}/cleanup"
@@ -116,7 +118,7 @@ API =
 
   showEntityDeduplicate: (uri)->
     unless app.request 'require:loggedIn', "entity/#{uri}/deduplicate" then return
-    unless app.request 'require:admin:rights' then return
+    unless app.request 'require:admin:access' then return
 
     getEntityModel uri, true
     .then (model)->
@@ -124,7 +126,7 @@ API =
 
   showEntityHistory: (uri)->
     unless app.request 'require:loggedIn', "entity/#{uri}/history" then return
-    unless app.request 'require:admin:rights' then return
+    unless app.request 'require:admin:access' then return
 
     uri = normalizeUri uri
 
@@ -307,12 +309,12 @@ existsOrCreateFromSeed = (entry)->
     { uri } = entries[0].edition
     return getEntityModel uri, true
 
-showViewWithAdminRights = (params)->
-  { path, title, View, viewOptions, navigate } = params
+showViewByAccessLevel = (params)->
+  { path, title, View, viewOptions, navigate, accessLevel } = params
   navigate ?= true
   if app.request 'require:loggedIn', path
     if navigate then app.navigate path, { metadata: { title } }
-    if app.request 'require:admin:rights'
+    if app.request "require:#{accessLevel}:access"
       app.layout.main.show new View(viewOptions)
 
 parseSearchResults = (uri)-> (searchResults)->

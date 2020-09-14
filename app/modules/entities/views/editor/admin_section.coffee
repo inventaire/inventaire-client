@@ -22,6 +22,7 @@ module.exports = Marionette.LayoutView.extend
 
   initialize: ->
     @_historyShown = false
+    @showHistorySection = app.user.hasAdminAccess
 
   serializeData: ->
     canBeMerged: @canBeMerged()
@@ -29,6 +30,7 @@ module.exports = Marionette.LayoutView.extend
     isAnEdition: @model.type is 'edition'
     isWikidataEntity: @model.get 'isWikidataEntity'
     wikidataEntityHistoryHref: @model.get 'wikidata.history'
+    showHistorySection: @showHistorySection
 
   events:
     'click #mergeWithButton': 'merge'

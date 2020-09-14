@@ -37,7 +37,7 @@ API =
         username = user.get 'username'
         path = "users/#{username}/contributions"
         app.navigate path, { metadata: { title: 'contributions' } }
-        if app.request 'require:admin:rights'
+        if app.request 'require:admin:access'
           app.layout.main.show new UserContributions { user }
 
   showUser: (id)-> app.execute 'show:inventory:user', id
