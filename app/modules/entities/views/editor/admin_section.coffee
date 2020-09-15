@@ -34,6 +34,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'click #mergeWithButton': 'merge'
+    'click .deleteEntity': 'deleteEntity'
     'click #showMergeSuggestions': 'showMergeSuggestions'
     'click #historyToggler': 'toggleHistory'
 
@@ -65,6 +66,18 @@ module.exports = Marionette.LayoutView.extend
     unless @history.hasView() then @showHistory()
     @history.$el.toggleClass 'hidden'
     @ui.historyTogglers.toggle()
+
+  deleteEntity: ->
+    app.execute 'ask:confirmation',
+      confirmationText: 'do you really want to delete stuff'
+      action: @_deleteEntity.bind(@)
+
+  _deleteEntity: ->
+    uri = @model.get('uri')
+    _.preq.post app.API.entities.delete, { uris: [ uri ] }
+    .then -> app.execute 'show:entity:edit', uri
+    .catch error_.Complete('.delete-alert', false)
+    .catch forms_.catchAlert.bind(null, @)
 
 mergeWithData = ->
   nameBase: 'mergeWith'

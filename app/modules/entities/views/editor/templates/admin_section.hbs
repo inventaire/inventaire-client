@@ -14,6 +14,11 @@
   </section>
 {{/if}}
 
+<h4>{{i18n 'delete entity'}}</h4>
+<section class="delete-entity">
+  <a class="deleteEntity button alert">{{icon 'trash'}}{{I18n 'delete'}}</a>
+  <div class="delete-alert"></div>
+</section>
 
 {{#if isWikidataEntity}}
   <h4>{{iconLinkText name='external-link' url=wikidataEntityHistoryHref I18n='see history on Wikidata'}}</h4>

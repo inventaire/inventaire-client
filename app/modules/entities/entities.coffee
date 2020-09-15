@@ -51,8 +51,7 @@ API =
 
     getEntityModel uri, refresh
     .then (entity)->
-      if entity.get('_meta_type') is 'removed:placeholder'
-        throw error_.new 'removed placeholder', 400, { entity }
+      rejectRemovedPlaceholder entity
 
       getEntityViewByType entity, refresh
       .then (view)->
@@ -243,6 +242,8 @@ showEntityEdit = (params)->
 showEntityEditFromModel = (model)->
   unless app.request 'require:loggedIn', model.get('edit') then return
 
+  rejectRemovedPlaceholder model
+
   prefix = model.get 'prefix'
   if prefix is 'wd' and not app.user.hasWikidataOauthTokens()
     showWikidataEditIntroModal model
@@ -251,6 +252,10 @@ showEntityEditFromModel = (model)->
 
 showWikidataEditIntroModal = (model)->
   app.layout.modal.show new WikidataEditIntro { model }
+
+rejectRemovedPlaceholder = (entity)->
+  if entity.get('_meta_type') is 'removed:placeholder'
+    throw error_.new 'removed placeholder', 400, { entity }
 
 handleMissingEntity = (uri)-> (err)->
   switch err.message
