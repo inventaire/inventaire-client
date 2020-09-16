@@ -15,7 +15,7 @@ ListEl = Marionette.ItemView.extend
   events:
     'click a': 'selectInventory'
 
-  isGroupAdmin: -> @context is 'group' and @group.allAdminsIds().includes(@model.id)
+  isGroupAdmin: -> @context is 'group' and @model.id in @group.allAdminsIds()
 
   selectInventory: (e)->
     if _.isOpenedOutside e then return
