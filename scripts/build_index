@@ -6,11 +6,11 @@ PUBLIC=$(pwd)/public
 echo 'partials added'
 
 # Remove comments (assumes that there are no multilines comments)
-sed -iE '/^\s*<!--/d' $PUBLIC/index.html
+sed -i -E '/^\s*<!--/d' $PUBLIC/index.html
 # Remove indentation spaces
-sed -iE 's/^\s*//' $PUBLIC/index.html
+sed -i -E 's/^\s*//' $PUBLIC/index.html
 # Remove empty lines
-sed -iE '/^$/d' $PUBLIC/index.html
+sed -i -E '/^$/d' $PUBLIC/index.html
 echo 'index.html minified'
 
 ./scripts/add_jsonld_actions.coffee
