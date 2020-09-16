@@ -73,7 +73,7 @@ module.exports = Marionette.LayoutView.extend
       action: @_deleteEntity.bind(@)
 
   _deleteEntity: ->
-    uri = @model.get('uri')
+    uri = @model.get('invUri')
     _.preq.post app.API.entities.delete, { uris: [ uri ] }
     .then -> app.execute 'show:entity:edit', uri
     .catch displayDeteEntityErrorContext.bind(@)
