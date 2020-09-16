@@ -13,6 +13,9 @@ brunch build --production
 echo -e '\e[0;30mgzip js, css, and font files\e[0m'
 ./scripts/set_content_hash_cache_bust
 
+echo -e '\e[0;30mupdate mentions\e[0m'
+./scripts/update_mentions.coffee
+
 rm -f public/json/*.gz
 gzip -9kf public/json/*.json
 
