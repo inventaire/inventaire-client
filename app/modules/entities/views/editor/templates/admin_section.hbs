@@ -14,17 +14,28 @@
   </section>
 {{/if}}
 
+<h4>{{i18n 'delete entity'}}</h4>
+<section class="delete-entity">
+  {{#if isInvEntity}}
+    <a class="deleteEntity button alert">{{icon 'trash'}}{{I18n 'delete'}}</a>
+    <div class="delete-alert"></div>
+  {{else}}
+    <p class="warning">{{I18n "can't delete Wikidata entity"}}</p>
+  {{/if}}
+</section>
 
 {{#if isWikidataEntity}}
   <h4>{{iconLinkText name='external-link' url=wikidataEntityHistoryHref I18n='see history on Wikidata'}}</h4>
 {{else}}
-  <h4>
-    <a id="historyToggler">
-      {{icon 'chevron-down'}}
-      {{icon 'chevron-up' 'hidden'}}
-      {{I18n 'history'}}
-    </a>
-  </h4>
+  {{#if showHistorySection}}
+    <h4>
+      <a id="historyToggler">
+        {{icon 'chevron-down'}}
+        {{icon 'chevron-up' 'hidden'}}
+        {{I18n 'history'}}
+      </a>
+    </h4>
+  {{/if}}
 {{/if}}
 
 <section id="history"></section>

@@ -1,5 +1,3 @@
-isbn_ = require 'lib/isbn'
-wdk = require 'lib/wikidata-sdk'
 error_ = require 'lib/error'
 Entity = require './models/entity'
 SerieCleanup = require './views/cleanup/serie_cleanup'
@@ -16,6 +14,7 @@ DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 History = require './views/editor/history'
 getEntityViewByType = require './lib/get_entity_view_by_type'
+{ normalizeUri } = require './lib/entities'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -51,8 +50,7 @@ API =
 
     getEntityModel uri, refresh
     .then (entity)->
-      if entity.get('_meta_type') is 'removed:placeholder'
-        throw error_.new 'removed placeholder', 400, { entity }
+      rejectRemovedPlaceholder entity
 
       getEntityViewByType entity, refresh
       .then (view)->
@@ -87,16 +85,17 @@ API =
     app.navigate 'entity/changes', { metadata: { title: 'changes' } }
 
   showActivity: ->
-    showViewWithAdminRights
+    showViewByAccessLevel
       path: 'entity/activity'
       title: 'activity'
       View: ActivityLayout
+      accessLevel: 'admin'
 
   showDeduplicate: (params = {})->
     # Using an object interface, as the router might pass querystrings
     { uris } = params
     uris = _.forceArray uris
-    showViewWithAdminRights
+    showViewByAccessLevel
       path: 'entity/deduplicate'
       title: 'deduplicate'
       View: DeduplicateLayout
@@ -104,6 +103,7 @@ API =
       # Assume that if uris are passed, navigate was already done
       # to avoid double navigation
       navigate: not uris?
+      accessLevel: 'dataadmin'
 
   showEntityCleanup: (uri)->
     if app.request 'require:loggedIn', "entity/#{uri}/cleanup"
@@ -116,7 +116,7 @@ API =
 
   showEntityDeduplicate: (uri)->
     unless app.request 'require:loggedIn', "entity/#{uri}/deduplicate" then return
-    unless app.request 'require:admin:rights' then return
+    unless app.request 'require:admin:access' then return
 
     getEntityModel uri, true
     .then (model)->
@@ -124,7 +124,7 @@ API =
 
   showEntityHistory: (uri)->
     unless app.request 'require:loggedIn', "entity/#{uri}/history" then return
-    unless app.request 'require:admin:rights' then return
+    unless app.request 'require:admin:access' then return
 
     uri = normalizeUri uri
 
@@ -241,6 +241,8 @@ showEntityEdit = (params)->
 showEntityEditFromModel = (model)->
   unless app.request 'require:loggedIn', model.get('edit') then return
 
+  rejectRemovedPlaceholder model
+
   prefix = model.get 'prefix'
   if prefix is 'wd' and not app.user.hasWikidataOauthTokens()
     showWikidataEditIntroModal model
@@ -249,6 +251,10 @@ showEntityEditFromModel = (model)->
 
 showWikidataEditIntroModal = (model)->
   app.layout.modal.show new WikidataEditIntro { model }
+
+rejectRemovedPlaceholder = (entity)->
+  if entity.get('_meta_type') is 'removed:placeholder'
+    throw error_.new 'removed placeholder', 400, { entity }
 
 handleMissingEntity = (uri)-> (err)->
   switch err.message
@@ -285,18 +291,6 @@ showEntityCreateFromIsbn = (isbn)->
   # Known case: when passed an invalid ISBN
   .catch (err)-> app.execute 'show:error:other', err, 'showEntityCreateFromIsbn'
 
-normalizeUri = (uri)->
-  [ prefix, id ] = uri.split ':'
-  if not id?
-    if wdk.isWikidataItemId prefix then [ prefix, id ] = [ 'wd', prefix ]
-    else if _.isInvEntityId prefix then [ prefix, id ] = [ 'inv', prefix ]
-    else if isbn_.looksLikeAnIsbn prefix
-      [ prefix, id ] = [ 'isbn', isbn_.normalizeIsbn(prefix) ]
-  else
-    if prefix is 'isbn' then id = isbn_.normalizeIsbn id
-
-  return "#{prefix}:#{id}"
-
 # Create from the seed data we have, if the entity isn't known yet
 existsOrCreateFromSeed = (entry)->
   _.preq.post app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true }
@@ -307,12 +301,12 @@ existsOrCreateFromSeed = (entry)->
     { uri } = entries[0].edition
     return getEntityModel uri, true
 
-showViewWithAdminRights = (params)->
-  { path, title, View, viewOptions, navigate } = params
+showViewByAccessLevel = (params)->
+  { path, title, View, viewOptions, navigate, accessLevel } = params
   navigate ?= true
   if app.request 'require:loggedIn', path
     if navigate then app.navigate path, { metadata: { title } }
-    if app.request 'require:admin:rights'
+    if app.request "require:#{accessLevel}:access"
       app.layout.main.show new View(viewOptions)
 
 parseSearchResults = (uri)-> (searchResults)->

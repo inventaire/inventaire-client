@@ -37,7 +37,8 @@ module.exports = UserCommons.extend
   lateInitialize: ->
     @lang = solveLang @get('language')
     initI18n app, @lang
-    @isAdmin = @get('admin') is true
+    @hasAdminAccess = @get('accessLevels').includes('admin')
+    @hasDataadminAccess = @get('accessLevels').includes('dataadmin')
     @setDefaultPicture()
 
   # Two valid language change cases:

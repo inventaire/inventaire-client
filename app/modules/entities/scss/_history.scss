@@ -37,7 +37,7 @@
     font-weight: 0.8em;
     padding-left: 0.5em;
   }
-  .showUser{
+  a{
     color: white;
     @include underline-on-hover(white);
   }

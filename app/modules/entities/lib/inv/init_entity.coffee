@@ -1,7 +1,15 @@
 Tasks = require 'modules/tasks/collections/tasks'
 
-module.exports = ->
-  @set 'aliases', {}
+module.exports = (attrs)->
+  { _id } = attrs
+
+  @set
+    aliases: {}
+    isInvEntity: true
+    # Always setting the invUri as long as some inv entities
+    # use an alternative uri format (namely isbn: uris)
+    invUri: "inv:#{_id}"
+
   _.extend @, specificMethods
 
 specificMethods =

@@ -33,8 +33,8 @@ module.exports =
   labels:
     update: action 'update-label'
 
-  # (ADMIN)
   merge: action 'merge'
+  delete: action 'delete'
   duplicates: action 'duplicates'
   contributions: (userId, limit, offset)->
     action 'contributions', { user: userId, limit, offset }

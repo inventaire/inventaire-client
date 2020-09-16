@@ -11,7 +11,7 @@ standalone = true
 
 getEntityViewByType = (model, refresh)->
   { type } = model
-  displayMergeSuggestions = app.user.isAdmin
+  displayMergeSuggestions = app.user.hasDataadminAccess
 
   getter = entityViewSpecialGetterByType[type]
   if getter? then return getter model, refresh

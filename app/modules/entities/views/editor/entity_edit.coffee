@@ -30,7 +30,7 @@ module.exports = Marionette.LayoutView.extend
     @creationMode = @model.creating
     @requiresLabel = @model.type isnt 'edition'
     @canBeAddedToInventory = @model.type in inventoryTypes
-    @showAdminSection = app.user.isAdmin and not @creationMode
+    @showAdminSection = app.user.hasDataadminAccess and not @creationMode
 
     if @model.subEntitiesInverseProperty?
       @waitForPropCollection = @model.fetchSubEntities()
@@ -69,7 +69,6 @@ module.exports = Marionette.LayoutView.extend
     attrs.returnLabel = "return to the #{typePossessive} page"
     attrs.creating = @model.creating
     attrs.canCancel = @canCancel()
-    attrs.isAdmin = app.user.isAdmin
     attrs.moveToWikidata = @moveToWikidataData()
     # Do not show the signal data error button in creation mode
     # as it wouldn't make sense

@@ -7,7 +7,7 @@ entitiesTypesWithTasks = [
 ]
 
 module.exports = (params)->
-  unless app.user.isAdmin then return
+  unless app.user.hasDataadminAccess then return
   { region, model, standalone } = params
   $(region.el).html loader()
 

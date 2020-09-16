@@ -24,7 +24,7 @@ module.exports = TypedEntityLayout.extend
     @displayItemsCovers = true
     TypedEntityLayout::initialize.call @
     entityItems.initialize.call @
-    @displayMergeSuggestions = app.user.isAdmin
+    @displayMergeSuggestions = app.user.hasAdminAccess
 
   onRender: ->
     TypedEntityLayout::onRender.call @

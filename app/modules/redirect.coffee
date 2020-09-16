@@ -25,7 +25,8 @@ module.exports =
   initialize: ->
     app.reqres.setHandlers
       'require:loggedIn': requireLoggedIn
-      'require:admin:rights': requireAdminRights
+      'require:admin:access': requireAdminAccess
+      'require:dataadmin:access': requireDataadminAccess
 
     app.commands.setHandlers
       'show:home': API.showHome
@@ -68,9 +69,16 @@ requireLoggedIn = (route)->
     app.execute 'show:login', { redirect }
     return false
 
-requireAdminRights = ->
+requireAdminAccess = ->
   setPrerenderStatusCode 401
-  if app.user.get('admin') then return true
+  if app.user.hasAdminAccess then return true
+  else
+    showErrorNotAdmin()
+    return false
+
+requireDataadminAccess = ->
+  setPrerenderStatusCode 401
+  if app.user.hasDataadminAccess then return true
   else
     showErrorNotAdmin()
     return false

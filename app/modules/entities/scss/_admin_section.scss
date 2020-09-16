@@ -29,9 +29,15 @@
   .merge-section{
     padding-left: 0.5em;
   }
+  .delete-entity{
+    color: white;
+    @include display-flex(column, center, center);
+    .delete-alert{
+      margin: 0.5em;
+    }
+  }
   .warning{
     color: #bbb;
-    font-size: 0.9em;
     margin-bottom: 0.6em;
   }
 }
