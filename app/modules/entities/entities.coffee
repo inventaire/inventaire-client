@@ -1,5 +1,3 @@
-isbn_ = require 'lib/isbn'
-wdk = require 'lib/wikidata-sdk'
 error_ = require 'lib/error'
 Entity = require './models/entity'
 SerieCleanup = require './views/cleanup/serie_cleanup'
@@ -16,6 +14,7 @@ DeduplicateLayout = require './views/deduplicate_layout'
 WikidataEditIntro = require './views/wikidata_edit_intro'
 History = require './views/editor/history'
 getEntityViewByType = require './lib/get_entity_view_by_type'
+{ normalizeUri } = require './lib/entities'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->
@@ -291,18 +290,6 @@ showEntityCreateFromIsbn = (isbn)->
 
   # Known case: when passed an invalid ISBN
   .catch (err)-> app.execute 'show:error:other', err, 'showEntityCreateFromIsbn'
-
-normalizeUri = (uri)->
-  [ prefix, id ] = uri.split ':'
-  if not id?
-    if wdk.isWikidataItemId prefix then [ prefix, id ] = [ 'wd', prefix ]
-    else if _.isInvEntityId prefix then [ prefix, id ] = [ 'inv', prefix ]
-    else if isbn_.looksLikeAnIsbn prefix
-      [ prefix, id ] = [ 'isbn', isbn_.normalizeIsbn(prefix) ]
-  else
-    if prefix is 'isbn' then id = isbn_.normalizeIsbn id
-
-  return "#{prefix}:#{id}"
 
 # Create from the seed data we have, if the entity isn't known yet
 existsOrCreateFromSeed = (entry)->

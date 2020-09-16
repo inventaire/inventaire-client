@@ -3,6 +3,7 @@ error_ = require 'lib/error'
 behaviorsPlugin = require 'modules/general/plugins/behaviors'
 History = require './history'
 mergeEntities = require './lib/merge_entities'
+{ normalizeUri } = require 'modules/entities/lib/entities'
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/admin_section'
@@ -52,7 +53,7 @@ module.exports = Marionette.LayoutView.extend
     behaviorsPlugin.startLoading.call @, '#mergeWithButton'
 
     fromUri = @model.get 'uri'
-    toUri = @ui.mergeWithInput.val()
+    toUri = normalizeUri @ui.mergeWithInput.val().trim()
 
     mergeEntities fromUri, toUri
     .then app.Execute('show:entity:from:model')
