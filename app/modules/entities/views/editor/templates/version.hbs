@@ -22,6 +22,14 @@
     <span class="precise-time">{{localTimeString timestamp}}</span>
   </span>
 </p>
+{{#if context.mergeFrom}}
+  <p>
+    <span class="label">{{i18n 'context'}}</span>
+    <span class="value">
+      merge from <a href="/entity/{{context.mergeFrom}}" class="showEntity">{{context.mergeFrom}}</a>
+    </span>
+  </p>
+{{/if}}
 <p>
   <span class="label">patch:</span>
   {{partial 'entities:editor:patch_operations' operations}}
