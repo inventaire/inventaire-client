@@ -48,11 +48,11 @@ removePreventRerenderFlag = (view, alertId)-> ()->
 
 forms_.alert = (view, err)->
   { selector, i18n } = err
-  errMessage = err.responseJSON?.status_verbose or err.message
+  errMessage = err.richMessage or err.responseJSON?.status_verbose or err.message
   _.types [ view, err, selector, errMessage ], [ 'object', 'object', 'string|undefined', 'string' ]
 
   # Avoid showing raw http error messages
-  if /^\d/.test errMessage then errMessage = 'something went wrong :('
+  if not err.richMessage? and /^\d/.test errMessage then errMessage = 'something went wrong :('
 
   logLabel = 'alert message'
   if selector? then logLabel += "on #{selector}"

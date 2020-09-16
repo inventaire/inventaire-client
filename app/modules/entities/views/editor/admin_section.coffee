@@ -76,8 +76,7 @@ module.exports = Marionette.LayoutView.extend
     uri = @model.get('uri')
     _.preq.post app.API.entities.delete, { uris: [ uri ] }
     .then -> app.execute 'show:entity:edit', uri
-    .catch error_.Complete('.delete-alert', false)
-    .catch forms_.catchAlert.bind(null, @)
+    .catch displayDeteEntityErrorContext.bind(@)
 
 mergeWithData = ->
   nameBase: 'mergeWith'
@@ -87,3 +86,22 @@ mergeWithData = ->
   button:
     text: _.I18n 'merge'
     classes: 'light-blue bold postfix'
+
+displayDeteEntityErrorContext = (err)->
+  { context } = err.responseJSON
+  if context
+    console.log 'context', context
+    claims = if context.claim? then [ context.claim ] else context.claims
+    if claims?
+      contextText = claims.map(buildClaimLink).join('')
+      err.richMessage = "#{err.message}: <ul>#{contextText}</ul>"
+
+  error_.complete err, '.delete-alert', false
+  # Display the alertbox on the admin_section view
+  forms_.catchAlert @, err
+
+  # Rethrow the error to let the confirmation modal display a fail status
+  throw err
+
+buildClaimLink = (claim)->
+  "<li><a href='/entity/#{claim.entity}/edit' class='showEntityEdit'>#{claim.property} - #{claim.entity}</a></li>"
