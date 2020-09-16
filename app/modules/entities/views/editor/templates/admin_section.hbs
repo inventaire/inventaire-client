@@ -16,8 +16,12 @@
 
 <h4>{{i18n 'delete entity'}}</h4>
 <section class="delete-entity">
-  <a class="deleteEntity button alert">{{icon 'trash'}}{{I18n 'delete'}}</a>
-  <div class="delete-alert"></div>
+  {{#if isInvEntity}}
+    <a class="deleteEntity button alert">{{icon 'trash'}}{{I18n 'delete'}}</a>
+    <div class="delete-alert"></div>
+  {{else}}
+    <p class="warning">{{I18n "can't delete Wikidata entity"}}</p>
+  {{/if}}
 </section>
 
 {{#if isWikidataEntity}}

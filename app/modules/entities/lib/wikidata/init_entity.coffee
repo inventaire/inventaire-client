@@ -4,10 +4,12 @@ getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
 { escapeExpression } = Handlebars
 wdHost = 'https://www.wikidata.org'
 
-module.exports = ->
+module.exports = (attrs)->
   { lang } = app.user
   setWikiLinks.call @, lang
   setAttributes.call @, lang
+
+  @set 'isWikidataEntity', true
 
   _.extend @, specificMethods
 

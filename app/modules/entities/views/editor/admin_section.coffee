@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
     mergeWith: mergeWithData()
     isAnEdition: @model.type is 'edition'
     isWikidataEntity: @model.get 'isWikidataEntity'
+    isInvEntity: @model.get 'isInvEntity'
     wikidataEntityHistoryHref: @model.get 'wikidata.history'
     showHistorySection: @showHistorySection
 
