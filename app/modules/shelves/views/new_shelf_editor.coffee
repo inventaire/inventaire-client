@@ -57,4 +57,3 @@ afterCreate = (newShelf) ->
   app.user.trigger 'shelves:change', 'createShelf'
   app.execute 'show:shelf', newShelfModel
   app.execute 'modal:close'
-  @render()
