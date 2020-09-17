@@ -9,6 +9,7 @@ isPrerenderSession = window.navigator.userAgent.match('Prerender')?
 module.exports = ->
   if isPrerenderSession then return
   { piwik } = app.config
+  unless piwik? then return
   # - radically prevents recording development actions
   # - reduces the load on the real tracker server
   # - easier debug
