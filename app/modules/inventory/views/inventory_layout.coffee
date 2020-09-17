@@ -29,7 +29,7 @@ module.exports = Marionette.LayoutView.extend
     @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
 
   childEvents:
-    'unselect:shelf': 'unselectShelf'
+    'close:shelf': 'closeShelf'
 
   onShow: ->
     if @user?
@@ -86,6 +86,8 @@ module.exports = Marionette.LayoutView.extend
     @waitForShelvesList = app.request 'resolve:to:userModel', userIdOrModel
       .then (userModel)=>
         if @shelvesList.currentView? and userModel is @_lastShownUser then return
+        shelvesCount = userModel.get('shelvesCount')
+        if shelvesCount is 0 then return
         username = userModel.get('username')
         @shelvesList.show new ShelvesSection { username }
         return @shelvesList.currentView.waitForList
@@ -146,7 +148,7 @@ module.exports = Marionette.LayoutView.extend
       allowMore: true
       showDistance: section is 'public'
 
-  unselectShelf: (shelfView)->
+  closeShelf: (shelfView)->
     @showInventoryBrowser @_lastShownType, @_lastShownUser
     scrollToSection @userProfile
     @shelfInfo.empty()

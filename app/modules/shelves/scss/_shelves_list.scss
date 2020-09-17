@@ -42,10 +42,4 @@
       }
     }
   }
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .shelf-row .shelf-right{
-      padding-right: 0.2em;
-    }
-  }
 }

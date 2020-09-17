@@ -18,11 +18,14 @@
         flex: 2 0 0;
       }
       #shelf-actions{
-        a {
+        .tiny-button {
           margin-bottom: 1em;
           margin-left: 1em;
           padding-top: 0.4em;
           padding-bottom: 0.4em;
+        }
+        #closeShelf{
+          margin-left: 0.5em;
         }
       }
     }
@@ -41,12 +44,28 @@
   .count{
     padding-left: 0.5em;
   }
+  #close-shelf-small{
+    display: none;
+  }
+  .closeButton{
+    font-size: 1.5rem;
+    @include text-hover($grey, $dark-grey);
+  }
   /*Smaller screens*/
   @media screen and (max-width: $smaller-screen) {
-    @include display-flex(column, center, center);
-    .picture{
-      margin-top: 1em
+    #shelf-header{
+      @include display-flex(row, top, center);
+      .picture{
+        margin-top: 1em
+      }
+      #close-shelf-small{
+        padding-top: 0.5em;
+        position: absolute;
+        right: 0.3em;
+        display: block;
+      }
     }
+    @include display-flex(column, center, center);
     #shelf-info-box{
       text-align: center;
       #shelf-title-bar{
@@ -56,7 +75,7 @@
           a {
             margin-left: 0;
           }
-          #unselectShelf{
+          #closeShelf{
             display: none;
           }
           @include display-flex(column, center, center);

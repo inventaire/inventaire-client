@@ -1,4 +1,7 @@
-<div class="picture" style="background-image: url({{imgSrc picture 160}})"></div>
+<div id="shelf-header">
+  <div class="picture" style="background-image: url({{imgSrc picture 160}})"></div>
+  <a id="close-shelf-small" class="closeButton" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
+</div>
 <div id="shelf-info-box">
   <div id="shelf-title-bar">
     <h3 id="shelf-name">{{name}}</h3>
@@ -12,7 +15,7 @@
       <a class="addItems tiny-button light-blue" title="{{I18n 'add books to this shelf'}}">
         {{icon 'plus'}} {{I18n 'add books'}}
       </a>
-      <a id="unselectShelf" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
+      <a id="closeShelf" class="closeButton" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
     </div>
   </div>
   <ul class="data">

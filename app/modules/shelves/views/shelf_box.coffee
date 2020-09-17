@@ -13,7 +13,7 @@ module.exports = Marionette.ItemView.extend
 
   events:
     'click #showShelfEdit': 'showEditor'
-    'click #unselectShelf': 'unselectShelf'
+    'click .closeButton': 'closeShelf'
     'click .addItems': 'addItems'
 
   modelEvents:
@@ -24,9 +24,9 @@ module.exports = Marionette.ItemView.extend
     _.extend attrs,
       isEditable: @isEditable
 
-  unselectShelf: ->
+  closeShelf: ->
     ownerId = @model.get('owner')
-    @triggerMethod 'unselect:shelf'
+    @triggerMethod 'close:shelf'
 
   showEditor: (e)->
     app.layout.modal.show new ShelfEditor { @model }
