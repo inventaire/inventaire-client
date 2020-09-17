@@ -1,6 +1,5 @@
 Shelves = require '../collections/shelves'
 { getShelvesByOwner } = require 'modules/shelves/lib/shelf'
-NewShelfEditor = require './new_shelf_editor'
 ShelvesList = require './shelves_list'
 
 module.exports = Marionette.LayoutView.extend
@@ -13,7 +12,6 @@ module.exports = Marionette.LayoutView.extend
     BackupForm: {}
 
   events:
-    'click #addShelf': 'showNewShelfEditor'
     'click #hideShelves': 'hideShelves'
     'click #showShelves': 'showShelves'
     'click #shelvesHeader': 'toggleShelves'
@@ -29,7 +27,6 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     shelvesList: '#shelvesList'
-    addShelf: '#addShelf'
     hideShelves: '#hideShelves'
     showShelves: '#showShelves'
 
@@ -45,7 +42,6 @@ module.exports = Marionette.LayoutView.extend
 
   hideShelves: (e)->
     @ui.shelvesList.hide()
-    @ui.addShelf.hide()
     @ui.showShelves.show()
     @ui.hideShelves.hide()
     e.stopPropagation()
@@ -53,7 +49,6 @@ module.exports = Marionette.LayoutView.extend
 
   showShelves: (e)->
     @ui.shelvesList.show()
-    @ui.addShelf.show()
     @ui.hideShelves.show()
     @ui.showShelves.hide()
     e.stopPropagation()
@@ -67,10 +62,6 @@ module.exports = Marionette.LayoutView.extend
     unless docs.length > 0 then return
     @collection = new Shelves docs
     @shelvesList.show new ShelvesList { @collection }
-
-  showNewShelfEditor: (e)->
-    app.layout.modal.show new NewShelfEditor { @collection }
-    e.stopPropagation()
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id
