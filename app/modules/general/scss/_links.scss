@@ -1,5 +1,6 @@
 a{
   @include text-hover($primary-color, darken($primary-color, 5%));
+  word-break: break-word;
   &:hover{
     cursor: pointer;
   }

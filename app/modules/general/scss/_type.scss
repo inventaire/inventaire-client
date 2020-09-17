@@ -55,6 +55,7 @@ h1, h2, h3, h4, h5, h6, .pseudo-element-header:before{
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
   line-height: 1.4;
+  word-break: break-word;
   small{
     font-size: 60%;
     color: #6f6f6f;
