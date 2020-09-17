@@ -6,8 +6,12 @@
 #shelvesHeader{
   cursor: pointer;
   @include display-flex(row, top, space-between);
-  // balance the cross fold icon on the right
-  padding: 1em 1em 1em 3.5em;
+  padding: 1em;
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    // balance the cross fold icon on the right
+    padding: 1em 1em 1em 3.5em;
+  }
   .subheader{
     margin-top: 0;
     margin-bottom: 0;
