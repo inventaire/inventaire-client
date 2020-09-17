@@ -29,7 +29,7 @@ module.exports = shelf_ =
     { id } = model
     items = _.forceArray items
     itemsIds = items.map (item)->
-      item.addShelf id
+      item.createShelf id
       item.get('_id')
     model.set 'isInShelf', true
     return shelfActionReq id, itemsIds, 'addItems'

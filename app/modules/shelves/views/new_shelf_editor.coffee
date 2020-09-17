@@ -56,6 +56,6 @@ module.exports = Marionette.LayoutView.extend
 afterCreate = (collection) -> (newShelf) ->
   newShelfModel = new ShelfModel newShelf
   collection.add newShelfModel
-  app.user.trigger 'shelves:change', 'addShelf'
+  app.user.trigger 'shelves:change', 'createShelf'
   app.execute 'show:shelf', newShelfModel
   app.execute 'modal:close'

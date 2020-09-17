@@ -103,7 +103,7 @@ module.exports = UserCommons.extend
 
   updateShelvesCounter: (action)->
     shelvesCount = @get 'shelvesCount'
-    if action is 'addShelf' then shelvesCount += 1
+    if action is 'createShelf' then shelvesCount += 1
     if action is 'removeShelf' then shelvesCount -= 1
     @set 'shelvesCount', shelvesCount
     @setAllInventoryStats()
