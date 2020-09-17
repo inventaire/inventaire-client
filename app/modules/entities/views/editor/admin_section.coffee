@@ -71,7 +71,7 @@ module.exports = Marionette.LayoutView.extend
 
   deleteEntity: ->
     app.execute 'ask:confirmation',
-      confirmationText: 'do you really want to delete stuff'
+      confirmationText: _.I18n 'delete_entity_confirmation', { label: @model.get('label') }
       action: @_deleteEntity.bind(@)
 
   _deleteEntity: ->
