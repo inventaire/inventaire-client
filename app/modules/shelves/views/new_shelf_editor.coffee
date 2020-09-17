@@ -2,7 +2,7 @@ ShelfModel = require '../models/shelf'
 getActionKey = require 'lib/get_action_key'
 forms_ = require 'modules/general/lib/forms'
 { listingsData } = require 'modules/inventory/lib/item_creation'
-{ createShelf } = require 'modules/shelves/lib/shelf'
+{ createShelf: createShelfModel } = require 'modules/shelves/lib/shelf'
 { startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend
@@ -16,7 +16,6 @@ module.exports = Marionette.LayoutView.extend
   initialize: ->
     lastListing = app.request('last:listing:get') or 'private'
     @selected = listingsData()[lastListing]
-    @collection = @options.collection
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
@@ -49,13 +48,13 @@ module.exports = Marionette.LayoutView.extend
     description = $('#shelfDescEditor ').val()
     if description is '' then description = null
     startLoading.call @, '.validate .loading'
-    createShelf { name, description, listing: @selected.id }
-    .then afterCreate(@collection)
+    createShelfModel { name, description, listing: @selected.id }
+    .then afterCreate
     .catch forms_.catchAlert.bind(null, @)
 
-afterCreate = (collection) -> (newShelf) ->
+afterCreate = (newShelf) ->
   newShelfModel = new ShelfModel newShelf
-  collection.add newShelfModel
   app.user.trigger 'shelves:change', 'createShelf'
   app.execute 'show:shelf', newShelfModel
   app.execute 'modal:close'
+  @render()

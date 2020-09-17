@@ -44,5 +44,5 @@ module.exports = Marionette.ItemView.extend
     app.execute 'show:models:on:map', [ @model, app.user ]
 
   showNewShelfEditor: (e)->
-    app.layout.modal.show new NewShelfEditor { @collection }
+    app.layout.modal.show new NewShelfEditor {}
     e.stopPropagation()
