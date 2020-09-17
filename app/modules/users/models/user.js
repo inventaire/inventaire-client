@@ -25,6 +25,7 @@ export default UserCommons.extend({
     // A type attribute is required by some views
     // that switch on type to pick a template for instance
     this.set('type', 'user')
+    this.set('isAnonymized', this.get('username') === 'anonymized')
 
     app.request('wait:for', 'relations')
     .then(this.initRelation.bind(this))

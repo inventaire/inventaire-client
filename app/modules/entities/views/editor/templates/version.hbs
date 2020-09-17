@@ -9,8 +9,12 @@
 <p>
   <span class="label">{{i18n 'user'}}:</span>
   {{#if user.special}}
-    <span class="value">{{user.username}}</span>
-    <span class="special-user">{{I18n 'special user'}}</span>
+    {{#if user.isAnonymized}}
+      <span class="value"><em>{{user.username}}</em></span>
+    {{else}}
+      <span class="value">{{user.username}}</span>
+      <span class="special-user">{{I18n 'special user'}}</span>
+    {{/if}}
   {{else}}
     {{#if user.deleted}}
       <span class="value">{{user.username}}</span>
@@ -19,7 +23,9 @@
       <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
     {{/if}}
   {{/if}}
-  <a class="showUserContributions" href="{{user.contributions}}">{{i18n 'contributions'}}</a>
+  {{#if hasAdminAccess}}
+    <a class="showUserContributions" href="{{user.contributions}}">{{i18n 'contributions'}}</a>
+  {{/if}}
 </p>
 <p>
   <span class="label">{{i18n 'date'}}:</span>

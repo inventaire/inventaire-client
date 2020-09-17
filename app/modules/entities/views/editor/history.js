@@ -22,7 +22,8 @@ export default Marionette.CompositeView.extend({
     const attrs = this.model?.toJSON() || {}
     return _.extend(attrs, {
       standalone: this.options.standalone,
-      label: (this.redirectUri != null) ? this.redirectUri : attrs.label
+      label: (this.redirectUri != null) ? this.redirectUri : attrs.label,
+      hasAdminAccess: app.user.hasAdminAccess
     })
   }
 })
