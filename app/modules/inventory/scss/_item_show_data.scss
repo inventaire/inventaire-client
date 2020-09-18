@@ -76,7 +76,8 @@
     @include transition(transform, 0.3s);
   }
   ul{
-    max-height: 50em;
+    max-height: 200em;
+    overflow: auto;
     @include transition(max-height, 0.3s);
   }
   .shelfSelector{
