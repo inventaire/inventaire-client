@@ -92,8 +92,8 @@ module.exports = Marionette.LayoutView.extend
     .catch _.Error('showShelves err')
 
   _showShelves: (shelves)->
-    collection = new Shelves shelves
     selectedShelves = @itemData.shelves
+    collection = new Shelves shelves, { selected: selectedShelves }
     @shelvesSelector.show new ItemShelves { collection, selectedShelves }
 
   # TODO: update the UI for update errors

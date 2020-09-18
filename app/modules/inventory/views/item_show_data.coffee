@@ -133,7 +133,8 @@ module.exports = ItemLayout.extend
 
   showShelves: ->
     getShelvesByOwner()
-    .then (shelves) => @shelves = new Shelves shelves
+    .then (shelves) =>
+      @shelves = new Shelves shelves, { selected: @model.get('shelves') }
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: ->
