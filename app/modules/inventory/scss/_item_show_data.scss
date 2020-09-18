@@ -64,10 +64,10 @@
 .shelvesPanel{
   background: $off-white;
   margin-bottom: 0.6em;
-  padding: 1em;
   @include display-flex(column);
   .icon-buttons-header{
-    height: 1.6em;
+    height: 3em;
+    padding: 1em;
   }
   .toggleShelvesExpand{
     flex: 1;
@@ -79,7 +79,16 @@
     max-height: 50em;
     @include transition(max-height, 0.3s);
   }
-  &:not(.manyShelves){
+  .shelfSelector{
+    padding: 0 0.5em;
+    height: 3em;
+    @include transition(height, 0.3s);
+    overflow: hidden;
+  }
+  .toggleShelvesExpand{
+    font-size: 1.2em;
+  }
+  &:not(.hasNonSelected){
     .toggleShelvesExpand{
       display: none;
     }
@@ -88,8 +97,11 @@
     .toggleShelvesExpand{
       @include bg-hover($off-white, 5%);
     }
+    .shelfSelector:not(.selected){
+      height: 0;
+    }
     ul{
-      max-height: 15em;
+      max-height: 25em;
       overflow: auto;
     }
   }

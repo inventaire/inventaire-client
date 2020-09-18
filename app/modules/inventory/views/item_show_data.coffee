@@ -138,8 +138,8 @@ module.exports = ItemLayout.extend
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: ->
-    if @shelves.length > 5
-      @$el.find('.shelvesPanel').addClass 'manyShelves'
+    if @shelves.length > @model.get('shelves').length
+      @$el.find('.shelvesPanel').addClass 'hasNonSelected'
 
     @shelvesSelector.show new ItemShelves
       collection: @shelves
