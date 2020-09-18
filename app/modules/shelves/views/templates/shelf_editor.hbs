@@ -12,19 +12,9 @@
     <label for="sheldDescEditor">{{i18n 'description'}}</label>
     <textarea type="text" id="shelfDescEditor">{{description}}</textarea>
   </div>
-  <div class="visibility-wrapper has-dropdown">
+  <div id="listing" class="select-button-group">
     <label for="visibilityBox">{{i18n 'visibility'}}</label>
-    <span name="selected" class="tiny-button">{{icon selected.icon}}{{I18n selected.label}}</span>
-    <ul class="dropdown visibilityBox">
-      <li class="dropdown-label">{{i18n 'Who can see it?'}}</li>
-      {{#each listings}}
-        <li>
-          <a id="{{id}}" class="listingChoice">
-            {{icon icon}} {{I18n label}}
-          </a>
-        </li>
-      {{/each}}
-    </ul>
+    {{partial 'inventory:form:button_group' listings}}
   </div>
   <div class="has-alertbox"></div>
   <div class="buttons">

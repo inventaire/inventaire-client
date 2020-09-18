@@ -1,6 +1,7 @@
 { listingsData } = require 'modules/inventory/lib/item_creation'
 forms_ = require 'modules/general/lib/forms'
 getActionKey = require 'lib/get_action_key'
+ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
 { deleteShelf, updateShelf } = require 'modules/shelves/lib/shelf'
 { startLoading } = require 'modules/general/plugins/behaviors'
 
@@ -12,17 +13,13 @@ module.exports = Marionette.LayoutView.extend
     BackupForm: {}
     ElasticTextarea: {}
     Loading: {}
+    ItemCreationSelect:
+      behaviorClass: ItemCreationSelect
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
     'click a.validate': 'updateShelfAction'
-    'click .listingChoice': 'updateListing'
     'click .delete': 'askDeleteShelf'
-
-  initialize: ->
-    listing = @model.get('listing')
-    listings = listingsData()
-    @model.set('selected', listings[listing])
 
   serializeData: ->
     listings = listingsData()
@@ -30,15 +27,14 @@ module.exports = Marionette.LayoutView.extend
     _.extend attrs,
       isNewShelf: false
       listings: listings
-      selected: @model.get('selected')
+      selected: @selected
 
-  onShow: -> app.execute 'modal:open'
-
-  updateListing: (e)->
-    if e.currentTarget? then { id } = e.currentTarget
-    listings = listingsData()
-    @model.set('selected', listings[id])
-    @render()
+  onShow: ->
+    app.execute 'modal:open'
+    listing = @model.get('listing')
+    $el = @$el.find("##{listing}")
+    $el.siblings().removeClass 'selected'
+    $el.addClass 'selected'
 
   closeModal: (e)-> app.execute 'modal:close'
 
@@ -54,21 +50,23 @@ module.exports = Marionette.LayoutView.extend
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor').val()
     if description is '' then description = null
-    selected = @model.get('selected')
+    selected = app.request('last:listing:get')
     startLoading.call @, '.validate .loading'
     updateShelf {
       shelf: shelfId,
       name,
       description,
-      listing: selected.id
+      listing: selected
     }
     .catch (err)->
       if err.message is 'nothing to update' then return
       else throw err
     .then (updatedShelf) =>
+      app.user.trigger 'shelves:change', 'createShelf'
+      listingData = listingsData()[selected]
       @model.set updatedShelf
-      @model.set 'icon', selected.icon
-      @model.set 'label', selected.label
+      @model.set 'icon', listingData.icon
+      @model.set 'label', listingData.label
       @closeModal()
     .catch forms_.catchAlert.bind(null, @)
 
