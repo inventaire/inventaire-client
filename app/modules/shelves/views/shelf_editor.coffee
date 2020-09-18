@@ -1,9 +1,10 @@
 { listingsData } = require 'modules/inventory/lib/item_creation'
 forms_ = require 'modules/general/lib/forms'
 getActionKey = require 'lib/get_action_key'
-ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
+UpdateSelector = require 'modules/inventory/behaviors/update_selector'
 { deleteShelf, updateShelf } = require 'modules/shelves/lib/shelf'
 { startLoading } = require 'modules/general/plugins/behaviors'
+
 
 module.exports = Marionette.LayoutView.extend
   template: require './templates/shelf_editor'
@@ -13,21 +14,17 @@ module.exports = Marionette.LayoutView.extend
     BackupForm: {}
     ElasticTextarea: {}
     Loading: {}
-    ItemCreationSelect:
-      behaviorClass: ItemCreationSelect
+    UpdateSelector:
+      behaviorClass: UpdateSelector
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a.validate': 'updateShelfAction'
+    'click a.validate': 'validateAction'
     'click .delete': 'askDeleteShelf'
 
   serializeData: ->
-    listings = listingsData()
-    attrs = @model.toJSON()
-    _.extend attrs,
-      isNewShelf: false
-      listings: listings
-      selected: @selected
+    _.extend @model.toJSON(),
+      listings: listingsData()
 
   onShow: ->
     app.execute 'modal:open'
@@ -36,16 +33,14 @@ module.exports = Marionette.LayoutView.extend
     $el.siblings().removeClass 'selected'
     $el.addClass 'selected'
 
-  closeModal: (e)-> app.execute 'modal:close'
-
   shelfEditorKeyAction: (e)->
     key = getActionKey e
     if key is 'esc'
-      @closeModal()
+      closeModal()
     else if key is 'enter' and e.ctrlKey
-      @updateShelfAction()
+      @validateAction()
 
-  updateShelfAction: (e)->
+  validateAction: (e)->
     shelfId = @model.get('_id')
     name = $('#shelfNameEditor').val()
     description = $('#shelfDescEditor').val()
@@ -61,13 +56,8 @@ module.exports = Marionette.LayoutView.extend
     .catch (err)->
       if err.message is 'nothing to update' then return
       else throw err
-    .then (updatedShelf) =>
-      app.user.trigger 'shelves:change', 'createShelf'
-      listingData = listingsData()[selected]
-      @model.set updatedShelf
-      @model.set 'icon', listingData.icon
-      @model.set 'label', listingData.label
-      @closeModal()
+    .then afterUpdate(selected, @model)
+    .then closeModal
     .catch forms_.catchAlert.bind(null, @)
 
   askDeleteShelf: ->
@@ -77,6 +67,15 @@ module.exports = Marionette.LayoutView.extend
       action: deleteShelfAction(@model)
       altAction: deleteShelfAction(@model, true)
       altActionText: _.i18n 'yes and delete shelf items too'
+
+closeModal = (e) -> app.execute 'modal:close'
+
+afterUpdate = (selected, model) -> (updatedShelf) =>
+  app.user.trigger 'shelves:change', 'createShelf'
+  listingData = listingsData()[selected]
+  model.set updatedShelf
+  model.set 'icon', listingData.icon
+  model.set 'label', listingData.label
 
 deleteShelfAction = (model, withItems) -> ->
   id = model.get '_id'

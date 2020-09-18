@@ -2,7 +2,7 @@ EntityDataOverview = require 'modules/entities/views/entity_data_overview'
 NewItemShelves = require '../new_item_shelves'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 { getShelvesByOwner } = require 'modules/shelves/lib/shelf'
-ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
+UpdateSelector = require 'modules/inventory/behaviors/update_selector'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
@@ -20,8 +20,8 @@ module.exports = Marionette.LayoutView.extend
 
   behaviors:
     ElasticTextarea: {}
-    ItemCreationSelect:
-      behaviorClass: ItemCreationSelect
+    UpdateSelector:
+      behaviorClass: UpdateSelector
     AlertBox: {}
 
   ui:

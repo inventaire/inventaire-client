@@ -1,30 +1,26 @@
 .shelfEditor{
+  label{
+    font-size: 1rem;
+    margin-bottom: 0.2em;
+  }
   #private{ @include selected-button-color($private-color, $private-color-text); }
   #network{ @include selected-button-color($network-color, $network-color-text); }
   #public{
     @include selected-button-color($public-color, $public-color-text);
   }
-
   .inputBox{
     margin: 1em 0;
-  }
-  label{
-    font-size: 1rem;
-    margin-bottom: 0.2em;
   }
   .subheader{
     text-align: center;
   }
+  .select-button-group{
+    @include display-flex(column)
+  }
   .buttons{
-    @include display-flex(row, center, center);
-    align-self: stretch;
+    @include display-flex(row, center, space-around);
     margin-top: 2em;
-  }
-  .visibility-wrapper{
-    @include display-flex(row, center, space-between);
-  }
-  .dropdown-label{
-    padding: 0.5em;
+    align-self: stretch;
   }
   .delete, .validate{
     text-align: center;
@@ -34,17 +30,6 @@
   }
   .delete{
     @include dangerous-action;
-  }
-  .buttons{
-    @include display-flex(row, center, space-around);
-    margin-top: 2em;
-  }
-  .has-dropdown{
-    .fa{
-      margin-right:0.2em;
-    }
-  }
-  .delete{
     margin-right: 1em;
   }
   /*Smaller screens*/
