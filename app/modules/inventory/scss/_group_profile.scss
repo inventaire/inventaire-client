@@ -1,5 +1,6 @@
 .groupProfile{
   background-color: #eee;
+  margin-top: 0.5em;
   .section-one{
     flex: 1 0 auto;
   }
@@ -134,7 +135,7 @@
     }
     .group-actions{
       @include display-flex(column, center, center);
-      margin: 1em;
+      margin-top: 1em;
       .restrictions{
         margin-top: 1em;
       }
