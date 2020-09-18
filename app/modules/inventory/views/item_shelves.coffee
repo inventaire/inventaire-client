@@ -3,21 +3,31 @@ NoShelfView = require './no_shelf'
 
 ItemShelfLi = Marionette.ItemView.extend
   tagName: 'li'
+  className: 'shelfSelector'
+
   template: require './templates/item_shelf_li'
 
   events:
-    'click .shelfSelector': 'shelfSelector'
+    'click': 'toggleShelfSelector'
 
   initialize: ->
-    { @item } = @options
-    @model.set 'isInShelf', @item.isInShelf(@model.id)
-
-  shelfSelector: ->
-    { id } = @model
-    if @item.isInShelf id
-      removeItems(@model, [ @item ])
+    { @item, @selectedShelves } = @options
+    @itemCreationMode = @selectedShelves?
+    if @itemCreationMode
+      @isSelected = @model.id in @selectedShelves
     else
-      addItems(@model, [ @item ])
+      @isSelected = @item.isInShelf(@model.id)
+
+  serializeData: -> _.extend @model.toJSON(), { @isSelected }
+
+  toggleShelfSelector: ->
+    { id } = @model
+    @isSelected = not @isSelected
+    unless @itemCreationMode
+      if @isSelected
+        addItems @model, [ @item ]
+      else
+        removeItems @model, [ @item ]
     @render()
 
 module.exports = Marionette.CollectionView.extend
@@ -26,5 +36,6 @@ module.exports = Marionette.CollectionView.extend
 
   childViewOptions: ->
     item: @options.item
+    selectedShelves: @options.selectedShelves
 
   emptyView: NoShelfView

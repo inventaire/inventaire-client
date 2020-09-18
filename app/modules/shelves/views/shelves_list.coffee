@@ -6,7 +6,7 @@ ListEl = Marionette.ItemView.extend
     PreventDefault: {}
 
   events:
-    'click a': 'selectShelf'
+    'click .selectShelf': 'selectShelf'
 
   modelEvents:
     'change': 'lazyRender'

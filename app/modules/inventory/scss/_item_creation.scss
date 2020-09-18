@@ -69,6 +69,12 @@
     overflow: auto;
   }
 
+  #shelvesSelector{
+    .shelfSelector{
+      padding: 0.2em;
+    }
+  }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .entityData{

@@ -11,22 +11,6 @@
       @include display-flex(row, center);
       overflow: hidden;
       line-height: 1.2em;
-      .picture{
-        min-width: 3em;
-        height: 3em;
-      }
-      .shelf-text{
-        max-height: 3em;
-        overflow: hidden;
-        padding: 0.2em 0.4em;
-        margin-right: 1em;
-        @include display-flex(column, flex-start, center);
-        .desc{
-          color: $grey;
-          max-height: 1.4em;
-          overflow: hidden;
-        }
-      }
     }
     .shelf-right{
       @include display-flex(row);
@@ -42,5 +26,26 @@
         &.public{ @include box-color($public-color, null); }
       }
     }
+  }
+}
+
+.shelf-text{
+  max-height: 3em;
+  line-height: 1.4em;
+  overflow: hidden;
+  padding: 0.2em 0.4em;
+  margin-right: 1em;
+}
+
+.shelf-text, .shelfSelector, .selectShelf{
+  .picture{
+    min-width: 3em;
+    height: 3em;
+    @include radius;
+  }
+  .description{
+    color: $grey;
+    max-height: 1.4em;
+    overflow: hidden;
   }
 }

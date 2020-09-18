@@ -1,8 +1,9 @@
 EntityDataOverview = require 'modules/entities/views/entity_data_overview'
-NewItemShelves = require '../new_item_shelves'
+ItemShelves = require '../item_shelves'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
 { getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 UpdateSelector = require 'modules/inventory/behaviors/update_selector'
+Shelves = require 'modules/shelves/collections/shelves'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
@@ -16,7 +17,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     existingEntityItemsRegion: '#existingEntityItems'
     entityRegion: '#entity'
-    shelves: '#shelves'
+    shelvesSelector: '#shelvesSelector'
 
   behaviors:
     ElasticTextarea: {}
@@ -88,12 +89,12 @@ module.exports = Marionette.LayoutView.extend
   showShelves: ->
     getShelvesByOwner()
     .then @ifViewIsIntact('_showShelves')
+    .catch _.Error('showShelves err')
 
   _showShelves: (shelves)->
-    shelvesCollection = new Backbone.Collection shelves
-    @shelves.show new NewItemShelves
-      collection: shelvesCollection
-      item: @itemData
+    collection = new Shelves shelves
+    selectedShelves = @itemData.shelves
+    @shelvesSelector.show new ItemShelves { collection, selectedShelves }
 
   # TODO: update the UI for update errors
   updateTransaction: ->
@@ -121,12 +122,19 @@ module.exports = Marionette.LayoutView.extend
     # the value of 'transaction' and 'listing' were updated on selectors clicks
     @itemData.details = @ui.details.val()
     @itemData.notes = @ui.notes.val()
+    @itemData.shelves = @getSelectedShelves()
 
     app.execute 'last:shelves:set', @itemData.shelves
 
     app.request 'item:create', @itemData
     .catch error_.Complete('.panel')
     .catch forms_.catchAlert.bind(null, @)
+
+  getSelectedShelves: ->
+    selectedShelves = @$el.find '.shelfSelector input'
+      .filter (i, el)-> el.checked
+      .map (i, el)-> el.name.split('-')[1]
+    return Array.from selectedShelves
 
   addNext: ->
     switch @_lastAddMode

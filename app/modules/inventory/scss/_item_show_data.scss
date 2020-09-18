@@ -1,7 +1,5 @@
 // This module is already imported in #itemShowLayout{}
 // so no need to wrap everything in #itemShowData{}, it would be an overkill
-#itemShowData{
-}
 .item-settings{
   @include display-flex(row, center, center, wrap);
   label{
@@ -65,13 +63,40 @@
 
 .shelvesPanel{
   background: $off-white;
+  margin-bottom: 0.6em;
   padding: 1em;
-  .shelvesSelector ul li{
-    padding: 0.5em 0;
+  @include display-flex(column);
+  .icon-buttons-header{
+    height: 1.6em;
   }
-  .shelfSelector {
-    @include bg-hover($off-white);
-    cursor: pointer;
+  .toggleShelvesExpand{
+    flex: 1;
+  }
+  .fa-chevron-down{
+    @include transition(transform, 0.3s);
+  }
+  ul{
+    max-height: 50em;
+    @include transition(max-height, 0.3s);
+  }
+  &:not(.manyShelves){
+    .toggleShelvesExpand{
+      display: none;
+    }
+  }
+  &:not(.expanded){
+    .toggleShelvesExpand{
+      @include bg-hover($off-white, 5%);
+    }
+    ul{
+      max-height: 15em;
+      overflow: auto;
+    }
+  }
+  &.expanded{
+    .fa-chevron-down{
+      transform: rotateX(180deg);
+    }
   }
 }
 

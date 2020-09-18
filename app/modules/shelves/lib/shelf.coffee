@@ -38,7 +38,7 @@ module.exports = shelf_ =
     unless userId then userId = app.user.id
     _.preq.get app.API.shelves.byOwners(userId)
     .get 'shelves'
-    .then (shelvesObj) -> _.values shelvesObj
+    .then _.values
 
   countShelves: (userId)->
     _.preq.get app.API.shelves.byOwners(userId)

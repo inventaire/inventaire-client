@@ -4,6 +4,8 @@
 ItemTransactions = require './item_transactions'
 getActionKey = require 'lib/get_action_key'
 ItemShelves = require './item_shelves'
+ShelvesList = require 'modules/shelves/views/shelves_list'
+Shelves = require 'modules/shelves/collections/shelves'
 { getShelvesByOwner } = require 'modules/shelves/lib/shelf'
 itemViewsCommons = require '../lib/items_views_commons'
 ItemLayout = Marionette.LayoutView.extend itemViewsCommons
@@ -56,12 +58,16 @@ module.exports = ItemLayout.extend
     'keydown #notesEditor': 'notesEditorKeyAction'
     'click a#validateNotes': 'validateNotes'
     'click a.requestItem': -> app.execute 'show:item:request', @model
-    'click .shelvesPanel': -> @showShelves()
+    'click .selectShelf': 'selectShelf'
+    'click .toggleShelvesExpand': 'toggleShelvesExpand'
 
   serializeData: ->
     attrs = @model.serializeData()
     _.extend attrs,
       shelves: @model.get('shelves')
+
+  onShow: ->
+    @showShelves()
 
   itemDestroyBack: ->
     if @model.isDestroyed then app.execute 'modal:close'
@@ -127,11 +133,22 @@ module.exports = ItemLayout.extend
 
   showShelves: ->
     getShelvesByOwner()
-    .then (shelves) => @shelves = new Backbone.Collection shelves
+    .then (shelves) => @shelves = new Shelves shelves
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: ->
-    @shelvesSelector.show new ItemShelves { collection: @shelves, item: @model }
+    if @shelves.length > 5
+      @$el.find('.shelvesPanel').addClass 'manyShelves'
+
+    @shelvesSelector.show new ItemShelves
+      collection: @shelves
+      item: @model
+
+  selectShelf: (e)->
+    shelfId = e.currentTarget.href.split('/').slice(-1)[0]
+    app.execute 'show:shelf', shelfId
 
   afterDestroy: ->
     app.execute 'show:inventory:main:user'
+
+  toggleShelvesExpand: -> @$el.find('.shelvesPanel').toggleClass 'expanded'
