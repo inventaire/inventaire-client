@@ -66,12 +66,9 @@ button{
 $default-button-margin: 0.1em;
 $default-button-padding: 1em;
 
-@mixin custom-button($bg-color, $color: white, $margin: $default-button-margin, $padding:$default-button-padding, $darken:15%){
+@mixin custom-button($bg-color, $color: white, $padding:$default-button-padding, $darken:15%){
   @include text-hover($color);
   padding: $padding;
-  &:not(.postfix){
-    margin: $margin;
-  }
   // include last to keep the transition effect
   @include bg-hover($bg-color, $darken);
 }

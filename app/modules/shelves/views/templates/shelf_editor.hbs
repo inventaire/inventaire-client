@@ -19,12 +19,12 @@
   <div class="has-alertbox"></div>
   <div class="buttons">
     {{#unless isNewShelf}}
-      <a class="delete" title="{{I18n 'delete shelf'}}">{{icon 'trash'}}{{i18n 'delete'}}</a>
+      <button class="delete" title="{{I18n 'delete shelf'}}">{{icon 'trash'}}{{I18n 'delete'}}</button>
     {{/unless}}
-    <a class="validate success-button" title="{{I18n 'validate'}}">
+    <button class="validate success-button" title="{{I18n 'validate'}}">
       {{icon 'check'}}
       {{#if isNewShelf}}{{I18n 'create'}}{{else}}{{I18n 'validate'}}{{/if}}
       <span class="loading"></span>
-    </a>
+    </button>
   </div>
 </div>

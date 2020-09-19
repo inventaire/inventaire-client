@@ -19,7 +19,7 @@ module.exports = Marionette.LayoutView.extend
 
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a.validate': 'validateAction'
+    'click .validate': 'validateAction'
     'click .delete': 'askDeleteShelf'
 
   serializeData: ->
