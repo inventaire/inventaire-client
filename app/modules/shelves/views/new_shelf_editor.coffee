@@ -17,9 +17,12 @@ module.exports = Marionette.LayoutView.extend
     UpdateSelector:
       behaviorClass: UpdateSelector
 
+  initialize: ->
+    app.execute 'last:listing:set', 'private'
+
   events:
     'keydown .shelfEditor': 'shelfEditorKeyAction'
-    'click a.validate': 'createShelf'
+    'click .validate': 'createShelf'
 
   serializeData: ->
     isNewShelf: true
