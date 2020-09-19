@@ -154,6 +154,7 @@ module.exports = ItemLayout.extend
     @shelvesSelector.show new ItemShelves
       collection: @shelves
       item: @model
+      mainUserIsOwner: @model.mainUserIsOwner
 
   selectShelf: (e)->
     shelfId = e.currentTarget.href.split('/').slice(-1)[0]

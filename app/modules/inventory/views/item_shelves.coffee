@@ -18,9 +18,8 @@ ItemShelfLi = Marionette.ItemView.extend
   template: require './templates/item_shelf_li'
 
   initialize: ->
-    { @item, @itemsIds, @selectedShelves } = @options
+    { @item, @itemsIds, @selectedShelves, @mainUserIsOwner } = @options
     @bulkMode = @itemsIds?
-    @mainUserIsOwner = app.user.id is @model.get('owner')
 
   events:
     'click .add': 'add'
@@ -79,9 +78,12 @@ module.exports = Marionette.CollectionView.extend
   tagName: 'ul'
   childView: ItemShelfLi
 
+  serializeData: -> { @mainUserIsOwner }
+
   childViewOptions: ->
     item: @options.item
     selectedShelves: @options.selectedShelves
     itemsIds: @options.itemsIds
+    mainUserIsOwner: @options.mainUserIsOwner
 
   emptyView: NoShelfView
