@@ -1,6 +1,8 @@
 { addItems, removeItems } = require 'modules/shelves/lib/shelves'
 NoShelfView = require './no_shelf'
 { startLoading } = require 'modules/general/plugins/behaviors'
+forms_ = require 'modules/general/lib/forms'
+error_ = require 'lib/error'
 
 ItemShelfLi = Marionette.ItemView.extend
   tagName: 'li'
@@ -10,6 +12,7 @@ ItemShelfLi = Marionette.ItemView.extend
     return base
 
   behaviors:
+    AlertBox: {}
     Loading: {}
 
   template: require './templates/item_shelf_li'
@@ -63,12 +66,14 @@ ItemShelfLi = Marionette.ItemView.extend
     addItems @model, @itemsIds
     # TODO: update the inventory state without having to reload
     .then -> window.location.reload()
+    .catch forms_.catchAlert.bind(null, @)
 
   remove: ->
     startLoading.call @, '.remove .loading'
     removeItems @model, @itemsIds
     # TODO: update the inventory state without having to reload
     .then -> window.location.reload()
+    .catch forms_.catchAlert.bind(null, @)
 
 module.exports = Marionette.CollectionView.extend
   tagName: 'ul'
