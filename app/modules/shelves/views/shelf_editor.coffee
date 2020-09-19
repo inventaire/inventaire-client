@@ -65,8 +65,6 @@ module.exports = Marionette.LayoutView.extend
       confirmationText: _.i18n 'delete_shelf_confirmation', { name: @model.get('name') }
       warningText: _.i18n 'cant_undo_warning'
       action: deleteShelfAction(@model)
-      altAction: deleteShelfAction(@model, true)
-      altActionText: _.i18n 'yes and delete shelf items too'
 
 closeModal = (e) -> app.execute 'modal:close'
 
