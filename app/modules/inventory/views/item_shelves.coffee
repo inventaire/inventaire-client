@@ -14,6 +14,7 @@ ItemShelfLi = Marionette.ItemView.extend
     'click': 'toggleShelfSelector'
 
   initialize: ->
+    @mainUserIsOwner = app.user.id is @model.get('owner')
 
   isSelected: ->
     { @item, @selectedShelves } = @options
@@ -24,17 +25,22 @@ ItemShelfLi = Marionette.ItemView.extend
       @_isSelected = @item.isInShelf(@model.id)
     return @_isSelected
 
-  serializeData: -> _.extend @model.toJSON(), { isSelected: @_isSelected }
+  serializeData: -> _.extend @model.toJSON(),
+    isSelected: @_isSelected
+    mainUserIsOwner: @mainUserIsOwner
 
   toggleShelfSelector: ->
     { id } = @model
-    @_isSelected = not @_isSelected
-    unless @itemCreationMode
-      if @_isSelected
-        addItems @model, [ @item ]
-      else
-        removeItems @model, [ @item ]
-    @render()
+    if @mainUserIsOwner
+      @_isSelected = not @_isSelected
+      unless @itemCreationMode
+        if @_isSelected
+          addItems @model, [ @item ]
+        else
+          removeItems @model, [ @item ]
+      @render()
+    else
+      app.execute 'show:shelf', @model
 
   onRender: ->
     if @isSelected() then @$el.addClass 'selected'

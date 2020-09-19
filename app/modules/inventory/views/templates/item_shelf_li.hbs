@@ -1,6 +1,9 @@
-<input type="checkbox" name="shelf-{{_id}}" {{#if isSelected}}checked{{/if}}>
+{{#if mainUserIsOwner }}
+  <input type="checkbox" name="shelf-{{_id}}" {{#if isSelected}}checked{{/if}}>
+{{/if }}
 <div class="picture" style="background-image: url({{imgSrc picture 48}})"></div>
 <div class="shelf-text">
   <div class="name">{{name}}</div>
   <div class="description">{{description}}</div>
 </div>
+

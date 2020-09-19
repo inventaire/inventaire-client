@@ -132,7 +132,7 @@ module.exports = ItemLayout.extend
     @transactionsRegion.show new ItemTransactions { collection: @transactions }
 
   showShelves: ->
-    getShelvesByOwner()
+    getShelvesByOwner(@model.user.id)
     .then (shelves) =>
       @shelves = new Shelves shelves, { selected: @model.get('shelves') }
     .then @ifViewIsIntact('_showShelves')

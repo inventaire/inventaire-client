@@ -6,6 +6,7 @@
     {{#if details}}
       {{partial 'inventory:item_details' this}}
     {{/if}}
+    {{partial 'inventory:item_shelves' this}}
   {{else}}
     {{partial 'inventory:item_user_box' this}}
     <div class="item-settings itemBox">
