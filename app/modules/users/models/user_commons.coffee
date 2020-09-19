@@ -49,9 +49,9 @@ module.exports = Positionable.extend
     # so that updating them trigger a model 'change' event
     @set 'itemsCount', itemsCount
     @set 'itemsLastAdded', lastAdd
-    countShelves(@get '_id')
-    .then (shelvesCount)=>
-      @set 'shelvesCount', shelvesCount
+
+    countShelves @get('_id')
+    .then (shelvesCount)=> @set 'shelvesCount', shelvesCount
 
   getRss: -> app.API.feeds 'user', @id
 

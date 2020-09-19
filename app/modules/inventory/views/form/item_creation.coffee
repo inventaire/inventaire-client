@@ -88,7 +88,7 @@ module.exports = Marionette.LayoutView.extend
       @existingEntityItemsRegion.show new ItemsList { collection }
 
   showShelves: ->
-    getShelvesByOwner()
+    getShelvesByOwner app.user.id
     .then @ifViewIsIntact('_showShelves')
     .catch _.Error('showShelves err')
 

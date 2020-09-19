@@ -5,9 +5,14 @@ module.exports = shelves_ =
     _.preq.get app.API.shelves.byIds(id)
     .then getShelf
 
+  getByIds: (ids)->
+    console.log 'ids', ids
+    _.preq.get app.API.shelves.byIds(ids)
+    .get 'shelves'
+
   createShelf: (params)->
     _.preq.post app.API.shelves.create, params
-    .get('shelf')
+    .get 'shelf'
 
   updateShelf: (params)->
     _.preq.post app.API.shelves.update, params
@@ -39,7 +44,6 @@ module.exports = shelves_ =
     return shelfActionReq id, itemsIds, 'addItems'
 
   getShelvesByOwner: (userId)->
-    unless userId then userId = app.user.id
     _.preq.get app.API.shelves.byOwners(userId)
     .get 'shelves'
     .then _.values

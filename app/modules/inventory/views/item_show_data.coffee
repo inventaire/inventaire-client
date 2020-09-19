@@ -6,7 +6,7 @@ getActionKey = require 'lib/get_action_key'
 ItemShelves = require './item_shelves'
 ShelvesList = require 'modules/shelves/views/shelves_list'
 Shelves = require 'modules/shelves/collections/shelves'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
+{ getShelvesByOwner, getByIds: getShelvesByIds } = require 'modules/shelves/lib/shelves'
 itemViewsCommons = require '../lib/items_views_commons'
 ItemLayout = Marionette.LayoutView.extend itemViewsCommons
 
@@ -132,10 +132,20 @@ module.exports = ItemLayout.extend
     @transactionsRegion.show new ItemTransactions { collection: @transactions }
 
   showShelves: ->
-    getShelvesByOwner(@model.user.id)
+    @getShelves()
     .then (shelves) =>
       @shelves = new Shelves shelves, { selected: @model.get('shelves') }
     .then @ifViewIsIntact('_showShelves')
+    .catch _.Error('showShelves err')
+
+  getShelves: ->
+    if @model.user.id is app.user.id
+      return getShelvesByOwner app.user.id
+    else
+      itemShelves = @model.get 'shelves'
+      unless itemShelves?.length > 0 then return Promise.resolve []
+      return getShelvesByIds itemShelves
+      .then _.values
 
   _showShelves: ->
     if @shelves.length > @model.get('shelves').length

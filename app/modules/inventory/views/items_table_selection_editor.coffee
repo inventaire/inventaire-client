@@ -51,7 +51,7 @@ module.exports = Marionette.LayoutView.extend
     @options.afterItemsDelete()
 
   showShelves: ->
-    getShelvesByOwner()
+    getShelvesByOwner app.user.id
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: (shelves)->
