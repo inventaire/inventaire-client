@@ -2,7 +2,7 @@
 forms_ = require 'modules/general/lib/forms'
 getActionKey = require 'lib/get_action_key'
 UpdateSelector = require 'modules/inventory/behaviors/update_selector'
-{ deleteShelf, updateShelf } = require 'modules/shelves/lib/shelf'
+{ deleteShelf, updateShelf } = require 'modules/shelves/lib/shelves'
 { startLoading } = require 'modules/general/plugins/behaviors'
 
 

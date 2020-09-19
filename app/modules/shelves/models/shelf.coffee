@@ -1,5 +1,5 @@
 { getColorSquareDataUriFromModelId } = require 'lib/images'
-{ getById } = require '../lib/shelf'
+{ getById } = require '../lib/shelves'
 
 module.exports = Backbone.Model.extend
   initialize: (attrs)->

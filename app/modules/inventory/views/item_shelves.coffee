@@ -1,4 +1,4 @@
-{ addItems, removeItems } = require 'modules/shelves/lib/shelf'
+{ addItems, removeItems } = require 'modules/shelves/lib/shelves'
 NoShelfView = require './no_shelf'
 
 ItemShelfLi = Marionette.ItemView.extend

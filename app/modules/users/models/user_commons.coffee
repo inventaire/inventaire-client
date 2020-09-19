@@ -1,4 +1,4 @@
-{ countShelves } = require 'modules/shelves/lib/shelf'
+{ countShelves } = require 'modules/shelves/lib/shelves'
 Positionable = require 'modules/general/models/positionable'
 error_ = require 'lib/error'
 { getColorSquareDataUriFromModelId } = require 'lib/images'

@@ -1,5 +1,5 @@
 forms_ = require 'modules/general/lib/forms'
-shelf_ = require '../lib/shelf'
+shelves_ = require '../lib/shelves'
 
 module.exports = Marionette.ItemView.extend
   tagName: 'li'
@@ -31,13 +31,13 @@ module.exports = Marionette.ItemView.extend
     else app.execute 'show:item', @model
 
   addToShelf: ->
-    shelf_.addItems @shelf, @model
+    shelves_.addItems @shelf, @model
     .catch forms_.catchAlert.bind(null, @)
 
   # Do no rename function to 'remove' as that would overwrite
   # Backbone.Marionette.View.prototype.remove
   removeFromShelf: ->
-    shelf_.removeItems @shelf, @model
+    shelves_.removeItems @shelf, @model
     .catch forms_.catchAlert.bind(null, @)
 
   isAlreadyAdded: ->

@@ -1,6 +1,6 @@
 InventoryLayout = require '../inventory/views/inventory_layout'
 ShelfModel = require './models/shelf'
-{ getById } = require './lib/shelf'
+{ getById } = require './lib/shelves'
 
 module.exports =
   define: (module, app, Backbone, Marionette, $, _)->

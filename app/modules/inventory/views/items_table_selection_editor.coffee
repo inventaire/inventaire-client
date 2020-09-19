@@ -1,5 +1,5 @@
 { data: transactionsData } = require '../lib/transactions_data'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
 ItemsShelves = require './items_shelves'
 
 module.exports = Marionette.LayoutView.extend

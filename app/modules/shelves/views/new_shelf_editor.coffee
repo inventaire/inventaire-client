@@ -3,7 +3,7 @@ getActionKey = require 'lib/get_action_key'
 forms_ = require 'modules/general/lib/forms'
 UpdateSelector = require 'modules/inventory/behaviors/update_selector'
 { listingsData } = require 'modules/inventory/lib/item_creation'
-{ createShelf: createShelfModel } = require 'modules/shelves/lib/shelf'
+{ createShelf: createShelfModel } = require 'modules/shelves/lib/shelves'
 { startLoading } = require 'modules/general/plugins/behaviors'
 
 module.exports = Marionette.LayoutView.extend

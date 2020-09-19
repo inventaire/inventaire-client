@@ -1,5 +1,5 @@
 Shelves = require '../collections/shelves'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
 ShelvesList = require './shelves_list'
 
 module.exports = Marionette.LayoutView.extend

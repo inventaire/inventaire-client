@@ -6,7 +6,7 @@ getActionKey = require 'lib/get_action_key'
 ItemShelves = require './item_shelves'
 ShelvesList = require 'modules/shelves/views/shelves_list'
 Shelves = require 'modules/shelves/collections/shelves'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
 itemViewsCommons = require '../lib/items_views_commons'
 ItemLayout = Marionette.LayoutView.extend itemViewsCommons
 

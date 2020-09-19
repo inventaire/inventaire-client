@@ -4,7 +4,7 @@ UserProfile = require './user_profile'
 GroupProfile = require './group_profile'
 ShelfBox = require '../../shelves/views/shelf_box'
 ShelvesSection = require '../../shelves/views/shelves_section'
-{ getById } = require '../../shelves/lib/shelf'
+{ getById } = require '../../shelves/lib/shelves'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 screen_ = require 'lib/screen'
 

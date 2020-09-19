@@ -1,6 +1,6 @@
 error_ = require 'lib/error'
 
-module.exports = shelf_ =
+module.exports = shelves_ =
   getById: (id)->
     _.preq.get app.API.shelves.byIds(id)
     .then getShelf

@@ -1,7 +1,7 @@
 EntityDataOverview = require 'modules/entities/views/entity_data_overview'
 ItemShelves = require '../item_shelves'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelf'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
 UpdateSelector = require 'modules/inventory/behaviors/update_selector'
 Shelves = require 'modules/shelves/collections/shelves'
 forms_ = require 'modules/general/lib/forms'
