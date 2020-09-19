@@ -11,7 +11,9 @@ module.exports = Marionette.Behavior.extend
   onRender: -> setTimeout @init.bind(@), 0
 
   init: ->
-    if @ui.textarea.length is 0 then console.error 'textarea not found'
-    else autosize @ui.textarea
+    # Known case: the view does not always display a textarea
+    if @ui.textarea.length is 0 then return
+
+    autosize @ui.textarea
 
   update: -> autosize.update @ui.textarea
