@@ -37,9 +37,11 @@ module.exports = UserCommons.extend
   lateInitialize: ->
     @lang = solveLang @get('language')
     initI18n app, @lang
-    @hasAdminAccess = 'admin' in @get('accessLevels')
-    @hasDataadminAccess = 'dataadmin' in @get('accessLevels')
     @setDefaultPicture()
+    accessLevels = @get('accessLevels')
+    unless accessLevels? then return
+    @hasAdminAccess = 'admin' in accessLevels
+    @hasDataadminAccess = 'dataadmin' in accessLevels
 
   # Two valid language change cases:
   # - The user isn't logged in and change the language from the top bar selector
