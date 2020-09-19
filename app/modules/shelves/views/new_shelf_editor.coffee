@@ -41,7 +41,7 @@ module.exports = Marionette.LayoutView.extend
     description = $('#shelfDescEditor ').val()
     if description is '' then description = null
     startLoading.call @, '.validate .loading'
-    selectedListing = app.request('last:listing:get')
+    selectedListing = app.request('last:listing:get') or 'private'
     createShelfModel { name, description, listing: selectedListing }
     .then afterCreate
     .catch forms_.catchAlert.bind(null, @)
