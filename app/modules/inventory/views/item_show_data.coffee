@@ -17,6 +17,9 @@ module.exports = ItemLayout.extend
     transactionsRegion: '#transactions'
     shelvesSelector: '#shelvesSelector'
 
+  ui:
+    shelvesPanel: '.shelvesPanel'
+
   behaviors:
     ElasticTextarea: {}
     AlertBox: {}
@@ -139,7 +142,7 @@ module.exports = ItemLayout.extend
     .catch _.Error('showShelves err')
 
   getShelves: ->
-    if @model.user.id is app.user.id
+    if @model.mainUserIsOwner
       return getShelvesByOwner app.user.id
     else
       itemShelves = @model.get 'shelves'
@@ -148,8 +151,12 @@ module.exports = ItemLayout.extend
       .then _.values
 
   _showShelves: ->
-    if @shelves.length > @model.get('shelves').length
-      @$el.find('.shelvesPanel').addClass 'hasNonSelected'
+    if @shelves.length is 0
+      @ui.shelvesPanel.hide()
+      return
+
+    if @model.mainUserIsOwner and @shelves.length > @model.get('shelves').length
+        @ui.shelvesPanel.addClass 'hasNonSelected'
 
     @shelvesSelector.show new ItemShelves
       collection: @shelves
