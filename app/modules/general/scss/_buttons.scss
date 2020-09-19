@@ -102,6 +102,10 @@ $default-button-padding: 1em;
   &.light-blue{
     @include tiny-button-color($light-blue, null, 5%);
   }
+  &.success{
+    color: white;
+    @include tiny-button-color($success-color, null, 5%);
+  }
   &.dangerous, &.alert{
     @include dangerous-action;
   }

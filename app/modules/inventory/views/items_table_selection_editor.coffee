@@ -1,6 +1,7 @@
 { data: transactionsData } = require '../lib/transactions_data'
 { getShelvesByOwner } = require 'modules/shelves/lib/shelves'
-ItemsShelves = require './items_shelves'
+ItemShelves = require './item_shelves'
+Shelves = require 'modules/shelves/collections/shelves'
 
 module.exports = Marionette.LayoutView.extend
   className: 'items-table-selection-editor'
@@ -8,7 +9,6 @@ module.exports = Marionette.LayoutView.extend
   events:
     'click .transaction-option': 'setTransaction'
     'click .listing-option': 'setListing'
-    'click #selectShelves': 'showShelves'
     'click .delete': 'deleteItems'
     'click .done': -> app.execute 'modal:close'
 
@@ -25,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
 
   onShow: ->
     app.execute 'modal:open'
+    @showShelves()
 
   setTransaction: (e)-> @updateItems e, 'transaction'
 
@@ -54,8 +55,7 @@ module.exports = Marionette.LayoutView.extend
     .then @ifViewIsIntact('_showShelves')
 
   _showShelves: (shelves)->
-    { selectedModels } = @getSelectedModelsAndIds()
-    shelvesCollection = new Backbone.Collection shelves
-    @shelvesSelector.show new ItemsShelves
+    shelvesCollection = new Shelves shelves
+    @shelvesSelector.show new ItemShelves
       collection: shelvesCollection
-      items: selectedModels
+      itemsIds: @selectedIds

@@ -65,7 +65,7 @@
   background: $off-white;
   margin-bottom: 0.6em;
   @include display-flex(column);
-  .icon-buttons-header{
+  label{
     height: 3em;
     padding: 1em;
   }
@@ -73,6 +73,7 @@
     flex: 1;
   }
   .fa-chevron-down{
+    padding: 0.3em;
     @include transition(transform, 0.3s);
   }
   ul{

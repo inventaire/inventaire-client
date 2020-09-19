@@ -20,18 +20,22 @@ module.exports = shelves_ =
     { id } = model
     items = _.forceArray items
     itemsIds = items.map (item)->
-      item.removeShelf id
-      item.get('_id')
-    model.set 'isInShelf', false
+      if _.isString item
+        return item
+      else
+        item.removeShelf id
+        return item.get('_id')
     return shelfActionReq id, itemsIds, 'removeItems'
 
   addItems: (model, items)->
     { id } = model
     items = _.forceArray items
     itemsIds = items.map (item)->
-      item.createShelf id
-      item.get('_id')
-    model.set 'isInShelf', true
+      if _.isString item
+        return item
+      else
+        item.createShelf id
+        return item.get('_id')
     return shelfActionReq id, itemsIds, 'addItems'
 
   getShelvesByOwner: (userId)->
