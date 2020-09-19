@@ -4,12 +4,21 @@
     color: $grey;
   }
   .buttons{
-    margin: 1em;
-    @include display-flex(row, center, center);
-    a{
-      margin: 1em;
+    @include display-flex(row, center, space-around);
+    margin-top: 1em;
+    align-self: stretch;
+    button{
+      padding: 0.7em;
+
       text-align: center;
-      min-width: 6em;
+      flex: 1;
+      font-weight: bold;
+    }
+    .done{
+      margin-left: 0.5em;
+    }
+    .addNewItems{
+      margin-right: 0.5em;
     }
   }
   &.fetching{
@@ -79,7 +88,6 @@
 #searchCandidates{
   max-width: 20em;
 }
-
 
 /*Very Small screens*/
 @media screen and (max-width: $very-small-screen) {

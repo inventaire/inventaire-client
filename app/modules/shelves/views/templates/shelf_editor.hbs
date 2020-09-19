@@ -19,9 +19,9 @@
   <div class="has-alertbox"></div>
   <div class="buttons">
     {{#unless isNewShelf}}
-      <button class="delete" title="{{I18n 'delete shelf'}}">{{icon 'trash'}}{{I18n 'delete'}}</button>
+      <button class="delete button" title="{{I18n 'delete shelf'}}">{{icon 'trash'}}{{I18n 'delete'}}</button>
     {{/unless}}
-    <button class="validate success-button" title="{{I18n 'validate'}}">
+    <button class="validate button success-button" title="{{I18n 'validate'}}">
       {{icon 'check'}}
       {{#if isNewShelf}}{{I18n 'create'}}{{else}}{{I18n 'validate'}}{{/if}}
       <span class="loading"></span>
