@@ -30,6 +30,7 @@ module.exports = Marionette.LayoutView.extend
     listing: '#listing'
     details: '#details'
     notes: '#notes'
+    shelvesWrapper: '#shelvesWrapper'
 
   initialize: ->
     { @entity, @existingEntityItems } = @options
@@ -93,8 +94,11 @@ module.exports = Marionette.LayoutView.extend
 
   _showShelves: (shelves)->
     selectedShelves = @itemData.shelves
-    collection = new Shelves shelves, { selected: selectedShelves }
-    @shelvesSelector.show new ItemShelves { collection, selectedShelves }
+    # TODO: offer to create shelves from this form instead
+    if selectedShelves.length > 0
+      collection = new Shelves shelves, { selected: selectedShelves }
+      @shelvesSelector.show new ItemShelves { collection, selectedShelves }
+      @ui.shelvesWrapper.removeClass 'hidden'
 
   # TODO: update the UI for update errors
   updateTransaction: ->

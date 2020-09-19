@@ -15,9 +15,12 @@
     <div id="listing" class="select-button-group">
       {{partial 'inventory:form:button_group' listings}}
     </div>
-    <label for="shelvesSelector">{{i18n 'Add it to some shelves'}}</label>
-    <div id="shelvesSelector">
-      {{partial 'inventory:item_shelves' this}}
+
+    <div id="shelvesWrapper" class="hidden">
+      <label for="shelvesSelector">{{i18n 'Add it to some shelves'}}</label>
+      <div id="shelvesSelector">
+        {{partial 'inventory:item_shelves' this}}
+      </div>
     </div>
 
     <label for="details">{{i18n 'details'}}</label>
