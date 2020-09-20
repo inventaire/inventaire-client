@@ -49,6 +49,10 @@ module.exports = ->
       if piwikDisabled then return
       tracker.setCustomUrl location.href
       tracker.trackPageView title
+    .catch (err)->
+      # Known error with unidentified cause
+      if err.message is 'dataElement is null' then return
+      else throw err
 
   app.commands.setHandlers
     'track:user:id': setUserId
