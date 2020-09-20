@@ -73,10 +73,14 @@ addItemsAndUsers = (collection)-> (res)->
   { items, users } = res
   # Also accepts items indexed by listings: user, network, public
   unless _.isArray items then items = _.flatten _.values(items)
-  unless items?.length > 0 then return collection
 
-  if users? then app.execute 'users:add', users
-  collection.add items
+  if users?.length > 0 then app.execute 'users:add', users
+
+  # If no collection is passed, let the consumer deal with the results
+  unless collection? then return
+
+  if items?.length > 0 then collection.add items
+
   return collection
 
 module.exports = (app)->

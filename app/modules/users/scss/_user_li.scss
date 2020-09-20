@@ -207,7 +207,6 @@ $user-bg: #ddd;
   .userMenu{
     @include display-flex(row, center, center);
     white-space: nowrap;
-    margin-right: 0.2em;
     .action{
       @include display-flex(row, center, center);
     }

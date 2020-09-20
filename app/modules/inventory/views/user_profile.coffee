@@ -1,6 +1,7 @@
 forms_ = require 'modules/general/lib/forms'
 relationsActions = require 'modules/users/plugins/relations_actions'
 { buildPath } = require 'lib/location'
+NewShelfEditor = require 'modules/shelves/views/new_shelf_editor'
 
 # TODO: add a 'close' button to allow to unfocus a user in group context
 module.exports = Marionette.ItemView.extend
@@ -10,6 +11,7 @@ module.exports = Marionette.ItemView.extend
     'click .editProfile': _.clickCommand 'show:settings:profile'
     'click .addItems': _.clickCommand 'show:add:layout'
     'click .showUserOnMap': 'showUserOnMap'
+    'click #createShelf': 'showNewShelfEditor'
 
   behaviors:
     PreventDefault: {}
@@ -40,3 +42,7 @@ module.exports = Marionette.ItemView.extend
     if _.isOpenedOutside(e) then return
     unless @model.distanceFromMainUser? then return
     app.execute 'show:models:on:map', [ @model, app.user ]
+
+  showNewShelfEditor: (e)->
+    app.layout.modal.show new NewShelfEditor {}
+    e.stopPropagation()

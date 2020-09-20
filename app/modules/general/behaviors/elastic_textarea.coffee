@@ -10,6 +10,10 @@ module.exports = Marionette.Behavior.extend
   # Init somehow needs to be run on the next tick to be effective
   onRender: -> setTimeout @init.bind(@), 0
 
-  init: -> autosize @ui.textarea
+  init: ->
+    # Known case: the view does not always display a textarea
+    if @ui.textarea.length is 0 then return
+
+    autosize @ui.textarea
 
   update: -> autosize.update @ui.textarea

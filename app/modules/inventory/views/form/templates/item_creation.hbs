@@ -16,6 +16,13 @@
       {{partial 'inventory:form:button_group' listings}}
     </div>
 
+    <div id="shelvesWrapper" class="hidden">
+      <label for="shelvesSelector">{{i18n 'Add it to some shelves'}}</label>
+      <div id="shelvesSelector">
+        {{partial 'inventory:item_shelves' this}}
+      </div>
+    </div>
+
     <label for="details">{{i18n 'details'}}</label>
     <textarea id='details' class='error radius' placeholder="{{i18n "details_placeholder"}}"></textarea>
 

@@ -3,6 +3,10 @@
 
 ItemTransactions = require './item_transactions'
 getActionKey = require 'lib/get_action_key'
+ItemShelves = require './item_shelves'
+ShelvesList = require 'modules/shelves/views/shelves_list'
+Shelves = require 'modules/shelves/collections/shelves'
+{ getShelvesByOwner, getByIds: getShelvesByIds } = require 'modules/shelves/lib/shelves'
 itemViewsCommons = require '../lib/items_views_commons'
 ItemLayout = Marionette.LayoutView.extend itemViewsCommons
 
@@ -11,6 +15,11 @@ module.exports = ItemLayout.extend
   template: require './templates/item_show_data'
   regions:
     transactionsRegion: '#transactions'
+    shelvesSelector: '#shelvesSelector'
+
+  ui:
+    shelvesPanel: '.shelvesPanel'
+    toggleShelvesExpand: '.toggleShelvesExpand'
 
   behaviors:
     ElasticTextarea: {}
@@ -22,7 +31,10 @@ module.exports = ItemLayout.extend
     @alertBoxTarget = '.leftBox .panel'
 
   modelEvents:
-    'change': 'lazyRender'
+    'change:notes': 'lazyRender'
+    'change:details': 'lazyRender'
+    'change:shelves': 'updateShelves'
+    'add:shelves': 'updateShelves'
 
   onRender: ->
     if app.user.loggedIn then @showTransactions()
@@ -52,8 +64,13 @@ module.exports = ItemLayout.extend
     'keydown #notesEditor': 'notesEditorKeyAction'
     'click a#validateNotes': 'validateNotes'
     'click a.requestItem': -> app.execute 'show:item:request', @model
+    'click .selectShelf': 'selectShelf'
+    'click .toggleShelvesExpand': 'toggleShelvesExpand'
 
   serializeData: -> @model.serializeData()
+
+  onShow: ->
+    @showShelves()
 
   itemDestroyBack: ->
     if @model.isDestroyed then app.execute 'modal:close'
@@ -117,5 +134,44 @@ module.exports = ItemLayout.extend
   _showTransactions: ->
     @transactionsRegion.show new ItemTransactions { collection: @transactions }
 
+  showShelves: ->
+    @getShelves()
+    .then (shelves) =>
+      @shelves = new Shelves shelves, { selected: @model.get('shelves') }
+    .then @ifViewIsIntact('_showShelves')
+    .catch _.Error('showShelves err')
+
+  getShelves: ->
+    if @model.mainUserIsOwner
+      return getShelvesByOwner app.user.id
+    else
+      itemShelves = @model.get 'shelves'
+      unless itemShelves?.length > 0 then return Promise.resolve []
+      return getShelvesByIds itemShelves
+      .then _.values
+
+  _showShelves: ->
+    if @shelves.length is 0
+      @ui.shelvesPanel.hide()
+      return
+
+    @shelvesSelector.show new ItemShelves
+      collection: @shelves
+      item: @model
+      mainUserIsOwner: @model.mainUserIsOwner
+
+  selectShelf: (e)->
+    shelfId = e.currentTarget.href.split('/').slice(-1)[0]
+    app.execute 'show:shelf', shelfId
+
+  updateShelves: ->
+    if @model.mainUserIsOwner
+      if @shelves.length > @model.get('shelves').length
+        @ui.toggleShelvesExpand.show()
+      else
+        @ui.toggleShelvesExpand.hide()
+
   afterDestroy: ->
     app.execute 'show:inventory:main:user'
+
+  toggleShelvesExpand: -> @$el.find('.shelvesPanel').toggleClass 'expanded'

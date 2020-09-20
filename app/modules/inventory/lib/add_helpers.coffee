@@ -14,6 +14,7 @@ module.exports = ->
     'last:transaction:set': set.bind null, 'lastTransaction'
     # 'private', 'network', 'groups'
     'last:listing:set': set.bind null, 'lastListing'
+    'last:shelves:set': (shelves)-> set 'lastShelves', JSON.stringify(shelves)
 
   app.reqres.setHandlers
     'last:add:mode:get': parsedGet.bind null, 'lastAddMode'
@@ -22,3 +23,7 @@ module.exports = ->
       lastListing = parsedGet 'lastListing'
       # Legacy support for friends listing
       if lastListing is 'friends' then 'network' else lastListing
+    'last:shelves:get': ->
+      shelves = parsedGet 'lastShelves'
+      if shelves? then JSON.parse shelves
+      else []

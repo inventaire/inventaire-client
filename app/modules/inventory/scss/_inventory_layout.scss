@@ -4,10 +4,6 @@
   // are displayed as a result, the view doesn't jump up
   min-height: 100vh;
 
-  #sectionNav{
-    margin-bottom: 1em;
-  }
-
   #itemsList{
     min-height: 100vh;
   }
@@ -25,6 +21,10 @@
     padding-left: 0.3em;
     margin-right: auto;
   }
+}
+
+#shelfInfo{
+  background-color: $light-grey;
 }
 
 

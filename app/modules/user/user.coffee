@@ -25,7 +25,6 @@ module.exports =
       'show:login': API.showLogin
       'show:forgot:password': API.showForgotPassword
 
-
 showAuth = (name, label, View)-> (options)->
   unless navigator.cookieEnabled
     return app.execute 'show:error:cookieRequired', "show:#{name}"

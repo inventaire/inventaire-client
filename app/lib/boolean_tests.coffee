@@ -18,6 +18,7 @@ module.exports = tests =
   isUserId: isCouchUuid
   isGroupId: isCouchUuid
   isItemId: isCouchUuid
+  isShelfId: isCouchUuid
   isUsername: bindedTest 'Username'
   isEntityUri: bindedTest 'EntityUri'
   isExtendedEntityUri: (uri)->

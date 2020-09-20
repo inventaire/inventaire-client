@@ -1,17 +1,51 @@
 .items-table-selection-editor{
   @include display-flex(column, center, center);
-  #selectTransaction, #selectListing, .delete{
+  #selectTransaction, #selectListing, .dropdown{
+    padding: 0.5em 1em;
+    width: 100%;
+    min-width: 12rem;
     @include radius;
   }
   #selectTransaction, #selectListing{
     @include bg-hover(#eee);
   }
-  .delete{
-    @include dangerous-action;
-  }
   .selector-label{
     text-align: center;
     font-weight: bold;
+  }
+  .shelvesSelector{
+    align-self: stretch;
+    ul{
+      width: 100%;
+      max-height: 15em;
+      overflow: auto;
+    }
+    li{
+      width: 100%;
+      @include display-flex(row, center, flex-start);
+    }
+    .picture{
+      margin: 0.1em 0.5em;
+    }
+    .add{
+      margin-left: auto;
+    }
+    .remove{
+      margin-left: 0.5em;
+    }
+    .tiny-button{
+      font-weight: normal;
+      padding: 0.5em;
+    }
+  }
+  .shelf-selector-buttons{
+    flex: 0 0 auto;
+    margin-left: auto;
+    margin-right: 0.5em;
+    .loading:not(:empty){
+      // Override default
+      padding: 0 0.5em;
+    }
   }
   .dropdown-label, .dropdown li{
     font-size: 1rem;
@@ -19,28 +53,52 @@
   .dropdown-label{
     padding: 0.5em;
   }
-
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    #selectTransaction, #selectListing, .delete, .dropdown{
-      min-width: 12rem;
-    }
-    #selectTransaction, #selectListing, .delete{
-      padding: 1em;
-      margin: 1em;
-    }
+  .delete, .done{
+    padding: 0.7em;
+    flex: 1;
   }
+  .delete{
+    @include dangerous-action;
+  }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    #selectTransaction, #selectListing, .delete{
+    #selectTransaction, #selectListing{
       align-self: stretch;
     }
-    .dropdown{
-      width: 100%;
-    }
-    #selectTransaction, #selectListing, .delete{
+    #selectTransaction, #selectListing{
       padding: 0.5em;
-      margin: 1em 0.5em;
+      margin: 1em 0;
+    }
+    .shelvesSelector{
+      .shelf-selector-buttons{
+        .label{
+          display: none;
+        }
+      }
+    }
+    .buttons{
+      align-self: stretch;
+      @include display-flex(column, stretch, center);
+      > button{
+        margin: 1em auto 0 auto;
+        width: 15em;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    #selectTransaction, #selectListing{
+      padding: 1em;
+      margin: 1em 0;
+    }
+    .buttons{
+      @include display-flex(row, center, center);
+      align-self: stretch;
+      margin-top: 2em;
+    }
+    .delete{
+      margin-right: 0.5em;
     }
   }
 }

@@ -1,12 +1,19 @@
 { data: transactionsData } = require '../lib/transactions_data'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
+ItemShelves = require './item_shelves'
+Shelves = require 'modules/shelves/collections/shelves'
 
-module.exports = Marionette.ItemView.extend
+module.exports = Marionette.LayoutView.extend
   className: 'items-table-selection-editor'
   template: require './templates/items_table_selection_editor'
   events:
     'click .transaction-option': 'setTransaction'
     'click .listing-option': 'setListing'
     'click .delete': 'deleteItems'
+    'click .done': -> app.execute 'modal:close'
+
+  regions:
+    'shelvesSelector': '.shelvesSelector'
 
   initialize: ->
     { @getSelectedModelsAndIds, @selectedIds } = @options
@@ -18,6 +25,7 @@ module.exports = Marionette.ItemView.extend
 
   onShow: ->
     app.execute 'modal:open'
+    @showShelves()
 
   setTransaction: (e)-> @updateItems e, 'transaction'
 
@@ -41,3 +49,13 @@ module.exports = Marionette.ItemView.extend
   afterItemsDelete: ->
     app.execute 'modal:close'
     @options.afterItemsDelete()
+
+  showShelves: ->
+    getShelvesByOwner app.user.id
+    .then @ifViewIsIntact('_showShelves')
+
+  _showShelves: (shelves)->
+    shelvesCollection = new Shelves shelves
+    @shelvesSelector.show new ItemShelves
+      collection: shelvesCollection
+      itemsIds: @selectedIds

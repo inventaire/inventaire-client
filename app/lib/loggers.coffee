@@ -46,7 +46,7 @@ module.exports = (_, csle)->
     # This statusCode can be set from the client for this purpose
     # of not reporting the error to the server
     if userError
-      return csle.warn "[#{err.statusCode}][#{label}] #{err.message}]"
+      return csle.error "[#{err.statusCode}][#{label}] #{err.message}]"
 
     # No need to report server error back to the server
     unless serverError then reportError err

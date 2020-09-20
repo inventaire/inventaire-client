@@ -12,7 +12,7 @@ module.exports = ->
   # Generating sequentially to prevent overpassing Wikidata Query Service parallel request quota
   generateFilesSequentially = ->
     nextQueryName = queriesNames.shift()
-    unless nextQueryName? then return console.log green("done")
+    unless nextQueryName? then return console.log green('done')
     generateFilesFromQuery nextQueryName
     .then generateFilesSequentially
 

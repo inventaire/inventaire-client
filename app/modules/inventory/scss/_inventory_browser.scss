@@ -19,7 +19,7 @@
     background-color: $inventory-nav-grey;
     @include transition(opacity);
     opacity: 1;
-    margin: 0.8em 0 1em 0;
+    margin: 0.5em 0 0.5em 0;
     &:not(.ready){
       #browserFilters{
         flex: 1 0 0;

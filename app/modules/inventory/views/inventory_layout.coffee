@@ -2,6 +2,9 @@ InventoryNav = require './inventory_nav'
 InventoryBrowser = require './inventory_browser'
 UserProfile = require './user_profile'
 GroupProfile = require './group_profile'
+ShelfBox = require '../../shelves/views/shelf_box'
+ShelvesSection = require '../../shelves/views/shelves_section'
+{ getById } = require '../../shelves/lib/shelves'
 showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
 screen_ = require 'lib/screen'
 
@@ -17,15 +20,21 @@ module.exports = Marionette.LayoutView.extend
     sectionNav: '#sectionNav'
     groupProfile: '#groupProfile'
     userProfile: '#userProfile'
+    shelvesList: '#shelvesList'
+    shelfInfo: '#shelfInfo'
     itemsList: '#itemsList'
 
   initialize: ->
-    { @user, @group, @standalone } = @options
+    { @user, @group, @shelf, @standalone } = @options
     @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
+
+  childEvents:
+    'close:shelf': 'closeShelf'
 
   onShow: ->
     if @user?
-      @startFromUser @user
+      @startFromUser @user, @shelf
+      @showUserShelves @user
     else if @group?
       @startFromGroup @group
     else
@@ -34,16 +43,21 @@ module.exports = Marionette.LayoutView.extend
       @showSectionNav section
       unless filter? then @showSectionLastItems section
 
-  startFromUser: (user)->
+  startFromUser: (user, shelf)->
     app.request 'resolve:to:userModel', user
     .then (userModel)=>
-      @showUserInventory userModel
+      @_lastShownType = 'user'
+      @_lastShownUser = userModel
+      if shelf
+        @showShelf shelf
+      else
+        @showUserInventory userModel
+        app.navigateFromModel userModel
       @showUserProfile userModel
       section = userModel.get 'itemsCategory'
       if section is 'personal' then section = 'user'
       @showInventoryNav section
       @showSectionNav section, 'user', userModel
-      app.navigateFromModel userModel
       # Do not scroll when showing the main user's inventory
       # to keep the other nav elements visible
       if section isnt 'user' then scrollToSection @userProfile
@@ -60,6 +74,24 @@ module.exports = Marionette.LayoutView.extend
       app.navigateFromModel groupModel
       scrollToSection @groupProfile
     .catch app.Execute('show:error')
+
+  showShelf: (shelf)->
+    itemsDataPromise = getItemsData('shelf', shelf)
+    isMainUser = app.user.id is shelf.get('owner')
+    @shelfInfo.show new ShelfBox { model: shelf }
+    @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
+    @waitForShelvesList.then => scrollToSection @shelfInfo
+
+  showUserShelves: (userIdOrModel)->
+    @waitForShelvesList = app.request 'resolve:to:userModel', userIdOrModel
+      .then (userModel)=>
+        if @shelvesList.currentView? and userModel is @_lastShownUser then return
+        shelvesCount = userModel.get('shelvesCount')
+        if shelvesCount is 0 then return
+        username = userModel.get('username')
+        @shelvesList.show new ShelvesSection { username }
+        return @shelvesList.currentView.waitForList
+      .catch app.Execute('show:error')
 
   showUserInventory: (userModel)->
     if userModel is app.user and userModel.get('itemsCount') is 0
@@ -102,9 +134,9 @@ module.exports = Marionette.LayoutView.extend
     @sectionNav.show new SectionNav options
 
   showInventoryBrowser: (type, model)->
-    modelId = model.get('_id')
-    itemsDataPromise = getItemsData(type, modelId)
-    @itemsList.show new InventoryBrowser { itemsDataPromise, model }
+    itemsDataPromise = getItemsData(type, model)
+    isMainUser = model?.isMainUser
+    @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
 
   showSectionLastItems: (section)->
     if section is 'public' and not app.user.get('position') then return
@@ -116,26 +148,46 @@ module.exports = Marionette.LayoutView.extend
       allowMore: true
       showDistance: section is 'public'
 
+  closeShelf: (shelfView)->
+    @showInventoryBrowser @_lastShownType, @_lastShownUser
+    scrollToSection @userProfile
+    @shelfInfo.empty()
+    app.navigateFromModel @_lastShownUser, { preventScrollTop: true }
+
   showSelectedInventory: (type, model)->
     if type is 'user' or type is 'group'
       if type is 'user'
+        @_lastShownType = type
+        @_lastShownUser = model
         @showUserInventory model
         @showUserProfile model
         @groupProfile.empty()
+        @shelvesList.empty()
+        @showUserShelves model
         scrollToSection @userProfile
       else
         @showGroupProfile model
         @userProfile.empty()
+        @shelfInfo.empty()
+        @shelvesList.empty()
         @showGroupInventory model
         scrollToSection @groupProfile
     else if type is 'member'
+      @_lastShownType = type
+      @_lastShownUser = model
       @showUserProfile model
       @showMemberInventory model
+      @showUserShelves model
       scrollToSection @userProfile
+    else if type is 'shelf'
+      userId = model.get 'owner'
+      @showUserShelves userId
+      @showShelf model
 
-    app.navigateFromModel model
+    app.navigateFromModel model, { preventScrollTop: true }
 
-getItemsData = (type, modelId)->
+getItemsData = (type, model)->
+  modelId = model.get('_id')
   params = { "#{type}": modelId }
   _.preq.get app.API.items.inventoryView(params)
 

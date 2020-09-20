@@ -4,12 +4,13 @@ ListEl = Marionette.ItemView.extend
 
   initialize: ->
     { @context, @group } = @options
+    if @model.get('hasItemsCount')
+      @model.waitForItemsCount.then @lazyRender.bind(@)
 
   serializeData: ->
     attrs = @model.serializeData()
     attrs.isGroup = attrs.type is 'group'
     attrs.isGroupAdmin = @isGroupAdmin()
-    attrs.hasItemsCount = attrs.itemsCount?
     return attrs
 
   events:
@@ -19,7 +20,7 @@ ListEl = Marionette.ItemView.extend
 
   selectInventory: (e)->
     if _.isOpenedOutside e then return
-    type = if @model.get('type') is 'group' then 'group' else 'user'
+    type = @model.get('type') or 'user'
     if type is 'user' and @context is 'group' then type = 'member'
     app.vent.trigger 'inventory:select', type, @model
     e.preventDefault()

@@ -1,0 +1,64 @@
+#shelvesList{
+  li{
+    @include transition(height, 0.3s);
+  }
+  &:not(.wrapper){
+    li{
+      height: 3em;
+    }
+  }
+  &.wrapped{
+    li{
+      height: 0;
+      overflow: hidden;
+    }
+  }
+  .shelf-row{
+    @include display-flex(row, center, space-between);
+    cursor: pointer;
+    height: 3em;
+    margin: 0.1em 0;
+    border-top: 1px solid $off-white;
+    @include bg-hover($light-grey)
+    .shelf-left{
+      @include display-flex(row, center);
+      overflow: hidden;
+      line-height: 1.2em;
+    }
+    .shelf-right{
+      @include display-flex(row);
+      padding-right: 1em;
+      // based on .listing in _item_row.scss
+      .listing{
+        @include radius;
+        height: 2em;
+        width: 2em;
+        @include display-flex(row, center, center);
+        &.private{ @include box-color($private-color); }
+        &.network{ @include box-color($network-color); }
+        &.public{ @include box-color($public-color, null); }
+      }
+    }
+  }
+}
+
+.shelf-text{
+  max-height: 3em;
+  line-height: 1.4em;
+  overflow: hidden;
+  padding: 0.2em 0.4em;
+  margin-right: 1em;
+}
+
+.shelf-text, .shelfSelector, .selectShelf, .shelvesSelector{
+  .picture{
+    min-width: 3em;
+    height: 3em;
+    @include radius;
+  }
+  .description{
+    color: $grey;
+    max-height: 1.4em;
+    overflow: hidden;
+  }
+}

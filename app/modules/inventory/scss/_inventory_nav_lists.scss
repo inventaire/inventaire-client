@@ -87,3 +87,15 @@ $nav-avatar-size: 5em;
   line-height: 0;
   border-bottom-right-radius: $global-radius;
 }
+.placeholder{
+  cursor: pointer;
+  .picture{
+    border: 2px dashed $light-blue;
+  }
+  #placeholderInfo{
+    text-align: center;
+    background-color: $light-blue;
+    background-color: $light-blue;
+    color: $light-grey;
+  }
+}

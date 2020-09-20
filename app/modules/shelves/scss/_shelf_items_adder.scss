@@ -1,0 +1,108 @@
+#shelfItemsAdder{
+  @include display-flex(column, center, center);
+  .no-suggestion{
+    color: $grey;
+  }
+  .buttons{
+    @include display-flex(row, center, space-around);
+    margin-top: 1em;
+    align-self: stretch;
+    button{
+      padding: 0.7em;
+
+      text-align: center;
+      flex: 1;
+      font-weight: bold;
+    }
+    .done{
+      margin-left: 0.5em;
+    }
+    .addNewItems{
+      padding: 0.7em 0.6em;
+    }
+  }
+  &.fetching{
+    .no-suggestion{
+      display: none;
+    }
+  }
+  &:not(.fetching){
+    .centered-loader{
+      color: $grey;
+      display: none;
+    }
+  }
+}
+
+.shelfItemsCandidates{
+  max-height: 50vh;
+  overflow-y: auto;
+  align-self: stretch;
+}
+
+.shelf-items-candidate{
+  background-color: #f3f3f3;
+  padding: 0.5em;
+  @include radius;
+  @include display-flex(row, center, center);
+  flex: 1 1 0;
+  margin: 0.5em 0;
+  .showItem{
+    overflow: hidden;
+    @include display-flex(row, flex-start, center);
+    margin: 0.5em;
+    color: $dark-grey;
+  }
+  .info{
+    overflow: hidden;
+    padding: 0.5em;
+    max-width: 25em;
+    flex: 1 0 5em;
+  }
+  .image-wrapper:not(:empty){
+    flex: 0 0 5em;
+  }
+  .title, .authors{
+    margin-right: 0.5em;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  .title{
+    font-size: 1.1rem;
+  }
+  .authors{
+    color: $grey;
+  }
+  .details{
+    color: $grey;
+    max-height: 1.4em;
+  }
+  .status{
+    @include display-flex(column);
+  }
+  .add, .remove{
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+}
+
+#searchCandidates{
+  max-width: 20em;
+}
+
+/*Very Small screens*/
+@media screen and (max-width: $very-small-screen) {
+  .shelf-items-candidate{
+    @include display-flex(column, center, center);
+  }
+  .showItem{
+    @include display-flex(column, center, center);
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $very-small-screen) {
+  .status{
+    margin-left: auto;
+  }
+}

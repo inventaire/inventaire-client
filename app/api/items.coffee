@@ -14,7 +14,6 @@ queryEndpoint = (actionName, idsLabel)-> (params)->
 module.exports =
   base: base
   update: action 'bulk-update'
-  deleteByIds: action 'delete-by-ids'
 
   byIds: queryEndpoint 'by-ids', 'ids'
   byUsers: queryEndpoint 'by-users', 'users'
@@ -35,3 +34,7 @@ module.exports =
   inventoryView: (params)-> action 'inventory-view', params
 
   deleteByIds: action 'delete-by-ids'
+
+  search: (user, search)->
+    search = encodeURIComponent(search)
+    action 'search', { user, search }

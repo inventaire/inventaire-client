@@ -74,7 +74,7 @@ module.exports =
     @map = map
 
   refreshListFilter: (collection)->
-    collection = collection || @collection
+    collection = collection or @collection
     collection.filterBy 'geobox', BoundFilter(@map)
 
   solvePosition: solvePosition

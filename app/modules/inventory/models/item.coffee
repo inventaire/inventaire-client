@@ -21,6 +21,8 @@ module.exports = Filterable.extend
 
     @entityPathname = app.request 'get:entity:local:href', @entityUri
 
+    unless attrs.shelves? then @set 'shelves', []
+
     @initUser owner
 
   initUser: (owner)->
@@ -202,3 +204,20 @@ module.exports = Filterable.extend
   getCoords: -> @user?.getCoords()
 
   hasPosition: -> @user?.has('position')
+
+  createShelf: (shelfId)->
+    shelvesIds = @get('shelves') or []
+    if shelfId in shelvesIds then return
+    shelvesIds.push shelfId
+    @set 'shelves', shelvesIds
+
+  removeShelf: (shelfId)->
+    shelvesIds = @get('shelves') or []
+    if shelfId not in shelvesIds then return
+    shelvesIds = _.without shelvesIds, shelfId
+    @set 'shelves', shelvesIds
+
+  isInShelf: (shelfId)->
+    shelvesIds = @get 'shelves'
+    unless shelvesIds then return false
+    return shelfId in shelvesIds

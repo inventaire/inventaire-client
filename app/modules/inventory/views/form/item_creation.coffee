@@ -1,6 +1,9 @@
 EntityDataOverview = require 'modules/entities/views/entity_data_overview'
+ItemShelves = require '../item_shelves'
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
-ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
+UpdateSelector = require 'modules/inventory/behaviors/update_selector'
+Shelves = require 'modules/shelves/collections/shelves'
 forms_ = require 'modules/general/lib/forms'
 error_ = require 'lib/error'
 
@@ -14,11 +17,12 @@ module.exports = Marionette.LayoutView.extend
   regions:
     existingEntityItemsRegion: '#existingEntityItems'
     entityRegion: '#entity'
+    shelvesSelector: '#shelvesSelector'
 
   behaviors:
     ElasticTextarea: {}
-    ItemCreationSelect:
-      behaviorClass: ItemCreationSelect
+    UpdateSelector:
+      behaviorClass: UpdateSelector
     AlertBox: {}
 
   ui:
@@ -26,6 +30,7 @@ module.exports = Marionette.LayoutView.extend
     listing: '#listing'
     details: '#details'
     notes: '#notes'
+    shelvesWrapper: '#shelvesWrapper'
 
   initialize: ->
     { @entity, @existingEntityItems } = @options
@@ -41,6 +46,7 @@ module.exports = Marionette.LayoutView.extend
       entity: entity.get 'uri'
       transaction: guessTransaction transaction
       listing: app.request 'last:listing:get'
+      shelves: app.request('last:shelves:get') or []
 
     # We need to specify a lang for work entities
     if entity.type is 'work' then @itemData.lang = guessLang entity
@@ -61,6 +67,7 @@ module.exports = Marionette.LayoutView.extend
   onShow: ->
     @showEntityData()
     @showExistingInstances()
+    @showShelves()
 
   events:
     'click #transaction': 'updateTransaction'
@@ -80,6 +87,23 @@ module.exports = Marionette.LayoutView.extend
       @$el.find('#existingEntityItemsWarning').show()
       @existingEntityItemsRegion.show new ItemsList { collection }
 
+  showShelves: ->
+    getShelvesByOwner app.user.id
+    .then @ifViewIsIntact('_showShelves')
+    .catch _.Error('showShelves err')
+
+  _showShelves: (shelves)->
+    selectedShelves = @itemData.shelves
+    # TODO: offer to create shelves from this form instead
+    if shelves.length > 0
+      collection = new Shelves shelves, { selected: selectedShelves }
+      @shelvesSelector.show new ItemShelves {
+        collection,
+        selectedShelves,
+        mainUserIsOwner: true
+      }
+      @ui.shelvesWrapper.removeClass 'hidden'
+
   # TODO: update the UI for update errors
   updateTransaction: ->
     transaction = getSelectorData @, 'transaction'
@@ -91,7 +115,12 @@ module.exports = Marionette.LayoutView.extend
 
   validateSimple: ->
     @createItem()
-    .then -> app.execute 'show:inventory:main:user'
+    .then ->
+      lastShelves = app.request 'last:shelves:get'
+      if lastShelves? and lastShelves.length is 1
+        app.execute 'show:shelf', lastShelves[0]
+      else
+        app.execute 'show:inventory:main:user'
 
   validateAndAddNext: ->
     @createItem()
@@ -101,10 +130,19 @@ module.exports = Marionette.LayoutView.extend
     # the value of 'transaction' and 'listing' were updated on selectors clicks
     @itemData.details = @ui.details.val()
     @itemData.notes = @ui.notes.val()
+    @itemData.shelves = @getSelectedShelves()
+
+    app.execute 'last:shelves:set', @itemData.shelves
 
     app.request 'item:create', @itemData
     .catch error_.Complete('.panel')
     .catch forms_.catchAlert.bind(null, @)
+
+  getSelectedShelves: ->
+    selectedShelves = @$el.find '.shelfSelector input'
+      .filter (i, el)-> el.checked
+      .map (i, el)-> el.name.split('-')[1]
+    return Array.from selectedShelves
 
   addNext: ->
     switch @_lastAddMode

@@ -1,0 +1,30 @@
+<div class="shelfEditor">
+  {{#if isNewShelf}}
+    <h3 class="subheader">{{i18n 'create a new shelf'}}</h3>
+  {{else}}
+    <h3 class="subheader">{{i18n 'edit shelf'}}</h3>
+  {{/if}}
+  <div class="inputBox">
+    <label for="shelfNameEditor">{{i18n 'name'}}</label>
+    <input type="text" id="shelfNameEditor" class="input-wrapper" value="{{name}}">
+  </div>
+  <div class="inputBox">
+    <label for="sheldDescEditor">{{i18n 'description'}}</label>
+    <textarea type="text" id="shelfDescEditor">{{description}}</textarea>
+  </div>
+  <div id="listing" class="select-button-group">
+    <label for="visibilityBox">{{i18n 'visibility'}}</label>
+    {{partial 'inventory:form:button_group' listings}}
+  </div>
+  <div class="has-alertbox"></div>
+  <div class="buttons">
+    {{#unless isNewShelf}}
+      <button class="delete button">{{icon 'trash'}}{{I18n 'delete'}}</button>
+    {{/unless}}
+    <button class="validate button success-button" title="{{I18n 'validate'}}">
+      {{icon 'check'}}
+      {{#if isNewShelf}}{{I18n 'create'}}{{else}}{{I18n 'validate'}}{{/if}}
+      <span class="loading"></span>
+    </button>
+  </div>
+</div>

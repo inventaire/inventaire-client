@@ -1,3 +1,4 @@
+{ countShelves } = require 'modules/shelves/lib/shelves'
 Positionable = require 'modules/general/models/positionable'
 error_ = require 'lib/error'
 { getColorSquareDataUriFromModelId } = require 'lib/images'
@@ -44,11 +45,13 @@ module.exports = Positionable.extend
       data = _.values(snapshot).reduce aggregateScoreData, data
 
     { itemsCount, lastAdd } = data
-
     # Setting those as model attributes
     # so that updating them trigger a model 'change' event
     @set 'itemsCount', itemsCount
     @set 'itemsLastAdded', lastAdd
+
+    countShelves @get('_id')
+    .then (shelvesCount)=> @set 'shelvesCount', shelvesCount
 
   getRss: -> app.API.feeds 'user', @id
 

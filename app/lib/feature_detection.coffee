@@ -54,7 +54,7 @@ ISODatePolyFill = ->
 # Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#Polyfill
 startsWithPolyFill = ->
   unless String::startsWith?
-    String::startsWith = (search, pos) ->
+    String::startsWith = (search, pos)->
       start = if not pos or pos < 0 then 0 else +pos
       @substr(start, search.length) is search
 

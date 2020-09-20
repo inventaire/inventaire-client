@@ -1,0 +1,25 @@
+{{#if mainUserIsOwner}}
+  {{#unless bulkMode}}
+    <input type="checkbox" name="shelf-{{_id}}" {{#if isSelected}}checked{{/if}}>
+  {{/unless}}
+{{/if }}
+<div class="picture" style="background-image: url({{imgSrc picture 48}})"></div>
+<div class="shelf-text">
+  <div class="name">{{name}}</div>
+  <div class="description">{{description}}</div>
+</div>
+
+{{#if bulkMode}}
+  <div class="shelf-selector-buttons has-alertbox">
+    <button class="add tiny-button success">
+      {{icon 'plus'}}
+      <span class="label">{{I18n 'add'}}</span>
+      <span class="loading"></span>
+    </button>
+    <button class="remove tiny-button">
+      {{icon 'minus'}}
+      <span class="label">{{I18n 'remove'}}</span>
+      <span class="loading"></span>
+    </button>
+  </div>
+{{/if}}

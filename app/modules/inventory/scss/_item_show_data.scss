@@ -1,7 +1,5 @@
 // This module is already imported in #itemShowLayout{}
 // so no need to wrap everything in #itemShowData{}, it would be an overkill
-#itemShowData{
-}
 .item-settings{
   @include display-flex(row, center, center, wrap);
   label{
@@ -62,6 +60,70 @@
     }
   }
 }
+
+.shelvesPanel{
+  background: $off-white;
+  margin: 1em 0;
+  @include display-flex(column);
+  label{
+    height: 3em;
+    padding: 1em;
+  }
+  .toggleShelvesExpand{
+    flex: 1;
+  }
+  .fa-chevron-down{
+    padding: 0.3em;
+    @include transition(transform, 0.3s);
+  }
+  ul{
+    max-height: 200em;
+    overflow: auto;
+    @include transition(max-height, 0.3s);
+  }
+  .shelfSelector{
+    height: 3em;
+    margin: 0.2em 0;
+    @include transition(height, 0.3s);
+    overflow: hidden;
+  }
+  &.main-user-mode{
+    .shelfSelector{
+      padding: 0 0.5em;
+    }
+  }
+  &:not(.main-user-mode){
+    margin: 1em 0;
+    .picture{
+      margin-left: 0;
+    }
+    .toggleShelvesExpand{
+      display: none;
+    }
+  }
+  .toggleShelvesExpand{
+    font-size: 1.2em;
+  }
+  &:not(.expanded){
+    .toggleShelvesExpand{
+      @include bg-hover($off-white, 5%);
+    }
+    .shelfSelector:not(.selected){
+      height: 0;
+      margin: 0;
+    }
+    ul{
+      max-height: 25em;
+      overflow: auto;
+    }
+  }
+  &.expanded{
+    .fa-chevron-down{
+      transform: rotateX(180deg);
+    }
+  }
+}
+
 .indicator{
   .fa{
     // Making details and notes indicator take the same space

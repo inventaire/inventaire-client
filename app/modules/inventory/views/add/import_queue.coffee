@@ -1,5 +1,5 @@
 { listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
-ItemCreationSelect = require 'modules/inventory/behaviors/item_creation_select'
+UpdateSelector = require 'modules/inventory/behaviors/update_selector'
 error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 screen_ = require 'lib/screen'
@@ -36,8 +36,8 @@ module.exports = Marionette.LayoutView.extend
     addedBooks: '#addedBooks'
 
   behaviors:
-    ItemCreationSelect:
-      behaviorClass: ItemCreationSelect
+    UpdateSelector:
+      behaviorClass: UpdateSelector
     AlertBox: {}
     Loading: {}
 
