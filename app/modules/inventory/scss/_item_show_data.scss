@@ -101,11 +101,6 @@
   .toggleShelvesExpand{
     font-size: 1.2em;
   }
-  &:not(.hasNonSelected){
-    .toggleShelvesExpand{
-      display: none;
-    }
-  }
   &:not(.expanded){
     .toggleShelvesExpand{
       @include bg-hover($off-white, 5%);

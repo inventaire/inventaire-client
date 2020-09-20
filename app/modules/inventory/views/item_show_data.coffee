@@ -155,9 +155,6 @@ module.exports = ItemLayout.extend
       @ui.shelvesPanel.hide()
       return
 
-    if @model.mainUserIsOwner and @shelves.length > @model.get('shelves').length
-        @ui.shelvesPanel.addClass 'hasNonSelected'
-
     @shelvesSelector.show new ItemShelves
       collection: @shelves
       item: @model
