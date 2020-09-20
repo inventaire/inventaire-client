@@ -2,7 +2,19 @@
   margin-top: 0.5em;
   background-color: $light-grey;
 }
-
+#toggleButtons{
+  background: $off-white;
+  display: flex;
+  align-items: center;
+  #showShelves, #hideShelves{
+    font-size: 1.5rem;
+    flex: 1;
+    @include text-hover($grey, $dark-grey);
+    .fa{
+      padding-right: 0.1em;
+    }
+  }
+}
 #shelvesHeader{
   cursor: pointer;
   @include display-flex(row, top, space-between);
@@ -15,13 +27,6 @@
   .subheader{
     margin-top: 0;
     margin-bottom: 0;
-  }
-  #showShelves, #hideShelves{
-    font-size: 1.5rem;
-    @include text-hover($grey, $dark-grey);
-    .fa{
-      padding-right: 0.1em;
-    }
   }
   .shelves-subheader{
     flex: 1 0 0;
