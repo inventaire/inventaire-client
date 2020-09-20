@@ -83,7 +83,7 @@
   }
   .shelfSelector{
     height: 3em;
-    margin: 0.2em;
+    margin: 0.2em 0;
     @include transition(height, 0.3s);
     overflow: hidden;
   }
