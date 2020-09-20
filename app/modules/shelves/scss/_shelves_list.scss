@@ -1,5 +1,18 @@
 #shelvesList{
-  @include transition(padding, 0.1s);
+  li{
+    @include transition(height, 0.3s);
+  }
+  &:not(.wrapper){
+    li{
+      height: 3em;
+    }
+  }
+  &.wrapped{
+    li{
+      height: 0;
+      overflow: hidden;
+    }
+  }
   .shelf-row{
     @include display-flex(row, center, space-between);
     cursor: pointer;

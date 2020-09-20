@@ -42,14 +42,14 @@ module.exports = Marionette.LayoutView.extend
     @ui.showShelves.hide()
 
   hideShelves: (e)->
-    @ui.shelvesList.hide()
+    @ui.shelvesList.addClass 'wrapped'
     @ui.showShelves.show()
     @ui.hideShelves.hide()
     e.stopPropagation()
     @_shelvesShown = false
 
   showShelves: (e)->
-    @ui.shelvesList.show()
+    @ui.shelvesList.removeClass 'wrapped'
     @ui.hideShelves.show()
     @ui.showShelves.hide()
     e.stopPropagation()
