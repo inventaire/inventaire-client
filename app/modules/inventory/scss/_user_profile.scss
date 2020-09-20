@@ -21,7 +21,7 @@
     margin: 0;
   }
   .profile-buttons{
-    @include display-flex(column, center, center);
+    @include display-flex(column, stretch, center);
     a{
       line-height: 1;
       padding: 0.5em;
@@ -64,7 +64,10 @@
       flex: 0 0 auto;
     }
     .info{
-      @include display-flex(row);
+      @include display-flex(row, baseline, center);
+      .profile-buttons{
+        margin-left: auto;
+      }
     }
     .action{
       margin: 0 0.5em;
@@ -114,7 +117,6 @@
   @media screen and (max-width: $very-small-screen) {
     .avatar-wrapper{
       flex: 0 0 auto;
-      background-color: red;
       padding: 1em;
     }
     #mapContainer{
