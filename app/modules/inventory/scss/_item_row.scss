@@ -63,6 +63,8 @@
     @include display-flex(row, center, flex-start);
     @include bg-hover(white, 5%);
     flex: 1 0 0;
+    overflow: hidden;
+    margin-right: 0.5em;
   }
 
   /*Small screens*/
