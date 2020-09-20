@@ -65,6 +65,6 @@ module.exports = Marionette.LayoutView.extend
     @shelvesList.show new ShelvesList { @collection }
     if @collection.length > 5 then @ui.toggleButtons.removeClass 'hidden'
 
-getUserId = (username) ->
+getUserId = (username)->
   unless username then return Promise.resolve app.user.id
   app.request 'get:userId:from:username', username

@@ -49,7 +49,7 @@ module.exports = Marionette.LayoutView.extend
     .then afterCreate
     .catch forms_.catchAlert.bind(null, @)
 
-afterCreate = (newShelf) ->
+afterCreate = (newShelf)->
   newShelfModel = new ShelfModel newShelf
   app.user.trigger 'shelves:change', 'createShelf'
   app.execute 'show:shelf', newShelfModel

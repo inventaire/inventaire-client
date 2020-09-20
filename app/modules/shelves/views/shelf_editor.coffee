@@ -68,14 +68,14 @@ module.exports = Marionette.LayoutView.extend
 
 closeModal = (e) -> app.execute 'modal:close'
 
-afterUpdate = (selected, model) -> (updatedShelf) =>
+afterUpdate = (selected, model)-> (updatedShelf)->
   app.user.trigger 'shelves:change', 'createShelf'
   listingData = listingsData()[selected]
   model.set updatedShelf
   model.set 'icon', listingData.icon
   model.set 'label', listingData.label
 
-deleteShelfAction = (model, withItems) -> ->
+deleteShelfAction = (model, withItems)-> ->
   id = model.get '_id'
   params = { ids: id }
   if withItems then params = _.extend({ 'with-items': true }, params)

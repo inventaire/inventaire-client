@@ -1,5 +1,3 @@
-error_ = require 'lib/error'
-
 module.exports = shelves_ =
   getById: (id)->
     _.preq.get app.API.shelves.byIds(id)

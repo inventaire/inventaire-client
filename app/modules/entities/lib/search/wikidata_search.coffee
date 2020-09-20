@@ -13,7 +13,7 @@ module.exports = (format = true)-> (search, limit = 10, offset)->
 
 # This is a hacky way to filter out special pages without having to request claims
 specialPagesDescriptionPattern = /(Wikim(e|é)dia|Wikip(e|é)dia)/
-filterOutSpecialPages = (result) ->
+filterOutSpecialPages = (result)->
   result.description or= ''
   return not result.description.match specialPagesDescriptionPattern
 
