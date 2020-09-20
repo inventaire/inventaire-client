@@ -6,10 +6,12 @@
   <div>
     <h3 id="shelf-name">{{name}}</h3>
     <ul class="data">
-      <li>
-        <span>{{icon 'book'}}{{i18n 'books'}}</span>
-        <span class="count">{{itemsCount}}</span>
-      </li>
+      {{#if itemsCount}}
+        <li>
+          <span>{{icon 'book'}}{{i18n 'books'}}</span>
+          <span class="count">{{itemsCount}}</span>
+        </li>
+      {{/if}}
       <li id='listing' title="{{i18n label}}">
         {{icon icon}} {{i18n label}}
       </li>
