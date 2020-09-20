@@ -29,7 +29,7 @@
     @include dangerous-action;
   }
   /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $very-small-screen) {
     @include display-flex(column, center, center);
     .buttons{
       align-self: stretch;
@@ -47,7 +47,7 @@
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (min-width: $very-small-screen) {
     .buttons{
       @include display-flex(row, center, space-around);
     }
