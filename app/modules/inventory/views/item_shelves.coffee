@@ -19,6 +19,7 @@ ItemShelfLi = Marionette.ItemView.extend
 
   initialize: ->
     { @item, @itemsIds, @selectedShelves, @mainUserIsOwner } = @options
+    @itemCreationMode = @selectedShelves?
     @bulkMode = @itemsIds?
 
   events:
@@ -29,17 +30,17 @@ ItemShelfLi = Marionette.ItemView.extend
   isSelected: ->
     { @item, @selectedShelves } = @options
     unless @item? then return
-    @itemCreationMode = @selectedShelves?
-    if @itemCreationMode
+    if @selectedShelves?
       @_isSelected = @model.id in @selectedShelves
     else
       @_isSelected = @item.isInShelf(@model.id)
     return @_isSelected
 
-  serializeData: -> _.extend @model.toJSON(),
-    isSelected: @_isSelected
-    mainUserIsOwner: @mainUserIsOwner
-    bulkMode: @bulkMode
+  serializeData: ->
+    _.extend @model.toJSON(),
+      isSelected: @_isSelected
+      mainUserIsOwner: @mainUserIsOwner
+      bulkMode: @bulkMode
 
   toggleShelfSelector: ->
     if @bulkMode then return
