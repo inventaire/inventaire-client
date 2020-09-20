@@ -39,6 +39,7 @@
     }
   }
   .shelf-selector-buttons{
+    flex: 0 0 auto;
     margin-left: auto;
     margin-right: 0.5em;
     .loading:not(:empty){
@@ -52,11 +53,6 @@
   .dropdown-label{
     padding: 0.5em;
   }
-  .buttons{
-    @include display-flex(row, center, center);
-    align-self: stretch;
-    margin-top: 2em;
-  }
   .delete, .done{
     padding: 0.7em;
     flex: 1;
@@ -65,13 +61,6 @@
     @include dangerous-action;
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    #selectTransaction, #selectListing{
-      padding: 1em;
-      margin: 1em 0;
-    }
-  }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     #selectTransaction, #selectListing{
@@ -87,6 +76,29 @@
           display: none;
         }
       }
+    }
+    .buttons{
+      align-self: stretch;
+      @include display-flex(column, stretch, center);
+      > button{
+        margin: 1em auto 0 auto;
+        width: 15em;
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    #selectTransaction, #selectListing{
+      padding: 1em;
+      margin: 1em 0;
+    }
+    .buttons{
+      @include display-flex(row, center, center);
+      align-self: stretch;
+      margin-top: 2em;
+    }
+    .delete{
+      margin-right: 0.5em;
     }
   }
 }
