@@ -21,6 +21,8 @@ module.exports = Filterable.extend
 
     @entityPathname = app.request 'get:entity:local:href', @entityUri
 
+    unless attrs.shelves? then @set 'shelves', []
+
     @initUser owner
 
   initUser: (owner)->
