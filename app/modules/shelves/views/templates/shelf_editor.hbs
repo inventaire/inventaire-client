@@ -1,6 +1,6 @@
 <div class="shelfEditor">
   {{#if isNewShelf}}
-    <h3 class="subheader">{{i18n 'new shelf'}}</h3>
+    <h3 class="subheader">{{i18n 'create a new shelf'}}</h3>
   {{else}}
     <h3 class="subheader">{{i18n 'edit shelf'}}</h3>
   {{/if}}
@@ -19,7 +19,7 @@
   <div class="has-alertbox"></div>
   <div class="buttons">
     {{#unless isNewShelf}}
-      <button class="delete button" title="{{I18n 'delete shelf'}}">{{icon 'trash'}}{{I18n 'delete'}}</button>
+      <button class="delete button">{{icon 'trash'}}{{I18n 'delete'}}</button>
     {{/unless}}
     <button class="validate button success-button" title="{{I18n 'validate'}}">
       {{icon 'check'}}
