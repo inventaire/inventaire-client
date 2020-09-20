@@ -87,15 +87,18 @@
     @include transition(height, 0.3s);
     overflow: hidden;
   }
-  #shelvesSelector.main-user-mode{
+  &.main-user-mode{
     .shelfSelector{
       padding: 0 0.5em;
     }
   }
-  #shelvesSelector:not(.main-user-mode){
+  &:not(.main-user-mode){
     margin: 1em 0;
     .picture{
       margin-left: 0;
+    }
+    .toggleShelvesExpand{
+      display: none;
     }
   }
   .toggleShelvesExpand{

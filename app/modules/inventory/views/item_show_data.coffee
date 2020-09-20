@@ -19,6 +19,7 @@ module.exports = ItemLayout.extend
 
   ui:
     shelvesPanel: '.shelvesPanel'
+    toggleShelvesExpand: '.toggleShelvesExpand'
 
   behaviors:
     ElasticTextarea: {}
@@ -32,6 +33,8 @@ module.exports = ItemLayout.extend
   modelEvents:
     'change:notes': 'lazyRender'
     'change:details': 'lazyRender'
+    'change:shelves': 'updateShelves'
+    'add:shelves': 'updateShelves'
 
   onRender: ->
     if app.user.loggedIn then @showTransactions()
@@ -64,10 +67,7 @@ module.exports = ItemLayout.extend
     'click .selectShelf': 'selectShelf'
     'click .toggleShelvesExpand': 'toggleShelvesExpand'
 
-  serializeData: ->
-    attrs = @model.serializeData()
-    _.extend attrs,
-      shelves: @model.get('shelves')
+  serializeData: -> @model.serializeData()
 
   onShow: ->
     @showShelves()
@@ -163,6 +163,13 @@ module.exports = ItemLayout.extend
   selectShelf: (e)->
     shelfId = e.currentTarget.href.split('/').slice(-1)[0]
     app.execute 'show:shelf', shelfId
+
+  updateShelves: ->
+    if @model.mainUserIsOwner
+      if @shelves.length > @model.get('shelves').length
+        @ui.toggleShelvesExpand.show()
+      else
+        @ui.toggleShelvesExpand.hide()
 
   afterDestroy: ->
     app.execute 'show:inventory:main:user'
