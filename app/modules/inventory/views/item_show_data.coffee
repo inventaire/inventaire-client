@@ -4,7 +4,6 @@
 ItemTransactions = require './item_transactions'
 getActionKey = require 'lib/get_action_key'
 ItemShelves = require './item_shelves'
-ShelvesList = require 'modules/shelves/views/shelves_list'
 Shelves = require 'modules/shelves/collections/shelves'
 { getShelvesByOwner, getByIds: getShelvesByIds } = require 'modules/shelves/lib/shelves'
 itemViewsCommons = require '../lib/items_views_commons'
