@@ -60,7 +60,7 @@ module.exports = Marionette.LayoutView.extend
     else @showShelves(e)
 
   showFromModel: (docs)->
-    unless docs.length > 0 then return
+    if docs && docs.length < 1 then return
     @collection = new Shelves docs
     @shelvesList.show new ShelvesList { @collection }
     if @collection.length > 5 then @ui.toggleButtons.removeClass 'hidden'
