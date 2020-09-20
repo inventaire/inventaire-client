@@ -10,22 +10,19 @@
     // Fake until picture for shelf is implemented
     width: 90%;
     padding: 1em;
-
-    #shelf-title-bar{
-      @include display-flex(row, top, space-between);
-      #shelf-name{
-        // make button unbreakable
-        flex: 2 0 0;
-      }
-      #shelf-actions{
-        .tiny-button {
-          margin-bottom: 1em;
-          margin-left: 1em;
-          padding-top: 0.4em;
-          padding-bottom: 0.4em;
-        }
-        #closeShelf{
-          margin-left: 0.5em;
+    @include display-flex(row, top, space-between);
+    #shelf-name{
+      // make button unbreakable
+      flex: 2 0 0;
+    }
+    #shelf-actions{
+      @include display-flex(column, flex-end);
+      .buttons{
+        margin-top: 0.5em;
+        @include display-flex(column, stretch, center);
+        > a{
+          margin-bottom: 0.5em;
+          min-width: 10em;
         }
       }
     }
@@ -67,18 +64,11 @@
     }
     @include display-flex(column, center, center);
     #shelf-info-box{
-      text-align: center;
-      #shelf-title-bar{
-        @include display-flex(column, center, center);
-        margin-bottom: 0.7em;
-        #shelf-actions{
-          a {
-            margin-left: 0;
-          }
-          #closeShelf{
-            display: none;
-          }
-          @include display-flex(column, center, center);
+      @include display-flex(column, center, center);
+      margin-bottom: 0.7em;
+      #shelf-actions{
+        #closeShelf{
+          display: none;
         }
       }
     }

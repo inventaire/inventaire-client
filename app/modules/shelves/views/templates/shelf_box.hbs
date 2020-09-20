@@ -3,9 +3,22 @@
   <a id="close-shelf-small" class="closeButton" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
 </div>
 <div id="shelf-info-box">
-  <div id="shelf-title-bar">
+  <div>
     <h3 id="shelf-name">{{name}}</h3>
-    <div id="shelf-actions">
+    <ul class="data">
+      <li>
+        <span>{{icon 'book'}}{{i18n 'books'}}</span>
+        <span class="count">{{itemsCount}}</span>
+      </li>
+      <li id='listing' title="{{i18n label}}">
+        {{icon icon}} {{i18n label}}
+      </li>
+    </ul>
+    <p>{{description}}</p>
+  </div>
+  <div id="shelf-actions">
+    <a id="closeShelf" class="closeButton" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
+    <div class="buttons">
       {{#if isEditable}}
         <a id="showShelfEdit" class="tiny-button light-blue">
           {{icon 'pencil'}}
@@ -15,17 +28,6 @@
       <a class="addItems tiny-button light-blue" title="{{I18n 'add books to this shelf'}}">
         {{icon 'plus'}} {{I18n 'add books'}}
       </a>
-      <a id="closeShelf" class="closeButton" title="{{I18n 'unselect shelf'}}">{{icon 'close'}}</a>
     </div>
   </div>
-  <ul class="data">
-    <li>
-      <span>{{icon 'book'}}{{i18n 'books'}}</span>
-      <span class="count">{{itemsCount}}</span>
-    </li>
-    <li id='listing' title="{{i18n label}}">
-      {{icon icon}} {{i18n label}}
-    </li>
-  </ul>
-  <p>{{description}}</p>
 </div>

@@ -21,15 +21,16 @@
     margin: 0;
   }
   .profile-buttons{
-    @include display-flex(row, center, center);
+    @include display-flex(column, center, center);
     a{
       line-height: 1;
       padding: 0.5em;
+      min-width: 10em;
       margin: 0 0 1em 1em;
     }
     flex: 0 0 auto;
     .action{
-      @include display-flex(row, center, center);
+      @include display-flex(row, center, flex-start);
     }
   }
   .data{
@@ -59,6 +60,12 @@
 
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
+    .avatar-wrapper{
+      flex: 0 0 auto;
+    }
+    .info{
+      @include display-flex(row);
+    }
     .action{
       margin: 0 0.5em;
     }
@@ -67,6 +74,9 @@
   /*Smaller screens*/
   @media screen and (max-width: $smaller-screen) {
     @include display-flex(column, center, center);
+    .avatar-wrapper{
+      flex: 0 0 auto;
+    }
     .avatar{
       margin-top: 1em;
     }
@@ -102,6 +112,11 @@
 
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
+    .avatar-wrapper{
+      flex: 0 0 auto;
+      background-color: red;
+      padding: 1em;
+    }
     #mapContainer{
       display: none;
     }
