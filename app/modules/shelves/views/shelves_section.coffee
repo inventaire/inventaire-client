@@ -29,6 +29,7 @@ module.exports = Marionette.LayoutView.extend
     shelvesList: '#shelvesList'
     hideShelves: '#hideShelves'
     showShelves: '#showShelves'
+    toggleButtons: '#toggleButtons'
 
   onShow: ->
     { username } = @options
@@ -62,6 +63,7 @@ module.exports = Marionette.LayoutView.extend
     unless docs.length > 0 then return
     @collection = new Shelves docs
     @shelvesList.show new ShelvesList { @collection }
+    if @collection.length > 5 then @ui.toggleButtons.removeClass 'hidden'
 
 getUserId = (username) ->
   unless username then return Promise.resolve app.user.id

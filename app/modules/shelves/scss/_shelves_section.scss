@@ -2,7 +2,7 @@
   margin-top: 0.5em;
   background-color: $light-grey;
 }
-#toggleButtons{
+#toggleButtons:not(.hidden){
   background: $off-white;
   display: flex;
   align-items: center;
