@@ -3,7 +3,7 @@
   background-color: $light-grey;
 }
 #toggleButtons:not(.hidden){
-  background: $off-white;
+  background: $light-grey;
   display: flex;
   align-items: center;
   #showShelves, #hideShelves{

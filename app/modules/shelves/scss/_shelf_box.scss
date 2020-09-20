@@ -7,13 +7,12 @@
     height: 10em;
   }
   #shelf-info-box{
-    // Fake until picture for shelf is implemented
-    width: 90%;
+    flex: 1;
     padding: 1em;
     @include display-flex(row, top, space-between);
-    #shelf-name{
+    .name, .description{
       // make button unbreakable
-      flex: 2 0 0;
+      flex: 1 0 0;
     }
     #shelf-actions{
       @include display-flex(column, flex-end);
@@ -61,6 +60,9 @@
         right: 0.3em;
         display: block;
       }
+    }
+    .name, .description{
+      text-align: center;
     }
     @include display-flex(column, center, center);
     #shelf-info-box{
