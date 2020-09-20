@@ -23,8 +23,8 @@ ItemShelfLi = Marionette.ItemView.extend
     @bulkMode = @itemsIds?
 
   events:
-    'click .add': 'add'
-    'click .remove': 'remove'
+    'click .add': 'addShelf'
+    'click .remove': 'removeShelf'
     'click': 'toggleShelfSelector'
 
   isSelected: ->
@@ -61,18 +61,18 @@ ItemShelfLi = Marionette.ItemView.extend
     if @isSelected() then @$el.addClass 'selected'
     else @$el.removeClass 'selected'
 
-  add: ->
+  addShelf: ->
     startLoading.call @, '.add .loading'
     addItems @model, @itemsIds
     # TODO: update the inventory state without having to reload
-    .then -> window.location.reload()
+    .then => app.execute 'show:shelf', @model.id
     .catch forms_.catchAlert.bind(null, @)
 
-  remove: ->
+  removeShelf: ->
     startLoading.call @, '.remove .loading'
     removeItems @model, @itemsIds
     # TODO: update the inventory state without having to reload
-    .then -> window.location.reload()
+    .then => app.execute 'show:shelf', @model.id
     .catch forms_.catchAlert.bind(null, @)
 
 module.exports = Marionette.CollectionView.extend
