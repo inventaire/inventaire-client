@@ -15,7 +15,7 @@ module.exports = Marionette.ItemView.extend
     Toggler: {}
 
   serializeData: ->
-    notifications = app.user.get 'settings.notifications'
+    notifications = app.user.get('settings.notifications') or {}
     summaryPeriodicity = app.user.get('summaryPeriodicity') or defaultPeriodicity
     _.extend @getNotificationsData(notifications),
       warning: 'global_email_toggle_warning'
