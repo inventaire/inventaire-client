@@ -20,6 +20,7 @@
         margin-top: 0.5em;
         @include display-flex(column, stretch, center);
         > a{
+          @include display-flex(row, center, space-between);
           margin-bottom: 0.5em;
           min-width: 10em;
         }
