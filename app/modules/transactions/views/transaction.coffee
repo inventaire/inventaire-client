@@ -68,8 +68,13 @@ module.exports = Marionette.CompositeView.extend
     .catch forms_.catchAlert.bind(null, @)
 
   showItem: (e)->
-    unless _.isOpenedOutside e
+    if _.isOpenedOutside e then return
+
+    # Case when the item was successfully grabbed by the transaction model
+    if @model.item?
       app.execute 'show:item', @model.item
+    else
+      app.execute 'show:item:byId', @model.get('item')
 
   showOwner: (e)->
     unless _.isOpenedOutside e

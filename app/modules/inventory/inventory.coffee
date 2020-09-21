@@ -113,6 +113,8 @@ showInventory = (options)-> app.layout.main.show new InventoryLayout(options)
 showItemsList = (collection)-> app.layout.main.show new ItemsCascade { collection }
 
 showItemModal = (model, fallback)->
+  _.type model, 'object'
+
   previousRoute = currentRoute()
   # Do not scroll top as the modal might be displayed down at the level
   # where the item show event was triggered
@@ -133,6 +135,7 @@ showItemModal = (model, fallback)->
 
   model.grabWorks()
   .then -> app.layout.modal.show new ItemShow { model }
+  .catch app.Execute('show:error')
 
 initializeInventoriesHandlers = (app)->
   app.commands.setHandlers
