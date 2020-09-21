@@ -37,5 +37,9 @@ showShelf = (shelf)->
 showShelfFromModel = (shelf)->
   owner = shelf.get('owner')
   # Passing shelf to display items and passing owner for user profile info
-  app.layout.main.show new InventoryLayout { shelf, user: owner }
+  app.layout.main.show new InventoryLayout {
+    shelf,
+    user: owner
+    standalone: true
+  }
   app.navigateFromModel shelf
