@@ -6,10 +6,7 @@ error_ = require 'lib/error'
 
 ItemShelfLi = Marionette.ItemView.extend
   tagName: 'li'
-  className: ->
-    base = 'shelfSelector'
-    if @isSelected() then base += ' selected'
-    return base
+  className: 'shelfSelector'
 
   behaviors:
     AlertBox: {}
@@ -21,6 +18,8 @@ ItemShelfLi = Marionette.ItemView.extend
     { @item, @itemsIds, @selectedShelves, @mainUserIsOwner } = @options
     @itemCreationMode = @selectedShelves?
     @bulkMode = @itemsIds?
+    # Init @_isSelected
+    @isSelected()
 
   events:
     'click .add': 'addShelf'
@@ -29,12 +28,17 @@ ItemShelfLi = Marionette.ItemView.extend
 
   isSelected: ->
     { @item, @selectedShelves } = @options
-    unless @item? then return
+
     if @selectedShelves?
-      @_isSelected = @model.id in @selectedShelves
-    else
+      # Check @selectedShelves only on first run
+      if @_isSelected?
+        return @_isSelected
+      else
+        @_isSelected = @model.id in @selectedShelves
+        return @_isSelected
+    else if @item?
       @_isSelected = @item.isInShelf(@model.id)
-    return @_isSelected
+      return @_isSelected
 
   serializeData: ->
     _.extend @model.toJSON(),
@@ -44,7 +48,6 @@ ItemShelfLi = Marionette.ItemView.extend
 
   toggleShelfSelector: ->
     if @bulkMode then return
-
     { id } = @model
     if @mainUserIsOwner
       @_isSelected = not @_isSelected
