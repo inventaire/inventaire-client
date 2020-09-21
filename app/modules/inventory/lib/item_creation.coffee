@@ -1,17 +1,19 @@
 { factory:transactionsDataFactory } = require './transactions_data'
 
 module.exports =
-  listingsData: (itemListing)->
+  listingsData: (selectedListing)->
+    selectedListing ?= app.request('last:listing:get') or 'private'
     listings = app.user.listings()
-    selectedListing = listings[itemListing] or listings.private
-    selectedListing.classes = 'selected'
+    selectedListingData = listings[selectedListing]
+    selectedListingData.classes = 'selected'
     return listings
 
-  transactionsData: (itemTransaction)->
+  transactionsData: (selectedTransaction)->
+    selectedTransaction ?= app.request('last:transaction:get') or 'inventorying'
     transactions = transactionsDataFactory()
     transactions.inventorying.label = 'just_inventorize_it'
-    selectedTransaction = transactions[itemTransaction] or transactions.inventorying
-    selectedTransaction.classes = 'selected'
+    selectedTransactionData = transactions[selectedTransaction]
+    selectedTransactionData.classes = 'selected'
     return transactions
 
   # assume that the view has a ui like so

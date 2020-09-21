@@ -46,10 +46,6 @@ module.exports = Marionette.LayoutView.extend
     AlertBox: {}
     Loading: {}
 
-  serializeData: ->
-    listings: listingsData()
-    transactions: transactionsData()
-
   events:
     'change th.selected input': 'toggleAll'
     'click #selectAll': 'selectAll'
@@ -61,6 +57,10 @@ module.exports = Marionette.LayoutView.extend
     { @candidates } = @options
     @items = new Backbone.Collection
     @lazyUpdateSteps = _.debounce @updateSteps.bind(@), 50
+
+  serializeData: ->
+    listings: listingsData()
+    transactions: transactionsData()
 
   onShow: ->
     @candidatesQueue.show new CandidatesQueue { collection: @candidates }
