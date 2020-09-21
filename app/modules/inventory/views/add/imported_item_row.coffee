@@ -11,5 +11,6 @@ module.exports = Marionette.ItemView.extend
   events:
     'click .showItem': 'showItem'
 
-  showItem: ->
-    app.execute 'show:item', @model
+  showItem: (e)->
+    if _.isOpenedOutside e then return
+    else app.execute 'show:item', @model
