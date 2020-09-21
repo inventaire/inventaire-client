@@ -3,6 +3,9 @@ UpdateSelector = require 'modules/inventory/behaviors/update_selector'
 error_ = require 'lib/error'
 forms_ = require 'modules/general/lib/forms'
 screen_ = require 'lib/screen'
+ItemShelves = require '../item_shelves'
+{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
+Shelves = require 'modules/shelves/collections/shelves'
 
 CandidatesQueue = Marionette.CollectionView.extend
   tagName: 'ul'
@@ -21,6 +24,7 @@ module.exports = Marionette.LayoutView.extend
   regions:
     candidatesQueue: '#candidatesQueue'
     itemsList: '#itemsList'
+    shelvesSelector: '#shelvesSelector'
 
   ui:
     headCheckbox: 'thead input'
@@ -34,6 +38,7 @@ module.exports = Marionette.LayoutView.extend
     step2: '#step2'
     lastSteps: '#lastSteps'
     addedBooks: '#addedBooks'
+    shelvesWrapper: '#shelvesWrapper'
 
   behaviors:
     UpdateSelector:
@@ -61,6 +66,7 @@ module.exports = Marionette.LayoutView.extend
     @candidatesQueue.show new CandidatesQueue { collection: @candidates }
     @itemsList.show new ImportedItemsList { collection: @items }
     @lazyUpdateSteps()
+    @showShelves()
 
   selectAll: ->
     @candidates.setAllSelectedTo true
@@ -96,6 +102,29 @@ module.exports = Marionette.LayoutView.extend
     else
       @ui.step2.removeClass 'force-hidden'
 
+  showShelves: ->
+    getShelvesByOwner app.user.id
+    .then @ifViewIsIntact('_showShelves')
+    .catch _.Error('showShelves err')
+
+  _showShelves: (shelves)->
+    selectedShelves = app.request('last:shelves:get') || []
+    # TODO: offer to create shelves from this form instead
+    if shelves.length > 0
+      collection = new Shelves shelves, { selected: selectedShelves }
+      @shelvesSelector.show new ItemShelves {
+        collection,
+        selectedShelves,
+        mainUserIsOwner: true
+      }
+      @ui.shelvesWrapper.removeClass 'hidden'
+
+  getSelectedShelves: ->
+    selectedShelves = @$el.find '.shelfSelector input'
+      .filter (i, el)-> el.checked
+      .map (i, el)-> el.name.split('-')[1]
+    return Array.from selectedShelves
+
   validate: ->
     @toggleValidationElements()
 
@@ -104,15 +133,18 @@ module.exports = Marionette.LayoutView.extend
 
     transaction = getSelectorData @, 'transaction'
     listing = getSelectorData @, 'listing'
+    shelves = @getSelectedShelves()
 
-    @chainedImport transaction, listing
+    app.execute 'last:shelves:set', shelves
+
+    @chainedImport transaction, listing, shelves
     @planProgressUpdate()
 
-  chainedImport: (transaction, listing)->
+  chainedImport: (transaction, listing, shelves)->
     if @selected.length is 0 then return @doneImporting()
 
     candidate = @selected.pop()
-    candidate.createItem transaction, listing
+    candidate.createItem { transaction, listing, shelves }
     .catch (err)=>
       candidate.set 'errorMessage', err.message
       @failed or= []

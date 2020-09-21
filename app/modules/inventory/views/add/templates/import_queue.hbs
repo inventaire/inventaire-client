@@ -27,6 +27,12 @@
     <div id="listing" class="select-button-group">
       {{partial 'inventory:form:button_group' listings}}
     </div>
+    <div id="shelvesWrapper" class="hidden">
+      <label for="shelvesSelector">{{I18n 'shelves'}}</label>
+      <div id="shelvesSelector">
+        {{partial 'inventory:item_shelves' this}}
+      </div>
+    </div>
   </section>
 
   <h3>4/ {{I18n 'import this batch'}}</h3>

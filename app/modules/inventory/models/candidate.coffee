@@ -36,13 +36,15 @@ module.exports = Backbone.Model.extend
     else
       @set 'selected', true
 
-  createItem: (transaction, listing)->
+  createItem: (params)->
+    { transaction, listing, shelves } = params
     @getEntityModel()
     .then (editionEntityModel)->
       return app.request 'item:create',
         entity: editionEntityModel.get 'uri'
         transaction: transaction
         listing: listing
+        shelves: shelves
 
   getEntityModel: ->
     # Always return a promise
