@@ -4,6 +4,7 @@ entityViewByType =
   work: require '../views/work_layout'
   publisher: require '../views/publisher_layout'
   article: require '../views/article_li'
+  collection: require '../views/collection_layout'
 
 EditionLayout = require '../views/edition_layout'
 ClaimLayout = require '../views/claim_layout'

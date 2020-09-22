@@ -32,6 +32,14 @@
           {{I18n 'cancel'}}
       </a>
     {{/if}}
+    {{#if missingRequiredProperties}}
+      <div class="missingDataMessage">
+        <p>
+          {{I18n 'required properties are missing'}}:
+          <span class="missingProperties">{{join missingRequiredProperties}}</span>
+        </p>
+      </div>
+    {{/if}}
     {{#if next}}
       <a id="next" class="navigationButtons light-blue-button" tabindex="0">
         {{icon 'arrow-right'}}

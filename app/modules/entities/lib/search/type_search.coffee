@@ -4,6 +4,7 @@ searchType = require './search_type'
 languageSearch = require './language_search'
 { getEntityUri, prepareSearchResult } = require './entities_uris_results'
 error_ = require 'lib/error'
+{ pluralize } = require '../types/type_key'
 
 module.exports = (type, input, limit, offset)->
   uri = getEntityUri input
@@ -33,6 +34,8 @@ searchByEntityUri = (uri, type)->
       throw error_.new 'invalid entity type', 400, model
 
 getSearchTypeFn = (type)->
+  # if type.slice(-1)[0] isnt 's' then type += 's'
+  type = pluralize type
   # the searchType function should take a input string
   # and return an array of results
   switch type

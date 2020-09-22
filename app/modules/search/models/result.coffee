@@ -17,6 +17,8 @@ typeFormatters =
   works: entityFormatter 'work', 'book'
   humans: entityFormatter 'author'
   series: entityFormatter 'serie'
+  collections: entityFormatter 'collection'
+  publishers: entityFormatter 'publisher'
   users: (data)->
     data.typeAlias = 'user'
     # label is the username

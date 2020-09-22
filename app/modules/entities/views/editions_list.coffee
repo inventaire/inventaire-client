@@ -10,6 +10,7 @@ module.exports = Marionette.CompositeView.extend
   childViewOptions: ->
     itemToUpdate: @options.itemToUpdate
     onWorkLayout: @options.onWorkLayout
+    compactMode: @options.compactMode
 
   behaviors:
     Loading: {}
@@ -18,10 +19,11 @@ module.exports = Marionette.CompositeView.extend
     PreventDefault: {}
 
   initialize: ->
-    { @work } = @options
+    { @work, @sortByLang } = @options
+    @sortByLang ?= true
 
     # Start with user lang as default if there are editions in that language
-    if app.user.lang in @getAvailableLangs()
+    if @sortByLang and app.user.lang in @getAvailableLangs()
       @filter = LangFilter app.user.lang
     @selectedLang = app.user.lang
 
@@ -58,9 +60,11 @@ module.exports = Marionette.CompositeView.extend
   serializeData: ->
     hasEditions: @collection.length > 0
     hasWork: @work?
+    sortByLang: @sortByLang
     availableLanguages: @getAvailableLanguages @selectedLang
     editionCreationData: partialData @work
-    header: @options.header or 'editions'
+    # @options.header can be 'false', thus the existance test
+    header: if @options.header? then @options.header else 'editions'
 
   events:
     'change .languageFilter': 'filterLanguageFromEvent'

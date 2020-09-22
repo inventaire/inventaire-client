@@ -32,7 +32,6 @@ module.exports =
     'wdt:P629': {} # edition or translation of
     'wdt:P1476': { customLabel: 'edition title' }
     'wdt:P1680': { customLabel: 'edition subtitle' }
-    'wdt:P123': {} # publisher
     'wdt:P407': { customLabel: 'edition language' }
     'invp:P2': { customLabel: 'cover' }
     # 'wdt:P31': {} # P31: instance of (=> edition aliases?)
@@ -40,11 +39,14 @@ module.exports =
     'wdt:P212': {} # ISBN-13
     'wdt:P957': {} # ISBN-10
     'wdt:P577': {} # publication date
+    'wdt:P123': {} # publisher
+    'wdt:P195': {} # collection
+    'wdt:P98': { customLabel: 'editor'}
     'wdt:P655': {} # translator
     'wdt:P2679': {} # author of foreword
     'wdt:P2680': {} # author of afterword
     'wdt:P1104': {} # number of pages
-    'wdt:P2635': {} # number of volumes
+    'wdt:P2635': { customLabel: 'number of volumes' }
 
   human:
     'wdt:P1412': {} # languages of expression
@@ -64,6 +66,7 @@ module.exports =
   serie: _.omit work, [ 'wdt:P179', 'wdt:P1545', 'wdt:P747' ]
 
   publisher:
+    'wdt:P856': {} # official website
     'wdt:P112': {} # founded by
     # Problematic to only autocomplete on humans as it is likely to be an organization
     # see https://github.com/inventaire/inventaire/issues/295
@@ -72,4 +75,10 @@ module.exports =
     'wdt:P576': { customLabel: 'date of dissolution' } # inception
     # Maybe, ISBN publisher prefix shouldn't be displayed but only used for administration(?)
     'wdt:P3035': {} # ISBN publisher
+
+  collection:
+    'wdt:P1476': { customLabel: 'collection title' }
+    'wdt:P1680': {} # subtitle
+    'wdt:P123': {} # publisher
+    'wdt:P921': {} # main subject
     'wdt:P856': {} # official website

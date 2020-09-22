@@ -28,11 +28,11 @@ body.openedModal{
   &.modal-large{ max-width: $largeModalWidth; }
   .close{
     line-height: 0;
-    font-size: 2.8em;
+    font-size: 3.6rem;
     font-weight: bold;
     color: white;
-    @include shy(0.5);
-    @include position(absolute, 40px, 0);
+    @include shy(0.8);
+    @include position(absolute, 2.6rem, 0);
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
@@ -47,9 +47,9 @@ body.openedModal{
   }
   /*Medium / Large screens*/
   @media screen and (min-width: $smaller-screen) {
+    // Important for the place of the .close button
     padding: 2em;
-    min-width: 35em;
-    margin-top: 50px;
+    min-width: 40em;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {

@@ -1,0 +1,25 @@
+{{#if image.url}}
+  <div class="image-wrapper">
+    <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
+    {{partial 'entities:photo_credits' image.credits}}
+  </div>
+{{/if}}
+<div class="collectionData text-center entity-data-box">
+  {{#if standalone}}
+    <h2>{{label}}</h2>
+  {{else}}
+    <h3><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
+  {{/if}}
+  <h4 class="subheader">{{shortDescription}}</h4>
+  <div class='wiki-attributes'>
+    <p class="claims">
+      {{stringClaim claims 'wdt:P1680'}}  {{!-- subtitle --}}
+      {{claim claims 'wdt:P123' true}} {{!-- publisher --}}
+      {{claim claims 'wdt:P98' true}}  {{!-- editor --}}
+      {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
+    </p>
+  </div>
+
+  {{partial 'entities:clamped_extract' this}}
+  {{partial 'entities:edit_data' this}}
+</div>

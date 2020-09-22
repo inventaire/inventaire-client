@@ -25,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
     .catch @displayError
 
     entities_.getReverseClaims @property, @value, @refresh, true
+    .tap => @waitForModel
     .then @ifViewIsIntact('showEntities')
     .catch @displayError
 
@@ -42,11 +43,18 @@ module.exports = Marionette.LayoutView.extend
     propertyValue = _.i18n wd_.unprefixify(@property)
     entityValue = entityValueTemplate @value
 
-    @list.show new EntitiesList {
+    @list.show new EntitiesList
       title: "#{propertyValue}: #{entityValue}"
       customTitle: true
+      parentModel: @model
+      childrenClaimProperty: @property
+      type: 'work'
       collection: collection
-      canAddOne: false
-      standalone: true,
+      canAddOne: true
+      standalone: true
       refresh: @refresh
-    }
+      addButtonLabel: addButtonLabelPerProperty[@property]
+
+addButtonLabelPerProperty =
+  'wdt:P921':
+    work: 'add a work with this subject'

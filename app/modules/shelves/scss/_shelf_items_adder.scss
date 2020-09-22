@@ -9,13 +9,9 @@
     align-self: stretch;
     button{
       padding: 0.7em;
-
       text-align: center;
       flex: 1;
       font-weight: bold;
-    }
-    .done{
-      margin-left: 0.5em;
     }
     .addNewItems{
       padding: 0.7em 0.6em;
@@ -30,6 +26,33 @@
     .centered-loader{
       color: $grey;
       display: none;
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .shelf-items-candidate{
+      @include display-flex(column, center, center);
+    }
+    .showItem{
+      @include display-flex(column, center, center);
+    }
+    .buttons{
+      padding: 0 1em;
+      flex-direction: column;
+      align-items: stretch;
+      .addNewItems{
+        margin-bottom: 1em;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .done{
+      margin-left: 0.5em;
+    }
+    .status{
+      margin-left: auto;
     }
   }
 }
@@ -64,7 +87,6 @@
   }
   .title, .authors{
     margin-right: 0.5em;
-    white-space: nowrap;
     flex: 0 0 auto;
   }
   .title{
@@ -88,21 +110,4 @@
 
 #searchCandidates{
   max-width: 20em;
-}
-
-/*Very Small screens*/
-@media screen and (max-width: $very-small-screen) {
-  .shelf-items-candidate{
-    @include display-flex(column, center, center);
-  }
-  .showItem{
-    @include display-flex(column, center, center);
-  }
-}
-
-/*Large screens*/
-@media screen and (min-width: $very-small-screen) {
-  .status{
-    margin-left: auto;
-  }
 }

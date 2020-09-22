@@ -17,6 +17,7 @@ module.exports =
 
   authorWorks: CustomQuery 'author-works'
   serieParts: CustomQuery 'serie-parts'
+  publisherPublications: CustomQuery 'publisher-publications'
 
   activity: (period)-> action 'activity', { period }
   changes: action 'changes'

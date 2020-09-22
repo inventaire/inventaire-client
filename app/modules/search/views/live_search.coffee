@@ -40,8 +40,10 @@ module.exports = Marionette.CompositeView.extend
 
   serializeData: ->
     sections = sectionsData()
-    selectedSectionName = if sections[@selectedSectionName]? then @selectedSectionName else 'all'
-    sections[selectedSectionName].selected = true
+    unless sections[@selectedSectionName]?
+      _.warn { sections, @selectedSectionName }, 'unknown search section'
+      @selectedSectionName = 'all'
+    sections[@selectedSectionName].selected = true
     return { sections }
 
   events:
@@ -90,8 +92,8 @@ module.exports = Marionette.CompositeView.extend
 
     @updateAlternatives type
 
-  updateAlternatives: (type)->
-    if type in sectionsWithAlternatives then @showAlternatives()
+  updateAlternatives: (search)->
+    if @_lastType in sectionsWithAlternatives then @showAlternatives(search)
     else @hideAlternatives()
 
   search: (search)->
@@ -109,7 +111,7 @@ module.exports = Marionette.CompositeView.extend
     .then @resetResults.bind(@, @_lastSearchId)
 
     @_waitingForAlternatives = true
-    @setTimeout @showAlternatives.bind(@, search), 2000
+    @setTimeout @updateAlternatives.bind(@, search), 2000
 
   _search: (search)->
     types = @getTypes()
@@ -255,15 +257,17 @@ module.exports = Marionette.CompositeView.extend
     @collection.add newResults
 
 sectionToTypes =
-  all: [ 'works', 'humans', 'series', 'users', 'groups' ]
+  all: [ 'works', 'humans', 'series', 'publishers', 'collections', 'users', 'groups' ]
   book: 'works'
   author: 'humans'
   serie: 'series'
+  collection: 'collections'
+  publisher: 'publishers'
+  subject: 'subjects'
   user: 'users'
   group: 'groups'
-  subject: 'subjects'
 
-sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie' ]
+sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
 
 getTypeFromId = (id)-> id.replace 'section-', ''
 
@@ -294,4 +298,6 @@ sectionsData = ->
   serie: { label: 'series_singular' }
   user: { label: 'user' }
   group: { label: 'group' }
+  publisher: { label: 'publisher' }
+  collection: { label: 'collection' }
   subject: { label: 'subject' }

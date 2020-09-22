@@ -1,15 +1,16 @@
 #live-search{
   flex: 1 0 auto;
   .resultsWrapper, .sections{
-    background-color: white;
+    background-color: #eee;
   }
   .sections{
-    @include display-flex(row, flex-end, space-around);
+    @include display-flex(row, flex-end, flex-start, wrap);
     text-align: center;
+    overflow-x: auto;
   }
   .searchSection{
-    flex: 1 0 0;
-    min-width: 4em;
+    flex: 1 0 6em;
+    max-width: 8em;
     padding: 0.5em 0.2em;
     background-color: #f3f3f3;
     @include transition(background-color);
@@ -159,16 +160,12 @@
   @media screen and (max-width: $smaller-screen) {
     height: 100%;
     @include display-flex(column);
-    .sections{
-      overflow: auto;
-      @include display-flex(row, center, flex-start);
-      flex: 0 0 auto;
-    }
-    .searchSection{
-      flex: 1 0 auto;
-    }
     .propositions{
       justify-content: center;
+    }
+    .sections{
+      flex: 0 0 auto;
+      border-top: 1px solid #ccc;
     }
   }
 

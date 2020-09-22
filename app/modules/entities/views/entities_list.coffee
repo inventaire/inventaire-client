@@ -1,7 +1,7 @@
 loader = require 'modules/general/views/templates/loader'
 error_ = require 'lib/error'
-canAddOneTypeList = [ 'serie', 'work' ]
-{ buildPath } = require 'lib/location'
+EntitiesListAdder = require './entities_list_adder'
+{ currentRoute } = require 'lib/location'
 
 # TODO:
 # - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -17,6 +17,8 @@ module.exports = Marionette.CompositeView.extend
     PreventDefault: {}
 
   childViewContainer: '.container'
+  tagName: -> if @options.type is 'edition' then 'ul' else 'div'
+
   getChildView: (model)->
     { type } = model
     switch type
@@ -26,9 +28,10 @@ module.exports = Marionette.CompositeView.extend
       # Types included despite not being works
       # to make this view reusable by ./claim_layout with those types.
       # This view should thus possibily be renamed entities_list
-      when 'edition' then require './edition_layout'
+      when 'edition' then require './edition_li'
       when 'human' then require './author_layout'
       when 'publisher' then require './publisher_layout'
+      when 'collection' then require './collection_layout'
       else
         err = error_.new "unknown entity type: #{type}", model
         # Weird: errors thrown here don't appear anyware
@@ -40,6 +43,7 @@ module.exports = Marionette.CompositeView.extend
     refresh: @options.refresh
     showActions: @options.showActions
     wrap: @options.wrapWorks
+    compactMode: @options.compactMode
 
   ui:
     counter: '.counter'
@@ -48,38 +52,18 @@ module.exports = Marionette.CompositeView.extend
     moreCounter: '.displayMore .counter'
 
   initialize: ->
+    { @parentModel, @addButtonLabel } = @options
+    @childrenClaimProperty = @options.childrenClaimProperty or @parentModel.childrenClaimProperty
     initialLength = @options.initialLength or 5
     @batchLength = @options.batchLength or 15
 
     @fetchMore = @collection.fetchMore.bind @collection
     @more = @collection.more.bind @collection
 
-    # First fetch
     @collection.firstFetch initialLength
 
-    if @options.canAddOne is false then return
-
-    @setEntityCreationData()
-
-    if @options.type in canAddOneTypeList
-      @addOneData =
-        label: addOneLabels[@options.parentModel.type][@options.type]
-        href: @_entityCreationData.href
-
-  setEntityCreationData: ->
-    { type, parentModel } = @options
-    { type:parentType } =  parentModel
-
-    claims = {}
-    prop = parentModel.childrenClaimProperty
-    claims[prop] = [ parentModel.get('uri') ]
-
-    if parentType is 'serie'
-      claims['wdt:P50'] = parentModel.get 'claims.wdt:P50'
-
-    href = buildPath '/entity/new', { type, claims }
-
-    @_entityCreationData = { type, claims, href }
+    parentType = @parentModel.type
+    childrenType = @options.type
 
   serializeData: ->
     title: @options.title
@@ -87,11 +71,11 @@ module.exports = Marionette.CompositeView.extend
     hideHeader: @options.hideHeader
     more: @more()
     totalLength: @collection.totalLength
-    addOne: @addOneData
+    addButtonLabel: @addButtonLabel
 
   events:
-    'click a.displayMore': 'displayMore'
-    'click a.addOne': 'addOne'
+    'click .displayMore': 'displayMore'
+    'click .addOne': 'addOne'
 
   displayMore: ->
     @startMoreLoading()
@@ -108,15 +92,14 @@ module.exports = Marionette.CompositeView.extend
     @ui.moreCounter.html loader()
 
   addOne: (e)->
-    unless _.isOpenedOutside e
-      { type, claims } = @_entityCreationData
-      app.execute 'show:entity:create', { type, claims }
-
-addOneLabels =
-  # parent model type
-  human:
-    # list elements type
-    work: 'add a work from this author'
-    serie: 'add a serie from this author'
-  serie:
-    work: 'add a work to this serie'
+    unless app.request 'require:loggedIn', currentRoute() then return
+    { type, parentModel } = @options
+    app.layout.modal.show new EntitiesListAdder {
+      header: @addOneLabel,
+      type,
+      @childrenClaimProperty
+      parentModel,
+      listCollection: @collection,
+    }
+    # Prevent nested entities list to trigger that same event on the parent list
+    e.stopPropagation()

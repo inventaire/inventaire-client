@@ -7,14 +7,14 @@
 <div class="container"></div>
 <div class="works-list-controls">
   {{#if more}}
-    <a class="displayMore">
+    <button class="displayMore">
       {{icon 'chevron-down'}}{{i18n 'display more'}}
       <span class="counter">{{more}}</span>
-    </a>
+    </button>
   {{/if}}
-  {{#if addOne}}
-    <a href="{{addOne.href}}" class="addOne {{#if more}}hidden{{/if}}">
-      {{icon 'plus'}}{{i18n addOne.label}}
-    </a>
+  {{#if addButtonLabel}}
+    <button class="addOne">
+      {{icon 'plus'}}{{i18n addButtonLabel}}
+    </button>
   {{/if}}
 </div>

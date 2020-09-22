@@ -9,7 +9,7 @@
         max-width: 20em;
         text-align: center;
       }
-      .data{
+      .entity-data-box{
         max-width: 40em;
         &, h2, a.showEntity{
           color: white;
@@ -31,5 +31,8 @@
         }
       }
     }
+  }
+  .addOne{
+    margin: 1em;
   }
 }

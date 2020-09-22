@@ -1,0 +1,14 @@
+<h3 class="parent-label">{{parent.label}}</h3>
+<p class="context">{{I18n header}}</p>
+{{#unless cantTypeSearch}}
+  <input id="searchCandidates" type="text" placeholder="{{I18n 'search_verb'}}...">
+{{/unless}}
+
+<ul class="entitiesListElementCandidates"></ul>
+
+{{partial 'loader'}}
+
+<div class="buttons">
+  <a href="{{createPath}}" class="create tiny-button light-blue">{{icon 'plus'}}{{I18n 'create'}}</a>
+  <a class="done tiny-button">{{icon 'check'}}{{I18n 'done'}}</a>
+</div>

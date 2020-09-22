@@ -1,4 +1,4 @@
-.authorInfobox, .serieInfobox, .generalInfobox{
+.authorInfobox, .serieInfobox, .generalInfobox, .collectionInfobox{
   h2{
     font-size: 1.6em;
   }
@@ -33,7 +33,7 @@
 }
 
 // Excluding the edition layout
-.authorInfobox, .serieInfobox, .workInfobox, .publisherInfobox{
+.authorInfobox, .serieInfobox, .workInfobox, .publisherInfobox, .collectionInfobox{
   .entity-data-box{
     background-color: $darker-grey;
   }

@@ -57,7 +57,7 @@ showEntityPageIfUri = (query, refresh)->
   else
     return false
 
-sectionSearchPattern = /^!([blwahsugt])\s+/
+sectionSearchPattern = /^!([a-z])\s+/
 
 findSearchSection = (q)->
   sectionMatch = q.match(sectionSearchPattern)?[1]
@@ -67,19 +67,18 @@ findSearchSection = (q)->
 
   firstLetter = sectionMatch[0]
   section = sections[firstLetter] or 'all'
+  console.log 'section', section
   return [ q, section ]
 
 sections =
-  b: 'book'
-  # 'l' for livre, libro, liber
-  l: 'book'
-  # 'w' for work
-  w: 'book'
   a: 'author'
-  # 'h' for human
-  h: 'author'
-  s: 'serie'
-  u: 'user'
+  b: 'book'
+  c: 'collection'
   g: 'group'
-  # 't' for topic (as series already use the 's')
-  t: 'subject'
+  h: 'author' # 'h' for human
+  l: 'book' # 'l' for livre, libro, liber
+  p: 'publisher'
+  s: 'serie'
+  t: 'subject' # 't' for topic (as series already use the 's')
+  u: 'user'
+  w: 'book' # 'w' for work

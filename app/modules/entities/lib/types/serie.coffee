@@ -1,5 +1,6 @@
 PaginatedWorks = require '../../collections/paginated_works'
 commonsSerieWork = require './commons_serie_work'
+getPartsSuggestions = require 'modules/entities/views/cleanup/lib/get_parts_suggestions'
 
 module.exports = ->
   # Main property by which sub-entities are linked to this one
@@ -39,6 +40,10 @@ specificMethods = _.extend {}, commonsSerieWork,
     allAuthorsUris = getAuthors(@).concat @parts.map(getAuthors)...
     return _.uniq _.compact(allAuthorsUris)
 
+  getChildrenCandidatesUris: ->
+    getPartsSuggestions @
+    .then (suggestionsCollection)-> suggestionsCollection.map(getModelUri)
+
 initPartsCollections = (refresh, fetchAll, partsData)->
   allsPartsUris = _.pluck partsData, 'uri'
   partsWithoutSuperparts = partsData.filter hasNoKnownSuperpart(allsPartsUris)
@@ -68,5 +73,6 @@ importDataFromParts = ->
   if firstPartWithPublicationDate?
     @set 'publicationStart', getPublicationDate(firstPartWithPublicationDate)
 
+getModelUri = (model)-> model.get 'uri'
 getPublicationDate = (model)-> model.get 'claims.wdt:P577.0'
 getAuthors = (model)-> model.getExtendedAuthorsUris()

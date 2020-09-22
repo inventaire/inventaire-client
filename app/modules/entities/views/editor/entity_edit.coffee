@@ -9,6 +9,15 @@ properties = require 'modules/entities/lib/properties'
 moveToWikidata = require './lib/move_to_wikidata'
 { startLoading } = require 'modules/general/plugins/behaviors'
 error_ = require 'lib/error'
+typesWithoutLabel = [
+  'edition',
+  'collection'
+]
+# Keep in sync with server/controllers/entities/lib/validate_critical_claims.js
+requiredPropertyPerType =
+  edition: [ 'wdt:P629', 'wdt:P1476' ]
+  collection: [ 'wdt:P1476', 'wdt:P123' ]
+propertiesPerType = require 'modules/entities/lib/editor/properties_per_type'
 
 module.exports = Marionette.LayoutView.extend
   id: 'entityEdit'
@@ -25,12 +34,17 @@ module.exports = Marionette.LayoutView.extend
 
   ui:
     navigationButtons: '.navigationButtons'
+    missingDataMessage: '.missingDataMessage'
 
   initialize: ->
     @creationMode = @model.creating
-    @requiresLabel = @model.type isnt 'edition'
+    @requiresLabel = @model.type not in typesWithoutLabel
+    @requiredProperties = requiredPropertyPerType[@model.type] or []
     @canBeAddedToInventory = @model.type in inventoryTypes
     @showAdminSection = app.user.hasDataadminAccess and not @creationMode
+
+    if @creationMode
+      @setMissingRequiredProperties()
 
     if @model.subEntitiesInverseProperty?
       @waitForPropCollection = @model.fetchSubEntities()
@@ -76,6 +90,7 @@ module.exports = Marionette.LayoutView.extend
     # Used when item_show attempts to 'preciseEdition' with a new edition
     attrs.itemToUpdate = @itemToUpdate
     attrs.canBeAddedToInventory = @canBeAddedToInventory
+    attrs.missingRequiredProperties = @missingRequiredProperties
     return attrs
 
   events:
@@ -137,15 +152,36 @@ module.exports = Marionette.LayoutView.extend
   # Hiding navigation buttons when a label is required but no label is set yet
   # to invite the user to edit and save the label, or cancel.
   updateNavigationButtons: ->
-    labelsCount = _.values(@model.get('labels')).length
-    if @requiresLabel and labelsCount is 0
+    if @missingData()
       unless @navigationButtonsDisabled
         @ui.navigationButtons.hide()
+        @ui.missingDataMessage.show()
         @navigationButtonsDisabled = true
+      @$el.find('span.missingProperties').text @missingRequiredProperties.join(', ')
     else
       if @navigationButtonsDisabled
         @ui.navigationButtons.fadeIn()
+        @ui.missingDataMessage.hide()
         @navigationButtonsDisabled = false
+
+  missingData: ->
+    labelsCount = _.values(@model.get('labels')).length
+    if @requiresLabel and labelsCount is 0 then return true
+    @setMissingRequiredProperties()
+    return @missingRequiredProperties.length > 0
+
+  setMissingRequiredProperties: ->
+    @missingRequiredProperties = []
+
+    unless _.values(@model.get('labels')).length > 0
+      @missingRequiredProperties.push _.i18n('title')
+
+    for property in @requiredProperties
+      unless @model.get("claims.#{property}")?.length > 0
+        labelKey = propertiesPerType[@model.type][property].customLabel or property
+        @missingRequiredProperties.push _.i18n(labelKey)
+
+    return
 
   moveToWikidataData: ->
     uri = @model.get 'uri'
@@ -190,5 +226,6 @@ possessives =
   serie: "series'"
   human: "author's"
   publisher: "publisher's"
+  collection: "collection's"
 
 inventoryTypes = [ 'work', 'edition' ]

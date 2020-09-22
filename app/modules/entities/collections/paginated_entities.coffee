@@ -2,19 +2,26 @@ Entities = require './entities'
 
 module.exports = Entities.extend
   initialize: (models, options = {})->
+    { uris } = options
+    unless uris? then throw new Error 'expected uris'
+    # Clone the array as it will be mutated
+    @allUris = uris.slice(0)
     # At the begining, all URIs are unfetched URIs
-    @remainingUris = @allUris = options.uris
-    unless @remainingUris? then throw new Error 'expected uris'
-    @totalLength = options.uris.length
+    @remainingUris = @allUris
+    @totalLength = uris.length
     @fetchedUris = []
     { @refresh, @defaultType, @parentContext } = options
     @typesAllowlist ?= options.typesAllowlist
 
-  fetchMore: (amount)->
-    urisToFetch = _.difference @remainingUris[0...amount], @fetchedUris
+  resetFromUris: (uris)->
+    @remainingUris = uris
+    @reset()
+    @fetchMore()
+
+  fetchMore: (amount = 10)->
+    urisToFetch = @remainingUris.splice(0, amount)
     fetchedUrisBefore = @fetchedUris
-    @fetchedUris = @fetchedUris.concat urisToFetch
-    @remainingUris = @remainingUris[amount..-1]
+    @fetchedUris = @fetchedUris.concat(urisToFetch)
 
     rollback = (err)=>
       @remainingUris = urisToFetch.concat @remainingUris

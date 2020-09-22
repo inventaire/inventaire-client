@@ -15,7 +15,7 @@ module.exports =
   getEntityUri: getEntityUri
   prepareSearchResult: (model)->
     [ prefix, id ] = model.get('uri').split(':')
-    data = model.pick [ 'uri', 'labels', 'aliases', 'descriptions' ]
+    data = model.pick [ 'uri', 'label', 'labels', 'aliases', 'descriptions' ]
     data.id = id
     searchResult = new SearchResult data
     searchResult.fieldMatch = customFieldMatch
