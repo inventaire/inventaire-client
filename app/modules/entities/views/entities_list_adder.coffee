@@ -36,7 +36,7 @@ module.exports = Marionette.CompositeView.extend
     cantTypeSearch: @cantTypeSearch
 
   onShow: ->
-    app.execute 'modal:open'
+    app.execute 'modal:open', 'medium'
     # Doesn't work if set in events for some reason
     @ui.candidates.on 'scroll', @onScroll.bind(@)
 

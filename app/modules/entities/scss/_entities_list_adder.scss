@@ -34,19 +34,18 @@
 }
 
 .entitiesListElementCandidates{
-  max-height: 50vh;
+  height: 50vh;
   overflow-y: auto;
 }
 
 .entities-list-element-candidate{
+  @include display-flex(row, center, center);
   background-color: #f3f3f3;
   padding: 0.5em;
   @include radius;
-  @include display-flex(row, center, center);
-  flex: 1 1 0;
   margin: 0.5em 0;
   .showEntity{
-    @include display-flex(row, center, center);
+    flex: 1 1 0;
     margin: 0.5em;
     color: $dark-grey;
   }
@@ -61,7 +60,6 @@
   }
   .label, .description{
     margin-right: 0.5em;
-    white-space: nowrap;
     flex: 0 0 auto;
   }
   .label{
@@ -75,7 +73,7 @@
     overflow: hidden;
   }
   .status{
-    @include display-flex(column);
+    width: 10em;
   }
   .add, .added{
     white-space: nowrap;
@@ -95,20 +93,12 @@
   max-width: 20em;
 }
 
-
 /*Very Small screens*/
-@media screen and (max-width: $very-small-screen) {
+@media screen and (max-width: $smaller-screen) {
+  #entitiesListAdder{
+    padding: 0 0.5em;
+  }
   .entities-list-element-candidate{
-    @include display-flex(column, center, center);
-  }
-  .showEntity{
-    @include display-flex(column, center, center);
-  }
-}
-
-/*Large screens*/
-@media screen and (min-width: $very-small-screen) {
-  .status{
-    margin-left: auto;
+    flex-direction: column;
   }
 }
