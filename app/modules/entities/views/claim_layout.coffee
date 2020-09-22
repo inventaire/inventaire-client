@@ -25,6 +25,7 @@ module.exports = Marionette.LayoutView.extend
     .catch @displayError
 
     entities_.getReverseClaims @property, @value, @refresh, true
+    .tap => @waitForModel
     .then @ifViewIsIntact('showEntities')
     .catch @displayError
 
