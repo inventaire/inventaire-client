@@ -55,8 +55,6 @@ addProp 'wdt:P1104', 'positive-integer', null, false, null
 addProp 'wdt:P2635', 'positive-integer', null, false, null
 
 ## edition and collection
-# editor
-addProp 'wdt:P98', 'entity', 'humans', true, true
 # publisher
 addProp 'wdt:P123', 'entity', 'publishers', true, true
 # title
