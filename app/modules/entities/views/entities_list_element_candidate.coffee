@@ -10,6 +10,7 @@ module.exports = Marionette.ItemView.extend
     @parentUri = parentModel.get('uri')
     currentPropertyClaims = @model.get("claims.#{@childrenClaimProperty}")
     @alreadyAdded = @isAlreadyAdded()
+    @invClaimValueOnWdEntity = parentModel.get('isInvEntity') and @model.get('isWikidataEntity')
 
   behaviors:
     AlertBox: {}
@@ -21,6 +22,7 @@ module.exports = Marionette.ItemView.extend
     attrs.description ?= _.i18n type
     _.extend attrs,
       alreadyAdded: @alreadyAdded
+      invClaimValueOnWdEntity: @invClaimValueOnWdEntity
 
   events:
     'click .add': 'add'

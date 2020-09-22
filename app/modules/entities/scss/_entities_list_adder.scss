@@ -81,6 +81,11 @@
     white-space: nowrap;
     flex: 0 0 auto;
   }
+  .warning{
+    color: $grey;
+    max-width: 10em;
+    text-align: center;;
+  }
   .added{
     color: $grey;
   }
