@@ -135,6 +135,10 @@ module.exports = Filterable.extend
     uri = @get 'uri'
     prop = @childrenClaimProperty
 
+    # Known case: when called on an instance of entity_draft_model
+    unless uri?
+      return @waitForSubentities = Promise.resolve()
+
     @waitForSubentities = @fetchSubEntitiesUris()
       .then (uris)-> app.request 'get:entities:models', { uris, refresh }
       .then @beforeSubEntitiesAdd.bind(@)
