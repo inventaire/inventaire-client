@@ -20,6 +20,8 @@ specificMethods =
 
   getChildrenCandidatesUris: ->
     publishersUris = @get 'claims.wdt:P123'
+    unless publishersUris? then return Promise.resolve([])
+
     app.request 'get:entities:models', { uris: publishersUris }
     .then (models)->
       Promise.all _.invoke(models, 'initPublisherPublications')

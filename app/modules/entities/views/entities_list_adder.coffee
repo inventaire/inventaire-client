@@ -103,7 +103,7 @@ module.exports = Marionette.CompositeView.extend
       # such as an author's books, when we are looking for books *about* (wdt:P921) that author
       @searchByType label, true
 
-  resetFromUris: (uris)->
+  resetFromUris: (uris = [])->
     @$el.removeClass 'fetching'
     @collection.resetFromUris uris
 
