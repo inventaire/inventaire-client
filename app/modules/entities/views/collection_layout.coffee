@@ -31,3 +31,4 @@ module.exports = TypedEntityLayout.extend
       parentModel: @model
       type: 'edition'
       title: 'editions'
+      addButtonLabel: 'add an edition to this collection'

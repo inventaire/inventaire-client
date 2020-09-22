@@ -36,3 +36,4 @@ module.exports = TypedEntityLayout.extend
       type: 'work'
       hideHeader: true
       refresh: @refresh
+      addButtonLabel: 'add a work to this serie'

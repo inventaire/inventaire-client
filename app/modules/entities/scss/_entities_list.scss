@@ -4,7 +4,8 @@
   div.works-list-controls{
     @include display-flex(row, center, center, wrap);
     text-align: center;
-    a{
+    button{
+      font-weight: normal;
       height: 3em;
       max-width: 15em;
       padding: 1em;
@@ -17,7 +18,7 @@
         @include display-flex(row, center, center);
       }
     }
-    a.displayMore{
+    .displayMore{
       .counter{
         background-color: $grey;
         color: white;

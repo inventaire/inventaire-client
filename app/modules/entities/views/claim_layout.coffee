@@ -53,3 +53,8 @@ module.exports = Marionette.LayoutView.extend
       canAddOne: true
       standalone: true
       refresh: @refresh
+      addButtonLabel: addButtonLabelPerProperty[@property]
+
+addButtonLabelPerProperty =
+  'wdt:P921':
+    work: 'add a work with this subject'

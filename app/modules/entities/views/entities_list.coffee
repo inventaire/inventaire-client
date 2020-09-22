@@ -52,7 +52,7 @@ module.exports = Marionette.CompositeView.extend
     moreCounter: '.displayMore .counter'
 
   initialize: ->
-    { @parentModel } = @options
+    { @parentModel, @addButtonLabel } = @options
     @childrenClaimProperty = @options.childrenClaimProperty or @parentModel.childrenClaimProperty
     initialLength = @options.initialLength or 5
     @batchLength = @options.batchLength or 15
@@ -64,7 +64,6 @@ module.exports = Marionette.CompositeView.extend
 
     parentType = @parentModel.type
     childrenType = @options.type
-    @addOneLabel = getAddLabel(parentType, childrenType, @childrenClaimProperty)
 
   serializeData: ->
     title: @options.title
@@ -72,11 +71,11 @@ module.exports = Marionette.CompositeView.extend
     hideHeader: @options.hideHeader
     more: @more()
     totalLength: @collection.totalLength
-    addOneLabel: @addOneLabel
+    addButtonLabel: @addButtonLabel
 
   events:
-    'click a.displayMore': 'displayMore'
-    'click a.addOne': 'addOne'
+    'click .displayMore': 'displayMore'
+    'click .addOne': 'addOne'
 
   displayMore: ->
     @startMoreLoading()
@@ -104,24 +103,3 @@ module.exports = Marionette.CompositeView.extend
     }
     # Prevent nested entities list to trigger that same event on the parent list
     e.stopPropagation()
-
-getAddLabel = (parentType, childrenType, property)->
-  addOneLabels[parentType]?[childrenType] or addOneLabels[property]?[childrenType]
-
-addOneLabels =
-  # parent model type
-  human:
-    # list elements type
-    work: 'add a work from this author'
-    serie: 'add a serie from this author'
-  serie:
-    work: 'add a work to this serie'
-  publisher:
-    edition: 'add an edition from this publisher'
-    collection: 'add a collection from this publisher'
-  collection:
-    edition: 'add an edition to this collection'
-
-  # parent-children relation property
-  'wdt:P921':
-    work: 'add a work with this subject'

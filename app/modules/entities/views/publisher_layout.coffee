@@ -35,6 +35,7 @@ module.exports = TypedEntityLayout.extend
       type: 'collection'
       showActions: true
       compactMode: true
+      addButtonLabel: 'add a collection from this publisher'
 
   showIsolatedEditions: ->
     uris = @model.isolatedEditionsUris
@@ -46,3 +47,4 @@ module.exports = TypedEntityLayout.extend
       type: 'edition'
       showActions: true
       compactMode: true
+      addButtonLabel: 'add an edition from this publisher'

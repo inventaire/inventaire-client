@@ -86,5 +86,10 @@ module.exports = TypedEntityLayout.extend
       initialLength: initialLength
       showActions: @options.showActions
       wrapWorks: @options.wrapWorks
+      addButtonLabel: addButtonLabelPerType[type]
+
+addButtonLabelPerType =
+  works: 'add a work from this author'
+  series: 'add a serie from this author'
 
 dropThePlural = (type)-> type.replace /s$/, ''
