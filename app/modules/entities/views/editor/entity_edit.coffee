@@ -173,6 +173,9 @@ module.exports = Marionette.LayoutView.extend
   setMissingRequiredProperties: ->
     @missingRequiredProperties = []
 
+    unless _.values(@model.get('labels')).length > 0
+      @missingRequiredProperties.push _.i18n('title')
+
     for property in @requiredProperties
       unless @model.get("claims.#{property}")?.length > 0
         labelKey = propertiesPerType[@model.type][property].customLabel or property
