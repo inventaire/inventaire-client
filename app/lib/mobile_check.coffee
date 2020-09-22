@@ -33,7 +33,7 @@ test = (agent)->
   to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|
   vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|
   w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-
-  ///i.test(agent.substr(0, 4))
+  ///i.test(agent.substring(0, 4))
 
 mobileChecker = ->
   agent = navigator.userAgent or navigator.vendor or window.opera

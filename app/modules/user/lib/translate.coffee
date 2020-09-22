@@ -7,6 +7,7 @@ module.exports = (lang, polyglot)->
     # This function might be called before the tempates data arrived
     # returning '' early prevents to display undefined and make polyglot worry
     unless key? then return ''
+    _.type key, 'string'
     # easying the transition to a property system with prefixes
     # TODO: format i18n wikidata source files to include prefixes
     # and get rid of this hack

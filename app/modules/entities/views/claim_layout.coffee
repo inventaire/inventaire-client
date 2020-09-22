@@ -56,5 +56,4 @@ module.exports = Marionette.LayoutView.extend
       addButtonLabel: addButtonLabelPerProperty[@property]
 
 addButtonLabelPerProperty =
-  'wdt:P921':
-    work: 'add a work with this subject'
+  'wdt:P921': 'add a work with this subject'
