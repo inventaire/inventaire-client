@@ -18,7 +18,7 @@ propertiesShortlists =
   serie: [ 'wdt:P50' ]
   edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P1680', 'wdt:P123', 'invp:P2', 'wdt:P407', 'wdt:P577' ]
   publisher: [ 'wdt:P856', 'wdt:P112', 'wdt:P571', 'wdt:P576' ]
-  collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P98', 'wdt:P856' ]
+  collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ]
 
 module.exports =
   create: (options)->

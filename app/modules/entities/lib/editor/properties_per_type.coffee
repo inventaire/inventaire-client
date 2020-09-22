@@ -41,7 +41,6 @@ module.exports =
     'wdt:P577': {} # publication date
     'wdt:P123': {} # publisher
     'wdt:P195': {} # collection
-    'wdt:P98': { customLabel: 'editor'}
     'wdt:P655': {} # translator
     'wdt:P2679': {} # author of foreword
     'wdt:P2680': {} # author of afterword
