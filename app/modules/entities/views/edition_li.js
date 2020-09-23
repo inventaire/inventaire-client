@@ -1,35 +1,42 @@
-entityItems = require '../lib/entity_items'
-EntityActions = require './entity_actions'
+import entityItems from '../lib/entity_items';
+import EntityActions from './entity_actions';
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/edition_li'
-  tagName: 'li'
-  className: 'edition-commons editionLi'
-  regions:
-    # Prefix regions selectors with 'edition' to avoid collisions with
-    # the work own regions
-    personalItemsRegion: '.editionPersonalItems'
-    networkItemsRegion: '.editionNetworkItems'
-    publicItemsRegion: '.editionPublicItems'
-    nearbyPublicItemsRegion: '.editionNearbyPublicItems'
-    otherPublicItemsRegion: '.editionOtherPublicItems'
+export default Marionette.LayoutView.extend({
+  template: require('./templates/edition_li'),
+  tagName: 'li',
+  className: 'edition-commons editionLi',
+  regions: {
+    // Prefix regions selectors with 'edition' to avoid collisions with
+    // the work own regions
+    personalItemsRegion: '.editionPersonalItems',
+    networkItemsRegion: '.editionNetworkItems',
+    publicItemsRegion: '.editionPublicItems',
+    nearbyPublicItemsRegion: '.editionNearbyPublicItems',
+    otherPublicItemsRegion: '.editionOtherPublicItems',
     entityActions: '.editionEntityActions'
+  },
 
-  initialize: ->
-    { @itemToUpdate, @compactMode, @onWorkLayout } = @options
-    unless @itemToUpdate? or @compactMode then entityItems.initialize.call @
+  initialize() {
+    ({ itemToUpdate: this.itemToUpdate, compactMode: this.compactMode, onWorkLayout: this.onWorkLayout } = this.options);
+    if ((this.itemToUpdate == null) && !this.compactMode) { return entityItems.initialize.call(this); }
+  },
 
-  onRender: ->
-    unless @itemToUpdate? or @compactMode then @lazyShowItems()
-    @showEntityActions()
+  onRender() {
+    if ((this.itemToUpdate == null) && !this.compactMode) { this.lazyShowItems(); }
+    return this.showEntityActions();
+  },
 
-  serializeData: ->
-    _.extend @model.toJSON(),
-      itemUpdateContext: @itemToUpdate?
-      onWorkLayout: @onWorkLayout
-      compactMode: @compactMode
-      itemsListsDisabled: @itemToUpdate or @compactMode
+  serializeData() {
+    return _.extend(this.model.toJSON(), {
+      itemUpdateContext: (this.itemToUpdate != null),
+      onWorkLayout: this.onWorkLayout,
+      compactMode: this.compactMode,
+      itemsListsDisabled: this.itemToUpdate || this.compactMode
+    }
+    );
+  },
 
-  showEntityActions: ->
-    if @compactMode then return
-    @entityActions.show new EntityActions { @model, @itemToUpdate }
+  showEntityActions() {
+    if (this.compactMode) { return; }
+    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }));
+  }});

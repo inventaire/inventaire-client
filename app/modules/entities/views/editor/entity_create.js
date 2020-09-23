@@ -1,37 +1,46 @@
-entityDraftModel = require '../../lib/entity_draft_model'
+import entityDraftModel from '../../lib/entity_draft_model';
 
-module.exports = Marionette.LayoutView.extend
-  id: 'entityCreate'
-  template: require './templates/entity_create'
+export default Marionette.LayoutView.extend({
+  id: 'entityCreate',
+  template: require('./templates/entity_create'),
 
-  regions:
+  regions: {
     typedEntityEdit: '#typedEntityEdit'
+  },
 
-  ui:
+  ui: {
     typePicker: '.typePicker'
+  },
 
-  events:
+  events: {
     'click .typePicker a': 'updateTypePickerFromClick'
+  },
 
-  onShow: ->
-    type = @options.type or 'work'
-    @selectType type
+  onShow() {
+    const type = this.options.type || 'work';
+    return this.selectType(type);
+  },
 
-  selectType: (type)->
-    @showTypedEntityEdit type
-    @updateTypePicker type
+  selectType(type){
+    this.showTypedEntityEdit(type);
+    return this.updateTypePicker(type);
+  },
 
-  showTypedEntityEdit: (type)->
-    { label, claims } = @options
-    params = { type, label, claims }
-    params.model = entityDraftModel.create params
-    params.region = @typedEntityEdit
-    app.execute 'show:entity:edit:from:params',  params
+  showTypedEntityEdit(type){
+    const { label, claims } = this.options;
+    const params = { type, label, claims };
+    params.model = entityDraftModel.create(params);
+    params.region = this.typedEntityEdit;
+    return app.execute('show:entity:edit:from:params',  params);
+  },
 
-  updateTypePicker: (type)->
-    @ui.typePicker.find('.selected').removeClass 'selected'
-    @ui.typePicker.find("##{type}Picker").addClass 'selected'
+  updateTypePicker(type){
+    this.ui.typePicker.find('.selected').removeClass('selected');
+    return this.ui.typePicker.find(`#${type}Picker`).addClass('selected');
+  },
 
-  updateTypePickerFromClick: (e)->
-    type = e.currentTarget.id.replace 'Picker', ''
-    @selectType type
+  updateTypePickerFromClick(e){
+    const type = e.currentTarget.id.replace('Picker', '');
+    return this.selectType(type);
+  }
+});

@@ -1,30 +1,37 @@
-InfiniteScrollItemsList = require './infinite_scroll_items_list'
-masonryPlugin = require 'modules/general/plugins/masonry'
+import InfiniteScrollItemsList from './infinite_scroll_items_list';
+import masonryPlugin from 'modules/general/plugins/masonry';
 
-module.exports = InfiniteScrollItemsList.extend
-  className: 'items-cascade-wrapper'
-  template: require './templates/items_cascade'
-  childViewContainer: '.itemsCascade'
-  childView: require './item_card'
-  emptyView: require './no_item'
+export default InfiniteScrollItemsList.extend({
+  className: 'items-cascade-wrapper',
+  template: require('./templates/items_cascade'),
+  childViewContainer: '.itemsCascade',
+  childView: require('./item_card'),
+  emptyView: require('./no_item'),
 
-  ui:
+  ui: {
     itemsCascade: '.itemsCascade'
+  },
 
-  childViewOptions: ->
-    showDistance: @options.showDistance
+  childViewOptions() {
+    return {showDistance: this.options.showDistance};
+  },
 
-  initialize: ->
-    @initInfiniteScroll()
+  initialize() {
+    this.initInfiniteScroll();
 
-    masonryPlugin.call @, '.itemsCascade', '.itemCard'
+    return masonryPlugin.call(this, '.itemsCascade', '.itemCard');
+  },
 
-  serializeData: ->
-    header: @options.header
+  serializeData() {
+    return {header: this.options.header};
+  },
 
-  collectionEvents:
+  collectionEvents: {
     'filtered:add': 'lazyMasonryRefresh'
+  },
 
-  childEvents:
-    'render': 'lazyMasonryRefresh'
+  childEvents: {
+    'render': 'lazyMasonryRefresh',
     'resize': 'lazyMasonryRefresh'
+  }
+});

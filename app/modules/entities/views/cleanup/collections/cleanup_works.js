@@ -1,18 +1,21 @@
-module.exports = Backbone.Collection.extend
-  comparator: 'ordinal'
-  initialize: -> @triggerUpdateEvents()
+export default Backbone.Collection.extend({
+  comparator: 'ordinal',
+  initialize() { return this.triggerUpdateEvents(); },
 
-  serializeNonPlaceholderWorks: ->
-    @filter isntPlaceholder
-    .map (model)->
-      [ oridinal, label, uri ] = model.gets 'ordinal', 'label', 'uri'
-      richLabel = if oridinal? then "#{oridinal}. - #{label}" else "#{label} (#{uri})"
-      if richLabel.length > 50 then richLabel = richLabel.substring(0, 50) + '...'
-      return { richLabel, uri }
+  serializeNonPlaceholderWorks() {
+    return this.filter(isntPlaceholder)
+    .map(function(model){
+      const [ oridinal, label, uri ] = Array.from(model.gets('ordinal', 'label', 'uri'));
+      let richLabel = (oridinal != null) ? `${oridinal}. - ${label}` : `${label} (${uri})`;
+      if (richLabel.length > 50) { richLabel = richLabel.substring(0, 50) + '...'; }
+      return { richLabel, uri };});
+  },
 
-  getNonPlaceholdersOrdinals: ->
-    @filter isntPlaceholder
-    .map (model)-> model.get('ordinal')
+  getNonPlaceholdersOrdinals() {
+    return this.filter(isntPlaceholder)
+    .map(model => model.get('ordinal'));
+  }
+});
 
-isPlaceholder = (model)-> model.get('isPlaceholder') is true
-isntPlaceholder = _.negate isPlaceholder
+const isPlaceholder = model => model.get('isPlaceholder') === true;
+var isntPlaceholder = _.negate(isPlaceholder);

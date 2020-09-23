@@ -1,38 +1,39 @@
-searchWorks = require('modules/entities/lib/search/search_type')('works')
-addPertinanceScore = require './add_pertinance_score'
-descendingPertinanceScore = (work)-> - work.get('pertinanceScore')
-Suggestions = Backbone.Collection.extend { comparator: descendingPertinanceScore }
+const searchWorks = require('modules/entities/lib/search/search_type')('works');
+import addPertinanceScore from './add_pertinance_score';
+const descendingPertinanceScore = work => - work.get('pertinanceScore');
+const Suggestions = Backbone.Collection.extend({ comparator: descendingPertinanceScore });
 
-module.exports = (serie)->
-  authorsUris = serie.getAllAuthorsUris()
-  Promise.all [
-    getAuthorsWorks authorsUris
-    searchMatchWorks serie
-  ]
-  .then _.flatten
-  .then _.uniq
-  .then (uris)-> app.request 'get:entities:models', { uris, refresh: true }
-  # Confirm the type, as the search might have failed to unindex a serie that use
-  # to be considered a work
-  .filter isWorkWithoutSerie
-  .map addPertinanceScore(serie)
-  .filter (work)-> work.get('authorMatch') or work.get('labelMatch')
-  .then (works)-> new Suggestions works
+export default function(serie){
+  const authorsUris = serie.getAllAuthorsUris();
+  return Promise.all([
+    getAuthorsWorks(authorsUris),
+    searchMatchWorks(serie)
+  ])
+  .then(_.flatten)
+  .then(_.uniq)
+  .then(uris => app.request('get:entities:models', { uris, refresh: true }))
+  // Confirm the type, as the search might have failed to unindex a serie that use
+  // to be considered a work
+  .filter(isWorkWithoutSerie)
+  .map(addPertinanceScore(serie))
+  .filter(work => work.get('authorMatch') || work.get('labelMatch'))
+  .then(works => new Suggestions(works));
+};
 
-getAuthorsWorks = (authorsUris)->
-  Promise.all authorsUris.map(fetchAuthorWorks)
-  .map (results)-> _.pluck results.works.filter(hasNoSerie), 'uri'
-  .then _.flatten
+var getAuthorsWorks = authorsUris => Promise.all(authorsUris.map(fetchAuthorWorks))
+.map(results => _.pluck(results.works.filter(hasNoSerie), 'uri'))
+.then(_.flatten);
 
-fetchAuthorWorks = (authorUri)-> _.preq.get app.API.entities.authorWorks(authorUri)
+var fetchAuthorWorks = authorUri => _.preq.get(app.API.entities.authorWorks(authorUri));
 
-hasNoSerie = (work)-> not work.serie?
+var hasNoSerie = work => work.serie == null;
 
-isWorkWithoutSerie = (work)-> work.get('type') is 'work' and not work.get('claims.wdt:P179')?
+var isWorkWithoutSerie = work => (work.get('type') === 'work') && (work.get('claims.wdt:P179') == null);
 
-searchMatchWorks = (serie)->
-  serieLabel = serie.get 'label'
-  { allUris: partsUris } = serie.parts
-  searchWorks serieLabel, 20
-  .filter (result)-> result._score > 0.5 and result.uri not in partsUris
-  .map _.property('uri')
+var searchMatchWorks = function(serie){
+  const serieLabel = serie.get('label');
+  const { allUris: partsUris } = serie.parts;
+  return searchWorks(serieLabel, 20)
+  .filter(result => (result._score > 0.5) && !partsUris.includes(result.uri))
+  .map(_.property('uri'));
+};

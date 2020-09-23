@@ -1,23 +1,30 @@
-AuthorLayout = require 'modules/entities/views/author_layout'
+import AuthorLayout from 'modules/entities/views/author_layout';
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/current_task'
-  serializeData: ->
-    _.extend @model.serializeData(),
-      showSourcesLinks: true
+export default Marionette.LayoutView.extend({
+  template: require('./templates/current_task'),
+  serializeData() {
+    return _.extend(this.model.serializeData(),
+      {showSourcesLinks: true});
+  },
 
-  regions:
-    suspect: '#suspect'
-    suggestion: '#suggestion'
+  regions: {
+    suspect: '#suspect',
+    suggestion: '#suggestion',
     otherSuggestions: '#otherSuggestions'
+  },
 
-  onShow: ->
-    @showAuthor 'suspect'
-    @showAuthor 'suggestion'
+  onShow() {
+    this.showAuthor('suspect');
+    return this.showAuthor('suggestion');
+  },
 
-  showAuthor: (name)->
-    @[name].show new AuthorLayout
-      model: @model[name]
-      initialWorksListLength: 20
-      wrapWorks: true
+  showAuthor(name){
+    return this[name].show(new AuthorLayout({
+      model: this.model[name],
+      initialWorksListLength: 20,
+      wrapWorks: true,
       noAuthorWrap: true
+    })
+    );
+  }
+});

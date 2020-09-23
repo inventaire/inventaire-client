@@ -1,13 +1,15 @@
-encodingsErrors =
-  # characters showing that this encoding should be used instead
-  'Ã©': 'utf-8'
-  'Ã¨': 'utf-8'
-  'Ã´': 'utf-8'
+const encodingsErrors = {
+  // characters showing that this encoding should be used instead
+  'Ã©': 'utf-8',
+  'Ã¨': 'utf-8',
+  'Ã´': 'utf-8',
   '�': 'ISO-8859-1'
+};
 
-encodingsErrorsList = Object.keys encodingsErrors
+const encodingsErrorsList = Object.keys(encodingsErrors);
 
-module.exports = (text)->
-  for err in encodingsErrorsList
-    if text.match(err) then return encodingsErrors[err]
-  return
+export default function(text){
+  for (let err of encodingsErrorsList) {
+    if (text.match(err)) { return encodingsErrors[err]; }
+  }
+};

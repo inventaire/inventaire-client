@@ -1,45 +1,55 @@
-InventoryLayout = require '../inventory/views/inventory_layout'
-ShelfModel = require './models/shelf'
-{ getById } = require './lib/shelves'
-error_ = require 'lib/error'
+import InventoryLayout from '../inventory/views/inventory_layout';
+import ShelfModel from './models/shelf';
+import { getById } from './lib/shelves';
+import error_ from 'lib/error';
 
-module.exports =
-  define: (module, app, Backbone, Marionette, $, _)->
-    Router = Marionette.AppRouter.extend
-      appRoutes:
-        'shelves(/)(:id)(/)': 'showShelfFromId'
-        # Redirection
+export default {
+  define(module, app, Backbone, Marionette, $, _){
+    const Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        'shelves(/)(:id)(/)': 'showShelfFromId',
+        // Redirection
         'shelf(/)(:id)(/)': 'showShelfFromId'
+      }
+    });
 
-    app.addInitializer -> new Router { controller: API }
+    return app.addInitializer(() => new Router({ controller: API }));
+  },
 
-  initialize: ->
-    app.commands.setHandlers
-      'show:shelf': showShelf
-
-API =
-  showShelfFromId: (shelfId)->
-    unless shelfId? then return app.execute 'show:inventory:main:user'
-
-    getById(shelfId)
-    .then (shelf)->
-      if shelf?
-        model = new ShelfModel shelf
-        showShelfFromModel model
-      else
-        throw error_.new 'not found', 404, { shelfId }
-    .catch app.Execute('show:error')
-
-showShelf = (shelf)->
-  if _.isShelfId shelf then API.showShelfFromId shelf
-  else showShelfFromModel shelf
-
-showShelfFromModel = (shelf)->
-  owner = shelf.get('owner')
-  # Passing shelf to display items and passing owner for user profile info
-  app.layout.main.show new InventoryLayout {
-    shelf,
-    user: owner
-    standalone: true
+  initialize() {
+    return app.commands.setHandlers({
+      'show:shelf': showShelf});
   }
-  app.navigateFromModel shelf
+};
+
+var API = {
+  showShelfFromId(shelfId){
+    if (shelfId == null) { return app.execute('show:inventory:main:user'); }
+
+    return getById(shelfId)
+    .then(function(shelf){
+      if (shelf != null) {
+        const model = new ShelfModel(shelf);
+        return showShelfFromModel(model);
+      } else {
+        throw error_.new('not found', 404, { shelfId });
+      }})
+    .catch(app.Execute('show:error'));
+  }
+};
+
+var showShelf = function(shelf){
+  if (_.isShelfId(shelf)) { return API.showShelfFromId(shelf);
+  } else { return showShelfFromModel(shelf); }
+};
+
+var showShelfFromModel = function(shelf){
+  const owner = shelf.get('owner');
+  // Passing shelf to display items and passing owner for user profile info
+  app.layout.main.show(new InventoryLayout({
+    shelf,
+    user: owner,
+    standalone: true
+  }));
+  return app.navigateFromModel(shelf);
+};

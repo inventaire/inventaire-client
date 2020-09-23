@@ -1,3 +1,4 @@
-module.exports =
-  loggedIn: (options)-> if app.user.loggedIn then options.fn @
-  notLoggedIn: (options)-> unless app.user.loggedIn then options.fn @
+export default {
+  loggedIn(options){ if (app.user.loggedIn) { return options.fn(this); } },
+  notLoggedIn(options){ if (!app.user.loggedIn) { return options.fn(this); } }
+};

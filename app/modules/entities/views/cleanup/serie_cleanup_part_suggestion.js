@@ -1,50 +1,60 @@
-WorkPicker = require './work_picker'
-mergeEntities = require 'modules/entities/views/editor/lib/merge_entities'
+import WorkPicker from './work_picker';
+import mergeEntities from 'modules/entities/views/editor/lib/merge_entities';
 
-PartSuggestion = WorkPicker.extend
-  tagName: 'li'
-  className: ->
-    className = 'serie-cleanup-part-suggestion'
-    if @model.get('labelMatch') then className += ' label-match'
-    if @model.get('authorMatch') then className += ' author-match'
-    return className
+const PartSuggestion = WorkPicker.extend({
+  tagName: 'li',
+  className() {
+    let className = 'serie-cleanup-part-suggestion';
+    if (this.model.get('labelMatch')) { className += ' label-match'; }
+    if (this.model.get('authorMatch')) { className += ' author-match'; }
+    return className;
+  },
 
-  template: require './templates/serie_cleanup_part_suggestion'
-  initialize: ->
-    @isWikidataEntity = @workPickerDisabled = @model.get 'isWikidataEntity'
-    WorkPicker::initialize.call @
-    @listenTo @model, 'change:image', @render.bind(@)
+  template: require('./templates/serie_cleanup_part_suggestion'),
+  initialize() {
+    this.isWikidataEntity = (this.workPickerDisabled = this.model.get('isWikidataEntity'));
+    WorkPicker.prototype.initialize.call(this);
+    return this.listenTo(this.model, 'change:image', this.render.bind(this));
+  },
 
-  onRender: ->
-    @updateClassName()
-    WorkPicker::onRender.call @
+  onRender() {
+    this.updateClassName();
+    return WorkPicker.prototype.onRender.call(this);
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    if @isWikidataEntity
-      attrs.workPickerDisabled = true
-      unless @options.serie.get('isWikidataEntity') then attrs.serieNeedsToBeMovedToWikidata = true
-    else
-      if @_showWorkPicker then attrs.worksList = @getWorksList()
-      attrs.workPicker =
-        buttonIcon: 'compress'
-        buttonLabel: 'merge'
+  serializeData() {
+    const attrs = this.model.toJSON();
+    if (this.isWikidataEntity) {
+      attrs.workPickerDisabled = true;
+      if (!this.options.serie.get('isWikidataEntity')) { attrs.serieNeedsToBeMovedToWikidata = true; }
+    } else {
+      if (this._showWorkPicker) { attrs.worksList = this.getWorksList(); }
+      attrs.workPicker = {
+        buttonIcon: 'compress',
+        buttonLabel: 'merge',
         validateLabel: 'merge'
-    return attrs
+      };
+    }
+    return attrs;
+  },
 
-  afterMerge: (work)->
-    @model.collection.remove @model
-    work.editions.add @model.editions.models
+  afterMerge(work){
+    this.model.collection.remove(this.model);
+    return work.editions.add(this.model.editions.models);
+  },
 
-  events: _.extend {}, WorkPicker::events,
-    'click a.add': 'add'
+  events: _.extend({}, WorkPicker.prototype.events,
+    {'click a.add': 'add'}),
 
-  add: ->
-    @model.setPropertyValue 'wdt:P179', null, @options.serie.get('uri')
-    @options.addToSerie @model
-    @options.collection.remove @model
+  add() {
+    this.model.setPropertyValue('wdt:P179', null, this.options.serie.get('uri'));
+    this.options.addToSerie(this.model);
+    return this.options.collection.remove(this.model);
+  }
+});
 
-module.exports = Marionette.CollectionView.extend
-  tagName: 'ul'
-  childView: PartSuggestion
-  childViewOptions: -> @options
+export default Marionette.CollectionView.extend({
+  tagName: 'ul',
+  childView: PartSuggestion,
+  childViewOptions() { return this.options; }
+});

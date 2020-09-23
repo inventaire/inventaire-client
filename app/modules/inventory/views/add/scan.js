@@ -1,16 +1,22 @@
-embedded_ = require 'modules/inventory/lib/scanner/embedded'
+import embedded_ from 'modules/inventory/lib/scanner/embedded';
 
-module.exports = Marionette.ItemView.extend
-  className: 'scan'
-  template: require './templates/scan'
-  initialize: ->
-    if window.hasVideoInput then embedded_.prepare()
+export default Marionette.ItemView.extend({
+  className: 'scan',
+  template: require('./templates/scan'),
+  initialize() {
+    if (window.hasVideoInput) { return embedded_.prepare(); }
+  },
 
-  serializeData: ->
-    hasVideoInput: window.hasVideoInput
-    doesntSupportEnumerateDevices: window.doesntSupportEnumerateDevices
+  serializeData() {
+    return {
+      hasVideoInput: window.hasVideoInput,
+      doesntSupportEnumerateDevices: window.doesntSupportEnumerateDevices
+    };
+  },
 
-  events:
+  events: {
     'click #embeddedScanner': 'startEmbeddedScanner'
+  },
 
-  startEmbeddedScanner: -> app.execute 'show:scanner:embedded'
+  startEmbeddedScanner() { return app.execute('show:scanner:embedded'); }
+});

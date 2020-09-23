@@ -1,76 +1,87 @@
-Entities = require '../collections/entities'
-MergeSuggestions = require '../views/editor/merge_suggestions'
-Task = require 'modules/tasks/models/task'
-loader = require 'modules/general/views/templates/loader'
-entitiesTypesWithTasks = [
+import Entities from '../collections/entities';
+import MergeSuggestions from '../views/editor/merge_suggestions';
+import Task from 'modules/tasks/models/task';
+import loader from 'modules/general/views/templates/loader';
+const entitiesTypesWithTasks = [
   'human'
-]
+];
 
-module.exports = (params)->
-  unless app.user.hasDataadminAccess then return
-  { region, model, standalone } = params
-  $(region.el).html loader()
+export default function(params){
+  if (!app.user.hasDataadminAccess) { return; }
+  const { region, model, standalone } = params;
+  $(region.el).html(loader());
 
-  getMergeSuggestions model
-  .then (entities)->
-    collection = new Entities entities
-    region.show new MergeSuggestions { collection, model, standalone }
+  return getMergeSuggestions(model)
+  .then(function(entities){
+    const collection = new Entities(entities);
+    return region.show(new MergeSuggestions({ collection, model, standalone }));});
+};
 
-getMergeSuggestions = (model)->
-  getTasksByUri model
-  .then (tasksEntitiesData)->
-    tasksEntitiesUris = _.pluck tasksEntitiesData, 'uri'
-    getHomonyms model, tasksEntitiesUris
-    # returning a mix of raw objects and models
-    .then (homonymEntities)-> tasksEntitiesData.concat(homonymEntities)
+var getMergeSuggestions = model => getTasksByUri(model)
+.then(function(tasksEntitiesData){
+  const tasksEntitiesUris = _.pluck(tasksEntitiesData, 'uri');
+  return getHomonyms(model, tasksEntitiesUris)
+  // returning a mix of raw objects and models
+  .then(homonymEntities => tasksEntitiesData.concat(homonymEntities));
+});
 
-getTasksByUri = (model)->
-  unless model.get('type') in entitiesTypesWithTasks
-    return Promise.resolve []
+var getTasksByUri = function(model){
+  let needle;
+  if ((needle = model.get('type'), !entitiesTypesWithTasks.includes(needle))) {
+    return Promise.resolve([]);
+  }
 
-  uri = model.get 'uri'
-  [ action, relation ] = getMergeSuggestionsParams uri
-  _.preq.get app.API.tasks[action](uri)
-  .then (res)->
-    tasks = res.tasks[uri]
-    suggestionsUris = _.pluck tasks, relation
-    app.request 'get:entities:models', { uris: suggestionsUris }
-    .then addTasksToEntities(uri, tasks, relation)
+  const uri = model.get('uri');
+  const [ action, relation ] = Array.from(getMergeSuggestionsParams(uri));
+  return _.preq.get(app.API.tasks[action](uri))
+  .then(function(res){
+    const tasks = res.tasks[uri];
+    const suggestionsUris = _.pluck(tasks, relation);
+    return app.request('get:entities:models', { uris: suggestionsUris })
+    .then(addTasksToEntities(uri, tasks, relation));
+  });
+};
 
-getMergeSuggestionsParams = (uri)->
-  [ prefix, id ] = uri.split ':'
-  if prefix is 'wd' then [ 'bySuggestionUris', 'suspectUri' ]
-  else [ 'bySuspectUris', 'suggestionUri' ]
+var getMergeSuggestionsParams = function(uri){
+  const [ prefix, id ] = Array.from(uri.split(':'));
+  if (prefix === 'wd') { return [ 'bySuggestionUris', 'suspectUri' ];
+  } else { return [ 'bySuspectUris', 'suggestionUri' ]; }
+};
 
-addTasksToEntities = (uri, tasks, relation)-> (entities)->
-  tasksIndex = _.indexBy tasks, relation
+var addTasksToEntities = (uri, tasks, relation) => (function(entities) {
+  const tasksIndex = _.indexBy(tasks, relation);
 
-  entities.forEach (entity)->
-    entity.tasks or= {}
-    task = tasksIndex[entity.get('uri')]
-    entity.tasks[uri] = new Task task
+  entities.forEach(function(entity){
+    if (!entity.tasks) { entity.tasks = {}; }
+    const task = tasksIndex[entity.get('uri')];
+    return entity.tasks[uri] = new Task(task);
+  });
 
-  entities.sort (a, b)-> b.tasks[uri].get('globalScore') - a.tasks[uri].get('globalScore')
+  entities.sort((a, b) => b.tasks[uri].get('globalScore') - a.tasks[uri].get('globalScore'));
 
-  return entities
+  return entities;
+});
 
-getHomonyms = (model, tasksEntitiesUris)->
-  [ uri, label ] = model.gets 'uri', 'label'
-  { pluralizedType } = model
-  _.preq.get app.API.search(pluralizedType, label, 100)
-  .get 'results'
-  .then parseSearchResults(uri, tasksEntitiesUris)
+var getHomonyms = function(model, tasksEntitiesUris){
+  const [ uri, label ] = Array.from(model.gets('uri', 'label'));
+  const { pluralizedType } = model;
+  return _.preq.get(app.API.search(pluralizedType, label, 100))
+  .get('results')
+  .then(parseSearchResults(uri, tasksEntitiesUris));
+};
 
-parseSearchResults = (uri, tasksEntitiesUris)-> (searchResults)->
-  uris = _.pluck searchResults, 'uri'
-  prefix = uri.split(':')[0]
-  if prefix is 'wd' then uris = uris.filter isntWdUri
-  # Omit the current entity URI and the entities for which a task was found
-  urisToOmit = [ uri ].concat tasksEntitiesUris
-  uris = _.without uris, urisToOmit...
-  # Search results entities miss their claims, so we need to fetch the full entities
-  return app.request 'get:entities:models', { uris }
-  # Re-filter out uris to omit as a redirection might have brought it back
-  .then (entities)-> entities.filter (entity)-> entity.get('uri') not in urisToOmit
+var parseSearchResults = (uri, tasksEntitiesUris) => (function(searchResults) {
+  let uris = _.pluck(searchResults, 'uri');
+  const prefix = uri.split(':')[0];
+  if (prefix === 'wd') { uris = uris.filter(isntWdUri); }
+  // Omit the current entity URI and the entities for which a task was found
+  const urisToOmit = [ uri ].concat(tasksEntitiesUris);
+  uris = _.without(uris, ...Array.from(urisToOmit));
+  // Search results entities miss their claims, so we need to fetch the full entities
+  return app.request('get:entities:models', { uris })
+  // Re-filter out uris to omit as a redirection might have brought it back
+  .then(entities => entities.filter(function(entity){ let needle;
+  return (needle = entity.get('uri'), !urisToOmit.includes(needle)); }));
+});
 
-isntWdUri = (uri)-> uri.split(':')[0] isnt 'wd'
+var isntWdUri = uri => uri.split(':')[0] !== 'wd';

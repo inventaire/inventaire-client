@@ -1,35 +1,46 @@
-RelativeTask = Marionette.ItemView.extend
-  tagName: 'a'
-  className: ->
-    classes = 'relative-task'
-    # if @model.get('hasEncyclopediaOccurence') then classes += ' good-candidate'
-    if @model.get('globalScore') > 10 then classes += ' good-candidate'
-    return classes
+const RelativeTask = Marionette.ItemView.extend({
+  tagName: 'a',
+  className() {
+    let classes = 'relative-task';
+    // if @model.get('hasEncyclopediaOccurence') then classes += ' good-candidate'
+    if (this.model.get('globalScore') > 10) { classes += ' good-candidate'; }
+    return classes;
+  },
 
-  attributes: ->
-    href: @model.get 'pathname'
-    'data-task-id': @model.id
+  attributes() {
+    return {
+      href: this.model.get('pathname'),
+      'data-task-id': this.model.id
+    };
+  },
 
-  template: require './templates/relative_task'
-  initialize: ->
+  template: require('./templates/relative_task'),
+  initialize() {
 
-    @model.grabSuggestion()
-    .then @lazyRender.bind(@)
+    return this.model.grabSuggestion()
+    .then(this.lazyRender.bind(this));
+  },
 
-  serializeData: -> @model.serializeData()
+  serializeData() { return this.model.serializeData(); },
 
-  events:
+  events: {
     'click': 'select'
+  },
 
-  select: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:task', @model
-      e.preventDefault()
+  select(e){
+    if (!_.isOpenedOutside(e)) {
+      app.execute('show:task', this.model);
+      return e.preventDefault();
+    }
+  }
+});
 
-module.exports = Marionette.CollectionView.extend
-  className: 'inner-relative-tasks'
-  childView: RelativeTask
-  initialize: ->
-    @currentTaskModelId = @options.currentTaskModel.id
+export default Marionette.CollectionView.extend({
+  className: 'inner-relative-tasks',
+  childView: RelativeTask,
+  initialize() {
+    return this.currentTaskModelId = this.options.currentTaskModel.id;
+  },
 
-  filter: (child)-> child.id isnt @currentTaskModelId
+  filter(child){ return child.id !== this.currentTaskModelId; }
+});

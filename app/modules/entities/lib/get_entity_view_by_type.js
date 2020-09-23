@@ -1,35 +1,36 @@
-entityViewByType =
-  human: require '../views/author_layout'
-  serie: require '../views/serie_layout'
-  work: require '../views/work_layout'
-  publisher: require '../views/publisher_layout'
-  article: require '../views/article_li'
-  collection: require '../views/collection_layout'
+const entityViewByType = {
+  human: require('../views/author_layout'),
+  serie: require('../views/serie_layout'),
+  work: require('../views/work_layout'),
+  publisher: require('../views/publisher_layout'),
+  article: require('../views/article_li'),
+  collection: require('../views/collection_layout')
+};
 
-EditionLayout = require '../views/edition_layout'
-ClaimLayout = require '../views/claim_layout'
-standalone = true
+import EditionLayout from '../views/edition_layout';
+import ClaimLayout from '../views/claim_layout';
+const standalone = true;
 
-getEntityViewByType = (model, refresh)->
-  { type } = model
-  displayMergeSuggestions = app.user.hasDataadminAccess
+const getEntityViewByType = function(model, refresh){
+  const { type } = model;
+  const displayMergeSuggestions = app.user.hasDataadminAccess;
 
-  getter = entityViewSpecialGetterByType[type]
-  if getter? then return getter model, refresh
+  const getter = entityViewSpecialGetterByType[type];
+  if (getter != null) { return getter(model, refresh); }
 
-  View = entityViewByType[type]
-  if View? then return new View { model, refresh, standalone, displayMergeSuggestions }
+  const View = entityViewByType[type];
+  if (View != null) { return new View({ model, refresh, standalone, displayMergeSuggestions }); }
 
-  { defaultClaimProperty: property } = model
-  value = model.get 'uri'
-  property or= 'wdt:P921'
-  return new ClaimLayout { property, value, refresh }
+  let { defaultClaimProperty: property } = model;
+  const value = model.get('uri');
+  if (!property) { property = 'wdt:P921'; }
+  return new ClaimLayout({ property, value, refresh });
+};
 
-getEditionView = (model, refresh)->
-  model.waitForWorks
-  .then -> new EditionLayout { model, refresh, standalone }
+const getEditionView = (model, refresh) => model.waitForWorks
+.then(() => new EditionLayout({ model, refresh, standalone }));
 
-entityViewSpecialGetterByType =
-  edition: getEditionView
+var entityViewSpecialGetterByType =
+  {edition: getEditionView};
 
-module.exports = (args...)-> Promise.try getEntityViewByType.bind(null, args...)
+export default (...args) => Promise.try(getEntityViewByType.bind(null, ...Array.from(args)));

@@ -1,50 +1,56 @@
-PaginatedWorks = require '../../collections/paginated_works'
+import PaginatedWorks from '../../collections/paginated_works';
 
-module.exports = ->
-  # Main property by which sub-entities are linked to this one
-  @childrenClaimProperty = 'wdt:P50'
+export default function() {
+  // Main property by which sub-entities are linked to this one
+  this.childrenClaimProperty = 'wdt:P50';
 
-  setEbooksData.call @
+  setEbooksData.call(this);
 
-  _.extend @, specificMethods
+  return _.extend(this, specificMethods);
+};
 
-setEbooksData = ->
-  hasInternetArchivePage = @get('claims.wdt:P724.0')?
-  hasGutenbergPage = @get('claims.wdt:P1938.0')?
-  hasWikisourcePage = @get('wikisource.url')?
-  @set 'hasEbooks', (hasInternetArchivePage or hasGutenbergPage or hasWikisourcePage)
-  @set 'gutenbergProperty', 'wdt:P1938'
+var setEbooksData = function() {
+  const hasInternetArchivePage = (this.get('claims.wdt:P724.0') != null);
+  const hasGutenbergPage = (this.get('claims.wdt:P1938.0') != null);
+  const hasWikisourcePage = (this.get('wikisource.url') != null);
+  this.set('hasEbooks', (hasInternetArchivePage || hasGutenbergPage || hasWikisourcePage));
+  return this.set('gutenbergProperty', 'wdt:P1938');
+};
 
-specificMethods =
-  fetchWorksData: (refresh)->
-    if not refresh and @waitForWorksData? then return @waitForWorksData
-    uri = @get 'uri'
-    @waitForWorksData = _.preq.get app.API.entities.authorWorks(uri, refresh)
+var specificMethods = {
+  fetchWorksData(refresh){
+    if (!refresh && (this.waitForWorksData != null)) { return this.waitForWorksData; }
+    const uri = this.get('uri');
+    return this.waitForWorksData = _.preq.get(app.API.entities.authorWorks(uri, refresh));
+  },
 
-  initAuthorWorks: (refresh)->
-    refresh = @getRefresh refresh
-    if not refresh and @waitForWorks? then return @waitForWorks
+  initAuthorWorks(refresh){
+    refresh = this.getRefresh(refresh);
+    if (!refresh && (this.waitForWorks != null)) { return this.waitForWorks; }
 
-    @waitForWorks = @fetchWorksData refresh
-      .then @initWorksCollections.bind(@)
+    return this.waitForWorks = this.fetchWorksData(refresh)
+      .then(this.initWorksCollections.bind(this));
+  },
 
-  initWorksCollections: (worksData)->
-    seriesUris = worksData.series.map getUri
-    # Filter-out works that are part of a serie and will be displayed
-    # in the serie layout
-    worksUris = getWorksUris worksData.works, seriesUris
-    articlesUris = getWorksUris worksData.articles, seriesUris
+  initWorksCollections(worksData){
+    const seriesUris = worksData.series.map(getUri);
+    // Filter-out works that are part of a serie and will be displayed
+    // in the serie layout
+    const worksUris = getWorksUris(worksData.works, seriesUris);
+    const articlesUris = getWorksUris(worksData.articles, seriesUris);
 
-    @works =
-      series: new PaginatedWorks null, { uris: seriesUris, defaultType: 'serie' }
-      works: new PaginatedWorks null, { uris: worksUris, defaultType: 'work' }
-      articles: new PaginatedWorks null, { uris: articlesUris, defaultType: 'article' }
+    return this.works = {
+      series: new PaginatedWorks(null, { uris: seriesUris, defaultType: 'serie' }),
+      works: new PaginatedWorks(null, { uris: worksUris, defaultType: 'work' }),
+      articles: new PaginatedWorks(null, { uris: articlesUris, defaultType: 'article' })
+    };
+  },
 
-  buildTitle: -> _.i18n 'books_by_author', { author: @get('label') }
+  buildTitle() { return _.i18n('books_by_author', { author: this.get('label') }); }
+};
 
-getUri = _.property 'uri'
+var getUri = _.property('uri');
 
-getWorksUris = (works, seriesUris)->
-  works
-  .filter (workData)-> workData.serie not in seriesUris
-  .map getUri
+var getWorksUris = (works, seriesUris) => works
+.filter(workData => !seriesUris.includes(workData.serie))
+.map(getUri);

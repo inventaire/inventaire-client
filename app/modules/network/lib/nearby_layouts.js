@@ -1,82 +1,92 @@
-map_ = require 'modules/map/lib/map'
-getPositionFromNavigator = require 'modules/map/lib/navigator_position'
-{ updateRoute, updateRouteFromEvent, BoundFilter } = map_
-containerId = 'mapContainer'
-containerSelector = '#' + containerId
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import map_ from 'modules/map/lib/map';
+import getPositionFromNavigator from 'modules/map/lib/navigator_position';
+const { updateRoute, updateRouteFromEvent, BoundFilter } = map_;
+const containerId = 'mapContainer';
+const containerSelector = '#' + containerId;
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
 
-initMap = (params)->
-  { view, query } = params
+const initMap = function(params){
+  const { view, query } = params;
 
-  # Do not redefine the updateRoute variable: access from params object
-  params.updateRoute ?= true
+  // Do not redefine the updateRoute variable: access from params object
+  if (params.updateRoute == null) { params.updateRoute = true; }
 
-  startLoading.call view, containerSelector
+  startLoading.call(view, containerSelector);
 
-  Promise.all [
-    solvePosition query
-    app.request 'map:before'
-  ]
-  .tap stopLoading.bind(view, containerSelector)
-  .spread drawMap.bind(null, params)
-  .then initEventListners.bind(null, params)
+  return Promise.all([
+    solvePosition(query),
+    app.request('map:before')
+  ])
+  .tap(stopLoading.bind(view, containerSelector))
+  .spread(drawMap.bind(null, params))
+  .then(initEventListners.bind(null, params));
+};
 
-solvePosition = (coords = {})->
-  # priority is given to passed parameters
-  { lat, lng, zoom } = coords
-  if lat? and lng? then return Promise.resolve coords
+var solvePosition = function(coords = {}){
+  // priority is given to passed parameters
+  const { lat, lng, zoom } = coords;
+  if ((lat != null) && (lng != null)) { return Promise.resolve(coords); }
 
-  # then to the user saved position
-  { user } = app
-  if user.hasPosition() then return Promise.resolve user.getCoords()
+  // then to the user saved position
+  const { user } = app;
+  if (user.hasPosition()) { return Promise.resolve(user.getCoords()); }
 
-  # finally a request for the user position is issued
-  return getPositionFromNavigator containerId
+  // finally a request for the user position is issued
+  return getPositionFromNavigator(containerId);
+};
 
-drawMap = (params, coords)->
-  { lat, lng, zoom } = coords
-  { showObjects, path } = params
+var drawMap = function(params, coords){
+  const { lat, lng, zoom } = coords;
+  const { showObjects, path } = params;
 
-  map = map_.draw
-    containerId: containerId
-    latLng: [ lat, lng ]
-    zoom: zoom
+  const map = map_.draw({
+    containerId,
+    latLng: [ lat, lng ],
+    zoom,
     cluster: true
+  });
 
-  showObjects map
+  showObjects(map);
 
-  if params.updateRoute then updateRoute path, lat, lng, zoom
+  if (params.updateRoute) { updateRoute(path, lat, lng, zoom); }
 
-  _.type map, 'object'
-  return map
+  _.type(map, 'object');
+  return map;
+};
 
-initEventListners = (params, map)->
-  _.type map, 'object'
-  { path, onMoveend } = params
+var initEventListners = function(params, map){
+  _.type(map, 'object');
+  const { path, onMoveend } = params;
 
-  if params.updateRoute
-    _.type path, 'string'
-    map.on 'moveend', updateRouteFromEvent.bind(null, path)
+  if (params.updateRoute) {
+    _.type(path, 'string');
+    map.on('moveend', updateRouteFromEvent.bind(null, path));
+  }
 
-  map.on 'moveend', onMoveend
+  map.on('moveend', onMoveend);
 
-  return map
+  return map;
+};
 
-module.exports =
-  initMap: initMap
+export default {
+  initMap,
 
-  regions:
+  regions: {
     list: '#list'
+  },
 
-  grabMap: (map)->
-    _.type map, 'object'
-    _.type map.getBounds, 'function'
-    @map = map
+  grabMap(map){
+    _.type(map, 'object');
+    _.type(map.getBounds, 'function');
+    return this.map = map;
+  },
 
-  refreshListFilter: (collection)->
-    collection = collection or @collection
-    collection.filterBy 'geobox', BoundFilter(@map)
+  refreshListFilter(collection){
+    collection = collection || this.collection;
+    return collection.filterBy('geobox', BoundFilter(this.map));
+  },
 
-  solvePosition: solvePosition
+  solvePosition,
 
-  drawMap: drawMap
+  drawMap
+};

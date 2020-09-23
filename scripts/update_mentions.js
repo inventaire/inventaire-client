@@ -1,53 +1,56 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env nodeimport CONFIG from 'config';
+const __ = CONFIG.universalPath;
 
-CONFIG = require 'config'
-__ = CONFIG.universalPath
+// Avoid to use server-side modules, as it makes executing this script
+// depend on the server side repository having run 'npm install'
+// which might not be the case. Ex: client-only development environment
+import { omit } from 'lodash';
 
-# Avoid to use server-side modules, as it makes executing this script
-# depend on the server side repository having run 'npm install'
-# which might not be the case. Ex: client-only development environment
-{ omit } = require 'lodash'
-{ green, red } = require 'chalk'
+import { green, red } from 'chalk';
+import fs from 'fs';
+import { promisify } from 'util';
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
-fs = require 'fs'
-{ promisify } = require 'util'
-readFile = promisify fs.readFile
-writeFile = promisify fs.writeFile
+const convertMarkdown = require('./lib/convert_markdown');
 
-convertMarkdown = require './lib/convert_markdown'
+const { parse: papaparse } = require('papaparse');
 
-{ parse: papaparse } = require 'papaparse'
+const csvFile = __.path('client', 'scripts/assets/mentions.csv');
+const jsonFile = __.path('client', 'public/json/mentions.json');
 
-csvFile = __.path 'client', 'scripts/assets/mentions.csv'
-jsonFile = __.path 'client', 'public/json/mentions.json'
+const cleanAttributes = function(obj){
+  for (let k in obj) {
+    const v = obj[k];
+    if (v === '') { delete obj[k]; }
+  }
 
-cleanAttributes = (obj)->
-  for k, v of obj
-    if v is '' then delete obj[k]
+  return obj;
+};
 
-  return obj
+const mentions = {};
 
-mentions = {}
-
-readFile csvFile, { encoding: 'utf-8' }
-.then (file)->
-  { data } = papaparse file, { header: true }
+readFile(csvFile, { encoding: 'utf-8' })
+.then(function(file){
+  const { data } = papaparse(file, { header: true });
   data
-  .map cleanAttributes
-  .filter (el)-> el.type?
-  .forEach (el)->
-    { type, lang } = el
-    # convert type to plural form
-    type += 's'
-    el.text = convertMarkdown el.text
-    mentions[type] or= {}
-    mentions[type][lang] or= []
-    mentions[type][lang].push omit(el, ['type'])
+  .map(cleanAttributes)
+  .filter(el => el.type != null)
+  .forEach(function(el){
+    let { type, lang } = el;
+    // convert type to plural form
+    type += 's';
+    el.text = convertMarkdown(el.text);
+    if (!mentions[type]) { mentions[type] = {}; }
+    if (!mentions[type][lang]) { mentions[type][lang] = []; }
+    return mentions[type][lang].push(omit(el, ['type']));
+  });
 
-  console.log 'mentions', mentions
+  console.log('mentions', mentions);
 
-  updatedFile = JSON.stringify mentions
+  const updatedFile = JSON.stringify(mentions);
 
-  writeFile jsonFile, updatedFile
-  .then -> console.log green('done!')
-  .catch console.error.bind(console, red('build mentions'))
+  return writeFile(jsonFile, updatedFile)
+  .then(() => console.log(green('done!')))
+  .catch(console.error.bind(console, red('build mentions')));
+});

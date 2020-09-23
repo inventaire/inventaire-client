@@ -1,11 +1,15 @@
-module.exports = Marionette.ItemView.extend
-  className: 'activityPeriodRow'
-  template: require './templates/activity_period_row'
-  tagName: 'tr'
+export default Marionette.ItemView.extend({
+  className: 'activityPeriodRow',
+  template: require('./templates/activity_period_row'),
+  tagName: 'tr',
 
-  events:
+  events: {
     'click .showUserContributions': 'showUserContributions'
+  },
 
-  showUserContributions: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:user:contributions', @model.get('user')._id
+  showUserContributions(e){
+    if (!_.isOpenedOutside(e)) {
+      return app.execute('show:user:contributions', this.model.get('user')._id);
+    }
+  }
+});

@@ -1,14 +1,18 @@
-module.exports = Marionette.ItemView.extend
-  template: require './templates/previous_search'
-  tagName: 'li'
-  className: 'previous-search'
-  behaviors:
+export default Marionette.ItemView.extend({
+  template: require('./templates/previous_search'),
+  tagName: 'li',
+  className: 'previous-search',
+  behaviors: {
     PreventDefault: {}
+  },
 
-  serializeData: -> @model.serializeData()
+  serializeData() { return this.model.serializeData(); },
 
-  events:
+  events: {
     'click a': 'showSearch'
+  },
 
-  showSearch: (e)->
-    unless _.isOpenedOutside e then @model.show()
+  showSearch(e){
+    if (!_.isOpenedOutside(e)) { return this.model.show(); }
+  }
+});

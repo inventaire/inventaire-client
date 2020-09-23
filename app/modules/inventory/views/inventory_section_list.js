@@ -1,33 +1,44 @@
-ListEl = Marionette.ItemView.extend
-  tagName: 'li'
-  template: require './templates/inventory_section_list_li'
+const ListEl = Marionette.ItemView.extend({
+  tagName: 'li',
+  template: require('./templates/inventory_section_list_li'),
 
-  initialize: ->
-    { @context, @group } = @options
-    if @model.get('hasItemsCount')
-      @model.waitForItemsCount.then @lazyRender.bind(@)
+  initialize() {
+    ({ context: this.context, group: this.group } = this.options);
+    if (this.model.get('hasItemsCount')) {
+      return this.model.waitForItemsCount.then(this.lazyRender.bind(this));
+    }
+  },
 
-  serializeData: ->
-    attrs = @model.serializeData()
-    attrs.isGroup = attrs.type is 'group'
-    attrs.isGroupAdmin = @isGroupAdmin()
-    return attrs
+  serializeData() {
+    const attrs = this.model.serializeData();
+    attrs.isGroup = attrs.type === 'group';
+    attrs.isGroupAdmin = this.isGroupAdmin();
+    return attrs;
+  },
 
-  events:
+  events: {
     'click a': 'selectInventory'
+  },
 
-  isGroupAdmin: -> @context is 'group' and @model.id in @group.allAdminsIds()
+  isGroupAdmin() { let needle;
+  return (this.context === 'group') && (needle = this.model.id, this.group.allAdminsIds().includes(needle)); },
 
-  selectInventory: (e)->
-    if _.isOpenedOutside e then return
-    type = @model.get('type') or 'user'
-    if type is 'user' and @context is 'group' then type = 'member'
-    app.vent.trigger 'inventory:select', type, @model
-    e.preventDefault()
+  selectInventory(e){
+    if (_.isOpenedOutside(e)) { return; }
+    let type = this.model.get('type') || 'user';
+    if ((type === 'user') && (this.context === 'group')) { type = 'member'; }
+    app.vent.trigger('inventory:select', type, this.model);
+    return e.preventDefault();
+  }
+});
 
-module.exports = Marionette.CollectionView.extend
-  tagName: 'ul'
-  childView: ListEl
-  childViewOptions: ->
-    context: @options.context
-    group: @options.group
+export default Marionette.CollectionView.extend({
+  tagName: 'ul',
+  childView: ListEl,
+  childViewOptions() {
+    return {
+      context: this.options.context,
+      group: this.options.group
+    };
+  }
+});

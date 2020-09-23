@@ -1,6 +1,7 @@
-module.exports = Backbone.Collection.extend
-  url: -> app.API.groups.base
-  parse: (res)-> res.groups
-  model: require '../models/group'
-  otherUsersRequestsCount: -> _.sum _.invoke(@models, 'requestsCount')
+export default Backbone.Collection.extend({
+  url() { return app.API.groups.base; },
+  parse(res){ return res.groups; },
+  model: require('../models/group'),
+  otherUsersRequestsCount() { return _.sum(_.invoke(this.models, 'requestsCount')); },
   comparator: 'highlightScore'
+});

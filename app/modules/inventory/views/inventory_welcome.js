@@ -1,11 +1,13 @@
-NoItem = require './no_item'
+import NoItem from './no_item';
 
-module.exports = Marionette.ItemView.extend
-  className: 'inventoryWelcome'
-  template: require './templates/inventory_welcome'
+export default Marionette.ItemView.extend({
+  className: 'inventoryWelcome',
+  template: require('./templates/inventory_welcome'),
 
-  events:
-    'click a[href="/add"]': _.clickCommand 'show:add:layout:search'
+  events: {
+    'click a[href="/add"]': _.clickCommand('show:add:layout:search')
+  },
 
-  behaviors:
+  behaviors: {
     PreventDefault: {}
+  }});

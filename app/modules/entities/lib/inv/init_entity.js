@@ -1,26 +1,31 @@
-Tasks = require 'modules/tasks/collections/tasks'
+import Tasks from 'modules/tasks/collections/tasks';
 
-module.exports = (attrs)->
-  { _id } = attrs
+export default function(attrs){
+  const { _id } = attrs;
 
-  @set
-    aliases: {}
-    isInvEntity: true
-    # Always setting the invUri as long as some inv entities
-    # use an alternative uri format (namely isbn: uris)
-    invUri: "inv:#{_id}"
+  this.set({
+    aliases: {},
+    isInvEntity: true,
+    // Always setting the invUri as long as some inv entities
+    // use an alternative uri format (namely isbn: uris)
+    invUri: `inv:${_id}`
+  });
 
-  _.extend @, specificMethods
+  return _.extend(this, specificMethods);
+};
 
-specificMethods =
-  fetchMergeSuggestions: ->
-    if @mergeSuggestionsPromise? then return @mergeSuggestionsPromise
+var specificMethods = {
+  fetchMergeSuggestions() {
+    if (this.mergeSuggestionsPromise != null) { return this.mergeSuggestionsPromise; }
 
-    uri = @get 'uri'
+    const uri = this.get('uri');
 
-    @mergeSuggestionsPromise = _.preq.get app.API.tasks.bySuspectUris(uri)
-      .then (res)=>
-        tasks = res.tasks[uri]
-        @mergeSuggestions = new Tasks(tasks)
-        @mergeSuggestions.sort()
-        return @mergeSuggestions
+    return this.mergeSuggestionsPromise = _.preq.get(app.API.tasks.bySuspectUris(uri))
+      .then(res=> {
+        const tasks = res.tasks[uri];
+        this.mergeSuggestions = new Tasks(tasks);
+        this.mergeSuggestions.sort();
+        return this.mergeSuggestions;
+    });
+  }
+};

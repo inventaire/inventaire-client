@@ -1,17 +1,20 @@
-def = { x: 0, y: 1 }
-style = { color: 'green', lineWidth: 2 }
+const def = { x: 0, y: 1 };
+const style = { color: 'green', lineWidth: 2 };
 
-module.exports = ->
-  alreadyDrawn = false
-  return (result)->
-    if alreadyDrawn then return
+export default function() {
+  let alreadyDrawn = false;
+  return function(result){
+    if (alreadyDrawn) { return; }
 
-    if result?.boxes?
+    if (result?.boxes != null) {
 
-      drawingCtx = Quagga.canvas.ctx.overlay
-      # drawingCanvas = Quagga.canvas.dom.overlay
+      const drawingCtx = Quagga.canvas.ctx.overlay;
+      // drawingCanvas = Quagga.canvas.dom.overlay
 
-      box = result.boxes[0]
-      Quagga.ImageDebug.drawPath box, def, drawingCtx, style
+      const box = result.boxes[0];
+      Quagga.ImageDebug.drawPath(box, def, drawingCtx, style);
 
-      alreadyDrawn = true
+      return alreadyDrawn = true;
+    }
+  };
+};

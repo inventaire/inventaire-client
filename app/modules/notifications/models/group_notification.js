@@ -1,38 +1,48 @@
-# used for: userMadeAdmin, groupUpdate (name, description)
+// used for: userMadeAdmin, groupUpdate (name, description)
 
-Notification = require './notification'
-{ escapeExpression } = Handlebars
+import Notification from './notification';
 
-module.exports = Notification.extend
-  initSpecific:->
-    @groupId = @get 'data.group'
-    return @grabAttributesModels 'group', 'user'
+const { escapeExpression } = Handlebars;
 
-  serializeData: ->
-    attrs = @toJSON()
-    attrs.username = @user?.get 'username'
-    attrs = getUpdateValue attrs
-    attrs.pathname = "/network/groups/#{@groupId}"
-    if @group?
-      attrs.picture = @group.get 'picture'
-      attrs.groupName = @group.get 'name'
-      attrs.text = getText attrs.type, attrs.data.attribute
-      attrs.previousValue
-    return attrs
+export default Notification.extend({
+  initSpecific() {
+    this.groupId = this.get('data.group');
+    return this.grabAttributesModels('group', 'user');
+  },
 
-getText = (type, attribute)->
-  if attribute? then texts[type][attribute]
-  else texts[type]
+  serializeData() {
+    let attrs = this.toJSON();
+    attrs.username = this.user?.get('username');
+    attrs = getUpdateValue(attrs);
+    attrs.pathname = `/network/groups/${this.groupId}`;
+    if (this.group != null) {
+      attrs.picture = this.group.get('picture');
+      attrs.groupName = this.group.get('name');
+      attrs.text = getText(attrs.type, attrs.data.attribute);
+      attrs.previousValue;
+    }
+    return attrs;
+  }
+});
 
-texts =
-  userMadeAdmin: 'user_made_admin'
-  groupUpdate:
-    name: 'group_update_name'
+var getText = function(type, attribute){
+  if (attribute != null) { return texts[type][attribute];
+  } else { return texts[type]; }
+};
+
+var texts = {
+  userMadeAdmin: 'user_made_admin',
+  groupUpdate: {
+    name: 'group_update_name',
     description: 'group_update_description'
+  }
+};
 
-getUpdateValue = (attrs)->
-  { previousValue, newValue } = attrs.data
-  if previousValue?
-    attrs.previousValue = escapeExpression previousValue
-    attrs.newValue = escapeExpression newValue
-  return attrs
+var getUpdateValue = function(attrs){
+  const { previousValue, newValue } = attrs.data;
+  if (previousValue != null) {
+    attrs.previousValue = escapeExpression(previousValue);
+    attrs.newValue = escapeExpression(newValue);
+  }
+  return attrs;
+};

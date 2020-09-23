@@ -1,199 +1,227 @@
-InventoryNav = require './inventory_nav'
-InventoryBrowser = require './inventory_browser'
-UserProfile = require './user_profile'
-GroupProfile = require './group_profile'
-ShelfBox = require '../../shelves/views/shelf_box'
-ShelvesSection = require '../../shelves/views/shelves_section'
-{ getById } = require '../../shelves/lib/shelves'
-showPaginatedItems = require 'modules/welcome/lib/show_paginated_items'
-screen_ = require 'lib/screen'
+import InventoryNav from './inventory_nav';
+import InventoryBrowser from './inventory_browser';
+import UserProfile from './user_profile';
+import GroupProfile from './group_profile';
+import ShelfBox from '../../shelves/views/shelf_box';
+import ShelvesSection from '../../shelves/views/shelves_section';
+import { getById } from '../../shelves/lib/shelves';
+import showPaginatedItems from 'modules/welcome/lib/show_paginated_items';
+import screen_ from 'lib/screen';
 
-navs =
-  network: require './inventory_network_nav'
-  public: require './inventory_public_nav'
+const navs = {
+  network: require('./inventory_network_nav'),
+  public: require('./inventory_public_nav')
+};
 
-module.exports = Marionette.LayoutView.extend
-  id: 'inventoryLayout'
-  template: require './templates/inventory_layout'
-  regions:
-    inventoryNav: '#inventoryNav'
-    sectionNav: '#sectionNav'
-    groupProfile: '#groupProfile'
-    userProfile: '#userProfile'
-    shelvesList: '#shelvesList'
-    shelfInfo: '#shelfInfo'
+export default Marionette.LayoutView.extend({
+  id: 'inventoryLayout',
+  template: require('./templates/inventory_layout'),
+  regions: {
+    inventoryNav: '#inventoryNav',
+    sectionNav: '#sectionNav',
+    groupProfile: '#groupProfile',
+    userProfile: '#userProfile',
+    shelvesList: '#shelvesList',
+    shelfInfo: '#shelfInfo',
     itemsList: '#itemsList'
+  },
 
-  initialize: ->
-    { @user, @group, @shelf, @standalone } = @options
-    @listenTo app.vent, 'inventory:select', @showSelectedInventory.bind(@)
+  initialize() {
+    ({ user: this.user, group: this.group, shelf: this.shelf, standalone: this.standalone } = this.options);
+    return this.listenTo(app.vent, 'inventory:select', this.showSelectedInventory.bind(this));
+  },
 
-  childEvents:
+  childEvents: {
     'close:shelf': 'closeShelf'
+  },
 
-  onShow: ->
-    if @user?
-      @startFromUser @user, @shelf
-      @showUserShelves @user
-    else if @group?
-      @startFromGroup @group
-    else
-      { section, filter } = @options
-      @showInventoryNav section
-      @showSectionNav section
-      unless filter? then @showSectionLastItems section
+  onShow() {
+    if (this.user != null) {
+      this.startFromUser(this.user, this.shelf);
+      return this.showUserShelves(this.user);
+    } else if (this.group != null) {
+      return this.startFromGroup(this.group);
+    } else {
+      const { section, filter } = this.options;
+      this.showInventoryNav(section);
+      this.showSectionNav(section);
+      if (filter == null) { return this.showSectionLastItems(section); }
+    }
+  },
 
-  startFromUser: (user, shelf)->
-    app.request 'resolve:to:userModel', user
-    .then (userModel)=>
-      @_lastShownType = 'user'
-      @_lastShownUser = userModel
-      if shelf
-        @showShelf shelf
-      else
-        @showUserInventory userModel
-        app.navigateFromModel userModel
-      @showUserProfile userModel
-      section = userModel.get 'itemsCategory'
-      if section is 'personal' then section = 'user'
-      @showInventoryNav section
-      @showSectionNav section, 'user', userModel
-      # Do not scroll when showing the main user's inventory
-      # to keep the other nav elements visible
-      if section isnt 'user' then scrollToSection @userProfile
-    .catch app.Execute('show:error')
+  startFromUser(user, shelf){
+    return app.request('resolve:to:userModel', user)
+    .then(userModel=> {
+      this._lastShownType = 'user';
+      this._lastShownUser = userModel;
+      if (shelf) {
+        this.showShelf(shelf);
+      } else {
+        this.showUserInventory(userModel);
+        app.navigateFromModel(userModel);
+      }
+      this.showUserProfile(userModel);
+      let section = userModel.get('itemsCategory');
+      if (section === 'personal') { section = 'user'; }
+      this.showInventoryNav(section);
+      this.showSectionNav(section, 'user', userModel);
+      // Do not scroll when showing the main user's inventory
+      // to keep the other nav elements visible
+      if (section !== 'user') { return scrollToSection(this.userProfile); }
+  }).catch(app.Execute('show:error'));
+  },
 
-  startFromGroup: (group)->
-    app.request 'resolve:to:groupModel', group
-    .then (groupModel)=> @showGroupInventory groupModel
-    .then (groupModel)=>
-      section = if groupModel.mainUserIsMember() then 'network' else 'public'
-      @showInventoryNav section
-      @showSectionNav section, 'group', groupModel
-      @showGroupProfile groupModel
-      app.navigateFromModel groupModel
-      scrollToSection @groupProfile
-    .catch app.Execute('show:error')
+  startFromGroup(group){
+    return app.request('resolve:to:groupModel', group)
+    .then(groupModel=> this.showGroupInventory(groupModel))
+    .then(groupModel=> {
+      const section = groupModel.mainUserIsMember() ? 'network' : 'public';
+      this.showInventoryNav(section);
+      this.showSectionNav(section, 'group', groupModel);
+      this.showGroupProfile(groupModel);
+      app.navigateFromModel(groupModel);
+      return scrollToSection(this.groupProfile);
+  }).catch(app.Execute('show:error'));
+  },
 
-  showShelf: (shelf)->
-    itemsDataPromise = getItemsData('shelf', shelf)
-    isMainUser = app.user.id is shelf.get('owner')
-    @shelfInfo.show new ShelfBox { model: shelf }
-    @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
-    @waitForShelvesList.then => scrollToSection @shelfInfo
+  showShelf(shelf){
+    const itemsDataPromise = getItemsData('shelf', shelf);
+    const isMainUser = app.user.id === shelf.get('owner');
+    this.shelfInfo.show(new ShelfBox({ model: shelf }));
+    this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }));
+    return this.waitForShelvesList.then(() => scrollToSection(this.shelfInfo));
+  },
 
-  showUserShelves: (userIdOrModel)->
-    @waitForShelvesList = app.request 'resolve:to:userModel', userIdOrModel
-      .then (userModel)=>
-        if @shelvesList.currentView? and userModel is @_lastShownUser then return
-        shelvesCount = userModel.get('shelvesCount')
-        if shelvesCount is 0 then return
-        username = userModel.get('username')
-        @shelvesList.show new ShelvesSection { username }
-        return @shelvesList.currentView.waitForList
-      .catch app.Execute('show:error')
+  showUserShelves(userIdOrModel){
+    return this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
+      .then(userModel=> {
+        if ((this.shelvesList.currentView != null) && (userModel === this._lastShownUser)) { return; }
+        const shelvesCount = userModel.get('shelvesCount');
+        if (shelvesCount === 0) { return; }
+        const username = userModel.get('username');
+        this.shelvesList.show(new ShelvesSection({ username }));
+        return this.shelvesList.currentView.waitForList;
+    }).catch(app.Execute('show:error'));
+  },
 
-  showUserInventory: (userModel)->
-    if userModel is app.user and userModel.get('itemsCount') is 0
-      @showInventoryWelcome()
-    else
-      @showInventoryBrowser 'user', userModel
+  showUserInventory(userModel){
+    if ((userModel === app.user) && (userModel.get('itemsCount') === 0)) {
+      return this.showInventoryWelcome();
+    } else {
+      return this.showInventoryBrowser('user', userModel);
+    }
+  },
 
-  showInventoryWelcome: ->
-    InventoryWelcome = require './inventory_welcome'
-    @itemsList.show new InventoryWelcome
+  showInventoryWelcome() {
+    const InventoryWelcome = require('./inventory_welcome');
+    return this.itemsList.show(new InventoryWelcome);
+  },
 
-  showGroupInventory: (groupModel)->
-    groupModel.beforeShow()
-    .then =>
-      @showInventoryBrowser 'group', groupModel
-      return groupModel
+  showGroupInventory(groupModel){
+    return groupModel.beforeShow()
+    .then(() => {
+      this.showInventoryBrowser('group', groupModel);
+      return groupModel;
+    });
+  },
 
-  showMemberInventory: (member)->
-    app.request 'resolve:to:userModel', member
-    .then (memberModel)=>
-      @showUserProfile memberModel
-      @showInventoryBrowser 'user', memberModel
-      scrollToSection @userProfile
+  showMemberInventory(member){
+    return app.request('resolve:to:userModel', member)
+    .then(memberModel=> {
+      this.showUserProfile(memberModel);
+      this.showInventoryBrowser('user', memberModel);
+      return scrollToSection(this.userProfile);
+    });
+  },
 
-  showGroupProfile: (groupModel)-> @groupProfile.show new GroupProfile { model: groupModel }
+  showGroupProfile(groupModel){ return this.groupProfile.show(new GroupProfile({ model: groupModel })); },
 
-  showUserProfile: (userModel)-> @userProfile.show new UserProfile { model: userModel }
+  showUserProfile(userModel){ return this.userProfile.show(new UserProfile({ model: userModel })); },
 
-  showInventoryNav: (section)->
-    unless app.user.loggedIn then return
-    section = if not @standalone or section is 'user' then section
-    @inventoryNav.show new InventoryNav { section }
+  showInventoryNav(section){
+    if (!app.user.loggedIn) { return; }
+    section = !this.standalone || (section === 'user') ? section : undefined;
+    return this.inventoryNav.show(new InventoryNav({ section }));
+  },
 
-  showSectionNav: (section, type, model)->
-    if @standalone or not app.user.loggedIn then return
-    SectionNav = navs[section]
-    unless SectionNav? then return
-    options = if type? and model? then { "#{type}": model } else {}
-    options.filter = @options.filter
-    @sectionNav.show new SectionNav options
+  showSectionNav(section, type, model){
+    if (this.standalone || !app.user.loggedIn) { return; }
+    const SectionNav = navs[section];
+    if (SectionNav == null) { return; }
+    const options = (type != null) && (model != null) ? { [type]: model } : {};
+    options.filter = this.options.filter;
+    return this.sectionNav.show(new SectionNav(options));
+  },
 
-  showInventoryBrowser: (type, model)->
-    itemsDataPromise = getItemsData(type, model)
-    isMainUser = model?.isMainUser
-    @itemsList.show new InventoryBrowser { itemsDataPromise, isMainUser }
+  showInventoryBrowser(type, model){
+    const itemsDataPromise = getItemsData(type, model);
+    const isMainUser = model?.isMainUser;
+    return this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }));
+  },
 
-  showSectionLastItems: (section)->
-    if section is 'public' and not app.user.get('position') then return
+  showSectionLastItems(section){
+    if ((section === 'public') && !app.user.get('position')) { return; }
 
-    showPaginatedItems
-      request: sectionRequest[section]
-      region: @itemsList
-      limit: 20
-      allowMore: true
-      showDistance: section is 'public'
+    return showPaginatedItems({
+      request: sectionRequest[section],
+      region: this.itemsList,
+      limit: 20,
+      allowMore: true,
+      showDistance: section === 'public'
+    });
+  },
 
-  closeShelf: (shelfView)->
-    @showInventoryBrowser @_lastShownType, @_lastShownUser
-    scrollToSection @userProfile
-    @shelfInfo.empty()
-    app.navigateFromModel @_lastShownUser, { preventScrollTop: true }
+  closeShelf(shelfView){
+    this.showInventoryBrowser(this._lastShownType, this._lastShownUser);
+    scrollToSection(this.userProfile);
+    this.shelfInfo.empty();
+    return app.navigateFromModel(this._lastShownUser, { preventScrollTop: true });
+  },
 
-  showSelectedInventory: (type, model)->
-    if type is 'user' or type is 'group'
-      if type is 'user'
-        @_lastShownType = type
-        @_lastShownUser = model
-        @showUserInventory model
-        @showUserProfile model
-        @groupProfile.empty()
-        @shelvesList.empty()
-        @showUserShelves model
-        scrollToSection @userProfile
-      else
-        @showGroupProfile model
-        @userProfile.empty()
-        @shelfInfo.empty()
-        @shelvesList.empty()
-        @showGroupInventory model
-        scrollToSection @groupProfile
-    else if type is 'member'
-      @_lastShownType = type
-      @_lastShownUser = model
-      @showUserProfile model
-      @showMemberInventory model
-      @showUserShelves model
-      scrollToSection @userProfile
-    else if type is 'shelf'
-      userId = model.get 'owner'
-      @showUserShelves userId
-      @showShelf model
+  showSelectedInventory(type, model){
+    if ((type === 'user') || (type === 'group')) {
+      if (type === 'user') {
+        this._lastShownType = type;
+        this._lastShownUser = model;
+        this.showUserInventory(model);
+        this.showUserProfile(model);
+        this.groupProfile.empty();
+        this.shelvesList.empty();
+        this.showUserShelves(model);
+        scrollToSection(this.userProfile);
+      } else {
+        this.showGroupProfile(model);
+        this.userProfile.empty();
+        this.shelfInfo.empty();
+        this.shelvesList.empty();
+        this.showGroupInventory(model);
+        scrollToSection(this.groupProfile);
+      }
+    } else if (type === 'member') {
+      this._lastShownType = type;
+      this._lastShownUser = model;
+      this.showUserProfile(model);
+      this.showMemberInventory(model);
+      this.showUserShelves(model);
+      scrollToSection(this.userProfile);
+    } else if (type === 'shelf') {
+      const userId = model.get('owner');
+      this.showUserShelves(userId);
+      this.showShelf(model);
+    }
 
-    app.navigateFromModel model, { preventScrollTop: true }
+    return app.navigateFromModel(model, { preventScrollTop: true });
+  }});
 
-getItemsData = (type, model)->
-  modelId = model.get('_id')
-  params = { "#{type}": modelId }
-  _.preq.get app.API.items.inventoryView(params)
+var getItemsData = function(type, model){
+  const modelId = model.get('_id');
+  const params = { [type]: modelId };
+  return _.preq.get(app.API.items.inventoryView(params));
+};
 
-sectionRequest =
-  network: 'items:getNetworkItems'
+var sectionRequest = {
+  network: 'items:getNetworkItems',
   public: 'items:getNearbyItems'
+};
 
-scrollToSection = (region)->
-  screen_.scrollTop { $el: region.$el, marginTop: 10, delay: 100 }
+var scrollToSection = region => screen_.scrollTop({ $el: region.$el, marginTop: 10, delay: 100 });

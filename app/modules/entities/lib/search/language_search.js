@@ -1,31 +1,32 @@
-wdLang = require 'wikidata-lang'
-languages = _.values wdLang.byCode
+import wdLang from 'wikidata-lang';
+const languages = _.values(wdLang.byCode);
 
-module.exports = (query)->
-  query = query.toLowerCase()
+export default function(query){
+  query = query.toLowerCase();
 
-  # If the query matches a lang code, only return the matching language
-  codeLang = wdLang.byCode[query]
-  if codeLang? then return Promise.resolve [ formatAsSearchResult(codeLang) ]
+  // If the query matches a lang code, only return the matching language
+  const codeLang = wdLang.byCode[query];
+  if (codeLang != null) { return Promise.resolve([ formatAsSearchResult(codeLang) ]); }
 
-  re = new RegExp query, 'i'
-  # one more reason to move to Lodash asap, this would really need lazy evaluation
-  results = _.chain languages
-    .filter (language)->
-      if language.label.match(re) then return true
-      if language.native.match(re) then return true
-      return false
-    .first 10
-    .map formatAsSearchResult
-    .value()
+  const re = new RegExp(query, 'i');
+  // one more reason to move to Lodash asap, this would really need lazy evaluation
+  const results = _.chain(languages)
+    .filter(function(language){
+      if (language.label.match(re)) { return true; }
+      if (language.native.match(re)) { return true; }
+      return false;}).first(10)
+    .map(formatAsSearchResult)
+    .value();
 
-  Promise.resolve results
+  return Promise.resolve(results);
+};
 
-formatAsSearchResult = (result)->
-  if result._formatted then return result
-  result._formatted = true
-  result.id = result.wd
-  result.aliases = {}
-  result.labels = { en: result.label }
-  result.labels[result.code] = result.native
-  return result
+var formatAsSearchResult = function(result){
+  if (result._formatted) { return result; }
+  result._formatted = true;
+  result.id = result.wd;
+  result.aliases = {};
+  result.labels = { en: result.label };
+  result.labels[result.code] = result.native;
+  return result;
+};

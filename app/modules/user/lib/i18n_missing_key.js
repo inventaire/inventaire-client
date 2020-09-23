@@ -1,23 +1,26 @@
-missingKeys = []
-disabled = false
+let missingKeys = [];
+let disabled = false;
 
-module.exports = (key)->
-  if disabled then return
-  if key? and key not in missingKeys
-    missingKeys.push key
-    lazyMissingKey()
+export default function(key){
+  if (disabled) { return; }
+  if ((key != null) && !missingKeys.includes(key)) {
+    missingKeys.push(key);
+    return lazyMissingKey();
+  }
+};
 
-sendMissingKeys = ->
-  if missingKeys.length > 0
-    keysToSend = missingKeys
-    # Keys added after this point will join the next batch
-    missingKeys = []
-    _.preq.post app.API.i18n, { missingKeys: keysToSend }
-    .then (res)-> _.log keysToSend, 'i18n:missing added'
-    .catch (err)->
-      if err.statusCode isnt 404 then throw err
-      _.warn 'i18n missing key service is disabled'
-      disabled = true
-    .catch _.Error('i18n:missing keys failed to be added')
+const sendMissingKeys = function() {
+  if (missingKeys.length > 0) {
+    const keysToSend = missingKeys;
+    // Keys added after this point will join the next batch
+    missingKeys = [];
+    return _.preq.post(app.API.i18n, { missingKeys: keysToSend })
+    .then(res => _.log(keysToSend, 'i18n:missing added'))
+    .catch(function(err){
+      if (err.statusCode !== 404) { throw err; }
+      _.warn('i18n missing key service is disabled');
+      return disabled = true;}).catch(_.Error('i18n:missing keys failed to be added'));
+  }
+};
 
-lazyMissingKey = _.debounce sendMissingKeys, 500
+var lazyMissingKey = _.debounce(sendMissingKeys, 500);

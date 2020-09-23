@@ -1,78 +1,96 @@
-PaginatedWorks = require '../../collections/paginated_works'
-commonsSerieWork = require './commons_serie_work'
-getPartsSuggestions = require 'modules/entities/views/cleanup/lib/get_parts_suggestions'
+import PaginatedWorks from '../../collections/paginated_works';
+import commonsSerieWork from './commons_serie_work';
+import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions';
 
-module.exports = ->
-  # Main property by which sub-entities are linked to this one
-  @childrenClaimProperty = 'wdt:P179'
+export default function() {
+  // Main property by which sub-entities are linked to this one
+  this.childrenClaimProperty = 'wdt:P179';
 
-  _.extend @, specificMethods
+  return _.extend(this, specificMethods);
+};
 
-specificMethods = _.extend {}, commonsSerieWork,
-  fetchPartsData: (options = {})->
-    { refresh } = options
-    refresh = @getRefresh refresh
-    if not refresh and @waitForPartsData? then return @waitForPartsData
+var specificMethods = _.extend({}, commonsSerieWork, {
+  fetchPartsData(options = {}){
+    let { refresh } = options;
+    refresh = this.getRefresh(refresh);
+    if (!refresh && (this.waitForPartsData != null)) { return this.waitForPartsData; }
 
-    uri = @get 'uri'
-    @waitForPartsData = _.preq.get app.API.entities.serieParts(uri, refresh)
-      .then (res)=> @partsData = res.parts
+    const uri = this.get('uri');
+    return this.waitForPartsData = _.preq.get(app.API.entities.serieParts(uri, refresh))
+      .then(res=> { return this.partsData = res.parts; });
+  },
 
-  initSerieParts: (options)->
-    { refresh, fetchAll } = options
-    refresh = @getRefresh refresh
-    if not refresh and @waitForParts? then return @waitForParts
+  initSerieParts(options){
+    let { refresh, fetchAll } = options;
+    refresh = this.getRefresh(refresh);
+    if (!refresh && (this.waitForParts != null)) { return this.waitForParts; }
 
-    @fetchPartsData { refresh }
-    .then initPartsCollections.bind(@, refresh, fetchAll)
-    .then importDataFromParts.bind(@)
+    return this.fetchPartsData({ refresh })
+    .then(initPartsCollections.bind(this, refresh, fetchAll))
+    .then(importDataFromParts.bind(this));
+  },
 
-  # Placeholder for cases when a series was formerly identified as a work
-  # and got editions or items linking to it, assuming it is a work
-  getItemsByCategories: ->
-    app.execute 'report:entity:type:issue',
-      model: @
-      expectedType: 'work'
+  // Placeholder for cases when a series was formerly identified as a work
+  // and got editions or items linking to it, assuming it is a work
+  getItemsByCategories() {
+    app.execute('report:entity:type:issue', {
+      model: this,
+      expectedType: 'work',
       context: { module: module.id }
-    return Promise.resolve { personal: [], network: [], public: [] }
+    });
+    return Promise.resolve({ personal: [], network: [], public: [] });
+  },
 
-  getAllAuthorsUris: ->
-    allAuthorsUris = getAuthors(@).concat @parts.map(getAuthors)...
-    return _.uniq _.compact(allAuthorsUris)
+  getAllAuthorsUris() {
+    const allAuthorsUris = getAuthors(this).concat(...Array.from(this.parts.map(getAuthors) || []));
+    return _.uniq(_.compact(allAuthorsUris));
+  },
 
-  getChildrenCandidatesUris: ->
-    getPartsSuggestions @
-    .then (suggestionsCollection)-> suggestionsCollection.map(getModelUri)
+  getChildrenCandidatesUris() {
+    return getPartsSuggestions(this)
+    .then(suggestionsCollection => suggestionsCollection.map(getModelUri));
+  }
+}
+);
 
-initPartsCollections = (refresh, fetchAll, partsData)->
-  allsPartsUris = _.pluck partsData, 'uri'
-  partsWithoutSuperparts = partsData.filter hasNoKnownSuperpart(allsPartsUris)
-  partsWithoutSuperpartsUris = _.pluck partsWithoutSuperparts, 'uri'
+var initPartsCollections = function(refresh, fetchAll, partsData){
+  const allsPartsUris = _.pluck(partsData, 'uri');
+  const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris));
+  const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri');
 
-  @parts = new PaginatedWorks null,
-    uris: allsPartsUris
-    defaultType: 'work'
-    refresh: refresh
+  this.parts = new PaginatedWorks(null, {
+    uris: allsPartsUris,
+    defaultType: 'work',
+    refresh
+  }
+  );
 
-  @partsWithoutSuperparts = new PaginatedWorks null,
-    uris: partsWithoutSuperpartsUris
-    defaultType: 'work'
-    refresh: refresh
-    parentContext:
-      entityType: 'serie'
-      entityUri: @get 'uri'
+  this.partsWithoutSuperparts = new PaginatedWorks(null, {
+    uris: partsWithoutSuperpartsUris,
+    defaultType: 'work',
+    refresh,
+    parentContext: {
+      entityType: 'serie',
+      entityUri: this.get('uri')
+    }
+  }
+  );
 
-  if fetchAll then return @parts.fetchAll()
+  if (fetchAll) { return this.parts.fetchAll(); }
+};
 
-hasNoKnownSuperpart = (allsPartsUris)-> (part)->
-  unless part.superpart? then return true
-  return part.superpart not in allsPartsUris
+var hasNoKnownSuperpart = allsPartsUris => (function(part) {
+  if (part.superpart == null) { return true; }
+  return !allsPartsUris.includes(part.superpart);
+});
 
-importDataFromParts = ->
-  firstPartWithPublicationDate = @parts.find getPublicationDate
-  if firstPartWithPublicationDate?
-    @set 'publicationStart', getPublicationDate(firstPartWithPublicationDate)
+var importDataFromParts = function() {
+  const firstPartWithPublicationDate = this.parts.find(getPublicationDate);
+  if (firstPartWithPublicationDate != null) {
+    return this.set('publicationStart', getPublicationDate(firstPartWithPublicationDate));
+  }
+};
 
-getModelUri = (model)-> model.get 'uri'
-getPublicationDate = (model)-> model.get 'claims.wdt:P577.0'
-getAuthors = (model)-> model.getExtendedAuthorsUris()
+var getModelUri = model => model.get('uri');
+var getPublicationDate = model => model.get('claims.wdt:P577.0');
+var getAuthors = model => model.getExtendedAuthorsUris();

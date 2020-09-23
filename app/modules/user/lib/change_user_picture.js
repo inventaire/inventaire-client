@@ -1,32 +1,38 @@
-regex_ = require 'lib/regex'
-PicturePicker = require 'modules/general/views/behaviors/picture_picker'
-error_ = require 'lib/error'
+import regex_ from 'lib/regex';
+import PicturePicker from 'modules/general/views/behaviors/picture_picker';
+import error_ from 'lib/error';
 
-module.exports = ->
-  app.layout.modal.show new PicturePicker
-    context: 'user'
-    pictures: app.user.get 'picture'
-    save: savePicture
-    delete: deletePicture
-    crop: true
-    limit: 1
+export default () => app.layout.modal.show(new PicturePicker({
+  context: 'user',
+  pictures: app.user.get('picture'),
+  save: savePicture,
+  delete: deletePicture,
+  crop: true,
+  limit: 1
+})
+);
 
-selector = '.changePicture .loading'
+const selector = '.changePicture .loading';
 
-savePicture = (pictures)->
-  picture = pictures[0]
-  _.log picture, 'picture'
-  unless _.isUserImg picture
-    message = 'couldnt save picture: requires a local user image url'
-    throw error_.new message, pictures
+var savePicture = function(pictures){
+  const picture = pictures[0];
+  _.log(picture, 'picture');
+  if (!_.isUserImg(picture)) {
+    const message = 'couldnt save picture: requires a local user image url';
+    throw error_.new(message, pictures);
+  }
 
-  app.request 'user:update',
-    attribute: 'picture'
-    value: picture
-    selector: selector
+  return app.request('user:update', {
+    attribute: 'picture',
+    value: picture,
+    selector
+  }
+  );
+};
 
-deletePicture = ->
-  app.request 'user:update',
-    attribute: 'picture'
-    value: null
-    selector: selector
+var deletePicture = () => app.request('user:update', {
+  attribute: 'picture',
+  value: null,
+  selector
+}
+);

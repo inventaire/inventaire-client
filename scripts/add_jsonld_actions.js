@@ -1,8 +1,8 @@
-#!/usr/bin/env coffee
-addText = require './lib/add_text.coffee'
-minifyJson = (jsonString)-> JSON.stringify JSON.parse(jsonString)
+#!/usr/bin/env nodeimport addText from './lib/add_text.coffee';
+const minifyJson = jsonString => JSON.stringify(JSON.parse(jsonString));
 
-addText
-  filename: 'actions.jsonld'
-  marker: 'ACTIONS'
+addText({
+  filename: 'actions.jsonld',
+  marker: 'ACTIONS',
   modifier: minifyJson
+});

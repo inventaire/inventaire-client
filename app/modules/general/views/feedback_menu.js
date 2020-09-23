@@ -1,71 +1,87 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ contact } = require 'lib/urls'
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import { contact } from 'lib/urls';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/feedback_menu'
-  className: ->
-    standalone = if @options.standalone then 'standalone' else ''
-    return "feedback-menu #{standalone}"
+export default Marionette.ItemView.extend({
+  template: require('./templates/feedback_menu'),
+  className() {
+    const standalone = this.options.standalone ? 'standalone' : '';
+    return `feedback-menu ${standalone}`;
+  },
 
-  behaviors:
-    Loading: {}
-    SuccessCheck: {}
-    ElasticTextarea: {}
-    General: {}
+  behaviors: {
+    Loading: {},
+    SuccessCheck: {},
+    ElasticTextarea: {},
+    General: {},
     PreventDefault: {}
+  },
 
-  initialize: ->
-    _.extend @, behaviorsPlugin
-    { @standalone } = @options
+  initialize() {
+    _.extend(this, behaviorsPlugin);
+    return ({ standalone: this.standalone } = this.options);
+  },
 
-  serializeData: ->
-    loggedIn: app.user.loggedIn
-    user: app.user.toJSON()
-    contact: contact
-    subject: @options.subject
-    standalone: @standalone
+  serializeData() {
+    return {
+      loggedIn: app.user.loggedIn,
+      user: app.user.toJSON(),
+      contact,
+      subject: this.options.subject,
+      standalone: this.standalone
+    };
+  },
 
-  ui:
-    unknownUser: '.unknownUser'
-    subject: '#subject'
-    message: '#message'
-    sendFeedback: '#sendFeedback'
+  ui: {
+    unknownUser: '.unknownUser',
+    subject: '#subject',
+    message: '#message',
+    sendFeedback: '#sendFeedback',
     confirmation: '#confirmation'
+  },
 
-  events:
+  events: {
     'click a#sendFeedback': 'sendFeedback'
+  },
 
-  onShow: -> unless @standalone then app.execute 'modal:open'
+  onShow() { if (!this.standalone) { return app.execute('modal:open'); } },
 
-  sendFeedback: ->
-    @startLoading '#sendFeedback'
+  sendFeedback() {
+    this.startLoading('#sendFeedback');
 
-    @postFeedback()
-    .then @confirm.bind(@)
-    .catch @postFailed.bind(@)
+    return this.postFeedback()
+    .then(this.confirm.bind(this))
+    .catch(this.postFailed.bind(this));
+  },
 
-  postFeedback: ->
-    app.request 'post:feedback',
-      subject: @ui.subject.val()
-      uris: @options.uris
-      message: @ui.message.val()
-      unknownUser: @ui.unknownUser.val()
+  postFeedback() {
+    return app.request('post:feedback', {
+      subject: this.ui.subject.val(),
+      uris: this.options.uris,
+      message: this.ui.message.val(),
+      unknownUser: this.ui.unknownUser.val()
+    }
+    );
+  },
 
-  confirm: ->
-    @stopLoading '#sendFeedback'
-    @ui.subject.val null
-    @ui.message.val null
-    @ui.confirmation.slideDown()
+  confirm() {
+    this.stopLoading('#sendFeedback');
+    this.ui.subject.val(null);
+    this.ui.message.val(null);
+    this.ui.confirmation.slideDown();
 
-    if @standalone
-      # simply hide the confirmation so that the user can still send a new feedback
-      # and get a new confirmation for it
-      @setTimeout @hideConfirmation.bind(@), 5000
-    else
-      @setTimeout app.Execute('modal:close'), 2000
+    if (this.standalone) {
+      // simply hide the confirmation so that the user can still send a new feedback
+      // and get a new confirmation for it
+      return this.setTimeout(this.hideConfirmation.bind(this), 5000);
+    } else {
+      return this.setTimeout(app.Execute('modal:close'), 2000);
+    }
+  },
 
-  postFailed: ->
-    @stopLoading '#sendFeedback'
-    @fail 'feedback err'
+  postFailed() {
+    this.stopLoading('#sendFeedback');
+    return this.fail('feedback err');
+  },
 
-  hideConfirmation: -> unless @isDestroyed then @ui.confirmation.slideUp()
+  hideConfirmation() { if (!this.isDestroyed) { return this.ui.confirmation.slideUp(); } }
+});

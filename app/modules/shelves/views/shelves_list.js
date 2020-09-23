@@ -1,22 +1,28 @@
-ListEl = Marionette.ItemView.extend
-  tagName: 'li'
-  template: require './templates/shelves_list_li'
+const ListEl = Marionette.ItemView.extend({
+  tagName: 'li',
+  template: require('./templates/shelves_list_li'),
 
-  behaviors:
+  behaviors: {
     PreventDefault: {}
+  },
 
-  events:
+  events: {
     'click .selectShelf': 'selectShelf'
+  },
 
-  modelEvents:
+  modelEvents: {
     'change': 'lazyRender'
+  },
 
-  selectShelf: (e)->
-    if _.isOpenedOutside e then return
-    type = @model.get('type')
-    app.vent.trigger 'inventory:select', type, @model
-    e.preventDefault()
+  selectShelf(e){
+    if (_.isOpenedOutside(e)) { return; }
+    const type = this.model.get('type');
+    app.vent.trigger('inventory:select', type, this.model);
+    return e.preventDefault();
+  }
+});
 
-module.exports = Marionette.CollectionView.extend
-  tagName: 'ul'
+export default Marionette.CollectionView.extend({
+  tagName: 'ul',
   childView: ListEl
+});

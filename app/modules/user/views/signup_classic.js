@@ -1,78 +1,96 @@
-username_ = require 'modules/user/lib/username_tests'
-email_ = require 'modules/user/lib/email_tests'
-password_ = require 'modules/user/lib/password_tests'
-forms_ = require 'modules/general/lib/forms'
-prepareRedirect = require '../lib/prepare_redirect'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import username_ from 'modules/user/lib/username_tests';
+import email_ from 'modules/user/lib/email_tests';
+import password_ from 'modules/user/lib/password_tests';
+import forms_ from 'modules/general/lib/forms';
+import prepareRedirect from '../lib/prepare_redirect';
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
 
-module.exports = Marionette.LayoutView.extend
-  className: 'authMenu signup'
-  template: require './templates/signup_classic'
-  behaviors:
-    AlertBox: {}
-    TogglePassword: {}
+export default Marionette.LayoutView.extend({
+  className: 'authMenu signup',
+  template: require('./templates/signup_classic'),
+  behaviors: {
+    AlertBox: {},
+    TogglePassword: {},
     Loading: {}
+  },
 
-  ui:
-    classicUsername: '#classicUsername'
-    email: '#email'
-    suggestionGroup: '#suggestionGroup'
-    suggestion: '#suggestion'
+  ui: {
+    classicUsername: '#classicUsername',
+    email: '#email',
+    suggestionGroup: '#suggestionGroup',
+    suggestion: '#suggestion',
     password: '#password'
+  },
 
-  initialize: ->
-    @formAction = prepareRedirect.call @
+  initialize() {
+    return this.formAction = prepareRedirect.call(this);
+  },
 
-  events:
-    'blur #classicUsername': 'earlyVerifyClassicUsername'
-    'blur #email': 'earlyVerifyEmail'
-    # do not forms_.earlyVerify @, password as it is triggered
-    # on "show password" clicks, which is boring
-    # plus, it will presumably be verified next by click #validClassicSignup
-    # 'blur #password': 'earlyVerifyPassword'
+  events: {
+    'blur #classicUsername': 'earlyVerifyClassicUsername',
+    'blur #email': 'earlyVerifyEmail',
+    // do not forms_.earlyVerify @, password as it is triggered
+    // on "show password" clicks, which is boring
+    // plus, it will presumably be verified next by click #validClassicSignup
+    // 'blur #password': 'earlyVerifyPassword'
     'click #classicSignup': 'validClassicSignup'
+  },
 
-  onShow:->
-    @ui.classicUsername.focus()
+  onShow() {
+    return this.ui.classicUsername.focus();
+  },
 
-  serializeData: ->
-    passwordLabel: 'password'
-    formAction: @formAction
+  serializeData() {
+    return {
+      passwordLabel: 'password',
+      formAction: this.formAction
+    };
+  },
 
-  # CLASSIC
-  validClassicSignup: ->
-    startLoading.call @, '#classicSignup'
+  // CLASSIC
+  validClassicSignup() {
+    startLoading.call(this, '#classicSignup');
 
-    @verifyClassicUsername()
-    .then @verifyEmail.bind(@)
-    .then @verifyPassword.bind(@)
-    .then @sendClassicSignupRequest.bind(@)
-    .catch forms_.catchAlert.bind(null, @)
-    .finally stopLoading.bind(@)
+    return this.verifyClassicUsername()
+    .then(this.verifyEmail.bind(this))
+    .then(this.verifyPassword.bind(this))
+    .then(this.sendClassicSignupRequest.bind(this))
+    .catch(forms_.catchAlert.bind(null, this))
+    .finally(stopLoading.bind(this));
+  },
 
-  verifyClassicUsername: -> @verifyUsername 'classicUsername'
+  verifyClassicUsername() { return this.verifyUsername('classicUsername'); },
 
-  verifyEmail: ->
-    email = @ui.email.val()
-    email_.pass email, '#email'
-    email_.verifyAvailability email, '#email'
+  verifyEmail() {
+    const email = this.ui.email.val();
+    email_.pass(email, '#email');
+    return email_.verifyAvailability(email, '#email');
+  },
 
-  verifyPassword: -> password_.pass @ui.password.val(), '#finalAlertbox'
+  verifyPassword() { return password_.pass(this.ui.password.val(), '#finalAlertbox'); },
 
-  sendClassicSignupRequest: ->
-    app.request 'signup:classic',
-      username: @ui.classicUsername.val()
-      password: @ui.password.val()
-      email: @ui.email.val()
+  sendClassicSignupRequest() {
+    return app.request('signup:classic', {
+      username: this.ui.classicUsername.val(),
+      password: this.ui.password.val(),
+      email: this.ui.email.val()
+    }
+    );
+  },
 
-  # COMMON
-  verifyUsername: (name)->
-    username = @ui[name].val()
-    username_.verifyUsername(username, "##{name}")
+  // COMMON
+  verifyUsername(name){
+    const username = this.ui[name].val();
+    return username_.verifyUsername(username, `#${name}`);
+  },
 
-  earlyVerifyClassicUsername: (e)->
-    forms_.earlyVerify @, e, @verifyClassicUsername.bind(@)
-  earlyVerifyEmail: (e)->
-    forms_.earlyVerify @, e, @verifyEmail.bind(@)
-  earlyVerifyPassword: (e)->
-    forms_.earlyVerify @, e, @verifyPassword.bind(@)
+  earlyVerifyClassicUsername(e){
+    return forms_.earlyVerify(this, e, this.verifyClassicUsername.bind(this));
+  },
+  earlyVerifyEmail(e){
+    return forms_.earlyVerify(this, e, this.verifyEmail.bind(this));
+  },
+  earlyVerifyPassword(e){
+    return forms_.earlyVerify(this, e, this.verifyPassword.bind(this));
+  }
+});

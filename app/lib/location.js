@@ -1,73 +1,84 @@
-parseQuery = (queryString)->
-  unless queryString? then return {}
-  queryString
-  .replace /^\?/, ''
-  .split '&'
-  .reduce parseKeysValues, {}
+const parseQuery = function(queryString){
+  if (queryString == null) { return {}; }
+  return queryString
+  .replace(/^\?/, '')
+  .split('&')
+  .reduce(parseKeysValues, {});
+};
 
-setQuerystring = (url, key, value)->
-  [ href, qs ] = url.split '?'
-  qsObj = parseQuery qs
-  # override the previous key/value
-  qsObj[key] = value
-  return buildPath href, qsObj
+const setQuerystring = function(url, key, value){
+  const [ href, qs ] = Array.from(url.split('?'));
+  const qsObj = parseQuery(qs);
+  // override the previous key/value
+  qsObj[key] = value;
+  return buildPath(href, qsObj);
+};
 
-# calling a section the first part of the route matching to a module
-# ex: for '/inventory/bla/bla', the section is 'inventory'
-routeSection = (route)->
-  # split on the first non-alphabetical character
-  route.split(/[^\w]/)[0]
+// calling a section the first part of the route matching to a module
+// ex: for '/inventory/bla/bla', the section is 'inventory'
+const routeSection = route => // split on the first non-alphabetical character
+route.split(/[^\w]/)[0];
 
-buildPath = (pathname, queryObj, escape)->
-  queryObj = removeUndefined queryObj
-  if not queryObj? or _.isEmpty(queryObj) then return pathname
+var buildPath = function(pathname, queryObj, escape){
+  queryObj = removeUndefined(queryObj);
+  if ((queryObj == null) || _.isEmpty(queryObj)) { return pathname; }
 
-  queryString = ''
+  let queryString = '';
 
-  for key, value of queryObj
-    if escape
-      value = dropSpecialCharacters value
-    if _.isObject value
-      value = escapeQueryStringValue JSON.stringify(value)
-    queryString += "&#{key}=#{value}"
+  for (let key in queryObj) {
+    let value = queryObj[key];
+    if (escape) {
+      value = dropSpecialCharacters(value);
+    }
+    if (_.isObject(value)) {
+      value = escapeQueryStringValue(JSON.stringify(value));
+    }
+    queryString += `&${key}=${value}`;
+  }
 
-  return pathname + '?' + queryString[1..-1]
+  return pathname + '?' + queryString.slice(1);
+};
 
-currentRoute = -> location.pathname.slice(1)
+const currentRoute = () => location.pathname.slice(1);
 
-currentSection = -> routeSection currentRoute()
+const currentSection = () => routeSection(currentRoute());
 
-parseKeysValues = (queryObj, nextParam)->
-  pairs = nextParam.split '='
-  [ key, value ] = pairs
-  if key?.length > 0 and value?
-    # Try to parse the value, allowing JSON strings values
-    # like data={%22wdt:P50%22:[%22wd:Q535%22]}
-    value = permissiveJsonParse decodeURIComponent(value)
-    # If a number string was parsed into a number, make it a string again
-    # so that the output stays predictible
-    if _.isNumber value then value = value.toString()
-    queryObj[key] = value
+var parseKeysValues = function(queryObj, nextParam){
+  const pairs = nextParam.split('=');
+  let [ key, value ] = Array.from(pairs);
+  if ((key?.length > 0) && (value != null)) {
+    // Try to parse the value, allowing JSON strings values
+    // like data={%22wdt:P50%22:[%22wd:Q535%22]}
+    value = permissiveJsonParse(decodeURIComponent(value));
+    // If a number string was parsed into a number, make it a string again
+    // so that the output stays predictible
+    if (_.isNumber(value)) { value = value.toString(); }
+    queryObj[key] = value;
+  }
 
-  return queryObj
+  return queryObj;
+};
 
-permissiveJsonParse = (input)->
-  try JSON.parse input
-  catch err then input
+var permissiveJsonParse = function(input){
+  try { return JSON.parse(input); }
+  catch (err) { return input; }
+};
 
-# Only escape values that are problematic in a query string:
-# for the moment, only '?'
-escapeQueryStringValue = (str)-> str.replace /\?/g, '%3F'
+// Only escape values that are problematic in a query string:
+// for the moment, only '?'
+var escapeQueryStringValue = str => str.replace(/\?/g, '%3F');
 
-dropSpecialCharacters = (str)->
-  str
-  .replace /\s+/g, ' '
-  .replace /(\?|\:)/g, ''
+var dropSpecialCharacters = str => str
+.replace(/\s+/g, ' ')
+.replace(/(\?|\:)/g, '');
 
-removeUndefined = (obj)->
-  newObj = {}
-  for key, value of obj
-    if value? then newObj[key] = value
-  return newObj
+var removeUndefined = function(obj){
+  const newObj = {};
+  for (let key in obj) {
+    const value = obj[key];
+    if (value != null) { newObj[key] = value; }
+  }
+  return newObj;
+};
 
-module.exports = { parseQuery, setQuerystring, routeSection, buildPath, currentRoute, currentSection }
+export { parseQuery, setQuerystring, routeSection, buildPath, currentRoute, currentSection };

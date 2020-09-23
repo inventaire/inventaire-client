@@ -1,69 +1,83 @@
-{ countShelves } = require 'modules/shelves/lib/shelves'
-Positionable = require 'modules/general/models/positionable'
-error_ = require 'lib/error'
-{ getColorSquareDataUriFromModelId } = require 'lib/images'
-{ defaultAvatar } = require('lib/urls').images
+import { countShelves } from 'modules/shelves/lib/shelves';
+import Positionable from 'modules/general/models/positionable';
+import error_ from 'lib/error';
+import { getColorSquareDataUriFromModelId } from 'lib/images';
+const { defaultAvatar } = require('lib/urls').images;
 
-module.exports = Positionable.extend
-  setPathname: ->
-    username = @get 'username'
-    @set
-      pathname: "/inventory/#{username}"
-      # Set for compatibility with interfaces expecting a label
-      # such as modules/inventory/views/browser_selector
+export default Positionable.extend({
+  setPathname() {
+    const username = this.get('username');
+    return this.set({
+      pathname: `/inventory/${username}`,
+      // Set for compatibility with interfaces expecting a label
+      // such as modules/inventory/views/browser_selector
       label: username
+    });
+  },
 
-  matchable: ->
-    [
-      @get('username')
-      @get('bio')
-    ]
+  matchable() {
+    return [
+      this.get('username'),
+      this.get('bio')
+    ];
+  },
 
-  updateMetadata: ->
-    title: @get 'username'
-    description: @getDescription()
-    image: @get 'picture'
-    url: @get 'pathname'
-    rss: @getRss()
-    # Prevent having a big user picture as card
-    # see https://github.com/inventaire/inventaire/issues/402
-    smallCardType: true
+  updateMetadata() {
+    return {
+      title: this.get('username'),
+      description: this.getDescription(),
+      image: this.get('picture'),
+      url: this.get('pathname'),
+      rss: this.getRss(),
+      // Prevent having a big user picture as card
+      // see https://github.com/inventaire/inventaire/issues/402
+      smallCardType: true
+    };
+  },
 
-  getDescription: ->
-    bio = @get('bio')
-    if _.isNonEmptyString bio then return bio
-    else _.i18n 'user_default_description', { username: @get('username') }
+  getDescription() {
+    const bio = this.get('bio');
+    if (_.isNonEmptyString(bio)) { return bio;
+    } else { return _.i18n('user_default_description', { username: this.get('username') }); }
+  },
 
-  setInventoryStats: ->
-    created = @get('created') or 0
-    # Make lastAdd default to the user creation date
-    data = { itemsCount: 0, lastAdd: created }
+  setInventoryStats() {
+    const created = this.get('created') || 0;
+    // Make lastAdd default to the user creation date
+    let data = { itemsCount: 0, lastAdd: created };
 
-    snapshot = @get 'snapshot'
-    # Known case of missing snapshot data: user documents return from search
-    if snapshot?
-      data = _.values(snapshot).reduce aggregateScoreData, data
+    const snapshot = this.get('snapshot');
+    // Known case of missing snapshot data: user documents return from search
+    if (snapshot != null) {
+      data = _.values(snapshot).reduce(aggregateScoreData, data);
+    }
 
-    { itemsCount, lastAdd } = data
-    # Setting those as model attributes
-    # so that updating them trigger a model 'change' event
-    @set 'itemsCount', itemsCount
-    @set 'itemsLastAdded', lastAdd
+    const { itemsCount, lastAdd } = data;
+    // Setting those as model attributes
+    // so that updating them trigger a model 'change' event
+    this.set('itemsCount', itemsCount);
+    this.set('itemsLastAdded', lastAdd);
 
-    countShelves @get('_id')
-    .then (shelvesCount)=> @set 'shelvesCount', shelvesCount
+    return countShelves(this.get('_id'))
+    .then(shelvesCount=> this.set('shelvesCount', shelvesCount));
+  },
 
-  getRss: -> app.API.feeds 'user', @id
+  getRss() { return app.API.feeds('user', this.id); },
 
-  checkSpecialStatus: ->
-    if @get 'special'
-      throw error_.new "this layout isn't available for special users", 400, { user: @ }
+  checkSpecialStatus() {
+    if (this.get('special')) {
+      throw error_.new("this layout isn't available for special users", 400, { user: this });
+    }
+  },
 
-  setDefaultPicture: ->
-    unless @get('picture')? then @set 'picture', defaultAvatar
+  setDefaultPicture() {
+    if (this.get('picture') == null) { return this.set('picture', defaultAvatar); }
+  }
+});
 
-aggregateScoreData = (data, snapshotSection)->
-  { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection
-  data.itemsCount += count
-  if lastAdd > data.lastAdd then data.lastAdd = lastAdd
-  return data
+var aggregateScoreData = function(data, snapshotSection){
+  const { 'items:count':count, 'items:last-add':lastAdd } = snapshotSection;
+  data.itemsCount += count;
+  if (lastAdd > data.lastAdd) { data.lastAdd = lastAdd; }
+  return data;
+};

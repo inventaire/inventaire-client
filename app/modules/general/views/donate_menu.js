@@ -1,17 +1,20 @@
-{ donate } = require 'lib/urls'
+import { donate } from 'lib/urls';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/donate_menu'
-  className: ->
-    standalone = if @options.standalone then 'standalone' else ''
-    return "donate-menu #{standalone}"
+export default Marionette.ItemView.extend({
+  template: require('./templates/donate_menu'),
+  className() {
+    const standalone = this.options.standalone ? 'standalone' : '';
+    return `donate-menu ${standalone}`;
+  },
 
-  initialize: ->
-    { @standalone } = @options
+  initialize() {
+    return ({ standalone: this.standalone } = this.options);
+  },
 
-  behaviors:
+  behaviors: {
     General: {}
+  },
 
-  onShow: -> unless @standalone then app.execute 'modal:open'
+  onShow() { if (!this.standalone) { return app.execute('modal:open'); } },
 
-  serializeData: -> _.extend donate, { @standalone }
+  serializeData() { return _.extend(donate, { standalone: this.standalone }); }});

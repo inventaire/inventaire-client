@@ -1,11 +1,15 @@
-module.exports = Marionette.Behavior.extend
-  ui:
-    extract: '.extract'
+export default Marionette.Behavior.extend({
+  ui: {
+    extract: '.extract',
     togglers: '.toggler i'
+  },
 
-  events:
+  events: {
     'click .toggler': 'toggleExtractLength'
+  },
 
-  toggleExtractLength: ->
-    @ui.extract.toggleClass 'clamped'
-    @ui.togglers.toggleClass 'hidden'
+  toggleExtractLength() {
+    this.ui.extract.toggleClass('clamped');
+    return this.ui.togglers.toggleClass('hidden');
+  }
+});

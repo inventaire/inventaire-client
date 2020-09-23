@@ -1,56 +1,67 @@
-Filterable = require 'modules/general/models/filterable'
-getBestLangValue = require 'modules/entities/lib/get_best_lang_value'
-wdk = require 'lib/wikidata-sdk'
-error_ = require 'lib/error'
+import Filterable from 'modules/general/models/filterable';
+import getBestLangValue from 'modules/entities/lib/get_best_lang_value';
+import wdk from 'lib/wikidata-sdk';
+import error_ from 'lib/error';
 
-# make models use 'id' as idAttribute so that search results
-# automatically deduplicate themselves
-module.exports = Filterable.extend
-  idAttribute: 'id'
-  initialize: ->
-    { lang } = app.user
+// make models use 'id' as idAttribute so that search results
+// automatically deduplicate themselves
+export default Filterable.extend({
+  idAttribute: 'id',
+  initialize() {
+    const { lang } = app.user;
 
-    [ label, labels, descriptions ] = @gets 'label', 'labels', 'descriptions'
+    const [ label, labels, descriptions ] = Array.from(this.gets('label', 'labels', 'descriptions'));
 
-    if not label? and labels?
-      @set 'label', getBestLangValue(lang, null, labels).value
+    if ((label == null) && (labels != null)) {
+      this.set('label', getBestLangValue(lang, null, labels).value);
+    }
 
-    if descriptions?
-      @set 'description', getBestLangValue(lang, null, descriptions).value
+    if (descriptions != null) {
+      this.set('description', getBestLangValue(lang, null, descriptions).value);
+    }
 
-    [ prefix ] = getPrefix @id
+    const [ prefix ] = Array.from(getPrefix(this.id));
 
-    switch prefix
-      when 'wd' then @_wikidataInit()
-      when 'inv' then @_invInit()
+    switch (prefix) {
+      case 'wd': return this._wikidataInit();
+      case 'inv': return this._invInit();
+    }
+  },
 
-  _wikidataInit: ->
-    @set
-      uri: "wd:#{@id}"
-      url: "https://wikidata.org/entity/#{@id}"
+  _wikidataInit() {
+    return this.set({
+      uri: `wd:${this.id}`,
+      url: `https://wikidata.org/entity/${this.id}`
+    });
+  },
 
-  _invInit: ->
-    @set
-      uri: "inv:#{@id}"
-      url: "/entity/#{@id}"
+  _invInit() {
+    return this.set({
+      uri: `inv:${this.id}`,
+      url: `/entity/${this.id}`
+    });
+  },
 
-  matchable: ->
-    if @_values? then return @_values
-    labels = getValues @get('labels')
-    descriptions = getValues @get('descriptions')
-    aliases = _.flatten getValues(@get('aliases'))
-    uris = [ @id, @get('uri') ]
-    @_values = [ @id ].concat labels, aliases, descriptions, uris
-    return @_values
+  matchable() {
+    if (this._values != null) { return this._values; }
+    const labels = getValues(this.get('labels'));
+    const descriptions = getValues(this.get('descriptions'));
+    const aliases = _.flatten(getValues(this.get('aliases')));
+    const uris = [ this.id, this.get('uri') ];
+    this._values = [ this.id ].concat(labels, aliases, descriptions, uris);
+    return this._values;
+  }
+});
 
-getValues = (obj)-> if obj? then _.values(obj) else []
+var getValues = function(obj){ if (obj != null) { return _.values(obj); } else { return []; } };
 
-# Search results arrive as either Wikidata or inventaire documents
-# with ids unprefixed. The solutions to fix it:
-# * formatting search documents to include prefixes
-# * guessing which source the document belongs too from what we get
-# For the moment, let's keep it easy and use the 2nd solution
-getPrefix = (id)->
-  if wdk.isWikidataItemId id then return ['wd', id]
-  else if _.isInvEntityId id then return ['inv', id]
-  else throw error_.new 'unknown id domain', { id }
+// Search results arrive as either Wikidata or inventaire documents
+// with ids unprefixed. The solutions to fix it:
+// * formatting search documents to include prefixes
+// * guessing which source the document belongs too from what we get
+// For the moment, let's keep it easy and use the 2nd solution
+var getPrefix = function(id){
+  if (wdk.isWikidataItemId(id)) { return ['wd', id];
+  } else if (_.isInvEntityId(id)) { return ['inv', id];
+  } else { throw error_.new('unknown id domain', { id }); }
+};

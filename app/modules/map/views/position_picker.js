@@ -1,99 +1,118 @@
-map_ = require '../lib/map'
-getPositionFromNavigator = require 'modules/map/lib/navigator_position'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-{ startLoading, stopLoading, Check } = require 'modules/general/plugins/behaviors'
-containerId = 'positionPickerMap'
+import map_ from '../lib/map';
+import getPositionFromNavigator from 'modules/map/lib/navigator_position';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import { startLoading, stopLoading, Check } from 'modules/general/plugins/behaviors';
+const containerId = 'positionPickerMap';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/position_picker'
-  className: 'positionPicker'
-  behaviors:
-    AlertBox: {}
-    Loading: {}
-    SuccessCheck: {}
+export default Marionette.ItemView.extend({
+  template: require('./templates/position_picker'),
+  className: 'positionPicker',
+  behaviors: {
+    AlertBox: {},
+    Loading: {},
+    SuccessCheck: {},
     General: {}
+  },
 
-  events:
-    'click #validatePosition': 'validatePosition'
+  events: {
+    'click #validatePosition': 'validatePosition',
     'click #removePosition': 'removePosition'
+  },
 
-  initialize: ->
-    { model } = @options
-    if model?
-      @hasPosition = model.hasPosition()
-      @position = model.getCoords()
-    else
-      @hasPosition = false
-      @position = null
+  initialize() {
+    const { model } = this.options;
+    if (model != null) {
+      this.hasPosition = model.hasPosition();
+      return this.position = model.getCoords();
+    } else {
+      this.hasPosition = false;
+      return this.position = null;
+    }
+  },
 
-  serializeData: ->
-    _.extend {}, typeStrings[@options.type],
-      hasPosition: @hasPosition
-      position: @position
+  serializeData() {
+    return _.extend({}, typeStrings[this.options.type], {
+      hasPosition: this.hasPosition,
+      position: this.position
+    }
+    );
+  },
 
-  onShow: ->
-    app.execute 'modal:open', 'large', @options.focus
-    # let the time to the modal to be fully open
-    # so that the map can be drawned correctly
-    @setTimeout @initMap.bind(@), 500
+  onShow() {
+    app.execute('modal:open', 'large', this.options.focus);
+    // let the time to the modal to be fully open
+    // so that the map can be drawned correctly
+    return this.setTimeout(this.initMap.bind(this), 500);
+  },
 
-  initMap: ->
-    if @hasPosition then @_initMap @position
-    else
-      getPositionFromNavigator containerId
-      .then @_initMap.bind(@)
+  initMap() {
+    if (this.hasPosition) { this._initMap(this.position);
+    } else {
+      getPositionFromNavigator(containerId)
+      .then(this._initMap.bind(this));
+    }
 
-    @$el.find('#validatePosition').focus()
+    return this.$el.find('#validatePosition').focus();
+  },
 
-  _initMap: (coords)->
-    { lat, lng, zoom } = coords
-    map = map_.draw
-      containerId: containerId
-      latLng: [ lat, lng ]
-      zoom: zoom
+  _initMap(coords){
+    const { lat, lng, zoom } = coords;
+    const map = map_.draw({
+      containerId,
+      latLng: [ lat, lng ],
+      zoom,
       cluster: false
+    });
 
-    @marker = map.addMarker
-      markerType: 'circle'
-      metersRadius: @getMarkerMetersRadius()
-      latLng: [ lat, lng ]
+    this.marker = map.addMarker({
+      markerType: 'circle',
+      metersRadius: this.getMarkerMetersRadius(),
+      latLng: [ lat, lng ]});
 
-    map.on 'move', updateMarker.bind(null, @marker)
+    return map.on('move', updateMarker.bind(null, this.marker));
+  },
 
-  getCoords: ->
-    { lat, lng } = @marker._latlng
-    return [ lat, lng ]
+  getCoords() {
+    const { lat, lng } = this.marker._latlng;
+    return [ lat, lng ];
+  },
 
-  validatePosition: -> @_updatePosition @getCoords(), '#validatePosition'
-  removePosition: -> @_updatePosition null, '#removePosition'
-  _updatePosition: (newCoords, selector)->
-    startLoading.call @, selector
+  validatePosition() { return this._updatePosition(this.getCoords(), '#validatePosition'); },
+  removePosition() { return this._updatePosition(null, '#removePosition'); },
+  _updatePosition(newCoords, selector){
+    startLoading.call(this, selector);
 
-    @position = newCoords
+    this.position = newCoords;
 
-    Promise.try @options.resolve.bind(null, newCoords, selector)
-    .then stopLoading.bind(@)
-    .then Check.call(@, '_updatePosition', @close.bind(@))
-    .catch error_.Complete('.alertBox')
-    .catch forms_.catchAlert.bind(null, @)
+    return Promise.try(this.options.resolve.bind(null, newCoords, selector))
+    .then(stopLoading.bind(this))
+    .then(Check.call(this, '_updatePosition', this.close.bind(this)))
+    .catch(error_.Complete('.alertBox'))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  close: -> app.execute 'modal:close'
+  close() { return app.execute('modal:close'); },
 
-  getMarkerMetersRadius: ->
-    switch @options.type
-      when 'group' then 20
-      when 'user' then 200
+  getMarkerMetersRadius() {
+    switch (this.options.type) {
+      case 'group': return 20;
+      case 'user': return 200;
+    }
+  }
+});
 
-typeStrings =
-  user:
-    title: 'edit your position'
-    context: 'position_privacy_context'
+var typeStrings = {
+  user: {
+    title: 'edit your position',
+    context: 'position_privacy_context',
     tip: 'position_privacy_tip'
-  group:
-    title: "edit the group's position"
+  },
+  group: {
+    title: "edit the group's position",
     context: 'group_position_context'
-    # tip: 'position_privacy_tip'
+  }
+};
+// tip: 'position_privacy_tip'
 
-updateMarker = (marker, e)->
-  map_.updateMarker marker, e.target.getCenter()
+var updateMarker = (marker, e) => map_.updateMarker(marker, e.target.getCenter());

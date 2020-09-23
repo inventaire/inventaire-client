@@ -1,58 +1,70 @@
-Entities = require './entities'
+import Entities from './entities';
 
-module.exports = Entities.extend
-  initialize: (models, options = {})->
-    { uris } = options
-    unless uris? then throw new Error 'expected uris'
-    # Clone the array as it will be mutated
-    @allUris = uris.slice(0)
-    # At the begining, all URIs are unfetched URIs
-    @remainingUris = @allUris
-    @totalLength = uris.length
-    @fetchedUris = []
-    { @refresh, @defaultType, @parentContext } = options
-    @typesAllowlist ?= options.typesAllowlist
+export default Entities.extend({
+  initialize(models, options = {}){
+    const { uris } = options;
+    if (uris == null) { throw new Error('expected uris'); }
+    // Clone the array as it will be mutated
+    this.allUris = uris.slice(0);
+    // At the begining, all URIs are unfetched URIs
+    this.remainingUris = this.allUris;
+    this.totalLength = uris.length;
+    this.fetchedUris = [];
+    ({ refresh: this.refresh, defaultType: this.defaultType, parentContext: this.parentContext } = options);
+    return this.typesAllowlist != null ? this.typesAllowlist : (this.typesAllowlist = options.typesAllowlist);
+  },
 
-  resetFromUris: (uris)->
-    @remainingUris = uris
-    @reset()
-    @fetchMore()
+  resetFromUris(uris){
+    this.remainingUris = uris;
+    this.reset();
+    return this.fetchMore();
+  },
 
-  fetchMore: (amount = 10)->
-    urisToFetch = @remainingUris.splice(0, amount)
-    fetchedUrisBefore = @fetchedUris
-    @fetchedUris = @fetchedUris.concat(urisToFetch)
+  fetchMore(amount = 10){
+    const urisToFetch = this.remainingUris.splice(0, amount);
+    const fetchedUrisBefore = this.fetchedUris;
+    this.fetchedUris = this.fetchedUris.concat(urisToFetch);
 
-    rollback = (err)=>
-      @remainingUris = urisToFetch.concat @remainingUris
-      @fetchedUris = fetchedUrisBefore
-      _.error err, 'failed to fetch more works: rollback'
+    const rollback = err=> {
+      this.remainingUris = urisToFetch.concat(this.remainingUris);
+      this.fetchedUris = fetchedUrisBefore;
+      return _.error(err, 'failed to fetch more works: rollback');
+    };
 
-    app.request 'get:entities:models',
+    return app.request('get:entities:models', {
       uris: urisToFetch,
-      refresh: @refresh,
-      defaultType: @defaultType
-    .filter @filterOutUndesiredTypes.bind(@)
-    .then @add.bind(@)
-    .catch rollback
+      refresh: this.refresh,
+      defaultType: this.defaultType
+    }).filter(this.filterOutUndesiredTypes.bind(this))
+    .then(this.add.bind(this))
+    .catch(rollback);
+  },
 
-  fetchAll: -> @fetchMore @remainingUris.length
+  fetchAll() { return this.fetchMore(this.remainingUris.length); },
 
-  firstFetch: (amount)->
-    unless @_firstFetchDone
-      @_firstFetchDone = true
-      @fetchMore amount
+  firstFetch(amount){
+    if (!this._firstFetchDone) {
+      this._firstFetchDone = true;
+      return this.fetchMore(amount);
+    }
+  },
 
-  more: -> @remainingUris.length
+  more() { return this.remainingUris.length; },
 
-  filterOutUndesiredTypes: (entity)->
-    if not @typesAllowlist? or entity.type in @typesAllowlist then return true
-    else
-      app.execute 'report:entity:type:issue',
-        model: entity
-        expectedType: @typesAllowlist
-        context:
-          module: module.id
-          allUris: JSON.stringify @allUris
-          parentContext: if @parentContext? then JSON.stringify @parentContext
-      return false
+  filterOutUndesiredTypes(entity){
+    if ((this.typesAllowlist == null) || this.typesAllowlist.includes(entity.type)) { return true;
+    } else {
+      app.execute('report:entity:type:issue', {
+        model: entity,
+        expectedType: this.typesAllowlist,
+        context: {
+          module: module.id,
+          allUris: JSON.stringify(this.allUris),
+          parentContext: (this.parentContext != null) ? JSON.stringify(this.parentContext) : undefined
+        }
+      }
+      );
+      return false;
+    }
+  }
+});

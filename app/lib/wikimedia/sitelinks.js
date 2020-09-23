@@ -1,74 +1,90 @@
-{ buildPath } = require 'lib/location'
+import { buildPath } from 'lib/location';
 
-module.exports =
-  # lang: the user's lang
-  # original lang: the entity's original lang
-  wikipedia: (sitelinks, lang, originalLang)->
-    # Wikimedia Commons is confusingly using a sitelink key that makes it look like
-    # a Wikipedia sitelink - commonswiki - thus the need to omit it before proceeding
-    # https://www.wikidata.org/wiki/Help:Sitelinks#Linking_to_Wikimedia_site_pages
-    sitelinks = _.omit sitelinks, 'commonswiki'
-    getBestWikiProjectInfo
-      sitelinks: sitelinks
-      projectBaseName: 'wiki'
-      projectRoot: 'wikipedia'
-      lang: lang
-      originalLang: originalLang
+export default {
+  // lang: the user's lang
+  // original lang: the entity's original lang
+  wikipedia(sitelinks, lang, originalLang){
+    // Wikimedia Commons is confusingly using a sitelink key that makes it look like
+    // a Wikipedia sitelink - commonswiki - thus the need to omit it before proceeding
+    // https://www.wikidata.org/wiki/Help:Sitelinks#Linking_to_Wikimedia_site_pages
+    sitelinks = _.omit(sitelinks, 'commonswiki');
+    return getBestWikiProjectInfo({
+      sitelinks,
+      projectBaseName: 'wiki',
+      projectRoot: 'wikipedia',
+      lang,
+      originalLang
+    });
+  },
 
-  wikisource: (sitelinks, lang, originalLang)->
-    wsData = getBestWikiProjectInfo
-      sitelinks: sitelinks
-      projectBaseName: 'wikisource'
-      projectRoot: 'wikisource'
-      lang: lang
-      originalLang: originalLang
-    if wsData?
-      wsData.epub = getEpubLink wsData
-      return wsData
+  wikisource(sitelinks, lang, originalLang){
+    const wsData = getBestWikiProjectInfo({
+      sitelinks,
+      projectBaseName: 'wikisource',
+      projectRoot: 'wikisource',
+      lang,
+      originalLang
+    });
+    if (wsData != null) {
+      wsData.epub = getEpubLink(wsData);
+      return wsData;
+    }
+  }
+};
 
-getBestWikiProjectInfo = (params)->
-  { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params
-  unless sitelinks? then return
+var getBestWikiProjectInfo = function(params){
+  const { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params;
+  if (sitelinks == null) { return; }
 
-  getTitleForLang = (Lang)-> getWikiProjectTitle sitelinks, projectBaseName, Lang
+  const getTitleForLang = Lang => getWikiProjectTitle(sitelinks, projectBaseName, Lang);
 
-  [ title, langCode ] = [ getTitleForLang(lang), lang ]
+  let [ title, langCode ] = Array.from([ getTitleForLang(lang), lang ]);
 
-  if originalLang? and not title?
-    [ title, langCode ] = [ getTitleForLang(originalLang), originalLang ]
+  if ((originalLang != null) && (title == null)) {
+    [ title, langCode ] = Array.from([ getTitleForLang(originalLang), originalLang ]);
+  }
 
-  unless title?
-    [ title, langCode ] = [ getTitleForLang('en'), 'en' ]
+  if (title == null) {
+    [ title, langCode ] = Array.from([ getTitleForLang('en'), 'en' ]);
+  }
 
-  unless title?
-    [ title, langCode ] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
+  if (title == null) {
+    [ title, langCode ] = Array.from(pickOneWikiProjectTitle(sitelinks, projectBaseName));
+  }
 
-  if title? and langCode
-    title = _.fixedEncodeURIComponent title
-    url = "https://#{langCode}.#{projectRoot}.org/wiki/#{title}"
-    return { title, lang: langCode, url }
+  if ((title != null) && langCode) {
+    title = _.fixedEncodeURIComponent(title);
+    const url = `https://${langCode}.${projectRoot}.org/wiki/${title}`;
+    return { title, lang: langCode, url };
+  }
 
-  return
+};
 
-getWikiProjectTitle = (sitelinks, projectBaseName, lang)->
-  sitelinks["#{lang}#{projectBaseName}"]
+var getWikiProjectTitle = (sitelinks, projectBaseName, lang) => sitelinks[`${lang}${projectBaseName}`];
 
-pickOneWikiProjectTitle = (sitelinks, projectBaseName)->
-  for projectName, value of sitelinks
-    match = projectName.split projectBaseName
-    # ex: 'lawikisource'.split 'wikisource' == ['la', '']
-    # The second part needs to be an empty string to avoid confusing
-    # a sitelink like : for dewiki
-    if match.length is 2 and match[1] is ''
-      langCode = match[0]
-      # Giving priority to 2 letters code languages
-      if langCode.length is 2 then return [ value, langCode ]
+var pickOneWikiProjectTitle = function(sitelinks, projectBaseName){
+  for (let projectName in sitelinks) {
+    const value = sitelinks[projectName];
+    const match = projectName.split(projectBaseName);
+    // ex: 'lawikisource'.split 'wikisource' == ['la', '']
+    // The second part needs to be an empty string to avoid confusing
+    // a sitelink like : for dewiki
+    if ((match.length === 2) && (match[1] === '')) {
+      const langCode = match[0];
+      // Giving priority to 2 letters code languages
+      if (langCode.length === 2) { return [ value, langCode ]; }
+    }
+  }
 
-  return []
+  return [];
+};
 
-getEpubLink = (wikisourceData)->
-  { title, lang } = wikisourceData
-  buildPath 'http://wsexport.wmflabs.org/tool/book.php',
-    lang: lang
-    format: 'epub'
+var getEpubLink = function(wikisourceData){
+  const { title, lang } = wikisourceData;
+  return buildPath('http://wsexport.wmflabs.org/tool/book.php', {
+    lang,
+    format: 'epub',
     page: title
+  }
+  );
+};

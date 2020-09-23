@@ -1,12 +1,11 @@
-__ = require '../root'
-
-should = require 'should'
+import __ from '../root';
+import should from 'should';
 
 global.location =
-    hostname: 'localhost'
-_ = global._ = require './utils_builder'
-global.Handlebars = require 'handlebars'
+    {hostname: 'localhost'};
+const _ = (global._ = require('./utils_builder'));
+global.Handlebars = require('handlebars');
 
-helpers = __.require 'lib', 'handlebars_helpers/misc'
+const helpers = __.require('lib', 'handlebars_helpers/misc');
 
-describe 'Handlebars helpers', ->
+describe('Handlebars helpers', function() {});

@@ -1,60 +1,75 @@
-wdk = require 'lib/wikidata-sdk'
+import wdk from 'lib/wikidata-sdk';
 
-module.exports = Marionette.ItemView.extend
-  className: 'wikidata-data-importer'
-  template: require './templates/wikidata_data_importer'
-  initialize: ->
-    { @labels, @claims, @wdEntity } = @options.importData
+export default Marionette.ItemView.extend({
+  className: 'wikidata-data-importer',
+  template: require('./templates/wikidata_data_importer'),
+  initialize() {
+    return ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData);
+  },
 
-  onShow: -> app.execute 'modal:open', 'medium'
+  onShow() { return app.execute('modal:open', 'medium'); },
 
-  serializeData: ->
-    labels: @labels
-    claims: @claims
-    wdEntity: @wdEntity.toJSON()
+  serializeData() {
+    return {
+      labels: this.labels,
+      claims: this.claims,
+      wdEntity: this.wdEntity.toJSON()
+    };
+  },
 
-  events:
-    'click #importData': 'importSelectedData'
+  events: {
+    'click #importData': 'importSelectedData',
     'click #mergeWithoutImport': 'mergeWithoutImport'
+  },
 
-  importSelectedData: ->
-    @dataToImport = @getDataToImport()
-    @importNext()
+  importSelectedData() {
+    this.dataToImport = this.getDataToImport();
+    return this.importNext();
+  },
 
-  getDataToImport: ->
-    _.toArray @$el.find('input[type="checkbox"]')
-    .filter isChecked
-    .map formatData
+  getDataToImport() {
+    return _.toArray(this.$el.find('input[type="checkbox"]'))
+    .filter(isChecked)
+    .map(formatData);
+  },
 
-  importNext: ->
-    nextData = @dataToImport.pop()
-    unless nextData? then return @done()
+  importNext() {
+    const nextData = this.dataToImport.pop();
+    if (nextData == null) { return this.done(); }
 
-    makeImportRequest @wdEntity, nextData
-    .then @importNext.bind(@)
+    return makeImportRequest(this.wdEntity, nextData)
+    .then(this.importNext.bind(this));
+  },
 
-  mergeWithoutImport: -> @done()
+  mergeWithoutImport() { return this.done(); },
 
-  done: ->
-    @options.resolve()
-    app.execute 'modal:close'
+  done() {
+    this.options.resolve();
+    return app.execute('modal:close');
+  }
+});
 
-isChecked = (el)-> el.attributes.checked.value is 'true'
+var isChecked = el => el.attributes.checked.value === 'true';
 
-formatData = (el)->
-  { attributes:attrs } = el
-  type = attrs['data-type'].value
+var formatData = function(el){
+  const { attributes:attrs } = el;
+  const type = attrs['data-type'].value;
 
-  if type is 'label'
-    lang = attrs['data-lang'].value
-    label = attrs['data-label'].value
-    return { type, lang, label }
-  else if type is 'claim'
-    property = attrs['data-property'].value
-    value = attrs['data-value'].value
-    return { type, property, value }
+  if (type === 'label') {
+    const lang = attrs['data-lang'].value;
+    const label = attrs['data-label'].value;
+    return { type, lang, label };
+  } else if (type === 'claim') {
+    const property = attrs['data-property'].value;
+    const {
+      value
+    } = attrs['data-value'];
+    return { type, property, value };
+  }
+};
 
-makeImportRequest = (wdEntity, data)->
-  { type, lang, label, property, value } = data
-  if type is 'label' then wdEntity.setLabel lang, label
-  else wdEntity.setPropertyValue property, null, value
+var makeImportRequest = function(wdEntity, data){
+  const { type, lang, label, property, value } = data;
+  if (type === 'label') { return wdEntity.setLabel(lang, label);
+  } else { return wdEntity.setPropertyValue(property, null, value); }
+};

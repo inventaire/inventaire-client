@@ -1,52 +1,61 @@
-views =
-  profile: require './profile_settings'
-  account: require './account_settings'
-  notifications: require './notifications_settings'
-  data: require './data_settings'
+const views = {
+  profile: require('./profile_settings'),
+  account: require('./account_settings'),
+  notifications: require('./notifications_settings'),
+  data: require('./data_settings')
+};
 
-module.exports = Marionette.LayoutView.extend
-  id: 'settings'
-  template: require './templates/settings'
-  regions:
+export default Marionette.LayoutView.extend({
+  id: 'settings',
+  template: require('./templates/settings'),
+  regions: {
     tabsContent: '.custom-tabs-content'
+  },
 
-  ui:
-    tabsTitles: '.custom-tabs-titles'
-    profileTitle: '#profile'
-    accountTitle: '#account'
-    notificationsTitle: '#notifications'
+  ui: {
+    tabsTitles: '.custom-tabs-titles',
+    profileTitle: '#profile',
+    accountTitle: '#account',
+    notificationsTitle: '#notifications',
     dataTitle: '#data'
+  },
 
-  onShow: ->
-    app.request 'wait:for', 'user'
-    .then @showTab.bind(@, @options.tab)
+  onShow() {
+    return app.request('wait:for', 'user')
+    .then(this.showTab.bind(this, this.options.tab));
+  },
 
-  events:
-    'click #profile': 'showProfileSettings'
-    'click #account': 'showAccountSettings'
-    'click #notifications': 'showNotificationsSettings'
+  events: {
+    'click #profile': 'showProfileSettings',
+    'click #account': 'showAccountSettings',
+    'click #notifications': 'showNotificationsSettings',
     'click #data': 'showDataSettings'
+  },
 
-  showTab: (tab)->
-    View = views[tab]
-    @tabsContent.show new View { @model }
-    @tabUpdate tab
+  showTab(tab){
+    const View = views[tab];
+    this.tabsContent.show(new View({ model: this.model }));
+    return this.tabUpdate(tab);
+  },
 
-  tabUpdate: (tab)->
-    @setActiveTab tab
+  tabUpdate(tab){
+    this.setActiveTab(tab);
 
-    tabLabel = _.I18n tab
-    settings = _.I18n 'settings'
+    const tabLabel = _.I18n(tab);
+    const settings = _.I18n('settings');
 
-    app.navigate "settings/#{tab}",
-      metadata: { title: "#{tabLabel} - #{settings}" }
+    return app.navigate(`settings/${tab}`,
+      {metadata: { title: `${tabLabel} - ${settings}` }});
+  },
 
-  setActiveTab: (name)->
-    tab = "#{name}Title"
-    @ui.tabsTitles.find('a').removeClass 'active'
-    @ui[tab].addClass 'active'
+  setActiveTab(name){
+    const tab = `${name}Title`;
+    this.ui.tabsTitles.find('a').removeClass('active');
+    return this.ui[tab].addClass('active');
+  },
 
-  showProfileSettings: -> @showTab 'profile'
-  showAccountSettings: -> @showTab 'account'
-  showNotificationsSettings: -> @showTab 'notifications'
-  showDataSettings: -> @showTab 'data'
+  showProfileSettings() { return this.showTab('profile'); },
+  showAccountSettings() { return this.showTab('account'); },
+  showNotificationsSettings() { return this.showTab('notifications'); },
+  showDataSettings() { return this.showTab('data'); }
+});

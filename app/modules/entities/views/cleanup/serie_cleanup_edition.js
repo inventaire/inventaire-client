@@ -1,71 +1,82 @@
-WorkPicker = require './work_picker'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
+import WorkPicker from './work_picker';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
 
-module.exports = WorkPicker.extend
-  tagName: 'li'
-  className: 'serie-cleanup-edition'
-  template: require './templates/serie_cleanup_edition'
+export default WorkPicker.extend({
+  tagName: 'li',
+  className: 'serie-cleanup-edition',
+  template: require('./templates/serie_cleanup_edition'),
 
-  initialize: ->
-    WorkPicker::initialize.call @
-    @editionLang = @model.get 'lang'
-    @workUri = @model.get 'claims.wdt:P629.0'
-    @getWorksLabel()
+  initialize() {
+    WorkPicker.prototype.initialize.call(this);
+    this.editionLang = this.model.get('lang');
+    this.workUri = this.model.get('claims.wdt:P629.0');
+    return this.getWorksLabel();
+  },
 
-  serializeData: ->
-    _.extend @model.toJSON(),
-      workLabel: @workLabel
-      worksList: if @_showWorkPicker then @getWorksList()
-      workPicker:
-        buttonIcon: 'arrows'
-        buttonLabel: "change edition's work"
+  serializeData() {
+    return _.extend(this.model.toJSON(), {
+      workLabel: this.workLabel,
+      worksList: this._showWorkPicker ? this.getWorksList() : undefined,
+      workPicker: {
+        buttonIcon: 'arrows',
+        buttonLabel: "change edition's work",
         validateLabel: 'validate'
+      }
+    }
+    );
+  },
 
-  events: _.extend {}, WorkPicker::events,
-    'click .copyWorkLabel': 'copyWorkLabel'
+  events: _.extend({}, WorkPicker.prototype.events,
+    {'click .copyWorkLabel': 'copyWorkLabel'}),
 
-  onWorkSelected: (newWork)->
-    uri = newWork.get 'uri'
-    if uri is @workUri then return
+  onWorkSelected(newWork){
+    const uri = newWork.get('uri');
+    if (uri === this.workUri) { return; }
 
-    edition = @model
-    currentWorkEditions = edition.collection
+    const edition = this.model;
+    const currentWorkEditions = edition.collection;
 
-    rollback = (err)->
-      currentWorkEditions.add edition
-      newWork.editions.remove edition
-      throw err
+    const rollback = function(err){
+      currentWorkEditions.add(edition);
+      newWork.editions.remove(edition);
+      throw err;
+    };
 
-    edition.setPropertyValue 'wdt:P629', @workUri, uri
-    .then ->
-      # Moving the edition after the property is set is required to make sure
-      # that the new edition view is initialized with the right work model and thus
-      # with the right workLabel
-      currentWorkEditions.remove edition
-      newWork.editions.add edition
-    .catch rollback
+    return edition.setPropertyValue('wdt:P629', this.workUri, uri)
+    .then(function() {
+      // Moving the edition after the property is set is required to make sure
+      // that the new edition view is initialized with the right work model and thus
+      // with the right workLabel
+      currentWorkEditions.remove(edition);
+      return newWork.editions.add(edition);}).catch(rollback);
+  },
 
-  getWorksLabel: ->
-    unless @editionLang? then return
+  getWorksLabel() {
+    if (this.editionLang == null) { return; }
 
-    @model.waitForWorks
-    .then (works)=>
-      if works.length isnt 1 then return
-      work = works[0]
-      workLabel = work.get "labels.#{@editionLang}"
-      if workLabel? and workLabel isnt @model.get('label')
-        @workLabel = workLabel
-        @lazyRender()
+    return this.model.waitForWorks
+    .then(works=> {
+      if (works.length !== 1) { return; }
+      const work = works[0];
+      const workLabel = work.get(`labels.${this.editionLang}`);
+      if ((workLabel != null) && (workLabel !== this.model.get('label'))) {
+        this.workLabel = workLabel;
+        return this.lazyRender();
+      }
+    });
+  },
 
-  copyWorkLabel: ->
-    unless @workLabel? then return
-    currentTitle = @model.get 'claims.wdt:P1476.0'
+  copyWorkLabel() {
+    if (this.workLabel == null) { return; }
+    const currentTitle = this.model.get('claims.wdt:P1476.0');
 
-    @model.setPropertyValue 'wdt:P1476', currentTitle, @workLabel
-    .catch error_.Complete('.actions', false)
-    .catch forms_.catchAlert.bind(null, @)
+    this.model.setPropertyValue('wdt:P1476', currentTitle, this.workLabel)
+    .catch(error_.Complete('.actions', false))
+    .catch(forms_.catchAlert.bind(null, this));
 
-    @model.setLabelFromTitle()
-    @workLabel = null
-    @lazyRender()
+    this.model.setLabelFromTitle();
+    this.workLabel = null;
+    return this.lazyRender();
+  }
+});

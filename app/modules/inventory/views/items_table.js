@@ -1,97 +1,117 @@
-InfiniteScrollItemsList = require './infinite_scroll_items_list'
-ItemsTableSelectionEditor = require './items_table_selection_editor'
+import InfiniteScrollItemsList from './infinite_scroll_items_list';
+import ItemsTableSelectionEditor from './items_table_selection_editor';
 
-module.exports = InfiniteScrollItemsList.extend
-  className: 'items-table'
-  template: require './templates/items_table'
-  childView: require './item_row'
-  emptyView: require './no_item'
-  childViewContainer: '#itemsRows'
+export default InfiniteScrollItemsList.extend({
+  className: 'items-table',
+  template: require('./templates/items_table'),
+  childView: require('./item_row'),
+  emptyView: require('./no_item'),
+  childViewContainer: '#itemsRows',
 
-  ui:
-    selectAll: '#selectAll'
-    unselectAll: '#unselectAll'
-    editSelection: '#editSelection'
+  ui: {
+    selectAll: '#selectAll',
+    unselectAll: '#unselectAll',
+    editSelection: '#editSelection',
     selectionCounter: '.selectionCounter'
+  },
 
-  initialize: ->
-    @initInfiniteScroll()
-    { @itemsIds, @isMainUser, @groupContext } = @options
-    @selectedIds = []
-    @getSelectedIds = => @selectedIds
+  initialize() {
+    this.initInfiniteScroll();
+    ({ itemsIds: this.itemsIds, isMainUser: this.isMainUser, groupContext: this.groupContext } = this.options);
+    this.selectedIds = [];
+    return this.getSelectedIds = () => this.selectedIds;
+  },
 
-  childViewOptions: -> { @getSelectedIds, @isMainUser, @groupContext }
+  childViewOptions() { return { getSelectedIds: this.getSelectedIds, isMainUser: this.isMainUser, groupContext: this.groupContext }; },
 
-  serializeData: ->
-    itemsCount: @itemsIds.length
-    isMainUser: @isMainUser
+  serializeData() {
+    return {
+      itemsCount: this.itemsIds.length,
+      isMainUser: this.isMainUser
+    };
+  },
 
-  events:
-    'inview .fetchMore': 'infiniteScroll'
-    'click #selectAll': 'selectAll'
-    'click #unselectAll': 'unselectAll'
-    'click #editSelection': 'showSelectionEditor'
+  events: {
+    'inview .fetchMore': 'infiniteScroll',
+    'click #selectAll': 'selectAll',
+    'click #unselectAll': 'unselectAll',
+    'click #editSelection': 'showSelectionEditor',
     'change input[name="select"]': 'selectOne'
+  },
 
-  selectAll: ->
-    @$el.find('input:checkbox').prop 'checked', true
-    @updateSelectedIds _.clone(@itemsIds)
+  selectAll() {
+    this.$el.find('input:checkbox').prop('checked', true);
+    return this.updateSelectedIds(_.clone(this.itemsIds));
+  },
 
-  unselectAll: ->
-    @$el.find('input:checkbox').prop 'checked', false
-    @updateSelectedIds []
+  unselectAll() {
+    this.$el.find('input:checkbox').prop('checked', false);
+    return this.updateSelectedIds([]);
+  },
 
-  selectOne: (e)->
-    { checked } = e.currentTarget
-    id = e.currentTarget.attributes['data-id'].value
-    if checked
-      if id in @selectedIds then return
-      else @addSelectedIds id
-    else
-      if id not in @selectedIds then return
-      else @removeSelectedIds id
+  selectOne(e){
+    const { checked } = e.currentTarget;
+    const id = e.currentTarget.attributes['data-id'].value;
+    if (checked) {
+      if (this.selectedIds.includes(id)) { return;
+      } else { return this.addSelectedIds(id); }
+    } else {
+      if (!this.selectedIds.includes(id)) { return;
+      } else { return this.removeSelectedIds(id); }
+    }
+  },
 
-  updateSelectedIds: (list)->
-    @selectedIds = list
+  updateSelectedIds(list){
+    this.selectedIds = list;
 
-    if list.length is 0
-      @ui.unselectAll.addClass 'hidden'
-      @ui.editSelection.addClass 'hidden'
-    else
-      @ui.unselectAll.removeClass 'hidden'
-      @ui.editSelection.removeClass 'hidden'
-      @ui.selectionCounter.text "(#{list.length})"
+    if (list.length === 0) {
+      this.ui.unselectAll.addClass('hidden');
+      this.ui.editSelection.addClass('hidden');
+    } else {
+      this.ui.unselectAll.removeClass('hidden');
+      this.ui.editSelection.removeClass('hidden');
+      this.ui.selectionCounter.text(`(${list.length})`);
+    }
 
-    if list.length is @itemsIds.length
-      @ui.selectAll.addClass 'hidden'
-    else
-      @ui.selectAll.removeClass 'hidden'
+    if (list.length === this.itemsIds.length) {
+      return this.ui.selectAll.addClass('hidden');
+    } else {
+      return this.ui.selectAll.removeClass('hidden');
+    }
+  },
 
-  addSelectedIds: (ids...)->
-    @selectedIds.push ids...
-    @updateSelectedIds @selectedIds
+  addSelectedIds(...ids){
+    this.selectedIds.push(...Array.from(ids || []));
+    return this.updateSelectedIds(this.selectedIds);
+  },
 
-  removeSelectedIds: (ids...)->
-    @selectedIds = _.without @selectedIds, ids...
-    @updateSelectedIds @selectedIds
+  removeSelectedIds(...ids){
+    this.selectedIds = _.without(this.selectedIds, ...Array.from(ids));
+    return this.updateSelectedIds(this.selectedIds);
+  },
 
-  # Get a mix of the selected views' models and the remaining ids from non-displayed
-  # items so that items:update or items:delete can set values on models
-  # trigger item rows updates
-  getSelectedModelsAndIds: ->
-    { selectedIds } = @
+  // Get a mix of the selected views' models and the remaining ids from non-displayed
+  // items so that items:update or items:delete can set values on models
+  // trigger item rows updates
+  getSelectedModelsAndIds() {
+    const { selectedIds } = this;
 
-    selectedModels = @children
-      .filter (view)-> view.model.id in selectedIds
-      .map _.property('model')
+    const selectedModels = this.children
+      .filter(view => selectedIds.includes(view.model.id))
+      .map(_.property('model'));
 
-    modelsIds = _.pluck selectedModels, 'id'
-    otherIds = _.difference selectedIds, modelsIds
-    selectedModelsAndIds = selectedModels.concat otherIds
-    return { selectedModelsAndIds, selectedModels, selectedIds }
+    const modelsIds = _.pluck(selectedModels, 'id');
+    const otherIds = _.difference(selectedIds, modelsIds);
+    const selectedModelsAndIds = selectedModels.concat(otherIds);
+    return { selectedModelsAndIds, selectedModels, selectedIds };
+  },
 
-  showSelectionEditor: ->
-    app.layout.modal.show new ItemsTableSelectionEditor
-      selectedIds: @selectedIds
-      getSelectedModelsAndIds: @getSelectedModelsAndIds.bind(@)
-      afterItemsDelete: @options.afterItemsDelete
+  showSelectionEditor() {
+    return app.layout.modal.show(new ItemsTableSelectionEditor({
+      selectedIds: this.selectedIds,
+      getSelectedModelsAndIds: this.getSelectedModelsAndIds.bind(this),
+      afterItemsDelete: this.options.afterItemsDelete
+    })
+    );
+  }
+});

@@ -1,204 +1,240 @@
-{ listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
-UpdateSelector = require 'modules/inventory/behaviors/update_selector'
-error_ = require 'lib/error'
-forms_ = require 'modules/general/lib/forms'
-screen_ = require 'lib/screen'
-ItemShelves = require '../item_shelves'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
-Shelves = require 'modules/shelves/collections/shelves'
+import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation';
+import UpdateSelector from 'modules/inventory/behaviors/update_selector';
+import error_ from 'lib/error';
+import forms_ from 'modules/general/lib/forms';
+import screen_ from 'lib/screen';
+import ItemShelves from '../item_shelves';
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
+import Shelves from 'modules/shelves/collections/shelves';
 
-CandidatesQueue = Marionette.CollectionView.extend
-  tagName: 'ul'
-  childView: require './candidate_row'
-  childEvents:
-    'selection:changed': -> @triggerMethod 'selection:changed'
+const CandidatesQueue = Marionette.CollectionView.extend({
+  tagName: 'ul',
+  childView: require('./candidate_row'),
+  childEvents: {
+    'selection:changed'() { return this.triggerMethod('selection:changed'); }
+  }
+});
 
-ImportedItemsList = Marionette.CollectionView.extend
-  tagName: 'ul'
-  childView: require './imported_item_row'
+const ImportedItemsList = Marionette.CollectionView.extend({
+  tagName: 'ul',
+  childView: require('./imported_item_row')
+});
 
-module.exports = Marionette.LayoutView.extend
-  className: 'import-queue'
-  template: require './templates/import_queue'
+export default Marionette.LayoutView.extend({
+  className: 'import-queue',
+  template: require('./templates/import_queue'),
 
-  regions:
-    candidatesQueue: '#candidatesQueue'
-    itemsList: '#itemsList'
+  regions: {
+    candidatesQueue: '#candidatesQueue',
+    itemsList: '#itemsList',
     shelvesSelector: '#shelvesSelector'
+  },
 
-  ui:
-    headCheckbox: 'thead input'
-    validationElements: '.import, .progress'
-    validateButton: '#validate'
-    disabledValidateButton: '#disabledValidate'
-    transaction: '#transaction'
-    listing: '#listing'
-    meter: '.meter'
-    fraction: '.fraction'
-    step2: '#step2'
-    lastSteps: '#lastSteps'
-    addedBooks: '#addedBooks'
+  ui: {
+    headCheckbox: 'thead input',
+    validationElements: '.import, .progress',
+    validateButton: '#validate',
+    disabledValidateButton: '#disabledValidate',
+    transaction: '#transaction',
+    listing: '#listing',
+    meter: '.meter',
+    fraction: '.fraction',
+    step2: '#step2',
+    lastSteps: '#lastSteps',
+    addedBooks: '#addedBooks',
     shelvesWrapper: '#shelvesWrapper'
+  },
 
-  behaviors:
-    UpdateSelector:
+  behaviors: {
+    UpdateSelector: {
       behaviorClass: UpdateSelector
-    AlertBox: {}
+    },
+    AlertBox: {},
     Loading: {}
+  },
 
-  events:
-    'change th.selected input': 'toggleAll'
-    'click #selectAll': 'selectAll'
-    'click #unselectAll': 'unselectAll'
-    'click #emptyQueue': 'emptyQueue'
+  events: {
+    'change th.selected input': 'toggleAll',
+    'click #selectAll': 'selectAll',
+    'click #unselectAll': 'unselectAll',
+    'click #emptyQueue': 'emptyQueue',
     'click #validate': 'validate'
+  },
 
-  initialize: ->
-    { @candidates } = @options
-    @items = new Backbone.Collection
-    @lazyUpdateSteps = _.debounce @updateSteps.bind(@), 50
+  initialize() {
+    ({ candidates: this.candidates } = this.options);
+    this.items = new Backbone.Collection;
+    return this.lazyUpdateSteps = _.debounce(this.updateSteps.bind(this), 50);
+  },
 
-  serializeData: ->
-    listings: listingsData()
-    transactions: transactionsData()
+  serializeData() {
+    return {
+      listings: listingsData(),
+      transactions: transactionsData()
+    };
+  },
 
-  onShow: ->
-    @candidatesQueue.show new CandidatesQueue { collection: @candidates }
-    @itemsList.show new ImportedItemsList { collection: @items }
-    @lazyUpdateSteps()
-    @showShelves()
+  onShow() {
+    this.candidatesQueue.show(new CandidatesQueue({ collection: this.candidates }));
+    this.itemsList.show(new ImportedItemsList({ collection: this.items }));
+    this.lazyUpdateSteps();
+    return this.showShelves();
+  },
 
-  selectAll: ->
-    @candidates.setAllSelectedTo true
-    @updateSteps()
+  selectAll() {
+    this.candidates.setAllSelectedTo(true);
+    return this.updateSteps();
+  },
 
-  unselectAll: ->
-    @candidates.setAllSelectedTo false
-    @updateSteps()
+  unselectAll() {
+    this.candidates.setAllSelectedTo(false);
+    return this.updateSteps();
+  },
 
-  emptyQueue: ->
-    @candidates.reset()
+  emptyQueue() {
+    return this.candidates.reset();
+  },
 
-  childEvents:
+  childEvents: {
     'selection:changed': 'lazyUpdateSteps'
+  },
 
-  collectionEvents:
+  collectionEvents: {
     'add': 'lazyUpdateSteps'
+  },
 
-  updateSteps: ->
-    if @candidates.selectionIsntEmpty()
-      @ui.disabledValidateButton.addClass 'force-hidden'
-      @ui.validateButton.removeClass 'force-hidden'
-      @ui.lastSteps.removeClass 'force-hidden'
-    else
-      # Use 'force-hidden' as the class 'button' would otherwise overrides
-      # the 'display' attribute
-      @ui.validateButton.addClass 'force-hidden'
-      @ui.disabledValidateButton.removeClass 'force-hidden'
-      @ui.lastSteps.addClass 'force-hidden'
+  updateSteps() {
+    if (this.candidates.selectionIsntEmpty()) {
+      this.ui.disabledValidateButton.addClass('force-hidden');
+      this.ui.validateButton.removeClass('force-hidden');
+      this.ui.lastSteps.removeClass('force-hidden');
+    } else {
+      // Use 'force-hidden' as the class 'button' would otherwise overrides
+      // the 'display' attribute
+      this.ui.validateButton.addClass('force-hidden');
+      this.ui.disabledValidateButton.removeClass('force-hidden');
+      this.ui.lastSteps.addClass('force-hidden');
+    }
 
-    if @candidates.length is 0
-      @ui.step2.addClass 'force-hidden'
-    else
-      @ui.step2.removeClass 'force-hidden'
+    if (this.candidates.length === 0) {
+      return this.ui.step2.addClass('force-hidden');
+    } else {
+      return this.ui.step2.removeClass('force-hidden');
+    }
+  },
 
-  showShelves: ->
-    getShelvesByOwner app.user.id
-    .then @ifViewIsIntact('_showShelves')
-    .catch _.Error('showShelves err')
+  showShelves() {
+    return getShelvesByOwner(app.user.id)
+    .then(this.ifViewIsIntact('_showShelves'))
+    .catch(_.Error('showShelves err'));
+  },
 
-  _showShelves: (shelves)->
-    selectedShelves = app.request('last:shelves:get') || []
-    # TODO: offer to create shelves from this form instead
-    if shelves.length > 0
-      collection = new Shelves shelves, { selected: selectedShelves }
-      @shelvesSelector.show new ItemShelves {
+  _showShelves(shelves){
+    const selectedShelves = app.request('last:shelves:get') || [];
+    // TODO: offer to create shelves from this form instead
+    if (shelves.length > 0) {
+      const collection = new Shelves(shelves, { selected: selectedShelves });
+      this.shelvesSelector.show(new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true
+      }));
+      return this.ui.shelvesWrapper.removeClass('hidden');
+    }
+  },
+
+  getSelectedShelves() {
+    const selectedShelves = this.$el.find('.shelfSelector input')
+      .filter((i, el) => el.checked)
+      .map((i, el) => el.name.split('-')[1]);
+    return Array.from(selectedShelves);
+  },
+
+  validate() {
+    this.toggleValidationElements();
+
+    this.selected = this.candidates.getSelected();
+    this.total = this.selected.length;
+
+    const transaction = getSelectorData(this, 'transaction');
+    const listing = getSelectorData(this, 'listing');
+    const shelves = this.getSelectedShelves();
+
+    app.execute('last:shelves:set', shelves);
+
+    this.chainedImport(transaction, listing, shelves);
+    return this.planProgressUpdate();
+  },
+
+  chainedImport(transaction, listing, shelves){
+    if (this.selected.length === 0) { return this.doneImporting(); }
+
+    const candidate = this.selected.pop();
+    return candidate.createItem({ transaction, listing, shelves })
+    .catch(err=> {
+      candidate.set('errorMessage', err.message);
+      if (!this.failed) { this.failed = []; }
+      this.failed.push(candidate);
+      _.error(err, 'chainedImport err');
+      
+  }).then(item=> {
+      this.candidates.remove(candidate);
+      if (item != null) {
+        this.items.add(item);
+        // Show the added books on the first successful import
+        if (!this._shownAddedBooks) {
+          this._shownAddedBooks = true;
+          this.setTimeout(this.showAddedBooks.bind(this), 1000);
+        }
       }
-      @ui.shelvesWrapper.removeClass 'hidden'
+      // recursively trigger next import
+      return this.chainedImport(transaction, listing);
+    }).catch(error_.Complete('.validation'))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  getSelectedShelves: ->
-    selectedShelves = @$el.find '.shelfSelector input'
-      .filter (i, el)-> el.checked
-      .map (i, el)-> el.name.split('-')[1]
-    return Array.from selectedShelves
+  doneImporting() {
+    _.log('done importing!');
+    this.stopProgressUpdate();
+    this.toggleValidationElements();
+    this.updateSteps();
+    if (this.failed?.length > 0) {
+      _.log(this.failed, 'failed candidates imports');
+      this.candidates.add(this.failed);
+      this.failed = [];
+    }
+    // triggering events on the parent via childEvents
+    return this.triggerMethod('import:done');
+  },
 
-  validate: ->
-    @toggleValidationElements()
+  showAddedBooks() {
+    this.ui.addedBooks.fadeIn();
+    return this.setTimeout(screen_.scrollTop.bind(null, this.ui.addedBooks), 600);
+  },
 
-    @selected = @candidates.getSelected()
-    @total = @selected.length
+  toggleValidationElements() {
+    return this.ui.validationElements.toggleClass('force-hidden');
+  },
 
-    transaction = getSelectorData @, 'transaction'
-    listing = getSelectorData @, 'listing'
-    shelves = @getSelectedShelves()
+  planProgressUpdate() {
+    // Using a recursive timeout instead of an interval
+    // to avoid trying to update after a failed attempt
+    // Typically occurring when the view as been destroyed
+    return this.timeoutId = setTimeout(this.updateProgress.bind(this), 1000);
+  },
 
-    app.execute 'last:shelves:set', shelves
+  stopProgressUpdate() {
+    return clearTimeout(this.timeoutId);
+  },
 
-    @chainedImport transaction, listing, shelves
-    @planProgressUpdate()
+  updateProgress() {
+    const remaining = this.selected.length;
+    const added = this.total - remaining;
+    const percent = (added / this.total) * 100;
+    this.ui.meter.css('width', `${percent}%`);
+    this.ui.fraction.text(`${added} / ${this.total}`);
+    return this.planProgressUpdate();
+  },
 
-  chainedImport: (transaction, listing, shelves)->
-    if @selected.length is 0 then return @doneImporting()
-
-    candidate = @selected.pop()
-    candidate.createItem { transaction, listing, shelves }
-    .catch (err)=>
-      candidate.set 'errorMessage', err.message
-      @failed or= []
-      @failed.push candidate
-      _.error err, 'chainedImport err'
-      return
-    .then (item)=>
-      @candidates.remove candidate
-      if item?
-        @items.add item
-        # Show the added books on the first successful import
-        unless @_shownAddedBooks
-          @_shownAddedBooks = true
-          @setTimeout @showAddedBooks.bind(@), 1000
-      # recursively trigger next import
-      @chainedImport transaction, listing
-
-    .catch error_.Complete('.validation')
-    .catch forms_.catchAlert.bind(null, @)
-
-  doneImporting: ->
-    _.log 'done importing!'
-    @stopProgressUpdate()
-    @toggleValidationElements()
-    @updateSteps()
-    if @failed?.length > 0
-      _.log @failed, 'failed candidates imports'
-      @candidates.add @failed
-      @failed = []
-    # triggering events on the parent via childEvents
-    @triggerMethod 'import:done'
-
-  showAddedBooks: ->
-    @ui.addedBooks.fadeIn()
-    @setTimeout screen_.scrollTop.bind(null, @ui.addedBooks), 600
-
-  toggleValidationElements: ->
-    @ui.validationElements.toggleClass 'force-hidden'
-
-  planProgressUpdate: ->
-    # Using a recursive timeout instead of an interval
-    # to avoid trying to update after a failed attempt
-    # Typically occurring when the view as been destroyed
-    @timeoutId = setTimeout @updateProgress.bind(@), 1000
-
-  stopProgressUpdate: ->
-    clearTimeout @timeoutId
-
-  updateProgress: ->
-    remaining = @selected.length
-    added = @total - remaining
-    percent = (added / @total) * 100
-    @ui.meter.css 'width', "#{percent}%"
-    @ui.fraction.text "#{added} / #{@total}"
-    @planProgressUpdate()
-
-  onDestroy: -> @stopProgressUpdate()
+  onDestroy() { return this.stopProgressUpdate(); }
+});

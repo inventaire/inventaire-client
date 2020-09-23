@@ -1,21 +1,25 @@
-# Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.coffee
 
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  className: 'autocomplete-suggestion'
-  template: require './templates/autocomplete_suggestion'
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'autocomplete-suggestion',
+  template: require('./templates/autocomplete_suggestion'),
 
-  events:
+  events: {
     'click .select': 'select'
+  },
 
-  modelEvents:
-    'highlight': 'highlight'
+  modelEvents: {
+    'highlight': 'highlight',
     'highlight:remove': 'removeHighlight'
+  },
 
-  highlight: ->
-    @trigger 'highlight'
-    @$el.addClass 'active'
+  highlight() {
+    this.trigger('highlight');
+    return this.$el.addClass('active');
+  },
 
-  removeHighlight: -> @$el.removeClass 'active'
+  removeHighlight() { return this.$el.removeClass('active'); },
 
-  select: -> @triggerMethod 'select:from:click', @model
+  select() { return this.triggerMethod('select:from:click', this.model); }
+});

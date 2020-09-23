@@ -1,13 +1,14 @@
-wdLang = require 'wikidata-lang'
+import wdLang from 'wikidata-lang';
 
-module.exports = (availableLangs, selectedLang)->
-  availableLangs
-  .map (lang)->
-    langObj = wdLang.byCode[lang]
-    unless langObj?
-      _.warn "lang not found in wikidata-lang: #{lang}"
-      langObj = { code: lang, label: lang, native: lang }
+export default (availableLangs, selectedLang) => availableLangs
+.map(function(lang){
+  let langObj = wdLang.byCode[lang];
+  if (langObj == null) {
+    _.warn(`lang not found in wikidata-lang: ${lang}`);
+    langObj = { code: lang, label: lang, native: lang };
+  }
 
-    langObj = _.clone langObj
-    if langObj.code is selectedLang then langObj.selected = true
-    return langObj
+  langObj = _.clone(langObj);
+  if (langObj.code === selectedLang) { langObj.selected = true; }
+  return langObj;
+});

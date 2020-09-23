@@ -1,3 +1,2 @@
-module.exports =
-  # Unprefixify both entities ('item' in Wikidata lexic) and properties
-  unprefixify: (value)-> value?.replace /^wdt?:/, ''
+export default // Unprefixify both entities ('item' in Wikidata lexic) and properties
+{unprefixify(value){ return value?.replace(/^wdt?:/, ''); }};

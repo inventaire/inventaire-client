@@ -1,114 +1,136 @@
-error_ = require 'lib/error'
+import error_ from 'lib/error';
 
-module.exports =
-  inviteUser: (user)->
-    return @action 'invite', user.id
-    .then @updateInvited.bind(@, user)
-    # let views catch the error
+export default {
+  inviteUser(user){
+    return this.action('invite', user.id)
+    .then(this.updateInvited.bind(this, user));
+  },
+    // let views catch the error
 
-  updateInvited: (user)->
-    @push 'invited',
-      user: user.id
-      invitor: app.user.id
+  updateInvited(user){
+    this.push('invited', {
+      user: user.id,
+      invitor: app.user.id,
       timestamp: Date.now()
-    @triggeredListChange()
-    triggerUserChange user
+    }
+    );
+    this.triggeredListChange();
+    return triggerUserChange(user);
+  },
 
-  acceptInvitation: ->
-    @moveMembership app.user, 'invited', 'members'
+  acceptInvitation() {
+    this.moveMembership(app.user, 'invited', 'members');
 
-    return @action 'accept'
-    .catch @revertMove.bind(@, app.user, 'invited', 'members')
+    return this.action('accept')
+    .catch(this.revertMove.bind(this, app.user, 'invited', 'members'));
+  },
 
-  declineInvitation: ->
-    @moveMembership app.user, 'invited', 'declined'
+  declineInvitation() {
+    this.moveMembership(app.user, 'invited', 'declined');
 
-    return @action 'decline'
-    .catch @revertMove.bind(@, app.user, 'invited', 'declined')
+    return this.action('decline')
+    .catch(this.revertMove.bind(this, app.user, 'invited', 'declined'));
+  },
 
-  requestToJoin: ->
-    # create membership doc in the requested list
-    @push 'requested',
-      user: app.user.id
+  requestToJoin() {
+    // create membership doc in the requested list
+    this.push('requested', {
+      user: app.user.id,
       timestamp: Date.now()
+    }
+    );
 
-    @triggeredListChange()
+    this.triggeredListChange();
 
-    return @action 'request'
-    .catch @revertMove.bind(@, app.user, null, 'requested')
+    return this.action('request')
+    .catch(this.revertMove.bind(this, app.user, null, 'requested'));
+  },
 
-  cancelRequest: ->
-    @moveMembership app.user, 'requested', 'tmp'
-    return @action 'cancel-request'
-    .catch @revertMove.bind(@, app.user, 'requested', 'tmp')
+  cancelRequest() {
+    this.moveMembership(app.user, 'requested', 'tmp');
+    return this.action('cancel-request')
+    .catch(this.revertMove.bind(this, app.user, 'requested', 'tmp'));
+  },
 
-  acceptRequest: (user)->
-    @moveMembership user, 'requested', 'members'
-    return @action 'accept-request', user.id
-    .catch @revertMove.bind(@, user, 'requested', 'members')
+  acceptRequest(user){
+    this.moveMembership(user, 'requested', 'members');
+    return this.action('accept-request', user.id)
+    .catch(this.revertMove.bind(this, user, 'requested', 'members'));
+  },
 
-  refuseRequest: (user)->
-    @moveMembership user, 'requested', 'tmp'
-    return @action 'refuse-request', user.id
-    .catch @revertMove.bind(@, user, 'requested', 'tmp')
+  refuseRequest(user){
+    this.moveMembership(user, 'requested', 'tmp');
+    return this.action('refuse-request', user.id)
+    .catch(this.revertMove.bind(this, user, 'requested', 'tmp'));
+  },
 
-  makeAdmin: (user)->
-    @moveMembership user, 'members', 'admins'
-    triggerUserChange user
-    return @action 'make-admin', user.id
-    .catch @revertMove.bind(@, user, 'members', 'admins')
+  makeAdmin(user){
+    this.moveMembership(user, 'members', 'admins');
+    triggerUserChange(user);
+    return this.action('make-admin', user.id)
+    .catch(this.revertMove.bind(this, user, 'members', 'admins'));
+  },
 
-  kick: (user)->
-    @moveMembership user, 'members', 'tmp'
-    return @action 'kick', user.id
-    .catch @revertMove.bind(@, user, 'members', 'tmp')
+  kick(user){
+    this.moveMembership(user, 'members', 'tmp');
+    return this.action('kick', user.id)
+    .catch(this.revertMove.bind(this, user, 'members', 'tmp'));
+  },
 
-  leave: ->
-    initialCategory = if @mainUserIsAdmin() then 'admins' else 'members'
-    @moveMembership app.user, initialCategory, 'tmp'
-    return @action 'leave'
-    .catch @revertMove.bind(@, app.user, initialCategory, 'tmp')
+  leave() {
+    const initialCategory = this.mainUserIsAdmin() ? 'admins' : 'members';
+    this.moveMembership(app.user, initialCategory, 'tmp');
+    return this.action('leave')
+    .catch(this.revertMove.bind(this, app.user, initialCategory, 'tmp'));
+  },
 
-  action: (action, userId)->
-    return _.preq.put app.API.groups.base,
-      action: action
-      group: @id
-      # requiered only for actions implying an other user
+  action(action, userId){
+    return _.preq.put(app.API.groups.base, {
+      action,
+      group: this.id,
+      // requiered only for actions implying an other user
       user: userId
-    .tap @_postActionHooks.bind(@, action)
+    }).tap(this._postActionHooks.bind(this, action));
+  },
 
-  _postActionHooks: (action)->
-    @trigger "action:#{action}"
-    app.vent.trigger 'network:requests:update'
+  _postActionHooks(action){
+    this.trigger(`action:${action}`);
+    return app.vent.trigger('network:requests:update');
+  },
 
-  revertMove: (user, previousCategory, newCategory, err)->
-    @moveMembership user, newCategory, previousCategory
-    triggerUserChange user
-    throw err
+  revertMove(user, previousCategory, newCategory, err){
+    this.moveMembership(user, newCategory, previousCategory);
+    triggerUserChange(user);
+    throw err;
+  },
 
-  # moving membership object from previousCategory to newCategory
-  moveMembership: (user, previousCategory, newCategory)->
-    membership = @findMembership previousCategory, user
-    unless membership? then throw error_.new 'membership not found', arguments
+  // moving membership object from previousCategory to newCategory
+  moveMembership(user, previousCategory, newCategory){
+    const membership = this.findMembership(previousCategory, user);
+    if (membership == null) { throw error_.new('membership not found', arguments); }
 
-    @without previousCategory, membership
-    # let the possibility to just destroy the doc
-    # by letting newCategory undefined
-    if newCategory? then @push newCategory, membership
+    this.without(previousCategory, membership);
+    // let the possibility to just destroy the doc
+    // by letting newCategory undefined
+    if (newCategory != null) { this.push(newCategory, membership); }
 
-    @triggeredListChange()
+    this.triggeredListChange();
 
-    # Trigger after the lists where updated
-    # so that groups filtered collections can correctly re-filter
-    if user.isMainUser then app.vent.trigger 'group:main:user:move'
+    // Trigger after the lists where updated
+    // so that groups filtered collections can correctly re-filter
+    if (user.isMainUser) { return app.vent.trigger('group:main:user:move'); }
+  },
 
-  triggeredListChange: ->
-    # avoid using an event name starting by "change:"
-    # as Backbone FilteredCollection react on those
-    @trigger 'list:change'
-    @trigger 'list:change:after'
+  triggeredListChange() {
+    // avoid using an event name starting by "change:"
+    // as Backbone FilteredCollection react on those
+    this.trigger('list:change');
+    return this.trigger('list:change:after');
+  }
+};
 
-triggerUserChange = (user)->
-  trigger = -> user.trigger 'group:user:change'
-  # delay the event to let the time to the debounced recalculateAllLists to run
-  setTimeout trigger, 100
+var triggerUserChange = function(user){
+  const trigger = () => user.trigger('group:user:change');
+  // delay the event to let the time to the debounced recalculateAllLists to run
+  return setTimeout(trigger, 100);
+};

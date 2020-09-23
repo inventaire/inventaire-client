@@ -1,15 +1,17 @@
-module.exports = (part)->
-  ordinal = part.get 'claims.wdt:P1545.0'
+export default function(part){
+  const ordinal = part.get('claims.wdt:P1545.0');
 
-  unless _.isPositiveIntegerString ordinal
-    @worksWithoutOrdinal.add part
-    return
+  if (!_.isPositiveIntegerString(ordinal)) {
+    this.worksWithoutOrdinal.add(part);
+    return;
+  }
 
-  ordinalInt = parseInt ordinal
-  if ordinalInt > @maxOrdinal then @maxOrdinal = ordinalInt
+  const ordinalInt = parseInt(ordinal);
+  if (ordinalInt > this.maxOrdinal) { this.maxOrdinal = ordinalInt; }
 
-  part.set 'ordinal', ordinalInt
+  part.set('ordinal', ordinalInt);
 
-  currentOrdinalValue = @worksWithOrdinal[ordinalInt]
-  if currentOrdinalValue? then @worksInConflicts.add part
-  else @worksWithOrdinal.add part
+  const currentOrdinalValue = this.worksWithOrdinal[ordinalInt];
+  if (currentOrdinalValue != null) { return this.worksInConflicts.add(part);
+  } else { return this.worksWithOrdinal.add(part); }
+};

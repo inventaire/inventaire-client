@@ -1,20 +1,10 @@
-alwaysKeep = -> true
+const alwaysKeep = () => true;
 
-redirectTest = (section)->
-  section in allowRedirectPersistantQuery
+const redirectTest = section => allowRedirectPersistantQuery.includes(section);
 
-allowRedirectPersistantQuery = [
-  'signup'
+var allowRedirectPersistantQuery = [
+  'signup',
   'login'
-]
+];
 
-module.exports =
-  debug: alwaysKeep
-  lang: alwaysKeep
-  redirect: redirectTest
-
-  # cleanup layout flags
-  authors: alwaysKeep
-  editions: alwaysKeep
-  descriptions: alwaysKeep
-  large: alwaysKeep
+export { alwaysKeep as debug, alwaysKeep as lang, redirectTest as redirect, alwaysKeep as authors, alwaysKeep as editions, alwaysKeep as descriptions, alwaysKeep as large };

@@ -1,20 +1,21 @@
-module.exports = (model, value)->
-  unless _.isNonEmptyArray value then return
-  [ ordinal ] = value
-  unless _.isPositiveIntegerString ordinal then return
+export default function(model, value){
+  if (!_.isNonEmptyArray(value)) { return; }
+  const [ ordinal ] = Array.from(value);
+  if (!_.isPositiveIntegerString(ordinal)) { return; }
 
-  ordinalInt = parseInt ordinal
-  model.set 'ordinal', ordinalInt
+  const ordinalInt = parseInt(ordinal);
+  model.set('ordinal', ordinalInt);
 
-  @removePlaceholder ordinalInt
+  this.removePlaceholder(ordinalInt);
 
-  @worksWithoutOrdinal.remove model
-  @worksWithOrdinal.add model
+  this.worksWithoutOrdinal.remove(model);
+  this.worksWithOrdinal.add(model);
 
-  # Re-render to update editions works pickers
-  @render()
+  // Re-render to update editions works pickers
+  this.render();
 
-  if @worksWithoutOrdinal.length isnt 0 then return
-  if @showEditions or @editionsTogglerChanged then return
+  if (this.worksWithoutOrdinal.length !== 0) { return; }
+  if (this.showEditions || this.editionsTogglerChanged) { return; }
 
-  @ui.editionsToggler.addClass 'glowing'
+  return this.ui.editionsToggler.addClass('glowing');
+};

@@ -1,59 +1,69 @@
-TypedEntityLayout = require './typed_entity_layout'
-EditionsList = require './editions_list'
-EntityActions = require './entity_actions'
-entityItems = require '../lib/entity_items'
+import TypedEntityLayout from './typed_entity_layout';
+import EditionsList from './editions_list';
+import EntityActions from './entity_actions';
+import entityItems from '../lib/entity_items';
 
-module.exports = TypedEntityLayout.extend
-  id: 'workLayout'
-  Infobox: require './work_infobox'
-  template: require './templates/work_layout'
-  regions:
-    infoboxRegion: '#workInfobox'
-    editionsList: '#editionsList'
-    # Prefix regions selectors with 'work' to avoid collisions with editions
-    # displayed as sub-views
-    entityActions: '.workEntityActions'
-    personalItemsRegion: '.workPersonalItems'
-    networkItemsRegion: '.workNetworkItems'
-    publicItemsRegion: '.workPublicItems'
-    nearbyPublicItemsRegion: '.workNearbyPublicItems'
-    otherPublicItemsRegion: '.workOtherPublicItems'
+export default TypedEntityLayout.extend({
+  id: 'workLayout',
+  Infobox: require('./work_infobox'),
+  template: require('./templates/work_layout'),
+  regions: {
+    infoboxRegion: '#workInfobox',
+    editionsList: '#editionsList',
+    // Prefix regions selectors with 'work' to avoid collisions with editions
+    // displayed as sub-views
+    entityActions: '.workEntityActions',
+    personalItemsRegion: '.workPersonalItems',
+    networkItemsRegion: '.workNetworkItems',
+    publicItemsRegion: '.workPublicItems',
+    nearbyPublicItemsRegion: '.workNearbyPublicItems',
+    otherPublicItemsRegion: '.workOtherPublicItems',
     mergeSuggestionsRegion: '.mergeSuggestions'
+  },
 
-  initialize: ->
-    @displayItemsCovers = true
-    TypedEntityLayout::initialize.call @
-    entityItems.initialize.call @
-    @displayMergeSuggestions = app.user.hasAdminAccess
+  initialize() {
+    this.displayItemsCovers = true;
+    TypedEntityLayout.prototype.initialize.call(this);
+    entityItems.initialize.call(this);
+    return this.displayMergeSuggestions = app.user.hasAdminAccess;
+  },
 
-  onRender: ->
-    TypedEntityLayout::onRender.call @
-    @lazyShowItems()
+  onRender() {
+    TypedEntityLayout.prototype.onRender.call(this);
+    return this.lazyShowItems();
+  },
 
-  serializeData: ->
-    _.extend @model.toJSON(),
-      displayMergeSuggestions: @displayMergeSuggestions
+  serializeData() {
+    return _.extend(this.model.toJSON(),
+      {displayMergeSuggestions: this.displayMergeSuggestions});
+  },
 
-  onShow: ->
-    # Need to wait to know if the user has an instance of this work
-    @waitForItems
-    .then @ifViewIsIntact('showEntityActions')
+  onShow() {
+    // Need to wait to know if the user has an instance of this work
+    this.waitForItems
+    .then(this.ifViewIsIntact('showEntityActions'));
 
-    @model.fetchSubEntities()
-    .then @ifViewIsIntact('showEditions')
+    return this.model.fetchSubEntities()
+    .then(this.ifViewIsIntact('showEditions'));
+  },
 
-  events:
+  events: {
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
+  },
 
-  showEntityActions: -> @entityActions.show new EntityActions { @model }
+  showEntityActions() { return this.entityActions.show(new EntityActions({ model: this.model })); },
 
-  showEditions: ->
-    @editionsList.show new EditionsList
-      collection: @model.editions
-      work: @model
+  showEditions() {
+    return this.editionsList.show(new EditionsList({
+      collection: this.model.editions,
+      work: this.model,
       onWorkLayout: true
+    })
+    );
+  },
 
-  toggleWikipediaPreview: -> @$el.trigger 'toggleWikiIframe', @
+  toggleWikipediaPreview() { return this.$el.trigger('toggleWikiIframe', this); },
 
-  showMergeSuggestions: ->
-    app.execute 'show:merge:suggestions', { @model, region: @mergeSuggestionsRegion }
+  showMergeSuggestions() {
+    return app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion });
+  }});

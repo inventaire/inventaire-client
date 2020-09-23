@@ -1,38 +1,43 @@
-module.exports = Backbone.Collection.extend
-  model: require '../models/search'
-  # deduplicating searches
-  addNonExisting: (data)->
-    { query, uri } = data
-    model = if query then @where({ query })[0] else @where({ uri })[0]
+export default Backbone.Collection.extend({
+  model: require('../models/search'),
+  // deduplicating searches
+  addNonExisting(data){
+    const { query, uri } = data;
+    let model = query ? this.where({ query })[0] : this.where({ uri })[0];
 
-    # create the model if not existing
-    if model? then model.updateTimestamp()
-    else model = @add data
+    // create the model if not existing
+    if (model != null) { model.updateTimestamp();
+    } else { model = this.add(data); }
 
-    return model
+    return model;
+  },
 
-  comparator: (model)-> -model.get('timestamp')
+  comparator(model){ return -model.get('timestamp'); },
 
-  initialize: ->
-    data = localStorageProxy.getItem 'searches'
-    if data?
-      @add JSON.parse(data)
+  initialize() {
+    const data = localStorageProxy.getItem('searches');
+    if (data != null) {
+      this.add(JSON.parse(data));
+    }
 
-    # set a high debounce to give priority to everything else
-    # as writing to the local storage is blocking the thread
-    # and those aren't critical data
-    @lazySave = _.debounce @save.bind(@), 3000
-    # Models 'change' events are propagated to the collection by Backbone
-    # see http://stackoverflow.com/a/9951424/3324977
-    @on 'add remove change reset', @lazySave.bind(@)
+    // set a high debounce to give priority to everything else
+    // as writing to the local storage is blocking the thread
+    // and those aren't critical data
+    this.lazySave = _.debounce(this.save.bind(this), 3000);
+    // Models 'change' events are propagated to the collection by Backbone
+    // see http://stackoverflow.com/a/9951424/3324977
+    return this.on('add remove change reset', this.lazySave.bind(this));
+  },
 
-  save: ->
-    # Remove duplicates
-    searches = _.uniq @toJSON(), (search)-> search.uri or search.query.trim().toLowerCase()
-    # keep only track of the 10 last searches
-    data = JSON.stringify searches[0..10]
-    localStorageProxy.setItem 'searches', data
+  save() {
+    // Remove duplicates
+    const searches = _.uniq(this.toJSON(), search => search.uri || search.query.trim().toLowerCase());
+    // keep only track of the 10 last searches
+    const data = JSON.stringify(searches.slice(0, 11));
+    return localStorageProxy.setItem('searches', data);
+  },
 
-  findLastSearch: ->
-    @sort()
-    return @models[0]
+  findLastSearch() {
+    this.sort();
+    return this.models[0];
+  }});

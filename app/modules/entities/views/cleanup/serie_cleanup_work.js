@@ -1,155 +1,181 @@
-getActionKey = require 'lib/get_action_key'
-getLangsData = require 'modules/entities/lib/editor/get_langs_data'
-SerieCleanupAuthors = require './serie_cleanup_authors'
-SerieCleanupEditions = require './serie_cleanup_editions'
-WorkPicker = require './work_picker'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
+import getActionKey from 'lib/get_action_key';
+import getLangsData from 'modules/entities/lib/editor/get_langs_data';
+import SerieCleanupAuthors from './serie_cleanup_authors';
+import SerieCleanupEditions from './serie_cleanup_editions';
+import WorkPicker from './work_picker';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
 
-module.exports = Marionette.LayoutView.extend
-  tagName: 'li'
-  template: require './templates/serie_cleanup_work'
-  className: ->
-    classes = 'serie-cleanup-work'
-    if @model.get('isPlaceholder') then classes += ' placeholder'
-    return classes
+export default Marionette.LayoutView.extend({
+  tagName: 'li',
+  template: require('./templates/serie_cleanup_work'),
+  className() {
+    let classes = 'serie-cleanup-work';
+    if (this.model.get('isPlaceholder')) { classes += ' placeholder'; }
+    return classes;
+  },
 
-  regions:
-    mergeWorkPicker: '.mergeWorkPicker'
-    authorsContainer: '.authorsContainer'
+  regions: {
+    mergeWorkPicker: '.mergeWorkPicker',
+    authorsContainer: '.authorsContainer',
     editionsContainer: '.editionsContainer'
+  },
 
-  ui:
-    head: '.head'
-    placeholderEditor: '.placeholderEditor'
-    placeholderLabelEditor: '.placeholderEditor input'
+  ui: {
+    head: '.head',
+    placeholderEditor: '.placeholderEditor',
+    placeholderLabelEditor: '.placeholderEditor input',
     langSelector: '.langSelector'
+  },
 
-  behaviors:
+  behaviors: {
     AlertBox: {}
+  },
 
-  initialize: ->
-    { @worksWithOrdinal, @worksWithoutOrdinal } = @options
-    lazyLangSelectorUpdate = _.debounce @onOtherLangSelectorChange.bind(@), 500
-    @listenTo app.vent, 'lang:local:change', lazyLangSelectorUpdate
-    # This is required to update works ordinal selectors
-    @listenTo app.vent, 'serie:cleanup:parts:change', @lazyRender.bind(@)
+  initialize() {
+    ({ worksWithOrdinal: this.worksWithOrdinal, worksWithoutOrdinal: this.worksWithoutOrdinal } = this.options);
+    const lazyLangSelectorUpdate = _.debounce(this.onOtherLangSelectorChange.bind(this), 500);
+    this.listenTo(app.vent, 'lang:local:change', lazyLangSelectorUpdate);
+    // This is required to update works ordinal selectors
+    this.listenTo(app.vent, 'serie:cleanup:parts:change', this.lazyRender.bind(this));
 
-    { @allAuthorsUris } = @options
+    return ({ allAuthorsUris: this.allAuthorsUris } = this.options);
+  },
 
-  serializeData: ->
-    data = @model.toJSON()
-    localLang = app.request 'lang:local:get'
-    data.langs = getLangsData localLang, @model.get('labels')
-    if @options.showPossibleOrdinals
-      nonPlaceholdersOrdinals = @worksWithOrdinal.getNonPlaceholdersOrdinals()
-      data.possibleOrdinals = getPossibleOrdinals nonPlaceholdersOrdinals
-    return data
+  serializeData() {
+    const data = this.model.toJSON();
+    const localLang = app.request('lang:local:get');
+    data.langs = getLangsData(localLang, this.model.get('labels'));
+    if (this.options.showPossibleOrdinals) {
+      const nonPlaceholdersOrdinals = this.worksWithOrdinal.getNonPlaceholdersOrdinals();
+      data.possibleOrdinals = getPossibleOrdinals(nonPlaceholdersOrdinals);
+    }
+    return data;
+  },
 
-  onRender: ->
-    if @model.get 'isPlaceholder'
-      @$el.attr 'tabindex', 0
-      return
+  onRender() {
+    if (this.model.get('isPlaceholder')) {
+      this.$el.attr('tabindex', 0);
+      return;
+    }
 
-    @showWorkAuthors()
+    this.showWorkAuthors();
 
-    @model.fetchSubEntities()
-    .then @ifViewIsIntact('showWorkEditions')
+    return this.model.fetchSubEntities()
+    .then(this.ifViewIsIntact('showWorkEditions'));
+  },
 
-  toggleMergeWorkPicker: ->
-    if @mergeWorkPicker.currentView?
-      @mergeWorkPicker.currentView.$el.toggle()
-    else
-      @mergeWorkPicker.show new WorkPicker {
-        @model,
-        @worksWithOrdinal,
-        @worksWithoutOrdinal,
-        _showWorkPicker: true
-        workUri: @model.get('uri'),
-        afterMerge: @afterMerge
-      }
+  toggleMergeWorkPicker() {
+    if (this.mergeWorkPicker.currentView != null) {
+      return this.mergeWorkPicker.currentView.$el.toggle();
+    } else {
+      return this.mergeWorkPicker.show(new WorkPicker({
+        model: this.model,
+        worksWithOrdinal: this.worksWithOrdinal,
+        worksWithoutOrdinal: this.worksWithoutOrdinal,
+        _showWorkPicker: true,
+        workUri: this.model.get('uri'),
+        afterMerge: this.afterMerge
+      }));
+    }
+  },
 
-  afterMerge: (work)->
-    @worksWithOrdinal.remove @model
-    @worksWithoutOrdinal.remove @model
-    work.editions.add @model.editions.models
+  afterMerge(work){
+    this.worksWithOrdinal.remove(this.model);
+    this.worksWithoutOrdinal.remove(this.model);
+    return work.editions.add(this.model.editions.models);
+  },
 
-  showWorkAuthors: ->
-    { currentAuthorsUris, authorsSuggestionsUris } = @spreadAuthors()
-    @authorsContainer.show new SerieCleanupAuthors {
-      work: @model
+  showWorkAuthors() {
+    const { currentAuthorsUris, authorsSuggestionsUris } = this.spreadAuthors();
+    return this.authorsContainer.show(new SerieCleanupAuthors({
+      work: this.model,
       currentAuthorsUris,
       authorsSuggestionsUris
-    }
+    }));
+  },
 
-  showWorkEditions: ->
-    @editionsContainer.show new SerieCleanupEditions {
-      collection: @model.editions,
-      @worksWithOrdinal,
-      @worksWithoutOrdinal
-    }
+  showWorkEditions() {
+    return this.editionsContainer.show(new SerieCleanupEditions({
+      collection: this.model.editions,
+      worksWithOrdinal: this.worksWithOrdinal,
+      worksWithoutOrdinal: this.worksWithoutOrdinal
+    }));
+  },
 
-  events:
-    'change .ordinalSelector': 'updateOrdinal'
-    'click .create': 'create'
-    'click': 'showPlaceholderEditor'
-    'keydown': 'onKeyDown'
-    'change .langSelector': 'propagateLangChange'
+  events: {
+    'change .ordinalSelector': 'updateOrdinal',
+    'click .create': 'create',
+    'click': 'showPlaceholderEditor',
+    'keydown': 'onKeyDown',
+    'change .langSelector': 'propagateLangChange',
     'click .toggleMergeWorkPicker': 'toggleMergeWorkPicker'
+  },
 
-  updateOrdinal: (e)->
-    { value } = e.currentTarget
-    @model.setPropertyValue 'wdt:P1545', null, value
-    .catch error_.Complete('.head', false)
-    .catch forms_.catchAlert.bind(null, @)
+  updateOrdinal(e){
+    const { value } = e.currentTarget;
+    return this.model.setPropertyValue('wdt:P1545', null, value)
+    .catch(error_.Complete('.head', false))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  showPlaceholderEditor: ->
-    unless @model.get('isPlaceholder') then return
-    unless @ui.placeholderEditor.hasClass 'hidden' then return
-    @ui.head.addClass 'force-hidden'
-    @ui.placeholderEditor.removeClass 'hidden'
-    @$el.attr 'tabindex', null
-    # Wait to avoid the enter event to be propagated as an enterClick to 'create'
-    @setTimeout _.focusInput.bind(null, @ui.placeholderLabelEditor), 100
+  showPlaceholderEditor() {
+    if (!this.model.get('isPlaceholder')) { return; }
+    if (!this.ui.placeholderEditor.hasClass('hidden')) { return; }
+    this.ui.head.addClass('force-hidden');
+    this.ui.placeholderEditor.removeClass('hidden');
+    this.$el.attr('tabindex', null);
+    // Wait to avoid the enter event to be propagated as an enterClick to 'create'
+    return this.setTimeout(_.focusInput.bind(null, this.ui.placeholderLabelEditor), 100);
+  },
 
-  hidePlaceholderEditor: ->
-    @ui.head.removeClass 'force-hidden'
-    @ui.placeholderEditor.addClass 'hidden'
-    @$el.attr 'tabindex', 0
-    @$el.focus()
+  hidePlaceholderEditor() {
+    this.ui.head.removeClass('force-hidden');
+    this.ui.placeholderEditor.addClass('hidden');
+    this.$el.attr('tabindex', 0);
+    return this.$el.focus();
+  },
 
-  create: ->
-    unless @model.get('isPlaceholder') then return Promise.resolve()
-    lang = @ui.langSelector.val()
-    label = @ui.placeholderLabelEditor.val()
-    @model.resetLabels lang, label
-    @model.create()
-    .then @replaceModel.bind(@)
+  create() {
+    if (!this.model.get('isPlaceholder')) { return Promise.resolve(); }
+    const lang = this.ui.langSelector.val();
+    const label = this.ui.placeholderLabelEditor.val();
+    this.model.resetLabels(lang, label);
+    return this.model.create()
+    .then(this.replaceModel.bind(this));
+  },
 
-  replaceModel: (newModel)->
-    newModel.set 'ordinal', @model.get('ordinal')
-    @model.collection.add newModel
-    @model.collection.remove @model
+  replaceModel(newModel){
+    newModel.set('ordinal', this.model.get('ordinal'));
+    this.model.collection.add(newModel);
+    return this.model.collection.remove(this.model);
+  },
 
-  onKeyDown: (e)->
-    key = getActionKey e
-    switch key
-      when 'enter' then @showPlaceholderEditor()
-      when 'esc' then @hidePlaceholderEditor()
+  onKeyDown(e){
+    const key = getActionKey(e);
+    switch (key) {
+      case 'enter': return this.showPlaceholderEditor();
+      case 'esc': return this.hidePlaceholderEditor();
+    }
+  },
 
-  propagateLangChange: (e)->
-    { value } = e.currentTarget
-    app.vent.trigger 'lang:local:change', value
+  propagateLangChange(e){
+    const { value } = e.currentTarget;
+    return app.vent.trigger('lang:local:change', value);
+  },
 
-  onOtherLangSelectorChange: (value)->
-    if @ui.placeholderEditor.hasClass 'hidden' then @ui.langSelector.val value
+  onOtherLangSelectorChange(value){
+    if (this.ui.placeholderEditor.hasClass('hidden')) { return this.ui.langSelector.val(value); }
+  },
 
-  spreadAuthors: ->
-    currentAuthorsUris = @model.get('claims.wdt:P50') or []
-    authorsSuggestionsUris = _.difference @allAuthorsUris, currentAuthorsUris
-    return { currentAuthorsUris, authorsSuggestionsUris }
+  spreadAuthors() {
+    const currentAuthorsUris = this.model.get('claims.wdt:P50') || [];
+    const authorsSuggestionsUris = _.difference(this.allAuthorsUris, currentAuthorsUris);
+    return { currentAuthorsUris, authorsSuggestionsUris };
+  }});
 
-getPossibleOrdinals = (nonPlaceholdersOrdinals)->
-  maxOrdinal = nonPlaceholdersOrdinals.slice(-1)[0] or -1
-  return _.range 0, (maxOrdinal + 10)
-    .filter (num)-> num not in nonPlaceholdersOrdinals
+var getPossibleOrdinals = function(nonPlaceholdersOrdinals){
+  const maxOrdinal = nonPlaceholdersOrdinals.slice(-1)[0] || -1;
+  return _.range(0, (maxOrdinal + 10))
+    .filter(num => !nonPlaceholdersOrdinals.includes(num));
+};

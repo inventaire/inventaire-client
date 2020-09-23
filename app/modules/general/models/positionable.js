@@ -1,26 +1,32 @@
-Filterable = require './filterable'
+import Filterable from './filterable';
 
-# Extending Filterable as the models needing position feature
-# happen to also need filterable features
-module.exports = Filterable.extend
-  hasPosition: -> @has 'position'
-  getCoords: ->
-    latLng = @get 'position'
-    if latLng?
-      [ lat, lng ] = latLng
-      return { lat, lng }
-    else
-      return {}
+// Extending Filterable as the models needing position feature
+// happen to also need filterable features
+export default Filterable.extend({
+  hasPosition() { return this.has('position'); },
+  getCoords() {
+    const latLng = this.get('position');
+    if (latLng != null) {
+      const [ lat, lng ] = Array.from(latLng);
+      return { lat, lng };
+    } else {
+      return {};
+    }
+  },
 
-  getLatLng: ->
-    # Create a L.LatLng only once
-    # Update it when position update (only required for the main user)
-    if @_latLng? then return @_latLng
-    else @_setLatLng()
+  getLatLng() {
+    // Create a L.LatLng only once
+    // Update it when position update (only required for the main user)
+    if (this._latLng != null) { return this._latLng;
+    } else { return this._setLatLng(); }
+  },
 
-  _setLatLng: ->
-    if @hasPosition()
-      [ lat, lng ] = @get 'position'
-      return @_latLng = new L.LatLng lat, lng
-    else
-      return @_latLng = null
+  _setLatLng() {
+    if (this.hasPosition()) {
+      const [ lat, lng ] = Array.from(this.get('position'));
+      return this._latLng = new L.LatLng(lat, lng);
+    } else {
+      return this._latLng = null;
+    }
+  }
+});

@@ -1,108 +1,123 @@
-{ unprefixify } = require 'lib/wikimedia/wikidata'
+import { unprefixify } from 'lib/wikimedia/wikidata';
 
-module.exports = Backbone.NestedModel.extend
-  initialize: (attrs)->
-    entityId = attrs._id.split(':')[0]
-    @set 'entityId', entityId
-    invEntityUri = "inv:#{entityId}"
-    @set 'invEntityUri', invEntityUri
+export default Backbone.NestedModel.extend({
+  initialize(attrs){
+    const entityId = attrs._id.split(':')[0];
+    this.set('entityId', entityId);
+    const invEntityUri = `inv:${entityId}`;
+    this.set('invEntityUri', invEntityUri);
 
-    @reqGrab 'get:entity:model', invEntityUri, 'entity'
-    @reqGrab 'get:user:model', attrs.user, 'user'
+    this.reqGrab('get:entity:model', invEntityUri, 'entity');
+    this.reqGrab('get:user:model', attrs.user, 'user');
 
-    dbVersionNumber = parseInt @id.split(':')[1]
-    # The first version is an empty document with only the basic attributes:
-    # doesn't really count as a version
-    @set 'versionNumber', dbVersionNumber - 1
+    const dbVersionNumber = parseInt(this.id.split(':')[1]);
+    // The first version is an empty document with only the basic attributes:
+    // doesn't really count as a version
+    this.set('versionNumber', dbVersionNumber - 1);
 
-    @mergeTestAndRemoveOperations()
-    @setOperationsData()
-    @set 'patchType', @findPatchType()
-    @setOperationsSummaryData()
+    this.mergeTestAndRemoveOperations();
+    this.setOperationsData();
+    this.set('patchType', this.findPatchType());
+    return this.setOperationsSummaryData();
+  },
 
-  mergeTestAndRemoveOperations: ->
-    operations = @get 'patch'
+  mergeTestAndRemoveOperations() {
+    let operations = this.get('patch');
 
-    operations.forEach (operation, index)->
-      if operation.op is 'remove'
-        prevOperation = operations[index - 1]
-        if prevOperation.op is 'test' and prevOperation.path is operation.path
-          operation.value = prevOperation.value
+    operations.forEach(function(operation, index){
+      if (operation.op === 'remove') {
+        const prevOperation = operations[index - 1];
+        if ((prevOperation.op === 'test') && (prevOperation.path === operation.path)) {
+          return operation.value = prevOperation.value;
+        }
+      }
+    });
 
-    # Filter-out test operations, as it's not a useful information
-    operations = operations.filter (operation)-> operation.op isnt 'test'
-    @set 'operations', operations
+    // Filter-out test operations, as it's not a useful information
+    operations = operations.filter(operation => operation.op !== 'test');
+    return this.set('operations', operations);
+  },
 
-  setOperationsData: ->
-    operations = @get 'operations'
+  setOperationsData() {
+    const operations = this.get('operations');
 
-    for op in operations
-      if op.path is '/claims'
-        op.propertyLabel = 'claims'
+    for (let op of operations) {
+      if (op.path === '/claims') {
+        op.propertyLabel = 'claims';
 
-      else if op.path is '/labels'
-        op.propertyLabel = 'labels'
+      } else if (op.path === '/labels') {
+        op.propertyLabel = 'labels';
 
-      else if op.path.startsWith '/claims/'
+      } else if (op.path.startsWith('/claims/')) {
         op.property = op.path
-          .replace /^\/claims\//, ''
-          .replace /\/\d+$/, ''
-        op.propertyLabel = getPropertyLabel op.property
+          .replace(/^\/claims\//, '')
+          .replace(/\/\d+$/, '');
+        op.propertyLabel = getPropertyLabel(op.property);
 
-      else if op.path.startsWith '/labels/'
-        lang = _.last op.path.split('/')
-        op.propertyLabel = "label #{lang}"
+      } else if (op.path.startsWith('/labels/')) {
+        const lang = _.last(op.path.split('/'));
+        op.propertyLabel = `label ${lang}`;
 
-      else if op.path.startsWith '/redirect'
-        op.propertyLabel = 'redirect'
+      } else if (op.path.startsWith('/redirect')) {
+        op.propertyLabel = 'redirect';
+      }
+    }
 
-    @set 'operations', operations
+    return this.set('operations', operations);
+  },
 
-  findPatchType: ->
-    if @get('versionNumber') is 1 then return 'creation'
+  findPatchType() {
+    if (this.get('versionNumber') === 1) { return 'creation'; }
 
-    operations = @get 'operations'
-    firstOp = operations[0]
-    if firstOp.path is '/redirect' then return 'redirect'
-    if firstOp.path is '/type'
-      if firstOp.value is 'removed:placeholder' then return 'deletion'
+    const operations = this.get('operations');
+    const firstOp = operations[0];
+    if (firstOp.path === '/redirect') { return 'redirect'; }
+    if (firstOp.path === '/type') {
+      if (firstOp.value === 'removed:placeholder') { return 'deletion'; }
+    }
 
-    operationsTypes = operations.map _.property('op')
-    if _.all(operationsTypes, isOpType('add')) then return 'add'
-    else if _.all(operationsTypes, isOpType('replace')) then return 'add'
-    else if _.all(operationsTypes, isOpType('remove')) then return 'remove'
-    else return 'update'
+    const operationsTypes = operations.map(_.property('op'));
+    if (_.all(operationsTypes, isOpType('add'))) { return 'add';
+    } else if (_.all(operationsTypes, isOpType('replace'))) { return 'add';
+    } else if (_.all(operationsTypes, isOpType('remove'))) { return 'remove';
+    } else { return 'update'; }
+  },
 
-  setOperationsSummaryData: ->
-    patchType = @get 'patchType'
-    operations = @get 'operations'
+  setOperationsSummaryData() {
+    let added;
+    const patchType = this.get('patchType');
+    const operations = this.get('operations');
 
-    switch patchType
-      when 'add'
-        operation = operations[0]
-        { property, value, propertyLabel } = operation
-        propertyLabel or= getPropertyLabel property
-        @set 'summary', { property, propertyLabel, added: value }
-      when 'remove'
-        operation = operations[0]
-        { property, value, propertyLabel } = operation
-        propertyLabel or= getPropertyLabel property
-        @set 'summary', { property, propertyLabel, removed: value }
-      when 'update'
-        addOperation = operations[0]
-        { property, value:added, propertyLabel } = addOperation
-        removeOperation = operations[1]
-        { value:removed } = removeOperation
-        propertyLabel or= getPropertyLabel property
-        @set 'summary', { property, propertyLabel, added, removed }
+    switch (patchType) {
+      case 'add':
+        var operation = operations[0];
+        var { property, value, propertyLabel } = operation;
+        if (!propertyLabel) { propertyLabel = getPropertyLabel(property); }
+        return this.set('summary', { property, propertyLabel, added: value });
+      case 'remove':
+        operation = operations[0];
+        ({ property, value, propertyLabel } = operation);
+        if (!propertyLabel) { propertyLabel = getPropertyLabel(property); }
+        return this.set('summary', { property, propertyLabel, removed: value });
+      case 'update':
+        var addOperation = operations[0];
+        ({ property, value:added, propertyLabel } = addOperation);
+        var removeOperation = operations[1];
+        var { value:removed } = removeOperation;
+        if (!propertyLabel) { propertyLabel = getPropertyLabel(property); }
+        return this.set('summary', { property, propertyLabel, added, removed });
+    }
+  },
 
-  serializeData: ->
-    attrs = @toJSON()
-    # Grabed models might not have came back yet
-    attrs.user = @user?.serializeData()
-    attrs.entity = @entity?.toJSON()
-    return attrs
+  serializeData() {
+    const attrs = this.toJSON();
+    // Grabed models might not have came back yet
+    attrs.user = this.user?.serializeData();
+    attrs.entity = this.entity?.toJSON();
+    return attrs;
+  }
+});
 
-isOpType = (type)-> (opType)-> opType is type
+var isOpType = type => opType => opType === type;
 
-getPropertyLabel = (property)-> _.i18n unprefixify(property)
+var getPropertyLabel = property => _.i18n(unprefixify(property));

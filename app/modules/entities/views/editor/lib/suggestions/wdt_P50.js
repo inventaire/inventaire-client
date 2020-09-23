@@ -1,6 +1,7 @@
-module.exports = (entity, index, propertyValuesCount)->
-  serieUri = entity.get 'claims.wdt:P179.0'
-  unless serieUri? then return
+export default function(entity, index, propertyValuesCount){
+  const serieUri = entity.get('claims.wdt:P179.0');
+  if (serieUri == null) { return; }
 
-  app.request 'get:entity:model', serieUri
-  .then (serie)-> serie.getExtendedAuthorsUris()
+  return app.request('get:entity:model', serieUri)
+  .then(serie => serie.getExtendedAuthorsUris());
+};

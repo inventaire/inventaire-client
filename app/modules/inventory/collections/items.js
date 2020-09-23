@@ -1,3 +1,4 @@
-module.exports = Backbone.Collection.extend
-  model: require '../models/item'
-  comparator: (item)-> -item.get('created')
+export default Backbone.Collection.extend({
+  model: require('../models/item'),
+  comparator(item){ return -item.get('created'); }
+});

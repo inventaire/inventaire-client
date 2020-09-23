@@ -1,95 +1,109 @@
-TypedEntityLayout = require './typed_entity_layout'
-{ startLoading } = require 'modules/general/plugins/behaviors'
-EntitiesList = require './entities_list'
-screen_ = require 'lib/screen'
+import TypedEntityLayout from './typed_entity_layout';
+import { startLoading } from 'modules/general/plugins/behaviors';
+import EntitiesList from './entities_list';
+import screen_ from 'lib/screen';
 
-module.exports = TypedEntityLayout.extend
-  template: require './templates/author_layout'
-  Infobox: require './author_infobox'
-  className: ->
-    # Default to wrapped mode in non standalone mode
-    secondClass = ''
-    if @options.standalone then secondClass = 'standalone'
-    else if not @options.noAuthorWrap then secondClass = 'wrapped'
-    prefix = @model.get 'prefix'
-    return "authorLayout #{secondClass} entity-prefix-#{prefix}"
+export default TypedEntityLayout.extend({
+  template: require('./templates/author_layout'),
+  Infobox: require('./author_infobox'),
+  className() {
+    // Default to wrapped mode in non standalone mode
+    let secondClass = '';
+    if (this.options.standalone) { secondClass = 'standalone';
+    } else if (!this.options.noAuthorWrap) { secondClass = 'wrapped'; }
+    const prefix = this.model.get('prefix');
+    return `authorLayout ${secondClass} entity-prefix-${prefix}`;
+  },
 
-  attributes: ->
-    # Used by deduplicate_layout
-    'data-uri': @model.get('uri')
+  attributes() {
+    // Used by deduplicate_layout
+    return {'data-uri': this.model.get('uri')};
+  },
 
-  behaviors:
+  behaviors: {
     Loading: {}
+  },
 
-  regions:
-    infoboxRegion: '.authorInfobox'
-    seriesRegion: '.series'
-    worksRegion: '.works'
-    articlesRegion: '.articles'
+  regions: {
+    infoboxRegion: '.authorInfobox',
+    seriesRegion: '.series',
+    worksRegion: '.works',
+    articlesRegion: '.articles',
     mergeSuggestionsRegion: '.mergeSuggestions'
+  },
 
-  initialize: ->
-    TypedEntityLayout::initialize.call @
-    # Trigger fetchWorks only once the author is in view
-    @$el.once 'inview', @fetchWorks.bind(@)
+  initialize() {
+    TypedEntityLayout.prototype.initialize.call(this);
+    // Trigger fetchWorks only once the author is in view
+    return this.$el.once('inview', this.fetchWorks.bind(this));
+  },
 
-  events:
+  events: {
     'click .unwrap': 'unwrap'
+  },
 
-  fetchWorks: ->
-    @worksShouldBeShown = true
-    # make sure refresh is a Boolean and not an object incidently passed
-    refresh = @options.refresh is true
+  fetchWorks() {
+    this.worksShouldBeShown = true;
+    // make sure refresh is a Boolean and not an object incidently passed
+    const refresh = this.options.refresh === true;
 
-    @model.initAuthorWorks refresh
-    .then @ifViewIsIntact('showWorks')
-    .catch _.Error('author_layout fetchWorks err')
+    return this.model.initAuthorWorks(refresh)
+    .then(this.ifViewIsIntact('showWorks'))
+    .catch(_.Error('author_layout fetchWorks err'));
+  },
 
-  onRender: ->
-    TypedEntityLayout::onRender.call @
-    if @worksShouldBeShown then @showWorks()
+  onRender() {
+    TypedEntityLayout.prototype.onRender.call(this);
+    if (this.worksShouldBeShown) { return this.showWorks(); }
+  },
 
-  showWorks: ->
-    startLoading.call @, '.works'
+  showWorks() {
+    startLoading.call(this, '.works');
 
-    @model.waitForWorks
-    .then @_showWorks.bind(@)
+    return this.model.waitForWorks
+    .then(this._showWorks.bind(this));
+  },
 
-  _showWorks: ->
-    { works, series, articles } = @model.works
-    total = works.totalLength + series.totalLength + articles.totalLength
+  _showWorks() {
+    const { works, series, articles } = this.model.works;
+    const total = works.totalLength + series.totalLength + articles.totalLength;
 
-    # Always starting wrapped on small screens
-    if not screen_.isSmall(600) and total > 0 then @unwrap()
+    // Always starting wrapped on small screens
+    if (!screen_.isSmall(600) && (total > 0)) { this.unwrap(); }
 
-    initialWorksListLength = if @standalone then 10 else 5
+    const initialWorksListLength = this.standalone ? 10 : 5;
 
-    @showWorkCollection 'works', initialWorksListLength
+    this.showWorkCollection('works', initialWorksListLength);
 
-    seriesCount = @model.works.series.totalLength
-    if seriesCount > 0 or @standalone
-      @showWorkCollection 'series', initialWorksListLength
-      # If the author has no series, move the series block down
-      if seriesCount is 0 then @seriesRegion.$el.css 'order', 2
+    const seriesCount = this.model.works.series.totalLength;
+    if ((seriesCount > 0) || this.standalone) {
+      this.showWorkCollection('series', initialWorksListLength);
+      // If the author has no series, move the series block down
+      if (seriesCount === 0) { this.seriesRegion.$el.css('order', 2); }
+    }
 
-    if @model.works.articles.totalLength > 0
-      @showWorkCollection 'articles'
+    if (this.model.works.articles.totalLength > 0) {
+      return this.showWorkCollection('articles');
+    }
+  },
 
-  unwrap: -> @$el.removeClass 'wrapped'
+  unwrap() { return this.$el.removeClass('wrapped'); },
 
-  showWorkCollection: (type, initialLength)->
-    @["#{type}Region"].show new EntitiesList
-      parentModel: @model
-      collection: @model.works[type]
-      title: type
-      type: dropThePlural type
-      initialLength: initialLength
-      showActions: @options.showActions
-      wrapWorks: @options.wrapWorks
-      addButtonLabel: addButtonLabelPerType[type]
+  showWorkCollection(type, initialLength){
+    return this[`${type}Region`].show(new EntitiesList({
+      parentModel: this.model,
+      collection: this.model.works[type],
+      title: type,
+      type: dropThePlural(type),
+      initialLength,
+      showActions: this.options.showActions,
+      wrapWorks: this.options.wrapWorks,
+      addButtonLabel: addButtonLabelPerType[type]}));
+  }});
 
-addButtonLabelPerType =
-  works: 'add a work from this author'
+var addButtonLabelPerType = {
+  works: 'add a work from this author',
   series: 'add a serie from this author'
+};
 
-dropThePlural = (type)-> type.replace /s$/, ''
+var dropThePlural = type => type.replace(/s$/, '');

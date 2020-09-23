@@ -1,183 +1,213 @@
-embedded_ = require 'modules/inventory/lib/scanner/embedded'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+import embedded_ from 'modules/inventory/lib/scanner/embedded';
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/embedded_scanner'
-  className: 'embedded'
-  behaviors:
+export default Marionette.ItemView.extend({
+  template: require('./templates/embedded_scanner'),
+  className: 'embedded',
+  behaviors: {
     Loading: {}
+  },
 
-  ui:
-    statusMessage: '.statusMessage'
-    shadowAreaBox: '#shadowAreaBox'
-    validate: '#validateScan'
-    totalCounter: '#totalCounter'
-    notFoundCounter: '#notFoundCounter'
+  ui: {
+    statusMessage: '.statusMessage',
+    shadowAreaBox: '#shadowAreaBox',
+    validate: '#validateScan',
+    totalCounter: '#totalCounter',
+    notFoundCounter: '#notFoundCounter',
     failing: '.failing'
+  },
 
-  events:
-    'click #closeScan': 'close'
+  events: {
+    'click #closeScan': 'close',
     'click #validateScan': 'validate'
+  },
 
-  onShow: ->
-    app.execute 'last:add:mode:set', 'scan:embedded'
-    # Removing the timeout on the loader as it depend on the time
-    # the user takes to give the permission to access the camera
-    behaviorsPlugin.startLoading.call @, { timeout: 'none' }
+  onShow() {
+    app.execute('last:add:mode:set', 'scan:embedded');
+    // Removing the timeout on the loader as it depend on the time
+    // the user takes to give the permission to access the camera
+    behaviorsPlugin.startLoading.call(this, { timeout: 'none' });
 
-    @batch = []
-    @notFound = []
+    this.batch = [];
+    this.notFound = [];
 
-    scanOptions =
-      beforeScannerStart: @beforeScannerStart.bind @
-      onDetectedActions:
-        addIsbn: @addIsbn.bind @
-        showInvalidIsbnWarning: @showInvalidIsbnWarning.bind @
-      setStopScannerCallback: @setStopScannerCallback.bind @
+    const scanOptions = {
+      beforeScannerStart: this.beforeScannerStart.bind(this),
+      onDetectedActions: {
+        addIsbn: this.addIsbn.bind(this),
+        showInvalidIsbnWarning: this.showInvalidIsbnWarning.bind(this)
+      },
+      setStopScannerCallback: this.setStopScannerCallback.bind(this)
+    };
 
-    @scanner = embedded_.scan(scanOptions).catch @permissionDenied.bind(@)
+    return this.scanner = embedded_.scan(scanOptions).catch(this.permissionDenied.bind(this));
+  },
 
-  beforeScannerStart: ->
-    @ui.shadowAreaBox.removeClass 'hidden'
+  beforeScannerStart() {
+    this.ui.shadowAreaBox.removeClass('hidden');
 
-    @showStatusMessage
-      type: 'tip'
-      message: _.I18n "make the book's barcode fit in the box"
-      # displayDelay: 1000
+    this.showStatusMessage({
+      type: 'tip',
+      message: _.I18n("make the book's barcode fit in the box"),
+      // displayDelay: 1000
       displayTime: 29 * 1000
+    });
 
-    @showStatusMessage
-      message: _.I18n 'failing_scan_tip'
-      type: 'support'
-      displayDelay: 30 * 1000
-      # Display only if no ISBN, valid or not, was detected
-      displayCondition: => @batch.length is 0 and not @invalidIsbnDetected
+    return this.showStatusMessage({
+      message: _.I18n('failing_scan_tip'),
+      type: 'support',
+      displayDelay: 30 * 1000,
+      // Display only if no ISBN, valid or not, was detected
+      displayCondition: () => (this.batch.length === 0) && !this.invalidIsbnDetected,
       displayTime: 30 * 1000
+    });
+  },
 
-  addIsbn: (isbn)->
-    @_lastIsbn = isbn
+  addIsbn(isbn){
+    this._lastIsbn = isbn;
 
-    if isbn in @batch then return @showDuplicateIsbnWarning isbn
+    if (this.batch.includes(isbn)) { return this.showDuplicateIsbnWarning(isbn); }
 
-    @batch.push isbn
-    @precachingEntityData isbn
+    this.batch.push(isbn);
+    this.precachingEntityData(isbn);
 
-    @_lastSuccessTime = Date.now()
-    @showStatusMessage
-      message: _.i18n('added:') + ' ' + isbn
-      type: 'success'
+    this._lastSuccessTime = Date.now();
+    this.showStatusMessage({
+      message: _.i18n('added:') + ' ' + isbn,
+      type: 'success',
       displayTime: 4000
+    });
 
-    @updateCounter()
+    this.updateCounter();
 
-    if @batch.length is 1
-      @ui.validate.removeClass 'hidden'
-      # The shadow barcode shouldn't be needed anymore
-      @ui.shadowAreaBox.addClass 'hidden'
-      @initMultiBarcodeTip()
+    if (this.batch.length === 1) {
+      this.ui.validate.removeClass('hidden');
+      // The shadow barcode shouldn't be needed anymore
+      this.ui.shadowAreaBox.addClass('hidden');
+      return this.initMultiBarcodeTip();
+    }
+  },
 
-  precachingEntityData: (isbn)->
-    # Pre-requesting the entity's data to let the time to the server
-    # to possibly fetch dataseeds, while we will only need the data later.
-    # If successful, the entities will be pre-cached
-    app.request 'get:entity:model', "isbn:#{isbn}"
-    .catch (err)=>
-      if err.message.match('entity_not_found') then @updateNotFoundCounter isbn
-      else throw err
-    .catch _.Error('isbn batch pre-cache err')
+  precachingEntityData(isbn){
+    // Pre-requesting the entity's data to let the time to the server
+    // to possibly fetch dataseeds, while we will only need the data later.
+    // If successful, the entities will be pre-cached
+    return app.request('get:entity:model', `isbn:${isbn}`)
+    .catch(err=> {
+      if (err.message.match('entity_not_found')) { return this.updateNotFoundCounter(isbn);
+      } else { throw err; }
+  }).catch(_.Error('isbn batch pre-cache err'));
+  },
 
-  updateNotFoundCounter: (isbn)->
-    @notFound.push isbn
-    notFoundCount = @notFound.length
-    if notFoundCount is 1 then @ui.notFoundCounter.parent().removeClass 'hidden'
-    @ui.notFoundCounter.text notFoundCount
+  updateNotFoundCounter(isbn){
+    this.notFound.push(isbn);
+    const notFoundCount = this.notFound.length;
+    if (notFoundCount === 1) { this.ui.notFoundCounter.parent().removeClass('hidden'); }
+    return this.ui.notFoundCounter.text(notFoundCount);
+  },
 
-  showDuplicateIsbnWarning: (isbn)->
-    now = Date.now()
-    @_lastSuccessTime ?= 0
-    @_lastDuplicate ?= 0
+  showDuplicateIsbnWarning(isbn){
+    const now = Date.now();
+    if (this._lastSuccessTime == null) { this._lastSuccessTime = 0; }
+    if (this._lastDuplicate == null) { this._lastDuplicate = 0; }
 
-    differentIsbn = isbn isnt @_lastIsbn
-    # Do not show to soon after the successful scan
-    # and debounce duplicate messages
-    debounced = now - @_lastSuccessTime > 5000 and now - @_lastDuplicate > 3000
+    const differentIsbn = isbn !== this._lastIsbn;
+    // Do not show to soon after the successful scan
+    // and debounce duplicate messages
+    const debounced = ((now - this._lastSuccessTime) > 5000) && ((now - this._lastDuplicate) > 3000);
 
-    if differentIsbn or debounced
-      @_lastDuplicate = Date.now()
-      @showStatusMessage
-        message: _.I18n 'this ISBN was already scanned'
-        type: 'warning'
+    if (differentIsbn || debounced) {
+      this._lastDuplicate = Date.now();
+      return this.showStatusMessage({
+        message: _.I18n('this ISBN was already scanned'),
+        type: 'warning',
         displayTime: 2000
+      });
+    }
+  },
 
-  initMultiBarcodeTip: ->
-    @showStatusMessage
-      message: _.I18n 'multi_barcode_scan_tip'
-      type: 'tip'
-      # Show the tip once the success message is over
-      displayDelay: 2000
-      # Do not display if already several ISBNs were scanned
-      displayCondition: => @batch.length is 1
+  initMultiBarcodeTip() {
+    return this.showStatusMessage({
+      message: _.I18n('multi_barcode_scan_tip'),
+      type: 'tip',
+      // Show the tip once the success message is over
+      displayDelay: 2000,
+      // Do not display if already several ISBNs were scanned
+      displayCondition: () => this.batch.length === 1,
       displayTime: 5000
+    });
+  },
 
-  showStatusMessage: (params)->
-    { message, type, displayDelay, displayCondition, displayTime } = params
+  showStatusMessage(params){
+    const { message, type, displayDelay, displayCondition, displayTime } = params;
 
-    showMessage = =>
-      if @isDestroyed then return
-      if displayCondition? and not displayCondition() then return
+    const showMessage = () => {
+      if (this.isDestroyed) { return; }
+      if ((displayCondition != null) && !displayCondition()) { return; }
 
-      @ui.statusMessage.html _.icon(iconPerType[type]) + message
-      .addClass 'shown'
-      # Used as a CSS selector
-      .attr 'data-type', type
+      this.ui.statusMessage.html(_.icon(iconPerType[type]) + message)
+      .addClass('shown')
+      // Used as a CSS selector
+      .attr('data-type', type);
 
-      @_lastMessage = message
+      this._lastMessage = message;
 
-      hideMessage = =>
-        if @isDestroyed or @_lastMessage isnt message then return
-        @ui.statusMessage.removeClass 'shown'
+      const hideMessage = () => {
+        if (this.isDestroyed || (this._lastMessage !== message)) { return; }
+        return this.ui.statusMessage.removeClass('shown');
+      };
 
-      @setTimeout hideMessage, displayTime
+      return this.setTimeout(hideMessage, displayTime);
+    };
 
-    if displayDelay? then @setTimeout showMessage, displayDelay
-    else showMessage()
+    if (displayDelay != null) { return this.setTimeout(showMessage, displayDelay);
+    } else { return showMessage(); }
+  },
 
-  showInvalidIsbnWarning: (invalidIsbn)->
-    @showStatusMessage
-      message: _.i18n('invalid ISBN') + ': ' + invalidIsbn
-      type: 'warning'
+  showInvalidIsbnWarning(invalidIsbn){
+    return this.showStatusMessage({
+      message: _.i18n('invalid ISBN') + ': ' + invalidIsbn,
+      type: 'warning',
       displayTime: 5000
+    });
+  },
 
-  updateCounter: (count)->
-    # Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
-    if @isDestroyed then return
-    @ui.totalCounter.text "(#{@batch.length})"
-    @ui.validate.addClass 'flash'
-    @setTimeout @ui.validate.removeClass.bind(@ui.validate, 'flash'), 1000
+  updateCounter(count){
+    // Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
+    if (this.isDestroyed) { return; }
+    this.ui.totalCounter.text(`(${this.batch.length})`);
+    this.ui.validate.addClass('flash');
+    return this.setTimeout(this.ui.validate.removeClass.bind(this.ui.validate, 'flash'), 1000);
+  },
 
-  permissionDenied: (err)->
-    if err.reason is 'permission_denied'
-      _.log 'permission denied: closing scanner'
-    else
-      _.error err, 'scan error'
+  permissionDenied(err){
+    if (err.reason === 'permission_denied') {
+      _.log('permission denied: closing scanner');
+    } else {
+      _.error(err, 'scan error');
+    }
 
-    # In any case, close
-    @close()
+    // In any case, close
+    return this.close();
+  },
 
-  validate: -> app.execute 'show:add:layout:import:isbns', @batch
+  validate() { return app.execute('show:add:layout:import:isbns', this.batch); },
 
-  close: ->
-    # come back to the previous view
-    # which should trigger @destroy as the previous view is expected to be shown
-    # in app.layout.main too
-    window.history.back()
+  close() {
+    // come back to the previous view
+    // which should trigger @destroy as the previous view is expected to be shown
+    // in app.layout.main too
+    return window.history.back();
+  },
 
-  setStopScannerCallback: (fn)-> @stopScanner = fn
+  setStopScannerCallback(fn){ return this.stopScanner = fn; },
 
-  onDestroy: -> @stopScanner?()
+  onDestroy() { return this.stopScanner?.(); }
+});
 
-iconPerType =
-  success: 'check'
-  support: 'support'
-  tip: 'info-circle'
+var iconPerType = {
+  success: 'check',
+  support: 'support',
+  tip: 'info-circle',
   warning: 'warning'
+};

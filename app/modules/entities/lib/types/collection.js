@@ -1,28 +1,33 @@
-module.exports = ->
-  _.extend @, specificMethods
-  @childrenClaimProperty = 'wdt:P195'
-  @subentitiesName = 'editions'
-  @setClaimsBasedAttributes()
-  @on 'change:claims', @onClaimsChange.bind(@)
+export default function() {
+  _.extend(this, specificMethods);
+  this.childrenClaimProperty = 'wdt:P195';
+  this.subentitiesName = 'editions';
+  this.setClaimsBasedAttributes();
+  return this.on('change:claims', this.onClaimsChange.bind(this));
+};
 
-specificMethods =
-  setLabelFromTitle: ->
-    # Take the label from the monolingual title property
-    title = @get('claims.wdt:P1476.0')
-    # inv collections will always have a title, but not the wikidata ones
-    if title? then @set 'label', title
+var specificMethods = {
+  setLabelFromTitle() {
+    // Take the label from the monolingual title property
+    const title = this.get('claims.wdt:P1476.0');
+    // inv collections will always have a title, but not the wikidata ones
+    if (title != null) { return this.set('label', title); }
+  },
 
-  setClaimsBasedAttributes: ->
-    @setLabelFromTitle()
+  setClaimsBasedAttributes() {
+    return this.setLabelFromTitle();
+  },
 
-  onClaimsChange: (property, oldValue, newValue)->
-    @setClaimsBasedAttributes()
+  onClaimsChange(property, oldValue, newValue){
+    return this.setClaimsBasedAttributes();
+  },
 
-  getChildrenCandidatesUris: ->
-    publishersUris = @get 'claims.wdt:P123'
-    unless publishersUris? then return Promise.resolve([])
+  getChildrenCandidatesUris() {
+    const publishersUris = this.get('claims.wdt:P123');
+    if (publishersUris == null) { return Promise.resolve([]); }
 
-    app.request 'get:entities:models', { uris: publishersUris }
-    .then (models)->
-      Promise.all _.invoke(models, 'initPublisherPublications')
-      .then -> _.flatten _.pluck(models, 'isolatedEditionsUris')
+    return app.request('get:entities:models', { uris: publishersUris })
+    .then(models => Promise.all(_.invoke(models, 'initPublisherPublications'))
+    .then(() => _.flatten(_.pluck(models, 'isolatedEditionsUris'))));
+  }
+};

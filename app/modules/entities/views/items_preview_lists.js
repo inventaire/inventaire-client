@@ -1,78 +1,105 @@
-ItemsPreviewList = require './items_preview_list'
-screen_ = require 'lib/screen'
+import ItemsPreviewList from './items_preview_list';
+import screen_ from 'lib/screen';
 
-module.exports = Marionette.LayoutView.extend
-  className: ->
-    className = 'itemsPreviewLists'
-    if @options.compact then className += ' compact'
-    unless @options.itemsModels?.length > 0 then className += ' emptyLists'
-    return className
+export default Marionette.LayoutView.extend({
+  className() {
+    let className = 'itemsPreviewLists';
+    if (this.options.compact) { className += ' compact'; }
+    if (this.options.itemsModels?.length <= 0) { className += ' emptyLists'; }
+    return className;
+  },
 
-  template: require './templates/items_preview_lists'
+  template: require('./templates/items_preview_lists'),
 
-  regions:
-    givingRegion: '.giving'
-    lendingRegion: '.lending'
-    sellingRegion: '.selling'
+  regions: {
+    givingRegion: '.giving',
+    lendingRegion: '.lending',
+    sellingRegion: '.selling',
     inventoryingRegion: '.inventorying'
+  },
 
-  initialize: ->
-    { @category, @itemsModels, @compact, @displayItemsCovers } = @options
-    @itemsWithPositionCount = @itemsModels?.filter((item)-> item.hasPosition()).length or 0
-    if @itemsModels?.length > 0
-      @collections = spreadByTransactions @itemsModels
-    else
-      @emptyList = true
+  initialize() {
+    ({ category: this.category, itemsModels: this.itemsModels, compact: this.compact, displayItemsCovers: this.displayItemsCovers } = this.options);
+    this.itemsWithPositionCount = this.itemsModels?.filter(item => item.hasPosition()).length || 0;
+    if (this.itemsModels?.length > 0) {
+      return this.collections = spreadByTransactions(this.itemsModels);
+    } else {
+      return this.emptyList = true;
+    }
+  },
 
-  serializeData: ->
-    header: headers[@category]
-    emptyList: @emptyList
-    canShowOnMap: not @emptyList and @itemsWithPositionCount > 0
+  serializeData() {
+    return {
+      header: headers[this.category],
+      emptyList: this.emptyList,
+      canShowOnMap: !this.emptyList && (this.itemsWithPositionCount > 0)
+    };
+  },
 
-  events:
+  events: {
     'click .showOnMap': 'showOnMap'
+  },
 
-  onShow: ->
-    unless @emptyList then @showItemsPreviewLists()
+  onShow() {
+    if (!this.emptyList) { return this.showItemsPreviewLists(); }
+  },
 
-  showItemsPreviewLists: ->
-    for transaction, collection of @collections
-      @["#{transaction}Region"].show new ItemsPreviewList {
-        transaction,
-        collection,
-        @displayItemsCovers,
-        @compact
+  showItemsPreviewLists() {
+    return (() => {
+      const result = [];
+      for (let transaction in this.collections) {
+        const collection = this.collections[transaction];
+        result.push(this[`${transaction}Region`].show(new ItemsPreviewList({
+          transaction,
+          collection,
+          displayItemsCovers: this.displayItemsCovers,
+          compact: this.compact
+        })));
       }
+      return result;
+    })();
+  },
 
-  showOnMap: ->
-    unless @_itemsPositionsSet
-      @itemsModels.forEach (model)-> model.position = model.user?.get('position')
-      @_itemsPositionsSet = true
-    # Add the main user to the list to make sure the map shows their position
-    app.execute 'show:models:on:map', @itemsModels.concat([ app.user ])
+  showOnMap() {
+    if (!this._itemsPositionsSet) {
+      this.itemsModels.forEach(model => model.position = model.user?.get('position'));
+      this._itemsPositionsSet = true;
+    }
+    // Add the main user to the list to make sure the map shows their position
+    return app.execute('show:models:on:map', this.itemsModels.concat([ app.user ]));
+  }
+});
 
-spreadByTransactions = (itemsModels)->
-  collections = {}
-  for itemModel in itemsModels
-    transaction = itemModel.get('transaction')
-    collections[transaction] or= new Backbone.Collection
-    collections[transaction].add itemModel
+var spreadByTransactions = function(itemsModels){
+  const collections = {};
+  for (let itemModel of itemsModels) {
+    const transaction = itemModel.get('transaction');
+    if (!collections[transaction]) { collections[transaction] = new Backbone.Collection; }
+    collections[transaction].add(itemModel);
+  }
 
-  return collections
+  return collections;
+};
 
-headers =
-  personal:
-    label: 'in your inventory'
+var headers = {
+  personal: {
+    label: 'in your inventory',
     icon: 'user'
-  network:
-    label: "in your friends' and groups' inventories"
+  },
+  network: {
+    label: "in your friends' and groups' inventories",
     icon: 'users'
-  public:
-    label: 'public'
+  },
+  public: {
+    label: 'public',
     icon: 'globe'
-  nearbyPublic:
-    label: 'nearby'
+  },
+  nearbyPublic: {
+    label: 'nearby',
     icon: 'map-marker'
-  otherPublic:
-    label: 'elsewhere'
+  },
+  otherPublic: {
+    label: 'elsewhere',
     icon: 'globe'
+  }
+};

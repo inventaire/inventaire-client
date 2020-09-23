@@ -1,16 +1,20 @@
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  className: 'imported-item-row'
-  template: require './templates/imported_item_row'
-  serializeData: ->
-    attrs = @model.serializeData()
-    [ prefix, id ] = attrs.entity.split ':'
-    if prefix is 'isbn' then attrs.isbn = id
-    return attrs
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'imported-item-row',
+  template: require('./templates/imported_item_row'),
+  serializeData() {
+    const attrs = this.model.serializeData();
+    const [ prefix, id ] = Array.from(attrs.entity.split(':'));
+    if (prefix === 'isbn') { attrs.isbn = id; }
+    return attrs;
+  },
 
-  events:
+  events: {
     'click .showItem': 'showItem'
+  },
 
-  showItem: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:item', @model
+  showItem(e){
+    if (_.isOpenedOutside(e)) { return;
+    } else { return app.execute('show:item', this.model); }
+  }
+});

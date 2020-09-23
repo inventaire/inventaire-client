@@ -1,48 +1,61 @@
-wdLang = require 'wikidata-lang'
-{ buildPath } = require 'lib/location'
+import wdLang from 'wikidata-lang';
+import { buildPath } from 'lib/location';
 
-module.exports =
-  partial: 'edition_creation'
-  partialData: (workModel)->
-    isbnInputData:
-      nameBase: 'isbn'
-      field:
-        placeholder: _.i18n('ex:') + ' 2070368228'
-        dotdotdot: ''
-      button:
-        icon: 'plus'
-        text: _.i18n 'add'
-        classes: 'grey postfix sans-serif'
-    addWithoutIsbnPath: addWithoutIsbnPath workModel
+export default {
+  partial: 'edition_creation',
+  partialData(workModel){
+    return {
+      isbnInputData: {
+        nameBase: 'isbn',
+        field: {
+          placeholder: _.i18n('ex:') + ' 2070368228',
+          dotdotdot: ''
+        },
+        button: {
+          icon: 'plus',
+          text: _.i18n('add'),
+          classes: 'grey postfix sans-serif'
+        }
+      },
+      addWithoutIsbnPath: addWithoutIsbnPath(workModel)
+    };
+  },
 
-  clickEvents:
-    isbnButton: require './create_edition_entity_from_work'
-    withoutIsbn: (params)->
-      { work:workModel, itemToUpdate } = params
-      app.execute 'show:entity:create', workEditionCreationData(workModel, itemToUpdate)
-      # In case the edition list was opened in a modal
-      app.execute 'modal:close'
+  clickEvents: {
+    isbnButton: require('./create_edition_entity_from_work'),
+    withoutIsbn(params){
+      const { work:workModel, itemToUpdate } = params;
+      app.execute('show:entity:create', workEditionCreationData(workModel, itemToUpdate));
+      // In case the edition list was opened in a modal
+      return app.execute('modal:close');
+    }
+  }
+};
 
-addWithoutIsbnPath = (workModel)->
-  unless workModel then return {}
-  return buildPath '/entity/new', workEditionCreationData(workModel)
+var addWithoutIsbnPath = function(workModel){
+  if (!workModel) { return {}; }
+  return buildPath('/entity/new', workEditionCreationData(workModel));
+};
 
-workEditionCreationData = (workModel, itemToUpdate)->
-  data =
+var workEditionCreationData = function(workModel, itemToUpdate){
+  const data = {
     type: 'edition',
-    claims:
+    claims: {
       'wdt:P629': [ workModel.get('uri') ]
+    }
+  };
 
-  data.itemToUpdate = itemToUpdate
+  data.itemToUpdate = itemToUpdate;
 
-  { lang } = app.user
-  langWdId = wdLang.byCode[lang]?.wd
-  langWdUri = if langWdId? then "wd:#{langWdId}"
-  # Suggest the user's language as the edition language
-  if langWdUri then data.claims['wdt:P407'] = [ langWdUri ]
+  const { lang } = app.user;
+  const langWdId = wdLang.byCode[lang]?.wd;
+  const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined;
+  // Suggest the user's language as the edition language
+  if (langWdUri) { data.claims['wdt:P407'] = [ langWdUri ]; }
 
-  langWorkLabel = workModel.get "labels.#{lang}"
-  # Suggest the work entity label in the user's language as the edition title
-  if langWorkLabel then data.claims['wdt:P1476'] = [ langWorkLabel ]
+  const langWorkLabel = workModel.get(`labels.${lang}`);
+  // Suggest the work entity label in the user's language as the edition title
+  if (langWorkLabel) { data.claims['wdt:P1476'] = [ langWorkLabel ]; }
 
-  return data
+  return data;
+};

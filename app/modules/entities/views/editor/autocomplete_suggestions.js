@@ -1,48 +1,57 @@
-# Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collectionview.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collectionview.coffee
 
-# keep in sync with app/modules/general/scss/_autocomplete.scss
-listHeight = 170
+// keep in sync with app/modules/general/scss/_autocomplete.scss
+const listHeight = 170;
 
-module.exports = Marionette.CompositeView.extend
-  template: require './templates/autocomplete_suggestions'
-  className: 'autocomplete-suggestions'
-  childViewContainer: '.results'
-  childView: require './autocomplete_suggestion'
-  emptyView: require './autocomplete_no_suggestion'
-  ui:
-    resultsWrapper: '.resultsWrapper'
-    results: '.results'
+export default Marionette.CompositeView.extend({
+  template: require('./templates/autocomplete_suggestions'),
+  className: 'autocomplete-suggestions',
+  childViewContainer: '.results',
+  childView: require('./autocomplete_suggestion'),
+  emptyView: require('./autocomplete_no_suggestion'),
+  ui: {
+    resultsWrapper: '.resultsWrapper',
+    results: '.results',
     loader: '.loaderWrapper'
+  },
 
-  childEvents:
-    'highlight': 'scrollToHighlightedChild'
+  childEvents: {
+    'highlight': 'scrollToHighlightedChild',
     'select:from:click': 'selectFromClick'
+  },
 
-  scrollToHighlightedChild: (child)->
-    childTop = child.$el.position().top
-    childBottom = childTop + child.$el.height()
-    listPosition = @ui.resultsWrapper.scrollTop()
-    if childTop < 0 or childBottom > listHeight
-      @ui.resultsWrapper.animate { scrollTop: listPosition + childTop - 20 }
+  scrollToHighlightedChild(child){
+    const childTop = child.$el.position().top;
+    const childBottom = childTop + child.$el.height();
+    const listPosition = this.ui.resultsWrapper.scrollTop();
+    if ((childTop < 0) || (childBottom > listHeight)) {
+      return this.ui.resultsWrapper.animate({ scrollTop: (listPosition + childTop) - 20 });
+    }
+  },
 
-  # Pass the child view event to the filtered collection
-  selectFromClick: (e, model)-> @collection.trigger 'select:from:click', model
+  // Pass the child view event to the filtered collection
+  selectFromClick(e, model){ return this.collection.trigger('select:from:click', model); },
 
-  onShow: ->
-    # Doesn't work if set in events for some reason
-    @ui.resultsWrapper.on 'scroll', @onResultsScroll.bind(@)
+  onShow() {
+    // Doesn't work if set in events for some reason
+    return this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this));
+  },
 
-  onResultsScroll: (e)->
-    visibleHeight = @ui.resultsWrapper.height()
-    { scrollHeight, scrollTop } = e.currentTarget
-    scrollBottom = scrollTop + visibleHeight
-    if scrollBottom is scrollHeight then @loadMore()
+  onResultsScroll(e){
+    const visibleHeight = this.ui.resultsWrapper.height();
+    const { scrollHeight, scrollTop } = e.currentTarget;
+    const scrollBottom = scrollTop + visibleHeight;
+    if (scrollBottom === scrollHeight) { return this.loadMore(); }
+  },
 
-  loadMore: ->
-    @collection.trigger 'load:more'
+  loadMore() {
+    return this.collection.trigger('load:more');
+  },
 
-  showLoadingSpinner: ->
-    @ui.loader.html '<div class="small-loader"></div>'
-    @$el.removeClass 'no-results'
+  showLoadingSpinner() {
+    this.ui.loader.html('<div class="small-loader"></div>');
+    return this.$el.removeClass('no-results');
+  },
 
-  stopLoadingSpinner: -> @ui.loader.html ''
+  stopLoadingSpinner() { return this.ui.loader.html(''); }
+});

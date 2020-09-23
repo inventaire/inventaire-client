@@ -1,38 +1,47 @@
-module.exports = Marionette.CompositeView.extend
-  id: 'addSearch'
-  template: require './templates/search'
-  behaviors:
-    PreventDefault: {}
+export default Marionette.CompositeView.extend({
+  id: 'addSearch',
+  template: require('./templates/search'),
+  behaviors: {
+    PreventDefault: {},
     AutoFocus: {}
+  },
 
-  childViewContainer: '#history'
-  childView: require './previous_search'
+  childViewContainer: '#history',
+  childView: require('./previous_search'),
 
-  ui:
+  ui: {
     history: '#historyWrapper'
+  },
 
-  initialize: ->
-    @collection = app.searchResultsHistory
-    # re-sorting as some timestamps might have be updated
-    # since the initial sorting
-    @collection.sort()
+  initialize() {
+    this.collection = app.searchResultsHistory;
+    // re-sorting as some timestamps might have be updated
+    // since the initial sorting
+    return this.collection.sort();
+  },
 
-  onShow: ->
-    if @collection.length > 0 then @ui.history.show()
-    else @listenToHistory()
+  onShow() {
+    if (this.collection.length > 0) { return this.ui.history.show();
+    } else { return this.listenToHistory(); }
+  },
 
-  events:
-    'click .clearHistory': 'clearHistory'
+  events: {
+    'click .clearHistory': 'clearHistory',
     'click .search-button': 'showTypeSearch'
+  },
 
-  showTypeSearch: (e)->
-    type = e.currentTarget.href.split('type=')[1]
-    app.execute 'search:global', '', type
+  showTypeSearch(e){
+    const type = e.currentTarget.href.split('type=')[1];
+    return app.execute('search:global', '', type);
+  },
 
-  clearHistory: ->
-    @collection.reset()
-    @ui.history.hide()
-    @listenToHistory()
+  clearHistory() {
+    this.collection.reset();
+    this.ui.history.hide();
+    return this.listenToHistory();
+  },
 
-  listenToHistory: ->
-    @listenToOnce @collection, 'add', @ui.history.show.bind(@ui.history)
+  listenToHistory() {
+    return this.listenToOnce(this.collection, 'add', this.ui.history.show.bind(this.ui.history));
+  }
+});

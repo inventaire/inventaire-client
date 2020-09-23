@@ -1,76 +1,92 @@
-getActionKey = require 'lib/get_action_key'
-error_ = require 'lib/error'
-forms_ = require 'modules/general/lib/forms'
+import getActionKey from 'lib/get_action_key';
+import error_ from 'lib/error';
+import forms_ from 'modules/general/lib/forms';
 
-module.exports = Marionette.ItemView.extend
-  className: 'confirmationModal'
-  template: require './templates/confirmation_modal'
-  behaviors:
-    SuccessCheck: {}
-    AlertBox: {}
-    ElasticTextarea: {}
+export default Marionette.ItemView.extend({
+  className: 'confirmationModal',
+  template: require('./templates/confirmation_modal'),
+  behaviors: {
+    SuccessCheck: {},
+    AlertBox: {},
+    ElasticTextarea: {},
     General: {}
+  },
 
-  ui:
-    no: '#no'
+  ui: {
+    no: '#no',
     yes: '#yes'
+  },
 
-  serializeData: ->
-    data = @options
-    data.yes or= 'yes'
-    data.no or= 'no'
-    data.yesButtonClass or= 'alert'
-    data.canGoBack = @options.back?
-    return data
+  serializeData() {
+    const data = this.options;
+    if (!data.yes) { data.yes = 'yes'; }
+    if (!data.no) { data.no = 'no'; }
+    if (!data.yesButtonClass) { data.yesButtonClass = 'alert'; }
+    data.canGoBack = (this.options.back != null);
+    return data;
+  },
 
-  events:
-    'click a#yes': 'yes'
-    'click a#no': 'close'
-    'keydown': 'changeButton'
+  events: {
+    'click a#yes': 'yes',
+    'click a#no': 'close',
+    'keydown': 'changeButton',
     'click a#back': 'back'
+  },
 
-  onShow: ->
-    app.execute 'modal:open', null, @options.focus
-    # trigger once the modal is done sliding down
-    @setTimeout @ui.no.focus.bind(@ui.no), 600
+  onShow() {
+    app.execute('modal:open', null, this.options.focus);
+    // trigger once the modal is done sliding down
+    return this.setTimeout(this.ui.no.focus.bind(this.ui.no), 600);
+  },
 
-  yes: ->
-    { action, selector } = @options
-    Promise.try @executeFormAction.bind(@)
-    .then action
-    .then @success.bind(@)
-    .catch @error.bind(@)
-    .finally @stopLoading.bind(null, selector)
+  yes() {
+    const { action, selector } = this.options;
+    return Promise.try(this.executeFormAction.bind(this))
+    .then(action)
+    .then(this.success.bind(this))
+    .catch(this.error.bind(this))
+    .finally(this.stopLoading.bind(null, selector));
+  },
 
-  success: (res)->
-    @$el.trigger 'check', @close.bind(@)
-    return res
+  success(res){
+    this.$el.trigger('check', this.close.bind(this));
+    return res;
+  },
 
-  error: (err)->
-    _.error err, 'confirmation action err'
-    @$el.trigger 'fail'
-    error_.complete err, '.check', false
-    forms_.catchAlert @, err
+  error(err){
+    _.error(err, 'confirmation action err');
+    this.$el.trigger('fail');
+    error_.complete(err, '.check', false);
+    return forms_.catchAlert(this, err);
+  },
 
-  close: ->
-    if @options.back? then @options.back()
-    else app.execute 'modal:close'
+  close() {
+    if (this.options.back != null) { return this.options.back();
+    } else { return app.execute('modal:close'); }
+  },
 
-  stopLoading: (selector)->
-    if selector? then $(selector).trigger('stopLoading')
-    else _.warn 'confirmation modal: no selector was provided'
+  stopLoading(selector){
+    if (selector != null) { return $(selector).trigger('stopLoading');
+    } else { return _.warn('confirmation modal: no selector was provided'); }
+  },
 
-  executeFormAction: ->
-    { formAction } = @options
-    if formAction?
-      formContent = @$el.find('#confirmationForm').val()
-      if _.isNonEmptyString formContent
-        return formAction formContent
+  executeFormAction() {
+    const { formAction } = this.options;
+    if (formAction != null) {
+      const formContent = this.$el.find('#confirmationForm').val();
+      if (_.isNonEmptyString(formContent)) {
+        return formAction(formContent);
+      }
+    }
+  },
 
-  changeButton: (e)->
-    key = getActionKey e
-    switch key
-      when 'left' then @ui.no.focus()
-      when 'right' then @ui.yes.focus()
+  changeButton(e){
+    const key = getActionKey(e);
+    switch (key) {
+      case 'left': return this.ui.no.focus();
+      case 'right': return this.ui.yes.focus();
+    }
+  },
 
-  back: -> @options.back()
+  back() { return this.options.back(); }
+});

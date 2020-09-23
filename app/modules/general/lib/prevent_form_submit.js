@@ -1,11 +1,13 @@
-{ currentRoute } = require 'lib/location'
-routeAllowlist = [
-  'signup'
-  'login'
+import { currentRoute } from 'lib/location';
+const routeAllowlist = [
+  'signup',
+  'login',
   'login/reset-password'
-]
+];
 
-module.exports = (e)->
-  # Allow submit on singup and login to let password managers react to the submit event
-  if currentRoute() in routeAllowlist then return
-  e.preventDefault()
+export default function(e){
+  // Allow submit on singup and login to let password managers react to the submit event
+  let needle;
+  if ((needle = currentRoute(), routeAllowlist.includes(needle))) { return; }
+  return e.preventDefault();
+};

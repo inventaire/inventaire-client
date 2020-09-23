@@ -1,200 +1,230 @@
-BrowserSelector = require './browser_selector'
-ItemsCascade = require './items_cascade'
-ItemsTable = require './items_table'
-SelectorsCollection = require '../collections/selectors'
-FilterPreview = require './filter_preview'
-getIntersectionWorkUris = require '../lib/browser/get_intersection_work_uris'
-getUnknownModel = require '../lib/browser/get_unknown_model'
-error_ = require 'lib/error'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import BrowserSelector from './browser_selector';
+import ItemsCascade from './items_cascade';
+import ItemsTable from './items_table';
+import SelectorsCollection from '../collections/selectors';
+import FilterPreview from './filter_preview';
+import getIntersectionWorkUris from '../lib/browser/get_intersection_work_uris';
+import getUnknownModel from '../lib/browser/get_unknown_model';
+import error_ from 'lib/error';
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
 
-selectorsNames = [ 'author', 'genre', 'subject' ]
-selectorsRegions = {}
-selectorsNames.forEach (name)->
-  selectorsRegions["#{name}Region"] = "##{name}"
+const selectorsNames = [ 'author', 'genre', 'subject' ];
+const selectorsRegions = {};
+selectorsNames.forEach(name => selectorsRegions[`${name}Region`] = `#${name}`);
 
-module.exports = Marionette.LayoutView.extend
-  id: 'inventory-browser'
-  template: require './templates/inventory_browser'
-  regions: _.extend selectorsRegions,
-    filterPreview: '#filterPreview'
+export default Marionette.LayoutView.extend({
+  id: 'inventory-browser',
+  template: require('./templates/inventory_browser'),
+  regions: _.extend(selectorsRegions, {
+    filterPreview: '#filterPreview',
     itemsView: '#itemsView'
+  }
+  ),
 
-  behaviors:
-    PreventDefault: {}
+  behaviors: {
+    PreventDefault: {},
     Loading: {}
+  },
 
-  initialize: ->
-    @filters = {}
+  initialize() {
+    this.filters = {};
 
-    @display = localStorageProxy.getItem('inventory:display') or 'cascade'
-    @isMainUser = @options.isMainUser
-    @groupContext = @options.group?
+    this.display = localStorageProxy.getItem('inventory:display') || 'cascade';
+    this.isMainUser = this.options.isMainUser;
+    return this.groupContext = (this.options.group != null);
+  },
 
-  ui:
-    browserControls: '#browserControls'
+  ui: {
+    browserControls: '#browserControls',
     currentDisplayOption: '#displayControls .current div'
+  },
 
-  events:
+  events: {
     'click #displayOptions a': 'selectDisplay'
+  },
 
-  childEvents:
+  childEvents: {
     'filter:select': 'onFilterSelect'
+  },
 
-  serializeData: ->
-    data = {}
-    data[@display] = true
-    data.displayMode = @display
-    data.isMainUser = @isMainUser
-    return data
+  serializeData() {
+    const data = {};
+    data[this.display] = true;
+    data.displayMode = this.display;
+    data.isMainUser = this.isMainUser;
+    return data;
+  },
 
-  onShow: -> @initBrowser()
+  onShow() { return this.initBrowser(); },
 
-  initBrowser: ->
-    startLoading.call @, { selector: '#browserFilters', timeout: 180 }
-    { itemsDataPromise } = @options
-    waitForInventoryData = itemsDataPromise
-      .then @ifViewIsIntact('spreadData')
-      .then @ifViewIsIntact('showItemsListByIds', null)
+  initBrowser() {
+    startLoading.call(this, { selector: '#browserFilters', timeout: 180 });
+    const { itemsDataPromise } = this.options;
+    const waitForInventoryData = itemsDataPromise
+      .then(this.ifViewIsIntact('spreadData'))
+      .then(this.ifViewIsIntact('showItemsListByIds', null));
 
-    waitForEntitiesSelectors = waitForInventoryData
-      .then @ifViewIsIntact('showEntitySelectors')
+    const waitForEntitiesSelectors = waitForInventoryData
+      .then(this.ifViewIsIntact('showEntitySelectors'));
 
     waitForEntitiesSelectors
-    # Show the controls all at once
-    .then @ifViewIsIntact('browserControlsReady')
+    // Show the controls all at once
+    .then(this.ifViewIsIntact('browserControlsReady'));
 
-    @filterPreview.show new FilterPreview
+    return this.filterPreview.show(new FilterPreview);
+  },
 
-  browserControlsReady: ->
-    @ui.browserControls.addClass 'ready'
-    stopLoading.call @, '#browserFilters'
+  browserControlsReady() {
+    this.ui.browserControls.addClass('ready');
+    return stopLoading.call(this, '#browserFilters');
+  },
 
-  spreadData: (data)->
-    { @worksTree, @workUriItemsMap, @itemsByDate } = data
+  spreadData(data){
+    return ({ worksTree: this.worksTree, workUriItemsMap: this.workUriItemsMap, itemsByDate: this.itemsByDate } = data);
+  },
 
-  showEntitySelectors: ->
-    authors = Object.keys @worksTree.author
-    genres = Object.keys @worksTree.genre
-    subjects = Object.keys @worksTree.subject
+  showEntitySelectors() {
+    const authors = Object.keys(this.worksTree.author);
+    const genres = Object.keys(this.worksTree.genre);
+    const subjects = Object.keys(this.worksTree.subject);
 
-    allUris = _.flatten [ authors, genres, subjects ]
-    # The 'unknown' attribute is used to list works that have no value
-    # for one of those selector properties
-    # Removing the 'unknown' URI is here required as 'get:entities:models'
-    # won't know how to resolve it
-    allUris = _.without allUris, 'unknown'
+    let allUris = _.flatten([ authors, genres, subjects ]);
+    // The 'unknown' attribute is used to list works that have no value
+    // for one of those selector properties
+    // Removing the 'unknown' URI is here required as 'get:entities:models'
+    // won't know how to resolve it
+    allUris = _.without(allUris, 'unknown');
 
-    app.request 'get:entities:models', { uris: allUris, index: true }
-    .then @ifViewIsIntact('_showEntitySelectors', authors, genres, subjects)
+    return app.request('get:entities:models', { uris: allUris, index: true })
+    .then(this.ifViewIsIntact('_showEntitySelectors', authors, genres, subjects));
+  },
 
-  _showEntitySelectors: (authors, genres, subjects, entities)->
-    # Re-adding the 'unknown' entity placeholder
-    entities.unknown = getUnknownModel()
-    @showEntitySelector entities, authors, 'author'
-    @showEntitySelector entities, genres, 'genre'
-    @showEntitySelector entities, subjects, 'subject'
+  _showEntitySelectors(authors, genres, subjects, entities){
+    // Re-adding the 'unknown' entity placeholder
+    entities.unknown = getUnknownModel();
+    this.showEntitySelector(entities, authors, 'author');
+    this.showEntitySelector(entities, genres, 'genre');
+    return this.showEntitySelector(entities, subjects, 'subject');
+  },
 
-  showItemsListByIds: (itemsIds)->
-    # Default to showing the latest items
-    itemsIds or= @itemsByDate
-    # - Deduplicate as editions with several P629 values might have generated duplicates
-    # - Clone to avoid modifying @itemsByDate
-    itemsIds = _.uniq itemsIds
-    collection = new Backbone.Collection []
+  showItemsListByIds(itemsIds){
+    // Default to showing the latest items
+    if (!itemsIds) { itemsIds = this.itemsByDate; }
+    // - Deduplicate as editions with several P629 values might have generated duplicates
+    // - Clone to avoid modifying @itemsByDate
+    itemsIds = _.uniq(itemsIds);
+    const collection = new Backbone.Collection([]);
 
-    remainingItems = _.clone itemsIds
-    hasMore = -> remainingItems.length > 0
-    fetchMore = ->
-      batch = remainingItems.splice 0, 20
-      if batch.length is 0 then return Promise.resolve()
+    const remainingItems = _.clone(itemsIds);
+    const hasMore = () => remainingItems.length > 0;
+    const fetchMore = function() {
+      const batch = remainingItems.splice(0, 20);
+      if (batch.length === 0) { return Promise.resolve(); }
 
-      app.request 'items:getByIds', batch
-      .then collection.add.bind(collection)
+      return app.request('items:getByIds', batch)
+      .then(collection.add.bind(collection));
+    };
 
-    @itemsViewParams = {
+    this.itemsViewParams = {
       collection,
       fetchMore,
       hasMore,
       itemsIds,
-      @isMainUser,
-      @groupContext,
-      # Regenerate the whole view to re-request the data without the deleted items
-      afterItemsDelete: @initBrowser.bind(@)
+      isMainUser: this.isMainUser,
+      groupContext: this.groupContext,
+      // Regenerate the whole view to re-request the data without the deleted items
+      afterItemsDelete: this.initBrowser.bind(this)
+    };
+
+    // Fetch a first batch before displaying
+    // so that it doesn't start by displaying 'no item here'
+    return fetchMore()
+    .then(this.showItemsByDisplayMode.bind(this));
+  },
+
+  showItemsByDisplayMode() {
+    const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade;
+    this._lastShownDisplay = this.display;
+    return this.itemsView.show(new ItemsList(this.itemsViewParams));
+  },
+
+  showEntitySelector(entities, propertyUris, name){
+    const treeSection = this.worksTree[name];
+    const models = _.values(_.pick(entities, propertyUris)).map(addCount(treeSection, name));
+    return this.showSelector(name, models, treeSection);
+  },
+
+  showSelector(name, models, treeSection){
+    const collection = getSelectorsCollection(models);
+    return this[`${name}Region`].show(new BrowserSelector({ name, collection, treeSection }));
+  },
+
+  onFilterSelect(selectorView, selectedOption){
+    const { selectorName } = selectorView;
+    _.type(selectorName, 'string');
+    const selectedOptionKey = getSelectedOptionKey(selectedOption, selectorName);
+    this.filters[selectorName] = selectedOptionKey;
+
+    const intersectionWorkUris = getIntersectionWorkUris(this.worksTree, this.filters);
+    this.filterSelectors(intersectionWorkUris);
+    this.displayFilteredItems(intersectionWorkUris);
+    return this.filterPreview.currentView.updatePreview(selectorName, selectedOption);
+  },
+
+  filterSelectors(intersectionWorkUris){
+    return (() => {
+      const result = [];
+      for (let selectorName of selectorsNames) {
+        const { currentView } = this[`${selectorName}Region`];
+        result.push(currentView.filterOptions(intersectionWorkUris));
+      }
+      return result;
+    })();
+  },
+
+  displayFilteredItems(intersectionWorkUris){
+    if (intersectionWorkUris == null) { return this.showItemsListByIds(); }
+
+    if (intersectionWorkUris.length === 0) { return this.showItemsListByIds([]); }
+
+    const worksItems = _.pick(this.workUriItemsMap, intersectionWorkUris);
+    const itemsIds = _.flatten(_.values(worksItems));
+    return this.showItemsListByIds(itemsIds);
+  },
+
+  selectDisplay(e){
+    const display = e.currentTarget.id;
+    if (display === this.display) { return; }
+    this.display = display;
+    localStorageProxy.setItem('inventory:display', display);
+    this.ui.currentDisplayOption.toggleClass('shown');
+
+    // If @_lastShownDisplay isn't defined, the inventory data probably didn't arrive yet
+    // and the items were not shown yet
+    if ((this._lastShownDisplay != null) && (this._lastShownDisplay !== display)) {
+      return this.showItemsByDisplayMode();
     }
+  }
+});
 
-    # Fetch a first batch before displaying
-    # so that it doesn't start by displaying 'no item here'
-    fetchMore()
-    .then @showItemsByDisplayMode.bind(@)
+var getSelectedOptionKey = function(selectedOption, selectorName){
+  if (selectedOption == null) { return null; }
+  return selectedOption.get('uri');
+};
 
-  showItemsByDisplayMode: ->
-    ItemsList = if @display is 'table' then ItemsTable else ItemsCascade
-    @_lastShownDisplay = @display
-    @itemsView.show new ItemsList @itemsViewParams
+var addCount = (urisData, name) => (function(model) {
+  const uri = model.get('uri');
+  const uris = urisData[uri];
+  if (uris != null) {
+    model.set('count', uris.length);
+  } else {
+    // Known case: a Wikidata redirection that wasn't properly propagated
+    error_.report('missing section data', { name, uri });
+    model.set('count', 0);
+  }
+  return model;
+});
 
-  showEntitySelector: (entities, propertyUris, name)->
-    treeSection = @worksTree[name]
-    models = _.values(_.pick(entities, propertyUris)).map addCount(treeSection, name)
-    @showSelector name, models, treeSection
-
-  showSelector: (name, models, treeSection)->
-    collection = getSelectorsCollection models
-    @["#{name}Region"].show new BrowserSelector { name, collection, treeSection }
-
-  onFilterSelect: (selectorView, selectedOption)->
-    { selectorName } = selectorView
-    _.type selectorName, 'string'
-    selectedOptionKey = getSelectedOptionKey selectedOption, selectorName
-    @filters[selectorName] = selectedOptionKey
-
-    intersectionWorkUris = getIntersectionWorkUris @worksTree, @filters
-    @filterSelectors intersectionWorkUris
-    @displayFilteredItems intersectionWorkUris
-    @filterPreview.currentView.updatePreview selectorName, selectedOption
-
-  filterSelectors: (intersectionWorkUris)->
-    for selectorName in selectorsNames
-      { currentView } = @["#{selectorName}Region"]
-      currentView.filterOptions intersectionWorkUris
-
-  displayFilteredItems: (intersectionWorkUris)->
-    unless intersectionWorkUris? then return @showItemsListByIds()
-
-    if intersectionWorkUris.length is 0 then return @showItemsListByIds []
-
-    worksItems = _.pick @workUriItemsMap, intersectionWorkUris
-    itemsIds = _.flatten _.values(worksItems)
-    @showItemsListByIds itemsIds
-
-  selectDisplay: (e)->
-    display = e.currentTarget.id
-    if display is @display then return
-    @display = display
-    localStorageProxy.setItem 'inventory:display', display
-    @ui.currentDisplayOption.toggleClass('shown')
-
-    # If @_lastShownDisplay isn't defined, the inventory data probably didn't arrive yet
-    # and the items were not shown yet
-    if @_lastShownDisplay? and @_lastShownDisplay isnt display
-      @showItemsByDisplayMode()
-
-getSelectedOptionKey = (selectedOption, selectorName)->
-  unless selectedOption? then return null
-  return selectedOption.get 'uri'
-
-addCount = (urisData, name)-> (model)->
-  uri = model.get 'uri'
-  uris = urisData[uri]
-  if uris?
-    model.set 'count', uris.length
-  else
-    # Known case: a Wikidata redirection that wasn't properly propagated
-    error_.report 'missing section data', { name, uri }
-    model.set 'count', 0
-  return model
-
-getSelectorsCollection = (models)->
-  # Using a filtered collection allows browser_selector to filter
-  # options without re-rendering the whole view
-  new FilteredCollection(new SelectorsCollection(models))
+var getSelectorsCollection = models => // Using a filtered collection allows browser_selector to filter
+// options without re-rendering the whole view
+new FilteredCollection(new SelectorsCollection(models));

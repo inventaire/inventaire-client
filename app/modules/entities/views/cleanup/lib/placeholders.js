@@ -1,31 +1,36 @@
-{ startLoading } = require 'modules/general/plugins/behaviors'
+import { startLoading } from 'modules/general/plugins/behaviors';
 
-createPlaceholders = ->
-  if @_placeholderCreationOngoing then return
-  @_placeholderCreationOngoing = true
+const createPlaceholders = function() {
+  if (this._placeholderCreationOngoing) { return; }
+  this._placeholderCreationOngoing = true;
 
-  views = _.values @worksWithOrdinalRegion.currentView.children._views
-  startLoading.call @, { selector: '#createPlaceholders', timeout: 300 }
+  const views = _.values(this.worksWithOrdinalRegion.currentView.children._views);
+  startLoading.call(this, { selector: '#createPlaceholders', timeout: 300 });
 
-  createSequentially = ->
-    nextView = views.shift()
-    unless nextView? then return
-    nextView.create()
-    .then createSequentially
+  var createSequentially = function() {
+    const nextView = views.shift();
+    if (nextView == null) { return; }
+    return nextView.create()
+    .then(createSequentially);
+  };
 
-  createSequentially()
-  .then =>
-    @_placeholderCreationOngoing = false
-    @updatePlaceholderCreationButton()
+  return createSequentially()
+  .then(() => {
+    this._placeholderCreationOngoing = false;
+    return this.updatePlaceholderCreationButton();
+  });
+};
 
-removePlaceholder = (ordinalInt)->
-  existingModel = @worksWithOrdinal.findWhere { ordinal: ordinalInt }
-  if existingModel? and existingModel.get('isPlaceholder')
-    @worksWithOrdinal.remove existingModel
+const removePlaceholder = function(ordinalInt){
+  const existingModel = this.worksWithOrdinal.findWhere({ ordinal: ordinalInt });
+  if ((existingModel != null) && existingModel.get('isPlaceholder')) {
+    return this.worksWithOrdinal.remove(existingModel);
+  }
+};
 
-removePlaceholdersAbove = (num)->
-  toRemove = @worksWithOrdinal.filter (model)->
-    model.get('isPlaceholder') and model.get('ordinal') > num
-  @worksWithOrdinal.remove toRemove
+const removePlaceholdersAbove = function(num){
+  const toRemove = this.worksWithOrdinal.filter(model => model.get('isPlaceholder') && (model.get('ordinal') > num));
+  return this.worksWithOrdinal.remove(toRemove);
+};
 
-module.exports = { createPlaceholders, removePlaceholder, removePlaceholdersAbove }
+export { createPlaceholders, removePlaceholder, removePlaceholdersAbove };

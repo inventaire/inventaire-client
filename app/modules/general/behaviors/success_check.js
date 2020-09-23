@@ -1,35 +1,42 @@
-# elements required in the view: .checkWrapper > .check
+// elements required in the view: .checkWrapper > .check
 
-module.exports = Marionette.Behavior.extend
-  events:
-    'check': 'showSuccessCheck'
+export default Marionette.Behavior.extend({
+  events: {
+    'check': 'showSuccessCheck',
     'fail': 'showFail'
+  },
 
-  showSuccessCheck: (e, cb)-> @showSignal e, cb, 'check-circle'
-  showFail: (e, cb)-> @showSignal e, cb, 'times-circle'
+  showSuccessCheck(e, cb){ return this.showSignal(e, cb, 'check-circle'); },
+  showFail(e, cb){ return this.showSignal(e, cb, 'times-circle'); },
 
-  showSignal: (e, cb, signal)->
-    # cant use the View ui object as there might be several nodes with
-    # the .check class
-    $wrapper = $(e.target).parents('.checkWrapper')
-    if $wrapper.length is 1
-      $check = $wrapper.find('.check')
-    # If the target is a .loading element, use it as a check container
-    # (allows to work easily with the Loading behavior: replacing the loader once done)
-    else if $(e.target)[0]?.attributes.class?.value.match(/loading/)
-      $check = $(e.target)
-    else
-      # console.warn 'deprecated success check form: please use .checkWrapper format'
-      $check = $(e.target).find('.check')
+  showSignal(e, cb, signal){
+    // cant use the View ui object as there might be several nodes with
+    // the .check class
+    let $check;
+    const $wrapper = $(e.target).parents('.checkWrapper');
+    if ($wrapper.length === 1) {
+      $check = $wrapper.find('.check');
+    // If the target is a .loading element, use it as a check container
+    // (allows to work easily with the Loading behavior: replacing the loader once done)
+    } else if ($(e.target)[0]?.attributes.class?.value.match(/loading/)) {
+      $check = $(e.target);
+    } else {
+      // console.warn 'deprecated success check form: please use .checkWrapper format'
+      $check = $(e.target).find('.check');
+    }
 
-    unless $check.length is 1
-      return _.warn '.check target not found'
+    if ($check.length !== 1) {
+      return _.warn('.check target not found');
+    }
 
-    $check.hide().html _.icon(signal, 'text-center')
-    .slideDown(300)
+    $check.hide().html(_.icon(signal, 'text-center'))
+    .slideDown(300);
 
-    afterTimeout = ->
-      $check.slideUp()
-      cb() if cb?
+    const afterTimeout = function() {
+      $check.slideUp();
+      if (cb != null) { return cb(); }
+    };
 
-    @view.setTimeout afterTimeout, 600
+    return this.view.setTimeout(afterTimeout, 600);
+  }
+});

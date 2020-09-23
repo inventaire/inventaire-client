@@ -1,36 +1,47 @@
-module.exports = Marionette.ItemView.extend
-  template: require './templates/item_preview'
-  className: ->
-    className = 'item-preview'
-    if @options.compact then className += ' compact'
-    return className
+export default Marionette.ItemView.extend({
+  template: require('./templates/item_preview'),
+  className() {
+    let className = 'item-preview';
+    if (this.options.compact) { className += ' compact'; }
+    return className;
+  },
 
-  behaviors:
+  behaviors: {
     PreventDefault: {}
+  },
 
-  onShow: ->
-    unless @model.user? then @model.waitForUser.then @lazyRender.bind(@)
+  onShow() {
+    if (this.model.user == null) { return this.model.waitForUser.then(this.lazyRender.bind(this)); }
+  },
 
-  serializeData: ->
-    transaction = @model.get 'transaction'
-    attrs = @model.serializeData()
-    _.extend attrs,
-      title: buildTitle @model.user, transaction
-      distanceFromMainUser: @model.user.distanceFromMainUser
-      compact: @options.compact
-      displayCover: @options.displayItemsCovers and attrs.picture?
+  serializeData() {
+    const transaction = this.model.get('transaction');
+    const attrs = this.model.serializeData();
+    return _.extend(attrs, {
+      title: buildTitle(this.model.user, transaction),
+      distanceFromMainUser: this.model.user.distanceFromMainUser,
+      compact: this.options.compact,
+      displayCover: this.options.displayItemsCovers && (attrs.picture != null)
+    }
+    );
+  },
 
-  events:
+  events: {
     'click .showItem': 'showItem'
+  },
 
-  showItem: (e)->
-    if _.isOpenedOutside e then return
-    app.execute 'show:item', @model
+  showItem(e){
+    if (_.isOpenedOutside(e)) { return; }
+    return app.execute('show:item', this.model);
+  }
+});
 
-buildTitle = (user, transaction)->
-  unless user? then return
-  username = user.get 'username'
-  title = _.i18n "#{transaction}_personalized", { username }
-  if user.distanceFromMainUser?
-    title += " (#{_.i18n('km_away', { distance: user.distanceFromMainUser })})"
-  return title
+var buildTitle = function(user, transaction){
+  if (user == null) { return; }
+  const username = user.get('username');
+  let title = _.i18n(`${transaction}_personalized`, { username });
+  if (user.distanceFromMainUser != null) {
+    title += ` (${_.i18n('km_away', { distance: user.distanceFromMainUser })})`;
+  }
+  return title;
+};

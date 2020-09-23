@@ -1,62 +1,72 @@
-entityValue = require 'modules/general/views/behaviors/templates/entity_value'
-propertyValue = require 'modules/general/views/behaviors/templates/property_value'
-{ SafeString, escapeExpression } = Handlebars
-wdk = require 'lib/wikidata-sdk'
-error_ = require 'lib/error'
+import entityValue from 'modules/general/views/behaviors/templates/entity_value';
+import propertyValue from 'modules/general/views/behaviors/templates/property_value';
+const { SafeString, escapeExpression } = Handlebars;
+import wdk from 'lib/wikidata-sdk';
+import error_ from 'lib/error';
 
-prop = (uri)->
-  # Be more restrictive on the input to be able to use it in SafeStrings
-  if /^wdt:P\d+$/.test uri then propertyValue { uri }
-  else if wdk.isWikidataPropertyId(uri) then propertyValue { uri: "wdt:#{uri}" }
+const prop = function(uri){
+  // Be more restrictive on the input to be able to use it in SafeStrings
+  if (/^wdt:P\d+$/.test(uri)) { return propertyValue({ uri });
+  } else if (wdk.isWikidataPropertyId(uri)) { return propertyValue({ uri: `wdt:${uri}` }); }
+};
 
-entity = (uri, entityLink, alt, property, title)->
-  # Be restricting on the input to be able to use it in SafeStrings
-  unless wdk.isWikidataItemId(uri) or _.isEntityUri(uri)
-    throw error_.new 'invalid entity uri', 500, { uri }
+const entity = function(uri, entityLink, alt, property, title){
+  // Be restricting on the input to be able to use it in SafeStrings
+  let pathname;
+  if (!wdk.isWikidataItemId(uri) && !_.isEntityUri(uri)) {
+    throw error_.new('invalid entity uri', 500, { uri });
+  }
 
-  unless typeof alt is 'string' then alt = ''
-  app.execute 'uriLabel:update'
-  alt = escapeExpression alt
+  if (typeof alt !== 'string') { alt = ''; }
+  app.execute('uriLabel:update');
+  alt = escapeExpression(alt);
 
-  if not property? or property in propertyWithSpecialLayout
-    pathname = "/entity/#{uri}"
-  else
-    pathname = "/entity/#{property}-#{uri}"
+  if ((property == null) || propertyWithSpecialLayout.includes(property)) {
+    pathname = `/entity/${uri}`;
+  } else {
+    pathname = `/entity/${property}-${uri}`;
+  }
 
-  return entityValue { uri, pathname, entityLink, alt, label: alt, title }
+  return entityValue({ uri, pathname, entityLink, alt, label: alt, title });
+};
 
-propertyWithSpecialLayout = [
-  'wdt:P50' # author
-  'wdt:P179' # serie
-  'wdt:P629' # work
-  'wdt:P123' # publisher
-  'wdt:P195' # collection
-  'wdt:P155' # preceded by (work)
-  'wdt:P156' # followed by (work)
-  'wdt:P737' # influenced by (human)
-  'wdt:P1066' # student of (human)
-]
+var propertyWithSpecialLayout = [
+  'wdt:P50', // author
+  'wdt:P179', // serie
+  'wdt:P629', // work
+  'wdt:P123', // publisher
+  'wdt:P195', // collection
+  'wdt:P155', // preceded by (work)
+  'wdt:P156', // followed by (work)
+  'wdt:P737', // influenced by (human)
+  'wdt:P1066' // student of (human)
+];
 
-module.exports =
-  prop: prop
-  entity: entity
-  # handlebars pass a sometime confusing {data:, hash: object} as last argument
-  # this method is used to make helpers less error-prone by removing this object
-  neutralizeDataObject: (args)->
-    last = _.last args
-    if last?.hash? and last.data? then args[0...-1]
-    else args
+export default {
+  prop,
+  entity,
+  // handlebars pass a sometime confusing {data:, hash: object} as last argument
+  // this method is used to make helpers less error-prone by removing this object
+  neutralizeDataObject(args){
+    const last = _.last(args);
+    if ((last?.hash != null) && (last.data != null)) { return args.slice(0, -1);
+    } else { return args; }
+  },
 
-  getValuesTemplates: (valueArray, entityLink, property)->
-    # prevent any null value to sneak in
-    _.compact valueArray
-    .map (uri)-> entity(uri, entityLink, null, property).trim()
-    .join ', '
+  getValuesTemplates(valueArray, entityLink, property){
+    // prevent any null value to sneak in
+    return _.compact(valueArray)
+    .map(uri => entity(uri, entityLink, null, property).trim())
+    .join(', ');
+  },
 
-  labelString: (pid, omitLabel)->
-    if omitLabel then '' else prop pid
+  labelString(pid, omitLabel){
+    if (omitLabel) { return ''; } else { return prop(pid); }
+  },
 
-  claimString: (label, values, inline)->
-    text = "#{label} #{values}"
-    unless inline then text += ' <br>'
-    return new SafeString text
+  claimString(label, values, inline){
+    let text = `${label} ${values}`;
+    if (!inline) { text += ' <br>'; }
+    return new SafeString(text);
+  }
+};

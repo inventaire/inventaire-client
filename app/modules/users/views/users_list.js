@@ -1,25 +1,35 @@
-module.exports = Marionette.CollectionView.extend
-  tagName: 'ul'
-  className: 'usersList'
-  childView: require './user_li'
-  childViewOptions: ->
-    groupContext: @options.groupContext
-    group: @options.group
-    showEmail: @options.showEmail
-    stretch: @options.stretch
-  emptyView: require './no_user'
-  emptyViewOptions: ->
-    message: @options.emptyViewMessage
-    link: @options.emptyViewLink
-    showEmail: @options.showEmail
+export default Marionette.CollectionView.extend({
+  tagName: 'ul',
+  className: 'usersList',
+  childView: require('./user_li'),
+  childViewOptions() {
+    return {
+      groupContext: this.options.groupContext,
+      group: this.options.group,
+      showEmail: this.options.showEmail,
+      stretch: this.options.stretch
+    };
+  },
+  emptyView: require('./no_user'),
+  emptyViewOptions() {
+    return {
+      message: this.options.emptyViewMessage,
+      link: this.options.emptyViewLink,
+      showEmail: this.options.showEmail
+    };
+  },
 
-  initialize: ->
-    { filter, textFilter } = @options
-    if filter? then @filter = filter
+  initialize() {
+    const { filter, textFilter } = this.options;
+    if (filter != null) { this.filter = filter; }
 
-    if textFilter
-      @on 'filter:text', @setTextFilter.bind(@)
+    if (textFilter) {
+      return this.on('filter:text', this.setTextFilter.bind(this));
+    }
+  },
 
-  setTextFilter: (text)->
-    @filter = (model)-> model.matches text
-    @render()
+  setTextFilter(text){
+    this.filter = model => model.matches(text);
+    return this.render();
+  }
+});

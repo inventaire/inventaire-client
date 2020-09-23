@@ -1,53 +1,67 @@
-UsersList = require 'modules/users/views/users_list'
-{ startLoading } = require 'modules/general/plugins/behaviors'
+import UsersList from 'modules/users/views/users_list';
+import { startLoading } from 'modules/general/plugins/behaviors';
 
-module.exports = Marionette.LayoutView.extend
-  id: 'usersSearchLayout'
-  template: require './templates/users_search_layout'
-  regions:
+export default Marionette.LayoutView.extend({
+  id: 'usersSearchLayout',
+  template: require('./templates/users_search_layout'),
+  regions: {
     usersList: '#usersList'
+  },
 
-  behaviors:
+  behaviors: {
     Loading: {}
+  },
 
-  events:
+  events: {
     'keyup #usersSearch': 'searchUserFromEvent'
+  },
 
-  initialize: ->
-    @collection = app.users.filtered.resetFilters()
-    @initSearch()
+  initialize() {
+    this.collection = app.users.filtered.resetFilters();
+    return this.initSearch();
+  },
 
-  serializeData: ->
-    usersSearch:
-      id: 'usersSearch'
-      placeholder: 'search for users'
-      value: @lastQuery
+  serializeData() {
+    return {
+      usersSearch: {
+        id: 'usersSearch',
+        placeholder: 'search for users',
+        value: this.lastQuery
+      }
+    };
+  },
 
-  onShow: ->
-    @lastQuery = ''
-    @usersList.show new UsersList {
-      @collection,
-      groupContext: @options.groupContext,
-      group: @options.group
-      emptyViewMessage: @options.emptyViewMessage
-      filter: @options.filter
-    }
+  onShow() {
+    this.lastQuery = '';
+    this.usersList.show(new UsersList({
+      collection: this.collection,
+      groupContext: this.options.groupContext,
+      group: this.options.group,
+      emptyViewMessage: this.options.emptyViewMessage,
+      filter: this.options.filter
+    }));
 
-    # start with .noUser hidden
-    # will eventually be re-shown by empty results later
-    $('.noUser').hide()
+    // start with .noUser hidden
+    // will eventually be re-shown by empty results later
+    return $('.noUser').hide();
+  },
 
-  onRender: ->
-    startLoading.call @, '#usersList'
+  onRender() {
+    return startLoading.call(this, '#usersList');
+  },
 
-  initSearch: ->
-    q = @options.query?.q
-    if _.isNonEmptyString q then @searchUser q
+  initSearch() {
+    const q = this.options.query?.q;
+    if (_.isNonEmptyString(q)) { return this.searchUser(q); }
+  },
 
-  searchUserFromEvent: (e)->
-    query = e.target.value
-    @searchUser query
+  searchUserFromEvent(e){
+    const query = e.target.value;
+    return this.searchUser(query);
+  },
 
-  searchUser: (query)->
-    @lastQuery = query
-    app.request 'users:search', query
+  searchUser(query){
+    this.lastQuery = query;
+    return app.request('users:search', query);
+  }
+});

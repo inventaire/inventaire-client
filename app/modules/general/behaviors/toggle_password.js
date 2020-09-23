@@ -1,21 +1,27 @@
-# requires the view to have a ui.password defined
+// requires the view to have a ui.password defined
 
-module.exports = Marionette.Behavior.extend
-  ui:
+export default Marionette.Behavior.extend({
+  ui: {
     showPassword: '.showPassword'
+  },
 
-  initialize: ->
-    @passwordShown = false
+  initialize() {
+    return this.passwordShown = false;
+  },
 
-  events:
+  events: {
     'click .showPassword': 'togglePassword'
+  },
 
-  togglePassword: ->
-    if @passwordShown then @passwordType 'password'
-    else @passwordType 'text'
+  togglePassword() {
+    if (this.passwordShown) { return this.passwordType('password');
+    } else { return this.passwordType('text'); }
+  },
 
-  passwordType: (type)->
-    el = @view.ui.passwords or @view.ui.password
-    el.attr 'type', type
-    @ui.showPassword.toggleClass 'toggled'
-    @passwordShown = not @passwordShown
+  passwordType(type){
+    const el = this.view.ui.passwords || this.view.ui.password;
+    el.attr('type', type);
+    this.ui.showPassword.toggleClass('toggled');
+    return this.passwordShown = !this.passwordShown;
+  }
+});

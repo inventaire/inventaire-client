@@ -1,65 +1,80 @@
-UsersList = require 'modules/users/views/users_list'
-GroupsList = require 'modules/network/views/groups_list'
+import UsersList from 'modules/users/views/users_list';
+import GroupsList from 'modules/network/views/groups_list';
 
-NotificationsList = Marionette.CollectionView.extend
-  tagName: 'ul'
-  childView: require './notification_li'
-  emptyView: require './no_notification'
+const NotificationsList = Marionette.CollectionView.extend({
+  tagName: 'ul',
+  childView: require('./notification_li'),
+  emptyView: require('./no_notification'),
 
-  onShow: ->
-    # Wait for the notifications to arrive to mark them as read
-    app.request 'wait:for', 'user'
-    .then @collection.markAsRead.bind(@collection)
+  onShow() {
+    // Wait for the notifications to arrive to mark them as read
+    return app.request('wait:for', 'user')
+    .then(this.collection.markAsRead.bind(this.collection));
+  }
+});
 
-module.exports = Marionette.LayoutView.extend
-  id: 'notificationsLayout'
-  template: require './templates/notifications_layout'
-  childViewContainer: 'ul'
+export default Marionette.LayoutView.extend({
+  id: 'notificationsLayout',
+  template: require('./templates/notifications_layout'),
+  childViewContainer: 'ul',
 
-  regions:
-    friendsRequestsList: '#friendsRequestsList'
-    groupsInvitationsList: '#groupsInvitationsList'
+  regions: {
+    friendsRequestsList: '#friendsRequestsList',
+    groupsInvitationsList: '#groupsInvitationsList',
     notificationsList: '#notificationsList'
+  },
 
-  ui:
-    friendsRequestsSection: '.friendsRequests'
+  ui: {
+    friendsRequestsSection: '.friendsRequests',
     groupsInvitationsSection: '.groupsInvitations'
+  },
 
-  initialize: ->
-    { @notifications } = @options
+  initialize() {
+    ({ notifications: this.notifications } = this.options);
 
-    @waitForFriendsRequests = app.request 'fetch:otherRequested'
-      .then => @otherRequested = app.users.otherRequested
+    this.waitForFriendsRequests = app.request('fetch:otherRequested')
+      .then(() => { return this.otherRequested = app.users.otherRequested; });
 
-    @waitForGroupsInvitations = app.request 'wait:for', 'groups'
+    return this.waitForGroupsInvitations = app.request('wait:for', 'groups');
+  },
 
-  behaviors:
+  behaviors: {
     PreventDefault: {}
+  },
 
-  onShow: ->
-    @waitForFriendsRequests
-    .then @ifViewIsIntact('showFriendsRequests')
+  onShow() {
+    this.waitForFriendsRequests
+    .then(this.ifViewIsIntact('showFriendsRequests'));
 
-    @waitForGroupsInvitations
-    .then @ifViewIsIntact('showGroupsInvitations')
+    this.waitForGroupsInvitations
+    .then(this.ifViewIsIntact('showGroupsInvitations'));
 
-    @showNotificationsList()
+    return this.showNotificationsList();
+  },
 
-  events:
-    'click .showNotificationsSettings': _.clickCommand 'show:settings:notifications'
+  events: {
+    'click .showNotificationsSettings': _.clickCommand('show:settings:notifications')
+  },
 
-  showFriendsRequests: ->
-    if @otherRequested.length > 0
-      @ui.friendsRequestsSection.removeClass 'hidden'
-      @friendsRequestsList.show new UsersList
-        collection: @otherRequested
-        emptyViewMessage: 'no pending requests'
+  showFriendsRequests() {
+    if (this.otherRequested.length > 0) {
+      this.ui.friendsRequestsSection.removeClass('hidden');
+      return this.friendsRequestsList.show(new UsersList({
+        collection: this.otherRequested,
+        emptyViewMessage: 'no pending requests',
         stretch: true
+      })
+      );
+    }
+  },
 
-  showGroupsInvitations: ->
-    if app.groups.mainUserInvited.length > 0
-      @ui.groupsInvitationsSection.removeClass 'hidden'
-      @groupsInvitationsList.show new GroupsList { collection: app.groups.mainUserInvited }
+  showGroupsInvitations() {
+    if (app.groups.mainUserInvited.length > 0) {
+      this.ui.groupsInvitationsSection.removeClass('hidden');
+      return this.groupsInvitationsList.show(new GroupsList({ collection: app.groups.mainUserInvited }));
+    }
+  },
 
-  showNotificationsList: ->
-    @notificationsList.show new NotificationsList { collection: @notifications }
+  showNotificationsList() {
+    return this.notificationsList.show(new NotificationsList({ collection: this.notifications }));
+  }});

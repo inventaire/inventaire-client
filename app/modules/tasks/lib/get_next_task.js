@@ -1,60 +1,70 @@
-Task = require '../models/task'
+import Task from '../models/task';
 
-backlogs =
-  byScore: []
+const backlogs = {
+  byScore: [],
   byAuthor: []
+};
 
-suggestionUrisFetched = []
+const suggestionUrisFetched = [];
 
-limit = 10
-offset = 0
+const limit = 10;
+let offset = 0;
 
-module.exports = (params = {})->
-  { lastTaskModel } = params
+export default function(params = {}){
+  const { lastTaskModel } = params;
 
-  if lastTaskModel?
-    if backlogs.byAuthor.length isnt 0 then return Promise.resolve nextTaskModel('byAuthor')
-    suggestionUri = lastTaskModel.get 'suggestionUri'
-    unless suggestionUri in suggestionUrisFetched then return getNextTaskBySuggestionUri params
+  if (lastTaskModel != null) {
+    if (backlogs.byAuthor.length !== 0) { return Promise.resolve(nextTaskModel('byAuthor')); }
+    const suggestionUri = lastTaskModel.get('suggestionUri');
+    if (!suggestionUrisFetched.includes(suggestionUri)) { return getNextTaskBySuggestionUri(params); }
+  }
 
-  return getNextTaskByScore params
+  return getNextTaskByScore(params);
+};
 
-getNextTaskBySuggestionUri = (params)->
-  { lastTaskModel, previousTasks } = params
-  suggestionUri = lastTaskModel.get 'suggestionUri'
+var getNextTaskBySuggestionUri = function(params){
+  const { lastTaskModel, previousTasks } = params;
+  const suggestionUri = lastTaskModel.get('suggestionUri');
 
-  _.preq.get app.API.tasks.bySuggestionUris(suggestionUri)
-  .get 'tasks'
-  .get suggestionUri
-  .filter removePreviousTasks(previousTasks)
-  .then (tasks)->
-    suggestionUrisFetched.push suggestionUri
-    if tasks.length is 0 then return getNextTaskByScore params
-    return updateBacklogAndGetNextTask tasks, 'byAuthor'
+  return _.preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
+  .get('tasks')
+  .get(suggestionUri)
+  .filter(removePreviousTasks(previousTasks))
+  .then(function(tasks){
+    suggestionUrisFetched.push(suggestionUri);
+    if (tasks.length === 0) { return getNextTaskByScore(params); }
+    return updateBacklogAndGetNextTask(tasks, 'byAuthor');
+  });
+};
 
-getNextTaskByScore = (params)->
-  if backlogs.byScore.length isnt 0 then return Promise.resolve nextTaskModel('byScore')
-  { offset, previousTasks } = params
+var getNextTaskByScore = function(params){
+  let previousTasks;
+  if (backlogs.byScore.length !== 0) { return Promise.resolve(nextTaskModel('byScore')); }
+  ({ offset, previousTasks } = params);
 
-  # If an offset isn't specified, use a random offset between 0 and 500
-  # to allow several contributors to work with the bests tasks at the same time
-  # while having a low risk of conflicting
-  offset ?= Math.trunc(Math.random() * 500)
+  // If an offset isn't specified, use a random offset between 0 and 500
+  // to allow several contributors to work with the bests tasks at the same time
+  // while having a low risk of conflicting
+  if (offset == null) { offset = Math.trunc(Math.random() * 500); }
 
-  _.preq.get app.API.tasks.byScore(limit, offset)
-  .get 'tasks'
-  .filter removePreviousTasks(previousTasks)
-  .then (tasks)->
-    offset += tasks.length
-    return updateBacklogAndGetNextTask tasks, 'byScore'
+  return _.preq.get(app.API.tasks.byScore(limit, offset))
+  .get('tasks')
+  .filter(removePreviousTasks(previousTasks))
+  .then(function(tasks){
+    offset += tasks.length;
+    return updateBacklogAndGetNextTask(tasks, 'byScore');
+  });
+};
 
-removePreviousTasks = (previousTasks)-> (task)-> task._id not in previousTasks
+var removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id);
 
-updateBacklogAndGetNextTask = (tasks, backlogName)->
-  backlogs[backlogName].push tasks...
-  return nextTaskModel backlogName
+var updateBacklogAndGetNextTask = function(tasks, backlogName){
+  backlogs[backlogName].push(...Array.from(tasks || []));
+  return nextTaskModel(backlogName);
+};
 
-nextTaskModel = (backlogName)->
-  backlog = backlogs[backlogName]
-  model = new Task backlog.shift()
-  return model
+var nextTaskModel = function(backlogName){
+  const backlog = backlogs[backlogName];
+  const model = new Task(backlog.shift());
+  return model;
+};

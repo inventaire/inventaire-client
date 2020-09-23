@@ -1,37 +1,45 @@
-module.exports = Marionette.ItemView.extend
-  template: require './templates/candidate_info'
-  className: 'candidate-info'
+export default Marionette.ItemView.extend({
+  template: require('./templates/candidate_info'),
+  className: 'candidate-info',
 
-  initialize: ->
-    # Terminate the promise
-    @listenTo app.vent, 'modal:closed', @onClose.bind(@)
+  initialize() {
+    // Terminate the promise
+    return this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this));
+  },
 
-  onShow: -> app.execute 'modal:open'
+  onShow() { return app.execute('modal:open'); },
 
-  ui:
-    title: 'input[name="title"]'
-    authors: 'input[name="authors"]'
-    validateInfo: '.validateInfo'
+  ui: {
+    title: 'input[name="title"]',
+    authors: 'input[name="authors"]',
+    validateInfo: '.validateInfo',
     disabledValidateInfo: '.disabledValidateInfo'
+  },
 
-  events:
-    'keyup input[name="title"]': 'updateButton'
+  events: {
+    'keyup input[name="title"]': 'updateButton',
     'click .validateInfo': 'validateInfo'
+  },
 
-  updateButton: (e)->
-    if e.currentTarget.value is ''
-      @ui.validateInfo.addClass 'hidden'
-      @ui.disabledValidateInfo.removeClass 'hidden'
-    else
-      @ui.disabledValidateInfo.addClass 'hidden'
-      @ui.validateInfo.removeClass 'hidden'
+  updateButton(e){
+    if (e.currentTarget.value === '') {
+      this.ui.validateInfo.addClass('hidden');
+      return this.ui.disabledValidateInfo.removeClass('hidden');
+    } else {
+      this.ui.disabledValidateInfo.addClass('hidden');
+      return this.ui.validateInfo.removeClass('hidden');
+    }
+  },
 
-  validateInfo: ->
-    title = @ui.title.val()
-    authors = @ui.authors.val()
-    @options.resolve { title, authors }
-    @_resolved = true
-    app.execute 'modal:close'
+  validateInfo() {
+    const title = this.ui.title.val();
+    const authors = this.ui.authors.val();
+    this.options.resolve({ title, authors });
+    this._resolved = true;
+    return app.execute('modal:close');
+  },
 
-  onClose: ->
-    unless @_resolved then @options.reject new Error('modal closed')
+  onClose() {
+    if (!this._resolved) { return this.options.reject(new Error('modal closed')); }
+  }
+});

@@ -1,14 +1,17 @@
-module.exports = Marionette.CompositeView.extend
-  className: 'serie-cleanup-works'
-  template: require './templates/serie_cleanup_works'
-  childViewContainer: '.worksContainer'
-  childView: require './serie_cleanup_work'
-  serializeData: ->
-    sectionLabel: @options.label
+export default Marionette.CompositeView.extend({
+  className: 'serie-cleanup-works',
+  template: require('./templates/serie_cleanup_works'),
+  childViewContainer: '.worksContainer',
+  childView: require('./serie_cleanup_work'),
+  serializeData() {
+    return {sectionLabel: this.options.label};
+  },
 
-  filter: (child)->
-    if @options.name isnt 'withOrdinal' then return true
-    ordinal = child.get 'ordinal'
-    return ordinal? and ordinal isnt 0
+  filter(child){
+    if (this.options.name !== 'withOrdinal') { return true; }
+    const ordinal = child.get('ordinal');
+    return (ordinal != null) && (ordinal !== 0);
+  },
 
-  childViewOptions: -> @options
+  childViewOptions() { return this.options; }
+});

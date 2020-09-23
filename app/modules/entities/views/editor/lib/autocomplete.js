@@ -1,120 +1,152 @@
-# A set of functions to display a list of suggestions and the the view be informed of
-# the selected suggestion via onAutoCompleteSelect and onAutoCompleteUnselect hooks
+// A set of functions to display a list of suggestions and the the view be informed of
+// the selected suggestion via onAutoCompleteSelect and onAutoCompleteUnselect hooks
 
-# Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
 
-getActionKey = require 'lib/get_action_key'
-Suggestions = require 'modules/entities/collections/suggestions'
-AutocompleteSuggestions = require '../autocomplete_suggestions'
-properties = require 'modules/entities/lib/properties'
-batchLength = 10
-{ addDefaultSuggestionsUris, addNextDefaultSuggestionsBatch, showDefaultSuggestions } = require './suggestions/default_suggestions'
-{ search, loadMoreFromSearch } = require './suggestions/search_suggestions'
+import getActionKey from 'lib/get_action_key';
 
-module.exports =
-  onRender: ->
-    unless @suggestions? then initializeAutocomplete.call @
-    @suggestionsRegion.show new AutocompleteSuggestions { collection: @suggestions }
-    addDefaultSuggestionsUris.call @
+import Suggestions from 'modules/entities/collections/suggestions';
+import AutocompleteSuggestions from '../autocomplete_suggestions';
+import properties from 'modules/entities/lib/properties';
+const batchLength = 10;
 
-  onKeyDown: (e)->
-    key = getActionKey e
-    # only addressing 'tab' as it isn't caught by the keyup event
-    if key is 'tab'
-      # In the case the dropdown was shown and a value was selected
-      # @fillQuery will have been triggered, the input filled
-      # and the selected suggestion kept at end: we can let the event
-      # propagate to move to the next input
-      @hideDropdown()
+import {
+  addDefaultSuggestionsUris,
+  addNextDefaultSuggestionsBatch,
+  showDefaultSuggestions,
+} from './suggestions/default_suggestions';
 
-  onKeyUp: (e)->
-    e.preventDefault()
-    e.stopPropagation()
+import { search, loadMoreFromSearch } from './suggestions/search_suggestions';
 
-    value = @ui.input.val()
-    actionKey = getActionKey e
+export default {
+  onRender() {
+    if (this.suggestions == null) { initializeAutocomplete.call(this); }
+    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }));
+    return addDefaultSuggestionsUris.call(this);
+  },
 
-    updateOnKey.call @, value, actionKey
-    @_lastValue = value
+  onKeyDown(e){
+    const key = getActionKey(e);
+    // only addressing 'tab' as it isn't caught by the keyup event
+    if (key === 'tab') {
+      // In the case the dropdown was shown and a value was selected
+      // @fillQuery will have been triggered, the input filled
+      // and the selected suggestion kept at end: we can let the event
+      // propagate to move to the next input
+      return this.hideDropdown();
+    }
+  },
 
-  showDropdown: ->
-    @suggestionsRegion.$el.show()
+  onKeyUp(e){
+    e.preventDefault();
+    e.stopPropagation();
 
-  hideDropdown: ->
-    @suggestionsRegion.$el.hide()
-    @ui.input.focus()
+    const value = this.ui.input.val();
+    const actionKey = getActionKey(e);
 
-  showLoadingSpinner: (toggleResults = true)->
-    @suggestionsRegion.currentView.showLoadingSpinner()
-    if toggleResults then @$el.find('.results').hide()
+    updateOnKey.call(this, value, actionKey);
+    return this._lastValue = value;
+  },
 
-  stopLoadingSpinner: (toggleResults = true)->
-    @suggestionsRegion.currentView.stopLoadingSpinner()
-    if toggleResults then @$el.find('.results').show()
+  showDropdown() {
+    return this.suggestionsRegion.$el.show();
+  },
 
-initializeAutocomplete = ->
-  property = @options.model.get 'property'
-  { @searchType } = properties[property]
-  @suggestions = new Suggestions [], { property }
-  @lazySearch = _.debounce search.bind(@), 400
+  hideDropdown() {
+    this.suggestionsRegion.$el.hide();
+    return this.ui.input.focus();
+  },
 
-  @listenTo @suggestions, 'selected:value', completeQuery.bind(@)
-  @listenTo @suggestions, 'highlight', fillQuery.bind(@)
-  @listenTo @suggestions, 'error', showAlertBox.bind(@)
-  @listenTo @suggestions, 'load:more', loadMore.bind(@)
+  showLoadingSpinner(toggleResults = true){
+    this.suggestionsRegion.currentView.showLoadingSpinner();
+    if (toggleResults) { return this.$el.find('.results').hide(); }
+  },
 
-# Complete the query using the selected suggestion.
-completeQuery = (suggestion)->
-  fillQuery.call @, suggestion
-  @hideDropdown()
+  stopLoadingSpinner(toggleResults = true){
+    this.suggestionsRegion.currentView.stopLoadingSpinner();
+    if (toggleResults) { return this.$el.find('.results').show(); }
+  }
+};
 
-# Complete the query using the highlighted or the clicked suggestion.
-fillQuery = (suggestion)->
-  @ui.input.val suggestion.get('label')
-  @onAutoCompleteSelect suggestion
+var initializeAutocomplete = function() {
+  const property = this.options.model.get('property');
+  ({ searchType: this.searchType } = properties[property]);
+  this.suggestions = new Suggestions([], { property });
+  this.lazySearch = _.debounce(search.bind(this), 400);
 
-loadMore = ->
-  if @_showingDefaultSuggestions then addNextDefaultSuggestionsBatch.call @, false
-  else loadMoreFromSearch.call @
+  this.listenTo(this.suggestions, 'selected:value', completeQuery.bind(this));
+  this.listenTo(this.suggestions, 'highlight', fillQuery.bind(this));
+  this.listenTo(this.suggestions, 'error', showAlertBox.bind(this));
+  return this.listenTo(this.suggestions, 'load:more', loadMore.bind(this));
+};
 
-showAlertBox = (err)->
-  @$el.trigger 'alert', { message: err.message }
+// Complete the query using the selected suggestion.
+var completeQuery = function(suggestion){
+  fillQuery.call(this, suggestion);
+  return this.hideDropdown();
+};
 
-updateOnKey = (value, actionKey)->
-  if actionKey?
-    actionMade = keyAction.call @, actionKey
-    if actionMade isnt false then return
+// Complete the query using the highlighted or the clicked suggestion.
+var fillQuery = function(suggestion){
+  this.ui.input.val(suggestion.get('label'));
+  return this.onAutoCompleteSelect(suggestion);
+};
 
-  if value.length is 0
-    showDefaultSuggestions.call @
-    @_showingDefaultSuggestions = true
-  else if value isnt @_lastValue
-    @showDropdown()
-    @lazySearch value
-    @_showingDefaultSuggestions = false
+var loadMore = function() {
+  if (this._showingDefaultSuggestions) { return addNextDefaultSuggestionsBatch.call(this, false);
+  } else { return loadMoreFromSearch.call(this); }
+};
 
-keyAction = (actionKey)->
-  # actions happening in any case
-  switch actionKey
-    when 'esc'
-      @hideDropdown()
-      return true
+var showAlertBox = function(err){
+  return this.$el.trigger('alert', { message: err.message });
+};
 
-  # actions conditional to suggestions state
-  unless @suggestions.isEmpty()
-    switch actionKey
-      when 'enter'
-        @suggestions.trigger 'select:from:key'
-        return true
-      when 'down'
-        @showDropdown()
-        @suggestions.trigger 'highlight:next'
-        return true
-      when 'up'
-        @showDropdown()
-        @suggestions.trigger 'highlight:previous'
-        return true
-      # when 'home' then @suggestions.trigger 'highlight:first'
-      # when 'end' then @suggestions.trigger 'highlight:last'
+var updateOnKey = function(value, actionKey){
+  if (actionKey != null) {
+    const actionMade = keyAction.call(this, actionKey);
+    if (actionMade !== false) { return; }
+  }
 
-  return false
+  if (value.length === 0) {
+    showDefaultSuggestions.call(this);
+    return this._showingDefaultSuggestions = true;
+  } else if (value !== this._lastValue) {
+    this.showDropdown();
+    this.lazySearch(value);
+    return this._showingDefaultSuggestions = false;
+  }
+};
+
+var keyAction = function(actionKey){
+  // actions happening in any case
+  switch (actionKey) {
+    case 'esc':
+      this.hideDropdown();
+      return true;
+      break;
+  }
+
+  // actions conditional to suggestions state
+  if (!this.suggestions.isEmpty()) {
+    switch (actionKey) {
+      case 'enter':
+        this.suggestions.trigger('select:from:key');
+        return true;
+        break;
+      case 'down':
+        this.showDropdown();
+        this.suggestions.trigger('highlight:next');
+        return true;
+        break;
+      case 'up':
+        this.showDropdown();
+        this.suggestions.trigger('highlight:previous');
+        return true;
+        break;
+    }
+  }
+      // when 'home' then @suggestions.trigger 'highlight:first'
+      // when 'end' then @suggestions.trigger 'highlight:last'
+
+  return false;
+};

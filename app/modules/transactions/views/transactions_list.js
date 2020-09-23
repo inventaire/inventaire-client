@@ -1,17 +1,20 @@
-folders = require '../lib/folders'
+import folders from '../lib/folders';
 
-module.exports = Marionette.CompositeView.extend
-  template: require './templates/transactions_list'
-  className: 'transactionList'
-  childViewContainer: '.transactions'
-  childView: require './transaction_preview'
-  emptyView: require './no_transaction'
-  initialize: ->
-    @folder = @options.folder
-    @filter = folders[@folder].filter
-    @listenTo app.vent, 'transactions:folder:change', @render.bind(@)
+export default Marionette.CompositeView.extend({
+  template: require('./templates/transactions_list'),
+  className: 'transactionList',
+  childViewContainer: '.transactions',
+  childView: require('./transaction_preview'),
+  emptyView: require('./no_transaction'),
+  initialize() {
+    this.folder = this.options.folder;
+    this.filter = folders[this.folder].filter;
+    return this.listenTo(app.vent, 'transactions:folder:change', this.render.bind(this));
+  },
 
-  serializeData: ->
-    attrs = {}
-    attrs[@folder] = true
-    return attrs
+  serializeData() {
+    const attrs = {};
+    attrs[this.folder] = true;
+    return attrs;
+  }
+});

@@ -1,70 +1,84 @@
-Shelves = require '../collections/shelves'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
-ShelvesList = require './shelves_list'
+import Shelves from '../collections/shelves';
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
+import ShelvesList from './shelves_list';
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/shelves_section'
+export default Marionette.LayoutView.extend({
+  template: require('./templates/shelves_section'),
 
-  regions:
+  regions: {
     shelvesList: '#shelvesList'
+  },
 
-  behaviors:
+  behaviors: {
     BackupForm: {}
+  },
 
-  events:
-    'click #hideShelves': 'hideShelves'
-    'click #showShelves': 'showShelves'
+  events: {
+    'click #hideShelves': 'hideShelves',
+    'click #showShelves': 'showShelves',
     'click #shelvesHeader': 'toggleShelves'
+  },
 
-  initialize: ->
-    @_shelvesShown = true
+  initialize() {
+    return this._shelvesShown = true;
+  },
 
-  serializeData: ->
-    inventoryUsername = @options.username
-    currentUserName = app.user.get('username')
-    if inventoryUsername is currentUserName
-      editable: true
+  serializeData() {
+    const inventoryUsername = this.options.username;
+    const currentUserName = app.user.get('username');
+    if (inventoryUsername === currentUserName) {
+      return {editable: true};
+    }
+  },
 
-  ui:
-    shelvesList: '#shelvesList'
-    hideShelves: '#hideShelves'
-    showShelves: '#showShelves'
+  ui: {
+    shelvesList: '#shelvesList',
+    hideShelves: '#hideShelves',
+    showShelves: '#showShelves',
     toggleButtons: '#toggleButtons'
+  },
 
-  onShow: ->
-    { username } = @options
+  onShow() {
+    const { username } = this.options;
 
-    @waitForList = getUserId username
-      .then getShelvesByOwner
-      .then @ifViewIsIntact('showFromModel')
-      .catch app.Execute('show:error')
+    this.waitForList = getUserId(username)
+      .then(getShelvesByOwner)
+      .then(this.ifViewIsIntact('showFromModel'))
+      .catch(app.Execute('show:error'));
 
-    @ui.showShelves.hide()
+    return this.ui.showShelves.hide();
+  },
 
-  hideShelves: (e)->
-    @ui.shelvesList.addClass 'wrapped'
-    @ui.showShelves.show()
-    @ui.hideShelves.hide()
-    e.stopPropagation()
-    @_shelvesShown = false
+  hideShelves(e){
+    this.ui.shelvesList.addClass('wrapped');
+    this.ui.showShelves.show();
+    this.ui.hideShelves.hide();
+    e.stopPropagation();
+    return this._shelvesShown = false;
+  },
 
-  showShelves: (e)->
-    @ui.shelvesList.removeClass 'wrapped'
-    @ui.hideShelves.show()
-    @ui.showShelves.hide()
-    e.stopPropagation()
-    @_shelvesShown = true
+  showShelves(e){
+    this.ui.shelvesList.removeClass('wrapped');
+    this.ui.hideShelves.show();
+    this.ui.showShelves.hide();
+    e.stopPropagation();
+    return this._shelvesShown = true;
+  },
 
-  toggleShelves: (e)->
-    if @_shelvesShown then @hideShelves(e)
-    else @showShelves(e)
+  toggleShelves(e){
+    if (this._shelvesShown) { return this.hideShelves(e);
+    } else { return this.showShelves(e); }
+  },
 
-  showFromModel: (docs)->
-    if docs && docs.length < 1 then return
-    @collection = new Shelves docs
-    @shelvesList.show new ShelvesList { @collection }
-    if @collection.length > 5 then @ui.toggleButtons.removeClass 'hidden'
+  showFromModel(docs){
+    if (docs && (docs.length < 1)) { return; }
+    this.collection = new Shelves(docs);
+    this.shelvesList.show(new ShelvesList({ collection: this.collection }));
+    if (this.collection.length > 5) { return this.ui.toggleButtons.removeClass('hidden'); }
+  }
+});
 
-getUserId = (username)->
-  unless username then return Promise.resolve app.user.id
-  app.request 'get:userId:from:username', username
+var getUserId = function(username){
+  if (!username) { return Promise.resolve(app.user.id); }
+  return app.request('get:userId:from:username', username);
+};

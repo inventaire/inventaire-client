@@ -1,21 +1,28 @@
-module.exports = Backbone.NestedModel.extend
-  initialize: ->
-    @on 'change:status', @update
+export default Backbone.NestedModel.extend({
+  initialize() {
+    return this.on('change:status', this.update);
+  },
 
-  beforeShow: ->
-    @_waitForInit or= @initSpecific()
-    return @_waitForInit
+  beforeShow() {
+    if (!this._waitForInit) { this._waitForInit = this.initSpecific(); }
+    return this._waitForInit;
+  },
 
-  update: ->
-    @collection.updateStatus @get('time')
+  update() {
+    return this.collection.updateStatus(this.get('time'));
+  },
 
-  isUnread: -> @get('status') is 'unread'
+  isUnread() { return this.get('status') === 'unread'; },
 
-  grabAttributeModel: (attribute)->
-    app.request 'waitForNetwork'
-    .then =>
-      id = @get "data.#{attribute}"
-      @reqGrab "get:#{attribute}:model", id, attribute
+  grabAttributeModel(attribute){
+    return app.request('waitForNetwork')
+    .then(() => {
+      const id = this.get(`data.${attribute}`);
+      return this.reqGrab(`get:${attribute}:model`, id, attribute);
+    });
+  },
 
-  grabAttributesModels: (attributes...)->
-    Promise.all attributes.map(@grabAttributeModel.bind(@))
+  grabAttributesModels(...attributes){
+    return Promise.all(attributes.map(this.grabAttributeModel.bind(this)));
+  }
+});

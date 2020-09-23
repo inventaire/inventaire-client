@@ -1,40 +1,46 @@
-{ base, action } = require('./endpoint')('items')
-{ buildPath } = require 'lib/location'
+const { base, action } = require('./endpoint')('items');
+import { buildPath } from 'lib/location';
 
-queryEndpoint = (actionName, idsLabel)-> (params)->
-  { ids, limit, offset, fetchPublicItemsOnly, filter, includeUsers } = params
-  data = {}
-  if idsLabel? then data[idsLabel] = _.forceArray(ids).join '|'
-  if limit? then data.limit = limit
-  if offset? then data.offset = offset
-  if filter? then data.filter = filter
-  if includeUsers? then data['include-users'] = includeUsers
-  return action actionName, data
+const queryEndpoint = (actionName, idsLabel) => (function(params) {
+  const { ids, limit, offset, fetchPublicItemsOnly, filter, includeUsers } = params;
+  const data = {};
+  if (idsLabel != null) { data[idsLabel] = _.forceArray(ids).join('|'); }
+  if (limit != null) { data.limit = limit; }
+  if (offset != null) { data.offset = offset; }
+  if (filter != null) { data.filter = filter; }
+  if (includeUsers != null) { data['include-users'] = includeUsers; }
+  return action(actionName, data);
+});
 
-module.exports =
-  base: base
-  update: action 'bulk-update'
+export default {
+  base,
+  update: action('bulk-update'),
 
-  byIds: queryEndpoint 'by-ids', 'ids'
-  byUsers: queryEndpoint 'by-users', 'users'
-  byEntities: queryEndpoint 'by-entities', 'uris'
+  byIds: queryEndpoint('by-ids', 'ids'),
+  byUsers: queryEndpoint('by-users', 'users'),
+  byEntities: queryEndpoint('by-entities', 'uris'),
 
-  byUserAndEntities: (user, uris)->
-    uris = _.forceArray(uris).join('|')
-    action 'by-user-and-entities', { user, uris }
+  byUserAndEntities(user, uris){
+    uris = _.forceArray(uris).join('|');
+    return action('by-user-and-entities', { user, uris });
+  },
 
-  lastPublic: (limit = 15, offset = 0, assertImage)->
-    action 'last-public', { limit, offset, 'assert-image': assertImage }
+  lastPublic(limit = 15, offset = 0, assertImage){
+    return action('last-public', { limit, offset, 'assert-image': assertImage });
+  },
 
-  recentPublic: (limit = 15, lang, assertImage)->
-    action 'recent-public', { limit, lang, 'assert-image': assertImage }
+  recentPublic(limit = 15, lang, assertImage){
+    return action('recent-public', { limit, lang, 'assert-image': assertImage });
+  },
 
-  nearby: (limit, offset, range = 50)-> action 'nearby', { limit, offset, range }
+  nearby(limit, offset, range = 50){ return action('nearby', { limit, offset, range }); },
 
-  inventoryView: (params)-> action 'inventory-view', params
+  inventoryView(params){ return action('inventory-view', params); },
 
-  deleteByIds: action 'delete-by-ids'
+  deleteByIds: action('delete-by-ids'),
 
-  search: (user, search)->
-    search = encodeURIComponent(search)
-    action 'search', { user, search }
+  search(user, search){
+    search = encodeURIComponent(search);
+    return action('search', { user, search });
+  }
+};

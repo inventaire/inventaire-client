@@ -1,57 +1,73 @@
-module.exports = Backbone.Model.extend
-  initialize: ->
-    @action = @get('action')
-    @userReady = false
+export default Backbone.Model.extend({
+  initialize() {
+    this.action = this.get('action');
+    return this.userReady = false;
+  },
 
-  serializeData: ->
-    _.extend @toJSON(),
-      icon: @icon()
-      context: @context(true)
-      userReady: @userReady
+  serializeData() {
+    return _.extend(this.toJSON(), {
+      icon: this.icon(),
+      context: this.context(true),
+      userReady: this.userReady
+    }
+    );
+  },
 
-  icon: ->
-    switch @action
-      when 'requested' then 'envelope'
-      when 'accepted' then 'check'
-      when 'confirmed' then 'sign-in'
-      when 'declined', 'cancelled' then 'times'
-      when 'returned' then 'check'
-      else _.warn @, 'unknown action', true
+  icon() {
+    switch (this.action) {
+      case 'requested': return 'envelope';
+      case 'accepted': return 'check';
+      case 'confirmed': return 'sign-in';
+      case 'declined': case 'cancelled': return 'times';
+      case 'returned': return 'check';
+      default: return _.warn(this, 'unknown action', true);
+    }
+  },
 
-  context: (withLink)-> @userAction @findUser(), withLink
-  findUser: ->
-    if @action in actorCanBeBoth then return @findCancelActor()
-    if @transaction?.owner?
-      if @transaction.mainUserIsOwner
-        if @action in ownerActions then 'main' else 'other'
-      else
-        if @action in ownerActions then 'other' else 'main'
+  context(withLink){ return this.userAction(this.findUser(), withLink); },
+  findUser() {
+    if (actorCanBeBoth.includes(this.action)) { return this.findCancelActor(); }
+    if (this.transaction?.owner != null) {
+      if (this.transaction.mainUserIsOwner) {
+        if (ownerActions.includes(this.action)) { return 'main'; } else { return 'other'; }
+      } else {
+        if (ownerActions.includes(this.action)) { return 'other'; } else { return 'main'; }
+      }
+    }
+  },
 
-  findCancelActor: ->
-    actorIsOwner = @get('actor') is 'owner'
-    { mainUserIsOwner } = @transaction
-    if mainUserIsOwner
-      if actorIsOwner then 'main' else 'other'
-    else
-      if actorIsOwner then 'other' else 'main'
+  findCancelActor() {
+    const actorIsOwner = this.get('actor') === 'owner';
+    const { mainUserIsOwner } = this.transaction;
+    if (mainUserIsOwner) {
+      if (actorIsOwner) { return 'main'; } else { return 'other'; }
+    } else {
+      if (actorIsOwner) { return 'other'; } else { return 'main'; }
+    }
+  },
 
-  userAction: (user, withLink)->
-    if user?
-      @userReady = true
-      _.i18n "#{user}_user_#{@action}", { username: @otherUsername(withLink) }
+  userAction(user, withLink){
+    if (user != null) {
+      this.userReady = true;
+      return _.i18n(`${user}_user_${this.action}`, { username: this.otherUsername(withLink) });
+    }
+  },
 
-  otherUsername: (withLink)->
-    otherUser = @transaction?.otherUser()
-    # injecting an html anchor instead of just a username string
-    if otherUser?
-      [ username, pathname ] = otherUser.gets 'username', 'pathname'
-      if withLink then "<a href='#{pathname}' class='username'>#{username}</a>"
-      else username
+  otherUsername(withLink){
+    const otherUser = this.transaction?.otherUser();
+    // injecting an html anchor instead of just a username string
+    if (otherUser != null) {
+      const [ username, pathname ] = Array.from(otherUser.gets('username', 'pathname'));
+      if (withLink) { return `<a href='${pathname}' class='username'>${username}</a>`;
+      } else { return username; }
+    }
+  }
+});
 
-actorCanBeBoth = ['cancelled']
+var actorCanBeBoth = ['cancelled'];
 
-ownerActions = [
-  'accepted'
-  'declined'
+var ownerActions = [
+  'accepted',
+  'declined',
   'returned'
-]
+];

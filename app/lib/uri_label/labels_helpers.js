@@ -1,22 +1,25 @@
-labels = {}
-previouslyMissing = {}
+let labels = {};
+const previouslyMissing = {};
 
-module.exports =
-  getLabel: (uri)-> labels[uri]
+export default {
+  getLabel(uri){ return labels[uri]; },
 
-  setLabel: (uri, label)-> labels[uri] = label
+  setLabel(uri, label){ return labels[uri] = label; },
 
-  getKnownUris: -> Object.keys labels
+  getKnownUris() { return Object.keys(labels); },
 
-  resetLabels: -> labels = {}
+  resetLabels() { return labels = {}; },
 
-  invalidateLabel: (uri)->
-    delete labels[uri]
-    delete previouslyMissing[uri]
+  invalidateLabel(uri){
+    delete labels[uri];
+    return delete previouslyMissing[uri];
+  },
 
-  addPreviouslyMissingUris: (uris)->
-    for uri in uris
-      previouslyMissing[uri] = true
-    return
+  addPreviouslyMissingUris(uris){
+    for (let uri of uris) {
+      previouslyMissing[uri] = true;
+    }
+  },
 
-  wasntPrevisoulyMissing: (uri)-> not previouslyMissing[uri]
+  wasntPrevisoulyMissing(uri){ return !previouslyMissing[uri]; }
+};

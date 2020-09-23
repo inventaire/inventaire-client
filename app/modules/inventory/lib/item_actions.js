@@ -1,77 +1,86 @@
-Item = require 'modules/inventory/models/item'
+import Item from 'modules/inventory/models/item';
 
-module.exports =
-  create: (itemData)->
-    _.log itemData, 'item data before creation'
+export default {
+  create(itemData){
+    _.log(itemData, 'item data before creation');
 
-    _.preq.post app.API.items.base, itemData
-    .then _.Log('item data after creation')
-    .then (data)->
-      model = new Item data
-      app.user.trigger 'items:change', null, model.get('listing')
-      return model
+    return _.preq.post(app.API.items.base, itemData)
+    .then(_.Log('item data after creation'))
+    .then(function(data){
+      const model = new Item(data);
+      app.user.trigger('items:change', null, model.get('listing'));
+      return model;
+    });
+  },
 
-  update: (options)->
-    # expects: items (models or ids), attribute, value
-    # optional: selector
-    { item, items, attribute, value, selector } = options
-    if not items? and item? then items = [ item ]
-    _.type items, 'array'
-    _.type attribute, 'string'
-    if selector? then _.type selector, 'string'
+  update(options){
+    // expects: items (models or ids), attribute, value
+    // optional: selector
+    let { item, items, attribute, value, selector } = options;
+    if ((items == null) && (item != null)) { items = [ item ]; }
+    _.type(items, 'array');
+    _.type(attribute, 'string');
+    if (selector != null) { _.type(selector, 'string'); }
 
-    items.forEach (item)->
-      if _.isString item then return
-      item._backup = item.toJSON()
-      item.set attribute, value
+    items.forEach(function(item){
+      if (_.isString(item)) { return; }
+      item._backup = item.toJSON();
+      return item.set(attribute, value);
+    });
 
-    ids = items.map getIdFromModelOrId
+    const ids = items.map(getIdFromModelOrId);
 
-    _.preq.put app.API.items.update, { ids, attribute, value }
-    .tap propagateItemsChanges(items, attribute)
-    .catch rollbackUpdate(items)
+    return _.preq.put(app.API.items.update, { ids, attribute, value })
+    .tap(propagateItemsChanges(items, attribute))
+    .catch(rollbackUpdate(items));
+  },
 
-  delete: (options)->
-    { items, next, back } = options
-    _.types [ items, next ], [ 'array', 'function' ]
+  delete(options){
+    let confirmationText;
+    const { items, next, back } = options;
+    _.types([ items, next ], [ 'array', 'function' ]);
 
-    ids = items.map getIdFromModelOrId
+    const ids = items.map(getIdFromModelOrId);
 
-    action = ->
-      _.preq.post app.API.items.deleteByIds, { ids }
-      .tap ->
-        items.forEach (item)->
-          if _.isString item then return
-          app.user.trigger 'items:change', item.get('listing'), null
-          item.isDestroyed = true
-      .then next
+    const action = () => _.preq.post(app.API.items.deleteByIds, { ids })
+    .tap(() => items.forEach(function(item){
+      if (_.isString(item)) { return; }
+      app.user.trigger('items:change', item.get('listing'), null);
+      return item.isDestroyed = true;
+    })).then(next);
 
-    if items.length is 1 and items[0] instanceof Backbone.Model
-      title = items[0].get 'snapshot.entity:title'
-      confirmationText = _.i18n 'delete_item_confirmation', { title }
-    else
-      confirmationText = _.i18n 'delete_items_confirmation', { amount: ids.length }
+    if ((items.length === 1) && items[0] instanceof Backbone.Model) {
+      const title = items[0].get('snapshot.entity:title');
+      confirmationText = _.i18n('delete_item_confirmation', { title });
+    } else {
+      confirmationText = _.i18n('delete_items_confirmation', { amount: ids.length });
+    }
 
-    warningText = _.i18n 'cant_undo_warning'
+    const warningText = _.i18n('cant_undo_warning');
 
-    app.execute 'ask:confirmation', { confirmationText, warningText, action, back }
+    return app.execute('ask:confirmation', { confirmationText, warningText, action, back });
+  }
+};
 
-getIdFromModelOrId = (item)-> if _.isString item then item else item.id
+var getIdFromModelOrId = function(item){ if (_.isString(item)) { return item; } else { return item.id; } };
 
-propagateItemsChanges = (items, attribute)-> ->
-  items.forEach (item)->
-    # TODO: update counters for non-model items too
-    if _.isString item then return
-    if attribute is 'listing'
-      { listing: previousListing } = item._backup
-      newListing = item.get 'listing'
-      if newListing is previousListing then return
-      app.user.trigger 'items:change', previousListing, newListing
-    delete item._backup
+var propagateItemsChanges = (items, attribute) => () => items.forEach(function(item){
+  // TODO: update counters for non-model items too
+  if (_.isString(item)) { return; }
+  if (attribute === 'listing') {
+    const { listing: previousListing } = item._backup;
+    const newListing = item.get('listing');
+    if (newListing === previousListing) { return; }
+    app.user.trigger('items:change', previousListing, newListing);
+  }
+  return delete item._backup;
+});
 
-rollbackUpdate = (items)-> (err)->
-  items.forEach (item)->
-    if _.isString item then return
-    item.set item._backup
-    delete item._backup
-  throw err
+var rollbackUpdate = items => (function(err) {
+  items.forEach(function(item){
+    if (_.isString(item)) { return; }
+    item.set(item._backup);
+    return delete item._backup;
+  });
+  throw err;
+});

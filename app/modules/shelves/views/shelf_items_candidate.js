@@ -1,45 +1,55 @@
-forms_ = require 'modules/general/lib/forms'
-shelves_ = require '../lib/shelves'
+import forms_ from 'modules/general/lib/forms';
+import shelves_ from '../lib/shelves';
 
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  className: 'shelf-items-candidate'
-  template: require './templates/shelf_items_candidate'
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'shelf-items-candidate',
+  template: require('./templates/shelf_items_candidate'),
 
-  initialize: ->
-    { @shelf } = @options
-    @shelfId = @shelf.id
+  initialize() {
+    ({ shelf: this.shelf } = this.options);
+    return this.shelfId = this.shelf.id;
+  },
 
-  behaviors:
+  behaviors: {
     AlertBox: {}
+  },
 
-  serializeData: ->
-    _.extend @model.serializeData(),
-      alreadyAdded: @isAlreadyAdded()
+  serializeData() {
+    return _.extend(this.model.serializeData(),
+      {alreadyAdded: this.isAlreadyAdded()});
+  },
 
-  events:
-    'click .add': 'addToShelf'
-    'click .remove': 'removeFromShelf'
+  events: {
+    'click .add': 'addToShelf',
+    'click .remove': 'removeFromShelf',
     'click .showItem': 'showItem'
+  },
 
-  modelEvents:
-    'add:shelves': 'lazyRender'
+  modelEvents: {
+    'add:shelves': 'lazyRender',
     'remove:shelves': 'lazyRender'
+  },
 
-  showItem: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:item', @model
+  showItem(e){
+    if (_.isOpenedOutside(e)) { return;
+    } else { return app.execute('show:item', this.model); }
+  },
 
-  addToShelf: ->
-    shelves_.addItems @shelf, @model
-    .catch forms_.catchAlert.bind(null, @)
+  addToShelf() {
+    return shelves_.addItems(this.shelf, this.model)
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  # Do no rename function to 'remove' as that would overwrite
-  # Backbone.Marionette.View.prototype.remove
-  removeFromShelf: ->
-    shelves_.removeItems @shelf, @model
-    .catch forms_.catchAlert.bind(null, @)
+  // Do no rename function to 'remove' as that would overwrite
+  // Backbone.Marionette.View.prototype.remove
+  removeFromShelf() {
+    return shelves_.removeItems(this.shelf, this.model)
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  isAlreadyAdded: ->
-    shelvesIds = @model.get('shelves') or []
-    return @shelfId in shelvesIds
+  isAlreadyAdded() {
+    const shelvesIds = this.model.get('shelves') || [];
+    return shelvesIds.includes(this.shelfId);
+  }
+});

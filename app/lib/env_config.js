@@ -1,17 +1,22 @@
-# roughtly addressing the general case
-if location.hostname.match /^(localhost|192\.168)/ then window.env = 'dev'
-else window.env = 'prod'
+// roughtly addressing the general case
+if (location.hostname.match(/^(localhost|192\.168)/)) { window.env = 'dev';
+} else { window.env = 'prod'; }
 
-module.exports = ->
-  if env is 'dev'
-    trueAlert = window.alert
-    window.alert = (obj)->
-      if _.isObject obj then obj = JSON.stringify(obj, null, 2)
-      trueAlert obj
+export default function() {
+  if (env === 'dev') {
+    const trueAlert = window.alert;
+    window.alert = function(obj){
+      if (_.isObject(obj)) { obj = JSON.stringify(obj, null, 2); }
+      return trueAlert(obj);
+    };
+  }
 
-  window.CONFIG =
-    images:
+  return window.CONFIG = {
+    images: {
       maxSize: 1600
-    # overriden at feature_detection setDebugSetting
-    # as it depends on localStorageProxy
+    },
+    // overriden at feature_detection setDebugSetting
+    // as it depends on localStorageProxy
     debug: false
+  };
+};

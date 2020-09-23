@@ -1,19 +1,22 @@
-# data: labels or descriptions
-module.exports = (lang, originalLang, data)->
-  unless data then return {}
+// data: labels or descriptions
+export default function(lang, originalLang, data){
+  if (!data) { return {}; }
 
-  order = getLangPriorityOrder lang, originalLang, data
+  const order = getLangPriorityOrder(lang, originalLang, data);
 
-  while order.length > 0
-    nextLang = order.shift()
-    value = data[nextLang]
-    if value? then return { value, lang: nextLang }
+  while (order.length > 0) {
+    const nextLang = order.shift();
+    const value = data[nextLang];
+    if (value != null) { return { value, lang: nextLang }; }
+  }
 
-  return {}
+  return {};
+};
 
-getLangPriorityOrder = (lang, originalLang, data)->
-  order = [ lang ]
-  if originalLang? then order.push originalLang
-  order.push 'en'
-  availableLangs = Object.keys data
-  return _.uniq order.concat(availableLangs)
+var getLangPriorityOrder = function(lang, originalLang, data){
+  const order = [ lang ];
+  if (originalLang != null) { order.push(originalLang); }
+  order.push('en');
+  const availableLangs = Object.keys(data);
+  return _.uniq(order.concat(availableLangs));
+};

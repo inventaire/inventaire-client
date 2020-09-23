@@ -1,86 +1,95 @@
-module.exports = (entity, index, propertyValuesCount)->
-  # We can't infer a suggestion if the work being modified is the only wdt:P629 value
-  if index is 0 and propertyValuesCount is 1 then return
+export default function(entity, index, propertyValuesCount){
+  // We can't infer a suggestion if the work being modified is the only wdt:P629 value
+  if ((index === 0) && (propertyValuesCount === 1)) { return; }
 
-  worksUris = entity.get 'claims.wdt:P629'
-  unless worksUris? then return
+  const worksUris = entity.get('claims.wdt:P629');
+  if (worksUris == null) { return; }
 
-  app.request 'get:entities:models', { uris: worksUris }
-  .then (works)->
-    data = works.reduce aggregate, { authors: [], series: [] }
-    commonAuthors = _.intersection data.authors...
-    commonSeries = _.intersection data.series...
+  return app.request('get:entities:models', { uris: worksUris })
+  .then(function(works){
+    const data = works.reduce(aggregate, { authors: [], series: [] });
+    const commonAuthors = _.intersection(...Array.from(data.authors || []));
+    const commonSeries = _.intersection(...Array.from(data.series || []));
 
-    if commonSeries.length is 1
-      return getSuggestionsFromSerie commonSeries[0], works, worksUris
+    if (commonSeries.length === 1) {
+      return getSuggestionsFromSerie(commonSeries[0], works, worksUris);
+    }
 
-    if commonAuthors.length is 1
-      return getSuggestionsFromAuthor commonAuthors[0], works, worksUris
+    if (commonAuthors.length === 1) {
+      return getSuggestionsFromAuthor(commonAuthors[0], works, worksUris);
+    }
+  });
+};
 
-aggregate = (data, work)->
-  uri = work.get 'uri'
-  authors = work.getExtendedAuthorsUris()
-  series = work.get 'claims.wdt:P179'
-  data.authors.push authors
-  data.series.push series
-  return data
+var aggregate = function(data, work){
+  const uri = work.get('uri');
+  const authors = work.getExtendedAuthorsUris();
+  const series = work.get('claims.wdt:P179');
+  data.authors.push(authors);
+  data.series.push(series);
+  return data;
+};
 
-getSuggestionsFromSerie = (serieUri, works, worksUris)->
-  worksSeriesData = getSeriesData works
-  lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
+var getSuggestionsFromSerie = function(serieUri, works, worksUris){
+  const worksSeriesData = getSeriesData(works);
+  const lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0];
 
-  app.request 'get:entity:model', serieUri
-  .then getOtherSerieWorks(worksUris, lastOrdinal)
+  return app.request('get:entity:model', serieUri)
+  .then(getOtherSerieWorks(worksUris, lastOrdinal));
+};
 
-getSuggestionsFromAuthor = (authorUri, works, worksUris)->
-  app.request 'get:entity:model', authorUri
-  .then (author)-> author.fetchWorksData()
-  .get 'works'
-  .then (authorWorksData)->
-    _.pluck authorWorksData, 'uri'
-    .filter (uri)-> uri not in worksUris
+var getSuggestionsFromAuthor = (authorUri, works, worksUris) => app.request('get:entity:model', authorUri)
+.then(author => author.fetchWorksData())
+.get('works')
+.then(authorWorksData => _.pluck(authorWorksData, 'uri')
+.filter(uri => !worksUris.includes(uri)));
 
-getSeriesData = (works)->
-  works
-  .map getSerieData
-  # Filter-out empty results as it would make the intersection hereafter empty
-  .filter (data)-> data.serie?
+var getSeriesData = works => works
+.map(getSerieData)
+// Filter-out empty results as it would make the intersection hereafter empty
+.filter(data => data.serie != null);
 
-getOrdinals = (worksSeriesData, serieUri)->
-  worksSeriesData
-  .filter (data)-> data.serie is serieUri and _.isPositiveIntegerString(data.ordinal)
-  .map (data)-> parseOrdinal data.ordinal
+var getOrdinals = (worksSeriesData, serieUri) => worksSeriesData
+.filter(data => (data.serie === serieUri) && _.isPositiveIntegerString(data.ordinal))
+.map(data => parseOrdinal(data.ordinal));
 
-parseOrdinal = (ordinal)->
-  if _.isPositiveIntegerString ordinal then parseInt ordinal
+var parseOrdinal = function(ordinal){
+  if (_.isPositiveIntegerString(ordinal)) { return parseInt(ordinal); }
+};
 
-getSerieData = (work)->
-  serie = work.get 'claims.wdt:P179.0'
-  ordinal = work.get 'claims.wdt:P1545.0'
-  return { serie, ordinal }
+var getSerieData = function(work){
+  const serie = work.get('claims.wdt:P179.0');
+  const ordinal = work.get('claims.wdt:P1545.0');
+  return { serie, ordinal };
+};
 
-getOtherSerieWorks = (worksUris, lastOrdinal)-> (serie)->
-  serie.fetchPartsData()
-  .then (partsData)->
-    partsDataWithoutCurrentWorks = getReorderedParts partsData, worksUris, lastOrdinal
-    return _.pluck partsDataWithoutCurrentWorks, 'uri'
+var getOtherSerieWorks = (worksUris, lastOrdinal) => serie => serie.fetchPartsData()
+.then(function(partsData){
+  const partsDataWithoutCurrentWorks = getReorderedParts(partsData, worksUris, lastOrdinal);
+  return _.pluck(partsDataWithoutCurrentWorks, 'uri');
+});
 
-getReorderedParts = (partsData, worksUris, lastOrdinal)->
-  unless lastOrdinal?
-    return partsData.filter (part)-> part.uri not in worksUris
+var getReorderedParts = function(partsData, worksUris, lastOrdinal){
+  if (lastOrdinal == null) {
+    return partsData.filter(part => !worksUris.includes(part.uri));
+  }
 
-  partsBefore = []
-  partsAfter = []
-  partsWithoutOrdinal = []
+  const partsBefore = [];
+  const partsAfter = [];
+  const partsWithoutOrdinal = [];
 
-  for part in partsData
-    if part.uri not in worksUris
-      parsedOrdinal = parseOrdinal part.ordinal
-      if parsedOrdinal
-        if parsedOrdinal > lastOrdinal then partsAfter.push part
-        else partsBefore.push part
-      else
-        partsWithoutOrdinal.push part
+  for (let part of partsData) {
+    if (!worksUris.includes(part.uri)) {
+      const parsedOrdinal = parseOrdinal(part.ordinal);
+      if (parsedOrdinal) {
+        if (parsedOrdinal > lastOrdinal) { partsAfter.push(part);
+        } else { partsBefore.push(part); }
+      } else {
+        partsWithoutOrdinal.push(part);
+      }
+    }
+  }
 
-  # Return the parts directly after the current one first
-  return partsAfter.concat partsBefore, partsWithoutOrdinal
+  // Return the parts directly after the current one first
+  return partsAfter.concat(partsBefore, partsWithoutOrdinal);
+};

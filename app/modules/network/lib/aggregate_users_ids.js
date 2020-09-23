@@ -1,31 +1,43 @@
-module.exports = ->
+export default function() {
 
-  cache = {}
+  let categories, name;
+  const cache = {};
 
-  all = (name, categories)->
-    categories or= name
-    return cache[name] or recalculateAll(name, categories)
+  const all = function(name, categories){
+    if (!categories) { categories = name; }
+    return cache[name] || recalculateAll(name, categories);
+  };
 
-  # locking the context for use here-after
-  getUsersIds = @getUsersIds.bind(@)
+  // locking the context for use here-after
+  const getUsersIds = this.getUsersIds.bind(this);
 
-  recalculateAll = (name, categories)->
-    categories = _.forceArray categories
-    ids = _.chain(categories).map(getUsersIds).flatten().value()
-    return cache[name] = ids
+  var recalculateAll = function(name, categories){
+    categories = _.forceArray(categories);
+    const ids = _.chain(categories).map(getUsersIds).flatten().value();
+    return cache[name] = ids;
+  };
 
-  for name, categories of aggregates
-    Name = _.capitalise name
-    # ex: @allMembersIds
-    @["all#{Name}Ids"] = all.bind @, name, categories
+  for (name in aggregates) {
+    categories = aggregates[name];
+    const Name = _.capitalise(name);
+    // ex: @allMembersIds
+    this[`all${Name}Ids`] = all.bind(this, name, categories);
+  }
 
-  @recalculateAllLists = ->
-    for name, categories of aggregates
-      recalculateAll name, categories
+  return this.recalculateAllLists = () => (() => {
+    const result = [];
+    for (name in aggregates) {
+      categories = aggregates[name];
+      result.push(recalculateAll(name, categories));
+    }
+    return result;
+  })();
+};
 
-aggregates =
-  admins: 'admins'
-  membersStrict: 'members'
-  members: ['admins', 'members']
-  invited: 'invited'
+var aggregates = {
+  admins: 'admins',
+  membersStrict: 'members',
+  members: ['admins', 'members'],
+  invited: 'invited',
   requested: 'requested'
+};

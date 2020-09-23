@@ -1,6 +1,6 @@
-properties = require './properties'
-graphRelationEditorType = [ 'entity', 'fixed-entity' ]
+import properties from './properties';
+const graphRelationEditorType = [ 'entity', 'fixed-entity' ];
 
-module.exports = _.values properties
-  .filter (prop)-> prop.editorType in graphRelationEditorType
-  .map _.property('property')
+export default _.values(properties)
+  .filter(prop => graphRelationEditorType.includes(prop.editorType))
+  .map(_.property('property'));

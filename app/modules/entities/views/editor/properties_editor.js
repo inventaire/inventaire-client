@@ -1,27 +1,36 @@
-module.exports = Marionette.CompositeView.extend
-  className: 'properties-editor'
-  template: require './templates/properties_editor'
-  childView: require './property_editor'
-  childViewContainer: '.properties'
-  initialize: ->
-    { propertiesShortlist } = @options
-    @hasPropertiesShortlist = propertiesShortlist?
+export default Marionette.CompositeView.extend({
+  className: 'properties-editor',
+  template: require('./templates/properties_editor'),
+  childView: require('./property_editor'),
+  childViewContainer: '.properties',
+  initialize() {
+    const { propertiesShortlist } = this.options;
+    this.hasPropertiesShortlist = (propertiesShortlist != null);
 
-    if @hasPropertiesShortlist
-      # set propertiesShortlist to display only a subset of properties by default
-      @filter = (child, index, collection)->
-        return child.get('property') in propertiesShortlist
+    if (this.hasPropertiesShortlist) {
+      // set propertiesShortlist to display only a subset of properties by default
+      return this.filter = function(child, index, collection){
+        let needle;
+        return (needle = child.get('property'), propertiesShortlist.includes(needle));
+      };
+    }
+  },
 
-  ui:
+  ui: {
     showAllProperties: '#showAllProperties'
+  },
 
-  events:
+  events: {
     'click #showAllProperties': 'showAllProperties'
+  },
 
-  onShow: ->
-    if @hasPropertiesShortlist then @ui.showAllProperties.show()
+  onShow() {
+    if (this.hasPropertiesShortlist) { return this.ui.showAllProperties.show(); }
+  },
 
-  showAllProperties: ->
-    @filter = null
-    @render()
-    @ui.showAllProperties.hide()
+  showAllProperties() {
+    this.filter = null;
+    this.render();
+    return this.ui.showAllProperties.hide();
+  }
+});

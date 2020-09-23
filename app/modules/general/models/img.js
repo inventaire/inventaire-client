@@ -1,75 +1,90 @@
-images_ = require 'lib/images'
-{ maxSize } = CONFIG.images
-container = 'users'
+import images_ from 'lib/images';
+const { maxSize } = CONFIG.images;
+const container = 'users';
 
-# named Img and not Image to avoid overwritting window.Image
-module.exports = Backbone.NestedModel.extend
-  initialize: ->
-    { url, dataUrl } = @toJSON()
+// named Img and not Image to avoid overwritting window.Image
+export default Backbone.NestedModel.extend({
+  initialize() {
+    const { url, dataUrl } = this.toJSON();
 
-    input = url or dataUrl
-    unless input? then throw new Error 'at least one input attribute is required'
+    const input = url || dataUrl;
+    if (input == null) { throw new Error('at least one input attribute is required'); }
 
-    if url? then @initFromUrl url
-    if dataUrl? then @initDataUrl dataUrl
+    if (url != null) { this.initFromUrl(url); }
+    if (dataUrl != null) { this.initDataUrl(dataUrl); }
 
-    @crop = @get 'crop'
+    return this.crop = this.get('crop');
+  },
 
-  initFromUrl: (url)->
-    @waitForReady = @setDataUrlFromUrl url
-      .then @resize.bind(@)
-      .catch _.Error('initFromUrl err')
+  initFromUrl(url){
+    return this.waitForReady = this.setDataUrlFromUrl(url)
+      .then(this.resize.bind(this))
+      .catch(_.Error('initFromUrl err'));
+  },
 
-  initDataUrl: (dataUrl)->
-    @set 'originalDataUrl', dataUrl
-    @waitForReady = @resize()
+  initDataUrl(dataUrl){
+    this.set('originalDataUrl', dataUrl);
+    return this.waitForReady = this.resize();
+  },
 
-  setDataUrlFromUrl: (url)->
-    images_.getUrlDataUrl url
-    .then @set.bind(@, 'originalDataUrl')
+  setDataUrlFromUrl(url){
+    return images_.getUrlDataUrl(url)
+    .then(this.set.bind(this, 'originalDataUrl'));
+  },
 
-  resize: ->
-    dataUrl = @get 'originalDataUrl'
-    images_.resizeDataUrl dataUrl, maxSize
-    .then @set.bind(@)
-    .catch (err)=>
-      if err.message is 'invalid image' then @collection.invalidImage @, err
-      else throw err
+  resize() {
+    const dataUrl = this.get('originalDataUrl');
+    return images_.resizeDataUrl(dataUrl, maxSize)
+    .then(this.set.bind(this))
+    .catch(err=> {
+      if (err.message === 'invalid image') { return this.collection.invalidImage(this, err);
+      } else { throw err; }
+    });
+  },
 
-  select: -> @set 'selected', true
+  select() { return this.set('selected', true); },
 
-  setCroppedDataUrl: ->
-    if @view?
-      croppedData = @view.getCroppedDataUrl()
-      { dataUrl, width, height } = croppedData
-      @set
-        croppedDataUrl: dataUrl
-        cropped:
-          width: width
-          height: height
+  setCroppedDataUrl() {
+    if (this.view != null) {
+      const croppedData = this.view.getCroppedDataUrl();
+      const { dataUrl, width, height } = croppedData;
+      return this.set({
+        croppedDataUrl: dataUrl,
+        cropped: {
+          width,
+          height
+        }
+      });
+    }
+  },
 
-  getFinalDataUrl: ->
-    @get('croppedDataUrl') or @get('dataUrl')
+  getFinalDataUrl() {
+    return this.get('croppedDataUrl') || this.get('dataUrl');
+  },
 
-  imageHasChanged: ->
-    finalAttribute = if @crop then 'cropped' else 'resized'
+  imageHasChanged() {
+    const finalAttribute = this.crop ? 'cropped' : 'resized';
 
-    widthChange = @_areDifferent finalAttribute, 'original', 'width'
-    heightChange = @_areDifferent finalAttribute, 'original', 'height'
-    return _.log(widthChange or heightChange, 'image changed?')
+    const widthChange = this._areDifferent(finalAttribute, 'original', 'width');
+    const heightChange = this._areDifferent(finalAttribute, 'original', 'height');
+    return _.log(widthChange || heightChange, 'image changed?');
+  },
 
-  _areDifferent: (a, b, value)->
-    @get(a)[value] isnt @get(b)[value]
+  _areDifferent(a, b, value){
+    return this.get(a)[value] !== this.get(b)[value];
+  },
 
-  getFinalUrl: ->
-    if @crop then @setCroppedDataUrl()
-    # testing the original url existance as it imageHasChanged alone
-    # wouldn't detect that a new image from file
-    originalUrl = @get('url')
-    if originalUrl? and not @imageHasChanged() then return Promise.resolve originalUrl
+  getFinalUrl() {
+    if (this.crop) { this.setCroppedDataUrl(); }
+    // testing the original url existance as it imageHasChanged alone
+    // wouldn't detect that a new image from file
+    const originalUrl = this.get('url');
+    if ((originalUrl != null) && !this.imageHasChanged()) { return Promise.resolve(originalUrl); }
 
-    images_.upload container,
-      blob: images_.dataUrlToBlob @getFinalDataUrl()
-      id: @cid
-    .get @cid
-    .then _.Log('url?')
+    return images_.upload(container, {
+      blob: images_.dataUrlToBlob(this.getFinalDataUrl()),
+      id: this.cid
+    }).get(this.cid)
+    .then(_.Log('url?'));
+  }
+});

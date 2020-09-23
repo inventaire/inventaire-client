@@ -1,47 +1,56 @@
-# A layout to display a list of the user data contributions
+// A layout to display a list of the user data contributions
 
-Patches = require 'modules/entities/collections/patches'
+import Patches from 'modules/entities/collections/patches';
 
-module.exports = Marionette.CompositeView.extend
-  className: 'userContributions'
-  template: require './templates/user_contributions'
-  childViewContainer: '.contributions'
-  childView: require './user_contribution'
-  initialize: ->
-    { @user } = @options
-    @userId = @user.get '_id'
+export default Marionette.CompositeView.extend({
+  className: 'userContributions',
+  template: require('./templates/user_contributions'),
+  childViewContainer: '.contributions',
+  childView: require('./user_contribution'),
+  initialize() {
+    ({ user: this.user } = this.options);
+    this.userId = this.user.get('_id');
 
-    @collection = new Patches
-    @limit = 50
-    @offset = 0
+    this.collection = new Patches;
+    this.limit = 50;
+    this.offset = 0;
 
-    @fetchMore()
+    return this.fetchMore();
+  },
 
-  ui:
-    fetchMore: '.fetchMore'
-    totalContributions: '.totalContributions'
+  ui: {
+    fetchMore: '.fetchMore',
+    totalContributions: '.totalContributions',
     remaining: '.remaining'
+  },
 
-  serializeData: ->
-    user: @user.serializeData()
+  serializeData() {
+    return {user: this.user.serializeData()};
+  },
 
-  fetchMore: ->
-    _.preq.get app.API.entities.contributions(@userId, @limit, @offset)
-    .then @parseResponse.bind(@)
+  fetchMore() {
+    return _.preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
+    .then(this.parseResponse.bind(this));
+  },
 
-  parseResponse: (res)->
-    { patches, continue:@offset, total } = res
+  parseResponse(res){
+    let patches, total;
+    ({ patches, continue:this.offset, total } = res);
 
-    if total isnt @total
-      @total = total
-      # Update manually instead of re-rendering as it would require to re-render
-      # all the sub viewstotal
-      @ui.totalContributions.text total
+    if (total !== this.total) {
+      this.total = total;
+      // Update manually instead of re-rendering as it would require to re-render
+      // all the sub viewstotal
+      this.ui.totalContributions.text(total);
+    }
 
-    if @offset? then @ui.remaining.text(total - @offset)
-    else @ui.fetchMore.hide()
+    if (this.offset != null) { this.ui.remaining.text(total - this.offset);
+    } else { this.ui.fetchMore.hide(); }
 
-    @collection.add patches
+    return this.collection.add(patches);
+  },
 
-  events:
+  events: {
     'click .fetchMore': 'fetchMore'
+  }
+});

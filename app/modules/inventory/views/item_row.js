@@ -1,28 +1,38 @@
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  className: 'item-row'
-  template: require './templates/item_row'
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'item-row',
+  template: require('./templates/item_row'),
 
-  initialize: ->
-    { @getSelectedIds, @isMainUser, @groupContext } = @options
-    @listenTo @model, 'change', @lazyRender.bind(@)
+  initialize() {
+    ({ getSelectedIds: this.getSelectedIds, isMainUser: this.isMainUser, groupContext: this.groupContext } = this.options);
+    this.listenTo(this.model, 'change', this.lazyRender.bind(this));
 
-    unless @model.userReady
-      @model.waitForUser.then @lazyRender.bind(@)
+    if (!this.model.userReady) {
+      return this.model.waitForUser.then(this.lazyRender.bind(this));
+    }
+  },
 
-  serializeData: ->
-    _.extend @model.serializeData(),
-      checked: @getCheckedStatus()
-      isMainUser: @isMainUser
-      groupContext: @groupContext
+  serializeData() {
+    return _.extend(this.model.serializeData(), {
+      checked: this.getCheckedStatus(),
+      isMainUser: this.isMainUser,
+      groupContext: this.groupContext
+    }
+    );
+  },
 
-  events:
+  events: {
     'click .showItem': 'showItem'
+  },
 
-  showItem: (e)->
-    if _.isOpenedOutside e then return
-    else app.execute 'show:item', @model
+  showItem(e){
+    if (_.isOpenedOutside(e)) { return;
+    } else { return app.execute('show:item', this.model); }
+  },
 
-  getCheckedStatus: ->
-    if @getSelectedIds? then return @model.id in @getSelectedIds()
-    else return false
+  getCheckedStatus() {
+    if (this.getSelectedIds != null) { let needle;
+    return (needle = this.model.id, this.getSelectedIds().includes(needle));
+    } else { return false; }
+  }
+});

@@ -1,4 +1,4 @@
-PaginatedEntities = require './paginated_entities'
+import PaginatedEntities from './paginated_entities';
 
-module.exports = PaginatedEntities.extend
-  typesAllowlist: [ 'work', 'serie', 'article' ]
+export default PaginatedEntities.extend({
+  typesAllowlist: [ 'work', 'serie', 'article' ]});

@@ -1,19 +1,23 @@
-autosize = require 'autosize'
+import autosize from 'autosize';
 
-module.exports = Marionette.Behavior.extend
-  ui:
+export default Marionette.Behavior.extend({
+  ui: {
     textarea: 'textarea'
+  },
 
-  events:
+  events: {
     'elastic:textarea:update': 'update'
+  },
 
-  # Init somehow needs to be run on the next tick to be effective
-  onRender: -> setTimeout @init.bind(@), 0
+  // Init somehow needs to be run on the next tick to be effective
+  onRender() { return setTimeout(this.init.bind(this), 0); },
 
-  init: ->
-    # Known case: the view does not always display a textarea
-    if @ui.textarea.length is 0 then return
+  init() {
+    // Known case: the view does not always display a textarea
+    if (this.ui.textarea.length === 0) { return; }
 
-    autosize @ui.textarea
+    return autosize(this.ui.textarea);
+  },
 
-  update: -> autosize.update @ui.textarea
+  update() { return autosize.update(this.ui.textarea); }
+});

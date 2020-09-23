@@ -1,74 +1,91 @@
-email_ = require 'modules/user/lib/email_tests'
-forms_ = require 'modules/general/lib/forms'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+import email_ from 'modules/user/lib/email_tests';
+import forms_ from 'modules/general/lib/forms';
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
 
-module.exports = Marionette.ItemView.extend
-  className: 'authMenu login'
-  template: require './templates/forgot_password'
-  behaviors:
-    AlertBox: {}
-    SuccessCheck: {}
+export default Marionette.ItemView.extend({
+  className: 'authMenu login',
+  template: require('./templates/forgot_password'),
+  behaviors: {
+    AlertBox: {},
+    SuccessCheck: {},
     Loading: {}
+  },
 
-  ui:
-    email: '#emailField'
+  ui: {
+    email: '#emailField',
     confirmationEmailSent: '#confirmationEmailSent'
+  },
 
-  initialize: ->
-    _.extend @, behaviorsPlugin
-    @lazySendEmail = _.debounce @sendEmail.bind(@), 1500, true
+  initialize() {
+    _.extend(this, behaviorsPlugin);
+    return this.lazySendEmail = _.debounce(this.sendEmail.bind(this), 1500, true);
+  },
 
-  serializeData: ->
-    emailPicker: @emailPickerData()
-    header: @headerData()
+  serializeData() {
+    return {
+      emailPicker: this.emailPickerData(),
+      header: this.headerData()
+    };
+  },
 
-  headerData: ->
-    if @options.createPasswordMode then 'create a password'
-    else 'forgot password?'
+  headerData() {
+    if (this.options.createPasswordMode) { return 'create a password';
+    } else { return 'forgot password?'; }
+  },
 
-  emailPickerData: ->
-    nameBase: 'email'
-    special: true
-    field:
-      value: app.user.get('email')
-      placeholder: _.i18n 'email address'
-    button:
-      text: _.i18n 'send email'
-      classes: 'grey postfix'
+  emailPickerData() {
+    return {
+      nameBase: 'email',
+      special: true,
+      field: {
+        value: app.user.get('email'),
+        placeholder: _.i18n('email address')
+      },
+      button: {
+        text: _.i18n('send email'),
+        classes: 'grey postfix'
+      }
+    };
+  },
 
-  events: ->
-    'click a#emailButton': 'lazySendEmail'
+  events() {
+    return {'click a#emailButton': 'lazySendEmail'};
+  },
 
-  sendEmail: ->
-    email = @ui.email.val()
-    Promise.try -> email_.pass email, '#emailField'
-    .then @startLoading.bind(@, '#emailButton')
-    .then verifyKnownEmail.bind(null, email)
-    .then @sendResetPasswordLink.bind(@, email)
-    .then @showSuccessMessage.bind(@)
-    .catch forms_.catchAlert.bind(null, @)
-    .finally @stopLoading.bind(@)
+  sendEmail() {
+    const email = this.ui.email.val();
+    return Promise.try(() => email_.pass(email, '#emailField'))
+    .then(this.startLoading.bind(this, '#emailButton'))
+    .then(verifyKnownEmail.bind(null, email))
+    .then(this.sendResetPasswordLink.bind(this, email))
+    .then(this.showSuccessMessage.bind(this))
+    .catch(forms_.catchAlert.bind(null, this))
+    .finally(this.stopLoading.bind(this));
+  },
 
-  sendResetPasswordLink: (email)->
-    app.request 'password:reset:request', email
-    .catch formatErr
+  sendResetPasswordLink(email){
+    return app.request('password:reset:request', email)
+    .catch(formatErr);
+  },
 
-  showSuccessMessage: ->
-    @ui.confirmationEmailSent.fadeIn()
+  showSuccessMessage() {
+    return this.ui.confirmationEmailSent.fadeIn();
+  }
+});
 
-verifyKnownEmail = (email)->
-  # re-using verifyAvailability but with the opposite expectaction:
-  # if it throws an error, the email is known and that's the desired result here
-  # thus the error is catched
-  email_.verifyAvailability(email, '#emailField')
-  .then unknownEmail
-  .catch (err)->
-    if err.statusCode is 400 then 'known email'
-    else throw err
+var verifyKnownEmail = email => // re-using verifyAvailability but with the opposite expectaction:
+// if it throws an error, the email is known and that's the desired result here
+// thus the error is catched
+email_.verifyAvailability(email, '#emailField')
+.then(unknownEmail)
+.catch(function(err){
+  if (err.statusCode === 400) { return 'known email';
+  } else { throw err; }
+});
 
-unknownEmail = ->
-  formatErr new Error('this email is unknown')
+var unknownEmail = () => formatErr(new Error('this email is unknown'));
 
-formatErr = (err)->
-  err.selector = '#emailField'
-  throw err
+var formatErr = function(err){
+  err.selector = '#emailField';
+  throw err;
+};

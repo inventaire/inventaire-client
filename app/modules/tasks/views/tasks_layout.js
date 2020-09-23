@@ -1,193 +1,225 @@
-getNextTask = require '../lib/get_next_task'
-CurrentTask = require './current_task'
-RelativeTasks = require './relative_tasks'
-Task = require '../models/task'
-error_ = require 'lib/error'
-forms_ = require 'modules/general/lib/forms'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
-previousTasks = []
-waitingForMerge = null
+import getNextTask from '../lib/get_next_task';
+import CurrentTask from './current_task';
+import RelativeTasks from './relative_tasks';
+import Task from '../models/task';
+import error_ from 'lib/error';
+import forms_ from 'modules/general/lib/forms';
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
+const previousTasks = [];
+let waitingForMerge = null;
 
-module.exports = Marionette.LayoutView.extend
-  id: 'tasksLayout'
-  attributes:
-    # Allow the view to be focused by clicking on it, thus being able to listen
-    # for keydown events
+export default Marionette.LayoutView.extend({
+  id: 'tasksLayout',
+  attributes: {
+    // Allow the view to be focused by clicking on it, thus being able to listen
+    // for keydown events
     tabindex: '0'
+  },
 
-  template: require './templates/tasks_layout'
-  regions:
-    currentTask: '#currentTask'
+  template: require('./templates/tasks_layout'),
+  regions: {
+    currentTask: '#currentTask',
     relativeTasks: '#relativeTasks'
+  },
 
-  ui:
-    homonymsCount: '.homonymsCount'
+  ui: {
+    homonymsCount: '.homonymsCount',
     relativesToggler: '.toggle-relatives .fa-chevron-down'
+  },
 
-  behaviors:
-    AlertBox: {}
+  behaviors: {
+    AlertBox: {},
     Loading: {}
+  },
 
-  onShow: ->
-    { task } = @options
-    if _.isModel task then @showTask Promise.resolve(task)
-    else if task? then @showFromId task
-    else @showNextTask()
+  onShow() {
+    const { task } = this.options;
+    if (_.isModel(task)) { return this.showTask(Promise.resolve(task));
+    } else if (task != null) { return this.showFromId(task);
+    } else { return this.showNextTask(); }
+  },
 
-  showNextTask: (params = {})->
-    { spinner } = params
-    if spinner? then startLoading.call @, spinner
-    offset = app.request 'querystring:get', 'offset'
-    @showTask getNextTask({ previousTasks, offset, lastTaskModel: @currentTaskModel })
-    .tap => if spinner? then stopLoading.call(@, spinner)
+  showNextTask(params = {}){
+    const { spinner } = params;
+    if (spinner != null) { startLoading.call(this, spinner); }
+    const offset = app.request('querystring:get', 'offset');
+    return this.showTask(getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel }))
+    .tap(() => { if (spinner != null) { return stopLoading.call(this, spinner); } });
+  },
 
-  showTask: (taskModelPromise)->
-    taskModelPromise
-    .then @showFromModel.bind(@)
-    .catch app.Execute('show:error')
+  showTask(taskModelPromise){
+    return taskModelPromise
+    .then(this.showFromModel.bind(this))
+    .catch(app.Execute('show:error'));
+  },
 
-  showFromModel: (model)->
-    @previousTask = @currentTaskModel
-    @currentTaskModel = model
-    openDeduplicationLayoutIfDone @previousTask, @currentTaskModel
+  showFromModel(model){
+    this.previousTask = this.currentTaskModel;
+    this.currentTaskModel = model;
+    openDeduplicationLayoutIfDone(this.previousTask, this.currentTaskModel);
 
-    state = model.get 'state'
-    if state?
-      err = error_.new 'this task has already been treated', 400, { model, state }
-      return app.execute 'show:error:other', err, 'tasks_layout showFromModel'
+    const state = model.get('state');
+    if (state != null) {
+      const err = error_.new('this task has already been treated', 400, { model, state });
+      return app.execute('show:error:other', err, 'tasks_layout showFromModel');
+    }
 
-    previousTasks.push model.get('_id')
+    previousTasks.push(model.get('_id'));
 
-    @_grabSuspectPromise = model.grabSuspect()
+    this._grabSuspectPromise = model.grabSuspect();
 
-    Promise.all [
-      @showCurrentTask model
-      @showRelativeTasks model
-    ]
-    .catch app.Execute('show:error')
+    return Promise.all([
+      this.showCurrentTask(model),
+      this.showRelativeTasks(model)
+    ])
+    .catch(app.Execute('show:error'));
+  },
 
-  showCurrentTask: (model)->
-    Promise.all [
-      @_grabSuspectPromise
+  showCurrentTask(model){
+    return Promise.all([
+      this._grabSuspectPromise,
       model.grabSuggestion()
-    ]
-    .then =>
-      @currentTask.show new CurrentTask { model }
-      app.navigateFromModel model
-      @focusOnControls()
+    ])
+    .then(() => {
+      this.currentTask.show(new CurrentTask({ model }));
+      app.navigateFromModel(model);
+      return this.focusOnControls();
+    });
+  },
 
-  showRelativeTasks: (model)->
-    @_grabSuspectPromise
-    .then model.getOtherSuggestions.bind(model)
-    .then =>
-      @relativeTasks.show new RelativeTasks
-        collection: model.suspect.mergeSuggestions
+  showRelativeTasks(model){
+    return this._grabSuspectPromise
+    .then(model.getOtherSuggestions.bind(model))
+    .then(() => {
+      this.relativeTasks.show(new RelativeTasks({
+        collection: model.suspect.mergeSuggestions,
         currentTaskModel: model
-      @updateRelativesCount model
+      })
+      );
+      return this.updateRelativesCount(model);
+    });
+  },
 
-  showFromId: (id)-> @showTask getTaskById(id)
+  showFromId(id){ return this.showTask(getTaskById(id)); },
 
-  focusOnControls: ->
-    # Take focus so that we can listen for keydown events
-    @$el.focus()
+  focusOnControls() {
+    // Take focus so that we can listen for keydown events
+    return this.$el.focus();
+  },
 
-  events:
-    'click .dismiss': 'dismiss'
-    'click .merge': 'merge'
-    'click .next': 'showNextTaskFromButton'
-    'click .controls': 'toggleRelatives'
+  events: {
+    'click .dismiss': 'dismiss',
+    'click .merge': 'merge',
+    'click .next': 'showNextTaskFromButton',
+    'click .controls': 'toggleRelatives',
     'keydown': 'triggerActionByKey'
+  },
 
-  dismiss: (e)->
-    @action 'dismiss'
-    @showNextTask { spinner: '.dismiss' }
-    e?.stopPropagation()
+  dismiss(e){
+    this.action('dismiss');
+    this.showNextTask({ spinner: '.dismiss' });
+    return e?.stopPropagation();
+  },
 
-  merge: (e)->
-    waitingForMerge = @action 'merge'
-    @showNextTask { spinner: '.merge' }
-    e?.stopPropagation()
+  merge(e){
+    waitingForMerge = this.action('merge');
+    this.showNextTask({ spinner: '.merge' });
+    return e?.stopPropagation();
+  },
 
-  action: (actionName)->
-    @currentTaskModel[actionName]()
-    .catch @handleActionError.bind(@, @currentTaskModel)
+  action(actionName){
+    return this.currentTaskModel[actionName]()
+    .catch(this.handleActionError.bind(this, this.currentTaskModel));
+  },
 
-  handleActionError: (actionTaskModel, err)->
-    error_.complete err, '.alertWrapper', false
-    forms_.catchAlert @, err
-    @showFromModel actionTaskModel
+  handleActionError(actionTaskModel, err){
+    error_.complete(err, '.alertWrapper', false);
+    forms_.catchAlert(this, err);
+    return this.showFromModel(actionTaskModel);
+  },
 
-  showNextTaskFromButton: (e)->
-    @showNextTask { spinner: '.next' }
-    e?.stopPropagation()
+  showNextTaskFromButton(e){
+    this.showNextTask({ spinner: '.next' });
+    return e?.stopPropagation();
+  },
 
-  triggerActionByKey: (e)->
-    # Prevent interpretting browser shortkeys such as Alt+D or Ctrl+R
-    # as action keys
-    if e.altKey or e.ctrlKey or e.metaKey then return
+  triggerActionByKey(e){
+    // Prevent interpretting browser shortkeys such as Alt+D or Ctrl+R
+    // as action keys
+    if (e.altKey || e.ctrlKey || e.metaKey) { return; }
 
-    switch e.key
-      when 'd' then @dismiss()
-      when 'm' then @merge()
-      when 'w' then @mergeAndDeduplicate()
-      when 'n' then @showNextTaskFromButton()
-      when 'r' then @toggleRelatives()
-      else
-        if /^\d+$/.test(e.key)
-          @showRelativeFromIndex parseInt(e.key) - 1
+    switch (e.key) {
+      case 'd': return this.dismiss();
+      case 'm': return this.merge();
+      case 'w': return this.mergeAndDeduplicate();
+      case 'n': return this.showNextTaskFromButton();
+      case 'r': return this.toggleRelatives();
+      default:
+        if (/^\d+$/.test(e.key)) {
+          return this.showRelativeFromIndex(parseInt(e.key) - 1);
+        }
+    }
+  },
 
-  toggleRelatives: ->
-    @$el.toggleClass 'wrapped-controls'
-    @ui.relativesToggler.toggleClass 'toggled'
+  toggleRelatives() {
+    this.$el.toggleClass('wrapped-controls');
+    return this.ui.relativesToggler.toggleClass('toggled');
+  },
 
-  showRelativeFromIndex: (index)->
-    el = @relativeTasks.$el.find('.relative-task')[index]
-    taskId = el?.attributes['data-task-id'].value
-    if taskId? then @showFromId taskId
+  showRelativeFromIndex(index){
+    const el = this.relativeTasks.$el.find('.relative-task')[index];
+    const taskId = el?.attributes['data-task-id'].value;
+    if (taskId != null) { return this.showFromId(taskId); }
+  },
 
-  updateRelativesCount: (task)->
-    { mergeSuggestions: suggestions } = task.suspect
-    currentSuggestionScore = task.get 'globalScore'
-    highestSuggestionsScore = suggestions.getHighestScore task.id
-    # Remove the current task from the count
-    count = suggestions.length - 1
-    if count is 0
-      text = _.i18n 'has no homonym'
-      risk = 'none'
-      @ui.relativesToggler.css 'visibility', 'hidden'
-    else
-      text = _.i18n 'homonyms_count', { smart_count: count }
-      @ui.relativesToggler.css 'visibility', null
-      if currentSuggestionScore - highestSuggestionsScore < 10
-        risk = 'high'
-      else
-        risk = 'medium'
+  updateRelativesCount(task){
+    let risk, text;
+    const { mergeSuggestions: suggestions } = task.suspect;
+    const currentSuggestionScore = task.get('globalScore');
+    const highestSuggestionsScore = suggestions.getHighestScore(task.id);
+    // Remove the current task from the count
+    const count = suggestions.length - 1;
+    if (count === 0) {
+      text = _.i18n('has no homonym');
+      risk = 'none';
+      this.ui.relativesToggler.css('visibility', 'hidden');
+    } else {
+      text = _.i18n('homonyms_count', { smart_count: count });
+      this.ui.relativesToggler.css('visibility', null);
+      if ((currentSuggestionScore - highestSuggestionsScore) < 10) {
+        risk = 'high';
+      } else {
+        risk = 'medium';
+      }
+    }
 
-    @ui.homonymsCount.text text
-    @ui.homonymsCount.attr 'data-risk', risk
+    this.ui.homonymsCount.text(text);
+    return this.ui.homonymsCount.attr('data-risk', risk);
+  }
+});
 
-getTaskById = (id)->
-  _.preq.get app.API.tasks.byIds(id)
-  .get 'tasks'
-  .then (tasks)->
-    task = tasks[0]
-    if task? then new Task task
-    else throw error_.new 'not found', 404, { id }
+var getTaskById = id => _.preq.get(app.API.tasks.byIds(id))
+.get('tasks')
+.then(function(tasks){
+  const task = tasks[0];
+  if (task != null) { return new Task(task);
+  } else { throw error_.new('not found', 404, { id }); }});
 
-openDeduplicationLayoutIfDone = (previousTask, currentTaskModel)->
-  unless previousTask? then return
+var openDeduplicationLayoutIfDone = function(previousTask, currentTaskModel){
+  if (previousTask == null) { return; }
 
-  previousSuggestionUri = previousTask.get 'suggestionUri'
-  currentSuggestionUri = currentTaskModel.get 'suggestionUri'
-  if previousSuggestionUri is currentSuggestionUri then return
+  const previousSuggestionUri = previousTask.get('suggestionUri');
+  const currentSuggestionUri = currentTaskModel.get('suggestionUri');
+  if (previousSuggestionUri === currentSuggestionUri) { return; }
 
-  { suggestion } = previousTask
-  showDeduplication = ->
-    app.execute 'show:deduplicate:sub:entities', suggestion, { openInNewTab: true }
+  const { suggestion } = previousTask;
+  const showDeduplication = () => app.execute('show:deduplicate:sub:entities', suggestion, { openInNewTab: true });
 
-  if waitingForMerge?
-    waitingForMerge
-    .delay 100
-    .then showDeduplication
-  else
-    setTimeout showDeduplication, 100
+  if (waitingForMerge != null) {
+    return waitingForMerge
+    .delay(100)
+    .then(showDeduplication);
+  } else {
+    return setTimeout(showDeduplication, 100);
+  }
+};

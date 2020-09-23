@@ -1,232 +1,280 @@
-LabelsEditor = require './labels_editor'
-PropertiesEditor = require './properties_editor'
-propertiesCollection = require '../../lib/editor/properties_collection'
-AdminSection = require './admin_section'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-properties = require 'modules/entities/lib/properties'
-{ unprefixify } = require 'lib/wikimedia/wikidata'
-moveToWikidata = require './lib/move_to_wikidata'
-{ startLoading } = require 'modules/general/plugins/behaviors'
-error_ = require 'lib/error'
-typesWithoutLabel = [
+import LabelsEditor from './labels_editor';
+import PropertiesEditor from './properties_editor';
+import propertiesCollection from '../../lib/editor/properties_collection';
+import AdminSection from './admin_section';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import properties from 'modules/entities/lib/properties';
+import { unprefixify } from 'lib/wikimedia/wikidata';
+import moveToWikidata from './lib/move_to_wikidata';
+import { startLoading } from 'modules/general/plugins/behaviors';
+error_ = require('lib/error');
+const typesWithoutLabel = [
   'edition',
   'collection'
-]
-# Keep in sync with server/controllers/entities/lib/validate_critical_claims.js
-requiredPropertyPerType =
-  edition: [ 'wdt:P629', 'wdt:P1476' ]
+];
+// Keep in sync with server/controllers/entities/lib/validate_critical_claims.js
+const requiredPropertyPerType = {
+  edition: [ 'wdt:P629', 'wdt:P1476' ],
   collection: [ 'wdt:P1476', 'wdt:P123' ]
-propertiesPerType = require 'modules/entities/lib/editor/properties_per_type'
+};
+import propertiesPerType from 'modules/entities/lib/editor/properties_per_type';
 
-module.exports = Marionette.LayoutView.extend
-  id: 'entityEdit'
-  template: require './templates/entity_edit'
-  behaviors:
-    AlertBox: {}
-    Loading: {}
+export default Marionette.LayoutView.extend({
+  id: 'entityEdit',
+  template: require('./templates/entity_edit'),
+  behaviors: {
+    AlertBox: {},
+    Loading: {},
     PreventDefault: {}
+  },
 
-  regions:
-    title: '.title'
-    claims: '.claims'
+  regions: {
+    title: '.title',
+    claims: '.claims',
     admin: '.admin'
+  },
 
-  ui:
-    navigationButtons: '.navigationButtons'
+  ui: {
+    navigationButtons: '.navigationButtons',
     missingDataMessage: '.missingDataMessage'
+  },
 
-  initialize: ->
-    @creationMode = @model.creating
-    @requiresLabel = @model.type not in typesWithoutLabel
-    @requiredProperties = requiredPropertyPerType[@model.type] or []
-    @canBeAddedToInventory = @model.type in inventoryTypes
-    @showAdminSection = app.user.hasDataadminAccess and not @creationMode
+  initialize() {
+    this.creationMode = this.model.creating;
+    this.requiresLabel = !typesWithoutLabel.includes(this.model.type);
+    this.requiredProperties = requiredPropertyPerType[this.model.type] || [];
+    this.canBeAddedToInventory = inventoryTypes.includes(this.model.type);
+    this.showAdminSection = app.user.hasDataadminAccess && !this.creationMode;
 
-    if @creationMode
-      @setMissingRequiredProperties()
+    if (this.creationMode) {
+      this.setMissingRequiredProperties();
+    }
 
-    if @model.subEntitiesInverseProperty?
-      @waitForPropCollection = @model.fetchSubEntities()
-        .then @initPropertiesCollections.bind(@)
-    else
-      @initPropertiesCollections()
-      @waitForPropCollection = Promise.resolve()
+    if (this.model.subEntitiesInverseProperty != null) {
+      this.waitForPropCollection = this.model.fetchSubEntities()
+        .then(this.initPropertiesCollections.bind(this));
+    } else {
+      this.initPropertiesCollections();
+      this.waitForPropCollection = Promise.resolve();
+    }
 
-    @navigationButtonsDisabled = false
+    return this.navigationButtonsDisabled = false;
+  },
 
-  initPropertiesCollections: -> @properties = propertiesCollection @model
+  initPropertiesCollections() { return this.properties = propertiesCollection(this.model); },
 
-  onShow: ->
-    if @requiresLabel
-      @title.show new LabelsEditor { @model }
+  onShow() {
+    if (this.requiresLabel) {
+      this.title.show(new LabelsEditor({ model: this.model }));
+    }
 
-    if @showAdminSection
-      @admin.show new AdminSection { @model }
+    if (this.showAdminSection) {
+      this.admin.show(new AdminSection({ model: this.model }));
+    }
 
-    @waitForPropCollection
-    .then @showPropertiesEditor.bind(@)
+    this.waitForPropCollection
+    .then(this.showPropertiesEditor.bind(this));
 
-    @listenTo @model, 'change', @updateNavigationButtons.bind(@)
-    @updateNavigationButtons()
+    this.listenTo(this.model, 'change', this.updateNavigationButtons.bind(this));
+    return this.updateNavigationButtons();
+  },
 
-  showPropertiesEditor: ->
-    @claims.show new PropertiesEditor
-      collection: @properties
-      propertiesShortlist: @model.propertiesShortlist
+  showPropertiesEditor() {
+    return this.claims.show(new PropertiesEditor({
+      collection: this.properties,
+      propertiesShortlist: this.model.propertiesShortlist
+    })
+    );
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    attrs.creationMode = @creationMode
-    typePossessive = possessives[attrs.type]
-    attrs.createAndShowLabel = "create and go to the #{typePossessive} page"
-    attrs.returnLabel = "return to the #{typePossessive} page"
-    attrs.creating = @model.creating
-    attrs.canCancel = @canCancel()
-    attrs.moveToWikidata = @moveToWikidataData()
-    # Do not show the signal data error button in creation mode
-    # as it wouldn't make sense
-    attrs.signalDataErrorButton = not @creationMode
-    # Used when item_show attempts to 'preciseEdition' with a new edition
-    attrs.itemToUpdate = @itemToUpdate
-    attrs.canBeAddedToInventory = @canBeAddedToInventory
-    attrs.missingRequiredProperties = @missingRequiredProperties
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    attrs.creationMode = this.creationMode;
+    const typePossessive = possessives[attrs.type];
+    attrs.createAndShowLabel = `create and go to the ${typePossessive} page`;
+    attrs.returnLabel = `return to the ${typePossessive} page`;
+    attrs.creating = this.model.creating;
+    attrs.canCancel = this.canCancel();
+    attrs.moveToWikidata = this.moveToWikidataData();
+    // Do not show the signal data error button in creation mode
+    // as it wouldn't make sense
+    attrs.signalDataErrorButton = !this.creationMode;
+    // Used when item_show attempts to 'preciseEdition' with a new edition
+    attrs.itemToUpdate = this.itemToUpdate;
+    attrs.canBeAddedToInventory = this.canBeAddedToInventory;
+    attrs.missingRequiredProperties = this.missingRequiredProperties;
+    return attrs;
+  },
 
-  events:
-    'click .entity-edit-cancel': 'cancel'
-    'click .createAndShowEntity': 'createAndShowEntity'
-    'click .createAndAddEntity': 'createAndAddEntity'
-    'click .createAndUpdateItem': 'createAndUpdateItem'
-    'click #signalDataError': 'signalDataError'
+  events: {
+    'click .entity-edit-cancel': 'cancel',
+    'click .createAndShowEntity': 'createAndShowEntity',
+    'click .createAndAddEntity': 'createAndAddEntity',
+    'click .createAndUpdateItem': 'createAndUpdateItem',
+    'click #signalDataError': 'signalDataError',
     'click #moveToWikidata': 'moveToWikidata'
+  },
 
-  canCancel: ->
-    # In the case of an entity being created, showing the entity page would fail
-    unless @model.creating then return true
-    # Don't display a cancel button if we don't know where to redirect
-    return Backbone.history.last.length > 0
+  canCancel() {
+    // In the case of an entity being created, showing the entity page would fail
+    if (!this.model.creating) { return true; }
+    // Don't display a cancel button if we don't know where to redirect
+    return Backbone.history.last.length > 0;
+  },
 
-  cancel: ->
-    fallback = => app.execute 'show:entity:from:model', @model
-    app.execute 'history:back', { fallback }
+  cancel() {
+    const fallback = () => app.execute('show:entity:from:model', this.model);
+    return app.execute('history:back', { fallback });
+  },
 
-  createAndShowEntity: ->
-    @_createAndAction app.Execute('show:entity:from:model')
+  createAndShowEntity() {
+    return this._createAndAction(app.Execute('show:entity:from:model'));
+  },
 
-  createAndAddEntity: ->
-    @_createAndAction app.Execute('show:entity:add:from:model')
+  createAndAddEntity() {
+    return this._createAndAction(app.Execute('show:entity:add:from:model'));
+  },
 
-  createAndUpdateItem: ->
-    { itemToUpdate } = @
-    if itemToUpdate instanceof Backbone.Model
-      @_createAndUpdateItem itemToUpdate
-    else
-      # If the view was loaded from the URL, @itemToUpdate will be just
-      # the URL persisted attributes instead of a model object
-      app.request 'get:item:model', @itemToUpdate._id
-      .then @_createAndUpdateItem.bind(@)
+  createAndUpdateItem() {
+    const { itemToUpdate } = this;
+    if (itemToUpdate instanceof Backbone.Model) {
+      return this._createAndUpdateItem(itemToUpdate);
+    } else {
+      // If the view was loaded from the URL, @itemToUpdate will be just
+      // the URL persisted attributes instead of a model object
+      return app.request('get:item:model', this.itemToUpdate._id)
+      .then(this._createAndUpdateItem.bind(this));
+    }
+  },
 
-  _createAndUpdateItem: (item)->
-    action = (entity)-> app.request 'item:update:entity', item, entity
-    @_createAndAction action
+  _createAndUpdateItem(item){
+    const action = entity => app.request('item:update:entity', item, entity);
+    return this._createAndAction(action);
+  },
 
-  _createAndAction: (action)->
-    @beforeCreate()
-    .then @model.create.bind(@model)
-    .then action
-    .catch error_.Complete('.meta', false)
-    .catch forms_.catchAlert.bind(null, @)
+  _createAndAction(action){
+    return this.beforeCreate()
+    .then(this.model.create.bind(this.model))
+    .then(action)
+    .catch(error_.Complete('.meta', false))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  # Override in sub views
-  beforeCreate: -> Promise.resolve()
+  // Override in sub views
+  beforeCreate() { return Promise.resolve(); },
 
-  signalDataError: (e)->
-    uri = @model.get 'uri'
-    subject = _.I18n  'data error'
-    app.execute 'show:feedback:menu',
-      subject: "[#{uri}][#{subject}] "
-      uris: [ uri ]
+  signalDataError(e){
+    const uri = this.model.get('uri');
+    const subject = _.I18n('data error');
+    return app.execute('show:feedback:menu', {
+      subject: `[${uri}][${subject}] `,
+      uris: [ uri ],
       event: e
+    }
+    );
+  },
 
-  # Hiding navigation buttons when a label is required but no label is set yet
-  # to invite the user to edit and save the label, or cancel.
-  updateNavigationButtons: ->
-    if @missingData()
-      unless @navigationButtonsDisabled
-        @ui.navigationButtons.hide()
-        @ui.missingDataMessage.show()
-        @navigationButtonsDisabled = true
-      @$el.find('span.missingProperties').text @missingRequiredProperties.join(', ')
-    else
-      if @navigationButtonsDisabled
-        @ui.navigationButtons.fadeIn()
-        @ui.missingDataMessage.hide()
-        @navigationButtonsDisabled = false
+  // Hiding navigation buttons when a label is required but no label is set yet
+  // to invite the user to edit and save the label, or cancel.
+  updateNavigationButtons() {
+    if (this.missingData()) {
+      if (!this.navigationButtonsDisabled) {
+        this.ui.navigationButtons.hide();
+        this.ui.missingDataMessage.show();
+        this.navigationButtonsDisabled = true;
+      }
+      return this.$el.find('span.missingProperties').text(this.missingRequiredProperties.join(', '));
+    } else {
+      if (this.navigationButtonsDisabled) {
+        this.ui.navigationButtons.fadeIn();
+        this.ui.missingDataMessage.hide();
+        return this.navigationButtonsDisabled = false;
+      }
+    }
+  },
 
-  missingData: ->
-    labelsCount = _.values(@model.get('labels')).length
-    if @requiresLabel and labelsCount is 0 then return true
-    @setMissingRequiredProperties()
-    return @missingRequiredProperties.length > 0
+  missingData() {
+    const labelsCount = _.values(this.model.get('labels')).length;
+    if (this.requiresLabel && (labelsCount === 0)) { return true; }
+    this.setMissingRequiredProperties();
+    return this.missingRequiredProperties.length > 0;
+  },
 
-  setMissingRequiredProperties: ->
-    @missingRequiredProperties = []
+  setMissingRequiredProperties() {
+    this.missingRequiredProperties = [];
 
-    if @requiresLabel
-      unless _.values(@model.get('labels')).length > 0
-        @missingRequiredProperties.push _.i18n('title')
+    if (this.requiresLabel) {
+      if (_.values(this.model.get('labels')).length <= 0) {
+        this.missingRequiredProperties.push(_.i18n('title'));
+      }
+    }
 
-    for property in @requiredProperties
-      unless @model.get("claims.#{property}")?.length > 0
-        labelKey = propertiesPerType[@model.type][property].customLabel or property
-        @missingRequiredProperties.push _.i18n(labelKey)
+    for (let property of this.requiredProperties) {
+      if (this.model.get(`claims.${property}`)?.length <= 0) {
+        const labelKey = propertiesPerType[this.model.type][property].customLabel || property;
+        this.missingRequiredProperties.push(_.i18n(labelKey));
+      }
+    }
 
-    return
+  },
 
-  moveToWikidataData: ->
-    uri = @model.get 'uri'
+  moveToWikidataData() {
+    let reason;
+    const uri = this.model.get('uri');
 
-    # An entity being created on Inventaire won't have a URI at this point
-    if not uri? or isWikidataUri(uri) then return
+    // An entity being created on Inventaire won't have a URI at this point
+    if ((uri == null) || isWikidataUri(uri)) { return; }
 
-    type = @model.get 'type'
-    if type is 'edition'
-      reason = _.i18n "editions can't be moved to Wikidata for the moment"
-      return { ok: false, reason }
+    const type = this.model.get('type');
+    if (type === 'edition') {
+      reason = _.i18n("editions can't be moved to Wikidata for the moment");
+      return { ok: false, reason };
+    }
 
-    for property, values of @model.get('claims')
-      # Known case where properties[property] is undefined: wdt:P31
-      if properties[property]?.editorType is 'entity'
-        for value in values
-          unless isWikidataUri value
-            message = _.i18n "some values aren't Wikidata entities:"
-            reason = "#{message} #{_.i18n(unprefixify(property))}"
-            return { ok: false, reason }
+    const object = this.model.get('claims');
+    for (let property in object) {
+      // Known case where properties[property] is undefined: wdt:P31
+      const values = object[property];
+      if (properties[property]?.editorType === 'entity') {
+        for (let value of values) {
+          if (!isWikidataUri(value)) {
+            const message = _.i18n("some values aren't Wikidata entities:");
+            reason = `${message} ${_.i18n(unprefixify(property))}`;
+            return { ok: false, reason };
+          }
+        }
+      }
+    }
 
-    return { ok: true }
+    return { ok: true };
+  },
 
-  moveToWikidata: ->
-    unless app.user.hasWikidataOauthTokens()
-      return app.execute 'show:wikidata:edit:intro:modal', @model
+  moveToWikidata() {
+    if (!app.user.hasWikidataOauthTokens()) {
+      return app.execute('show:wikidata:edit:intro:modal', this.model);
+    }
 
-    startLoading.call @, '#moveToWikidata'
+    startLoading.call(this, '#moveToWikidata');
 
-    uri = @model.get('uri')
-    moveToWikidata uri
-    # This should now redirect us to the new Wikidata edit page
-    .then -> app.execute 'show:entity:edit', uri
-    .catch error_.Complete('#moveToWikidata', false)
-    .catch forms_.catchAlert.bind(null, @)
+    const uri = this.model.get('uri');
+    return moveToWikidata(uri)
+    // This should now redirect us to the new Wikidata edit page
+    .then(() => app.execute('show:entity:edit', uri))
+    .catch(error_.Complete('#moveToWikidata', false))
+    .catch(forms_.catchAlert.bind(null, this));
+  }
+});
 
-isWikidataUri = (uri)-> uri.split(':')[0] is 'wd'
+var isWikidataUri = uri => uri.split(':')[0] === 'wd';
 
-possessives =
-  work: "work's"
-  edition: "edition's"
-  serie: "series'"
-  human: "author's"
-  publisher: "publisher's"
+var possessives = {
+  work: "work's",
+  edition: "edition's",
+  serie: "series'",
+  human: "author's",
+  publisher: "publisher's",
   collection: "collection's"
+};
 
-inventoryTypes = [ 'work', 'edition' ]
+var inventoryTypes = [ 'work', 'edition' ];

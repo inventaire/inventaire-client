@@ -1,32 +1,41 @@
-{ getColorSquareDataUriFromModelId } = require 'lib/images'
-{ getById } = require '../lib/shelves'
-error_ = require 'lib/error'
+import { getColorSquareDataUriFromModelId } from 'lib/images';
+import { getById } from '../lib/shelves';
+import error_ from 'lib/error';
 
-module.exports = Backbone.Model.extend
-  initialize: (attrs)->
-    { name } = attrs
+export default Backbone.Model.extend({
+  initialize(attrs){
+    const { name } = attrs;
 
-    unless name? then throw error_.new 'invalid shelf', 500, attrs
+    if (name == null) { throw error_.new('invalid shelf', 500, attrs); }
 
-    @set
-      pathname: "/shelves/#{attrs._id}"
+    this.set({
+      pathname: `/shelves/${attrs._id}`,
       type: 'shelf'
+    });
 
-    unless @get('picture')?
-      @set 'picture', getColorSquareDataUriFromModelId @get('_id')
+    if (this.get('picture') == null) {
+      this.set('picture', getColorSquareDataUriFromModelId(this.get('_id')));
+    }
 
-    # The listing is only known for the main user's shelves
-    shelfListing = @get('listing')
-    if shelfListing?
-      listingKeys = app.user.listings.data[shelfListing]
-      @set
-        icon: listingKeys.icon
+    // The listing is only known for the main user's shelves
+    const shelfListing = this.get('listing');
+    if (shelfListing != null) {
+      const listingKeys = app.user.listings.data[shelfListing];
+      return this.set({
+        icon: listingKeys.icon,
         label: listingKeys.label
+      });
+    }
+  },
 
-  updateMetadata: ->
-    title: @get 'name'
-    description: @get 'description'
-    image: @get 'picture'
-    url: @get 'pathname'
-    # TODO: implement shelves RSS feeds server-side
-    # rss: @getRss()
+  updateMetadata() {
+    return {
+      title: this.get('name'),
+      description: this.get('description'),
+      image: this.get('picture'),
+      url: this.get('pathname')
+    };
+  }
+});
+// TODO: implement shelves RSS feeds server-side
+// rss: @getRss()

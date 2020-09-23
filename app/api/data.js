@@ -1,5 +1,6 @@
-{ action } = require('./endpoint')('data')
+const { action } = require('./endpoint')('data');
 
-module.exports =
-  wikipediaExtract: (lang, title)-> action 'wp-extract', { lang, title }
-  isbn: (isbn)-> action 'isbn', { isbn }
+export default {
+  wikipediaExtract(lang, title){ return action('wp-extract', { lang, title }); },
+  isbn(isbn){ return action('isbn', { isbn }); }
+};

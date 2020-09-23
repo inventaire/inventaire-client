@@ -1,16 +1,20 @@
-{ host } = require 'lib/urls'
-absolutePath = (url)-> if url?[0] is '/' then host + url else url
+import { host } from 'lib/urls';
+const absolutePath = function(url){ if (url?.[0] === '/') { return host + url; } else { return url; } };
 
-module.exports = (key, value, noCompletion)->
-  if key in withTransformers then transformers[key](value, noCompletion)
-  else value
+export default function(key, value, noCompletion){
+  if (withTransformers.includes(key)) { return transformers[key](value, noCompletion);
+  } else { return value; }
+};
 
-transformers =
-  title: (value, noCompletion)->
-    if noCompletion then value else "#{value} - Inventaire"
-  url: (canonical)-> host + canonical
-  image: (url)->
-    if url.match(/\d+x\d+/) then return absolutePath url
-    else absolutePath app.API.img(url)
+var transformers = {
+  title(value, noCompletion){
+    if (noCompletion) { return value; } else { return `${value} - Inventaire`; }
+  },
+  url(canonical){ return host + canonical; },
+  image(url){
+    if (url.match(/\d+x\d+/)) { return absolutePath(url);
+    } else { return absolutePath(app.API.img(url)); }
+  }
+};
 
-withTransformers = Object.keys transformers
+var withTransformers = Object.keys(transformers);

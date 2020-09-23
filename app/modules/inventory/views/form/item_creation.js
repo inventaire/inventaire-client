@@ -1,173 +1,204 @@
-EntityDataOverview = require 'modules/entities/views/entity_data_overview'
-ItemShelves = require '../item_shelves'
-{ listingsData, transactionsData, getSelectorData } = require 'modules/inventory/lib/item_creation'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
-UpdateSelector = require 'modules/inventory/behaviors/update_selector'
-Shelves = require 'modules/shelves/collections/shelves'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
+import EntityDataOverview from 'modules/entities/views/entity_data_overview';
+import ItemShelves from '../item_shelves';
+import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation';
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
+import UpdateSelector from 'modules/inventory/behaviors/update_selector';
+import Shelves from 'modules/shelves/collections/shelves';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
 
-ItemsList = Marionette.CollectionView.extend
-  childView: require 'modules/inventory/views/item_row'
+const ItemsList = Marionette.CollectionView.extend({
+  childView: require('modules/inventory/views/item_row')});
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/item_creation'
-  className: 'addEntity'
+export default Marionette.LayoutView.extend({
+  template: require('./templates/item_creation'),
+  className: 'addEntity',
 
-  regions:
-    existingEntityItemsRegion: '#existingEntityItems'
-    entityRegion: '#entity'
+  regions: {
+    existingEntityItemsRegion: '#existingEntityItems',
+    entityRegion: '#entity',
     shelvesSelector: '#shelvesSelector'
+  },
 
-  behaviors:
-    ElasticTextarea: {}
-    UpdateSelector:
+  behaviors: {
+    ElasticTextarea: {},
+    UpdateSelector: {
       behaviorClass: UpdateSelector
+    },
     AlertBox: {}
+  },
 
-  ui:
-    transaction: '#transaction'
-    listing: '#listing'
-    details: '#details'
-    notes: '#notes'
+  ui: {
+    transaction: '#transaction',
+    listing: '#listing',
+    details: '#details',
+    notes: '#notes',
     shelvesWrapper: '#shelvesWrapper'
+  },
 
-  initialize: ->
-    { @entity, @existingEntityItems } = @options
-    @initItemData()
-    @_lastAddMode = app.request 'last:add:mode:get'
+  initialize() {
+    ({ entity: this.entity, existingEntityItems: this.existingEntityItems } = this.options);
+    this.initItemData();
+    this._lastAddMode = app.request('last:add:mode:get');
 
-    @waitForExistingInstances = app.request 'item:main:user:entity:items', @entity.get('uri')
+    return this.waitForExistingInstances = app.request('item:main:user:entity:items', this.entity.get('uri'));
+  },
 
-  initItemData: ->
-    { entity, transaction } = @options
+  initItemData() {
+    const { entity, transaction } = this.options;
 
-    @itemData =
-      entity: entity.get 'uri'
-      transaction: guessTransaction transaction
-      listing: app.request 'last:listing:get'
-      shelves: app.request('last:shelves:get') or []
+    this.itemData = {
+      entity: entity.get('uri'),
+      transaction: guessTransaction(transaction),
+      listing: app.request('last:listing:get'),
+      shelves: app.request('last:shelves:get') || []
+    };
 
-    # We need to specify a lang for work entities
-    if entity.type is 'work' then @itemData.lang = guessLang entity
+    // We need to specify a lang for work entities
+    if (entity.type === 'work') { this.itemData.lang = guessLang(entity); }
 
-    unless @itemData.entity? then throw error_.new 'missing uri', @itemData
+    if (this.itemData.entity == null) { throw error_.new('missing uri', this.itemData); }
+  },
 
-  serializeData: ->
-    title = @entity.get 'label'
+  serializeData() {
+    const title = this.entity.get('label');
 
-    attrs =
-      title: title
-      listings: listingsData @itemData.listing
-      transactions: transactionsData @itemData.transaction
-      header: _.i18n 'add_item_text', { title }
+    const attrs = {
+      title,
+      listings: listingsData(this.itemData.listing),
+      transactions: transactionsData(this.itemData.transaction),
+      header: _.i18n('add_item_text', { title })
+    };
 
-    return attrs
+    return attrs;
+  },
 
-  onShow: ->
-    @showEntityData()
-    @showExistingInstances()
-    @showShelves()
+  onShow() {
+    this.showEntityData();
+    this.showExistingInstances();
+    return this.showShelves();
+  },
 
-  events:
-    'click #transaction': 'updateTransaction'
-    'click #listing': 'updateListing'
-    'click #cancel': 'cancel'
-    'click #validate': 'validateSimple'
+  events: {
+    'click #transaction': 'updateTransaction',
+    'click #listing': 'updateListing',
+    'click #cancel': 'cancel',
+    'click #validate': 'validateSimple',
     'click #validateAndAddNext': 'validateAndAddNext'
+  },
 
-  showEntityData: ->
-    @entityRegion.show new EntityDataOverview { model: @entity }
+  showEntityData() {
+    return this.entityRegion.show(new EntityDataOverview({ model: this.entity }));
+  },
 
-  showExistingInstances: ->
-    @waitForExistingInstances
-    .then (existingEntityItems)=>
-      if existingEntityItems.length is 0 then return
-      collection = new Backbone.Collection existingEntityItems
-      @$el.find('#existingEntityItemsWarning').show()
-      @existingEntityItemsRegion.show new ItemsList { collection }
+  showExistingInstances() {
+    return this.waitForExistingInstances
+    .then(existingEntityItems=> {
+      if (existingEntityItems.length === 0) { return; }
+      const collection = new Backbone.Collection(existingEntityItems);
+      this.$el.find('#existingEntityItemsWarning').show();
+      return this.existingEntityItemsRegion.show(new ItemsList({ collection }));
+  });
+  },
 
-  showShelves: ->
-    getShelvesByOwner app.user.id
-    .then @ifViewIsIntact('_showShelves')
-    .catch _.Error('showShelves err')
+  showShelves() {
+    return getShelvesByOwner(app.user.id)
+    .then(this.ifViewIsIntact('_showShelves'))
+    .catch(_.Error('showShelves err'));
+  },
 
-  _showShelves: (shelves)->
-    selectedShelves = @itemData.shelves
-    # TODO: offer to create shelves from this form instead
-    if shelves.length > 0
-      collection = new Shelves shelves, { selected: selectedShelves }
-      @shelvesSelector.show new ItemShelves {
+  _showShelves(shelves){
+    const selectedShelves = this.itemData.shelves;
+    // TODO: offer to create shelves from this form instead
+    if (shelves.length > 0) {
+      const collection = new Shelves(shelves, { selected: selectedShelves });
+      this.shelvesSelector.show(new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true
+      }));
+      return this.ui.shelvesWrapper.removeClass('hidden');
+    }
+  },
+
+  // TODO: update the UI for update errors
+  updateTransaction() {
+    const transaction = getSelectorData(this, 'transaction');
+    return this.itemData.transaction = transaction;
+  },
+
+  updateListing() {
+    const listing = getSelectorData(this, 'listing');
+    return this.itemData.listing = listing;
+  },
+
+  validateSimple() {
+    return this.createItem()
+    .then(function() {
+      const lastShelves = app.request('last:shelves:get');
+      if ((lastShelves != null) && (lastShelves.length === 1)) {
+        return app.execute('show:shelf', lastShelves[0]);
+      } else {
+        return app.execute('show:inventory:main:user');
       }
-      @ui.shelvesWrapper.removeClass 'hidden'
+    });
+  },
 
-  # TODO: update the UI for update errors
-  updateTransaction: ->
-    transaction = getSelectorData @, 'transaction'
-    @itemData.transaction = transaction
+  validateAndAddNext() {
+    return this.createItem()
+    .then(this.addNext.bind(this));
+  },
 
-  updateListing: ->
-    listing = getSelectorData @, 'listing'
-    @itemData.listing = listing
+  createItem() {
+    // the value of 'transaction' and 'listing' were updated on selectors clicks
+    this.itemData.details = this.ui.details.val();
+    this.itemData.notes = this.ui.notes.val();
+    this.itemData.shelves = this.getSelectedShelves();
 
-  validateSimple: ->
-    @createItem()
-    .then ->
-      lastShelves = app.request 'last:shelves:get'
-      if lastShelves? and lastShelves.length is 1
-        app.execute 'show:shelf', lastShelves[0]
-      else
-        app.execute 'show:inventory:main:user'
+    app.execute('last:shelves:set', this.itemData.shelves);
 
-  validateAndAddNext: ->
-    @createItem()
-    .then @addNext.bind(@)
+    return app.request('item:create', this.itemData)
+    .catch(error_.Complete('.panel'))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  createItem: ->
-    # the value of 'transaction' and 'listing' were updated on selectors clicks
-    @itemData.details = @ui.details.val()
-    @itemData.notes = @ui.notes.val()
-    @itemData.shelves = @getSelectedShelves()
+  getSelectedShelves() {
+    const selectedShelves = this.$el.find('.shelfSelector input')
+      .filter((i, el) => el.checked)
+      .map((i, el) => el.name.split('-')[1]);
+    return Array.from(selectedShelves);
+  },
 
-    app.execute 'last:shelves:set', @itemData.shelves
+  addNext() {
+    switch (this._lastAddMode) {
+      case 'search': return app.execute('show:add:layout:search');
+      case 'scan:embedded': return app.execute('show:scanner:embedded');
+      default:
+        // Known case: 'scan:zxing'
+        _.warn(this._lastAddMode, 'unknown or obsolete add mode');
+        return app.execute('show:add:layout');
+    }
+  },
 
-    app.request 'item:create', @itemData
-    .catch error_.Complete('.panel')
-    .catch forms_.catchAlert.bind(null, @)
+  cancel() {
+    if (Backbone.history.last.length > 0) { return window.history.back();
+    } else { return app.execute('show:home'); }
+  }
+});
 
-  getSelectedShelves: ->
-    selectedShelves = @$el.find '.shelfSelector input'
-      .filter (i, el)-> el.checked
-      .map (i, el)-> el.name.split('-')[1]
-    return Array.from selectedShelves
+var guessTransaction = function(transaction){
+  transaction = transaction || app.request('last:transaction:get');
+  if (transaction === 'null') { transaction = null; }
+  app.execute('last:transaction:set', transaction);
+  return transaction;
+};
 
-  addNext: ->
-    switch @_lastAddMode
-      when 'search' then app.execute 'show:add:layout:search'
-      when 'scan:embedded' then app.execute 'show:scanner:embedded'
-      else
-        # Known case: 'scan:zxing'
-        _.warn @_lastAddMode, 'unknown or obsolete add mode'
-        app.execute 'show:add:layout'
-
-  cancel: ->
-    if Backbone.history.last.length > 0 then window.history.back()
-    else app.execute 'show:home'
-
-guessTransaction = (transaction)->
-  transaction = transaction or app.request('last:transaction:get')
-  if transaction is 'null' then transaction = null
-  app.execute 'last:transaction:set', transaction
-  return transaction
-
-guessLang = (entity)->
-  { lang:userLang } = app.user
-  [ labels, originalLang ] = entity.gets 'labels', 'originalLang'
-  if labels[userLang]? then return userLang
-  if labels[originalLang]? then return originalLang
-  if labels.en? then return 'en'
-  # If none of the above worked, return the first lang we find
-  return Object.keys(labels)[0]
+var guessLang = function(entity){
+  const { lang:userLang } = app.user;
+  const [ labels, originalLang ] = Array.from(entity.gets('labels', 'originalLang'));
+  if (labels[userLang] != null) { return userLang; }
+  if (labels[originalLang] != null) { return originalLang; }
+  if (labels.en != null) { return 'en'; }
+  // If none of the above worked, return the first lang we find
+  return Object.keys(labels)[0];
+};

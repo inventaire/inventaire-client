@@ -1,91 +1,103 @@
-searchType = require '../lib/search/search_type'
-{ getEntityUri } = require '../lib/search/entities_uris_results'
-searchHumans = searchType 'humans'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import searchType from '../lib/search/search_type';
+import { getEntityUri } from '../lib/search/entities_uris_results';
+const searchHumans = searchType('humans');
+const { startLoading, stopLoading } = require('modules/general/plugins/behaviors');
 
-module.exports = Marionette.CompositeView.extend
-  id: 'deduplicateAuthors'
-  template: require './templates/deduplicate_authors'
-  childViewContainer: '.authors'
-  childView: require './author_layout'
-  # Lazy empty view: not really fitting the context
-  # but just showing that nothing was found
-  emptyView: require 'modules/inventory/views/no_item'
-  behaviors:
+export default Marionette.CompositeView.extend({
+  id: 'deduplicateAuthors',
+  template: require('./templates/deduplicate_authors'),
+  childViewContainer: '.authors',
+  childView: require('./author_layout'),
+  // Lazy empty view: not really fitting the context
+  // but just showing that nothing was found
+  emptyView: require('modules/inventory/views/no_item'),
+  behaviors: {
     Loading: {}
+  },
 
-  childViewOptions:
+  childViewOptions: {
     showActions: false
+  },
 
-  initialize: ->
-    @collection = new Backbone.Collection
-    { name } = @options
-    if name? then @showName name
-    else @fetchNames()
+  initialize() {
+    this.collection = new Backbone.Collection;
+    const { name } = this.options;
+    if (name != null) { return this.showName(name);
+    } else { return this.fetchNames(); }
+  },
 
-  fetchNames: ->
-    startLoading.call @, '.authors-loading'
+  fetchNames() {
+    startLoading.call(this, '.authors-loading');
 
-    _.preq.get app.API.entities.duplicates
-    .get 'names'
-    .then _.Log('names')
-    .tap stopLoading.bind(@)
-    .then (names)=>
-      @names = names
-      @render()
+    return _.preq.get(app.API.entities.duplicates)
+    .get('names')
+    .then(_.Log('names'))
+    .tap(stopLoading.bind(this))
+    .then(names=> {
+      this.names = names;
+      return this.render();
+    });
+  },
 
-  serializeData: -> { @names }
+  serializeData() { return { names: this.names }; },
 
-  events:
+  events: {
     'click .name': 'showNameFromEvent'
+  },
 
-  showNameFromEvent: (e)->
-    name = e.currentTarget.attributes['data-key'].value
-    $(e.currentTarget).addClass 'visited'
-    @showName name
+  showNameFromEvent(e){
+    const name = e.currentTarget.attributes['data-key'].value;
+    $(e.currentTarget).addClass('visited');
+    return this.showName(name);
+  },
 
-  showName: (name)->
-    @collection.reset()
-    startLoading.call @, '.authors-loading'
+  showName(name){
+    this.collection.reset();
+    startLoading.call(this, '.authors-loading');
 
-    app.execute 'querystring:set', 'name', name
+    app.execute('querystring:set', 'name', name);
 
-    @getHomonyms name
-    .then stopLoading.bind(@)
+    return this.getHomonyms(name)
+    .then(stopLoading.bind(this));
+  },
 
-  getHomonyms: (name)->
-    searchHumans name, 100
-    .then (humans)=>
-      # If there are many candidates, keep only those that look the closest, if any
-      if humans.length > 50
-        subset = humans.filter asNameMatch(name)
-        if subset.length > 1 then humans = subset
+  getHomonyms(name){
+    return searchHumans(name, 100)
+    .then(humans=> {
+      // If there are many candidates, keep only those that look the closest, if any
+      if (humans.length > 50) {
+        const subset = humans.filter(asNameMatch(name));
+        if (subset.length > 1) { humans = subset; }
+      }
 
-      # If there are still many candidates, truncate the list to make it less
-      # resource intensive
-      if humans.length > 50 then humans = humans[0..50]
+      // If there are still many candidates, truncate the list to make it less
+      // resource intensive
+      if (humans.length > 50) { humans = humans.slice(0, 51); }
 
-      uris = humans.map (human)-> getEntityUri(human.id or human._id)
+      const uris = humans.map(human => getEntityUri(human.id || human._id));
 
-      app.request 'get:entities:models', { uris }
-      .then _.Log('humans models')
-      .then @collection.add.bind(@collection)
+      return app.request('get:entities:models', { uris })
+      .then(_.Log('humans models'))
+      .then(this.collection.add.bind(this.collection));
+    });
+  },
 
-  setFilter: (filter)->
-    @filter = filter
-    @render()
+  setFilter(filter){
+    this.filter = filter;
+    return this.render();
+  }
+});
 
-asNameMatch = (name)-> (human)-> _.any _.values(human.labels), labelMatch(name)
+var asNameMatch = name => human => _.any(_.values(human.labels), labelMatch(name));
 
-labelMatch = (name)-> (label)-> normalize(label) is normalize(name)
+var labelMatch = name => label => normalize(label) === normalize(name);
 
-normalize = (name)->
-  name
-  .trim()
-  # Remove single letter for second names 'L.'
-  .replace /\s\w{1}\.\s?/g, ' '
-  # remove double spaces
-  .replace /\s\s/g, ' '
-  # remove special characters
-  .replace /[.\/\\,]/g, ''
-  .toLowerCase()
+var normalize = name => name
+.trim()
+// Remove single letter for second names 'L.'
+.replace(/\s\w{1}\.\s?/g, ' ')
+// remove double spaces
+.replace(/\s\s/g, ' ')
+// remove special characters
+.replace(/[.\/\\,]/g, '')
+.toLowerCase();

@@ -1,2 +1,1 @@
-module.exports =
-  'wdt:P747': require './edition_creation'
+export default {'wdt:P747': require('./edition_creation')};

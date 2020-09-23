@@ -1,66 +1,81 @@
-mergeEntities = require 'modules/entities/views/editor/lib/merge_entities'
-error_ = require 'lib/error'
+import mergeEntities from 'modules/entities/views/editor/lib/merge_entities';
+import error_ from 'lib/error';
 
-module.exports = Backbone.Model.extend
-  initialize: (attrs)->
-    unless @get('type')? then throw error_.new 'invalid task', 500, attrs
+export default Backbone.Model.extend({
+  initialize(attrs){
+    if (this.get('type') == null) { throw error_.new('invalid task', 500, attrs); }
 
-    @calculateGlobalScore()
+    this.calculateGlobalScore();
 
-    @set 'pathname', "/tasks/#{@id}"
+    return this.set('pathname', `/tasks/${this.id}`);
+  },
 
-  serializeData: ->
-    _.extend @toJSON(),
-      suspect: @suspect?.toJSON()
-      suggestion: @suggestion?.toJSON()
-      sources: @getSources()
-      sourcesCount: @get('externalSourcesOccurrences').length
+  serializeData() {
+    return _.extend(this.toJSON(), {
+      suspect: this.suspect?.toJSON(),
+      suggestion: this.suggestion?.toJSON(),
+      sources: this.getSources(),
+      sourcesCount: this.get('externalSourcesOccurrences').length
+    }
+    );
+  },
 
-  grabAuthor: (name)->
-    uri = @get "#{name}Uri"
-    @reqGrab 'get:entity:model', uri, name
-    .then (model)=>
-      resolvedUri = model.get 'uri'
-      if resolvedUri isnt uri
-        context = { task: @id, oldUri: uri, newUri: resolvedUri }
-        throw error_.new "#{name} uri is obsolete", 500, context
+  grabAuthor(name){
+    const uri = this.get(`${name}Uri`);
+    return this.reqGrab('get:entity:model', uri, name)
+    .then(model=> {
+      const resolvedUri = model.get('uri');
+      if (resolvedUri !== uri) {
+        const context = { task: this.id, oldUri: uri, newUri: resolvedUri };
+        throw error_.new(`${name} uri is obsolete`, 500, context);
+      }
 
-      model.initAuthorWorks()
+      return model.initAuthorWorks();
+    });
+  },
 
-  grabSuspect: -> @grabAuthor 'suspect'
+  grabSuspect() { return this.grabAuthor('suspect'); },
 
-  grabSuggestion: -> @grabAuthor 'suggestion'
+  grabSuggestion() { return this.grabAuthor('suggestion'); },
 
-  getOtherSuggestions: ->
-    @suspect.fetchMergeSuggestions()
+  getOtherSuggestions() {
+    return this.suspect.fetchMergeSuggestions();
+  },
 
-  updateMetadata: ->
-    type = @get('type') or 'task'
-    names = @suspect?.get('label') + ' / ' + @suggestion?.get('label')
-    title = "[#{_.i18n(type)}] #{names}"
-    return { title }
+  updateMetadata() {
+    const type = this.get('type') || 'task';
+    const names = this.suspect?.get('label') + ' / ' + this.suggestion?.get('label');
+    const title = `[${_.i18n(type)}] ${names}`;
+    return { title };
+  },
 
-  dismiss: ->
-    _.preq.put app.API.tasks.update,
-      id: @id
-      attribute: 'state'
+  dismiss() {
+    return _.preq.put(app.API.tasks.update, {
+      id: this.id,
+      attribute: 'state',
       value: 'dismissed'
+    }
+    );
+  },
 
-  merge: ->
-    mergeEntities @get('suspectUri'), @get('suggestionUri')
+  merge() {
+    return mergeEntities(this.get('suspectUri'), this.get('suggestionUri'));
+  },
 
-  calculateGlobalScore: ->
-    score = 0
-    externalSourcesOccurrencesCount = @get('externalSourcesOccurrences').length
-    score += 80 * externalSourcesOccurrencesCount
-    score += @get('lexicalScore')
-    score += @get('relationScore') * 10
-    @set 'globalScore', Math.trunc(score * 100) / 100
+  calculateGlobalScore() {
+    let score = 0;
+    const externalSourcesOccurrencesCount = this.get('externalSourcesOccurrences').length;
+    score += 80 * externalSourcesOccurrencesCount;
+    score += this.get('lexicalScore');
+    score += this.get('relationScore') * 10;
+    return this.set('globalScore', Math.trunc(score * 100) / 100);
+  },
 
-  getSources: ->
-    @get 'externalSourcesOccurrences'
-    .map (source)->
-      { url, uri, matchedTitles } = source
-      sourceTitle = 'Matched titles: ' + matchedTitles.join(', ')
-      if url then return { url, sourceTitle }
-      if uri then return { uri, sourceTitle }
+  getSources() {
+    return this.get('externalSourcesOccurrences')
+    .map(function(source){
+      const { url, uri, matchedTitles } = source;
+      const sourceTitle = 'Matched titles: ' + matchedTitles.join(', ');
+      if (url) { return { url, sourceTitle }; }
+      if (uri) { return { uri, sourceTitle }; }});
+  }});

@@ -1,95 +1,116 @@
-getActionKey = require 'lib/get_action_key'
-mergeEntities = require 'modules/entities/views/editor/lib/merge_entities'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
+import getActionKey from 'lib/get_action_key';
+import mergeEntities from 'modules/entities/views/editor/lib/merge_entities';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/work_picker'
+export default Marionette.ItemView.extend({
+  template: require('./templates/work_picker'),
 
-  ui:
-    workPickerSelect: '.workPickerSelect'
+  ui: {
+    workPickerSelect: '.workPickerSelect',
     workPickerValidate: '.validate'
+  },
 
-  initialize: ->
-    if @workPickerDisabled then return
-    { @worksWithOrdinal, @worksWithoutOrdinal, @_showWorkPicker } = @options
-    @workUri ?= @options.workUri
-    @afterMerge ?= @options.afterMerge
-    @_showWorkPicker ?= false
+  initialize() {
+    if (this.workPickerDisabled) { return; }
+    ({ worksWithOrdinal: this.worksWithOrdinal, worksWithoutOrdinal: this.worksWithoutOrdinal, _showWorkPicker: this._showWorkPicker } = this.options);
+    if (this.workUri == null) { this.workUri = this.options.workUri; }
+    if (this.afterMerge == null) { this.afterMerge = this.options.afterMerge; }
+    return this._showWorkPicker != null ? this._showWorkPicker : (this._showWorkPicker = false);
+  },
 
-  onRender: ->
-    if @workPickerDisabled then return
-    if @_showWorkPicker
-      @setTimeout @ui.workPickerSelect.focus.bind(@ui.workPickerSelect), 100
-      @startListingForChanges()
+  onRender() {
+    if (this.workPickerDisabled) { return; }
+    if (this._showWorkPicker) {
+      this.setTimeout(this.ui.workPickerSelect.focus.bind(this.ui.workPickerSelect), 100);
+      return this.startListingForChanges();
+    }
+  },
 
-  startListingForChanges: ->
-    if @_listingForChanges then return
-    @_listingForChanges = true
-    @listenTo @worksWithOrdinal, 'update', @lazyRender.bind(@)
-    @listenTo @worksWithoutOrdinal, 'update', @lazyRender.bind(@)
+  startListingForChanges() {
+    if (this._listingForChanges) { return; }
+    this._listingForChanges = true;
+    this.listenTo(this.worksWithOrdinal, 'update', this.lazyRender.bind(this));
+    return this.listenTo(this.worksWithoutOrdinal, 'update', this.lazyRender.bind(this));
+  },
 
-  behaviors:
+  behaviors: {
     AlertBox: {}
+  },
 
-  events:
-    'click .showWorkPicker': 'showWorkPicker'
-    'change .workPickerSelect': 'onSelectChange'
-    'click .validate': 'selectWork'
+  events: {
+    'click .showWorkPicker': 'showWorkPicker',
+    'change .workPickerSelect': 'onSelectChange',
+    'click .validate': 'selectWork',
     'keydown .workPickerSelect': 'onKeyDown'
+  },
 
-  onKeyDown: (e)->
-    key = getActionKey e
-    switch key
-      when 'esc' then @hideWorkPicker()
-      when 'enter' then @selectWork()
+  onKeyDown(e){
+    const key = getActionKey(e);
+    switch (key) {
+      case 'esc': return this.hideWorkPicker();
+      case 'enter': return this.selectWork();
+    }
+  },
 
-  selectWork: ->
-    uri = @ui.workPickerSelect.val()
-    unless _.isEntityUri(uri) then return
-    work = @findWorkByUri uri
-    unless work? then return
-    @onWorkSelected work
+  selectWork() {
+    const uri = this.ui.workPickerSelect.val();
+    if (!_.isEntityUri(uri)) { return; }
+    const work = this.findWorkByUri(uri);
+    if (work == null) { return; }
+    return this.onWorkSelected(work);
+  },
 
-  showWorkPicker: ->
-    @_showWorkPicker = true
-    @lazyRender()
+  showWorkPicker() {
+    this._showWorkPicker = true;
+    return this.lazyRender();
+  },
 
-  hideWorkPicker: ->
-    @_showWorkPicker = false
-    @lazyRender()
+  hideWorkPicker() {
+    this._showWorkPicker = false;
+    return this.lazyRender();
+  },
 
-  onSelectChange: ->
-    uri = @ui.workPickerSelect.val()
-    if _.isEntityUri uri then @ui.workPickerValidate.removeClass 'hidden'
-    else @ui.workPickerValidate.addClass 'hidden'
+  onSelectChange() {
+    const uri = this.ui.workPickerSelect.val();
+    if (_.isEntityUri(uri)) { return this.ui.workPickerValidate.removeClass('hidden');
+    } else { return this.ui.workPickerValidate.addClass('hidden'); }
+  },
 
-  getWorksList: ->
-    @worksWithOrdinal.serializeNonPlaceholderWorks()
-    .concat @worksWithoutOrdinal.serializeNonPlaceholderWorks()
-    .filter (work)=> work.uri isnt @workUri
+  getWorksList() {
+    return this.worksWithOrdinal.serializeNonPlaceholderWorks()
+    .concat(this.worksWithoutOrdinal.serializeNonPlaceholderWorks())
+    .filter(work=> work.uri !== this.workUri);
+  },
 
-  findWorkByUri: (uri)->
-    work = @worksWithOrdinal.findWhere { uri }
-    if work? then return work
-    work = @worksWithoutOrdinal.findWhere { uri }
-    if work? then return work
+  findWorkByUri(uri){
+    let work = this.worksWithOrdinal.findWhere({ uri });
+    if (work != null) { return work; }
+    work = this.worksWithoutOrdinal.findWhere({ uri });
+    if (work != null) { return work; }
+  },
 
-  # Defaults: assume it as a work model that needs to be merged
-  # Override the following methods for different behaviors
-  serializeData: ->
-    worksList: @getWorksList()
-    workPicker:
-      buttonIcon: 'compress'
-      buttonLabel: 'merge'
-      validateLabel: 'merge'
+  // Defaults: assume it as a work model that needs to be merged
+  // Override the following methods for different behaviors
+  serializeData() {
+    return {
+      worksList: this.getWorksList(),
+      workPicker: {
+        buttonIcon: 'compress',
+        buttonLabel: 'merge',
+        validateLabel: 'merge'
+      }
+    };
+  },
 
-  onWorkSelected: (work)->
-    fromUri = @model.get 'uri'
-    toUri = work.get 'uri'
+  onWorkSelected(work){
+    const fromUri = this.model.get('uri');
+    const toUri = work.get('uri');
 
-    @model.fetchSubEntities()
-    .then -> mergeEntities fromUri, toUri
-    .then @afterMerge.bind(@, work)
-    .catch error_.Complete('.workPicker', false)
-    .catch forms_.catchAlert.bind(null, @)
+    return this.model.fetchSubEntities()
+    .then(() => mergeEntities(fromUri, toUri))
+    .then(this.afterMerge.bind(this, work))
+    .catch(error_.Complete('.workPicker', false))
+    .catch(forms_.catchAlert.bind(null, this));
+  }
+});

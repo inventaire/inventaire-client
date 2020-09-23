@@ -1,25 +1,28 @@
-intervalId = null
-active = false
+let intervalId = null;
+let active = false;
 
-module.exports = ->
+export default function() {
 
-  showNetworkError = =>
-    if active then return
-    active = true
-    @ui.flashMessage.addClass 'active'
-    unless intervalId? then intervalId = setInterval checkState, 1000
+  const showNetworkError = () => {
+    if (active) { return; }
+    active = true;
+    this.ui.flashMessage.addClass('active');
+    if (intervalId == null) { return intervalId = setInterval(checkState, 1000); }
+  };
 
-  hideNetworkError = =>
-    unless active then return
-    active = false
-    @ui.flashMessage.removeClass 'active'
-    if intervalId?
-      clearInterval intervalId
-      intervalId = null
+  const hideNetworkError = () => {
+    if (!active) { return; }
+    active = false;
+    this.ui.flashMessage.removeClass('active');
+    if (intervalId != null) {
+      clearInterval(intervalId);
+      return intervalId = null;
+    }
+  };
 
-  checkState = ->
-    _.preq.get app.API.tests
-    .then hideNetworkError
+  var checkState = () => _.preq.get(app.API.tests)
+  .then(hideNetworkError);
 
-  app.commands.setHandlers
-    'flash:message:show:network:error': showNetworkError
+  return app.commands.setHandlers({
+    'flash:message:show:network:error': showNetworkError});
+};

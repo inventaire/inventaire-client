@@ -1,14 +1,15 @@
-wdLang = require 'wikidata-lang'
+import wdLang from 'wikidata-lang';
+import languages from './languages_data';
 
-languages = require './languages_data'
+const regionify = {};
 
-regionify = {}
+for (let lang in languages) {
+  const obj = languages[lang];
+  obj.lang = lang;
+  obj.native = wdLang.byCode[lang].native;
+  regionify[lang] = obj.defaultRegion;
+}
 
-for lang, obj of languages
-  obj.lang = lang
-  obj.native = wdLang.byCode[lang].native
-  regionify[lang] = obj.defaultRegion
+const langs = Object.keys(languages);
 
-langs = Object.keys languages
-
-module.exports = { languages, langs, regionify }
+export { languages, langs, regionify };

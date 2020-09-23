@@ -1,23 +1,28 @@
-module.exports = Marionette.ItemView.extend
-  className: 'userContribution'
-  template: require './templates/user_contribution'
-  tagName: 'li'
+export default Marionette.ItemView.extend({
+  className: 'userContribution',
+  template: require('./templates/user_contribution'),
+  tagName: 'li',
 
-  ui:
-    operations: '.operations'
+  ui: {
+    operations: '.operations',
     togglers: '.togglers span'
+  },
 
-  modelEvents:
+  modelEvents: {
     'grab': 'lazyRender'
+  },
 
-  serializeData: -> @model.serializeData()
+  serializeData() { return this.model.serializeData(); },
 
-  events:
+  events: {
     'click .header': 'toggleOperations'
+  },
 
-  toggleOperations: (e)->
-    # Prevent toggling when the intent was clicking on a link
-    if e.target.tagName is 'A' then return
+  toggleOperations(e){
+    // Prevent toggling when the intent was clicking on a link
+    if (e.target.tagName === 'A') { return; }
 
-    @ui.operations.toggleClass 'hidden'
-    @ui.togglers.toggleClass 'hidden'
+    this.ui.operations.toggleClass('hidden');
+    return this.ui.togglers.toggleClass('hidden');
+  }
+});

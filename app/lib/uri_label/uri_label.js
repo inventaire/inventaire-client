@@ -1,100 +1,115 @@
-# internalized version of https://github.com/googleknowledge/qlabel
+// internalized version of https://github.com/googleknowledge/qlabel
 
-# How to:
-# - Display html nodes with the hereafter defined class
-#   and passing the node Qid as attribute
-# - Trigger uriLabel.update to make it look for those elements
-#   and replace their text by the best label it can find for the Qid
+// How to:
+// - Display html nodes with the hereafter defined class
+//   and passing the node Qid as attribute
+// - Trigger uriLabel.update to make it look for those elements
+//   and replace their text by the best label it can find for the Qid
 
-# keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
-className = 'uriLabel'
-selector = ".#{className}"
-attribute = 'data-label-uri'
+// keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
+const className = 'uriLabel';
+const selector = `.${className}`;
+const attribute = 'data-label-uri';
 
-wd_ = require 'lib/wikimedia/wikidata'
-getOriginalLang = require 'modules/entities/lib/get_original_lang'
-{ getLabel, setLabel, getKnownUris, resetLabels, addPreviouslyMissingUris, wasntPrevisoulyMissing } = require './labels_helpers'
+import wd_ from 'lib/wikimedia/wikidata';
+import getOriginalLang from 'modules/entities/lib/get_original_lang';
 
-{ get:getEntitiesModels } = require 'modules/entities/lib/entities_models_index'
+import {
+  getLabel,
+  setLabel,
+  getKnownUris,
+  resetLabels,
+  addPreviouslyMissingUris,
+  wasntPrevisoulyMissing,
+} from './labels_helpers';
 
-elements = null
-refresh = false
+import { get as getEntitiesModels } from 'modules/entities/lib/entities_models_index';
 
-getUris = (el)-> el.getAttribute attribute
-getElements = -> document.querySelectorAll selector
+const elements = null;
+let refresh = false;
 
-gatherRequiredUris = -> [].map.call getElements(), getUris
+const getUris = el => el.getAttribute(attribute);
+const getElements = () => document.querySelectorAll(selector);
 
-display = ->
-  # new elements might have appeared since gatherRequiredUris
-  # was fired, and they could possibly have known uri, thus the interest
-  # of re-querying elements
-  for el in getElements()
-    uri = getUris el
-    if uri?
-      label = getLabel uri
-      if label?
-        el.textContent = label
-        # remove the class so that it doesn't re-appear in the next queries
-        el.className = el.className.replace className, ''
+const gatherRequiredUris = () => [].map.call(getElements(), getUris);
 
-  return
+const display = function() {
+  // new elements might have appeared since gatherRequiredUris
+  // was fired, and they could possibly have known uri, thus the interest
+  // of re-querying elements
+  for (let el of getElements()) {
+    const uri = getUris(el);
+    if (uri != null) {
+      const label = getLabel(uri);
+      if (label != null) {
+        el.textContent = label;
+        // remove the class so that it doesn't re-appear in the next queries
+        el.className = el.className.replace(className, '');
+      }
+    }
+  }
 
-getEntities = (uris)->
-  if uris.length is 0 then return
+};
 
-  getEntitiesModels { uris, refresh }
-  .then addEntitiesLabels
-  # /!\ Not waiting for the update to run
-  # but simply calling the debounced function
-  .then debouncedUpdate
-  .catch _.Error('uri_label getEntities err')
+const getEntities = function(uris){
+  if (uris.length === 0) { return; }
 
-addEntitiesLabels = (entitiesModels)->
-  for uri, entityModel of entitiesModels
-    setLabel uri, entityModel.get('label')
-  return
+  return getEntitiesModels({ uris, refresh })
+  .then(addEntitiesLabels)
+  // /!\ Not waiting for the update to run
+  // but simply calling the debounced function
+  .then(debouncedUpdate)
+  .catch(_.Error('uri_label getEntities err'));
+};
 
-getMissingEntities = (uris)->
-  missingUris = _.difference uris, getKnownUris()
-  # Avoid refetching URIs: either the data is about to arrive
-  # or the data is missing (in case of failing connection to Wikidata for instance)
-  # and it would keep requesting it if not filtered-out
-  urisToFetch = missingUris.filter wasntPrevisoulyMissing
-  addPreviouslyMissingUris missingUris
-  if urisToFetch.length > 0 then return getEntities urisToFetch
-  else return Promise.resolve()
+var addEntitiesLabels = function(entitiesModels){
+  for (let uri in entitiesModels) {
+    const entityModel = entitiesModels[uri];
+    setLabel(uri, entityModel.get('label'));
+  }
+};
 
-update = ->
-  uris = gatherRequiredUris()
+const getMissingEntities = function(uris){
+  const missingUris = _.difference(uris, getKnownUris());
+  // Avoid refetching URIs: either the data is about to arrive
+  // or the data is missing (in case of failing connection to Wikidata for instance)
+  // and it would keep requesting it if not filtered-out
+  const urisToFetch = missingUris.filter(wasntPrevisoulyMissing);
+  addPreviouslyMissingUris(missingUris);
+  if (urisToFetch.length > 0) { return getEntities(urisToFetch);
+  } else { return Promise.resolve(); }
+};
 
-  # Do not trigger display when no uri was found at this stage
-  if uris.length is 0 then return
+const update = function() {
+  const uris = gatherRequiredUris();
 
-  getMissingEntities uris
-  # Trigger display even if missingUris.length is 0
-  # has there might be new elements with a known uri
-  # but that have not be displayed yet
-  .then display
-  .catch _.Error('uriLabel err')
+  // Do not trigger display when no uri was found at this stage
+  if (uris.length === 0) { return; }
 
-  # no need to return the promise
-  return null
+  getMissingEntities(uris)
+  // Trigger display even if missingUris.length is 0
+  // has there might be new elements with a known uri
+  // but that have not be displayed yet
+  .then(display)
+  .catch(_.Error('uriLabel err'));
 
-# Due to the specific flow of uriLabel, which updates are triggered from
-# several places, it would be hard to pass a 'refresh' argument,
-# thus this slightly hacky solution: one can open a 5 seconds window
-# during which, qlabels will be taken directly from Wikidata API,
-# thank to getEntities passing the refresh request to the local cache
-refreshData = ->
-  refresh = true
-  resetLabels()
-  setTimeout endRefreshMode, 5000
+  // no need to return the promise
+  return null;
+};
 
-endRefreshMode = -> refresh = false
+// Due to the specific flow of uriLabel, which updates are triggered from
+// several places, it would be hard to pass a 'refresh' argument,
+// thus this slightly hacky solution: one can open a 5 seconds window
+// during which, qlabels will be taken directly from Wikidata API,
+// thank to getEntities passing the refresh request to the local cache
+const refreshData = function() {
+  refresh = true;
+  resetLabels();
+  return setTimeout(endRefreshMode, 5000);
+};
 
-debouncedUpdate = _.debounce update, 200
+var endRefreshMode = () => refresh = false;
 
-module.exports =
-  update: debouncedUpdate
-  refreshData: refreshData
+var debouncedUpdate = _.debounce(update, 200);
+
+export { debouncedUpdate as update, refreshData };

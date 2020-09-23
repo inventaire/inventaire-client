@@ -1,35 +1,38 @@
-ItemCreationForm = require '../views/form/item_creation'
-EditionsList = require 'modules/entities/views/editions_list'
-error_ = require 'lib/error'
+import ItemCreationForm from '../views/form/item_creation';
+import EditionsList from 'modules/entities/views/editions_list';
+import error_ from 'lib/error';
 
-module.exports = (params)->
-  { entity } = params
-  unless entity? then throw new Error 'missing entity'
+export default function(params){
+  const { entity } = params;
+  if (entity == null) { throw new Error('missing entity'); }
 
-  { type } = entity
-  unless type? then throw new Error 'missing entity type'
+  const { type } = entity;
+  if (type == null) { throw new Error('missing entity type'); }
 
-  pathname = entity.get('pathname') + '/add'
-  unless app.request 'require:loggedIn', pathname then return
+  const pathname = entity.get('pathname') + '/add';
+  if (!app.request('require:loggedIn', pathname)) { return; }
 
-  # It is not possible anymore to create items from works
-  if type is 'work' then return showEditionPicker entity
+  // It is not possible anymore to create items from works
+  if (type === 'work') { return showEditionPicker(entity); }
 
-  # Close the modal in case it was opened by showEditionPicker
-  app.execute 'modal:close'
+  // Close the modal in case it was opened by showEditionPicker
+  app.execute('modal:close');
 
-  if type isnt 'edition' then throw new Error "invalid entity type: #{type}"
+  if (type !== 'edition') { throw new Error(`invalid entity type: ${type}`); }
 
-  uri = entity.get 'uri'
+  const uri = entity.get('uri');
 
-  app.layout.main.show new ItemCreationForm params
-  app.navigate pathname
+  app.layout.main.show(new ItemCreationForm(params));
+  return app.navigate(pathname);
+};
 
-showEditionPicker = (work)->
-  work.fetchSubEntities()
-  .then ->
-    app.layout.modal.show new EditionsList
-      collection: work.editions
-      work: work
-      header: 'select an edition'
-    app.execute 'modal:open', 'large'
+var showEditionPicker = work => work.fetchSubEntities()
+.then(function() {
+  app.layout.modal.show(new EditionsList({
+    collection: work.editions,
+    work,
+    header: 'select an edition'
+  })
+  );
+  return app.execute('modal:open', 'large');
+});

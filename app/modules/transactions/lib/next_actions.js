@@ -1,36 +1,41 @@
-{ findNextActions, isArchived } = require './transactions'
-infoPartials = require './info_partials'
-actionsData = require './actions_data'
+import { findNextActions, isArchived } from './transactions';
+import infoPartials from './info_partials';
+import actionsData from './actions_data';
 
-getNextActionsData = (transaction)->
-  nextActions = proxyFindNextActions transaction
-  data = actionsData()[nextActions]
-  unless data? then return
-  data = addTransactionInfo data, transaction
-  grabOtherUsername transaction, data
+const getNextActionsData = function(transaction){
+  const nextActions = proxyFindNextActions(transaction);
+  let data = actionsData()[nextActions];
+  if (data == null) { return; }
+  data = addTransactionInfo(data, transaction);
+  return grabOtherUsername(transaction, data);
+};
 
-# TODO: remove the adapter now that the lib isn't shared with the server anymore
-proxyFindNextActions = (transaction)->
-  findNextActions sharedLibAdapter(transaction)
+// TODO: remove the adapter now that the lib isn't shared with the server anymore
+var proxyFindNextActions = transaction => findNextActions(sharedLibAdapter(transaction));
 
-sharedLibAdapter = (transaction)->
-  name: transaction.get 'transaction'
-  state: transaction.get 'state'
+var sharedLibAdapter = transaction => ({
+  name: transaction.get('transaction'),
+  state: transaction.get('state'),
   mainUserIsOwner: transaction.mainUserIsOwner
+});
 
-addTransactionInfo = (data, transaction)->
-  transactionMode = transaction.get 'transaction'
-  data.map (action)->
-    action[transactionMode] = true
-    action.itemId = transaction.get 'item'
-    infoData = infoPartials[transactionMode][action.text]
-    if infoData? then _.extend action, infoData
-    return action
+var addTransactionInfo = function(data, transaction){
+  const transactionMode = transaction.get('transaction');
+  return data.map(function(action){
+    action[transactionMode] = true;
+    action.itemId = transaction.get('item');
+    const infoData = infoPartials[transactionMode][action.text];
+    if (infoData != null) { _.extend(action, infoData); }
+    return action;
+  });
+};
 
-grabOtherUsername = (transaction, actions)->
-  username = transaction.otherUser()?.get('username')
-  actions.map (action)-> _.extend {}, action, { username }
+var grabOtherUsername = function(transaction, actions){
+  const username = transaction.otherUser()?.get('username');
+  return actions.map(action => _.extend({}, action, { username }));
+};
 
-module.exports =
-  getNextActionsData: getNextActionsData
-  isArchived: (transaction)-> isArchived sharedLibAdapter(transaction)
+export default {
+  getNextActionsData,
+  isArchived(transaction){ return isArchived(sharedLibAdapter(transaction)); }
+};

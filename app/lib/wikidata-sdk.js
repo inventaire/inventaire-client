@@ -1,25 +1,29 @@
-# A tree-shaked version of wikidata-sdk to fit the client's exact needs
-# https://github.com/maxlath/wikidata-sdk
+// A tree-shaked version of wikidata-sdk to fit the client's exact needs
+// https://github.com/maxlath/wikidata-sdk
 
-{ buildPath } = require 'lib/location'
+import { buildPath } from 'lib/location';
 
-module.exports =
-  searchEntities: (params)->
-    { search, limit, offset } = params
+export default {
+  searchEntities(params){
+    const { search, limit, offset } = params;
 
-    unless search?.length > 0 then throw new Error "search can't be empty"
+    if (search?.length <= 0) { throw new Error("search can't be empty"); }
 
-    { lang } = app.user
+    const { lang } = app.user;
 
-    return buildPath 'https://www.wikidata.org/w/api.php',
-      action: 'wbsearchentities'
-      search: search
-      language: lang
-      uselang: lang
-      limit: limit
-      continue: offset
-      format: 'json'
+    return buildPath('https://www.wikidata.org/w/api.php', {
+      action: 'wbsearchentities',
+      search,
+      language: lang,
+      uselang: lang,
+      limit,
+      continue: offset,
+      format: 'json',
       origin: '*'
+    }
+    );
+  },
 
-  isWikidataItemId: (id)-> /^Q[0-9]+$/.test id
-  isWikidataPropertyId: (id)-> /^P[0-9]+$/.test id
+  isWikidataItemId(id){ return /^Q[0-9]+$/.test(id); },
+  isWikidataPropertyId(id){ return /^P[0-9]+$/.test(id); }
+};

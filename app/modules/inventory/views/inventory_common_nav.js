@@ -1,11 +1,12 @@
-UserProfile = require './user_profile'
-GroupProfile = require './group_profile'
-SectionList = require './inventory_section_list'
-screen_ = require 'lib/screen'
+import UserProfile from './user_profile';
+import GroupProfile from './group_profile';
+import SectionList from './inventory_section_list';
+import screen_ from 'lib/screen';
 
-module.exports = Marionette.LayoutView.extend
-  regions:
-    usersList: '#usersList'
+export default Marionette.LayoutView.extend({
+  regions: {
+    usersList: '#usersList',
     groupsList: '#groupsList'
+  },
 
-  showList: (region, collection)-> region.show new SectionList { collection }
+  showList(region, collection){ return region.show(new SectionList({ collection })); }});

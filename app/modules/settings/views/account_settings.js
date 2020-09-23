@@ -1,156 +1,189 @@
-email_ = require 'modules/user/lib/email_tests'
-password_ = require 'modules/user/lib/password_tests'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ languages: activeLanguages } = require 'lib/active_languages'
-{ testAttribute, pickerData } = require '../lib/helpers'
+import email_ from 'modules/user/lib/email_tests';
+import password_ from 'modules/user/lib/password_tests';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import { languages as activeLanguages } from 'lib/active_languages';
+import { testAttribute, pickerData } from '../lib/helpers';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/account_settings'
-  className: 'accountSettings'
-  behaviors:
-    AlertBox: {}
-    SuccessCheck: {}
-    Loading: {}
+export default Marionette.ItemView.extend({
+  template: require('./templates/account_settings'),
+  className: 'accountSettings',
+  behaviors: {
+    AlertBox: {},
+    SuccessCheck: {},
+    Loading: {},
     TogglePassword: {}
+  },
 
-  ui:
-    email: '#emailField'
-    currentPassword: '#currentPassword'
-    newPassword: '#newPassword'
-    passwords: '.password'
-    passwordUpdater: '#passwordUpdater'
+  ui: {
+    email: '#emailField',
+    currentPassword: '#currentPassword',
+    newPassword: '#newPassword',
+    passwords: '.password',
+    passwordUpdater: '#passwordUpdater',
     languagePicker: '#languagePicker'
+  },
 
-  initialize: ->
-    _.extend @, behaviorsPlugin
+  initialize() {
+    return _.extend(this, behaviorsPlugin);
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    return _.extend attrs,
-      emailPicker: @emailPickerData()
-      languages: _.log @languagesData(), 'languagesData'
+  serializeData() {
+    const attrs = this.model.toJSON();
+    return _.extend(attrs, {
+      emailPicker: this.emailPickerData(),
+      languages: _.log(this.languagesData(), 'languagesData')
+    }
+    );
+  },
 
-  emailPickerData: -> pickerData @model, 'email'
+  emailPickerData() { return pickerData(this.model, 'email'); },
 
-  languagesData: ->
-    languages = _.deepClone activeLanguages
-    currentLanguage = _.shortLang @model.get('language')
-    if languages[currentLanguage]?
-      languages[currentLanguage].selected = true
-    return languages
+  languagesData() {
+    const languages = _.deepClone(activeLanguages);
+    const currentLanguage = _.shortLang(this.model.get('language'));
+    if (languages[currentLanguage] != null) {
+      languages[currentLanguage].selected = true;
+    }
+    return languages;
+  },
 
-  events:
-    'click a#emailButton': 'updateEmail'
-    'click a#emailConfirmationRequest': 'emailConfirmationRequest'
-    'change select#languagePicker': 'changeLanguage'
-    'click a#updatePassword': 'updatePassword'
-    'click #forgotPassword': -> app.execute 'show:forgot:password'
+  events: {
+    'click a#emailButton': 'updateEmail',
+    'click a#emailConfirmationRequest': 'emailConfirmationRequest',
+    'change select#languagePicker': 'changeLanguage',
+    'click a#updatePassword': 'updatePassword',
+    'click #forgotPassword'() { return app.execute('show:forgot:password'); },
     'click #deleteAccount': 'askDeleteAccountConfirmation'
+  },
 
-  # EMAIL
+  // EMAIL
 
-  updateEmail: ->
-    email = @ui.email.val()
-    Promise.try @testEmail.bind(@, email)
-    .then @startLoading.bind(@, '#emailButton')
-    .then email_.verifyAvailability.bind(null, email, '#emailField')
-    .then @sendEmailRequest.bind(@, email)
-    .then @showConfirmationEmailSuccessMessage.bind(@)
-    .catch forms_.catchAlert.bind(null, @)
-    .finally @hardStopLoading.bind(@)
+  updateEmail() {
+    const email = this.ui.email.val();
+    return Promise.try(this.testEmail.bind(this, email))
+    .then(this.startLoading.bind(this, '#emailButton'))
+    .then(email_.verifyAvailability.bind(null, email, '#emailField'))
+    .then(this.sendEmailRequest.bind(this, email))
+    .then(this.showConfirmationEmailSuccessMessage.bind(this))
+    .catch(forms_.catchAlert.bind(null, this))
+    .finally(this.hardStopLoading.bind(this));
+  },
 
-  testEmail: (email)->
-    testAttribute 'email', email, email_
+  testEmail(email){
+    return testAttribute('email', email, email_);
+  },
 
-  sendEmailRequest: (email)->
-    _.preq.get app.API.auth.emailAvailability(email)
-    .get 'email'
-    .then @sendEmailChangeRequest
+  sendEmailRequest(email){
+    return _.preq.get(app.API.auth.emailAvailability(email))
+    .get('email')
+    .then(this.sendEmailChangeRequest);
+  },
 
-  sendEmailChangeRequest: (email)->
-    app.request 'user:update',
-      attribute: 'email'
-      value: email
+  sendEmailChangeRequest(email){
+    return app.request('user:update', {
+      attribute: 'email',
+      value: email,
       selector: '#emailField'
+    }
+    );
+  },
 
-  hardStopLoading: ->
-    # triggering stopLoading wasnt working
-    # temporary solution
-    @$el.find('.loading').empty()
+  hardStopLoading() {
+    // triggering stopLoading wasnt working
+    // temporary solution
+    return this.$el.find('.loading').empty();
+  },
 
-  # EMAIL CONFIRMATION
-  emailConfirmationRequest: ->
-    $('#notValidEmail').fadeOut()
-    app.request 'email:confirmation:request'
-    .then @showConfirmationEmailSuccessMessage
+  // EMAIL CONFIRMATION
+  emailConfirmationRequest() {
+    $('#notValidEmail').fadeOut();
+    return app.request('email:confirmation:request')
+    .then(this.showConfirmationEmailSuccessMessage);
+  },
 
-  showConfirmationEmailSuccessMessage: ->
-    $('#confirmationEmailSent').fadeIn()
-    $('#emailButton').once 'click', @hideConfirmationEmailSent
+  showConfirmationEmailSuccessMessage() {
+    $('#confirmationEmailSent').fadeIn();
+    return $('#emailButton').once('click', this.hideConfirmationEmailSent);
+  },
 
-  hideConfirmationEmailSent: ->
-    $('#confirmationEmailSent').fadeOut()
+  hideConfirmationEmailSent() {
+    return $('#confirmationEmailSent').fadeOut();
+  },
 
-  # PASSWORD
+  // PASSWORD
 
-  updatePassword: ->
-    currentPassword = @ui.currentPassword.val()
-    newPassword = @ui.newPassword.val()
+  updatePassword() {
+    const currentPassword = this.ui.currentPassword.val();
+    const newPassword = this.ui.newPassword.val();
 
-    Promise.try -> password_.pass currentPassword, '#currentPasswordAlert'
-    .then -> password_.pass newPassword, '#newPasswordAlert'
-    .then @startLoading.bind(@, '#updatePassword')
-    .then @confirmCurrentPassword.bind(@, currentPassword)
-    .then @updateUserPassword.bind(@, currentPassword, newPassword)
-    .then @ifViewIsIntact('passwordSuccessCheck')
-    .catch @ifViewIsIntact('passwordFail')
-    .catch forms_.catchAlert.bind(null, @)
-    .finally @stopLoading.bind(@)
+    return Promise.try(() => password_.pass(currentPassword, '#currentPasswordAlert'))
+    .then(() => password_.pass(newPassword, '#newPasswordAlert'))
+    .then(this.startLoading.bind(this, '#updatePassword'))
+    .then(this.confirmCurrentPassword.bind(this, currentPassword))
+    .then(this.updateUserPassword.bind(this, currentPassword, newPassword))
+    .then(this.ifViewIsIntact('passwordSuccessCheck'))
+    .catch(this.ifViewIsIntact('passwordFail'))
+    .catch(forms_.catchAlert.bind(null, this))
+    .finally(this.stopLoading.bind(this));
+  },
 
-  confirmCurrentPassword: (currentPassword)->
-    app.request 'password:confirmation', currentPassword
-    .catch (err)->
-      if err.statusCode is 401
-        err = error_.new 'wrong password', 400
-        err.selector = '#currentPasswordAlert'
-        throw err
-      else throw err
+  confirmCurrentPassword(currentPassword){
+    return app.request('password:confirmation', currentPassword)
+    .catch(function(err){
+      if (err.statusCode === 401) {
+        err = error_.new('wrong password', 400);
+        err.selector = '#currentPasswordAlert';
+        throw err;
+      } else { throw err; }
+    });
+  },
 
-  updateUserPassword: (currentPassword, newPassword)->
-    app.request 'password:update', currentPassword, newPassword
+  updateUserPassword(currentPassword, newPassword){
+    return app.request('password:update', currentPassword, newPassword);
+  },
 
-  passwordSuccessCheck: ->
-    @ui.passwords.val('')
-    @ui.passwordUpdater.trigger('check')
+  passwordSuccessCheck() {
+    this.ui.passwords.val('');
+    return this.ui.passwordUpdater.trigger('check');
+  },
 
-  passwordFail: (err)->
-    @ui.passwordUpdater.trigger('fail')
-    throw err
+  passwordFail(err){
+    this.ui.passwordUpdater.trigger('fail');
+    throw err;
+  },
 
-  # LANGUAGE
-  changeLanguage: (e)->
-    app.request 'user:update',
-      attribute:'language'
-      value: e.target.value
+  // LANGUAGE
+  changeLanguage(e){
+    return app.request('user:update', {
+      attribute:'language',
+      value: e.target.value,
       selector: '#languagePicker'
+    }
+    );
+  },
 
-  # DELETE ACCOUNT
-  askDeleteAccountConfirmation: ->
-    args = { username: @model.get('username') }
-    app.execute 'ask:confirmation',
-      confirmationText: _.i18n('delete_account_confirmation', args)
-      warningText: _.i18n 'cant_undo_warning'
-      action: @model.deleteAccount.bind(@model)
-      selector: '#usernameGroup'
-      formAction: sendDeletionFeedback
-      formLabel: "that would really help us if you could say a few words about why you're leaving:"
-      formPlaceholder: "our love wasn't possible because"
-      yes: 'delete your account'
+  // DELETE ACCOUNT
+  askDeleteAccountConfirmation() {
+    const args = { username: this.model.get('username') };
+    return app.execute('ask:confirmation', {
+      confirmationText: _.i18n('delete_account_confirmation', args),
+      warningText: _.i18n('cant_undo_warning'),
+      action: this.model.deleteAccount.bind(this.model),
+      selector: '#usernameGroup',
+      formAction: sendDeletionFeedback,
+      formLabel: "that would really help us if you could say a few words about why you're leaving:",
+      formPlaceholder: "our love wasn't possible because",
+      yes: 'delete your account',
       no: 'cancel'
+    }
+    );
+  }
+});
 
-sendDeletionFeedback = (message)->
-  _.preq.post app.API.feedback,
-    subject: '[account deletion]'
-    message: message
+var sendDeletionFeedback = message => _.preq.post(app.API.feedback, {
+  subject: '[account deletion]',
+  message
+}
+);

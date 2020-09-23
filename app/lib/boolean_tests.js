@@ -1,40 +1,44 @@
-# Keep in sync with server/lib/boolean_tests
+// Keep in sync with server/lib/boolean_tests
 
-regex_ = requireProxy 'lib/regex'
+let tests;
+const regex_ = requireProxy('lib/regex');
 
-isCouchUuid = regex_.CouchUuid.test.bind regex_.CouchUuid
-bindedTest = (regexName)-> regex_[regexName].test.bind regex_[regexName]
+const isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid);
+const bindedTest = regexName => regex_[regexName].test.bind(regex_[regexName]);
 
-isNonEmptyString = (str)-> _.isString(str) and str.length > 0
+const isNonEmptyString = str => _.isString(str) && (str.length > 0);
 
-module.exports = tests =
-  isUrl: bindedTest 'Url'
-  isImageHash: bindedTest 'ImageHash'
-  isLocalImg: bindedTest 'LocalImg'
-  isAssetImg: bindedTest 'AssetImg'
-  isUserImg: bindedTest 'UserImg'
-  isInvEntityId: isCouchUuid
-  isEmail: bindedTest 'Email'
-  isUserId: isCouchUuid
-  isGroupId: isCouchUuid
-  isItemId: isCouchUuid
-  isShelfId: isCouchUuid
-  isUsername: bindedTest 'Username'
-  isEntityUri: bindedTest 'EntityUri'
-  isExtendedEntityUri: (uri)->
-    [ prefix, id ] = uri.split ':'
-    # Accept alias URIs.
-    # Ex: twitter:Bouletcorp -> wd:Q1524522
-    return isNonEmptyString(prefix) and isNonEmptyString(id)
-  isPropertyUri: bindedTest 'PropertyUri'
+export default tests = {
+  isUrl: bindedTest('Url'),
+  isImageHash: bindedTest('ImageHash'),
+  isLocalImg: bindedTest('LocalImg'),
+  isAssetImg: bindedTest('AssetImg'),
+  isUserImg: bindedTest('UserImg'),
+  isInvEntityId: isCouchUuid,
+  isEmail: bindedTest('Email'),
+  isUserId: isCouchUuid,
+  isGroupId: isCouchUuid,
+  isItemId: isCouchUuid,
+  isShelfId: isCouchUuid,
+  isUsername: bindedTest('Username'),
+  isEntityUri: bindedTest('EntityUri'),
+  isExtendedEntityUri(uri){
+    const [ prefix, id ] = Array.from(uri.split(':'));
+    // Accept alias URIs.
+    // Ex: twitter:Bouletcorp -> wd:Q1524522
+    return isNonEmptyString(prefix) && isNonEmptyString(id);
+  },
+  isPropertyUri: bindedTest('PropertyUri'),
 
-  isNonNull: (obj)-> obj?
-  isNonEmptyString: isNonEmptyString
-  isNonEmptyArray: (array)-> _.isArray(array) and array.length > 0
-  isNonEmptyPlainObject: (obj)->
-    _.isPlainObject(obj) and Object.keys(obj).length > 0
-  isPositiveIntegerString: (str)-> _.isString(str) and /^[1-9]\d*$/.test str
-  isPlainObject: (obj)-> _.typeOf(obj) is 'object'
-  isModel: (obj)-> obj instanceof Backbone.Model
-  isView: (obj)-> obj instanceof Backbone.View
-  isCanvas: (obj)-> obj?.nodeName?.toLowerCase() is 'canvas'
+  isNonNull(obj){ return (obj != null); },
+  isNonEmptyString,
+  isNonEmptyArray(array){ return _.isArray(array) && (array.length > 0); },
+  isNonEmptyPlainObject(obj){
+    return _.isPlainObject(obj) && (Object.keys(obj).length > 0);
+  },
+  isPositiveIntegerString(str){ return _.isString(str) && /^[1-9]\d*$/.test(str); },
+  isPlainObject(obj){ return _.typeOf(obj) === 'object'; },
+  isModel(obj){ return obj instanceof Backbone.Model; },
+  isView(obj){ return obj instanceof Backbone.View; },
+  isCanvas(obj){ return obj?.nodeName?.toLowerCase() === 'canvas'; }
+};

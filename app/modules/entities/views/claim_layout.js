@@ -1,59 +1,63 @@
-wd_ = require 'lib/wikimedia/wikidata'
-PaginatedEntities = require '../collections/paginated_entities'
-EntitiesList = require './entities_list'
-GeneralInfobox = require './general_infobox'
-entities_ = require '../lib/entities'
+import wd_ from 'lib/wikimedia/wikidata';
+import PaginatedEntities from '../collections/paginated_entities';
+import EntitiesList from './entities_list';
+import GeneralInfobox from './general_infobox';
+import entities_ from '../lib/entities';
+import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_helpers';
 
-{ entity: entityValueTemplate } = require 'lib/handlebars_helpers/claims_helpers'
-
-module.exports = Marionette.LayoutView.extend
-  id: 'claimLayout'
-  template: require './templates/claim_layout'
-  regions:
-    infobox: '.infobox'
+export default Marionette.LayoutView.extend({
+  id: 'claimLayout',
+  template: require('./templates/claim_layout'),
+  regions: {
+    infobox: '.infobox',
     list: '.list'
+  },
 
-  initialize: ->
-    { @property, @value, @refresh } = @options
+  initialize() {
+    ({ property: this.property, value: this.value, refresh: this.refresh } = this.options);
 
-    @waitForModel = app.request 'get:entity:model', @value, @refresh
-      .then (model)=> @model = model
+    return this.waitForModel = app.request('get:entity:model', this.value, this.refresh)
+      .then(model=> { return this.model = model; });
+  },
 
-  onShow: ->
-    @waitForModel
-    .then @ifViewIsIntact('showInfobox')
-    .catch @displayError
+  onShow() {
+    this.waitForModel
+    .then(this.ifViewIsIntact('showInfobox'))
+    .catch(this.displayError);
 
-    entities_.getReverseClaims @property, @value, @refresh, true
-    .tap => @waitForModel
-    .then @ifViewIsIntact('showEntities')
-    .catch @displayError
+    return entities_.getReverseClaims(this.property, this.value, this.refresh, true)
+    .tap(() => this.waitForModel)
+    .then(this.ifViewIsIntact('showEntities'))
+    .catch(this.displayError);
+  },
 
-  showInfobox: ->
-    @infobox.show new GeneralInfobox { @model }
-    # Use the URI from the returned entity as it might have been redirected
-    finalClaim = @property + '-' + @model.get('uri')
-    app.navigate "entity/#{finalClaim}"
+  showInfobox() {
+    this.infobox.show(new GeneralInfobox({ model: this.model }));
+    // Use the URI from the returned entity as it might have been redirected
+    const finalClaim = this.property + '-' + this.model.get('uri');
+    return app.navigate(`entity/${finalClaim}`);
+  },
 
-  showEntities: (uris)->
-    collection = new PaginatedEntities null, { uris, defaultType: 'work' }
+  showEntities(uris){
+    const collection = new PaginatedEntities(null, { uris, defaultType: 'work' });
 
-    # allowlisted properties labels are in i18n keys already, thus should not need
-    # to be fetched like what 'entityValueTemplate' is doing for the entity value
-    propertyValue = _.i18n wd_.unprefixify(@property)
-    entityValue = entityValueTemplate @value
+    // allowlisted properties labels are in i18n keys already, thus should not need
+    // to be fetched like what 'entityValueTemplate' is doing for the entity value
+    const propertyValue = _.i18n(wd_.unprefixify(this.property));
+    const entityValue = entityValueTemplate(this.value);
 
-    @list.show new EntitiesList
-      title: "#{propertyValue}: #{entityValue}"
-      customTitle: true
-      parentModel: @model
-      childrenClaimProperty: @property
-      type: 'work'
-      collection: collection
-      canAddOne: true
-      standalone: true
-      refresh: @refresh
-      addButtonLabel: addButtonLabelPerProperty[@property]
+    return this.list.show(new EntitiesList({
+      title: `${propertyValue}: ${entityValue}`,
+      customTitle: true,
+      parentModel: this.model,
+      childrenClaimProperty: this.property,
+      type: 'work',
+      collection,
+      canAddOne: true,
+      standalone: true,
+      refresh: this.refresh,
+      addButtonLabel: addButtonLabelPerProperty[this.property]}));
+  }});
 
-addButtonLabelPerProperty =
-  'wdt:P921': 'add a work with this subject'
+var addButtonLabelPerProperty =
+  {'wdt:P921': 'add a work with this subject'};

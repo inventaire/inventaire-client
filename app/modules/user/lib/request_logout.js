@@ -1,17 +1,18 @@
-module.exports = (redirect)->
-  _.preq.post app.API.auth.logout
-  .then logoutSuccess(redirect)
-  .catch _.Error('logout error')
+export default redirect => _.preq.post(app.API.auth.logout)
+.then(logoutSuccess(redirect))
+.catch(_.Error('logout error'));
 
-logoutSuccess = (redirect)-> (data)->
-  deleteLocalDatabases()
-  _.log 'You have been successfully logged out'
-  # Default to redirecting home
-  window.location.href = redirect or '/'
+var logoutSuccess = redirect => (function(data) {
+  deleteLocalDatabases();
+  _.log('You have been successfully logged out');
+  // Default to redirecting home
+  return window.location.href = redirect || '/';
+});
 
-deleteLocalDatabases = ->
-  debug = localStorageProxy.getItem 'debug'
-  # Clearing localstorage
-  localStorageProxy.clear()
-  # but keeping debug config
-  localStorageProxy.setItem 'debug', debug
+var deleteLocalDatabases = function() {
+  const debug = localStorageProxy.getItem('debug');
+  // Clearing localstorage
+  localStorageProxy.clear();
+  // but keeping debug config
+  return localStorageProxy.setItem('debug', debug);
+};

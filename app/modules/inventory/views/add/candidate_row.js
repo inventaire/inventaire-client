@@ -1,69 +1,80 @@
-CandidateInfo = require './candidate_info'
+import CandidateInfo from './candidate_info';
 
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  template: require './templates/candidate_row'
-  className: ->
-    base = 'candidate-row'
-    if @model.get('isInvalid') then base += ' invalid'
-    else if @model.get('needInfo')
-      base += ' need-info'
-    else
-      base += ' can-be-selected'
-      if @model.get('selected') then base += ' selected'
-    return base
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  template: require('./templates/candidate_row'),
+  className() {
+    let base = 'candidate-row';
+    if (this.model.get('isInvalid')) { base += ' invalid';
+    } else if (this.model.get('needInfo')) {
+      base += ' need-info';
+    } else {
+      base += ' can-be-selected';
+      if (this.model.get('selected')) { base += ' selected'; }
+    }
+    return base;
+  },
 
-  onShow: ->
-    @listenTo @model, 'change', @lazyRender
+  onShow() {
+    return this.listenTo(this.model, 'change', this.lazyRender);
+  },
 
-  onRender: ->
-    @updateClassName()
-    @trigger 'selection:changed'
+  onRender() {
+    this.updateClassName();
+    return this.trigger('selection:changed');
+  },
 
-  ui:
+  ui: {
     checkbox: 'input'
+  },
 
-  events:
-    'change input': 'updateSelected'
-    'click .addInfo': 'addInfo'
-    'click .remove': 'remov'
-    # General click event: use stopPropagation to avoid triggering it
-    # from other click event handlers
+  events: {
+    'change input': 'updateSelected',
+    'click .addInfo': 'addInfo',
+    'click .remove': 'remov',
+    // General click event: use stopPropagation to avoid triggering it
+    // from other click event handlers
     'click': 'select'
+  },
 
-  updateSelected: (e)->
-    { checked } = e.currentTarget
-    @model.set 'selected', checked
-    e.stopPropagation()
+  updateSelected(e){
+    const { checked } = e.currentTarget;
+    this.model.set('selected', checked);
+    return e.stopPropagation();
+  },
 
-  select: (e)->
-    { tagName } = e.target
-    # Do not interpret click on anchors such as .existing-entity-items links as a select
-    # Do not interpret click on spans as a select as that prevents selecting text
-    if tagName is 'A' or tagName is 'SPAN' then return
+  select(e){
+    const { tagName } = e.target;
+    // Do not interpret click on anchors such as .existing-entity-items links as a select
+    // Do not interpret click on spans as a select as that prevents selecting text
+    if ((tagName === 'A') || (tagName === 'SPAN')) { return; }
 
-    if @model.canBeSelected()
-      currentSelectedMode = @model.get 'selected'
-      # Let the model events listener update the checkbox
-      @model.set 'selected', not currentSelectedMode
-    else if @model.get('needInfo') then @addInfo()
+    if (this.model.canBeSelected()) {
+      const currentSelectedMode = this.model.get('selected');
+      // Let the model events listener update the checkbox
+      return this.model.set('selected', !currentSelectedMode);
+    } else if (this.model.get('needInfo')) { return this.addInfo(); }
+  },
 
-  addInfo: (e)->
-    showCandidateInfo @model.get('isbn')
-    .then (data)=>
-      { title, authors } = data
-      @model.set { title, authors, selected: true }
-    .catch (err)->
-      if err.message is 'modal closed' then return
-      else throw err
+  addInfo(e){
+    showCandidateInfo(this.model.get('isbn'))
+    .then(data=> {
+      const { title, authors } = data;
+      return this.model.set({ title, authors, selected: true });
+  })
+    .catch(function(err){
+      if (err.message === 'modal closed') { return;
+      } else { throw err; }
+    });
 
-    e?.stopPropagation()
+    return e?.stopPropagation();
+  },
 
-  # Avoid overriding Backbone.View::remove
-  remov: (e)->
-    @model.collection.remove @model
-    e.stopPropagation()
+  // Avoid overriding Backbone.View::remove
+  remov(e){
+    this.model.collection.remove(this.model);
+    return e.stopPropagation();
+  }
+});
 
-showCandidateInfo = (isbn)->
-  return new Promise (resolve, reject)->
-    app.layout.modal.show new CandidateInfo { resolve, reject, isbn }
+var showCandidateInfo = isbn => new Promise((resolve, reject) => app.layout.modal.show(new CandidateInfo({ resolve, reject, isbn })));

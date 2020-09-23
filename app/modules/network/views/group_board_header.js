@@ -1,20 +1,24 @@
-{ GroupItemView } = require './group_views_commons'
+import { GroupItemView } from './group_views_commons';
 
-module.exports = GroupItemView.extend
-  template: require './templates/group_board_header'
-  className: 'group-board-header'
+export default GroupItemView.extend({
+  template: require('./templates/group_board_header'),
+  className: 'group-board-header',
 
-  modelEvents:
+  modelEvents: {
     'change': 'lazyRender'
+  },
 
-  behaviors:
+  behaviors: {
     PreventDefault: {}
+  },
 
-  serializeData:->
-    attrs = @model.serializeData()
-    attrs.invitor = @invitorData()
-    return attrs
+  serializeData() {
+    const attrs = this.model.serializeData();
+    attrs.invitor = this.invitorData();
+    return attrs;
+  },
 
-  invitorData: ->
-    username = @model.findMainUserInvitor()?.get('username')
-    return { username }
+  invitorData() {
+    const username = this.model.findMainUserInvitor()?.get('username');
+    return { username };
+  }});

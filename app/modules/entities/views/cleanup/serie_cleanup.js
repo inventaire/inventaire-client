@@ -1,221 +1,262 @@
-SerieCleanupWorks = require  './serie_cleanup_works'
-SerieCleanupEditions = require './serie_cleanup_editions'
-PartsSuggestions = require  './serie_cleanup_part_suggestion'
-{ getReverseClaims } = require 'modules/entities/lib/entities'
-CleanupWorks = require './collections/cleanup_works'
-getPartsSuggestions = require './lib/get_parts_suggestions'
-fillGaps = require './lib/fill_gaps'
-spreadPart = require './lib/spread_part'
-moveModelOnOrdinalChange = require './lib/move_model_on_ordinal_change'
-{ createPlaceholders, removePlaceholder, removePlaceholdersAbove } = require './lib/placeholders'
+import SerieCleanupWorks from './serie_cleanup_works';
+import SerieCleanupEditions from './serie_cleanup_editions';
+import PartsSuggestions from './serie_cleanup_part_suggestion';
+import { getReverseClaims } from 'modules/entities/lib/entities';
+import CleanupWorks from './collections/cleanup_works';
+import getPartsSuggestions from './lib/get_parts_suggestions';
+import fillGaps from './lib/fill_gaps';
+import spreadPart from './lib/spread_part';
+import moveModelOnOrdinalChange from './lib/move_model_on_ordinal_change';
+import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from './lib/placeholders';
 
-module.exports = Marionette.LayoutView.extend
-  id: 'serieCleanup'
-  template: require './templates/serie_cleanup'
+export default Marionette.LayoutView.extend({
+  id: 'serieCleanup',
+  template: require('./templates/serie_cleanup'),
 
-  regions:
-    worksInConflictsRegion: '#worksInConflicts'
-    isolatedEditionsRegion: '#isolatedEditions'
-    worksWithoutOrdinalRegion: '#worksWithoutOrdinal'
-    worksWithOrdinalRegion: '#worksWithOrdinal'
+  regions: {
+    worksInConflictsRegion: '#worksInConflicts',
+    isolatedEditionsRegion: '#isolatedEditions',
+    worksWithoutOrdinalRegion: '#worksWithoutOrdinal',
+    worksWithOrdinalRegion: '#worksWithOrdinal',
     partsSuggestionsRegion: '#partsSuggestions'
+  },
 
-  ui:
-    authorsToggler: '.toggler-label[for="toggleAuthors"]'
-    editionsToggler: '.toggler-label[for="toggleEditions"]'
-    descriptionsToggler: '.toggler-label[for="toggleDescriptions"]'
-    largeToggler: '.toggler-label[for="largeToggler"]'
-    createPlaceholdersButton: '#createPlaceholders'
+  ui: {
+    authorsToggler: '.toggler-label[for="toggleAuthors"]',
+    editionsToggler: '.toggler-label[for="toggleEditions"]',
+    descriptionsToggler: '.toggler-label[for="toggleDescriptions"]',
+    largeToggler: '.toggler-label[for="largeToggler"]',
+    createPlaceholdersButton: '#createPlaceholders',
     isolatedEditionsWrapper: '#isolatedEditionsWrapper'
+  },
 
-  behaviors:
-    Toggler: {}
-    ImgZoomIn: {}
+  behaviors: {
+    Toggler: {},
+    ImgZoomIn: {},
     Loading: {}
+  },
 
-  initialize: ->
-    @worksWithOrdinal = new CleanupWorks
-    @worksWithoutOrdinal = new CleanupWorks
-    @worksInConflicts = new CleanupWorks
-    @maxOrdinal = 0
-    @placeholderCounter = 0
-    @titleKey = "{#{_.i18n('title')}}"
-    @numberKey = "{#{_.i18n('number')}}"
-    @titlePattern = "#{@titleKey} - #{_.I18n('volume')} #{@numberKey}"
-    @allAuthorsUris = @model.getAllAuthorsUris()
-    @model.parts.forEach spreadPart.bind(@)
-    fillGaps.call @
-    @initEventListeners()
+  initialize() {
+    this.worksWithOrdinal = new CleanupWorks;
+    this.worksWithoutOrdinal = new CleanupWorks;
+    this.worksInConflicts = new CleanupWorks;
+    this.maxOrdinal = 0;
+    this.placeholderCounter = 0;
+    this.titleKey = `{${_.i18n('title')}}`;
+    this.numberKey = `{${_.i18n('number')}}`;
+    this.titlePattern = `${this.titleKey} - ${_.I18n('volume')} ${this.numberKey}`;
+    this.allAuthorsUris = this.model.getAllAuthorsUris();
+    this.model.parts.forEach(spreadPart.bind(this));
+    fillGaps.call(this);
+    this.initEventListeners();
 
-    @_states = app.request 'querystring:get:all'
-    @setStateClass 'authors'
-    @setStateClass 'editions'
-    @setStateClass 'descriptions'
-    @setStateClass 'large'
+    this._states = app.request('querystring:get:all');
+    this.setStateClass('authors');
+    this.setStateClass('editions');
+    this.setStateClass('descriptions');
+    return this.setStateClass('large');
+  },
 
-  serializeData: ->
-    partsLength = @worksWithOrdinal.length
+  serializeData() {
+    const partsLength = this.worksWithOrdinal.length;
 
     return {
-      serie: @model.toJSON()
-      partsNumberPickerRange: [ @maxOrdinal..partsLength + 100 ]
-      authorsToggler:
-        id: 'authorsToggler'
-        checked: @_states['authors']
+      serie: this.model.toJSON(),
+      partsNumberPickerRange: __range__(this.maxOrdinal, partsLength + 100, true),
+      authorsToggler: {
+        id: 'authorsToggler',
+        checked: this._states['authors'],
         label: 'show authors'
-      editionsToggler:
-        id: 'editionsToggler'
-        checked: @_states['editions']
+      },
+      editionsToggler: {
+        id: 'editionsToggler',
+        checked: this._states['editions'],
         label: 'show editions'
-      descriptionsToggler:
-        id: 'descriptionsToggler'
-        checked: @_states['descriptions']
+      },
+      descriptionsToggler: {
+        id: 'descriptionsToggler',
+        checked: this._states['descriptions'],
         label: 'show descriptions'
-      largeToggler:
-        id: 'largeToggler'
-        checked: @_states['large']
+      },
+      largeToggler: {
+        id: 'largeToggler',
+        checked: this._states['large'],
         label: 'large mode'
-      titlePattern: @titlePattern
-      placeholderCounter: @placeholderCounter
-    }
+      },
+      titlePattern: this.titlePattern,
+      placeholderCounter: this.placeholderCounter
+    };
+  },
 
-  onRender: ->
-    @showWorkList
-      name: 'worksInConflicts'
-      label: 'parts with ordinal conflicts'
+  onRender() {
+    this.showWorkList({
+      name: 'worksInConflicts',
+      label: 'parts with ordinal conflicts',
       showPossibleOrdinals: true
+    });
 
-    @showWorkList
-      name: 'worksWithoutOrdinal'
-      label: 'parts without ordinal'
-      showPossibleOrdinals: true
-      # Always show so that added suggested parts can join this list
+    this.showWorkList({
+      name: 'worksWithoutOrdinal',
+      label: 'parts without ordinal',
+      showPossibleOrdinals: true,
+      // Always show so that added suggested parts can join this list
       alwaysShow: true
+    });
 
-    @showWorkList
-      name: 'worksWithOrdinal'
-      label: 'parts with ordinal'
+    this.showWorkList({
+      name: 'worksWithOrdinal',
+      label: 'parts with ordinal',
       alwaysShow: true
+    });
 
-    @showIsolatedEditions()
+    this.showIsolatedEditions();
 
-    @updatePlaceholderCreationButton()
+    this.updatePlaceholderCreationButton();
 
-    @showPartsSuggestions()
+    return this.showPartsSuggestions();
+  },
 
-  showWorkList: (options)->
-    { name, label, alwaysShow, showPossibleOrdinals } = options
-    if not alwaysShow and @[name].length is 0 then return
-    @["#{name}Region"].show new SerieCleanupWorks {
+  showWorkList(options){
+    const { name, label, alwaysShow, showPossibleOrdinals } = options;
+    if (!alwaysShow && (this[name].length === 0)) { return; }
+    return this[`${name}Region`].show(new SerieCleanupWorks({
       name,
       label,
-      collection: @[name],
+      collection: this[name],
       showPossibleOrdinals,
-      @worksWithOrdinal,
-      @worksWithoutOrdinal,
-      @allAuthorsUris
-    }
+      worksWithOrdinal: this.worksWithOrdinal,
+      worksWithoutOrdinal: this.worksWithoutOrdinal,
+      allAuthorsUris: this.allAuthorsUris
+    }));
+  },
 
-  initEventListeners: ->
-    @listenTo @worksWithoutOrdinal, 'change:claims.wdt:P1545', moveModelOnOrdinalChange.bind(@)
-    @listenTo @worksWithOrdinal, 'update', @updatePlaceholderCreationButton.bind(@)
+  initEventListeners() {
+    this.listenTo(this.worksWithoutOrdinal, 'change:claims.wdt:P1545', moveModelOnOrdinalChange.bind(this));
+    return this.listenTo(this.worksWithOrdinal, 'update', this.updatePlaceholderCreationButton.bind(this));
+  },
 
-  events:
-    'change #partsNumber': 'updatePartsNumber'
-    'change #authorsToggler': 'toggleAuthors'
-    'change #editionsToggler': 'toggleEditions'
-    'change #descriptionsToggler': 'toggleDescriptions'
-    'change #largeToggler': 'toggleLarge'
-    'keyup #titlePattern': 'lazyUpdateTitlePattern'
+  events: {
+    'change #partsNumber': 'updatePartsNumber',
+    'change #authorsToggler': 'toggleAuthors',
+    'change #editionsToggler': 'toggleEditions',
+    'change #descriptionsToggler': 'toggleDescriptions',
+    'change #largeToggler': 'toggleLarge',
+    'keyup #titlePattern': 'lazyUpdateTitlePattern',
     'click #createPlaceholders': 'createPlaceholders'
+  },
 
-  updatePartsNumber: (e)->
-    { value } = e.currentTarget
-    @partsNumber = parseInt value
-    if @partsNumber is @maxOrdinal then return
-    if @partsNumber > @maxOrdinal then fillGaps.call @
-    else @removePlaceholdersAbove @partsNumber
-    @maxOrdinal = @partsNumber
-    app.vent.trigger 'serie:cleanup:parts:change'
-    @updatePlaceholderCreationButton()
+  updatePartsNumber(e){
+    const { value } = e.currentTarget;
+    this.partsNumber = parseInt(value);
+    if (this.partsNumber === this.maxOrdinal) { return; }
+    if (this.partsNumber > this.maxOrdinal) { fillGaps.call(this);
+    } else { this.removePlaceholdersAbove(this.partsNumber); }
+    this.maxOrdinal = this.partsNumber;
+    app.vent.trigger('serie:cleanup:parts:change');
+    return this.updatePlaceholderCreationButton();
+  },
 
-  createPlaceholders: createPlaceholders
-  removePlaceholder: removePlaceholder
-  removePlaceholdersAbove: removePlaceholdersAbove
+  createPlaceholders,
+  removePlaceholder,
+  removePlaceholdersAbove,
 
-  toggleAuthors: (e)->
-    @toggle 'authors', e
+  toggleAuthors(e){
+    return this.toggle('authors', e);
+  },
 
-  toggleEditions: (e)->
-    @toggle 'editions', e
-    @ui.editionsToggler.removeClass 'glowing'
+  toggleEditions(e){
+    this.toggle('editions', e);
+    return this.ui.editionsToggler.removeClass('glowing');
+  },
 
-  toggleDescriptions: (e)->
-    @toggle 'descriptions', e
+  toggleDescriptions(e){
+    return this.toggle('descriptions', e);
+  },
 
-  toggleLarge: (e)->
-    @toggle 'large', e
+  toggleLarge(e){
+    return this.toggle('large', e);
+  },
 
-  toggle: (name, e)->
-    { checked } = e.currentTarget
-    @_states[name] = checked
-    @setStateClass name
-    app.execute 'querystring:set', name, checked
-    @["#{name}TogglerChanged"] = true
+  toggle(name, e){
+    const { checked } = e.currentTarget;
+    this._states[name] = checked;
+    this.setStateClass(name);
+    app.execute('querystring:set', name, checked);
+    return this[`${name}TogglerChanged`] = true;
+  },
 
-  setStateClass: (name)->
-    checked = @_states[name]
-    className = 'show' + _.capitalise(name)
-    if checked then @$el.addClass className
-    else @$el.removeClass className
+  setStateClass(name){
+    const checked = this._states[name];
+    const className = 'show' + _.capitalise(name);
+    if (checked) { return this.$el.addClass(className);
+    } else { return this.$el.removeClass(className); }
+  },
 
-  lazyUpdateTitlePattern: _.lazyMethod 'updateTitlePattern', 1000
-  updateTitlePattern: (e)->
-    @titlePattern = e.currentTarget.value
-    placeholders = @worksWithOrdinal.filter isPlaceholder
-    @worksWithOrdinal.remove placeholders
-    fillGaps.call @
+  lazyUpdateTitlePattern: _.lazyMethod('updateTitlePattern', 1000),
+  updateTitlePattern(e){
+    this.titlePattern = e.currentTarget.value;
+    const placeholders = this.worksWithOrdinal.filter(isPlaceholder);
+    this.worksWithOrdinal.remove(placeholders);
+    return fillGaps.call(this);
+  },
 
-  updatePlaceholderCreationButton: ->
-    placeholders = @worksWithOrdinal.filter isPlaceholder
-    @placeholderCounter = placeholders.length
-    if @placeholderCounter > 0
-      @ui.createPlaceholdersButton.find('.counter').text "(#{@placeholderCounter})"
-      @ui.createPlaceholdersButton.removeClass 'hidden'
-    else
-      @ui.createPlaceholdersButton.addClass 'hidden'
+  updatePlaceholderCreationButton() {
+    const placeholders = this.worksWithOrdinal.filter(isPlaceholder);
+    this.placeholderCounter = placeholders.length;
+    if (this.placeholderCounter > 0) {
+      this.ui.createPlaceholdersButton.find('.counter').text(`(${this.placeholderCounter})`);
+      return this.ui.createPlaceholdersButton.removeClass('hidden');
+    } else {
+      return this.ui.createPlaceholdersButton.addClass('hidden');
+    }
+  },
 
-  showPartsSuggestions: ->
-    serie = @model
-    addToSerie = spreadPart.bind @
-    getPartsSuggestions serie
-    .then (collection)=>
-      @partsSuggestionsRegion.show new PartsSuggestions {
+  showPartsSuggestions() {
+    const serie = this.model;
+    const addToSerie = spreadPart.bind(this);
+    return getPartsSuggestions(serie)
+    .then(collection=> {
+      return this.partsSuggestionsRegion.show(new PartsSuggestions({
         collection,
         addToSerie,
         serie,
-        @worksWithOrdinal,
-        @worksWithoutOrdinal
-      }
+        worksWithOrdinal: this.worksWithOrdinal,
+        worksWithoutOrdinal: this.worksWithoutOrdinal
+      }));
+  });
+  },
 
-  showIsolatedEditions: ->
-    getIsolatedEditions @model.get('uri')
-    .then (editions)=>
-      if editions.length is 0 then return
-      @ui.isolatedEditionsWrapper.removeClass 'hidden'
-      collection = new Backbone.Collection editions
-      @isolatedEditionsRegion.show new SerieCleanupEditions {
+  showIsolatedEditions() {
+    return getIsolatedEditions(this.model.get('uri'))
+    .then(editions=> {
+      if (editions.length === 0) { return; }
+      this.ui.isolatedEditionsWrapper.removeClass('hidden');
+      const collection = new Backbone.Collection(editions);
+      this.isolatedEditionsRegion.show(new SerieCleanupEditions({
         collection,
-        @worksWithOrdinal,
-        @worksWithoutOrdinal
-      }
-      @listenTo collection, 'remove', @hideIsolatedEditionsWhenEmpty.bind(@)
+        worksWithOrdinal: this.worksWithOrdinal,
+        worksWithoutOrdinal: this.worksWithoutOrdinal
+      }));
+      return this.listenTo(collection, 'remove', this.hideIsolatedEditionsWhenEmpty.bind(this));
+    });
+  },
 
-  hideIsolatedEditionsWhenEmpty: (removedEdition, collection)->
-    if collection.length is 0 then @ui.isolatedEditionsWrapper.addClass 'hidden'
+  hideIsolatedEditionsWhenEmpty(removedEdition, collection){
+    if (collection.length === 0) { return this.ui.isolatedEditionsWrapper.addClass('hidden'); }
+  }
+});
 
-getIsolatedEditions = (serieUri)->
-  getReverseClaims 'wdt:P629', serieUri, true
-  .then (uris)-> app.request 'get:entities:models', { uris }
+var getIsolatedEditions = serieUri => getReverseClaims('wdt:P629', serieUri, true)
+.then(uris => app.request('get:entities:models', { uris }));
 
-isPlaceholder = (model)-> model.get('isPlaceholder') is true
+var isPlaceholder = model => model.get('isPlaceholder') === true;
+
+function __range__(left, right, inclusive) {
+  let range = [];
+  let ascending = left < right;
+  let end = !inclusive ? right : ascending ? right + 1 : right - 1;
+  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
+    range.push(i);
+  }
+  return range;
+}

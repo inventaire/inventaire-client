@@ -1,106 +1,124 @@
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-mergeEntities = require './lib/merge_entities'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import mergeEntities from './lib/merge_entities';
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/merge_suggestion'
-  className: 'merge-suggestion'
-  behaviors:
-    AlertBox: {}
-    Loading: {}
+export default Marionette.LayoutView.extend({
+  template: require('./templates/merge_suggestion'),
+  className: 'merge-suggestion',
+  behaviors: {
+    AlertBox: {},
+    Loading: {},
     PreventDefault: {}
+  },
 
-  regions:
-    series: '.seriesList'
+  regions: {
+    series: '.seriesList',
     works: '.worksList'
+  },
 
-  initialize: ->
-    toEntityUri = @options.toEntity.get('uri')
-    @taskModel = @model.tasks?[toEntityUri]
+  initialize() {
+    const toEntityUri = this.options.toEntity.get('uri');
+    this.taskModel = this.model.tasks?.[toEntityUri];
 
-    @isExactMatch = haveLabelMatch @model, @options.toEntity
-    { @showCheckbox } = @options
+    this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity);
+    return ({ showCheckbox: this.showCheckbox } = this.options);
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    attrs.task = @taskModel?.serializeData()
-    attrs.claimsPartial = claimsPartials[@model.type]
-    attrs.isExactMatch = @isExactMatch
-    attrs.showCheckbox = @showCheckbox
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    attrs.task = this.taskModel?.serializeData();
+    attrs.claimsPartial = claimsPartials[this.model.type];
+    attrs.isExactMatch = this.isExactMatch;
+    attrs.showCheckbox = this.showCheckbox;
+    return attrs;
+  },
 
-  events:
-    'click .showTask': 'showTask'
+  events: {
+    'click .showTask': 'showTask',
     'click .merge': 'merge'
+  },
 
-  onShow: ->
-    if @model.get('type') isnt 'human' then return
-    @model.initAuthorWorks()
-    .then @ifViewIsIntact('showWorks')
+  onShow() {
+    if (this.model.get('type') !== 'human') { return; }
+    return this.model.initAuthorWorks()
+    .then(this.ifViewIsIntact('showWorks'));
+  },
 
-  showWorks: ->
-    @showSubentities 'series', @model.works.series
-    @showSubentities 'works', @model.works.works
+  showWorks() {
+    this.showSubentities('series', this.model.works.series);
+    return this.showSubentities('works', this.model.works.works);
+  },
 
-  showSubentities: (name, collection)->
-    if collection.totalLength is 0 then return
-    collection.fetchAll()
-    .then @ifViewIsIntact('_showSubentities', name, collection)
+  showSubentities(name, collection){
+    if (collection.totalLength === 0) { return; }
+    return collection.fetchAll()
+    .then(this.ifViewIsIntact('_showSubentities', name, collection));
+  },
 
-  _showSubentities: (name, collection)->
-    @$el.find(".#{name}Label").show()
-    @[name].show new SubentitiesList { collection, entity: @model }
+  _showSubentities(name, collection){
+    this.$el.find(`.${name}Label`).show();
+    return this[name].show(new SubentitiesList({ collection, entity: this.model }));
+  },
 
-  showTask: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:task', @taskModel.id
+  showTask(e){
+    if (!_.isOpenedOutside(e)) {
+      return app.execute('show:task', this.taskModel.id);
+    }
+  },
 
-  merge: ->
-    if @_mergedAlreadyTriggered then return Promise.resolve()
-    @_mergedAlreadyTriggered = true
+  merge() {
+    if (this._mergedAlreadyTriggered) { return Promise.resolve(); }
+    this._mergedAlreadyTriggered = true;
 
-    startLoading.call @
-    { toEntity } = @options
-    fromUri = @model.get 'uri'
-    toUri = toEntity.get 'uri'
+    startLoading.call(this);
+    const { toEntity } = this.options;
+    const fromUri = this.model.get('uri');
+    const toUri = toEntity.get('uri');
 
-    mergeEntities fromUri, toUri
-    # Simply hidding it instead of removing it from the collection so that other
-    # suggestions don't jump places, potentially leading to undesired merges
-    .then => @$el.css 'visibility', 'hidden'
-    .finally stopLoading.bind(@)
-    .catch error_.Complete('.merge', false)
-    .catch forms_.catchAlert.bind(null, @)
+    return mergeEntities(fromUri, toUri)
+    // Simply hidding it instead of removing it from the collection so that other
+    // suggestions don't jump places, potentially leading to undesired merges
+    .then(() => this.$el.css('visibility', 'hidden'))
+    .finally(stopLoading.bind(this))
+    .catch(error_.Complete('.merge', false))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  isSelected: -> @$el.find('input[type="checkbox"]').prop('checked')
+  isSelected() { return this.$el.find('input[type="checkbox"]').prop('checked'); }
+});
 
-haveLabelMatch = (suggestion, toEntity)->
-  _.haveAMatch getNormalizedLabels(suggestion), getNormalizedLabels(toEntity)
+var haveLabelMatch = (suggestion, toEntity) => _.haveAMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity));
 
-getNormalizedLabels = (entity)-> Object.values(entity.get('labels')).map normalizeLabel
-normalizeLabel = (label)-> label.toLowerCase().replace /\W+/g, ''
+var getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel);
+var normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '');
 
-claimsPartials =
-  author: 'entities:author_claims'
-  edition: 'entities:edition_claims'
-  work: 'entities:work_claims'
+var claimsPartials = {
+  author: 'entities:author_claims',
+  edition: 'entities:edition_claims',
+  work: 'entities:work_claims',
   serie: 'entities:work_claims'
+};
 
-Subentity = Marionette.ItemView.extend
-  className: 'subentity'
-  template: require './templates/merge_suggestion_subentity'
-  attributes: ->
-    title: @model.get('uri')
+const Subentity = Marionette.ItemView.extend({
+  className: 'subentity',
+  template: require('./templates/merge_suggestion_subentity'),
+  attributes() {
+    return {title: this.model.get('uri')};
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    authorUri = @options.entity.get 'uri'
-    attrs.claims['wdt:P50'] = _.without attrs.claims['wdt:P50'], authorUri
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    const authorUri = this.options.entity.get('uri');
+    attrs.claims['wdt:P50'] = _.without(attrs.claims['wdt:P50'], authorUri);
+    return attrs;
+  }
+});
 
-SubentitiesList = Marionette.CollectionView.extend
-  className: 'subentities-list'
-  childView: Subentity
-  childViewOptions: ->
-    entity: @options.entity
+var SubentitiesList = Marionette.CollectionView.extend({
+  className: 'subentities-list',
+  childView: Subentity,
+  childViewOptions() {
+    return {entity: this.options.entity};
+  }
+});

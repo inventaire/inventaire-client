@@ -1,9 +1,11 @@
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  className: 'text-center hidden'
-  template: require './templates/no_user'
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'text-center hidden',
+  template: require('./templates/no_user'),
 
-  onShow: -> @$el.fadeIn()
+  onShow() { return this.$el.fadeIn(); },
 
-  serializeData: ->
-    message: @options.message or "can't find anyone with that name"
+  serializeData() {
+    return {message: this.options.message || "can't find anyone with that name"};
+  }
+});

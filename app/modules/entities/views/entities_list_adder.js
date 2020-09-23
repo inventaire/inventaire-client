@@ -1,119 +1,143 @@
-{ buildPath } = require 'lib/location'
-EntitiesListElementCandidate = require './entities_list_element_candidate'
-typeSearch = require 'modules/entities/lib/search/type_search'
-PaginatedEntities = require 'modules/entities/collections/paginated_entities'
-cantTypeSearch = [
+import { buildPath } from 'lib/location';
+import EntitiesListElementCandidate from './entities_list_element_candidate';
+import typeSearch from 'modules/entities/lib/search/type_search';
+import PaginatedEntities from 'modules/entities/collections/paginated_entities';
+const cantTypeSearch = [
   'edition'
-]
+];
 
-module.exports = Marionette.CompositeView.extend
-  id: 'entitiesListAdder'
-  template: require './templates/entities_list_adder'
-  childViewContainer: '.entitiesListElementCandidates'
-  childView: EntitiesListElementCandidate
-  childViewOptions: ->
-    parentModel: @options.parentModel
-    listCollection: @options.listCollection
-    childrenClaimProperty: @options.childrenClaimProperty
+export default Marionette.CompositeView.extend({
+  id: 'entitiesListAdder',
+  template: require('./templates/entities_list_adder'),
+  childViewContainer: '.entitiesListElementCandidates',
+  childView: EntitiesListElementCandidate,
+  childViewOptions() {
+    return {
+      parentModel: this.options.parentModel,
+      listCollection: this.options.listCollection,
+      childrenClaimProperty: this.options.childrenClaimProperty
+    };
+  },
 
-  emptyView: require 'modules/entities/views/editor/autocomplete_no_suggestion'
+  emptyView: require('modules/entities/views/editor/autocomplete_no_suggestion'),
 
-  ui:
+  ui: {
     candidates: '.entitiesListElementCandidates'
+  },
 
-  initialize: ->
-    { @type, @parentModel, @childrenClaimProperty } = @options
-    @childrenClaimProperty or= @parentModel.childrenClaimProperty
-    @cantTypeSearch = @type in cantTypeSearch
-    @setEntityCreationData()
-    @collection = new PaginatedEntities null, { uris: [] }
-    @addCandidates()
+  initialize() {
+    ({ type: this.type, parentModel: this.parentModel, childrenClaimProperty: this.childrenClaimProperty } = this.options);
+    if (!this.childrenClaimProperty) { this.childrenClaimProperty = this.parentModel.childrenClaimProperty; }
+    this.cantTypeSearch = cantTypeSearch.includes(this.type);
+    this.setEntityCreationData();
+    this.collection = new PaginatedEntities(null, { uris: [] });
+    return this.addCandidates();
+  },
 
-  serializeData: ->
-    parent: @parentModel.toJSON()
-    header: @options.header
-    createPath: @createPath
-    cantTypeSearch: @cantTypeSearch
+  serializeData() {
+    return {
+      parent: this.parentModel.toJSON(),
+      header: this.options.header,
+      createPath: this.createPath,
+      cantTypeSearch: this.cantTypeSearch
+    };
+  },
 
-  onShow: ->
-    app.execute 'modal:open', 'medium'
-    # Doesn't work if set in events for some reason
-    @ui.candidates.on 'scroll', @onScroll.bind(@)
+  onShow() {
+    app.execute('modal:open', 'medium');
+    // Doesn't work if set in events for some reason
+    return this.ui.candidates.on('scroll', this.onScroll.bind(this));
+  },
 
-  events:
-    'click .create': 'create'
-    'click .done': -> app.execute 'modal:close'
+  events: {
+    'click .create': 'create',
+    'click .done'() { return app.execute('modal:close'); },
     'keydown #searchCandidates': 'lazySearch'
+  },
 
-  setEntityCreationData: ->
-    { parentModel } = @
-    { type: parentType } = parentModel
+  setEntityCreationData() {
+    const { parentModel } = this;
+    const { type: parentType } = parentModel;
 
-    claims = {}
-    prop = @childrenClaimProperty
-    claims[prop] = [ parentModel.get('uri') ]
+    const claims = {};
+    const prop = this.childrenClaimProperty;
+    claims[prop] = [ parentModel.get('uri') ];
 
-    if parentType is 'serie'
-      claims['wdt:P50'] = parentModel.get 'claims.wdt:P50'
+    if (parentType === 'serie') {
+      claims['wdt:P50'] = parentModel.get('claims.wdt:P50');
 
-    else if parentType is 'collection'
-      claims['wdt:P123'] = parentModel.get 'claims.wdt:P123'
+    } else if (parentType === 'collection') {
+      claims['wdt:P123'] = parentModel.get('claims.wdt:P123');
+    }
 
-    href = buildPath '/entity/new', { @type, claims }
+    const href = buildPath('/entity/new', { type: this.type, claims });
 
-    @createPath = href
-    @_entityCreationData = { @type, claims }
+    this.createPath = href;
+    return this._entityCreationData = { type: this.type, claims };
+  },
 
-  lazySearch: (e)->
-    @_lazySearch ?= _.debounce @search.bind(@), 200
-    @_lazySearch(e)
+  lazySearch(e){
+    if (this._lazySearch == null) { this._lazySearch = _.debounce(this.search.bind(this), 200); }
+    return this._lazySearch(e);
+  },
 
-  search: (e)->
-    { value: input } = e.currentTarget
-    input = input.trim()
+  search(e){
+    let { value: input } = e.currentTarget;
+    input = input.trim();
 
-    if input is ''
-      if @_lastInput?
-        @_lastInput = null
-        @addCandidates()
-      else
-        return
+    if (input === '') {
+      if (this._lastInput != null) {
+        this._lastInput = null;
+        this.addCandidates();
+      } else {
+        return;
+      }
+    }
 
-    @_lastInput = input
-    @searchByType input
+    this._lastInput = input;
+    return this.searchByType(input);
+  },
 
-  searchByType: (input, initialCandidatesSearch)->
-    typeSearch @type, input, 50
-    .then (results)=>
-      # Ignore the results if the input changed
-      if input isnt @_lastInput and not initialCandidatesSearch then return
-      uris = _.pluck results, 'uri'
-      return @resetFromUris uris
+  searchByType(input, initialCandidatesSearch){
+    return typeSearch(this.type, input, 50)
+    .then(results=> {
+      // Ignore the results if the input changed
+      if ((input !== this._lastInput) && !initialCandidatesSearch) { return; }
+      const uris = _.pluck(results, 'uri');
+      return this.resetFromUris(uris);
+    });
+  },
 
-  addCandidates: ->
-    if @parentModel.getChildrenCandidatesUris?
-      @$el.addClass 'fetching'
-      @_waitForParentModelChildrenCandidatesUris ?= @parentModel.getChildrenCandidatesUris()
-      @_waitForParentModelChildrenCandidatesUris.then @resetFromUris.bind(@)
-    else
-      label = @parentModel.get('label')
-      @$el.addClass 'fetching'
-      @_findCandidatesFromLabelSearch = true
-      # TODO: filter-out results that are likely bad suggestions
-      # such as an author's books, when we are looking for books *about* (wdt:P921) that author
-      @searchByType label, true
+  addCandidates() {
+    if (this.parentModel.getChildrenCandidatesUris != null) {
+      this.$el.addClass('fetching');
+      if (this._waitForParentModelChildrenCandidatesUris == null) { this._waitForParentModelChildrenCandidatesUris = this.parentModel.getChildrenCandidatesUris(); }
+      return this._waitForParentModelChildrenCandidatesUris.then(this.resetFromUris.bind(this));
+    } else {
+      const label = this.parentModel.get('label');
+      this.$el.addClass('fetching');
+      this._findCandidatesFromLabelSearch = true;
+      // TODO: filter-out results that are likely bad suggestions
+      // such as an author's books, when we are looking for books *about* (wdt:P921) that author
+      return this.searchByType(label, true);
+    }
+  },
 
-  resetFromUris: (uris = [])->
-    @$el.removeClass 'fetching'
-    @collection.resetFromUris uris
+  resetFromUris(uris = []){
+    this.$el.removeClass('fetching');
+    return this.collection.resetFromUris(uris);
+  },
 
-  onScroll: (e)->
-    visibleHeight = @ui.candidates.height()
-    { scrollHeight, scrollTop } = e.currentTarget
-    scrollBottom = scrollTop + visibleHeight
-    if scrollBottom is scrollHeight then @collection.fetchMore()
+  onScroll(e){
+    const visibleHeight = this.ui.candidates.height();
+    const { scrollHeight, scrollTop } = e.currentTarget;
+    const scrollBottom = scrollTop + visibleHeight;
+    if (scrollBottom === scrollHeight) { return this.collection.fetchMore(); }
+  },
 
-  create: (e)->
-    if _.isOpenedOutside e then return
-    app.execute 'show:entity:create', @_entityCreationData
-    app.execute 'modal:close'
+  create(e){
+    if (_.isOpenedOutside(e)) { return; }
+    app.execute('show:entity:create', this._entityCreationData);
+    return app.execute('modal:close');
+  }
+});

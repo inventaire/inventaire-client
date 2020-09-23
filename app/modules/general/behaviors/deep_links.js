@@ -1,33 +1,40 @@
-screen_ = require 'lib/screen'
-# Keep in sync with app/modules/general/scss/_topbar.scss
-topbarHeight = 45
+import screen_ from 'lib/screen';
+// Keep in sync with app/modules/general/scss/_topbar.scss
+const topbarHeight = 45;
 
-module.exports = Marionette.Behavior.extend
-  initialize: ->
-    @marginTop = @options.marginTop or topbarHeight
-    @scrollDuration = @options.marginTop or 0
+export default Marionette.Behavior.extend({
+  initialize() {
+    this.marginTop = this.options.marginTop || topbarHeight;
+    this.scrollDuration = this.options.marginTop || 0;
 
-    delay = @options.debounce or 500
-    @_lazyScroll = _.debounce @scrollToTarget.bind(@), delay
+    const delay = this.options.debounce || 500;
+    return this._lazyScroll = _.debounce(this.scrollToTarget.bind(this), delay);
+  },
 
-  onShow: ->
-    @alreadyScrolled = false
+  onShow() {
+    return this.alreadyScrolled = false;
+  },
 
-  onRender: -> @_lazyScroll()
+  onRender() { return this._lazyScroll(); },
 
-  # defining it on the Class to allow event binding
-  lazyScroll: -> @_lazyScroll()
-  events:
-    # retry once new child view are ready, in case the target wasn't found
-    # on render
+  // defining it on the Class to allow event binding
+  lazyScroll() { return this._lazyScroll(); },
+  events: {
+    // retry once new child view are ready, in case the target wasn't found
+    // on render
     'child:view:ready': 'lazyScroll'
+  },
 
-  scrollToTarget: ->
-    if @alreadyScrolled then return
+  scrollToTarget() {
+    if (this.alreadyScrolled) { return; }
 
-    { hash } = location
-    if hash isnt ''
-      $target = @$el.find hash
-      if $target.length > 0
-        screen_.scrollTop $target, @scrollDuration, @marginTop
-        @alreadyScrolled = true
+    const { hash } = location;
+    if (hash !== '') {
+      const $target = this.$el.find(hash);
+      if ($target.length > 0) {
+        screen_.scrollTop($target, this.scrollDuration, this.marginTop);
+        return this.alreadyScrolled = true;
+      }
+    }
+  }
+});

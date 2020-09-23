@@ -1,26 +1,33 @@
-currentOwnerItemsByWork = null
+let currentOwnerItemsByWork = null;
 
-module.exports = (worksTree, filters)->
-  subsets = []
-  for selectorName, selectedOptionKey of filters
-    if selectedOptionKey?
-      uris = getFilterWorksUris worksTree, selectorName, selectedOptionKey
-      subsets.push uris
-    else
-      resetFilterData selectorName
+export default function(worksTree, filters){
+  const subsets = [];
+  for (let selectorName in filters) {
+    const selectedOptionKey = filters[selectorName];
+    if (selectedOptionKey != null) {
+      const uris = getFilterWorksUris(worksTree, selectorName, selectedOptionKey);
+      subsets.push(uris);
+    } else {
+      resetFilterData(selectorName);
+    }
+  }
 
-  if subsets.length is 0 then return null
+  if (subsets.length === 0) { return null; }
 
-  intersectionWorkUris = _.intersection subsets...
+  const intersectionWorkUris = _.intersection(...Array.from(subsets || []));
 
-  return intersectionWorkUris
+  return intersectionWorkUris;
+};
 
-getFilterWorksUris = (worksTree, selectorName, selectedOptionKey)->
-  if selectorName is 'owner'
-    currentOwnerItemsByWork = worksTree.owner[selectedOptionKey] or {}
-    return Object.keys currentOwnerItemsByWork
-  else
-    return worksTree[selectorName][selectedOptionKey]
+var getFilterWorksUris = function(worksTree, selectorName, selectedOptionKey){
+  if (selectorName === 'owner') {
+    currentOwnerItemsByWork = worksTree.owner[selectedOptionKey] || {};
+    return Object.keys(currentOwnerItemsByWork);
+  } else {
+    return worksTree[selectorName][selectedOptionKey];
+  }
+};
 
-resetFilterData = (selectorName)->
-  if selectorName is 'owner' then currentOwnerItemsByWork = null
+var resetFilterData = function(selectorName){
+  if (selectorName === 'owner') { return currentOwnerItemsByWork = null; }
+};

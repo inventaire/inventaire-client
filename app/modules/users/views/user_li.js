@@ -1,65 +1,76 @@
-relationsActions = require '../plugins/relations_actions'
+import relationsActions from '../plugins/relations_actions';
 
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  template: require './templates/user_li'
-  className: ->
-    classes = 'userLi'
-    status = @model.get('status') or 'noStatus'
-    stretch = if @options.stretch then 'stretch' else ''
-    groupContext = if @options.groupContext then 'group-context' else ''
-    "userLi #{status} #{stretch} #{groupContext}"
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  template: require('./templates/user_li'),
+  className() {
+    const classes = 'userLi';
+    const status = this.model.get('status') || 'noStatus';
+    const stretch = this.options.stretch ? 'stretch' : '';
+    const groupContext = this.options.groupContext ? 'group-context' : '';
+    return `userLi ${status} ${stretch} ${groupContext}`;
+  },
 
-  behaviors:
-    PreventDefault: {}
+  behaviors: {
+    PreventDefault: {},
     SuccessCheck: {}
+  },
 
-  events:
-    # share js behavior, but avoid css collisions
+  events: {
+    // share js behavior, but avoid css collisions
     'click .select, .select-2': 'selectUser'
+  },
 
-  initialize:->
-    # mutualizing the view with user in group context
-    @group = @options.group
-    @groupContext = @options.groupContext
+  initialize() {
+    // mutualizing the view with user in group context
+    this.group = this.options.group;
+    this.groupContext = this.options.groupContext;
 
-    @initPlugins()
-    @listenTo app.vent, "inventory:#{@model.id}:change", @lazyRender.bind(@)
+    this.initPlugins();
+    return this.listenTo(app.vent, `inventory:${this.model.id}:change`, this.lazyRender.bind(this));
+  },
 
-  modelEvents:
-    'change': 'lazyRender'
+  modelEvents: {
+    'change': 'lazyRender',
     'group:user:change': 'lazyRender'
+  },
 
-  initPlugins: ->
-    relationsActions.call @
+  initPlugins() {
+    return relationsActions.call(this);
+  },
 
-  serializeData: ->
-    # nonPrivateInventoryLength is only a concern for the main user
-    # which is only shown as a UserLi in the context of a group
-    # thus the use of nonPrivateInventoryLength, as only non-private
-    # items are integrating the group items counter
-    nonPrivateInventoryLength = true
-    attrs = @model.serializeData nonPrivateInventoryLength
-    # required by the invitations by email users list
-    attrs.showEmail = @options.showEmail and attrs.email?
-    attrs.stretch = @options.stretch
-    if @groupContext then @customizeGroupsAttributes attrs
-    return attrs
+  serializeData() {
+    // nonPrivateInventoryLength is only a concern for the main user
+    // which is only shown as a UserLi in the context of a group
+    // thus the use of nonPrivateInventoryLength, as only non-private
+    // items are integrating the group items counter
+    const nonPrivateInventoryLength = true;
+    const attrs = this.model.serializeData(nonPrivateInventoryLength);
+    // required by the invitations by email users list
+    attrs.showEmail = this.options.showEmail && (attrs.email != null);
+    attrs.stretch = this.options.stretch;
+    if (this.groupContext) { this.customizeGroupsAttributes(attrs); }
+    return attrs;
+  },
 
-  customizeGroupsAttributes: (attrs)->
-    attrs.groupContext = true
+  customizeGroupsAttributes(attrs){
+    attrs.groupContext = true;
 
-    groupStatus = @group.userStatus @model
-    attrs[groupStatus] = true
+    const groupStatus = this.group.userStatus(this.model);
+    attrs[groupStatus] = true;
 
-    userId = @model.id
+    const userId = this.model.id;
 
-    # Override the general user.admin attribute to display an admin status
-    # only for group admins
-    attrs.admin = @group.userIsAdmin userId
+    // Override the general user.admin attribute to display an admin status
+    // only for group admins
+    attrs.admin = this.group.userIsAdmin(userId);
 
-    attrs.mainUserIsAdmin = @group.mainUserIsAdmin()
+    return attrs.mainUserIsAdmin = this.group.mainUserIsAdmin();
+  },
 
-  selectUser: (e)->
-    unless _.isOpenedOutside(e)
-      app.execute 'show:inventory:user', @model
+  selectUser(e){
+    if (!_.isOpenedOutside(e)) {
+      return app.execute('show:inventory:user', this.model);
+    }
+  }
+});

@@ -1,15 +1,13 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env nodeimport generateSitemaps from './generate_sitemaps';
+import generateIndex from './generate_index';
+import { rmFiles, gzipFiles, generateMainSitemap } from './files_commands';
+import { red } from 'chalk';
 
-generateSitemaps = require './generate_sitemaps'
-generateIndex = require './generate_index'
-{ rmFiles, gzipFiles, generateMainSitemap } = require './files_commands'
-{ red } = require 'chalk'
+rmFiles();
 
-rmFiles()
-
-generateMainSitemap()
+generateMainSitemap();
 
 generateSitemaps()
-.then generateIndex
-.then gzipFiles
-.catch (err)-> console.log red('global err'), err.stack
+.then(generateIndex)
+.then(gzipFiles)
+.catch(err => console.log(red('global err'), err.stack));

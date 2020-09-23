@@ -1,43 +1,52 @@
-Notifications = require './collections/notifications'
-NotificationsLayout = require './views/notifications_layout'
-notifications = new Notifications
-waitForNotifications = null
+import Notifications from './collections/notifications';
+import NotificationsLayout from './views/notifications_layout';
+const notifications = new Notifications;
+let waitForNotifications = null;
 
-module.exports =
-  define: (module, app, Backbone, Marionette, $, _)->
-    Router = Marionette.AppRouter.extend
-      appRoutes:
+export default {
+  define(module, app, Backbone, Marionette, $, _){
+    const Router = Marionette.AppRouter.extend({
+      appRoutes: {
         'notifications(/)': 'showNotifications'
+      }
+    });
 
-    app.addInitializer -> new Router { controller: API }
+    return app.addInitializer(() => new Router({ controller: API }));
+  },
 
-  initialize: ->
-    app.commands.setHandlers
-      'show:notifications': API.showNotifications
+  initialize() {
+    app.commands.setHandlers({
+      'show:notifications': API.showNotifications});
 
-    app.reqres.setHandlers
-      'notifications:unread:count': -> notifications.unreadCount()
+    app.reqres.setHandlers({
+      'notifications:unread:count'() { return notifications.unreadCount(); }});
 
-    waitForNotifications = getNotificationsData()
+    return waitForNotifications = getNotificationsData();
+  }
+};
 
-API =
-  showNotifications: ->
-    if app.request 'require:loggedIn', 'notifications'
-      app.execute 'show:loader'
-      # Make sure that the notifications arrived before calling 'beforeShow'
-      # as it will only trigger 'beforeShow' on the notifications models
-      # presently in the collection
-      waitForNotifications
-      .then -> notifications.beforeShow()
-      .then ->
-        app.layout.main.show new NotificationsLayout { notifications }
-        app.navigate 'notifications',
-          metadata: { title: _.i18n('notifications') }
+var API = {
+  showNotifications() {
+    if (app.request('require:loggedIn', 'notifications')) {
+      app.execute('show:loader');
+      // Make sure that the notifications arrived before calling 'beforeShow'
+      // as it will only trigger 'beforeShow' on the notifications models
+      // presently in the collection
+      return waitForNotifications
+      .then(() => notifications.beforeShow())
+      .then(function() {
+        app.layout.main.show(new NotificationsLayout({ notifications }));
+        return app.navigate('notifications',
+          {metadata: { title: _.i18n('notifications') }});});
+    }
+  }
+};
 
-getNotificationsData = ->
-  unless app.user.loggedIn then return Promise.resolve()
+var getNotificationsData = function() {
+  if (!app.user.loggedIn) { return Promise.resolve(); }
 
-  _.preq.get app.API.notifications
-  .get 'notifications'
-  .then notifications.addPerType.bind(notifications)
-  .catch _.ErrorRethrow('notifications init err')
+  return _.preq.get(app.API.notifications)
+  .get('notifications')
+  .then(notifications.addPerType.bind(notifications))
+  .catch(_.ErrorRethrow('notifications init err'));
+};

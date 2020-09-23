@@ -1,18 +1,26 @@
-TasksLayout = require './views/tasks_layout'
+import TasksLayout from './views/tasks_layout';
 
-module.exports =
-  define: (module, app, Backbone, Marionette, $, _)->
-    Router = Marionette.AppRouter.extend
-      appRoutes:
+export default {
+  define(module, app, Backbone, Marionette, $, _){
+    const Router = Marionette.AppRouter.extend({
+      appRoutes: {
         'tasks(/)(:id)(/)': 'showTask'
+      }
+    });
 
-    app.addInitializer -> new Router { controller: API }
+    return app.addInitializer(() => new Router({ controller: API }));
+  },
 
-  initialize: ->
-    app.commands.setHandlers
-      'show:task': API.showTask
+  initialize() {
+    return app.commands.setHandlers({
+      'show:task': API.showTask});
+  }
+};
 
-API =
-  showTask: (task)->
-    if app.request 'require:loggedIn', 'tasks'
-      app.layout.main.show new TasksLayout { task }
+var API = {
+  showTask(task){
+    if (app.request('require:loggedIn', 'tasks')) {
+      return app.layout.main.show(new TasksLayout({ task }));
+    }
+  }
+};

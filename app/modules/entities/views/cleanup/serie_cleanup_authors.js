@@ -1,54 +1,72 @@
-SerieCleanupAuthor = Marionette.ItemView.extend
-  template: require './templates/serie_cleanup_author'
-  className: ->
-    base = 'serie-cleanup-author'
-    if @options.isSuggestion then base += ' suggestion'
-    return base
+const SerieCleanupAuthor = Marionette.ItemView.extend({
+  template: require('./templates/serie_cleanup_author'),
+  className() {
+    let base = 'serie-cleanup-author';
+    if (this.options.isSuggestion) { base += ' suggestion'; }
+    return base;
+  },
 
-  attributes: ->
-    'data-uri': @model.get 'uri'
+  attributes() {
+    return {'data-uri': this.model.get('uri')};
+  },
 
-  serializeData: ->
-    uri: @model.get 'uri'
-    isSuggestion: @options.isSuggestion
+  serializeData() {
+    return {
+      uri: this.model.get('uri'),
+      isSuggestion: this.options.isSuggestion
+    };
+  }
+});
 
-AuthorsList = Marionette.CollectionView.extend
-  childView: SerieCleanupAuthor
-  childViewOptions: ->
-    isSuggestion: @options.name is 'authorsSuggestions'
+const AuthorsList = Marionette.CollectionView.extend({
+  childView: SerieCleanupAuthor,
+  childViewOptions() {
+    return {isSuggestion: this.options.name === 'authorsSuggestions'};
+  }
+});
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/serie_cleanup_authors'
-  regions:
-    currentAuthorsRegion: '.currentAuthors'
+export default Marionette.LayoutView.extend({
+  template: require('./templates/serie_cleanup_authors'),
+  regions: {
+    currentAuthorsRegion: '.currentAuthors',
     authorsSuggestionsRegion: '.authorsSuggestions'
+  },
 
-  onShow: ->
-    @showList 'currentAuthors'
-    @showList 'authorsSuggestions'
+  onShow() {
+    this.showList('currentAuthors');
+    return this.showList('authorsSuggestions');
+  },
 
-  showList: (name)->
-    collection = @["#{name}Collection"] or= @buildCollection(name)
-    @["#{name}Region"].show new AuthorsList { collection, name }
+  showList(name){
+    const collection = this[`${name}Collection`] || (this[`${name}Collection`] = this.buildCollection(name));
+    return this[`${name}Region`].show(new AuthorsList({ collection, name }));
+  },
 
-  buildCollection: (name)->
-    uris = @options["#{name}Uris"]
-    authorsData = uris.map (uri)-> { uri }
-    return new Backbone.Collection authorsData
+  buildCollection(name){
+    const uris = this.options[`${name}Uris`];
+    const authorsData = uris.map(uri => ({
+      uri
+    }));
+    return new Backbone.Collection(authorsData);
+  },
 
-  events:
+  events: {
     'click .suggestion': 'add'
+  },
 
-  add: (e)->
-    uri = e.currentTarget.attributes['data-uri'].value
-    model = @authorsSuggestionsCollection.findWhere { uri }
+  add(e){
+    const uri = e.currentTarget.attributes['data-uri'].value;
+    const model = this.authorsSuggestionsCollection.findWhere({ uri });
 
-    @authorsSuggestionsCollection.remove model
-    @currentAuthorsCollection.add model
+    this.authorsSuggestionsCollection.remove(model);
+    this.currentAuthorsCollection.add(model);
 
-    rollback = =>
-      @authorsSuggestionsCollection.add model
-      @currentAuthorsCollection.remove model
+    const rollback = () => {
+      this.authorsSuggestionsCollection.add(model);
+      return this.currentAuthorsCollection.remove(model);
+    };
 
-    @options.work.setPropertyValue 'wdt:P50', null, uri
-    .catch rollback
+    return this.options.work.setPropertyValue('wdt:P50', null, uri)
+    .catch(rollback);
+  }
+});

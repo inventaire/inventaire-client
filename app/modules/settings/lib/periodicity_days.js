@@ -1,10 +1,13 @@
-days = []
-for num in [1..180]
-  if num <= 30 or num % 10 is 0
-    days.push { num }
+let num;
+const days = [];
+for (num = 1; num <= 180; num++) {
+  if ((num <= 30) || ((num % 10) === 0)) {
+    days.push({ num });
+  }
+}
 
-module.exports = (selectedDay)->
-  # creates a clone of days
-  return days.map (el)->
-    if el.num is selectedDay then el.selected = true
-    return el
+export default selectedDay => // creates a clone of days
+days.map(function(el){
+  if (el.num === selectedDay) { el.selected = true; }
+  return el;
+});

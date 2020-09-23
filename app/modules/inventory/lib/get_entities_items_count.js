@@ -1,29 +1,31 @@
-module.exports = (userId, uris)->
-  if uris.length is 0 then return Promise.resolve {}
+export default function(userId, uris){
+  if (uris.length === 0) { return Promise.resolve({}); }
 
-  # Split in batches for cases where there might be too many uris
-  # to put in a URL querystring without risking to reach URL character limit
-  # Known case: when /add/import gets to import very large collections
-  # The alternative would be to convert the endpoint to a POST verb to pass those uris in a body
-  urisBatches = _.chunk _.uniq(uris).sort(), 50
+  // Split in batches for cases where there might be too many uris
+  // to put in a URL querystring without risking to reach URL character limit
+  // Known case: when /add/import gets to import very large collections
+  // The alternative would be to convert the endpoint to a POST verb to pass those uris in a body
+  const urisBatches = _.chunk(_.uniq(uris).sort(), 50);
 
-  responses = []
-  counts = {}
-  getBatchesSequentially = ->
-    nextBatch = urisBatches.pop()
-    unless nextBatch? then return counts
-    getEntityItemsCountBatch userId, nextBatch
-    .then (res)-> countEntitiesItems counts, res
-    .then getBatchesSequentially
+  const responses = [];
+  const counts = {};
+  var getBatchesSequentially = function() {
+    const nextBatch = urisBatches.pop();
+    if (nextBatch == null) { return counts; }
+    return getEntityItemsCountBatch(userId, nextBatch)
+    .then(res => countEntitiesItems(counts, res))
+    .then(getBatchesSequentially);
+  };
 
-  getBatchesSequentially()
+  return getBatchesSequentially();
+};
 
-getEntityItemsCountBatch = (userId, uris)->
-  _.preq.get app.API.items.byUserAndEntities(userId, uris)
+var getEntityItemsCountBatch = (userId, uris) => _.preq.get(app.API.items.byUserAndEntities(userId, uris));
 
-countEntitiesItems = (counts, res)->
-  for item in res.items
-    uri = item.entity
-    counts[uri] ?= 0
-    counts[uri]++
-  return
+var countEntitiesItems = function(counts, res){
+  for (let item of res.items) {
+    const uri = item.entity;
+    if (counts[uri] == null) { counts[uri] = 0; }
+    counts[uri]++;
+  }
+};

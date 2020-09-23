@@ -1,4 +1,3 @@
-{ action } = require('./endpoint')('invitations')
+const { action } = require('./endpoint')('invitations');
 
-module.exports =
-  byEmails: action 'by-emails'
+export default {byEmails: action('by-emails')};

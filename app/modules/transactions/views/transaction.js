@@ -1,87 +1,105 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-messagesPlugin = require 'modules/general/plugins/messages'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-screen_ = require 'lib/screen'
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import messagesPlugin from 'modules/general/plugins/messages';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import screen_ from 'lib/screen';
 
-module.exports = Marionette.CompositeView.extend
-  template: require './templates/transaction'
-  id: 'transactionView'
-  behaviors:
-    AlertBox: {}
-    ElasticTextarea: {}
-    PreventDefault: {}
+export default Marionette.CompositeView.extend({
+  template: require('./templates/transaction'),
+  id: 'transactionView',
+  behaviors: {
+    AlertBox: {},
+    ElasticTextarea: {},
+    PreventDefault: {},
     BackupForm: {}
+  },
 
-  initialize: ->
-    @collection = @model.timeline
-    @initPlugins()
-    @model.beforeShow()
+  initialize() {
+    this.collection = this.model.timeline;
+    this.initPlugins();
+    return this.model.beforeShow();
+  },
 
-  initPlugins: ->
-    _.extend @, behaviorsPlugin, messagesPlugin
+  initPlugins() {
+    return _.extend(this, behaviorsPlugin, messagesPlugin);
+  },
 
-  serializeData: -> @model.serializeData()
+  serializeData() { return this.model.serializeData(); },
 
-  onShow: ->
-    @model.markAsRead()
-    if screen_.isSmall() and not @options.nonExplicitSelection
-      screen_.scrollTop @$el
+  onShow() {
+    this.model.markAsRead();
+    if (screen_.isSmall() && !this.options.nonExplicitSelection) {
+      return screen_.scrollTop(this.$el);
+    }
+  },
 
-  modelEvents:
-    'grab': 'lazyRender'
+  modelEvents: {
+    'grab': 'lazyRender',
     'change': 'lazyRender'
+  },
 
-  childViewContainer: '.timeline'
-  childView: require './event'
+  childViewContainer: '.timeline',
+  childView: require('./event'),
 
-  ui:
-    message: 'textarea.message'
+  ui: {
+    message: 'textarea.message',
     avatars: '.avatar img'
+  },
 
-  events:
-    'click .sendMessage': 'sendMessage'
-    'click .accept': 'accept'
-    'click .decline': 'decline'
-    'click .confirm': 'confirm'
-    'click .returned': 'returned'
-    'click .archive': 'archive'
-    'click .item': 'showItem'
-    'click .owner': 'showOwner'
-    'click .cancel': 'cancel'
-    # Those anchors being generated within the i18n shortkeys flow
-    # that's the best selector we can get
+  events: {
+    'click .sendMessage': 'sendMessage',
+    'click .accept': 'accept',
+    'click .decline': 'decline',
+    'click .confirm': 'confirm',
+    'click .returned': 'returned',
+    'click .archive': 'archive',
+    'click .item': 'showItem',
+    'click .owner': 'showOwner',
+    'click .cancel': 'cancel',
+    // Those anchors being generated within the i18n shortkeys flow
+    // that's the best selector we can get
     'click .info a[href^="/items/"]': 'showItem'
+  },
 
-  sendMessage: ->
-    @postMessage 'transaction:post:message', @model.timeline
+  sendMessage() {
+    return this.postMessage('transaction:post:message', this.model.timeline);
+  },
 
-  accept: -> @updateState 'accepted'
-  decline: -> @updateState 'declined'
-  confirm: -> @updateState 'confirmed'
-  returned: -> @updateState 'returned'
-  archive: -> @updateState 'archive'
+  accept() { return this.updateState('accepted'); },
+  decline() { return this.updateState('declined'); },
+  confirm() { return this.updateState('confirmed'); },
+  returned() { return this.updateState('returned'); },
+  archive() { return this.updateState('archive'); },
 
-  updateState: (state)->
-    @model.updateState(state)
-    .catch error_.Complete('.actions')
-    .catch forms_.catchAlert.bind(null, @)
+  updateState(state){
+    return this.model.updateState(state)
+    .catch(error_.Complete('.actions'))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  showItem: (e)->
-    if _.isOpenedOutside e then return
+  showItem(e){
+    if (_.isOpenedOutside(e)) { return; }
 
-    # Case when the item was successfully grabbed by the transaction model
-    if @model.item?
-      app.execute 'show:item', @model.item
-    else
-      app.execute 'show:item:byId', @model.get('item')
+    // Case when the item was successfully grabbed by the transaction model
+    if (this.model.item != null) {
+      return app.execute('show:item', this.model.item);
+    } else {
+      return app.execute('show:item:byId', this.model.get('item'));
+    }
+  },
 
-  showOwner: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:inventory:user', @model.owner
+  showOwner(e){
+    if (!_.isOpenedOutside(e)) {
+      return app.execute('show:inventory:user', this.model.owner);
+    }
+  },
 
-  cancel: ->
-    app.execute 'ask:confirmation',
-      confirmationText: _.i18n 'transaction_cancel_confirmation'
-      action: @model.cancelled.bind(@)
+  cancel() {
+    return app.execute('ask:confirmation', {
+      confirmationText: _.i18n('transaction_cancel_confirmation'),
+      action: this.model.cancelled.bind(this),
       selector: '.cancel'
+    }
+    );
+  }
+});

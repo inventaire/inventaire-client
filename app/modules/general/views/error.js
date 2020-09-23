@@ -1,22 +1,29 @@
-module.exports = Marionette.LayoutView.extend
-  id: 'error'
-  template: require './templates/error'
-  behaviors:
+export default Marionette.LayoutView.extend({
+  id: 'error',
+  template: require('./templates/error'),
+  behaviors: {
     PreventDefault: {}
+  },
 
-  serializeData: -> @options
+  serializeData() { return this.options; },
 
-  events:
+  events: {
     'click .button': 'buttonAction'
+  },
 
-  ui:
+  ui: {
     errorBox: '.errorBox'
+  },
 
-  buttonAction: (e)->
-    unless _.isOpenedOutside e
-      { buttonAction } = @options.redirection
-      if _.isFunction buttonAction then buttonAction()
+  buttonAction(e){
+    if (!_.isOpenedOutside(e)) {
+      const { buttonAction } = this.options.redirection;
+      if (_.isFunction(buttonAction)) { return buttonAction(); }
+    }
+  },
 
-  onShow: ->
-    app.execute 'background:cover'
-    @ui.errorBox.fadeIn()
+  onShow() {
+    app.execute('background:cover');
+    return this.ui.errorBox.fadeIn();
+  }
+});

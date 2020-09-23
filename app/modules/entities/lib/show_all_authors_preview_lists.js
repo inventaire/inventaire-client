@@ -1,17 +1,26 @@
-AuthorsPreviewList = require 'modules/entities/views/authors_preview_list'
+import AuthorsPreviewList from 'modules/entities/views/authors_preview_list';
 
-module.exports = (authorsPerProperty)->
-  for property, models of authorsPerProperty
-    showAuthorsPreviewList.call @, property, models
+export default function(authorsPerProperty){
+  return (() => {
+    const result = [];
+    for (let property in authorsPerProperty) {
+      const models = authorsPerProperty[property];
+      result.push(showAuthorsPreviewList.call(this, property, models));
+    }
+    return result;
+  })();
+};
 
-showAuthorsPreviewList = (property, models)->
-  if models.length is 0 then return
-  collection = new Backbone.Collection models
-  name = extendedAuthorsKeys[property]
-  @[name].show new AuthorsPreviewList { collection, name }
+var showAuthorsPreviewList = function(property, models){
+  if (models.length === 0) { return; }
+  const collection = new Backbone.Collection(models);
+  const name = extendedAuthorsKeys[property];
+  return this[name].show(new AuthorsPreviewList({ collection, name }));
+};
 
-extendedAuthorsKeys =
-  'wdt:P50': 'authors'
-  'wdt:P58': 'scenarists'
-  'wdt:P110': 'illustrators'
+var extendedAuthorsKeys = {
+  'wdt:P50': 'authors',
+  'wdt:P58': 'scenarists',
+  'wdt:P110': 'illustrators',
   'wdt:P6338': 'colorists'
+};

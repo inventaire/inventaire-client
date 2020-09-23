@@ -1,51 +1,63 @@
-forms_ = require 'modules/general/lib/forms'
+import forms_ from 'modules/general/lib/forms';
 
-module.exports = Marionette.ItemView.extend
-  tagName: 'li'
-  className: 'entities-list-element-candidate'
-  template: require './templates/entities_list_element_candidate'
+export default Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'entities-list-element-candidate',
+  template: require('./templates/entities_list_element_candidate'),
 
-  initialize: ->
-    { parentModel, @listCollection, @childrenClaimProperty } = @options
-    @parentUri = parentModel.get('uri')
-    currentPropertyClaims = @model.get("claims.#{@childrenClaimProperty}")
-    @alreadyAdded = @isAlreadyAdded()
-    @invClaimValueOnWdEntity = parentModel.get('isInvEntity') and @model.get('isWikidataEntity')
+  initialize() {
+    let parentModel;
+    ({ parentModel, listCollection: this.listCollection, childrenClaimProperty: this.childrenClaimProperty } = this.options);
+    this.parentUri = parentModel.get('uri');
+    const currentPropertyClaims = this.model.get(`claims.${this.childrenClaimProperty}`);
+    this.alreadyAdded = this.isAlreadyAdded();
+    return this.invClaimValueOnWdEntity = parentModel.get('isInvEntity') && this.model.get('isWikidataEntity');
+  },
 
-  behaviors:
+  behaviors: {
     AlertBox: {}
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    { type } = attrs
-    if type? then attrs[type] = true
-    attrs.description ?= _.i18n type
-    _.extend attrs,
-      alreadyAdded: @alreadyAdded
-      invClaimValueOnWdEntity: @invClaimValueOnWdEntity
+  serializeData() {
+    const attrs = this.model.toJSON();
+    const { type } = attrs;
+    if (type != null) { attrs[type] = true; }
+    if (attrs.description == null) { attrs.description = _.i18n(type); }
+    return _.extend(attrs, {
+      alreadyAdded: this.alreadyAdded,
+      invClaimValueOnWdEntity: this.invClaimValueOnWdEntity
+    }
+    );
+  },
 
-  events:
+  events: {
     'click .add': 'add'
+  },
 
-  add: ->
-    @listCollection.add @model
-    @model.setPropertyValue @childrenClaimProperty, null, @parentUri
-    .then =>
-      @updateStatus()
-      app.execute 'invalidate:entities:graph', @parentUri
-    .catch forms_.catchAlert.bind(null, @)
+  add() {
+    this.listCollection.add(this.model);
+    return this.model.setPropertyValue(this.childrenClaimProperty, null, this.parentUri)
+    .then(() => {
+      this.updateStatus();
+      return app.execute('invalidate:entities:graph', this.parentUri);
+  }).catch(forms_.catchAlert.bind(null, this));
+  },
 
-  updateStatus: ->
-    if @isAlreadyAdded()
-      # Use classes instead of a re-render to prevent blinking {{claim}} labels
-      @$el.find('.add').addClass 'hidden'
-      @$el.find('.added').removeClass 'hidden'
-    else
-      # Use classes instead of a re-render to prevent blinking {{claim}} labels
-      @$el.find('.add').removeClass 'hidden'
-      @$el.find('.added').addClass 'hidden'
+  updateStatus() {
+    if (this.isAlreadyAdded()) {
+      // Use classes instead of a re-render to prevent blinking {{claim}} labels
+      this.$el.find('.add').addClass('hidden');
+      return this.$el.find('.added').removeClass('hidden');
+    } else {
+      // Use classes instead of a re-render to prevent blinking {{claim}} labels
+      this.$el.find('.add').removeClass('hidden');
+      return this.$el.find('.added').addClass('hidden');
+    }
+  },
 
-  isAlreadyAdded: ->
-    currentPropertyClaims = @model.get "claims.#{@childrenClaimProperty}"
-    @alreadyAdded = currentPropertyClaims? and @parentUri in currentPropertyClaims
-    return @alreadyAdded
+  isAlreadyAdded() {
+    const currentPropertyClaims = this.model.get(`claims.${this.childrenClaimProperty}`);
+    this.alreadyAdded = (currentPropertyClaims != null) && currentPropertyClaims.includes(this.parentUri);
+    return this.alreadyAdded;
+  }
+});

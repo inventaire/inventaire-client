@@ -1,47 +1,63 @@
-error_ = require 'lib/error'
-forms_ = require 'modules/general/lib/forms'
+import error_ from 'lib/error';
+import forms_ from 'modules/general/lib/forms';
 
-module.exports =
-  itemShow: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:item', @model
+export default {
+  itemShow(e){
+    if (!_.isOpenedOutside(e)) {
+      return app.execute('show:item', this.model);
+    }
+  },
 
-  showUser: (e)->
-    unless _.isOpenedOutside e
-      app.execute 'show:user', @model.user
-      # Required to close the ItemShow modal if one was open
-      app.execute 'modal:close'
+  showUser(e){
+    if (!_.isOpenedOutside(e)) {
+      app.execute('show:user', this.model.user);
+      // Required to close the ItemShow modal if one was open
+      return app.execute('modal:close');
+    }
+  },
 
-  showTransaction: (e)->
-    unless _.isOpenedOutside e
-      transac = app.request 'get:transaction:ongoing:byItemId', @model.id
-      app.execute 'show:transaction', transac.id
-      # Required to close the ItemShow modal if one was open
-      app.execute 'modal:close'
+  showTransaction(e){
+    if (!_.isOpenedOutside(e)) {
+      const transac = app.request('get:transaction:ongoing:byItemId', this.model.id);
+      app.execute('show:transaction', transac.id);
+      // Required to close the ItemShow modal if one was open
+      return app.execute('modal:close');
+    }
+  },
 
-  updateTransaction: (e)->
-    @updateItem 'transaction', e.target.id
+  updateTransaction(e){
+    return this.updateItem('transaction', e.target.id);
+  },
 
-  updateListing: (e)->
-    @updateItem 'listing', e.target.id
+  updateListing(e){
+    return this.updateItem('listing', e.target.id);
+  },
 
-  updateItem: (attribute, value)->
-    unless attribute? and value?
-      return error_.reject 'invalid item update', arguments
+  updateItem(attribute, value){
+    if ((attribute == null) || (value == null)) {
+      return error_.reject('invalid item update', arguments);
+    }
 
-    app.request 'items:update',
-      items: [ @model ]
-      attribute: attribute
-      value: value
-    .catch (err)=>
-      err.selector = @alertBoxTarget
-      # Let the time to the view to re-render after the model rolled back
-      @setTimeout forms_.catchAlert.bind(null, @, err), 500
+    return app.request('items:update', {
+      items: [ this.model ],
+      attribute,
+      value
+    }).catch(err=> {
+      err.selector = this.alertBoxTarget;
+      // Let the time to the view to re-render after the model rolled back
+      return this.setTimeout(forms_.catchAlert.bind(null, this, err), 500);
+    });
+  },
 
-  itemDestroy: ->
-    afterDestroy = @afterDestroy?.bind(@) or cb = -> console.log 'item deleted'
-    itemDestroyBack = @itemDestroyBack?.bind(@)
-    app.request 'items:delete',
-      items: [ @model ]
-      next: afterDestroy
+  itemDestroy() {
+    let cb;
+    const afterDestroy = this.afterDestroy?.bind(this) || (cb = () => console.log('item deleted'));
+    const itemDestroyBack = this.itemDestroyBack?.bind(this);
+    return app.request('items:delete', {
+      items: [ this.model ],
+      next: afterDestroy,
       back: itemDestroyBack
+    }
+    );
+  }
+};

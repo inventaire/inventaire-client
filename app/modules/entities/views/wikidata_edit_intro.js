@@ -1,22 +1,26 @@
-module.exports = Marionette.ItemView.extend
-  className: 'wikidata-edit-intro'
-  template: require './templates/wikidata_edit_intro'
+export default Marionette.ItemView.extend({
+  className: 'wikidata-edit-intro',
+  template: require('./templates/wikidata_edit_intro'),
 
-  onShow: -> app.execute 'modal:open', 'medium'
+  onShow() { return app.execute('modal:open', 'medium'); },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    attrs.isLoggedIn = app.user.loggedIn
-    attrs.wikidataOauth = app.API.auth.oauth.wikidata + "&redirect=#{attrs.edit}"
-    attrs.wikidataIntro = 'https://www.wikidata.org/wiki/Wikidata:Introduction'
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    attrs.isLoggedIn = app.user.loggedIn;
+    attrs.wikidataOauth = app.API.auth.oauth.wikidata + `&redirect=${attrs.edit}`;
+    attrs.wikidataIntro = 'https://www.wikidata.org/wiki/Wikidata:Introduction';
+    return attrs;
+  },
 
-  events:
+  events: {
     'click .loginRequest': 'showLogin'
+  },
 
-  showLogin: ->
-    # No need to call show:login:redirect as it is called by the General behavior
-    # on app_layout(?)
-    app.execute 'modal:close'
+  showLogin() {
+    // No need to call show:login:redirect as it is called by the General behavior
+    // on app_layout(?)
+    return app.execute('modal:close');
+  },
 
-  onModalExit: -> app.execute 'show:entity', @model.get('uri')
+  onModalExit() { return app.execute('show:entity', this.model.get('uri')); }
+});

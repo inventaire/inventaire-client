@@ -1,133 +1,168 @@
-ClaimsEditorCommons = require './claims_editor_commons'
-noValueI18n = null
+import ClaimsEditorCommons from './claims_editor_commons';
+let noValueI18n = null;
 
-module.exports = ClaimsEditorCommons.extend
-  mainClassName: 'simple-day-value-editor'
-  template: require './templates/simple_day_value_editor'
+export default ClaimsEditorCommons.extend({
+  mainClassName: 'simple-day-value-editor',
+  template: require('./templates/simple_day_value_editor'),
 
-  initialize: ->
-    @initEditModeState()
-    @focusTarget = 'yearPicker'
-    [ year, month, day ] = simpleDayParts @model.get 'value'
-    @initialValues = { year, month, day }
-    @currentlySelected = {}
-    @setCurrentValues year, month, day
+  initialize() {
+    this.initEditModeState();
+    this.focusTarget = 'yearPicker';
+    const [ year, month, day ] = Array.from(simpleDayParts(this.model.get('value')));
+    this.initialValues = { year, month, day };
+    this.currentlySelected = {};
+    this.setCurrentValues(year, month, day);
 
-    # Add the translated version of 'no value' once the _.i18n
-    # function is accessible
-    unless noValueI18n?
-      noValueI18n or= _.i18n 'no value'
-      selectorValues.month.unshift noValueI18n
-      selectorValues.day.unshift noValueI18n
+    // Add the translated version of 'no value' once the _.i18n
+    // function is accessible
+    if (noValueI18n == null) {
+      if (!noValueI18n) { noValueI18n = _.i18n('no value'); }
+      selectorValues.month.unshift(noValueI18n);
+      return selectorValues.day.unshift(noValueI18n);
+    }
+  },
 
-  ui:
-    yearPicker: '#yearPicker'
-    monthPicker: '#monthPicker'
+  ui: {
+    yearPicker: '#yearPicker',
+    monthPicker: '#monthPicker',
     dayPicker: '#dayPicker'
+  },
 
-  events:
-    'click .edit, .displayModeData': 'showEditMode'
-    'click .cancel': 'hideEditMode'
-    'click .save': 'save'
-    'click .delete': 'delete'
-    # Not setting a particular selector so that
-    # any keyup event on the element triggers the event
-    'keyup': 'onKeyUp'
-    'click .addUnit': 'addUnit'
+  events: {
+    'click .edit, .displayModeData': 'showEditMode',
+    'click .cancel': 'hideEditMode',
+    'click .save': 'save',
+    'click .delete': 'delete',
+    // Not setting a particular selector so that
+    // any keyup event on the element triggers the event
+    'keyup': 'onKeyUp',
+    'click .addUnit': 'addUnit',
     'change select': 'updateSelectors'
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    attrs.editMode = @editMode
-    if @editMode
-      attrs.yearData = @getUnitData 'year', currentYear
-      attrs.monthData = @getUnitData 'month', null
-      attrs.dayData = @getUnitData 'day', null
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    attrs.editMode = this.editMode;
+    if (this.editMode) {
+      attrs.yearData = this.getUnitData('year', currentYear);
+      attrs.monthData = this.getUnitData('month', null);
+      attrs.dayData = this.getUnitData('day', null);
+    }
+    return attrs;
+  },
 
-  onToggleEditMode: ->
-    # Reset values so that escaping the edit mode and coming back in edit mode
-    # results in the value being restored to its saved state
-    @setCurrentValues simpleDayParts(@model.get('value'))...
+  onToggleEditMode() {
+    // Reset values so that escaping the edit mode and coming back in edit mode
+    // results in the value being restored to its saved state
+    return this.setCurrentValues(...Array.from(simpleDayParts(this.model.get('value')) || []));
+  },
 
-  getUnitData: (name, defaultValue)->
-    value = @currentlySelected[name] or defaultValue
-    possibleValues = getPossibleValues selectorValues[name], defaultValue, value
-    return { name, value, possibleValues }
+  getUnitData(name, defaultValue){
+    const value = this.currentlySelected[name] || defaultValue;
+    const possibleValues = getPossibleValues(selectorValues[name], defaultValue, value);
+    return { name, value, possibleValues };
+  },
 
-  onRender: ->
-    @focusOnRender()
+  onRender() {
+    return this.focusOnRender();
+  },
 
-  updateSelectors: (e)->
-    { id, value } = e.currentTarget
-    name = id.replace 'Picker', ''
-    if value is noValueI18n
-      if name is 'month'
-        @currentlySelected.month = null
-        @focusTarget = 'yearPicker'
-      else
-        @focusTarget = 'monthPicker'
+  updateSelectors(e){
+    const { id, value } = e.currentTarget;
+    const name = id.replace('Picker', '');
+    if (value === noValueI18n) {
+      if (name === 'month') {
+        this.currentlySelected.month = null;
+        this.focusTarget = 'yearPicker';
+      } else {
+        this.focusTarget = 'monthPicker';
+      }
 
-      @currentlySelected.day = null
-      @lazyRender()
-    else
-      @currentlySelected[name] = parseInt value
+      this.currentlySelected.day = null;
+      return this.lazyRender();
+    } else {
+      return this.currentlySelected[name] = parseInt(value);
+    }
+  },
 
-  setCurrentValues: (year, month, day)->
-    # Make sure those are of type number as that's what
-    # getPossibleValues needs to find the selected value
-    @currentlySelected.year = parseIntIfVal year
-    @currentlySelected.month = parseIntIfVal month
-    @currentlySelected.day = parseIntIfVal day
+  setCurrentValues(year, month, day){
+    // Make sure those are of type number as that's what
+    // getPossibleValues needs to find the selected value
+    this.currentlySelected.year = parseIntIfVal(year);
+    this.currentlySelected.month = parseIntIfVal(month);
+    return this.currentlySelected.day = parseIntIfVal(day);
+  },
 
-  addUnit: (e)->
-    name = e.currentTarget.attributes['data-name'].value
-    @currentlySelected[name] = @initialValues[name] or 1
-    if name is 'day' and not @currentlySelected.month?
-      @currentlySelected.month = @initialValues.month or 1
-    @focusTarget = "#{name}Picker"
-    @lazyRender()
+  addUnit(e){
+    const name = e.currentTarget.attributes['data-name'].value;
+    this.currentlySelected[name] = this.initialValues[name] || 1;
+    if ((name === 'day') && (this.currentlySelected.month == null)) {
+      this.currentlySelected.month = this.initialValues.month || 1;
+    }
+    this.focusTarget = `${name}Picker`;
+    return this.lazyRender();
+  },
 
-  save: ->
-    year = @ui.yearPicker.val()
-    month = paddedValue @ui.monthPicker?.val()
-    day = paddedValue @ui.dayPicker?.val()
+  save() {
+    const year = this.ui.yearPicker.val();
+    const month = paddedValue(this.ui.monthPicker?.val());
+    const day = paddedValue(this.ui.dayPicker?.val());
 
-    date = year
-    if month?
-      date += "-#{month}"
-      if day? then date += "-#{day}"
+    let date = year;
+    if (month != null) {
+      date += `-${month}`;
+      if (day != null) { date += `-${day}`; }
+    }
 
-    @_save date
+    return this._save(date);
+  }
+});
 
-getPossibleValues = (values, defaultValue, selected)->
-  selected or= defaultValue
-  return values.map (value)->
-    valueObj = { num: value }
-    if selected? and value is selected then valueObj.selected = true
-    return valueObj
+var getPossibleValues = function(values, defaultValue, selected){
+  if (!selected) { selected = defaultValue; }
+  return values.map(function(value){
+    const valueObj = { num: value };
+    if ((selected != null) && (value === selected)) { valueObj.selected = true; }
+    return valueObj;
+  });
+};
 
-simpleDayParts = (simpleDay)->
-  if _.isNonEmptyString simpleDay
-    return simpleDay.split('-').map parseDateInt
-  else
-    return []
+var simpleDayParts = function(simpleDay){
+  if (_.isNonEmptyString(simpleDay)) {
+    return simpleDay.split('-').map(parseDateInt);
+  } else {
+    return [];
+  }
+};
 
-parseDateInt = (date)->
-  if _.isNonEmptyString date then parseInt date.replace(/^0/, '')
-  else null
+var parseDateInt = function(date){
+  if (_.isNonEmptyString(date)) { return parseInt(date.replace(/^0/, ''));
+  } else { return null; }
+};
 
-paddedValue = (value)->
-  if value?.toString().length is 1 then "0#{value}" else value
+var paddedValue = function(value){
+  if (value?.toString().length === 1) { return `0${value}`; } else { return value; }
+};
 
-parseIntIfVal = (value)-> if value? then parseInt value
+var parseIntIfVal = function(value){ if (value != null) { return parseInt(value); } };
 
-currentYear = parseInt _.simpleDay().split('-')[0]
-nextYear = currentYear + 1
+var currentYear = parseInt(_.simpleDay().split('-')[0]);
+const nextYear = currentYear + 1;
 
-selectorValues =
-  day: [ 1..31 ]
-  month: [ 1..12 ]
-  # Start with the latest years first, as those are likely
-  # to be the most used values
-  year: [ nextYear..1800 ]
+var selectorValues = {
+  day: __range__(1, 31, true),
+  month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  // Start with the latest years first, as those are likely
+  // to be the most used values
+  year: __range__(nextYear, 1800, true)
+};
+
+function __range__(left, right, inclusive) {
+  let range = [];
+  let ascending = left < right;
+  let end = !inclusive ? right : ascending ? right + 1 : right - 1;
+  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
+    range.push(i);
+  }
+  return range;
+}

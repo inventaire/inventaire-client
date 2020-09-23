@@ -1,10 +1,11 @@
-{ langs:activeLangs } = require 'lib/active_languages'
-availableLangList = require 'lib/available_lang_list'
+import { langs as activeLangs } from 'lib/active_languages';
+import availableLangList from 'lib/available_lang_list';
 
-module.exports = (selectedLang, labels)->
-  availableLangs = Object.keys labels
-  highPriorityLangs = [ app.user.lang, 'en' ]
-  allLangs = _.uniq availableLangs.concat(highPriorityLangs, activeLangs)
-  # No distinction is made between available langs and others
-  # as we can't style the <option> element anyway
-  return availableLangList allLangs, selectedLang
+export default function(selectedLang, labels){
+  const availableLangs = Object.keys(labels);
+  const highPriorityLangs = [ app.user.lang, 'en' ];
+  const allLangs = _.uniq(availableLangs.concat(highPriorityLangs, activeLangs));
+  // No distinction is made between available langs and others
+  // as we can't style the <option> element anyway
+  return availableLangList(allLangs, selectedLang);
+};

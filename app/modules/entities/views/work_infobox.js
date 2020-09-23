@@ -1,44 +1,52 @@
-showAllAuthorsPreviewLists = require 'modules/entities/lib/show_all_authors_preview_lists'
-clampedExtract = require '../lib/clamped_extract'
+import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists';
+import clampedExtract from '../lib/clamped_extract';
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/work_infobox'
-  className: 'workInfobox flex-column-center-center'
-  regions:
-    authors: '.authors'
-    scenarists: '.scenarists'
-    illustrators: '.illustrators'
+export default Marionette.LayoutView.extend({
+  template: require('./templates/work_infobox'),
+  className: 'workInfobox flex-column-center-center',
+  regions: {
+    authors: '.authors',
+    scenarists: '.scenarists',
+    illustrators: '.illustrators',
     colorists: '.colorists'
+  },
 
-  behaviors:
-    PreventDefault: {}
-    EntitiesCommons: {}
+  behaviors: {
+    PreventDefault: {},
+    EntitiesCommons: {},
     ClampedExtract: {}
+  },
 
-  initialize: (options)->
-    @hidePicture = options.hidePicture
-    @waitForAuthors = @model.getExtendedAuthorsModels()
-    @model.getWikipediaExtract()
+  initialize(options){
+    this.hidePicture = options.hidePicture;
+    this.waitForAuthors = this.model.getExtendedAuthorsModels();
+    return this.model.getWikipediaExtract();
+  },
 
-  modelEvents:
+  modelEvents: {
     'change': 'lazyRender'
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    clampedExtract.setAttributes attrs
-    attrs.standalone = @options.standalone
-    attrs.hidePicture = @hidePicture
-    setImagesSubGroups attrs
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    clampedExtract.setAttributes(attrs);
+    attrs.standalone = this.options.standalone;
+    attrs.hidePicture = this.hidePicture;
+    setImagesSubGroups(attrs);
+    return attrs;
+  },
 
-  onRender: ->
-    app.execute 'uriLabel:update'
+  onRender() {
+    app.execute('uriLabel:update');
 
-    @waitForAuthors
-    .then @ifViewIsIntact(showAllAuthorsPreviewLists)
+    return this.waitForAuthors
+    .then(this.ifViewIsIntact(showAllAuthorsPreviewLists));
+  }
+});
 
-setImagesSubGroups = (attrs)->
-  { images } = attrs
-  unless images? then return
-  attrs.mainImage = images[0]
-  attrs.secondaryImages = images.slice(1)
+var setImagesSubGroups = function(attrs){
+  const { images } = attrs;
+  if (images == null) { return; }
+  attrs.mainImage = images[0];
+  return attrs.secondaryImages = images.slice(1);
+};

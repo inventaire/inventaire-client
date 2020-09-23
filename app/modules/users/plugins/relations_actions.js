@@ -1,64 +1,75 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ BasicPlugin } = require 'lib/plugins'
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import { BasicPlugin } from 'lib/plugins';
 
-events =
-  # general actions
-  'click .cancel': 'cancel'
-  'click .discard': 'discard'
-  'click .accept': 'accept'
-  'click .request': 'send'
-  'click .unfriend': 'unfriend'
-  # group actions
-  'click .invite': 'invite'
-  'click .acceptRequest': 'acceptRequest'
-  'click .refuseRequest': 'refuseRequest'
-  'click .makeAdmin': 'makeAdmin'
+const events = {
+  // general actions
+  'click .cancel': 'cancel',
+  'click .discard': 'discard',
+  'click .accept': 'accept',
+  'click .request': 'send',
+  'click .unfriend': 'unfriend',
+  // group actions
+  'click .invite': 'invite',
+  'click .acceptRequest': 'acceptRequest',
+  'click .refuseRequest': 'refuseRequest',
+  'click .makeAdmin': 'makeAdmin',
   'click .kick': 'kick'
+};
 
-confirmAction = (actionLabel, action, warningText)->
-  confirmationText = _.I18n "#{actionLabel}_confirmation",
-    username: @model.get 'username'
+const confirmAction = function(actionLabel, action, warningText){
+  const confirmationText = _.I18n(`${actionLabel}_confirmation`,
+    {username: this.model.get('username')});
 
-  app.execute 'ask:confirmation', { confirmationText, warningText, action }
+  return app.execute('ask:confirmation', { confirmationText, warningText, action });
+};
 
-confirmUnfriend = ->
-  confirmAction.call @, 'unfriend', app.Request('unfriend', @model)
+const confirmUnfriend = function() {
+  return confirmAction.call(this, 'unfriend', app.Request('unfriend', this.model));
+};
 
-handlers =
-  cancel: -> app.request 'request:cancel', @model
-  discard: -> app.request 'request:discard', @model
-  accept: -> app.request 'request:accept', @model
-  send: ->
-    if app.request 'require:loggedIn', @model.get('pathname')
-      app.request 'request:send', @model
-  unfriend: confirmUnfriend
-  invite: ->
-    unless @group? then return _.error 'inviteUser err: group is missing'
+const handlers = {
+  cancel() { return app.request('request:cancel', this.model); },
+  discard() { return app.request('request:discard', this.model); },
+  accept() { return app.request('request:accept', this.model); },
+  send() {
+    if (app.request('require:loggedIn', this.model.get('pathname'))) {
+      return app.request('request:send', this.model);
+    }
+  },
+  unfriend: confirmUnfriend,
+  invite() {
+    if (this.group == null) { return _.error('inviteUser err: group is missing'); }
 
-    @group.inviteUser @model
-    .catch behaviorsPlugin.Fail.call(@, 'invite user')
+    return this.group.inviteUser(this.model)
+    .catch(behaviorsPlugin.Fail.call(this, 'invite user'));
+  },
 
-  acceptRequest: ->
-    unless @group? then return _.error 'acceptRequest err: group is missing'
+  acceptRequest() {
+    if (this.group == null) { return _.error('acceptRequest err: group is missing'); }
 
-    @group.acceptRequest @model
-    .catch behaviorsPlugin.Fail.call(@, 'accept user request')
+    return this.group.acceptRequest(this.model)
+    .catch(behaviorsPlugin.Fail.call(this, 'accept user request'));
+  },
 
-  refuseRequest: ->
-    unless @group? then return _.error 'refuseRequest err: group is missing'
+  refuseRequest() {
+    if (this.group == null) { return _.error('refuseRequest err: group is missing'); }
 
-    @group.refuseRequest @model
-    .catch behaviorsPlugin.Fail.call(@, 'refuse user request')
+    return this.group.refuseRequest(this.model)
+    .catch(behaviorsPlugin.Fail.call(this, 'refuse user request'));
+  },
 
-  makeAdmin: ->
-    unless @group? then return _.error 'makeAdmin err: group is missing'
-    actionFn = @group.makeAdmin.bind @group, @model
-    warningText = _.I18n 'group_make_admin_warning'
-    confirmAction.call @, 'group_make_admin', actionFn, warningText
+  makeAdmin() {
+    if (this.group == null) { return _.error('makeAdmin err: group is missing'); }
+    const actionFn = this.group.makeAdmin.bind(this.group, this.model);
+    const warningText = _.I18n('group_make_admin_warning');
+    return confirmAction.call(this, 'group_make_admin', actionFn, warningText);
+  },
 
-  kick: ->
-    unless @group? then return _.error 'kick err: group is missing'
-    actionFn = @group.kick.bind @group, @model
-    confirmAction.call @, 'group_kick', actionFn
+  kick() {
+    if (this.group == null) { return _.error('kick err: group is missing'); }
+    const actionFn = this.group.kick.bind(this.group, this.model);
+    return confirmAction.call(this, 'group_kick', actionFn);
+  }
+};
 
-module.exports = BasicPlugin events, handlers
+export default BasicPlugin(events, handlers);

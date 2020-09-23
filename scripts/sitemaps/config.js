@@ -1,7 +1,6 @@
-publicPath = 'public/sitemaps'
+const publicPath = 'public/sitemaps';
 
-module.exports =
-  publicPath: publicPath
-  folder: "./#{publicPath}"
-  main: 'main.xml'
-  index: 'sitemapindex.xml'
+export { publicPath };
+export let folder = `./${publicPath}`;
+export let main = 'main.xml';
+export let index = 'sitemapindex.xml';

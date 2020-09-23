@@ -1,8 +1,10 @@
-module.exports = Backbone.Collection.extend
-  model: require '../models/task'
-  comparator: (task)-> -task.get('globalScore')
-  getHighestScore: (ignoreTaskId)->
-    highestTask = @models[0]
-    unless highestTask? then return 0
-    if highestTask.id is ignoreTaskId then highestTask = @models[1]
-    return if highestTask? then highestTask.get('globalScore') else 0
+export default Backbone.Collection.extend({
+  model: require('../models/task'),
+  comparator(task){ return -task.get('globalScore'); },
+  getHighestScore(ignoreTaskId){
+    let highestTask = this.models[0];
+    if (highestTask == null) { return 0; }
+    if (highestTask.id === ignoreTaskId) { highestTask = this.models[1]; }
+    if (highestTask != null) { return highestTask.get('globalScore'); } else { return 0; }
+  }
+});

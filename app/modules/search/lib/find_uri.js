@@ -1,10 +1,10 @@
-wdk = require 'lib/wikidata-sdk'
-isbn_ = require 'lib/isbn'
+import wdk from 'lib/wikidata-sdk';
+import isbn_ from 'lib/isbn';
 
-module.exports = (text)->
-  text = text.trim()
-  if _.isEntityUri text then return text
-  if wdk.isWikidataItemId(text) then return 'wd:' + text
-  if _.isInvEntityId(text) then return 'inv:' + text
-  if isbn_.looksLikeAnIsbn(text) then return 'isbn:' + isbn_.normalizeIsbn(text)
-  return
+export default function(text){
+  text = text.trim();
+  if (_.isEntityUri(text)) { return text; }
+  if (wdk.isWikidataItemId(text)) { return 'wd:' + text; }
+  if (_.isInvEntityId(text)) { return 'inv:' + text; }
+  if (isbn_.looksLikeAnIsbn(text)) { return 'isbn:' + isbn_.normalizeIsbn(text); }
+};

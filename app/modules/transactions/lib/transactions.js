@@ -1,46 +1,58 @@
-# Keep in sync with server/models/attributes/transaction
+// Keep in sync with server/models/attributes/transaction
 
-basicNextActions =
-  # current state:
-  requested:
-    # key: main user role in this transaction
-    # value: possible actions
-    owner: 'accept/decline'
+const basicNextActions = {
+  // current state:
+  requested: {
+    // key: main user role in this transaction
+    // value: possible actions
+    owner: 'accept/decline',
     requester: 'waiting:accepted'
-  accepted:
-    owner: 'waiting:confirmed'
+  },
+  accepted: {
+    owner: 'waiting:confirmed',
     requester: 'confirm'
-  declined:
-    owner: null
+  },
+  declined: {
+    owner: null,
     requester: null
-  confirmed:
-    owner: null
+  },
+  confirmed: {
+    owner: null,
     requester: null
-  cancelled:
-    owner: null
+  },
+  cancelled: {
+    owner: null,
     requester: null
+  }
+};
 
-# customizing actions for transactions where the item should be returned
-# currently only 'lending'
-nextActionsWithReturn = _.extend {}, basicNextActions,
-  confirmed:
-    owner: 'returned'
+// customizing actions for transactions where the item should be returned
+// currently only 'lending'
+const nextActionsWithReturn = _.extend({}, basicNextActions, {
+  confirmed: {
+    owner: 'returned',
     requester: 'waiting:returned'
-  returned:
-    owner: null
+  },
+  returned: {
+    owner: null,
     requester: null
+  }
+}
+);
 
-getNextActionsList = (transactionName)->
-  if transactionName is 'lending' then nextActionsWithReturn
-  else basicNextActions
+const getNextActionsList = function(transactionName){
+  if (transactionName === 'lending') { return nextActionsWithReturn;
+  } else { return basicNextActions; }
+};
 
-findNextActions = (transacData)->
-  { name, state, mainUserIsOwner } = transacData
-  nextActions = getNextActionsList name, state
-  role = if mainUserIsOwner then 'owner' else 'requester'
-  return nextActions[state][role]
+const findNextActions = function(transacData){
+  const { name, state, mainUserIsOwner } = transacData;
+  const nextActions = getNextActionsList(name, state);
+  const role = mainUserIsOwner ? 'owner' : 'requester';
+  return nextActions[state][role];
+};
 
-isActive = (transacData)-> findNextActions(transacData)?
-isArchived = (transacData)-> not isActive(transacData)
+const isActive = transacData => findNextActions(transacData) != null;
+const isArchived = transacData => !isActive(transacData);
 
-module.exports = { findNextActions, isArchived }
+export { findNextActions, isArchived };

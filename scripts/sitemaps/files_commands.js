@@ -1,25 +1,27 @@
-{ folder } = require './config'
-{ exec } = require 'child_process'
-{ grey, green } = require 'chalk'
+import { folder } from './config';
+import { exec } from 'child_process';
+import { grey, green } from 'chalk';
+import fs from 'fs';
+const ls = dir => console.log(fs.readdirSync(dir));
+const cp = (orignal, copy) => fs.createReadStream(orignal)
+.pipe(fs.createWriteStream(copy));
 
-fs = require 'fs'
-ls = (dir)-> console.log fs.readdirSync(dir)
-cp = (orignal, copy)->
-  fs.createReadStream orignal
-  .pipe fs.createWriteStream(copy)
+const { stderr } = process;
 
-{ stderr } = process
+export default {
+  rmFiles() {
+    exec(`rm ${folder}/*`).stderr.pipe(stderr);
+    return console.log(grey('removed old files'));
+  },
+  gzipFiles() {
+    exec(`for f in ${folder}/*; do gzip --best < $f > $f.gz; done`).stderr.pipe(stderr);
+    return console.log(green('gzipping files'));
+  },
+  generateMainSitemap() {
+    cp(`${__dirname}/main.xml`, `${folder}/main.xml`);
+    return console.log(green('copied main.xml'));
+  },
 
-module.exports =
-  rmFiles: ->
-    exec("rm #{folder}/*").stderr.pipe stderr
-    console.log grey('removed old files')
-  gzipFiles: ->
-    exec("for f in #{folder}/*; do gzip --best < $f > $f.gz; done").stderr.pipe stderr
-    console.log green('gzipping files')
-  generateMainSitemap: ->
-    cp "#{__dirname}/main.xml", "#{folder}/main.xml"
-    console.log green('copied main.xml')
-
-  ls: ls
-  cp: cp
+  ls,
+  cp
+};

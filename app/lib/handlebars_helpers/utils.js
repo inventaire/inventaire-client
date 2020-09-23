@@ -1,22 +1,26 @@
-# inspired by some things there http://assemble.io/helpers/
-{ SafeString, escapeExpression } = Handlebars
+// inspired by some things there http://assemble.io/helpers/
+const { SafeString, escapeExpression } = Handlebars;
 
-module.exports =
-  join: (array, separator)->
-    unless _.isNonEmptyArray array then return array
-    unless _.isString(separator) then separator = ', '
-    return array.join separator
+export default {
+  join(array, separator){
+    if (!_.isNonEmptyArray(array)) { return array; }
+    if (!_.isString(separator)) { separator = ', '; }
+    return array.join(separator);
+  },
 
-  joinAuthors: (array)->
-    array = _.compact array
-    unless array?.length > 0 then return ''
-    return new SafeString(@join(array.map(linkifyAuthorString)) + '<br>')
+  joinAuthors(array){
+    array = _.compact(array);
+    if (array?.length <= 0) { return ''; }
+    return new SafeString(this.join(array.map(linkifyAuthorString)) + '<br>');
+  },
 
-  log: (args, data)-> _.log.apply _, args
+  log(args, data){ return _.log.apply(_, args); },
 
-  default: (text, def)-> text or def
+  default(text, def){ return text || def; }
+};
 
-linkifyAuthorString = (text)->
-  str = escapeExpression text
-  q = _.fixedEncodeURIComponent text
-  return "<a href='/search?q=#{q}' class='link searchAuthor'>#{str}</a>"
+var linkifyAuthorString = function(text){
+  const str = escapeExpression(text);
+  const q = _.fixedEncodeURIComponent(text);
+  return `<a href='/search?q=${q}' class='link searchAuthor'>${str}</a>`;
+};

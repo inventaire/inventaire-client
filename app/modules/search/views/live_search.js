@@ -1,303 +1,344 @@
-# TODO:
-# - hint to input ISBNs directly, maybe in the alternatives sections
-# - add 'help': indexed wiki.inventaire.io entries to give results
-#   to searches such as 'FAQ' or 'help creating group'
-# - add 'place': search Wikidata for entities with coordinates (wdt:P625)
-#   and display a layout with users & groups nearby, as well as books with
-#   narrative location (wdt:P840), or authors born (wdt:P19)
-#   or dead (wdt:P20) nearby
+// TODO:
+// - hint to input ISBNs directly, maybe in the alternatives sections
+// - add 'help': indexed wiki.inventaire.io entries to give results
+//   to searches such as 'FAQ' or 'help creating group'
+// - add 'place': search Wikidata for entities with coordinates (wdt:P625)
+//   and display a layout with users & groups nearby, as well as books with
+//   narrative location (wdt:P840), or authors born (wdt:P19)
+//   or dead (wdt:P20) nearby
 
-Results = Backbone.Collection.extend { model: require('../models/result') }
-wikidataSearch = require('modules/entities/lib/search/wikidata_search')(false)
-findUri = require '../lib/find_uri'
-error_ = require 'lib/error'
-{ looksLikeAnIsbn, normalizeIsbn } = require 'lib/isbn'
-screen_ = require 'lib/screen'
-searchBatchLength = 10
-searchCount = 0
+const Results = Backbone.Collection.extend({ model: require('../models/result') });
+const wikidataSearch = require('modules/entities/lib/search/wikidata_search')(false);
+const findUri = require('../lib/find_uri');
+const error_ = require('lib/error');
+const { looksLikeAnIsbn, normalizeIsbn } = require('lib/isbn');
+const screen_ = require('lib/screen');
+const searchBatchLength = 10;
+let searchCount = 0;
 
-module.exports = Marionette.CompositeView.extend
-  id: 'live-search'
-  template: require './templates/live_search'
-  childViewContainer: 'ul.results'
-  childView: require './result'
-  emptyView: require './no_result'
+export default Marionette.CompositeView.extend({
+  id: 'live-search',
+  template: require('./templates/live_search'),
+  childViewContainer: 'ul.results',
+  childView: require('./result'),
+  emptyView: require('./no_result'),
 
-  initialize: ->
-    @collection = new Results
-    @_lazySearch = _.debounce @search.bind(@), 500
-    { section: @selectedSectionName } = @options
-    @_searchOffset = 0
+  initialize() {
+    this.collection = new Results;
+    this._lazySearch = _.debounce(this.search.bind(this), 500);
+    ({ section: this.selectedSectionName } = this.options);
+    return this._searchOffset = 0;
+  },
 
-  ui:
-    all: '#section-all'
-    sections: '.searchSection'
-    resultsWrapper: '.resultsWrapper'
-    results: 'ul.results'
-    alternatives: '.alternatives'
-    shortcuts: '.shortcuts'
+  ui: {
+    all: '#section-all',
+    sections: '.searchSection',
+    resultsWrapper: '.resultsWrapper',
+    results: 'ul.results',
+    alternatives: '.alternatives',
+    shortcuts: '.shortcuts',
     loader: '.loaderWrapper'
+  },
 
-  serializeData: ->
-    sections = sectionsData()
-    unless sections[@selectedSectionName]?
-      _.warn { sections, @selectedSectionName }, 'unknown search section'
-      @selectedSectionName = 'all'
-    sections[@selectedSectionName].selected = true
-    return { sections }
+  serializeData() {
+    const sections = sectionsData();
+    if (sections[this.selectedSectionName] == null) {
+      _.warn({ sections, selectedSectionName: this.selectedSectionName }, 'unknown search section');
+      this.selectedSectionName = 'all';
+    }
+    sections[this.selectedSectionName].selected = true;
+    return { sections };
+  },
 
-  events:
-    'click .searchSection': 'updateSections'
+  events: {
+    'click .searchSection': 'updateSections',
     'click .createEntity': 'showEntityCreate'
+  },
 
-  onShow: ->
-    # Doesn't work if set in events for some reason
-    @ui.resultsWrapper.on 'scroll', @onResultsScroll.bind(@)
+  onShow() {
+    // Doesn't work if set in events for some reason
+    return this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this));
+  },
 
-  onSpecialKey: (key)->
-    switch key
-      when 'up' then @highlightPrevious()
-      when 'down' then @highlightNext()
-      when 'enter' then @showCurrentlyHighlightedResult()
-      when 'pageup' then @selectPrevSection()
-      when 'pagedown' then @selectNextSection()
-      else return
+  onSpecialKey(key){
+    switch (key) {
+      case 'up': return this.highlightPrevious();
+      case 'down': return this.highlightNext();
+      case 'enter': return this.showCurrentlyHighlightedResult();
+      case 'pageup': return this.selectPrevSection();
+      case 'pagedown': return this.selectNextSection();
+      default: return;
+    }
+  },
 
-  updateSections: (e)-> @selectTypeFromTarget $(e.currentTarget)
+  updateSections(e){ return this.selectTypeFromTarget($(e.currentTarget)); },
 
-  selectPrevSection: -> @selectByPosition 'prev', 'last'
-  selectNextSection: -> @selectByPosition 'next', 'first'
-  selectByPosition: (relation, fallback)->
-    $target = @$el.find('.selected')[relation]()
-    if $target.length is 0 then $target = @$el.find('.sections a')[fallback]()
-    @selectTypeFromTarget $target
+  selectPrevSection() { return this.selectByPosition('prev', 'last'); },
+  selectNextSection() { return this.selectByPosition('next', 'first'); },
+  selectByPosition(relation, fallback){
+    let $target = this.$el.find('.selected')[relation]();
+    if ($target.length === 0) { $target = this.$el.find('.sections a')[fallback](); }
+    return this.selectTypeFromTarget($target);
+  },
 
-  selectTypeFromTarget: ($target)->
-    { id } = $target[0]
-    type = getTypeFromId id
-    @selectType type
+  selectTypeFromTarget($target){
+    const { id } = $target[0];
+    const type = getTypeFromId(id);
+    return this.selectType(type);
+  },
 
-  selectType: (type)->
-    if type is @_lastType then return
+  selectType(type){
+    if (type === this._lastType) { return; }
 
-    @ui.sections.removeClass 'selected'
-    @ui.sections.filter("#section-#{type}").addClass 'selected'
-    if type is 'all' then @section = null
-    else @section = (child)-> child.get('typeAlias') is type
+    this.ui.sections.removeClass('selected');
+    this.ui.sections.filter(`#section-${type}`).addClass('selected');
+    if (type === 'all') { this.section = null;
+    } else { this.section = child => child.get('typeAlias') === type; }
 
-    @_searchOffset = 0
-    @_lastType = type
-    # Refresh the search with the new sections
-    if @_lastSearch? and @_lastSearch isnt '' then @lazySearch @_lastSearch
+    this._searchOffset = 0;
+    this._lastType = type;
+    // Refresh the search with the new sections
+    if ((this._lastSearch != null) && (this._lastSearch !== '')) { this.lazySearch(this._lastSearch); }
 
-    @updateAlternatives type
+    return this.updateAlternatives(type);
+  },
 
-  updateAlternatives: (search)->
-    if @_lastType in sectionsWithAlternatives then @showAlternatives(search)
-    else @hideAlternatives()
+  updateAlternatives(search){
+    if (sectionsWithAlternatives.includes(this._lastType)) { return this.showAlternatives(search);
+    } else { return this.hideAlternatives(); }
+  },
 
-  search: (search)->
-    search = search?.trim()
-    @_lastSearch = search
-    @_lastSearchId = ++searchCount
-    @_searchOffset = 0
+  search(search){
+    search = search?.trim();
+    this._lastSearch = search;
+    this._lastSearchId = ++searchCount;
+    this._searchOffset = 0;
 
-    unless _.isNonEmptyString search then return @hideAlternatives()
+    if (!_.isNonEmptyString(search)) { return this.hideAlternatives(); }
 
-    uri = findUri search
-    if uri? then return @getResultFromUri uri, @_lastSearchId, @_lastSearch
+    const uri = findUri(search);
+    if (uri != null) { return this.getResultFromUri(uri, this._lastSearchId, this._lastSearch); }
 
-    @_search search
-    .then @resetResults.bind(@, @_lastSearchId)
+    this._search(search)
+    .then(this.resetResults.bind(this, this._lastSearchId));
 
-    @_waitingForAlternatives = true
-    @setTimeout @updateAlternatives.bind(@, search), 2000
+    this._waitingForAlternatives = true;
+    return this.setTimeout(this.updateAlternatives.bind(this, search), 2000);
+  },
 
-  _search: (search)->
-    types = @getTypes()
-    # Subjects aren't indexed in the server ElasticSearch
-    # as it's not a subset of Wikidata anymore: pretty much anything
-    # on Wikidata can be considered a subject
-    if types is 'subjects'
-      wikidataSearch search, searchBatchLength, @_searchOffset
-      .map formatSubject
-    else
-      # Increasing search limit instead of offset, as search pages aren't stable:
-      # results popularity might have change the results order between two requests,
-      # thus the need to re-fetch from offset 0 but increasing the page length, and adding only
-      # the results that weren't returned in the previous query, whatever there place
-      # in the newly returned results
-      searchLimit = searchBatchLength + @_searchOffset
-      _.preq.get app.API.search(types, search, searchLimit)
-      .get 'results'
+  _search(search){
+    const types = this.getTypes();
+    // Subjects aren't indexed in the server ElasticSearch
+    // as it's not a subset of Wikidata anymore: pretty much anything
+    // on Wikidata can be considered a subject
+    if (types === 'subjects') {
+      return wikidataSearch(search, searchBatchLength, this._searchOffset)
+      .map(formatSubject);
+    } else {
+      // Increasing search limit instead of offset, as search pages aren't stable:
+      // results popularity might have change the results order between two requests,
+      // thus the need to re-fetch from offset 0 but increasing the page length, and adding only
+      // the results that weren't returned in the previous query, whatever there place
+      // in the newly returned results
+      const searchLimit = searchBatchLength + this._searchOffset;
+      return _.preq.get(app.API.search(types, search, searchLimit))
+      .get('results');
+    }
+  },
 
-  lazySearch: (search)->
-    if search.length > 0 then @showLoadingSpinner()
-    else @stopLoadingSpinner()
-    # Hide previous results to limit confusion and scroll up
-    @resetResults()
-    @_lazySearch search
+  lazySearch(search){
+    if (search.length > 0) { this.showLoadingSpinner();
+    } else { this.stopLoadingSpinner(); }
+    // Hide previous results to limit confusion and scroll up
+    this.resetResults();
+    return this._lazySearch(search);
+  },
 
-  showAlternatives: (search)->
-    unless _.isNonEmptyString search then return
-    unless search is @_lastSearch then return
-    unless @_waitingForAlternatives then return
+  showAlternatives(search){
+    if (!_.isNonEmptyString(search)) { return; }
+    if (search !== this._lastSearch) { return; }
+    if (!this._waitingForAlternatives) { return; }
 
-    @ui.alternatives.addClass 'shown'
-    @_waitingForAlternatives = false
+    this.ui.alternatives.addClass('shown');
+    return this._waitingForAlternatives = false;
+  },
 
-  hideAlternatives: ->
-    @_waitingForAlternatives = false
-    @ui.alternatives.removeClass 'shown'
+  hideAlternatives() {
+    this._waitingForAlternatives = false;
+    return this.ui.alternatives.removeClass('shown');
+  },
 
-  showShortcuts: -> @ui.shortcuts.addClass 'shown'
+  showShortcuts() { return this.ui.shortcuts.addClass('shown'); },
 
-  getResultFromUri: (uri, searchId, rawSearch)->
-    _.log uri, 'uri found'
-    @showLoadingSpinner()
+  getResultFromUri(uri, searchId, rawSearch){
+    _.log(uri, 'uri found');
+    this.showLoadingSpinner();
 
-    app.request 'get:entity:model', uri
-    .then (entity)=> @resetResults searchId, [ formatEntity(entity) ]
-    .catch (err)=>
-      if err.message is 'entity_not_found'
-        @_waitingForAlternatives = true
-        @showAlternatives rawSearch
-      else
-        throw err
-    .finally @stopLoadingSpinner.bind(@)
+    return app.request('get:entity:model', uri)
+    .then(entity=> this.resetResults(searchId, [ formatEntity(entity) ]))
+    .catch(err=> {
+      if (err.message === 'entity_not_found') {
+        this._waitingForAlternatives = true;
+        return this.showAlternatives(rawSearch);
+      } else {
+        throw err;
+      }
+  }).finally(this.stopLoadingSpinner.bind(this));
+  },
 
-  showLoadingSpinner: ->
-    @ui.loader.html '<div class="small-loader"></div>'
-    @$el.removeClass 'no-results'
+  showLoadingSpinner() {
+    this.ui.loader.html('<div class="small-loader"></div>');
+    return this.$el.removeClass('no-results');
+  },
 
-  stopLoadingSpinner: -> @ui.loader.html ''
+  stopLoadingSpinner() { return this.ui.loader.html(''); },
 
-  getTypes: ->
-    name = getTypeFromId @$el.find('.selected')[0].id
-    return sectionToTypes[name]
+  getTypes() {
+    const name = getTypeFromId(this.$el.find('.selected')[0].id);
+    return sectionToTypes[name];
+  },
 
-  resetResults: (searchId, results)->
-    # Ignore results from any search that isn't the latest search
-    if searchId? and searchId isnt @_lastSearchId then return
+  resetResults(searchId, results){
+    // Ignore results from any search that isn't the latest search
+    if ((searchId != null) && (searchId !== this._lastSearchId)) { return; }
 
-    @resetHighlightIndex()
+    this.resetHighlightIndex();
 
-    if results?
-      @stopLoadingSpinner()
-      @_lastResultsLength = results.length
+    if (results != null) {
+      this.stopLoadingSpinner();
+      this._lastResultsLength = results.length;
 
-      # Track TypeErrors where Result model 'initialize' crashes
-      try @collection.reset results
-      catch err
-        err.context ?= {}
-        err.context.results = results
-        throw err
+      // Track TypeErrors where Result model 'initialize' crashes
+      try { this.collection.reset(results); }
+      catch (err) {
+        if (err.context == null) { err.context = {}; }
+        err.context.results = results;
+        throw err;
+      }
 
-    else
-      @collection.reset()
+    } else {
+      this.collection.reset();
+    }
 
-    if results? and results.length is 0
-      @$el.addClass 'no-results'
-    else
-      @$el.removeClass 'no-results'
-      @setTimeout @showShortcuts.bind(@), 1000
+    if ((results != null) && (results.length === 0)) {
+      return this.$el.addClass('no-results');
+    } else {
+      this.$el.removeClass('no-results');
+      return this.setTimeout(this.showShortcuts.bind(this), 1000);
+    }
+  },
 
-  highlightNext: -> @highlightIndexChange 1
-  highlightPrevious: -> @highlightIndexChange -1
-  highlightIndexChange: (incrementor)->
-    @_currentHighlightIndex ?= -1
-    newIndex = @_currentHighlightIndex + incrementor
-    previousView = @children.findByIndex @_currentHighlightIndex
-    view = @children.findByIndex newIndex
-    if view?
-      previousView?.unhighlight()
-      view.highlight()
-      @_currentHighlightIndex = newIndex
+  highlightNext() { return this.highlightIndexChange(1); },
+  highlightPrevious() { return this.highlightIndexChange(-1); },
+  highlightIndexChange(incrementor){
+    if (this._currentHighlightIndex == null) { this._currentHighlightIndex = -1; }
+    const newIndex = this._currentHighlightIndex + incrementor;
+    const previousView = this.children.findByIndex(this._currentHighlightIndex);
+    const view = this.children.findByIndex(newIndex);
+    if (view != null) {
+      previousView?.unhighlight();
+      view.highlight();
+      this._currentHighlightIndex = newIndex;
 
-      screen_.innerScrollTop @ui.results, view?.$el
+      return screen_.innerScrollTop(this.ui.results, view?.$el);
+    }
+  },
 
-  showCurrentlyHighlightedResult: ->
-    hilightedView = @children.findByIndex @_currentHighlightIndex
-    if hilightedView then hilightedView.showResult()
+  showCurrentlyHighlightedResult() {
+    const hilightedView = this.children.findByIndex(this._currentHighlightIndex);
+    if (hilightedView) { return hilightedView.showResult(); }
+  },
 
-  resetHighlightIndex: ->
-    @$el.find('.highlight').removeClass 'highlight'
-    @_currentHighlightIndex = -1
+  resetHighlightIndex() {
+    this.$el.find('.highlight').removeClass('highlight');
+    return this._currentHighlightIndex = -1;
+  },
 
-  showEntityCreate: ->
-    @triggerMethod 'hide:live:search'
-    if looksLikeAnIsbn @_lastSearch
-      # If the edition entity for this ISBN really doesn't exist
-      # it will redirect to the ISBN edition creation form
-      app.execute 'show:entity', @_lastSearch
-    else
-      section = @_lastType or @selectedSectionName
-      type = sectionToTypes[section]
-      app.execute 'show:entity:create', { label: @_lastSearch, type, allowToChangeType: true }
+  showEntityCreate() {
+    this.triggerMethod('hide:live:search');
+    if (looksLikeAnIsbn(this._lastSearch)) {
+      // If the edition entity for this ISBN really doesn't exist
+      // it will redirect to the ISBN edition creation form
+      return app.execute('show:entity', this._lastSearch);
+    } else {
+      const section = this._lastType || this.selectedSectionName;
+      const type = sectionToTypes[section];
+      return app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true });
+    }
+  },
 
-  onResultsScroll: (e)->
-    visibleHeight = @ui.resultsWrapper.height()
-    { scrollHeight, scrollTop } = e.currentTarget
-    scrollBottom = scrollTop + visibleHeight
-    if scrollBottom is scrollHeight then @loadMore()
+  onResultsScroll(e){
+    const visibleHeight = this.ui.resultsWrapper.height();
+    const { scrollHeight, scrollTop } = e.currentTarget;
+    const scrollBottom = scrollTop + visibleHeight;
+    if (scrollBottom === scrollHeight) { return this.loadMore(); }
+  },
 
-  loadMore: ->
-    # Do not try to fetch more results if the last batch was incomplete
-    if @_lastResultsLength < searchBatchLength then return @stopLoadingSpinner()
+  loadMore() {
+    // Do not try to fetch more results if the last batch was incomplete
+    if (this._lastResultsLength < searchBatchLength) { return this.stopLoadingSpinner(); }
 
-    @showLoadingSpinner()
-    @_searchOffset += searchBatchLength
-    @_search @_lastSearch
-    .then @addNewResults.bind(@)
+    this.showLoadingSpinner();
+    this._searchOffset += searchBatchLength;
+    return this._search(this._lastSearch)
+    .then(this.addNewResults.bind(this));
+  },
 
-  addNewResults: (results)->
-    currentResultsUri = @collection.map (model)-> model.get('uri')
-    newResults = results.filter (result)-> result.uri not in currentResultsUri
-    @_lastResultsLength = newResults.length
-    @collection.add newResults
+  addNewResults(results){
+    const currentResultsUri = this.collection.map(model => model.get('uri'));
+    const newResults = results.filter(result => !currentResultsUri.includes(result.uri));
+    this._lastResultsLength = newResults.length;
+    return this.collection.add(newResults);
+  }
+});
 
-sectionToTypes =
-  all: [ 'works', 'humans', 'series', 'publishers', 'collections', 'users', 'groups' ]
-  book: 'works'
-  author: 'humans'
-  serie: 'series'
-  collection: 'collections'
-  publisher: 'publishers'
-  subject: 'subjects'
-  user: 'users'
+var sectionToTypes = {
+  all: [ 'works', 'humans', 'series', 'publishers', 'collections', 'users', 'groups' ],
+  book: 'works',
+  author: 'humans',
+  serie: 'series',
+  collection: 'collections',
+  publisher: 'publishers',
+  subject: 'subjects',
+  user: 'users',
   group: 'groups'
+};
 
-sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
+var sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ];
 
-getTypeFromId = (id)-> id.replace 'section-', ''
+var getTypeFromId = id => id.replace('section-', '');
 
-# Pre-formatting is required to set the type
-# Taking the opportunity to omit all non-required data
-formatSubject = (result)->
-  id: result.id
-  label: result.label
-  description: result.description
-  uri: "wd:#{result.id}"
+// Pre-formatting is required to set the type
+// Taking the opportunity to omit all non-required data
+var formatSubject = result => ({
+  id: result.id,
+  label: result.label,
+  description: result.description,
+  uri: `wd:${result.id}`,
   type: 'subjects'
+});
 
-formatEntity = (entity)->
-  unless entity?.toJSON?
-    error_.report 'cant format invalid entity', { entity }
-    return
+var formatEntity = function(entity){
+  if (entity?.toJSON == null) {
+    error_.report('cant format invalid entity', { entity });
+    return;
+  }
 
-  data = entity.toJSON()
-  data.image = data.image?.url
-  # Return a model to prevent having it re-formatted
-  # as a Result model, which works from a result object, not an entity
-  return new Backbone.Model data
+  const data = entity.toJSON();
+  data.image = data.image?.url;
+  // Return a model to prevent having it re-formatted
+  // as a Result model, which works from a result object, not an entity
+  return new Backbone.Model(data);
+};
 
-sectionsData = ->
-  all: { label: 'all' }
-  book: { label: 'book' }
-  author: { label: 'author' }
-  serie: { label: 'series_singular' }
-  user: { label: 'user' }
-  group: { label: 'group' }
-  publisher: { label: 'publisher' }
-  collection: { label: 'collection' }
+var sectionsData = () => ({
+  all: { label: 'all' },
+  book: { label: 'book' },
+  author: { label: 'author' },
+  serie: { label: 'series_singular' },
+  user: { label: 'user' },
+  group: { label: 'group' },
+  publisher: { label: 'publisher' },
+  collection: { label: 'collection' },
   subject: { label: 'subject' }
+});

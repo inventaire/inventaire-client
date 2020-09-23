@@ -1,32 +1,38 @@
-applyTransformers = require './apply_transformers'
-{ metaNodes, possibleFields } = require './nodes'
-head = document.querySelector('head')
+import applyTransformers from './apply_transformers';
+import { metaNodes, possibleFields } from './nodes';
+const head = document.querySelector('head');
 
-previousValue = {}
+const previousValue = {};
 
-module.exports = (key, value, noCompletion)->
-  # Early return if the input is the same as previously
-  if previousValue[key] is value then return
-  previousValue[key] = value
+export default function(key, value, noCompletion){
+  // Early return if the input is the same as previously
+  if (previousValue[key] === value) { return; }
+  previousValue[key] = value;
 
-  unless key in possibleFields
-    return _.warn [ key, value ], 'invalid metadata data'
+  if (!possibleFields.includes(key)) {
+    return _.warn([ key, value ], 'invalid metadata data');
+  }
 
-  unless value?
-    _.warn "missing metadata value: #{key}"
-    return
+  if (value == null) {
+    _.warn(`missing metadata value: ${key}`);
+    return;
+  }
 
-  if key is 'title'
-    app.execute 'track:page:view', value
+  if (key === 'title') {
+    app.execute('track:page:view', value);
+  }
 
-  value = applyTransformers key, value, noCompletion
-  for el in metaNodes[key]
-    updateNodeContent value, el
+  value = applyTransformers(key, value, noCompletion);
+  for (let el of metaNodes[key]) {
+    updateNodeContent(value, el);
+  }
 
-  return
+};
 
-updateNodeContent = (value, el)->
-  { selector, attribute } = el
-  attribute or= 'content'
-  if head.querySelector(selector)?
-    head.querySelector(selector)[attribute] = value
+var updateNodeContent = function(value, el){
+  let { selector, attribute } = el;
+  if (!attribute) { attribute = 'content'; }
+  if (head.querySelector(selector) != null) {
+    return head.querySelector(selector)[attribute] = value;
+  }
+};

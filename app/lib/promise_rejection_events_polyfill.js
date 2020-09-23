@@ -1,50 +1,62 @@
-# Based on https://github.com/ruodoo/odoo/blob/27d25b5315808dca946c609b5ebf4ca123772b64/addons/web/static/lib/unhandled-rejection-polyfill/unhandled-rejection-polyfill.js
+// Based on https://github.com/ruodoo/odoo/blob/27d25b5315808dca946c609b5ebf4ca123772b64/addons/web/static/lib/unhandled-rejection-polyfill/unhandled-rejection-polyfill.js
 
-OriginalPromise = window.Promise
+const OriginalPromise = window.Promise;
 
-dispatchUnhandledRejectionEvent = (promise, reason)->
-  event = document.createEvent 'Event'
-  Object.defineProperties event,
-    promise: { value: promise, writable: false }
+const dispatchUnhandledRejectionEvent = function(promise, reason){
+  const event = document.createEvent('Event');
+  Object.defineProperties(event, {
+    promise: { value: promise, writable: false },
     reason: { value: reason, writable: false }
-  event.initEvent 'unhandledrejection', false, true
-  window.dispatchEvent event
+  });
+  event.initEvent('unhandledrejection', false, true);
+  return window.dispatchEvent(event);
+};
 
-patchedPromise = (resolver)->
-  unless @ instanceof patchedPromise
-    throw new TypeError 'Cannot call a class as a function'
+var patchedPromise = function(resolver){
+  if (!(this instanceof patchedPromise)) {
+    throw new TypeError('Cannot call a class as a function');
+  }
 
-  promise = new OriginalPromise (resolve, reject)->
-    customReject = (reason)->
-      # macro-task (setTimeout) will execute after micro-task (promise)
-      fn = -> unless promise.handled then dispatchUnhandledRejectionEvent promise, reason
-      setTimeout fn, 0
-      reject reason
+  var promise = new OriginalPromise(function(resolve, reject){
+    const customReject = function(reason){
+      // macro-task (setTimeout) will execute after micro-task (promise)
+      const fn = function() { if (!promise.handled) { return dispatchUnhandledRejectionEvent(promise, reason); } };
+      setTimeout(fn, 0);
+      return reject(reason);
+    };
 
-    try return resolver resolve, customReject
-    catch err then return customReject err
+    try { return resolver(resolve, customReject); }
+    catch (err) { return customReject(err); }
+  });
 
-  promise.__proto__ = patchedPromise.prototype
-  return promise
+  promise.__proto__ = patchedPromise.prototype;
+  return promise;
+};
 
-patchedPromise.__proto__ = OriginalPromise
-patchedPromise::__proto__ = OriginalPromise.prototype
+patchedPromise.__proto__ = OriginalPromise;
+patchedPromise.prototype.__proto__ = OriginalPromise.prototype;
 
-setHandledAndReject = (reject)->
-  unless reject? then return
-  return (reason)=>
-    @handled = true
-    reject reason
+const setHandledAndReject = function(reject){
+  if (reject == null) { return; }
+  return reason=> {
+    this.handled = true;
+    return reject(reason);
+  };
+};
 
-patchedPromise::then = (resolve, reject)->
-  OriginalPromise::then.call @, resolve, setHandledAndReject.call(@, reject)
+patchedPromise.prototype.then = function(resolve, reject){
+  return OriginalPromise.prototype.then.call(this, resolve, setHandledAndReject.call(this, reject));
+};
 
-patchedPromise::catch = (reject)->
-  OriginalPromise::catch.call @, setHandledAndReject.call(@, reject)
+patchedPromise.prototype.catch = function(reject){
+  return OriginalPromise.prototype.catch.call(this, setHandledAndReject.call(this, reject));
+};
 
-module.exports = ->
-  # Do not activate it in production as the patching isn't perfect:
-  # chains of promises aren't all set as handled, despite a handler catching the error,
-  # which results in error reports for errors that were actually handled
-  if window.env is 'dev' and typeof PromiseRejectionEvent is 'undefined'
-    window.Promise = patchedPromise
+export default function() {
+  // Do not activate it in production as the patching isn't perfect:
+  // chains of promises aren't all set as handled, despite a handler catching the error,
+  // which results in error reports for errors that were actually handled
+  if ((window.env === 'dev') && (typeof PromiseRejectionEvent === 'undefined')) {
+    return window.Promise = patchedPromise;
+  }
+};

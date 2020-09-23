@@ -1,35 +1,46 @@
-SectionList = require './inventory_section_list'
-{ GroupLayoutView } = require 'modules/network/views/group_views_commons'
+import SectionList from './inventory_section_list';
+import { GroupLayoutView } from 'modules/network/views/group_views_commons';
 
-module.exports = GroupLayoutView.extend
-  template: require './templates/group_profile'
-  className: 'groupProfile'
+export default GroupLayoutView.extend({
+  template: require('./templates/group_profile'),
+  className: 'groupProfile',
 
-  regions:
+  regions: {
     membersList: '#membersList'
+  },
 
-  modelEvents:
-    # using lazyRender instead of render allow to wait for group.mainUserStatus
-    # to be ready (i.e. not to return 'none')
+  modelEvents: {
+    // using lazyRender instead of render allow to wait for group.mainUserStatus
+    // to be ready (i.e. not to return 'none')
     'change': 'lazyRender'
+  },
 
-  behaviors:
-    PreventDefault: {}
+  behaviors: {
+    PreventDefault: {},
     SuccessCheck: {}
+  },
 
-  serializeData:->
-    _.extend @model.serializeData(),
-      highlighted: @options.highlighted
-      rss: @model.getRss()
-      requestsCount: @model.get('requested').length
+  serializeData() {
+    return _.extend(this.model.serializeData(), {
+      highlighted: this.options.highlighted,
+      rss: this.model.getRss(),
+      requestsCount: this.model.get('requested').length
+    }
+    );
+  },
 
-  onRender: ->
-    @model.beforeShow()
-    .then @ifViewIsIntact('showMembers')
+  onRender() {
+    return this.model.beforeShow()
+    .then(this.ifViewIsIntact('showMembers'));
+  },
 
-  showMembers: ->
-    @membersList.show new SectionList { collection: @model.members, context: 'group', group: @model }
+  showMembers() {
+    return this.membersList.show(new SectionList({ collection: this.model.members, context: 'group', group: this.model }));
+  },
 
-  childEvents:
-    select: (e, type, model)->
-      app.vent.trigger 'inventory:select', 'member', model
+  childEvents: {
+    select(e, type, model){
+      return app.vent.trigger('inventory:select', 'member', model);
+    }
+  }
+});

@@ -1,11 +1,13 @@
-Notification = require './notification'
+import Notification from './notification';
 
-module.exports = Notification.extend
-  initSpecific: -> @grabAttributeModel 'user'
+export default Notification.extend({
+  initSpecific() { return this.grabAttributeModel('user'); },
 
-  serializeData: ->
-    attrs = @toJSON()
-    attrs.username = @user?.get 'username'
-    attrs.picture = @user?.get 'picture'
-    attrs.pathname = "/inventory/#{attrs.username}"
-    return attrs
+  serializeData() {
+    const attrs = this.toJSON();
+    attrs.username = this.user?.get('username');
+    attrs.picture = this.user?.get('picture');
+    attrs.pathname = `/inventory/${attrs.username}`;
+    return attrs;
+  }
+});

@@ -1,18 +1,27 @@
-module.exports = tabs =
-  search:
+let tabs;
+
+export default tabs = {
+  search: {
     icon: 'search'
-  scan:
-    icon: 'barcode'
+  },
+  scan: {
+    icon: 'barcode',
     wait: window.waitForDeviceDetection
-  import:
+  },
+  import: {
     icon: 'database'
+  }
+};
 
-buildTabData = (tabName, tabData)->
-  _.extend tabData,
-    id: "#{tabName}Tab"
-    href: "/add/#{tabName}"
-    label: tabName
-    title: "title_add_layout_#{tabName}"
+const buildTabData = (tabName, tabData) => _.extend(tabData, {
+  id: `${tabName}Tab`,
+  href: `/add/${tabName}`,
+  label: tabName,
+  title: `title_add_layout_${tabName}`
+}
+);
 
-for k, v of tabs
-  tabs[k] = buildTabData k, v
+for (let k in tabs) {
+  const v = tabs[k];
+  tabs[k] = buildTabData(k, v);
+}

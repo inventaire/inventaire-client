@@ -1,18 +1,25 @@
-module.exports = Marionette.CompositeView.extend
-  className: ->
-    classes = 'entity-history'
-    if @options.standalone then classes += ' standalone'
-    return classes
-  template: require './templates/history'
-  childViewContainer: '.inner-history'
-  childView: require './version'
-  initialize: ->
-    { @model, uri } = @options
-    if @model then @collection = @model.history
-    @redirectUri = if uri isnt @model.get('uri') then uri
+export default Marionette.CompositeView.extend({
+  className() {
+    let classes = 'entity-history';
+    if (this.options.standalone) { classes += ' standalone'; }
+    return classes;
+  },
+  template: require('./templates/history'),
+  childViewContainer: '.inner-history',
+  childView: require('./version'),
+  initialize() {
+    let uri;
+    ({ model: this.model, uri } = this.options);
+    if (this.model) { this.collection = this.model.history; }
+    return this.redirectUri = uri !== this.model.get('uri') ? uri : undefined;
+  },
 
-  serializeData: ->
-    attrs = @model?.toJSON() or {}
-    _.extend attrs,
-      standalone: @options.standalone
-      label: if @redirectUri? then @redirectUri else attrs.label
+  serializeData() {
+    const attrs = this.model?.toJSON() || {};
+    return _.extend(attrs, {
+      standalone: this.options.standalone,
+      label: (this.redirectUri != null) ? this.redirectUri : attrs.label
+    }
+    );
+  }
+});

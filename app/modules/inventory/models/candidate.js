@@ -1,80 +1,95 @@
-isbn_ = require 'lib/isbn'
+import isbn_ from 'lib/isbn';
 
-module.exports = Backbone.Model.extend
-  # Use the normalized ISBN as id to deduplicate entries
-  idAttribute: 'isbn'
-  initialize: (attrs)->
-    if attrs.isbn?
-      unless attrs.rawIsbn?
-        @set 'rawIsbn', attrs.isbn
-      unless attrs.normalizedIsbn?
-        @set 'normalizedIsbn', isbn_.normalizeIsbn(attrs.isbn)
+export default Backbone.Model.extend({
+  // Use the normalized ISBN as id to deduplicate entries
+  idAttribute: 'isbn',
+  initialize(attrs){
+    if (attrs.isbn != null) {
+      if (attrs.rawIsbn == null) {
+        this.set('rawIsbn', attrs.isbn);
+      }
+      if (attrs.normalizedIsbn == null) {
+        this.set('normalizedIsbn', isbn_.normalizeIsbn(attrs.isbn));
+      }
+    }
 
-    if not @get('uri') and @get('normalizedIsbn')?
-      @set 'uri', "isbn:#{@get('normalizedIsbn')}"
+    if (!this.get('uri') && (this.get('normalizedIsbn') != null)) {
+      this.set('uri', `isbn:${this.get('normalizedIsbn')}`);
+    }
 
-    if attrs.isInvalid then return
+    if (attrs.isInvalid) { return; }
 
-    @setStatusData()
+    this.setStatusData();
 
-    @on 'change:title', @updateInfoState.bind(@)
+    return this.on('change:title', this.updateInfoState.bind(this));
+  },
 
-  canBeSelected: -> not @get('isInvalid') and not @get('needInfo')
+  canBeSelected() { return !this.get('isInvalid') && !this.get('needInfo'); },
 
-  updateInfoState: ->
-    needInfo = not _.isNonEmptyString(@get('title'))
-    @set 'needInfo', needInfo
+  updateInfoState() {
+    const needInfo = !_.isNonEmptyString(this.get('title'));
+    return this.set('needInfo', needInfo);
+  },
 
-  setStatusData: ->
-    existingEntityItemsCount = @get 'existingEntityItemsCount'
-    if existingEntityItemsCount? and existingEntityItemsCount > 0
-      uri = @get 'uri'
-      username = app.user.get 'username'
-      @set 'existingEntityItemsPathname', "/inventory/#{username}/#{uri}"
-    else if not @get('title')?
-      @set 'needInfo', true
-    else
-      @set 'selected', true
+  setStatusData() {
+    const existingEntityItemsCount = this.get('existingEntityItemsCount');
+    if ((existingEntityItemsCount != null) && (existingEntityItemsCount > 0)) {
+      const uri = this.get('uri');
+      const username = app.user.get('username');
+      return this.set('existingEntityItemsPathname', `/inventory/${username}/${uri}`);
+    } else if ((this.get('title') == null)) {
+      return this.set('needInfo', true);
+    } else {
+      return this.set('selected', true);
+    }
+  },
 
-  createItem: (params)->
-    { transaction, listing, shelves } = params
-    @getEntityModel()
-    .then (editionEntityModel)->
-      return app.request 'item:create',
-        entity: editionEntityModel.get 'uri'
-        transaction: transaction
-        listing: listing
-        shelves: shelves
+  createItem(params){
+    const { transaction, listing, shelves } = params;
+    return this.getEntityModel()
+    .then(editionEntityModel => app.request('item:create', {
+      entity: editionEntityModel.get('uri'),
+      transaction,
+      listing,
+      shelves
+    }
+    ));
+  },
 
-  getEntityModel: ->
-    # Always return a promise
-    Promise.try =>
-      # Duck typing an entity model
-      if @get('claims')? then return @
-      entry = @serializeResolverEntry()
-      return app.request 'entity:exists:or:create:from:seed', entry
+  getEntityModel() {
+    // Always return a promise
+    return Promise.try(() => {
+      // Duck typing an entity model
+      if (this.get('claims') != null) { return this; }
+      const entry = this.serializeResolverEntry();
+      return app.request('entity:exists:or:create:from:seed', entry);
+    });
+  },
 
-  serializeResolverEntry: ->
-    data = @toJSON()
-    { isbn, title, lang, authors: authorsNames, normalizedIsbn } = data
-    labelLang = lang or app.user.lang
+  serializeResolverEntry() {
+    const data = this.toJSON();
+    const { isbn, title, lang, authors: authorsNames, normalizedIsbn } = data;
+    const labelLang = lang || app.user.lang;
 
-    edition =
-      isbn: isbn or normalizedIsbn
-      claims:
+    const edition = {
+      isbn: isbn || normalizedIsbn,
+      claims: {
         'wdt:P1476': [ title ]
+      }
+    };
 
-    work = { labels: {}, claims: {} }
-    work.labels[labelLang] = title
+    const work = { labels: {}, claims: {} };
+    work.labels[labelLang] = title;
 
-    if data.publicationDate? then edition.claims['wdt:P577'] = data.publicationDate
-    if data.numberOfPages? then edition.claims['wdt:P1104'] = data.numberOfPages
-    if data.goodReadsEditionId? then edition.claims['wdt:P2969'] = data.goodReadsEditionId
+    if (data.publicationDate != null) { edition.claims['wdt:P577'] = data.publicationDate; }
+    if (data.numberOfPages != null) { edition.claims['wdt:P1104'] = data.numberOfPages; }
+    if (data.goodReadsEditionId != null) { edition.claims['wdt:P2969'] = data.goodReadsEditionId; }
 
-    if data.libraryThingWorkId? then work.claims['wdt:P1085'] = data.libraryThingWorkId
+    if (data.libraryThingWorkId != null) { work.claims['wdt:P1085'] = data.libraryThingWorkId; }
 
-    authors = _.forceArray(authorsNames).map (name)->
-      labels = { "#{labelLang}": name }
-      return { labels }
+    const authors = _.forceArray(authorsNames).map(function(name){
+      const labels = { [labelLang]: name };
+      return { labels };});
 
-    return { edition, works: [ work ], authors }
+    return { edition, works: [ work ], authors };
+  }});

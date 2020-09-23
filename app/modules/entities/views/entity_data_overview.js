@@ -1,26 +1,33 @@
-clampedExtract = require '../lib/clamped_extract'
+import clampedExtract from '../lib/clamped_extract';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/entity_data_overview'
-  className: 'entityDataOverview'
-  initialize: (options)->
-    @hidePicture = options.hidePicture
-    unless @hidePicture
-      @listenTo @model, 'add:pictures', @lazyRender.bind(@)
+export default Marionette.ItemView.extend({
+  template: require('./templates/entity_data_overview'),
+  className: 'entityDataOverview',
+  initialize(options){
+    this.hidePicture = options.hidePicture;
+    if (!this.hidePicture) {
+      return this.listenTo(this.model, 'add:pictures', this.lazyRender.bind(this));
+    }
+  },
 
-  modelEvents:
+  modelEvents: {
     'change': 'lazyRender'
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    clampedExtract.setAttributes attrs
-    attrs.standalone = @options.standalone
-    attrs.hidePicture = @hidePicture
-    return attrs
+  serializeData() {
+    const attrs = this.model.toJSON();
+    clampedExtract.setAttributes(attrs);
+    attrs.standalone = this.options.standalone;
+    attrs.hidePicture = this.hidePicture;
+    return attrs;
+  },
 
-  behaviors:
-    PreventDefault: {}
+  behaviors: {
+    PreventDefault: {},
     ClampedExtract: {}
+  },
 
-  onRender: ->
-    app.execute 'uriLabel:update'
+  onRender() {
+    return app.execute('uriLabel:update');
+  }
+});

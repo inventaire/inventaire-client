@@ -1,30 +1,34 @@
-isbn_ = require 'lib/isbn'
-isbnPattern = /(97(8|9))?[\d\-]{9,13}([\dX])/g
+import isbn_ from 'lib/isbn';
+const isbnPattern = /(97(8|9))?[\d\-]{9,13}([\dX])/g;
 
-module.exports = (text)->
-  isbns = text.match isbnPattern
-  unless isbns? then return []
+export default function(text){
+  const isbns = text.match(isbnPattern);
+  if (isbns == null) { return []; }
 
-  isbns
-  .map getIsbnData
-  .filter (obj)-> isbn_.isNormalizedIsbn(obj.normalizedIsbn)
-  .filter firstOccurence({})
+  return isbns
+  .map(getIsbnData)
+  .filter(obj => isbn_.isNormalizedIsbn(obj.normalizedIsbn))
+  .filter(firstOccurence({}));
+};
 
-getIsbnData = (rawIsbn)->
-  normalizedIsbn = isbn_.normalizeIsbn rawIsbn
-  # the window.ISBN lib is made available by the isbn2 asset that
-  # should have be fetched by app/modules/inventory/views/add/import
-  data = window.ISBN.parse normalizedIsbn
-  isInvalid = not data?
-  isbn13 = if isInvalid then null else data.codes.isbn13
-  return { rawIsbn, normalizedIsbn, isInvalid, isbn13 }
+var getIsbnData = function(rawIsbn){
+  const normalizedIsbn = isbn_.normalizeIsbn(rawIsbn);
+  // the window.ISBN lib is made available by the isbn2 asset that
+  // should have be fetched by app/modules/inventory/views/add/import
+  const data = window.ISBN.parse(normalizedIsbn);
+  const isInvalid = (data == null);
+  const isbn13 = isInvalid ? null : data.codes.isbn13;
+  return { rawIsbn, normalizedIsbn, isInvalid, isbn13 };
+};
 
-firstOccurence = (normalizedIsbns13)-> (isbnData)->
-  { isbn13, isInvalid } = isbnData
-  if isInvalid then return true
+var firstOccurence = normalizedIsbns13 => (function(isbnData) {
+  const { isbn13, isInvalid } = isbnData;
+  if (isInvalid) { return true; }
 
-  if normalizedIsbns13[isbn13]?
-    return false
-  else
-    normalizedIsbns13[isbn13] = true
-    return true
+  if (normalizedIsbns13[isbn13] != null) {
+    return false;
+  } else {
+    normalizedIsbns13[isbn13] = true;
+    return true;
+  }
+});

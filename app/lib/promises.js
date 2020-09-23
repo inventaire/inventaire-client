@@ -1,112 +1,127 @@
-window.Promise or= require 'promise-polyfill'
-require('./promise_rejection_events_polyfill')()
-{ reportError } = requireProxy 'lib/reports'
+if (!window.Promise) { window.Promise = require('promise-polyfill'); }
+require('./promise_rejection_events_polyfill')();
+const { reportError } = requireProxy('lib/reports');
 
-methods = {}
+const methods = {};
 
-# Mimicking Bluebird utils
-Promise.try = (fn)->
-  Promise.resolve()
-  .then fn
+// Mimicking Bluebird utils
+Promise.try = fn => Promise.resolve()
+.then(fn);
 
-Promise.props = (obj)->
-  keys = []
-  values = []
-  for key, value of obj
-    keys.push key
-    values.push value
+Promise.props = function(obj){
+  let key;
+  const keys = [];
+  const values = [];
+  for (key in obj) {
+    const value = obj[key];
+    keys.push(key);
+    values.push(value);
+  }
 
-  Promise.all values
-  .then (res)->
-    resultObj = {}
-    res.forEach (valRes, index)->
-      key = keys[index]
-      resultObj[key] = valRes
-    return resultObj
+  return Promise.all(values)
+  .then(function(res){
+    const resultObj = {};
+    res.forEach(function(valRes, index){
+      key = keys[index];
+      return resultObj[key] = valRes;
+    });
+    return resultObj;
+  });
+};
 
-methods.spread = (fn)-> @then (res)=> fn.apply @, res
+methods.spread = function(fn){ return this.then(res=> fn.apply(this, res)); };
 
-arrayMethod = (methodName, canReturnPromises)-> (args...)->
-  @then (res)->
-    _.type res, 'array'
-    Promise.all res
-    .then (resolvedRes)->
-      finalRes = resolvedRes[methodName].apply resolvedRes, args
-      if canReturnPromises then return Promise.all finalRes
-      else return finalRes
+const arrayMethod = (methodName, canReturnPromises) => (function(...args) {
+  return this.then(function(res){
+    _.type(res, 'array');
+    return Promise.all(res)
+    .then(function(resolvedRes){
+      const finalRes = resolvedRes[methodName].apply(resolvedRes, args);
+      if (canReturnPromises) { return Promise.all(finalRes);
+      } else { return finalRes; }
+    });
+  });
+});
 
-methods.filter = arrayMethod 'filter'
-methods.map = arrayMethod 'map', true
-methods.reduce = arrayMethod 'reduce'
+methods.filter = arrayMethod('filter');
+methods.map = arrayMethod('map', true);
+methods.reduce = arrayMethod('reduce');
 
-methods.get = (attribute)-> @then (res)-> res[attribute]
+methods.get = function(attribute){ return this.then(res => res[attribute]); };
 
-methods.tap = (fn)->
-  @then (res)->
-    Promise.try -> fn res
-    .then -> res
+methods.tap = function(fn){
+  return this.then(res => Promise.try(() => fn(res))
+  .then(() => res));
+};
 
-methods.finally = (fn)->
-  alreadyCalled = false
-  @
-  .then (res)->
-    Promise.try ->
-      alreadyCalled = true
-      return fn()
-    .then -> res
-  .catch (err)->
-    if alreadyCalled then throw err
-    Promise.try -> fn()
-    .then -> throw err
+methods.finally = function(fn){
+  let alreadyCalled = false;
+  return this
+  .then(res => Promise.try(function() {
+    alreadyCalled = true;
+    return fn();}).then(() => res)).catch(function(err){
+    if (alreadyCalled) { throw err; }
+    return Promise.try(() => fn())
+    .then(function() { throw err; });
+  });
+};
 
-methods.delay = (ms)->
-  promise = @
-  return new Promise (resolve, reject)->
-    promise
-    .then (res)-> setTimeout resolve.bind(null, res), ms
-    .catch reject
+methods.delay = function(ms){
+  const promise = this;
+  return new Promise((resolve, reject) => promise
+  .then(res => setTimeout(resolve.bind(null, res), ms))
+  .catch(reject));
+};
 
-methods.timeout = (ms)->
-  promise = @
-  return new Promise (resolve, reject)->
-    fulfilled = false
-    expired = false
+methods.timeout = function(ms){
+  const promise = this;
+  return new Promise(function(resolve, reject){
+    let fulfilled = false;
+    let expired = false;
 
-    check = ->
-      if fulfilled then return
-      expired = true
-      # Mimicking Bluebird errors
-      err = new Error 'operation timed out'
-      err.name = 'TimeoutError'
-      reject err
+    const check = function() {
+      if (fulfilled) { return; }
+      expired = true;
+      // Mimicking Bluebird errors
+      const err = new Error('operation timed out');
+      err.name = 'TimeoutError';
+      return reject(err);
+    };
 
-    setTimeout check, ms
+    setTimeout(check, ms);
 
-    promise
-    .then (res)->
-      if expired then return
-      fulfilled = true
-      resolve res
-    .catch (err)->
-      if expired then return
-      fulfilled = true
-      reject err
+    return promise
+    .then(function(res){
+      if (expired) { return; }
+      fulfilled = true;
+      return resolve(res);}).catch(function(err){
+      if (expired) { return; }
+      fulfilled = true;
+      return reject(err);
+    });
+  });
+};
 
-for name, fn of methods
-  # Some of those functions might already be implemented
-  # - finally
-  unless Promise.prototype[name]?
-    # Make the new methods non-enumerable
-    Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
+for (let name in methods) {
+  // Some of those functions might already be implemented
+  // - finally
+  const fn = methods[name];
+  if (Promise.prototype[name] == null) {
+    // Make the new methods non-enumerable
+    Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false });
+  }
+}
 
-Promise.getResolved = -> Promise.resolve()
+Promise.getResolved = () => Promise.resolve();
 
-module.exports = Promise
+export default Promise;
 
-# Isn't defined in test environment
-if window.addEventListener?
-  # see http://2ality.com/2016/04/unhandled-rejections.html
-  window.addEventListener 'unhandledrejection', (event)->
-    err = event.reason
-    console.error 'PossiblyUnhandledRejection', err, err.context
-    reportError err
+// Isn't defined in test environment
+if (window.addEventListener != null) {
+  // see http://2ality.com/2016/04/unhandled-rejections.html
+  window.addEventListener('unhandledrejection', function(event){
+    const err = event.reason;
+    console.error('PossiblyUnhandledRejection', err, err.context);
+    return reportError(err);
+  });
+}

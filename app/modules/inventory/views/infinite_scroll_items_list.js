@@ -1,28 +1,33 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-alwaysFalse = -> false
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+const alwaysFalse = () => false;
 
-module.exports = Marionette.CompositeView.extend
-  behaviors:
+export default Marionette.CompositeView.extend({
+  behaviors: {
     Loading: {}
+  },
 
-  events:
+  events: {
     'inview .fetchMore': 'infiniteScroll'
+  },
 
-  initInfiniteScroll: ->
-    { @hasMore, @fetchMore } = @options
-    @hasMore or= alwaysFalse
-    @_fetching = false
+  initInfiniteScroll() {
+    ({ hasMore: this.hasMore, fetchMore: this.fetchMore } = this.options);
+    if (!this.hasMore) { this.hasMore = alwaysFalse; }
+    return this._fetching = false;
+  },
 
-  infiniteScroll: ->
-    if @_fetching or not @hasMore() then return
-    @_fetching = true
-    @startLoading()
+  infiniteScroll() {
+    if (this._fetching || !this.hasMore()) { return; }
+    this._fetching = true;
+    this.startLoading();
 
-    @fetchMore()
-    .then @stopLoading.bind(@)
-    # Give the time for the DOM to update
-    .delay 200
-    .finally => @_fetching = false
+    return this.fetchMore()
+    .then(this.stopLoading.bind(this))
+    // Give the time for the DOM to update
+    .delay(200)
+    .finally(() => { return this._fetching = false; });
+  },
 
-  startLoading: -> behaviorsPlugin.startLoading.call @, '.fetchMore'
-  stopLoading: -> behaviorsPlugin.stopLoading.call @, '.fetchMore'
+  startLoading() { return behaviorsPlugin.startLoading.call(this, '.fetchMore'); },
+  stopLoading() { return behaviorsPlugin.stopLoading.call(this, '.fetchMore'); }
+});

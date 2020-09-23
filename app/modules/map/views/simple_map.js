@@ -1,45 +1,54 @@
-map_ = require '../lib/map'
-containerId = 'simpleMap'
+import map_ from '../lib/map';
+const containerId = 'simpleMap';
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/simple_map'
+export default Marionette.ItemView.extend({
+  template: require('./templates/simple_map'),
 
-  initialize: ->
-    { @models } = @options
+  initialize() {
+    return ({ models: this.models } = this.options);
+  },
 
-  behaviors:
+  behaviors: {
     PreventDefault: {}
+  },
 
-  onShow: ->
-    app.execute 'modal:open', 'large', @options.focus
-    # let the time to the modal to be fully open
-    # so that the map can be drawned correctly
-    @setTimeout @initMap.bind(@), 500
+  onShow() {
+    app.execute('modal:open', 'large', this.options.focus);
+    // let the time to the modal to be fully open
+    // so that the map can be drawned correctly
+    return this.setTimeout(this.initMap.bind(this), 500);
+  },
 
-  initMap: ->
-    bounds = @models.map getPosition
+  initMap() {
+    const bounds = this.models.map(getPosition);
 
-    map = map_.draw
-      containerId: containerId
-      bounds: bounds
-      cluster: @models.length > 2
+    const map = map_.draw({
+      containerId,
+      bounds,
+      cluster: this.models.length > 2
+    });
 
-    map_.showModelsOnMap map, @models
+    return map_.showModelsOnMap(map, this.models);
+  },
 
-  events:
-    'click .userMarker a': 'showUser'
+  events: {
+    'click .userMarker a': 'showUser',
     'click .itemMarker a': 'showItem'
+  },
 
-  showUser: (e)->
-    if _.isOpenedOutside e then return
-    e.stopPropagation()
-    userId = e.currentTarget.attributes['data-user-id'].value
-    app.execute 'show:inventory:user', userId
+  showUser(e){
+    if (_.isOpenedOutside(e)) { return; }
+    e.stopPropagation();
+    const userId = e.currentTarget.attributes['data-user-id'].value;
+    return app.execute('show:inventory:user', userId);
+  },
 
-  showItem: (e)->
-    if _.isOpenedOutside e then return
-    e.stopPropagation()
-    itemId = e.currentTarget.attributes['data-item-id'].value
-    app.execute 'show:item:byId', itemId
+  showItem(e){
+    if (_.isOpenedOutside(e)) { return; }
+    e.stopPropagation();
+    const itemId = e.currentTarget.attributes['data-item-id'].value;
+    return app.execute('show:item:byId', itemId);
+  }
+});
 
-getPosition = (model)-> model.get('position') or model.position
+var getPosition = model => model.get('position') || model.position;

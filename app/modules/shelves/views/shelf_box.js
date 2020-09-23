@@ -1,35 +1,42 @@
-{ listingsData: listingsDataFn } = require 'modules/inventory/lib/item_creation'
-getActionKey = require 'lib/get_action_key'
-ShelfEditor = require './shelf_editor'
-ShelfItemsAdder = require './shelf_items_adder'
-Items = require 'modules/inventory/collections/items'
+import { listingsData as listingsDataFn } from 'modules/inventory/lib/item_creation';
+import getActionKey from 'lib/get_action_key';
+import ShelfEditor from './shelf_editor';
+import ShelfItemsAdder from './shelf_items_adder';
+import Items from 'modules/inventory/collections/items';
 
-module.exports = Marionette.ItemView.extend
-  className: 'shelfBox'
-  template: require './templates/shelf_box'
+export default Marionette.ItemView.extend({
+  className: 'shelfBox',
+  template: require('./templates/shelf_box'),
 
-  initialize: ->
-    @isEditable = @model.get('owner') is app.user.id
+  initialize() {
+    return this.isEditable = this.model.get('owner') === app.user.id;
+  },
 
-  events:
-    'click #showShelfEdit': 'showEditor'
-    'click .closeButton': 'closeShelf'
+  events: {
+    'click #showShelfEdit': 'showEditor',
+    'click .closeButton': 'closeShelf',
     'click .addItems': 'addItems'
+  },
 
-  modelEvents:
+  modelEvents: {
     'change': 'lazyRender'
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    _.extend attrs,
-      isEditable: @isEditable
+  serializeData() {
+    const attrs = this.model.toJSON();
+    return _.extend(attrs,
+      {isEditable: this.isEditable});
+  },
 
-  closeShelf: ->
-    ownerId = @model.get('owner')
-    @triggerMethod 'close:shelf'
+  closeShelf() {
+    const ownerId = this.model.get('owner');
+    return this.triggerMethod('close:shelf');
+  },
 
-  showEditor: (e)->
-    app.layout.modal.show new ShelfEditor { @model }
+  showEditor(e){
+    return app.layout.modal.show(new ShelfEditor({ model: this.model }));
+  },
 
-  addItems: ->
-    app.layout.modal.show new ShelfItemsAdder { @model }
+  addItems() {
+    return app.layout.modal.show(new ShelfItemsAdder({ model: this.model }));
+  }});

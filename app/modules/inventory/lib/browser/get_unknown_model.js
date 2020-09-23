@@ -1,14 +1,16 @@
-Filterable = require 'modules/general/models/filterable'
-unknownModel = null
+import Filterable from 'modules/general/models/filterable';
+let unknownModel = null;
 
-module.exports = ->
-  # Creating the model only once requested
-  # as _.i18n can't be called straight away at initialization
-  unknownModel or= new Filterable
-    uri: 'unknown'
+export default function() {
+  // Creating the model only once requested
+  // as _.i18n can't be called straight away at initialization
+  if (!unknownModel) { unknownModel = new Filterable({
+    uri: 'unknown',
     label: _.i18n('unknown')
+  }); }
 
-  unknownModel.isUnknown = true
-  unknownModel.matchable = -> [ 'unknown', _.i18n('unknown') ]
+  unknownModel.isUnknown = true;
+  unknownModel.matchable = () => [ 'unknown', _.i18n('unknown') ];
 
-  return unknownModel
+  return unknownModel;
+};

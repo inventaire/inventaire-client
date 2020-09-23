@@ -1,157 +1,194 @@
-Imgs = require 'modules/general/collections/imgs'
-images_ = require 'lib/images'
-files_ = require 'lib/files'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-cropper = require 'modules/general/lib/cropper'
-getActionKey = require 'lib/get_action_key'
+import Imgs from 'modules/general/collections/imgs';
+import images_ from 'lib/images';
+import files_ from 'lib/files';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import cropper from 'modules/general/lib/cropper';
+import getActionKey from 'lib/get_action_key';
 
-module.exports = Marionette.CompositeView.extend
-  className: ->
-    { limit } = @options
-    return "picture-picker limit-#{limit}"
+export default Marionette.CompositeView.extend({
+  className() {
+    const { limit } = this.options;
+    return `picture-picker limit-${limit}`;
+  },
 
-  template: require './templates/picture_picker'
-  childViewContainer: '#availablePictures'
-  childView: require './picture'
+  template: require('./templates/picture_picker'),
+  childViewContainer: '#availablePictures',
+  childView: require('./picture'),
 
-  behaviors:
-    General: {}
-    AlertBox: {}
-    SuccessCheck: {}
-    Loading: {}
+  behaviors: {
+    General: {},
+    AlertBox: {},
+    SuccessCheck: {},
+    Loading: {},
     PreventDefault: {}
+  },
 
-  initialize: ->
-    { @context } = @options
-    @limit = @options.limit or 1
-    pictures = _.forceArray @options.pictures
-    cropper.prepare()
-    collectionData = pictures.map getImgData.bind(null, @options.crop)
-    @collection = new Imgs collectionData
-    @listenTo @collection, 'invalid:image', @onInvalidImage.bind(@)
+  initialize() {
+    ({ context: this.context } = this.options);
+    this.limit = this.options.limit || 1;
+    const pictures = _.forceArray(this.options.pictures);
+    cropper.prepare();
+    const collectionData = pictures.map(getImgData.bind(null, this.options.crop));
+    this.collection = new Imgs(collectionData);
+    return this.listenTo(this.collection, 'invalid:image', this.onInvalidImage.bind(this));
+  },
 
-  serializeData: ->
-    urlInput: @urlInputData()
-    userContext: @context is 'user'
+  serializeData() {
+    return {
+      urlInput: this.urlInputData(),
+      userContext: this.context === 'user'
+    };
+  },
 
-  urlInputData: ->
-    nameBase: 'url'
-    field:
-      type: 'url'
-      placeholder: _.i18n 'enter an image url'
-    button:
-      text: _.i18n 'go get it!'
-    allowMultiple: @limit > 1
+  urlInputData() {
+    return {
+      nameBase: 'url',
+      field: {
+        type: 'url',
+        placeholder: _.i18n('enter an image url')
+      },
+      button: {
+        text: _.i18n('go get it!')
+      },
+      allowMultiple: this.limit > 1
+    };
+  },
 
-  onShow: ->
-    app.execute 'modal:open', 'large', @options.focus
-    @selectFirst()
-    @ui.urlInput.focus()
+  onShow() {
+    app.execute('modal:open', 'large', this.options.focus);
+    this.selectFirst();
+    return this.ui.urlInput.focus();
+  },
 
-  ui:
+  ui: {
     urlInput: '#urlField'
+  },
 
-  events:
-    'click #cancel': 'close'
-    'click #delete': 'delete'
-    'click #validate': 'validate'
-    'click #urlButton': 'fetchUrlPicture'
-    'click .fetchGravatar': 'fetchGravatar'
-    'change input[type=file]': 'getFilesPictures'
+  events: {
+    'click #cancel': 'close',
+    'click #delete': 'delete',
+    'click #validate': 'validate',
+    'click #urlButton': 'fetchUrlPicture',
+    'click .fetchGravatar': 'fetchGravatar',
+    'change input[type=file]': 'getFilesPictures',
     'keyup input[type=file]': 'preventUnwantedModalClose'
+  },
 
-  selectFirst: ->
-    @collection.models[0]?.select()
+  selectFirst() {
+    return this.collection.models[0]?.select();
+  },
 
-  delete: ->
-    @options.delete()
-    @close()
+  delete() {
+    this.options.delete();
+    return this.close();
+  },
 
-  validate: ->
-    behaviorsPlugin.startLoading.call @,
-      selector: '#validate'
-      # The upload might take longer than the default 30 secondes,
-      # so here is a very permissive 10 minutes, for the case a user
-      # uploads a big picture with a slow connexion
+  validate() {
+    behaviorsPlugin.startLoading.call(this, {
+      selector: '#validate',
+      // The upload might take longer than the default 30 secondes,
+      // so here is a very permissive 10 minutes, for the case a user
+      // uploads a big picture with a slow connexion
       timeout: 600
+    }
+    );
 
-    @getFinalUrls()
-    .catch error_.Complete('.alertBox')
-    .then _.Log('final urls')
-    .then @_saveAndClose.bind(@)
-    .catch forms_.catchAlert.bind(null, @)
+    return this.getFinalUrls()
+    .catch(error_.Complete('.alertBox'))
+    .then(_.Log('final urls'))
+    .then(this._saveAndClose.bind(this))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  getFinalUrls: ->
-    selectedModels = @collection.models.filter isSelectedModel
-    selectedModels = selectedModels.slice 0, @limit
-    Promise.all _.invoke(selectedModels, 'getFinalUrl')
+  getFinalUrls() {
+    let selectedModels = this.collection.models.filter(isSelectedModel);
+    selectedModels = selectedModels.slice(0, this.limit);
+    return Promise.all(_.invoke(selectedModels, 'getFinalUrl'));
+  },
 
-  _saveAndClose: (urls)->
-    if urls.length > 0 then @options.save urls
-    @close()
+  _saveAndClose(urls){
+    if (urls.length > 0) { this.options.save(urls); }
+    return this.close();
+  },
 
-  fetchUrlPicture: ->
-    url = @ui.urlInput.val()
+  fetchUrlPicture() {
+    let url = this.ui.urlInput.val();
 
-    # use the full definition image:
-    # - allow better resolution if the url size was small
-    # - allow to host the image only once has the image hash will be the same
-    url = images_.getNonResizedUrl url
+    // use the full definition image:
+    // - allow better resolution if the url size was small
+    // - allow to host the image only once has the image hash will be the same
+    url = images_.getNonResizedUrl(url);
 
-    Promise.try validateUrlInput.bind(null, url)
-    .then images_.getUrlDataUrl.bind(null, url)
-    .then @_addToPictures.bind(@)
-    .catch error_.Complete('#urlField')
-    .catch forms_.catchAlert.bind(null, @)
+    return Promise.try(validateUrlInput.bind(null, url))
+    .then(images_.getUrlDataUrl.bind(null, url))
+    .then(this._addToPictures.bind(this))
+    .catch(error_.Complete('#urlField'))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  fetchGravatar: ->
-    images_.getUserGravatarUrl()
-    .then (url)=>
-      @ui.urlInput.val url
-      @fetchUrlPicture()
-    .catch error_.Complete('#urlField')
-    .catch forms_.catchAlert.bind(null, @)
+  fetchGravatar() {
+    return images_.getUserGravatarUrl()
+    .then(url=> {
+      this.ui.urlInput.val(url);
+      return this.fetchUrlPicture();
+  }).catch(error_.Complete('#urlField'))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  getFilesPictures: (e)->
-    # Hide any remaing alert box
-    @$el.trigger 'hideAlertBox'
+  getFilesPictures(e){
+    // Hide any remaing alert box
+    this.$el.trigger('hideAlertBox');
 
-    files_.parseFileEventAsDataURL e
-    .then _.Log('filesDataUrl')
-    .map @_addToPictures.bind(@)
+    return files_.parseFileEventAsDataURL(e)
+    .then(_.Log('filesDataUrl'))
+    .map(this._addToPictures.bind(this));
+  },
 
-  _addToPictures: (dataUrl)->
-    if @limit is 1 then @_unselectAll()
-    @_addDataUrlToCollection dataUrl
+  _addToPictures(dataUrl){
+    if (this.limit === 1) { this._unselectAll(); }
+    return this._addDataUrlToCollection(dataUrl);
+  },
 
-  _unselectAll: (dataUrl)->
-    @collection.invoke 'set', 'selected', false
+  _unselectAll(dataUrl){
+    return this.collection.invoke('set', 'selected', false);
+  },
 
-  _addDataUrlToCollection: (dataUrl)->
-    @collection.add
-      dataUrl: dataUrl
-      selected: true
-      crop: @options.crop
+  _addDataUrlToCollection(dataUrl){
+    return this.collection.add({
+      dataUrl,
+      selected: true,
+      crop: this.options.crop
+    });
+  },
 
-  onInvalidImage: (err)->
-    err.selector = '#fileField'
-    forms_.alert @, err
+  onInvalidImage(err){
+    err.selector = '#fileField';
+    return forms_.alert(this, err);
+  },
 
-  close: -> app.execute 'modal:close'
+  close() { return app.execute('modal:close'); },
 
-  preventUnwantedModalClose: (e)->
-    key = getActionKey e
-    if key is 'esc'
-      # prevent that closing the file picker with ESC to trigger modal:close
-      _.log 'stopped ESC propagation'
-      e.stopPropagation()
+  preventUnwantedModalClose(e){
+    const key = getActionKey(e);
+    if (key === 'esc') {
+      // prevent that closing the file picker with ESC to trigger modal:close
+      _.log('stopped ESC propagation');
+      return e.stopPropagation();
+    }
+  }
+});
 
-isSelectedModel = (model)-> model.get('selected')
+var isSelectedModel = model => model.get('selected');
 
-validateUrlInput = (url)->
-  unless _.isUrl url
-    forms_.throwError 'invalid url', '#urlField', arguments
+var validateUrlInput = function(url){
+  if (!_.isUrl(url)) {
+    return forms_.throwError('invalid url', '#urlField', arguments);
+  }
+};
 
-getImgData = (crop, url)-> { url, crop }
+var getImgData = (crop, url) => ({
+  url,
+  crop
+});

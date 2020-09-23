@@ -1,17 +1,24 @@
-module.exports = Marionette.ItemView.extend
-  template: require './templates/inventory_nav'
-  initialize: ->
-    { @section } = @options
+export default Marionette.ItemView.extend({
+  template: require('./templates/inventory_nav'),
+  initialize() {
+    return ({ section: this.section } = this.options);
+  },
 
-  serializeData: ->
-    user: app.user.toJSON()
-    section: @section
+  serializeData() {
+    return {
+      user: app.user.toJSON(),
+      section: this.section
+    };
+  },
 
-  events:
+  events: {
     'click #tabs a': 'selectTab'
+  },
 
-  selectTab: (e)->
-    if _.isOpenedOutside e then return
-    section = e.currentTarget.id.replace 'Tab', ''
-    app.execute 'show:inventory:section', section
-    e.preventDefault()
+  selectTab(e){
+    if (_.isOpenedOutside(e)) { return; }
+    const section = e.currentTarget.id.replace('Tab', '');
+    app.execute('show:inventory:section', section);
+    return e.preventDefault();
+  }
+});

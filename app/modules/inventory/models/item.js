@@ -1,223 +1,255 @@
-Filterable = require 'modules/general/models/filterable'
-error_ = require 'lib/error'
-saveOmitAttributes = require 'lib/save_omit_attributes'
-{ factory:transactionsDataFactory } = require '../lib/transactions_data'
-{ buildPath } = require 'lib/location'
+import Filterable from 'modules/general/models/filterable';
+import error_ from 'lib/error';
+import saveOmitAttributes from 'lib/save_omit_attributes';
+import { factory as transactionsDataFactory } from '../lib/transactions_data';
+import { buildPath } from 'lib/location';
 
-module.exports = Filterable.extend
-  initialize: (attrs, options)->
-    @testPrivateAttributes()
+export default Filterable.extend({
+  initialize(attrs, options){
+    this.testPrivateAttributes();
 
-    { entity, owner } = attrs
+    const { entity, owner } = attrs;
 
-    @mainUserIsOwner = owner is app.user.id
+    this.mainUserIsOwner = owner === app.user.id;
 
-    unless _.isEntityUri entity
-      throw error_.new "invalid entity URI: #{entity}", attrs
+    if (!_.isEntityUri(entity)) {
+      throw error_.new(`invalid entity URI: ${entity}`, attrs);
+    }
 
-    @entityUri = entity
+    this.entityUri = entity;
 
-    @setPathname()
+    this.setPathname();
 
-    @entityPathname = app.request 'get:entity:local:href', @entityUri
+    this.entityPathname = app.request('get:entity:local:href', this.entityUri);
 
-    unless attrs.shelves? then @set 'shelves', []
+    if (attrs.shelves == null) { this.set('shelves', []); }
 
-    @initUser owner
+    return this.initUser(owner);
+  },
 
-  initUser: (owner)->
-    # Check the main user early, so that we can access authorized data directly on first render
-    if @mainUserIsOwner
-      @user = app.user
-      @userReady = true
-      @waitForUser = Promise.resolve()
-      @setUserData()
-    else
-      @userReady = false
-      @waitForUser = @reqGrab 'get:user:model', owner, 'user'
-        .then @setUserData.bind(@)
+  initUser(owner){
+    // Check the main user early, so that we can access authorized data directly on first render
+    if (this.mainUserIsOwner) {
+      this.user = app.user;
+      this.userReady = true;
+      this.waitForUser = Promise.resolve();
+      return this.setUserData();
+    } else {
+      this.userReady = false;
+      return this.waitForUser = this.reqGrab('get:user:model', owner, 'user')
+        .then(this.setUserData.bind(this));
+    }
+  },
 
-  # Checking that attributes privacy is as expected
-  testPrivateAttributes: ->
-    hasPrivateAttributes = @get('listing')?
-    if @get('owner') is app.user.id
-      unless hasPrivateAttributes
-        error_.report 'item missing private attributes', @
-    else
-      if hasPrivateAttributes
-        error_.report 'item has private attributes', @
+  // Checking that attributes privacy is as expected
+  testPrivateAttributes() {
+    const hasPrivateAttributes = (this.get('listing') != null);
+    if (this.get('owner') === app.user.id) {
+      if (!hasPrivateAttributes) {
+        return error_.report('item missing private attributes', this);
+      }
+    } else {
+      if (hasPrivateAttributes) {
+        return error_.report('item has private attributes', this);
+      }
+    }
+  },
 
-  grabEntity: ->
-    @waitForEntity or= @reqGrab 'get:entity:model', @entityUri, 'entity'
-    return @waitForEntity
+  grabEntity() {
+    if (!this.waitForEntity) { this.waitForEntity = this.reqGrab('get:entity:model', this.entityUri, 'entity'); }
+    return this.waitForEntity;
+  },
 
-  grabWorks: ->
-    if @waitForWorks? then return @waitForWorks
+  grabWorks() {
+    if (this.waitForWorks != null) { return this.waitForWorks; }
 
-    return @waitForWorks = @grabEntity()
-      .then (entity)->
-        if entity.type is 'work' then return [ entity ]
-        else return entity.waitForWorks
-      .then (works)=> @grab 'works', works
+    return this.waitForWorks = this.grabEntity()
+      .then(function(entity){
+        if (entity.type === 'work') { return [ entity ];
+        } else { return entity.waitForWorks; }}).then(works=> this.grab('works', works));
+  },
 
-  setUserData: ->
-    { user } = @
-    @username = user.get 'username'
-    @authorized = user.id? and user.id is app.user.id
-    @restricted = not @authorized
-    @userReady = true
-    @trigger 'user:ready'
+  setUserData() {
+    const { user } = this;
+    this.username = user.get('username');
+    this.authorized = (user.id != null) && (user.id === app.user.id);
+    this.restricted = !this.authorized;
+    this.userReady = true;
+    return this.trigger('user:ready');
+  },
 
-  setPathname: -> @set 'pathname', '/items/' + @id
+  setPathname() { return this.set('pathname', '/items/' + this.id); },
 
-  serializeData: ->
-    attrs = @toJSON()
+  serializeData() {
+    const attrs = this.toJSON();
 
-    _.extend attrs,
-      title: @get('snapshot.entity:title')
-      personalizedTitle: @findBestTitle()
-      subtitle: @get('snapshot.entity:subtitle')
-      entityPathname: @entityPathname
-      restricted: @restricted
-      userReady: @userReady
-      mainUserIsOwner: @mainUserIsOwner
-      user: @userData()
-      isPrivate: attrs.listing is 'private'
+    _.extend(attrs, {
+      title: this.get('snapshot.entity:title'),
+      personalizedTitle: this.findBestTitle(),
+      subtitle: this.get('snapshot.entity:subtitle'),
+      entityPathname: this.entityPathname,
+      restricted: this.restricted,
+      userReady: this.userReady,
+      mainUserIsOwner: this.mainUserIsOwner,
+      user: this.userData(),
+      isPrivate: attrs.listing === 'private'
+    }
+    );
 
-    # @entity will be defined only if @grabEntity was called
-    if @entity?
-      attrs.entityData = @entity.toJSON()
-      { type } = @entity
-      attrs.entityType = type
-      Type = _.capitalise type
-      attrs["entityIs#{Type}"] = true
+    // @entity will be defined only if @grabEntity was called
+    if (this.entity != null) {
+      attrs.entityData = this.entity.toJSON();
+      const { type } = this.entity;
+      attrs.entityType = type;
+      const Type = _.capitalise(type);
+      attrs[`entityIs${Type}`] = true;
+    }
 
-    { transaction } = attrs
-    transacs = transactionsDataFactory()
-    attrs.currentTransaction = transacs[transaction]
-    attrs[transaction] = true
+    const { transaction } = attrs;
+    const transacs = transactionsDataFactory();
+    attrs.currentTransaction = transacs[transaction];
+    attrs[transaction] = true;
 
-    if @authorized
-      attrs.transactions = transacs
-      attrs.transactions[transaction].classes = 'selected'
+    if (this.authorized) {
+      attrs.transactions = transacs;
+      attrs.transactions[transaction].classes = 'selected';
 
-      { listing } = attrs
-      attrs.currentListing = app.user.listings()[listing]
-      attrs.listings = app.user.listings()
-      attrs.listings[listing].classes = 'selected'
+      const { listing } = attrs;
+      attrs.currentListing = app.user.listings()[listing];
+      attrs.listings = app.user.listings();
+      attrs.listings[listing].classes = 'selected';
 
-    else
-      # used to hide the "request button" given accessible transactions
-      # are necessarly involving the main user, which should be able
-      # to have several transactions ongoing with a given item
-      attrs.hasActiveTransaction = @hasActiveTransaction()
+    } else {
+      // used to hide the "request button" given accessible transactions
+      // are necessarly involving the main user, which should be able
+      // to have several transactions ongoing with a given item
+      attrs.hasActiveTransaction = this.hasActiveTransaction();
+    }
 
-    # picture may be undefined
-    attrs.picture = @getPicture()
-    attrs.authors = @get 'snapshot.entity:authors'
-    attrs.series = @get 'snapshot.entity:series'
-    attrs.ordinal = @get 'snapshot.entity:ordinal'
+    // picture may be undefined
+    attrs.picture = this.getPicture();
+    attrs.authors = this.get('snapshot.entity:authors');
+    attrs.series = this.get('snapshot.entity:series');
+    attrs.ordinal = this.get('snapshot.entity:ordinal');
 
-    return attrs
+    return attrs;
+  },
 
-  userData: ->
-    if @userReady
-      { user } = @
-      return userData =
-        username: @username
-        picture: user.get 'picture'
-        pathname: user.get 'pathname'
+  userData() {
+    if (this.userReady) {
+      let userData;
+      const { user } = this;
+      return userData = {
+        username: this.username,
+        picture: user.get('picture'),
+        pathname: user.get('pathname'),
         distance: user.distanceFromMainUser
+      };
+    }
+  },
 
-  matchable: ->
-    [
-      @get('snapshot.entity:title')
-      @get('snapshot.entity:authors')
-      @get('snapshot.entity:series')
-      @username
-      @get('details')
-      @get('notes')
-      @get('entity')
-    ]
+  matchable() {
+    return [
+      this.get('snapshot.entity:title'),
+      this.get('snapshot.entity:authors'),
+      this.get('snapshot.entity:series'),
+      this.username,
+      this.get('details'),
+      this.get('notes'),
+      this.get('entity')
+    ];
+  },
 
-  # passing id and rev as query paramaters
-  destroy: ->
-    # reproduce the behavior from the default Bacbkone::destroy
-    @trigger 'destroy', @, @collection
-    _.preq.post app.API.items.deleteByIds, { ids: [ @id ] }
-    .tap => @isDestroyed = true
+  // passing id and rev as query paramaters
+  destroy() {
+    // reproduce the behavior from the default Bacbkone::destroy
+    this.trigger('destroy', this, this.collection);
+    return _.preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
+    .tap(() => { return this.isDestroyed = true; });
+  },
 
-  # to be called by a view onShow:
-  # updates the document with the item data
-  updateMetadata: ->
-    # start by adding the entity's metadata
-    # and then override by the data available on the item
-    Promise.all [
-      # wait for every model the item model depends on
-      @waitForUser
-      @grabEntity()
-    ]
-    # /!\ cant be replaced by @entity.updateMetadata.bind(@entity)
-    # as @entity is probably undefined yet
-    .then => @entity.updateMetadata()
-    .then @executeMetadataUpdate.bind(@)
+  // to be called by a view onShow:
+  // updates the document with the item data
+  updateMetadata() {
+    // start by adding the entity's metadata
+    // and then override by the data available on the item
+    return Promise.all([
+      // wait for every model the item model depends on
+      this.waitForUser,
+      this.grabEntity()
+    ])
+    // /!\ cant be replaced by @entity.updateMetadata.bind(@entity)
+    // as @entity is probably undefined yet
+    .then(() => this.entity.updateMetadata())
+    .then(this.executeMetadataUpdate.bind(this));
+  },
 
-  executeMetadataUpdate: ->
-    return Promise.props
-      title: @findBestTitle()
-      description: @findBestDescription()?[0..500]
-      image: @getPicture()
-      url: @get 'pathname'
+  executeMetadataUpdate() {
+    return Promise.props({
+      title: this.findBestTitle(),
+      description: this.findBestDescription()?.slice(0, 501),
+      image: this.getPicture(),
+      url: this.get('pathname')
+    });
+  },
 
-  getPicture: -> @get('pictures')?[0] or @get('snapshot.entity:image')
+  getPicture() { return this.get('pictures')?.[0] || this.get('snapshot.entity:image'); },
 
-  findBestTitle: ->
-    title = @get('snapshot.entity:title')
-    transaction = @get 'transaction'
-    context = _.i18n "#{transaction}_personalized", { @username }
-    return "#{title} - #{context}"
+  findBestTitle() {
+    const title = this.get('snapshot.entity:title');
+    const transaction = this.get('transaction');
+    const context = _.i18n(`${transaction}_personalized`, { username: this.username });
+    return `${title} - ${context}`;
+  },
 
-  findBestDescription: ->
-    details = @get 'details'
-    if _.isNonEmptyString details then details
-    else @entity.findBestDescription()
+  findBestDescription() {
+    const details = this.get('details');
+    if (_.isNonEmptyString(details)) { return details;
+    } else { return this.entity.findBestDescription(); }
+  },
 
-  hasActiveTransaction: ->
-    # the reqres 'has:transactions:ongoing:byItemId' wont be defined
-    # if the user isn't logged in
-    unless app.user.loggedIn then return false
-    return app.request 'has:transactions:ongoing:byItemId', @id
+  hasActiveTransaction() {
+    // the reqres 'has:transactions:ongoing:byItemId' wont be defined
+    // if the user isn't logged in
+    if (!app.user.loggedIn) { return false; }
+    return app.request('has:transactions:ongoing:byItemId', this.id);
+  },
 
-  # Omit pathname on save, as is expected to be found in the model attributes
-  # in the client, but is an invalid attribute from the server point of view
-  save: saveOmitAttributes 'pathname'
+  // Omit pathname on save, as is expected to be found in the model attributes
+  // in the client, but is an invalid attribute from the server point of view
+  save: saveOmitAttributes('pathname'),
 
-  # Gather save actions
-  lazySave: (key, value)->
-    # Created a debounced save function if non was created before
-    @_lazySave or= _.debounce @save.bind(@), 200
-    # Set any passed
-    @set key, value
-    # Trigger it
-    @_lazySave()
+  // Gather save actions
+  lazySave(key, value){
+    // Created a debounced save function if non was created before
+    if (!this._lazySave) { this._lazySave = _.debounce(this.save.bind(this), 200); }
+    // Set any passed
+    this.set(key, value);
+    // Trigger it
+    return this._lazySave();
+  },
 
-  getCoords: -> @user?.getCoords()
+  getCoords() { return this.user?.getCoords(); },
 
-  hasPosition: -> @user?.has('position')
+  hasPosition() { return this.user?.has('position'); },
 
-  createShelf: (shelfId)->
-    shelvesIds = @get('shelves') or []
-    if shelfId in shelvesIds then return
-    shelvesIds.push shelfId
-    @set 'shelves', shelvesIds
+  createShelf(shelfId){
+    const shelvesIds = this.get('shelves') || [];
+    if (shelvesIds.includes(shelfId)) { return; }
+    shelvesIds.push(shelfId);
+    return this.set('shelves', shelvesIds);
+  },
 
-  removeShelf: (shelfId)->
-    shelvesIds = @get('shelves') or []
-    if shelfId not in shelvesIds then return
-    shelvesIds = _.without shelvesIds, shelfId
-    @set 'shelves', shelvesIds
+  removeShelf(shelfId){
+    let shelvesIds = this.get('shelves') || [];
+    if (!shelvesIds.includes(shelfId)) { return; }
+    shelvesIds = _.without(shelvesIds, shelfId);
+    return this.set('shelves', shelvesIds);
+  },
 
-  isInShelf: (shelfId)->
-    shelvesIds = @get 'shelves'
-    unless shelvesIds then return false
-    return shelfId in shelvesIds
+  isInShelf(shelfId){
+    const shelvesIds = this.get('shelves');
+    if (!shelvesIds) { return false; }
+    return shelvesIds.includes(shelfId);
+  }
+});

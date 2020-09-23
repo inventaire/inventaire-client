@@ -1,24 +1,31 @@
-module.exports = Marionette.ItemView.extend
-  className: 'generalInfobox'
-  template: require('./templates/general_infobox')
-  behaviors:
-    EntitiesCommons: {}
+export default Marionette.ItemView.extend({
+  className: 'generalInfobox',
+  template: require('./templates/general_infobox'),
+  behaviors: {
+    EntitiesCommons: {},
     ClampedExtract: {}
+  },
 
-  initialize: ->
-    # Also accept user models that will miss a getWikipediaExtract method
-    @model.getWikipediaExtract?()
-    { @small } = @options
+  initialize() {
+    // Also accept user models that will miss a getWikipediaExtract method
+    this.model.getWikipediaExtract?.();
+    return ({ small: this.small } = this.options);
+  },
 
-  modelEvents:
-    # The extract might arrive later
+  modelEvents: {
+    // The extract might arrive later
     'change:extract': 'render'
+  },
 
-  serializeData: ->
-    attrs = @model.toJSON()
-    # Also accept user models
-    attrs.extract or= attrs.bio
-    attrs.image or= { url: attrs.picture }
-    _.extend attrs,
-      standalone: @options.standalone
-      small: @small
+  serializeData() {
+    const attrs = this.model.toJSON();
+    // Also accept user models
+    if (!attrs.extract) { attrs.extract = attrs.bio; }
+    if (!attrs.image) { attrs.image = { url: attrs.picture }; }
+    return _.extend(attrs, {
+      standalone: this.options.standalone,
+      small: this.small
+    }
+    );
+  }
+});

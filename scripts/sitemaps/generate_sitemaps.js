@@ -1,62 +1,68 @@
-breq = require 'bluereq'
-_ = require 'lodash'
-writeSitemap = require './write_sitemap'
-{ folder } = require './config'
-{ green, blue } = require 'chalk'
-wdk = require 'wikidata-sdk'
-queries = require './queries'
+import breq from 'bluereq';
+import _ from 'lodash';
+import writeSitemap from './write_sitemap';
+import { folder } from './config';
+import { green, blue } from 'chalk';
+import wdk from 'wikidata-sdk';
+import queries from './queries';
 
-module.exports = ->
-  queriesNames = Object.keys queries
+export default function() {
+  const queriesNames = Object.keys(queries);
 
-  # Generating sequentially to prevent overpassing Wikidata Query Service parallel request quota
-  generateFilesSequentially = ->
-    nextQueryName = queriesNames.shift()
-    unless nextQueryName? then return console.log green('done')
-    generateFilesFromQuery nextQueryName
-    .then generateFilesSequentially
+  // Generating sequentially to prevent overpassing Wikidata Query Service parallel request quota
+  var generateFilesSequentially = function() {
+    const nextQueryName = queriesNames.shift();
+    if (nextQueryName == null) { return console.log(green('done')); }
+    return generateFilesFromQuery(nextQueryName)
+    .then(generateFilesSequentially);
+  };
 
-  return generateFilesSequentially()
+  return generateFilesSequentially();
+};
 
-generateFilesFromQuery = (name)->
-  console.log green("#{name} query"), queries[name]
-  breq.get
-    url: queries[name]
-    headers:
+var generateFilesFromQuery = function(name){
+  console.log(green(`${name} query`), queries[name]);
+  return breq.get({
+    url: queries[name],
+    headers: {
       'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)'
-  .get 'body'
-  .then (results)->
-    try
-      return wdk.simplifySparqlResults results
-    catch err
-      console.error 'failed to parse SPARQL results', results
-      throw err
-  .then getParts(name)
-  .map generateFile
+    }}).get('body')
+  .then(function(results){
+    try {
+      return wdk.simplifySparqlResults(results);
+    } catch (err) {
+      console.error('failed to parse SPARQL results', results);
+      throw err;
+    }}).then(getParts(name))
+  .map(generateFile);
+};
 
-getParts = (name)-> (items)->
-  parts = []
-  index = 0
+var getParts = name => (function(items) {
+  const parts = [];
+  let index = 0;
 
-  items = _.uniq items
+  items = _.uniq(items);
 
-  while items.length > 0
-    # override items
-    [ part, items ] = [ items[0..49999], items[50000..-1] ]
-    index += 1
-    parts.push { name, items: part, index }
+  while (items.length > 0) {
+    // override items
+    let part;
+    [ part, items ] = Array.from([ items.slice(0, 50000), items.slice(50000) ]);
+    index += 1;
+    parts.push({ name, items: part, index });
+  }
 
-  console.log green("got #{index} parts")
-  return parts
+  console.log(green(`got ${index} parts`));
+  return parts;
+});
 
-generateFile = (part)->
-  { name, items, index } = part
-  path = getFilePath name, index
-  return writeSitemap path, wrapUrls(items.map(buildUrlNode))
+var generateFile = function(part){
+  const { name, items, index } = part;
+  const path = getFilePath(name, index);
+  return writeSitemap(path, wrapUrls(items.map(buildUrlNode)));
+};
 
-wrapUrls = require './wrap_urls'
+var wrapUrls = require('./wrap_urls');
 
-buildUrlNode = (id)->
-  "<url><loc>https://inventaire.io/entity/wd:#{id}</loc></url>"
+var buildUrlNode = id => `<url><loc>https://inventaire.io/entity/wd:${id}</loc></url>`;
 
-getFilePath = (name, index)-> "#{folder}/#{name}-#{index}.xml"
+var getFilePath = (name, index) => `${folder}/${name}-${index}.xml`;

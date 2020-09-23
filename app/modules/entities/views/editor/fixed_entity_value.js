@@ -1,38 +1,46 @@
-module.exports = Marionette.ItemView.extend
-  template: require './templates/fixed_entity_value'
-  className: 'fixed-entity-value fixed-value value-editor-commons'
+export default Marionette.ItemView.extend({
+  template: require('./templates/fixed_entity_value'),
+  className: 'fixed-entity-value fixed-value value-editor-commons',
 
-  initialize: ->
-    @draftValueEntity = @model.valueEntity?.creating
+  initialize() {
+    return this.draftValueEntity = this.model.valueEntity?.creating;
+  },
 
-  serializeData: ->
-    if @draftValueEntity then return @draftModelData()
+  serializeData() {
+    if (this.draftValueEntity) { return this.draftModelData(); }
 
-    attrs = @model.toJSON()
-    attrs.valueEntity = @valueEntityData()
-    attrs.value = attrs.valueEntity?.label or attrs.value
-    if attrs.valueEntity?
-      hasIdentifierTooltipLinks = attrs.valueEntity.type? or attrs.valueEntity.wikidata?
-      attrs.valueEntity.hasIdentifierTooltipLinks = hasIdentifierTooltipLinks
-      attrs.valueEntity.contrast = true
-    return attrs
-
-  valueEntityData: ->
-    { valueEntity } = @model
-    if valueEntity? then valueEntity.toJSON()
-
-  onShow: ->
-    @listenTo @model, 'grab', @onGrab.bind(@)
-
-  onGrab: ->
-    if @model.valueEntity?
-      @listenToOnce @model.valueEntity, 'change:image', @lazyRender.bind(@)
-
-    @lazyRender()
-
-  draftModelData: ->
-    draftModel = @model.valueEntity
-    return {
-      draft: true
-      label: _.values(draftModel.get('labels'))[0]
+    const attrs = this.model.toJSON();
+    attrs.valueEntity = this.valueEntityData();
+    attrs.value = attrs.valueEntity?.label || attrs.value;
+    if (attrs.valueEntity != null) {
+      const hasIdentifierTooltipLinks = (attrs.valueEntity.type != null) || (attrs.valueEntity.wikidata != null);
+      attrs.valueEntity.hasIdentifierTooltipLinks = hasIdentifierTooltipLinks;
+      attrs.valueEntity.contrast = true;
     }
+    return attrs;
+  },
+
+  valueEntityData() {
+    const { valueEntity } = this.model;
+    if (valueEntity != null) { return valueEntity.toJSON(); }
+  },
+
+  onShow() {
+    return this.listenTo(this.model, 'grab', this.onGrab.bind(this));
+  },
+
+  onGrab() {
+    if (this.model.valueEntity != null) {
+      this.listenToOnce(this.model.valueEntity, 'change:image', this.lazyRender.bind(this));
+    }
+
+    return this.lazyRender();
+  },
+
+  draftModelData() {
+    const draftModel = this.model.valueEntity;
+    return {
+      draft: true,
+      label: _.values(draftModel.get('labels'))[0]
+    };
+  }});

@@ -1,36 +1,40 @@
-__ = require '../root'
+let _, csle;
+import __ from '../root';
 
-global.Backbone = {}
-global.app = {}
-global.window =
-  reportErr: ->
-  # mimicking node_modules/sinon/lib/sinon/util/fake_server.js:38 result
-  # for when window is undefined
+global.Backbone = {};
+global.app = {};
+global.window = {
+  reportErr() {},
+  // mimicking node_modules/sinon/lib/sinon/util/fake_server.js:38 result
+  // for when window is undefined
   location: {}
-global.document = {}
-global.Promise = __.require 'lib', 'promises'
+};
+global.document = {};
+global.Promise = __.require('lib', 'promises');
 global.navigator =
-  platform: 'None in particular'
+  {platform: 'None in particular'};
 
-global._ = _ = require 'underscore'
+global._ = (_ = require('underscore'));
 
-if process.env.CONSOLE is 'silent'
-  csle = __.require 'lib', 'noop_console'
-else
-  csle = console
+if (process.env.CONSOLE === 'silent') {
+  csle = __.require('lib', 'noop_console');
+} else {
+  csle = console;
+}
 
-# no need to require jquery
-# just faking what needs to be accessible to let tests pass
-global.$ =
-  extend: ->
-  get: ->
-  post: ->
+// no need to require jquery
+// just faking what needs to be accessible to let tests pass
+global.$ = {
+  extend() {},
+  get() {},
+  post() {}
+};
 
-loggers_ = __.require('lib', 'loggers')(_, csle)
-types_ = __.require 'lib', 'types'
-booleanTests_ = __.require 'lib', 'boolean_tests'
-_.extend _, loggers_, types_
+const loggers_ = __.require('lib', 'loggers')(_, csle);
+const types_ = __.require('lib', 'types');
+const booleanTests_ = __.require('lib', 'boolean_tests');
+_.extend(_, loggers_, types_);
 
-localUtils = __.require('lib', 'utils')(Backbone, _, $, app, window)
+const localUtils = __.require('lib', 'utils')(Backbone, _, $, app, window);
 
-module.exports = _.extend _, localUtils, booleanTests_
+export default _.extend(_, localUtils, booleanTests_);

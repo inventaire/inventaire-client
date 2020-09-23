@@ -1,53 +1,63 @@
-allowPersistantQuery = require './allow_persistant_query'
-{ parseQuery, buildPath, setQuerystring, routeSection } = require 'lib/location'
+import allowPersistantQuery from './allow_persistant_query';
+import { parseQuery, buildPath, setQuerystring, routeSection } from 'lib/location';
 
-module.exports = (app, _)->
-  app.reqres.setHandlers
-    'querystring:get': get
-    'querystring:get:all': getQuery
+export default function(app, _){
+  app.reqres.setHandlers({
+    'querystring:get': get,
+    'querystring:get:all': getQuery,
     'querystring:keep': keep
+  });
 
-  app.commands.setHandlers
-    'querystring:set': set
+  return app.commands.setHandlers({
+    'querystring:set': set});
+};
 
-get = (key)->
-  value = getQuery()?[key]
-  switch value
-    # Parsing boolean string
-    when 'true' then true
-    when 'false' then false
-    else value
+var get = function(key){
+  const value = getQuery()?.[key];
+  switch (value) {
+    // Parsing boolean string
+    case 'true': return true;
+    case 'false': return false;
+    default: return value;
+  }
+};
 
-set = (key, value)->
-  # Setting the value to 'null' and not just null allows to have the null value
-  # passed to the keep function (called by app.navigate), thus unsetting
-  # the desired key
-  unless value? then value = 'null'
+var set = function(key, value){
+  // Setting the value to 'null' and not just null allows to have the null value
+  // passed to the keep function (called by app.navigate), thus unsetting
+  // the desired key
+  if (value == null) { value = 'null'; }
 
-  # omit the first character: '/'
-  currentPath = window.location.pathname.slice(1) + window.location.search
-  updatedPath = setQuerystring currentPath, key, value
-  app.navigateReplace updatedPath
+  // omit the first character: '/'
+  const currentPath = window.location.pathname.slice(1) + window.location.search;
+  const updatedPath = setQuerystring(currentPath, key, value);
+  return app.navigateReplace(updatedPath);
+};
 
-# report persistant querystrings from the current route to the next one
-keep = (newRoute)->
-  # get info on new route
-  [ newRoute, newQuery ] = newRoute.split '?'
-  newQuery = parseQuery newQuery
+// report persistant querystrings from the current route to the next one
+var keep = function(newRoute){
+  // get info on new route
+  let newQuery;
+  [ newRoute, newQuery ] = Array.from(newRoute.split('?'));
+  newQuery = parseQuery(newQuery);
 
-  currentQuery = getQuery()
-  keptQuery = {}
+  const currentQuery = getQuery();
+  const keptQuery = {};
 
-  newRouteSection = routeSection newRoute
+  const newRouteSection = routeSection(newRoute);
 
-  for k, v of currentQuery
-    test = allowPersistantQuery[k]
-    # discard queries that have no tests in allowPersistantQuery
-    if test?(newRouteSection)
-      keptQuery[k] = v
+  for (let k in currentQuery) {
+    const v = currentQuery[k];
+    const test = allowPersistantQuery[k];
+    // discard queries that have no tests in allowPersistantQuery
+    if (test?.(newRouteSection)) {
+      keptQuery[k] = v;
+    }
+  }
 
-  # extend persisting current parameters with new parameters
-  newQuery = _.extend keptQuery, newQuery
-  return buildPath newRoute, newQuery
+  // extend persisting current parameters with new parameters
+  newQuery = _.extend(keptQuery, newQuery);
+  return buildPath(newRoute, newQuery);
+};
 
-getQuery = -> parseQuery window.location.search
+var getQuery = () => parseQuery(window.location.search);

@@ -1,51 +1,60 @@
-ClaimsEditorCommons = require './claims_editor_commons'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-inputSelector = '.positive-integer-picker'
+import ClaimsEditorCommons from './claims_editor_commons';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+const inputSelector = '.positive-integer-picker';
 
-module.exports = ClaimsEditorCommons.extend
-  mainClassName: 'positive-integer-value-editor'
-  template: require './templates/positive_integer_value_editor'
+export default ClaimsEditorCommons.extend({
+  mainClassName: 'positive-integer-value-editor',
+  template: require('./templates/positive_integer_value_editor'),
 
-  ui:
+  ui: {
     input: inputSelector
+  },
 
-  initialize: ->
-    @initEditModeState()
-    @focusTarget = 'input'
+  initialize() {
+    this.initEditModeState();
+    return this.focusTarget = 'input';
+  },
 
-  onRender: ->
-    @focusOnRender()
+  onRender() {
+    return this.focusOnRender();
+  },
 
-  events:
-    'click .edit, .displayModeData': 'showEditMode'
-    'click .cancel': 'hideEditMode'
-    'click .save': 'save'
-    'click .delete': 'delete'
-    # Not setting a particular selector so that
-    # any keyup event on the element triggers the event
+  events: {
+    'click .edit, .displayModeData': 'showEditMode',
+    'click .cancel': 'hideEditMode',
+    'click .save': 'save',
+    'click .delete': 'delete',
+    // Not setting a particular selector so that
+    // any keyup event on the element triggers the event
     'keyup': 'onKeyUp'
+  },
 
-  valueType: 'number'
+  valueType: 'number',
 
-  save: ->
-    stringVal = @ui.input.val()
+  save() {
+    let err;
+    const stringVal = this.ui.input.val();
 
-    unless _.isPositiveIntegerString stringVal
-      err = error_.new 'invalid number', stringVal
-      err.selector = inputSelector
-      return forms_.alert @, err
+    if (!_.isPositiveIntegerString(stringVal)) {
+      err = error_.new('invalid number', stringVal);
+      err.selector = inputSelector;
+      return forms_.alert(this, err);
+    }
 
-    numberVal = parseInt stringVal
+    const numberVal = parseInt(stringVal);
 
-    val = if @valueType is 'number' then numberVal else stringVal
+    const val = this.valueType === 'number' ? numberVal : stringVal;
 
-    # Ignore if we got the same value
-    if val is @model.get('value') then return @hideEditMode()
+    // Ignore if we got the same value
+    if (val === this.model.get('value')) { return this.hideEditMode(); }
 
-    unless 1 <= numberVal <= 100000
-      err = error_.new "number can't be higher than 100000", numberVal
-      err.selector = inputSelector
-      return forms_.alert @, err
+    if (1 > numberVal || numberVal > 100000) {
+      err = error_.new("number can't be higher than 100000", numberVal);
+      err.selector = inputSelector;
+      return forms_.alert(this, err);
+    }
 
-    @_save val
+    return this._save(val);
+  }
+});

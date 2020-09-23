@@ -1,2 +1,1 @@
-module.exports = (app, _)->
-  require('./querystring_helpers')(app, _)
+export default (app, _) => require('./querystring_helpers')(app, _);

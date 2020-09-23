@@ -1,10 +1,12 @@
-fs = require 'fs'
-{ promisify } = require 'util'
-writeFile = promisify fs.writeFile
-{ grey, red, green } = require 'chalk'
+import fs from 'fs';
+import { promisify } from 'util';
+const writeFile = promisify(fs.writeFile);
+const { grey, red, green } = require('chalk');
 
-module.exports = (path, content)->
-  console.log grey('writting sitemap'), path
-  writeFile path, content, (err, res)->
-    if err? then console.log red('err'), err
-    else console.log green('done!')
+export default function(path, content){
+  console.log(grey('writting sitemap'), path);
+  return writeFile(path, content, function(err, res){
+    if (err != null) { return console.log(red('err'), err);
+    } else { return console.log(green('done!')); }
+  });
+};

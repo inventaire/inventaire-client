@@ -1,64 +1,75 @@
-{ Updater } = require 'lib/model_update'
+import { Updater } from 'lib/model_update';
 
-module.exports = ->
-  { groups } = app
+export default function() {
+  const { groups } = app;
 
-  getGroupModelById = (id)->
-    group = groups.byId id
-    unless group? then return getGroupPublicData id
+  const getGroupModelById = function(id){
+    const group = groups.byId(id);
+    if (group == null) { return getGroupPublicData(id); }
 
-    # the group model might have arrived from a simple search
-    # thus without fetching its users
-    if group.usersFetched then Promise.resolve group
-    else getGroupPublicData null, group
+    // the group model might have arrived from a simple search
+    // thus without fetching its users
+    if (group.usersFetched) { return Promise.resolve(group);
+    } else { return getGroupPublicData(null, group); }
+  };
 
-  getGroupPublicData = (id, groupModel)->
-    if groupModel? then id = groupModel.id
-    _.preq.get app.API.groups.byId(id)
-    .then (res)-> addGroupData res, groupModel
+  var getGroupPublicData = function(id, groupModel){
+    if (groupModel != null) { ({
+      id
+    } = groupModel); }
+    return _.preq.get(app.API.groups.byId(id))
+    .then(res => addGroupData(res, groupModel));
+  };
 
-  getGroupModelFromSlug = (slug)->
-    _.preq.get app.API.groups.bySlug(slug)
-    .then addGroupData
+  const getGroupModelFromSlug = slug => _.preq.get(app.API.groups.bySlug(slug))
+  .then(addGroupData);
 
-  addGroupData = (res, groupModel)->
-    { group, users } = res
-    app.execute 'users:add', users
-    groupModel ?= groups.add group
-    groupModel.usersFetched = true
-    return groupModel
+  var addGroupData = function(res, groupModel){
+    const { group, users } = res;
+    app.execute('users:add', users);
+    if (groupModel == null) { groupModel = groups.add(group); }
+    groupModel.usersFetched = true;
+    return groupModel;
+  };
 
-  groupSettingsUpdater = Updater
-    endpoint: app.API.groups.base
-    action: 'update-settings'
+  const groupSettingsUpdater = Updater({
+    endpoint: app.API.groups.base,
+    action: 'update-settings',
     modelIdLabel: 'group'
+  });
 
-  getGroupModel = (id)->
-    if _.isGroupId(id) then getGroupModelById id
-    else getGroupModelFromSlug id
+  const getGroupModel = function(id){
+    if (_.isGroupId(id)) { return getGroupModelById(id);
+    } else { return getGroupModelFromSlug(id); }
+  };
 
-  resolveToGroupModel = (group)->
-    # 'group' is either the group model, a group id, or a group slug
-    if _.isModel(group) then return Promise.resolve group
+  const resolveToGroupModel = function(group){
+    // 'group' is either the group model, a group id, or a group slug
+    if (_.isModel(group)) { return Promise.resolve(group); }
 
-    getGroupModel group
-    .then (groupModel)->
-      if groupModel? then return groupModel
-      else throw error_.new 'group model not found', 404, { group }
+    return getGroupModel(group)
+    .then(function(groupModel){
+      if (groupModel != null) { return groupModel;
+      } else { throw error_.new('group model not found', 404, { group }); }});
+  };
 
-  app.reqres.setHandlers
-    'get:group:model': getGroupModel
-    'group:update:settings': groupSettingsUpdater
+  app.reqres.setHandlers({
+    'get:group:model': getGroupModel,
+    'group:update:settings': groupSettingsUpdater,
     'resolve:to:groupModel': resolveToGroupModel
+  });
 
-  initGroupFilteredCollection groups, 'mainUserMember'
-  initGroupFilteredCollection groups, 'mainUserInvited'
+  initGroupFilteredCollection(groups, 'mainUserMember');
+  return initGroupFilteredCollection(groups, 'mainUserInvited');
+};
 
-initGroupFilteredCollection = (groups, name)->
-  filtered = groups[name] = new FilteredCollection groups
-  filtered.filterBy name, filters[name]
-  filtered.listenTo app.vent, 'group:main:user:move', filtered.refilter.bind(filtered)
+var initGroupFilteredCollection = function(groups, name){
+  const filtered = (groups[name] = new FilteredCollection(groups));
+  filtered.filterBy(name, filters[name]);
+  return filtered.listenTo(app.vent, 'group:main:user:move', filtered.refilter.bind(filtered));
+};
 
-filters =
-  mainUserMember: (group)-> group.mainUserIsMember()
-  mainUserInvited: (group)-> group.mainUserIsInvited()
+var filters = {
+  mainUserMember(group){ return group.mainUserIsMember(); },
+  mainUserInvited(group){ return group.mainUserIsInvited(); }
+};

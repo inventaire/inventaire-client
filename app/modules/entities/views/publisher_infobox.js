@@ -1,9 +1,11 @@
-GeneralInfobox = require './general_infobox'
-clampedExtract = require '../lib/clamped_extract'
+import GeneralInfobox from './general_infobox';
+import clampedExtract from '../lib/clamped_extract';
 
-module.exports = GeneralInfobox.extend
-  template: require './templates/publisher_infobox'
-  serializeData: ->
-    attrs = @model.toJSON()
-    clampedExtract.setAttributes attrs
-    return attrs
+export default GeneralInfobox.extend({
+  template: require('./templates/publisher_infobox'),
+  serializeData() {
+    const attrs = this.model.toJSON();
+    clampedExtract.setAttributes(attrs);
+    return attrs;
+  }
+});

@@ -1,1 +1,1 @@
-module.exports = require('lib/get_assets')('cropper')
+export default require('lib/get_assets')('cropper');

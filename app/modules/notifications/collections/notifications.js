@@ -1,41 +1,48 @@
-error_ = require 'lib/error'
-{ models } = require '../lib/notifications_types'
+import error_ from 'lib/error';
+import { models } from '../lib/notifications_types';
 
-module.exports = Backbone.Collection.extend
-  comparator: (notif)-> -notif.get('time')
-  unread: -> @filter (model)-> model.get('status') is 'unread'
-  unreadCount: -> @unread().length
-  markAsRead: -> @each (model)-> model.set 'status', 'read'
+export default Backbone.Collection.extend({
+  comparator(notif){ return -notif.get('time'); },
+  unread() { return this.filter(model => model.get('status') === 'unread'); },
+  unreadCount() { return this.unread().length; },
+  markAsRead() { return this.each(model => model.set('status', 'read')); },
 
-  initialize: ->
-    @toUpdate = []
-    @batchUpdate = _.debounce @update.bind(@), 200
+  initialize() {
+    this.toUpdate = [];
+    return this.batchUpdate = _.debounce(this.update.bind(this), 200);
+  },
 
-  updateStatus: (time)->
-    @toUpdate.push time
-    @batchUpdate()
+  updateStatus(time){
+    this.toUpdate.push(time);
+    return this.batchUpdate();
+  },
 
-  update: ->
-    _.log @toUpdate, 'notifs:update'
-    ids = @toUpdate
-    @toUpdate = []
-    _.preq.post app.API.notifications, { times: ids }
-    .catch _.Error('notification update err')
+  update() {
+    _.log(this.toUpdate, 'notifs:update');
+    const ids = this.toUpdate;
+    this.toUpdate = [];
+    return _.preq.post(app.API.notifications, { times: ids })
+    .catch(_.Error('notification update err'));
+  },
 
-  addPerType: (docs)->
+  addPerType(docs){
     models = docs
-      .filter (doc)-> doc.type not in deprecatedTypes
-      .map createTypedModel
-    @add models
+      .filter(doc => !deprecatedTypes.includes(doc.type))
+      .map(createTypedModel);
+    return this.add(models);
+  },
 
-  beforeShow: -> Promise.all _.invoke(@models, 'beforeShow')
+  beforeShow() { return Promise.all(_.invoke(this.models, 'beforeShow')); }
+});
 
-createTypedModel = (doc)->
-  { type } = doc
-  Model = models[type]
-  unless Model?
-    throw error_.new 'unknown notification type', doc
+var createTypedModel = function(doc){
+  const { type } = doc;
+  const Model = models[type];
+  if (Model == null) {
+    throw error_.new('unknown notification type', doc);
+  }
 
-  return new Model(doc)
+  return new Model(doc);
+};
 
-deprecatedTypes = [ 'newCommentOnFollowedItem' ]
+var deprecatedTypes = [ 'newCommentOnFollowedItem' ];

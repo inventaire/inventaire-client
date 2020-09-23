@@ -1,5 +1,6 @@
-[ target ] = process.argv.slice(2)
+const [ target ] = Array.from(process.argv.slice(2));
 
-module.exports = ->
-  if target is 'prod' then 'https://inventaire.io'
-  else 'http://localhost:3006'
+export default function() {
+  if (target === 'prod') { return 'https://inventaire.io';
+  } else { return 'http://localhost:3006'; }
+};

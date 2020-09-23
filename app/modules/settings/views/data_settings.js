@@ -1,22 +1,24 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-{ apiDoc } = require 'lib/urls'
-{ host, protocol } = window.location
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import { apiDoc } from 'lib/urls';
+const { host, protocol } = window.location;
 
-module.exports = Marionette.ItemView.extend
-  template: require './templates/data_settings'
-  className: 'dataSettings'
-  behaviors:
-    AlertBox: {}
-    SuccessCheck: {}
+export default Marionette.ItemView.extend({
+  template: require('./templates/data_settings'),
+  className: 'dataSettings',
+  behaviors: {
+    AlertBox: {},
+    SuccessCheck: {},
     Loading: {}
+  },
 
-  initialize: -> _.extend @, behaviorsPlugin
+  initialize() { return _.extend(this, behaviorsPlugin); },
 
-  serializeData: ->
-    username = app.user.get 'username'
+  serializeData() {
+    const username = app.user.get('username');
     return {
-      apiDoc: apiDoc
-      inventoryJsonEndpoint: "/api/items?action=by-users&users=#{app.user.id}&limit=100000"
-      userJsonEndpoint: '/api/user'
-      curlBase: "$ curl #{protocol}//#{username.toLowerCase()}:yourpassword@#{host}"
-    }
+      apiDoc,
+      inventoryJsonEndpoint: `/api/items?action=by-users&users=${app.user.id}&limit=100000`,
+      userJsonEndpoint: '/api/user',
+      curlBase: `$ curl ${protocol}//${username.toLowerCase()}:yourpassword@${host}`
+    };
+  }});

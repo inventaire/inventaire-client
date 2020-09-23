@@ -1,21 +1,30 @@
-{ data: transactionsData } = require 'modules/inventory/lib/transactions_data'
+import { data as transactionsData } from 'modules/inventory/lib/transactions_data';
 
-module.exports = Marionette.CompositeView.extend
-  template: require './templates/items_preview_list'
-  className: ->
-    className = 'itemsPreviewList'
-    if @options.compact then className += ' compact'
-    return className
+export default Marionette.CompositeView.extend({
+  template: require('./templates/items_preview_list'),
+  className() {
+    let className = 'itemsPreviewList';
+    if (this.options.compact) { className += ' compact'; }
+    return className;
+  },
 
-  childViewContainer: '.items-preview'
-  childView: require './item_preview'
-  childViewOptions: ->
-    displayItemsCovers: @options.displayItemsCovers
-    compact: @options.compact
+  childViewContainer: '.items-preview',
+  childView: require('./item_preview'),
+  childViewOptions() {
+    return {
+      displayItemsCovers: this.options.displayItemsCovers,
+      compact: this.options.compact
+    };
+  },
 
-  initialize: ->
-    { @transaction } = @options
+  initialize() {
+    return ({ transaction: this.transaction } = this.options);
+  },
 
-  serializeData: ->
-    transaction: @transaction
-    icon: transactionsData[@transaction].icon
+  serializeData() {
+    return {
+      transaction: this.transaction,
+      icon: transactionsData[this.transaction].icon
+    };
+  }
+});

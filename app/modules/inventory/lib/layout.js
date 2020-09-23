@@ -1,16 +1,18 @@
-# the layout mode is persisted to the localStorage
-# to keep its state per-device
+// the layout mode is persisted to the localStorage
+// to keep its state per-device
 
-defaultLayout = 'cascade'
+const defaultLayout = 'cascade';
 
-module.exports = (app)->
-  layout = localStorageProxy.getItem('layout') or defaultLayout
+export default function(app){
+  let layout = localStorageProxy.getItem('layout') || defaultLayout;
 
-  setLayout = (newLayout)->
-    layout = newLayout
-    localStorageProxy.setItem 'layout', layout
+  const setLayout = function(newLayout){
+    layout = newLayout;
+    return localStorageProxy.setItem('layout', layout);
+  };
 
-  app.reqres.setHandlers
-    'inventory:layout': -> layout
+  app.reqres.setHandlers({
+    'inventory:layout'() { return layout; }});
 
-  app.vent.on 'inventory:layout:change', setLayout
+  return app.vent.on('inventory:layout:change', setLayout);
+};

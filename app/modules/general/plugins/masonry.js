@@ -1,45 +1,52 @@
-# dependencies: behaviorsPlugin, paginationPlugin
+// dependencies: behaviorsPlugin, paginationPlugin
 
-Masonry = require 'masonry-layout'
-screen_ = require 'lib/screen'
-# to keep in sync with _items_list.scss $itemCardBaseWidth variable
-itemWidth = 230
+import Masonry from 'masonry-layout';
 
-module.exports = (containerSelector, itemSelector, minWidth = 500)->
-  # MUST be called with the View it extends as context
-  unless _.isView(@)
-    throw new Error('should be called with a view as context')
+import screen_ from 'lib/screen';
+// to keep in sync with _items_list.scss $itemCardBaseWidth variable
+const itemWidth = 230;
 
-  initMasonry = ->
-    $itemsCascade = $('.itemsCascade')
+export default function(containerSelector, itemSelector, minWidth = 500){
+  // MUST be called with the View it extends as context
+  if (!_.isView(this)) {
+    throw new Error('should be called with a view as context');
+  }
 
-    # It often happen that after triggering a masonry view
-    # the user triggered an other view so that when images are ready
-    # there is no more masonry to do, thus this check
-    if $itemsCascade.length is 0 then return
+  const initMasonry = function() {
+    const $itemsCascade = $('.itemsCascade');
 
-    itemsPerLine = $itemsCascade.width() / itemWidth
-    tooFewItems = @collection.length < itemsPerLine
+    // It often happen that after triggering a masonry view
+    // the user triggered an other view so that when images are ready
+    // there is no more masonry to do, thus this check
+    if ($itemsCascade.length === 0) { return; }
 
-    unless screen_.isSmall(minWidth) or tooFewItems
-      positionBefore = window.scrollY
-      container = document.querySelector containerSelector
-      $(containerSelector).css 'opacity', 0
-      new Masonry container,
-        itemSelector: itemSelector
-        isFitWidth: true
-        isResizable: true
-        isAnimated: true
+    const itemsPerLine = $itemsCascade.width() / itemWidth;
+    const tooFewItems = this.collection.length < itemsPerLine;
+
+    if (!screen_.isSmall(minWidth) && !tooFewItems) {
+      const positionBefore = window.scrollY;
+      const container = document.querySelector(containerSelector);
+      $(containerSelector).css('opacity', 0);
+      new Masonry(container, {
+        itemSelector,
+        isFitWidth: true,
+        isResizable: true,
+        isAnimated: true,
         gutter: 5
+      }
+      );
 
-      screen_.scrollHeight positionBefore, 0
-      $(containerSelector).css 'opacity', 1
+      screen_.scrollHeight(positionBefore, 0);
+      return $(containerSelector).css('opacity', 1);
+    }
+  };
 
-  refresh = ->
-    require 'imagesloaded'
-    # wait for images to be loaded
-    $(containerSelector).imagesLoaded initMasonry.bind(@)
+  const refresh = function() {
+    require('imagesloaded');
+    // wait for images to be loaded
+    return $(containerSelector).imagesLoaded(initMasonry.bind(this));
+  };
 
-  @lazyMasonryRefresh = _.debounce refresh.bind(@), 200
+  this.lazyMasonryRefresh = _.debounce(refresh.bind(this), 200);
 
-  return
+};

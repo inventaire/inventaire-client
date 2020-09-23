@@ -1,9 +1,11 @@
-module.exports = Marionette.ItemView.extend
-  className: 'version'
-  template: require './templates/version'
-  initialize: ->
+export default Marionette.ItemView.extend({
+  className: 'version',
+  template: require('./templates/version'),
+  initialize() {},
 
-  serializeData: -> @model.serializeData()
+  serializeData() { return this.model.serializeData(); },
 
-  modelEvents:
+  modelEvents: {
     'grab': 'lazyRender'
+  }
+});

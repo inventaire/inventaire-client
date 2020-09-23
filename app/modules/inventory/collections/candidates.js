@@ -1,48 +1,57 @@
-{ looksLikeAnIsbn, normalizeIsbn } = require 'lib/isbn'
+import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn';
 
-module.exports = Backbone.Collection.extend
-  model: require '../models/candidate'
+export default Backbone.Collection.extend({
+  model: require('../models/candidate'),
 
-  setAllSelectedTo: (bool)-> @each setSelected(bool)
+  setAllSelectedTo(bool){ return this.each(setSelected(bool)); },
 
-  getSelected: -> @filter isSelected
+  getSelected() { return this.filter(isSelected); },
 
-  selectionIsntEmpty: -> @any isSelected
+  selectionIsntEmpty() { return this.any(isSelected); },
 
-  addNewCandidates: (newCandidates)->
-    alreadyAddedIsbns = @pluck 'normalizedIsbn'
-    remainingCandidates = newCandidates.filter isNewCandidate(alreadyAddedIsbns)
-    if remainingCandidates.length is 0 then return Promise.resolve []
-    addExistingEntityItemsCounts remainingCandidates
-    .then @add.bind(@)
+  addNewCandidates(newCandidates){
+    const alreadyAddedIsbns = this.pluck('normalizedIsbn');
+    const remainingCandidates = newCandidates.filter(isNewCandidate(alreadyAddedIsbns));
+    if (remainingCandidates.length === 0) { return Promise.resolve([]); }
+    return addExistingEntityItemsCounts(remainingCandidates)
+    .then(this.add.bind(this));
+  }
+});
 
-isSelected = (model)-> model.get('selected')
+var isSelected = model => model.get('selected');
 
-setSelected = (bool)-> (model)->
-  if model.canBeSelected() then model.set 'selected', bool
+var setSelected = bool => (function(model) {
+  if (model.canBeSelected()) { return model.set('selected', bool); }
+});
 
-isNewCandidate = (alreadyAddedIsbns)-> (candidateData)->
-  unless candidateData.title? or candidateData.normalizedIsbn? then return false
-  return candidateData.normalizedIsbn not in alreadyAddedIsbns
+var isNewCandidate = alreadyAddedIsbns => (function(candidateData) {
+  if ((candidateData.title == null) && (candidateData.normalizedIsbn == null)) { return false; }
+  return !alreadyAddedIsbns.includes(candidateData.normalizedIsbn);
+});
 
-addExistingEntityItemsCounts = (candidates)->
-  uris = _.compact candidates.map(getUri)
-  app.request 'items:getEntitiesItemsCount', app.user.id, uris
-  .then addCounts(candidates)
+var addExistingEntityItemsCounts = function(candidates){
+  const uris = _.compact(candidates.map(getUri));
+  return app.request('items:getEntitiesItemsCount', app.user.id, uris)
+  .then(addCounts(candidates));
+};
 
-getUri = (candidate)->
-  { isbn, normalizedIsbn } = candidate
-  normalizedIsbn ?= normalizeIsbn isbn
-  candidate.normalizedIsbn = normalizedIsbn
-  if looksLikeAnIsbn normalizedIsbn
-    candidate.uri = "isbn:#{normalizedIsbn}"
-    return candidate.uri
+var getUri = function(candidate){
+  let { isbn, normalizedIsbn } = candidate;
+  if (normalizedIsbn == null) { normalizedIsbn = normalizeIsbn(isbn); }
+  candidate.normalizedIsbn = normalizedIsbn;
+  if (looksLikeAnIsbn(normalizedIsbn)) {
+    candidate.uri = `isbn:${normalizedIsbn}`;
+    return candidate.uri;
+  }
+};
 
-addCounts = (candidates)-> (counts)->
-  candidates.forEach (candidate)->
-    { uri } = candidate
-    unless uri? then return
-    count = counts[uri]
-    if count? then candidate.existingEntityItemsCount = count
+var addCounts = candidates => (function(counts) {
+  candidates.forEach(function(candidate){
+    const { uri } = candidate;
+    if (uri == null) { return; }
+    const count = counts[uri];
+    if (count != null) { return candidate.existingEntityItemsCount = count; }
+  });
 
-  return candidates
+  return candidates;
+});

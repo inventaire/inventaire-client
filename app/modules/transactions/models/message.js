@@ -1,7 +1,10 @@
-module.exports = Backbone.Model.extend
-  initialize: ->
-    @reqGrab 'get:user:model', @get('user'), 'user'
+export default Backbone.Model.extend({
+  initialize() {
+    return this.reqGrab('get:user:model', this.get('user'), 'user');
+  },
 
-  serializeData: ->
-    _.extend @toJSON(),
-      user: @user?.serializeData()
+  serializeData() {
+    return _.extend(this.toJSON(),
+      {user: this.user?.serializeData()});
+  }
+});

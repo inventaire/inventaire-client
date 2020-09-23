@@ -1,22 +1,29 @@
-module.exports =
-  ui:
-    groupNameField: '.groupNameField'
-    groupUrlWrapper: 'p.group-url'
+export default {
+  ui: {
+    groupNameField: '.groupNameField',
+    groupUrlWrapper: 'p.group-url',
     groupUrl: '#groupUrl'
+  },
 
-  events:
+  events: {
     'keyup .groupNameField': 'lazyUpdateUrl'
+  },
 
-  LazyUpdateUrl: (view)->
-    groupId = view.model?.id
-    return _.debounce updateUrl.bind(view, groupId), 200
+  LazyUpdateUrl(view){
+    const groupId = view.model?.id;
+    return _.debounce(updateUrl.bind(view, groupId), 200);
+  }
+};
 
-updateUrl = (groupId)->
-  name = @ui.groupNameField.val()
-  if _.isNonEmptyString name
-    _.preq.get app.API.groups.slug(name, groupId)
-    .then (res)=>
-      @ui.groupUrl.text "#{window.location.root}/groups/#{res.slug}"
-      @ui.groupUrlWrapper.show()
-  else
-    @ui.groupUrlWrapper.hide()
+var updateUrl = function(groupId){
+  const name = this.ui.groupNameField.val();
+  if (_.isNonEmptyString(name)) {
+    return _.preq.get(app.API.groups.slug(name, groupId))
+    .then(res=> {
+      this.ui.groupUrl.text(`${window.location.root}/groups/${res.slug}`);
+      return this.ui.groupUrlWrapper.show();
+    });
+  } else {
+    return this.ui.groupUrlWrapper.hide();
+  }
+};

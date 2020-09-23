@@ -1,9 +1,11 @@
-{ Updater } = require 'lib/model_update'
+import { Updater } from 'lib/model_update';
 
-module.exports = (app)->
-  userUpdater = Updater
-    endpoint: app.API.user
+export default function(app){
+  const userUpdater = Updater({
+    endpoint: app.API.user,
     uniqueModel: app.user
+  });
 
-  app.reqres.setHandlers
-    'user:update': userUpdater
+  return app.reqres.setHandlers({
+    'user:update': userUpdater});
+};

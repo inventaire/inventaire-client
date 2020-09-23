@@ -1,54 +1,69 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-cropper = require 'modules/general/lib/cropper'
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import cropper from 'modules/general/lib/cropper';
 
-module.exports = Marionette.ItemView.extend
-  tagName: 'div'
-  template: require './templates/picture'
-  behaviors:
+export default Marionette.ItemView.extend({
+  tagName: 'div',
+  template: require('./templates/picture'),
+  behaviors: {
     Loading: {}
+  },
 
-  initialize: ->
+  initialize() {
     cropper.get()
-    .then => @model.waitForReady
-    .then => @ready = true
-    .then @lazyRender.bind(@)
+    .then(() => this.model.waitForReady)
+    .then(() => { return this.ready = true; })
+    .then(this.lazyRender.bind(this));
 
-    # the model depends on the view to get the croppedDataUrl
-    # so it must have a reference to it
-    @model.view = @
+    // the model depends on the view to get the croppedDataUrl
+    // so it must have a reference to it
+    return this.model.view = this;
+  },
 
-  serializeData: ->
-    _.extend @model.toJSON(),
-      classes: @getClasses()
-      ready: @ready
+  serializeData() {
+    return _.extend(this.model.toJSON(), {
+      classes: this.getClasses(),
+      ready: this.ready
+    }
+    );
+  },
 
-  modelEvents:
+  modelEvents: {
     'change:selected': 'lazyRender'
+  },
 
-  ui:
-    figure: 'figure'
+  ui: {
+    figure: 'figure',
     img: '.original'
+  },
 
-  getClasses: ->
-    if @model.get('selected') then 'selected' else ''
+  getClasses() {
+    if (this.model.get('selected')) { return 'selected'; } else { return ''; }
+  },
 
-  onRender: ->
-    if @model.get('crop')
-      if @ready and @model.get 'selected'
-        @setTimeout @initCropper.bind(@), 200
+  onRender() {
+    if (this.model.get('crop')) {
+      if (this.ready && this.model.get('selected')) {
+        return this.setTimeout(this.initCropper.bind(this), 200);
+      }
+    }
+  },
 
-  initCropper: ->
-    # don't use a ui object to get the img
-    # as the .selected class is added and removed
-    # while the ui object is not being updated
-    @ui.img.cropper
-      aspectRatio: 1 / 1
-      autoCropArea: 1
-      minCropBoxWidth: 300
+  initCropper() {
+    // don't use a ui object to get the img
+    // as the .selected class is added and removed
+    // while the ui object is not being updated
+    return this.ui.img.cropper({
+      aspectRatio: 1 / 1,
+      autoCropArea: 1,
+      minCropBoxWidth: 300,
       minCropBoxHeight: 300
+    });
+  },
 
-  getCroppedDataUrl: (outputQuality = 1)->
-    data = @ui.img.cropper 'getData'
-    canvas = @ui.img.cropper 'getCroppedCanvas'
-    data.dataUrl = canvas.toDataURL 'image/jpeg', outputQuality
-    return data
+  getCroppedDataUrl(outputQuality = 1){
+    const data = this.ui.img.cropper('getData');
+    const canvas = this.ui.img.cropper('getCroppedCanvas');
+    data.dataUrl = canvas.toDataURL('image/jpeg', outputQuality);
+    return data;
+  }
+});

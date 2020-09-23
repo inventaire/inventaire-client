@@ -1,12 +1,14 @@
-module.exports = (obj)->
-  title: obj.Title
-  isbn: cleanIsbn(obj.ISBN13 or obj.ISBN)
-  authors: obj.Author.split(',').map _.trim
-  details: obj['My Review']
-  publisher: obj.Publisher
-  publicationDate: if _.isDateString(obj['Year Published']) then obj['Year Published']
-  numberOfPages: if _.isPositiveIntegerString(obj['Number of Pages']) then parseInt obj['Number of Pages']
-  # See https://www.goodreads.com/api/index#book.id_to_work_id
-  goodReadsEditionId: obj['Book Id']
+export default obj => ({
+  title: obj.Title,
+  isbn: cleanIsbn(obj.ISBN13 || obj.ISBN),
+  authors: obj.Author.split(',').map(_.trim),
+  details: obj['My Review'],
+  publisher: obj.Publisher,
+  publicationDate: _.isDateString(obj['Year Published']) ? obj['Year Published'] : undefined,
+  numberOfPages: _.isPositiveIntegerString(obj['Number of Pages']) ? parseInt(obj['Number of Pages']) : undefined,
 
-cleanIsbn = (isbn)-> isbn?.replace /("|=)/g, ''
+  // See https://www.goodreads.com/api/index#book.id_to_work_id
+  goodReadsEditionId: obj['Book Id']
+});
+
+var cleanIsbn = isbn => isbn?.replace(/("|=)/g, '');

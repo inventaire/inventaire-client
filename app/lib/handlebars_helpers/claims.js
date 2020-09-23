@@ -1,96 +1,128 @@
-{ SafeString, escapeExpression } = Handlebars
-icons_ = require './icons'
-wdLang = require 'wikidata-lang'
-commons_ = require 'lib/wikimedia/commons'
-linkify_ = require './linkify'
-platforms_ = require './platforms'
-{ prop, entity, neutralizeDataObject, getValuesTemplates, labelString, claimString } = require './claims_helpers'
+let API;
+const { SafeString, escapeExpression } = Handlebars;
+import icons_ from './icons';
+import wdLang from 'wikidata-lang';
+import commons_ from 'lib/wikimedia/commons';
+import linkify_ from './linkify';
+import platforms_ from './platforms';
 
-module.exports = API =
-  prop: prop
-  entity: entity
-  claim: (args...)->
-    # entityLink: set to true to link to the entity layout (work, author, etc),
-    # the alternative being to link to a claim_layout
-    [ claims, prop, entityLink, omitLabel, inline ] = neutralizeDataObject args
-    if claims?[prop]?[0]?
-      label = labelString prop, omitLabel
-      values = getValuesTemplates claims[prop], entityLink, prop
-      return claimString label, values, inline
+import {
+  prop,
+  entity,
+  neutralizeDataObject,
+  getValuesTemplates,
+  labelString,
+  claimString,
+} from './claims_helpers';
 
-  timeClaim: (args...)->
-    [ claims, prop, format, omitLabel, inline ] = neutralizeDataObject args
-    # default to 'year' and override handlebars data object when args.length is 3
-    format or= 'year'
-    if claims?[prop]?[0]?
-      values = claims[prop]
-        .map (unixTime)->
-          time = new Date(unixTime)
-          switch format
-            when 'year' then return time.getUTCFullYear()
-            else return
-        .filter isntNaN
-      label = labelString prop, omitLabel
-      values = _.uniq(values).join(" #{_.i18n('or')} ")
-      return claimString label, values, inline
+export default API = {
+  prop,
+  entity,
+  claim(...args){
+    // entityLink: set to true to link to the entity layout (work, author, etc),
+    // the alternative being to link to a claim_layout
+    let claims, entityLink, inline, omitLabel;
+    [ claims, prop, entityLink, omitLabel, inline ] = Array.from(neutralizeDataObject(args));
+    if (claims?.[prop]?.[0] != null) {
+      const label = labelString(prop, omitLabel);
+      const values = getValuesTemplates(claims[prop], entityLink, prop);
+      return claimString(label, values, inline);
+    }
+  },
 
-  imageClaim: (claims, prop, omitLabel, inline, data)->
-    if claims?[prop]?[0]?
-      file = claims[prop][0]
-      src = commons_.thumbnail file, 200
-      propClass = prop.replace ':', '-'
-      return new SafeString "<img class='image-claim #{propClass}' src='#{src}'>"
+  timeClaim(...args){
+    let claims, format, inline, omitLabel;
+    [ claims, prop, format, omitLabel, inline ] = Array.from(neutralizeDataObject(args));
+    // default to 'year' and override handlebars data object when args.length is 3
+    if (!format) { format = 'year'; }
+    if (claims?.[prop]?.[0] != null) {
+      let values = claims[prop]
+        .map(function(unixTime){
+          const time = new Date(unixTime);
+          switch (format) {
+            case 'year': return time.getUTCFullYear();
+            default: return;
+          }}).filter(isntNaN);
+      const label = labelString(prop, omitLabel);
+      values = _.uniq(values).join(` ${_.i18n('or')} `);
+      return claimString(label, values, inline);
+    }
+  },
 
-  stringClaim: (args...)->
-    [ claims, prop, omitLabel, inline ] = neutralizeDataObject args
-    if claims?[prop]?[0]?
-      label = labelString prop, omitLabel
-      values = escapeExpression claims[prop]?.join(', ')
-      return claimString label, values, inline
+  imageClaim(claims, prop, omitLabel, inline, data){
+    if (claims?.[prop]?.[0] != null) {
+      const file = claims[prop][0];
+      const src = commons_.thumbnail(file, 200);
+      const propClass = prop.replace(':', '-');
+      return new SafeString(`<img class='image-claim ${propClass}' src='${src}'>`);
+    }
+  },
 
-  urlClaim: (args...)->
-    [ claims, prop ] = neutralizeDataObject args
-    firstUrl = claims?[prop]?[0]
-    if firstUrl?
-      label = icons_.icon 'link'
-      cleanedUrl = removeTailingSlash dropProtocol(firstUrl)
-      values = linkify_ cleanedUrl, firstUrl, 'link website'
-      return claimString label, values
+  stringClaim(...args){
+    let claims, inline, omitLabel;
+    [ claims, prop, omitLabel, inline ] = Array.from(neutralizeDataObject(args));
+    if (claims?.[prop]?.[0] != null) {
+      const label = labelString(prop, omitLabel);
+      const values = escapeExpression(claims[prop]?.join(', '));
+      return claimString(label, values, inline);
+    }
+  },
 
-  platformClaim: (args...)->
-    [ claims, prop ] = neutralizeDataObject args
-    firstPlatformId = claims?[prop]?[0]
-    if firstPlatformId?
-      platform = platforms_[prop]
-      icon = icons_.icon platform.icon
-      escapedText = escapeExpression platform.text(firstPlatformId)
-      text = icon + '<span>' + escapedText + '</span>'
-      url = platform.url firstPlatformId
-      values = linkify_ text, url, 'link social-network'
-      return claimString '', values
+  urlClaim(...args){
+    let claims;
+    [ claims, prop ] = Array.from(neutralizeDataObject(args));
+    const firstUrl = claims?.[prop]?.[0];
+    if (firstUrl != null) {
+      const label = icons_.icon('link');
+      const cleanedUrl = removeTailingSlash(dropProtocol(firstUrl));
+      const values = linkify_(cleanedUrl, firstUrl, 'link website');
+      return claimString(label, values);
+    }
+  },
 
-  entityRemoteHref: (uri)->
-    [ prefix, id ] = uri.split ':'
-    switch prefix
-      when 'wd' then "https://www.wikidata.org/entity/#{id}"
-      else API.entityLocalHref uri
+  platformClaim(...args){
+    let claims;
+    [ claims, prop ] = Array.from(neutralizeDataObject(args));
+    const firstPlatformId = claims?.[prop]?.[0];
+    if (firstPlatformId != null) {
+      const platform = platforms_[prop];
+      const icon = icons_.icon(platform.icon);
+      const escapedText = escapeExpression(platform.text(firstPlatformId));
+      const text = icon + '<span>' + escapedText + '</span>';
+      const url = platform.url(firstPlatformId);
+      const values = linkify_(text, url, 'link social-network');
+      return claimString('', values);
+    }
+  },
 
-  entityLocalHref: (uri)-> "/entity/#{uri}"
-  claimLocalHref: (propertyUri, entityUri)-> "/entity/#{propertyUri}-#{entityUri}"
+  entityRemoteHref(uri){
+    const [ prefix, id ] = Array.from(uri.split(':'));
+    switch (prefix) {
+      case 'wd': return `https://www.wikidata.org/entity/${id}`;
+      default: return API.entityLocalHref(uri);
+    }
+  },
 
-  multiTypeValue: (value)->
-    switch _.typeOf(value)
-      when 'string'
-        if _.isEntityUri value then entity value, true
-        else escapeExpression value
-      when 'array' then value.map(API.multiTypeValue).join('')
-      when 'object' then escapeExpression JSON.stringify(value)
+  entityLocalHref(uri){ return `/entity/${uri}`; },
+  claimLocalHref(propertyUri, entityUri){ return `/entity/${propertyUri}-${entityUri}`; },
 
-  entityFromLang: (lang)->
-    langEntityId = wdLang.byCode[lang]?.wd
-    if langEntityId? then new SafeString entity("wd:#{langEntityId}", false)
-    else lang
+  multiTypeValue(value){
+    switch (_.typeOf(value)) {
+      case 'string':
+        if (_.isEntityUri(value)) { return entity(value, true);
+        } else { return escapeExpression(value); }
+      case 'array': return value.map(API.multiTypeValue).join('');
+      case 'object': return escapeExpression(JSON.stringify(value));
+    }
+  },
 
-dropProtocol = (url)-> url.replace /^(https?:)?\/\//, ''
-removeTailingSlash = (url)-> url.replace /\/$/, ''
-isntNaN = (value)-> not _.isNaN(value)
+  entityFromLang(lang){
+    const langEntityId = wdLang.byCode[lang]?.wd;
+    if (langEntityId != null) { return new SafeString(entity(`wd:${langEntityId}`, false));
+    } else { return lang; }
+  }
+};
+
+var dropProtocol = url => url.replace(/^(https?:)?\/\//, '');
+var removeTailingSlash = url => url.replace(/\/$/, '');
+var isntNaN = value => !_.isNaN(value);

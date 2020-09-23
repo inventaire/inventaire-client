@@ -1,5 +1,6 @@
-module.exports = Backbone.Collection.extend
-  url: -> app.API.transactions
-  parse: (res)-> res.transactions
-  model: require '../models/transaction'
-  comparator: (transaction)-> -transaction.get('created')
+export default Backbone.Collection.extend({
+  url() { return app.API.transactions; },
+  parse(res){ return res.transactions; },
+  model: require('../models/transaction'),
+  comparator(transaction){ return -transaction.get('created'); }
+});

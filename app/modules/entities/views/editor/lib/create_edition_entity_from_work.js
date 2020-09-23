@@ -1,60 +1,64 @@
-createEntities = require 'modules/entities/lib/create_entities'
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-isbn_ = require 'lib/isbn'
-isLoggedIn = require './is_logged_in'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import createEntities from 'modules/entities/lib/create_entities';
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import isbn_ from 'lib/isbn';
+import isLoggedIn from './is_logged_in';
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
 
-module.exports = (params)->
-  unless isLoggedIn() then return
-  { view, work:workModel, e } = params
+export default function(params){
+  if (!isLoggedIn()) { return; }
+  const { view, work:workModel, e } = params;
 
-  $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField')
-  isbn = isbn_.normalizeIsbn $isbnField.val()
+  const $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField');
+  const isbn = isbn_.normalizeIsbn($isbnField.val());
 
-  workUri = workModel.get 'uri'
+  const workUri = workModel.get('uri');
 
-  startLoading.call view, '#isbnButton'
+  startLoading.call(view, '#isbnButton');
 
-  createEntities.workEdition workModel, isbn
-  .catch renameIsbnDuplicateErr(workUri, isbn)
-  .then (editionModel)->
-    # Special case of property_values collection
-    if view.collection.addByValue?
-      view.collection.addByValue editionModel.get('uri')
-    # In other cases, the model being added to the work edition collection
-    # by createEntities.workEdition is enough
-    $isbnField.val null
-  .catch error_.Complete('#isbnField')
-  .catch forms_.catchAlert.bind(null, view)
-  .finally stopLoading.bind(view)
+  return createEntities.workEdition(workModel, isbn)
+  .catch(renameIsbnDuplicateErr(workUri, isbn))
+  .then(function(editionModel){
+    // Special case of property_values collection
+    if (view.collection.addByValue != null) {
+      view.collection.addByValue(editionModel.get('uri'));
+    }
+    // In other cases, the model being added to the work edition collection
+    // by createEntities.workEdition is enough
+    return $isbnField.val(null);}).catch(error_.Complete('#isbnField'))
+  .catch(forms_.catchAlert.bind(null, view))
+  .finally(stopLoading.bind(view));
+};
 
-renameIsbnDuplicateErr = (workUri, isbn)-> (err)->
-  if err.responseJSON?.status_verbose isnt 'this property value is already used' then throw err
+var renameIsbnDuplicateErr = (workUri, isbn) => (function(err) {
+  if (err.responseJSON?.status_verbose !== 'this property value is already used') { throw err; }
 
-  existingEditionUri = err.responseJSON.context.entity
-  app.request 'get:entity:model', existingEditionUri
-  .then (model)->
-    existingEditionWorksUris = model.get 'claims.wdt:P629'
-    if workUri in existingEditionWorksUris
-      formatEditionAlreadyExistOnCurrentWork err
-    else
-      reportIsbnIssue workUri, isbn
-      formatDuplicateWorkErr err, isbn
-    throw err
+  const existingEditionUri = err.responseJSON.context.entity;
+  return app.request('get:entity:model', existingEditionUri)
+  .then(function(model){
+    const existingEditionWorksUris = model.get('claims.wdt:P629');
+    if (existingEditionWorksUris.includes(workUri)) {
+      formatEditionAlreadyExistOnCurrentWork(err);
+    } else {
+      reportIsbnIssue(workUri, isbn);
+      formatDuplicateWorkErr(err, isbn);
+    }
+    throw err;
+  });
+});
 
-reportIsbnIssue = (workUri, isbn)->
-  app.request 'post:feedback',
-    subject: "[Possible work duplicate] #{workUri} / #{isbn}'s work"
-    uris: [ workUri, "isbn:#{isbn}" ]
+var reportIsbnIssue = (workUri, isbn) => app.request('post:feedback', {
+  subject: `[Possible work duplicate] ${workUri} / ${isbn}'s work`,
+  uris: [ workUri, `isbn:${isbn}` ]
+});
 
-formatEditionAlreadyExistOnCurrentWork = (err)->
-  err.responseJSON.status_verbose = 'this edition is already in the list'
+var formatEditionAlreadyExistOnCurrentWork = err => err.responseJSON.status_verbose = 'this edition is already in the list';
 
-formatDuplicateWorkErr = (err, isbn)->
-  normalizedIsbn = isbn_.normalizeIsbn isbn
-  alreadyExist = _.i18n 'this ISBN already exist:'
-  link = "<a href='/entity/isbn:#{normalizedIsbn}' class='showEntity'>#{normalizedIsbn}</a>"
-  reported = _.i18n 'the issue was reported'
-  err.responseJSON.status_verbose = "#{alreadyExist} #{link} (#{reported})"
-  err.i18n = false
+var formatDuplicateWorkErr = function(err, isbn){
+  const normalizedIsbn = isbn_.normalizeIsbn(isbn);
+  const alreadyExist = _.i18n('this ISBN already exist:');
+  const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`;
+  const reported = _.i18n('the issue was reported');
+  err.responseJSON.status_verbose = `${alreadyExist} ${link} (${reported})`;
+  return err.i18n = false;
+};

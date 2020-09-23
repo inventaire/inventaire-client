@@ -1,31 +1,37 @@
-filterOutWdEditions = require '../filter_out_wd_editions'
+import filterOutWdEditions from '../filter_out_wd_editions';
 
-module.exports = ->
-  @childrenClaimProperty = 'wdt:P123'
-  @subentitiesName = 'editions'
-  _.extend @, specificMethods
+export default function() {
+  this.childrenClaimProperty = 'wdt:P123';
+  this.subentitiesName = 'editions';
+  return _.extend(this, specificMethods);
+};
 
-specificMethods =
-  beforeSubEntitiesAdd: filterOutWdEditions
+var specificMethods = {
+  beforeSubEntitiesAdd: filterOutWdEditions,
 
-  initPublisherPublications: (refresh)->
-    refresh = @getRefresh refresh
-    if not refresh and @waitForPublications? then return @waitForPublications
+  initPublisherPublications(refresh){
+    refresh = this.getRefresh(refresh);
+    if (!refresh && (this.waitForPublications != null)) { return this.waitForPublications; }
 
-    @waitForPublications = @fetchPublisherPublications refresh
-      .then @initPublicationsCollections.bind(@)
+    return this.waitForPublications = this.fetchPublisherPublications(refresh)
+      .then(this.initPublicationsCollections.bind(this));
+  },
 
-  fetchPublisherPublications: (refresh)->
-    if not refresh and @waitForPublicationsData? then return @waitForPublicationsData
-    uri = @get 'uri'
-    @waitForPublicationsData = _.preq.get app.API.entities.publisherPublications(uri, refresh)
+  fetchPublisherPublications(refresh){
+    if (!refresh && (this.waitForPublicationsData != null)) { return this.waitForPublicationsData; }
+    const uri = this.get('uri');
+    return this.waitForPublicationsData = _.preq.get(app.API.entities.publisherPublications(uri, refresh));
+  },
 
-  initPublicationsCollections: (publicationsData)->
-    { collections, editions } = publicationsData
-    @publisherCollectionsUris = _.pluck(collections, 'uri')
-    isolatedEditions = editions.filter isntInAKnownCollection(@publisherCollectionsUris)
-    @isolatedEditionsUris = _.pluck isolatedEditions, 'uri'
+  initPublicationsCollections(publicationsData){
+    const { collections, editions } = publicationsData;
+    this.publisherCollectionsUris = _.pluck(collections, 'uri');
+    const isolatedEditions = editions.filter(isntInAKnownCollection(this.publisherCollectionsUris));
+    return this.isolatedEditionsUris = _.pluck(isolatedEditions, 'uri');
+  }
+};
 
-isntInAKnownCollection = (collectionsUris)-> (edition)->
-  unless edition.collection? then return true
-  return edition.collection not in collectionsUris
+var isntInAKnownCollection = collectionsUris => (function(edition) {
+  if (edition.collection == null) { return true; }
+  return !collectionsUris.includes(edition.collection);
+});

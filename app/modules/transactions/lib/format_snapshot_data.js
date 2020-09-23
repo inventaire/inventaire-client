@@ -1,15 +1,19 @@
-module.exports = ->
-  [ itemId, ownerId, requesterId ] = @gets 'item', 'owner', 'requester'
-  { item, owner, requester } = @get 'snapshot'
-  @set
-    'snapshot.item': formatSnapshotItem itemId, item
-    'snapshot.owner': formatSnapshotUser ownerId, owner, 'owner'
-    'snapshot.requester': formatSnapshotUser requesterId, requester, 'requester'
+export default function() {
+  const [ itemId, ownerId, requesterId ] = Array.from(this.gets('item', 'owner', 'requester'));
+  const { item, owner, requester } = this.get('snapshot');
+  return this.set({
+    'snapshot.item': formatSnapshotItem(itemId, item),
+    'snapshot.owner': formatSnapshotUser(ownerId, owner, 'owner'),
+    'snapshot.requester': formatSnapshotUser(requesterId, requester, 'requester')
+  });
+};
 
-formatSnapshotItem = (itemId, data)->
-  data.pathname = '/items/' + itemId
-  return data
+var formatSnapshotItem = function(itemId, data){
+  data.pathname = '/items/' + itemId;
+  return data;
+};
 
-formatSnapshotUser = (userId, data, role)->
-  data.pathname = '/inventory/' + userId
-  return data
+var formatSnapshotUser = function(userId, data, role){
+  data.pathname = '/inventory/' + userId;
+  return data;
+};

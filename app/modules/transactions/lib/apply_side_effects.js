@@ -1,39 +1,45 @@
-module.exports = (transaction, state)->
-  _.log arguments, 'applySideEffects'
-  { item } = transaction
-  sideEffects[state](transaction, item)
-  return
+export default function(transaction, state){
+  _.log(arguments, 'applySideEffects');
+  const { item } = transaction;
+  sideEffects[state](transaction, item);
+};
 
-setItemBusyness = (bool, transaction, item)-> item.set 'busy', bool
+const setItemBusyness = (bool, transaction, item) => item.set('busy', bool);
 
-oneWay =
-  giving: true
-  lending: false
+const oneWay = {
+  giving: true,
+  lending: false,
   selling: true
+};
 
-changeOwnerIfOneWay = (transaction, item)->
-  transactionMode = transaction.get 'transaction'
-  isOneWay = oneWay[transactionMode]
-  unless isOneWay?
-    throw new Error("invalid transaction mode: #{transactionMode}")
+const changeOwnerIfOneWay = function(transaction, item){
+  const transactionMode = transaction.get('transaction');
+  const isOneWay = oneWay[transactionMode];
+  if (isOneWay == null) {
+    throw new Error(`invalid transaction mode: ${transactionMode}`);
+  }
 
-  if isOneWay
-    # Roughtly update the item to reflect the inventory change.
-    # Will be fully updated from server at next data refresh
-    item.set
-      owner: transaction.get('requester')
-      details: ''
-      transaction: 'inventorying'
+  if (isOneWay) {
+    // Roughtly update the item to reflect the inventory change.
+    // Will be fully updated from server at next data refresh
+    return item.set({
+      owner: transaction.get('requester'),
+      details: '',
+      transaction: 'inventorying',
       listing: 'private'
+    });
+  }
+};
 
-# Keep in sync server/controllers/transactions/lib/side_effects
+// Keep in sync server/controllers/transactions/lib/side_effects
 
-setItemToBusy =  _.partial setItemBusyness, true
-setItemToNotBusy = _.partial setItemBusyness, false
+const setItemToBusy =  _.partial(setItemBusyness, true);
+const setItemToNotBusy = _.partial(setItemBusyness, false);
 
-sideEffects =
-  accepted: setItemToBusy
-  declined: _.noop
-  confirmed: changeOwnerIfOneWay
-  returned: setItemToNotBusy
+var sideEffects = {
+  accepted: setItemToBusy,
+  declined: _.noop,
+  confirmed: changeOwnerIfOneWay,
+  returned: setItemToNotBusy,
   cancelled: setItemToNotBusy
+};

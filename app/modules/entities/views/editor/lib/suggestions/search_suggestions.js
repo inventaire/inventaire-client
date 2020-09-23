@@ -1,55 +1,61 @@
-typeSearch = require 'modules/entities/lib/search/type_search'
-forms_ = require 'modules/general/lib/forms'
-batchLength = 10
+import typeSearch from 'modules/entities/lib/search/type_search';
+import forms_ from 'modules/general/lib/forms';
+const batchLength = 10;
 
-search = (input)->
-  # remove the value passed to the view as the input changed
-  removeCurrentViewValue.call @
+const search = function(input){
+  // remove the value passed to the view as the input changed
+  removeCurrentViewValue.call(this);
 
-  input = input.trim().replace /\s{2,}/g, ' '
-  if input is @lastInput then return Promise.resolve()
+  input = input.trim().replace(/\s{2,}/g, ' ');
+  if (input === this.lastInput) { return Promise.resolve(); }
 
-  @showLoadingSpinner()
+  this.showLoadingSpinner();
 
-  @suggestions.index = -1
-  @lastInput = input
-  @_searchOffset = 0
+  this.suggestions.index = -1;
+  this.lastInput = input;
+  this._searchOffset = 0;
 
-  _search.call @, input
-  .then (results)=>
-    if results? and results.length is 0
-      @_lastResultsLength = results.length
-      @suggestionsRegion.currentView.$el.addClass 'no-results'
-    else
-      @suggestionsRegion.currentView.$el.removeClass 'no-results'
-    @suggestions.reset results
-    @stopLoadingSpinner()
-  .catch (err)=>
-    @hideDropdown()
-    forms_.catchAlert @, err
+  return _search.call(this, input)
+  .then(results=> {
+    if ((results != null) && (results.length === 0)) {
+      this._lastResultsLength = results.length;
+      this.suggestionsRegion.currentView.$el.addClass('no-results');
+    } else {
+      this.suggestionsRegion.currentView.$el.removeClass('no-results');
+    }
+    this.suggestions.reset(results);
+    return this.stopLoadingSpinner();
+}).catch(err=> {
+    this.hideDropdown();
+    return forms_.catchAlert(this, err);
+  });
+};
 
-_search = (input)->
-  typeSearch @searchType, input, batchLength, @_searchOffset
-  .then (results)=>
-    # Ignore the results if the input changed
-    if input isnt @lastInput then return
-    return results
+var _search = function(input){
+  return typeSearch(this.searchType, input, batchLength, this._searchOffset)
+  .then(results=> {
+    // Ignore the results if the input changed
+    if (input !== this.lastInput) { return; }
+    return results;
+  });
+};
 
-removeCurrentViewValue = -> @onAutoCompleteUnselect()
+var removeCurrentViewValue = function() { return this.onAutoCompleteUnselect(); };
 
-loadMoreFromSearch = ->
-  # Do not try to fetch more results if the last batch was incomplete
-  if @_lastResultsLength < batchLength then return @stopLoadingSpinner()
+const loadMoreFromSearch = function() {
+  // Do not try to fetch more results if the last batch was incomplete
+  if (this._lastResultsLength < batchLength) { return this.stopLoadingSpinner(); }
 
-  @showLoadingSpinner false
-  @_searchOffset += batchLength
-  _search.call @, @lastInput
-  .then (results)=>
-    currentResultsUri = @suggestions.map (model)-> model.get('uri')
-    newResults = results.filter (result)-> result.uri not in currentResultsUri
-    @_lastResultsLength = newResults.length
-    if newResults.length > 0 then @suggestions.add newResults
-    @stopLoadingSpinner false
-  .catch forms_.catchAlert.bind(null, @)
+  this.showLoadingSpinner(false);
+  this._searchOffset += batchLength;
+  return _search.call(this, this.lastInput)
+  .then(results=> {
+    const currentResultsUri = this.suggestions.map(model => model.get('uri'));
+    const newResults = results.filter(result => !currentResultsUri.includes(result.uri));
+    this._lastResultsLength = newResults.length;
+    if (newResults.length > 0) { this.suggestions.add(newResults); }
+    return this.stopLoadingSpinner(false);
+}).catch(forms_.catchAlert.bind(null, this));
+};
 
-module.exports = { search, loadMoreFromSearch }
+export { search, loadMoreFromSearch };

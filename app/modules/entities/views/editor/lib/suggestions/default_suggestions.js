@@ -1,40 +1,47 @@
-batchLength = 10
-{ prepareSearchResult } = require 'modules/entities/lib/search/entities_uris_results'
-getSuggestionsPerProperties = require 'modules/entities/views/editor/lib/get_suggestions_per_properties'
+const batchLength = 10;
+import { prepareSearchResult } from 'modules/entities/lib/search/entities_uris_results';
+import getSuggestionsPerProperties from 'modules/entities/views/editor/lib/get_suggestions_per_properties';
 
-addDefaultSuggestionsUris = ->
-  getSuggestionsPerProperties @property, @model
-  .then setDefaultSuggestions.bind(@)
+const addDefaultSuggestionsUris = function() {
+  return getSuggestionsPerProperties(this.property, this.model)
+  .then(setDefaultSuggestions.bind(this));
+};
 
-setDefaultSuggestions = (uris)->
-  unless uris? then return
+var setDefaultSuggestions = function(uris){
+  if (uris == null) { return; }
 
-  @_showingDefaultSuggestions = true
-  @_remainingDefaultSuggestionsUris = uris
-  @_defaultSuggestions = []
+  this._showingDefaultSuggestions = true;
+  this._remainingDefaultSuggestionsUris = uris;
+  this._defaultSuggestions = [];
 
-  addNextDefaultSuggestionsBatch.call @
-  .then =>
-    if @_showingDefaultSuggestions then showDefaultSuggestions.call @
+  return addNextDefaultSuggestionsBatch.call(this)
+  .then(() => {
+    if (this._showingDefaultSuggestions) { return showDefaultSuggestions.call(this); }
+  });
+};
 
-showDefaultSuggestions = ->
-  if @_defaultSuggestions? and @_defaultSuggestions.length > 0
-    @suggestions.reset @_defaultSuggestions
-    @showDropdown()
-  else
-    @hideDropdown()
+var showDefaultSuggestions = function() {
+  if ((this._defaultSuggestions != null) && (this._defaultSuggestions.length > 0)) {
+    this.suggestions.reset(this._defaultSuggestions);
+    return this.showDropdown();
+  } else {
+    return this.hideDropdown();
+  }
+};
 
-addNextDefaultSuggestionsBatch = ->
-  uris = @_remainingDefaultSuggestionsUris
-  if uris.length is 0 then return Promise.resolve()
+var addNextDefaultSuggestionsBatch = function() {
+  const uris = this._remainingDefaultSuggestionsUris;
+  if (uris.length === 0) { return Promise.resolve(); }
 
-  nextBatch = uris.slice 0, batchLength
-  @_remainingDefaultSuggestionsUris = uris.slice batchLength
+  const nextBatch = uris.slice(0, batchLength);
+  this._remainingDefaultSuggestionsUris = uris.slice(batchLength);
 
-  app.request 'get:entities:models', { uris: nextBatch }
-  .map prepareSearchResult
-  .then (results)=>
-    @_defaultSuggestions.push results...
-    @suggestions.add results
+  return app.request('get:entities:models', { uris: nextBatch })
+  .map(prepareSearchResult)
+  .then(results=> {
+    this._defaultSuggestions.push(...Array.from(results || []));
+    return this.suggestions.add(results);
+  });
+};
 
-module.exports = { addDefaultSuggestionsUris, addNextDefaultSuggestionsBatch, showDefaultSuggestions }
+export { addDefaultSuggestionsUris, addNextDefaultSuggestionsBatch, showDefaultSuggestions };

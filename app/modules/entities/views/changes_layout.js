@@ -1,51 +1,59 @@
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
 
-module.exports = Marionette.CompositeView.extend
-  id: 'changeLayout'
-  template: require './templates/changes_layout'
-  childViewContainer: '#feed'
-  childView: require './feed_li'
-  initialize: ->
-    @collection = new Backbone.Collection
-    @fetchingMore = true
+export default Marionette.CompositeView.extend({
+  id: 'changeLayout',
+  template: require('./templates/changes_layout'),
+  childViewContainer: '#feed',
+  childView: require('./feed_li'),
+  initialize() {
+    this.collection = new Backbone.Collection;
+    this.fetchingMore = true;
 
-    fetchChanges()
-    .then @parseResponse.bind(@)
+    return fetchChanges()
+    .then(this.parseResponse.bind(this));
+  },
 
-  behaviors:
+  behaviors: {
     Loading: {}
+  },
 
-  ui:
+  ui: {
     counter: '.counter'
+  },
 
-  events:
+  events: {
     'inview .more': 'showMoreUnlessAlreadyFetching'
+  },
 
-  parseResponse: (uris)->
-    @rest = uris
-    @showMore()
+  parseResponse(uris){
+    this.rest = uris;
+    return this.showMore();
+  },
 
-  showMore: (batchLength = 10)->
-    @fetchingMore = true
-    # Don't fetch more and keep fetchingMore to true to prevent further requests
-    if @rest.length is 0 then return
-    behaviorsPlugin.startLoading.call @, '.more'
-    batch = @rest[0...batchLength]
-    @rest = @rest[batchLength..-1]
-    @addFromUris batch
+  showMore(batchLength = 10){
+    this.fetchingMore = true;
+    // Don't fetch more and keep fetchingMore to true to prevent further requests
+    if (this.rest.length === 0) { return; }
+    behaviorsPlugin.startLoading.call(this, '.more');
+    const batch = this.rest.slice(0, batchLength);
+    this.rest = this.rest.slice(batchLength);
+    return this.addFromUris(batch);
+  },
 
-  showMoreUnlessAlreadyFetching: -> unless @fetchingMore then @showMore()
+  showMoreUnlessAlreadyFetching() { if (!this.fetchingMore) { return this.showMore(); } },
 
-  addFromUris: (uris)->
-    app.request 'get:entities:models', { uris }
-    .then @collection.add.bind(@collection)
-    .then @doneFetching.bind(@)
+  addFromUris(uris){
+    return app.request('get:entities:models', { uris })
+    .then(this.collection.add.bind(this.collection))
+    .then(this.doneFetching.bind(this));
+  },
 
-  doneFetching: ->
-    @fetchingMore = false
-    behaviorsPlugin.stopLoading.call @
-    @ui.counter.html @collection.length
+  doneFetching() {
+    this.fetchingMore = false;
+    behaviorsPlugin.stopLoading.call(this);
+    return this.ui.counter.html(this.collection.length);
+  }
+});
 
-fetchChanges = ->
-  _.preq.get app.API.entities.changes
-  .get 'uris'
+var fetchChanges = () => _.preq.get(app.API.entities.changes)
+.get('uris');

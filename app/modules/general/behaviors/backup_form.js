@@ -1,52 +1,66 @@
-# A behavior to preserve input text from being lost on a view re-render
-# by saving it at every change and recovering it on re-render
-# This behavior should probably be added to any view with input or textarea
-# that is suceptible to be re-rendered due to some event listener
-module.exports = Marionette.Behavior.extend
-  events:
-    'change input, textarea': 'backup'
+// A behavior to preserve input text from being lost on a view re-render
+// by saving it at every change and recovering it on re-render
+// This behavior should probably be added to any view with input or textarea
+// that is suceptible to be re-rendered due to some event listener
+export default Marionette.Behavior.extend({
+  events: {
+    'change input, textarea': 'backup',
     'click a': 'forget'
+  },
 
-  initialize: ->
-    @_backup =
-      byId: {}
+  initialize() {
+    return this._backup = {
+      byId: {},
       byName: {}
+    };
+  },
 
-  backup: (e)->
-    # _.log @_backup, 'backup form data'
-    { id, value, type, name } = e.currentTarget
+  backup(e){
+    // _.log @_backup, 'backup form data'
+    const { id, value, type, name } = e.currentTarget;
 
-    unless _.isNonEmptyString value then return
-    unless type is 'text' or type is 'textarea' then return
+    if (!_.isNonEmptyString(value)) { return; }
+    if ((type !== 'text') && (type !== 'textarea')) { return; }
 
-    if _.isNonEmptyString id then @_backup.byId[id] = value
-    else if _.isNonEmptyString name then @_backup.byName[name] = value
+    if (_.isNonEmptyString(id)) { return this._backup.byId[id] = value;
+    } else if (_.isNonEmptyString(name)) { return this._backup.byName[name] = value; }
+  },
 
-  recover: ->
-    customRecover @$el, @_backup.byId, buildIdSelector
-    customRecover @$el, @_backup.byName, buildNameSelector
+  recover() {
+    customRecover(this.$el, this._backup.byId, buildIdSelector);
+    return customRecover(this.$el, this._backup.byName, buildNameSelector);
+  },
 
-  # Listen on clicks on anchor with a 'data-forget' attribute
-  # to delete the data associated with the form element related to this anchor.
-  # Typically used on 'cancel' buttons
-  forget: (e)->
-    forgetAttr = e.currentTarget.attributes['data-forget']?.value
-    if forgetAttr?
-      _.log forgetAttr, 'form:forget'
-      if forgetAttr[0] is '#'
-        id = forgetAttr.slice(1)
-        delete @_backup.byId[id]
-      else
-        name = forgetAttr
-        delete @_backup.byName[name]
+  // Listen on clicks on anchor with a 'data-forget' attribute
+  // to delete the data associated with the form element related to this anchor.
+  // Typically used on 'cancel' buttons
+  forget(e){
+    const forgetAttr = e.currentTarget.attributes['data-forget']?.value;
+    if (forgetAttr != null) {
+      _.log(forgetAttr, 'form:forget');
+      if (forgetAttr[0] === '#') {
+        const id = forgetAttr.slice(1);
+        return delete this._backup.byId[id];
+      } else {
+        const name = forgetAttr;
+        return delete this._backup.byName[name];
+      }
+    }
+  },
 
-  onRender: -> @recover()
+  onRender() { return this.recover(); }
+});
 
-customRecover = ($el, store, selectorBuilder)->
-  for key, value of store
-    _.log value, key
-    selector = selectorBuilder key
-    $el.find(selector).val value
+var customRecover = ($el, store, selectorBuilder) => (() => {
+  const result = [];
+  for (let key in store) {
+    const value = store[key];
+    _.log(value, key);
+    const selector = selectorBuilder(key);
+    result.push($el.find(selector).val(value));
+  }
+  return result;
+})();
 
-buildIdSelector = (id)-> "##{id}"
-buildNameSelector = (name)-> "[name='#{name}']"
+var buildIdSelector = id => `#${id}`;
+var buildNameSelector = name => `[name='${name}']`;

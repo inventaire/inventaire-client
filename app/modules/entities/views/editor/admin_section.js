@@ -1,109 +1,134 @@
-forms_ = require 'modules/general/lib/forms'
-error_ = require 'lib/error'
-behaviorsPlugin = require 'modules/general/plugins/behaviors'
-History = require './history'
-mergeEntities = require './lib/merge_entities'
-{ normalizeUri } = require 'modules/entities/lib/entities'
+import forms_ from 'modules/general/lib/forms';
+import error_ from 'lib/error';
+import behaviorsPlugin from 'modules/general/plugins/behaviors';
+import History from './history';
+import mergeEntities from './lib/merge_entities';
+import { normalizeUri } from 'modules/entities/lib/entities';
 
-module.exports = Marionette.LayoutView.extend
-  template: require './templates/admin_section'
+export default Marionette.LayoutView.extend({
+  template: require('./templates/admin_section'),
 
-  behaviors:
-    PreventDefault: {}
-    AlertBox: {}
+  behaviors: {
+    PreventDefault: {},
+    AlertBox: {},
     Loading: {}
+  },
 
-  regions:
-    history: '#history'
+  regions: {
+    history: '#history',
     mergeSuggestion: '#merge-suggestion'
+  },
 
-  ui:
-    mergeWithInput: '#mergeWithField'
+  ui: {
+    mergeWithInput: '#mergeWithField',
     historyTogglers: '#historyToggler i.fa'
+  },
 
-  initialize: ->
-    @_historyShown = false
-    @showHistorySection = app.user.hasAdminAccess
+  initialize() {
+    this._historyShown = false;
+    return this.showHistorySection = app.user.hasAdminAccess;
+  },
 
-  serializeData: ->
-    canBeMerged: @canBeMerged()
-    mergeWith: mergeWithData()
-    isAnEdition: @model.type is 'edition'
-    isWikidataEntity: @model.get 'isWikidataEntity'
-    isInvEntity: @model.get 'isInvEntity'
-    wikidataEntityHistoryHref: @model.get 'wikidata.history'
-    showHistorySection: @showHistorySection
+  serializeData() {
+    return {
+      canBeMerged: this.canBeMerged(),
+      mergeWith: mergeWithData(),
+      isAnEdition: this.model.type === 'edition',
+      isWikidataEntity: this.model.get('isWikidataEntity'),
+      isInvEntity: this.model.get('isInvEntity'),
+      wikidataEntityHistoryHref: this.model.get('wikidata.history'),
+      showHistorySection: this.showHistorySection
+    };
+  },
 
-  events:
-    'click #mergeWithButton': 'merge'
-    'click .deleteEntity': 'deleteEntity'
-    'click #showMergeSuggestions': 'showMergeSuggestions'
+  events: {
+    'click #mergeWithButton': 'merge',
+    'click .deleteEntity': 'deleteEntity',
+    'click #showMergeSuggestions': 'showMergeSuggestions',
     'click #historyToggler': 'toggleHistory'
+  },
 
-  canBeMerged: ->
-    if @model.type isnt 'edition' then return true
-    # Editions that have no ISBN can be merged
-    if not @model.get('claims.wdt:P212')? then return true
-    return false
+  canBeMerged() {
+    if (this.model.type !== 'edition') { return true; }
+    // Editions that have no ISBN can be merged
+    if ((this.model.get('claims.wdt:P212') == null)) { return true; }
+    return false;
+  },
 
-  showMergeSuggestions: ->
-    app.execute 'show:merge:suggestions', { region: @mergeSuggestion, @model }
+  showMergeSuggestions() {
+    return app.execute('show:merge:suggestions', { region: this.mergeSuggestion, model: this.model });
+  },
 
-  merge: (e)->
-    behaviorsPlugin.startLoading.call @, '#mergeWithButton'
+  merge(e){
+    behaviorsPlugin.startLoading.call(this, '#mergeWithButton');
 
-    fromUri = @model.get 'uri'
-    toUri = normalizeUri @ui.mergeWithInput.val().trim()
+    const fromUri = this.model.get('uri');
+    const toUri = normalizeUri(this.ui.mergeWithInput.val().trim());
 
-    mergeEntities fromUri, toUri
-    .then app.Execute('show:entity:from:model')
-    .catch error_.Complete('#mergeWithField', false)
-    .catch forms_.catchAlert.bind(null, @)
+    return mergeEntities(fromUri, toUri)
+    .then(app.Execute('show:entity:from:model'))
+    .catch(error_.Complete('#mergeWithField', false))
+    .catch(forms_.catchAlert.bind(null, this));
+  },
 
-  showHistory: ->
-    @model.fetchHistory()
-    .then => @history.show new History { @model }
+  showHistory() {
+    return this.model.fetchHistory()
+    .then(() => this.history.show(new History({ model: this.model })));
+  },
 
-  toggleHistory: ->
-    unless @history.hasView() then @showHistory()
-    @history.$el.toggleClass 'hidden'
-    @ui.historyTogglers.toggle()
+  toggleHistory() {
+    if (!this.history.hasView()) { this.showHistory(); }
+    this.history.$el.toggleClass('hidden');
+    return this.ui.historyTogglers.toggle();
+  },
 
-  deleteEntity: ->
-    app.execute 'ask:confirmation',
-      confirmationText: _.I18n 'delete_entity_confirmation', { label: @model.get('label') }
-      action: @_deleteEntity.bind(@)
+  deleteEntity() {
+    return app.execute('ask:confirmation', {
+      confirmationText: _.I18n('delete_entity_confirmation', { label: this.model.get('label') }),
+      action: this._deleteEntity.bind(this)
+    }
+    );
+  },
 
-  _deleteEntity: ->
-    uri = @model.get('invUri')
-    _.preq.post app.API.entities.delete, { uris: [ uri ] }
-    .then -> app.execute 'show:entity:edit', uri
-    .catch displayDeteEntityErrorContext.bind(@)
+  _deleteEntity() {
+    const uri = this.model.get('invUri');
+    return _.preq.post(app.API.entities.delete, { uris: [ uri ] })
+    .then(() => app.execute('show:entity:edit', uri))
+    .catch(displayDeteEntityErrorContext.bind(this));
+  }
+});
 
-mergeWithData = ->
-  nameBase: 'mergeWith'
-  field:
-    placeholder: 'ex: wd:Q237087'
+var mergeWithData = () => ({
+  nameBase: 'mergeWith',
+
+  field: {
+    placeholder: 'ex: wd:Q237087',
     dotdotdot: ''
-  button:
-    text: _.I18n 'merge'
+  },
+
+  button: {
+    text: _.I18n('merge'),
     classes: 'light-blue bold postfix'
+  }
+});
 
-displayDeteEntityErrorContext = (err)->
-  { context } = err.responseJSON
-  if context
-    console.log 'context', context
-    claims = if context.claim? then [ context.claim ] else context.claims
-    if claims?
-      contextText = claims.map(buildClaimLink).join('')
-      err.richMessage = "#{err.message}: <ul>#{contextText}</ul>"
+var displayDeteEntityErrorContext = function(err){
+  const { context } = err.responseJSON;
+  if (context) {
+    console.log('context', context);
+    const claims = (context.claim != null) ? [ context.claim ] : context.claims;
+    if (claims != null) {
+      const contextText = claims.map(buildClaimLink).join('');
+      err.richMessage = `${err.message}: <ul>${contextText}</ul>`;
+    }
+  }
 
-  error_.complete err, '.delete-alert', false
-  # Display the alertbox on the admin_section view
-  forms_.catchAlert @, err
+  error_.complete(err, '.delete-alert', false);
+  // Display the alertbox on the admin_section view
+  forms_.catchAlert(this, err);
 
-  # Rethrow the error to let the confirmation modal display a fail status
-  throw err
+  // Rethrow the error to let the confirmation modal display a fail status
+  throw err;
+};
 
-buildClaimLink = (claim)->
-  "<li><a href='/entity/#{claim.entity}/edit' class='showEntityEdit'>#{claim.property} - #{claim.entity}</a></li>"
+var buildClaimLink = claim => `<li><a href='/entity/${claim.entity}/edit' class='showEntityEdit'>${claim.property} - ${claim.entity}</a></li>`;

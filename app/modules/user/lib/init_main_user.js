@@ -1,22 +1,21 @@
-fetchData = require 'lib/data/fetch'
-MainUser = require '../models/main_user'
-cookie_ = require 'js-cookie'
+import fetchData from 'lib/data/fetch';
+import MainUser from '../models/main_user';
+import cookie_ from 'js-cookie';
 
-module.exports = (app)->
-  # the cookie is deleted on logout
-  loggedIn = _.parseBooleanString cookie_.get('loggedIn')
+export default function(app){
+  // the cookie is deleted on logout
+  const loggedIn = _.parseBooleanString(cookie_.get('loggedIn'));
 
-  fetchData
-    name: 'user'
-    Collection: MainUser
-    condition: loggedIn
-  .catch resetSession
+  fetchData({
+    name: 'user',
+    Collection: MainUser,
+    condition: loggedIn}).catch(resetSession);
 
-  app.user.loggedIn = loggedIn
+  return app.user.loggedIn = loggedIn;
+};
 
-# Known cases of session errors:
-# - when the server secret is changed
-# - when the current session user was deleted but the cookies weren't removed
-#   (possibly because the deletion was done from another browser or even another device)
-resetSession = (err)->
-  app.execute 'logout', '/login'
+// Known cases of session errors:
+// - when the server secret is changed
+// - when the current session user was deleted but the cookies weren't removed
+//   (possibly because the deletion was done from another browser or even another device)
+var resetSession = err => app.execute('logout', '/login');

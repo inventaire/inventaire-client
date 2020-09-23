@@ -1,61 +1,78 @@
-{ data: transactionsData } = require '../lib/transactions_data'
-{ getShelvesByOwner } = require 'modules/shelves/lib/shelves'
-ItemShelves = require './item_shelves'
-Shelves = require 'modules/shelves/collections/shelves'
+import { data as transactionsData } from '../lib/transactions_data';
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
+import ItemShelves from './item_shelves';
+import Shelves from 'modules/shelves/collections/shelves';
 
-module.exports = Marionette.LayoutView.extend
-  className: 'items-table-selection-editor'
-  template: require './templates/items_table_selection_editor'
-  events:
-    'click .transaction-option': 'setTransaction'
-    'click .listing-option': 'setListing'
-    'click .delete': 'deleteItems'
-    'click .done': -> app.execute 'modal:close'
+export default Marionette.LayoutView.extend({
+  className: 'items-table-selection-editor',
+  template: require('./templates/items_table_selection_editor'),
+  events: {
+    'click .transaction-option': 'setTransaction',
+    'click .listing-option': 'setListing',
+    'click .delete': 'deleteItems',
+    'click .done'() { return app.execute('modal:close'); }
+  },
 
-  regions:
+  regions: {
     'shelvesSelector': '.shelvesSelector'
+  },
 
-  initialize: ->
-    { @getSelectedModelsAndIds, @selectedIds } = @options
+  initialize() {
+    return ({ getSelectedModelsAndIds: this.getSelectedModelsAndIds, selectedIds: this.selectedIds } = this.options);
+  },
 
-  serializeData: ->
-    selectedIdsCount: @selectedIds.length
-    transactions: transactionsData
-    listings: app.user.listings()
+  serializeData() {
+    return {
+      selectedIdsCount: this.selectedIds.length,
+      transactions: transactionsData,
+      listings: app.user.listings()
+    };
+  },
 
-  onShow: ->
-    app.execute 'modal:open'
-    @showShelves()
+  onShow() {
+    app.execute('modal:open');
+    return this.showShelves();
+  },
 
-  setTransaction: (e)-> @updateItems e, 'transaction'
+  setTransaction(e){ return this.updateItems(e, 'transaction'); },
 
-  setListing: (e)-> @updateItems e, 'listing'
+  setListing(e){ return this.updateItems(e, 'listing'); },
 
-  updateItems: (e, attribute)->
-    value = e.currentTarget.id
-    { selectedModelsAndIds } = @getSelectedModelsAndIds()
-    app.request 'items:update', { items: selectedModelsAndIds, attribute, value }
-    app.execute 'modal:close'
+  updateItems(e, attribute){
+    const value = e.currentTarget.id;
+    const { selectedModelsAndIds } = this.getSelectedModelsAndIds();
+    app.request('items:update', { items: selectedModelsAndIds, attribute, value });
+    return app.execute('modal:close');
+  },
 
-  deleteItems: ->
-    if @selectedIds.length is 0 then return
+  deleteItems() {
+    if (this.selectedIds.length === 0) { return; }
 
-    { selectedModelsAndIds, selectedModels, selectedIds } = @getSelectedModelsAndIds()
+    const { selectedModelsAndIds, selectedModels, selectedIds } = this.getSelectedModelsAndIds();
 
-    app.request 'items:delete',
-      items: selectedModelsAndIds
-      next: @options.afterItemsDelete
+    return app.request('items:delete', {
+      items: selectedModelsAndIds,
+      next: this.options.afterItemsDelete
+    }
+    );
+  },
 
-  afterItemsDelete: ->
-    app.execute 'modal:close'
-    @options.afterItemsDelete()
+  afterItemsDelete() {
+    app.execute('modal:close');
+    return this.options.afterItemsDelete();
+  },
 
-  showShelves: ->
-    getShelvesByOwner app.user.id
-    .then @ifViewIsIntact('_showShelves')
+  showShelves() {
+    return getShelvesByOwner(app.user.id)
+    .then(this.ifViewIsIntact('_showShelves'));
+  },
 
-  _showShelves: (shelves)->
-    shelvesCollection = new Shelves shelves
-    @shelvesSelector.show new ItemShelves
-      collection: shelvesCollection
-      itemsIds: @selectedIds
+  _showShelves(shelves){
+    const shelvesCollection = new Shelves(shelves);
+    return this.shelvesSelector.show(new ItemShelves({
+      collection: shelvesCollection,
+      itemsIds: this.selectedIds
+    })
+    );
+  }
+});

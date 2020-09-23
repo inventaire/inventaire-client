@@ -1,39 +1,47 @@
-TypedEntityLayout = require './typed_entity_layout'
-EntitiesList = require './entities_list'
-{ startLoading, stopLoading } = require 'modules/general/plugins/behaviors'
+import TypedEntityLayout from './typed_entity_layout';
+import EntitiesList from './entities_list';
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
 
-module.exports = TypedEntityLayout.extend
-  template: require './templates/serie_layout'
-  Infobox: require './serie_infobox'
-  baseClassName: 'serieLayout'
+export default TypedEntityLayout.extend({
+  template: require('./templates/serie_layout'),
+  Infobox: require('./serie_infobox'),
+  baseClassName: 'serieLayout',
 
-  regions:
-    infoboxRegion: '.serieInfobox'
-    parts: '.parts'
+  regions: {
+    infoboxRegion: '.serieInfobox',
+    parts: '.parts',
     mergeSuggestionsRegion: '.mergeSuggestions'
+  },
 
-  behaviors:
+  behaviors: {
     Loading: {}
+  },
 
-  initialize: ->
-    TypedEntityLayout::initialize.call @
-    # Trigger fetchParts only once the author is in view
-    @$el.once 'inview', @fetchParts.bind(@)
+  initialize() {
+    TypedEntityLayout.prototype.initialize.call(this);
+    // Trigger fetchParts only once the author is in view
+    return this.$el.once('inview', this.fetchParts.bind(this));
+  },
 
-  fetchParts: ->
-    startLoading.call @
+  fetchParts() {
+    startLoading.call(this);
 
-    @model.initSerieParts { @refresh }
-    .then @ifViewIsIntact('showParts')
+    return this.model.initSerieParts({ refresh: this.refresh })
+    .then(this.ifViewIsIntact('showParts'));
+  },
 
-  showParts: ->
-    stopLoading.call @
+  showParts() {
+    stopLoading.call(this);
 
-    @parts.show new EntitiesList
-      parentModel: @model
-      collection: @model.partsWithoutSuperparts
-      title: 'works'
-      type: 'work'
-      hideHeader: true
-      refresh: @refresh
+    return this.parts.show(new EntitiesList({
+      parentModel: this.model,
+      collection: this.model.partsWithoutSuperparts,
+      title: 'works',
+      type: 'work',
+      hideHeader: true,
+      refresh: this.refresh,
       addButtonLabel: 'add a work to this serie'
+    })
+    );
+  }
+});

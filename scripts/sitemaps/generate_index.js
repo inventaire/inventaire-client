@@ -1,30 +1,30 @@
-_ = require 'lodash'
-writeSitemap = require './write_sitemap'
-fs = require 'fs'
+import _ from 'lodash';
+import writeSitemap from './write_sitemap';
+import fs from 'fs';
+import { publicPath, folder, index } from './config';
+const exclude = [ index ];
 
-{ publicPath, folder, index } = require './config'
-exclude = [ index ]
+export default function() {
+  const path = `${folder}/${index}`;
+  return writeSitemap(path, generate());
+};
 
-module.exports = ->
-  path = "#{folder}/#{index}"
-  writeSitemap path, generate()
+var generate = () => wrapIndex(getList().map(buildSitemapNode));
 
-generate = ->
-  wrapIndex getList().map(buildSitemapNode)
+var getList = () => fs.readdirSync(folder)
+.filter(file => !exclude.includes(file));
 
-getList = ->
-  fs.readdirSync folder
-  .filter (file)-> file not in exclude
+var buildSitemapNode = function(filename){
+  const url = `https://inventaire.io/${publicPath}/${filename}`;
+  return `<sitemap><loc>${url}</loc></sitemap>`;
+};
 
-buildSitemapNode = (filename)->
-  url = "https://inventaire.io/#{publicPath}/#{filename}"
-  "<sitemap><loc>#{url}</loc></sitemap>"
-
-wrapIndex = (sitemapNodes)->
-  text = sitemapNodes.join ''
-  """
-  <?xml version="1.0" encoding="UTF-8"?>
-  <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  #{text}
-  </sitemapindex>
-  """
+var wrapIndex = function(sitemapNodes){
+  const text = sitemapNodes.join('');
+  return `\
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${text}
+</sitemapindex>\
+`;
+};

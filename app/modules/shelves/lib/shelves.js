@@ -1,60 +1,76 @@
-module.exports = shelves_ =
-  getById: (id)->
-    _.preq.get app.API.shelves.byIds(id)
-    .then getShelf
+let shelves_;
 
-  getByIds: (ids)->
-    console.log 'ids', ids
-    _.preq.get app.API.shelves.byIds(ids)
-    .get 'shelves'
+export default shelves_ = {
+  getById(id){
+    return _.preq.get(app.API.shelves.byIds(id))
+    .then(getShelf);
+  },
 
-  createShelf: (params)->
-    _.preq.post app.API.shelves.create, params
-    .get 'shelf'
+  getByIds(ids){
+    console.log('ids', ids);
+    return _.preq.get(app.API.shelves.byIds(ids))
+    .get('shelves');
+  },
 
-  updateShelf: (params)->
-    _.preq.post app.API.shelves.update, params
-    .get 'shelf'
+  createShelf(params){
+    return _.preq.post(app.API.shelves.create, params)
+    .get('shelf');
+  },
 
-  deleteShelf: (params)->
-    _.preq.post app.API.shelves.delete, params
+  updateShelf(params){
+    return _.preq.post(app.API.shelves.update, params)
+    .get('shelf');
+  },
 
-  removeItems: (model, items)->
-    { id } = model
-    items = _.forceArray items
-    itemsIds = items.map (item)->
-      if _.isString item
-        return item
-      else
-        item.removeShelf id
-        return item.get('_id')
-    return shelfActionReq id, itemsIds, 'removeItems'
+  deleteShelf(params){
+    return _.preq.post(app.API.shelves.delete, params);
+  },
 
-  addItems: (model, items)->
-    { id } = model
-    items = _.forceArray items
-    itemsIds = items.map (item)->
-      if _.isString item
-        return item
-      else
-        item.createShelf id
-        return item.get('_id')
-    return shelfActionReq id, itemsIds, 'addItems'
+  removeItems(model, items){
+    const { id } = model;
+    items = _.forceArray(items);
+    const itemsIds = items.map(function(item){
+      if (_.isString(item)) {
+        return item;
+      } else {
+        item.removeShelf(id);
+        return item.get('_id');
+      }
+    });
+    return shelfActionReq(id, itemsIds, 'removeItems');
+  },
 
-  getShelvesByOwner: (userId)->
-    _.preq.get app.API.shelves.byOwners(userId)
-    .get 'shelves'
-    .then _.values
+  addItems(model, items){
+    const { id } = model;
+    items = _.forceArray(items);
+    const itemsIds = items.map(function(item){
+      if (_.isString(item)) {
+        return item;
+      } else {
+        item.createShelf(id);
+        return item.get('_id');
+      }
+    });
+    return shelfActionReq(id, itemsIds, 'addItems');
+  },
 
-  countShelves: (userId)->
-    _.preq.get app.API.shelves.byOwners(userId)
-    .get 'shelves'
-    .then (shelves)-> Object.keys(shelves).length
+  getShelvesByOwner(userId){
+    return _.preq.get(app.API.shelves.byOwners(userId))
+    .get('shelves')
+    .then(_.values);
+  },
 
-shelfActionReq = (id, itemsIds, action)->
-  _.preq.post app.API.shelves[action], { id, items: itemsIds }
-  .then getShelf
+  countShelves(userId){
+    return _.preq.get(app.API.shelves.byOwners(userId))
+    .get('shelves')
+    .then(shelves => Object.keys(shelves).length);
+  }
+};
 
-getShelf = (res)->
-  shelvesObj = res.shelves
-  Object.values(shelvesObj)[0]
+var shelfActionReq = (id, itemsIds, action) => _.preq.post(app.API.shelves[action], { id, items: itemsIds })
+.then(getShelf);
+
+var getShelf = function(res){
+  const shelvesObj = res.shelves;
+  return Object.values(shelvesObj)[0];
+};

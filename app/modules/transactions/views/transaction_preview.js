@@ -1,46 +1,62 @@
-module.exports = Marionette.ItemView.extend
-  template: require './templates/transaction_preview'
-  className: 'transactionPreview'
-  behaviors:
+export default Marionette.ItemView.extend({
+  template: require('./templates/transaction_preview'),
+  className: 'transactionPreview',
+  behaviors: {
     PreventDefault: {}
+  },
 
-  initialize: ->
-    @listenTo app.vent, 'transaction:select', @autoSelect.bind(@)
-    # Required by @requestContext
-    @model.buildTimeline()
+  initialize() {
+    this.listenTo(app.vent, 'transaction:select', this.autoSelect.bind(this));
+    // Required by @requestContext
+    return this.model.buildTimeline();
+  },
 
-  serializeData: ->
-    _.extend @model.serializeData(),
-      onItem: @options.onItem
-      requestContext: @requestContext()
+  serializeData() {
+    return _.extend(this.model.serializeData(), {
+      onItem: this.options.onItem,
+      requestContext: this.requestContext()
+    }
+    );
+  },
 
-  modelEvents:
-    'grab': 'lazyRender'
+  modelEvents: {
+    'grab': 'lazyRender',
     'change:read': 'lazyRender'
+  },
 
-  events:
+  events: {
     'click .showTransaction': 'showTransaction'
+  },
 
-  ui:
+  ui: {
     showTransaction: 'a.showTransaction'
+  },
 
-  onRender: ->
-    if app.request('last:transaction:id') is @model.id
-      @$el.addClass 'selected'
+  onRender() {
+    if (app.request('last:transaction:id') === this.model.id) {
+      return this.$el.addClass('selected');
+    }
+  },
 
-  showTransaction: (e)->
-    unless _.isOpenedOutside(e)
-      if @options.onItem
-        app.execute 'show:transaction', @model.id
-        # Required to close the ItemShow modal if one was open
-        app.execute 'modal:close'
-      else
-        app.vent.trigger 'transaction:select', @model
+  showTransaction(e){
+    if (!_.isOpenedOutside(e)) {
+      if (this.options.onItem) {
+        app.execute('show:transaction', this.model.id);
+        // Required to close the ItemShow modal if one was open
+        return app.execute('modal:close');
+      } else {
+        return app.vent.trigger('transaction:select', this.model);
+      }
+    }
+  },
 
-  autoSelect: (transac)->
-    if transac is @model then @$el.addClass 'selected'
-    else @$el.removeClass 'selected'
+  autoSelect(transac){
+    if (transac === this.model) { return this.$el.addClass('selected');
+    } else { return this.$el.removeClass('selected'); }
+  },
 
-  requestContext: ->
-    # first action context
-    @model.timeline.models[0].context()
+  requestContext() {
+    // first action context
+    return this.model.timeline.models[0].context();
+  }
+});

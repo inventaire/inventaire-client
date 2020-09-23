@@ -1,12 +1,16 @@
-forms_ = require 'modules/general/lib/forms'
+import forms_ from 'modules/general/lib/forms';
 
-module.exports =
-  pass: (password, selector)->
-    forms_.pass
-      value: password
-      tests: passwordTests
-      selector: selector
+export default {
+  pass(password, selector){
+    return forms_.pass({
+      value: password,
+      tests: passwordTests,
+      selector
+    });
+  }
+};
 
-passwordTests =
-  'password should be 8 characters minimum' : (password)-> password.length < 8
-  'password should be 5000 characters maximum' : (password)-> password.length > 5000
+var passwordTests = {
+  'password should be 8 characters minimum'(password){ return password.length < 8; },
+  'password should be 5000 characters maximum'(password){ return password.length > 5000; }
+};
