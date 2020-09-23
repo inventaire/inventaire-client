@@ -1,5 +1,6 @@
 import { buildPath } from 'lib/location'
-const { base } = require('./endpoint')('search')
+import endpoint from './endpoint'
+const { base } = endpoint('search')
 
 export default function (types, search, limit = 10) {
   const { lang } = app.user

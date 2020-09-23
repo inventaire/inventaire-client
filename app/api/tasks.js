@@ -1,5 +1,6 @@
-const { action } = require('./endpoint')('tasks')
-const byEntitiesUris = name => function (uris) {
+import endpoint from './endpoint'
+const { action } = endpoint('tasks')
+const byEntitiesUris = name => uris => {
   uris = _.forceArray(uris).join('|')
   return action(`by-${name}-uris`, { uris })
 }

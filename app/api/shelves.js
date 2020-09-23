@@ -1,4 +1,5 @@
-const { base, action } = require('./endpoint')('shelves')
+import endpoint from './endpoint'
+const { base, action } = endpoint('shelves')
 
 export default {
   base,

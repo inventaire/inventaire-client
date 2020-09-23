@@ -1,8 +1,8 @@
-import { buildPath } from 'lib/location'
-const { base, action } = require('./endpoint')('items')
+import endpoint from './endpoint'
+const { base, action } = endpoint('items')
 
-const queryEndpoint = (actionName, idsLabel) => function (params) {
-  const { ids, limit, offset, fetchPublicItemsOnly, filter, includeUsers } = params
+const queryEndpoint = (actionName, idsLabel) => params => {
+  const { ids, limit, offset, filter, includeUsers } = params
   const data = {}
   if (idsLabel != null) { data[idsLabel] = _.forceArray(ids).join('|') }
   if (limit != null) { data.limit = limit }

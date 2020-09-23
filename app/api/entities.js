@@ -1,4 +1,5 @@
-const { action } = require('./endpoint')('entities')
+import endpoint from './endpoint'
+const { action } = endpoint('entities')
 
 const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
 

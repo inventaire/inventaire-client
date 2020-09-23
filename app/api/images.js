@@ -1,4 +1,5 @@
-const { action } = require('./endpoint')('images')
+import endpoint from './endpoint'
+const { action } = endpoint('images')
 
 export default {
   upload (container, hash) { return action('upload', { container, hash }) },

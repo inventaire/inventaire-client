@@ -3,7 +3,7 @@ import commons_ from 'lib/wikimedia/commons'
 
 // Keep in sync with server/lib/emails/app_api
 export default function (path, width = 1600, height = 1600) {
-  if (!_.isNonEmptyString(path)) { return }
+  if (!_.isNonEmptyString(path)) return
 
   if (path.startsWith('/ipfs/')) {
     console.warn('outdated img path', path)

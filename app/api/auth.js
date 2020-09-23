@@ -1,4 +1,5 @@
-const { action, actionPartial } = require('./endpoint')('auth')
+import endpoint from './endpoint'
+const { action, actionPartial } = endpoint('auth')
 
 export default {
   usernameAvailability: actionPartial('username-availability', 'username'),

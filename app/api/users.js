@@ -1,5 +1,6 @@
 import Commons from './commons'
-const { base, action } = require('./endpoint')('users')
+import endpoint from './endpoint'
+const { base, action } = endpoint('users')
 
 const {
   search,

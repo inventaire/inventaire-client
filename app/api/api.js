@@ -1,16 +1,30 @@
 import endpoint from './endpoint'
+import auth from './auth'
+import users from './users'
+import groups from './groups'
+import items from './items'
+import entities from './entities'
+import search from './search'
+import data from './data'
+import invitations from './invitations'
+import tasks from './tasks'
+import shelves from './shelves'
+import images from './images'
+import img from './img'
+import assets from './assets'
+import feeds from './feeds'
 
-export default _ => ({
-  auth: require('./auth'),
-  users: require('./users'),
-  groups: require('./groups'),
-  items: require('./items'),
-  entities: require('./entities'),
-  search: require('./search'),
-  data: require('./data'),
-  invitations: require('./invitations'),
-  tasks: require('./tasks'),
-  shelves: require('./shelves'),
+export default {
+  auth,
+  users,
+  groups,
+  items,
+  entities,
+  search,
+  data,
+  invitations,
+  tasks,
+  shelves,
   transactions: endpoint('transactions', true),
   relations: endpoint('relations', true),
   user: endpoint('user', true),
@@ -21,20 +35,23 @@ export default _ => ({
   config: endpoint('config', true),
 
   // /api/images: API controllers handling images uploading, resizing, etc
-  images: require('./images'),
+  images,
 
   // /img: endpoint serving images, handled by Nginx in production
   // thus not behing the /api root
-  img: require('./img'),
+  img,
 
-  assets: require('./assets'),
-  feeds: require('./feeds'),
-  i18nStrings (lang) { return `/public/i18n/${lang}.json?DIGEST${getBuster()}` },
-  json (filename) { return `/public/json/${filename}.json?DIGEST${getBuster()}` }
-})
+  assets,
+  feeds,
+  i18nStrings: lang => `/public/i18n/${lang}.json?DIGEST${getBuster()}`,
+  json: filename => `/public/json/${filename}.json?DIGEST${getBuster()}`
+}
 
 // Hacky way to never accept cached version in development,
 // while, in production, 'git-digest-brunch' will take care of
 // replacing DIGEST with the last git commit hash
 // (the DIGEST keyword needs to be in a URL to be replaced)
-const getBuster = function () { if (window.env === 'dev') { return Date.now() } else { return '' } }
+const getBuster = () => {
+  if (window.env === 'dev') return Date.now()
+  else return ''
+}
