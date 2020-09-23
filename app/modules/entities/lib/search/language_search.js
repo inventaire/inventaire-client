@@ -1,32 +1,41 @@
-import wdLang from 'wikidata-lang';
-const languages = _.values(wdLang.byCode);
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import wdLang from 'wikidata-lang'
+const languages = _.values(wdLang.byCode)
 
-export default function(query){
-  query = query.toLowerCase();
+export default function (query) {
+  query = query.toLowerCase()
 
   // If the query matches a lang code, only return the matching language
-  const codeLang = wdLang.byCode[query];
-  if (codeLang != null) { return Promise.resolve([ formatAsSearchResult(codeLang) ]); }
+  const codeLang = wdLang.byCode[query]
+  if (codeLang != null) { return Promise.resolve([ formatAsSearchResult(codeLang) ]) }
 
-  const re = new RegExp(query, 'i');
+  const re = new RegExp(query, 'i')
   // one more reason to move to Lodash asap, this would really need lazy evaluation
   const results = _.chain(languages)
-    .filter(function(language){
-      if (language.label.match(re)) { return true; }
-      if (language.native.match(re)) { return true; }
-      return false;}).first(10)
+    .filter(language => {
+      if (language.label.match(re)) { return true }
+      if (language.native.match(re)) { return true }
+      return false
+    }).first(10)
     .map(formatAsSearchResult)
-    .value();
+    .value()
 
-  return Promise.resolve(results);
+  return Promise.resolve(results)
 };
 
-var formatAsSearchResult = function(result){
-  if (result._formatted) { return result; }
-  result._formatted = true;
-  result.id = result.wd;
-  result.aliases = {};
-  result.labels = { en: result.label };
-  result.labels[result.code] = result.native;
-  return result;
-};
+var formatAsSearchResult = function (result) {
+  if (result._formatted) { return result }
+  result._formatted = true
+  result.id = result.wd
+  result.aliases = {}
+  result.labels = { en: result.label }
+  result.labels[result.code] = result.native
+  return result
+}

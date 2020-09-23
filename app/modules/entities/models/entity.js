@@ -1,19 +1,29 @@
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-unused-vars,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
 //   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 // - By type: see specialInitializersByType
 
-import isbn_ from 'lib/isbn';
+import isbn_ from 'lib/isbn'
 
-import entities_ from '../lib/entities';
-import initializeWikidataEntity from '../lib/wikidata/init_entity';
-import initializeInvEntity from '../lib/inv/init_entity';
-import editableEntity from '../lib/inv/editable_entity';
-import getBestLangValue from 'modules/entities/lib/get_best_lang_value';
-import getOriginalLang from 'modules/entities/lib/get_original_lang';
-import error_ from 'lib/error';
-import Filterable from 'modules/general/models/filterable';
+import entities_ from '../lib/entities'
+import initializeWikidataEntity from '../lib/wikidata/init_entity'
+import initializeInvEntity from '../lib/inv/init_entity'
+import editableEntity from '../lib/inv/editable_entity'
+import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
+import getOriginalLang from 'modules/entities/lib/get_original_lang'
+import error_ from 'lib/error'
+import Filterable from 'modules/general/models/filterable'
 
 const specialInitializersByType = {
   human: require('../lib/types/author'),
@@ -22,45 +32,46 @@ const specialInitializersByType = {
   edition: require('../lib/types/edition'),
   publisher: require('../lib/types/publisher'),
   collection: require('../lib/types/collection')
-};
+}
 
-const editableTypes = Object.keys(specialInitializersByType);
+const editableTypes = Object.keys(specialInitializersByType)
 
-const placeholdersTypes = [ 'meta', 'missing' ];
+const placeholdersTypes = [ 'meta', 'missing' ]
 
 export default Filterable.extend({
-  initialize(attrs, options){
-    this.refresh = options?.refresh;
-    this.type = attrs.type || options.defaultType;
+  initialize (attrs, options) {
+    this.refresh = options?.refresh
+    this.type = attrs.type || options.defaultType
 
     if (this.type != null) {
-      this.pluralizedType = this.type + 's';
+      this.pluralizedType = this.type + 's'
     }
 
     if (placeholdersTypes.includes(this.type)) {
       // Set placeholder attributes so that the logic hereafter doesn't crash
-      _.extend(attrs, placeholderAttributes);
-      this.set(placeholderAttributes);
+      _.extend(attrs, placeholderAttributes)
+      this.set(placeholderAttributes)
     }
 
-    this.setCommonAttributes(attrs);
+    this.setCommonAttributes(attrs)
     // Keep label updated
-    this.on('change:labels', () => this.setFavoriteLabel(this.toJSON()));
+    this.on('change:labels', () => this.setFavoriteLabel(this.toJSON()))
 
     // List of promises created from specialized initializers
     // to wait for before triggering @executeMetadataUpdate (see below)
-    this._dataPromises = [];
+    this._dataPromises = []
 
-    if (this.wikidataId) { initializeWikidataEntity.call(this, attrs);
-    } else { initializeInvEntity.call(this, attrs); }
+    if (this.wikidataId) {
+      initializeWikidataEntity.call(this, attrs)
+    } else { initializeInvEntity.call(this, attrs) }
 
     if (editableTypes.includes(this.type)) {
-      const pathname = this.get('pathname');
+      const pathname = this.get('pathname')
       this.set({
         edit: `${pathname}/edit`,
         cleanup: `${pathname}/cleanup`,
         history: `${pathname}/history`
-      });
+      })
     }
 
     // If the entity isn't of any known type, it was probably fetched
@@ -72,186 +83,188 @@ export default Filterable.extend({
     // For instance, parts of a serie will default have a defaultType='work'
     if (!this.type) {
       // Placeholder
-      this.waitForData = Promise.resolve();
-      return;
+      this.waitForData = Promise.resolve()
+      return
     }
 
-    if (this.get('edit') != null) { _.extend(this, editableEntity); }
+    if (this.get('edit') != null) { _.extend(this, editableEntity) }
 
     // An object to store only the ids of such a relationship
     // ex: this entity is a P50 of entities Q...
     // /!\ Legacy: to be harmonized/merged with @subentities
-    this.set('reverseClaims', {});
+    this.set('reverseClaims', {})
 
-    this.typeSpecificInit();
+    this.typeSpecificInit()
 
-    if (this._dataPromises.length === 0) { return this.waitForData = Promise.resolve();
-    } else { return this.waitForData = Promise.all(this._dataPromises); }
+    if (this._dataPromises.length === 0) {
+      return this.waitForData = Promise.resolve()
+    } else { return this.waitForData = Promise.all(this._dataPromises) }
   },
 
-  typeSpecificInit() {
-    const specialInitializer = specialInitializersByType[this.type];
-    if (specialInitializer != null) { return specialInitializer.call(this); }
+  typeSpecificInit () {
+    const specialInitializer = specialInitializersByType[this.type]
+    if (specialInitializer != null) { return specialInitializer.call(this) }
   },
 
-  setCommonAttributes(attrs){
-    let pathname;
+  setCommonAttributes (attrs) {
+    let pathname
     if (attrs.claims == null) {
-      error_.report('entity without claims', { attrs });
-      attrs.claims = {};
+      error_.report('entity without claims', { attrs })
+      attrs.claims = {}
     }
 
-    let { uri, type } = attrs;
-    const [ prefix, id ] = Array.from(uri.split(':'));
+    let { uri, type } = attrs
+    const [ prefix, id ] = Array.from(uri.split(':'))
 
-    if (prefix === 'wd') { this.wikidataId = id; }
+    if (prefix === 'wd') { this.wikidataId = id }
 
-    const isbn13h = attrs.claims['wdt:P212']?.[0];
+    const isbn13h = attrs.claims['wdt:P212']?.[0]
     // Using de-hyphenated ISBNs for URIs
-    if (isbn13h != null) { this.isbn = isbn_.normalizeIsbn(isbn13h); }
+    if (isbn13h != null) { this.isbn = isbn_.normalizeIsbn(isbn13h) }
 
-    if (prefix !== 'inv') { this.setInvAltUri(); }
+    if (prefix !== 'inv') { this.setInvAltUri() }
 
-    if (type == null) { type = 'subject'; }
-    this.defaultClaimProperty = defaultClaimPropertyByType[type];
+    if (type == null) { type = 'subject' }
+    this.defaultClaimProperty = defaultClaimPropertyByType[type]
 
     if (this.defaultClaimProperty != null) {
-      pathname = `/entity/${this.defaultClaimProperty}-${uri}`;
+      pathname = `/entity/${this.defaultClaimProperty}-${uri}`
     } else {
-      pathname = `/entity/${uri}`;
+      pathname = `/entity/${uri}`
     }
 
-    this.set({ type, prefix, pathname });
-    return this.setFavoriteLabel(attrs);
+    this.set({ type, prefix, pathname })
+    return this.setFavoriteLabel(attrs)
   },
 
   // Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'
-  setFavoriteLabel(attrs){
-    this.originalLang = getOriginalLang(attrs.claims);
-    const label = getBestLangValue(app.user.lang, this.originalLang, attrs.labels).value;
-    return this.set('label', label);
+  setFavoriteLabel (attrs) {
+    this.originalLang = getOriginalLang(attrs.claims)
+    const label = getBestLangValue(app.user.lang, this.originalLang, attrs.labels).value
+    return this.set('label', label)
   },
 
-  setInvAltUri() {
-    const invId = this.get('_id');
-    if (invId != null) { return this.set('altUri', `inv:${invId}`); }
+  setInvAltUri () {
+    const invId = this.get('_id')
+    if (invId != null) { return this.set('altUri', `inv:${invId}`) }
   },
 
-  fetchSubEntities(refresh){
-    refresh = this.getRefresh(refresh);
-    if (!refresh && (this.waitForSubentities != null)) { return this.waitForSubentities; }
+  fetchSubEntities (refresh) {
+    refresh = this.getRefresh(refresh)
+    if (!refresh && (this.waitForSubentities != null)) { return this.waitForSubentities }
 
     if (this.subentitiesName == null) {
-      this.waitForSubentities = Promise.resolve();
-      return this.waitForSubentities;
+      this.waitForSubentities = Promise.resolve()
+      return this.waitForSubentities
     }
 
-    const collection = (this[this.subentitiesName] = new Backbone.Collection);
+    const collection = (this[this.subentitiesName] = new Backbone.Collection())
 
-    const uri = this.get('uri');
-    const prop = this.childrenClaimProperty;
+    const uri = this.get('uri')
+    const prop = this.childrenClaimProperty
 
     // Known case: when called on an instance of entity_draft_model
     if (uri == null) {
-      return this.waitForSubentities = Promise.resolve();
+      return this.waitForSubentities = Promise.resolve()
     }
 
     return this.waitForSubentities = this.fetchSubEntitiesUris()
       .then(uris => app.request('get:entities:models', { uris, refresh }))
       .then(this.beforeSubEntitiesAdd.bind(this))
       .then(collection.add.bind(collection))
-      .tap(this.afterSubEntitiesAdd.bind(this));
+      .tap(this.afterSubEntitiesAdd.bind(this))
   },
 
-  fetchSubEntitiesUris(refresh){
-    refresh = this.getRefresh(refresh);
-    if (!refresh && (this.waitForSubentitiesUris != null)) { return this.waitForSubentitiesUris; }
+  fetchSubEntitiesUris (refresh) {
+    refresh = this.getRefresh(refresh)
+    if (!refresh && (this.waitForSubentitiesUris != null)) { return this.waitForSubentitiesUris }
 
     // A draft entity can't already have subentities
-    if (this.creating) { return this.waitForSubentities = Promise.resolve(); }
+    if (this.creating) { return this.waitForSubentities = Promise.resolve() }
 
-    const uri = this.get('uri');
-    const prop = this.childrenClaimProperty;
+    const uri = this.get('uri')
+    const prop = this.childrenClaimProperty
 
     return this.waitForSubentitiesUris = entities_.getReverseClaims(prop, uri, refresh)
-      .then(uris=> {
-        this.setSubEntitiesUris(uris);
-        return uris;
-    });
+      .then(uris => {
+        this.setSubEntitiesUris(uris)
+        return uris
+      })
   },
 
   // Override in sub-types
   beforeSubEntitiesAdd: _.identity,
   afterSubEntitiesAdd: _.noop,
 
-  setSubEntitiesUris(uris){
-    this.set('subEntitiesUris', uris);
-    if (this.subEntitiesInverseProperty) { this.set(`claims.${this.subEntitiesInverseProperty}`, uris); }
+  setSubEntitiesUris (uris) {
+    this.set('subEntitiesUris', uris)
+    if (this.subEntitiesInverseProperty) { this.set(`claims.${this.subEntitiesInverseProperty}`, uris) }
     // The list of all uris that describe an entity that is this work or a subentity,
     // that is, an edition of this work
-    return this.set('allUris', [ this.get('uri') ].concat(uris));
+    return this.set('allUris', [ this.get('uri') ].concat(uris))
   },
 
   // To be called by a view onShow:
   // updates the document with the entities data
-  updateMetadata() {
+  updateMetadata () {
     return this.waitForData
     .then(this.executeMetadataUpdate.bind(this))
-    .catch(_.Error('updateMetadata err'));
+    .catch(_.Error('updateMetadata err'))
   },
 
-  executeMetadataUpdate() {
+  executeMetadataUpdate () {
     return Promise.props({
       title: this.buildTitle(),
       description: this.findBestDescription()?.slice(0, 501),
       image: this.getImageSrcAsync(),
       url: this.get('pathname'),
       smallCardType: true
-    });
+    })
   },
 
-  findBestDescription() {
+  findBestDescription () {
     // So far, only Wikidata entities get extracts
-    const [ extract, description ] = Array.from(this.gets('extract', 'description'));
+    const [ extract, description ] = Array.from(this.gets('extract', 'description'))
     // Dont use an extract too short as it will be
     // more of it's wikipedia source url than a description
-    if (extract?.length > 300) { return extract;
-    } else { return description || extract; }
+    if (extract?.length > 300) {
+      return extract
+    } else { return description || extract }
   },
 
   // Override in with type-specific methods
-  buildTitle() {
-    const label = this.get('label');
-    const type = this.get('type');
-    const P31 = this.get('claims.wdt:P31.0');
-    const typeLabel = _.I18n(typesString[P31] || type);
-    return `${label} - ${typeLabel}`;
+  buildTitle () {
+    const label = this.get('label')
+    const type = this.get('type')
+    const P31 = this.get('claims.wdt:P31.0')
+    const typeLabel = _.I18n(typesString[P31] || type)
+    return `${label} - ${typeLabel}`
   },
 
-  getImageAsync() { return Promise.resolve(this.get('image')); },
-  getImageSrcAsync() {
+  getImageAsync () { return Promise.resolve(this.get('image')) },
+  getImageSrcAsync () {
     return this.getImageAsync()
     // Let app/lib/metadata/apply_transformers format the URL with app.API.img
-    .then(imageObj => imageObj?.url);
+    .then(imageObj => imageObj?.url)
   },
 
-  getRefresh(refresh){
-    refresh = refresh || this.refresh || this.graphChanged;
+  getRefresh (refresh) {
+    refresh = refresh || this.refresh || this.graphChanged
     // No need to force refresh until next graph change
-    this.graphChanged = false;
-    return refresh;
+    this.graphChanged = false
+    return refresh
   },
 
-  matchable() {
-    const { lang } = app.user;
-    const userLangAliases = this.get(`aliases.${lang}`) || [];
-    return [ this.get('label') ].concat(userLangAliases);
+  matchable () {
+    const { lang } = app.user
+    const userLangAliases = this.get(`aliases.${lang}`) || []
+    return [ this.get('label') ].concat(userLangAliases)
   },
 
   // Overriden by modules/entities/lib/wikidata/init_entity.coffee
   // for Wikidata entities
-  getWikipediaExtract() { return Promise.resolve(); }
-});
+  getWikipediaExtract () { return Promise.resolve() }
+})
 
 var placeholderAttributes = {
   labels: {},
@@ -259,13 +272,13 @@ var placeholderAttributes = {
   descriptions: {},
   claims: {},
   sitelinks: {}
-};
+}
 
 var defaultClaimPropertyByType = {
   movement: 'wdt:P135',
   genre: 'wdt:P136',
   subject: 'wdt:P921'
-};
+}
 
 var typesString = {
   'wd:Q5': 'author',
@@ -279,4 +292,4 @@ var typesString = {
   'wd:Q277759': 'book series',
   'wd:Q14406742': 'comic book series',
   'wd:Q21198342': 'manga series'
-};
+}

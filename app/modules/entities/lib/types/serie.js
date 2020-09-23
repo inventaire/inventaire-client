@@ -1,69 +1,78 @@
-import PaginatedWorks from '../../collections/paginated_works';
-import commonsSerieWork from './commons_serie_work';
-import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import PaginatedWorks from '../../collections/paginated_works'
+import commonsSerieWork from './commons_serie_work'
+import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions'
 
-export default function() {
+export default function () {
   // Main property by which sub-entities are linked to this one
-  this.childrenClaimProperty = 'wdt:P179';
+  this.childrenClaimProperty = 'wdt:P179'
 
-  return _.extend(this, specificMethods);
+  return _.extend(this, specificMethods)
 };
 
 var specificMethods = _.extend({}, commonsSerieWork, {
-  fetchPartsData(options = {}){
-    let { refresh } = options;
-    refresh = this.getRefresh(refresh);
-    if (!refresh && (this.waitForPartsData != null)) { return this.waitForPartsData; }
+  fetchPartsData (options = {}) {
+    let { refresh } = options
+    refresh = this.getRefresh(refresh)
+    if (!refresh && (this.waitForPartsData != null)) { return this.waitForPartsData }
 
-    const uri = this.get('uri');
+    const uri = this.get('uri')
     return this.waitForPartsData = _.preq.get(app.API.entities.serieParts(uri, refresh))
-      .then(res=> { return this.partsData = res.parts; });
+      .then(res => { return this.partsData = res.parts })
   },
 
-  initSerieParts(options){
-    let { refresh, fetchAll } = options;
-    refresh = this.getRefresh(refresh);
-    if (!refresh && (this.waitForParts != null)) { return this.waitForParts; }
+  initSerieParts (options) {
+    let { refresh, fetchAll } = options
+    refresh = this.getRefresh(refresh)
+    if (!refresh && (this.waitForParts != null)) { return this.waitForParts }
 
     return this.fetchPartsData({ refresh })
     .then(initPartsCollections.bind(this, refresh, fetchAll))
-    .then(importDataFromParts.bind(this));
+    .then(importDataFromParts.bind(this))
   },
 
   // Placeholder for cases when a series was formerly identified as a work
   // and got editions or items linking to it, assuming it is a work
-  getItemsByCategories() {
+  getItemsByCategories () {
     app.execute('report:entity:type:issue', {
       model: this,
       expectedType: 'work',
       context: { module: module.id }
-    });
-    return Promise.resolve({ personal: [], network: [], public: [] });
+    })
+    return Promise.resolve({ personal: [], network: [], public: [] })
   },
 
-  getAllAuthorsUris() {
-    const allAuthorsUris = getAuthors(this).concat(...Array.from(this.parts.map(getAuthors) || []));
-    return _.uniq(_.compact(allAuthorsUris));
+  getAllAuthorsUris () {
+    const allAuthorsUris = getAuthors(this).concat(...Array.from(this.parts.map(getAuthors) || []))
+    return _.uniq(_.compact(allAuthorsUris))
   },
 
-  getChildrenCandidatesUris() {
+  getChildrenCandidatesUris () {
     return getPartsSuggestions(this)
-    .then(suggestionsCollection => suggestionsCollection.map(getModelUri));
+    .then(suggestionsCollection => suggestionsCollection.map(getModelUri))
   }
 }
-);
+)
 
-var initPartsCollections = function(refresh, fetchAll, partsData){
-  const allsPartsUris = _.pluck(partsData, 'uri');
-  const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris));
-  const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri');
+var initPartsCollections = function (refresh, fetchAll, partsData) {
+  const allsPartsUris = _.pluck(partsData, 'uri')
+  const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris))
+  const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri')
 
   this.parts = new PaginatedWorks(null, {
     uris: allsPartsUris,
     defaultType: 'work',
     refresh
   }
-  );
+  )
 
   this.partsWithoutSuperparts = new PaginatedWorks(null, {
     uris: partsWithoutSuperpartsUris,
@@ -74,23 +83,23 @@ var initPartsCollections = function(refresh, fetchAll, partsData){
       entityUri: this.get('uri')
     }
   }
-  );
+  )
 
-  if (fetchAll) { return this.parts.fetchAll(); }
-};
+  if (fetchAll) { return this.parts.fetchAll() }
+}
 
-var hasNoKnownSuperpart = allsPartsUris => (function(part) {
-  if (part.superpart == null) { return true; }
-  return !allsPartsUris.includes(part.superpart);
-});
+var hasNoKnownSuperpart = allsPartsUris => function (part) {
+  if (part.superpart == null) { return true }
+  return !allsPartsUris.includes(part.superpart)
+}
 
-var importDataFromParts = function() {
-  const firstPartWithPublicationDate = this.parts.find(getPublicationDate);
+var importDataFromParts = function () {
+  const firstPartWithPublicationDate = this.parts.find(getPublicationDate)
   if (firstPartWithPublicationDate != null) {
-    return this.set('publicationStart', getPublicationDate(firstPartWithPublicationDate));
+    return this.set('publicationStart', getPublicationDate(firstPartWithPublicationDate))
   }
-};
+}
 
-var getModelUri = model => model.get('uri');
-var getPublicationDate = model => model.get('claims.wdt:P577.0');
-var getAuthors = model => model.getExtendedAuthorsUris();
+var getModelUri = model => model.get('uri')
+var getPublicationDate = model => model.get('claims.wdt:P577.0')
+var getAuthors = model => model.getExtendedAuthorsUris()

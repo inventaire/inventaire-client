@@ -1,4 +1,10 @@
-export default function(app){
+/* eslint-disable
+    no-return-assign,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+export default function (app) {
   // made it a factory has its main use is to be cloned
   app.user.listings = () => ({
     private: {
@@ -21,8 +27,8 @@ export default function(app){
       unicodeIcon: '&#xf0ac;',
       label: 'public'
     }
-  });
+  })
 
   // keep a frozen version of the object at hand for read only
-  return app.user.listings.data = Object.freeze(app.user.listings());
+  return app.user.listings.data = Object.freeze(app.user.listings())
 };

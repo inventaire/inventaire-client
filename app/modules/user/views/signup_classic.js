@@ -1,9 +1,16 @@
-import username_ from 'modules/user/lib/username_tests';
-import email_ from 'modules/user/lib/email_tests';
-import password_ from 'modules/user/lib/password_tests';
-import forms_ from 'modules/general/lib/forms';
-import prepareRedirect from '../lib/prepare_redirect';
-import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import username_ from 'modules/user/lib/username_tests'
+import email_ from 'modules/user/lib/email_tests'
+import password_ from 'modules/user/lib/password_tests'
+import forms_ from 'modules/general/lib/forms'
+import prepareRedirect from '../lib/prepare_redirect'
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.LayoutView.extend({
   className: 'authMenu signup',
@@ -22,8 +29,8 @@ export default Marionette.LayoutView.extend({
     password: '#password'
   },
 
-  initialize() {
-    return this.formAction = prepareRedirect.call(this);
+  initialize () {
+    return this.formAction = prepareRedirect.call(this)
   },
 
   events: {
@@ -36,61 +43,61 @@ export default Marionette.LayoutView.extend({
     'click #classicSignup': 'validClassicSignup'
   },
 
-  onShow() {
-    return this.ui.classicUsername.focus();
+  onShow () {
+    return this.ui.classicUsername.focus()
   },
 
-  serializeData() {
+  serializeData () {
     return {
       passwordLabel: 'password',
       formAction: this.formAction
-    };
+    }
   },
 
   // CLASSIC
-  validClassicSignup() {
-    startLoading.call(this, '#classicSignup');
+  validClassicSignup () {
+    startLoading.call(this, '#classicSignup')
 
     return this.verifyClassicUsername()
     .then(this.verifyEmail.bind(this))
     .then(this.verifyPassword.bind(this))
     .then(this.sendClassicSignupRequest.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
-    .finally(stopLoading.bind(this));
+    .finally(stopLoading.bind(this))
   },
 
-  verifyClassicUsername() { return this.verifyUsername('classicUsername'); },
+  verifyClassicUsername () { return this.verifyUsername('classicUsername') },
 
-  verifyEmail() {
-    const email = this.ui.email.val();
-    email_.pass(email, '#email');
-    return email_.verifyAvailability(email, '#email');
+  verifyEmail () {
+    const email = this.ui.email.val()
+    email_.pass(email, '#email')
+    return email_.verifyAvailability(email, '#email')
   },
 
-  verifyPassword() { return password_.pass(this.ui.password.val(), '#finalAlertbox'); },
+  verifyPassword () { return password_.pass(this.ui.password.val(), '#finalAlertbox') },
 
-  sendClassicSignupRequest() {
+  sendClassicSignupRequest () {
     return app.request('signup:classic', {
       username: this.ui.classicUsername.val(),
       password: this.ui.password.val(),
       email: this.ui.email.val()
     }
-    );
+    )
   },
 
   // COMMON
-  verifyUsername(name){
-    const username = this.ui[name].val();
-    return username_.verifyUsername(username, `#${name}`);
+  verifyUsername (name) {
+    const username = this.ui[name].val()
+    return username_.verifyUsername(username, `#${name}`)
   },
 
-  earlyVerifyClassicUsername(e){
-    return forms_.earlyVerify(this, e, this.verifyClassicUsername.bind(this));
+  earlyVerifyClassicUsername (e) {
+    return forms_.earlyVerify(this, e, this.verifyClassicUsername.bind(this))
   },
-  earlyVerifyEmail(e){
-    return forms_.earlyVerify(this, e, this.verifyEmail.bind(this));
+  earlyVerifyEmail (e) {
+    return forms_.earlyVerify(this, e, this.verifyEmail.bind(this))
   },
-  earlyVerifyPassword(e){
-    return forms_.earlyVerify(this, e, this.verifyPassword.bind(this));
+  earlyVerifyPassword (e) {
+    return forms_.earlyVerify(this, e, this.verifyPassword.bind(this))
   }
-});
+})

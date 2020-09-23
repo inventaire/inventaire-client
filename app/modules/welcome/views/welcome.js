@@ -1,6 +1,15 @@
-import showPaginatedItems from '../lib/show_paginated_items';
-import urls from 'lib/urls';
-import Mentions from './mentions';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import showPaginatedItems from '../lib/show_paginated_items'
+import urls from 'lib/urls'
+import Mentions from './mentions'
 
 export default Marionette.LayoutView.extend({
   id: 'welcome',
@@ -10,8 +19,8 @@ export default Marionette.LayoutView.extend({
     mentions: '#mentions'
   },
 
-  initialize() {
-    return this.waitForMention = getMentionsData();
+  initialize () {
+    return this.waitForMention = getMentionsData()
   },
 
   events: {
@@ -25,12 +34,12 @@ export default Marionette.LayoutView.extend({
     SuccessCheck: {}
   },
 
-  serializeData() {
+  serializeData () {
     return {
       loggedIn: app.user.loggedIn,
       urls,
       needNameExplanation: app.user.lang !== 'fr'
-    };
+    }
   },
 
   ui: {
@@ -40,44 +49,47 @@ export default Marionette.LayoutView.extend({
     landingScreen: '#landingScreen'
   },
 
-  onShow() {
-    this.showPublicItems();
+  onShow () {
+    this.showPublicItems()
 
     return this.waitForMention
-    .then(this.ifViewIsIntact('showMentions'));
+    .then(this.ifViewIsIntact('showMentions'))
   },
 
-  showPublicItems() {
+  showPublicItems () {
     showPaginatedItems({
       request: 'items:getRecentPublic',
       region: this.previewColumns,
       allowMore: false,
       limit: 15,
       lang: app.user.lang,
-      assertImage: true}).catch(this.hidePublicItems.bind(this))
-    .catch(_.Error('hidePublicItems err'));
+      assertImage: true
+    }).catch(this.hidePublicItems.bind(this))
+    .catch(_.Error('hidePublicItems err'))
 
-    return this.triggerMethod('child:view:ready');
+    return this.triggerMethod('child:view:ready')
   },
 
-  hidePublicItems(err){
-    $('#lastPublicBooks').hide();
-    if (err != null) { throw err; }
+  hidePublicItems (err) {
+    $('#lastPublicBooks').hide()
+    if (err != null) { throw err }
   },
 
-  toggleMission() {
-    this.ui.missions.slideToggle();
-    return this.ui.missionsTogglers.toggle();
+  toggleMission () {
+    this.ui.missions.slideToggle()
+    return this.ui.missionsTogglers.toggle()
   },
 
-  showMentions(data){
-    this.triggerMethod('child:view:ready');
-    return this.mentions.show(new Mentions({ data }));
-  }});
+  showMentions (data) {
+    this.triggerMethod('child:view:ready')
+    return this.mentions.show(new Mentions({ data }))
+  }
+})
 
 // no need to fetch mentions data more than once per session
-const mentionsData = null;
-var getMentionsData = function() {
-  if (mentionsData != null) { return Promise.resolve(mentionsData);
-  } else { return _.preq.get(app.API.json('mentions')); }
-};
+const mentionsData = null
+var getMentionsData = function () {
+  if (mentionsData != null) {
+    return Promise.resolve(mentionsData)
+  } else { return _.preq.get(app.API.json('mentions')) }
+}

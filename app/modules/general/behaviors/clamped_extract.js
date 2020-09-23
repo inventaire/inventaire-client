@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.Behavior.extend({
   ui: {
     extract: '.extract',
@@ -8,8 +13,8 @@ export default Marionette.Behavior.extend({
     'click .toggler': 'toggleExtractLength'
   },
 
-  toggleExtractLength() {
-    this.ui.extract.toggleClass('clamped');
-    return this.ui.togglers.toggleClass('hidden');
+  toggleExtractLength () {
+    this.ui.extract.toggleClass('clamped')
+    return this.ui.togglers.toggleClass('hidden')
   }
-});
+})

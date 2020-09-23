@@ -1,6 +1,13 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors';
-import { apiDoc } from 'lib/urls';
-const { host, protocol } = window.location;
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import { apiDoc } from 'lib/urls'
+const { host, protocol } = window.location
 
 export default Marionette.ItemView.extend({
   template: require('./templates/data_settings'),
@@ -11,14 +18,15 @@ export default Marionette.ItemView.extend({
     Loading: {}
   },
 
-  initialize() { return _.extend(this, behaviorsPlugin); },
+  initialize () { return _.extend(this, behaviorsPlugin) },
 
-  serializeData() {
-    const username = app.user.get('username');
+  serializeData () {
+    const username = app.user.get('username')
     return {
       apiDoc,
       inventoryJsonEndpoint: `/api/items?action=by-users&users=${app.user.id}&limit=100000`,
       userJsonEndpoint: '/api/user',
       curlBase: `$ curl ${protocol}//${username.toLowerCase()}:yourpassword@${host}`
-    };
-  }});
+    }
+  }
+})

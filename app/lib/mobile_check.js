@@ -1,12 +1,18 @@
+/* eslint-disable
+    no-multi-str,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // source: http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser
 
 // test for mobile OR tablet
-const test = agent => new RegExp(`\
+const test = agent => new RegExp('\
 (android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|\
 elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge|maemo|midp|mmp|mobile.+firefox|netfront|operam(ob|in)i|palm(os)?|\
 phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windowsce|xda|xiino|android|ipad|playbook|\
 silk\
-`, 'i').test(agent) || new RegExp(`\
+', 'i').test(agent) || new RegExp('\
 1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|awa|abac|ac(er|oo|s\\-)|\
 ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|\
 attw|au(di|\\-m|r|s)|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|\
@@ -32,12 +38,13 @@ t6(00|10|18)|ta(gt|lk)|tcl\\-|tdg\\-|tel(i|m)|tim\\-|t\\-mo|\
 to(pl|sh)|ts(70|m\\-|m3|m5)|tx\\-9|up(\\.b|g1|si)|utst|v400|v750|veri|\
 vi(rg|te)|vk(40|5[0-3]|\\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|\
 w3c(\\-|)|webc|whit|wi(g|nc|nw)|wmlb|wonu|x700|yas\\-|your|zeto|zte\\-\
-`, 'i').test(agent.substring(0, 4));
+', 'i').test(agent.substring(0, 4))
 
-const mobileChecker = function() {
-  const agent = navigator.userAgent || navigator.vendor || window.opera;
-  if (test(agent)) { return true;
-  } else { return false; }
-};
+const mobileChecker = function () {
+  const agent = navigator.userAgent || navigator.vendor || window.opera
+  if (test(agent)) {
+    return true
+  } else { return false }
+}
 
-export default mobileChecker();
+export default mobileChecker()

@@ -1,61 +1,70 @@
+/* eslint-disable
+    no-return-assign,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 
 // expected to be a global variable by piwik.js
-if (!window._paq) { window._paq = []; }
-const { _paq, env } = window;
-const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null);
+if (!window._paq) { window._paq = [] }
+const { _paq, env } = window
+const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-export default function() {
-  if (isPrerenderSession) { return; }
-  const { piwik } = app.config;
-  if (piwik == null) { return; }
+export default function () {
+  if (isPrerenderSession) { return }
+  const { piwik } = app.config
+  if (piwik == null) { return }
   // - radically prevents recording development actions
   // - reduces the load on the real tracker server
   // - easier debug
   // /!\ no request is made from users recognized as admin on the piwik
-  const trackerUrl = env === 'dev' ? app.API.tests : `${piwik}/piwik.php`;
+  const trackerUrl = env === 'dev' ? app.API.tests : `${piwik}/piwik.php`
 
-  _paq.push(['enableLinkTracking']);
-  _paq.push(['setTrackerUrl', trackerUrl]);
-  _paq.push(['setSiteId', '11']);
+  _paq.push([ 'enableLinkTracking' ])
+  _paq.push([ 'setTrackerUrl', trackerUrl ])
+  _paq.push([ 'setSiteId', '11' ])
 
   // tracker will be defined once piwik.js is executed
-  let tracker = null;
-  let piwikDisabled = false;
+  let tracker = null
+  let piwikDisabled = false
 
   // Unfortunately, piwik.js can't be bundled within vendor.js
   // as it has to be run after _paq is initialized (here above)
   const piwikInitPromise = _.preq.getScript(app.API.assets.scripts.piwik())
     .then(() => tracker = Piwik.getAsyncTracker())
-    .catch(function(err){
+    .catch(err => {
       // Known case: ublock origin
-      _.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message);
-      return piwikDisabled = true;
-  });
+      _.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message)
+      return piwikDisabled = true
+    })
 
   // Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
-  const setUserId = function(id){
-    if (!_.isUserId(id)) { return; }
+  const setUserId = function (id) {
+    if (!_.isUserId(id)) { return }
 
     return piwikInitPromise
-    .then(function() { if (!piwikDisabled) { return tracker.setUserId(id); } });
-  };
+    .then(() => { if (!piwikDisabled) { return tracker.setUserId(id) } })
+  }
 
-  const trackPageView = function(title){
-    if (piwikDisabled) { return; }
+  const trackPageView = function (title) {
+    if (piwikDisabled) { return }
 
     return piwikInitPromise
-    .then(function() {
+    .then(() => {
       // piwikDisabled might have been toggled after a failed initialization
-      if (piwikDisabled) { return; }
-      tracker.setCustomUrl(location.href);
-      return tracker.trackPageView(title);}).catch(function(err){
+      if (piwikDisabled) { return }
+      tracker.setCustomUrl(location.href)
+      return tracker.trackPageView(title)
+    }).catch(err => {
       // Known error with unidentified cause
-      if (err.message === 'dataElement is null') { return;
-      } else { throw err; }
-    });
-  };
+      if (err.message === 'dataElement is null') {
+
+      } else { throw err }
+    })
+  }
 
   return app.commands.setHandlers({
     'track:user:id': setUserId,
@@ -64,5 +73,5 @@ export default function() {
     // and let the time to the route to be updated
     // (app.navigate being often trigger after all the actions are done)
     'track:page:view': _.debounce(trackPageView, 300)
-  });
+  })
 };

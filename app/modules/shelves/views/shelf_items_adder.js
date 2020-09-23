@@ -1,13 +1,19 @@
-import ShelfItemsCandidates from './shelf_items_candidate';
-import Items from 'modules/inventory/collections/items';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import ShelfItemsCandidates from './shelf_items_candidate'
+import Items from 'modules/inventory/collections/items'
 
 export default Marionette.CompositeView.extend({
   id: 'shelfItemsAdder',
   template: require('./templates/shelf_items_adder'),
   childViewContainer: '.shelfItemsCandidates',
   childView: ShelfItemsCandidates,
-  childViewOptions() {
-    return {shelf: this.options.model};
+  childViewOptions () {
+    return { shelf: this.options.model }
   },
 
   emptyView: require('modules/entities/views/editor/autocomplete_no_suggestion'),
@@ -16,17 +22,17 @@ export default Marionette.CompositeView.extend({
     candidates: '.shelfItemsCandidates'
   },
 
-  initialize() {
-    this.collection = new Items;
-    this.offset = 0;
-    this.limit = 20;
-    return this.suggestLastItems();
+  initialize () {
+    this.collection = new Items()
+    this.offset = 0
+    this.limit = 20
+    return this.suggestLastItems()
   },
 
-  onShow() {
-    app.execute('modal:open');
+  onShow () {
+    app.execute('modal:open')
     // Doesn't work if set in events for some reason
-    return this.ui.candidates.on('scroll', this.onScroll.bind(this));
+    return this.ui.candidates.on('scroll', this.onScroll.bind(this))
   },
 
   events: {
@@ -36,83 +42,84 @@ export default Marionette.CompositeView.extend({
     'keydown #searchCandidates': 'lazySearch'
   },
 
-  lazySearch(e){
-    if (this._lazySearch == null) { this._lazySearch = _.debounce(this.search.bind(this), 200); }
-    return this._lazySearch(e);
+  lazySearch (e) {
+    if (this._lazySearch == null) { this._lazySearch = _.debounce(this.search.bind(this), 200) }
+    return this._lazySearch(e)
   },
 
-  search(e){
-    let { value: input } = e.currentTarget;
-    input = input.trim();
+  search (e) {
+    let { value: input } = e.currentTarget
+    input = input.trim()
 
     if (input === '') {
       if (this._lastInput != null) {
-        this._lastInput = null;
-        this.offset = 0;
-        this.suggestLastItems();
-        return;
+        this._lastInput = null
+        this.offset = 0
+        this.suggestLastItems()
+        return
       } else {
-        this.$el.removeClass('fetching');
-        return;
+        this.$el.removeClass('fetching')
+        return
       }
     }
 
-    this._lastMode = 'search';
-    this._lastInput = input;
-    this.$el.addClass('fetching');
+    this._lastMode = 'search'
+    this._lastInput = input
+    this.$el.addClass('fetching')
 
     return _.preq.get(app.API.items.search(app.user.id, input))
-    .then(({ items })=> {
-      this.offset += this.limit;
+    .then(({ items }) => {
+      this.offset += this.limit
       if (this._lastInput === input) {
-        this.$el.removeClass('fetching');
-        return this.collection.reset(items);
+        this.$el.removeClass('fetching')
+        return this.collection.reset(items)
       }
-    });
+    })
   },
 
-  onScroll(e){
-    const visibleHeight = this.ui.candidates.height();
-    const { scrollHeight, scrollTop } = e.currentTarget;
-    const scrollBottom = scrollTop + visibleHeight;
-    if (scrollBottom === scrollHeight) { return this.fetchMore(); }
+  onScroll (e) {
+    const visibleHeight = this.ui.candidates.height()
+    const { scrollHeight, scrollTop } = e.currentTarget
+    const scrollBottom = scrollTop + visibleHeight
+    if (scrollBottom === scrollHeight) { return this.fetchMore() }
   },
 
-  suggestLastItems() {
-    this.$el.addClass('fetching');
-    this._lastMode = 'last';
+  suggestLastItems () {
+    this.$el.addClass('fetching')
+    this._lastMode = 'last'
     return app.request('items:getUserItems', { model: app.user, offset: this.offset, limit: this.limit })
-    .then(({ items })=> {
+    .then(({ items }) => {
       if (this._lastMode === 'last') {
-        this.$el.removeClass('fetching');
-        if (this.offset === 0) { return this.collection.reset(items);
-        } else { return this.collection.add(items); }
+        this.$el.removeClass('fetching')
+        if (this.offset === 0) {
+          return this.collection.reset(items)
+        } else { return this.collection.add(items) }
       }
-    });
+    })
   },
 
-  fetchMore() {
+  fetchMore () {
     if (this._lastMode === 'last') {
-      this.offset += this.limit;
-      return this.suggestLastItems();
+      this.offset += this.limit
+      return this.suggestLastItems()
     }
   },
 
-  addNewItems(e){
-    const shelfId = this.model.id;
-    app.execute('last:shelves:set', [ shelfId ]);
-    if (_.isOpenedOutside(e)) { return; }
-    app.execute('modal:close');
-    return app.execute('show:add:layout');
+  addNewItems (e) {
+    const shelfId = this.model.id
+    app.execute('last:shelves:set', [ shelfId ])
+    if (_.isOpenedOutside(e)) { return }
+    app.execute('modal:close')
+    return app.execute('show:add:layout')
   },
 
   // Known limitation: this function will only be called when the user clicks
   // the 'done' button, not when closing the modal by clicking the 'close' or
   // clicking outside the modal; meaning that in those case, the shelf inventory
   // won't be refreshed
-  onDone() {
+  onDone () {
     // Refresh the shelf data
-    app.vent.trigger('inventory:select', 'shelf', this.model);
-    return app.execute('modal:close');
+    app.vent.trigger('inventory:select', 'shelf', this.model)
+    return app.execute('modal:close')
   }
-});
+})

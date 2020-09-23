@@ -1,9 +1,11 @@
-export let config = {
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
+export const config = {
   // See http://brunch.io/docs/getting-started for docs.
   sourceMaps: true,
   paths: {
     // doc: https://github.com/brunch/brunch/blob/master/docs/config.md#paths
-    watched: ['app', 'vendor']
+    watched: [ 'app', 'vendor' ]
   },
   files: {
     javascripts: {
@@ -43,10 +45,10 @@ export let config = {
         },
         postcss: {
           processors: [
-            require('autoprefixer')(['> 1%', 'last 3 versions']),
+            require('autoprefixer')([ '> 1%', 'last 3 versions' ]),
           ]
         }
       }
     }
   }
-};
+}

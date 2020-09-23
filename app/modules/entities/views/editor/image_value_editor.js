@@ -1,12 +1,20 @@
-import ClaimsEditorCommons from './claims_editor_commons';
-import forms_ from 'modules/general/lib/forms';
-import error_ from 'lib/error';
-import files_ from 'lib/files';
-import images_ from 'lib/images';
-import { startLoading, stopLoading } from 'modules/general/plugins/behaviors';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-useless-escape,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import ClaimsEditorCommons from './claims_editor_commons'
+import forms_ from 'modules/general/lib/forms'
+import error_ from 'lib/error'
+import files_ from 'lib/files'
+import images_ from 'lib/images'
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
-const urlInputSelector = '.imageUrl';
-const imagePreviewSelector = '.image-preview';
+const urlInputSelector = '.imageUrl'
+const imagePreviewSelector = '.image-preview'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'image-value-editor',
@@ -23,13 +31,13 @@ export default ClaimsEditorCommons.extend({
     imagePreview: imagePreviewSelector
   },
 
-  initialize() {
-    this.initEditModeState();
-    return this.focusTarget = 'urlInput';
+  initialize () {
+    this.initEditModeState()
+    return this.focusTarget = 'urlInput'
   },
 
-  onRender() {
-    return this.focusOnRender();
+  onRender () {
+    return this.focusOnRender()
   },
 
   events: {
@@ -39,63 +47,63 @@ export default ClaimsEditorCommons.extend({
     'click .delete': 'delete',
     // Not setting a particular selector so that
     // any keyup event on taezaehe element triggers the event
-    'keyup': 'onKeyUp',
+    keyup: 'onKeyUp',
     'change input[type=file]': 'getImageUrl',
     'click .validate-upload': 'uploadFileAndSave'
   },
 
-  getImageUrl(e){
+  getImageUrl (e) {
     return files_.parseFileEventAsDataURL(e)
     .then(_.first)
-    .then(this.showUploadConfirmation.bind(this));
+    .then(this.showUploadConfirmation.bind(this))
   },
 
-  showUploadConfirmation(dataUrl){
-    this.ui.imagePreview.html(`<img src=\"${dataUrl}\">`);
-    return this.ui.uploadConfirmation.show();
+  showUploadConfirmation (dataUrl) {
+    this.ui.imagePreview.html(`<img src=\"${dataUrl}\">`)
+    return this.ui.uploadConfirmation.show()
   },
 
-  saveFromUrl() {
-    const url = this.ui.urlInput.val();
+  saveFromUrl () {
+    const url = this.ui.urlInput.val()
 
-    if (url === this.model.get('value')) { return this.hideEditMode(); }
+    if (url === this.model.get('value')) { return this.hideEditMode() }
 
     if (!_.isUrl(url)) {
-      const err = error_.new('invalid URL', url);
-      err.selector = urlInputSelector;
-      return forms_.alert(this, err);
+      const err = error_.new('invalid URL', url)
+      err.selector = urlInputSelector
+      return forms_.alert(this, err)
     }
 
-    startLoading.call(this, '.save');
+    startLoading.call(this, '.save')
 
     return _.preq.post(app.API.images.convertUrl, { url })
-    .then(res=> {
+    .then(res => {
       if (res.converted) {
-        return this._bareSave(res.url);
+        return this._bareSave(res.url)
       } else {
         // If dataseed is disabled, fallback to downloading the file at the URL
         return images_.getUrlDataUrl(url)
-        .then(this.uploadDataUrl.bind(this));
+        .then(this.uploadDataUrl.bind(this))
       }
-  }).catch(error_.Complete(urlInputSelector, false))
+    }).catch(error_.Complete(urlInputSelector, false))
     .catch(forms_.catchAlert.bind(null, this))
-    .finally(stopLoading.bind(this, '.save'));
+    .finally(stopLoading.bind(this, '.save'))
   },
 
-  uploadFileAndSave() {
-    startLoading.call(this, '.validate-upload');
-    const dataUrl = this.ui.imagePreview.find('img')[0]?.src;
+  uploadFileAndSave () {
+    startLoading.call(this, '.validate-upload')
+    const dataUrl = this.ui.imagePreview.find('img')[0]?.src
     return this.uploadDataUrl(dataUrl)
     .catch(error_.Complete(imagePreviewSelector, false))
     .catch(forms_.catchAlert.bind(null, this))
-    .finally(stopLoading.bind(this, '.validate-upload'));
+    .finally(stopLoading.bind(this, '.validate-upload'))
   },
 
-  uploadDataUrl(dataUrl){
+  uploadDataUrl (dataUrl) {
     return images_.getImageHashFromDataUrl('entities', dataUrl)
-    .then(this._bareSave.bind(this));
+    .then(this._bareSave.bind(this))
   },
 
   // Triggered by Ctrl+Enter (behavior inherited from editor_commons)
-  save() { return this.saveFromUrl(); }
-});
+  save () { return this.saveFromUrl() }
+})

@@ -1,14 +1,21 @@
+/* eslint-disable
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Reload the page every 24 hours to make sure we have the latest version
 // unless the current page is being edited
 
-export default () => setInterval(tryReload, 24 * 60 * 60 * 1000);
+export default () => setInterval(tryReload, 24 * 60 * 60 * 1000)
 
-var tryReload = function() {
-  if (textareaContentLength() > 0) { return; }
-  return window.location.reload();
-};
+var tryReload = function () {
+  if (textareaContentLength() > 0) { return }
+  return window.location.reload()
+}
 
 var textareaContentLength = () => _.toArray($('textarea'))
 .map(_.property('value'))
 .join('')
-.length;
+.length

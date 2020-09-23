@@ -1,76 +1,84 @@
-let shelves_;
+/* eslint-disable
+    no-undef,
+    no-unused-vars,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+let shelves_
 
 export default shelves_ = {
-  getById(id){
+  getById (id) {
     return _.preq.get(app.API.shelves.byIds(id))
-    .then(getShelf);
+    .then(getShelf)
   },
 
-  getByIds(ids){
-    console.log('ids', ids);
+  getByIds (ids) {
+    console.log('ids', ids)
     return _.preq.get(app.API.shelves.byIds(ids))
-    .get('shelves');
+    .get('shelves')
   },
 
-  createShelf(params){
+  createShelf (params) {
     return _.preq.post(app.API.shelves.create, params)
-    .get('shelf');
+    .get('shelf')
   },
 
-  updateShelf(params){
+  updateShelf (params) {
     return _.preq.post(app.API.shelves.update, params)
-    .get('shelf');
+    .get('shelf')
   },
 
-  deleteShelf(params){
-    return _.preq.post(app.API.shelves.delete, params);
+  deleteShelf (params) {
+    return _.preq.post(app.API.shelves.delete, params)
   },
 
-  removeItems(model, items){
-    const { id } = model;
-    items = _.forceArray(items);
-    const itemsIds = items.map(function(item){
+  removeItems (model, items) {
+    const { id } = model
+    items = _.forceArray(items)
+    const itemsIds = items.map(item => {
       if (_.isString(item)) {
-        return item;
+        return item
       } else {
-        item.removeShelf(id);
-        return item.get('_id');
+        item.removeShelf(id)
+        return item.get('_id')
       }
-    });
-    return shelfActionReq(id, itemsIds, 'removeItems');
+    })
+    return shelfActionReq(id, itemsIds, 'removeItems')
   },
 
-  addItems(model, items){
-    const { id } = model;
-    items = _.forceArray(items);
-    const itemsIds = items.map(function(item){
+  addItems (model, items) {
+    const { id } = model
+    items = _.forceArray(items)
+    const itemsIds = items.map(item => {
       if (_.isString(item)) {
-        return item;
+        return item
       } else {
-        item.createShelf(id);
-        return item.get('_id');
+        item.createShelf(id)
+        return item.get('_id')
       }
-    });
-    return shelfActionReq(id, itemsIds, 'addItems');
+    })
+    return shelfActionReq(id, itemsIds, 'addItems')
   },
 
-  getShelvesByOwner(userId){
+  getShelvesByOwner (userId) {
     return _.preq.get(app.API.shelves.byOwners(userId))
     .get('shelves')
-    .then(_.values);
+    .then(_.values)
   },
 
-  countShelves(userId){
+  countShelves (userId) {
     return _.preq.get(app.API.shelves.byOwners(userId))
     .get('shelves')
-    .then(shelves => Object.keys(shelves).length);
+    .then(shelves => Object.keys(shelves).length)
   }
-};
+}
 
 var shelfActionReq = (id, itemsIds, action) => _.preq.post(app.API.shelves[action], { id, items: itemsIds })
-.then(getShelf);
+.then(getShelf)
 
-var getShelf = function(res){
-  const shelvesObj = res.shelves;
-  return Object.values(shelvesObj)[0];
-};
+var getShelf = function (res) {
+  const shelvesObj = res.shelves
+  return Object.values(shelvesObj)[0]
+}

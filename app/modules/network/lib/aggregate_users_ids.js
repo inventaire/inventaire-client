@@ -1,43 +1,50 @@
-export default function() {
+/* eslint-disable
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+export default function () {
+  let categories, name
+  const cache = {}
 
-  let categories, name;
-  const cache = {};
-
-  const all = function(name, categories){
-    if (!categories) { categories = name; }
-    return cache[name] || recalculateAll(name, categories);
-  };
+  const all = function (name, categories) {
+    if (!categories) { categories = name }
+    return cache[name] || recalculateAll(name, categories)
+  }
 
   // locking the context for use here-after
-  const getUsersIds = this.getUsersIds.bind(this);
+  const getUsersIds = this.getUsersIds.bind(this)
 
-  var recalculateAll = function(name, categories){
-    categories = _.forceArray(categories);
-    const ids = _.chain(categories).map(getUsersIds).flatten().value();
-    return cache[name] = ids;
-  };
+  var recalculateAll = function (name, categories) {
+    categories = _.forceArray(categories)
+    const ids = _.chain(categories).map(getUsersIds).flatten().value()
+    return cache[name] = ids
+  }
 
   for (name in aggregates) {
-    categories = aggregates[name];
-    const Name = _.capitalise(name);
+    categories = aggregates[name]
+    const Name = _.capitalise(name)
     // ex: @allMembersIds
-    this[`all${Name}Ids`] = all.bind(this, name, categories);
+    this[`all${Name}Ids`] = all.bind(this, name, categories)
   }
 
   return this.recalculateAllLists = () => (() => {
-    const result = [];
+    const result = []
     for (name in aggregates) {
-      categories = aggregates[name];
-      result.push(recalculateAll(name, categories));
+      categories = aggregates[name]
+      result.push(recalculateAll(name, categories))
     }
-    return result;
-  })();
+    return result
+  })()
 };
 
 var aggregates = {
   admins: 'admins',
   membersStrict: 'members',
-  members: ['admins', 'members'],
+  members: [ 'admins', 'members' ],
   invited: 'invited',
   requested: 'requested'
-};
+}

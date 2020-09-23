@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   className: 'generalInfobox',
   template: require('./templates/general_infobox'),
@@ -6,10 +11,10 @@ export default Marionette.ItemView.extend({
     ClampedExtract: {}
   },
 
-  initialize() {
+  initialize () {
     // Also accept user models that will miss a getWikipediaExtract method
-    this.model.getWikipediaExtract?.();
-    return ({ small: this.small } = this.options);
+    this.model.getWikipediaExtract?.()
+    return ({ small: this.small } = this.options)
   },
 
   modelEvents: {
@@ -17,15 +22,15 @@ export default Marionette.ItemView.extend({
     'change:extract': 'render'
   },
 
-  serializeData() {
-    const attrs = this.model.toJSON();
+  serializeData () {
+    const attrs = this.model.toJSON()
     // Also accept user models
-    if (!attrs.extract) { attrs.extract = attrs.bio; }
-    if (!attrs.image) { attrs.image = { url: attrs.picture }; }
+    if (!attrs.extract) { attrs.extract = attrs.bio }
+    if (!attrs.image) { attrs.image = { url: attrs.picture } }
     return _.extend(attrs, {
       standalone: this.options.standalone,
       small: this.small
     }
-    );
+    )
   }
-});
+})

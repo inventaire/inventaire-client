@@ -1,10 +1,14 @@
-import TypedEntityLayout from './typed_entity_layout';
-import EntitiesList from './entities_list';
-import GeneralInfobox from './general_infobox';
-import PaginatedEntities from 'modules/entities/collections/paginated_entities';
+/* eslint-disable
+    import/no-duplicates,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import TypedEntityLayout from './typed_entity_layout'
+import EntitiesList from './entities_list'
+import GeneralInfobox from './general_infobox'
+import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 
-const Infobox = GeneralInfobox.extend({
-  template: require('./templates/collection_infobox.hbs')});
+const Infobox = GeneralInfobox.extend({ template: require('./templates/collection_infobox.hbs') })
 
 export default TypedEntityLayout.extend({
   baseClassName: 'collectionLayout',
@@ -16,17 +20,17 @@ export default TypedEntityLayout.extend({
     mergeSuggestionsRegion: '.mergeSuggestions'
   },
 
-  onShow() {
+  onShow () {
     return this.model.fetchSubEntitiesUris(this.refresh)
-    .then(this.ifViewIsIntact('showPaginatedEditions'));
+    .then(this.ifViewIsIntact('showPaginatedEditions'))
   },
 
-  serializeData() {
-    return {standalone: this.standalone};
+  serializeData () {
+    return { standalone: this.standalone }
   },
 
-  showPaginatedEditions(uris){
-    const collection = new PaginatedEntities(null, { uris, defaultType: 'edition' });
+  showPaginatedEditions (uris) {
+    const collection = new PaginatedEntities(null, { uris, defaultType: 'edition' })
     return this.editionsList.show(new EntitiesList({
       collection,
       hideHeader: !this.standalone,
@@ -36,6 +40,6 @@ export default TypedEntityLayout.extend({
       title: 'editions',
       addButtonLabel: 'add an edition to this collection'
     })
-    );
+    )
   }
-});
+})

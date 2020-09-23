@@ -1,3 +1,14 @@
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import EditionLayout from '../views/edition_layout'
+import ClaimLayout from '../views/claim_layout'
+
 const entityViewByType = {
   human: require('../views/author_layout'),
   serie: require('../views/serie_layout'),
@@ -5,32 +16,29 @@ const entityViewByType = {
   publisher: require('../views/publisher_layout'),
   article: require('../views/article_li'),
   collection: require('../views/collection_layout')
-};
+}
+const standalone = true
 
-import EditionLayout from '../views/edition_layout';
-import ClaimLayout from '../views/claim_layout';
-const standalone = true;
+const getEntityViewByType = function (model, refresh) {
+  const { type } = model
+  const displayMergeSuggestions = app.user.hasDataadminAccess
 
-const getEntityViewByType = function(model, refresh){
-  const { type } = model;
-  const displayMergeSuggestions = app.user.hasDataadminAccess;
+  const getter = entityViewSpecialGetterByType[type]
+  if (getter != null) { return getter(model, refresh) }
 
-  const getter = entityViewSpecialGetterByType[type];
-  if (getter != null) { return getter(model, refresh); }
+  const View = entityViewByType[type]
+  if (View != null) { return new View({ model, refresh, standalone, displayMergeSuggestions }) }
 
-  const View = entityViewByType[type];
-  if (View != null) { return new View({ model, refresh, standalone, displayMergeSuggestions }); }
-
-  let { defaultClaimProperty: property } = model;
-  const value = model.get('uri');
-  if (!property) { property = 'wdt:P921'; }
-  return new ClaimLayout({ property, value, refresh });
-};
+  let { defaultClaimProperty: property } = model
+  const value = model.get('uri')
+  if (!property) { property = 'wdt:P921' }
+  return new ClaimLayout({ property, value, refresh })
+}
 
 const getEditionView = (model, refresh) => model.waitForWorks
-.then(() => new EditionLayout({ model, refresh, standalone }));
+.then(() => new EditionLayout({ model, refresh, standalone }))
 
 var entityViewSpecialGetterByType =
-  {edition: getEditionView};
+  { edition: getEditionView }
 
-export default (...args) => Promise.try(getEntityViewByType.bind(null, ...Array.from(args)));
+export default (...args) => Promise.try(getEntityViewByType.bind(null, ...Array.from(args)))

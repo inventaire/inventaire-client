@@ -1,35 +1,43 @@
-import error_ from 'lib/error';
-import importers from './importers';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import error_ from 'lib/error'
+import importers from './importers'
 
-export default function(source, data){
-  const { format, label, disableValidation } = importers[source];
-  if (disableValidation) { return; }
+export default function (source, data) {
+  const { format, label, disableValidation } = importers[source]
+  if (disableValidation) { return }
 
   if (!isValid[format](source, data)) {
-    const message = _.i18n('data_mismatch', { source: label });
+    const message = _.i18n('data_mismatch', { source: label })
     // avoid attaching the whole file as context as it might be pretty heavy
-    const err = error_.new(message, data.slice(0, 101));
-    err.i18n = false;
-    throw err;
+    const err = error_.new(message, data.slice(0, 101))
+    err.i18n = false
+    throw err
   }
 };
 
 var isValid = {
-  csv(source, data){
+  csv (source, data) {
     // Comparing the first 20 first characters
     // as those should be the header line and thus be constant
-    const first20Char = data.slice(0, 20);
-    return first20Char === importers[source].first20Characters;
+    const first20Char = data.slice(0, 20)
+    return first20Char === importers[source].first20Characters
   },
 
-  json(source, data){
-    if (data[0] !== '{') { return false; }
+  json (source, data) {
+    if (data[0] !== '{') { return false }
     // No headers line here, so we look for the presence of a specific key instead
-    const re = new RegExp(importers[source].specificKey);
+    const re = new RegExp(importers[source].specificKey)
     // Testing only an extract to avoid passing a super long doc to the regexp.
     // Make sure to choose a specificKey that would appear in this extract
-    return re.test(data.slice(0, 1001));
+    return re.test(data.slice(0, 1001))
   },
 
-  all() { return true; }
-};
+  all () { return true }
+}

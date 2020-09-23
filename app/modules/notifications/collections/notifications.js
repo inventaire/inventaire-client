@@ -1,48 +1,57 @@
-import error_ from 'lib/error';
-import { models } from '../lib/notifications_types';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import error_ from 'lib/error'
+import { models } from '../lib/notifications_types'
 
 export default Backbone.Collection.extend({
-  comparator(notif){ return -notif.get('time'); },
-  unread() { return this.filter(model => model.get('status') === 'unread'); },
-  unreadCount() { return this.unread().length; },
-  markAsRead() { return this.each(model => model.set('status', 'read')); },
+  comparator (notif) { return -notif.get('time') },
+  unread () { return this.filter(model => model.get('status') === 'unread') },
+  unreadCount () { return this.unread().length },
+  markAsRead () { return this.each(model => model.set('status', 'read')) },
 
-  initialize() {
-    this.toUpdate = [];
-    return this.batchUpdate = _.debounce(this.update.bind(this), 200);
+  initialize () {
+    this.toUpdate = []
+    return this.batchUpdate = _.debounce(this.update.bind(this), 200)
   },
 
-  updateStatus(time){
-    this.toUpdate.push(time);
-    return this.batchUpdate();
+  updateStatus (time) {
+    this.toUpdate.push(time)
+    return this.batchUpdate()
   },
 
-  update() {
-    _.log(this.toUpdate, 'notifs:update');
-    const ids = this.toUpdate;
-    this.toUpdate = [];
+  update () {
+    _.log(this.toUpdate, 'notifs:update')
+    const ids = this.toUpdate
+    this.toUpdate = []
     return _.preq.post(app.API.notifications, { times: ids })
-    .catch(_.Error('notification update err'));
+    .catch(_.Error('notification update err'))
   },
 
-  addPerType(docs){
+  addPerType (docs) {
     models = docs
       .filter(doc => !deprecatedTypes.includes(doc.type))
-      .map(createTypedModel);
-    return this.add(models);
+      .map(createTypedModel)
+    return this.add(models)
   },
 
-  beforeShow() { return Promise.all(_.invoke(this.models, 'beforeShow')); }
-});
+  beforeShow () { return Promise.all(_.invoke(this.models, 'beforeShow')) }
+})
 
-var createTypedModel = function(doc){
-  const { type } = doc;
-  const Model = models[type];
+var createTypedModel = function (doc) {
+  const { type } = doc
+  const Model = models[type]
   if (Model == null) {
-    throw error_.new('unknown notification type', doc);
+    throw error_.new('unknown notification type', doc)
   }
 
-  return new Model(doc);
-};
+  return new Model(doc)
+}
 
-var deprecatedTypes = [ 'newCommentOnFollowedItem' ];
+var deprecatedTypes = [ 'newCommentOnFollowedItem' ]

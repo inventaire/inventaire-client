@@ -1,9 +1,14 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 const views = {
   profile: require('./profile_settings'),
   account: require('./account_settings'),
   notifications: require('./notifications_settings'),
   data: require('./data_settings')
-};
+}
 
 export default Marionette.LayoutView.extend({
   id: 'settings',
@@ -20,9 +25,9 @@ export default Marionette.LayoutView.extend({
     dataTitle: '#data'
   },
 
-  onShow() {
+  onShow () {
     return app.request('wait:for', 'user')
-    .then(this.showTab.bind(this, this.options.tab));
+    .then(this.showTab.bind(this, this.options.tab))
   },
 
   events: {
@@ -32,30 +37,30 @@ export default Marionette.LayoutView.extend({
     'click #data': 'showDataSettings'
   },
 
-  showTab(tab){
-    const View = views[tab];
-    this.tabsContent.show(new View({ model: this.model }));
-    return this.tabUpdate(tab);
+  showTab (tab) {
+    const View = views[tab]
+    this.tabsContent.show(new View({ model: this.model }))
+    return this.tabUpdate(tab)
   },
 
-  tabUpdate(tab){
-    this.setActiveTab(tab);
+  tabUpdate (tab) {
+    this.setActiveTab(tab)
 
-    const tabLabel = _.I18n(tab);
-    const settings = _.I18n('settings');
+    const tabLabel = _.I18n(tab)
+    const settings = _.I18n('settings')
 
     return app.navigate(`settings/${tab}`,
-      {metadata: { title: `${tabLabel} - ${settings}` }});
+      { metadata: { title: `${tabLabel} - ${settings}` } })
   },
 
-  setActiveTab(name){
-    const tab = `${name}Title`;
-    this.ui.tabsTitles.find('a').removeClass('active');
-    return this.ui[tab].addClass('active');
+  setActiveTab (name) {
+    const tab = `${name}Title`
+    this.ui.tabsTitles.find('a').removeClass('active')
+    return this.ui[tab].addClass('active')
   },
 
-  showProfileSettings() { return this.showTab('profile'); },
-  showAccountSettings() { return this.showTab('account'); },
-  showNotificationsSettings() { return this.showTab('notifications'); },
-  showDataSettings() { return this.showTab('data'); }
-});
+  showProfileSettings () { return this.showTab('profile') },
+  showAccountSettings () { return this.showTab('account') },
+  showNotificationsSettings () { return this.showTab('notifications') },
+  showDataSettings () { return this.showTab('data') }
+})

@@ -1,16 +1,22 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: require('./serie_cleanup_edition'),
-  childViewOptions() {
+  childViewOptions () {
     return {
       worksWithOrdinal: this.options.worksWithOrdinal,
       worksWithoutOrdinal: this.options.worksWithoutOrdinal
-    };
+    }
   },
   // Keeping a consistent sorting function so that rolling back an edition
   // puts it back at the same spot
   viewComparator: 'label',
   // Filter-out composite editions as it would be a mess to handle the work picker
   // with several existing work claims
-  filter(child){ return child.get('claims.wdt:P629')?.length === 1; }
-});
+  filter (child) { return child.get('claims.wdt:P629')?.length === 1 }
+})

@@ -1,40 +1,48 @@
-import leven from 'leven';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import leven from 'leven'
 
-export default function(invModels, wdModels){
-  let invUri;
-  const candidates = {};
+export default function (invModels, wdModels) {
+  let invUri
+  const candidates = {}
 
-  invModels.forEach(addLabelsParts);
-  wdModels.forEach(addLabelsParts);
+  invModels.forEach(addLabelsParts)
+  wdModels.forEach(addLabelsParts)
 
   // Regroup candidates by invModel
-  for (let invModel of invModels) {
-    invUri = invModel.get('uri');
+  for (const invModel of invModels) {
+    invUri = invModel.get('uri')
     // invModel._alreadyPassed = true
-    candidates[invUri] = { invModel, possibleDuplicateOf: [] };
+    candidates[invUri] = { invModel, possibleDuplicateOf: [] }
 
-    for (let wdModel of wdModels) {
-      addCloseEntitiesToMergeCandidates(invModel, candidates, wdModel);
+    for (const wdModel of wdModels) {
+      addCloseEntitiesToMergeCandidates(invModel, candidates, wdModel)
     }
 
-    for (let otherInvModel of invModels) {
+    for (const otherInvModel of invModels) {
       // Avoid adding duplicate candidates in both directions
       if (otherInvModel.get('uri') !== invUri) {
-        addCloseEntitiesToMergeCandidates(invModel, candidates, otherInvModel);
+        addCloseEntitiesToMergeCandidates(invModel, candidates, otherInvModel)
       }
     }
   }
 
   return _.values(candidates)
   .filter(hasPossibleDuplicates)
-  .map(function(candidate){
+  .map(candidate => {
     // Sorting so that the first model is the closest
-    candidate.possibleDuplicateOf.sort(byMatchLength(invUri));
-    return candidate;
-  });
+    candidate.possibleDuplicateOf.sort(byMatchLength(invUri))
+    return candidate
+  })
 };
 
-var addLabelsParts =  model => model._labelsParts || (model._labelsParts = getLabelsParts(getFormattedLabels(model)));
+var addLabelsParts = model => model._labelsParts || (model._labelsParts = getLabelsParts(getFormattedLabels(model)))
 
 var getFormattedLabels = model => _.values(model.get('labels'))
 .map(label => label.toLowerCase()
@@ -44,63 +52,62 @@ var getFormattedLabels = model => _.values(model.get('labels'))
 .replace(/(\(|\[).*$/, '')
 // Ignore leading articles as they are a big source of false negative match
 .replace(/^(the|a|le|la|l'|der|die|das)\s/ig, '')
-.trim());
+.trim())
 
-var getLabelsParts = function(labels){
+var getLabelsParts = function (labels) {
   const parts = labels.map(label => label
   .split(titleSeparator)
   // Filter-out parts that are just the serie name and the volume number
-  .filter(isntVolumeNumber));
-  return _.uniq(_.flatten(parts));
-};
+  .filter(isntVolumeNumber))
+  return _.uniq(_.flatten(parts))
+}
 
-var titleSeparator = /\s*[-,:]\s+/;
-const volumePattern = /(vol|volume|t|tome)\s\d+$/;
-var isntVolumeNumber = part => !volumePattern.test(part);
+var titleSeparator = /\s*[-,:]\s+/
+const volumePattern = /(vol|volume|t|tome)\s\d+$/
+var isntVolumeNumber = part => !volumePattern.test(part)
 
-var addCloseEntitiesToMergeCandidates = function(invModel, candidates, otherModel){
-  const invUri = invModel.get('uri');
-  const otherModelUri = otherModel.get('uri');
-  const partsA = invModel._labelsParts;
-  const partsB = otherModel._labelsParts;
-  const data = getBestMatchScore(partsA, partsB);
+var addCloseEntitiesToMergeCandidates = function (invModel, candidates, otherModel) {
+  const invUri = invModel.get('uri')
+  const otherModelUri = otherModel.get('uri')
+  const partsA = invModel._labelsParts
+  const partsB = otherModel._labelsParts
+  const data = getBestMatchScore(partsA, partsB)
   if (data.bestMatchScore > 0) {
-    _.log(data, `${invUri} - ${otherModelUri}`);
-    if (!otherModel.bestMatchScore) { otherModel.bestMatchScore = {}; }
-    otherModel.bestMatchScore[invUri] = data.bestMatchScore;
-    candidates[invUri].possibleDuplicateOf.push(otherModel);
+    _.log(data, `${invUri} - ${otherModelUri}`)
+    if (!otherModel.bestMatchScore) { otherModel.bestMatchScore = {} }
+    otherModel.bestMatchScore[invUri] = data.bestMatchScore
+    candidates[invUri].possibleDuplicateOf.push(otherModel)
   }
+}
 
-};
+var getBestMatchScore = function (aLabelsParts, bLabelsParts) {
+  let data = { bestMatchScore: 0 }
 
-var getBestMatchScore = function(aLabelsParts, bLabelsParts){
-  let data = { bestMatchScore: 0 };
-
-  for (let aPart of aLabelsParts) {
-    for (let bPart of bLabelsParts) {
-      const [ shortest, longest ] = Array.from(getShortestAndLongest(aPart.length, bPart.length));
+  for (const aPart of aLabelsParts) {
+    for (const bPart of bLabelsParts) {
+      const [ shortest, longest ] = Array.from(getShortestAndLongest(aPart.length, bPart.length))
       // Do not compare parts that are very different in length
       if ((longest - shortest) < 5) {
-        const distance = leven(aPart, bPart);
-        const matchScore = longest - distance;
-        let matchRatio = matchScore / longest;
-        matchRatio = Math.round(matchRatio * 100) / 100;
+        const distance = leven(aPart, bPart)
+        const matchScore = longest - distance
+        let matchRatio = matchScore / longest
+        matchRatio = Math.round(matchRatio * 100) / 100
         if ((distance < 5) && (matchRatio > 0.6) && (matchScore > data.bestMatchScore)) {
-          data = { aPart, bPart, bestMatchScore: matchScore, matchRatio, distance };
+          data = { aPart, bPart, bestMatchScore: matchScore, matchRatio, distance }
         }
       }
     }
   }
 
-  return data;
-};
+  return data
+}
 
-var getShortestAndLongest = function(a, b){ if (a > b) { return [ b, a ]; } else { return [ a, b ]; } };
+var getShortestAndLongest = function (a, b) { if (a > b) { return [ b, a ] } else { return [ a, b ] } }
 
-var hasPossibleDuplicates = function(candidate){
-  const possibleCandidatesCount = candidate.possibleDuplicateOf.length;
+var hasPossibleDuplicates = function (candidate) {
+  const possibleCandidatesCount = candidate.possibleDuplicateOf.length
   // Also ignore when there are too many candidates
-  return (possibleCandidatesCount > 0) && (possibleCandidatesCount < 10);
-};
+  return (possibleCandidatesCount > 0) && (possibleCandidatesCount < 10)
+}
 
-var byMatchLength = invUri => (a, b) => b.bestMatchScore[invUri] - a.bestMatchScore[invUri];
+var byMatchLength = invUri => (a, b) => b.bestMatchScore[invUri] - a.bestMatchScore[invUri]

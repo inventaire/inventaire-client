@@ -1,18 +1,23 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // the layout mode is persisted to the localStorage
 // to keep its state per-device
 
-const defaultLayout = 'cascade';
+const defaultLayout = 'cascade'
 
-export default function(app){
-  let layout = localStorageProxy.getItem('layout') || defaultLayout;
+export default function (app) {
+  let layout = localStorageProxy.getItem('layout') || defaultLayout
 
-  const setLayout = function(newLayout){
-    layout = newLayout;
-    return localStorageProxy.setItem('layout', layout);
-  };
+  const setLayout = function (newLayout) {
+    layout = newLayout
+    return localStorageProxy.setItem('layout', layout)
+  }
 
-  app.reqres.setHandlers({
-    'inventory:layout'() { return layout; }});
+  app.reqres.setHandlers({ 'inventory:layout' () { return layout } })
 
-  return app.vent.on('inventory:layout:change', setLayout);
+  return app.vent.on('inventory:layout:change', setLayout)
 };

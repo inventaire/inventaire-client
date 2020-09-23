@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
   template: require('./templates/shelves_list_li'),
@@ -11,18 +16,18 @@ const ListEl = Marionette.ItemView.extend({
   },
 
   modelEvents: {
-    'change': 'lazyRender'
+    change: 'lazyRender'
   },
 
-  selectShelf(e){
-    if (_.isOpenedOutside(e)) { return; }
-    const type = this.model.get('type');
-    app.vent.trigger('inventory:select', type, this.model);
-    return e.preventDefault();
+  selectShelf (e) {
+    if (_.isOpenedOutside(e)) { return }
+    const type = this.model.get('type')
+    app.vent.trigger('inventory:select', type, this.model)
+    return e.preventDefault()
   }
-});
+})
 
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: ListEl
-});
+})

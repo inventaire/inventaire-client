@@ -1,3 +1,9 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Keep in sync with server/models/attributes/transaction
 
 const basicNextActions = {
@@ -24,7 +30,7 @@ const basicNextActions = {
     owner: null,
     requester: null
   }
-};
+}
 
 // customizing actions for transactions where the item should be returned
 // currently only 'lending'
@@ -38,21 +44,22 @@ const nextActionsWithReturn = _.extend({}, basicNextActions, {
     requester: null
   }
 }
-);
+)
 
-const getNextActionsList = function(transactionName){
-  if (transactionName === 'lending') { return nextActionsWithReturn;
-  } else { return basicNextActions; }
-};
+const getNextActionsList = function (transactionName) {
+  if (transactionName === 'lending') {
+    return nextActionsWithReturn
+  } else { return basicNextActions }
+}
 
-const findNextActions = function(transacData){
-  const { name, state, mainUserIsOwner } = transacData;
-  const nextActions = getNextActionsList(name, state);
-  const role = mainUserIsOwner ? 'owner' : 'requester';
-  return nextActions[state][role];
-};
+const findNextActions = function (transacData) {
+  const { name, state, mainUserIsOwner } = transacData
+  const nextActions = getNextActionsList(name, state)
+  const role = mainUserIsOwner ? 'owner' : 'requester'
+  return nextActions[state][role]
+}
 
-const isActive = transacData => findNextActions(transacData) != null;
-const isArchived = transacData => !isActive(transacData);
+const isActive = transacData => findNextActions(transacData) != null
+const isArchived = transacData => !isActive(transacData)
 
-export { findNextActions, isArchived };
+export { findNextActions, isArchived }

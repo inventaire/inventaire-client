@@ -1,8 +1,16 @@
-import username_ from 'modules/user/lib/username_tests';
-import password_ from 'modules/user/lib/password_tests';
-import forms_ from 'modules/general/lib/forms';
-import behaviorsPlugin from 'modules/general/plugins/behaviors';
-import prepareRedirect from '../lib/prepare_redirect';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import username_ from 'modules/user/lib/username_tests'
+import password_ from 'modules/user/lib/password_tests'
+import forms_ from 'modules/general/lib/forms'
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import prepareRedirect from '../lib/prepare_redirect'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
@@ -10,8 +18,8 @@ export default Marionette.ItemView.extend({
   events: {
     'blur #username': 'earlyVerifyUsername',
     'click #classicLogin': 'classicLoginAttempt',
-    'click #createAccount'() { return app.execute('show:signup'); },
-    'click #forgotPassword'() { return app.execute('show:forgot:password'); }
+    'click #createAccount' () { return app.execute('show:signup') },
+    'click #forgotPassword' () { return app.execute('show:forgot:password') }
   },
 
   behaviors: {
@@ -26,60 +34,63 @@ export default Marionette.ItemView.extend({
     password: '#password'
   },
 
-  initialize() {
-    _.extend(this, behaviorsPlugin);
-    return this.formAction = prepareRedirect.call(this);
+  initialize () {
+    _.extend(this, behaviorsPlugin)
+    return this.formAction = prepareRedirect.call(this)
   },
 
-  onShow() {
-    return this.ui.username.focus();
+  onShow () {
+    return this.ui.username.focus()
   },
 
-  serializeData() {
+  serializeData () {
     return {
       passwordLabel: 'password',
       formAction: this.formAction
-    };
+    }
   },
 
-  classicLoginAttempt() {
+  classicLoginAttempt () {
     return Promise.try(this.verifyUsername.bind(this))
     .then(this.verifyPassword.bind(this))
     .then(this.classicLogin.bind(this))
-    .catch(forms_.catchAlert.bind(null, this));
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
-  verifyUsername(username){
-    username = this.ui.username.val();
-    if (_.isEmail(username)) { return;
-    } else { return username_.pass(username, '#username'); }
+  verifyUsername (username) {
+    username = this.ui.username.val()
+    if (_.isEmail(username)) {
+
+    } else { return username_.pass(username, '#username') }
   },
 
-  earlyVerifyUsername(e){
-    return forms_.earlyVerify(this, e, this.verifyUsername.bind(this));
+  earlyVerifyUsername (e) {
+    return forms_.earlyVerify(this, e, this.verifyUsername.bind(this))
   },
 
-  verifyPassword() {
-    return password_.pass(this.ui.password.val(), '#finalAlertbox');
+  verifyPassword () {
+    return password_.pass(this.ui.password.val(), '#finalAlertbox')
   },
 
-  classicLogin() {
-    const username = this.ui.username.val();
-    const password = this.ui.password.val();
-    this.startLoading('#classicLogin');
+  classicLogin () {
+    const username = this.ui.username.val()
+    const password = this.ui.password.val()
+    this.startLoading('#classicLogin')
     return app.request('login:classic', username, password)
-    .catch(this.loginError.bind(this));
+    .catch(this.loginError.bind(this))
   },
 
-  loginError(err){
-    this.stopLoading();
-    if (err.statusCode === 401) { return this.alert(this.getErrMessage());
-    } else { throw err; }
+  loginError (err) {
+    this.stopLoading()
+    if (err.statusCode === 401) {
+      return this.alert(this.getErrMessage())
+    } else { throw err }
   },
 
-  getErrMessage() {
-    const username = this.ui.username.val();
-    if (_.isEmail(username)) { return 'email or password is incorrect';
-    } else { return 'username or password is incorrect'; }
+  getErrMessage () {
+    const username = this.ui.username.val()
+    if (_.isEmail(username)) {
+      return 'email or password is incorrect'
+    } else { return 'username or password is incorrect' }
   }
-});
+})

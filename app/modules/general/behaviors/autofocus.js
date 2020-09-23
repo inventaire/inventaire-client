@@ -1,11 +1,16 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // On view show, focus on the first focusable element.
 // Should probably only be applied to main layouts or modals
 export default Marionette.Behavior.extend({
-  onShow() {
+  onShow () {
     // Do not auto focus on mobile as it displays the virtual keyboard
     // which can take pretty much all the screen
-    if (_.isMobile) { return; }
-    const selector = this.options.selector || 'input,[tabindex=0]';
-    return this.view.$el.find(selector).first().focus();
+    if (_.isMobile) { return }
+    const selector = this.options.selector || 'input,[tabindex=0]'
+    return this.view.$el.find(selector).first().focus()
   }
-});
+})

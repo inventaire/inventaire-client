@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.coffee
 
 export default Marionette.ItemView.extend({
@@ -10,16 +15,16 @@ export default Marionette.ItemView.extend({
   },
 
   modelEvents: {
-    'highlight': 'highlight',
+    highlight: 'highlight',
     'highlight:remove': 'removeHighlight'
   },
 
-  highlight() {
-    this.trigger('highlight');
-    return this.$el.addClass('active');
+  highlight () {
+    this.trigger('highlight')
+    return this.$el.addClass('active')
   },
 
-  removeHighlight() { return this.$el.removeClass('active'); },
+  removeHighlight () { return this.$el.removeClass('active') },
 
-  select() { return this.triggerMethod('select:from:click', this.model); }
-});
+  select () { return this.triggerMethod('select:from:click', this.model) }
+})

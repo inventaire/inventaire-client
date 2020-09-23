@@ -1,10 +1,16 @@
-import AuthorLayout from 'modules/entities/views/author_layout';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import AuthorLayout from 'modules/entities/views/author_layout'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/current_task'),
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.serializeData(),
-      {showSourcesLinks: true});
+      { showSourcesLinks: true })
   },
 
   regions: {
@@ -13,18 +19,18 @@ export default Marionette.LayoutView.extend({
     otherSuggestions: '#otherSuggestions'
   },
 
-  onShow() {
-    this.showAuthor('suspect');
-    return this.showAuthor('suggestion');
+  onShow () {
+    this.showAuthor('suspect')
+    return this.showAuthor('suggestion')
   },
 
-  showAuthor(name){
+  showAuthor (name) {
     return this[name].show(new AuthorLayout({
       model: this.model[name],
       initialWorksListLength: 20,
       wrapWorks: true,
       noAuthorWrap: true
     })
-    );
+    )
   }
-});
+})

@@ -1,59 +1,67 @@
-import screen_ from 'lib/screen';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import screen_ from 'lib/screen'
 
-const gutenbergText = id => _.i18n('on_website', { name: 'Gutenberg.org' });
+const gutenbergText = id => _.i18n('on_website', { name: 'Gutenberg.org' })
 
 export default {
   'wdt:P724': {
     icon: 'archive-org',
-    text() {  return _.i18n('on_website', { name: 'Internet Archive' }); },
-    url(id){ return `https://archive.org/details/${id}`; }
+    text () { return _.i18n('on_website', { name: 'Internet Archive' }) },
+    url (id) { return `https://archive.org/details/${id}` }
   },
   'wdt:P1938': {
     icon: 'gutenberg',
     text: gutenbergText,
-    url(id){ return `${gutenbergBase()}ebooks/author/${id}`; }
+    url (id) { return `${gutenbergBase()}ebooks/author/${id}` }
   },
   'wdt:P2002': {
     icon: 'twitter',
-    text(username){ return `@${username}`; },
-    url(username){ return `https://twitter.com/${username}`; }
+    text (username) { return `@${username}` },
+    url (username) { return `https://twitter.com/${username}` }
   },
   'wdt:P2003': {
     icon: 'instagram',
     text: _.identity,
-    url(username){ return `https://instagram.com/${username}`; }
+    url (username) { return `https://instagram.com/${username}` }
   },
   'wdt:P2013': {
     icon: 'facebook',
     text: _.identity,
-    url(facebookId){ return `https://facebook.com/${facebookId}`; }
+    url (facebookId) { return `https://facebook.com/${facebookId}` }
   },
   'wdt:P2034': {
     icon: 'gutenberg',
     text: gutenbergText,
-    url(id){ return `${gutenbergBase()}ebooks/${id}`; }
+    url (id) { return `${gutenbergBase()}ebooks/${id}` }
   },
   'wdt:P2397': {
     icon: 'youtube',
-    text() { return ''; },
-    url(channelId){ return `https://www.youtube.com/channel/${channelId}`; }
+    text () { return '' },
+    url (channelId) { return `https://www.youtube.com/channel/${channelId}` }
   },
   'wdt:P4033': {
     icon: 'mastodon',
     text: _.identity,
-    url(address){
-      const [ username, domain ] = Array.from(address.split('@'));
-      return `https://${domain}/@${username}`;
+    url (address) {
+      const [ username, domain ] = Array.from(address.split('@'))
+      return `https://${domain}/@${username}`
     }
   },
   'wdt:P4258': {
     icon: 'gallica',
-    text() {  return _.i18n('on_website', { name: 'Gallica' }); },
-    url(id){ return `https://gallica.bnf.fr/ark:/12148/${id}`; }
+    text () { return _.i18n('on_website', { name: 'Gallica' }) },
+    url (id) { return `https://gallica.bnf.fr/ark:/12148/${id}` }
   }
-};
+}
 
-var gutenbergBase = function() {
-  const base = screen_.isSmall() ? 'http://m.' : 'https://www.';
-  return `${base}gutenberg.org/`;
-};
+var gutenbergBase = function () {
+  const base = screen_.isSmall() ? 'http://m.' : 'https://www.'
+  return `${base}gutenberg.org/`
+}

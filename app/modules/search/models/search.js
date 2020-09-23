@@ -1,31 +1,37 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Backbone.Model.extend({
-  initialize(data){
-    if (data.timestamp == null) { return this.updateTimestamp(); }
+  initialize (data) {
+    if (data.timestamp == null) { return this.updateTimestamp() }
   },
 
-  savePictures(pictures){
-    const currentPictures = this.get('pictures') || [];
+  savePictures (pictures) {
+    const currentPictures = this.get('pictures') || []
     // no need to save more than what we need/can display
-    if (currentPictures > 5) { return; }
-    pictures = _.compact(pictures);
-    const updatedPictures = _.uniq(currentPictures.concat(pictures)).slice(0, 6);
-    return this.set('pictures', updatedPictures);
+    if (currentPictures > 5) { return }
+    pictures = _.compact(pictures)
+    const updatedPictures = _.uniq(currentPictures.concat(pictures)).slice(0, 6)
+    return this.set('pictures', updatedPictures)
   },
 
-  serializeData() {
-    const data = this.toJSON();
-    const { query, uri } = data;
-    data.pathname = uri ? `/entity/${uri}` : `/search?q=${query}`;
-    data.pictures = _.forceArray(data.pictures);
-    if (!data.label) { data.label = query; }
-    return data;
+  serializeData () {
+    const data = this.toJSON()
+    const { query, uri } = data
+    data.pathname = uri ? `/entity/${uri}` : `/search?q=${query}`
+    data.pictures = _.forceArray(data.pictures)
+    if (!data.label) { data.label = query }
+    return data
   },
 
-  updateTimestamp() { return this.set('timestamp', Date.now()); },
+  updateTimestamp () { return this.set('timestamp', Date.now()) },
 
-  show() {
-    const [ uri, query ] = Array.from(this.gets('uri', 'query'));
-    if (uri != null) { return app.execute('show:entity', uri);
-    } else { return app.execute('search:global', query); }
+  show () {
+    const [ uri, query ] = Array.from(this.gets('uri', 'query'))
+    if (uri != null) {
+      return app.execute('show:entity', uri)
+    } else { return app.execute('search:global', query) }
   }
-});
+})

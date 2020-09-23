@@ -1,4 +1,9 @@
-let tabs;
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+let tabs
 
 export default tabs = {
   search: {
@@ -11,7 +16,7 @@ export default tabs = {
   import: {
     icon: 'database'
   }
-};
+}
 
 const buildTabData = (tabName, tabData) => _.extend(tabData, {
   id: `${tabName}Tab`,
@@ -19,9 +24,9 @@ const buildTabData = (tabName, tabData) => _.extend(tabData, {
   label: tabName,
   title: `title_add_layout_${tabName}`
 }
-);
+)
 
-for (let k in tabs) {
-  const v = tabs[k];
-  tabs[k] = buildTabData(k, v);
+for (const k in tabs) {
+  const v = tabs[k]
+  tabs[k] = buildTabData(k, v)
 }

@@ -1,8 +1,15 @@
-const behavior = name => require(`modules/general/views/behaviors/templates/${name}`);
-const check = behavior('success_check');
-const input = behavior('input');
-const textarea = behavior('textarea');
-const { SafeString } = Handlebars;
+/* eslint-disable
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+const behavior = name => require(`modules/general/views/behaviors/templates/${name}`)
+const check = behavior('success_check')
+const input = behavior('input')
+const textarea = behavior('textarea')
+const { SafeString } = Handlebars
 
 // data =
 //   nameBase: {String}
@@ -25,68 +32,68 @@ const { SafeString } = Handlebars;
 // (*) guess from nameBase
 
 export default {
-  input(data, options){
+  input (data, options) {
     if (data == null) {
-      _.log(arguments, 'input arguments @err');
-      throw new Error('no data');
+      _.log(arguments, 'input arguments @err')
+      throw new Error('no data')
     }
 
     // default data, overridden by arguments
     const field = {
       type: 'text',
       dotdotdot: '...'
-    };
+    }
     const button =
-      {classes: 'success postfix'};
+      { classes: 'success postfix' }
 
-    const name = data.nameBase;
+    const name = data.nameBase
     if (name != null) {
-      field.id = name + 'Field';
-      field.name = name;
-      button.id = name + 'Button';
-      button.text = name;
+      field.id = name + 'Field'
+      field.name = name
+      button.id = name + 'Button'
+      button.text = name
     }
 
     if (data.button?.icon != null) {
-      const icon = _.icon(data.button.icon);
+      const icon = _.icon(data.button.icon)
       if (data.button.text != null) {
-        data.button.text = `${icon}<span>${data.button.text }</span>`;
+        data.button.text = `${icon}<span>${data.button.text}</span>`
       } else {
-        data.button.text = icon;
+        data.button.text = icon
       }
     }
 
-    const rawData = data;
+    const rawData = data
     data = {
       id: `${name}Group`,
       field: _.extend(field, data.field),
       button: _.extend(button, data.button)
-    };
+    }
 
     // default value defined after all the rest
     // to avoid requesting unnecessary strings to i18n
     // (which would result in a report for a missing i18n key)
-    if (data.field.placeholder == null) { data.field.placeholder = _.i18n(name); }
+    if (data.field.placeholder == null) { data.field.placeholder = _.i18n(name) }
 
     if (rawData.special) {
-      data.special = 'autocomplete="off" autocorrect="off" autocapitalize="off"';
+      data.special = 'autocomplete="off" autocorrect="off" autocapitalize="off"'
     }
 
-    return applyOptions(input(data), options);
+    return applyOptions(input(data), options)
   },
 
-  disableAuto() { return 'autocorrect="off" autocapitalize="off"'; },
+  disableAuto () { return 'autocorrect="off" autocapitalize="off"' },
 
-  textarea(data, options){
+  textarea (data, options) {
     if (data == null) {
-      _.log(arguments, 'textarea arguments err');
-      throw new Error('no data');
+      _.log(arguments, 'textarea arguments err')
+      throw new Error('no data')
     }
-    return applyOptions(textarea(data), options);
+    return applyOptions(textarea(data), options)
   }
-};
+}
 
-var applyOptions = function(html, options){
-  html = options === 'check' ? check(html) : html;
-  return new SafeString(html);
-};
+var applyOptions = function (html, options) {
+  html = options === 'check' ? check(html) : html
+  return new SafeString(html)
+}

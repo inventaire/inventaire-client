@@ -1,23 +1,31 @@
-import TypedEntityLayout from './typed_entity_layout';
-import { startLoading } from 'modules/general/plugins/behaviors';
-import EntitiesList from './entities_list';
-import screen_ from 'lib/screen';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import TypedEntityLayout from './typed_entity_layout'
+import { startLoading } from 'modules/general/plugins/behaviors'
+import EntitiesList from './entities_list'
+import screen_ from 'lib/screen'
 
 export default TypedEntityLayout.extend({
   template: require('./templates/author_layout'),
   Infobox: require('./author_infobox'),
-  className() {
+  className () {
     // Default to wrapped mode in non standalone mode
-    let secondClass = '';
-    if (this.options.standalone) { secondClass = 'standalone';
-    } else if (!this.options.noAuthorWrap) { secondClass = 'wrapped'; }
-    const prefix = this.model.get('prefix');
-    return `authorLayout ${secondClass} entity-prefix-${prefix}`;
+    let secondClass = ''
+    if (this.options.standalone) {
+      secondClass = 'standalone'
+    } else if (!this.options.noAuthorWrap) { secondClass = 'wrapped' }
+    const prefix = this.model.get('prefix')
+    return `authorLayout ${secondClass} entity-prefix-${prefix}`
   },
 
-  attributes() {
+  attributes () {
     // Used by deduplicate_layout
-    return {'data-uri': this.model.get('uri')};
+    return { 'data-uri': this.model.get('uri') }
   },
 
   behaviors: {
@@ -32,64 +40,64 @@ export default TypedEntityLayout.extend({
     mergeSuggestionsRegion: '.mergeSuggestions'
   },
 
-  initialize() {
-    TypedEntityLayout.prototype.initialize.call(this);
+  initialize () {
+    TypedEntityLayout.prototype.initialize.call(this)
     // Trigger fetchWorks only once the author is in view
-    return this.$el.once('inview', this.fetchWorks.bind(this));
+    return this.$el.once('inview', this.fetchWorks.bind(this))
   },
 
   events: {
     'click .unwrap': 'unwrap'
   },
 
-  fetchWorks() {
-    this.worksShouldBeShown = true;
+  fetchWorks () {
+    this.worksShouldBeShown = true
     // make sure refresh is a Boolean and not an object incidently passed
-    const refresh = this.options.refresh === true;
+    const refresh = this.options.refresh === true
 
     return this.model.initAuthorWorks(refresh)
     .then(this.ifViewIsIntact('showWorks'))
-    .catch(_.Error('author_layout fetchWorks err'));
+    .catch(_.Error('author_layout fetchWorks err'))
   },
 
-  onRender() {
-    TypedEntityLayout.prototype.onRender.call(this);
-    if (this.worksShouldBeShown) { return this.showWorks(); }
+  onRender () {
+    TypedEntityLayout.prototype.onRender.call(this)
+    if (this.worksShouldBeShown) { return this.showWorks() }
   },
 
-  showWorks() {
-    startLoading.call(this, '.works');
+  showWorks () {
+    startLoading.call(this, '.works')
 
     return this.model.waitForWorks
-    .then(this._showWorks.bind(this));
+    .then(this._showWorks.bind(this))
   },
 
-  _showWorks() {
-    const { works, series, articles } = this.model.works;
-    const total = works.totalLength + series.totalLength + articles.totalLength;
+  _showWorks () {
+    const { works, series, articles } = this.model.works
+    const total = works.totalLength + series.totalLength + articles.totalLength
 
     // Always starting wrapped on small screens
-    if (!screen_.isSmall(600) && (total > 0)) { this.unwrap(); }
+    if (!screen_.isSmall(600) && (total > 0)) { this.unwrap() }
 
-    const initialWorksListLength = this.standalone ? 10 : 5;
+    const initialWorksListLength = this.standalone ? 10 : 5
 
-    this.showWorkCollection('works', initialWorksListLength);
+    this.showWorkCollection('works', initialWorksListLength)
 
-    const seriesCount = this.model.works.series.totalLength;
+    const seriesCount = this.model.works.series.totalLength
     if ((seriesCount > 0) || this.standalone) {
-      this.showWorkCollection('series', initialWorksListLength);
+      this.showWorkCollection('series', initialWorksListLength)
       // If the author has no series, move the series block down
-      if (seriesCount === 0) { this.seriesRegion.$el.css('order', 2); }
+      if (seriesCount === 0) { this.seriesRegion.$el.css('order', 2) }
     }
 
     if (this.model.works.articles.totalLength > 0) {
-      return this.showWorkCollection('articles');
+      return this.showWorkCollection('articles')
     }
   },
 
-  unwrap() { return this.$el.removeClass('wrapped'); },
+  unwrap () { return this.$el.removeClass('wrapped') },
 
-  showWorkCollection(type, initialLength){
+  showWorkCollection (type, initialLength) {
     return this[`${type}Region`].show(new EntitiesList({
       parentModel: this.model,
       collection: this.model.works[type],
@@ -98,12 +106,14 @@ export default TypedEntityLayout.extend({
       initialLength,
       showActions: this.options.showActions,
       wrapWorks: this.options.wrapWorks,
-      addButtonLabel: addButtonLabelPerType[type]}));
-  }});
+      addButtonLabel: addButtonLabelPerType[type]
+    }))
+  }
+})
 
 var addButtonLabelPerType = {
   works: 'add a work from this author',
   series: 'add a serie from this author'
-};
+}
 
-var dropThePlural = type => type.replace(/s$/, '');
+var dropThePlural = type => type.replace(/s$/, '')

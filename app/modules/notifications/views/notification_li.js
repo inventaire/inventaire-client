@@ -1,20 +1,26 @@
-import { templates } from '../lib/notifications_types';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import { templates } from '../lib/notifications_types'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
-  className() {
-    const status = this.model.get('status');
+  className () {
+    const status = this.model.get('status')
     // Has className is only run before first render, the status won't be updated
     // which is fine, given that otherwise the status would directly be updated
     // to 'read', without letting the chance to see what was previously 'unread'
-    return `notification ${status}`;
+    return `notification ${status}`
   },
 
-  getTemplate() {
-    const notifType = this.model.get('type');
-    const template = templates[notifType];
-    if (template == null) { return _.error('notification type unknown'); }
-    return template;
+  getTemplate () {
+    const notifType = this.model.get('type')
+    const template = templates[notifType]
+    if (template == null) { return _.error('notification type unknown') }
+    return template
   },
 
   behaviors: {
@@ -22,11 +28,11 @@ export default Marionette.ItemView.extend({
   },
 
   modelEvents: {
-    'change': 'lazyRender',
-    'grab': 'lazyRender'
+    change: 'lazyRender',
+    grab: 'lazyRender'
   },
 
-  serializeData() { return this.model.serializeData(); },
+  serializeData () { return this.model.serializeData() },
 
   events: {
     'click .friendAcceptedRequest': 'showUserProfile',
@@ -34,15 +40,15 @@ export default Marionette.ItemView.extend({
     'click .groupNotification': 'showGroupSettings'
   },
 
-  showUserProfile(e){
+  showUserProfile (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:user', this.model.user);
+      return app.execute('show:user', this.model.user)
     }
   },
 
-  showGroupSettings(e){
+  showGroupSettings (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:group:board', this.model.group);
+      return app.execute('show:group:board', this.model.group)
     }
   }
-});
+})

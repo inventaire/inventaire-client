@@ -1,5 +1,11 @@
-import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists';
-import clampedExtract from '../lib/clamped_extract';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
+import clampedExtract from '../lib/clamped_extract'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/serie_infobox'),
@@ -15,9 +21,9 @@ export default Marionette.LayoutView.extend({
     colorists: '.colorists'
   },
 
-  initialize() {
-    this.waitForAuthors = this.model.getExtendedAuthorsModels();
-    return this.model.getWikipediaExtract();
+  initialize () {
+    this.waitForAuthors = this.model.getExtendedAuthorsModels()
+    return this.model.getWikipediaExtract()
   },
 
   modelEvents: {
@@ -25,16 +31,16 @@ export default Marionette.LayoutView.extend({
     'change:description': 'render'
   },
 
-  serializeData() {
-    const attrs = this.model.toJSON();
-    clampedExtract.setAttributes(attrs);
-    attrs.standalone = this.options.standalone;
-    attrs.showCleanupButton = app.user.hasDataadminAccess;
-    return attrs;
+  serializeData () {
+    const attrs = this.model.toJSON()
+    clampedExtract.setAttributes(attrs)
+    attrs.standalone = this.options.standalone
+    attrs.showCleanupButton = app.user.hasDataadminAccess
+    return attrs
   },
 
-  onRender() {
+  onRender () {
     return this.waitForAuthors
-    .then(this.ifViewIsIntact(showAllAuthorsPreviewLists));
+    .then(this.ifViewIsIntact(showAllAuthorsPreviewLists))
   }
-});
+})

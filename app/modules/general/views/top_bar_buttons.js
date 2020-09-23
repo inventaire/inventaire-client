@@ -1,28 +1,34 @@
-import screen_ from 'lib/screen';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import screen_ from 'lib/screen'
 
 export default Marionette.ItemView.extend({
   template: require('./templates/top_bar_buttons'),
 
   className: 'innerTopBarButtons',
 
-  initialize() {
-
+  initialize () {
     this.listenTo(app.vent, {
       'screen:mode:change': this.lazyRender.bind(this),
       'transactions:unread:change': this.lazyRender.bind(this),
       'network:requests:update': this.lazyRender.bind(this)
     }
-    );
+    )
 
     // Re-render once relations and groups are populated to display network counters
     return Promise.all([
       app.request('wait:for', 'relations'),
       app.request('wait:for', 'groups')
     ])
-    .then(this.lazyRender.bind(this));
+    .then(this.lazyRender.bind(this))
   },
 
-  serializeData() {
+  serializeData () {
     return {
       smallScreen: screen_.isSmall(),
       exchangesUpdates: app.request('transactions:unread:count'),
@@ -30,7 +36,7 @@ export default Marionette.ItemView.extend({
       username: app.user.get('username'),
       userPicture: app.user.get('picture'),
       userPathname: app.user.get('pathname')
-    };
+    }
   },
 
   events: {
@@ -41,12 +47,12 @@ export default Marionette.ItemView.extend({
     'click .showSettings': _.clickCommand('show:settings'),
     'click .showInfo': _.clickCommand('show:welcome'),
     'click .showFeedbackMenu': _.clickCommand('show:feedback:menu'),
-    'click .logout'() { return app.execute('logout'); }
+    'click .logout' () { return app.execute('logout') }
   },
 
-  getNotificationsCount() {
-    const unreadNotifications = app.request('notifications:unread:count');
-    const networkRequestsCount = app.request('get:network:invitations:count');
-    return unreadNotifications + networkRequestsCount;
+  getNotificationsCount () {
+    const unreadNotifications = app.request('notifications:unread:count')
+    const networkRequestsCount = app.request('get:network:invitations:count')
+    return unreadNotifications + networkRequestsCount
   }
-});
+})

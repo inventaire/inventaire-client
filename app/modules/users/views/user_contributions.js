@@ -1,21 +1,27 @@
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // A layout to display a list of the user data contributions
 
-import Patches from 'modules/entities/collections/patches';
+import Patches from 'modules/entities/collections/patches'
 
 export default Marionette.CompositeView.extend({
   className: 'userContributions',
   template: require('./templates/user_contributions'),
   childViewContainer: '.contributions',
   childView: require('./user_contribution'),
-  initialize() {
-    ({ user: this.user } = this.options);
-    this.userId = this.user.get('_id');
+  initialize () {
+    ({ user: this.user } = this.options)
+    this.userId = this.user.get('_id')
 
-    this.collection = new Patches;
-    this.limit = 50;
-    this.offset = 0;
+    this.collection = new Patches()
+    this.limit = 50
+    this.offset = 0
 
-    return this.fetchMore();
+    return this.fetchMore()
   },
 
   ui: {
@@ -24,33 +30,34 @@ export default Marionette.CompositeView.extend({
     remaining: '.remaining'
   },
 
-  serializeData() {
-    return {user: this.user.serializeData()};
+  serializeData () {
+    return { user: this.user.serializeData() }
   },
 
-  fetchMore() {
+  fetchMore () {
     return _.preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
-    .then(this.parseResponse.bind(this));
+    .then(this.parseResponse.bind(this))
   },
 
-  parseResponse(res){
+  parseResponse (res) {
     let patches, total;
-    ({ patches, continue:this.offset, total } = res);
+    ({ patches, continue: this.offset, total } = res)
 
     if (total !== this.total) {
-      this.total = total;
+      this.total = total
       // Update manually instead of re-rendering as it would require to re-render
       // all the sub viewstotal
-      this.ui.totalContributions.text(total);
+      this.ui.totalContributions.text(total)
     }
 
-    if (this.offset != null) { this.ui.remaining.text(total - this.offset);
-    } else { this.ui.fetchMore.hide(); }
+    if (this.offset != null) {
+      this.ui.remaining.text(total - this.offset)
+    } else { this.ui.fetchMore.hide() }
 
-    return this.collection.add(patches);
+    return this.collection.add(patches)
   },
 
   events: {
     'click .fetchMore': 'fetchMore'
   }
-});
+})

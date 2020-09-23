@@ -1,59 +1,66 @@
-window.location.root = window.location.protocol + '//' + window.location.host;
+/* eslint-disable
+    implicit-arrow-linebreak,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+window.location.root = window.location.protocol + '//' + window.location.host
 
-export default function() {
-  const app = require('app');
-  window.app = app;
+export default function () {
+  const app = require('app')
+  window.app = app
 
-  const _ = require('lib/builders/utils')();
+  const _ = require('lib/builders/utils')()
 
   // gets all the routes used in the app
-  app.API = require('api/api')(_);
+  app.API = require('api/api')(_)
 
-  const configPromise = require('./get_config')();
+  const configPromise = require('./get_config')()
 
-  require('lib/handlebars_helpers/init')();
-  require('lib/global_libs_extender')(_);
-  require('lib/global_helpers')(app, _);
-  require('lib/data/waiters')();
+  require('lib/handlebars_helpers/init')()
+  require('lib/global_libs_extender')(_)
+  require('lib/global_helpers')(app, _)
+  require('lib/data/waiters')()
 
   // initialize all the modules and their routes before app.start()
   // the first routes initialized have the lowest priority
 
   // /!\ routes defined before Redirect will be overriden by the glob
-  app.module('Redirect', require('modules/redirect'));
+  app.module('Redirect', require('modules/redirect'))
   // other modules might need to access app.user so it should be initialized early on
-  app.module('User', require('modules/user/user'));
+  app.module('User', require('modules/user/user'))
   // Users and Entities need to be initialize for the Welcome item panel to work
-  app.module('Users', require('modules/users/users'));
-  app.module('Entities', require('modules/entities/entities'));
-  app.module('Search', require('modules/search/search'));
-  app.module('Add', require('modules/inventory/add'));
-  app.module('Inventory', require('modules/inventory/inventory'));
-  app.module('Transactions', require('modules/transactions/transactions'));
-  app.module('Network', require('modules/network/network'));
-  app.module('Notifications', require('modules/notifications/notifications'));
-  app.module('Settings', require('modules/settings/settings'));
-  app.module('Tasks', require('modules/tasks/tasks'));
-  app.module('Shelves', require('modules/shelves/shelves'));
-  require('modules/map/map')();
+  app.module('Users', require('modules/users/users'))
+  app.module('Entities', require('modules/entities/entities'))
+  app.module('Search', require('modules/search/search'))
+  app.module('Add', require('modules/inventory/add'))
+  app.module('Inventory', require('modules/inventory/inventory'))
+  app.module('Transactions', require('modules/transactions/transactions'))
+  app.module('Network', require('modules/network/network'))
+  app.module('Notifications', require('modules/notifications/notifications'))
+  app.module('Settings', require('modules/settings/settings'))
+  app.module('Tasks', require('modules/tasks/tasks'))
+  app.module('Shelves', require('modules/shelves/shelves'))
+  require('modules/map/map')()
 
-  const AppLayout = require('modules/general/views/app_layout');
+  const AppLayout = require('modules/general/views/app_layout')
 
   Promise.all([
     app.request('wait:for', 'i18n'),
     configPromise
   ])
   .then(() => // Initialize the application on DOM ready event.
-  $(function() {
+    $(() => {
     // initialize layout after user to get i18n data
-    app.layout = new AppLayout;
+      app.layout = new AppLayout()
 
-    app.start();
+      app.start()
 
-    app.execute('waiter:resolve', 'layout');
+      app.execute('waiter:resolve', 'layout')
 
-    return require('lib/reload_once_a_day')();
-  }));
+      return require('lib/reload_once_a_day')()
+    }))
 
-  return configPromise.then(() => require('lib/piwik')());
+  return configPromise.then(() => require('lib/piwik')())
 };

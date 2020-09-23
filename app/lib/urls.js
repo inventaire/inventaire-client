@@ -1,7 +1,9 @@
-const faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE';
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
+const faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
 
-const subdomain = sub => `http://${sub}.inventaire.io`;
-const image = filename => `/img/assets/${filename}`;
+const subdomain = sub => `http://${sub}.inventaire.io`
+const image = filename => `/img/assets/${filename}`
 
 export default {
   host: 'https://inventaire.io',
@@ -38,4 +40,4 @@ export default {
     liberapay: subdomain('liberapay'),
     paypal: subdomain('paypal')
   }
-};
+}

@@ -1,22 +1,29 @@
+/* eslint-disable
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // data: labels or descriptions
-export default function(lang, originalLang, data){
-  if (!data) { return {}; }
+export default function (lang, originalLang, data) {
+  if (!data) { return {} }
 
-  const order = getLangPriorityOrder(lang, originalLang, data);
+  const order = getLangPriorityOrder(lang, originalLang, data)
 
   while (order.length > 0) {
-    const nextLang = order.shift();
-    const value = data[nextLang];
-    if (value != null) { return { value, lang: nextLang }; }
+    const nextLang = order.shift()
+    const value = data[nextLang]
+    if (value != null) { return { value, lang: nextLang } }
   }
 
-  return {};
+  return {}
 };
 
-var getLangPriorityOrder = function(lang, originalLang, data){
-  const order = [ lang ];
-  if (originalLang != null) { order.push(originalLang); }
-  order.push('en');
-  const availableLangs = Object.keys(data);
-  return _.uniq(order.concat(availableLangs));
-};
+var getLangPriorityOrder = function (lang, originalLang, data) {
+  const order = [ lang ]
+  if (originalLang != null) { order.push(originalLang) }
+  order.push('en')
+  const availableLangs = Object.keys(data)
+  return _.uniq(order.concat(availableLangs))
+}

@@ -1,18 +1,28 @@
-import { translate } from 'lib/urls';
-import showViews from '../lib/show_views';
-import getActionKey from 'lib/get_action_key';
-import LiveSearch from 'modules/search/views/live_search';
-import TopBarButtons from './top_bar_buttons';
-import screen_ from 'lib/screen';
-import { currentRoute, currentSection } from 'lib/location';
-import { languages } from 'lib/active_languages';
-const mostCompleteFirst = (a, b) => b.completion - a.completion;
-const languagesList = _.values(languages).sort(mostCompleteFirst);
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-unused-vars,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import { translate } from 'lib/urls'
+import showViews from '../lib/show_views'
+import getActionKey from 'lib/get_action_key'
+import LiveSearch from 'modules/search/views/live_search'
+import TopBarButtons from './top_bar_buttons'
+import screen_ from 'lib/screen'
+import { currentRoute, currentSection } from 'lib/location'
+import { languages } from 'lib/active_languages'
+const mostCompleteFirst = (a, b) => b.completion - a.completion
+const languagesList = _.values(languages).sort(mostCompleteFirst)
 
 export default Marionette.LayoutView.extend({
   id: 'top-bar',
   tagName: 'nav',
-  className() { if (app.user.loggedIn) { return 'logged-in'; } else { return ''; } },
+  className () { if (app.user.loggedIn) { return 'logged-in' } else { return '' } },
   template: require('./templates/top_bar'),
 
   regions: {
@@ -26,44 +36,43 @@ export default Marionette.LayoutView.extend({
     closeSearch: '.closeSearch'
   },
 
-  initialize() {
-
+  initialize () {
     this.listenTo(app.vent, {
       'screen:mode:change': this.lazyRender.bind(this),
       'route:change': this.onRouteChange.bind(this),
       'live:search:show:result': this.hideLiveSearch.bind(this),
       'live:search:query': this.setQuery.bind(this)
     }
-    );
+    )
 
-    return this.listenTo(app.user, 'change:picture', this.lazyRender.bind(this));
+    return this.listenTo(app.user, 'change:picture', this.lazyRender.bind(this))
   },
 
-  serializeData() {
+  serializeData () {
     return {
       smallScreen: screen_.isSmall(),
       isLoggedIn: app.user.loggedIn,
       currentLanguage: languages[app.user.lang].native,
       languages: languagesList,
       translate
-    };
+    }
   },
 
-  onRender() {
-    if (app.user.loggedIn) { this.showTopBarButtons(); }
+  onRender () {
+    if (app.user.loggedIn) { this.showTopBarButtons() }
     // Needed as 'route:change' might have been triggered before
     // this view was initialized
-    return this.onRouteChange(currentSection(), currentRoute());
+    return this.onRouteChange(currentSection(), currentRoute())
   },
 
-  showTopBarButtons() {
+  showTopBarButtons () {
     // Use a child view for those buttons to be able to re-render them independenly
     // without disrupting the LiveSearch state
-    return this.topBarButtons.show(new TopBarButtons);
+    return this.topBarButtons.show(new TopBarButtons())
   },
 
-  onRouteChange(section, route){
-    return this.updateConnectionButtons(section);
+  onRouteChange (section, route) {
+    return this.updateConnectionButtons(section)
   },
 
   events: {
@@ -73,7 +82,7 @@ export default Marionette.LayoutView.extend({
     'keyup #searchField': 'onKeyUp',
     'keydown #searchField': 'onKeyDown',
     'click .searchFilter': 'recoverSearchFocus',
-    'click': 'updateLiveSearch',
+    click: 'updateLiveSearch',
     'click .closeSearch': 'closeSearch',
     'click #live-search': 'closeSearchOnOverlayClick',
 
@@ -84,116 +93,118 @@ export default Marionette.LayoutView.extend({
     'hide:live:search': 'hideLiveSearch'
   },
 
-  updateConnectionButtons(section){
-    if (app.user.loggedIn) { return; }
+  updateConnectionButtons (section) {
+    if (app.user.loggedIn) { return }
 
     if (screen_.isSmall() && ((section === 'signup') || (section === 'login'))) {
-      return $('.connectionButton').hide();
+      return $('.connectionButton').hide()
     } else if (!app.user.loggedIn) {
-      return $('.connectionButton').show();
+      return $('.connectionButton').show()
     }
   },
 
-  selectLang(e){
+  selectLang (e) {
     // Remove the querystring lang parameter to be sure that the picked language
     // is the next language taken in account
-    app.execute('querystring:set', 'lang', null);
+    app.execute('querystring:set', 'lang', null)
 
-    const lang = e.currentTarget.attributes['data-lang'].value;
+    const lang = e.currentTarget.attributes['data-lang'].value
     if (app.user.loggedIn) {
       return app.request('user:update', {
-        attribute:'language',
+        attribute: 'language',
         value: lang,
         selector: '#languagePicker'
       }
-      );
+      )
     } else {
-      return app.user.set('language', lang);
+      return app.user.set('language', lang)
     }
   },
 
-  showLiveSearch(params = {}){
+  showLiveSearch (params = {}) {
     // If a section is specified, reinitialize the search view
     // to take that section request into account
-    if ((this.liveSearch.currentView != null) && (params.section == null)) { this.liveSearch.$el.show();
-    } else { this.liveSearch.show(new LiveSearch(params)); }
-    this.liveSearch.$el.addClass('shown');
-    this.liveSearch.currentView.resetHighlightIndex();
-    this.ui.overlay.removeClass('hidden');
-    this.ui.closeSearch.removeClass('hidden');
-    return this._liveSearchIsShown = true;
+    if ((this.liveSearch.currentView != null) && (params.section == null)) {
+      this.liveSearch.$el.show()
+    } else { this.liveSearch.show(new LiveSearch(params)) }
+    this.liveSearch.$el.addClass('shown')
+    this.liveSearch.currentView.resetHighlightIndex()
+    this.ui.overlay.removeClass('hidden')
+    this.ui.closeSearch.removeClass('hidden')
+    return this._liveSearchIsShown = true
   },
 
-  hideLiveSearch(triggerFallbackLayout){
+  hideLiveSearch (triggerFallbackLayout) {
     // Discard non-boolean flags
-    triggerFallbackLayout = (triggerFallbackLayout === true) && (currentRoute() === 'search');
+    triggerFallbackLayout = (triggerFallbackLayout === true) && (currentRoute() === 'search')
 
-    if (this.liveSearch.$el == null) { return; }
+    if (this.liveSearch.$el == null) { return }
 
-    this.liveSearch.$el.hide();
-    this.liveSearch.$el.removeClass('shown');
-    this.ui.overlay.addClass('hidden');
-    this.ui.closeSearch.addClass('hidden');
-    this._liveSearchIsShown = false;
+    this.liveSearch.$el.hide()
+    this.liveSearch.$el.removeClass('shown')
+    this.ui.overlay.addClass('hidden')
+    this.ui.closeSearch.addClass('hidden')
+    this._liveSearchIsShown = false
     // Trigger the fallback layout only in cases when no other layout
     // is set to be displayed
     if (triggerFallbackLayout && (this.showFallbackLayout != null)) {
-      this.showFallbackLayout();
-      return this.showFallbackLayout = null;
+      this.showFallbackLayout()
+      return this.showFallbackLayout = null
     }
   },
 
-  updateLiveSearch(e){
+  updateLiveSearch (e) {
     // Make clicks on anything but the search group hide the live search
-    const { target } = e;
+    const { target } = e
     if ((target.id === 'overlay') || ($(target).parents('#searchGroup').length === 0)) {
-      return this.hideLiveSearch(true);
+      return this.hideLiveSearch(true)
     }
   },
 
-  onKeyDown(e){
+  onKeyDown (e) {
     // Prevent the cursor to move when using special keys
     // to navigate the live_search list
-    const key = getActionKey(e);
-    if (neutralizedKeys.includes(key)) { return e.preventDefault(); }
+    const key = getActionKey(e)
+    if (neutralizedKeys.includes(key)) { return e.preventDefault() }
   },
 
-  onKeyUp(e){
-    if (!this._liveSearchIsShown) { this.showLiveSearch(); }
+  onKeyUp (e) {
+    if (!this._liveSearchIsShown) { this.showLiveSearch() }
 
-    const key = getActionKey(e);
+    const key = getActionKey(e)
     if (key != null) {
-      if (key === 'esc') { return this.hideLiveSearch(true);
-      } else { return this.liveSearch.currentView.onSpecialKey(key); }
+      if (key === 'esc') {
+        return this.hideLiveSearch(true)
+      } else { return this.liveSearch.currentView.onSpecialKey(key) }
     } else {
-      const { value } = e.currentTarget;
-      return this.searchLive(value);
+      const { value } = e.currentTarget
+      return this.searchLive(value)
     }
   },
 
-  searchLive(text){
-    this.liveSearch.currentView.lazySearch(text);
-    return app.vent.trigger('search:global:change', text);
+  searchLive (text) {
+    this.liveSearch.currentView.lazySearch(text)
+    return app.vent.trigger('search:global:change', text)
   },
 
-  setQuery(params){
+  setQuery (params) {
     let search, section;
-    ({ search, showFallbackLayout: this.showFallbackLayout, section } = params);
-    this.showLiveSearch({ section });
-    this.searchLive(search);
-    this.ui.searchField.focus();
+    ({ search, showFallbackLayout: this.showFallbackLayout, section } = params)
+    this.showLiveSearch({ section })
+    this.searchLive(search)
+    this.ui.searchField.focus()
     // Set value after focusing so that the cursor appears at the end
     // cf https://stackoverflow.com/a/8631903/3324977inv
-    return this.ui.searchField.val(search);
+    return this.ui.searchField.val(search)
   },
 
   // When clicking on a live_search searchField button, the search loose the focus
   // thus the need to recover it
-  recoverSearchFocus() { return this.ui.searchField.focus(); },
+  recoverSearchFocus () { return this.ui.searchField.focus() },
 
-  closeSearch() {
-    this.ui.searchField.val('');
-    return this.hideLiveSearch();
+  closeSearch () {
+    this.ui.searchField.val('')
+    return this.hideLiveSearch()
   },
 
   // If the click event is directly on the live search element
@@ -201,9 +212,9 @@ export default Marionette.LayoutView.extend({
   // and should be interpreted as a close request
   // This can be the case on small screens as #live-search takes all the height
   // and thus clicks on #overlay won't be detected
-  closeSearchOnOverlayClick(e){
-    if (e.target.id === 'live-search') { return this.closeSearch(); }
+  closeSearchOnOverlayClick (e) {
+    if (e.target.id === 'live-search') { return this.closeSearch() }
   }
-});
+})
 
-var neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ];
+var neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]

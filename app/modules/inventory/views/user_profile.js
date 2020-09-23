@@ -1,7 +1,15 @@
-import forms_ from 'modules/general/lib/forms';
-import relationsActions from 'modules/users/plugins/relations_actions';
-import { buildPath } from 'lib/location';
-import NewShelfEditor from 'modules/shelves/views/new_shelf_editor';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-unused-vars,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import forms_ from 'modules/general/lib/forms'
+import relationsActions from 'modules/users/plugins/relations_actions'
+import { buildPath } from 'lib/location'
+import NewShelfEditor from 'modules/shelves/views/new_shelf_editor'
 
 // TODO: add a 'close' button to allow to unfocus a user in group context
 export default Marionette.ItemView.extend({
@@ -18,42 +26,42 @@ export default Marionette.ItemView.extend({
     PreventDefault: {}
   },
 
-  initialize() {
-    ({ isMainUser: this.isMainUser } = this.model);
-    this.listenTo(this.model, 'change', this.render.bind(this));
-    return this.initPlugin();
+  initialize () {
+    ({ isMainUser: this.isMainUser } = this.model)
+    this.listenTo(this.model, 'change', this.render.bind(this))
+    return this.initPlugin()
   },
 
-  initPlugin() {
-    if (!this.isMainUser) { return relationsActions.call(this); }
+  initPlugin () {
+    if (!this.isMainUser) { return relationsActions.call(this) }
   },
 
-  serializeData() {
+  serializeData () {
     // Show private items in items counts if available
-    const nonPrivate = false;
+    const nonPrivate = false
     return _.extend(this.model.serializeData(nonPrivate), {
       onUserProfile: true,
       loggedIn: app.user.loggedIn,
       positionUrl: this.getPositionUrl(),
       distance: this.model.distanceFromMainUser
     }
-    );
+    )
   },
 
-  getPositionUrl() {
-    if (this.model.distanceFromMainUser == null) { return; }
-    const [ lat, lng ] = Array.from(this.model.get('position'));
-    return buildPath('/network/users/nearby', { lat, lng });
+  getPositionUrl () {
+    if (this.model.distanceFromMainUser == null) { return }
+    const [ lat, lng ] = Array.from(this.model.get('position'))
+    return buildPath('/network/users/nearby', { lat, lng })
   },
 
-  showUserOnMap(e){
-    if (_.isOpenedOutside(e)) { return; }
-    if (this.model.distanceFromMainUser == null) { return; }
-    return app.execute('show:models:on:map', [ this.model, app.user ]);
+  showUserOnMap (e) {
+    if (_.isOpenedOutside(e)) { return }
+    if (this.model.distanceFromMainUser == null) { return }
+    return app.execute('show:models:on:map', [ this.model, app.user ])
   },
 
-  showNewShelfEditor(e){
-    app.layout.modal.show(new NewShelfEditor({}));
-    return e.stopPropagation();
+  showNewShelfEditor (e) {
+    app.layout.modal.show(new NewShelfEditor({}))
+    return e.stopPropagation()
   }
-});
+})

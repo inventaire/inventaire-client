@@ -1,3 +1,10 @@
+/* eslint-disable
+    no-return-assign,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 const behaviors = {
   General: require('./general'),
   AlertBox: require('./alertbox'),
@@ -15,10 +22,10 @@ const behaviors = {
   ClampedExtract: require('./clamped_extract'),
   EntitiesCommons: require('./entities_commons'),
   ImgZoomIn: require('./img_zoom_in')
-};
+}
 
 export default {
-  initialize() {
-    return Marionette.Behaviors.behaviorsLookup = () => behaviors;
+  initialize () {
+    return Marionette.Behaviors.behaviorsLookup = () => behaviors
   }
-};
+}

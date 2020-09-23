@@ -1,4 +1,12 @@
-import { Check } from 'modules/general/plugins/behaviors';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import { Check } from 'modules/general/plugins/behaviors'
 
 export default Marionette.ItemView.extend({
   className: 'validEmailConfirmation',
@@ -10,30 +18,30 @@ export default Marionette.ItemView.extend({
   },
 
   events: {
-    'click .showHome, .showLoginRedirectSettings'() { return app.execute('modal:close'); },
+    'click .showHome, .showLoginRedirectSettings' () { return app.execute('modal:close') },
     'click .showLoginRedirectSettings': 'showLoginRedirectSettings',
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
   },
 
-  onShow() {  return app.execute('modal:open'); },
+  onShow () { return app.execute('modal:open') },
 
-  serializeData() {
+  serializeData () {
     return {
       validEmail: this.options.validEmail,
       loggedIn: app.user.loggedIn
-    };
+    }
   },
 
-  emailConfirmationRequest() {
-    this.$el.trigger('loading');
+  emailConfirmationRequest () {
+    this.$el.trigger('loading')
     return app.request('email:confirmation:request')
     .then(Check.call(this, 'emailConfirmationRequest', app.Execute('modal:close')))
-    .catch(emailFail.bind(this));
+    .catch(emailFail.bind(this))
   },
 
-  showLoginRedirectSettings() {
-    return app.request('show:login:redirect', 'settings/profile');
+  showLoginRedirectSettings () {
+    return app.request('show:login:redirect', 'settings/profile')
   }
-});
+})
 
-var emailFail = function() { return this.$el.trigger('somethingWentWrong'); };
+var emailFail = function () { return this.$el.trigger('somethingWentWrong') }

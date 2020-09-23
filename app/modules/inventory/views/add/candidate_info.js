@@ -1,13 +1,19 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   template: require('./templates/candidate_info'),
   className: 'candidate-info',
 
-  initialize() {
+  initialize () {
     // Terminate the promise
-    return this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this));
+    return this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this))
   },
 
-  onShow() { return app.execute('modal:open'); },
+  onShow () { return app.execute('modal:open') },
 
   ui: {
     title: 'input[name="title"]',
@@ -21,25 +27,25 @@ export default Marionette.ItemView.extend({
     'click .validateInfo': 'validateInfo'
   },
 
-  updateButton(e){
+  updateButton (e) {
     if (e.currentTarget.value === '') {
-      this.ui.validateInfo.addClass('hidden');
-      return this.ui.disabledValidateInfo.removeClass('hidden');
+      this.ui.validateInfo.addClass('hidden')
+      return this.ui.disabledValidateInfo.removeClass('hidden')
     } else {
-      this.ui.disabledValidateInfo.addClass('hidden');
-      return this.ui.validateInfo.removeClass('hidden');
+      this.ui.disabledValidateInfo.addClass('hidden')
+      return this.ui.validateInfo.removeClass('hidden')
     }
   },
 
-  validateInfo() {
-    const title = this.ui.title.val();
-    const authors = this.ui.authors.val();
-    this.options.resolve({ title, authors });
-    this._resolved = true;
-    return app.execute('modal:close');
+  validateInfo () {
+    const title = this.ui.title.val()
+    const authors = this.ui.authors.val()
+    this.options.resolve({ title, authors })
+    this._resolved = true
+    return app.execute('modal:close')
   },
 
-  onClose() {
-    if (!this._resolved) { return this.options.reject(new Error('modal closed')); }
+  onClose () {
+    if (!this._resolved) { return this.options.reject(new Error('modal closed')) }
   }
-});
+})

@@ -1,17 +1,24 @@
-const { SafeString, escapeExpression } = Handlebars;
+/* eslint-disable
+    no-undef,
+    no-useless-escape,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+const { SafeString, escapeExpression } = Handlebars
 
 // regex inspired by https://gist.github.com/efeminella/2034192
-const link = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]+)/gim;
-const protocolText = '<a href="$1" class="content-link" target="_blank" rel="nofollow, noopener">$1</a>';
+const link = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]+)/gim
+const protocolText = '<a href="$1" class="content-link" target="_blank" rel="nofollow, noopener">$1</a>'
 
 export default {
-  userContent(text){
+  userContent (text) {
     if (text != null) {
-      text = escapeExpression(text);
+      text = escapeExpression(text)
       text = text
         .replace(/\n/g, '<br>')
-        .replace(link, protocolText);
-      return new SafeString(text);
-    } else { return; }
+        .replace(link, protocolText)
+      return new SafeString(text)
+    } else { }
   }
-};
+}

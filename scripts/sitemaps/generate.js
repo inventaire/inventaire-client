@@ -1,13 +1,26 @@
 #!/usr/bin/env nodeimport generateSitemaps from './generate_sitemaps';
-import generateIndex from './generate_index';
-import { rmFiles, gzipFiles, generateMainSitemap } from './files_commands';
-import { red } from 'chalk';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import generateIndex from './generate_index'
+import FilesCommands from './files_commands'
 
-rmFiles();
+import { red } from 'chalk'
 
-generateMainSitemap();
+const {
+  rmFiles,
+  gzipFiles,
+  generateMainSitemap
+} = FilesCommands
+
+rmFiles()
+
+generateMainSitemap()
 
 generateSitemaps()
 .then(generateIndex)
 .then(gzipFiles)
-.catch(err => console.log(red('global err'), err.stack));
+.catch(err => console.log(red('global err'), err.stack))

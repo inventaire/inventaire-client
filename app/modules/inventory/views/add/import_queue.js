@@ -1,24 +1,32 @@
-import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation';
-import UpdateSelector from 'modules/inventory/behaviors/update_selector';
-import error_ from 'lib/error';
-import forms_ from 'modules/general/lib/forms';
-import screen_ from 'lib/screen';
-import ItemShelves from '../item_shelves';
-import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
-import Shelves from 'modules/shelves/collections/shelves';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
+import UpdateSelector from 'modules/inventory/behaviors/update_selector'
+import error_ from 'lib/error'
+import forms_ from 'modules/general/lib/forms'
+import screen_ from 'lib/screen'
+import ItemShelves from '../item_shelves'
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
+import Shelves from 'modules/shelves/collections/shelves'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: require('./candidate_row'),
   childEvents: {
-    'selection:changed'() { return this.triggerMethod('selection:changed'); }
+    'selection:changed' () { return this.triggerMethod('selection:changed') }
   }
-});
+})
 
 const ImportedItemsList = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: require('./imported_item_row')
-});
+})
 
 export default Marionette.LayoutView.extend({
   className: 'import-queue',
@@ -61,38 +69,38 @@ export default Marionette.LayoutView.extend({
     'click #validate': 'validate'
   },
 
-  initialize() {
-    ({ candidates: this.candidates } = this.options);
-    this.items = new Backbone.Collection;
-    return this.lazyUpdateSteps = _.debounce(this.updateSteps.bind(this), 50);
+  initialize () {
+    ({ candidates: this.candidates } = this.options)
+    this.items = new Backbone.Collection()
+    return this.lazyUpdateSteps = _.debounce(this.updateSteps.bind(this), 50)
   },
 
-  serializeData() {
+  serializeData () {
     return {
       listings: listingsData(),
       transactions: transactionsData()
-    };
+    }
   },
 
-  onShow() {
-    this.candidatesQueue.show(new CandidatesQueue({ collection: this.candidates }));
-    this.itemsList.show(new ImportedItemsList({ collection: this.items }));
-    this.lazyUpdateSteps();
-    return this.showShelves();
+  onShow () {
+    this.candidatesQueue.show(new CandidatesQueue({ collection: this.candidates }))
+    this.itemsList.show(new ImportedItemsList({ collection: this.items }))
+    this.lazyUpdateSteps()
+    return this.showShelves()
   },
 
-  selectAll() {
-    this.candidates.setAllSelectedTo(true);
-    return this.updateSteps();
+  selectAll () {
+    this.candidates.setAllSelectedTo(true)
+    return this.updateSteps()
   },
 
-  unselectAll() {
-    this.candidates.setAllSelectedTo(false);
-    return this.updateSteps();
+  unselectAll () {
+    this.candidates.setAllSelectedTo(false)
+    return this.updateSteps()
   },
 
-  emptyQueue() {
-    return this.candidates.reset();
+  emptyQueue () {
+    return this.candidates.reset()
   },
 
   childEvents: {
@@ -100,141 +108,140 @@ export default Marionette.LayoutView.extend({
   },
 
   collectionEvents: {
-    'add': 'lazyUpdateSteps'
+    add: 'lazyUpdateSteps'
   },
 
-  updateSteps() {
+  updateSteps () {
     if (this.candidates.selectionIsntEmpty()) {
-      this.ui.disabledValidateButton.addClass('force-hidden');
-      this.ui.validateButton.removeClass('force-hidden');
-      this.ui.lastSteps.removeClass('force-hidden');
+      this.ui.disabledValidateButton.addClass('force-hidden')
+      this.ui.validateButton.removeClass('force-hidden')
+      this.ui.lastSteps.removeClass('force-hidden')
     } else {
       // Use 'force-hidden' as the class 'button' would otherwise overrides
       // the 'display' attribute
-      this.ui.validateButton.addClass('force-hidden');
-      this.ui.disabledValidateButton.removeClass('force-hidden');
-      this.ui.lastSteps.addClass('force-hidden');
+      this.ui.validateButton.addClass('force-hidden')
+      this.ui.disabledValidateButton.removeClass('force-hidden')
+      this.ui.lastSteps.addClass('force-hidden')
     }
 
     if (this.candidates.length === 0) {
-      return this.ui.step2.addClass('force-hidden');
+      return this.ui.step2.addClass('force-hidden')
     } else {
-      return this.ui.step2.removeClass('force-hidden');
+      return this.ui.step2.removeClass('force-hidden')
     }
   },
 
-  showShelves() {
+  showShelves () {
     return getShelvesByOwner(app.user.id)
     .then(this.ifViewIsIntact('_showShelves'))
-    .catch(_.Error('showShelves err'));
+    .catch(_.Error('showShelves err'))
   },
 
-  _showShelves(shelves){
-    const selectedShelves = app.request('last:shelves:get') || [];
+  _showShelves (shelves) {
+    const selectedShelves = app.request('last:shelves:get') || []
     // TODO: offer to create shelves from this form instead
     if (shelves.length > 0) {
-      const collection = new Shelves(shelves, { selected: selectedShelves });
+      const collection = new Shelves(shelves, { selected: selectedShelves })
       this.shelvesSelector.show(new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true
-      }));
-      return this.ui.shelvesWrapper.removeClass('hidden');
+      }))
+      return this.ui.shelvesWrapper.removeClass('hidden')
     }
   },
 
-  getSelectedShelves() {
+  getSelectedShelves () {
     const selectedShelves = this.$el.find('.shelfSelector input')
       .filter((i, el) => el.checked)
-      .map((i, el) => el.name.split('-')[1]);
-    return Array.from(selectedShelves);
+      .map((i, el) => el.name.split('-')[1])
+    return Array.from(selectedShelves)
   },
 
-  validate() {
-    this.toggleValidationElements();
+  validate () {
+    this.toggleValidationElements()
 
-    this.selected = this.candidates.getSelected();
-    this.total = this.selected.length;
+    this.selected = this.candidates.getSelected()
+    this.total = this.selected.length
 
-    const transaction = getSelectorData(this, 'transaction');
-    const listing = getSelectorData(this, 'listing');
-    const shelves = this.getSelectedShelves();
+    const transaction = getSelectorData(this, 'transaction')
+    const listing = getSelectorData(this, 'listing')
+    const shelves = this.getSelectedShelves()
 
-    app.execute('last:shelves:set', shelves);
+    app.execute('last:shelves:set', shelves)
 
-    this.chainedImport(transaction, listing, shelves);
-    return this.planProgressUpdate();
+    this.chainedImport(transaction, listing, shelves)
+    return this.planProgressUpdate()
   },
 
-  chainedImport(transaction, listing, shelves){
-    if (this.selected.length === 0) { return this.doneImporting(); }
+  chainedImport (transaction, listing, shelves) {
+    if (this.selected.length === 0) { return this.doneImporting() }
 
-    const candidate = this.selected.pop();
+    const candidate = this.selected.pop()
     return candidate.createItem({ transaction, listing, shelves })
-    .catch(err=> {
-      candidate.set('errorMessage', err.message);
-      if (!this.failed) { this.failed = []; }
-      this.failed.push(candidate);
-      _.error(err, 'chainedImport err');
-      
-  }).then(item=> {
-      this.candidates.remove(candidate);
+    .catch(err => {
+      candidate.set('errorMessage', err.message)
+      if (!this.failed) { this.failed = [] }
+      this.failed.push(candidate)
+      _.error(err, 'chainedImport err')
+    }).then(item => {
+      this.candidates.remove(candidate)
       if (item != null) {
-        this.items.add(item);
+        this.items.add(item)
         // Show the added books on the first successful import
         if (!this._shownAddedBooks) {
-          this._shownAddedBooks = true;
-          this.setTimeout(this.showAddedBooks.bind(this), 1000);
+          this._shownAddedBooks = true
+          this.setTimeout(this.showAddedBooks.bind(this), 1000)
         }
       }
       // recursively trigger next import
-      return this.chainedImport(transaction, listing);
+      return this.chainedImport(transaction, listing)
     }).catch(error_.Complete('.validation'))
-    .catch(forms_.catchAlert.bind(null, this));
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
-  doneImporting() {
-    _.log('done importing!');
-    this.stopProgressUpdate();
-    this.toggleValidationElements();
-    this.updateSteps();
+  doneImporting () {
+    _.log('done importing!')
+    this.stopProgressUpdate()
+    this.toggleValidationElements()
+    this.updateSteps()
     if (this.failed?.length > 0) {
-      _.log(this.failed, 'failed candidates imports');
-      this.candidates.add(this.failed);
-      this.failed = [];
+      _.log(this.failed, 'failed candidates imports')
+      this.candidates.add(this.failed)
+      this.failed = []
     }
     // triggering events on the parent via childEvents
-    return this.triggerMethod('import:done');
+    return this.triggerMethod('import:done')
   },
 
-  showAddedBooks() {
-    this.ui.addedBooks.fadeIn();
-    return this.setTimeout(screen_.scrollTop.bind(null, this.ui.addedBooks), 600);
+  showAddedBooks () {
+    this.ui.addedBooks.fadeIn()
+    return this.setTimeout(screen_.scrollTop.bind(null, this.ui.addedBooks), 600)
   },
 
-  toggleValidationElements() {
-    return this.ui.validationElements.toggleClass('force-hidden');
+  toggleValidationElements () {
+    return this.ui.validationElements.toggleClass('force-hidden')
   },
 
-  planProgressUpdate() {
+  planProgressUpdate () {
     // Using a recursive timeout instead of an interval
     // to avoid trying to update after a failed attempt
     // Typically occurring when the view as been destroyed
-    return this.timeoutId = setTimeout(this.updateProgress.bind(this), 1000);
+    return this.timeoutId = setTimeout(this.updateProgress.bind(this), 1000)
   },
 
-  stopProgressUpdate() {
-    return clearTimeout(this.timeoutId);
+  stopProgressUpdate () {
+    return clearTimeout(this.timeoutId)
   },
 
-  updateProgress() {
-    const remaining = this.selected.length;
-    const added = this.total - remaining;
-    const percent = (added / this.total) * 100;
-    this.ui.meter.css('width', `${percent}%`);
-    this.ui.fraction.text(`${added} / ${this.total}`);
-    return this.planProgressUpdate();
+  updateProgress () {
+    const remaining = this.selected.length
+    const added = this.total - remaining
+    const percent = (added / this.total) * 100
+    this.ui.meter.css('width', `${percent}%`)
+    this.ui.fraction.text(`${added} / ${this.total}`)
+    return this.planProgressUpdate()
   },
 
-  onDestroy() { return this.stopProgressUpdate(); }
-});
+  onDestroy () { return this.stopProgressUpdate() }
+})

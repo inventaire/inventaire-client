@@ -1,30 +1,36 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Fetching data in a standardized way:
 // - use the passed collection or create one using the Collection class
 //   attaching it to window.app
 // - firing waiter:resolve / waiter:reject waiter based on the result
 
-export default function(options){
-  let fetchPromise;
-  let { name, Collection, Model, condition, fetchOptions } = options;
+export default function (options) {
+  let fetchPromise
+  let { name, Collection, Model, condition, fetchOptions } = options
 
   if (Collection != null) {
-    app[name] = new Collection;
+    app[name] = new Collection()
   } else {
-    app[name] = new Model;
+    app[name] = new Model()
   }
 
-  if (condition == null) { condition = true; }
+  if (condition == null) { condition = true }
 
   if (condition) {
-    fetchPromise = app[name].fetch(fetchOptions);
+    fetchPromise = app[name].fetch(fetchOptions)
   } else {
-    fetchPromise = Promise.resolve();
+    fetchPromise = Promise.resolve()
   }
 
   fetchPromise
   .timeout(10000)
   .then(app.Execute('waiter:resolve', name))
-  .catch(app.Execute('waiter:reject', name));
+  .catch(app.Execute('waiter:reject', name))
 
-  return fetchPromise;
+  return fetchPromise
 };

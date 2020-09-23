@@ -1,10 +1,18 @@
-import email_ from 'modules/user/lib/email_tests';
-import password_ from 'modules/user/lib/password_tests';
-import forms_ from 'modules/general/lib/forms';
-import error_ from 'lib/error';
-import behaviorsPlugin from 'modules/general/plugins/behaviors';
-import { languages as activeLanguages } from 'lib/active_languages';
-import { testAttribute, pickerData } from '../lib/helpers';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import email_ from 'modules/user/lib/email_tests'
+import password_ from 'modules/user/lib/password_tests'
+import forms_ from 'modules/general/lib/forms'
+import error_ from 'lib/error'
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import { languages as activeLanguages } from 'lib/active_languages'
+import { testAttribute, pickerData } from '../lib/helpers'
 
 export default Marionette.ItemView.extend({
   template: require('./templates/account_settings'),
@@ -25,28 +33,28 @@ export default Marionette.ItemView.extend({
     languagePicker: '#languagePicker'
   },
 
-  initialize() {
-    return _.extend(this, behaviorsPlugin);
+  initialize () {
+    return _.extend(this, behaviorsPlugin)
   },
 
-  serializeData() {
-    const attrs = this.model.toJSON();
+  serializeData () {
+    const attrs = this.model.toJSON()
     return _.extend(attrs, {
       emailPicker: this.emailPickerData(),
       languages: _.log(this.languagesData(), 'languagesData')
     }
-    );
+    )
   },
 
-  emailPickerData() { return pickerData(this.model, 'email'); },
+  emailPickerData () { return pickerData(this.model, 'email') },
 
-  languagesData() {
-    const languages = _.deepClone(activeLanguages);
-    const currentLanguage = _.shortLang(this.model.get('language'));
+  languagesData () {
+    const languages = _.deepClone(activeLanguages)
+    const currentLanguage = _.shortLang(this.model.get('language'))
     if (languages[currentLanguage] != null) {
-      languages[currentLanguage].selected = true;
+      languages[currentLanguage].selected = true
     }
-    return languages;
+    return languages
   },
 
   events: {
@@ -54,69 +62,69 @@ export default Marionette.ItemView.extend({
     'click a#emailConfirmationRequest': 'emailConfirmationRequest',
     'change select#languagePicker': 'changeLanguage',
     'click a#updatePassword': 'updatePassword',
-    'click #forgotPassword'() { return app.execute('show:forgot:password'); },
+    'click #forgotPassword' () { return app.execute('show:forgot:password') },
     'click #deleteAccount': 'askDeleteAccountConfirmation'
   },
 
   // EMAIL
 
-  updateEmail() {
-    const email = this.ui.email.val();
+  updateEmail () {
+    const email = this.ui.email.val()
     return Promise.try(this.testEmail.bind(this, email))
     .then(this.startLoading.bind(this, '#emailButton'))
     .then(email_.verifyAvailability.bind(null, email, '#emailField'))
     .then(this.sendEmailRequest.bind(this, email))
     .then(this.showConfirmationEmailSuccessMessage.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
-    .finally(this.hardStopLoading.bind(this));
+    .finally(this.hardStopLoading.bind(this))
   },
 
-  testEmail(email){
-    return testAttribute('email', email, email_);
+  testEmail (email) {
+    return testAttribute('email', email, email_)
   },
 
-  sendEmailRequest(email){
+  sendEmailRequest (email) {
     return _.preq.get(app.API.auth.emailAvailability(email))
     .get('email')
-    .then(this.sendEmailChangeRequest);
+    .then(this.sendEmailChangeRequest)
   },
 
-  sendEmailChangeRequest(email){
+  sendEmailChangeRequest (email) {
     return app.request('user:update', {
       attribute: 'email',
       value: email,
       selector: '#emailField'
     }
-    );
+    )
   },
 
-  hardStopLoading() {
+  hardStopLoading () {
     // triggering stopLoading wasnt working
     // temporary solution
-    return this.$el.find('.loading').empty();
+    return this.$el.find('.loading').empty()
   },
 
   // EMAIL CONFIRMATION
-  emailConfirmationRequest() {
-    $('#notValidEmail').fadeOut();
+  emailConfirmationRequest () {
+    $('#notValidEmail').fadeOut()
     return app.request('email:confirmation:request')
-    .then(this.showConfirmationEmailSuccessMessage);
+    .then(this.showConfirmationEmailSuccessMessage)
   },
 
-  showConfirmationEmailSuccessMessage() {
-    $('#confirmationEmailSent').fadeIn();
-    return $('#emailButton').once('click', this.hideConfirmationEmailSent);
+  showConfirmationEmailSuccessMessage () {
+    $('#confirmationEmailSent').fadeIn()
+    return $('#emailButton').once('click', this.hideConfirmationEmailSent)
   },
 
-  hideConfirmationEmailSent() {
-    return $('#confirmationEmailSent').fadeOut();
+  hideConfirmationEmailSent () {
+    return $('#confirmationEmailSent').fadeOut()
   },
 
   // PASSWORD
 
-  updatePassword() {
-    const currentPassword = this.ui.currentPassword.val();
-    const newPassword = this.ui.newPassword.val();
+  updatePassword () {
+    const currentPassword = this.ui.currentPassword.val()
+    const newPassword = this.ui.newPassword.val()
 
     return Promise.try(() => password_.pass(currentPassword, '#currentPasswordAlert'))
     .then(() => password_.pass(newPassword, '#newPasswordAlert'))
@@ -126,47 +134,47 @@ export default Marionette.ItemView.extend({
     .then(this.ifViewIsIntact('passwordSuccessCheck'))
     .catch(this.ifViewIsIntact('passwordFail'))
     .catch(forms_.catchAlert.bind(null, this))
-    .finally(this.stopLoading.bind(this));
+    .finally(this.stopLoading.bind(this))
   },
 
-  confirmCurrentPassword(currentPassword){
+  confirmCurrentPassword (currentPassword) {
     return app.request('password:confirmation', currentPassword)
-    .catch(function(err){
+    .catch(err => {
       if (err.statusCode === 401) {
-        err = error_.new('wrong password', 400);
-        err.selector = '#currentPasswordAlert';
-        throw err;
-      } else { throw err; }
-    });
+        err = error_.new('wrong password', 400)
+        err.selector = '#currentPasswordAlert'
+        throw err
+      } else { throw err }
+    })
   },
 
-  updateUserPassword(currentPassword, newPassword){
-    return app.request('password:update', currentPassword, newPassword);
+  updateUserPassword (currentPassword, newPassword) {
+    return app.request('password:update', currentPassword, newPassword)
   },
 
-  passwordSuccessCheck() {
-    this.ui.passwords.val('');
-    return this.ui.passwordUpdater.trigger('check');
+  passwordSuccessCheck () {
+    this.ui.passwords.val('')
+    return this.ui.passwordUpdater.trigger('check')
   },
 
-  passwordFail(err){
-    this.ui.passwordUpdater.trigger('fail');
-    throw err;
+  passwordFail (err) {
+    this.ui.passwordUpdater.trigger('fail')
+    throw err
   },
 
   // LANGUAGE
-  changeLanguage(e){
+  changeLanguage (e) {
     return app.request('user:update', {
-      attribute:'language',
+      attribute: 'language',
       value: e.target.value,
       selector: '#languagePicker'
     }
-    );
+    )
   },
 
   // DELETE ACCOUNT
-  askDeleteAccountConfirmation() {
-    const args = { username: this.model.get('username') };
+  askDeleteAccountConfirmation () {
+    const args = { username: this.model.get('username') }
     return app.execute('ask:confirmation', {
       confirmationText: _.i18n('delete_account_confirmation', args),
       warningText: _.i18n('cant_undo_warning'),
@@ -178,12 +186,12 @@ export default Marionette.ItemView.extend({
       yes: 'delete your account',
       no: 'cancel'
     }
-    );
+    )
   }
-});
+})
 
 var sendDeletionFeedback = message => _.preq.post(app.API.feedback, {
   subject: '[account deletion]',
   message
 }
-);
+)

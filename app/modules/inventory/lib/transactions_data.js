@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 // made it a factory has its main use is to be cloned
 const factory = () => ({
   giving: {
@@ -6,7 +8,7 @@ const factory = () => ({
     label: 'giving',
     labelShort: "I'm giving it",
     labelPersonalized: 'giving_personalized_strong',
-    unicodeIcon:'&#xf004;'
+    unicodeIcon: '&#xf004;'
   },
 
   lending: {
@@ -15,7 +17,7 @@ const factory = () => ({
     label: 'lending',
     labelShort: 'I can lend it',
     labelPersonalized: 'lending_personalized_strong',
-    unicodeIcon:'&#xf021;'
+    unicodeIcon: '&#xf021;'
   },
 
   selling: {
@@ -24,7 +26,7 @@ const factory = () => ({
     label: 'selling',
     labelShort: "I'm selling it",
     labelPersonalized: 'selling_personalized_strong',
-    unicodeIcon:'&#xf0d6;'
+    unicodeIcon: '&#xf0d6;'
   },
 
   inventorying: {
@@ -33,11 +35,11 @@ const factory = () => ({
     label: 'in my inventory',
     labelShort: 'in my inventory',
     labelPersonalized: 'inventorying_personalized_strong',
-    unicodeIcon:'&#xf1b2;'
+    unicodeIcon: '&#xf1b2;'
   }
-});
+})
 
 // keep a frozen version of the object at hand for read only
-const data = Object.freeze(factory());
+const data = Object.freeze(factory())
 
-export { factory, data };
+export { factory, data }

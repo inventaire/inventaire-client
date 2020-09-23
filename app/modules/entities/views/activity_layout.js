@@ -1,4 +1,10 @@
-import ActivityPeriod from './activity_period';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import ActivityPeriod from './activity_period'
 
 export default Marionette.LayoutView.extend({
   id: 'activityLayout',
@@ -9,8 +15,9 @@ export default Marionette.LayoutView.extend({
     global: '#global'
   },
 
-  onShow() {
-    this.lastDay.show(new ActivityPeriod({ title: 'last day', period: 1 }));
-    this.lastWeek.show(new ActivityPeriod({ title: 'last 7 days', period: 7 }));
-    return this.global.show(new ActivityPeriod({ title: 'global' }));
-  }});
+  onShow () {
+    this.lastDay.show(new ActivityPeriod({ title: 'last day', period: 1 }))
+    this.lastWeek.show(new ActivityPeriod({ title: 'last 7 days', period: 7 }))
+    return this.global.show(new ActivityPeriod({ title: 'global' }))
+  }
+})

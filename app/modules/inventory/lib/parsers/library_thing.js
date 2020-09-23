@@ -1,4 +1,12 @@
-import decodeHtmlEntities from './decode_html_entities';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import decodeHtmlEntities from './decode_html_entities'
 
 export default obj => ({
   isbn: getIsbn(obj),
@@ -13,20 +21,20 @@ export default obj => ({
   publicationDate: _.isDateString(obj.date) ? obj.date : undefined,
   numberOfPages: _.isPositiveIntegerString(obj.pages) ? parseInt(obj.pages) : undefined,
   libraryThingWorkId: obj.workcode
-});
+})
 
-var getAuthorsString = function(obj){
-  const { authors } = obj;
-  if (!_.isArray(authors) || (authors.length <= 0)) { return; }
+var getAuthorsString = function (obj) {
+  const { authors } = obj
+  if (!_.isArray(authors) || (authors.length <= 0)) { return }
 
   return authors
   .map(_.property('fl'))
   .filter(_.isNonNull)
-  .map(decodeHtmlEntities);
-};
+  .map(decodeHtmlEntities)
+}
 
-var getIsbn = function(obj){
-  const { isbn, ean, originalisbn } = obj;
-  const isbn13 = isbn?.['2'];
-  return isbn13 || originalisbn || ean?.[0];
-};
+var getIsbn = function (obj) {
+  const { isbn, ean, originalisbn } = obj
+  const isbn13 = isbn?.['2']
+  return isbn13 || originalisbn || ean?.[0]
+}

@@ -1,6 +1,15 @@
-import Shelves from '../collections/shelves';
-import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
-import ShelvesList from './shelves_list';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import Shelves from '../collections/shelves'
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
+import ShelvesList from './shelves_list'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/shelves_section'),
@@ -19,15 +28,15 @@ export default Marionette.LayoutView.extend({
     'click #shelvesHeader': 'toggleShelves'
   },
 
-  initialize() {
-    return this._shelvesShown = true;
+  initialize () {
+    return this._shelvesShown = true
   },
 
-  serializeData() {
-    const inventoryUsername = this.options.username;
-    const currentUserName = app.user.get('username');
+  serializeData () {
+    const inventoryUsername = this.options.username
+    const currentUserName = app.user.get('username')
     if (inventoryUsername === currentUserName) {
-      return {editable: true};
+      return { editable: true }
     }
   },
 
@@ -38,47 +47,48 @@ export default Marionette.LayoutView.extend({
     toggleButtons: '#toggleButtons'
   },
 
-  onShow() {
-    const { username } = this.options;
+  onShow () {
+    const { username } = this.options
 
     this.waitForList = getUserId(username)
       .then(getShelvesByOwner)
       .then(this.ifViewIsIntact('showFromModel'))
-      .catch(app.Execute('show:error'));
+      .catch(app.Execute('show:error'))
 
-    return this.ui.showShelves.hide();
+    return this.ui.showShelves.hide()
   },
 
-  hideShelves(e){
-    this.ui.shelvesList.addClass('wrapped');
-    this.ui.showShelves.show();
-    this.ui.hideShelves.hide();
-    e.stopPropagation();
-    return this._shelvesShown = false;
+  hideShelves (e) {
+    this.ui.shelvesList.addClass('wrapped')
+    this.ui.showShelves.show()
+    this.ui.hideShelves.hide()
+    e.stopPropagation()
+    return this._shelvesShown = false
   },
 
-  showShelves(e){
-    this.ui.shelvesList.removeClass('wrapped');
-    this.ui.hideShelves.show();
-    this.ui.showShelves.hide();
-    e.stopPropagation();
-    return this._shelvesShown = true;
+  showShelves (e) {
+    this.ui.shelvesList.removeClass('wrapped')
+    this.ui.hideShelves.show()
+    this.ui.showShelves.hide()
+    e.stopPropagation()
+    return this._shelvesShown = true
   },
 
-  toggleShelves(e){
-    if (this._shelvesShown) { return this.hideShelves(e);
-    } else { return this.showShelves(e); }
+  toggleShelves (e) {
+    if (this._shelvesShown) {
+      return this.hideShelves(e)
+    } else { return this.showShelves(e) }
   },
 
-  showFromModel(docs){
-    if (docs && (docs.length < 1)) { return; }
-    this.collection = new Shelves(docs);
-    this.shelvesList.show(new ShelvesList({ collection: this.collection }));
-    if (this.collection.length > 5) { return this.ui.toggleButtons.removeClass('hidden'); }
+  showFromModel (docs) {
+    if (docs && (docs.length < 1)) { return }
+    this.collection = new Shelves(docs)
+    this.shelvesList.show(new ShelvesList({ collection: this.collection }))
+    if (this.collection.length > 5) { return this.ui.toggleButtons.removeClass('hidden') }
   }
-});
+})
 
-var getUserId = function(username){
-  if (!username) { return Promise.resolve(app.user.id); }
-  return app.request('get:userId:from:username', username);
-};
+var getUserId = function (username) {
+  if (!username) { return Promise.resolve(app.user.id) }
+  return app.request('get:userId:from:username', username)
+}

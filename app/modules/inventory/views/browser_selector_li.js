@@ -1,10 +1,15 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'browser-selector-li',
   template: require('./templates/browser_selector_li'),
 
-  serializeData() {
-    const attrs = this.model.toJSON();
+  serializeData () {
+    const attrs = this.model.toJSON()
     return {
       // Adapting for entities, users, and groups
       label: attrs.label || attrs.username || attrs.name,
@@ -14,12 +19,12 @@ export default Marionette.ItemView.extend({
       // Only 'nearby'
       icon: attrs.icon,
       image: attrs.image?.url || attrs.picture
-    };
+    }
   },
 
   events: {
-    'click': 'selectOption'
+    click: 'selectOption'
   },
 
-  selectOption() { return this.triggerMethod('selectOption', this.model); }
-});
+  selectOption () { return this.triggerMethod('selectOption', this.model) }
+})

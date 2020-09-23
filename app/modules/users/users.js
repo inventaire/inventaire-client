@@ -1,7 +1,15 @@
-import UserContributions from './views/user_contributions';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import UserContributions from './views/user_contributions'
 
 export default {
-  define(module, app, Backbone, Marionette, $, _){
+  define (module, app, Backbone, Marionette, $, _) {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'u(sers)/:id/contributions(/)': 'showUserContributions',
@@ -9,63 +17,66 @@ export default {
         'u(sers)/:id(/)': 'showUser',
         'u(sers)(/)': 'showSearchUsers'
       }
-    });
+    })
 
-    return app.addInitializer(() => new Router({ controller: API }));
+    return app.addInitializer(() => new Router({ controller: API }))
   },
 
-  initialize() {
-    app.users = require('./users_collections')(app);
+  initialize () {
+    app.users = require('./users_collections')(app)
 
-    require('./helpers')(app);
-    require('./requests')(app, _);
-    require('./invitations')(app, _);
+    require('./helpers')(app)
+    require('./requests')(app, _)
+    require('./invitations')(app, _)
 
-    initRelations();
+    initRelations()
 
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
       'show:user:contributions': API.showUserContributions
-    });
+    })
 
     return app.reqres.setHandlers({
       // Refreshing relations can be useful
       // to refresh notifications counters that depend on app.relations
-      'refresh:relations': initRelations});
+      'refresh:relations': initRelations
+    })
   }
-};
+}
 
 var API = {
-  showUserContributions(idOrUsername){
+  showUserContributions (idOrUsername) {
     if (app.request('require:loggedIn', `users/${idOrUsername}/contributions`)) {
       return app.request('resolve:to:userModel', idOrUsername)
-      .then(function(user){
-        const username = user.get('username');
-        const path = `users/${username}/contributions`;
-        app.navigate(path, { metadata: { title: 'contributions' } });
+      .then(user => {
+        const username = user.get('username')
+        const path = `users/${username}/contributions`
+        app.navigate(path, { metadata: { title: 'contributions' } })
         if (app.request('require:admin:access')) {
-          return app.layout.main.show(new UserContributions({ user }));
-        }});
+          return app.layout.main.show(new UserContributions({ user }))
+        }
+      })
     }
   },
 
-  showUser(id){ return app.execute('show:inventory:user', id); },
-  showSearchUsers() { return app.execute('show:users:search'); }
-};
+  showUser (id) { return app.execute('show:inventory:user', id) },
+  showSearchUsers () { return app.execute('show:users:search') }
+}
 
-var initRelations = function() {
+var initRelations = function () {
   if (app.user.loggedIn) {
     return _.preq.get(app.API.relations)
-    .then(function(relations){
-      app.relations = relations;
-      return app.execute('waiter:resolve', 'relations');}).catch(_.Error('relations init err'));
+    .then(relations => {
+      app.relations = relations
+      return app.execute('waiter:resolve', 'relations')
+    }).catch(_.Error('relations init err'))
   } else {
     app.relations = {
       friends: [],
       userRequested: [],
       otherRequested: [],
       network: []
-    };
-    return app.execute('waiter:resolve', 'relations');
+    }
+    return app.execute('waiter:resolve', 'relations')
   }
-};
+}

@@ -1,23 +1,30 @@
-import forms_ from 'modules/general/lib/forms';
-import shelves_ from '../lib/shelves';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import forms_ from 'modules/general/lib/forms'
+import shelves_ from '../lib/shelves'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'shelf-items-candidate',
   template: require('./templates/shelf_items_candidate'),
 
-  initialize() {
-    ({ shelf: this.shelf } = this.options);
-    return this.shelfId = this.shelf.id;
+  initialize () {
+    ({ shelf: this.shelf } = this.options)
+    return this.shelfId = this.shelf.id
   },
 
   behaviors: {
     AlertBox: {}
   },
 
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.serializeData(),
-      {alreadyAdded: this.isAlreadyAdded()});
+      { alreadyAdded: this.isAlreadyAdded() })
   },
 
   events: {
@@ -31,25 +38,26 @@ export default Marionette.ItemView.extend({
     'remove:shelves': 'lazyRender'
   },
 
-  showItem(e){
-    if (_.isOpenedOutside(e)) { return;
-    } else { return app.execute('show:item', this.model); }
+  showItem (e) {
+    if (_.isOpenedOutside(e)) {
+
+    } else { return app.execute('show:item', this.model) }
   },
 
-  addToShelf() {
+  addToShelf () {
     return shelves_.addItems(this.shelf, this.model)
-    .catch(forms_.catchAlert.bind(null, this));
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
   // Do no rename function to 'remove' as that would overwrite
   // Backbone.Marionette.View.prototype.remove
-  removeFromShelf() {
+  removeFromShelf () {
     return shelves_.removeItems(this.shelf, this.model)
-    .catch(forms_.catchAlert.bind(null, this));
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
-  isAlreadyAdded() {
-    const shelvesIds = this.model.get('shelves') || [];
-    return shelvesIds.includes(this.shelfId);
+  isAlreadyAdded () {
+    const shelvesIds = this.model.get('shelves') || []
+    return shelvesIds.includes(this.shelfId)
   }
-});
+})

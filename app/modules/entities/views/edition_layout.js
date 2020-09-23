@@ -1,5 +1,12 @@
-import entityItems from '../lib/entity_items';
-import EntityActions from './entity_actions';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import entityItems from '../lib/entity_items'
+import EntityActions from './entity_actions'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/edition_layout'),
@@ -16,48 +23,49 @@ export default Marionette.LayoutView.extend({
     works: '.works'
   },
 
-  initialize() {
-    this.standalone = true;
-    this.displayItemsCovers = false;
-    return entityItems.initialize.call(this);
+  initialize () {
+    this.standalone = true
+    this.displayItemsCovers = false
+    return entityItems.initialize.call(this)
   },
 
-  onShow() {
+  onShow () {
     return this.model.waitForWorks
     .map(work => work.fetchSubEntities())
-    .then(this.ifViewIsIntact('showWorks'));
+    .then(this.ifViewIsIntact('showWorks'))
   },
 
-  showWorks() {
-    const collection = new Backbone.Collection(this.model.works);
-    return this.works.show(new EditionWorks({ collection }));
+  showWorks () {
+    const collection = new Backbone.Collection(this.model.works)
+    return this.works.show(new EditionWorks({ collection }))
   },
 
-  onRender() {
-    this.lazyShowItems();
-    return this.showEntityActions();
+  onRender () {
+    this.lazyShowItems()
+    return this.showEntityActions()
   },
 
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.toJSON(), {
       standalone: this.standalone,
       onWorkLayout: this.options.onWorkLayout,
       works: this.model.works?.map(work => work.toJSON())
     }
-    );
+    )
   },
 
-  showEntityActions() {
-    const { itemToUpdate } = this.options;
-    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate }));
-  }});
+  showEntityActions () {
+    const { itemToUpdate } = this.options
+    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate }))
+  }
+})
 
 const EditionWork = Marionette.ItemView.extend({
   className: 'edition-work',
   template: require('./templates/edition_work')
-});
+})
 
 var EditionWorks = Marionette.CollectionView.extend({
   className: 'edition-works',
   childView: EditionWork
-});
+})

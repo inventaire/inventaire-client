@@ -1,29 +1,42 @@
-import { GroupLayoutView } from './group_views_commons';
-import GroupBoardHeader from './group_board_header';
-import GroupSettings from './group_settings';
-import UsersSearchLayout from '../views/users_search_layout';
-import UsersList from 'modules/users/views/users_list';
-import InviteByEmail from './invite_by_email';
-import screen_ from 'lib/screen';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import GroupViewsCommons from './group_views_commons'
+
+import GroupBoardHeader from './group_board_header'
+import GroupSettings from './group_settings'
+import UsersSearchLayout from '../views/users_search_layout'
+import UsersList from 'modules/users/views/users_list'
+import InviteByEmail from './invite_by_email'
+import screen_ from 'lib/screen'
+
+const {
+  GroupLayoutView
+} = GroupViewsCommons
 
 export default GroupLayoutView.extend({
   template: require('./templates/group_board'),
-  className() {
-    const standalone = this.options.standalone ? 'standalone' : '';
-    return `groupBoard ${standalone}`;
+  className () {
+    const standalone = this.options.standalone ? 'standalone' : ''
+    return `groupBoard ${standalone}`
   },
 
-  initialize() {
-    ({ standalone: this.standalone, openedSection: this.openedSection } = this.options);
+  initialize () {
+    ({ standalone: this.standalone, openedSection: this.openedSection } = this.options)
 
     // Join requests will be showned instead
     if ((this.openedSection === 'groupSettings') && this.model.mainUserIsAdmin() && (this.model.get('requested').length > 0)) {
-      this.openedSection = null;
+      this.openedSection = null
     }
 
-    this._alreadyShownSection = {};
-    this.listenTo(this.model, 'action:accept', this.render.bind(this));
-    return this.listenTo(this.model, 'action:leave', this.onLeave.bind(this));
+    this._alreadyShownSection = {}
+    this.listenTo(this.model, 'action:accept', this.render.bind(this))
+    return this.listenTo(this.model, 'action:leave', this.onLeave.bind(this))
   },
 
   behaviors: {
@@ -48,46 +61,46 @@ export default GroupLayoutView.extend({
     groupRequestsSection: '#groupRequests'
   },
 
-  serializeData() {
-    const attrs = this.model.serializeData();
-    attrs.sections = sectionsData;
-    return attrs;
+  serializeData () {
+    const attrs = this.model.serializeData()
+    attrs.sections = sectionsData
+    return attrs
   },
 
   events: _.extend({}, GroupLayoutView.prototype.events,
-    {'click .section-toggler': 'toggleSection'}),
+    { 'click .section-toggler': 'toggleSection' }),
 
-  onShow() {
-    if (this.openedSection != null) { return this.toggleUi(this.openedSection); }
+  onShow () {
+    if (this.openedSection != null) { return this.toggleUi(this.openedSection) }
   },
 
-  showHeader() {
-    return this.header.show(new GroupBoardHeader({ model: this.model }));
+  showHeader () {
+    return this.header.show(new GroupBoardHeader({ model: this.model }))
   },
 
-  toggleSection(e){
-    const section = e.currentTarget.parentElement.attributes.id.value;
-    return this.toggleUi(section);
+  toggleSection (e) {
+    const section = e.currentTarget.parentElement.attributes.id.value
+    return this.toggleUi(section)
   },
 
   // acting on ui objects and not a region.$el as a region
   // doesn't have a $el before being shown
-  toggleUi(uiLabel, scroll = true){
+  toggleUi (uiLabel, scroll = true) {
     if (!this._alreadyShownSection[uiLabel] && (this.onFirstToggle[uiLabel] != null)) {
-      const fnName = this.onFirstToggle[uiLabel];
-      this[fnName]();
-      this._alreadyShownSection = true;
+      const fnName = this.onFirstToggle[uiLabel]
+      this[fnName]()
+      this._alreadyShownSection = true
     }
 
-    return this._toggleUi(uiLabel);
+    return this._toggleUi(uiLabel)
   },
 
-  _toggleUi(uiLabel){
-    const $el = this.ui[uiLabel];
-    const $parent = $el.parent();
-    $el.slideToggle();
-    $parent.find('.fa-caret-right').toggleClass('toggled');
-    if (scroll && $el.visible()) { return screen_.scrollTop($parent, null, 20); }
+  _toggleUi (uiLabel) {
+    const $el = this.ui[uiLabel]
+    const $parent = $el.parent()
+    $el.slideToggle()
+    $parent.find('.fa-caret-right').toggleClass('toggled')
+    if (scroll && $el.visible()) { return screen_.scrollTop($parent, null, 20) }
   },
 
   onFirstToggle: {
@@ -98,57 +111,57 @@ export default GroupLayoutView.extend({
     groupEmailInvite: 'showMembersEmailInvitor'
   },
 
-  onRender() {
+  onRender () {
     return this.model.beforeShow()
-    .then(this.ifViewIsIntact('_showBoard'));
+    .then(this.ifViewIsIntact('_showBoard'))
   },
 
-  _showBoard() {
-    this.showHeader();
-    this.prepareJoinRequests();
-    if (this.model.mainUserIsMember()) { return this.initSettings(); }
+  _showBoard () {
+    this.showHeader()
+    this.prepareJoinRequests()
+    if (this.model.mainUserIsMember()) { return this.initSettings() }
   },
 
-  initSettings() {
+  initSettings () {
     if (this.standalone && this.model.mainUserIsAdmin()) {
-      return this.listenTo(this.model, 'change:slug', this.updateRoute.bind(this));
+      return this.listenTo(this.model, 'change:slug', this.updateRoute.bind(this))
     }
   },
 
-  showSettings() {
-    return this.groupSettings.show(new GroupSettings({ model: this.model }));
+  showSettings () {
+    return this.groupSettings.show(new GroupSettings({ model: this.model }))
   },
 
-  prepareJoinRequests() {
+  prepareJoinRequests () {
     if ((this.model.requested.length > 0) && this.model.mainUserIsAdmin()) {
-      this.ui.groupRequestsSection.show();
-      return this.toggleUi('groupRequests', false);
+      this.ui.groupRequestsSection.show()
+      return this.toggleUi('groupRequests', false)
     } else {
-      return this.ui.groupRequestsSection.hide();
+      return this.ui.groupRequestsSection.hide()
     }
   },
 
-  showJoinRequests() {
+  showJoinRequests () {
     return this.groupRequests.show(new UsersList({
       collection: this.model.requested,
       groupContext: true,
       group: this.model,
       emptyViewMessage: 'no more pending requests'
     })
-    );
+    )
   },
 
-  showMembers() {
+  showMembers () {
     return this.groupMembers.show(new UsersList({
       collection: this.model.members,
       groupContext: true,
       group: this.model
     })
-    );
+    )
   },
 
-  showMembersInvitor() {
-    const group = this.model;
+  showMembersInvitor () {
+    const group = this.model
     // TODO: replace UsersSearchLayout by a user list fed with search results
     // that aren't added to the deprecated global users collections
     return this.groupInvite.show(new UsersSearchLayout({
@@ -157,22 +170,23 @@ export default GroupLayoutView.extend({
       groupContext: true,
       group,
       emptyViewMessage: 'no user found',
-      filter(user, index, collection){
-        return group.userStatus(user) !== 'member';
+      filter (user, index, collection) {
+        return group.userStatus(user) !== 'member'
       }
     })
-    );
+    )
   },
 
-  onLeave() { return app.execute('show:inventory:group', this.model, true); },
+  onLeave () { return app.execute('show:inventory:group', this.model, true) },
 
-  showMembersEmailInvitor() {
-    return this.groupEmailInvite.show(new InviteByEmail({ group: this.model }));
+  showMembersEmailInvitor () {
+    return this.groupEmailInvite.show(new InviteByEmail({ group: this.model }))
   },
 
-  updateRoute() {
-    return app.navigateFromModel(this.model, 'boardPathname', { preventScrollTop: true });
-  }});
+  updateRoute () {
+    return app.navigateFromModel(this.model, 'boardPathname', { preventScrollTop: true })
+  }
+})
 
 var sectionsData = {
   settings: {
@@ -195,4 +209,4 @@ var sectionsData = {
     label: 'invite by email',
     icon: 'envelope'
   }
-};
+}

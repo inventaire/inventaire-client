@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.LayoutView.extend({
   id: 'error',
   template: require('./templates/error'),
@@ -5,7 +10,7 @@ export default Marionette.LayoutView.extend({
     PreventDefault: {}
   },
 
-  serializeData() { return this.options; },
+  serializeData () { return this.options },
 
   events: {
     'click .button': 'buttonAction'
@@ -15,15 +20,15 @@ export default Marionette.LayoutView.extend({
     errorBox: '.errorBox'
   },
 
-  buttonAction(e){
+  buttonAction (e) {
     if (!_.isOpenedOutside(e)) {
-      const { buttonAction } = this.options.redirection;
-      if (_.isFunction(buttonAction)) { return buttonAction(); }
+      const { buttonAction } = this.options.redirection
+      if (_.isFunction(buttonAction)) { return buttonAction() }
     }
   },
 
-  onShow() {
-    app.execute('background:cover');
-    return this.ui.errorBox.fadeIn();
+  onShow () {
+    app.execute('background:cover')
+    return this.ui.errorBox.fadeIn()
   }
-});
+})

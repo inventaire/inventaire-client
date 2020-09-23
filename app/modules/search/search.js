@@ -1,87 +1,96 @@
-import SearchResultsHistory from './collections/search_results_history';
-import findUri from './lib/find_uri';
-import { parseQuery } from 'lib/location';
-import { setPrerenderStatusCode } from 'lib/metadata/update';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import SearchResultsHistory from './collections/search_results_history'
+import findUri from './lib/find_uri'
+import { parseQuery } from 'lib/location'
+import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define(module, app, Backbone, Marionette, $, _){
+  define (module, app, Backbone, Marionette, $, _) {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'search(/)': 'searchFromQueryString'
       }
-    });
+    })
 
-    return app.addInitializer(() => new Router({ controller: API }));
+    return app.addInitializer(() => new Router({ controller: API }))
   },
 
-  initialize() {
-    app.searchResultsHistory = new SearchResultsHistory;
+  initialize () {
+    app.searchResultsHistory = new SearchResultsHistory()
 
     app.commands.setHandlers({
       'search:global': API.search,
-      'show:users:search'() { return API.search('', 'user'); },
-      'show:groups:search'() { return API.search('', 'group'); }
-    });
+      'show:users:search' () { return API.search('', 'user') },
+      'show:groups:search' () { return API.search('', 'group') }
+    })
 
     return app.reqres.setHandlers({
       'search:entities': API.searchEntities,
-      'search:history:add'(data){ return app.searchResultsHistory.addNonExisting(data); }
-    });
+      'search:history:add' (data) { return app.searchResultsHistory.addNonExisting(data) }
+    })
   }
-};
+}
 
-var API = {};
-API.search = function(search, section, showFallbackLayout){
+var API = {}
+API.search = function (search, section, showFallbackLayout) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
-  setPrerenderStatusCode(302, '');
-  return app.vent.trigger('live:search:query', { search, section, showFallbackLayout });
-};
+  setPrerenderStatusCode(302, '')
+  return app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
+}
 
-API.searchFromQueryString = function(querystring){
-  let section;
-  let { q, type, refresh } = parseQuery(querystring);
-  refresh = _.parseBooleanString(refresh);
-  if (q == null) { q = ''; }
+API.searchFromQueryString = function (querystring) {
+  let section
+  let { q, type, refresh } = parseQuery(querystring)
+  refresh = _.parseBooleanString(refresh)
+  if (q == null) { q = '' }
   // Replacing "+" added that the browser search might have added
-  q = q.replace(/\+/g, ' ');
+  q = q.replace(/\+/g, ' ')
 
-  if (showEntityPageIfUri(q, refresh)) { return; }
+  if (showEntityPageIfUri(q, refresh)) { return }
 
-  if (type != null) { section = type;
-  } else { [ q, section ] = Array.from(findSearchSection(q)); }
+  if (type != null) {
+    section = type
+  } else { [ q, section ] = Array.from(findSearchSection(q)) }
 
   // Show the add layout at its search tab in the background, so that clicking
   // out of the live search doesn't result in a blank page
-  const showFallbackLayout = app.Execute('show:add:layout:search');
+  const showFallbackLayout = app.Execute('show:add:layout:search')
 
-  return API.search(q, section, showFallbackLayout);
-};
+  return API.search(q, section, showFallbackLayout)
+}
 
-var showEntityPageIfUri = function(query, refresh){
+var showEntityPageIfUri = function (query, refresh) {
   // If the query text is a URI, show the associated entity page
   // as it doesn't make sense to search for an entity we have already found
-  const uri = findUri(query);
+  const uri = findUri(query)
   if (uri != null) {
-    app.execute('show:entity', uri, { refresh });
-    return true;
+    app.execute('show:entity', uri, { refresh })
+    return true
   } else {
-    return false;
+    return false
   }
-};
+}
 
-const sectionSearchPattern = /^!([a-z])\s+/;
+const sectionSearchPattern = /^!([a-z])\s+/
 
-var findSearchSection = function(q){
-  const sectionMatch = q.match(sectionSearchPattern)?.[1];
-  if (sectionMatch == null) { return [ q, 'all' ]; }
+var findSearchSection = function (q) {
+  const sectionMatch = q.match(sectionSearchPattern)?.[1]
+  if (sectionMatch == null) { return [ q, 'all' ] }
 
-  q = q.replace(sectionSearchPattern, '').trim();
+  q = q.replace(sectionSearchPattern, '').trim()
 
-  const firstLetter = sectionMatch[0];
-  const section = sections[firstLetter] || 'all';
-  console.log('section', section);
-  return [ q, section ];
-};
+  const firstLetter = sectionMatch[0]
+  const section = sections[firstLetter] || 'all'
+  console.log('section', section)
+  return [ q, section ]
+}
 
 var sections = {
   a: 'author',
@@ -95,4 +104,4 @@ var sections = {
   t: 'subject', // 't' for topic (as series already use the 's')
   u: 'user',
   w: 'book' // 'w' for work
-};
+}

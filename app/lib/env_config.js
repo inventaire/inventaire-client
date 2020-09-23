@@ -1,14 +1,22 @@
+/* eslint-disable
+    no-return-assign,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // roughtly addressing the general case
-if (location.hostname.match(/^(localhost|192\.168)/)) { window.env = 'dev';
-} else { window.env = 'prod'; }
+if (location.hostname.match(/^(localhost|192\.168)/)) {
+  window.env = 'dev'
+} else { window.env = 'prod' }
 
-export default function() {
+export default function () {
   if (env === 'dev') {
-    const trueAlert = window.alert;
-    window.alert = function(obj){
-      if (_.isObject(obj)) { obj = JSON.stringify(obj, null, 2); }
-      return trueAlert(obj);
-    };
+    const trueAlert = window.alert
+    window.alert = function (obj) {
+      if (_.isObject(obj)) { obj = JSON.stringify(obj, null, 2) }
+      return trueAlert(obj)
+    }
   }
 
   return window.CONFIG = {
@@ -18,5 +26,5 @@ export default function() {
     // overriden at feature_detection setDebugSetting
     // as it depends on localStorageProxy
     debug: false
-  };
+  }
 };

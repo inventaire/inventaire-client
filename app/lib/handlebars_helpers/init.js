@@ -1,4 +1,10 @@
-export default function() {
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+export default function () {
   const API = _.extend.apply(null, [
     {},
     require('./blocks'),
@@ -10,17 +16,17 @@ export default function() {
     require('./icons'),
     require('./images'),
     require('./input')
-  ]);
+  ])
   // Registering partials using the code here
   // https://github.com/brunch/handlebars-brunch/issues/10#issuecomment-38155730
-  const register = (name, fn) => Handlebars.registerHelper(name, fn);
+  const register = (name, fn) => Handlebars.registerHelper(name, fn)
 
   return (() => {
-    const result = [];
-    for (let name in API) {
-      const fn = API[name];
-      result.push(register(name, fn.bind(API)));
+    const result = []
+    for (const name in API) {
+      const fn = API[name]
+      result.push(register(name, fn.bind(API)))
     }
-    return result;
-  })();
+    return result
+  })()
 };

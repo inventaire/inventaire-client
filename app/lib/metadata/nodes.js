@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 const metaNodes = {
   title: [
     { selector: 'title', attribute: 'text' },
@@ -28,7 +30,7 @@ const metaNodes = {
   'twitter:card': [
     { selector: '[name="twitter:card"]' }
   ]
-};
+}
 
-const possibleFields = Object.keys(metaNodes);
-export { metaNodes, possibleFields };
+const possibleFields = Object.keys(metaNodes)
+export { metaNodes, possibleFields }

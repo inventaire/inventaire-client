@@ -1,38 +1,46 @@
-import applyTransformers from './apply_transformers';
-import { metaNodes, possibleFields } from './nodes';
-const head = document.querySelector('head');
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import applyTransformers from './apply_transformers'
+import { metaNodes, possibleFields } from './nodes'
+const head = document.querySelector('head')
 
-const previousValue = {};
+const previousValue = {}
 
-export default function(key, value, noCompletion){
+export default function (key, value, noCompletion) {
   // Early return if the input is the same as previously
-  if (previousValue[key] === value) { return; }
-  previousValue[key] = value;
+  if (previousValue[key] === value) { return }
+  previousValue[key] = value
 
   if (!possibleFields.includes(key)) {
-    return _.warn([ key, value ], 'invalid metadata data');
+    return _.warn([ key, value ], 'invalid metadata data')
   }
 
   if (value == null) {
-    _.warn(`missing metadata value: ${key}`);
-    return;
+    _.warn(`missing metadata value: ${key}`)
+    return
   }
 
   if (key === 'title') {
-    app.execute('track:page:view', value);
+    app.execute('track:page:view', value)
   }
 
-  value = applyTransformers(key, value, noCompletion);
-  for (let el of metaNodes[key]) {
-    updateNodeContent(value, el);
+  value = applyTransformers(key, value, noCompletion)
+  for (const el of metaNodes[key]) {
+    updateNodeContent(value, el)
   }
-
 };
 
-var updateNodeContent = function(value, el){
-  let { selector, attribute } = el;
-  if (!attribute) { attribute = 'content'; }
+var updateNodeContent = function (value, el) {
+  let { selector, attribute } = el
+  if (!attribute) { attribute = 'content' }
   if (head.querySelector(selector) != null) {
-    return head.querySelector(selector)[attribute] = value;
+    return head.querySelector(selector)[attribute] = value
   }
-};
+}

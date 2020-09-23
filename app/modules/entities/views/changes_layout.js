@@ -1,16 +1,23 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-var,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
 export default Marionette.CompositeView.extend({
   id: 'changeLayout',
   template: require('./templates/changes_layout'),
   childViewContainer: '#feed',
   childView: require('./feed_li'),
-  initialize() {
-    this.collection = new Backbone.Collection;
-    this.fetchingMore = true;
+  initialize () {
+    this.collection = new Backbone.Collection()
+    this.fetchingMore = true
 
     return fetchChanges()
-    .then(this.parseResponse.bind(this));
+    .then(this.parseResponse.bind(this))
   },
 
   behaviors: {
@@ -25,35 +32,35 @@ export default Marionette.CompositeView.extend({
     'inview .more': 'showMoreUnlessAlreadyFetching'
   },
 
-  parseResponse(uris){
-    this.rest = uris;
-    return this.showMore();
+  parseResponse (uris) {
+    this.rest = uris
+    return this.showMore()
   },
 
-  showMore(batchLength = 10){
-    this.fetchingMore = true;
+  showMore (batchLength = 10) {
+    this.fetchingMore = true
     // Don't fetch more and keep fetchingMore to true to prevent further requests
-    if (this.rest.length === 0) { return; }
-    behaviorsPlugin.startLoading.call(this, '.more');
-    const batch = this.rest.slice(0, batchLength);
-    this.rest = this.rest.slice(batchLength);
-    return this.addFromUris(batch);
+    if (this.rest.length === 0) { return }
+    behaviorsPlugin.startLoading.call(this, '.more')
+    const batch = this.rest.slice(0, batchLength)
+    this.rest = this.rest.slice(batchLength)
+    return this.addFromUris(batch)
   },
 
-  showMoreUnlessAlreadyFetching() { if (!this.fetchingMore) { return this.showMore(); } },
+  showMoreUnlessAlreadyFetching () { if (!this.fetchingMore) { return this.showMore() } },
 
-  addFromUris(uris){
+  addFromUris (uris) {
     return app.request('get:entities:models', { uris })
     .then(this.collection.add.bind(this.collection))
-    .then(this.doneFetching.bind(this));
+    .then(this.doneFetching.bind(this))
   },
 
-  doneFetching() {
-    this.fetchingMore = false;
-    behaviorsPlugin.stopLoading.call(this);
-    return this.ui.counter.html(this.collection.length);
+  doneFetching () {
+    this.fetchingMore = false
+    behaviorsPlugin.stopLoading.call(this)
+    return this.ui.counter.html(this.collection.length)
   }
-});
+})
 
 var fetchChanges = () => _.preq.get(app.API.entities.changes)
-.get('uris');
+.get('uris')

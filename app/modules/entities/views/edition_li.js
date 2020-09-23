@@ -1,5 +1,11 @@
-import entityItems from '../lib/entity_items';
-import EntityActions from './entity_actions';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import entityItems from '../lib/entity_items'
+import EntityActions from './entity_actions'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/edition_li'),
@@ -16,27 +22,28 @@ export default Marionette.LayoutView.extend({
     entityActions: '.editionEntityActions'
   },
 
-  initialize() {
-    ({ itemToUpdate: this.itemToUpdate, compactMode: this.compactMode, onWorkLayout: this.onWorkLayout } = this.options);
-    if ((this.itemToUpdate == null) && !this.compactMode) { return entityItems.initialize.call(this); }
+  initialize () {
+    ({ itemToUpdate: this.itemToUpdate, compactMode: this.compactMode, onWorkLayout: this.onWorkLayout } = this.options)
+    if ((this.itemToUpdate == null) && !this.compactMode) { return entityItems.initialize.call(this) }
   },
 
-  onRender() {
-    if ((this.itemToUpdate == null) && !this.compactMode) { this.lazyShowItems(); }
-    return this.showEntityActions();
+  onRender () {
+    if ((this.itemToUpdate == null) && !this.compactMode) { this.lazyShowItems() }
+    return this.showEntityActions()
   },
 
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.toJSON(), {
       itemUpdateContext: (this.itemToUpdate != null),
       onWorkLayout: this.onWorkLayout,
       compactMode: this.compactMode,
       itemsListsDisabled: this.itemToUpdate || this.compactMode
     }
-    );
+    )
   },
 
-  showEntityActions() {
-    if (this.compactMode) { return; }
-    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }));
-  }});
+  showEntityActions () {
+    if (this.compactMode) { return }
+    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
+  }
+})

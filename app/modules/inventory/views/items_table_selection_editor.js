@@ -1,7 +1,15 @@
-import { data as transactionsData } from '../lib/transactions_data';
-import { getShelvesByOwner } from 'modules/shelves/lib/shelves';
-import ItemShelves from './item_shelves';
-import Shelves from 'modules/shelves/collections/shelves';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-unused-vars,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import { data as transactionsData } from '../lib/transactions_data'
+import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
+import ItemShelves from './item_shelves'
+import Shelves from 'modules/shelves/collections/shelves'
 
 export default Marionette.LayoutView.extend({
   className: 'items-table-selection-editor',
@@ -10,69 +18,69 @@ export default Marionette.LayoutView.extend({
     'click .transaction-option': 'setTransaction',
     'click .listing-option': 'setListing',
     'click .delete': 'deleteItems',
-    'click .done'() { return app.execute('modal:close'); }
+    'click .done' () { return app.execute('modal:close') }
   },
 
   regions: {
-    'shelvesSelector': '.shelvesSelector'
+    shelvesSelector: '.shelvesSelector'
   },
 
-  initialize() {
-    return ({ getSelectedModelsAndIds: this.getSelectedModelsAndIds, selectedIds: this.selectedIds } = this.options);
+  initialize () {
+    return ({ getSelectedModelsAndIds: this.getSelectedModelsAndIds, selectedIds: this.selectedIds } = this.options)
   },
 
-  serializeData() {
+  serializeData () {
     return {
       selectedIdsCount: this.selectedIds.length,
       transactions: transactionsData,
       listings: app.user.listings()
-    };
+    }
   },
 
-  onShow() {
-    app.execute('modal:open');
-    return this.showShelves();
+  onShow () {
+    app.execute('modal:open')
+    return this.showShelves()
   },
 
-  setTransaction(e){ return this.updateItems(e, 'transaction'); },
+  setTransaction (e) { return this.updateItems(e, 'transaction') },
 
-  setListing(e){ return this.updateItems(e, 'listing'); },
+  setListing (e) { return this.updateItems(e, 'listing') },
 
-  updateItems(e, attribute){
-    const value = e.currentTarget.id;
-    const { selectedModelsAndIds } = this.getSelectedModelsAndIds();
-    app.request('items:update', { items: selectedModelsAndIds, attribute, value });
-    return app.execute('modal:close');
+  updateItems (e, attribute) {
+    const value = e.currentTarget.id
+    const { selectedModelsAndIds } = this.getSelectedModelsAndIds()
+    app.request('items:update', { items: selectedModelsAndIds, attribute, value })
+    return app.execute('modal:close')
   },
 
-  deleteItems() {
-    if (this.selectedIds.length === 0) { return; }
+  deleteItems () {
+    if (this.selectedIds.length === 0) { return }
 
-    const { selectedModelsAndIds, selectedModels, selectedIds } = this.getSelectedModelsAndIds();
+    const { selectedModelsAndIds, selectedModels, selectedIds } = this.getSelectedModelsAndIds()
 
     return app.request('items:delete', {
       items: selectedModelsAndIds,
       next: this.options.afterItemsDelete
     }
-    );
+    )
   },
 
-  afterItemsDelete() {
-    app.execute('modal:close');
-    return this.options.afterItemsDelete();
+  afterItemsDelete () {
+    app.execute('modal:close')
+    return this.options.afterItemsDelete()
   },
 
-  showShelves() {
+  showShelves () {
     return getShelvesByOwner(app.user.id)
-    .then(this.ifViewIsIntact('_showShelves'));
+    .then(this.ifViewIsIntact('_showShelves'))
   },
 
-  _showShelves(shelves){
-    const shelvesCollection = new Shelves(shelves);
+  _showShelves (shelves) {
+    const shelvesCollection = new Shelves(shelves)
     return this.shelvesSelector.show(new ItemShelves({
       collection: shelvesCollection,
       itemsIds: this.selectedIds
     })
-    );
+    )
   }
-});
+})

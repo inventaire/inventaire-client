@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Keep in sync with app/modules/entities/lib/properties
 // and server/controllers/entities/lib/properties/properties
 // and server/controllers/entities/lib/properties/properties_per_type
@@ -25,7 +30,7 @@ const work = {
 
   // Reverse properties
   'wdt:P747': { customLabel: 'editions' } // editions (inverse of wdt:P629)
-};
+}
 
 export default {
   work,
@@ -86,4 +91,4 @@ export default {
     'wdt:P921': {}, // main subject
     'wdt:P856': {}
   } // official website
-};
+}

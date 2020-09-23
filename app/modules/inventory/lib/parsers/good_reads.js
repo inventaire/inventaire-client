@@ -1,3 +1,9 @@
+/* eslint-disable
+    no-undef,
+    no-var,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default obj => ({
   title: obj.Title,
   isbn: cleanIsbn(obj.ISBN13 || obj.ISBN),
@@ -9,6 +15,6 @@ export default obj => ({
 
   // See https://www.goodreads.com/api/index#book.id_to_work_id
   goodReadsEditionId: obj['Book Id']
-});
+})
 
-var cleanIsbn = isbn => isbn?.replace(/("|=)/g, '');
+var cleanIsbn = isbn => isbn?.replace(/("|=)/g, '')

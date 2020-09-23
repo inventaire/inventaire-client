@@ -1,39 +1,43 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   template: require('./templates/work_li'),
-  className() {
-    const prefix = this.model.get('prefix');
-    if (this.wrap == null) { this.wrap = this.options.wrap; }
-    const wrap = this.wrap ? 'wrapped wrappable' : '';
-    return `workLi entity-prefix-${prefix} ${wrap}`;
+  className () {
+    const prefix = this.model.get('prefix')
+    if (this.wrap == null) { this.wrap = this.options.wrap }
+    const wrap = this.wrap ? 'wrapped wrappable' : ''
+    return `workLi entity-prefix-${prefix} ${wrap}`
   },
 
-  attributes() {
+  attributes () {
     // Used by deduplicate_layout
-    return {'data-uri': this.model.get('uri')};
+    return { 'data-uri': this.model.get('uri') }
   },
 
-  initialize() {
-    let preventRerender;
+  initialize () {
+    let preventRerender
     app.execute('uriLabel:update');
 
-    ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap, preventRerender } = this.options);
-    if (this.showActions == null) { this.showActions = true; }
-    if (preventRerender == null) { preventRerender = false; }
+    ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap, preventRerender } = this.options)
+    if (this.showActions == null) { this.showActions = true }
+    if (preventRerender == null) { preventRerender = false }
 
     // Allow to disable re-render for views that are used as part of layouts that store state
     // in the DOM - such as ./deduplicate_layout - so that this state isn't lost
-    if (preventRerender) { return; }
-
+    if (preventRerender) { return }
 
     if (this.model.usesImagesFromSubEntities) {
-      this.model.fetchSubEntities();
-      this.listenTo(this.model, 'change:image', this.lazyRender.bind(this));
+      this.model.fetchSubEntities()
+      this.listenTo(this.model, 'change:image', this.lazyRender.bind(this))
     }
 
     if (this.showActions) {
       // Required by @getNetworkItemsCount
       return this.model.getItemsByCategories()
-      .then(this.lazyRender.bind(this));
+      .then(this.lazyRender.bind(this))
     }
   },
 
@@ -49,53 +53,53 @@ export default Marionette.ItemView.extend({
   events: {
     'click a.addToInventory': 'showItemCreationForm',
     'click .zoom-buttons': 'toggleZoom',
-    'click': 'toggleWrap'
+    click: 'toggleWrap'
   },
 
-  onRender() {
-    return this.updateClassName();
+  onRender () {
+    return this.updateClassName()
   },
 
-  showItemCreationForm(e){
+  showItemCreationForm (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:item:creation:form', { entity: this.model });
+      return app.execute('show:item:creation:form', { entity: this.model })
     }
   },
 
-  serializeData() {
-    const attrs = _.extend(this.model.toJSON(), { showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap });
-    const count = this.getNetworkItemsCount();
-    if (count != null) { attrs.counter = { count, highlight: count > 0 }; }
-    if (attrs.extract != null) { attrs.description = attrs.extract; }
-    return attrs;
+  serializeData () {
+    const attrs = _.extend(this.model.toJSON(), { showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap })
+    const count = this.getNetworkItemsCount()
+    if (count != null) { attrs.counter = { count, highlight: count > 0 } }
+    if (attrs.extract != null) { attrs.description = attrs.extract }
+    return attrs
   },
 
-  getNetworkItemsCount() {
-    const { itemsByCategory } = this.model;
+  getNetworkItemsCount () {
+    const { itemsByCategory } = this.model
     if (itemsByCategory != null) {
-      return itemsByCategory.network.length + itemsByCategory.personal.length;
+      return itemsByCategory.network.length + itemsByCategory.personal.length
     } else {
-      return 0;
+      return 0
     }
   },
 
-  toggleZoom(e){
-    _.invertAttr(this.ui.cover, 'src', 'data-zoom-toggle');
-    this.ui.zoomButtons.toggle();
-    this.$el.toggleClass('zoom', { duration: 500 });
-    e.stopPropagation();
-    return e.preventDefault();
+  toggleZoom (e) {
+    _.invertAttr(this.ui.cover, 'src', 'data-zoom-toggle')
+    this.ui.zoomButtons.toggle()
+    this.$el.toggleClass('zoom', { duration: 500 })
+    e.stopPropagation()
+    return e.preventDefault()
   },
 
-  toggleWrap(e){
+  toggleWrap (e) {
     if (this.$el.hasClass('wrapped')) {
-      this.wrap = false;
-      this.$el.removeClass('wrapped');
-      return this.$el.addClass('unwrapped');
+      this.wrap = false
+      this.$el.removeClass('wrapped')
+      return this.$el.addClass('unwrapped')
     } else if (this.$el.hasClass('unwrapped')) {
-      this.wrap = true;
-      this.$el.removeClass('unwrapped');
-      return this.$el.addClass('wrapped');
+      this.wrap = true
+      this.$el.removeClass('unwrapped')
+      return this.$el.addClass('wrapped')
     }
   }
-});
+})

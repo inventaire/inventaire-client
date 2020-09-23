@@ -1,18 +1,25 @@
-const { root } = window.location;
-import { buildPath } from 'lib/location';
-const endpointBase = require('./endpoint')('feeds', true);
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import { buildPath } from 'lib/location'
+const { root } = window.location
+const endpointBase = require('./endpoint')('feeds', true)
 // Always using the absolute path so that links are treated as external links,
 // thus getting target='_blank' attributes, and the associated click behaviors
 // cf app/modules/general/lib/smart_prevent_default.coffee
-const endpoint = `${root}${endpointBase}`;
+const endpoint = `${root}${endpointBase}`
 
-export default function(key, id){
-  const query = {};
-  query[key] = id;
+export default function (key, id) {
+  const query = {}
+  query[key] = id
   if (app.user.loggedIn) {
-    query.requester = app.user.id;
-    query.token = app.user.get('readToken');
+    query.requester = app.user.id
+    query.token = app.user.get('readToken')
   }
 
-  return buildPath(endpoint, query);
+  return buildPath(endpoint, query)
 };

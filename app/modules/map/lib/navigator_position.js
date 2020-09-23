@@ -1,41 +1,49 @@
-const errIcon = _.icon('bolt');
-const { truncateDecimals } = require('./geo');
+/* eslint-disable
+    no-return-assign,
+    no-undef,
+    no-unused-vars,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+const errIcon = _.icon('bolt')
+const { truncateDecimals } = require('./geo')
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
-const currentPosition = () => new Promise(function(resolve, reject){
+const currentPosition = () => new Promise((resolve, reject) => {
   if (navigator.geolocation?.getCurrentPosition == null) {
-    const err = new Error('getCurrentPosition isnt accessible');
-    return reject(err);
+    const err = new Error('getCurrentPosition isnt accessible')
+    return reject(err)
   }
 
   // getCurrentPosition throws PositionError s that aren't instanceof Error
   // thus the need to create a new error from it
-  const formattedReject = err => reject(new Error(err.message || 'getCurrentPosition error'));
+  const formattedReject = err => reject(new Error(err.message || 'getCurrentPosition error'))
 
   const options =
     // The timeout option doesn't seem to have any effect
-    {timeout: 10 * 1000};
+    { timeout: 10 * 1000 }
 
-  return navigator.geolocation.getCurrentPosition(resolve, formattedReject, options);
-});
+  return navigator.geolocation.getCurrentPosition(resolve, formattedReject, options)
+})
 
-const normalizeCoords = function(position){
-  const { latitude, longitude } = position.coords;
-  return { lat: truncateDecimals(latitude), lng: truncateDecimals(longitude) };
-};
+const normalizeCoords = function (position) {
+  const { latitude, longitude } = position.coords
+  return { lat: truncateDecimals(latitude), lng: truncateDecimals(longitude) }
+}
 
-const returnPlaceholderCoords = function(err){
-  let coords;
-  _.warn(err, "couldn't obtain user's position: returning placeholder coordinates");
+const returnPlaceholderCoords = function (err) {
+  let coords
+  _.warn(err, "couldn't obtain user's position: returning placeholder coordinates")
   return coords = {
     lat: 46.2324,
     lng: 6.0450,
     zoom: 3
-  };
-};
+  }
+}
 
 export default containerId => currentPosition()
 .timeout(10 * 1000)
 .then(normalizeCoords)
 .then(_.Log('current position'))
-.catch(returnPlaceholderCoords);
+.catch(returnPlaceholderCoords)

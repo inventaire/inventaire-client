@@ -1,3 +1,13 @@
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-unused-vars,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Metadata update is coupled to the needs of:
 // - Browsers:
 //   - document title update (which is important for the browser history)
@@ -13,52 +23,52 @@
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
 
-import applyTransformers from './apply_transformers';
+import applyTransformers from './apply_transformers'
 
-import updateNodeType from './update_node_type';
-import { currentRoute } from 'lib/location';
-const initialRoute = currentRoute();
+import updateNodeType from './update_node_type'
+import { currentRoute } from 'lib/location'
+const initialRoute = currentRoute()
 // Make prerender wait before assuming everything is ready
 // see https://prerender.io/documentation/best-practices
-window.prerenderReady = false;
-const metadataUpdateDone = () => window.prerenderReady = true;
+window.prerenderReady = false
+const metadataUpdateDone = () => window.prerenderReady = true
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
-setTimeout(metadataUpdateDone, 20 * 1000);
-const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null);
+setTimeout(metadataUpdateDone, 20 * 1000)
+const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-const lastRoute = null;
-const updateRouteMetadata = function(route, metadataPromise = {}){
-  route = route.replace(/^\//, '');
+const lastRoute = null
+const updateRouteMetadata = function (route, metadataPromise = {}) {
+  route = route.replace(/^\//, '')
   // There should be no need to re-update metadata when the route stays the same
-  if (lastRoute === route) { return; }
+  if (lastRoute === route) { return }
 
   // metadataPromise can be a promise or a simple object
   return Promise.resolve(metadataPromise)
   .then(applyMetadataUpdate(route))
-  .finally(metadataUpdateDone);
-};
+  .finally(metadataUpdateDone)
+}
 
-var applyMetadataUpdate = route => (function(metadata = {}) {
-  let redirection;
-  if (!prerenderReady && (initialRoute !== route)) { redirection = true; }
+var applyMetadataUpdate = route => function (metadata = {}) {
+  let redirection
+  if (!prerenderReady && (initialRoute !== route)) { redirection = true }
 
-  if (redirection) { setPrerenderMeta(302, route); }
+  if (redirection) { setPrerenderMeta(302, route) }
 
   if (metadata.smallCardType) {
-    metadata['twitter:card'] = 'summary';
+    metadata['twitter:card'] = 'summary'
     // Use a small image to force social media to display it small
-    metadata.image = (metadata.image != null) ? app.API.img(metadata.image, 300, 300) : undefined;
-    delete metadata.smallCardType;
+    metadata.image = (metadata.image != null) ? app.API.img(metadata.image, 300, 300) : undefined
+    delete metadata.smallCardType
   }
 
-  if (metadata.title == null) { metadata = defaultMetadata(); }
-  if (!metadata.url) { metadata.url = `/${route}`; }
+  if (metadata.title == null) { metadata = defaultMetadata() }
+  if (!metadata.url) { metadata.url = `/${route}` }
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
-  if (metadata.description == null) { metadata.description = ''; }
-  return updateMetadata(metadata);
-});
+  if (metadata.description == null) { metadata.description = '' }
+  return updateMetadata(metadata)
+}
 
 var defaultMetadata = () => ({
   title: 'Inventaire - ' + _.i18n('your friends and communities are your best library'),
@@ -67,31 +77,31 @@ var defaultMetadata = () => ({
   rss: 'https://wiki.inventaire.io/blog.rss',
   'og:type': 'website',
   'twitter:card': 'summary_large_image'
-});
+})
 
-var updateMetadata = function(metadata){
-  for (let key in metadata) {
-    const value = metadata[key];
-    updateNodeType(key, value);
+var updateMetadata = function (metadata) {
+  for (const key in metadata) {
+    const value = metadata[key]
+    updateNodeType(key, value)
   }
-};
+}
 
-var setPrerenderMeta = function(statusCode = 500, route){
-  if (!isPrerenderSession || prerenderReady) { return; }
+var setPrerenderMeta = function (statusCode = 500, route) {
+  if (!isPrerenderSession || prerenderReady) { return }
 
-  let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`;
+  let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`
   if ((statusCode === 302) && (route != null)) {
-    const fullUrl = `${document.location.origin}/${route}`.replace(/\/$/, '');
+    const fullUrl = `${document.location.origin}/${route}`.replace(/\/$/, '')
     // See https://github.com/prerender/prerender#httpheaders
-    prerenderMeta += `<meta name='prerender-header' content='Location: ${fullUrl}'>`;
+    prerenderMeta += `<meta name='prerender-header' content='Location: ${fullUrl}'>`
   }
 
-  return $('head').append(prerenderMeta);
-};
+  return $('head').append(prerenderMeta)
+}
 
-const setPrerenderStatusCode = function(statusCode, route){
-  setPrerenderMeta(statusCode, route);
-  return metadataUpdateDone();
-};
+const setPrerenderStatusCode = function (statusCode, route) {
+  setPrerenderMeta(statusCode, route)
+  return metadataUpdateDone()
+}
 
-export { updateRouteMetadata, setPrerenderStatusCode };
+export { updateRouteMetadata, setPrerenderStatusCode }

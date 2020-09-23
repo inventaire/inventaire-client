@@ -1,17 +1,24 @@
-import error_ from 'lib/error';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import error_ from 'lib/error'
 
-const testAttribute = function(attribute, value, validator_){
-  const selector = `#${attribute}Field`;
+const testAttribute = function (attribute, value, validator_) {
+  const selector = `#${attribute}Field`
   if (value === app.user.get(attribute)) {
     // Non-standard convention: 499 = client user error
-    const err = error_.new(`that's already your ${attribute}`, 499);
-    err.selector = selector;
-    throw err;
+    const err = error_.new(`that's already your ${attribute}`, 499)
+    err.selector = selector
+    throw err
   } else {
-    validator_.pass(value, selector);
-    return value;
+    validator_.pass(value, selector)
+    return value
   }
-};
+}
 
 const pickerData = (model, attribute) => ({
   nameBase: attribute,
@@ -25,6 +32,6 @@ const pickerData = (model, attribute) => ({
     text: _.i18n(`change ${attribute}`),
     classes: 'light-blue-button postfix'
   }
-});
+})
 
-export { testAttribute, pickerData };
+export { testAttribute, pickerData }

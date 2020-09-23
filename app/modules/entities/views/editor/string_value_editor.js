@@ -1,8 +1,20 @@
-import ClaimsEditorCommons from './claims_editor_commons';
-import forms_ from 'modules/general/lib/forms';
-import error_ from 'lib/error';
-const inputSelector = '.string-value-input';
-import { initEditionTitleTip, tipOnKeyup, tipOnRender } from './lib/title_tip';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import ClaimsEditorCommons from './claims_editor_commons'
+import forms_ from 'modules/general/lib/forms'
+import error_ from 'lib/error'
+import TitleTip from './lib/title_tip'
+const inputSelector = '.string-value-input'
+
+const {
+  initEditionTitleTip,
+  tipOnKeyup,
+  tipOnRender
+} = TitleTip
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'string-value-editor',
@@ -13,22 +25,22 @@ export default ClaimsEditorCommons.extend({
     tip: '.tip'
   },
 
-  initialize() {
-    this.focusTarget = 'input';
-    this.initEditModeState();
-    return initEditionTitleTip.call(this, this.model.entity, this.model.get('property'));
+  initialize () {
+    this.focusTarget = 'input'
+    this.initEditModeState()
+    return initEditionTitleTip.call(this, this.model.entity, this.model.get('property'))
   },
 
-  serializeData() {
-    const attrs = this.model.toJSON();
-    attrs.editMode = this.editMode;
-    attrs.editable = true;
-    return attrs;
+  serializeData () {
+    const attrs = this.model.toJSON()
+    attrs.editMode = this.editMode
+    attrs.editable = true
+    return attrs
   },
 
-  onRender() {
-    this.focusOnRender();
-    return tipOnRender.call(this);
+  onRender () {
+    this.focusOnRender()
+    return tipOnRender.call(this)
   },
 
   events: {
@@ -38,26 +50,26 @@ export default ClaimsEditorCommons.extend({
     'click .delete': 'delete',
     // Not setting a particular selector so that
     // any keyup event on the element triggers the event
-    'keyup': 'onKeyupCustom'
+    keyup: 'onKeyupCustom'
   },
 
-  save() {
-    const val = this.ui.input.val().trim();
+  save () {
+    const val = this.ui.input.val().trim()
 
     if (!_.isNonEmptyString(val)) {
-      const err = error_.new("can't be empty", val);
-      err.selector = inputSelector;
-      return forms_.alert(this, err);
+      const err = error_.new("can't be empty", val)
+      err.selector = inputSelector
+      return forms_.alert(this, err)
     }
 
     // Ignore if we got the same value
-    if (val === this.model.get('value')) { return this.hideEditMode(); }
+    if (val === this.model.get('value')) { return this.hideEditMode() }
 
-    return this._save(val);
+    return this._save(val)
   },
 
-  onKeyupCustom(e){
-    this.onKeyUp(e);
-    return tipOnKeyup.call(this, e);
+  onKeyupCustom (e) {
+    this.onKeyUp(e)
+    return tipOnKeyup.call(this, e)
   }
-});
+})

@@ -1,14 +1,22 @@
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // Motivation for having a view separated from ItemShow:
 // - no need to reload the image on re-render (like when details are saved)
 
-import ItemTransactions from './item_transactions';
+import ItemTransactions from './item_transactions'
 
-import getActionKey from 'lib/get_action_key';
-import ItemShelves from './item_shelves';
-import Shelves from 'modules/shelves/collections/shelves';
-import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves';
-import itemViewsCommons from '../lib/items_views_commons';
-const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons);
+import getActionKey from 'lib/get_action_key'
+import ItemShelves from './item_shelves'
+import Shelves from 'modules/shelves/collections/shelves'
+import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves'
+import itemViewsCommons from '../lib/items_views_commons'
+const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons)
 
 export default ItemLayout.extend({
   id: 'itemShowData',
@@ -28,10 +36,10 @@ export default ItemLayout.extend({
     AlertBox: {}
   },
 
-  initialize() {
+  initialize () {
     // The alertbox is appended to the target's parent, which might have
     // historical reasons but seems a bit dumb now
-    return this.alertBoxTarget = '.leftBox .panel';
+    return this.alertBoxTarget = '.leftBox .panel'
   },
 
   modelEvents: {
@@ -41,8 +49,8 @@ export default ItemLayout.extend({
     'add:shelves': 'updateShelves'
   },
 
-  onRender() {
-    if (app.user.loggedIn) { return this.showTransactions(); }
+  onRender () {
+    if (app.user.loggedIn) { return this.showTransactions() }
   },
 
   events: {
@@ -69,70 +77,71 @@ export default ItemLayout.extend({
     'click a#cancelNotesEdition': 'hideNotesEditor',
     'keydown #notesEditor': 'notesEditorKeyAction',
     'click a#validateNotes': 'validateNotes',
-    'click a.requestItem'() { return app.execute('show:item:request', this.model); },
+    'click a.requestItem' () { return app.execute('show:item:request', this.model) },
     'click .selectShelf': 'selectShelf',
     'click .toggleShelvesExpand': 'toggleShelvesExpand'
   },
 
-  serializeData() { return this.model.serializeData(); },
+  serializeData () { return this.model.serializeData() },
 
-  onShow() {
-    return this.showShelves();
+  onShow () {
+    return this.showShelves()
   },
 
-  itemDestroyBack() {
-    if (this.model.isDestroyed) { return app.execute('modal:close');
-    } else { return app.execute('show:item', this.model); }
+  itemDestroyBack () {
+    if (this.model.isDestroyed) {
+      return app.execute('modal:close')
+    } else { return app.execute('show:item', this.model) }
   },
 
-  showNotesEditorFromKey(e){  return this.showEditorFromKey('notes', e); },
-  showDetailsEditorFromKey(e){ return this.showEditorFromKey('details', e); },
-  showEditorFromKey(editor, e){
-    const key = getActionKey(e);
-    const capitalizedEditor = _.capitalise(editor);
-    if (key === 'enter') { return this[`show${capitalizedEditor}Editor`](); }
+  showNotesEditorFromKey (e) { return this.showEditorFromKey('notes', e) },
+  showDetailsEditorFromKey (e) { return this.showEditorFromKey('details', e) },
+  showEditorFromKey (editor, e) {
+    const key = getActionKey(e)
+    const capitalizedEditor = _.capitalise(editor)
+    if (key === 'enter') { return this[`show${capitalizedEditor}Editor`]() }
   },
 
-  showDetailsEditor(e){ return this.showEditor('details', e); },
-  hideDetailsEditor(e){ return this.hideEditor('details', e); },
-  detailsEditorKeyAction(e){ return this.editorKeyAction('details', e); },
+  showDetailsEditor (e) { return this.showEditor('details', e) },
+  hideDetailsEditor (e) { return this.hideEditor('details', e) },
+  detailsEditorKeyAction (e) { return this.editorKeyAction('details', e) },
 
-  showNotesEditor(e){ return this.showEditor('notes', e); },
-  hideNotesEditor(e){  return this.hideEditor('notes', e); },
-  notesEditorKeyAction(e){ return this.editorKeyAction('notes', e); },
+  showNotesEditor (e) { return this.showEditor('notes', e) },
+  hideNotesEditor (e) { return this.hideEditor('notes', e) },
+  notesEditorKeyAction (e) { return this.editorKeyAction('notes', e) },
 
-  validateDetails() { return this.validateEdit('details'); },
-  validateNotes() { return this.validateEdit('notes'); },
+  validateDetails () { return this.validateEdit('details') },
+  validateNotes () { return this.validateEdit('notes') },
 
-  showEditor(nameBase, e){
-    if (!this.model.mainUserIsOwner) { return; }
-    $(`#${nameBase}`).hide();
-    $(`#${nameBase}Editor`).show().find('textarea').focus();
-    return e?.stopPropagation();
+  showEditor (nameBase, e) {
+    if (!this.model.mainUserIsOwner) { return }
+    $(`#${nameBase}`).hide()
+    $(`#${nameBase}Editor`).show().find('textarea').focus()
+    return e?.stopPropagation()
   },
 
-  hideEditor(nameBase, e){
-    $(`#${nameBase}`).show();
-    $(`#${nameBase}Editor`).hide();
-    return e?.stopPropagation();
+  hideEditor (nameBase, e) {
+    $(`#${nameBase}`).show()
+    $(`#${nameBase}Editor`).hide()
+    return e?.stopPropagation()
   },
 
-  editorKeyAction(editor, e){
-    const key = getActionKey(e);
-    const capitalizedEditor = _.capitalise(editor);
+  editorKeyAction (editor, e) {
+    const key = getActionKey(e)
+    const capitalizedEditor = _.capitalise(editor)
     if (key === 'esc') {
-      const hideEditor = `hide${capitalizedEditor}Editor`;
-      this[hideEditor]();
-      return e.stopPropagation();
+      const hideEditor = `hide${capitalizedEditor}Editor`
+      this[hideEditor]()
+      return e.stopPropagation()
     } else if ((key === 'enter') && e.ctrlKey) {
-      this.validateEdit(editor);
-      return e.stopPropagation();
+      this.validateEdit(editor)
+      return e.stopPropagation()
     }
   },
 
-  validateEdit(nameBase){
-    this.hideEditor(nameBase);
-    const edited = $(`#${nameBase}Editor textarea`).val();
+  validateEdit (nameBase) {
+    this.hideEditor(nameBase)
+    const edited = $(`#${nameBase}Editor textarea`).val()
     if (edited !== this.model.get(nameBase)) {
       return app.request('items:update', {
         items: [ this.model ],
@@ -140,44 +149,44 @@ export default ItemLayout.extend({
         value: edited,
         selector: `#${nameBase}Editor`
       }
-      );
+      )
     }
   },
 
-  showTransactions() {
-    if (this.transactions == null) { this.transactions = app.request('get:transactions:ongoing:byItemId', this.model.id); }
+  showTransactions () {
+    if (this.transactions == null) { this.transactions = app.request('get:transactions:ongoing:byItemId', this.model.id) }
     return Promise.all(_.invoke(this.transactions.models, 'beforeShow'))
-    .then(this.ifViewIsIntact('_showTransactions'));
+    .then(this.ifViewIsIntact('_showTransactions'))
   },
 
-  _showTransactions() {
-    return this.transactionsRegion.show(new ItemTransactions({ collection: this.transactions }));
+  _showTransactions () {
+    return this.transactionsRegion.show(new ItemTransactions({ collection: this.transactions }))
   },
 
-  showShelves() {
+  showShelves () {
     return this.getShelves()
     .then(shelves => {
-      return this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') });
-  })
+      return this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') })
+    })
     .then(this.ifViewIsIntact('_showShelves'))
-    .catch(_.Error('showShelves err'));
+    .catch(_.Error('showShelves err'))
   },
 
-  getShelves() {
+  getShelves () {
     if (this.model.mainUserIsOwner) {
-      return getShelvesByOwner(app.user.id);
+      return getShelvesByOwner(app.user.id)
     } else {
-      const itemShelves = this.model.get('shelves');
-      if (itemShelves?.length <= 0) { return Promise.resolve([]); }
+      const itemShelves = this.model.get('shelves')
+      if (itemShelves?.length <= 0) { return Promise.resolve([]) }
       return getShelvesByIds(itemShelves)
-      .then(_.values);
+      .then(_.values)
     }
   },
 
-  _showShelves() {
+  _showShelves () {
     if (this.shelves.length === 0) {
-      this.ui.shelvesPanel.hide();
-      return;
+      this.ui.shelvesPanel.hide()
+      return
     }
 
     return this.shelvesSelector.show(new ItemShelves({
@@ -185,27 +194,27 @@ export default ItemLayout.extend({
       item: this.model,
       mainUserIsOwner: this.model.mainUserIsOwner
     })
-    );
+    )
   },
 
-  selectShelf(e){
-    const shelfId = e.currentTarget.href.split('/').slice(-1)[0];
-    return app.execute('show:shelf', shelfId);
+  selectShelf (e) {
+    const shelfId = e.currentTarget.href.split('/').slice(-1)[0]
+    return app.execute('show:shelf', shelfId)
   },
 
-  updateShelves() {
+  updateShelves () {
     if (this.model.mainUserIsOwner) {
       if (this.shelves.length > this.model.get('shelves').length) {
-        return this.ui.toggleShelvesExpand.show();
+        return this.ui.toggleShelvesExpand.show()
       } else {
-        return this.ui.toggleShelvesExpand.hide();
+        return this.ui.toggleShelvesExpand.hide()
       }
     }
   },
 
-  afterDestroy() {
-    return app.execute('show:inventory:main:user');
+  afterDestroy () {
+    return app.execute('show:inventory:main:user')
   },
 
-  toggleShelvesExpand() { return this.$el.find('.shelvesPanel').toggleClass('expanded'); }
-});
+  toggleShelvesExpand () { return this.$el.find('.shelvesPanel').toggleClass('expanded') }
+})

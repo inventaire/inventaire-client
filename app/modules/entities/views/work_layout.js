@@ -1,7 +1,14 @@
-import TypedEntityLayout from './typed_entity_layout';
-import EditionsList from './editions_list';
-import EntityActions from './entity_actions';
-import entityItems from '../lib/entity_items';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import TypedEntityLayout from './typed_entity_layout'
+import EditionsList from './editions_list'
+import EntityActions from './entity_actions'
+import entityItems from '../lib/entity_items'
 
 export default TypedEntityLayout.extend({
   id: 'workLayout',
@@ -21,49 +28,50 @@ export default TypedEntityLayout.extend({
     mergeSuggestionsRegion: '.mergeSuggestions'
   },
 
-  initialize() {
-    this.displayItemsCovers = true;
-    TypedEntityLayout.prototype.initialize.call(this);
-    entityItems.initialize.call(this);
-    return this.displayMergeSuggestions = app.user.hasAdminAccess;
+  initialize () {
+    this.displayItemsCovers = true
+    TypedEntityLayout.prototype.initialize.call(this)
+    entityItems.initialize.call(this)
+    return this.displayMergeSuggestions = app.user.hasAdminAccess
   },
 
-  onRender() {
-    TypedEntityLayout.prototype.onRender.call(this);
-    return this.lazyShowItems();
+  onRender () {
+    TypedEntityLayout.prototype.onRender.call(this)
+    return this.lazyShowItems()
   },
 
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.toJSON(),
-      {displayMergeSuggestions: this.displayMergeSuggestions});
+      { displayMergeSuggestions: this.displayMergeSuggestions })
   },
 
-  onShow() {
+  onShow () {
     // Need to wait to know if the user has an instance of this work
     this.waitForItems
-    .then(this.ifViewIsIntact('showEntityActions'));
+    .then(this.ifViewIsIntact('showEntityActions'))
 
     return this.model.fetchSubEntities()
-    .then(this.ifViewIsIntact('showEditions'));
+    .then(this.ifViewIsIntact('showEditions'))
   },
 
   events: {
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
   },
 
-  showEntityActions() { return this.entityActions.show(new EntityActions({ model: this.model })); },
+  showEntityActions () { return this.entityActions.show(new EntityActions({ model: this.model })) },
 
-  showEditions() {
+  showEditions () {
     return this.editionsList.show(new EditionsList({
       collection: this.model.editions,
       work: this.model,
       onWorkLayout: true
     })
-    );
+    )
   },
 
-  toggleWikipediaPreview() { return this.$el.trigger('toggleWikiIframe', this); },
+  toggleWikipediaPreview () { return this.$el.trigger('toggleWikiIframe', this) },
 
-  showMergeSuggestions() {
-    return app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion });
-  }});
+  showMergeSuggestions () {
+    return app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
+  }
+})

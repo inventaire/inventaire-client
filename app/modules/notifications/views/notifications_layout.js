@@ -1,17 +1,24 @@
-import UsersList from 'modules/users/views/users_list';
-import GroupsList from 'modules/network/views/groups_list';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import UsersList from 'modules/users/views/users_list'
+import GroupsList from 'modules/network/views/groups_list'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: require('./notification_li'),
   emptyView: require('./no_notification'),
 
-  onShow() {
+  onShow () {
     // Wait for the notifications to arrive to mark them as read
     return app.request('wait:for', 'user')
-    .then(this.collection.markAsRead.bind(this.collection));
+    .then(this.collection.markAsRead.bind(this.collection))
   }
-});
+})
 
 export default Marionette.LayoutView.extend({
   id: 'notificationsLayout',
@@ -29,52 +36,53 @@ export default Marionette.LayoutView.extend({
     groupsInvitationsSection: '.groupsInvitations'
   },
 
-  initialize() {
-    ({ notifications: this.notifications } = this.options);
+  initialize () {
+    ({ notifications: this.notifications } = this.options)
 
     this.waitForFriendsRequests = app.request('fetch:otherRequested')
-      .then(() => { return this.otherRequested = app.users.otherRequested; });
+      .then(() => { return this.otherRequested = app.users.otherRequested })
 
-    return this.waitForGroupsInvitations = app.request('wait:for', 'groups');
+    return this.waitForGroupsInvitations = app.request('wait:for', 'groups')
   },
 
   behaviors: {
     PreventDefault: {}
   },
 
-  onShow() {
+  onShow () {
     this.waitForFriendsRequests
-    .then(this.ifViewIsIntact('showFriendsRequests'));
+    .then(this.ifViewIsIntact('showFriendsRequests'))
 
     this.waitForGroupsInvitations
-    .then(this.ifViewIsIntact('showGroupsInvitations'));
+    .then(this.ifViewIsIntact('showGroupsInvitations'))
 
-    return this.showNotificationsList();
+    return this.showNotificationsList()
   },
 
   events: {
     'click .showNotificationsSettings': _.clickCommand('show:settings:notifications')
   },
 
-  showFriendsRequests() {
+  showFriendsRequests () {
     if (this.otherRequested.length > 0) {
-      this.ui.friendsRequestsSection.removeClass('hidden');
+      this.ui.friendsRequestsSection.removeClass('hidden')
       return this.friendsRequestsList.show(new UsersList({
         collection: this.otherRequested,
         emptyViewMessage: 'no pending requests',
         stretch: true
       })
-      );
+      )
     }
   },
 
-  showGroupsInvitations() {
+  showGroupsInvitations () {
     if (app.groups.mainUserInvited.length > 0) {
-      this.ui.groupsInvitationsSection.removeClass('hidden');
-      return this.groupsInvitationsList.show(new GroupsList({ collection: app.groups.mainUserInvited }));
+      this.ui.groupsInvitationsSection.removeClass('hidden')
+      return this.groupsInvitationsList.show(new GroupsList({ collection: app.groups.mainUserInvited }))
     }
   },
 
-  showNotificationsList() {
-    return this.notificationsList.show(new NotificationsList({ collection: this.notifications }));
-  }});
+  showNotificationsList () {
+    return this.notificationsList.show(new NotificationsList({ collection: this.notifications }))
+  }
+})

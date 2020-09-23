@@ -1,5 +1,10 @@
-import InfiniteScrollItemsList from './infinite_scroll_items_list';
-import masonryPlugin from 'modules/general/plugins/masonry';
+/* eslint-disable
+    import/no-duplicates,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import InfiniteScrollItemsList from './infinite_scroll_items_list'
+import masonryPlugin from 'modules/general/plugins/masonry'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-cascade-wrapper',
@@ -12,18 +17,18 @@ export default InfiniteScrollItemsList.extend({
     itemsCascade: '.itemsCascade'
   },
 
-  childViewOptions() {
-    return {showDistance: this.options.showDistance};
+  childViewOptions () {
+    return { showDistance: this.options.showDistance }
   },
 
-  initialize() {
-    this.initInfiniteScroll();
+  initialize () {
+    this.initInfiniteScroll()
 
-    return masonryPlugin.call(this, '.itemsCascade', '.itemCard');
+    return masonryPlugin.call(this, '.itemsCascade', '.itemCard')
   },
 
-  serializeData() {
-    return {header: this.options.header};
+  serializeData () {
+    return { header: this.options.header }
   },
 
   collectionEvents: {
@@ -31,7 +36,7 @@ export default InfiniteScrollItemsList.extend({
   },
 
   childEvents: {
-    'render': 'lazyMasonryRefresh',
-    'resize': 'lazyMasonryRefresh'
+    render: 'lazyMasonryRefresh',
+    resize: 'lazyMasonryRefresh'
   }
-});
+})

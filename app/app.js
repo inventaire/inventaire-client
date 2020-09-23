@@ -1,98 +1,108 @@
-import BindedPartialBuilder from 'lib/binded_partial_builder';
-import { updateRouteMetadata } from 'lib/metadata/update';
-let initialUrlNavigateAlreadyCalled = false;
-import error_ from 'lib/error';
-import { routeSection, currentRoute } from 'lib/location';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-unused-vars,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import BindedPartialBuilder from 'lib/binded_partial_builder'
+import { updateRouteMetadata } from 'lib/metadata/update'
+import error_ from 'lib/error'
+import { routeSection, currentRoute } from 'lib/location'
+let initialUrlNavigateAlreadyCalled = false
 
 const App = Marionette.Application.extend({
-  initialize() {
-    Backbone.history.last = [];
-    require('modules/general/behaviors/base').initialize();
-    this.Execute = BindedPartialBuilder(this, 'execute');
-    this.Request = BindedPartialBuilder(this, 'request');
-    this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger');
-    this.once('start', onceStart);
+  initialize () {
+    Backbone.history.last = []
+    require('modules/general/behaviors/base').initialize()
+    this.Execute = BindedPartialBuilder(this, 'execute')
+    this.Request = BindedPartialBuilder(this, 'request')
+    this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger')
+    this.once('start', onceStart)
 
-    const navigateFromModel = function(model, pathAttribute = 'pathname', options = {}){
+    const navigateFromModel = function (model, pathAttribute = 'pathname', options = {}) {
       // Polymorphism
       if (_.isObject(pathAttribute)) {
-        options = pathAttribute;
-        pathAttribute = 'pathname';
+        options = pathAttribute
+        pathAttribute = 'pathname'
       }
 
-      options.metadata = model.updateMetadata();
-      const route = model.get(pathAttribute);
+      options.metadata = model.updateMetadata()
+      const route = model.get(pathAttribute)
       if (_.isNonEmptyString(route)) {
-        return this.navigate(route, options);
+        return this.navigate(route, options)
       } else {
-        return error_.report(`navigation model has no ${pathAttribute} attribute`, model);
+        return error_.report(`navigation model has no ${pathAttribute} attribute`, model)
       }
-    };
+    }
 
     // Make it a binded function so that it can be reused elsewhere without
     // having to bind it again
-    return this.navigateFromModel = navigateFromModel.bind(this);
+    return this.navigateFromModel = navigateFromModel.bind(this)
   },
 
-  navigate(route, options = {}){
+  navigate (route, options = {}) {
     // Close the modal if it was open
     // If the next view just opened the modal, this will be ignored
-    app.execute('modal:close');
+    app.execute('modal:close')
     // Update metadata before testing if the route changed
     // so that a call from a router action would trigger a metadata update
     // but not affect the history (due to the early return hereafter)
-    updateRouteMetadata(route, options.metadata);
+    updateRouteMetadata(route, options.metadata)
     // Easing code mutualization by firing app.navigate, even when the module
     // simply reacted to the requested URL
     if (route === currentRoute()) {
       // Trigger a route event for the first URL, so that views listening
       // on the route:change event can update accordingly
       if (!initialUrlNavigateAlreadyCalled) {
-        this.vent.trigger('route:change', routeSection(route), route);
-        initialUrlNavigateAlreadyCalled = true;
+        this.vent.trigger('route:change', routeSection(route), route)
+        initialUrlNavigateAlreadyCalled = true
       }
-      return;
+      return
     }
 
     // a starting slash would be corrected by the Backbone.Router
     // but routeSection relies on the route not starting by a slash.
     // it can't just thrown an error as pathnames commonly require to start
     // by a slash to avoid being interpreted as relative pathnames
-    route = route.replace(/^\//, '');
+    route = route.replace(/^\//, '')
 
-    this.vent.trigger('route:change', routeSection(route), route);
-    route = this.request('querystring:keep', route);
-    Backbone.history.last.unshift(route);
-    Backbone.history.navigate(route, options);
-    if (!options.preventScrollTop) { return scrollToPageTop(); }
+    this.vent.trigger('route:change', routeSection(route), route)
+    route = this.request('querystring:keep', route)
+    Backbone.history.last.unshift(route)
+    Backbone.history.navigate(route, options)
+    if (!options.preventScrollTop) { return scrollToPageTop() }
   },
 
-  navigateReplace(route, options){
-    if (!options) { options = {}; }
-    options.replace = true;
-    return this.navigate(route, options);
+  navigateReplace (route, options) {
+    if (!options) { options = {} }
+    options.replace = true
+    return this.navigate(route, options)
   }
-});
+})
 
-var onceStart = function() {
-  const routeFound = Backbone.history.start({ pushState: true });
+var onceStart = function () {
+  const routeFound = Backbone.history.start({ pushState: true })
 
   // Backbone.history 'route' event seem to be only triggerd
   // when 'previous' is hit. it isn't very clear why,
   // but it allows to notify functionalities depending on the route
-  return Backbone.history.on('route', onPreviousRoute);
-};
+  return Backbone.history.on('route', onPreviousRoute)
+}
 
-var onPreviousRoute = function() {
+var onPreviousRoute = function () {
   // Close the modal if it was open
   // If a modal is actually displayed in the previous route, it should
   // be reopen by the view being reshown
-  app.execute('modal:close');
+  app.execute('modal:close')
 
-  const route = currentRoute();
-  return app.vent.trigger('route:change', routeSection(route), route);
-};
+  const route = currentRoute()
+  return app.vent.trigger('route:change', routeSection(route), route)
+}
 
-export default new App();
+export default new App()
 
-var scrollToPageTop = () => window.scrollTo(0, 0);
+var scrollToPageTop = () => window.scrollTo(0, 0)

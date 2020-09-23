@@ -1,12 +1,19 @@
-import notificationsList from '../lib/notifications_settings_list';
-import getPeriodicityDays from '../lib/periodicity_days';
-const defaultPeriodicity = 20;
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import notificationsList from '../lib/notifications_settings_list'
+import getPeriodicityDays from '../lib/periodicity_days'
+const defaultPeriodicity = 20
 
 export default Marionette.ItemView.extend({
   template: require('./templates/notifications_settings'),
   className: 'notificationsSettings',
-  initialize() {
-    return this.listenTo(app.user, 'rollback', this.lazyRender.bind(this));
+  initialize () {
+    return this.listenTo(app.user, 'rollback', this.lazyRender.bind(this))
   },
 
   behaviors: {
@@ -16,28 +23,28 @@ export default Marionette.ItemView.extend({
     Toggler: {}
   },
 
-  serializeData() {
-    const notifications = app.user.get('settings.notifications') || {};
-    const summaryPeriodicity = app.user.get('summaryPeriodicity') || defaultPeriodicity;
+  serializeData () {
+    const notifications = app.user.get('settings.notifications') || {}
+    const summaryPeriodicity = app.user.get('summaryPeriodicity') || defaultPeriodicity
     return _.extend(this.getNotificationsData(notifications), {
       warning: 'global_email_toggle_warning',
       showWarning: !notifications.global,
       showPeriodicity: !notifications.inventories_activity_summary,
       days: getPeriodicityDays(summaryPeriodicity)
     }
-    );
+    )
   },
 
-  getNotificationsData(notifications){
-    const data = {};
-    for (let notif of notificationsList) {
+  getNotificationsData (notifications) {
+    const data = {}
+    for (const notif of notificationsList) {
       data[notif] = {
         id: notif,
         checked: notifications[notif] !== false,
         label: `${notif}_notification`
-      };
+      }
     }
-    return data;
+    return data
   },
 
   ui: {
@@ -52,39 +59,39 @@ export default Marionette.ItemView.extend({
     'change #periodicityPicker': 'updatePeriodicity'
   },
 
-  toggleSetting(e){
-    const { id, checked } = e.currentTarget;
-    return this.updateSetting(id, checked);
+  toggleSetting (e) {
+    const { id, checked } = e.currentTarget
+    return this.updateSetting(id, checked)
   },
 
-  updateSetting(id, value){
+  updateSetting (id, value) {
     app.request('user:update', {
       attribute: `settings.notifications.${id}`,
       value,
       defaultPreviousValue: true
     }
-    );
+    )
 
-    if (id === 'global') { this.toggleWarning(); }
-    if (id === 'inventories_activity_summary') { return this.togglePeriodicity(); }
+    if (id === 'global') { this.toggleWarning() }
+    if (id === 'inventories_activity_summary') { return this.togglePeriodicity() }
   },
 
-  toggleWarning() {
-    this.ui.warning.slideToggle(200);
-    return this.ui.globalFog.fadeToggle(200);
+  toggleWarning () {
+    this.ui.warning.slideToggle(200)
+    return this.ui.globalFog.fadeToggle(200)
   },
 
-  togglePeriodicity() {
-    return this.ui.periodicityFog.fadeToggle(200);
+  togglePeriodicity () {
+    return this.ui.periodicityFog.fadeToggle(200)
   },
 
-  updatePeriodicity(e){
-    const value = parseInt(e.target.value);
+  updatePeriodicity (e) {
+    const value = parseInt(e.target.value)
     return app.request('user:update', {
       attribute: 'summaryPeriodicity',
       value,
       selector: '#periodicityPicker'
     }
-    );
+    )
   }
-});
+})

@@ -1,46 +1,51 @@
+/* eslint-disable
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 const RelativeTask = Marionette.ItemView.extend({
   tagName: 'a',
-  className() {
-    let classes = 'relative-task';
+  className () {
+    let classes = 'relative-task'
     // if @model.get('hasEncyclopediaOccurence') then classes += ' good-candidate'
-    if (this.model.get('globalScore') > 10) { classes += ' good-candidate'; }
-    return classes;
+    if (this.model.get('globalScore') > 10) { classes += ' good-candidate' }
+    return classes
   },
 
-  attributes() {
+  attributes () {
     return {
       href: this.model.get('pathname'),
       'data-task-id': this.model.id
-    };
+    }
   },
 
   template: require('./templates/relative_task'),
-  initialize() {
-
+  initialize () {
     return this.model.grabSuggestion()
-    .then(this.lazyRender.bind(this));
+    .then(this.lazyRender.bind(this))
   },
 
-  serializeData() { return this.model.serializeData(); },
+  serializeData () { return this.model.serializeData() },
 
   events: {
-    'click': 'select'
+    click: 'select'
   },
 
-  select(e){
+  select (e) {
     if (!_.isOpenedOutside(e)) {
-      app.execute('show:task', this.model);
-      return e.preventDefault();
+      app.execute('show:task', this.model)
+      return e.preventDefault()
     }
   }
-});
+})
 
 export default Marionette.CollectionView.extend({
   className: 'inner-relative-tasks',
   childView: RelativeTask,
-  initialize() {
-    return this.currentTaskModelId = this.options.currentTaskModel.id;
+  initialize () {
+    return this.currentTaskModelId = this.options.currentTaskModel.id
   },
 
-  filter(child){ return child.id !== this.currentTaskModelId; }
-});
+  filter (child) { return child.id !== this.currentTaskModelId }
+})

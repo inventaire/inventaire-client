@@ -1,5 +1,12 @@
-import InfiniteScrollItemsList from './infinite_scroll_items_list';
-import ItemsTableSelectionEditor from './items_table_selection_editor';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import InfiniteScrollItemsList from './infinite_scroll_items_list'
+import ItemsTableSelectionEditor from './items_table_selection_editor'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-table',
@@ -15,20 +22,20 @@ export default InfiniteScrollItemsList.extend({
     selectionCounter: '.selectionCounter'
   },
 
-  initialize() {
+  initialize () {
     this.initInfiniteScroll();
-    ({ itemsIds: this.itemsIds, isMainUser: this.isMainUser, groupContext: this.groupContext } = this.options);
-    this.selectedIds = [];
-    return this.getSelectedIds = () => this.selectedIds;
+    ({ itemsIds: this.itemsIds, isMainUser: this.isMainUser, groupContext: this.groupContext } = this.options)
+    this.selectedIds = []
+    return this.getSelectedIds = () => this.selectedIds
   },
 
-  childViewOptions() { return { getSelectedIds: this.getSelectedIds, isMainUser: this.isMainUser, groupContext: this.groupContext }; },
+  childViewOptions () { return { getSelectedIds: this.getSelectedIds, isMainUser: this.isMainUser, groupContext: this.groupContext } },
 
-  serializeData() {
+  serializeData () {
     return {
       itemsCount: this.itemsIds.length,
       isMainUser: this.isMainUser
-    };
+    }
   },
 
   events: {
@@ -39,79 +46,81 @@ export default InfiniteScrollItemsList.extend({
     'change input[name="select"]': 'selectOne'
   },
 
-  selectAll() {
-    this.$el.find('input:checkbox').prop('checked', true);
-    return this.updateSelectedIds(_.clone(this.itemsIds));
+  selectAll () {
+    this.$el.find('input:checkbox').prop('checked', true)
+    return this.updateSelectedIds(_.clone(this.itemsIds))
   },
 
-  unselectAll() {
-    this.$el.find('input:checkbox').prop('checked', false);
-    return this.updateSelectedIds([]);
+  unselectAll () {
+    this.$el.find('input:checkbox').prop('checked', false)
+    return this.updateSelectedIds([])
   },
 
-  selectOne(e){
-    const { checked } = e.currentTarget;
-    const id = e.currentTarget.attributes['data-id'].value;
+  selectOne (e) {
+    const { checked } = e.currentTarget
+    const id = e.currentTarget.attributes['data-id'].value
     if (checked) {
-      if (this.selectedIds.includes(id)) { return;
-      } else { return this.addSelectedIds(id); }
+      if (this.selectedIds.includes(id)) {
+
+      } else { return this.addSelectedIds(id) }
     } else {
-      if (!this.selectedIds.includes(id)) { return;
-      } else { return this.removeSelectedIds(id); }
+      if (!this.selectedIds.includes(id)) {
+
+      } else { return this.removeSelectedIds(id) }
     }
   },
 
-  updateSelectedIds(list){
-    this.selectedIds = list;
+  updateSelectedIds (list) {
+    this.selectedIds = list
 
     if (list.length === 0) {
-      this.ui.unselectAll.addClass('hidden');
-      this.ui.editSelection.addClass('hidden');
+      this.ui.unselectAll.addClass('hidden')
+      this.ui.editSelection.addClass('hidden')
     } else {
-      this.ui.unselectAll.removeClass('hidden');
-      this.ui.editSelection.removeClass('hidden');
-      this.ui.selectionCounter.text(`(${list.length})`);
+      this.ui.unselectAll.removeClass('hidden')
+      this.ui.editSelection.removeClass('hidden')
+      this.ui.selectionCounter.text(`(${list.length})`)
     }
 
     if (list.length === this.itemsIds.length) {
-      return this.ui.selectAll.addClass('hidden');
+      return this.ui.selectAll.addClass('hidden')
     } else {
-      return this.ui.selectAll.removeClass('hidden');
+      return this.ui.selectAll.removeClass('hidden')
     }
   },
 
-  addSelectedIds(...ids){
-    this.selectedIds.push(...Array.from(ids || []));
-    return this.updateSelectedIds(this.selectedIds);
+  addSelectedIds (...ids) {
+    this.selectedIds.push(...Array.from(ids || []))
+    return this.updateSelectedIds(this.selectedIds)
   },
 
-  removeSelectedIds(...ids){
-    this.selectedIds = _.without(this.selectedIds, ...Array.from(ids));
-    return this.updateSelectedIds(this.selectedIds);
+  removeSelectedIds (...ids) {
+    this.selectedIds = _.without(this.selectedIds, ...Array.from(ids))
+    return this.updateSelectedIds(this.selectedIds)
   },
 
   // Get a mix of the selected views' models and the remaining ids from non-displayed
   // items so that items:update or items:delete can set values on models
   // trigger item rows updates
-  getSelectedModelsAndIds() {
-    const { selectedIds } = this;
+  getSelectedModelsAndIds () {
+    const { selectedIds } = this
 
     const selectedModels = this.children
       .filter(view => selectedIds.includes(view.model.id))
-      .map(_.property('model'));
+      .map(_.property('model'))
 
-    const modelsIds = _.pluck(selectedModels, 'id');
-    const otherIds = _.difference(selectedIds, modelsIds);
-    const selectedModelsAndIds = selectedModels.concat(otherIds);
-    return { selectedModelsAndIds, selectedModels, selectedIds };
+    const modelsIds = _.pluck(selectedModels, 'id')
+    const otherIds = _.difference(selectedIds, modelsIds)
+    const selectedModelsAndIds = selectedModels.concat(otherIds)
+    return { selectedModelsAndIds, selectedModels, selectedIds }
   },
 
-  showSelectionEditor() {
+  showSelectionEditor () {
     return app.layout.modal.show(new ItemsTableSelectionEditor({
       selectedIds: this.selectedIds,
       getSelectedModelsAndIds: this.getSelectedModelsAndIds.bind(this),
       afterItemsDelete: this.options.afterItemsDelete
     })
-    );
+    )
   }
-});
+})

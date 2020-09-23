@@ -1,8 +1,14 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors';
-import messagesPlugin from 'modules/general/plugins/messages';
-import forms_ from 'modules/general/lib/forms';
-import error_ from 'lib/error';
-import screen_ from 'lib/screen';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import messagesPlugin from 'modules/general/plugins/messages'
+import forms_ from 'modules/general/lib/forms'
+import error_ from 'lib/error'
+import screen_ from 'lib/screen'
 
 export default Marionette.CompositeView.extend({
   template: require('./templates/transaction'),
@@ -14,28 +20,28 @@ export default Marionette.CompositeView.extend({
     BackupForm: {}
   },
 
-  initialize() {
-    this.collection = this.model.timeline;
-    this.initPlugins();
-    return this.model.beforeShow();
+  initialize () {
+    this.collection = this.model.timeline
+    this.initPlugins()
+    return this.model.beforeShow()
   },
 
-  initPlugins() {
-    return _.extend(this, behaviorsPlugin, messagesPlugin);
+  initPlugins () {
+    return _.extend(this, behaviorsPlugin, messagesPlugin)
   },
 
-  serializeData() { return this.model.serializeData(); },
+  serializeData () { return this.model.serializeData() },
 
-  onShow() {
-    this.model.markAsRead();
+  onShow () {
+    this.model.markAsRead()
     if (screen_.isSmall() && !this.options.nonExplicitSelection) {
-      return screen_.scrollTop(this.$el);
+      return screen_.scrollTop(this.$el)
     }
   },
 
   modelEvents: {
-    'grab': 'lazyRender',
-    'change': 'lazyRender'
+    grab: 'lazyRender',
+    change: 'lazyRender'
   },
 
   childViewContainer: '.timeline',
@@ -61,45 +67,45 @@ export default Marionette.CompositeView.extend({
     'click .info a[href^="/items/"]': 'showItem'
   },
 
-  sendMessage() {
-    return this.postMessage('transaction:post:message', this.model.timeline);
+  sendMessage () {
+    return this.postMessage('transaction:post:message', this.model.timeline)
   },
 
-  accept() { return this.updateState('accepted'); },
-  decline() { return this.updateState('declined'); },
-  confirm() { return this.updateState('confirmed'); },
-  returned() { return this.updateState('returned'); },
-  archive() { return this.updateState('archive'); },
+  accept () { return this.updateState('accepted') },
+  decline () { return this.updateState('declined') },
+  confirm () { return this.updateState('confirmed') },
+  returned () { return this.updateState('returned') },
+  archive () { return this.updateState('archive') },
 
-  updateState(state){
+  updateState (state) {
     return this.model.updateState(state)
     .catch(error_.Complete('.actions'))
-    .catch(forms_.catchAlert.bind(null, this));
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
-  showItem(e){
-    if (_.isOpenedOutside(e)) { return; }
+  showItem (e) {
+    if (_.isOpenedOutside(e)) { return }
 
     // Case when the item was successfully grabbed by the transaction model
     if (this.model.item != null) {
-      return app.execute('show:item', this.model.item);
+      return app.execute('show:item', this.model.item)
     } else {
-      return app.execute('show:item:byId', this.model.get('item'));
+      return app.execute('show:item:byId', this.model.get('item'))
     }
   },
 
-  showOwner(e){
+  showOwner (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:inventory:user', this.model.owner);
+      return app.execute('show:inventory:user', this.model.owner)
     }
   },
 
-  cancel() {
+  cancel () {
     return app.execute('ask:confirmation', {
       confirmationText: _.i18n('transaction_cancel_confirmation'),
       action: this.model.cancelled.bind(this),
       selector: '.cancel'
     }
-    );
+    )
   }
-});
+})

@@ -1,17 +1,23 @@
-export default function(part){
-  const ordinal = part.get('claims.wdt:P1545.0');
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+export default function (part) {
+  const ordinal = part.get('claims.wdt:P1545.0')
 
   if (!_.isPositiveIntegerString(ordinal)) {
-    this.worksWithoutOrdinal.add(part);
-    return;
+    this.worksWithoutOrdinal.add(part)
+    return
   }
 
-  const ordinalInt = parseInt(ordinal);
-  if (ordinalInt > this.maxOrdinal) { this.maxOrdinal = ordinalInt; }
+  const ordinalInt = parseInt(ordinal)
+  if (ordinalInt > this.maxOrdinal) { this.maxOrdinal = ordinalInt }
 
-  part.set('ordinal', ordinalInt);
+  part.set('ordinal', ordinalInt)
 
-  const currentOrdinalValue = this.worksWithOrdinal[ordinalInt];
-  if (currentOrdinalValue != null) { return this.worksInConflicts.add(part);
-  } else { return this.worksWithOrdinal.add(part); }
+  const currentOrdinalValue = this.worksWithOrdinal[ordinalInt]
+  if (currentOrdinalValue != null) {
+    return this.worksInConflicts.add(part)
+  } else { return this.worksWithOrdinal.add(part) }
 };

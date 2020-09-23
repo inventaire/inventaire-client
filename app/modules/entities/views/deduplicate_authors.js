@@ -1,7 +1,20 @@
-import searchType from '../lib/search/search_type';
-import { getEntityUri } from '../lib/search/entities_uris_results';
-const searchHumans = searchType('humans');
-const { startLoading, stopLoading } = require('modules/general/plugins/behaviors');
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    no-useless-escape,
+    no-var,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import searchType from '../lib/search/search_type'
+import EntitiesUrisResults from '../lib/search/entities_uris_results'
+
+const {
+  getEntityUri
+} = EntitiesUrisResults
+
+const searchHumans = searchType('humans')
+const { startLoading, stopLoading } = require('modules/general/plugins/behaviors')
 
 export default Marionette.CompositeView.extend({
   id: 'deduplicateAuthors',
@@ -19,78 +32,79 @@ export default Marionette.CompositeView.extend({
     showActions: false
   },
 
-  initialize() {
-    this.collection = new Backbone.Collection;
-    const { name } = this.options;
-    if (name != null) { return this.showName(name);
-    } else { return this.fetchNames(); }
+  initialize () {
+    this.collection = new Backbone.Collection()
+    const { name } = this.options
+    if (name != null) {
+      return this.showName(name)
+    } else { return this.fetchNames() }
   },
 
-  fetchNames() {
-    startLoading.call(this, '.authors-loading');
+  fetchNames () {
+    startLoading.call(this, '.authors-loading')
 
     return _.preq.get(app.API.entities.duplicates)
     .get('names')
     .then(_.Log('names'))
     .tap(stopLoading.bind(this))
-    .then(names=> {
-      this.names = names;
-      return this.render();
-    });
+    .then(names => {
+      this.names = names
+      return this.render()
+    })
   },
 
-  serializeData() { return { names: this.names }; },
+  serializeData () { return { names: this.names } },
 
   events: {
     'click .name': 'showNameFromEvent'
   },
 
-  showNameFromEvent(e){
-    const name = e.currentTarget.attributes['data-key'].value;
-    $(e.currentTarget).addClass('visited');
-    return this.showName(name);
+  showNameFromEvent (e) {
+    const name = e.currentTarget.attributes['data-key'].value
+    $(e.currentTarget).addClass('visited')
+    return this.showName(name)
   },
 
-  showName(name){
-    this.collection.reset();
-    startLoading.call(this, '.authors-loading');
+  showName (name) {
+    this.collection.reset()
+    startLoading.call(this, '.authors-loading')
 
-    app.execute('querystring:set', 'name', name);
+    app.execute('querystring:set', 'name', name)
 
     return this.getHomonyms(name)
-    .then(stopLoading.bind(this));
+    .then(stopLoading.bind(this))
   },
 
-  getHomonyms(name){
+  getHomonyms (name) {
     return searchHumans(name, 100)
-    .then(humans=> {
+    .then(humans => {
       // If there are many candidates, keep only those that look the closest, if any
       if (humans.length > 50) {
-        const subset = humans.filter(asNameMatch(name));
-        if (subset.length > 1) { humans = subset; }
+        const subset = humans.filter(asNameMatch(name))
+        if (subset.length > 1) { humans = subset }
       }
 
       // If there are still many candidates, truncate the list to make it less
       // resource intensive
-      if (humans.length > 50) { humans = humans.slice(0, 51); }
+      if (humans.length > 50) { humans = humans.slice(0, 51) }
 
-      const uris = humans.map(human => getEntityUri(human.id || human._id));
+      const uris = humans.map(human => getEntityUri(human.id || human._id))
 
       return app.request('get:entities:models', { uris })
       .then(_.Log('humans models'))
-      .then(this.collection.add.bind(this.collection));
-    });
+      .then(this.collection.add.bind(this.collection))
+    })
   },
 
-  setFilter(filter){
-    this.filter = filter;
-    return this.render();
+  setFilter (filter) {
+    this.filter = filter
+    return this.render()
   }
-});
+})
 
-var asNameMatch = name => human => _.any(_.values(human.labels), labelMatch(name));
+var asNameMatch = name => human => _.any(_.values(human.labels), labelMatch(name))
 
-var labelMatch = name => label => normalize(label) === normalize(name);
+var labelMatch = name => label => normalize(label) === normalize(name)
 
 var normalize = name => name
 .trim()
@@ -100,4 +114,4 @@ var normalize = name => name
 .replace(/\s\s/g, ' ')
 // remove special characters
 .replace(/[.\/\\,]/g, '')
-.toLowerCase();
+.toLowerCase()

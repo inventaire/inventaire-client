@@ -1,21 +1,32 @@
-import fetchData from 'lib/data/fetch';
-import MainUser from '../models/main_user';
-import cookie_ from 'js-cookie';
+/* eslint-disable
+    handle-callback-err,
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import fetchData from 'lib/data/fetch'
+import MainUser from '../models/main_user'
+import cookie_ from 'js-cookie'
 
-export default function(app){
+export default function (app) {
   // the cookie is deleted on logout
-  const loggedIn = _.parseBooleanString(cookie_.get('loggedIn'));
+  const loggedIn = _.parseBooleanString(cookie_.get('loggedIn'))
 
   fetchData({
     name: 'user',
     Collection: MainUser,
-    condition: loggedIn}).catch(resetSession);
+    condition: loggedIn
+  }).catch(resetSession)
 
-  return app.user.loggedIn = loggedIn;
+  return app.user.loggedIn = loggedIn
 };
 
 // Known cases of session errors:
 // - when the server secret is changed
 // - when the current session user was deleted but the cookies weren't removed
 //   (possibly because the deletion was done from another browser or even another device)
-var resetSession = err => app.execute('logout', '/login');
+var resetSession = err => app.execute('logout', '/login')

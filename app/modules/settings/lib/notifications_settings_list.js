@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 export default [
   // GLOBAL
   'global',
@@ -16,4 +18,4 @@ export default [
   'your_item_was_requested',
   'update_on_your_item',
   'update_on_item_you_requested'
-];
+]

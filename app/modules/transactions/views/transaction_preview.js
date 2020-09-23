@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   template: require('./templates/transaction_preview'),
   className: 'transactionPreview',
@@ -5,22 +10,22 @@ export default Marionette.ItemView.extend({
     PreventDefault: {}
   },
 
-  initialize() {
-    this.listenTo(app.vent, 'transaction:select', this.autoSelect.bind(this));
+  initialize () {
+    this.listenTo(app.vent, 'transaction:select', this.autoSelect.bind(this))
     // Required by @requestContext
-    return this.model.buildTimeline();
+    return this.model.buildTimeline()
   },
 
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.serializeData(), {
       onItem: this.options.onItem,
       requestContext: this.requestContext()
     }
-    );
+    )
   },
 
   modelEvents: {
-    'grab': 'lazyRender',
+    grab: 'lazyRender',
     'change:read': 'lazyRender'
   },
 
@@ -32,31 +37,32 @@ export default Marionette.ItemView.extend({
     showTransaction: 'a.showTransaction'
   },
 
-  onRender() {
+  onRender () {
     if (app.request('last:transaction:id') === this.model.id) {
-      return this.$el.addClass('selected');
+      return this.$el.addClass('selected')
     }
   },
 
-  showTransaction(e){
+  showTransaction (e) {
     if (!_.isOpenedOutside(e)) {
       if (this.options.onItem) {
-        app.execute('show:transaction', this.model.id);
+        app.execute('show:transaction', this.model.id)
         // Required to close the ItemShow modal if one was open
-        return app.execute('modal:close');
+        return app.execute('modal:close')
       } else {
-        return app.vent.trigger('transaction:select', this.model);
+        return app.vent.trigger('transaction:select', this.model)
       }
     }
   },
 
-  autoSelect(transac){
-    if (transac === this.model) { return this.$el.addClass('selected');
-    } else { return this.$el.removeClass('selected'); }
+  autoSelect (transac) {
+    if (transac === this.model) {
+      return this.$el.addClass('selected')
+    } else { return this.$el.removeClass('selected') }
   },
 
-  requestContext() {
+  requestContext () {
     // first action context
-    return this.model.timeline.models[0].context();
+    return this.model.timeline.models[0].context()
   }
-});
+})

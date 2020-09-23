@@ -1,15 +1,22 @@
-import leafletLite from './leaflet_lite';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import leafletLite from './leaflet_lite'
 
 export default {
   // Coordinates are returned in decimal degrees
   // There is no need to keep more than 4 decimals, cf https://xkcd.com/2170/
   // See https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates
-  truncateDecimals(degree){ return Math.round(degree * 10000) / 10000; },
+  truncateDecimals (degree) { return Math.round(degree * 10000) / 10000 },
 
   // a, b MUST be { lat, lng } coords objects
-  distanceBetween(a, b){
-    _.types(arguments, 'objects...');
+  distanceBetween (a, b) {
+    _.types(arguments, 'objects...')
     // return the distance in kilometers
-    return leafletLite.distance(a, b) / 1000;
+    return leafletLite.distance(a, b) / 1000
   }
-};
+}

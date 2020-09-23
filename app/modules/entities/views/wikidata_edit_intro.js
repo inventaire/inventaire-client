@@ -1,26 +1,32 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   className: 'wikidata-edit-intro',
   template: require('./templates/wikidata_edit_intro'),
 
-  onShow() { return app.execute('modal:open', 'medium'); },
+  onShow () { return app.execute('modal:open', 'medium') },
 
-  serializeData() {
-    const attrs = this.model.toJSON();
-    attrs.isLoggedIn = app.user.loggedIn;
-    attrs.wikidataOauth = app.API.auth.oauth.wikidata + `&redirect=${attrs.edit}`;
-    attrs.wikidataIntro = 'https://www.wikidata.org/wiki/Wikidata:Introduction';
-    return attrs;
+  serializeData () {
+    const attrs = this.model.toJSON()
+    attrs.isLoggedIn = app.user.loggedIn
+    attrs.wikidataOauth = app.API.auth.oauth.wikidata + `&redirect=${attrs.edit}`
+    attrs.wikidataIntro = 'https://www.wikidata.org/wiki/Wikidata:Introduction'
+    return attrs
   },
 
   events: {
     'click .loginRequest': 'showLogin'
   },
 
-  showLogin() {
+  showLogin () {
     // No need to call show:login:redirect as it is called by the General behavior
     // on app_layout(?)
-    return app.execute('modal:close');
+    return app.execute('modal:close')
   },
 
-  onModalExit() { return app.execute('show:entity', this.model.get('uri')); }
-});
+  onModalExit () { return app.execute('show:entity', this.model.get('uri')) }
+})

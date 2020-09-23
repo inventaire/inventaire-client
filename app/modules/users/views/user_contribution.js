@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.ItemView.extend({
   className: 'userContribution',
   template: require('./templates/user_contribution'),
@@ -9,20 +14,20 @@ export default Marionette.ItemView.extend({
   },
 
   modelEvents: {
-    'grab': 'lazyRender'
+    grab: 'lazyRender'
   },
 
-  serializeData() { return this.model.serializeData(); },
+  serializeData () { return this.model.serializeData() },
 
   events: {
     'click .header': 'toggleOperations'
   },
 
-  toggleOperations(e){
+  toggleOperations (e) {
     // Prevent toggling when the intent was clicking on a link
-    if (e.target.tagName === 'A') { return; }
+    if (e.target.tagName === 'A') { return }
 
-    this.ui.operations.toggleClass('hidden');
-    return this.ui.togglers.toggleClass('hidden');
+    this.ui.operations.toggleClass('hidden')
+    return this.ui.togglers.toggleClass('hidden')
   }
-});
+})

@@ -1,1 +1,3 @@
-export default {'wdt:P747': require('./edition_creation')};
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
+export default { 'wdt:P747': require('./edition_creation') }

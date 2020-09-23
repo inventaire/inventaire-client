@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default obj => ({
   title: obj.Titre,
   authors: obj.Auteur.split(',').map(_.trim),
@@ -5,4 +10,4 @@ export default obj => ({
 
   // Convert 29/02/2012 to 2012-02-29
   publicationDate: obj['Date de publication']?.split('/').reverse().join('-')
-});
+})

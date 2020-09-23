@@ -1,5 +1,13 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors';
-import cropper from 'modules/general/lib/cropper';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-unused-vars,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import cropper from 'modules/general/lib/cropper'
 
 export default Marionette.ItemView.extend({
   tagName: 'div',
@@ -8,23 +16,23 @@ export default Marionette.ItemView.extend({
     Loading: {}
   },
 
-  initialize() {
+  initialize () {
     cropper.get()
     .then(() => this.model.waitForReady)
-    .then(() => { return this.ready = true; })
-    .then(this.lazyRender.bind(this));
+    .then(() => { return this.ready = true })
+    .then(this.lazyRender.bind(this))
 
     // the model depends on the view to get the croppedDataUrl
     // so it must have a reference to it
-    return this.model.view = this;
+    return this.model.view = this
   },
 
-  serializeData() {
+  serializeData () {
     return _.extend(this.model.toJSON(), {
       classes: this.getClasses(),
       ready: this.ready
     }
-    );
+    )
   },
 
   modelEvents: {
@@ -36,19 +44,19 @@ export default Marionette.ItemView.extend({
     img: '.original'
   },
 
-  getClasses() {
-    if (this.model.get('selected')) { return 'selected'; } else { return ''; }
+  getClasses () {
+    if (this.model.get('selected')) { return 'selected' } else { return '' }
   },
 
-  onRender() {
+  onRender () {
     if (this.model.get('crop')) {
       if (this.ready && this.model.get('selected')) {
-        return this.setTimeout(this.initCropper.bind(this), 200);
+        return this.setTimeout(this.initCropper.bind(this), 200)
       }
     }
   },
 
-  initCropper() {
+  initCropper () {
     // don't use a ui object to get the img
     // as the .selected class is added and removed
     // while the ui object is not being updated
@@ -57,13 +65,13 @@ export default Marionette.ItemView.extend({
       autoCropArea: 1,
       minCropBoxWidth: 300,
       minCropBoxHeight: 300
-    });
+    })
   },
 
-  getCroppedDataUrl(outputQuality = 1){
-    const data = this.ui.img.cropper('getData');
-    const canvas = this.ui.img.cropper('getCroppedCanvas');
-    data.dataUrl = canvas.toDataURL('image/jpeg', outputQuality);
-    return data;
+  getCroppedDataUrl (outputQuality = 1) {
+    const data = this.ui.img.cropper('getData')
+    const canvas = this.ui.img.cropper('getCroppedCanvas')
+    data.dataUrl = canvas.toDataURL('image/jpeg', outputQuality)
+    return data
   }
-});
+})

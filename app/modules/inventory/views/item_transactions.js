@@ -1,3 +1,8 @@
+/* eslint-disable
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Marionette.CompositeView.extend({
   className: 'itemTransactions',
   template: require('./templates/item_transactions'),
@@ -6,4 +11,4 @@ export default Marionette.CompositeView.extend({
   childViewOptions: {
     onItem: true
   }
-});
+})

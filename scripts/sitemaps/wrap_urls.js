@@ -1,5 +1,10 @@
-export default function(urlsNodes){
-  const text = urlsNodes.join('');
+/* eslint-disable
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+export default function (urlsNodes) {
+  const text = urlsNodes.join('')
   return `\
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
@@ -9,5 +14,5 @@ export default function(urlsNodes){
   http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   ${text}
 </urlset>\
-`;
+`
 };

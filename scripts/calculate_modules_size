@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/* eslint-disable
+    no-unused-vars,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 
 // Calculate the size of each modules bundled by Brunch in app.js and vendor.js
 
@@ -7,29 +12,29 @@
 // ./scripts/calculate_modules_size ./public/js/app.js | sort -rn
 // ./scripts/calculate_modules_size ./public/js/vendor.js | sort -rn
 
-const [ path ] = Array.from(process.argv.slice(2));
-const fs = require('fs');
-const file = fs.readFileSync(path).toString();
-const { padStart, padEnd } = require('lodash');
+const [ path ] = Array.from(process.argv.slice(2))
+const fs = require('fs')
+const file = fs.readFileSync(path).toString()
+const { padStart, padEnd } = require('lodash')
 
-let totalCharacters = 0;
-let totalLines = 0;
+let totalCharacters = 0
+let totalLines = 0
 
 file
 .split('require.register("')
-.forEach(function(part, index){
-  const name = index === 0 ? 'brunch' : part.split('", function')[0];
+.forEach((part, index) => {
+  const name = index === 0 ? 'brunch' : part.split('", function')[0]
   part = part
     // Remove first line
     .split('\n').slice(1).join('\n')
     // And the closing characters of the module wrapper function
     .replace(/\}\);\s+$/, '')
-    .trim();
-  const charactersCount = part.replace(/\s+/g, ' ').length;
-  const linesCount = part.split('\n').length;
-  totalCharacters += charactersCount;
-  totalLines += linesCount;
-  return console.log(padStart(charactersCount, 8, ' '), padStart(linesCount, 6, ' '), name);
-});
+    .trim()
+  const charactersCount = part.replace(/\s+/g, ' ').length
+  const linesCount = part.split('\n').length
+  totalCharacters += charactersCount
+  totalLines += linesCount
+  return console.log(padStart(charactersCount, 8, ' '), padStart(linesCount, 6, ' '), name)
+})
 
-console.log(padStart(totalCharacters, 8, ' '), padStart(totalLines, 6, ' '), 'total');
+console.log(padStart(totalCharacters, 8, ' '), padStart(totalLines, 6, ' '), 'total')

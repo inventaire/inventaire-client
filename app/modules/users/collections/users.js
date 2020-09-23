@@ -1,15 +1,21 @@
+/* eslint-disable
+    no-undef,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default Backbone.Collection.extend({
   model: require('../models/user'),
-  url() { return app.API.users.friends; },
+  url () { return app.API.users.friends },
 
-  initialize() {
-    this.lazyResort = _.debounce(this.sort.bind(this), 500);
+  initialize () {
+    this.lazyResort = _.debounce(this.sort.bind(this), 500)
     // model events are also triggerend on parent collection
-    return this.on('change:highlightScore', this.lazyResort);
+    return this.on('change:highlightScore', this.lazyResort)
   },
 
   comparator: 'highlightScore',
 
   // Include cids, but that's probably still faster than doing a map on models
-  allIds() { return Object.keys(app.users._byId); }
-});
+  allIds () { return Object.keys(app.users._byId) }
+})

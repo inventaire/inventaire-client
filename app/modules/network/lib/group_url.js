@@ -1,3 +1,10 @@
+/* eslint-disable
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default {
   ui: {
     groupNameField: '.groupNameField',
@@ -9,21 +16,21 @@ export default {
     'keyup .groupNameField': 'lazyUpdateUrl'
   },
 
-  LazyUpdateUrl(view){
-    const groupId = view.model?.id;
-    return _.debounce(updateUrl.bind(view, groupId), 200);
+  LazyUpdateUrl (view) {
+    const groupId = view.model?.id
+    return _.debounce(updateUrl.bind(view, groupId), 200)
   }
-};
+}
 
-var updateUrl = function(groupId){
-  const name = this.ui.groupNameField.val();
+var updateUrl = function (groupId) {
+  const name = this.ui.groupNameField.val()
   if (_.isNonEmptyString(name)) {
     return _.preq.get(app.API.groups.slug(name, groupId))
-    .then(res=> {
-      this.ui.groupUrl.text(`${window.location.root}/groups/${res.slug}`);
-      return this.ui.groupUrlWrapper.show();
-    });
+    .then(res => {
+      this.ui.groupUrl.text(`${window.location.root}/groups/${res.slug}`)
+      return this.ui.groupUrlWrapper.show()
+    })
   } else {
-    return this.ui.groupUrlWrapper.hide();
+    return this.ui.groupUrlWrapper.hide()
   }
-};
+}

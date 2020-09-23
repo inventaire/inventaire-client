@@ -1,7 +1,13 @@
-import TypedEntityLayout from './typed_entity_layout';
-import EditionsList from './editions_list';
-import EntitiesList from './entities_list';
-import PaginatedEntities from 'modules/entities/collections/paginated_entities';
+/* eslint-disable
+    import/no-duplicates,
+    no-unused-vars,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import TypedEntityLayout from './typed_entity_layout'
+import EditionsList from './editions_list'
+import EntitiesList from './entities_list'
+import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 
 export default TypedEntityLayout.extend({
   id: 'publisherLayout',
@@ -15,23 +21,23 @@ export default TypedEntityLayout.extend({
     mergeSuggestionsRegion: '.mergeSuggestions'
   },
 
-  initialize() {
-    return this.model.initPublisherPublications();
+  initialize () {
+    return this.model.initPublisherPublications()
   },
 
-  onShow() {
+  onShow () {
     return this.model.waitForPublications
-    .then(this.ifViewIsIntact('showPublications'));
+    .then(this.ifViewIsIntact('showPublications'))
   },
 
-  showPublications() {
-    this.showCollections();
-    return this.showIsolatedEditions();
+  showPublications () {
+    this.showCollections()
+    return this.showIsolatedEditions()
   },
 
-  showCollections() {
-    const uris = this.model.publisherCollectionsUris;
-    const collection = new PaginatedEntities(null, { uris, defaultType: 'collection' });
+  showCollections () {
+    const uris = this.model.publisherCollectionsUris
+    const collection = new PaginatedEntities(null, { uris, defaultType: 'collection' })
     return this.collectionsList.show(new EntitiesList({
       parentModel: this.model,
       collection,
@@ -41,12 +47,12 @@ export default TypedEntityLayout.extend({
       compactMode: true,
       addButtonLabel: 'add a collection from this publisher'
     })
-    );
+    )
   },
 
-  showIsolatedEditions() {
-    const uris = this.model.isolatedEditionsUris;
-    const collection = new PaginatedEntities(null, { uris, defaultType: 'edition' });
+  showIsolatedEditions () {
+    const uris = this.model.isolatedEditionsUris
+    const collection = new PaginatedEntities(null, { uris, defaultType: 'edition' })
     return this.editionsList.show(new EntitiesList({
       parentModel: this.model,
       collection,
@@ -56,6 +62,6 @@ export default TypedEntityLayout.extend({
       compactMode: true,
       addButtonLabel: 'add an edition from this publisher'
     })
-    );
+    )
   }
-});
+})

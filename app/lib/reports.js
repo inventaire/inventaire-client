@@ -1,13 +1,20 @@
+/* eslint-disable
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 export default {
-  reportError(err){
-    if (err.hasBeenReported) { return; }
-    err.hasBeenReported = true;
+  reportError (err) {
+    if (err.hasBeenReported) { return }
+    err.hasBeenReported = true
     // errors that are assigned a 4xx error code are user errors
     // that don't need to be reported to the server
     // Ex: invalid form input
-    if ((err.statusCode != null) && (err.statusCode < 500)) { return; }
+    if ((err.statusCode != null) && (err.statusCode < 500)) { return }
 
-    err.envContext = getEnvContext();
+    err.envContext = getEnvContext()
 
     const data = {
       error: {
@@ -17,7 +24,7 @@ export default {
         context: err.context,
         statusCode: err.statusCode
       }
-    };
+    }
 
     // (1)
     return $.post({
@@ -25,57 +32,57 @@ export default {
       // jquery defaults to x-www-form-urlencoded
       headers: { 'content-type': 'application/json' },
       data: stringifyData(data)
-    });
+    })
   }
-};
+}
 
-var getEnvContext = function() {
-  let userData;
-  let envContext = [];
+var getEnvContext = function () {
+  let userData
+  let envContext = []
   if (app?.user?.loggedIn) {
     const {
       id
-    } = app.user;
-    const username = app.user.get('username');
+    } = app.user
+    const username = app.user.get('username')
     if ((id != null) && (username != null)) {
-      userData = `user: ${id} (${username})`;
+      userData = `user: ${id} (${username})`
     } else {
-      userData = 'user logged in but error happened before data arrived';
+      userData = 'user logged in but error happened before data arrived'
     }
   } else {
-    userData = 'user: not logged user';
+    userData = 'user: not logged user'
   }
 
   envContext = [
     userData,
     navigator.userAgent
-  ];
+  ]
 
-  return envContext;
-};
+  return envContext
+}
 
-const sendOnlineReport = function() {
+const sendOnlineReport = function () {
   // Don't send online report if the page isn't the active tab
   if (document.visibilityState !== 'hidden') {
     // (1)
     // No need to send a body
-    return $.post('/api/reports?action=online');
+    return $.post('/api/reports?action=online')
   }
-};
+}
 
 // Send a POST requests every 30 secondes to notify the server that we are online,
 // useful for maintainance operations.
-setInterval(sendOnlineReport, 30 * 1000);
+setInterval(sendOnlineReport, 30 * 1000)
 
 // (1): Using jQuery promise instead of preq to be able to report errors
 // happening before preq is initialized
 
-var stringifyData = function(data){
+var stringifyData = function (data) {
   try {
-    return JSON.stringify(data);
+    return JSON.stringify(data)
   } catch (err) {
     // Typically a 'cyclic object value' error
-    data.context = `context couldn't be attached: ${err.message}`;
-    return JSON.stringify(data);
+    data.context = `context couldn't be attached: ${err.message}`
+    return JSON.stringify(data)
   }
-};
+}

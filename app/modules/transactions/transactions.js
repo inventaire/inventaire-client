@@ -1,119 +1,130 @@
-import Transactions from 'modules/transactions/collections/transactions';
-import TransactionsLayout from './views/transactions_layout';
-import RequestItemModal from './views/request_item_modal';
-import initHelpers from './helpers';
-let lastTransactionId = null;
-import fetchData from 'lib/data/fetch';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+    no-var,
+    prefer-arrow/prefer-arrow-functions,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import Transactions from 'modules/transactions/collections/transactions'
+import TransactionsLayout from './views/transactions_layout'
+import RequestItemModal from './views/request_item_modal'
+import initHelpers from './helpers'
+import fetchData from 'lib/data/fetch'
+let lastTransactionId = null
 
 export default {
-  define(module, app, Backbone, Marionette, $, _){
+  define (module, app, Backbone, Marionette, $, _) {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'transactions(/)': 'showFirstTransaction',
         'transactions/:id(/)': 'showTransaction'
       }
-    });
+    })
 
-    return app.addInitializer(() => new Router({ controller: API }));
+    return app.addInitializer(() => new Router({ controller: API }))
   },
 
-  initialize() {
-    this.listenTo(app.vent, 'transaction:select', updateTransactionRoute);
+  initialize () {
+    this.listenTo(app.vent, 'transaction:select', updateTransactionRoute)
 
     app.commands.setHandlers({
       'show:item:request': API.showItemRequestModal,
       'show:transactions': API.showFirstTransaction,
       'show:transaction': API.showTransaction
-    });
+    })
 
     app.reqres.setHandlers({
-      'last:transaction:id'() { return lastTransactionId; },
+      'last:transaction:id' () { return lastTransactionId },
       'transactions:unread:count': unreadCount
-    });
+    })
 
-    this.listenTo(app.vent, 'transaction:select', API.updateLastTransactionId);
+    this.listenTo(app.vent, 'transaction:select', API.updateLastTransactionId)
 
     fetchData({
       name: 'transactions',
       Collection: Transactions,
-      condition: app.user.loggedIn}).then(app.vent.Trigger('transactions:unread:changes'))
-    .catch(_.Error('transaction init err'));
+      condition: app.user.loggedIn
+    }).then(app.vent.Trigger('transactions:unread:changes'))
+    .catch(_.Error('transaction init err'))
 
-    return initHelpers();
+    return initHelpers()
   }
-};
+}
 
 var API = {
-  showFirstTransaction() {
+  showFirstTransaction () {
     if (app.request('require:loggedIn', 'transactions')) {
       return app.request('wait:for', 'transactions')
       .then(showTransactionsLayout)
       .then(findFirstTransaction)
-      .then(function(transac){
+      .then(transac => {
         if (transac != null) {
-          lastTransactionId = transac.id;
+          lastTransactionId = transac.id
           // replacing the url to avoid being unable to hit 'previous'
           // as previous would be '/transactions' which would redirect again
           // to the first transaction
-          const nonExplicitSelection = true;
-          return app.vent.trigger('transaction:select', transac, nonExplicitSelection);
+          const nonExplicitSelection = true
+          return app.vent.trigger('transaction:select', transac, nonExplicitSelection)
         } else {
-          return app.vent.trigger('transactions:welcome');
-        }}).catch(_.Error('showFirstTransaction'));
+          return app.vent.trigger('transactions:welcome')
+        }
+      }).catch(_.Error('showFirstTransaction'))
     }
   },
 
-  showTransaction(id){
+  showTransaction (id) {
     if (app.request('require:loggedIn', `transactions/${id}`)) {
-      lastTransactionId = id;
-      showTransactionsLayout();
+      lastTransactionId = id
+      showTransactionsLayout()
 
       return app.request('wait:for', 'transactions')
-      .then(triggerTransactionSelect.bind(null, id));
+      .then(triggerTransactionSelect.bind(null, id))
     }
   },
 
-  showItemRequestModal(model){
+  showItemRequestModal (model) {
     if (app.request('require:loggedIn', model.get('pathname'))) {
-      return app.layout.modal.show(new RequestItemModal({ model }));
+      return app.layout.modal.show(new RequestItemModal({ model }))
     }
   },
 
-  updateLastTransactionId(transac){
-    return lastTransactionId = transac.id;
+  updateLastTransactionId (transac) {
+    return lastTransactionId = transac.id
   }
-};
+}
 
-var showTransactionsLayout = () => app.layout.main.show(new TransactionsLayout);
+var showTransactionsLayout = () => app.layout.main.show(new TransactionsLayout())
 
-var triggerTransactionSelect = function(id){
-  const transaction = app.request('get:transaction:byId', id);
+var triggerTransactionSelect = function (id) {
+  const transaction = app.request('get:transaction:byId', id)
   if (transaction != null) {
-    return app.vent.trigger('transaction:select', transaction);
-  } else { return app.execute('show:error:missing'); }
-};
+    return app.vent.trigger('transaction:select', transaction)
+  } else { return app.execute('show:error:missing') }
+}
 
-var updateTransactionRoute = function(transaction){
-  transaction.beforeShow();
-  return app.navigateFromModel(transaction);
-};
+var updateTransactionRoute = function (transaction) {
+  transaction.beforeShow()
+  return app.navigateFromModel(transaction)
+}
 
-var findFirstTransaction = function() {
-  let firstTransac = null;
-  const transacs = _.clone(app.transactions.models);
+var findFirstTransaction = function () {
+  let firstTransac = null
+  const transacs = _.clone(app.transactions.models)
   while ((transacs.length > 0) && (firstTransac == null)) {
-    const candidate = transacs.shift();
-    if (!candidate.archived) { firstTransac = candidate; }
+    const candidate = transacs.shift()
+    if (!candidate.archived) { firstTransac = candidate }
   }
 
-  return firstTransac;
-};
+  return firstTransac
+}
 
-var unreadCount = function() {
-  const transac = app.transactions?.models;
-  if (transac?.length <= 0) { return 0; }
+var unreadCount = function () {
+  const transac = app.transactions?.models
+  if (transac?.length <= 0) { return 0 }
 
   return transac
   .map(_.property('unreadUpdate'))
-  .reduce(function(a, b){ if (_.isNumber(b)) { return a + b; } else { return a; } });
-};
+  .reduce((a, b) => { if (_.isNumber(b)) { return a + b } else { return a } })
+}

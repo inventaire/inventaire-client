@@ -1,5 +1,12 @@
-import tabsData from 'modules/inventory/lib/add_layout_tabs';
-import screen_ from 'lib/screen';
+/* eslint-disable
+    import/no-duplicates,
+    no-return-assign,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import tabsData from 'modules/inventory/lib/add_layout_tabs'
+import screen_ from 'lib/screen'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/add_layout'),
@@ -16,15 +23,15 @@ export default Marionette.LayoutView.extend({
     importTab: '#importTab'
   },
 
-  initialize() {
-    return this.loggedIn = app.user.loggedIn;
+  initialize () {
+    return this.loggedIn = app.user.loggedIn
   },
 
-  serializeData() {
+  serializeData () {
     return {
       loggedIn: this.loggedIn,
       tabs: tabsData
-    };
+    }
   },
 
   behaviors: {
@@ -35,39 +42,39 @@ export default Marionette.LayoutView.extend({
     'click .tab': 'changeTab'
   },
 
-  onShow() {
+  onShow () {
     if (this.loggedIn) {
-      return this.showTabView(this.options.tab);
+      return this.showTabView(this.options.tab)
     } else {
-      const msg = 'you need to be connected to add a book to your inventory';
-      return app.execute('show:call:to:connection', msg);
+      const msg = 'you need to be connected to add a book to your inventory'
+      return app.execute('show:call:to:connection', msg)
     }
   },
 
-  onDestroy() {
+  onDestroy () {
     if (!this.loggedIn) {
-      return app.execute('modal:close');
+      return app.execute('modal:close')
     }
   },
 
-  showTabView(tab){
-    const View = require(`./${tab}`);
-    const tabKey = `${tab}Tab`;
-    const wait = tabsData[tab].wait || Promise.resolve();
+  showTabView (tab) {
+    const View = require(`./${tab}`)
+    const tabKey = `${tab}Tab`
+    const wait = tabsData[tab].wait || Promise.resolve()
 
     return wait
     .then(() => {
-      this.content.show(new View(this.options));
-      this.ui.tabs.removeClass('active');
-      this.ui[tabKey].addClass('active');
+      this.content.show(new View(this.options))
+      this.ui.tabs.removeClass('active')
+      this.ui[tabKey].addClass('active')
       return app.navigate(`add/${tab}`,
-        {metadata: { title: _.I18n(`title_add_layout_${tab}`) }});
-  });
+        { metadata: { title: _.I18n(`title_add_layout_${tab}`) } })
+    })
   },
 
-  changeTab(e){
-    const tab = e.currentTarget.id.split('Tab')[0];
-    this.showTabView(tab);
-    if (screen_.isSmall()) { return screen_.scrollTop(this.content.$el); }
+  changeTab (e) {
+    const tab = e.currentTarget.id.split('Tab')[0]
+    this.showTabView(tab)
+    if (screen_.isSmall()) { return screen_.scrollTop(this.content.$el) }
   }
-});
+})

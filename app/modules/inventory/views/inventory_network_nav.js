@@ -1,4 +1,10 @@
-import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav';
+/* eslint-disable
+    import/no-duplicates,
+    no-undef,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
+import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 
 export default InventoryCommonNav.extend({
   id: 'inventoryNetworkNav',
@@ -15,12 +21,12 @@ export default InventoryCommonNav.extend({
     groupMenu: '.groupMenu'
   },
 
-  onShow() {
+  onShow () {
     app.request('fetch:friends')
-    .then(() => this.showList(this.usersList, app.users.filtered.friends()));
+    .then(() => this.showList(this.usersList, app.users.filtered.friends()))
 
     return app.request('wait:for', 'groups')
-    .then(() => this.showList(this.groupsList, app.groups));
+    .then(() => this.showList(this.groupsList, app.groups))
   },
 
   events: {
@@ -36,13 +42,13 @@ export default InventoryCommonNav.extend({
     'click .showGroupsNearby': _.clickCommand('show:groups:nearby')
   },
 
-  showUsersMenu() {
-    this.ui.showUsersMenu.hide();
-    return this.ui.userMenu.removeClass('force-hidden');
+  showUsersMenu () {
+    this.ui.showUsersMenu.hide()
+    return this.ui.userMenu.removeClass('force-hidden')
   },
 
-  showGroupsMenu(e){
-    this.ui.showGroupsMenu.hide();
-    return this.ui.groupMenu.removeClass('force-hidden');
+  showGroupsMenu (e) {
+    this.ui.showGroupsMenu.hide()
+    return this.ui.groupMenu.removeClass('force-hidden')
   }
-});
+})

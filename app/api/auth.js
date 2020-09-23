@@ -1,4 +1,6 @@
-const { action, actionPartial } = require('./endpoint')('auth');
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
+const { action, actionPartial } = require('./endpoint')('auth')
 
 export default {
   usernameAvailability: actionPartial('username-availability', 'username'),
@@ -16,4 +18,4 @@ export default {
   oauth: {
     wikidata: action('wikidata-oauth')
   }
-};
+}
